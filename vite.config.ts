@@ -8,8 +8,6 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/main.ts'),
       formats: ['es'],
-      name: 'PatternPlay',
-      fileName: 'pattern-play',
     },
     copyPublicDir: false,
   },

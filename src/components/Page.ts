@@ -17,11 +17,11 @@ export interface PageProps {
 export const Page = ({ user, onLogin, onLogout, onCreateAccount }: PageProps) => html`
   <article>
     ${Header({
-      user,
-      onLogin,
-      onLogout,
-      onCreateAccount,
-    })}
+  user,
+  onLogin,
+  onLogout,
+  onCreateAccount,
+})}
 
     <section class="storybook-page">
       <h2>Pages in Storybook</h2>
