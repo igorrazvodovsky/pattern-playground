@@ -25,6 +25,7 @@
     "vite-plugin-dts": "^4.5.0"
   },
   "dependencies": {
-    "@microsoft/fast-element": "^2.0.1"
+    "@microsoft/fast-element": "^2.0.1",
+    "iconify-icon": "^2.3.0"
   }
 }

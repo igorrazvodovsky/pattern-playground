@@ -1,25 +1,16 @@
 @import url(reset.css);
-/* @import url(palette.css); */
-/* @import url(variables.css); */
-/* @import url(typography.css); */
+@import url(variables-palette.css);
+@import url(variables.css);
+@import url(typography.css);
+@import url(button.css);
+
 /* @import url(docs.css); */
 
 @layer reset, theme, global, layout, components, utilities, states;
 
 :root,
 body {
-  font-family: system-ui, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
   color-scheme: light only;
-
-  color: var(--tx-c-body);
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 :host {

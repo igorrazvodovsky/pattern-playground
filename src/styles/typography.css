@@ -1,0 +1,15 @@
+* {
+  font-family: var(--font-family);
+}
+
+:root,
+body {
+  color: var(--c-body);
+  line-height: var(--globalLineHeight);
+  font-weight: var(--font-weight-normal);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

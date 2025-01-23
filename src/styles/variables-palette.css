@@ -1,0 +1,80 @@
+:root {
+  --h: 210;
+  --lInitial: 97%;
+  --lIncrement: 7%;
+
+  --l0: 100%;
+  --l50: var(--lInitial);
+  --l100: calc(var(--lInitial) - var(--lIncrement) * 1);
+  --l200: calc(var(--lInitial) - var(--lIncrement) * 2);
+  --l300: calc(var(--lInitial) - var(--lIncrement) * 3);
+  --l400: calc(var(--lInitial) - var(--lIncrement) * 4);
+  --l500: calc(var(--lInitial) - var(--lIncrement) * 5);
+  --l600: calc(var(--lInitial) - var(--lIncrement) * 6);
+  --l700: calc(var(--lInitial) - var(--lIncrement) * 7);
+  --l800: calc(var(--lInitial) - var(--lIncrement) * 8);
+  --l900: calc(var(--lInitial) - var(--lIncrement) * 9);
+  --l950: calc(var(--lInitial) - var(--lIncrement) * 10);
+
+  /* Accent/brand chroma levels */
+  --c0: 0;
+  --c50: 0.0108;
+  --c100: 0.0321;
+  --c200: 0.0609;
+  --c300: 0.0908;
+  --c400: 0.1398;
+  --c500: 0.1472;
+  --c600: 0.1299;
+  --c700: 0.1067;
+  --c800: 0.0898;
+  --c900: 0.0726;
+  --c950: 0.054;
+
+  /* Neutral chroma levels */
+  --c0-neutral: 0;
+  --c50-neutral: 0.002;
+  --c100-neutral: 0.005;
+  --c200-neutral: 0.011;
+  --c300-neutral: 0.017;
+  --c400-neutral: 0.026;
+  --c500-neutral: 0.034;
+  --c600-neutral: 0.039;
+  --c700-neutral: 0.033;
+  --c800-neutral: 0.027;
+  --c900-neutral: 0.021;
+  --c950-neutral: 0.015;
+
+  --c-neutral-50: oklch(var(--l50) var(--c50-neutral) var(--h));
+  --c-neutral-100: oklch(var(--l100) var(--c100-neutral) var(--h));
+  --c-neutral-200: oklch(var(--l200) var(--c200-neutral) var(--h));
+  --c-neutral-300: oklch(var(--l300) var(--c300-neutral) var(--h));
+  --c-neutral-400: oklch(var(--l400) var(--c400-neutral) var(--h));
+  --c-neutral-500: oklch(var(--l500) var(--c500-neutral) var(--h));
+  --c-neutral-600: oklch(var(--l600) var(--c600-neutral) var(--h));
+  --c-neutral-700: oklch(var(--l700) var(--c700-neutral) var(--h));
+  --c-neutral-800: oklch(var(--l800) var(--c800-neutral) var(--h));
+  --c-neutral-900: oklch(var(--l900) var(--c900-neutral) var(--h));
+  --c-neutral-950: oklch(var(--l950) var(--c950-neutral) var(--h));
+
+  --c-neutral-0: oklch(100% 0 0);
+  --c-neutral-1000: oklch(0% 0 0);
+
+  --c-primary-50: oklch(var(--l50) var(--c50) var(--h));
+  --c-primary-100: oklch(var(--l100) var(--c100) var(--h));
+  --c-primary-200: oklch(var(--l200) var(--c200) var(--h));
+  --c-primary-300: oklch(var(--l300) var(--c300) var(--h));
+  --c-primary-400: oklch(var(--l400) var(--c400) var(--h));
+  --c-primary-500: oklch(var(--l500) var(--c500) var(--h));
+  --c-primary-600: oklch(var(--l600) var(--c600) var(--h));
+  --c-primary-700: oklch(var(--l700) var(--c700) var(--h));
+  --c-primary-800: oklch(var(--l800) var(--c800) var(--h));
+  --c-primary-900: oklch(var(--l900) var(--c900) var(--h));
+  --c-primary-950: oklch(var(--l950) var(--c950) var(--h));
+
+  --c-border: oklch(var(--l800) var(--c800-neutral), var(--h) / 0.1);
+  --c-background: var(--c-neutral-0);
+  --c-body: var(--c-neutral-800);
+  --c-bodyDimmed: oklch(var(--l800) var(--c800-neutral), var(--h) / 0.5);
+  --c-fieldBorder: var(--c-neutral-200);
+  --c-accent: var(--c-primary-500);
+}
