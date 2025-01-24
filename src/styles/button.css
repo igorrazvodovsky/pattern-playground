@@ -1,0 +1,13 @@
+@layer components {
+  button,
+  .button {
+    color: var(--button-color, var(--c-body));
+    background-color: var(--button-bg, var(--c-background));
+  }
+
+  &:where(:has(.icon)) {
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+  }
+}

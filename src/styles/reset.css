@@ -15,7 +15,7 @@ a {
   outline: var(--outline-width, var(--outline-size)) var(--outline-style, solid)
     var(--outline-color, currentColor);
   outline-offset: var(--outline-offset, var(--outline-size));
-  border-radius: var(--tx-radius-m);
+  border-radius: var(--ir-radius-m);
 }
 
 /* Box sizing rules */
