@@ -1,13 +1,78 @@
 @layer components {
-  button,
-  .button {
-    color: var(--button-color, var(--c-body));
-    background-color: var(--button-bg, var(--c-background));
-  }
+  button {
+    --button-color: oklch(from var(--button-bg) var(--l) 0 h / 90%);
+    --button-bg: var(--c-background);
+    --button-border: transparent;
+    --button-box-shadow: 0 1px 3px rgba(12, 12, 12, 0.09);
 
-  &:where(:has(.icon)) {
-    display: flex;
-    gap: 0.5em;
-    align-items: center;
+    --l-threshold: 0.7;
+    --l: clamp(0, (l / var(--l-threshold) - 1) * -infinity, 1);
+
+    color: var(--button-color);
+    background-color: var(--button-bg);
+    border: 1px solid var(--button-border);
+    box-shadow: var(--button-box-shadow);
+    border-radius: var(--radius-m);
+
+    cursor: pointer;
+
+    &:not([class]) {
+      --button-border: var(--c-border);
+
+      &:hover {
+        --button-border: oklch(from var(--c-border) calc(l - 0.5) c h);
+      }
+    }
+
+    &:has(.icon) {
+      display: inline-flex;
+      gap: 0.5em;
+      align-items: center;
+      vertical-align: middle;
+    }
+
+    /* for icon-only buttons */
+    &:has(.inclusively-hidden) {
+      /* border-radius: 50%; */
+      padding: 0.5em;
+      /* --button-border: transparent; */
+      --button-box-shadow: none;
+
+      &:hover {
+        --button-bg: var(--c-primary-50);
+      }
+    }
+
+    /* TODO: for buttons without icons, setting a minimum inline size, and centering the text */
+    /* &:not(:has(.icon)) {
+      text-align: center;
+      min-inline-size: 10ch;
+    } */
+
+    &:not(:has(.inclusively-hidden)) {
+      padding: var(--button-padding, 0.25em 0.75em);
+    }
+
+    &:active {
+      opacity: 0.8;
+      transform: translateY(1px);
+      transition: none 0s ease 0s;
+    }
+
+    &.button--danger {
+      --button-bg: red;
+
+      &:hover {
+        --button-bg: oklch(from red calc(l - 0.1) c h);
+      }
+    }
+
+    &.button--primary {
+      --button-bg: var(--c-accent);
+
+      &:hover {
+        --button-bg: oklch(from var(--c-accent) calc(l - 0.1) c h);
+      }
+    }
   }
 }

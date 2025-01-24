@@ -1,5 +1,5 @@
 :root {
-  --h: 210;
+  --h: 230;
   --lInitial: 97%;
   --lIncrement: 7%;
 
@@ -71,10 +71,10 @@
   --c-primary-900: oklch(var(--l900) var(--c900) var(--h));
   --c-primary-950: oklch(var(--l950) var(--c950) var(--h));
 
-  --c-border: oklch(var(--l800) var(--c800-neutral), var(--h) / 0.1);
+  --c-border: oklch(var(--l800) var(--c800-neutral) var(--h) / 0.3);
   --c-background: var(--c-neutral-0);
   --c-body: var(--c-neutral-800);
-  --c-bodyDimmed: oklch(var(--l800) var(--c800-neutral), var(--h) / 0.5);
+  --c-bodyDimmed: oklch(var(--l800) var(--c800-neutral) var(--h) / 0.5);
   --c-fieldBorder: var(--c-neutral-200);
   --c-accent: var(--c-primary-500);
 }

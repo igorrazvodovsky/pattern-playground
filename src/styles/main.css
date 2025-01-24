@@ -26,3 +26,12 @@ body {
 [hidden] {
   display: none !important;
 }
+
+.inclusively-hidden {
+    clip-path: inset(50%);
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+}
