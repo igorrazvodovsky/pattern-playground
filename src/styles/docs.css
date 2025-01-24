@@ -1,0 +1,57 @@
+.sidebar-item svg {
+  display: none;
+}
+
+/* .docs-palette {
+  display: flex;
+  width: min-content;
+}
+
+.docs-palette > * {
+  flex: 10ch 0 0;
+  padding: 1em;
+  font-size: var(--tx-text-xs) !important;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+
+.sb-show-main table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.docs-color-preview {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+  margin-inline-end: 1ch !important;
+  border: 1px solid oklch(0% 0 0 / 10%);
+}
+
+resize-asaurus > .resize-asaurus-container {
+  padding: 2rem;
+  border: 1px solid oklch(0% 0 0 / 10%);
+}
+
+.sb-main-padded.sb-show-main:has(tx-viz) {
+  padding: 0;
+}
+
+.sbdocs.sbdocs-content {
+  max-width: initial;
+}
+
+.sbdocs.sbdocs-wrapper {
+  padding: 4rem;
+}
+
+:where(p:not(.sb-anchor, .sb-unstyled, .sb-unstyled p)),
+.sbdocs.sbdocs-content li:not(.sb-anchor, .sb-unstyled, .sb-unstyled) {
+  font-size: 16px !important;
+  line-height: 150% !important;
+}
+.sbdocs h2 {
+  margin-block: 2rem 1rem;
+} */

@@ -4,7 +4,7 @@
 @import url(typography.css);
 @import url(button.css);
 
-/* @import url(docs.css); */
+@import url(docs.css);
 
 @layer reset, theme, global, layout, components, utilities, states;
 
