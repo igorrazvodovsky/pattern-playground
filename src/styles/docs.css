@@ -1,5 +1,22 @@
+/* TODO: */
+.sbdocs * {
+  font-family: inherit !important;
+}
+
 .sidebar-item svg {
   display: none;
+}
+
+.sbdocs h2 {
+  margin-block: 2rem 1rem;
+  border-bottom: none;
+}
+
+:where(p:not(.sb-anchor, .sb-unstyled, .sb-unstyled p)),
+.sbdocs.sbdocs-content li:not(.sb-anchor, .sb-unstyled, .sb-unstyled),
+:where(p:not(.sb-anchor, .sb-unstyled, .sb-unstyled p)) code,
+:where(li:not(.sb-anchor, .sb-unstyled, .sb-unstyled li)) code {
+  font-size: 16px !important;
 }
 
 /* .docs-palette {
@@ -46,12 +63,4 @@ resize-asaurus > .resize-asaurus-container {
 .sbdocs.sbdocs-wrapper {
   padding: 4rem;
 }
-
-:where(p:not(.sb-anchor, .sb-unstyled, .sb-unstyled p)),
-.sbdocs.sbdocs-content li:not(.sb-anchor, .sb-unstyled, .sb-unstyled) {
-  font-size: 16px !important;
-  line-height: 150% !important;
-}
-.sbdocs h2 {
-  margin-block: 2rem 1rem;
-} */
+ */

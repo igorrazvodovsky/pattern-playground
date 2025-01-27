@@ -2,11 +2,16 @@ import { Meta } from '@storybook/blocks';
 
 <Meta title="Foundations/Color" />
 
+> 🫤 **Fun meter: kind of boring**. The best part here is trying to find a *minimum viable* palette.
+
+<br />
 
 # Color
 
 The goal is to find a good enough tradeoff between simplicity, the needs of different components, and potential branding requirements.
 The focus is on functional needs: color that supports guiding users, draws attention to important information, and makes content more accessible.
+
+{/* TODO: Color and dev. experience */}
 
 ## Approach
 
@@ -15,15 +20,11 @@ The focus is on functional needs: color that supports guiding users, draws atten
 - Palettes (neutral, primary, info, warning, etc.) are defined by their hues.
 - The lightness of the color corresponds to its use.
 - Chroma for each lightness level are picked to ensure maximum visual consistency between palettes.
-- TODO: foreground colors are calculated based on background color.
+- Foreground colors are calculated based on background color to ensure the necessary contrast.
 
-## Palettes
+## Palette
 
 {/* TODO: Each color comes with a transparent option for better blending if needed. */}
 
-## TODO: Semantic colors
-
-Semantic tokens link palette colors to their use in the UI.
-{/* TODO: ...and are organised into color groups. */}
 
 
