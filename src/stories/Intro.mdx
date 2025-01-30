@@ -1,23 +1,63 @@
 import { Meta } from "@storybook/blocks";
 
 <Meta title="Introduction" />
-<h1>Design System Playground</h1>
-<p>
-This is meant as an exploration of design system ideas. Through both experimental and practical approaches, I try different ways to organise and compose some of the principles and elements of my design practice.
-</p>
+<h1>Pattern playground</h1>
+<p class="lead">This is meant as an exploration of design system ideas. Through both experimental and practical approaches, I try different ways to organise and compose some of the elements of my design practice.</p>
+
+<h2>Objective and approach</h2>
+Using the phrase "design system" is both helpful and misleading. I'm not trying to build one here (i.e. it's impossible without the context of a product/organisation). At least not as an artifact/library/deliverable sense of it.
+The thing I have in mind is more like an [ongoing design systems work](https://24ways.org/2019/there-is-no-design-system/). Process improvement & workflows. I guess **I'm using a part of my own design process as a target for design-system-ish organisation**.
+{/* Is it weird? */}
+
+The objective is to think and describe some of the smart, reusable patterns and to approach it like a garden.
+{/* TODO: 'garden' needs clarification */}
+
+{/* From a design process perspective, I'm trying to keep an eye on topic of maintenance... */}
+
+On a technical level, it is also a learning exercise in web components. I'm particularly interested in the idea of [HTML web components](https://adactio.com/journal/20618).
+
+{/* <p>something about it being descriptive</p> */}
 <br />
-<h2>[Foundations](../?path=/docs/foundations-overview--docs)</h2>
-<p>Basic structures that ensure a unified experience. The goal is consistency and efficiency.</p>
 
-<h2>Primitives</h2>
-<p>Primitives are low-level components that are the foundational building blocks to more complex compositions.</p>
+<h2>Structure</h2>
 
-<h2>Components</h2>
-<p>Main UI building blocks.</p>
+{/* <p>Normally I would simply call everything a *pattern* because trying to define boundaries between different types of components in a real project with a multidisciplinary team is close to futile. But this is not a real project. Hence this attempt at categorisation.</p>
 
-<h2>Compositions</h2>
-<p>Compositions showcase application of components within a larger design context.</p>
+<br /> */}
 
-<h2>Patterns</h2>
-<p>Best practice design solutions for specific user needs.</p>
-{/* TODO: Two-Step Popover */}
+
+
+<section class="layout-grid">
+
+  <article>
+    <img width="128px" src="./src/assets/foundations.png" />
+    <h3>[Foundations](../?path=/docs/foundations-overview--docs)</h3>
+    <p>Basic structures that ensure a unified experience. The goal is consistency and efficiency.</p>
+  </article>
+
+  <article>
+    <img width="128px" src="./src/assets/primitives.png" />
+    <h3>[Primitives](../?path=/docs/primitives-overview--docs)</h3>
+    <p>Primitives are low-level components that are the foundational building blocks to more complex components.</p>
+  </article>
+
+  <article>
+    <img width="128px" src="./src/assets/components.png" />
+    <h3>[Components](../?path=/docs/components-overview--docs)</h3>
+    <p>Main UI building blocks.</p>
+  </article>
+
+  <article>
+    <img width="128px" src="./src/assets/compositions.png" />
+    <h3>[Compositions](../?path=/docs/compositions-overview--docs)</h3>
+    <p>Compositions showcase application of components within a larger design context.</p>
+  </article>
+
+  <article>
+    <img width="128px" src="./src/assets/patterns.png" />
+    <h3>[Patterns](../?path=/docs/patterns-overview--docs)</h3>
+    <p>Best practice design solutions for specific user needs.</p>
+  </article>
+  {/* TODO: Two-Step Popover */}
+
+</section>

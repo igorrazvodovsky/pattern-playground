@@ -3,6 +3,10 @@
   font-family: inherit !important;
 }
 
+.sbdocs-wrapper {
+  padding-inline: 3rem !important;
+}
+
 .sidebar-item svg {
   display: none;
 }
@@ -17,6 +21,15 @@
 :where(p:not(.sb-anchor, .sb-unstyled, .sb-unstyled p)) code,
 :where(li:not(.sb-anchor, .sb-unstyled, .sb-unstyled li)) code {
   font-size: 16px !important;
+  max-width: 70ch;
+  text-wrap: balance;
+}
+
+.lead {
+  font-size: larger !important;
+  line-height: var(--globalLineHeight) !important;
+  text-wrap: balance;
+  margin-bottom: 2rem !important;
 }
 
 /* .docs-palette {

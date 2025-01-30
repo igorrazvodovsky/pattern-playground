@@ -1,0 +1,13 @@
+@layer layout {
+  .layout-grid {
+    --layout-grid-min: 30ch;
+    --layout-grid-gap: 3vw;
+
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(min(100%, var(--layout-grid-min)), 1fr)
+    );
+    gap: var(--layout-grid-gap);
+  }
+}

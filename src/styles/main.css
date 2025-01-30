@@ -2,6 +2,7 @@
 @import url(variables-palette.css);
 @import url(variables.css);
 @import url(typography.css);
+@import url(layout.css);
 @import url(button.css);
 
 @import url(docs.css);
@@ -28,10 +29,10 @@ body {
 }
 
 .inclusively-hidden {
-    clip-path: inset(50%);
-    height: 1px;
-    width: 1px;
-    overflow: hidden;
-    position: absolute;
-    white-space: nowrap;
+  clip-path: inset(50%);
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
 }
