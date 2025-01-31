@@ -39,7 +39,7 @@
       --button-box-shadow: none;
 
       &:hover {
-        --button-bg: var(--c-primary-50);
+        --button-bg: var(--c-accent-50);
       }
     }
 

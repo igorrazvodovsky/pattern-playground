@@ -1,0 +1,52 @@
+.card {
+  /* TODO: */
+  --card-bg: white;
+
+  background-color: var(--card-bg);
+  padding: 1rem;
+  border: var(--border);
+  border-radius: var(--radius-m);
+  position: relative;
+  height: 100%;
+  display: grid;
+  gap: var(--space-s);
+  align-content: baseline;
+}
+
+.card a {
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.card a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.card :is(h2, h3) {
+  font-size: 1.25rem;
+}
+
+/*
+.card__number-icon::before,
+.card__number-icon img {
+  width: 2.25rem;
+  aspect-ratio: 1;
+  display: grid;
+  place-content: center;
+}
+*/
+
+.card:focus-within {
+  outline: 3px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+.card a:is(:focus, :focus-visible) {
+  outline: 1px solid transparent;
+}
+
+.card a:is(:hover, :focus-visible) {
+  text-decoration: underline;
+}

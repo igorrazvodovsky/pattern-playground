@@ -1,7 +1,7 @@
 @layer layout {
   .layout-grid {
     --layout-grid-min: 30ch;
-    --layout-grid-gap: 3vw;
+    --layout-grid-gap: var(--space-m);
 
     display: grid;
     grid-template-columns: repeat(
@@ -9,5 +9,22 @@
       minmax(min(100%, var(--layout-grid-min)), 1fr)
     );
     gap: var(--layout-grid-gap);
+  }
+
+  .flex-layout-grid {
+    --flex-grid-min: 20rem;
+    --flex-grid-gap: var(--space-m);
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--flex-grid-gap);
+
+    > * {
+      flex: 1 1 var(--flex-grid-min);
+    }
+  }
+
+  :is(.layout-grid, .flex-layout-grid) > * {
+    container: var(--grid-item-container, grid-item) / inline-size;
   }
 }

@@ -59,22 +59,22 @@
   --c-neutral-0: oklch(100% 0 0);
   --c-neutral-1000: oklch(0% 0 0);
 
-  --c-primary-50: oklch(var(--l50) var(--c50) var(--h));
-  --c-primary-100: oklch(var(--l100) var(--c100) var(--h));
-  --c-primary-200: oklch(var(--l200) var(--c200) var(--h));
-  --c-primary-300: oklch(var(--l300) var(--c300) var(--h));
-  --c-primary-400: oklch(var(--l400) var(--c400) var(--h));
-  --c-primary-500: oklch(var(--l500) var(--c500) var(--h));
-  --c-primary-600: oklch(var(--l600) var(--c600) var(--h));
-  --c-primary-700: oklch(var(--l700) var(--c700) var(--h));
-  --c-primary-800: oklch(var(--l800) var(--c800) var(--h));
-  --c-primary-900: oklch(var(--l900) var(--c900) var(--h));
-  --c-primary-950: oklch(var(--l950) var(--c950) var(--h));
+  --c-accent-50: oklch(var(--l50) var(--c50) var(--h));
+  --c-accent-100: oklch(var(--l100) var(--c100) var(--h));
+  --c-accent-200: oklch(var(--l200) var(--c200) var(--h));
+  --c-accent-300: oklch(var(--l300) var(--c300) var(--h));
+  --c-accent-400: oklch(var(--l400) var(--c400) var(--h));
+  --c-accent-500: oklch(var(--l500) var(--c500) var(--h));
+  --c-accent-600: oklch(var(--l600) var(--c600) var(--h));
+  --c-accent-700: oklch(var(--l700) var(--c700) var(--h));
+  --c-accent-800: oklch(var(--l800) var(--c800) var(--h));
+  --c-accent-900: oklch(var(--l900) var(--c900) var(--h));
+  --c-accent-950: oklch(var(--l950) var(--c950) var(--h));
 
   --c-border: oklch(var(--l800) var(--c800-neutral) var(--h) / 0.3);
   --c-background: var(--c-neutral-0);
   --c-body: var(--c-neutral-800);
   --c-bodyDimmed: oklch(var(--l800) var(--c800-neutral) var(--h) / 0.5);
   --c-fieldBorder: var(--c-neutral-200);
-  --c-accent: var(--c-primary-500);
+  --c-accent: var(--c-accent-500);
 }

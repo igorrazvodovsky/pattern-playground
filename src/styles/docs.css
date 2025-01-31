@@ -32,6 +32,10 @@
   margin-bottom: 2rem !important;
 }
 
+.card a::first-letter {
+  text-transform: capitalize;
+}
+
 /* .docs-palette {
   display: flex;
   width: min-content;

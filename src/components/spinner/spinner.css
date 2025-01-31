@@ -1,7 +1,7 @@
 :host {
   --track-width: 2px;
   --track-color: oklch(0% 0 0 / 10%);
-  --indicator-color: var(--c-primary-600);
+  --indicator-color: var(--c-accent-600);
   --speed: 2s;
   display: inline-flex;
   width: 1em;
