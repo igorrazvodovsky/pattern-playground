@@ -1,11 +1,15 @@
 @import url(reset.css);
 @import url(variables-palette.css);
 @import url(variables.css);
+@import url(animation.css);
 @import url(typography.css);
 @import url(layout.css);
 @import url(button.css);
+@import url(popover.css);
 @import url(card.css);
-
+@import url(dialog.css);
+@import url(navigation.css);
+@import url(pagination.css);
 @import url(docs.css);
 
 @layer reset, theme, global, layout, components, utilities, states;

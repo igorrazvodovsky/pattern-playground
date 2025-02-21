@@ -33,9 +33,9 @@
 
     /* for icon-only buttons */
     &:has(.inclusively-hidden) {
-      /* border-radius: 50%; */
+      border-radius: 50%;
       padding: 0.5em;
-      /* --button-border: transparent; */
+      --button-border: transparent;
       --button-box-shadow: none;
 
       &:hover {

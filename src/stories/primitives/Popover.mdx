@@ -1,0 +1,49 @@
+import { Meta, Story } from '@storybook/blocks';
+import * as PopoverStories from './Popover.stories.ts';
+
+<Meta title="Primitives/Popover" />
+
+> 🧪 **Fun meter: trying new stuff**. Trying out Popover API and CSS anchor positioning.
+
+# Popover
+
+- Light-dismiss. Clicking outside of the popover area will close the popover and return focus.
+- Default focus. Opening the popover makes the next tab stop inside the popover.
+- Accessible keyboard bindings. Hitting the esc key or double toggling will close the popover and return focus.
+- Accessible component bindings. Connecting a popover element to a popover trigger semantically.
+
+# Positioning
+There are two ways to position popovers: one you can use today and one that will be available in the future.
+
+## Now: Floating UI
+Floating UI library is used to provide a declarative positioning.
+
+## Later: CSS anchor positioning
+...
+
+# Examples
+
+>All examples use anchor positioning and currently it is only supported in Chrome.
+
+## Tooltip
+
+<Story of={ PopoverStories.Default } />
+
+## Toast
+...
+
+## Menu
+...
+
+{/*
+Dimensions
+Set the dimensions for the layer.
+
+Width
+100%
+Max. width
+300px
+Height
+25px
+Max. height
+*/}

@@ -1,0 +1,31 @@
+[popover] {
+  position: absolute;
+  inset: unset;
+  background: oklch(0% 0 0 / 90%);
+  color: oklch(100% 0 110 / 90%);
+  padding: var(--space-xs) var(--space-s);
+  border-radius: var(--radius-m);
+  font-size: smaller;
+  margin: 0;
+  border: none;
+  position-anchor: --anchor_1;
+  inset-block-start: anchor(--anchor_1 top);
+  inset-inline-start: anchor(--anchor_1 left);
+
+  transition: translate 0.2s ease-out, opacity 0.2s ease-out,
+    display 0.2s ease-out allow-discrete, overlay 0.7s ease-out allow-discrete;
+  translate: 0 calc(-100% - var(--space-xs) - var(--space-xs));
+  opacity: 0;
+}
+
+[popover]:popover-open {
+  translate: 0 calc(-100% - var(--space-xs));
+  opacity: 1;
+}
+
+@starting-style {
+  [popover]:popover-open {
+    translate: 0 calc(-100% - var(--space-xs) - var(--space-xs));
+    opacity: 0;
+  }
+}

@@ -1,0 +1,20 @@
+.navigation {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+
+  container: navigation / inline-size;
+}
+
+.navigation__menu {
+  container: menu / inline-size;
+}
+
+@container menu (inline-size >= 60ch) {
+  .navigation__menu button {
+    display: none;
+  }
+
+  .navigation__menu ul {
+    display: flex;
+  }
+}

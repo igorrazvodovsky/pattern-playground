@@ -85,11 +85,11 @@
   --focus-ring: solid var(--focus-ring-width) var(--focus-ring-color);
   --focus-ring-offset: 1px;
 
-  --z-index-drawer: 700;
-  --z-index-dialog: 800;
-  --z-index-dropdown: 900;
-  --z-index-toast: 950;
-  --z-index-tooltip: 1000;
+  --layer-drawer: 700;
+  --layer-dialog: 800;
+  --layer-dropdown: 900;
+  --layer-toast: 950;
+  --layer-tooltip: 1000;
 
   --overlay-bg: oklch(50% 0.014 var(--h-accent) / 30%);
 }
