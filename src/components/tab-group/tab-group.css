@@ -1,0 +1,111 @@
+:host {
+  --indicator-color: var(--c-accent);
+  --track-color: var(--c-neutral-200);
+  --track-width: 1px;
+  --indicator-width: 4px;
+
+  display: block;
+}
+
+.tab-group {
+  display: flex;
+  border-radius: 0;
+}
+
+.tab-group__tabs {
+  display: flex;
+  position: relative;
+}
+
+.tab-group__indicator {
+  position: absolute;
+  transition: var(--transition-fast) translate ease,
+    var(--transition-fast) width ease;
+}
+
+.tab-group--has-scroll-controls .tab-group__nav-container {
+  position: relative;
+  padding: 0 var(--space-xl);
+}
+
+.tab-group__body {
+  display: block;
+  overflow: auto;
+}
+
+.tab-group__scroll-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--space-xl);
+}
+
+.tab-group__scroll-button--start {
+  left: 0;
+}
+
+.tab-group__scroll-button--end {
+  right: 0;
+}
+
+.tab-group--rtl .tab-group__scroll-button--start {
+  left: auto;
+  right: 0;
+}
+
+.tab-group--rtl .tab-group__scroll-button--end {
+  left: 0;
+  right: auto;
+}
+
+/*
+   * Top
+   */
+
+.tab-group--top {
+  flex-direction: column;
+}
+
+.tab-group--top .tab-group__nav-container {
+  order: 1;
+}
+
+.tab-group--top .tab-group__nav {
+  display: flex;
+  overflow-x: auto;
+
+  /* Hide scrollbar in Firefox */
+  scrollbar-width: none;
+}
+
+/* Hide scrollbar in Chrome/Safari */
+.tab-group--top .tab-group__nav::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.tab-group--top .tab-group__tabs {
+  flex: 1 1 auto;
+  position: relative;
+  flex-direction: row;
+  border-bottom: solid var(--track-width) var(--track-color);
+}
+
+.tab-group--top .tab-group__indicator {
+  bottom: calc(-1 * var(--track-width));
+  /* border-bottom: solid var(--track-width) var(--indicator-color); */
+  height: var(--indicator-width);
+  background: var(--indicator-color);
+  border-radius: var(--radius-m) var(--radius-m) 0 0;
+}
+
+.tab-group--top .tab-group__body {
+  order: 2;
+}
+
+.tab-group--top ::slotted(pp-tab-panel) {
+  --padding: var(--space-m) 0;
+}
