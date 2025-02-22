@@ -36,6 +36,18 @@
   text-transform: capitalize;
 }
 
+#popover-tooltip[popover] {
+  position-anchor: --anchor_1;
+  inset-block-start: anchor(--anchor_1 top);
+  inset-inline-start: anchor(--anchor_1 left);
+}
+
+#popover-1[popover] {
+  position-anchor: --anchor_2;
+  inset-block-start: anchor(--anchor_2 top);
+  inset-inline-start: anchor(--anchor_2 left);
+}
+
 /* .docs-palette {
   display: flex;
   width: min-content;
