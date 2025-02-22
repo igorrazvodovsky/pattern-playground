@@ -3,10 +3,9 @@ import { html } from "lit";
 import { map } from 'lit/directives/map.js';
 import { range } from 'lit/directives/range.js';
 import { faker } from '@faker-js/faker';
-// import iconsData from "./icons.json"
+import { icons } from "../icons.ts";
 
-// const icons = Object.keys(iconsData).filter((icon) => icon.includes("fill"));
-// function randomIcon() { return icons[icons.length * Math.random() << 0] }
+function randomIcon() { return 'ph:' + icons[icons.length * Math.random() << 0].name }
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
@@ -49,11 +48,11 @@ export const WithIcons: Story = {
     <pp-tab-group>
       <pp-tab slot="nav" panel="1">
         ${faker.commerce.productName()}
-        <iconify-icon class="icon" icon="ph:circle-dashed" slot="icon"></iconify-icon>
+        <iconify-icon class="icon" icon="${randomIcon()}" slot="icon"></iconify-icon>
       </pp-tab>
       <pp-tab slot="nav" panel="2">
         ${faker.commerce.productName()}
-        <iconify-icon class="icon" icon="ph:circle-dashed" slot="icon"></iconify-icon>
+        <iconify-icon class="icon" icon="${randomIcon()}" slot="icon"></iconify-icon>
       </pp-tab>
       <pp-tab-panel name="1">This is the tab panel.</pp-tab-panel>
       <pp-tab-panel name="2">This is another tab panel.</pp-tab-panel>
@@ -66,12 +65,12 @@ export const WithIconsAndSubtitles: Story = {
     <pp-tab-group>
       <pp-tab slot="nav" panel="1">
         ${faker.commerce.productName()}
-        <iconify-icon style="font-size: 1.5em" class="icon" icon="ph:circle-dashed" slot="icon"></iconify-icon>
+        <iconify-icon style="font-size: 1.5em" class="icon" icon="${randomIcon()}" slot="icon"></iconify-icon>
         <small slot="subtitle">100</small>
       </pp-tab>
       <pp-tab slot="nav" panel="2">
         ${faker.commerce.productName()}
-        <iconify-icon style="font-size: 1.5em" class="icon" icon="ph:circle-dashed" slot="icon"></iconify-icon>
+        <iconify-icon style="font-size: 1.5em" class="icon" icon="${randomIcon()}" slot="icon"></iconify-icon>
         <small slot="subtitle">100</small>
       </pp-tab>
       <pp-tab-panel name="1">This is the tab panel.</pp-tab-panel>
