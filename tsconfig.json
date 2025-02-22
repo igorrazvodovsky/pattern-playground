@@ -2,7 +2,8 @@
   "compilerOptions": {
     "target": "ES2020",
     "experimentalDecorators": true,
-    "useDefineForClassFields": true,
+    // https://lit.dev/docs/components/decorators/#decorators-typescript
+    "useDefineForClassFields": false,
     "module": "ESNext",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,

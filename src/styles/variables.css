@@ -53,6 +53,7 @@
   --textFrameX: calc(var(--textFrameY) * var(--_textFrameRatio));
 
   --border: 1px solid var(--c-border);
+  --input-border: var(--border);
   --overlay-bg: oklch(0% 0 0 / 50%);
   --panel-border-width: 1px;
 
@@ -90,6 +91,4 @@
   --layer-dropdown: 900;
   --layer-toast: 950;
   --layer-tooltip: 1000;
-
-  --overlay-bg: oklch(50% 0.014 var(--h-accent) / 30%);
 }

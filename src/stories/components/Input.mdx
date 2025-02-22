@@ -1,0 +1,26 @@
+import { Canvas, Controls, Description, Meta, Subtitle, Story } from '@storybook/blocks';
+import * as InputStories from './Input.stories.ts';
+
+> 🥱 **Fun meter: boring**. This is more or less the standard way of doing things. Included as a prerequisite for more interesting things.
+
+# Input
+
+<Meta of = { InputStories } />
+
+<Subtitle>Inputs collect data from the user.</Subtitle>
+
+<Canvas>
+  <Story of={ InputStories.Default } />
+</Canvas>
+
+## Size
+TODO: small, medium, large
+
+## Disabled
+<Story of={ InputStories.Disabled } />
+
+## Prefix and suffix
+*Prefix* and *suffix* slots are used to add icons, supporting text or buttons.
+
+<Story of={ InputStories.Addons } />
+
