@@ -1,0 +1,18 @@
+import { Canvas, Controls, Description, Meta, Subtitle, Story } from '@storybook/blocks';
+import * as TableStories from './Table.stories.ts';
+
+<Meta of = { TableStories } />
+
+# Table
+
+{/* <Subtitle>Displaying [lists](../?path=/docs/recipes-list-aka-table--docs) in columns and rows.</Subtitle> */}
+
+A lightweight wrapper component that provides styles in addition to features like sticky headers.
+
+<Story of={ TableStories.SimpleTable } />
+
+<br />
+
+## Advanced use-cases
+
+Table component offers styling only, not built-in functionality. While this suits basic tables, more complex features like sorting and resizing are needed for advanced use cases. This kind of functionality is out of scope for the table component, as the spectrum of possible use-cases is too broad for a single component to cover effectively. However, this minimalist approach allows for seamless integration with external libraries that provide those advanced features.

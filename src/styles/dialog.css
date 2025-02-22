@@ -101,3 +101,10 @@ html:has(dialog[open]) {
     animation: var(--animation-slide-in-up) forwards;
   }
 }
+
+@media (prefers-reduced-motion: no-preference) and @media (max-width: 768px) {
+  dialog {
+    animation: var(--animation-slide-out-down) forwards;
+    animation-timing-function: var(--ease-squish-2);
+  }
+}

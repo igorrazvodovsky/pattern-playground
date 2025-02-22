@@ -1,0 +1,133 @@
+/* TODO: styles for usage in panels */
+
+ir-table {
+  all: unset;
+  -webkit-user-select: inherit;
+  user-select: inherit;
+  display: block;
+  max-inline-size: 100%;
+  overflow-x: auto;
+
+  --_td-padding: var(--space-s);
+}
+
+ir-table table {
+  inline-size: 100%;
+  font-size: var(--text-s);
+  font-family: var(--font-family);
+  line-height: var(--line-height-tight);
+  text-align: start;
+  border-spacing: 0;
+  /* border-collapse: separate; */
+  border-collapse: collapse;
+  color: var(--c-primary);
+  font-variant-numeric: tabular-nums;
+  table-layout: auto !important;
+  outline: 1px solid var(--c-bg);
+  outline-offset: -1px;
+}
+
+ir-table th {
+  border-block-end: 1px solid var(--c-border);
+  /* border: 1px solid var(--c-border); */
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--text-s);
+  color: var(--c-secondary);
+  text-align: start;
+}
+
+ir-table td {
+  border-block-end: 1px solid var(--c-border);
+  /* border: 1px solid var(--c-border); */
+  white-space: nowrap;
+}
+
+ir-table :is(td, th) {
+  padding: var(--_td-padding);
+}
+
+ir-table :is(td, th):first-child {
+  padding-inline-start: var(--space-m);
+}
+
+ir-table :is(td, th):last-child {
+  padding-inline-end: var(--space-m);
+}
+
+ir-table tbody tr:hover {
+  background: oklch(0% 0 0 / 5%);;
+}
+
+ir-table tbody :is(.row-selected, .row-selected:hover) {
+  background: var(--c-active-bg);
+  color: var(--c-primary);
+  opacity: 1;
+  cursor: default;
+}
+
+ir-table tbody :is(tr:hover, .row-selected) td {
+  color: var(--c-primary);
+}
+
+ir-table th[aria-sort] {
+  cursor: pointer;
+}
+
+ir-table th[aria-sort]:not([aria-sort="none"]) {
+  color: var(--c-primary);
+}
+
+ir-table[density="condensed"] {
+  --_td-padding: calc(var(--space-m) * 0.5);
+}
+
+ir-table[density="relaxed"] {
+  --_td-padding: calc(var(--space-m) * 1.1);
+}
+
+ir-table[scroll-snap] {
+  scroll-snap-type: inline mandatory;
+  scroll-behavior: smooth;
+}
+
+ir-table[scroll-snap] :is(th, td) {
+  scroll-snap-align: start;
+}
+
+ir-table .ir-table-ellipsis {
+  max-inline-size: 0;
+  inline-size: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+ir-table .ir-table-align-right {
+  text-align: end;
+}
+
+ir-table .ir-table-actions {
+  display: flex;
+  justify-content: center;
+}
+
+ir-table .ir-table-actions button {
+  margin-block: -10px;
+}
+
+ir-table table .resizer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 5px;
+  background: rgba(0, 0, 0, 0.5);
+  cursor: col-resize;
+  user-select: none;
+  touch-action: none;
+  opacity: 0;
+}
+
+*:hover > .resizer {
+  opacity: 1;
+}
