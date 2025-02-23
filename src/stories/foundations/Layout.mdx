@@ -1,0 +1,23 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Foundations/Layout" />
+
+> 🥱 **Fun meter: interesting**. My first attempt at building a system without THE grid.
+
+# Layout
+
+The layout system determines how an app organizes its elements, establishing visual hierarchies that guide users' attention.
+
+# Spacing
+
+- The spacing is structured around a base unit for each density level. It determines the scale used across components.
+- T-shirt sizes are used to make differences between levels easier to understand.
+- A scale for each [density](../?path=/docs/foundations-density--docs) level is created using the ```base unit``` and ```space increment``` values.
+
+{/* ## Generating the scale */}
+
+# Grid
+
+Instead of top-down grid system bottom-up approach is used. That is container queries are used to manage each component’s layout.
+Additionally, three default utilities are used for common layout solutions. Compositions and patterns either use ready-to-wear solutions
+or have context-specific custom layouts and grid solutions.
