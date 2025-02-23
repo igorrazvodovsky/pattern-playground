@@ -5,7 +5,7 @@ export default create({
   fontBase: 'system-ui, sans-serif',
   fontCode: 'monospace',
   brandTitle: 'Igor\'s design system playground',
-  brandImage: '../src/assets/slide.png',
+  brandImage: '../src/assets/playground.png',
   brandTarget: '_self',
 
   colorPrimary: 'red',

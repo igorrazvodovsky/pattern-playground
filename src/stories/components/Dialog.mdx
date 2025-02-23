@@ -1,4 +1,4 @@
-import { Meta, Story } from '@storybook/blocks';
+import { Meta, Story, Canvas } from '@storybook/blocks';
 import * as DialogStories from './Dialog.stories.ts';
 
 <Meta title="Components/Dialog" />
@@ -7,16 +7,16 @@ import * as DialogStories from './Dialog.stories.ts';
 
 # Dialog
 
-<br />
+{/* <Canvas> */}
+  <Story of={ DialogStories.Default } />
+{/* </Canvas> */}
 
-<Story of={ DialogStories.Default } />
-
-# Scrolling
+## Scrolling
 By design, a dialog’s height will never exceed that of the viewport. As such, dialogs will not scroll with the page ensuring the header and footer are always accessible to the user.
 
 <Story of={ DialogStories.Scrolling } />
 
 
-# Related
+## Related
 
 Dialog is one of the ways to implement a [mode](../?path=/docs/patterns-mode--docs). There is also significant overlap between it, [popover](../?path=/docs/primitives-popover--docs) and TODO: drawer.

@@ -36,9 +36,15 @@ export const Basic: Story = {
       <pp-tab slot="nav" panel="1">${faker.vehicle.bicycle()}</pp-tab>
       <pp-tab slot="nav" panel="2">${faker.vehicle.bicycle()}</pp-tab>
       <pp-tab slot="nav" panel="3">${faker.vehicle.bicycle()}</pp-tab>
-      <pp-tab-panel name="1">This is the tab panel.</pp-tab-panel>
-      <pp-tab-panel name="2">This is another tab panel.</pp-tab-panel>
-      <pp-tab-panel name="3">Yeap, another one.</pp-tab-panel>
+      <pp-tab-panel name="1">
+      This is the tab panel.
+      </pp-tab-panel>
+      <pp-tab-panel name="2">
+      This is another tab panel.
+      </pp-tab-panel>
+      <pp-tab-panel name="3">
+      Yeap, another one.
+      </pp-tab-panel>
     </pp-tab-group>
   `,
 };
@@ -54,8 +60,12 @@ export const WithIcons: Story = {
         ${faker.commerce.productName()}
         <iconify-icon class="icon" icon="${randomIcon()}" slot="icon"></iconify-icon>
       </pp-tab>
-      <pp-tab-panel name="1">This is the tab panel.</pp-tab-panel>
-      <pp-tab-panel name="2">This is another tab panel.</pp-tab-panel>
+      <pp-tab-panel name="1">
+        <p style="margin: 1rem;">${faker.hacker.phrase()}</p>
+      </pp-tab-panel>
+      <pp-tab-panel name="2">
+        <p style="margin: 1rem;">${faker.hacker.phrase()}</p>
+      </pp-tab-panel>
     </pp-tab-group>
   `,
 };
@@ -73,8 +83,12 @@ export const WithIconsAndSubtitles: Story = {
         <iconify-icon style="font-size: 1.5em" class="icon" icon="${randomIcon()}" slot="icon"></iconify-icon>
         <small slot="subtitle">100</small>
       </pp-tab>
-      <pp-tab-panel name="1">This is the tab panel.</pp-tab-panel>
-      <pp-tab-panel name="2">This is another tab panel.</pp-tab-panel>
+      <pp-tab-panel name="1">
+        <p style="margin: 1rem;">${faker.hacker.phrase()}</p>
+      </pp-tab-panel>
+      <pp-tab-panel name="2">
+        <p style="margin: 1rem;">${faker.hacker.phrase()}</p>
+      </pp-tab-panel>
     </pp-tab-group>
   `,
 };

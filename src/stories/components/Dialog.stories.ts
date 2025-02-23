@@ -10,11 +10,7 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
-  args: {
-    label: "Button",
-    loading: false,
-    size: "medium"
-  },
+  args: {},
   render: () => html`
     <dialog id="dialog-1">
       <header>

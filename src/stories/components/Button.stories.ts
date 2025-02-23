@@ -5,8 +5,6 @@ const meta = {
   title: "Components/Button",
   tags: ["autodocs"],
   argTypes: {
-    // backgroundColor: { control: "color" },
-    onClick: { action: "onClick" },
     size: {
       control: { type: "select" },
       options: ["small", "medium", "large"],
