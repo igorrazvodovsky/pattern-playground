@@ -20,9 +20,248 @@ The focus is on functional needs: color that supports guiding users, draws atten
 - Chroma for each lightness level are picked to ensure maximum visual consistency between palettes.
 - Foreground colors are calculated based on background color to ensure the necessary contrast.
 
-{/* ## Palette */}
+## Palette
 
 {/* TODO: Each color comes with a transparent option for better blending if needed. */}
 
+<div className="toolbar">
+  <label className="hue-label" htmlFor="sliderHue">Hue</label>
+  <input
+    type="range"
+    id="sliderHue"
+    onInput={e => document.documentElement.style.setProperty('--h', e.currentTarget.value)}
+    name="sliderHue"
+    min="0"
+    max="360"
+    initialValue="230"
+    />
+  <span className="hue-value" id="heuValue"></span>
+</div>
 
+### Neutral
+The default palette for building UI components.
 
+<div className="docs-palette">
+  <div style={{'--palette-bg': 'var(--c-neutral-50)'}}>
+    50
+   </div>
+  <div style={{'--palette-bg': 'var(--c-neutral-100)'}}>
+    100
+   </div>
+  <div style={{'--palette-bg': 'var(--c-neutral-200)'}}>
+    200
+   </div>
+  <div style={{'--palette-bg': 'var(--c-neutral-300)'}}>
+    300
+   </div>
+  <div style={{'--palette-bg': 'var(--c-neutral-400)'}}>
+    400
+   </div>
+  <div style={{'--palette-bg': 'var(--c-neutral-500)'}}>
+    500
+   </div>
+  <div style={{'--palette-bg': 'var(--c-neutral-600)'}}>
+    600
+   </div>
+  <div style={{'--palette-bg': 'var(--c-neutral-700)'}}>
+    700
+   </div>
+  <div style={{'--palette-bg': 'var(--c-neutral-800)'}}>
+    800
+   </div>
+  <div style={{'--palette-bg': 'var(--c-neutral-900)'}}>
+    900
+   </div>
+  <div style={{'--palette-bg': 'var(--c-neutral-950)'}}>
+    950
+   </div>
+</div>
+
+### Accent
+
+<div className="docs-palette">
+  <div style={{'--palette-bg': 'var(--c-neutral-50)'}}>
+    50
+   </div>
+  <div style={{'--palette-bg': 'var(--c-accent-100)'}}>
+    100
+   </div>
+  <div style={{'--palette-bg': 'var(--c-accent-200)'}}>
+    200
+   </div>
+  <div style={{'--palette-bg': 'var(--c-accent-300)'}}>
+    300
+   </div>
+  <div style={{'--palette-bg': 'var(--c-accent-400)'}}>
+    400
+   </div>
+  <div style={{'--palette-bg': 'var(--c-accent-500)'}}>
+    500
+   </div>
+  <div style={{'--palette-bg': 'var(--c-accent-600)'}}>
+    600
+   </div>
+  <div style={{'--palette-bg': 'var(--c-accent-700)'}}>
+    700
+   </div>
+  <div style={{'--palette-bg': 'var(--c-accent-800)'}}>
+    800
+   </div>
+  <div style={{'--palette-bg': 'var(--c-accent-900)'}}>
+    900
+   </div>
+  <div style={{'--palette-bg': 'var(--c-accent-950)'}}>
+    950
+   </div>
+</div>
+
+### Utility & feedback
+
+<div className="docs-palette">
+  <div style={{'--palette-bg': 'var(--c-info-50)'}}>
+    50
+   </div>
+  <div style={{'--palette-bg': 'var(--c-info-100)'}}>
+    100
+   </div>
+  <div style={{'--palette-bg': 'var(--c-info-200)'}}>
+    200
+   </div>
+  <div style={{'--palette-bg': 'var(--c-info-300)'}}>
+    300
+   </div>
+  <div style={{'--palette-bg': 'var(--c-info-400)'}}>
+    400
+   </div>
+  <div style={{'--palette-bg': 'var(--c-info-500)'}}>
+    500
+   </div>
+  <div style={{'--palette-bg': 'var(--c-info-600)'}}>
+    600
+   </div>
+  <div style={{'--palette-bg': 'var(--c-info-700)'}}>
+    700
+   </div>
+  <div style={{'--palette-bg': 'var(--c-info-800)'}}>
+    800
+   </div>
+  <div style={{'--palette-bg': 'var(--c-info-900)'}}>
+    900
+   </div>
+  <div style={{'--palette-bg': 'var(--c-info-950)'}}>
+    950
+   </div>
+</div>
+<div className="docs-palette">
+  <div style={{'--palette-bg': 'var(--c-success-50)'}}>
+    50
+   </div>
+  <div style={{'--palette-bg': 'var(--c-success-100)'}}>
+    100
+   </div>
+  <div style={{'--palette-bg': 'var(--c-success-200)'}}>
+    200
+   </div>
+  <div style={{'--palette-bg': 'var(--c-success-300)'}}>
+    300
+   </div>
+  <div style={{'--palette-bg': 'var(--c-success-400)'}}>
+    400
+   </div>
+  <div style={{'--palette-bg': 'var(--c-success-500)'}}>
+    500
+   </div>
+  <div style={{'--palette-bg': 'var(--c-success-600)'}}>
+    600
+   </div>
+  <div style={{'--palette-bg': 'var(--c-success-700)'}}>
+    700
+   </div>
+  <div style={{'--palette-bg': 'var(--c-success-800)'}}>
+    800
+   </div>
+  <div style={{'--palette-bg': 'var(--c-success-900)'}}>
+    900
+   </div>
+  <div style={{'--palette-bg': 'var(--c-success-950)'}}>
+    950
+   </div>
+</div>
+<div className="docs-palette">
+  <div style={{'--palette-bg': 'var(--c-danger-50)'}}>
+    50
+   </div>
+  <div style={{'--palette-bg': 'var(--c-danger-100)'}}>
+    100
+   </div>
+  <div style={{'--palette-bg': 'var(--c-danger-200)'}}>
+    200
+   </div>
+  <div style={{'--palette-bg': 'var(--c-danger-300)'}}>
+    300
+   </div>
+  <div style={{'--palette-bg': 'var(--c-danger-400)'}}>
+    400
+   </div>
+  <div style={{'--palette-bg': 'var(--c-danger-500)'}}>
+    500
+   </div>
+  <div style={{'--palette-bg': 'var(--c-danger-600)'}}>
+    600
+   </div>
+  <div style={{'--palette-bg': 'var(--c-danger-700)'}}>
+    700
+   </div>
+  <div style={{'--palette-bg': 'var(--c-danger-800)'}}>
+    800
+   </div>
+  <div style={{'--palette-bg': 'var(--c-danger-900)'}}>
+    900
+   </div>
+  <div style={{'--palette-bg': 'var(--c-danger-950)'}}>
+    950
+   </div>
+</div>
+<div className="docs-palette">
+  <div style={{'--palette-bg': 'var(--c-warning-50)'}}>
+    50
+   </div>
+  <div style={{'--palette-bg': 'var(--c-warning-100)'}}>
+    100
+   </div>
+  <div style={{'--palette-bg': 'var(--c-warning-200)'}}>
+    200
+   </div>
+  <div style={{'--palette-bg': 'var(--c-warning-300)'}}>
+    300
+   </div>
+  <div style={{'--palette-bg': 'var(--c-warning-400)'}}>
+    400
+   </div>
+  <div style={{'--palette-bg': 'var(--c-warning-500)'}}>
+    500
+   </div>
+  <div style={{'--palette-bg': 'var(--c-warning-600)'}}>
+    600
+   </div>
+  <div style={{'--palette-bg': 'var(--c-warning-700)'}}>
+    700
+   </div>
+  <div style={{'--palette-bg': 'var(--c-warning-800)'}}>
+    800
+   </div>
+  <div style={{'--palette-bg': 'var(--c-warning-900)'}}>
+    900
+   </div>
+  <div style={{'--palette-bg': 'var(--c-warning-950)'}}>
+    950
+   </div>
+</div>
+{/* <div className="docs-palette">
+  {Object.entries(json.Palette).reverse().filter(([key, value]) => key.startsWith("c-neutral")).map(([name, entry], i) => (
+        // --tx-{name}
+   <div key={i} style={{'--palette-bg': entry.$value, color: 'red' }}>
+    {name.match(/\d+/)}
+   </div>
+  ))}
+</div> */}

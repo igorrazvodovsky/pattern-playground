@@ -14,7 +14,6 @@ const createCardData = () => {
 
 const cardsData = faker.helpers.multiple(createCardData, { count: 5 })
 
-
 const meta = {
   title: "Components/Card",
   tags: ["autodocs"],

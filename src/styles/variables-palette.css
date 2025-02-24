@@ -3,6 +3,11 @@
   --lInitial: 97%;
   --lIncrement: 7%;
 
+  --hInfo: 260;
+  --hSuccess: 150;
+  --hDanger: 25;
+  --hWarning: 86;
+
   --l0: 100%;
   --l50: var(--lInitial);
   --l100: calc(var(--lInitial) - var(--lIncrement) * 1);
@@ -70,6 +75,54 @@
   --c-accent-800: oklch(var(--l800) var(--c800) var(--h));
   --c-accent-900: oklch(var(--l900) var(--c900) var(--h));
   --c-accent-950: oklch(var(--l950) var(--c950) var(--h));
+
+  --c-info-50: oklch(var(--l50) var(--c50) var(--hInfo));
+  --c-info-100: oklch(var(--l100) var(--c100) var(--hInfo));
+  --c-info-200: oklch(var(--l200) var(--c200) var(--hInfo));
+  --c-info-300: oklch(var(--l300) var(--c300) var(--hInfo));
+  --c-info-400: oklch(var(--l400) var(--c400) var(--hInfo));
+  --c-info-500: oklch(var(--l500) var(--c500) var(--hInfo));
+  --c-info-600: oklch(var(--l600) var(--c600) var(--hInfo));
+  --c-info-700: oklch(var(--l700) var(--c700) var(--hInfo));
+  --c-info-800: oklch(var(--l800) var(--c800) var(--hInfo));
+  --c-info-900: oklch(var(--l900) var(--c900) var(--hInfo));
+  --c-info-950: oklch(var(--l950) var(--c950) var(--hInfo));
+
+  --c-success-50: oklch(var(--l50) var(--c50) var(--hSuccess));
+  --c-success-100: oklch(var(--l100) var(--c100) var(--hSuccess));
+  --c-success-200: oklch(var(--l200) var(--c200) var(--hSuccess));
+  --c-success-300: oklch(var(--l300) var(--c300) var(--hSuccess));
+  --c-success-400: oklch(var(--l400) var(--c400) var(--hSuccess));
+  --c-success-500: oklch(var(--l500) var(--c500) var(--hSuccess));
+  --c-success-600: oklch(var(--l600) var(--c600) var(--hSuccess));
+  --c-success-700: oklch(var(--l700) var(--c700) var(--hSuccess));
+  --c-success-800: oklch(var(--l800) var(--c800) var(--hSuccess));
+  --c-success-900: oklch(var(--l900) var(--c900) var(--hSuccess));
+  --c-success-950: oklch(var(--l950) var(--c950) var(--hSuccess));
+
+  --c-danger-50: oklch(var(--l50) var(--c50) var(--hDanger));
+  --c-danger-100: oklch(var(--l100) var(--c100) var(--hDanger));
+  --c-danger-200: oklch(var(--l200) var(--c200) var(--hDanger));
+  --c-danger-300: oklch(var(--l300) var(--c300) var(--hDanger));
+  --c-danger-400: oklch(var(--l400) var(--c400) var(--hDanger));
+  --c-danger-500: oklch(var(--l500) var(--c500) var(--hDanger));
+  --c-danger-600: oklch(var(--l600) var(--c600) var(--hDanger));
+  --c-danger-700: oklch(var(--l700) var(--c700) var(--hDanger));
+  --c-danger-800: oklch(var(--l800) var(--c800) var(--hDanger));
+  --c-danger-900: oklch(var(--l900) var(--c900) var(--hDanger));
+  --c-danger-950: oklch(var(--l950) var(--c950) var(--hDanger));
+
+  --c-warning-50: oklch(var(--l50) var(--c50) var(--hWarning));
+  --c-warning-100: oklch(var(--l100) var(--c100) var(--hWarning));
+  --c-warning-200: oklch(var(--l200) var(--c200) var(--hWarning));
+  --c-warning-300: oklch(var(--l300) var(--c300) var(--hWarning));
+  --c-warning-400: oklch(var(--l400) var(--c400) var(--hWarning));
+  --c-warning-500: oklch(var(--l500) var(--c500) var(--hWarning));
+  --c-warning-600: oklch(var(--l600) var(--c600) var(--hWarning));
+  --c-warning-700: oklch(var(--l700) var(--c700) var(--hWarning));
+  --c-warning-800: oklch(var(--l800) var(--c800) var(--hWarning));
+  --c-warning-900: oklch(var(--l900) var(--c900) var(--hWarning));
+  --c-warning-950: oklch(var(--l950) var(--c950) var(--hWarning));
 
   --c-border: oklch(var(--l800) var(--c800-neutral) var(--h) / 0.3);
   --c-background: var(--c-neutral-0);

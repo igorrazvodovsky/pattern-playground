@@ -48,20 +48,34 @@
   inset-inline-start: anchor(--anchor_2 left);
 }
 
-/* .docs-palette {
+.docs-palette {
   display: flex;
   width: min-content;
 }
 
 .docs-palette > * {
   flex: 10ch 0 0;
-  padding: 1em;
-  font-size: var(--tx-text-xs) !important;
+  padding: var(--space-s) var(--space-m);
+  font-size: var(--text-xs) !important;
   text-transform: uppercase;
   font-weight: 500;
   letter-spacing: 0.1em;
+
+  --l-threshold: 0.7;
+  --l: clamp(0, (l / var(--l-threshold) - 1) * -infinity, 1);
+  --palette-color: oklch(from var(--palette-bg) var(--l) 0 h / 90%);
+
+  color: var(--palette-color);
+  background-color: var(--palette-bg);
 }
 
+.docs-palette p {
+  margin: 0 !important;
+  font-size: var(--text-xs) !important;
+  color: inherit;
+}
+
+/*
 .sb-show-main table {
   width: 100%;
   table-layout: fixed;
@@ -101,4 +115,18 @@ resize-asaurus > .resize-asaurus-container {
 
 .sidebar-header img {
   max-height: 80px !important;
+}
+
+.sbdocs .toolbar {
+  display: inline-flex;
+  align-items: center;
+  gap: 1ch;
+  /* background: var(--c-neutral-50); */
+  /* padding: var(--space-s) var(--space-l); */
+  margin-block: var(--space-m);
+  border-radius: 999px;
+
+  & .hue-value::before {
+    content: var(--h);
+  }
 }

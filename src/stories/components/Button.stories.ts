@@ -4,24 +4,13 @@ import { html } from "lit";
 const meta = {
   title: "Components/Button",
   tags: ["autodocs"],
-  argTypes: {
-    size: {
-      control: { type: "select" },
-      options: ["small", "medium", "large"],
-    },
-    loading: { control: 'boolean' }
-  },
 } satisfies Meta;
 
 export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
-  args: {
-    label: "Button",
-    loading: false,
-    size: "medium"
-  },
+  args: { label: "Button" },
   render: (args) => html` <button is="ir-button"> ${args.label} </button>`,
 };
 
@@ -31,10 +20,6 @@ export const Variants: Story = {
     <button class="button--danger" is="ir-button">Danger</button>
   `,
 };
-
-// export const Sizes: Story = {
-//   render: () => html` <button is="ir-button">Medium</button>`,
-// };
 
 export const Prefixes: Story = {
   render: () => html`
