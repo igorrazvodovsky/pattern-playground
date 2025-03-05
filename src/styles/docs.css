@@ -113,10 +113,6 @@ resize-asaurus > .resize-asaurus-container {
   margin-block: 2rem 1rem !important;
 }
 
-.sidebar-header img {
-  max-height: 80px !important;
-}
-
 .sbdocs .toolbar {
   display: inline-flex;
   align-items: center;

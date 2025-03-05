@@ -1,0 +1,66 @@
+:root {
+  --form-control-disabled: #959495;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+.form-control {
+  display: grid;
+  grid-template-columns: 1em auto;
+  gap: 0.5em;
+}
+
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  margin: 0;
+
+  color: currentColor;
+  width: 1.15rem;
+  height: 1.15rem;
+  border: var(--border);
+  border-radius: var(--radius-s);
+  transform: translateY(-0.075em);
+
+  display: grid;
+  place-content: center;
+}
+
+input[type="checkbox"]::before {
+  content: "✓";
+  font-size: smaller;
+  font-weight: bold;
+  width: calc(1.15rem + 2px);
+  height: calc(1.15rem + 2px);
+  text-align: center;
+  vertical-align: baseline;
+  transition: 120ms opacity ease-in-out;
+  box-shadow: inset 2em 2em var(--c-accent);
+  border-radius: var(--radius-s);
+  background-color: CanvasText;
+  color: white;
+  opacity: 0;
+  /* TODO: */
+  line-height: 140%;
+}
+
+input[type="checkbox"]:checked::before {
+  opacity: 1;
+}
+
+input[type="checkbox"]:focus-visible {
+  outline: max(2px, 0.15em) solid currentColor;
+  outline-offset: max(2px, 0.15em);
+}
+
+input[type="checkbox"]:disabled,
+label:has(input[type="checkbox"]:disabled) {
+  --c-accent: var(--c-body);
+  cursor: not-allowed;
+  opacity: 0.5;
+}

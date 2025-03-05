@@ -1,4 +1,8 @@
 @layer layout {
+  .flow > * + * {
+    margin-block-start: var(--flow-space, var(--space-m));
+  }
+
   .layout-grid {
     --layout-grid-min: 30ch;
     --layout-grid-gap: var(--space-m);
