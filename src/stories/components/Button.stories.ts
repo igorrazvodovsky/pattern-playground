@@ -18,6 +18,9 @@ export const Variants: Story = {
   render: () => html`
     <button class="button--primary" is="ir-button">Primary</button>
     <button class="button--danger" is="ir-button">Danger</button>
+    <button class="button--plain" is="ir-button">Plain</button>
+    <button is="ir-button" disabled>Disabled</button>
+
   `,
 };
 

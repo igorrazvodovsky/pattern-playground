@@ -3,7 +3,7 @@ import { html } from "lit";
 import { faker } from '@faker-js/faker';
 
 const meta = {
-  title: "Compositions/Menu bar",
+  title: "Compositions/Menu bar 🚧",
   tags: ["autodocs"],
 } satisfies Meta;
 
@@ -23,11 +23,11 @@ export const Default: Story = {
         </button>
 
         <ul id="menu" role="list">
-          <li>${faker.word.words()}</li>
-          <li>${faker.word.words()}</li>
-          <li>${faker.word.words()}</li>
-          <li>${faker.word.words()}</li>
-          <li>${faker.word.words()}</li>
+          <li><button class="button--plain" is="ir-button">${faker.word.words()}</button></li>
+          <li><button class="button--plain" is="ir-button">${faker.word.words()}</button></li>
+          <li><button class="button--plain" is="ir-button">${faker.word.words()}</button></li>
+          <li><button class="button--plain" is="ir-button">${faker.word.words()}</button></li>
+          <li><button class="button--plain" is="ir-button">${faker.word.words()}</button></li>
         </ul>
       </div>
 

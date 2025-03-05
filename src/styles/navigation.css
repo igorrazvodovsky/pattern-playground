@@ -1,8 +1,16 @@
 .navigation {
   display: grid;
   grid-template-columns: auto 1fr auto;
-
+  gap: var(--space-l);
   container: navigation / inline-size;
+
+  & h1,
+  & .logo {
+    margin: 0 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .navigation__menu {
@@ -10,7 +18,7 @@
 }
 
 @container menu (inline-size >= 60ch) {
-  .navigation__menu button {
+  .navigation__menu > button {
     display: none;
   }
 

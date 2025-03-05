@@ -14,12 +14,13 @@
     box-shadow: var(--button-box-shadow);
     border-radius: var(--radius-m);
     cursor: pointer;
-
+    white-space: nowrap;
     &:not([class]) {
       --button-border: var(--c-border);
 
-      &:hover {
+      &:not(:disabled):hover {
         --button-border: oklch(from var(--c-border) calc(l - 0.5) c h);
+        --button-bg: var(--c-neutral-50);
       }
     }
 
@@ -37,8 +38,8 @@
       --button-border: transparent;
       --button-box-shadow: none;
 
-      &:hover {
-        --button-bg: var(--c-accent-50);
+      &:not(:disabled):hover {
+        --button-border: transparent;
       }
     }
 
@@ -62,7 +63,7 @@
       --button-bg: red;
       font-weight: 500;
 
-      &:hover {
+      &:not(:disabled):hover {
         --button-bg: oklch(from red calc(l - 0.1) c h);
       }
     }
@@ -71,9 +72,23 @@
       --button-bg: var(--c-accent);
       font-weight: 500;
 
-      &:hover {
+      &:not(:disabled):hover {
         --button-bg: oklch(from var(--c-accent) calc(l - 0.1) c h);
       }
     }
+
+    &.button--plain {
+      --button-border: transparent;
+      --button-box-shadow: none;
+
+      &:hover {
+        --button-bg: var(--c-neutral-50);
+      }
+    }
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
   }
 }
