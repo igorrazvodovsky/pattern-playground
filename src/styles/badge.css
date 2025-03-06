@@ -128,7 +128,8 @@ a.badge {
   border-radius: var(--radius-circle);
 }
 
-button:has(.badge) {
+button:has(.badge),
+.avatar:has(.badge) {
   position: relative;
 }
 

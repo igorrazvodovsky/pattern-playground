@@ -18,9 +18,10 @@ export const Badge: Story = {
 
 export const WithButton: Story = {
   render: () => html`
-  <div style="display: flex; gap: 1rem;">
+  <div style="display: flex; gap: 1rem; align-items: center;">
     <button is="ir-button">Requests<sup class="badge badge--pill badge--info">12</sup></button>
     <button is="ir-button"> <iconify-icon class="icon" icon="ph:circle-dashed"></iconify-icon><span class="inclusively-hidden">Icon button</span><sup class="badge badge--pill badge--danger"></sup></button>
+    <div class="avatar"><sup class="badge badge--pill badge--danger">99+</sup></div>
   </div>
   `,
 };
@@ -39,7 +40,7 @@ export const AnimatedCounter: Story = {
 
 export const Pulse: Story = {
   render: () => html`
-    <div style="display: flex; gap: 1rem;">
+    <div style="display: flex; gap: 1rem; align-items: center;">
       <span class="badge badge--pill badge--pulse badge--accent">1</span>
       <span class="badge badge--pill badge--pulse badge--info">1</span>
       <span class="badge badge--pill badge--pulse badge--success">1</span>
