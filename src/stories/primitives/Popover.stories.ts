@@ -3,7 +3,7 @@ import { html } from "lit";
 import { faker } from '@faker-js/faker';
 
 const meta = {
-  title: "Primitives/Popover",
+  title: "Primitives/Popover 🚧",
 } satisfies Meta;
 
 export default meta;

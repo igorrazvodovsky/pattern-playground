@@ -4,7 +4,7 @@ export default create({
   base: 'light',
   fontBase: 'system-ui, sans-serif',
   fontCode: 'monospace',
-  brandTitle: 'Igor\'s design system playground',
+  brandTitle: 'Igor\'s pattern playground',
   brandImage: './playground.png',
   brandTarget: '_self',
 

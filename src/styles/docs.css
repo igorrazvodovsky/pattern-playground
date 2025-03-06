@@ -1,5 +1,5 @@
 /* TODO: */
-.sbdocs * {
+.sbdocs *:not(code) {
   font-family: inherit !important;
 }
 
