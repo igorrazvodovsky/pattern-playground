@@ -1,0 +1,30 @@
+import { Canvas, Story, Meta, Subtitle } from '@storybook/blocks';
+import * as PriorityPlusStories from './PriorityPlus.stories.ts';
+
+<Meta of = { PriorityPlusStories } />
+
+> 🥱 **Fun meter: not very captivating by itself**. Included as a prerequisite for more interesting things.
+
+# Priority+
+<Subtitle>Shows elements that fit the container and tucks away everything else behind an ellipsis dropdown.</Subtitle>
+
+
+<Story of={ PriorityPlusStories.Default } />
+
+Priority+ is a low-level utility that implements a [pattern](https://bradfrost.com/blog/post/complex-navigation-patterns-for-responsive-design/#priority-plus) of the same name and built specifically for making other components responsive. The assumption is that almost every usage of it will involve building other components. It should rarely, occur directly in HTML.
+
+## Supported components
+
+By default Priority+ will move the element to `list` as is but certain components are transformed along the way. E.g. `button` becomes `list-item`.
+
+## Related
+It depends on a `dropdown` as a place to hide things in and a `list-item` for element transformation.
+
+## TODO:
+- Basic description
+- Placing things under dropdown by default. It might happen that user might need to hide certain things under the dropdown anyway.
+- Exceptions?
+- Component support
+  - toggles → list items + checkbox
+  - select → sublist
+  - inputs?

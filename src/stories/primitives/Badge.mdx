@@ -1,24 +1,91 @@
-import { Meta, Story } from '@storybook/blocks';
-import * as PopoverStories from './Popover.stories.ts';
+import { Meta, Story, Canvas } from '@storybook/blocks';
+import * as BadgeStories from './Badge.stories.ts';
 
-<Meta title="Primitives/Badge 📅" />
+<Meta of={BadgeStories} />
 
 {/* On differences between badges and lozenges. Same look, similar semantics */}
 
 {/* > 🥱 **Fun meter: boring**. Included as a prerequisite for more interesting things. */}
 
-# TODO: Badge
+# Badge
+A small label representing a status, property, count or some other metadata.
 
-- Purpose (info, success, etc.)
-- Animated counter
-- Rounded
-- Pulsating badge
-- Removable
-- Text max length
-- Dot
-- Examples: as `<sup>` with buttons, with list items
-- Accessibility handling: Lozenges may use aria-current, aria-describedby, while badges may need aria-live. Separate components allow tailored accessibility.
+<Canvas>
+  <Story of={ BadgeStories.Badge } />
+</Canvas>
+
+## Variants
+
+### Purpose
+
+<Story of={ BadgeStories.Purpose } />
+
+### Pill
+
+<Story of={ BadgeStories.Pill } />
+
+### Dot
+
+<Story of={ BadgeStories.Dot } />
+
+### Size
+
+...
+
+### With icons
+TODO: Uses only filled icon variants for readability.
+<Story of={ BadgeStories.withIcon } />
+
+### Icon-only
+TODO: Remove border; make icon bigger; use only filled icon variants
+<Story of={ BadgeStories.IconOnly } />
+
+## Attribute–value pairs
+
+<Story of={ BadgeStories.AttributeValuePair } />
+
+## Animated counter
+Combination of a `badge` with a `counter`.
+
+<Story of={ BadgeStories.AnimatedCounter } />
+
+## Pulsating badge
+
+<Story of={ BadgeStories.Pulse } />
+
+## Text max length
+
+...
+
+{/* ## Semantics */}
+
+## Accessibility
+
+TODO: Lozenges may use aria-current, aria-describedby, while badges may need aria-live.
+
+## With buttons
+
+Badges auto-position top-right when used within buttons, simplifying common use case.
+
+<Story of={ BadgeStories.WithButton } />
+
+## With list items
+
+...
+
+## With tags
+
+...
+
+## Linkable
+
+...
+
+## Components
+
+The badge is CSS-only component and can be used with any element (`<span>`, `<sup>`, `<a>`, etc.) as needed.
 
 ## Related
-
-tag
+{/* TODO: Link */}
+Badges and tags share some visual and functional similarities, but they serve distinct purposes.
+Badges are generally more passive indicators, while tags are often interactive elements.

@@ -60,11 +60,11 @@
     }
 
     &.button--danger {
-      --button-bg: red;
+      --button-bg: var(--c-danger-500);
       font-weight: 500;
 
       &:not(:disabled):hover {
-        --button-bg: oklch(from red calc(l - 0.1) c h);
+        --button-bg: oklch(from var(--c-danger-500) calc(l - 0.1) c h);
       }
     }
 

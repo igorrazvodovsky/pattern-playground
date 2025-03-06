@@ -40,6 +40,6 @@ export const Toggle: Story = {
 };
 
 export const IconButton: Story = {
-  render: (args) => html` <button is="ir-button"> <iconify-icon class="icon" icon="ph:circle-dashed"></iconify-icon><span class="inclusively-hidden">${args.label}</span></button>`,
+  render: (args) => html`<button is="ir-button"> <iconify-icon class="icon" icon="ph:circle-dashed"></iconify-icon><span class="inclusively-hidden">${args.label}</span></button>`,
 };
 

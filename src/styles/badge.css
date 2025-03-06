@@ -1,0 +1,143 @@
+/* TODO: animate appearance/disappearance when standalone and in a group */
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  max-width: 100%;
+}
+
+.badge {
+  --badge-bg: var(--c-background);
+  --badge-color: oklch(from var(--badge-bg) var(--l) 0 h / 90%);
+
+  --l-threshold: 0.7;
+  --l: clamp(0, (l / var(--l-threshold) - 1) * -infinity, 1);
+
+  color: var(--badge-color);
+
+  background: var(--badge-bg);
+  border: var(--border);
+  padding: var(--space-xs) var(--space-s);
+  border-radius: var(--radius-m);
+  font-size: var(--text-xs);
+  line-height: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5ch;
+  /* overflow: hidden; */
+}
+
+.badge:not(.counter):empty {
+  border-radius: var(--radius-circle);
+  width: var(--space-s);
+  height: var(--space-s);
+  padding: 0;
+}
+
+.badge.counter {
+  animation: badge-counter 2s infinite alternate ease-in-out;
+}
+
+@keyframes badge-counter {
+  from {
+    --counter: 0;
+  }
+  to {
+    --counter: 9;
+  }
+}
+
+.badge.badge--pill {
+  border-radius: var(--radius-pill);
+}
+
+a.badge {
+  color: inherit;
+}
+
+.badge__label,
+.badge__label svg {
+  color: oklch(from var(--badge-color) l c h / 0.6);
+  fill: oklch(from var(--badge-color) l c h / 0.6);
+}
+
+.badge span {
+  max-width: 20ch;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.badge span:first-child {
+  color: oklch(from var(--badge-color) l c h / 0.6);
+}
+
+/* TODO: ? */
+.badge i {
+  display: flex;
+}
+
+.badge.badge--accent,
+.badge.badge--info,
+.badge.badge--success,
+.badge.badge--warning,
+.badge.badge--danger {
+  font-weight: 500;
+  border-color: transparent;
+}
+
+.badge.badge--accent {
+  --badge-bg: var(--c-accent);
+}
+
+.badge.badge--info {
+  --badge-bg: var(--c-info-500);
+}
+
+.badge.badge--success {
+  --badge-bg: var(--c-success-500);
+}
+
+.badge.badge--warning {
+  --badge-bg: var(--c-warning-500);
+}
+
+.badge.badge--danger {
+  --badge-bg: var(--c-danger-500);
+}
+
+.badge--pulse {
+  position: relative;
+  z-index: 1;
+}
+
+.badge--pulse:before {
+  content: "";
+  display: inline-flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  content: "";
+  background: var(--badge-bg);
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+  z-index: -1;
+  border-radius: var(--radius-circle);
+}
+
+button:has(.badge) {
+  position: relative;
+}
+
+button .badge,
+.avatar .badge {
+  position: absolute;
+  top: 0;
+  inset-inline-end: 0;
+  transform: translate(50%, -50%);
+  transform-origin: 100% 0%;
+  box-shadow: 0 0 0 1px var(--c-background);
+}
