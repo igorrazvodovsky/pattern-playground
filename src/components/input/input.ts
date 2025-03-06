@@ -142,7 +142,7 @@ export class PpInput extends LitElement {
                     tabindex="-1"
                   >
                     <slot name="clear-icon">
-                      <iconify-icon icon="ph:ph:x-circle-fill"></iconify-icon>
+                      <iconify-icon icon="ph:x-circle-fill"></iconify-icon>
                     </slot>
                   </button>
                 `

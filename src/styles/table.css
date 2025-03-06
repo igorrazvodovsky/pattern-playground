@@ -20,10 +20,10 @@ ir-table table {
   border-spacing: 0;
   /* border-collapse: separate; */
   border-collapse: collapse;
-  color: var(--c-primary);
+  color: var(--c-accent);
   font-variant-numeric: tabular-nums;
   table-layout: auto !important;
-  outline: 1px solid var(--c-bg);
+  outline: 1px solid var(--c-background);
   outline-offset: -1px;
 }
 
@@ -55,18 +55,18 @@ ir-table :is(td, th):last-child {
 }
 
 ir-table tbody tr:hover {
-  background: oklch(0% 0 0 / 5%);;
+  background: oklch(0% 0 0 / 5%);
 }
 
 ir-table tbody :is(.row-selected, .row-selected:hover) {
   background: var(--c-active-bg);
-  color: var(--c-primary);
+  color: var(--c-accent);
   opacity: 1;
   cursor: default;
 }
 
 ir-table tbody :is(tr:hover, .row-selected) td {
-  color: var(--c-primary);
+  color: var(--c-accent);
 }
 
 ir-table th[aria-sort] {
@@ -74,7 +74,7 @@ ir-table th[aria-sort] {
 }
 
 ir-table th[aria-sort]:not([aria-sort="none"]) {
-  color: var(--c-primary);
+  color: var(--c-accent);
 }
 
 ir-table[density="condensed"] {

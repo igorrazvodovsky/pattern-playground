@@ -327,7 +327,7 @@ export class PpTabGroup extends LitElement {
                     label="Scroll to start"
                     @click=${this.handleScrollToStart}
                   >
-                    <iconify-icon class="icon" icon="ph:ph:caret-left"></iconify-icon>
+                    <iconify-icon class="icon" icon="ph:caret-left"></iconify-icon>
                   </button>
                 `
         : ''}
@@ -346,7 +346,7 @@ export class PpTabGroup extends LitElement {
                   label="Scroll to end"
                   @click=${this.handleScrollToEnd}
                 >
-                  <iconify-icon class="icon" icon="ph:ph:caret-right"></iconify-icon>
+                  <iconify-icon class="icon" icon="ph:caret-right"></iconify-icon>
                 </button>
               `
         : ''}

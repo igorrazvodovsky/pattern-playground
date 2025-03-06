@@ -5,3 +5,5 @@ export { PpInput } from './components/input/input.ts';
 export { PpTab } from './components/tab/tab.ts';
 export { PpTabPanel } from './components/tab-panel/tab-panel.ts';
 export { PpTabGroup } from './components/tab-group/tab-group.ts';
+export { PpListItem } from './components/list-item/list-item.ts';
+export { PpList } from './components/list/list.ts';

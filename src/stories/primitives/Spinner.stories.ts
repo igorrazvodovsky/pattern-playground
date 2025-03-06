@@ -3,7 +3,7 @@ import { html } from "lit";
 
 const meta = {
   title: "Primitives/Spinner",
-  render: () => html` <ir-spinner></ir-spinner>`,
+  render: () => html` <pp-spinner></pp-spinner>`,
 } satisfies Meta;
 
 export default meta;

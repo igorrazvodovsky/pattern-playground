@@ -24,17 +24,17 @@
 }
 
 .input {
-  background-color: var(--c-bg);
+  background-color: var(--c-background);
   border: var(--input-border);
 }
 
 .input:hover:not(.input--disabled) {
-  background-color: var(--c-bg);
+  background-color: var(--c-background);
   border-color: var(--c-hover-border);
 }
 
 .input.input--focused:not(.input--disabled) {
-  background-color: var(--c-bg);
+  background-color: var(--c-background);
   border-color: var(--c-active-border);
   box-shadow: 0 0 0 var(--focus-ring-width) var(--input-focus-ring-color);
 }
@@ -52,7 +52,7 @@
 }
 
 .input.input--disabled .input__control {
-  color: var(--c-primary);
+  color: var(--c-accent);
 }
 
 .input.input--disabled .input__control::placeholder {
@@ -67,7 +67,7 @@
   font-weight: inherit;
   min-width: 0;
   height: 100%;
-  color: var(--c-primary);
+  color: var(--c-accent);
   border: none;
   background: inherit;
   box-shadow: none;

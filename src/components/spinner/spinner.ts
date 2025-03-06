@@ -13,7 +13,7 @@ import styles from './spinner.css?inline';
  * @cssproperty --speed - The time it takes for the spinner to complete one animation cycle.
  */
 
-@customElement('ir-spinner')
+@customElement('pp-spinner')
 
 export class Spinner extends LitElement {
   static styles: CSSResultGroup = [unsafeCSS(styles)];

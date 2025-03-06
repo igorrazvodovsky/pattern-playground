@@ -1,0 +1,14 @@
+:host {
+  display: block;
+  position: relative;
+  background: var(--c-background);
+  border: var(--border);
+  border-radius: var(--radius-m);
+  padding: var(--space-xs) 0;
+  /* overflow: auto; */
+  overscroll-behavior: none;
+}
+
+::slotted(hr) {
+  --spacing: var(--space-xs);
+}
