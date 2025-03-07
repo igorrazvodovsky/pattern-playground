@@ -90,7 +90,7 @@
 
 :host(:focus-visible) .list-item {
   outline: none;
-  background-color: var(--c-neutral-100);
+  /* background-color: var(--c-neutral-100); */
   /* color: var(--c-neutral-0); */
   opacity: 1;
 }
