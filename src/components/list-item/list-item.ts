@@ -66,7 +66,8 @@ export class PpListItem extends LitElement {
   };
 
   private handleMouseOver = (event: MouseEvent) => {
-    this.focus();
+    // TODO:
+    // this.focus();
     event.stopPropagation();
   };
 

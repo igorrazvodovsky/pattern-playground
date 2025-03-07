@@ -29,10 +29,18 @@ export const WithButton: Story = {
 export const WithList: Story = {
   render: () => html`
     <pp-list style="max-width: 240px;">
-      <pp-list-item>Option 1</pp-list-item>
-      <pp-list-item>Option 2</pp-list-item>
-      <pp-list-item>Option 3
-          <span class="badge badge--accent badge--pill" slot="suffix">12</span>
+      <pp-list-item>
+        <iconify-icon class="icon" icon="${randomIcon()}" slot="prefix"></iconify-icon>
+        ${faker.hacker.verb()}
+      </pp-list-item>
+      <pp-list-item>
+        <iconify-icon class="icon" icon="${randomIcon()}" slot="prefix"></iconify-icon>
+        ${faker.hacker.verb()}
+      </pp-list-item>
+      <pp-list-item>
+        <iconify-icon class="icon" icon="${randomIcon()}" slot="prefix"></iconify-icon>
+        ${faker.hacker.verb()}
+        <span class="badge badge--accent badge--pill" slot="suffix">12</span>
       </pp-list-item>
     </pp-list>
   `,
