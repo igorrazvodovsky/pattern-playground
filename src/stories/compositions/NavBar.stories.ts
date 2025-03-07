@@ -9,7 +9,7 @@ const meta = {
 export default meta;
 type Story = StoryObj;
 
-export const MenuBar: Story = {
+export const NavBar: Story = {
   args: {},
   render: () => html`
     <nav class="navigation">

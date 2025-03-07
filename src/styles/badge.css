@@ -5,11 +5,15 @@
   flex-wrap: wrap;
   gap: var(--space-xs);
   max-width: 100%;
+  container-type: inline-size;
 }
 
 .badge {
   --badge-bg: var(--c-background);
   --badge-color: oklch(from var(--badge-bg) var(--l) 0 h / 90%);
+  --badge-space-block: 0.35em;
+  --badge-space-inline: 0.65em;
+  --badge-text: 0.75em;
 
   --l-threshold: 0.7;
   --l: clamp(0, (l / var(--l-threshold) - 1) * -infinity, 1);
@@ -18,15 +22,18 @@
 
   background: var(--badge-bg);
   border: var(--border);
-  padding: var(--space-xs) var(--space-s);
+  padding: var(--badge-space-block) var(--badge-space-inline);
   border-radius: var(--radius-m);
-  font-size: var(--text-xs);
+  font-size: var(--badge-text);
+  /* font-weight: var(--font-weight-normal); */
   line-height: 100%;
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.5ch;
   /* overflow: hidden; */
+  white-space: nowrap;
+  max-width: 100%;
 }
 
 .badge:not(.counter):empty {
@@ -64,7 +71,7 @@ a.badge {
 }
 
 .badge span {
-  max-width: 20ch;
+  max-width: 40cqw;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -88,23 +95,28 @@ a.badge {
   border-color: transparent;
 }
 
-.badge.badge--accent {
+.badge.badge--accent,
+.badge.badge--accent.badge--plain:before {
   --badge-bg: var(--c-accent);
 }
 
-.badge.badge--info {
+.badge.badge--info,
+.badge.badge--info.badge--plain:before {
   --badge-bg: var(--c-info-500);
 }
 
-.badge.badge--success {
+.badge.badge--success,
+.badge.badge--success.badge--plain:before {
   --badge-bg: var(--c-success-500);
 }
 
-.badge.badge--warning {
+.badge.badge--warning,
+.badge.badge--warning.badge--plain:before {
   --badge-bg: var(--c-warning-500);
 }
 
-.badge.badge--danger {
+.badge.badge--danger,
+.badge.badge--danger.badge--plain:before {
   --badge-bg: var(--c-danger-500);
 }
 
@@ -141,4 +153,28 @@ button .badge,
   transform: translate(50%, -50%);
   transform-origin: 100% 0%;
   box-shadow: 0 0 0 1px var(--c-background);
+}
+
+.badge.badge--plain {
+  --badge-bg: var(--c-background);
+  border-color: var(--c-border);
+  padding-inline-start: var(--space-l);
+  position: relative;
+}
+
+.badge.badge--plain:before {
+  content: "";
+  position: absolute;
+  border-radius: var(--radius-circle);
+  width: calc(var(--space-s) - 1px);
+  height: calc(var(--space-s) - 1px);
+  padding: 0;
+  left: 0.5em;
+  background: var(--badge-bg);
+}
+
+/* for icon-only badges */
+.badge:has(.inclusively-hidden) {
+  border-radius: 50%;
+  padding: 0.5em;
 }

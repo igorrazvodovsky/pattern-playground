@@ -11,7 +11,7 @@
   display: none;
 }
 
-.sbdocs h2 {
+.sbdocs > h2 {
   margin-block: 2rem 1rem;
   border-bottom: none;
 }
@@ -32,7 +32,10 @@
   margin-bottom: 2rem !important;
 }
 
-.card a::first-letter, button::first-letter {
+.card a::first-letter,
+button::first-letter,
+h4::first-letter,
+h3::first-letter {
   text-transform: capitalize;
 }
 
@@ -104,8 +107,8 @@ resize-asaurus > .resize-asaurus-container {
 }
  */
 
-.sbdocs h1,
-.sbdocs h2 {
+.sbdocs > h1,
+.sbdocs > h2 {
   margin-block: 2rem 1rem !important;
 }
 
@@ -121,4 +124,15 @@ resize-asaurus > .resize-asaurus-container {
   & .hue-value::before {
     content: var(--h);
   }
+}
+
+.sb-story {
+  border: 1px solid var(--c-neutral-100);
+  padding: 1.5rem;
+  border-radius: var(--radius-m);
+}
+
+.docs-story .sb-story {
+  border: none;
+  padding: 0;
 }

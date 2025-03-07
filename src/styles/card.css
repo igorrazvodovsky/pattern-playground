@@ -50,3 +50,13 @@
 .card a:is(:hover, :focus-visible) {
   text-decoration: underline;
 }
+
+.card__attributes {
+  overflow: hidden;
+}
+
+.card__header {
+  display: flex;
+  gap: var(--space-m);
+  justify-content: space-between;
+}

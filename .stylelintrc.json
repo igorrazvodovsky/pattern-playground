@@ -1,12 +1,21 @@
 {
   "extends": ["stylelint-config-standard"],
   "plugins": [
-    "stylelint-gamut"
+    "stylelint-gamut",
+    "stylelint-selector-bem-pattern"
   ],
   "rules": {
     "gamut/color-no-out-gamut-range": true,
     "function-disallowed-list": ["rgba", "hsla", "rgb", "hsl"],
     "color-function-notation": "modern",
-    "color-no-hex": true
+    "color-no-hex": true,
+    "plugin/selector-bem-pattern": {
+      "componentName": "[A-Z]+",
+      "componentSelectors": {
+        "initial": "^\\.{componentName}(?:-[a-z]+)?$",
+        "combined": "^\\.combined-{componentName}-[a-z]+$"
+      },
+      "utilitySelectors": "^\\.util-[a-z]+$"
+    }
   }
 }

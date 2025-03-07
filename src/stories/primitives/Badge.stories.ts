@@ -16,6 +16,15 @@ export const Badge: Story = {
   render: () => html`<span class="badge">Badge</span>`,
 };
 
+export const Size: Story = {
+  render: () => html`
+  <div class="flow">
+    <h2 style="display: flex; gap: 0.5ch; align-items: center;">Heading 2 <span class="badge badge--pill badge--danger">Large</span></h2>
+    <p>In a paragraph <span class="badge">Small</span></p>
+  </div>
+  `,
+};
+
 export const WithButton: Story = {
   render: () => html`
   <div style="display: flex; gap: 1rem; align-items: center;">
@@ -70,7 +79,7 @@ export const Pulse: Story = {
   `,
 };
 
-export const Purpose: Story = {
+export const PurposeHighEmphasis: Story = {
   render: () => html`
     <span class="badge">Default</span>
     <span class="badge badge--accent">Accent</span>
@@ -78,6 +87,16 @@ export const Purpose: Story = {
     <span class="badge badge--success">Success</span>
     <span class="badge badge--warning">Warning</span>
     <span class="badge badge--danger">Danger</span>
+  `,
+};
+
+export const PurposeLowEmphasis: Story = {
+  render: () => html`
+    <span class="badge badge--plain badge--pill badge--accent">Accent</span>
+    <span class="badge badge--plain badge--pill badge--info">Info</span>
+    <span class="badge badge--plain badge--pill badge--success">Success</span>
+    <span class="badge badge--plain badge--pill badge--warning">Warning</span>
+    <span class="badge badge--plain badge--pill badge--danger">Danger</span>
   `,
 };
 
@@ -107,7 +126,10 @@ export const withIcon: Story = {
 };
 
 export const IconOnly: Story = {
-  render: () => html`<span class="badge badge--pill"><iconify-icon class="icon" icon="${randomIcon()}" slot="icon"></iconify-icon></span>`,
+  render: () => html`
+    <span class="badge badge--accent badge--pill"><iconify-icon class="icon" icon="ph:heart-fill" slot="icon"></iconify-icon><span class="inclusively-hidden">Heart</span></span>
+    <span class="badge badge--success badge--pill"><iconify-icon class="icon" icon="ph:check-fat-fill" slot="icon"></iconify-icon><span class="inclusively-hidden">Success</span></span>
+  `,
 };
 
 // https://codepen.io/alvaromontoro/pen/OJqOVyO

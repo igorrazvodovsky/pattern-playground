@@ -1,0 +1,64 @@
+import { Meta, Story, Canvas, Subtitle } from '@storybook/blocks';
+import * as CardStories from './Card.stories.ts';
+
+<Meta of = { CardStories } />
+
+{/* > 🥱 **Fun meter: boring**. Included as a prerequisite for more interesting things. */}
+
+# Card
+
+Cards are used to group related subjects in a container.
+
+<Canvas>
+  <Story of={ CardStories.Article } />
+</Canvas>
+
+## Basic card
+
+It grows from here.
+
+<Story of={ CardStories.Basic } />
+
+## Anatomy
+
+...
+
+### Body
+
+<Story of={ CardStories.Body } />
+
+### Attributes
+
+<Story of={ CardStories.Attributes } />
+
+### Header
+
+<Story of={ CardStories.Header } />
+
+### Footer
+
+<Story of={ CardStories.Footer } />
+
+### Image
+
+## Variants
+
+### Link
+
+### Selectable
+
+## Layout
+
+...
+
+### Grid
+
+<Story of={ CardStories.LayoutGrid } />
+
+### List
+
+<Story of={ CardStories.LayoutList } />
+
+### Default
+
+...
