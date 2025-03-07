@@ -21,6 +21,7 @@
     "@storybook/web-components": "^8.5.0",
     "@storybook/web-components-vite": "^8.5.0",
     "@types/node": "^22.10.7",
+    "composed-offset-position": "^0.0.6",
     "lit": "^3.2.1",
     "storybook": "^8.5.0",
     "typescript": "~5.6.2",
@@ -28,6 +29,7 @@
     "vite-plugin-dts": "^4.5.0"
   },
   "dependencies": {
+    "@floating-ui/dom": "^1.6.13",
     "@microsoft/fast-element": "^2.0.1",
     "iconify-icon": "^2.3.0"
   }

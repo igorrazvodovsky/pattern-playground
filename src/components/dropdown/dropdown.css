@@ -1,0 +1,47 @@
+:host {
+  /* Conflicts with priority+ */
+  /* display: inline-block; */
+}
+
+.dropdown::part(popup) {
+  z-index: var(--layer-dropdown);
+}
+
+.dropdown[data-current-placement^="top"]::part(popup) {
+  transform-origin: bottom;
+}
+
+.dropdown[data-current-placement^="bottom"]::part(popup) {
+  transform-origin: top;
+}
+
+.dropdown[data-current-placement^="left"]::part(popup) {
+  transform-origin: right;
+}
+
+.dropdown[data-current-placement^="right"]::part(popup) {
+  transform-origin: left;
+}
+
+.dropdown__trigger {
+  display: block;
+}
+
+.dropdown__panel {
+  font-size: var(--text-m);
+  font-weight: var(--font-weight-normal);
+  box-shadow: var(--shadow-l);
+  border-radius: var(--radius-m);
+  pointer-events: none;
+}
+
+.dropdown--open .dropdown__panel {
+  display: block;
+  pointer-events: all;
+}
+
+/* When users slot a list, make sure it conforms to the popup's auto-size */
+::slotted(pp-list) {
+  max-width: var(--auto-size-available-width) !important;
+  max-height: var(--auto-size-available-height) !important;
+}

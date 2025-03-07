@@ -60,9 +60,9 @@ export function lockBodyScrolling(lockingEl: HTMLElement) {
 
   // When the first lock is created, set the scroll lock size to match the scrollbar's width to prevent content from
   // shifting. We only do this on the first lock because the scrollbar width will measure zero after overflow is hidden.
-  if (!document.documentElement.classList.contains('tx-scroll-lock')) {
+  if (!document.documentElement.classList.contains('pp-scroll-lock')) {
     /** Scrollbar width + body padding calculation can go away once Safari has scrollbar-gutter support. */
-    const scrollbarWidth = getScrollbarWidth() + getExistingBodyPadding(); // must be measured before the `tx-scroll-lock` class is applied
+    const scrollbarWidth = getScrollbarWidth() + getExistingBodyPadding(); // must be measured before the `pp-scroll-lock` class is applied
 
     let scrollbarGutterProperty = getComputedStyle(document.documentElement).scrollbarGutter;
 
@@ -75,9 +75,9 @@ export function lockBodyScrolling(lockingEl: HTMLElement) {
       // if there's no scrollbar, just set it to "revert" so whatever the user has set gets used. This is useful is the page is not overflowing and showing a scrollbar, or if the user has overflow: hidden, or any other reason a scrollbar may not be showing.
       scrollbarGutterProperty = 'revert';
     }
-    document.documentElement.style.setProperty('--tx-scroll-lock-gutter', scrollbarGutterProperty);
-    document.documentElement.classList.add('tx-scroll-lock');
-    document.documentElement.style.setProperty('--tx-scroll-lock-size', `${scrollbarWidth}px`);
+    document.documentElement.style.setProperty('--pp-scroll-lock-gutter', scrollbarGutterProperty);
+    document.documentElement.classList.add('pp-scroll-lock');
+    document.documentElement.style.setProperty('--pp-scroll-lock-size', `${scrollbarWidth}px`);
   }
 }
 
@@ -86,7 +86,7 @@ export function unlockBodyScrolling(lockingEl: HTMLElement) {
   locks.delete(lockingEl);
 
   if (locks.size === 0) {
-    document.documentElement.classList.remove('tx-scroll-lock');
-    document.documentElement.style.removeProperty('--tx-scroll-lock-size');
+    document.documentElement.classList.remove('pp-scroll-lock');
+    document.documentElement.style.removeProperty('--pp-scroll-lock-size');
   }
 }

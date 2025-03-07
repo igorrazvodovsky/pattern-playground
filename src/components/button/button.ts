@@ -1,4 +1,4 @@
-export class Button extends HTMLButtonElement {
+export class PpButton extends HTMLButtonElement {
   constructor() {
     super();
   }
@@ -12,4 +12,4 @@ export class Button extends HTMLButtonElement {
   // }
 }
 
-customElements.define("ir-button", Button, { extends: "button" });
+customElements.define("pp-buton", PpButton, { extends: "button" });

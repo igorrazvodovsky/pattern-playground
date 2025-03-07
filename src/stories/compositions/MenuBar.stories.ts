@@ -3,37 +3,31 @@ import { html } from "lit";
 import { faker } from '@faker-js/faker';
 
 const meta = {
-  title: "Compositions/Menu bar 🚧",
-  tags: ["autodocs"],
+  title: "Compositions/Nav bar 🚧",
 } satisfies Meta;
 
 export default meta;
 type Story = StoryObj;
 
-export const Default: Story = {
+export const MenuBar: Story = {
   args: {},
   render: () => html`
     <nav class="navigation">
-      <h1 class="logo">Acme</h1>
+      <h1 class="logo">${faker.company.name()}</h1>
 
-      <div class="navigation__menu">
-        <button is="ir-button" aria-expanded="false" aria-controls="#menu">
-          <iconify-icon class="icon" icon="ph:list"></iconify-icon>
-          <span class="inclusively-hidden">Menu</span>
-        </button>
-
-        <ul id="menu" role="list">
-          <li><button class="button--plain" is="ir-button">${faker.word.words()}</button></li>
-          <li><button class="button--plain" is="ir-button">${faker.word.words()}</button></li>
-          <li><button class="button--plain" is="ir-button">${faker.word.words()}</button></li>
-          <li><button class="button--plain" is="ir-button">${faker.word.words()}</button></li>
-          <li><button class="button--plain" is="ir-button">${faker.word.words()}</button></li>
-        </ul>
-      </div>
+      <pp-p-plus>
+        <div>
+          <button class="button--plain" is="pp-buton">${faker.company.buzzNoun()}</button>
+          <button class="button--plain" is="pp-buton">${faker.company.buzzNoun()}</button>
+          <button class="button--plain" is="pp-buton">${faker.company.buzzNoun()}</button>
+          <button class="button--plain" is="pp-buton">${faker.company.buzzNoun()}</button>
+          <button class="button--plain" is="pp-buton">${faker.company.buzzNoun()}</button>
+        </div>
+      </pp-p-plus>
 
       <div class="navigation__actions">
-        <button is="ir-button">Login</button>
-        <button is="ir-button">Sign up</button>
+        <button is="pp-buton">Login</button>
+        <button is="pp-buton">Sign up</button>
       </div>
     </nav>
   `,

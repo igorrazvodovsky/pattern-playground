@@ -8,9 +8,9 @@
 export class SimpleTable extends HTMLElement {
 }
 
-customElements.define('ir-table', SimpleTable);
+customElements.define('pp-table', SimpleTable);
 declare global {
   interface HTMLElementTagNameMap {
-    "ir-table": SimpleTable;
+    "pp-table": SimpleTable;
   }
 }

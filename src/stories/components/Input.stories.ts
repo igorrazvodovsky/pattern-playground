@@ -13,7 +13,7 @@ export const Default: Story = {
   args: {
     value: 'Test',
   },
-  render: () => html` <ir-input></ir-input>`,
+  render: () => html` <pp-input></pp-input>`,
 };
 
 export const Disabled: Story = {
@@ -21,7 +21,7 @@ export const Disabled: Story = {
     value: 'Test',
   },
   render: () => html`
-  <ir-input placeholder="Disabled" disabled></ir-input>
+  <pp-input placeholder="Disabled" disabled></pp-input>
   `,
 };
 
@@ -30,26 +30,26 @@ export const Disabled: Story = {
  */
 export const Addons: Story = {
   render: () => html`
-    <ir-input value="Value">
+    <pp-input value="Value">
       <iconify-icon class="icon" icon="ph:circle-dashed" slot="prefix"></iconify-icon>
-    </ir-input>
+    </pp-input>
     <br />
-    <ir-input value="Value">
+    <pp-input value="Value">
       <iconify-icon class="icon" icon="ph:magnifying-glass" slot="suffix"></iconify-icon>
-    </ir-input>
+    </pp-input>
     <br />
-    <ir-input value="Value">
+    <pp-input value="Value">
       <iconify-icon class="icon" icon="ph:chat" slot="prefix"></iconify-icon>
       <iconify-icon class="icon" icon="ph:arrow-elbow-down-left" slot="suffix"></iconify-icon>
-    </ir-input>
+    </pp-input>
     <br />
-    <ir-input value="100">
+    <pp-input value="100">
       <iconify-icon class="icon" icon="ph:currency-dollar" slot="prefix"></iconify-icon>
-    </ir-input>
+    </pp-input>
     <br />
-    <ir-input value="1">
+    <pp-input value="1">
       <small slot="suffix">+112.00 €/pc.</small>
       <iconify-icon class="icon" icon="ph:caret-down" slot="suffix"></iconify-icon>
-    </ir-input>
+    </pp-input>
   `,
 };

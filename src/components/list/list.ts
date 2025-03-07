@@ -2,7 +2,7 @@ import { LitElement, html, unsafeCSS } from 'lit';
 import { query } from 'lit/decorators.js';
 import styles from './list.css?inline';
 import type { CSSResultGroup } from 'lit';
-import type PpListItem from '../list-item/list-item';
+import type { PpListItem } from '../list-item/list-item';
 
 export interface ListSelectEventDetail {
   item: PpListItem;

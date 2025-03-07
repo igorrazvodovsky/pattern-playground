@@ -1,22 +1,53 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-
-// import iconsData from "./icons"
 import { faker } from '@faker-js/faker';
+import { icons } from "../icons.ts";
 
-// const icons = Object.keys(iconsData).filter((icon) => !icon.includes("fill"));
-// function randomIcon() { return icons[icons.length * Math.random() << 0] }
+function randomIcon() { return 'ph:' + icons[icons.length * Math.random() << 0].name }
 
 const meta = {
-  title: "Primitives/Priority+ 🚧",
+  title: "Primitives/Priority+",
   argTypes: {},
 } satisfies Meta;
 
 export default meta;
 type Story = StoryObj;
 
-export const Default: Story = {
+export const PriorityPlus: Story = {
   args: {},
-  render: () => html``,
+  render: () => html`
+    <pp-p-plus>
+      <div style="display: flex; gap: 1ch; align-items: center;">
+        <button is="pp-button">
+          <iconify-icon class="icon" icon="${randomIcon()}" slot="prefix"></iconify-icon>
+          ${faker.word.verb() + ' ' + faker.word.noun()}
+        </button>
+        <button is="pp-button">
+          <iconify-icon class="icon" icon="${randomIcon()}" slot="prefix"></iconify-icon>
+          ${faker.word.verb() + ' ' + faker.word.noun()}
+        </button>
+        <button is="pp-button">
+          <iconify-icon class="icon" icon="${randomIcon()}" slot="prefix"></iconify-icon>
+          ${faker.word.verb() + ' ' + faker.word.noun()}
+        </button>
+        <button is="pp-button">
+          <iconify-icon class="icon" icon="${randomIcon()}" slot="prefix"></iconify-icon>
+          ${faker.word.verb() + ' ' + faker.word.noun()}
+        </button>
+        <button is="pp-button">
+          <iconify-icon class="icon" icon="${randomIcon()}" slot="prefix"></iconify-icon>
+          ${faker.word.verb() + ' ' + faker.word.noun()}
+        </button>
+        <button is="pp-button">
+          <iconify-icon class="icon" icon="${randomIcon()}" slot="prefix"></iconify-icon>
+          ${faker.word.verb() + ' ' + faker.word.noun()}
+        </button>
+        <button is="pp-button">
+          <iconify-icon class="icon" icon="${randomIcon()}" slot="prefix"></iconify-icon>
+          ${faker.word.verb() + ' ' + faker.word.noun()}
+        </button>
+      </div>
+    </pp-p-plus>
+  `,
 };
 

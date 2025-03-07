@@ -19,8 +19,8 @@ export const Badge: Story = {
 export const WithButton: Story = {
   render: () => html`
   <div style="display: flex; gap: 1rem; align-items: center;">
-    <button is="ir-button">Requests<sup class="badge badge--pill badge--info">12</sup></button>
-    <button is="ir-button"> <iconify-icon class="icon" icon="ph:circle-dashed"></iconify-icon><span class="inclusively-hidden">Icon button</span><sup class="badge badge--pill badge--danger"></sup></button>
+    <button is="pp-buton">Requests<sup class="badge badge--pill badge--info">12</sup></button>
+    <button is="pp-buton"> <iconify-icon class="icon" icon="ph:circle-dashed"></iconify-icon><span class="inclusively-hidden">Icon button</span><sup class="badge badge--pill badge--danger"></sup></button>
     <div class="avatar"><sup class="badge badge--pill badge--danger">99+</sup></div>
   </div>
   `,
@@ -72,6 +72,7 @@ export const Pulse: Story = {
 
 export const Purpose: Story = {
   render: () => html`
+    <span class="badge">Default</span>
     <span class="badge badge--accent">Accent</span>
     <span class="badge badge--info">Info</span>
     <span class="badge badge--success">Success</span>
@@ -82,6 +83,7 @@ export const Purpose: Story = {
 
 export const Pill: Story = {
   render: () => html`
+    <span class="badge badge--pill">Default</span>
     <span class="badge badge--pill badge--accent">Accent</span>
     <span class="badge badge--pill badge--info">Info</span>
     <span class="badge badge--pill badge--success">Success</span>

@@ -1,6 +1,6 @@
 /* TODO: styles for usage in panels */
 
-ir-table {
+pp-table {
   all: unset;
   -webkit-user-select: inherit;
   user-select: inherit;
@@ -11,7 +11,7 @@ ir-table {
   --_td-padding: var(--space-s);
 }
 
-ir-table table {
+pp-table table {
   inline-size: 100%;
   font-size: var(--text-s);
   font-family: var(--font-family);
@@ -27,7 +27,7 @@ ir-table table {
   outline-offset: -1px;
 }
 
-ir-table th {
+pp-table th {
   border-block-end: 1px solid var(--c-border);
   /* border: 1px solid var(--c-border); */
   font-weight: var(--font-weight-semibold);
@@ -36,65 +36,65 @@ ir-table th {
   text-align: start;
 }
 
-ir-table td {
+pp-table td {
   border-block-end: 1px solid var(--c-border);
   /* border: 1px solid var(--c-border); */
   white-space: nowrap;
 }
 
-ir-table :is(td, th) {
+pp-table :is(td, th) {
   padding: var(--_td-padding);
 }
 
-ir-table :is(td, th):first-child {
+pp-table :is(td, th):first-child {
   padding-inline-start: var(--space-m);
 }
 
-ir-table :is(td, th):last-child {
+pp-table :is(td, th):last-child {
   padding-inline-end: var(--space-m);
 }
 
-ir-table tbody tr:hover {
+pp-table tbody tr:hover {
   background: oklch(0% 0 0 / 5%);
 }
 
-ir-table tbody :is(.row-selected, .row-selected:hover) {
+pp-table tbody :is(.row-selected, .row-selected:hover) {
   background: var(--c-active-bg);
   color: var(--c-accent);
   opacity: 1;
   cursor: default;
 }
 
-ir-table tbody :is(tr:hover, .row-selected) td {
+pp-table tbody :is(tr:hover, .row-selected) td {
   color: var(--c-accent);
 }
 
-ir-table th[aria-sort] {
+pp-table th[aria-sort] {
   cursor: pointer;
 }
 
-ir-table th[aria-sort]:not([aria-sort="none"]) {
+pp-table th[aria-sort]:not([aria-sort="none"]) {
   color: var(--c-accent);
 }
 
-ir-table[density="condensed"] {
+pp-table[density="condensed"] {
   --_td-padding: calc(var(--space-m) * 0.5);
 }
 
-ir-table[density="relaxed"] {
+pp-table[density="relaxed"] {
   --_td-padding: calc(var(--space-m) * 1.1);
 }
 
-ir-table[scroll-snap] {
+pp-table[scroll-snap] {
   scroll-snap-type: inline mandatory;
   scroll-behavior: smooth;
 }
 
-ir-table[scroll-snap] :is(th, td) {
+pp-table[scroll-snap] :is(th, td) {
   scroll-snap-align: start;
 }
 
-ir-table .ir-table-ellipsis {
+pp-table .pp-table-ellipsis {
   max-inline-size: 0;
   inline-size: 90%;
   overflow: hidden;
@@ -102,20 +102,20 @@ ir-table .ir-table-ellipsis {
   white-space: nowrap;
 }
 
-ir-table .ir-table-align-right {
+pp-table .pp-table-align-right {
   text-align: end;
 }
 
-ir-table .ir-table-actions {
+pp-table .pp-table-actions {
   display: flex;
   justify-content: center;
 }
 
-ir-table .ir-table-actions button {
+pp-table .pp-table-actions button {
   margin-block: -10px;
 }
 
-ir-table table .resizer {
+pp-table table .resizer {
   position: absolute;
   top: 0;
   right: 0;

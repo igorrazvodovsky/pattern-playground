@@ -158,9 +158,9 @@ export class PpInput extends LitElement {
   }
 }
 
-customElements.define('ir-input', PpInput);
+customElements.define('pp-input', PpInput);
 declare global {
   interface HTMLElementTagNameMap {
-    "ir-input": PpInput;
+    "pp-input": PpInput;
   }
 }

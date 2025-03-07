@@ -2,7 +2,6 @@
   button {
     --button-color: oklch(from var(--button-bg) var(--l) 0 h / 90%);
     --button-bg: var(--c-background);
-    --button-border: transparent;
     --button-box-shadow: 0 1px 3px rgba(12, 12, 12, 0.09);
 
     --l-threshold: 0.7;
@@ -15,13 +14,12 @@
     border-radius: var(--radius-m);
     cursor: pointer;
     white-space: nowrap;
-    &:not([class]) {
-      --button-border: var(--c-border);
+    line-height: 100%;
+    --button-border: var(--c-border);
 
-      &:not(:disabled):hover {
-        --button-border: oklch(from var(--c-border) calc(l - 0.5) c h);
-        --button-bg: var(--c-neutral-50);
-      }
+    &:not(:disabled):hover {
+      --button-border: oklch(from var(--c-border) calc(l - 0.5) c h);
+      --button-bg: var(--c-neutral-50);
     }
 
     &:has(.icon) {
@@ -50,7 +48,7 @@
     } */
 
     &:not(:has(.inclusively-hidden)) {
-      padding: var(--button-padding, 0.25em 0.75em);
+      padding: var(--button-padding, var(--space-s) var(--space-m));
     }
 
     &:active {
@@ -61,6 +59,7 @@
 
     &.button--danger {
       --button-bg: var(--c-danger-500);
+      --button-border: transparent;
       font-weight: 500;
 
       &:not(:disabled):hover {
@@ -70,6 +69,7 @@
 
     &.button--primary {
       --button-bg: var(--c-accent);
+      --button-border: transparent;
       font-weight: 500;
 
       &:not(:disabled):hover {
@@ -83,6 +83,7 @@
 
       &:hover {
         --button-bg: var(--c-neutral-50);
+        --button-border: transparent;
       }
     }
   }

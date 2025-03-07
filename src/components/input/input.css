@@ -52,7 +52,7 @@
 }
 
 .input.input--disabled .input__control {
-  color: var(--c-accent);
+  color: var(--c-body);
 }
 
 .input.input--disabled .input__control::placeholder {
@@ -67,7 +67,7 @@
   font-weight: inherit;
   min-width: 0;
   height: 100%;
-  color: var(--c-accent);
+  color: var(--c-body);
   border: none;
   background: inherit;
   box-shadow: none;
@@ -133,7 +133,7 @@
   width: calc(1em + var(--space-s) * 2);
 }
 
-.input--small .input__prefix ::slotted(*:not(tx-button)) {
+.input--small .input__prefix ::slotted(*:not(button)) {
   margin-inline-start: var(--space-s);
 }
 
@@ -157,11 +157,11 @@
   width: calc(1em + var(--space-m) * 2);
 }
 
-.input--medium .input__prefix ::slotted(*:not(tx-button)) {
+.input--medium .input__prefix ::slotted(*:not(button)) {
   margin-inline-start: var(--space-m);
 }
 
-.input--medium .input__prefix ::slotted(tx-button) {
+.input--medium .input__prefix ::slotted(button) {
   margin-inline-start: var(--space-xs);
 }
 

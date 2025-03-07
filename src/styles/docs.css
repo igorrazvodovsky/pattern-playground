@@ -32,7 +32,7 @@
   margin-bottom: 2rem !important;
 }
 
-.card a::first-letter {
+.card a::first-letter, button::first-letter {
   text-transform: capitalize;
 }
 
@@ -93,10 +93,6 @@
 resize-asaurus > .resize-asaurus-container {
   padding: 2rem;
   border: 1px solid oklch(0% 0 0 / 10%);
-}
-
-.sb-main-padded.sb-show-main:has(tx-viz) {
-  padding: 0;
 }
 
 .sbdocs.sbdocs-content {

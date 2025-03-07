@@ -1,4 +1,4 @@
-export { Button } from './components/button/button.ts';
+export { PpButton } from './components/button/button.ts';
 export { Spinner } from './components/spinner/spinner.ts';
 export { SimpleTable } from './components/table/table.ts';
 export { PpInput } from './components/input/input.ts';
@@ -7,3 +7,6 @@ export { PpTabPanel } from './components/tab-panel/tab-panel.ts';
 export { PpTabGroup } from './components/tab-group/tab-group.ts';
 export { PpListItem } from './components/list-item/list-item.ts';
 export { PpList } from './components/list/list.ts';
+export { PpDropdown } from './components/dropdown/dropdown.ts';
+export { PpPopup } from './components/popup/popup.ts';
+export { PpPriorityPlus } from './components/priority-plus/priority-plus.ts';

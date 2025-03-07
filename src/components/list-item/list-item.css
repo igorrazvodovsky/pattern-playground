@@ -73,6 +73,8 @@
   flex: 0 0 auto;
   display: flex;
   align-items: center;
+  /* TODO: move to submenu slot*/
+  min-width: 1em;
 }
 
 .list-item .list-item__suffix::slotted(*) {

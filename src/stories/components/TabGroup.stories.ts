@@ -7,14 +7,11 @@ import { icons } from "../icons.ts";
 
 function randomIcon() { return 'ph:' + icons[icons.length * Math.random() << 0].name }
 
-// More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
   title: "Components/Tabs",
   tags: ["autodocs"],
   component: 'pp-tabs',
-  // render: (args) => TxTabGroup(args),
   argTypes: {
-    // activation
   },
 } satisfies Meta;
 
@@ -25,8 +22,9 @@ const tabs = Array.from(
   map(
     range(20),
     (i) =>
-      html`<pp-tab slot="nav" panel=${i}> ${faker.commerce.productName()} </pp-tab>
-        <pp-tab-panel name=${i}> ${faker.lorem.paragraph()}</pp-tab-panel>`
+      html`
+<pp-tab slot="nav" panel=${i}> ${faker.commerce.productName()} </pp-tab>
+<pp-tab-panel name=${i}> ${faker.lorem.paragraph()}</pp-tab-panel>`
   )
 );
 
