@@ -10,13 +10,13 @@ function randomFillIcon() {
 }
 
 const meta = {
-  title: "Primitives/Badge 🚧",
+  title: "Primitives/Badge",
 } satisfies Meta;
 
 export default meta;
 type Story = StoryObj;
 
-export const Badge: Story = {
+export const Basic: Story = {
   render: () => html`<span class="badge">Badge</span>`,
 };
 
@@ -162,6 +162,10 @@ export const IconOnlyInAGroup: Story = {
       <span class="badge">0.36°</span>
     </div>
   `,
+};
+
+export const Link: Story = {
+  render: () => html`<a href="#" class="badge">Badge</a>`,
 };
 
 // https://codepen.io/alvaromontoro/pen/OJqOVyO

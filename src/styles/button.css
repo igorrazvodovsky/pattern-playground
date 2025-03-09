@@ -17,7 +17,8 @@
     cursor: pointer;
   }
 
-  .button {
+  /* TODO: FIX */
+  .button:not(pp-list-item) {
     border: 1px solid var(--button-border);
     box-shadow: var(--button-box-shadow);
     border-radius: var(--radius-m);

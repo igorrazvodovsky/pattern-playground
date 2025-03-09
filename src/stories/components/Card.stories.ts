@@ -23,7 +23,7 @@ const cardsData = faker.helpers.multiple(createCardData, { count: 5 })
 const attributes = faker.helpers.multiple(createAttribute, { count: 5 })
 
 const meta = {
-  title: "Components/Card 🚧",
+  title: "Components/Card",
   argTypes: {
     // backgroundColor: { control: "color" },
     loading: { control: 'boolean' }

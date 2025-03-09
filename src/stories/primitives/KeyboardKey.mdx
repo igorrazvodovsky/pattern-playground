@@ -1,0 +1,23 @@
+import { Meta, Story, Canvas } from '@storybook/blocks';
+import * as KeyboardKeyStories from './KeyboardKey.stories.ts';
+
+<Meta of={KeyboardKeyStories} />
+
+{/* On differences between badges and lozenges. Same look, similar semantics */}
+
+> 🥱 **Fun meter: boring**. Included as a prerequisite for more interesting things.
+
+# Keyboard Key
+
+<Canvas>
+  <Story of={ KeyboardKeyStories.KeyboardKey } />
+</Canvas>
+
+## In a list
+
+<Story of={ KeyboardKeyStories.InAList } />
+
+## Todo
+
+- Defining OS-specific keybindings
+- Internationalisation

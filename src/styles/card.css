@@ -74,3 +74,19 @@
 .card:has(.card__header) {
   /* padding-block-start: var(--space-s); */
 }
+
+/* .card:not(:has(:is(.card__header, .card__footer, .card__attributes))) {
+  padding: var(--space-m);
+} */
+
+.card > * {
+  padding-inline: var(--space-m);
+
+  &:first-child {
+    padding-block-start: var(--space-m);
+  }
+
+  &:last-child {
+    padding-block-end: var(--space-m);
+  }
+}

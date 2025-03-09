@@ -10,12 +10,12 @@
   position: relative;
   display: flex;
   align-items: stretch;
-  font-size: var(--text-s);
+  font-size: var(--text-m);
   font-weight: var(--font-weight-normal);
   line-height: var(--line-height-normal);
   letter-spacing: var(--letter-spacing-normal);
   color: var(--c-neutral-700);
-  padding: var(--space-2xs) var(--space-m) var(--space-2xs) var(--space-2xs);
+  padding: var(--space-xs) var(--space-m) var(--space-xs) var(--space-2xs);
   transition: var(--transition-fast) fill;
   user-select: none;
   -webkit-user-select: none;

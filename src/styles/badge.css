@@ -224,3 +224,12 @@ button .badge,
   border-radius: 50%;
   padding: 0.5em;
 }
+
+/* TODO: */
+a.badge {
+  text-decoration: none;
+
+  &:hover {
+    --c-background: var(--c-neutral-50);
+  }
+}

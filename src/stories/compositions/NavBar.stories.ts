@@ -3,7 +3,7 @@ import { html } from "lit";
 import { faker } from '@faker-js/faker';
 
 const meta = {
-  title: "Compositions/Nav bar 🚧",
+  title: "Compositions/Nav bar",
 } satisfies Meta;
 
 export default meta;

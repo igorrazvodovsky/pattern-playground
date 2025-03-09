@@ -1,7 +1,7 @@
 .tag {
   --tag-bg: var(--c-background);
   /* TODO: */
-  --c-background: var(--c-neutral-50);
+  --c-background: var(--c-neutral-0);
   --tag-color: oklch(from var(--badge-bg) var(--l) 0 h / 90%);
   --tag-space-block: var(--space-s);
   --tag-space-inline: var(--space-m);
@@ -27,7 +27,7 @@
 }
 
 .tag:has(input:checked) {
-  --tag-bg: var(--c-background);
+  --c-background: var(--c-neutral-0);
 }
 
 .tag.tag--pill {
