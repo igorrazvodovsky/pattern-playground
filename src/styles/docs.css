@@ -30,6 +30,10 @@
   text-wrap: balance;
 }
 
+:where(a:not(.sb-anchor, .sb-unstyled, .sb-unstyled a)) {
+  /* color: inherit !important; */
+}
+
 .lead {
   font-size: larger !important;
   line-height: var(--globalLineHeight) !important;
