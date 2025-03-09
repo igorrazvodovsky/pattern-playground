@@ -1,19 +1,33 @@
-import { Meta, Story } from '@storybook/blocks';
-import * as PopoverStories from './Popover.stories.ts';
+import { Meta, Story, Canvas } from '@storybook/blocks';
+import * as TagStories from './Tag.stories.ts';
 
-<Meta title="Primitives/Tag 📅" />
+<Meta of={TagStories} />
 
 {/* On differences between badges and lozenges. Same look, similar semantics */}
 
 > 🥱 **Fun meter: boring**. Included as a prerequisite for more interesting things.
 
-# TODO: Tag
+# Tag
 
-- Purpose (info, success, etc.)
-- Link
-- Selectable
-- Removable
-- ...
+<Canvas>
+  <Story of={ TagStories.Basic } />
+</Canvas>
+
+## Removable
+
+<Story of={ TagStories.Removable } />
+
+## Selectable
+
+<Story of={ TagStories.Selectable } />
+
+## Disabled
+
+<Story of={ TagStories.Disabled } />
+
+## Pill
+
+<Story of={ TagStories.Pill } />
 
 ## Related
 

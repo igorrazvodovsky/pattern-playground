@@ -14,7 +14,7 @@ pp-table {
 pp-table table {
   inline-size: 100%;
   font-size: var(--text-s);
-  font-family: var(--font-family);
+  font-family: var(--font);
   line-height: var(--line-height-tight);
   text-align: start;
   border-spacing: 0;

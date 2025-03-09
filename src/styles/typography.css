@@ -1,5 +1,5 @@
 * {
-  font-family: var(--font-family);
+  font-family: var(--font);
 }
 
 :root,
@@ -24,4 +24,13 @@ h5 {
 
 h4 {
   font-weight: 500;
+}
+
+strong {
+  font-weight: var(--font-weight-bold);
+}
+
+.dimmed,
+.muted {
+  opacity: 0.6;
 }

@@ -32,3 +32,9 @@
     container: var(--grid-item-container, grid-item) / inline-size;
   }
 }
+
+.layout-flex {
+  display: flex;
+  gap: 0.5ch;
+  align-items: center;
+}

@@ -15,7 +15,7 @@ export const Dropdown: Story = {
   args: {},
   render: () => html`
     <pp-dropdown>
-      <button is="pp-buton" slot="trigger">
+      <button class="button" is="pp-buton" slot="trigger">
         Dropdown
         <iconify-icon class="icon" icon="ph:caret-down" aria-hidden="true"></iconify-icon>
       </button>

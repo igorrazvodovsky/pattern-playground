@@ -3,6 +3,11 @@
   font-family: inherit !important;
 }
 
+.sbdocs > * > code {
+  font-family: var(--font-code);
+  font-size: smaller !important;
+}
+
 .sbdocs-wrapper {
   padding-inline: 3rem !important;
 }

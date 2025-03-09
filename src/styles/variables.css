@@ -1,7 +1,9 @@
 :root {
   --debug: oklch(63% 0.25 30 / 30%);
 
-  --font-family: system-ui, sans-serif;
+  --font: system-ui, sans-serif;
+  --font-code: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console,
+    monospace;
 
   --_baseTextSize: 0.9rem;
   --_textSizeIncrement: 1.23;

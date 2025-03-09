@@ -142,7 +142,7 @@ function priorityPlus(targetElem: HTMLElement) {
           <button is="pp-button"
             slot="trigger"
             ${dv(El.ToggleBtn)}
-            class="${cn(El.ToggleBtn)}"
+            class="button ${cn(El.ToggleBtn)}"
             aria-expanded="false"
           ><iconify-icon class="icon" icon="ph:dots-three"></iconify-icon>
           </button>

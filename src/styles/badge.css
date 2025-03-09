@@ -22,10 +22,11 @@
 
   background: var(--badge-bg);
   border: var(--border);
+  border-color: var(--c-border);
   padding: var(--badge-space-block) var(--badge-space-inline);
   border-radius: var(--radius-m);
   font-size: var(--badge-text);
-  /* font-weight: var(--font-weight-normal); */
+  font-weight: 400;
   line-height: 100%;
   display: inline-flex;
   align-items: center;
@@ -65,6 +66,7 @@ a.badge {
 }
 
 .badge__label,
+/* .badge .icon, */
 .badge__label svg {
   color: oklch(from var(--badge-color) l c h / 0.6);
   fill: oklch(from var(--badge-color) l c h / 0.6);
@@ -86,39 +88,82 @@ a.badge {
   display: flex;
 }
 
-.badge.badge--accent,
-.badge.badge--info,
-.badge.badge--success,
-.badge.badge--warning,
+/*  */
+
+.badge.badge--accent {
+  --badge-bg: var(--c-accent-50);
+  --badge-color: var(--c-accent-700);
+  border-color: var(--c-border-accent);
+}
+
+.badge.badge--info {
+  --badge-bg: var(--c-info-50);
+  --badge-color: var(--c-info-700);
+  border-color: var(--c-border-info);
+}
+
+.badge.badge--success {
+  --badge-bg: var(--c-success-50);
+  --badge-color: var(--c-success-700);
+  border-color: var(--c-border-success);
+}
+
+.badge.badge--warning {
+  --badge-bg: var(--c-warning-50);
+  --badge-color: var(--c-warning-700);
+  border-color: var(--c-border-warning);
+}
+
 .badge.badge--danger {
+  --badge-bg: var(--c-danger-50);
+  --badge-color: var(--c-danger-700);
+  border-color: var(--c-border-danger);
+}
+
+strong.badge {
   font-weight: 500;
+}
+
+strong.badge.badge--accent,
+strong.badge.badge--info,
+strong.badge.badge--success,
+strong.badge.badge--warning,
+strong.badge.badge--danger {
+  --badge-color: oklch(from var(--badge-bg) var(--l) 0 h / 90%);
   border-color: transparent;
 }
 
-.badge.badge--accent,
+strong.badge.badge--accent,
+.badge--accent:not(.counter):empty,
 .badge.badge--accent.badge--plain:before {
-  --badge-bg: var(--c-accent);
+  --badge-bg: var(--c-accent-500);
 }
 
-.badge.badge--info,
+strong.badge.badge--info,
+.badge--info:not(.counter):empty,
 .badge.badge--info.badge--plain:before {
   --badge-bg: var(--c-info-500);
 }
 
-.badge.badge--success,
+strong.badge.badge--success,
+.badge--success:not(.counter):empty,
 .badge.badge--success.badge--plain:before {
   --badge-bg: var(--c-success-500);
 }
 
-.badge.badge--warning,
+strong.badge.badge--warning,
+.badge--warning:not(.counter):empty,
 .badge.badge--warning.badge--plain:before {
   --badge-bg: var(--c-warning-500);
 }
 
-.badge.badge--danger,
+strong.badge.badge--danger,
+.badge--danger:not(.counter):empty,
 .badge.badge--danger.badge--plain:before {
   --badge-bg: var(--c-danger-500);
 }
+
+/*  */
 
 .badge--pulse {
   position: relative;
@@ -157,6 +202,7 @@ button .badge,
 
 .badge.badge--plain {
   --badge-bg: var(--c-background);
+
   border-color: var(--c-border);
   padding-inline-start: var(--space-l);
   position: relative;
@@ -174,7 +220,7 @@ button .badge,
 }
 
 /* for icon-only badges */
-.badge:has(.inclusively-hidden) {
+.badge:only-child:has(.inclusively-hidden) {
   border-radius: 50%;
   padding: 0.5em;
 }

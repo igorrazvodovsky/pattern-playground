@@ -21,11 +21,10 @@ input[type="checkbox"] {
   margin: 0;
 
   color: currentColor;
-  width: 1.15rem;
-  height: 1.15rem;
+  width: 1rem;
+  height: 1rem;
   border: var(--border);
   border-radius: var(--radius-s);
-  transform: translateY(-0.075em);
 
   display: grid;
   place-content: center;
@@ -35,8 +34,8 @@ input[type="checkbox"]::before {
   content: "✓";
   font-size: smaller;
   font-weight: bold;
-  width: calc(1.15rem + 2px);
-  height: calc(1.15rem + 2px);
+  width: 1rem;
+  height: 1rem;
   text-align: center;
   vertical-align: baseline;
   transition: 120ms opacity ease-in-out;
@@ -46,7 +45,7 @@ input[type="checkbox"]::before {
   color: white;
   opacity: 0;
   /* TODO: */
-  line-height: 140%;
+  line-height: 120%;
 }
 
 input[type="checkbox"]:checked::before {

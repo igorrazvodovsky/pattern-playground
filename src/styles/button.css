@@ -1,5 +1,6 @@
 @layer components {
-  button {
+  button,
+  a.button {
     --button-color: oklch(from var(--button-bg) var(--l) 0 h / 90%);
     --button-bg: var(--c-background);
     --button-box-shadow: 0 1px 3px rgba(12, 12, 12, 0.09);
@@ -9,17 +10,25 @@
 
     color: var(--button-color);
     background-color: var(--button-bg);
+
+    padding: 0;
+    border: none;
+    display: inline-flex;
+    cursor: pointer;
+  }
+
+  .button {
     border: 1px solid var(--button-border);
     box-shadow: var(--button-box-shadow);
     border-radius: var(--radius-m);
-    cursor: pointer;
+
     white-space: nowrap;
     line-height: 100%;
     --button-border: var(--c-border);
 
     &:not(:disabled):hover {
       --button-border: oklch(from var(--c-border) calc(l - 0.5) c h);
-      --button-bg: var(--c-neutral-50);
+      --button-bg: oklch(from var(--c-background) calc(l - 0.05) c h);
     }
 
     &:has(.icon) {
@@ -82,13 +91,13 @@
       --button-box-shadow: none;
 
       &:hover {
-        --button-bg: var(--c-neutral-50);
+        --button-bg: oklch(from var(--c-background) calc(l - 0.05) c h);
         --button-border: transparent;
       }
     }
   }
 
-  button:disabled {
+  .button:disabled {
     cursor: not-allowed;
     opacity: 0.5;
   }

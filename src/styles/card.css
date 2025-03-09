@@ -3,7 +3,7 @@
   --card-bg: white;
 
   background-color: var(--card-bg);
-  padding: 1rem;
+  /* padding: var(--space-m); */
   border: var(--border);
   border-radius: var(--radius-m);
   position: relative;
@@ -53,10 +53,24 @@
 
 .card__attributes {
   overflow: hidden;
+  padding: var(--space-m);
 }
 
-.card__header {
+.card__header,
+.card__footer {
   display: flex;
   gap: var(--space-m);
   justify-content: space-between;
+}
+
+.card__header {
+  padding: var(--space-xs) var(--space-m);
+}
+
+.card__footer {
+  padding: var(--space-m);
+}
+
+.card:has(.card__header) {
+  /* padding-block-start: var(--space-s); */
 }

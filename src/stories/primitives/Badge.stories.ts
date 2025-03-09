@@ -4,6 +4,10 @@ import { faker } from '@faker-js/faker';
 import { icons } from "../icons.ts";
 
 function randomIcon() { return 'ph:' + icons[icons.length * Math.random() << 0].name }
+function randomFillIcon() {
+  const fillIcons = icons.filter(icon => icon.tags.includes('fill'));
+  return 'ph:' + fillIcons[Math.floor(Math.random() * fillIcons.length)].name + '-fill';
+}
 
 const meta = {
   title: "Primitives/Badge 🚧",
@@ -28,8 +32,8 @@ export const Size: Story = {
 export const WithButton: Story = {
   render: () => html`
   <div style="display: flex; gap: 1rem; align-items: center;">
-    <button is="pp-buton">Requests<sup class="badge badge--pill badge--info">12</sup></button>
-    <button is="pp-buton"> <iconify-icon class="icon" icon="ph:circle-dashed"></iconify-icon><span class="inclusively-hidden">Icon button</span><sup class="badge badge--pill badge--danger"></sup></button>
+    <button class="button" is="pp-buton">Requests<strong class="badge badge--pill badge--info">12</strong></button>
+    <button class="button" is="pp-buton"> <iconify-icon class="icon" icon="ph:circle-dashed"></iconify-icon><span class="inclusively-hidden">Icon button</span><sup class="badge badge--pill badge--danger"></sup></button>
     <div class="avatar"><sup class="badge badge--pill badge--danger">99+</sup></div>
   </div>
   `,
@@ -49,7 +53,7 @@ export const WithList: Story = {
       <pp-list-item>
         <iconify-icon class="icon" icon="${randomIcon()}" slot="prefix"></iconify-icon>
         ${faker.hacker.verb()}
-        <span class="badge badge--accent badge--pill" slot="suffix">12</span>
+        <strong class="badge badge--accent badge--pill" slot="suffix">12</strong>
       </pp-list-item>
     </pp-list>
   `,
@@ -58,7 +62,7 @@ export const WithList: Story = {
 export const AttributeValuePair: Story = {
   render: () => html`
     <span class="badge"><span class="badge__label">Attribute</span>Value</span>
-    <span class="badge badge--info"><span class="badge__label">${faker.person.jobTitle()}</span>${faker.person.fullName()}</span>
+    <strong class="badge badge--info"><span class="badge__label">${faker.person.jobTitle()}</span>${faker.person.fullName()}</strong>
   `,
 };
 
@@ -70,23 +74,32 @@ export const AnimatedCounter: Story = {
 export const Pulse: Story = {
   render: () => html`
     <div style="display: flex; gap: 1rem; align-items: center;">
-      <span class="badge badge--pill badge--pulse badge--accent">1</span>
-      <span class="badge badge--pill badge--pulse badge--info">1</span>
-      <span class="badge badge--pill badge--pulse badge--success">1</span>
-      <span class="badge badge--pill badge--pulse badge--warning">1</span>
-      <span class="badge badge--pill badge--pulse badge--danger">1</span>
+      <strong class="badge badge--pill badge--pulse badge--accent">1</strong>
+      <strong class="badge badge--pill badge--pulse badge--info">1</strong>
+      <strong class="badge badge--pill badge--pulse badge--success">1</strong>
+      <strong class="badge badge--pill badge--pulse badge--warning">1</strong>
+      <strong class="badge badge--pill badge--pulse badge--danger">1</strong>
     </div>
   `,
 };
 
-export const PurposeHighEmphasis: Story = {
+export const Purpose: Story = {
   render: () => html`
-    <span class="badge">Default</span>
     <span class="badge badge--accent">Accent</span>
     <span class="badge badge--info">Info</span>
     <span class="badge badge--success">Success</span>
     <span class="badge badge--warning">Warning</span>
     <span class="badge badge--danger">Danger</span>
+  `,
+};
+
+export const PurposeHighEmphasis: Story = {
+  render: () => html`
+    <strong class="badge badge--accent">Accent</strong>
+    <strong class="badge badge--info">Info</strong>
+    <strong class="badge badge--success">Success</strong>
+    <strong class="badge badge--warning">Warning</strong>
+    <strong class="badge badge--danger">Danger</strong>
   `,
 };
 
@@ -122,13 +135,32 @@ export const Dot: Story = {
 };
 
 export const withIcon: Story = {
-  render: () => html`<span class="badge badge--pill"><iconify-icon class="icon" icon="${randomIcon()}" slot="icon"></iconify-icon>${faker.word.words()}</span>`,
+  render: () => html`
+    <span class="badge badge--pill"><iconify-icon class="icon" icon="ph:arrows-vertical" slot="icon"></iconify-icon>3</span>
+    <span class="badge badge--pill"><iconify-icon class="icon" icon="ph-angle" slot="icon"></iconify-icon>45°</span>
+    <span class="badge badge--pill"><iconify-icon class="icon" icon="ph:house" slot="icon"></iconify-icon>Stockholm</span>
+  `,
 };
 
 export const IconOnly: Story = {
   render: () => html`
-    <span class="badge badge--accent badge--pill"><iconify-icon class="icon" icon="ph:heart-fill" slot="icon"></iconify-icon><span class="inclusively-hidden">Heart</span></span>
-    <span class="badge badge--success badge--pill"><iconify-icon class="icon" icon="ph:check-fat-fill" slot="icon"></iconify-icon><span class="inclusively-hidden">Success</span></span>
+  <span>
+    <strong class="badge badge--accent badge--pill"><iconify-icon class="icon" icon="ph:heart-fill" slot="icon"></iconify-icon><span class="inclusively-hidden">Heart</span></strong>
+  </span>
+  <span>
+    <strong class="badge badge--success badge--pill"><iconify-icon class="icon" icon="ph:check-fat-fill" slot="icon"></iconify-icon><span class="inclusively-hidden">Success</span></strong>
+  </span>
+  `,
+};
+
+export const IconOnlyInAGroup: Story = {
+  render: () => html`
+    <div class="layout-flex">
+      <span class="badge">1.7"</span>
+      <span class="badge"><iconify-icon class="icon" icon="ph:arrows-out-line-horizontal" slot="icon"></iconify-icon><span class="inclusively-hidden">Heart</span></span>
+      <span class="badge">4</span>
+      <span class="badge">0.36°</span>
+    </div>
   `,
 };
 

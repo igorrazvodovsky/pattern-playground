@@ -1,0 +1,52 @@
+.tag {
+  --tag-bg: var(--c-background);
+  /* TODO: */
+  --c-background: var(--c-neutral-50);
+  --tag-color: oklch(from var(--badge-bg) var(--l) 0 h / 90%);
+  --tag-space-block: var(--space-s);
+  --tag-space-inline: var(--space-m);
+
+  --l-threshold: 0.7;
+  --l: clamp(0, (l / var(--l-threshold) - 1) * -infinity, 1);
+
+  color: var(--tag-color);
+
+  background: var(--tag-bg);
+  border: var(--border);
+  padding: var(--tag-space-block) var(--tag-space-inline);
+  border-radius: var(--radius-m);
+
+  line-height: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5ch;
+  /* overflow: hidden; */
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.tag:has(input:checked) {
+  --tag-bg: var(--c-background);
+}
+
+.tag.tag--pill {
+  border-radius: var(--radius-pill);
+}
+
+.tag:has(button) {
+  padding: 0 0 0 var(--tag-space-inline);
+}
+
+.tag button {
+  padding: var(--space-s);
+
+  &:not(:disabled):hover {
+    background: oklch(from var(--c-background) calc(l - 0.05) c h);
+  }
+}
+
+.tag:has(button:disabled) {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

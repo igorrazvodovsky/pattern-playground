@@ -130,4 +130,10 @@
   --c-bodyDimmed: oklch(var(--l800) var(--c800-neutral) var(--h) / 0.5);
   --c-fieldBorder: var(--c-neutral-200);
   --c-accent: var(--c-accent-500);
+
+  --c-border-accent: oklch(var(--l800) var(--c800) var(--h) / 0.3);
+  --c-border-info: oklch(var(--l800) var(--c800) var(--hInfo) / 0.3);
+  --c-border-success: oklch(var(--l800) var(--c800) var(--hSuccess) / 0.3);
+  --c-border-warning: oklch(var(--l800) var(--c800) var(--hWarning) / 0.3);
+  --c-border-danger: oklch(var(--l800) var(--c800) var(--hDanger) / 0.3);
 }

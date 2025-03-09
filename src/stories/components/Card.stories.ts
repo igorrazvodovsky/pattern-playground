@@ -85,20 +85,47 @@ export const Attributes: Story = {
 
 export const Header: Story = {
   render: () => html`
-    <section class="cards">
+    <section class="cards layout-grid">
       <article class="card">
         <div class="card__header">
-          <h4>Header title</h4>
-          <button is="pp-buton"> <iconify-icon class="icon" icon="ph:pencil-simple"></iconify-icon><span class="inclusively-hidden">Edit</span></button>
+          <div class="layout-flex">
+            <h4>Header title</h4>
+            <span class="badge">4</span>
+          </div>
+          <button class="button" is="pp-buton"> <iconify-icon class="icon" icon="ph:pencil-simple"></iconify-icon><span class="inclusively-hidden">Edit</span></button>
         </div>
-        <p>This is just a basic card.</p>
+        <p>This card has a header.</p>
+      </article>
+      <article class="card layer">
+        <div class="card__header layer">
+          <div class="layout-flex">
+            <iconify-icon class="icon" icon="ph:music-note"></iconify-icon>
+            <strong>Song title</strong><span class="muted">• Artist</span>
+          </div>
+          <button class="button" is="pp-buton"> <iconify-icon class="icon" icon="ph:pause-fill"></iconify-icon><span class="inclusively-hidden">Edit</span></button>
+        </div>
+        <p>This card has a header.</p>
       </article>
     </section>
   `,
 };
 
 export const Footer: Story = {
-  render: () => html``,
+  render: () => html`
+    <section class="cards">
+      <article class="card">
+        <p>This card has a footer.</p>
+        <div class="card__footer">
+          <div class="layout-flex">
+
+          </div>
+          <div>
+            <button class="button" is="pp-buton">Action</button> <button class="button" is="pp-buton">Another action</button>
+          </div>
+        </div>
+      </article>
+    </section>
+  `,
 };
 
 export const Image: Story = {

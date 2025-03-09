@@ -15,17 +15,17 @@ export const Default: Story = {
     <dialog id="dialog-1">
       <header>
         <h3>Dialog title</h3>
-        <button onclick="this.closest('dialog').close()"> <iconify-icon class="icon" icon="ph:x"></iconify-icon><span class="inclusively-hidden">Close</span></button>
+        <button class="button" onclick="this.closest('dialog').close()"> <iconify-icon class="icon" icon="ph:x"></iconify-icon><span class="inclusively-hidden">Close</span></button>
       </header>
       <article>
         <p>${faker.hacker.phrase()}</p>
       </article>
       <footer>
-        <button autofocus onclick="this.closest('dialog').close()">Close</button>
+        <button class="button" autofocus onclick="this.closest('dialog').close()">Close</button>
       </footer>
     </dialog>
 
-    <button>Open dialog</button>
+    <button class="button">Open dialog</button>
 
     <script>
       const dialog1 = document.querySelector('#dialog-1');
@@ -45,17 +45,17 @@ export const Scrolling: Story = {
     <dialog id="dialog-2">
       <header>
         <h3>Dialog title</h3>
-        <button onclick="this.closest('dialog').close()"> <iconify-icon class="icon" icon="ph:x"></iconify-icon><span class="inclusively-hidden">Close</span></button>
+        <button class="button" onclick="this.closest('dialog').close()"> <iconify-icon class="icon" icon="ph:x"></iconify-icon><span class="inclusively-hidden">Close</span></button>
       </header>
       <article>
         <p>${faker.lorem.paragraphs(30)}</p>
       </article>
       <footer>
-        <button autofocus onclick="this.closest('dialog').close()">Close</button>
+        <button class="button" autofocus onclick="this.closest('dialog').close()">Close</button>
       </footer>
     </dialog>
 
-    <button>Open dialog</button>
+    <button class="button">Open dialog</button>
 
     <script>
       const dialog2 = document.querySelector('#dialog-2');

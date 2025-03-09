@@ -11,7 +11,7 @@ type Story = StoryObj;
 
 export const Tooltip: Story = {
   render: () => html`
-    <button popovertarget="popover-tooltip" style="anchor-name: --anchor_1">Hover me</button>
+    <button class="button" popovertarget="popover-tooltip" style="anchor-name: --anchor_1">Hover me</button>
     <div id="popover-tooltip" class="tooltip" popover>
       <p>I am a popover with more information. Hit <kbd>esc</kbd> or click away to close me.</p>
     </div>
@@ -36,7 +36,7 @@ export const Tooltip: Story = {
 
 export const Toast: Story = {
   render: () => html`
-    <button popovertarget="popover-toast">Toast!</button>
+    <button class="button" popovertarget="popover-toast">Toast!</button>
     <div id="popover-toast" class="toast" popover>
       <p>I am a popover with more information. Hit <kbd>esc</kbd> or click away to close me.</p>
     </div>
@@ -45,7 +45,7 @@ export const Toast: Story = {
 
 export const Popover: Story = {
   render: () => html`
-    <button popovertarget="popover-1" style="anchor-name: --anchor_2">Click me</button>
+    <button class="button" popovertarget="popover-1" style="anchor-name: --anchor_2">Click me</button>
     <div id="popover-1" popover>
       <strong>Popover header</strong>
       <p>${faker.hacker.phrase()}</p>

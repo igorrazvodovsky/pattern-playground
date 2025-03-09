@@ -18,31 +18,31 @@ export const PriorityPlus: Story = {
   render: () => html`
     <pp-p-plus>
       <div style="display: flex; gap: 1ch; align-items: center;">
-        <button is="pp-button">
+        <button class="button" is="pp-button">
           <iconify-icon class="icon" icon="${randomIcon()}" slot="prefix"></iconify-icon>
           ${faker.word.verb() + ' ' + faker.word.noun()}
         </button>
-        <button is="pp-button">
+        <button class="button" is="pp-button">
           <iconify-icon class="icon" icon="${randomIcon()}" slot="prefix"></iconify-icon>
           ${faker.word.verb() + ' ' + faker.word.noun()}
         </button>
-        <button is="pp-button">
+        <button class="button" is="pp-button">
           <iconify-icon class="icon" icon="${randomIcon()}" slot="prefix"></iconify-icon>
           ${faker.word.verb() + ' ' + faker.word.noun()}
         </button>
-        <button is="pp-button">
+        <button class="button" is="pp-button">
           <iconify-icon class="icon" icon="${randomIcon()}" slot="prefix"></iconify-icon>
           ${faker.word.verb() + ' ' + faker.word.noun()}
         </button>
-        <button is="pp-button">
+        <button class="button" is="pp-button">
           <iconify-icon class="icon" icon="${randomIcon()}" slot="prefix"></iconify-icon>
           ${faker.word.verb() + ' ' + faker.word.noun()}
         </button>
-        <button is="pp-button">
+        <button class="button" is="pp-button">
           <iconify-icon class="icon" icon="${randomIcon()}" slot="prefix"></iconify-icon>
           ${faker.word.verb() + ' ' + faker.word.noun()}
         </button>
-        <button is="pp-button">
+        <button class="button" is="pp-button">
           <iconify-icon class="icon" icon="${randomIcon()}" slot="prefix"></iconify-icon>
           ${faker.word.verb() + ' ' + faker.word.noun()}
         </button>
