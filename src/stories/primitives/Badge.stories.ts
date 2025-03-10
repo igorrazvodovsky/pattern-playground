@@ -4,10 +4,11 @@ import { faker } from '@faker-js/faker';
 import { icons } from "../icons.ts";
 
 function randomIcon() { return 'ph:' + icons[icons.length * Math.random() << 0].name }
-function randomFillIcon() {
-  const fillIcons = icons.filter(icon => icon.tags.includes('fill'));
-  return 'ph:' + fillIcons[Math.floor(Math.random() * fillIcons.length)].name + '-fill';
-}
+
+// function randomFillIcon() {
+//   const fillIcons = icons.filter(icon => icon.tags.includes('fill'));
+//   return 'ph:' + fillIcons[Math.floor(Math.random() * fillIcons.length)].name + '-fill';
+// }
 
 const meta = {
   title: "Primitives/Badge",
@@ -139,6 +140,12 @@ export const withIcon: Story = {
     <span class="badge badge--pill"><iconify-icon class="icon" icon="ph:arrows-vertical" slot="icon"></iconify-icon>3</span>
     <span class="badge badge--pill"><iconify-icon class="icon" icon="ph-angle" slot="icon"></iconify-icon>45°</span>
     <span class="badge badge--pill"><iconify-icon class="icon" icon="ph:house" slot="icon"></iconify-icon>Stockholm</span>
+    <span class="badge badge--info badge--pill"><iconify-icon class="icon" icon="ph:circle" slot="icon"></iconify-icon>Confirmed</span>
+    <span class="badge badge--info badge--pill"><iconify-icon class="icon" icon="ph:circle-half-fill" slot="icon"></iconify-icon>Processing</span>
+    <span class="badge badge--warning badge--pill"><iconify-icon class="icon" icon="ph:circle-dashed" slot="icon"></iconify-icon>Attention</span>
+    <span class="badge badge--success badge--pill"><iconify-icon class="icon" icon="ph:circle-fill" slot="icon"></iconify-icon>Completed</span>
+    <span class="badge badge--warning badge--pill"><iconify-icon class="icon" icon="ph:x-circle" slot="icon"></iconify-icon>Cancelled</span>
+
   `,
 };
 

@@ -99,7 +99,7 @@ export const Header: Story = {
       <article class="card layer">
         <div class="card__header layer">
           <div class="layout-flex">
-            <iconify-icon class="icon" icon="ph:music-note"></iconify-icon>
+            <iconify-icon class="icon" icon="ph:music-notes-fill"></iconify-icon>
             <strong>Song title</strong><span class="muted">• Artist</span>
           </div>
           <button class="button" is="pp-buton"> <iconify-icon class="icon" icon="ph:pause-fill"></iconify-icon><span class="inclusively-hidden">Edit</span></button>

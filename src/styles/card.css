@@ -63,8 +63,9 @@
   justify-content: space-between;
 }
 
-.card__header {
-  padding: var(--space-xs) var(--space-m);
+.card .card__header {
+  /* TODO: */
+  padding: var(--space-xs) var(--space-m) !important;
 }
 
 .card__footer {

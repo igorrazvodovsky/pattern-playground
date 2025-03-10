@@ -20,7 +20,7 @@ pp-table table {
   border-spacing: 0;
   /* border-collapse: separate; */
   border-collapse: collapse;
-  color: var(--c-accent);
+  color: var(--c-body);
   font-variant-numeric: tabular-nums;
   table-layout: auto !important;
   outline: 1px solid var(--c-background);
@@ -60,13 +60,13 @@ pp-table tbody tr:hover {
 
 pp-table tbody :is(.row-selected, .row-selected:hover) {
   background: var(--c-active-bg);
-  color: var(--c-accent);
+  color: var(--c-body);
   opacity: 1;
   cursor: default;
 }
 
 pp-table tbody :is(tr:hover, .row-selected) td {
-  color: var(--c-accent);
+  color: var(--c-body);
 }
 
 pp-table th[aria-sort] {
@@ -74,7 +74,7 @@ pp-table th[aria-sort] {
 }
 
 pp-table th[aria-sort]:not([aria-sort="none"]) {
-  color: var(--c-accent);
+  color: var(--c-body);
 }
 
 pp-table[density="condensed"] {

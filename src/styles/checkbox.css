@@ -14,7 +14,7 @@
   gap: 0.5em;
 }
 
-input[type="checkbox"] {
+input[type="checkbox"]:not([class]) {
   -webkit-appearance: none;
   appearance: none;
   background-color: transparent;
@@ -30,7 +30,7 @@ input[type="checkbox"] {
   place-content: center;
 }
 
-input[type="checkbox"]::before {
+input[type="checkbox"]:not([class])::before {
   content: "✓";
   font-size: smaller;
   font-weight: bold;

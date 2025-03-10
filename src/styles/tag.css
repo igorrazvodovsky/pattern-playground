@@ -21,7 +21,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.5ch;
-  /* overflow: hidden; */
+  overflow: clip;
   white-space: nowrap;
   max-width: 100%;
 }
@@ -40,7 +40,6 @@
 
 .tag button {
   padding: var(--space-s);
-
   &:not(:disabled):hover {
     background: oklch(from var(--c-background) calc(l - 0.05) c h);
   }
@@ -49,4 +48,120 @@
 .tag:has(button:disabled) {
   cursor: not-allowed;
   opacity: 0.5;
+}
+
+/*  */
+
+input:where(.chip[type="checkbox"]) {
+  --color: oklch(from var(--c-accent) l c h / 60%);
+  color: oklch(0 0 110 / 90%);
+  appearance: none;
+  position: relative;
+  border: var(--border);
+  border-radius: 100em;
+  overflow: clip;
+  margin: 0;
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 0;
+
+  &::after {
+    content: attr(value);
+    white-space: pre;
+    line-height: 1;
+    position: relative;
+    padding: 0.5em 1em 0.5em 2em;
+    display: block;
+    /* text-box-trim: trim-both;
+    text-box-edge: cap alphabetic; */
+  }
+
+  &::before {
+    color: oklch(0 0 110 / 60%);
+    content: "";
+    display: inline-block;
+    width: 0.75em;
+    aspect-ratio: 1;
+    background: linear-gradient(currentcolor 0 0),
+      linear-gradient(currentcolor 0 0);
+    background-position: 50% 50%, 50% 50%, 50% 50%;
+    background-size: 0 0, 0 0;
+    background-repeat: no-repeat;
+    background-color: var(--color);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 1.125em;
+    translate: -50% -50%;
+    rotate: 45deg;
+    transition: width 0.2s, background-size 0.4s;
+  }
+
+  &:checked {
+    &::before {
+      width: 200%;
+      background-position: 50% 50%, 50% 50%, 50% 50%;
+      background-size: 0.825em 0.1em, 0.1em 0.825em;
+    }
+
+    border-color: transparent;
+  }
+
+  &:disabled {
+    --color: #eee !important;
+    border-color: var(--c-border);
+  }
+
+  &:hover:not(:is(:disabled, :checked)) {
+    border-color: oklch(from var(--color) l c h / 30%);
+    background-color: oklch(from var(--color) l c h / 10%);
+    transition: 0.2s;
+  }
+}
+
+@media print {
+  input:where(.chip[type="checkbox"]) {
+    &,
+    &::before,
+    &::after {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+}
+
+@media (prefers-reduced-motion) {
+  input:where(.chip[type="checkbox"]) {
+    &,
+    &::before,
+    &::after {
+      transition: none !important;
+    }
+  }
+}
+
+/*
+high-contrast styles:
+- all the dots will be highlight color
+- Disabled will be gray
+- No crosses (they are removed as backgrounds)
+*/
+@media (prefers-contrast: more) {
+  input:where(.chip[type="checkbox"]) {
+    &::before {
+      background: highlight;
+    }
+
+    &:disabled {
+      border-color: gray-text;
+
+      &::before {
+        background: graytext;
+      }
+
+      &::after {
+        color: graytext;
+      }
+    }
+  }
 }

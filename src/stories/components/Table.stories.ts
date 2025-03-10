@@ -19,7 +19,7 @@ export const SimpleTable: Story = {
           <tr>
             <th class="pp-table-align-right">Amount</th>
             <th>Description</th>
-            <th>Method</th>
+            <th>Status</th>
             <th class="pp-table-align-right">Date</th>
           </tr>
         </thead>
@@ -29,7 +29,7 @@ export const SimpleTable: Story = {
             <td class="pp-table-ellipsis">
               ${faker.lorem.paragraph()}
             </td>
-            <td>Card</td>
+            <td><span class="badge badge--success">Completed</span></td>
             <td class="pp-table-align-right">${faker.date.anytime().toLocaleDateString()}</td>
           </tr>
           <tr>
@@ -37,7 +37,7 @@ export const SimpleTable: Story = {
             <td class="pp-table-ellipsis">
               ${faker.lorem.paragraph()}
             </td>
-            <td>Card</td>
+            <td><span class="badge badge--success">Completed</span></td>
             <td class="pp-table-align-right">${faker.date.anytime().toLocaleDateString()}</td>
           </tr>
           <tr>
@@ -45,7 +45,7 @@ export const SimpleTable: Story = {
             <td class="pp-table-ellipsis">
               ${faker.lorem.paragraph()}
             </td>
-            <td>Card</td>
+            <td><span class="badge badge--success">Completed</span></td>
             <td class="pp-table-align-right">${faker.date.anytime().toLocaleDateString()}</td>
           </tr>
           <tr>
@@ -53,7 +53,7 @@ export const SimpleTable: Story = {
             <td class="pp-table-ellipsis">
               ${faker.lorem.paragraph()}
             </td>
-            <td>Card</td>
+            <td><span class="badge">Waiting</span></td>
             <td class="pp-table-align-right">${faker.date.anytime().toLocaleDateString()}</td>
           </tr>
           <tr>
@@ -61,7 +61,7 @@ export const SimpleTable: Story = {
             <td class="pp-table-ellipsis">
               ${faker.lorem.paragraph()}
             </td>
-            <td>Card</td>
+            <td><span class="badge badge--warning">Cancelled</span></td>
             <td class="pp-table-align-right">${faker.date.anytime().toLocaleDateString()}</td>
           </tr>
           <tr>
@@ -69,7 +69,7 @@ export const SimpleTable: Story = {
             <td class="pp-table-ellipsis">
               ${faker.lorem.paragraph()}
             </td>
-            <td>Card</td>
+            <td><span class="badge">Waiting</span></td>
             <td class="pp-table-align-right">${faker.date.anytime().toLocaleDateString()}</td>
           </tr>
         </tbody>

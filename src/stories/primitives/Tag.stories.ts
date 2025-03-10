@@ -36,12 +36,20 @@ export const Removable: Story = {
       <button>
         <iconify-icon class="icon" icon="ph:x"></iconify-icon>
       </button>
-    </span>`
+    </span>
+<span class="tag tag--pill">
+      Tag
+      <button>
+        <iconify-icon class="icon" icon="ph:x"></iconify-icon>
+      </button>
+    </span>
+    `
   ,
 };
 
 export const Selectable: Story = {
   render: () => html`
+
     <label class="form-control tag">
       <input type="checkbox"  />
       Checkbox
@@ -56,6 +64,11 @@ export const Selectable: Story = {
     </label>
   `,
 };
+    // <br /><br />
+    // <input type="checkbox" class="chip" role="switch" value="Pear" aria-label="Pear" />
+    // <input type="checkbox" class="chip" role="switch" value="Banana" aria-label="Banana" />
+    // <input type="checkbox" class="chip" role="switch" value="Apple" aria-label="Apple" />
+    // <input type="checkbox" class="chip" role="switch" value="Peach" aria-label="Peach" checked />
 
 export const Disabled: Story = {
   render: () => html`

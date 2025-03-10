@@ -22,16 +22,17 @@
 }
 
 :where(p:not(.sb-anchor, .sb-unstyled, .sb-unstyled p)),
-.sbdocs.sbdocs-content li:not(.sb-anchor, .sb-unstyled, .sb-unstyled),
-:where(p:not(.sb-anchor, .sb-unstyled, .sb-unstyled p)) code,
-:where(li:not(.sb-anchor, .sb-unstyled, .sb-unstyled li)) code {
+.sbdocs.sbdocs-content li:not(.sb-anchor, .sb-unstyled, .sb-unstyled) {
   font-size: 16px !important;
   max-width: 70ch;
   text-wrap: balance;
 }
 
 :where(a:not(.sb-anchor, .sb-unstyled, .sb-unstyled a)) {
-  /* color: inherit !important; */
+  color: inherit !important;
+  text-decoration: underline oklch(from currentColor l c h / 0.6) !important;
+  text-decoration-thickness: max(0.05em, 1px);
+  text-underline-offset: 0.15em;
 }
 
 .lead {
