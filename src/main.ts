@@ -10,3 +10,4 @@ export { PpList } from './components/list/list.ts';
 export { PpDropdown } from './components/dropdown/dropdown.ts';
 export { PpPopup } from './components/popup/popup.ts';
 export { PpPriorityPlus } from './components/priority-plus/priority-plus.ts';
+export { PpBreadcrumbs } from './components/breadcrumbs/breadcrumbs.ts';

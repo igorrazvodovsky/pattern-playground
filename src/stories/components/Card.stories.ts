@@ -74,6 +74,15 @@ export const Body: Story = {
 
 export const Attributes: Story = {
   render: () => html`
+  <section class="cards">
+    <article class="card">
+      <span>${faker.company.name()}</span>
+      <span class="card__attributes badges">
+      ${repeat(attributes, (attribute) => html`<span class="badge"><span class="badge__label">${attribute.name}</span>${attribute.value}</span>`)}
+      </span>
+    </article>
+  </section>
+  <br />
   <section class="cards layout-grid">
     <article class="card">
       <h4>${faker.company.name()}</h4>
