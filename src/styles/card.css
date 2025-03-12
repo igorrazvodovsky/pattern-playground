@@ -94,26 +94,39 @@
     }
   }
 
-  .card img:only-child {
-    padding: 0;
+  .card img,
+  .card video {
+    /* TODO */
+    max-height: 200px;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+
+    &:only-child {
+      padding: 0;
+    }
   }
 
-  .flex-layout-grid .card:has(img:nth-child(2)) {
-    --flex-grid-min: calc(30ch * 2 + var(--space-m));
+  .flex-layout-grid .card:has(> *:nth-child(2)) {
+    --flex-grid-min: calc(24ch * 2 + var(--space-m));
   }
 
-  .card figure:has(img:nth-child(2)) {
+  .card figure:has(> *:nth-child(2)) {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
-    gap: var(--space-s);
+    gap: var(--space-xs);
 
-    img {
+    img,
+    video {
       border-radius: var(--radius-s);
-      height: 100%;
-      object-fit: cover;
       &:first-child {
         grid-column: span 2;
       }
     }
   }
+}
+
+video {
+  width: 100%;
+  object-fit: cover;
 }

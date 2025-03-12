@@ -194,18 +194,12 @@ export const Image: Story = {
   <article class="card">
 <figure>
   <img
-      slot="image"
-      src="https://images.unsplash.com/photo-1583524505974-6facd53f4597?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
+      src="https://images.unsplash.com/photo-1606011334315-025e4baab810?q=80"
       alt="A kitten sits patiently between a terracotta pot and decorative grasses."
     />
+      <video loading="lazy" src="./cat-1.mp4" autoplay loop muted></video>
       <img
-      slot="image"
-      src="https://images.unsplash.com/photo-1583524505974-6facd53f4597?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
-      alt="A kitten sits patiently between a terracotta pot and decorative grasses."
-    />
-      <img
-      slot="image"
-      src="https://images.unsplash.com/photo-1583524505974-6facd53f4597?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
+      src="https://images.unsplash.com/photo-1579168765467-3b235f938439?q=80"
       alt="A kitten sits patiently between a terracotta pot and decorative grasses."
     />
     </figure>
@@ -221,7 +215,6 @@ export const LayoutList: Story = {
   ${repeat(cardsData, (card) => html`
     <article class="card">
       <img
-        slot="image"
         src="https://images.unsplash.com/photo-1583524505974-6facd53f4597?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
         alt="A kitten sits patiently between a terracotta pot and decorative grasses."
       />
@@ -240,7 +233,6 @@ export const LayoutGrid: Story = {
   ${repeat(cardsData, (card) => html`
     <article class="card">
       <img
-        slot="image"
         src="https://images.unsplash.com/photo-1583524505974-6facd53f4597?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
         alt="A kitten sits patiently between a terracotta pot and decorative grasses."
       />
