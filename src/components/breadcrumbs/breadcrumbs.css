@@ -1,90 +1,90 @@
 :host {
-      --_separator-size: 1.5rem;
-      --_separator-space: 0.5rem;
-      --_crumb-min-height: 2.5rem;
-      --_crumb-padding: 0.5rem;
-      --_crumb-radius: 0.25rem;
-      --_crumb-gap: 0.5rem;
-      --_crumb-color: Canvas;
-      --_crumb-color-interactive: color-mix(in srgb, currentColor 5%, Canvas);
-      --_crumb-ink: CanvasText;
-      --_crumb-shadow-color: color-mix(in srgb, currentColor 10%, transparent);
+  --_separator-size: 1.5rem;
+  --_separator-space: 0.5rem;
+  --_crumb-min-height: 2.5rem;
+  --_crumb-padding: 0.5rem;
+  --_crumb-radius: 0.25rem;
+  --_crumb-gap: 0.5rem;
+  --_crumb-color: Canvas;
+  --_crumb-color-interactive: color-mix(in srgb, currentColor 5%, Canvas);
+  --_crumb-ink: CanvasText;
+  --_crumb-shadow-color: color-mix(in srgb, currentColor 10%, transparent);
 
-      display: flex;
-      flex-wrap: wrap;
-      /* gap: var(--_crumb-gap); */
-      align-items: center;
-      padding-block: 1rem;
-      font-size: 0.9rem;
-    }
+  display: flex;
+  flex-wrap: wrap;
+  /* gap: var(--_crumb-gap); */
+  align-items: center;
+  padding-block: 1rem;
+  font-size: 0.9rem;
+}
 
-    ::slotted(a),
-    ::slotted(.crumb) {
-      display: inline-flex;
-      align-items: center;
-      min-height: var(--_crumb-min-height);
-      padding-inline: var(--_crumb-padding);
-      border-radius: var(--_crumb-radius);
-      text-decoration: none;
-      color: var(--_crumb-ink);
-    }
+::slotted(a),
+::slotted(.crumb) {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--_crumb-min-height);
+  padding-inline-end: var(--_crumb-padding);
+  border-radius: var(--_crumb-radius);
+  text-decoration: none;
+  color: var(--_crumb-ink);
+}
 
-    ::slotted(a:focus-visible),
-    ::slotted(.crumb:focus-within) {
-      outline: 2px solid Highlight;
-      outline-offset: 2px;
-    }
+::slotted(a:focus-visible),
+::slotted(.crumb:has(:focus-visible)) {
+  outline: 2px solid Highlight;
+  outline-offset: 2px;
+}
 
-    ::slotted(.crumb) {
-      position: relative;
-    }
+::slotted(.crumb) {
+  position: relative;
+}
 
-    ::slotted(.crumbicon) {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: var(--_separator-size);
-      height: var(--_separator-size);
-    }
+::slotted(.crumbicon) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_separator-size);
+  height: var(--_separator-size);
+}
 
-    ::slotted(.disguised-select) {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      font: inherit;
-      cursor: pointer;
-      margin: 0;
-      border: none;
-    }
+::slotted(.disguised-select) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  font: inherit;
+  cursor: pointer;
+  margin: 0;
+  border: none;
+}
 
-    /* Add separator between items */
-    ::slotted(a:not(:last-child))::after,
-    ::slotted(.crumb:not(:last-child))::after {
-      content: '/';
-      margin-inline: var(--_separator-space);
-      color: var(--_crumb-ink);
-      opacity: 0.5;
-    }
+/* Add separator between items */
+::slotted(a:not(:last-child))::after,
+::slotted(.crumb:not(:last-child))::after {
+  content: "/";
+  margin-inline: var(--_separator-space);
+  color: var(--_crumb-ink);
+  opacity: 0.5;
+}
 
-    /* Responsive styles */
-    @media (max-width: 480px) {
-      ::slotted(.home-label) {
-        display: none;
-      }
-    }
+/* Responsive styles */
+@media (max-width: 480px) {
+  ::slotted(.home-label) {
+    display: none;
+  }
+}
 
-    @media (max-width: 768px) {
-      ::slotted(a:not(:last-child):not(:first-child)),
-      ::slotted(.crumb:not(:last-child):not(:first-child)) {
-        display: none;
-      }
+@media (max-width: 768px) {
+  ::slotted(a:not(:last-child):not(:first-child)),
+  ::slotted(.crumb:not(:last-child):not(:first-child)) {
+    display: none;
+  }
 
-      ::slotted(a:not(:last-child))::after,
-      ::slotted(.crumb:not(:last-child))::after {
-        content: '...';
-        margin-inline: var(--_separator-space);
-      }
-    }
+  ::slotted(a:not(:last-child))::after,
+  ::slotted(.crumb:not(:last-child))::after {
+    content: "...";
+    margin-inline: var(--_separator-space);
+  }
+}
