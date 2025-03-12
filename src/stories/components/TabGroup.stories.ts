@@ -24,7 +24,9 @@ const tabs = Array.from(
     (i) =>
       html`
 <pp-tab slot="nav" panel=${i}> ${faker.commerce.productName()} </pp-tab>
-<pp-tab-panel name=${i}> ${faker.lorem.paragraph()}</pp-tab-panel>`
+<pp-tab-panel name=${i}>
+  <p style="margin: 1rem;">${faker.hacker.phrase()}</p>
+</pp-tab-panel>`
   )
 );
 
@@ -91,13 +93,10 @@ export const WithIconsAndSubtitles: Story = {
   `,
 };
 
-/**
- * TODO: Fix buttons.
- */
-// export const ScrollingTabs = {
-//   render: () => html`
-//     <pp-tab-group>
-//       ${tabs}
-//     </pp-tab-group>
-//   `,
-// };
+export const ScrollingTabs = {
+  render: () => html`
+    <pp-tab-group>
+      ${tabs}
+    </pp-tab-group>
+  `,
+};

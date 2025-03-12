@@ -1,44 +1,46 @@
-.pagination-container {
-  container-type: inline-size;
-  display: grid;
-  grid-auto-flow: column;
-  justify-content: center;
-  align-items: center;
-}
-
-@container (min-width: 25ch) {
-  .pagination-nav__label {
-    height: auto;
-    overflow: unset;
-    position: unset;
-    clip-path: unset;
-  }
-}
-
-@container (min-width: 40ch) {
-  .pagination-list {
+@layer components {
+  .pagination-container {
+    container-type: inline-size;
     display: grid;
+    grid-auto-flow: column;
+    justify-content: center;
+    align-items: center;
   }
 
-  .pagination-label {
-    display: none;
+  @container (min-width: 25ch) {
+    .pagination-nav__label {
+      height: auto;
+      overflow: unset;
+      position: unset;
+      clip-path: unset;
+    }
   }
 
-  @container style(--show-label: true) {
+  @container (min-width: 40ch) {
     .pagination-list {
-      display: none;
+      display: grid;
     }
 
     .pagination-label {
-      display: block;
+      display: none;
+    }
+
+    @container style(--show-label: true) {
+      .pagination-list {
+        display: none;
+      }
+
+      .pagination-label {
+        display: block;
+      }
     }
   }
-}
 
-.pagination-container:has(li:nth-child(11)) {
-  --show-label: true;
-}
+  .pagination-container:has(li:nth-child(11)) {
+    --show-label: true;
+  }
 
-.pagination-container ul {
-  list-style: none;
+  .pagination-container ul {
+    list-style: none;
+  }
 }

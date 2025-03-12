@@ -30,7 +30,8 @@
 
 :where(a:not(.sb-anchor, .sb-unstyled, .sb-unstyled a)) {
   color: inherit !important;
-  text-decoration: underline oklch(from currentColor l c h / 0.6) !important;
+  /* TODO: Fix */
+  text-decoration: underline oklch(from #2E3438 l c h / 0.6) !important;
   text-decoration-thickness: max(0.05em, 1px);
   text-underline-offset: 0.15em;
 }

@@ -41,6 +41,14 @@
   top: 0;
   bottom: 0;
   width: var(--space-xl);
+  background: none;
+  border: none;
+
+  /* TODO: */
+  &:hover {
+    color: var(--c-accent);
+    cursor: pointer;
+  }
 }
 
 .tab-group__scroll-button--start {

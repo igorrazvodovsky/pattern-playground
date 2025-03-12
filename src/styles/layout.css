@@ -9,14 +9,14 @@
 
     display: grid;
     grid-template-columns: repeat(
-      auto-fit,
+      /* auto-fit, */ auto-fill,
       minmax(min(100%, var(--layout-grid-min)), 1fr)
     );
     gap: var(--layout-grid-gap);
   }
 
   .flex-layout-grid {
-    --flex-grid-min: 20rem;
+    --flex-grid-min: 30ch;
     --flex-grid-gap: var(--space-m);
 
     display: flex;
@@ -24,17 +24,23 @@
     gap: var(--flex-grid-gap);
 
     > * {
-      flex: 1 1 var(--flex-grid-min);
+      flex: 0 1 var(--flex-grid-min);
     }
   }
 
   :is(.layout-grid, .flex-layout-grid) > * {
     container: var(--grid-item-container, grid-item) / inline-size;
   }
-}
 
-.layout-flex {
-  display: flex;
-  gap: 0.5ch;
-  align-items: center;
+  .layout-flex {
+    display: flex;
+    gap: 0.5ch;
+    align-items: center;
+  }
+
+  hr {
+    border: 0;
+    height: 0;
+    border-top: var(--border);
+  }
 }
