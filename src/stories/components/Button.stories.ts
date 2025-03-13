@@ -3,7 +3,6 @@ import { html } from "lit";
 
 const meta = {
   title: "Components/Button",
-  tags: ["autodocs"],
 } satisfies Meta;
 
 export default meta;
@@ -20,7 +19,6 @@ export const Variants: Story = {
     <button class="button button--danger" is="pp-buton">Danger</button>
     <button class="button button--plain" is="pp-buton">Plain</button>
     <button class="button" is="pp-buton" disabled>Disabled</button>
-
   `,
 };
 

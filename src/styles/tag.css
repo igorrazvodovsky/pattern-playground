@@ -1,5 +1,6 @@
 @layer components {
-  .tag {
+  /* :not(.token) is needed only because of the leaking of styles outside the story to Storybook */
+  .tag:not(.token) {
     --tag-bg: var(--c-background);
     /* TODO: */
     --c-background: var(--c-neutral-0);

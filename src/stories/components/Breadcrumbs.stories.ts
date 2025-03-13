@@ -9,7 +9,7 @@ const meta = {
 export default meta;
 type Story = StoryObj;
 
-export const Breadcrumbs: Story = {
+export const Basic: Story = {
   args: {},
   render: () => html`
 
@@ -18,7 +18,30 @@ export const Breadcrumbs: Story = {
         <span class="crumbicon">
           <iconify-icon icon="ph:house"></iconify-icon>
         </span>
-        <span class="home-label">Home</span>
+        <span class="inclusively-hidden" class="home-label">Home</span>
+      </a>
+
+      <span class="crumb">
+        <a href="#">Section</a>
+      </span>
+
+      <span class="crumb">
+        <a href="" aria-current="page">Subsection</a>
+      </span>
+    </pp-breadcrumbs>
+  `,
+};
+
+export const Advanced: Story = {
+  args: {},
+  render: () => html`
+
+    <pp-breadcrumbs role="navigation">
+      <a href="">
+        <span class="crumbicon">
+          <iconify-icon icon="ph:house"></iconify-icon>
+        </span>
+        <span class="inclusively-hidden" class="home-label">Home</span>
       </a>
 
       <span class="crumb">

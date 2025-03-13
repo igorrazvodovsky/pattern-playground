@@ -1,0 +1,21 @@
+import { Meta, Story, Canvas, Subtitle } from '@storybook/blocks';
+import * as BreadcrumbsStories from './Breadcrumbs.stories.ts';
+
+<Meta of = { BreadcrumbsStories } />
+
+> 😎 **Fun meter: 7/10**.
+
+# Breadcrumbs
+
+A breadcrumbs component shows where in the app's hierarchy the user is.
+
+<Canvas>
+  <Story of={ BreadcrumbsStories.Basic } />
+</Canvas>
+
+## Advanced
+
+Breadcrumbs can offer additional functionality by putting sibling pages right into the navigation with a `<select>`,
+making lateral movement possible alongside the default top-down flow.
+
+  <Story of={ BreadcrumbsStories.Advanced } />
