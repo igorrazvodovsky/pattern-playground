@@ -1,0 +1,27 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Patterns/Unavailable actions" />
+
+> 🙄 **Fun meter:** boring but important groundwork.
+
+# Unavailable actions
+
+Hide actions that are currently inaccessible or irrelevant to the user.
+
+## Examples
+
+Context menus & toolbars: only displaying actions relevant to the current context rather than disabling irrelevant items.
+
+Permission-based features: completely removing actions users lack permissions for, rather than showing them disabled.
+
+## Edge cases
+
+Situation when users need to understand the full range of potential actions to establish a clear mental model.
+
+## Accessibility concerns
+
+Removing UI elements entirely (e.g., changing layout structure) might negatively impact assistive technology.
+
+## Related
+
+In most cases, a better alternative to [disabled state](./?path=/docs/patterns-disabled-state--docs).

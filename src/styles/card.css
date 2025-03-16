@@ -9,7 +9,7 @@
     border-radius: var(--radius-m);
     position: relative;
     height: 100%;
-    display: grid;
+    /* display: grid; */
     gap: var(--space-s);
     align-content: baseline;
     align-content: space-between;
@@ -83,6 +83,7 @@
 } */
 
   .card > * {
+    /* TODO: This works well only for header/body/footer */
     padding-inline: var(--space-m);
 
     &:first-child {

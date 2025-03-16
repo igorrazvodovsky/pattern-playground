@@ -13,9 +13,34 @@ A breadcrumbs component shows where in the app's hierarchy the user is.
   <Story of={ BreadcrumbsStories.Basic } />
 </Canvas>
 
+## Long path
+
+When a breadcrumb has more items than it can show, it automatically collapses.
+
+<Story of={ BreadcrumbsStories.LongPath } />
+
 ## Advanced
 
 Breadcrumbs can offer additional functionality by putting sibling pages right into the navigation with a `<select>`,
 making lateral movement possible alongside the default top-down flow.
 
-  <Story of={ BreadcrumbsStories.Advanced } />
+<Story of={ BreadcrumbsStories.Advanced } />
+
+## Accessibility
+{/* TODO: */}
+{/* - A `nav` element with `aria-label="Breadcrumb"` wraps an ordered list to provide a navigation landmark. */}
+
+- The last item in a breadcrumb is a link (rather than plain text) so it's included in the focus order.
+- `aria-current="page"` is on the last link to indicate that it's the current page.
+- See the WAI-ARIA Authoring Practices Breadcrumb Example for more details.
+
+## TODO:
+
+- Expanding the breadcrumb by selecting the ellipsis.
+- Alt. use priority+
+
+## Related
+
+- [WAI-ARIA Authoring Practices](https://www.w3.org/WAI/ARIA/apg/#breadcrumb)
+- [Accessible Breadcrumb Navigation Pattern — Scott O'Hara](https://scottaohara.github.io/a11y_breadcrumbs/)
+- [Open UI](https://open-ui.org/components/breadcrumb.research/)

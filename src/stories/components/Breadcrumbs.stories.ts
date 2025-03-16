@@ -32,6 +32,35 @@ export const Basic: Story = {
   `,
 };
 
+export const LongPath: Story = {
+  args: {},
+  render: () => html`
+
+    <pp-breadcrumbs role="navigation">
+      <a href="">
+        <span class="crumbicon">
+          <iconify-icon icon="ph:house"></iconify-icon>
+        </span>
+        <span class="inclusively-hidden" class="home-label">Home</span>
+      </a>
+
+      <span class="crumb">
+        <a href="#">Section</a>
+      </span>
+
+      <span class="crumb">
+        …
+      </span>
+
+      <span class="crumb">
+        <a href="#" aria-current="page">The very bottom</a>
+      </span>
+    </pp-breadcrumbs>
+  `,
+};
+
+// <span class="badge badge--plain badge--pill badge--success">Active</span>
+
 export const Advanced: Story = {
   args: {},
   render: () => html`
@@ -61,7 +90,7 @@ export const Advanced: Story = {
       </span>
 
       <span class="crumb">
-        <a href="" aria-current="page">Subsection C</a>
+        <a href="#" aria-current="page">Subsection C</a>
         <span class="crumbicon">
           <iconify-icon icon="ph:caret-down"></iconify-icon>
           <select

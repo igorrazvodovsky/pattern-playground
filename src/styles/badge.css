@@ -2,11 +2,12 @@
 
 @layer components {
   .badges {
-    display: flex;
+    display: inline-flex;
     flex-wrap: wrap;
     gap: var(--space-xs);
     max-width: 100%;
-    container-type: inline-size;
+    /* container-type: inline-size; */
+    line-height: 175%;
   }
 
   .badge {

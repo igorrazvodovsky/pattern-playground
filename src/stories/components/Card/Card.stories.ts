@@ -78,7 +78,9 @@ export const Attributes: Story = {
     <article class="card">
       <span>${faker.company.name()}</span>
       <span class="card__attributes badges">
-      ${repeat(attributes, (attribute) => html`<span class="badge"><span class="badge__label">${attribute.name}</span>${attribute.value}</span>`)}
+        <span class="badge"><span class="badge__label">67.1</span></span>
+        <span class="badge"><span class="badge__label">18</span></span>
+        <span class="badge"><span class="badge__label">In progress</span></span>
       </span>
     </article>
   </section>

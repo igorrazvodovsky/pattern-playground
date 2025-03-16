@@ -1,10 +1,5 @@
 @custom-media --motionOK (prefers-reduced-motion: no-preference);
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-}
-
 pp-breadcrumbs {
   --_crumb-radius: 0.3rem;
   --_crumb-color: rgba(125, 125, 125, 0.1);
