@@ -6,17 +6,82 @@ import { Meta } from '@storybook/blocks';
 
 # Explanation
 
-Providing context and explaining the reasoning behind the system’s actions at the appropriate time.
+Provides users with contextual information to clarify system behaviors, human actions, and AI-driven decisions, foster transparency and user trust.
 
-{/* ## Explaining deterministic behavior */}
+## Types of explanation
 
-...
+### Explaining (deterministic) system or business logic
+Rules, workflows, why certain options appear, validation errors, etc.
 
-## Explaining probabilistic behavior
+#### Examples
+
+- Explaining why an action is unavailable
+- Clarifying validation errors or required fields in forms
+- Communicating the next steps or expected user actions in workflows
+
+### Social/Collaboration explanations
+Actions taken by other users, notifications about shared resources, edits, status changes, etc.
+transparency regarding the actions of other people to reduce uncertainty in collaborative or multi-user environments.
+
+#### Examples
+
+- Explaining edits or changes made by another user
+- Providing context about shared resources or history
+- Clarifying reasons for notifications or status updates initiated by other people
+
+### AI Explanations
+How the system arrived at a prediction, recommendation, or generated output.
+
+#### Examples
+
+- Explaining recommendation or prediction logic ("Why am I seeing this?")
+- Clarifying the limitations or confidence levels of AI-generated outputs
+- Communicating factors influencing automated decisions or outputs
+
+## Amount of detail
+
+- Level 1. Bare minimum: Brief, direct explanation suitable for common scenarios or minor clarifications
+- Level 2. Moderate detail: expanded explanations providing additional context, suitable for users needing further clarity or reassurance.
+- Level 3. Extended report: comprehensive explanations offering full transparency, suitable for complex decisions, troubleshooting, or expert users who require in-depth understanding.
+
+[Progressive disclosure](./?path=/docs/patterns-progressive-disclosure--docs)
+can be used to assist users in transitioning between different levels of detail.
+
+## Components
+
+### Level 1. Indicator
+
+#### Global
+
+Describes a set of elements, aiming to convey the broader context influencing multiple objects.
+
+TODO: Example: item ranking
+
+#### Local
+
+Explains a single value or item.
+
+TODO: Example: Predicted match of an item
+{/* Confidence Indicator */}
+
+### Level 2. Simple explanation
+
+Users can access the explanation popover by clicking the explanation indicator. This popover offers contextual information beyond a single value and lists the factors that contributed to the result.
+
+TODO: Example: explain price through costs, margin, and discount
+
+#### Natural language Explanations
+
+TODO: Examples: "I'm not sure. But...", "... Plese keep in mind, this information is uncertain.",
+
+### Level 3. Extended explanation
+
+TODO: Example: drawer with instructions or help text.
 
 ## Related
 
 - [Disabled state](./?path=/docs/patterns-disabled-state--docs)
-- [Progresssive disclosure](./?path=/docs/patterns-progressive-disclosure--docs)
-- ...
+- [Progressive disclosure](./?path=/docs/patterns-progressive-disclosure--docs)
+- [Popover](./?path=/docs/primitives-popover--docs)
+- Drawer
 
