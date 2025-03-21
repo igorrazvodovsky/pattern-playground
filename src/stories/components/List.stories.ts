@@ -12,7 +12,6 @@ type Story = StoryObj;
 export const List: Story = {
   args: {},
   render: () => html`
-
     <pp-list style="max-width: 240px;">
       <pp-list-item>Option 1</pp-list-item>
       <pp-list-item>Option 2</pp-list-item>

@@ -1,31 +1,99 @@
-<section class="cards flex-layout-grid">
-  <article class="card">
-    <img
-      slot="image"
-      src="https://images.unsplash.com/photo-1583524505974-6facd53f4597?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
-      alt="A kitten sits patiently between a terracotta pot and decorative grasses."
-    />
-    <p>This card has an image.</p>
-  </article>
-  <article class="card">
-    <img
-      slot="image"
-      src="https://images.unsplash.com/photo-1583524505974-6facd53f4597?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
-      alt="This card has only an image."
-    />
-  </article>
-  <article class="card">
-    <figure>
-      <img
-        src="https://images.unsplash.com/photo-1606011334315-025e4baab810?q=80"
-        alt="A kitten sits patiently between a terracotta pot and decorative grasses."
-      />
-      <video loading="lazy" src="./cat-1.mp4" autoplay loop muted></video>
-      <img
-        src="https://images.unsplash.com/photo-1579168765467-3b235f938439?q=80"
-        alt="A kitten sits patiently between a terracotta pot and decorative grasses."
-      />
-    </figure>
-    <p>This card has several images.</p>
-  </article>
-</section>
+<div class="flow">
+  <ul class="cards flow cards--list">
+    <li>
+      <article class="card">
+        <img
+          src="https://images.unsplash.com/photo-1583524505974-6facd53f4597?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
+          alt="A kitten sits patiently between a terracotta pot and decorative grasses."
+        />
+        <div>
+          <h4>This card has an image</h4>
+          <p>The image should be square in list view.</p>
+        </div>
+      </article>
+    </li>
+    <li>
+      <article class="card">
+        <img
+          src="https://images.unsplash.com/photo-1583524505974-6facd53f4597?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
+          alt="A kitten sits patiently between a terracotta pot and decorative grasses."
+        />
+        <div>
+          <h4>This card has an image</h4>
+          <p class="description">
+            Once, in a quiet alley tucked behind a row of crooked brick houses,
+            a tiny gray kitten was born beneath a rusted wheelbarrow. Her fur
+            was scruffy, her tail comically short, and her meow sounded more
+            like a squeaky hinge than anything threatening. Her name, if she had
+            one, was unknown—until the day she wandered out from the shadows and
+            into the life of a boy named Milo.
+          </p>
+        </div>
+      </article>
+    </li>
+  </ul>
+
+  <ul class="cards flex-layout-grid">
+    <li>
+      <article class="card">
+        <img
+          slot="image"
+          src="https://images.unsplash.com/photo-1583524505974-6facd53f4597?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
+          alt="A kitten sits patiently between a terracotta pot and decorative grasses."
+        />
+        <p>This card has an image.</p>
+      </article>
+    </li>
+    <li>
+      <article class="card">
+        <img
+          slot="image"
+          src="https://images.unsplash.com/photo-1583524505974-6facd53f4597?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
+          alt="This card has only an image."
+        />
+      </article>
+    </li>
+    <li>
+      <article class="card">
+        <figure>
+          <img
+            slot="image"
+            src="https://images.unsplash.com/photo-1583524505974-6facd53f4597?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
+            alt="This card has only an image."
+          />
+          <img
+            slot="image"
+            src="https://images.unsplash.com/photo-1583524505974-6facd53f4597?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
+            alt="This card has only an image."
+          />
+          <img
+            slot="image"
+            src="https://images.unsplash.com/photo-1583524505974-6facd53f4597?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
+            alt="This card has only an image."
+          />
+          <img
+            slot="image"
+            src="https://images.unsplash.com/photo-1583524505974-6facd53f4597?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
+            alt="This card has only an image."
+          />
+        </figure>
+      </article>
+    </li>
+    <li>
+      <article class="card">
+        <figure>
+          <img
+            src="https://images.unsplash.com/photo-1606011334315-025e4baab810?q=80"
+            alt="A kitten sits patiently between a terracotta pot and decorative grasses."
+          />
+          <video loading="lazy" src="./cat-1.mp4" autoplay loop muted></video>
+          <img
+            src="https://images.unsplash.com/photo-1579168765467-3b235f938439?q=80"
+            alt="A kitten sits patiently between a terracotta pot and decorative grasses."
+          />
+        </figure>
+        <p>This card has several images.</p>
+      </article>
+    </li>
+  </ul>
+</div>

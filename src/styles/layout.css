@@ -24,7 +24,8 @@
     gap: var(--flex-grid-gap);
 
     > * {
-      flex: 0 1 var(--flex-grid-min);
+      /* TODO: */
+      flex: 1 1 var(--flex-grid-min);
     }
   }
 
@@ -43,4 +44,9 @@
     height: 0;
     border-top: var(--border);
   }
+}
+
+/* TODO: */
+.flex-layout-grid > *:has(.card > *:nth-child(2)) {
+  --flex-grid-min: calc(24ch * 2 + var(--space-m));
 }

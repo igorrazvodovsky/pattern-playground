@@ -1,0 +1,13 @@
+textarea {
+  color: inherit;
+  font-size: var(--text-s);
+  width: 100%;
+  padding: var(--space-s) var(--space-m);
+}
+
+:is(pp-menu, pp-list) textarea {
+  min-width: 40ch;
+  border: none;
+  line-height: 1.5em;
+  min-height: calc(7.5em + var(--space-m));
+}

@@ -30,6 +30,7 @@
 .dropdown__panel {
   font-size: var(--text-m);
   font-weight: var(--font-weight-normal);
+  background: var(--c-background);
   box-shadow: var(--shadow-l);
   border-radius: var(--radius-m);
   pointer-events: none;

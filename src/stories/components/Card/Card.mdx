@@ -3,7 +3,7 @@ import * as CardStories from './Card.stories.ts';
 
 <Meta of = { CardStories } />
 
-{/* > 🥱 **Fun meter: boring**. Included as a prerequisite for more interesting things. */}
+> 😕 **Fun meter: 7/10**. Struggling to decide on how much of the _card-like_ stuff should be forced into one "component".
 
 # Card
 
@@ -13,65 +13,92 @@ Cards are used to group related subjects in a container.
   <Story of={ CardStories.Article } />
 </Canvas>
 
-## Basic card
+## Anatomy
+
+### Elements
+
+The container is the only required element in a card. All other elements are optional.
+
+#### Title/header/label
 
 It grows from here.
 
 <Story of={ CardStories.Basic } />
 
-## Orientation
-
-Cards are responsive and adaptable, but orientation can also be set explicitly.
-
-### Horizontal
-
-## Anatomy
-
-{/* ### Body */}
-
-{/* <Story of={ CardStories.Body } /> */}
-
-### Attributes
+#### Attributes
 
 <Story of={ CardStories.Attributes } />
 
-### Header
+#### Description
 
-<Story of={ CardStories.Header } />
+<Story of={ CardStories.Description } />
 
-### Footer
-
-<Story of={ CardStories.Footer } />
-
-### Aligned footer
-
-{/* The `layout-grid` utility is used to align the contents of cards. */}
-
-<Story of={ CardStories.FooterAligned } />
-
-### Images and videos
+#### Media
 
 Support for cards with one, multiple images, plus image-only cards.
 
 <Story of={ CardStories.Image } />
 
+### Element blocks
+
+Each card is made up of element blocks. These blocks are all related to a single topic.
+Blocks can have different levels of importance, depending on their priority.
+
+#### Header
+
+<Story of={ CardStories.Header } />
+
+#### Footer
+
+<Story of={ CardStories.Footer } />
+
+##### Aligned footer
+
+{/* The `layout-grid` utility is used to align the contents of cards. */}
+
+<Story of={ CardStories.FooterAligned } />
+
 ## Variants
 
-### Link
-
-...
-
-### Selectable
-
-...
+{/* Containment */}
+{/* Implicit containment */}
+{/* An implicit container groups content or elements and may appear to have no edges, creating an implied boundary. Use implicit containment to group content and subtly reinforce the cohesion of a contained unit. */}
+{/* Explicit containment */}
+{/* An explicit container shows clear, visible boundaries. It can be tappable, and can be used to provide emphasis. */}
 
 ### Compact
 
 ...
 
-## Layout & orientation
+### Expanding
 
 ...
+
+## Actions
+
+### Primary action
+
+...
+{/* Clickable card */}
+
+### Secondary actions
+
+...
+{/* Butoons, '...' dropdown */}
+
+### Selectable
+
+...
+
+### Inline actions
+
+{/* sliders, controls, selectable tags, and stuff */}
+
+## Layout & orientation
+
+Cards are responsive and adaptable, but orientation can also be set explicitly.
+
+### Horisontal
 
 ### Grid
 

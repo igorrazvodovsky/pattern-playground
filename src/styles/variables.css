@@ -32,7 +32,7 @@
   --letter-spacing-loose: 0.075em;
   --letter-spacing-looser: 0.15em;
 
-  /* TODO: Review */
+  /* TODO: Review + overrides */
   --_lineHeightFixedAmount: 0.35rem;
   --_lineHeightRelativeAmount: 1.1em;
   --globalLineHeight: calc(

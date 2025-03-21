@@ -1,18 +1,44 @@
+@layer layout {
+  .cards > * {
+    container: var(--grid-item-container, grid-item) / inline-size;
+  }
+
+  .cards.cards--list .card {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .cards--list .card img,
+  .cards--list .card figure {
+    aspect-ratio: 1/1;
+    height: 100%;
+    width: 80px;
+    padding: 0;
+    margin: var(--space-s);
+    margin-inline-end: 0;
+    border-radius: var(--radius-s);
+  }
+}
+
 @layer components {
   .card {
     /* TODO: */
     --card-bg: white;
 
     background-color: var(--card-bg);
-    /* padding: var(--space-m); */
     border: var(--border);
     border-radius: var(--radius-m);
     position: relative;
     height: 100%;
-    /* display: grid; */
+    display: flex;
+    flex-direction: column;
     gap: var(--space-s);
     align-content: baseline;
     align-content: space-between;
+
+    &.card--plain {
+      border: none;
+    }
   }
 
   .card a {
@@ -51,6 +77,17 @@
 
   .card a:is(:hover, :focus-visible) {
     text-decoration: underline;
+  }
+
+  .description {
+    font-size: smaller;
+    line-height: 150%;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    overflow: hidden;
+    padding: var(--space-2xs) var(--space-xs);
+    border-radius: var(--radius-s);
   }
 
   .card__attributes {
@@ -95,6 +132,7 @@
     }
   }
 
+  .card figure,
   .card img,
   .card video {
     /* TODO */
@@ -102,20 +140,24 @@
     height: 100%;
     width: 100%;
     object-fit: cover;
+    padding: 0; /* Remove padding from all images by default */
 
     &:only-child {
       padding: 0;
+      max-height: none;
+      height: 100%;
+      /* TODO: smarter approach to radius */
+      border-radius: inherit;
+      position: absolute; /* Add this to ensure it fills the card when it's the only child */
+      inset: 0;
     }
-  }
-
-  .flex-layout-grid .card:has(> *:nth-child(2)) {
-    --flex-grid-min: calc(24ch * 2 + var(--space-m));
   }
 
   .card figure:has(> *:nth-child(2)) {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
     gap: var(--space-xs);
+    padding: var(--space-xs);
 
     img,
     video {
@@ -125,9 +167,36 @@
       }
     }
   }
+
+  .card figure:has(> *:nth-child(4)) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xs);
+
+    img,
+    video {
+      border-radius: var(--radius-s);
+      &:first-child {
+        grid-column: initial;
+      }
+    }
+  }
 }
 
 video {
   width: 100%;
   object-fit: cover;
+}
+
+.card:has(:is(.description--full, textarea)) .description {
+  cursor: pointer;
+
+  &:hover {
+    background: oklch(0% 0 0 / 5%);
+  }
+}
+
+.description--full {
+  font-size: var(--text-s);
+  max-width: 70ch;
 }

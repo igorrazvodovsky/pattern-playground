@@ -22,16 +22,28 @@
 }
 
 :where(p:not(.sb-anchor, .sb-unstyled, .sb-unstyled p)),
-.sbdocs.sbdocs-content li:not(.sb-anchor, .sb-unstyled, .sb-unstyled) {
+.sbdocs > *:not(.sb-story) li:not(.sb-anchor, .sb-unstyled, .sb-unstyled) {
   font-size: 16px !important;
   max-width: 70ch;
   text-wrap: balance;
 }
 
+/* Override for list items inside .sb-story to prevent the above rule from applying */
+.sbdocs-wrapper .sb-story li,
+.sbdocs-preview .sb-story li,
+.docs-story .sb-story li,
+div.sb-story li,
+.sb-story > li,
+.sb-story li,
+.sbdocs .sb-story li {
+  max-width: none !important;
+  width: auto !important;
+}
+
 :where(a:not(.sb-anchor, .sb-unstyled, .sb-unstyled a)) {
   color: inherit !important;
   /* TODO: Fix */
-  text-decoration: underline oklch(from #2E3438 l c h / 0.6) !important;
+  text-decoration: underline oklch(from #2e3438 l c h / 0.6) !important;
   text-decoration-thickness: max(0.05em, 1px);
   text-underline-offset: 0.15em;
 }
@@ -44,6 +56,8 @@
 }
 
 .card a::first-letter,
+.description::first-letter,
+.description--full::first-letter,
 button::first-letter,
 h4::first-letter,
 h3::first-letter {
