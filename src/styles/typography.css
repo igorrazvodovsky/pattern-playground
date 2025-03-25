@@ -4,7 +4,6 @@
 
 :root,
 body {
-  color: var(--c-body);
   line-height: var(--globalLineHeight);
   font-weight: var(--font-weight-normal);
 
@@ -12,6 +11,10 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  color: var(--c-body);
 }
 
 h1,

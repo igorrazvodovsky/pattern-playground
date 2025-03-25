@@ -47,6 +47,6 @@
 }
 
 /* TODO: */
-.flex-layout-grid > *:has(.card > *:nth-child(2)) {
+/* .flex-layout-grid > *:has(.card > *:nth-child(2)) {
   --flex-grid-min: calc(24ch * 2 + var(--space-m));
-}
+} */

@@ -137,3 +137,13 @@
   --c-border-warning: oklch(var(--l800) var(--c800) var(--hWarning) / 0.3);
   --c-border-danger: oklch(var(--l800) var(--c800) var(--hDanger) / 0.3);
 }
+@layer theme {
+  body .dark {
+    /* TODO: */
+    --c-background: oklch(from var(--c-neutral-900) l c h / 60%);
+    --c-background: oklch(0% 0 0 / 60%);
+    --c-body: oklch(100% 0 0 / 90%);
+    /* TODO: */
+    color: var(--c-body);
+  }
+}

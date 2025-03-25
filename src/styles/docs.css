@@ -133,7 +133,10 @@ resize-asaurus > .resize-asaurus-container {
  */
 
 .sbdocs > h1,
-.sbdocs > h2 {
+.sbdocs > h2,
+.sbdocs > h3,
+.sbdocs > h4,
+.sbdocs > h5 {
   margin-block: 2rem 1rem !important;
 }
 

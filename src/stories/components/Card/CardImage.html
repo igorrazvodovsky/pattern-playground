@@ -8,7 +8,7 @@
         />
         <div>
           <h4>This card has an image</h4>
-          <p>The image should be square in list view.</p>
+          <p class="description">The image should be square in list view.</p>
         </div>
       </article>
     </li>
@@ -19,7 +19,7 @@
           alt="A kitten sits patiently between a terracotta pot and decorative grasses."
         />
         <div>
-          <h4>This card has an image</h4>
+          <h4>This card also has an image</h4>
           <p class="description">
             Once, in a quiet alley tucked behind a row of crooked brick houses,
             a tiny gray kitten was born beneath a rusted wheelbarrow. Her fur
@@ -34,6 +34,16 @@
   </ul>
 
   <ul class="cards flex-layout-grid">
+    <li>
+      <article class="card">
+        <img
+          slot="image"
+          src="https://images.unsplash.com/photo-1583524505974-6facd53f4597?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
+          alt="A kitten sits patiently between a terracotta pot and decorative grasses."
+        />
+        <p>This card has an image.</p>
+      </article>
+    </li>
     <li>
       <article class="card">
         <img

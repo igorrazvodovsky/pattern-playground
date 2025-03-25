@@ -3,9 +3,33 @@
     container: var(--grid-item-container, grid-item) / inline-size;
   }
 
+  .cards .card {
+    /* Spacing in default/grid cards */
+    & > *:not(img) {
+      margin-block-start: var(--space-s);
+      margin-inline: var(--space-s);
+
+      &:last-child {
+        margin-block-end: var(--space-s);
+      }
+    }
+  }
+
   .cards.cards--list .card {
     flex-direction: row;
     align-items: flex-start;
+
+    & > * {
+      /* works for stuff located inline */
+      margin-block: var(--space-s);
+    }
+  }
+
+  .cards.layout-grid .card {
+    & > *:not(img, video, figure) {
+      /* works for stuff located inline */
+      margin-inline: var(--space-s);
+    }
   }
 
   .cards--list .card img,
@@ -32,7 +56,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    gap: var(--space-s);
+    /* gap: var(--space-s); */
     align-content: baseline;
     align-content: space-between;
 
@@ -56,16 +80,6 @@
     font-size: 1.25rem;
   }
 
-  /*
-.card__number-icon::before,
-.card__number-icon img {
-  width: 2.25rem;
-  aspect-ratio: 1;
-  display: grid;
-  place-content: center;
-}
-*/
-
   .card:focus-within {
     outline: 3px solid var(--c-accent);
     outline-offset: 2px;
@@ -86,13 +100,12 @@
     -webkit-box-orient: vertical;
     display: -webkit-box;
     overflow: hidden;
-    padding: var(--space-2xs) var(--space-xs);
     border-radius: var(--radius-s);
+    max-width: 70ch;
   }
 
   .card__attributes {
     overflow: hidden;
-    padding: var(--space-m);
   }
 
   .card__header:has(> *:nth-child(2)),
@@ -100,36 +113,28 @@
     display: flex;
     gap: var(--space-m);
     justify-content: space-between;
+    align-items: center;
   }
 
   .card .card__header {
     /* TODO: */
     padding: var(--space-xs) var(--space-m) !important;
+    margin: 0 !important;
   }
 
   .card__footer {
     padding: var(--space-m);
   }
 
-  .card:has(.card__header) {
-    /* padding-block-start: var(--space-s); */
+  .card figure {
+    /* width: 100%; */
+    margin: 0;
+    box-sizing: border-box;
+    overflow: hidden;
   }
 
-  /* .card:not(:has(:is(.card__header, .card__footer, .card__attributes))) {
-  padding: var(--space-m);
-} */
-
-  .card > * {
-    /* TODO: This works well only for header/body/footer */
-    padding-inline: var(--space-m);
-
-    &:first-child {
-      padding-block-start: var(--space-m);
-    }
-
-    &:last-child {
-      padding-block-end: var(--space-m);
-    }
+  .card > img:only-child {
+    height: 100%;
   }
 
   .card figure,
@@ -137,19 +142,13 @@
   .card video {
     /* TODO */
     max-height: 200px;
-    height: 100%;
-    width: 100%;
     object-fit: cover;
-    padding: 0; /* Remove padding from all images by default */
-
     &:only-child {
       padding: 0;
       max-height: none;
-      height: 100%;
-      /* TODO: smarter approach to radius */
-      border-radius: inherit;
-      position: absolute; /* Add this to ensure it fills the card when it's the only child */
+
       inset: 0;
+      border-radius: inherit;
     }
   }
 
@@ -158,10 +157,16 @@
     grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
     gap: var(--space-xs);
     padding: var(--space-xs);
+    overflow: hidden; /* Prevent overflow */
 
     img,
     video {
       border-radius: var(--radius-s);
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      min-height: 0; /* Allow images to shrink */
+
       &:first-child {
         grid-column: span 2;
       }
@@ -172,14 +177,25 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--space-xs);
+    overflow: hidden; /* Prevent overflow */
 
     img,
     video {
       border-radius: var(--radius-s);
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      min-height: 0; /* Allow images to shrink */
+
       &:first-child {
         grid-column: initial;
       }
     }
+  }
+
+  .card > figure {
+    flex-shrink: 0; /* Prevent the figure from shrinking too much */
+    align-self: stretch; /* Make sure the figure stretches across the card */
   }
 }
 
@@ -199,4 +215,20 @@ video {
 .description--full {
   font-size: var(--text-s);
   max-width: 70ch;
+}
+
+.card > *:not(img, video, figure, pp-dropdown, div:not([class])),
+.card .description,
+.card .label,
+.card h4,
+.card h3 {
+  /* Everything has a padding because +/- everything can be interactive/hoverable*/
+  padding: var(--space-2xs) var(--space-xs);
+}
+
+.card.card--overlay {
+  background-image: var(--card-img);
+  /* background-size: cover; */
+  background-position: center;
+  box-shadow: inset 0 0 0 1000px oklch(0% 0 0 / 15%);
 }

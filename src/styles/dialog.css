@@ -55,8 +55,6 @@
     gap: var(--space-m);
     justify-content: space-between;
     align-items: flex-start;
-    /* padding-inline: var(--space-m);
-  padding-block: var(--space-m); */
   }
 
   dialog > footer > menu {

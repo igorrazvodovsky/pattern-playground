@@ -3,7 +3,7 @@ import * as CardStories from './Card.stories.ts';
 
 <Meta of = { CardStories } />
 
-> 😕 **Fun meter: 7/10**. Struggling to decide on how much of the _card-like_ stuff should be forced into one "component".
+> 😀 **Fun meter: 7/10**. Struggling to decide on how much of the _card-like_ stuff should be forced into one "component".
 
 # Card
 
@@ -18,10 +18,6 @@ Cards are used to group related subjects in a container.
 ### Elements
 
 The container is the only required element in a card. All other elements are optional.
-
-#### Title/header/label
-
-It grows from here.
 
 <Story of={ CardStories.Basic } />
 
@@ -38,6 +34,10 @@ It grows from here.
 Support for cards with one, multiple images, plus image-only cards.
 
 <Story of={ CardStories.Image } />
+
+#### Actions
+
+...
 
 ### Element blocks
 
@@ -73,6 +73,10 @@ Blocks can have different levels of importance, depending on their priority.
 ### Expanding
 
 ...
+
+### Image overlay
+
+<Story of={ CardStories.ImageOverlay } />
 
 ## Actions
 

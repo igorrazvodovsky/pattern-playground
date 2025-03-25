@@ -8,6 +8,8 @@ import basicHtml from "./CardBasic.html?raw";
 import footerHtml from "./CardFooter.html?raw";
 import footerAlignedHtml from "./CardFooterAligned.html?raw";
 import imageHtml from "./CardImage.html?raw";
+import imageOverlayHtml from "./CardImageOverlay.html?raw";
+import actionsHtml from "./CardActions.html?raw";
 
 const createCardData = () => {
   return {
@@ -50,8 +52,8 @@ export const Card: Story = {
         src="https://images.unsplash.com/photo-1583524505974-6facd53f4597?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
         alt="A kitten sits patiently between a terracotta pot and decorative grasses."
       />
-      <h4>${faker.word.words()}</h4>
-      <p>${faker.hacker.phrase()}</p>
+      <h4 class="label">${faker.word.words()}</h4>
+      <p class="description">${faker.hacker.phrase()}</p>
       <small>${faker.date.recent().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</small>
     </article>
   </div>
@@ -63,26 +65,12 @@ export const Basic: Story = {
   render: () => html`${unsafeHTML(basicHtml)}`,
 };
 
-export const Body: Story = {
-  render: () => html`
-    <section class="cards layout-grid">
-      <div>
-        <article class="card">
-          <h3>${faker.word.words()}</h3>
-          <p>${faker.hacker.phrase()}</p>
-          <small>${faker.date.recent().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</small>
-        </article>
-      </div>
-    </section>
-`,
-};
-
 export const Attributes: Story = {
   render: () => html`
   <section class="cards cards--list">
     <div>
       <article class="card">
-        <span>${faker.company.name()}</span>
+        <span class="label">${faker.company.name()}</span>
         <span class="card__attributes badges">
           <span class="badge"><span class="badge__label">67.1</span></span>
           <span class="badge"><span class="badge__label">18</span></span>
@@ -95,7 +83,7 @@ export const Attributes: Story = {
   <section class="cards layout-grid">
     <div>
       <article class="card">
-        <h4>${faker.company.name()}</h4>
+        <h4 class="label">${faker.company.name()}</h4>
         <div class="card__attributes badges">
         ${repeat(attributes, (attribute) => html`<span class="badge"><span class="badge__label">${attribute.name}</span>${attribute.value}</span>`)}
         </div>
@@ -110,7 +98,7 @@ export const Description: Story = {
   <section class="cards">
     <div>
       <article class="card">
-        <span>Basic description</span>
+        <h4 class="label">Basic description</h4>
         <p class="description">${faker.word.words(20)}.</p>
       </article>
     </div>
@@ -119,7 +107,7 @@ export const Description: Story = {
   <ul class="cards layout-grid">
     <li>
       <article class="card">
-        <h4>Longer description</h4>
+        <h4 class="label">Longer description</h4>
         <pp-dropdown hoist placement="right">
           <p slot="trigger" class="description">${description}.</p>
           <pp-list>
@@ -130,7 +118,7 @@ export const Description: Story = {
     </li>
     <li>
       <article class="card">
-        <h4>Editable description</h4>
+        <h4 class="label">Editable description</h4>
         <pp-dropdown hoist placement="right">
           <p for="description" slot="trigger" class="description">${description}.</p>
           <pp-list>
@@ -159,6 +147,14 @@ export const Image: Story = {
   render: () => html`${unsafeHTML(imageHtml)}`,
 };
 
+export const ImageOverlay: Story = {
+  render: () => html`${unsafeHTML(imageOverlayHtml)}`,
+};
+
+export const Actions: Story = {
+  render: () => html`${unsafeHTML(actionsHtml)}`,
+};
+
 export const LayoutList: Story = {
   render: () => html`
   <ul class="articles articles--list layout-grid">
@@ -181,7 +177,7 @@ export const LayoutList: Story = {
 
 export const LayoutGrid: Story = {
   render: () => html`
-  <ul class="articles articles--grid layout-grid">
+  <ul class="cards cards--grid layout-grid">
   ${repeat(cardsData, (card) => html`
     <li>
       <article class="card">
