@@ -41,13 +41,13 @@
 
     /* for icon-only buttons */
     &:has(.inclusively-hidden) {
-      border-radius: 50%;
+      /* border-radius: 50%; */
       padding: 0.5em;
-      --button-border: transparent;
-      --button-box-shadow: none;
+      /* --button-border: transparent; */
+      /* --button-box-shadow: none; */
 
       &:not(:disabled):hover {
-        --button-border: transparent;
+        /* --button-border: transparent; */
       }
     }
 

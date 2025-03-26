@@ -17,6 +17,7 @@
 
   .cards.cards--list .card {
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: flex-start;
 
     & > * {
@@ -102,6 +103,7 @@
     overflow: hidden;
     border-radius: var(--radius-s);
     max-width: 70ch;
+    flex-basis: 100%;
   }
 
   .card__attributes {
