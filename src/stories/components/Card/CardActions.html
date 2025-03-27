@@ -1,17 +1,31 @@
 <div class="flow">
-  <ul class="cards flow cards--list">
+  <ul class="cards layout-grid">
     <li>
       <article class="card">
-        <img
+        <!-- <img
           src="https://images.unsplash.com/photo-1583524505974-6facd53f4597?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
           alt="A kitten sits patiently between a terracotta pot and decorative grasses."
-        />
-        <h4>This card has actions</h4>
-        <p class="description">The image should be square in list view.</p>
+        /> -->
+        <div>
+          <h3 class="label">This card has actions</h3>
+          <!-- <span class="card__attributes badges">
+            <span class="badge"><span class="badge__label">Small</span></span>
+            <span class="badge"><span class="badge__label">Boy</span></span>
+            <span class="badge"><span class="badge__label">Cute</span></span>
+          </span> -->
+        </div>
 
+        <p class="description">
+          The footer is an ideal location for task-level actions that users are
+          highly likely to perform.
+        </p>
         <div class="card__actions">
           <button class="button" is="pp-buton">
-            <iconify-icon class="icon" icon="ph:shopping-cart-simple"></iconify-icon>Add
+            <iconify-icon
+              class="icon"
+              icon="ph:shopping-cart-simple"
+            ></iconify-icon
+            >Add
           </button>
           <button class="button" is="pp-buton">
             <iconify-icon class="icon" icon="ph:info"></iconify-icon
@@ -26,21 +40,63 @@
     </li>
     <li>
       <article class="card">
-        <img
+        <!-- <img
           src="https://images.unsplash.com/photo-1583524505974-6facd53f4597?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
           alt="A kitten sits patiently between a terracotta pot and decorative grasses."
-        />
+        /> -->
         <div>
-          <h4>This card also has actions</h4>
-          <p class="description">
-            Once, in a quiet alley tucked behind a row of crooked brick houses,
-            a tiny gray kitten was born beneath a rusted wheelbarrow. Her fur
-            was scruffy, her tail comically short, and her meow sounded more
-            like a squeaky hinge than anything threatening. Her name, if she had
-            one, was unknown—until the day she wandered out from the shadows and
-            into the life of a boy named Milo.
-          </p>
+          <h3 class="label">So does this one</h3>
+          <!-- <span class="card__attributes badges">
+            <span class="badge"><span class="badge__label">Small</span></span>
+            <span class="badge"><span class="badge__label">Boy</span></span>
+            <span class="badge"><span class="badge__label">Cute</span></span>
+          </span> -->
         </div>
+        <div class="card__actions card__actions--secondary">
+          <button class="button button--plain" is="pp-buton">
+            <iconify-icon class="icon" icon="ph:dots-three"></iconify-icon
+            ><span class="inclusively-hidden">Another action</span>
+          </button>
+        </div>
+        <p class="description">
+          Several different actions related to the card’s content can be grouped
+          under ellipsis.
+        </p>
+      </article>
+    </li>
+    <li>
+      <article class="card hover-only-actions">
+        <!-- <img
+          src="https://images.unsplash.com/photo-1583524505974-6facd53f4597?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
+          alt="A kitten sits patiently between a terracotta pot and decorative grasses."
+        /> -->
+        <div>
+          <h3 class="label">Same here</h3>
+          <!-- <span class="card__attributes badges">
+            <span class="badge"><span class="badge__label">Small</span></span>
+            <span class="badge"><span class="badge__label">Boy</span></span>
+            <span class="badge"><span class="badge__label">Cute</span></span>
+          </span> -->
+        </div>
+        <div class="card__actions card__actions--secondary">
+          <div class="button-group">
+            <button class="button" is="pp-buton">
+              <iconify-icon
+                class="icon"
+                icon="ph:pencil-simple-line"
+              ></iconify-icon
+              ><span class="inclusively-hidden">Action</span>
+            </button>
+            <button class="button" is="pp-buton">
+              <iconify-icon class="icon" icon="ph:dots-three"></iconify-icon
+              ><span class="inclusively-hidden">Another action</span>
+            </button>
+          </div>
+        </div>
+        <p class="description">
+          Hover-only actions for situations when their availability is obvious
+          in context.
+        </p>
       </article>
     </li>
   </ul>

@@ -10,11 +10,14 @@ import footerAlignedHtml from "./CardFooterAligned.html?raw";
 import imageHtml from "./CardImage.html?raw";
 import imageOverlayHtml from "./CardImageOverlay.html?raw";
 import actionsHtml from "./CardActions.html?raw";
+import { icons } from "../../icons.ts";
+
+function randomIcon() { return 'ph:' + icons[icons.length * Math.random() << 0].name }
 
 const createCardData = () => {
   return {
     img: faker.image.url(),
-    title: faker.word.words(),
+    title: faker.word.words({ count: { min: 3, max: 5 } }),
     description: faker.hacker.phrase(),
     date: faker.date.recent().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
   }
@@ -32,7 +35,7 @@ const attributes = faker.helpers.multiple(createAttribute, { count: 5 })
 const description = faker.word.words(50);
 
 const meta = {
-  title: "Components/Card",
+  title: "Compositions/Card",
   argTypes: {
     // backgroundColor: { control: "color" },
     loading: { control: 'boolean' }
@@ -167,7 +170,9 @@ export const LayoutList: Story = {
         />
         <a href="#">${card.title}</a>
         <p>${card.description}</p>
-        <small>${card.date}</small>
+        <footer>
+          <small>${card.date}</small>
+        </footer>
       </article>
     </li>
   `)}
@@ -181,13 +186,14 @@ export const LayoutGrid: Story = {
   ${repeat(cardsData, (card) => html`
     <li>
       <article class="card">
-        <img
-          src="https://images.unsplash.com/photo-1583524505974-6facd53f4597?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
-          alt="A kitten sits patiently between a terracotta pot and decorative grasses."
-        />
+        <div style="font-size: var(--text-xl); margin: var(--space-m)">
+          <iconify-icon class="icon" icon="${randomIcon()}" slot="icon"></iconify-icon>
+        </div>
         <a href="#">${card.title}</a>
         <p>${card.description}</p>
-        <small>${card.date}</small>
+        <footer>
+          <small>${card.date}</small>
+        </footer>
       </article>
     </li>
   `)}

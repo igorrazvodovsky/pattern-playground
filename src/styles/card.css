@@ -1,6 +1,7 @@
 @layer layout {
   .cards > * {
     container: var(--grid-item-container, grid-item) / inline-size;
+    display: grid;
   }
 
   .cards .card {
@@ -16,14 +17,8 @@
   }
 
   .cards.cards--list .card {
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: flex-start;
-
-    & > * {
-      /* works for stuff located inline */
-      margin-block: var(--space-s);
-    }
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto auto auto;
   }
 
   .cards.layout-grid .card {
@@ -31,12 +26,18 @@
       /* works for stuff located inline */
       margin-inline: var(--space-s);
     }
+
+    .card__attributes {
+      display: flex;
+    }
   }
 
   .cards--list .card img,
   .cards--list .card figure {
+    grid-row: 1 / -1;
     aspect-ratio: 1/1;
-    height: 100%;
+    /* height: 100%; */
+    /* TODO: sizing variable */
     width: 80px;
     padding: 0;
     margin: var(--space-s);
@@ -54,12 +55,13 @@
     border: var(--border);
     border-radius: var(--radius-m);
     position: relative;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    /* gap: var(--space-s); */
+
+    display: grid;
+    grid-template-columns: 1fr;
+
     align-content: baseline;
-    align-content: space-between;
+
+    overflow: hidden;
 
     &.card--plain {
       border: none;
@@ -104,6 +106,7 @@
     border-radius: var(--radius-s);
     max-width: 70ch;
     flex-basis: 100%;
+    text-wrap: pretty;
   }
 
   .card__attributes {
@@ -120,12 +123,16 @@
 
   .card .card__header {
     /* TODO: */
-    padding: var(--space-xs) var(--space-m) !important;
+    padding: var(--space-s) var(--space-m) !important;
     margin: 0 !important;
   }
 
   .card__footer {
     padding: var(--space-m);
+  }
+
+  .card:has(:where(.card__footer, footer)) {
+    align-content: space-between;
   }
 
   .card figure {
@@ -135,8 +142,15 @@
     overflow: hidden;
   }
 
-  .card > img:only-child {
-    height: 100%;
+  .card > img {
+    width: 100%;
+
+    &:only-child {
+      height: 100%;
+    }
+  }
+  .card:has(img:only-child) {
+    grid-template: 1fr / 1fr;
   }
 
   .card figure,
@@ -145,6 +159,7 @@
     /* TODO */
     max-height: 200px;
     object-fit: cover;
+
     &:only-child {
       padding: 0;
       max-height: none;
@@ -221,6 +236,7 @@ video {
 
 .card > *:not(img, video, figure, pp-dropdown, div:not([class])),
 .card .description,
+.card .card__attributes,
 .card .label,
 .card h4,
 .card h3 {
@@ -233,4 +249,21 @@ video {
   /* background-size: cover; */
   background-position: center;
   box-shadow: inset 0 0 0 1000px oklch(0% 0 0 / 15%);
+}
+
+.card__actions--secondary {
+  position: absolute;
+  top: var(--space-s);
+  right: var(--space-s);
+  margin: 0;
+}
+
+/* Add a rule about touch-devices */
+.hover-only-actions button {
+  opacity: 0;
+  transition: 120ms opacity ease-in-out;
+}
+
+.hover-only-actions:hover button {
+  opacity: 1;
 }
