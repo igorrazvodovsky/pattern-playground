@@ -1,0 +1,16 @@
+import { Meta, Story, Canvas } from '@storybook/blocks';
+import * as TextareaStories from './Textarea.stories.ts';
+
+<Meta of={TextareaStories} />
+
+{/* On differences between badges and lozenges. Same look, similar semantics */}
+
+> 🥱 **Fun meter: boring**. Included as a prerequisite for more interesting things.
+
+# Textarea
+
+Will automatically resize to expand to fit their content.
+
+<Canvas>
+  <Story of={ TextareaStories.Basic } />
+</Canvas>

@@ -39,17 +39,12 @@ export const Basic: Story = {
     setTimeout(() => {
       getAnswer()
         .then(response => {
-          console.log("Rendering response to container:", response);
           container.innerHTML = `${response}`;
         })
         .catch(error => {
-          console.error("Error in story render:", error);
           container.innerHTML = `
-            <div class="error">
-              <h3>Error</h3>
               <p>${error.message}</p>
               <pre>${error.stack}</pre>
-            </div>
           `;
         });
     }, 100);
