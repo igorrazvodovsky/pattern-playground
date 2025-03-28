@@ -1,0 +1,59 @@
+import type { Meta, StoryObj } from "@storybook/web-components";
+import { callOpenAI } from "../../../utils/api";
+
+const getAnswer = async () => {
+  try {
+    console.log("Calling OpenAI API...");
+    const response = await callOpenAI("What's the capital of Mars?");
+    console.log("Received response:", response);
+    return response;
+  } catch (error) {
+    console.error("Error calling OpenAI:", error);
+    throw error;
+  }
+};
+
+const meta = {
+  title: "Patterns/Goal-oriented UI",
+  parameters: {
+    async: true,
+    docs: {
+      description: {
+        component: "Goal-oriented UI pattern demonstrates interfaces organized around user objectives."
+      }
+    }
+  }
+} satisfies Meta;
+
+export default meta;
+type Story = StoryObj;
+
+export const Basic: Story = {
+  render: () => {
+    const container = document.createElement('div');
+    container.innerHTML = '<div class="loading">Loading response...</div>';
+
+    console.log("Story rendering, about to call getAnswer()");
+
+    // Add a delay to ensure the DOM is ready
+    setTimeout(() => {
+      getAnswer()
+        .then(response => {
+          console.log("Rendering response to container:", response);
+          container.innerHTML = `${response}`;
+        })
+        .catch(error => {
+          console.error("Error in story render:", error);
+          container.innerHTML = `
+            <div class="error">
+              <h3>Error</h3>
+              <p>${error.message}</p>
+              <pre>${error.stack}</pre>
+            </div>
+          `;
+        });
+    }, 100);
+
+    return container;
+  },
+};
