@@ -1,0 +1,224 @@
+{
+  "version": "1.3.0",
+  "updated_at": "2025-03-28T16:45:00Z",
+  "updated_by": "product-admin@acmecorp.com",
+  "product_modeling": {
+    "products": [
+      {
+        "id": "prd_001",
+        "name": "Hydraulic Press",
+        "type": "configurable",
+        "status": "active",
+        "category": "Press Machines",
+        "description": "Customizable hydraulic press for industrial metal forming applications.",
+        "attributes": [
+          { "ref": "attr_press_force" },
+          { "ref": "attr_frame_type" },
+          { "ref": "attr_safety_enclosure" },
+          { "ref": "attr_voltage" }
+        ],
+        "components": [
+          { "ref": "cmp_hpu" },
+          { "ref": "cmp_touchscreen_hmi" },
+          { "ref": "cmp_light_curtain" }
+        ],
+        "subassemblies": [
+          {
+            "id": "sub_001",
+            "name": "Cooling System",
+            "description": "Cools hydraulic fluid during continuous operation.",
+            "attributes": [
+              {
+                "id": "attr_005",
+                "name": "Cooling Type",
+                "data_type": "picklist",
+                "options": ["Air-Cooled", "Water-Cooled"],
+                "required": true,
+                "help_text": "Select cooling method based on operating environment and usage duration."
+              },
+              {
+                "id": "attr_006",
+                "name": "Ambient Temperature",
+                "data_type": "number",
+                "unit": "°C",
+                "required": false,
+                "range": {
+                  "min": -10,
+                  "max": 60
+                },
+                "help_text": "Used to recommend cooling type."
+              }
+            ],
+            "components": [
+              {
+                "id": "cmp_004",
+                "name": "Water Pump Assembly",
+                "type": "conditional",
+                "relationship": "conditional",
+                "condition": "Cooling Type = Water-Cooled",
+                "help_text": "Included only when water cooling is selected."
+              }
+            ]
+          }
+        ],
+        "rules": [
+          { "ref": "rule_safety_requirement" },
+          { "ref": "rule_frame_limit" },
+          {
+            "id": "rule_003",
+            "name": "Cooling Recommendation",
+            "type": "validation",
+            "if": "Cooling Type = Air-Cooled AND Ambient Temperature > 45",
+            "then": "warn",
+            "message": "Air cooling may be insufficient above 45°C.",
+            "help_text": "Suggest using water cooling in hot environments."
+          }
+        ]
+      },
+      {
+        "id": "prd_002",
+        "name": "Servo-Driven Press",
+        "type": "configurable",
+        "status": "active",
+        "category": "Press Machines",
+        "description": "Precision servo-driven press with energy-efficient motor control.",
+        "attributes": [
+          { "ref": "attr_press_force" },
+          { "ref": "attr_frame_type" },
+          { "ref": "attr_voltage" },
+          {
+            "id": "attr_007",
+            "name": "Servo Control Type",
+            "data_type": "picklist",
+            "options": ["Torque-Based", "Position-Based", "Hybrid"],
+            "required": true,
+            "help_text": "Select how the servo motor is controlled during operation."
+          }
+        ],
+        "components": [
+          { "ref": "cmp_touchscreen_hmi" },
+          {
+            "id": "cmp_005",
+            "name": "Servo Drive Controller",
+            "type": "mandatory",
+            "relationship": "included",
+            "help_text": "Core motion controller for servo motor system."
+          }
+        ],
+        "subassemblies": [],
+        "rules": [
+          {
+            "id": "rule_004",
+            "name": "Voltage Compatibility",
+            "type": "validation",
+            "if": "Voltage = 480V AND Servo Control Type = Hybrid",
+            "then": "throw error",
+            "message": "Hybrid control is not supported at 480V.",
+            "help_text": "Prevent invalid motor/controller combination."
+          }
+        ]
+      }
+    ],
+    "shared_attributes": [
+      {
+        "id": "attr_press_force",
+        "name": "Press Force",
+        "data_type": "number",
+        "unit": "ton",
+        "required": true,
+        "range": { "min": 50, "max": 1000 },
+        "help_text": "Specify the force output. Range varies by product type."
+      },
+      {
+        "id": "attr_frame_type",
+        "name": "Frame Type",
+        "data_type": "picklist",
+        "options": ["C-Frame", "H-Frame", "Four-Column"],
+        "required": true,
+        "help_text": "Impacts machine footprint and load distribution."
+      },
+      {
+        "id": "attr_safety_enclosure",
+        "name": "Safety Enclosure",
+        "data_type": "boolean",
+        "default": false,
+        "help_text": "Adds a physical safety barrier around the working area."
+      },
+      {
+        "id": "attr_voltage",
+        "name": "Voltage",
+        "data_type": "picklist",
+        "options": ["220V", "380V", "480V"],
+        "required": true,
+        "help_text": "Select based on regional or facility power availability."
+      }
+    ],
+    "shared_components": [
+      {
+        "id": "cmp_hpu",
+        "name": "Hydraulic Power Unit",
+        "type": "mandatory",
+        "relationship": "included",
+        "used_in": ["Hydraulic Press"],
+        "help_text": "Generates and regulates fluid pressure for hydraulic operation."
+      },
+      {
+        "id": "cmp_touchscreen_hmi",
+        "name": "Touchscreen HMI",
+        "type": "optional",
+        "relationship": "configurable",
+        "used_in": ["Hydraulic Press", "Servo-Driven Press"],
+        "help_text": "User interface for setting machine parameters and status monitoring."
+      },
+      {
+        "id": "cmp_light_curtain",
+        "name": "Light Curtain",
+        "type": "optional",
+        "relationship": "conditional",
+        "used_in": ["Hydraulic Press"],
+        "help_text": "Safety system to detect intrusion in the work zone."
+      }
+    ],
+    "shared_rules": [
+      {
+        "id": "rule_safety_requirement",
+        "name": "Safety Requirement",
+        "type": "inclusion",
+        "if": "Safety Enclosure = false",
+        "then": "include Light Curtain",
+        "message": "A Light Curtain must be included if no Safety Enclosure is selected.",
+        "help_text": "Ensures basic safety compliance."
+      },
+      {
+        "id": "rule_frame_limit",
+        "name": "Frame Type Max Load",
+        "type": "validation",
+        "if": "Frame Type = C-Frame AND Press Force > 200",
+        "then": "throw error",
+        "message": "C-Frame cannot support press forces above 200 tons.",
+        "help_text": "Prevents over-specification of weak frames."
+      }
+    ]
+  },
+  "history": [
+    {
+      "version": "1.2.0",
+      "updated_at": "2025-03-28T14:20:00Z",
+      "changes": [
+        "Initial modeling of Hydraulic Press",
+        "Added Cooling System subassembly",
+        "Shared attributes and components created"
+      ]
+    },
+    {
+      "version": "1.3.0",
+      "updated_at": "2025-03-28T16:45:00Z",
+      "changes": [
+        "Added Servo-Driven Press product",
+        "Linked shared components and attributes",
+        "Introduced voltage compatibility rule",
+        "Created new servo-specific control attribute"
+      ]
+    }
+  ]
+}

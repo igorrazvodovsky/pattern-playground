@@ -21,6 +21,13 @@
   border-bottom: none;
 }
 
+.sbdocs > blockquote {
+  background: oklch(0% 0 0 / 5%);
+  border-color: oklch(0% 0 0 / 10%);
+  padding: var(--space-s) var(--space-m);
+  max-width: 70ch;
+}
+
 :where(p:not(.sb-anchor, .sb-unstyled, .sb-unstyled p)),
 .sbdocs > *:not(.sb-story) li:not(.sb-anchor, .sb-unstyled, .sb-unstyled) {
   font-size: 16px !important;

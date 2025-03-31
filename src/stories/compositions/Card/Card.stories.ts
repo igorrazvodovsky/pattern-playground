@@ -35,7 +35,7 @@ const attributes = faker.helpers.multiple(createAttribute, { count: 5 })
 const description = faker.word.words(50);
 
 const meta = {
-  title: "Compositions/Card",
+  title: "Compositions/Card*",
   argTypes: {
     // backgroundColor: { control: "color" },
     loading: { control: 'boolean' }

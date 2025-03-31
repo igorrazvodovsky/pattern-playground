@@ -3,7 +3,7 @@ import { html } from "lit";
 import type { InputProps } from "../../components/input/input";
 
 const meta = {
-  title: "Components/Input",
+  title: "Primitives/Input",
 } satisfies Meta<InputProps>;
 
 export default meta;
