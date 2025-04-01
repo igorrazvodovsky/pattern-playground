@@ -33,7 +33,7 @@ The user explicitly clicks a *Save* button (or triggers a keyboard shortcut) to 
 ✓ Pros
 - User control: the user intentionally decides when changes are stored.
 - Simplicity in some workflows: less background syncing or conflict resolution is needed.
-- Clear feedback Loop: The user sees the result of each save action in a predictable step.
+- Clear feedback loop: The user sees the result of each save action in a predictable step.
 
 ✗ Cons
 - Risk of data loss: If a user forgets to save or the system fails, all unsaved changes are lost.
@@ -77,24 +77,25 @@ Users should always know whether their work is saved or if an error occurred.
 - Timestamp or status: Provide the last saved timestamp (e.g., “Saved at 10:12 AM”).
 - Error handling: notify the user if saving fails (e.g., offline or server error) and offer next steps (retry, copy data, etc.).
 
-## Conflict resolution
+## TODO: Conflict resolution
 
 Conflicts can occur when multiple users or sessions edit simultaneously, or when offline changes are synced.
-- Provide a clear, minimal-friction interface for resolving conflicts (e.g., highlight differences, show user attributions).
-- Offer version logs so users can trace who changed what.
+{/* - Provide a clear, minimal-friction interface for resolving conflicts (e.g., highlight differences, show user attributions). */}
+{/* - Offer version logs so users can trace who changed what. */}
 
-## Offline support & network/device failure
+## TODO: Offline support & network/device failure
 
 - Local drafts/queue: store unsynced changes locally and push them when the user reconnects.
 - Visual indicators: let users know they’re offline and that changes are queued.
 - Conflict handling: if others changed the record while the user was offline, present a merge flow upon reconnection.
 
-## Redirecting upon creation of new items
+## TODO: Redirecting upon creation of new items
 
 When creating a new record or entity, decide whether to:
 - Stay in context: the user remains on the same form or page to continue editing.
 - Redirect to newly created item.
 - Offer a choice: e.g. “create Another” vs. “go to created Item.”
+
 ## Related patterns
 
 - Draft vs. publish workflow

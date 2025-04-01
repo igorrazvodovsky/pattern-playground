@@ -6,7 +6,7 @@ import { icons } from "../icons.ts";
 function randomIcon() { return 'ph:' + icons[icons.length * Math.random() << 0].name }
 
 const meta = {
-  title: "Primitives/Priority+",
+  title: "Components/Priority+*",
   argTypes: {},
 } satisfies Meta;
 

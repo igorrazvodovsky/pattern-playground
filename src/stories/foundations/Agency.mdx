@@ -2,22 +2,59 @@ import { Meta } from '@storybook/blocks';
 
 <Meta title="Foundations/Agency*" />
 
-> 🤯 **Fun meter: 10/10**. Trying to find a connection between design systems and LLMs.
+> 🤯 **Fun meter: 10/10**. Trying to find useful framing to integrate LLMs with design systems.
 
 # Agency
 
 The ability of a system to act independently, make decisions, and execute tasks.
 
+## Components
+
+ - Autonomy,
+ - [Adaptation](../?path=/docs/foundations-adaptation--docs)
+ - Interactivity
+
 ## Spectrum
+
+Agency can be thought of as operating on a continuum from a high level of agency through to the point of only reacting to user input (same goes for its components).
 
 Assistance → Automation → Agency
 ...
 
 ## Relationships to different levels of design system
 
-...
+The point here is that agency progressively expands as we move up through scales of the design system:
+
+At the [foundational](../?path=/docs/foundations-overview--docs) level, basic elements provide limited to no agency.
+They're tightly constrained, predictable, and dependable—ensuring everything stays
+visually and contextually coherent.
+
+One level up, [primitives](../?path=/docs/primitives-overview--docs) and [components](../?path=/docs/components-overview--docs) gain slightly more agency.
+They can be dynamically arranged, selected, or surfaced based on context.
+A menu might offer precisely relevant actions in response to user intent,
+actively supporting the user's immediate goals without straying too far from familiar interactions.
+
+Moving further up, [compositions](../?path=/docs/compositions-overview--docs)—such as comment threads or product cards—carry greater agency.
+They intelligently package sets of primitives into meaningful units. With this increased agency,
+blocks can adapt themselves dynamically, appearing precisely where and when users need them,
+leveraging context.
+
+At the highest level, agency is greatest: [patterns](../?path=/docs/patterns-overview--docs) can adapt and reshape themselves strategically,
+actively guiding the user journey. Contextual side panels, connected documents, or dynamically
+arranged sections respond proactively, anticipating user needs and creating experiences that feel
+coherent, intentional, and responsive.
+
+## Things to consider
+
+- Designing agentive software requires a change in the mental model: from viewing software as a passive tool to active participant.
+- Design must strike a balance between delegating tasks to the system and maintaining user control and judgement. Interfaces and interactions should leverage the AI's capabilities while ensuring humans can review, modify, and ultimately make final decisions.
+- This includes protecting and advancing user expertise when valuable. If 100% of tasks are delegated to AI, a user will start forgetting domain knowledge.
 
 ## Related
 
 - AX: agent experience
-- Adaptation
+- Relies on [adaptation](../?path=/docs/foundations-adaptation--docs)
+
+{/* ## Resources */}
+
+{/* - [Noncommand user interfaces](https://www.nngroup.com/articles/noncommand/), Jakob Nielsen, 1993 */}
