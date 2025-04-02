@@ -1,8 +1,57 @@
 @layer components {
   .avatar {
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     border-radius: var(--radius-l);
     background: var(--c-neutral-200);
+  }
+
+  pp-avatar {
+    display: inline-block;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 48px;
+    height: 48px;
+    background: var(--c-neutral-500);
+  }
+
+  pp-avatar svg,
+  pp-avatar iconify-icon {
+    color: var(--c-neutral-0);
+    fill: var(--c-neutral-0);
+    font-size: var(--text-xl);
+  }
+
+  pp-avatar[size="small"] {
+    width: 32px;
+    height: 32px;
+  }
+
+  pp-avatar[size="medium"] {
+    width: 48px;
+    height: 48px;
+  }
+
+  pp-avatar[size="large"] {
+    width: 64px;
+    height: 64px;
+  }
+
+  pp-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .avatar-group pp-avatar:not(:first-of-type) {
+    margin-left: -1rem;
+  }
+
+  .avatar-group pp-avatar {
+    border: solid 2px var(--c-neutral-0);
   }
 }
