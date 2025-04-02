@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/blocks';
 
-<Meta title="Foundations/Density*" />
+<Meta title="Foundations/Density" />
 
 > 🙂 **Fun meter: kind of fun**. Trying to define a more nuansed approach to UI density.
 
@@ -18,7 +18,7 @@ or lowering temporal density.
 
 - How many things you see in a given space.
 - A question of visual perception and consequently a result of color + sizing + spacing + typography.
-- It's mostly addressed by [spacing](../?path=/docs/foundations-spacing--docs) increment and its levels.
+- It's currently mostly addressed by [spacing](../?path=/docs/foundations-spacing--docs) increment and its levels.
 
 ## Information density
 
@@ -26,13 +26,17 @@ or lowering temporal density.
 - It's not just about how much you cram in visually, but about how much meaningful information the user gains.
 - High information density might mean richly informative dashboards, detailed maps, or complex diagrams.
 - Low information density tends toward simplicity, clarity, and minimalism, sacrificing detail for immediate comprehension.
+- Information density is usually managed through higher-level constructs like components and how they're composed. For example, deciding whether to use a [table](../?path=/docs/components-table--docs) or [cards](../?path=/docs/compositions-card--docs).
 
 ## Design density
 
 - The complexity and layering of design decisions, components, and interactions within the UI.
 - High design density includes multiple interacting components, states, patterns, modals, nested interactions, or deeply layered navigation structures.
 - Low design density emphasizes simplicity—fewer states, fewer types of interactions, more straightforward flow.
+- Design density is embedded into interactions, flows, and patterns—especially at the composition level.
+- Example: inline editing generally reduces information density but increases design density.
 
 ## Temporal density
 
-Just like having more stuff packed into a space creates visual density, having more actions packed into a period creates temporal density.
+Just like having more stuff packed into a space creates visual density,
+having more actions packed into a period creates temporal density.
