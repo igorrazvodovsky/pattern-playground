@@ -3,10 +3,8 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { callOpenAI } from "../../../../utils/api.js";
 import { html } from "lit";
 import { repeat } from 'lit/directives/repeat.js';
-import { icons } from "../../icons.ts";
 import stuffData from "./stuff.json";
 
-function randomIcon() { return 'ph:' + icons[icons.length * Math.random() << 0].name }
 
 // Define interfaces for each data type
 interface BaseItem {
@@ -46,13 +44,6 @@ interface Rule extends BaseItem {
   category: 'rules';
 }
 
-interface HistoryEntry extends BaseItem {
-  version: string;
-  updated_at: string;
-  changes: string[];
-  category: 'history';
-}
-
 type MergedItem = Product | Attribute | Component | Rule;
 
 // Using the imported JSON data from stuff.json
@@ -82,7 +73,7 @@ const getAnswer = async () => {
 };
 
 const meta = {
-  title: "Patterns/Intent-based adaptation*",
+  title: "Patterns/Situational structure*",
   parameters: {
     async: true
   }
@@ -123,7 +114,14 @@ export const ProductModelling: Story = {
     <div class="cards cards--grid layout-grid">
       <div style="grid-column: span 2">
         <div class="card">
-          Textarea, chips with suggestions
+          <div class="grow-wrap">
+            <textarea placeholder="Plan, search, @mention" rows="1" name="text" id="text" onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+          </div>
+          <div class="card__actions">
+            <button class="button" is="pp-buton">Continue with…</button>
+            <button class="button" is="pp-buton">Create…</button>
+            <button class="button" is="pp-buton">Plan…</button>
+          </div>
         </div>
       </div>
     </div>
