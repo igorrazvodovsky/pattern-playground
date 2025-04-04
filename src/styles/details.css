@@ -1,0 +1,38 @@
+@layer components {
+  details {
+    border: var(--border);
+    border-radius: var(--radius-m);
+    padding: var(--space-m) var(--space-m) 0;
+
+    &[open] {
+      padding: var(--space-m);
+    }
+  }
+
+  summary {
+    position: relative;
+    margin: calc(var(--space-m) * -1) calc(var(--space-m) * -1) 0;
+    padding: var(--space-m);
+  }
+  summary::marker {
+    content: none;
+  }
+  summary::after {
+    content: "";
+    border-right: 1px solid var(--c-neutral-500);
+    border-bottom: 1px solid var(--c-neutral-500);
+    width: 0.75em;
+    height: 0.75em;
+    position: absolute;
+    right: var(--space-l);
+    /* TODO: */
+    top: 1rem;
+    transform-origin: center;
+    transform: rotate(-45deg);
+    transition: var(--transition-fast) transform;
+  }
+
+  details[open] summary::after {
+    transform: rotate(45deg);
+  }
+}
