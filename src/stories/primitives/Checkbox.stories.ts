@@ -2,12 +2,12 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 
 const meta = {
-  title: "Components/Checkbox",
+  title: "Primitives/Checkbox",
   render: () => html`
-<label class="form-control">
-  <input type="checkbox" checked />
-  Checkbox
-</label>
+    <label class="form-control">
+      <input type="checkbox" checked />
+      Checkbox
+    </label>
   `,
 } satisfies Meta;
 

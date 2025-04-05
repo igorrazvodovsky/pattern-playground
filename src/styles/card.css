@@ -16,9 +16,26 @@
     }
   }
 
-  .cards.cards--list .card {
-    grid-template-columns: auto 1fr;
-    grid-template-rows: auto auto auto auto;
+  .cards.cards--list > * {
+
+    &:not(:last-of-type) .card{
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    &:not(:first-of-type) .card{
+      border-top-right-radius: 0;
+      border-top-left-radius: 0;
+    }
+
+    &:not(:first-of-type) .card {
+      margin-block-start: -1px;
+    }
+
+    .card {
+      grid-template-columns: auto 1fr;
+      grid-template-rows: auto auto auto auto;
+    }
   }
 
   .cards.layout-grid .card {

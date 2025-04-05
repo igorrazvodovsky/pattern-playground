@@ -125,18 +125,89 @@ export const ProductModelling: Story = {
         </div>
       </div>
     </div>
+
+    <h3>All</h3>
+
+      <details class="borderless" open>
+        <summary><iconify-icon icon="ph:cube"></iconify-icon> Products <span class="badge">${productData.length}</span></summary>
+        <ul class="cards cards--list">
+          ${repeat(productData, (item) => html`
+            <li>
+              <article class="card">
+                <a class="label" href="#">${item.name}</a>
+                <span class="card__attributes badges">
+                  <span class="badge">product</span>
+                  <span class="badge">${item.id}</span>
+                  <span class="badge">${item.status}</span>
+                </span>
+              </article>
+            </li>
+          `)}
+        </ul>
+      </details>
+
+      <details class="borderless" open>
+        <summary><iconify-icon icon="ph:cube"></iconify-icon> Attributes <span class="badge">${attributesData.length}</span></summary>
+        <ul class="cards cards--list">
+          ${repeat(attributesData, (item) => html`
+            <li>
+              <article class="card">
+                <a class="label" href="#">${item.name}</a>
+                <span class="card__attributes badges">
+                  <span class="badge">attribute</span>
+                  <span class="badge">${item.id}</span>
+                  <span class="badge">${item.data_type}</span>
+                </span>
+              </article>
+            </li>
+          `)}
+        </ul>
+      </details>
+
+      <details class="borderless" open>
+        <summary><iconify-icon icon="ph:cube"></iconify-icon> Components <span class="badge">${componentsData.length}</span></summary>
+        <ul class="cards cards--list">
+          ${repeat(componentsData, (item) => html`
+            <li>
+              <article class="card">
+                <a class="label" href="#">${item.name}</a>
+                <span class="card__attributes badges">
+                  <span class="badge">component</span>
+                  <span class="badge">${item.id}</span>
+                  <span class="badge">${item.type}</span>
+                </span>
+              </article>
+            </li>
+          `)}
+        </ul>
+      </details>
+
+      <details class="borderless">
+        <summary><iconify-icon icon="ph:cube"></iconify-icon> Rules <span class="badge">${rulesData.length}</span></summary>
+        <ul class="cards cards--list">
+          ${repeat(rulesData, (item) => html`
+            <li>
+              <article class="card">
+                <a class="label" href="#">${item.name}</a>
+                <span class="card__attributes badges">
+                  <span class="badge">rule</span>
+                  <span class="badge">${item.id}</span>
+                  <span class="badge">${item.type}</span>
+                </span>
+              </article>
+            </li>
+          `)}
+        </ul>
+      </details>
+
+
     <h3>Recent</h3>
     <ul class="cards cards--grid layout-grid">
     ${repeat(allData, (item) => {
-    // Helper to get the title for each item type
-    const getTitle = () => {
-      return (item as Product | Attribute | Component | Rule).name;
-    };
-
     return html`
         <li>
           <article class="card">
-            <a class="label" href="#">${getTitle()}</a>
+            <a class="label" href="#">${item.name}</a>
             <span class="card__attributes badges">
               <span class="badge">${item.category.substring(0, item.category.length - 1)}</span>
               <span class="badge">${item.id}</span>

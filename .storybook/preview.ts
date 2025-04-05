@@ -5,6 +5,9 @@ import 'iconify-icon';
 
 const preview: Preview = {
   parameters: {
+    docs: {
+      toc: { headingSelector: '.sbdocs-content > h2:not(.sbdocs-subtitle), .sbdocs-content > h3' },
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,

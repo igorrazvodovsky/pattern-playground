@@ -1,3 +1,7 @@
+.sbdocs {
+  max-width: unset !important;
+}
+
 /* TODO: */
 .sbdocs *:not(code) {
   font-family: inherit !important;
@@ -172,4 +176,24 @@ resize-asaurus > .resize-asaurus-container {
 .docs-story .sb-story {
   border: none;
   padding: 0;
+}
+
+.sbdocs.sbdocs-content + div:has(.toc-wrapper) {
+  width: 30ch;
+
+  & > div {
+    width: 30ch;
+  }
+
+  &:has(.toc-list-item:only-child), &:has(.toc-wrapper:empty) {
+    display: none;
+  }
+
+  .toc-list-item {
+    font-size: var(--text-s) !important;
+
+    & > a {
+      text-decoration: none !important;
+    }
+  }
 }
