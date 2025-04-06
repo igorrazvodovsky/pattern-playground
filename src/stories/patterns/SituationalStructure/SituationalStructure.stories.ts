@@ -3,8 +3,8 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { callOpenAI } from "../../../../utils/api.js";
 import { html } from "lit";
 import { repeat } from 'lit/directives/repeat.js';
-import stuffData from "./stuff.json";
-import heatExchangerData from "./HeatExchanger.json";
+import stuffData from "./data/stuff.json";
+import heatExchangerData from "./data/HeatExchanger.json";
 import type {
   Product,
   Attribute,
@@ -19,20 +19,14 @@ import type {
   ThroughputAttribute,
   PowerAttribute
 } from "./types";
+import { state } from 'lit/decorators.js';
+import { LitElement } from 'lit';
 
 // Using the imported JSON data from stuff.json
 const productData = stuffData.product_modeling.products;
 const attributesData = stuffData.product_modeling.shared_attributes;
 const componentsData = stuffData.product_modeling.shared_components;
 const rulesData = stuffData.product_modeling.shared_rules;
-
-// Merge all data into a single array with category information
-const allData: MergedItem[] = [
-  ...productData.map(item => ({ ...item, category: 'products' } as Product)),
-  ...attributesData.map(item => ({ ...item, category: 'attributes' } as Attribute)),
-  ...componentsData.map(item => ({ ...item, category: 'components' } as Component)),
-  ...rulesData.map(item => ({ ...item, category: 'rules' } as Rule)),
-];
 
 const getAnswer = async () => {
   try {
@@ -81,7 +75,7 @@ export const Basic: Story = {
   },
 };
 
-export const ExampleProductModelNavigation: Story = {
+export const ExampleProductModelView: Story = {
   render: () => {
     const formatAttributeValue = (attr: HeatExchangerAttribute): string => {
       if ('value' in attr) {
@@ -256,30 +250,229 @@ export const ExampleProductModelNavigation: Story = {
             </ul>
           </details>
         </div>
-
         </div>
-
-
-        <h3>By type</h3>
-        <ul class="cards cards--grid layout-grid">
-          ${repeat(allData, (item) => {
-      return html`
-              <li>
-                <article class="card">
-                  <a class="label" href="#">${item.name}</a>
-                  <span class="card__attributes badges">
-                    <span class="badge">${item.category.substring(0, item.category.length - 1)}</span>
-                    <span class="badge">${item.id}</span>
-                    ${item.category === 'products' ? html`<span class="badge">${item.status}</span>` : ''}
-                    ${item.category === 'components' ? html`<span class="badge">${item.type}</span>` : ''}
-                    ${item.category === 'rules' ? html`<span class="badge">${item.type}</span>` : ''}
-                  </span>
-                </article>
-              </li>
-            `;
-    })}
-        </ul>
       </section>
     `;
+  },
+};
+
+export const ExampleProductModelNavigation: Story = {
+  render: () => {
+    class ProductModelNavigation extends LitElement {
+      @state()
+      private selectedItem: MergedItem | null = null;
+
+      private handleItemClick(item: MergedItem) {
+        this.selectedItem = item;
+        this.requestUpdate();
+      }
+
+      private handleBackClick() {
+        this.selectedItem = null;
+        this.requestUpdate();
+      }
+
+      private renderItemDetails(item: MergedItem) {
+        switch (item.category) {
+          case 'products':
+            return html`
+              <div class="card">
+                <div class="card__header">
+                  <button class="button button--plain" @click=${() => this.handleBackClick()}>
+                    <iconify-icon icon="ph:arrow-left"></iconify-icon>
+                    Back to list
+                  </button>
+                  <h2>${item.name}</h2>
+                </div>
+                <div class="card__content">
+                  <p class="description">${item.description}</p>
+                  <div class="card__attributes">
+                    <span class="badge">ID: ${item.id}</span>
+                    <span class="badge">Type: ${item.type}</span>
+                    <span class="badge">Status: ${item.status}</span>
+                  </div>
+                </div>
+              </div>
+            `;
+          case 'components':
+            return html`
+              <div class="card">
+                <div class="card__header">
+                  <button class="button button--plain" @click=${() => this.handleBackClick()}>
+                    <iconify-icon icon="ph:arrow-left"></iconify-icon>
+                    Back to list
+                  </button>
+                  <h2>${item.name}</h2>
+                </div>
+                <div class="card__content">
+                  <p class="description">${item.help_text}</p>
+                  <div class="card__attributes">
+                    <span class="badge">ID: ${item.id}</span>
+                    <span class="badge">Type: ${item.type}</span>
+                  </div>
+                </div>
+              </div>
+            `;
+          case 'attributes':
+            return html`
+              <div class="card">
+                <div class="card__header">
+                  <button class="button button--plain" @click=${() => this.handleBackClick()}>
+                    <iconify-icon icon="ph:arrow-left"></iconify-icon>
+                    Back to list
+                  </button>
+                  <h2>${item.name}</h2>
+                </div>
+                <div class="card__content">
+                  <p class="description">${item.help_text}</p>
+                  <div class="card__attributes">
+                    <span class="badge">ID: ${item.id}</span>
+                    <span class="badge">Data Type: ${item.data_type}</span>
+                  </div>
+                </div>
+              </div>
+            `;
+          case 'rules':
+            return html`
+              <div class="card">
+                <div class="card__header">
+                  <button class="button button--plain" @click=${() => this.handleBackClick()}>
+                    <iconify-icon icon="ph:arrow-left"></iconify-icon>
+                    Back to list
+                  </button>
+                  <h2>${item.name}</h2>
+                </div>
+                <div class="card__content">
+                  <p class="description">${item.message}</p>
+                  <div class="card__attributes">
+                    <span class="badge">ID: ${item.id}</span>
+                    <span class="badge">Type: ${item.type}</span>
+                  </div>
+                </div>
+              </div>
+            `;
+          default:
+            return null;
+        }
+      }
+
+      render() {
+        return html`
+          <section class="flow">
+            ${this.selectedItem
+            ? this.renderItemDetails(this.selectedItem)
+            : html`
+                  <h2>Product Model Navigation</h2>
+                  <div class="cards layout-grid">
+                    <div>
+                      <details open>
+                        <summary>Products</summary>
+                        <ul class="cards cards--grid layout-grid">
+                          ${repeat(
+              productData.map(item => ({ ...item, category: 'products' } as Product)),
+              (product) => html`
+                              <li>
+                                <article class="card">
+                                  <h3 class="label">${product.name}</h3>
+                                  <p class="description">${product.description}</p>
+                                  <button
+                                    class="button button--primary"
+                                    @click=${() => this.handleItemClick(product)}
+                                  >
+                                    View Details
+                                  </button>
+                                </article>
+                              </li>
+                            `
+            )}
+                        </ul>
+                      </details>
+                    </div>
+
+                    <div>
+                      <details open>
+                        <summary>Components</summary>
+                        <ul class="cards cards--grid layout-grid">
+                          ${repeat(
+              componentsData.map(item => ({ ...item, category: 'components' } as Component)),
+              (component) => html`
+                              <li>
+                                <article class="card">
+                                  <h3 class="label">${component.name}</h3>
+                                  <p class="description">${component.help_text}</p>
+                                  <span class="badge">${component.type}</span>
+                                  <button
+                                    class="button button--primary"
+                                    @click=${() => this.handleItemClick(component)}
+                                  >
+                                    View Details
+                                  </button>
+                                </article>
+                              </li>
+                            `
+            )}
+                        </ul>
+                      </details>
+                    </div>
+
+                    <div>
+                      <details open>
+                        <summary>Attributes</summary>
+                        <ul class="cards cards--grid layout-grid">
+                          ${repeat(
+              attributesData.map(item => ({ ...item, category: 'attributes' } as Attribute)),
+              (attribute) => html`
+                              <li>
+                                <article class="card">
+                                  <h3 class="label">${attribute.name}</h3>
+                                  <p class="description">${attribute.help_text}</p>
+                                  <button
+                                    class="button button--primary"
+                                    @click=${() => this.handleItemClick(attribute)}
+                                  >
+                                    View Details
+                                  </button>
+                                </article>
+                              </li>
+                            `
+            )}
+                        </ul>
+                      </details>
+                    </div>
+
+                    <div>
+                      <details open>
+                        <summary>Rules</summary>
+                        <ul class="cards cards--grid layout-grid">
+                          ${repeat(
+              rulesData.map(item => ({ ...item, category: 'rules' } as Rule)),
+              (rule) => html`
+                              <li>
+                                <article class="card">
+                                  <h3 class="label">${rule.name}</h3>
+                                  <p class="description">${rule.message}</p>
+                                  <span class="badge">${rule.type}</span>
+                                  <button
+                                    class="button button--primary"
+                                    @click=${() => this.handleItemClick(rule)}
+                                  >
+                                    View Details
+                                  </button>
+                                </article>
+                              </li>
+                            `
+            )}
+                        </ul>
+                      </details>
+                    </div>
+                  </div>
+                `}
+          </section>
+        `;
+      }
+    }
+
+    customElements.define('product-model-navigation', ProductModelNavigation);
+    return html`<product-model-navigation></product-model-navigation>`;
   },
 };
