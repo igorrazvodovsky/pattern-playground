@@ -127,7 +127,7 @@
   --c-border: oklch(var(--l800) var(--c800-neutral) var(--h) / 0.3);
   --c-background: var(--c-neutral-0);
   --c-body: var(--c-neutral-800);
-  --c-bodyDimmed: oklch(var(--l800) var(--c800-neutral) var(--h) / 0.5);
+  --c-bodyDimmed: oklch(var(--l800) var(--c800-neutral) var(--h) / 0.7);
   --c-fieldBorder: var(--c-neutral-200);
   --c-accent: var(--c-accent-500);
 

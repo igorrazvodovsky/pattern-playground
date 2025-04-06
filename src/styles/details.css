@@ -3,7 +3,6 @@
     border: var(--border);
     border-radius: var(--radius-m);
     padding: var(--space-m) var(--space-m) 0;
-    overflow-x: auto;
 
     &[open] {
       /* At least not verically */
@@ -30,6 +29,7 @@
   }
 
   summary::after {
+    background: var(--c-background);
     content: "";
     border-right: 1px solid var(--c-neutral-500);
     border-bottom: 1px solid var(--c-neutral-500);
@@ -43,6 +43,7 @@
     /* transform-origin: center; */
     transform: rotate(-45deg);
     transition: var(--transition-fast) transform opacity;
+    outline: 4px solid var(--c-background);
   }
 
   details[open] summary::after {
@@ -81,5 +82,12 @@
     &:last-child {
       border: none;
     }
+  }
+
+  summary.muted {
+    font-size: var(--text-xs);
+    color: var(--c-bodyDimmed);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
   }
 }

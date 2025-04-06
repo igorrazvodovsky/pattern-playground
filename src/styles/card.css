@@ -263,6 +263,7 @@ video {
 .card .description,
 .card .card__attributes,
 .card .label,
+.card > .attribute,
 .card h4,
 .card h3 {
   /* Everything has a padding because +/- everything can be interactive/hoverable*/
@@ -291,4 +292,16 @@ video {
 
 .hover-only-actions:hover button {
   opacity: 1;
+}
+
+/* TODO: review */
+
+.cards .card > .attribute {
+  font-size: var(--text-xs);
+  line-height: 130%;
+  text-wrap: balance;
+
+  + .label {
+    margin-block-start: 0;
+  }
 }

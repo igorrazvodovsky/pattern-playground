@@ -49,7 +49,7 @@
 @layer components {
   .borderless {
     border: none !important;
-    padding-inline: 0 !important;
+    /* padding-inline: 0 !important; */
   }
 }
 
