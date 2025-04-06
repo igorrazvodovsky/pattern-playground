@@ -1,0 +1,328 @@
+{
+  "card": {
+    "title": "Heat Exchanger",
+    "id": "heatExchanger",
+    "label": "Heat Exchanger",
+    "description": "Transfers heat to the product for pasteurization. Requires CIP inlet pressure ≥2.0 bar and a max operating temperature of 100°C.",
+    "attributes": {
+      "weight": {
+        "value": 150,
+        "unit": "kg",
+        "label": "Weight"
+      },
+        "length": {
+          "value": 1200,
+          "unit": "mm",
+          "label": "Length"
+        },
+        "width": {
+          "value": 800,
+          "unit": "mm",
+          "label": "Width"
+        },
+        "height": {
+          "value": 600,
+          "unit": "mm",
+          "label": "Height"
+        },
+
+      "material": {
+        "value": "Stainless Steel",
+        "label": "Material"
+      },
+      "thermalEfficiency": {
+        "value": 85,
+        "unit": "%",
+        "label": "Thermal Efficiency"
+      },
+      "maxOperatingPressure": {
+        "value": 3,
+        "unit": "bar",
+        "label": "Max Operating Pressure"
+      },
+        "maxThroughput": {
+          "value": 5000,
+          "unit": "L/h",
+          "label": "Max throughput"
+        },
+        "averageThroughput": {
+          "value": 3500,
+          "unit": "L/h",
+        "label": "Average throughput"
+        },
+
+      "powerConsumption": {
+        "value": 15,
+        "unit": "kW",
+        "label": "Power consumption"
+      },
+      "heatRecoveryEfficiency": {
+        "value": 70,
+        "unit": "%",
+        "label": "Heat recovery efficiency"
+      },
+      "operationalThermalEfficiency": {
+        "value": 85,
+        "unit": "%",
+        "label": "Operational thermal efficiency"
+      }
+    },
+    "variants": [
+      {
+        "variantId": "tubularV1",
+        "label": "Tubular Variant",
+        "description": "Tubular heat exchanger for moderate throughput",
+        "attributes": {
+          "weight": {
+            "value": 160,
+            "unit": "kg",
+            "label": "Weight"
+          },
+          "dimensions": {
+            "length": {
+              "value": 1250,
+              "unit": "mm"
+            },
+            "width": {
+              "value": 800,
+              "unit": "mm"
+            },
+            "height": {
+              "value": 600,
+              "unit": "mm"
+            },
+            "label": "Dimensions"
+          },
+          "thermalEfficiency": {
+            "value": 80,
+            "unit": "%",
+            "label": "Thermal Efficiency"
+          }
+        },
+        "predictiveMaintenance": {
+          "serviceSchedule": {
+            "inspectionInterval": "2500 operating hours",
+            "nextInspectionDue": "2025-11-01T10:00:00Z",
+            "label": "Service Schedule"
+          },
+          "replacementSchedule": {
+            "expectedLifetime": "9000 operating hours",
+            "recommendedReplacement": "Based on vibration and efficiency metrics",
+            "label": "Replacement Schedule"
+          }
+        }
+      },
+      {
+        "variantId": "plateV2",
+        "label": "Plate Variant",
+        "description": "Plate heat exchanger for high throughput",
+        "attributes": {
+          "weight": {
+            "value": 140,
+            "unit": "kg",
+            "label": "Weight"
+          },
+          "dimensions": {
+            "length": {
+              "value": 1150,
+              "unit": "mm"
+            },
+            "width": {
+              "value": 750,
+              "unit": "mm"
+            },
+            "height": {
+              "value": 580,
+              "unit": "mm"
+            },
+            "label": "Dimensions"
+          },
+          "thermalEfficiency": {
+            "value": 90,
+            "unit": "%",
+            "label": "Thermal Efficiency"
+          }
+        },
+        "predictiveMaintenance": {
+          "serviceSchedule": {
+            "inspectionInterval": "1500 operating hours",
+            "nextInspectionDue": "2025-09-15T10:00:00Z",
+            "label": "Service Schedule"
+          },
+          "replacementSchedule": {
+            "expectedLifetime": "11000 operating hours",
+            "recommendedReplacement": "When efficiency drops below 85%",
+            "label": "Replacement Schedule"
+          }
+        }
+      }
+    ],
+    "predictiveMaintenance": {
+      "serviceSchedule": {
+        "inspectionInterval": "2000 operating hours",
+        "nextInspectionDue": "2025-10-05T10:00:00Z",
+        "label": "Service Schedule"
+      },
+      "replacementSchedule": {
+        "expectedLifetime": "10000 operating hours",
+        "recommendedReplacement": "When wear exceeds 80%",
+        "label": "Replacement Schedule"
+      },
+      "monitoringParameters": [
+        {
+          "parameter": "temperatureDifferential",
+          "threshold": "10°C deviation from norm",
+          "label": "Temperature Differential"
+        },
+        {
+          "parameter": "flowRateVariance",
+          "threshold": "15% deviation",
+          "label": "Flow Rate Variance"
+        }
+      ]
+    },
+    "components": {
+      "controlAndMonitoring": {
+        "label": "Control and Monitoring Components",
+        "sensors": {
+          "value": ["Temperature", "Flow Rate", "Pressure"],
+          "label": "Sensors"
+        },
+        "automationIntegration": {
+          "value": "Connected to PLC/SCADA for real-time monitoring and control.",
+          "label": "Automation Integration"
+        },
+        "dataLogging": {
+          "value": "Critical parameters are logged continuously for predictive analytics.",
+          "label": "Data Logging"
+        }
+      },
+      "operatorInterface": {
+        "label": "Operator Interface Components",
+        "controlPanel": {
+          "value": "Integrated HMI with real-time data display and alarm notifications.",
+          "label": "Control Panel"
+        },
+        "safetyFeatures": {
+          "value": ["Emergency stop", "Safety interlocks", "Automatic shutdown on fault detection"],
+          "label": "Safety Features"
+        }
+      }
+    },
+    "hygieneSanitationCompliance": {
+      "label": "Hygiene & Sanitation Compliance",
+      "cleaningProtocol": {
+        "value": "Integrated with CIP system; undergoes pre-sterilization at 95°C prior to production cycles.",
+        "label": "Cleaning Protocol"
+      },
+      "certifications": {
+        "value": ["FDA Approved", "EU Food Safety Standard"],
+        "label": "Certifications"
+      }
+    },
+    "economicPerformance": {
+      "label": "Economic Performance",
+      "equipmentCost": {
+        "value": 50000,
+        "unit": "USD",
+        "label": "Equipment Cost"
+      },
+      "estimatedROI": {
+        "value": 4,
+        "unit": "years",
+        "label": "Estimated ROI"
+      },
+      "maintenanceCost": {
+        "value": 2000,
+        "unit": "USD/year",
+        "label": "Maintenance Cost"
+      },
+      "downtimeImpact": {
+        "value": 5000,
+        "unit": "USD/hour",
+        "label": "Downtime Impact"
+      }
+    },
+    "processIntegration": {
+      "label": "Process Integration",
+      "upstreamIntegration": {
+        "value": "Receives pre-heated juice from pre-heater systems and conditioning processes.",
+        "label": "Upstream Integration"
+      },
+      "downstreamIntegration": {
+        "value": "Supplies heated product to the holding tube for controlled pasteurization.",
+        "label": "Downstream Integration"
+      }
+    },
+    "relatedObjects": {
+      "grouped": {
+        "parentAndChild": [
+          {
+            "name": "Heating Assembly",
+            "objectType": "Assembly",
+            "label": "Heating Assembly",
+            "description": "Parent assembly housing the heat exchanger.",
+            "relationship": "Parent Assembly"
+          },
+          {
+            "name": "Holding Tube",
+            "objectType": "Component",
+            "label": "Holding Tube",
+            "description": "Ensures sufficient residence time at target temperature.",
+            "relationship": "Operational Partner"
+          }
+        ],
+        "operationalPartners": [
+          {
+            "name": "Recirculation Pump",
+            "objectType": "Component",
+            "label": "Recirculation Pump",
+            "description": "Circulates fluid to ensure effective heat exchange.",
+            "relationship": "Operational Partner"
+          }
+        ],
+        "componentParts": [
+          {
+            "name": "Gasket A",
+            "objectType": "Part",
+            "label": "Gasket A",
+            "description": "EPDM Rubber seal that prevents leaks.",
+            "relationship": "Component Part"
+          },
+          {
+            "name": "Frame Bolts",
+            "objectType": "Part",
+            "label": "Frame Bolts",
+            "description": "Stainless Steel bolts used to secure the exchanger plates.",
+            "relationship": "Component Part"
+          }
+        ],
+        "supportSystems": [
+          {
+            "name": "CIP System",
+            "objectType": "System",
+            "label": "CIP System",
+            "description": "Integrated Clean-In-Place system for automated cleaning and sterilization.",
+            "relationship": "CIP Integration"
+          },
+          {
+            "name": "Pre-heater System",
+            "objectType": "System",
+            "label": "Pre-heater System",
+            "description": "Conditions the juice upstream before heating.",
+            "relationship": "Upstream Temperature Conditioning"
+          }
+        ],
+        "downstreamPartners": [
+          {
+            "name": "Evaporator",
+            "objectType": "Equipment",
+            "label": "Evaporator",
+            "description": "Shares thermal management challenges; used in concentrate production.",
+            "relationship": "Downstream Thermal Processing Partner"
+          }
+        ]
+      }
+    }
+  }
+}

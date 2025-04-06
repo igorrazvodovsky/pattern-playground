@@ -1,0 +1,20 @@
+<div class="cards cards--grid layout-grid">
+  <div style="grid-column: span 2">
+    <div class="card">
+      <div class="grow-wrap">
+        <textarea
+          placeholder="Plan, search, @mention"
+          rows="1"
+          name="text"
+          id="text"
+          onInput="this.parentNode.dataset.replicatedValue = this.value"
+        ></textarea>
+      </div>
+      <div class="card__actions">
+        <button class="button" is="pp-buton">Continue with…</button>
+        <button class="button" is="pp-buton">Create…</button>
+        <button class="button" is="pp-buton">Plan…</button>
+      </div>
+    </div>
+  </div>
+</div>

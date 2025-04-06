@@ -3,9 +3,11 @@
     border: var(--border);
     border-radius: var(--radius-m);
     padding: var(--space-m) var(--space-m) 0;
+    overflow-x: auto;
 
     &[open] {
-      padding: var(--space-m);
+      /* At least not verically */
+      /* padding: var(--space-m); */
     }
   }
 
@@ -16,6 +18,7 @@
     display: flex;
     gap: 0.5ch;
     align-items: center;
+    font-weight: 500;
   }
 
   summary:hover {
@@ -50,5 +53,33 @@
 
   details[open]:hover summary::after {
     opacity: 1;
+  }
+
+  .card details {
+    border: none;
+    padding-inline: 0;
+    margin-inline: calc(var(--space-s) * -1);
+    /* TODO: */
+    width: calc(100cqi - var(--space-s));
+
+    summary {
+      margin-inline: 0;
+      padding-inline: var(--space-s);
+    }
+
+    > *:not(summary) {
+      padding-inline: var(--space-s);
+    }
+  }
+
+  details:has(+ details),
+  details + details {
+    border: none;
+    border-bottom: var(--border);
+    border-radius: 0;
+
+    &:last-child {
+      border: none;
+    }
   }
 }

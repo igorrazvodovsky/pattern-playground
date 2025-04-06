@@ -51,7 +51,9 @@ div.sb-story li,
   width: auto !important;
 }
 
-:where(a:not(.sb-anchor, .sb-unstyled, .sb-unstyled a)) {
+.sbdocs-content > a,
+a.sbdocs,
+.sbdocs-content > :is(p, h1, h2, h3, h4) a {
   color: inherit !important;
   /* TODO: Fix */
   text-decoration: underline oklch(from #2e3438 l c h / 0.6) !important;
@@ -185,7 +187,8 @@ resize-asaurus > .resize-asaurus-container {
     width: 30ch;
   }
 
-  &:has(.toc-list-item:only-child), &:has(.toc-wrapper:empty) {
+  &:has(.toc-list-item:only-child),
+  &:has(.toc-wrapper:empty) {
     display: none;
   }
 
@@ -195,5 +198,9 @@ resize-asaurus > .resize-asaurus-container {
     & > a {
       text-decoration: none !important;
     }
+  }
+
+  .toc-list-item.is-active-li > a {
+    color: inherit;
   }
 }

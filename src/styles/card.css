@@ -17,13 +17,12 @@
   }
 
   .cards.cards--list > * {
-
-    &:not(:last-of-type) .card{
+    &:not(:last-of-type) .card {
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
     }
 
-    &:not(:first-of-type) .card{
+    &:not(:first-of-type) .card {
       border-top-right-radius: 0;
       border-top-left-radius: 0;
     }
@@ -100,7 +99,7 @@
     font-size: 1.25rem;
   }
 
-  .card:not(:has(textarea)):focus-within {
+  .card:not(:has(textarea, details)):focus-within {
     outline: 3px solid var(--c-accent);
     outline-offset: 2px;
   }
@@ -231,6 +230,15 @@
     flex-shrink: 0; /* Prevent the figure from shrinking too much */
     align-self: stretch; /* Make sure the figure stretches across the card */
   }
+
+  .card details {
+    overflow: visible;
+  }
+
+  .card pp-table {
+    margin-inline: calc(var(--space-m) * -1 - 1px);
+    width: calc(100% + var(--space-s) * 2);
+  }
 }
 
 video {
@@ -251,7 +259,7 @@ video {
   max-width: 70ch;
 }
 
-.card > *:not(img, video, figure, pp-dropdown, div:not([class])),
+.card > *:not(img, video, details, figure, pp-dropdown, div:not([class])),
 .card .description,
 .card .card__attributes,
 .card .label,

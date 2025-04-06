@@ -4,6 +4,7 @@ import { callOpenAI } from "../../../../utils/api.js";
 import { html } from "lit";
 import { repeat } from 'lit/directives/repeat.js';
 import stuffData from "./stuff.json";
+import heatExchangerData from "./HeatExchanger.json";
 
 
 // Define interfaces for each data type
@@ -108,118 +109,117 @@ export const Basic: Story = {
 };
 
 
-export const ProductModelling: Story = {
+export const ExampleProductModelNavigation: Story = {
   render: () => html`
   <section class="flow">
-    <div class="cards cards--grid layout-grid">
-      <div style="grid-column: span 2">
-        <div class="card">
-          <div class="grow-wrap">
-            <textarea placeholder="Plan, search, @mention" rows="1" name="text" id="text" onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+    <div class="cards layout-grid">
+      <div style="grid-column: span 3">
+        <article class="card">
+          <div class="card__header">
+            <div class="layout-flex">
+              <iconify-icon icon="ph:cube"></iconify-icon>
+              <h3 class="label">${heatExchangerData.card.title}</h3>
+            </div>
+            <button class="button button--plain" is="pp-buton">
+              <iconify-icon class="icon" icon="ph:dots-three"></iconify-icon>
+              <span class="inclusively-hidden">Actions</span>
+            </button>
           </div>
-          <div class="card__actions">
-            <button class="button" is="pp-buton">Continue with…</button>
-            <button class="button" is="pp-buton">Create…</button>
-            <button class="button" is="pp-buton">Plan…</button>
-          </div>
-        </div>
+          <p class="description">${heatExchangerData.card.description}</p>
+
+          <details open>
+            <summary>Attributes</summary>
+            <ul class="card__attributes badges">
+              ${Object.entries(heatExchangerData.card.attributes).map(([key, attr]) => {
+    const label = 'label' in attr ? attr.label : key;
+    let displayValue = '';
+
+    if ('value' in attr && typeof attr.value === 'object') {
+      // Handle nested objects like dimensions
+      displayValue = Object.entries(attr.value)
+        .filter(([dimKey]) => dimKey !== 'label')
+        .map(([, dimValue]) => {
+          const val = dimValue as { value: number | string; unit?: string };
+          return `${val.value}${val.unit || ''}`;
+        })
+        .join(' × ');
+    } else if ('value' in attr) {
+      // Handle simple values
+      const val = attr as { value: number | string; unit?: string };
+      displayValue = `${val.value}${val.unit || ''}`;
+    } else if ('maxThroughput' in attr) {
+      // Handle production capacity
+      displayValue = `Max: ${attr.maxThroughput.value}${attr.maxThroughput.unit}, Avg: ${attr.averageThroughput.value}${attr.averageThroughput.unit}`;
+    } else if ('powerConsumption' in attr) {
+      // Handle energy efficiency
+      displayValue = `Power: ${attr.powerConsumption.value}${attr.powerConsumption.unit}, Recovery: ${attr.heatRecoveryEfficiency.value}${attr.heatRecoveryEfficiency.unit}`;
+    }
+
+    return html`<span class="badge">${label}: ${displayValue}</span>`;
+  })}
+            </ul>
+          </details>
+
+          <details open>
+            <summary>Variants <span class="badge">${heatExchangerData.card.variants.length}</span></summary>
+            <pp-table>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Variant</th>
+                    <th>Description</th>
+                    <th>Weight</th>
+                    <th>Dimensions</th>
+                    <th>Efficiency</th>
+                    <th>Inspection Interval</th>
+                    <th>Lifetime</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${repeat(heatExchangerData.card.variants, (variant) => html`
+                    <tr>
+                      <td>${variant.label}</td>
+                      <td>${variant.description}</td>
+                      <td>${variant.attributes.weight.value}${variant.attributes.weight.unit}</td>
+                      <td>${Object.entries(variant.attributes.dimensions)
+      .filter(([dimKey]) => dimKey !== 'label')
+      .map(([, dimValue]) => {
+        const val = dimValue as { value: number; unit: string };
+        return `${val.value}${val.unit}`;
+      })
+      .join(' × ')}</td>
+                      <td>${variant.attributes.thermalEfficiency.value}${variant.attributes.thermalEfficiency.unit}</td>
+                      <td>${variant.predictiveMaintenance.serviceSchedule.inspectionInterval}</td>
+                      <td>${variant.predictiveMaintenance.replacementSchedule.expectedLifetime}</td>
+                    </tr>
+                  `)}
+                </tbody>
+              </table>
+            </pp-table>
+          </details>
+        </article>
       </div>
     </div>
 
-    <h3>All</h3>
-
-      <details class="borderless" open>
-        <summary><iconify-icon icon="ph:cube"></iconify-icon> Products <span class="badge">${productData.length}</span></summary>
-        <ul class="cards cards--list">
-          ${repeat(productData, (item) => html`
-            <li>
-              <article class="card">
-                <a class="label" href="#">${item.name}</a>
-                <span class="card__attributes badges">
-                  <span class="badge">product</span>
-                  <span class="badge">${item.id}</span>
-                  <span class="badge">${item.status}</span>
-                </span>
-              </article>
-            </li>
-          `)}
-        </ul>
-      </details>
-
-      <details class="borderless" open>
-        <summary><iconify-icon icon="ph:cube"></iconify-icon> Attributes <span class="badge">${attributesData.length}</span></summary>
-        <ul class="cards cards--list">
-          ${repeat(attributesData, (item) => html`
-            <li>
-              <article class="card">
-                <a class="label" href="#">${item.name}</a>
-                <span class="card__attributes badges">
-                  <span class="badge">attribute</span>
-                  <span class="badge">${item.id}</span>
-                  <span class="badge">${item.data_type}</span>
-                </span>
-              </article>
-            </li>
-          `)}
-        </ul>
-      </details>
-
-      <details class="borderless" open>
-        <summary><iconify-icon icon="ph:cube"></iconify-icon> Components <span class="badge">${componentsData.length}</span></summary>
-        <ul class="cards cards--list">
-          ${repeat(componentsData, (item) => html`
-            <li>
-              <article class="card">
-                <a class="label" href="#">${item.name}</a>
-                <span class="card__attributes badges">
-                  <span class="badge">component</span>
-                  <span class="badge">${item.id}</span>
-                  <span class="badge">${item.type}</span>
-                </span>
-              </article>
-            </li>
-          `)}
-        </ul>
-      </details>
-
-      <details class="borderless">
-        <summary><iconify-icon icon="ph:cube"></iconify-icon> Rules <span class="badge">${rulesData.length}</span></summary>
-        <ul class="cards cards--list">
-          ${repeat(rulesData, (item) => html`
-            <li>
-              <article class="card">
-                <a class="label" href="#">${item.name}</a>
-                <span class="card__attributes badges">
-                  <span class="badge">rule</span>
-                  <span class="badge">${item.id}</span>
-                  <span class="badge">${item.type}</span>
-                </span>
-              </article>
-            </li>
-          `)}
-        </ul>
-      </details>
-
-
-    <h3>Recent</h3>
+    <h3>By type</h3>
     <ul class="cards cards--grid layout-grid">
-    ${repeat(allData, (item) => {
-    return html`
-        <li>
-          <article class="card">
-            <a class="label" href="#">${item.name}</a>
-            <span class="card__attributes badges">
-              <span class="badge">${item.category.substring(0, item.category.length - 1)}</span>
-              <span class="badge">${item.id}</span>
-              ${item.category === 'products' ? html`<span class="badge">${item.status}</span>` : ''}
-              ${item.category === 'components' ? html`<span class="badge">${item.type}</span>` : ''}
-              ${item.category === 'rules' ? html`<span class="badge">${item.type}</span>` : ''}
-            </span>
-          </article>
-        </li>
-      `;
-  })}
+      ${repeat(allData, (item) => {
+        return html`
+          <li>
+            <article class="card">
+              <a class="label" href="#">${item.name}</a>
+              <span class="card__attributes badges">
+                <span class="badge">${item.category.substring(0, item.category.length - 1)}</span>
+                <span class="badge">${item.id}</span>
+                ${item.category === 'products' ? html`<span class="badge">${item.status}</span>` : ''}
+                ${item.category === 'components' ? html`<span class="badge">${item.type}</span>` : ''}
+                ${item.category === 'rules' ? html`<span class="badge">${item.type}</span>` : ''}
+              </span>
+            </article>
+          </li>
+        `;
+      })}
     </ul>
-    </section>
+  </section>
   `,
 };
