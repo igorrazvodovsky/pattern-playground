@@ -12,7 +12,7 @@ export async function callOpenAI(prompt) {
   }
 
   const endpoint = isStorybook
-    ? "http://localhost:9999/.netlify/functions/generate"
+    ? "http://localhost:8888/.netlify/functions/generate"
     : "/.netlify/functions/generate";
 
   console.log("Using endpoint:", endpoint);
