@@ -300,14 +300,38 @@ export const ContextualNavigation: Story = {
                   </details>
                 ` : ''}
 
-                ${pasteurizerItem.possibleActions && pasteurizerItem.possibleActions.length > 0 ? html`
+                ${pasteurizerItem.childrenIds && pasteurizerItem.childrenIds.length > 0 ? html`
                   <details open>
-                    <summary>Possible Actions <span class="badge">${pasteurizerItem.possibleActions.length}</span></summary>
-                    <ul class="card__attributes">
-                      ${pasteurizerItem.possibleActions.map(action => html`
-                        <li>${action.actionDescription}</li>
-                      `)}
-                    </ul>
+                    <summary>Structure <span class="badge">${pasteurizerItem.childrenIds.length}</span></summary>
+                    <pp-table>
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          ${pasteurizerItem.childrenIds.map(childId => {
+                            const childItem = PasteurizerData.flattenedModel.find(item => item.id === childId);
+                            if (!childItem) return '';
+                            return html`
+                              <tr>
+                                <td>
+                                  <a href="#" data-id="${childItem.id}" @click=${(e: Event) => {
+                                    e.preventDefault();
+                                    handleItemClick(childItem.id);
+                                  }}>${childItem.name}</a>
+                                </td>
+                                <td>${childItem.type}</td>
+                                <td class="pp-table-ellipsis">${childItem.description}</td>
+                              </tr>
+                            `;
+                          })}
+                        </tbody>
+                      </table>
+                    </pp-table>
                   </details>
                 ` : ''}
 
