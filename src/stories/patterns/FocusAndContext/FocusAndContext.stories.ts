@@ -14,6 +14,7 @@ import type {
   ThroughputAttribute,
   PowerAttribute
 } from "./types";
+import PasteurizerData from "./data/Pasteurizer.json";
 
 // Using the imported JSON data from stuff.json
 const productData = stuffData.product_modeling.products;
@@ -34,7 +35,7 @@ const getAnswer = async () => {
 };
 
 const meta = {
-  title: "Patterns/Situational structure*",
+  title: "Patterns/Focus and context*",
   parameters: {
     async: true
   }
@@ -68,185 +69,7 @@ export const Basic: Story = {
   },
 };
 
-export const ExampleProductModelView: Story = {
-  render: () => {
-
-    const formatDimensions = (dimensions: Variant['attributes']['dimensions']): string => {
-      return `${dimensions.length.value}${dimensions.length.unit} × ${dimensions.width.value}${dimensions.width.unit} × ${dimensions.height.value}${dimensions.height.unit}`;
-    };
-
-    const data = heatExchangerData as HeatExchangerData;
-
-    return html`
-      <section class="flow">
-        <pp-breadcrumbs role="navigation">
-          <a href="">
-            <span class="crumbicon">
-              <iconify-icon icon="ph:house"></iconify-icon>
-            </span>
-            <span class="inclusively-hidden" class="home-label">Home</span>
-          </a>
-
-          <span class="crumb">
-            <a href="#">Products</a>
-          </span>
-
-          <span class="crumb">
-            <a href="#">Pasteurizer 3000</a>
-          </span>
-
-          <span class="crumb">
-            <a href="" aria-current="page">Heating Assembly</a>
-          </span>
-        </pp-breadcrumbs>
-        <div class="cards">
-          <div>
-            <article class="card">
-              <div class="card__header">
-                <h3 class="label layout-flex"><iconify-icon icon="ph:cube-bold"></iconify-icon> ${data.card.title}</h3>
-                <button class="button button--plain" is="pp-buton">
-                  <iconify-icon class="icon" icon="ph:dots-three"></iconify-icon>
-                  <span class="inclusively-hidden">Actions</span>
-                </button>
-              </div>
-              <p class="description">${data.card.description}</p>
-
-              <details open>
-                <summary>Attributes <span class="badge">${(Object.keys(data.card.attributes)).length}</span></summary>
-                <ul class="card__attributes badges">
-                  ${Object.entries(data.card.attributes).map(([key, attr]) => {
-      return html`<span class="badge">${attr.label || key}</span>`;
-    })}
-                </ul>
-              </details>
-
-              <details open>
-                <summary>Variants <span class="badge">${data.card.variants.length}</span></summary>
-                <pp-table>
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Variant</th>
-                        <th>Description</th>
-                        <th>Weight</th>
-                        <th>Dimensions</th>
-                        <th>Efficiency</th>
-                        <th>Inspection Interval</th>
-                        <th>Lifetime</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      ${repeat(data.card.variants, (variant) => html`
-                        <tr>
-                          <td>${variant.label}</td>
-                          <td>${variant.description}</td>
-                          <td>${variant.attributes.weight.value}${variant.attributes.weight.unit}</td>
-                          <td>${formatDimensions(variant.attributes.dimensions)}</td>
-                          <td>${variant.attributes.thermalEfficiency.value}${variant.attributes.thermalEfficiency.unit}</td>
-                          <td>${variant.predictiveMaintenance.serviceSchedule.inspectionInterval}</td>
-                          <td>${variant.predictiveMaintenance.replacementSchedule.expectedLifetime}</td>
-                        </tr>
-                      `)}
-                    </tbody>
-                  </table>
-                </pp-table>
-              </details>
-            </article>
-          </div>
-        </div>
-      </div>
-      <div class="cards layout-grid">
-        <div>
-          <details class="borderless" open>
-            <summary class="muted">Parent and Child</summary>
-            <ul class="cards cards--grid layout-grid">
-              ${repeat(data.card.relatedObjects.grouped.parentAndChild, (item) => html`
-                <li>
-                  <article class="card">
-                    <div class="attribute">${item.relationship}</div>
-                    <h4 class="label">${item.label}</h4>
-                    <small class="description">${item.description}</small>
-                  </article>
-                </li>
-              `)}
-            </ul>
-          </details>
-        </div>
-
-        <div>
-          <details class="borderless" open>
-            <summary class="muted">Operational Partners</summary>
-            <ul class="cards cards--grid layout-grid">
-              ${repeat(data.card.relatedObjects.grouped.operationalPartners, (item) => html`
-                <li>
-                  <article class="card">
-                    <div class="attribute">${item.relationship}</div>
-                    <h4 class="label">${item.label}</h4>
-                    <small class="description">${item.description}</small>
-                  </article>
-                </li>
-              `)}
-            </ul>
-          </details>
-        </div>
-
-        <div>
-          <details class="borderless" open>
-            <summary class="muted">Component Parts</summary>
-            <ul class="cards cards--grid layout-grid">
-              ${repeat(data.card.relatedObjects.grouped.componentParts, (item) => html`
-                <li>
-                  <article class="card">
-                    <div class="attribute">${item.relationship}</div>
-                    <h4 class="label">${item.label}</h4>
-                    <small class="description">${item.description}</small>
-                  </article>
-                </li>
-              `)}
-            </ul>
-          </details>
-        </div>
-
-        <div>
-          <details class="borderless" open>
-            <summary class="muted">Support Systems</summary>
-            <ul class="cards cards--grid layout-grid">
-              ${repeat(data.card.relatedObjects.grouped.supportSystems, (item) => html`
-                <li>
-                  <article class="card">
-                    <div class="attribute">${item.relationship}</div>
-                    <h4 class="label">${item.label}</h4>
-                    <small class="description">${item.description}</small>
-                  </article>
-                </li>
-              `)}
-            </ul>
-          </details>
-        </div>
-
-        <div>
-          <details class="borderless" open>
-            <summary class="muted">Downstream Partners</summary>
-            <ul class="cards cards--grid layout-grid">
-              ${repeat(data.card.relatedObjects.grouped.downstreamPartners, (item) => html`
-                <li>
-                  <article class="card">
-                    <div class="attribute">${item.relationship}</div>
-                    <h4 class="label">${item.label}</h4>
-                    <small class="description">${item.description}</small>
-                  </article>
-                </li>
-              `)}
-            </ul>
-          </details>
-        </div>
-        </div>
-      </section>
-    `;
-  },
-};
-
-export const ExampleProductModelNavigation: Story = {
+export const ContextualNavigation: Story = {
   render: () => {
     // Create a container element
     const container = document.createElement('div');
@@ -471,64 +294,43 @@ export const ExampleProductModelNavigation: Story = {
 
     // Render list view
     const renderListView = () => {
+      const pasteurizerData = PasteurizerData.flattenedModel.slice(0, 10);
+
       return html`
         <section class="flow">
           <h2>Recent</h2>
           <ul class="cards layout-grid">
-                  ${repeat(
-        productData,
-        (product) => html`
-                      <li>
-                        <article class="card">
-                        <div class="card__attributes">
-                           <span class="badge">${product.type}</span>
-                        </div>
-                          <h4 class="label">
-                            <a data-category="products" data-id="${product.id}" href="">${product.name}</a></h4>
-                        </article>
-                      </li>
-                    `
+            ${repeat(
+        pasteurizerData,
+        (item) => html`
+                <li>
+                  <article class="card">
+                    <div class="card__header">
+                      <h4 class="label">
+                        <a href="#" data-id="${item.id}" @click=${(e: Event) => {
+            e.preventDefault();
+            const target = e.currentTarget as HTMLElement;
+            const id = target.dataset.id;
+            if (id) {
+              const selectedItem = pasteurizerData.find(item => item.id === id);
+              if (selectedItem) {
+                state.selectedItem = { ...selectedItem, category: 'pasteurizer' };
+                renderView();
+              }
+            }
+          }}>${item.name}</a>
+                      </h4>
+                      <button class="button button--plain" is="pp-buton">
+                        <iconify-icon class="icon" icon="ph:dots-three"></iconify-icon>
+                        <span class="inclusively-hidden">Actions</span>
+                      </button>
+                    </div>
+                    <p class="description">${item.description}</p>
+                  </article>
+                </li>
+              `
       )}
-                  ${repeat(
-        componentsData,
-        (component) => html`
-                      <li>
-                        <article class="card">
-                          <div class="card__attributes">
-                            <span class="badge">${component.type}</span>
-                          </div>
-                          <h4 class="label"><a href="#" data-category="components" data-id="${component.id}">${component.name}</a></h4>
-                        </article>
-                      </li>
-                    `
-      )}
-                  ${repeat(
-        attributesData,
-        (attribute) => html`
-                      <li>
-                        <article class="card">
-                          <div class="card__attributes">
-                            <span class="badge">${attribute.data_type}</span>
-                          </div>
-                          <h4 class="label"><a data-category="attributes" data-id="${attribute.id}" href="#">${attribute.name}</a></h4>
-                        </article>
-                      </li>
-                    `
-      )}
-                  ${repeat(
-        rulesData,
-        (rule) => html`
-                      <li>
-                        <article class="card">
-                          <div class="card__attributes">
-                            <span class="badge">${rule.type}</span>
-                          </div>
-                          <h4 class="label"><a data-category="rules" data-id="${rule.id}" href="#">${rule.name}</a></h4>
-                        </article>
-                      </li>
-                    `
-      )}
-                </ul>
+          </ul>
         </section>
       `;
     };

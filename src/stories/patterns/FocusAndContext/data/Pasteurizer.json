@@ -1,0 +1,543 @@
+{
+  "flattenedModel": [
+    {
+      "id": "pasteurizer-001",
+      "type": "Product",
+      "name": "Mock Pasteurizer Model X",
+      "label": "Main Pasteurizer System",
+      "description": "A configurable pasteurizer for thermal treatment of liquids in a production line.",
+      "path": ["Pasteurizer 3000"],
+      "parentId": null,
+      "childrenIds": ["heatingAssembly", "holdingSection", "coolingAssembly"],
+      "relationshipType": null,
+      "relationshipDescription": null,
+      "attributes": [],
+      "rulesAndConstraints": [
+        "Heating Assembly must precede Holding Section",
+        "Holding Section must precede Cooling Assembly"
+      ],
+      "possibleActions": [
+        {
+          "actionName": "addAssembly",
+          "actionDescription": "Add a new assembly to the pasteurizer model"
+        },
+        {
+          "actionName": "removeAssembly",
+          "actionDescription": "Remove an assembly from the pasteurizer model"
+        },
+        {
+          "actionName": "changeComponentVariant",
+          "actionDescription": "Switch to a different component variant within an assembly"
+        },
+        {
+          "actionName": "updateVersion",
+          "actionDescription": "Increment the product model version after changes"
+        }
+      ],
+      "relatedObjects": [],
+      "versionHistory": [
+        {
+          "version": "1.0",
+          "timestamp": "2025-04-05T10:00:00Z",
+          "changes": "Initial creation of the pasteurizer model."
+        }
+      ]
+    },
+    {
+      "id": "heatingAssembly",
+      "type": "Assembly",
+      "name": "Heating Assembly",
+      "label": "Heating Assembly",
+      "description": "Houses components that transfer heat to the product.",
+      "path": ["Pasteurizer 3000", "Heating Assembly"],
+      "parentId": "pasteurizer-001",
+      "childrenIds": ["heatExchanger", "recirculationPump"],
+      "relationshipType": null,
+      "relationshipDescription": null,
+      "attributes": [
+        {"name": "weight", "label": "Weight", "value": "500", "unit": "kg"},
+        {"name": "dimensions_length", "label": "Length", "value": "2500", "unit": "mm"},
+        {"name": "dimensions_width", "label": "Width", "value": "1500", "unit": "mm"},
+        {"name": "dimensions_height", "label": "Height", "value": "1800", "unit": "mm"},
+        {"name": "material", "label": "Material", "value": "Stainless Steel and Alloy Composites", "unit": null}
+      ],
+      "rulesAndConstraints": [],
+      "possibleActions": [
+        {
+          "actionName": "swapHeatExchangerVariant",
+          "actionDescription": "Switch the heat exchanger variant to handle different throughput needs"
+        },
+        {
+          "actionName": "adjustPumpFlow",
+          "actionDescription": "Change pump flow to meet production demands"
+        }
+      ],
+      "relatedObjects": [
+        {
+          "referenceId": "heatExchanger",
+          "relationshipType": "Child Component",
+          "relationshipDescription": "Major component in the heating assembly."
+        },
+        {
+          "referenceId": "cipSystemRef",
+          "relationshipType": "Support System",
+          "relationshipDescription": "Provides cleaning support for the assembly."
+        }
+      ]
+    },
+    {
+      "id": "heatExchanger",
+      "type": "Component",
+      "name": "Heat Exchanger",
+      "label": "Heat Exchanger",
+      "description": "Transfers heat to the product for pasteurization. Requires CIP inlet pressure ≥2.0 bar and a max operating temperature of 100°C.",
+      "path": ["Pasteurizer 3000", "Heating Assembly", "Heat Exchanger"],
+      "parentId": "heatingAssembly",
+      "childrenIds": [],
+      "relationshipType": null,
+      "relationshipDescription": null,
+      "attributes": [
+        {"name": "weight", "label": "Weight", "value": "150", "unit": "kg"},
+        {"name": "dimensions_length", "label": "Length", "value": "1200", "unit": "mm"},
+        {"name": "dimensions_width", "label": "Width", "value": "800", "unit": "mm"},
+        {"name": "dimensions_height", "label": "Height", "value": "600", "unit": "mm"},
+        {"name": "material", "label": "Material", "value": "Stainless Steel", "unit": null},
+        {"name": "thermalEfficiency", "label": "Thermal Efficiency", "value": "85", "unit": "%"},
+        {"name": "maxOperatingPressure", "label": "Max Operating Pressure", "value": "3", "unit": "bar"}
+      ],
+      "rulesAndConstraints": [],
+      "possibleActions": [],
+      "relatedObjects": [
+        {
+          "referenceId": "heatingAssembly",
+          "relationshipType": "Parent Assembly",
+          "relationshipDescription": "Parent assembly housing the heat exchanger."
+        },
+        {
+          "referenceId": "recirculationPump",
+          "relationshipType": "Operational Partner",
+          "relationshipDescription": "Circulates fluid to ensure effective heat exchange."
+        },
+        {
+          "referenceId": "part_gasketA",
+          "relationshipType": "Component Part",
+          "relationshipDescription": "EPDM Rubber seal that prevents leaks."
+        },
+        {
+          "referenceId": "part_frameBolts",
+          "relationshipType": "Component Part",
+          "relationshipDescription": "Stainless Steel bolts used to secure the exchanger plates."
+        },
+        {
+          "referenceId": "cipSystemRef",
+          "relationshipType": "CIP Integration",
+          "relationshipDescription": "Integrated Clean-In-Place system for automated cleaning and sterilization."
+        },
+        {
+          "referenceId": "preHeaterSystemRef",
+          "relationshipType": "Upstream Temperature Conditioning",
+          "relationshipDescription": "Conditions the juice upstream before heating."
+        },
+        {
+          "referenceId": "evaporatorRef",
+          "relationshipType": "Downstream Thermal Processing Partner",
+          "relationshipDescription": "Shares thermal management challenges; used in concentrate production."
+        },
+        {
+          "referenceId": "holdingTube",
+          "relationshipType": "Operational Partner",
+          "relationshipDescription": "Ensures sufficient residence time at target temperature."
+        }
+      ]
+    },
+    {
+      "id": "recirculationPump",
+      "type": "Component",
+      "name": "Recirculation Pump",
+      "label": "Recirculation Pump",
+      "description": "Circulates fluid to maintain proper flow through the heat exchanger.",
+      "path": ["Pasteurizer 3000", "Heating Assembly", "Recirculation Pump"],
+      "parentId": "heatingAssembly",
+      "childrenIds": ["part_impeller"],
+      "relationshipType": null,
+      "relationshipDescription": null,
+      "attributes": [
+        {"name": "weight", "label": "Weight", "value": "80", "unit": "kg"},
+        {"name": "dimensions_length", "label": "Length", "value": "600", "unit": "mm"},
+        {"name": "dimensions_width", "label": "Width", "value": "400", "unit": "mm"},
+        {"name": "dimensions_height", "label": "Height", "value": "500", "unit": "mm"},
+        {"name": "powerRating", "label": "Power Rating", "value": "3.5", "unit": "kW"},
+        {"name": "maxFlowRate", "label": "Max Flow Rate", "value": "20000", "unit": "L/h"},
+        {"name": "material", "label": "Material", "value": "Cast Iron and Stainless Steel", "unit": null}
+      ],
+      "rulesAndConstraints": [],
+      "possibleActions": [],
+      "relatedObjects": [
+        {
+          "referenceId": "heatingAssembly",
+          "relationshipType": "Parent Assembly",
+          "relationshipDescription": "Parent assembly of the recirculation pump."
+        },
+        {
+          "referenceId": "heatExchanger",
+          "relationshipType": "Operational Partner",
+          "relationshipDescription": "Works in tandem with the pump for effective heat transfer."
+        },
+        {
+          "referenceId": "part_impeller",
+          "relationshipType": "Component Part",
+          "relationshipDescription": "Integral part that drives the fluid within the pump."
+        }
+      ]
+    },
+    {
+      "id": "part_impeller",
+      "type": "Part",
+      "name": "Pump Impeller",
+      "label": "Pump Impeller",
+      "description": "Drives the fluid flow within the pump.",
+      "path": ["Pasteurizer 3000", "Heating Assembly", "Recirculation Pump", "Pump Impeller"],
+      "parentId": "recirculationPump",
+      "childrenIds": [],
+      "relationshipType": null,
+      "relationshipDescription": null,
+      "attributes": [
+        {"name": "weight", "label": "Weight", "value": "5", "unit": "kg"},
+        {"name": "material", "label": "Material", "value": "Stainless Steel", "unit": null},
+        {"name": "diameter", "label": "Diameter", "value": "200", "unit": "mm"}
+      ],
+      "rulesAndConstraints": [],
+      "possibleActions": [],
+      "relatedObjects": []
+    },
+    {
+      "id": "part_gasketA",
+      "type": "Part",
+      "name": "Gasket A",
+      "label": "EPDM Rubber Seal",
+      "description": "EPDM Rubber seal that prevents leaks.",
+      "path": ["Pasteurizer 3000", "Heating Assembly", "Heat Exchanger", "Gasket A"],
+      "parentId": null,
+      "childrenIds": [],
+      "relationshipType": null,
+      "relationshipDescription": null,
+      "attributes": [],
+      "rulesAndConstraints": [],
+      "possibleActions": [],
+      "relatedObjects": []
+    },
+    {
+      "id": "part_frameBolts",
+      "type": "Part",
+      "name": "Frame Bolts",
+      "label": "Frame Bolts",
+      "description": "Stainless Steel bolts used to secure the exchanger plates.",
+      "path": ["Pasteurizer 3000", "Heating Assembly", "Heat Exchanger", "Frame Bolts"],
+      "parentId": null,
+      "childrenIds": [],
+      "relationshipType": null,
+      "relationshipDescription": null,
+      "attributes": [],
+      "rulesAndConstraints": [],
+      "possibleActions": [],
+      "relatedObjects": []
+    },
+    {
+      "id": "cipSystemRef",
+      "type": "System",
+      "name": "CIP System",
+      "label": "CIP System",
+      "description": "Integrated Clean-In-Place system for automated cleaning and sterilization.",
+      "path": [],
+      "parentId": null,
+      "childrenIds": [],
+      "relationshipType": null,
+      "relationshipDescription": null,
+      "attributes": [],
+      "rulesAndConstraints": [],
+      "possibleActions": [],
+      "relatedObjects": []
+    },
+    {
+      "id": "preHeaterSystemRef",
+      "type": "System",
+      "name": "Pre-heater System",
+      "label": "Pre-heater System",
+      "description": "Conditions the juice upstream before heating.",
+      "path": [],
+      "parentId": null,
+      "childrenIds": [],
+      "relationshipType": null,
+      "relationshipDescription": null,
+      "attributes": [],
+      "rulesAndConstraints": [],
+      "possibleActions": [],
+      "relatedObjects": []
+    },
+    {
+      "id": "evaporatorRef",
+      "type": "Equipment",
+      "name": "Evaporator",
+      "label": "Evaporator",
+      "description": "Shares thermal management challenges; used in concentrate production.",
+      "path": [],
+      "parentId": null,
+      "childrenIds": [],
+      "relationshipType": null,
+      "relationshipDescription": null,
+      "attributes": [],
+      "rulesAndConstraints": [],
+      "possibleActions": [],
+      "relatedObjects": []
+    },
+    {
+      "id": "holdingTube",
+      "type": "Component",
+      "name": "Holding Tube",
+      "label": "Holding Tube",
+      "description": "Ensures sufficient residence time at target temperature.",
+      "path": [],
+      "parentId": null,
+      "childrenIds": [],
+      "relationshipType": null,
+      "relationshipDescription": null,
+      "attributes": [],
+      "rulesAndConstraints": [],
+      "possibleActions": [],
+      "relatedObjects": []
+    },
+    {
+      "id": "holdingSection",
+      "type": "Assembly",
+      "name": "Holding Section",
+      "label": "Holding Section",
+      "description": "Provides required residence time for pasteurization.",
+      "path": ["Pasteurizer 3000", "Holding Section"],
+      "parentId": "pasteurizer-001",
+      "childrenIds": ["holdingTube"],
+      "relationshipType": null,
+      "relationshipDescription": null,
+      "attributes": [
+        {"name": "weight", "label": "Weight", "value": "300", "unit": "kg"},
+        {"name": "dimensions_length", "label": "Length", "value": "2000", "unit": "mm"},
+        {"name": "dimensions_width", "label": "Width", "value": "1200", "unit": "mm"},
+        {"name": "dimensions_height", "label": "Height", "value": "1000", "unit": "mm"},
+        {"name": "material", "label": "Material", "value": "Reinforced Stainless Steel", "unit": null}
+      ],
+      "rulesAndConstraints": [],
+      "possibleActions": [
+        {
+          "actionName": "switchHoldingTube",
+          "actionDescription": "Change holding time for different pasteurization protocols"
+        }
+      ],
+      "relatedObjects": []
+    },
+    {
+      "id": "coolingAssembly",
+      "type": "Assembly",
+      "name": "Cooling Assembly",
+      "label": "Cooling Assembly",
+      "description": "Removes excess heat to bring product to target temperature.",
+      "path": ["Pasteurizer 3000", "Cooling Assembly"],
+      "parentId": "pasteurizer-001",
+      "childrenIds": ["coolingExchanger"],
+      "relationshipType": null,
+      "relationshipDescription": null,
+      "attributes": [
+        {"name": "weight", "label": "Weight", "value": "400", "unit": "kg"},
+        {"name": "dimensions_length", "label": "Length", "value": "2300", "unit": "mm"},
+        {"name": "dimensions_width", "label": "Width", "value": "1400", "unit": "mm"},
+        {"name": "dimensions_height", "label": "Height", "value": "1200", "unit": "mm"},
+        {"name": "material", "label": "Material", "value": "Stainless Steel", "unit": null}
+      ],
+      "rulesAndConstraints": [],
+      "possibleActions": [
+        {
+          "actionName": "adjustCoolantFlow",
+          "actionDescription": "Increase or decrease coolant flow"
+        }
+      ],
+      "relatedObjects": []
+    },
+    {
+      "id": "coolingExchanger",
+      "type": "Component",
+      "name": "Cooling Exchanger",
+      "label": "Cooling Exchanger",
+      "description": "Removes excess heat to bring product to target temperature.",
+      "path": ["Pasteurizer 3000", "Cooling Assembly", "Cooling Exchanger"],
+      "parentId": "coolingAssembly",
+      "childrenIds": [],
+      "relationshipType": null,
+      "relationshipDescription": null,
+      "attributes": [
+        {"name": "weight", "label": "Weight", "value": "180", "unit": "kg"},
+        {"name": "dimensions_length", "label": "Length", "value": "1300", "unit": "mm"},
+        {"name": "dimensions_width", "label": "Width", "value": "850", "unit": "mm"},
+        {"name": "dimensions_height", "label": "Height", "value": "650", "unit": "mm"},
+        {"name": "material", "label": "Material", "value": "Stainless Steel", "unit": null},
+        {"name": "maxOperatingPressure", "label": "Max Operating Pressure", "value": "2.5", "unit": "bar"}
+      ],
+      "rulesAndConstraints": [],
+      "possibleActions": [],
+      "relatedObjects": []
+    },
+    {
+      "id": "connections",
+      "type": "ConnectionsGroup",
+      "name": "Connections",
+      "label": "All connections",
+      "description": "",
+      "path": [],
+      "parentId": null,
+      "childrenIds": [],
+      "relationshipType": null,
+      "relationshipDescription": null,
+      "attributes": [],
+      "rulesAndConstraints": [],
+      "possibleActions": [],
+      "relatedObjects": [],
+      "connections": [
+        {
+          "connectionId": "inletConnection",
+          "connectionType": "productFlow",
+          "description": "Inlet connection from upstream preheater or raw product tank",
+          "references": [
+            {
+              "target": "rawJuiceTank-01",
+              "relation": "upstreamEquipment"
+            }
+          ]
+        },
+        {
+          "connectionId": "outletConnection",
+          "connectionType": "productFlow",
+          "description": "Outlet connection to downstream filler or buffer tank",
+          "references": [
+            {
+              "target": "fillerMachine-01",
+              "relation": "downstreamEquipment"
+            }
+          ]
+        },
+        {
+          "connectionId": "cipConnection",
+          "connectionType": "cleaningFlow",
+          "description": "CIP line connection for cleaning and sanitization",
+          "references": [
+            {
+              "target": "cipStation-02",
+              "relation": "cleaningSupply"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dataTypes",
+      "type": "DataTypesGroup",
+      "name": "Data Types",
+      "label": "Data Types",
+      "description": "",
+      "path": [],
+      "parentId": null,
+      "childrenIds": [],
+      "relationshipType": null,
+      "relationshipDescription": null,
+      "attributes": [],
+      "rulesAndConstraints": [],
+      "possibleActions": [],
+      "relatedObjects": [],
+      "dataTypesList": [
+        { "dataTypeName": "temperature", "type": "float", "unit": "C" },
+        { "dataTypeName": "flowRate", "type": "float", "unit": "L/h" },
+        { "dataTypeName": "pressure", "type": "float", "unit": "bar" },
+        { "dataTypeName": "time", "type": "float", "unit": "seconds" }
+      ]
+    },
+    {
+      "id": "possibleModellerActions",
+      "type": "ActionsGroup",
+      "name": "Possible Modeller Actions",
+      "label": "Modeller actions on model",
+      "description": "",
+      "path": [],
+      "parentId": null,
+      "childrenIds": [],
+      "relationshipType": null,
+      "relationshipDescription": null,
+      "attributes": [],
+      "rulesAndConstraints": [],
+      "possibleActions": [
+        {
+          "actionName": "addAssembly",
+          "actionDescription": "Add a new assembly to the pasteurizer model"
+        },
+        {
+          "actionName": "removeAssembly",
+          "actionDescription": "Remove an assembly from the pasteurizer model"
+        },
+        {
+          "actionName": "changeComponentVariant",
+          "actionDescription": "Switch to a different component variant within an assembly"
+        },
+        {
+          "actionName": "updateVersion",
+          "actionDescription": "Increment the product model version after changes"
+        }
+      ],
+      "relatedObjects": []
+    },
+    {
+      "id": "services",
+      "type": "ServicesGroup",
+      "name": "Available Services",
+      "label": "Services",
+      "description": "Service offerings for maintenance and training",
+      "path": [],
+      "parentId": null,
+      "childrenIds": [],
+      "relationshipType": null,
+      "relationshipDescription": null,
+      "attributes": [],
+      "rulesAndConstraints": [],
+      "possibleActions": [],
+      "relatedObjects": [],
+      "servicesList": [
+        {
+          "serviceId": "maintenanceService-001",
+          "serviceType": "Maintenance",
+          "description": "Regular preventive and corrective maintenance. Includes inspections, cleaning, wear parts replacement, and troubleshooting.",
+          "recommendedFrequency": "Every 6 months, with on-call emergency repairs available",
+          "actions": [
+            {
+              "actionId": "scheduleMaintenance",
+              "actionDescription": "Book a maintenance check or repair session"
+            },
+            {
+              "actionId": "recordMaintenance",
+              "actionDescription": "Update the maintenance log with recent service actions"
+            }
+          ]
+        },
+        {
+          "serviceId": "trainingService-001",
+          "serviceType": "Training",
+          "description": "Hands-on and online training sessions for operators and maintenance personnel. Covers operation, CIP, troubleshooting, and emergency protocols.",
+          "offeredFrequency": "Quarterly sessions with optional annual refresher courses",
+          "actions": [
+            {
+              "actionId": "scheduleTraining",
+              "actionDescription": "Enroll staff in a training session"
+            },
+            {
+              "actionId": "updateTrainingMaterials",
+              "actionDescription": "Revise and upload training resources"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
