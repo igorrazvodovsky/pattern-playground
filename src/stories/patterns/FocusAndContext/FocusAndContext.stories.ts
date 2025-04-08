@@ -244,7 +244,29 @@ export const ContextualNavigation: Story = {
                         <li>
                           <article class="card">
                             <div class="attribute">${item.relationship}</div>
-                            <h4 class="label">${item.label}</h4>
+                            <h4 class="label">
+                              <a href="#" data-id="${item.objectType === 'Component Part' ? item.name : item.name}" @click=${(e: Event) => {
+                                e.preventDefault();
+                                const target = e.currentTarget as HTMLElement;
+                                const id = target.dataset.id;
+                                if (id) {
+                                  const relatedItem = PasteurizerData.flattenedModel.find(modelItem =>
+                                    modelItem.name === id || modelItem.id === id
+                                  );
+                                  if (relatedItem) {
+                                    state.selectedItem = {
+                                      ...relatedItem,
+                                      category: 'pasteurizer',
+                                      name: relatedItem.name,
+                                      description: relatedItem.description || '',
+                                      id: relatedItem.id,
+                                      type: relatedItem.type
+                                    };
+                                    renderView();
+                                  }
+                                }
+                              }}>${item.label}</a>
+                            </h4>
                             <small class="description">${item.description}</small>
                           </article>
                         </li>
@@ -263,7 +285,29 @@ export const ContextualNavigation: Story = {
                         <li>
                           <article class="card">
                             <div class="attribute">${item.relationship}</div>
-                            <h4 class="label">${item.label}</h4>
+                            <h4 class="label">
+                              <a href="#" data-id="${item.name}" @click=${(e: Event) => {
+                                e.preventDefault();
+                                const target = e.currentTarget as HTMLElement;
+                                const id = target.dataset.id;
+                                if (id) {
+                                  const relatedItem = PasteurizerData.flattenedModel.find(modelItem =>
+                                    modelItem.name === id || modelItem.id === id
+                                  );
+                                  if (relatedItem) {
+                                    state.selectedItem = {
+                                      ...relatedItem,
+                                      category: 'pasteurizer',
+                                      name: relatedItem.name,
+                                      description: relatedItem.description || '',
+                                      id: relatedItem.id,
+                                      type: relatedItem.type
+                                    };
+                                    renderView();
+                                  }
+                                }
+                              }}>${item.label}</a>
+                            </h4>
                             <small class="description">${item.description}</small>
                           </article>
                         </li>
@@ -282,7 +326,29 @@ export const ContextualNavigation: Story = {
                         <li>
                           <article class="card">
                             <div class="attribute">${item.relationship}</div>
-                            <h4 class="label">${item.label}</h4>
+                            <h4 class="label">
+                              <a href="#" data-id="${item.name}" @click=${(e: Event) => {
+                                e.preventDefault();
+                                const target = e.currentTarget as HTMLElement;
+                                const id = target.dataset.id;
+                                if (id) {
+                                  const relatedItem = PasteurizerData.flattenedModel.find(modelItem =>
+                                    modelItem.name === id || modelItem.id === id
+                                  );
+                                  if (relatedItem) {
+                                    state.selectedItem = {
+                                      ...relatedItem,
+                                      category: 'pasteurizer',
+                                      name: relatedItem.name,
+                                      description: relatedItem.description || '',
+                                      id: relatedItem.id,
+                                      type: relatedItem.type
+                                    };
+                                    renderView();
+                                  }
+                                }
+                              }}>${item.label}</a>
+                            </h4>
                             <small class="description">${item.description}</small>
                           </article>
                         </li>
@@ -301,7 +367,29 @@ export const ContextualNavigation: Story = {
                         <li>
                           <article class="card">
                             <div class="attribute">${item.relationship}</div>
-                            <h4 class="label">${item.label}</h4>
+                            <h4 class="label">
+                              <a href="#" data-id="${item.name}" @click=${(e: Event) => {
+                                e.preventDefault();
+                                const target = e.currentTarget as HTMLElement;
+                                const id = target.dataset.id;
+                                if (id) {
+                                  const relatedItem = PasteurizerData.flattenedModel.find(modelItem =>
+                                    modelItem.name === id || modelItem.id === id
+                                  );
+                                  if (relatedItem) {
+                                    state.selectedItem = {
+                                      ...relatedItem,
+                                      category: 'pasteurizer',
+                                      name: relatedItem.name,
+                                      description: relatedItem.description || '',
+                                      id: relatedItem.id,
+                                      type: relatedItem.type
+                                    };
+                                    renderView();
+                                  }
+                                }
+                              }}>${item.label}</a>
+                            </h4>
                             <small class="description">${item.description}</small>
                           </article>
                         </li>
@@ -320,7 +408,29 @@ export const ContextualNavigation: Story = {
                         <li>
                           <article class="card">
                             <div class="attribute">${item.relationship}</div>
-                            <h4 class="label">${item.label}</h4>
+                            <h4 class="label">
+                              <a href="#" data-id="${item.name}" @click=${(e: Event) => {
+                                e.preventDefault();
+                                const target = e.currentTarget as HTMLElement;
+                                const id = target.dataset.id;
+                                if (id) {
+                                  const relatedItem = PasteurizerData.flattenedModel.find(modelItem =>
+                                    modelItem.name === id || modelItem.id === id
+                                  );
+                                  if (relatedItem) {
+                                    state.selectedItem = {
+                                      ...relatedItem,
+                                      category: 'pasteurizer',
+                                      name: relatedItem.name,
+                                      description: relatedItem.description || '',
+                                      id: relatedItem.id,
+                                      type: relatedItem.type
+                                    };
+                                    renderView();
+                                  }
+                                }
+                              }}>${item.label}</a>
+                            </h4>
                             <small class="description">${item.description}</small>
                           </article>
                         </li>
