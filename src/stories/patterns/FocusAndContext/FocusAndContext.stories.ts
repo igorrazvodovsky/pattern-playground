@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html, render } from "lit";
 import { repeat } from 'lit/directives/repeat.js';
-import type { HeatExchangerData, Variant } from "./types";
 import PasteurizerData from "./data/Pasteurizer.json";
-import heatExchangerData from "./data/HeatExchanger.json";
 // @ts-expect-error - No type definition available for the API module
 import { callOpenAI } from "../../../../utils/api.js";
 
@@ -74,11 +72,101 @@ export const ContextualNavigation: Story = {
     const renderItemDetails = (item: SelectedItem) => {
       if (!item) return html``;
 
-      const formatDimensions = (dimensions: Variant['attributes']['dimensions']): string => {
-        return `${dimensions.length.value}${dimensions.length.unit} × ${dimensions.width.value}${dimensions.width.unit} × ${dimensions.height.value}${dimensions.height.unit}`;
+      // Find the full item data from PasteurizerData
+      const pasteurizerItem = PasteurizerData.flattenedModel.find(modelItem => modelItem.id === item.id);
+
+      if (!pasteurizerItem) return html`<p>Item not found</p>`;
+
+      // Helper function to format dimensions if they exist
+      const formatDimensions = (attributes: Array<{name: string, value: string, unit: string | null, label?: string}>): string => {
+        const length = attributes.find(attr => attr.name === 'dimensions_length');
+        const width = attributes.find(attr => attr.name === 'dimensions_width');
+        const height = attributes.find(attr => attr.name === 'dimensions_height');
+
+        if (length && width && height) {
+          return `${length.value}${length.unit || ''} × ${width.value}${width.unit || ''} × ${height.value}${height.unit || ''}`;
+        }
+        return 'N/A';
       };
 
-      const data = heatExchangerData as HeatExchangerData;
+      // Generate breadcrumbs from the path
+      const generateBreadcrumbs = () => {
+        if (!pasteurizerItem.path || pasteurizerItem.path.length === 0) {
+          return html`
+            <span class="crumb">
+              <a href="#">Products</a>
+            </span>
+            <span class="crumb">
+              <a href="" aria-current="page">${pasteurizerItem.name}</a>
+            </span>
+          `;
+        }
+
+        return pasteurizerItem.path.map((pathItem, index) => html`
+          <span class="crumb">
+            <a href="#" ${index === pasteurizerItem.path.length - 1 ? 'aria-current="page"' : ''}>${pathItem}</a>
+          </span>
+        `);
+      };
+
+      // Group related objects by relationship type
+      const groupRelatedObjects = () => {
+        if (!pasteurizerItem.relatedObjects || pasteurizerItem.relatedObjects.length === 0) {
+          return null;
+        }
+
+        type RelationObject = {
+          name: string;
+          objectType: string;
+          label: string;
+          description: string;
+          relationship: string;
+        };
+
+        const groups: {
+          parentAndChild: RelationObject[];
+          operationalPartners: RelationObject[];
+          componentParts: RelationObject[];
+          supportSystems: RelationObject[];
+          downstreamPartners: RelationObject[];
+        } = {
+          parentAndChild: [],
+          operationalPartners: [],
+          componentParts: [],
+          supportSystems: [],
+          downstreamPartners: []
+        };
+
+        pasteurizerItem.relatedObjects.forEach(relation => {
+          const relatedItem = PasteurizerData.flattenedModel.find(item => item.id === relation.referenceId);
+          if (!relatedItem) return;
+
+          const relationObject = {
+            name: relatedItem.name,
+            objectType: relatedItem.type,
+            label: relatedItem.label || relatedItem.name,
+            description: relatedItem.description || '',
+            relationship: relation.relationshipType
+          };
+
+          // Categorize based on relationship type
+          if (relation.relationshipType.includes('Parent') || relation.relationshipType.includes('Child')) {
+            groups.parentAndChild.push(relationObject);
+          } else if (relation.relationshipType.includes('Operational Partner')) {
+            groups.operationalPartners.push(relationObject);
+          } else if (relation.relationshipType.includes('Component Part')) {
+            groups.componentParts.push(relationObject);
+          } else if (relation.relationshipType.includes('Support') || relation.relationshipType.includes('CIP')) {
+            groups.supportSystems.push(relationObject);
+          } else if (relation.relationshipType.includes('Downstream')) {
+            groups.downstreamPartners.push(relationObject);
+          }
+        });
+
+        return groups;
+      };
+
+      const relatedGroups = groupRelatedObjects();
 
       return html`
         <section class="flow">
@@ -87,17 +175,9 @@ export const ContextualNavigation: Story = {
               <span class="crumbicon">
                 <iconify-icon icon="ph:house"></iconify-icon>
               </span>
-              <span class="inclusively-hidden" class="home-label">Home</span>
+              <span class="inclusively-hidden">Home</span>
             </a>
-            <span class="crumb">
-              <a href="#">Products</a>
-            </span>
-            <span class="crumb">
-              <a href="#">Pasteurizer 3000</a>
-            </span>
-            <span class="crumb">
-              <a href="" aria-current="page">Heating Assembly</a>
-            </span>
+            ${generateBreadcrumbs()}
           </pp-breadcrumbs>
           <div class="cards">
             <div>
@@ -105,142 +185,152 @@ export const ContextualNavigation: Story = {
                 <div class="card__header">
                   <h3 class="label layout-flex">
                     <iconify-icon icon="ph:cube-bold"></iconify-icon>
-                    ${data.card.title}
+                    ${pasteurizerItem.name}
                   </h3>
                   <button class="button button--plain" is="pp-buton">
                     <iconify-icon class="icon" icon="ph:dots-three"></iconify-icon>
                     <span class="inclusively-hidden">Actions</span>
                   </button>
                 </div>
-                <p class="description">${data.card.description}</p>
-                <details open>
-                  <summary>Attributes <span class="badge">${(Object.keys(data.card.attributes)).length}</span></summary>
-                  <ul class="card__attributes badges">
-                    ${Object.entries(data.card.attributes).map(([key, attr]) =>
-        html`<span class="badge">${attr.label || key}</span>`
-      )}
-                  </ul>
-                </details>
-                <details open>
-                  <summary>Variants <span class="badge">${data.card.variants.length}</span></summary>
-                  <pp-table>
-                    <table>
-                      <thead>
-                        <tr>
-                          <th>Variant</th>
-                          <th>Description</th>
-                          <th>Weight</th>
-                          <th>Dimensions</th>
-                          <th>Efficiency</th>
-                          <th>Inspection Interval</th>
-                          <th>Lifetime</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        ${repeat(data.card.variants, (variant) => html`
-                          <tr>
-                            <td>${variant.label}</td>
-                            <td>${variant.description}</td>
-                            <td>${variant.attributes.weight.value}${variant.attributes.weight.unit}</td>
-                            <td>${formatDimensions(variant.attributes.dimensions)}</td>
-                            <td>${variant.attributes.thermalEfficiency.value}${variant.attributes.thermalEfficiency.unit}</td>
-                            <td>${variant.predictiveMaintenance.serviceSchedule.inspectionInterval}</td>
-                            <td>${variant.predictiveMaintenance.replacementSchedule.expectedLifetime}</td>
-                          </tr>
-                        `)}
-                      </tbody>
-                    </table>
-                  </pp-table>
-                </details>
+                <p class="description">${pasteurizerItem.description}</p>
+
+                ${pasteurizerItem.attributes && pasteurizerItem.attributes.length > 0 ? html`
+                  <details open>
+                    <summary>Attributes <span class="badge">${pasteurizerItem.attributes.length}</span></summary>
+                    <ul class="card__attributes badges">
+                      ${pasteurizerItem.attributes.map(attr => html`
+                        <span class="badge">${attr.label || attr.name}</span>
+                      `)}
+                    </ul>
+                    ${pasteurizerItem.attributes.some(attr => attr.name.startsWith('dimensions_')) ? html`
+                      <p class="dimensions">Dimensions: ${formatDimensions(pasteurizerItem.attributes)}</p>
+                    ` : ''}
+                  </details>
+                ` : ''}
+
+                ${pasteurizerItem.possibleActions && pasteurizerItem.possibleActions.length > 0 ? html`
+                  <details open>
+                    <summary>Possible Actions <span class="badge">${pasteurizerItem.possibleActions.length}</span></summary>
+                    <ul class="card__attributes">
+                      ${pasteurizerItem.possibleActions.map(action => html`
+                        <li>${action.actionDescription}</li>
+                      `)}
+                    </ul>
+                  </details>
+                ` : ''}
+
+                ${pasteurizerItem.rulesAndConstraints && pasteurizerItem.rulesAndConstraints.length > 0 ? html`
+                  <details open>
+                    <summary>Rules & Constraints <span class="badge">${pasteurizerItem.rulesAndConstraints.length}</span></summary>
+                    <ul class="card__attributes">
+                      ${pasteurizerItem.rulesAndConstraints.map(rule => html`
+                        <li>${rule}</li>
+                      `)}
+                    </ul>
+                  </details>
+                ` : ''}
               </article>
             </div>
           </div>
-          <div class="cards layout-grid">
-            <div>
-              <details class="borderless" open>
-                <summary class="muted">Parent and Child</summary>
-                <ul class="cards cards--grid layout-grid">
-                  ${repeat(data.card.relatedObjects.grouped.parentAndChild, (item) => html`
-                    <li>
-                      <article class="card">
-                        <div class="attribute">${item.relationship}</div>
-                        <h4 class="label">${item.label}</h4>
-                        <small class="description">${item.description}</small>
-                      </article>
-                    </li>
-                  `)}
-                </ul>
-              </details>
-            </div>
 
-            <div>
-              <details class="borderless" open>
-                <summary class="muted">Operational Partners</summary>
-                <ul class="cards cards--grid layout-grid">
-                  ${repeat(data.card.relatedObjects.grouped.operationalPartners, (item) => html`
-                    <li>
-                      <article class="card">
-                        <div class="attribute">${item.relationship}</div>
-                        <h4 class="label">${item.label}</h4>
-                        <small class="description">${item.description}</small>
-                      </article>
-                    </li>
-                  `)}
-                </ul>
-              </details>
-            </div>
+          ${relatedGroups ? html`
+            <div class="cards layout-grid">
+              ${relatedGroups.parentAndChild.length > 0 ? html`
+                <div>
+                  <details class="borderless" open>
+                    <summary class="muted">Parent and Child</summary>
+                    <ul class="cards cards--grid layout-grid">
+                      ${repeat(relatedGroups.parentAndChild, (item) => html`
+                        <li>
+                          <article class="card">
+                            <div class="attribute">${item.relationship}</div>
+                            <h4 class="label">${item.label}</h4>
+                            <small class="description">${item.description}</small>
+                          </article>
+                        </li>
+                      `)}
+                    </ul>
+                  </details>
+                </div>
+              ` : ''}
 
-            <div>
-              <details class="borderless" open>
-                <summary class="muted">Component Parts</summary>
-                <ul class="cards cards--grid layout-grid">
-                  ${repeat(data.card.relatedObjects.grouped.componentParts, (item) => html`
-                    <li>
-                      <article class="card">
-                        <div class="attribute">${item.relationship}</div>
-                        <h4 class="label">${item.label}</h4>
-                        <small class="description">${item.description}</small>
-                      </article>
-                    </li>
-                  `)}
-                </ul>
-              </details>
-            </div>
+              ${relatedGroups.operationalPartners.length > 0 ? html`
+                <div>
+                  <details class="borderless" open>
+                    <summary class="muted">Operational Partners</summary>
+                    <ul class="cards cards--grid layout-grid">
+                      ${repeat(relatedGroups.operationalPartners, (item) => html`
+                        <li>
+                          <article class="card">
+                            <div class="attribute">${item.relationship}</div>
+                            <h4 class="label">${item.label}</h4>
+                            <small class="description">${item.description}</small>
+                          </article>
+                        </li>
+                      `)}
+                    </ul>
+                  </details>
+                </div>
+              ` : ''}
 
-            <div>
-              <details class="borderless" open>
-                <summary class="muted">Support Systems</summary>
-                <ul class="cards cards--grid layout-grid">
-                  ${repeat(data.card.relatedObjects.grouped.supportSystems, (item) => html`
-                    <li>
-                      <article class="card">
-                        <div class="attribute">${item.relationship}</div>
-                        <h4 class="label">${item.label}</h4>
-                        <small class="description">${item.description}</small>
-                      </article>
-                    </li>
-                  `)}
-                </ul>
-              </details>
-            </div>
+              ${relatedGroups.componentParts.length > 0 ? html`
+                <div>
+                  <details class="borderless" open>
+                    <summary class="muted">Component Parts</summary>
+                    <ul class="cards cards--grid layout-grid">
+                      ${repeat(relatedGroups.componentParts, (item) => html`
+                        <li>
+                          <article class="card">
+                            <div class="attribute">${item.relationship}</div>
+                            <h4 class="label">${item.label}</h4>
+                            <small class="description">${item.description}</small>
+                          </article>
+                        </li>
+                      `)}
+                    </ul>
+                  </details>
+                </div>
+              ` : ''}
 
-            <div>
-              <details class="borderless" open>
-                <summary class="muted">Downstream Partners</summary>
-                <ul class="cards cards--grid layout-grid">
-                  ${repeat(data.card.relatedObjects.grouped.downstreamPartners, (item) => html`
-                    <li>
-                      <article class="card">
-                        <div class="attribute">${item.relationship}</div>
-                        <h4 class="label">${item.label}</h4>
-                        <small class="description">${item.description}</small>
-                      </article>
-                    </li>
-                  `)}
-                </ul>
-              </details>
+              ${relatedGroups.supportSystems.length > 0 ? html`
+                <div>
+                  <details class="borderless" open>
+                    <summary class="muted">Support Systems</summary>
+                    <ul class="cards cards--grid layout-grid">
+                      ${repeat(relatedGroups.supportSystems, (item) => html`
+                        <li>
+                          <article class="card">
+                            <div class="attribute">${item.relationship}</div>
+                            <h4 class="label">${item.label}</h4>
+                            <small class="description">${item.description}</small>
+                          </article>
+                        </li>
+                      `)}
+                    </ul>
+                  </details>
+                </div>
+              ` : ''}
+
+              ${relatedGroups.downstreamPartners.length > 0 ? html`
+                <div>
+                  <details class="borderless" open>
+                    <summary class="muted">Downstream Partners</summary>
+                    <ul class="cards cards--grid layout-grid">
+                      ${repeat(relatedGroups.downstreamPartners, (item) => html`
+                        <li>
+                          <article class="card">
+                            <div class="attribute">${item.relationship}</div>
+                            <h4 class="label">${item.label}</h4>
+                            <small class="description">${item.description}</small>
+                          </article>
+                        </li>
+                      `)}
+                    </ul>
+                  </details>
+                </div>
+              ` : ''}
             </div>
-          </div>
+          ` : ''}
         </section>
       `;
     };

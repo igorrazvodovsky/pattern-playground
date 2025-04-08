@@ -3,7 +3,7 @@
     {
       "id": "pasteurizer-001",
       "type": "Product",
-      "name": "Mock Pasteurizer Model X",
+      "name": "Pasteurizer Model 3000",
       "label": "Main Pasteurizer System",
       "description": "A configurable pasteurizer for thermal treatment of liquids in a production line.",
       "path": ["Pasteurizer 3000"],
