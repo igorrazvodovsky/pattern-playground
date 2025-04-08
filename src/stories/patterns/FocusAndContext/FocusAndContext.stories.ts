@@ -4,11 +4,13 @@ import { repeat } from 'lit/directives/repeat.js';
 import PasteurizerData from "./data/Pasteurizer.json";
 // @ts-expect-error - No type definition available for the API module
 import { callOpenAI } from "../../../../utils/api.js";
+import { modelItemSchema } from "./types.ts"
+import { z } from "zod";
 
 const getAnswer = async () => {
   try {
     console.log("Calling OpenAI API...");
-    const response = await callOpenAI("What's the capital of Mars?");
+    const response = await callOpenAI("heat exchanger");
     console.log("Received response:", response);
     return response;
   } catch (error) {
@@ -30,6 +32,7 @@ type Story = StoryObj;
 export const Basic: Story = {
   render: () => {
     const container = document.createElement('div');
+    container.className = 'flow';
     container.innerHTML = '<div class="loading">Loading response...</div>';
 
     console.log("Story rendering, about to call getAnswer()");
@@ -38,12 +41,105 @@ export const Basic: Story = {
     setTimeout(() => {
       getAnswer()
         .then(response => {
-          container.innerHTML = `${response}`;
+          try {
+            // Parse the response as JSON
+            const responseData = JSON.parse(response);
+
+            // Check if we have a valid model array
+            if (responseData && responseData.model && Array.isArray(responseData.model)) {
+              // Create a section for the cards
+              const cardsSection = document.createElement('section');
+              cardsSection.className = 'flow';
+
+              // Add a heading
+              const heading = document.createElement('h2');
+              heading.textContent = 'API Response';
+              cardsSection.appendChild(heading);
+
+              // Create a container for the cards
+              const cardsContainer = document.createElement('div');
+              cardsContainer.className = 'cards layout-grid';
+
+              // Process each item in the model
+              responseData.model.forEach((item: z.infer<typeof modelItemSchema>) => {
+                // Create a card for each item
+                const cardDiv = document.createElement('div');
+
+                // Create the card article
+                const card = document.createElement('article');
+                card.className = 'card';
+
+                // Create card header
+                const cardHeader = document.createElement('div');
+                cardHeader.className = 'card__header';
+
+                // Add title with icon
+                const title = document.createElement('h4');
+                title.className = 'label layout-flex';
+                title.innerHTML = `${item.name}`;
+
+                // Add relationship description
+                if (item.relationshipDescription) {
+                  const relationshipDescription = document.createElement('div');
+                  relationshipDescription.className = 'attribute';
+                  relationshipDescription.textContent = item.relationshipDescription;
+                  card.appendChild(relationshipDescription);
+                }
+
+                card.appendChild(title);
+
+                // Add description
+                if (item.description) {
+                  const description = document.createElement('p');
+                  description.className = 'description';
+                  description.textContent = item.description;
+                  card.appendChild(description);
+                }
+
+                // Add the card to the container
+                cardDiv.appendChild(card);
+                cardsContainer.appendChild(cardDiv);
+              });
+
+              // Add the cards container to the section
+              cardsSection.appendChild(cardsContainer);
+
+              // Replace the loading message with the cards
+              container.innerHTML = '';
+              container.appendChild(cardsSection);
+            } else {
+              // If the response is not in the expected format, display it as is
+              container.innerHTML = `
+                <div class="card">
+                  <div class="card__header">
+                    <h3 class="label">API Response</h3>
+                  </div>
+                  <p class="description">${response}</p>
+                </div>
+              `;
+            }
+          } catch (parseError) {
+            // If we can't parse the response as JSON, display it as text
+            console.error("Error parsing API response:", parseError);
+            container.innerHTML = `
+              <div class="card">
+                <div class="card__header">
+                  <h3 class="label">API Response</h3>
+                </div>
+                <p class="description">${response}</p>
+              </div>
+            `;
+          }
         })
         .catch(error => {
           container.innerHTML = `
-              <p>${error.message}</p>
+            <div class="card">
+              <div class="card__header">
+                <h3 class="label">Error</h3>
+              </div>
+              <p class="description">${error.message}</p>
               <pre>${error.stack}</pre>
+            </div>
           `;
         });
     }, 100);
@@ -69,6 +165,23 @@ export const ContextualNavigation: Story = {
       selectedItem: null
     };
 
+    const handleItemClick = (id: string) => {
+      const relatedItem = PasteurizerData.flattenedModel.find(modelItem =>
+        modelItem.name === id || modelItem.id === id
+      );
+      if (relatedItem) {
+        state.selectedItem = {
+          ...relatedItem,
+          category: 'pasteurizer',
+          name: relatedItem.name,
+          description: relatedItem.description || '',
+          id: relatedItem.id,
+          type: relatedItem.type
+        };
+        renderView();
+      }
+    };
+
     const renderItemDetails = (item: SelectedItem) => {
       if (!item) return html``;
 
@@ -76,18 +189,6 @@ export const ContextualNavigation: Story = {
       const pasteurizerItem = PasteurizerData.flattenedModel.find(modelItem => modelItem.id === item.id);
 
       if (!pasteurizerItem) return html`<p>Item not found</p>`;
-
-      // Helper function to format dimensions if they exist
-      const formatDimensions = (attributes: Array<{name: string, value: string, unit: string | null, label?: string}>): string => {
-        const length = attributes.find(attr => attr.name === 'dimensions_length');
-        const width = attributes.find(attr => attr.name === 'dimensions_width');
-        const height = attributes.find(attr => attr.name === 'dimensions_height');
-
-        if (length && width && height) {
-          return `${length.value}${length.unit || ''} × ${width.value}${width.unit || ''} × ${height.value}${height.unit || ''}`;
-        }
-        return 'N/A';
-      };
 
       // Generate breadcrumbs from the path
       const generateBreadcrumbs = () => {
@@ -123,18 +224,12 @@ export const ContextualNavigation: Story = {
           relationship: string;
         };
 
-        const groups: {
-          parentAndChild: RelationObject[];
-          operationalPartners: RelationObject[];
-          componentParts: RelationObject[];
-          supportSystems: RelationObject[];
-          downstreamPartners: RelationObject[];
-        } = {
-          parentAndChild: [],
-          operationalPartners: [],
-          componentParts: [],
-          supportSystems: [],
-          downstreamPartners: []
+        const groups: Record<string, RelationObject[]> = {
+          'Parent and Child': [],
+          'Operational Partners': [],
+          'Component Parts': [],
+          'Support Systems': [],
+          'Downstream Partners': []
         };
 
         pasteurizerItem.relatedObjects.forEach(relation => {
@@ -151,15 +246,15 @@ export const ContextualNavigation: Story = {
 
           // Categorize based on relationship type
           if (relation.relationshipType.includes('Parent') || relation.relationshipType.includes('Child')) {
-            groups.parentAndChild.push(relationObject);
+            groups['Parent and Child'].push(relationObject);
           } else if (relation.relationshipType.includes('Operational Partner')) {
-            groups.operationalPartners.push(relationObject);
+            groups['Operational Partners'].push(relationObject);
           } else if (relation.relationshipType.includes('Component Part')) {
-            groups.componentParts.push(relationObject);
+            groups['Component Parts'].push(relationObject);
           } else if (relation.relationshipType.includes('Support') || relation.relationshipType.includes('CIP')) {
-            groups.supportSystems.push(relationObject);
+            groups['Support Systems'].push(relationObject);
           } else if (relation.relationshipType.includes('Downstream')) {
-            groups.downstreamPartners.push(relationObject);
+            groups['Downstream Partners'].push(relationObject);
           }
         });
 
@@ -199,12 +294,9 @@ export const ContextualNavigation: Story = {
                     <summary>Attributes <span class="badge">${pasteurizerItem.attributes.length}</span></summary>
                     <ul class="card__attributes badges">
                       ${pasteurizerItem.attributes.map(attr => html`
-                        <span class="badge">${attr.label || attr.name}</span>
+                        <span class="badge">${attr.label || attr.name}: ${attr.value}${attr.unit || ''}</span>
                       `)}
                     </ul>
-                    ${pasteurizerItem.attributes.some(attr => attr.name.startsWith('dimensions_')) ? html`
-                      <p class="dimensions">Dimensions: ${formatDimensions(pasteurizerItem.attributes)}</p>
-                    ` : ''}
                   </details>
                 ` : ''}
 
@@ -235,210 +327,31 @@ export const ContextualNavigation: Story = {
 
           ${relatedGroups ? html`
             <div class="cards layout-grid">
-              ${relatedGroups.parentAndChild.length > 0 ? html`
-                <div>
-                  <details class="borderless" open>
-                    <summary class="muted">Parent and Child</summary>
-                    <ul class="cards cards--grid layout-grid">
-                      ${repeat(relatedGroups.parentAndChild, (item) => html`
-                        <li>
-                          <article class="card">
-                            <div class="attribute">${item.relationship}</div>
-                            <h4 class="label">
-                              <a href="#" data-id="${item.objectType === 'Component Part' ? item.name : item.name}" @click=${(e: Event) => {
-                                e.preventDefault();
-                                const target = e.currentTarget as HTMLElement;
-                                const id = target.dataset.id;
-                                if (id) {
-                                  const relatedItem = PasteurizerData.flattenedModel.find(modelItem =>
-                                    modelItem.name === id || modelItem.id === id
-                                  );
-                                  if (relatedItem) {
-                                    state.selectedItem = {
-                                      ...relatedItem,
-                                      category: 'pasteurizer',
-                                      name: relatedItem.name,
-                                      description: relatedItem.description || '',
-                                      id: relatedItem.id,
-                                      type: relatedItem.type
-                                    };
-                                    renderView();
-                                  }
-                                }
-                              }}>${item.label}</a>
-                            </h4>
-                            <small class="description">${item.description}</small>
-                          </article>
-                        </li>
-                      `)}
-                    </ul>
-                  </details>
-                </div>
-              ` : ''}
-
-              ${relatedGroups.operationalPartners.length > 0 ? html`
-                <div>
-                  <details class="borderless" open>
-                    <summary class="muted">Operational Partners</summary>
-                    <ul class="cards cards--grid layout-grid">
-                      ${repeat(relatedGroups.operationalPartners, (item) => html`
-                        <li>
-                          <article class="card">
-                            <div class="attribute">${item.relationship}</div>
-                            <h4 class="label">
-                              <a href="#" data-id="${item.name}" @click=${(e: Event) => {
-                                e.preventDefault();
-                                const target = e.currentTarget as HTMLElement;
-                                const id = target.dataset.id;
-                                if (id) {
-                                  const relatedItem = PasteurizerData.flattenedModel.find(modelItem =>
-                                    modelItem.name === id || modelItem.id === id
-                                  );
-                                  if (relatedItem) {
-                                    state.selectedItem = {
-                                      ...relatedItem,
-                                      category: 'pasteurizer',
-                                      name: relatedItem.name,
-                                      description: relatedItem.description || '',
-                                      id: relatedItem.id,
-                                      type: relatedItem.type
-                                    };
-                                    renderView();
-                                  }
-                                }
-                              }}>${item.label}</a>
-                            </h4>
-                            <small class="description">${item.description}</small>
-                          </article>
-                        </li>
-                      `)}
-                    </ul>
-                  </details>
-                </div>
-              ` : ''}
-
-              ${relatedGroups.componentParts.length > 0 ? html`
-                <div>
-                  <details class="borderless" open>
-                    <summary class="muted">Component Parts</summary>
-                    <ul class="cards cards--grid layout-grid">
-                      ${repeat(relatedGroups.componentParts, (item) => html`
-                        <li>
-                          <article class="card">
-                            <div class="attribute">${item.relationship}</div>
-                            <h4 class="label">
-                              <a href="#" data-id="${item.name}" @click=${(e: Event) => {
-                                e.preventDefault();
-                                const target = e.currentTarget as HTMLElement;
-                                const id = target.dataset.id;
-                                if (id) {
-                                  const relatedItem = PasteurizerData.flattenedModel.find(modelItem =>
-                                    modelItem.name === id || modelItem.id === id
-                                  );
-                                  if (relatedItem) {
-                                    state.selectedItem = {
-                                      ...relatedItem,
-                                      category: 'pasteurizer',
-                                      name: relatedItem.name,
-                                      description: relatedItem.description || '',
-                                      id: relatedItem.id,
-                                      type: relatedItem.type
-                                    };
-                                    renderView();
-                                  }
-                                }
-                              }}>${item.label}</a>
-                            </h4>
-                            <small class="description">${item.description}</small>
-                          </article>
-                        </li>
-                      `)}
-                    </ul>
-                  </details>
-                </div>
-              ` : ''}
-
-              ${relatedGroups.supportSystems.length > 0 ? html`
-                <div>
-                  <details class="borderless" open>
-                    <summary class="muted">Support Systems</summary>
-                    <ul class="cards cards--grid layout-grid">
-                      ${repeat(relatedGroups.supportSystems, (item) => html`
-                        <li>
-                          <article class="card">
-                            <div class="attribute">${item.relationship}</div>
-                            <h4 class="label">
-                              <a href="#" data-id="${item.name}" @click=${(e: Event) => {
-                                e.preventDefault();
-                                const target = e.currentTarget as HTMLElement;
-                                const id = target.dataset.id;
-                                if (id) {
-                                  const relatedItem = PasteurizerData.flattenedModel.find(modelItem =>
-                                    modelItem.name === id || modelItem.id === id
-                                  );
-                                  if (relatedItem) {
-                                    state.selectedItem = {
-                                      ...relatedItem,
-                                      category: 'pasteurizer',
-                                      name: relatedItem.name,
-                                      description: relatedItem.description || '',
-                                      id: relatedItem.id,
-                                      type: relatedItem.type
-                                    };
-                                    renderView();
-                                  }
-                                }
-                              }}>${item.label}</a>
-                            </h4>
-                            <small class="description">${item.description}</small>
-                          </article>
-                        </li>
-                      `)}
-                    </ul>
-                  </details>
-                </div>
-              ` : ''}
-
-              ${relatedGroups.downstreamPartners.length > 0 ? html`
-                <div>
-                  <details class="borderless" open>
-                    <summary class="muted">Downstream Partners</summary>
-                    <ul class="cards cards--grid layout-grid">
-                      ${repeat(relatedGroups.downstreamPartners, (item) => html`
-                        <li>
-                          <article class="card">
-                            <div class="attribute">${item.relationship}</div>
-                            <h4 class="label">
-                              <a href="#" data-id="${item.name}" @click=${(e: Event) => {
-                                e.preventDefault();
-                                const target = e.currentTarget as HTMLElement;
-                                const id = target.dataset.id;
-                                if (id) {
-                                  const relatedItem = PasteurizerData.flattenedModel.find(modelItem =>
-                                    modelItem.name === id || modelItem.id === id
-                                  );
-                                  if (relatedItem) {
-                                    state.selectedItem = {
-                                      ...relatedItem,
-                                      category: 'pasteurizer',
-                                      name: relatedItem.name,
-                                      description: relatedItem.description || '',
-                                      id: relatedItem.id,
-                                      type: relatedItem.type
-                                    };
-                                    renderView();
-                                  }
-                                }
-                              }}>${item.label}</a>
-                            </h4>
-                            <small class="description">${item.description}</small>
-                          </article>
-                        </li>
-                      `)}
-                    </ul>
-                  </details>
-                </div>
-              ` : ''}
+              ${Object.entries(relatedGroups).map(([groupName, items]) =>
+        items.length > 0 ? html`
+                  <div>
+                    <details class="borderless" open>
+                      <summary class="muted">${groupName}</summary>
+                      <ul class="cards cards--grid layout-grid">
+                        ${repeat(items, (item) => html`
+                          <li>
+                            <article class="card">
+                              <div class="attribute">${item.relationship}</div>
+                              <h4 class="label">
+                                <a href="#" data-id="${item.name}" @click=${(e: Event) => {
+            e.preventDefault();
+            handleItemClick(item.name);
+          }}>${item.label}</a>
+                              </h4>
+                              <small class="description">${item.description}</small>
+                            </article>
+                          </li>
+                        `)}
+                      </ul>
+                    </details>
+                  </div>
+                ` : ''
+      )}
             </div>
           ` : ''}
         </section>
@@ -461,15 +374,7 @@ export const ContextualNavigation: Story = {
                       <h4 class="label">
                         <a href="#" data-id="${item.id}" @click=${(e: Event) => {
             e.preventDefault();
-            const target = e.currentTarget as HTMLElement;
-            const id = target.dataset.id;
-            if (id) {
-              const selectedItem = pasteurizerData.find(item => item.id === id);
-              if (selectedItem) {
-                state.selectedItem = { ...selectedItem, category: 'pasteurizer' };
-                renderView();
-              }
-            }
+            handleItemClick(item.id);
           }}>${item.name}</a>
                       </h4>
                       <button class="button button--plain" is="pp-buton">

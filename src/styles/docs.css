@@ -204,3 +204,7 @@ resize-asaurus > .resize-asaurus-container {
     color: inherit;
   }
 }
+
+.sb-bar {
+  margin-top: 0 !important;
+}
