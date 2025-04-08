@@ -14,7 +14,6 @@
   flex-wrap: wrap;
   /* gap: var(--_crumb-gap); */
   align-items: center;
-  padding-block: 1rem;
   font-size: 0.9rem;
 }
 

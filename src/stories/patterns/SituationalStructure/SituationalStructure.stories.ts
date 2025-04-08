@@ -1,16 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 // @ts-expect-error - No type definition available for the API module
 import { callOpenAI } from "../../../../utils/api.js";
-import { html } from "lit";
+import { html, render } from "lit";
 import { repeat } from 'lit/directives/repeat.js';
 import stuffData from "./data/stuff.json";
 import heatExchangerData from "./data/HeatExchanger.json";
 import type {
-  Product,
-  Attribute,
-  Component,
-  Rule,
-  MergedItem,
   HeatExchangerData,
   HeatExchangerAttribute,
   Variant,
@@ -19,8 +14,6 @@ import type {
   ThroughputAttribute,
   PowerAttribute
 } from "./types";
-import { state } from 'lit/decorators.js';
-import { LitElement } from 'lit';
 
 // Using the imported JSON data from stuff.json
 const productData = stuffData.product_modeling.products;
@@ -77,27 +70,6 @@ export const Basic: Story = {
 
 export const ExampleProductModelView: Story = {
   render: () => {
-    const formatAttributeValue = (attr: HeatExchangerAttribute): string => {
-      if ('value' in attr) {
-        if (typeof attr.value === 'object' && 'length' in attr.value) {
-          // Handle dimensions
-          const dim = attr.value as DimensionAttribute['value'];
-          return `${dim.length.value}${dim.length.unit} × ${dim.width.value}${dim.width.unit} × ${dim.height.value}${dim.height.unit}`;
-        }
-        // Handle simple values
-        const val = attr as SimpleAttribute;
-        return `${val.value}${val.unit || ''}`;
-      } else if ('maxThroughput' in attr) {
-        // Handle throughput
-        const throughput = attr as ThroughputAttribute;
-        return `Max: ${throughput.maxThroughput.value}${throughput.maxThroughput.unit}, Avg: ${throughput.averageThroughput.value}${throughput.averageThroughput.unit}`;
-      } else if ('powerConsumption' in attr) {
-        // Handle power
-        const power = attr as PowerAttribute;
-        return `Power: ${power.powerConsumption.value}${power.powerConsumption.unit}, Recovery: ${power.heatRecoveryEfficiency.value}${power.heatRecoveryEfficiency.unit}`;
-      }
-      return '';
-    };
 
     const formatDimensions = (dimensions: Variant['attributes']['dimensions']): string => {
       return `${dimensions.length.value}${dimensions.length.unit} × ${dimensions.width.value}${dimensions.width.unit} × ${dimensions.height.value}${dimensions.height.unit}`;
@@ -107,6 +79,26 @@ export const ExampleProductModelView: Story = {
 
     return html`
       <section class="flow">
+        <pp-breadcrumbs role="navigation">
+          <a href="">
+            <span class="crumbicon">
+              <iconify-icon icon="ph:house"></iconify-icon>
+            </span>
+            <span class="inclusively-hidden" class="home-label">Home</span>
+          </a>
+
+          <span class="crumb">
+            <a href="#">Products</a>
+          </span>
+
+          <span class="crumb">
+            <a href="#">Pasteurizer 3000</a>
+          </span>
+
+          <span class="crumb">
+            <a href="" aria-current="page">Heating Assembly</a>
+          </span>
+        </pp-breadcrumbs>
         <div class="cards">
           <div>
             <article class="card">
@@ -120,12 +112,10 @@ export const ExampleProductModelView: Story = {
               <p class="description">${data.card.description}</p>
 
               <details open>
-                <summary>Attributes</summary>
+                <summary>Attributes <span class="badge">${(Object.keys(data.card.attributes)).length}</span></summary>
                 <ul class="card__attributes badges">
                   ${Object.entries(data.card.attributes).map(([key, attr]) => {
-      const label = attr.label || key;
-      const displayValue = formatAttributeValue(attr);
-      return html`<span class="badge">${label}: ${displayValue}</span>`;
+      return html`<span class="badge">${attr.label || key}</span>`;
     })}
                 </ul>
               </details>
@@ -258,221 +248,341 @@ export const ExampleProductModelView: Story = {
 
 export const ExampleProductModelNavigation: Story = {
   render: () => {
-    class ProductModelNavigation extends LitElement {
-      @state()
-      private selectedItem: MergedItem | null = null;
+    // Create a container element
+    const container = document.createElement('div');
+    container.className = 'product-model-navigation';
 
-      private handleItemClick(item: MergedItem) {
-        this.selectedItem = item;
-        this.requestUpdate();
+    // Define a type for the selected item
+    type SelectedItem = {
+      category: string;
+      name: string;
+      description?: string;
+      help_text?: string;
+      message?: string;
+      id: string;
+      type?: string;
+      status?: string;
+      data_type?: string;
+      unit?: string;
+      required?: boolean;
+      range?: { min: number; max: number };
+      options?: string[];
+      default?: string | number | boolean;
+    } | null;
+
+    // Define state
+    const state: { selectedItem: SelectedItem } = {
+      selectedItem: null
+    };
+
+    // Helper function to find item by id and category
+    const findItemById = (category: string, id: string) => {
+      switch (category) {
+        case 'products':
+          return productData.find(item => item.id === id);
+        case 'components':
+          return componentsData.find(item => item.id === id);
+        case 'attributes':
+          return attributesData.find(item => item.id === id);
+        case 'rules':
+          return rulesData.find(item => item.id === id);
+        default:
+          return null;
+      }
+    };
+
+    // Render item details based on category
+    const renderItemDetails = (item: SelectedItem) => {
+      if (!item) return html``;
+
+      const formatDimensions = (dimensions: Variant['attributes']['dimensions']): string => {
+        return `${dimensions.length.value}${dimensions.length.unit} × ${dimensions.width.value}${dimensions.width.unit} × ${dimensions.height.value}${dimensions.height.unit}`;
+      };
+
+      const data = heatExchangerData as HeatExchangerData;
+
+      return html`
+      <section class="flow">
+        <pp-breadcrumbs role="navigation">
+          <a href="">
+            <span class="crumbicon">
+              <iconify-icon icon="ph:house"></iconify-icon>
+            </span>
+            <span class="inclusively-hidden" class="home-label">Home</span>
+          </a>
+
+          <span class="crumb">
+            <a href="#">Products</a>
+          </span>
+
+          <span class="crumb">
+            <a href="#">Pasteurizer 3000</a>
+          </span>
+
+          <span class="crumb">
+            <a href="" aria-current="page">Heating Assembly</a>
+          </span>
+        </pp-breadcrumbs>
+        <div class="cards">
+          <div>
+            <article class="card">
+              <div class="card__header">
+                <h3 class="label layout-flex"><iconify-icon icon="ph:cube-bold"></iconify-icon> ${data.card.title}</h3>
+                <button class="button button--plain" is="pp-buton">
+                  <iconify-icon class="icon" icon="ph:dots-three"></iconify-icon>
+                  <span class="inclusively-hidden">Actions</span>
+                </button>
+              </div>
+              <p class="description">${data.card.description}</p>
+
+              <details open>
+                <summary>Attributes <span class="badge">${(Object.keys(data.card.attributes)).length}</span></summary>
+                <ul class="card__attributes badges">
+                  ${Object.entries(data.card.attributes).map(([key, attr]) => {
+        return html`<span class="badge">${attr.label || key}</span>`;
+      })}
+                </ul>
+              </details>
+
+              <details open>
+                <summary>Variants <span class="badge">${data.card.variants.length}</span></summary>
+                <pp-table>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Variant</th>
+                        <th>Description</th>
+                        <th>Weight</th>
+                        <th>Dimensions</th>
+                        <th>Efficiency</th>
+                        <th>Inspection Interval</th>
+                        <th>Lifetime</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      ${repeat(data.card.variants, (variant) => html`
+                        <tr>
+                          <td>${variant.label}</td>
+                          <td>${variant.description}</td>
+                          <td>${variant.attributes.weight.value}${variant.attributes.weight.unit}</td>
+                          <td>${formatDimensions(variant.attributes.dimensions)}</td>
+                          <td>${variant.attributes.thermalEfficiency.value}${variant.attributes.thermalEfficiency.unit}</td>
+                          <td>${variant.predictiveMaintenance.serviceSchedule.inspectionInterval}</td>
+                          <td>${variant.predictiveMaintenance.replacementSchedule.expectedLifetime}</td>
+                        </tr>
+                      `)}
+                    </tbody>
+                  </table>
+                </pp-table>
+              </details>
+            </article>
+          </div>
+        </div>
+      </div>
+      <div class="cards layout-grid">
+        <div>
+          <details class="borderless" open>
+            <summary class="muted">Parent and Child</summary>
+            <ul class="cards cards--grid layout-grid">
+              ${repeat(data.card.relatedObjects.grouped.parentAndChild, (item) => html`
+                <li>
+                  <article class="card">
+                    <div class="attribute">${item.relationship}</div>
+                    <h4 class="label">${item.label}</h4>
+                    <small class="description">${item.description}</small>
+                  </article>
+                </li>
+              `)}
+            </ul>
+          </details>
+        </div>
+
+        <div>
+          <details class="borderless" open>
+            <summary class="muted">Operational Partners</summary>
+            <ul class="cards cards--grid layout-grid">
+              ${repeat(data.card.relatedObjects.grouped.operationalPartners, (item) => html`
+                <li>
+                  <article class="card">
+                    <div class="attribute">${item.relationship}</div>
+                    <h4 class="label">${item.label}</h4>
+                    <small class="description">${item.description}</small>
+                  </article>
+                </li>
+              `)}
+            </ul>
+          </details>
+        </div>
+
+        <div>
+          <details class="borderless" open>
+            <summary class="muted">Component Parts</summary>
+            <ul class="cards cards--grid layout-grid">
+              ${repeat(data.card.relatedObjects.grouped.componentParts, (item) => html`
+                <li>
+                  <article class="card">
+                    <div class="attribute">${item.relationship}</div>
+                    <h4 class="label">${item.label}</h4>
+                    <small class="description">${item.description}</small>
+                  </article>
+                </li>
+              `)}
+            </ul>
+          </details>
+        </div>
+
+        <div>
+          <details class="borderless" open>
+            <summary class="muted">Support Systems</summary>
+            <ul class="cards cards--grid layout-grid">
+              ${repeat(data.card.relatedObjects.grouped.supportSystems, (item) => html`
+                <li>
+                  <article class="card">
+                    <div class="attribute">${item.relationship}</div>
+                    <h4 class="label">${item.label}</h4>
+                    <small class="description">${item.description}</small>
+                  </article>
+                </li>
+              `)}
+            </ul>
+          </details>
+        </div>
+
+        <div>
+          <details class="borderless" open>
+            <summary class="muted">Downstream Partners</summary>
+            <ul class="cards cards--grid layout-grid">
+              ${repeat(data.card.relatedObjects.grouped.downstreamPartners, (item) => html`
+                <li>
+                  <article class="card">
+                    <div class="attribute">${item.relationship}</div>
+                    <h4 class="label">${item.label}</h4>
+                    <small class="description">${item.description}</small>
+                  </article>
+                </li>
+              `)}
+            </ul>
+          </details>
+        </div>
+        </div>
+      </section>
+    `;
+    };
+
+    // Render list view
+    const renderListView = () => {
+      return html`
+        <section class="flow">
+          <h2>Recent</h2>
+          <ul class="cards layout-grid">
+                  ${repeat(
+        productData,
+        (product) => html`
+                      <li>
+                        <article class="card">
+                        <div class="card__attributes">
+                           <span class="badge">${product.type}</span>
+                        </div>
+                          <h4 class="label">
+                            <a data-category="products" data-id="${product.id}" href="">${product.name}</a></h4>
+                        </article>
+                      </li>
+                    `
+      )}
+                  ${repeat(
+        componentsData,
+        (component) => html`
+                      <li>
+                        <article class="card">
+                          <div class="card__attributes">
+                            <span class="badge">${component.type}</span>
+                          </div>
+                          <h4 class="label"><a href="#" data-category="components" data-id="${component.id}">${component.name}</a></h4>
+                        </article>
+                      </li>
+                    `
+      )}
+                  ${repeat(
+        attributesData,
+        (attribute) => html`
+                      <li>
+                        <article class="card">
+                          <div class="card__attributes">
+                            <span class="badge">${attribute.data_type}</span>
+                          </div>
+                          <h4 class="label"><a data-category="attributes" data-id="${attribute.id}" href="#">${attribute.name}</a></h4>
+                        </article>
+                      </li>
+                    `
+      )}
+                  ${repeat(
+        rulesData,
+        (rule) => html`
+                      <li>
+                        <article class="card">
+                          <div class="card__attributes">
+                            <span class="badge">${rule.type}</span>
+                          </div>
+                          <h4 class="label"><a data-category="rules" data-id="${rule.id}" href="#">${rule.name}</a></h4>
+                        </article>
+                      </li>
+                    `
+      )}
+                </ul>
+        </section>
+      `;
+    };
+
+    // Main render function
+    const renderView = () => {
+      if (state.selectedItem) {
+        const template = renderItemDetails(state.selectedItem);
+        render(template, container);
+      } else {
+        const template = renderListView();
+        render(template, container);
       }
 
-      private handleBackClick() {
-        this.selectedItem = null;
-        this.requestUpdate();
-      }
+      // Add event listeners
+      setTimeout(() => {
+        if (state.selectedItem) {
+          const backBtn = container.querySelector('.back-btn');
+          if (backBtn) {
+            backBtn.addEventListener('click', () => {
+              state.selectedItem = null;
+              renderView();
+            });
+          }
+        } else {
+          const viewDetailsBtns = container.querySelectorAll('.label > a');
+          viewDetailsBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+              e.preventDefault();
+              const target = e.target as HTMLElement;
+              const category = target.dataset.category;
+              const id = target.dataset.id;
 
-      private renderItemDetails(item: MergedItem) {
-        switch (item.category) {
-          case 'products':
-            return html`
-              <div class="card">
-                <div class="card__header">
-                  <button class="button button--plain" @click=${() => this.handleBackClick()}>
-                    <iconify-icon icon="ph:arrow-left"></iconify-icon>
-                    Back to list
-                  </button>
-                  <h2>${item.name}</h2>
-                </div>
-                <div class="card__content">
-                  <p class="description">${item.description}</p>
-                  <div class="card__attributes">
-                    <span class="badge">ID: ${item.id}</span>
-                    <span class="badge">Type: ${item.type}</span>
-                    <span class="badge">Status: ${item.status}</span>
-                  </div>
-                </div>
-              </div>
-            `;
-          case 'components':
-            return html`
-              <div class="card">
-                <div class="card__header">
-                  <button class="button button--plain" @click=${() => this.handleBackClick()}>
-                    <iconify-icon icon="ph:arrow-left"></iconify-icon>
-                    Back to list
-                  </button>
-                  <h2>${item.name}</h2>
-                </div>
-                <div class="card__content">
-                  <p class="description">${item.help_text}</p>
-                  <div class="card__attributes">
-                    <span class="badge">ID: ${item.id}</span>
-                    <span class="badge">Type: ${item.type}</span>
-                  </div>
-                </div>
-              </div>
-            `;
-          case 'attributes':
-            return html`
-              <div class="card">
-                <div class="card__header">
-                  <button class="button button--plain" @click=${() => this.handleBackClick()}>
-                    <iconify-icon icon="ph:arrow-left"></iconify-icon>
-                    Back to list
-                  </button>
-                  <h2>${item.name}</h2>
-                </div>
-                <div class="card__content">
-                  <p class="description">${item.help_text}</p>
-                  <div class="card__attributes">
-                    <span class="badge">ID: ${item.id}</span>
-                    <span class="badge">Data Type: ${item.data_type}</span>
-                  </div>
-                </div>
-              </div>
-            `;
-          case 'rules':
-            return html`
-              <div class="card">
-                <div class="card__header">
-                  <button class="button button--plain" @click=${() => this.handleBackClick()}>
-                    <iconify-icon icon="ph:arrow-left"></iconify-icon>
-                    Back to list
-                  </button>
-                  <h2>${item.name}</h2>
-                </div>
-                <div class="card__content">
-                  <p class="description">${item.message}</p>
-                  <div class="card__attributes">
-                    <span class="badge">ID: ${item.id}</span>
-                    <span class="badge">Type: ${item.type}</span>
-                  </div>
-                </div>
-              </div>
-            `;
-          default:
-            return null;
+
+
+              if (category && id) {
+                const item = findItemById(category, id);
+                if (item) {
+                  state.selectedItem = { ...item, category };
+                  console.log("TEST");
+                  renderView();
+                }
+              }
+            });
+          });
         }
-      }
+      }, 0);
+    };
 
-      render() {
-        return html`
-          <section class="flow">
-            ${this.selectedItem
-            ? this.renderItemDetails(this.selectedItem)
-            : html`
-                  <h2>Product Model Navigation</h2>
-                  <div class="cards layout-grid">
-                    <div>
-                      <details open>
-                        <summary>Products</summary>
-                        <ul class="cards cards--grid layout-grid">
-                          ${repeat(
-              productData.map(item => ({ ...item, category: 'products' } as Product)),
-              (product) => html`
-                              <li>
-                                <article class="card">
-                                  <h3 class="label">${product.name}</h3>
-                                  <p class="description">${product.description}</p>
-                                  <button
-                                    class="button button--primary"
-                                    @click=${() => this.handleItemClick(product)}
-                                  >
-                                    View Details
-                                  </button>
-                                </article>
-                              </li>
-                            `
-            )}
-                        </ul>
-                      </details>
-                    </div>
+    // Initial render
+    setTimeout(() => {
+      renderView();
+    }, 0);
 
-                    <div>
-                      <details open>
-                        <summary>Components</summary>
-                        <ul class="cards cards--grid layout-grid">
-                          ${repeat(
-              componentsData.map(item => ({ ...item, category: 'components' } as Component)),
-              (component) => html`
-                              <li>
-                                <article class="card">
-                                  <h3 class="label">${component.name}</h3>
-                                  <p class="description">${component.help_text}</p>
-                                  <span class="badge">${component.type}</span>
-                                  <button
-                                    class="button button--primary"
-                                    @click=${() => this.handleItemClick(component)}
-                                  >
-                                    View Details
-                                  </button>
-                                </article>
-                              </li>
-                            `
-            )}
-                        </ul>
-                      </details>
-                    </div>
-
-                    <div>
-                      <details open>
-                        <summary>Attributes</summary>
-                        <ul class="cards cards--grid layout-grid">
-                          ${repeat(
-              attributesData.map(item => ({ ...item, category: 'attributes' } as Attribute)),
-              (attribute) => html`
-                              <li>
-                                <article class="card">
-                                  <h3 class="label">${attribute.name}</h3>
-                                  <p class="description">${attribute.help_text}</p>
-                                  <button
-                                    class="button button--primary"
-                                    @click=${() => this.handleItemClick(attribute)}
-                                  >
-                                    View Details
-                                  </button>
-                                </article>
-                              </li>
-                            `
-            )}
-                        </ul>
-                      </details>
-                    </div>
-
-                    <div>
-                      <details open>
-                        <summary>Rules</summary>
-                        <ul class="cards cards--grid layout-grid">
-                          ${repeat(
-              rulesData.map(item => ({ ...item, category: 'rules' } as Rule)),
-              (rule) => html`
-                              <li>
-                                <article class="card">
-                                  <h3 class="label">${rule.name}</h3>
-                                  <p class="description">${rule.message}</p>
-                                  <span class="badge">${rule.type}</span>
-                                  <button
-                                    class="button button--primary"
-                                    @click=${() => this.handleItemClick(rule)}
-                                  >
-                                    View Details
-                                  </button>
-                                </article>
-                              </li>
-                            `
-            )}
-                        </ul>
-                      </details>
-                    </div>
-                  </div>
-                `}
-          </section>
-        `;
-      }
-    }
-
-    customElements.define('product-model-navigation', ProductModelNavigation);
-    return html`<product-model-navigation></product-model-navigation>`;
+    return container;
   },
 };
