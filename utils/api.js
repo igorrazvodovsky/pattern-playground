@@ -1,5 +1,3 @@
-const isStorybook = window.location.port === "6006";
-
 /**
  * Calls the OpenAI API with the given prompt
  * @param {string} prompt - The prompt to send to OpenAI
@@ -16,15 +14,9 @@ export async function callOpenAI(prompt, options = {}) {
 
   const { stream = false, onChunk = null } = options;
 
-  // Use local mock data for Storybook during development
-  if (isStorybook) {
-    console.log("Using local mock implementation for Storybook");
-    return mockOpenAICall(prompt, { stream, onChunk });
-  }
-
-  const endpoint = "/.netlify/functions/generate";
-
-  console.log("Using endpoint:", endpoint);
+  // Use Express backend endpoint
+  const endpoint = getApiEndpoint();
+  console.log("Using API endpoint:", endpoint);
   console.log("Sending prompt:", prompt);
   console.log("Streaming mode:", stream);
 
@@ -32,7 +24,6 @@ export async function callOpenAI(prompt, options = {}) {
     const payload = JSON.stringify({ prompt });
     console.log("Request payload:", payload);
 
-    // For Storybook local development, we need these specific CORS settings
     const fetchOptions = {
       method: "POST",
       headers: {
@@ -40,7 +31,7 @@ export async function callOpenAI(prompt, options = {}) {
         "Accept": stream ? "text/event-stream" : "application/json"
       },
       mode: 'cors',
-      credentials: 'same-origin',
+      credentials: 'include',
       body: payload
     };
 
@@ -54,15 +45,6 @@ export async function callOpenAI(prompt, options = {}) {
     if (!response.ok) {
       const errorText = await response.text();
       console.error("API error response:", errorText);
-
-      // Special handling for CORS errors
-      if (response.status === 0 || (response.status === 500 && errorText.includes("CORS"))) {
-        // If we detect a potential CORS issue with the streaming API, try fallback to mock data
-        console.warn("Possible CORS issue detected - falling back to mock data");
-
-        return mockOpenAICall(prompt, { stream, onChunk });
-      }
-
       throw new Error(`API returned ${response.status}: ${errorText}`);
     }
 
@@ -163,20 +145,7 @@ export async function callOpenAI(prompt, options = {}) {
         return accumulatedContent;
       } catch (error) {
         console.error("Error processing stream:", error);
-
-        // If streaming fails, try to get the response as JSON
-        try {
-          const data = await response.clone().json();
-          console.log("Fallback JSON response after streaming error:", data);
-          if (onChunk) {
-            const jsonStr = JSON.stringify(data);
-            onChunk(jsonStr, true);
-          }
-          return data;
-        } catch (err) {
-          console.warn("Failed to get fallback JSON after streaming error:", err);
-          throw error;
-        }
+        throw error;
       }
     }
 
@@ -205,149 +174,15 @@ export async function callOpenAI(prompt, options = {}) {
 }
 
 /**
- * Mock implementation of OpenAI API call for local development
- * @param {string} prompt - The prompt to send
- * @param {Object} options - Options (stream, onChunk)
- * @returns {Promise<Object>} Mock response
+ * Get the appropriate API endpoint based on environment
+ * @returns {string} API endpoint URL
  */
-async function mockOpenAICall(prompt, options = {}) {
-  console.log("Using mock OpenAI implementation for prompt:", prompt);
-  const { stream = false, onChunk = null } = options;
-
-  // Generate mock components based on the prompt
-  const mockData = generateMockDataForPrompt(prompt);
-
-  if (stream && onChunk) {
-    // Simulate streaming by sending chunks with delays
-    console.log("Simulating streaming response");
-
-    // Send components one by one with delays
-    const componentsCount = mockData.model.length;
-
-    for (let i = 0; i < componentsCount; i++) {
-      // Each chunk has all previous components
-      const partialModel = {
-        model: mockData.model.slice(0, i + 1)
-      };
-
-      // Use setTimeout to simulate network delay
-      await new Promise(resolve => {
-        setTimeout(() => {
-          console.log(`Sending mock chunk ${i + 1}/${componentsCount}`);
-          onChunk(JSON.stringify(partialModel), i === componentsCount - 1);
-          resolve();
-        }, 800); // Delay between components
-      });
-    }
-
-    return mockData;
-  } else {
-    // Non-streaming mode
-    if (onChunk) {
-      onChunk(JSON.stringify(mockData), true);
-    }
-    return mockData;
-  }
-}
-
-/**
- * Generate mock data based on the prompt
- * @param {string} prompt - The search prompt
- * @returns {Object} - Mock data with components related to the prompt
- */
-function generateMockDataForPrompt(prompt) {
-  // Create base components that will always be included
-  const baseComponents = [
-    {
-      id: "component-1",
-      type: "Component",
-      name: "Mock Component",
-      description: `This is a mock component related to "${prompt}".`,
-    }
-  ];
-
-  // Add more specific components based on the prompt
-  let specificComponents = [];
-
-  if (prompt.toLowerCase().includes("heat exchanger")) {
-    specificComponents = [
-      {
-        id: "heat-exchanger-1",
-        type: "HeatExchanger",
-        name: "Plate Heat Exchanger",
-        description: "Efficient heat transfer device using metal plates to transfer heat between two fluids.",
-        attributes: [
-          { name: "material", label: "Material", value: "Stainless Steel", unit: null },
-          { name: "max_temp", label: "Maximum Temperature", value: "180", unit: "°C" }
-        ]
-      },
-      {
-        id: "heat-exchanger-2",
-        type: "HeatExchanger",
-        name: "Shell and Tube Heat Exchanger",
-        description: "Heat exchanger design with tubes inside a shell, allowing heat transfer between fluids.",
-        attributes: [
-          { name: "material", label: "Material", value: "Carbon Steel", unit: null },
-          { name: "max_temp", label: "Maximum Temperature", value: "250", unit: "°C" }
-        ]
-      },
-      {
-        id: "pump-1",
-        type: "Pump",
-        name: "Circulation Pump",
-        description: "Circulates fluid through the heat exchanger system.",
-        attributes: [
-          { name: "flow_rate", label: "Flow Rate", value: "500", unit: "L/min" }
-        ]
-      }
-    ];
-  } else if (prompt.toLowerCase().includes("pasteurizer")) {
-    specificComponents = [
-      {
-        id: "pasteurizer-1",
-        type: "Pasteurizer",
-        name: "HTST Pasteurizer",
-        description: "High-Temperature Short-Time pasteurizer for liquid food products.",
-        attributes: [
-          { name: "capacity", label: "Capacity", value: "5000", unit: "L/hr" }
-        ]
-      },
-      {
-        id: "pasteurizer-2",
-        type: "Pasteurizer",
-        name: "UHT Processing Unit",
-        description: "Ultra-High Temperature processing unit for extended shelf life products.",
-        attributes: [
-          { name: "temp", label: "Processing Temperature", value: "135", unit: "°C" }
-        ]
-      }
-    ];
-  } else {
-    // Generic components for any other prompt
-    specificComponents = [
-      {
-        id: "generic-1",
-        type: "GenericComponent",
-        name: `${prompt} Processing Unit`,
-        description: `Main processing unit for ${prompt} applications.`,
-        attributes: [
-          { name: "capacity", label: "Capacity", value: "1000", unit: "kg/hr" }
-        ]
-      },
-      {
-        id: "generic-2",
-        type: "GenericComponent",
-        name: `${prompt} Controller`,
-        description: `Electronic control system for ${prompt} processes.`,
-        attributes: [
-          { name: "interface", label: "Interface", value: "Touchscreen", unit: null }
-        ]
-      }
-    ];
+function getApiEndpoint() {
+  // Development environment
+  if (process.env.NODE_ENV === 'development' || window.location.hostname === 'localhost') {
+    return 'http://localhost:3000/api/generate';
   }
 
-  // Return the combined components
-  return {
-    model: [...baseComponents, ...specificComponents]
-  };
+  // Production environment - adjust as needed
+  return '/api/generate';
 }

@@ -17,6 +17,8 @@ type JsonValue = string | number | boolean | null | JsonObject | JsonValue[] | u
 
 // Basic model item interface for type checking
 interface BasicModelItem {
+  id?: string;
+  component_name?: string;
   name?: string;
   description?: string;
   [key: string]: JsonValue;
@@ -24,6 +26,8 @@ interface BasicModelItem {
 
 const getAnswer = async (updateCallback: UpdateCallback) => {
   let responseReceived = false;
+  const accumulatedModel: BasicModelItem[] = [];
+  let lastProcessedIndex = 0;
 
   try {
     console.log("Calling OpenAI API...");
@@ -32,8 +36,59 @@ const getAnswer = async (updateCallback: UpdateCallback) => {
       stream: true,
       onChunk: (accumulated: string, isDone: boolean) => {
         console.log(`Received chunk, isDone: ${isDone}, length: ${accumulated.length}`);
+        console.log("Raw chunk content:", accumulated);
         responseReceived = true;
-        updateCallback(accumulated, isDone);
+
+        try {
+          // Parse the accumulated content
+          const parsedContent = JSON.parse(accumulated);
+          console.log("Parsed chunk content:", parsedContent);
+
+          // If we have a model array, process items one at a time
+          if (parsedContent && parsedContent.model && Array.isArray(parsedContent.model)) {
+            // Process only new items that haven't been added yet
+            const newItems = parsedContent.model.slice(lastProcessedIndex);
+
+            // Process each new item with a delay
+            newItems.forEach((item: BasicModelItem, index: number) => {
+              setTimeout(() => {
+                // Generate a unique ID for each item
+                const itemId = `item-${Math.random().toString(36).substr(2, 9)}`;
+                const newItem = {
+                  ...item,
+                  id: itemId
+                };
+
+                // Only add items we haven't seen before
+                if (!accumulatedModel.some(existing =>
+                  existing.component_name === newItem.component_name &&
+                  existing.description === newItem.description
+                )) {
+                  console.log("Adding new item:", newItem);
+                  accumulatedModel.push(newItem);
+
+                  // Update the UI with just this new item
+                  updateCallback(JSON.stringify({
+                    model: [newItem] // Send only the new item
+                  }), isDone && index === newItems.length - 1);
+                }
+              }, index * 500); // Add 500ms delay between each item
+            });
+
+            // Update the last processed index
+            lastProcessedIndex = parsedContent.model.length;
+
+            console.log("Current accumulated model:", accumulatedModel);
+          } else {
+            console.log("No model array in chunk, updating with raw content");
+            // If we don't have a model array yet, update with the full content
+            updateCallback(accumulated, isDone);
+          }
+        } catch (e) {
+          console.error("Error parsing chunk:", e);
+          // If parsing fails, still update with the raw content
+          updateCallback(accumulated, isDone);
+        }
       }
     });
     console.log("Completed streaming response");
@@ -99,6 +154,7 @@ export const Basic: Story = {
     // Function to update the UI with streaming content
     const updateStreamingUI = (content: string, isDone: boolean) => {
       console.log(`updateStreamingUI called with content length ${content.length}, isDone: ${isDone}`);
+      console.log("Raw content:", content);
 
       try {
         // Clear the loading message on first update
@@ -129,6 +185,8 @@ export const Basic: Story = {
 
         // Check if we have a model to render
         if (jsonData && jsonData.model && Array.isArray(jsonData.model)) {
+          console.log("Rendering model with items:", jsonData.model.length);
+
           // Get or create the cards container
           let cardsDiv = streamingContent!.querySelector('.cards.layout-grid');
           if (!cardsDiv) {
@@ -137,23 +195,26 @@ export const Basic: Story = {
             streamingContent!.appendChild(cardsDiv);
           }
 
-          // Keep track of rendered cards by ID or index
+          // Keep track of rendered cards by ID
           const renderedCardIds = new Set(
             Array.from(cardsDiv.querySelectorAll('.card[data-item-id]'))
               .map(card => card.getAttribute('data-item-id'))
           );
 
-          // Create or update each card
-          jsonData.model.forEach((item: BasicModelItem, index: number) => {
-            const itemId = item.id?.toString() || `index-${index}`;
+          console.log("Currently rendered card IDs:", Array.from(renderedCardIds));
 
-            // Skip if this card is already rendered and we're not at the end
-            if (renderedCardIds.has(itemId) && !isDone) {
+          // Process each item in the model array
+          jsonData.model.forEach((item: BasicModelItem) => {
+            const itemId = item.id?.toString() || `item-${Math.random().toString(36).substr(2, 9)}`;
+            console.log("Processing item:", itemId);
+
+            // Skip if this card is already rendered
+            if (renderedCardIds.has(itemId)) {
+              console.log("Skipping already rendered item:", itemId);
               return;
             }
 
-            // If card already exists and we're at the end, we could update it
-            // For simplicity, we're just adding new cards and not updating existing ones
+            console.log("Creating new card for item:", itemId);
 
             // Create card wrapper div
             const cardWrapper = document.createElement('div');
@@ -168,15 +229,8 @@ export const Basic: Story = {
             // Add the card header
             const cardTitle = document.createElement('h4');
             cardTitle.className = 'label layout-flex';
-            cardTitle.textContent = item.name || `Item ${index + 1}`;
+            cardTitle.textContent = String(item.component_name || 'Unnamed Item');
             card.appendChild(cardTitle);
-
-            if (item.relationshipDescription) {
-              const relationshipDescription = document.createElement('p');
-              relationshipDescription.className = 'attribute';
-              relationshipDescription.textContent = String(item.relationshipDescription);
-              card.appendChild(relationshipDescription);
-            }
 
             if (item.description) {
               const description = document.createElement('p');
@@ -191,6 +245,7 @@ export const Basic: Story = {
 
             // Mark this card as rendered
             renderedCardIds.add(itemId);
+            console.log("Added new card:", itemId);
           });
 
           // Add some styles for the animation if they don't exist yet
