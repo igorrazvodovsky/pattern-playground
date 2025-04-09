@@ -3,7 +3,6 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const { z } = require('zod');
 const { OpenAI } = require('openai');
-const { zodResponseFormat } = require('openai/helpers/zod');
 
 // Initialize the app
 const app = express();
@@ -54,10 +53,86 @@ const pasteurizerSchema = z.object({
   model: z.array(modelItemSchema)
 });
 
+// Convert Zod schema to JSON Schema format
+const jsonSchema = {
+  additionalProperties: false,
+  type: "object",
+  properties: {
+    model: {
+      type: "array",
+      items: {
+        type: "object",
+        additionalProperties: false,
+        properties: {
+          id: { type: "string" },
+          type: { type: "string" },
+          name: { type: "string" },
+          label: { type: "string" },
+          description: { type: "string" },
+          path: { type: "array", items: { type: "string" } },
+          parentId: { type: ["string", "null"] },
+          childrenIds: { type: "array", items: { type: "string" } },
+          relationshipType: { type: "string" },
+          relationshipDescription: { type: "string" },
+          attributes: {
+            type: "array",
+            items: {
+              type: "object",
+              additionalProperties: false,
+              properties: {
+                name: { type: "string" },
+                label: { type: "string" },
+                value: { type: "string" },
+                unit: { type: ["string", "null"] }
+              },
+              required: ["name", "label", "value", "unit"]
+            }
+          },
+          rulesAndConstraints: { type: "array", items: { type: "string" } },
+          possibleActions: {
+            type: "array",
+            items: {
+              type: "object",
+              additionalProperties: false,
+              properties: {
+                actionName: { type: "string" },
+                actionDescription: { type: "string" }
+              },
+              required: ["actionName", "actionDescription"]
+            }
+          },
+          relatedObjects: {
+            type: "array",
+            items: {
+              type: "object",
+              additionalProperties: false,
+              properties: {
+                referenceId: { type: "string" },
+                relationshipType: { type: "string" },
+                relationshipDescription: { type: "string" }
+              },
+              required: ["referenceId", "relationshipType", "relationshipDescription"]
+            }
+          }
+        },
+        required: [
+          "id", "type", "name", "label", "description", "path", "parentId",
+          "childrenIds", "relationshipType", "relationshipDescription", "attributes",
+          "rulesAndConstraints", "possibleActions", "relatedObjects"
+        ]
+      }
+    }
+  },
+  required: ["model"]
+};
+
 // Initialize OpenAI client
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
+
+// Debug available endpoints
+console.log("OpenAI client structure:", Object.keys(openai));
 
 // Middleware
 app.use(bodyParser.json());
@@ -121,26 +196,24 @@ app.post('/api/generate', async (req, res) => {
       let jsonBuffer = "";
 
       // Call OpenAI API with streaming enabled
-      const stream = await openai.chat.completions.create({
+      const stream = await openai.responses.create({
         model: "gpt-4o",
-        messages: [
-          {
-            "role": "system",
-            "content": "You are an expert in industrial equipment and pasteurization systems. Generate a detailed pasteurizer model based on the user's requirements. Return your response as a JSON object with model array that contains components. Generate each component one by one for streaming purposes."
-          },
-          {
-            "role": "user",
-            "content": "Make a list of components related to " + prompt
+        instructions: "You are an expert in industrial equipment and pasteurization systems. Generate a detailed pasteurizer model based on the user's requirements. Return your response as a JSON object with model array that contains components. Generate each component one by one for streaming purposes.",
+        input: "Make a list of components related to " + prompt,
+        text: {
+          format: {
+            type: "json_schema",
+            name: "json_schema",
+            schema: jsonSchema
           }
-        ],
-        response_format: zodResponseFormat(pasteurizerSchema, "component"),
+        },
         stream: true
       });
 
       // Process each chunk from OpenAI
       for await (const chunk of stream) {
         // Extract content delta
-        const content = chunk.choices[0]?.delta?.content || "";
+        const content = chunk.text || "";
         if (!content) continue;
 
         // Accumulate the JSON string
@@ -195,37 +268,37 @@ app.post('/api/generate', async (req, res) => {
       res.end();
     } else {
       // Non-streaming response
-      const response = await openai.chat.completions.create({
+      const response = await openai.responses.create({
         model: "gpt-4o",
-        messages: [
-          {
-            "role": "system",
-            "content": "You are an expert in industrial equipment and pasteurization systems. Generate a detailed pasteurizer model based on the user's requirements. Return your response as a JSON object."
-          },
-          {
-            "role": "user",
-            "content": "Make a list of components related to " + prompt
+        instructions: "You are an expert in industrial equipment and pasteurization systems. Generate a detailed pasteurizer model based on the user's requirements. Return your response as a JSON object.",
+        input: "Make a list of components related to " + prompt,
+        text: {
+          format: {
+            type: "json_schema",
+            name: "json_schema",
+            schema: jsonSchema
           }
-        ],
-        response_format: zodResponseFormat(pasteurizerSchema, "component"),
+        },
         stream: false
       });
 
       console.log("OpenAI response received");
 
-      if (!response.choices || !response.choices[0] || !response.choices[0].message) {
+      if (!response.choices || !response.choices[0]) {
         throw new Error("Invalid OpenAI response format");
       }
 
-      const content = response.choices[0].message.content;
+      const content = response.text;
       let parsedContent;
 
       try {
         parsedContent = JSON.parse(content);
-        console.log("Successfully parsed OpenAI response");
+        // Validate the response against our schema
+        pasteurizerSchema.parse(parsedContent);
+        console.log("Successfully parsed and validated OpenAI response");
       } catch (e) {
-        console.error("Failed to parse OpenAI response:", e);
-        throw new Error("Failed to parse OpenAI response");
+        console.error("Failed to parse or validate OpenAI response:", e);
+        throw new Error("Failed to parse or validate OpenAI response");
       }
 
       res.status(200).json({
