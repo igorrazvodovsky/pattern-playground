@@ -41,8 +41,8 @@ const modelItemSchema = z.object({
   path: z.array(z.string()),
   parentId: z.string().nullable(),
   childrenIds: z.array(z.string()),
-  relationshipType: z.string().nullable(),
-  relationshipDescription: z.string().nullable(),
+  relationshipType: z.string(),
+  relationshipDescription: z.string(),
   attributes: z.array(attributeSchema),
   rulesAndConstraints: z.array(z.string()),
   possibleActions: z.array(actionSchema),
@@ -118,6 +118,7 @@ app.post('/api/generate', async (req, res) => {
 
       // Initialize for accumulating content
       let accumulatedData = { model: [] };
+      let jsonBuffer = "";
 
       // Call OpenAI API with streaming enabled
       const stream = await openai.chat.completions.create({
@@ -125,18 +126,16 @@ app.post('/api/generate', async (req, res) => {
         messages: [
           {
             "role": "system",
-            "content": "You are an expert in industrial equipment and pasteurization systems. Generate a detailed pasteurizer model based on the user's requirements. Return your response as a JSON object with model array that contains components."
+            "content": "You are an expert in industrial equipment and pasteurization systems. Generate a detailed pasteurizer model based on the user's requirements. Return your response as a JSON object with model array that contains components. Generate each component one by one for streaming purposes."
           },
           {
             "role": "user",
             "content": "Make a list of components related to " + prompt
           }
         ],
-        response_format: { type: "json_object" },
+        response_format: zodResponseFormat(pasteurizerSchema, "component"),
         stream: true
       });
-
-      let jsonBuffer = "";
 
       // Process each chunk from OpenAI
       for await (const chunk of stream) {
@@ -153,16 +152,33 @@ app.post('/api/generate', async (req, res) => {
 
           // If parsing succeeded, update our accumulated data
           if (parsedJson && parsedJson.model && Array.isArray(parsedJson.model)) {
-            // Update accumulated data
-            accumulatedData = parsedJson;
+            // Find new components that weren't in the previous accumulated data
+            const newComponents = parsedJson.model.filter(component =>
+              !accumulatedData.model.some(existing =>
+                existing.id === component.id ||
+                existing.component_name === component.component_name
+              )
+            );
 
-            // Send event to client with current accumulated data
-            const dataEvent = `data: ${JSON.stringify({
-              accumulated: JSON.stringify({ model: parsedJson.model }),
-              done: false
-            })}\n\n`;
+            // If there are new components, send them individually
+            if (newComponents.length > 0) {
+              for (const newComponent of newComponents) {
+                // Add the new component to accumulated data
+                accumulatedData.model.push(newComponent);
 
-            res.write(dataEvent);
+                // Send event with just this new component
+                const componentEvent = `data: ${JSON.stringify({
+                  newComponent: newComponent,
+                  accumulated: JSON.stringify(accumulatedData),
+                  done: false
+                })}\n\n`;
+
+                res.write(componentEvent);
+
+                // Add a slight delay to simulate more granular streaming
+                await new Promise(resolve => setTimeout(resolve, 300));
+              }
+            }
           }
         } catch {
           // Parsing failed, continue accumulating until we have valid JSON

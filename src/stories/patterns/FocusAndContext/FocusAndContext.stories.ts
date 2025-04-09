@@ -5,124 +5,41 @@ import PasteurizerData from "./data/Pasteurizer.json";
 // @ts-expect-error - No type definition available for the API module
 import { callOpenAI } from "../../../../utils/api.js";
 
-// Type for the update callback function
-type UpdateCallback = (content: string, isDone: boolean) => void;
-
-// For generic JSON rendering
-interface JsonObject {
-  [key: string]: JsonValue;
+// Define types for the pasteurizer model components
+interface Attribute {
+  name: string;
+  label: string;
+  value: string;
+  unit: string | null;
 }
 
-type JsonValue = string | number | boolean | null | JsonObject | JsonValue[] | undefined;
-
-// Basic model item interface for type checking
-interface BasicModelItem {
-  id?: string;
-  component_name?: string;
-  name?: string;
-  description?: string;
-  [key: string]: JsonValue;
+interface Action {
+  actionName: string;
+  actionDescription: string;
 }
 
-const getAnswer = async (updateCallback: UpdateCallback) => {
-  let responseReceived = false;
-  const accumulatedModel: BasicModelItem[] = [];
-  let lastProcessedIndex = 0;
+interface RelatedObject {
+  referenceId: string;
+  relationshipType: string;
+  relationshipDescription: string;
+}
 
-  try {
-    console.log("Calling OpenAI API...");
-    // Try to get data from the API
-    const response = await callOpenAI("heat exchanger", {
-      stream: true,
-      onChunk: (accumulated: string, isDone: boolean) => {
-        console.log(`Received chunk, isDone: ${isDone}, length: ${accumulated.length}`);
-        console.log("Raw chunk content:", accumulated);
-        responseReceived = true;
-
-        try {
-          // Parse the accumulated content
-          const parsedContent = JSON.parse(accumulated);
-          console.log("Parsed chunk content:", parsedContent);
-
-          // If we have a model array, process items one at a time
-          if (parsedContent && parsedContent.model && Array.isArray(parsedContent.model)) {
-            // Process only new items that haven't been added yet
-            const newItems = parsedContent.model.slice(lastProcessedIndex);
-
-            // Process each new item with a delay
-            newItems.forEach((item: BasicModelItem, index: number) => {
-              setTimeout(() => {
-                // Generate a unique ID for each item
-                const itemId = `item-${Math.random().toString(36).substr(2, 9)}`;
-                const newItem = {
-                  ...item,
-                  id: itemId
-                };
-
-                // Only add items we haven't seen before
-                if (!accumulatedModel.some(existing =>
-                  existing.component_name === newItem.component_name &&
-                  existing.description === newItem.description
-                )) {
-                  console.log("Adding new item:", newItem);
-                  accumulatedModel.push(newItem);
-
-                  // Update the UI with just this new item
-                  updateCallback(JSON.stringify({
-                    model: [newItem] // Send only the new item
-                  }), isDone && index === newItems.length - 1);
-                }
-              }, index * 500); // Add 500ms delay between each item
-            });
-
-            // Update the last processed index
-            lastProcessedIndex = parsedContent.model.length;
-
-            console.log("Current accumulated model:", accumulatedModel);
-          } else {
-            console.log("No model array in chunk, updating with raw content");
-            // If we don't have a model array yet, update with the full content
-            updateCallback(accumulated, isDone);
-          }
-        } catch (e) {
-          console.error("Error parsing chunk:", e);
-          // If parsing fails, still update with the raw content
-          updateCallback(accumulated, isDone);
-        }
-      }
-    });
-    console.log("Completed streaming response");
-
-    // If we get here but no chunks were received (responseReceived is still false),
-    // we should still update the UI with the response
-    if (!responseReceived && response) {
-      console.log("No chunks received, but we have a response. Updating UI directly...");
-      let responseStr = response;
-      if (typeof response !== 'string') {
-        try {
-          responseStr = JSON.stringify(response);
-        } catch (e) {
-          console.error("Failed to stringify response:", e);
-        }
-      }
-
-      // Force update with the response
-      updateCallback(responseStr, true);
-    }
-
-    return response;
-  } catch (error) {
-    console.error("Error calling OpenAI:", error);
-
-    // Show error message rather than using mock data
-    updateCallback(JSON.stringify({
-      success: false,
-      error: `API Error: ${error instanceof Error ? error.message : String(error)}`
-    }), true);
-
-    return null;
-  }
-};
+interface ModelItem {
+  id: string;
+  type: string;
+  name: string;
+  label: string;
+  description: string;
+  path: string[];
+  parentId: string | null;
+  childrenIds: string[];
+  relationshipType: string | null;
+  relationshipDescription: string | null;
+  attributes: Attribute[];
+  rulesAndConstraints: string[];
+  possibleActions: Action[];
+  relatedObjects: RelatedObject[];
+}
 
 const meta = {
   title: "Patterns/Focus and Context*",
@@ -135,174 +52,7 @@ const meta = {
 export default meta;
 type Story = StoryObj;
 
-export const Basic: Story = {
-  render: () => {
-    const container = document.createElement('div');
-    container.className = 'flow';
 
-    // Create a streaming response container
-    const streamingContainer = document.createElement('div');
-    streamingContainer.innerHTML = `
-      <div class="streaming-content">
-        <div class="loading">Loading response...</div>
-      </div>
-    `;
-    container.appendChild(streamingContainer);
-
-    const streamingContent = streamingContainer.querySelector('.streaming-content');
-
-    // Function to update the UI with streaming content
-    const updateStreamingUI = (content: string, isDone: boolean) => {
-      console.log(`updateStreamingUI called with content length ${content.length}, isDone: ${isDone}`);
-      console.log("Raw content:", content);
-
-      try {
-        // Clear the loading message on first update
-        if (streamingContent!.querySelector('.loading')) {
-          streamingContent!.innerHTML = '';
-        }
-
-        // Try to parse the JSON
-        let jsonData;
-        try {
-          jsonData = JSON.parse(content);
-          console.log("Successfully parsed content as JSON:", jsonData);
-
-          // Extract the data if it's wrapped
-          if (jsonData.success === true && jsonData.data) {
-            jsonData = jsonData.data;
-            console.log("Extracted data from wrapper:", jsonData);
-          }
-        } catch (e) {
-          console.error("Failed to parse JSON:", e);
-          streamingContent!.innerHTML = `
-            <div class="error">
-              <p>Error parsing JSON response.</p>
-            </div>
-          `;
-          return;
-        }
-
-        // Check if we have a model to render
-        if (jsonData && jsonData.model && Array.isArray(jsonData.model)) {
-          console.log("Rendering model with items:", jsonData.model.length);
-
-          // Get or create the cards container
-          let cardsDiv = streamingContent!.querySelector('.cards.layout-grid');
-          if (!cardsDiv) {
-            cardsDiv = document.createElement('div');
-            cardsDiv.className = 'cards layout-grid';
-            streamingContent!.appendChild(cardsDiv);
-          }
-
-          // Keep track of rendered cards by ID
-          const renderedCardIds = new Set(
-            Array.from(cardsDiv.querySelectorAll('.card[data-item-id]'))
-              .map(card => card.getAttribute('data-item-id'))
-          );
-
-          console.log("Currently rendered card IDs:", Array.from(renderedCardIds));
-
-          // Process each item in the model array
-          jsonData.model.forEach((item: BasicModelItem) => {
-            const itemId = item.id?.toString() || `item-${Math.random().toString(36).substr(2, 9)}`;
-            console.log("Processing item:", itemId);
-
-            // Skip if this card is already rendered
-            if (renderedCardIds.has(itemId)) {
-              console.log("Skipping already rendered item:", itemId);
-              return;
-            }
-
-            console.log("Creating new card for item:", itemId);
-
-            // Create card wrapper div
-            const cardWrapper = document.createElement('div');
-            cardWrapper.classList.add('card-wrapper');
-            cardWrapper.classList.add('fade-in-animation');
-
-            // Create the card article
-            const card = document.createElement('article');
-            card.className = 'card';
-            card.setAttribute('data-item-id', itemId);
-
-            // Add the card header
-            const cardTitle = document.createElement('h4');
-            cardTitle.className = 'label layout-flex';
-            cardTitle.textContent = String(item.component_name || 'Unnamed Item');
-            card.appendChild(cardTitle);
-
-            if (item.description) {
-              const description = document.createElement('p');
-              description.className = 'description';
-              description.textContent = item.description;
-              card.appendChild(description);
-            }
-
-            // Add the card to the wrapper
-            cardWrapper.appendChild(card);
-            cardsDiv.appendChild(cardWrapper);
-
-            // Mark this card as rendered
-            renderedCardIds.add(itemId);
-            console.log("Added new card:", itemId);
-          });
-
-          // Add some styles for the animation if they don't exist yet
-          if (!document.getElementById('streaming-animation-styles')) {
-            const styleEl = document.createElement('style');
-            styleEl.id = 'streaming-animation-styles';
-            styleEl.textContent = `
-              .fade-in-animation {
-                animation: fadeIn 0.5s ease-in-out;
-                opacity: 1;
-              }
-              @keyframes fadeIn {
-                from { opacity: 0; transform: translateY(10px); }
-                to { opacity: 1; transform: translateY(0); }
-              }
-            `;
-            document.head.appendChild(styleEl);
-          }
-        } else if (isDone && (!jsonData || !jsonData.model || !Array.isArray(jsonData.model) || jsonData.model.length === 0)) {
-          // Only show "no components" message when we're done and still have no data
-          streamingContent!.innerHTML = `
-            <div class="error">
-              <p>No components found in the response.</p>
-            </div>
-          `;
-        }
-      } catch (error) {
-        console.error("Error in updateStreamingUI:", error);
-
-        // Show the error
-        streamingContent!.innerHTML = `
-          <div class="error">
-            <h3>Error Rendering Content</h3>
-            <p>${error instanceof Error ? error.message : String(error)}</p>
-          </div>
-        `;
-      }
-    };
-
-    // Add a delay to ensure the DOM is ready
-    setTimeout(() => {
-      getAnswer(updateStreamingUI)
-        .catch((error: unknown) => {
-          const errorMessage = error instanceof Error ? error.message : String(error);
-
-          streamingContent!.innerHTML = `
-            <div class="error">
-              <h3>Error</h3>
-              <p>${errorMessage}</p>
-            </div>
-          `;
-        });
-    }, 100);
-
-    return container;
-  },
-};
 
 export const ContextualNavigation: Story = {
   render: () => {
@@ -585,4 +335,171 @@ export const ContextualNavigation: Story = {
     renderView();
     return container;
   },
+};
+
+export const StreamingCards: Story = {
+  render: () => {
+    const container = document.createElement('div');
+    container.className = 'streaming-cards flow';
+
+    // Initial state
+    const state: {
+      prompt: string;
+      loading: boolean;
+      error: string | null;
+      components: ModelItem[];
+    } = {
+      prompt: 'dairy pasteurization',
+      loading: false,
+      error: null,
+      components: []
+    };
+
+    // Function to fetch components
+    const fetchComponents = async () => {
+      state.loading = true;
+      state.error = null;
+      state.components = [];
+      renderView();
+
+      try {
+        await callOpenAI(state.prompt, {
+          stream: true,
+          onChunk: (chunk: string, isDone: boolean) => {
+            console.log('Received chunk:', chunk);
+            try {
+              // Parse the accumulated JSON content
+              const parsedData = JSON.parse(chunk);
+              console.log('Parsed data:', parsedData);
+
+              if (isDone) {
+                // Final event - mark loading as complete
+                state.loading = false;
+                renderView();
+                return;
+              }
+
+              // Check if we have a new individual component
+              if (parsedData.newComponent) {
+                console.log('New component received:', parsedData.newComponent);
+                console.log('Component keys:', Object.keys(parsedData.newComponent));
+                // Convert component to our ModelItem format
+                const component = parsedData.newComponent as ModelItem;
+                const modelItem: ModelItem = {
+                  id: `comp-${state.components.length + 1}`,
+                  type: 'Component',
+                  name: component.name || 'Unnamed Component',
+                  label: component.label || '',
+                  description: component.description || '',
+                  path: [],
+                  parentId: null,
+                  childrenIds: [],
+                  relationshipType: component.relationshipType || null,
+                  relationshipDescription: component.relationshipDescription || '',
+                  attributes: [],
+                  rulesAndConstraints: [],
+                  possibleActions: [],
+                  relatedObjects: []
+                };
+
+                console.log('Created model item:', modelItem);
+                console.log('Model item keys:', Object.keys(modelItem));
+
+                // Add the new component and re-render
+                state.components = [...state.components, modelItem];
+                console.log('Updated components:', state.components);
+                renderView();
+              } else if (parsedData.model && Array.isArray(parsedData.model)) {
+                console.log('Model data received:', parsedData.model);
+                // Convert all components to ModelItem format
+                state.components = parsedData.model.map((component: ModelItem, index: number) => ({
+                  id: `comp-${index + 1}`,
+                  type: 'Component',
+                  name: component.name || 'Unnamed Component',
+                  label: component.label || '',
+                  description: component.description || '',
+                  path: [],
+                  parentId: null,
+                  childrenIds: [],
+                  relationshipType: component.relationshipType || null,
+                  relationshipDescription: component.relationshipDescription || '',
+                  attributes: [],
+                  rulesAndConstraints: [],
+                  possibleActions: [],
+                  relatedObjects: []
+                }));
+                state.loading = !isDone;
+                console.log('Updated components from model data:', state.components);
+                renderView();
+              }
+            } catch (err) {
+              console.warn('Error parsing chunk:', err);
+            }
+          }
+        });
+      } catch (error: unknown) {
+        state.error = error instanceof Error ? error.message : 'Failed to fetch data';
+        state.loading = false;
+        renderView();
+      }
+    };
+
+    const renderCards = () => {
+      console.log('Rendering cards with components:', state.components);
+      return html`
+        <ul class="cards layout-grid">
+          ${repeat(
+        state.components,
+        (item) => item.id,
+        (item) => html`
+              <li>
+                <article class="card">
+                  <div class="attribute">${item.relationshipDescription}</div>
+                    <h4 class="label layout-flex">
+                      ${item.name}
+                    </h4>
+                    <small class="description">${item.description}</small>
+                  </div>
+                </article>
+              </li>
+            `
+      )}
+        </ul>
+      `;
+    };
+
+    const renderView = () => {
+      console.log('Rendering view with state:', state);
+      const template = html`
+
+        <section class="flow">
+          ${state.loading ? html`
+            <div class="loading">
+              <iconify-icon class="loading-spinner" icon="ph:spinner-gap-bold"></iconify-icon>
+              <span>Generating components...</span>
+            </div>
+          ` : ''}
+
+          ${state.error ? html`
+            <div class="error">
+              <iconify-icon icon="ph:warning-circle"></iconify-icon>
+              <span>${state.error}</span>
+            </div>
+          ` : ''}
+
+          ${state.components.length > 0 ? renderCards() : ''}
+        </section>
+      `;
+
+      render(template, container);
+    };
+
+    // Initial render
+    renderView();
+
+    // Start fetching components
+    fetchComponents();
+
+    return container;
+  }
 };
