@@ -4,25 +4,76 @@ import { repeat } from 'lit/directives/repeat.js';
 import PasteurizerData from "./data/Pasteurizer.json";
 // @ts-expect-error - No type definition available for the API module
 import { callOpenAI } from "../../../../utils/api.js";
-import { modelItemSchema } from "./types.ts"
-import { z } from "zod";
 
-const getAnswer = async () => {
+// Type for the update callback function
+type UpdateCallback = (content: string, isDone: boolean) => void;
+
+// For generic JSON rendering
+interface JsonObject {
+  [key: string]: JsonValue;
+}
+
+type JsonValue = string | number | boolean | null | JsonObject | JsonValue[] | undefined;
+
+// Basic model item interface for type checking
+interface BasicModelItem {
+  name?: string;
+  description?: string;
+  [key: string]: JsonValue;
+}
+
+const getAnswer = async (updateCallback: UpdateCallback) => {
+  let responseReceived = false;
+
   try {
     console.log("Calling OpenAI API...");
-    const response = await callOpenAI("heat exchanger");
-    console.log("Received response:", response);
+    // Try to get data from the API
+    const response = await callOpenAI("heat exchanger", {
+      stream: true,
+      onChunk: (accumulated: string, isDone: boolean) => {
+        console.log(`Received chunk, isDone: ${isDone}, length: ${accumulated.length}`);
+        responseReceived = true;
+        updateCallback(accumulated, isDone);
+      }
+    });
+    console.log("Completed streaming response");
+
+    // If we get here but no chunks were received (responseReceived is still false),
+    // we should still update the UI with the response
+    if (!responseReceived && response) {
+      console.log("No chunks received, but we have a response. Updating UI directly...");
+      let responseStr = response;
+      if (typeof response !== 'string') {
+        try {
+          responseStr = JSON.stringify(response);
+        } catch (e) {
+          console.error("Failed to stringify response:", e);
+        }
+      }
+
+      // Force update with the response
+      updateCallback(responseStr, true);
+    }
+
     return response;
   } catch (error) {
     console.error("Error calling OpenAI:", error);
-    throw error;
+
+    // Show error message rather than using mock data
+    updateCallback(JSON.stringify({
+      success: false,
+      error: `API Error: ${error instanceof Error ? error.message : String(error)}`
+    }), true);
+
+    return null;
   }
 };
 
 const meta = {
   title: "Patterns/Focus and Context*",
   parameters: {
-    async: true
+    async: true,
+    controls: { disable: true }
   }
 } satisfies Meta;
 
@@ -33,112 +84,162 @@ export const Basic: Story = {
   render: () => {
     const container = document.createElement('div');
     container.className = 'flow';
-    container.innerHTML = '<div class="loading">Loading response...</div>';
 
-    console.log("Story rendering, about to call getAnswer()");
+    // Create a streaming response container
+    const streamingContainer = document.createElement('div');
+    streamingContainer.innerHTML = `
+      <div class="streaming-content">
+        <div class="loading">Loading response...</div>
+      </div>
+    `;
+    container.appendChild(streamingContainer);
+
+    const streamingContent = streamingContainer.querySelector('.streaming-content');
+
+    // Function to update the UI with streaming content
+    const updateStreamingUI = (content: string, isDone: boolean) => {
+      console.log(`updateStreamingUI called with content length ${content.length}, isDone: ${isDone}`);
+
+      try {
+        // Clear the loading message on first update
+        if (streamingContent!.querySelector('.loading')) {
+          streamingContent!.innerHTML = '';
+        }
+
+        // Try to parse the JSON
+        let jsonData;
+        try {
+          jsonData = JSON.parse(content);
+          console.log("Successfully parsed content as JSON:", jsonData);
+
+          // Extract the data if it's wrapped
+          if (jsonData.success === true && jsonData.data) {
+            jsonData = jsonData.data;
+            console.log("Extracted data from wrapper:", jsonData);
+          }
+        } catch (e) {
+          console.error("Failed to parse JSON:", e);
+          streamingContent!.innerHTML = `
+            <div class="error">
+              <p>Error parsing JSON response.</p>
+            </div>
+          `;
+          return;
+        }
+
+        // Check if we have a model to render
+        if (jsonData && jsonData.model && Array.isArray(jsonData.model)) {
+          // Get or create the cards container
+          let cardsDiv = streamingContent!.querySelector('.cards.layout-grid');
+          if (!cardsDiv) {
+            cardsDiv = document.createElement('div');
+            cardsDiv.className = 'cards layout-grid';
+            streamingContent!.appendChild(cardsDiv);
+          }
+
+          // Keep track of rendered cards by ID or index
+          const renderedCardIds = new Set(
+            Array.from(cardsDiv.querySelectorAll('.card[data-item-id]'))
+              .map(card => card.getAttribute('data-item-id'))
+          );
+
+          // Create or update each card
+          jsonData.model.forEach((item: BasicModelItem, index: number) => {
+            const itemId = item.id?.toString() || `index-${index}`;
+
+            // Skip if this card is already rendered and we're not at the end
+            if (renderedCardIds.has(itemId) && !isDone) {
+              return;
+            }
+
+            // If card already exists and we're at the end, we could update it
+            // For simplicity, we're just adding new cards and not updating existing ones
+
+            // Create card wrapper div
+            const cardWrapper = document.createElement('div');
+            cardWrapper.classList.add('card-wrapper');
+            cardWrapper.classList.add('fade-in-animation');
+
+            // Create the card article
+            const card = document.createElement('article');
+            card.className = 'card';
+            card.setAttribute('data-item-id', itemId);
+
+            // Add the card header
+            const cardTitle = document.createElement('h4');
+            cardTitle.className = 'label layout-flex';
+            cardTitle.textContent = item.name || `Item ${index + 1}`;
+            card.appendChild(cardTitle);
+
+            if (item.relationshipDescription) {
+              const relationshipDescription = document.createElement('p');
+              relationshipDescription.className = 'attribute';
+              relationshipDescription.textContent = String(item.relationshipDescription);
+              card.appendChild(relationshipDescription);
+            }
+
+            if (item.description) {
+              const description = document.createElement('p');
+              description.className = 'description';
+              description.textContent = item.description;
+              card.appendChild(description);
+            }
+
+            // Add the card to the wrapper
+            cardWrapper.appendChild(card);
+            cardsDiv.appendChild(cardWrapper);
+
+            // Mark this card as rendered
+            renderedCardIds.add(itemId);
+          });
+
+          // Add some styles for the animation if they don't exist yet
+          if (!document.getElementById('streaming-animation-styles')) {
+            const styleEl = document.createElement('style');
+            styleEl.id = 'streaming-animation-styles';
+            styleEl.textContent = `
+              .fade-in-animation {
+                animation: fadeIn 0.5s ease-in-out;
+                opacity: 1;
+              }
+              @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+              }
+            `;
+            document.head.appendChild(styleEl);
+          }
+        } else if (isDone && (!jsonData || !jsonData.model || !Array.isArray(jsonData.model) || jsonData.model.length === 0)) {
+          // Only show "no components" message when we're done and still have no data
+          streamingContent!.innerHTML = `
+            <div class="error">
+              <p>No components found in the response.</p>
+            </div>
+          `;
+        }
+      } catch (error) {
+        console.error("Error in updateStreamingUI:", error);
+
+        // Show the error
+        streamingContent!.innerHTML = `
+          <div class="error">
+            <h3>Error Rendering Content</h3>
+            <p>${error instanceof Error ? error.message : String(error)}</p>
+          </div>
+        `;
+      }
+    };
 
     // Add a delay to ensure the DOM is ready
     setTimeout(() => {
-      getAnswer()
-        .then(response => {
-          try {
-            // Parse the response as JSON
-            const responseData = JSON.parse(response);
+      getAnswer(updateStreamingUI)
+        .catch((error: unknown) => {
+          const errorMessage = error instanceof Error ? error.message : String(error);
 
-            // Check if we have a valid model array
-            if (responseData && responseData.model && Array.isArray(responseData.model)) {
-              // Create a section for the cards
-              const cardsSection = document.createElement('section');
-              cardsSection.className = 'flow';
-
-              // Add a heading
-              const heading = document.createElement('h2');
-              heading.textContent = 'API Response';
-              cardsSection.appendChild(heading);
-
-              // Create a container for the cards
-              const cardsContainer = document.createElement('div');
-              cardsContainer.className = 'cards layout-grid';
-
-              // Process each item in the model
-              responseData.model.forEach((item: z.infer<typeof modelItemSchema>) => {
-                // Create a card for each item
-                const cardDiv = document.createElement('div');
-
-                // Create the card article
-                const card = document.createElement('article');
-                card.className = 'card';
-
-                // Create card header
-                const cardHeader = document.createElement('div');
-                cardHeader.className = 'card__header';
-
-                // Add title with icon
-                const title = document.createElement('h4');
-                title.className = 'label layout-flex';
-                title.innerHTML = `${item.name}`;
-
-                // Add relationship description
-                if (item.relationshipDescription) {
-                  const relationshipDescription = document.createElement('div');
-                  relationshipDescription.className = 'attribute';
-                  relationshipDescription.textContent = item.relationshipDescription;
-                  card.appendChild(relationshipDescription);
-                }
-
-                card.appendChild(title);
-
-                // Add description
-                if (item.description) {
-                  const description = document.createElement('p');
-                  description.className = 'description';
-                  description.textContent = item.description;
-                  card.appendChild(description);
-                }
-
-                // Add the card to the container
-                cardDiv.appendChild(card);
-                cardsContainer.appendChild(cardDiv);
-              });
-
-              // Add the cards container to the section
-              cardsSection.appendChild(cardsContainer);
-
-              // Replace the loading message with the cards
-              container.innerHTML = '';
-              container.appendChild(cardsSection);
-            } else {
-              // If the response is not in the expected format, display it as is
-              container.innerHTML = `
-                <div class="card">
-                  <div class="card__header">
-                    <h3 class="label">API Response</h3>
-                  </div>
-                  <p class="description">${response}</p>
-                </div>
-              `;
-            }
-          } catch (parseError) {
-            // If we can't parse the response as JSON, display it as text
-            console.error("Error parsing API response:", parseError);
-            container.innerHTML = `
-              <div class="card">
-                <div class="card__header">
-                  <h3 class="label">API Response</h3>
-                </div>
-                <p class="description">${response}</p>
-              </div>
-            `;
-          }
-        })
-        .catch(error => {
-          container.innerHTML = `
-            <div class="card">
-              <div class="card__header">
-                <h3 class="label">Error</h3>
-              </div>
-              <p class="description">${error.message}</p>
-              <pre>${error.stack}</pre>
+          streamingContent!.innerHTML = `
+            <div class="error">
+              <h3>Error</h3>
+              <p>${errorMessage}</p>
             </div>
           `;
         });
@@ -314,21 +415,21 @@ export const ContextualNavigation: Story = {
                         </thead>
                         <tbody>
                           ${pasteurizerItem.childrenIds.map(childId => {
-                            const childItem = PasteurizerData.flattenedModel.find(item => item.id === childId);
-                            if (!childItem) return '';
-                            return html`
+        const childItem = PasteurizerData.flattenedModel.find(item => item.id === childId);
+        if (!childItem) return '';
+        return html`
                               <tr>
                                 <td>
                                   <a href="#" data-id="${childItem.id}" @click=${(e: Event) => {
-                                    e.preventDefault();
-                                    handleItemClick(childItem.id);
-                                  }}>${childItem.name}</a>
+            e.preventDefault();
+            handleItemClick(childItem.id);
+          }}>${childItem.name}</a>
                                 </td>
                                 <td>${childItem.type}</td>
                                 <td class="pp-table-ellipsis">${childItem.description}</td>
                               </tr>
                             `;
-                          })}
+      })}
                         </tbody>
                       </table>
                     </pp-table>
