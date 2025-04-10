@@ -1,37 +1,64 @@
 import { OpenAI } from 'openai';
+import { Request, Response, Application } from 'express';
 import logger from './logger.js';
 import config from './config.js';
-import { pasteurizerSchema, jsonSchema } from './schemas.js';
+import { pasteurizerSchema, jsonSchema, PasteurizerModel, ModelItem } from './schemas.js';
 
 // Initialize OpenAI client
 const openai = new OpenAI({
   apiKey: config.openai.apiKey
 });
 
+// TypeScript interfaces for OpenAI API
+interface OpenAIResponseChunk {
+  text?: string;
+  // Add other possible properties here
+}
+
+/**
+ * Response interface for API responses
+ */
+interface ApiResponse<T> {
+  success: boolean;
+  data: T | null;
+  error: string | null;
+}
+
+/**
+ * Stream event interface for SSE responses
+ */
+interface StreamEvent {
+  newComponent?: ModelItem;
+  accumulated?: string;
+  error?: string;
+  done: boolean;
+}
+
 /**
  * Configure and apply routes to Express app
- * @param {import('express').Application} app - Express application
+ * @param app - Express application
  */
-export const setupRoutes = (app) => {
+export const setupRoutes = (app: Application): void => {
   // Generation endpoint
-  app.post('/api/generate', async (req, res) => {
+  app.post('/api/generate', async (req: Request, res: Response): Promise<void> => {
     logger.debug("Received request body:", req.body);
 
     // Validate request
     if (!req.body || !req.body.prompt) {
       logger.error("Error: Prompt is missing in request body");
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         data: null,
         error: "Missing 'prompt' in request body"
       });
+      return;
     }
 
-    const prompt = req.body.prompt;
+    const prompt: string = req.body.prompt;
     logger.info(`Processing prompt: "${prompt}"`);
 
     // Check if client requested streaming response
-    const shouldStream = req.headers.accept && req.headers.accept.includes('text/event-stream');
+    const shouldStream: boolean = !!(req.headers.accept && req.headers.accept.includes('text/event-stream'));
     logger.debug(`Streaming requested: ${shouldStream}`);
 
     try {
@@ -45,7 +72,7 @@ export const setupRoutes = (app) => {
       res.status(500).json({
         success: false,
         data: null,
-        error: error.message || "Server error"
+        error: error instanceof Error ? error.message : "Server error"
       });
     }
   });
@@ -53,11 +80,11 @@ export const setupRoutes = (app) => {
 
 /**
  * Handle streaming response to client
- * @param {import('express').Request} req - Express request
- * @param {import('express').Response} res - Express response
- * @param {string} prompt - User prompt
+ * @param _req - Express request (unused)
+ * @param res - Express response
+ * @param prompt - User prompt
  */
-async function handleStreamingResponse(req, res, prompt) {
+async function handleStreamingResponse(_req: Request, res: Response, prompt: string): Promise<void> {
   // Set headers for SSE
   res.writeHead(200, {
     'Content-Type': 'text/event-stream',
@@ -66,7 +93,7 @@ async function handleStreamingResponse(req, res, prompt) {
   });
 
   // Initialize for accumulating content
-  let accumulatedData = { model: [] };
+  const accumulatedData: PasteurizerModel = { model: [] };
   let jsonBuffer = "";
 
   try {
@@ -88,7 +115,8 @@ async function handleStreamingResponse(req, res, prompt) {
     // Process each chunk from OpenAI
     for await (const chunk of stream) {
       // Extract content delta
-      const content = chunk.text || "";
+      const chunkData = chunk as unknown as OpenAIResponseChunk;
+      const content = chunkData.text || "";
       if (!content) continue;
 
       // Accumulate the JSON string
@@ -96,15 +124,17 @@ async function handleStreamingResponse(req, res, prompt) {
 
       try {
         // Try to parse the accumulated JSON string
-        const parsedJson = JSON.parse(jsonBuffer);
+        const parsedJson = JSON.parse(jsonBuffer) as PasteurizerModel;
 
         // If parsing succeeded, update our accumulated data
         if (parsedJson && parsedJson.model && Array.isArray(parsedJson.model)) {
           // Find new components that weren't in the previous accumulated data
-          const newComponents = parsedJson.model.filter(component =>
-            !accumulatedData.model.some(existing =>
+          const newComponents = parsedJson.model.filter((component: ModelItem) =>
+            !accumulatedData.model.some((existing: ModelItem) =>
               existing.id === component.id ||
-              existing.component_name === component.component_name
+              (existing.component_name !== undefined &&
+               component.component_name !== undefined &&
+               existing.component_name === component.component_name)
             )
           );
 
@@ -119,7 +149,7 @@ async function handleStreamingResponse(req, res, prompt) {
                 newComponent: newComponent,
                 accumulated: JSON.stringify(accumulatedData),
                 done: false
-              })}\n\n`;
+              } as StreamEvent)}\n\n`;
 
               res.write(componentEvent);
 
@@ -138,7 +168,7 @@ async function handleStreamingResponse(req, res, prompt) {
     const finalEvent = `data: ${JSON.stringify({
       accumulated: JSON.stringify(accumulatedData),
       done: true
-    })}\n\n`;
+    } as StreamEvent)}\n\n`;
 
     res.write(finalEvent);
     res.end();
@@ -147,9 +177,9 @@ async function handleStreamingResponse(req, res, prompt) {
 
     // Send error event
     const errorEvent = `data: ${JSON.stringify({
-      error: error.message || "Server error",
+      error: error instanceof Error ? error.message : "Server error",
       done: true
-    })}\n\n`;
+    } as StreamEvent)}\n\n`;
 
     res.write(errorEvent);
     res.end();
@@ -158,11 +188,11 @@ async function handleStreamingResponse(req, res, prompt) {
 
 /**
  * Handle standard (non-streaming) response to client
- * @param {import('express').Request} req - Express request
- * @param {import('express').Response} res - Express response
- * @param {string} prompt - User prompt
+ * @param _req - Express request (unused)
+ * @param res - Express response
+ * @param prompt - User prompt
  */
-async function handleStandardResponse(req, res, prompt) {
+async function handleStandardResponse(_req: Request, res: Response, prompt: string): Promise<void> {
   try {
     const response = await openai.responses.create({
       model: config.openai.model,
@@ -186,20 +216,20 @@ async function handleStandardResponse(req, res, prompt) {
     }
 
     // The response.text might already be an object or a string
-    let parsedContent;
+    let parsedContent: PasteurizerModel;
 
     try {
       // Check if response.text is a string or an object
       if (typeof response.text === 'string') {
         try {
-          parsedContent = JSON.parse(response.text);
+          parsedContent = JSON.parse(response.text) as PasteurizerModel;
         } catch (parseError) {
           logger.error("Failed to parse OpenAI response as JSON:", parseError);
           throw new Error("Failed to parse OpenAI response as JSON");
         }
       } else {
         // If it's already an object, use it directly
-        parsedContent = response.text;
+        parsedContent = response.text as unknown as PasteurizerModel;
       }
 
       // Validate the response against our schema
@@ -213,11 +243,12 @@ async function handleStandardResponse(req, res, prompt) {
         // This is more lenient and allows the API to work even if the schema changes
         if (parsedContent && typeof parsedContent === 'object') {
           logger.warn("Returning unvalidated response object");
-          return res.status(200).json({
+          res.status(200).json({
             success: true,
             data: parsedContent,
             error: null
-          });
+          } as ApiResponse<PasteurizerModel>);
+          return;
         }
 
         throw new Error("Failed to validate OpenAI response against schema");
@@ -231,7 +262,7 @@ async function handleStandardResponse(req, res, prompt) {
       success: true,
       data: parsedContent,
       error: null
-    });
+    } as ApiResponse<PasteurizerModel>);
   } catch (error) {
     logger.error("Error in standard response:", error);
     throw error;

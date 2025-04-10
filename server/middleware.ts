@@ -1,23 +1,30 @@
-import express from 'express';
+import express, { Request, Response, NextFunction, Application } from 'express';
 import cors from 'cors';
 import logger from './logger.js';
 import config from './config.js';
 
 /**
- * Configure and apply middleware to Express app
- * @param {express.Application} app - Express application
+ * Error with status code for HTTP responses
  */
-export const setupMiddleware = (app) => {
+interface HttpError extends Error {
+  status?: number;
+}
+
+/**
+ * Configure and apply middleware to Express app
+ * @param app - Express application
+ */
+export const setupMiddleware = (app: Application): void => {
   // Body parser middleware
   app.use(express.json());
 
   // Request logging middleware
-  app.use((req, res, next) => {
+  app.use((req: Request, res: Response, next: NextFunction): void => {
     logger.request(req);
 
     // Capture response for logging
     const originalSend = res.send;
-    res.send = function(body) {
+    res.send = function(body: unknown): Response {
       logger.response(req, res.statusCode);
       return originalSend.call(this, body);
     };
@@ -27,7 +34,7 @@ export const setupMiddleware = (app) => {
 
   // CORS middleware
   app.use(cors({
-    origin: function (origin, callback) {
+    origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void): void {
       // Allow requests with no origin (like mobile apps, curl requests)
       if (!origin) return callback(null, true);
 
@@ -46,7 +53,7 @@ export const setupMiddleware = (app) => {
   }));
 
   // Error handling middleware
-  app.use((err, req, res, next) => {
+  app.use((err: HttpError, _req: Request, res: Response, next: NextFunction): void => {
     logger.error('Express error:', err);
 
     // Make sure we're using the correct response method

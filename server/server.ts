@@ -8,7 +8,7 @@ import { setupRoutes } from './routes.js';
 /**
  * Main server application
  */
-async function startServer() {
+async function startServer(): Promise<void> {
   try {
     // Initialize Express app
     const app = express();

@@ -1,5 +1,48 @@
 import { z } from 'zod';
 
+// Define TypeScript types based on Zod schemas
+export type Attribute = {
+  name: string;
+  label: string;
+  value: string;
+  unit: string | null;
+};
+
+export type Action = {
+  actionName: string;
+  actionDescription: string;
+};
+
+export type RelatedObject = {
+  referenceId: string;
+  relationshipType: string;
+  relationshipDescription: string;
+};
+
+export type ModelItem = {
+  id: string;
+  type: string;
+  name: string;
+  label: string;
+  description: string;
+  path: string[];
+  parentId: string | null;
+  childrenIds: string[];
+  relationshipType: string;
+  relationshipDescription: string;
+  attributes: Attribute[];
+  rulesAndConstraints: string[];
+  possibleActions: Action[];
+  relatedObjects: RelatedObject[];
+  // Additional properties that might be present in the API response
+  component_name?: string;
+  [key: string]: unknown;
+};
+
+export type PasteurizerModel = {
+  model: ModelItem[];
+};
+
 // Schema for each attribute in the "attributes" array
 const attributeSchema = z.object({
   name: z.string(),
@@ -31,8 +74,8 @@ const modelItemSchema = z.object({
   path: z.array(z.string()),
   parentId: z.string().nullable(),
   childrenIds: z.array(z.string()),
-  relationshipType: z.string(),
-  relationshipDescription: z.string(),
+  relationshipType: z.string().nullable(),
+  relationshipDescription: z.string().nullable(),
   attributes: z.array(attributeSchema),
   rulesAndConstraints: z.array(z.string()),
   possibleActions: z.array(actionSchema),
@@ -63,8 +106,8 @@ const jsonSchema = {
           path: { type: "array", items: { type: "string" } },
           parentId: { type: ["string", "null"] },
           childrenIds: { type: "array", items: { type: "string" } },
-          relationshipType: { type: "string" },
-          relationshipDescription: { type: "string" },
+          relationshipType: { type: ["string", "null"] },
+          relationshipDescription: { type: ["string", "null"] },
           attributes: {
             type: "array",
             items: {
