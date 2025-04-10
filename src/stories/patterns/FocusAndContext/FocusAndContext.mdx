@@ -16,11 +16,12 @@ enabling users to maintain situational awareness while completing focused tasks.
 
 ### Contextual navigation
 
-The system uses domain knowledge to show how each part of an industrial pasteurizer fits into both
-the production line and the overall process of making orange juice. There are three levels of context:
-1. Explicitly defined connections: relationships directly referenced in the object’s data (e.g., parent-child relationships).
-2. Inferred relationships: connections between existing objects that aren’t explicitly defined but can be inferred by the LLM using domain knowledge.
-3. Deduced relationships: relationships between defined objects and objects outside the system or potential, yet-to-be-defined objects (e.g., deducing a "Recirculation Pump" might exist if a "Heating Assembly" is present).
+Contextual navigation helps users understand the industrial pasteuriser's structure – where each component fits
+within the pasteuriser itself, the production line, and the broader orange juice process.
+Navigation maps out three types of relationships:
+1. **Explicit** connections are clearly defined in the data—like parent-child structures or functional groupings.
+2. **Inferred** connections aren’t directly stated but can be identified using domain knowledge—such as parts that consistently appear together in certain setups.
+3. **Deduced** connections suggest components that aren’t yet modeled but are likely needed based on what’s already present. If there’s a "Heating Assembly," for example, a "Recirculation Pump" might reasonably be expected.
 
 <Story of={ FocusAndContextStories.ContextualNavigation } />
 

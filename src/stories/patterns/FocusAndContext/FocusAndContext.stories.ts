@@ -423,47 +423,26 @@ export const ContextualNavigation: Story = {
       `;
     };
 
-    const renderListView = () => {
-      const pasteurizerData = PasteurizerData.flattenedModel.slice(0, 10);
-
-      return html`
-        <section class="flow">
-          <h2>Recent</h2>
-          <ul class="cards layout-grid">
-            ${repeat(
-        pasteurizerData,
-        (item) => html`
-                <li>
-                  <article class="card">
-                    <div class="card__header">
-                      <h4 class="label">
-                        <a href="#" data-id="${item.id}" @click=${(e: Event) => {
-            e.preventDefault();
-            handleItemClick(item.id);
-          }}>${item.name}</a>
-                      </h4>
-                      <button class="button button--plain" is="pp-buton">
-                        <iconify-icon class="icon" icon="ph:dots-three"></iconify-icon>
-                        <span class="inclusively-hidden">Actions</span>
-                      </button>
-                    </div>
-                    <p class="description">${item.description}</p>
-                  </article>
-                </li>
-              `
-      )}
-          </ul>
-        </section>
-      `;
-    };
-
     const renderView = () => {
       if (state.selectedItem) {
         const template = renderItemDetails(state.selectedItem);
         render(template, container);
       } else {
-        const template = renderListView();
-        render(template, container);
+        // Initialize with a random item from the PasteurizerData
+        const randomIndex = Math.floor(Math.random() * PasteurizerData.flattenedModel.length);
+        const randomItem = PasteurizerData.flattenedModel[randomIndex];
+        if (randomItem) {
+          state.selectedItem = {
+            category: 'pasteurizer',
+            name: randomItem.name,
+            description: randomItem.description || '',
+            id: randomItem.id,
+            type: randomItem.type
+          };
+          // Use the selected item's name to prompt the AI
+          fetchAIComponents(randomItem.name);
+          renderView();
+        }
       }
     };
 
