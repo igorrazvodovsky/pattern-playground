@@ -1,0 +1,123 @@
+import { z } from 'zod';
+
+// Schema for each attribute in the "attributes" array
+const attributeSchema = z.object({
+  name: z.string(),
+  label: z.string(),
+  value: z.string(),
+  unit: z.string().nullable()
+});
+
+// Schema for the actions in the "possibleActions" array
+const actionSchema = z.object({
+  actionName: z.string(),
+  actionDescription: z.string()
+});
+
+// Schema for related objects
+const relatedObjectSchema = z.object({
+  referenceId: z.string(),
+  relationshipType: z.string(),
+  relationshipDescription: z.string()
+});
+
+// Schema for a single item in the flattened model.
+const modelItemSchema = z.object({
+  id: z.string(),
+  type: z.string(),
+  name: z.string(),
+  label: z.string(),
+  description: z.string(),
+  path: z.array(z.string()),
+  parentId: z.string().nullable(),
+  childrenIds: z.array(z.string()),
+  relationshipType: z.string(),
+  relationshipDescription: z.string(),
+  attributes: z.array(attributeSchema),
+  rulesAndConstraints: z.array(z.string()),
+  possibleActions: z.array(actionSchema),
+  relatedObjects: z.array(relatedObjectSchema)
+});
+
+// Schema for the entire JSON file
+const pasteurizerSchema = z.object({
+  model: z.array(modelItemSchema)
+});
+
+// Convert Zod schema to JSON Schema format
+const jsonSchema = {
+  additionalProperties: false,
+  type: "object",
+  properties: {
+    model: {
+      type: "array",
+      items: {
+        type: "object",
+        additionalProperties: false,
+        properties: {
+          id: { type: "string" },
+          type: { type: "string" },
+          name: { type: "string" },
+          label: { type: "string" },
+          description: { type: "string" },
+          path: { type: "array", items: { type: "string" } },
+          parentId: { type: ["string", "null"] },
+          childrenIds: { type: "array", items: { type: "string" } },
+          relationshipType: { type: "string" },
+          relationshipDescription: { type: "string" },
+          attributes: {
+            type: "array",
+            items: {
+              type: "object",
+              additionalProperties: false,
+              properties: {
+                name: { type: "string" },
+                label: { type: "string" },
+                value: { type: "string" },
+                unit: { type: ["string", "null"] }
+              },
+              required: ["name", "label", "value", "unit"]
+            }
+          },
+          rulesAndConstraints: { type: "array", items: { type: "string" } },
+          possibleActions: {
+            type: "array",
+            items: {
+              type: "object",
+              additionalProperties: false,
+              properties: {
+                actionName: { type: "string" },
+                actionDescription: { type: "string" }
+              },
+              required: ["actionName", "actionDescription"]
+            }
+          },
+          relatedObjects: {
+            type: "array",
+            items: {
+              type: "object",
+              additionalProperties: false,
+              properties: {
+                referenceId: { type: "string" },
+                relationshipType: { type: "string" },
+                relationshipDescription: { type: "string" }
+              },
+              required: ["referenceId", "relationshipType", "relationshipDescription"]
+            }
+          }
+        },
+        required: [
+          "id", "type", "name", "label", "description", "path", "parentId",
+          "childrenIds", "relationshipType", "relationshipDescription", "attributes",
+          "rulesAndConstraints", "possibleActions", "relatedObjects"
+        ]
+      }
+    }
+  },
+  required: ["model"]
+};
+
+export {
+  pasteurizerSchema,
+  jsonSchema
+};
