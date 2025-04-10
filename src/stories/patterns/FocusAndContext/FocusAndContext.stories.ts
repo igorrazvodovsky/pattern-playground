@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { html, render } from "lit";
 import { repeat } from 'lit/directives/repeat.js';
 import PasteurizerData from "./data/Pasteurizer.json";
-// @ts-expect-error - No type definition available for the API module
 import { callOpenAI } from "../../../../utils/api.js";
 
 // Define types for the pasteurizer model components
