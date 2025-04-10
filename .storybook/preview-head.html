@@ -1,0 +1,18 @@
+<!-- Fix for iframe communication issues -->
+<meta name="referrer" content="no-referrer" />
+<script>
+  // Ensure proper communication between manager and preview
+  window.PREVIEW_URL = window.location.href;
+
+  // Fix for setCurrentStory issue
+  window.addEventListener('message', function(event) {
+    if (event.data && event.data.type === 'setCurrentStory') {
+      // Force the event to be recognized by the manager
+      window.parent.postMessage({
+        type: 'setCurrentStory',
+        args: event.data.args,
+        from: window.PREVIEW_URL
+      }, '*');
+    }
+  });
+</script>

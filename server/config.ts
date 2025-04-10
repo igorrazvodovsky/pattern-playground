@@ -46,8 +46,9 @@ const config: ServerConfig = {
     allowedOrigins: [
       'http://localhost:6006', // Storybook
       'http://localhost:3000', // Development
+      process.env.FRONTEND_URL || '', // Railway frontend URL
       // Add production domains here
-    ],
+    ].filter(Boolean), // Remove empty strings
     credentials: true,
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']

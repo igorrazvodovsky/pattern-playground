@@ -316,6 +316,12 @@ function getApiEndpoint(): string {
     return 'http://localhost:3000/api/generate';
   }
 
-  // Production environment
+  // Production environment - use environment variable if available
+  const apiUrl = import.meta.env.VITE_API_URL;
+  if (apiUrl) {
+    return `${apiUrl}/api/generate`;
+  }
+
+  // Fallback to same-origin API (for backwards compatibility)
   return '/api/generate';
 }
