@@ -155,6 +155,10 @@ resize-asaurus > .resize-asaurus-container {
   margin-block: 2rem 1rem !important;
 }
 
+.sbdocs > ol, .sbdocs > ul {
+  list-style: auto;
+}
+
 .sbdocs .toolbar {
   display: inline-flex;
   align-items: center;

@@ -84,15 +84,16 @@
     }
   }
 
-  .card a {
-    text-decoration: none;
+  .card > a,
+  .card .card__header a {
+    text-decoration: none !important;
     font-weight: 500;
-  }
 
-  .card a::before {
-    content: "";
-    position: absolute;
-    inset: 0;
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+    }
   }
 
   .card :is(h2, h3) {
@@ -110,6 +111,10 @@
 
   .card a:is(:hover, :focus-visible) {
     text-decoration: underline;
+  }
+
+  .card:has(> a, .card__header a):hover {
+    border-color: var(--c-accent);
   }
 
   .description {

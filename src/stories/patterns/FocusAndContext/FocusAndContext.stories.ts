@@ -52,8 +52,6 @@ const meta = {
 export default meta;
 type Story = StoryObj;
 
-
-
 export const ContextualNavigation: Story = {
   render: () => {
     const container = document.createElement('div');
@@ -67,8 +65,95 @@ export const ContextualNavigation: Story = {
       type?: string;
     } | null;
 
-    const state: { selectedItem: SelectedItem } = {
-      selectedItem: null
+    const state: {
+      selectedItem: SelectedItem,
+      aiComponents: ModelItem[],
+      loading: boolean,
+      error: string | null
+    } = {
+      selectedItem: null,
+      aiComponents: [],
+      loading: false,
+      error: null
+    };
+
+    // Function to fetch AI-inferred components based on the selected item's name
+    const fetchAIComponents = async (prompt: string) => {
+      state.loading = true;
+      state.error = null;
+      state.aiComponents = [];
+      renderView();
+
+      try {
+        await callOpenAI(prompt, {
+          stream: true,
+          onChunk: (chunk: string, isDone: boolean) => {
+            try {
+              // Parse the accumulated JSON content
+              const parsedData = JSON.parse(chunk);
+
+              if (isDone) {
+                // Final event - mark loading as complete
+                state.loading = false;
+                renderView();
+                return;
+              }
+
+              // Check if we have a new individual component
+              if (parsedData.newComponent) {
+                // Convert component to our ModelItem format
+                const component = parsedData.newComponent as ModelItem;
+                const modelItem: ModelItem = {
+                  id: `comp-${state.aiComponents.length + 1}`,
+                  type: 'Component',
+                  name: component.name || 'Unnamed Component',
+                  label: component.label || '',
+                  description: component.description || '',
+                  path: [],
+                  parentId: null,
+                  childrenIds: [],
+                  relationshipType: component.relationshipType || null,
+                  relationshipDescription: component.relationshipDescription || '',
+                  attributes: [],
+                  rulesAndConstraints: [],
+                  possibleActions: [],
+                  relatedObjects: []
+                };
+
+                // Add the new component and re-render
+                state.aiComponents = [...state.aiComponents, modelItem];
+                renderView();
+              } else if (parsedData.model && Array.isArray(parsedData.model)) {
+                // Convert all components to ModelItem format
+                state.aiComponents = parsedData.model.map((component: ModelItem, index: number) => ({
+                  id: `comp-${index + 1}`,
+                  type: 'Component',
+                  name: component.name || 'Unnamed Component',
+                  label: component.label || '',
+                  description: component.description || '',
+                  path: [],
+                  parentId: null,
+                  childrenIds: [],
+                  relationshipType: component.relationshipType || null,
+                  relationshipDescription: component.relationshipDescription || '',
+                  attributes: [],
+                  rulesAndConstraints: [],
+                  possibleActions: [],
+                  relatedObjects: []
+                }));
+                state.loading = !isDone;
+                renderView();
+              }
+            } catch (err) {
+              console.warn('Error parsing chunk:', err);
+            }
+          }
+        });
+      } catch (error: unknown) {
+        state.error = error instanceof Error ? error.message : 'Failed to fetch data';
+        state.loading = false;
+        renderView();
+      }
     };
 
     const handleItemClick = (id: string) => {
@@ -84,6 +169,9 @@ export const ContextualNavigation: Story = {
           id: relatedItem.id,
           type: relatedItem.type
         };
+
+        // Use the selected item's name to prompt the AI
+        fetchAIComponents(relatedItem.name);
         renderView();
       }
     };
@@ -131,7 +219,6 @@ export const ContextualNavigation: Story = {
         };
 
         const groups: Record<string, RelationObject[]> = {
-          'Parent and Child': [],
           'Operational Partners': [],
           'Component Parts': [],
           'Support Systems': [],
@@ -152,7 +239,6 @@ export const ContextualNavigation: Story = {
 
           // Categorize based on relationship type
           if (relation.relationshipType.includes('Parent') || relation.relationshipType.includes('Child')) {
-            groups['Parent and Child'].push(relationObject);
           } else if (relation.relationshipType.includes('Operational Partner')) {
             groups['Operational Partners'].push(relationObject);
           } else if (relation.relationshipType.includes('Component Part')) {
@@ -168,6 +254,46 @@ export const ContextualNavigation: Story = {
       };
 
       const relatedGroups = groupRelatedObjects();
+
+      // <iconify-icon class="loading-spinner" icon = "ph:spinner-gap-bold" > </iconify-icon>
+
+      // Render AI-inferred components
+      const renderAIComponents = () => {
+        if (state.loading) {
+          return html`
+            <div class="card">
+              <small class="muted">Discovering connections for ${item.name}...</small>
+            </div>
+          `;
+        }
+
+        if (state.error) {
+          return html`
+            <div class="error">
+              <iconify-icon icon="ph:warning-circle"></iconify-icon>
+              <span>${state.error}</span>
+            </div>
+          `;
+        }
+
+        if (state.aiComponents.length === 0) {
+          return '';
+        }
+
+        return html`
+          ${repeat(state.aiComponents, (item) => item.id, (item) => html`
+            <li>
+              <article class="card">
+                <div class="attribute">${item.relationshipDescription || 'Related Component'}</div>
+                <h4 class="label">
+                  ${item.name}
+                </h4>
+                <small class="description">${item.description}</small>
+              </article>
+            </li>
+          `)}
+        `;
+      };
 
       return html`
         <section class="flow">
@@ -255,8 +381,17 @@ export const ContextualNavigation: Story = {
             </div>
           </div>
 
-          ${relatedGroups ? html`
-            <div class="cards layout-grid">
+          <div class="cards layout-grid">
+            <div>
+              <details class="borderless" open>
+                <summary class="muted">AI-Inferred Connections</summary>
+                <ul class="cards cards--grid layout-grid">
+                  ${renderAIComponents()}
+                </ul>
+              </details>
+            </div>
+
+            ${relatedGroups ? html`
               ${Object.entries(relatedGroups).map(([groupName, items]) =>
         items.length > 0 ? html`
                   <div>
@@ -282,8 +417,8 @@ export const ContextualNavigation: Story = {
                   </div>
                 ` : ''
       )}
-            </div>
-          ` : ''}
+            ` : ''}
+          </div>
         </section>
       `;
     };
@@ -335,171 +470,4 @@ export const ContextualNavigation: Story = {
     renderView();
     return container;
   },
-};
-
-export const StreamingCards: Story = {
-  render: () => {
-    const container = document.createElement('div');
-    container.className = 'streaming-cards flow';
-
-    // Initial state
-    const state: {
-      prompt: string;
-      loading: boolean;
-      error: string | null;
-      components: ModelItem[];
-    } = {
-      prompt: 'dairy pasteurization',
-      loading: false,
-      error: null,
-      components: []
-    };
-
-    // Function to fetch components
-    const fetchComponents = async () => {
-      state.loading = true;
-      state.error = null;
-      state.components = [];
-      renderView();
-
-      try {
-        await callOpenAI(state.prompt, {
-          stream: true,
-          onChunk: (chunk: string, isDone: boolean) => {
-            console.log('Received chunk:', chunk);
-            try {
-              // Parse the accumulated JSON content
-              const parsedData = JSON.parse(chunk);
-              console.log('Parsed data:', parsedData);
-
-              if (isDone) {
-                // Final event - mark loading as complete
-                state.loading = false;
-                renderView();
-                return;
-              }
-
-              // Check if we have a new individual component
-              if (parsedData.newComponent) {
-                console.log('New component received:', parsedData.newComponent);
-                console.log('Component keys:', Object.keys(parsedData.newComponent));
-                // Convert component to our ModelItem format
-                const component = parsedData.newComponent as ModelItem;
-                const modelItem: ModelItem = {
-                  id: `comp-${state.components.length + 1}`,
-                  type: 'Component',
-                  name: component.name || 'Unnamed Component',
-                  label: component.label || '',
-                  description: component.description || '',
-                  path: [],
-                  parentId: null,
-                  childrenIds: [],
-                  relationshipType: component.relationshipType || null,
-                  relationshipDescription: component.relationshipDescription || '',
-                  attributes: [],
-                  rulesAndConstraints: [],
-                  possibleActions: [],
-                  relatedObjects: []
-                };
-
-                console.log('Created model item:', modelItem);
-                console.log('Model item keys:', Object.keys(modelItem));
-
-                // Add the new component and re-render
-                state.components = [...state.components, modelItem];
-                console.log('Updated components:', state.components);
-                renderView();
-              } else if (parsedData.model && Array.isArray(parsedData.model)) {
-                console.log('Model data received:', parsedData.model);
-                // Convert all components to ModelItem format
-                state.components = parsedData.model.map((component: ModelItem, index: number) => ({
-                  id: `comp-${index + 1}`,
-                  type: 'Component',
-                  name: component.name || 'Unnamed Component',
-                  label: component.label || '',
-                  description: component.description || '',
-                  path: [],
-                  parentId: null,
-                  childrenIds: [],
-                  relationshipType: component.relationshipType || null,
-                  relationshipDescription: component.relationshipDescription || '',
-                  attributes: [],
-                  rulesAndConstraints: [],
-                  possibleActions: [],
-                  relatedObjects: []
-                }));
-                state.loading = !isDone;
-                console.log('Updated components from model data:', state.components);
-                renderView();
-              }
-            } catch (err) {
-              console.warn('Error parsing chunk:', err);
-            }
-          }
-        });
-      } catch (error: unknown) {
-        state.error = error instanceof Error ? error.message : 'Failed to fetch data';
-        state.loading = false;
-        renderView();
-      }
-    };
-
-    const renderCards = () => {
-      console.log('Rendering cards with components:', state.components);
-      return html`
-        <ul class="cards layout-grid">
-          ${repeat(
-        state.components,
-        (item) => item.id,
-        (item) => html`
-              <li>
-                <article class="card">
-                  <div class="attribute">${item.relationshipDescription}</div>
-                    <h4 class="label layout-flex">
-                      ${item.name}
-                    </h4>
-                    <small class="description">${item.description}</small>
-                  </div>
-                </article>
-              </li>
-            `
-      )}
-        </ul>
-      `;
-    };
-
-    const renderView = () => {
-      console.log('Rendering view with state:', state);
-      const template = html`
-
-        <section class="flow">
-          ${state.loading ? html`
-            <div class="loading">
-              <iconify-icon class="loading-spinner" icon="ph:spinner-gap-bold"></iconify-icon>
-              <span>Generating components...</span>
-            </div>
-          ` : ''}
-
-          ${state.error ? html`
-            <div class="error">
-              <iconify-icon icon="ph:warning-circle"></iconify-icon>
-              <span>${state.error}</span>
-            </div>
-          ` : ''}
-
-          ${state.components.length > 0 ? renderCards() : ''}
-        </section>
-      `;
-
-      render(template, container);
-    };
-
-    // Initial render
-    renderView();
-
-    // Start fetching components
-    fetchComponents();
-
-    return container;
-  }
 };
