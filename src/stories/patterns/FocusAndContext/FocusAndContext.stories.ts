@@ -3,42 +3,7 @@ import { html, render } from "lit";
 import { repeat } from 'lit/directives/repeat.js';
 import PasteurizerData from "./data/Pasteurizer.json";
 import { callOpenAI } from "../../../../utils/api.js";
-
-// Define types for the pasteurizer model components
-interface Attribute {
-  name: string;
-  label: string;
-  value: string;
-  unit: string | null;
-}
-
-interface Action {
-  actionName: string;
-  actionDescription: string;
-}
-
-interface RelatedObject {
-  referenceId: string;
-  relationshipType: string;
-  relationshipDescription: string;
-}
-
-interface ModelItem {
-  id: string;
-  type: string;
-  name: string;
-  label: string;
-  description: string;
-  path: string[];
-  parentId: string | null;
-  childrenIds: string[];
-  relationshipType: string | null;
-  relationshipDescription: string | null;
-  attributes: Attribute[];
-  rulesAndConstraints: string[];
-  possibleActions: Action[];
-  relatedObjects: RelatedObject[];
-}
+import { ModelItem, SelectedItem } from "../../../schemas/index";
 
 const meta = {
   title: "Patterns/Focus and Context*",
@@ -56,16 +21,11 @@ export const ContextualNavigation: Story = {
     const container = document.createElement('div');
     container.className = 'product-model-navigation';
 
-    type SelectedItem = {
-      category: string;
-      name: string;
-      description?: string;
-      id: string;
-      type?: string;
-    } | null;
+    // Using the imported SelectedItem type with null union
+    type LocalSelectedItem = SelectedItem | null;
 
     const state: {
-      selectedItem: SelectedItem,
+      selectedItem: LocalSelectedItem,
       aiComponents: ModelItem[],
       loading: boolean,
       error: string | null
