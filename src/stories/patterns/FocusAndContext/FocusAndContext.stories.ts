@@ -23,7 +23,7 @@ import {
 
 // Define meta information for the story
 const meta = {
-  title: "Patterns/Focus and Context*",
+  title: "Patterns/Focus and context*",
   parameters: {
     async: true,
     controls: { disable: true }

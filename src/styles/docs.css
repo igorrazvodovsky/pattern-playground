@@ -20,7 +20,8 @@
   display: none;
 }
 
-.sbdocs > h2 {
+.sbdocs > h2,
+.sbdocs > section > h2 {
   margin-block: 2rem 1rem;
   border-bottom: none;
 }
@@ -155,7 +156,8 @@ resize-asaurus > .resize-asaurus-container {
   margin-block: 2rem 1rem !important;
 }
 
-.sbdocs > ol, .sbdocs > ul {
+.sbdocs > ol,
+.sbdocs > ul {
   list-style: auto;
 }
 

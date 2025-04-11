@@ -13,12 +13,12 @@ export type RelationGroups = Record<string, RelationObject[]>;
 export const generateBreadcrumbs = (pasteurizerItem: ModelItem) => {
   if (!pasteurizerItem.path || pasteurizerItem.path.length === 0) {
     return html`
-      <span class="crumb">
-        <a href="#">Products</a>
-      </span>
-      <span class="crumb">
-        <a href="" aria-current="page">${pasteurizerItem.name}</a>
-      </span>
+      // <span class="crumb">
+      //   <a href="#">Products</a>
+      // </span>
+      // <span class="crumb">
+      //   <a href="" aria-current="page">${pasteurizerItem.name}</a>
+      // </span>
     `;
   }
 

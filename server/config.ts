@@ -46,8 +46,10 @@ const config: ServerConfig = {
     allowedOrigins: [
       'http://localhost:6006', // Storybook
       'http://localhost:3000', // Development
-      process.env.FRONTEND_URL || '', // Railway frontend URL
-      // Add production domains here
+      process.env.FRONTEND_URL || '', // Frontend URL from environment variable
+      // Render.com domains
+      'https://pattern-playground.onrender.com/',
+      // Add other production domains here
     ].filter(Boolean), // Remove empty strings
     credentials: true,
     methods: ['GET', 'POST', 'OPTIONS'],

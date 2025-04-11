@@ -20,8 +20,8 @@ Contextual navigation helps users understand the industrial pasteuriser's struct
 within the pasteuriser itself, the production line, and the broader orange juice process.
 Navigation maps out three types of relationships:
 1. **Explicit** connections are clearly defined in the data—like parent-child structures or functional groupings.
-2. **Inferred** connections aren’t directly stated but can be identified using domain knowledge—such as parts that consistently appear together in certain setups.
-3. **Deduced** connections suggest components that aren’t yet modeled but are likely needed based on what’s already present. If there’s a "Heating Assembly," for example, a "Recirculation Pump" might reasonably be expected.
+2. **Inferred** connections aren't directly stated but can be identified using domain knowledge—such as parts that consistently appear together in certain setups.
+3. **Deduced** connections suggest components that aren't yet modeled but are likely needed based on what's already present. If there's a "Heating Assembly," for example, a "Recirculation Pump" might reasonably be expected.
 
 <Story of={ FocusAndContextStories.ContextualNavigation } />
 
@@ -29,19 +29,30 @@ Navigation maps out three types of relationships:
 
 ### Timeline
 
-Big moments get the spotlight with plenty of detail, while the stuff in between gets summed up.
+Significant events are highlighted with detailed information, while routine activities are summarized concisely.
 
 TODO:
 
 ### Learning
 
-Big moments get the spotlight with plenty of detail, while the stuff in between gets summed up.
+Key concepts are presented in detail, while supporting information is provided in a more condensed format.
 
 TODO:
 
 ## Related patterns
-
-- An example of [adaptation](../?path=/docs/foundations-adaptation--docs)
-- Has [agency](../?path=/docs/foundations-agency--docs) to edit layouts, suggest actions, create drafts, etc.
-- [Progressive disclosure](./?path=/docs/patterns-progressive-disclosure--docs)
-- [Density](./?path=/docs/foundations-density--docs)
+<div>
+* Has [agency](../?path=/docs/foundations-agency--docs) to
+  * Edit layouts, suggest actions, create drafts, etc.
+  * Act as an intelligent mediator between the user and complex information landscapes
+  * Take initiative to highlight information that may be relevant but not yet in focus
+  * Make autonomous decisions about what contextual information to prioritise
+  * Serve as a partner in navigating information rather than just a passive display system
+* [Adapts](../?path=/docs/foundations-adaptation--docs)
+  * To dynamically recalibrate the information hierarchy as tasks or goals evolve
+  * Respond to changing conditions in the information environment
+  * Predict potential next focus areas based on current attention patterns
+  * Balance information [density](./?path=/docs/foundations-density--docs) based on user cognitive load and task complexity
+  * Synthesise new contextual frames that weren't explicitly designed but are relevant
+* Can be combined with [progressive disclosure](./?path=/docs/patterns-progressive-disclosure--docs)
+* Can be paired with *semantic zoom* with the latter playing the role of a starting point.
+</div>
