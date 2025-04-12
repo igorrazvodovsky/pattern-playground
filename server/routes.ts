@@ -100,7 +100,7 @@ async function handleStreamingResponse(_req: Request, res: Response, prompt: str
     // Call OpenAI API with streaming enabled
     const stream = await openai.responses.create({
       model: config.openai.model,
-      instructions: "You are an expert in industrial equipment and pasteurization systems. Generate a detailed pasteurizer model based on the user's requirements. Return your response as a JSON object with model array that contains components. Generate each component one by one for streaming purposes.",
+      instructions: "You are an expert in industrial equipment and orange juice production lines. Paint a picture of the orange juice production based on the user's requirements. Return your response as a JSON object with model array that contains components. Don't include the component you were prompted with or its parent components.Generate each component one by one for streaming purposes.",
       input: "Make a list of components related to " + prompt,
       text: {
         format: {
@@ -133,8 +133,8 @@ async function handleStreamingResponse(_req: Request, res: Response, prompt: str
             !accumulatedData.model.some((existing: ModelItem) =>
               existing.id === component.id ||
               (existing.component_name !== undefined &&
-               component.component_name !== undefined &&
-               existing.component_name === component.component_name)
+                component.component_name !== undefined &&
+                existing.component_name === component.component_name)
             )
           );
 

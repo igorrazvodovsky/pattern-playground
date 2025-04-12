@@ -56,3 +56,7 @@ body {
   background: var(--c-neutral-50);
   --c-background: var(--c-neutral-50);
 }
+
+.dashed {
+  border-style: dashed;
+}

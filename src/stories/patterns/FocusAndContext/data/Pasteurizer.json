@@ -3,20 +3,20 @@
     {
       "id": "pasteurizer-001",
       "type": "Product",
-      "name": "Pasteurizer 3000",
-      "label": "Pasteurizer 3000",
+      "name": "Mock Pasteurizer Model X",
+      "label": "Main Pasteurizer System",
       "description": "A configurable pasteurizer for thermal treatment of liquids in a production line.",
       "path": ["Pasteurizer 3000"],
       "parentId": null,
-      "childrenIds": ["heatingAssembly", "holdingSection", "coolingAssembly"],
-      "relationshipType": null,
-      "relationshipDescription": null,
-      "attributes": [],
-      "rulesAndConstraints": [
-        "Heating Assembly must precede Holding Section",
-        "Holding Section must precede Cooling Assembly"
+      "childrenIds": [
+        "heatingAssembly",
+        "holdingSection",
+        "coolingAssembly",
+        "cipSystem",
+        "evaporator",
+        "preHeater"
       ],
-      "possibleActions": [
+      "actions": [
         {
           "actionName": "addAssembly",
           "actionDescription": "Add a new assembly to the pasteurizer model"
@@ -34,14 +34,13 @@
           "actionDescription": "Increment the product model version after changes"
         }
       ],
+      "attributes": [],
+      "rulesAndConstraints": [
+        "heatingAssembly must precede holdingSection (heatingAssembly, holdingSection)",
+        "holdingSection must precede coolingAssembly (holdingSection, coolingAssembly)"
+      ],
       "relatedObjects": [],
-      "versionHistory": [
-        {
-          "version": "1.0",
-          "timestamp": "2025-04-05T10:00:00Z",
-          "changes": "Initial creation of the pasteurizer model."
-        }
-      ]
+      "services": []
     },
     {
       "id": "heatingAssembly",
@@ -51,140 +50,286 @@
       "description": "Houses components that transfer heat to the product.",
       "path": ["Pasteurizer 3000", "Heating Assembly"],
       "parentId": "pasteurizer-001",
-      "childrenIds": ["heatExchanger", "recirculationPump"],
-      "relationshipType": null,
-      "relationshipDescription": null,
-      "attributes": [
-        { "name": "weight", "label": "Weight", "value": "500", "unit": "kg" },
-        { "name": "dimensions_length", "label": "Length", "value": "2500", "unit": "mm" },
-        { "name": "dimensions_width", "label": "Width", "value": "1500", "unit": "mm" },
-        { "name": "dimensions_height", "label": "Height", "value": "1800", "unit": "mm" },
-        { "name": "material", "label": "Material", "value": "Stainless Steel and Alloy Composites", "unit": null }
+      "childrenIds": [
+        "heatExchanger",
+        "recirculationPump"
       ],
-      "rulesAndConstraints": [],
-      "possibleActions": [
+      "actions": [],
+      "attributes": [
         {
-          "actionName": "swapHeatExchangerVariant",
-          "actionDescription": "Switch the heat exchanger variant to handle different throughput needs"
+          "name": "weight",
+          "label": "Weight",
+          "value": "500",
+          "unit": "kg",
+          "dataType": "float"
         },
         {
-          "actionName": "adjustPumpFlow",
-          "actionDescription": "Change pump flow to meet production demands"
+          "name": "dimensions_length",
+          "label": "Length",
+          "value": "2500",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_width",
+          "label": "Width",
+          "value": "1500",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_height",
+          "label": "Height",
+          "value": "1800",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "material",
+          "label": "Material",
+          "value": "Stainless Steel and Alloy Composites",
+          "unit": null,
+          "dataType": "string"
         }
       ],
+      "rulesAndConstraints": [],
       "relatedObjects": [
         {
           "referenceId": "heatExchanger",
           "relationshipType": "Child Component",
-          "relationshipDescription": "Major component in the heating assembly."
+          "relationshipDescription": "Major component in this assembly."
         },
         {
-          "referenceId": "cipSystemRef",
+          "referenceId": "cipSystem",
           "relationshipType": "Support System",
           "relationshipDescription": "Provides cleaning support for the assembly."
         }
-      ]
+      ],
+      "services": []
     },
     {
       "id": "heatExchanger",
       "type": "Component",
       "name": "Heat Exchanger",
       "label": "Heat Exchanger",
-      "description": "Transfers heat to the product for pasteurization. Requires CIP inlet pressure ≥2.0 bar and a max operating temperature of 100°C.",
+      "description": "Transfers heat to the product for pasteurization. Requires CIP inlet pressure ≥2.0 bar and max operating temperature 100°C.",
       "path": ["Pasteurizer 3000", "Heating Assembly", "Heat Exchanger"],
       "parentId": "heatingAssembly",
-      "childrenIds": ["heatExchanger_variant1", "heatExchanger_variant2"],
-      "relationshipType": null,
-      "relationshipDescription": null,
+      "childrenIds": ["tubularV1", "plateV2"],
+      "actions": [],
       "attributes": [
-        { "name": "weight", "label": "Weight", "value": "150", "unit": "kg" },
-        { "name": "dimensions_length", "label": "Length", "value": "1200", "unit": "mm" },
-        { "name": "dimensions_width", "label": "Width", "value": "800", "unit": "mm" },
-        { "name": "dimensions_height", "label": "Height", "value": "600", "unit": "mm" },
-        { "name": "material", "label": "Material", "value": "Stainless Steel", "unit": null },
-        { "name": "thermalEfficiency", "label": "Thermal Efficiency", "value": "85", "unit": "%" },
-        { "name": "maxOperatingPressure", "label": "Max Operating Pressure", "value": "3", "unit": "bar" }
+        {
+          "name": "weight",
+          "label": "Weight",
+          "value": "150",
+          "unit": "kg",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_length",
+          "label": "Length",
+          "value": "1200",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_width",
+          "label": "Width",
+          "value": "800",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_height",
+          "label": "Height",
+          "value": "600",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "material",
+          "label": "Material",
+          "value": "Stainless Steel",
+          "unit": null,
+          "dataType": "string"
+        },
+        {
+          "name": "thermalEfficiency",
+          "label": "Thermal Efficiency",
+          "value": "85",
+          "unit": "%",
+          "dataType": "float"
+        },
+        {
+          "name": "maxOperatingPressure",
+          "label": "Max Operating Pressure",
+          "value": "3",
+          "unit": "bar",
+          "dataType": "float"
+        }
       ],
       "rulesAndConstraints": [],
-      "possibleActions": [],
       "relatedObjects": [
         {
           "referenceId": "heatingAssembly",
           "relationshipType": "Parent Assembly",
-          "relationshipDescription": "Parent assembly housing the heat exchanger."
+          "relationshipDescription": "Contained within the Heating Assembly (heatingAssembly)."
         },
         {
           "referenceId": "recirculationPump",
           "relationshipType": "Operational Partner",
-          "relationshipDescription": "Circulates fluid to ensure effective heat transfer."
+          "relationshipDescription": "Works with recirculation pump for fluid circulation."
         },
         {
           "referenceId": "part_gasketA",
           "relationshipType": "Component Part",
-          "relationshipDescription": "EPDM Rubber seal that prevents leaks."
+          "relationshipDescription": "Uses EPDM Rubber seal (part_gasketA) to prevent leaks."
         },
         {
           "referenceId": "part_frameBolts",
           "relationshipType": "Component Part",
-          "relationshipDescription": "Stainless Steel bolts used to secure the exchanger plates."
+          "relationshipDescription": "Secured by stainless bolts (part_frameBolts)."
         },
         {
-          "referenceId": "cipSystemRef",
+          "referenceId": "cipSystem",
           "relationshipType": "CIP Integration",
-          "relationshipDescription": "Integrated Clean-In-Place system for automated cleaning and sterilization."
+          "relationshipDescription": "Connected with CIP system (cipSystem) for cleaning."
         },
         {
-          "referenceId": "preHeaterSystemRef",
+          "referenceId": "preHeater",
           "relationshipType": "Upstream Temperature Conditioning",
-          "relationshipDescription": "Conditions the juice upstream before heating."
+          "relationshipDescription": "Works with pre-heater (preHeater) to condition juice."
         },
         {
-          "referenceId": "evaporatorRef",
+          "referenceId": "evaporator",
           "relationshipType": "Downstream Thermal Processing Partner",
-          "relationshipDescription": "Shares thermal management challenges; used in concentrate production."
+          "relationshipDescription": "Works with evaporator (evaporator) for concentrate production."
         },
         {
           "referenceId": "holdingTube",
           "relationshipType": "Operational Partner",
-          "relationshipDescription": "Ensures sufficient residence time at target temperature."
+          "relationshipDescription": "Requires holding tube (holdingTube) for residence time."
         }
+      ],
+      "services": [
+        "maintenanceService-001"
       ]
     },
     {
-      "id": "heatExchanger_variant1",
+      "id": "tubularV1",
       "type": "Variant",
-      "name": "Tubular Variant V1",
-      "label": "Tubular Variant",
-      "description": "A tubular heat exchanger variant with slightly increased weight and lower thermal efficiency for moderate throughput.",
-      "path": ["Pasteurizer 3000", "Heating Assembly", "Heat Exchanger", "Tubular Variant V1"],
+      "name": "Tubular V1",
+      "label": "Tubular",
+      "description": "A tubular design with a slightly higher weight and moderate thermal efficiency for moderate throughput.",
+      "path": ["Pasteurizer 3000", "Heating Assembly", "Heat Exchanger", "Tubular V1"],
       "parentId": "heatExchanger",
       "childrenIds": [],
+      "actions": [],
       "attributes": [
-        { "name": "weight", "label": "Weight", "value": "160", "unit": "kg" },
-        { "name": "dimensions_length", "label": "Length", "value": "1250", "unit": "mm" },
-        { "name": "dimensions_width", "label": "Width", "value": "800", "unit": "mm" },
-        { "name": "dimensions_height", "label": "Height", "value": "600", "unit": "mm" },
-        { "name": "thermalEfficiency", "label": "Thermal Efficiency", "value": "80", "unit": "%" },
-        { "name": "maxOperatingPressure", "label": "Max Operating Pressure", "value": "3", "unit": "bar" }
-      ]
+        {
+          "name": "weight",
+          "label": "Weight",
+          "value": "160",
+          "unit": "kg",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_length",
+          "label": "Length",
+          "value": "1250",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_width",
+          "label": "Width",
+          "value": "800",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_height",
+          "label": "Height",
+          "value": "600",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "thermalEfficiency",
+          "label": "Thermal Efficiency",
+          "value": "80",
+          "unit": "%",
+          "dataType": "float"
+        },
+        {
+          "name": "maxOperatingPressure",
+          "label": "Max Operating Pressure",
+          "value": "3",
+          "unit": "bar",
+          "dataType": "float"
+        }
+      ],
+      "rulesAndConstraints": [],
+      "relatedObjects": [],
+      "services": []
     },
     {
-      "id": "heatExchanger_variant2",
+      "id": "plateV2",
       "type": "Variant",
-      "name": "Plate Variant V2",
-      "label": "Plate Variant",
-      "description": "A plate heat exchanger variant optimized for high throughput with reduced weight and increased thermal efficiency.",
-      "path": ["Pasteurizer 3000", "Heating Assembly", "Heat Exchanger", "Plate Variant V2"],
+      "name": "Plate V2",
+      "label": "Plate",
+      "description": "A plate design optimized for higher throughput with lower weight and improved efficiency.",
+      "path": ["Pasteurizer 3000", "Heating Assembly", "Heat Exchanger", "Plate V2"],
       "parentId": "heatExchanger",
       "childrenIds": [],
+      "actions": [],
       "attributes": [
-        { "name": "weight", "label": "Weight", "value": "140", "unit": "kg" },
-        { "name": "dimensions_length", "label": "Length", "value": "1150", "unit": "mm" },
-        { "name": "dimensions_width", "label": "Width", "value": "750", "unit": "mm" },
-        { "name": "dimensions_height", "label": "Height", "value": "580", "unit": "mm" },
-        { "name": "thermalEfficiency", "label": "Thermal Efficiency", "value": "90", "unit": "%" },
-        { "name": "maxOperatingPressure", "label": "Max Operating Pressure", "value": "3", "unit": "bar" }
-      ]
+        {
+          "name": "weight",
+          "label": "Weight",
+          "value": "140",
+          "unit": "kg",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_length",
+          "label": "Length",
+          "value": "1150",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_width",
+          "label": "Width",
+          "value": "750",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_height",
+          "label": "Height",
+          "value": "580",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "thermalEfficiency",
+          "label": "Thermal Efficiency",
+          "value": "90",
+          "unit": "%",
+          "dataType": "float"
+        },
+        {
+          "name": "maxOperatingPressure",
+          "label": "Max Operating Pressure",
+          "value": "3",
+          "unit": "bar",
+          "dataType": "float"
+        }
+      ],
+      "rulesAndConstraints": [],
+      "relatedObjects": [],
+      "services": []
     },
     {
       "id": "recirculationPump",
@@ -194,73 +339,196 @@
       "description": "Circulates fluid to maintain proper flow through the heat exchanger.",
       "path": ["Pasteurizer 3000", "Heating Assembly", "Recirculation Pump"],
       "parentId": "heatingAssembly",
-      "childrenIds": ["recirculationPump_variant1", "recirculationPump_variant2"],
-      "relationshipType": null,
-      "relationshipDescription": null,
+      "childrenIds": ["standardPump", "highFlowPump"],
+      "actions": [],
       "attributes": [
-        { "name": "weight", "label": "Weight", "value": "80", "unit": "kg" },
-        { "name": "dimensions_length", "label": "Length", "value": "600", "unit": "mm" },
-        { "name": "dimensions_width", "label": "Width", "value": "400", "unit": "mm" },
-        { "name": "dimensions_height", "label": "Height", "value": "500", "unit": "mm" },
-        { "name": "powerRating", "label": "Power Rating", "value": "3.5", "unit": "kW" },
-        { "name": "maxFlowRate", "label": "Max Flow Rate", "value": "20000", "unit": "L/h" },
-        { "name": "material", "label": "Material", "value": "Cast Iron and Stainless Steel", "unit": null }
+        {
+          "name": "weight",
+          "label": "Weight",
+          "value": "80",
+          "unit": "kg",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_length",
+          "label": "Length",
+          "value": "600",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_width",
+          "label": "Width",
+          "value": "400",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_height",
+          "label": "Height",
+          "value": "500",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "powerRating",
+          "label": "Power Rating",
+          "value": "3.5",
+          "unit": "kW",
+          "dataType": "float"
+        },
+        {
+          "name": "maxFlowRate",
+          "label": "Max Flow Rate",
+          "value": "20000",
+          "unit": "L/h",
+          "dataType": "float"
+        },
+        {
+          "name": "material",
+          "label": "Material",
+          "value": "Cast Iron and Stainless Steel",
+          "unit": null,
+          "dataType": "string"
+        }
       ],
       "rulesAndConstraints": [],
-      "possibleActions": [],
       "relatedObjects": [
         {
           "referenceId": "heatingAssembly",
           "relationshipType": "Parent Assembly",
-          "relationshipDescription": "Parent assembly of the recirculation pump."
+          "relationshipDescription": "Contained within the Heating Assembly (heatingAssembly)."
         },
         {
           "referenceId": "heatExchanger",
           "relationshipType": "Operational Partner",
-          "relationshipDescription": "Works in tandem with the pump for effective heat transfer."
+          "relationshipDescription": "Operates in tandem with the Heat Exchanger (heatExchanger)."
         },
         {
           "referenceId": "part_impeller",
           "relationshipType": "Component Part",
-          "relationshipDescription": "Integral part that drives the fluid within the pump."
+          "relationshipDescription": "Uses impeller (part_impeller) for internal fluid drive."
         }
+      ],
+      "services": [
+        "maintenanceService-001"
       ]
     },
     {
-      "id": "recirculationPump_variant1",
+      "id": "standardPump",
       "type": "Variant",
-      "name": "Standard Pump Variant",
-      "label": "Standard Variant",
+      "name": "Standard Pump",
+      "label": "Standard",
       "description": "Optimized for standard operations with balanced flow and energy consumption.",
-      "path": ["Pasteurizer 3000", "Heating Assembly", "Recirculation Pump", "Standard Variant"],
+      "path": ["Pasteurizer 3000", "Heating Assembly", "Recirculation Pump", "Standard"],
       "parentId": "recirculationPump",
       "childrenIds": [],
+      "actions": [],
       "attributes": [
-        { "name": "weight", "label": "Weight", "value": "85", "unit": "kg" },
-        { "name": "powerRating", "label": "Power Rating", "value": "3.5", "unit": "kW" },
-        { "name": "maxFlowRate", "label": "Max Flow Rate", "value": "10000", "unit": "L/h" },
-        { "name": "dimensions_length", "label": "Length", "value": "600", "unit": "mm" },
-        { "name": "dimensions_width", "label": "Width", "value": "400", "unit": "mm" },
-        { "name": "dimensions_height", "label": "Height", "value": "500", "unit": "mm" }
-      ]
+        {
+          "name": "weight",
+          "label": "Weight",
+          "value": "85",
+          "unit": "kg",
+          "dataType": "float"
+        },
+        {
+          "name": "powerRating",
+          "label": "Power Rating",
+          "value": "3.5",
+          "unit": "kW",
+          "dataType": "float"
+        },
+        {
+          "name": "maxFlowRate",
+          "label": "Max Flow Rate",
+          "value": "10000",
+          "unit": "L/h",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_length",
+          "label": "Length",
+          "value": "600",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_width",
+          "label": "Width",
+          "value": "400",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_height",
+          "label": "Height",
+          "value": "500",
+          "unit": "mm",
+          "dataType": "float"
+        }
+      ],
+      "rulesAndConstraints": [],
+      "relatedObjects": [],
+      "services": []
     },
     {
-      "id": "recirculationPump_variant2",
+      "id": "highFlowPump",
       "type": "Variant",
-      "name": "High Flow Pump Variant",
-      "label": "High Flow Variant",
+      "name": "High Flow Pump",
+      "label": "High Flow",
       "description": "Optimized for high throughput with enhanced power rating and increased flow rate.",
-      "path": ["Pasteurizer 3000", "Heating Assembly", "Recirculation Pump", "High Flow Variant"],
+      "path": ["Pasteurizer 3000", "Heating Assembly", "Recirculation Pump", "High Flow"],
       "parentId": "recirculationPump",
       "childrenIds": [],
+      "actions": [],
       "attributes": [
-        { "name": "weight", "label": "Weight", "value": "75", "unit": "kg" },
-        { "name": "powerRating", "label": "Power Rating", "value": "4.5", "unit": "kW" },
-        { "name": "maxFlowRate", "label": "Max Flow Rate", "value": "20000", "unit": "L/h" },
-        { "name": "dimensions_length", "label": "Length", "value": "600", "unit": "mm" },
-        { "name": "dimensions_width", "label": "Width", "value": "400", "unit": "mm" },
-        { "name": "dimensions_height", "label": "Height", "value": "500", "unit": "mm" }
-      ]
+        {
+          "name": "weight",
+          "label": "Weight",
+          "value": "75",
+          "unit": "kg",
+          "dataType": "float"
+        },
+        {
+          "name": "powerRating",
+          "label": "Power Rating",
+          "value": "4.5",
+          "unit": "kW",
+          "dataType": "float"
+        },
+        {
+          "name": "maxFlowRate",
+          "label": "Max Flow Rate",
+          "value": "20000",
+          "unit": "L/h",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_length",
+          "label": "Length",
+          "value": "600",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_width",
+          "label": "Width",
+          "value": "400",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_height",
+          "label": "Height",
+          "value": "500",
+          "unit": "mm",
+          "dataType": "float"
+        }
+      ],
+      "rulesAndConstraints": [],
+      "relatedObjects": [],
+      "services": []
     },
     {
       "id": "part_impeller",
@@ -271,32 +539,48 @@
       "path": ["Pasteurizer 3000", "Heating Assembly", "Recirculation Pump", "Pump Impeller"],
       "parentId": "recirculationPump",
       "childrenIds": [],
-      "relationshipType": null,
-      "relationshipDescription": null,
+      "actions": [],
       "attributes": [
-        { "name": "weight", "label": "Weight", "value": "5", "unit": "kg" },
-        { "name": "material", "label": "Material", "value": "Stainless Steel", "unit": null },
-        { "name": "diameter", "label": "Diameter", "value": "200", "unit": "mm" }
+        {
+          "name": "weight",
+          "label": "Weight",
+          "value": "5",
+          "unit": "kg",
+          "dataType": "float"
+        },
+        {
+          "name": "material",
+          "label": "Material",
+          "value": "Stainless Steel",
+          "unit": null,
+          "dataType": "string"
+        },
+        {
+          "name": "diameter",
+          "label": "Diameter",
+          "value": "200",
+          "unit": "mm",
+          "dataType": "float"
+        }
       ],
       "rulesAndConstraints": [],
-      "possibleActions": [],
-      "relatedObjects": []
+      "relatedObjects": [],
+      "services": []
     },
     {
       "id": "part_gasketA",
       "type": "Part",
       "name": "Gasket A",
       "label": "EPDM Rubber Seal",
-      "description": "EPDM Rubber seal that prevents leaks.",
+      "description": "EPDM rubber seal that prevents leaks.",
       "path": ["Pasteurizer 3000", "Heating Assembly", "Heat Exchanger", "Gasket A"],
-      "parentId": null,
+      "parentId": "heatExchanger",
       "childrenIds": [],
-      "relationshipType": null,
-      "relationshipDescription": null,
+      "actions": [],
       "attributes": [],
       "rulesAndConstraints": [],
-      "possibleActions": [],
-      "relatedObjects": []
+      "relatedObjects": [],
+      "services": []
     },
     {
       "id": "part_frameBolts",
@@ -305,62 +589,13 @@
       "label": "Frame Bolts",
       "description": "Stainless Steel bolts used to secure the exchanger plates.",
       "path": ["Pasteurizer 3000", "Heating Assembly", "Heat Exchanger", "Frame Bolts"],
-      "parentId": null,
+      "parentId": "heatExchanger",
       "childrenIds": [],
-      "relationshipType": null,
-      "relationshipDescription": null,
+      "actions": [],
       "attributes": [],
       "rulesAndConstraints": [],
-      "possibleActions": [],
-      "relatedObjects": []
-    },
-    {
-      "id": "cipSystemRef",
-      "type": "System",
-      "name": "CIP System",
-      "label": "CIP System",
-      "description": "Integrated Clean-In-Place system for automated cleaning and sterilization.",
-      "path": [],
-      "parentId": null,
-      "childrenIds": [],
-      "relationshipType": null,
-      "relationshipDescription": null,
-      "attributes": [],
-      "rulesAndConstraints": [],
-      "possibleActions": [],
-      "relatedObjects": []
-    },
-    {
-      "id": "preHeaterSystemRef",
-      "type": "System",
-      "name": "Pre-heater System",
-      "label": "Pre-heater System",
-      "description": "Conditions the juice upstream before heating.",
-      "path": [],
-      "parentId": null,
-      "childrenIds": [],
-      "relationshipType": null,
-      "relationshipDescription": null,
-      "attributes": [],
-      "rulesAndConstraints": [],
-      "possibleActions": [],
-      "relatedObjects": []
-    },
-    {
-      "id": "evaporatorRef",
-      "type": "Equipment",
-      "name": "Evaporator",
-      "label": "Evaporator",
-      "description": "Shares thermal management challenges; used in concentrate production.",
-      "path": [],
-      "parentId": null,
-      "childrenIds": [],
-      "relationshipType": null,
-      "relationshipDescription": null,
-      "attributes": [],
-      "rulesAndConstraints": [],
-      "possibleActions": [],
-      "relatedObjects": []
+      "relatedObjects": [],
+      "services": []
     },
     {
       "id": "holdingSection",
@@ -370,24 +605,55 @@
       "description": "Provides required residence time for pasteurization.",
       "path": ["Pasteurizer 3000", "Holding Section"],
       "parentId": "pasteurizer-001",
-      "childrenIds": ["holdingTube", "holdingTube_variant1", "holdingTube_variant2"],
-      "relationshipType": null,
-      "relationshipDescription": null,
-      "attributes": [
-        { "name": "weight", "label": "Weight", "value": "300", "unit": "kg" },
-        { "name": "dimensions_length", "label": "Length", "value": "2000", "unit": "mm" },
-        { "name": "dimensions_width", "label": "Width", "value": "1200", "unit": "mm" },
-        { "name": "dimensions_height", "label": "Height", "value": "1000", "unit": "mm" },
-        { "name": "material", "label": "Material", "value": "Reinforced Stainless Steel", "unit": null }
+      "childrenIds": [
+        "holdingTube"
       ],
-      "rulesAndConstraints": [],
-      "possibleActions": [
+      "actions": [
         {
           "actionName": "switchHoldingTube",
-          "actionDescription": "Change holding time for different pasteurization protocols"
+          "actionDescription": "Change holding tube configuration for different pasteurization protocols"
         }
       ],
-      "relatedObjects": []
+      "attributes": [
+        {
+          "name": "weight",
+          "label": "Weight",
+          "value": "300",
+          "unit": "kg",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_length",
+          "label": "Length",
+          "value": "2000",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_width",
+          "label": "Width",
+          "value": "1200",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_height",
+          "label": "Height",
+          "value": "1000",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "material",
+          "label": "Material",
+          "value": "Reinforced Stainless Steel",
+          "unit": null,
+          "dataType": "string"
+        }
+      ],
+      "rulesAndConstraints": [],
+      "relatedObjects": [],
+      "services": []
     },
     {
       "id": "holdingTube",
@@ -397,41 +663,72 @@
       "description": "Ensures sufficient residence time at target temperature.",
       "path": ["Pasteurizer 3000", "Holding Section", "Holding Tube"],
       "parentId": "holdingSection",
-      "childrenIds": ["holdingTube_variant1", "holdingTube_variant2"],
-      "relationshipType": null,
-      "relationshipDescription": null,
+      "childrenIds": ["standardHoldingTube", "extendedHoldingTube"],
+      "actions": [],
       "attributes": [],
       "rulesAndConstraints": [],
-      "possibleActions": [],
-      "relatedObjects": []
+      "relatedObjects": [],
+      "services": []
     },
     {
-      "id": "holdingTube_variant1",
+      "id": "standardHoldingTube",
       "type": "Variant",
       "name": "Standard Holding Tube",
-      "label": "Standard Variant",
-      "description": "The standard design ensuring the required residence time.",
-      "path": ["Pasteurizer 3000", "Holding Section", "Holding Tube", "Standard Variant"],
+      "label": "Standard",
+      "description": "Standard design ensuring the required residence time.",
+      "path": ["Pasteurizer 3000", "Holding Section", "Holding Tube", "Standard"],
       "parentId": "holdingTube",
       "childrenIds": [],
+      "actions": [],
       "attributes": [
-        { "name": "length", "label": "Length", "value": "1500", "unit": "mm" },
-        { "name": "innerDiameter", "label": "Inner Diameter", "value": "300", "unit": "mm" }
-      ]
+        {
+          "name": "length",
+          "label": "Length",
+          "value": "1500",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "innerDiameter",
+          "label": "Inner Diameter",
+          "value": "300",
+          "unit": "mm",
+          "dataType": "float"
+        }
+      ],
+      "rulesAndConstraints": [],
+      "relatedObjects": [],
+      "services": []
     },
     {
-      "id": "holdingTube_variant2",
+      "id": "extendedHoldingTube",
       "type": "Variant",
       "name": "Extended Holding Tube",
-      "label": "Extended Variant",
-      "description": "An extended design variant for longer residence time if required.",
-      "path": ["Pasteurizer 3000", "Holding Section", "Holding Tube", "Extended Variant"],
+      "label": "Extended",
+      "description": "Extended design for longer residence time when required.",
+      "path": ["Pasteurizer 3000", "Holding Section", "Holding Tube", "Extended"],
       "parentId": "holdingTube",
       "childrenIds": [],
+      "actions": [],
       "attributes": [
-        { "name": "length", "label": "Length", "value": "1800", "unit": "mm" },
-        { "name": "innerDiameter", "label": "Inner Diameter", "value": "300", "unit": "mm" }
-      ]
+        {
+          "name": "length",
+          "label": "Length",
+          "value": "1800",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "innerDiameter",
+          "label": "Inner Diameter",
+          "value": "300",
+          "unit": "mm",
+          "dataType": "float"
+        }
+      ],
+      "rulesAndConstraints": [],
+      "relatedObjects": [],
+      "services": []
     },
     {
       "id": "coolingAssembly",
@@ -442,24 +739,47 @@
       "path": ["Pasteurizer 3000", "Cooling Assembly"],
       "parentId": "pasteurizer-001",
       "childrenIds": ["coolingExchanger"],
-      "relationshipType": null,
-      "relationshipDescription": null,
+      "actions": [],
       "attributes": [
-        { "name": "weight", "label": "Weight", "value": "400", "unit": "kg" },
-        { "name": "dimensions_length", "label": "Length", "value": "2300", "unit": "mm" },
-        { "name": "dimensions_width", "label": "Width", "value": "1400", "unit": "mm" },
-        { "name": "dimensions_height", "label": "Height", "value": "1200", "unit": "mm" },
-        { "name": "material", "label": "Material", "value": "Stainless Steel", "unit": null }
-      ],
-      "rulesAndConstraints": [],
-      "possibleActions": [
         {
-          "actionName": "adjustCoolantFlow",
-          "actionDescription": "Increase or decrease coolant flow"
+          "name": "weight",
+          "label": "Weight",
+          "value": "400",
+          "unit": "kg",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_length",
+          "label": "Length",
+          "value": "2300",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_width",
+          "label": "Width",
+          "value": "1400",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_height",
+          "label": "Height",
+          "value": "1200",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "material",
+          "label": "Material",
+          "value": "Stainless Steel",
+          "unit": null,
+          "dataType": "string"
         }
       ],
+      "rulesAndConstraints": [],
       "relatedObjects": [],
-      "variants": []
+      "services": []
     },
     {
       "id": "coolingExchanger",
@@ -469,159 +789,292 @@
       "description": "Removes excess heat to bring product to target temperature.",
       "path": ["Pasteurizer 3000", "Cooling Assembly", "Cooling Exchanger"],
       "parentId": "coolingAssembly",
-      "childrenIds": ["coolingExchanger_variant1", "coolingExchanger_variant2"],
-      "relationshipType": null,
-      "relationshipDescription": null,
+      "childrenIds": ["waterCooled", "glycolCooled"],
+      "actions": [],
       "attributes": [
-        { "name": "weight", "label": "Weight", "value": "180", "unit": "kg" },
-        { "name": "dimensions_length", "label": "Length", "value": "1300", "unit": "mm" },
-        { "name": "dimensions_width", "label": "Width", "value": "850", "unit": "mm" },
-        { "name": "dimensions_height", "label": "Height", "value": "650", "unit": "mm" },
-        { "name": "material", "label": "Material", "value": "Stainless Steel", "unit": null },
-        { "name": "maxOperatingPressure", "label": "Max Operating Pressure", "value": "2.5", "unit": "bar" }
+        {
+          "name": "weight",
+          "label": "Weight",
+          "value": "180",
+          "unit": "kg",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_length",
+          "label": "Length",
+          "value": "1300",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_width",
+          "label": "Width",
+          "value": "850",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_height",
+          "label": "Height",
+          "value": "650",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "material",
+          "label": "Material",
+          "value": "Stainless Steel",
+          "unit": null,
+          "dataType": "string"
+        },
+        {
+          "name": "maxOperatingPressure",
+          "label": "Max Operating Pressure",
+          "value": "2.5",
+          "unit": "bar",
+          "dataType": "float"
+        }
       ],
       "rulesAndConstraints": [],
-      "possibleActions": [],
-      "relatedObjects": []
+      "relatedObjects": [],
+      "services": [
+        "maintenanceService-001"
+      ]
     },
     {
-      "id": "coolingExchanger_variant1",
+      "id": "waterCooled",
       "type": "Variant",
-      "name": "Water Cooled Variant",
+      "name": "Water Cooled",
       "label": "Water Cooled",
       "description": "Operates with water as the primary coolant for stable performance.",
-      "path": ["Pasteurizer 3000", "Cooling Assembly", "Cooling Exchanger", "Water Cooled Variant"],
+      "path": ["Pasteurizer 3000", "Cooling Assembly", "Cooling Exchanger", "Water Cooled"],
       "parentId": "coolingExchanger",
       "childrenIds": [],
+      "actions": [],
       "attributes": [
-        { "name": "weight", "label": "Weight", "value": "190", "unit": "kg" },
-        { "name": "dimensions_length", "label": "Length", "value": "1300", "unit": "mm" },
-        { "name": "dimensions_width", "label": "Width", "value": "850", "unit": "mm" },
-        { "name": "dimensions_height", "label": "Height", "value": "650", "unit": "mm" },
-        { "name": "maxOperatingPressure", "label": "Max Operating Pressure", "value": "2.5", "unit": "bar" }
-      ]
-    },
-    {
-      "id": "coolingExchanger_variant2",
-      "type": "Variant",
-      "name": "Glycol Cooled Variant",
-      "label": "Glycol Cooled",
-      "description": "Uses glycol coolant for achieving lower final product temperatures.",
-      "path": ["Pasteurizer 3000", "Cooling Assembly", "Cooling Exchanger", "Glycol Cooled Variant"],
-      "parentId": "coolingExchanger",
-      "childrenIds": [],
-      "attributes": [
-        { "name": "weight", "label": "Weight", "value": "175", "unit": "kg" },
-        { "name": "dimensions_length", "label": "Length", "value": "1280", "unit": "mm" },
-        { "name": "dimensions_width", "label": "Width", "value": "840", "unit": "mm" },
-        { "name": "dimensions_height", "label": "Height", "value": "640", "unit": "mm" },
-        { "name": "maxOperatingPressure", "label": "Max Operating Pressure", "value": "2.5", "unit": "bar" }
-      ]
-    },
-    {
-      "id": "dataTypes",
-      "type": "DataTypesGroup",
-      "name": "Data Types",
-      "label": "Data Types",
-      "description": "",
-      "path": [],
-      "parentId": null,
-      "childrenIds": [],
-      "relationshipType": null,
-      "relationshipDescription": null,
-      "attributes": [],
-      "rulesAndConstraints": [],
-      "possibleActions": [],
-      "relatedObjects": [],
-      "dataTypesList": [
-        { "dataTypeName": "temperature", "type": "float", "unit": "C" },
-        { "dataTypeName": "flowRate", "type": "float", "unit": "L/h" },
-        { "dataTypeName": "pressure", "type": "float", "unit": "bar" },
-        { "dataTypeName": "time", "type": "float", "unit": "seconds" }
-      ]
-    },
-    {
-      "id": "possibleModellerActions",
-      "type": "ActionsGroup",
-      "name": "Possible Modeller Actions",
-      "label": "Modeller actions on model",
-      "description": "",
-      "path": [],
-      "parentId": null,
-      "childrenIds": [],
-      "relationshipType": null,
-      "relationshipDescription": null,
-      "attributes": [],
-      "rulesAndConstraints": [],
-      "possibleActions": [
         {
-          "actionName": "addAssembly",
-          "actionDescription": "Add a new assembly to the pasteurizer model"
+          "name": "weight",
+          "label": "Weight",
+          "value": "190",
+          "unit": "kg",
+          "dataType": "float"
         },
         {
-          "actionName": "removeAssembly",
-          "actionDescription": "Remove an assembly from the pasteurizer model"
+          "name": "dimensions_length",
+          "label": "Length",
+          "value": "1300",
+          "unit": "mm",
+          "dataType": "float"
         },
         {
-          "actionName": "changeComponentVariant",
-          "actionDescription": "Switch to a different component variant within an assembly"
+          "name": "dimensions_width",
+          "label": "Width",
+          "value": "850",
+          "unit": "mm",
+          "dataType": "float"
         },
         {
-          "actionName": "updateVersion",
-          "actionDescription": "Increment the product model version after changes"
+          "name": "dimensions_height",
+          "label": "Height",
+          "value": "650",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "maxOperatingPressure",
+          "label": "Max Operating Pressure",
+          "value": "2.5",
+          "unit": "bar",
+          "dataType": "float"
         }
       ],
-      "relatedObjects": []
+      "rulesAndConstraints": [],
+      "relatedObjects": [],
+      "services": []
     },
     {
-      "id": "services",
-      "type": "ServicesGroup",
-      "name": "Available Services",
-      "label": "Services",
-      "description": "Service offerings for maintenance and training",
-      "path": [],
-      "parentId": null,
+      "id": "glycolCooled",
+      "type": "Variant",
+      "name": "Glycol Cooled",
+      "label": "Glycol Cooled",
+      "description": "Uses glycol coolant for achieving lower final product temperatures.",
+      "path": ["Pasteurizer 3000", "Cooling Assembly", "Cooling Exchanger", "Glycol Cooled"],
+      "parentId": "coolingExchanger",
       "childrenIds": [],
-      "relationshipType": null,
-      "relationshipDescription": null,
-      "attributes": [],
-      "rulesAndConstraints": [],
-      "possibleActions": [],
-      "relatedObjects": [],
-      "servicesList": [
+      "actions": [],
+      "attributes": [
         {
-          "serviceId": "maintenanceService-001",
-          "serviceType": "Maintenance",
-          "description": "Regular preventive and corrective maintenance. Includes inspections, cleaning, wear parts replacement, and troubleshooting.",
-          "recommendedFrequency": "Every 6 months, with on-call emergency repairs available",
-          "actions": [
-            {
-              "actionId": "scheduleMaintenance",
-              "actionDescription": "Book a maintenance check or repair session"
-            },
-            {
-              "actionId": "recordMaintenance",
-              "actionDescription": "Update the maintenance log with recent service actions"
-            }
-          ]
+          "name": "weight",
+          "label": "Weight",
+          "value": "175",
+          "unit": "kg",
+          "dataType": "float"
         },
         {
-          "serviceId": "trainingService-001",
-          "serviceType": "Training",
-          "description": "Hands-on and online training sessions for operators and maintenance personnel. Covers operation, CIP, troubleshooting, and emergency protocols.",
-          "offeredFrequency": "Quarterly sessions with optional annual refresher courses",
-          "actions": [
-            {
-              "actionId": "scheduleTraining",
-              "actionDescription": "Enroll staff in a training session"
-            },
-            {
-              "actionId": "updateTrainingMaterials",
-              "actionDescription": "Revise and upload training resources"
-            }
-          ]
+          "name": "dimensions_length",
+          "label": "Length",
+          "value": "1280",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_width",
+          "label": "Width",
+          "value": "840",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "dimensions_height",
+          "label": "Height",
+          "value": "640",
+          "unit": "mm",
+          "dataType": "float"
+        },
+        {
+          "name": "maxOperatingPressure",
+          "label": "Max Operating Pressure",
+          "value": "2.5",
+          "unit": "bar",
+          "dataType": "float"
         }
-      ]
+      ],
+      "rulesAndConstraints": [],
+      "relatedObjects": [],
+      "services": []
+    },
+    {
+      "id": "cipSystem",
+      "type": "Product",
+      "name": "CIP System",
+      "label": "CIP System",
+      "description": "Integrated Clean-In-Place system for automated cleaning and sterilization.",
+      "path": ["Pasteurizer 3000", "CIP System"],
+      "parentId": "pasteurizer-001",
+      "childrenIds": [],
+      "actions": [],
+      "attributes": [
+        {
+          "name": "cleaningAgent",
+          "label": "Cleaning Agent",
+          "value": "Food-safe sanitizers",
+          "unit": null,
+          "dataType": "string"
+        },
+        {
+          "name": "operationTime",
+          "label": "Operation Time",
+          "value": "30",
+          "unit": "minutes",
+          "dataType": "float"
+        }
+      ],
+      "rulesAndConstraints": [
+        "Must operate in coordination with heat exchanger (heatExchanger) and recirculation pump (recirculationPump)"
+      ],
+      "relatedObjects": [],
+      "services": []
+    },
+    {
+      "id": "evaporator",
+      "type": "Product",
+      "name": "Evaporator",
+      "label": "Evaporator",
+      "description": "Evaporator used for concentrate production with high thermal recovery.",
+      "path": ["Pasteurizer 3000", "Evaporator"],
+      "parentId": "pasteurizer-001",
+      "childrenIds": [],
+      "actions": [],
+      "attributes": [
+        {
+          "name": "capacity",
+          "label": "Capacity",
+          "value": "100000",
+          "unit": "kg/h",
+          "dataType": "float"
+        },
+        {
+          "name": "steamConsumption",
+          "label": "Steam Consumption",
+          "value": "1",
+          "unit": "kg steam per 6kg water",
+          "dataType": "string"
+        }
+      ],
+      "rulesAndConstraints": [
+        "Must maintain uniform heat transfer with pre-heater (preHeater)"
+      ],
+      "relatedObjects": [],
+      "services": []
+    },
+    {
+      "id": "preHeater",
+      "type": "Product",
+      "name": "Pre-heater System",
+      "label": "Pre-heater",
+      "description": "Conditions the juice upstream before heating for optimal thermal processing.",
+      "path": ["Pasteurizer 3000", "Pre-heater"],
+      "parentId": "pasteurizer-001",
+      "childrenIds": [],
+      "actions": [],
+      "attributes": [
+        {
+          "name": "targetTemperature",
+          "label": "Target Temperature",
+          "value": "95",
+          "unit": "°C",
+          "dataType": "float"
+        },
+        {
+          "name": "efficiency",
+          "label": "Efficiency",
+          "value": "98",
+          "unit": "%",
+          "dataType": "float"
+        }
+      ],
+      "rulesAndConstraints": [
+        "Must feed into the heat exchanger (heatExchanger) at a controlled temperature."
+      ],
+      "relatedObjects": [],
+      "services": []
+    },
+    {
+      "id": "maintenanceService-001",
+      "type": "Service",
+      "name": "Maintenance Service",
+      "label": "Maintenance",
+      "description": "Regular preventive and corrective maintenance service including inspections, cleaning, wear parts replacement, and troubleshooting.",
+      "path": ["Service"],
+      "parentId": null,
+      "childrenIds": [],
+      "actions": [],
+      "attributes": [
+        {
+          "name": "technicianExpertise",
+          "label": "Technician Expertise",
+          "value": "Certified Technician",
+          "unit": null,
+          "dataType": "string"
+        },
+        {
+          "name": "replacementSchedule",
+          "label": "Replacement Schedule",
+          "value": "Every 10000 operating hours",
+          "unit": null,
+          "dataType": "string"
+        },
+        {
+          "name": "serviceSchedule",
+          "label": "Service Schedule",
+          "value": "Every 6 months",
+          "unit": null,
+          "dataType": "string"
+        }
+      ],
+      "rulesAndConstraints": [],
+      "relatedObjects": [],
+      "services": []
     }
   ]
 }

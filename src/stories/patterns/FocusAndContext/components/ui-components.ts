@@ -77,21 +77,21 @@ export const renderStructure = (
           </thead>
           <tbody>
             ${childrenIds.map(childId => {
-              const childItem = getChildItem(childId);
-              if (!childItem) return '';
-              return html`
+    const childItem = getChildItem(childId);
+    if (!childItem) return '';
+    return html`
                 <tr>
                   <td>
                     <a href="#" data-id="${childItem.id}" @click=${(e: Event) => {
-                      e.preventDefault();
-                      handleItemClickFn(childItem.id);
-                    }}>${childItem.name}</a>
+        e.preventDefault();
+        handleItemClickFn(childItem.id);
+      }}>${childItem.name}</a>
                   </td>
                   <td>${childItem.type}</td>
                   <td class="pp-table-ellipsis">${childItem.description}</td>
                 </tr>
               `;
-            })}
+  })}
           </tbody>
         </table>
       </pp-table>
@@ -135,9 +135,7 @@ export const renderAIComponents = (
 ) => {
   if (loading) {
     return html`
-      <div class="card">
-        <small class="muted">Discovering connections for ${itemName}...</small>
-      </div>
+      <small class="muted">Discovering connections for ${itemName}...</small>
     `;
   }
 
@@ -157,7 +155,7 @@ export const renderAIComponents = (
   return html`
     ${repeat(aiComponents, (item) => item.id, (item) => html`
       <li>
-        <article class="card">
+        <article class="card dashed">
           <div class="attribute">${item.relationshipDescription || 'Related Component'}</div>
           <h4 class="label">
             ${item.name}
@@ -183,7 +181,7 @@ export const renderRelatedGroups = (
 
   return html`
     ${Object.entries(groups).map(([groupName, items]) =>
-      items.length > 0 ? html`
+    items.length > 0 ? html`
         <div>
           <details class="borderless" open>
             <summary class="muted">${groupName}</summary>
@@ -194,9 +192,9 @@ export const renderRelatedGroups = (
                     <div class="attribute">${item.relationship}</div>
                     <h4 class="label">
                       <a href="#" data-id="${item.name}" @click=${(e: Event) => {
-                        e.preventDefault();
-                        handleItemClickFn(item.name);
-                      }}>${item.label}</a>
+        e.preventDefault();
+        handleItemClickFn(item.name);
+      }}>${item.label}</a>
                     </h4>
                     <small class="description">${item.description}</small>
                   </article>
@@ -206,6 +204,6 @@ export const renderRelatedGroups = (
           </details>
         </div>
       ` : ''
-    )}
+  )}
   `;
 };

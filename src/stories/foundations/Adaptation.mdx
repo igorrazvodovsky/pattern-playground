@@ -3,25 +3,48 @@ import { Meta } from '@storybook/blocks';
 <Meta title="Foundations/Adaptation" />
 
 > 🤯 **Fun meter: 5/5**. I'm working on how to frame the integration of LLMs into design systems in a way that's both flexible and useful.
-I’m treating adaptation as tech-agnostic at its core, but also using it as a scaffold for LLM-related patterns.
-I've also chosen to blend adaptation with prediction/generation, since they’re tightly connected in most of my work.
+I'm treating adaptation as technology-agnostic at its core, but also using it as a scaffold for LLM-related patterns.
+I've also chosen to blend adaptation with prediction/generation, since they're tightly connected in most of my work.
 Does this make sense? I'm not sure.
 
 # Adaptation
 
-a system’s capacity to modify its behavior, presentation, or output in response to user input, context, or inferred intent.
+A system's capacity to modify its behaviour, presentation, or output in response to user input, context, or inferred intent.
 It spans both deterministic (rule-based) and probabilistic (prediction- or generation-based) responses.
 
 ## Types of adaptation
 
-### Deterministic adaptation
+### Deterministic
 
-UI changing based on app state, user preferences, roles, etc. Systems reacting to user inputs or past behaviors in predictable ways.
+UI changing based on application state, user preferences, roles, etc. Systems reacting to user inputs or past behaviours in predictable ways.
 If X happens, then Y will happen. You can still miss when a user has different expectations, but at least the system is consistent.
 
-### Probabilistic adaptation
+### Probabilistic
 
 Predictions, inference, or generated responses rather than fixed rules. It is driven by 🤖 models and produces context-sensitive results that may vary—even given the same input.
+
+## Integration patterns
+
+Adaptation is connective tissue—it modulates the other layers. It introduces contextual variability into systems that usually prefer stability.
+
+### Layered adaptation
+
+Hard on the outside, soft on the inside. Deterministic rules define boundaries, constraints, or guardrails.
+Probabilistic layers operate within those boundaries to personalise, infer, or generate.
+
+### Soft proposes, hard disposes
+
+The probabilistic system suggests. The deterministic system decides.
+This is common when safety or trust is critical—predictions are filtered, ranked, or vetoed by fixed logic.
+
+### Confidence-based fallback
+
+Adaptation paths vary based on model confidence. High-confidence outputs are used directly.
+Low-confidence predictions trigger a fallback—either deterministic logic or human intervention.
+
+### User control boundaries
+Let users see or influence which parts of the system adapt. This builds trust and improves UX predictability. UI may expose overrides, lock behaviours, or show when outputs are model-driven.
+
 
 {/* ## Relationships to different levels of design system */}
 
