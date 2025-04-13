@@ -48,9 +48,16 @@ export class PpBreadcrumbs extends LitElement {
   private setupEventListeners() {
     this.removeEventListeners();
 
+    // Handle select changes
     const selects = this.querySelectorAll('.disguised-select');
     selects.forEach(select => {
       select.addEventListener('change', this.handleSelectChange);
+    });
+
+    // Handle link clicks
+    const links = this.querySelectorAll('a');
+    links.forEach(link => {
+      link.addEventListener('click', this.handleLinkClick);
     });
   }
 
@@ -59,7 +66,26 @@ export class PpBreadcrumbs extends LitElement {
     selects.forEach(select => {
       select.removeEventListener('change', this.handleSelectChange);
     });
+
+    const links = this.querySelectorAll('a');
+    links.forEach(link => {
+      link.removeEventListener('click', this.handleLinkClick);
+    });
   }
+
+  private handleLinkClick = (event: Event) => {
+    event.preventDefault();
+    const link = event.target as HTMLAnchorElement;
+    const path = link.textContent || '';
+
+    this.dispatchEvent(new CustomEvent('breadcrumb-navigation', {
+      bubbles: true,
+      composed: true,
+      detail: {
+        value: path
+      }
+    }));
+  };
 
   private handleSelectChange = (event: Event) => {
     const select = event.target as HTMLSelectElement;

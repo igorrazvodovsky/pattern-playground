@@ -224,7 +224,7 @@ const initializeWithRandomItem = (
     updateState({ selectedItem });
 
     // Use the selected item's name to prompt the AI
-    handleAIComponentsFetch(randomItem.name, { ...state, selectedItem }, updateState);
+    handleAIComponentsFetch(randomItem.path.toString(), { ...state, selectedItem }, updateState);
   }
 };
 
@@ -250,11 +250,32 @@ export const ContextualNavigation: Story = {
       renderView();
     };
 
+    // Function to handle breadcrumb navigation
+    const handleBreadcrumbNavigation = (event: CustomEvent) => {
+      const path = event.detail.value;
+      const typedItems = ensureModelItems(PasteurizerData.flattenedModel);
+
+      // Find the item by path
+      const item = typedItems.find(item => item.path.includes(path));
+
+      if (item) {
+        const selectedItem = createSelectedItem(item);
+        updateState({ selectedItem });
+        handleAIComponentsFetch(item.name, { ...state, selectedItem }, updateState);
+      }
+    };
+
     // Function to render the view based on current state
     const renderView = () => {
       if (state.selectedItem) {
         const template = renderItemDetails(state.selectedItem, state, updateState);
         render(template, container);
+
+        // Add breadcrumb navigation event listener
+        const breadcrumbs = container.querySelector('pp-breadcrumbs');
+        if (breadcrumbs) {
+          breadcrumbs.addEventListener('breadcrumb-navigation', handleBreadcrumbNavigation as EventListener);
+        }
       } else {
         initializeWithRandomItem(state, updateState);
       }
