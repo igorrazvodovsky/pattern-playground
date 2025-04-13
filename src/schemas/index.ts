@@ -226,4 +226,5 @@ export interface RelationObject {
   label: string;
   description: string;
   relationship: string;
+  isAIInferred?: boolean;
 }

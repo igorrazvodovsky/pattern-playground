@@ -8,17 +8,16 @@ import { fetchAIComponents, createModelItem } from "./services/api-service";
 import {
   findModelItem,
   createSelectedItem,
-  groupRelatedObjects,
   getRandomItem,
-  ensureModelItems
+  ensureModelItems,
+  getAllRelatedObjects
 } from "./services/data-service";
 import {
   generateBreadcrumbs,
   renderAttributes,
   renderStructure,
   renderRulesAndConstraints,
-  renderAIComponents,
-  renderRelatedGroups
+  renderAllRelatedObjects
 } from "./components/ui-components";
 
 // Define meta information for the story
@@ -151,7 +150,8 @@ const renderItemDetails = (
 
   // Type assertion to ensure pasteurizerItem is treated as ModelItem
   const typedPasteurizerItem = pasteurizerItem as ModelItem;
-  const relatedGroups = groupRelatedObjects(typedPasteurizerItem, typedItems);
+  // Get combined related objects (both regular and AI-inferred)
+  const relatedObjects = getAllRelatedObjects(typedPasteurizerItem, typedItems, state.aiComponents);
   const itemClickHandler = (id: string) => handleItemClick(id, state, updateState);
 
   // Function to get a child item by ID
@@ -190,18 +190,9 @@ const renderItemDetails = (
         </div>
       </div>
 
-      <div class="cards layout-grid">
-        <div>
-          <details class="borderless" open>
-            <summary class="muted">AI-Inferred Connections</summary>
-            <ul class="cards cards--grid layout-grid">
-              ${renderAIComponents(state.loading, state.error, state.aiComponents, item.name)}
-            </ul>
-          </details>
-        </div>
-
-        ${renderRelatedGroups(relatedGroups, itemClickHandler)}
-      </div>
+      <ul class="cards layout-grid">
+        ${renderAllRelatedObjects(relatedObjects, state.loading, state.error, itemClickHandler)}
+      </ul>
     </section>
   `;
 };

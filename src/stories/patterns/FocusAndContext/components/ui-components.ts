@@ -1,9 +1,39 @@
-import { html } from "lit";
+import { html, TemplateResult } from "lit";
 import { repeat } from 'lit/directives/repeat.js';
 import { ModelItem, Attribute, RelationObject } from "../../../../schemas/index";
 
 // Type for related object groups
 export type RelationGroups = Record<string, RelationObject[]>;
+
+// Shared card component
+const renderCard = (
+  content: TemplateResult,
+  className: string = '',
+  isDashed: boolean = false
+) => html`
+  <article class="card ${isDashed ? 'dashed' : ''} ${className}">
+    ${content}
+  </article>
+`;
+
+// Shared click handler
+const createClickHandler = (id: string, handler: (id: string) => void) => (e: Event) => {
+  e.preventDefault();
+  handler(id);
+};
+
+// Shared error display
+const renderError = (error: string) => html`
+  <div class="error">
+    <iconify-icon icon="ph:warning-circle"></iconify-icon>
+    <span>${error}</span>
+  </div>
+`;
+
+// Shared loading state
+const renderLoading = (message: string) => html`
+  <small class="muted">${message}</small>
+`;
 
 /**
  * Generates breadcrumbs from the path
@@ -134,18 +164,11 @@ export const renderAIComponents = (
   itemName: string
 ) => {
   if (loading) {
-    return html`
-      <small class="muted">Discovering connections for ${itemName}...</small>
-    `;
+    return renderLoading(`Discovering connections for ${itemName}...`);
   }
 
   if (error) {
-    return html`
-      <div class="error">
-        <iconify-icon icon="ph:warning-circle"></iconify-icon>
-        <span>${error}</span>
-      </div>
-    `;
+    return renderError(error);
   }
 
   if (aiComponents.length === 0) {
@@ -155,13 +178,11 @@ export const renderAIComponents = (
   return html`
     ${repeat(aiComponents, (item) => item.id, (item) => html`
       <li>
-        <article class="card dashed">
+        ${renderCard(html`
           <div class="attribute">${item.relationshipDescription || 'Related Component'}</div>
-          <h4 class="label">
-            ${item.name}
-          </h4>
+          <h4 class="label">${item.name}</h4>
           <small class="description">${item.description}</small>
-        </article>
+        `, '', true)}
       </li>
     `)}
   `;
@@ -188,16 +209,13 @@ export const renderRelatedGroups = (
             <ul class="cards cards--grid layout-grid">
               ${repeat(items, (item) => html`
                 <li>
-                  <article class="card">
+                  ${renderCard(html`
                     <div class="attribute">${item.relationship}</div>
                     <h4 class="label">
-                      <a href="#" data-id="${item.name}" @click=${(e: Event) => {
-        e.preventDefault();
-        handleItemClickFn(item.name);
-      }}>${item.label}</a>
+                      <a href="#" data-id="${item.name}" @click=${createClickHandler(item.name, handleItemClickFn)}>${item.label}</a>
                     </h4>
                     <small class="description">${item.description}</small>
-                  </article>
+                  `)}
                 </li>
               `)}
             </ul>
@@ -205,5 +223,68 @@ export const renderRelatedGroups = (
         </div>
       ` : ''
   )}
+  `;
+};
+
+/**
+ * Renders all related objects (both defined and AI-inferred) in a single container
+ * @param relatedObjects - Combined array of related objects
+ * @param aiLoading - Whether AI components are loading
+ * @param aiError - Any error that occurred during AI fetch
+ * @param handleItemClick - Function to handle item clicks
+ * @returns HTML template for all related objects
+ */
+export const renderAllRelatedObjects = (
+  relatedObjects: RelationObject[],
+  aiLoading: boolean,
+  aiError: string | null,
+  handleItemClickFn: (id: string) => void
+) => {
+  if ((!relatedObjects || relatedObjects.length === 0) && !aiError) return '';
+
+  if (aiError) {
+    return html`
+      <li>
+        ${renderCard(html`
+          <iconify-icon icon="ph:warning-circle"></iconify-icon>
+          <span>${aiError}</span>
+        `)}
+      </li>
+      ${repeat(relatedObjects.filter(obj => !obj.isAIInferred), (item) => item.name, (item) => html`
+        <li>
+          ${renderCard(html`
+            <div class="attribute">${item.relationship}</div>
+            <h4 class="label">
+              <a href="#" data-id="${item.name}" @click=${createClickHandler(item.name, handleItemClickFn)}>${item.label}</a>
+            </h4>
+            <small class="description">${item.description}</small>
+          `)}
+        </li>
+      `)}
+    `;
+  }
+
+  return html`
+    ${repeat(relatedObjects, (item) => item.name + (item.isAIInferred ? '-ai' : ''), (item) => html`
+      <li>
+        ${renderCard(html`
+          <div class="attribute">
+            ${item.relationship}
+            ${item.isAIInferred ? html`<iconify-icon icon="ph:sparkle"></iconify-icon>` : ''}
+          </div>
+          <h4 class="label">
+            <a href="#" data-id="${item.name}" @click=${createClickHandler(item.name, handleItemClickFn)}>${item.label}</a>
+          </h4>
+          <small class="description">${item.description}</small>
+        `, '', item.isAIInferred)}
+      </li>
+    `)}
+    ${aiLoading ? html`
+      <li>
+        ${renderCard(html`
+          <small class="muted">Discovering additional connections...</small>
+        `, '', true)}
+      </li>
+    ` : ''}
   `;
 };

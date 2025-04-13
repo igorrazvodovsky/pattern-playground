@@ -107,6 +107,49 @@ export const groupRelatedObjects = (
 };
 
 /**
+ * Gets all related objects (both defined and AI-inferred) as a flat array
+ * @param pasteurizerItem - The item to get related objects for
+ * @param allItems - All model items
+ * @param aiComponents - AI-inferred components
+ * @returns Combined array of related objects
+ */
+export const getAllRelatedObjects = (
+  pasteurizerItem: ModelItem,
+  allItems: ModelItem[],
+  aiComponents: ModelItem[]
+): RelationObject[] => {
+  // Get regular related objects
+  const regularObjects = pasteurizerItem.relatedObjects
+    .map(relation => {
+      const relatedItem = findModelItem(allItems, relation.referenceId);
+      if (!relatedItem) return null;
+
+      return {
+        name: relatedItem.name,
+        objectType: relatedItem.type,
+        label: relatedItem.label || relatedItem.name,
+        description: relatedItem.description || '',
+        relationship: relation.relationshipType,
+        isAIInferred: false
+      };
+    })
+    .filter(Boolean) as RelationObject[];
+
+  // Convert AI components to RelationObject format
+  const aiRelatedObjects = aiComponents.map(item => ({
+    name: item.name,
+    objectType: item.type || "Component",
+    label: item.label || item.name,
+    description: item.description || '',
+    relationship: item.relationshipDescription,
+    isAIInferred: true
+  }));
+
+  // Return combined array
+  return [...regularObjects, ...aiRelatedObjects];
+};
+
+/**
  * Gets a random item from an array
  * @param items - The array to get a random item from
  * @returns A random item from the array
