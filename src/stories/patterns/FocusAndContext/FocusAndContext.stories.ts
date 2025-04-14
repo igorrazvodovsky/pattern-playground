@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html, render } from "lit";
-import PasteurizerData from "./data/Pasteurizer.json";
+import JuiceProductionData from "./data/JuiceProduction.json";
 import { ModelItem, SelectedItem } from "../../../schemas/index";
 
 // Import services and components
@@ -114,7 +114,7 @@ const handleItemClick = (
   updateState: (newState: Partial<AppState>) => void
 ): void => {
   // Ensure the data conforms to ModelItem type
-  const typedItems = ensureModelItems(PasteurizerData.flattenedModel);
+  const typedItems = ensureModelItems(JuiceProductionData.flattenedModel);
   const relatedItem = findModelItem(typedItems, id);
 
   if (relatedItem) {
@@ -141,17 +141,17 @@ const renderItemDetails = (
   if (!item) return html``;
 
   // Ensure the data conforms to ModelItem type
-  const typedItems = ensureModelItems(PasteurizerData.flattenedModel);
+  const typedItems = ensureModelItems(JuiceProductionData.flattenedModel);
 
-  // Find the full item data from PasteurizerData
-  const pasteurizerItem = findModelItem(typedItems, item.id);
+  // Find the full item data from JuiceProductionData
+  const juiceProductionItem = findModelItem(typedItems, item.id);
 
-  if (!pasteurizerItem) return html`<p>Item not found</p>`;
+  if (!juiceProductionItem) return html`<p>Item not found</p>`;
 
-  // Type assertion to ensure pasteurizerItem is treated as ModelItem
-  const typedPasteurizerItem = pasteurizerItem as ModelItem;
+  // Type assertion to ensure juiceProductionItem is treated as ModelItem
+  const typedJuiceProductionItem = juiceProductionItem as ModelItem;
   // Get combined related objects (both regular and AI-inferred)
-  const relatedObjects = getAllRelatedObjects(typedPasteurizerItem, typedItems, state.aiComponents);
+  const relatedObjects = getAllRelatedObjects(typedJuiceProductionItem, typedItems, state.aiComponents);
   const itemClickHandler = (id: string) => handleItemClick(id, state, updateState);
 
   // Function to get a child item by ID
@@ -166,7 +166,7 @@ const renderItemDetails = (
           </span>
           <span class="inclusively-hidden">Home</span>
         </a>
-        ${generateBreadcrumbs(typedPasteurizerItem)}
+        ${generateBreadcrumbs(typedJuiceProductionItem)}
       </pp-breadcrumbs>
       <div class="cards">
         <div>
@@ -174,18 +174,18 @@ const renderItemDetails = (
             <div class="card__header">
               <h3 class="label layout-flex">
                 <iconify-icon icon="ph:cube-bold"></iconify-icon>
-                ${pasteurizerItem.name}
+                ${juiceProductionItem.name}
               </h3>
               <button class="button button--plain" is="pp-buton">
                 <iconify-icon class="icon" icon="ph:dots-three"></iconify-icon>
                 <span class="inclusively-hidden">Actions</span>
               </button>
             </div>
-            <p class="description">${pasteurizerItem.description}</p>
+            <p class="description">${juiceProductionItem.description}</p>
 
-            ${renderAttributes(pasteurizerItem.attributes)}
-            ${renderStructure(pasteurizerItem.childrenIds, itemClickHandler, getChildItem)}
-            ${renderRulesAndConstraints(pasteurizerItem.rulesAndConstraints)}
+            ${renderAttributes(juiceProductionItem.attributes)}
+            ${renderStructure(juiceProductionItem.childrenIds, itemClickHandler, getChildItem)}
+            ${renderRulesAndConstraints(juiceProductionItem.rulesAndConstraints)}
           </article>
         </div>
       </div>
@@ -207,7 +207,7 @@ const initializeWithRandomItem = (
   updateState: (newState: Partial<AppState>) => void
 ) => {
   // Ensure the data conforms to ModelItem type
-  const typedItems = ensureModelItems(PasteurizerData.flattenedModel);
+  const typedItems = ensureModelItems(JuiceProductionData.flattenedModel);
   const randomItem = getRandomItem(typedItems);
 
   if (randomItem) {
@@ -244,7 +244,7 @@ export const ContextualNavigation: Story = {
     // Function to handle breadcrumb navigation
     const handleBreadcrumbNavigation = (event: CustomEvent) => {
       const path = event.detail.value;
-      const typedItems = ensureModelItems(PasteurizerData.flattenedModel);
+      const typedItems = ensureModelItems(JuiceProductionData.flattenedModel);
 
       // Find the item by path
       const item = typedItems.find(item => item.path.includes(path));

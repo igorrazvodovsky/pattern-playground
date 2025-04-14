@@ -841,7 +841,7 @@
         }
       ],
       "rulesAndConstraints": [
-        "Extended configuration used when a longer holding time is required; ensure compatibility with pasteurizer control settings."
+        "Extended configuration used when a longer holding time is required; ensure compatibility with juice production control settings."
       ],
       "relatedObjects": [],
       "services": []
@@ -894,7 +894,7 @@
         }
       ],
       "rulesAndConstraints": [
-        "Cooling capacity must match the pasteurizer output to prevent product overcooling."
+        "Cooling capacity must match the juice production output to prevent product overcooling."
       ],
       "relatedObjects": [
         {

@@ -37,24 +37,24 @@ const renderLoading = (message: string) => html`
 
 /**
  * Generates breadcrumbs from the path
- * @param pasteurizerItem - The item to generate breadcrumbs for
+ * @param juiceProductionItem - The item to generate breadcrumbs for
  * @returns HTML template for breadcrumbs
  */
-export const generateBreadcrumbs = (pasteurizerItem: ModelItem) => {
-  if (!pasteurizerItem.path || pasteurizerItem.path.length === 0) {
+export const generateBreadcrumbs = (juiceProductionItem: ModelItem) => {
+  if (!juiceProductionItem.path || juiceProductionItem.path.length === 0) {
     return html`
       <span class="crumb">
         <a href="#">Products</a>
       </span>
       <span class="crumb">
-        <a href="" aria-current="page">${pasteurizerItem.name}</a>
+        <a href="" aria-current="page">${juiceProductionItem.name}</a>
       </span>
     `;
   }
 
-  return pasteurizerItem.path.map((pathItem, index) => html`
+  return juiceProductionItem.path.map((pathItem, index) => html`
     <span class="crumb">
-      <a href="#" ${index === pasteurizerItem.path.length - 1 ? 'aria-current="page"' : ''}>${pathItem}</a>
+      <a href="#" ${index === juiceProductionItem.path.length - 1 ? 'aria-current="page"' : ''}>${pathItem}</a>
     </span>
   `);
 };

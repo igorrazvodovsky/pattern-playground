@@ -48,7 +48,7 @@ export const findModelItem = (
  */
 export const createSelectedItem = (modelItem: ModelItem) => {
   return {
-    category: 'pasteurizer',
+    category: 'juice production',
     name: modelItem.name,
     description: modelItem.description || '',
     id: modelItem.id,
@@ -58,15 +58,15 @@ export const createSelectedItem = (modelItem: ModelItem) => {
 
 /**
  * Groups related objects by relationship type
- * @param pasteurizerItem - The item to group related objects for
+ * @param juiceProductionItem - The item to group related objects for
  * @param allItems - All model items
  * @returns Grouped related objects or null if none
  */
 export const groupRelatedObjects = (
-  pasteurizerItem: ModelItem,
+  juiceProductionItem: ModelItem,
   allItems: ModelItem[]
 ): RelationGroups | null => {
-  if (!pasteurizerItem.relatedObjects || pasteurizerItem.relatedObjects.length === 0) {
+  if (!juiceProductionItem.relatedObjects || juiceProductionItem.relatedObjects.length === 0) {
     return null;
   }
 
@@ -77,7 +77,7 @@ export const groupRelatedObjects = (
     'Downstream Partners': []
   };
 
-  pasteurizerItem.relatedObjects.forEach(relation => {
+  juiceProductionItem.relatedObjects.forEach(relation => {
     const relatedItem = findModelItem(allItems, relation.referenceId);
     if (!relatedItem) return;
 
@@ -108,18 +108,18 @@ export const groupRelatedObjects = (
 
 /**
  * Gets all related objects (both defined and AI-inferred) as a flat array
- * @param pasteurizerItem - The item to get related objects for
+ * @param juiceProductionItem - The item to get related objects for
  * @param allItems - All model items
  * @param aiComponents - AI-inferred components
  * @returns Combined array of related objects
  */
 export const getAllRelatedObjects = (
-  pasteurizerItem: ModelItem,
+  juiceProductionItem: ModelItem,
   allItems: ModelItem[],
   aiComponents: ModelItem[]
 ): RelationObject[] => {
   // Get regular related objects
-  const regularObjects = pasteurizerItem.relatedObjects
+  const regularObjects = juiceProductionItem.relatedObjects
     .map(relation => {
       const relatedItem = findModelItem(allItems, relation.referenceId);
       if (!relatedItem) return null;

@@ -117,12 +117,12 @@ export const modelItemSchema = z.object({
 /**
  * Schema for the entire JSON file
  */
-export const pasteurizerSchema = z.object({
+export const juiceProductionSchema = z.object({
   model: z.array(modelItemSchema)
 });
 
 // Exporting a TS type for convenience
-export type PasteurizerModel = z.infer<typeof pasteurizerSchema>;
+export type JuiceProductionModel = z.infer<typeof juiceProductionSchema>;
 
 // ==========================================
 // TypeScript Interfaces (Alternative to Zod)

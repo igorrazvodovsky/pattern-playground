@@ -39,7 +39,7 @@ export type ModelItem = {
   [key: string]: unknown;
 };
 
-export type PasteurizerModel = {
+export type JuiceProductionModel = {
   model: ModelItem[];
 };
 
@@ -83,7 +83,7 @@ const modelItemSchema = z.object({
 });
 
 // Schema for the entire JSON file
-const pasteurizerSchema = z.object({
+const juiceProductionSchema = z.object({
   model: z.array(modelItemSchema)
 });
 
@@ -161,6 +161,6 @@ const jsonSchema = {
 };
 
 export {
-  pasteurizerSchema,
+  juiceProductionSchema,
   jsonSchema
 };

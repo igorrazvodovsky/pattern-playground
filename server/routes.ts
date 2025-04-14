@@ -2,7 +2,7 @@ import { OpenAI } from 'openai';
 import { Request, Response, Application } from 'express';
 import logger from './logger.js';
 import config from './config.js';
-import { pasteurizerSchema, jsonSchema, PasteurizerModel, ModelItem } from './schemas.js';
+import { juiceProductionSchema, jsonSchema, JuiceProductionModel, ModelItem } from './schemas.js';
 
 // Initialize OpenAI client
 const openai = new OpenAI({
@@ -93,14 +93,14 @@ async function handleStreamingResponse(_req: Request, res: Response, prompt: str
   });
 
   // Initialize for accumulating content
-  const accumulatedData: PasteurizerModel = { model: [] };
+  const accumulatedData: JuiceProductionModel = { model: [] };
   let jsonBuffer = "";
 
   try {
     // Call OpenAI API with streaming enabled
     const stream = await openai.responses.create({
       model: config.openai.model,
-      instructions: "You are an expert in industrial equipment and orange juice production lines. Paint a picture of the orange juice production based on the user's requirements. Return your response as a JSON object with model array that contains components. Don't include the component you were prompted with or its parent components.Generate each component one by one for streaming purposes.",
+      instructions: "You are an expert in industrial equipment and juice production systems. Paint a picture of the juice production based on the user's requirements. Return your response as a JSON object with model array that contains components. Don't include the component you were prompted with or its parent components.Generate each component one by one for streaming purposes.",
       input: "Make a list of components related to components at the end of this hierarchy:" + prompt,
       text: {
         format: {
@@ -124,7 +124,7 @@ async function handleStreamingResponse(_req: Request, res: Response, prompt: str
 
       try {
         // Try to parse the accumulated JSON string
-        const parsedJson = JSON.parse(jsonBuffer) as PasteurizerModel;
+        const parsedJson = JSON.parse(jsonBuffer) as JuiceProductionModel;
 
         // If parsing succeeded, update our accumulated data
         if (parsedJson && parsedJson.model && Array.isArray(parsedJson.model)) {
@@ -196,7 +196,7 @@ async function handleStandardResponse(_req: Request, res: Response, prompt: stri
   try {
     const response = await openai.responses.create({
       model: config.openai.model,
-      instructions: "You are an expert in industrial equipment and pasteurization systems. Generate a detailed pasteurizer model based on the user's requirements. Return your response as a JSON object.",
+      instructions: "You are an expert in industrial equipment and juice production systems. Generate a detailed juice production model based on the user's requirements. Return your response as a JSON object.",
       input: "Make a list of components related to " + prompt,
       text: {
         format: {
@@ -216,25 +216,25 @@ async function handleStandardResponse(_req: Request, res: Response, prompt: stri
     }
 
     // The response.text might already be an object or a string
-    let parsedContent: PasteurizerModel;
+    let parsedContent: JuiceProductionModel;
 
     try {
       // Check if response.text is a string or an object
       if (typeof response.text === 'string') {
         try {
-          parsedContent = JSON.parse(response.text) as PasteurizerModel;
+          parsedContent = JSON.parse(response.text) as JuiceProductionModel;
         } catch (parseError) {
           logger.error("Failed to parse OpenAI response as JSON:", parseError);
           throw new Error("Failed to parse OpenAI response as JSON");
         }
       } else {
         // If it's already an object, use it directly
-        parsedContent = response.text as unknown as PasteurizerModel;
+        parsedContent = response.text as unknown as JuiceProductionModel;
       }
 
       // Validate the response against our schema
       try {
-        pasteurizerSchema.parse(parsedContent);
+        juiceProductionSchema.parse(parsedContent);
         logger.debug("Successfully validated OpenAI response");
       } catch (validationError) {
         logger.error("Failed to validate OpenAI response against schema:", validationError);
@@ -247,7 +247,7 @@ async function handleStandardResponse(_req: Request, res: Response, prompt: stri
             success: true,
             data: parsedContent,
             error: null
-          } as ApiResponse<PasteurizerModel>);
+          } as ApiResponse<JuiceProductionModel>);
           return;
         }
 
@@ -262,7 +262,7 @@ async function handleStandardResponse(_req: Request, res: Response, prompt: stri
       success: true,
       data: parsedContent,
       error: null
-    } as ApiResponse<PasteurizerModel>);
+    } as ApiResponse<JuiceProductionModel>);
   } catch (error) {
     logger.error("Error in standard response:", error);
     throw error;
