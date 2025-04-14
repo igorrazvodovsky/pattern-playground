@@ -101,7 +101,7 @@
     font-size: 1.25rem;
   }
 
-  .card:not(:has(textarea, details)):focus-within {
+  .card:has(a):focus-within {
     outline: 3px solid var(--c-accent);
     outline-offset: 2px;
   }

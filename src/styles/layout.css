@@ -50,6 +50,11 @@
     margin: 0;
   }
 
+  .flex {
+    display: flex;
+    gap: var(--space-s);
+  }
+
   .block {
     display: block;
   }

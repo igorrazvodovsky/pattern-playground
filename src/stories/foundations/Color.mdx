@@ -259,7 +259,7 @@ The default palette for building UI components.
    </div>
 </div>
 
-## Layering model
+## Layering
 
 Neutral palette colors are layered to create depth and show how different parts of the UI relate to each other.
 
@@ -319,8 +319,15 @@ Neutral palette colors are layered to create depth and show how different parts 
             <h5>Conditions</h5>
           </div>
           <hr />
-
         <p>Cooling capacity must match the juice production output to prevent product overcooling.</p>
+        <div class="flex">
+          <button class="button layer borderless" is="pp-button">
+            Yes
+          </button>
+          <button class="button layer borderless" is="pp-button">
+            No
+          </button>
+        </div>
         <small class="muted">Cooling capacity must match the juice production output to prevent product overcooling.</small>
       </article>
 

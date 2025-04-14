@@ -57,6 +57,11 @@ body {
   --c-background: var(--c-neutral-50);
 }
 
+.layer .layer .layer {
+  background: var(--c-neutral-0);
+  --c-background: var(--c-neutral-0);
+}
+
 .dashed {
   border-style: dashed;
 }
