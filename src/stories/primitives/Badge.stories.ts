@@ -1,14 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import { faker } from '@faker-js/faker';
-import { icons } from "../icons.ts";
-
-function randomIcon() { return 'ph:' + icons[icons.length * Math.random() << 0].name }
-
-// function randomFillIcon() {
-//   const fillIcons = icons.filter(icon => icon.tags.includes('fill'));
-//   return 'ph:' + fillIcons[Math.floor(Math.random() * fillIcons.length)].name + '-fill';
-// }
+import { getRandomIcon } from '../utils/icons';
 
 const meta = {
   title: "Primitives/Badge",
@@ -44,15 +37,15 @@ export const WithList: Story = {
   render: () => html`
     <pp-list style="max-width: 240px;">
       <pp-list-item>
-        <iconify-icon class="icon" icon="${randomIcon()}" slot="prefix"></iconify-icon>
+        <iconify-icon class="icon" icon="${getRandomIcon()}" slot="prefix"></iconify-icon>
         ${faker.hacker.verb()}
       </pp-list-item>
       <pp-list-item>
-        <iconify-icon class="icon" icon="${randomIcon()}" slot="prefix"></iconify-icon>
+        <iconify-icon class="icon" icon="${getRandomIcon()}" slot="prefix"></iconify-icon>
         ${faker.hacker.verb()}
       </pp-list-item>
       <pp-list-item>
-        <iconify-icon class="icon" icon="${randomIcon()}" slot="prefix"></iconify-icon>
+        <iconify-icon class="icon" icon="${getRandomIcon()}" slot="prefix"></iconify-icon>
         ${faker.hacker.verb()}
         <strong class="badge badge--accent badge--pill" slot="suffix">12</strong>
       </pp-list-item>

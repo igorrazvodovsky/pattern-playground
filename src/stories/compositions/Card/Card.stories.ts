@@ -10,9 +10,7 @@ import footerAlignedHtml from "./CardFooterAligned.html?raw";
 import imageHtml from "./CardImage.html?raw";
 import imageOverlayHtml from "./CardImageOverlay.html?raw";
 import actionsHtml from "./CardActions.html?raw";
-import { icons } from "../../icons.ts";
-
-function randomIcon() { return 'ph:' + icons[icons.length * Math.random() << 0].name }
+import { getRandomIcon } from '../../utils/icons';
 
 const createCardData = () => {
   return {
@@ -187,7 +185,7 @@ export const LayoutGrid: Story = {
     <li>
       <article class="card">
         <div style="font-size: var(--text-xl); margin: var(--space-m)">
-          <iconify-icon class="icon" icon="${randomIcon()}" slot="icon"></iconify-icon>
+          <iconify-icon class="icon" icon="${getRandomIcon()}" slot="icon"></iconify-icon>
         </div>
         <a href="#">${card.title}</a>
         <p>${card.description}</p>

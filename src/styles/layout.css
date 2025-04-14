@@ -13,6 +13,9 @@
       minmax(min(100%, var(--layout-grid-min)), 1fr)
     );
     gap: var(--layout-grid-gap);
+
+    /* When used with a list */
+    padding: 0;
   }
 
   .flex-layout-grid {
@@ -42,7 +45,13 @@
   hr {
     border: 0;
     height: 0;
-    border-top: var(--border);
+    border-top: 1px solid oklch(0% 0 0 / 10%);
+    width: 100%;
+    margin: 0;
+  }
+
+  .block {
+    display: block;
   }
 }
 

@@ -6,7 +6,7 @@
 
   .cards .card {
     /* Spacing in default/grid cards */
-    & > *:not(img) {
+    & > *:not(img, hr) {
       margin-block-start: var(--space-s);
       margin-inline: var(--space-s);
 
@@ -38,7 +38,7 @@
   }
 
   .cards.layout-grid .card {
-    & > *:not(img, video, figure) {
+    & > *:not(img, video, figure, hr) {
       /* works for stuff located inline */
       margin-inline: var(--space-s);
     }
@@ -143,7 +143,8 @@
     align-items: center;
   }
 
-  .card .card__header {
+  .card .card__header,
+  .card > form {
     /* TODO: */
     padding: var(--space-s) var(--space-m) !important;
     margin: 0 !important;
@@ -156,6 +157,10 @@
   .card:has(:where(.card__footer, footer)) {
     align-content: space-between;
   }
+
+  /* .card > form > div > * {
+    padding-inline: var(--space-xs);
+  } */
 
   .card figure {
     /* width: 100%; */
@@ -265,13 +270,15 @@ video {
   max-width: 70ch;
 }
 
-.card > *:not(img, video, details, figure, pp-dropdown, div:not([class])),
+.card
+  > *:not(img, video, article, details, figure, pp-dropdown, div:not([class])),
 .card .description,
 .card .card__attributes,
 .card .label,
 .card > .attribute,
 .card h4,
-.card h3 {
+.card h3,
+.card .subheading {
   /* Everything has a padding because +/- everything can be interactive/hoverable*/
   padding: var(--space-2xs) var(--space-xs);
 }
@@ -282,6 +289,12 @@ video {
   background-position: center;
   box-shadow: inset 0 0 0 1000px oklch(0% 0 0 / 15%);
 }
+
+/* .card__actions {
+  &:has(*:only-child) {
+    text-align: right;
+  }
+} */
 
 .card__actions--secondary {
   position: absolute;

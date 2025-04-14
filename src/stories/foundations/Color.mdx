@@ -1,4 +1,5 @@
 import { Meta } from '@storybook/blocks';
+import { getRandomIcon } from '../utils/icons';
 
 <Meta title="Foundations/Color" />
 
@@ -257,3 +258,84 @@ The default palette for building UI components.
     950
    </div>
 </div>
+
+## Layering model
+
+Neutral palette colors are layered to create depth and show how different parts of the UI relate to each other.
+
+<div id="story--compositions-card--header" class="sb-story sb-unstyled" data-story-block="true">
+<div id="story--compositions-card--header-inner" data-name="Header">
+<div id="root-inner">
+<ul class="cards layout-grid">
+  <li>
+    <article class="card">
+      <div class="card__header">
+        <div>
+          <strong class="block">Create project</strong>
+          <small class="muted">Create a new project to get started</small>
+        </div>
+      </div>
+      <form class="flow">
+        <div class="flow">
+          <label>Name</label>
+          <pp-input type="text"></pp-input>
+        </div>
+        <div class="flow">
+          <label>Description</label>
+          <div class="grow-wrap">
+            <textarea placeholder="Type something" name="text" id="text" onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+          </div>
+        </div>
+      </form>
+      <div class="card__actions">
+          <button class="button" is="pp-buton">
+            Create
+          </button>
+        </div>
+    </article>
+  </li>
+  <li>
+    <article class="card layer">
+      <div class="card__header">
+        <div class="layout-flex">
+          <span class="badge badge--info"></span>
+          <h4>Two stacked layers</h4>
+        </div>
+        <div class="">
+          <button class="button button--plain" is="pp-buton">
+            <iconify-icon class="icon" icon="ph:info"></iconify-icon><span class="inclusively-hidden">Edit</span>
+          </button>
+          <button class="button button--plain" is="pp-buton">
+            <iconify-icon class="icon" icon="ph:pencil-simple"></iconify-icon><span class="inclusively-hidden">Edit</span>
+          </button>
+          <button class="button button--plain" is="pp-buton">
+            <iconify-icon class="icon" icon="ph:dots-three"></iconify-icon><span class="inclusively-hidden">Edit</span>
+          </button>
+        </div>
+      </div>
+
+      <article class="card layer borderless">
+        <div class="card__header">
+            <h5>Conditions</h5>
+          </div>
+          <hr />
+
+        <p>Cooling capacity must match the juice production output to prevent product overcooling.</p>
+        <small class="muted">Cooling capacity must match the juice production output to prevent product overcooling.</small>
+      </article>
+
+    </article>
+  </li>
+  <li>
+    <article class="card layer">
+      <div class="card__header layer">
+        <div class="layout-flex">
+          <iconify-icon class="icon" icon="ph:circle-dashed-bold"></iconify-icon>
+          <strong>Two layers</strong><span class="muted">side by side</span>
+        </div>
+      </div>
+      <p>Neurological studies reveal that the human brain employs predictive coding mechanisms remarkably similar to Focus and Context systems.</p>
+    </article>
+  </li>
+</ul>
+</div></div></div>
