@@ -11,7 +11,7 @@
   --_crumb-shadow-color: color-mix(in srgb, currentColor 10%, transparent);
 
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   /* gap: var(--_crumb-gap); */
   align-items: center;
   font-size: 0.9rem;
@@ -26,6 +26,7 @@
   border-radius: var(--_crumb-radius);
   text-decoration: none;
   color: var(--_crumb-ink);
+  white-space: nowrap;
 }
 
 ::slotted(a:focus-visible),
