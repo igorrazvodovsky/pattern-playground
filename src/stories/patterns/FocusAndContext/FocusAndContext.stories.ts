@@ -172,7 +172,7 @@ const renderItemDetails = (
         <div>
           <article class="card">
             <div class="card__header">
-              <h3 class="label layout-flex">
+              <h3 class="label flex">
                 <iconify-icon icon="ph:cube-bold"></iconify-icon>
                 ${juiceProductionItem.name}
               </h3>
@@ -225,7 +225,7 @@ const initializeWithRandomItem = (
 export const ContextualNavigation: Story = {
   render: () => {
     const container = document.createElement('div');
-    container.className = 'product-model-navigation';
+    container.setAttribute('class', 'product-model-navigation layer gray');
 
     // Initialize state
     const state: AppState = {

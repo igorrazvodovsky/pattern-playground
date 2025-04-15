@@ -138,7 +138,8 @@
   .card__header:has(> *:nth-child(2)),
   .card__footer:has(> *:nth-child(2)) {
     display: flex;
-    gap: var(--space-m);
+    gap: 0 var(--space-m);
+    
     justify-content: space-between;
     align-items: center;
   }
@@ -148,6 +149,10 @@
     /* TODO: */
     padding: var(--space-s) var(--space-m) !important;
     margin: 0 !important;
+  }
+
+  .card__header {
+    flex-wrap: wrap;
   }
 
   .card__footer {

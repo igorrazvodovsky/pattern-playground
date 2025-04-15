@@ -155,7 +155,7 @@ export const IconOnly: Story = {
 
 export const IconOnlyInAGroup: Story = {
   render: () => html`
-    <div class="layout-flex">
+    <div class="flex">
       <span class="badge">1.7"</span>
       <span class="badge"><iconify-icon class="icon" icon="ph:arrows-out-line-horizontal" slot="icon"></iconify-icon><span class="inclusively-hidden">Heart</span></span>
       <span class="badge">4</span>

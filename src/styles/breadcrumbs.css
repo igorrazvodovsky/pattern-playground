@@ -4,6 +4,15 @@ pp-breadcrumbs {
   --_crumb-radius: 0.3rem;
   --_crumb-color: rgba(125, 125, 125, 0.1);
   --_crumb-color-interactive: rgba(125, 125, 125, 0.2);
+
+  &,
+  a {
+    color: var(--c-bodyDimmed);
+  }
+
+  a:hover {
+    color: var(--c-body);
+  }
 }
 
 .crumbicon {
@@ -72,28 +81,4 @@ pp-breadcrumbs {
   opacity: 0.01;
   cursor: pointer;
   z-index: 1;
-}
-
-.github-corner {
-  fill: CanvasText;
-  color: Canvas;
-
-  &:hover .octo-arm {
-    animation: octocat-wave 560ms ease-in-out;
-  }
-}
-
-@keyframes octocat-wave {
-  0%,
-  100% {
-    transform: rotate(0);
-  }
-  20%,
-  60% {
-    transform: rotate(-25deg);
-  }
-  40%,
-  80% {
-    transform: rotate(10deg);
-  }
 }

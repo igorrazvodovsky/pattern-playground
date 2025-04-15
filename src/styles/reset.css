@@ -3,10 +3,10 @@
   /* a:not([class]) { */
   a {
     /* Relatively sized thickness and offset */
-    text-decoration-thickness: max(0.08em, 1px);
+    /* text-decoration-thickness: max(0.08em, 1px);
     text-underline-offset: 0.15em;
-    text-decoration-skip-ink: auto;
-    text-decoration-color: var(--c-grey-t-3);
+    text-decoration-skip-ink: auto; */
+    text-decoration: none;
     color: currentColor;
     scroll-behavior: smooth;
   }

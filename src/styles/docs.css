@@ -219,3 +219,8 @@ resize-asaurus > .resize-asaurus-container {
   border: 1px solid oklch(0% 0 0 / 30%);
   /* transform: translate(-2rem, 2rem); */
 }
+
+.product-model-navigation {
+  margin: -1.5rem;
+  padding: 1rem 1.5rem;
+}

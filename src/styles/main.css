@@ -47,19 +47,33 @@ body {
 /* TODO: move */
 
 .layer {
-  /* background: var(--c-background); */
   background: var(--c-neutral-0);
   --c-background: var(--c-neutral-0);
+
+  .layer {
+    background: var(--c-neutral-50);
+    --c-background: var(--c-neutral-50);
+
+    .layer {
+      background: var(--c-neutral-0);
+      --c-background: var(--c-neutral-0);
+    }
+  }
 }
 
-.layer .layer {
+.layer.gray {
   background: var(--c-neutral-50);
-  --c-background: var(--c-neutral-50);
-}
+  /* --c-background: var(--c-neutral-50); */
 
-.layer .layer .layer {
-  background: var(--c-neutral-0);
-  --c-background: var(--c-neutral-0);
+  .layer {
+    background: var(--c-neutral-0);
+    /* --c-background: var(--c-neutral-0); */
+
+    .layer {
+      background: var(--c-neutral-50);
+      /* --c-background: var(--c-neutral-50); */
+    }
+  }
 }
 
 .dashed {
