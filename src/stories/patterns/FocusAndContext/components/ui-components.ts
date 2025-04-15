@@ -35,6 +35,39 @@ const renderLoading = (message: string) => html`
   <small class="muted">${message}</small>
 `;
 
+// Shared details section component
+const renderDetailsSection = (
+  title: string,
+  count: number,
+  content: TemplateResult,
+  isBorderless: boolean = false
+) => html`
+  <details class="${isBorderless ? 'borderless' : ''}" open>
+    <summary>${title} <span class="badge">${count}</span></summary>
+    ${content}
+  </details>
+`;
+
+// Shared related item card component
+const renderRelatedItemCard = (
+  item: RelationObject,
+  handleItemClickFn: (id: string) => void,
+  isAIInferred: boolean = false
+) => html`
+  <li>
+    ${renderCard(html`
+      <div class="attribute">
+        ${item.relationship}
+        ${isAIInferred ? html`<iconify-icon icon="ph:sparkle"></iconify-icon>` : ''}
+      </div>
+      <h4 class="label">
+        <a href="#" data-id="${item.name}" @click=${createClickHandler(item.name, handleItemClickFn)}>${item.label}</a>
+      </h4>
+      <small class="description">${item.description}</small>
+    `, '', isAIInferred)}
+  </li>
+`;
+
 /**
  * Generates breadcrumbs from the path
  * @param juiceProductionItem - The item to generate breadcrumbs for
@@ -67,16 +100,17 @@ export const generateBreadcrumbs = (juiceProductionItem: ModelItem) => {
 export const renderAttributes = (attributes: Attribute[] | undefined) => {
   if (!attributes || attributes.length === 0) return '';
 
-  return html`
-    <details open>
-      <summary>Attributes <span class="badge">${attributes.length}</span></summary>
+  return renderDetailsSection(
+    'Attributes',
+    attributes.length,
+    html`
       <ul class="card__attributes badges">
         ${attributes.map(attr => html`
           <span class="badge">${attr.label || attr.name}: ${attr.value}${attr.unit || ''}</span>
         `)}
       </ul>
-    </details>
-  `;
+    `
+  );
 };
 
 /**
@@ -93,9 +127,10 @@ export const renderStructure = (
 ) => {
   if (!childrenIds || childrenIds.length === 0) return '';
 
-  return html`
-    <details open>
-      <summary>Structure <span class="badge">${childrenIds.length}</span></summary>
+  return renderDetailsSection(
+    'Structure',
+    childrenIds.length,
+    html`
       <pp-table>
         <table>
           <thead>
@@ -107,26 +142,26 @@ export const renderStructure = (
           </thead>
           <tbody>
             ${childrenIds.map(childId => {
-    const childItem = getChildItem(childId);
-    if (!childItem) return '';
-    return html`
+      const childItem = getChildItem(childId);
+      if (!childItem) return '';
+      return html`
                 <tr>
                   <td>
                     <a href="#" data-id="${childItem.id}" @click=${(e: Event) => {
-        e.preventDefault();
-        handleItemClickFn(childItem.id);
-      }}>${childItem.name}</a>
+          e.preventDefault();
+          handleItemClickFn(childItem.id);
+        }}>${childItem.name}</a>
                   </td>
                   <td>${childItem.type}</td>
                   <td class="pp-table-ellipsis">${childItem.description}</td>
                 </tr>
               `;
-  })}
+    })}
           </tbody>
         </table>
       </pp-table>
-    </details>
-  `;
+    `
+  );
 };
 
 /**
@@ -137,16 +172,17 @@ export const renderStructure = (
 export const renderRulesAndConstraints = (rules: string[] | undefined) => {
   if (!rules || rules.length === 0) return '';
 
-  return html`
-    <details open>
-      <summary>Rules & Constraints <span class="badge">${rules.length}</span></summary>
+  return renderDetailsSection(
+    'Rules & Constraints',
+    rules.length,
+    html`
       <ul class="card__attributes">
         ${rules.map(rule => html`
           <li>${rule}</li>
         `)}
       </ul>
-    </details>
-  `;
+    `
+  );
 };
 
 /**
@@ -189,44 +225,6 @@ export const renderAIComponents = (
 };
 
 /**
- * Renders the related groups section
- * @param groups - The groups to render
- * @param handleItemClick - Function to handle item clicks
- * @returns HTML template for related groups
- */
-export const renderRelatedGroups = (
-  groups: RelationGroups | null,
-  handleItemClickFn: (id: string) => void
-) => {
-  if (!groups) return '';
-
-  return html`
-    ${Object.entries(groups).map(([groupName, items]) =>
-    items.length > 0 ? html`
-        <div>
-          <details class="borderless" open>
-            <summary class="muted">${groupName}</summary>
-            <ul class="cards cards--grid layout-grid">
-              ${repeat(items, (item) => html`
-                <li>
-                  ${renderCard(html`
-                    <div class="attribute">${item.relationship}</div>
-                    <h4 class="label">
-                      <a href="#" data-id="${item.name}" @click=${createClickHandler(item.name, handleItemClickFn)}>${item.label}</a>
-                    </h4>
-                    <small class="description">${item.description}</small>
-                  `)}
-                </li>
-              `)}
-            </ul>
-          </details>
-        </div>
-      ` : ''
-  )}
-  `;
-};
-
-/**
  * Renders all related objects (both defined and AI-inferred) in a single container
  * @param relatedObjects - Combined array of related objects
  * @param aiLoading - Whether AI components are loading
@@ -246,39 +244,26 @@ export const renderAllRelatedObjects = (
     return html`
       <li>
         ${renderCard(html`
-          <iconify-icon icon="ph:warning-circle"></iconify-icon>
-          <span>${aiError}</span>
+          <div class="flex">
+            <iconify-icon icon="ph:warning-circle"></iconify-icon>
+            <span>${aiError}</span>
+          </div>
         `)}
       </li>
-      ${repeat(relatedObjects.filter(obj => !obj.isAIInferred), (item) => item.name, (item) => html`
-        <li>
-          ${renderCard(html`
-            <div class="attribute">${item.relationship}</div>
-            <h4 class="label">
-              <a href="#" data-id="${item.name}" @click=${createClickHandler(item.name, handleItemClickFn)}>${item.label}</a>
-            </h4>
-            <small class="description">${item.description}</small>
-          `)}
-        </li>
-      `)}
+      ${repeat(
+      relatedObjects.filter(obj => !obj.isAIInferred),
+      (item) => item.name,
+      (item) => renderRelatedItemCard(item, handleItemClickFn)
+    )}
     `;
   }
 
   return html`
-    ${repeat(relatedObjects, (item) => item.name + (item.isAIInferred ? '-ai' : ''), (item) => html`
-      <li>
-        ${renderCard(html`
-          <div class="attribute">
-            ${item.relationship}
-            ${item.isAIInferred ? html`<iconify-icon icon="ph:sparkle"></iconify-icon>` : ''}
-          </div>
-          <h4 class="label">
-            <a href="#" data-id="${item.name}" @click=${createClickHandler(item.name, handleItemClickFn)}>${item.label}</a>
-          </h4>
-          <small class="description">${item.description}</small>
-        `, '', item.isAIInferred)}
-      </li>
-    `)}
+    ${repeat(
+    relatedObjects,
+    (item) => item.name + (item.isAIInferred ? '-ai' : ''),
+    (item) => renderRelatedItemCard(item, handleItemClickFn, item.isAIInferred)
+  )}
     ${aiLoading ? html`
       <li>
         ${renderCard(html`

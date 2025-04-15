@@ -74,10 +74,7 @@
 
     display: grid;
     grid-template-columns: 1fr;
-
     align-content: baseline;
-
-    overflow: hidden;
 
     &.card--plain {
       border: none;
