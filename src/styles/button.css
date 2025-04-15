@@ -15,6 +15,7 @@
     border: none;
     display: inline-flex;
     cursor: pointer;
+    leading-trim: both;
   }
 
   /* TODO: FIX */

@@ -110,10 +110,6 @@
     outline: 1px solid transparent;
   }
 
-  .card a:is(:hover, :focus-visible) {
-    text-decoration: underline;
-  }
-
   .card:has(> a, .label a, .card__header a):hover {
     border-color: var(--c-accent);
   }
@@ -139,7 +135,7 @@
   .card__footer:has(> *:nth-child(2)) {
     display: flex;
     gap: 0 var(--space-m);
-    
+
     justify-content: space-between;
     align-items: center;
   }

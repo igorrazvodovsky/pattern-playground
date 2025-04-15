@@ -1,7 +1,7 @@
 :root {
   --h: 230;
-  --lInitial: 95%;
-  --lIncrement: 7%;
+  --lInitial: 97%;
+  --lIncrement: 8%;
 
   --hInfo: 260;
   --hSuccess: 150;
@@ -124,7 +124,7 @@
   --c-warning-900: oklch(var(--l900) var(--c900) var(--hWarning));
   --c-warning-950: oklch(var(--l950) var(--c950) var(--hWarning));
 
-  --c-border: oklch(var(--l800) var(--c800-neutral) var(--h) / 0.3);
+  --c-border: oklch(var(--l800) var(--c800-neutral) var(--h) / 0.2);
   --c-background: var(--c-neutral-0);
   --c-body: var(--c-neutral-800);
   --c-bodyDimmed: oklch(var(--l800) var(--c800-neutral) var(--h) / 0.7);
