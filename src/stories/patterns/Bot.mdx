@@ -1,0 +1,40 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Patterns/Bot*" />
+
+> 🙂 **Fun meter: 4/5**. A part of a bigger attempt to map LLM-related patterns.
+Here I'm separating a 'chatbot' into 'chat' & 'bot' because 'bot' can use other means to communicate.
+For now I stick with ‘bot’ over ‘agent’ or ‘assistant’ because those tend to carry baggage about capabilities and autonomy.
+
+# Bot
+
+## Tool use
+
+...
+
+## Collaborative interaction
+
+### Reflective prompting
+
+Context-aware completions and reflective questions based on interaction patterns to streamline prompt creation.
+
+### Input-output mapping
+
+Visually displaying how specific parts of the user's input corresponded to the LLM's output, and includes a confidence indicator
+to highlight lower-confidence sections.
+
+{/* ## Functional flexibility */}
+
+### Confidence mapping
+
+Integrated with *input-output mapping*, it's aimed to increase transparency by indicating the model's confidence in different parts of its response.
+
+## Related patterns
+
+- Can use [messaging](../?path=/docs/compositions-messaging--docs) to [converse](../?path=/docs/patterns-conversation--docs) with users.
+- Provides [suggestions](../?path=/docs/patterns-suggestion--docs) to show what's possible and what to do next.
+
+{/* ## Resources & references */}
+{/* - [Personalization features for Human-LLM Interactions](https://www.arxiv.org/pdf/2503.00681) by Thu, Kocaballi · 2025 */}
+{/* - [Why chatbots are not the future](https://wattenberger.com/thoughts/boo-chatbots) by Amelia Wattenberger · 2024 */}
+{/* - [Expanding conversational user interfaces](https://www.lukew.com/ff/entry.asp?2018) by Luke Wroblewski · 2023 */}

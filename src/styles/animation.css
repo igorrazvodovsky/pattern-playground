@@ -605,3 +605,52 @@
     }
   }
 }
+
+@keyframes shimmer {
+  0% {
+    background-position: left;
+  }
+  100% {
+    background-position: right;
+  }
+}
+
+.shimmer {
+  --size: 15ch;
+  --color: #222;
+  color: oklch(0 0 0 / 30%);
+  will-change: background-position;
+  background: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    from(oklch(0 0 0 / 60%)),
+    to(oklch(0 0 0 / 60%)),
+    color-stop(0.5, #fff)
+  );
+  background: -moz-gradient(
+    linear,
+    left top,
+    right top,
+    from(oklch(0 0 0 / 60%)),
+    to(oklch(0 0 0 / 60%)),
+    color-stop(0.5, #fff)
+  );
+  background: gradient(
+    linear,
+    left top,
+    right top,
+    from(#222),
+    to(#222),
+    color-stop(0.5, #fff)
+  );
+  background-size: calc(var(--size) * 2 + 2ch) 100%;
+  background-clip: text;
+  animation-name: shimmer;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  background-repeat: no-repeat;
+  background-position: 0 -2ch;
+  background-color: var(--color);
+}

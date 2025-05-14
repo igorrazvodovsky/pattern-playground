@@ -74,12 +74,23 @@ The aim is to look for structures that are easy to use both in design tools and 
 
 A sporadically updated log of current focus.
 
-### April 2025
+### May 2025
+
+I continue building the map of LLM interaction patterns. Right now exploring how user intent gets captured and acted on. There are three main tracks:
+1. I’ve pulled apart [chat](../?path=/docs/compositions-messaging--docs) and [bot](../?path=/docs/patterns-bot--docs)—chat is where the [conversation](../?path=/docs/patterns-conversation--docs) happen; the bot is the part that gets things done, often outside the chat. Seeing them separately makes it easier to think about assistants that shift between interface roles: from conversation partner to background actor.
+2. One cluster of patterns revolves around clear, deliberate user intent. These are based on user typing the [prompt](../?path=/docs/patterns-prompt--docs), with supporting mechanics like prompt input design, model switching, and structured outputs.
+3. The trickier cluster is all about unclear intent—when the user doesn’t or can’t say what they want. I’m studying examples where the system fills in the blanks: passive inputs, behavioural signals, proactive actions.
+
+To support patterns that work around user's intent, I added [behaviour](../?path=/docs/foundations-behavior--docs) as a foundational layer.
+
+In April I've read Daniel Jackson’s [The Essence of Software](https://essenceofsoftware.com/) and now want to try using the ideas in practice.
+The plan is to define some of the concepts common to most applications.
+
+### April
 
 Mapping out how LLMs integrate into this, looking for patterns that support better, more thoughtful design than a chatbot.
 
 Prototyping with LLMs requires components I don't have yet, so it’s a bit of a scramble.
-
 
 ### March
 

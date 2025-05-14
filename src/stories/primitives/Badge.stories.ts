@@ -84,6 +84,7 @@ export const Purpose: Story = {
     <span class="badge badge--success">Success</span>
     <span class="badge badge--warning">Warning</span>
     <span class="badge badge--danger">Danger</span>
+    <span class="badge shimmer">Calculating…</span>
   `,
 };
 

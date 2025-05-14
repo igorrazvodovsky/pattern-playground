@@ -109,6 +109,14 @@ async function handleStreamingResponse(_req: Request, res: Response, prompt: str
           schema: jsonSchema
         }
       },
+      tools: [
+        {
+          "type": "file_search",
+          "vector_store_ids": [
+            "vs_681898d1e6e08191b2fcee9dab2faf8e"
+          ]
+        }
+      ],
       stream: true
     });
 
@@ -205,6 +213,14 @@ async function handleStandardResponse(_req: Request, res: Response, prompt: stri
           schema: jsonSchema
         }
       },
+      tools: [
+        {
+          "type": "file_search",
+          "vector_store_ids": [
+            "vs_681898d1e6e08191b2fcee9dab2faf8e"
+          ]
+        }
+      ],
       stream: false
     });
 
