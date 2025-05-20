@@ -36,8 +36,6 @@
     container: var(--grid-item-container, grid-item) / inline-size;
   }
 
-
-
   hr {
     border: 0;
     height: 0;
@@ -58,6 +56,10 @@
 }
 
 @layer components {
+  .border {
+    border: var(--border);
+  }
+
   .borderless {
     border: none !important;
     /* padding-inline: 0 !important; */

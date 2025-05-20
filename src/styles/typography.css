@@ -41,3 +41,12 @@ strong {
 label {
   font-weight: var(--font-weight-semibold);
 }
+
+.empty-state {
+  text-align: center;
+  padding: var(--space-2xl);
+  border-radius: var(--radius-m);
+  p {
+    max-width: none;
+  }
+}

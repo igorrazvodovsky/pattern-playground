@@ -1,8 +1,9 @@
 {/* TODO: examples of agency? */}
 
 import { Canvas, Story, Meta, Subtitle } from '@storybook/blocks';
+import * as MessagingStories from './Messaging.stories.ts';
 
-<Meta title="Compositions/Messaging*" />
+<Meta of = { MessagingStories } />
 
 > 🙂 **Fun meter: 3/5**.
 
@@ -11,21 +12,21 @@ import { Canvas, Story, Meta, Subtitle } from '@storybook/blocks';
 {/* TODO: replacing with 'actors?' */}
 Real-time and asynchronous text-based [conversations](../?path=/docs/patterns-conversation--docs) between people and [machines](../?path=/docs/patterns-bot--docs).
 
-## Types
+## Human ↔︎ Human
 
-### Human ↔︎ Human
+<Story of={ MessagingStories.HumanToHumanChat } />
 
-...
+## Human ↔︎ [LLM](../?path=/docs/patterns-bot--docs)
 
-### Human ↔︎ LLM
-
-...
+<Story of={ MessagingStories.HumanToLLM } />
 
 ## Anatomy
 
 ### Message
 
-...
+#### Variants
+
+With and without avatar, only avatar, ...
 
 ### Message composer
 
@@ -57,6 +58,10 @@ Real-time and asynchronous text-based [conversations](../?path=/docs/patterns-co
 ### Chatbot
 
 ### Comment thread
+
+<Story of={ MessagingStories.HumanToHumanComments } />
+
+{/* ### Code  */}
 
 ## Related patterns
 
