@@ -1,8 +1,11 @@
 @layer components {
   .avatar {
+    --_size: 48px;
+
     width: var(--_size);
     height: var(--_size);
     border-radius: var(--radius-l);
+    background: oklch(0% 0 0 / 10%);
   }
 
   pp-avatar {
