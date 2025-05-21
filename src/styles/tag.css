@@ -5,26 +5,6 @@
     gap: 1ch;
   }
 
-  .tag-group {
-    position: relative;
-    display: inline-flex;
-    vertical-align: middle;
-
-    .tag:not(:last-child) {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-
-    .tag:not(:first-child) {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-    }
-
-    .tag:not(:first-child) {
-      margin-inline-start: 1px;
-    }
-  }
-
   /* :not(.token) is needed only because of the leaking of styles outside the story to Storybook */
   .tag:not(.token) {
     --tag-bg: var(--c-background);
@@ -52,10 +32,13 @@
     overflow: clip;
     white-space: nowrap;
     max-width: 100%;
+    transition: var(--transition-fast) background;
   }
 
   .tag:has(input:checked) {
-    --c-background: var(--c-neutral-0);
+    /* --c-background: var(--c-accent); */
+    /* --tag-color: white; */
+    --c-background: var(--c-neutral-100);
   }
 
   .tag.tag--pill {
@@ -64,6 +47,11 @@
 
   .tag:has(button) {
     padding: 0 0 0 var(--tag-space-inline) !important;
+  }
+
+  .tag:has(pp-dropdown + button) {
+    gap: 0 !important;
+    padding: 0 !important;
   }
 
   .tag button {
@@ -76,6 +64,10 @@
   .tag:has(button:disabled) {
     cursor: not-allowed;
     opacity: 0.5;
+  }
+
+  button.tag:not(:disabled):hover {
+    --tag-bg: oklch(from var(--c-background) calc(l - 0.05) c h);
   }
 
   /*  */
@@ -192,5 +184,39 @@ high-contrast styles:
         }
       }
     }
+  }
+
+  .tag-group {
+    position: relative;
+    display: inline-flex;
+    vertical-align: middle;
+
+    .tag:not(:last-child),
+    pp-dropdown:not(:last-child) .tag {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    .tag:not(:first-child),
+    pp-dropdown:not(:first-child) .tag {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    .tag:not(:first-child),
+    pp-dropdown:not(:first-child) .tag {
+      margin-inline-start: 1px;
+    }
+  }
+
+  /* TODO: */
+  .tag-group .avatar-group {
+    margin-right: 0.5ch;
+    height: 16px;
+  }
+
+  .tag-group:has(.tag-group__remove:hover) .tag {
+    /* TODO: Fix */
+    /* --tag-bg: oklch(from var(--c-background) calc(l - 0.05) c h); */
   }
 }

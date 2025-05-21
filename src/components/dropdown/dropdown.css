@@ -28,6 +28,8 @@
 }
 
 .dropdown__panel {
+  --c-background: var(--c-neutral-0);
+  
   font-size: var(--text-m);
   font-weight: var(--font-weight-normal);
   background: var(--c-background);
