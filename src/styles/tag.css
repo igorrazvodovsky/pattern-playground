@@ -1,9 +1,35 @@
 @layer components {
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1ch;
+  }
+
+  .tag-group {
+    position: relative;
+    display: inline-flex;
+    vertical-align: middle;
+
+    .tag:not(:last-child) {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    .tag:not(:first-child) {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    .tag:not(:first-child) {
+      margin-inline-start: 1px;
+    }
+  }
+
   /* :not(.token) is needed only because of the leaking of styles outside the story to Storybook */
   .tag:not(.token) {
     --tag-bg: var(--c-background);
     /* TODO: */
-    --c-background: var(--c-neutral-0);
+    --c-background: var(--c-neutral-50);
     --tag-color: oklch(from var(--badge-bg) var(--l) 0 h / 90%);
     --tag-space-block: var(--space-s);
     --tag-space-inline: var(--space-m);
@@ -14,7 +40,7 @@
     color: var(--tag-color);
 
     background: var(--tag-bg);
-    border: var(--border);
+    /* border: var(--border); */
     padding: var(--tag-space-block) var(--tag-space-inline);
     border-radius: var(--radius-m);
 

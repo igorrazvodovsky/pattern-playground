@@ -1,6 +1,7 @@
-import { Meta } from '@storybook/blocks';
+import { Story, Meta } from '@storybook/blocks';
+import * as LLMPromptStories from './LLMPrompt.stories.ts';
 
-<Meta title="Patterns/LLM*/Prompt" />
+<Meta of = { LLMPromptStories } />
 
 > 🙂 **Fun meter: 5/5**. A part of a bigger attempt to map LLM-related patterns.
 
@@ -21,16 +22,26 @@ explicit and implicit...
 - reference materials: both @mentiones and attachments
 </div>
 
+{/* Redo using blocks */}
+{/* <Story of={ LLMPromptStories.StructuredPrompt } /> */}
+
 ## Prompt guidance and scaffolding
 
 Bridging the gap between fuzzy idea inside a human's head and what makes an effective prompt for LLMs.
 
-<div>
-- quality feedback
-- editing assistance
-- templates
-- suggestions
-</div>
+### Quality feedback
+
+<Story of={ LLMPromptStories.QualityFeedback } />
+
+### Editing assistance
+
+### Templates
+
+...
+
+### Suggestions
+
+...
 
 ## Related patterns
 

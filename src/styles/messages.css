@@ -125,9 +125,24 @@
 }
 
 .message-composer.layer {
-  padding: var(--space-s);
+  padding: var(--space-m);
+}
+
+.message-composer__actions,
+.message-composer__input {
+  flex: 1 0 100%;
 }
 
 .message-composer__actions {
-  flex: 1 0 100%;
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.message-composer__feedback {
+  margin-inline: var(--space-s);
+  color: var(--c-bodyDimmed);
+
+  .badge {
+    margin-inline-end: var(--space-s);
+  }
 }
