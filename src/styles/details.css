@@ -5,8 +5,7 @@
     padding: var(--space-m) var(--space-m) 0;
 
     &[open] {
-      /* At least not verically */
-      /* padding: var(--space-m); */
+      padding-block: var(--space-m);
     }
   }
 

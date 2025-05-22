@@ -24,6 +24,7 @@
     "@types/node": "^22.10.7",
     "composed-offset-position": "^0.0.6",
     "eslint": "^9.21.0",
+    "eslint-plugin-lit": "^2.1.1",
     "globals": "^16.0.0",
     "lit": "^3.2.1",
     "storybook": "^8.6.12",
