@@ -40,7 +40,7 @@ cardsData[0].name = "Small";
 cardsData[1].name = "Medium";
 cardsData[2].name = "Large";
 
-export const Grouping: Story = {
+export const Cards: Story = {
   args: {},
   render: () => html`
     <div class="flow layer">

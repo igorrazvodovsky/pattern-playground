@@ -1,0 +1,43 @@
+:host {
+    --max-width: 20rem;
+    --hide-delay: 0ms;
+    --show-delay: 150ms;
+
+    display: contents;
+  }
+
+  .tooltip::part(popup) {
+    z-index: var(--pp-z-index-tooltip);
+  }
+
+  .tooltip[placement^='top']::part(popup) {
+    transform-origin: bottom;
+  }
+
+  .tooltip[placement^='bottom']::part(popup) {
+    transform-origin: top;
+  }
+
+  .tooltip[placement^='left']::part(popup) {
+    transform-origin: right;
+  }
+
+  .tooltip[placement^='right']::part(popup) {
+    transform-origin: left;
+  }
+
+  .tooltip__body {
+    display: block;
+    width: max-content;
+    max-width: var(--max-width);
+    border-radius: var(--radius-m);
+    background-color: oklch(0% 0 0 / 90%);
+    font-size: var(--text-s);
+    text-align: start;
+    white-space: normal;
+    color: oklch(100% 0 0 / 90%);
+    padding: 0 var(--space-s);
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }

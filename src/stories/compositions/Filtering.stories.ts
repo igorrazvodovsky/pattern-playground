@@ -66,9 +66,11 @@ export const Filtering: Story = {
         </div>
       </div>
       <div class="button-group">
-        <button class="button" is="pp-buton">
-          <iconify-icon class="icon" icon="ph:x"></iconify-icon><span class="inclusively-hidden">Clear all</span>
-        </button>
+        <!-- <pp-tooltip content="Clear all">
+          <button class="button" is="pp-buton">
+            <iconify-icon class="icon" icon="ph:x"></iconify-icon><span class="inclusively-hidden">Clear all</span>
+          </button>
+        </pp-tooltip> -->
         <button class="button" is="pp-buton">
           <iconify-icon class="icon" icon="ph:funnel-simple"></iconify-icon><span class="inclusively-hidden">Filter</span>
         </button>
