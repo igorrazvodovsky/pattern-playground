@@ -60,6 +60,10 @@
     border: var(--border);
   }
 
+  .border-b {
+    border-bottom: var(--border);
+  }
+
   .borderless {
     border: none !important;
     /* padding-inline: 0 !important; */

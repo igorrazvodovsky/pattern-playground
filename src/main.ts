@@ -13,3 +13,4 @@ export { PpPriorityPlus } from './components/priority-plus/priority-plus.ts';
 export { PpBreadcrumbs } from './components/breadcrumbs/breadcrumbs.ts';
 export { PpAvatar } from './components/avatar/avatar.ts';
 export { PpTooltip } from './components/tooltip/tooltip.ts'
+export { PpCommandMenu } from './components/command-menu/command-menu-component.ts'
