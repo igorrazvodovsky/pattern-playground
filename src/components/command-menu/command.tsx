@@ -25,6 +25,7 @@ const CommandInput = React.forwardRef<
     <CommandPrimitive.Input
       ref={ref}
       className={""}
+      placeholder="Search, commands, etc."
       {...props}
     />
   </div>

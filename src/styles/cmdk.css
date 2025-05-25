@@ -1,10 +1,16 @@
 /* TODO: Combine with list styles */
 
 [cmdk-root] {
-  border-radius: var(--radius-m);
+  border-radius: var(--radius-l);
   border: var(--border);
   background-color: var(--c-neutral-0);
   box-shadow: var(--shadow-l);
+  padding: var(--space-m);
+
+  hr {
+    margin-inline: calc(var(--space-m) * -1);
+    width: calc(100% + var(--space-m) * 2);
+  }
 }
 
 [cmdk-root]:focus {
@@ -15,9 +21,9 @@
   display: flex;
   align-items: center;
   gap: var(--space-s);
-  border-bottom: var(--border);
-  padding: var(--space-m);
-  margin-block-end: var(--space-l);
+  /* border-bottom: var(--border); */
+  padding-inline: var(--space-m);
+  margin-block-end: var(--space-m);
 }
 
 [cmdk-input] {
@@ -30,10 +36,14 @@
   color: var(--c-bodyDimmed);
 }
 
-[cmdk-input-wrapper]:has(> input[type="text"]):focus-within {
+/* [cmdk-input-wrapper]:has(> input[type="text"]):focus-within {
   outline: 2px solid var(--c-accent);
   outline-offset: 2px;
   border-radius: 4px;
+} */
+
+[cmdk-list] {
+  margin-block-start: var(--space-m);
 }
 
 [cmdk-group-heading] {

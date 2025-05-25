@@ -15,6 +15,7 @@ function CommandTest() {
     <>
       <Command label="Command Menu">
         <CommandInput />
+        <hr />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
 
