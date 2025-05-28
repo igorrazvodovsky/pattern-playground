@@ -1,4 +1,4 @@
-import type { Preview } from "@storybook/web-components";
+import type { Preview } from "@storybook/web-components-vite";
 import '../src/styles/main.css';
 import '../src/main.ts';
 import 'iconify-icon';
@@ -21,6 +21,8 @@ const preview: Preview = {
       },
     },
   },
+
+  tags: ['autodocs']
 };
 
 export default preview;

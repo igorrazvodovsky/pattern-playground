@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/web-components";
+import type { Meta, StoryObj } from "@storybook/web-components-vite";
 import { html, render } from "lit";
 import JuiceProductionData from "./data/JuiceProduction.json";
 import { ModelItem, SelectedItem } from "../../../schemas/index";
