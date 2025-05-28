@@ -1,9 +1,18 @@
 import type { StorybookConfig } from "@storybook/web-components-vite";
 
 const config: StorybookConfig = {
-  stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
+  stories: [
+    "../src/stories/**/*.mdx",
+    "../src/stories/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+    "!../src/stories-react/**/*"
+  ],
   addons: ["@storybook/addon-docs"],
-
+  refs: {
+    'react-stories': {
+      title: 'React Stories',
+      url: 'http://localhost:7007/',
+    },
+  },
   framework: {
     name: "@storybook/web-components-vite",
     options: {},
