@@ -1,7 +1,9 @@
+import { Icon } from "@iconify/react"
 import { Dispatch, SetStateAction } from "react";
-import { FilterType, Filter } from "./filter/filter-types";
-import { FilterIcon } from "./filter/filter-icon";
-import { FilterOperatorDropdown, FilterValueCombobox, FilterValueDateCombobox } from "./filter/filter-components";
+import { FilterValueCombobox, FilterOperatorDropdown, FilterValueDateCombobox } from "./filter-components";
+import { FilterType } from "./filter-types";
+import { FilterIcon } from "./filter-icon";
+import { Filter } from "./filter-types";
 
 export default function Filters({
   filters,
@@ -11,12 +13,12 @@ export default function Filters({
   setFilters: Dispatch<SetStateAction<Filter[]>>;
 }) {
   return (
-    <div className="flex gap-2">
+    <div className="tags">
       {filters
         .filter((filter) => filter.value?.length > 0)
         .map((filter) => (
-          <div key={filter.id} className="flex gap-[1px] items-center text-xs">
-            <div className="flex gap-1.5 shrink-0 rounded-l bg-muted px-1.5 py-1 items-center">
+          <div key={filter.id} className="tag-group">
+            <div className="tag">
               <FilterIcon type={filter.type} />
               {filter.type}
             </div>
@@ -59,9 +61,9 @@ export default function Filters({
             )}
             <button
               onClick={() => {setFilters((prev) => prev.filter((f) => f.id !== filter.id))}}
-              className="bg-muted rounded-l-none rounded-r-sm h-6 w-6 text-muted-foreground hover:text-primary hover:bg-muted/50 transition shrink-0"
+              className="tag tag-group__remove"
             >
-              <iconify-icon class="icon" icon="ph:x" />
+              <Icon icon="ph:x" /><span className="inclusively-hidden">Clear filter</span>
             </button>
           </div>
         ))}

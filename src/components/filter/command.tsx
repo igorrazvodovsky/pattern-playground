@@ -1,9 +1,11 @@
 "use client"
 
 import * as React from "react"
+import { type DialogProps } from "@radix-ui/react-dialog"
 import { Command as CommandPrimitive } from "cmdk"
-import { clsx } from "clsx"
-import { Icon } from '@iconify/react'
+import { Icon } from "@iconify/react"
+
+import { Dialog, DialogContent } from "./dialog"
 
 const Command = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive>,
@@ -16,15 +18,28 @@ const Command = React.forwardRef<
 ))
 Command.displayName = CommandPrimitive.displayName
 
+interface CommandDialogProps extends DialogProps {}
+
+const CommandDialog = ({ children, ...props }: CommandDialogProps) => {
+  return (
+    <Dialog {...props}>
+      <DialogContent>
+        <Command>
+          {children}
+        </Command>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
 const CommandInput = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Input>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
 >(({ ...props }, ref) => (
   <div cmdk-input-wrapper="">
-    <Icon icon="ph:magnifying-glass" className="icon" aria-hidden="true" />
+    <Icon icon="ph:magnifying-glass" />
     <CommandPrimitive.Input
       ref={ref}
-      placeholder="Search, commands, etc."
       {...props}
     />
   </div>
@@ -68,6 +83,7 @@ const CommandGroup = React.forwardRef<
 
 CommandGroup.displayName = CommandPrimitive.Group.displayName
 
+
 const CommandItem = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Item>
@@ -80,11 +96,18 @@ const CommandItem = React.forwardRef<
 
 CommandItem.displayName = CommandPrimitive.Item.displayName
 
+const CommandShortcut = ({ ...props }: React.HTMLAttributes<HTMLSpanElement>) => {
+  return (<span {...props} />)
+}
+CommandShortcut.displayName = "CommandShortcut"
+
 export {
   Command,
+  CommandDialog,
   CommandInput,
   CommandList,
   CommandEmpty,
   CommandGroup,
   CommandItem,
+  CommandShortcut,
 }

@@ -13,11 +13,20 @@
   }
 }
 
+/* TODO: */
+/* :is(dialog, [role="dialog"]) [cmdk-root] {
+  padding: var(--space-s) var(--space-xs);
+  hr {
+    margin-inline: calc(var(--space-xs) * -1);
+    width: calc(100% + var(--space-xs) * 2);
+  }
+} */
+
 [cmdk-root]:focus {
   outline: none;
 }
 
-.cmdk-input-wrapper {
+[cmdk-input-wrapper] {
   display: flex;
   align-items: center;
   gap: var(--space-s);

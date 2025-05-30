@@ -3,7 +3,7 @@ import { clsx } from "clsx";
 import { FilterType, FilterOperator, FilterOption } from "./filter-types";
 import { filterOperators, filterViewToFilterOptions } from "./filter-options";
 import { FilterIcon } from "./filter-icon";
-import { AnimateChangeInHeight } from "./animate-change-in-height.tsx";
+import { AnimateChangeInHeight } from "./animate-change-in-height";
 import {
   Command,
   CommandEmpty,
@@ -11,7 +11,11 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "../command";
+} from "../command-menu/command";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "./dropdown-menu.tsx";
+import { Popover, PopoverTrigger, PopoverContent } from "./popover.tsx";
+import { AnimatePresence, motion } from "motion/react";
+import { Icon } from "@iconify/react";
 
 export const FilterOperatorDropdown = ({
   filterType,
@@ -26,21 +30,21 @@ export const FilterOperatorDropdown = ({
 }) => {
   const operators = filterOperators({ filterType, filterValues });
   return (
-    // <DropdownMenu>
-    //   <DropdownMenuTrigger className="bg-muted hover:bg-muted/50 px-1.5 py-1 text-muted-foreground hover:text-primary transition shrink-0">
-    //     {operator}
-    //   </DropdownMenuTrigger>
-    //   <DropdownMenuContent align="start" className="w-fit min-w-fit">
-    //     {operators.map((operator) => (
-    //       <DropdownMenuItem
-    //         key={operator}
-    //         onClick={() => setOperator(operator)}
-    //       >
-    //         {operator}
-    //       </DropdownMenuItem>
-    //     ))}
-    //   </DropdownMenuContent>
-    // </DropdownMenu>
+    <DropdownMenu>
+      <DropdownMenuTrigger className="tag">
+        {operator}
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start">
+        {operators.map((operator) => (
+          <DropdownMenuItem
+            key={operator}
+            onClick={() => setOperator(operator)}
+          >
+            {operator}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 
@@ -72,17 +76,10 @@ export const FilterValueCombobox = ({
       }}
     >
       <PopoverTrigger
-        className="rounded-none px-1.5 py-1 bg-muted hover:bg-muted/50 transition
-  text-muted-foreground hover:text-primary shrink-0"
+        className="tag"
       >
-        <div className="flex gap-1.5 items-center">
           {filterType !== FilterType.PRIORITY && (
-            <div
-              className={clsx(
-                "flex items-center flex-row",
-                filterType === FilterType.LABELS ? "-space-x-1" : "-space-x-1.5"
-              )}
-            >
+
               <AnimatePresence mode="popLayout">
                 {filterValues?.slice(0, 3).map((value) => (
                   <motion.div
@@ -96,12 +93,11 @@ export const FilterValueCombobox = ({
                   </motion.div>
                 ))}
               </AnimatePresence>
-            </div>
           )}
           {filterValues?.length === 1
             ? filterValues?.[0]
             : `${filterValues?.length} selected`}
-        </div>
+
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <AnimateChangeInHeight>
@@ -115,13 +111,13 @@ export const FilterValueCombobox = ({
               }}
               ref={commandInputRef}
             />
+            <hr />
             <CommandList>
               <CommandEmpty>No results found.</CommandEmpty>
               <CommandGroup>
                 {filterValues.map((value) => (
                   <CommandItem
                     key={value}
-                    className="group flex gap-2 items-center"
                     onSelect={() => {
                       setFilterValues(filterValues.filter((v) => v !== value));
                       setTimeout(() => {
@@ -142,7 +138,6 @@ export const FilterValueCombobox = ({
                   <CommandGroup>
                     {nonSelectedFilterValues.map((filter: FilterOption) => (
                       <CommandItem
-                        className="group flex gap-2 items-center"
                         key={filter.name}
                         value={filter.name}
                         onSelect={(currentValue: string) => {
@@ -153,12 +148,11 @@ export const FilterValueCombobox = ({
                           setOpen(false);
                         }}
                       >
-                        <Checkbox
+                        <input type="checkbox"
                           checked={false}
-                          className="opacity-0 group-data-[selected=true]:opacity-100"
                         />
                         {filter.icon}
-                        <span className="text-accent-foreground">
+                        <span>
                           {filter.name}
                         </span>
                         {filter.label && (
@@ -221,6 +215,7 @@ export const FilterValueDateCombobox = ({
               }}
               ref={commandInputRef}
             />
+            <hr />
             <CommandList>
               <CommandEmpty>No results found.</CommandEmpty>
               <CommandGroup>
@@ -241,12 +236,13 @@ export const FilterValueDateCombobox = ({
                       <span className="text-accent-foreground">
                         {filter.name}
                       </span>
-                      <iconify-icon
+                      <Icon
+                        icon="ph:check"
                         className={clsx("ml-auto",
                           filterValues.includes(filter.name)
                             ? "opacity-100"
                             : "opacity-0"
-                        )} icon="ph:check" />
+                        )}/>
                     </CommandItem>
                   )
                 )}
@@ -258,3 +254,4 @@ export const FilterValueDateCombobox = ({
     </Popover>
   );
 };
+

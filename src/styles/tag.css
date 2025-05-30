@@ -219,4 +219,9 @@ high-contrast styles:
     /* TODO: Fix */
     /* --tag-bg: oklch(from var(--c-background) calc(l - 0.05) c h); */
   }
+
+  /* for icon-only buttons */
+  button.tag:has(.inclusively-hidden) {
+    padding: 0.5em;
+  }
 }

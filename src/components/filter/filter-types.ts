@@ -32,7 +32,7 @@ export enum Status {
 }
 
 export enum Assignee {
-  ANDREW_LUO = "Andrew Luo",
+  ASSIGNEE = "Igors Razvodovskis",
   NO_ASSIGNEE = "No assignee",
 }
 
