@@ -41,6 +41,10 @@ export class PpListItem extends LitElement {
     super.connectedCallback();
     this.addEventListener('click', this.handleHostClick);
     this.addEventListener('mouseover', this.handleMouseOver);
+
+    // Ensure the role is set properly on connection
+    this.handleTypeChange();
+    this.handleDisabledChange();
   }
 
   disconnectedCallback() {

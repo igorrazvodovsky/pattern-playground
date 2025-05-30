@@ -2,19 +2,18 @@
 // Submenu
 // Positioning glitch
 
-import { animateTo, stopAnimations } from '../../utility/animate.js';
+import { animateTo, stopAnimations } from '../../utility/animate.ts';
 import { classMap } from 'lit/directives/class-map.js';
-import { getAnimation, setDefaultAnimation } from '../../utility/animation-registry';
-import { getTabbableBoundary } from '../../utility/tabbable.js';
+import { getAnimation, setDefaultAnimation } from '../../utility/animation-registry.ts';
+import { getTabbableBoundary } from '../../utility/tabbable.ts';
 import { LitElement, html, unsafeCSS } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { property, query } from 'lit/decorators.js';
-import { waitForEvent } from '../../utility/event';
-import { watch } from '../../utility/watch.js';
-import { PpPopup } from '../popup/popup.js';
+import { waitForEvent } from '../../utility/event.ts';
+import { watch } from '../../utility/watch.ts';
+import { PpPopup } from '../popup/popup.ts';
 import styles from './dropdown.css?inline';
 import type { CSSResultGroup } from 'lit';
-import type { PpButton } from '../button/button';
 import type { PpList } from '../list/list';
 import type { PpListItem } from '../list-item/list-item';
 
@@ -43,15 +42,27 @@ import type { PpListItem } from '../list-item/list-item';
 
 type PpSelectEvent = CustomEvent<{ item: PpListItem }>;
 
+// Declare CloseWatcher for browsers that support it
+declare global {
+  interface Window {
+    CloseWatcher: typeof CloseWatcher;
+  }
+  class CloseWatcher {
+    constructor();
+    destroy(): void;
+    onclose: (() => void) | null;
+  }
+}
+
 export class PpDropdown extends LitElement {
   static styles: CSSResultGroup = [unsafeCSS(styles)];
   static dependencies = { 'pp-popup': PpPopup };
 
-  @query('.dropdown') popup: PpPopup;
-  @query('.dropdown__trigger') trigger: HTMLSlotElement;
-  @query('.dropdown__panel') panel: HTMLSlotElement;
+  @query('.dropdown') popup!: PpPopup;
+  @query('.dropdown__trigger') trigger!: HTMLSlotElement;
+  @query('.dropdown__panel') panel!: HTMLSlotElement;
 
-  private closeWatcher: CloseWatcher | null;
+  private closeWatcher: CloseWatcher | null = null;
 
   @property({ type: Boolean, reflect: true }) open = false;
   @property({ reflect: true }) placement:
@@ -244,7 +255,7 @@ export class PpDropdown extends LitElement {
     if (accessibleTrigger) {
       switch (accessibleTrigger.tagName.toLowerCase()) {
         case 'pp-button':
-          target = (accessibleTrigger as PpButton).button;
+          target = (accessibleTrigger as any).button || accessibleTrigger;
           break;
 
         default:
@@ -279,7 +290,7 @@ export class PpDropdown extends LitElement {
   }
 
   addOpenListeners() {
-    this.panel.addEventListener('pp-select', this.handlePanelSelect);
+    this.panel.addEventListener('pp-select', this.handlePanelSelect as EventListener);
     if ('CloseWatcher' in window) {
       this.closeWatcher?.destroy();
       this.closeWatcher = new CloseWatcher();
@@ -296,7 +307,7 @@ export class PpDropdown extends LitElement {
 
   removeOpenListeners() {
     if (this.panel) {
-      this.panel.removeEventListener('pp-select', this.handlePanelSelect);
+      this.panel.removeEventListener('pp-select', this.handlePanelSelect as EventListener);
       this.panel.removeEventListener('keydown', this.handleKeyDown);
     }
     document.removeEventListener('keydown', this.handleDocumentKeyDown);

@@ -12,7 +12,7 @@ import {
   CommandItem,
   CommandList,
 } from "../command-menu/command";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "./dropdown-menu.tsx";
+import { Dropdown, DropdownTrigger, DropdownContent, DropdownItem } from "./dropdown.tsx";
 import { Popover, PopoverTrigger, PopoverContent } from "./popover.tsx";
 import { AnimatePresence, motion } from "motion/react";
 import { Icon } from "@iconify/react";
@@ -30,21 +30,21 @@ export const FilterOperatorDropdown = ({
 }) => {
   const operators = filterOperators({ filterType, filterValues });
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger className="tag">
+    <Dropdown stayOpenOnSelect={false}>
+      <DropdownTrigger className="tag">
         {operator}
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="start">
-        {operators.map((operator) => (
-          <DropdownMenuItem
-            key={operator}
-            onClick={() => setOperator(operator)}
+      </DropdownTrigger>
+      <DropdownContent align="start">
+        {operators.map((op) => (
+          <DropdownItem
+            key={op}
+            onClick={() => setOperator(op)}
           >
-            {operator}
-          </DropdownMenuItem>
+            {op}
+          </DropdownItem>
         ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+      </DropdownContent>
+    </Dropdown>
   );
 };
 

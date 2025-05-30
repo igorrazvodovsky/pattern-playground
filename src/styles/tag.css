@@ -33,6 +33,8 @@
     white-space: nowrap;
     max-width: 100%;
     transition: var(--transition-fast) background;
+    /* TODO: */
+    height: 2rem;
   }
 
   .tag:has(input:checked) {
