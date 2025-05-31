@@ -1,57 +1,67 @@
 import { FilterType, Status, Assignee, Labels, Priority } from "./filter-types";
-import { Icon } from '@iconify/react'
+import 'iconify-icon';
+
+declare module 'react' {
+  namespace JSX {
+    interface IntrinsicElements {
+      'iconify-icon': any;
+    }
+  }
+}
 
 export const FilterIcon = ({
   type,
+  ...props
 }: {
   type: FilterType | Status | Assignee | Labels | Priority;
+  [key: string]: any;
 }) => {
   switch (type) {
     case Assignee.NO_ASSIGNEE:
-      return <Icon icon="ph:user-circle" className="icon" />;
+      return <iconify-icon icon="ph:user-circle" className="icon" {...props} />;
     case Assignee.ASSIGNEE:
-      return <Icon icon="ph:user-circle" className="icon" />;
+      return <iconify-icon icon="ph:user-circle" className="icon" {...props} />;
     case FilterType.STATUS:
-      return <Icon icon="ph:circle-dashed" className="icon" />;
+      return <iconify-icon icon="ph:circle-dashed" className="icon" {...props} />;
     case FilterType.ASSIGNEE:
-      return <Icon icon="ph:user" className="icon" />;
+      return <iconify-icon icon="ph:user" className="icon" {...props} />;
     case FilterType.LABELS:
-      return <Icon icon="ph:tag" className="icon" />;
+      return <iconify-icon icon="ph:tag" className="icon" {...props} />;
     case FilterType.PRIORITY:
-      return <Icon icon="ph:cell-signal-high" className="icon" />;
+      return <iconify-icon icon="ph:cell-signal-high" className="icon" {...props} />;
     case FilterType.DUE_DATE:
-      return <Icon icon="ph:calendar" className="icon" />;
+      return <iconify-icon icon="ph:calendar" className="icon" {...props} />;
     case FilterType.CREATED_DATE:
-      return <Icon icon="ph:calendar-plus" className="icon" />;
+      return <iconify-icon icon="ph:calendar-plus" className="icon" {...props} />;
     case FilterType.UPDATED_DATE:
-      return <Icon icon="ph:calendar-check" className="icon" />;
+      return <iconify-icon icon="ph:calendar-check" className="icon" {...props} />;
     case Status.BACKLOG:
-      return <Icon icon="ph:circle-dashed" className="icon" />;
+      return <iconify-icon icon="ph:circle-dashed" className="icon" {...props} />;
     case Status.TODO:
-      return <Icon icon="ph:circle" className="icon" />;
+      return <iconify-icon icon="ph:circle" className="icon" {...props} />;
     case Status.IN_PROGRESS:
-      return <Icon icon="ph:circle-half" className="icon" />;
+      return <iconify-icon icon="ph:circle-half" className="icon" {...props} />;
     case Status.IN_REVIEW:
-      return <Icon icon="ph:circle-half-tilt" className="icon" />;
+      return <iconify-icon icon="ph:circle-half-tilt" className="icon" {...props} />;
     case Status.DONE:
-      return <Icon icon="ph:check-circle" className="icon" />;
+      return <iconify-icon icon="ph:check-circle" className="icon" {...props} />;
     case Status.CANCELLED:
-      return <Icon icon="ph:x-circle" className="icon" />;
+      return <iconify-icon icon="ph:x-circle" className="icon" {...props} />;
     case Priority.URGENT:
-      return <Icon icon="ph:warning-circle" className="icon" />;
+      return <iconify-icon icon="ph:warning-circle" className="icon" {...props} />;
     case Priority.HIGH:
-      return <Icon icon="ph:signal-high" className="icon" />;
+      return <iconify-icon icon="ph:cell-signal-high" className="icon" {...props} />;
     case Priority.MEDIUM:
-      return <Icon icon="ph:signal-medium" className="icon" />;
+      return <iconify-icon icon="ph:cell-signal-medium" className="icon" {...props} />;
     case Priority.LOW:
-      return <Icon icon="ph:signal-low" className="icon" />;
+      return <iconify-icon icon="ph:cell-signal-low" className="icon" {...props} />;
     case Labels.BUG:
-      return <div className="bg-red-400 rounded-full size-2.5" />;
+      return <div className="bg-red-400 rounded-full size-2.5" {...props} />;
     case Labels.FEATURE:
-      return <div className="bg-blue-400 rounded-full size-2.5" />;
+      return <div className="bg-blue-400 rounded-full size-2.5" {...props} />;
     case Labels.HOTFIX:
-      return <div className="bg-amber-400 rounded-full size-2.5" />;
+      return <div className="bg-amber-400 rounded-full size-2.5" {...props} />;
     case Labels.RELEASE:
-      return <div className="bg-green-400 rounded-full size-2.5" />;
+      return <div className="bg-green-400 rounded-full size-2.5" {...props} />;
   }
 };

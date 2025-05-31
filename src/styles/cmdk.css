@@ -116,20 +116,6 @@
   min-width: 1em;
 }
 
-/* Legacy icon support for existing CommandItems */
-[cmdk-item] > .icon:first-child {
-  margin-inline-end: var(--space-xs);
-  color: oklch(from var(--c-body) l c h / 0.6);
-  fill: oklch(from var(--c-body) l c h / 0.6);
-}
-
-/* Shortcuts styling */
-.cmdk-shortcuts {
-  margin-left: auto;
-  display: flex;
-  gap: var(--space-2xs);
-}
-
 /* Checkbox placeholder for CommandItem */
 [cmdk-item] .command-item__check {
   flex: 0 0 auto;
@@ -149,4 +135,11 @@ dialog:has(> pp-command-menu) {
   padding: 0;
   grid-template-rows: auto;
   overflow: visible;
+}
+
+/* Shortcuts styling */
+.cmdk-shortcuts {
+  margin-left: auto;
+  display: flex;
+  gap: var(--space-2xs);
 }

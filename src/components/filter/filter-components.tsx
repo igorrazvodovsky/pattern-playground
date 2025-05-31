@@ -3,14 +3,13 @@ import { FilterType, FilterOperator, FilterOption } from "./filter-types";
 import { filterOperators, filterViewToFilterOptions } from "./filter-options";
 import { FilterIcon } from "./filter-options-icons";
 import { AnimateChangeInHeight } from "./animate-change-in-height";
+import { Slot } from "@radix-ui/react-slot";
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-  CommandItemPrefix,
-  CommandItemSuffix,
   CommandList,
 } from "../command-menu/command";
 import { AnimatePresence, motion } from "motion/react";
@@ -146,6 +145,7 @@ export const FilterValueDropdown = ({
                 {filterValues.map((value) => (
                   <CommandItem
                     key={value}
+                    checked={true}
                     onSelect={() => {
                       setFilterValues(filterValues.filter((v) => v !== value));
                       setTimeout(() => {
@@ -154,10 +154,7 @@ export const FilterValueDropdown = ({
                       dropdownRef.current?.hide();
                     }}
                   >
-                    <span slot="prefix">
-                      <input type="checkbox" checked={true} />
-                      <FilterIcon type={value as FilterType} />
-                    </span>
+                    <FilterIcon type={value as FilterType} slot="prefix" />
                     {value}
                   </CommandItem>
                 ))}
@@ -170,6 +167,7 @@ export const FilterValueDropdown = ({
                       <CommandItem
                         key={filter.name}
                         value={filter.name}
+                        checked={false}
                         onSelect={(currentValue: string) => {
                           setFilterValues([...filterValues, currentValue]);
                           setTimeout(() => {
@@ -178,10 +176,9 @@ export const FilterValueDropdown = ({
                           dropdownRef.current?.hide();
                         }}
                       >
-                        <span slot="prefix">
-                          <input type="checkbox" checked={false} />
+                        <Slot slot="prefix">
                           {filter.icon}
-                        </span>
+                        </Slot>
                         <span>
                           {filter.name}
                         </span>

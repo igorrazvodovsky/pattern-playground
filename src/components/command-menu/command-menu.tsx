@@ -7,7 +7,6 @@ import {
   CommandItem,
   CommandList,
 } from "./command";
-import { Icon } from '@iconify/react'
 import 'iconify-icon'
 
 declare module 'react' {
@@ -19,8 +18,6 @@ declare module 'react' {
 }
 
 function CommandMenu() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
       <Command label="Command Menu">

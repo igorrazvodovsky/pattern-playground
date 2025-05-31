@@ -4,8 +4,6 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-  CommandItemPrefix,
-  CommandItemSuffix,
   CommandList
 } from "../components/filter/command";
 import { nanoid } from "nanoid";
@@ -20,6 +18,7 @@ import {
 import { filterViewOptions, filterViewToFilterOptions } from "../components/filter/filter-options";
 import type { Filter, FilterOption } from "../components/filter/filter-types";
 import { Icon } from '@iconify/react';
+import { Slot } from "@radix-ui/react-slot";
 import '../components/dropdown/dropdown.ts';
 import 'iconify-icon';
 
@@ -121,9 +120,9 @@ export function FilteringDemo({
                             dropdownRef.current?.hide();
                           }}
                         >
-                          <span slot="prefix">
+                          <Slot slot="prefix">
                             {filter.icon}
-                          </span>
+                          </Slot>
                           <span className="text-accent-foreground">
                             {filter.name}
                           </span>
@@ -152,9 +151,9 @@ export function FilteringDemo({
                                 commandInputRef.current?.focus();
                               }}
                             >
-                              <span slot="prefix">
+                              <Slot slot="prefix">
                                 {filter.icon}
-                              </span>
+                              </Slot>
                               <span className="text-accent-foreground">
                                 {filter.name}
                               </span>

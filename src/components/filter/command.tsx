@@ -90,24 +90,6 @@ const CommandItem = React.forwardRef<
     !isSlotChild(child, 'prefix') && !isSlotChild(child, 'suffix')
   )
 
-  // Auto-detect icons for backward compatibility
-  const autoDetectedPrefix = React.useMemo(() => {
-    if (prefixChildren.length > 0) return null
-
-    const firstContentChild = contentChildren[0]
-    if (React.isValidElement(firstContentChild) &&
-        (firstContentChild.type === Icon ||
-         (firstContentChild.props as any)?.icon ||
-         (firstContentChild.props as any)?.className?.includes('icon'))) {
-      return firstContentChild
-    }
-    return null
-  }, [contentChildren, prefixChildren])
-
-  const finalContentChildren = autoDetectedPrefix
-    ? contentChildren.slice(1)
-    : contentChildren
-
   if (asChild && React.isValidElement(children)) {
     return (
       <Slot ref={ref} className={`${checked ? 'command-item--checked' : ''} ${className || ''}`}>
@@ -127,19 +109,18 @@ const CommandItem = React.forwardRef<
         <Icon icon="ph:check" aria-hidden="true" />
       </span>
 
-      {/* Prefix (slotted or auto-detected) */}
-      {(prefixChildren.length > 0 || autoDetectedPrefix) && (
+      {/* Prefix (slotted) */}
+      {prefixChildren.length > 0 && (
         <span className="command-item__prefix">
           {prefixChildren.map((child, index) =>
             React.cloneElement(child as React.ReactElement, { key: index })
           )}
-          {autoDetectedPrefix}
         </span>
       )}
 
       {/* Main content */}
       <span className="command-item__label">
-        {finalContentChildren}
+        {contentChildren}
       </span>
 
       {/* Suffix (slotted) */}
@@ -156,32 +137,6 @@ const CommandItem = React.forwardRef<
 
 CommandItem.displayName = CommandPrimitive.Item.displayName
 
-// Convenience components for slotted content
-const CommandItemPrefix = React.forwardRef<
-  HTMLSpanElement,
-  React.HTMLAttributes<HTMLSpanElement>
->(({ children, ...props }, ref) => (
-  <span ref={ref} slot="prefix" {...props}>
-    {children}
-  </span>
-))
-CommandItemPrefix.displayName = "CommandItemPrefix"
-
-const CommandItemSuffix = React.forwardRef<
-  HTMLSpanElement,
-  React.HTMLAttributes<HTMLSpanElement>
->(({ children, ...props }, ref) => (
-  <span ref={ref} slot="suffix" {...props}>
-    {children}
-  </span>
-))
-CommandItemSuffix.displayName = "CommandItemSuffix"
-
-const CommandShortcut = ({ ...props }: React.HTMLAttributes<HTMLSpanElement>) => {
-  return (<span {...props} />)
-}
-CommandShortcut.displayName = "CommandShortcut"
-
 export {
   Command,
   CommandInput,
@@ -189,7 +144,4 @@ export {
   CommandEmpty,
   CommandGroup,
   CommandItem,
-  CommandItemPrefix,
-  CommandItemSuffix,
-  CommandShortcut,
 }
