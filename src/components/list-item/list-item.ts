@@ -27,10 +27,10 @@ import type { CSSResultGroup } from 'lit';
 export class PpListItem extends LitElement {
   static styles: CSSResultGroup = [unsafeCSS(styles)];
 
-  private cachedTextLabel: string;
+  private cachedTextLabel!: string;
 
-  @query('slot:not([name])') defaultSlot: HTMLSlotElement;
-  @query('.list-item') listItem: HTMLElement;
+  @query('slot:not([name])') defaultSlot!: HTMLSlotElement;
+  @query('.list-item') listItem!: HTMLElement;
 
   @property() type: 'normal' | 'checkbox' = 'normal';
   @property({ type: Boolean, reflect: true }) checked = false;

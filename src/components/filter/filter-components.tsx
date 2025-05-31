@@ -12,10 +12,23 @@ import {
   CommandItem,
   CommandList,
 } from "../command-menu/command";
-import { Dropdown, DropdownTrigger, DropdownContent, DropdownItem } from "./dropdown.tsx";
 import { Popover, PopoverTrigger, PopoverContent } from "./popover.tsx";
 import { AnimatePresence, motion } from "motion/react";
 import { Icon } from "@iconify/react";
+
+import '../dropdown/dropdown.ts';
+import '../list/list.ts';
+import '../list-item/list-item.ts';
+
+declare module 'react' {
+  namespace JSX {
+    interface IntrinsicElements {
+      'pp-dropdown': any;
+      'pp-list': any;
+      'pp-list-item': any;
+    }
+  }
+}
 
 export const FilterOperatorDropdown = ({
   filterType,
@@ -29,22 +42,25 @@ export const FilterOperatorDropdown = ({
   setOperator: (operator: FilterOperator) => void;
 }) => {
   const operators = filterOperators({ filterType, filterValues });
+
   return (
-    <Dropdown stayOpenOnSelect={false}>
-      <DropdownTrigger className="tag">
+    <pp-dropdown placement="bottom-start">
+      <button slot="trigger" className="tag">
         {operator}
-      </DropdownTrigger>
-      <DropdownContent align="start">
+      </button>
+      <pp-list>
         {operators.map((op) => (
-          <DropdownItem
+          <pp-list-item
             key={op}
+            type="checkbox"
+            checked={op === operator}
             onClick={() => setOperator(op)}
           >
             {op}
-          </DropdownItem>
+          </pp-list-item>
         ))}
-      </DropdownContent>
-    </Dropdown>
+      </pp-list>
+    </pp-dropdown>
   );
 };
 
