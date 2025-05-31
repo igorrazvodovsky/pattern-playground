@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react"
 import { Dispatch, SetStateAction } from "react";
-import { FilterValueCombobox, FilterOperatorDropdown, FilterValueDateCombobox } from "./filter-components";
+import { FilterValueDropdown, FilterOperatorDropdown, FilterValueDateCombobox } from "./filter-components";
 import { FilterType } from "./filter-types";
 import { FilterIcon } from "./filter-icon";
 import { Filter } from "./filter-types";
@@ -47,7 +47,7 @@ export default function Filters({
                 }}
               />
             ) : (
-              <FilterValueCombobox
+              <FilterValueDropdown
                 filterType={filter.type}
                 filterValues={filter.value}
                 setFilterValues={(filterValues) => {

@@ -1,5 +1,4 @@
 import { useState, useRef } from "react";
-import { clsx } from "clsx";
 import { FilterType, FilterOperator, FilterOption } from "./filter-types";
 import { filterOperators, filterViewToFilterOptions } from "./filter-options";
 import { FilterIcon } from "./filter-icon";
@@ -12,9 +11,7 @@ import {
   CommandItem,
   CommandList,
 } from "../command-menu/command";
-import { Popover, PopoverTrigger, PopoverContent } from "./popover.tsx";
 import { AnimatePresence, motion } from "motion/react";
-import { Icon } from "@iconify/react";
 import 'iconify-icon';
 import '../dropdown/dropdown.ts';
 import '../list/list.ts';
@@ -64,7 +61,7 @@ export const FilterOperatorDropdown = ({
   );
 };
 
-export const FilterValueCombobox = ({
+export const FilterValueDropdown = ({
   filterType,
   filterValues,
   setFilterValues,
@@ -73,49 +70,62 @@ export const FilterValueCombobox = ({
   filterValues: string[];
   setFilterValues: (filterValues: string[]) => void;
 }) => {
-  const [open, setOpen] = useState(false);
   const [commandInput, setCommandInput] = useState("");
   const commandInputRef = useRef<HTMLInputElement>(null);
+  const dropdownRef = useRef<any>(null);
+
   const nonSelectedFilterValues = filterViewToFilterOptions[filterType]?.filter(
     (filter) => !filterValues.includes(filter.name)
   );
+
+  // Close other dropdowns when this one opens
+  const handleDropdownShow = () => {
+    // Close other dropdowns by dispatching a custom event
+    document.querySelectorAll('pp-dropdown').forEach((dropdown) => {
+      if (dropdown !== dropdownRef.current && dropdown.open) {
+        dropdown.hide();
+      }
+    });
+  };
+
+  const handleDropdownHide = () => {
+    setTimeout(() => {
+      setCommandInput("");
+    }, 200);
+  };
+
   return (
-    <Popover
-      open={open}
-      onOpenChange={(open) => {
-        setOpen(open);
-        if (!open) {
-          setTimeout(() => {
-            setCommandInput("");
-          }, 200);
-        }
-      }}
+    <pp-dropdown
+      ref={dropdownRef}
+      placement="bottom-start"
+      onPp-show={handleDropdownShow}
+      onPp-hide={handleDropdownHide}
     >
-      <PopoverTrigger
+      <button
+        slot="trigger"
         className="tag"
       >
-          {filterType !== FilterType.PRIORITY && (
+        {filterType !== FilterType.PRIORITY && (
+          <AnimatePresence mode="popLayout">
+            {filterValues?.slice(0, 3).map((value) => (
+              <motion.div
+                key={value}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -10 }}
+                transition={{ duration: 0.2 }}
+              >
+                <FilterIcon type={value as FilterType} />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        )}
+        {filterValues?.length === 1
+          ? filterValues?.[0]
+          : `${filterValues?.length} selected`}
+      </button>
 
-              <AnimatePresence mode="popLayout">
-                {filterValues?.slice(0, 3).map((value) => (
-                  <motion.div
-                    key={value}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -10 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <FilterIcon type={value as FilterType} />
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-          )}
-          {filterValues?.length === 1
-            ? filterValues?.[0]
-            : `${filterValues?.length} selected`}
-
-      </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <div className="w-[200px] p-0">
         <AnimateChangeInHeight>
           <Command>
             <CommandInput
@@ -139,7 +149,7 @@ export const FilterValueCombobox = ({
                       setTimeout(() => {
                         setCommandInput("");
                       }, 200);
-                      setOpen(false);
+                      dropdownRef.current?.hide();
                     }}
                   >
                     <input type="checkbox" checked={true} />
@@ -161,7 +171,7 @@ export const FilterValueCombobox = ({
                           setTimeout(() => {
                             setCommandInput("");
                           }, 200);
-                          setOpen(false);
+                          dropdownRef.current?.hide();
                         }}
                       >
                         <input type="checkbox"
@@ -184,8 +194,8 @@ export const FilterValueCombobox = ({
             </CommandList>
           </Command>
         </AnimateChangeInHeight>
-      </PopoverContent>
-    </Popover>
+      </div>
+    </pp-dropdown>
   );
 };
 
@@ -202,72 +212,30 @@ export const FilterValueDateCombobox = ({
   const [commandInput, setCommandInput] = useState("");
   const commandInputRef = useRef<HTMLInputElement>(null);
   return (
-    <Popover
-      open={open}
-      onOpenChange={(open) => {
-        setOpen(open);
-        if (!open) {
-          setTimeout(() => {
-            setCommandInput("");
-          }, 200);
-        }
-      }}
-    >
-      <PopoverTrigger
-        className="rounded-none px-1.5 py-1 bg-muted hover:bg-muted/50 transition
-  text-muted-foreground hover:text-primary shrink-0"
-      >
+    <pp-dropdown placement="bottom-start">
+      <button slot="trigger" className="tag">
         {filterValues?.[0]}
-      </PopoverTrigger>
-      <PopoverContent className="w-fit p-0">
-        <AnimateChangeInHeight>
-          <Command>
-            <CommandInput
-              placeholder={filterType}
-              className="h-9"
-              value={commandInput}
-              onInputCapture={(e) => {
-                setCommandInput(e.currentTarget.value);
-              }}
-              ref={commandInputRef}
-            />
-            <hr />
-            <CommandList>
-              <CommandEmpty>No results found.</CommandEmpty>
-              <CommandGroup>
-                {filterViewToFilterOptions[filterType].map(
-                  (filter: FilterOption) => (
-                    <CommandItem
-                      className="group flex gap-2 items-center"
-                      key={filter.name}
-                      value={filter.name}
-                      onSelect={(currentValue: string) => {
-                        setFilterValues([currentValue]);
-                        setTimeout(() => {
-                          setCommandInput("");
-                        }, 200);
-                        setOpen(false);
-                      }}
-                    >
-                      <span className="text-accent-foreground">
-                        {filter.name}
-                      </span>
-                      <Icon
-                        icon="ph:check"
-                        className={clsx("ml-auto",
-                          filterValues.includes(filter.name)
-                            ? "opacity-100"
-                            : "opacity-0"
-                        )}/>
-                    </CommandItem>
-                  )
-                )}
-              </CommandGroup>
-            </CommandList>
-          </Command>
-        </AnimateChangeInHeight>
-      </PopoverContent>
-    </Popover>
+      </button>
+      <pp-list>
+        {filterViewToFilterOptions[filterType].map((filter: FilterOption) => (
+          <pp-list-item
+            key={filter.name}
+            type="checkbox"
+            checked={filterValues.includes(filter.name)}
+            onClick={() => {
+              if (filterValues.includes(filter.name)) {
+                setFilterValues(filterValues.filter((v) => v !== filter.name));
+              } else {
+                setFilterValues([...filterValues, filter.name]);
+              }
+            }}
+          >
+            <FilterIcon type={filter.name as FilterType} />
+            {filter.name}
+          </pp-list-item>
+        ))}
+      </pp-list>
+    </pp-dropdown>
   );
 };
 

@@ -6,11 +6,6 @@ import {
   CommandItem,
   CommandList
 } from "../components/filter/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "../components/filter/popover";
 import { nanoid } from "nanoid";
 import * as React from "react";
 import { AnimateChangeInHeight } from "../components/filter/animate-change-in-height";
@@ -23,19 +18,35 @@ import {
 import { filterViewOptions, filterViewToFilterOptions } from "../components/filter/filter-options";
 import type { Filter, FilterOption } from "../components/filter/filter-types";
 import { Icon } from '@iconify/react';
+import '../components/dropdown/dropdown.ts';
+
+declare module 'react' {
+  namespace JSX {
+    interface IntrinsicElements {
+      'pp-dropdown': any;
+    }
+  }
+}
 
 export function FilteringDemo({
   initialFilters = [],
 }: {
   initialFilters?: Filter[];
 } = {}) {
-  const [open, setOpen] = React.useState(false);
   const [selectedView, setSelectedView] = React.useState<FilterType | null>(
     null
   );
   const [commandInput, setCommandInput] = React.useState("");
   const commandInputRef = React.useRef<HTMLInputElement>(null);
   const [filters, setFilters] = React.useState<Filter[]>(initialFilters);
+  const dropdownRef = React.useRef<any>(null);
+
+  const handleDropdownHide = () => {
+    setTimeout(() => {
+      setSelectedView(null);
+      setCommandInput("");
+    }, 200);
+  };
 
   return (
     <div className="flex">
@@ -49,30 +60,20 @@ export function FilteringDemo({
           <span className="inclusively-hidden">Clear</span>
         </button>
       )}
-      <Popover
-        open={open}
-        onOpenChange={(open) => {
-          setOpen(open);
-          if (!open) {
-            setTimeout(() => {
-              setSelectedView(null);
-              setCommandInput("");
-            }, 200);
-          }
-        }}
+      <pp-dropdown
+        ref={dropdownRef}
+        placement="bottom-start"
+        onPp-hide={handleDropdownHide}
       >
-        <PopoverTrigger asChild>
-          <button
-            role="combobox"
-            aria-expanded={open}
-            className="button"
-          >
-            <Icon icon="ph:funnel-simple" className="icon" />
-            {!filters.length ? "Filter" : <span className="inclusively-hidden">Close</span>}
+        <button
+          slot="trigger"
+          className="button"
+        >
+          <Icon icon="ph:funnel-simple" className="icon" />
+          {!filters.length ? "Filter" : "Close"}
+        </button>
 
-          </button>
-        </PopoverTrigger>
-        <PopoverContent className="w-[200px] p-0">
+        <div className="w-[200px] p-0">
           <AnimateChangeInHeight>
             <Command>
               <CommandInput
@@ -113,7 +114,7 @@ export function FilteringDemo({
                               setSelectedView(null);
                               setCommandInput("");
                             }, 200);
-                            setOpen(false);
+                            dropdownRef.current?.hide();
                           }}
                         >
                           {filter.icon}
@@ -160,8 +161,8 @@ export function FilteringDemo({
               </CommandList>
             </Command>
           </AnimateChangeInHeight>
-        </PopoverContent>
-      </Popover>
+        </div>
+      </pp-dropdown>
     </div>
   );
 }
