@@ -15,7 +15,7 @@ import {
 import { Popover, PopoverTrigger, PopoverContent } from "./popover.tsx";
 import { AnimatePresence, motion } from "motion/react";
 import { Icon } from "@iconify/react";
-
+import 'iconify-icon';
 import '../dropdown/dropdown.ts';
 import '../list/list.ts';
 import '../list-item/list-item.ts';
