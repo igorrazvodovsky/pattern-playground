@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { FilterType, FilterOperator, FilterOption } from "./filter-types";
 import { filterOperators, filterViewToFilterOptions } from "./filter-options";
-import { FilterIcon } from "./filter-icon";
+import { FilterIcon } from "./filter-options-icons";
 import { AnimateChangeInHeight } from "./animate-change-in-height";
 import {
   Command,
@@ -199,7 +199,7 @@ export const FilterValueDropdown = ({
   );
 };
 
-export const FilterValueDateCombobox = ({
+export const FilterValueDateDropdown = ({
   filterType,
   filterValues,
   setFilterValues,

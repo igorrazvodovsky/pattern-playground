@@ -1,5 +1,5 @@
 import { FilterType, FilterOperator, Status, Assignee, Labels, Priority, DueDate, FilterOption } from "./filter-types";
-import { FilterIcon } from "./filter-icon";
+import { FilterIcon } from "./filter-options-icons";
 
 export const filterViewOptions: FilterOption[][] = [
   [

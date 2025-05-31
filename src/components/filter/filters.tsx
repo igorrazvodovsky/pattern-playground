@@ -1,8 +1,8 @@
 import { Icon } from "@iconify/react"
 import { Dispatch, SetStateAction } from "react";
-import { FilterValueDropdown, FilterOperatorDropdown, FilterValueDateCombobox } from "./filter-components";
+import { FilterValueDropdown, FilterOperatorDropdown, FilterValueDateDropdown } from "./filter-components";
 import { FilterType } from "./filter-types";
-import { FilterIcon } from "./filter-icon";
+import { FilterIcon } from "./filter-options-icons";
 import { Filter } from "./filter-types";
 
 export default function Filters({
@@ -35,7 +35,7 @@ export default function Filters({
             {filter.type === FilterType.CREATED_DATE ||
             filter.type === FilterType.UPDATED_DATE ||
             filter.type === FilterType.DUE_DATE ? (
-              <FilterValueDateCombobox
+              <FilterValueDateDropdown
                 filterType={filter.type}
                 filterValues={filter.value}
                 setFilterValues={(filterValues) => {
