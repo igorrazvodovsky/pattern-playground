@@ -3,6 +3,7 @@
 import * as React from "react"
 import { Command as CommandPrimitive } from "cmdk"
 import { Icon } from '@iconify/react'
+import { Slot } from "@radix-ui/react-slot"
 
 const Command = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive>,
@@ -67,45 +68,56 @@ const CommandGroup = React.forwardRef<
 
 CommandGroup.displayName = CommandPrimitive.Group.displayName
 
-interface CommandItemProps extends Omit<React.ComponentPropsWithoutRef<typeof CommandPrimitive.Item>, 'prefix'> {
+// Helper to identify slot children
+const isSlotChild = (child: React.ReactNode, slotName: string): boolean => {
+  return React.isValidElement(child) &&
+    (child.props as any)?.slot === slotName
+}
+
+interface CommandItemProps extends React.ComponentPropsWithoutRef<typeof CommandPrimitive.Item> {
   checked?: boolean;
-  prefix?: React.ReactNode;
-  suffix?: React.ReactNode;
+  asChild?: boolean;
 }
 
 const CommandItem = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Item>,
   CommandItemProps
->(({ children, checked, prefix, suffix, className, ...props }, ref) => {
-  // Auto-detect icons in children and move them to prefix if no explicit prefix
-  const processedChildren = React.useMemo(() => {
-    if (prefix) return children; // If explicit prefix, don't auto-detect
+>(({ children, checked, asChild, className, ...props }, ref) => {
+  const Comp = asChild ? Slot : CommandPrimitive.Item
 
-    const childArray = React.Children.toArray(children);
-    const iconIndex = childArray.findIndex((child) =>
-      React.isValidElement(child) &&
-      (child.type === Icon ||
-       (child.props && (
-         (child.props as any).icon ||
-         (child.props as any).className?.includes('icon')
-       )))
-    );
+  // Extract slotted children
+  const childArray = React.Children.toArray(children)
+  const prefixChildren = childArray.filter(child => isSlotChild(child, 'prefix'))
+  const suffixChildren = childArray.filter(child => isSlotChild(child, 'suffix'))
+  const contentChildren = childArray.filter(child =>
+    !isSlotChild(child, 'prefix') && !isSlotChild(child, 'suffix')
+  )
 
-    if (iconIndex === 0) {
-      // First child is an icon, move it to prefix
-      const icon = childArray[0];
-      const remainingChildren = childArray.slice(1);
-      return {
-        detectedPrefix: icon,
-        children: remainingChildren
-      };
+  // Auto-detect icons for backward compatibility
+  const autoDetectedPrefix = React.useMemo(() => {
+    if (prefixChildren.length > 0) return null
+
+    const firstContentChild = contentChildren[0]
+    if (React.isValidElement(firstContentChild) &&
+        (firstContentChild.type === Icon ||
+         (firstContentChild.props as any)?.icon ||
+         (firstContentChild.props as any)?.className?.includes('icon'))) {
+      return firstContentChild
     }
+    return null
+  }, [contentChildren, prefixChildren])
 
-    return { children: childArray };
-  }, [children, prefix]);
+  const finalContentChildren = autoDetectedPrefix
+    ? contentChildren.slice(1)
+    : contentChildren
 
-  const finalPrefix = prefix || (processedChildren as any).detectedPrefix;
-  const finalChildren = (processedChildren as any).children || children;
+  if (asChild) {
+    return (
+      <Comp ref={ref} className={`${checked ? 'command-item--checked' : ''} ${className || ''}`}>
+        {children}
+      </Comp>
+    )
+  }
 
   return (
     <CommandPrimitive.Item
@@ -118,22 +130,27 @@ const CommandItem = React.forwardRef<
         <Icon icon="ph:check" aria-hidden="true" />
       </span>
 
-      {/* Prefix (icons, etc.) */}
-      {finalPrefix && (
+      {/* Prefix (slotted or auto-detected) */}
+      {(prefixChildren.length > 0 || autoDetectedPrefix) && (
         <span className="command-item__prefix">
-          {finalPrefix}
+          {prefixChildren.map((child, index) =>
+            React.cloneElement(child as React.ReactElement, { key: index })
+          )}
+          {autoDetectedPrefix}
         </span>
       )}
 
       {/* Main content */}
       <span className="command-item__label">
-        {finalChildren}
+        {finalContentChildren}
       </span>
 
-      {/* Suffix (shortcuts, etc.) */}
-      {suffix && (
+      {/* Suffix (slotted) */}
+      {suffixChildren.length > 0 && (
         <span className="command-item__suffix">
-          {suffix}
+          {suffixChildren.map((child, index) =>
+            React.cloneElement(child as React.ReactElement, { key: index })
+          )}
         </span>
       )}
     </CommandPrimitive.Item>
@@ -142,6 +159,27 @@ const CommandItem = React.forwardRef<
 
 CommandItem.displayName = CommandPrimitive.Item.displayName
 
+// Convenience components for slotted content
+const CommandItemPrefix = React.forwardRef<
+  HTMLSpanElement,
+  React.HTMLAttributes<HTMLSpanElement>
+>(({ children, ...props }, ref) => (
+  <span ref={ref} slot="prefix" {...props}>
+    {children}
+  </span>
+))
+CommandItemPrefix.displayName = "CommandItemPrefix"
+
+const CommandItemSuffix = React.forwardRef<
+  HTMLSpanElement,
+  React.HTMLAttributes<HTMLSpanElement>
+>(({ children, ...props }, ref) => (
+  <span ref={ref} slot="suffix" {...props}>
+    {children}
+  </span>
+))
+CommandItemSuffix.displayName = "CommandItemSuffix"
+
 export {
   Command,
   CommandInput,
@@ -149,4 +187,6 @@ export {
   CommandEmpty,
   CommandGroup,
   CommandItem,
+  CommandItemPrefix,
+  CommandItemSuffix,
 }

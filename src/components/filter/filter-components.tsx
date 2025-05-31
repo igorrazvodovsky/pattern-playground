@@ -9,6 +9,8 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandItemPrefix,
+  CommandItemSuffix,
   CommandList,
 } from "../command-menu/command";
 import { AnimatePresence, motion } from "motion/react";
@@ -23,6 +25,7 @@ declare module 'react' {
       'pp-dropdown': any;
       'pp-list': any;
       'pp-list-item': any;
+      'iconify-icon': any;
     }
   }
 }
@@ -143,12 +146,6 @@ export const FilterValueDropdown = ({
                 {filterValues.map((value) => (
                   <CommandItem
                     key={value}
-                    prefix={
-                      <>
-                        <input type="checkbox" checked={true} />
-                        <FilterIcon type={value as FilterType} />
-                      </>
-                    }
                     onSelect={() => {
                       setFilterValues(filterValues.filter((v) => v !== value));
                       setTimeout(() => {
@@ -157,6 +154,10 @@ export const FilterValueDropdown = ({
                       dropdownRef.current?.hide();
                     }}
                   >
+                    <span slot="prefix">
+                      <input type="checkbox" checked={true} />
+                      <FilterIcon type={value as FilterType} />
+                    </span>
                     {value}
                   </CommandItem>
                 ))}
@@ -169,17 +170,6 @@ export const FilterValueDropdown = ({
                       <CommandItem
                         key={filter.name}
                         value={filter.name}
-                        prefix={
-                          <>
-                            <input type="checkbox" checked={false} />
-                            {filter.icon}
-                          </>
-                        }
-                        suffix={filter.label ? (
-                          <span className="text-muted-foreground text-xs ml-auto">
-                            {filter.label}
-                          </span>
-                        ) : undefined}
                         onSelect={(currentValue: string) => {
                           setFilterValues([...filterValues, currentValue]);
                           setTimeout(() => {
@@ -188,9 +178,18 @@ export const FilterValueDropdown = ({
                           dropdownRef.current?.hide();
                         }}
                       >
+                        <span slot="prefix">
+                          <input type="checkbox" checked={false} />
+                          {filter.icon}
+                        </span>
                         <span>
                           {filter.name}
                         </span>
+                        {filter.label && (
+                          <span slot="suffix" className="text-muted-foreground text-xs ml-auto">
+                            {filter.label}
+                          </span>
+                        )}
                       </CommandItem>
                     ))}
                   </CommandGroup>
@@ -235,7 +234,7 @@ export const FilterValueDateDropdown = ({
               }
             }}
           >
-            <FilterIcon type={filter.name as FilterType} />
+            <iconify-icon icon={filter.name} slot="prefix"></iconify-icon>
             {filter.name}
           </pp-list-item>
         ))}

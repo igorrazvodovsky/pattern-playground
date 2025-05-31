@@ -4,6 +4,8 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandItemPrefix,
+  CommandItemSuffix,
   CommandList
 } from "../components/filter/command";
 import { nanoid } from "nanoid";
@@ -19,11 +21,13 @@ import { filterViewOptions, filterViewToFilterOptions } from "../components/filt
 import type { Filter, FilterOption } from "../components/filter/filter-types";
 import { Icon } from '@iconify/react';
 import '../components/dropdown/dropdown.ts';
+import 'iconify-icon';
 
 declare module 'react' {
   namespace JSX {
     interface IntrinsicElements {
       'pp-dropdown': any;
+      'iconify-icon': any;
     }
   }
 }
@@ -96,12 +100,6 @@ export function FilteringDemo({
                           className="group text-muted-foreground flex gap-2 items-center"
                           key={filter.name}
                           value={filter.name}
-                          prefix={filter.icon}
-                          suffix={filter.label ? (
-                            <span className="text-muted-foreground text-xs ml-auto">
-                              {filter.label}
-                            </span>
-                          ) : undefined}
                           onSelect={(currentValue) => {
                             setFilters((prev) => [
                               ...prev,
@@ -123,9 +121,17 @@ export function FilteringDemo({
                             dropdownRef.current?.hide();
                           }}
                         >
+                          <span slot="prefix">
+                            {filter.icon}
+                          </span>
                           <span className="text-accent-foreground">
                             {filter.name}
                           </span>
+                          {filter.label && (
+                            <span slot="suffix" className="text-muted-foreground text-xs ml-auto">
+                              {filter.label}
+                            </span>
+                          )}
                         </CommandItem>
                       )
                     )}
@@ -140,13 +146,15 @@ export function FilteringDemo({
                               className="group text-muted-foreground flex gap-2 items-center"
                               key={filter.name}
                               value={filter.name}
-                              prefix={filter.icon}
                               onSelect={(currentValue) => {
                                 setSelectedView(currentValue as FilterType);
                                 setCommandInput("");
                                 commandInputRef.current?.focus();
                               }}
                             >
+                              <span slot="prefix">
+                                {filter.icon}
+                              </span>
                               <span className="text-accent-foreground">
                                 {filter.name}
                               </span>
