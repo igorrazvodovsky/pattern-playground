@@ -70,7 +70,7 @@ export function FilteringDemo({
           className="button"
         >
           <Icon icon="ph:funnel-simple" className="icon" />
-          {!filters.length ? "Filter" : "Close"}
+          {!filters.length && "Filter"}
         </button>
 
         <div className="w-[200px] p-0">
@@ -96,6 +96,12 @@ export function FilteringDemo({
                           className="group text-muted-foreground flex gap-2 items-center"
                           key={filter.name}
                           value={filter.name}
+                          prefix={filter.icon}
+                          suffix={filter.label ? (
+                            <span className="text-muted-foreground text-xs ml-auto">
+                              {filter.label}
+                            </span>
+                          ) : undefined}
                           onSelect={(currentValue) => {
                             setFilters((prev) => [
                               ...prev,
@@ -117,15 +123,9 @@ export function FilteringDemo({
                             dropdownRef.current?.hide();
                           }}
                         >
-                          {filter.icon}
                           <span className="text-accent-foreground">
                             {filter.name}
                           </span>
-                          {filter.label && (
-                            <span className="text-muted-foreground text-xs ml-auto">
-                              {filter.label}
-                            </span>
-                          )}
                         </CommandItem>
                       )
                     )}
@@ -140,13 +140,13 @@ export function FilteringDemo({
                               className="group text-muted-foreground flex gap-2 items-center"
                               key={filter.name}
                               value={filter.name}
+                              prefix={filter.icon}
                               onSelect={(currentValue) => {
                                 setSelectedView(currentValue as FilterType);
                                 setCommandInput("");
                                 commandInputRef.current?.focus();
                               }}
                             >
-                              {filter.icon}
                               <span className="text-accent-foreground">
                                 {filter.name}
                               </span>

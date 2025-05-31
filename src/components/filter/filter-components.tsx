@@ -78,7 +78,6 @@ export const FilterValueDropdown = ({
     (filter) => !filterValues.includes(filter.name)
   );
 
-  // Close other dropdowns when this one opens
   const handleDropdownShow = () => {
     // Close other dropdowns by dispatching a custom event
     document.querySelectorAll('pp-dropdown').forEach((dropdown) => {
@@ -144,6 +143,12 @@ export const FilterValueDropdown = ({
                 {filterValues.map((value) => (
                   <CommandItem
                     key={value}
+                    prefix={
+                      <>
+                        <input type="checkbox" checked={true} />
+                        <FilterIcon type={value as FilterType} />
+                      </>
+                    }
                     onSelect={() => {
                       setFilterValues(filterValues.filter((v) => v !== value));
                       setTimeout(() => {
@@ -152,8 +157,6 @@ export const FilterValueDropdown = ({
                       dropdownRef.current?.hide();
                     }}
                   >
-                    <input type="checkbox" checked={true} />
-                    <FilterIcon type={value as FilterType} />
                     {value}
                   </CommandItem>
                 ))}
@@ -166,6 +169,17 @@ export const FilterValueDropdown = ({
                       <CommandItem
                         key={filter.name}
                         value={filter.name}
+                        prefix={
+                          <>
+                            <input type="checkbox" checked={false} />
+                            {filter.icon}
+                          </>
+                        }
+                        suffix={filter.label ? (
+                          <span className="text-muted-foreground text-xs ml-auto">
+                            {filter.label}
+                          </span>
+                        ) : undefined}
                         onSelect={(currentValue: string) => {
                           setFilterValues([...filterValues, currentValue]);
                           setTimeout(() => {
@@ -174,18 +188,9 @@ export const FilterValueDropdown = ({
                           dropdownRef.current?.hide();
                         }}
                       >
-                        <input type="checkbox"
-                          checked={false}
-                        />
-                        {filter.icon}
                         <span>
                           {filter.name}
                         </span>
-                        {filter.label && (
-                          <span className="text-muted-foreground text-xs ml-auto">
-                            {filter.label}
-                          </span>
-                        )}
                       </CommandItem>
                     ))}
                   </CommandGroup>

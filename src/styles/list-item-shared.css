@@ -1,0 +1,114 @@
+/* Shared list item styles for both pp-list-item and command items */
+
+.list-item-base {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  font-size: var(--text-m);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+  color: var(--c-neutral-700);
+  padding: var(--space-xs) var(--space-m) var(--space-xs) var(--space-2xs);
+  transition: var(--transition-fast) fill;
+  user-select: none;
+  -webkit-user-select: none;
+  white-space: nowrap;
+  cursor: pointer;
+  border-radius: var(--radius-s);
+}
+
+.list-item-base:hover:not([aria-disabled="true"]):not(.list-item--disabled) {
+  background-color: var(--c-neutral-50);
+  color: var(--c-neutral-1000);
+}
+
+.list-item-base:focus-visible {
+  outline: none;
+  opacity: 1;
+}
+
+/* Disabled state */
+.list-item-base.list-item--disabled,
+.list-item-base[aria-disabled="true"] {
+  outline: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Loading state */
+.list-item-base.list-item--loading {
+  outline: none;
+  cursor: wait;
+}
+
+.list-item-base.list-item--loading *:not(pp-spinner) {
+  opacity: 0.5;
+}
+
+/* Checkbox/check area */
+.list-item__check {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5em;
+  visibility: hidden;
+}
+
+.list-item-base.list-item--checked .list-item__check {
+  visibility: visible;
+}
+
+/* Prefix (icons, etc.) */
+.list-item__prefix {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  margin-inline-end: var(--space-xs);
+}
+
+.list-item__prefix .icon,
+.list-item__prefix iconify-icon {
+  color: oklch(from var(--c-body) l c h / 0.6);
+  fill: oklch(from var(--c-body) l c h / 0.6);
+}
+
+/* Label/content */
+.list-item__label {
+  flex: 1 1 auto;
+  display: inline-block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.list-item__label:first-letter {
+  text-transform: capitalize;
+}
+
+/* Suffix (shortcuts, chevrons, etc.) */
+.list-item__suffix {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  margin-inline-start: var(--space-xs);
+  min-width: 1em;
+}
+
+/* Shortcuts styling */
+.list-item__shortcuts {
+  margin-left: auto;
+  display: flex;
+  gap: var(--space-2xs);
+}
+
+/* Loading spinner positioning */
+.list-item--loading pp-spinner {
+  --indicator-color: currentColor;
+  --track-width: 1px;
+  position: absolute;
+  font-size: 0.75em;
+  top: calc(50% - 0.5em);
+  left: 0.65rem;
+  opacity: 1;
+}

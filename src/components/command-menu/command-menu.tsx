@@ -21,49 +21,52 @@ function CommandMenu() {
           <CommandEmpty>No results found.</CommandEmpty>
 
           <CommandGroup heading="Recent">
-            <CommandItem>
-              <Icon icon="ph:file" className="icon" aria-hidden="true" />
+            <CommandItem prefix={<Icon icon="ph:file" className="icon" aria-hidden="true" />}>
               OBJ-561
             </CommandItem>
-            <CommandItem>
-              <Icon icon="ph:file" className="icon" aria-hidden="true" />
+            <CommandItem prefix={<Icon icon="ph:file" className="icon" aria-hidden="true" />}>
               OBJ-568
             </CommandItem>
-            <CommandItem>
-              <Icon icon="ph:file" className="icon" aria-hidden="true" />
+            <CommandItem prefix={<Icon icon="ph:file" className="icon" aria-hidden="true" />}>
               OBJ-541
             </CommandItem>
           </CommandGroup>
 
           <CommandGroup heading="Commands">
-            <CommandItem>
-              <Icon icon="ph:magnifying-glass" className="icon" aria-hidden="true" />
+            <CommandItem
+              prefix={<Icon icon="ph:magnifying-glass" className="icon" aria-hidden="true" />}
+              suffix={<span className="cmdk-shortcuts"><kbd>⌘</kbd> <kbd>S</kbd></span>}
+            >
               Search…
-              <span className="cmdk-shortcuts"><kbd>⌘</kbd> <kbd>S</kbd></span>
             </CommandItem>
-            <CommandItem>
-              <Icon icon="ph:plus" className="icon" aria-hidden="true" />
+            <CommandItem
+              prefix={<Icon icon="ph:plus" className="icon" aria-hidden="true" />}
+              suffix={<span className="cmdk-shortcuts"><kbd>⌘</kbd> <kbd>N</kbd></span>}
+            >
               Create…
-              <span className="cmdk-shortcuts"><kbd>⌘</kbd> <kbd>N</kbd></span>
             </CommandItem>
-            <CommandItem>
-              <Icon icon="ph:pencil" className="icon" aria-hidden="true" />
+            <CommandItem prefix={<Icon icon="ph:pencil" className="icon" aria-hidden="true" />}>
               Change…
             </CommandItem>
           </CommandGroup>
 
           <CommandGroup heading="Help">
-            <CommandItem>
-              <Icon icon="ph:files" className="icon" aria-hidden="true" />
+            <CommandItem prefix={<Icon icon="ph:files" className="icon" aria-hidden="true" />}>
               Search documentation
             </CommandItem>
-            <CommandItem>
-              <Icon icon="ph:chat" className="icon" aria-hidden="true" />
+            <CommandItem prefix={<Icon icon="ph:chat" className="icon" aria-hidden="true" />}>
               Leave feedback
             </CommandItem>
-            <CommandItem>
-              <Icon icon="ph:envelope" className="icon" aria-hidden="true" />
+            <CommandItem prefix={<Icon icon="ph:envelope" className="icon" aria-hidden="true" />}>
               Contact support
+            </CommandItem>
+          </CommandGroup>
+
+          {/* Example with legacy structure (auto-detection) */}
+          <CommandGroup heading="Legacy Support">
+            <CommandItem>
+              <Icon icon="ph:gear" className="icon" aria-hidden="true" />
+              Settings (auto-detected icon)
             </CommandItem>
           </CommandGroup>
         </CommandList>

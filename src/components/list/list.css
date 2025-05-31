@@ -1,3 +1,5 @@
+@import "../../styles/list-shared.css";
+
 :host {
   display: block;
   position: relative;
@@ -11,4 +13,9 @@
 
 ::slotted(hr) {
   --spacing: var(--space-xs);
+  margin-inline: calc(var(--space-m) * -1);
+  width: calc(100% + var(--space-m) * 2);
+  border: none;
+  border-top: var(--border);
+  margin-block: var(--space-xs);
 }

@@ -1,4 +1,5 @@
-/* TODO: Combine with list styles */
+@import "./list-shared.css";
+@import "./list-item-shared.css";
 
 [cmdk-root] {
   border-radius: var(--radius-l);
@@ -6,21 +7,15 @@
   background-color: var(--c-neutral-0);
   box-shadow: var(--shadow-l);
   padding: var(--space-m);
-
-  hr {
-    margin-inline: calc(var(--space-m) * -1);
-    width: calc(100% + var(--space-m) * 2);
-  }
 }
 
-/* TODO: */
-/* :is(dialog, [role="dialog"]) [cmdk-root] {
-  padding: var(--space-s) var(--space-xs);
-  hr {
-    margin-inline: calc(var(--space-xs) * -1);
-    width: calc(100% + var(--space-xs) * 2);
-  }
-} */
+[cmdk-root] hr {
+  margin-inline: calc(var(--space-m) * -1);
+  width: calc(100% + var(--space-m) * 2);
+  border: none;
+  border-top: var(--border);
+  margin-block: var(--space-xs);
+}
 
 [cmdk-root]:focus {
   outline: none;
@@ -30,7 +25,6 @@
   display: flex;
   align-items: center;
   gap: var(--space-s);
-  /* border-bottom: var(--border); */
   padding-inline: var(--space-m);
   margin-block-end: var(--space-m);
 }
@@ -45,12 +39,6 @@
   color: var(--c-bodyDimmed);
 }
 
-/* [cmdk-input-wrapper]:has(> input[type="text"]):focus-within {
-  outline: 2px solid var(--c-accent);
-  outline-offset: 2px;
-  border-radius: 4px;
-} */
-
 [cmdk-list] {
   margin-block-start: var(--space-m);
 }
@@ -59,34 +47,104 @@
   font-size: smaller;
   color: var(--c-bodyMuted);
   padding-inline: var(--space-m);
+  padding-block: var(--space-2xs);
+  font-weight: var(--font-weight-medium);
 }
 
 [cmdk-group] + [cmdk-group] {
   margin-block-start: var(--space-m);
 }
 
+/* CommandItem uses shared list-item styles */
 [cmdk-item] {
-  padding: var(--space-s) var(--space-m);
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  font-size: var(--text-m);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+  color: var(--c-neutral-700);
+  padding: var(--space-xs) var(--space-m) var(--space-xs) var(--space-2xs);
+  transition: var(--transition-fast) fill;
+  user-select: none;
+  -webkit-user-select: none;
+  white-space: nowrap;
+  cursor: pointer;
   border-radius: var(--radius-s);
+}
+
+[cmdk-item]:hover:not([aria-disabled="true"]) {
+  background-color: var(--c-neutral-50);
+  color: var(--c-neutral-1000);
+}
+
+[cmdk-item][aria-disabled="true"] {
+  outline: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* CommandItem prefix (icons) */
+[cmdk-item] .command-item__prefix {
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
-  gap: 1ch;
-
-  &:hover:not([aria-disabled="true"]) {
-    background-color: var(--c-neutral-50);
-    color: var(--c-neutral-1000);
-  }
-
-  .icon {
-    color: oklch(from var(--c-body) l c h / 0.6);
-    fill: oklch(from var(--c-body) l c h / 0.6);
-  }
+  margin-inline-end: var(--space-xs);
 }
 
+[cmdk-item] .command-item__prefix .icon,
+[cmdk-item] .command-item__prefix iconify-icon {
+  color: oklch(from var(--c-body) l c h / 0.6);
+  fill: oklch(from var(--c-body) l c h / 0.6);
+}
+
+/* CommandItem label/content */
+[cmdk-item] .command-item__label {
+  flex: 1 1 auto;
+  display: inline-block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/* CommandItem suffix (shortcuts) */
+[cmdk-item] .command-item__suffix {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  margin-inline-start: var(--space-xs);
+  min-width: 1em;
+}
+
+/* Legacy icon support for existing CommandItems */
+[cmdk-item] > .icon:first-child {
+  margin-inline-end: var(--space-xs);
+  color: oklch(from var(--c-body) l c h / 0.6);
+  fill: oklch(from var(--c-body) l c h / 0.6);
+}
+
+/* Shortcuts styling */
 .cmdk-shortcuts {
   margin-left: auto;
+  display: flex;
+  gap: var(--space-2xs);
 }
 
+/* Checkbox placeholder for CommandItem */
+[cmdk-item] .command-item__check {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5em;
+  visibility: hidden;
+}
+
+[cmdk-item].command-item--checked .command-item__check {
+  visibility: visible;
+}
+
+/* Dialog specific styles */
 dialog:has(> pp-command-menu) {
   padding: 0;
   grid-template-rows: auto;

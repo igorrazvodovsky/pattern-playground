@@ -14,11 +14,11 @@ export const FilterIcon = ({
     case FilterType.STATUS:
       return <Icon icon="ph:circle-dashed" className="icon" />;
     case FilterType.ASSIGNEE:
-      return <Icon icon="ph:user-circle" className="icon" />;
+      return <Icon icon="ph:user" className="icon" />;
     case FilterType.LABELS:
       return <Icon icon="ph:tag" className="icon" />;
     case FilterType.PRIORITY:
-      return <Icon icon="ph:signal-high" className="icon" />;
+      return <Icon icon="ph:cell-signal-high" className="icon" />;
     case FilterType.DUE_DATE:
       return <Icon icon="ph:calendar" className="icon" />;
     case FilterType.CREATED_DATE:

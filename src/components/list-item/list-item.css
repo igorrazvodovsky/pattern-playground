@@ -1,3 +1,5 @@
+@import "../../styles/list-item-shared.css";
+
 :host {
   display: block;
 }
@@ -7,6 +9,7 @@
 }
 
 .list-item {
+  /* Inherits from .list-item-base in shared styles */
   position: relative;
   display: flex;
   align-items: stretch;
@@ -21,6 +24,7 @@
   -webkit-user-select: none;
   white-space: nowrap;
   cursor: pointer;
+  border-radius: var(--radius-s);
 }
 
 .list-item.list-item--disabled {
@@ -53,16 +57,17 @@
   display: inline-block;
   text-overflow: ellipsis;
   overflow: hidden;
+}
 
-  &:first-letter {
-    text-transform: capitalize;
-  }
+.list-item .list-item__label:first-letter {
+  text-transform: capitalize;
 }
 
 .list-item .list-item__prefix {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
+  margin-inline-end: var(--space-xs);
 }
 
 .list-item .list-item__prefix::slotted(*) {
@@ -73,7 +78,7 @@
   flex: 0 0 auto;
   display: flex;
   align-items: center;
-  /* TODO: move to submenu slot*/
+  margin-inline-start: var(--space-xs);
   min-width: 1em;
 }
 
@@ -92,13 +97,10 @@
 
 :host(:focus-visible) .list-item {
   outline: none;
-  /* background-color: var(--c-neutral-100); */
-  /* color: var(--c-neutral-0); */
   opacity: 1;
 }
 
-.list-item .list-item__check,
-.list-item .list-item__chevron {
+.list-item .list-item__check {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
@@ -109,4 +111,13 @@
 
 .list-item--checked .list-item__check {
   visibility: visible;
+}
+
+.list-item .list-item__chevron {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5em;
+  visibility: hidden;
 }
