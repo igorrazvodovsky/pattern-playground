@@ -1,17 +1,43 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { useEffect, useRef } from 'react';
 import CommandMenu from '../components/command-menu/command-menu';
 
 const meta = {
-  title: 'Components/CommandMenu',
+  title: 'Compositions/Command menu*',
   component: CommandMenu,
-  parameters: {
-    layout: 'centered',
-  },
 } satisfies Meta<typeof CommandMenu>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
+export const Basic: Story = {
   args: {},
+};
+
+export const Dialog: Story = {
+  args: {},
+  render: () => {
+    const dialogRef = useRef<HTMLDialogElement>(null);
+
+    useEffect(() => {
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === '/') {
+          e.preventDefault();
+          dialogRef.current?.showModal();
+        }
+      };
+
+      document.addEventListener('keydown', handleKeyDown);
+      return () => document.removeEventListener('keydown', handleKeyDown);
+    }, []);
+
+    return (
+      <>
+        <p>Press <kbd>/</kbd> to open the command menu.</p>
+        <dialog ref={dialogRef} id="cmd">
+          <CommandMenu />
+        </dialog>
+      </>
+    );
+  },
 };

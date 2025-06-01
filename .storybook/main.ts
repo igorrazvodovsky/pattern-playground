@@ -11,14 +11,14 @@ const config: StorybookConfig = {
     if (configType === 'DEVELOPMENT') {
       return {
         react: {
-          title: 'Stories for React-based stuff',
+          title: 'React-based stuff',
           url: 'http://localhost:7007/',
         },
       };
     }
     return {
       react: {
-        title: 'Stories for React-based stuff',
+        title: 'React-based stuff',
         url: 'https://pattern-playground-react.onrender.com',
       },
     };
@@ -37,11 +37,7 @@ const config: StorybookConfig = {
 
     return config;
   },
-
-  // Configure static files handling
   staticDirs: ['../public'],
-
-  // Add core configuration for iframe communication
   core: {
     disableTelemetry: true,
   }
