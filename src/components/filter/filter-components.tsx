@@ -12,7 +12,6 @@ import {
   CommandItem,
   CommandList,
 } from "../command-menu/command";
-import { AnimatePresence, motion } from "motion/react";
 import 'iconify-icon';
 import '../dropdown/dropdown.ts';
 import '../list/list.ts';
@@ -107,26 +106,18 @@ export const FilterValueDropdown = ({
         className="tag"
       >
         {filterType !== FilterType.PRIORITY && (
-          <AnimatePresence mode="popLayout">
-            {filterValues?.slice(0, 3).map((value) => (
-              <motion.div
-                key={value}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -10 }}
-                transition={{ duration: 0.2 }}
-              >
-                <FilterIcon type={value as FilterType} />
-              </motion.div>
-            ))}
-          </AnimatePresence>
+
+            filterValues?.slice(0, 3).map((value) => (
+              <FilterIcon type={value as FilterType} />
+            ))
+
         )}
         {filterValues?.length === 1
           ? filterValues?.[0]
           : `${filterValues?.length} selected`}
       </button>
 
-      <div className="w-[200px] p-0">
+      <div>
         <AnimateChangeInHeight>
           <Command>
             <CommandInput

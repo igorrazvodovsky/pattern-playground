@@ -1,7 +1,6 @@
   :host {
     --arrow-color: var(--c-neutral-1000);
     --arrow-size: 6px;
-
     /*
      * These properties are computed to account for the arrow's dimensions after being rotated 45º. The constant
      * 0.7071 is derived from sin(45), which is the diagonal size of the arrow's container after rotating.

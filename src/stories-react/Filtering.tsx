@@ -73,10 +73,10 @@ export function FilteringDemo({
           className="button"
         >
           <Icon icon="ph:funnel-simple" className="icon" />
-          {!filters.length && "Filter"}
+          <span className={filters.length ? "inclusively-hidden" : ""}>Filter</span>
         </button>
 
-        <div className="w-[200px] p-0">
+        <div>
           <AnimateChangeInHeight>
             <Command>
               <CommandInput
@@ -96,7 +96,6 @@ export function FilteringDemo({
                     {filterViewToFilterOptions[selectedView].map(
                       (filter: FilterOption) => (
                         <CommandItem
-                          className="group text-muted-foreground flex gap-2 items-center"
                           key={filter.name}
                           value={filter.name}
                           onSelect={(currentValue) => {
@@ -123,11 +122,11 @@ export function FilteringDemo({
                           <Slot slot="prefix">
                             {filter.icon}
                           </Slot>
-                          <span className="text-accent-foreground">
+                          <span>
                             {filter.name}
                           </span>
                           {filter.label && (
-                            <span slot="suffix" className="text-muted-foreground text-xs ml-auto">
+                            <span slot="suffix">
                               {filter.label}
                             </span>
                           )}
@@ -139,10 +138,10 @@ export function FilteringDemo({
                   filterViewOptions.map(
                     (group: FilterOption[], index: number) => (
                       <React.Fragment key={index}>
+                        {index === 1 && <hr />}
                         <CommandGroup>
                           {group.map((filter: FilterOption) => (
                             <CommandItem
-                              className="group text-muted-foreground flex gap-2 items-center"
                               key={filter.name}
                               value={filter.name}
                               onSelect={(currentValue) => {

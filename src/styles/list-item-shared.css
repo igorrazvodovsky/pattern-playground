@@ -1,4 +1,4 @@
-/* Shared list item styles for both pp-list-item and command items */
+/* Shared list item styles for both pp-list-item and command menu items */
 
 .list-item-base {
   position: relative;
@@ -9,7 +9,7 @@
   line-height: var(--line-height-normal);
   letter-spacing: var(--letter-spacing-normal);
   color: var(--c-neutral-700);
-  padding: var(--space-xs) var(--space-m) var(--space-xs) var(--space-2xs);
+  padding: var(--space-xs) var(--space-l) var(--space-xs) var(--space-2xs);
   transition: var(--transition-fast) fill;
   user-select: none;
   -webkit-user-select: none;
@@ -46,13 +46,12 @@
   opacity: 0.5;
 }
 
-/* Checkbox/check area */
 .list-item__check {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 1.5em;
+  width: var(--_check-size);
   visibility: hidden;
 }
 
@@ -60,7 +59,6 @@
   visibility: visible;
 }
 
-/* Prefix (icons, etc.) */
 .list-item__prefix {
   flex: 0 0 auto;
   display: flex;
@@ -74,7 +72,6 @@
   fill: oklch(from var(--c-body) l c h / 0.6);
 }
 
-/* Label/content */
 .list-item__label {
   flex: 1 1 auto;
   display: inline-block;
@@ -86,7 +83,6 @@
   text-transform: capitalize;
 }
 
-/* Suffix (shortcuts, chevrons, etc.) */
 .list-item__suffix {
   flex: 0 0 auto;
   display: flex;
@@ -95,14 +91,13 @@
   min-width: 1em;
 }
 
-/* Shortcuts styling */
+
 .list-item__shortcuts {
   margin-left: auto;
   display: flex;
   gap: var(--space-2xs);
 }
 
-/* Loading spinner positioning */
 .list-item--loading pp-spinner {
   --indicator-color: currentColor;
   --track-width: 1px;
