@@ -7,11 +7,21 @@ const config: StorybookConfig = {
     "!../src/stories-react/**/*"
   ],
   addons: ["@storybook/addon-docs"],
-  refs: {
-    'react-stories': {
-      title: 'React Stories',
-      url: 'http://localhost:7007/',
-    },
+  refs: (config, { configType }) => {
+    if (configType === 'DEVELOPMENT') {
+      return {
+        react: {
+          title: 'Stories for React-based stuff',
+          url: 'http://localhost:7007/',
+        },
+      };
+    }
+    return {
+      react: {
+        title: 'Stories for React-based stuff',
+        url: 'https://pattern-playground-react.onrender.com',
+      },
+    };
   },
   framework: {
     name: "@storybook/web-components-vite",

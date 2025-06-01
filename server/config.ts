@@ -45,6 +45,7 @@ const config: ServerConfig = {
   cors: {
     allowedOrigins: [
       'http://localhost:6006', // Storybook
+      'http://localhost:7007', // React Storybook
       'http://localhost:3000', // Development
       process.env.FRONTEND_URL || '', // Frontend URL from environment variable
       // Render.com domains

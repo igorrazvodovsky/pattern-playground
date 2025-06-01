@@ -25,6 +25,7 @@ dist-ssr
 
 *storybook.log
 storybook-static
+storybook-static-react
 storybook-static.zip
 .netlify
 .env
