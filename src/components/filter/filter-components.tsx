@@ -16,6 +16,7 @@ import 'iconify-icon';
 import '../dropdown/dropdown.ts';
 import '../list/list.ts';
 import '../list-item/list-item.ts';
+import '../avatar/avatar.ts'
 
 declare module 'react' {
   namespace JSX {
@@ -24,6 +25,7 @@ declare module 'react' {
       'pp-list': any;
       'pp-list-item': any;
       'iconify-icon': any;
+      'pp-avatar' : any
     }
   }
 }
@@ -105,13 +107,15 @@ export const FilterValueDropdown = ({
         slot="trigger"
         className="tag"
       >
-        {filterType !== FilterType.PRIORITY && (
-
+        <span className="avatar-group">
+          {filterType !== FilterType.PRIORITY && (
             filterValues?.slice(0, 3).map((value) => (
-              <FilterIcon type={value as FilterType} />
+              <pp-avatar size="xsmall">
+                <FilterIcon type={value as FilterType} />
+              </pp-avatar>
             ))
-
-        )}
+          )}
+        </span>
         {filterValues?.length === 1
           ? filterValues?.[0]
           : `${filterValues?.length} selected`}
@@ -129,7 +133,6 @@ export const FilterValueDropdown = ({
               }}
               ref={commandInputRef}
             />
-            <hr />
             <CommandList>
               <CommandEmpty>No results found.</CommandEmpty>
               <CommandGroup>
@@ -152,7 +155,6 @@ export const FilterValueDropdown = ({
               </CommandGroup>
               {nonSelectedFilterValues?.length > 0 && (
                 <>
-                  <hr />
                   <CommandGroup>
                     {nonSelectedFilterValues.map((filter: FilterOption) => (
                       <CommandItem

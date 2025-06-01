@@ -88,7 +88,6 @@ export function FilteringDemo({
                 }}
                 ref={commandInputRef}
               />
-              <hr />
               <CommandList>
                 <CommandEmpty>No results found.</CommandEmpty>
                 {selectedView ? (
@@ -138,7 +137,6 @@ export function FilteringDemo({
                   filterViewOptions.map(
                     (group: FilterOption[], index: number) => (
                       <React.Fragment key={index}>
-                        {index === 1 && <hr />}
                         <CommandGroup>
                           {group.map((filter: FilterOption) => (
                             <CommandItem

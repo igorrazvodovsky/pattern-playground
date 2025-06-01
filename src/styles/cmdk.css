@@ -16,16 +16,6 @@ pp-dialog [cmdk-root] {
   padding-block: var(--_cmdk-spacing);
 }
 
-[cmdk-root] hr {
-  /* margin-inline: calc(var(--_cmdk-spacing) * -1); */
-  /* width: calc(100% + var(--_cmdk-spacing) * 2); */
-  border: none;
-  border-top: var(--border);
-  /* margin-block: var(--space-xs); */
-
-
-}
-
 [cmdk-root]:focus {
   outline: none;
 }
@@ -35,7 +25,8 @@ pp-dialog [cmdk-root] {
   align-items: center;
   gap: var(--space-xs);
   padding-inline: var(--_cmdk-spacing);
-  margin-block-end: var(--_cmdk-spacing);
+  padding-block-end: var(--_cmdk-spacing);
+  border-bottom: var(--border);
 }
 
 [cmdk-input] {
@@ -48,20 +39,24 @@ pp-dialog [cmdk-root] {
   color: var(--c-bodyDimmed);
 }
 
-[cmdk-list] {
+[cmdk-group-items] {
   margin-block: var(--_cmdk-spacing);
 }
 
-[cmdk-group-items] {
-  margin-block: var(--_cmdk-spacing);
+[cmdk-group-heading] + [cmdk-group-items] {
+  margin-block-start: calc(var(--_cmdk-spacing) / 2);
 }
 
 [cmdk-group-heading] {
   font-size: smaller;
   color: var(--c-bodyDimmed);
   padding-inline: calc(var(--_cmdk-spacing) + var(--_check-size));
-  padding-block: var(--space-2xs);
+  padding-block-start: var(--_cmdk-spacing);
   font-weight: var(--font-weight-semibold);
+}
+
+[cmdk-group]:not(:first-of-type) {
+  border-top: var(--border);
 }
 
 [cmdk-group] + [cmdk-group] {
@@ -98,7 +93,7 @@ pp-dialog [cmdk-root] {
 }
 
 /* CommandItem prefix (icons) */
-[cmdk-item] .command-item__prefix {
+[cmdk-item] .command-item__prefix:not(:empty) {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
@@ -151,4 +146,3 @@ dialog:has(> pp-command-menu) {
   display: flex;
   gap: var(--space-2xs);
 }
-
