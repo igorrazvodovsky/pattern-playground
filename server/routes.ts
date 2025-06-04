@@ -33,6 +33,22 @@ interface StreamEvent {
   error?: string;
   done: boolean;
 }
+interface FilterGenerationRequest {
+  prompt: string;
+  availableFilters: string[];
+  availableValues: Record<string, string[]>;
+}
+
+interface FilterGenerationResponse {
+  suggestedFilters: Array<{
+    type: string;
+    operator: string;
+    value: string[];
+  }>;
+  explanation: string;
+  confidence: number;
+  unmatchedCriteria?: string[];
+}
 
 /**
  * Configure and apply routes to Express app
@@ -69,6 +85,36 @@ export const setupRoutes = (app: Application): void => {
       }
     } catch (error) {
       logger.error("Error processing request:", error);
+      res.status(500).json({
+        success: false,
+        data: null,
+        error: error instanceof Error ? error.message : "Server error"
+      });
+    }
+  });
+
+  // New filter generation endpoint
+  app.post('/api/generate-filters', async (req: Request, res: Response): Promise<void> => {
+    logger.debug("Received filter generation request:", req.body);
+
+    // Validate request
+    if (!req.body || !req.body.prompt) {
+      logger.error("Error: Prompt is missing in request body");
+      res.status(400).json({
+        success: false,
+        data: null,
+        error: "Missing 'prompt' in request body"
+      });
+      return;
+    }
+
+    const { prompt, availableFilters, availableValues }: FilterGenerationRequest = req.body;
+    logger.info(`Processing filter generation prompt: "${prompt}"`);
+
+    try {
+      await handleFilterGenerationResponse(req, res, prompt, availableFilters, availableValues);
+    } catch (error) {
+      logger.error("Error processing filter generation request:", error);
       res.status(500).json({
         success: false,
         data: null,
@@ -281,6 +327,102 @@ async function handleStandardResponse(_req: Request, res: Response, prompt: stri
     } as ApiResponse<JuiceProductionModel>);
   } catch (error) {
     logger.error("Error in standard response:", error);
+    throw error;
+  }
+}
+
+/**
+ * Handle filter generation response
+ */
+async function handleFilterGenerationResponse(
+  _req: Request,
+  res: Response,
+  prompt: string,
+  _availableFilters: string[],
+  availableValues: Record<string, string[]>
+): Promise<void> {
+  try {
+    const systemPrompt = `You are a filter generation assistant for a task management system. Your job is to convert natural language queries into structured filter objects.
+
+Available filter types and their possible values:
+${Object.entries(availableValues).map(([type, values]) => `- ${type}: ${values.join(', ')}`).join('\n')}
+
+Rules:
+1. Return valid JSON only
+2. Use exact case-sensitive values from the lists above
+3. Choose appropriate operators: "is", "is not", "is any of", "include", "do not include", "before", "after"
+4. Provide confidence score (0-100)
+5. List any unmatched criteria
+
+Response format:
+{
+  "suggestedFilters": [
+    {
+      "type": "Status",
+      "operator": "is",
+      "value": ["Todo"]
+    }
+  ],
+  "explanation": "Applied filter for todo items",
+  "confidence": 85,
+  "unmatchedCriteria": []
+}`;
+
+    const response = await openai.chat.completions.create({
+      model: config.openai.model,
+      messages: [
+        {
+          role: 'system',
+          content: systemPrompt
+        },
+        {
+          role: 'user',
+          content: `Convert this filtering request into structured filters: "${prompt}"`
+        }
+      ],
+      temperature: 0.1,
+      max_tokens: 1000
+    });
+
+    logger.info("OpenAI filter generation response received");
+
+    if (!response.choices || !response.choices[0] || !response.choices[0].message) {
+      throw new Error("Invalid OpenAI response format");
+    }
+
+    const content = response.choices[0].message.content;
+    if (!content) {
+      throw new Error("Empty response from OpenAI");
+    }
+
+    // Parse the JSON response
+    let parsedContent: FilterGenerationResponse;
+    try {
+      // Extract JSON from response (handle code blocks)
+      const jsonMatch = content.match(/```(?:json)?\s*(\{[\s\S]*?\})\s*```/) || [null, content];
+      const jsonString = jsonMatch[1] || content;
+
+      parsedContent = JSON.parse(jsonString) as FilterGenerationResponse;
+
+      // Validate the response structure
+      if (!parsedContent.suggestedFilters || !Array.isArray(parsedContent.suggestedFilters)) {
+        throw new Error("Invalid response structure: missing suggestedFilters array");
+      }
+
+      logger.debug("Successfully parsed filter generation response");
+    } catch (parseError) {
+      logger.error("Failed to parse OpenAI filter response:", parseError);
+      throw new Error("Failed to parse AI response");
+    }
+
+    res.status(200).json({
+      success: true,
+      data: parsedContent,
+      error: null
+    } as ApiResponse<FilterGenerationResponse>);
+
+  } catch (error) {
+    logger.error("Error in filter generation response:", error);
     throw error;
   }
 }

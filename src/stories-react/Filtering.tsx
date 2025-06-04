@@ -1,6 +1,5 @@
 import {
   Command,
-  CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
@@ -27,6 +26,15 @@ import { Slot } from "@radix-ui/react-slot";
 import '../components/dropdown/dropdown.ts';
 import 'iconify-icon';
 
+// Add these imports for AI functionality
+import { AICommandEmpty } from "../components/filter/ai-command-empty";
+import {
+  createAIFilterService,
+  AIState,
+  AIFilterResult
+} from "../services/ai-filter-service";
+import { debounce } from "lodash";
+
 declare module 'react' {
   namespace JSX {
     interface IntrinsicElements {
@@ -49,8 +57,99 @@ export function FilteringDemo({
   const [filters, setFilters] = React.useState<Filter[]>(initialFilters);
   const dropdownRef = React.useRef<any>(null);
 
+  // Add AI-related state
+  const [aiState, setAIState] = React.useState<AIState>({
+    isProcessing: false,
+    hasUnresolvedQuery: false
+  });
+
+  // Create AI service instance
+  const aiService = React.useMemo(() => createAIFilterService(), []);
+
+  // Create stable available values mapping
+  const availableValues = React.useMemo(() =>
+    Object.fromEntries(
+      Object.entries(filterViewToFilterOptions).map(([key, options]) => [
+        key,
+        options.map(option => option.name as string)
+      ])
+    ) as Record<FilterType, string[]>,
+    []
+  );
+
+  // Create a stable AI request function
+  const makeAIRequest = React.useCallback(async (prompt: string) => {
+    if (prompt.length < 5) return;
+
+    setAIState(prev => ({
+      ...prev,
+      isProcessing: true,
+      error: undefined
+    }));
+
+    try {
+      const result = await aiService.generateFilters({
+        prompt,
+        availableFilters: Object.values(FilterType),
+        availableValues
+      });
+
+      setAIState(prev => ({
+        ...prev,
+        isProcessing: false,
+        result,
+        hasUnresolvedQuery: true
+      }));
+    } catch (error) {
+      setAIState(prev => ({
+        ...prev,
+        isProcessing: false,
+        error: (error as Error).message
+      }));
+    }
+  }, [aiService, availableValues]);
+
+  // Debounced AI request function - create once and never recreate
+  const debouncedAIRequest = React.useMemo(
+    () => debounce(makeAIRequest, 1500),
+    [makeAIRequest]
+  );
+
+  // Handle AI request
+  const handleAIRequest = React.useCallback((prompt: string) => {
+    debouncedAIRequest(prompt);
+  }, [debouncedAIRequest]);
+
   // Memoize global filter items for performance
   const globalFilterItems = React.useMemo(() => createGlobalFilterItems(), []);
+
+  // Handle applying AI-generated filters
+  const handleApplyAIFilters = React.useCallback((result: AIFilterResult) => {
+    setFilters(prev => [...prev, ...result.suggestedFilters]);
+    setAIState(prev => ({
+      ...prev,
+      hasUnresolvedQuery: false,
+      result: undefined
+    }));
+
+    // Close dropdown and reset input
+    setTimeout(() => {
+      setSelectedView(null);
+      setCommandInput("");
+    }, 200);
+    dropdownRef.current?.hide();
+  }, []);
+
+  // Handle edit prompt action
+  const handleEditPrompt = React.useCallback(() => {
+    // Keep the command menu open and focus on input for editing
+    commandInputRef.current?.focus();
+    setAIState(prev => ({
+      ...prev,
+      hasUnresolvedQuery: false,
+      result: undefined
+    }));
+  }, []);
 
   // Get filtered results based on current search term and view state
   const filteredResults = React.useMemo(() => {
@@ -69,6 +168,26 @@ export function FilteringDemo({
       return getFilteredResults(commandInput, globalFilterItems);
     }
   }, [commandInput, selectedView, globalFilterItems]);
+
+  // Trigger AI request when input changes - SAFE VERSION
+  React.useEffect(() => {
+    // Only trigger AI when:
+    // 1. There's input text
+    // 2. No specific view is selected (global search mode)
+    // 3. Input is long enough to be meaningful
+    if (commandInput && !selectedView && commandInput.length >= 3) {
+      debouncedAIRequest(commandInput);
+    }
+
+    // Clean up AI state when input is cleared or view is selected
+    if (!commandInput || selectedView) {
+      setAIState(prev => ({
+        ...prev,
+        hasUnresolvedQuery: false,
+        result: undefined
+      }));
+    }
+  }, [commandInput, selectedView]); // Only these two dependencies - no function dependencies
 
   const handleDropdownHide = () => {
     setTimeout(() => {
@@ -144,7 +263,6 @@ export function FilteringDemo({
             <Command shouldFilter={false} onEscape={handleEscape}>
               <CommandInput
                 placeholder={selectedView ? selectedView : "Filter..."}
-                className="h-9"
                 value={commandInput}
                 onInputCapture={(e) => {
                   setCommandInput(e.currentTarget.value);
@@ -152,12 +270,13 @@ export function FilteringDemo({
                 ref={commandInputRef}
               />
               <CommandList>
-                <CommandEmpty>
-                  {commandInput.trim()
-                    ? "No results found."
-                    : "Start typing to search filters..."
-                  }
-                </CommandEmpty>
+                <AICommandEmpty
+                  searchInput={commandInput}
+                  aiState={aiState}
+                  onAIRequest={handleAIRequest}
+                  onApplyAIFilters={handleApplyAIFilters}
+                  onEditPrompt={handleEditPrompt}
+                />
 
                 {selectedView ? (
                   // Selected view mode: show options for the selected filter type
@@ -205,9 +324,7 @@ export function FilteringDemo({
                                 <Slot slot="prefix">
                                   {filter.icon}
                                 </Slot>
-                                <span className="text-accent-foreground">
-                                  {filter.name}
-                                </span>
+                                {filter.name}
                               </CommandItem>
                             ))}
                           </CommandGroup>
