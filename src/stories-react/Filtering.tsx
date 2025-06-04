@@ -104,6 +104,16 @@ export function FilteringDemo({
     }
   };
 
+  const handleEscape = () => {
+    if (selectedView) {
+      setSelectedView(null);
+      setCommandInput("");
+      commandInputRef.current?.focus();
+      return true;
+    }
+    return false;
+  };
+
   return (
     <div className="flex">
       <Filters filters={filters} setFilters={setFilters} />
@@ -131,7 +141,7 @@ export function FilteringDemo({
 
         <div>
           <AnimateChangeInHeight>
-            <Command shouldFilter={false}>
+            <Command shouldFilter={false} onEscape={handleEscape}>
               <CommandInput
                 placeholder={selectedView ? selectedView : "Filter..."}
                 className="h-9"

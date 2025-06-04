@@ -3,7 +3,7 @@ import { FilteringDemo } from './Filtering';
 import { FilterType, FilterOperator, Status, Priority } from '../components/filter/filter-types'
 
 const meta: Meta<typeof FilteringDemo> = {
-  title: "Compositions/Browsing & sensemaking*/Filtering",
+  title: "Filtering*",
   component: FilteringDemo,
   parameters: {
     layout: 'centered',
@@ -32,7 +32,7 @@ export const Filtering: Story = {
   },
 };
 
-export const EmptyFilters: Story = {
+export const GlobalSearchFilters: Story = {
   name: "Global Search Demo",
   args: {
     initialFilters: []

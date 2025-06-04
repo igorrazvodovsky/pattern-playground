@@ -5,15 +5,34 @@ import { Command as CommandPrimitive } from "cmdk"
 import { Icon } from "@iconify/react"
 import { Slot } from "@radix-ui/react-slot"
 
+interface CommandProps extends React.ComponentPropsWithoutRef<typeof CommandPrimitive> {
+  onEscape?: () => boolean | void;
+}
+
 const Command = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive>,
-  React.ComponentPropsWithoutRef<typeof CommandPrimitive>
->(({ ...props }, ref) => (
-  <CommandPrimitive
-    ref={ref}
-    {...props}
-  />
-))
+  CommandProps
+>(({ onEscape, onKeyDown, ...props }, ref) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Escape' && onEscape) {
+      const handled = onEscape();
+      if (handled) {
+        e.preventDefault();
+      }
+    }
+
+    // Call any existing onKeyDown handler
+    onKeyDown?.(e);
+  };
+
+  return (
+    <CommandPrimitive
+      ref={ref}
+      onKeyDown={handleKeyDown}
+      {...props}
+    />
+  )
+})
 Command.displayName = CommandPrimitive.displayName
 
 const CommandInput = React.forwardRef<

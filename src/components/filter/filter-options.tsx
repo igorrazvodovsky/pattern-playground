@@ -277,6 +277,7 @@ export const getFilteredResults = (
       return item.type === specificFilterType && matchesTypeAndValue(item);
     }
 
+    // For non-specific searches, use broader matching
     // First try simple matching (backward compatibility)
     if (matchesSearch(item.value) || matchesSearch(item.searchableText)) {
       return true;

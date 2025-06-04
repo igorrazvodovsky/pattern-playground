@@ -3,8 +3,11 @@ import { useEffect, useRef } from 'react';
 import CommandMenu from './CommandMenu.tsx';
 
 const meta = {
-  title: 'Compositions/Command menu*',
+  title: 'Command menu*',
   component: CommandMenu,
+  parameters: {
+    layout: 'centered',
+  },
 } satisfies Meta<typeof CommandMenu>;
 
 export default meta;
@@ -40,4 +43,11 @@ export const Dialog: Story = {
       </>
     );
   },
+  parameters: {
+    docs: {
+      description: {
+        story: `Command menu in a modal dialog. Press "/" to open it and test the hierarchical navigation and search functionality.`
+      }
+    }
+  }
 };
