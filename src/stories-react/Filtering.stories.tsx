@@ -11,7 +11,7 @@ const meta: Meta<typeof FilteringDemo> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof FilteringDemo>;
 
 export const Filtering: Story = {
   args: {
@@ -30,4 +30,18 @@ export const Filtering: Story = {
       }
     ]
   },
+};
+
+export const EmptyFilters: Story = {
+  name: "Global Search Demo",
+  args: {
+    initialFilters: []
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `This story demonstrates the global search functionality. Try typing "feature" to see how it finds the "Feature" value across different filter types, or search for "high" to find the priority value.`
+      }
+    }
+  }
 };
