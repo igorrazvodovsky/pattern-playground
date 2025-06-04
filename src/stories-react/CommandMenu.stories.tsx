@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useEffect, useRef } from 'react';
-import CommandMenu from '../components/command-menu/command-menu';
+import CommandMenu from './CommandMenu.tsx';
 
 const meta = {
   title: 'Compositions/Command menu*',

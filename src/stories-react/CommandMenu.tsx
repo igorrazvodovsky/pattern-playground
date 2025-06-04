@@ -6,7 +6,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "./command";
+} from "../components/command-menu/command";
 import 'iconify-icon'
 
 declare module 'react' {
