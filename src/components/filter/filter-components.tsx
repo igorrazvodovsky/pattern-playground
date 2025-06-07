@@ -12,23 +12,13 @@ import {
   CommandItem,
   CommandList,
 } from "../command-menu/command";
+import { useDropdownState } from "./hooks/use-dropdown-state";
+import "./filter-component-types";
 import 'iconify-icon';
 import '../dropdown/dropdown.ts';
 import '../list/list.ts';
 import '../list-item/list-item.ts';
 import '../avatar/avatar.ts'
-
-declare module 'react' {
-  namespace JSX {
-    interface IntrinsicElements {
-      'pp-dropdown': any;
-      'pp-list': any;
-      'pp-list-item': any;
-      'iconify-icon': any;
-      'pp-avatar' : any
-    }
-  }
-}
 
 export const FilterOperatorDropdown = ({
   filterType,
@@ -73,27 +63,28 @@ export const FilterValueDropdown = ({
   filterValues: string[];
   setFilterValues: (filterValues: string[]) => void;
 }) => {
-  const [commandInput, setCommandInput] = useState("");
-  const commandInputRef = useRef<HTMLInputElement>(null);
-  const dropdownRef = useRef<any>(null);
+  const {
+    commandInput,
+    setCommandInput,
+    commandInputRef,
+    dropdownRef,
+    handleDropdownShow,
+    handleDropdownHide,
+    clearInputAndHide,
+  } = useDropdownState();
 
   const nonSelectedFilterValues = filterViewToFilterOptions[filterType]?.filter(
     (filter) => !filterValues.includes(filter.name)
   );
 
-  const handleDropdownShow = () => {
-    // Close other dropdowns by dispatching a custom event
-    document.querySelectorAll('pp-dropdown').forEach((dropdown) => {
-      if (dropdown !== dropdownRef.current && dropdown.open) {
-        dropdown.hide();
-      }
-    });
+  const handleValueRemove = (value: string) => {
+    setFilterValues(filterValues.filter((v) => v !== value));
+    clearInputAndHide();
   };
 
-  const handleDropdownHide = () => {
-    setTimeout(() => {
-      setCommandInput("");
-    }, 200);
+  const handleValueAdd = (currentValue: string) => {
+    setFilterValues([...filterValues, currentValue]);
+    clearInputAndHide();
   };
 
   return (
@@ -140,13 +131,7 @@ export const FilterValueDropdown = ({
                   <CommandItem
                     key={value}
                     checked={true}
-                    onSelect={() => {
-                      setFilterValues(filterValues.filter((v) => v !== value));
-                      setTimeout(() => {
-                        setCommandInput("");
-                      }, 200);
-                      dropdownRef.current?.hide();
-                    }}
+                    onSelect={() => handleValueRemove(value)}
                   >
                     <FilterIcon type={value as FilterType} slot="prefix" />
                     {value}
@@ -161,13 +146,7 @@ export const FilterValueDropdown = ({
                         key={filter.name}
                         value={filter.name}
                         checked={false}
-                        onSelect={(currentValue: string) => {
-                          setFilterValues([...filterValues, currentValue]);
-                          setTimeout(() => {
-                            setCommandInput("");
-                          }, 200);
-                          dropdownRef.current?.hide();
-                        }}
+                        onSelect={(currentValue: string) => handleValueAdd(currentValue)}
                       >
                         <Slot slot="prefix">
                           {filter.icon}

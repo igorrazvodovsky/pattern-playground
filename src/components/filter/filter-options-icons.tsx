@@ -56,12 +56,12 @@ export const FilterIcon = ({
     case Priority.LOW:
       return <iconify-icon icon="ph:cell-signal-low" className="icon" {...props} />;
     case Labels.BUG:
-      return <div className="bg-red-400 rounded-full size-2.5" {...props} />;
+      return <div {...props} />;
     case Labels.FEATURE:
-      return <div className="bg-blue-400 rounded-full size-2.5" {...props} />;
+      return <div {...props} />;
     case Labels.HOTFIX:
-      return <div className="bg-amber-400 rounded-full size-2.5" {...props} />;
+      return <div {...props} />;
     case Labels.RELEASE:
-      return <div className="bg-green-400 rounded-full size-2.5" {...props} />;
+      return <div {...props} />;
   }
 };

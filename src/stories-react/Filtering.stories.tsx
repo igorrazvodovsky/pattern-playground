@@ -31,17 +31,3 @@ export const Filtering: Story = {
     ]
   },
 };
-
-export const GlobalSearchFilters: Story = {
-  name: "Global Search Demo",
-  args: {
-    initialFilters: []
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: `This story demonstrates the global search functionality. Try typing "feature" to see how it finds the "Feature" value across different filter types, or search for "high" to find the priority value.`
-      }
-    }
-  }
-};

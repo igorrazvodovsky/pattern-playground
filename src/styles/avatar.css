@@ -51,7 +51,8 @@
     --_size: 64px;
   }
 
-  pp-avatar img {
+  pp-avatar > img,
+  pp-avatar > div {
     width: 100%;
     height: 100%;
     object-fit: cover;

@@ -64,9 +64,9 @@ export const AICommandEmpty: React.FC<AICommandEmptyProps> = ({
                   {result.suggestedFilters[0].type} {result.suggestedFilters[0].operator} {result.suggestedFilters[0].value.join(', ')}
                 </span>,
                 result.confidence < 85 && (
-                  <span key="suffix" slot="suffix">
+                  <small key="suffix" slot="suffix">
                     {result.confidence}% match
-                  </span>
+                  </small>
                 )
               ]
             ) : (
@@ -88,12 +88,25 @@ export const AICommandEmpty: React.FC<AICommandEmptyProps> = ({
           </CommandItem>
         )}
 
-        {/* TODO: replace with a toast of something */}
-        {/* {result.unmatchedCriteria && result.unmatchedCriteria.length > 0 && (
+        {/* Only show "no results" if there are truly no suggested filters */}
+        {result.suggestedFilters.length === 0 && result.unmatchedCriteria && result.unmatchedCriteria.length > 0 && (
           <CommandItem onSelect={onEditPrompt}>
-            Refine request. Some criteria couldn't be matched.
+            No results found. TODO: Add "Create a task" item.
+            {/* Refine request. Some criteria couldn't be matched. */}
           </CommandItem>
-        )} */}
+        )}
+
+        {/* Show partial match indicator when there are both matches and unmatched criteria */}
+        {result.suggestedFilters.length > 0 && result.unmatchedCriteria && result.unmatchedCriteria.length > 0 && (
+          <CommandItem onSelect={onEditPrompt}>
+            <Slot slot="prefix">
+              <Icon icon="ph:warning" />
+            </Slot>
+            <span>
+              Partial match - couldn't understand: {result.unmatchedCriteria.join(', ')}
+            </span>
+          </CommandItem>
+        )}
       </CommandGroup>
     );
   }
@@ -112,13 +125,13 @@ export const AICommandEmpty: React.FC<AICommandEmptyProps> = ({
       <div>
         {searchInput.trim() ? (
           <div>
-            <p>No immediate results found</p>
+            <p>No immediate results found.</p>
             {shouldShowAIOption && (
               <div>
-                <button onClick={() => onAIRequest(searchInput)}>
-                  <Icon icon="ph:sparkle" />
+                {/* <button onClick={() => onAIRequest(searchInput)}>
+                  <Icon slot="prefix" icon="ph:sparkle" />
                   <span>Ask AI to create filters</span>
-                </button>
+                </button> */}
               </div>
             )}
           </div>

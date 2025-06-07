@@ -4,6 +4,8 @@ import { FilterValueDropdown, FilterOperatorDropdown, FilterValueDateDropdown } 
 import { FilterType } from "./filter-types";
 import { FilterIcon } from "./filter-options-icons";
 import { Filter } from "./filter-types";
+import { updateFilterOperator, updateFilterValue, removeFilterById } from "./filter-utils";
+import { isDateFilter } from "./filter-constants";
 
 export default function Filters({
   filters,
@@ -12,6 +14,18 @@ export default function Filters({
   filters: Filter[];
   setFilters: Dispatch<SetStateAction<Filter[]>>;
 }) {
+  const handleOperatorChange = (filterId: string, operator: any) => {
+    setFilters((prev) => updateFilterOperator(prev, filterId, operator));
+  };
+
+  const handleValueChange = (filterId: string, value: string[]) => {
+    setFilters((prev) => updateFilterValue(prev, filterId, value));
+  };
+
+  const handleRemoveFilter = (filterId: string) => {
+    setFilters((prev) => removeFilterById(prev, filterId));
+  };
+
   return (
     <div className="tags">
       {filters
@@ -26,41 +40,23 @@ export default function Filters({
               filterType={filter.type}
               operator={filter.operator}
               filterValues={filter.value}
-              setOperator={(operator) => {
-                setFilters((prev) =>
-                  prev.map((f) => (f.id === filter.id ? { ...f, operator } : f))
-                );
-              }}
+              setOperator={(operator) => handleOperatorChange(filter.id, operator)}
             />
-            {filter.type === FilterType.CREATED_DATE ||
-            filter.type === FilterType.UPDATED_DATE ||
-            filter.type === FilterType.DUE_DATE ? (
+            {isDateFilter(filter.type) ? (
               <FilterValueDateDropdown
                 filterType={filter.type}
                 filterValues={filter.value}
-                setFilterValues={(filterValues) => {
-                  setFilters((prev) =>
-                    prev.map((f) =>
-                      f.id === filter.id ? { ...f, value: filterValues } : f
-                    )
-                  );
-                }}
+                setFilterValues={(filterValues) => handleValueChange(filter.id, filterValues)}
               />
             ) : (
               <FilterValueDropdown
                 filterType={filter.type}
                 filterValues={filter.value}
-                setFilterValues={(filterValues) => {
-                  setFilters((prev) =>
-                    prev.map((f) =>
-                      f.id === filter.id ? { ...f, value: filterValues } : f
-                    )
-                  );
-                }}
+                setFilterValues={(filterValues) => handleValueChange(filter.id, filterValues)}
               />
             )}
             <button
-              onClick={() => {setFilters((prev) => prev.filter((f) => f.id !== filter.id))}}
+              onClick={() => handleRemoveFilter(filter.id)}
               className="tag tag-group__remove"
             >
               <Icon icon="ph:x" /><span className="inclusively-hidden">Clear filter</span>
