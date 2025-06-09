@@ -1,0 +1,14 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs';
+import * as TimelineStories from './Timeline.stories';
+
+<Meta of={TimelineStories} />
+
+# Timeline
+
+Shows a linear record of what has happened.
+
+<Canvas of={TimelineStories.Basic} />
+
+## Related patterns
+
+[Progress indicator](../?path=/docs/react_progress-indicator--docs) is often integrated within timelines to clarify current or next states, enhancing comprehension of events as sequentially progressing.

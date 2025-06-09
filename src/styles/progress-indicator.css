@@ -1,0 +1,34 @@
+.stepper {
+  --circle-size: 1rem;
+  --spacing: 0.5rem;
+}
+
+.stepper__item {
+  position: relative;
+  display: flex;
+  gap: 1rem;
+  padding-bottom: 3rem;
+
+  &:before {
+    content: "";
+    flex: 0 0 var(--circle-size);
+    height: var(--circle-size);
+    border-radius: 50%;
+    background-color: lightgrey;
+  }
+
+  &:not(:last-child) {
+    &:after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: calc(var(--circle-size) + var(--spacing));
+      bottom: var(--spacing);
+      z-index: -1;
+      transform: translateX(calc(var(--circle-size) / 2));
+      width: 2px;
+      background-color: #e0e0e0;
+    }
+  }
+}
+
