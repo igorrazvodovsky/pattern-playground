@@ -1,5 +1,5 @@
 .stepper {
-  --circle-size: 1rem;
+  --circle-size: 1.5rem;
   --spacing: 0.5rem;
 }
 
@@ -9,12 +9,31 @@
   gap: 1rem;
   padding-bottom: 3rem;
 
-  &:before {
+  /* Fallback circle when no stepper__icon is present */
+  &:not(:has(.stepper__icon)):before {
     content: "";
     flex: 0 0 var(--circle-size);
     height: var(--circle-size);
     border-radius: 50%;
-    background-color: lightgrey;
+    background-color: var(--c-neutral-100);
+  }
+
+  /* State-specific styling for fallback circles */
+  &.stepper__item--done:not(:has(.stepper__icon)):before {
+    background-color: var(--c-success-500);
+  }
+
+  &.stepper__item--current:not(:has(.stepper__icon)):before {
+    background-color: var(--c-accent);
+  }
+
+  &.stepper__item--running:not(:has(.stepper__icon)):before {
+    background-color: transparent;
+  }
+
+  &.stepper__item--next:not(:has(.stepper__icon)):before {
+    background-color: transparent;
+    border: 2px dashed var(--c-neutral-100);
   }
 
   &:not(:last-child) {
@@ -27,8 +46,47 @@
       z-index: -1;
       transform: translateX(calc(var(--circle-size) / 2));
       width: 2px;
-      background-color: #e0e0e0;
+      background-color: var(--c-neutral-100);
     }
   }
 }
 
+.stepper__icon {
+  flex: 0 0 var(--circle-size);
+  width: var(--circle-size);
+  height: var(--circle-size);
+  border-radius: 50%;
+  background-color: var(--c-neutral-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-secondary);
+
+  iconify-icon {
+    font-size: 1rem;
+  }
+}
+
+/* Completed step styling */
+.stepper__item--done .stepper__icon {
+  /* background-color: var(--c-success-500); */
+  /* color: white; */
+}
+
+/* Current step styling */
+.stepper__item--current .stepper__icon {
+  background-color: var(--c-accent);
+  /* TODO: calculate color based on accent color */
+  color: white;
+}
+
+/* Running step styling */
+.stepper__item--running .stepper__icon {
+  background-color: transparent;
+}
+
+/* Future/next step styling */
+.stepper__item--next .stepper__icon {
+  background-color: transparent;
+  border: 2px dashed var(--c-neutral-100);
+}
