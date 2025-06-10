@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
-  title: "Progress indicator",
+  // Component
+  title: "Progress indicator*",
 } satisfies Meta;
 
 export default meta;
