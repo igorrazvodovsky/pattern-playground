@@ -91,7 +91,10 @@ export const AICommandEmpty: React.FC<AICommandEmptyProps> = ({
         {/* Only show "no results" if there are truly no suggested filters */}
         {result.suggestedFilters.length === 0 && result.unmatchedCriteria && result.unmatchedCriteria.length > 0 && (
           <CommandItem onSelect={onEditPrompt}>
-            No results found. TODO: Add "Create a task" item.
+             <Slot slot="prefix">
+              <Icon icon="ph:sparkle" />
+            </Slot>
+            Create a task
             {/* Refine request. Some criteria couldn't be matched. */}
           </CommandItem>
         )}

@@ -12,4 +12,4 @@ export class PpButton extends HTMLButtonElement {
   // }
 }
 
-customElements.define("pp-buton", PpButton, { extends: "button" });
+customElements.define("pp-button", PpButton, { extends: "button" });

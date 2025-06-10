@@ -1,30 +1,16 @@
-import type { StorybookConfig } from "@storybook/web-components-vite";
+import type { StorybookConfig } from "@storybook/react-vite";
 
 const config: StorybookConfig = {
   stories: [
     "../src/stories/**/*.mdx",
     "../src/stories/**/*.stories.@(js|jsx|mjs|ts|tsx)",
-    "!../src/stories-react/**/*"
   ],
-  addons: ["@storybook/addon-docs"],
-  refs: (config, { configType }) => {
-    if (configType === 'DEVELOPMENT') {
-      return {
-        react: {
-          title: 'React-based stuff',
-          url: 'http://localhost:7007/',
-        },
-      };
-    }
-    return {
-      react: {
-        title: 'React-based stuff',
-        url: 'https://pattern-playground-react.onrender.com',
-      },
-    };
-  },
+  addons: [
+    "@storybook/addon-links",
+    "@storybook/addon-docs"
+  ],
   framework: {
-    name: "@storybook/web-components-vite",
+    name: "@storybook/react-vite",
     options: {},
   },
 
@@ -35,11 +21,28 @@ const config: StorybookConfig = {
       config.base = './';
     }
 
+    // Configure TypeScript to handle decorators properly
+    if (config.esbuild) {
+      config.esbuild.target = 'es2020';
+    }
+
+    // Ensure TypeScript configuration supports decorators
+    config.define = {
+      ...config.define,
+      __DEV__: JSON.stringify(configType === 'DEVELOPMENT'),
+    };
+
     return config;
   },
   staticDirs: ['../public'],
   core: {
     disableTelemetry: true,
-  }
+  },
+  docs: {
+    autodocs: 'tag',
+  },
+  typescript: {
+    reactDocgen: false,
+  },
 };
 export default config;

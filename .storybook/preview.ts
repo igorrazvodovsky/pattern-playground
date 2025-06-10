@@ -1,4 +1,4 @@
-import type { Preview } from "@storybook/web-components-vite";
+import type { Preview } from "@storybook/react-vite";
 import '../src/styles/main.css';
 import '../src/main.ts';
 import 'iconify-icon';

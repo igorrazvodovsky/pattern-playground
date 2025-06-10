@@ -167,6 +167,7 @@ export interface ModelItem {
   path: string[];
   parentId: string | null;
   childrenIds: string[];
+  children?: string[]; // Backward compatibility alias for childrenIds
   relationshipType: string | null;
   relationshipDescription: string | null;
   attributes: Attribute[];

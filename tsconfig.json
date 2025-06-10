@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "ES2020",
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     // https://lit.dev/docs/components/decorators/#decorators-typescript
     "useDefineForClassFields": false,
     "module": "ESNext",
@@ -12,6 +13,7 @@
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,

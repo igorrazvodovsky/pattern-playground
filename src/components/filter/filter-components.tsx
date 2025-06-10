@@ -155,7 +155,7 @@ export const FilterValueDropdown = ({
                           {filter.name}
                         </span>
                         {filter.label && (
-                          <span slot="suffix" className="text-muted-foreground text-xs ml-auto">
+                          <span slot="suffix">
                             {filter.label}
                           </span>
                         )}

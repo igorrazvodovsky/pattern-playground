@@ -89,6 +89,7 @@
   align-items: center;
   margin-inline-start: var(--space-xs);
   min-width: 1em;
+  line-height: 100%;
 }
 
 

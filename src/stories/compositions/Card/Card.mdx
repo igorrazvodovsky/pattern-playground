@@ -1,5 +1,5 @@
 import { Meta, Story, Canvas, Subtitle } from '@storybook/addon-docs/blocks';
-import * as CardStories from './Card.stories.ts';
+import * as CardStories from './Card.stories.tsx';
 
 <Meta of = { CardStories } />
 
@@ -10,7 +10,7 @@ import * as CardStories from './Card.stories.ts';
 Cards are used to group related subjects in a container.
 
 <Canvas>
-  <Story of={ CardStories.Article } />
+  <Story of={ CardStories.Card } />
 </Canvas>
 
 ## Anatomy
@@ -37,7 +37,7 @@ Support for cards with one, multiple images, plus image-only cards.
 
 #### Actions
 
-Actions can be placed either inside the card’s body or in its header. Details are covered in [dedicated section](#actions-1).
+Actions can be placed either inside the card's body or in its header. Details are covered in [dedicated section](#actions-1).
 
 <Story of={ CardStories.Actions } />
 
@@ -56,17 +56,9 @@ Blocks can have different levels of importance, depending on their priority.
 
 ##### Aligned footer
 
-{/* The `layout-grid` utility is used to align the contents of cards. */}
-
 <Story of={ CardStories.FooterAligned } />
 
 ## Variants
-
-{/* Containment */}
-{/* Implicit containment */}
-{/* An implicit container groups content or elements and may appear to have no edges, creating an implied boundary. Use implicit containment to group content and subtly reinforce the cohesion of a contained unit. */}
-{/* Explicit containment */}
-{/* An explicit container shows clear, visible boundaries. It can be tappable, and can be used to provide emphasis. */}
 
 ### Compact
 
@@ -77,8 +69,6 @@ Blocks can have different levels of importance, depending on their priority.
 ...
 
 ### Hover card
-{/* https://developer.microsoft.com/en-us/fluentui#/controls/web/hovercard */}
-{/* https://devdojo.com/pines/docs/hover-card */}
 
 ...
 
@@ -91,20 +81,16 @@ Blocks can have different levels of importance, depending on their priority.
 ### Primary action
 
 ...
-{/* Clickable card */}
 
 ### Secondary actions
 
 ...
-{/* Butoons, '...' dropdown */}
 
 ### Selectable
 
 ...
 
 ### Inline actions
-
-{/* sliders, controls, selectable tags, and stuff */}
 
 ## Layout & orientation
 
@@ -116,23 +102,12 @@ Cards are responsive and adaptable, but orientation can also be set explicitly.
 
 <Story of={ CardStories.LayoutGrid } />
 
-{/*
-
 ### List
 
-<Story of={ CardStories.LayoutList } />
-
-### Default
-
 ...
 
-## Cards inside cards
+{/* <Story of={ CardStories.LayoutList } /> */}
 
-...
+{/* ### Auto Layout */}
 
-## Groups and grouping
-
-...
-TODO: link grouping
-
-*/}
+{/* <Story of={ CardStories.LayoutAuto } /> */}
