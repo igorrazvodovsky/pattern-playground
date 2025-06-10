@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import CommandMenu from './CommandMenu.tsx';
 
 const meta = {
-  title: 'Patterns/CommandMenu',
+  title: 'Patterns/Command menu*',
   component: CommandMenu,
   parameters: {
     layout: 'centered',
