@@ -2,7 +2,7 @@ import { Meta } from '@storybook/blocks';
 
 <Meta title="Foundations/Behavior*" />
 
-> **Fun meter: 4/5**. Exploring how to design for LLMs revealed the need for a framework to support and structure user intent.
+> **Fun meter: 4/5**. Exploring how to design for LLMs revealed the need for a framework to support and structure actor intent.
 
 # Behavior
 
@@ -13,7 +13,7 @@ Behaviours are organised into four broad categories—each containing behaviour 
 The approach is based on [Dan Ramsden’s model for navigation and information-seeking](https://danramsden.com/2017/01/27/model-navigation-information-seeking/), but it pushes further—into the territory of task performance, workflow, and long-form engagement.
 
 {/* Purpose (Why) */}
-{/* •	Core motivations: What’s driving the user? (e.g. curiosity, urgency, obligation, exploration, improvement) */}
+{/* •	Core motivations: What’s driving the actor? (e.g. curiosity, urgency, obligation, exploration, improvement) */}
 {/* •	Job to be done: High-level, often recurring goal (e.g. “make an informed decision”, “fix a problem”, “learn something new”) */}
 
 {/* Intent (What) */}
@@ -37,7 +37,7 @@ Success is driven by targeting (choosing a specific goal) and predictive underst
 
 {/* TODO: compare with: */}
 
-{/* Navigation describes a mode of interaction where the user moves through a system with purpose and precision. Following Ramsden,
+{/* Navigation describes a mode of interaction where the actor moves through a system with purpose and precision. Following Ramsden,
 I use the term *navigating* to describe a type of highly directed *browsing*. They know what they want, and where they need to go.
 It’s a highly intentional activity driven by a clear target in mind.
 
@@ -55,14 +55,14 @@ Can emerge from browsing when confidence increases, or from transactional search
 <div>
 - Navigation is used at the very start of a session.
 – Tree for lateral and vertical movement.
-- Breadcrumbs show the travelled path and lets users return (or go sideways).
+- Breadcrumbs show the travelled path and lets actors return (or go sideways).
 - Step by step navigation
 - Contextual actions — localised controls (“edit”, “share”, “export”) tied to the reached content.
 - Related content links that leverage the current location to propose a subsequent path.
 - Bookmark captures the reached node for later re-finding.
 - Command bar – jumps anywhere.
 - Bot
-- Filtering trims large sets rather than switching sections, but users mentally treat every filter change as a micro-navigation.
+- Filtering trims large sets rather than switching sections, but actors mentally treat every filter change as a micro-navigation.
 {/* - Detail view — the destination template (article, product page, data sheet). success of navigating is measured here; appears one step after the hop. */}
 </div>
 
@@ -99,7 +99,7 @@ Search or command bar
 
 ## Delightful discovery
 
-Discovery happens when users encounter information they didn’t explicitly seek—but which they find valuable, relevant, or exciting.
+Discovery happens when actors encounter information they didn’t explicitly seek—but which they find valuable, relevant, or exciting.
 This category rewards designs that support curiosity, enable surprise, and create psychological safety for getting a little lost.
 Transitions often depend on motivation and momentary clarity of purpose.
 
@@ -113,8 +113,8 @@ Exploration can either settle into more directed behaviour or remain open-ended.
 May mature into browsing or navigating once a goal crystallises
 
 #### Related patterns
-- Personalisation – enables “start somewhere sensible” rather than dumping the user at a generic wall.
-- "Focus & context" shifts user into browsing.
+- Personalisation – enables “start somewhere sensible” rather than dumping the actor at a generic wall.
+- "Focus & context" shifts actor into browsing.
 - Breadcrumbs preserves context so the next hop can be precise navigating if curiosity crystallises.
 
 ### Monitoring
@@ -144,7 +144,7 @@ Transitions here are about either clarifying the goal or improving system feedba
 
 ### Re-finding
 
-The user wants to return to something they’ve seen before, but lacks the exact pathway. They rely on cues, memory, or system support (like history or recognisable patterns). This mode rewards good differentiation, meaningful labels, and predictable paths.
+The actor wants to return to something they’ve seen before, but lacks the exact pathway. They rely on cues, memory, or system support (like history or recognisable patterns). This mode rewards good differentiation, meaningful labels, and predictable paths.
 
 #### Transitions
 May evolve into navigating or transactional search if memory strengthens
@@ -154,12 +154,12 @@ Recently accessed, activity history
 
 ### Uncovering
 
-Systematic trial-and-error. The user is motivated but blocked by structural opacity or unclear interaction rules.
+Systematic trial-and-error. The actor is motivated but blocked by structural opacity or unclear interaction rules.
 This is often a sign of poor affordance or overly strict syntax (e.g. voice commands, search logic).
 Good design reduces the opacity of systems to make uncovering unnecessary.
 
 #### Transitions
-May improve into transactional search or navigating when user figures out “how the system thinks”
+May improve into transactional search or navigating when actor figures out “how the system thinks”
 
 ### Hunting
 
