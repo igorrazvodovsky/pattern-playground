@@ -78,7 +78,32 @@ export const LLMReasoning = {
       </li>
       <li className="stepper__item">
         <div className="stepper__content">
-          <p>I want to explore how technology and design influence each other, focusing on the concept that we are shaped by the things we create. This search will help me understand the ontological implications and the mutual relationship between humans and their designs.</p>
+          <details open>
+            <summary>I want to explore how technology and design influence each other, focusing on the concept that we are shaped by the things we create. This search will help me understand the ontological implications and the mutual relationship between humans and their designs.</summary>
+            <ol className="stepper" style={{ '--_circle-size': '0.25rem'} as React.CSSProperties}>
+              <li className="stepper__item">
+                <div className="stepper__content flow">
+                  <h5>Searching</h5>
+                  <div className="inline-flow">
+                    <span className="tag">ontological design definition</span>
+                    <span className="tag">ontological design meaning</span>
+                    <span className="tag">ontological design theory</span>
+                  </div>
+                </div>
+              </li>
+              <li className="stepper__item">
+                <div className="stepper__content flow">
+                  <h5>Reading</h5>
+                  <div className="inline-flow">
+                    <span className="tag">eyeondesign.aiga.org</span>
+                    <span className="tag">narrative-environments.github</span>
+                    <span className="tag">wikipedia</span>
+                  </div>
+                </div>
+              </li>
+            </ol>
+          </details>
+
         </div>
       </li>
       <li className="stepper__item">

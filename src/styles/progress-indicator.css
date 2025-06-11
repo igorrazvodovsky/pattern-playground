@@ -115,3 +115,9 @@
   background-color: transparent;
   border: 2px solid var(--c-neutral-100);
 }
+
+.stepper details {
+  --_details-padding: 0;
+  --_state-indicator-spacing: 2.25rem;
+  border: none;
+}

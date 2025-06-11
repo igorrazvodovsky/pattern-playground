@@ -1,5 +1,8 @@
 @layer components {
   details {
+    --_details-padding: var(--space-m);
+    --_state-indicator-spacing: 1rem;
+
     border: var(--border);
     border-radius: var(--radius-m);
     padding: var(--space-m) var(--space-m) 0;
@@ -12,7 +15,7 @@
   summary {
     position: relative;
     margin: calc(var(--space-m) * -1) calc(var(--space-m) * -1) 0;
-    padding: var(--space-m);
+    padding: var(--_details-padding);
     display: flex;
     gap: 0.5ch;
     align-items: center;
@@ -28,41 +31,46 @@
   }
 
   summary::before {
-    background: var(--c-background);
-    border: var(--border);
+    z-index: 1;
+    background: var(--c-neutral-100);
+    /* border: var(--border); */
     content: "";
-    width: 1.25rem;
-    height: 1.25rem;
+    width: 1rem;
+    height: 1rem;
     position: absolute;
-    left: -1rem;
+    left: calc(var(--_state-indicator-spacing) * -1);
+    top: var(--_details-padding);
     border-radius: var(--radius-circle);
+    transform: translate(50%, 25%);
+    transition: var(--transition-fast) transform;
+  }
+
+  summary:hover::before {
+    transform: translate(50%, 25%) scale(1.2);
   }
 
   summary::after {
+    z-index: 2;
     content: "";
-    border-right: 1px solid var(--c-neutral-500);
-    border-bottom: 1px solid var(--c-neutral-500);
-    width: 0.5em;
-    height: 0.5em;
+    background: var(--c-neutral-500);
+    border-radius: var(--radius-circle);
+    width: 0.5rem;
+    height: 0.5rem;
     position: absolute;
-    left: -0.725rem;
-    /* right: var(--space-l); */
-    /* TODO: */
-    top: 1.25rem;
+    left: calc(var(--_state-indicator-spacing) * -1 + 0.25rem);
+    top: calc(var(--_details-padding) + 0.5rem);
     transform-origin: center;
-    transform: rotate(-45deg);
+    transform: translateX(100%);
     transition: var(--transition-fast) transform opacity;
+  }
+
+  details[open] summary::after {
+    background: none;
   }
 
   details[open] summary::after,
   details[open] summary::before {
-    opacity: 0;
-  }
-
-  details[open] summary::after {
-    transform: rotate(45deg);
-    top: 1.125rem;
-    left: -0.6rem;
+    /* opacity: 0; */
   }
 
   details[open]:hover summary::after,
@@ -106,5 +114,10 @@
     color: var(--c-bodyDimmed);
     text-transform: uppercase;
     letter-spacing: 0.1em;
+  }
+
+  /* TODO: */
+  .stepper details summary::after {
+    top: 0.5rem;
   }
 }
