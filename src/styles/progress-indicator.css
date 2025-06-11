@@ -33,7 +33,7 @@
 
   &.stepper__item--next:not(:has(.stepper__icon)):before {
     background-color: transparent;
-    border: 2px dashed var(--c-neutral-100);
+    border: 2px solid var(--c-neutral-100);
   }
 
   &:not(:last-child) {
@@ -67,26 +67,27 @@
   }
 }
 
-/* Completed step styling */
-.stepper__item--done .stepper__icon {
-  /* background-color: var(--c-success-500); */
-  /* color: white; */
-}
-
-/* Current step styling */
 .stepper__item--current .stepper__icon {
   background-color: var(--c-accent);
   /* TODO: calculate color based on accent color */
   color: white;
 }
 
-/* Running step styling */
+.stepper__item--danger .stepper__icon {
+  background-color: var(--c-danger-100);
+  color: var(--c-danger-600);
+}
+
+.stepper__item--warning .stepper__icon {
+  background-color: var(--c-warning-100);
+  color: var(--c-warning-600);
+}
+
 .stepper__item--running .stepper__icon {
   background-color: transparent;
 }
 
-/* Future/next step styling */
 .stepper__item--next .stepper__icon {
   background-color: transparent;
-  border: 2px dashed var(--c-neutral-100);
+  border: 2px solid var(--c-neutral-100);
 }
