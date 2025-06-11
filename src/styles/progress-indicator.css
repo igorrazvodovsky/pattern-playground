@@ -1,24 +1,48 @@
 .stepper {
-  --circle-size: 1.5rem;
-  --spacing: 0.5rem;
+  --_circle-size: 1.5rem;
+  --_spacing: 0.5rem;
+  --_line-width: 2px;
+  --_item-spacing: 1rem;
+
+  margin: 0;
+  padding: 0;
+}
+
+.stepper .stepper {
+  --_line-width: 0;
+  --_spacing: 0;
+  --_item-spacing: 0;
+
+  p {
+    font-size: smaller;
+  }
+
+  .stepper__item {
+    padding-inline-start: 0;
+  }
 }
 
 .stepper__item {
+  /* background-color: var(--debug); */
   position: relative;
   display: flex;
   gap: 1rem;
-  padding-bottom: 3rem;
+  padding: 1rem 1rem var(--_item-spacing) 1rem;
+  border-radius: var(--radius-l);
 
-  /* Fallback circle when no stepper__icon is present */
-  &:not(:has(.stepper__icon)):before {
-    content: "";
-    flex: 0 0 var(--circle-size);
-    height: var(--circle-size);
-    border-radius: 50%;
-    background-color: var(--c-neutral-100);
+  &:has(.stepper) {
+    padding-bottom: 0;
   }
 
-  /* State-specific styling for fallback circles */
+  &:not(:has(.stepper__icon)):before {
+    content: "";
+    flex: 0 0 var(--_circle-size);
+    height: var(--_circle-size);
+    border-radius: 50%;
+    background-color: var(--c-neutral-100);
+    margin-top: 0.25rem;
+  }
+
   &.stepper__item--done:not(:has(.stepper__icon)):before {
     background-color: var(--c-success-500);
   }
@@ -40,21 +64,21 @@
     &:after {
       content: "";
       position: absolute;
-      left: 0;
-      top: calc(var(--circle-size) + var(--spacing));
-      bottom: var(--spacing);
-      z-index: -1;
-      transform: translateX(calc(var(--circle-size) / 2));
-      width: 2px;
+      left: 1rem;
+      top: calc(var(--_circle-size) + var(--_spacing) + 1rem + 0.25rem);
+      bottom: calc(var(--_spacing) - 1rem - 0.25rem);
+      /* z-index: -1; */
+      transform: translateX(calc(var(--_circle-size) / 2));
+      width: var(--_line-width);
       background-color: var(--c-neutral-100);
     }
   }
 }
 
 .stepper__icon {
-  flex: 0 0 var(--circle-size);
-  width: var(--circle-size);
-  height: var(--circle-size);
+  flex: 0 0 var(--_circle-size);
+  width: var(--_circle-size);
+  height: var(--_circle-size);
   border-radius: 50%;
   background-color: var(--c-neutral-100);
   display: flex;
