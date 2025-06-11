@@ -1,7 +1,7 @@
 .stepper {
   --_circle-size: 1.5rem;
   --_spacing: 0.5rem;
-  --_line-width: 2px;
+  --_line-width: 1px;
   --_item-spacing: 1rem;
 
   margin: 0;
@@ -84,7 +84,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--c-secondary);
+  margin-top: 0.25rem;
 
   iconify-icon {
     font-size: 1rem;
