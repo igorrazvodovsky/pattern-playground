@@ -5,21 +5,31 @@ import * as ActivityLogStories from './ActivityLog.stories';
 
 # Activity log
 
-Chronological list of the actors' actions.
+Who, what, and when – chronological list of the actors' actions.
 
 <Story of={ActivityLogStories.Basic} />
 
-## Human actions
+## Event anatomy
+
+- Actor: user, other humans, system, LLM, etc.
+- Activity: what the actor did
+- Object: The specific item that was affected by the action
+- When: when the action happened
+- Available actions
+
+## Examples
+
+### Human actions
 
 ...
 
-## [Bot](../?path=/docs/patterns-bot--docs) actions and reasoning
+### [Bot](../?path=/docs/patterns-bot--docs) actions and reasoning
 
 <Story of={ActivityLogStories.LLMReasoning} />
 
 ## Related patterns
 
-Uses a [timeline](../?path=/docs/components-timeline--docs) with embedded [progress indicator](../?path=/docs/components-progress-indicator--docs).
-
+- Uses a [timeline](../?path=/docs/components-timeline--docs) with embedded [progress indicator](../?path=/docs/components-progress-indicator--docs).
+- Depends on [details](../?path=/docs/primitives-details--docs) for the event details.
 
 

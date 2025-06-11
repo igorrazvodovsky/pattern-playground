@@ -156,10 +156,11 @@ resize-asaurus > .resize-asaurus-container {
   margin-block: 2rem 1rem !important;
 }
 
-.sbdocs > ol,
+/* Was creating issues with lists in docs */
+/* .sbdocs > ol,
 .sbdocs > ul {
   list-style: auto;
-}
+} */
 
 .sbdocs .toolbar {
   display: inline-flex;

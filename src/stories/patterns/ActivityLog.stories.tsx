@@ -49,30 +49,33 @@ export const LLMReasoning = {
       </li>
       <li className="stepper__item">
         <div className="stepper__content">
-          <p>I want to explore how ontologies are used in design, focusing on methodologies and practical approaches to ontological design. This will help me understand the principles and applications of designing with ontologies.</p>
-
-          <ol className="stepper" style={{ '--_circle-size': '0.25rem'} as React.CSSProperties}>
-            <li className="stepper__item">
-              <div className="stepper__content flow">
-                <h5>Searching</h5>
-                <div className="inline-flow">
-                  <span className="tag">ontological design definition</span>
-                  <span className="tag">ontological design meaning</span>
-                  <span className="tag">ontological design theory</span>
+          <details>
+            <summary>
+              I want to explore how ontologies are used in design, focusing on methodologies and practical approaches to ontological design. This will help me understand the principles and applications of designing with ontologies.
+            </summary>
+            <ol className="stepper" style={{ '--_circle-size': '0.25rem'} as React.CSSProperties}>
+              <li className="stepper__item">
+                <div className="stepper__content flow">
+                  <h5>Searching</h5>
+                  <div className="flex wrap">
+                    <span className="tag"><iconify-icon icon="ph:magnifying-glass" /> ontological design definition</span>
+                    <span className="tag"><iconify-icon icon="ph:magnifying-glass" /> ontological design meaning</span>
+                    <span className="tag"><iconify-icon icon="ph:magnifying-glass" /> ontological design theory</span>
+                  </div>
                 </div>
-              </div>
-            </li>
-            <li className="stepper__item">
-              <div className="stepper__content flow">
-                <h5>Reading</h5>
-                <div className="inline-flow">
-                  <span className="tag">eyeondesign.aiga.org</span>
-                  <span className="tag">narrative-environments.github</span>
-                  <span className="tag">wikipedia</span>
+              </li>
+              <li className="stepper__item">
+                <div className="stepper__content flow">
+                  <h5>Reading</h5>
+                  <div className="flex wrap">
+                    <span className="tag">eyeondesign.aiga.org</span>
+                    <span className="tag">narrative-environments.github</span>
+                    <span className="tag">wikipedia</span>
+                  </div>
                 </div>
-              </div>
-            </li>
-          </ol>
+              </li>
+            </ol>
+          </details>
 
         </div>
       </li>
@@ -84,20 +87,20 @@ export const LLMReasoning = {
               <li className="stepper__item">
                 <div className="stepper__content flow">
                   <h5>Searching</h5>
-                  <div className="inline-flow">
-                    <span className="tag">ontological design definition</span>
-                    <span className="tag">ontological design meaning</span>
-                    <span className="tag">ontological design theory</span>
+                  <div className="flex wrap">
+                    <span className="tag"><iconify-icon icon="ph:magnifying-glass" /> ontological design definition</span>
+                    <span className="tag"><iconify-icon icon="ph:magnifying-glass" /> ontological design meaning</span>
+                    <span className="tag"><iconify-icon icon="ph:magnifying-glass" /> ontological design theory</span>
                   </div>
                 </div>
               </li>
               <li className="stepper__item">
                 <div className="stepper__content flow">
                   <h5>Reading</h5>
-                  <div className="inline-flow">
-                    <span className="tag">eyeondesign.aiga.org</span>
-                    <span className="tag">narrative-environments.github</span>
-                    <span className="tag">wikipedia</span>
+                  <div className="flex wrap">
+                    <span className="tag"><iconify-icon icon="ph:link" /> eyeondesign.aiga.org</span>
+                    <span className="tag"><iconify-icon icon="ph:link" /> narrative-environments.github</span>
+                    <span className="tag"><iconify-icon icon="ph:link" /> wikipedia</span>
                   </div>
                 </div>
               </li>

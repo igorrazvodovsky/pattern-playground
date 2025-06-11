@@ -46,7 +46,8 @@
   }
 
   summary:hover::before {
-    transform: translate(50%, 25%) scale(1.2);
+    transform: translate(50%, 25%) scale(1.25);
+    /* background: var(--c-neutral-200); */
   }
 
   summary::after {
@@ -63,6 +64,14 @@
     transform: translateX(100%);
     transition: var(--transition-fast) transform opacity;
   }
+
+  /* Timeline events */
+  /* details:not([open]) summary {
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    white-space: nowrap;
+  } */
 
   details[open] summary::after {
     background: none;
@@ -118,6 +127,6 @@
 
   /* TODO: */
   .stepper details summary::after {
-    top: 0.5rem;
+    top: 1.25rem;
   }
 }

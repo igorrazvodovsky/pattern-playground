@@ -29,6 +29,7 @@
   gap: 1rem;
   padding: 1rem 1rem var(--_item-spacing) 1rem;
   border-radius: var(--radius-l);
+  /* overflow-x: clip; */
 
   &:has(.stepper) {
     padding-bottom: 0;
@@ -39,8 +40,8 @@
     flex: 0 0 var(--_circle-size);
     height: var(--_circle-size);
     border-radius: 50%;
-    background-color: var(--c-neutral-100);
-    margin-top: 0.25rem;
+    background-color: var(--c-neutral-200);
+    margin-top: 0.5rem;
   }
 
   &.stepper__item--done:not(:has(.stepper__icon)):before {
@@ -57,7 +58,7 @@
 
   &.stepper__item--next:not(:has(.stepper__icon)):before {
     background-color: transparent;
-    border: 2px solid var(--c-neutral-100);
+    border: 2px solid var(--c-neutral-200);
   }
 
   &:not(:last-child) {
@@ -65,8 +66,8 @@
       content: "";
       position: absolute;
       left: 1rem;
-      top: calc(var(--_circle-size) + var(--_spacing) + 1rem + 0.25rem);
-      bottom: calc(var(--_spacing) - 1rem - 0.25rem);
+      top: calc(var(--_circle-size) + var(--_spacing) + 1rem + 0.5rem);
+      bottom: calc(var(--_spacing) - 1rem - 0.5rem);
       /* z-index: -1; */
       transform: translateX(calc(var(--_circle-size) / 2));
       width: var(--_line-width);
@@ -84,7 +85,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 0.25rem;
+  margin-top: 0.5rem;
 
   iconify-icon {
     font-size: 1rem;
@@ -117,7 +118,7 @@
 }
 
 .stepper details {
-  --_details-padding: 0;
-  --_state-indicator-spacing: 2.25rem;
+  --_state-indicator-spacing: 1.5rem;
   border: none;
+  padding: 0;
 }
