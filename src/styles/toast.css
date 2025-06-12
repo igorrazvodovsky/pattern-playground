@@ -1,0 +1,70 @@
+/* TODO: Alert types: info, warning, etc. */
+
+.toast-group {
+  position: fixed;
+  z-index: 1;
+  inset-block-end: 0;
+  inset-inline-end: var(--space-m);
+  padding-block-end: var(--space-m);
+
+  display: grid;
+  justify-items: end;
+  justify-content: center;
+  gap: 1vh;
+
+  /* optimizations */
+  pointer-events: none;
+}
+
+.toast {
+  --_duration: 3s;
+  --_bg-lightness: 100%;
+  --_travel-distance: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: system-ui, sans-serif;
+  background: hsl(0 0% var(--_bg-lightness) / 90%);
+
+  inline-size: 320px;
+  padding-block: 1ch;
+  padding-inline: 1.5ch;
+
+  border: var(--border);
+  box-shadow: 0 0.5rem 1rem hsl(0 0% 0% / 15%);;
+  border-radius: var(--radius-m);
+
+  will-change: transform;
+  animation: fade-in 0.2s ease, slide-in 0.2s ease,
+    fade-out 0.2s ease var(--_duration);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateY(var(--_travel-distance, 10px));
+  }
+}
+
+.toast-body {
+  word-wrap: break-word;
+  display: flex;
+  align-items: center;
+  gap: 1ch;
+}
+
+.toast-close {
+  /* align-self: end; */
+}

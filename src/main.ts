@@ -12,4 +12,5 @@ export { PpPopup } from './components/popup/popup.ts';
 export { PpPriorityPlus } from './components/priority-plus/priority-plus.ts';
 export { PpBreadcrumbs } from './components/breadcrumbs/breadcrumbs.ts';
 export { PpAvatar } from './components/avatar/avatar.ts';
-export { PpTooltip } from './components/tooltip/tooltip.ts'
+export { PpTooltip } from './components/tooltip/tooltip.ts';
+export { PpToast } from './components/toast/toast.ts';
