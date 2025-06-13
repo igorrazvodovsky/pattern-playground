@@ -4,35 +4,35 @@ import {
   CommandInput,
   CommandItem,
   CommandList
-} from "../../components/filter/command";
+} from "../../../components/filter/command";
 import { nanoid } from "nanoid";
 import * as React from "react";
-import { AnimateChangeInHeight } from "../../components/filter/animate-change-in-height";
-import Filters from "../../components/filter/filters";
+import { AnimateChangeInHeight } from "../../../components/filter/animate-change-in-height";
+import Filters from "../../../components/filter/filters";
 import {
   DueDate,
   FilterOperator,
   FilterType,
-} from "../../components/filter/filter-types";
+} from "../../../components/filter/filter-types";
 import {
   filterViewToFilterOptions,
   createGlobalFilterItems,
   getFilteredResults,
   type SearchableFilterItem
-} from "../../components/filter/filter-options";
-import type { Filter, FilterOption } from "../../components/filter/filter-types";
+} from "../../../components/filter/filter-options";
+import type { Filter, FilterOption } from "../../../components/filter/filter-types";
 import { Icon } from '@iconify/react';
 import { Slot } from "@radix-ui/react-slot";
-import '../../components/dropdown/dropdown.ts';
+import '../../../components/dropdown/dropdown.ts';
 import 'iconify-icon';
 
 // Add these imports for AI functionality
-import { AICommandEmpty } from "../../components/filter/ai-command-empty";
+import { AICommandEmpty } from "../../../components/filter/ai-command-empty";
 import {
   createAIFilterService,
   AIState,
   AIFilterResult
-} from "../../services/ai-filter-service";
+} from "../../../services/ai-filter-service";
 import { debounce } from "lodash";
 
 declare module 'react' {

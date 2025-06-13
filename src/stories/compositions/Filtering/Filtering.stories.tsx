@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { FilteringDemo } from './Filtering';
-import { FilterType, FilterOperator, Status, Priority } from '../../components/filter/filter-types'
+import { FilterType, FilterOperator, Status, Priority } from '../../../components/filter/filter-types'
 
 const meta = {
-  title: 'Patterns/Filtering',
+  title: 'Compositions/Browsing & sensemaking*/Filtering',
   component: FilteringDemo,
   parameters: {
     layout: 'centered',
