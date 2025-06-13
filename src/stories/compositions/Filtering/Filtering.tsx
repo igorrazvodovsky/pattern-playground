@@ -3,8 +3,12 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-  CommandList
-} from "../../../components/filter/command";
+  CommandList,
+  AICommandEmpty,
+  useAICommand,
+  type AICommandResult,
+  type AICommandItem
+} from "../../../components/command-menu";
 import { nanoid } from "nanoid";
 import * as React from "react";
 import { AnimateChangeInHeight } from "../../../components/filter/animate-change-in-height";
@@ -27,19 +31,31 @@ import '../../../components/dropdown/dropdown.ts';
 import 'iconify-icon';
 
 // Add these imports for AI functionality
-import { AICommandEmpty } from "../../../components/filter/ai-command-empty";
 import {
   createAIFilterService,
   AIState,
   AIFilterResult
 } from "../../../services/ai-filter-service";
-import { debounce } from "lodash";
+import { convertToAICommandResult } from "../../../components/filter/adapters/ai-filter-adapter";
 
 declare module 'react' {
   namespace JSX {
     interface IntrinsicElements {
-      'pp-dropdown': any;
-      'iconify-icon': any;
+      'pp-dropdown': {
+        [key: string]: any;
+        ref?: React.Ref<any>;
+        placement?: string;
+        open?: boolean;
+        'onPp-show'?: () => void;
+        'onPp-hide'?: () => void;
+        children?: React.ReactNode;
+      };
+      'iconify-icon': {
+        [key: string]: any;
+        icon?: string;
+        className?: string;
+        slot?: string;
+      };
     }
   }
 }
@@ -57,12 +73,6 @@ export function FilteringDemo({
   const [filters, setFilters] = React.useState<Filter[]>(initialFilters);
   const dropdownRef = React.useRef<any>(null);
 
-  // Add AI-related state
-  const [aiState, setAIState] = React.useState<AIState>({
-    isProcessing: false,
-    hasUnresolvedQuery: false
-  });
-
   // Create AI service instance
   const aiService = React.useMemo(() => createAIFilterService(), []);
 
@@ -77,60 +87,47 @@ export function FilteringDemo({
     []
   );
 
-  // Create a stable AI request function
-  const makeAIRequest = React.useCallback(async (prompt: string) => {
-    if (prompt.length < 5) return;
-
-    setAIState(prev => ({
-      ...prev,
-      isProcessing: true,
-      error: undefined
-    }));
-
-    try {
-      const result = await aiService.generateFilters({
-        prompt,
-        availableFilters: Object.values(FilterType),
-        availableValues
-      });
-
-      setAIState(prev => ({
-        ...prev,
-        isProcessing: false,
-        result,
-        hasUnresolvedQuery: true
-      }));
-    } catch (error) {
-      setAIState(prev => ({
-        ...prev,
-        isProcessing: false,
-        error: (error as Error).message
-      }));
-    }
+  // Create AI request handler
+  const handleAIRequest = React.useCallback(async (prompt: string) => {
+    const result = await aiService.generateFilters({
+      prompt,
+      availableFilters: Object.values(FilterType),
+      availableValues
+    });
+    return convertToAICommandResult(result);
   }, [aiService, availableValues]);
 
-  // Debounced AI request function - create once and never recreate
-  const debouncedAIRequest = React.useMemo(
-    () => debounce(makeAIRequest, 1500),
-    [makeAIRequest]
-  );
-
-  // Handle AI request
-  const handleAIRequest = React.useCallback((prompt: string) => {
-    debouncedAIRequest(prompt);
-  }, [debouncedAIRequest]);
+  // Use AI command hook
+  const {
+    aiState,
+    handleAIRequest: handleAICommandRequest,
+    handleApplyAIResult,
+    handleEditPrompt
+  } = useAICommand({
+    onAIRequest: handleAIRequest
+  });
 
   // Memoize global filter items for performance
   const globalFilterItems = React.useMemo(() => createGlobalFilterItems(), []);
 
   // Handle applying AI-generated filters
-  const handleApplyAIFilters = React.useCallback((result: AIFilterResult) => {
-    setFilters(prev => [...prev, ...result.suggestedFilters]);
-    setAIState(prev => ({
-      ...prev,
-      hasUnresolvedQuery: false,
-      result: undefined
-    }));
+  const handleApplyAIFilters = React.useCallback((result: AICommandResult) => {
+    // Convert AI command result to filter format and apply filters
+    const newFilters = result.suggestedItems.map((item: AICommandItem) => {
+      if (!item.metadata) {
+        throw new Error('Invalid AI command item: missing metadata');
+      }
+      return {
+        id: nanoid(),
+        type: item.metadata.type as FilterType,
+        operator: item.metadata.operator as FilterOperator,
+        value: item.metadata.value as string[]
+      };
+    });
+
+    // Apply the filters
+    setFilters(prev => [...prev, ...newFilters]);
+    handleApplyAIResult(result);
 
     // Close dropdown and reset input
     setTimeout(() => {
@@ -138,18 +135,7 @@ export function FilteringDemo({
       setCommandInput("");
     }, 200);
     dropdownRef.current?.hide();
-  }, []);
-
-  // Handle edit prompt action
-  const handleEditPrompt = React.useCallback(() => {
-    // Keep the command menu open and focus on input for editing
-    commandInputRef.current?.focus();
-    setAIState(prev => ({
-      ...prev,
-      hasUnresolvedQuery: false,
-      result: undefined
-    }));
-  }, []);
+  }, [handleApplyAIResult]);
 
   // Get filtered results based on current search term and view state
   const filteredResults = React.useMemo(() => {
@@ -169,25 +155,16 @@ export function FilteringDemo({
     }
   }, [commandInput, selectedView, globalFilterItems]);
 
-  // Trigger AI request when input changes - SAFE VERSION
+  // Trigger AI request when input changes
   React.useEffect(() => {
     // Only trigger AI when:
     // 1. There's input text
     // 2. No specific view is selected (global search mode)
     // 3. Input is long enough to be meaningful
     if (commandInput && !selectedView && commandInput.length >= 3) {
-      debouncedAIRequest(commandInput);
+      handleAICommandRequest(commandInput);
     }
-
-    // Clean up AI state when input is cleared or view is selected
-    if (!commandInput || selectedView) {
-      setAIState(prev => ({
-        ...prev,
-        hasUnresolvedQuery: false,
-        result: undefined
-      }));
-    }
-  }, [commandInput, selectedView]); // Only these two dependencies - no function dependencies
+  }, [commandInput, selectedView, handleAICommandRequest]);
 
   const handleDropdownHide = () => {
     setTimeout(() => {
@@ -273,9 +250,12 @@ export function FilteringDemo({
                 <AICommandEmpty
                   searchInput={commandInput}
                   aiState={aiState}
-                  onAIRequest={handleAIRequest}
-                  onApplyAIFilters={handleApplyAIFilters}
+                  onAIRequest={handleAICommandRequest}
+                  onApplyAIResult={handleApplyAIFilters}
                   onEditPrompt={handleEditPrompt}
+                  emptyStateMessage="Start typing to search filters..."
+                  noResultsMessage="No filters found"
+                  aiProcessingMessage="Analyzing filter request..."
                 />
 
                 {selectedView ? (
@@ -347,10 +327,8 @@ export function FilteringDemo({
                               {item.typeIcon}
                             </Slot>
                             <span>
-                              {/* {item.type} / */}
                               {item.value}
                             </span>
-
                           </CommandItem>
                         ))}
                       </CommandGroup>

@@ -2,22 +2,18 @@ import React from 'react';
 import { CommandEmpty, CommandGroup, CommandItem } from './command';
 import { Icon } from '@iconify/react';
 import { Slot } from "@radix-ui/react-slot";
-import { AIState, AIFilterResult } from '../../services/ai-filter-service';
-
-interface AICommandEmptyProps {
-  searchInput: string;
-  aiState: AIState;
-  onAIRequest: (prompt: string) => void;
-  onApplyAIFilters: (result: AIFilterResult) => void;
-  onEditPrompt: () => void;
-}
+import { AICommandEmptyProps } from './ai-command-types';
 
 export const AICommandEmpty: React.FC<AICommandEmptyProps> = ({
   searchInput,
   aiState,
   onAIRequest,
-  onApplyAIFilters,
-  onEditPrompt
+  onApplyAIResult,
+  onEditPrompt,
+  emptyStateMessage = "Start typing to search...",
+  noResultsMessage = "No immediate results found.",
+  aiProcessingMessage = "Thinking…",
+  aiErrorPrefix = "AI service temporarily unavailable."
 }) => {
   // Determine if we should show AI option based on input characteristics
   const shouldShowAIOption = React.useMemo(() => {
@@ -29,7 +25,7 @@ export const AICommandEmpty: React.FC<AICommandEmptyProps> = ({
     // 2. Queries with multiple words
     // 3. Queries with natural language indicators
     const hasMultipleWords = trimmedInput.split(/\s+/).length > 1;
-    const hasNaturalLanguage = /\b(show|find|get|filter|where|with|that|are|is|have|has|need|want|assigned|due|urgent|high|priority|status|done|todo|backlog|progress|review)\b/i.test(trimmedInput);
+    const hasNaturalLanguage = /\b(show|find|get|filter|where|with|that|are|is|have|has|need|want)\b/i.test(trimmedInput);
     const isLongQuery = trimmedInput.length > 8;
 
     return isLongQuery || hasMultipleWords || hasNaturalLanguage;
@@ -39,7 +35,7 @@ export const AICommandEmpty: React.FC<AICommandEmptyProps> = ({
   if (aiState.isProcessing) {
     return (
       <CommandEmpty>
-        <span className="shimmer">Thinking…</span>
+        <span className="shimmer">{aiProcessingMessage}</span>
       </CommandEmpty>
     );
   }
@@ -50,18 +46,18 @@ export const AICommandEmpty: React.FC<AICommandEmptyProps> = ({
 
     return (
       <CommandGroup>
-        {result.suggestedFilters.length > 0 && (
+        {result.suggestedItems.length > 0 && (
           <CommandItem
-            onSelect={() => onApplyAIFilters(result)}
+            onSelect={() => onApplyAIResult(result)}
           >
-            {result.suggestedFilters.length === 1 ? (
+            {result.suggestedItems.length === 1 ? (
               // Display single match as regular result
               [
                 <Slot key="prefix" slot="prefix">
                   <Icon icon="ph:sparkle" />
                 </Slot>,
                 <span key="content">
-                  {result.suggestedFilters[0].type} {result.suggestedFilters[0].operator} {result.suggestedFilters[0].value.join(', ')}
+                  {result.suggestedItems[0].label}
                 </span>,
                 result.confidence < 85 && (
                   <small key="suffix" slot="suffix">
@@ -76,7 +72,7 @@ export const AICommandEmpty: React.FC<AICommandEmptyProps> = ({
                   <Icon icon="ph:sparkle" />
                 </Slot>,
                 <span key="content">
-                  Apply {result.suggestedFilters.length} filters
+                  Apply {result.suggestedItems.length} suggestions
                 </span>,
                 result.confidence < 85 && (
                   <span key="suffix" className='badge' slot="suffix">
@@ -88,19 +84,18 @@ export const AICommandEmpty: React.FC<AICommandEmptyProps> = ({
           </CommandItem>
         )}
 
-        {/* Only show "no results" if there are truly no suggested filters */}
-        {result.suggestedFilters.length === 0 && result.unmatchedCriteria && result.unmatchedCriteria.length > 0 && (
+        {/* Only show "no results" if there are truly no suggested items */}
+        {result.suggestedItems.length === 0 && result.unmatchedCriteria && result.unmatchedCriteria.length > 0 && (
           <CommandItem onSelect={onEditPrompt}>
              <Slot slot="prefix">
               <Icon icon="ph:sparkle" />
             </Slot>
-            Create a task
-            {/* Refine request. Some criteria couldn't be matched. */}
+            Create new item
           </CommandItem>
         )}
 
         {/* Show partial match indicator when there are both matches and unmatched criteria */}
-        {result.suggestedFilters.length > 0 && result.unmatchedCriteria && result.unmatchedCriteria.length > 0 && (
+        {result.suggestedItems.length > 0 && result.unmatchedCriteria && result.unmatchedCriteria.length > 0 && (
           <CommandItem onSelect={onEditPrompt}>
             <Slot slot="prefix">
               <Icon icon="ph:warning" />
@@ -117,7 +112,7 @@ export const AICommandEmpty: React.FC<AICommandEmptyProps> = ({
   if (aiState.error) {
     return (
       <CommandEmpty>
-        AI service temporarily unavailable. {aiState.error}
+        {aiErrorPrefix} {aiState.error}
       </CommandEmpty>
     );
   }
@@ -128,18 +123,18 @@ export const AICommandEmpty: React.FC<AICommandEmptyProps> = ({
       <div>
         {searchInput.trim() ? (
           <div>
-            <p>No immediate results found.</p>
+            <p>{noResultsMessage}</p>
             {shouldShowAIOption && (
               <div>
-                {/* <button onClick={() => onAIRequest(searchInput)}>
+                <button onClick={() => onAIRequest(searchInput)}>
                   <Icon slot="prefix" icon="ph:sparkle" />
-                  <span>Ask AI to create filters</span>
-                </button> */}
+                  <span>Ask AI for suggestions</span>
+                </button>
               </div>
             )}
           </div>
         ) : (
-          "Start typing to search filters..."
+          emptyStateMessage
         )}
       </div>
     </CommandEmpty>

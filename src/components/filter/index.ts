@@ -2,7 +2,6 @@
 export { default as Filters } from './filters';
 export { FilterOperatorDropdown, FilterValueDropdown, FilterValueDateDropdown } from './filter-components';
 export { FilterIcon } from './filter-options-icons';
-export { AICommandEmpty } from './ai-command-empty';
 export { AnimateChangeInHeight } from './animate-change-in-height';
 
 // Types
@@ -19,3 +18,17 @@ export { useDropdownState } from './hooks/use-dropdown-state';
 
 // Type declarations
 import './filter-component-types';
+
+// Re-export command menu components
+export {
+  Command,
+  CommandInput,
+  CommandList,
+  CommandEmpty,
+  CommandGroup,
+  CommandItem,
+  CommandItemPrefix,
+  CommandItemSuffix,
+  AICommandEmpty,
+  useAICommand
+} from '../command-menu';
