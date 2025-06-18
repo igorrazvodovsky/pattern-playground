@@ -38,6 +38,7 @@
   --globalLineHeight: calc(
     var(--_lineHeightFixedAmount) + var(--_lineHeightRelativeAmount)
   );
+  --globalLineHeight: 150%;
 
   --_unit: 0.5rem;
   --_spaceIncrement: 1.5;

@@ -31,3 +31,18 @@ export const Filtering: Story = {
     ]
   },
 };
+
+export const LLMFilter: Story = {
+  render: () => (
+    <div className="flex">
+      <button className="tag"><iconify-icon icon="ph:sparkle" /><span className="shimmer">Thinking...</span></button>
+      <div className="tag-group">
+        <button className="tag"><iconify-icon icon="ph:sparkle" /> Task</button>
+        <button className="tag tag-group__remove">
+          <iconify-icon icon="ph:x" /><span className="inclusively-hidden">Clear filter</span>
+        </button>
+      </div>
+    </div>
+  )
+};
+

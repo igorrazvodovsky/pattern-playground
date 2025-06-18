@@ -15,6 +15,7 @@
 
   p {
     font-size: smaller;
+    line-height: 130%;
   }
 
   .stepper__item {
@@ -29,10 +30,15 @@
   gap: 1rem;
   padding: 1rem 1rem var(--_item-spacing) 1rem;
   border-radius: var(--radius-l);
+
   /* overflow-x: clip; */
 
   &:has(.stepper) {
     padding-bottom: 0;
+  }
+
+  a {
+    font-weight: 500;
   }
 
   &:not(:has(.stepper__icon)):before {

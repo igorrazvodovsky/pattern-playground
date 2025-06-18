@@ -57,6 +57,7 @@ a.sbdocs,
 .sbdocs-content > :is(p, h1, h2, h3, h4) a {
   color: inherit !important;
   /* TODO: Fix */
+  text-decoration: underline !important;
   text-decoration: underline oklch(from #2e3438 l c h / 0.6) !important;
   text-decoration-thickness: max(0.05em, 1px);
   text-underline-offset: 0.15em;
@@ -156,11 +157,12 @@ resize-asaurus > .resize-asaurus-container {
   margin-block: 2rem 1rem !important;
 }
 
-/* Was creating issues with lists in docs */
-/* .sbdocs > ol,
+.sbdocs > ol {
+  list-style: auto !important;
+}
 .sbdocs > ul {
-  list-style: auto;
-} */
+  list-style: initial !important;
+}
 
 .sbdocs .toolbar {
   display: inline-flex;

@@ -12,27 +12,26 @@ export const Basic = {
     <ol className="stepper">
       <li className="stepper__item">
         <div className="stepper__content">
-          <p>Use text to speech to turn the report on AI assistance for UX <a href="https://arxiv.org/pdf/2402.06089">https://arxiv.org/pdf/2402.06089</a> into a 30 min podcast for my commute home.</p>
+          <p><a href="">Alex</a> Signed into the shared workspace.</p>
+          <small className="muted">10:11</small>
         </div>
       </li>
       <li className="stepper__item">
         <div className="stepper__content">
-          <h4>Materials added</h4>
-          <small>2 files, 2.93 MB</small>
+          <p><a href="">Lina</a> joined shared workspace in view-only mode.</p>
+          <small className="muted">10:16</small>
         </div>
       </li>
       <li className="stepper__item">
         <div className="stepper__content">
-          <h4>Analyze materials result</h4>
-          <span className="tag">Analyze materials</span> What are the main findings, key insights, and practical implications about AI assistance for UX research? Focus on the most important points that would be valuable for a UX professional to know, including specific findings about how AI can help with UX tasks, any limitations identified, and practical recommendations.
+          <p><a href="">Alex</a> created <a href="">Prototype v3</a>.</p>
+          <small className="muted">18:51 · Yesterday</small>
         </div>
       </li>
       <li className="stepper__item">
         <div className="stepper__content">
-          <h4>AI Assistance for UX Research - 30 Minute Podcast</h4>
-          <small>
-            <span className="tag">Text to Speech</span> • Created at 10:11 • 10/06/2025
-          </small>
+          <p><a href="">Bot</a> suggested structural scaffold based on naming context.</p>
+          <small className="muted">14:21 · 10/06/2025</small>
         </div>
       </li>
     </ol>

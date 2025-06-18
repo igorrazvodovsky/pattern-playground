@@ -15,32 +15,48 @@ Filtering allows an actor to add or remove [items](../?path=/docs/concepts-item-
 
 - inline, popover, drawer...
 - pairing with table header
--
 
 ## Navigation as filtering
 
 ...
 
+## LLM-powered filters
+
+User can delegate filtering to a [bot](../?path=/docs/patterns-bot--docs) via a TODO:task.
+
+### Flow 1
+
+1. Enter a query that does not have a match in the available attributes
+2. Create a task to handle it
+3. Show "thinking..." placeholder
+4. Replace it with a task result reference.
+
+### Flow 2
+
+1. Create a task outside filtering whose result can be used to filter the collection.
+2. Follow steps 3-4 from Flow 1.
+
+<Story of={ FilteringStories.LLMFilter } />
+
 ## Related patterns
 
 ### Precursors
-<div>
-- [Toolbar](../?path=/docs/components-toolbar--docs)
-</div>
+
+- Typically placed in a [toolbar](../?path=/docs/compositions-toolbar--docs)
+- Depends on [command menu](../?path=/docs/compositions-command-menu--docs) for the local search through attributes and values.
+
 
 ### Complementary
-<div>
+
 - [Grouping](../?path=/docs/compositions-browsing-sensemaking-grouping--docs)
 - [Sorting](../?path=/docs/compositions-browsing-sensemaking-sorting--docs)
 - Constrained natural language builder
 - Rules
 - Search
-</div>
 
 ### Follow-ups
-<div>
+
 - [Data view](../?path=/docs/compositions-data-view--docs)
-</div>
 
 ## Resources & references
 
