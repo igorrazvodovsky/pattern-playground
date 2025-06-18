@@ -6,13 +6,13 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "../../components/command-menu/command";
+} from "../../../components/command-menu/command";
 import {
   searchHierarchy,
   searchWithinParent,
   type SearchableParent,
   type SearchableItem
-} from '../../utils/hierarchical-search';
+} from '../../../utils/hierarchical-search';
 import 'iconify-icon'
 
 declare module 'react' {
@@ -111,6 +111,17 @@ function CommandMenu() {
     }
   }, [searchInput, selectedCommand, selectedCommandData]);
 
+  // Filter recent items based on search input
+  const filteredRecentItems = useMemo(() => {
+    if (!searchInput.trim()) return recentItems;
+
+    const processedQuery = searchInput.toLowerCase();
+    return recentItems.filter(item => {
+      const searchText = item.searchableText || item.name;
+      return searchText.toLowerCase().includes(processedQuery);
+    });
+  }, [searchInput]);
+
   const handleCommandSelect = (commandId: string) => {
     const command = commandData.find(cmd => cmd.id === commandId);
     if (command?.children) {
@@ -125,6 +136,12 @@ function CommandMenu() {
   };
 
   const handleChildSelect = (childId: string) => {
+    setSelectedCommand(null);
+    setSearchInput("");
+  };
+
+  const handleRecentSelect = (recentId: string) => {
+    // Handle recent item selection - could add to recents logic here
     setSelectedCommand(null);
     setSearchInput("");
   };
@@ -151,11 +168,14 @@ function CommandMenu() {
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
 
-          {/* Recent items - only show when not in a specific command view */}
-          {!selectedCommand && (
+          {/* Recent items - only show when not in a specific command view and either no search or has matching results */}
+          {!selectedCommand && (!searchInput.trim() || filteredRecentItems.length > 0) && (
             <CommandGroup heading="Recent">
-              {recentItems.map((item) => (
-                <CommandItem key={item.id}>
+              {(searchInput.trim() ? filteredRecentItems : recentItems).map((item) => (
+                <CommandItem
+                  key={item.id}
+                  onSelect={() => handleRecentSelect(item.id)}
+                >
                   <iconify-icon icon={item.icon as string} slot="prefix"></iconify-icon>
                   {item.name}
                 </CommandItem>
