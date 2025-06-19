@@ -51,3 +51,20 @@ export const Dialog: Story = {
     }
   }
 };
+
+export const WithAI: Story = {
+  args: {},
+  render: () => (
+    <div style={{ padding: '2rem' }}>
+      <p>Try searching for commands that don't exist (e.g., "schedule meeting", "export data", "backup files") to see AI suggestions.</p>
+      <CommandMenu />
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: `Command menu with AI functionality. When you search for commands that don't match existing ones, the AI will suggest relevant commands or actions. Try typing queries like "schedule meeting", "export data", or "backup files" to see AI-powered suggestions.`
+      }
+    }
+  }
+};

@@ -18,21 +18,7 @@ export const AICommandEmpty: React.FC<AICommandEmptyProps> = ({
   aiProcessingMessage = "Thinking…",
   aiErrorPrefix = "AI service temporarily unavailable."
 }) => {
-  // Determine if we should show AI option based on input characteristics
-  const shouldShowAIOption = React.useMemo(() => {
-    const trimmedInput = searchInput.trim();
-    if (!trimmedInput) return false;
 
-    // Show AI option for:
-    // 1. Longer queries (>10 chars)
-    // 2. Queries with multiple words
-    // 3. Queries with natural language indicators
-    const hasMultipleWords = trimmedInput.split(/\s+/).length > 1;
-    const hasNaturalLanguage = /\b(show|find|get|filter|where|with|that|are|is|have|has|need|want)\b/i.test(trimmedInput);
-    const isLongQuery = trimmedInput.length > 8;
-
-    return isLongQuery || hasMultipleWords || hasNaturalLanguage;
-  }, [searchInput]);
 
   // Handle create new item with toast
   const handleCreateNewItem = React.useCallback(() => {
@@ -139,26 +125,10 @@ export const AICommandEmpty: React.FC<AICommandEmptyProps> = ({
     );
   }
 
-  // Default empty state with optional AI suggestion
+  // Default empty state
   return (
     <CommandEmpty>
-      <div>
-        {searchInput.trim() ? (
-          <div>
-            <p>{noResultsMessage}</p>
-            {shouldShowAIOption && (
-              <div>
-                <button onClick={() => onAIRequest(searchInput)}>
-                  <Icon slot="prefix" icon="ph:sparkle" />
-                  <span>Ask AI for suggestions</span>
-                </button>
-              </div>
-            )}
-          </div>
-        ) : (
-          emptyStateMessage
-        )}
-      </div>
+      {searchInput.trim() ? noResultsMessage : emptyStateMessage}
     </CommandEmpty>
   );
 };

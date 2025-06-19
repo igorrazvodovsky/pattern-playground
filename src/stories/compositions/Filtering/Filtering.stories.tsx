@@ -37,7 +37,7 @@ export const LLMFilter: Story = {
     <div className="flex">
       <button className="tag"><iconify-icon icon="ph:sparkle" /><span className="shimmer">Thinking...</span></button>
       <div className="tag-group">
-        <button className="tag"><iconify-icon icon="ph:sparkle" /> Task</button>
+        <button className="tag"><iconify-icon icon="ph:sparkle" /> Things that are good for me</button>
         <button className="tag tag-group__remove">
           <iconify-icon icon="ph:x" /><span className="inclusively-hidden">Clear filter</span>
         </button>
