@@ -102,7 +102,8 @@ export function FilteringDemo({
     aiState,
     handleAIRequest: handleAICommandRequest,
     handleApplyAIResult,
-    handleEditPrompt
+    handleEditPrompt,
+    clearResultsIfInputChanged
   } = useAICommand({
     onAIRequest: handleAIRequest
   });
@@ -136,6 +137,15 @@ export function FilteringDemo({
     }, 200);
     dropdownRef.current?.hide();
   }, [handleApplyAIResult]);
+
+  // Handle closing the command menu (for create new item)
+  const handleCloseMenu = React.useCallback(() => {
+    setTimeout(() => {
+      setSelectedView(null);
+      setCommandInput("");
+    }, 200);
+    dropdownRef.current?.hide();
+  }, []);
 
   // Get filtered results based on current search term and view state
   const filteredResults = React.useMemo(() => {
@@ -253,6 +263,8 @@ export function FilteringDemo({
                   onAIRequest={handleAICommandRequest}
                   onApplyAIResult={handleApplyAIFilters}
                   onEditPrompt={handleEditPrompt}
+                  onInputChange={clearResultsIfInputChanged}
+                  onClose={handleCloseMenu}
                   emptyStateMessage="Start typing to search filters..."
                   noResultsMessage="No filters found"
                   aiProcessingMessage="Analyzing filter request..."

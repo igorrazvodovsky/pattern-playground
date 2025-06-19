@@ -3,6 +3,7 @@ export interface AIState {
   hasUnresolvedQuery: boolean;
   error?: string;
   result?: AICommandResult;
+  originalQuery?: string;
 }
 
 export interface AICommandResult {
@@ -25,6 +26,8 @@ export interface AICommandEmptyProps {
   onAIRequest: (prompt: string) => void;
   onApplyAIResult: (result: AICommandResult) => void;
   onEditPrompt: () => void;
+  onInputChange?: (input: string) => void;
+  onClose?: () => void;
   emptyStateMessage?: string;
   noResultsMessage?: string;
   aiProcessingMessage?: string;

@@ -3,6 +3,7 @@ import { CommandEmpty, CommandGroup, CommandItem } from './command';
 import { Icon } from '@iconify/react';
 import { Slot } from "@radix-ui/react-slot";
 import { AICommandEmptyProps } from './ai-command-types';
+import { PpToast } from '../toast/toast';
 
 export const AICommandEmpty: React.FC<AICommandEmptyProps> = ({
   searchInput,
@@ -10,6 +11,8 @@ export const AICommandEmpty: React.FC<AICommandEmptyProps> = ({
   onAIRequest,
   onApplyAIResult,
   onEditPrompt,
+  onInputChange,
+  onClose,
   emptyStateMessage = "Start typing to search...",
   noResultsMessage = "No immediate results found.",
   aiProcessingMessage = "Thinking…",
@@ -31,12 +34,31 @@ export const AICommandEmpty: React.FC<AICommandEmptyProps> = ({
     return isLongQuery || hasMultipleWords || hasNaturalLanguage;
   }, [searchInput]);
 
+  // Handle create new item with toast
+  const handleCreateNewItem = React.useCallback(() => {
+    PpToast.show(`Task: ${searchInput.trim()}`);
+    onEditPrompt();
+    onClose?.();
+  }, [searchInput, onEditPrompt, onClose]);
+
+  // Clear results when user starts typing again (input changes)
+  React.useEffect(() => {
+    if (onInputChange) {
+      onInputChange(searchInput);
+    }
+  }, [searchInput, onInputChange]);
+
   // Handle AI processing state
   if (aiState.isProcessing) {
     return (
-      <CommandEmpty>
-        <span className="shimmer">{aiProcessingMessage}</span>
-      </CommandEmpty>
+      <CommandGroup>
+        <CommandItem disabled>
+          <Slot slot="prefix">
+            <Icon icon="ph:sparkle" />
+          </Slot>
+          <span className="shimmer">{aiProcessingMessage}</span>
+        </CommandItem>
+      </CommandGroup>
     );
   }
 
@@ -86,17 +108,17 @@ export const AICommandEmpty: React.FC<AICommandEmptyProps> = ({
 
         {/* Only show "no results" if there are truly no suggested items */}
         {result.suggestedItems.length === 0 && result.unmatchedCriteria && result.unmatchedCriteria.length > 0 && (
-          <CommandItem onSelect={onEditPrompt}>
+          <CommandItem onSelect={handleCreateNewItem}>
              <Slot slot="prefix">
               <Icon icon="ph:sparkle" />
             </Slot>
-            Create new item
+            Create new task
           </CommandItem>
         )}
 
         {/* Show partial match indicator when there are both matches and unmatched criteria */}
         {result.suggestedItems.length > 0 && result.unmatchedCriteria && result.unmatchedCriteria.length > 0 && (
-          <CommandItem onSelect={onEditPrompt}>
+          <CommandItem onSelect={handleCreateNewItem}>
             <Slot slot="prefix">
               <Icon icon="ph:warning" />
             </Slot>

@@ -35,7 +35,8 @@ export function useAICommand({
         ...prev,
         isProcessing: false,
         result,
-        hasUnresolvedQuery: true
+        hasUnresolvedQuery: true,
+        originalQuery: prompt
       }));
     } catch (error) {
       setAIState(prev => ({
@@ -71,14 +72,31 @@ export function useAICommand({
     setAIState(prev => ({
       ...prev,
       hasUnresolvedQuery: false,
-      result: undefined
+      result: undefined,
+      originalQuery: undefined
     }));
+  }, []);
+
+  // Clear results when input changes (user starts typing again)
+  const clearResultsIfInputChanged = useCallback((currentInput: string) => {
+    setAIState(prev => {
+      if (prev.hasUnresolvedQuery && prev.originalQuery && prev.originalQuery !== currentInput.trim()) {
+        return {
+          ...prev,
+          hasUnresolvedQuery: false,
+          result: undefined,
+          originalQuery: undefined
+        };
+      }
+      return prev;
+    });
   }, []);
 
   return {
     aiState,
     handleAIRequest,
     handleApplyAIResult,
-    handleEditPrompt
+    handleEditPrompt,
+    clearResultsIfInputChanged
   };
 }
