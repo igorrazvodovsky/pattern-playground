@@ -1,5 +1,6 @@
 import { Canvas, Story, Meta, Subtitle } from '@storybook/addon-docs/blocks';
 import * as CommandMenuStories from './CommandMenu.stories.tsx';
+import { Filtering as FilteringStory }  from '../../compositions/Filtering/Filtering.stories.tsx';
 
 <Meta of={ CommandMenuStories } />
 
@@ -15,15 +16,13 @@ Provides quick access to commands or actions within an app.
 
 Pop up in the middle of the screen...
 
+<Story of={ CommandMenuStories.Dialog } />
+
 ## Local
 
-Can also be used to support local functions, e.g. in filters or local search.
+Can also be used to support local functions, e.g. in [filters](../?path=/docs/compositions-browsing-sensemaking-filtering--docs) or TODO:local search.
 
-## AI-Powered Suggestions
-
-When users search for commands that don't match existing ones, the command menu can leverage AI to suggest relevant actions. This helps users discover functionality and reduces friction when they're looking for something specific but don't know the exact command name.
-
-<Story of={ CommandMenuStories.WithAI } />
+<Story of={ FilteringStory } />
 
 ## Related patterns
 

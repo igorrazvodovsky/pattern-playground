@@ -14,6 +14,7 @@ pp-dialog [cmdk-root] {
   background-color: var(--c-neutral-0);
   box-shadow: var(--shadow-l);
   padding-block: var(--_cmdk-spacing);
+  min-width: 24rem;
 }
 
 [cmdk-root]:focus {
@@ -145,4 +146,18 @@ dialog:has(> pp-command-menu) {
   margin-left: auto;
   display: flex;
   gap: var(--space-2xs);
+}
+
+dialog:has(> [cmdk-root]) {
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  box-shadow: var(--shadow-xl);
+  grid-template-rows: min-content;
+  align-items: center;
+
+  &::backdrop {
+    animation: none;
+    background-color: transparent;
+  }
 }
