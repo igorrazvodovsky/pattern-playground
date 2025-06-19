@@ -265,9 +265,6 @@ export function FilteringDemo({
                   onEditPrompt={handleEditPrompt}
                   onInputChange={clearResultsIfInputChanged}
                   onClose={handleCloseMenu}
-                  emptyStateMessage="Start typing to search filters..."
-                  noResultsMessage="No filters found"
-                  aiProcessingMessage="Analyzing filter request..."
                 />
 
                 {selectedView ? (

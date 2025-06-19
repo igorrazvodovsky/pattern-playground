@@ -34,8 +34,8 @@ pp-dialog [cmdk-root] {
 }
 
 [cmdk-empty] {
-  padding: var(--space-xl);
-  text-align: center;
+  /* padding: var(--space-xl); */
+  padding: var(--space-xs) var(--space-m);
   color: var(--c-bodyDimmed);
 }
 

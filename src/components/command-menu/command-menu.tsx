@@ -25,7 +25,7 @@ export function CommandMenu({
   enableNavigation = true,
   enableAI = false,
   placeholder,
-  emptyMessage = "No results found.",
+  emptyMessage = "¯\_(ツ)_/¯. No results found.",
   className,
   aiMessages = {},
 }: CommandMenuProps) {
