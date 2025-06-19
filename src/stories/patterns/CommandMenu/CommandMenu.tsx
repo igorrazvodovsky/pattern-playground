@@ -1,7 +1,6 @@
-import React, { useState, useRef, useMemo, useCallback, useEffect } from 'react'
+import { useState, useRef, useMemo, useCallback, useEffect } from 'react'
 import {
   Command,
-  CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
@@ -20,9 +19,9 @@ import {
   type SearchableItem
 } from '../../../utils/hierarchical-search';
 import {
-  createAICommandService,
-  AICommandRequest
-} from '../../../services/ai-command-service';
+  createAISuggestionService,
+  createCommandSuggestionRequest
+} from '../../../services/ai-suggestion-service';
 import { convertToAICommandResult } from '../../../components/command-menu/adapters/ai-command-adapter';
 import 'iconify-icon'
 
@@ -110,14 +109,9 @@ function CommandMenu() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Create AI service instance
-  const aiService = useMemo(() => createAICommandService(), []);
+  const aiService = useMemo(() => createAISuggestionService(), []);
 
-  // Create available commands mapping for AI
-  const availableCommands = useMemo(() =>
-    commandData.map(cmd => cmd.name),
-    []
-  );
-
+  // Create available actions mapping for AI
   const availableActions = useMemo(() =>
     Object.fromEntries(
       commandData.map(cmd => [
@@ -130,14 +124,10 @@ function CommandMenu() {
 
   // Create AI request handler
   const handleAIRequest = useCallback(async (prompt: string): Promise<AICommandResult> => {
-    const request: AICommandRequest = {
-      prompt,
-      availableCommands,
-      availableActions
-    };
-    const result = await aiService.generateCommands(request);
+    const request = createCommandSuggestionRequest(prompt, availableActions);
+    const result = await aiService.generateSuggestions(request);
     return convertToAICommandResult(result);
-  }, [aiService, availableCommands, availableActions]);
+  }, [aiService, availableActions]);
 
   // Use AI command hook
   const {
@@ -205,7 +195,7 @@ function CommandMenu() {
     }
   };
 
-  const handleChildSelect = (childId: string) => {
+  const handleChildSelect = () => {
     setSelectedCommand(null);
     setSearchInput("");
   };
@@ -296,7 +286,7 @@ function CommandMenu() {
                   {filteredResults.children.map(({ child }) => (
                     <CommandItem
                       key={child.id}
-                      onSelect={() => handleChildSelect(child.id)}
+                      onSelect={() => handleChildSelect()}
                     >
                       <iconify-icon icon={child.icon as string} slot="prefix"></iconify-icon>
                       {child.name}
@@ -334,7 +324,7 @@ function CommandMenu() {
                       {filteredResults.children.map(({ parent, child }) => (
                         <CommandItem
                           key={`${parent.id}-${child.id}`}
-                          onSelect={() => handleChildSelect(child.id)}
+                          onSelect={() => handleChildSelect()}
                         >
                           <iconify-icon icon={child.icon as string} slot="prefix"></iconify-icon>
                           {parent.name} {child.name}

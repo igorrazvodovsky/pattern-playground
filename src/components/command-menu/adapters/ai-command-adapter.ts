@@ -1,24 +1,21 @@
 import { AICommandResult as ComponentAIResult, AICommandItem } from '../ai-command-types';
-import { AICommandResult as ServiceAIResult } from '../../../services/ai-command-service';
+import { AISuggestionResult } from '../../../services/ai-suggestion-service';
 
 /**
- * Convert AI command service result to component AI result format
+ * Convert AI suggestion service result to component AI result format
  */
-export function convertToAICommandResult(serviceResult: ServiceAIResult): ComponentAIResult {
-  const suggestedItems: AICommandItem[] = serviceResult.suggestedCommands.map((command) => ({
-    id: command.id,
-    label: command.name,
-    value: command.action || command.name,
-    icon: command.icon,
-    metadata: {
-      action: command.action,
-      name: command.name
-    }
+export function convertToAICommandResult(suggestionResult: AISuggestionResult): ComponentAIResult {
+  const suggestedItems: AICommandItem[] = suggestionResult.suggestions.map((suggestion) => ({
+    id: suggestion.id,
+    label: suggestion.label,
+    value: suggestion.value,
+    icon: suggestion.metadata?.icon || 'ph:sparkle',
+    metadata: suggestion.metadata
   }));
 
   return {
     suggestedItems,
-    confidence: serviceResult.confidence,
-    unmatchedCriteria: serviceResult.unmatchedCriteria
+    confidence: suggestionResult.confidence,
+    unmatchedCriteria: suggestionResult.unmatchedCriteria
   };
 }

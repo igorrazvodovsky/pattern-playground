@@ -33,21 +33,36 @@ interface StreamEvent {
   error?: string;
   done: boolean;
 }
-interface FilterGenerationRequest {
+
+
+
+// New generic interfaces
+interface AISuggestionRequest {
   prompt: string;
-  availableFilters: string[];
-  availableValues: Record<string, string[]>;
+  context: {
+    type: 'filters' | 'commands' | 'navigation' | 'actions' | string;
+    availableOptions: Record<string, any[]>;
+    metadata?: Record<string, any>;
+  };
 }
 
-interface FilterGenerationResponse {
-  suggestedFilters: Array<{
-    type: string;
-    operator: string;
-    value: string[];
+interface AISuggestionData {
+  suggestions: Array<{
+    id: string;
+    label: string;
+    value: any;
+    confidence: number;
+    metadata?: Record<string, any>;
   }>;
   explanation: string;
   confidence: number;
   unmatchedCriteria?: string[];
+}
+
+interface AISuggestionResponse {
+  success: boolean;
+  data: AISuggestionData | null;
+  error: string | null;
 }
 
 /**
@@ -93,9 +108,9 @@ export const setupRoutes = (app: Application): void => {
     }
   });
 
-  // New filter generation endpoint
-  app.post('/api/generate-filters', async (req: Request, res: Response): Promise<void> => {
-    logger.debug("Received filter generation request:", req.body);
+  // New generic suggestions endpoint
+  app.post('/api/generate-suggestions', async (req: Request, res: Response): Promise<void> => {
+    logger.debug("Received AI suggestion request:", req.body);
 
     // Validate request
     if (!req.body || !req.body.prompt) {
@@ -108,13 +123,23 @@ export const setupRoutes = (app: Application): void => {
       return;
     }
 
-    const { prompt, availableFilters, availableValues }: FilterGenerationRequest = req.body;
-    logger.info(`Processing filter generation prompt: "${prompt}"`);
+    if (!req.body.context || !req.body.context.type || !req.body.context.availableOptions) {
+      logger.error("Error: Context is missing or incomplete in request body");
+      res.status(400).json({
+        success: false,
+        data: null,
+        error: "Missing or incomplete 'context' in request body"
+      });
+      return;
+    }
+
+    const { prompt, context }: AISuggestionRequest = req.body;
+    logger.info(`Processing ${context.type} suggestion prompt: "${prompt}"`);
 
     try {
-      await handleFilterGenerationResponse(req, res, prompt, availableFilters, availableValues);
+      await handleGenericSuggestionResponse(req, res, prompt, context);
     } catch (error) {
-      logger.error("Error processing filter generation request:", error);
+      logger.error("Error processing suggestion request:", error);
       res.status(500).json({
         success: false,
         data: null,
@@ -122,6 +147,8 @@ export const setupRoutes = (app: Application): void => {
       });
     }
   });
+
+
 };
 
 /**
@@ -332,20 +359,90 @@ async function handleStandardResponse(_req: Request, res: Response, prompt: stri
 }
 
 /**
- * Handle filter generation response
+ * Handle generic suggestion response
  */
-async function handleFilterGenerationResponse(
+async function handleGenericSuggestionResponse(
   _req: Request,
   res: Response,
   prompt: string,
-  _availableFilters: string[],
-  availableValues: Record<string, string[]>
+  context: AISuggestionRequest['context']
 ): Promise<void> {
   try {
-    const systemPrompt = `You are a filter generation assistant for a task management system. Your job is to convert natural language queries into structured filter objects.
+    const suggestionData = await generateGenericSuggestions(prompt, context);
+
+    res.status(200).json({
+      success: true,
+      data: suggestionData,
+      error: null
+    } as AISuggestionResponse);
+
+  } catch (error) {
+    logger.error("Error in generic suggestion response:", error);
+    throw error;
+  }
+}
+
+/**
+ * Generate generic suggestions based on context type
+ */
+async function generateGenericSuggestions(
+  prompt: string,
+  context: AISuggestionRequest['context']
+): Promise<AISuggestionData> {
+  const { type, availableOptions, metadata } = context;
+
+  // Create context-specific system prompt
+  const systemPrompt = createSystemPrompt(type, availableOptions, metadata);
+
+  const response = await openai.chat.completions.create({
+    model: config.openai.model,
+    messages: [
+      {
+        role: 'system',
+        content: systemPrompt
+      },
+      {
+        role: 'user',
+        content: `Generate ${type} suggestions for: "${prompt}"`
+      }
+    ],
+    temperature: 0.1,
+    max_tokens: 1000
+  });
+
+  logger.info(`OpenAI ${type} suggestion response received`);
+
+  if (!response.choices || !response.choices[0] || !response.choices[0].message) {
+    throw new Error("Invalid OpenAI response format");
+  }
+
+  const content = response.choices[0].message.content;
+  if (!content) {
+    throw new Error("Empty response from OpenAI");
+  }
+
+  // Parse and transform the response based on context type
+  return parseAndTransformResponse(content, type, availableOptions);
+}
+
+/**
+ * Create context-specific system prompt
+ */
+function createSystemPrompt(
+  type: string,
+  availableOptions: Record<string, any[]>,
+  metadata?: Record<string, any>
+): string {
+  const optionsText = Object.entries(availableOptions)
+    .map(([key, values]) => `- ${key}: ${values.join(', ')}`)
+    .join('\n');
+
+  switch (type) {
+    case 'filters':
+      return `You are a filter generation assistant for a task management system. Your job is to convert natural language queries into structured filter objects.
 
 Available filter types and their possible values:
-${Object.entries(availableValues).map(([type, values]) => `- ${type}: ${values.join(', ')}`).join('\n')}
+${optionsText}
 
 Rules:
 1. Return valid JSON only
@@ -356,11 +453,17 @@ Rules:
 
 Response format:
 {
-  "suggestedFilters": [
+  "suggestions": [
     {
-      "type": "Status",
-      "operator": "is",
-      "value": ["Todo"]
+      "id": "filter-1",
+      "label": "Status is Todo",
+      "value": ["Todo"],
+      "confidence": 85,
+      "metadata": {
+        "type": "Status",
+        "operator": "is",
+        "value": ["Todo"]
+      }
     }
   ],
   "explanation": "Applied filter for todo items",
@@ -368,61 +471,170 @@ Response format:
   "unmatchedCriteria": []
 }`;
 
-    const response = await openai.chat.completions.create({
-      model: config.openai.model,
-      messages: [
-        {
-          role: 'system',
-          content: systemPrompt
-        },
-        {
-          role: 'user',
-          content: `Convert this filtering request into structured filters: "${prompt}"`
-        }
-      ],
-      temperature: 0.1,
-      max_tokens: 1000
-    });
+    case 'commands':
+      return `You are a command generation assistant. Your job is to suggest relevant commands and actions based on user input.
 
-    logger.info("OpenAI filter generation response received");
+Available command categories and actions:
+${optionsText}
 
-    if (!response.choices || !response.choices[0] || !response.choices[0].message) {
-      throw new Error("Invalid OpenAI response format");
-    }
+Rules:
+1. Return valid JSON only
+2. Use exact action names from the lists above
+3. Provide confidence score (0-100)
+4. Focus on action-oriented suggestions
+5. List any unmatched criteria
 
-    const content = response.choices[0].message.content;
-    if (!content) {
-      throw new Error("Empty response from OpenAI");
-    }
-
-    // Parse the JSON response
-    let parsedContent: FilterGenerationResponse;
-    try {
-      // Extract JSON from response (handle code blocks)
-      const jsonMatch = content.match(/```(?:json)?\s*(\{[\s\S]*?\})\s*```/) || [null, content];
-      const jsonString = jsonMatch[1] || content;
-
-      parsedContent = JSON.parse(jsonString) as FilterGenerationResponse;
-
-      // Validate the response structure
-      if (!parsedContent.suggestedFilters || !Array.isArray(parsedContent.suggestedFilters)) {
-        throw new Error("Invalid response structure: missing suggestedFilters array");
+Response format:
+{
+  "suggestions": [
+    {
+      "id": "cmd-1",
+      "label": "New Meeting",
+      "value": "New Meeting",
+      "confidence": 90,
+      "metadata": {
+        "category": "Create",
+        "action": "New Meeting"
       }
+    }
+  ],
+  "explanation": "Suggested actions for scheduling",
+  "confidence": 90,
+  "unmatchedCriteria": []
+}`;
 
-      logger.debug("Successfully parsed filter generation response");
-    } catch (parseError) {
-      logger.error("Failed to parse OpenAI filter response:", parseError);
-      throw new Error("Failed to parse AI response");
+    case 'navigation':
+      return `You are a navigation assistant. Your job is to suggest relevant pages and destinations based on user input.
+
+Available navigation options:
+${optionsText}
+
+Rules:
+1. Return valid JSON only
+2. Use exact page/section names from the lists above
+3. Provide confidence score (0-100)
+4. Focus on navigation destinations
+5. List any unmatched criteria
+
+Response format:
+{
+  "suggestions": [
+    {
+      "id": "nav-1",
+      "label": "Dashboard",
+      "value": "Dashboard",
+      "confidence": 95,
+      "metadata": {
+        "type": "page",
+        "destination": "Dashboard"
+      }
+    }
+  ],
+  "explanation": "Navigation suggestions for dashboard access",
+  "confidence": 95,
+  "unmatchedCriteria": []
+}`;
+
+    default:
+      return `You are an AI assistant. Your job is to suggest relevant items based on user input.
+
+Available options:
+${optionsText}
+
+Rules:
+1. Return valid JSON only
+2. Use exact values from the lists above when possible
+3. Provide confidence score (0-100)
+4. List any unmatched criteria
+
+Response format:
+{
+  "suggestions": [
+    {
+      "id": "suggestion-1",
+      "label": "Suggested Item",
+      "value": "item-value",
+      "confidence": 80,
+      "metadata": {}
+    }
+  ],
+  "explanation": "AI generated suggestions",
+  "confidence": 80,
+  "unmatchedCriteria": []
+}`;
+  }
+}
+
+/**
+ * Parse and transform OpenAI response based on context type
+ */
+function parseAndTransformResponse(
+  content: string,
+  type: string,
+  availableOptions: Record<string, any[]>
+): AISuggestionData {
+  try {
+    // Extract JSON from response (handle code blocks)
+    const jsonMatch = content.match(/```(?:json)?\s*(\{[\s\S]*?\})\s*```/) || [null, content];
+    const jsonString = jsonMatch[1] || content;
+
+    const parsedContent = JSON.parse(jsonString);
+
+    // Validate the response structure
+    if (!parsedContent.suggestions || !Array.isArray(parsedContent.suggestions)) {
+      throw new Error("Invalid response structure: missing suggestions array");
     }
 
-    res.status(200).json({
-      success: true,
-      data: parsedContent,
-      error: null
-    } as ApiResponse<FilterGenerationResponse>);
+    // Ensure each suggestion has required fields and generate IDs if missing
+    const transformedSuggestions = parsedContent.suggestions.map((suggestion: any, index: number) => ({
+      id: suggestion.id || `${type}-${Date.now()}-${index}`,
+      label: suggestion.label || suggestion.value || `Suggestion ${index + 1}`,
+      value: suggestion.value,
+      confidence: Math.min(100, Math.max(0, suggestion.confidence || 70)),
+      metadata: suggestion.metadata || {}
+    }));
 
-  } catch (error) {
-    logger.error("Error in filter generation response:", error);
-    throw error;
+    return {
+      suggestions: transformedSuggestions,
+      explanation: parsedContent.explanation || `AI generated ${type} suggestions`,
+      confidence: Math.min(100, Math.max(0, parsedContent.confidence || 70)),
+      unmatchedCriteria: parsedContent.unmatchedCriteria || []
+    };
+
+  } catch (parseError) {
+    logger.error("Failed to parse OpenAI response:", parseError);
+
+    // Fallback: generate basic suggestions from available options
+    return generateFallbackSuggestions(type, availableOptions);
   }
+}
+
+/**
+ * Generate fallback suggestions when AI parsing fails
+ */
+function generateFallbackSuggestions(
+  type: string,
+  availableOptions: Record<string, any[]>
+): AISuggestionData {
+  const suggestions: AISuggestionData['suggestions'] = [];
+
+  // Take first few options from each category as fallback
+  Object.entries(availableOptions).forEach(([category, options], categoryIndex) => {
+    options.slice(0, 2).forEach((option, optionIndex) => {
+      suggestions.push({
+        id: `fallback-${type}-${categoryIndex}-${optionIndex}`,
+        label: option,
+        value: option,
+        confidence: 50,
+        metadata: { category, fallback: true }
+      });
+    });
+  });
+
+  return {
+    suggestions: suggestions.slice(0, 5), // Limit to 5 fallback suggestions
+    explanation: `Fallback ${type} suggestions (AI service unavailable)`,
+    confidence: 50,
+    unmatchedCriteria: []
+  };
 }

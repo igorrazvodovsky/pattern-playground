@@ -31,12 +31,7 @@ import '../../../components/dropdown/dropdown.ts';
 import 'iconify-icon';
 
 // Add these imports for AI functionality
-import {
-  createAIFilterService,
-  AIState,
-  AIFilterResult
-} from "../../../services/ai-filter-service";
-import { convertToAICommandResult } from "../../../components/filter/adapters/ai-filter-adapter";
+import { generateFilterSuggestions } from "../../../components/filter/adapters/ai-filter-adapter";
 
 // Constants
 const DROPDOWN_CLOSE_DELAY = 200;
@@ -277,9 +272,6 @@ export function FilteringDemo({
     handleDropdownHide
   } = useDropdownState(dropdownRef);
 
-  // Create AI service instance
-  const aiService = React.useMemo(() => createAIFilterService(), []);
-
   // Create stable available values mapping
   const availableValues = React.useMemo(() =>
     Object.fromEntries(
@@ -293,13 +285,13 @@ export function FilteringDemo({
 
   // Create AI request handler
   const handleAIRequest = React.useCallback(async (prompt: string) => {
-    const result = await aiService.generateFilters({
+    const result = await generateFilterSuggestions(
       prompt,
-      availableFilters: Object.values(FilterType),
+      Object.values(FilterType),
       availableValues
-    });
-    return convertToAICommandResult(result);
-  }, [aiService, availableValues]);
+    );
+    return result;
+  }, [availableValues]);
 
   // Use AI command hook
   const {
