@@ -8,8 +8,7 @@ import {
   CommandList,
 } from './command';
 import { AICommandEmpty } from './ai-command-empty';
-import { useAICommand } from './hooks/use-ai-command';
-import { useCommandNavigation } from './hooks/use-command-navigation';
+import { useCommandComposition } from './hooks/use-command-composition';
 import type {
   CommandMenuProps,
   AICommandResult,
@@ -31,89 +30,66 @@ export function CommandMenu({
   aiMessages = {},
 }: CommandMenuProps) {
 
-  // AI hook for intelligent suggestions (only if enabled)
-  const aiState = useAICommand({
-    onAIRequest: aiConfig?.onAIRequest || (async () => ({ suggestedItems: [], confidence: 0 })),
-    debounceMs: aiConfig?.debounceMs,
-    minInputLength: aiConfig?.minInputLength,
-  });
-
-  // Navigation hook for hierarchical functionality
-  const navigation = useCommandNavigation({
+  // Use the composition hook to manage all command menu functionality
+  const composition = useCommandComposition({
     data,
-    recentItems,
-    onSelect: (item) => {
-      onSelect?.(item);
-      // Note: AI result clearing handled in useEffect below
+    enableNavigation,
+    enableRecents: showRecents,
+    enableAI,
+    aiConfig,
+    recentsConfig: {
+      initialRecents: recentItems,
+      maxRecents: 10,
+      persistRecents: false,
     },
+    onSelect,
     onEscape,
   });
 
-  // Trigger AI request when input changes (if AI is enabled)
+  // Trigger AI request when conditions are met
   useEffect(() => {
-    if (enableAI &&
-        aiConfig?.onAIRequest &&
-        navigation.searchInput &&
-        !navigation.isInCommandView &&
-        navigation.searchInput.length >= (aiConfig.minInputLength || 3)) {
-      aiState.handleAIRequest?.(navigation.searchInput);
+    if (composition.shouldShowAI && composition.ai?.handleAIRequest) {
+      composition.ai.handleAIRequest(composition.searchInput);
     }
   }, [
-    enableAI,
-    aiConfig?.onAIRequest,
-    aiConfig?.minInputLength,
-    navigation.searchInput,
-    navigation.isInCommandView,
-    aiState.handleAIRequest
+    composition.shouldShowAI,
+    composition.searchInput,
+    composition.ai?.handleAIRequest
   ]);
 
   // Handle AI result application
   const handleApplyAIResult = (result: AICommandResult) => {
-    aiState.handleApplyAIResult?.(result);
-    navigation.resetState();
+    composition.ai?.handleApplyAIResult?.(result);
+    composition.navigation.resetState();
   };
 
-  // Determine what to show based on current state and enabled features
-  const shouldShowRecents = showRecents &&
-    !navigation.isInCommandView &&
-    (!navigation.searchInput.trim() || navigation.filteredRecentItems.length > 0);
-
-  const shouldShowAI = enableAI &&
-    !navigation.isInCommandView &&
-    navigation.searchInput.trim();
-
-  const hasResults = navigation.filteredResults.parents.length > 0 ||
-    navigation.filteredResults.children.length > 0 ||
-    (shouldShowRecents && (navigation.filteredRecentItems.length > 0 || recentItems.length > 0));
-
-  // Determine placeholder text
-  const effectivePlaceholder = placeholder ||
-    (enableAI ? "Ask AI or search commands..." : navigation.placeholder);
+  // Determine effective placeholder
+  const effectivePlaceholder = placeholder || composition.placeholder;
 
   return (
     <Command
       label="Command Menu"
       shouldFilter={false}
-      onEscape={navigation.handleEscape}
+      onKeyDown={composition.keyboard.handleKeyDown}
       className={className}
     >
       <CommandInput
         placeholder={effectivePlaceholder}
-        value={navigation.searchInput}
-        onValueChange={navigation.setSearchInput}
-        ref={navigation.inputRef}
+        value={composition.searchInput}
+        onValueChange={composition.setSearchInput}
+        ref={composition.keyboard.inputRef}
       />
       <CommandList>
         {/* AI Empty State */}
-        {shouldShowAI && (
+        {composition.shouldShowAI && composition.ai && (
           <AICommandEmpty
-            searchInput={navigation.searchInput}
-            aiState={aiState.aiState}
-            onAIRequest={aiState.handleAIRequest}
+            searchInput={composition.searchInput}
+            aiState={composition.ai.aiState}
+            onAIRequest={composition.ai.handleAIRequest}
             onApplyAIResult={handleApplyAIResult}
-            onEditPrompt={aiState.handleEditPrompt}
-            onInputChange={navigation.setSearchInput}
-            onClose={navigation.resetState}
+            onEditPrompt={composition.ai.handleEditPrompt}
+            onInputChange={composition.setSearchInput}
+            onClose={composition.navigation.resetState}
             emptyStateMessage={aiMessages.emptyStateMessage}
             noResultsMessage={aiMessages.noResultsMessage}
             aiProcessingMessage={aiMessages.aiProcessingMessage}
@@ -122,17 +98,17 @@ export function CommandMenu({
         )}
 
         {/* Standard Empty State */}
-        {!shouldShowAI && !hasResults && (
+        {!composition.shouldShowAI && !composition.hasResults && (
           <CommandEmpty>{emptyMessage}</CommandEmpty>
         )}
 
         {/* Recent items */}
-        {shouldShowRecents && (
+        {composition.shouldShowRecents && composition.results.recents.length > 0 && (
           <CommandGroup heading="Recent">
-            {(navigation.searchInput.trim() ? navigation.filteredRecentItems : recentItems).map((item) => (
+            {composition.results.recents.map((item) => (
               <CommandItem
                 key={item.id}
-                onSelect={() => navigation.handleRecentSelect(item.id)}
+                onSelect={() => composition.navigation.handleRecentSelect(item.id)}
               >
                 {item.icon && (
                   <iconify-icon icon={item.icon as string} slot="prefix"></iconify-icon>
@@ -143,13 +119,13 @@ export function CommandMenu({
           </CommandGroup>
         )}
 
-        {navigation.isInCommandView ? (
+        {composition.isInChildView ? (
           // Selected command mode: show children
           <CommandGroup>
-            {navigation.filteredResults.children.map(({ child }) => (
+            {composition.results.children.map(({ child }) => (
               <CommandItem
                 key={child.id}
-                onSelect={() => navigation.handleChildSelect(child.id)}
+                onSelect={() => composition.navigation.handleChildSelect(child.id)}
               >
                 {child.icon && (
                   <iconify-icon icon={child.icon as string} slot="prefix"></iconify-icon>
@@ -162,29 +138,27 @@ export function CommandMenu({
           // Global search mode: show both top-level commands and child matches
           <>
             {/* Top-level commands */}
-            {navigation.filteredResults.parents.length > 0 && (
+            {composition.results.commands.length > 0 && (
               <CommandGroup heading="Commands">
-                {navigation.filteredResults.parents.map((command) => (
+                {composition.results.commands.map((command) => (
                   <CommandItem
                     key={command.id}
                     onSelect={() => {
                       if (enableNavigation && command.children) {
-                        navigation.handleCommandSelect(command.id);
+                        composition.navigation.handleCommandSelect(command.id);
                       } else {
                         onSelect?.(command as any);
-                        navigation.resetState();
+                        composition.navigation.resetState();
                       }
                     }}
                   >
-                                    {command.icon && (
-                  <iconify-icon icon={command.icon as string} slot="prefix"></iconify-icon>
-                )}
-                {command.name}
+                    {command.icon && (
+                      <iconify-icon icon={command.icon as string} slot="prefix"></iconify-icon>
+                    )}
+                    {command.name}
                     {command.shortcut && (
                       <span slot="suffix" className="cmdk-shortcuts">
-                        {command.shortcut.map((key, index) => (
-                          <kbd key={index}>{key}</kbd>
-                        ))}
+                        {composition.keyboard.formatShortcut(command.shortcut)}
                       </span>
                     )}
                   </CommandItem>
@@ -193,17 +167,17 @@ export function CommandMenu({
             )}
 
             {/* Child command matches */}
-            {navigation.filteredResults.children.length > 0 && (
+            {composition.results.children.length > 0 && (
               <CommandGroup heading="Actions">
-                {navigation.filteredResults.children.map(({ parent, child }) => (
+                {composition.results.children.map(({ parent, child }) => (
                   <CommandItem
                     key={`${parent.id}-${child.id}`}
-                    onSelect={() => navigation.handleChildSelect(child.id)}
+                    onSelect={() => composition.navigation.handleChildSelect(child.id)}
                   >
-                                    {child.icon && (
-                  <iconify-icon icon={child.icon as string} slot="prefix"></iconify-icon>
-                )}
-                {parent.name} {child.name}
+                    {child.icon && (
+                      <iconify-icon icon={child.icon as string} slot="prefix"></iconify-icon>
+                    )}
+                    {parent.name} {child.name}
                   </CommandItem>
                 ))}
               </CommandGroup>
