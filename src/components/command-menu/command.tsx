@@ -35,20 +35,6 @@ const useCommandItemSlots = (children: React.ReactNode): CommandItemSlots => {
   }, [children]);
 };
 
-// Helper to detect icon in content
-const detectIconInContent = (contentChildren: React.ReactNode[]): React.ReactNode | null => {
-  if (contentChildren.length === 0) return null;
-
-  const firstContentChild = contentChildren[0];
-  if (React.isValidElement(firstContentChild) &&
-      (firstContentChild.type === Icon ||
-       (firstContentChild.props as any)?.icon ||
-       (firstContentChild.props as any)?.className?.includes('icon'))) {
-    return firstContentChild;
-  }
-  return null;
-};
-
 interface CommandProps extends React.ComponentPropsWithoutRef<typeof CommandPrimitive> {
   /** Callback fired when the Escape key is pressed. Return true to prevent default behavior. */
   onEscape?: () => boolean | void;
