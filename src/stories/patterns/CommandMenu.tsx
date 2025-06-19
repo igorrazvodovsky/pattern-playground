@@ -111,6 +111,17 @@ function CommandMenu() {
     }
   }, [searchInput, selectedCommand, selectedCommandData]);
 
+  // Filter recent items based on search input
+  const filteredRecentItems = useMemo(() => {
+    if (!searchInput.trim()) return recentItems;
+
+    const processedQuery = searchInput.toLowerCase();
+    return recentItems.filter(item => {
+      const searchText = item.searchableText || item.name;
+      return searchText.toLowerCase().includes(processedQuery);
+    });
+  }, [searchInput]);
+
   const handleCommandSelect = (commandId: string) => {
     const command = commandData.find(cmd => cmd.id === commandId);
     if (command?.children) {
@@ -151,10 +162,10 @@ function CommandMenu() {
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
 
-          {/* Recent items - only show when not in a specific command view */}
-          {!selectedCommand && (
+          {/* Recent items - only show when not in a specific command view and there are matching results */}
+          {!selectedCommand && filteredRecentItems.length > 0 && (
             <CommandGroup heading="Recent">
-              {recentItems.map((item) => (
+              {filteredRecentItems.map((item) => (
                 <CommandItem key={item.id}>
                   <iconify-icon icon={item.icon as string} slot="prefix"></iconify-icon>
                   {item.name}

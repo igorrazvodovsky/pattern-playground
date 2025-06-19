@@ -168,10 +168,10 @@ function CommandMenu() {
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
 
-          {/* Recent items - only show when not in a specific command view and either no search or has matching results */}
-          {!selectedCommand && (!searchInput.trim() || filteredRecentItems.length > 0) && (
+          {/* Recent items - only show when not in a specific command view and there are matching results */}
+          {!selectedCommand && filteredRecentItems.length > 0 && (
             <CommandGroup heading="Recent">
-              {(searchInput.trim() ? filteredRecentItems : recentItems).map((item) => (
+              {filteredRecentItems.map((item) => (
                 <CommandItem
                   key={item.id}
                   onSelect={() => handleRecentSelect(item.id)}

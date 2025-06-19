@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useEffect, useRef } from 'react';
 import { CommandMenu } from '../../../components/command-menu';
-import type { CommandData, RecentItem } from '../../../components/command-menu';
+import type { CommandData, RecentItem, AICommandResult } from '../../../components/command-menu';
 
 // Extract command data from original implementation
 const commandData: CommandData[] = [
@@ -46,9 +46,9 @@ const commandData: CommandData[] = [
 ];
 
 const recentItems: RecentItem[] = [
-  { id: 'obj-561', name: 'OBJ-561', icon: 'ph:file' },
-  { id: 'obj-568', name: 'OBJ-568', icon: 'ph:file' },
-  { id: 'obj-541', name: 'OBJ-541', icon: 'ph:file' },
+  { id: 'obj-561', name: 'OBJ-561', icon: 'ph:file', timestamp: Date.now() - 1000 },
+  { id: 'obj-568', name: 'OBJ-568', icon: 'ph:file', timestamp: Date.now() - 2000 },
+  { id: 'obj-541', name: 'OBJ-541', icon: 'ph:file', timestamp: Date.now() - 3000 },
 ];
 
 const meta: Meta<typeof CommandMenu> = {
@@ -73,9 +73,74 @@ export const Basic: Story = {
         showRecents={true}
         enableNavigation={true}
         enableAI={false}
+        emptyMessage="No results found."
       />
     </div>
   ),
+};
+
+export const WithAI: Story = {
+  render: () => {
+        // Mock AI function
+    const mockAIRequest = async (prompt: string): Promise<AICommandResult> => {
+      // Simulate AI processing delay
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      return {
+        suggestedItems: [
+          {
+            id: `ai-${Date.now()}-1`,
+            label: `Create task: ${prompt}`,
+            value: { action: 'create-task', title: prompt },
+            icon: 'ph:plus-square',
+            metadata: { source: 'ai', confidence: 0.9 }
+          },
+          {
+            id: `ai-${Date.now()}-2`,
+            label: `Search for: ${prompt}`,
+            value: { action: 'search', query: prompt },
+            icon: 'ph:magnifying-glass',
+            metadata: { source: 'ai', confidence: 0.8 }
+          }
+        ],
+        confidence: 0.85,
+        unmatchedCriteria: prompt.length < 5 ? ['Query too short'] : undefined
+      };
+    };
+
+    return (
+      <div style={{ width: '400px', height: '400px' }}>
+        <CommandMenu
+          data={commandData}
+          recentItems={recentItems}
+          onSelect={(item) => console.log('Selected:', item)}
+          placeholder="Type a command or search... (try typing something that doesn't match)"
+          showRecents={true}
+          enableNavigation={true}
+          enableAI={true}
+          aiConfig={{
+            onAIRequest: mockAIRequest,
+            debounceMs: 500,
+            minInputLength: 3,
+          }}
+          aiMessages={{
+            emptyStateMessage: "Try typing something to get AI assistance",
+            noResultsMessage: "No matching commands found. AI can help you!",
+            aiProcessingMessage: "AI is thinking...",
+            aiErrorPrefix: "AI Error:",
+          }}
+          emptyMessage="No results found."
+        />
+      </div>
+    );
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `Command menu with AI assistance enabled. When no commands match your search, AI will suggest alternatives.`
+      }
+    }
+  }
 };
 
 export const Dialog: Story = {
@@ -114,6 +179,7 @@ export const Dialog: Story = {
               showRecents={true}
               enableNavigation={true}
               enableAI={false}
+              emptyMessage="No results found."
             />
           </div>
         </dialog>
@@ -124,6 +190,31 @@ export const Dialog: Story = {
     docs: {
       description: {
         story: `Command menu in a modal dialog. Press "/" to open it and test the hierarchical navigation and search functionality.`
+      }
+    }
+  }
+};
+
+export const CustomMessages: Story = {
+  render: () => (
+    <div style={{ width: '400px', height: '300px' }}>
+      <CommandMenu
+        data={commandData}
+        recentItems={recentItems}
+        onSelect={(item) => console.log('Selected:', item)}
+        placeholder="Custom placeholder text..."
+        showRecents={true}
+        enableNavigation={true}
+        enableAI={false}
+        emptyMessage="Nothing found! Try a different search term."
+        className="custom-command-menu"
+      />
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: `Command menu with custom placeholder and empty state messages.`
       }
     }
   }

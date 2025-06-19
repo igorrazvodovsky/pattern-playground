@@ -177,7 +177,7 @@ export function useCommandComposition({
   const isInChildView = navigation.isInCommandView;
   const shouldShowRecents = enableRecents &&
     !isInChildView &&
-    (!navigation.searchInput.trim() || results.recents.length > 0);
+    results.recents.length > 0;
 
   const shouldShowAI = enableAI &&
     !isInChildView &&
