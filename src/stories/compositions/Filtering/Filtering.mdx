@@ -20,9 +20,11 @@ Filtering allows an actor to add or remove [items](../?path=/docs/concepts-item-
 
 ...
 
-## LLM-powered filters
+## LLM-powered attribute search
 
-User can delegate filtering to a [bot](../?path=/docs/patterns-bot--docs) via a TODO:task. Bot can have access to data beyond the attributes and values visible to the user.
+When simple filter fails, the attribute search query is passed to LLM to find a match in the available attributes.
+
+If that fails, users can delegate filtering to a [bot](../?path=/docs/patterns-bot--docs) via a TODO:task. Bot can have access to data beyond the attributes and values visible to the user.
 
 ### Flow 1
 

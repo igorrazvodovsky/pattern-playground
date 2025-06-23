@@ -1,0 +1,87 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Concepts*/Task" />
+
+# Task
+
+## Purpose
+
+To provide a standardized execution container that enables an actor (human or artificial) to receive
+work specifications, execute required activities, coordinate with related tasks, and provide feedback
+while maintaining accountability within hierarchical work structures.
+
+## Operational principle
+
+When an actor receives a task specification with defined objectives, constraints, and context,
+they execute the required activities within the specified scope, coordinate with peer and parent tasks
+as needed, utilise available resources and capabilities, provide progress feedback to the coordinating
+system, and complete execution when all criteria are satisfied and specified outputs are produced.
+
+## State
+
+- specification: the formal or informal description of what needs to be accomplished
+- status: current execution state:
+  - uninitialized: No task exists
+  - submitted: User has provided a task request
+  - planning: System is analysing the request and formulating an approach
+  - executing: System is actively performing work using tools and knowledge
+  - asking: System requires user clarification or input to proceed
+  - completed: Task has been fulfilled and results delivered
+  - failed: Task could not be completed due to insurmountable obstacles
+- assignee: the actor responsible for execution
+- resources: available tools, information, and capabilities accessible to the actor
+- constraints: temporal, resource, quality, or scope limitations
+- outputs: artifacts or results produced during execution
+- progress: measurable indicators of completion degree
+- dependencies: explicit predecessor and successor task relationships
+- context: reference to originating planning context
+- feedback: progress and outcome information for planning system
+{/* - adaptability: indicators of which aspects can be modified during execution */}
+
+
+## Actions
+
+- create: establish a new task with initial specification and constraints
+- assign: allocate the task to a specific actor based on capability matching
+- start: begin active execution, transitioning from assigned to in-progress
+- coordinate: communicate with peer tasks and parent context as needed
+- update: modify task specification, constraints, or progress indicators
+- report: provide structured progress and status feedback
+- block: suspend execution due to dependencies or resource unavailability
+- request: ask for clarification, additional resources, or assistance
+- resume: continue execution after resolving blocking conditions
+- complete: finalize execution when all completion criteria are satisfied
+- fail: terminate execution when completion becomes impossible within constraints
+- addDependency: establish ordering relationships with other tasks
+- removeDependency: eliminate dependency relationships when no longer relevant
+- adapt: modify task parameters in response to planning updates
+
+
+{/*
+- `submit(request)`: User provides a task description
+- `plan()`: System analyzes request and creates execution strategy
+- `execute_step()`: System performs individual work components
+- `ask_user(question)`: System requests clarification
+- `provide_input(response)`: User supplies requested information
+- `complete(results)`: System delivers final outputs
+- `fail(reason)`: System terminates task due to inability to proceed
+*/}
+
+ {/* ## State transitions */}
+
+{/* Uninitialized → Submitted → Planning → Executing → (potentially Asking → Executing cycles) → Completed/Failed. */}
+
+## TODO: Synchronizations
+
+- Task creation
+- Coordination establishment?
+- Execution feedback
+- Adaptive restructuring
+
+## Related
+
+- [Planning](../?path=/docs/concepts-planning--docs): before execution, tasks undergo planning to determine optimal approaches and resource requirements.
+{/* - Tool */}
+{/* - Artifact */}
+{/* - Material: tasks may reference or analyse stored materials. This enables tasks to work with user-provided content and data. */}
+{/* - Citation: tasks that involve research or analysis incorporate citations to maintain credibility and traceability of information sources. */}
