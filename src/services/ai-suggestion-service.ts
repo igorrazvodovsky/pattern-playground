@@ -1,4 +1,4 @@
-import { APIError } from "../utils/api";
+import { APIError } from "../../utils/api";
 
 // Generic interfaces matching the backend
 export interface AISuggestionRequest {

@@ -189,10 +189,10 @@ resize-asaurus > .resize-asaurus-container {
   padding: 0;
 }
 
-.sbdocs.sbdocs-content + div:has(.toc-wrapper) {
+aside[class*="sbdocs-toc"] {
   width: 30ch;
 
-  & > div {
+  & nav {
     width: 30ch;
   }
 
