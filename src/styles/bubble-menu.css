@@ -1,0 +1,8 @@
+.bubble-menu {
+  background-color: var(--c-background);
+  border: var(--border);
+  border-radius: var(--radius-m);
+  box-shadow: var(--shadow-m);
+  display: flex;
+  padding: var(--space-s);
+}

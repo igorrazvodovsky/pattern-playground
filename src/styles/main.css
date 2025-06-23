@@ -28,7 +28,7 @@
 @import url(cmdk.css);
 @import url(progress-indicator.css);
 @import url(toast.css);
-
+@import url(bubble-menu.css);
 @import url(docs.css);
 
 @layer reset, theme, global, layout, components, utilities, states;
