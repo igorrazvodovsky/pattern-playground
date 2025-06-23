@@ -5,27 +5,27 @@ import { getRandomIcon } from '../utils/icons';
 
 > 🫤 **Fun meter: kind of boring**. The best part here is trying to find a *minimum viable* palette.
 
-# Color
+# Colour
 
 The goal is to find a good enough tradeoff between simplicity, the needs of different components, and potential branding requirements.
-The focus is on functional needs: color that supports guiding users, draws attention to important information, and makes content more accessible.
+The focus is on functional needs: colour that supports guiding users, draws attention to important information, and makes content more accessible.
 
 {/* TODO: Color and dev. experience */}
 
 ## Approach
 
 <div>
-- Colors are defined using OKLCH notation and using Oklab color space.
+- Colours are defined using OKLCH notation and using Oklab colour space.
 - All palettes use the same scale for relative saturation and lightness.
 - Palettes (neutral, primary, info, warning, etc.) are defined by their hues.
-- The lightness of the color corresponds to its use.
+- The lightness of the colour corresponds to its use.
 - Chroma for each lightness level are picked to ensure maximum visual consistency between palettes.
-- Foreground colors are calculated based on background color to ensure the necessary contrast.
+- Foreground colours are calculated based on background colour to ensure the necessary contrast.
 </div>
 
 ## Palette
 
-{/* TODO: Each color comes with a transparent option for better blending if needed. */}
+{/* TODO: Each colour comes with a transparent option for better blending if needed. */}
 
 <div className="toolbar">
   <label className="hue-label" htmlFor="sliderHue">Hue</label>

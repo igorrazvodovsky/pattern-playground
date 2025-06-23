@@ -1,10 +1,10 @@
 import { Meta } from '@storybook/blocks';
 
-<Meta title="Foundations/Behavior*" />
+<Meta title="Foundations/Behaviour*" />
 
 > **Fun meter: 4/5**. Exploring how to design for LLMs revealed the need for a framework to support and structure actor intent.
 
-# Behavior
+# Behaviour
 
 Different ways in which an actor might use a system—not just to find information, but also to act on it. Specific types of looking and doing provide a foundation for choosing components and patterns that meet those demands delightfully and deliberately.
 
