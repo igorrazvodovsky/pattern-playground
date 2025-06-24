@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import React from "react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const meta = {
   title: "Primitives/Spinner",
+  tags: ['!autodocs'],
   render: () => <pp-spinner></pp-spinner>,
 } satisfies Meta;
 

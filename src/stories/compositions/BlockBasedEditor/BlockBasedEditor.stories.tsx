@@ -1,6 +1,8 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { FloatingMenu, BubbleMenu, useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
+import Mention from '@tiptap/extension-mention'
+import { mentionSuggestion } from './mentionSuggestion';
 
 const meta = {
   title: "Compositions/Block-based editor*",
@@ -15,10 +17,16 @@ export const Basic: Story = {
     const editor = useEditor({
       extensions: [
         StarterKit,
+        Mention.configure({
+          HTMLAttributes: {
+            class: 'mention',
+          },
+          suggestion: mentionSuggestion,
+        }),
       ],
       content: `
         <p>
-          Hey, try to select some text here. There will popup a menu for selecting some inline styles.
+          Hey, try to select some text here. There will popup a menu for selecting some inline styles. Try typing @ to trigger mentions!
         </p>
       `,
     })

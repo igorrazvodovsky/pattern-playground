@@ -1,0 +1,5 @@
+.mention {
+  background-color: var(--c-neutral-100); /* Neutral background color */
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--radius-s);
+}

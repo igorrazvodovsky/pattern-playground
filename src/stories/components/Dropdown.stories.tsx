@@ -1,6 +1,6 @@
 // TODO: caret
 
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
 
 const meta = {
