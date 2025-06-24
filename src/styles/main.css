@@ -23,6 +23,7 @@
 @import url(details.css);
 @import url(messages.css);
 @import url(input.css);
+@import url(./mentions.css);
 @import url(list-shared.css);
 @import url(list-item-shared.css);
 @import url(cmdk.css);
