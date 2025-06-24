@@ -142,7 +142,13 @@
   margin-inline: var(--space-s);
   color: var(--c-bodyDimmed);
 
-  .badge {
+  .badge, pp-spinner {
     margin-inline-end: var(--space-s);
+  }
+
+  pp-spinner {
+    /* --track-width: 3px; */
+    --track-color: oklch(0% 0 0 / 20%);
+    font-size: var(--text-xs);
   }
 }

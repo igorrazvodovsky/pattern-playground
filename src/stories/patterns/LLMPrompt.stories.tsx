@@ -11,6 +11,21 @@ type Story = StoryObj;
 export const QualityFeedback: Story = {
   args: {},
   render: () => (
+    <>
+    <div className="flow">
+      <div className="message-composer__feedback">
+          <pp-spinner></pp-spinner>Evaluating...
+      </div>
+      <div className="message-composer__feedback">
+          <span className="badge badge--pill badge--warning"></span> Please provide more details for best results
+      </div>
+      <div className="message-composer__feedback">
+        <span className="badge badge--pill badge--warning"></span> More precise questions work better. Try adding elements like these:
+      </div>
+      <div className="message-composer__feedback">
+        <span className="badge badge--pill badge--success"></span> Great question!
+      </div>
+    </div>
     <div className="messages layer">
       <div className="message-composer layer">
         <pp-input autoFocus defaultValue="What was that things name?">
@@ -34,6 +49,7 @@ export const QualityFeedback: Story = {
         </small>
       </div>
     </div>
+    </>
   ),
 };
 
