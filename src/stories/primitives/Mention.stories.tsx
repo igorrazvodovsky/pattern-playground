@@ -1,20 +1,12 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import Mention from '@tiptap/extension-mention';
+import { Mention as TiptapMention } from '@tiptap/extension-mention';
 import { mentionSuggestion } from '../compositions/BlockBasedEditor/mentionSuggestion'; // Adjusted path
-import '../../styles/mentions.css'; // Ensure styles are loaded for the story
-import '../../styles/bubble-menu.css'; // Base styles for editor
-import '../../styles/main.css'; // Ensure all styles are loaded for consistency
 
 const meta = {
   title: "Primitives/Mention",
-  component: EditorContent, // We are showcasing the editor's mention capability
-  parameters: {
-    layout: 'centered',
-  },
-  tags: ['autodocs'],
-} satisfies Meta<typeof EditorContent>;
+} satisfies Meta;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -23,7 +15,7 @@ const MentionEditor = () => {
   const editor = useEditor({
     extensions: [
       StarterKit,
-      Mention.configure({
+      TiptapMention.configure({
         HTMLAttributes: {
           class: 'mention',
         },
@@ -45,39 +37,14 @@ const MentionEditor = () => {
     },
   });
 
-  return <EditorContent editor={editor} />;
+  return (
+    <div style={{ padding: '20px', border: '1px solid #ccc', borderRadius: '8px', minHeight: '200px' }}>
+      <EditorContent editor={editor} />
+    </div>
+  );
 };
 
-export const Default: Story = {
+export const Mention: Story = {
   render: () => <MentionEditor />,
-  args: {},
 };
 
-export const PreFilled: Story = {
-    render: () => {
-        const editor = useEditor({
-            extensions: [
-              StarterKit,
-              Mention.configure({
-                HTMLAttributes: {
-                  class: 'mention',
-                },
-                suggestion: mentionSuggestion,
-              }),
-            ],
-            content: `
-              <p>
-                This editor starts with a pre-filled mention: <span data-type="mention" data-id="3" class="mention">Charlie</span>.
-              </p>
-              <p>You can add more, like @Dav</p>
-            `,
-            editorProps: {
-              attributes: {
-                class: 'tiptap-editor-basic',
-              },
-            },
-          });
-        return <EditorContent editor={editor} />;
-    },
-    args: {},
-}

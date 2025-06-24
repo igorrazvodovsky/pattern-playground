@@ -1,6 +1,5 @@
 .mention {
-  background-color: #f0f0f0; /* Neutral background color */
-  padding: 1px 3px;
-  border-radius: 4px;
-  color: #333;
+  background-color: var(--c-neutral-100); /* Neutral background color */
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--radius-s);
 }

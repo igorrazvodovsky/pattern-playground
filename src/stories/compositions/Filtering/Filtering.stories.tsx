@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { FilteringDemo } from './Filtering';
 import { FilterType, FilterOperator, Status, Priority } from '../../../components/filter/filter-types'
 

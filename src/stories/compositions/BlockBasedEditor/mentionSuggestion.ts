@@ -1,6 +1,5 @@
 import { ReactRenderer } from '@tiptap/react';
-import tippy from 'tippy.js';
-import { PpDropdown } from '../../../components/dropdown/dropdown';
+import { PpPopup } from '../../../components/popup/popup';
 import { PpList } from '../../../components/list/list';
 import { PpListItem } from '../../../components/list-item/list-item';
 
@@ -20,48 +19,62 @@ export const mentionSuggestion = {
 
   render: () => {
     let component: ReactRenderer<unknown, any>;
-    let popup: any; // tippy instance
+    let popup: PpPopup;
+    let list: PpList;
+    let virtualElement: { getBoundingClientRect: () => DOMRect };
 
     return {
       onStart: (props: any) => {
-        // Create a pp-dropdown element
-        const dropdown = document.createElement('pp-dropdown') as PpDropdown & { viewMode: string, show: () => void, hide: () => void, setContent: (content: HTMLElement) => void };
-        dropdown.placement = 'bottom-start';
-        dropdown.stayOpenOnSelect = true; // Keep it open to allow further interaction if needed
+        // Create a virtual element for positioning based on the client rect
+        virtualElement = {
+          getBoundingClientRect: () => props.clientRect?.() || new DOMRect()
+        };
+
+        // Create a pp-popup element
+        popup = document.createElement('pp-popup') as PpPopup;
+        popup.placement = 'bottom-start';
+        popup.strategy = 'fixed';
+        popup.flip = true;
+        popup.shift = true;
+        popup.distance = 8;
+        popup.anchor = virtualElement;
+        popup.setAttribute('data-mention', 'true'); // Add data attribute for styling
 
         // Create a pp-list element
-        const list = document.createElement('pp-list') as PpList;
+        list = document.createElement('pp-list') as PpList;
 
-        // Append list to dropdown
-        dropdown.appendChild(list);
-        document.body.appendChild(dropdown); // Append to body to ensure it's on top
+        // Append list to popup
+        popup.appendChild(list);
+
+        // Append popup to body
+        document.body.appendChild(popup);
 
         component = new ReactRenderer(
-          ({ items, command }: { items: {id: string, name: string}[], command: (attrs: any) => void }) => {
+          ({ items, command }: { items: { id: string, name: string }[], command: (attrs: any) => void }) => {
             // Clear previous items
             while (list.firstChild) {
               list.removeChild(list.firstChild);
             }
 
             if (!items || items.length === 0) {
-              dropdown.hide(); // Hide dropdown if no items
+              popup.active = false;
               return null;
             }
 
             items.forEach(item => {
-              const listItem = document.createElement('pp-list-item') as PpListItem & { value: string, textContent: string, addEventListener: (event: string, callback: () => void) => void };
+              const listItem = document.createElement('pp-list-item') as PpListItem;
               listItem.value = item.id;
               listItem.textContent = item.name;
               listItem.addEventListener('click', () => {
                 command({ id: item.id, label: item.name });
-                dropdown.hide();
+                popup.active = false;
               });
               list.appendChild(listItem);
             });
 
-            // Ensure the dropdown is shown after items are populated
-            if (items.length > 0 && !dropdown.open) {
-                 dropdown.show();
+            // Show the popup after items are populated
+            if (items.length > 0) {
+              popup.active = true;
             }
             return null; // No direct React rendering needed here, we manage DOM manually
           },
@@ -72,46 +85,22 @@ export const mentionSuggestion = {
         );
 
         component.updateProps({ items: props.items, command: props.command });
-
-
-        if (!props.clientRect) {
-          return;
-        }
-
-        popup = tippy(document.body, { // Attach tippy to a dummy element
-          getReferenceClientRect: props.clientRect,
-          appendTo: () => document.body,
-          content: dropdown,
-          showOnCreate: true,
-          interactive: true,
-          trigger: 'manual',
-          placement: 'bottom-start',
-          arrow: false,
-        });
-
-        // Ensure tippy positions the dropdown correctly
-         if (popup && popup.length > 0) {
-           popup[0].show();
-         } else if (popup) {
-           popup.show();
-         }
       },
 
       onUpdate(props: any) {
         component.updateProps({ items: props.items, command: props.command });
 
-        if (!props.clientRect) {
-          return;
+        if (props.clientRect) {
+          // Update the virtual element's position
+          virtualElement.getBoundingClientRect = () => props.clientRect?.() || new DOMRect();
+          // Trigger reposition
+          popup.reposition();
         }
-
-        popup.setProps({
-          getReferenceClientRect: props.clientRect,
-        });
       },
 
       onKeyDown(props: any) {
         if (props.event.key === 'Escape') {
-          popup.hide();
+          popup.active = false;
           return true;
         }
         // @ts-ignore
@@ -119,18 +108,12 @@ export const mentionSuggestion = {
       },
 
       onExit() {
-        if (popup && popup.length > 0) {
-          popup[0].destroy();
-        } else if (popup) {
-          popup.destroy();
-        }
-        if (component) {
-           component.destroy();
-        }
-        // Clean up the dropdown from the DOM
-        const dropdownInstance = document.querySelector('pp-dropdown');
-        if (dropdownInstance) {
-            dropdownInstance.remove();
+        popup.active = false;
+        component?.destroy();
+
+        // Clean up the popup from the DOM
+        if (popup && popup.parentNode) {
+          popup.parentNode.removeChild(popup);
         }
       },
     };
