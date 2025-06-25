@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Development Commands
+## Development commands
 
 **Frontend (root directory):**
 - `npm run test` - Run ESLint and Stylelint
@@ -15,7 +15,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `cd server && npm run start` - Run production server
 - `cd server && npm run typecheck` - TypeScript type checking
 
-## Architecture Overview
+## Architecture overview
 
 This is a **design system playground** with a hybrid frontend/backend architecture:
 
@@ -30,13 +30,13 @@ This is a **design system playground** with a hybrid frontend/backend architectu
 - **Node.js/Express** server with **OpenAI API** integration
 - TypeScript with ES modules
 
-### Component Architecture
+### Component architecture
 Components follow a **progressive enhancement** strategy:
 - CSS-only components that work without JavaScript
 - Web Components extend native HTML elements with `pp-` prefix
 - Components use custom elements: `<button is="pp-button">` pattern
 
-### Key Directories
+### Key directories
 - `src/components/` - Core Web Components (Lit)
 - `src/stories/` - Storybook documentation organized by:
   - `primitives/` - Basic UI elements
@@ -47,14 +47,51 @@ Components follow a **progressive enhancement** strategy:
 - `src/services/` - API services and utilities
 - `server/` - Express backend with AI integration
 
-### Development Patterns
+### Development patterns
 - **Atomic Design** principles with clear component hierarchy
 - **Composition hooks** for complex React component logic
 - **AI adapters** for different component suggestion types
 - **Streaming API responses** with Server-Sent Events
 
-## Testing & Quality
+## Testing and quality
 - Use `npm run test` to run linting (ESLint + Stylelint) before commits
 - TypeScript strict mode enabled
 - Components should extend native HTML elements when possible
 - Follow BEM CSS methodology for styling
+
+## Documentation standards
+
+### Documentation format
+- Use `.mdx` format for Storybook documentation with rich interactive content
+- Include Meta component for proper Storybook integration: `<Meta title="Category/Name" />`
+- Mark work-in-progress items with `*` in titles (e.g., "Component Name*")
+
+### Pattern documentation template
+When documenting patterns, follow this structure:
+- **Description** - Relational definition based on position within system
+- **Anatomy** - Structural breakdown (for complex patterns)
+- **Variants** - Functional, contextual, accessibility variants
+- **States** - Empty, validation, loading states
+- **Examples of usage** - Integration with other patterns
+- **Best practices** - Dos and don'ts
+- **Accessibility** - Concerns and implementation notes
+- **Decision tree** - Logic for pattern/variant selection
+- **Related patterns** - Precursors, follow-ups, complementary, tangentially related
+- **Resources** - External references and research
+
+### Behavioural framework
+When designing components/patterns, consider actor behaviour modes:
+- **Motivated movement** - Navigating, browsing, transactional search
+- **Delightful discovery** - Exploring, monitoring, passive discovery
+- **Foggy finding** - Re-finding, uncovering, hunting
+- **Doing the job** - Executing, integrating, consuming, flow, learning
+
+### Content guidelines
+- Focus on relational definitions over static properties
+- Explain diverse implementations of flexible patterns
+- Include transitions between behavioural modes
+- Reference established design principles (modularity, hierarchy, complexity management)
+
+### Writing style
+- Use British spelling throughout (behaviour, organisation, colour, etc.)
+- Use sentence case for headings and titles

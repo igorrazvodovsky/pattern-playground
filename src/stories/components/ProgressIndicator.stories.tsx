@@ -5,10 +5,10 @@ import { getRandomFilledIcon } from '../utils/icons';
 
 const meta = {
   title: "Components/Progress indicator*",
-} satisfies Meta;
+} satisfies Meta<any>;
 
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<typeof meta>;
 
 export const Basic = {
   render: () => (
