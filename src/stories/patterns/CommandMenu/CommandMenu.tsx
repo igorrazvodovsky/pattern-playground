@@ -63,11 +63,11 @@ const commandData: CommandOption[] = [
     icon: 'ph:magnifying-glass',
     shortcut: ['⌘', 'S'],
     children: [
-      { id: 'search-files', name: 'Search Files', icon: 'ph:file-text' },
-      { id: 'search-projects', name: 'Search Projects', icon: 'ph:folder' },
-      { id: 'search-tasks', name: 'Search Tasks', icon: 'ph:check-square' },
-      { id: 'search-people', name: 'Search People', icon: 'ph:users' },
-      { id: 'search-messages', name: 'Search Messages', icon: 'ph:chat-circle' },
+      { id: 'search-files', name: 'Files', icon: 'ph:file-text' },
+      { id: 'search-projects', name: 'Projects', icon: 'ph:folder' },
+      { id: 'search-tasks', name: 'Tasks', icon: 'ph:check-square' },
+      { id: 'search-people', name: 'People', icon: 'ph:users' },
+      { id: 'search-messages', name: 'Messages', icon: 'ph:chat-circle' },
     ]
   },
   {
@@ -76,11 +76,11 @@ const commandData: CommandOption[] = [
     icon: 'ph:plus',
     shortcut: ['⌘', 'N'],
     children: [
-      { id: 'create-file', name: 'New File', icon: 'ph:file-plus' },
-      { id: 'create-folder', name: 'New Folder', icon: 'ph:folder-plus' },
-      { id: 'create-project', name: 'New Project', icon: 'ph:briefcase' },
-      { id: 'create-task', name: 'New Task', icon: 'ph:plus-square' },
-      { id: 'create-meeting', name: 'New Meeting', icon: 'ph:calendar-plus' },
+      { id: 'create-file', name: 'Object', icon: 'ph:cube' },
+      { id: 'create-folder', name: 'Attribute', icon: 'ph:cube' },
+      { id: 'create-project', name: 'Domain', icon: 'ph:cube' },
+      { id: 'create-task', name: 'Module', icon: 'ph:cube' },
+      { id: 'create-meeting', name: 'Bunny', icon: 'ph:rabbit' },
     ]
   },
   {
@@ -88,11 +88,11 @@ const commandData: CommandOption[] = [
     name: 'Change…',
     icon: 'ph:pencil',
     children: [
-      { id: 'change-theme', name: 'Change Theme', icon: 'ph:palette' },
-      { id: 'change-settings', name: 'Change Settings', icon: 'ph:gear' },
-      { id: 'change-profile', name: 'Change Profile', icon: 'ph:user' },
-      { id: 'change-workspace', name: 'Change Workspace', icon: 'ph:buildings' },
-      { id: 'change-language', name: 'Change Language', icon: 'ph:translate' },
+      { id: 'change-theme', name: 'Theme', icon: 'ph:palette' },
+      { id: 'change-settings', name: 'Settings', icon: 'ph:gear' },
+      { id: 'change-profile', name: 'Profile', icon: 'ph:user' },
+      { id: 'change-workspace', name: 'Workspace', icon: 'ph:buildings' },
+      { id: 'change-language', name: 'Language', icon: 'ph:translate' },
     ]
   }
 ];
@@ -103,7 +103,7 @@ const recentItems: RecentItem[] = [
   { id: 'obj-541', name: 'OBJ-541', icon: 'ph:file' },
 ];
 
-function CommandMenu() {
+function CommandMenu({ onClose }: { onClose?: () => void } = {}) {
   const [selectedCommand, setSelectedCommand] = useState<string | null>(null);
   const [searchInput, setSearchInput] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -192,12 +192,14 @@ function CommandMenu() {
       // Reset state after execution
       setSelectedCommand(null);
       setSearchInput("");
+      onClose?.();
     }
   };
 
   const handleChildSelect = () => {
     setSelectedCommand(null);
     setSearchInput("");
+    onClose?.();
   };
 
   // Handle applying AI-generated commands
@@ -212,7 +214,8 @@ function CommandMenu() {
     // Reset state after execution
     setSelectedCommand(null);
     setSearchInput("");
-  }, [handleApplyAIResult]);
+    onClose?.();
+  }, [handleApplyAIResult, onClose]);
 
   const handleEscape = () => {
     if (selectedCommand) {
@@ -258,6 +261,11 @@ function CommandMenu() {
               onApplyAIResult={handleApplyAICommands}
               onEditPrompt={handleEditPrompt}
               onInputChange={clearResultsIfInputChanged}
+              onClose={() => {
+                setSelectedCommand(null);
+                setSearchInput("");
+                onClose?.();
+              }}
               emptyStateMessage="Start typing to search commands..."
               noResultsMessage="No commands found."
               aiProcessingMessage="Finding commands…"

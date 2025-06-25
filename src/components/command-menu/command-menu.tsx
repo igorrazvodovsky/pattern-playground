@@ -20,6 +20,7 @@ export function CommandMenu({
   recentItems = [],
   onSelect,
   onEscape,
+  onClose,
   aiConfig,
   showRecents = true,
   enableNavigation = true,
@@ -44,6 +45,7 @@ export function CommandMenu({
     },
     onSelect,
     onEscape,
+    onClose,
   });
 
   // Trigger AI request when conditions are met
@@ -61,6 +63,7 @@ export function CommandMenu({
   const handleApplyAIResult = (result: AICommandResult) => {
     composition.ai?.handleApplyAIResult?.(result);
     composition.navigation.resetState();
+    onClose?.();
   };
 
   // Determine effective placeholder
@@ -89,7 +92,10 @@ export function CommandMenu({
             onApplyAIResult={handleApplyAIResult}
             onEditPrompt={composition.ai.handleEditPrompt}
             onInputChange={composition.setSearchInput}
-            onClose={composition.navigation.resetState}
+            onClose={() => {
+              composition.navigation.resetState();
+              onClose?.();
+            }}
             emptyStateMessage={aiMessages.emptyStateMessage}
             noResultsMessage={aiMessages.noResultsMessage}
             aiProcessingMessage={aiMessages.aiProcessingMessage}

@@ -6,6 +6,7 @@ export interface CommandMenuProps {
   // Behavior configuration
   onSelect?: (item: CommandItem | RecentItem | AICommandItem) => void;
   onEscape?: () => boolean | void;
+  onClose?: () => void;
 
   // AI configuration (optional)
   aiConfig?: {

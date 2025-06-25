@@ -38,7 +38,7 @@ export const Dialog: Story = {
       <>
         <p>Press <kbd>/</kbd> to open the command menu.</p>
         <dialog ref={dialogRef} id="cmd">
-          <CommandMenu />
+          <CommandMenu onClose={() => dialogRef.current?.close()} />
         </dialog>
       </>
     );

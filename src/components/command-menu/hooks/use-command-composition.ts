@@ -20,6 +20,7 @@ export interface UseCommandCompositionOptions {
   // Unified callbacks
   onSelect?: (item: CommandData | RecentItem | AICommandItem) => void;
   onEscape?: () => boolean | void;
+  onClose?: () => void;
 }
 
 export interface UnifiedResults {
@@ -66,6 +67,7 @@ export function useCommandComposition({
   selectionConfig = {},
   onSelect,
   onEscape,
+  onClose,
 }: UseCommandCompositionOptions): UseCommandCompositionReturn {
 
   // Initialize recents hook if enabled
@@ -103,6 +105,9 @@ export function useCommandComposition({
 
       // Call unified selection handler
       onSelect?.(item);
+
+      // Close container (dialog/dropdown) if callback provided
+      onClose?.();
     },
     onEscape,
   });
