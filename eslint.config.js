@@ -3,12 +3,12 @@ import storybook from "eslint-plugin-storybook";
 
 import globals from "globals";
 import tseslint from "typescript-eslint";
-import { configs } from 'eslint-plugin-lit';
+import lit from 'eslint-plugin-lit';
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 
 /** @type {import('eslint').Linter.Config[]} */
-export default [...configs['flat/recommended'], {
+export default [lit.configs['flat/recommended'], {
   files: ["**/*.{js,mjs,cjs,ts,jsx,jsx,tsx}"],
   plugins: {
     'react-hooks': reactHooks,
