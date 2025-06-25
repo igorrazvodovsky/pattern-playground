@@ -109,7 +109,7 @@ export const materialMentionSuggestion = {
         component.updateProps({ items: props.items, command: props.command });
       },
 
-      onUpdate(props: any) {
+      onUpdate(props: { items: typeof materials; command: (attrs: { id: string; label: string; type: string; icon: string }) => void; clientRect?: () => DOMRect }) {
         component.updateProps({ items: props.items, command: props.command });
 
         if (props.clientRect) {
@@ -118,12 +118,12 @@ export const materialMentionSuggestion = {
         }
       },
 
-      onKeyDown(props: any) {
+      onKeyDown(props: { event: KeyboardEvent }) {
         if (props.event.key === 'Escape') {
           popup.active = false;
           return true;
         }
-        // @ts-ignore
+        // @ts-expect-error - component.ref type is not properly typed
         return component.ref?.onKeyDown(props);
       },
 

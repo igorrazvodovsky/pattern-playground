@@ -1,4 +1,4 @@
-import { Story, Meta } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
 import * as LLMPromptStories from './LLMPrompt.stories.tsx';
 
 <Meta of = { LLMPromptStories } />
@@ -23,17 +23,17 @@ explicit and implicit...
 </div>
 
 {/* Redo using blocks */}
-<Story of={ LLMPromptStories.StructuredPrompt } />
+<Canvas of={ LLMPromptStories.StructuredPrompt } />
 
 ## Reference materials with @mentions
 
 Using @mentions to reference documents, images, code, and other materials provides context for better LLM responses.
 
-<Story of={ LLMPromptStories.WithMaterialReferences } />
+<Canvas of={ LLMPromptStories.WithMaterialReferences } />
 
 ### Empty prompt with mention capabilities
 
-<Story of={ LLMPromptStories.EmptyPromptWithMentions } />
+<Canvas of={ LLMPromptStories.EmptyPromptWithMentions } />
 
 ## Prompt guidance and scaffolding
 
@@ -41,7 +41,7 @@ Bridging the gap between fuzzy idea inside a human's head and what makes an effe
 
 ### Quality feedback
 
-<Story of={ LLMPromptStories.QualityFeedback } />
+<Canvas of={ LLMPromptStories.QualityFeedback } />
 
 ### Editing assistance
 
