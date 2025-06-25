@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import React from "react";
 import '../../components/spinner/spinner.ts';
 import { getRandomFilledIcon } from '../utils/icons';
 

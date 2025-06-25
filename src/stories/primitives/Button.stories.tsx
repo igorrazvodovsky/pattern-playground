@@ -1,12 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import React from "react";
 
 const meta = {
   title: "Primitives/Button*",
 } satisfies Meta;
 
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<{ label?: string }>;
 
 export const Default: Story = {
   args: { label: "Button" },
@@ -50,6 +49,7 @@ export const Toggle: Story = {
 };
 
 export const IconButton: Story = {
+  args: { label: "Button" },
   render: (args) => (
     <button className="button" is="pp-button">
       <iconify-icon className="icon" icon="ph:circle-dashed"></iconify-icon>

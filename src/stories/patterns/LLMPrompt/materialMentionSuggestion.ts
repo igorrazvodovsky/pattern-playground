@@ -37,7 +37,7 @@ export const materialMentionSuggestion = {
       onStart: (props: any) => {
         // Create a virtual element for positioning based on the client rect
         virtualElement = {
-          getBoundingClientRect: () => props.clientRect?.() || new DOMRect()
+          getBoundingClientRect: () => props.clientRect?.() ?? new DOMRect()
         };
 
         // Create a pp-popup element
@@ -109,11 +109,11 @@ export const materialMentionSuggestion = {
         component.updateProps({ items: props.items, command: props.command });
       },
 
-      onUpdate(props: { items: typeof materials; command: (attrs: { id: string; label: string; type: string; icon: string }) => void; clientRect?: () => DOMRect }) {
+      onUpdate(props: { items: typeof materials; command: (attrs: { id: string; label: string; type: string; icon: string }) => void; clientRect?: (() => DOMRect) | null }) {
         component.updateProps({ items: props.items, command: props.command });
 
         if (props.clientRect) {
-          virtualElement.getBoundingClientRect = () => props.clientRect?.() || new DOMRect();
+          virtualElement.getBoundingClientRect = () => props.clientRect?.() ?? new DOMRect();
           popup.reposition();
         }
       },

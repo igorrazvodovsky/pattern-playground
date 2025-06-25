@@ -431,7 +431,7 @@ async function generateGenericSuggestions(
 function createSystemPrompt(
   type: string,
   availableOptions: Record<string, any[]>,
-  metadata?: Record<string, any>
+  _metadata?: Record<string, any>
 ): string {
   const optionsText = Object.entries(availableOptions)
     .map(([key, values]) => `- ${key}: ${values.join(', ')}`)
