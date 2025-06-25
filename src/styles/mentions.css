@@ -4,6 +4,40 @@
   border-radius: var(--radius-s);
 }
 
+.template-field {
+  display: inline-block;
+  padding: var(--space-2xs) var(--space-xs);
+  margin: 0 var(--space-3xs);
+  background-color: var(--c-neutral-100);
+  border: 1px solid var(--c-neutral-300);
+  border-radius: var(--radius-s);
+  cursor: pointer;
+  font-weight: 500;
+  font-size: var(--text-sm);
+  transition: all 0.2s ease;
+}
+
+.template-field:hover {
+  background-color: var(--c-neutral-200);
+  border-color: var(--c-neutral-400);
+}
+
+.template-field--filled {
+  background-color: var(--c-success-100);
+  border-color: var(--c-success-300);
+  cursor: default;
+}
+
+.template-field--filled:hover {
+  background-color: var(--c-success-100);
+  border-color: var(--c-success-300);
+}
+
+.template-field--selected {
+  border-color: var(--c-primary-500);
+  box-shadow: 0 0 0 2px var(--c-primary-100);
+}
+
 
 .rich-editor .ProseMirror {
   outline: none;
@@ -14,7 +48,7 @@
   font-family: inherit;
   line-height: 1.5;
   resize: vertical;
-  min-height: 80px;
+  /* min-height: 80px; */
 }
 
 .rich-editor .ProseMirror:focus {
@@ -22,6 +56,7 @@
   box-shadow: 0 0 0 3px var(--c-primary-100);
 }
 
+/* TODO: This doesn't work */
 .rich-editor .ProseMirror p.is-editor-empty:first-child::before {
   color: var(--c-neutral-500);
   content: attr(data-placeholder);

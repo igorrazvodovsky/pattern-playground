@@ -59,6 +59,13 @@ Components follow a **progressive enhancement** strategy:
 - Components should extend native HTML elements when possible
 - Follow BEM CSS methodology for styling
 
+## Styling guidelines
+- **Never use inline styles** - All styling must be handled through CSS classes
+- Add styles to `src/styles/` directory for global styles and shared components
+- For Web Components using Shadow DOM, use component-specific CSS files
+- Use design system tokens (CSS custom properties) consistently
+- Follow BEM naming convention for CSS classes
+
 ## Documentation standards
 
 ### Documentation format

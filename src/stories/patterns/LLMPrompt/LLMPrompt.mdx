@@ -9,6 +9,8 @@ import * as LLMPromptStories from './LLMPrompt.stories.tsx';
 
 An input for a [bot](../?path=/docs/patterns-bot--docs).
 
+<Canvas of={ LLMPromptStories.Basic } />
+
 ## Intent
 
 explicit and implicit...
@@ -23,17 +25,13 @@ explicit and implicit...
 </div>
 
 {/* Redo using blocks */}
-<Canvas of={ LLMPromptStories.StructuredPrompt } />
+<Canvas of={ LLMPromptStories.PromptTemplate } />
 
 ## Reference materials with @mentions
 
 Using @mentions to reference documents, images, code, and other materials provides context for better LLM responses.
 
 <Canvas of={ LLMPromptStories.WithMaterialReferences } />
-
-### Empty prompt with mention capabilities
-
-<Canvas of={ LLMPromptStories.EmptyPromptWithMentions } />
 
 ## Prompt guidance and scaffolding
 
