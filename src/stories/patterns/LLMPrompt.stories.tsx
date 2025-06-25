@@ -28,7 +28,7 @@ export const QualityFeedback: Story = {
     </div>
     <div className="messages layer">
       <div className="message-composer layer">
-        <pp-input autoFocus defaultValue="What was that things name?">
+        <pp-input autoFocus viewalue="What was that thing's name?">
         </pp-input>
         <div className="message-composer__actions">
           <button className="button button--plain" is="pp-button">
@@ -59,38 +59,7 @@ export const StructuredPrompt: Story = {
     <div className="messages layer">
       <div className="message-composer layer">
         <div className="message-composer__input">
-          <label htmlFor="context">Context</label>
-          <pp-input id="context" placeholder="E.g. domain, audience, goal">
-          </pp-input>
-        </div>
-        <div className="message-composer__input">
-          <label htmlFor="role">Role</label>
-          <pp-input id="role" placeholder="You are a…">
-          </pp-input>
-        </div>
-        <div className="message-composer__input">
-          <label htmlFor="task">Task</label>
-          <pp-input id="task" placeholder="E.g. list three risks">
-          </pp-input>
-        </div>
-        <div className="message-composer__input">
-          <label htmlFor="constraints">Constraints</label>
-          <pp-input id="constraints" placeholder="E.g. length, tone, forbidden words">
-          </pp-input>
-        </div>
-        <div className="message-composer__input">
-          <label htmlFor="examples">Examples</label>
-          <pp-input id="examples" placeholder="You are a…">
-          </pp-input>
-        </div>
-        <div className="message-composer__input">
-          <label htmlFor="output">Output specification</label>
-          <pp-input id="output" placeholder="Structure and patterns">
-          </pp-input>
-        </div>
-        <div className="message-composer__input">
-          <label htmlFor="fallback">Fallback</label>
-          <pp-input id="fallback" placeholder="What to do when data are missing or uncertain">
+          <pp-input id="context" placeholder="What do you need?">
           </pp-input>
         </div>
         <div className="message-composer__actions">
@@ -107,7 +76,7 @@ export const StructuredPrompt: Story = {
             <iconify-icon className="icon" icon="ph:plus"></iconify-icon><span className="inclusively-hidden">Edit</span>
           </button>
           <button className="button" is="pp-button" style={{ marginLeft: 'auto' }}>
-            <iconify-icon className="icon" icon="ph:arrow-up-bold"></iconify-icon><span className="inclusively-hidden">Edit</span>
+            <iconify-icon className="icon" icon="ph:arrow-elbow-down-left"></iconify-icon><span className="inclusively-hidden">Edit</span>
           </button>
         </div>
       </div>
