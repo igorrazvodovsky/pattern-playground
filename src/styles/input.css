@@ -1,6 +1,7 @@
 input[type="text"] {
   border: none;
   outline: none;
+  background: none;
 }
 
 input[type="text"]:focus {

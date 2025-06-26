@@ -177,25 +177,12 @@ export const PromptTemplate: Story = {
         }),
       ],
       content: `
-        <h3>Context</h3>
-        <p>You are a <span data-type="template-field" data-label="ROLE"></span> working with <span data-type="template-field" data-label="DOMAIN/SUBJECT"></span>. You have access to @User Research Data and @Design System Guidelines.</p>
-
-        <h3>Task</h3>
-        <p><span data-type="template-field" data-label="ACTION"></span> a <span data-type="template-field" data-label="DELIVERABLE"></span> that <span data-type="template-field" data-label="SPECIFIC OUTCOME"></span>.</p>
-
-        <h3>Constraints</h3>
-        <ul>
-          <li>Must follow <span data-type="template-field" data-label="REQUIREMENTS/STANDARDS"></span></li>
-          <li>Consider <span data-type="template-field" data-label="LIMITATIONS/BOUNDARIES"></span></li>
-          <li>Target audience: <span data-type="template-field" data-label="USER GROUP"></span></li>
-        </ul>
-
-        <h3>Examples</h3>
-        <p>Good example: <span data-type="template-field" data-label="POSITIVE EXAMPLE"></span></p>
-        <p>Avoid: <span data-type="template-field" data-label="NEGATIVE EXAMPLE"></span></p>
-
-        <h3>Output Format</h3>
-        <p>Provide your response as <span data-type="template-field" data-label="FORMAT SPECIFICATION"></span>.</p>
+        <span data-type="template-field" data-label="The context: domain, audience, goal, etc."></span>
+        <span data-type="template-field" data-label="The task is..."></span>
+        <span data-type="template-field" data-label="Constraints: length, tone, forbidden words, etc.)"></span>
+        <span data-type="template-field" data-label="Do you have any examples?"></span>
+        <span data-type="template-field" data-label="Describe the output"></span>
+        <span data-type="template-field" data-label="What to do when data are missing or the system is uncertain?"></span>
       `,
     });
 

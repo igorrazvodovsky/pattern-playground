@@ -1,3 +1,7 @@
+/* TODO: move */
+.tiptap p {
+}
+
 .mention {
   background-color: var(--c-neutral-100); /* Neutral background color */
   padding: var(--space-2xs) var(--space-xs);
@@ -7,18 +11,20 @@
 .template-field {
   display: inline-block;
   padding: var(--space-2xs) var(--space-xs);
-  margin: 0 var(--space-3xs);
-  background-color: var(--c-neutral-100);
-  border: 1px solid var(--c-neutral-300);
+  margin-block: 0.25ch;
+  border: var(--border);
   border-radius: var(--radius-s);
   cursor: pointer;
-  font-weight: 500;
-  font-size: var(--text-sm);
+  /* font-weight: 500; */
+  /* font-size: var(--text-sm); */
   transition: all 0.2s ease;
+  color: var(--c-placeholder);
+  line-height: 150%;
 }
 
 .template-field:hover {
-  background-color: var(--c-neutral-200);
+  /* background-color: oklch(from var(--c-background) calc(l - 0.05) c h); */
+  /* color: oklch(from var(--c-placeholder) l c h / max(0, calc(a - 0.05))); */
   border-color: var(--c-neutral-400);
 }
 
@@ -38,6 +44,20 @@
   box-shadow: 0 0 0 2px var(--c-primary-100);
 }
 
+.template-field input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  color: var(--c-body);
+  line-height: inherit;
+  padding: 0;
+  margin: 0;
+  width: auto;
+  min-width: 1ch;
+}
 
 .rich-editor .ProseMirror {
   outline: none;
@@ -63,19 +83,4 @@
   float: left;
   height: 0;
   pointer-events: none;
-}
-
-.message-composer__help {
-  display: block;
-  margin-top: var(--space-xs);
-  color: var(--c-neutral-600);
-  font-size: var(--text-sm);
-}
-
-.message-composer__help kbd {
-  background: var(--c-neutral-200);
-  padding: 2px 4px;
-  border-radius: var(--radius-xs);
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
 }

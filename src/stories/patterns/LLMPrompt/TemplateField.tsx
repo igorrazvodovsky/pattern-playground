@@ -1,5 +1,5 @@
 import { Node, mergeAttributes, nodeInputRule } from '@tiptap/core'
-import { ReactNodeViewRenderer } from '@tiptap/react'
+import { ReactNodeViewRenderer, NodeViewWrapper } from '@tiptap/react'
 import React from 'react'
 
 export interface TemplateFieldOptions {
@@ -25,6 +25,7 @@ const TemplateFieldComponent = ({ node, updateAttributes, selected }: any) => {
   const { label, placeholder, filled } = node.attrs
   const [isEditing, setIsEditing] = React.useState(false)
   const [value, setValue] = React.useState(placeholder || '')
+  const inputRef = React.useRef<HTMLInputElement>(null)
 
   const handleClick = () => {
     if (!filled) {
@@ -50,16 +51,47 @@ const TemplateFieldComponent = ({ node, updateAttributes, selected }: any) => {
     }
   }
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value)
+    // Resize input to fit content
+    if (inputRef.current) {
+      inputRef.current.style.width = 'auto'
+      inputRef.current.style.width = Math.max(inputRef.current.scrollWidth, 20) + 'px'
+    }
+  }
+
+  React.useEffect(() => {
+    if (isEditing && inputRef.current) {
+      // Set initial width based on placeholder text
+      const canvas = document.createElement('canvas')
+      const context = canvas.getContext('2d')
+      if (context) {
+        // Get computed styles to measure text accurately
+        const computedStyle = window.getComputedStyle(inputRef.current)
+        context.font = `${computedStyle.fontSize} ${computedStyle.fontFamily}`
+        
+        // Measure the placeholder text width
+        const textToMeasure = value || label
+        const textWidth = context.measureText(textToMeasure).width
+        
+        // Set width with some padding
+        inputRef.current.style.width = Math.max(textWidth + 10, 20) + 'px'
+      }
+    }
+  }, [isEditing, label, value])
+
   return (
-    <span
+    <NodeViewWrapper
       className={`template-field ${filled ? 'template-field--filled' : ''} ${selected ? 'template-field--selected' : ''}`}
       onClick={handleClick}
+      as="span"
     >
       {isEditing ? (
         <input
+          ref={inputRef}
           type="text"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={handleInputChange}
           onBlur={handleSubmit}
           onKeyDown={handleKeyDown}
           placeholder={label}
@@ -70,7 +102,7 @@ const TemplateFieldComponent = ({ node, updateAttributes, selected }: any) => {
           {filled ? placeholder : label}
         </>
       )}
-    </span>
+    </NodeViewWrapper>
   )
 }
 
