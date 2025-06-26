@@ -1,4 +1,4 @@
-import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
 import * as LLMPromptStories from './LLMPrompt.stories.tsx';
 
 <Meta of = { LLMPromptStories } />
@@ -9,7 +9,7 @@ import * as LLMPromptStories from './LLMPrompt.stories.tsx';
 
 An input for a [bot](../?path=/docs/patterns-bot--docs).
 
-<Canvas of={ LLMPromptStories.Basic } />
+<Story of={ LLMPromptStories.Basic } />
 
 ## Intent
 
@@ -19,13 +19,13 @@ explicit and implicit...
 
 ### Structured prompt
 
-<Canvas of={ LLMPromptStories.PromptTemplate } />
+<Story of={ LLMPromptStories.PromptTemplate } />
 
 ## Reference materials with @mentions
 
 Using @mentions to reference documents, images, code, and other materials provides context for better LLM responses.
 
-<Canvas of={ LLMPromptStories.WithMaterialReferences } />
+<Story of={ LLMPromptStories.WithMaterialReferences } />
 
 ## Prompt guidance and scaffolding
 
@@ -33,7 +33,7 @@ Bridging the gap between fuzzy idea inside a human's head and what makes an effe
 
 ### Quality feedback
 
-<Canvas of={ LLMPromptStories.QualityFeedback } />
+<Story of={ LLMPromptStories.QualityFeedback } />
 
 ### Editing assistance
 
@@ -54,6 +54,7 @@ Bridging the gap between fuzzy idea inside a human's head and what makes an effe
 ### Precursor patterns
 
 <div>
+- [Agency](../?path=/docs/foundations-agency--docs) – enables proactive prompt assistance and scaffolding.
 - [Bot](../?path=/docs/patterns-bot--docs) – a thing that gets prompted.
 - [Suggestion](../?path=/docs/patterns-suggestion--docs) can provide an initial prompt.
 - session, thread, etc.

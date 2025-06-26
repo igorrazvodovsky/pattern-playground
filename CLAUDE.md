@@ -99,6 +99,17 @@ When designing components/patterns, consider actor behaviour modes:
 - Include transitions between behavioural modes
 - Reference established design principles (modularity, hierarchy, complexity management)
 
+### Documentation linking
+When creating cross-references between documentation files:
+- **Storybook URLs**: Generated from Meta title - `<Meta title="Category/Name" />` becomes `../?path=/docs/category-name--docs`
+- **URL transformation**:
+  - Category/Name → category-name
+  - Spaces become hyphens
+  - Case is lowercased
+  - Asterisks (*) are removed from URLs
+- **Link format**: Use relative paths like `[Agency](../?path=/docs/foundations-agency--docs)` for internal Storybook links
+- **Cross-pattern links**: Reference related patterns in "Related patterns" sections using proper Storybook URLs
+
 ### Writing style
 - Use British spelling throughout (behaviour, organisation, colour, etc.)
 - Use sentence case for headings and titles

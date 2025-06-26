@@ -124,7 +124,7 @@ export const WithMaterialReferences: Story = {
         }),
       ],
       content: `
-        <p>Analyze the user interface patterns in @API Documentation and compare them with the designs from @Wireframe v2.png. Consider the data from @User Analytics Q4 when making recommendations.</p>
+        <p>Analyse the user interface patterns in @API Documentation and compare them with the designs from @Wireframe v2.png. Consider the data from @User Analytics Q4 when making recommendations.</p>
       `,
     });
 
