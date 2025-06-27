@@ -1,4 +1,5 @@
 import { Meta } from '@storybook/addon-docs/blocks';
+import { MermaidDiagram } from '../../components/MermaidDiagram';
 
 <Meta title="Primitives/Overflow" />
 
@@ -10,4 +11,15 @@ Defines the behavior of content or elements that do not fit within an assigned a
 
 ## Decision tree
 
-<img src="./decisions/overflow.svg" />
+<MermaidDiagram chart={`
+flowchart TD
+    A[Content exceeds container?] --> B{Is content critical?}
+    B -->|Yes| C{Can container expand?}
+    B -->|No| D[Use overflow: hidden]
+    C -->|Yes| E[Allow container to grow]
+    C -->|No| F{Is content scrollable?}
+    F -->|Yes| G[Use overflow: scroll/auto]
+    F -->|No| H{Can content be truncated?}
+    H -->|Yes| I[Use text overflow ellipsis]
+    H -->|No| J[Consider redesign/priority]
+`} />

@@ -1,0 +1,78 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import * as LLMOutputStories from './LLMOutput.stories';
+
+<Meta of={LLMOutputStories} />
+
+> 🙂 **Fun meter: 5/5**. A part of a bigger attempt to map LLM-related patterns.
+
+# Generated content
+
+Result of a [bot](../?path=/docs/patterns-bot--docs)'s actions.
+
+## Actions
+
+Rate, copy, regenerate, expand, more....
+
+## Variations
+
+...
+
+## Follow up
+
+...
+
+## Communicating uncertainty
+
+1. Intentionally uncertain language
+2. Explainable factors for predictions
+3. Confidence ratings
+4. Categorising accuracy
+5. Few-shot prompting with inconsistent results
+
+<Story of={LLMOutputStories.Confidence} />
+
+## Transparency
+
+...
+
+### Citations
+
+...
+
+## Input-output mapping
+
+Visualises the influence of input on output.
+
+<Story of={LLMOutputStories.InputOutputMapping} />
+
+
+## Section regeneration
+
+Engages users in iterative dialogue (clarifying questions, multiple "regenerate" buttons) to refine outputs collaboratively.
+
+...
+
+## Showing the work
+
+...
+
+## Footprints
+
+...
+
+## Caveats
+
+...
+
+## Related patterns
+
+### Precursor patterns
+
+- [Agency](../?path=/docs/foundations-agency--docs) – enables autonomous result manipulation and improvement actions.
+
+## Resources & references
+
+- [shapeof.ai](https://www.shapeof.ai/)
+- [aiuxpatterns.com](https://aiuxpatterns.com/)
+- [nngroup.com / AI hallucinations](https://www.nngroup.com/articles/ai-hallucinations/)
+- [nngroup.com / AI chatbots discourage error checking](https://www.nngroup.com/articles/ai-chatbots-discourage-error-checking/)
