@@ -7,7 +7,7 @@ import { materialMentionSuggestion } from './materialMentionSuggestion';
 import { TemplateField } from './TemplateField.tsx';
 
 const meta = {
-  title: "Patterns/LLM*/Prompt",
+  title: "Patterns/Prompt*",
 } satisfies Meta;
 
 export default meta;
