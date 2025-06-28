@@ -26,7 +26,7 @@ export const Confidence = {
           <div className="message message--inbound">
             <div className="message__content">
               <div className="message__body">
-                I'm not sure. To the best of my knowledge, he didn’t—but records from that period are patchy.
+                I'm not sure. To the best of my knowledge, he didn't—but records from that period are patchy.
               </div>
             </div>
           </div>
@@ -80,7 +80,7 @@ export const Confidence = {
           <div className="message message--inbound">
             <div className="message__content">
               <div className="message__body">
-                So, a plausible range is <pp-tooltip content="Low confidence"><mark data-confidence="80%">19.5–21.5 SEK</mark></pp-tooltip> per litre by June 2035. Ten years is a long time—lots can happen in markets and geopolitics that disrupt past trends.
+                So, a plausible range is <pp-tooltip content="Low confidence"><mark data-confidence="80%">19.5–21.5 SEK</mark></pp-tooltip> per litre by June 2035. Ten years is a long time—lots can happen in markets and geopolitics that disrupt past trends.
               </div>
             </div>
           </div>
@@ -98,11 +98,11 @@ export const InputOutputMapping = {
           <div className="message__content">
             <div className="message__body layer">
               Summarise this text: <br />
-              “<mark>Leonardo da Vinci was an Italian polymath of the Renaissance</mark> whose <mark>areas of interest
+              "<mark data-group="polymath">Leonardo da Vinci was an Italian polymath of the Renaissance</mark> whose <mark data-group="talents">areas of interest
               included invention, painting, sculpting, architecture, science, music, mathematics,
               engineering, literature, anatomy, geology, astronomy, botany, writing, history, and
               cartography</mark>. He is widely considered one of the most diversely talented individuals
-              ever to have lived.”
+              ever to have lived."
             </div>
           </div>
         </div>
@@ -112,12 +112,28 @@ export const InputOutputMapping = {
           <div className="message message--inbound">
             <div className="message__content">
               <div className="message__body">
-                Leonardo da Vinci was a <mark>Renaissance polymath</mark> known for his <mark>wide-ranging talents</mark> in <mark>science and the arts</mark>.
+                Leonardo da Vinci was a <mark data-group="polymath">Renaissance polymath</mark> known for his <mark data-group="talents">wide-ranging talents</mark> in <mark data-group="talents">science and the arts</mark>.
               </div>
             </div>
           </div>
         </div>
       </div>
+      <style>{`
+        .messages:has(mark[data-group]:hover) mark[data-group]:not(:hover) {
+          background: none
+        }
+
+        mark[data-group]:hover,
+        .messages:has(mark[data-group="polymath"]:hover) mark[data-group="polymath"],
+        .messages:has(mark[data-group="talents"]:hover) mark[data-group="talents"] {
+          background: var(--c-accent-100) !important;
+        }
+
+        mark[data-group] {
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+      `}</style>
     </div>
   )
 } satisfies Story;

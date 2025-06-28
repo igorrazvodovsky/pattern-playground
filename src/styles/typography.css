@@ -50,3 +50,7 @@ label {
     max-width: none;
   }
 }
+
+mark {
+  background: var(--c-accent-100);
+}
