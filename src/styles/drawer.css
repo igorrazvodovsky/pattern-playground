@@ -1,0 +1,145 @@
+@layer components {
+  dialog.drawer {
+    grid-template-rows: auto 1fr auto;
+    align-items: start;
+    gap: var(--space-xl);
+
+    min-inline-size: 16rem;
+    max-inline-size: 24rem;
+    max-block-size: 100vh;
+    min-block-size: 100vh;
+    overflow: hidden;
+
+    border-radius: 0;
+    border: none;
+    box-shadow: var(--shadow-xl);
+
+    margin: 0;
+    padding: var(--space-l);
+    position: fixed;
+    inset-block: 0;
+    inset-inline-start: -100%;
+    z-index: var(--layer-drawer);
+  }
+
+  dialog.drawer--left {
+    inset-inline-start: 0;
+    border-inline-start: none;
+    border-inline-end: var(--border);
+  }
+
+  dialog.drawer--right {
+    inset-inline-start: auto;
+    inset-inline-end: 0;
+    border-inline-start: var(--border);
+    border-inline-end: none;
+  }
+
+  dialog.drawer[open] {
+    display: grid;
+  }
+
+  dialog.drawer > header {
+    display: flex;
+    gap: var(--space-m);
+    justify-content: space-between;
+    align-items: center;
+
+    & > button {
+      flex-shrink: 0;
+    }
+  }
+
+  dialog.drawer > article {
+    overflow-y: auto;
+    max-block-size: 100%;
+    overscroll-behavior-y: contain;
+    display: grid;
+    justify-items: flex-start;
+    gap: var(--space-m);
+  }
+
+  dialog.drawer > footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-m);
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  dialog.drawer > footer > menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-m);
+    padding-inline-start: 0;
+
+    &:only-child {
+      margin-inline-start: auto;
+    }
+  }
+
+  dialog.drawer::backdrop {
+    animation: blur-in 0.2s forwards;
+  }
+
+  dialog.drawer:not([open]) {
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  html:has(.drawer[open]) {
+    overflow: hidden;
+  }
+
+  /* Animations */
+  @media (prefers-reduced-motion: no-preference) {
+    dialog.drawer--left {
+      animation: var(--animation-slide-out-left) forwards;
+      animation-timing-function: var(--ease-squish-3);
+    }
+
+    dialog.drawer--left[open] {
+      animation: var(--animation-slide-in-right) forwards;
+    }
+
+    dialog.drawer--right {
+      animation: var(--animation-slide-out-right) forwards;
+      animation-timing-function: var(--ease-squish-3);
+    }
+
+    dialog.drawer--right[open] {
+      animation: var(--animation-slide-in-left) forwards;
+    }
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    dialog.drawer {
+      max-inline-size: calc(100vw - var(--space-xl));
+    }
+
+    dialog.drawer--left {
+      box-shadow: var(--shadow-xl), 2px 0 8px rgba(0, 0, 0, 0.1);
+    }
+
+    dialog.drawer--right {
+      box-shadow: var(--shadow-xl), -2px 0 8px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  /* Narrow drawer variant */
+  dialog.drawer--narrow {
+    max-inline-size: 16rem;
+  }
+
+  /* Wide drawer variant */
+  dialog.drawer--wide {
+    max-inline-size: 32rem;
+  }
+
+  /* Full-height drawer without padding adjustments */
+  dialog.drawer--full-height {
+    min-block-size: 100dvh;
+    max-block-size: 100dvh;
+  }
+}

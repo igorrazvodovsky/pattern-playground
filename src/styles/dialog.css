@@ -13,7 +13,6 @@
     box-shadow: var(--shadow-xl);
 
     margin: auto;
-    /* padding: 0; */
     position: fixed;
     inset: 0;
     z-index: var(--layer-dialog);

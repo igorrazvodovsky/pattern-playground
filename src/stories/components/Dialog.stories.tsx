@@ -21,9 +21,23 @@ export const Default: Story = {
       dialogRef.current?.close();
     };
 
+    const handleDialogClick = (e: React.MouseEvent<HTMLDialogElement>) => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const isInDialog = (
+        e.clientX >= rect.left &&
+        e.clientX <= rect.right &&
+        e.clientY >= rect.top &&
+        e.clientY <= rect.bottom
+      );
+      
+      if (!isInDialog) {
+        closeDialog();
+      }
+    };
+
     return (
       <>
-        <dialog ref={dialogRef}>
+        <dialog ref={dialogRef} onClick={handleDialogClick}>
           <header>
             <h3>Dialog title</h3>
             <button className="button button--plain" onClick={closeDialog}>
@@ -57,9 +71,23 @@ export const Scrolling: Story = {
       dialogRef.current?.close();
     };
 
+    const handleDialogClick = (e: React.MouseEvent<HTMLDialogElement>) => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const isInDialog = (
+        e.clientX >= rect.left &&
+        e.clientX <= rect.right &&
+        e.clientY >= rect.top &&
+        e.clientY <= rect.bottom
+      );
+      
+      if (!isInDialog) {
+        closeDialog();
+      }
+    };
+
     return (
       <>
-        <dialog ref={dialogRef}>
+        <dialog ref={dialogRef} onClick={handleDialogClick}>
           <header>
             <h3>Dialog title</h3>
             <button className="button button--plain" onClick={closeDialog}>
