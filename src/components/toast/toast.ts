@@ -14,21 +14,42 @@ export class PpToast extends HTMLElement {
     }
   }
 
-  private createToast(text: string): HTMLOutputElement {
+  private createToast(text: string, onClick?: () => void): HTMLOutputElement {
     const toast = document.createElement('output');
     toast.className = 'toast fade show';
     toast.setAttribute('role', 'alert');
     toast.setAttribute('aria-live', 'assertive');
     toast.setAttribute('aria-atomic', 'true');
 
-    toast.innerHTML = `
-      <div class="toast-body">
-        <span class="toast-message">${text}</span>
-      </div>
-      <button class="toast-close" aria-label="Close">
-        <iconify-icon icon="ph:x" className="icon" />
-      </button>
-    `;
+    if (onClick) {
+      toast.innerHTML = `
+        <button class="toast-button" aria-label="Open details for: ${text}">
+          <div class="toast-body">
+            <span class="toast-message">${text}</span>
+          </div>
+        </button>
+        <button class="toast-close" aria-label="Close">
+          <iconify-icon icon="ph:x" class="icon"></iconify-icon>
+        </button>
+      `;
+
+      const openButton = toast.querySelector('.toast-button') as HTMLButtonElement;
+      if (openButton) {
+        openButton.addEventListener('click', () => {
+          onClick();
+          this.removeToast(toast);
+        });
+      }
+    } else {
+      toast.innerHTML = `
+        <div class="toast-body">
+          <span class="toast-message">${text}</span>
+        </div>
+        <button class="toast-close" aria-label="Close">
+          <iconify-icon icon="ph:x" class="icon"></iconify-icon>
+        </button>
+      `;
+    }
 
     const closeButton = toast.querySelector('.toast-close') as HTMLButtonElement;
     if (closeButton) {
@@ -84,9 +105,10 @@ export class PpToast extends HTMLElement {
     }
   }
 
+
   // Public API method to show a toast
-  public show(text: string): Promise<void> {
-    const toast = this.createToast(text);
+  public show(text: string, onClick?: () => void): Promise<void> {
+    const toast = this.createToast(text, onClick);
     this.addToast(toast);
 
     return new Promise<void>(async (resolve) => {
@@ -101,13 +123,13 @@ export class PpToast extends HTMLElement {
   }
 
   // Static method for easy usage
-  static show(text: string): Promise<void> {
+  static show(text: string, onClick?: () => void): Promise<void> {
     let toaster = document.querySelector('pp-toast') as PpToast;
     if (!toaster) {
       toaster = document.createElement('pp-toast') as PpToast;
       document.body.appendChild(toaster);
     }
-    return toaster.show(text);
+    return toaster.show(text, onClick);
   }
 }
 

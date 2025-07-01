@@ -227,3 +227,17 @@ aside[class*="sbdocs-toc"] {
   margin: -1.5rem;
   padding: 1rem 1.5rem;
 }
+
+.sbdocs .docs-quote {
+  font-family: "Iowan Old Style", serif !important;
+  font-style: italic;
+
+  blockquote {
+    border-left: none;
+    padding: 0;
+  }
+
+  blockquote, p {
+    margin-block: 0;
+  }
+}
