@@ -25,28 +25,6 @@ export const Default: Story = {
   ),
 };
 
-export const Clickable: Story = {
-  render: () => (
-    <div className="inline-flow">
-      <button
-        className="button"
-        onClick={() => {
-          const message = faker.word.words();
-          PpToast.show(message, () => {
-            console.log('Toast clicked!', message);
-            alert(`You clicked on toast: "${message}"`);
-          });
-        }}
-      >
-        Show Clickable Toast
-      </button>
-      <p style={{ marginTop: '1rem', color: '#666', fontSize: '0.875rem' }}>
-        Click on the toast content (button) to perform an action. Use keyboard navigation to focus and activate.
-      </p>
-    </div>
-  ),
-};
-
 export const Multiple: Story = {
   render: () => (
     <div className="inline-flow">

@@ -4,7 +4,7 @@ import { Icon } from '@iconify/react';
 import { Slot } from "@radix-ui/react-slot";
 import { AICommandEmptyProps } from './ai-command-types';
 import { PpToast } from '../toast/toast';
-import { drawerService } from '../../services/drawer-service';
+import { drawerService } from '../../services/modal-service';
 
 export const AICommandEmpty: React.FC<AICommandEmptyProps> = ({
   searchInput,

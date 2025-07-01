@@ -38,7 +38,7 @@
   will-change: transform;
   animation: fade-in 0.2s ease, slide-in 0.2s ease,
     fade-out 0.2s ease var(--_duration);
-  
+
   /* Re-enable pointer events for toast interactions */
   pointer-events: auto;
 }
@@ -62,16 +62,11 @@
 }
 
 .toast-button {
-  all: unset;
-  cursor: pointer;
-  flex: 1;
-  text-align: start;
-  border-radius: var(--radius-s);
-  
+
   &:hover {
     background: hsl(0deg 0% 0% / 5%);
   }
-  
+
   &:focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 2px;
@@ -91,11 +86,11 @@
   cursor: pointer;
   border-radius: var(--radius-s);
   padding: 0.25ch;
-  
+
   &:hover {
     background: hsl(0deg 0% 0% / 10%);
   }
-  
+
   &:focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 2px;
