@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import React, { useRef } from "react";
 import { faker } from '@faker-js/faker';
+import '../../components/modal/modal.ts';
 
 const meta = {
   title: "Components/Dialog",
@@ -11,36 +11,12 @@ type Story = StoryObj;
 
 export const Default: Story = {
   render: () => {
-    const dialogRef = useRef<HTMLDialogElement>(null);
-
-    const openDialog = () => {
-      dialogRef.current?.showModal();
-    };
-
-    const closeDialog = () => {
-      dialogRef.current?.close();
-    };
-
-    const handleDialogClick = (e: React.MouseEvent<HTMLDialogElement>) => {
-      const rect = e.currentTarget.getBoundingClientRect();
-      const isInDialog = (
-        e.clientX >= rect.left &&
-        e.clientX <= rect.right &&
-        e.clientY >= rect.top &&
-        e.clientY <= rect.bottom
-      );
-      
-      if (!isInDialog) {
-        closeDialog();
-      }
-    };
-
     return (
-      <>
-        <dialog ref={dialogRef} onClick={handleDialogClick}>
+      <pp-modal>
+        <dialog>
           <header>
             <h3>Dialog title</h3>
-            <button className="button button--plain" onClick={closeDialog}>
+            <button className="button button--plain" data-close>
               <iconify-icon className="icon" icon="ph:x"></iconify-icon>
               <span className="inclusively-hidden">Close</span>
             </button>
@@ -49,48 +25,23 @@ export const Default: Story = {
             <p>{faker.hacker.phrase()}</p>
           </article>
           <footer>
-            <button className="button" autoFocus onClick={closeDialog}>Close</button>
+            <button className="button" autoFocus data-close>Close</button>
           </footer>
         </dialog>
-
-        <button className="button" onClick={openDialog}>Open dialog</button>
-      </>
+        <button className="button">Open dialog</button>
+      </pp-modal>
     );
   },
 };
 
 export const Scrolling: Story = {
   render: () => {
-    const dialogRef = useRef<HTMLDialogElement>(null);
-
-    const openDialog = () => {
-      dialogRef.current?.showModal();
-    };
-
-    const closeDialog = () => {
-      dialogRef.current?.close();
-    };
-
-    const handleDialogClick = (e: React.MouseEvent<HTMLDialogElement>) => {
-      const rect = e.currentTarget.getBoundingClientRect();
-      const isInDialog = (
-        e.clientX >= rect.left &&
-        e.clientX <= rect.right &&
-        e.clientY >= rect.top &&
-        e.clientY <= rect.bottom
-      );
-      
-      if (!isInDialog) {
-        closeDialog();
-      }
-    };
-
     return (
-      <>
-        <dialog ref={dialogRef} onClick={handleDialogClick}>
+      <pp-modal>
+        <dialog>
           <header>
-            <h3>Dialog title</h3>
-            <button className="button button--plain" onClick={closeDialog}>
+            <h3>Dialog</h3>
+            <button className="button button--plain" data-close>
               <iconify-icon className="icon" icon="ph:x"></iconify-icon>
               <span className="inclusively-hidden">Close</span>
             </button>
@@ -99,12 +50,11 @@ export const Scrolling: Story = {
             <p>{faker.lorem.paragraphs(30)}</p>
           </article>
           <footer>
-            <button className="button" autoFocus onClick={closeDialog}>Close</button>
+            <button className="button" autoFocus data-close>Close</button>
           </footer>
         </dialog>
-
-        <button className="button" onClick={openDialog}>Open dialog</button>
-      </>
+        <button className="button">Open dialog</button>
+      </pp-modal>
     );
   },
 };

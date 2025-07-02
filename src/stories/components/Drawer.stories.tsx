@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import React, { useRef } from "react";
-import { faker } from '@faker-js/faker';
+import '../../components/modal/modal.ts';
 
 const meta = {
   title: "Components/Drawer",
@@ -11,50 +10,23 @@ type Story = StoryObj;
 
 export const Drawer: Story = {
   render: () => {
-    const drawerRef = useRef<HTMLDialogElement>(null);
-
-    const openDrawer = () => {
-      drawerRef.current?.showModal();
-    };
-
-    const closeDrawer = () => {
-      drawerRef.current?.close();
-    };
-
-    const handleDrawerClick = (e: React.MouseEvent<HTMLDialogElement>) => {
-      const rect = e.currentTarget.getBoundingClientRect();
-      const isInDrawer = (
-        e.clientX >= rect.left &&
-        e.clientX <= rect.right &&
-        e.clientY >= rect.top &&
-        e.clientY <= rect.bottom
-      );
-      
-      if (!isInDrawer) {
-        closeDrawer();
-      }
-    };
-
     return (
-      <>
-        <dialog ref={drawerRef} onClick={handleDrawerClick} className="drawer drawer--right">
+      <pp-modal>
+        <dialog className="drawer drawer--right">
           <header>
             <h3>Drawer</h3>
-            <button className="button button--plain" onClick={closeDrawer}>
+            <button className="button button--plain" data-close>
               <iconify-icon className="icon" icon="ph:x"></iconify-icon>
               <span className="inclusively-hidden">Close</span>
             </button>
           </header>
-          <article>
-            Drawer body.
-          </article>
+          <div></div>
           <footer>
-            <button className="button" autoFocus onClick={closeDrawer}>Save</button>
+            <button className="button" autoFocus data-close>Save</button>
           </footer>
         </dialog>
-
-        <button className="button" onClick={openDrawer}>Open drawer</button>
-      </>
+        <button className="button">Open drawer</button>
+      </pp-modal>
     );
   },
 };

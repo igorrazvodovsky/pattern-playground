@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import CommandMenu from './CommandMenu.tsx';
+import '../../../components/modal/modal.ts';
 
 const meta = {
   title: 'Patterns/Command menu*',
@@ -20,13 +21,12 @@ export const Basic: Story = {
 export const Dialog: Story = {
   args: {},
   render: () => {
-    const dialogRef = useRef<HTMLDialogElement>(null);
-
     useEffect(() => {
       const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key === '/') {
           e.preventDefault();
-          dialogRef.current?.showModal();
+          const modal = document.querySelector('pp-modal dialog') as HTMLDialogElement;
+          modal?.showModal();
         }
       };
 
@@ -37,9 +37,14 @@ export const Dialog: Story = {
     return (
       <>
         <p>Press <kbd>/</kbd> to open the command menu.</p>
-        <dialog ref={dialogRef} id="cmd">
-          <CommandMenu onClose={() => dialogRef.current?.close()} />
-        </dialog>
+        <pp-modal>
+          <dialog id="cmd">
+            <CommandMenu onClose={() => {
+              const modal = document.querySelector('pp-modal dialog') as HTMLDialogElement;
+              modal?.close();
+            }} />
+          </dialog>
+        </pp-modal>
       </>
     );
   },

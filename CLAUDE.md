@@ -52,6 +52,22 @@ Components follow a **progressive enhancement** strategy:
 - **Composition hooks** for complex React component logic
 - **AI adapters** for different component suggestion types
 - **Streaming API responses** with Server-Sent Events
+- **HTML Web Components** - Progressive enhancement approach using standard HTML with JavaScript sprinkled on top for behaviour
+- **Light-DOM Web Components** - Custom elements that use the light DOM instead of shadow DOM for better accessibility and styling inheritance
+
+### TypeScript & type safety
+
+- **Type guards**: Create `is*` functions for runtime type checking (e.g., `isIOption`, `isOptionToggleValue`)
+- **Interfaces**: Define clear interfaces for component contracts (`IOptionBase`, `IOptionParent`)
+- **Generic types**: Use generics for reusable components (`SelectBase<Value>`, `IOption<Value>`)
+- **Value converters**: Create custom `ValueConverter` objects for complex attribute parsing
+- **Strict typing**: All properties should have explicit types, avoid `any`
+
+### Event handling & lifecycle
+
+- **Event binding**: Bind all event handlers in constructor using `.bind(this)`
+- **Custom events**: Define typed event interfaces and use `this.$emit('event-name', detail)`
+- **Event cleanup**: Remove all listeners in `disconnectedCallback()`
 
 ## Testing and quality
 - Use `npm run test` to run linting (ESLint + Stylelint) before commits
@@ -79,8 +95,6 @@ When documenting patterns, follow this structure:
 - **Anatomy** - Structural breakdown (for complex patterns)
 - **Variants** - Functional, contextual, accessibility variants
 - **States** - Empty, validation, loading states
-- **Examples of usage** - Integration with other patterns
-- **Best practices** - Dos and don'ts
 - **Accessibility** - Concerns and implementation notes
 - **Decision tree** - Logic for pattern/variant selection
 - **Related patterns** - Precursors, follow-ups, complementary, tangentially related
