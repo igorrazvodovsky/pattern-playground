@@ -55,6 +55,12 @@ Components follow a **progressive enhancement** strategy:
 - **HTML Web Components** - Progressive enhancement approach using standard HTML with JavaScript sprinkled on top for behaviour
 - **Light-DOM Web Components** - Custom elements that use the light DOM instead of shadow DOM for better accessibility and styling inheritance
 
+#### Progressive enhancement
+The `<pp-modal>` component demonstrates several key patterns for building progressive enhancement components:
+- **Wrapper enhancement** - Wrap existing HTML structures (`<dialog>`, `<div class="modal">`) with custom elements that add behaviour
+- **Smart element detection** - Automatically detect and enhance different modal types: `dialog`, `.drawer`, `.modal`, `[role="dialog"]`
+- **Auto-wiring** - Automatically connect trigger buttons (`button:not([data-close])`) and close buttons (`[data-close]`, header buttons)
+
 ### TypeScript & type safety
 
 - **Type guards**: Create `is*` functions for runtime type checking (e.g., `isIOption`, `isOptionToggleValue`)

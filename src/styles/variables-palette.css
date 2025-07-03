@@ -35,6 +35,12 @@
   --c900: 0.0726;
   --c950: 0.054;
 
+  --c300boosted: 0.15;
+  --c400boosted: 0.18;
+  --c500boosted: 0.20;
+  --c600boosted: 0.18;
+  --c700boosted: 0.15;
+
   /* Neutral chroma levels */
   --c0-neutral: 0;
   --c50-neutral: 0.002;
@@ -123,6 +129,30 @@
   --c-warning-800: oklch(var(--l800) var(--c800) var(--hWarning));
   --c-warning-900: oklch(var(--l900) var(--c900) var(--hWarning));
   --c-warning-950: oklch(var(--l950) var(--c950) var(--hWarning));
+
+  --c-info-300-boosted: oklch(var(--l300) var(--c300boosted) var(--hInfo));
+  --c-info-400-boosted: oklch(var(--l400) var(--c400boosted) var(--hInfo));
+  --c-info-500-boosted: oklch(var(--l500) var(--c500boosted) var(--hInfo));
+  --c-info-600-boosted: oklch(var(--l600) var(--c600boosted) var(--hInfo));
+  --c-info-700-boosted: oklch(var(--l700) var(--c700boosted) var(--hInfo));
+
+  --c-success-300-boosted: oklch(var(--l300) var(--c300boosted) var(--hSuccess));
+  --c-success-400-boosted: oklch(var(--l400) var(--c400boosted) var(--hSuccess));
+  --c-success-500-boosted: oklch(var(--l500) var(--c500boosted) var(--hSuccess));
+  --c-success-600-boosted: oklch(var(--l600) var(--c600boosted) var(--hSuccess));
+  --c-success-700-boosted: oklch(var(--l700) var(--c700boosted) var(--hSuccess));
+
+  --c-danger-300-boosted: oklch(var(--l300) var(--c300boosted) var(--hDanger));
+  --c-danger-400-boosted: oklch(var(--l400) var(--c400boosted) var(--hDanger));
+  --c-danger-500-boosted: oklch(var(--l500) var(--c500boosted) var(--hDanger));
+  --c-danger-600-boosted: oklch(var(--l600) var(--c600boosted) var(--hDanger));
+  --c-danger-700-boosted: oklch(var(--l700) var(--c700boosted) var(--hDanger));
+
+  --c-warning-300-boosted: oklch(var(--l300) var(--c300boosted) var(--hWarning));
+  --c-warning-400-boosted: oklch(var(--l400) var(--c400boosted) var(--hWarning));
+  --c-warning-500-boosted: oklch(var(--l500) var(--c500boosted) var(--hWarning));
+  --c-warning-600-boosted: oklch(var(--l600) var(--c600boosted) var(--hWarning));
+  --c-warning-700-boosted: oklch(var(--l700) var(--c700boosted) var(--hWarning));
 
   --c-border: oklch(var(--l800) var(--c800-neutral) var(--h) / 0.2);
   --c-background: var(--c-neutral-0);
