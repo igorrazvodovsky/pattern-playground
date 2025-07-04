@@ -1,0 +1,65 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import * as BubbleMenuStories from './BubbleMenu.stories';
+
+<Meta of={BubbleMenuStories} />
+
+# Bubble menu
+
+A contextual menu that appears when users select content, providing relevant actions for the selected text or elements. Enables users to act on specific content without interrupting their reading or editing flow.
+
+## Variants
+
+### Single action
+
+Focused interaction for a primary action on selected content.
+
+<Story of={BubbleMenuStories.ExplainText} />
+
+### Multiple actions
+
+Comprehensive set of actions for content manipulation and annotation.
+
+<Story of={BubbleMenuStories.MultipleActions} />
+
+### Commenting and highlighting
+
+Optimised for review and collaborative workflows.
+
+<Story of={BubbleMenuStories.InlineComment} />
+
+## Anatomy
+
+- **Trigger**: Text or content selection
+- **Container**: Floating menu positioned near selection
+- **Actions**: Contextually relevant buttons or controls
+- **Positioning**: Automatically positioned to avoid viewport edges
+
+## Behaviour
+
+- **Appears** when content is selected
+- **Disappears** when selection is cleared or focus moves
+- **Repositions** automatically to remain visible
+- **Persists** during action execution
+
+## States
+
+- **Hidden**: Default state when no content is selected
+- **Visible**: Appears with relevant actions for selected content
+- **Loading**: Actions may show loading states during execution
+- **Active**: Buttons show active state for applied formatting
+
+## Related patterns
+
+### Precursors
+
+- [Progressive disclosure](../?path=/docs/patterns-progressive-disclosure--docs)
+
+### Complementary
+
+- [Popover](../?path=/docs/primitives-popover--docs) - underlying positioning mechanism
+- [Command menu](../?path=/docs/patterns-command-menu--docs) - alternative access to actions
+- Context menu - alternative access to actions
+
+### Tangentially related
+
+- [Suggestion](../?path=/docs/patterns-suggestion--docs) - system-recommended actions

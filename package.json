@@ -46,6 +46,7 @@
     "@iconify/react": "^6.0.0",
     "@iconify/utils": "^2.3.0",
     "@microsoft/fast-element": "^2.0.1",
+    "@tiptap/extension-highlight": "^2.24.2",
     "@tiptap/extension-mention": "2.22.3",
     "@tiptap/pm": "^2.22.3",
     "@tiptap/react": "^2.22.3",

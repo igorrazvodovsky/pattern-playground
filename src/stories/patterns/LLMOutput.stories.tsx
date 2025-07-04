@@ -7,8 +7,6 @@ const meta = {
 export default meta;
 type Story = StoryObj;
 
-
-
 export const Confidence = {
   render: () => (
     <div className="messages layer">
