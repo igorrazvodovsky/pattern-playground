@@ -1,46 +1,72 @@
 import { ReactRenderer } from '@tiptap/react';
+import type { Editor } from '@tiptap/react';
 import { PpPopup } from '../../../components/popup/popup';
 import { PpList } from '../../../components/list/list';
 import { PpListItem } from '../../../components/list-item/list-item';
+import rawMaterials from './mockMaterials.json' with { type: 'json' };
 
-// Mock data for reference materials
-const materials = [
-  { id: 'doc-1', name: 'Project Requirements', type: 'document', icon: 'ph:file-text' },
-  { id: 'doc-2', name: 'API Documentation', type: 'document', icon: 'ph:file-text' },
-  { id: 'doc-3', name: 'Design System Guide', type: 'document', icon: 'ph:file-text' },
-  { id: 'img-1', name: 'Wireframe v2.png', type: 'image', icon: 'ph:image' },
-  { id: 'img-2', name: 'User Flow Diagram', type: 'image', icon: 'ph:image' },
-  { id: 'code-1', name: 'UserService.ts', type: 'code', icon: 'ph:code' },
-  { id: 'code-2', name: 'auth.config.js', type: 'code', icon: 'ph:code' },
-  { id: 'url-1', name: 'Competitor Analysis', type: 'url', icon: 'ph:link' },
-  { id: 'url-2', name: 'Style Guide Reference', type: 'url', icon: 'ph:link' },
-  { id: 'chat-1', name: 'Previous conversation about login', type: 'conversation', icon: 'ph:chat-circle' },
-  { id: 'data-1', name: 'User Analytics Q4', type: 'data', icon: 'ph:chart-bar' },
-  { id: 'data-2', name: 'Performance Metrics', type: 'data', icon: 'ph:chart-bar' },
-];
+// Transform raw JSON data to include Date objects
+const materials = rawMaterials.map(item => ({
+  ...item,
+  lastModified: new Date(item.lastModified)
+}));
+
+// Enhanced filtering with relevance scoring for v3
+const filterMaterials = (query: string) => {
+  if (!query) return materials.slice(0, 8);
+  
+  const lowerQuery = query.toLowerCase();
+  
+  return materials
+    .map(material => {
+      let score = 0;
+      
+      // Name matching (highest priority)
+      if (material.name.toLowerCase().includes(lowerQuery)) {
+        score += material.name.toLowerCase().startsWith(lowerQuery) ? 100 : 50;
+      }
+      
+      // Type matching
+      if (material.type.toLowerCase().includes(lowerQuery)) {
+        score += 30;
+      }
+      
+      // Description matching
+      if (material.description?.toLowerCase().includes(lowerQuery)) {
+        score += 20;
+      }
+      
+      // Tags matching
+      if (material.tags?.some(tag => tag.toLowerCase().includes(lowerQuery))) {
+        score += 15;
+      }
+      
+      return { material, score };
+    })
+    .filter(({ score }) => score > 0)
+    .sort((a, b) => b.score - a.score)
+    .map(({ material }) => material)
+    .slice(0, 8);
+};
 
 export const materialMentionSuggestion = {
-  items: ({ query }: { query: string }) => {
-    return materials.filter(material =>
-      material.name.toLowerCase().includes(query.toLowerCase()) ||
-      material.type.toLowerCase().includes(query.toLowerCase())
-    ).slice(0, 8);
-  },
+  items: ({ query }: { query: string }) => filterMaterials(query),
 
   render: () => {
-    let component: ReactRenderer<unknown, any>;
+    let component: ReactRenderer;
     let popup: PpPopup;
     let list: PpList;
     let virtualElement: { getBoundingClientRect: () => DOMRect };
+    let selectedIndex = 0;
 
     return {
-      onStart: (props: any) => {
+      onStart: (props: { items: typeof materials; command: (attrs: { id: string; label: string; type: string; icon: string }) => void; clientRect?: (() => DOMRect | null) | null; editor: Editor }) => {
         // Create a virtual element for positioning based on the client rect
         virtualElement = {
           getBoundingClientRect: () => props.clientRect?.() ?? new DOMRect()
         };
 
-        // Create a pp-popup element
+        // Create enhanced popup with v3 accessibility features
         popup = document.createElement('pp-popup') as PpPopup;
         popup.placement = 'bottom-start';
         popup.strategy = 'fixed';
@@ -50,9 +76,12 @@ export const materialMentionSuggestion = {
         popup.anchor = virtualElement;
         popup.setAttribute('data-mention', 'true');
         popup.setAttribute('data-mention-type', 'material');
+        popup.setAttribute('role', 'listbox');
+        popup.setAttribute('aria-label', 'Material suggestions');
 
-        // Create a pp-list element
+        // Create enhanced list with accessibility
         list = document.createElement('pp-list') as PpList;
+        list.setAttribute('role', 'listbox');
 
         // Append list to popup
         popup.appendChild(list);
@@ -61,7 +90,7 @@ export const materialMentionSuggestion = {
         document.body.appendChild(popup);
 
         component = new ReactRenderer(
-          ({ items, command }: { items: typeof materials, command: (attrs: any) => void }) => {
+          ({ items, command }: { items: typeof materials, command: (attrs: { id: string; label: string; type: string; icon: string }) => void }) => {
             // Clear previous items
             while (list.firstChild) {
               list.removeChild(list.firstChild);
@@ -72,16 +101,26 @@ export const materialMentionSuggestion = {
               return null;
             }
 
-            items.forEach(item => {
+            items.forEach((item, index) => {
               const listItem = document.createElement('pp-list-item') as PpListItem;
               listItem.value = item.id;
-
-              // Add content directly to the list item root
               listItem.className = 'material-mention-item';
+              listItem.setAttribute('role', 'option');
+              listItem.setAttribute('aria-selected', index === selectedIndex ? 'true' : 'false');
+
+              // Enhanced content with description and metadata
               listItem.innerHTML = `
                 <iconify-icon icon="${item.icon}" slot="prefix"></iconify-icon>
-                <div class="material-mention-item__name">${item.name}</div>
+                <div class="material-mention-item__content">
+                  <div class="material-mention-item__name">${item.name}</div>
+                  ${item.description ? `<div class="material-mention-item__description">${item.description}</div>` : ''}
+                  <div class="material-mention-item__meta">
+                    <span class="material-mention-item__type">${item.type}</span>
+                    ${item.lastModified ? `<span class="material-mention-item__date">${item.lastModified.toLocaleDateString()}</span>` : ''}
+                  </div>
+                </div>
               `;
+              
               listItem.addEventListener('click', () => {
                 command({
                   id: item.id,
@@ -91,6 +130,17 @@ export const materialMentionSuggestion = {
                 });
                 popup.active = false;
               });
+
+              listItem.addEventListener('mouseenter', () => {
+                selectedIndex = index;
+                const items = list.children;
+                for (let i = 0; i < items.length; i++) {
+                  const item = items[i] as PpListItem;
+                  item.setAttribute('aria-selected', i === selectedIndex ? 'true' : 'false');
+                  item.classList.toggle('selected', i === selectedIndex);
+                }
+              });
+
               list.appendChild(listItem);
             });
 
@@ -109,7 +159,7 @@ export const materialMentionSuggestion = {
         component.updateProps({ items: props.items, command: props.command });
       },
 
-      onUpdate(props: { items: typeof materials; command: (attrs: { id: string; label: string; type: string; icon: string }) => void; clientRect?: (() => DOMRect) | null }) {
+      onUpdate(props: { items: typeof materials; command: (attrs: { id: string; label: string; type: string; icon: string }) => void; clientRect?: (() => DOMRect | null) | null }) {
         component.updateProps({ items: props.items, command: props.command });
 
         if (props.clientRect) {
@@ -118,13 +168,46 @@ export const materialMentionSuggestion = {
         }
       },
 
-      onKeyDown(props: { event: KeyboardEvent }) {
-        if (props.event.key === 'Escape') {
+      // Helper function to update selection state
+      updateSelection() {
+        const items = list.children;
+        for (let i = 0; i < items.length; i++) {
+          const item = items[i] as PpListItem;
+          item.setAttribute('aria-selected', i === selectedIndex ? 'true' : 'false');
+          item.classList.toggle('selected', i === selectedIndex);
+        }
+      },
+
+      onKeyDown(props: { event: KeyboardEvent }): boolean {
+        const { event } = props;
+        
+        if (event.key === 'Escape') {
           popup.active = false;
           return true;
         }
-        // @ts-expect-error - component.ref type is not properly typed
-        return component.ref?.onKeyDown(props);
+
+        if (event.key === 'ArrowUp') {
+          selectedIndex = Math.max(0, selectedIndex - 1);
+          this.updateSelection();
+          return true;
+        }
+
+        if (event.key === 'ArrowDown') {
+          const items = list.children;
+          selectedIndex = Math.min(items.length - 1, selectedIndex + 1);
+          this.updateSelection();
+          return true;
+        }
+
+        if (event.key === 'Enter') {
+          const selectedItem = list.children[selectedIndex] as PpListItem;
+          if (selectedItem) {
+            selectedItem.click();
+            return true;
+          }
+        }
+
+        return false;
       },
 
       onExit() {

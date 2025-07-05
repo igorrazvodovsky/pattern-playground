@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import React from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Mention from '@tiptap/extension-mention';
@@ -13,37 +13,111 @@ const meta = {
 export default meta;
 type Story = StoryObj;
 
+const usePromptEditor = (content: string = '<p></p>') => {
+  const [editorState, setEditorState] = useState({
+    content: '',
+    mentions: [] as Array<{id: string, name: string, type: string}>,
+    templateFields: [] as Array<{label: string, value: string, filled: boolean, required: boolean}>,
+    wordCount: 0,
+    isValid: true
+  });
+
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      TemplateField,
+      Mention.configure({
+        HTMLAttributes: {
+          class: 'mention mention--material',
+          'data-type': 'material',
+        },
+        suggestion: materialMentionSuggestion,
+      }),
+    ],
+    content,
+    onTransaction: ({ editor }) => {
+      // Track editor state for quality assessment
+      const content = editor.getHTML();
+      const wordCount = editor.state.doc.textContent.split(/\s+/).filter(Boolean).length;
+
+      // Extract mentions
+      const mentions: Array<{id: string, name: string, type: string}> = [];
+      editor.state.doc.descendants((node) => {
+        if (node.type.name === 'mention') {
+          mentions.push({
+            id: node.attrs.id,
+            name: node.attrs.label,
+            type: node.attrs.type
+          });
+        }
+      });
+
+      // Extract template fields
+      const templateFields: Array<{label: string, value: string, filled: boolean, required: boolean}> = [];
+      editor.state.doc.descendants((node) => {
+        if (node.type.name === 'templateField') {
+          templateFields.push({
+            label: node.attrs.label,
+            value: node.attrs.value || '',
+            filled: node.attrs.filled || false,
+            required: node.attrs.required || false
+          });
+        }
+      });
+
+      setEditorState({
+        content,
+        mentions,
+        templateFields,
+        wordCount,
+        isValid: templateFields.every(field => !field.required || field.filled)
+      });
+    },
+  });
+
+  const fillTemplateFields = useCallback((data: Record<string, string>) => {
+    if (!editor) return;
+
+    Object.entries(data).forEach(([label, value]) => {
+      editor.commands.fillTemplateField(label, value);
+    });
+  }, [editor]);
+
+  const clearTemplateFields = useCallback(() => {
+    if (!editor) return;
+    editor.commands.clearTemplateFields();
+  }, [editor]);
+
+  const validatePrompt = useCallback(() => {
+    if (!editor) return false;
+    return editor.commands.validateTemplateFields();
+  }, [editor]);
+
+  return {
+    editor,
+    editorState,
+    fillTemplateFields,
+    clearTemplateFields,
+    validatePrompt
+  };
+};
+
 export const Basic: Story = {
   args: {},
   render: () => {
-    const editor = useEditor({
-      extensions: [
-        StarterKit,
-        Mention.configure({
-          HTMLAttributes: {
-            class: 'mention mention--material',
-            'data-type': 'material',
-          },
-          suggestion: materialMentionSuggestion,
-        }),
-      ],
-      content: `<p></p>`,
-      editorProps: {
-        attributes: {
-          'data-placeholder': 'What do you need?'
-        }
-      }
-    });
+    const { editor } = usePromptEditor('<p></p>');
 
     return (
       <div className="messages layer">
-        <div className="message-composer layer message-composer--rich">
+        <div className="message-composer layer message-composer--enhanced">
           <div className="message-composer__input message-composer__input--rich">
             <EditorContent
               editor={editor}
-              className="rich-editor"
+              className="rich-editor rich-editor--prompt"
+              data-placeholder="What do you need?"
             />
           </div>
+
           <div className="message-composer__actions">
             <button className="button button--plain" is="pp-button" title="Add context">
               <iconify-icon className="icon" icon="ph:globe"></iconify-icon><span className="inclusively-hidden">Add context</span>
@@ -112,32 +186,22 @@ export const QualityFeedback: Story = {
 export const WithMaterialReferences: Story = {
   args: {},
   render: () => {
-    const editor = useEditor({
-      extensions: [
-        StarterKit,
-        Mention.configure({
-          HTMLAttributes: {
-            class: 'mention mention--material',
-            'data-type': 'material',
-          },
-          suggestion: materialMentionSuggestion,
-        }),
-      ],
-      content: `
-        <p>Analyse the user interface patterns in @API Documentation and compare them with the designs from @Wireframe v2.png. Consider the data from @User Analytics Q4 when making recommendations.</p>
-      `,
-    });
+    const { editor, editorState } = usePromptEditor(`
+      <p>Analyse the user interface patterns in @API Documentation and compare them with the designs from @Wireframe v2.png. Consider the data from @User Analytics Q4 when making recommendations.</p>
+    `);
 
     return (
       <div className="messages layer">
-        <div className="message-composer layer message-composer--rich">
+        <div className="message-composer layer message-composer--enhanced">
+
           <div className="message-composer__input message-composer__input--rich">
             <EditorContent
               editor={editor}
-              className="rich-editor"
-              placeholder="Type @ to reference materials..."
+              className="rich-editor rich-editor--prompt"
+              data-placeholder="Type @ to reference materials..."
             />
           </div>
+
           <div className="message-composer__actions">
             <button className="button button--plain" is="pp-button" title="Add context">
               <iconify-icon className="icon" icon="ph:globe"></iconify-icon><span className="inclusively-hidden">Add context</span>
@@ -151,7 +215,13 @@ export const WithMaterialReferences: Story = {
             <button className="button button--plain" is="pp-button" title="Reference materials">
               <iconify-icon className="icon" icon="ph:at"></iconify-icon><span className="inclusively-hidden">Reference materials</span>
             </button>
-            <button className="button" is="pp-button" style={{ marginLeft: 'auto' }} title="Send prompt">
+            <button
+              className={`button ${editorState.isValid ? '' : 'button--disabled'}`}
+              is="pp-button"
+              style={{ marginLeft: 'auto' }}
+              title="Send prompt"
+              disabled={!editorState.isValid}
+            >
               <iconify-icon className="icon" icon="ph:arrow-elbow-down-left"></iconify-icon><span className="inclusively-hidden">Send</span>
             </button>
           </div>
@@ -164,78 +234,101 @@ export const WithMaterialReferences: Story = {
 export const PromptTemplate: Story = {
   args: {},
   render: () => {
-    const editor = useEditor({
-      extensions: [
-        StarterKit,
-        TemplateField,
-        Mention.configure({
-          HTMLAttributes: {
-            class: 'mention mention--material',
-            'data-type': 'material',
-          },
-          suggestion: materialMentionSuggestion,
-        }),
-      ],
-      content: `
-        <span data-type="template-field" data-label="The context: domain, audience, goal, etc."></span>
-        <span data-type="template-field" data-label="The task is..."></span>
-        <span data-type="template-field" data-label="Constraints: length, tone, forbidden words, etc.)"></span>
-        <span data-type="template-field" data-label="Do you have any examples?"></span>
-        <span data-type="template-field" data-label="Describe the output"></span>
-        <span data-type="template-field" data-label="What to do when data are missing or the system is uncertain?"></span>
-      `,
-    });
+    const { editor, editorState, fillTemplateFields, clearTemplateFields, validatePrompt } = usePromptEditor(`
+      <span data-type="template-field" data-label="The context: domain, audience, goal, etc." data-field-type="text" data-required="false" data-filled="false" data-value="">
+        The context: domain, audience, goal, etc.
+      </span>
+      <span data-type="template-field" data-label="The task is..." data-field-type="text" data-required="true" data-filled="false" data-value="">
+        The task is...
+      </span>
+      <span data-type="template-field" data-label="Target audience" data-field-type="text" data-required="false" data-filled="false" data-value="">
+        Target audience
+      </span>
+      <span data-type="template-field" data-label="Specific outcome in mind?" data-field-type="text" data-required="true" data-filled="false" data-value="">
+        Specific outcome in mind?
+      </span>
+      <span data-type="template-field" data-label="Constraints: length, tone, forbidden words, etc." data-field-type="text" data-required="false" data-filled="false" data-value="">
+        Constraints: length, tone, forbidden words, etc.
+      </span>
+      <span data-type="template-field" data-label="Do you have any examples?" data-field-type="text" data-required="false" data-filled="false" data-value="">
+        Do you have any examples?
+      </span>
+      <span data-type="template-field" data-label="Describe the output" data-field-type="text" data-required="false" data-filled="false" data-value="">
+        Describe the output
+      </span>
+    `);
 
-    const fillAllFields = () => {
-      if (editor) {
-        editor.commands.focus();
+    const handleFillSample = useCallback(() => {
+      const sampleData = {
+        'Role': 'UX Designer',
+        'Deliverable': 'checkout flow wireframes',
+        'Target Audience': 'returning e-commerce customers',
+        'Specific Outcome': 'reduces cart abandonment by 15%',
+        'Context': 'Mobile-first e-commerce platform with 2M+ monthly users',
+        'Requirements': 'WCAG 2.1 AA accessibility, mobile responsive',
+        'Constraints': 'Must work with existing design system, 3-step maximum',
+        'Examples': 'Reference @Wireframe v2.png and @Design System Guide',
+        'Output Format': 'Figma file with annotations and user flow documentation'
+      };
 
-        // Example of programmatically filling template fields
-        const sampleData = {
-          'ROLE': 'UX Designer',
-          'DOMAIN/SUBJECT': 'e-commerce interfaces',
-          'ACTION': 'Create',
-          'DELIVERABLE': 'design system component',
-          'SPECIFIC OUTCOME': 'improves checkout conversion rates',
-          'REQUIREMENTS/STANDARDS': 'WCAG 2.1 AA accessibility standards',
-          'LIMITATIONS/BOUNDARIES': 'mobile-first responsive design constraints',
-          'USER GROUP': 'returning customers aged 25-45',
-          'POSITIVE EXAMPLE': 'Amazon one-click checkout simplicity',
-          'NEGATIVE EXAMPLE': 'multi-step forms with unclear progress indicators',
-          'FORMAT SPECIFICATION': 'structured Figma file with component documentation'
-        };
+      fillTemplateFields(sampleData);
+    }, [fillTemplateFields]);
 
-        // This would need to be implemented to update all template fields
-        // For now, this is a placeholder for the functionality
-        console.log('Would fill template fields with:', sampleData);
-      }
-    };
+    const handleClearFields = useCallback(() => {
+      clearTemplateFields();
+    }, [clearTemplateFields]);
+
+    const handleValidate = useCallback(() => {
+      const isValid = validatePrompt();
+      alert(isValid ? 'All required fields are filled!' : 'Please fill all required fields.');
+    }, [validatePrompt]);
 
     return (
       <div className="messages layer">
-        <div className="message-composer layer message-composer--rich">
+        <div className="message-composer layer message-composer--enhanced">
+
           <div className="message-composer__input message-composer__input--rich">
             <EditorContent
               editor={editor}
-              className="rich-editor"
+              className="rich-editor rich-editor--prompt"
             />
           </div>
+
           <div className="message-composer__actions">
             <button
               className="button button--plain"
               is="pp-button"
               title="Fill template with sample data"
-              onClick={fillAllFields}
+              onClick={handleFillSample}
             >
               <iconify-icon className="icon" icon="ph:text-aa"></iconify-icon><span className="inclusively-hidden">Fill template</span>
             </button>
-            <button className="button button--plain" is="pp-button" title="Add context">
-              <iconify-icon className="icon" icon="ph:globe"></iconify-icon><span className="inclusively-hidden">Add context</span>
+            <button
+              className="button button--plain"
+              is="pp-button"
+              title="Clear all template fields"
+              onClick={handleClearFields}
+            >
+              <iconify-icon className="icon" icon="ph:eraser"></iconify-icon><span className="inclusively-hidden">Clear fields</span>
+            </button>
+            <button
+              className="button button--plain"
+              is="pp-button"
+              title="Validate template fields"
+              onClick={handleValidate}
+            >
+              <iconify-icon className="icon" icon="ph:check-square"></iconify-icon><span className="inclusively-hidden">Validate</span>
             </button>
             <button className="button button--plain" is="pp-button" title="Reference materials">
               <iconify-icon className="icon" icon="ph:at"></iconify-icon><span className="inclusively-hidden">Reference materials</span>
             </button>
-            <button className="button" is="pp-button" style={{ marginLeft: 'auto' }} title="Send prompt">
+            <button
+              className={`button ${editorState.isValid ? '' : 'button--disabled'}`}
+              is="pp-button"
+              style={{ marginLeft: 'auto' }}
+              title="Send prompt"
+              disabled={!editorState.isValid}
+            >
               <iconify-icon className="icon" icon="ph:arrow-elbow-down-left"></iconify-icon><span className="inclusively-hidden">Send</span>
             </button>
           </div>

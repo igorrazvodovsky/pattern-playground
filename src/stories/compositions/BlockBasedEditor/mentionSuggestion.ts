@@ -1,16 +1,9 @@
 import { ReactRenderer } from '@tiptap/react';
+import type { Editor } from '@tiptap/react';
 import { PpPopup } from '../../../components/popup/popup';
 import { PpList } from '../../../components/list/list';
 import { PpListItem } from '../../../components/list-item/list-item';
-
-// Mock data for users
-const users = [
-  { id: '1', name: 'Alice' },
-  { id: '2', name: 'Bob' },
-  { id: '3', name: 'Charlie' },
-  { id: '4', name: 'David' },
-  { id: '5', name: 'Eve' },
-];
+import users from './mockUsers.json' with { type: 'json' };
 
 export const mentionSuggestion = {
   items: ({ query }: { query: string }) => {
@@ -18,13 +11,13 @@ export const mentionSuggestion = {
   },
 
   render: () => {
-    let component: ReactRenderer<unknown, any>;
+    let component: ReactRenderer;
     let popup: PpPopup;
     let list: PpList;
     let virtualElement: { getBoundingClientRect: () => DOMRect };
 
     return {
-      onStart: (props: any) => {
+      onStart: (props: { items: { id: string, name: string }[]; command: (attrs: { id: string; label: string }) => void; clientRect?: (() => DOMRect | null) | null; editor: Editor }) => {
         // Create a virtual element for positioning based on the client rect
         virtualElement = {
           getBoundingClientRect: () => props.clientRect?.() || new DOMRect()
@@ -50,7 +43,7 @@ export const mentionSuggestion = {
         document.body.appendChild(popup);
 
         component = new ReactRenderer(
-          ({ items, command }: { items: { id: string, name: string }[], command: (attrs: any) => void }) => {
+          ({ items, command }: { items: { id: string, name: string }[], command: (attrs: { id: string; label: string }) => void }) => {
             // Clear previous items
             while (list.firstChild) {
               list.removeChild(list.firstChild);
@@ -87,23 +80,21 @@ export const mentionSuggestion = {
         component.updateProps({ items: props.items, command: props.command });
       },
 
-      onUpdate(props: any) {
+      onUpdate(props: { items: { id: string, name: string }[]; command: (attrs: { id: string; label: string }) => void; clientRect?: (() => DOMRect | null) | null }) {
         component.updateProps({ items: props.items, command: props.command });
 
         if (props.clientRect) {
-          // Update the virtual element's position
           virtualElement.getBoundingClientRect = () => props.clientRect?.() || new DOMRect();
-          // Trigger reposition
           popup.reposition();
         }
       },
 
-      onKeyDown(props: any) {
+      onKeyDown(props: { event: KeyboardEvent }) {
         if (props.event.key === 'Escape') {
           popup.active = false;
           return true;
         }
-        // @ts-ignore
+        // @ts-expect-error - component.ref type is not properly typed
         return component.ref?.onKeyDown(props);
       },
 

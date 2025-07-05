@@ -1,0 +1,110 @@
+[
+  { 
+    "id": "doc-1", 
+    "name": "Project Requirements", 
+    "type": "document", 
+    "icon": "ph:file-text",
+    "description": "Core project specifications and requirements",
+    "lastModified": "2024-01-15",
+    "tags": ["requirements", "planning"]
+  },
+  { 
+    "id": "doc-2", 
+    "name": "API Documentation", 
+    "type": "document", 
+    "icon": "ph:file-text",
+    "description": "Complete API reference and integration guide",
+    "lastModified": "2024-01-10",
+    "tags": ["api", "technical"]
+  },
+  { 
+    "id": "doc-3", 
+    "name": "Design System Guide", 
+    "type": "document", 
+    "icon": "ph:file-text",
+    "description": "UI components and design principles",
+    "lastModified": "2024-01-12",
+    "tags": ["design", "ui"]
+  },
+  { 
+    "id": "img-1", 
+    "name": "Wireframe v2.png", 
+    "type": "image", 
+    "icon": "ph:image",
+    "description": "Latest wireframe mockups",
+    "lastModified": "2024-01-14",
+    "tags": ["wireframe", "mockup"]
+  },
+  { 
+    "id": "img-2", 
+    "name": "User Flow Diagram", 
+    "type": "image", 
+    "icon": "ph:image",
+    "description": "Complete user journey flows",
+    "lastModified": "2024-01-11",
+    "tags": ["user-flow", "ux"]
+  },
+  { 
+    "id": "code-1", 
+    "name": "UserService.ts", 
+    "type": "code", 
+    "icon": "ph:code",
+    "description": "User authentication service",
+    "lastModified": "2024-01-13",
+    "tags": ["typescript", "service"]
+  },
+  { 
+    "id": "code-2", 
+    "name": "auth.config.js", 
+    "type": "code", 
+    "icon": "ph:code",
+    "description": "Authentication configuration",
+    "lastModified": "2024-01-09",
+    "tags": ["config", "auth"]
+  },
+  { 
+    "id": "url-1", 
+    "name": "Competitor Analysis", 
+    "type": "url", 
+    "icon": "ph:link",
+    "description": "Market research report",
+    "lastModified": "2024-01-08",
+    "tags": ["research", "competition"]
+  },
+  { 
+    "id": "url-2", 
+    "name": "Style Guide Reference", 
+    "type": "url", 
+    "icon": "ph:link",
+    "description": "External design inspiration",
+    "lastModified": "2024-01-07",
+    "tags": ["style", "reference"]
+  },
+  { 
+    "id": "chat-1", 
+    "name": "Previous conversation about login", 
+    "type": "conversation", 
+    "icon": "ph:chat-circle",
+    "description": "Authentication flow discussion",
+    "lastModified": "2024-01-16",
+    "tags": ["conversation", "login"]
+  },
+  { 
+    "id": "data-1", 
+    "name": "User Analytics Q4", 
+    "type": "data", 
+    "icon": "ph:chart-bar",
+    "description": "Q4 user behavior metrics",
+    "lastModified": "2024-01-05",
+    "tags": ["analytics", "q4"]
+  },
+  { 
+    "id": "data-2", 
+    "name": "Performance Metrics", 
+    "type": "data", 
+    "icon": "ph:chart-bar",
+    "description": "Application performance data",
+    "lastModified": "2024-01-06",
+    "tags": ["performance", "metrics"]
+  }
+]

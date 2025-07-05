@@ -133,3 +133,18 @@ When creating cross-references between documentation files:
 ### Writing style
 - Use British spelling throughout (behaviour, organisation, colour, etc.)
 - Use sentence case for headings and titles
+
+## Mock data and testing
+
+### Mock data best practices
+- **External JSON files**: Store all long mock data arrays in separate JSON files
+- **JSON imports**: Use the import syntax with type assertion for JSON files:
+  ```
+  import mockData from './mockData.json' with { type: 'json' };
+  ```
+
+### When to extract to JSON
+- **Long arrays** (>5 items) with complex object structures
+- **Reusable data** that might be shared across multiple components
+- **Rich data objects** with multiple properties that would clutter the main file
+- **Leave inline** simple arrays with <10 primitive items for basic examples

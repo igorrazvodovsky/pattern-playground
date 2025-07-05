@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useEditor, EditorContent } from '@tiptap/react';
+import { useState, useCallback } from 'react';
+import type { Node } from '@tiptap/pm/model';
 import StarterKit from '@tiptap/starter-kit';
 import { Mention as TiptapMention } from '@tiptap/extension-mention';
 import { mentionSuggestion } from '../compositions/BlockBasedEditor/mentionSuggestion'; // Adjusted path
@@ -12,6 +14,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const MentionEditor = () => {
+  // v3 optimized state management
+  const [mentions, setMentions] = useState<Array<{id: string, label: string}>>([]);
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -32,13 +37,26 @@ const MentionEditor = () => {
     `,
     editorProps: {
       attributes: {
-        class: 'tiptap-editor-basic', // Add a class for basic editor styling if needed
+        class: 'tiptap-editor-basic',
       },
     },
+    onTransaction: useCallback(({ editor }) => {
+      // Track mentions for analytics or other purposes
+      const currentMentions: Array<{id: string, label: string}> = [];
+      editor.state.doc.descendants((node: Node) => {
+        if (node.type.name === 'mention') {
+          currentMentions.push({
+            id: node.attrs.id,
+            label: node.attrs.label
+          });
+        }
+      });
+      setMentions(currentMentions);
+    }, []),
   });
 
   return (
-    <div style={{ padding: '20px', border: '1px solid #ccc', borderRadius: '8px', minHeight: '200px' }}>
+    <div className="layer">
       <EditorContent editor={editor} />
     </div>
   );
