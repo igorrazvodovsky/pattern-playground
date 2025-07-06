@@ -11,36 +11,35 @@ const materials = rawMaterials.map(item => ({
   lastModified: new Date(item.lastModified)
 }));
 
-// Enhanced filtering with relevance scoring for v3
 const filterMaterials = (query: string) => {
   if (!query) return materials.slice(0, 8);
-  
+
   const lowerQuery = query.toLowerCase();
-  
+
   return materials
     .map(material => {
       let score = 0;
-      
+
       // Name matching (highest priority)
       if (material.name.toLowerCase().includes(lowerQuery)) {
         score += material.name.toLowerCase().startsWith(lowerQuery) ? 100 : 50;
       }
-      
+
       // Type matching
       if (material.type.toLowerCase().includes(lowerQuery)) {
         score += 30;
       }
-      
+
       // Description matching
       if (material.description?.toLowerCase().includes(lowerQuery)) {
         score += 20;
       }
-      
+
       // Tags matching
       if (material.tags?.some(tag => tag.toLowerCase().includes(lowerQuery))) {
         score += 15;
       }
-      
+
       return { material, score };
     })
     .filter(({ score }) => score > 0)
@@ -66,7 +65,6 @@ export const materialMentionSuggestion = {
           getBoundingClientRect: () => props.clientRect?.() ?? new DOMRect()
         };
 
-        // Create enhanced popup with v3 accessibility features
         popup = document.createElement('pp-popup') as PpPopup;
         popup.placement = 'bottom-start';
         popup.strategy = 'fixed';
@@ -120,7 +118,7 @@ export const materialMentionSuggestion = {
                   </div>
                 </div>
               `;
-              
+
               listItem.addEventListener('click', () => {
                 command({
                   id: item.id,
@@ -180,7 +178,7 @@ export const materialMentionSuggestion = {
 
       onKeyDown(props: { event: KeyboardEvent }): boolean {
         const { event } = props;
-        
+
         if (event.key === 'Escape') {
           popup.active = false;
           return true;

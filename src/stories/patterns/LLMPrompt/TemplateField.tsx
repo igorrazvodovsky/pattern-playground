@@ -98,7 +98,7 @@ const TemplateFieldComponent = ({
     });
     setIsEditing(false);
 
-    // Emit custom event for form validation with v3 pattern
+    // Emit custom event for form validation
     const pos = getPos?.();
     if (pos !== undefined) {
       editor.view.dispatch(
@@ -130,7 +130,6 @@ const TemplateFieldComponent = ({
       e.preventDefault();
       handleSubmit();
 
-      // Focus next template field if available (v3 enhancement)
       setTimeout(() => {
         const nextField = editor.view.dom.querySelector(
           '.template-field:not(.template-field--filled)'
@@ -146,7 +145,6 @@ const TemplateFieldComponent = ({
     setInputValue(e.target.value);
   }, []);
 
-  // Auto-focus when editing starts (optimized for v3)
   useEffect(() => {
     if (isEditing && inputRef.current) {
       inputRef.current.focus();

@@ -1,6 +1,7 @@
-import * as React from 'react';
+// JSX type definitions for web components
+// Import this file in any component that uses web components
 
-declare global {
+declare module 'react' {
   namespace JSX {
     interface IntrinsicElements {
       'pp-input': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
@@ -10,12 +11,14 @@ declare global {
         size?: 'small' | 'medium' | 'large';
         clearable?: boolean;
         autofocus?: boolean;
+        type?: 'text' | 'email' | 'password' | 'number' | 'search' | 'tel' | 'url' | 'date' | 'datetime-local' | 'time';
       };
       'pp-button': React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
-      'pp-avatar': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+      'pp-spinner': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         size?: 'small' | 'medium' | 'large';
       };
-      'pp-spinner': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+      'pp-modal': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
+      'pp-avatar': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         size?: 'small' | 'medium' | 'large';
       };
       'pp-table': React.DetailedHTMLProps<React.TableHTMLAttributes<HTMLTableElement>, HTMLTableElement>;
@@ -23,7 +26,6 @@ declare global {
         panel?: string | number;
         active?: boolean;
         disabled?: boolean;
-        slot?: string;
       };
       'pp-tab-panel': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         name?: string | number;
@@ -60,6 +62,11 @@ declare global {
         placement?: string;
         disabled?: boolean;
       };
+      'pp-toast': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+        type?: 'success' | 'error' | 'warning' | 'info';
+        duration?: number;
+        closable?: boolean;
+      };
       'iconify-icon': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         icon?: string;
         width?: string | number;
@@ -69,3 +76,5 @@ declare global {
     }
   }
 }
+
+export {};

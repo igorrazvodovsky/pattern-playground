@@ -110,22 +110,6 @@ export const Basic: Story = {
 
         <div className="rich-editor-container">
           <EditorContent editor={editor} className="rich-editor" />
-
-          {/* v3 enhancement: Show current state */}
-          {(selection.text || mentions.length > 0) && (
-            <div style={{ marginTop: '12px', padding: '8px', backgroundColor: '#f5f5f5', borderRadius: '4px', fontSize: '0.875rem' }}>
-              {selection.text && (
-                <div style={{ color: '#666', marginBottom: '4px' }}>
-                  Selected: "{selection.text.slice(0, 50)}{selection.text.length > 50 ? '...' : ''}"
-                </div>
-              )}
-              {mentions.length > 0 && (
-                <div style={{ color: '#666' }}>
-                  Mentions: {mentions.map(m => m.label).join(', ')}
-                </div>
-              )}
-            </div>
-          )}
         </div>
       </div>
     )

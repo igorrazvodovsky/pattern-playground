@@ -4,7 +4,7 @@ import { useState, useCallback } from 'react';
 import type { Node } from '@tiptap/pm/model';
 import StarterKit from '@tiptap/starter-kit';
 import { Mention as TiptapMention } from '@tiptap/extension-mention';
-import { mentionSuggestion } from '../compositions/BlockBasedEditor/mentionSuggestion'; // Adjusted path
+import { mentionSuggestion } from '../compositions/BlockBasedEditor/mentionSuggestion';
 
 const meta = {
   title: "Primitives/Mention",
@@ -14,8 +14,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const MentionEditor = () => {
-  // v3 optimized state management
-  const [mentions, setMentions] = useState<Array<{id: string, label: string}>>([]);
+  const [setMentions] = useState<Array<{id: string, label: string}>>([]);
 
   const editor = useEditor({
     extensions: [
@@ -27,14 +26,6 @@ const MentionEditor = () => {
         suggestion: mentionSuggestion,
       }),
     ],
-    content: `
-      <p>
-        Try typing @ to trigger mention suggestions. For example, @Al or @Bo.
-      </p>
-      <p>
-        You can mention users like <span data-type="mention" data-id="1" class="mention">Alice</span> or <span data-type="mention" data-id="2" class="mention">Bob</span>.
-      </p>
-    `,
     editorProps: {
       attributes: {
         class: 'tiptap-editor-basic',

@@ -14,7 +14,6 @@ import styles from './spinner.css?inline';
  */
 
 @customElement('pp-spinner')
-
 export class Spinner extends LitElement {
   static styles: CSSResultGroup = [unsafeCSS(styles)];
 
@@ -25,5 +24,11 @@ export class Spinner extends LitElement {
         <circle class="spinner__indicator"></circle>
       </svg>
     `;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "pp-spinner": Spinner;
   }
 }
