@@ -51,7 +51,7 @@
     "@tiptap/pm": "^3.0.0",
     "@tiptap/react": "^3.0.0",
     "@tiptap/starter-kit": "^3.0.0",
-    "@tiptap/suggestion": "^2.24.2",
+    "@tiptap/suggestion": "^3.0.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "iconify-icon": "^2.3.0",
