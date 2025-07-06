@@ -109,7 +109,7 @@ export const Basic: Story = {
 
     return (
       <div className="messages layer">
-        <div className="message-composer layer message-composer--enhanced">
+        <div className="message-composer layer">
           <div className="message-composer__input message-composer__input--rich">
             <EditorContent
               editor={editor}
@@ -192,7 +192,7 @@ export const WithMaterialReferences: Story = {
 
     return (
       <div className="messages layer">
-        <div className="message-composer layer message-composer--enhanced">
+        <div className="message-composer layer">
 
           <div className="message-composer__input message-composer__input--rich">
             <EditorContent
@@ -285,7 +285,7 @@ export const PromptTemplate: Story = {
 
     return (
       <div className="messages layer">
-        <div className="message-composer layer message-composer--enhanced">
+        <div className="message-composer layer">
 
           <div className="message-composer__input message-composer__input--rich">
             <EditorContent

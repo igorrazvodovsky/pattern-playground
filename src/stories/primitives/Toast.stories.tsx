@@ -16,9 +16,9 @@ export const Default: Story = {
         className="button"
         onClick={() => PpToast.show(faker.word.words())}
       >
-        Show Basic Toast
+        Show toast
       </button>
-      <p style={{ marginTop: '1rem', color: '#666', fontSize: '0.875rem' }}>
+      <p>
         Basic toast notification without click interactions.
       </p>
     </div>
@@ -38,10 +38,10 @@ export const Multiple: Story = {
           setTimeout(() => PpToast.show("Third toast message"), 1000);
         }}
       >
-        Show Mixed Toasts
+        Show toasts
       </button>
-      <p style={{ marginTop: '1rem', color: '#666', fontSize: '0.875rem' }}>
-        Mix of clickable and non-clickable toasts. The second toast has click interaction.
+      <p>
+        Mix of clickable and non-clickable toasts.
       </p>
     </div>
   ),

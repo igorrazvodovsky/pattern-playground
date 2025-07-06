@@ -34,7 +34,6 @@ export const Basic: Story = {
           Hey, try to select some text here. There will popup a menu for selecting some inline styles. Try typing @ to trigger mentions!
         </p>
       `,
-      immediatelyRender: true,
       onTransaction: useCallback(({ editor }) => {
         // Track selection for bubble menu optimization
         const { from, to } = editor.state.selection;
@@ -74,7 +73,11 @@ export const Basic: Story = {
           <BubbleMenu
             editor={editor}
             pluginKey="bubbleMenuEditor"
-            shouldShow={() => selection.text.length > 0}
+            shouldShow={({ state }) => {
+              const { from, to } = state.selection;
+              const isEmpty = from === to;
+              return !isEmpty;
+            }}
           >
             <div className="bubble-menu inline-flow">
               <button
@@ -262,17 +265,6 @@ export const WithFloatingMenu: Story = {
 
         <div className="rich-editor-container">
           <EditorContent editor={editor} className="rich-editor" />
-
-          <div style={{ marginTop: '12px', padding: '8px', backgroundColor: '#f0f9ff', borderRadius: '4px', fontSize: '0.875rem' }}>
-            <div style={{ color: '#0369a1', fontWeight: '500', marginBottom: '4px' }}>
-              💡 Floating Menu Demo
-            </div>
-            <div style={{ color: '#0369a1' }}>
-              • Click at the end of a paragraph or in an empty line<br/>
-              • The floating menu will appear with formatting options<br/>
-              • Try pressing Enter to create new paragraphs
-            </div>
-          </div>
         </div>
       </div>
     );

@@ -50,7 +50,15 @@ export const ExplainText: Story = {
       <div className="layer">
         <div className="rich-editor-container">
           {editor && (
-            <BubbleMenu editor={editor} pluginKey="bubbleMenuExplain">
+            <BubbleMenu
+              editor={editor}
+              pluginKey="bubbleMenuExplain"
+              shouldShow={({ state }) => {
+                const { from, to } = state.selection;
+                const isEmpty = from === to;
+                return !isEmpty;
+              }}
+            >
               <div className="bubble-menu">
                 <button
                   className="button button--small button--plain"
@@ -118,7 +126,15 @@ export const MultipleActions: Story = {
       <div className="layer">
         <div className="rich-editor-container">
           {editor && (
-            <BubbleMenu editor={editor} pluginKey="bubbleMenuMultiple">
+            <BubbleMenu
+              editor={editor}
+              pluginKey="bubbleMenuMultiple"
+              shouldShow={({ state }) => {
+                const { from, to } = state.selection;
+                const isEmpty = from === to;
+                return !isEmpty;
+              }}
+            >
               <div className="bubble-menu inline-flow">
                 <button
                   className="button button--small button--plain"
@@ -193,7 +209,15 @@ export const InlineComment: Story = {
       <div className="layer">
         <div className="rich-editor-container">
           {editor && (
-            <BubbleMenu editor={editor} pluginKey="bubbleMenuComment">
+            <BubbleMenu
+              editor={editor}
+              pluginKey="bubbleMenuComment"
+              shouldShow={({ state }) => {
+                const { from, to } = state.selection;
+                const isEmpty = from === to;
+                return !isEmpty;
+              }}
+            >
               <div className="bubble-menu inline-flow">
                 <button
                   className="button button--small button--plain"
