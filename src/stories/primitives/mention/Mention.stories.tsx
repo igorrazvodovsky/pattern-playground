@@ -4,7 +4,7 @@ import { useState, useCallback } from 'react';
 import type { Node } from '@tiptap/pm/model';
 import StarterKit from '@tiptap/starter-kit';
 import { Mention as TiptapMention } from '@tiptap/extension-mention';
-import { mentionSuggestion } from '../compositions/BlockBasedEditor/mentionSuggestion';
+import { mentionSuggestion } from './mentionSuggestion';
 
 const meta = {
   title: "Primitives/Mention",

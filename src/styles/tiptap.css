@@ -308,16 +308,7 @@
   animation: fadeIn 0.2s ease;
 }
 
-/* Responsive enhancements */
 @media (max-width: 768px) {
-  .material-mention-item__description {
-    display: none;
-  }
-
-  .message-composer__actions {
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
 
   .bubble-menu {
     transform: scale(0.9);
