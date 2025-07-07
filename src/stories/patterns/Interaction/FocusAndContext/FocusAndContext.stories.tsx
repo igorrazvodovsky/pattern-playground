@@ -6,7 +6,7 @@ import { ModelItem } from '../../../../schemas/index';
 
 // Define meta information for the story
 const meta = {
-  title: "Patterns/Interaction/Focus and Context*",
+  title: "Patterns/Interaction/Focus and context*",
   parameters: {
     controls: { disable: true }
   }
