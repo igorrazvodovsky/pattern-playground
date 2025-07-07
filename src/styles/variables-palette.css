@@ -182,11 +182,11 @@
   --c-fieldBorder: var(--c-neutral-200);
   --c-accent: var(--c-accent-500);
 
-  --c-accent: var(--c-accent-700);
-  --c-info: var(--c-info-700);
-  --c-success: var(--c-success-700);
-  --c-warning: var(--c-warning-700);
-  --c-danger: var(--c-danger-700);
+  --c-body-accent: var(--c-accent-700);
+  --c-body-info: var(--c-info-700);
+  --c-body-success: var(--c-success-700);
+  --c-body-warning: var(--c-warning-700);
+  --c-body-danger: var(--c-danger-700);
 
   --c-background-accent: var(--c-accent-50);
   --c-background-info: var(--c-info-50);

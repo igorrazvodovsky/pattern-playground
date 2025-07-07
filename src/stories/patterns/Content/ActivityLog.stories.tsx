@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const meta = {
-  title: "Patterns/Content/Activity Log*",
+  title: "Patterns/Content/Activity log*",
 } satisfies Meta;
 
 export default meta;
@@ -75,7 +75,6 @@ export const LLMReasoning = {
               </li>
             </ol>
           </details>
-
         </div>
       </li>
       <li className="stepper__item">

@@ -5,6 +5,8 @@
     --button-bg: var(--c-background);
     --button-box-shadow: 0 1px 3px rgba(12, 12, 12, 0.09);
 
+    --button-padding: var(--space-s) var(--space-m);
+
     --l-threshold: 0.7;
     --l: clamp(0, (l / var(--l-threshold) - 1) * -infinity, 1);
 
@@ -16,6 +18,11 @@
     display: inline-flex;
     cursor: pointer;
     leading-trim: both;
+  }
+
+  /* TODO: Find a normal solution */
+  .button:has(kbd) {
+    --button-padding: 0.3125em var(--space-m);
   }
 
   /* TODO: FIX */
@@ -33,7 +40,7 @@
       --button-bg: oklch(from var(--c-background) calc(l - 0.05) c h);
     }
 
-    &:has(.icon) {
+    &:has(.icon, kbd) {
       display: inline-flex;
       gap: 0.5em;
       align-items: center;
@@ -52,7 +59,7 @@
     } */
 
     &:not(:has(.inclusively-hidden)) {
-      padding: var(--button-padding, var(--space-s) var(--space-m));
+      padding: var(--button-padding);
     }
 
     &:active {

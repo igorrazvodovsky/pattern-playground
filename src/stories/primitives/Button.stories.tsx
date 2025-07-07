@@ -35,6 +35,9 @@ export const Prefixes: Story = {
       <button className="button" is="pp-button">
         <iconify-icon className="icon" icon="ph:circle-dashed"></iconify-icon> With both <iconify-icon className="icon" icon="ph:circle-dashed"></iconify-icon>
       </button>
+      <button className="button" is="pp-button">
+        With keyboard shortcut <kbd>ESC</kbd>
+      </button>
     </div>
   ),
 };
