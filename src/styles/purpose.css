@@ -1,0 +1,35 @@
+@layer utilities {
+  .accent {
+    --c-body: var(--c-accent);
+    --c-background: var(--c-background-accent);
+    --c-border: var(--c-border-accent);
+  }
+
+  .info {
+    --c-body: var(--c-info);
+    --c-background: var(--c-background-info);
+    --c-border: var(--c-border-info);
+  }
+
+  .success {
+    --c-body: var(--c-success);
+    --c-background: var(--c-background-success);
+    --c-border: var(--c-border-success);
+  }
+
+  .warning {
+    --c-body: var(--c-warning);
+    --c-background: var(--c-background-warning);
+    --c-border: var(--c-border-warning);
+  }
+
+  .danger {
+    --c-body: var(--c-danger);
+    --c-background: var(--c-background-danger);
+    --c-border: var(--c-border-danger);
+  }
+
+  .info, .success, .warning, .danger {
+    color: var(--c-body);
+  }
+}

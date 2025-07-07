@@ -1,6 +1,7 @@
 @import url(reset.css);
 @import url(variables-palette.css);
 @import url(variables.css);
+@import url(purpose.css);
 @import url(animation.css);
 @import url(typography.css);
 @import url(kbd.css);
@@ -15,6 +16,7 @@
 @import url(table.css);
 @import url(checkbox.css);
 @import url(counter.css);
+@import url(callout.css);
 @import url(badge.css);
 @import url(tag.css);
 @import url(avatar.css);

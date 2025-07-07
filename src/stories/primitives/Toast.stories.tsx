@@ -18,9 +18,6 @@ export const Default: Story = {
       >
         Show toast
       </button>
-      <p>
-        Basic toast notification without click interactions.
-      </p>
     </div>
   ),
 };
@@ -40,9 +37,6 @@ export const Multiple: Story = {
       >
         Show toasts
       </button>
-      <p>
-        Mix of clickable and non-clickable toasts.
-      </p>
     </div>
   ),
 };

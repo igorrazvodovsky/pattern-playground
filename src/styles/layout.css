@@ -62,6 +62,33 @@
   .block {
     display: block;
   }
+
+  /* side-by-side content */
+  [class*="sidecar"] > * {
+    margin: 0;
+  }
+
+  [class*="sidecar"] {
+    --_gap: var(--space-m);
+    --_main-size: initial;
+    --_secondary-size: initial;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--_gap);
+  }
+
+  .sidecar > :first-child,
+  .sidecar-end > :last-child {
+    flex-basis: var(--_secondary-size, auto);
+    flex-grow: 1;
+  }
+
+  .sidecar > :last-child,
+  .sidecar-end > :first-child {
+    flex-basis: 0;
+    flex-grow: 999;
+    min-inline-size: var(--_main-size, 50%);
+  }
 }
 
 @layer components {

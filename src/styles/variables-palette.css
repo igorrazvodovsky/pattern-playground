@@ -1,6 +1,6 @@
 :root {
   --h: 230;
-  --lInitial: 97%;
+  --lInitial: 95%;
   --lIncrement: 8%;
 
   --hInfo: 260;
@@ -23,7 +23,7 @@
 
   /* Accent/brand chroma levels */
   --c0: 0;
-  --c50: 0.0108;
+  --c50: 0.015;
   --c100: 0.0321;
   --c200: 0.0609;
   --c300: 0.0908;
@@ -37,7 +37,7 @@
 
   --c300boosted: 0.15;
   --c400boosted: 0.18;
-  --c500boosted: 0.20;
+  --c500boosted: 0.2;
   --c600boosted: 0.18;
   --c700boosted: 0.15;
 
@@ -136,11 +136,21 @@
   --c-info-600-boosted: oklch(var(--l600) var(--c600boosted) var(--hInfo));
   --c-info-700-boosted: oklch(var(--l700) var(--c700boosted) var(--hInfo));
 
-  --c-success-300-boosted: oklch(var(--l300) var(--c300boosted) var(--hSuccess));
-  --c-success-400-boosted: oklch(var(--l400) var(--c400boosted) var(--hSuccess));
-  --c-success-500-boosted: oklch(var(--l500) var(--c500boosted) var(--hSuccess));
-  --c-success-600-boosted: oklch(var(--l600) var(--c600boosted) var(--hSuccess));
-  --c-success-700-boosted: oklch(var(--l700) var(--c700boosted) var(--hSuccess));
+  --c-success-300-boosted: oklch(
+    var(--l300) var(--c300boosted) var(--hSuccess)
+  );
+  --c-success-400-boosted: oklch(
+    var(--l400) var(--c400boosted) var(--hSuccess)
+  );
+  --c-success-500-boosted: oklch(
+    var(--l500) var(--c500boosted) var(--hSuccess)
+  );
+  --c-success-600-boosted: oklch(
+    var(--l600) var(--c600boosted) var(--hSuccess)
+  );
+  --c-success-700-boosted: oklch(
+    var(--l700) var(--c700boosted) var(--hSuccess)
+  );
 
   --c-danger-300-boosted: oklch(var(--l300) var(--c300boosted) var(--hDanger));
   --c-danger-400-boosted: oklch(var(--l400) var(--c400boosted) var(--hDanger));
@@ -148,11 +158,21 @@
   --c-danger-600-boosted: oklch(var(--l600) var(--c600boosted) var(--hDanger));
   --c-danger-700-boosted: oklch(var(--l700) var(--c700boosted) var(--hDanger));
 
-  --c-warning-300-boosted: oklch(var(--l300) var(--c300boosted) var(--hWarning));
-  --c-warning-400-boosted: oklch(var(--l400) var(--c400boosted) var(--hWarning));
-  --c-warning-500-boosted: oklch(var(--l500) var(--c500boosted) var(--hWarning));
-  --c-warning-600-boosted: oklch(var(--l600) var(--c600boosted) var(--hWarning));
-  --c-warning-700-boosted: oklch(var(--l700) var(--c700boosted) var(--hWarning));
+  --c-warning-300-boosted: oklch(
+    var(--l300) var(--c300boosted) var(--hWarning)
+  );
+  --c-warning-400-boosted: oklch(
+    var(--l400) var(--c400boosted) var(--hWarning)
+  );
+  --c-warning-500-boosted: oklch(
+    var(--l500) var(--c500boosted) var(--hWarning)
+  );
+  --c-warning-600-boosted: oklch(
+    var(--l600) var(--c600boosted) var(--hWarning)
+  );
+  --c-warning-700-boosted: oklch(
+    var(--l700) var(--c700boosted) var(--hWarning)
+  );
 
   --c-border: oklch(var(--l800) var(--c800-neutral) var(--h) / 0.2);
   --c-background: var(--c-neutral-0);
@@ -162,12 +182,25 @@
   --c-fieldBorder: var(--c-neutral-200);
   --c-accent: var(--c-accent-500);
 
-  --c-border-accent: oklch(var(--l800) var(--c800) var(--h) / 0.3);
-  --c-border-info: oklch(var(--l800) var(--c800) var(--hInfo) / 0.3);
-  --c-border-success: oklch(var(--l800) var(--c800) var(--hSuccess) / 0.3);
-  --c-border-warning: oklch(var(--l800) var(--c800) var(--hWarning) / 0.3);
-  --c-border-danger: oklch(var(--l800) var(--c800) var(--hDanger) / 0.3);
+  --c-accent: var(--c-accent-700);
+  --c-info: var(--c-info-700);
+  --c-success: var(--c-success-700);
+  --c-warning: var(--c-warning-700);
+  --c-danger: var(--c-danger-700);
+
+  --c-background-accent: var(--c-accent-50);
+  --c-background-info: var(--c-info-50);
+  --c-background-success: var(--c-success-50);
+  --c-background-warning: var(--c-warning-50);
+  --c-background-danger: var(--c-danger-50);
+
+  --c-border-accent: var(--c-accent-100);
+  --c-border-info: var(--c-info-100);
+  --c-border-success: var(--c-success-100);
+  --c-border-warning: var(--c-warning-100);
+  --c-border-danger: var(--c-danger-100);
 }
+
 @layer theme {
   body .dark {
     /* TODO: */
