@@ -40,3 +40,14 @@ export const Multiple: Story = {
     </div>
   ),
 };
+
+export const Notification: Story = {
+  render: () => (
+    <button
+      className="button"
+      onClick={() => PpToast.show("Something done!")}
+    >
+      Do something
+    </button>
+  ),
+};

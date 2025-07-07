@@ -1,6 +1,7 @@
 import { Meta, Story } from '@storybook/addon-docs/blocks';
 import { Callout } from '../primitives/Callout.stories';
 import { DisruptiveNotification as Dialog } from '../components/Dialog.stories';
+import { Notification as Toast } from '../primitives/Toast.stories';
 
 <Meta title="Patterns/Notification*" />
 
@@ -8,9 +9,8 @@ import { DisruptiveNotification as Dialog } from '../components/Dialog.stories';
 
 # Notification
 
-Communicating with users and providing feedback.
-
-Notifications are comprised of _status_, _type_, and _scope_.
+Letting users know what's happening in the system - whether something worked, failed, or needs attention.
+It's one of three ways to give [status feedback](../?path=/docs/patterns-statusfeedback--docs). Every notification has three parts: _purpose_, _type_, and _scope_.
 
 ## Purpose
 
@@ -32,6 +32,8 @@ Allows to tailor the disruptiveness of the notification.
 ### [Toast](../?path=/docs/primitives-toast--docs)
 
 Toasts are non-disruptive messages that appear in the interface to provide quick, at-a-glance feedback on the outcome of an action.
+
+<Story of={Toast} />
 
 ### [Callout](../?path=/docs/primitives-callout--docs)
 
@@ -64,8 +66,8 @@ System-wide alerts that inform the user about events or statuses affecting the e
 
 ## Related patterns
 
-- Notification is one of the approaches to communicating [feedback]().
--
+- Part of the [Status feedback](../?path=/docs/patterns-statusfeedback--docs) pattern system
+- Complementary to validation and indication approaches
 
 ## Resources & references
 

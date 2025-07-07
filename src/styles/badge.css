@@ -138,7 +138,7 @@
   strong.badge.badge--accent,
   .badge--accent:not(.counter):empty,
   .badge.badge--accent.badge--plain:before {
-    --badge-bg: var(--c-accent-500-boosted);
+    --badge-bg: var(--c-accent-500);
   }
 
   strong.badge.badge--info,

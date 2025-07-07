@@ -65,7 +65,7 @@ export const DisruptiveNotification: Story = {
       <pp-modal>
         <dialog>
           <header>
-            <h3>Delete project</h3>
+            <h3>Confirmation</h3>
             <button className="button button--plain" data-close>
               <iconify-icon className="icon" icon="ph:x"></iconify-icon>
               <span className="inclusively-hidden">Close</span>
@@ -73,18 +73,17 @@ export const DisruptiveNotification: Story = {
           </header>
           <article>
             <p>
-              Are you sure you want to delete "Marketing Campaign Q4"? This action cannot be undone.
-              All associated files, data, and team access will be permanently removed.
+              Doing this will make some permanent changes. Are you sure you want to proceed?
             </p>
           </article>
           <footer>
             <div className="inline-flow">
-              <button className="button button--danger" autoFocus>Delete project</button>
+              <button className="button button--danger" autoFocus>Do it!</button>
               <button className="button button--secondary" data-close>Cancel</button>
             </div>
           </footer>
         </dialog>
-        <button className="button button--danger">Delete project</button>
+        <button className="button">Do something</button>
       </pp-modal>
     );
   },
