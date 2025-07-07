@@ -71,7 +71,7 @@ export function CommandMenu({
 
   return (
     <Command
-      label="Command Menu"
+      label="Command menu"
       shouldFilter={false}
       onKeyDown={composition.keyboard.handleKeyDown}
       className={className}

@@ -1,0 +1,44 @@
+import { Canvas, Story, Meta, Subtitle } from '@storybook/addon-docs/blocks';
+import * as CommandMenuStories from './CommandMenu.stories.tsx';
+import { Filtering as FilteringStory }  from '../../../compositions/Filtering/Filtering.stories.tsx';
+
+<Meta of={ CommandMenuStories } />
+
+> 🙂 **Fun meter: 4/5**.
+
+# Command menu
+
+Provides quick access to commands or actions within an app.
+
+<Story of={ CommandMenuStories.Basic } />
+
+## Global
+
+Pop up in the middle of the screen...
+
+<Story of={ CommandMenuStories.Dialog } />
+
+## Local
+
+Can also be used to support local functions, e.g. in [filters](../?path=/docs/compositions-browsing-sensemaking-filtering--docs) or TODO:local search.
+
+<Story of={ FilteringStory } />
+
+## Related patterns
+
+### Precursors
+
+- *Search* establishes user familiarity with typing to filter results, setting expectations that input fields serve navigation and filtering tasks.
+- A command palette often extends or consolidates *keyboard shortcut* functionality, making them easier to discover and use.
+- [Keyboard key](../?path=/docs/primitives-keyboard-key--docs)
+- *Navigation* menu establishes the baseline structure that a command menu can later streamline or augment.
+
+### Complementary
+
+- *Autocomplete* supports command menu functionality by reducing typing effort and increasing discoverability of commands.
+- [Embedded intelligence](../?path=/docs/patterns-embedded-intelligence--docs) can help users find relevant commands when exact matches aren't available.
+
+### Follow-ups
+
+{/* - *Action history* may streamline repetitive workflows */}
+- *Bookmarks*

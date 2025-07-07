@@ -1,0 +1,108 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Patterns/Communication/Explanation*" />
+
+> 💭 **Fun meter:** _calculating..._
+
+# Explanation
+
+Provides actors with contextual information to clarify system behaviors, human actions, and AI-driven decisions, foster transparency and user trust.
+
+## Types of explanation
+
+### Explaining (deterministic) system or business logic
+Rules, workflows, why certain options appear, validation errors, etc.
+
+#### Examples
+
+<div>
+- Explaining why an action is unavailable
+- Clarifying validation errors or required fields in forms
+- Communicating the next steps or expected actor actions in workflows
+</div>
+
+### Social/Collaboration explanations
+Actions taken by other actors, notifications about shared resources, edits, status changes, etc.
+transparency regarding the actions of other people to reduce uncertainty in collaborative or multi-actor environments.
+
+#### Examples
+
+<div>
+- Explaining edits or changes made by another actor
+- Providing context about shared resources or history
+- Clarifying reasons for notifications or status updates initiated by other people
+</div>
+
+### AI Explanations
+How the system arrived at a prediction, recommendation, or generated output.
+
+#### Examples
+
+<div>
+- Explaining recommendation or prediction logic ("Why am I seeing this?")
+- Clarifying the limitations or confidence levels of AI-generated outputs
+- Communicating factors influencing automated decisions or outputs
+</div>
+
+### Dynamic explanation
+
+{/* Supporting contextualised learning. */}
+
+<div>
+- Takes in any input
+- Does its best to explain it
+- TODO: Example: text selection → context menu → "explain this"
+{/* https://andymatuschak.org/hmwl/#contextualized-study */}
+</div>
+
+## Amount of detail
+
+1. Bare minimum: Brief, direct explanation suitable for common scenarios or minor clarifications
+2. Moderate detail: expanded explanations providing additional context, suitable for actors needing further clarity or reassurance.
+3. Extended report: comprehensive explanations offering full transparency, suitable for complex decisions, troubleshooting, or expert actors who require in-depth understanding.
+
+[Progressive disclosure](./?path=/docs/patterns-progressive-disclosure--docs)
+can be used to assist actors in transitioning between different levels of detail.
+
+## Components
+
+### Level 1. Indicator
+
+#### Global
+
+Describes a set of elements, aiming to convey the broader context influencing multiple objects.
+
+TODO: Example: item ranking
+
+#### Local
+
+Explains a single value or item.
+
+TODO: Example: Predicted match of an item
+{/* Confidence Indicator */}
+
+### Level 2. Simple explanation
+
+Users can access the explanation popover by clicking the explanation indicator. This popover offers contextual information beyond a single value and lists the factors that contributed to the result.
+
+TODO: Example: explain price through costs, margin, and discount
+
+#### Natural language Explanations
+
+TODO: Examples: "I'm not sure. But...", "... Plese keep in mind, this information is uncertain.",
+
+### Level 3. Extended explanation
+
+TODO: Example: drawer with instructions or help text.
+
+## Related
+
+- [Disabled state](./?path=/docs/patterns-disabled-state--docs)
+- [Progressive disclosure](./?path=/docs/patterns-progressive-disclosure--docs)
+- [Transparent reasoning](../?path=/docs/patterns-transparent-reasonining--docs) - shows step-by-step process while explanation encourages understanding through interaction
+- [Popover](./?path=/docs/primitives-popover--docs)
+- Drawer
+
+## Resources
+
+[Explainable artificial intelligence](https://en.wikipedia.org/wiki/Explainable_artificial_intelligence)

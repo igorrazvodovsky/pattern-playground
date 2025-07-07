@@ -1,0 +1,74 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Patterns/Intelligence/Suggestion*" />
+
+# Suggestion
+
+Intelligent systems can help actors by suggesting an action or data connection.
+
+## Input assistance
+
+{/* Detect: As a user, I need to see which values were suggested by the system. */}
+{/* Explain: As a user, I want to understand the reasoning behind the system recommendation. */}
+{/* Compare: As a user, I need to be able to compare existing human input with the system recommendation. */}
+{/* Act: As user, I want to accept or reject system recommendations. */}
+
+### Conversation
+
+Clues for what's possible and what to do next.
+
+{/* **Example:** In a chat interface, when a user types "I need help with", the system might suggest completing phrases like "booking a meeting", "resetting my password", or "accessing my account". */}
+
+### Form
+
+Auto-completion and smart defaults reduce cognitive load and prevent errors.
+
+{/* **Example:** An address form that suggests postal codes based on the entered city, or a date picker that highlights recommended appointment slots based on availability. */}
+
+#### Form element
+
+Individual form fields can provide contextual suggestions as users interact with them.
+
+{/* **Example:** A search field that shows recent searches, popular queries, or filtered suggestions based on the current input. */}
+
+## Suggesting relationships
+
+The system can identify and propose connections between data points that users might not have considered.
+
+{/* **Example:** When viewing a customer record, the system suggests "People you may also want to contact" based on shared projects, departments, or interaction history. */}
+
+## Proposing solutions
+
+Intelligent recommendations for actions or workflows based on current context and user patterns.
+
+{/* **Example:** After a user reports a bug, the system suggests relevant documentation, similar resolved issues, or the most appropriate team member to assign the ticket to. */}
+
+## Certainty
+
+Suggestions should communicate their confidence level to help users make informed decisions.
+
+{/* **Example:** A recommendation engine shows "95% match" for highly confident suggestions, "Possible match" for moderate confidence, and "You might also like" for exploratory suggestions. */}
+
+## Adjustment
+
+Users should be able to refine or modify suggestions to better match their needs.
+
+{/* **Example:** A calendar scheduling assistant suggests meeting times, but allows users to specify preferences like "only mornings" or "avoid Fridays" to improve future recommendations. */}
+
+## Dismission and override
+
+Users must have clear paths to reject suggestions and provide alternative input.
+
+{/* **Example:** Autocomplete suggestions include an "×" button to dismiss individual suggestions, and users can type past suggestions to enter custom values. */}
+
+## Related patterns
+
+- [Adaptation](../?path=/docs/foundations-adaptation--docs)
+- [Bot](../?path=/docs/patterns-bot--docs)
+- [Messaging](../?path=/docs/compositions-messaging--docs)
+- [Transparent reasoning](../?path=/docs/patterns-transparent-reasonining--docs) - suggestions can emerge from visible reasoning processes
+
+{/* ## Resources & references */}
+
+{/* https://experience.sap.com/fiori-design-web/recommendations/ */}
+{/* https://www.nngroup.com/articles/prompt-suggestions/ */}
