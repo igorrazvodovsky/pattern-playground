@@ -9,6 +9,7 @@ import footerAlignedHtml from "./CardFooterAligned.html?raw";
 import imageHtml from "./CardImage.html?raw";
 import imageOverlayHtml from "./CardImageOverlay.html?raw";
 import actionsHtml from "./CardActions.html?raw";
+import indicatorsHtml from "./CardIndicators.html?raw";
 
 const createCardData = () => {
   return {
@@ -161,6 +162,10 @@ export const ImageOverlay: Story = {
 
 export const Actions: Story = {
   render: () => <div dangerouslySetInnerHTML={{ __html: actionsHtml }} />,
+};
+
+export const Indicators: Story = {
+  render: () => <div dangerouslySetInnerHTML={{ __html: indicatorsHtml }} />,
 };
 
 export const LayoutList: Story = {
