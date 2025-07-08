@@ -1,0 +1,113 @@
+import { MermaidDiagram } from '../../components/MermaidDiagram';
+import { Canvas, Story, Meta } from '@storybook/addon-docs/blocks';
+import * as FormStories from './Form.stories.tsx';
+
+<Meta of={FormStories} />
+
+> 🥱 **Fun meter: boring** but important groundwork.
+
+# Form
+
+Form facilitates the structured collection of user input. It guides users through a task, ensuring clarity, usability, and accuracy.
+
+## Input & controls
+
+...
+
+### Labels and helper texts
+
+...
+
+### Required fields
+
+...
+
+### Grouping & sections
+
+...
+
+## Validation & feedback
+
+- inline or on-submit validation strategies
+- styling invalid form controls
+- user confusion
+- user abandonment
+
+...
+
+## Conversational forms
+
+Forms can be embedded in a [messaging](../?path=/docs/compositions-messaging--docs) interface, allowing for a more [conversational](../?path=/docs/patterns-content-conversation--docs) interaction.
+
+<Story of={FormStories.Conversational} />
+
+## Decision tree
+
+### Choosing an input
+
+<MermaidDiagram chart={`
+flowchart LR
+  A["Options basic and no search?"]
+  A -->|Yes| B["Select / Text / Date / Password / Textarea"]
+  A -->|No| C["Need searchable dropdown?"]
+  C -->|Yes| D["Combobox"]
+  C -->|No| E["Search input"]
+`} />
+
+### Choosing a control
+
+<MermaidDiagram chart={`
+flowchart TD
+  A["Can you select more than one option?"]
+  A -->|No| B["Single select"]
+  A -->|Yes| C["Multi select"]
+
+  %% Single-select branch
+  B -->|"Filters or swaps content"| D["Tabs"]
+  B -->|"No filtering"| E["How many options?"]
+  E -->|"1"| F["Need confirm?"]
+  F -->|"Yes"| G["Checkbox"]
+  F -->|"No"| H["Switch"]
+  E -->|"2-5"| I["Short, consistent<br/>labels?"]
+  I -->|"Yes"| J["Segmented<br/>control"]
+  I -->|"No"| K["Radio<br/>buttons"]
+  E -->|"More than 5"| L["Dropdown"]
+
+  %% Multi-select branch
+  C -->|"Needs emphasis"| M["Selectable<br/>cards"]
+  C -->|"No emphasis"| N["Short, uniform<br/>labels?"]
+  N -->|"Yes"| O["Pill-style<br/>toggles"]
+  N -->|"No"| P["Checkbox<br/>list"]
+
+`} />
+
+## Related patterns
+
+### Precursors
+- [Messaging](../?path=/docs/compositions-messaging--docs) - for conversational variant.
+
+{/*
+### Precursors
+- [Input](../?path=/docs/primitives-input--docs) - Basic text input with label and helper text
+- [Textarea](../?path=/docs/primitives-textarea--docs) - Multi-line text input with auto-resize
+- [Checkbox](../?path=/docs/primitives-checkbox--docs) - Binary choice input with indeterminate state
+- [Button](../?path=/docs/primitives-button--docs) - Form submission and action triggers
+- [Dropdown](../?path=/docs/components-dropdown--docs) - Selection from options list
+- [Tag](../?path=/docs/primitives-tag--docs) - Interactive tags for multi-select scenarios
+- [List](../?path=/docs/components-list--docs) - Structured options with checkbox/radio/toggle variants
+- [Tabs](../?path=/docs/components-tabs--docs) - Content filtering and single selection
+- [Mention](../?path=/docs/primitives-mention--docs) - Rich text input with @-mentions
+*/}
+
+### Follow-ups
+- [Status feedback](../?path=/docs/patterns-communication-status-feedback--docs) - validation and system status communication
+- [Saving](../?path=/docs/patterns-states-saving--docs) - autosave and manual save strategies
+
+### Complementary
+- [Details](../?path=/docs/primitives-details--docs) - collapsible form sections
+- [Command menu](../?path=/docs/patterns-interaction-command-menu--docs) - quick access to form actions
+
+### Tangentially related
+- [Disabled state](../?path=/docs/patterns-states-disabled-state--docs) - alternatives to disabling form elements
+- [KeyboardKey](../?path=/docs/primitives-keyboardkey--docs) - keyboard shortcuts and navigation
+

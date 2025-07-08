@@ -42,7 +42,7 @@
 
 .message__body {
   display: inline-block;
-  padding: var(--space-m) var(--space-l);
+  padding: var(--space-s) var(--space-l);
   border-radius: var(--radius-xl);
 }
 
