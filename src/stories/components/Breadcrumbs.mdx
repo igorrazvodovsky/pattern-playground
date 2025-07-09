@@ -7,7 +7,7 @@ import * as BreadcrumbsStories from './Breadcrumbs.stories.tsx';
 
 # Breadcrumbs
 
-A breadcrumbs component shows where in the app's hierarchy the actor is.
+A breadcrumbs component shows where in the app's hierarchy the actor is. Breadcrumbs support [motivated movement](../?path=/docs/foundations-intent-interaction--docs#motivated-movement) by providing spatial context and enabling efficient backtracking during navigation.
 
 <Canvas>
   <Story of={ BreadcrumbsStories.Basic } />
@@ -22,7 +22,7 @@ When a breadcrumb has more items than it can show, it automatically collapses.
 ## Advanced
 
 Breadcrumbs can offer additional functionality by putting sibling pages right into the navigation with a `<select>`,
-making lateral movement possible alongside the default top-down flow.
+making lateral movement possible alongside the default top-down flow. This supports [browsing](../?path=/docs/foundations-intent-interaction--docs#browsing) behavior by enabling exploration of related content without losing current context.
 
 <Story of={ BreadcrumbsStories.Advanced } />
 
@@ -34,12 +34,23 @@ making lateral movement possible alongside the default top-down flow.
 - `aria-current="page"` is on the last link to indicate that it's the current page.
 - See the WAI-ARIA Authoring Practices Breadcrumb Example for more details.
 
+## [Intent & interaction](../?path=/docs/foundations-intent-interaction--docs)
+
 ## TODO:
 
 - Expanding the breadcrumb by selecting the ellipsis.
 - Alt. use priority+
 
-## Related
+Breadcrumbs support [motivated movement](../?path=/docs/foundations-intent-interaction--docs#motivated-movement)
+through spatial context and efficient backtracking. They enable transitions between navigating (direct movement),
+re-finding (returning to known content), and browsing (lateral exploration via advanced variants).
+
+## Related patterns
+
+- [CommandMenu](../?path=/docs/patterns-interaction-command-menu--docs) – alternative navigation for transactional search
+- [Filters](../?path=/docs/compositions-filtering--docs) – complementary browsing support
+
+## Resources
 
 - [WAI-ARIA Authoring Practices](https://www.w3.org/WAI/ARIA/apg/#breadcrumb)
 - [Accessible Breadcrumb Navigation Pattern — Scott O'Hara](https://scottaohara.github.io/a11y_breadcrumbs/)
