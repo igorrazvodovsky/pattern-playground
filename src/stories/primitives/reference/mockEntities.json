@@ -1,0 +1,100 @@
+[
+  {
+    "id": "user-1",
+    "name": "Sarah Chen",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "Product Designer"
+  },
+  {
+    "id": "user-2", 
+    "name": "Marcus Rodriguez",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "Frontend Developer"
+  },
+  {
+    "id": "user-3",
+    "name": "Emily Watson",
+    "type": "user", 
+    "icon": "ph:user-fill",
+    "description": "UX Researcher"
+  },
+  {
+    "id": "doc-1",
+    "name": "Design System Guidelines",
+    "type": "document",
+    "icon": "ph:file-text-fill",
+    "description": "Complete style guide and component documentation"
+  },
+  {
+    "id": "doc-2",
+    "name": "API Documentation",
+    "type": "document", 
+    "icon": "ph:file-text-fill",
+    "description": "REST API endpoints and authentication"
+  },
+  {
+    "id": "doc-3",
+    "name": "User Research Report",
+    "type": "document",
+    "icon": "ph:file-text-fill", 
+    "description": "Q3 2024 user testing findings"
+  },
+  {
+    "id": "project-1",
+    "name": "Mobile App Redesign",
+    "type": "project",
+    "icon": "ph:folder-fill",
+    "description": "Complete overhaul of mobile experience"
+  },
+  {
+    "id": "project-2",
+    "name": "Performance Optimization",
+    "type": "project",
+    "icon": "ph:folder-fill",
+    "description": "Improve app loading times and responsiveness"
+  },
+  {
+    "id": "file-1",
+    "name": "Button.tsx",
+    "type": "file",
+    "icon": "ph:code-fill",
+    "description": "Primary button component implementation"
+  },
+  {
+    "id": "file-2",
+    "name": "Modal.tsx", 
+    "type": "file",
+    "icon": "ph:code-fill",
+    "description": "Modal dialog component with backdrop"
+  },
+  {
+    "id": "file-3",
+    "name": "utils.ts",
+    "type": "file",
+    "icon": "ph:code-fill",
+    "description": "Shared utility functions"
+  },
+  {
+    "id": "api-1",
+    "name": "POST /api/users",
+    "type": "api",
+    "icon": "ph:server-fill",
+    "description": "Create new user account"
+  },
+  {
+    "id": "api-2",
+    "name": "GET /api/projects",
+    "type": "api",
+    "icon": "ph:server-fill",
+    "description": "Fetch user projects list"
+  },
+  {
+    "id": "api-3",
+    "name": "PUT /api/files/{id}",
+    "type": "api",
+    "icon": "ph:server-fill", 
+    "description": "Update file metadata"
+  }
+]

@@ -1,4 +1,4 @@
-import { createMentionSuggestion } from '../../../../services/mention-suggestion-service';
+import { createReferenceSuggestion } from '../../../../services/reference-suggestion-service';
 import rawMaterials from './mockMaterials.json' with { type: 'json' };
 
 // Transform raw JSON data to include Date objects
@@ -44,7 +44,7 @@ const filterMaterials = (query: string) => {
     .slice(0, 8);
 };
 
-export const materialMentionSuggestion = createMentionSuggestion({
+export const materialMentionSuggestion = createReferenceSuggestion({
   items: ({ query }: { query: string }) => filterMaterials(query),
   renderItem: (item, listItem) => {
     listItem.className = 'material-mention-item';
@@ -59,7 +59,7 @@ export const materialMentionSuggestion = createMentionSuggestion({
     type: item.type,
     icon: item.icon
   }),
-  mentionType: 'material',
+  referenceType: 'material',
   ariaLabel: 'Material suggestions',
   enableKeyboardNavigation: true
 });

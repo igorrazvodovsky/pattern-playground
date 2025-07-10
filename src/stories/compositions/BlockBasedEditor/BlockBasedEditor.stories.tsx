@@ -4,7 +4,7 @@ import { useState, useCallback } from 'react'
 import type { Node } from '@tiptap/pm/model'
 import StarterKit from '@tiptap/starter-kit'
 import Mention from '@tiptap/extension-mention'
-import { mentionSuggestion } from '../../primitives/mention/mentionSuggestion';
+import { referenceSuggestion } from '../../primitives/reference/referenceSuggestion';
 
 const meta = {
   title: "Compositions/Block-based editor*",
@@ -26,7 +26,7 @@ export const Basic: Story = {
           HTMLAttributes: {
             class: 'mention',
           },
-          suggestion: mentionSuggestion,
+          suggestion: referenceSuggestion,
         }),
       ],
       content: `
@@ -129,7 +129,7 @@ export const WithFloatingMenu: Story = {
           HTMLAttributes: {
             class: 'mention',
           },
-          suggestion: mentionSuggestion,
+          suggestion: referenceSuggestion,
         }),
       ],
       content: `

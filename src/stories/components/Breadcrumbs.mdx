@@ -34,21 +34,32 @@ making lateral movement possible alongside the default top-down flow. This suppo
 - `aria-current="page"` is on the last link to indicate that it's the current page.
 - See the WAI-ARIA Authoring Practices Breadcrumb Example for more details.
 
+{/* ## Design principles */}
+{/* **Hierarchical organisation**: Breadcrumbs embody multilevel structure by showing the complete path from root to current location, making system hierarchy visible and navigable. */}
+{/* **Modularity**: Each breadcrumb segment is an independent, clickable component that can be combined to create different path lengths without affecting other segments. */}
+{/* **Combinatorial logic**: Breadcrumbs work with other navigation patterns—when combined with filters, they show filtered paths; with command menus, they provide context after direct jumps; with sidebars, they clarify position within nested structures. */}
+
 ## [Intent & interaction](../?path=/docs/foundations-intent-interaction--docs)
-
-## TODO:
-
-- Expanding the breadcrumb by selecting the ellipsis.
-- Alt. use priority+
 
 Breadcrumbs support [motivated movement](../?path=/docs/foundations-intent-interaction--docs#motivated-movement)
 through spatial context and efficient backtracking. They enable transitions between navigating (direct movement),
 re-finding (returning to known content), and browsing (lateral exploration via advanced variants).
 
+### Navigation transitions
+
+- **Navigating → Re-finding**: When actors lose their way, breadcrumbs provide familiar landmarks to return to known contexts
+- **Browsing → Navigating**: Advanced breadcrumbs with sibling selection enable precise movement from exploratory browsing
+- **Exploring → Navigating**: Breadcrumbs preserve context during exploration, allowing confident return to structured paths
+
 ## Related patterns
 
 - [CommandMenu](../?path=/docs/patterns-interaction-command-menu--docs) – alternative navigation for transactional search
 - [Filters](../?path=/docs/compositions-filtering--docs) – complementary browsing support
+
+## TODO:
+
+- Expanding the breadcrumb by selecting the ellipsis.
+- Alt. use priority+
 
 ## Resources
 

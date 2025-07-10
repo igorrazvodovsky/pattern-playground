@@ -87,6 +87,13 @@ The `<pp-modal>` component demonstrates several key patterns for building progre
 - For Web Components using Shadow DOM, use component-specific CSS files
 - Use design system tokens (CSS custom properties) consistently
 - Follow BEM naming convention for CSS classes
+- Ask before adding new styles
+
+## JavaScript hooks and functionality
+- **Use data-* attributes as JavaScript hooks** - Use `data-*` attributes (e.g., `data-reference-picker`, `data-action="toggle"`) for JavaScript event handling and DOM queries
+- **Separate styling from scripting** - Never rely on CSS classes for JavaScript functionality; they should remain purely for styling
+- **Prefer semantic data attributes** - Use descriptive names like `data-component-name` or `data-action` instead of generic selectors
+- **Avoid semantic attribute overloading** - Don't use `role`, `aria-*`, or other accessibility attributes as JavaScript hooks
 
 ## Documentation standards
 
@@ -107,11 +114,7 @@ When documenting patterns, follow this structure:
 - **Resources** - External references and research
 
 ### Behavioural framework
-When designing components/patterns, consider actor behaviour modes:
-- **Motivated movement** - Navigating, browsing, transactional search
-- **Delightful discovery** - Exploring, monitoring, passive discovery
-- **Foggy finding** - Re-finding, uncovering, hunting
-- **Doing the job** - Executing, integrating, consuming, flow, learning
+Use the Intent & Interaction framework (`src/stories/foundations/Behaviours.mdx`) to select and design patterns that support how users move through the interface and perform tasks. The framework is grounded in **Seek–Use–Share** temporal progression and treats interaction as conversational alignment with turn-taking and cooperative principles.
 
 ### Content guidelines
 - Focus on relational definitions over static properties
@@ -120,7 +123,7 @@ When designing components/patterns, consider actor behaviour modes:
 - Reference established design principles (modularity, hierarchy, complexity management)
 
 ### Documentation linking
-When creating cross-references between documentation files:
+When creating cross-references between documen£tation files:
 - **Storybook URLs**: Generated from Meta title - `<Meta title="Category/Name" />` becomes `../?path=/docs/category-name--docs`
 - **URL transformation**:
   - Category/Name → category-name
