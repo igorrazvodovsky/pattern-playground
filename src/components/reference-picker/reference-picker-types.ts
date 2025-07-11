@@ -23,26 +23,28 @@ export interface SelectedReference {
 }
 
 export interface ReferencePickerProps {
-  /** Reference categories and their items */
+  /** Reference data categories */
   data: ReferenceCategory[];
-  
-  /** Callback when a reference is selected */
+  /** External query for filtering */
+  query?: string;
+  /** Callback when reference is selected */
   onSelect: (reference: SelectedReference) => void;
-  
-  /** Callback when picker is closed */
+  /** Callback when picker should close */
   onClose?: () => void;
-  
-  /** Custom placeholder text */
-  placeholder?: string;
-  
-  /** Whether to show the picker */
+  /** Whether picker is open */
   open?: boolean;
-  
-  /** Additional CSS classes */
+  /** CSS class name */
   className?: string;
-  
-  /** Accessibility label */
+  /** ARIA label */
   ariaLabel?: string;
+  /** Current mode */
+  mode?: 'global' | 'contextual';
+  /** Selected category for contextual mode */
+  selectedCategory?: ReferenceCategory | null;
+  /** Callback when category is selected */
+  onCategorySelect?: (category: ReferenceCategory) => void;
+  /** Callback when going back to global mode */
+  onBack?: () => void;
 }
 
 export interface ReferencePickerRef {

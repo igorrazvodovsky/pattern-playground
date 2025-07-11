@@ -84,3 +84,22 @@
   height: 0;
   pointer-events: none;
 }
+
+/* Reference mention styles - extending existing reference styles */
+.reference-mention {
+  background-color: var(--c-accent-50);
+  color: var(--c-accent);
+  padding: 0 var(--space-xs);
+  border-radius: var(--radius-s);
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+  position: relative;
+  vertical-align: baseline;
+  font-weight: 500;
+}
+
+.reference-mention:hover {
+  border-color: var(--c-neutral-400);
+}

@@ -1,41 +1,19 @@
 import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks';
 import * as ReferenceStories from './Reference.stories.tsx';
 
-<Meta of={ReferenceStories} />
+<Meta of={ ReferenceStories } />
 
 # Reference
 
-References enable users to link to entities, documents, or objects within content. Unlike simple hyperlinks, references provide contextual information and maintain relationships between content elements.
+References enable users to link to entities, documents, or objects within content. Unlike hyperlinks, references provide contextual information and maintain relationships between content elements.
 
-<Canvas>
-  <Story of={ReferenceStories.Reference} />
-</Canvas>
+## User mentions
 
-## Use cases
+<Story of={ReferenceStories.Basic} />
 
-- **User mentions** - Reference team members in comments or messages
-- **Document linking** - Connect related files, articles, or resources
-- **Object references** - Link to projects, tasks, or other structured data
-- **Command shortcuts** - Reference available actions or commands
-- **File references** - Link to specific files or code snippets
+## Multiple reference types
 
-## Implementation
-
-References are implemented using a custom hierarchical navigation system that follows the same pattern as Command Menu and Filtering. The system supports:
-
-- **Dual-mode navigation** - Global browsing then contextual drilling down
-- **Progressive disclosure** - Browse categories first, then select specific items
-- **Consistent escape handling** - Escape always returns to global view
-- **Keyboard navigation** - Full arrow key and Enter support
-- **Multiple entity types** - Users, documents, projects, files, and API endpoints
-- **Smart search** - Search across names, descriptions, and categories
-- **Visual consistency** - Same design patterns as other hierarchical systems
-
-## Unified Hierarchical References
-
-Consistent hierarchical navigation following the same pattern as Command Menu and Filtering systems. Features dual-mode operation, progressive disclosure, and structured search.
-
-<Story of={ReferenceStories.UnifiedHierarchicalReference} />
+<Story of={ReferenceStories.Reference} />
 
 ## Related patterns
 

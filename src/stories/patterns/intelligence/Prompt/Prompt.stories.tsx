@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useCallback, useState } from "react";
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import Mention from '@tiptap/extension-mention';
+import { Reference } from '../../../../components/reference-picker/Reference';
 import { materialMentionSuggestion } from './materialMentionSuggestion.ts';
 import { TemplateField } from './TemplateField.tsx';
 
@@ -26,9 +26,9 @@ const usePromptEditor = (content: string = '<p></p>') => {
     extensions: [
       StarterKit,
       TemplateField,
-      Mention.configure({
+      Reference.configure({
         HTMLAttributes: {
-          class: 'mention mention--material',
+          class: 'mention mention--material reference-mention reference',
           'data-type': 'material',
         },
         suggestion: materialMentionSuggestion,

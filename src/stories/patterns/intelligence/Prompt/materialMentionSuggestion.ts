@@ -1,65 +1,30 @@
-import { createReferenceSuggestion } from '../../../../services/reference-suggestion-service';
+import { createReferenceSuggestion } from '../../../../components/reference-picker/Reference';
 import rawMaterials from './mockMaterials.json' with { type: 'json' };
+import type { ReferenceCategory } from '../../../../components/reference-picker/reference-picker-types';
 
-// Transform raw JSON data to include Date objects
-const materials = rawMaterials.map(item => ({
-  ...item,
-  lastModified: new Date(item.lastModified)
-}));
-
-const filterMaterials = (query: string) => {
-  if (!query) return materials.slice(0, 8);
-
-  const lowerQuery = query.toLowerCase();
-
-  return materials
-    .map(material => {
-      let score = 0;
-
-      // Name matching (highest priority)
-      if (material.name.toLowerCase().includes(lowerQuery)) {
-        score += material.name.toLowerCase().startsWith(lowerQuery) ? 100 : 50;
-      }
-
-      // Type matching
-      if (material.type.toLowerCase().includes(lowerQuery)) {
-        score += 30;
-      }
-
-      // Description matching
-      if (material.description?.toLowerCase().includes(lowerQuery)) {
-        score += 20;
-      }
-
-      // Tags matching
-      if (material.tags?.some(tag => tag.toLowerCase().includes(lowerQuery))) {
-        score += 15;
-      }
-
-      return { material, score };
-    })
-    .filter(({ score }) => score > 0)
-    .sort((a, b) => b.score - a.score)
-    .map(({ material }) => material)
-    .slice(0, 8);
+// Transform raw JSON data to reference category format
+const materialCategory: ReferenceCategory = {
+  id: 'materials',
+  name: 'Materials',
+  type: 'document',
+  icon: 'ph:files-fill',
+  description: 'Available materials and documents',
+  searchableText: 'materials documents files',
+  children: rawMaterials.map(item => ({
+    id: item.id,
+    name: item.name,
+    type: item.type as any,
+    icon: item.icon,
+    description: item.description,
+    searchableText: `${item.name} ${item.type} ${item.description} ${item.tags?.join(' ') || ''}`,
+    metadata: {
+      lastModified: item.lastModified,
+      tags: item.tags,
+      url: item.url
+    }
+  }))
 };
 
-export const materialMentionSuggestion = createReferenceSuggestion({
-  items: ({ query }: { query: string }) => filterMaterials(query),
-  renderItem: (item, listItem) => {
-    listItem.className = 'material-mention-item';
-    listItem.innerHTML = `
-      <iconify-icon icon="${item.icon}" slot="prefix"></iconify-icon>
-      ${item.name}
-    `;
-  },
-  onCommand: (item) => ({
-    id: item.id,
-    label: item.name,
-    type: item.type,
-    icon: item.icon
-  }),
-  referenceType: 'material',
-  ariaLabel: 'Material suggestions',
-  enableKeyboardNavigation: true
+export const materialMentionSuggestion = createReferenceSuggestion([materialCategory], (reference) => {
+  console.log('Material reference selected:', reference);
 });

@@ -3,8 +3,8 @@ import { BubbleMenu, FloatingMenu, useEditor, EditorContent } from '@tiptap/reac
 import { useState, useCallback } from 'react'
 import type { Node } from '@tiptap/pm/model'
 import StarterKit from '@tiptap/starter-kit'
-import Mention from '@tiptap/extension-mention'
-import { referenceSuggestion } from '../../primitives/reference/referenceSuggestion';
+import { ReferenceMention, createReferenceSuggestion } from '../../../components/reference-picker/ReferenceMention';
+import { unifiedReferenceData } from '../../primitives/reference/unifiedReferenceData';
 
 const meta = {
   title: "Compositions/Block-based editor*",
@@ -22,11 +22,11 @@ export const Basic: Story = {
     const editor = useEditor({
       extensions: [
         StarterKit,
-        Mention.configure({
+        ReferenceMention.configure({
           HTMLAttributes: {
-            class: 'mention',
+            class: 'reference-mention reference',
           },
-          suggestion: referenceSuggestion,
+          suggestion: createReferenceSuggestion(unifiedReferenceData),
         }),
       ],
       content: `
@@ -43,7 +43,7 @@ export const Basic: Story = {
         // Track mentions
         const currentMentions: Array<{id: string, label: string}> = [];
         editor.state.doc.descendants((node: Node) => {
-          if (node.type.name === 'mention') {
+          if (node.type.name === 'reference-mention') {
             currentMentions.push({
               id: node.attrs.id,
               label: node.attrs.label
@@ -125,11 +125,11 @@ export const WithFloatingMenu: Story = {
     const editor = useEditor({
       extensions: [
         StarterKit,
-        Mention.configure({
+        ReferenceMention.configure({
           HTMLAttributes: {
-            class: 'mention',
+            class: 'reference-mention reference',
           },
-          suggestion: referenceSuggestion,
+          suggestion: createReferenceSuggestion(unifiedReferenceData),
         }),
       ],
       content: `

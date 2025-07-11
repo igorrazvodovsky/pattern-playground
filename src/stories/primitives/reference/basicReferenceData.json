@@ -1,0 +1,57 @@
+[
+  {
+    "id": "users",
+    "name": "Users",
+    "type": "user",
+    "icon": "ph:users-fill",
+    "description": "Team members",
+    "searchableText": "users people team members",
+    "children": [
+      {
+        "id": "1",
+        "name": "Alice",
+        "type": "user",
+        "icon": "ph:user-fill",
+        "description": "User Alice",
+        "searchableText": "alice",
+        "metadata": { "userId": "1" }
+      },
+      {
+        "id": "2",
+        "name": "Bob",
+        "type": "user",
+        "icon": "ph:user-fill",
+        "description": "User Bob",
+        "searchableText": "bob",
+        "metadata": { "userId": "2" }
+      },
+      {
+        "id": "3",
+        "name": "Charlie",
+        "type": "user",
+        "icon": "ph:user-fill",
+        "description": "User Charlie",
+        "searchableText": "charlie",
+        "metadata": { "userId": "3" }
+      },
+      {
+        "id": "4",
+        "name": "David",
+        "type": "user",
+        "icon": "ph:user-fill",
+        "description": "User David",
+        "searchableText": "david",
+        "metadata": { "userId": "4" }
+      },
+      {
+        "id": "5",
+        "name": "Eve",
+        "type": "user",
+        "icon": "ph:user-fill",
+        "description": "User Eve",
+        "searchableText": "eve",
+        "metadata": { "userId": "5" }
+      }
+    ]
+  }
+]

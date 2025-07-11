@@ -69,8 +69,8 @@
   --shadow-xs: 0 1px 2px oklch(var(--_shadow-c-base) / 5%);
   --shadow-s: 0 1px 2px oklch(var(--_shadow-c-base) / 10%);
   --shadow-m: 0 2px 4px oklch(var(--_shadow-c-base) / 10%);
-  --shadow-l: 0 2px 8px oklch(var(--_shadow-c-base) / 10%);
-  --shadow-xl: 0 4px 16px oklch(var(--_shadow-c-base) / 10%);
+  --shadow-l: 0 2px 8px oklch(var(--_shadow-c-base) / 20%);
+  --shadow-xl: 0 4px 16px oklch(var(--_shadow-c-base) / 30%);
 
   --transition-x-slow: 1000ms;
   --transition-slow: 500ms;

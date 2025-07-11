@@ -141,6 +141,13 @@ export function useHierarchicalNavigation<TParent extends SearchableParent, TChi
     inputRef.current?.focus();
   }, []);
 
+  // Auto-select context if there's only one category
+  useEffect(() => {
+    if (config.data.length === 1 && !selectedContext) {
+      setSelectedContext(config.data[0]);
+    }
+  }, [config.data, selectedContext]);
+
   return {
     state: {
       selectedContext,

@@ -2,19 +2,17 @@ import React, { forwardRef, useImperativeHandle, useCallback, useMemo } from 're
 import {
   Command,
   CommandGroup,
-  CommandInput,
   CommandItem,
   CommandList,
   CommandEmpty
 } from '../command-menu/command';
-import { useHierarchicalNavigation } from '../../hooks/useHierarchicalNavigation';
-import { createSortedSearchFunction, sortByRelevance } from '../../utils/unified-hierarchical-search';
+import { sortByRelevance } from '../../utils/unified-hierarchical-search';
 import type {
   ReferenceCategory,
   ReferenceItem,
+  SelectedReference,
   ReferencePickerProps,
-  ReferencePickerRef,
-  SelectedReference
+  ReferencePickerRef
 } from './reference-picker-types';
 import 'iconify-icon';
 
@@ -33,38 +31,81 @@ declare module 'react' {
 }
 
 /**
- * Custom Reference Picker that provides consistent hierarchical navigation
- * following the same pattern as Command Menu and Filtering
+ * Simple Reference Picker that displays filtered references
+ * No internal search - filtering is handled externally
  */
 export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerProps>(({
   data,
+  query = '',
   onSelect,
   onClose,
-  placeholder = "Search references...",
   open = true,
   className = "",
-  ariaLabel = "Reference picker"
+  ariaLabel = "Reference picker",
+  mode = 'global',
+  selectedCategory = null,
+  onCategorySelect,
+  onBack
 }, ref) => {
 
-  // Create sorted search function for references
-  const searchFunction = useMemo(() =>
-    createSortedSearchFunction<ReferenceCategory, ReferenceItem>(
-      // Sort categories by type order
-      (categories, query) => {
-        const typeOrder = ['user', 'document', 'project', 'file', 'api'];
-        const sorted = sortByRelevance(categories, query);
-        return sorted.sort((a, b) => {
-          if (!query) {
-            return typeOrder.indexOf(a.type) - typeOrder.indexOf(b.type);
-          }
-          return 0; // Keep relevance sorting when searching
-        });
-      },
-      // Sort items by relevance
-      (items, query) => sortByRelevance(items, query)
-    ),
-    []
-  );
+  // Auto-select single category mode
+  const isSingleCategory = data.length === 1;
+  const effectiveMode = isSingleCategory ? 'contextual' : mode;
+  const effectiveSelectedCategory = isSingleCategory ? data[0] : selectedCategory;
+
+  // Filter and sort categories based on query
+  const filteredCategories = useMemo(() => {
+    if (!query) return data;
+
+    // Filter categories that match the query
+    const matchingCategories = data.filter(category => {
+      const searchText = (category.searchableText || category.name || '').toLowerCase();
+      return searchText.includes(query.toLowerCase());
+    });
+
+    return sortByRelevance(matchingCategories, query);
+  }, [data, query]);
+
+  // Filter and sort items within categories
+  const filteredItems = useMemo(() => {
+    if (effectiveMode === 'contextual' && effectiveSelectedCategory) {
+      // Show items from selected category only
+      const items = effectiveSelectedCategory.children || [];
+      if (!query) return items;
+
+      // Filter items that match the query
+      const matchingItems = items.filter(item => {
+        const searchText = (item.searchableText || item.name || '').toLowerCase();
+        return searchText.includes(query.toLowerCase());
+      });
+
+      return sortByRelevance(matchingItems, query);
+    } else {
+      // Show items from all categories that match query
+      const allItems: Array<{ parent: ReferenceCategory; child: ReferenceItem }> = [];
+      for (const category of data) {
+        const items = category.children || [];
+
+        if (!query) {
+          // No query - return all items
+          items.forEach(item => {
+            allItems.push({ parent: category, child: item });
+          });
+        } else {
+          // Filter items that match the query
+          const matchingItems = items.filter(item => {
+            const searchText = (item.searchableText || item.name || '').toLowerCase();
+            return searchText.includes(query.toLowerCase());
+          });
+
+          sortByRelevance(matchingItems, query).forEach(item => {
+            allItems.push({ parent: category, child: item });
+          });
+        }
+      }
+      return allItems;
+    }
+  }, [data, query, effectiveMode, effectiveSelectedCategory]);
 
   // Handle reference selection
   const handleSelectReference = useCallback((item: ReferenceItem, category?: ReferenceCategory) => {
@@ -72,35 +113,35 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
       id: item.id,
       label: item.name,
       type: item.type,
-      category: category?.name,
+      category: category?.name || effectiveSelectedCategory?.name,
       metadata: item.metadata
     };
     onSelect(selectedReference);
-  }, [onSelect]);
+  }, [onSelect, effectiveSelectedCategory]);
 
-  // Create context placeholder
-  const contextPlaceholder = useCallback((context: ReferenceCategory) => {
-    return `Search ${context.name.toLowerCase()}...`;
-  }, []);
+  // Handle category selection
+  const handleCategorySelect = useCallback((category: ReferenceCategory) => {
+    onCategorySelect?.(category);
+  }, [onCategorySelect]);
 
-  // Use hierarchical navigation hook
-  const { state, actions, results, inputRef, placeholder: effectivePlaceholder } = useHierarchicalNavigation({
-    data,
-    searchFunction,
-    onSelectChild: handleSelectReference,
-    onClose,
-    placeholder,
-    contextPlaceholder
-  });
+  // Handle escape key
+  const handleEscape = useCallback(() => {
+    if (effectiveMode === 'contextual' && !isSingleCategory) {
+      onBack?.();
+    } else {
+      onClose?.();
+    }
+  }, [effectiveMode, isSingleCategory, onBack, onClose]);
 
   // Expose ref methods
   useImperativeHandle(ref, () => ({
-    focus: () => inputRef.current?.focus(),
+    focus: () => {
+      // Focus handled externally by TipTap
+    },
     close: () => {
-      actions.resetState();
       onClose?.();
     }
-  }), [actions, onClose, inputRef]);
+  }), [onClose]);
 
   // Don't render if not open
   if (!open) return null;
@@ -115,64 +156,41 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
       <Command
         label="Reference picker"
         shouldFilter={false}
-        onEscape={actions.handleEscape}
+        onEscape={handleEscape}
       >
-        <CommandInput
-          placeholder={effectivePlaceholder}
-          value={state.searchInput}
-          onInputCapture={(e) => {
-            actions.updateSearch(e.currentTarget.value);
-          }}
-          ref={inputRef}
-        />
-
         <CommandList>
-          {state.mode === 'contextual' ? (
+          {effectiveMode === 'contextual' ? (
             // Contextual mode: show items within selected category
             <>
-              {results.contextualItems && results.contextualItems.length > 0 ? (
+              {filteredItems.length > 0 ? (
                 <CommandGroup>
-                  {results.contextualItems.map((item) => (
+                  {(filteredItems as ReferenceItem[]).map((item) => (
                     <CommandItem
                       key={item.id}
-                      onSelect={() => actions.selectChild(item, state.selectedContext || undefined)}
+                      onSelect={() => handleSelectReference(item, effectiveSelectedCategory || undefined)}
                     >
                       <iconify-icon
                         icon={item.icon}
                         slot="prefix"
                       />
-                      <div>
-                        <div>{item.name}</div>
-                        {/* {item.description && (
-                          <div>{item.description}</div>
-                        )} */}
-                      </div>
-                      {/* <div slot="suffix">
-                        {item.type}
-                      </div> */}
+                      {item.name}
                     </CommandItem>
                   ))}
                 </CommandGroup>
               ) : (
-                <CommandEmpty>No {state.selectedContext?.name.toLowerCase()} found.</CommandEmpty>
+                <CommandEmpty>No {effectiveSelectedCategory?.name.toLowerCase()} found.</CommandEmpty>
               )}
             </>
           ) : (
             // Global mode: show categories and direct item matches
             <>
-              {/* Reference Categories */}
-              {results.parents.length > 0 && (
+              {/* Reference Categories - show when no query or when categories match */}
+              {!query && filteredCategories.length > 0 && (
                 <CommandGroup>
-                  {results.parents.map((category) => (
+                  {filteredCategories.map((category) => (
                     <CommandItem
                       key={category.id}
-                      value={category.id}
-                      onSelect={(currentValue) => {
-                        const selectedCategory = results.parents.find(p => p.id === currentValue);
-                        if (selectedCategory) {
-                          actions.selectContext(selectedCategory);
-                        }
-                      }}
+                      onSelect={() => handleCategorySelect(category)}
                     >
                       <iconify-icon
                         icon={category.icon}
@@ -188,13 +206,40 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
                 </CommandGroup>
               )}
 
+              {/* Matching Categories when searching */}
+              {query && filteredCategories.length > 0 && (
+                <CommandGroup heading="Categories">
+                  {filteredCategories.map((category) => (
+                    <CommandItem
+                      key={category.id}
+                      onSelect={() => handleCategorySelect(category)}
+                    >
+                      <iconify-icon
+                        icon={category.icon}
+                        slot="prefix"
+                      />
+                      <div>
+                        <div>{category.name}</div>
+                        {category.description && (
+                          <div style={{ fontSize: 'var(--text-sm)', opacity: 0.7 }}>{category.description}</div>
+                        )}
+                      </div>
+                      <iconify-icon
+                        icon="ph:caret-right"
+                        slot="suffix"
+                      />
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              )}
+
               {/* Direct Item Matches */}
-              {results.children.length > 0 && (
+              {query && (filteredItems as Array<{ parent: ReferenceCategory; child: ReferenceItem }>).length > 0 && (
                 <CommandGroup heading="Items">
-                  {results.children.map(({ parent, child }) => (
+                  {(filteredItems as Array<{ parent: ReferenceCategory; child: ReferenceItem }>).map(({ parent, child }) => (
                     <CommandItem
                       key={`${parent.id}-${child.id}`}
-                      onSelect={() => actions.selectChild(child, parent)}
+                      onSelect={() => handleSelectReference(child, parent)}
                     >
                       <iconify-icon
                         icon={child.icon}
@@ -202,13 +247,10 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
                       />
                       <div>
                         <div>{child.name}</div>
-                        <div>{parent.name} → {child.name}</div>
+                        <div style={{ fontSize: 'var(--text-sm)', opacity: 0.7 }}>{parent.name}</div>
                         {child.description && (
-                          <div>{child.description}</div>
+                          <div style={{ fontSize: 'var(--text-sm)', opacity: 0.5 }}>{child.description}</div>
                         )}
-                      </div>
-                      <div slot="suffix">
-                        {child.type}
                       </div>
                     </CommandItem>
                   ))}
@@ -216,8 +258,10 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
               )}
 
               {/* Empty state */}
-              {results.parents.length === 0 && results.children.length === 0 && state.searchInput && (
-                <CommandEmpty>No references found.</CommandEmpty>
+              {query &&
+               filteredCategories.length === 0 &&
+               (filteredItems as Array<{ parent: ReferenceCategory; child: ReferenceItem }>).length === 0 && (
+                <CommandEmpty>No references found for "{query}".</CommandEmpty>
               )}
             </>
           )}
