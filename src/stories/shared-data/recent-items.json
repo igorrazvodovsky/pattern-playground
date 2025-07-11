@@ -1,0 +1,42 @@
+[
+  {
+    "id": "obj-561",
+    "name": "OBJ-561",
+    "type": "object",
+    "icon": "ph:file",
+    "description": "Recently accessed object",
+    "searchableText": "obj-561 object recent"
+  },
+  {
+    "id": "obj-568",
+    "name": "OBJ-568",
+    "type": "object",
+    "icon": "ph:file",
+    "description": "Recently accessed object",
+    "searchableText": "obj-568 object recent"
+  },
+  {
+    "id": "obj-541",
+    "name": "OBJ-541",
+    "type": "object",
+    "icon": "ph:file",
+    "description": "Recently accessed object",
+    "searchableText": "obj-541 object recent"
+  },
+  {
+    "id": "recent-doc-1",
+    "name": "Team Meeting Notes",
+    "type": "document",
+    "icon": "ph:file-text",
+    "description": "Recently accessed document",
+    "searchableText": "team meeting notes document recent"
+  },
+  {
+    "id": "recent-project-1",
+    "name": "Q4 Planning",
+    "type": "project",
+    "icon": "ph:folder",
+    "description": "Recently accessed project",
+    "searchableText": "q4 planning project recent"
+  }
+]

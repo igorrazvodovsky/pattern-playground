@@ -1,0 +1,65 @@
+[
+  {
+    "id": "label-bug",
+    "name": "Bug",
+    "value": "Bug",
+    "type": "label",
+    "icon": "ph:bug",
+    "description": "Bug reports and fixes",
+    "searchableText": "bug label issue defect"
+  },
+  {
+    "id": "label-feature",
+    "name": "Feature",
+    "value": "Feature",
+    "type": "label",
+    "icon": "ph:sparkle",
+    "description": "New features and enhancements",
+    "searchableText": "feature label new enhancement"
+  },
+  {
+    "id": "label-hotfix",
+    "name": "Hotfix",
+    "value": "Hotfix",
+    "type": "label",
+    "icon": "ph:fire",
+    "description": "Critical fixes requiring immediate attention",
+    "searchableText": "hotfix label critical urgent fix"
+  },
+  {
+    "id": "label-release",
+    "name": "Release",
+    "value": "Release",
+    "type": "label",
+    "icon": "ph:rocket",
+    "description": "Release-related items",
+    "searchableText": "release label deployment launch"
+  },
+  {
+    "id": "label-documentation",
+    "name": "Documentation",
+    "value": "Documentation",
+    "type": "label",
+    "icon": "ph:book",
+    "description": "Documentation updates and improvements",
+    "searchableText": "documentation label docs"
+  },
+  {
+    "id": "label-design",
+    "name": "Design",
+    "value": "Design",
+    "type": "label",
+    "icon": "ph:palette",
+    "description": "Design and UX related items",
+    "searchableText": "design label ui ux"
+  },
+  {
+    "id": "label-testing",
+    "name": "Testing",
+    "value": "Testing",
+    "type": "label",
+    "icon": "ph:test-tube",
+    "description": "Testing and QA related items",
+    "searchableText": "testing label qa quality"
+  }
+]

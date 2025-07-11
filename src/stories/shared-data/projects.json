@@ -1,0 +1,65 @@
+[
+  {
+    "id": "project-1",
+    "name": "Annual Conference",
+    "type": "project",
+    "icon": "ph:calendar-fill",
+    "description": "Company-wide annual event planning",
+    "searchableText": "annual conference event planning company",
+    "metadata": { "status": "active", "phase": "planning" }
+  },
+  {
+    "id": "project-2",
+    "name": "Training Program",
+    "type": "project",
+    "icon": "ph:graduation-cap-fill",
+    "description": "Employee development and skills training",
+    "searchableText": "training program employee development skills",
+    "metadata": { "status": "active", "phase": "implementation" }
+  },
+  {
+    "id": "project-3",
+    "name": "Office Expansion",
+    "type": "project",
+    "icon": "ph:buildings-fill",
+    "description": "New location setup and team relocation",
+    "searchableText": "office expansion new location setup relocation",
+    "metadata": { "status": "planning", "phase": "design" }
+  },
+  {
+    "id": "project-4",
+    "name": "Customer Survey Analysis",
+    "type": "project",
+    "icon": "ph:chart-bar-fill",
+    "description": "Annual customer satisfaction research",
+    "searchableText": "customer survey analysis satisfaction research feedback",
+    "metadata": { "status": "completed", "responses": 1250 }
+  },
+  {
+    "id": "project-5",
+    "name": "Vendor Partnership",
+    "type": "project",
+    "icon": "ph:handshake-fill",
+    "description": "Strategic alliance with key suppliers",
+    "searchableText": "vendor partnership strategic alliance suppliers",
+    "metadata": { "status": "active", "partners": 3 }
+  },
+  {
+    "id": "project-6",
+    "name": "Mobile App Redesign",
+    "type": "project",
+    "icon": "ph:device-mobile-fill",
+    "description": "Complete overhaul of mobile experience",
+    "searchableText": "mobile app redesign ui ux overhaul",
+    "metadata": { "status": "active", "phase": "design" }
+  },
+  {
+    "id": "project-7",
+    "name": "Performance Optimization",
+    "type": "project",
+    "icon": "ph:gauge-fill",
+    "description": "Improve app loading times and responsiveness",
+    "searchableText": "performance optimization loading times speed",
+    "metadata": { "status": "active", "phase": "development" }
+  }
+]

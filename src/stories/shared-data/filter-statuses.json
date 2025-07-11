@@ -1,0 +1,56 @@
+[
+  {
+    "id": "status-backlog",
+    "name": "Backlog",
+    "value": "Backlog",
+    "type": "status",
+    "icon": "ph:circle-dashed",
+    "description": "Items waiting to be prioritized",
+    "searchableText": "backlog status waiting"
+  },
+  {
+    "id": "status-todo",
+    "name": "Todo",
+    "value": "Todo",
+    "type": "status",
+    "icon": "ph:circle",
+    "description": "Items ready to be worked on",
+    "searchableText": "todo status ready"
+  },
+  {
+    "id": "status-in-progress",
+    "name": "In Progress",
+    "value": "In Progress",
+    "type": "status",
+    "icon": "ph:circle-half-tilt",
+    "description": "Items currently being worked on",
+    "searchableText": "in progress status working active"
+  },
+  {
+    "id": "status-in-review",
+    "name": "In Review",
+    "value": "In Review",
+    "type": "status",
+    "icon": "ph:eye",
+    "description": "Items under review",
+    "searchableText": "in review status reviewing"
+  },
+  {
+    "id": "status-done",
+    "name": "Done",
+    "value": "Done",
+    "type": "status",
+    "icon": "ph:check-circle",
+    "description": "Completed items",
+    "searchableText": "done status completed finished"
+  },
+  {
+    "id": "status-cancelled",
+    "name": "Cancelled",
+    "value": "Cancelled",
+    "type": "status",
+    "icon": "ph:x-circle",
+    "description": "Cancelled items",
+    "searchableText": "cancelled status cancelled stopped"
+  }
+]

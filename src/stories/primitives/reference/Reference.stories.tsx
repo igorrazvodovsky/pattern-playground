@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useCallback } from 'react';
 import { ReferenceEditor } from '../../../components/reference-picker';
-import { unifiedReferenceData } from './unifiedReferenceData';
+import { referenceCategories, basicReferenceCategories } from '../../shared-data';
 import type { SelectedReference, ReferenceCategory } from '../../../components/reference-picker';
-import basicReferenceData from './basicReferenceData.json' with { type: 'json' };
 
 const meta = {
   title: "Primitives/Reference",
@@ -20,10 +19,66 @@ const ReferenceEditorExample = () => {
   return (
     <div className="layer">
       <ReferenceEditor
-        data={unifiedReferenceData}
+        data={referenceCategories}
         onReferenceSelect={handleReferenceSelect}
         placeholder="Type @ to open hierarchical reference picker..."
-        content="<p>This quarter, <span data-type='reference-mention' data-id='user-1' data-label='Sarah Chen' data-reference-type='user'>Sarah Chen</span> has been leading the <span data-type='reference-mention' data-id='project-1' data-label='Mobile App Redesign' data-reference-type='project'>Mobile App Redesign</span> project. She's been collaborating closely with <span data-type='reference-mention' data-id='user-2' data-label='Marcus Rodriguez' data-reference-type='user'>Marcus Rodriguez</span> on implementation details and <span data-type='reference-mention' data-id='user-3' data-label='Emily Watson' data-reference-type='user'>Emily Watson</span> for user research insights.</p><p>The team has been referencing the <span data-type='reference-mention' data-id='doc-1' data-label='Design System Guidelines' data-reference-type='document'>Design System Guidelines</span> and <span data-type='reference-mention' data-id='doc-3' data-label='User Research Report' data-reference-type='document'>User Research Report</span> to ensure consistency. Meanwhile, <span data-type='reference-mention' data-id='user-4' data-label='David Kim' data-reference-type='user'>David Kim</span> is working on the <span data-type='reference-mention' data-id='project-2' data-label='Performance Optimization' data-reference-type='project'>Performance Optimization</span> project, with <span data-type='reference-mention' data-id='doc-2' data-label='API Documentation' data-reference-type='document'>API Documentation</span> updates in progress.</p><p>Next week, we'll need to involve <span data-type='reference-mention' data-id='user-5' data-label='Alex Thompson' data-reference-type='user'>Alex Thompson</span> in reviewing the <span data-type='reference-mention' data-id='project-3' data-label='Dark Mode Implementation' data-reference-type='project'>Dark Mode Implementation</span> designs. Try typing @ here to add more references!</p>"
+        content={{
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                { type: 'text', text: 'The quarterly review will be led by ' },
+                {
+                  type: 'reference',
+                  attrs: {
+                    id: 'user-1',
+                    label: 'Sarah Chen',
+                    type: 'user'
+                  }
+                },
+                { type: 'text', text: ', with support from the ' },
+                {
+                  type: 'reference',
+                  attrs: {
+                    id: 'project-4',
+                    label: 'Customer Survey Analysis',
+                    type: 'project'
+                  }
+                },
+                { type: 'text', text: ' team. Please review the ' },
+                {
+                  type: 'reference',
+                  attrs: {
+                    id: 'doc-5',
+                    label: 'Team Handbook',
+                    type: 'document'
+                  }
+                },
+                { type: 'text', text: ' before the next meeting. ' },
+                { type: 'text', text: 'For questions about the new policies, contact ' },
+                {
+                  type: 'reference',
+                  attrs: {
+                    id: 'user-4',
+                    label: 'David Kim',
+                    type: 'user'
+                  }
+                },
+                { type: 'text', text: ' or check the ' },
+                {
+                  type: 'reference',
+                  attrs: {
+                    id: 'doc-2',
+                    label: 'Budget Proposal',
+                    type: 'document'
+                  }
+                },
+                { type: 'text', text: ' details.' }
+              ]
+            }
+          ]
+        }}
       />
     </div>
   );
@@ -34,7 +89,7 @@ export const Reference: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Complete hierarchical reference system with realistic team collaboration content. Shows existing references for users (Sarah, Marcus, Emily, David), projects (Mobile App Redesign, Performance Optimization), and documents (Design Guidelines, API Documentation). Type @ to add more references or try @sarah, @mobile, @api, @performance to see filtering across categories.'
+        story: 'Complete hierarchical reference system with generic workplace content. Shows existing references for team members (Sarah, David), projects (Customer Survey Analysis), and documents (Team Handbook, Budget Proposal). Type @ to add more references or try @sarah, @survey, @handbook, @budget to see filtering across categories.'
       }
     }
   }
@@ -48,10 +103,66 @@ const BasicReferenceEditor = () => {
   return (
     <div className="layer">
       <ReferenceEditor
-        data={basicReferenceData as ReferenceCategory[]}
+        data={basicReferenceCategories}
         onReferenceSelect={handleReferenceSelect}
         placeholder="Type @ to mention a user..."
-        content="<p>In today's standup, <span data-type='reference-mention' data-id='1' data-label='Alice' data-reference-type='user'>Alice</span> reported progress on the frontend components, while <span data-type='reference-mention' data-id='2' data-label='Bob' data-reference-type='user'>Bob</span> focused on the API integration. <span data-type='reference-mention' data-id='3' data-label='Charlie' data-reference-type='user'>Charlie</span> completed the user testing with <span data-type='reference-mention' data-id='4' data-label='David' data-reference-type='user'>David</span> providing design feedback.</p><p><span data-type='reference-mention' data-id='5' data-label='Eve' data-reference-type='user'>Eve</span> will be joining the team next week to help with the final sprint. Try typing @ here to mention more team members (alice, bob, charlie, david, eve)!</p>"
+        content={{
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                { type: 'text', text: "In today's meeting, " },
+                {
+                  type: 'reference',
+                  attrs: {
+                    id: 'user-6',
+                    label: 'Alice Johnson',
+                    type: 'user'
+                  }
+                },
+                { type: 'text', text: ' shared updates on the client presentation. ' },
+                {
+                  type: 'reference',
+                  attrs: {
+                    id: 'user-7',
+                    label: 'Bob Smith',
+                    type: 'user'
+                  }
+                },
+                { type: 'text', text: ' will handle the budget review, and ' },
+                {
+                  type: 'reference',
+                  attrs: {
+                    id: 'user-8',
+                    label: 'Charlie Brown',
+                    type: 'user'
+                  }
+                },
+                { type: 'text', text: ' is coordinating with the vendors. ' },
+                { type: 'text', text: 'Next week, ' },
+                {
+                  type: 'reference',
+                  attrs: {
+                    id: 'user-4',
+                    label: 'David Kim',
+                    type: 'user'
+                  }
+                },
+                { type: 'text', text: ' and ' },
+                {
+                  type: 'reference',
+                  attrs: {
+                    id: 'user-9',
+                    label: 'Eve Davis',
+                    type: 'user'
+                  }
+                },
+                { type: 'text', text: ' will join the project.' }
+              ]
+            }
+          ]
+        }}
       />
     </div>
   );
@@ -62,7 +173,7 @@ export const Basic: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Single-category reference picker with realistic team standup content. Shows existing user mentions (Alice, Bob, Charlie, David, Eve) in a team collaboration context. Automatically skips category selection since there\'s only users. Type @ followed by a name to filter users directly.'
+        story: 'Single-category reference picker with simple meeting content. Shows existing user mentions (Alice, Bob, Charlie, David, Eve) in a business context. Automatically skips category selection since there\'s only users. Type @ followed by a name to filter users directly.'
       }
     }
   }

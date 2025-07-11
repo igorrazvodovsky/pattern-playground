@@ -1,6 +1,13 @@
 import { FilterType, FilterOperator, Status, Assignee, Labels, Priority, DueDate, FilterOption } from "./filter-types";
 import { FilterIcon } from "./filter-options-icons";
 import { filterOperators } from "./filter-operator-logic";
+import { 
+  users, 
+  filterStatuses, 
+  filterLabels, 
+  filterPriorities, 
+  filterDates 
+} from "../../stories/shared-data";
 
 // Generic helper function to create filter options from enum values
 const createFilterOptionsFromEnum = <T extends string>(
@@ -48,11 +55,39 @@ export const filterViewOptions: FilterOption[][] = [
   ],
 ];
 
-export const statusFilterOptions: FilterOption[] = createFilterOptionsFromEnum(Status);
-export const assigneeFilterOptions: FilterOption[] = createFilterOptionsFromEnum(Assignee);
-export const labelFilterOptions: FilterOption[] = createFilterOptionsFromEnum(Labels);
-export const priorityFilterOptions: FilterOption[] = createFilterOptionsFromEnum(Priority);
-export const dateFilterOptions: FilterOption[] = createFilterOptionsFromEnum(DueDate, false);
+// Create filter options from centralized data
+export const statusFilterOptions: FilterOption[] = filterStatuses.map(item => ({
+  name: item.value as Status,
+  icon: <FilterIcon type={item.value as Status} />,
+}));
+
+export const assigneeFilterOptions: FilterOption[] = [
+  // Generate assignee options from users data
+  ...users.map(user => ({
+    name: user.name as Assignee,
+    icon: <FilterIcon type={user.name as Assignee} />,
+  })),
+  // Add the "No assignee" option
+  {
+    name: Assignee.NO_ASSIGNEE,
+    icon: <FilterIcon type={Assignee.NO_ASSIGNEE} />,
+  }
+];
+
+export const labelFilterOptions: FilterOption[] = filterLabels.map(item => ({
+  name: item.value as Labels,
+  icon: <FilterIcon type={item.value as Labels} />,
+}));
+
+export const priorityFilterOptions: FilterOption[] = filterPriorities.map(item => ({
+  name: item.value as Priority,
+  icon: <FilterIcon type={item.value as Priority} />,
+}));
+
+export const dateFilterOptions: FilterOption[] = filterDates.map(item => ({
+  name: item.value as DueDate,
+  icon: undefined, // Date filters don't have icons
+}));
 
 export const filterViewToFilterOptions: Record<FilterType, FilterOption[]> = {
   [FilterType.STATUS]: statusFilterOptions,

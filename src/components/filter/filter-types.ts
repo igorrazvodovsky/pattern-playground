@@ -32,7 +32,15 @@ export enum Status {
 }
 
 export enum Assignee {
-  ASSIGNEE = "Igors Razvodovskis",
+  SARAH_CHEN = "Sarah Chen",
+  MARCUS_RODRIGUEZ = "Marcus Rodriguez",
+  EMILY_WATSON = "Emily Watson",
+  DAVID_KIM = "David Kim",
+  ALEX_THOMPSON = "Alex Thompson",
+  ALICE_JOHNSON = "Alice Johnson",
+  BOB_SMITH = "Bob Smith",
+  CHARLIE_BROWN = "Charlie Brown",
+  EVE_DAVIS = "Eve Davis",
   NO_ASSIGNEE = "No assignee",
 }
 
@@ -41,6 +49,9 @@ export enum Labels {
   FEATURE = "Feature",
   HOTFIX = "Hotfix",
   RELEASE = "Release",
+  DOCUMENTATION = "Documentation",
+  DESIGN = "Design",
+  TESTING = "Testing",
 }
 
 export enum Priority {

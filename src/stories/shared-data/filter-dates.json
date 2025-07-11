@@ -1,0 +1,56 @@
+[
+  {
+    "id": "date-past",
+    "name": "in the past",
+    "value": "in the past",
+    "type": "date",
+    "icon": "ph:clock-counter-clockwise",
+    "description": "Items with dates in the past",
+    "searchableText": "past date overdue"
+  },
+  {
+    "id": "date-24h",
+    "name": "24 hours from now",
+    "value": "24 hours from now",
+    "type": "date",
+    "icon": "ph:clock",
+    "description": "Items due within 24 hours",
+    "searchableText": "24 hours today tomorrow date"
+  },
+  {
+    "id": "date-3d",
+    "name": "3 days from now",
+    "value": "3 days from now",
+    "type": "date",
+    "icon": "ph:calendar",
+    "description": "Items due within 3 days",
+    "searchableText": "3 days date soon"
+  },
+  {
+    "id": "date-1w",
+    "name": "1 week from now",
+    "value": "1 week from now",
+    "type": "date",
+    "icon": "ph:calendar-check",
+    "description": "Items due within 1 week",
+    "searchableText": "1 week date next week"
+  },
+  {
+    "id": "date-1m",
+    "name": "1 month from now",
+    "value": "1 month from now",
+    "type": "date",
+    "icon": "ph:calendar-star",
+    "description": "Items due within 1 month",
+    "searchableText": "1 month date next month"
+  },
+  {
+    "id": "date-3m",
+    "name": "3 months from now",
+    "value": "3 months from now",
+    "type": "date",
+    "icon": "ph:calendar-x",
+    "description": "Items due within 3 months",
+    "searchableText": "3 months date quarter"
+  }
+]

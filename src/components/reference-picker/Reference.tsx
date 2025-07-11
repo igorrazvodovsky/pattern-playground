@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom';
 import { computePosition, flip, offset, shift, autoUpdate } from '@floating-ui/dom';
 import type { VirtualElement } from '@floating-ui/dom';
 import type { Editor } from '@tiptap/core';
+import type { SuggestionProps } from '@tiptap/suggestion';
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { ReferencePicker } from './ReferencePicker';
 import type { ReferenceCategory, SelectedReference } from './reference-picker-types';
@@ -218,7 +219,7 @@ export function createReferenceSuggestion(
       let virtualElement: VirtualElement | null = null;
 
       return {
-        onStart: (props: { editor: Editor; clientRect: () => DOMRect; query: string; command: (attrs: ReferenceCommandAttrs) => void }) => {
+        onStart: (props: SuggestionProps<any, ReferenceCommandAttrs>) => {
           // Create virtual element for floating-ui positioning
           virtualElement = {
             getBoundingClientRect: props.clientRect || (() => new DOMRect()),
@@ -248,7 +249,7 @@ export function createReferenceSuggestion(
           });
         },
 
-        onUpdate: (props: { clientRect: () => DOMRect; query: string; command: (attrs: ReferenceCommandAttrs) => void }) => {
+        onUpdate: (props: SuggestionProps<any, ReferenceCommandAttrs>) => {
           if (virtualElement) {
             // Update virtual element bounds
             virtualElement.getBoundingClientRect = props.clientRect || (() => new DOMRect());

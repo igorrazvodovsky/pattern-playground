@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { FilteringDemo } from './Filtering';
-import { FilterType, FilterOperator, Status, Priority } from '../../../components/filter/filter-types'
+import { FilterType, FilterOperator, Status, Priority, Assignee } from '../../../components/filter/filter-types'
 
 const meta = {
   title: 'Compositions/Browsing & sensemaking*/Filtering',
@@ -27,6 +27,12 @@ export const Filtering: Story = {
         type: FilterType.PRIORITY,
         operator: FilterOperator.IS_ANY_OF,
         value: [Priority.HIGH, Priority.URGENT]
+      },
+      {
+        id: '3',
+        type: FilterType.ASSIGNEE,
+        operator: FilterOperator.IS_ANY_OF,
+        value: [Assignee.SARAH_CHEN, Assignee.DAVID_KIM]
       }
     ]
   },

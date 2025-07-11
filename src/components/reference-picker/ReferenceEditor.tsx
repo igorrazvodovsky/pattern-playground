@@ -6,8 +6,8 @@ import type { ReferenceCategory, SelectedReference } from './reference-picker-ty
 export interface ReferenceEditorProps {
   /** Reference data for the picker */
   data: ReferenceCategory[];
-  /** Initial content */
-  content?: string;
+  /** Initial content - can be HTML string or TipTap JSON */
+  content?: string | Record<string, unknown>;
   placeholder?: string;
   className?: string;
   onChange?: (content: string) => void;

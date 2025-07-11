@@ -4,7 +4,7 @@ import { useState, useCallback } from 'react'
 import type { Node } from '@tiptap/pm/model'
 import StarterKit from '@tiptap/starter-kit'
 import { ReferenceMention, createReferenceSuggestion } from '../../../components/reference-picker/ReferenceMention';
-import { unifiedReferenceData } from '../../primitives/reference/unifiedReferenceData';
+import { referenceCategories } from '../../shared-data';
 
 const meta = {
   title: "Compositions/Block-based editor*",
@@ -26,7 +26,7 @@ export const Basic: Story = {
           HTMLAttributes: {
             class: 'reference-mention reference',
           },
-          suggestion: createReferenceSuggestion(unifiedReferenceData),
+          suggestion: createReferenceSuggestion(referenceCategories),
         }),
       ],
       content: `
@@ -129,7 +129,7 @@ export const WithFloatingMenu: Story = {
           HTMLAttributes: {
             class: 'reference-mention reference',
           },
-          suggestion: createReferenceSuggestion(unifiedReferenceData),
+          suggestion: createReferenceSuggestion(referenceCategories),
         }),
       ],
       content: `

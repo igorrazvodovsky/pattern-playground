@@ -23,6 +23,7 @@ import {
   createCommandSuggestionRequest
 } from '../../../../services/ai-suggestion-service';
 import { convertToAICommandResult } from '../../../../components/command-menu/adapters/ai-command-adapter';
+import { commands, recentItems } from '../../../shared-data';
 import 'iconify-icon'
 
 declare module 'react' {
@@ -55,53 +56,11 @@ interface RecentItem extends SearchableItem {
   // Recent item specific properties can be added here
 }
 
-// DRY: Extract command data structure
-const commandData: CommandOption[] = [
-  {
-    id: 'search',
-    name: 'Search…',
-    icon: 'ph:magnifying-glass',
-    shortcut: ['⌘', 'S'],
-    children: [
-      { id: 'search-files', name: 'Files', icon: 'ph:file-text' },
-      { id: 'search-projects', name: 'Projects', icon: 'ph:folder' },
-      { id: 'search-tasks', name: 'Tasks', icon: 'ph:check-square' },
-      { id: 'search-people', name: 'People', icon: 'ph:users' },
-      { id: 'search-messages', name: 'Messages', icon: 'ph:chat-circle' },
-    ]
-  },
-  {
-    id: 'create',
-    name: 'Create…',
-    icon: 'ph:plus',
-    shortcut: ['⌘', 'N'],
-    children: [
-      { id: 'create-file', name: 'Object', icon: 'ph:cube' },
-      { id: 'create-folder', name: 'Attribute', icon: 'ph:cube' },
-      { id: 'create-project', name: 'Domain', icon: 'ph:cube' },
-      { id: 'create-task', name: 'Module', icon: 'ph:cube' },
-      { id: 'create-meeting', name: 'Bunny', icon: 'ph:rabbit' },
-    ]
-  },
-  {
-    id: 'change',
-    name: 'Change…',
-    icon: 'ph:pencil',
-    children: [
-      { id: 'change-theme', name: 'Theme', icon: 'ph:palette' },
-      { id: 'change-settings', name: 'Settings', icon: 'ph:gear' },
-      { id: 'change-profile', name: 'Profile', icon: 'ph:user' },
-      { id: 'change-workspace', name: 'Workspace', icon: 'ph:buildings' },
-      { id: 'change-language', name: 'Language', icon: 'ph:translate' },
-    ]
-  }
-];
+// Use centralized command data
+const commandData: CommandOption[] = commands as CommandOption[];
 
-const recentItems: RecentItem[] = [
-  { id: 'obj-561', name: 'OBJ-561', icon: 'ph:file' },
-  { id: 'obj-568', name: 'OBJ-568', icon: 'ph:file' },
-  { id: 'obj-541', name: 'OBJ-541', icon: 'ph:file' },
-];
+// Use centralized recent items data
+const recentItemsData: RecentItem[] = recentItems as RecentItem[];
 
 function CommandMenu({ onClose }: { onClose?: () => void } = {}) {
   const [selectedCommand, setSelectedCommand] = useState<string | null>(null);
@@ -163,10 +122,10 @@ function CommandMenu({ onClose }: { onClose?: () => void } = {}) {
 
   // Filter recent items based on search input
   const filteredRecentItems = useMemo(() => {
-    if (!searchInput.trim()) return recentItems;
+    if (!searchInput.trim()) return recentItemsData;
 
     const processedQuery = searchInput.toLowerCase();
-    return recentItems.filter(item => {
+    return recentItemsData.filter(item => {
       const searchText = item.searchableText || item.name;
       return searchText.toLowerCase().includes(processedQuery);
     });

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "priority-urgent",
+    "name": "Urgent",
+    "value": "Urgent",
+    "type": "priority",
+    "icon": "ph:exclamation-triangle",
+    "description": "Critical priority items",
+    "searchableText": "urgent priority critical"
+  },
+  {
+    "id": "priority-high",
+    "name": "High",
+    "value": "High",
+    "type": "priority",
+    "icon": "ph:arrow-up",
+    "description": "High priority items",
+    "searchableText": "high priority important"
+  },
+  {
+    "id": "priority-medium",
+    "name": "Medium",
+    "value": "Medium",
+    "type": "priority",
+    "icon": "ph:minus",
+    "description": "Medium priority items",
+    "searchableText": "medium priority normal"
+  },
+  {
+    "id": "priority-low",
+    "name": "Low",
+    "value": "Low",
+    "type": "priority",
+    "icon": "ph:arrow-down",
+    "description": "Low priority items",
+    "searchableText": "low priority minor"
+  }
+]

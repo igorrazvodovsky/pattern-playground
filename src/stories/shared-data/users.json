@@ -1,0 +1,83 @@
+[
+  {
+    "id": "user-1",
+    "name": "Sarah Chen",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "Marketing Manager",
+    "searchableText": "sarah chen marketing manager campaigns",
+    "metadata": { "role": "Marketing Manager", "email": "sarah@company.com" }
+  },
+  {
+    "id": "user-2",
+    "name": "Marcus Rodriguez",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "Sales Director",
+    "searchableText": "marcus rodriguez sales director revenue",
+    "metadata": { "role": "Sales Director", "email": "marcus@company.com" }
+  },
+  {
+    "id": "user-3",
+    "name": "Emily Watson",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "Operations Lead",
+    "searchableText": "emily watson operations lead logistics",
+    "metadata": { "role": "Operations Lead", "email": "emily@company.com" }
+  },
+  {
+    "id": "user-4",
+    "name": "David Kim",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "Finance Manager",
+    "searchableText": "david kim finance manager budget",
+    "metadata": { "role": "Finance Manager", "email": "david@company.com" }
+  },
+  {
+    "id": "user-5",
+    "name": "Alex Thompson",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "Project Coordinator",
+    "searchableText": "alex thompson project coordinator planning",
+    "metadata": { "role": "Project Coordinator", "email": "alex@company.com" }
+  },
+  {
+    "id": "user-6",
+    "name": "Alice Johnson",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "Product Designer",
+    "searchableText": "alice johnson product designer ui ux",
+    "metadata": { "role": "Product Designer", "email": "alice@company.com" }
+  },
+  {
+    "id": "user-7",
+    "name": "Bob Smith",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "Developer",
+    "searchableText": "bob smith developer engineer coding",
+    "metadata": { "role": "Developer", "email": "bob@company.com" }
+  },
+  {
+    "id": "user-8",
+    "name": "Charlie Brown",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "QA Analyst",
+    "searchableText": "charlie brown qa analyst testing quality",
+    "metadata": { "role": "QA Analyst", "email": "charlie@company.com" }
+  },
+  {
+    "id": "user-9",
+    "name": "Eve Davis",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "Business Analyst",
+    "searchableText": "eve davis business analyst requirements",
+    "metadata": { "role": "Business Analyst", "email": "eve@company.com" }
+  }
+]

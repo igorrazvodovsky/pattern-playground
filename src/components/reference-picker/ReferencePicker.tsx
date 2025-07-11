@@ -208,7 +208,7 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
 
               {/* Matching Categories when searching */}
               {query && filteredCategories.length > 0 && (
-                <CommandGroup heading="Categories">
+                <CommandGroup>
                   {filteredCategories.map((category) => (
                     <CommandItem
                       key={category.id}
@@ -218,12 +218,7 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
                         icon={category.icon}
                         slot="prefix"
                       />
-                      <div>
-                        <div>{category.name}</div>
-                        {category.description && (
-                          <div style={{ fontSize: 'var(--text-sm)', opacity: 0.7 }}>{category.description}</div>
-                        )}
-                      </div>
+                        {category.name}
                       <iconify-icon
                         icon="ph:caret-right"
                         slot="suffix"
@@ -235,7 +230,7 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
 
               {/* Direct Item Matches */}
               {query && (filteredItems as Array<{ parent: ReferenceCategory; child: ReferenceItem }>).length > 0 && (
-                <CommandGroup heading="Items">
+                <CommandGroup>
                   {(filteredItems as Array<{ parent: ReferenceCategory; child: ReferenceItem }>).map(({ parent, child }) => (
                     <CommandItem
                       key={`${parent.id}-${child.id}`}
@@ -245,13 +240,8 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
                         icon={child.icon}
                         slot="prefix"
                       />
-                      <div>
-                        <div>{child.name}</div>
-                        <div style={{ fontSize: 'var(--text-sm)', opacity: 0.7 }}>{parent.name}</div>
-                        {child.description && (
-                          <div style={{ fontSize: 'var(--text-sm)', opacity: 0.5 }}>{child.description}</div>
-                        )}
-                      </div>
+                      {child.name}
+                      {/* {parent.name} */}
                     </CommandItem>
                   ))}
                 </CommandGroup>

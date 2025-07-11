@@ -17,10 +17,21 @@ export const FilterIcon = ({
   [key: string]: any;
 }) => {
   switch (type) {
+    // Assignee specific icons
     case Assignee.NO_ASSIGNEE:
-      return <iconify-icon icon="ph:user-circle" className="icon" {...props} />;
-    case Assignee.ASSIGNEE:
-      return <iconify-icon icon="ph:user-circle" className="icon" {...props} />;
+      return <iconify-icon icon="ph:user-minus" className="icon" {...props} />;
+    case Assignee.SARAH_CHEN:
+    case Assignee.MARCUS_RODRIGUEZ:
+    case Assignee.EMILY_WATSON:
+    case Assignee.DAVID_KIM:
+    case Assignee.ALEX_THOMPSON:
+    case Assignee.ALICE_JOHNSON:
+    case Assignee.BOB_SMITH:
+    case Assignee.CHARLIE_BROWN:
+    case Assignee.EVE_DAVIS:
+      return <iconify-icon icon="ph:user-fill" className="icon" {...props} />;
+    
+    // Filter type icons
     case FilterType.STATUS:
       return <iconify-icon icon="ph:circle-dashed" className="icon" {...props} />;
     case FilterType.ASSIGNEE:
@@ -35,33 +46,49 @@ export const FilterIcon = ({
       return <iconify-icon icon="ph:calendar-plus" className="icon" {...props} />;
     case FilterType.UPDATED_DATE:
       return <iconify-icon icon="ph:calendar-check" className="icon" {...props} />;
+    
+    // Status specific icons
     case Status.BACKLOG:
       return <iconify-icon icon="ph:circle-dashed" className="icon" {...props} />;
     case Status.TODO:
       return <iconify-icon icon="ph:circle" className="icon" {...props} />;
     case Status.IN_PROGRESS:
-      return <iconify-icon icon="ph:circle-half" className="icon" {...props} />;
-    case Status.IN_REVIEW:
       return <iconify-icon icon="ph:circle-half-tilt" className="icon" {...props} />;
+    case Status.IN_REVIEW:
+      return <iconify-icon icon="ph:eye" className="icon" {...props} />;
     case Status.DONE:
       return <iconify-icon icon="ph:check-circle" className="icon" {...props} />;
     case Status.CANCELLED:
       return <iconify-icon icon="ph:x-circle" className="icon" {...props} />;
+    
+    // Priority specific icons
     case Priority.URGENT:
-      return <iconify-icon icon="ph:warning-circle" className="icon" {...props} />;
+      return <iconify-icon icon="ph:exclamation-triangle" className="icon" {...props} />;
     case Priority.HIGH:
-      return <iconify-icon icon="ph:cell-signal-high" className="icon" {...props} />;
+      return <iconify-icon icon="ph:arrow-up" className="icon" {...props} />;
     case Priority.MEDIUM:
-      return <iconify-icon icon="ph:cell-signal-medium" className="icon" {...props} />;
+      return <iconify-icon icon="ph:minus" className="icon" {...props} />;
     case Priority.LOW:
-      return <iconify-icon icon="ph:cell-signal-low" className="icon" {...props} />;
+      return <iconify-icon icon="ph:arrow-down" className="icon" {...props} />;
+    
+    // Label specific icons
     case Labels.BUG:
-      return <div {...props} />;
+      return <iconify-icon icon="ph:bug" className="icon" {...props} />;
     case Labels.FEATURE:
-      return <div {...props} />;
+      return <iconify-icon icon="ph:sparkle" className="icon" {...props} />;
     case Labels.HOTFIX:
-      return <div {...props} />;
+      return <iconify-icon icon="ph:fire" className="icon" {...props} />;
     case Labels.RELEASE:
-      return <div {...props} />;
+      return <iconify-icon icon="ph:rocket" className="icon" {...props} />;
+    case Labels.DOCUMENTATION:
+      return <iconify-icon icon="ph:book" className="icon" {...props} />;
+    case Labels.DESIGN:
+      return <iconify-icon icon="ph:palette" className="icon" {...props} />;
+    case Labels.TESTING:
+      return <iconify-icon icon="ph:test-tube" className="icon" {...props} />;
+    
+    // Default case
+    default:
+      return <iconify-icon icon="ph:circle" className="icon" {...props} />;
   }
 };
