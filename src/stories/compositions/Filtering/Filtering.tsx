@@ -29,6 +29,7 @@ import { Icon } from '@iconify/react';
 import { Slot } from "@radix-ui/react-slot";
 import '../../../components/dropdown/dropdown.ts';
 import 'iconify-icon';
+import '../../../jsx-types';
 
 // Add these imports for AI functionality
 import { generateFilterSuggestions } from "../../../components/filter/adapters/ai-filter-adapter";
@@ -37,27 +38,6 @@ import { generateFilterSuggestions } from "../../../components/filter/adapters/a
 const DROPDOWN_CLOSE_DELAY = 200;
 const MIN_AI_TRIGGER_LENGTH = 3;
 
-declare module 'react' {
-  namespace JSX {
-    interface IntrinsicElements {
-      'pp-dropdown': {
-        [key: string]: any;
-        ref?: React.Ref<any>;
-        placement?: string;
-        open?: boolean;
-        'onPp-show'?: () => void;
-        'onPp-hide'?: () => void;
-        children?: React.ReactNode;
-      };
-      'iconify-icon': {
-        [key: string]: any;
-        icon?: string;
-        className?: string;
-        slot?: string;
-      };
-    }
-  }
-}
 
 // Utility function for operator selection
 const getFilterOperator = (filterType: FilterType, value: string): FilterOperator => {

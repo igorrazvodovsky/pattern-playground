@@ -37,15 +37,20 @@ declare module 'react' {
       };
       'pp-list': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
       'pp-list-item': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
-        type?: 'checkbox' | 'radio';
+        type?: 'checkbox' | 'radio' | string;
         disabled?: boolean;
         defaultChecked?: boolean;
+        checked?: boolean;
+        onClick?: () => void;
       };
       'pp-dropdown': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+        ref?: React.Ref<any>;
         open?: boolean;
         disabled?: boolean;
         placement?: string;
         hoist?: boolean;
+        'onPp-show'?: () => void;
+        'onPp-hide'?: () => void;
       };
       'pp-popup': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         open?: boolean;

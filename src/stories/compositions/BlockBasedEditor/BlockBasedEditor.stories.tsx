@@ -3,8 +3,9 @@ import { BubbleMenu, FloatingMenu, useEditor, EditorContent } from '@tiptap/reac
 import { useState, useCallback } from 'react'
 import type { Node } from '@tiptap/pm/model'
 import StarterKit from '@tiptap/starter-kit'
-import { ReferenceMention, createReferenceSuggestion } from '../../../components/reference-picker/ReferenceMention';
+import { Reference, createReferenceSuggestion } from '../../../components/reference-picker/Reference';
 import { referenceCategories } from '../../shared-data';
+import '../../../jsx-types';
 
 const meta = {
   title: "Compositions/Block-based editor*",
@@ -22,7 +23,7 @@ export const Basic: Story = {
     const editor = useEditor({
       extensions: [
         StarterKit,
-        ReferenceMention.configure({
+        Reference.configure({
           HTMLAttributes: {
             class: 'reference-mention reference',
           },
@@ -125,7 +126,7 @@ export const WithFloatingMenu: Story = {
     const editor = useEditor({
       extensions: [
         StarterKit,
-        ReferenceMention.configure({
+        Reference.configure({
           HTMLAttributes: {
             class: 'reference-mention reference',
           },

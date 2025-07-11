@@ -1,13 +1,7 @@
 import { FilterType, Status, Assignee, Labels, Priority } from "./filter-types";
 import 'iconify-icon';
+import '../../jsx-types';
 
-declare module 'react' {
-  namespace JSX {
-    interface IntrinsicElements {
-      'iconify-icon': any;
-    }
-  }
-}
 
 export const FilterIcon = ({
   type,

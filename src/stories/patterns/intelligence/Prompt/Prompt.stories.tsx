@@ -6,6 +6,18 @@ import { Reference } from '../../../../components/reference-picker/Reference';
 import { materialMentionSuggestion } from './materialMentionSuggestion.ts';
 import { TemplateField } from './TemplateField.tsx';
 
+interface TipTapContent {
+  type: string;
+  content?: Array<{
+    type: string;
+    content?: Array<{
+      type: string;
+      text?: string;
+      attrs?: Record<string, unknown>;
+    }>;
+  }>;
+}
+
 const meta = {
   title: "Patterns/Intelligence*/Prompt",
 } satisfies Meta;
@@ -13,7 +25,7 @@ const meta = {
 export default meta;
 type Story = StoryObj;
 
-const usePromptEditor = (content: string = '<p></p>') => {
+const usePromptEditor = (content: string | TipTapContent = '<p></p>') => {
   const [editorState, setEditorState] = useState({
     content: '',
     mentions: [] as Array<{id: string, name: string, type: string}>,
@@ -28,7 +40,7 @@ const usePromptEditor = (content: string = '<p></p>') => {
       TemplateField,
       Reference.configure({
         HTMLAttributes: {
-          class: 'mention mention--material reference-mention reference',
+          class: 'reference-mention reference',
           'data-type': 'material',
         },
         suggestion: materialMentionSuggestion,
@@ -186,9 +198,44 @@ export const QualityFeedback: Story = {
 export const WithMaterialReferences: Story = {
   args: {},
   render: () => {
-    const { editor, editorState } = usePromptEditor(`
-      <p>Analyse the user interface patterns in @API Documentation and compare them with the designs from @Wireframe v2.png. Consider the data from @User Analytics Q4 when making recommendations.</p>
-    `);
+    const { editor, editorState } = usePromptEditor({
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            { type: 'text', text: 'Analyse the user interface patterns in ' },
+            {
+              type: 'reference',
+              attrs: {
+                id: 'api-docs',
+                label: 'API Documentation',
+                type: 'document'
+              }
+            },
+            { type: 'text', text: ' and compare them with the designs from ' },
+            {
+              type: 'reference',
+              attrs: {
+                id: 'wireframe-v2',
+                label: 'Wireframe v2.png',
+                type: 'document'
+              }
+            },
+            { type: 'text', text: '. Consider the data from ' },
+            {
+              type: 'reference',
+              attrs: {
+                id: 'user-analytics-q4',
+                label: 'User Analytics Q4',
+                type: 'document'
+              }
+            },
+            { type: 'text', text: ' when making recommendations.' }
+          ]
+        }
+      ]
+    });
 
     return (
       <div className="messages layer">

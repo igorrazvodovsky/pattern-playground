@@ -13,7 +13,6 @@ import {
   CommandList,
 } from "../command-menu/command";
 import { useDropdownState } from "./hooks/use-dropdown-state";
-import "./filter-component-types";
 import 'iconify-icon';
 import '../dropdown/dropdown.ts';
 import '../list/list.ts';

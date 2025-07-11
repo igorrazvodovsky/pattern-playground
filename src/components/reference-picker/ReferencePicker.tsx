@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useCallback, useMemo } from 'react';
+import { forwardRef, useImperativeHandle, useCallback, useMemo } from 'react';
 import {
   Command,
   CommandGroup,
@@ -15,20 +15,8 @@ import type {
   ReferencePickerRef
 } from './reference-picker-types';
 import 'iconify-icon';
+import '../../jsx-types';
 
-declare module 'react' {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace JSX {
-    interface IntrinsicElements {
-      'iconify-icon': {
-        [key: string]: unknown;
-        icon?: string;
-        className?: string;
-        slot?: string;
-      };
-    }
-  }
-}
 
 /**
  * Simple Reference Picker that displays filtered references

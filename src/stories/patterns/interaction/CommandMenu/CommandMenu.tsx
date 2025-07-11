@@ -24,20 +24,9 @@ import {
 } from '../../../../services/ai-suggestion-service';
 import { convertToAICommandResult } from '../../../../components/command-menu/adapters/ai-command-adapter';
 import { commands, recentItems } from '../../../shared-data';
-import 'iconify-icon'
+import 'iconify-icon';
+import '../../../../jsx-types';
 
-declare module 'react' {
-  namespace JSX {
-    interface IntrinsicElements {
-      'iconify-icon': {
-        [key: string]: any;
-        icon?: string;
-        className?: string;
-        slot?: string;
-      };
-    }
-  }
-}
 
 // Constants
 const MIN_AI_TRIGGER_LENGTH = 3;

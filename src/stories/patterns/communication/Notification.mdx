@@ -2,6 +2,7 @@ import { Meta, Story } from '@storybook/addon-docs/blocks';
 import { Callout } from '../../primitives/Callout.stories';
 import { DisruptiveNotification as Dialog } from '../../components/Dialog.stories';
 import { Notification as Toast } from '../../primitives/Toast.stories';
+import { MermaidDiagram } from '../../../components/MermaidDiagram';
 
 <Meta title="Patterns/Communication/Notification*" />
 
@@ -47,7 +48,6 @@ Used only when the message is critical and needs the user’s immediate attentio
 
 <Story of={Dialog} />
 
-
 ### Notification panel
 
 ...
@@ -63,6 +63,27 @@ Localised messages tied to a specific place, providing timely feedback or update
 ### Global
 
 System-wide alerts that inform the user about events or statuses affecting the entire application, regardless of their current location within it.
+
+## Decision tree
+
+<MermaidDiagram chart={`
+flowchart TD
+    A["What notification should I use?"] --> B{Is action required?}
+
+    B -- Yes --> C{Is immediate attention required?}
+    C -- Yes --> D[Dialog]
+    C -- No --> E[Callout]
+
+    B -- No --> F{Does the notification communicate status?}
+    F -- Yes --> G[Toast]
+
+    F -- No --> H{Is the notification an alert?}
+    H -- Yes --> I{Can the alert be easily dismissed?}
+    I -- Yes --> J[Toast]
+    I -- No --> K[Callout]
+
+    H -- No --> L[Dialog]
+`} />
 
 ## Related patterns
 
