@@ -1,0 +1,145 @@
+/* HoverCard Component Styles */
+
+.hover-card__content {
+  --c-background: var(--c-neutral-0);
+
+  /* Match dropdown panel styling */
+  font-size: var(--text-m);
+  font-weight: var(--font-weight-normal);
+  background: var(--c-background);
+  box-shadow: var(--shadow-l);
+  border-radius: var(--radius-m);
+  padding: var(--space-s);
+  max-width: 320px;
+  z-index: var(--layer-dropdown);
+
+  /* Animation */
+  animation-duration: 100ms;
+  animation-timing-function: ease;
+}
+
+.hover-card__content[data-state="open"] {
+  animation-name: hover-card-open;
+}
+
+.hover-card__content[data-state="closed"] {
+  animation-name: hover-card-close;
+}
+
+.hover-card__arrow {
+  fill: var(--c-background);
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+/* Animations */
+@keyframes hover-card-open {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes hover-card-close {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+/* Reference preview specific styles */
+.hover-card__reference-preview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-width: 200px;
+}
+
+.hover-card__reference-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.hover-card__reference-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--c-neutral-600);
+}
+
+.hover-card__reference-title {
+  font-weight: var(--font-weight-medium);
+  color: var(--c-neutral-900);
+  margin: 0;
+}
+
+.hover-card__reference-type {
+  font-size: var(--text-s);
+  color: var(--c-neutral-600);
+  text-transform: capitalize;
+}
+
+.hover-card__reference-meta {
+  font-size: var(--text-s);
+  color: var(--c-neutral-700);
+  line-height: 1.4;
+}
+
+.hover-card__reference-description {
+  font-size: var(--text-s);
+  color: var(--c-neutral-700);
+  line-height: 1.4;
+  margin-top: var(--space-xs);
+}
+
+/* User reference specific styles */
+.hover-card__user-preview {
+  display: flex;
+  align-items: start;
+  gap: var(--space-s);
+  min-width: 220px;
+}
+
+.hover-card__user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-round);
+  background: var(--c-neutral-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight-medium);
+  color: var(--c-neutral-700);
+  flex-shrink: 0;
+}
+
+.hover-card__user-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+.hover-card__user-name {
+  font-weight: var(--font-weight-medium);
+  color: var(--c-neutral-900);
+  margin: 0;
+}
+
+.hover-card__user-role {
+  font-size: var(--text-s);
+  color: var(--c-neutral-600);
+}
+
+.hover-card__user-email {
+  font-size: var(--text-s);
+  color: var(--c-neutral-700);
+  word-break: break-all;
+}

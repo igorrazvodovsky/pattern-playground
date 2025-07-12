@@ -2,7 +2,8 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useCallback } from 'react';
 import { ReferenceEditor } from '../../../components/reference-picker';
 import { referenceCategories, basicReferenceCategories } from '../../shared-data';
-import type { SelectedReference, ReferenceCategory } from '../../../components/reference-picker';
+import { createUserReference, createProjectReference, createDocumentReference } from '../../shared-data/reference-utils';
+import type { SelectedReference } from '../../../components/reference-picker';
 
 const meta = {
   title: "Primitives/Reference",
@@ -29,53 +30,20 @@ const ReferenceEditorExample = () => {
               type: 'paragraph',
               content: [
                 { type: 'text', text: 'The quarterly review will be led by ' },
-                {
-                  type: 'reference',
-                  attrs: {
-                    id: 'user-1',
-                    label: 'Sarah Chen',
-                    type: 'user'
-                  }
-                },
+                createUserReference('user-1'),
                 { type: 'text', text: ', with support from the ' },
-                {
-                  type: 'reference',
-                  attrs: {
-                    id: 'project-4',
-                    label: 'Customer Survey Analysis',
-                    type: 'project'
-                  }
-                },
+                createProjectReference('project-1'),
                 { type: 'text', text: ' team. Please review the ' },
-                {
-                  type: 'reference',
-                  attrs: {
-                    id: 'doc-5',
-                    label: 'Team Handbook',
-                    type: 'document'
-                  }
-                },
+                createDocumentReference('doc-1'),
                 { type: 'text', text: ' before the next meeting. ' },
-                { type: 'text', text: 'For questions about the new policies, contact ' },
-                {
-                  type: 'reference',
-                  attrs: {
-                    id: 'user-4',
-                    label: 'David Kim',
-                    type: 'user'
-                  }
-                },
-                { type: 'text', text: ' or check the ' },
-                {
-                  type: 'reference',
-                  attrs: {
-                    id: 'doc-2',
-                    label: 'Budget Proposal',
-                    type: 'document'
-                  }
-                },
-                { type: 'text', text: ' details.' }
-              ]
+                { type: 'text', text: 'For financial questions, contact our ' },
+                createUserReference('user-10'),
+                { type: 'text', text: ' or for legal matters, reach out to ' },
+                createUserReference('user-11'),
+                { type: 'text', text: '. Details are in the ' },
+                createDocumentReference('doc-2'),
+                { type: 'text', text: '.' }
+              ].filter(Boolean)
             }
           ]
         }}
@@ -113,53 +81,18 @@ const BasicReferenceEditor = () => {
               type: 'paragraph',
               content: [
                 { type: 'text', text: "In today's meeting, " },
-                {
-                  type: 'reference',
-                  attrs: {
-                    id: 'user-6',
-                    label: 'Alice Johnson',
-                    type: 'user'
-                  }
-                },
+                createUserReference('user-6'),
                 { type: 'text', text: ' shared updates on the client presentation. ' },
-                {
-                  type: 'reference',
-                  attrs: {
-                    id: 'user-7',
-                    label: 'Bob Smith',
-                    type: 'user'
-                  }
-                },
-                { type: 'text', text: ' will handle the budget review, and ' },
-                {
-                  type: 'reference',
-                  attrs: {
-                    id: 'user-8',
-                    label: 'Charlie Brown',
-                    type: 'user'
-                  }
-                },
-                { type: 'text', text: ' is coordinating with the vendors. ' },
-                { type: 'text', text: 'Next week, ' },
-                {
-                  type: 'reference',
-                  attrs: {
-                    id: 'user-4',
-                    label: 'David Kim',
-                    type: 'user'
-                  }
-                },
-                { type: 'text', text: ' and ' },
-                {
-                  type: 'reference',
-                  attrs: {
-                    id: 'user-9',
-                    label: 'Eve Davis',
-                    type: 'user'
-                  }
-                },
-                { type: 'text', text: ' will join the project.' }
-              ]
+                createUserReference('user-7'),
+                { type: 'text', text: ' will handle the technical implementation, while our ' },
+                createUserReference('user-10'),
+                { type: 'text', text: ' reviews the budget. ' },
+                { type: 'text', text: 'For legal review, ' },
+                createUserReference('user-11'),
+                { type: 'text', text: ' will join next week along with ' },
+                createUserReference('user-12'),
+                { type: 'text', text: ' for HR coordination.' }
+              ].filter(Boolean)
             }
           ]
         }}

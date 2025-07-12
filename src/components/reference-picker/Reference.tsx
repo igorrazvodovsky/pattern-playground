@@ -7,6 +7,7 @@ import type { Editor } from '@tiptap/core';
 import type { SuggestionProps } from '@tiptap/suggestion';
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { ReferencePicker } from './ReferencePicker';
+import { ReferenceWithHover } from '../hover-card';
 import type { ReferenceCategory, SelectedReference } from './reference-picker-types';
 
 // Floating Reference Picker Component
@@ -143,7 +144,7 @@ const FloatingReferencePicker: React.FC<FloatingReferencePickerProps> = ({
 
 /**
  * TipTap Reference Extension
- * Provides inline search with floating-ui positioning
+ * Provides inline search with floating-ui positioning and hover previews
  */
 export const Reference = Mention.extend({
   name: 'reference',
@@ -190,6 +191,50 @@ export const Reference = Mention.extend({
           };
         },
       },
+    };
+  },
+
+  addNodeView() {
+    return ({ node, getPos, editor }) => {
+      // Create wrapper element
+      const wrapper = document.createElement('span');
+      wrapper.className = 'reference-mention reference';
+      wrapper.setAttribute('data-reference-type', node.attrs.type || '');
+      if (node.attrs.metadata) {
+        wrapper.setAttribute('data-metadata', JSON.stringify(node.attrs.metadata));
+      }
+
+      // Create reference data for hover card
+      const referenceData: SelectedReference = {
+        id: node.attrs.id,
+        label: node.attrs.label,
+        type: node.attrs.type,
+        metadata: node.attrs.metadata,
+      };
+
+      // Create React component with hover functionality
+      const ReferenceComponent = () => (
+        <ReferenceWithHover reference={referenceData}>
+          <span className="reference-mention__content">
+            {node.attrs.label || node.attrs.id}
+          </span>
+        </ReferenceWithHover>
+      );
+
+      // Render React component into wrapper
+      const renderer = new ReactRenderer(ReferenceComponent, {
+        editor,
+      });
+
+      // Append the React component to our wrapper
+      wrapper.appendChild(renderer.element);
+
+      return {
+        dom: wrapper,
+        destroy() {
+          renderer.destroy();
+        },
+      };
     };
   },
 });

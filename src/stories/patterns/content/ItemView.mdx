@@ -1,0 +1,42 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Patterns/Content/Item view" />
+
+# Item view
+
+Varying ways an [item](../?path=/docs/concepts-item--docs) is rendered in UI — from small previews to full-page views, cards, nodes, etc. — reflect different levels of user intent, context, and task focus.
+
+Different item view scopes provide progressive disclosure, allowing users to access the right level of detail for their current context without overwhelming them with unnecessary information.
+
+## Scope of view
+
+- Micro: Tooltip, inline tag, icon
+- Mini: Hover card, compact drawer
+- Mid: Dialog, side panel, expandable card
+- Maxi: Full-page detail, dedicated workspace
+
+### Examples
+
+- Micro: inline [references](../../primitives/reference/reference--docs) like `@Sarah Chen` and `@plan.pdf`
+- Mini: hover cards showing detailed previews
+
+{/*
+## Representations
+
+- Card
+- Node
+- Canvas block
+- Inline block
+*/}
+
+## Interaction mode
+
+- Preview: click-to-expand, zoom
+- Inspect: Focused drill-in, modal
+- Edit: In-place or full-form
+- Transform: Object reshaping (e.g., convert to template)
+
+## Related patterns
+
+- Enables progressive disclosure: show just enough info, allow deeper dive
+- Supports different interaction modes based on user context and task requirements

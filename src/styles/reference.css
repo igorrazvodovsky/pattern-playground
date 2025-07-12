@@ -103,3 +103,8 @@
 .reference-mention:hover {
   border-color: var(--c-neutral-400);
 }
+
+/* Reference mention content wrapper */
+.reference-mention__content {
+  display: inline;
+}

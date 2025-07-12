@@ -79,5 +79,41 @@
     "description": "Business Analyst",
     "searchableText": "eve davis business analyst requirements",
     "metadata": { "role": "Business Analyst", "email": "eve@company.com" }
+  },
+  {
+    "id": "user-10",
+    "name": "Michael Chen",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "Accountant",
+    "searchableText": "michael chen accountant finance accounting",
+    "metadata": { "role": "Accountant", "email": "michael@company.com" }
+  },
+  {
+    "id": "user-11",
+    "name": "Jennifer Martinez",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "Lawyer",
+    "searchableText": "jennifer martinez lawyer legal counsel",
+    "metadata": { "role": "Lawyer", "email": "jennifer@company.com" }
+  },
+  {
+    "id": "user-12",
+    "name": "Robert Johnson",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "HR Manager",
+    "searchableText": "robert johnson hr human resources manager",
+    "metadata": { "role": "HR Manager", "email": "robert@company.com" }
+  },
+  {
+    "id": "user-13",
+    "name": "Lisa Park",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "Data Scientist",
+    "searchableText": "lisa park data scientist analytics machine learning",
+    "metadata": { "role": "Data Scientist", "email": "lisa@company.com" }
   }
 ]
