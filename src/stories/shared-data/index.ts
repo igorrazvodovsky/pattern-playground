@@ -87,3 +87,26 @@ export const basicReferenceCategories = [
     children: users
   }
 ];
+
+// Transform data for ReferenceCategory interface (label/items instead of name/children)
+export const referenceCategories_transformed = referenceCategories.map(cat => ({
+  id: cat.id,
+  label: cat.name,
+  items: cat.children.map(item => ({
+    id: item.id,
+    label: item.name,
+    type: cat.type,
+    metadata: item.metadata
+  }))
+}));
+
+export const basicReferenceCategories_transformed = basicReferenceCategories.map(cat => ({
+  id: cat.id,
+  label: cat.name,
+  items: cat.children.map(item => ({
+    id: item.id,
+    label: item.name,
+    type: cat.type,
+    metadata: item.metadata
+  }))
+}));

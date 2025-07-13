@@ -44,7 +44,7 @@ export interface HoverCardProps {
 export const PpHoverCard: React.FC<HoverCardProps> = ({
   children,
   content,
-  openDelay = 700,
+  openDelay = 1200,
   closeDelay = 300,
   showArrow = false,
   side = 'bottom',
@@ -57,7 +57,7 @@ export const PpHoverCard: React.FC<HoverCardProps> = ({
       <HoverCard.Trigger asChild>
         {children}
       </HoverCard.Trigger>
-      
+
       <HoverCard.Portal>
         <HoverCard.Content
           className="hover-card__content"

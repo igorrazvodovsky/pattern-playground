@@ -3,7 +3,7 @@ import { BubbleMenu, FloatingMenu, useEditor, EditorContent } from '@tiptap/reac
 import { useState, useCallback } from 'react'
 import type { Node } from '@tiptap/pm/model'
 import StarterKit from '@tiptap/starter-kit'
-import { Reference, createReferenceSuggestion } from '../../../components/reference-picker/Reference';
+import { Reference, createReferenceSuggestion } from '../../../components/reference/Reference';
 import { referenceCategories } from '../../shared-data';
 import '../../../jsx-types';
 

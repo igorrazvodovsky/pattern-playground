@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useCallback, useState } from "react";
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import { Reference } from '../../../../components/reference-picker/Reference';
-import { materialMentionSuggestion } from '../../../shared-data/reference-utils';
+import { Reference, createReferenceSuggestion } from '../../../../components/reference/Reference';
+import { materialCategory } from '../../../shared-data/reference-utils';
 import { TemplateField } from '../../../../components/template-field';
 
 interface TipTapContent {
@@ -43,7 +43,9 @@ const usePromptEditor = (content: string | TipTapContent = '<p></p>') => {
           class: 'reference-mention reference',
           'data-type': 'material',
         },
-        suggestion: materialMentionSuggestion,
+        suggestion: createReferenceSuggestion([materialCategory], (reference) => {
+          console.log('Material reference selected:', reference);
+        }),
       }),
     ],
     content,

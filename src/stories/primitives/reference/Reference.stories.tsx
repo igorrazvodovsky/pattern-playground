@@ -1,9 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { useCallback } from 'react';
-import { ReferenceEditor } from '../../../components/reference-picker';
-import { referenceCategories, basicReferenceCategories } from '../../shared-data';
+import { useCallback, useState } from 'react';
+import { ReferenceEditor } from '../../../components/reference';
+import { ItemInteraction } from '../../../components/item-view';
+import { ContentAdapterProvider } from '../../../components/item-view/ContentAdapterRegistry';
+import { referenceContentAdapter } from '../../../components/reference';
+import { referenceCategories_transformed, basicReferenceCategories_transformed } from '../../shared-data';
 import { createUserReference, createProjectReference, createDocumentReference } from '../../shared-data/reference-utils';
-import type { SelectedReference } from '../../../components/reference-picker';
+import type { SelectedReference } from '../../../components/reference';
 
 const meta = {
   title: "Primitives/Reference",
@@ -20,7 +23,7 @@ const ReferenceEditorExample = () => {
   return (
     <div className="layer">
       <ReferenceEditor
-        data={referenceCategories}
+        data={referenceCategories_transformed}
         onReferenceSelect={handleReferenceSelect}
         placeholder="Type @ to open hierarchical reference picker..."
         content={{
@@ -71,7 +74,7 @@ const BasicReferenceEditor = () => {
   return (
     <div className="layer">
       <ReferenceEditor
-        data={basicReferenceCategories}
+        data={basicReferenceCategories_transformed}
         onReferenceSelect={handleReferenceSelect}
         placeholder="Type @ to mention a user..."
         content={{
@@ -111,5 +114,7 @@ export const Basic: Story = {
     }
   }
 };
+
+
 
 

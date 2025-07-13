@@ -1,5 +1,4 @@
 import { users, projects, documents, referenceCategories } from './index';
-import { createReferenceSuggestion } from '../../components/reference-picker/Reference';
 
 // Helper functions to create reference objects from shared data
 export const createUserReference = (userId: string) => {
@@ -47,13 +46,11 @@ export const createDocumentReference = (docId: string) => {
   };
 };
 
-// Material mention suggestion for rich text editors
-// Uses the documents category from shared data with proper type casting
-const materialCategory = {
-  ...referenceCategories.find(cat => cat.id === 'documents')!,
+// Material category for rich text editors
+// Pure data export - no TipTap dependency
+export const materialCategory = {
+  id: 'documents',
+  label: 'Documents',
+  items: referenceCategories.find(cat => cat.id === 'documents')?.items || [],
   type: 'document' as const
 };
-
-export const materialMentionSuggestion = createReferenceSuggestion([materialCategory], (reference) => {
-  console.log('Material reference selected:', reference);
-});

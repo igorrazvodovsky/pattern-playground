@@ -3,15 +3,16 @@ import { ReactRenderer } from '@tiptap/react';
 import { createPortal } from 'react-dom';
 import { computePosition, flip, offset, shift, autoUpdate } from '@floating-ui/dom';
 import type { VirtualElement } from '@floating-ui/dom';
-import type { Editor } from '@tiptap/core';
 import type { SuggestionProps } from '@tiptap/suggestion';
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { ReferencePicker } from './ReferencePicker';
-import { ReferenceWithHover } from '../hover-card';
-import type { ReferenceCategory, SelectedReference } from './reference-picker-types';
+import { ItemInteraction } from '../item-view';
+import { referenceContentAdapter } from './ReferenceContentAdapter';
+import { ContentAdapterProvider } from '../item-view/ContentAdapterRegistry';
+import type { ReferenceCategory, SelectedReference } from './types';
 
-// Floating Reference Picker Component
-interface FloatingReferencePickerProps {
+// Reference Picker Popup Component
+interface ReferencePickerPopupProps {
   data: ReferenceCategory[];
   open: boolean;
   anchor: VirtualElement | null;
@@ -22,7 +23,7 @@ interface FloatingReferencePickerProps {
   placement?: 'bottom-start' | 'top-start' | 'bottom' | 'top';
 }
 
-const FloatingReferencePicker: React.FC<FloatingReferencePickerProps> = ({
+const ReferencePickerPopup: React.FC<ReferencePickerPopupProps> = ({
   data,
   open,
   anchor,
@@ -144,7 +145,7 @@ const FloatingReferencePicker: React.FC<FloatingReferencePickerProps> = ({
 
 /**
  * TipTap Reference Extension
- * Provides inline search with floating-ui positioning and hover previews
+ * Provides inline search with floating-ui positioning and item view integration
  */
 export const Reference = Mention.extend({
   name: 'reference',
@@ -155,7 +156,10 @@ export const Reference = Mention.extend({
       HTMLAttributes: {
         class: 'reference-mention reference',
       },
-      renderLabel({ node }) {
+      renderText({ node }) {
+        return `${node.attrs.label ?? node.attrs.id}`;
+      },
+      renderHTML({ node }) {
         return `${node.attrs.label ?? node.attrs.id}`;
       },
     };
@@ -195,7 +199,7 @@ export const Reference = Mention.extend({
   },
 
   addNodeView() {
-    return ({ node, getPos, editor }) => {
+    return ({ node, editor }) => {
       // Create wrapper element
       const wrapper = document.createElement('span');
       wrapper.className = 'reference-mention reference';
@@ -204,7 +208,7 @@ export const Reference = Mention.extend({
         wrapper.setAttribute('data-metadata', JSON.stringify(node.attrs.metadata));
       }
 
-      // Create reference data for hover card
+      // Create reference data for item view
       const referenceData: SelectedReference = {
         id: node.attrs.id,
         label: node.attrs.label,
@@ -212,13 +216,19 @@ export const Reference = Mention.extend({
         metadata: node.attrs.metadata,
       };
 
-      // Create React component with hover functionality
+      // Create React component with item view integration
       const ReferenceComponent = () => (
-        <ReferenceWithHover reference={referenceData}>
-          <span className="reference-mention__content">
-            {node.attrs.label || node.attrs.id}
-          </span>
-        </ReferenceWithHover>
+        <ContentAdapterProvider adapters={[referenceContentAdapter]}>
+          <ItemInteraction 
+            item={referenceData}
+            contentType="reference"
+            enableEscalation={true}
+          >
+            <span className="reference-mention__content">
+              {node.attrs.label || node.attrs.id}
+            </span>
+          </ItemInteraction>
+        </ContentAdapterProvider>
       );
 
       // Render React component into wrapper
@@ -264,13 +274,13 @@ export function createReferenceSuggestion(
       let virtualElement: VirtualElement | null = null;
 
       return {
-        onStart: (props: SuggestionProps<any, ReferenceCommandAttrs>) => {
+        onStart: (props: SuggestionProps<unknown, ReferenceCommandAttrs>) => {
           // Create virtual element for floating-ui positioning
           virtualElement = {
-            getBoundingClientRect: props.clientRect || (() => new DOMRect()),
+            getBoundingClientRect: props.clientRect || (() => new DOMRect(0, 0, 0, 0)),
           };
 
-          component = new ReactRenderer(FloatingReferencePicker, {
+          component = new ReactRenderer(ReferencePickerPopup, {
             props: {
               data,
               open: true,
@@ -294,10 +304,10 @@ export function createReferenceSuggestion(
           });
         },
 
-        onUpdate: (props: SuggestionProps<any, ReferenceCommandAttrs>) => {
+        onUpdate: (props: SuggestionProps<unknown, ReferenceCommandAttrs>) => {
           if (virtualElement) {
             // Update virtual element bounds
-            virtualElement.getBoundingClientRect = props.clientRect || (() => new DOMRect());
+            virtualElement.getBoundingClientRect = props.clientRect || (() => new DOMRect(0, 0, 0, 0));
           }
 
           component.updateProps({

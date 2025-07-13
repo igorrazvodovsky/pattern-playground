@@ -1,7 +1,7 @@
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { Reference, createReferenceSuggestion } from './Reference';
-import type { ReferenceCategory, SelectedReference } from './reference-picker-types';
+import type { ReferenceCategory, SelectedReference } from './types';
 
 export interface ReferenceEditorProps {
   /** Reference data for the picker */

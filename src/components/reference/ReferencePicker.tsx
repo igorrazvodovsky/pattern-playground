@@ -13,7 +13,7 @@ import type {
   SelectedReference,
   ReferencePickerProps,
   ReferencePickerRef
-} from './reference-picker-types';
+} from './types';
 import 'iconify-icon';
 import '../../jsx-types';
 
@@ -28,8 +28,6 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
   onSelect,
   onClose,
   open = true,
-  className = "",
-  ariaLabel = "Reference picker",
   mode = 'global',
   selectedCategory = null,
   onCategorySelect,
@@ -47,7 +45,7 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
 
     // Filter categories that match the query
     const matchingCategories = data.filter(category => {
-      const searchText = (category.searchableText || category.name || '').toLowerCase();
+      const searchText = (category.label || '').toLowerCase();
       return searchText.includes(query.toLowerCase());
     });
 
@@ -58,12 +56,12 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
   const filteredItems = useMemo(() => {
     if (effectiveMode === 'contextual' && effectiveSelectedCategory) {
       // Show items from selected category only
-      const items = effectiveSelectedCategory.children || [];
+      const items = effectiveSelectedCategory.items || [];
       if (!query) return items;
 
       // Filter items that match the query
       const matchingItems = items.filter(item => {
-        const searchText = (item.searchableText || item.name || '').toLowerCase();
+        const searchText = (item.label || '').toLowerCase();
         return searchText.includes(query.toLowerCase());
       });
 
@@ -72,7 +70,7 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
       // Show items from all categories that match query
       const allItems: Array<{ parent: ReferenceCategory; child: ReferenceItem }> = [];
       for (const category of data) {
-        const items = category.children || [];
+        const items = category.items || [];
 
         if (!query) {
           // No query - return all items
@@ -82,7 +80,7 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
         } else {
           // Filter items that match the query
           const matchingItems = items.filter(item => {
-            const searchText = (item.searchableText || item.name || '').toLowerCase();
+            const searchText = (item.label || '').toLowerCase();
             return searchText.includes(query.toLowerCase());
           });
 
@@ -99,13 +97,12 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
   const handleSelectReference = useCallback((item: ReferenceItem, category?: ReferenceCategory) => {
     const selectedReference: SelectedReference = {
       id: item.id,
-      label: item.name,
+      label: item.label,
       type: item.type,
-      category: category?.name || effectiveSelectedCategory?.name,
       metadata: item.metadata
     };
     onSelect(selectedReference);
-  }, [onSelect, effectiveSelectedCategory]);
+  }, [onSelect]);
 
   // Handle category selection
   const handleCategorySelect = useCallback((category: ReferenceCategory) => {
@@ -126,19 +123,20 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
     focus: () => {
       // Focus handled externally by TipTap
     },
-    close: () => {
-      onClose?.();
-    }
-  }), [onClose]);
+    selectFirst: () => {},
+    selectLast: () => {},
+    selectNext: () => {},
+    selectPrevious: () => {},
+    getSelectedReference: () => null,
+  }), []);
 
   // Don't render if not open
   if (!open) return null;
 
   return (
     <div
-      className={className}
       role="dialog"
-      aria-label={ariaLabel}
+      aria-label="Reference picker"
       data-reference-picker
     >
       <Command
@@ -158,15 +156,15 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
                       onSelect={() => handleSelectReference(item, effectiveSelectedCategory || undefined)}
                     >
                       <iconify-icon
-                        icon={item.icon}
+                        icon={item.metadata?.icon as string || 'ph:file'}
                         slot="prefix"
                       />
-                      {item.name}
+                      {item.label}
                     </CommandItem>
                   ))}
                 </CommandGroup>
               ) : (
-                <CommandEmpty>No {effectiveSelectedCategory?.name.toLowerCase()} found.</CommandEmpty>
+                <CommandEmpty>No {effectiveSelectedCategory?.label.toLowerCase()} found.</CommandEmpty>
               )}
             </>
           ) : (
@@ -181,10 +179,10 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
                       onSelect={() => handleCategorySelect(category)}
                     >
                       <iconify-icon
-                        icon={category.icon}
+                        icon={category.metadata?.icon as string || 'ph:folder'}
                         slot="prefix"
                       />
-                      {category.name}
+                      {category.label}
                       <iconify-icon
                         icon="ph:caret-right"
                         slot="suffix"
@@ -203,10 +201,10 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
                       onSelect={() => handleCategorySelect(category)}
                     >
                       <iconify-icon
-                        icon={category.icon}
+                        icon={category.metadata?.icon as string || 'ph:folder'}
                         slot="prefix"
                       />
-                        {category.name}
+                        {category.label}
                       <iconify-icon
                         icon="ph:caret-right"
                         slot="suffix"
@@ -225,11 +223,10 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
                       onSelect={() => handleSelectReference(child, parent)}
                     >
                       <iconify-icon
-                        icon={child.icon}
+                        icon={child.metadata?.icon as string || 'ph:file'}
                         slot="prefix"
                       />
-                      {child.name}
-                      {/* {parent.name} */}
+                      {child.label}
                     </CommandItem>
                   ))}
                 </CommandGroup>
