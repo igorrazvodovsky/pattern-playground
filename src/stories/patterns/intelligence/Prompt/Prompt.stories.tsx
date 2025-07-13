@@ -3,8 +3,8 @@ import { useCallback, useState } from "react";
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { Reference } from '../../../../components/reference-picker/Reference';
-import { materialMentionSuggestion } from './materialMentionSuggestion.ts';
-import { TemplateField } from './TemplateField.tsx';
+import { materialMentionSuggestion } from '../../../shared-data/reference-utils';
+import { TemplateField } from '../../../../components/template-field';
 
 interface TipTapContent {
   type: string;
@@ -208,7 +208,7 @@ export const WithMaterialReferences: Story = {
             {
               type: 'reference',
               attrs: {
-                id: 'api-docs',
+                id: 'doc-7',
                 label: 'API Documentation',
                 type: 'document'
               }
@@ -217,8 +217,8 @@ export const WithMaterialReferences: Story = {
             {
               type: 'reference',
               attrs: {
-                id: 'wireframe-v2',
-                label: 'Wireframe v2.png',
+                id: 'doc-6',
+                label: 'Design System Guidelines',
                 type: 'document'
               }
             },
@@ -226,8 +226,8 @@ export const WithMaterialReferences: Story = {
             {
               type: 'reference',
               attrs: {
-                id: 'user-analytics-q4',
-                label: 'User Analytics Q4',
+                id: 'doc-8',
+                label: 'User Research Report',
                 type: 'document'
               }
             },
@@ -314,7 +314,7 @@ export const PromptTemplate: Story = {
         'Context': 'Mobile-first e-commerce platform with 2M+ monthly users',
         'Requirements': 'WCAG 2.1 AA accessibility, mobile responsive',
         'Constraints': 'Must work with existing design system, 3-step maximum',
-        'Examples': 'Reference @Wireframe v2.png and @Design System Guide',
+        'Examples': 'Reference @Design System Guidelines and @API Documentation',
         'Output Format': 'Figma file with annotations and user flow documentation'
       };
 
