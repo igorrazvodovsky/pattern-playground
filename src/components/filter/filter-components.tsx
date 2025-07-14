@@ -100,7 +100,7 @@ export const FilterValueDropdown = ({
         <span className="avatar-group">
           {filterType !== FilterType.PRIORITY && (
             filterValues?.slice(0, 3).map((value) => (
-              <pp-avatar size="xsmall">
+              <pp-avatar key={value} size="xsmall">
                 <FilterIcon type={value as FilterType} />
               </pp-avatar>
             ))

@@ -4,7 +4,9 @@ import { Icon } from '@iconify/react';
 import { Slot } from "@radix-ui/react-slot";
 import { AICommandEmptyProps } from './ai-command-types';
 import { PpToast } from '../toast/toast';
-import { drawerService } from '../../services/modal-service';
+import { modalService } from '../../services/modal-service';
+import { createTask } from '../task/task-utils';
+import { renderTaskToHTML } from '../task/task-html-renderer';
 
 export const AICommandEmpty: React.FC<AICommandEmptyProps> = ({
   searchInput,
@@ -23,9 +25,10 @@ export const AICommandEmpty: React.FC<AICommandEmptyProps> = ({
 
   // Handle create new item with clickable toast
   const handleCreateNewItem = React.useCallback(() => {
-    const taskText = `Task: ${searchInput.trim()}`;
-    PpToast.show(taskText, () => {
-      drawerService.open(taskText);
+    const task = createTask(searchInput.trim());
+    PpToast.show(`Task created: ${task.specification}`, () => {
+      const taskHTML = renderTaskToHTML(task);
+      modalService.openDrawer(taskHTML, 'right', `Task: ${task.specification}`);
     });
     onEditPrompt();
     onClose?.();
