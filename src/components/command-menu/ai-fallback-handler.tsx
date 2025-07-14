@@ -2,13 +2,13 @@ import React from 'react';
 import { CommandEmpty, CommandGroup, CommandItem } from './command';
 import { Icon } from '@iconify/react';
 import { Slot } from "@radix-ui/react-slot";
-import { AICommandEmptyProps } from './ai-command-types';
+import { AIFallbackHandlerProps } from './ai-command-types';
 import { PpToast } from '../toast/toast';
 import { modalService } from '../../services/modal-service';
 import { createTask } from '../task/task-utils';
 import { renderTaskToHTML } from '../task/task-html-renderer';
 
-export const AICommandEmpty: React.FC<AICommandEmptyProps> = ({
+export const AIFallbackHandler: React.FC<AIFallbackHandlerProps> = ({
   searchInput,
   aiState,
   onAIRequest,

@@ -29,6 +29,6 @@ export {
   CommandItem,
   CommandItemPrefix,
   CommandItemSuffix,
-  AICommandEmpty,
+  AIFallbackHandler,
   useAICommand
 } from '../command-menu';

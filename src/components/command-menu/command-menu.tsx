@@ -7,7 +7,7 @@ import {
   CommandItem,
   CommandList,
 } from './command';
-import { AICommandEmpty } from './ai-command-empty';
+import { AIFallbackHandler } from './ai-fallback-handler';
 import { useCommandComposition } from './hooks/use-command-composition';
 import type {
   CommandMenuProps,
@@ -85,7 +85,7 @@ export function CommandMenu({
       <CommandList>
         {/* AI Empty State */}
         {composition.shouldShowAI && composition.ai && (
-          <AICommandEmpty
+          <AIFallbackHandler
             searchInput={composition.searchInput}
             aiState={composition.ai.aiState}
             onAIRequest={composition.ai.handleAIRequest}

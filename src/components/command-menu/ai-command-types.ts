@@ -20,7 +20,7 @@ export interface AICommandItem {
   metadata?: Record<string, any>;
 }
 
-export interface AICommandEmptyProps {
+export interface AIFallbackHandlerProps {
   searchInput: string;
   aiState: AIState;
   onAIRequest: (prompt: string) => void;

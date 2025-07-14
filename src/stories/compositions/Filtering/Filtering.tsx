@@ -4,7 +4,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  AICommandEmpty,
+  AIFallbackHandler,
   useAICommand,
   type AICommandResult,
   type AICommandItem
@@ -387,7 +387,7 @@ export function FilteringDemo({
                 ref={commandInputRef}
               />
               <CommandList>
-                <AICommandEmpty
+                <AIFallbackHandler
                   searchInput={commandInput}
                   aiState={aiState}
                   onAIRequest={handleAICommandRequest}

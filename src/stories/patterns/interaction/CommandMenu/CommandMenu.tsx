@@ -7,7 +7,7 @@ import {
   CommandList,
 } from "../../../../components/command-menu/command";
 import {
-  AICommandEmpty,
+  AIFallbackHandler,
   useAICommand,
   type AICommandResult,
   type AICommandItem
@@ -202,7 +202,7 @@ function CommandMenu({ onClose }: { onClose?: () => void } = {}) {
         <CommandList>
           {/* AI-powered empty state */}
           {!hasResults && (
-            <AICommandEmpty
+            <AIFallbackHandler
               searchInput={searchInput}
               aiState={aiState}
               onAIRequest={handleAICommandRequest}

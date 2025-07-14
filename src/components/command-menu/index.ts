@@ -9,7 +9,7 @@ export {
   CommandItemSuffix,
 } from './command';
 
-export { AICommandEmpty } from './ai-command-empty';
+export { AIFallbackHandler } from './ai-fallback-handler';
 
 // Core hooks
 export { useAICommand } from './hooks/use-ai-command';
@@ -30,7 +30,7 @@ export type {
   AIState,
   AICommandResult,
   AICommandItem,
-  AICommandEmptyProps,
+  AIFallbackHandlerProps,
 } from './ai-command-types';
 
 export type {
