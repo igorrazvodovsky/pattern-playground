@@ -126,7 +126,7 @@ export const HumanToLLM: Story = {
         </div>
       </div>
       <div className="message-composer layer">
-        <pp-input placeholder="How can I help you today?">
+        <pp-input placeholder="Reply…">
         </pp-input>
         <div className="message-composer__actions">
           <button className="button button--plain" is="pp-button">
