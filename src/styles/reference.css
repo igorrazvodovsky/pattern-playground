@@ -63,7 +63,7 @@
   outline: none;
   padding: var(--space-s);
   border-radius: var(--radius-m);
-  border: 1px solid var(--c-neutral-300);
+  /* border: 1px solid var(--c-neutral-300); */
   /* background: var(--c-neutral-50); */
   font-family: inherit;
   line-height: 1.5;

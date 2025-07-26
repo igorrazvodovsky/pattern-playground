@@ -109,6 +109,14 @@
   }
 }
 
+.message-follow-up {
+  grid-column: 1 / -1;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-s);
+}
+
 .message-composer {
   grid-column: 1 / -1;
   /* border: var(--border); */
@@ -117,7 +125,12 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--space-s) var(--space-m);
-  margin-block-start: var(--space-m);
+  /* Doesn't look good with follow-ups present */
+  /* margin-block-start: var(--space-m); */
+}
+
+.message-composer .rich-editor .ProseMirror {
+  border: 1px solid var(--c-neutral-200);
 }
 
 .message-composer pp-input {

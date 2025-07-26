@@ -169,6 +169,7 @@ export const QualityFeedback: Story = {
       <div className="message-composer__feedback">
         <span className="badge badge--pill badge--success"></span> Great question!
       </div>
+      <br />
     </div>
     <div className="messages layer">
       <div className="message-composer layer">

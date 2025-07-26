@@ -112,7 +112,7 @@ export const HumanToLLM: Story = {
       <div className="messages__turn">
         <div className="message message--outbound">
           <div className="message__content">
-            <div className="message__body layer">Write a one-sentence bedtime story about a unicorn.</div>
+            <div className="message__body layer">Why do cats knead?</div>
           </div>
         </div>
       </div>
@@ -120,10 +120,17 @@ export const HumanToLLM: Story = {
         <div className="messages__turn">
           <div className="message message--inbound">
             <div className="message__content">
-              <div className="message__body">As the moonlight sparkled on the quiet meadow, the sleepy unicorn curled up beneath a silver tree and dreamed of dancing stars.</div>
+              <div className="message__body">
+                Cats knead with their paws — like they’re making biscuits — because it’s a leftover behaviour from kittenhood. Kittens knead their mother’s belly to stimulate milk flow, and adult cats often keep doing it when they’re relaxed or showing affection.
+              </div>
             </div>
           </div>
         </div>
+      </div>
+      <div className="message-follow-up">
+        <button className="button">Do all cats knead?</button>
+        <button className="button">What does kneading tell us about a cat’s mood?</button>
+        <button className="button">Why do some cats knead with claws out?</button>
       </div>
       <div className="message-composer layer">
         <pp-input placeholder="Reply…">

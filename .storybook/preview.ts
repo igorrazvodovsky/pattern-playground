@@ -17,7 +17,7 @@ const preview: Preview = {
     options: {
       storySort: {
         method: 'alphabetical',
-        order: ['Introduction', 'Foundations', ['Overview', '*'], 'Primitives', ['Overview', '*'], 'Components', ['Overview', '*'], 'Compositions', ['Overview', '*'], 'Patterns', ['Overview', '*'], 'Concepts*', ['Overview', '*'], '*'],
+        order: ['Introduction', 'Foundations', ['Overview', '*'], 'Primitives', ['Overview', '*'], 'Components', ['Overview', '*'], 'Compositions', ['Overview', '*'], 'Patterns', ['Overview', '*'], 'Data visualization*', ['Overview', '*'], 'Concepts*', ['Overview', '*'], '*'],
       },
     },
   },
