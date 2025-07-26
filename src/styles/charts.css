@@ -1,0 +1,606 @@
+:root {
+  /* Color Palette */
+  --chart-primary-color: #007acc;
+  --chart-secondary-color: #8c8c8c;
+  --chart-accent-color: #ff6b35;
+  --chart-success-color: #28a745;
+  --chart-warning-color: #ffc107;
+  --chart-error-color: #dc3545;
+  --chart-info-color: #17a2b8;
+
+  /* Chart Background Colors */
+  --chart-background: #ffffff;
+  --chart-surface: #f8f9fa;
+  --chart-border-color: #e0e0e0;
+
+  /* Text Colors */
+  --chart-text-primary: #212529;
+  --chart-text-secondary: #6c757d;
+  --chart-text-muted: #adb5bd;
+
+  /* Data Visualization Color Schemes */
+  --chart-color-1: #007acc;
+  --chart-color-2: #ff6b35;
+  --chart-color-3: #28a745;
+  --chart-color-4: #ffc107;
+  --chart-color-5: #dc3545;
+  --chart-color-6: #17a2b8;
+  --chart-color-7: #6f42c1;
+  --chart-color-8: #e83e8c;
+  --chart-color-9: #fd7e14;
+  --chart-color-10: #20c997;
+
+  /* Typography */
+  --chart-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --chart-font-size-xs: 10px;
+  --chart-font-size-sm: 12px;
+  --chart-font-size-md: 14px;
+  --chart-font-size-lg: 16px;
+  --chart-font-size-xl: 18px;
+  --chart-font-weight-normal: 400;
+  --chart-font-weight-medium: 500;
+  --chart-font-weight-bold: 600;
+
+  /* Spacing */
+  --chart-spacing-xs: 4px;
+  --chart-spacing-sm: 8px;
+  --chart-spacing-md: 16px;
+  --chart-spacing-lg: 24px;
+  --chart-spacing-xl: 32px;
+
+  /* Dimensions */
+  --chart-border-radius: 4px;
+  --chart-border-width: 1px;
+  --chart-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --chart-shadow-hover: 0 4px 8px rgba(0, 0, 0, 0.15);
+
+  /* Animation */
+  --chart-transition-fast: 0.15s ease;
+  --chart-transition-normal: 0.25s ease;
+  --chart-transition-slow: 0.35s ease;
+
+  /* Z-Index Scale */
+  --chart-z-index-base: 1;
+  --chart-z-index-tooltip: 1000;
+  --chart-z-index-modal: 1050;
+
+  /* Interactive States */
+  --chart-hover-opacity: 0.8;
+  --chart-active-opacity: 0.9;
+  --chart-disabled-opacity: 0.5;
+
+  /* Focus Indicators */
+  --chart-focus-color: #007acc;
+  --chart-focus-width: 2px;
+  --chart-focus-offset: 2px;
+
+  /* Axis Styles */
+  --axis-color: #333;
+  --axis-font-size: 12px;
+  --axis-font-family: var(--chart-font-family);
+  --tick-color: #333;
+  --tick-size: 6px;
+  --grid-color: #e0e0e0;
+  --grid-opacity: 0.5;
+
+  /* Legend Styles */
+  --legend-font-size: 12px;
+  --legend-font-family: var(--chart-font-family);
+  --legend-item-spacing: 12px;
+  --legend-symbol-size: 12px;
+  --legend-symbol-spacing: 6px;
+  --legend-padding: 8px;
+  --legend-background: transparent;
+  --legend-border: none;
+  --legend-border-radius: 0;
+
+  /* Note: Tooltip styles are handled by the existing pp-tooltip component */
+}
+
+/* =============================================================================
+   Dark Theme Support
+   ============================================================================= */
+
+[data-theme="dark"],
+:root.dark-theme {
+  /* Color Palette - Dark Mode */
+  --chart-primary-color: #4fc3f7;
+  --chart-secondary-color: #b0b0b0;
+  --chart-accent-color: #ff8a65;
+
+  /* Chart Background Colors - Dark Mode */
+  --chart-background: #121212;
+  --chart-surface: #1e1e1e;
+  --chart-border-color: #333333;
+
+  /* Text Colors - Dark Mode */
+  --chart-text-primary: #ffffff;
+  --chart-text-secondary: #b0b0b0;
+  --chart-text-muted: #757575;
+
+  /* Data Visualization Color Schemes - Dark Mode */
+  --chart-color-1: #4fc3f7;
+  --chart-color-2: #ff8a65;
+  --chart-color-3: #81c784;
+  --chart-color-4: #ffb74d;
+  --chart-color-5: #e57373;
+  --chart-color-6: #4dd0e1;
+  --chart-color-7: #ba68c8;
+  --chart-color-8: #f06292;
+  --chart-color-9: #ffab40;
+  --chart-color-10: #26a69a;
+
+  /* Shadows - Dark Mode */
+  --chart-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --chart-shadow-hover: 0 4px 8px rgba(0, 0, 0, 0.4);
+
+  /* Component Specific - Dark Mode */
+  --axis-color: #ffffff;
+  --tick-color: #ffffff;
+  --grid-color: #333333;
+}
+
+/* =============================================================================
+   Responsive Design Utilities
+   ============================================================================= */
+
+/* Small screens (mobile) */
+@media (max-width: 576px) {
+  :root {
+    --chart-font-size-xs: 9px;
+    --chart-font-size-sm: 11px;
+    --chart-font-size-md: 13px;
+    --chart-spacing-md: 12px;
+    --chart-spacing-lg: 18px;
+    --axis-font-size: 11px;
+    --legend-font-size: 11px;
+  }
+}
+
+/* Medium screens (tablet) */
+@media (min-width: 577px) and (max-width: 768px) {
+  :root {
+    --chart-font-size-xs: 10px;
+    --chart-font-size-sm: 12px;
+    --chart-font-size-md: 14px;
+  }
+}
+
+/* Large screens (desktop) */
+@media (min-width: 1200px) {
+  :root {
+    --chart-font-size-lg: 17px;
+    --chart-font-size-xl: 20px;
+    --chart-spacing-lg: 28px;
+    --chart-spacing-xl: 40px;
+  }
+}
+
+/* =============================================================================
+   Base Chart Component Styles
+   ============================================================================= */
+
+/* D3 Component Base */
+pp-chart-axis,
+pp-chart-legend,
+pp-chart-tooltip,
+pp-chart-grid,
+.chart-base {
+  font-family: var(--chart-font-family);
+  font-size: var(--chart-font-size-md);
+  color: var(--chart-text-primary);
+}
+
+.d3-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.d3-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.d3-content {
+  width: 100%;
+  height: 100%;
+}
+
+/* Chart containers */
+.chart-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* SVG elements */
+.chart-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Text elements */
+.chart-text {
+  font-family: var(--chart-font-family);
+  font-size: var(--chart-font-size-sm);
+  fill: var(--chart-text-primary);
+  dominant-baseline: middle;
+  text-anchor: middle;
+}
+
+.chart-title {
+  font-size: var(--chart-font-size-lg);
+  font-weight: var(--chart-font-weight-bold);
+  fill: var(--chart-text-primary);
+}
+
+.chart-subtitle {
+  font-size: var(--chart-font-size-md);
+  font-weight: var(--chart-font-weight-normal);
+  fill: var(--chart-text-secondary);
+}
+
+.chart-label {
+  font-size: var(--chart-font-size-sm);
+  font-weight: var(--chart-font-weight-normal);
+  fill: var(--chart-text-secondary);
+}
+
+/* =============================================================================
+   Chart Axis Component Styles
+   ============================================================================= */
+
+pp-chart-axis {
+  display: block;
+  contain: layout;
+}
+
+pp-chart-axis .axis-container {
+  width: 100%;
+  height: 100%;
+}
+
+pp-chart-axis .axis-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+pp-chart-axis .axis-group {
+  font-size: var(--axis-font-size);
+  font-family: var(--axis-font-family);
+}
+
+pp-chart-axis .axis-group .domain {
+  stroke: var(--axis-color);
+  stroke-width: 1;
+}
+
+pp-chart-axis .axis-group .tick line {
+  stroke: var(--tick-color);
+  stroke-width: 1;
+}
+
+pp-chart-axis .axis-group .tick text {
+  fill: var(--axis-color);
+  font-size: inherit;
+  font-family: inherit;
+}
+
+pp-chart-axis .axis-group .grid-line {
+  stroke: var(--grid-color);
+  stroke-opacity: var(--grid-opacity);
+  stroke-width: 1;
+}
+
+pp-chart-axis[orientation="bottom"] .axis-group .tick text {
+  text-anchor: middle;
+  dominant-baseline: hanging;
+}
+
+pp-chart-axis[orientation="top"] .axis-group .tick text {
+  text-anchor: middle;
+  dominant-baseline: auto;
+}
+
+pp-chart-axis[orientation="left"] .axis-group .tick text {
+  text-anchor: end;
+  dominant-baseline: middle;
+}
+
+pp-chart-axis[orientation="right"] .axis-group .tick text {
+  text-anchor: start;
+  dominant-baseline: middle;
+}
+
+/* =============================================================================
+   Chart Legend Component Styles
+   ============================================================================= */
+
+pp-chart-legend {
+  display: block;
+  contain: layout;
+  font-size: var(--legend-font-size);
+  font-family: var(--legend-font-family);
+}
+
+pp-chart-legend .legend-container {
+  padding: var(--legend-padding);
+  background: var(--legend-background);
+  border: var(--legend-border);
+  border-radius: var(--legend-border-radius);
+}
+
+pp-chart-legend .legend-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--legend-item-spacing);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+pp-chart-legend[orientation="vertical"] .legend-list {
+  flex-direction: column;
+}
+
+pp-chart-legend .legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--legend-symbol-spacing);
+  cursor: pointer;
+  user-select: none;
+  transition: opacity var(--chart-transition-fast);
+}
+
+pp-chart-legend .legend-item:hover {
+  opacity: var(--chart-hover-opacity);
+}
+
+pp-chart-legend .legend-item[data-hidden] {
+  opacity: var(--chart-disabled-opacity);
+}
+
+pp-chart-legend .legend-item[data-hidden] .legend-label {
+  text-decoration: line-through;
+}
+
+pp-chart-legend .legend-symbol {
+  flex-shrink: 0;
+  width: var(--legend-symbol-size);
+  height: var(--legend-symbol-size);
+  border-radius: 2px;
+}
+
+pp-chart-legend .legend-symbol[data-symbol="circle"] {
+  border-radius: 50%;
+}
+
+pp-chart-legend .legend-symbol[data-symbol="line"] {
+  height: 2px;
+  border-radius: 1px;
+}
+
+pp-chart-legend .legend-symbol[data-symbol="dash"] {
+  height: 2px;
+  border-radius: 1px;
+  background-image: repeating-linear-gradient(
+    to right,
+    currentColor 0px,
+    currentColor 4px,
+    transparent 4px,
+    transparent 8px
+  );
+  background-color: transparent;
+}
+
+pp-chart-legend .legend-label {
+  font-size: inherit;
+  font-family: inherit;
+  color: inherit;
+  white-space: nowrap;
+}
+
+pp-chart-legend[interactive] .legend-item {
+  padding: 2px 4px;
+  border-radius: 2px;
+}
+
+pp-chart-legend[interactive] .legend-item:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+pp-chart-legend[interactive] .legend-item:focus {
+  outline: var(--chart-focus-width) solid var(--chart-focus-color);
+  outline-offset: var(--chart-focus-offset);
+}
+
+/* =============================================================================
+   Note: Chart tooltips use the existing pp-tooltip component
+   for better functionality and consistency with the design system
+   ============================================================================= */
+
+/* =============================================================================
+   Chart Grid Component Styles
+   ============================================================================= */
+
+pp-chart-grid {
+  display: block;
+  contain: layout;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+pp-chart-grid .grid-container {
+  width: 100%;
+  height: 100%;
+}
+
+pp-chart-grid .grid-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+pp-chart-grid .grid-group {
+  opacity: var(--grid-opacity);
+}
+
+pp-chart-grid .grid-line {
+  stroke: var(--grid-color);
+  stroke-width: var(--chart-border-width);
+  fill: none;
+}
+
+pp-chart-grid .grid-line.x-grid {
+  stroke: var(--grid-color);
+}
+
+pp-chart-grid .grid-line.y-grid {
+  stroke: var(--grid-color);
+}
+
+pp-chart-grid .grid-line[data-style="dashed"] {
+  stroke-dasharray: 5, 5;
+}
+
+pp-chart-grid .grid-line[data-style="dotted"] {
+  stroke-dasharray: 2, 2;
+}
+
+pp-chart-grid[hidden] {
+  display: none;
+}
+
+/* =============================================================================
+   Interactive States
+   ============================================================================= */
+
+.chart-interactive {
+  cursor: pointer;
+  transition: opacity var(--chart-transition-fast);
+}
+
+.chart-interactive:hover {
+  opacity: var(--chart-hover-opacity);
+}
+
+.chart-interactive:active {
+  opacity: var(--chart-active-opacity);
+}
+
+.chart-interactive:focus {
+  outline: var(--chart-focus-width) solid var(--chart-focus-color);
+  outline-offset: var(--chart-focus-offset);
+}
+
+.chart-disabled {
+  opacity: var(--chart-disabled-opacity);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* =============================================================================
+   Loading States
+   ============================================================================= */
+
+.chart-loading {
+  opacity: var(--chart-disabled-opacity);
+  pointer-events: none;
+}
+
+.chart-loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid var(--chart-border-color);
+  border-top-color: var(--chart-primary-color);
+  border-radius: 50%;
+  animation: chart-spin 1s linear infinite;
+}
+
+@keyframes chart-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =============================================================================
+   Accessibility Enhancements
+   ============================================================================= */
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --chart-border-width: 2px;
+    --chart-focus-width: 3px;
+  }
+
+  .chart-text {
+    font-weight: var(--chart-font-weight-medium);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --chart-transition-fast: 0s;
+    --chart-transition-normal: 0s;
+    --chart-transition-slow: 0s;
+  }
+
+  .chart-loading::after {
+    animation: none;
+  }
+
+  pp-chart-tooltip {
+    transition: none;
+  }
+}
+
+/* =============================================================================
+   Utility Classes
+   ============================================================================= */
+
+/* Spacing utilities */
+.chart-mt-sm { margin-top: var(--chart-spacing-sm); }
+.chart-mt-md { margin-top: var(--chart-spacing-md); }
+.chart-mt-lg { margin-top: var(--chart-spacing-lg); }
+
+.chart-mb-sm { margin-bottom: var(--chart-spacing-sm); }
+.chart-mb-md { margin-bottom: var(--chart-spacing-md); }
+.chart-mb-lg { margin-bottom: var(--chart-spacing-lg); }
+
+.chart-p-sm { padding: var(--chart-spacing-sm); }
+.chart-p-md { padding: var(--chart-spacing-md); }
+.chart-p-lg { padding: var(--chart-spacing-lg); }
+
+/* Display utilities */
+.chart-hidden { display: none !important; }
+.chart-visible { display: block !important; }
+
+/* Text utilities */
+.chart-text-center { text-align: center; }
+.chart-text-left { text-align: left; }
+.chart-text-right { text-align: right; }
+
+.chart-font-bold { font-weight: var(--chart-font-weight-bold); }
+.chart-font-medium { font-weight: var(--chart-font-weight-medium); }
+.chart-font-normal { font-weight: var(--chart-font-weight-normal); }
+
+/* Color utilities */
+.chart-text-primary { color: var(--chart-text-primary); }
+.chart-text-secondary { color: var(--chart-text-secondary); }
+.chart-text-muted { color: var(--chart-text-muted); }

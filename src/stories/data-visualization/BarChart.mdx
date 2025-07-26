@@ -1,0 +1,170 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+
+<Meta title="Data visualization*/Bar Chart Documentation" />
+
+# Bar Chart
+
+A D3.js-powered bar chart component built with Lit Web Components following the design system's progressive enhancement principles.
+
+## Description
+
+Bar charts are ideal for **comparing discrete categories** of data. They show relationships between categorical data and numerical values, making them perfect for displaying sales by product, revenue by quarter, or any other category-based comparisons.
+
+The pp-bar-chart component provides a flexible, accessible, and interactive bar chart that integrates seamlessly with the existing design system.
+
+## Anatomy
+
+### Core Structure
+- **SVG Container**: Responsive SVG element with proper ARIA labeling
+- **Bars**: Individual rectangular elements representing data points
+- **Axes**: Optional x and y axis with configurable labels and tick marks
+- **Grid**: Optional grid lines for better value reading
+- **Tooltip**: Interactive tooltip showing precise values on hover
+- **Screen Reader Table**: Hidden accessible data table for screen readers
+
+### Data Structure
+```typescript
+interface BarChartData {
+  data: BarChartDataPoint[];
+  orientation?: 'vertical' | 'horizontal';
+  grouped?: boolean;
+  stacked?: boolean;
+  xAxisLabel?: string;
+  yAxisLabel?: string;
+}
+
+interface BarChartDataPoint {
+  category: string;
+  value: number;
+  color?: string;
+}
+```
+
+## Variants
+
+### Orientation
+- **Vertical**: Categories on x-axis, values on y-axis (default)
+- **Horizontal**: Categories on y-axis, values on x-axis
+
+### Visual Features
+- **With/Without Axes**: Toggle axis display
+- **With/Without Grid**: Toggle grid lines for easier value reading
+- **Animated/Static**: Control transition animations
+- **Sorted**: Automatic sorting by value (ascending/descending)
+
+### Data Variants
+- **Custom Colors**: Individual bar colors
+- **Large Datasets**: Optimized rendering for many categories
+- **Minimal**: Basic chart without axes or grid
+
+## States
+
+### Loading State
+- Component shows loading indicator while data is being fetched
+- Proper ARIA live region updates for screen readers
+
+### Empty State
+- Graceful handling of empty or invalid data
+- Clear messaging for users
+
+### Error State
+- Handles missing D3 dependencies
+- Provides helpful error messages for developers
+
+### Interactive States
+- **Hover**: Visual feedback and tooltip display
+- **Focus**: Keyboard navigation with visual focus indicators
+- **Active**: Click/activation states for data points
+
+## Accessibility
+
+### Screen Reader Support
+- **SVG Role**: `role="img"` with descriptive `aria-labelledby`
+- **Data Table**: Hidden accessible table with all chart data
+- **Live Regions**: Dynamic content updates announced to screen readers
+- **Focus Management**: Proper tab order and focus indicators
+
+### Keyboard Navigation
+- **Tab**: Focus the chart component
+- **Arrow Keys**: Navigate between bars
+- **Home/End**: Jump to first/last bar
+- **Enter/Space**: Activate selected bar (triggers click event)
+- **Escape**: Clear focus and return to chart overview
+
+### Visual Accessibility
+- **High Contrast**: Uses design system color tokens for proper contrast
+- **Reduced Motion**: Respects `prefers-reduced-motion` for animations
+- **Scalable**: Responsive design works at different zoom levels
+- **Color Independence**: Not reliant on color alone for information
+
+## Decision Tree
+
+### When to Use Bar Charts
+- ✅ Comparing discrete categories
+- ✅ Showing rankings or relative performance
+- ✅ Displaying survey results or poll data
+- ✅ When precise values are important
+
+### When to Consider Alternatives
+- ❌ Showing trends over time → Use line charts
+- ❌ Part-to-whole relationships → Use pie charts or stacked charts
+- ❌ Continuous data → Use scatter plots or histograms
+- ❌ Hierarchical data → Use tree diagrams
+
+### Orientation Choice
+- **Vertical**: When category names are short, standard comparison view
+- **Horizontal**: When category names are long, space-constrained layouts
+
+## Related Patterns
+
+### Precursors
+- [Data Tables](../?path=/docs/components-table--docs) - Tabular data that could be visualized
+- [Progress Indicators](../?path=/docs/components-progressindicator--docs) - Single value progress bars
+
+### Follow-ups
+- Line Charts (Phase 3) - For trend analysis
+- Stacked Bar Charts (Future) - For part-to-whole comparisons
+- Data Export (Phase 4) - For saving chart data
+
+### Complementary
+- [Tooltip](../?path=/docs/primitives-tooltip--docs) - Used for hover interactions
+- [Loading Spinner](../?path=/docs/primitives-spinner--docs) - Loading states
+- [Cards](../?path=/docs/compositions-card--docs) - Chart containers
+
+### Tangentially Related
+- [Sorting](../?path=/docs/compositions-sorting--docs) - Data organization patterns
+- [Filtering](../?path=/docs/compositions-filtering--docs) - Data subset selection
+
+## Implementation Notes
+
+### Performance Considerations
+- **Virtual Scrolling**: For datasets with 100+ categories (future feature)
+- **Efficient Updates**: D3's enter/update/exit pattern for smooth re-renders
+- **Responsive Rendering**: Uses ResizeObserver for automatic resizing
+
+### Technical Architecture
+- **Pure Renderers**: Separation of D3 rendering logic from component lifecycle
+- **Type Safety**: Full TypeScript support with data validation
+- **Progressive Enhancement**: Works without JavaScript, enhanced with interactivity
+- **Design System Integration**: Uses CSS custom properties for theming
+
+### Browser Support
+- **Modern Browsers**: Chrome 80+, Firefox 72+, Safari 13+, Edge 80+
+- **Progressive Enhancement**: Graceful fallback for older browsers
+- **Polyfill Requirements**: None for modern browsers
+
+## Resources
+
+### D3.js Documentation
+- [D3 Scales](https://d3js.org/d3-scale) - Scale functions used in the implementation
+- [D3 Selection](https://d3js.org/d3-selection) - DOM manipulation patterns
+- [D3 Array](https://d3js.org/d3-array) - Data processing utilities
+
+### Design References
+- [IBM Carbon Charts](https://carbondesignsystem.com/data-visualization/bar-chart)
+- [Apple HIG Data Visualization](https://developer.apple.com/design/human-interface-guidelines/charting-data)
+- [Material Design Data Visualization](https://m3.material.io/foundations/content-design/data-visualization)
+
+### Accessibility Standards
+- [WAI-ARIA Graphics](https://www.w3.org/WAI/ARIA/apg/practices/graphics/) - ARIA practices for data visualization
+- [WebAIM Screen Reader Testing](https://webaim.org/articles/screenreader_testing/) - Testing methodology
