@@ -5,7 +5,7 @@ import * as BarChartStories from './BarChart.stories.tsx';
 
 # Bar chart
 
-Bar charts are ideal for comparing discrete categories of data. They show relationships between categorical data and numerical values, making them perfect for displaying sales by product, revenue by quarter, or any other category-based comparisons.
+A visual representation that enables categorical comparison through proportional bar lengths. Bar charts facilitate decision-making by revealing relative magnitudes across discrete categories, supporting users' analytical journey from data exploration to actionable insights.
 
 ## Variants
 
@@ -46,34 +46,34 @@ Component shows loading indicator while data is being fetched. ARIA live region 
 
 ## Accessibility
 
-### Screen Reader Support
+### Screen reader support
 - SVG role: `role="img"` with descriptive `aria-labelledby`
 - Data table: Hidden accessible table with all chart data
 - Live regions: Dynamic content updates announced to screen readers
 - Focus management: Tab order and focus indicators
 
-### Keyboard Navigation
+### Keyboard navigation
 - Tab: Focus the chart component
 - Arrow Keys: Navigate between bars
 - Home/End: Jump to first/last bar
 - Enter/Space: Activate selected bar (triggers click event)
 - Escape: Clear focus and return to chart overview
 
-### Visual Accessibility
+### Visual accessibility
 - **High Contrast**: Uses design system color tokens for proper contrast
 - **Reduced Motion**: Respects `prefers-reduced-motion` for animations
 - **Scalable**: Responsive design works at different zoom levels
 - **Color Independence**: Not reliant on color alone for information
 
-## Decision Tree
+## Decision tree
 
-### When to Use Bar Charts
+### When to use bar charts
 - ✓ Comparing discrete categories
 - ✓ Showing rankings or relative performance
 - ✓ Displaying survey results or poll data
 - ✓ When precise values are important
 
-### When to Consider Alternatives
+### When to consider alternatives
 - × Showing trends over time → Use line charts
 - × Part-to-whole relationships → Use pie charts or stacked charts
 - × Continuous data → Use scatter plots or histograms
@@ -83,56 +83,16 @@ Component shows loading indicator while data is being fetched. ARIA live region 
 {/* - Vertical: When category names are short, standard comparison view */}
 {/* - Horizontal: When category names are long, space-constrained layouts */}
 
-## Related Patterns
+## Related patterns
 
 ### Precursors
 - [Data Tables](../?path=/docs/components-table--docs) - Tabular data that could be visualized
-- [Progress Indicators](../?path=/docs/components-progressindicator--docs) - Single value progress bars
-
-### Follow-ups
-- Line Charts (Phase 3) - For trend analysis
-- Stacked Bar Charts (Future) - For part-to-whole comparisons
-- Data Export (Phase 4) - For saving chart data
 
 ### Complementary
 - [Tooltip](../?path=/docs/primitives-tooltip--docs) - Used for hover interactions
-- [Loading Spinner](../?path=/docs/primitives-spinner--docs) - Loading states
 - [Cards](../?path=/docs/compositions-card--docs) - Chart containers
 
-### Tangentially Related
-- [Sorting](../?path=/docs/compositions-sorting--docs) - Data organization patterns
+### Tangentially related
+- [Sorting](../?path=/docs/compositions-sorting--docs) - Data organization
 - [Filtering](../?path=/docs/compositions-filtering--docs) - Data subset selection
 
-## Implementation Notes
-
-### Performance Considerations
-- **Virtual Scrolling**: For datasets with 100+ categories (future feature)
-- **Efficient Updates**: D3's enter/update/exit pattern for smooth re-renders
-- **Responsive Rendering**: Uses ResizeObserver for automatic resizing
-
-### Technical Architecture
-- **Pure Renderers**: Separation of D3 rendering logic from component lifecycle
-- **Type Safety**: Full TypeScript support with data validation
-- **Progressive Enhancement**: Works without JavaScript, enhanced with interactivity
-- **Design System Integration**: Uses CSS custom properties for theming
-
-### Browser Support
-- **Modern Browsers**: Chrome 80+, Firefox 72+, Safari 13+, Edge 80+
-- **Progressive Enhancement**: Graceful fallback for older browsers
-- **Polyfill Requirements**: None for modern browsers
-
-## Resources
-
-### D3.js Documentation
-- [D3 Scales](https://d3js.org/d3-scale) - Scale functions used in the implementation
-- [D3 Selection](https://d3js.org/d3-selection) - DOM manipulation patterns
-- [D3 Array](https://d3js.org/d3-array) - Data processing utilities
-
-### Design References
-- [IBM Carbon Charts](https://carbondesignsystem.com/data-visualization/bar-chart)
-- [Apple HIG Data Visualization](https://developer.apple.com/design/human-interface-guidelines/charting-data)
-- [Material Design Data Visualization](https://m3.material.io/foundations/content-design/data-visualization)
-
-### Accessibility Standards
-- [WAI-ARIA Graphics](https://www.w3.org/WAI/ARIA/apg/practices/graphics/) - ARIA practices for data visualization
-- [WebAIM Screen Reader Testing](https://webaim.org/articles/screenreader_testing/) - Testing methodology

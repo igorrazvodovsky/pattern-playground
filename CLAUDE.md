@@ -135,7 +135,7 @@ When creating cross-references between documen£tation files:
 
 ### Writing style
 - Use British spelling throughout (behaviour, organisation, colour, etc.)
-- Use sentence case for headings and titles
+- **Always use sentence case for headings and titles**
 
 ## Mock data and testing
 

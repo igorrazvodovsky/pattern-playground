@@ -15,14 +15,14 @@
  * ```
  */
 
-import { html, unsafeCSS } from 'lit';
+import { html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { select } from 'd3-selection';
 import { ChartComponent } from './base/chart-component.js';
+import './primitives/chart-axis.js';
 import {
   BarChartData,
   BarChartDataPoint,
-  ChartConfig,
   ChartDimensions,
   isBarChartData
 } from './base/chart-types.js';
@@ -32,7 +32,6 @@ import {
 } from './base/data-converters.js';
 import {
   renderBarChart,
-  updateBarChart,
   addBarChartInteractions,
   cleanupBarChart,
   BarChartConfig,
@@ -40,7 +39,6 @@ import {
   defaultBarChartConfig,
   createBarChartScales
 } from './renderers/bar-chart-renderer.js';
-import tooltipStyles from '../tooltip/tooltip.css?inline';
 
 /**
  * Custom value converter for BarChartData
@@ -57,10 +55,7 @@ export const barChartDataConverter = {
 
 @customElement('pp-bar-chart')
 export class BarChart extends ChartComponent {
-  static styles = [
-    ChartComponent.styles,
-    unsafeCSS(tooltipStyles)
-  ];
+  static styles = ChartComponent.styles;
 
   // Bar chart specific properties
   @property({
@@ -81,8 +76,8 @@ export class BarChart extends ChartComponent {
   @property({ type: Boolean, reflect: true, attribute: 'show-axes' })
   showAxes = true;
 
-  @property({ type: Boolean, reflect: true })
-  animate = true;
+  @property({ type: Boolean, reflect: true, attribute: 'animate-chart' })
+  animateChart = true;
 
   @property({ type: Number, attribute: 'animation-duration' })
   animationDuration = 300;
@@ -135,7 +130,7 @@ export class BarChart extends ChartComponent {
   protected shouldRerender(changedProperties: Map<string | number | symbol, unknown>): boolean {
     return super.shouldRerender(changedProperties) ||
       changedProperties.has('orientation') ||
-      changedProperties.has('animate') ||
+      changedProperties.has('animateChart') ||
       changedProperties.has('barPadding') ||
       changedProperties.has('sort');
   }
@@ -169,7 +164,7 @@ export class BarChart extends ChartComponent {
 
     const config: Partial<BarChartConfig> = {
       orientation: this.orientation,
-      animate: this.animate,
+      animate: this.animateChart,
       animationDuration: this.animationDuration,
       barPadding: this.barPadding,
       ...defaultBarChartConfig
@@ -184,16 +179,16 @@ export class BarChart extends ChartComponent {
 
     // Create scales first so we can render axes before bars
     const scales = this.createScalesForPrimitives(transformedData, dimensions, config);
-    
+
     // Render chart primitives first (axes, grid) so they appear behind bars
     // Use the same coordinate system as the scales (viewBox-based)
     const viewBoxDimensions = {
       width: 600 - this.margin.left - this.margin.right,
       height: 300 - this.margin.top - this.margin.bottom
     };
-    
+
     if (this.showAxes) {
-      this.renderAxes(scales, viewBoxDimensions);
+      this.renderAxesWithPrimitive(scales, viewBoxDimensions);
     }
     if (this.showGrid) {
       this.renderGrid(scales, viewBoxDimensions);
@@ -287,7 +282,7 @@ export class BarChart extends ChartComponent {
         event.preventDefault();
         if (this.renderResult) {
           const currentData = data.data[currentIndex];
-          this.handleBarClick(currentData, event as any);
+          this.handleBarClick(currentData, event as KeyboardEvent);
         }
         break;
     }
@@ -313,104 +308,88 @@ export class BarChart extends ChartComponent {
     }
   }
 
-  private renderAxes(scales: any, dimensions: { width: number; height: number }): void {
+  private renderAxesWithPrimitive(scales: any, dimensions: { width: number; height: number }): void {
     const container = select(this.contentGroup);
 
     // Remove existing axes
     container.selectAll('.axis').remove();
 
-    // X-axis
-    const xAxisGroup = container
+    // Create axis containers
+    const xAxisContainer = container
       .append('g')
       .attr('class', 'axis x-axis')
       .attr('transform', `translate(0, ${dimensions.height})`);
 
-    // Y-axis
-    const yAxisGroup = container
+    const yAxisContainer = container
       .append('g')
       .attr('class', 'axis y-axis');
 
-    // Create and render axes using the scales
-    if (this.orientation === 'vertical') {
-      // For vertical bars: x = categories, y = values
-      xAxisGroup.call((g: any) => {
-        const axis = g.selectAll('.tick')
-          .data(scales.x.domain())
-          .join('g')
-          .attr('class', 'tick')
-          .attr('transform', (d: string) => `translate(${scales.x(d)! + scales.x.bandwidth() / 2}, 0)`);
+    // Use the chart-axis primitive to render axes
+    this.renderAxisWithPrimitive(xAxisContainer, scales, dimensions, 'x');
+    this.renderAxisWithPrimitive(yAxisContainer, scales, dimensions, 'y');
+  }
 
-        axis.append('line')
-          .attr('y2', 6)
-          .attr('stroke', 'var(--c-border)');
+  private renderAxisWithPrimitive(container: any, scales: any, dimensions: { width: number; height: number }, axisType: 'x' | 'y'): void {
+    // Use d3-axis directly for cleaner integration
+    import('d3-axis').then(({ axisBottom, axisLeft }) => {
+      let axis: any;
+      
+      if (axisType === 'x') {
+        // X-axis configuration based on orientation
+        if (this.orientation === 'vertical') {
+          // Categories on X-axis for vertical bars
+          axis = axisBottom(scales.x).tickSize(6);
+        } else {
+          // Values on X-axis for horizontal bars  
+          axis = axisBottom(scales.y).ticks(5).tickSize(6);
+        }
+      } else {
+        // Y-axis configuration based on orientation
+        if (this.orientation === 'vertical') {
+          // Values on Y-axis for vertical bars
+          axis = axisLeft(scales.y).ticks(5).tickSize(-6);
+        } else {
+          // Categories on Y-axis for horizontal bars
+          axis = axisLeft(scales.x).tickSize(-6);
+        }
+      }
+      
+      // Render the axis
+      container.call(axis);
+      
+      // Apply consistent styling
+      this.styleAxisElements(container, axisType);
+    });
+  }
 
-        axis.append('text')
-          .attr('y', 9)
-          .attr('dy', '0.71em')
-          .attr('text-anchor', 'middle')
-          .attr('fill', 'var(--c-bodyDimmed)')
-          .text((d: string) => d);
-      });
+  private styleAxisElements(container: any, axisType: 'x' | 'y'): void {
+    // Style domain line
+    container.select('.domain')
+      .attr('stroke', 'var(--c-border)')
+      .attr('stroke-width', 1);
 
-      yAxisGroup.call((g: any) => {
-        const ticks = scales.y.ticks(5);
-        const axis = g.selectAll('.tick')
-          .data(ticks)
-          .join('g')
-          .attr('class', 'tick')
-          .attr('transform', (d: number) => `translate(0, ${scales.y(d)})`);
+    // Style tick lines
+    container.selectAll('.tick line')
+      .attr('stroke', 'var(--c-border)')
+      .attr('stroke-width', 1);
 
-        axis.append('line')
-          .attr('x2', -6)
-          .attr('stroke', 'var(--c-border)');
+    // Style tick text
+    container.selectAll('.tick text')
+      .attr('fill', 'var(--c-bodyDimmed)')
+      .attr('font-size', 'var(--text-sm)')
+      .attr('font-family', 'var(--font-family-base)');
 
-        axis.append('text')
-          .attr('x', -9)
-          .attr('dy', '0.32em')
-          .attr('text-anchor', 'end')
-          .attr('fill', 'var(--c-bodyDimmed)')
-          .text((d: number) => d);
-      });
+    // Position text based on axis type
+    if (axisType === 'y') {
+      container.selectAll('.tick text')
+        .attr('text-anchor', 'end')
+        .attr('x', -9)
+        .attr('dy', '0.32em');
     } else {
-      // For horizontal bars: x = values, y = categories
-      xAxisGroup.call((g: any) => {
-        const ticks = scales.y.ticks(5);
-        const axis = g.selectAll('.tick')
-          .data(ticks)
-          .join('g')
-          .attr('class', 'tick')
-          .attr('transform', (d: number) => `translate(${scales.y(d)}, 0)`);
-
-        axis.append('line')
-          .attr('y2', 6)
-          .attr('stroke', 'var(--c-border)');
-
-        axis.append('text')
-          .attr('y', 9)
-          .attr('dy', '0.71em')
-          .attr('text-anchor', 'middle')
-          .attr('fill', 'var(--c-bodyDimmed)')
-          .text((d: number) => d);
-      });
-
-      yAxisGroup.call((g: any) => {
-        const axis = g.selectAll('.tick')
-          .data(scales.x.domain())
-          .join('g')
-          .attr('class', 'tick')
-          .attr('transform', (d: string) => `translate(0, ${scales.x(d)! + scales.x.bandwidth() / 2})`);
-
-        axis.append('line')
-          .attr('x2', -6)
-          .attr('stroke', 'var(--c-border)');
-
-        axis.append('text')
-          .attr('x', -9)
-          .attr('dy', '0.32em')
-          .attr('text-anchor', 'end')
-          .attr('fill', 'var(--c-bodyDimmed)')
-          .text((d: string) => d);
-      });
+      container.selectAll('.tick text')
+        .attr('text-anchor', 'middle')
+        .attr('y', 9)
+        .attr('dy', '0.71em');
     }
   }
 

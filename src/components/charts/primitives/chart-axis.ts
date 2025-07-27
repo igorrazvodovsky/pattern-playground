@@ -1,11 +1,12 @@
-import { LitElement, html, unsafeCSS } from 'lit';
-import { property, query } from 'lit/decorators.js';
-import type { CSSResultGroup, TemplateResult } from 'lit';
-import chartStyles from '../../../styles/charts.css?inline';
+import { LitElement, html } from 'lit';
+import { property, query, customElement } from 'lit/decorators.js';
+import type { TemplateResult } from 'lit';
+import { select } from 'd3-selection';
+import { axisBottom, axisTop, axisLeft, axisRight } from 'd3-axis';
+import type { ScaleBand, ScaleLinear } from 'd3-scale';
+// Styles available globally with Light DOM
 
 /**
- * Standalone reusable axis component using d3-axis
- * 
  * @summary A configurable chart axis component that works with D3 scales
  * @status draft
  * @since 0.1
@@ -25,12 +26,8 @@ import chartStyles from '../../../styles/charts.css?inline';
  * @cssproperty --grid-color - Color of the grid lines (if enabled)
  * @cssproperty --grid-opacity - Opacity of the grid lines
  */
+@customElement('pp-chart-axis')
 export class PpChartAxis extends LitElement {
-  static styles: CSSResultGroup = [unsafeCSS(chartStyles)];
-
-  /**
-   * Override createRenderRoot to use Light DOM instead of Shadow DOM
-   */
   protected createRenderRoot() {
     return this;
   }
@@ -45,11 +42,9 @@ export class PpChartAxis extends LitElement {
   @property({ type: Boolean }) grid = false;
   @property({ type: Number }) width = 0;
   @property({ type: Number }) height = 0;
-  @property({ type: Object }) scale: unknown = null;
+  @property({ type: Object }) scale: ScaleBand<string> | ScaleLinear<number, number> | null = null;
 
   // Internal properties for axis configuration
-  private _axisFunction: unknown = null;
-  private _tickValues: unknown[] = [];
 
   constructor() {
     super();
@@ -57,9 +52,9 @@ export class PpChartAxis extends LitElement {
 
   updated(changedProperties: Map<string | number | symbol, unknown>) {
     super.updated(changedProperties);
-    
-    if (changedProperties.has('scale') || 
-        changedProperties.has('orientation') || 
+
+    if (changedProperties.has('scale') ||
+        changedProperties.has('orientation') ||
         changedProperties.has('tickCount') ||
         changedProperties.has('tickFormat') ||
         changedProperties.has('width') ||
@@ -69,9 +64,7 @@ export class PpChartAxis extends LitElement {
   }
 
   /**
-   * Render the axis using the provided scale
-   * Note: This is a placeholder implementation. In a real implementation,
-   * this would use d3-axis to create the actual axis.
+   * Render the axis using the provided scale with d3-axis
    */
   private renderAxis() {
     if (!this.scale || !this.axisGroup) {
@@ -79,18 +72,42 @@ export class PpChartAxis extends LitElement {
     }
 
     // Clear previous axis content
-    while (this.axisGroup.firstChild) {
-      this.axisGroup.removeChild(this.axisGroup.firstChild);
+    select(this.axisGroup).selectAll('*').remove();
+
+    // Create the appropriate axis based on orientation
+    let axis: any;
+    switch (this.orientation) {
+      case 'bottom':
+        axis = axisBottom(this.scale as any);
+        break;
+      case 'top':
+        axis = axisTop(this.scale as any);
+        break;
+      case 'left':
+        axis = axisLeft(this.scale as any);
+        break;
+      case 'right':
+        axis = axisRight(this.scale as any);
+        break;
+      default:
+        axis = axisBottom(this.scale as any);
     }
 
-    // This is a simplified implementation
-    // In a real implementation, you would use:
-    // import { axisBottom, axisTop, axisLeft, axisRight } from 'd3-axis';
-    // const axis = axisBottom(this.scale).ticks(this.tickCount);
-    // select(this.axisGroup).call(axis);
+    // Configure axis
+    if ('ticks' in this.scale && this.tickCount) {
+      axis.ticks(this.tickCount);
+    }
 
-    this.renderPlaceholderAxis();
-    
+    if (this.tickFormat) {
+      axis.tickFormat(this.tickFormat as any);
+    }
+
+    // Render the axis
+    select(this.axisGroup).call(axis);
+
+    // Style the axis elements
+    this.styleAxis();
+
     // Emit render event
     this.dispatchEvent(new CustomEvent('pp-axis-render', {
       detail: { orientation: this.orientation },
@@ -100,72 +117,58 @@ export class PpChartAxis extends LitElement {
   }
 
   /**
-   * Placeholder axis rendering (to be replaced with actual D3 implementation)
+   * Apply styling to the rendered axis
    */
-  private renderPlaceholderAxis() {
-    // Create domain line
-    const domain = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    domain.setAttribute('class', 'domain');
-    
-    if (this.orientation === 'bottom' || this.orientation === 'top') {
-      domain.setAttribute('x1', '0');
-      domain.setAttribute('x2', String(this.width));
-      domain.setAttribute('y1', '0');
-      domain.setAttribute('y2', '0');
-    } else {
-      domain.setAttribute('x1', '0');
-      domain.setAttribute('x2', '0');
-      domain.setAttribute('y1', '0');
-      domain.setAttribute('y2', String(this.height));
-    }
-    
-    this.axisGroup.appendChild(domain);
+  private styleAxis() {
+    const axisSelection = select(this.axisGroup);
 
-    // Create placeholder ticks
-    for (let i = 0; i <= this.tickCount; i++) {
-      const tickGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-      tickGroup.setAttribute('class', 'tick');
-      
-      const tickLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-      const tickText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-      
-      if (this.orientation === 'bottom' || this.orientation === 'top') {
-        const x = (this.width / this.tickCount) * i;
-        tickGroup.setAttribute('transform', `translate(${x}, 0)`);
-        
-        tickLine.setAttribute('x1', '0');
-        tickLine.setAttribute('x2', '0');
-        tickLine.setAttribute('y1', '0');
-        tickLine.setAttribute('y2', this.orientation === 'bottom' ? '6' : '-6');
-        
-        tickText.setAttribute('x', '0');
-        tickText.setAttribute('y', this.orientation === 'bottom' ? '15' : '-9');
-        tickText.textContent = String(i);
-      } else {
-        const y = (this.height / this.tickCount) * i;
-        tickGroup.setAttribute('transform', `translate(0, ${y})`);
-        
-        tickLine.setAttribute('x1', '0');
-        tickLine.setAttribute('x2', this.orientation === 'right' ? '6' : '-6');
-        tickLine.setAttribute('y1', '0');
-        tickLine.setAttribute('y2', '0');
-        
-        tickText.setAttribute('x', this.orientation === 'right' ? '9' : '-9');
-        tickText.setAttribute('y', '0');
-        tickText.textContent = String(i);
-      }
-      
-      tickGroup.appendChild(tickLine);
-      tickGroup.appendChild(tickText);
-      this.axisGroup.appendChild(tickGroup);
+    // Style domain line
+    axisSelection.select('.domain')
+      .attr('stroke', 'var(--c-border)')
+      .attr('stroke-width', 1)
+      .attr('fill', 'none');
+
+    // Style tick lines
+    axisSelection.selectAll('.tick line')
+      .attr('stroke', 'var(--c-border)')
+      .attr('stroke-width', 1);
+
+    // Style tick text
+    axisSelection.selectAll('.tick text')
+      .attr('fill', 'var(--c-bodyDimmed)')
+      .attr('font-size', 'var(--text-sm)')
+      .attr('font-family', 'var(--font-family-base)');
+
+    // Position text based on orientation
+    if (this.orientation === 'left') {
+      axisSelection.selectAll('.tick text')
+        .attr('text-anchor', 'end')
+        .attr('x', -9)
+        .attr('dy', '0.32em');
+    } else if (this.orientation === 'right') {
+      axisSelection.selectAll('.tick text')
+        .attr('text-anchor', 'start')
+        .attr('x', 9)
+        .attr('dy', '0.32em');
+    } else if (this.orientation === 'top') {
+      axisSelection.selectAll('.tick text')
+        .attr('text-anchor', 'middle')
+        .attr('y', -9)
+        .attr('dy', '0');
+    } else {
+      axisSelection.selectAll('.tick text')
+        .attr('text-anchor', 'middle')
+        .attr('y', 9)
+        .attr('dy', '0.71em');
     }
   }
 
   /**
    * Update the scale for this axis
    */
-  setScale(scale: unknown) {
+  setScale(scale: ScaleBand<string> | ScaleLinear<number, number>) {
     this.scale = scale;
+    this.renderAxis();
   }
 
   /**
@@ -181,7 +184,7 @@ export class PpChartAxis extends LitElement {
   render(): TemplateResult {
     return html`
       <div class="axis-container">
-        <svg 
+        <svg
           class="axis-svg"
           width="${this.width}"
           height="${this.height}"
@@ -195,8 +198,6 @@ export class PpChartAxis extends LitElement {
     `;
   }
 }
-
-customElements.define('pp-chart-axis', PpChartAxis);
 
 declare global {
   interface HTMLElementTagNameMap {

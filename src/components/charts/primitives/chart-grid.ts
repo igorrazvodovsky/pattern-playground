@@ -1,7 +1,6 @@
-import { LitElement, html, unsafeCSS } from 'lit';
+import { LitElement, html } from 'lit';
 import { property, query } from 'lit/decorators.js';
-import type { CSSResultGroup, TemplateResult } from 'lit';
-import chartStyles from '../../../styles/charts.css?inline';
+import type { TemplateResult } from 'lit';
 
 /**
  * Grid line configuration
@@ -15,8 +14,6 @@ export interface GridConfig {
 }
 
 /**
- * Optional grid lines component for charts
- * 
  * @summary A configurable grid component for chart backgrounds
  * @status draft
  * @since 0.1
@@ -35,11 +32,7 @@ export interface GridConfig {
  * @cssproperty --grid-y-color - Color of the Y-axis grid lines
  */
 export class PpChartGrid extends LitElement {
-  static styles: CSSResultGroup = [unsafeCSS(chartStyles)];
 
-  /**
-   * Override createRenderRoot to use Light DOM instead of Shadow DOM
-   */
   protected createRenderRoot() {
     return this;
   }
@@ -60,9 +53,9 @@ export class PpChartGrid extends LitElement {
 
   updated(changedProperties: Map<string | number | symbol, unknown>) {
     super.updated(changedProperties);
-    
-    if (changedProperties.has('config') || 
-        changedProperties.has('width') || 
+
+    if (changedProperties.has('config') ||
+        changedProperties.has('width') ||
         changedProperties.has('height') ||
         changedProperties.has('xScale') ||
         changedProperties.has('yScale') ||
@@ -71,9 +64,6 @@ export class PpChartGrid extends LitElement {
     }
   }
 
-  /**
-   * Render the grid lines
-   */
   private renderGrid() {
     if (!this.gridGroup || this.width === 0 || this.height === 0) {
       return;
@@ -102,9 +92,6 @@ export class PpChartGrid extends LitElement {
     }));
   }
 
-  /**
-   * Render vertical grid lines (X-axis)
-   */
   private renderXGrid(style: string) {
     const density = this.getDensity();
     const xStep = this.width / density;
@@ -116,9 +103,6 @@ export class PpChartGrid extends LitElement {
     }
   }
 
-  /**
-   * Render horizontal grid lines (Y-axis)
-   */
   private renderYGrid(style: string) {
     const density = this.getDensity();
     const yStep = this.height / density;
@@ -130,14 +114,11 @@ export class PpChartGrid extends LitElement {
     }
   }
 
-  /**
-   * Create a grid line element
-   */
   private createGridLine(
-    x1: number, 
-    y1: number, 
-    x2: number, 
-    y2: number, 
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number,
     className: string,
     style: string
   ): SVGLineElement {
@@ -151,9 +132,6 @@ export class PpChartGrid extends LitElement {
     return line;
   }
 
-  /**
-   * Get the grid density based on configuration
-   */
   private getDensity(): number {
     const { density = 'medium' } = this.config;
 
@@ -173,9 +151,6 @@ export class PpChartGrid extends LitElement {
     }
   }
 
-  /**
-   * Update grid configuration
-   */
   updateConfig(config: Partial<GridConfig>) {
     this.config = { ...this.config, ...config };
   }
@@ -235,7 +210,7 @@ export class PpChartGrid extends LitElement {
   render(): TemplateResult {
     return html`
       <div class="grid-container">
-        <svg 
+        <svg
           class="grid-svg"
           width="${this.width}"
           height="${this.height}"

@@ -17,7 +17,7 @@ export interface LegendItem {
 
 /**
  * Standalone reusable legend component
- * 
+ *
  * @summary A configurable chart legend that displays data series information
  * @status draft
  * @since 0.1
@@ -46,9 +46,6 @@ export interface LegendItem {
 export class PpChartLegend extends LitElement {
   static styles: CSSResultGroup = [unsafeCSS(chartStyles)];
 
-  /**
-   * Override createRenderRoot to use Light DOM instead of Shadow DOM
-   */
   protected createRenderRoot() {
     return this;
   }
@@ -67,7 +64,7 @@ export class PpChartLegend extends LitElement {
    */
   private handleItemClick(item: LegendItem, event: Event) {
     event.preventDefault();
-    
+
     // Emit click event
     this.dispatchEvent(new CustomEvent('pp-legend-item-click', {
       detail: { item, originalEvent: event },
@@ -108,7 +105,7 @@ export class PpChartLegend extends LitElement {
 
     // Emit toggle event
     this.dispatchEvent(new CustomEvent('pp-legend-item-toggle', {
-      detail: { 
+      detail: {
         item: updatedItems[itemIndex],
         visible: updatedItems[itemIndex].visible ?? true
       },
@@ -155,7 +152,7 @@ export class PpChartLegend extends LitElement {
     const symbol = item.symbol || 'square';
 
     return html`
-      <li 
+      <li
         class="legend-item"
         ?data-hidden=${isHidden}
         tabindex=${this.interactive ? '0' : '-1'}
@@ -164,7 +161,7 @@ export class PpChartLegend extends LitElement {
         @click=${(e: Event) => this.handleItemClick(item, e)}
         @keydown=${(e: KeyboardEvent) => this.handleItemKeyDown(item, e)}
       >
-        <div 
+        <div
           part="legend-symbol"
           class="legend-symbol"
           data-symbol=${symbol}
@@ -179,8 +176,8 @@ export class PpChartLegend extends LitElement {
     return html`
       <div part="base" class="legend-container">
         ${this.title ? html`<div class="legend-title">${this.title}</div>` : ''}
-        <ul 
-          part="legend-list" 
+        <ul
+          part="legend-list"
           class="legend-list"
           role="list"
           aria-label=${this.title || 'Chart legend'}

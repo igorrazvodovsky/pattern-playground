@@ -1,12 +1,11 @@
-import { LitElement, html, unsafeCSS, css } from 'lit';
+import { LitElement, html } from 'lit';
 import { property, query } from 'lit/decorators.js';
-import type { CSSResultGroup, TemplateResult } from 'lit';
-import chartStyles from '../../../styles/charts.css?inline';
+import type { TemplateResult } from 'lit';
 
 /**
  * Base D3 component that provides common D3 SVG container management
  * and responsive sizing for all chart components.
- * 
+ *
  * Extends LitElement with pp- prefix convention and provides:
  * - SVG container management
  * - Responsive sizing and viewport management
@@ -14,33 +13,7 @@ import chartStyles from '../../../styles/charts.css?inline';
  * - Reactive controllers for lifecycle management
  */
 export abstract class D3Component extends LitElement {
-  static styles: CSSResultGroup = [
-    unsafeCSS(chartStyles),
-    css`
-      .pp-d3-component {
-        display: block;
-        width: 100%;
-        height: auto;
-        box-sizing: border-box;
-      }
-      
-      .d3-container {
-        width: 100%;
-        height: auto;
-        position: relative;
-      }
-      
-      .d3-svg {
-        display: block;
-        width: 100%;
-        height: auto;
-      }
-    `
-  ];
 
-  /**
-   * Override createRenderRoot to use Light DOM instead of Shadow DOM
-   */
   protected createRenderRoot() {
     return this;
   }
@@ -50,7 +23,7 @@ export abstract class D3Component extends LitElement {
 
   @property({ type: Number, reflect: true }) width = 0;
   @property({ type: Number, reflect: true }) height = 0;
-  @property({ type: Object }) margin = { top: 20, right: 20, bottom: 20, left: 20 };
+  @property({ type: Object }) margin = { top: 20, right: 20, bottom: 20, left: 40 };
 
   protected resizeObserver?: ResizeObserver;
 
@@ -72,7 +45,7 @@ export abstract class D3Component extends LitElement {
   protected firstUpdated() {
     // Update dimensions immediately
     this.updateDimensions();
-    
+
     // Also update after a small delay to ensure layout is complete
     setTimeout(() => {
       this.updateDimensions();
@@ -89,7 +62,7 @@ export abstract class D3Component extends LitElement {
 
   protected updateDimensions() {
     const rect = this.getBoundingClientRect();
-    
+
     // Use container dimensions if available
     if (rect.width > 0 && rect.height > 0) {
       this.width = rect.width;
@@ -99,7 +72,7 @@ export abstract class D3Component extends LitElement {
       const computedStyle = getComputedStyle(this);
       const cssWidth = parseInt(computedStyle.width, 10);
       const cssHeight = parseInt(computedStyle.height, 10);
-      
+
       this.width = cssWidth > 0 ? cssWidth : 800;
       this.height = cssHeight > 0 ? cssHeight : 400;
     }
@@ -122,15 +95,15 @@ export abstract class D3Component extends LitElement {
 
   protected updated(changedProperties: Map<string | number | symbol, unknown>) {
     super.updated(changedProperties);
-    
+
     // Ensure dimensions are set (fallback if firstUpdated didn't work)
     if (this.width === 0 || this.height === 0) {
       this.updateDimensions();
     }
-    
+
     // Re-render D3 content when dimensions or data change
-    if (changedProperties.has('width') || 
-        changedProperties.has('height') || 
+    if (changedProperties.has('width') ||
+        changedProperties.has('height') ||
         this.shouldRerender(changedProperties)) {
       this.renderD3Content();
     }
@@ -147,17 +120,17 @@ export abstract class D3Component extends LitElement {
   render(): TemplateResult {
     const viewBoxWidth = 600;
     const viewBoxHeight = 300;
-    
+
     return html`
       <div class="pp-d3-component d3-container">
-        <svg 
-          class="d3-svg" 
+        <svg
+          class="d3-svg"
           role="img"
           aria-labelledby="chart-title"
           viewBox="0 0 ${viewBoxWidth} ${viewBoxHeight}"
         >
           <title id="chart-title">Data visualization chart</title>
-          <g 
+          <g
             class="d3-content"
             transform="translate(${this.margin.left}, ${this.margin.top})"
           ></g>
