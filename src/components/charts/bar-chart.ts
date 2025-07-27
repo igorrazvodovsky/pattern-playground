@@ -17,7 +17,7 @@
 
 import { html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { select, Selection } from 'd3-selection';
+import { select } from 'd3-selection';
 import { ChartComponent } from './base/chart-component.js';
 import './primitives/chart-axis.js';
 import {
@@ -325,64 +325,63 @@ export class BarChart extends ChartComponent {
     const container = select(this.contentGroup);
 
     // Remove existing axes
-    container.selectAll('.axis').remove();
+    container.selectAll('.axis-group').remove();
 
-    // Create axis containers
-    const xAxisContainer = container
+    // Create X-axis group
+    const xAxisGroup = container
       .append('g')
-      .attr('class', 'axis x-axis')
+      .attr('class', 'axis-group x-axis')
       .attr('transform', `translate(0, ${dimensions.height})`);
 
-    const yAxisContainer = container
+    // Create Y-axis group
+    const yAxisGroup = container
       .append('g')
-      .attr('class', 'axis y-axis');
+      .attr('class', 'axis-group y-axis');
 
-    // Use the chart-axis primitive to render axes
-    this.renderAxisWithPrimitive(xAxisContainer, scales, dimensions, 'x');
-    this.renderAxisWithPrimitive(yAxisContainer, scales, dimensions, 'y');
+    // Render X-axis directly using D3 axis methods that the chart-axis component uses
+    this.renderAxisDirect(xAxisGroup, scales, dimensions, 'x');
+    this.renderAxisDirect(yAxisGroup, scales, dimensions, 'y');
   }
 
-  private renderAxisWithPrimitive(container: Selection<SVGGElement, unknown, null, undefined>, scales: BarChartScales, dimensions: { width: number; height: number }, axisType: 'x' | 'y'): void {
-    // Use d3-axis directly for cleaner integration
+  private renderAxisDirect(container: any, scales: BarChartScales, dimensions: { width: number; height: number }, axisType: 'x' | 'y'): void {
+    // Import and use d3-axis directly, similar to chart-axis component
     import('d3-axis').then(({ axisBottom, axisLeft }) => {
-      // D3 axis functions return different specific types (Axis<string>, Axis<NumberValue>)
-      // that cannot be unified without significant type gymnastics. Using any for pragmatic reasons.
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let axis: any;
-      
+
       if (axisType === 'x') {
         // X-axis configuration based on orientation
         if (this.orientation === 'vertical') {
           // Categories on X-axis for vertical bars
           axis = axisBottom(scales.x).tickSize(6);
         } else {
-          // Values on X-axis for horizontal bars  
+          // Values on X-axis for horizontal bars
           axis = axisBottom(scales.y).ticks(5).tickSize(6);
         }
       } else {
         // Y-axis configuration based on orientation
         if (this.orientation === 'vertical') {
           // Values on Y-axis for vertical bars
-          axis = axisLeft(scales.y).ticks(5).tickSize(-6);
+          axis = axisLeft(scales.y).ticks(5).tickSize(6);
         } else {
           // Categories on Y-axis for horizontal bars
-          axis = axisLeft(scales.x).tickSize(-6);
+          axis = axisLeft(scales.x).tickSize(6);
         }
       }
-      
+
       // Render the axis
       container.call(axis);
-      
-      // Apply consistent styling
-      this.styleAxisElements(container, axisType);
+
+      // Apply the same styling as chart-axis component
+      this.applyAxisStyling(container, axisType);
     });
   }
 
-  private styleAxisElements(container: Selection<SVGGElement, unknown, null, undefined>, axisType: 'x' | 'y'): void {
+  private applyAxisStyling(container: any, axisType: 'x' | 'y'): void {
     // Style domain line
     container.select('.domain')
       .attr('stroke', 'var(--c-border)')
-      .attr('stroke-width', 1);
+      .attr('stroke-width', 0)
+      .attr('fill', 'none');
 
     // Style tick lines
     container.selectAll('.tick line')
@@ -395,16 +394,16 @@ export class BarChart extends ChartComponent {
       .attr('font-size', 'var(--text-sm)')
       .attr('font-family', 'var(--font-family-base)');
 
-    // Position text based on axis type
+    // Position text based on orientation (using same values as chart-axis component)
     if (axisType === 'y') {
       container.selectAll('.tick text')
         .attr('text-anchor', 'end')
-        .attr('x', -9)
+        .attr('x', -12)
         .attr('dy', '0.32em');
     } else {
       container.selectAll('.tick text')
         .attr('text-anchor', 'middle')
-        .attr('y', 9)
+        .attr('y', 12)
         .attr('dy', '0.71em');
     }
   }

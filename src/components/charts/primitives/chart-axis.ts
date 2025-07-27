@@ -187,22 +187,22 @@ export class PpChartAxis extends LitElement implements ScaleConsumer {
     if (this.orientation === 'left') {
       axisSelection.selectAll('.tick text')
         .attr('text-anchor', 'end')
-        .attr('x', -9)
+        .attr('x', -12)
         .attr('dy', '0.32em');
     } else if (this.orientation === 'right') {
       axisSelection.selectAll('.tick text')
         .attr('text-anchor', 'start')
-        .attr('x', 9)
+        .attr('x', 12)
         .attr('dy', '0.32em');
     } else if (this.orientation === 'top') {
       axisSelection.selectAll('.tick text')
         .attr('text-anchor', 'middle')
-        .attr('y', -9)
+        .attr('y', -12)
         .attr('dy', '0');
     } else {
       axisSelection.selectAll('.tick text')
         .attr('text-anchor', 'middle')
-        .attr('y', 9)
+        .attr('y', 12)
         .attr('dy', '0.71em');
     }
   }

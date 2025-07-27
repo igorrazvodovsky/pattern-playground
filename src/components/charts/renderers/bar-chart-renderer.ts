@@ -80,9 +80,10 @@ export function createBarChartScales(
 
   // Create band scale for categories (x-axis for vertical, y-axis for horizontal)
   const categories = data.data.map(d => d.category);
+  const padding = 4; // Add padding from chart edges
   const xScale = scaleBand<string>()
     .domain(categories)
-    .range(config.orientation === 'vertical' ? [0, chartWidth] : [chartHeight, 0])
+    .range(config.orientation === 'vertical' ? [padding, chartWidth - padding] : [chartHeight - padding, padding])
     .padding(config.barPadding);
 
   // Create linear scale for values (y-axis for vertical, x-axis for horizontal)
@@ -94,7 +95,7 @@ export function createBarChartScales(
 
   const yScale = scaleLinear()
     .domain(yDomain)
-    .range(config.orientation === 'vertical' ? [chartHeight, 0] : [0, chartWidth])
+    .range(config.orientation === 'vertical' ? [chartHeight - padding, padding] : [padding, chartWidth - padding])
     .nice();
 
   return { x: xScale, y: yScale };
