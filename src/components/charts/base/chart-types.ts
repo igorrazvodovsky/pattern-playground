@@ -1,6 +1,4 @@
 /**
- * TypeScript interfaces for chart data structures
- * 
  * These interfaces define the public API contracts for each chart type,
  * ensuring type safety across renderers and components.
  */

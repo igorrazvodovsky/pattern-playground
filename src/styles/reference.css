@@ -15,8 +15,6 @@
   border: var(--border);
   border-radius: var(--radius-s);
   cursor: pointer;
-  /* font-weight: 500; */
-  /* font-size: var(--text-sm); */
   transition: all 0.2s ease;
   color: var(--c-placeholder);
   line-height: 150%;

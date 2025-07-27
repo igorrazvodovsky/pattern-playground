@@ -319,6 +319,8 @@ pp-chart-legend .legend-symbol {
   width: var(--legend-symbol-size);
   height: var(--legend-symbol-size);
   border-radius: 2px;
+  background-color: var(--symbol-color);
+  color: var(--symbol-color);
 }
 
 pp-chart-legend .legend-symbol[data-symbol="circle"] {
@@ -428,6 +430,10 @@ pp-chart-grid[hidden] {
 /* =============================================================================
    Interactive States
    ============================================================================= */
+
+.chart-hover-cursor {
+  cursor: pointer;
+}
 
 .chart-interactive {
   cursor: pointer;

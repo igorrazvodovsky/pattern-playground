@@ -391,8 +391,8 @@ export class BarChart extends ChartComponent {
     // Style tick text
     container.selectAll('.tick text')
       .attr('fill', 'var(--c-bodyDimmed)')
-      .attr('font-size', 'var(--text-sm)')
-      .attr('font-family', 'var(--font-family-base)');
+      .attr('font-size', 'var(--text-s)')
+      .attr('font-family', 'var(--font)');
 
     // Position text based on orientation (using same values as chart-axis component)
     if (axisType === 'y') {

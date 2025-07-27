@@ -1,7 +1,5 @@
 /**
  * Core interaction contract and basic implementations for chart interactions
- * 
- * Provides:
  * - Core interaction contract (registerGesture, destroy) designed in Phase 1
  * - Basic gesture implementations (hover, click) in Phase 2
  * - Plugin architecture that works with any renderer
@@ -85,7 +83,7 @@ export class HoverInteraction implements ChartInteraction {
   register(element: SVGElement | HTMLElement, config: HoverConfig = {}): void {
     this.element = element;
     this.config = { delay: 0, cursor: 'pointer', ...config };
-    
+
     element.addEventListener('mouseenter', this.handleMouseEnter);
     element.addEventListener('mouseleave', this.handleMouseLeave);
     element.addEventListener('mousemove', this.handleMouseMove);
@@ -97,11 +95,11 @@ export class HoverInteraction implements ChartInteraction {
       this.element.removeEventListener('mouseleave', this.handleMouseLeave);
       this.element.removeEventListener('mousemove', this.handleMouseMove);
     }
-    
+
     if (this.hoverTimeout) {
       clearTimeout(this.hoverTimeout);
     }
-    
+
     this.element = undefined;
   }
 
@@ -109,7 +107,7 @@ export class HoverInteraction implements ChartInteraction {
     if (!this.element) return;
 
     if (this.config.cursor) {
-      this.element.style.cursor = this.config.cursor;
+      this.element.classList.add('chart-hover-cursor');
     }
 
     if (this.config.delay && this.config.delay > 0) {
@@ -124,8 +122,8 @@ export class HoverInteraction implements ChartInteraction {
   private handleMouseLeave = (event: Event) => {
     if (!this.element) return;
 
-    this.element.style.cursor = '';
-    
+    this.element.classList.remove('chart-hover-cursor');
+
     if (this.hoverTimeout) {
       clearTimeout(this.hoverTimeout);
       this.hoverTimeout = undefined;
@@ -176,13 +174,13 @@ export class ClickInteraction implements ChartInteraction {
 
   register(element: SVGElement | HTMLElement, config: ClickConfig = {}): void {
     this.element = element;
-    this.config = { 
-      preventDefault: false, 
-      stopPropagation: false, 
+    this.config = {
+      preventDefault: false,
+      stopPropagation: false,
       doubleClickDelay: 300,
-      ...config 
+      ...config
     };
-    
+
     element.addEventListener('click', this.handleClick);
   }
 
@@ -190,11 +188,11 @@ export class ClickInteraction implements ChartInteraction {
     if (this.element) {
       this.element.removeEventListener('click', this.handleClick);
     }
-    
+
     if (this.clickTimeout) {
       clearTimeout(this.clickTimeout);
     }
-    
+
     this.element = undefined;
   }
 
@@ -204,7 +202,7 @@ export class ClickInteraction implements ChartInteraction {
     if (this.config.preventDefault) {
       event.preventDefault();
     }
-    
+
     if (this.config.stopPropagation) {
       event.stopPropagation();
     }
@@ -315,13 +313,13 @@ export class InteractionLayer {
    */
   setElement(element: SVGElement | HTMLElement): void {
     const currentInteractions = new Map(this.interactions);
-    
+
     // Destroy all current interactions
     this.destroy();
-    
+
     // Set new element
     this.element = element;
-    
+
     // Re-register all interactions with new element
     for (const [, interaction] of currentInteractions) {
       this.registerGesture(interaction);
@@ -334,11 +332,11 @@ export class InteractionLayer {
  */
 export function createStandardInteractions(): InteractionLayer {
   const layer = new InteractionLayer();
-  
+
   // Add basic hover and click interactions by default
   layer.registerGesture(new HoverInteraction());
   layer.registerGesture(new ClickInteraction());
-  
+
   return layer;
 }
 
@@ -350,10 +348,10 @@ export function createChartInteractionLayer(
   interactions: Array<{ type: ChartInteraction; config?: InteractionConfig }> = []
 ): InteractionLayer {
   const layer = new InteractionLayer(element);
-  
+
   for (const { type: interaction, config } of interactions) {
     layer.registerGesture(interaction, config);
   }
-  
+
   return layer;
 }

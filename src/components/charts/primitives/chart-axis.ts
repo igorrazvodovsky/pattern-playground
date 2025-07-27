@@ -6,7 +6,6 @@ import { axisBottom, axisTop, axisLeft, axisRight } from 'd3-axis';
 import type { Axis, AxisDomain, AxisScale } from 'd3-axis';
 import type { ScaleBand, ScaleLinear } from 'd3-scale';
 import type { ScaleConsumer, TickInfo, ChartScale, ScaleCoordinator } from '../services/scale-coordinator.js';
-// Styles available globally with Light DOM
 
 /**
  * @summary A configurable chart axis component that works with D3 scales
@@ -150,7 +149,7 @@ export class PpChartAxis extends LitElement implements ScaleConsumer {
       bubbles: true,
       composed: true
     }));
-    
+
     } catch (error) {
       console.error('Chart axis: Error rendering axis:', error);
       // Clear the axis group on error to prevent partial renders
@@ -180,8 +179,8 @@ export class PpChartAxis extends LitElement implements ScaleConsumer {
     // Style tick text
     axisSelection.selectAll('.tick text')
       .attr('fill', 'var(--c-bodyDimmed)')
-      .attr('font-size', 'var(--text-sm)')
-      .attr('font-family', 'var(--font-family-base)');
+      .attr('font-size', 'var(--text-s)')
+      .attr('font-family', 'var(--font)');
 
     // Position text based on orientation
     if (this.orientation === 'left') {

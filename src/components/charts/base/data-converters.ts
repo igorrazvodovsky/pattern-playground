@@ -1,14 +1,11 @@
 /**
- * Pure converter functions for chart data parsing
- * 
- * These functions are kept outside class bodies for simplified typing and easier unit testing.
  * Provides JSON array validation, transformation utilities, and real-time data update helpers.
  */
 
-import type { 
-  LineChartData, 
-  BarChartData, 
-  AreaChartData, 
+import type {
+  LineChartData,
+  BarChartData,
+  AreaChartData,
   TreeData,
   ChartDataPoint
 } from './chart-types.js';
@@ -46,11 +43,11 @@ export function parseChartData<T>(data: string | T): T | null {
  */
 export function convertToLineChartData(input: unknown): LineChartData | null {
   const data = parseChartData(input);
-  
+
   if (isLineChartData(data)) {
     return data;
   }
-  
+
   // Try to convert array of objects to line chart format
   if (Array.isArray(data) && data.length > 0) {
     const firstItem = data[0];
@@ -66,7 +63,7 @@ export function convertToLineChartData(input: unknown): LineChartData | null {
       };
     }
   }
-  
+
   return null;
 }
 
@@ -75,11 +72,11 @@ export function convertToLineChartData(input: unknown): LineChartData | null {
  */
 export function convertToBarChartData(input: unknown): BarChartData | null {
   const data = parseChartData(input);
-  
+
   if (isBarChartData(data)) {
     return data;
   }
-  
+
   // Try to convert array of objects to bar chart format
   if (Array.isArray(data) && data.length > 0) {
     const firstItem = data[0];
@@ -92,7 +89,7 @@ export function convertToBarChartData(input: unknown): BarChartData | null {
         }))
       };
     }
-    
+
     // Try to convert simple key-value pairs
     if (isChartDataPoint(firstItem)) {
       const keys = Object.keys(firstItem);
@@ -108,7 +105,7 @@ export function convertToBarChartData(input: unknown): BarChartData | null {
       }
     }
   }
-  
+
   return null;
 }
 
@@ -117,11 +114,11 @@ export function convertToBarChartData(input: unknown): BarChartData | null {
  */
 export function convertToAreaChartData(input: unknown): AreaChartData | null {
   const data = parseChartData(input);
-  
+
   if (isAreaChartData(data)) {
     return data;
   }
-  
+
   // Try to convert array of objects to area chart format
   if (Array.isArray(data) && data.length > 0) {
     const firstItem = data[0];
@@ -138,7 +135,7 @@ export function convertToAreaChartData(input: unknown): AreaChartData | null {
       };
     }
   }
-  
+
   return null;
 }
 
@@ -147,18 +144,18 @@ export function convertToAreaChartData(input: unknown): AreaChartData | null {
  */
 export function convertToTreeData(input: unknown): TreeData | null {
   const data = parseChartData(input);
-  
+
   if (isTreeData(data)) {
     return data;
   }
-  
+
   // Try to convert simple nested object structure
   if (isChartDataPoint(data) && 'id' in data && 'name' in data) {
     return {
       root: data as TreeData['root']
     };
   }
-  
+
   return null;
 }
 
@@ -204,7 +201,7 @@ export function transformBarChartData(
   } = {}
 ): BarChartData {
   let transformedData = { ...data };
-  
+
   // Sort data if requested
   if (options.sort && options.sort !== 'none') {
     const sortedData = [...data.data].sort((a, b) => {
@@ -213,12 +210,12 @@ export function transformBarChartData(
     });
     transformedData.data = sortedData;
   }
-  
+
   // Set orientation
   if (options.orientation) {
     transformedData.orientation = options.orientation;
   }
-  
+
   return transformedData;
 }
 
@@ -229,11 +226,11 @@ export function getDataExtent(data: ChartDataPoint[], key: string): [number, num
   const values = data
     .map(d => d[key])
     .filter((v): v is number => typeof v === 'number' && !isNaN(v));
-  
+
   if (values.length === 0) {
     return [0, 1];
   }
-  
+
   return [Math.min(...values), Math.max(...values)];
 }
 
@@ -244,6 +241,6 @@ export function getCategories(data: ChartDataPoint[], key: string): string[] {
   const categories = data
     .map(d => String(d[key]))
     .filter((v, i, arr) => arr.indexOf(v) === i);
-  
+
   return categories;
 }

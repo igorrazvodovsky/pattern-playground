@@ -1,8 +1,7 @@
-import { LitElement, html, unsafeCSS } from 'lit';
+import { LitElement, html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { repeat } from 'lit/directives/repeat.js';
-import type { CSSResultGroup, TemplateResult } from 'lit';
-import chartStyles from '../../../styles/charts.css?inline';
+import type { TemplateResult } from 'lit';
 
 /**
  * Legend data item interface
@@ -16,8 +15,6 @@ export interface LegendItem {
 }
 
 /**
- * Standalone reusable legend component
- *
  * @summary A configurable chart legend that displays data series information
  * @status draft
  * @since 0.1
@@ -44,7 +41,6 @@ export interface LegendItem {
  * @cssproperty --legend-border-radius - Border radius of the legend
  */
 export class PpChartLegend extends LitElement {
-  static styles: CSSResultGroup = [unsafeCSS(chartStyles)];
 
   protected createRenderRoot() {
     return this;
@@ -165,7 +161,7 @@ export class PpChartLegend extends LitElement {
           part="legend-symbol"
           class="legend-symbol"
           data-symbol=${symbol}
-          style="background-color: ${item.color}; color: ${item.color};"
+          style="--symbol-color: ${item.color};"
         ></div>
         <span part="legend-label" class="legend-label">${item.label}</span>
       </li>

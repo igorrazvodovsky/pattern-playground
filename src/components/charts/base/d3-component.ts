@@ -6,7 +6,6 @@ import type { TemplateResult } from 'lit';
  * Base D3 component that provides common D3 SVG container management
  * and responsive sizing for all chart components.
  *
- * Extends LitElement with pp- prefix convention and provides:
  * - SVG container management
  * - Responsive sizing and viewport management
  * - Base data binding with @property decorators
