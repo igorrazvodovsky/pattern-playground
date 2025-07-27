@@ -5,6 +5,7 @@ import documentsData from './documents.json' with { type: 'json' };
 import commandsData from './commands.json' with { type: 'json' };
 import recentItemsData from './recent-items.json' with { type: 'json' };
 import tasksData from './tasks.json' with { type: 'json' };
+import transactionsData from './transactions.json' with { type: 'json' };
 
 export const users = usersData;
 export const projects = projectsData;
@@ -12,6 +13,7 @@ export const documents = documentsData;
 export const commands = commandsData;
 export const recentItems = recentItemsData;
 export const tasks = tasksData;
+export const transactions = transactionsData;
 
 // Filter-specific data
 export { default as filterStatuses } from './filter-statuses.json' with { type: 'json' };
@@ -43,6 +45,7 @@ export type Document = typeof documents[0];
 export type Command = typeof commands[0];
 export type RecentItem = typeof recentItems[0];
 export type Task = typeof tasks[0];
+export type Transaction = typeof transactions[0];
 
 // Reference picker data structure
 export const referenceCategories = [

@@ -5,7 +5,6 @@ import { useEffect, useRef } from "react";
 import "../../components/charts/bar-chart.js";
 import type { BarChartData } from "../../components/charts/base/chart-types.js";
 
-// Type definition for the pp-bar-chart custom element
 interface BarChartElement extends HTMLElement {
   data: BarChartData;
   orientation: 'vertical' | 'horizontal';
@@ -29,24 +28,12 @@ declare global {
 // Sample data for testing
 const sampleProductData: BarChartData = {
   data: [
-    { category: 'Product A', value: 120, color: '#3b82f6' },
-    { category: 'Product B', value: 85, color: '#ef4444' },
-    { category: 'Product C', value: 150, color: '#10b981' },
-    { category: 'Product D', value: 95, color: '#f59e0b' },
-    { category: 'Product E', value: 175, color: '#8b5cf6' }
-  ],
-  xAxisLabel: 'Products',
-  yAxisLabel: 'Sales'
-};
-
-const quarterlyData: BarChartData = {
-  data: [
-    { category: 'Q1 2024', value: 85 },
-    { category: 'Q2 2024', value: 120 },
-    { category: 'Q3 2024', value: 95 },
-    { category: 'Q4 2024', value: 140 }
-  ],
-  orientation: 'horizontal'
+    { category: 'A', value: 120 },
+    { category: 'B', value: 85 },
+    { category: 'C', value: 150 },
+    { category: 'D', value: 95 },
+    { category: 'E', value: 175 }
+  ]
 };
 
 const largeDataset: BarChartData = {
@@ -86,8 +73,7 @@ function BarChartWrapper({
   showLegend = false,
   animate = true,
   title = '',
-  sort = 'none',
-  height = 400
+  sort = 'none'
 }: BarChartWrapperProps) {
   const chartRef = useRef<BarChartElement | null>(null);
 
@@ -124,15 +110,7 @@ function BarChartWrapper({
   }, [data, orientation, showAxes, showGrid, showLegend, animate, title, sort]);
 
   return (
-    <pp-bar-chart
-      ref={chartRef}
-      style={{
-        width: '100%',
-        height: `${height}px`,
-        border: '1px solid var(--c-border)',
-        borderRadius: '8px'
-      }}
-    />
+    <pp-bar-chart ref={chartRef} />
   );
 }
 
@@ -165,10 +143,6 @@ const meta = {
       control: { type: 'radio' },
       options: ['none', 'asc', 'desc'],
       description: 'Sort bars by value'
-    },
-    height: {
-      control: { type: 'range', min: 200, max: 600, step: 50 },
-      description: 'Chart height in pixels'
     }
   }
 } satisfies Meta<BarChartWrapperProps>;
@@ -183,8 +157,7 @@ export const Default: Story = {
     showAxes: true,
     showGrid: false,
     animate: true,
-    title: 'Product Sales Data',
-    height: 400
+    title: 'Product sales',
   }
 };
 
@@ -195,8 +168,7 @@ export const LargeDataset: Story = {
     showAxes: true,
     showGrid: true,
     animate: true,
-    title: 'Monthly Sales Data',
-    height: 450
+    title: 'Monthly sales',
   }
 };
 
@@ -214,6 +186,5 @@ export const Minimal: Story = {
     showGrid: false,
     animate: true,
     title: 'Minimal Chart',
-    height: 200
   }
 };

@@ -1,0 +1,122 @@
+[
+  {
+    "id": "txn-001",
+    "amount": 125.50,
+    "description": "Software subscription renewal for team productivity tools",
+    "status": "completed",
+    "date": "2024-01-15",
+    "category": "Software"
+  },
+  {
+    "id": "txn-002", 
+    "amount": 2450.00,
+    "description": "Hardware procurement for development workstations",
+    "status": "completed",
+    "date": "2024-01-18",
+    "category": "Hardware"
+  },
+  {
+    "id": "txn-003",
+    "amount": 89.99,
+    "description": "Cloud hosting services monthly payment",
+    "status": "pending",
+    "date": "2024-01-22",
+    "category": "Infrastructure"
+  },
+  {
+    "id": "txn-004",
+    "amount": 1200.00,
+    "description": "Consulting services for system architecture review",
+    "status": "completed", 
+    "date": "2024-01-25",
+    "category": "Consulting"
+  },
+  {
+    "id": "txn-005",
+    "amount": 75.00,
+    "description": "Domain registration and SSL certificate renewal",
+    "status": "failed",
+    "date": "2024-02-01",
+    "category": "Infrastructure"
+  },
+  {
+    "id": "txn-006",
+    "amount": 350.00,
+    "description": "Design software licenses for creative team",
+    "status": "completed",
+    "date": "2024-02-05",
+    "category": "Software"
+  },
+  {
+    "id": "txn-007",
+    "amount": 180.00,
+    "description": "API service credits for third-party integrations",
+    "status": "pending",
+    "date": "2024-02-08",
+    "category": "Infrastructure"
+  },
+  {
+    "id": "txn-008",
+    "amount": 925.00,
+    "description": "Security audit and penetration testing services",
+    "status": "completed",
+    "date": "2024-02-12",
+    "category": "Security"
+  },
+  {
+    "id": "txn-009",
+    "amount": 65.00,
+    "description": "Backup storage service upgrade",
+    "status": "pending",
+    "date": "2024-02-15",
+    "category": "Infrastructure"
+  },
+  {
+    "id": "txn-010",
+    "amount": 1800.00,
+    "description": "Training workshop for team skill development",
+    "status": "completed",
+    "date": "2024-02-20",
+    "category": "Training"
+  },
+  {
+    "id": "txn-011",
+    "amount": 45.99,
+    "description": "Analytics platform monthly subscription",
+    "status": "completed",
+    "date": "2024-02-22",
+    "category": "Software"
+  },
+  {
+    "id": "txn-012",
+    "amount": 300.00,
+    "description": "Code review and quality assurance tools",
+    "status": "failed",
+    "date": "2024-02-25",
+    "category": "Software"
+  },
+  {
+    "id": "txn-013",
+    "amount": 150.00,
+    "description": "Load testing services for application performance",
+    "status": "pending",
+    "date": "2024-03-01",
+    "category": "Testing"
+  },
+  {
+    "id": "txn-014",
+    "amount": 220.00,
+    "description": "Documentation platform and collaboration tools",
+    "status": "completed",
+    "date": "2024-03-05",
+    "category": "Software"
+  },
+  {
+    "id": "txn-015",
+    "amount": 850.00,
+    "description": "Database optimization and performance tuning",
+    "status": "completed",
+    "date": "2024-03-08",
+    "category": "Consulting"
+  }
+]

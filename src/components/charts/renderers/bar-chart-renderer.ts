@@ -152,7 +152,7 @@ export function renderBarChart(
     allBars
       .attr('x', d => scales.x(d.category) || 0)
       .attr('width', scales.x.bandwidth())
-      .attr('fill', 'var(--c-accent-500)')
+      .attr('fill', 'var(--c-accent-200)')
       .attr('rx', 4)
       .attr('ry', 4)
 
