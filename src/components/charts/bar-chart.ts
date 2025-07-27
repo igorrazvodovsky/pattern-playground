@@ -37,7 +37,8 @@ import {
   cleanupBarChart,
   BarChartConfig,
   BarChartRenderResult,
-  defaultBarChartConfig
+  defaultBarChartConfig,
+  createBarChartScales
 } from './renderers/bar-chart-renderer.js';
 import tooltipStyles from '../tooltip/tooltip.css?inline';
 
@@ -146,6 +147,14 @@ export class BarChart extends ChartComponent {
     // Scales are created in the renderer, not stored as instance variables
   }
 
+  /**
+   * Create scales for rendering primitives before bars
+   */
+  private createScalesForPrimitives(data: BarChartData, dimensions: ChartDimensions, config: Partial<BarChartConfig>) {
+    const mergedConfig = { ...defaultBarChartConfig, ...config };
+    return createBarChartScales(data, dimensions, mergedConfig);
+  }
+
   protected renderChart(): void {
     if (!this.contentGroup || !this.validateData()) {
       return;
@@ -171,18 +180,33 @@ export class BarChart extends ChartComponent {
       cleanupBarChart(this.renderResult);
     }
 
-    // Render the bar chart
     const container = select(this.contentGroup);
+
+    // Create scales first so we can render axes before bars
+    const scales = this.createScalesForPrimitives(transformedData, dimensions, config);
+    
+    // Render chart primitives first (axes, grid) so they appear behind bars
+    // Use the same coordinate system as the scales (viewBox-based)
+    const viewBoxDimensions = {
+      width: 600 - this.margin.left - this.margin.right,
+      height: 300 - this.margin.top - this.margin.bottom
+    };
+    
+    if (this.showAxes) {
+      this.renderAxes(scales, viewBoxDimensions);
+    }
+    if (this.showGrid) {
+      this.renderGrid(scales, viewBoxDimensions);
+    }
+
+    // Now render the bar chart on top
     this.renderResult = renderBarChart(container, transformedData, dimensions, config);
 
     // Add interactions
     this.addInteractions();
 
-    // Render chart primitives (axes, grid, legend)
-    this.renderChartPrimitives();
-
     // Update title for accessibility
-    const titleElement = this.shadowRoot?.querySelector('#chart-title');
+    const titleElement = this.querySelector('#chart-title');
     if (titleElement) {
       titleElement.textContent = this.title || `Bar chart with ${transformedData.data.length} data points`;
     }
@@ -289,24 +313,6 @@ export class BarChart extends ChartComponent {
     }
   }
 
-
-  private renderChartPrimitives(): void {
-    if (!this.renderResult || !this.contentGroup) return;
-
-    const { scales } = this.renderResult;
-    const dimensions = this.getInnerDimensions();
-
-    // Render axes if enabled
-    if (this.showAxes) {
-      this.renderAxes(scales, dimensions);
-    }
-
-    // Render grid if enabled
-    if (this.showGrid) {
-      this.renderGrid(scales, dimensions);
-    }
-  }
-
   private renderAxes(scales: any, dimensions: { width: number; height: number }): void {
     const container = select(this.contentGroup);
 
@@ -336,13 +342,13 @@ export class BarChart extends ChartComponent {
 
         axis.append('line')
           .attr('y2', 6)
-          .attr('stroke', 'var(--pp-color-border)');
+          .attr('stroke', 'var(--c-border)');
 
         axis.append('text')
           .attr('y', 9)
           .attr('dy', '0.71em')
           .attr('text-anchor', 'middle')
-          .attr('fill', 'var(--pp-color-text)')
+          .attr('fill', 'var(--c-bodyDimmed)')
           .text((d: string) => d);
       });
 
@@ -356,14 +362,54 @@ export class BarChart extends ChartComponent {
 
         axis.append('line')
           .attr('x2', -6)
-          .attr('stroke', 'var(--pp-color-border)');
+          .attr('stroke', 'var(--c-border)');
 
         axis.append('text')
           .attr('x', -9)
           .attr('dy', '0.32em')
           .attr('text-anchor', 'end')
-          .attr('fill', 'var(--pp-color-text)')
+          .attr('fill', 'var(--c-bodyDimmed)')
           .text((d: number) => d);
+      });
+    } else {
+      // For horizontal bars: x = values, y = categories
+      xAxisGroup.call((g: any) => {
+        const ticks = scales.y.ticks(5);
+        const axis = g.selectAll('.tick')
+          .data(ticks)
+          .join('g')
+          .attr('class', 'tick')
+          .attr('transform', (d: number) => `translate(${scales.y(d)}, 0)`);
+
+        axis.append('line')
+          .attr('y2', 6)
+          .attr('stroke', 'var(--c-border)');
+
+        axis.append('text')
+          .attr('y', 9)
+          .attr('dy', '0.71em')
+          .attr('text-anchor', 'middle')
+          .attr('fill', 'var(--c-bodyDimmed)')
+          .text((d: number) => d);
+      });
+
+      yAxisGroup.call((g: any) => {
+        const axis = g.selectAll('.tick')
+          .data(scales.x.domain())
+          .join('g')
+          .attr('class', 'tick')
+          .attr('transform', (d: string) => `translate(0, ${scales.x(d)! + scales.x.bandwidth() / 2})`);
+
+        axis.append('line')
+          .attr('x2', -6)
+          .attr('stroke', 'var(--c-border)');
+
+        axis.append('text')
+          .attr('x', -9)
+          .attr('dy', '0.32em')
+          .attr('text-anchor', 'end')
+          .attr('fill', 'var(--c-bodyDimmed)')
+          .text((d: string) => d);
       });
     }
   }
@@ -375,7 +421,7 @@ export class BarChart extends ChartComponent {
     container.selectAll('.grid').remove();
 
     const gridGroup = container
-      .insert('g', ':first-child')
+      .append('g')
       .attr('class', 'grid');
 
     if (this.orientation === 'vertical') {
@@ -389,7 +435,21 @@ export class BarChart extends ChartComponent {
         .attr('x2', dimensions.width)
         .attr('y1', (d: number) => scales.y(d))
         .attr('y2', (d: number) => scales.y(d))
-        .attr('stroke', 'var(--pp-color-border)')
+        .attr('stroke', 'var(--c-border)')
+        .attr('stroke-opacity', 0.2)
+        .attr('stroke-dasharray', '2,2');
+    } else {
+      // Vertical grid lines for horizontal bars
+      const ticks = scales.y.ticks(5);
+      gridGroup.selectAll('.grid-line')
+        .data(ticks)
+        .join('line')
+        .attr('class', 'grid-line')
+        .attr('x1', (d: number) => scales.y(d))
+        .attr('x2', (d: number) => scales.y(d))
+        .attr('y1', 0)
+        .attr('y2', dimensions.height)
+        .attr('stroke', 'var(--c-border)')
         .attr('stroke-opacity', 0.2)
         .attr('stroke-dasharray', '2,2');
     }

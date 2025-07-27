@@ -1,9 +1,9 @@
 /**
  * Pure bar chart rendering module using D3.js
- * 
+ *
  * This module provides rendering functions for bar charts without component lifecycle.
  * It follows D3's enter/update/exit pattern for efficient DOM updates.
- * 
+ *
  * @see https://d3js.org/d3-scale/band - scaleBand documentation
  * @see https://d3js.org/d3-scale/linear - scaleLinear documentation
  * @see https://d3js.org/d3-selection - D3 selection API
@@ -17,6 +17,7 @@ import { BarChartData, BarChartDataPoint, ChartDimensions } from '../base/chart-
 // Import d3-transition to extend Selection prototype with .transition() and .interrupt() methods
 // This must be imported to add transition capabilities to D3 selections
 import 'd3-transition';
+
 
 /**
  * Bar chart renderer configuration
@@ -73,7 +74,7 @@ export function createBarChartScales(
   const viewBoxWidth = 600;
   const viewBoxHeight = 300;
   const { margin } = dimensions;
-  
+
   const chartWidth = viewBoxWidth - margin.left - margin.right;
   const chartHeight = viewBoxHeight - margin.top - margin.bottom;
 
@@ -81,7 +82,7 @@ export function createBarChartScales(
   const categories = data.data.map(d => d.category);
   const xScale = scaleBand<string>()
     .domain(categories)
-    .range(config.orientation === 'vertical' ? [0, chartWidth] : [0, chartHeight])
+    .range(config.orientation === 'vertical' ? [0, chartWidth] : [chartHeight, 0])
     .padding(config.barPadding);
 
   // Create linear scale for values (y-axis for vertical, x-axis for horizontal)
@@ -90,7 +91,7 @@ export function createBarChartScales(
     Math.min(0, min(values) || 0),
     max(values) || 0
   ];
-  
+
   const yScale = scaleLinear()
     .domain(yDomain)
     .range(config.orientation === 'vertical' ? [chartHeight, 0] : [0, chartWidth])
@@ -110,7 +111,7 @@ export function renderBarChart(
 ): BarChartRenderResult {
   const mergedConfig = { ...defaultBarChartConfig, ...config };
   const scales = createBarChartScales(data, dimensions, mergedConfig);
-  
+
   // Create or select bars group
   const barsGroup = container
     .selectAll<SVGGElement, unknown>('.bars-group')
@@ -150,9 +151,9 @@ export function renderBarChart(
     allBars
       .attr('x', d => scales.x(d.category) || 0)
       .attr('width', scales.x.bandwidth())
-      .attr('fill', d => d.color || 'var(--pp-color-primary-500)')
-      .attr('stroke', 'var(--pp-color-border)')
-      .attr('stroke-width', 1);
+      .attr('fill', 'var(--c-accent-500)')
+      .attr('rx', 4)
+      .attr('ry', 4)
 
     // Animate bars if enabled
     if (mergedConfig.animate && allBars.transition) {
@@ -173,9 +174,11 @@ export function renderBarChart(
     allBars
       .attr('y', d => scales.x(d.category) || 0)
       .attr('height', scales.x.bandwidth())
-      .attr('fill', d => d.color || 'var(--pp-color-primary-500)')
-      .attr('stroke', 'var(--pp-color-border)')
-      .attr('stroke-width', 1);
+      .attr('fill', d => d.color || 'var(--c-neutral-500)')
+      .attr('stroke', 'var(--c-border)')
+      .attr('stroke-width', 1)
+      .attr('rx', 4)
+      .attr('ry', 4);
 
     // Animate bars if enabled
     if (mergedConfig.animate && allBars.transition) {
@@ -249,7 +252,7 @@ export function cleanupBarChart(renderResult: BarChartRenderResult): void {
   renderResult.bars.on('mouseenter', null);
   renderResult.bars.on('mouseleave', null);
   renderResult.bars.on('click', null);
-  
+
   // Interrupt any running transitions
   const allElements = renderResult.container.selectAll('*');
   if (allElements.interrupt) {

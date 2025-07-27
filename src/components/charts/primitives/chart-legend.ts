@@ -46,6 +46,13 @@ export interface LegendItem {
 export class PpChartLegend extends LitElement {
   static styles: CSSResultGroup = [unsafeCSS(chartStyles)];
 
+  /**
+   * Override createRenderRoot to use Light DOM instead of Shadow DOM
+   */
+  protected createRenderRoot() {
+    return this;
+  }
+
   @property({ type: Array }) items: LegendItem[] = [];
   @property() orientation: 'horizontal' | 'vertical' = 'horizontal';
   @property({ type: Boolean, reflect: true }) interactive = false;

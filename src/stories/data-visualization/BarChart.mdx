@@ -1,95 +1,63 @@
-import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+import { Canvas, Story, Meta, Subtitle } from '@storybook/addon-docs/blocks';
+import * as BarChartStories from './BarChart.stories.tsx';
 
-<Meta title="Data visualization*/Bar Chart Documentation" />
+<Meta of = { BarChartStories } />
 
-# Bar Chart
+# Bar chart
 
-A D3.js-powered bar chart component built with Lit Web Components following the design system's progressive enhancement principles.
-
-## Description
-
-Bar charts are ideal for **comparing discrete categories** of data. They show relationships between categorical data and numerical values, making them perfect for displaying sales by product, revenue by quarter, or any other category-based comparisons.
-
-The pp-bar-chart component provides a flexible, accessible, and interactive bar chart that integrates seamlessly with the existing design system.
-
-## Anatomy
-
-### Core Structure
-- **SVG Container**: Responsive SVG element with proper ARIA labeling
-- **Bars**: Individual rectangular elements representing data points
-- **Axes**: Optional x and y axis with configurable labels and tick marks
-- **Grid**: Optional grid lines for better value reading
-- **Tooltip**: Interactive tooltip showing precise values on hover
-- **Screen Reader Table**: Hidden accessible data table for screen readers
-
-### Data Structure
-```typescript
-interface BarChartData {
-  data: BarChartDataPoint[];
-  orientation?: 'vertical' | 'horizontal';
-  grouped?: boolean;
-  stacked?: boolean;
-  xAxisLabel?: string;
-  yAxisLabel?: string;
-}
-
-interface BarChartDataPoint {
-  category: string;
-  value: number;
-  color?: string;
-}
-```
+Bar charts are ideal for comparing discrete categories of data. They show relationships between categorical data and numerical values, making them perfect for displaying sales by product, revenue by quarter, or any other category-based comparisons.
 
 ## Variants
 
+### Default
+
+<Story of={ BarChartStories.Default } />
+
+### Large dataset
+
+<Story of={ BarChartStories.LargeDataset } />
+
+### Minimal
+
+<Story of={ BarChartStories.Minimal } />
+
 ### Orientation
-- **Vertical**: Categories on x-axis, values on y-axis (default)
-- **Horizontal**: Categories on y-axis, values on x-axis
 
-### Visual Features
-- **With/Without Axes**: Toggle axis display
-- **With/Without Grid**: Toggle grid lines for easier value reading
-- **Animated/Static**: Control transition animations
-- **Sorted**: Automatic sorting by value (ascending/descending)
-
-### Data Variants
-- **Custom Colors**: Individual bar colors
-- **Large Datasets**: Optimized rendering for many categories
-- **Minimal**: Basic chart without axes or grid
+Vertical, horizontal...
 
 ## States
 
-### Loading State
-- Component shows loading indicator while data is being fetched
-- Proper ARIA live region updates for screen readers
+### Loading
 
-### Empty State
-- Graceful handling of empty or invalid data
-- Clear messaging for users
+Component shows loading indicator while data is being fetched. ARIA live region updates for screen readers.
 
-### Error State
-- Handles missing D3 dependencies
-- Provides helpful error messages for developers
+### Empty
 
-### Interactive States
-- **Hover**: Visual feedback and tooltip display
-- **Focus**: Keyboard navigation with visual focus indicators
-- **Active**: Click/activation states for data points
+...
+
+### Error
+
+...
+
+{/* ### Interactive States */}
+{/* - Hover: Visual feedback and tooltip display */}
+{/* - Focus: Keyboard navigation with visual focus indicators */}
+{/* - Active: Click/activation states for data points */}
 
 ## Accessibility
 
 ### Screen Reader Support
-- **SVG Role**: `role="img"` with descriptive `aria-labelledby`
-- **Data Table**: Hidden accessible table with all chart data
-- **Live Regions**: Dynamic content updates announced to screen readers
-- **Focus Management**: Proper tab order and focus indicators
+- SVG role: `role="img"` with descriptive `aria-labelledby`
+- Data table: Hidden accessible table with all chart data
+- Live regions: Dynamic content updates announced to screen readers
+- Focus management: Tab order and focus indicators
 
 ### Keyboard Navigation
-- **Tab**: Focus the chart component
-- **Arrow Keys**: Navigate between bars
-- **Home/End**: Jump to first/last bar
-- **Enter/Space**: Activate selected bar (triggers click event)
-- **Escape**: Clear focus and return to chart overview
+- Tab: Focus the chart component
+- Arrow Keys: Navigate between bars
+- Home/End: Jump to first/last bar
+- Enter/Space: Activate selected bar (triggers click event)
+- Escape: Clear focus and return to chart overview
 
 ### Visual Accessibility
 - **High Contrast**: Uses design system color tokens for proper contrast
@@ -100,20 +68,20 @@ interface BarChartDataPoint {
 ## Decision Tree
 
 ### When to Use Bar Charts
-- ✅ Comparing discrete categories
-- ✅ Showing rankings or relative performance
-- ✅ Displaying survey results or poll data
-- ✅ When precise values are important
+- ✓ Comparing discrete categories
+- ✓ Showing rankings or relative performance
+- ✓ Displaying survey results or poll data
+- ✓ When precise values are important
 
 ### When to Consider Alternatives
-- ❌ Showing trends over time → Use line charts
-- ❌ Part-to-whole relationships → Use pie charts or stacked charts
-- ❌ Continuous data → Use scatter plots or histograms
-- ❌ Hierarchical data → Use tree diagrams
+- × Showing trends over time → Use line charts
+- × Part-to-whole relationships → Use pie charts or stacked charts
+- × Continuous data → Use scatter plots or histograms
+- × Hierarchical data → Use tree diagrams
 
-### Orientation Choice
-- **Vertical**: When category names are short, standard comparison view
-- **Horizontal**: When category names are long, space-constrained layouts
+{/* ### Orientation Choice */}
+{/* - Vertical: When category names are short, standard comparison view */}
+{/* - Horizontal: When category names are long, space-constrained layouts */}
 
 ## Related Patterns
 

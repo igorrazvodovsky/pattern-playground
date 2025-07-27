@@ -37,6 +37,13 @@ export interface GridConfig {
 export class PpChartGrid extends LitElement {
   static styles: CSSResultGroup = [unsafeCSS(chartStyles)];
 
+  /**
+   * Override createRenderRoot to use Light DOM instead of Shadow DOM
+   */
+  protected createRenderRoot() {
+    return this;
+  }
+
   @query('.grid-group') gridGroup!: SVGGElement;
   @query('.grid-svg') svg!: SVGElement;
 

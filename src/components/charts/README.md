@@ -67,8 +67,8 @@ src/styles/
 ### Basic Component Usage
 ```typescript
 import { D3Component, ChartComponent } from './base/index.js';
-import './primitives/pp-chart-axis.js';
-import './primitives/pp-chart-legend.js';
+import './primitives/chart-axis.js';
+import './primitives/chart-legend.js';
 // Note: CSS is automatically imported via each component
 
 // Extend ChartComponent for custom charts
@@ -76,7 +76,7 @@ class MyChart extends ChartComponent {
   setupScales() {
     // Implement scale setup
   }
-  
+
   renderChart() {
     // Implement chart rendering
   }
@@ -100,10 +100,10 @@ if (validateChartData(chartData, 'bar')) {
 
 ### Interaction Layer Setup
 ```typescript
-import { 
-  InteractionLayer, 
-  HoverInteraction, 
-  ClickInteraction 
+import {
+  InteractionLayer,
+  HoverInteraction,
+  ClickInteraction
 } from './base/index.js';
 
 const layer = new InteractionLayer(svgElement);
@@ -113,19 +113,19 @@ layer.registerGesture(new ClickInteraction());
 
 ### Using Chart Primitives
 ```html
-<pp-chart-axis 
-  orientation="bottom" 
+<pp-chart-axis
+  orientation="bottom"
   label="Categories"
   tick-count="5">
 </pp-chart-axis>
 
-<pp-chart-legend 
+<pp-chart-legend
   .items=${legendData}
   orientation="horizontal"
   interactive>
 </pp-chart-legend>
 
-<pp-tooltip 
+<pp-tooltip
   content="Chart data point information"
   placement="top"
   trigger="hover">

@@ -1,9 +1,9 @@
 /**
  * D3.js Chart Components
- * 
+ *
  * A comprehensive chart library built on D3.js and Lit Web Components
  * following the design system patterns and progressive enhancement principles.
- * 
+ *
  * Phase 1 Implementation includes:
  * - Base D3 component abstractions
  * - TypeScript interfaces for chart data
@@ -11,19 +11,19 @@
  * - Interaction layers framework
  * - Chart primitive components (axis, legend, tooltip, grid)
  * - CSS styling framework with custom properties
- * 
+ *
  * Phase 2 Implementation includes:
  * - Bar chart renderer and component
  * - Real-time data update capabilities
  * - Responsive design and accessibility features
- * 
+ *
  * Usage:
  * ```typescript
  * import { ChartComponent, BarChartData } from './src/components/charts';
- * import './src/components/charts/pp-bar-chart.js';
- * 
+ * import './src/components/charts/bar-chart.js';
+ *
  * // Additional chart components will be available in future phases:
- * // import './src/components/charts/pp-line-chart.js';
+ * // import './src/components/charts/line-chart.js';
  * ```
  */
 
@@ -37,10 +37,10 @@ export * from './primitives/index.js';
 export * from './renderers/index.js';
 
 // Chart components (Phase 2+)
-export * from './pp-bar-chart.js';
-// export * from './pp-line-chart.js';
-// export * from './pp-area-chart.js';
-// export * from './pp-tree-diagram.js';
+export * from './bar-chart.js';
+// export * from './line-chart.js';
+// export * from './area-chart.js';
+// export * from './tree-diagram.js';
 
 /**
  * Initialize the chart library
@@ -51,12 +51,12 @@ export function initializeCharts() {
   import('./primitives/index.js').then(({ registerChartPrimitives }) => {
     registerChartPrimitives();
   });
-  
+
   // Register chart components (Phase 2+)
-  import('./pp-bar-chart.js');
-  // import('./pp-line-chart.js');
-  // import('./pp-area-chart.js');
-  // import('./pp-tree-diagram.js');
+  import('./bar-chart.js');
+  // import('./line-chart.js');
+  // import('./area-chart.js');
+  // import('./tree-diagram.js');
 }
 
 /**

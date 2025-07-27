@@ -7,7 +7,7 @@
   }
 
   .tooltip::part(popup) {
-    z-index: var(--pp-z-index-tooltip);
+    z-index: var(--layer-tooltip);
   }
 
   .tooltip[placement^='top']::part(popup) {

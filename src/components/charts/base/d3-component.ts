@@ -17,7 +17,7 @@ export abstract class D3Component extends LitElement {
   static styles: CSSResultGroup = [
     unsafeCSS(chartStyles),
     css`
-      :host {
+      .pp-d3-component {
         display: block;
         width: 100%;
         height: auto;
@@ -37,6 +37,13 @@ export abstract class D3Component extends LitElement {
       }
     `
   ];
+
+  /**
+   * Override createRenderRoot to use Light DOM instead of Shadow DOM
+   */
+  protected createRenderRoot() {
+    return this;
+  }
 
   @query('.d3-svg') protected svg!: SVGElement;
   @query('.d3-content') protected contentGroup!: SVGGElement;
@@ -142,7 +149,7 @@ export abstract class D3Component extends LitElement {
     const viewBoxHeight = 300;
     
     return html`
-      <div class="d3-container">
+      <div class="pp-d3-component d3-container">
         <svg 
           class="d3-svg" 
           role="img"

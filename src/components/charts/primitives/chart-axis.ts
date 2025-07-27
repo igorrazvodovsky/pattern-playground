@@ -28,6 +28,13 @@ import chartStyles from '../../../styles/charts.css?inline';
 export class PpChartAxis extends LitElement {
   static styles: CSSResultGroup = [unsafeCSS(chartStyles)];
 
+  /**
+   * Override createRenderRoot to use Light DOM instead of Shadow DOM
+   */
+  protected createRenderRoot() {
+    return this;
+  }
+
   @query('.axis-group') axisGroup!: SVGGElement;
   @query('.axis-svg') svg!: SVGElement;
 

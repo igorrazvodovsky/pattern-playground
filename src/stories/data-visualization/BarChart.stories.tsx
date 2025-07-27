@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useEffect, useRef } from "react";
 
 // Import the bar chart component (this will register the custom element)
-import "../../components/charts/pp-bar-chart.js";
+import "../../components/charts/bar-chart.js";
 import type { BarChartData } from "../../components/charts/base/chart-types.js";
 
 // Type definition for the pp-bar-chart custom element
@@ -126,10 +126,10 @@ function BarChartWrapper({
   return (
     <pp-bar-chart
       ref={chartRef}
-      style={{ 
-        width: '100%', 
+      style={{
+        width: '100%',
         height: `${height}px`,
-        border: '1px solid var(--pp-color-border)',
+        border: '1px solid var(--c-border)',
         borderRadius: '8px'
       }}
     />
@@ -139,43 +139,6 @@ function BarChartWrapper({
 const meta = {
   title: "Data visualization*/Bar Chart*",
   component: BarChartWrapper,
-  parameters: {
-    docs: {
-      description: {
-        component: `
-# Bar Chart
-
-A D3.js-powered bar chart component built with Lit Web Components. Supports both vertical and horizontal orientations, interactive features, and accessibility.
-
-## Features
-
-- **Orientations**: Vertical and horizontal bar charts
-- **Interactivity**: Hover tooltips, click events, keyboard navigation
-- **Accessibility**: Screen reader support, ARIA labels, keyboard navigation
-- **Customization**: Colors, sorting, animations, axes, and grid lines
-- **Responsive**: Automatically adapts to container size
-
-## Usage
-
-\`\`\`html
-<pp-bar-chart
-  .data="\${chartData}"
-  orientation="vertical"
-  show-axes
-  show-grid
-  animate
-></pp-bar-chart>
-\`\`\`
-
-## Keyboard Navigation
-
-- **Arrow Keys**: Navigate between bars
-- **Home/End**: Jump to first/last bar
-- **Enter/Space**: Activate selected bar
-        `
-      }
-    }
-  },
   argTypes: {
     orientation: {
       control: { type: 'radio' },
@@ -225,43 +188,6 @@ export const Default: Story = {
   }
 };
 
-export const Horizontal: Story = {
-  args: {
-    data: quarterlyData,
-    orientation: 'horizontal',
-    showAxes: true,
-    showGrid: true,
-    animate: true,
-    title: 'Quarterly Revenue',
-    height: 300
-  }
-};
-
-export const WithGrid: Story = {
-  args: {
-    data: sampleProductData,
-    orientation: 'vertical',
-    showAxes: true,
-    showGrid: true,
-    animate: true,
-    title: 'Sales with Grid Lines',
-    height: 400
-  }
-};
-
-export const Sorted: Story = {
-  args: {
-    data: sampleProductData,
-    orientation: 'vertical',
-    showAxes: true,
-    showGrid: false,
-    animate: true,
-    sort: 'desc',
-    title: 'Sales Data (Sorted Descending)',
-    height: 400
-  }
-};
-
 export const LargeDataset: Story = {
   args: {
     data: largeDataset,
@@ -271,36 +197,6 @@ export const LargeDataset: Story = {
     animate: true,
     title: 'Monthly Sales Data',
     height: 450
-  }
-};
-
-export const CustomColors: Story = {
-  args: {
-    data: {
-      data: [
-        { category: 'Revenue', value: 245, color: '#22c55e' },
-        { category: 'Expenses', value: 180, color: '#ef4444' },
-        { category: 'Profit', value: 65, color: '#3b82f6' }
-      ]
-    },
-    orientation: 'vertical',
-    showAxes: true,
-    showGrid: false,
-    animate: true,
-    title: 'Financial Overview',
-    height: 350
-  }
-};
-
-export const NoAnimation: Story = {
-  args: {
-    data: sampleProductData,
-    orientation: 'vertical',
-    showAxes: true,
-    showGrid: false,
-    animate: false,
-    title: 'Static Bar Chart',
-    height: 400
   }
 };
 

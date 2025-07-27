@@ -1,63 +1,63 @@
 :root {
   /* Color Palette */
-  --chart-primary-color: #007acc;
-  --chart-secondary-color: #8c8c8c;
-  --chart-accent-color: #ff6b35;
-  --chart-success-color: #28a745;
-  --chart-warning-color: #ffc107;
-  --chart-error-color: #dc3545;
-  --chart-info-color: #17a2b8;
+  --chart-primary-color: var(--c-accent-600);
+  --chart-secondary-color: var(--c-neutral-500);
+  --chart-accent-color: var(--c-accent-500);
+  --chart-success-color: var(--c-success-600);
+  --chart-warning-color: var(--c-warning-600);
+  --chart-error-color: var(--c-danger-600);
+  --chart-info-color: var(--c-info-600);
 
   /* Chart Background Colors */
-  --chart-background: #ffffff;
-  --chart-surface: #f8f9fa;
-  --chart-border-color: #e0e0e0;
+  --chart-background: var(--c-background);
+  --chart-surface: var(--c-neutral-50);
+  --chart-border-color: var(--c-border);
 
   /* Text Colors */
-  --chart-text-primary: #212529;
-  --chart-text-secondary: #6c757d;
-  --chart-text-muted: #adb5bd;
+  --chart-text-primary: var(--c-body);
+  --chart-text-secondary: var(--c-bodyDimmed);
+  --chart-text-muted: var(--c-placeholder);
 
   /* Data Visualization Color Schemes */
-  --chart-color-1: #007acc;
-  --chart-color-2: #ff6b35;
-  --chart-color-3: #28a745;
-  --chart-color-4: #ffc107;
-  --chart-color-5: #dc3545;
-  --chart-color-6: #17a2b8;
-  --chart-color-7: #6f42c1;
-  --chart-color-8: #e83e8c;
-  --chart-color-9: #fd7e14;
-  --chart-color-10: #20c997;
+  --chart-color-1: var(--c-accent-600);
+  --chart-color-2: var(--c-accent-500);
+  --chart-color-3: var(--c-accent-600);
+  --chart-color-4: var(--c-accent-500);
+  --chart-color-5: var(--c-accent-600);
+  --chart-color-6: var(--c-accent-600);
+  --chart-color-7: var(--c-accent-700);
+  --chart-color-8: var(--c-accent-400);
+  --chart-color-9: var(--c-accent-600);
+  --chart-color-10: var(--c-accent-500);
 
   /* Typography */
-  --chart-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --chart-font-size-xs: 10px;
-  --chart-font-size-sm: 12px;
-  --chart-font-size-md: 14px;
-  --chart-font-size-lg: 16px;
-  --chart-font-size-xl: 18px;
-  --chart-font-weight-normal: 400;
-  --chart-font-weight-medium: 500;
-  --chart-font-weight-bold: 600;
+  --chart-font-family: var(--font);
+  --chart-font-size-xs: var(--text-xs);
+  --chart-font-size-sm: var(--text-s);
+  --chart-font-size-md: var(--text-m);
+  --chart-font-size-lg: var(--text-l);
+  --chart-font-size-xl: var(--text-xl);
+  --chart-font-weight-normal: var(--font-weight-normal);
+  --chart-font-weight-medium: var(--font-weight-semibold);
+  --chart-font-weight-bold: var(--font-weight-bold);
 
   /* Spacing */
-  --chart-spacing-xs: 4px;
-  --chart-spacing-sm: 8px;
-  --chart-spacing-md: 16px;
-  --chart-spacing-lg: 24px;
-  --chart-spacing-xl: 32px;
+  --chart-spacing-xs: var(--space-2xs);
+  --chart-spacing-sm: var(--space-xs);
+  --chart-spacing-md: var(--space-s);
+  --chart-spacing-lg: var(--space-m);
+  --chart-spacing-xl: var(--space-l);
 
   /* Dimensions */
-  --chart-border-radius: 4px;
-  --chart-border-width: 1px;
-  --chart-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  --chart-shadow-hover: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --chart-border-radius: var(--radius-m);
+  --chart-border-width: var(--panel-border-width);
+  --chart-shadow: var(--shadow-s);
+  --chart-shadow-hover: var(--shadow-m);
 
   /* Animation */
-  --chart-transition-fast: 0.15s ease;
-  --chart-transition-normal: 0.25s ease;
-  --chart-transition-slow: 0.35s ease;
+  --chart-transition-fast: var(--transition-fast);
+  --chart-transition-normal: var(--transition-medium);
+  --chart-transition-slow: var(--transition-slow);
 
   /* Z-Index Scale */
   --chart-z-index-base: 1;
@@ -70,9 +70,9 @@
   --chart-disabled-opacity: 0.5;
 
   /* Focus Indicators */
-  --chart-focus-color: #007acc;
-  --chart-focus-width: 2px;
-  --chart-focus-offset: 2px;
+  --chart-focus-color: var(--focus-ring-color);
+  --chart-focus-width: var(--focus-ring-width);
+  --chart-focus-offset: var(--focus-ring-offset);
 
   /* Axis Styles */
   --axis-color: #333;
@@ -101,80 +101,25 @@
    Dark Theme Support
    ============================================================================= */
 
-[data-theme="dark"],
-:root.dark-theme {
-  /* Color Palette - Dark Mode */
-  --chart-primary-color: #4fc3f7;
-  --chart-secondary-color: #b0b0b0;
-  --chart-accent-color: #ff8a65;
-
-  /* Chart Background Colors - Dark Mode */
-  --chart-background: #121212;
-  --chart-surface: #1e1e1e;
-  --chart-border-color: #333333;
-
-  /* Text Colors - Dark Mode */
-  --chart-text-primary: #ffffff;
-  --chart-text-secondary: #b0b0b0;
-  --chart-text-muted: #757575;
-
+.dark {
   /* Data Visualization Color Schemes - Dark Mode */
-  --chart-color-1: #4fc3f7;
-  --chart-color-2: #ff8a65;
-  --chart-color-3: #81c784;
-  --chart-color-4: #ffb74d;
-  --chart-color-5: #e57373;
-  --chart-color-6: #4dd0e1;
-  --chart-color-7: #ba68c8;
-  --chart-color-8: #f06292;
-  --chart-color-9: #ffab40;
-  --chart-color-10: #26a69a;
-
-  /* Shadows - Dark Mode */
-  --chart-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  --chart-shadow-hover: 0 4px 8px rgba(0, 0, 0, 0.4);
-
-  /* Component Specific - Dark Mode */
-  --axis-color: #ffffff;
-  --tick-color: #ffffff;
-  --grid-color: #333333;
+  --chart-color-1: var(--c-accent-400);
+  --chart-color-2: var(--c-danger-400);
+  --chart-color-3: var(--c-success-400);
+  --chart-color-4: var(--c-warning-400);
+  --chart-color-5: var(--c-danger-500);
+  --chart-color-6: var(--c-info-400);
+  --chart-color-7: var(--c-accent-500);
+  --chart-color-8: var(--c-danger-300);
+  --chart-color-9: var(--c-warning-500);
+  --chart-color-10: var(--c-success-400);
 }
 
 /* =============================================================================
    Responsive Design Utilities
    ============================================================================= */
 
-/* Small screens (mobile) */
-@media (max-width: 576px) {
-  :root {
-    --chart-font-size-xs: 9px;
-    --chart-font-size-sm: 11px;
-    --chart-font-size-md: 13px;
-    --chart-spacing-md: 12px;
-    --chart-spacing-lg: 18px;
-    --axis-font-size: 11px;
-    --legend-font-size: 11px;
-  }
-}
-
-/* Medium screens (tablet) */
-@media (min-width: 577px) and (max-width: 768px) {
-  :root {
-    --chart-font-size-xs: 10px;
-    --chart-font-size-sm: 12px;
-    --chart-font-size-md: 14px;
-  }
-}
-
-/* Large screens (desktop) */
-@media (min-width: 1200px) {
-  :root {
-    --chart-font-size-lg: 17px;
-    --chart-font-size-xl: 20px;
-    --chart-spacing-lg: 28px;
-    --chart-spacing-xl: 40px;
-  }
-}
+/* Responsive design now handled by project's typography and spacing systems */
 
 /* =============================================================================
    Base Chart Component Styles
