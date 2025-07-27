@@ -17,7 +17,7 @@
 
 import { html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { select } from 'd3-selection';
+import { select, Selection } from 'd3-selection';
 import { ChartComponent } from './base/chart-component.js';
 import './primitives/chart-axis.js';
 import {
@@ -26,6 +26,7 @@ import {
   ChartDimensions,
   isBarChartData
 } from './base/chart-types.js';
+import type { BarChartScales } from './renderers/bar-chart-renderer.js';
 import {
   convertToBarChartData,
   transformBarChartData
@@ -39,6 +40,10 @@ import {
   defaultBarChartConfig,
   createBarChartScales
 } from './renderers/bar-chart-renderer.js';
+import {
+  ScaleCoordinator,
+  createScaleCoordinator
+} from './services/scale-coordinator.js';
 
 /**
  * Custom value converter for BarChartData
@@ -96,6 +101,9 @@ export class BarChart extends ChartComponent {
   @state() private tooltipX = 0;
   @state() private tooltipY = 0;
 
+  // Scale coordination
+  private scaleCoordinator: ScaleCoordinator = createScaleCoordinator();
+
   constructor() {
     super();
   }
@@ -113,6 +121,7 @@ export class BarChart extends ChartComponent {
     if (this.renderResult) {
       cleanupBarChart(this.renderResult);
     }
+    this.scaleCoordinator.destroy();
   }
 
   protected validateData(): boolean {
@@ -179,6 +188,10 @@ export class BarChart extends ChartComponent {
 
     // Create scales first so we can render axes before bars
     const scales = this.createScalesForPrimitives(transformedData, dimensions, config);
+
+    // Update scale coordinator with the new scales
+    this.scaleCoordinator.updateScale('x', scales.x);
+    this.scaleCoordinator.updateScale('y', scales.y);
 
     // Render chart primitives first (axes, grid) so they appear behind bars
     // Use the same coordinate system as the scales (viewBox-based)
@@ -308,7 +321,7 @@ export class BarChart extends ChartComponent {
     }
   }
 
-  private renderAxesWithPrimitive(scales: any, dimensions: { width: number; height: number }): void {
+  private renderAxesWithPrimitive(scales: BarChartScales, dimensions: { width: number; height: number }): void {
     const container = select(this.contentGroup);
 
     // Remove existing axes
@@ -329,9 +342,12 @@ export class BarChart extends ChartComponent {
     this.renderAxisWithPrimitive(yAxisContainer, scales, dimensions, 'y');
   }
 
-  private renderAxisWithPrimitive(container: any, scales: any, dimensions: { width: number; height: number }, axisType: 'x' | 'y'): void {
+  private renderAxisWithPrimitive(container: Selection<SVGGElement, unknown, null, undefined>, scales: BarChartScales, dimensions: { width: number; height: number }, axisType: 'x' | 'y'): void {
     // Use d3-axis directly for cleaner integration
     import('d3-axis').then(({ axisBottom, axisLeft }) => {
+      // D3 axis functions return different specific types (Axis<string>, Axis<NumberValue>)
+      // that cannot be unified without significant type gymnastics. Using any for pragmatic reasons.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let axis: any;
       
       if (axisType === 'x') {
@@ -362,7 +378,7 @@ export class BarChart extends ChartComponent {
     });
   }
 
-  private styleAxisElements(container: any, axisType: 'x' | 'y'): void {
+  private styleAxisElements(container: Selection<SVGGElement, unknown, null, undefined>, axisType: 'x' | 'y'): void {
     // Style domain line
     container.select('.domain')
       .attr('stroke', 'var(--c-border)')
@@ -393,7 +409,7 @@ export class BarChart extends ChartComponent {
     }
   }
 
-  private renderGrid(scales: any, dimensions: { width: number; height: number }): void {
+  private renderGrid(scales: BarChartScales, dimensions: { width: number; height: number }): void {
     const container = select(this.contentGroup);
 
     // Remove existing grid

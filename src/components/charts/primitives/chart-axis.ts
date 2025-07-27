@@ -3,7 +3,9 @@ import { property, query, customElement } from 'lit/decorators.js';
 import type { TemplateResult } from 'lit';
 import { select } from 'd3-selection';
 import { axisBottom, axisTop, axisLeft, axisRight } from 'd3-axis';
+import type { Axis, AxisDomain, AxisScale } from 'd3-axis';
 import type { ScaleBand, ScaleLinear } from 'd3-scale';
+import type { ScaleConsumer, TickInfo, ChartScale, ScaleCoordinator } from '../services/scale-coordinator.js';
 // Styles available globally with Light DOM
 
 /**
@@ -27,7 +29,7 @@ import type { ScaleBand, ScaleLinear } from 'd3-scale';
  * @cssproperty --grid-opacity - Opacity of the grid lines
  */
 @customElement('pp-chart-axis')
-export class PpChartAxis extends LitElement {
+export class PpChartAxis extends LitElement implements ScaleConsumer {
   protected createRenderRoot() {
     return this;
   }
@@ -38,11 +40,12 @@ export class PpChartAxis extends LitElement {
   @property() orientation: 'top' | 'bottom' | 'left' | 'right' = 'bottom';
   @property() label = '';
   @property({ type: Number }) tickCount = 5;
-  @property() tickFormat = '';
+  @property() tickFormat: ((d: AxisDomain) => string) | string = '';
   @property({ type: Boolean }) grid = false;
   @property({ type: Number }) width = 0;
   @property({ type: Number }) height = 0;
   @property({ type: Object }) scale: ScaleBand<string> | ScaleLinear<number, number> | null = null;
+  @property({ type: Object }) coordinator: ScaleCoordinator | null = null;
 
   // Internal properties for axis configuration
 
@@ -71,26 +74,30 @@ export class PpChartAxis extends LitElement {
       return;
     }
 
+    try {
+
     // Clear previous axis content
     select(this.axisGroup).selectAll('*').remove();
 
     // Create the appropriate axis based on orientation
-    let axis: any;
+    // D3 axis types are generic, so we handle the scale as AxisScale
+    const axisScale = this.scale as AxisScale<AxisDomain>;
+    let axis: Axis<AxisDomain>;
     switch (this.orientation) {
       case 'bottom':
-        axis = axisBottom(this.scale as any);
+        axis = axisBottom(axisScale);
         break;
       case 'top':
-        axis = axisTop(this.scale as any);
+        axis = axisTop(axisScale);
         break;
       case 'left':
-        axis = axisLeft(this.scale as any);
+        axis = axisLeft(axisScale);
         break;
       case 'right':
-        axis = axisRight(this.scale as any);
+        axis = axisRight(axisScale);
         break;
       default:
-        axis = axisBottom(this.scale as any);
+        axis = axisBottom(axisScale);
     }
 
     // Configure axis
@@ -99,7 +106,33 @@ export class PpChartAxis extends LitElement {
     }
 
     if (this.tickFormat) {
-      axis.tickFormat(this.tickFormat as any);
+      // Type-safe tick formatter handling
+      if (typeof this.tickFormat === 'function') {
+        axis.tickFormat(this.tickFormat);
+      } else if (typeof this.tickFormat === 'string' && this.tickFormat.trim()) {
+        // Handle common string format patterns
+        try {
+          // Import d3-format for number formatting
+          import('d3-format').then(({ format }) => {
+            const formatter = format(this.tickFormat as string);
+            // Create a wrapper that handles both string and number domains
+            const domainFormatter = (domainValue: AxisDomain) => {
+              if (typeof domainValue === 'number') {
+                return formatter(domainValue);
+              }
+              return String(domainValue);
+            };
+            axis.tickFormat(domainFormatter);
+            // Re-render with the new formatter
+            select(this.axisGroup).call(axis);
+            this.styleAxis();
+          }).catch(() => {
+            console.warn('d3-format not available for string tick formatting');
+          });
+        } catch {
+          console.warn('Unable to parse tick format string:', this.tickFormat);
+        }
+      }
     }
 
     // Render the axis
@@ -108,12 +141,23 @@ export class PpChartAxis extends LitElement {
     // Style the axis elements
     this.styleAxis();
 
+    // Generate tick information for coordinator
+    this.generateTickInfo();
+
     // Emit render event
     this.dispatchEvent(new CustomEvent('pp-axis-render', {
       detail: { orientation: this.orientation },
       bubbles: true,
       composed: true
     }));
+    
+    } catch (error) {
+      console.error('Chart axis: Error rendering axis:', error);
+      // Clear the axis group on error to prevent partial renders
+      if (this.axisGroup) {
+        select(this.axisGroup).selectAll('*').remove();
+      }
+    }
   }
 
   /**
@@ -179,6 +223,70 @@ export class PpChartAxis extends LitElement {
       width: this.width,
       height: this.height
     };
+  }
+
+  /**
+   * ScaleConsumer implementation - update scale from coordinator
+   */
+  updateScale(axis: 'x' | 'y', scale: ChartScale): void {
+    // Only update if this axis matches the coordinator axis
+    const axisType = this.orientation === 'bottom' || this.orientation === 'top' ? 'x' : 'y';
+    if (axis === axisType) {
+      this.scale = scale;
+      this.renderAxis();
+    }
+  }
+
+  /**
+   * Generate tick information for the scale coordinator
+   */
+  private generateTickInfo(): void {
+    if (!this.scale || !this.coordinator) return;
+
+    const axisType = this.orientation === 'bottom' || this.orientation === 'top' ? 'x' : 'y';
+    const ticks: TickInfo[] = [];
+
+    if ('bandwidth' in this.scale) {
+      // Band scale
+      const bandScale = this.scale as ScaleBand<string>;
+      const domain = bandScale.domain();
+      domain.forEach(value => {
+        const position = bandScale(value);
+        if (position !== undefined) {
+          ticks.push({ value, position: position + bandScale.bandwidth() / 2 });
+        }
+      });
+    } else {
+      // Linear scale
+      const linearScale = this.scale as ScaleLinear<number, number>;
+      const tickValues = linearScale.ticks(this.tickCount);
+      tickValues.forEach(value => {
+        const position = linearScale(value);
+        if (position !== undefined) {
+          ticks.push({ value, position });
+        }
+      });
+    }
+
+    this.coordinator.updateTicks(axisType, ticks);
+  }
+
+  /**
+   * Set the scale coordinator for this axis
+   */
+  setCoordinator(coordinator: ScaleCoordinator): void {
+    this.coordinator = coordinator;
+    coordinator.registerConsumer(this);
+  }
+
+  /**
+   * Remove the scale coordinator
+   */
+  removeCoordinator(): void {
+    if (this.coordinator) {
+      this.coordinator.unregisterConsumer(this);
+      this.coordinator = null;
+    }
   }
 
   render(): TemplateResult {

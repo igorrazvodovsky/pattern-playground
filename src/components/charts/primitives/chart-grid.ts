@@ -1,6 +1,8 @@
 import { LitElement, html } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import type { TemplateResult } from 'lit';
+import type { ScaleBand, ScaleLinear } from 'd3-scale';
+import type { ScaleConsumer, TickInfo, ChartScale, ScaleCoordinator } from '../services/scale-coordinator.js';
 
 /**
  * Grid line configuration
@@ -31,7 +33,7 @@ export interface GridConfig {
  * @cssproperty --grid-x-color - Color of the X-axis grid lines
  * @cssproperty --grid-y-color - Color of the Y-axis grid lines
  */
-export class PpChartGrid extends LitElement {
+export class PpChartGrid extends LitElement implements ScaleConsumer {
 
   protected createRenderRoot() {
     return this;
@@ -43,8 +45,13 @@ export class PpChartGrid extends LitElement {
   @property({ type: Object }) config: GridConfig = { showX: true, showY: true };
   @property({ type: Number }) width = 0;
   @property({ type: Number }) height = 0;
-  @property({ type: Object }) xScale: unknown = null;
-  @property({ type: Object }) yScale: unknown = null;
+  @property({ type: Object }) xScale: ScaleBand<string> | ScaleLinear<number, number> | null = null;
+  @property({ type: Object }) yScale: ScaleBand<string> | ScaleLinear<number, number> | null = null;
+  @property({ type: Object }) coordinator: ScaleCoordinator | null = null;
+  
+  // Tick information for scale-aware grid positioning
+  private xTicks: TickInfo[] = [];
+  private yTicks: TickInfo[] = [];
   @property({ type: Number }) tickCount = 5;
 
   constructor() {
@@ -69,6 +76,8 @@ export class PpChartGrid extends LitElement {
       return;
     }
 
+    try {
+
     // Clear previous grid content
     while (this.gridGroup.firstChild) {
       this.gridGroup.removeChild(this.gridGroup.firstChild);
@@ -90,27 +99,55 @@ export class PpChartGrid extends LitElement {
       bubbles: true,
       composed: true
     }));
+    
+    } catch (error) {
+      console.error('Chart grid: Error rendering grid:', error);
+      // Clear the grid group on error
+      if (this.gridGroup) {
+        while (this.gridGroup.firstChild) {
+          this.gridGroup.removeChild(this.gridGroup.firstChild);
+        }
+      }
+    }
   }
 
   private renderXGrid(style: string) {
-    const density = this.getDensity();
-    const xStep = this.width / density;
+    // Use scale ticks for intelligent positioning if available
+    if (this.xTicks.length > 0) {
+      this.xTicks.forEach(tick => {
+        const line = this.createGridLine(tick.position, 0, tick.position, this.height, 'x-grid', style);
+        this.gridGroup.appendChild(line);
+      });
+    } else {
+      // Fallback to uniform spacing
+      const density = this.getDensity();
+      const xStep = this.width / density;
 
-    for (let i = 1; i < density; i++) {
-      const x = xStep * i;
-      const line = this.createGridLine(x, 0, x, this.height, 'x-grid', style);
-      this.gridGroup.appendChild(line);
+      for (let i = 1; i < density; i++) {
+        const x = xStep * i;
+        const line = this.createGridLine(x, 0, x, this.height, 'x-grid', style);
+        this.gridGroup.appendChild(line);
+      }
     }
   }
 
   private renderYGrid(style: string) {
-    const density = this.getDensity();
-    const yStep = this.height / density;
+    // Use scale ticks for intelligent positioning if available
+    if (this.yTicks.length > 0) {
+      this.yTicks.forEach(tick => {
+        const line = this.createGridLine(0, tick.position, this.width, tick.position, 'y-grid', style);
+        this.gridGroup.appendChild(line);
+      });
+    } else {
+      // Fallback to uniform spacing
+      const density = this.getDensity();
+      const yStep = this.height / density;
 
-    for (let i = 1; i < density; i++) {
-      const y = yStep * i;
-      const line = this.createGridLine(0, y, this.width, y, 'y-grid', style);
-      this.gridGroup.appendChild(line);
+      for (let i = 1; i < density; i++) {
+        const y = yStep * i;
+        const line = this.createGridLine(0, y, this.width, y, 'y-grid', style);
+        this.gridGroup.appendChild(line);
+      }
     }
   }
 
@@ -159,9 +196,64 @@ export class PpChartGrid extends LitElement {
    * Set the scales for more intelligent grid positioning
    * Note: This would be used with actual D3 scales in a real implementation
    */
-  setScales(xScale: unknown, yScale: unknown) {
+  setScales(xScale: ScaleBand<string> | ScaleLinear<number, number> | null, yScale: ScaleBand<string> | ScaleLinear<number, number> | null) {
     this.xScale = xScale;
     this.yScale = yScale;
+  }
+
+  /**
+   * ScaleConsumer implementation - update scale from coordinator
+   */
+  updateScale(axis: 'x' | 'y', scale: ChartScale): void {
+    try {
+      if (axis === 'x') {
+        this.xScale = scale;
+      } else {
+        this.yScale = scale;
+      }
+      this.renderGrid();
+    } catch (error) {
+      console.error(`Chart grid: Error updating ${axis} scale:`, error);
+    }
+  }
+
+  /**
+   * ScaleConsumer implementation - update ticks for grid positioning
+   */
+  updateTicks(axis: 'x' | 'y', ticks: TickInfo[]): void {
+    try {
+      if (!Array.isArray(ticks)) {
+        console.warn(`Chart grid: Invalid ticks data for ${axis} axis`);
+        return;
+      }
+      
+      if (axis === 'x') {
+        this.xTicks = ticks;
+      } else {
+        this.yTicks = ticks;
+      }
+      this.renderGrid();
+    } catch (error) {
+      console.error(`Chart grid: Error updating ${axis} ticks:`, error);
+    }
+  }
+
+  /**
+   * Set the scale coordinator for this grid
+   */
+  setCoordinator(coordinator: ScaleCoordinator): void {
+    this.coordinator = coordinator;
+    coordinator.registerConsumer(this);
+  }
+
+  /**
+   * Remove the scale coordinator
+   */
+  removeCoordinator(): void {
+    if (this.coordinator) {
+      this.coordinator.unregisterConsumer(this);
+      this.coordinator = null;
+    }
   }
 
   /**
