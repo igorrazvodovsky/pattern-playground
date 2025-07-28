@@ -14,6 +14,8 @@ interface BarChartElement extends HTMLElement {
   animate: boolean;
   title: string;
   sort: 'asc' | 'desc' | 'none';
+  showValueLabels: boolean;
+  showCategoryLabels: boolean;
 }
 
 // Extend the JSX IntrinsicElements to include our custom element
@@ -53,6 +55,17 @@ const largeDataset: BarChartData = {
   ]
 };
 
+const monthlyData: BarChartData = {
+  data: [
+    { category: 'January', value: 186 },
+    { category: 'February', value: 305 },
+    { category: 'March', value: 237 },
+    { category: 'April', value: 73 },
+    { category: 'May', value: 209 },
+    { category: 'June', value: 214 }
+  ]
+};
+
 interface BarChartWrapperProps {
   data: BarChartData;
   orientation?: 'vertical' | 'horizontal';
@@ -62,6 +75,8 @@ interface BarChartWrapperProps {
   animate?: boolean;
   title?: string;
   sort?: 'asc' | 'desc' | 'none';
+  showValueLabels?: boolean;
+  showCategoryLabels?: boolean;
   height?: number;
 }
 
@@ -73,7 +88,9 @@ function BarChartWrapper({
   showLegend = false,
   animate = true,
   title = '',
-  sort = 'none'
+  sort = 'none',
+  showValueLabels = false,
+  showCategoryLabels = false
 }: BarChartWrapperProps) {
   const chartRef = useRef<BarChartElement | null>(null);
 
@@ -89,6 +106,8 @@ function BarChartWrapper({
       chartElement.animate = animate;
       chartElement.title = title;
       chartElement.sort = sort;
+      chartElement.showValueLabels = showValueLabels;
+      chartElement.showCategoryLabels = showCategoryLabels;
 
       // Add event listeners for interaction demonstration
       const handleBarHover = (e: CustomEvent) => {
@@ -107,7 +126,7 @@ function BarChartWrapper({
         chartElement.removeEventListener('pp-bar-click', handleBarClick as EventListener);
       };
     }
-  }, [data, orientation, showAxes, showGrid, showLegend, animate, title, sort]);
+  }, [data, orientation, showAxes, showGrid, showLegend, animate, title, sort, showValueLabels, showCategoryLabels]);
 
   return (
     <pp-bar-chart ref={chartRef} />
@@ -143,6 +162,14 @@ const meta = {
       control: { type: 'radio' },
       options: ['none', 'asc', 'desc'],
       description: 'Sort bars by value'
+    },
+    showValueLabels: {
+      control: { type: 'boolean' },
+      description: 'Show value labels on bars'
+    },
+    showCategoryLabels: {
+      control: { type: 'boolean' },
+      description: 'Show category labels on bars'
     }
   }
 } satisfies Meta<BarChartWrapperProps>;
@@ -186,5 +213,18 @@ export const Minimal: Story = {
     showGrid: false,
     animate: true,
     title: 'Minimal Chart',
+  }
+};
+
+export const HorizontalWithValueLabels: Story = {
+  args: {
+    data: monthlyData,
+    orientation: 'horizontal',
+    showAxes: false,
+    showGrid: false,
+    showValueLabels: true,
+    showCategoryLabels: true,
+    animate: true,
+    title: 'Monthly Performance',
   }
 };

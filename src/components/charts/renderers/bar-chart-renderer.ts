@@ -30,6 +30,8 @@ export interface BarChartConfig {
   groupPadding: number;
   animate: boolean;
   animationDuration: number;
+  showValueLabels: boolean;
+  showCategoryLabels: boolean;
 }
 
 /**
@@ -42,7 +44,9 @@ export const defaultBarChartConfig: BarChartConfig = {
   barPadding: 0.1,
   groupPadding: 0.05,
   animate: true,
-  animationDuration: 300
+  animationDuration: 300,
+  showValueLabels: false,
+  showCategoryLabels: false
 };
 
 /**
@@ -99,6 +103,131 @@ export function createBarChartScales(
     .nice();
 
   return { x: xScale, y: yScale };
+}
+
+/**
+ * Renders value labels for bar chart
+ */
+function renderValueLabels(
+  container: Selection<SVGGElement, unknown, null, undefined>,
+  data: BarChartData,
+  scales: BarChartScales,
+  config: BarChartConfig
+): void {
+  // Create or select labels group
+  const labelsGroup = container
+    .selectAll<SVGGElement, unknown>('.value-labels-group')
+    .data([null])
+    .join('g')
+    .attr('class', 'value-labels-group');
+
+  // Bind data to text elements
+  const labels = labelsGroup
+    .selectAll<SVGTextElement, BarChartDataPoint>('text')
+    .data(data.data, d => d.category);
+
+  // Remove exiting labels
+  labels.exit().remove();
+
+  // Add entering labels
+  const enteringLabels = labels
+    .enter()
+    .append('text')
+    .attr('class', 'value-label')
+    .attr('opacity', 0);
+
+  // Merge entering and updating labels
+  const allLabels = enteringLabels.merge(labels);
+
+  // Position and style labels based on orientation
+  if (config.orientation === 'vertical') {
+    allLabels
+      .attr('x', d => (scales.x(d.category) || 0) + scales.x.bandwidth() / 2)
+      .attr('y', d => scales.y(Math.max(0, d.value)) - 8)
+      .attr('text-anchor', 'middle')
+      .attr('dominant-baseline', 'baseline')
+      .text(d => d.value.toString())
+      .attr('fill', 'var(--c-body)')
+      .attr('font-size', 'var(--text-s)')
+      .attr('font-family', 'var(--font)')
+      .attr('opacity', 1);
+  } else {
+    // Horizontal orientation
+    allLabels
+      .attr('x', d => scales.y(d.value) + 8)
+      .attr('y', d => (scales.x(d.category) || 0) + scales.x.bandwidth() / 2)
+      .attr('text-anchor', 'start')
+      .attr('dominant-baseline', 'middle')
+      .text(d => d.value.toString())
+      .attr('fill', 'var(--c-body)')
+      .attr('font-size', 'var(--text-s)')
+      .attr('font-family', 'var(--font)')
+      .attr('opacity', 1);
+  }
+}
+
+/**
+ * Renders category labels on bar chart
+ */
+function renderCategoryLabels(
+  container: Selection<SVGGElement, unknown, null, undefined>,
+  data: BarChartData,
+  scales: BarChartScales,
+  config: BarChartConfig
+): void {
+  // Create or select category labels group
+  const categoryLabelsGroup = container
+    .selectAll<SVGGElement, unknown>('.category-labels-group')
+    .data([null])
+    .join('g')
+    .attr('class', 'category-labels-group');
+
+  // Bind data to text elements
+  const categoryLabels = categoryLabelsGroup
+    .selectAll<SVGTextElement, BarChartDataPoint>('text')
+    .data(data.data, d => d.category);
+
+  // Remove exiting labels
+  categoryLabels.exit().remove();
+
+  // Add entering labels
+  const enteringLabels = categoryLabels
+    .enter()
+    .append('text')
+    .attr('class', 'category-label')
+    .attr('opacity', 0);
+
+  // Merge entering and updating labels
+  const allLabels = enteringLabels.merge(categoryLabels);
+
+  // Position and style labels based on orientation
+  if (config.orientation === 'vertical') {
+    // For vertical bars, place category labels at the bottom of bars
+    allLabels
+      .attr('x', d => (scales.x(d.category) || 0) + scales.x.bandwidth() / 2)
+      .attr('y', d => scales.y(Math.min(0, d.value)) + 20)
+      .attr('text-anchor', 'middle')
+      .attr('dominant-baseline', 'hanging')
+      .text(d => d.category)
+      .attr('fill', 'white')
+      .attr('font-size', 'var(--text-s)')
+      .attr('font-family', 'var(--font)')
+      .attr('font-weight', '500')
+      .attr('opacity', 1);
+  } else {
+    // For horizontal bars, place category labels inside bars on the left
+    allLabels
+      .attr('x', scales.y(0) + 12)
+      .attr('y', d => (scales.x(d.category) || 0) + scales.x.bandwidth() / 2)
+      .attr('text-anchor', 'start')
+      .attr('dominant-baseline', 'middle')
+      .text(d => d.category)
+      .attr('fill', 'white')
+      .attr('font-size', 'var(--text-s)')
+      .attr('font-family', 'var(--font)')
+      .attr('font-weight', '500')
+      .attr('opacity', 1);
+  }
 }
 
 /**
@@ -175,9 +304,7 @@ export function renderBarChart(
     allBars
       .attr('y', d => scales.x(d.category) || 0)
       .attr('height', scales.x.bandwidth())
-      .attr('fill', d => d.color || 'var(--c-neutral-500)')
-      .attr('stroke', 'var(--c-border)')
-      .attr('stroke-width', 1)
+      .attr('fill', d => d.color || 'var(--c-accent-200)')
       .attr('rx', 4)
       .attr('ry', 4);
 
@@ -195,6 +322,16 @@ export function renderBarChart(
         .attr('width', d => Math.abs(scales.y(d.value) - scales.y(0)))
         .attr('opacity', 1);
     }
+  }
+
+  // Add value labels if enabled
+  if (mergedConfig.showValueLabels) {
+    renderValueLabels(container, data, scales, mergedConfig);
+  }
+
+  // Add category labels if enabled
+  if (mergedConfig.showCategoryLabels) {
+    renderCategoryLabels(container, data, scales, mergedConfig);
   }
 
   return {

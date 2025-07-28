@@ -69,6 +69,19 @@ The `<pp-modal>` component demonstrates several key patterns for building progre
 - **Value converters**: Create custom `ValueConverter` objects for complex attribute parsing
 - **Strict typing**: All properties should have explicit types, avoid `any`
 
+### Modern JavaScript/TypeScript features
+
+Use the latest language features and APIs without backward compatibility constraints:
+- **ES2023+ features**: Top-level await, private class fields, static class blocks, array methods like `findLast()`, `toSorted()`
+- **Import assertions**: Use `with { type: 'json' }` for JSON imports
+- **Optional chaining** (`?.`) and **nullish coalescing** (`??`) for safe property access
+- **Template literal types** for type-safe string manipulation
+- **Const assertions** (`as const`) for immutable type inference
+- **Module resolution**: Use `import.meta` for module metadata
+- **Decorators**: Use stage 3 decorators for Web Components and class enhancements
+- **Native APIs**: Prefer native `fetch()`, `AbortController`, `URL`, `URLSearchParams` over polyfills
+- **Modern DOM APIs**: Use `querySelector()`, `closest()`, `matches()`, `toggleAttribute()`
+
 ### Event handling & lifecycle
 
 - **Event binding**: Bind all event handlers in constructor using `.bind(this)`
@@ -76,10 +89,8 @@ The `<pp-modal>` component demonstrates several key patterns for building progre
 - **Event cleanup**: Remove all listeners in `disconnectedCallback()`
 
 ## Testing and quality
-- Use `npm run test` to run linting (ESLint + Stylelint) before commits
 - TypeScript strict mode enabled
 - Components should extend native HTML elements when possible
-- Follow BEM CSS methodology for styling
 
 ## Styling guidelines
 - **Never use inline styles** - All styling must be handled through CSS classes

@@ -93,6 +93,12 @@ export class BarChart extends ChartComponent {
   @property({ type: String })
   sort: 'asc' | 'desc' | 'none' = 'none';
 
+  @property({ type: Boolean, reflect: true, attribute: 'show-value-labels' })
+  showValueLabels = false;
+
+  @property({ type: Boolean, reflect: true, attribute: 'show-category-labels' })
+  showCategoryLabels = false;
+
 
   // Internal state
   @state() private renderResult?: BarChartRenderResult;
@@ -141,7 +147,9 @@ export class BarChart extends ChartComponent {
       changedProperties.has('orientation') ||
       changedProperties.has('animateChart') ||
       changedProperties.has('barPadding') ||
-      changedProperties.has('sort');
+      changedProperties.has('sort') ||
+      changedProperties.has('showValueLabels') ||
+      changedProperties.has('showCategoryLabels');
   }
 
   /**
@@ -172,11 +180,13 @@ export class BarChart extends ChartComponent {
     };
 
     const config: Partial<BarChartConfig> = {
+      ...defaultBarChartConfig,
       orientation: this.orientation,
       animate: this.animateChart,
       animationDuration: this.animationDuration,
       barPadding: this.barPadding,
-      ...defaultBarChartConfig
+      showValueLabels: this.showValueLabels,
+      showCategoryLabels: this.showCategoryLabels
     };
 
     // Clean up previous render result
