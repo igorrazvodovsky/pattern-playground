@@ -1,26 +1,28 @@
 import React from 'react';
 import type { ItemViewProps } from '../../item-view/types';
-import type { SelectedReference } from '../types';
+import type { SelectedReference, UserMetadata } from '../types';
+import { isUserReference } from '../types';
 
-export interface ReferencePreviewAdapterProps extends ItemViewProps<SelectedReference> {}
+export interface ReferencePreviewAdapterProps extends ItemViewProps<SelectedReference> {
+  // Additional props specific to preview adapter can be added here
+}
 
 export const ReferencePreviewAdapter: React.FC<ReferencePreviewAdapterProps> = ({
   item: reference,
-  onEscalate,
-  onInteraction
+  onEscalate
 }) => {
   const { type, label, metadata } = reference;
-  const safeMetadata = metadata || {};
+  const safeMetadata = metadata ?? {};
 
-  // Special handling for user references
-  if (type === 'user') {
-    const { role, email } = safeMetadata as { role?: string; email?: string };
+  // Special handling for user references with type guard
+  if (isUserReference(reference)) {
+    const { role, email } = safeMetadata as UserMetadata;
     const initials = label
-      .split(' ')
-      .map(n => n[0])
-      .join('')
-      .substring(0, 2)
-      .toUpperCase();
+      ?.split(' ')
+      ?.map(n => n?.at(0) ?? '')
+      ?.join('')
+      ?.substring(0, 2)
+      ?.toUpperCase() ?? 'N/A';
 
     return (
       <div className="reference-preview reference-preview--user">
@@ -64,7 +66,7 @@ export const ReferencePreviewAdapter: React.FC<ReferencePreviewAdapterProps> = (
           {Object.entries(safeMetadata).slice(0, 3).map(([key, value]) => (
             <div key={key} className="reference-preview__metadata-item">
               <span className="reference-preview__metadata-key">{key}:</span>
-              <span className="reference-preview__metadata-value">{String(value)}</span>
+              <span className="reference-preview__metadata-value">{String(value ?? 'N/A')}</span>
             </div>
           ))}
         </div>

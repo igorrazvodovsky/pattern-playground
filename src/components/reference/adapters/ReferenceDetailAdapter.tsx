@@ -1,8 +1,11 @@
 import React from 'react';
 import type { ItemViewProps } from '../../item-view/types';
-import type { SelectedReference } from '../types';
+import type { SelectedReference, UserMetadata } from '../types';
+import { isUserReference } from '../types';
 
-export interface ReferenceDetailAdapterProps extends ItemViewProps<SelectedReference> {}
+export interface ReferenceDetailAdapterProps extends ItemViewProps<SelectedReference> {
+  // Additional props specific to detail adapter can be added here
+}
 
 export const ReferenceDetailAdapter: React.FC<ReferenceDetailAdapterProps> = ({ 
   item: reference, 
@@ -10,24 +13,18 @@ export const ReferenceDetailAdapter: React.FC<ReferenceDetailAdapterProps> = ({
   onInteraction 
 }) => {
   const { type, label, metadata, id } = reference;
-  const safeMetadata = metadata || {};
+  const safeMetadata = metadata ?? {};
 
-  // Special handling for user references
-  if (type === 'user') {
-    const { role, email, department, location, joinDate } = safeMetadata as { 
-      role?: string; 
-      email?: string;
-      department?: string;
-      location?: string;
-      joinDate?: string;
-    };
+  // Special handling for user references with type guard
+  if (isUserReference(reference)) {
+    const { role, email, department, location, joinDate } = safeMetadata as UserMetadata;
     
     const initials = label
-      .split(' ')
-      .map(n => n[0])
-      .join('')
-      .substring(0, 2)
-      .toUpperCase();
+      ?.split(' ')
+      ?.map(n => n?.at(0) ?? '')
+      ?.join('')
+      ?.substring(0, 2)
+      ?.toUpperCase() ?? 'N/A';
 
     return (
       <div className="reference-detail reference-detail--user">
@@ -131,7 +128,7 @@ export const ReferenceDetailAdapter: React.FC<ReferenceDetailAdapterProps> = ({
               {Object.entries(safeMetadata).map(([key, value]) => (
                 <div key={key} className="reference-detail__metadata-item">
                   <dt className="reference-detail__metadata-key">{key}</dt>
-                  <dd className="reference-detail__metadata-value">{String(value)}</dd>
+                  <dd className="reference-detail__metadata-value">{String(value ?? 'N/A')}</dd>
                 </div>
               ))}
             </dl>

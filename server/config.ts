@@ -40,7 +40,7 @@ const config: ServerConfig = {
   port: process.env.PORT ? parseInt(process.env.PORT, 10) : 3000,
   openai: {
     apiKey: process.env.OPENAI_API_KEY!,
-    model: process.env.OPENAI_MODEL || 'gpt-4o',
+    model: process.env.OPENAI_MODEL || 'gpt-4.1',
   },
   cors: {
     allowedOrigins: [

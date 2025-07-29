@@ -16,7 +16,7 @@ export const ItemInteraction = <T extends BaseItem = BaseItem>({
   onScopeChange,
   onInteraction,
 }: ItemInteractionProps<T>) => {
-  
+
   // State for tracking hover + modifier key combination
   const [isHovering, setIsHovering] = useState(false);
   const [isModifierPressed, setIsModifierPressed] = useState(false);
@@ -33,6 +33,13 @@ export const ItemInteraction = <T extends BaseItem = BaseItem>({
 
   // Track modifier key state globally
   useEffect(() => {
+    // Check initial modifier key state on mount
+    const checkInitialModifierState = (e?: Event) => {
+      if ((e as KeyboardEvent)?.ctrlKey || (e as KeyboardEvent)?.metaKey) {
+        setIsModifierPressed(true);
+      }
+    };
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.ctrlKey || e.metaKey) {
         setIsModifierPressed(true);
@@ -45,12 +52,20 @@ export const ItemInteraction = <T extends BaseItem = BaseItem>({
       }
     };
 
+    // Also check on focus/blur events to catch modifier state changes
+    const handleFocus = () => {
+      // Reset modifier state when window gains focus
+      setIsModifierPressed(false);
+    };
+
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener('keyup', handleKeyUp);
+    window.addEventListener('focus', handleFocus);
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
       document.removeEventListener('keyup', handleKeyUp);
+      window.removeEventListener('focus', handleFocus);
     };
   }, []);
 
@@ -178,7 +193,12 @@ export const ItemInteraction = <T extends BaseItem = BaseItem>({
       onClick={handleClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      style={{ cursor: enableEscalation ? 'pointer' : 'default' }}
+      style={{
+        cursor: enableEscalation ? 'pointer' : 'default',
+        opacity: shouldEnableHoverCard && isHovering && !isModifierPressed ? 0.7 : 1,
+        transition: 'opacity 0.2s ease'
+      }}
+      title={shouldEnableHoverCard && isHovering && !isModifierPressed ? 'Hold Ctrl/Cmd for preview' : undefined}
     >
       {children}
     </span>
@@ -190,7 +210,7 @@ export const ItemInteraction = <T extends BaseItem = BaseItem>({
         <div style={{ position: 'relative', display: 'inline-block' }}>
           {childrenWithInteraction}
           {shouldShowHoverCard && (
-            <div 
+            <div
               style={{
                 position: 'absolute',
                 top: '100%',
@@ -198,6 +218,12 @@ export const ItemInteraction = <T extends BaseItem = BaseItem>({
                 transform: 'translateX(-50%)',
                 zIndex: 1000,
                 marginTop: '8px',
+                backgroundColor: 'white',
+                border: '1px solid #ccc',
+                borderRadius: '4px',
+                padding: '8px',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                minWidth: '200px',
                 animation: 'fadeIn 0.2s ease-out'
               }}
               className="hover-card__content"

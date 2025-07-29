@@ -46,11 +46,10 @@ export const createDocumentReference = (docId: string) => {
   };
 };
 
-// Material category for rich text editors
+// Material category for rich text editors - documents only
 // Pure data export - no TipTap dependency
 export const materialCategory = {
   id: 'documents',
   label: 'Documents',
-  items: referenceCategories.find(cat => cat.id === 'documents')?.items || [],
-  type: 'document' as const
+  items: referenceCategories.find(cat => cat.id === 'documents')?.items || []
 };

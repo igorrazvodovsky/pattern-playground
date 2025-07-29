@@ -1,10 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { ReferenceEditor } from '../../../components/reference';
-import { ItemInteraction } from '../../../components/item-view';
-import { ContentAdapterProvider } from '../../../components/item-view/ContentAdapterRegistry';
-import { referenceContentAdapter } from '../../../components/reference';
-import { referenceCategories_transformed, basicReferenceCategories_transformed } from '../../shared-data';
+import { referenceCategories, basicReferenceCategories } from '../../shared-data';
 import { createUserReference, createProjectReference, createDocumentReference } from '../../shared-data/reference-utils';
 import type { SelectedReference } from '../../../components/reference';
 
@@ -23,7 +20,7 @@ const ReferenceEditorExample = () => {
   return (
     <div className="layer">
       <ReferenceEditor
-        data={referenceCategories_transformed}
+        data={referenceCategories}
         onReferenceSelect={handleReferenceSelect}
         placeholder="Type @ to open hierarchical reference picker..."
         content={{
@@ -74,7 +71,7 @@ const BasicReferenceEditor = () => {
   return (
     <div className="layer">
       <ReferenceEditor
-        data={basicReferenceCategories_transformed}
+        data={basicReferenceCategories}
         onReferenceSelect={handleReferenceSelect}
         placeholder="Type @ to mention a user..."
         content={{
@@ -109,12 +106,8 @@ export const Basic: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Single-category reference picker with simple meeting content. Shows existing user mentions (Alice, Bob, Charlie, David, Eve) in a business context. Automatically skips category selection since there\'s only users. Type @ followed by a name to filter users directly.'
+        story: 'Single-category reference picker with simple meeting content. Shows existing user mentions from our team directory in a business context. Automatically skips category selection since there\'s only users. Type @ followed by a name to filter users directly.'
       }
     }
   }
 };
-
-
-
-

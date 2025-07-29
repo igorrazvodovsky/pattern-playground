@@ -4,12 +4,17 @@ import { createPortal } from 'react-dom';
 import { computePosition, flip, offset, shift, autoUpdate } from '@floating-ui/dom';
 import type { VirtualElement } from '@floating-ui/dom';
 import type { SuggestionProps } from '@tiptap/suggestion';
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { ReferencePicker } from './ReferencePicker';
-import { ItemInteraction } from '../item-view';
+import { ItemInteraction, ContentAdapterProvider } from '../item-view';
 import { referenceContentAdapter } from './ReferenceContentAdapter';
-import { ContentAdapterProvider } from '../item-view/ContentAdapterRegistry';
-import type { ReferenceCategory, SelectedReference } from './types';
+import type { ReferenceCategory, SelectedReference, ReferenceType } from './types';
+
+// WeakMap for private component data storage
+const privateComponentData = new WeakMap<HTMLDivElement, {
+  abortController: AbortController;
+  virtualElement: VirtualElement | null;
+}>();
 
 // Reference Picker Popup Component
 interface ReferencePickerPopupProps {
@@ -34,55 +39,71 @@ const ReferencePickerPopup: React.FC<ReferencePickerPopupProps> = ({
 }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   
-  // Auto-detect single category mode
+  // Auto-detect single category mode with modern array methods
   const isSingleCategory = data.length === 1;
   const [mode, setMode] = useState<'global' | 'contextual'>(isSingleCategory ? 'contextual' : 'global');
   const [selectedCategory, setSelectedCategory] = useState<ReferenceCategory | null>(
-    isSingleCategory ? data[0] : null
+    isSingleCategory ? data.at(0) ?? null : null
   );
   
   const floatingRef = useRef<HTMLDivElement>(null);
-  const cleanupRef = useRef<(() => void) | null>(null);
 
-  // Update position using floating-ui
+  // Modern AbortController for cleanup
+  const abortController = useMemo(() => new AbortController(), []);
+
+  // Update position using floating-ui with AbortController signal
   const updatePosition = useCallback(async () => {
-    if (!anchor || !floatingRef.current) return;
+    if (!anchor || !floatingRef.current || abortController.signal.aborted) return;
 
-    const { x, y } = await computePosition(anchor, floatingRef.current, {
-      placement,
-      middleware: [
-        offset(8), // 8px gap from anchor
-        flip(), // Flip to opposite side if no space
-        shift({ padding: 8 }), // Shift within viewport with padding
-      ],
-    });
+    try {
+      const { x, y } = await computePosition(anchor, floatingRef.current, {
+        placement,
+        middleware: [
+          offset(8), // 8px gap from anchor
+          flip(), // Flip to opposite side if no space
+          shift({ padding: 8 }), // Shift within viewport with padding
+        ],
+      });
 
-    setPosition({ x, y });
-  }, [anchor, placement]);
+      if (!abortController.signal.aborted) {
+        setPosition({ x, y });
+      }
+    } catch (error) {
+      if (!abortController.signal.aborted) {
+        console.warn('Position update failed:', error);
+      }
+    }
+  }, [anchor, placement, abortController.signal]);
 
-  // Set up floating-ui auto-update
+  // Set up floating-ui auto-update with AbortController
   useEffect(() => {
     if (!open || !anchor || !floatingRef.current) {
       return;
+    }
+
+    // Store private data in WeakMap
+    if (floatingRef.current) {
+      privateComponentData.set(floatingRef.current, {
+        abortController,
+        virtualElement: anchor
+      });
     }
 
     // Initial position
     updatePosition();
 
     // Auto-update position when anchor or floating element changes
-    cleanupRef.current = autoUpdate(
+    const cleanup = autoUpdate(
       anchor,
       floatingRef.current,
       updatePosition
     );
 
     return () => {
-      if (cleanupRef.current) {
-        cleanupRef.current();
-        cleanupRef.current = null;
-      }
+      cleanup();
+      abortController.abort();
     };
-  }, [open, anchor, updatePosition]);
+  }, [open, anchor, updatePosition, abortController]);
 
   // Handle category selection
   const handleCategorySelect = useCallback((category: ReferenceCategory) => {
@@ -98,14 +119,15 @@ const ReferencePickerPopup: React.FC<ReferencePickerPopupProps> = ({
     }
   }, [isSingleCategory]);
 
-  // Cleanup on unmount
+  // Cleanup on unmount with AbortController
   useEffect(() => {
     return () => {
-      if (cleanupRef.current) {
-        cleanupRef.current();
+      abortController.abort();
+      if (floatingRef.current) {
+        privateComponentData.delete(floatingRef.current);
       }
     };
-  }, []);
+  }, [abortController]);
 
   if (!open || !anchor) {
     return null;
@@ -184,7 +206,7 @@ export const Reference = Mention.extend({
         default: null,
         parseHTML: element => {
           const metadata = element.getAttribute('data-metadata');
-          return metadata ? JSON.parse(metadata) : null;
+          return metadata ? structuredClone(JSON.parse(metadata)) : null;
         },
         renderHTML: attributes => {
           if (!attributes.metadata) {
@@ -200,20 +222,20 @@ export const Reference = Mention.extend({
 
   addNodeView() {
     return ({ node, editor }) => {
-      // Create wrapper element
+      // Create wrapper element with modern DOM methods
       const wrapper = document.createElement('span');
       wrapper.className = 'reference-mention reference';
-      wrapper.setAttribute('data-reference-type', node.attrs.type || '');
+      wrapper.setAttribute('data-reference-type', node.attrs.type ?? '');
       if (node.attrs.metadata) {
         wrapper.setAttribute('data-metadata', JSON.stringify(node.attrs.metadata));
       }
 
-      // Create reference data for item view
+      // Create reference data for item view with structured clone
       const referenceData: SelectedReference = {
         id: node.attrs.id,
         label: node.attrs.label,
-        type: node.attrs.type,
-        metadata: node.attrs.metadata,
+        type: node.attrs.type as ReferenceType,
+        metadata: node.attrs.metadata ? structuredClone(node.attrs.metadata) : undefined,
       };
 
       // Create React component with item view integration
@@ -225,7 +247,7 @@ export const Reference = Mention.extend({
             enableEscalation={true}
           >
             <span className="reference-mention__content">
-              {node.attrs.label || node.attrs.id}
+              {node.attrs.label ?? node.attrs.id}
             </span>
           </ItemInteraction>
         </ContentAdapterProvider>

@@ -1,18 +1,21 @@
 import React from 'react';
 import type { ItemViewProps } from '../../item-view/types';
-import type { SelectedReference } from '../types';
+import type { SelectedReference, UserMetadata } from '../types';
+import { isUserReference } from '../types';
 
-export interface ReferenceFullViewAdapterProps extends ItemViewProps<SelectedReference> {}
+export interface ReferenceFullViewAdapterProps extends ItemViewProps<SelectedReference> {
+  // Additional props specific to full view adapter can be added here
+}
 
 export const ReferenceFullViewAdapter: React.FC<ReferenceFullViewAdapterProps> = ({ 
   item: reference, 
   onInteraction 
 }) => {
   const { type, label, metadata, id } = reference;
-  const safeMetadata = metadata || {};
+  const safeMetadata = metadata ?? {};
 
-  // Special handling for user references
-  if (type === 'user') {
+  // Special handling for user references with type guard
+  if (isUserReference(reference)) {
     const { 
       role, 
       email, 
@@ -22,23 +25,14 @@ export const ReferenceFullViewAdapter: React.FC<ReferenceFullViewAdapterProps> =
       bio, 
       skills, 
       projects 
-    } = safeMetadata as { 
-      role?: string; 
-      email?: string;
-      department?: string;
-      location?: string;
-      joinDate?: string;
-      bio?: string;
-      skills?: string[];
-      projects?: string[];
-    };
+    } = safeMetadata as UserMetadata;
     
     const initials = label
-      .split(' ')
-      .map(n => n[0])
-      .join('')
-      .substring(0, 2)
-      .toUpperCase();
+      ?.split(' ')
+      ?.map(n => n?.at(0) ?? '')
+      ?.join('')
+      ?.substring(0, 2)
+      ?.toUpperCase() ?? 'N/A';
 
     return (
       <div className="reference-full-view reference-full-view--user">
@@ -110,7 +104,7 @@ export const ReferenceFullViewAdapter: React.FC<ReferenceFullViewAdapterProps> =
             </section>
 
             <aside className="reference-full-view__sidebar">
-              {skills && skills.length > 0 && (
+              {skills?.length && (
                 <div className="reference-full-view__section">
                   <h3 className="reference-full-view__section-title">Skills</h3>
                   <div className="reference-full-view__tags">
@@ -123,7 +117,7 @@ export const ReferenceFullViewAdapter: React.FC<ReferenceFullViewAdapterProps> =
                 </div>
               )}
 
-              {projects && projects.length > 0 && (
+              {projects?.length && (
                 <div className="reference-full-view__section">
                   <h3 className="reference-full-view__section-title">Projects</h3>
                   <ul className="reference-full-view__list">
@@ -192,7 +186,7 @@ export const ReferenceFullViewAdapter: React.FC<ReferenceFullViewAdapterProps> =
                 <div key={key} className="reference-full-view__property">
                   <dt className="reference-full-view__property-key">{key}</dt>
                   <dd className="reference-full-view__property-value">
-                    {typeof value === 'object' ? JSON.stringify(value, null, 2) : String(value)}
+                    {typeof value === 'object' ? JSON.stringify(value, null, 2) : String(value ?? 'N/A')}
                   </dd>
                 </div>
               ))}

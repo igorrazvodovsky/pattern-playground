@@ -47,34 +47,37 @@ export type RecentItem = typeof recentItems[0];
 export type Task = typeof tasks[0];
 export type Transaction = typeof transactions[0];
 
-// Reference picker data structure
+// Reference picker data structure (ReferenceCategory interface format)
 export const referenceCategories = [
   {
     id: 'users',
-    name: 'Users',
-    type: 'user',
-    icon: 'ph:users-fill',
-    description: 'Team members and collaborators',
-    searchableText: 'users people team members collaborators',
-    children: users
+    label: 'Users',
+    items: users.map(item => ({
+      id: item.id,
+      label: item.name,
+      type: 'user' as const,
+      metadata: item.metadata
+    }))
   },
   {
     id: 'documents',
-    name: 'Documents',
-    type: 'document',
-    icon: 'ph:file-text-fill',
-    description: 'Documents, files, and resources',
-    searchableText: 'documents documentation resources files spreadsheets code',
-    children: documents
+    label: 'Documents',
+    items: documents.map(item => ({
+      id: item.id,
+      label: item.name,
+      type: 'document' as const,
+      metadata: item.metadata
+    }))
   },
   {
     id: 'projects',
-    name: 'Projects',
-    type: 'project',
-    icon: 'ph:folder-fill',
-    description: 'Active and completed projects',
-    searchableText: 'projects active completed development',
-    children: projects
+    label: 'Projects', 
+    items: projects.map(item => ({
+      id: item.id,
+      label: item.name,
+      type: 'project' as const,
+      metadata: item.metadata
+    }))
   }
 ];
 
@@ -82,34 +85,12 @@ export const referenceCategories = [
 export const basicReferenceCategories = [
   {
     id: 'users',
-    name: 'Users',
-    type: 'user',
-    icon: 'ph:users-fill',
-    description: 'Team members',
-    searchableText: 'users people team members',
-    children: users
+    label: 'Users',
+    items: users.map(item => ({
+      id: item.id,
+      label: item.name,
+      type: 'user' as const,
+      metadata: item.metadata
+    }))
   }
 ];
-
-// Transform data for ReferenceCategory interface (label/items instead of name/children)
-export const referenceCategories_transformed = referenceCategories.map(cat => ({
-  id: cat.id,
-  label: cat.name,
-  items: cat.children.map(item => ({
-    id: item.id,
-    label: item.name,
-    type: cat.type,
-    metadata: item.metadata
-  }))
-}));
-
-export const basicReferenceCategories_transformed = basicReferenceCategories.map(cat => ({
-  id: cat.id,
-  label: cat.name,
-  items: cat.children.map(item => ({
-    id: item.id,
-    label: item.name,
-    type: cat.type,
-    metadata: item.metadata
-  }))
-}));

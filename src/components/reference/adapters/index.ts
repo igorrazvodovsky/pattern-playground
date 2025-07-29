@@ -1,8 +1,24 @@
-export { ReferencePreviewAdapter } from './ReferencePreviewAdapter';
-export type { ReferencePreviewAdapterProps } from './ReferencePreviewAdapter';
+// Modern re-exports with explicit type exports
+export { 
+  ReferencePreviewAdapter,
+  type ReferencePreviewAdapterProps 
+} from './ReferencePreviewAdapter';
 
-export { ReferenceDetailAdapter } from './ReferenceDetailAdapter';
-export type { ReferenceDetailAdapterProps } from './ReferenceDetailAdapter';
+export { 
+  ReferenceDetailAdapter,
+  type ReferenceDetailAdapterProps 
+} from './ReferenceDetailAdapter';
 
-export { ReferenceFullViewAdapter } from './ReferenceFullViewAdapter';
-export type { ReferenceFullViewAdapterProps } from './ReferenceFullViewAdapter';
+export { 
+  ReferenceFullViewAdapter,
+  type ReferenceFullViewAdapterProps 
+} from './ReferenceFullViewAdapter';
+
+// Modern adapter registry using const assertions
+export const REFERENCE_ADAPTERS = {
+  preview: 'ReferencePreviewAdapter',
+  detail: 'ReferenceDetailAdapter',
+  fullView: 'ReferenceFullViewAdapter'
+} as const;
+
+export type ReferenceAdapterType = typeof REFERENCE_ADAPTERS[keyof typeof REFERENCE_ADAPTERS];
