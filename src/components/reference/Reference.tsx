@@ -136,17 +136,10 @@ const ReferencePickerPopup: React.FC<ReferencePickerPopupProps> = ({
   return createPortal(
     <div
       ref={floatingRef}
+      className="reference-picker-popup"
       style={{
-        position: 'absolute',
         left: `${position.x}px`,
         top: `${position.y}px`,
-        zIndex: 'var(--layer-dropdown)',
-        minWidth: '320px',
-        maxWidth: '480px',
-        maxHeight: '400px',
-        boxShadow: 'var(--shadow-m)',
-        borderRadius: 'var(--radius-m)',
-        overflow: 'hidden',
       }}
     >
       <ReferencePicker

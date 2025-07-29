@@ -106,3 +106,15 @@
 .reference-mention__content {
   display: inline;
 }
+
+/* Reference picker popup positioning */
+.reference-picker-popup {
+  position: absolute;
+  z-index: var(--layer-dropdown);
+  min-width: 320px;
+  max-width: 480px;
+  max-height: 400px;
+  box-shadow: var(--shadow-m);
+  border-radius: var(--radius-m);
+  overflow: hidden;
+}
