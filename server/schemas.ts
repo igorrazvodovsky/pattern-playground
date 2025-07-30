@@ -160,7 +160,30 @@ const jsonSchema = {
   required: ["model"]
 };
 
+// Semantic zoom schemas
+export type SemanticZoomRequest = {
+  text: string;
+  context?: string;
+  direction: 'in' | 'out';
+  intensity: number;
+};
+
+export type SemanticZoomStreamChunk = {
+  type: 'chunk' | 'complete' | 'error';
+  content?: string;
+  done: boolean;
+  error?: string;
+};
+
+const semanticZoomRequestSchema = z.object({
+  text: z.string().min(1),
+  context: z.string().optional(),
+  direction: z.enum(['in', 'out']),
+  intensity: z.number().min(10).max(100)
+});
+
 export {
   juiceProductionSchema,
-  jsonSchema
+  jsonSchema,
+  semanticZoomRequestSchema
 };

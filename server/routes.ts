@@ -2,7 +2,7 @@ import { OpenAI } from 'openai';
 import { Request, Response, Application } from 'express';
 import logger from './logger.js';
 import config from './config.js';
-import { juiceProductionSchema, jsonSchema, JuiceProductionModel, ModelItem } from './schemas.js';
+import { juiceProductionSchema, jsonSchema, JuiceProductionModel, ModelItem, SemanticZoomRequest, SemanticZoomStreamChunk, semanticZoomRequestSchema } from './schemas.js';
 
 // Initialize OpenAI client
 const openai = new OpenAI({
@@ -104,6 +104,25 @@ export const setupRoutes = (app: Application): void => {
         success: false,
         data: null,
         error: error instanceof Error ? error.message : "Server error"
+      });
+    }
+  });
+
+  // Semantic zoom endpoint
+  app.post('/api/text/zoom', async (req: Request, res: Response): Promise<void> => {
+    logger.debug("Received semantic zoom request:", req.body);
+
+    try {
+      // Validate request
+      const validatedRequest = semanticZoomRequestSchema.parse(req.body);
+      logger.info(`Processing semantic zoom: ${validatedRequest.direction} ${validatedRequest.intensity}%`);
+
+      await handleSemanticZoomStreaming(req, res, validatedRequest);
+    } catch (error) {
+      logger.error("Error processing semantic zoom request:", error);
+      res.status(400).json({
+        success: false,
+        error: error instanceof Error ? error.message : "Invalid request"
       });
     }
   });
@@ -637,4 +656,97 @@ function generateFallbackSuggestions(
     confidence: 50,
     unmatchedCriteria: []
   };
+}
+
+/**
+ * Handle streaming semantic zoom response
+ */
+async function handleSemanticZoomStreaming(
+  _req: Request,
+  res: Response,
+  request: SemanticZoomRequest
+): Promise<void> {
+  // Set headers for SSE
+  res.writeHead(200, {
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    'Connection': 'keep-alive',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Cache-Control'
+  });
+
+  try {
+    // Create prompt based on zoom direction and intensity
+    const zoomPrompt = createZoomPrompt(request);
+    
+    // Call OpenAI API with streaming enabled
+    const stream = await openai.responses.create({
+      model: config.openai.model,
+      instructions: "You are a text transformation specialist. Provide direct text transformations without introductions, acknowledgments, or explanations. Begin immediately with the transformed content.",
+      input: zoomPrompt,
+      stream: true
+    });
+
+    // Process each chunk from OpenAI
+    for await (const chunk of stream) {
+      const chunkData = chunk as unknown as OpenAIResponseChunk;
+      const content = chunkData.text || "";
+      
+      if (content) {
+        // Send streaming chunk to client
+        const streamChunk: SemanticZoomStreamChunk = {
+          type: 'chunk',
+          content,
+          done: false
+        };
+
+        res.write(`data: ${JSON.stringify(streamChunk)}\n\n`);
+      }
+    }
+
+    // Send completion event
+    const completionChunk: SemanticZoomStreamChunk = {
+      type: 'complete',
+      done: true
+    };
+
+    res.write(`data: ${JSON.stringify(completionChunk)}\n\n`);
+    res.end();
+
+  } catch (error) {
+    logger.error("Error in semantic zoom streaming:", error);
+
+    // Send error event
+    const errorChunk: SemanticZoomStreamChunk = {
+      type: 'error',
+      error: error instanceof Error ? error.message : "Server error",
+      done: true
+    };
+
+    res.write(`data: ${JSON.stringify(errorChunk)}\n\n`);
+    res.end();
+  }
+}
+
+/**
+ * Create zoom prompt based on request parameters
+ */
+function createZoomPrompt(request: SemanticZoomRequest): string {
+  const { text, context, direction, intensity } = request;
+  
+  let prompt: string;
+  
+  if (direction === 'in') {
+    prompt = `Expand this text by adding relevant detail, context, or specificity. Keep the same meaning but make it more elaborate:\n\n"${text}"\n\nExpanded version:`;
+  } else {
+    prompt = `Condense this text while preserving its essential meaning. Make it more concise and direct:\n\n"${text}"\n\nCondensed version:`;
+  }
+  
+  if (context) {
+    prompt += `\n\nSurrounding context: ${context}`;
+  }
+  
+  prompt += `\n\nOutput only the transformed text without any preamble, explanation, or meta-commentary.`;
+  
+  return prompt;
 }

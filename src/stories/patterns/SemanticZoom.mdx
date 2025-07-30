@@ -1,0 +1,36 @@
+import { Canvas, Story, Meta, Subtitle } from '@storybook/addon-docs/blocks';
+import * as BubbleMenuStories from '../components/BubbleMenu.stories.tsx';
+
+<Meta title="Patterns/Semantic zoom" />
+
+# Semantic zoom
+
+Viewing data at different levels of abstraction:
+- Zoom out: summarisation
+- Zoom in: elaboration or expansion
+
+## User control
+
+With and without possibility to zoom in/out.
+
+## Examples
+
+### Interactive text transformation
+
+The [Bubble menu](?path=/docs/components-bubble-menu--docs) pattern demonstrates semantic zoom through text selection and transformation.
+Users can select text and use AI-powered tools to expand or condense content at granular levels.
+
+<Story of={BubbleMenuStories.SemanticZoom} />
+
+## Related patterns
+
+- Combined with *citations*, summaries let you capture key takeaways from a long document and then go deeper into the content that are relevant to you
+- Combined with *synthesis*, summaries can take multiple inputs such as an email thread and capture the main ideas
+- Combined with *workflow*, summaries can be added automatically to specific objects
+- Semantic shift: e.g. "make it assertive", "make it friendly", simplify, change tone, translate
+- Progressive disclosure
+- Citations and sources provide top-down links between abstraction levels.
+
+## Resources & references
+
+- [Accordion editing](https://www.nngroup.com/articles/accordion-editing-apple-picking/)

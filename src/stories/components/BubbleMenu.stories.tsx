@@ -2,7 +2,9 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useEditor, EditorContent, BubbleMenu } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Highlight from '@tiptap/extension-highlight';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
+import { textTransformService } from '../../services/textTransformService';
+import { PpToast } from '../../main.ts';
 
 const meta = {
   title: "Components/Bubble menu",
@@ -236,6 +238,122 @@ export const InlineComment: Story = {
                 >
                   <iconify-icon className="icon" icon="ph:highlighter"></iconify-icon>
                   <span className="inclusively-hidden">Highlight</span>
+                </button>
+              </div>
+            </BubbleMenu>
+          )}
+          <EditorContent editor={editor} />
+        </div>
+      </div>
+    );
+  },
+};
+export const SemanticZoom: Story = {
+  args: {},
+  render: () => {
+    const [isStreaming, setIsStreaming] = useState(false);
+
+    const editor = useSimpleEditor(`
+      <p>Climate change is reshaping ecosystems at a pace that many species can't keep up with. As temperatures rise, animals and plants are being pushed out of their natural habitats.</p>
+    `);
+
+    const handleZoom = useCallback(async (direction: 'in' | 'out') => {
+      if (editor && !isStreaming) {
+        const { from, to } = editor.state.selection;
+        const selectedText = editor.state.doc.textBetween(from, to, ' ');
+
+        if (selectedText) {
+          setIsStreaming(true);
+          let newContent = '';
+
+          // Show toast notification
+          const action = direction === 'in' ? 'Expanding' : 'Condensing';
+          PpToast.show(`${action} text...`);
+
+          try {
+            if (direction === 'in') {
+              await textTransformService.zoomIn(selectedText, 25, {
+                onChunk: (content) => {
+                  newContent += content;
+                  // Replace selected text progressively
+                  editor.chain().focus()
+                    .setTextSelection({ from, to })
+                    .insertContent(newContent)
+                    .setTextSelection({ from, to: from + newContent.length })
+                    .run();
+                },
+                onComplete: () => {
+                  setIsStreaming(false);
+                },
+                onError: (error) => {
+                  console.error(`Zoom ${direction} error:`, error);
+                  setIsStreaming(false);
+                  PpToast.show(`Error ${action.toLowerCase()} text`);
+                }
+              });
+            } else {
+              await textTransformService.zoomOut(selectedText, 25, {
+                onChunk: (content) => {
+                  newContent += content;
+                  // Replace selected text progressively
+                  editor.chain().focus()
+                    .setTextSelection({ from, to })
+                    .insertContent(newContent)
+                    .setTextSelection({ from, to: from + newContent.length })
+                    .run();
+                },
+                onComplete: () => {
+                  setIsStreaming(false);
+                },
+                onError: (error) => {
+                  console.error(`Zoom ${direction} error:`, error);
+                  setIsStreaming(false);
+                  PpToast.show(`Error ${action.toLowerCase()} text`);
+                }
+              });
+            }
+          } catch (error) {
+            console.error(`Zoom ${direction} failed:`, error);
+            setIsStreaming(false);
+            PpToast.show(`Failed to ${action.toLowerCase()} text`);
+          }
+        }
+      }
+    }, [editor, isStreaming]);
+
+    return (
+      <div className="layer">
+        <div className="rich-editor-container">
+          {editor && (
+            <BubbleMenu
+              editor={editor}
+              pluginKey="bubbleMenuSemanticZoom"
+              shouldShow={({ state }) => {
+                const { from, to } = state.selection;
+                const isEmpty = from === to;
+                return !isEmpty && !isStreaming;
+              }}
+            >
+              <div className="bubble-menu inline-flow">
+                <button
+                  className={`button button--small button--plain ${isStreaming ? 'button--loading' : ''}`}
+                  is="pp-button"
+                  onClick={() => handleZoom('in')}
+                  disabled={isStreaming}
+                  title="Zoom in - add more detail"
+                >
+                  <iconify-icon className="icon" icon="ph:magnifying-glass-plus"></iconify-icon>
+                  <span className="inclusively-hidden">Zoom In</span>
+                </button>
+                <button
+                  className={`button button--small button--plain ${isStreaming ? 'button--loading' : ''}`}
+                  is="pp-button"
+                  onClick={() => handleZoom('out')}
+                  disabled={isStreaming}
+                  title="Zoom out - condense detail"
+                >
+                  <iconify-icon className="icon" icon="ph:magnifying-glass-minus"></iconify-icon>
+                  <span className="inclusively-hidden">Zoom Out</span>
                 </button>
               </div>
             </BubbleMenu>
