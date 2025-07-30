@@ -1,6 +1,4 @@
-/* TODO: move */
-.tiptap p {
-}
+/* TODO: Refactor */
 
 .reference {
   background-color: var(--c-neutral-100); /* Neutral background color */
@@ -67,6 +65,10 @@
   line-height: 1.5;
   resize: vertical;
   /* min-height: 80px; */
+}
+
+.ProseMirror-focused:focus-visible {
+  outline: none !important;
 }
 
 .rich-editor .ProseMirror:focus {

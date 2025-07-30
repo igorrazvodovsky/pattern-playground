@@ -2,10 +2,7 @@ import express, { Request, Response, NextFunction, Application } from 'express';
 import cors from 'cors';
 import logger from './logger.js';
 import config from './config.js';
-
-interface HttpError extends Error {
-  status?: number;
-}
+import { errorHandler } from './middleware/errorHandler.js';
 
 export const setupMiddleware = (app: Application): void => {
   // Body parser middleware
@@ -45,29 +42,6 @@ export const setupMiddleware = (app: Application): void => {
     allowedHeaders: config.cors.allowedHeaders
   }));
 
-  // Error handling middleware
-  app.use((err: HttpError, _req: Request, res: Response, next: NextFunction): void => {
-    logger.error('Express error:', err);
-
-    // Make sure we're using the correct response method
-    if (typeof res.status === 'function') {
-      res.status(err.status || 500).json({
-        success: false,
-        data: null,
-        error: err.message || 'Internal Server Error'
-      });
-    } else {
-      // Fallback if res.status is not a function
-      res.statusCode = err.status || 500;
-      res.json({
-        success: false,
-        data: null,
-        error: err.message || 'Internal Server Error'
-      });
-    }
-
-    // Call next to pass the error to any further error handlers
-    // This prevents the ESLint error about unused parameter
-    if (next) next(err);
-  });
+  // Error handling middleware (must be last)
+  app.use(errorHandler);
 };
