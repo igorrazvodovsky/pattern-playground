@@ -28,8 +28,6 @@ interface StreamEvent {
   done: boolean;
 }
 
-
-
 interface AISuggestionRequest {
   prompt: string;
   context: {
@@ -113,7 +111,7 @@ export const setupRoutes = (app: Application): void => {
 
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 30000);
-      
+
       try {
         await handleSemanticZoomStreaming(req, res, validatedRequest, controller.signal);
       } finally {
@@ -319,7 +317,7 @@ async function handleStandardResponse(_req: Request, res: Response, prompt: stri
     let parsedContent: JuiceProductionModel;
 
     try {
-      parsedContent = (typeof response.text === 'string') 
+      parsedContent = (typeof response.text === 'string')
         ? JSON.parse(response.text) as JuiceProductionModel
         : response.text as unknown as JuiceProductionModel;
 
@@ -632,15 +630,13 @@ async function handleSemanticZoomStreaming(
   res.writeHead(200, {
     'Content-Type': 'text/event-stream',
     'Cache-Control': 'no-cache',
-    'Connection': 'keep-alive',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Cache-Control'
+    'Connection': 'keep-alive'
   });
 
   try {
     // Create prompt based on zoom direction and intensity
     const zoomPrompt = createZoomPrompt(request);
-    
+
     // Call OpenAI API with streaming enabled
     const stream = await openai.responses.create({
       model: config.openai.model,
@@ -653,7 +649,7 @@ async function handleSemanticZoomStreaming(
     for await (const chunk of stream) {
       const chunkData = chunk as unknown as OpenAIResponseChunk;
       const content = chunkData.text || "";
-      
+
       if (content) {
         // Send streaming chunk to client
         const streamChunk: SemanticZoomStreamChunk = {
@@ -692,20 +688,20 @@ async function handleSemanticZoomStreaming(
 
 function createZoomPrompt(request: SemanticZoomRequest): string {
   const { text, context, direction } = request;
-  
+
   let prompt: string;
-  
+
   if (direction === 'in') {
     prompt = `Expand this text by adding relevant detail, context, or specificity. Keep the same meaning but make it more elaborate:\n\n"${text}"\n\nExpanded version:`;
   } else {
     prompt = `Condense this text while preserving its essential meaning. Make it more concise and direct:\n\n"${text}"\n\nCondensed version:`;
   }
-  
+
   if (context) {
     prompt += `\n\nSurrounding context: ${context}`;
   }
-  
+
   prompt += `\n\nOutput only the transformed text without any preamble, explanation, or meta-commentary.`;
-  
+
   return prompt;
 }
