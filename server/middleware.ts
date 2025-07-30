@@ -3,17 +3,10 @@ import cors from 'cors';
 import logger from './logger.js';
 import config from './config.js';
 
-/**
- * Error with status code for HTTP responses
- */
 interface HttpError extends Error {
   status?: number;
 }
 
-/**
- * Configure and apply middleware to Express app
- * @param app - Express application
- */
 export const setupMiddleware = (app: Application): void => {
   // Body parser middleware
   app.use(express.json());

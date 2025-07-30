@@ -15,18 +15,12 @@ interface OpenAIResponseChunk {
   // Add other possible properties here
 }
 
-/**
- * Response interface for API responses
- */
 interface ApiResponse<T> {
   success: boolean;
   data: T | null;
   error: string | null;
 }
 
-/**
- * Stream event interface for SSE responses
- */
 interface StreamEvent {
   newComponent?: ModelItem;
   accumulated?: string;
@@ -36,7 +30,6 @@ interface StreamEvent {
 
 
 
-// New generic interfaces
 interface AISuggestionRequest {
   prompt: string;
   context: {
@@ -65,10 +58,6 @@ interface AISuggestionResponse {
   error: string | null;
 }
 
-/**
- * Configure and apply routes to Express app
- * @param app - Express application
- */
 export const setupRoutes = (app: Application): void => {
   // Generation endpoint
   app.post('/api/generate', async (req: Request, res: Response): Promise<void> => {
@@ -89,14 +78,17 @@ export const setupRoutes = (app: Application): void => {
     logger.info(`Processing prompt: "${prompt}"`);
 
     // Check if client requested streaming response
-    const shouldStream: boolean = !!(req.headers.accept && req.headers.accept.includes('text/event-stream'));
+    const shouldStream: boolean = !!(req.headers.accept?.includes('text/event-stream'));
     logger.debug(`Streaming requested: ${shouldStream}`);
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
 
     try {
       if (shouldStream) {
-        await handleStreamingResponse(req, res, prompt);
+        await handleStreamingResponse(req, res, prompt, controller.signal);
       } else {
-        await handleStandardResponse(req, res, prompt);
+        await handleStandardResponse(req, res, prompt, controller.signal);
       }
     } catch (error) {
       logger.error("Error processing request:", error);
@@ -105,6 +97,8 @@ export const setupRoutes = (app: Application): void => {
         data: null,
         error: error instanceof Error ? error.message : "Server error"
       });
+    } finally {
+      clearTimeout(timeoutId);
     }
   });
 
@@ -117,7 +111,14 @@ export const setupRoutes = (app: Application): void => {
       const validatedRequest = semanticZoomRequestSchema.parse(req.body);
       logger.info(`Processing semantic zoom: ${validatedRequest.direction} ${validatedRequest.intensity}%`);
 
-      await handleSemanticZoomStreaming(req, res, validatedRequest);
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
+      
+      try {
+        await handleSemanticZoomStreaming(req, res, validatedRequest, controller.signal);
+      } finally {
+        clearTimeout(timeoutId);
+      }
     } catch (error) {
       logger.error("Error processing semantic zoom request:", error);
       res.status(400).json({
@@ -155,8 +156,11 @@ export const setupRoutes = (app: Application): void => {
     const { prompt, context }: AISuggestionRequest = req.body;
     logger.info(`Processing ${context.type} suggestion prompt: "${prompt}"`);
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
+
     try {
-      await handleGenericSuggestionResponse(req, res, prompt, context);
+      await handleGenericSuggestionResponse(req, res, prompt, context, controller.signal);
     } catch (error) {
       logger.error("Error processing suggestion request:", error);
       res.status(500).json({
@@ -164,19 +168,15 @@ export const setupRoutes = (app: Application): void => {
         data: null,
         error: error instanceof Error ? error.message : "Server error"
       });
+    } finally {
+      clearTimeout(timeoutId);
     }
   });
 
 
 };
 
-/**
- * Handle streaming response to client
- * @param _req - Express request (unused)
- * @param res - Express response
- * @param prompt - User prompt
- */
-async function handleStreamingResponse(_req: Request, res: Response, prompt: string): Promise<void> {
+async function handleStreamingResponse(_req: Request, res: Response, prompt: string, signal?: AbortSignal): Promise<void> {
   // Set headers for SSE
   res.writeHead(200, {
     'Content-Type': 'text/event-stream',
@@ -210,7 +210,7 @@ async function handleStreamingResponse(_req: Request, res: Response, prompt: str
         }
       ],
       stream: true
-    });
+    }, signal ? { signal } : {});
 
     // Process each chunk from OpenAI
     for await (const chunk of stream) {
@@ -232,9 +232,7 @@ async function handleStreamingResponse(_req: Request, res: Response, prompt: str
           const newComponents = parsedJson.model.filter((component: ModelItem) =>
             !accumulatedData.model.some((existing: ModelItem) =>
               existing.id === component.id ||
-              (existing.component_name !== undefined &&
-                component.component_name !== undefined &&
-                existing.component_name === component.component_name)
+              existing.component_name === component.component_name
             )
           );
 
@@ -286,13 +284,7 @@ async function handleStreamingResponse(_req: Request, res: Response, prompt: str
   }
 }
 
-/**
- * Handle standard (non-streaming) response to client
- * @param _req - Express request (unused)
- * @param res - Express response
- * @param prompt - User prompt
- */
-async function handleStandardResponse(_req: Request, res: Response, prompt: string): Promise<void> {
+async function handleStandardResponse(_req: Request, res: Response, prompt: string, signal?: AbortSignal): Promise<void> {
   try {
     const response = await openai.responses.create({
       model: config.openai.model,
@@ -314,7 +306,7 @@ async function handleStandardResponse(_req: Request, res: Response, prompt: stri
         }
       ],
       stream: false
-    });
+    }, signal ? { signal } : {});
 
     logger.info("OpenAI response received");
 
@@ -327,18 +319,9 @@ async function handleStandardResponse(_req: Request, res: Response, prompt: stri
     let parsedContent: JuiceProductionModel;
 
     try {
-      // Check if response.text is a string or an object
-      if (typeof response.text === 'string') {
-        try {
-          parsedContent = JSON.parse(response.text) as JuiceProductionModel;
-        } catch (parseError) {
-          logger.error("Failed to parse OpenAI response as JSON:", parseError);
-          throw new Error("Failed to parse OpenAI response as JSON");
-        }
-      } else {
-        // If it's already an object, use it directly
-        parsedContent = response.text as unknown as JuiceProductionModel;
-      }
+      parsedContent = (typeof response.text === 'string') 
+        ? JSON.parse(response.text) as JuiceProductionModel
+        : response.text as unknown as JuiceProductionModel;
 
       // Validate the response against our schema
       try {
@@ -377,17 +360,15 @@ async function handleStandardResponse(_req: Request, res: Response, prompt: stri
   }
 }
 
-/**
- * Handle generic suggestion response
- */
 async function handleGenericSuggestionResponse(
   _req: Request,
   res: Response,
   prompt: string,
-  context: AISuggestionRequest['context']
+  context: AISuggestionRequest['context'],
+  signal?: AbortSignal
 ): Promise<void> {
   try {
-    const suggestionData = await generateGenericSuggestions(prompt, context);
+    const suggestionData = await generateGenericSuggestions(prompt, context, signal);
 
     res.status(200).json({
       success: true,
@@ -401,12 +382,10 @@ async function handleGenericSuggestionResponse(
   }
 }
 
-/**
- * Generate generic suggestions based on context type
- */
 async function generateGenericSuggestions(
   prompt: string,
-  context: AISuggestionRequest['context']
+  context: AISuggestionRequest['context'],
+  signal?: AbortSignal
 ): Promise<AISuggestionData> {
   const { type, availableOptions, metadata } = context;
 
@@ -426,16 +405,13 @@ async function generateGenericSuggestions(
       }
     ],
     temperature: 0.1,
-    max_tokens: 1000
-  });
+    max_tokens: 1000,
+    response_format: { type: "json_object" }
+  }, { signal });
 
   logger.info(`OpenAI ${type} suggestion response received`);
 
-  if (!response.choices || !response.choices[0] || !response.choices[0].message) {
-    throw new Error("Invalid OpenAI response format");
-  }
-
-  const content = response.choices[0].message.content;
+  const content = response.choices?.[0]?.message?.content;
   if (!content) {
     throw new Error("Empty response from OpenAI");
   }
@@ -444,9 +420,6 @@ async function generateGenericSuggestions(
   return parseAndTransformResponse(content, type, availableOptions);
 }
 
-/**
- * Create context-specific system prompt
- */
 function createSystemPrompt(
   type: string,
   availableOptions: Record<string, any[]>,
@@ -584,20 +557,14 @@ Response format:
   }
 }
 
-/**
- * Parse and transform OpenAI response based on context type
- */
 function parseAndTransformResponse(
   content: string,
   type: string,
   availableOptions: Record<string, any[]>
 ): AISuggestionData {
   try {
-    // Extract JSON from response (handle code blocks)
-    const jsonMatch = content.match(/```(?:json)?\s*(\{[\s\S]*?\})\s*```/) || [null, content];
-    const jsonString = jsonMatch[1] || content;
-
-    const parsedContent = JSON.parse(jsonString);
+    // With JSON mode, content should be direct JSON without code blocks
+    const parsedContent = JSON.parse(content);
 
     // Validate the response structure
     if (!parsedContent.suggestions || !Array.isArray(parsedContent.suggestions)) {
@@ -628,9 +595,6 @@ function parseAndTransformResponse(
   }
 }
 
-/**
- * Generate fallback suggestions when AI parsing fails
- */
 function generateFallbackSuggestions(
   type: string,
   availableOptions: Record<string, any[]>
@@ -658,13 +622,11 @@ function generateFallbackSuggestions(
   };
 }
 
-/**
- * Handle streaming semantic zoom response
- */
 async function handleSemanticZoomStreaming(
   _req: Request,
   res: Response,
-  request: SemanticZoomRequest
+  request: SemanticZoomRequest,
+  signal?: AbortSignal
 ): Promise<void> {
   // Set headers for SSE
   res.writeHead(200, {
@@ -685,7 +647,7 @@ async function handleSemanticZoomStreaming(
       instructions: "You are a text transformation specialist. Provide direct text transformations without introductions, acknowledgments, or explanations. Begin immediately with the transformed content.",
       input: zoomPrompt,
       stream: true
-    });
+    }, signal ? { signal } : {});
 
     // Process each chunk from OpenAI
     for await (const chunk of stream) {
@@ -728,11 +690,8 @@ async function handleSemanticZoomStreaming(
   }
 }
 
-/**
- * Create zoom prompt based on request parameters
- */
 function createZoomPrompt(request: SemanticZoomRequest): string {
-  const { text, context, direction, intensity } = request;
+  const { text, context, direction } = request;
   
   let prompt: string;
   

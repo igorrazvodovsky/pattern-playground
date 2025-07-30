@@ -5,33 +5,22 @@ import config from './config.js';
 import { setupMiddleware } from './middleware.js';
 import { setupRoutes } from './routes.js';
 
-/**
- * Main server application
- */
-async function startServer(): Promise<void> {
-  try {
-    // Initialize Express app
-    const app = express();
-    const PORT = config.port;
+// Initialize Express app using top-level await
+try {
+  const app = express();
+  const PORT = config.port;
 
-    // Setup middleware
-    setupMiddleware(app);
+  // Setup middleware
+  setupMiddleware(app);
 
-    // Setup routes
-    setupRoutes(app);
+  // Setup routes
+  setupRoutes(app);
 
-    // Start the server
-    app.listen(PORT, () => {
-      logger.info(`Server running on port ${PORT}`);
-    });
-  } catch (error) {
-    logger.error('Failed to start server:', error);
-    process.exit(1);
-  }
-}
-
-// Start the server
-startServer().catch(error => {
-  console.error('Unhandled error during server startup:', error);
+  // Start the server
+  app.listen(PORT, () => {
+    logger.info(`Server running on port ${PORT}`);
+  });
+} catch (error) {
+  logger.error('Failed to start server:', error);
   process.exit(1);
-});
+}

@@ -51,10 +51,10 @@ const config: ServerConfig = {
       // Render.com domains
       'https://pattern-playground.onrender.com/',
       // Add other production domains here
-    ].filter(Boolean), // Remove empty strings
+    ].filter(Boolean),
     credentials: true,
-    methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    methods: ['GET', 'POST', 'OPTIONS'] as const,
+    allowedHeaders: ['Content-Type', 'Authorization'] as const
   },
   logging: {
     level: process.env.LOG_LEVEL || 'info'

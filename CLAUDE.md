@@ -92,6 +92,12 @@ Use the latest language features and APIs without backward compatibility constra
 - TypeScript strict mode enabled
 - Components should extend native HTML elements when possible
 
+## Code comments
+- **Avoid redundant comments** - Don't comment on what the code already clearly expresses
+- **Self-documenting code** - Prefer descriptive names and clear structure over explanatory comments
+- **When to comment**: Complex business logic, non-obvious algorithms, or important context that isn't apparent from the code
+- **Comment style**: Use `//` for brief explanations, avoid verbose JSDoc blocks for simple interfaces or self-evident functions
+
 ## Styling guidelines
 - **Never use inline styles** - All styling must be handled through CSS classes
 - Add styles to `src/styles/` directory for global styles and shared components
