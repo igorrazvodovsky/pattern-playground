@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const meta = {
-  title: "Patterns/Communication/Generated content",
+  title: "Patterns/Generated content",
 } satisfies Meta;
 
 export default meta;
