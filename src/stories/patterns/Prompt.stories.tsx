@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useCallback, useState } from "react";
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import { Reference, createReferenceSuggestion } from '../../../../components/reference/Reference';
-import { materialCategory } from '../../../shared-data/reference-utils';
-import { TemplateField } from '../../../../components/template-field';
+import { Reference, createReferenceSuggestion } from '../../components/reference/Reference';
+import { materialCategory } from '../shared-data/reference-utils';
+import { TemplateField } from '../../components/template-field';
 
 interface TipTapContent {
   type: string;
@@ -19,7 +19,7 @@ interface TipTapContent {
 }
 
 const meta = {
-  title: "Patterns/Intelligence*/Prompt",
+  title: "Patterns/Prompt",
 } satisfies Meta;
 
 export default meta;

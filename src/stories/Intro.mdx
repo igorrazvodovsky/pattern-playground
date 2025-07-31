@@ -92,7 +92,7 @@ A sporadically updated log of current focus.
 Refining the LLM patterns. The focus continues on making AI interactions more
 deliberate and contextual, moving beyond chat toward embedded
 intelligence patterns.
-- Basic LLM interactions: steadily filling in the details. Describing patterns that shape model's [input](../?path=/docs/patterns-intelligence-prompt--docs) and [output](../?path=/docs/patterns-communication-generated-content--docs). Where possible (and makes sense), I'm trying to describe these patterns generically, without tying them specifically to AI. I'm not entirely sure yet how useful this approach is, but it seems to spark interesting connections. Also filling in missing UI components. Added [TipTap](https://tiptap.dev/) to add more interactivity to help with mainly textual patterns.
+- Basic LLM interactions: steadily filling in the details. Describing patterns that shape model's [input](../?path=/docs/patterns-prompt--docs) and [output](../?path=/docs/patterns-communication-generated-content--docs). Where possible (and makes sense), I'm trying to describe these patterns generically, without tying them specifically to AI. I'm not entirely sure yet how useful this approach is, but it seems to spark interesting connections. Also filling in missing UI components. Added [TipTap](https://tiptap.dev/) to add more interactivity to help with mainly textual patterns.
 - Described [embedded intelligence](../?path=/docs/patterns-intelligence-embedded-intelligence--docs) as an AI integration strategy.
 - Next: [task](../?path=/docs/concepts-task--docs) as a building block of agentic interactions.
 
@@ -102,7 +102,7 @@ intelligence patterns.
 
 I continue building the map of LLM interaction patterns. Right now exploring how user intent gets captured and acted on. There are three interconnected tracks:
 1. First, I’ve pulled apart [chat](../?path=/docs/compositions-messaging--docs) and [bot](../?path=/docs/patterns-intelligence-bot--docs)—chat is where the [conversation](../?path=/docs/patterns-interaction-conversation--docs) happen; the bot is the part that gets things done, often outside the chat. Seeing them separately makes it easier to think about assistants that shift between interface roles: from conversation partner to background actor.
-2. This separation reveals that the chatbot implements a cluster of patterns revolving around clear, deliberate user intent provided via [prompt](../?path=/docs/patterns-intelligence-prompt--docs), and supported by mechanics like prompt guidance and scaffolding, and model switching.
+2. This separation reveals that the chatbot implements a cluster of patterns revolving around clear,deliberate user intent provided via [prompt](../?path=/docs/patterns-prompt--docs), and supported by mechanics like prompt guidance and scaffolding, and model switching.
 3. This distinction, in turn, points toward another set of patterns—ways to handle unclear intent when the user doesn't or can't say what they want.
 
 {/* To support patterns that work around user's intent, I added [behaviour](../?path=/docs/foundations-intent-interaction--docs) as a foundational layer. */}
