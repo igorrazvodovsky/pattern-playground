@@ -5,7 +5,6 @@ This guide provides a systematic approach for migrating patterns between directo
 
 ## Prerequisites
 Before starting any migration:
-1. **Create a git branch** for the migration work
 2. **Identify the scope** by listing all patterns to be moved
 3. **Analyse current state** including Meta titles, cross-references, and file structures
 4. **Create a detailed migration plan** as a markdown file for review
@@ -47,7 +46,7 @@ Based on Meta title transformation:
 - **Format**: `<Meta title="Category/Name" />` becomes `../?path=/docs/category-name--docs`
 - **Transformations**:
   - Spaces → hyphens
-  - Uppercase → lowercase  
+  - Uppercase → lowercase
   - Asterisks (*) → removed from URLs
   - Forward slashes (/) → hyphens
 
@@ -74,7 +73,7 @@ Based on Meta title transformation:
 - **Simple .mdx**: Move file, update Meta title, update references
 - **Complex .mdx**: Move file, update Meta title, update references, check companion files
 
-### Story Files  
+### Story Files
 - **.stories.tsx**: Update Meta title, check import paths, move with .mdx file
 
 ### Support Files
@@ -113,8 +112,7 @@ Search for and update:
 ## Risk Mitigation Strategies
 
 ### Pre-Migration Checklist
-- [ ] Git branch created
-- [ ] Full pattern inventory completed  
+- [ ] Full pattern inventory completed
 - [ ] All cross-references documented
 - [ ] Migration plan reviewed and approved
 
@@ -136,7 +134,7 @@ Search for and update:
 # List all files in source directory
 ls -la src/stories/[source-category]/
 
-# Search for pattern references across codebase  
+# Search for pattern references across codebase
 grep -r "pattern-name" src/stories/
 ```
 
