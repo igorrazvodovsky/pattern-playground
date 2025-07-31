@@ -101,7 +101,7 @@ intelligence patterns.
 ### May
 
 I continue building the map of LLM interaction patterns. Right now exploring how user intent gets captured and acted on. There are three interconnected tracks:
-1. First, I’ve pulled apart [chat](../?path=/docs/compositions-messaging--docs) and [bot](../?path=/docs/patterns-intelligence-bot--docs)—chat is where the [conversation](../?path=/docs/patterns-interaction-conversation--docs) happen; the bot is the part that gets things done, often outside the chat. Seeing them separately makes it easier to think about assistants that shift between interface roles: from conversation partner to background actor.
+1. First, I've pulled apart [chat](../?path=/docs/compositions-messaging--docs) and [bot](../?path=/docs/patterns-bot--docs)—chat is where the [conversation](../?path=/docs/patterns-interaction-conversation--docs) happen; the bot is the part that gets things done, often outside the chat. Seeing them separately makes it easier to think about assistants that shift between interface roles: from conversation partner to background actor.
 2. This separation reveals that the chatbot implements a cluster of patterns revolving around clear, deliberate user intent provided via [prompt](../?path=/docs/patterns-prompt--docs), and supported by mechanics like prompt guidance and scaffolding, and model switching.
 3. This distinction, in turn, points toward another set of patterns—ways to handle unclear intent when the user doesn't or can't say what they want.
 
