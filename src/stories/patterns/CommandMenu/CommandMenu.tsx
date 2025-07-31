@@ -5,27 +5,27 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "../../../../components/command-menu/command";
+} from "../../../components/command-menu/command";
 import {
   AIFallbackHandler,
   useAICommand,
   type AICommandResult,
   type AICommandItem
-} from "../../../../components/command-menu";
+} from "../../../components/command-menu";
 import {
   searchHierarchy,
   searchWithinParent,
   type SearchableParent,
   type SearchableItem
-} from '../../../../utils/hierarchical-search';
+} from '../../../utils/hierarchical-search';
 import {
   createAISuggestionService,
   createCommandSuggestionRequest
-} from '../../../../services/ai-suggestion-service';
-import { convertToAICommandResult } from '../../../../components/command-menu/adapters/ai-command-adapter';
-import { commands, recentItems } from '../../../shared-data';
+} from '../../../services/ai-suggestion-service';
+import { convertToAICommandResult } from '../../../components/command-menu/adapters/ai-command-adapter';
+import { commands, recentItems } from '../../shared-data';
 import 'iconify-icon';
-import '../../../../jsx-types';
+import '../../../jsx-types';
 
 
 // Constants
