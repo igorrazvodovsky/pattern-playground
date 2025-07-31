@@ -1,5 +1,5 @@
-import { callOpenAI } from "../../../../../../utils/api";
-import { ModelItem } from "../../../../../schemas/index";
+import { callOpenAI } from "../../../../../utils/api";
+import { ModelItem } from "../../../../schemas/index";
 
 /**
  * Interface for the API service options

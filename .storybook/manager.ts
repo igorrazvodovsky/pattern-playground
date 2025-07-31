@@ -5,6 +5,6 @@ addons.setConfig({
   theme: theme,
   showToolbar: false,
   sidebar: {
-    collapsedRoots: ['foundations', 'primitives'],
+    collapsedRoots: ['foundations', 'primitives', 'components', 'data visualization'],
   },
 });
