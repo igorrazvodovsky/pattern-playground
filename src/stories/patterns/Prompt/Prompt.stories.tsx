@@ -19,7 +19,7 @@ interface TipTapContent {
 }
 
 const meta = {
-  title: "Patterns/Intelligence*/Prompt",
+  title: "Patterns/Prompt",
 } satisfies Meta;
 
 export default meta;
