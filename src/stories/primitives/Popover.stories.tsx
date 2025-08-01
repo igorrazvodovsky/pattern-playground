@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import React from "react";
 import { faker } from '@faker-js/faker';
 
 const meta = {
-  title: "Primitives/Popover*",
+  title: "Primitives/Popover",
 } satisfies Meta;
 
 export default meta;

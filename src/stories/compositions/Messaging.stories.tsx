@@ -3,7 +3,7 @@ import React from "react";
 import { faker } from '@faker-js/faker';
 
 const meta = {
-  title: "Compositions/Messaging*",
+  title: "Compositions/Messaging",
 } satisfies Meta;
 
 export default meta;

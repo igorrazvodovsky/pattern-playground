@@ -1,0 +1,45 @@
+import { Canvas, Story, Meta, Subtitle } from '@storybook/addon-docs/blocks';
+import * as BubbleMenuStories from '../components/BubbleMenu.stories.tsx';
+
+<Meta title="Patterns/Text lens" />
+
+# Text lens
+
+Applying different lenses to view and modify text content. Actors can switch between different perspectives to transform how content is presented:
+
+**Magnifying lens:** Adjust detail level
+- Zoom out: summarisation
+- Zoom in: elaboration or expansion
+
+**Filter lens:** Shift tone and style
+- Formal ↔ casual
+- Technical ↔ accessible
+- Assertive ↔ diplomatic
+
+## User control
+
+Text lenses can be applied with varying degrees of user control:
+- Direct control: Users explicitly select and apply specific lens types
+- Contextual suggestions: System recommends appropriate lenses based on content or context
+- Automatic application: Lenses applied based on user preferences or situational needs
+
+## Examples
+
+### Interactive text transformation
+
+The [Bubble menu](../?path=/docs/components-bubble-menu--docs) pattern demonstrates text lens application through text selection and transformation.
+Users can select text and apply different lenses using AI-powered tools to modify content presentation at granular levels.
+
+<Story of={BubbleMenuStories.SemanticZoom} />
+
+## Related patterns
+- [Conversation](../?path=/docs/patterns-conversation--docs): Filter lenses implement the conversational maxims of manner and politeness by adapting tone and clarity for different contexts
+- Combined with *citations*, summaries let you capture key takeaways from a long document and then go deeper into the content that are relevant to you
+- Combined with *synthesis*, summaries can take multiple inputs such as an email thread and capture the main ideas
+- Combined with *workflow*, summaries can be added automatically to specific objects
+- [Progressive disclosure](../?path=/docs/patterns-progressive-disclosure--docs): Lenses support revealing or concealing information based on user needs
+{/* - Contextual assistance: AI-powered suggestions for appropriate lens selection based on content and situation */}
+
+## Resources & references
+
+- [Accordion editing](https://www.nngroup.com/articles/accordion-editing-apple-picking/)

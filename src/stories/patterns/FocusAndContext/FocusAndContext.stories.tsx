@@ -1,12 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import React, { useState, useEffect } from "react";
 import { DataService, getRandomItem } from './services/data-service';
-import { fetchAIComponents, createModelItem } from './services/api-service';
 import { ModelItem } from '../../../schemas/index';
 
 // Define meta information for the story
 const meta = {
-  title: "Patterns/Focus and context*",
+  title: "Patterns/Focus and context",
   parameters: {
     controls: { disable: true }
   }

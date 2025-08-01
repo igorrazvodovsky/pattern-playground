@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const meta = {
-  title: "Primitives/Button*",
+  title: "Primitives/Button",
 } satisfies Meta;
 
 export default meta;

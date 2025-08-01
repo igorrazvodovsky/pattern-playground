@@ -8,7 +8,7 @@ import { referenceCategories } from '../../shared-data';
 import '../../../jsx-types';
 
 const meta = {
-  title: "Compositions/Block-based editor*",
+  title: "Compositions/Block-based editor",
 } satisfies Meta;
 
 export default meta;

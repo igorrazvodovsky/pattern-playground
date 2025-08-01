@@ -1,3 +1,3 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 
-<Meta title="Components/Toolbar*" />
+<Meta title="Components/Toolbar" />

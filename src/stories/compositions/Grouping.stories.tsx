@@ -3,7 +3,7 @@ import React from "react";
 import { faker } from '@faker-js/faker';
 
 const meta = {
-  title: "Compositions/Browsing & sensemaking*/Grouping",
+  title: "Compositions/Browsing & sensemaking/Grouping",
 } satisfies Meta;
 
 export default meta;

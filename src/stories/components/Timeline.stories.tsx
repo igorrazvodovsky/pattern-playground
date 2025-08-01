@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const meta = {
-  title: "Components/Timeline*",
+  title: "Components/Timeline",
 } satisfies Meta;
 
 export default meta;

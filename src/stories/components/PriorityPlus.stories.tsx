@@ -4,7 +4,7 @@ import { faker } from '@faker-js/faker';
 import { getRandomIcon } from '../utils/icons';
 
 const meta = {
-  title: "Components/Priority+*",
+  title: "Components/Priority+",
   argTypes: {},
 } satisfies Meta;
 

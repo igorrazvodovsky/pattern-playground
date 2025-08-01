@@ -4,7 +4,7 @@ import '../../components/spinner/spinner.ts';
 import { getRandomFilledIcon } from '../utils/icons';
 
 const meta = {
-  title: "Components/Progress indicator*",
+  title: "Components/Progress indicator",
 } satisfies Meta<any>;
 
 export default meta;

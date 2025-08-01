@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 
-<Meta title="Foundations/Voice and tone*" />
+<Meta title="Foundations/Voice and tone" />
 
 > 🧑‍🎓 **Fun meter: 3/5**. To support consistency and composability: if there’s any chance the tone of voice might be edited or personalised later (for example, for a bot), there should also be a solid foundation in place to enable that.
 

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const meta = {
-  title: "Patterns/Activity log*",
+  title: "Patterns/Activity log",
 } satisfies Meta;
 
 export default meta;

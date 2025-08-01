@@ -3,7 +3,7 @@ import { FilteringDemo } from './Filtering';
 import { FilterType, FilterOperator, Status, Priority, Assignee } from '../../../components/filter/filter-types'
 
 const meta = {
-  title: 'Compositions/Browsing & sensemaking*/Filtering',
+  title: 'Compositions/Browsing & sensemaking/Filtering',
   component: FilteringDemo,
   parameters: {
     layout: 'centered',

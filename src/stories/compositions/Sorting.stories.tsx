@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
 
 const meta = {
-  title: "Compositions/Browsing & sensemaking*/Sorting",
+  title: "Compositions/Browsing & sensemaking/Sorting",
 } satisfies Meta;
 
 export default meta;
