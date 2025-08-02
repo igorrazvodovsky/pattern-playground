@@ -4,9 +4,7 @@ import { Reference, createReferenceSuggestion } from './Reference';
 import type { ReferenceCategory, SelectedReference } from './types';
 
 export interface ReferenceEditorProps {
-  /** Reference data for the picker */
   data: ReferenceCategory[];
-  /** Initial content - can be HTML string or TipTap JSON */
   content?: string | Record<string, unknown>;
   placeholder?: string;
   className?: string;
@@ -14,10 +12,6 @@ export interface ReferenceEditorProps {
   onReferenceSelect?: (reference: SelectedReference) => void;
 }
 
-/**
- * Simple TipTap editor with inline reference search
- * Uses floating-ui for positioning and supports typing @query to filter
- */
 export function ReferenceEditor({
   data,
   content = '',

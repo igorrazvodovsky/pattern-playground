@@ -6,7 +6,6 @@ export const useDropdownState = () => {
   const dropdownRef = useRef<any>(null);
 
   const handleDropdownShow = useCallback(() => {
-    // Close other dropdowns by dispatching a custom event
     document.querySelectorAll('pp-dropdown').forEach((dropdown) => {
       if (dropdown !== dropdownRef.current && dropdown.open) {
         dropdown.hide();

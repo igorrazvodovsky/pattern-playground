@@ -172,7 +172,8 @@ export function useCommandComposition({
   const shouldShowAI = enableAI &&
     !isInChildView &&
     navigation.searchInput.trim() &&
-    navigation.searchInput.length >= (aiConfig?.minInputLength ?? DEFAULT_CONFIG.minInputLength);
+    navigation.searchInput.length >= (aiConfig?.minInputLength ?? DEFAULT_CONFIG.minInputLength) &&
+    results.isEmpty;
 
   const hasResults = !results.isEmpty;
   const placeholder = useMemo(() => {

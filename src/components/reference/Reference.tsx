@@ -10,13 +10,11 @@ import { ItemInteraction, ContentAdapterProvider } from '../item-view';
 import { referenceContentAdapter } from './ReferenceContentAdapter';
 import type { ReferenceCategory, SelectedReference, ReferenceType } from './types';
 
-// WeakMap for private component data storage
 const privateComponentData = new WeakMap<HTMLDivElement, {
   abortController: AbortController;
   virtualElement: VirtualElement | null;
 }>();
 
-// Reference Picker Popup Component
 interface ReferencePickerPopupProps {
   data: ReferenceCategory[];
   open: boolean;
@@ -38,20 +36,17 @@ const ReferencePickerPopup: React.FC<ReferencePickerPopupProps> = ({
   placement = 'bottom-start'
 }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  
-  // Auto-detect single category mode with modern array methods
+
   const isSingleCategory = data.length === 1;
   const [mode, setMode] = useState<'global' | 'contextual'>(isSingleCategory ? 'contextual' : 'global');
   const [selectedCategory, setSelectedCategory] = useState<ReferenceCategory | null>(
     isSingleCategory ? data.at(0) ?? null : null
   );
-  
+
   const floatingRef = useRef<HTMLDivElement>(null);
 
-  // Modern AbortController for cleanup
   const abortController = useMemo(() => new AbortController(), []);
 
-  // Update position using floating-ui with AbortController signal
   const updatePosition = useCallback(async () => {
     if (!anchor || !floatingRef.current || abortController.signal.aborted) return;
 
@@ -75,13 +70,11 @@ const ReferencePickerPopup: React.FC<ReferencePickerPopupProps> = ({
     }
   }, [anchor, placement, abortController.signal]);
 
-  // Set up floating-ui auto-update with AbortController
   useEffect(() => {
     if (!open || !anchor || !floatingRef.current) {
       return;
     }
 
-    // Store private data in WeakMap
     if (floatingRef.current) {
       privateComponentData.set(floatingRef.current, {
         abortController,
@@ -89,10 +82,7 @@ const ReferencePickerPopup: React.FC<ReferencePickerPopupProps> = ({
       });
     }
 
-    // Initial position
     updatePosition();
-
-    // Auto-update position when anchor or floating element changes
     const cleanup = autoUpdate(
       anchor,
       floatingRef.current,
@@ -105,13 +95,11 @@ const ReferencePickerPopup: React.FC<ReferencePickerPopupProps> = ({
     };
   }, [open, anchor, updatePosition, abortController]);
 
-  // Handle category selection
   const handleCategorySelect = useCallback((category: ReferenceCategory) => {
     setSelectedCategory(category);
     setMode('contextual');
   }, []);
 
-  // Handle back to global mode
   const handleBack = useCallback(() => {
     if (!isSingleCategory) {
       setSelectedCategory(null);
@@ -119,7 +107,6 @@ const ReferencePickerPopup: React.FC<ReferencePickerPopupProps> = ({
     }
   }, [isSingleCategory]);
 
-  // Cleanup on unmount with AbortController
   useEffect(() => {
     return () => {
       abortController.abort();
@@ -158,13 +145,9 @@ const ReferencePickerPopup: React.FC<ReferencePickerPopupProps> = ({
   );
 };
 
-/**
- * TipTap Reference Extension
- * Provides inline search with floating-ui positioning and item view integration
- */
 export const Reference = Mention.extend({
   name: 'reference',
-  
+
   addOptions() {
     return {
       ...this.parent?.(),
@@ -215,7 +198,6 @@ export const Reference = Mention.extend({
 
   addNodeView() {
     return ({ node, editor }) => {
-      // Create wrapper element with modern DOM methods
       const wrapper = document.createElement('span');
       wrapper.className = 'reference-mention reference';
       wrapper.setAttribute('data-reference-type', node.attrs.type ?? '');
@@ -223,7 +205,6 @@ export const Reference = Mention.extend({
         wrapper.setAttribute('data-metadata', JSON.stringify(node.attrs.metadata));
       }
 
-      // Create reference data for item view with structured clone
       const referenceData: SelectedReference = {
         id: node.attrs.id,
         label: node.attrs.label,
@@ -231,10 +212,9 @@ export const Reference = Mention.extend({
         metadata: node.attrs.metadata ? structuredClone(node.attrs.metadata) : undefined,
       };
 
-      // Create React component with item view integration
       const ReferenceComponent = () => (
         <ContentAdapterProvider adapters={[referenceContentAdapter]}>
-          <ItemInteraction 
+          <ItemInteraction
             item={referenceData}
             contentType="reference"
             enableEscalation={true}
@@ -246,12 +226,10 @@ export const Reference = Mention.extend({
         </ContentAdapterProvider>
       );
 
-      // Render React component into wrapper
       const renderer = new ReactRenderer(ReferenceComponent, {
         editor,
       });
 
-      // Append the React component to our wrapper
       wrapper.appendChild(renderer.element);
 
       return {
@@ -264,7 +242,6 @@ export const Reference = Mention.extend({
   },
 });
 
-// Type for TipTap command function
 interface ReferenceCommandAttrs {
   id: string;
   label: string;
@@ -272,16 +249,12 @@ interface ReferenceCommandAttrs {
   metadata?: Record<string, unknown>;
 }
 
-/**
- * Create reference suggestion configuration for TipTap
- */
 export function createReferenceSuggestion(
   data: ReferenceCategory[],
   onReferenceSelect?: (reference: SelectedReference) => void
 ) {
   return {
     items: () => {
-      // Return empty array since filtering happens in our picker
       return [];
     },
     render: () => {
@@ -290,7 +263,6 @@ export function createReferenceSuggestion(
 
       return {
         onStart: (props: SuggestionProps<unknown, ReferenceCommandAttrs>) => {
-          // Create virtual element for floating-ui positioning
           virtualElement = {
             getBoundingClientRect: props.clientRect || (() => new DOMRect(0, 0, 0, 0)),
           };
@@ -321,7 +293,6 @@ export function createReferenceSuggestion(
 
         onUpdate: (props: SuggestionProps<unknown, ReferenceCommandAttrs>) => {
           if (virtualElement) {
-            // Update virtual element bounds
             virtualElement.getBoundingClientRect = props.clientRect || (() => new DOMRect(0, 0, 0, 0));
           }
 

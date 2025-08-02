@@ -143,7 +143,7 @@ export function CommandMenu({
                       if (enableNavigation && command.children?.length) {
                         composition.navigation.handleCommandSelect(command.id);
                       } else {
-                        onSelect?.(command as any);
+                        onSelect?.(command);
                         composition.navigation.resetState();
                       }
                     }}

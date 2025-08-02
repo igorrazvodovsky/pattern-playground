@@ -3,9 +3,7 @@ import type { ItemViewProps } from '../../item-view/types';
 import type { SelectedReference, UserMetadata } from '../types';
 import { isUserReference } from '../types';
 
-export interface ReferenceFullViewAdapterProps extends ItemViewProps<SelectedReference> {
-  // Additional props specific to full view adapter can be added here
-}
+export interface ReferenceFullViewAdapterProps extends ItemViewProps<SelectedReference> {}
 
 export const ReferenceFullViewAdapter: React.FC<ReferenceFullViewAdapterProps> = ({ 
   item: reference, 
@@ -14,7 +12,6 @@ export const ReferenceFullViewAdapter: React.FC<ReferenceFullViewAdapterProps> =
   const { type, label, metadata, id } = reference;
   const safeMetadata = metadata ?? {};
 
-  // Special handling for user references with type guard
   if (isUserReference(reference)) {
     const { 
       role, 
@@ -136,7 +133,6 @@ export const ReferenceFullViewAdapter: React.FC<ReferenceFullViewAdapterProps> =
     );
   }
 
-  // Generic handling for other reference types
   return (
     <div className="reference-full-view reference-full-view--generic">
       <header className="reference-full-view__header">

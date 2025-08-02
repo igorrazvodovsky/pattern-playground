@@ -16,10 +16,6 @@ import type {
 import 'iconify-icon';
 import '../../jsx-types';
 
-/**
- * Reference Picker using unified hierarchical navigation
- * Uses SearchableParent/SearchableItem directly - no transformation needed!
- */
 export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerProps>(({
   data,
   query = '',
@@ -27,17 +23,15 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
   onClose,
   open = true,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  mode: _mode = 'global', // Unused but kept for backward compatibility
+  mode: _mode = 'global',
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  selectedCategory: _selectedCategory = null, // Unused but kept for backward compatibility
+  selectedCategory: _selectedCategory = null,
   onCategorySelect,
   onBack
 }, ref) => {
 
-  // Data is already in SearchableParent format - no transformation needed!
   const hierarchicalData = data as SearchableParent[];
   
-  // Hierarchical navigation setup
   const { state, actions, results, inputRef } = useHierarchicalNavigation({
     data: hierarchicalData,
     searchFunction: createSortedSearchFunction(
@@ -58,20 +52,17 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
     contextPlaceholder: (category) => `Search in ${category.name}...`
   });
   
-  // Update search input when external query changes
   useMemo(() => {
     if (query !== state.searchInput) {
       actions.updateSearch(query);
     }
   }, [query, state.searchInput, actions]);
   
-  // Handle category selection
   const handleCategorySelect = useCallback((category: SearchableParent) => {
     actions.selectContext(category);
-    onCategorySelect?.(category as SearchableParent); // External callback gets unified format
+    onCategorySelect?.(category as SearchableParent);
   }, [actions, onCategorySelect]);
 
-  // Handle escape key with unified behavior
   const handleEscape = useCallback(() => {
     const handled = actions.handleEscape();
     if (!handled) {
@@ -82,7 +73,6 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
     }
   }, [actions, onClose, onBack, state.mode]);
 
-  // Expose ref methods
   useImperativeHandle(ref, () => ({
     focus: () => {
       inputRef.current?.focus();
@@ -94,7 +84,6 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
     getSelectedReference: () => null,
   }), [inputRef]);
 
-  // Don't render if not open
   if (!open) return null;
 
   return (
@@ -110,7 +99,6 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
       >
         <CommandList>
           {state.mode === 'contextual' ? (
-            // Contextual mode: show items within selected category
             <>
               {results.contextualItems && results.contextualItems.length > 0 ? (
                 <CommandGroup>
@@ -132,9 +120,7 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
               )}
             </>
           ) : (
-            // Global mode: show categories and direct item matches
             <>
-              {/* Reference Categories */}
               {results.parents.length > 0 && (
                 <CommandGroup>
                   {results.parents.map((category) => (
@@ -156,7 +142,6 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
                 </CommandGroup>
               )}
 
-              {/* Direct Item Matches */}
               {results.children.length > 0 && (
                 <CommandGroup>
                   {results.children.map(({ parent, child }) => (
@@ -174,7 +159,6 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
                 </CommandGroup>
               )}
 
-              {/* Empty state */}
               {state.searchInput &&
                results.parents.length === 0 &&
                results.children.length === 0 && (

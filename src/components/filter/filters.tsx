@@ -14,7 +14,7 @@ export default function Filters({
   filters: Filter[];
   setFilters: Dispatch<SetStateAction<Filter[]>>;
 }) {
-  const handleOperatorChange = (filterId: string, operator: any) => {
+  const handleOperatorChange = (filterId: string, operator: string) => {
     setFilters((prev) => updateFilterOperator(prev, filterId, operator));
   };
 

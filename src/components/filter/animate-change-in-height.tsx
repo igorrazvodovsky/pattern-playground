@@ -13,7 +13,6 @@ export const AnimateChangeInHeight: React.FC<AnimateChangeInHeightProps> = ({chi
   useEffect(() => {
     if (containerRef.current) {
       const resizeObserver = new ResizeObserver((entries) => {
-        // We only have one entry, so we can use entries[0].
         const observedHeight = entries[0].contentRect.height;
         setHeight(observedHeight);
       });
@@ -21,7 +20,6 @@ export const AnimateChangeInHeight: React.FC<AnimateChangeInHeightProps> = ({chi
       resizeObserver.observe(containerRef.current);
 
       return () => {
-        // Cleanup the observer when the component is unmounted
         resizeObserver.disconnect();
       };
     }

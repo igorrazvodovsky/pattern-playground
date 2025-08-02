@@ -3,9 +3,7 @@ import type { ItemViewProps } from '../../item-view/types';
 import type { SelectedReference, UserMetadata } from '../types';
 import { isUserReference } from '../types';
 
-export interface ReferenceDetailAdapterProps extends ItemViewProps<SelectedReference> {
-  // Additional props specific to detail adapter can be added here
-}
+export interface ReferenceDetailAdapterProps extends ItemViewProps<SelectedReference> {}
 
 export const ReferenceDetailAdapter: React.FC<ReferenceDetailAdapterProps> = ({ 
   item: reference, 
@@ -15,7 +13,6 @@ export const ReferenceDetailAdapter: React.FC<ReferenceDetailAdapterProps> = ({
   const { type, label, metadata, id } = reference;
   const safeMetadata = metadata ?? {};
 
-  // Special handling for user references with type guard
   if (isUserReference(reference)) {
     const { role, email, department, location, joinDate } = safeMetadata as UserMetadata;
     
@@ -84,7 +81,6 @@ export const ReferenceDetailAdapter: React.FC<ReferenceDetailAdapterProps> = ({
     );
   }
 
-  // Generic handling for other reference types
   return (
     <div className="reference-detail reference-detail--generic">
       <div className="reference-detail__header">

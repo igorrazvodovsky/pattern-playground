@@ -35,22 +35,18 @@ export const filterOperators = ({
 }): FilterOperator[] => {
   const hasMultipleValues = Array.isArray(filterValues) && filterValues.length > 1;
 
-  // Handle single value filter types (Status, Assignee, Priority)
   if (isSingleValueFilter(filterType)) {
     const config = OPERATOR_CONFIGS.singleValue;
     return hasMultipleValues ? config.multiple : config.single;
   }
 
-  // Handle Labels filter type
   if (filterType === FilterType.LABELS) {
     const config = OPERATOR_CONFIGS.labels;
     return hasMultipleValues ? config.multiple : config.single;
   }
 
-  // Handle Date filter types
   if (isDateFilter(filterType)) {
     const config = OPERATOR_CONFIGS.date;
-    // Special case for "in the past" - use IS/IS_NOT operators
     if (filterValues?.includes(DueDate.IN_THE_PAST)) {
       return config.single;
     }

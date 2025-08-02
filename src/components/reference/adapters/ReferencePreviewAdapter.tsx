@@ -3,9 +3,7 @@ import type { ItemViewProps } from '../../item-view/types';
 import type { SelectedReference, UserMetadata } from '../types';
 import { isUserReference } from '../types';
 
-export interface ReferencePreviewAdapterProps extends ItemViewProps<SelectedReference> {
-  // Additional props specific to preview adapter can be added here
-}
+export interface ReferencePreviewAdapterProps extends ItemViewProps<SelectedReference> {}
 
 export const ReferencePreviewAdapter: React.FC<ReferencePreviewAdapterProps> = ({
   item: reference,
@@ -14,7 +12,6 @@ export const ReferencePreviewAdapter: React.FC<ReferencePreviewAdapterProps> = (
   const { type, label, metadata } = reference;
   const safeMetadata = metadata ?? {};
 
-  // Special handling for user references with type guard
   if (isUserReference(reference)) {
     const { role, email } = safeMetadata as UserMetadata;
     const initials = label
@@ -51,7 +48,6 @@ export const ReferencePreviewAdapter: React.FC<ReferencePreviewAdapterProps> = (
     );
   }
 
-  // Generic handling for other reference types
   return (
     <div className="reference-preview reference-preview--generic">
       <div className="reference-preview__header">

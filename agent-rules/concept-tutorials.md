@@ -85,7 +85,7 @@ One reason that scenarios are so compelling is that we observe them all around u
 
 - Enter the floor you want to go to on the keypad and note the elevator number that is subsequently displayed; now wait for the elevator with that number, and it will stop at your floor.
 
-Each concept has one or more such stories that explain how to use the concept, and show that the concept fulfills its purpose. I call such a story an **operational principle** (OP), a term introduced by the chemist philosopher Michael Polanyi and made known to the software world by my father Michael Jackson.
+Each concept has one or more such stories that explain how to use the concept, and show that the concept fulfills its purpose. I call such a story an **operational principle** (OP), a term introduced by the chemist philosopher Michael Polanyi.
 
 ### Use cases, OPs and snooze alarms
 

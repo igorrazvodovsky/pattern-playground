@@ -84,30 +84,30 @@ export default defineConfig({
     storybookOverviewGenerator({
       // Required
       storiesPath: './src/stories',
-      
+
       // Optional
       categories: ['primitives', 'components', 'compositions', 'patterns', 'concepts', 'foundations'],
       outputPattern: '{{category}}/Overview.mdx',
       watchMode: true, // Enable file watching in dev
-      
+
       // Template customisation
       templates: {
         primitives: './custom-templates/primitives.mdx',
         // ... other overrides
       },
-      
+
       // URL generation
-      urlTransform: (category: string, name: string) => 
+      urlTransform: (category: string, name: string) =>
         `../?path=/docs/${category}-${name.toLowerCase().replace(/\s+/g, '-')}--docs`,
-      
+
       // Filtering
       exclude: ['*.stories.tsx'], // Exclude certain patterns
       includeWIP: true, // Include WIP items marked with *
-      
+
       // Sorting
       sortBy: 'alphabetical', // 'alphabetical' | 'modified' | 'custom'
       customSort: (a, b) => a.title.localeCompare(b.title),
-      
+
       // Grouping (for complex categories like patterns)
       groupBy: {
         patterns: 'subcategory', // Group by subdirectory
@@ -277,13 +277,13 @@ export default defineConfig({
 - Advanced analytics and insights
 - Cross-project component sharing
 
-## Implementation Timeline
+## Implementation
 
-**Week 1**: Core plugin structure and directory scanner
-**Week 2**: Content generator and basic template system
-**Week 3**: File watching and Vite integration
-**Week 4**: Advanced features and testing
-**Week 5**: Documentation and polish
+**1**: Core plugin structure and directory scanner
+**2**: Content generator and basic template system
+**3**: File watching and Vite integration
+**4**: Advanced features and testing
+**5**: Documentation and polish
 
 ## Success Metrics
 

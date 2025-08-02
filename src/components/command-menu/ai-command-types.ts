@@ -15,9 +15,9 @@ export interface AICommandResult {
 export interface AICommandItem {
   id: string;
   label: string;
-  value: any;
+  value: unknown;
   icon?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface AIFallbackHandlerProps {

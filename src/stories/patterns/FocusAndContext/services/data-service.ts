@@ -1,4 +1,4 @@
-import { ModelItem, RelationObject } from "../../../../../schemas/index";
+import { ModelItem, RelationObject } from "../../../../schemas/index";
 import { RelationGroups } from "../components/ui-components";
 import juiceProductionData from '../data/JuiceProduction.json';
 

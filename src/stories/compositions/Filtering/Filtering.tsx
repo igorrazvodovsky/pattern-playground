@@ -152,12 +152,16 @@ export function FilteringDemo({
     hideDropdownWithDelay();
   }, [handleApplyAIResult, hideDropdownWithDelay, setFilters]);
 
-  // Trigger AI when searching globally
+  // Trigger AI when searching globally but only when no results are found
+  const hasResults = React.useMemo(() => {
+    return results.parents.length > 0 || results.children.length > 0;
+  }, [results.parents.length, results.children.length]);
+
   React.useEffect(() => {
-    if (state.searchInput && state.mode === 'global' && state.searchInput.length >= MIN_AI_TRIGGER_LENGTH) {
+    if (state.searchInput && state.mode === 'global' && state.searchInput.length >= MIN_AI_TRIGGER_LENGTH && !hasResults) {
       handleAICommandRequest(state.searchInput);
     }
-  }, [state.searchInput, state.mode, handleAICommandRequest]);
+  }, [state.searchInput, state.mode, hasResults, handleAICommandRequest]);
 
   return (
     <div className="flex">
@@ -187,15 +191,17 @@ export function FilteringDemo({
                 ref={inputRef}
               />
               <CommandList>
-                <AIFallbackHandler
-                  searchInput={state.searchInput}
-                  aiState={aiState}
-                  onAIRequest={handleAICommandRequest}
-                  onApplyAIResult={handleApplyAIFilters}
-                  onEditPrompt={handleEditPrompt}
-                  onInputChange={clearResultsIfInputChanged}
-                  onClose={hideDropdownWithDelay}
-                />
+                {!hasResults && (
+                  <AIFallbackHandler
+                    searchInput={state.searchInput}
+                    aiState={aiState}
+                    onAIRequest={handleAICommandRequest}
+                    onApplyAIResult={handleApplyAIFilters}
+                    onEditPrompt={handleEditPrompt}
+                    onInputChange={clearResultsIfInputChanged}
+                    onClose={hideDropdownWithDelay}
+                  />
+                )}
 
                 {state.mode === 'contextual' ? (
                   <CommandGroup>

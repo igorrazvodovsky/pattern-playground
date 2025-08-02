@@ -1,0 +1,58 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Concepts/Notification" />
+
+# Notification
+
+## Purpose
+
+To provide timely and context-appropriate feedback to users about system or actor-driven events and to do so at an appropriate level of disruption.
+
+## Operational principles
+
+1. For Immediate, Critical Actions (Dialog): If a user initiates a
+  destructive action with irreversible consequences (e.g., deleting a
+  shared project), then a Dialog notification appears, halting their
+  workflow and requiring explicit confirmation. This ensures critical
+  actions are deliberate and prevents accidental data loss.
+
+2. For Important, Non-Urgent Information (Callout): If a user's
+  subscription is nearing its expiration date, then a persistent
+  Callout notification is displayed on their main dashboard. It informs
+    them of the upcoming event and provides a clear action to upgrade,
+  without interrupting their immediate task.
+
+3. For Simple Status Updates (Toast): If a user successfully saves their
+    changes, then a transient Toast notification appears briefly to
+  confirm the action was completed and then automatically disappears.
+  This provides quick, non-intrusive feedback on the outcome of a
+  routine action.
+
+4. For Contextual vs. Global Scope: If a user enters an invalid email
+  address in a form, then a contextual Inline notification appears
+  directly beside the input field to guide correction. Conversely, if a
+    system-wide maintenance is scheduled, then a global Callout is
+  displayed at the top of every page to ensure all users are aware of
+  the upcoming downtime.
+
+## State
+- message: the content of the notification
+- purpose: the category of notification (e.g., info, warning, error)
+- urgency: the level of importance or immediacy (e.g., low, medium, high)
+- type: the presentation style of the notification (e.g. inline, modal, toast, callout)
+- scope: the context in which the notification is relevant (e.g., global, local)
+- timestamp: when the notification was generated
+- read: whether the notification has been acknowledged by the user
+- active?
+
+## Actions
+- show
+- dismiss
+- acknowledge?
+- performAction?
+
+## Synchronizations
+
+### with Event
+
+...
