@@ -16,6 +16,12 @@ export const tasks = tasksData;
 export const transactions = transactionsData;
 
 // Filter-specific data
+import filterStatusesData from './filter-statuses.json' with { type: 'json' };
+import filterLabelsData from './filter-labels.json' with { type: 'json' };
+import filterPrioritiesData from './filter-priorities.json' with { type: 'json' };
+import filterDatesData from './filter-dates.json' with { type: 'json' };
+
+// Re-export for external use
 export { default as filterStatuses } from './filter-statuses.json' with { type: 'json' };
 export { default as filterLabels } from './filter-labels.json' with { type: 'json' };
 export { default as filterPriorities } from './filter-priorities.json' with { type: 'json' };
@@ -47,34 +53,46 @@ export type RecentItem = typeof recentItems[0];
 export type Task = typeof tasks[0];
 export type Transaction = typeof transactions[0];
 
-// Reference picker data structure (ReferenceCategory interface format)
+// Reference data using unified SearchableParent format (same as commands)
 export const referenceCategories = [
   {
     id: 'users',
-    label: 'Users',
-    items: users.map(item => ({
+    name: 'Users',
+    icon: 'ph:users',
+    searchableText: 'users people team members',
+    children: users.map(item => ({
       id: item.id,
-      label: item.name,
+      name: item.name,
+      icon: 'ph:user',
+      searchableText: item.name.toLowerCase(),
       type: 'user' as const,
       metadata: item.metadata
     }))
   },
   {
     id: 'documents',
-    label: 'Documents',
-    items: documents.map(item => ({
+    name: 'Documents',
+    icon: 'ph:file-text',
+    searchableText: 'documents files content',
+    children: documents.map(item => ({
       id: item.id,
-      label: item.name,
+      name: item.name,
+      icon: 'ph:file-text',
+      searchableText: item.name.toLowerCase(),
       type: 'document' as const,
       metadata: item.metadata
     }))
   },
   {
     id: 'projects',
-    label: 'Projects', 
-    items: projects.map(item => ({
+    name: 'Projects',
+    icon: 'ph:folder',
+    searchableText: 'projects workspaces',
+    children: projects.map(item => ({
       id: item.id,
-      label: item.name,
+      name: item.name,
+      icon: 'ph:folder',
+      searchableText: item.name.toLowerCase(),
       type: 'project' as const,
       metadata: item.metadata
     }))
@@ -85,12 +103,87 @@ export const referenceCategories = [
 export const basicReferenceCategories = [
   {
     id: 'users',
-    label: 'Users',
-    items: users.map(item => ({
+    name: 'Users',
+    icon: 'ph:users',
+    searchableText: 'users people team members',
+    children: users.map(item => ({
       id: item.id,
-      label: item.name,
+      name: item.name,
+      icon: 'ph:user',
+      searchableText: item.name.toLowerCase(),
       type: 'user' as const,
       metadata: item.metadata
     }))
   }
+];
+
+// Filter data using unified SearchableParent format (same as commands)
+export const filterCategories = [
+  {
+    id: 'Status',
+    name: 'Status',
+    icon: 'ph:flag',
+    searchableText: 'status state condition',
+    children: filterStatusesData
+  },
+  {
+    id: 'Priority',
+    name: 'Priority',
+    icon: 'ph:cell-signal-high',
+    searchableText: 'priority importance urgency',
+    children: filterPrioritiesData
+  },
+  {
+    id: 'Labels',
+    name: 'Labels',
+    icon: 'ph:tag',
+    searchableText: 'labels tags categories',
+    children: filterLabelsData
+  },
+  {
+    id: 'Assignee',
+    name: 'Assignee',
+    icon: 'ph:user',
+    searchableText: 'assignee assigned person owner',
+    children: [
+      ...users.map(user => ({
+        id: `assignee-${user.id}`,
+        name: user.name,
+        icon: 'ph:user',
+        searchableText: user.name.toLowerCase(),
+        filterType: 'Assignee',
+        value: user.name,
+        metadata: user.metadata
+      })),
+      {
+        id: 'assignee-none',
+        name: 'No assignee',
+        icon: 'ph:user-minus',
+        searchableText: 'no assignee unassigned',
+        filterType: 'Assignee',
+        value: 'No assignee'
+      }
+    ]
+  },
+  {
+    id: 'Due date',
+    name: 'Due date',
+    icon: 'ph:calendar',
+    searchableText: 'due date deadline schedule',
+    children: filterDatesData
+  },
+  {
+    id: 'Created date',
+    name: 'Created date',
+    icon: 'ph:calendar-plus',
+    searchableText: 'created date when made',
+    children: filterDatesData
+  },
+  {
+    id: 'Updated date',
+    name: 'Updated date',
+    icon: 'ph:calendar-check',
+    searchableText: 'updated date last modified',
+    children: filterDatesData
+  },
 ];

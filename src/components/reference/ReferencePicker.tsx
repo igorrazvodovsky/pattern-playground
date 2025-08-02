@@ -6,21 +6,19 @@ import {
   CommandList,
   CommandEmpty
 } from '../command-menu/command';
+import { useHierarchicalNavigation, type SearchableParent, type SearchableItem } from '../../hooks/useHierarchicalNavigation';
+import { createSortedSearchFunction, sortByRelevance } from '../../utils/unified-hierarchical-search';
 import type {
-  ReferenceCategory,
-  ReferenceItem,
   SelectedReference,
   ReferencePickerProps,
-  ReferencePickerRef,
-  ReferenceMode
+  ReferencePickerRef
 } from './types';
 import 'iconify-icon';
 import '../../jsx-types';
 
-
 /**
- * Reference Picker that displays filtered references
- * No internal search - filtering is handled externally
+ * Reference Picker using unified hierarchical navigation
+ * Uses SearchableParent/SearchableItem directly - no transformation needed!
  */
 export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerProps>(({
   data,
@@ -28,109 +26,73 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
   onSelect,
   onClose,
   open = true,
-  mode = 'global',
-  selectedCategory = null,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  mode: _mode = 'global', // Unused but kept for backward compatibility
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  selectedCategory: _selectedCategory = null, // Unused but kept for backward compatibility
   onCategorySelect,
   onBack
 }, ref) => {
 
-  const isSingleCategory = data.length === 1;
-  const effectiveMode: ReferenceMode = isSingleCategory ? 'contextual' : mode;
-  const effectiveSelectedCategory = isSingleCategory ? data[0] : selectedCategory;
-
-  // Filter and sort categories
-  const filteredCategories = useMemo(() => {
-    if (!query) return data;
-
-    return data
-      .filter(category => {
-        const searchText = category.label?.toLowerCase() ?? '';
-        return searchText.includes(query.toLowerCase());
-      })
-      .sort((a: ReferenceCategory, b: ReferenceCategory) => {
-        const aRelevance = a.label?.toLowerCase().indexOf(query.toLowerCase()) ?? -1;
-        const bRelevance = b.label?.toLowerCase().indexOf(query.toLowerCase()) ?? -1;
-        return aRelevance - bRelevance;
-      });
-  }, [data, query]);
-
-  // Filter and sort items within categories
-  const filteredItems = useMemo(() => {
-    if (effectiveMode === 'contextual' && effectiveSelectedCategory) {
-      // Show items from selected category only with nullish coalescing
-      const items = effectiveSelectedCategory.items ?? [];
-      if (!query) return items;
-
-      // Filter items that match the query
-      return items
-        .filter(item => {
-          const searchText = item.label?.toLowerCase() ?? '';
-          return searchText.includes(query.toLowerCase());
-        })
-        .sort((a: ReferenceItem, b: ReferenceItem) => {
-          const aRelevance = a.label?.toLowerCase().indexOf(query.toLowerCase()) ?? -1;
-          const bRelevance = b.label?.toLowerCase().indexOf(query.toLowerCase()) ?? -1;
-          return aRelevance - bRelevance;
-        });
-    } else {
-      // Show items from all categories
-      return data.flatMap(category => {
-        const items = category.items ?? [];
-
-        if (!query) {
-          // No query - return all items mapped to parent-child structure
-          return items.map(child => ({ parent: category, child }));
-        } else {
-          // Filter items that match the query
-          return items
-            .filter(item => {
-              const searchText = item.label?.toLowerCase() ?? '';
-              return searchText.includes(query.toLowerCase());
-            })
-            .sort((a: ReferenceItem, b: ReferenceItem) => {
-              const aRelevance = a.label?.toLowerCase().indexOf(query.toLowerCase()) ?? -1;
-              const bRelevance = b.label?.toLowerCase().indexOf(query.toLowerCase()) ?? -1;
-              return aRelevance - bRelevance;
-            })
-            .map((child: ReferenceItem) => ({ parent: category, child }));
-        }
-      });
+  // Data is already in SearchableParent format - no transformation needed!
+  const hierarchicalData = data as SearchableParent[];
+  
+  // Hierarchical navigation setup
+  const { state, actions, results, inputRef } = useHierarchicalNavigation({
+    data: hierarchicalData,
+    searchFunction: createSortedSearchFunction(
+      (categories, query) => sortByRelevance(categories, query),
+      (items, query) => sortByRelevance(items, query)
+    ),
+    onSelectChild: (item: SearchableItem) => {
+      const selectedReference: SelectedReference = {
+        id: item.id,
+        label: item.name, // SearchableItem uses 'name', not 'label'
+        type: (item as SearchableItem & { type: string }).type,
+        metadata: item.metadata ? structuredClone(item.metadata) : undefined
+      };
+      onSelect(selectedReference);
+    },
+    onClose,
+    placeholder: "Search references...",
+    contextPlaceholder: (category) => `Search in ${category.name}...`
+  });
+  
+  // Update search input when external query changes
+  useMemo(() => {
+    if (query !== state.searchInput) {
+      actions.updateSearch(query);
     }
-  }, [data, query, effectiveMode, effectiveSelectedCategory]);
+  }, [query, state.searchInput, actions]);
+  
+  // Handle category selection
+  const handleCategorySelect = useCallback((category: SearchableParent) => {
+    actions.selectContext(category);
+    onCategorySelect?.(category as SearchableParent); // External callback gets unified format
+  }, [actions, onCategorySelect]);
 
-  const handleSelectReference = useCallback((item: ReferenceItem) => {
-    const selectedReference: SelectedReference = {
-      id: item.id,
-      label: item.label,
-      type: item.type,
-      metadata: item.metadata ? structuredClone(item.metadata) : undefined
-    };
-    onSelect(selectedReference);
-  }, [onSelect]);
-
-  const handleCategorySelect = useCallback((category: ReferenceCategory) => {
-    onCategorySelect?.(category);
-  }, [onCategorySelect]);
-
+  // Handle escape key with unified behavior
   const handleEscape = useCallback(() => {
-    if (effectiveMode === 'contextual' && !isSingleCategory) {
-      onBack?.();
-    } else {
+    const handled = actions.handleEscape();
+    if (!handled) {
       onClose?.();
     }
-  }, [effectiveMode, isSingleCategory, onBack, onClose]);
+    if (state.mode === 'contextual') {
+      onBack?.();
+    }
+  }, [actions, onClose, onBack, state.mode]);
 
   // Expose ref methods
   useImperativeHandle(ref, () => ({
     focus: () => {
-      // Focus handled externally by TipTap
+      inputRef.current?.focus();
     },
     selectFirst: () => {},
     selectLast: () => {},
     selectNext: () => {},
     selectPrevious: () => {},
     getSelectedReference: () => null,
-  }), []);
+  }), [inputRef]);
 
   // Don't render if not open
   if (!open) return null;
@@ -147,66 +109,44 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
         onEscape={handleEscape}
       >
         <CommandList>
-          {effectiveMode === 'contextual' ? (
+          {state.mode === 'contextual' ? (
             // Contextual mode: show items within selected category
             <>
-              {filteredItems.length > 0 ? (
+              {results.contextualItems && results.contextualItems.length > 0 ? (
                 <CommandGroup>
-                  {(filteredItems as ReferenceItem[]).map((item) => (
+                  {results.contextualItems.map((item) => (
                     <CommandItem
                       key={item.id}
-                      onSelect={() => handleSelectReference(item)}
+                      onSelect={() => actions.selectChild(item)}
                     >
                       <iconify-icon
-                        icon={(item.metadata?.icon as string) ?? 'ph:file'}
+                        icon={item.icon as string}
                         slot="prefix"
                       />
-                      {item.label}
+                      {item.name}
                     </CommandItem>
                   ))}
                 </CommandGroup>
               ) : (
-                <CommandEmpty>No {effectiveSelectedCategory?.label?.toLowerCase() ?? 'items'} found.</CommandEmpty>
+                <CommandEmpty>No {state.selectedContext?.name?.toLowerCase() ?? 'items'} found.</CommandEmpty>
               )}
             </>
           ) : (
             // Global mode: show categories and direct item matches
             <>
-              {/* Reference Categories - show when no query or when categories match */}
-              {!query && filteredCategories.length > 0 && (
+              {/* Reference Categories */}
+              {results.parents.length > 0 && (
                 <CommandGroup>
-                  {filteredCategories.map((category: ReferenceCategory) => (
+                  {results.parents.map((category) => (
                     <CommandItem
                       key={category.id}
                       onSelect={() => handleCategorySelect(category)}
                     >
                       <iconify-icon
-                        icon={(category.metadata?.icon as string) ?? 'ph:folder'}
+                        icon={category.icon as string}
                         slot="prefix"
                       />
-                      {category.label}
-                      <iconify-icon
-                        icon="ph:caret-right"
-                        slot="suffix"
-                      />
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              )}
-
-              {/* Matching Categories when searching */}
-              {query && filteredCategories.length > 0 && (
-                <CommandGroup>
-                  {filteredCategories.map((category: ReferenceCategory) => (
-                    <CommandItem
-                      key={category.id}
-                      onSelect={() => handleCategorySelect(category)}
-                    >
-                      <iconify-icon
-                        icon={(category.metadata?.icon as string) ?? 'ph:folder'}
-                        slot="prefix"
-                      />
-                        {category.label}
+                      {category.name}
                       <iconify-icon
                         icon="ph:caret-right"
                         slot="suffix"
@@ -217,28 +157,28 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
               )}
 
               {/* Direct Item Matches */}
-              {query && (filteredItems as Array<{ parent: ReferenceCategory; child: ReferenceItem }>).length > 0 && (
+              {results.children.length > 0 && (
                 <CommandGroup>
-                  {(filteredItems as Array<{ parent: ReferenceCategory; child: ReferenceItem }>).map(({ parent, child }) => (
+                  {results.children.map(({ parent, child }) => (
                     <CommandItem
                       key={`${parent.id}-${child.id}`}
-                      onSelect={() => handleSelectReference(child)}
+                      onSelect={() => actions.selectChild(child)}
                     >
                       <iconify-icon
-                        icon={(child.metadata?.icon as string) ?? 'ph:file'}
+                        icon={child.icon as string}
                         slot="prefix"
                       />
-                      {child.label}
+                      {child.name}
                     </CommandItem>
                   ))}
                 </CommandGroup>
               )}
 
               {/* Empty state */}
-              {query &&
-               filteredCategories.length === 0 &&
-               (filteredItems as Array<{ parent: ReferenceCategory; child: ReferenceItem }>).length === 0 && (
-                <CommandEmpty>No references found for "{query}".</CommandEmpty>
+              {state.searchInput &&
+               results.parents.length === 0 &&
+               results.children.length === 0 && (
+                <CommandEmpty>No references found for "{state.searchInput}".</CommandEmpty>
               )}
             </>
           )}

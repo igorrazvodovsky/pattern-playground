@@ -29,7 +29,6 @@ export function useCommandRecents({
   initialRecents = [],
 }: UseCommandRecentsOptions = {}): UseCommandRecentsReturn {
 
-  // Initialize recent items from localStorage if persistence is enabled
   const [recentItems, setRecentItems] = useState<RecentItem[]>(() => {
     if (persistRecents && typeof window !== 'undefined') {
       try {
@@ -45,7 +44,6 @@ export function useCommandRecents({
     return initialRecents.slice(0, maxRecents);
   });
 
-  // Persist to localStorage when recents change
   useEffect(() => {
     if (persistRecents && typeof window !== 'undefined') {
       try {
@@ -56,45 +54,38 @@ export function useCommandRecents({
     }
   }, [recentItems, persistRecents, storageKey]);
 
-  // Add item to recents
   const addToRecents = useCallback((item: RecentItem) => {
     setRecentItems(prevRecents => {
-      // Remove existing item if it exists
       const filteredRecents = prevRecents.filter(recent => recent.id !== item.id);
 
-      // Add new item with current timestamp at the beginning
       const newItem: RecentItem = {
         ...item,
-        timestamp: item.timestamp || Date.now(),
+        timestamp: item.timestamp ?? Date.now(),
       };
 
-      // Keep only maxRecents items
-      return [newItem, ...filteredRecents].slice(0, maxRecents);
+      return [newItem, ...filteredRecents]
+        .toSorted((a, b) => (b.timestamp ?? 0) - (a.timestamp ?? 0))
+        .slice(0, maxRecents);
     });
   }, [maxRecents]);
 
-  // Remove item from recents
   const removeFromRecents = useCallback((itemId: string) => {
     setRecentItems(prevRecents => prevRecents.filter(item => item.id !== itemId));
   }, []);
 
-  // Clear all recent items
   const clearRecents = useCallback(() => {
     setRecentItems([]);
   }, []);
 
-  // Filter recent items based on search input
   const filterRecents = useCallback((searchInput: string): RecentItem[] => {
-    if (!searchInput.trim()) return recentItems;
-
-    const processedQuery = searchInput.toLowerCase();
-    return recentItems.filter(item => {
-      const searchText = item.searchableText || item.name;
-      return searchText.toLowerCase().includes(processedQuery);
-    });
+    return searchInput.trim() 
+      ? recentItems.filter(item => {
+          const searchText = item.searchableText ?? item.name;
+          return searchText.toLowerCase().includes(searchInput.toLowerCase());
+        })
+      : recentItems;
   }, [recentItems]);
 
-  // Memoized filtered recent items (for performance)
   const filteredRecentItems = useMemo(() =>
     filterRecents(''),
     [filterRecents]

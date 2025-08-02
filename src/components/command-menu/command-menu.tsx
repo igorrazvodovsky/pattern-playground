@@ -31,7 +31,6 @@ export function CommandMenu({
   aiMessages = {},
 }: CommandMenuProps) {
 
-  // Use the composition hook to manage all command menu functionality
   const composition = useCommandComposition({
     data,
     enableNavigation,
@@ -48,7 +47,6 @@ export function CommandMenu({
     onClose,
   });
 
-  // Trigger AI request when conditions are met
   useEffect(() => {
     if (composition.shouldShowAI && composition.ai?.handleAIRequest) {
       composition.ai.handleAIRequest(composition.searchInput);
@@ -59,15 +57,13 @@ export function CommandMenu({
     composition.ai?.handleAIRequest
   ]);
 
-  // Handle AI result application
   const handleApplyAIResult = (result: AICommandResult) => {
     composition.ai?.handleApplyAIResult?.(result);
     composition.navigation.resetState();
     onClose?.();
   };
 
-  // Determine effective placeholder
-  const effectivePlaceholder = placeholder || composition.placeholder;
+  const effectivePlaceholder = placeholder ?? composition.placeholder;
 
   return (
     <Command
@@ -83,7 +79,6 @@ export function CommandMenu({
         ref={composition.keyboard.inputRef}
       />
       <CommandList>
-        {/* AI Empty State */}
         {composition.shouldShowAI && composition.ai && (
           <AIFallbackHandler
             searchInput={composition.searchInput}
@@ -103,12 +98,10 @@ export function CommandMenu({
           />
         )}
 
-        {/* Standard Empty State */}
         {!composition.shouldShowAI && !composition.hasResults && (
           <CommandEmpty>{emptyMessage}</CommandEmpty>
         )}
 
-        {/* Recent items */}
         {composition.shouldShowRecents && composition.results.recents.length > 0 && (
           <CommandGroup heading="Recent">
             {composition.results.recents.map((item) => (
@@ -126,7 +119,6 @@ export function CommandMenu({
         )}
 
         {composition.isInChildView ? (
-          // Selected command mode: show children
           <CommandGroup>
             {composition.results.children.map(({ child }) => (
               <CommandItem
@@ -141,16 +133,14 @@ export function CommandMenu({
             ))}
           </CommandGroup>
         ) : (
-          // Global search mode: show both top-level commands and child matches
           <>
-            {/* Top-level commands */}
             {composition.results.commands.length > 0 && (
               <CommandGroup heading="Commands">
                 {composition.results.commands.map((command) => (
                   <CommandItem
                     key={command.id}
                     onSelect={() => {
-                      if (enableNavigation && command.children) {
+                      if (enableNavigation && command.children?.length) {
                         composition.navigation.handleCommandSelect(command.id);
                       } else {
                         onSelect?.(command as any);
@@ -172,7 +162,6 @@ export function CommandMenu({
               </CommandGroup>
             )}
 
-            {/* Child command matches */}
             {composition.results.children.length > 0 && (
               <CommandGroup heading="Actions">
                 {composition.results.children.map(({ parent, child }) => (

@@ -1,3 +1,9 @@
+import * as React from "react";
+import { nanoid } from "nanoid";
+import { Icon } from '@iconify/react';
+// Removed unused Slot import
+
+// Component imports
 import {
   Command,
   CommandGroup,
@@ -9,34 +15,38 @@ import {
   type AICommandResult,
   type AICommandItem
 } from "../../../components/command-menu";
-import { nanoid } from "nanoid";
-import * as React from "react";
 import { AnimateChangeInHeight } from "../../../components/filter/animate-change-in-height";
 import Filters from "../../../components/filter/filters";
+
+// Type imports
 import {
   DueDate,
   FilterOperator,
   FilterType,
 } from "../../../components/filter/filter-types";
+import type { Filter } from "../../../components/filter/filter-types";
+import { useHierarchicalNavigation } from '../../../hooks/useHierarchicalNavigation';
 import {
-  filterViewToFilterOptions,
-  createGlobalFilterItems,
-  getFilteredResults,
-  type SearchableFilterItem
-} from "../../../components/filter/filter-options";
-import type { Filter, FilterOption } from "../../../components/filter/filter-types";
-import { Icon } from '@iconify/react';
-import { Slot } from "@radix-ui/react-slot";
+  createSortedSearchFunction,
+  sortByRelevance
+} from '../../../utils/unified-hierarchical-search';
+
+// AI functionality
+import { generateFilterSuggestions } from "../../../components/filter/adapters/ai-filter-adapter";
+
+// Unified data
+import { filterCategories } from "../../shared-data";
+
+// Styles
 import '../../../components/dropdown/dropdown.ts';
 import 'iconify-icon';
 import '../../../jsx-types';
 
-// Add these imports for AI functionality
-import { generateFilterSuggestions } from "../../../components/filter/adapters/ai-filter-adapter";
-
 // Constants
 const DROPDOWN_CLOSE_DELAY = 200;
 const MIN_AI_TRIGGER_LENGTH = 3;
+
+// No custom types needed - using unified SearchableParent/SearchableItem!
 
 
 // Utility function for operator selection
@@ -46,7 +56,9 @@ const getFilterOperator = (filterType: FilterType, value: string): FilterOperato
     : FilterOperator.IS;
 };
 
-// Custom hook for managing filter state
+// No more transformation needed - use unified data directly!
+
+// Custom hooks
 const useFilterState = (initialFilters: Filter[] = []) => {
   const [filters, setFilters] = React.useState<Filter[]>(initialFilters);
 
@@ -60,243 +72,73 @@ const useFilterState = (initialFilters: Filter[] = []) => {
     setFilters(prev => [...prev, newFilter]);
   }, []);
 
-  const clearFilters = React.useCallback(() => {
-    setFilters([]);
-  }, []);
+  const clearFilters = React.useCallback(() => setFilters([]), []);
 
   const hasActiveFilters = React.useMemo(
     () => filters.some(filter => filter.value?.length > 0),
     [filters]
   );
 
-  return {
-    filters,
-    setFilters,
-    addFilter,
-    clearFilters,
-    hasActiveFilters
-  };
+  return { filters, setFilters, addFilter, clearFilters, hasActiveFilters };
 };
 
-// Custom hook for dropdown state management
-const useDropdownState = (dropdownRef: React.RefObject<any>) => {
-  const [selectedView, setSelectedView] = React.useState<FilterType | null>(null);
-  const [commandInput, setCommandInput] = React.useState("");
-
-  const resetState = React.useCallback(() => {
-    setSelectedView(null);
-    setCommandInput("");
-  }, []);
-
+const useDropdownState = (dropdownRef: React.RefObject<{ hide: () => void }>) => {
   const hideDropdownWithDelay = React.useCallback(() => {
-    setTimeout(() => {
-      resetState();
-    }, DROPDOWN_CLOSE_DELAY);
-    dropdownRef.current?.hide();
-  }, [resetState]);
+    setTimeout(() => dropdownRef.current?.hide(), DROPDOWN_CLOSE_DELAY);
+  }, [dropdownRef]);
 
-  const handleDropdownHide = React.useCallback(() => {
-    setTimeout(() => {
-      resetState();
-    }, DROPDOWN_CLOSE_DELAY);
-  }, [resetState]);
-
-  return {
-    selectedView,
-    setSelectedView,
-    commandInput,
-    setCommandInput,
-    resetState,
-    hideDropdownWithDelay,
-    handleDropdownHide
-  };
+  return { hideDropdownWithDelay };
 };
 
-// Custom hook for filtered results
-const useFilteredResults = (
-  commandInput: string,
-  selectedView: FilterType | null,
-  globalFilterItems: any[]
-) => {
-  return React.useMemo(() => {
-    if (selectedView) {
-      // When a view is selected, search within that view's options only
-      const viewOptions = filterViewToFilterOptions[selectedView];
-      if (!commandInput.trim()) {
-        return { filterTypes: [], filterValues: [], viewOptions };
-      }
-      const filteredViewOptions = viewOptions.filter(option =>
-        option.name.toLowerCase().includes(commandInput.toLowerCase())
-      );
-      return { filterTypes: [], filterValues: [], viewOptions: filteredViewOptions };
-    } else {
-      // When no view is selected, use global search
-      return getFilteredResults(commandInput, globalFilterItems);
-    }
-  }, [commandInput, selectedView, globalFilterItems]);
-};
-
-// Component for rendering filter type options
-const FilterTypeOptions: React.FC<{
-  filteredResults: any;
-  onSelectView: (view: FilterType) => void;
-  onClearInput: () => void;
-  commandInputRef: React.RefObject<HTMLInputElement | null>;
-}> = ({ filteredResults, onSelectView, onClearInput, commandInputRef }) => (
-  <>
-    {filteredResults.filterTypes.map(
-      (group: FilterOption[], index: number) => (
-        <React.Fragment key={`filter-types-${index}`}>
-          <CommandGroup>
-            {group.map((filter: FilterOption) => (
-              <CommandItem
-                key={filter.name}
-                value={filter.name}
-                onSelect={(currentValue) => {
-                  onSelectView(currentValue as FilterType);
-                  onClearInput();
-                  commandInputRef.current?.focus();
-                }}
-              >
-                <Slot slot="prefix">
-                  {filter.icon}
-                </Slot>
-                {filter.name}
-              </CommandItem>
-            ))}
-          </CommandGroup>
-        </React.Fragment>
-      )
-    )}
-  </>
-);
-
-// Component for rendering filter value options
-const FilterValueOptions: React.FC<{
-  filteredResults: any;
-  onSelectValue: (type: FilterType, value: string) => void;
-}> = ({ filteredResults, onSelectValue }) => (
-  <>
-    {filteredResults.filterValues.length > 0 && (
-      <CommandGroup>
-        {filteredResults.filterValues.map((item: SearchableFilterItem) => (
-          <CommandItem
-            key={`${item.type}-${item.value}`}
-            value={`${item.type} ${item.value}`}
-            onSelect={() => {
-              onSelectValue(item.type, item.value);
-            }}
-          >
-            <Slot slot="prefix">
-              {item.typeIcon}
-            </Slot>
-            <span>
-              {item.value}
-            </span>
-          </CommandItem>
-        ))}
-      </CommandGroup>
-    )}
-  </>
-);
-
-// Component for rendering selected view options
-const SelectedViewOptions: React.FC<{
-  filteredResults: any;
-  selectedView: FilterType;
-  onSelectValue: (type: FilterType, value: string) => void;
-}> = ({ filteredResults, selectedView, onSelectValue }) => (
-  <CommandGroup>
-    {('viewOptions' in filteredResults && filteredResults.viewOptions) &&
-     filteredResults.viewOptions.map((filter: FilterOption) => (
-      <CommandItem
-        key={filter.name}
-        value={filter.name}
-        onSelect={(currentValue) => {
-          onSelectValue(selectedView, currentValue);
-        }}
-      >
-        <Slot slot="prefix">
-          {filter.icon}
-        </Slot>
-        <span>
-          {filter.name}
-        </span>
-        {filter.label && (
-          <span slot="suffix">
-            {filter.label}
-          </span>
-        )}
-      </CommandItem>
-    ))}
-  </CommandGroup>
-);
 
 export function FilteringDemo({
   initialFilters = [],
 }: {
   initialFilters?: Filter[];
 } = {}) {
-  const commandInputRef = React.useRef<HTMLInputElement>(null);
-  const dropdownRef = React.useRef<any>(null);
+  const dropdownRef = React.useRef<{ hide: () => void } | null>(null);
 
-  // Custom hooks for state management
+  // State management
   const { filters, setFilters, addFilter, clearFilters, hasActiveFilters } = useFilterState(initialFilters);
-  const {
-    selectedView,
-    setSelectedView,
-    commandInput,
-    setCommandInput,
-    resetState,
-    hideDropdownWithDelay,
-    handleDropdownHide
-  } = useDropdownState(dropdownRef);
+  const { hideDropdownWithDelay } = useDropdownState(dropdownRef);
 
-  // Create stable available values mapping
+  // Hierarchical navigation setup - no transformation needed!
+  const { state, actions, results, inputRef, placeholder } = useHierarchicalNavigation({
+    data: filterCategories,
+    searchFunction: createSortedSearchFunction(
+      (types, query) => sortByRelevance(types, query),
+      (values, query) => sortByRelevance(values, query)
+    ),
+    onSelectChild: (filterValue: { filterType: FilterType; value: string }) => {
+      addFilter(filterValue.filterType, filterValue.value);
+      hideDropdownWithDelay();
+    },
+    placeholder: "Filter...",
+    contextPlaceholder: (type) => type.name
+  });
+
+  // AI integration - use unified filter data
   const availableValues = React.useMemo(() =>
     Object.fromEntries(
-      Object.entries(filterViewToFilterOptions).map(([key, options]) => [
-        key,
-        options.map(option => option.name as string)
+      filterCategories.map(category => [
+        category.id,
+        category.children?.map(child => child.value) || []
       ])
     ) as Record<FilterType, string[]>,
     []
   );
 
-  // Create AI request handler
   const handleAIRequest = React.useCallback(async (prompt: string) => {
-    const result = await generateFilterSuggestions(
-      prompt,
-      Object.values(FilterType),
-      availableValues
-    );
-    return result;
+    return await generateFilterSuggestions(prompt, Object.values(FilterType), availableValues);
   }, [availableValues]);
 
-  // Use AI command hook
-  const {
-    aiState,
-    handleAIRequest: handleAICommandRequest,
-    handleApplyAIResult,
-    handleEditPrompt,
-    clearResultsIfInputChanged
-  } = useAICommand({
+  const { aiState, handleAIRequest: handleAICommandRequest, handleApplyAIResult, handleEditPrompt, clearResultsIfInputChanged } = useAICommand({
     onAIRequest: handleAIRequest
   });
 
-  // Memoize global filter items for performance
-  const globalFilterItems = React.useMemo(() => createGlobalFilterItems(), []);
-
-  // Get filtered results
-  const filteredResults = useFilteredResults(commandInput, selectedView, globalFilterItems);
-
-  // Handle applying AI-generated filters
   const handleApplyAIFilters = React.useCallback((result: AICommandResult) => {
-    // Convert AI command result to filter format and apply filters
     const newFilters = result.suggestedItems.map((item: AICommandItem) => {
-      if (!item.metadata) {
-        throw new Error('Invalid AI command item: missing metadata');
-      }
+      if (!item.metadata) throw new Error('Invalid AI command item: missing metadata');
       return {
         id: nanoid(),
         type: item.metadata.type as FilterType,
@@ -305,50 +147,17 @@ export function FilteringDemo({
       };
     });
 
-    // Apply the filters
     setFilters(prev => [...prev, ...newFilters]);
     handleApplyAIResult(result);
-
-    // Close dropdown and reset input
     hideDropdownWithDelay();
   }, [handleApplyAIResult, hideDropdownWithDelay, setFilters]);
 
-  // Handle closing the command menu (for create new item)
-  const handleCloseMenu = React.useCallback(() => {
-    hideDropdownWithDelay();
-  }, [hideDropdownWithDelay]);
-
-  // Trigger AI request when input changes
+  // Trigger AI when searching globally
   React.useEffect(() => {
-    // Only trigger AI when:
-    // 1. There's input text
-    // 2. No specific view is selected (global search mode)
-    // 3. Input is long enough to be meaningful
-    if (commandInput && !selectedView && commandInput.length >= MIN_AI_TRIGGER_LENGTH) {
-      handleAICommandRequest(commandInput);
+    if (state.searchInput && state.mode === 'global' && state.searchInput.length >= MIN_AI_TRIGGER_LENGTH) {
+      handleAICommandRequest(state.searchInput);
     }
-  }, [commandInput, selectedView, handleAICommandRequest]);
-
-  const handleFilterValueSelect = React.useCallback((
-    filterType: FilterType,
-    value: string,
-    shouldCloseDropdown: boolean = true
-  ) => {
-    addFilter(filterType, value);
-
-    if (shouldCloseDropdown) {
-      hideDropdownWithDelay();
-    }
-  }, [addFilter, hideDropdownWithDelay]);
-
-  const handleEscape = React.useCallback(() => {
-    if (selectedView) {
-      resetState();
-      commandInputRef.current?.focus();
-      return true;
-    }
-    return false;
-  }, [selectedView, resetState]);
+  }, [state.searchInput, state.mode, handleAICommandRequest]);
 
   return (
     <div className="flex">
@@ -362,61 +171,64 @@ export function FilteringDemo({
           <span className="inclusively-hidden">Clear</span>
         </button>
       )}
-      <pp-dropdown
-        ref={dropdownRef}
-        placement="bottom-start"
-        onPp-hide={handleDropdownHide}
-      >
-        <button
-          slot="trigger"
-          className="button"
-        >
+      <pp-dropdown ref={dropdownRef} placement="bottom-start">
+        <button slot="trigger" className="button">
           <Icon icon="ph:funnel-simple" className="icon" />
           <span className={filters.length ? "inclusively-hidden" : ""}>Filter</span>
         </button>
 
         <div>
           <AnimateChangeInHeight>
-            <Command shouldFilter={false} onEscape={handleEscape}>
+            <Command shouldFilter={false} onEscape={actions.handleEscape}>
               <CommandInput
-                placeholder={selectedView ? selectedView : "Filter..."}
-                value={commandInput}
-                onInputCapture={(e) => {
-                  setCommandInput(e.currentTarget.value);
-                }}
-                ref={commandInputRef}
+                placeholder={placeholder}
+                value={state.searchInput}
+                onValueChange={actions.updateSearch}
+                ref={inputRef}
               />
               <CommandList>
                 <AIFallbackHandler
-                  searchInput={commandInput}
+                  searchInput={state.searchInput}
                   aiState={aiState}
                   onAIRequest={handleAICommandRequest}
                   onApplyAIResult={handleApplyAIFilters}
                   onEditPrompt={handleEditPrompt}
                   onInputChange={clearResultsIfInputChanged}
-                  onClose={handleCloseMenu}
+                  onClose={hideDropdownWithDelay}
                 />
 
-                {selectedView ? (
-                  // Selected view mode: show options for the selected filter type
-                  <SelectedViewOptions
-                    filteredResults={filteredResults}
-                    selectedView={selectedView}
-                    onSelectValue={handleFilterValueSelect}
-                  />
+                {state.mode === 'contextual' ? (
+                  <CommandGroup>
+                    {results.contextualItems?.map((filterValue) => (
+                      <CommandItem key={filterValue.id} onSelect={() => actions.selectChild(filterValue)}>
+                        <iconify-icon icon={filterValue.icon} slot="prefix" />
+                        <span>{filterValue.name}</span>
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
                 ) : (
-                  // Global search mode: show both filter types and filter values
                   <>
-                    <FilterTypeOptions
-                      filteredResults={filteredResults}
-                      onSelectView={setSelectedView}
-                      onClearInput={() => setCommandInput("")}
-                      commandInputRef={commandInputRef}
-                    />
-                    <FilterValueOptions
-                      filteredResults={filteredResults}
-                      onSelectValue={handleFilterValueSelect}
-                    />
+                    {results.parents.length > 0 && (
+                      <CommandGroup>
+                        {results.parents.map((filterType) => (
+                          <CommandItem key={filterType.id} onSelect={() => actions.selectContext(filterType)}>
+                            <iconify-icon icon={filterType.icon} slot="prefix" />
+                            {filterType.name}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    )}
+
+                    {results.children.length > 0 && (
+                      <CommandGroup>
+                        {results.children.map(({ parent, child }) => (
+                          <CommandItem key={`${parent.id}-${child.id}`} onSelect={() => actions.selectChild(child, parent)}>
+                            <iconify-icon icon={child.icon} slot="prefix" />
+                            <span>{child.name}</span>
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    )}
                   </>
                 )}
               </CommandList>

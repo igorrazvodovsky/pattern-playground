@@ -37,27 +37,27 @@ export interface CommandMenuProps {
 }
 
 export interface CommandData {
-  id: string;
-  name: string;
-  icon?: string;
-  shortcut?: string[];
-  children?: CommandChildData[];
-  searchableText?: string;
+  readonly id: string;
+  readonly name: string;
+  readonly icon?: string;
+  readonly shortcut?: readonly string[];
+  readonly children?: readonly CommandChildData[];
+  readonly searchableText?: string;
 }
 
 export interface CommandChildData {
-  id: string;
-  name: string;
-  icon?: string;
-  searchableText?: string;
+  readonly id: string;
+  readonly name: string;
+  readonly icon?: string;
+  readonly searchableText?: string;
 }
 
 export interface RecentItem {
-  id: string;
-  name: string;
-  icon?: string;
-  searchableText?: string;
-  timestamp?: number;
+  readonly id: string;
+  readonly name: string;
+  readonly icon?: string;
+  readonly searchableText?: string;
+  readonly timestamp?: number;
 }
 
 // Import and re-export AI types for use in props

@@ -17,7 +17,6 @@ export interface UseCommandCompositionOptions {
   keyboardConfig?: UseCommandKeyboardOptions;
   selectionConfig?: UseCommandSelectionOptions;
 
-  // Unified callbacks
   onSelect?: (item: CommandData | RecentItem | AICommandItem) => void;
   onEscape?: () => boolean | void;
   onClose?: () => void;
@@ -32,29 +31,30 @@ export interface UnifiedResults {
 }
 
 export interface UseCommandCompositionReturn {
-  // Combined state from all hooks
   searchInput: string;
   setSearchInput: (input: string) => void;
 
-  // Hook returns (if enabled)
   navigation: ReturnType<typeof useCommandNavigation>;
   recents?: UseCommandRecentsReturn;
   ai?: ReturnType<typeof useAICommand>;
   keyboard: UseCommandKeyboardReturn;
   selection: UseCommandSelectionReturn;
 
-  // Unified results
   results: UnifiedResults;
 
-  // Unified state flags
   isInChildView: boolean;
   shouldShowRecents: boolean;
   shouldShowAI: boolean;
   hasResults: boolean;
 
-  // Unified placeholder
   placeholder: string;
 }
+
+const DEFAULT_CONFIG = {
+  maxRecents: 10,
+  debounceMs: 300,
+  minInputLength: 3,
+} as const;
 
 export function useCommandComposition({
   data,
@@ -70,49 +70,42 @@ export function useCommandComposition({
   onClose,
 }: UseCommandCompositionOptions): UseCommandCompositionReturn {
 
-  // Initialize recents hook if enabled
   const recents = enableRecents
     ? useCommandRecents({
-      maxRecents: 10,
+      maxRecents: DEFAULT_CONFIG.maxRecents,
       persistRecents: false,
       ...recentsConfig,
     })
     : undefined;
 
-  // Selection configuration with unified onSelect
   const selectionOptions = {
     onSelect,
     closeOnSelect: true,
     ...selectionConfig,
   };
 
-  // Navigation hook (always enabled for core functionality)
   const navigation = useCommandNavigation({
     data,
-    recentItems: recents?.recentItems || [],
+    recentItems: recents?.recentItems ?? [],
     onSelect: (item) => {
-      // Add to recents if enabled
       if (recents && 'name' in item) {
         const recentItem: RecentItem = {
           id: item.id,
           name: item.name,
           icon: item.icon,
-          searchableText: item.searchableText || item.name,
+          searchableText: item.searchableText ?? item.name,
           timestamp: Date.now(),
         };
         recents.addToRecents(recentItem);
       }
 
-      // Call unified selection handler
       onSelect?.(item);
 
-      // Close container (dialog/dropdown) if callback provided
       onClose?.();
     },
     onEscape,
   });
 
-  // AI hook if enabled
   const ai = enableAI && aiConfig
     ? useAICommand({
       onAIRequest: aiConfig.onAIRequest,
@@ -121,18 +114,15 @@ export function useCommandComposition({
     })
     : undefined;
 
-  // Keyboard hook with navigation-aware shortcuts
   const keyboard = useCommandKeyboard({
     onEscape: navigation.handleEscape,
     navigationEnabled: enableNavigation,
     ...keyboardConfig,
   });
 
-  // Selection hook
   const selection = useCommandSelection({
     ...selectionOptions,
     onSelect: (item) => {
-      // Handle selection through navigation for proper state management
       const itemType = selection.getItemType(item);
 
       switch (itemType) {
@@ -143,8 +133,6 @@ export function useCommandComposition({
           navigation.handleRecentSelect(item.id);
           break;
         case 'ai':
-          // Handle AI result selection - placeholder for now
-          // ai?.handleApplyAIResult?.(item as AICommandResult);
           navigation.resetState();
           break;
       }
@@ -153,7 +141,6 @@ export function useCommandComposition({
     },
   });
 
-  // Unified results combining all data sources
   const results = useMemo((): UnifiedResults => {
     const commands = navigation.filteredResults.parents as CommandData[];
     const children = navigation.filteredResults.children as Array<{ parent: CommandData; child: any }>;
@@ -161,7 +148,6 @@ export function useCommandComposition({
       ? recents.filterRecents(navigation.searchInput)
       : [];
 
-    // AI suggestions would come from ai state - placeholder for now
     const aiSuggestions: AICommandItem[] = [];
 
     const isEmpty = commands.length === 0 &&
@@ -178,7 +164,6 @@ export function useCommandComposition({
     };
   }, [navigation.filteredResults, navigation.searchInput, recents, ai?.aiState]);
 
-  // Unified state flags
   const isInChildView = navigation.isInCommandView;
   const shouldShowRecents = enableRecents &&
     !isInChildView &&
@@ -187,11 +172,9 @@ export function useCommandComposition({
   const shouldShowAI = enableAI &&
     !isInChildView &&
     navigation.searchInput.trim() &&
-    navigation.searchInput.length >= (aiConfig?.minInputLength || 3);
+    navigation.searchInput.length >= (aiConfig?.minInputLength ?? DEFAULT_CONFIG.minInputLength);
 
   const hasResults = !results.isEmpty;
-
-  // Unified placeholder
   const placeholder = useMemo(() => {
     if (isInChildView) {
       return navigation.placeholder;
@@ -203,27 +186,22 @@ export function useCommandComposition({
   }, [isInChildView, enableAI, navigation.placeholder]);
 
   return {
-    // Combined state
     searchInput: navigation.searchInput,
     setSearchInput: navigation.setSearchInput,
 
-    // Hook returns
     navigation,
     recents,
     ai,
     keyboard,
     selection,
 
-    // Unified results
-    results,
+      results,
 
-    // Unified state flags
-    isInChildView,
+      isInChildView,
     shouldShowRecents,
     shouldShowAI,
     hasResults,
 
-    // Unified placeholder
-    placeholder,
+      placeholder,
   };
 }

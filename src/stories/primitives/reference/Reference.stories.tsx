@@ -5,6 +5,9 @@ import { referenceCategories, basicReferenceCategories } from '../../shared-data
 import { createUserReference, createProjectReference, createDocumentReference } from '../../shared-data/reference-utils';
 import type { SelectedReference } from '../../../components/reference';
 
+type FilterPattern = `@${string}` | `#${string}` | `/${string}`;
+type ReferenceType = 'user' | 'project' | 'document';
+
 const meta = {
   title: "Primitives/Reference",
 } satisfies Meta;
@@ -43,7 +46,7 @@ const ReferenceEditorExample = () => {
                 { type: 'text', text: '. Details are in the ' },
                 createDocumentReference('doc-2'),
                 { type: 'text', text: '.' }
-              ].filter(Boolean)
+              ].filter(Boolean as any)
             }
           ]
         }}
@@ -92,7 +95,7 @@ const BasicReferenceEditor = () => {
                 { type: 'text', text: ' will join next week along with ' },
                 createUserReference('user-12'),
                 { type: 'text', text: ' for HR coordination.' }
-              ].filter(Boolean)
+              ].filter(Boolean as any)
             }
           ]
         }}

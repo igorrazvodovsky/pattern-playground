@@ -16,7 +16,6 @@ interface CommandItemSlots {
   content: React.ReactNode[];
 }
 
-// Custom hook for handling slotted children
 const useCommandItemSlots = (children: React.ReactNode): CommandItemSlots => {
   return React.useMemo(() => {
     const childArray = React.Children.toArray(children);
@@ -52,7 +51,6 @@ const Command = React.forwardRef<
       }
     }
 
-    // Call any existing onKeyDown handler
     onKeyDown?.(e);
   };
 
