@@ -37,13 +37,13 @@ Replace basic string matching in hierarchical search components with Fuse.js for
    ```
 
 2. **Create Fuse.js configuration utility**
-   - File: `src/utils/fuse-search-config.ts`
+   - File: `src/utils/search-config.ts`
    - Define search configurations for different component types
    - Configure keys, weights, and options per use case
 
 ### Phase 2: Enhanced Search Utility
 1. **Create Fuse.js search wrapper**
-   - File: `src/utils/fuse-hierarchical-search.ts`
+   - File: `src/utils/hierarchical-search.ts`
    - Maintain existing `HierarchicalSearchResults` interface
    - Replace `sortByRelevance` with Fuse.js scoring
    - Keep hierarchical search structure intact
@@ -54,12 +54,17 @@ Replace basic string matching in hierarchical search components with Fuse.js for
    - **References**: Search across user names, roles, project titles
 
 ### Phase 3: Component Integration
-1. **Update unified-hierarchical-search.ts**
-   - Replace basic string matching with Fuse.js
-   - Maintain backward compatibility with existing interfaces
-   - Keep `createSortedSearchFunction` API
+1. **Replace unified-hierarchical-search.ts**
+   - Completely rewrite with modern Fuse.js implementation
+   - Optimize interfaces for Fuse.js capabilities
+   - Use latest JavaScript/TypeScript features
 
-2. **Test component behavior**
+2. **Update component implementations**
+   - Update CommandMenu component to use new search API
+   - Modify Filtering component for optimized search interface
+   - Enhance Reference picker with improved fuzzy matching
+   
+3. **Test component behavior**
    - Verify CommandMenu search quality improves
    - Check Filtering component maintains functionality
    - Ensure Reference picker works with fuzzy matching
@@ -90,21 +95,24 @@ interface FuseSearchConfig {
 - Add optional score information for advanced sorting
 - Preserve hierarchical search behavior
 
-### Backwards Compatibility
-- Keep existing `createSortedSearchFunction` API
-- Ensure all current search behaviors continue working
-- Add Fuse.js as enhancement, not replacement of architecture
+### Implementation Approach
+- Replace existing search implementation completely with Fuse.js
+- Modernize search architecture without legacy compatibility constraints
+- Focus on optimal implementation using latest Fuse.js features
 
 ## Success Criteria
 1. **Improved search quality**: Fuzzy matching handles typos
 2. **Better relevance**: More accurate result ranking
-3. **Maintained performance**: No significant slowdown
-4. **API compatibility**: No breaking changes to existing components
+3. **Modern implementation**: Uses latest Fuse.js and JavaScript features
+4. **Optimized performance**: Best possible search speed and accuracy
 
 ## Files to Modify
 - `src/utils/unified-hierarchical-search.ts` - Core search logic
-- `src/utils/fuse-search-config.ts` - New configuration file
-- `src/utils/fuse-hierarchical-search.ts` - New Fuse.js wrapper
+- `src/utils/search-config.ts` - New configuration file
+- `src/utils/hierarchical-search.ts` - New Fuse.js wrapper
+- `src/stories/patterns/CommandMenu/CommandMenu.tsx` - Update search integration
+- `src/stories/compositions/Filtering/Filtering.tsx` - Update search integration
+- `src/stories/primitives/reference/Reference.stories.tsx` - Update search integration
 - `package.json` - Add Fuse.js dependency
 
 ## Testing Strategy

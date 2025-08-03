@@ -24,11 +24,11 @@
     "searchableText": "create new add make",
     "shortcut": ["⌘", "N"],
     "children": [
-      { "id": "create-file", "name": "Object", "type": "command", "icon": "ph:cube", "searchableText": "create object file" },
-      { "id": "create-folder", "name": "Attribute", "type": "command", "icon": "ph:cube", "searchableText": "create attribute property" },
-      { "id": "create-project", "name": "Domain", "type": "command", "icon": "ph:cube", "searchableText": "create domain area" },
-      { "id": "create-task", "name": "Module", "type": "command", "icon": "ph:cube", "searchableText": "create module component" },
-      { "id": "create-meeting", "name": "Bunny", "type": "command", "icon": "ph:rabbit", "searchableText": "create bunny easter egg" }
+      { "id": "create-material", "name": "Material", "type": "command", "icon": "ph:package", "searchableText": "create material resource" },
+      { "id": "create-product", "name": "Product", "type": "command", "icon": "ph:cube", "searchableText": "create product item" },
+      { "id": "create-waste-stream", "name": "Waste Stream", "type": "command", "icon": "ph:trash", "searchableText": "create waste stream outflow" },
+      { "id": "create-shipment", "name": "Shipment", "type": "command", "icon": "ph:truck", "searchableText": "create shipment logistics" },
+      { "id": "create-bunny", "name": "Bunny", "type": "command", "icon": "ph:rabbit", "searchableText": "create bunny easter egg" }
     ]
   },
   {

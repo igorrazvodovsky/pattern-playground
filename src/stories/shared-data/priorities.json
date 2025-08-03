@@ -4,7 +4,7 @@
     "name": "Urgent",
     "value": "Urgent",
     "type": "priority",
-    "icon": "ph:exclamation-triangle",
+    "icon": "ph:warning-circle",
     "description": "Critical priority items",
     "searchableText": "urgent priority critical"
   },
@@ -13,7 +13,7 @@
     "name": "High",
     "value": "High",
     "type": "priority",
-    "icon": "ph:arrow-up",
+    "icon": "ph:cell-signal-full",
     "description": "High priority items",
     "searchableText": "high priority important"
   },
@@ -22,7 +22,7 @@
     "name": "Medium",
     "value": "Medium",
     "type": "priority",
-    "icon": "ph:minus",
+    "icon": "ph:cell-signal-medium",
     "description": "Medium priority items",
     "searchableText": "medium priority normal"
   },
@@ -31,7 +31,7 @@
     "name": "Low",
     "value": "Low",
     "type": "priority",
-    "icon": "ph:arrow-down",
+    "icon": "ph:cell-signal-low",
     "description": "Low priority items",
     "searchableText": "low priority minor"
   }

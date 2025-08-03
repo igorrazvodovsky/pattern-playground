@@ -1,146 +1,110 @@
 [
   {
     "id": "doc-1",
-    "name": "Company Policies",
+    "name": "Material Flow Analysis Report",
     "type": "document",
     "icon": "ph:file-text-fill",
-    "description": "General workplace policies and procedures",
-    "searchableText": "company policies workplace procedures guidelines",
-    "metadata": { "type": "policies", "lastUpdated": "2024-01-15" }
+    "description": "Analysis of material inputs and outputs in the production process",
+    "searchableText": "material flow analysis report mfa production",
+    "metadata": { "type": "analysis", "lastUpdated": "2024-01-15" }
   },
   {
     "id": "doc-2",
-    "name": "Budget Proposal",
+    "name": "Life Cycle Assessment (LCA)",
     "type": "document",
     "icon": "ph:file-text-fill",
-    "description": "Q4 budget allocation and projections",
-    "searchableText": "budget proposal q4 allocation projections finance",
-    "metadata": { "type": "finance", "lastUpdated": "2024-01-10" }
+    "description": "Environmental impact assessment of a product's lifecycle",
+    "searchableText": "life cycle assessment lca environmental impact",
+    "metadata": { "type": "assessment", "lastUpdated": "2024-01-10" }
   },
   {
     "id": "doc-3",
-    "name": "Market Research Report",
+    "name": "Circular Business Model Canvas",
     "type": "document",
     "icon": "ph:file-text-fill",
-    "description": "Industry trends and competitor analysis",
-    "searchableText": "market research report industry trends competitor analysis",
-    "metadata": { "type": "research", "quarter": "Q3 2024" }
+    "description": "Strategic plan for implementing a circular business model",
+    "searchableText": "circular business model canvas strategy plan",
+    "metadata": { "type": "strategy", "quarter": "Q3 2024" }
   },
   {
     "id": "doc-4",
-    "name": "Partnership Agreement",
+    "name": "Recycling Partner Agreement",
     "type": "document",
     "icon": "ph:file-text-fill",
-    "description": "Legal framework for vendor partnerships",
-    "searchableText": "partnership agreement legal framework vendor contracts",
-    "metadata": { "type": "legal", "version": "2.1" }
+    "description": "Legal agreement with certified recycling partners",
+    "searchableText": "recycling partner agreement legal contract",
+    "metadata": { "type": "legal", "version": "3.0" }
   },
   {
     "id": "doc-5",
-    "name": "Team Handbook",
+    "name": "Waste Reduction Guidelines",
     "type": "document",
     "icon": "ph:file-text-fill",
-    "description": "Employee policies and procedures",
-    "searchableText": "team handbook employee policies procedures hr",
-    "metadata": { "type": "hr", "recurring": true }
+    "description": "Procedures for minimizing waste in operations",
+    "searchableText": "waste reduction guidelines procedures operations",
+    "metadata": { "type": "guideline", "recurring": true }
   },
   {
     "id": "doc-6",
-    "name": "Design System Guidelines",
+    "name": "Eco-Design Principles",
     "type": "document",
     "icon": "ph:file-text-fill",
-    "description": "Complete style guide and component documentation",
-    "searchableText": "design system guidelines style guide components",
-    "metadata": { "type": "design", "version": "3.2" }
+    "description": "Design principles for creating sustainable products",
+    "searchableText": "eco-design principles sustainable products guidelines",
+    "metadata": { "type": "design", "version": "1.5" }
   },
   {
     "id": "doc-7",
-    "name": "API Documentation",
+    "name": "Supply Chain Traceability API",
     "type": "document",
     "icon": "ph:file-text-fill",
-    "description": "REST API endpoints and authentication",
-    "searchableText": "api documentation rest endpoints authentication",
-    "metadata": { "type": "technical", "version": "2.0" }
+    "description": "API documentation for tracking materials in the supply chain",
+    "searchableText": "supply chain traceability api documentation",
+    "metadata": { "type": "technical", "version": "1.0" }
   },
   {
     "id": "doc-8",
-    "name": "User Research Report",
+    "name": "Consumer Behavior Study",
     "type": "document",
     "icon": "ph:file-text-fill",
-    "description": "Q3 2024 user testing findings",
-    "searchableText": "user research report testing findings q3",
+    "description": "Research on consumer adoption of circular products",
+    "searchableText": "consumer behavior study research adoption",
     "metadata": { "type": "research", "quarter": "Q3 2024" }
   },
   {
     "id": "doc-9",
-    "name": "Employee List.xlsx",
+    "name": "Recycled Material Inventory.xlsx",
     "type": "document",
     "icon": "ph:file-xls-fill",
-    "description": "Company employee directory",
-    "searchableText": "employee list directory spreadsheet excel",
-    "metadata": { "path": "shared/Employee List.xlsx", "type": "spreadsheet", "size": "45KB" }
+    "description": "Inventory of recycled materials for production",
+    "searchableText": "recycled material inventory spreadsheet excel",
+    "metadata": { "path": "inventory/Recycled Material Inventory.xlsx", "type": "spreadsheet", "size": "68KB" }
   },
   {
     "id": "doc-10",
-    "name": "Meeting Schedule.pdf",
+    "name": "Waste Audit Schedule.pdf",
     "type": "document",
     "icon": "ph:file-pdf-fill",
-    "description": "Monthly meeting calendar",
-    "searchableText": "meeting schedule calendar monthly pdf",
-    "metadata": { "path": "shared/Meeting Schedule.pdf", "type": "pdf", "size": "2.3MB" }
+    "description": "Schedule for regular waste audits",
+    "searchableText": "waste audit schedule calendar pdf",
+    "metadata": { "path": "audits/Waste Audit Schedule.pdf", "type": "pdf", "size": "1.8MB" }
   },
   {
     "id": "doc-11",
-    "name": "Project Timeline.pptx",
+    "name": "Refurbishment Process.pptx",
     "type": "document",
     "icon": "ph:file-ppt-fill",
-    "description": "Project milestones and deadlines",
-    "searchableText": "project timeline milestones deadlines presentation",
-    "metadata": { "path": "shared/Project Timeline.pptx", "type": "presentation", "size": "8.7MB" }
+    "description": "Presentation on the product refurbishment process",
+    "searchableText": "refurbishment process presentation pptx",
+    "metadata": { "path": "processes/Refurbishment Process.pptx", "type": "presentation", "size": "6.2MB" }
   },
   {
     "id": "doc-12",
-    "name": "Contact Directory.docx",
+    "name": "Supplier Code of Conduct.docx",
     "type": "document",
     "icon": "ph:file-doc-fill",
-    "description": "External contact information",
-    "searchableText": "contact directory external information document",
-    "metadata": { "path": "shared/Contact Directory.docx", "type": "document", "size": "125KB" }
-  },
-  {
-    "id": "doc-13",
-    "name": "Budget Template.xlsx",
-    "type": "document",
-    "icon": "ph:file-xls-fill",
-    "description": "Standard budget planning template",
-    "searchableText": "budget template planning standard spreadsheet",
-    "metadata": { "path": "templates/Budget Template.xlsx", "type": "template", "size": "87KB" }
-  },
-  {
-    "id": "doc-14",
-    "name": "Button.tsx",
-    "type": "document",
-    "icon": "ph:code-fill",
-    "description": "Primary button component implementation",
-    "searchableText": "button component tsx react typescript code",
-    "metadata": { "path": "src/components/Button.tsx", "type": "code", "size": "3.2KB" }
-  },
-  {
-    "id": "doc-15",
-    "name": "Modal.tsx",
-    "type": "document",
-    "icon": "ph:code-fill",
-    "description": "Modal dialog component with backdrop",
-    "searchableText": "modal dialog component tsx react typescript code",
-    "metadata": { "path": "src/components/Modal.tsx", "type": "code", "size": "5.8KB" }
-  },
-  {
-    "id": "doc-16",
-    "name": "utils.ts",
-    "type": "document",
-    "icon": "ph:code-fill",
-    "description": "Shared utility functions",
-    "searchableText": "utils utilities functions typescript helpers code",
-    "metadata": { "path": "src/utils.ts", "type": "code", "size": "2.1KB" }
+    "description": "Code of conduct for suppliers regarding sustainability",
+    "searchableText": "supplier code of conduct sustainability docx",
+    "metadata": { "path": "suppliers/Supplier Code of Conduct.docx", "type": "document", "size": "150KB" }
   }
 ]

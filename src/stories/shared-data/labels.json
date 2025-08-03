@@ -1,0 +1,164 @@
+[
+  {
+    "id": "label-waste-reduction",
+    "name": "Waste Reduction",
+    "value": "Waste Reduction",
+    "type": "label",
+    "icon": "ph:trash",
+    "description": "Initiatives to reduce waste",
+    "searchableText": "waste reduction label efficiency"
+  },
+  {
+    "id": "label-audit",
+    "name": "Audit",
+    "value": "Audit",
+    "type": "label",
+    "icon": "ph:clipboard-text",
+    "description": "Auditing processes and results",
+    "searchableText": "audit label inspection"
+  },
+  {
+    "id": "label-sourcing",
+    "name": "Sourcing",
+    "value": "Sourcing",
+    "type": "label",
+    "icon": "ph:magnifying-glass",
+    "description": "Sourcing of sustainable materials",
+    "searchableText": "sourcing label procurement materials"
+  },
+  {
+    "id": "label-recycling",
+    "name": "Recycling",
+    "value": "Recycling",
+    "type": "label",
+    "icon": "ph:recycle",
+    "description": "Recycling and reprocessing activities",
+    "searchableText": "recycling label reprocessing"
+  },
+  {
+    "id": "label-data",
+    "name": "Data",
+    "value": "Data",
+    "type": "label",
+    "icon": "ph:chart-bar",
+    "description": "Data analysis and reporting",
+    "searchableText": "data label analysis reporting"
+  },
+  {
+    "id": "label-assessment",
+    "name": "Assessment",
+    "value": "Assessment",
+    "type": "label",
+    "icon": "ph:chart-pie-slice",
+    "description": "Assessment and evaluation",
+    "searchableText": "assessment label evaluation"
+  },
+  {
+    "id": "label-design",
+    "name": "Design",
+    "value": "Design",
+    "type": "label",
+    "icon": "ph:paint-brush",
+    "description": "Design and planning",
+    "searchableText": "design label planning"
+  },
+  {
+    "id": "label-take-back",
+    "name": "Take-back",
+    "value": "Take-back",
+    "type": "label",
+    "icon": "ph:arrow-u-down-left",
+    "description": "Product take-back programs",
+    "searchableText": "take-back label returns"
+  },
+  {
+    "id": "label-logistics",
+    "name": "Logistics",
+    "value": "Logistics",
+    "type": "label",
+    "icon": "ph:truck",
+    "description": "Supply chain and reverse logistics",
+    "searchableText": "logistics label supply chain transport"
+  },
+  {
+    "id": "label-optimization",
+    "name": "Optimization",
+    "value": "Optimization",
+    "type": "label",
+    "icon": "ph:chart-line-up",
+    "description": "Optimization and efficiency improvements",
+    "searchableText": "optimization label efficiency"
+  },
+  {
+    "id": "label-policy",
+    "name": "Policy",
+    "value": "Policy",
+    "type": "label",
+    "icon": "ph:scroll",
+    "description": "Policy and advocacy work",
+    "searchableText": "policy label advocacy regulations"
+  },
+  {
+    "id": "label-advocacy",
+    "name": "Advocacy",
+    "value": "Advocacy",
+    "type": "label",
+    "icon": "ph:megaphone",
+    "description": "Advocacy and outreach",
+    "searchableText": "advocacy label outreach"
+  },
+  {
+    "id": "label-marketing",
+    "name": "Marketing",
+    "value": "Marketing",
+    "type": "label",
+    "icon": "ph:projector-screen",
+    "description": "Marketing and communications",
+    "searchableText": "marketing label communications"
+  },
+  {
+    "id": "label-refurbishment",
+    "name": "Refurbishment",
+    "value": "Refurbishment",
+    "type": "label",
+    "icon": "ph:wrench",
+    "description": "Product repair and refurbishment",
+    "searchableText": "refurbishment label repair reuse"
+  },
+  {
+    "id": "label-research",
+    "name": "Research",
+    "value": "Research",
+    "type": "label",
+    "icon": "ph:flask",
+    "description": "Research and development",
+    "searchableText": "research label development"
+  },
+  {
+    "id": "label-innovation",
+    "name": "Innovation",
+    "value": "Innovation",
+    "type": "label",
+    "icon": "ph:lightbulb",
+    "description": "Research and development of new solutions",
+    "searchableText": "innovation label research development"
+  },
+  {
+    "id": "label-training",
+    "name": "Training",
+    "value": "Training",
+    "type": "label",
+    "icon": "ph:student",
+    "description": "Training and education",
+    "searchableText": "training label education"
+  },
+  {
+    "id": "label-education",
+    "name": "Education",
+    "value": "Education",
+    "type": "label",
+    "icon": "ph:book-open",
+    "description": "Education and awareness",
+    "searchableText": "education label awareness"
+  }
+]

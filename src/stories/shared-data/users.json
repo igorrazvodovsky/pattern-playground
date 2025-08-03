@@ -1,119 +1,92 @@
 [
   {
     "id": "user-1",
-    "name": "Sarah Chen",
+    "name": "Elena Petrova",
     "type": "user",
     "icon": "ph:user-fill",
-    "description": "Marketing Manager",
-    "searchableText": "sarah chen marketing manager campaigns",
-    "metadata": { "role": "Marketing Manager", "email": "sarah@company.com" }
+    "description": "Sustainability Manager",
+    "searchableText": "elena petrova sustainability manager circular economy",
+    "metadata": { "role": "Sustainability Manager", "email": "elena@circulareconomy.com" }
   },
   {
     "id": "user-2",
-    "name": "Marcus Rodriguez",
+    "name": "Javier Gomez",
     "type": "user",
     "icon": "ph:user-fill",
-    "description": "Sales Director",
-    "searchableText": "marcus rodriguez sales director revenue",
-    "metadata": { "role": "Sales Director", "email": "marcus@company.com" }
+    "description": "Supply Chain Analyst",
+    "searchableText": "javier gomez supply chain analyst logistics",
+    "metadata": { "role": "Supply Chain Analyst", "email": "javier@circulareconomy.com" }
   },
   {
     "id": "user-3",
-    "name": "Emily Watson",
+    "name": "Nia Adebayo",
     "type": "user",
     "icon": "ph:user-fill",
-    "description": "Operations Lead",
-    "searchableText": "emily watson operations lead logistics",
-    "metadata": { "role": "Operations Lead", "email": "emily@company.com" }
+    "description": "Refurbishment Technician",
+    "searchableText": "nia adebayo refurbishment technician repair",
+    "metadata": { "role": "Refurbishment Technician", "email": "nia@circulareconomy.com" }
   },
   {
     "id": "user-4",
-    "name": "David Kim",
+    "name": "Kenji Tanaka",
     "type": "user",
     "icon": "ph:user-fill",
-    "description": "Finance Manager",
-    "searchableText": "david kim finance manager budget",
-    "metadata": { "role": "Finance Manager", "email": "david@company.com" }
+    "description": "Eco-designer",
+    "searchableText": "kenji tanaka eco-designer product design",
+    "metadata": { "role": "Eco-designer", "email": "kenji@circulareconomy.com" }
   },
   {
     "id": "user-5",
-    "name": "Alex Thompson",
+    "name": "Fatima Al-Jamil",
     "type": "user",
     "icon": "ph:user-fill",
-    "description": "Project Coordinator",
-    "searchableText": "alex thompson project coordinator planning",
-    "metadata": { "role": "Project Coordinator", "email": "alex@company.com" }
+    "description": "Materials Scientist",
+    "searchableText": "fatima al-jamil materials scientist research",
+    "metadata": { "role": "Materials Scientist", "email": "fatima@circulareconomy.com" }
   },
   {
     "id": "user-6",
-    "name": "Alice Johnson",
+    "name": "David Chen",
     "type": "user",
     "icon": "ph:user-fill",
-    "description": "Product Designer",
-    "searchableText": "alice johnson product designer ui ux",
-    "metadata": { "role": "Product Designer", "email": "alice@company.com" }
+    "description": "Policy Advisor",
+    "searchableText": "david chen policy advisor regulations",
+    "metadata": { "role": "Policy Advisor", "email": "david@circulareconomy.com" }
   },
   {
     "id": "user-7",
-    "name": "Bob Smith",
+    "name": "Maria Garcia",
     "type": "user",
     "icon": "ph:user-fill",
-    "description": "Developer",
-    "searchableText": "bob smith developer engineer coding",
-    "metadata": { "role": "Developer", "email": "bob@company.com" }
+    "description": "Community Manager",
+    "searchableText": "maria garcia community manager outreach",
+    "metadata": { "role": "Community Manager", "email": "maria@circulareconomy.com" }
   },
   {
     "id": "user-8",
-    "name": "Charlie Brown",
+    "name": "Sam Wilson",
     "type": "user",
     "icon": "ph:user-fill",
-    "description": "QA Analyst",
-    "searchableText": "charlie brown qa analyst testing quality",
-    "metadata": { "role": "QA Analyst", "email": "charlie@company.com" }
+    "description": "Logistics Coordinator",
+    "searchableText": "sam wilson logistics coordinator transport",
+    "metadata": { "role": "Logistics Coordinator", "email": "sam@circulareconomy.com" }
   },
   {
     "id": "user-9",
-    "name": "Eve Davis",
+    "name": "Chloe Kim",
     "type": "user",
     "icon": "ph:user-fill",
-    "description": "Business Analyst",
-    "searchableText": "eve davis business analyst requirements",
-    "metadata": { "role": "Business Analyst", "email": "eve@company.com" }
+    "description": "Data Analyst",
+    "searchableText": "chloe kim data analyst metrics",
+    "metadata": { "role": "Data Analyst", "email": "chloe@circulareconomy.com" }
   },
   {
     "id": "user-10",
-    "name": "Michael Chen",
+    "name": "Ben Carter",
     "type": "user",
     "icon": "ph:user-fill",
-    "description": "Accountant",
-    "searchableText": "michael chen accountant finance accounting",
-    "metadata": { "role": "Accountant", "email": "michael@company.com" }
-  },
-  {
-    "id": "user-11",
-    "name": "Jennifer Martinez",
-    "type": "user",
-    "icon": "ph:user-fill",
-    "description": "Lawyer",
-    "searchableText": "jennifer martinez lawyer legal counsel",
-    "metadata": { "role": "Lawyer", "email": "jennifer@company.com" }
-  },
-  {
-    "id": "user-12",
-    "name": "Robert Johnson",
-    "type": "user",
-    "icon": "ph:user-fill",
-    "description": "HR Manager",
-    "searchableText": "robert johnson hr human resources manager",
-    "metadata": { "role": "HR Manager", "email": "robert@company.com" }
-  },
-  {
-    "id": "user-13",
-    "name": "Lisa Park",
-    "type": "user",
-    "icon": "ph:user-fill",
-    "description": "Data Scientist",
-    "searchableText": "lisa park data scientist analytics machine learning",
-    "metadata": { "role": "Data Scientist", "email": "lisa@company.com" }
+    "description": "Investment Analyst",
+    "searchableText": "ben carter investment analyst finance",
+    "metadata": { "role": "Investment Analyst", "email": "ben@circulareconomy.com" }
   }
 ]

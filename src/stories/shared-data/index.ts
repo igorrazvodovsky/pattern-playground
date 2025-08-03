@@ -7,25 +7,32 @@ import recentItemsData from './recent-items.json' with { type: 'json' };
 import tasksData from './tasks.json' with { type: 'json' };
 import transactionsData from './transactions.json' with { type: 'json' };
 
+// Filter-specific data
+import filterStatusesData from './statuses.json' with { type: 'json' };
+import filterLabelsData from './labels.json' with { type: 'json' };
+import filterPrioritiesData from './priorities.json' with { type: 'json' };
+import filterDatesData from './filter-dates.json' with { type: 'json' };
+
 export const users = usersData;
 export const projects = projectsData;
 export const documents = documentsData;
 export const commands = commandsData;
 export const recentItems = recentItemsData;
-export const tasks = tasksData;
 export const transactions = transactionsData;
 
-// Filter-specific data
-import filterStatusesData from './filter-statuses.json' with { type: 'json' };
-import filterLabelsData from './filter-labels.json' with { type: 'json' };
-import filterPrioritiesData from './filter-priorities.json' with { type: 'json' };
-import filterDatesData from './filter-dates.json' with { type: 'json' };
-
 // Re-export for external use
-export { default as filterStatuses } from './filter-statuses.json' with { type: 'json' };
-export { default as filterLabels } from './filter-labels.json' with { type: 'json' };
-export { default as filterPriorities } from './filter-priorities.json' with { type: 'json' };
+export { default as filterStatuses } from './statuses.json' with { type: 'json' };
+export { default as filterLabels } from './labels.json' with { type: 'json' };
+export { default as filterPriorities } from './priorities.json' with { type: 'json' };
 export { default as filterDates } from './filter-dates.json' with { type: 'json' };
+
+export const tasks = tasksData.map(task => ({
+  ...task,
+  status: filterStatusesData.find(status => status.id === task.statusId),
+  priority: filterPrioritiesData.find(priority => priority.id === task.priorityId),
+  assignee: users.find(user => user.id === task.assigneeId) || null,
+  labels: task.labelIds.map(labelId => filterLabelsData.find(label => label.id === labelId))
+}));
 
 // Utility functions
 export const getUserByName = (name: string) => {
@@ -44,13 +51,34 @@ export const getDocumentById = (id: string) => {
   return documents.find(doc => doc.id === id);
 };
 
+export const getTaskById = (id: string) => {
+  return tasks.find(task => task.id === id);
+};
+
+export const getStatusById = (id: string) => {
+  return filterStatusesData.find(status => status.id === id);
+};
+
+export const getPriorityById = (id: string) => {
+  return filterPrioritiesData.find(priority => priority.id === id);
+};
+
+export const getLabelById = (id: string) => {
+  return filterLabelsData.find(label => label.id === id);
+};
+
 // Type exports for better type safety
 export type User = typeof users[0];
 export type Project = typeof projects[0];
 export type Document = typeof documents[0];
 export type Command = typeof commands[0];
 export type RecentItem = typeof recentItems[0];
-export type Task = typeof tasks[0];
+export type Task = Omit<typeof tasksData[0], 'statusId' | 'priorityId' | 'assigneeId' | 'labelIds'> & {
+  status: typeof filterStatuses[0];
+  priority: typeof filterPriorities[0];
+  assignee: User | null;
+  labels: typeof filterLabels;
+};
 export type Transaction = typeof transactions[0];
 
 // Reference data using unified SearchableParent format (same as commands)

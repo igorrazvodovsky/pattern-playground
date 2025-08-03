@@ -1,122 +1,82 @@
 [
   {
     "id": "txn-001",
-    "amount": 125.50,
-    "description": "Software subscription renewal for team productivity tools",
+    "amount": 2500.00,
+    "description": "Sale of 10 tons of recycled PET plastic pellets",
     "status": "completed",
     "date": "2024-01-15",
-    "category": "Software"
+    "category": "Recycled Materials"
   },
   {
-    "id": "txn-002", 
-    "amount": 2450.00,
-    "description": "Hardware procurement for development workstations",
+    "id": "txn-002",
+    "amount": 50000.00,
+    "description": "Investment in new optical sorting technology for recycling plant",
     "status": "completed",
     "date": "2024-01-18",
-    "category": "Hardware"
+    "category": "Capital Expenditure"
   },
   {
     "id": "txn-003",
-    "amount": 89.99,
-    "description": "Cloud hosting services monthly payment",
+    "amount": 150.00,
+    "description": "Revenue from refurbished electronics sales",
     "status": "pending",
     "date": "2024-01-22",
-    "category": "Infrastructure"
+    "category": "Product Sales"
   },
   {
     "id": "txn-004",
-    "amount": 1200.00,
-    "description": "Consulting services for system architecture review",
-    "status": "completed", 
+    "amount": 3000.00,
+    "description": "Consulting fees for circular design workshop",
+    "status": "completed",
     "date": "2024-01-25",
-    "category": "Consulting"
+    "category": "Services"
   },
   {
     "id": "txn-005",
-    "amount": 75.00,
-    "description": "Domain registration and SSL certificate renewal",
+    "amount": 200.00,
+    "description": "Payment for transportation of collected e-waste",
     "status": "failed",
     "date": "2024-02-01",
-    "category": "Infrastructure"
+    "category": "Logistics"
   },
   {
     "id": "txn-006",
-    "amount": 350.00,
-    "description": "Design software licenses for creative team",
+    "amount": 800.00,
+    "description": "Purchase of biodegradable packaging materials",
     "status": "completed",
     "date": "2024-02-05",
-    "category": "Software"
+    "category": "Procurement"
   },
   {
     "id": "txn-007",
-    "amount": 180.00,
-    "description": "API service credits for third-party integrations",
+    "amount": 500.00,
+    "description": "Grant funding for urban composting project",
     "status": "pending",
     "date": "2024-02-08",
-    "category": "Infrastructure"
+    "category": "Funding"
   },
   {
     "id": "txn-008",
-    "amount": 925.00,
-    "description": "Security audit and penetration testing services",
+    "amount": 1200.00,
+    "description": "Lease payment for warehouse space for material sorting",
     "status": "completed",
     "date": "2024-02-12",
-    "category": "Security"
+    "category": "Operations"
   },
   {
     "id": "txn-009",
-    "amount": 65.00,
-    "description": "Backup storage service upgrade",
+    "amount": 150.00,
+    "description": "Subscription to material traceability software",
     "status": "pending",
     "date": "2024-02-15",
-    "category": "Infrastructure"
+    "category": "Software"
   },
   {
     "id": "txn-010",
-    "amount": 1800.00,
-    "description": "Training workshop for team skill development",
+    "amount": 4000.00,
+    "description": "Revenue from selling compost to local farms",
     "status": "completed",
     "date": "2024-02-20",
-    "category": "Training"
-  },
-  {
-    "id": "txn-011",
-    "amount": 45.99,
-    "description": "Analytics platform monthly subscription",
-    "status": "completed",
-    "date": "2024-02-22",
-    "category": "Software"
-  },
-  {
-    "id": "txn-012",
-    "amount": 300.00,
-    "description": "Code review and quality assurance tools",
-    "status": "failed",
-    "date": "2024-02-25",
-    "category": "Software"
-  },
-  {
-    "id": "txn-013",
-    "amount": 150.00,
-    "description": "Load testing services for application performance",
-    "status": "pending",
-    "date": "2024-03-01",
-    "category": "Testing"
-  },
-  {
-    "id": "txn-014",
-    "amount": 220.00,
-    "description": "Documentation platform and collaboration tools",
-    "status": "completed",
-    "date": "2024-03-05",
-    "category": "Software"
-  },
-  {
-    "id": "txn-015",
-    "amount": 850.00,
-    "description": "Database optimization and performance tuning",
-    "status": "completed",
-    "date": "2024-03-08",
-    "category": "Consulting"
+    "category": "Product Sales"
   }
 ]

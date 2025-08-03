@@ -1,42 +1,42 @@
 [
   {
-    "id": "obj-561",
-    "name": "OBJ-561",
-    "type": "object",
-    "icon": "ph:file",
-    "description": "Recently accessed object",
-    "searchableText": "obj-561 object recent"
+    "id": "mat-561",
+    "name": "MAT-561",
+    "type": "material",
+    "icon": "ph:package",
+    "description": "Recently accessed material",
+    "searchableText": "mat-561 material recent"
   },
   {
-    "id": "obj-568",
-    "name": "OBJ-568",
-    "type": "object",
-    "icon": "ph:file",
-    "description": "Recently accessed object",
-    "searchableText": "obj-568 object recent"
+    "id": "prod-568",
+    "name": "PROD-568",
+    "type": "product",
+    "icon": "ph:cube",
+    "description": "Recently accessed product",
+    "searchableText": "prod-568 product recent"
   },
   {
-    "id": "obj-541",
-    "name": "OBJ-541",
-    "type": "object",
-    "icon": "ph:file",
-    "description": "Recently accessed object",
-    "searchableText": "obj-541 object recent"
+    "id": "ws-541",
+    "name": "WS-541",
+    "type": "waste-stream",
+    "icon": "ph:trash",
+    "description": "Recently accessed waste stream",
+    "searchableText": "ws-541 waste-stream recent"
   },
   {
     "id": "recent-doc-1",
-    "name": "Team Meeting Notes",
+    "name": "Waste Audit Schedule",
     "type": "document",
     "icon": "ph:file-text",
     "description": "Recently accessed document",
-    "searchableText": "team meeting notes document recent"
+    "searchableText": "waste audit schedule document recent"
   },
   {
     "id": "recent-project-1",
-    "name": "Q4 Planning",
+    "name": "Urban Composting Initiative",
     "type": "project",
     "icon": "ph:folder",
     "description": "Recently accessed project",
-    "searchableText": "q4 planning project recent"
+    "searchableText": "urban composting initiative project recent"
   }
 ]
