@@ -1,9 +1,7 @@
 import * as React from "react";
 import { nanoid } from "nanoid";
 import { Icon } from '@iconify/react';
-// Removed unused Slot import
 
-// Component imports
 import {
   Command,
   CommandGroup,
@@ -18,7 +16,6 @@ import {
 import { AnimateChangeInHeight } from "../../../components/filter/animate-change-in-height";
 import Filters from "../../../components/filter/filters";
 
-// Type imports
 import {
   DueDate,
   FilterOperator,
@@ -29,36 +26,28 @@ import { useHierarchicalNavigation } from '../../../hooks/useHierarchicalNavigat
 import {
   createSortedSearchFunction,
   sortByRelevance
-} from '../../../utils/unified-hierarchical-search';
+} from '../../../utils/hierarchical-search';
 
-// AI functionality
 import { generateFilterSuggestions } from "../../../components/filter/adapters/ai-filter-adapter";
 
-// Unified data
 import { filterCategories } from "../../shared-data";
 
-// Styles
 import '../../../components/dropdown/dropdown.ts';
 import 'iconify-icon';
 import '../../../jsx-types';
 
-// Constants
 const DROPDOWN_CLOSE_DELAY = 200;
 const MIN_AI_TRIGGER_LENGTH = 3;
 
-// No custom types needed - using unified SearchableParent/SearchableItem!
 
 
-// Utility function for operator selection
 const getFilterOperator = (filterType: FilterType, value: string): FilterOperator => {
   return filterType === FilterType.DUE_DATE && value !== DueDate.IN_THE_PAST
     ? FilterOperator.BEFORE
     : FilterOperator.IS;
 };
 
-// No more transformation needed - use unified data directly!
 
-// Custom hooks
 const useFilterState = (initialFilters: Filter[] = []) => {
   const [filters, setFilters] = React.useState<Filter[]>(initialFilters);
 
@@ -98,16 +87,27 @@ export function FilteringDemo({
 } = {}) {
   const dropdownRef = React.useRef<{ hide: () => void } | null>(null);
 
-  // State management
   const { filters, setFilters, addFilter, clearFilters, hasActiveFilters } = useFilterState(initialFilters);
   const { hideDropdownWithDelay } = useDropdownState(dropdownRef);
 
-  // Hierarchical navigation setup - no transformation needed!
   const { state, actions, results, inputRef, placeholder } = useHierarchicalNavigation({
     data: filterCategories,
     searchFunction: createSortedSearchFunction(
-      (types, query) => sortByRelevance(types, query),
-      (values, query) => sortByRelevance(values, query)
+      (types, query) => sortByRelevance(types, query, { 
+        threshold: 0.05, 
+        minMatchCharLength: 2,
+        includeChildrenOnParentMatch: false
+      }),
+      (values, query) => sortByRelevance(values, query, { 
+        threshold: 0.05, 
+        minMatchCharLength: 2,
+        includeChildrenOnParentMatch: false
+      }),
+      { 
+        threshold: 0.05, 
+        minMatchCharLength: 2,
+        includeChildrenOnParentMatch: false
+      }
     ),
     onSelectChild: (filterValue: { filterType: FilterType; value: string }) => {
       addFilter(filterValue.filterType, filterValue.value);
@@ -117,7 +117,6 @@ export function FilteringDemo({
     contextPlaceholder: (type) => type.name
   });
 
-  // AI integration - use unified filter data
   const availableValues = React.useMemo(() =>
     Object.fromEntries(
       filterCategories.map(category => [
@@ -152,7 +151,6 @@ export function FilteringDemo({
     hideDropdownWithDelay();
   }, [handleApplyAIResult, hideDropdownWithDelay, setFilters]);
 
-  // Trigger AI when searching globally but only when no results are found
   const hasResults = React.useMemo(() => {
     return results.parents.length > 0 || results.children.length > 0;
   }, [results.parents.length, results.children.length]);
@@ -191,7 +189,7 @@ export function FilteringDemo({
                 ref={inputRef}
               />
               <CommandList>
-                {!hasResults && (
+                {!hasResults && state.searchInput.length >= 2 && (
                   <AIFallbackHandler
                     searchInput={state.searchInput}
                     aiState={aiState}

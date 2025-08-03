@@ -7,7 +7,7 @@ import {
   CommandEmpty
 } from '../command-menu/command';
 import { useHierarchicalNavigation, type SearchableParent, type SearchableItem } from '../../hooks/useHierarchicalNavigation';
-import { createSortedSearchFunction, sortByRelevance } from '../../utils/unified-hierarchical-search';
+import { createSortedSearchFunction, sortByRelevance } from '../../utils/hierarchical-search';
 import type {
   SelectedReference,
   ReferencePickerProps,
@@ -160,6 +160,7 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
               )}
 
               {state.searchInput &&
+               state.searchInput.length >= 2 &&
                results.parents.length === 0 &&
                results.children.length === 0 && (
                 <CommandEmpty>No references found for "{state.searchInput}".</CommandEmpty>

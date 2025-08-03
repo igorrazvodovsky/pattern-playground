@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
+import Fuse from 'fuse.js';
 
-// Generic types for hierarchical search
 export interface SearchableItem {
   id: string;
   name: string;
@@ -16,34 +16,42 @@ export interface SearchableParent extends SearchableItem {
 export interface SearchableChildMatch {
   parent: SearchableParent;
   child: SearchableItem;
+  score?: number;
 }
 
 export interface SearchResults<TParent extends SearchableParent = SearchableParent, TChild extends SearchableItem = SearchableItem> {
   parents: TParent[];
   children: SearchableChildMatch[];
   viewOptions?: TChild[];
+  contextualItems?: TChild[];
 }
 
-// Generic search configuration
 export interface SearchConfig {
+  threshold?: number;
+  keys?: Array<string | { name: string; weight: number }>;
+  minMatchCharLength?: number;
+  includeScore?: boolean;
+  
   caseSensitive?: boolean;
   parentNameCleanup?: (name: string) => string;
   includeChildrenOnParentMatch?: boolean;
-  enableFuzzyMatching?: boolean;
   minRelevanceScore?: number;
 }
 
 const defaultConfig: Required<SearchConfig> = {
+  threshold: 0.2,
+  keys: [
+    { name: 'name', weight: 0.7 },
+    { name: 'searchableText', weight: 0.3 }
+  ],
+  minMatchCharLength: 2,
+  includeScore: true,
   caseSensitive: false,
   parentNameCleanup: (name: string) => name.replace('…', ''),
   includeChildrenOnParentMatch: true,
-  enableFuzzyMatching: false,
   minRelevanceScore: 0,
 };
 
-/**
- * Generic hierarchical search function that works with parent-child data structures
- */
 export function searchHierarchy<TParent extends SearchableParent, TChild extends SearchableItem>(
   query: string,
   parents: TParent[],
@@ -55,56 +63,57 @@ export function searchHierarchy<TParent extends SearchableParent, TChild extends
     return { parents, children: [] };
   }
 
-  const processedQuery = finalConfig.caseSensitive ? query : query.toLowerCase();
+  if (query.trim().length < finalConfig.minMatchCharLength) {
+    return { parents, children: [] };
+  }
 
-  // Helper function to check if text matches query
-  const matchesQuery = (text: string): boolean => {
-    const processedText = finalConfig.caseSensitive ? text : text.toLowerCase();
-
-    if (finalConfig.enableFuzzyMatching) {
-      // Simple fuzzy matching - check if all characters exist in order
-      let queryIndex = 0;
-      for (let i = 0; i < processedText.length && queryIndex < processedQuery.length; i++) {
-        if (processedText[i] === processedQuery[queryIndex]) {
-          queryIndex++;
-        }
-      }
-      return queryIndex === processedQuery.length;
-    }
-
-    return processedText.includes(processedQuery);
-  };
-
-  // Filter parents that match the query
-  const matchingParents = parents.filter(parent => {
-    const searchText = parent.searchableText || parent.name;
-    return matchesQuery(searchText);
+  const parentFuse = new Fuse(parents, {
+    threshold: finalConfig.threshold,
+    keys: finalConfig.keys,
+    minMatchCharLength: finalConfig.minMatchCharLength,
+    includeScore: finalConfig.includeScore,
+    isCaseSensitive: finalConfig.caseSensitive,
   });
 
-  // Find child matches
+  const parentResults = parentFuse.search(query);
+  const matchingParents = parentResults.map(result => result.item as TParent);
+
   const childMatches: SearchableChildMatch[] = [];
 
   parents.forEach(parent => {
     if (!parent.children) return;
 
-    // Direct child matches
-    const directChildMatches = parent.children.filter(child => {
-      const searchText = child.searchableText || child.name;
-      return matchesQuery(searchText);
+    const childFuse = new Fuse(parent.children, {
+      threshold: finalConfig.threshold,
+      keys: finalConfig.keys,
+      minMatchCharLength: finalConfig.minMatchCharLength,
+      includeScore: finalConfig.includeScore,
+      isCaseSensitive: finalConfig.caseSensitive,
     });
 
-    directChildMatches.forEach(child => {
-      childMatches.push({ parent, child });
+    const childResults = childFuse.search(query);
+    childResults.forEach(result => {
+      childMatches.push({
+        parent,
+        child: result.item,
+        score: result.score
+      });
     });
 
-    // Include all children if parent matches (and config allows)
     if (finalConfig.includeChildrenOnParentMatch) {
       const cleanParentName = finalConfig.parentNameCleanup(parent.name);
-      const parentMatches = matchesQuery(cleanParentName) || matchesQuery(parent.name);
-
+      
+      const parentTestFuse = new Fuse([{ name: cleanParentName }, { name: parent.name }], {
+        threshold: finalConfig.threshold,
+        keys: ['name'],
+        minMatchCharLength: finalConfig.minMatchCharLength,
+        isCaseSensitive: finalConfig.caseSensitive,
+      });
+      
+      const parentMatches = parentTestFuse.search(query).length > 0;
+      
       if (parentMatches) {
         parent.children.forEach(child => {
-          // Avoid duplicates
           const alreadyIncluded = childMatches.some(
             match => match.parent.id === parent.id && match.child.id === child.id
           );
@@ -116,15 +125,19 @@ export function searchHierarchy<TParent extends SearchableParent, TChild extends
     }
   });
 
+  childMatches.sort((a, b) => {
+    if (a.score !== undefined && b.score !== undefined) {
+      return a.score - b.score;
+    }
+    return 0;
+  });
+
   return {
     parents: matchingParents,
     children: childMatches
   } as SearchResults<TParent, TChild>;
 }
 
-/**
- * Search within a specific parent's children
- */
 export function searchWithinParent<TChild extends SearchableItem>(
   query: string,
   parent: SearchableParent,
@@ -135,74 +148,163 @@ export function searchWithinParent<TChild extends SearchableItem>(
   if (!parent.children) return [];
   if (!query.trim()) return parent.children as TChild[];
 
-  const processedQuery = finalConfig.caseSensitive ? query : query.toLowerCase();
+  if (query.trim().length < finalConfig.minMatchCharLength) {
+    return [];
+  }
 
-  const matchesQuery = (text: string): boolean => {
-    const processedText = finalConfig.caseSensitive ? text : text.toLowerCase();
-    return processedText.includes(processedQuery);
-  };
+  const childFuse = new Fuse(parent.children, {
+    threshold: finalConfig.threshold,
+    keys: finalConfig.keys,
+    minMatchCharLength: finalConfig.minMatchCharLength,
+    includeScore: finalConfig.includeScore,
+    isCaseSensitive: finalConfig.caseSensitive,
+  });
 
-  return parent.children.filter(child => {
-    const searchText = child.searchableText || child.name;
-    return matchesQuery(searchText);
-  }) as TChild[];
+  const results = childFuse.search(query);
+  return results.map(result => result.item as TChild);
 }
 
-/**
- * Calculate relevance score for search result ordering
- */
 export function calculateRelevanceScore(
   item: SearchableItem,
   query: string,
   config: SearchConfig = {}
 ): number {
   const finalConfig = { ...defaultConfig, ...config };
-  const processedQuery = finalConfig.caseSensitive ? query : query.toLowerCase();
-  const processedName = finalConfig.caseSensitive ? item.name : item.name.toLowerCase();
-  const processedSearchText = item.searchableText
-    ? (finalConfig.caseSensitive ? item.searchableText : item.searchableText.toLowerCase())
-    : processedName;
 
-  let score = 0;
+  if (!query.trim()) return 0;
 
-  // Exact match gets highest score
-  if (processedName === processedQuery) {
-    score += 100;
-  }
-  // Name starts with query gets high score
-  else if (processedName.startsWith(processedQuery)) {
-    score += 80;
-  }
-  // Name contains query gets medium score
-  else if (processedName.includes(processedQuery)) {
-    score += 60;
-  }
-  // Searchable text contains query gets lower score
-  else if (processedSearchText.includes(processedQuery)) {
-    score += 40;
+  // Don't calculate score if query is shorter than minimum match length
+  if (query.trim().length < finalConfig.minMatchCharLength) {
+    return 0;
   }
 
-  // Boost score for shorter names (more relevant)
-  const lengthPenalty = Math.max(0, item.name.length - query.length) * 0.5;
-  score -= lengthPenalty;
+  const fuse = new Fuse([item], {
+    threshold: 1,
+    keys: finalConfig.keys,
+    minMatchCharLength: finalConfig.minMatchCharLength,
+    includeScore: true,
+    isCaseSensitive: finalConfig.caseSensitive,
+  });
 
-  return Math.max(0, score);
+  const results = fuse.search(query);
+  if (results.length === 0) return 0;
+
+  const fuseScore = results[0].score ?? 1;
+  return Math.round((1 - fuseScore) * 100);
 }
 
-/**
- * Sort search results by relevance
- */
 export function sortByRelevance<T extends SearchableItem>(
   items: T[],
   query: string,
   config: SearchConfig = {}
 ): T[] {
-  return items
-    .map(item => ({
-      item,
-      score: calculateRelevanceScore(item, query, config)
-    }))
-    .filter(({ score }) => score >= config.minRelevanceScore || 0)
-    .sort((a, b) => b.score - a.score)
-    .map(({ item }) => item);
+  const finalConfig = { ...defaultConfig, ...config };
+
+  if (!query.trim()) return items;
+
+  if (query.trim().length < finalConfig.minMatchCharLength) {
+    return [];
+  }
+
+  const fuse = new Fuse(items, {
+    threshold: 1,
+    keys: finalConfig.keys,
+    minMatchCharLength: finalConfig.minMatchCharLength,
+    includeScore: true,
+    isCaseSensitive: finalConfig.caseSensitive,
+  });
+
+  const results = fuse.search(query);
+  
+  const minRelevanceScore = config.minRelevanceScore ?? 0;
+  
+  return results
+    .filter(result => {
+      if (minRelevanceScore > 0 && result.score !== undefined) {
+        const relevanceScore = (1 - result.score) * 100;
+        return relevanceScore >= minRelevanceScore;
+      }
+      return true;
+    })
+    .map(result => result.item);
+}
+
+export interface HierarchicalSearchResults<TParent extends SearchableParent, TChild extends SearchableItem> {
+  parents: TParent[];
+  children: Array<{ parent: TParent; child: TChild }>;
+  contextualItems?: TChild[];
+}
+
+export function createUnifiedSearchFunction<TParent extends SearchableParent, TChild extends SearchableItem>() {
+  return (
+    input: string,
+    data: TParent[],
+    context?: TParent,
+    config: SearchConfig = {}
+  ): HierarchicalSearchResults<TParent, TChild> => {
+    if (context) {
+      const contextualItems = searchWithinParent<TChild>(input, context, config);
+      return {
+        parents: [],
+        children: [],
+        contextualItems
+      };
+    } else {
+      const results = searchHierarchy<TParent, TChild>(input, data, config);
+      return {
+        parents: results.parents,
+        children: results.children.map(match => ({
+          parent: match.parent as TParent,
+          child: match.child as TChild
+        }))
+      };
+    }
+  };
+}
+
+export function createSortedSearchFunction<TParent extends SearchableParent, TChild extends SearchableItem>(
+  sortParents?: (parents: TParent[], query: string) => TParent[],
+  sortChildren?: (children: TChild[], query: string) => TChild[],
+  config: SearchConfig = {}
+) {
+  const searchFn = createUnifiedSearchFunction<TParent, TChild>();
+  
+  return (
+    input: string,
+    data: TParent[],
+    context?: TParent
+  ): HierarchicalSearchResults<TParent, TChild> => {
+    const baseResults = searchFn(input, data, context, config);
+
+    if (context && baseResults.contextualItems) {
+      const sorted = sortChildren 
+        ? sortChildren(baseResults.contextualItems, input)
+        : sortByRelevance(baseResults.contextualItems, input, config);
+      
+      return {
+        ...baseResults,
+        contextualItems: sorted
+      };
+    } else {
+      const sortedParents = sortParents 
+        ? sortParents(baseResults.parents, input)
+        : sortByRelevance(baseResults.parents, input, config);
+
+      const sortedChildren = sortChildren
+        ? sortChildren(baseResults.children.map(c => c.child), input).map(child => {
+            const match = baseResults.children.find(c => c.child.id === child.id);
+            return match!;
+          })
+        : baseResults.children.sort((a, b) => {
+            const aScore = calculateRelevanceScore(a.child, input, config);
+            const bScore = calculateRelevanceScore(b.child, input, config);
+            return bScore - aScore;
+          });
+
+      return {
+        parents: sortedParents,
+        children: sortedChildren
+      };
+    }
+  };
 }

@@ -67,31 +67,46 @@ export function useHierarchicalNavigation<TParent extends SearchableParent, TChi
 } {
   const [selectedContext, setSelectedContext] = useState<TParent | null>(null);
   const [searchInput, setSearchInput] = useState("");
+  const [debouncedSearchInput, setDebouncedSearchInput] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Determine current mode
   const mode = selectedContext ? 'contextual' : 'global';
 
-  // Get search results based on current mode
+  useEffect(() => {
+    if (debounceTimeoutRef.current) {
+      clearTimeout(debounceTimeoutRef.current);
+    }
+    
+    debounceTimeoutRef.current = setTimeout(() => {
+      setDebouncedSearchInput(searchInput);
+    }, 300);
+    
+    return () => {
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current);
+      }
+    };
+  }, [searchInput]);
+
   const results = useMemo(() => {
     if (selectedContext) {
-      // Contextual mode: search within selected context
-      const contextualItems = config.searchFunction(searchInput, [selectedContext], selectedContext).contextualItems || [];
+      const contextualItems = config.searchFunction(debouncedSearchInput, [selectedContext], selectedContext).contextualItems || [];
       return {
         parents: [],
         children: [],
         contextualItems
       };
     } else {
-      // Global mode: search across all data
-      return config.searchFunction(searchInput, config.data);
+      return config.searchFunction(debouncedSearchInput, config.data);
     }
-  }, [searchInput, selectedContext, config]);
+  }, [debouncedSearchInput, selectedContext, config]);
 
-  // Actions
   const selectContext = useCallback((context: TParent) => {
     setSelectedContext(context);
     setSearchInput("");
+    setDebouncedSearchInput("");
     config.onSelectParent?.(context);
     // Focus input after state update
     setTimeout(() => inputRef.current?.focus(), 0);
@@ -102,17 +117,20 @@ export function useHierarchicalNavigation<TParent extends SearchableParent, TChi
     // Reset state after selection (can be overridden by caller)
     setSelectedContext(null);
     setSearchInput("");
+    setDebouncedSearchInput("");
     config.onClose?.();
   }, [config, selectedContext]);
 
   const clearContext = useCallback(() => {
     setSelectedContext(null);
     setSearchInput("");
+    setDebouncedSearchInput("");
     setTimeout(() => inputRef.current?.focus(), 0);
   }, []);
 
   const updateSearch = useCallback((query: string) => {
     setSearchInput(query);
+    setDebouncedSearchInput(query); // Skip debounce for external updates
   }, []);
 
   const handleEscape = useCallback(() => {
@@ -126,6 +144,7 @@ export function useHierarchicalNavigation<TParent extends SearchableParent, TChi
   const resetState = useCallback(() => {
     setSelectedContext(null);
     setSearchInput("");
+    setDebouncedSearchInput("");
   }, []);
 
   // Determine placeholder text

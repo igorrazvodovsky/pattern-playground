@@ -1,31 +1,34 @@
 # Fuse.js Search Implementation Plan
 
 ## Overview
-Replace basic string matching in hierarchical search components with Fuse.js for improved fuzzy search, typo tolerance, and relevance scoring across CommandMenu, Filtering, and Reference components.
+Enhance hierarchical search components with Fuse.js for improved fuzzy search, typo tolerance, and relevance scoring across CommandMenu, Filtering, and Reference components.
 
 ## Current State Analysis
 
 ### Components Using Search
-1. **CommandMenu** (`src/stories/patterns/CommandMenu/CommandMenu.tsx`)
-   - Uses `unified-hierarchical-search.ts` with `sortByRelevance`
-   - Searches commands and actions with simple `includes()` matching
-   - Recent items filtering on line 97-101
+1. **CommandMenu** (`src/components/command-menu/hooks/use-command-navigation.ts`)
+   - Uses `src/utils/hierarchical-search.ts` directly
+   - Calls `searchHierarchy` and `searchWithinParent` functions
+   - Already has comprehensive search infrastructure
 
 2. **Filtering** (`src/stories/compositions/Filtering/Filtering.tsx`)
-   - Uses same unified search system
+   - Uses `src/utils/unified-hierarchical-search.ts`
    - Searches filter categories and values
 
 3. **Reference** (`src/stories/primitives/reference/Reference.stories.tsx`)
    - Uses ReferenceEditor component with hierarchical data
    - Searches users, projects, documents
 
-### Current Search Implementation
-- **File**: `src/utils/unified-hierarchical-search.ts`
-- **Method**: Simple `toLowerCase().includes()` matching (lines 26-34)
-- **Sorting**: Basic relevance scoring (lines 100-127)
-  - Exact matches first
-  - Starts-with matches second
-  - Alphabetical fallback
+### Current Search Implementations
+1. **Primary Library**: `src/utils/hierarchical-search.ts`
+   - Advanced configuration system with `SearchConfig` interface
+   - Already has `enableFuzzyMatching` option (currently simple implementation)
+   - Comprehensive relevance scoring system
+   - Used by CommandMenu component
+
+2. **Secondary Library**: `src/utils/unified-hierarchical-search.ts`
+   - Simpler implementation with basic `includes()` matching
+   - Used by Filtering and Reference components
 
 ## Implementation Plan
 
@@ -36,87 +39,111 @@ Replace basic string matching in hierarchical search components with Fuse.js for
    npm install -D @types/fuse.js
    ```
 
-2. **Create Fuse.js configuration utility**
-   - File: `src/utils/search-config.ts`
-   - Define search configurations for different component types
-   - Configure keys, weights, and options per use case
+2. **Plan complete rewrite**
+   - Design new Fuse.js-first SearchConfig interface
+   - Plan component migration strategy
 
-### Phase 2: Enhanced Search Utility
-1. **Create Fuse.js search wrapper**
-   - File: `src/utils/hierarchical-search.ts`
-   - Maintain existing `HierarchicalSearchResults` interface
-   - Replace `sortByRelevance` with Fuse.js scoring
-   - Keep hierarchical search structure intact
+### Phase 2: Completely Rewrite Search Libraries
+1. **Replace `src/utils/hierarchical-search.ts`**
+   - Complete rewrite using Fuse.js as primary search engine
+   - Remove all legacy string matching code (lines 61-76, 140-143)
+   - Replace manual relevance scoring (lines 154-190) with Fuse.js scores
+   - Modernize with latest JavaScript/TypeScript features
 
-2. **Configuration per component type**
-   - **Commands**: Weight `name` higher, include `searchableText`
-   - **Filters**: Search across filter type names and values
-   - **References**: Search across user names, roles, project titles
+2. **New SearchConfig interface**
+   ```typescript
+   interface SearchConfig {
+     threshold?: number;
+     keys?: Array<string | { name: string; weight: number }>;
+     minMatchCharLength?: number;
+     includeScore?: boolean;
+     caseSensitive?: boolean;
+     parentNameCleanup?: (name: string) => string;
+     includeChildrenOnParentMatch?: boolean;
+   }
+   ```
 
-### Phase 3: Component Integration
-1. **Replace unified-hierarchical-search.ts**
-   - Completely rewrite with modern Fuse.js implementation
-   - Optimize interfaces for Fuse.js capabilities
-   - Use latest JavaScript/TypeScript features
+3. **Delete `src/utils/unified-hierarchical-search.ts`**
+   - Remove file completely - no longer needed
+   - Updated `hierarchical-search.ts` provides all functionality
+   - Export compatible interfaces for existing components
 
-2. **Update component implementations**
-   - Update CommandMenu component to use new search API
-   - Modify Filtering component for optimized search interface
-   - Enhance Reference picker with improved fuzzy matching
-   
-3. **Test component behavior**
-   - Verify CommandMenu search quality improves
-   - Check Filtering component maintains functionality
-   - Ensure Reference picker works with fuzzy matching
+### Phase 3: Update All Components
+1. **Update CommandMenu implementation**
+   - Modify `src/components/command-menu/hooks/use-command-navigation.ts`
+   - Configure optimal Fuse.js settings for command search
+   - Weight `name` higher than `searchableText`
 
-### Phase 4: Fine-tuning and Optimization
-1. **Configure search thresholds**
-   - Set appropriate `threshold` values for each component
-   - Balance between precision and recall
+2. **Update Filtering component**
+   - Modify `src/stories/compositions/Filtering/Filtering.tsx`
+   - Configure Fuse.js for filter categories and values
+   - Optimize search keys and weights
 
-2. **Performance optimization**
-   - Implement search debouncing if needed
-   - Consider search result caching for large datasets
+3. **Update Reference component**
+   - Modify `src/stories/primitives/reference/Reference.stories.tsx`
+   - Configure search across user names, roles, project titles
+   - Set appropriate search thresholds
+
+### Phase 4: Testing and Optimization
+1. **Comprehensive testing**
+   - Unit tests for new search implementations
+   - Integration tests for all updated components
+   - Performance benchmarks vs old implementation
+
+2. **Fine-tuning**
+   - Optimize Fuse.js thresholds per component
+   - Implement search debouncing
+   - Consider result caching for large datasets
 
 ## Technical Details
 
-### Fuse.js Configuration Structure
+### New SearchConfig Interface
+Completely redesigned to be Fuse.js-first:
 ```typescript
-interface FuseSearchConfig {
-  keys: Array<string | { name: string; weight: number }>;
-  threshold: number;
-  includeScore: boolean;
-  minMatchCharLength: number;
+interface SearchConfig {
+  // Fuse.js core options
+  threshold?: number;
+  keys?: Array<string | { name: string; weight: number }>;
+  minMatchCharLength?: number;
+  includeScore?: boolean;
+  
+  // Hierarchical search options
+  caseSensitive?: boolean;
+  parentNameCleanup?: (name: string) => string;
+  includeChildrenOnParentMatch?: boolean;
 }
 ```
 
+### Modern Implementation Approach
+- **Fuse.js first**: All search powered by Fuse.js, no legacy fallbacks
+- **Complete rewrite**: Remove all existing string matching and scoring code
+- **Modern JavaScript**: Use latest ES2023+ features throughout
+- **Unified architecture**: Single comprehensive search library
+- **Optimized performance**: Best possible search speed and accuracy
+
 ### Search Result Enhancement
 - Maintain existing `SearchableParent` and `SearchableItem` interfaces
-- Add optional score information for advanced sorting
+- Use Fuse.js scores for all relevance ranking
 - Preserve hierarchical search behavior
-
-### Implementation Approach
-- Replace existing search implementation completely with Fuse.js
-- Modernize search architecture without legacy compatibility constraints
-- Focus on optimal implementation using latest Fuse.js features
+- Add Fuse.js score information for better debugging
 
 ## Success Criteria
-1. **Improved search quality**: Fuzzy matching handles typos
-2. **Better relevance**: More accurate result ranking
-3. **Modern implementation**: Uses latest Fuse.js and JavaScript features
-4. **Optimized performance**: Best possible search speed and accuracy
+1. **Superior search quality**: Professional fuzzy matching with typo tolerance
+2. **Better relevance ranking**: Fuse.js-powered scoring system
+3. **Modern implementation**: Latest JavaScript features and best practices
+4. **Optimized performance**: Fast, accurate search across all components
+5. **Unified architecture**: Single comprehensive search solution
 
 ## Files to Modify
-- `src/utils/unified-hierarchical-search.ts` - Core search logic
-- `src/utils/search-config.ts` - New configuration file
-- `src/utils/hierarchical-search.ts` - New Fuse.js wrapper
-- `src/stories/patterns/CommandMenu/CommandMenu.tsx` - Update search integration
-- `src/stories/compositions/Filtering/Filtering.tsx` - Update search integration
-- `src/stories/primitives/reference/Reference.stories.tsx` - Update search integration
+- `src/utils/hierarchical-search.ts` - Complete rewrite with Fuse.js
+- `src/utils/unified-hierarchical-search.ts` - **DELETE** (no longer needed)
+- `src/components/command-menu/hooks/use-command-navigation.ts` - Update to use new search API
+- `src/stories/compositions/Filtering/Filtering.tsx` - Update to use `hierarchical-search.ts`
+- `src/stories/primitives/reference/Reference.stories.tsx` - Update to use `hierarchical-search.ts`
 - `package.json` - Add Fuse.js dependency
 
 ## Testing Strategy
-1. **Unit tests**: Test search quality improvements
-2. **Integration tests**: Verify component behavior unchanged
-3. **Manual testing**: Test search experience across all three components
-4. **Performance testing**: Ensure no degradation in search speed
+1. **Complete functionality**: Test all search scenarios work with new implementation
+2. **Performance benchmarks**: Measure search speed vs old implementation
+3. **Search quality**: Test fuzzy matching and relevance improvements
+4. **Component integration**: Verify all three component types work correctly

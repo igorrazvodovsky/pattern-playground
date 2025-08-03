@@ -1,6 +1,5 @@
 import { useMemo, useCallback, useEffect } from 'react'
 
-// Component imports
 import {
   Command,
   CommandGroup,
@@ -13,50 +12,37 @@ import {
   type AICommandItem
 } from "../../../components/command-menu";
 
-// Type imports
 import { useHierarchicalNavigation, type SearchableItem } from '../../../hooks/useHierarchicalNavigation';
 import type { CommandParent, CommandChild } from '../../../types/hierarchical-navigation';
-import { createSortedSearchFunction, sortByRelevance } from '../../../utils/unified-hierarchical-search';
+import { createSortedSearchFunction, sortByRelevance } from '../../../utils/hierarchical-search';
 
-// AI functionality
 import {
   createAISuggestionService,
   createCommandSuggestionRequest
 } from '../../../services/ai-suggestion-service';
 import { convertToAICommandResult } from '../../../components/command-menu/adapters/ai-command-adapter';
 
-// Data
 import { commands, recentItems } from '../../shared-data';
 
-// Styles
 import 'iconify-icon';
 import '../../../jsx-types';
-
-
-// Constants
 const MIN_AI_TRIGGER_LENGTH = 3;
 
-// Define the command structure using shared hierarchical types
 interface CommandOption extends CommandParent {
   children?: CommandChildOption[];
 }
 
 interface CommandChildOption extends CommandChild {
-  // Command-specific properties can be added here
 }
 
 interface RecentItem extends SearchableItem {
-  // Recent item specific properties can be added here
 }
 
-// Use centralized command data
 const commandData: CommandOption[] = commands as CommandOption[];
 
-// Use centralized recent items data
 const recentItemsData: RecentItem[] = recentItems as RecentItem[];
 
 function CommandMenu({ onClose }: { onClose?: () => void } = {}) {
-  // Hierarchical navigation setup
   const { state, actions, results, inputRef, placeholder } = useHierarchicalNavigation({
     data: commandData,
     searchFunction: createSortedSearchFunction(
@@ -72,7 +58,6 @@ function CommandMenu({ onClose }: { onClose?: () => void } = {}) {
     contextPlaceholder: (command) => command.name
   });
 
-  // AI integration
   const aiService = useMemo(() => createAISuggestionService(), []);
   const availableActions = useMemo(() =>
     Object.fromEntries(
@@ -90,8 +75,6 @@ function CommandMenu({ onClose }: { onClose?: () => void } = {}) {
     onAIRequest: handleAIRequest
   });
 
-
-  // Recent items filtering
   const filteredRecentItems = useMemo(() => {
     if (!state.searchInput.trim()) return recentItemsData;
     const processedQuery = state.searchInput.toLowerCase();
@@ -101,7 +84,6 @@ function CommandMenu({ onClose }: { onClose?: () => void } = {}) {
     });
   }, [state.searchInput]);
 
-  // Check if there are any results
   const hasResults = useMemo(() => {
     if (state.mode === 'contextual') {
       return (results.contextualItems?.length || 0) > 0;
@@ -109,7 +91,6 @@ function CommandMenu({ onClose }: { onClose?: () => void } = {}) {
     return results.parents.length > 0 || results.children.length > 0 || filteredRecentItems.length > 0;
   }, [state.mode, results, filteredRecentItems]);
 
-  // AI command handling
   const handleApplyAICommands = useCallback((result: AICommandResult) => {
     result.suggestedItems.forEach((item: AICommandItem) => {
       console.log(`Executing AI command: ${item.label}`, item.metadata);
@@ -119,7 +100,6 @@ function CommandMenu({ onClose }: { onClose?: () => void } = {}) {
     onClose?.();
   }, [handleApplyAIResult, actions, onClose]);
 
-  // Trigger AI when searching globally with no results
   useEffect(() => {
     if (state.searchInput && state.mode === 'global' && state.searchInput.length >= MIN_AI_TRIGGER_LENGTH && !hasResults) {
       handleAICommandRequest(state.searchInput);
