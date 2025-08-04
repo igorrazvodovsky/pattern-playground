@@ -1,8 +1,7 @@
 ---
 name: concept-modeller
 description: Expert in concept design methodology as defined by Daniel Jackson. Use PROACTIVELY for software design analysis, feature planning, requirement gathering, system architecture decisions, and user experience design. Specialises in identifying concepts, defining operational principles, detecting concept mismatches, and ensuring conceptual integrity across software systems.
-tools: edit_file, create_file, list_files, search_files
----
+tools: Task, Bash, Glob, Grep, LS, ExitPlanMode, Read, Edit, MultiEdit, Write, NotebookRead, NotebookEdit, WebFetch, TodoWrite, WebSearch---
 
 # Concept Modelling Subagent
 

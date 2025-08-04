@@ -1,0 +1,42 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Concepts/Event" />
+
+# Event
+
+## Purpose
+
+To record what happened so actor can understand and learn from actions, decisions and their outcomes, whether initiated by user, other people, the system, or AI.
+
+## Operational principle
+
+If any actor (user, other person, system, or AI) performs an action that changes the system or produces
+an outcome, then an Event is automatically recorded with precise timing and context,
+so actor can later trace exactly what happened, when it happened, and who or what initiated it -
+enabling actor to understand sequences of actions, debug problems, and maintain accountability across all actors.
+
+## State
+
+- id: Unique identifier for this Event
+- timestamp: When the occurrence happened
+- type: What kind of occurrence this represents
+- actor: Who or what initiated this Event (user, other person, system, or AI)
+- details: Relevant context and data about what happened
+- urgency: the level of importance or immediacy
+- scope?: the context in which the event is relevant (e.g., global, local)
+
+## Actions
+
+- create: Generate a new Event when an occurrence happens
+- emit?: Broadcast the Event to interested listeners or systems
+
+## Synchronizations
+
+### With EventLog
+When an Event is created, EventLog automatically appends it to maintain chronological order.
+
+### With Notification
+When an Event of significant interest occurs, Notification can be triggered to alert users immediately.
+
+### With Task
+When Task actions are performed (start, complete, fail), Events are recorded to maintain audit trail of task execution.

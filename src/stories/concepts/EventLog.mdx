@@ -1,0 +1,36 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Concepts/Event log" />
+
+# Event log
+
+## Purpose
+
+To preserve the chronological story of what happened so you can follow sequences and understand how situations developed.
+
+## Operational principle
+
+If actor needs to understand what happened, then the Event log maintains all Events in chronological order, so actor can trace the complete sequence of actions, identify patterns, investigate issues by following the timeline, and see how current state emerged from past events.
+
+## State
+
+- events: An ordered sequence of Events, typically sorted by timestamp
+
+## Actions
+
+- append: Add new Events to the log (typically the only write operation allowed)
+- purge?: Remove Events according to retention policies or compliance requirements
+- replay?: Re-emit historical Events to reconstruct system states or test scenarios
+- aggregate?: Compute statistics, counts, or summaries across Event collections
+
+## Synchronizations
+
+### With Event
+When Event.create() occurs, EventLog automatically appends the new Event to maintain chronological sequence.
+
+### With Task
+Task execution progress can be visualized by querying EventLog for Task-related Events within specific time periods.
+
+### With Notification
+EventLog can be monitored for specific Event patterns that should trigger Notification alerts to users.
+
