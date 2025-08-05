@@ -1,0 +1,43 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Concepts/Comment" />
+
+# Comment
+
+## Purpose
+
+Enable users to share thoughts and build on each other's ideas around shared content
+
+## Operational principle
+
+If a user reads content that sparks a thought, they can add a comment, and if others read that comment, they can respond with their own thoughts, creating a threaded conversation that enriches everyone's understanding of the original content.
+
+## State
+
+### Core properties
+- id: unique identifier
+- author: user who created the comment
+- pointers: what the comment is attached to (post, article, etc.)
+- content: the comment text
+- timestamp: when created
+- parentId: for threaded replies (null for top-level comments)
+- status: draft | published | flagged | deleted | resolved
+- editHistory?: previous versions for transparency
+
+## Actions
+
+- create(target, content, parentId): Add new comment or reply
+- edit(commentId, newContent): Modify existing comment
+- delete(commentId): Remove comment
+- reply(parentId, content): Create threaded response
+
+## Synchronizations
+
+### With User
+When user deletes account → anonymize their comments
+
+### With Notification
+- New replies notify parent comment author
+- Mention parsing triggers user notifications
+
+{/* ### With Target (content, post, etc.) */}
