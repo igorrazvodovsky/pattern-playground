@@ -1,0 +1,96 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Patterns/Commenting" />
+
+# Commenting
+
+Enables contextual discussion and annotation across any interface or content type.
+Commenting creates a layer of social interaction that can be applied to any object, supporting collaborative review and knowledge sharing without disrupting the primary experience.
+
+
+
+## Variants
+
+{/* ### Attachment modes */}
+{/* Floating: Comments appear as overlays or callouts */}
+{/* Sidebar: Comments collect in a dedicated panel */}
+
+{/* ### Threading models */}
+- Flat: Simple comment lists without nesting
+- Threaded: Nested replies supporting conversation depth
+
+### Resolution states
+Persistent: Comments remain visible until manually resolved
+- Supports ongoing discussions and reference
+- Useful for documentation and knowledge capture
+- Maintains historical context
+
+Ephemeral: Comments fade over time
+- Reduces interface clutter for transient feedback
+- Suitable for iterative design and development workflows
+- Focuses attention on current issues
+
+## States
+
+### Empty state
+- No comments exist yet
+- Clear invitation to start discussions
+- Might show commenting capabilities subtly
+
+### Active commenting
+- Comment threads in progress
+- Clear visual indicators for commented elements
+- Easy navigation between comment locations
+
+### Resolved discussions
+- Completed or archived comment threads
+- Optional visibility controls for resolved items
+- Historical context preservation
+
+### Draft states
+- Unsaved comment composition
+- Auto-save and recovery capabilities
+- Clear indication of draft vs published status
+
+## Accessibility
+
+### Keyboard navigation
+- Tab order includes comment indicators and interfaces
+- Keyboard shortcuts for common commenting actions
+- Clear focus management between content and comments
+
+### Screen reader support
+- Descriptive labels for comment count and status
+- Proper heading structure for comment threads
+- Alternative text for comment indicators and controls
+
+### Visual accessibility
+- Sufficient contrast for comment indicators
+- Scalable comment interface components
+- Respect for user motion and animation preferences
+
+## Related patterns
+
+{/* **Precursors:** */}
+{/* - [Annotation](../?path=/docs/patterns-annotation--docs) – establishes content marking concepts */}
+
+### Complements
+- [Collaboration](../?path=/docs/patterns-collaboration--docs) – provides broader collaborative context
+- [Activity log](../?path=/docs/patterns-activity-log--docs) – tracks commenting activity over time
+- [Notification](../?path=/docs/patterns-notification--docs) – alerts users to comment activity
+
+{/* **Follow-ups:** */}
+{/* - [Review workflow](../?path=/docs/patterns-review-workflow--docs) – structures commenting into formal processes */}
+{/* - [Knowledge capture](../?path=/docs/patterns-knowledge-capture--docs) – transforms discussions into documentation */}
+
+### Tangentially related
+- [Conversation](../?path=/docs/patterns-conversation--docs) – provides dialogue interaction principles
+- [Status feedback](../?path=/docs/patterns-status-feedback--docs) – indicates comment and resolution states
+
+## Resources & references
+
+- [Ink & Switch / Universal Comments](https://www.inkandswitch.com/patchwork/notebook/11/) – Pointer-based commenting system concept
+- [Google Docs / Comments](https://support.google.com/docs/answer/65129) – Inline commenting implementation
+- [Notion / Comments, mentions & reactions](https://www.notion.com/help/comments-mentions-and-reminders)
+- [Figma / Comments](https://help.figma.com/hc/en-us/articles/360041068574-Add-comments-to-files) – Visual design commenting patterns
+{/* - [GitHub / Review System](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests) – Code commenting workflows */}

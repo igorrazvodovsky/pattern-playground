@@ -195,6 +195,54 @@
   color: var(--color-text-inverse);
 }
 
+/* Comment marks for commented text ranges */
+span[data-comment-id] {
+  background-color: var(--color-background-warning-subtle);
+  border-bottom: 1px solid var(--color-border-warning);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  position: relative;
+}
+
+span[data-comment-id]:hover {
+  background-color: var(--color-background-warning);
+}
+
+span[data-comment-id][data-resolved="true"] {
+  background-color: var(--color-background-success-subtle);
+  border-bottom-color: var(--color-border-success);
+  opacity: 0.7;
+}
+
+span[data-comment-id][data-resolved="true"]:hover {
+  background-color: var(--color-background-success);
+  opacity: 1;
+}
+
+/* Comment indicator dot */
+span[data-comment-id]::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-background-warning);
+  border: 1px solid var(--color-border-warning);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+span[data-comment-id]:hover::after {
+  opacity: 1;
+}
+
+span[data-comment-id][data-resolved="true"]::after {
+  background-color: var(--color-background-success);
+  border-color: var(--color-border-success);
+}
+
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   .template-field,
@@ -207,5 +255,10 @@
   .template-field__error,
   .message-composer__feedback {
     animation: none;
+  }
+
+  span[data-comment-id],
+  span[data-comment-id]::after {
+    transition: none;
   }
 }
