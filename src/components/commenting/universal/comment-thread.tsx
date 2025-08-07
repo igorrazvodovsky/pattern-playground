@@ -2,6 +2,7 @@ import React, { useCallback, useRef } from 'react';
 import type { CommentThread as CommentThreadType, UniversalComment } from '../../../services/commenting/document-pointer.js';
 import type { PpInput } from '../../input/input.js';
 import { getUserById } from '../../../stories/shared-data/index.js';
+import { formatTimestamp } from '../../task/time-utils.js';
 
 interface CommentThreadProps {
   thread: CommentThreadType;
@@ -12,24 +13,6 @@ interface CommentThreadProps {
   showComposer?: boolean;
 }
 
-const formatTimestamp = (timestamp: Date | string | number): string => {
-  const now = new Date();
-  const date = timestamp instanceof Date ? timestamp : new Date(timestamp);
-  const diff = now.getTime() - date.getTime();
-  const minutes = Math.floor(diff / (1000 * 60));
-  const hours = Math.floor(diff / (1000 * 60 * 60));
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-
-  if (minutes < 1) return 'now';
-  if (minutes < 60) return `${minutes}m`;
-  if (hours < 24) return `${hours}h`;
-  if (days < 7) return `${days}d`;
-
-  return date.toLocaleDateString('en-GB', {
-    day: 'numeric',
-    month: 'short'
-  });
-};
 
 export const CommentThread: React.FC<CommentThreadProps> = ({
   thread,
