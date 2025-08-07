@@ -5,11 +5,13 @@ declare module 'react' {
   namespace JSX {
     interface IntrinsicElements {
       'pp-input': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+        name?: string;
         value?: string;
         placeholder?: string;
         disabled?: boolean;
         size?: 'small' | 'medium' | 'large';
         clearable?: boolean;
+        autocomplete?: string;
         autofocus?: boolean;
         type?: 'text' | 'email' | 'password' | 'number' | 'search' | 'tel' | 'url' | 'date' | 'datetime-local' | 'time';
       };

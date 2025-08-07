@@ -40,7 +40,7 @@ export const useTipTapCommentingIntegration = (
   }, [editor, pointerAdapter, commenting.editorThreads]);
 
   // Create a new comment thread
-  const createCommentThread = useCallback((initialComment?: string) => {
+  const createCommentThread = useCallback(() => {
     if (!editor || !pointerAdapter) return null;
 
     if (!pointerAdapter.hasValidSelection()) {
@@ -50,9 +50,7 @@ export const useTipTapCommentingIntegration = (
 
     const pointer = pointerAdapter.createPointer();
     const thread = commenting.service.createThread(
-      pointer,
-      initialComment || '',
-      currentUser
+      pointer
     );
 
     // Highlight the commented text

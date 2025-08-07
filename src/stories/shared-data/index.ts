@@ -6,6 +6,7 @@ import commandsData from './commands.json' with { type: 'json' };
 import recentItemsData from './recent-items.json' with { type: 'json' };
 import tasksData from './tasks.json' with { type: 'json' };
 import transactionsData from './transactions.json' with { type: 'json' };
+import commentsData from './comments.json' with { type: 'json' };
 
 // Filter-specific data
 import filterStatusesData from './statuses.json' with { type: 'json' };
@@ -19,6 +20,7 @@ export const documents = documentsData;
 export const commands = commandsData;
 export const recentItems = recentItemsData;
 export const transactions = transactionsData;
+export const comments = commentsData;
 
 // Re-export for external use
 export { default as filterStatuses } from './statuses.json' with { type: 'json' };
@@ -67,6 +69,26 @@ export const getLabelById = (id: string) => {
   return filterLabelsData.find(label => label.id === id);
 };
 
+export const getCommentById = (id: string) => {
+  return comments.find(comment => comment.id === id);
+};
+
+export const getCommentsByThreadId = (threadId: string) => {
+  return comments.filter(comment => comment.threadId === threadId);
+};
+
+export const getCommentsByEntity = (entityType: string, entityId: string) => {
+  return comments.filter(comment => comment.entityType === entityType && comment.entityId === entityId);
+};
+
+export const getActiveComments = () => {
+  return comments.filter(comment => comment.status === 'active');
+};
+
+export const getResolvedComments = () => {
+  return comments.filter(comment => comment.status === 'resolved');
+};
+
 // Type exports for better type safety
 export type User = typeof users[0];
 export type Project = typeof projects[0];
@@ -80,6 +102,7 @@ export type Task = Omit<typeof tasksData[0], 'statusId' | 'priorityId' | 'assign
   labels: typeof filterLabels;
 };
 export type Transaction = typeof transactions[0];
+export type Comment = typeof comments[0];
 
 // Reference data using unified SearchableParent format (same as commands)
 export const referenceCategories = [

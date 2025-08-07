@@ -50,6 +50,11 @@
   padding-inline: 0;
 }
 
+.drawer .message__body,
+.popover .message__body {
+  padding-block: 0;
+}
+
 .message--inbound .message__body {
   border-bottom-left-radius: var(--radius-m);
   margin-inline-end: var(--space-2xl);
@@ -155,7 +160,8 @@
   margin-inline: var(--space-s);
   color: var(--c-bodyDimmed);
 
-  .badge, pp-spinner {
+  .badge,
+  pp-spinner {
     margin-inline-end: var(--space-s);
   }
 

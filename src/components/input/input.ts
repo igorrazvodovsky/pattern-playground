@@ -51,13 +51,14 @@ export class PpInput extends LitElement {
     | 'time'
     | 'url' = 'text';
   // @property() inputmode: 'none' | 'text' | 'decimal' | 'numeric' | 'tel' | 'search' | 'email' | 'url';
-  // @property() name = '';
+  @property() name = '';
   @property() value = '';
   @property() initialValue = '';
   @property({ reflect: true }) size: 'small' | 'medium' | 'large' = 'medium';
   @property({ type: Boolean }) clearable = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property() placeholder = '';
+  @property() autocomplete: string;
   @property({ type: Boolean }) autofocus: boolean;
 
   connectedCallback() {
@@ -119,11 +120,13 @@ export class PpInput extends LitElement {
               id="input"
               class="input__control"
               type="text"
+              name=${ifDefined(this.name)}
               title=${this.title /* An empty title prevents browser validation tooltips from appearing on hover */}
               ?disabled=${this.disabled}
               placeholder=${ifDefined(this.placeholder)}
               .value=${live(this.value)}
               autocapitalize=${ifDefined(this.autocapitalize)}
+              autocomplete=${ifDefined(this.autocomplete)}
               ?autofocus=${this.autofocus}
               spellcheck=${this.spellcheck}
               aria-describedby="help-text"

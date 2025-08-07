@@ -19,19 +19,19 @@ A contextual menu that appears when users select content, providing relevant act
 
 ### Commenting and highlighting
 
-<Story of={BubbleMenuStories.InlineComment} />
+<Story of={BubbleMenuStories.Commenting} />
 
-### Semantic zoom
+### Text lense
 
-<Story of={BubbleMenuStories.SemanticZoom} />
+<Story of={BubbleMenuStories.TextLense} />
 
-{/*
-## States
-- **Hidden**: Default state when no content is selected
-- **Visible**: Appears with relevant actions for selected content
-- **Loading**: Actions may show loading states during execution
-- **Active**: Buttons show active state for applied formatting
-*/}
+
+### Technical implementation
+
+- Uses `CommentMark` extension to track commented text ranges with `data-comment-id` attributes
+- Integrates with Zustand-based state management for local persistence
+- Supports overlapping comments and position validation during document edits
+- Follows progressive enhancement principles with CSS-only fallback styling
 
 ## Related patterns
 
@@ -44,6 +44,10 @@ A contextual menu that appears when users select content, providing relevant act
 - [Popover](../?path=/docs/primitives-popover--docs) - underlying positioning mechanism
 - [Command menu](../?path=/docs/patterns-command-menu--docs) - alternative access to actions
 - Context menu - alternative access to actions
+
+### Follow-ups
+
+- [Block-based editor](../?path=/docs/compositions-blockbasededitor--docs) - uses bubble menu for contextual text actions
 
 ### Tangentially related
 

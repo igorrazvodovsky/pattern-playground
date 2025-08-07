@@ -3,7 +3,6 @@ export class PpAvatar extends HTMLElement {
 
   constructor() {
     super();
-    this.classList.add('pp-avatar', 'pp-avatar__container', `pp-avatar--${this._size}`);
   }
 
   get size(): 'xsmall' | 'small' | 'medium' | 'large' {
@@ -12,13 +11,14 @@ export class PpAvatar extends HTMLElement {
 
   set size(value: 'xsmall' | 'small' | 'medium' | 'large') {
     if (this._size !== value) {
-      this.classList.remove(`pp-avatar--${this._size}`);
       this._size = value;
-      this.classList.add(`pp-avatar--${this._size}`);
+      this.setAttribute('size', value);
     }
   }
 
   connectedCallback() {
+    this.classList.add('pp-avatar', 'pp-avatar__container');
+    this.setAttribute('size', this._size);
     this.setAttribute('role', 'img');
     this.setAttribute('aria-label', this.querySelector('img')?.alt || 'Avatar');
   }

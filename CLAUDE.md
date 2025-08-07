@@ -37,7 +37,7 @@ Components follow a **progressive enhancement** strategy:
 - Components use custom elements: `<button is="pp-button">` pattern
 
 ### Key directories
-- `src/components/` - Core Web Components (Lit)
+- `src/components/` - Core components
 - `src/stories/` - Storybook documentation organized by:
   - `primitives/` - Basic UI elements
   - `components/` - Complex components
@@ -54,6 +54,7 @@ Components follow a **progressive enhancement** strategy:
 - **Streaming API responses** with Server-Sent Events
 - **HTML Web Components** - Progressive enhancement approach using standard HTML with JavaScript sprinkled on top for behaviour
 - **Light-DOM Web Components** - Custom elements that use the light DOM instead of shadow DOM for better accessibility and styling inheritance
+- **Leverage existing dependencies** - Before adding a new dependency, check if existing ones solve the problem
 
 #### Progressive enhancement
 The `<pp-modal>` component demonstrates several key patterns for building progressive enhancement components:
@@ -68,6 +69,15 @@ The `<pp-modal>` component demonstrates several key patterns for building progre
 - **Generic types**: Use generics for reusable components (`SelectBase<Value>`, `IOption<Value>`)
 - **Value converters**: Create custom `ValueConverter` objects for complex attribute parsing
 - **Strict typing**: All properties should have explicit types, avoid `any`
+
+### State management best practices
+
+#### **Zustand for Local State**
+- **Prefer Zustand** over Context API for complex state that needs persistence
+- **Use Maps for O(1) lookups** instead of arrays when frequent searches are needed
+- **Leverage built-in utilities**: Use `shallow` from `zustand/shallow` for object equality
+- **Persist strategically**: Use `persist` middleware with proper serialization for localStorage
+- **Validate rehydration**: Add error handling when loading persisted state
 
 ### Modern JavaScript/TypeScript features
 

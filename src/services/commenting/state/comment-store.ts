@@ -25,7 +25,7 @@ interface UniversalCommentingState {
 
 interface CommentActions {
   // Thread management
-  createThread: (pointer: DocumentPointer, initialComment: string, author: string) => CommentThread;
+  createThread: (pointer: DocumentPointer) => CommentThread;
   addComment: (threadId: string, content: string, author: string) => UniversalComment;
   resolveThread: (threadId: string, resolvedBy: string) => void;
   setActiveThread: (id?: string) => void;
@@ -58,30 +58,19 @@ export const useCommentStore = create<UniversalCommentingState & {
       hasUnsavedChanges: false,
       
       actions: {
-        createThread: (pointer, initialComment, author) => {
+        createThread: (pointer) => {
           const threadId = generateId('thread');
-          const commentId = generateId('comment');
-          
-          const comment: UniversalComment = {
-            id: commentId,
-            author,
-            pointers: [pointer],
-            content: initialComment,
-            timestamp: new Date(),
-            status: 'published'
-          };
           
           const thread: CommentThread = {
             id: threadId,
-            rootCommentId: commentId,
+            rootCommentId: '', // No root comment initially
             pointers: [pointer],
-            participants: [author],
-            status: 'active'
+            participants: [], // No participants initially
+            status: 'draft' // Start as draft
           };
           
           set(state => ({
             threads: new Map(state.threads).set(threadId, thread),
-            comments: new Map(state.comments).set(commentId, comment),
             hasUnsavedChanges: true
           }));
           
@@ -90,11 +79,10 @@ export const useCommentStore = create<UniversalCommentingState & {
         },
         
         addComment: (threadId, content, author) => {
-          const commentId = generateId('comment');
           const thread = get().threads.get(threadId);
-          
           if (!thread) throw new Error(`Thread ${threadId} not found`);
-          
+
+          const commentId = generateId('comment');
           const comment: UniversalComment = {
             id: commentId,
             author,
@@ -103,18 +91,21 @@ export const useCommentStore = create<UniversalCommentingState & {
             timestamp: new Date(),
             status: 'published'
           };
-          
-          const updatedThread = {
+
+          const isFirstComment = thread.rootCommentId === '';
+          const updatedThread: CommentThread = {
             ...thread,
-            participants: Array.from(new Set([...thread.participants, author]))
+            rootCommentId: isFirstComment ? commentId : thread.rootCommentId,
+            participants: Array.from(new Set([...thread.participants, author])),
+            status: 'active' // Thread is now active
           };
-          
+
           set(state => ({
             threads: new Map(state.threads).set(threadId, updatedThread),
             comments: new Map(state.comments).set(commentId, comment),
             hasUnsavedChanges: true
           }));
-          
+
           get().actions.saveToLocalStorage();
           return comment;
         },

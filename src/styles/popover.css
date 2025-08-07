@@ -1,5 +1,5 @@
 @layer components {
-  [popover] {
+  [popover], .popover {
     inset: unset;
     border-radius: var(--radius-m);
     font-size: smaller;
@@ -7,6 +7,10 @@
     padding: var(--space-s) var(--space-m);
     border: var(--border);
     box-shadow: var(--shadow-m);
+    background: var(--c-background);
+    position: relative;
+    /* initially introduced for comments */
+    max-width: 50ch;
   }
 
   .tooltip[popover] {
@@ -40,5 +44,15 @@
       translate: 0 calc(-100% - var(--space-xs) - var(--space-xs));
       opacity: 0;
     }
+  }
+
+  .popover:has(.popover__toolbar) {
+    padding-top: var(--space-l);
+  }
+
+  .popover__toolbar {
+    position: absolute;
+    top: var(--space-s);
+    right: var(--space-s);
   }
 }

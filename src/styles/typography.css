@@ -55,3 +55,10 @@ label {
 mark {
   background: var(--c-accent-100);
 }
+
+blockquote {
+  padding: var(--space-s) var(--space-m);
+  border-left: 4px solid var(--c-accent-100);
+  background: var(--c-accent-50);
+
+}

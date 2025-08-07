@@ -6,10 +6,10 @@ import { UniversalCommentingService } from '../universal-commenting-service.js';
 export const useUniversalCommenting = (documentId?: string) => {
   const commentStore = useCommentStore();
   
-  // Initialize service
+  // Initialize service with a function that returns the current state
   const service = useMemo(
-    () => new UniversalCommentingService(commentStore),
-    [commentStore]
+    () => new UniversalCommentingService(() => useCommentStore.getState()),
+    []  // No dependencies since we use getState() directly
   );
 
   // Load from localStorage on mount

@@ -6,9 +6,8 @@ import type {
 import { useCommentStore } from './state/comment-store.js';
 import { shallow } from 'zustand/shallow';
 
-// Type for the Zustand store
-type CommentStore = ReturnType<typeof useCommentStore>;
-
+// Type for the Zustand store state and actions
+type CommentStoreState = ReturnType<typeof useCommentStore>;
 
 // Pointer equality using Zustand's shallow comparison (already available)
 function pointersEqual(a: DocumentPointer, b: DocumentPointer): boolean {
@@ -17,35 +16,30 @@ function pointersEqual(a: DocumentPointer, b: DocumentPointer): boolean {
 
 // Universal commenting service with Zustand-only integration (Tier 1)
 export class UniversalCommentingService {
-  private commentStore: CommentStore;
+  private getState: () => CommentStoreState;
 
-  constructor(commentStore: CommentStore) {
-    this.commentStore = commentStore;
+  constructor(getState: () => CommentStoreState) {
+    this.getState = getState;
   }
 
   // Create thread (local-only in Tier 1)
   createThread(
-    pointer: DocumentPointer,
-    initialComment: string,
-    author: string
+    pointer: DocumentPointer
   ): CommentThread {
     // Business logic validation
-
-
-
-    return this.commentStore.getState().actions.createThread(pointer, initialComment, author);
+    return this.getState().actions.createThread(pointer);
   }
 
   addComment(threadId: string, content: string, author: string): UniversalComment {
-    return this.commentStore.getState().actions.addComment(threadId, content, author);
+    return this.getState().actions.addComment(threadId, content, author);
   }
 
   resolveThread(threadId: string, resolvedBy: string): void {
-    this.commentStore.getState().actions.resolveThread(threadId, resolvedBy);
+    this.getState().actions.resolveThread(threadId, resolvedBy);
   }
 
   getThreadsForDocument(documentId: string): CommentThread[] {
-    const state = this.commentStore.getState();
+    const state = this.getState();
     return Array.from(state.threads.values()).filter(thread =>
       thread.pointers.some(pointer =>
         (pointer as any).documentId === documentId
@@ -54,7 +48,7 @@ export class UniversalCommentingService {
   }
 
   getThreadsByPointerType(pointerType: string): CommentThread[] {
-    const state = this.commentStore.getState();
+    const state = this.getState();
     return Array.from(state.threads.values()).filter(thread =>
       thread.pointers.some(pointer => pointer.type === pointerType)
     );
@@ -62,12 +56,12 @@ export class UniversalCommentingService {
 
   // Get all threads
   getAllThreads(): CommentThread[] {
-    const state = this.commentStore.getState();
+    const state = this.getState();
     return Array.from(state.threads.values());
   }
 
   getCommentsForThread(threadId: string): UniversalComment[] {
-    const state = this.commentStore.getState();
+    const state = this.getState();
     const thread = state.threads.get(threadId);
     if (!thread) return [];
 
@@ -81,17 +75,17 @@ export class UniversalCommentingService {
   }
 
   getThread(threadId: string): CommentThread | undefined {
-    const state = this.commentStore.getState();
+    const state = this.getState();
     return state.threads.get(threadId);
   }
 
   getComment(commentId: string): UniversalComment | undefined {
-    const state = this.commentStore.getState();
+    const state = this.getState();
     return state.comments.get(commentId);
   }
 
   hasThreadForPointer(pointer: DocumentPointer): boolean {
-    const state = this.commentStore.getState();
+    const state = this.getState();
     return Array.from(state.threads.values()).some(thread =>
       thread.pointers.some(threadPointer =>
         pointersEqual(pointer, threadPointer)
@@ -100,7 +94,7 @@ export class UniversalCommentingService {
   }
 
   getThreadsForPointer(pointer: DocumentPointer): CommentThread[] {
-    const state = this.commentStore.getState();
+    const state = this.getState();
     return Array.from(state.threads.values()).filter(thread =>
       thread.pointers.some(threadPointer =>
         pointersEqual(pointer, threadPointer)
@@ -110,22 +104,20 @@ export class UniversalCommentingService {
 
   // Archive a thread instead of deleting
   archiveThread(threadId: string): void {
-    const thread = this.commentStore.getState().threads.get(threadId);
+    const state = this.getState();
+    const thread = state.threads.get(threadId);
     if (!thread) return;
 
     const updatedThread = { ...thread, status: 'archived' as const };
-
-    this.commentStore.setState(state => ({
-      threads: new Map(state.threads).set(threadId, updatedThread),
-      hasUnsavedChanges: true
-    }));
-
-    this.commentStore.getState().actions.saveToLocalStorage();
+    
+    // Note: We can't call setState directly since we only have getState
+    // This functionality would need to be handled through actions
+    state.actions.archiveThread?.(threadId) || console.warn('Archive thread action not implemented');
   }
 
   // Get statistics about comments
   getCommentStats() {
-    const state = this.commentStore.getState();
+    const state = this.getState();
     const threads = Array.from(state.threads.values());
     const comments = Array.from(state.comments.values());
 

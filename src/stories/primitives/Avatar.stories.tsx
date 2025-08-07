@@ -10,7 +10,7 @@ function getRandomFilledIcon() {
 }
 
 interface AvatarProps {
-  size?: 'small' | 'medium' | 'large';
+  size?: 'xsmall' | 'small' | 'medium' | 'large';
   initials?: string;
 }
 
@@ -21,7 +21,7 @@ const meta = {
   argTypes: {
     size: {
       control: 'select',
-      options: ['small', 'medium', 'large'],
+      options: ['xsmall', 'small', 'medium', 'large'],
       description: 'The size of the avatar',
     }
   },
