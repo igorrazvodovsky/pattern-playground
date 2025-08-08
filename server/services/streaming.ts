@@ -1,6 +1,6 @@
 import { Response } from 'express';
 import logger from '../logger.js';
-import { JuiceProductionModel, ModelItem, SemanticZoomStreamChunk } from '../schemas.js';
+import { JuiceProductionModel, ModelItem, TextLensStreamChunk } from '../schemas.js';
 import { openaiService } from './openai.js';
 
 export interface StreamEvent {
@@ -90,7 +90,7 @@ export class StreamingService {
     }
   }
 
-  static async handleSemanticZoomStream(
+  static async handleTextLensStream(
     res: Response,
     request: any,
     signal?: AbortSignal
@@ -98,13 +98,13 @@ export class StreamingService {
     this.setupSSEHeaders(res);
 
     try {
-      const streamGenerator = openaiService.generateSemanticZoomStream(request, signal);
+      const streamGenerator = openaiService.generateTextLensStream(request, signal);
 
       for await (const chunk of streamGenerator) {
         const content = chunk.text || "";
 
         if (content) {
-          const streamChunk: SemanticZoomStreamChunk = {
+          const streamChunk: TextLensStreamChunk = {
             type: 'chunk',
             content,
             done: false
@@ -114,7 +114,7 @@ export class StreamingService {
         }
       }
 
-      const completionChunk: SemanticZoomStreamChunk = {
+      const completionChunk: TextLensStreamChunk = {
         type: 'complete',
         done: true
       };
@@ -123,9 +123,9 @@ export class StreamingService {
       res.end();
 
     } catch (error) {
-      logger.error("Error in semantic zoom streaming:", error);
+      logger.error("Error in text lens streaming:", error);
 
-      const errorChunk: SemanticZoomStreamChunk = {
+      const errorChunk: TextLensStreamChunk = {
         type: 'error',
         error: error instanceof Error ? error.message : "Server error",
         done: true

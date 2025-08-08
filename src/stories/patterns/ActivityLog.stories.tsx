@@ -52,7 +52,7 @@ export const LLMReasoning = {
             <summary>
               I want to explore how ontologies are used in design, focusing on methodologies and practical approaches to ontological design. This will help me understand the principles and applications of designing with ontologies.
             </summary>
-            <ol className="stepper" style={{ '--_circle-size': '0.25rem'} as React.CSSProperties}>
+            <ol className="stepper" style={{ '--_circle-size': '0.5rem'} as React.CSSProperties}>
               <li className="stepper__item">
                 <div className="stepper__content flow">
                   <h5>Searching</h5>
@@ -81,7 +81,7 @@ export const LLMReasoning = {
         <div className="stepper__content">
           <details open>
             <summary>I want to explore how technology and design influence each other, focusing on the concept that we are shaped by the things we create. This search will help me understand the ontological implications and the mutual relationship between humans and their designs.</summary>
-            <ol className="stepper" style={{ '--_circle-size': '0.25rem'} as React.CSSProperties}>
+            <ol className="stepper" style={{ '--_circle-size': '0.5rem'} as React.CSSProperties}>
               <li className="stepper__item">
                 <div className="stepper__content flow">
                   <h5>Searching</h5>

@@ -1,9 +1,9 @@
 /**
- * Text transformation service for semantic zoom functionality
+ * Text transformation service for text lens functionality
  * Handles streaming API calls to the backend zoom endpoint
  */
 
-export interface SemanticZoomRequest {
+export interface TextLensRequest {
   text: string;
   context?: string;
   direction: 'in' | 'out';
@@ -11,14 +11,14 @@ export interface SemanticZoomRequest {
   currentLevel?: number;
 }
 
-export interface SemanticZoomStreamChunk {
+export interface TextLensStreamChunk {
   type: 'chunk' | 'complete' | 'error';
   content?: string;
   done: boolean;
   error?: string;
 }
 
-export interface SemanticZoomCallbacks {
+export interface TextLensCallbacks {
   onChunk?: (content: string) => void;
   onComplete?: () => void;
   onError?: (error: string) => void;
@@ -52,11 +52,11 @@ export class TextTransformService {
   private abortController: AbortController | null = null;
 
   /**
-   * Stream semantic zoom transformation
+   * Stream text lens transformation
    */
   async streamZoom(
-    request: SemanticZoomRequest,
-    callbacks: SemanticZoomCallbacks = {}
+    request: TextLensRequest,
+    callbacks: TextLensCallbacks = {}
   ): Promise<string> {
     // Cancel any existing stream
     this.cancelStream();
@@ -106,7 +106,7 @@ export class TextTransformService {
             if (line.startsWith('data: ')) {
               try {
                 const jsonStr = line.slice(6); // Remove 'data: ' prefix
-                const data: SemanticZoomStreamChunk = JSON.parse(jsonStr);
+                const data: TextLensStreamChunk = JSON.parse(jsonStr);
                 
                 if (data.type === 'chunk' && data.content) {
                   accumulatedContent += data.content;
@@ -166,7 +166,7 @@ export class TextTransformService {
   async zoomIn(
     text: string,
     intensity: number = 25,
-    callbacks?: SemanticZoomCallbacks,
+    callbacks?: TextLensCallbacks,
     context?: string
   ): Promise<string> {
     return this.streamZoom({
@@ -183,7 +183,7 @@ export class TextTransformService {
   async zoomOut(
     text: string,
     intensity: number = 25,
-    callbacks?: SemanticZoomCallbacks,
+    callbacks?: TextLensCallbacks,
     context?: string
   ): Promise<string> {
     return this.streamZoom({

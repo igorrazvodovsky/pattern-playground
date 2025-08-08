@@ -23,7 +23,13 @@ Implementation plan for inline commenting functionality in TipTap v3 editor, bas
 - TipTap-specific UI integration with design system consistency
 - Enhanced BubbleMenu stories with full comment UI demonstration
 
-**Phase 4: Advanced Features** 🔄 **NEXT**
+**Phase 4A: Item View Commenting** 🔄 **NEXT**
+- Item View pointer adapter for commenting on opened items at different scopes
+- Integration with ItemInteraction component for scope-aware commenting  
+- Comment indicators in ItemDetail, ItemFullView, and hover cards
+- Cross-scope comment persistence (comments survive scope escalation)
+
+**Phase 4B: Advanced Features**
 - Advanced comment interactions (replies, resolution, navigation)
 - Server sync features (Tier 2: TanStack Query)
 - Real-time collaboration (Tier 3: Yjs)
@@ -1115,59 +1121,53 @@ export const CommentDrawer = ({ isOpen, threads, onClose }) => (
 
 ---
 
-### Phase 4: Advanced Features (NEXT)
+### Phase 4A: Item View Commenting Integration
 
-#### **Phase 3A: Comment Display Components (Leveraging Messaging Patterns)**
-7. **Create comment thread components using existing message patterns**
-   - Build `CommentThread` using established `.messages` container patterns from `Messaging.stories.tsx`
-   - Use `.message` structure for individual comments with author attribution
-   - Leverage existing `.message-composer` pattern for comment input
-   - Implement status indicators (resolved, etc.) following timestamp pattern
+#### **ItemView Pointer System**
+1. **Create ItemView pointer adapter**
+   - Build `ItemViewPointer` type for commenting on opened items
+   - Implement scope-aware commenting (micro/mini/mid/maxi contexts)
+   - Handle item metadata and view state in pointer references
+   - Support different content types through ItemInteraction system
 
-8. **Create Popover-based comment display**
-   - Build `CommentPopover` wrapping `CommentThread` with existing `Popover` component
-   - Position relative to commented text ranges using Popover's positioning system
-   - Handle focus management and escape key handling via existing Popover behaviour
-   - Lightweight, contextual comment display without content obstruction
+2. **Integrate with ItemInteraction component**
+   - Add commenting capabilities to ItemInteraction workflow
+   - Handle comment persistence across scope escalation (mini → mid → maxi)
+   - Maintain comment context when items transition between view scopes
+   - Add comment indicators to ItemDetail, ItemFullView, ItemPreview components
 
-9. **Create Drawer-based comment panel**
-   - Build `CommentDrawer` using existing `Drawer` component for persistent sidebar
-   - Display multiple `CommentThread` components for extended discussions
-   - Thread navigation and management interface
-   - Integration with universal commenting state for thread filtering and search
+#### **ItemView Comment UI Integration**
+3. **Add comment controls to item views**
+   - Integrate comment button in item view headers/toolbars
+   - Add comment count indicators and status badges
+   - Handle comment panel visibility in different view scopes
+   - Ensure comment UI adapts to drawer, dialog, and hover card contexts
 
-#### **Phase 3B: TipTap Integration and Positioning**
-10. **Update TipTap-specific UI integration**
-    - Connect Popover positioning to TipTap text selections
-    - Handle comment panel visibility based on active threads
-    - Integrate pointer validation with UI state updates
-    - Maintain focus management between editor and comment UI
+4. **Cross-scope comment synchronization**
+   - Comments created in mini scope appear in mid/maxi scopes
+   - Comment threads persist when user escalates item view scope
+   - Handle comment focus and active thread state across scope transitions
 
-11. **Add responsive comment interface patterns**
-    - Mobile-first drawer approach for small screens
-    - Desktop popover approach for larger screens
-    - Consistent interaction patterns across viewport sizes
-    - Accessible keyboard navigation between editor and comments
+### Phase 4B: Advanced Features
 
-### Phase 4: Advanced Features
-9. **Build advanced comment interactions**
+5. **Build advanced comment interactions**
    - Reply functionality using universal service
    - Comment resolution with pointer updates
    - Thread navigation and management
 
-10. **Add server sync features (Tier 2)**
+6. **Add server sync features (Tier 2)**
     - Install TanStack Query: `npm install @tanstack/react-query`
     - Integrate server synchronisation with existing Zustand store
     - Add background sync and conflict resolution
     - Implement optimistic updates for server operations
 
-11. **Add collaboration features (Tier 3)**
+7. **Add collaboration features (Tier 3)**
     - Install Yjs: `npm install yjs @hocuspocus/provider y-tiptap`
     - Integrate real-time collaboration with state management
     - Add user awareness and presence indicators
     - Handle conflict resolution automatically
 
-12. **Add extensibility features**
+8. **Add extensibility features**
     - UI features (scroll to comment)
     - Future-ready architecture for other pointer types
     - Integration points for external systems
@@ -1278,14 +1278,15 @@ To validate the universal commenting architecture, we'll update/create a second 
 ### Item View Pointer Type
 
 ```typescript
-// Item View specific pointer for commenting on structured content
+// Item View specific pointer for commenting on opened items
 interface ItemViewPointer extends DocumentPointer {
-  type: 'item-view-section';
-  itemId: string;                               // Which item is being commented on
-  sectionPath: string;                          // Dot-notation path to section (e.g., 'metadata.title')
-  viewScope: ViewScope;                         // Context: micro, mini, mid, maxi
-  interactionMode: InteractionMode;             // Mode: preview, inspect, edit, transform
-  contentType: string;                          // Item content type
+  type: 'item-view';
+  itemId: string;                               // Which item is being commented on  
+  itemType: string;                             // Item content type (user, document, etc.)
+  viewScope: ViewScope;                         // Current view context: micro, mini, mid, maxi
+  interactionMode: InteractionMode;             // Current mode: preview, inspect, edit, transform
+  viewContext?: string;                         // Optional view context (drawer, dialog, hover-card)
+  metadata?: Record<string, unknown>;           // Item metadata snapshot
 }
 
 ```

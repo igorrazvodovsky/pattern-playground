@@ -481,7 +481,7 @@ export const TextLense: Story = {
           {editor && (
             <BubbleMenu
               editor={editor}
-              pluginKey="bubbleMenuSemanticZoom"
+              pluginKey="bubbleMenuTextLense"
               shouldShow={({ state }) => {
                 const { from, to } = state.selection;
                 const isEmpty = from === to;

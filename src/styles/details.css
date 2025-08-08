@@ -1,7 +1,7 @@
 @layer components {
   details {
     --_details-padding: var(--space-m);
-    --_state-indicator-spacing: 1rem;
+    --_state-indicator-spacing: 1.5rem;
 
     border: var(--border);
     border-radius: var(--radius-m);

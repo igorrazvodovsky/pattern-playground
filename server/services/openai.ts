@@ -1,7 +1,7 @@
 import { OpenAI } from 'openai';
 import config from '../config.js';
 import logger from '../logger.js';
-import { JuiceProductionModel, SemanticZoomRequest, jsonSchema } from '../schemas.js';
+import { JuiceProductionModel, TextLensRequest, jsonSchema } from '../schemas.js';
 import { PromptTemplateBuilder, PROMPT_CONFIGS } from './promptTemplates.js';
 
 export interface OpenAIServiceConfig {
@@ -170,7 +170,7 @@ export class OpenAIService {
     return this.parseAndTransformResponse(content, type, availableOptions);
   }
 
-  async *generateSemanticZoomStream(request: SemanticZoomRequest, signal?: AbortSignal): AsyncGenerator<StreamChunk> {
+  async *generateTextLensStream(request: TextLensRequest, signal?: AbortSignal): AsyncGenerator<StreamChunk> {
     const zoomPrompt = this.createZoomPrompt(request);
 
     try {
@@ -189,7 +189,7 @@ export class OpenAIService {
         }
       }
     } catch (error) {
-      logger.error("Error in semantic zoom streaming:", error);
+      logger.error("Error in text lens streaming:", error);
       throw error;
     }
   }
@@ -262,7 +262,7 @@ export class OpenAIService {
     };
   }
 
-  private createZoomPrompt(request: SemanticZoomRequest): string {
+  private createZoomPrompt(request: TextLensRequest): string {
     const { text, context, direction } = request;
 
     let prompt: string;

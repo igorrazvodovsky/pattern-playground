@@ -160,22 +160,22 @@ const jsonSchema = {
   required: ["model"]
 };
 
-// Semantic zoom schemas
-export type SemanticZoomRequest = {
+// Text lens schemas
+export type TextLensRequest = {
   text: string;
   context?: string;
   direction: 'in' | 'out';
   intensity: number;
 };
 
-export type SemanticZoomStreamChunk = {
+export type TextLensStreamChunk = {
   type: 'chunk' | 'complete' | 'error';
   content?: string;
   done: boolean;
   error?: string;
 };
 
-const semanticZoomRequestSchema = z.object({
+const textLensRequestSchema = z.object({
   text: z.string().min(1),
   context: z.string().optional(),
   direction: z.enum(['in', 'out']),
@@ -185,5 +185,5 @@ const semanticZoomRequestSchema = z.object({
 export {
   juiceProductionSchema,
   jsonSchema,
-  semanticZoomRequestSchema
+  textLensRequestSchema
 };

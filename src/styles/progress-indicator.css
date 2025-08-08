@@ -47,7 +47,7 @@
     height: var(--_circle-size);
     border-radius: 50%;
     background-color: var(--c-neutral-200);
-    margin-top: 0.5rem;
+    margin-top: 0.5em;
   }
 
   &.stepper__item--done:not(:has(.stepper__icon)):before {
