@@ -8,7 +8,14 @@
 // Public components
 export { ReferenceEditor } from './ReferenceEditor';
 export { Reference, createReferenceSuggestion } from './Reference';
-export { referenceContentAdapter } from './ReferenceContentAdapter';
+
+// Web Component adapter system
+export { 
+  setupReferenceAdapter,
+  createReferencePreviewHTML,
+  createReferenceDetailHTML,
+  isUserReference 
+} from './reference-adapter';
 
 // Public types
 export type {
