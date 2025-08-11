@@ -1,13 +1,19 @@
 import type { Editor } from '@tiptap/react';
 import type { TipTapTextPointer } from './document-pointer.js';
+import { AbstractPointerAdapter } from './pointers/abstract-pointer-adapter.js';
 
-// TipTap pointer adapter
-export class TipTapPointerAdapter {
-  constructor(private editor: Editor, private documentId?: string, private editorId?: string) {}
+export class TipTapPointerAdapter extends AbstractPointerAdapter<TipTapTextPointer> {
+  constructor(private editor: Editor, documentId: string, private editorId?: string) {
+    super(documentId, editorId);
+  }
 
-  // Create pointer from current selection
-  createPointer(): TipTapTextPointer {
+  createPointer(): TipTapTextPointer | null {
     const { from, to } = this.editor.state.selection;
+    
+    if (from === to) {
+      return null; // No selection
+    }
+    
     const text = this.editor.state.doc.textBetween(from, to, ' ');
 
     return {
@@ -16,11 +22,11 @@ export class TipTapPointerAdapter {
       to,
       text,
       documentId: this.documentId,
-      editorId: this.editorId
+      editorId: this.editorId,
+      timestamp: new Date()
     };
   }
 
-  // Create pointer for specific range
   createPointerForRange(from: number, to: number): TipTapTextPointer {
     const text = this.editor.state.doc.textBetween(from, to, ' ');
 
@@ -30,26 +36,31 @@ export class TipTapPointerAdapter {
       to,
       text,
       documentId: this.documentId,
-      editorId: this.editorId
+      editorId: this.editorId,
+      timestamp: new Date()
     };
   }
 
-  // Check if pointer is still valid
   validatePointer(pointer: TipTapTextPointer): boolean {
+    this.validatePointerStructure(pointer);
+    
     const { from, to } = pointer;
     const docSize = this.editor.state.doc.content.size;
-    return from >= 0 && to <= docSize && from < to;
+    
+    if (from < 0 || to > docSize || from >= to) {
+      return false;
+    }
+    
+    return true;
   }
 
-  // Get the current text at a pointer location (for validation)
-  getTextAtPointer(pointer: TipTapTextPointer): string {
-    if (!this.validatePointer(pointer)) return '';
+  getContentAtPointer(pointer: TipTapTextPointer): string | null {
+    if (!this.validatePointer(pointer)) return null;
     return this.editor.state.doc.textBetween(pointer.from, pointer.to, ' ');
   }
 
-  // Check if pointer text still matches current document content
   isPointerTextValid(pointer: TipTapTextPointer): boolean {
-    const currentText = this.getTextAtPointer(pointer);
+    const currentText = this.getContentAtPointer(pointer);
     return currentText === pointer.text;
   }
 
@@ -145,11 +156,22 @@ export class TipTapPointerAdapter {
     return marks;
   }
 
-  // Check if a position range overlaps with existing comments
   hasOverlappingComments(from: number, to: number): boolean {
     const commentMarks = this.getAllCommentMarks();
     return commentMarks.some(mark =>
       (from < mark.to && to > mark.from) // Ranges overlap
     );
+  }
+
+  deserializePointer(data: Record<string, any>): TipTapTextPointer {
+    return {
+      type: 'tiptap-text-range',
+      from: data.from,
+      to: data.to,
+      text: data.text,
+      documentId: data.documentId,
+      editorId: data.editorId,
+      timestamp: new Date(data.timestamp)
+    };
   }
 }

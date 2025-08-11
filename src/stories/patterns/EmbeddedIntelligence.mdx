@@ -8,37 +8,47 @@ Embedded intelligence integrates LLMs directly into familiar workflows and inter
 
 ## Understanding intent
 
-{/* Embedded intelligence can be seen as an alternative to [chatting](../?path=/docs/compositions-messaging--docs) with a [bot](../?path=/docs/patterns-bot--docs). */}
+Translating user's fuzzy, high-level goal into a precise, structured command the system can execute.
+This process involves two key steps:
 
-Embedded intelligence is about integrating intent detection seamlessly into interfaces. Good embedded intelligence anticipates and supports user intent proactively. It adjusts its behaviours or recommendations based on inferred goals, context, and user states.
+### Intent Detection
 
-### Intent detection
+The system identifies signals that indicate a user's goal. These signals can be:
 
-TODO: Keywords, user actions, navigation paths, context indicators...
+- Keywords and natural language: Direct text input.
+- User actions: Selecting text, dragging an element, hovering over an item for a certain duration.
+- Navigation paths: The sequence of pages or views a user visits can imply a larger goal.
+- Contextual cues: The current state of the application, the type of data being viewed, or the user's role.
+- User history
 
 ### Intent interpretation
+{/* Once a signal is detected, the system interprets it to infer the desired outcome. Basically pairing it with system prompt */}
+...
 
-TODO: Goal inference, context understanding, user state analysis...
-
-{/* ### Patterns for capturing and interpreting intent */}
-{/* - [Command menu](../?path=/docs/patterns-command-menu--docs) */}
+{/* ## Examples */}
+{/* ### LLM-Powered Filtering */}
+{/* - **Detection:** The user types a natural language query like "high priority tasks for next week" into a filter input. */}
+{/* - **Interpretation:** The LLM parses this query, understands the concepts of "high priority" and "next week," and translates them into structured filter criteria (e.g., `Priority = High` AND `DueDate < now() + 7d`). */}
+{/* - **Result:** The system applies the corresponding filter, fulfilling the user's intent without forcing them to manually construct the query. */}
 
 ## Related patterns
 
 ### Precursors
 
-- Extends [adaptation](../?path=/docs/foundations-adaptation--docs) by mixing deterministic (rule-driven) and probabilistic (inferred or predicted) responses, creating dynamic, context-sensitive interactions..
+- Extends [adaptation](../?path=/docs/foundations-adaptation--docs) by mixing deterministic (rule-driven) and probabilistic (inferred or predicted) responses, creating dynamic, context-sensitive interactions.
 - Enhances the system’s [agency](../?path=/docs/foundations-agency--docs) by enabling autonomous decisions and actions.
 
-### Follow-ups
+### Follow-ups & Complements
 
-- Embedded intelligence aligns well with [command menu](../?path=/docs/patterns-command-menu--docs).
-- [Filtering](../?path=/docs/compositions-browsing-sensemaking-filtering--docs) is an example of using embedded intelligence in command menu that it uses for searching filter attributes and value There AI is used to interpret complex queries.
-- In [focus and context](../?path=/docs/patterns-focus-and-context--docs) embedded intelligence reveals the invisible by suggesting inferred connections.
-- Continuous feedback loop
+- [Command menu](../?path=/docs/patterns-command-menu--docs): A natural home for embedded intelligence, turning a simple command line into an intent-driven interface.
+- [Filtering](../?path=/docs/compositions-filtering--docs): A prime example of embedded intelligence, where natural language queries are translated into structured filters.
+- [Focus and context](../?path=/docs/patterns-focus-and-context--docs): Can use embedded intelligence to infer what contextual information is most relevant to a user's current focus.
+- [Suggestion](../?path=/docs/patterns-suggestion--docs): The output of embedded intelligence is often a suggestion that the user can accept, reject, or modify.
+- Continuous feedback loop: The user's reaction to the embedded intelligence (e.g., accepting or rejecting a suggestion) provides valuable feedback for improving the underlying model.
 
 ## Resources & references
 
-- Salovaara (2004) Six modes of proactive resource management
-- Noessel (2017) Designing agentive technology
-- Tennenhouse (2000) Proactive computing
+- Heer, J. (2019). [Agency plus automation: Designing artificial intelligence into interactive systems](https://www.pnas.org/doi/10.1073/pnas.1807184115). *PNAS*.
+- Salovaara, A. (2004). Six modes of proactive resource management.
+- Noessel, C. (2017). Designing agentive technology.
+- Tennenhouse, D. (2000). Proactive computing.

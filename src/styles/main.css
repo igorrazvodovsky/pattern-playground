@@ -93,3 +93,11 @@ body {
 .dashed {
   border-style: dashed;
 }
+
+pp-comment-thread {
+  display: block;
+}
+
+pp-comment-item {
+  display: contents;
+}

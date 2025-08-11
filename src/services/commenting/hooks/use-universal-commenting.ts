@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from 'react';
+import { useMemo } from 'react';
 import { useCommentStore } from '../state/comment-store.js';
 import { UniversalCommentingService } from '../universal-commenting-service.js';
 
@@ -12,10 +12,7 @@ export const useUniversalCommenting = (documentId?: string) => {
     []  // No dependencies since we use getState() directly
   );
 
-  // Load from localStorage on mount
-  useEffect(() => {
-    commentStore.actions.loadFromLocalStorage();
-  }, [commentStore.actions]);
+  // Data is automatically rehydrated by Zustand persist middleware
 
   // Get threads for this document (if documentId provided)
   const threads = useMemo(() => {

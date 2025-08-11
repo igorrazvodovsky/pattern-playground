@@ -6,7 +6,7 @@ import React, { useCallback, useState } from 'react';
 import { textTransformService } from '../../services/textTransformService';
 import { PpToast, PpButton, PpPopup } from '../../main.ts';
 import '../../components/modal/modal.ts';
-import { CommentMark, useTipTapCommentingIntegration, useCommentUI, CommentPopover, CommentDrawer } from '../../components/commenting/index.js';
+import { CommentMark, useCommentUI, CommentPopover, CommentDrawer } from '../../components/commenting/index.js';
 import { comments, users, getUserById, getCommentsByEntity, getCommentsByThreadId } from '../shared-data/index.ts';
 
 const meta = {

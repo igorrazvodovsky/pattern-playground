@@ -235,9 +235,11 @@ aside[class*="sbdocs-toc"] {
   blockquote {
     border-left: none;
     padding: 0;
+    background: none;
   }
 
-  blockquote, p {
+  blockquote,
+  p {
     margin-block: 0;
   }
 }

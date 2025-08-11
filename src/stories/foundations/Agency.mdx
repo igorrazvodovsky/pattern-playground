@@ -6,7 +6,12 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Agency
 
-The ability of a system to act independently, make decisions, and execute tasks.
+The distribution of decision-making and control between system and user within an interface.
+
+## Actors
+
+- *System agency* is the ability of a system to act independently, make decisions, and execute tasks on behalf of the user.
+- *User agency* is the user's ability to maintain control, override system decisions, understand system behaviour, and retain their expertise and judgement.
 
 ## Components
 
@@ -16,14 +21,20 @@ The ability of a system to act independently, make decisions, and execute tasks.
 
 ## Spectrum
 
-Agency can be thought of as operating on a continuum from a high level of agency through to the point of only reacting to user input (same goes for its components).
+System agency can be thought of as operating on a continuum from high autonomy through to only reacting to user input:
 
-Assistance → Automation → Agency
-...
+**User-driven** → **Assistance** → **Automation** → **Autonomy**
+
+- **User-driven**: System responds only to explicit user commands
+- **Assistance**: System provides contextual help and suggestions
+- **Automation**: System executes predefined workflows with minimal user input
+- **Autonomy**: System makes independent decisions and adapts behaviour dynamically
+
+As system agency increases, preserving user agency becomes more critical to maintain user control and prevent skill atrophy.
 
 ## Relationships to different levels of design system
 
-Agency progressively expands as we move up through scales of the design system:
+System agency progressively expands as we move up through scales of the design system:
 
 ### [Foundation](../?path=/docs/foundations-overview--docs)
 
@@ -49,16 +60,19 @@ an interface and to actively guide the user. [Explanations](../?path=/docs/patte
 arranged sections](../?path=/docs/patterns-focus-and-context--docs) respond proactively, anticipating user needs and creating experiences that feel
 coherent, intentional, and responsive.
 
-## Things to consider
+## Balancing system and user agency
 
-- Designing agentive software requires a change in the mental model: from viewing software as a passive tool to active participant.
-- Design must strike a balance between delegating tasks to the system and maintaining user control and judgement. Interfaces and interactions should leverage the AI's capabilities while ensuring humans can review, modify, and ultimately make final decisions.
-- This includes protecting and advancing user expertise when valuable. If 100% of tasks are delegated to AI, a user will start forgetting domain knowledge.
+- **Mental model shift**: Designing agentive software requires viewing software as an active participant rather than passive tool.
+- **Delegation vs control**: Strike a balance between leveraging system capabilities and maintaining user oversight. Users should retain the ability to review, modify, and make final decisions.
+- **Preserving expertise**: Protect user domain knowledge by ensuring meaningful engagement with tasks. Complete delegation can lead to skill atrophy and loss of critical judgement.
+- **Transparency**: System decisions should be explainable and understandable to maintain user trust and enable informed intervention.
+- **Graceful degradation**: When system agency fails, users should be able to seamlessly take control without losing context or progress.
 
 ## Related
 
 - AX: agent experience
 - Relies on [adaptation](../?path=/docs/foundations-adaptation--docs)
+- [Bot patterns](../?path=/docs/patterns-bot--docs) demonstrate different agency levels through interaction modes
 
 {/* ## Resources */}
 

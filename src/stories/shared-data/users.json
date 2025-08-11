@@ -51,7 +51,7 @@
     "icon": "ph:user-fill",
     "description": "Policy Advisor",
     "searchableText": "david chen policy advisor regulations",
-    "metadata": { "role": "Policy Advisor", "email": "david@circulareconomy.com", "photoUrl": "https://i.pravatar.cc/150?img=6" }
+    "metadata": { "role": "Policy Advisor", "email": "david@circulareconomy.com", "photoUrl": "https://i.pravatar.cc/150?img=26" }
   },
   {
     "id": "user-7",
@@ -69,7 +69,7 @@
     "icon": "ph:user-fill",
     "description": "Logistics Coordinator",
     "searchableText": "sam wilson logistics coordinator transport",
-    "metadata": { "role": "Logistics Coordinator", "email": "sam@circulareconomy.com", "photoUrl": "https://i.pravatar.cc/150?img=8" }
+    "metadata": { "role": "Logistics Coordinator", "email": "sam@circulareconomy.com", "photoUrl": "https://i.pravatar.cc/150?img=28" }
   },
   {
     "id": "user-9",

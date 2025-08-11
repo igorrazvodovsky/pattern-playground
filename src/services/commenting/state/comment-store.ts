@@ -36,10 +36,8 @@ interface CommentActions {
   // UI state
   togglePanel: () => void;
   
-  // Local persistence
-  saveToLocalStorage: () => void;
-  loadFromLocalStorage: () => void;
-  clearLocalStorage: () => void;
+  // Clear all data
+  clearAllData: () => void;
 }
 
 // Generate unique IDs
@@ -74,7 +72,6 @@ export const useCommentStore = create<UniversalCommentingState & {
             hasUnsavedChanges: true
           }));
           
-          get().actions.saveToLocalStorage();
           return thread;
         },
         
@@ -106,7 +103,6 @@ export const useCommentStore = create<UniversalCommentingState & {
             hasUnsavedChanges: true
           }));
 
-          get().actions.saveToLocalStorage();
           return comment;
         },
         
@@ -120,47 +116,19 @@ export const useCommentStore = create<UniversalCommentingState & {
             threads: new Map(state.threads).set(threadId, updatedThread),
             hasUnsavedChanges: true
           }));
-          
-          get().actions.saveToLocalStorage();
         },
         
         setActiveThread: (id) => set({ activeThreadId: id }),
         setDraftComment: (draft) => set({ draftComment: draft }),
         togglePanel: () => set(state => ({ panelVisible: !state.panelVisible })),
         
-        saveToLocalStorage: () => {
-          const state = get();
-          const serializable = {
-            threads: Array.from(state.threads.entries()),
-            comments: Array.from(state.comments.entries()),
-            lastSavedTimestamp: Date.now()
-          };
-          localStorage.setItem('comment-store', JSON.stringify(serializable));
-          set({ hasUnsavedChanges: false, lastSavedTimestamp: Date.now() });
-        },
-        
-        loadFromLocalStorage: () => {
-          const stored = localStorage.getItem('comment-store');
-          if (!stored) return;
-          
-          try {
-            const data = JSON.parse(stored);
-            set({
-              threads: new Map(data.threads),
-              comments: new Map(data.comments),
-              lastSavedTimestamp: data.lastSavedTimestamp,
-              hasUnsavedChanges: false
-            });
-          } catch (error) {
-            console.error('Failed to load comments from localStorage:', error);
-          }
-        },
-        
-        clearLocalStorage: () => {
-          localStorage.removeItem('comment-store');
+        clearAllData: () => {
           set({
             threads: new Map(),
             comments: new Map(),
+            activeThreadId: undefined,
+            draftComment: undefined,
+            panelVisible: false,
             lastSavedTimestamp: 0,
             hasUnsavedChanges: false
           });

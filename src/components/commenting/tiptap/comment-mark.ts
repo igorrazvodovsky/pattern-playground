@@ -68,15 +68,5 @@ export const CommentMark = Mark.create({
         return commands.updateAttributes(this.name, { resolved: false });
       }
     };
-  },
-
-  addKeyboardShortcuts() {
-    return {
-      'Mod-Shift-m': () => {
-        // Let the application handle comment creation through BubbleMenu
-        // This shortcut could trigger a custom event or callback
-        return false;
-      }
-    };
-  },
+  }
 });

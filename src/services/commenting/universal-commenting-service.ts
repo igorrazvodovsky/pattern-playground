@@ -102,19 +102,6 @@ export class UniversalCommentingService {
     );
   }
 
-  // Archive a thread instead of deleting
-  archiveThread(threadId: string): void {
-    const state = this.getState();
-    const thread = state.threads.get(threadId);
-    if (!thread) return;
-
-    const updatedThread = { ...thread, status: 'archived' as const };
-    
-    // Note: We can't call setState directly since we only have getState
-    // This functionality would need to be handled through actions
-    state.actions.archiveThread?.(threadId) || console.warn('Archive thread action not implemented');
-  }
-
   // Get statistics about comments
   getCommentStats() {
     const state = this.getState();
@@ -125,9 +112,7 @@ export class UniversalCommentingService {
       totalThreads: threads.length,
       activeThreads: threads.filter(t => t.status === 'active').length,
       resolvedThreads: threads.filter(t => t.status === 'resolved').length,
-      archivedThreads: threads.filter(t => t.status === 'archived').length,
-      totalComments: comments.length,
-      totalParticipants: new Set(threads.flatMap(t => t.participants)).size
+      totalComments: comments.length
     };
   }
 }
