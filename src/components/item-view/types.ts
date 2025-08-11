@@ -40,4 +40,27 @@ export interface ItemViewProps<T extends BaseItem = BaseItem> {
 export interface ContentAdapter<T extends BaseItem = BaseItem> {
   contentType: string;
   render: (props: ItemViewProps<T>) => React.ReactNode;
+  
+  // Enhanced adapter capabilities
+  supportedScopes?: ViewScope[];
+  supportsCommenting?: boolean;
+  supportsRichContent?: boolean;
+}
+
+// Comment integration support
+export interface UniversalComment {
+  id: string;
+  content: string;
+  author: string;
+  timestamp: Date;
+  parentId?: string;
+}
+
+export interface CommentAwareAdapter<T extends BaseItem = BaseItem>
+  extends ContentAdapter<T> {
+  supportsCommenting: true;
+  renderWithComments: (props: ItemViewProps<T> & {
+    comments: UniversalComment[];
+    onComment: (content: string) => void;
+  }) => React.ReactNode;
 }

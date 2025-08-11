@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useState, useEffect } from 'react';
-import { ItemPreview } from './ItemPreview';
+import { ItemView } from './ItemView';
 import { modalService } from '../../services/modal-service';
+import { createModalContentAsHtml, getSizeForScope, getPlacementForScope } from './services/modal-service-integration';
 import type { ItemInteractionProps, ViewScope, BaseItem } from './types';
 
 /**
@@ -75,69 +76,11 @@ export const ItemInteraction = <T extends BaseItem = BaseItem>({
     // Handle different scope transitions using modal service
     switch (newScope) {
       case 'mid':
-        // Create simple HTML content for drawer
-        const detailContent = `
-          <div class="flow" data-content-type="${contentType}">
-            <header class="inline-flow">
-              <div class="flow-2xs">
-                <h2>${item.label}</h2>
-                <small class="text-secondary">${item.type}</small>
-              </div>
-            </header>
-            <div class="flow">
-              <div><strong>ID:</strong> ${item.id}</div>
-              ${item.metadata && Object.keys(item.metadata).length > 0 ? `
-                <div class="flow-xs">
-                  <h3>Properties</h3>
-                  <dl class="flow-2xs">
-                    ${Object.entries(item.metadata).map(([key, value]) => `
-                      <div>
-                        <dt class="text-bold">${key}</dt>
-                        <dd>${String(value)}</dd>
-                      </div>
-                    `).join('')}
-                  </dl>
-                </div>
-              ` : ''}
-            </div>
-          </div>
-        `;
+        const detailContent = createModalContentAsHtml(item, contentType, 'mid');
         modalService.openDrawer(detailContent, 'right', item.label);
         break;
       case 'maxi':
-        // Create simple HTML content for full view
-        const fullContent = `
-          <div class="layer flow" data-content-type="${contentType}">
-            <header class="inline-flow">
-              <div class="flow-2xs">
-                <h1>${item.label}</h1>
-                <div class="inline-flow text-secondary">
-                  <span>${item.type}</span>
-                  <span>#${item.id}</span>
-                </div>
-              </div>
-            </header>
-            <main class="flow">
-              <section class="flow">
-                <h2>Overview</h2>
-                <p>This is a ${item.type} item with ID ${item.id}.</p>
-              </section>
-              ${item.metadata && Object.keys(item.metadata).length > 0 ? `
-                <section class="flow">
-                  <h2>Properties</h2>
-                  <dl class="flow-xs">
-                    ${Object.entries(item.metadata).map(([key, value]) => `
-                      <div>
-                        <dt class="text-bold">${key}</dt>
-                        <dd>${typeof value === 'object' ? JSON.stringify(value, null, 2) : String(value)}</dd>
-                      </div>
-                    `).join('')}
-                  </dl>
-                </section>
-              ` : ''}
-            </main>
-          </div>
-        `;
+        const fullContent = createModalContentAsHtml(item, contentType, 'maxi');
         modalService.openDialog(fullContent, item.label);
         break;
     }
@@ -228,7 +171,7 @@ export const ItemInteraction = <T extends BaseItem = BaseItem>({
               }}
               className="hover-card__content"
             >
-              <ItemPreview
+              <ItemView
                 item={item}
                 contentType={contentType}
                 scope="mini"

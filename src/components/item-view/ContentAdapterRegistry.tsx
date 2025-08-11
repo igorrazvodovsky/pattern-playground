@@ -1,10 +1,16 @@
 import React, { createContext, useContext, useMemo } from 'react';
-import type { ContentAdapter, BaseItem } from './types';
+import type { ContentAdapter, BaseItem, ViewScope } from './types';
+import { validateAdapter } from './utils/validation';
 
 interface ContentAdapterContextValue {
   adapters: Map<string, ContentAdapter>;
   registerAdapter: <T extends BaseItem>(adapter: ContentAdapter<T>) => void;
   getAdapter: (contentType: string) => ContentAdapter | undefined;
+  
+  // Enhanced capabilities
+  validateContentType: (contentType: string) => boolean;
+  getSupportedScopes: (contentType: string) => ViewScope[];
+  supportsCommenting: (contentType: string) => boolean;
 }
 
 const ContentAdapterContext = createContext<ContentAdapterContextValue | null>(null);
@@ -21,17 +27,28 @@ export const ContentAdapterProvider: React.FC<ContentAdapterProviderProps> = ({
   const value = useMemo(() => {
     const adapters = new Map<string, ContentAdapter>();
     
-    // Register initial adapters
+    // Register initial adapters with validation
     initialAdapters.forEach(adapter => {
+      validateAdapter(adapter);
       adapters.set(adapter.contentType, adapter);
     });
 
     return {
       adapters,
       registerAdapter: <T extends BaseItem>(adapter: ContentAdapter<T>) => {
+        validateAdapter(adapter);
         adapters.set(adapter.contentType, adapter as ContentAdapter);
       },
       getAdapter: (contentType: string) => adapters.get(contentType),
+      validateContentType: (contentType: string) => adapters.has(contentType),
+      getSupportedScopes: (contentType: string) => {
+        const adapter = adapters.get(contentType);
+        return adapter?.supportedScopes || ['mini', 'mid', 'maxi'];
+      },
+      supportsCommenting: (contentType: string) => {
+        const adapter = adapters.get(contentType);
+        return adapter?.supportsCommenting || false;
+      },
     };
   }, [initialAdapters]);
 

@@ -1,8 +1,12 @@
 // Core components
+export { ItemView } from './ItemView';
+export { ItemInteraction } from './ItemInteraction';
+export { DefaultFallbackRenderer } from './DefaultFallbackRenderer';
+
+// Legacy components - deprecated (use ItemView instead)
 export { ItemPreview } from './ItemPreview';
 export { ItemDetail } from './ItemDetail';
 export { ItemFullView } from './ItemFullView';
-export { ItemInteraction } from './ItemInteraction';
 
 // Content adapter system
 export { 
@@ -12,6 +16,18 @@ export {
   useRegisterAdapter 
 } from './ContentAdapterRegistry';
 
+// Adapter base classes
+export { CommentAwareAdapterBase } from './adapters/CommentAwareAdapterBase';
+export { QuoteAdapterBase } from './quote-adapters/QuoteAdapterBase';
+
+// Modal service integration
+export { 
+  createModalContent, 
+  createModalContentAsHtml, 
+  getSizeForScope, 
+  getPlacementForScope 
+} from './services/modal-service-integration';
+
 // Types
 export type {
   ViewScope,
@@ -20,5 +36,9 @@ export type {
   ViewScopeConfig,
   ItemInteractionProps,
   ItemViewProps,
-  ContentAdapter
+  ContentAdapter,
+  CommentAwareAdapter,
+  UniversalComment
 } from './types';
+
+export type { QuoteObject } from './quote-adapters/QuoteAdapterBase';
