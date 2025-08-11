@@ -24,8 +24,8 @@ Implementation plan for inline commenting functionality in TipTap v3 editor, bas
 - Enhanced BubbleMenu stories with full comment UI demonstration
 
 **Phase 4A: Item View Commenting** 🔄 **NEXT**
-- Item View pointer adapter for commenting on entire items at different scopes
-- Integration with ItemInteraction component for item-level commenting
+- Item View pointer adapter for commenting on opened items at different scopes
+- Integration with ItemInteraction component for scope-aware commenting  
 - Comment indicators in ItemDetail, ItemFullView, and hover cards
 - Cross-scope comment persistence (comments survive scope escalation)
 
@@ -1125,23 +1125,23 @@ export const CommentDrawer = ({ isOpen, threads, onClose }) => (
 
 #### **ItemView Pointer System**
 1. **Create ItemView pointer adapter**
-   - Build `ItemViewPointer` type for commenting on entire items
+   - Build `ItemViewPointer` type for commenting on opened items
    - Implement scope-aware commenting (micro/mini/mid/maxi contexts)
    - Handle item metadata and view state in pointer references
-   - Support different content types through refactored BaseItemView architecture
+   - Support different content types through ItemInteraction system
 
-2. **Integrate with refactored ItemInteraction component**
-   - Add commenting capabilities to ItemInteraction workflow using new progressive enhancement patterns
+2. **Integrate with ItemInteraction component**
+   - Add commenting capabilities to ItemInteraction workflow
    - Handle comment persistence across scope escalation (mini → mid → maxi)
    - Maintain comment context when items transition between view scopes
-   - Add comment indicators to PPItemDetail, PPItemFullView, PPItemPreview Web Components extending BaseItemView
+   - Add comment indicators to ItemDetail, ItemFullView, ItemPreview components
 
 #### **ItemView Comment UI Integration**
 3. **Add comment controls to item views**
-   - Integrate CommentThread in item view body using existing design system classes (.button, .inline-flow)
-   - Add comment count indicators and status badges leveraging BaseItemView's shared template utilities
-   - Handle comment panel visibility in different view scopes (mini/mid/maxi)
-   - Ensure comment UI adapts to pp-popup hover cards, drawer contexts, and modal dialogs
+   - Integrate comment button in item view headers/toolbars
+   - Add comment count indicators and status badges
+   - Handle comment panel visibility in different view scopes
+   - Ensure comment UI adapts to drawer, dialog, and hover card contexts
 
 4. **Cross-scope comment synchronization**
    - Comments created in mini scope appear in mid/maxi scopes
@@ -1223,8 +1223,8 @@ src/
 │       │   ├── commenting-provider.tsx      # Main context provider
 │       │   └── collaboration-provider.tsx   # Yjs provider (Tier 2)
 │       ├── universal/
-│       │   ├── comment-popover.tsx          # Popover-based comment display (uses existing pp-popup)
-│       │   ├── comment-drawer.tsx           # Drawer-based comment panel (uses existing modal service)
+│       │   ├── comment-popover.tsx          # Popover-based comment display (uses existing Popover)
+│       │   ├── comment-drawer.tsx           # Drawer-based comment panel (uses existing Drawer)
 │       │   ├── comment-thread.tsx           # Thread display (uses .messages patterns from Messaging.stories.tsx)
 │       │   ├── comment-item.tsx             # Individual comment (uses .message patterns)
 │       │   ├── comment-composer.tsx         # Comment input (uses .message-composer patterns)
@@ -1235,9 +1235,9 @@ src/
 │       │   ├── use-tiptap-commenting.ts     # TipTap integration hook
 │       │   └── comment-bubble-menu.tsx      # Enhanced bubble menu
 │       ├── item-view/
-│       │   ├── item-view-comment-indicator.ts # Item-level Web Component markers
+│       │   ├── item-view-comment-indicator.tsx # Section-based markers
 │       │   ├── use-item-view-commenting.ts  # Item View integration hook
-│       │   └── item-interaction-with-comments.ts # Enhanced PPItemInteraction Web Component
+│       │   └── item-interaction-with-comments.tsx # Enhanced ItemInteraction
 │       └── hooks/
 │           ├── use-universal-commenting.ts  # Main commenting hook
 │           ├── use-optimistic-updates.ts    # Optimistic UI patterns
@@ -1278,10 +1278,10 @@ To validate the universal commenting architecture, we'll update/create a second 
 ### Item View Pointer Type
 
 ```typescript
-// Item View specific pointer for commenting on entire items
+// Item View specific pointer for commenting on opened items
 interface ItemViewPointer extends DocumentPointer {
   type: 'item-view';
-  itemId: string;                               // Which item is being commented on
+  itemId: string;                               // Which item is being commented on  
   itemType: string;                             // Item content type (user, document, etc.)
   viewScope: ViewScope;                         // Current view context: micro, mini, mid, maxi
   interactionMode: InteractionMode;             // Current mode: preview, inspect, edit, transform
@@ -1291,78 +1291,56 @@ interface ItemViewPointer extends DocumentPointer {
 
 ```
 
-### Item View Pointer Adapter (Updated for Web Components)
+### Item View Pointer Adapter
 
 ```typescript
 class ItemViewPointerAdapter {
   constructor(private contentType: string) {}
 
-  // Create pointer for entire item comments
+  // Create pointer for item section comments
   createItemPointer(
     itemId: string,
-    itemType: string,
+    sectionPath: string,
     viewScope: ViewScope,
-    mode: InteractionMode,
-    metadata?: Record<string, unknown>
+    mode: InteractionMode
   ): ItemViewPointer {
     return {
-      type: 'item-view',
+      type: 'item-view-section',
       itemId,
-      itemType,
+      sectionPath,
       viewScope,
       interactionMode: mode,
-      metadata
+      contentType: this.contentType
     };
   }
 
   // Validate item pointer still exists
   validatePointer(pointer: ItemViewPointer): boolean {
-    // Check if item exists in the system
-    return this.itemExists(pointer.itemId);
+    // Check if item exists and section path is valid
+    return this.itemExists(pointer.itemId) &&
+           this.sectionPathValid(pointer.itemId, pointer.sectionPath);
   }
 
-  // Highlight commented item in Web Component
+  // Highlight commented section in Item View
   highlightPointer(pointer: ItemViewPointer, threadId: string): void {
-    // Target Web Components using their tag names
-    const selectors = [
-      `pp-item-interaction[data-item-id="${pointer.itemId}"]`,
-      `pp-item-preview[data-item-id="${pointer.itemId}"]`,
-      `pp-item-detail[data-item-id="${pointer.itemId}"]`,
-      `pp-item-full-view[data-item-id="${pointer.itemId}"]`
-    ];
-
-    for (const selector of selectors) {
-      const element = document.querySelector(selector);
-      if (element) {
-        element.setAttribute('data-comment-thread', threadId);
-        element.setAttribute('data-commented', 'true');
-        element.classList.add('item-commented');
-      }
+    const element = document.querySelector(
+      `[data-item-id="${pointer.itemId}"] [data-section="${pointer.sectionPath}"]`
+    );
+    if (element) {
+      element.setAttribute('data-comment-thread', threadId);
+      element.setAttribute('data-commented', 'true');
     }
   }
 
   // Remove highlighting
   unhighlightPointer(pointer: ItemViewPointer): void {
-    const selectors = [
-      `pp-item-interaction[data-item-id="${pointer.itemId}"]`,
-      `pp-item-preview[data-item-id="${pointer.itemId}"]`,
-      `pp-item-detail[data-item-id="${pointer.itemId}"]`,
-      `pp-item-full-view[data-item-id="${pointer.itemId}"]`
-    ];
-
-    for (const selector of selectors) {
-      const element = document.querySelector(selector);
-      if (element) {
-        element.removeAttribute('data-comment-thread');
-        element.removeAttribute('data-commented');
-        element.classList.remove('item-commented');
-      }
+    const element = document.querySelector(
+      `[data-item-id="${pointer.itemId}"] [data-section="${pointer.sectionPath}"]`
+    );
+    if (element) {
+      element.removeAttribute('data-comment-thread');
+      element.removeAttribute('data-commented');
     }
-  }
-
-  private itemExists(itemId: string): boolean {
-    // Implementation would check if item exists in the system
-    return true; // Placeholder
   }
 }
 ```
@@ -1370,105 +1348,83 @@ class ItemViewPointerAdapter {
 ### Integration with Item View Components
 
 ```typescript
-// Enhanced PPItemInteraction Web Component with commenting
-export class PPItemInteractionWithComments extends PPItemInteraction {
-  private commentingService?: UniversalCommentingService;
-  private pointerAdapter?: ItemViewPointerAdapter;
+// Enhanced ItemInteraction component with commenting
+export function ItemInteractionWithComments<T extends BaseItem>({
+  item,
+  contentType,
+  children,
+  commentingService,
+  ...props
+}: ItemInteractionProps<T> & {
+  commentingService: UniversalCommentingService;
+}) {
+  const pointerAdapter = useMemo(
+    () => new ItemViewPointerAdapter(contentType),
+    [contentType]
+  );
 
-  constructor() {
-    super();
-    this.handleItemComment = this.handleItemComment.bind(this);
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-    this.setupCommenting();
-  }
-
-  private setupCommenting() {
-    this.pointerAdapter = new ItemViewPointerAdapter(this.contentType);
-    // Commenting service would be injected via service locator or context
-    this.commentingService = getCommentingService();
-    this.addCommentControls();
-  }
-
-  private addCommentControls() {
-    if (!this.content) return;
-
-    // Add comment button using existing design system patterns
-    const commentButton = document.createElement('button');
-    commentButton.className = 'button button--small';
-    commentButton.innerHTML = `
-      <iconify-icon icon="ph:chat-circle"></iconify-icon>
-      Comment
-    `;
-    commentButton.addEventListener('click', this.handleItemComment);
-
-    // Insert comment control into content wrapper
-    this.content.appendChild(commentButton);
-  }
-
-  private handleItemComment() {
-    if (!this.item || !this.pointerAdapter || !this.commentingService) return;
-
-    const pointer = this.pointerAdapter.createItemPointer(
-      this.item.id,
-      this.contentType,
-      'mid', // Current scope
-      'inspect',
-      {
-        label: this.item.label,
-        timestamp: new Date().toISOString(),
-        viewScope: 'mid'
-      }
+  const handleSectionComment = useCallback((sectionPath: string) => {
+    const pointer = pointerAdapter.createItemPointer(
+      item.id,
+      sectionPath,
+      props.initialScope || 'mid',
+      'inspect'
     );
 
-    const thread = this.commentingService.createThread(
+    const thread = commentingService.createThread(
       pointer,
       '',
       'current-user'
     );
 
-    this.pointerAdapter.highlightPointer(pointer, thread.id);
-    this.$emit('comment-created', { thread, pointer });
-  }
+    pointerAdapter.highlightPointer(pointer, thread.id);
+  }, [item.id, pointerAdapter, commentingService, props.initialScope]);
+
+  return (
+    <ItemInteraction {...props} item={item} contentType={contentType}>
+      {children}
+      {/* Comment indicators for sections */}
+      <CommentIndicators
+        itemId={item.id}
+        onSectionComment={handleSectionComment}
+      />
+    </ItemInteraction>
+  );
 }
 ```
 
 ### Implementation Steps for Item View Commenting
 
-#### Phase 4A: Item View Integration (Updated for Refactored Architecture)
-4a. **Create/update Item View pointer adapter**
-   - Implement ItemViewPointer type for commenting on entire Items
-   - Build adapter for item-level commenting across different view scopes (mini/mid/maxi)
-   - Handle item-based highlighting and validation using Web Component data attributes
-   - Integrate with refactored BaseItemView and progressive enhancement patterns
+#### Phase 2B: Item View Integration
+4b. **Create/update Item View pointer adapter**
+   - Implement ItemViewPointer type for commenting on Item concept sections
+   - Build adapter for structured content commenting (state, actions, operational principles)
+   - Handle section-based highlighting and validation
 
-5a. **Update Item View Web Components with commenting**
-   - Extend PPItemInteraction with comment capabilities using new Web Component architecture
-   - Add item-level comment indicators and buttons to BaseItemView templates
-   - Integrate with universal commenting service through shared base class methods
-   - Leverage existing design system classes (.button, .inline-flow, .popover) for comment UI
+5b. **Update Item View components with commenting**
+   - Update ItemInteraction with comment capabilities
+   - Add section-level comment indicators
+   - Integrate with universal commenting service
 
-6a. **Test cross-adapter compatibility with refactored components**
-   - Verify universal service works with both TipTap and refactored Item View Web Components
-   - Test comment threading across different pointer types (text ranges vs. entire items)
-   - Validate UI consistency between implementations using shared BaseItemView patterns
+6b. **Test cross-adapter compatibility**
+   - Verify universal service works with both TipTap and Item View
+   - Test comment threading across different pointer types (text ranges vs. Item sections)
+   - Validate UI consistency between implementations
 
 ### Benefits Demonstrated
 
-1. **True universality**: Same commenting service handles both text ranges and entire items
+1. **True universality**: Same commenting service handles both text ranges and Item concept sections
 2. **Minimal adaptation**: Each document type only implements pointer operations
 3. **Consistent UX**: Comment threads, resolution, and interactions work identically
 4. **Cross-type compatibility**: TipTap and Item View comments can coexist in same interface
 
 ### Item Concept Integration
 
-This validates commenting on entire Items as unified entities:
-- **Holistic discussion**: Comment on the item as a complete concept rather than individual aspects
-- **Context-aware**: Comments maintain awareness of the view scope (micro/mini/mid/maxi) where they were created
-- **Cross-scope persistence**: Item comments remain relevant as users escalate between different view scopes
-- **Unified experience**: Single comment thread per item simplifies discussion and reduces cognitive overhead
+This validates commenting on Item concept aspects:
+- **State sections**: Comment on item state definitions and transitions
+- **Actions sections**: Discuss available operations and their implications
+- **Operational principles**: Review and refine item behavior rules
+- **View scope context**: Comments aware of micro/mini/mid/maxi rendering context
 
 ## Alignment with Ink & Switch Universal Commenting
 

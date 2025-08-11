@@ -6,8 +6,8 @@ import type { VirtualElement } from '@floating-ui/dom';
 import type { SuggestionProps } from '@tiptap/suggestion';
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { ReferencePicker } from './ReferencePicker';
-import '../item-view'; // Import Web Components
-import './reference-adapter'; // Import reference adapter
+import { ItemInteraction, ContentAdapterProvider } from '../item-view';
+import { referenceContentAdapter } from './ReferenceContentAdapter';
 import type { ReferenceCategory, SelectedReference, ReferenceType } from './types';
 
 const privateComponentData = new WeakMap<HTMLDivElement, {
@@ -212,26 +212,30 @@ export const Reference = Mention.extend({
         metadata: node.attrs.metadata ? structuredClone(node.attrs.metadata) : undefined,
       };
 
-      // Create Web Component instead of React component
-      const itemInteraction = document.createElement('pp-item-interaction');
-      itemInteraction.setAttribute('content-type', 'reference');
-      itemInteraction.setAttribute('enable-escalation', 'true');
-      itemInteraction.setAttribute('item-data', JSON.stringify(referenceData));
-      
-      const contentSpan = document.createElement('span');
-      contentSpan.className = 'reference-mention__content';
-      contentSpan.textContent = node.attrs.label ?? node.attrs.id;
-      itemInteraction.appendChild(contentSpan);
+      const ReferenceComponent = () => (
+        <ContentAdapterProvider adapters={[referenceContentAdapter]}>
+          <ItemInteraction
+            item={referenceData}
+            contentType="reference"
+            enableEscalation={true}
+          >
+            <span className="reference-mention__content">
+              {node.attrs.label ?? node.attrs.id}
+            </span>
+          </ItemInteraction>
+        </ContentAdapterProvider>
+      );
 
-      wrapper.appendChild(itemInteraction);
+      const renderer = new ReactRenderer(ReferenceComponent, {
+        editor,
+      });
+
+      wrapper.appendChild(renderer.element);
 
       return {
         dom: wrapper,
         destroy() {
-          // Clean up Web Component if needed
-          if (wrapper.contains(itemInteraction)) {
-            wrapper.removeChild(itemInteraction);
-          }
+          renderer.destroy();
         },
       };
     };

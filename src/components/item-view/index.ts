@@ -1,16 +1,16 @@
-// Progressive enhancement Web Components - import for side effects
-import './base-item-view';
-import './item-interaction';
-import './item-preview';
-import './item-detail';
-import './item-full-view';
+// Core components
+export { ItemPreview } from './ItemPreview';
+export { ItemDetail } from './ItemDetail';
+export { ItemFullView } from './ItemFullView';
+export { ItemInteraction } from './ItemInteraction';
 
-// Classes (for programmatic usage)
-export { BaseItemView } from './base-item-view';
-export { PPItemInteraction } from './item-interaction';
-export { PPItemPreview } from './item-preview'; 
-export { PPItemDetail } from './item-detail';
-export { PPItemFullView } from './item-full-view';
+// Content adapter system
+export { 
+  ContentAdapterProvider, 
+  useContentAdapterContext, 
+  useContentAdapter, 
+  useRegisterAdapter 
+} from './ContentAdapterRegistry';
 
 // Types
 export type {
@@ -18,5 +18,7 @@ export type {
   InteractionMode,
   BaseItem,
   ViewScopeConfig,
-  ItemInteractionConfig
+  ItemInteractionProps,
+  ItemViewProps,
+  ContentAdapter
 } from './types';
