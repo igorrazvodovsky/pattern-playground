@@ -1,0 +1,67 @@
+[
+  {
+    "id": "lca-demo-setup",
+    "name": "LCA Document Comment Demo Setup",
+    "description": "Pre-configured comment threads for LCA document commenting demonstration",
+    "documentId": "doc-bubble-menu-demo", 
+    "editorId": "bubble-menu-ui-demo",
+    "threads": {
+      "thread-1": {
+        "id": "thread-1",
+        "status": "active",
+        "resolved": false,
+        "documentId": "doc-bubble-menu-demo",
+        "commentRange": {
+          "text": "reshaping ecosystems",
+          "from": 18,
+          "to": 37
+        },
+        "comments": [
+          {
+            "id": "thread-1-comment-1",
+            "content": "The ecosystem impact assessment needs more specific metrics on biodiversity loss. Can we quantify the species displacement rates?",
+            "authorId": "user-5",
+            "timestamp": "2024-01-15T14:30:00Z"
+          },
+          {
+            "id": "thread-1-comment-2", 
+            "content": "Good point, Fatima. I'll coordinate with the biodiversity team to get those displacement metrics from our latest field studies.",
+            "authorId": "user-1",
+            "timestamp": "2024-01-15T15:45:00Z"
+          }
+        ]
+      },
+      "thread-2": {
+        "id": "thread-2",
+        "status": "resolved",
+        "resolved": true,
+        "documentId": "doc-bubble-menu-demo",
+        "commentRange": {
+          "text": "adaptive approaches",
+          "from": 180,
+          "to": 199
+        },
+        "comments": [
+          {
+            "id": "thread-2-comment-1",
+            "content": "What specific adaptive approaches are we considering? The current methodology seems quite rigid.",
+            "authorId": "user-2", 
+            "timestamp": "2024-01-16T09:15:00Z"
+          },
+          {
+            "id": "thread-2-comment-2",
+            "content": "We're implementing dynamic baseline adjustment protocols and real-time ecosystem monitoring integration. Documentation will be updated next week.",
+            "authorId": "user-3",
+            "timestamp": "2024-01-16T11:30:00Z"
+          },
+          {
+            "id": "thread-2-comment-3",
+            "content": "Perfect, that addresses my concerns. Thanks for the clarification!",
+            "authorId": "user-2",
+            "timestamp": "2024-01-16T14:20:00Z"
+          }
+        ]
+      }
+    }
+  }
+]

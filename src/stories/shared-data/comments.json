@@ -4,10 +4,11 @@
     "threadId": "thread-1",
     "content": "The ecosystem impact assessment needs more specific metrics on biodiversity loss. Can we quantify the species displacement rates?",
     "authorId": "user-5",
-    "timestamp": "2024-01-15T14:30:00Z",
+    "timestamp": "2024-01-15T11:15:00Z",
     "entityType": "document",
     "entityId": "doc-2",
     "status": "active",
+    "replyTo": null,
     "metadata": {
       "selectionStart": 145,
       "selectionEnd": 189,
@@ -19,20 +20,22 @@
     "threadId": "thread-1",
     "content": "Good point, Fatima. I'll coordinate with the biodiversity team to get those displacement metrics from our latest field studies.",
     "authorId": "user-1",
-    "timestamp": "2024-01-15T16:45:00Z",
+    "timestamp": "2024-01-15T13:45:00Z",
     "entityType": "document",
     "entityId": "doc-2",
-    "status": "active"
+    "status": "active",
+    "replyTo": "comment-1"
   },
   {
     "id": "comment-3",
     "threadId": "thread-2", 
     "content": "This section on habitat shrinkage aligns well with our water conservation project findings. Should we cross-reference the data?",
     "authorId": "user-8",
-    "timestamp": "2024-01-14T09:15:00Z",
+    "timestamp": "2024-01-14T03:15:00Z",
     "entityType": "document",
     "entityId": "doc-2",
     "status": "resolved",
+    "replyTo": null,
     "metadata": {
       "selectionStart": 422,
       "selectionEnd": 450,
@@ -49,27 +52,30 @@
     "timestamp": "2024-01-16T10:30:00Z",
     "entityType": "document",
     "entityId": "doc-2",
-    "status": "resolved"
+    "status": "resolved",
+    "replyTo": "comment-3"
   },
   {
     "id": "comment-5",
     "threadId": "thread-3",
     "content": "The take-back program design looks comprehensive, but have we considered the logistics costs for rural areas?",
     "authorId": "user-2",
-    "timestamp": "2024-01-16T11:20:00Z", 
+    "timestamp": "2024-01-16T10:20:00Z", 
     "entityType": "task",
     "entityId": "task-4",
-    "status": "active"
+    "status": "active",
+    "replyTo": null
   },
   {
     "id": "comment-6",
     "threadId": "thread-3", 
     "content": "That's a crucial consideration. Let me run the cost analysis for different coverage scenarios and update the proposal.",
     "authorId": "user-4",
-    "timestamp": "2024-01-16T13:45:00Z",
+    "timestamp": "2024-01-16T12:45:00Z",
     "entityType": "task", 
     "entityId": "task-4",
-    "status": "active"
+    "status": "active",
+    "replyTo": "comment-5"
   },
   {
     "id": "comment-7",

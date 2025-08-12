@@ -1,0 +1,259 @@
+[
+  {
+    "id": "sustainability-meeting-content",
+    "name": "Sustainability Meeting Content",
+    "description": "Complete hierarchical reference system with sustainability-focused content",
+    "content": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            { "type": "text", "text": "The sustainability review will be led by " },
+            {
+              "type": "reference",
+              "attrs": {
+                "id": "user-1",
+                "label": "Elena Petrova",
+                "type": "user",
+                "metadata": {
+                  "role": "Environmental Scientist",
+                  "department": "Sustainability"
+                }
+              }
+            },
+            { "type": "text", "text": ", with input from the circular economy team working on " },
+            {
+              "type": "reference",
+              "attrs": {
+                "id": "project-1",
+                "label": "Customer Survey Analysis",
+                "type": "project",
+                "metadata": {
+                  "status": "active",
+                  "priority": "high"
+                }
+              }
+            },
+            { "type": "text", "text": ". Please review the " },
+            {
+              "type": "reference",
+              "attrs": {
+                "id": "doc-climate-change",
+                "label": "Climate Change Impact Report",
+                "type": "document",
+                "metadata": {
+                  "type": "analysis",
+                  "lastUpdated": "2024-01-15"
+                }
+              }
+            },
+            { "type": "text", "text": " and the " },
+            {
+              "type": "reference",
+              "attrs": {
+                "id": "doc-circular-economy",
+                "label": "Circular Economy Implementation Guide",
+                "type": "document",
+                "metadata": {
+                  "type": "strategy",
+                  "lastUpdated": "2024-01-20"
+                }
+              }
+            },
+            { "type": "text", "text": " before the next meeting. For technical questions, contact " },
+            {
+              "type": "reference",
+              "attrs": {
+                "id": "user-2",
+                "label": "David Chen",
+                "type": "user",
+                "metadata": {
+                  "role": "Systems Engineer",
+                  "department": "Technology"
+                }
+              }
+            },
+            { "type": "text", "text": " or for policy matters, reach out to " },
+            {
+              "type": "reference",
+              "attrs": {
+                "id": "user-3",
+                "label": "Sarah Wilson",
+                "type": "user",
+                "metadata": {
+                  "role": "Policy Analyst",
+                  "department": "Compliance"
+                }
+              }
+            },
+            { "type": "text", "text": "." }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "sustainability-team-meeting-content",
+    "name": "Sustainability Team Meeting Content",
+    "description": "Single-category reference picker with sustainability meeting content",
+    "content": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            { "type": "text", "text": "In today's sustainability meeting, " },
+            {
+              "type": "reference",
+              "attrs": {
+                "id": "user-1",
+                "label": "Elena Petrova",
+                "type": "user",
+                "metadata": {
+                  "role": "Environmental Scientist",
+                  "department": "Sustainability"
+                }
+              }
+            },
+            { "type": "text", "text": " presented the climate impact analysis. " },
+            {
+              "type": "reference",
+              "attrs": {
+                "id": "user-2",
+                "label": "David Chen",
+                "type": "user",
+                "metadata": {
+                  "role": "Systems Engineer",
+                  "department": "Technology"
+                }
+              }
+            },
+            { "type": "text", "text": " will lead the circular economy implementation, while " },
+            {
+              "type": "reference",
+              "attrs": {
+                "id": "user-3",
+                "label": "Sarah Wilson",
+                "type": "user",
+                "metadata": {
+                  "role": "Policy Analyst",
+                  "department": "Compliance"
+                }
+              }
+            },
+            { "type": "text", "text": " handles policy compliance. " },
+            { "type": "text", "text": "For metrics review, " },
+            {
+              "type": "reference",
+              "attrs": {
+                "id": "user-4",
+                "label": "Michael Rodriguez",
+                "type": "user",
+                "metadata": {
+                  "role": "Data Analyst",
+                  "department": "Analytics"
+                }
+              }
+            },
+            { "type": "text", "text": " will provide the dashboard analysis along with " },
+            {
+              "type": "reference",
+              "attrs": {
+                "id": "user-5",
+                "label": "Lisa Zhang",
+                "type": "user",
+                "metadata": {
+                  "role": "Operations Manager",
+                  "department": "Operations"
+                }
+              }
+            },
+            { "type": "text", "text": " for operational coordination." }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "project-planning-content",
+    "name": "Project Planning Content",
+    "description": "Multi-reference content for project planning scenarios",
+    "content": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            { "type": "text", "text": "The " },
+            {
+              "type": "reference",
+              "attrs": {
+                "id": "project-2",
+                "label": "Sustainability Audit",
+                "type": "project",
+                "metadata": {
+                  "status": "planning",
+                  "priority": "high"
+                }
+              }
+            },
+            { "type": "text", "text": " project requires collaboration between " },
+            {
+              "type": "reference",
+              "attrs": {
+                "id": "user-1",
+                "label": "Elena Petrova",
+                "type": "user",
+                "metadata": {
+                  "role": "Environmental Scientist",
+                  "department": "Sustainability"
+                }
+              }
+            },
+            { "type": "text", "text": " and " },
+            {
+              "type": "reference",
+              "attrs": {
+                "id": "user-4",
+                "label": "Michael Rodriguez",
+                "type": "user",
+                "metadata": {
+                  "role": "Data Analyst",
+                  "department": "Analytics"
+                }
+              }
+            },
+            { "type": "text", "text": ". Key deliverables include the " },
+            {
+              "type": "reference",
+              "attrs": {
+                "id": "doc-sustainability-metrics",
+                "label": "Sustainability Metrics Dashboard",
+                "type": "document",
+                "metadata": {
+                  "type": "analysis",
+                  "lastUpdated": "2024-01-22"
+                }
+              }
+            },
+            { "type": "text", "text": " and integration with the " },
+            {
+              "type": "reference",
+              "attrs": {
+                "id": "doc-2",
+                "label": "Life Cycle Assessment (LCA)",
+                "type": "document",
+                "metadata": {
+                  "type": "assessment",
+                  "lastUpdated": "2024-01-10"
+                }
+              }
+            },
+            { "type": "text", "text": "." }
+          ]
+        }
+      ]
+    }
+  }
+]

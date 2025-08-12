@@ -7,7 +7,8 @@ import { textTransformService } from '../../services/textTransformService';
 import { PpToast, PpButton, PpPopup } from '../../main.ts';
 import '../../components/modal/modal.ts';
 import { CommentMark, useCommentUI, CommentPopover, CommentDrawer } from '../../components/commenting/index.js';
-import { comments, users, getUserById, getCommentsByEntity, getCommentsByThreadId } from '../shared-data/index.ts';
+import { comments, users, getUserById, getCommentsByEntity, getCommentsByThreadId, getDocumentContentText, getDocumentContentRich, documentContent } from '../shared-data/index.ts';
+import type { Comment } from '../shared-data/index.ts';
 
 const meta = {
   title: "Components/Bubble menu",
@@ -43,9 +44,12 @@ const useSimpleEditor = (content: string, includeCommentMark = false) => {
 export const ExplainText: Story = {
   args: {},
   render: () => {
-    const editor = useSimpleEditor(`
-      <p>Changes in temperature and precipitation are also throwing off the rhythms of nature. Many species rely on environmental cues for breeding, migration, and feeding. When spring arrives earlier, some birds migrate before their food sources are abundant. If insects hatch too early or too late for birds to feed their chicks, or if flowers bloom before pollinators are active, the entire chain can fall apart. These mismatches can ripple through ecosystems, weakening the interdependence that many species rely on to survive.</p>
-    `);
+    // Use climate change document content for realistic text that can be linked to comments
+    const documentId = 'doc-climate-change';
+    const sectionId = 'ecological-timing';
+    const content = getDocumentContentText(documentId, sectionId);
+    
+    const editor = useSimpleEditor(`<p>${content}</p>`);
 
     const handleExplain = useCallback(() => {
       if (editor) {
@@ -93,8 +97,13 @@ export const ExplainText: Story = {
 export const MultipleActions: Story = {
   args: {},
   render: () => {
+    // Use marine ecosystems section from climate change document
+    const documentId = 'doc-climate-change';
+    const sectionId = 'marine-ecosystems';
+    const content = getDocumentContentText(documentId, sectionId);
+    
     const editor = useSimpleEditor(`
-      <p>Warming oceans are particularly devastating. <mark>Coral reefs, which are biodiversity hotspots, are bleaching and dying due to heat stress.</mark> Marine animals that depend on these reefs for food and shelter are left vulnerable. Ocean acidification, another by-product of increased CO₂ levels, is making it harder for shellfish and corals to build their skeletons. The decline of keystone species can cause cascading effects, altering food webs and leading to further biodiversity loss. In short, climate change is a force multiplier for stressors already facing wildlife, accelerating extinction rates and making conservation efforts more urgent and complex.</p>
+      <p>${content} Marine animals that depend on these reefs for food and shelter are left vulnerable. Ocean acidification, another by-product of increased CO₂ levels, is making it harder for shellfish and corals to build their skeletons. The decline of keystone species can cause cascading effects, altering food webs and leading to further biodiversity loss. In short, climate change is a force multiplier for stressors already facing wildlife, accelerating extinction rates and making conservation efforts more urgent and complex.</p>
     `);
 
     const handleExplain = useCallback(() => {
@@ -198,108 +207,136 @@ export const Commenting: Story = {
   render: () => {
     const [hideBubbleMenu, setHideBubbleMenu] = useState(false);
 
-    const editor = useSimpleEditor(`
-      <p>Climate change is <mark data-comment-id="thread-1">reshaping ecosystems</mark> at a pace that many species can't keep up with. As temperatures rise, animals and plants are being pushed out of their natural habitats.</p>
-      <p>Species adapted to cold environments—like polar bears, snow leopards, and certain alpine plants—are seeing their <mark data-comment-id="thread-2" data-resolved="true">habitats shrink or disappear</mark> entirely. Some animals are migrating to higher altitudes or latitudes, but these shifts aren't always possible or fast enough, especially for species with limited mobility or specialised diets.</p>
-    `, true); // Enable CommentMark extension
+    // Use rich content from climate change document which demonstrates quote object potential
+    const richContent = getDocumentContentRich('doc-climate-change');
+    
+    const editor = useSimpleEditor('', true); // Enable CommentMark extension
+    
+    // Set content from rich content structure when editor is ready
+    React.useEffect(() => {
+      if (editor && richContent) {
+        editor.commands.setContent(richContent);
+      }
+    }, [editor, richContent]);
 
-    // Initialize comment UI system with mock data
+    // Initialize comment UI system - this will be replaced by quote object system
     const commentUI = useCommentUI(editor, {
-      documentId: 'climate-change-ui-demo',
-      editorId: 'bubble-menu-ui-demo',
-      currentUser: 'user-1' // Elena Petrova from shared user data
+      documentId: 'bubble-menu-demo-climate-change',
+      editorId: 'bubble-menu-ui-demo', 
+      currentUser: 'user-1' // Current system - will become quote object creator
     });
 
-    // Load initial comments when editor is ready
+    // Initialize comment threads after editor content is set
     React.useEffect(() => {
-      if (editor && commentUI.service && commentUI.pointerAdapter) {
-        const existingThreads = new Map();
-
-        // Find the commented text by content matching since TipTap parses HTML spans as regular elements
-        const commentRanges = [
-          { text: 'reshaping ecosystems', threadId: 'thread-1', resolved: false },
-          { text: 'habitats shrink or disappear', threadId: 'thread-2', resolved: true }
-        ];
-
-        commentRanges.forEach(({ text, threadId, resolved }) => {
-          const content = editor.state.doc.textContent;
-          const startIndex = content.indexOf(text);
-
-          if (startIndex !== -1) {
-            // Find the actual document positions by walking through the document
-            let currentTextPos = 0;
-            let actualStart = -1;
-            let actualEnd = -1;
-
-            editor.state.doc.descendants((node, pos) => {
-              if (node.isText) {
-                const nodeText = node.textContent;
-                const nodeStart = currentTextPos;
-                const nodeEnd = currentTextPos + nodeText.length;
-
-                // Check if our target text starts within this text node
-                if (actualStart === -1 && startIndex >= nodeStart && startIndex < nodeEnd) {
-                  actualStart = pos + (startIndex - nodeStart);
+      if (editor && commentUI.service && commentUI.pointerAdapter && editor.state.doc.textContent.length > 0) {
+        // Use a timeout to ensure the rich content is fully loaded
+        const timer = setTimeout(() => {
+          const existingThreads = new Map();
+          
+          // Get sample comment content - in quote object system, these would be quotes with comments
+          const documentComments = getCommentsByEntity('document', 'doc-climate-change').slice(0, 3) as Comment[];
+          
+          // DEMO: Create comment threads on highlighted text
+          // TODO: Replace with quote object system where:
+          // 1. Text selections become persistent quote objects
+          // 2. Quote objects integrate with item-view system
+          // 3. Comments are attached to quote objects via universal commenting
+          const commentRanges = [
+            { 
+              text: 'reshaping ecosystems', 
+              threadKey: 'demo-thread-1', 
+              resolved: false,
+              // These comments would be attached to a quote object in the new system
+              comments: [
+                {
+                  content: documentComments[0]?.content || "The ecosystem impact assessment needs more specific metrics on biodiversity loss. Can we quantify the species displacement rates?",
+                  author: documentComments[0]?.authorId || 'user-5'
+                },
+                {
+                  content: documentComments[1]?.content || "Good point. I'll coordinate with the biodiversity team to get those displacement metrics from our latest field studies.",
+                  author: documentComments[1]?.authorId || 'user-1'
                 }
-
-                // Check if our target text ends within this text node
-                if (actualEnd === -1 && (startIndex + text.length) > nodeStart && (startIndex + text.length) <= nodeEnd) {
-                  actualEnd = pos + ((startIndex + text.length) - nodeStart);
+              ]
+            },
+            { 
+              text: 'habitats shrink or disappear', 
+              threadKey: 'demo-thread-2', 
+              resolved: true,
+              // This would be a resolved quote object with comments in the new system
+              comments: [
+                {
+                  content: documentComments[2]?.content || "This section aligns well with our water conservation project findings. Should we cross-reference the data?",
+                  author: documentComments[2]?.authorId || 'user-8'
                 }
+              ]
+            }
+          ];
 
-                currentTextPos += nodeText.length;
+          commentRanges.forEach(({ text, threadKey, resolved, comments }) => {
+            const content = editor.state.doc.textContent;
+            const startIndex = content.indexOf(text);
+
+            if (startIndex !== -1) {
+              // Find the actual document positions
+              let currentTextPos = 0;
+              let actualStart = -1;
+              let actualEnd = -1;
+
+              editor.state.doc.descendants((node, pos) => {
+                if (node.isText) {
+                  const nodeText = node.textContent;
+                  const nodeStart = currentTextPos;
+                  const nodeEnd = currentTextPos + nodeText.length;
+
+                  if (actualStart === -1 && startIndex >= nodeStart && startIndex < nodeEnd) {
+                    actualStart = pos + (startIndex - nodeStart);
+                  }
+
+                  if (actualEnd === -1 && (startIndex + text.length) > nodeStart && (startIndex + text.length) <= nodeEnd) {
+                    actualEnd = pos + ((startIndex + text.length) - nodeStart);
+                  }
+
+                  currentTextPos += nodeText.length;
+                }
+              });
+
+              if (actualStart !== -1 && actualEnd !== -1 && actualEnd > actualStart) {
+                try {
+                  // Create pointer and thread
+                  const pointer = commentUI.pointerAdapter.createPointerForRange(actualStart, actualEnd);
+                  const thread = commentUI.service.createThread(pointer);
+
+                  // Apply comment mark to highlight the text
+                  editor.chain()
+                    .setTextSelection({ from: actualStart, to: actualEnd })
+                    .setMark('comment', { commentId: thread.id, resolved })
+                    .run();
+
+                  // Add comments to thread
+                  comments.forEach(comment => {
+                    commentUI.service.addComment(thread.id, comment.content, comment.author);
+                  });
+
+                  // Resolve thread if needed
+                  if (resolved) {
+                    commentUI.service.resolveThread(thread.id, 'system');
+                  }
+
+                  existingThreads.set(threadKey, { thread, isResolved: resolved, pointer });
+                  console.log(`Created thread for "${text}" at positions ${actualStart}-${actualEnd}`);
+                } catch (error) {
+                  console.error(`Failed to create thread for "${text}":`, error);
+                }
               }
-            });
-
-            if (actualStart !== -1 && actualEnd !== -1 && actualEnd > actualStart) {
-              // Create pointer and thread
-              const pointer = commentUI.pointerAdapter.createPointerForRange(actualStart, actualEnd);
-              const thread = commentUI.service.createThread(pointer);
-
-              // Apply comment mark to highlight the text
-              editor.chain()
-                .setTextSelection({ from: actualStart, to: actualEnd })
-                .setMark('comment', { commentId: thread.id, resolved })
-                .run();
-
-              existingThreads.set(threadId, { thread, isResolved: resolved, pointer });
-              console.log(`Created thread for "${text}" at positions ${actualStart}-${actualEnd}`);
-            } else {
-              console.warn(`Could not find positions for text: "${text}"`);
             }
-          } else {
-            console.warn(`Could not find text: "${text}" in document`);
-          }
-        });
+          });
 
-        // Use shared comment data for demo - filtering comments for document entity
-        const documentComments = getCommentsByEntity('document', 'doc-2').slice(0, 3); // Use first 3 comments
-        const mockComments = documentComments.map((comment, index) => {
-          const author = getUserById(comment.authorId);
-          return {
-            threadKey: index < 2 ? 'thread-1' : 'thread-2', // Group first two in thread-1, last in thread-2
-            content: comment.content,
-            author: comment.authorId, // Keep the user ID for consistency
-            timestamp: comment.timestamp
-          };
-        });
-
-        // Add comments to the actual thread IDs
-        mockComments.forEach(comment => {
-          const threadData = existingThreads.get(comment.threadKey);
-          if (threadData) {
-            commentUI.service.addComment(threadData.thread.id, comment.content, comment.author);
-
-            // Resolve thread if marked as resolved
-            if (threadData.isResolved) {
-              commentUI.service.resolveThread(threadData.thread.id, 'system');
-            }
-          }
-        });
-
-        console.log(`Initialized ${existingThreads.size} comment threads`);
+          console.log(`Initialized ${existingThreads.size} comment threads`);
+        }, 100);
+        
+        return () => clearTimeout(timer);
       }
-    }, [editor, commentUI.service, commentUI.pointerAdapter]);
+    }, [editor, commentUI.service, commentUI.pointerAdapter, richContent]);
 
     const handleComment = useCallback(() => {
       if (commentUI.canCreateComment) {
@@ -407,9 +444,12 @@ export const TextLense: Story = {
   render: () => {
     const [isStreaming, setIsStreaming] = useState(false);
 
-    const editor = useSimpleEditor(`
-      <p>Climate change is reshaping ecosystems at a pace that many species can't keep up with. As temperatures rise, animals and plants are being pushed out of their natural habitats.</p>
-    `);
+    // Use habitat displacement section from climate change document
+    const documentId = 'doc-climate-change';
+    const sectionId = 'habitat-displacement';
+    const content = getDocumentContentText(documentId, sectionId);
+    
+    const editor = useSimpleEditor(`<p>${content} As temperatures rise, animals and plants are being pushed out of their natural habitats.</p>`);
 
     const handleZoom = useCallback(async (direction: 'in' | 'out') => {
       if (editor && !isStreaming) {

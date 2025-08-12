@@ -1,0 +1,111 @@
+[
+  {
+    "id": "ecological-timing-demo",
+    "name": "Ecological Timing Demo Content",
+    "description": "Content for explain text demonstration",
+    "sourceDocument": "doc-climate-change",
+    "sourceSection": "ecological-timing",
+    "content": {
+      "html": "<p>Changes in temperature and precipitation are also throwing off the rhythms of nature. Many species rely on environmental cues for breeding, migration, and feeding. When spring arrives earlier, some birds migrate before their food sources are abundant. If insects hatch too early or too late for birds to feed their chicks, or if flowers bloom before pollinators are active, the entire chain can fall apart. These mismatches can ripple through ecosystems, weakening the interdependence that many species rely on to survive.</p>",
+      "richContent": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "text": "Changes in temperature and precipitation are also throwing off the rhythms of nature. Many species rely on environmental cues for breeding, migration, and feeding. When spring arrives earlier, some birds migrate before their food sources are abundant. If insects hatch too early or too late for birds to feed their chicks, or if flowers bloom before pollinators are active, the entire chain can fall apart. These mismatches can ripple through ecosystems, weakening the interdependence that many species rely on to survive." }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "marine-ecosystems-demo", 
+    "name": "Marine Ecosystems Demo Content",
+    "description": "Content for multiple actions demonstration",
+    "sourceDocument": "doc-climate-change",
+    "sourceSection": "marine-ecosystems",
+    "content": {
+      "html": "<p>Warming oceans are particularly devastating. <mark>Coral reefs, which are biodiversity hotspots, are bleaching and dying due to heat stress.</mark> Marine animals that depend on these reefs for food and shelter are left vulnerable. Ocean acidification, another by-product of increased CO₂ levels, is making it harder for shellfish and corals to build their skeletons. The decline of keystone species can cause cascading effects, altering food webs and leading to further biodiversity loss. In short, climate change is a force multiplier for stressors already facing wildlife, accelerating extinction rates and making conservation efforts more urgent and complex.</p>",
+      "richContent": {
+        "type": "doc", 
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "text": "Warming oceans are particularly devastating. " },
+              { "type": "text", "marks": [{"type": "highlight"}], "text": "Coral reefs, which are biodiversity hotspots, are bleaching and dying due to heat stress." },
+              { "type": "text", "text": " Marine animals that depend on these reefs for food and shelter are left vulnerable. Ocean acidification, another by-product of increased CO₂ levels, is making it harder for shellfish and corals to build their skeletons. The decline of keystone species can cause cascading effects, altering food webs and leading to further biodiversity loss. In short, climate change is a force multiplier for stressors already facing wildlife, accelerating extinction rates and making conservation efforts more urgent and complex." }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "lca-commenting-demo",
+    "name": "LCA Commenting Demo Content",
+    "description": "Content for commenting demonstration with clean HTML (comments added dynamically)",
+    "sourceDocument": "doc-bubble-menu-demo",
+    "sourceSection": "climate-ecosystem-impacts",
+    "content": {
+      "html": "<p>Climate change is reshaping ecosystems at a pace that many species can't keep up with, creating unprecedented challenges for environmental assessment methodologies. The accelerated rate of ecological change necessitates more dynamic and adaptive approaches to impact evaluation, moving beyond static baseline measurements to incorporate rapidly shifting environmental conditions.</p>",
+      "richContent": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph", 
+            "content": [
+              { "type": "text", "text": "Climate change is reshaping ecosystems at a pace that many species can't keep up with, creating unprecedented challenges for environmental assessment methodologies. The accelerated rate of ecological change necessitates more dynamic and adaptive approaches to impact evaluation, moving beyond static baseline measurements to incorporate rapidly shifting environmental conditions." }
+            ]
+          }
+        ]
+      },
+      "commentRanges": [
+        {
+          "id": "range-1",
+          "text": "reshaping ecosystems",
+          "from": 18,
+          "to": 37,
+          "threadId": "thread-1",
+          "resolved": false,
+          "highlightType": "comment"
+        }
+      ],
+      "commentThreads": {
+        "thread-1": {
+          "id": "thread-1",
+          "documentId": "doc-bubble-menu-demo",
+          "rangeId": "range-1",
+          "status": "active",
+          "resolved": false,
+          "comments": ["comment-1", "comment-2"]
+        }
+      }
+    }
+  },
+  {
+    "id": "circular-principles-demo",
+    "name": "Circular Principles Demo Content", 
+    "description": "Content for text lens/semantic zoom demonstration",
+    "sourceDocument": "doc-circular-economy",
+    "sourceSection": "circular-principles",
+    "content": {
+      "html": "<p>The circular economy represents a fundamental shift from the traditional linear 'take-make-waste' model to a regenerative approach that keeps products and materials in use for as long as possible. This transformation requires systematic changes across design, manufacturing, distribution, and consumption patterns.</p>",
+      "richContent": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "text": "The " },
+              { "type": "text", "marks": [{"type": "bold"}], "text": "circular economy" },
+              { "type": "text", "text": " represents a fundamental shift from the traditional linear 'take-make-waste' model to a regenerative approach that keeps products and materials in use for as long as possible. This transformation requires systematic changes across design, manufacturing, distribution, and consumption patterns." }
+            ]
+          }
+        ]
+      }
+    }
+  }
+]

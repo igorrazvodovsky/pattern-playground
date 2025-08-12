@@ -6,7 +6,7 @@
     "icon": "ph:recycle-fill",
     "description": "Community-based organic waste collection and composting",
     "searchableText": "urban composting initiative organic waste community",
-    "metadata": { "status": "active", "phase": "implementation" }
+    "metadata": { "status": "active", "phase": "implementation", "updatedAt": "2024-01-16T14:30:00Z", "updatedBy": "user-1" }
   },
   {
     "id": "project-2",
@@ -15,7 +15,7 @@
     "icon": "ph:wrench-fill",
     "description": "Collection, repair, and resale of electronic waste",
     "searchableText": "e-waste collection refurbishment electronics repair",
-    "metadata": { "status": "active", "phase": "operations" }
+    "metadata": { "status": "active", "phase": "operations", "updatedAt": "2024-01-17T09:15:00Z", "updatedBy": "user-3" }
   },
   {
     "id": "project-3",
@@ -24,7 +24,7 @@
     "icon": "ph:package-fill",
     "description": "Developing reusable packaging for supply chains",
     "searchableText": "closed-loop packaging system reusable supply chain",
-    "metadata": { "status": "planning", "phase": "design" }
+    "metadata": { "status": "planning", "phase": "design", "updatedAt": "2024-01-15T16:45:00Z", "updatedBy": "user-4" }
   },
   {
     "id": "project-4",
@@ -33,7 +33,7 @@
     "icon": "ph:t-shirt-fill",
     "description": "Recycling old garments into new fibers",
     "searchableText": "textile recycling program garments fibers fashion",
-    "metadata": { "status": "completed", "recycled_kg": 15000 }
+    "metadata": { "status": "completed", "recycled_kg": 15000, "updatedAt": "2024-01-10T12:00:00Z", "updatedBy": "user-1", "completedAt": "2024-01-10T12:00:00Z" }
   },
   {
     "id": "project-5",
@@ -42,7 +42,7 @@
     "icon": "ph:drop-fill",
     "description": "Implementing water-saving technologies in manufacturing",
     "searchableText": "water conservation reuse manufacturing technologies",
-    "metadata": { "status": "active", "partners": 5 }
+    "metadata": { "status": "active", "partners": 5, "updatedAt": "2024-01-17T11:20:00Z", "updatedBy": "user-2" }
   },
   {
     "id": "project-6",
@@ -51,7 +51,7 @@
     "icon": "ph:wind-turbine-fill",
     "description": "Transitioning facilities to solar and wind power",
     "searchableText": "renewable energy integration solar wind power",
-    "metadata": { "status": "active", "phase": "installation" }
+    "metadata": { "status": "active", "phase": "installation", "updatedAt": "2024-01-16T08:30:00Z", "updatedBy": "user-10" }
   },
   {
     "id": "project-7",
@@ -60,6 +60,6 @@
     "icon": "ph:leaf-fill",
     "description": "Connecting local farms using regenerative practices",
     "searchableText": "sustainable agriculture network farms regenerative",
-    "metadata": { "status": "active", "phase": "outreach" }
+    "metadata": { "status": "active", "phase": "outreach", "updatedAt": "2024-01-17T13:45:00Z", "updatedBy": "user-7" }
   }
 ]

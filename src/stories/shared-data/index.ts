@@ -2,6 +2,10 @@
 import usersData from './users.json' with { type: 'json' };
 import projectsData from './projects.json' with { type: 'json' };
 import documentsData from './documents.json' with { type: 'json' };
+import documentContentData from './document-content.json' with { type: 'json' };
+import referenceContentData from './reference-content.json' with { type: 'json' };
+import editorContentData from './editor-content.json' with { type: 'json' };
+import commentThreadsData from './comment-threads.json' with { type: 'json' };
 import commandsData from './commands.json' with { type: 'json' };
 import recentItemsData from './recent-items.json' with { type: 'json' };
 import tasksData from './tasks.json' with { type: 'json' };
@@ -17,6 +21,10 @@ import filterDatesData from './filter-dates.json' with { type: 'json' };
 export const users = usersData;
 export const projects = projectsData;
 export const documents = documentsData;
+export const documentContent = documentContentData;
+export const referenceContent = referenceContentData;
+export const editorContent = editorContentData;
+export const commentThreads = commentThreadsData;
 export const commands = commandsData;
 export const recentItems = recentItemsData;
 export const transactions = transactionsData;
@@ -33,7 +41,9 @@ export const tasks = tasksData.map(task => ({
   status: filterStatusesData.find(status => status.id === task.statusId),
   priority: filterPrioritiesData.find(priority => priority.id === task.priorityId),
   assignee: users.find(user => user.id === task.assigneeId) || null,
-  labels: task.labelIds.map(labelId => filterLabelsData.find(label => label.id === labelId))
+  labels: task.labelIds.map(labelId => filterLabelsData.find(label => label.id === labelId)),
+  project: task.projectId ? projects.find(project => project.id === task.projectId) || null : null,
+  updatedByUser: task.updatedBy ? users.find(user => user.id === task.updatedBy) || null : null
 }));
 
 // Utility functions
@@ -51,6 +61,59 @@ export const getProjectById = (id: string) => {
 
 export const getDocumentById = (id: string) => {
   return documents.find(doc => doc.id === id);
+};
+
+export const getDocumentContentById = (id: string) => {
+  return documentContent.find(doc => doc.id === id);
+};
+
+export const getReferenceContentById = (id: string) => {
+  return referenceContent.find(ref => ref.id === id);
+};
+
+export const getEditorContentById = (id: string) => {
+  return editorContent.find(content => content.id === id);
+};
+
+export const getDocumentContentBySection = (documentId: string, sectionId: string) => {
+  const doc = documentContent.find(doc => doc.id === documentId);
+  if (!doc) return null;
+  
+  const section = doc.sections?.find(section => section.id === sectionId);
+  return section ? { document: doc, section } : null;
+};
+
+export const getDocumentContentText = (documentId: string, sectionId?: string) => {
+  const doc = documentContent.find(doc => doc.id === documentId);
+  if (!doc) return '';
+  
+  if (sectionId) {
+    const section = doc.sections?.find(section => section.id === sectionId);
+    return section?.text || '';
+  }
+  
+  return doc.content.plainText;
+};
+
+export const getDocumentContentRich = (documentId: string, sectionId?: string) => {
+  const doc = documentContent.find(doc => doc.id === documentId);
+  if (!doc) return null;
+  
+  if (sectionId) {
+    const section = doc.sections?.find(section => section.id === sectionId);
+    if (section) {
+      // For sections, we need to extract the relevant rich content portion
+      // For now, return the full document rich content - this could be enhanced
+      return doc.content.richContent;
+    }
+    return null;
+  }
+  
+  return doc.content.richContent;
+};
+
+export const getCommentThreadSetupById = (id: string) => {
+  return commentThreads.find(setup => setup.id === id);
 };
 
 export const getTaskById = (id: string) => {
@@ -73,12 +136,28 @@ export const getCommentById = (id: string) => {
   return comments.find(comment => comment.id === id);
 };
 
+export const getTasksByProject = (projectId: string) => {
+  return tasks.filter(task => task.project?.id === projectId);
+};
+
+export const getTasksByAssignee = (userId: string) => {
+  return tasks.filter(task => task.assignee?.id === userId);
+};
+
 export const getCommentsByThreadId = (threadId: string) => {
   return comments.filter(comment => comment.threadId === threadId);
 };
 
 export const getCommentsByEntity = (entityType: string, entityId: string) => {
   return comments.filter(comment => comment.entityType === entityType && comment.entityId === entityId);
+};
+
+export const getCommentReplies = (commentId: string) => {
+  return comments.filter(comment => comment.replyTo === commentId);
+};
+
+export const getTopLevelComments = () => {
+  return comments.filter(comment => !comment.replyTo);
 };
 
 export const getActiveComments = () => {
@@ -93,13 +172,19 @@ export const getResolvedComments = () => {
 export type User = typeof users[0];
 export type Project = typeof projects[0];
 export type Document = typeof documents[0];
+export type DocumentContent = typeof documentContent[0];
+export type ReferenceContent = typeof referenceContent[0];
+export type EditorContent = typeof editorContent[0];
+export type CommentThreadSetup = typeof commentThreads[0];
 export type Command = typeof commands[0];
 export type RecentItem = typeof recentItems[0];
-export type Task = Omit<typeof tasksData[0], 'statusId' | 'priorityId' | 'assigneeId' | 'labelIds'> & {
+export type Task = Omit<typeof tasksData[0], 'statusId' | 'priorityId' | 'assigneeId' | 'labelIds' | 'projectId' | 'updatedBy'> & {
   status: typeof filterStatuses[0];
   priority: typeof filterPriorities[0];
   assignee: User | null;
   labels: typeof filterLabels;
+  project: Project | null;
+  updatedByUser: User | null;
 };
 export type Transaction = typeof transactions[0];
 export type Comment = typeof comments[0];

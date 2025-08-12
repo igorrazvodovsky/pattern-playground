@@ -5,8 +5,15 @@
     "type": "user",
     "icon": "ph:user-fill",
     "description": "Sustainability Manager",
-    "searchableText": "elena petrova sustainability manager circular economy",
-    "metadata": { "role": "Sustainability Manager", "email": "elena@circulareconomy.com", "photoUrl": "https://i.pravatar.cc/150?img=20" }
+    "searchableText": "megan wilkinson sustainability manager circular economy",
+    "metadata": { 
+      "role": "Sustainability Manager", 
+      "email": "megan@circulareconomy.com", 
+      "photoUrl": "https://i.pravatar.cc/150?img=20",
+      "lastActiveAt": "2024-01-17T15:45:00Z",
+      "timezone": "Europe/London",
+      "preferredLanguage": "en-GB"
+    }
   },
   {
     "id": "user-2",
@@ -15,7 +22,14 @@
     "icon": "ph:user-fill",
     "description": "Supply Chain Analyst",
     "searchableText": "javier gomez supply chain analyst logistics",
-    "metadata": { "role": "Supply Chain Analyst", "email": "javier@circulareconomy.com", "photoUrl": "https://i.pravatar.cc/150?img=2" }
+    "metadata": { 
+      "role": "Supply Chain Analyst", 
+      "email": "javier@circulareconomy.com", 
+      "photoUrl": "https://i.pravatar.cc/150?img=2",
+      "lastActiveAt": "2024-01-17T14:20:00Z",
+      "timezone": "Europe/Madrid",
+      "preferredLanguage": "es-ES"
+    }
   },
   {
     "id": "user-3",
@@ -24,7 +38,14 @@
     "icon": "ph:user-fill",
     "description": "Refurbishment Technician",
     "searchableText": "nia adebayo refurbishment technician repair",
-    "metadata": { "role": "Refurbishment Technician", "email": "nia@circulareconomy.com", "photoUrl": "https://i.pravatar.cc/150?img=3" }
+    "metadata": { 
+      "role": "Refurbishment Technician", 
+      "email": "nia@circulareconomy.com", 
+      "photoUrl": "https://i.pravatar.cc/150?img=3",
+      "lastActiveAt": "2024-01-17T16:10:00Z",
+      "timezone": "Africa/Lagos",
+      "preferredLanguage": "en-NG"
+    }
   },
   {
     "id": "user-4",
@@ -33,7 +54,14 @@
     "icon": "ph:user-fill",
     "description": "Eco-designer",
     "searchableText": "kenji tanaka eco-designer product design",
-    "metadata": { "role": "Eco-designer", "email": "kenji@circulareconomy.com", "photoUrl": "https://i.pravatar.cc/150?img=4" }
+    "metadata": { 
+      "role": "Eco-designer", 
+      "email": "kenji@circulareconomy.com", 
+      "photoUrl": "https://i.pravatar.cc/150?img=4",
+      "lastActiveAt": "2024-01-17T10:30:00Z",
+      "timezone": "Asia/Tokyo",
+      "preferredLanguage": "ja-JP"
+    }
   },
   {
     "id": "user-5",
@@ -42,7 +70,14 @@
     "icon": "ph:user-fill",
     "description": "Materials Scientist",
     "searchableText": "fatima al-jamil materials scientist research",
-    "metadata": { "role": "Materials Scientist", "email": "fatima@circulareconomy.com", "photoUrl": "https://i.pravatar.cc/150?img=5" }
+    "metadata": { 
+      "role": "Materials Scientist", 
+      "email": "fatima@circulareconomy.com", 
+      "photoUrl": "https://i.pravatar.cc/150?img=5",
+      "lastActiveAt": "2024-01-17T13:15:00Z",
+      "timezone": "Asia/Dubai",
+      "preferredLanguage": "ar-AE"
+    }
   },
   {
     "id": "user-6",
@@ -51,7 +86,14 @@
     "icon": "ph:user-fill",
     "description": "Policy Advisor",
     "searchableText": "david chen policy advisor regulations",
-    "metadata": { "role": "Policy Advisor", "email": "david@circulareconomy.com", "photoUrl": "https://i.pravatar.cc/150?img=26" }
+    "metadata": { 
+      "role": "Policy Advisor", 
+      "email": "david@circulareconomy.com", 
+      "photoUrl": "https://i.pravatar.cc/150?img=26",
+      "lastActiveAt": "2024-01-17T12:45:00Z",
+      "timezone": "America/Vancouver",
+      "preferredLanguage": "en-CA"
+    }
   },
   {
     "id": "user-7",
@@ -60,7 +102,14 @@
     "icon": "ph:user-fill",
     "description": "Community Manager",
     "searchableText": "maria garcia community manager outreach",
-    "metadata": { "role": "Community Manager", "email": "maria@circulareconomy.com", "photoUrl": "https://i.pravatar.cc/150?img=7" }
+    "metadata": { 
+      "role": "Community Manager", 
+      "email": "maria@circulareconomy.com", 
+      "photoUrl": "https://i.pravatar.cc/150?img=7",
+      "lastActiveAt": "2024-01-17T17:20:00Z",
+      "timezone": "America/Mexico_City",
+      "preferredLanguage": "es-MX"
+    }
   },
   {
     "id": "user-8",
@@ -69,7 +118,14 @@
     "icon": "ph:user-fill",
     "description": "Logistics Coordinator",
     "searchableText": "sam wilson logistics coordinator transport",
-    "metadata": { "role": "Logistics Coordinator", "email": "sam@circulareconomy.com", "photoUrl": "https://i.pravatar.cc/150?img=28" }
+    "metadata": { 
+      "role": "Logistics Coordinator", 
+      "email": "sam@circulareconomy.com", 
+      "photoUrl": "https://i.pravatar.cc/150?img=28",
+      "lastActiveAt": "2024-01-17T11:30:00Z",
+      "timezone": "Australia/Sydney",
+      "preferredLanguage": "en-AU"
+    }
   },
   {
     "id": "user-9",
@@ -78,7 +134,14 @@
     "icon": "ph:user-fill",
     "description": "Data Analyst",
     "searchableText": "chloe kim data analyst metrics",
-    "metadata": { "role": "Data Analyst", "email": "chloe@circulareconomy.com", "photoUrl": "https://i.pravatar.cc/150?img=9" }
+    "metadata": { 
+      "role": "Data Analyst", 
+      "email": "chloe@circulareconomy.com", 
+      "photoUrl": "https://i.pravatar.cc/150?img=9",
+      "lastActiveAt": "2024-01-17T09:45:00Z",
+      "timezone": "Asia/Seoul",
+      "preferredLanguage": "ko-KR"
+    }
   },
   {
     "id": "user-10",
@@ -87,6 +150,13 @@
     "icon": "ph:user-fill",
     "description": "Investment Analyst",
     "searchableText": "ben carter investment analyst finance",
-    "metadata": { "role": "Investment Analyst", "email": "ben@circulareconomy.com", "photoUrl": "https://i.pravatar.cc/150?img=10" }
+    "metadata": { 
+      "role": "Investment Analyst", 
+      "email": "ben@circulareconomy.com", 
+      "photoUrl": "https://i.pravatar.cc/150?img=10",
+      "lastActiveAt": "2024-01-17T16:55:00Z",
+      "timezone": "America/New_York",
+      "preferredLanguage": "en-US"
+    }
   }
 ]
