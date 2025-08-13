@@ -1,0 +1,39 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Concepts/Conversation" />
+
+# Conversation
+
+## Purpose
+Facilitate requests and promises between actors, ensuring completion or explicit closure
+
+## Operational principle
+
+If an actor requests an action on a topic and another actor accepts, the conversation remains active until the condition of satisfaction is declared met or the conversation. is closed
+
+## State
+- requester
+- responder
+- topic
+- condition
+- status: proposed, accepted, active, completed, closed
+- history?: optional for audit/transparency
+
+## Actions
+- start
+- accept
+- declareSatisfied
+- close
+- logEvent
+
+## Polymorphism
+
+- Actor could be user, role, organisation, system, AI, etc.
+- Topic could be anything: requests, orders, tasks, etc.
+
+## Synchronisations
+
+- Conversation ↔ Breakdown: If a conversation is closed without meeting its conditions, mark it as a breakdown and possibly start a repair conversation.
+- Conversation ↔ Triggering: Finishing one conversation can trigger another (e.g., customer order completion triggers a follow-up survey conversation).
+-
+
