@@ -1,9 +1,10 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useCommentStore } from '../state/comment-store.js';
 import { UniversalCommentingService } from '../universal-commenting-service.js';
+import type { RichContent } from '../state/comment-store.js';
 
-// React hooks for component integration (Tier 1: Local-only)
-export const useUniversalCommenting = (documentId?: string) => {
+// React hooks for entity-agnostic commenting
+export const useUniversalCommenting = () => {
   const commentStore = useCommentStore();
   
   // Initialize service with a function that returns the current state
@@ -12,32 +13,9 @@ export const useUniversalCommenting = (documentId?: string) => {
     []  // No dependencies since we use getState() directly
   );
 
-  // Data is automatically rehydrated by Zustand persist middleware
-
-  // Get threads for this document (if documentId provided)
-  const threads = useMemo(() => {
-    if (!documentId) return service.getAllThreads();
-    return service.getThreadsForDocument(documentId);
-  }, [service, documentId, commentStore.threads]);
-
-  // Get comments for active thread
-  const activeThreadComments = useMemo(() => {
-    if (!commentStore.activeThreadId) return [];
-    return service.getCommentsForThread(commentStore.activeThreadId);
-  }, [service, commentStore.activeThreadId, commentStore.comments]);
-
-  // Get active thread details
-  const activeThread = useMemo(() => {
-    if (!commentStore.activeThreadId) return undefined;
-    return service.getThread(commentStore.activeThreadId);
-  }, [service, commentStore.activeThreadId, commentStore.threads]);
-
   return {
     service,
-    threads,
-    activeThread,
-    activeThreadComments,
-    activeThreadId: commentStore.activeThreadId,
+    activeEntity: commentStore.activeEntity,
     panelVisible: commentStore.panelVisible,
     hasUnsavedChanges: commentStore.hasUnsavedChanges,
     draftComment: commentStore.draftComment,
@@ -47,51 +25,85 @@ export const useUniversalCommenting = (documentId?: string) => {
   };
 };
 
-// Hook for TipTap-specific commenting
-export const useTipTapCommenting = (documentId: string, editorId?: string) => {
-  const universalCommenting = useUniversalCommenting(documentId);
-  
-  // Filter threads to only TipTap text ranges
-  const tipTapThreads = useMemo(() => {
-    return universalCommenting.service.getThreadsByPointerType('tiptap-text-range');
-  }, [universalCommenting.service, universalCommenting.threads]);
+// Get comments for a specific entity
+export const useEntityComments = (entityType: string, entityId: string) => {
+  const commentStore = useCommentStore();
+  const isLoading = false; // For now, we're fully local
 
-  // Filter threads for specific editor instance if provided
-  const editorThreads = useMemo(() => {
-    if (!editorId) return tipTapThreads;
-    return tipTapThreads.filter(thread =>
-      thread.pointers.some(pointer =>
-        pointer.type === 'tiptap-text-range' && 
-        (pointer as any).editorId === editorId
-      )
-    );
-  }, [tipTapThreads, editorId]);
+  const comments = useMemo(() => {
+    return commentStore.actions.getComments(entityType, entityId);
+  }, [commentStore.commentsByEntity, entityType, entityId]);
 
-  return {
-    ...universalCommenting,
-    tipTapThreads,
-    editorThreads,
-  };
+  return { comments, isLoading };
 };
 
-// Hook for Item View commenting
-export const useItemViewCommenting = (itemId: string, contentType: string) => {
+// Add comment to entity
+export const useAddComment = () => {
+  const commentStore = useCommentStore();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const submitComment = async (entityType: string, entityId: string, content: RichContent | string, authorId: string) => {
+    setIsSubmitting(true);
+    try {
+      const comment = commentStore.actions.addComment(entityType, entityId, {
+        content,
+        authorId,
+        status: 'active'
+      });
+      return comment;
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return { submitComment, isSubmitting };
+};
+
+// Comment thread operations
+export const useCommentThread = (entityType: string, entityId: string) => {
+  const service = useMemo(
+    () => new UniversalCommentingService(() => useCommentStore.getState()),
+    []
+  );
+  
+  const thread = useMemo(() => {
+    return service.getCommentThread(entityType, entityId);
+  }, [service, entityType, entityId]);
+
+  const resolveThread = () => {
+    if (thread) {
+      thread.comments.forEach(comment => {
+        if (comment.status === 'active') {
+          service.resolveComment(comment.id);
+        }
+      });
+    }
+  };
+
+  return { thread, resolveThread };
+};
+
+// Generic hook for any entity type
+// Replaces entity-specific hooks like useQuoteCommenting, useDocumentCommenting, etc.
+// Usage: useEntityCommenting('quote', quoteId) instead of useQuoteCommenting(quoteId)
+export const useEntityCommenting = (entityType: string, entityId: string) => {
   const universalCommenting = useUniversalCommenting();
+  const entityComments = useEntityComments(entityType, entityId);
   
-  // Filter threads to only Item View sections for this item
-  const itemThreads = useMemo(() => {
-    return universalCommenting.service.getThreadsByPointerType('item-view-section')
-      .filter(thread =>
-        thread.pointers.some(pointer =>
-          pointer.type === 'item-view-section' &&
-          (pointer as any).itemId === itemId &&
-          (pointer as any).contentType === contentType
-        )
-      );
-  }, [universalCommenting.service, universalCommenting.threads, itemId, contentType]);
+  const addComment = async (content: RichContent | string, authorId: string) => {
+    return universalCommenting.service.addComment(entityType, entityId, content, authorId);
+  };
+
+  const resolveComment = (commentId: string) => {
+    universalCommenting.service.resolveComment(commentId);
+  };
 
   return {
-    ...universalCommenting,
-    itemThreads,
+    ...entityComments,
+    addComment,
+    resolveComment,
+    activeCommentCount: universalCommenting.service.getActiveCommentCount(entityType, entityId),
+    resolvedCommentCount: universalCommenting.service.getResolvedCommentCount(entityType, entityId),
   };
 };
+

@@ -1,6 +1,6 @@
 /**
  * Reference System - Public API
- * 
+ *
  * This module provides components for creating and managing references in rich text content.
  * Internal components (ReferencePicker, adapters) are not exported to keep the API clean.
  */
@@ -9,6 +9,9 @@
 export { ReferenceEditor } from './ReferenceEditor';
 export { Reference, createReferenceSuggestion } from './Reference';
 export { referenceContentAdapter } from './ReferenceContentAdapter';
+
+// TipTap extensions
+export { ReferenceMark } from './ReferenceMark';
 
 // Public types
 export type {

@@ -1,6 +1,6 @@
 import type { BaseItem } from '../item-view/types';
 
-export const REFERENCE_TYPES = ['user', 'document', 'project', 'task', 'file', 'link'] as const;
+export const REFERENCE_TYPES = ['user', 'document', 'project', 'task', 'file', 'link', 'quote'] as const;
 export type ReferenceType = typeof REFERENCE_TYPES[number];
 
 export const REFERENCE_MODES = ['global', 'contextual'] as const;
@@ -32,6 +32,9 @@ export const isUserReference = (ref: SelectedReference): ref is SelectedReferenc
 export const isDocumentReference = (ref: SelectedReference): ref is SelectedReference & { type: 'document' } =>
   ref.type === 'document';
 
+export const isQuoteReference = (ref: SelectedReference): ref is SelectedReference & { type: 'quote' } =>
+  ref.type === 'quote';
+
 // User metadata interface for type-safe access
 export interface UserMetadata {
   role?: string;
@@ -42,6 +45,16 @@ export interface UserMetadata {
   bio?: string;
   skills?: readonly string[];
   projects?: readonly string[];
+}
+
+// Quote metadata interface for type-safe access
+export interface QuoteMetadata {
+  sourceDocument: string;
+  sourceRange: { from: number; to: number };
+  createdAt: string;
+  createdBy: string;
+  selectedText: string;
+  plainText?: string;
 }
 
 // Internal interfaces for ReferencePicker - used internally only

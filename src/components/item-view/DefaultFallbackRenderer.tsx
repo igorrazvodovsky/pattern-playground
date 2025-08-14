@@ -1,5 +1,7 @@
 import React from 'react';
 import type { ItemViewProps, BaseItem } from './types';
+import { UniversalCommentInterface } from '../commenting/universal/UniversalCommentInterface.js';
+import { getUserById } from '../../stories/shared-data/index.js';
 
 /**
  * DefaultFallbackRenderer - Unified fallback rendering for items without adapters
@@ -65,6 +67,24 @@ export const DefaultFallbackRenderer = <T extends BaseItem = BaseItem>({
 
   const HeaderTag = getHeaderLevel() as keyof JSX.IntrinsicElements;
 
+  // Special handling for quote content
+  const renderQuoteContent = () => {
+    if (contentType !== 'quote' || !item.metadata?.content) return null;
+    
+    const content = item.metadata.content as any;
+    const plainText = content.plainText;
+    const description = item.metadata.description;
+    
+    return (
+      <section className="quote-content flow">
+        {description && <p className="text-secondary">{description}</p>}
+        <blockquote className="quote-text">
+          "{plainText}"
+        </blockquote>
+      </section>
+    );
+  };
+
   return (
     <div className="flow" data-content-type={contentType} data-scope={scope}>
       <header className={scope === 'maxi' ? 'inline-flow' : undefined}>
@@ -77,12 +97,29 @@ export const DefaultFallbackRenderer = <T extends BaseItem = BaseItem>({
         </div>
       </header>
       
+      {/* Render quote content prominently */}
+      {renderQuoteContent()}
+      
       {scope === 'maxi' && (
         <main className="flow">
-          <section className="flow">
-            <h2>Overview</h2>
-            <p>This is a {item.type} item with ID {item.id}.</p>
-          </section>
+          {!renderQuoteContent() && (
+            <section className="flow">
+              <h2>Overview</h2>
+              <p>This is a {item.type} item with ID {item.id}.</p>
+            </section>
+          )}
+          
+          {/* Universal commenting interface for quote objects */}
+          {contentType === 'quote' && (
+            <UniversalCommentInterface
+              entityType="quote"
+              entityId={item.id}
+              currentUser={getUserById('user-1') || { id: 'user-1', name: 'Unknown User' }}
+              showHeader={true}
+              allowNewComments={true}
+            />
+          )}
+          
           {item.metadata && Object.keys(item.metadata).length > 0 && (
             <section className="flow">
               <h2>Properties</h2>
@@ -92,7 +129,7 @@ export const DefaultFallbackRenderer = <T extends BaseItem = BaseItem>({
         </main>
       )}
       
-      {scope !== 'maxi' && renderMetadata()}
+      {scope !== 'maxi' && !renderQuoteContent() && renderMetadata()}
       {renderEscalationButton()}
     </div>
   );

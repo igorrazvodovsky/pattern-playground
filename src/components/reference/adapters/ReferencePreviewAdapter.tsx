@@ -1,7 +1,7 @@
 import React from 'react';
 import type { ItemViewProps } from '../../item-view/types';
-import type { SelectedReference, UserMetadata } from '../types';
-import { isUserReference } from '../types';
+import type { SelectedReference, UserMetadata, QuoteMetadata } from '../types';
+import { isUserReference, isQuoteReference } from '../types';
 
 export interface ReferencePreviewAdapterProps extends ItemViewProps<SelectedReference> {}
 
@@ -11,6 +11,48 @@ export const ReferencePreviewAdapter: React.FC<ReferencePreviewAdapterProps> = (
 }) => {
   const { type, label, metadata } = reference;
   const safeMetadata = metadata ?? {};
+
+  if (isQuoteReference(reference)) {
+    const { sourceDocument, createdAt, selectedText, plainText } = safeMetadata as QuoteMetadata;
+    const displayText = plainText || selectedText || label;
+    const truncatedText = displayText.length > 100 
+      ? `${displayText.substring(0, 100)}...` 
+      : displayText;
+
+    return (
+      <div className="reference-preview reference-preview--quote">
+        <div className="reference-preview__quote-header">
+          <iconify-icon icon="ph:quotes" className="reference-preview__quote-icon" />
+          <div className="reference-preview__quote-content">
+            <blockquote className="reference-preview__quote-text">
+              "{truncatedText}"
+            </blockquote>
+            <div className="reference-preview__quote-meta">
+              <span className="reference-preview__quote-source">
+                from {sourceDocument || 'document'}
+              </span>
+              {createdAt && (
+                <span className="reference-preview__quote-date">
+                  {new Date(createdAt).toLocaleDateString()}
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+        {onEscalate && (
+          <div className="reference-preview__actions">
+            <button
+              className="reference-preview__action"
+              onClick={() => onEscalate('mid')}
+              type="button"
+            >
+              View quote
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  }
 
   if (isUserReference(reference)) {
     const { role, email } = safeMetadata as UserMetadata;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Task, TaskViewProps } from './types';
-import { formatTimestamp } from './time-utils';
+import { formatTimestamp } from './time-utils.js';
 
 const getStatusBadgeClass = (status: Task['status']): string => {
   switch (status) {

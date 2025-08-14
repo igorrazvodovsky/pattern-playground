@@ -1,8 +1,12 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <style>
   .sidebar-item {
-    svg {
+    svg[class] {
       display: none;
+    }
+
+    svg:not([class]) {
+      transform: translateY(2px);
     }
 
     a:has(svg) {

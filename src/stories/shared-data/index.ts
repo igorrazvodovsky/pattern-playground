@@ -11,6 +11,7 @@ import recentItemsData from './recent-items.json' with { type: 'json' };
 import tasksData from './tasks.json' with { type: 'json' };
 import transactionsData from './transactions.json' with { type: 'json' };
 import commentsData from './comments.json' with { type: 'json' };
+import quotesData from './quotes.json' with { type: 'json' };
 
 // Filter-specific data
 import filterStatusesData from './statuses.json' with { type: 'json' };
@@ -29,6 +30,7 @@ export const commands = commandsData;
 export const recentItems = recentItemsData;
 export const transactions = transactionsData;
 export const comments = commentsData;
+export const quotes = quotesData;
 
 // Re-export for external use
 export { default as filterStatuses } from './statuses.json' with { type: 'json' };
@@ -168,6 +170,35 @@ export const getResolvedComments = () => {
   return comments.filter(comment => comment.status === 'resolved');
 };
 
+// Quote utility functions
+export const getQuoteById = (id: string) => {
+  return quotes.find(quote => quote.id === id);
+};
+
+export const getQuotesByDocument = (documentId: string) => {
+  return quotes.filter(quote => quote.metadata.sourceDocument === documentId);
+};
+
+export const getQuotesByUser = (userId: string) => {
+  return quotes.filter(quote => quote.metadata.createdBy === userId);
+};
+
+export const getQuotesByDateRange = (startDate: string, endDate: string) => {
+  return quotes.filter(quote => {
+    const quoteDate = new Date(quote.metadata.createdAt);
+    return quoteDate >= new Date(startDate) && quoteDate <= new Date(endDate);
+  });
+};
+
+export const searchQuotes = (searchText: string) => {
+  const lowerSearchText = searchText.toLowerCase();
+  return quotes.filter(quote => 
+    quote.searchableText.includes(lowerSearchText) ||
+    quote.content.plainText.toLowerCase().includes(lowerSearchText) ||
+    quote.description.toLowerCase().includes(lowerSearchText)
+  );
+};
+
 // Type exports for better type safety
 export type User = typeof users[0];
 export type Project = typeof projects[0];
@@ -188,6 +219,7 @@ export type Task = Omit<typeof tasksData[0], 'statusId' | 'priorityId' | 'assign
 };
 export type Transaction = typeof transactions[0];
 export type Comment = typeof comments[0];
+export type Quote = typeof quotes[0];
 
 // Reference data using unified SearchableParent format (same as commands)
 export const referenceCategories = [
@@ -231,6 +263,20 @@ export const referenceCategories = [
       searchableText: item.name.toLowerCase(),
       type: 'project' as const,
       metadata: item.metadata
+    }))
+  },
+  {
+    id: 'quotes',
+    name: 'Quotes',
+    icon: 'ph:quotes',
+    searchableText: 'quotes selections excerpts text',
+    children: quotes.map(quote => ({
+      id: quote.id,
+      name: quote.name,
+      icon: 'ph:quotes',
+      searchableText: quote.searchableText,
+      type: 'quote' as const,
+      metadata: quote.metadata
     }))
   }
 ];

@@ -290,5 +290,52 @@
     "entityType": "project",
     "entityId": "project-1",
     "status": "active"
+  },
+  {
+    "id": "comment-26",
+    "threadId": "thread-16",
+    "content": "This quote perfectly captures the urgency of the climate crisis. The phrase 'reshaping ecosystems' really emphasizes the scale of transformation happening.",
+    "authorId": "user-2",
+    "timestamp": "2024-01-16T09:30:00Z",
+    "entityType": "quote",
+    "entityId": "quote-reshaping-ecosystems",
+    "status": "active",
+    "replyTo": null,
+    "metadata": {
+      "quoteText": "reshaping ecosystems",
+      "sourceDocument": "doc-climate-change"
+    }
+  },
+  {
+    "id": "comment-27",
+    "threadId": "thread-16",
+    "content": "Absolutely! And it's not just about the speed - it's about the irreversibility. Once an ecosystem is reshaped, it may never return to its original state.",
+    "authorId": "user-5",
+    "timestamp": "2024-01-16T11:45:00Z",
+    "entityType": "quote",
+    "entityId": "quote-reshaping-ecosystems",
+    "status": "active",
+    "replyTo": "comment-26"
+  },
+  {
+    "id": "comment-28",
+    "threadId": "thread-17",
+    "content": "This data point is crucial for our biodiversity loss calculations. We should reference this in the impact assessment section.",
+    "authorId": "user-3",
+    "timestamp": "2024-01-17T14:20:00Z",
+    "entityType": "quote",
+    "entityId": "quote-habitats-shrink",
+    "status": "active",
+    "replyTo": null
+  },
+  {
+    "id": "comment-29",
+    "threadId": "thread-18",
+    "content": "The ocean acidification aspect here ties directly to our carbon footprint modeling. This quote supports our argument for urgent action.",
+    "authorId": "user-7",
+    "timestamp": "2024-01-17T16:10:00Z",
+    "entityType": "quote",
+    "entityId": "quote-coral-reefs-bleaching",
+    "status": "active"
   }
 ]

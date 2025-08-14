@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import type { Editor } from '@tiptap/react';
 import { TipTapPointerAdapter } from '../../../services/commenting/tiptap-pointer-adapter.js';
-import { useTipTapCommenting } from '../../../services/commenting/hooks/use-universal-commenting.js';
+import { useEntityCommenting } from '../../../services/commenting/hooks/use-universal-commenting.js';
 import type { TipTapTextPointer } from '../../../services/commenting/document-pointer.js';
 
 interface UseTipTapCommentingOptions {
@@ -15,7 +15,7 @@ export const useTipTapCommentingIntegration = (
   options: UseTipTapCommentingOptions
 ) => {
   const { documentId, editorId, currentUser } = options;
-  const commenting = useTipTapCommenting(documentId, editorId);
+  const commenting = useEntityCommenting('document', documentId);
 
   // Create pointer adapter
   const pointerAdapter = useMemo(() => {

@@ -1,5 +1,106 @@
 /* Tiptap v3 Enhanced Components Styles */
 
+/* Reference marks for quote objects */
+.reference-mention {
+  display: inline;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  background-color: var(--color-background-accent-subtle);
+  color: var(--color-text-accent);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid var(--color-border-accent-subtle);
+}
+
+.reference-mention:hover {
+  background-color: var(--color-background-accent);
+  border-color: var(--color-border-accent);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.reference-mention--quote {
+  background-color: var(--color-background-warning-subtle);
+  color: var(--color-text-warning);
+  border-color: var(--color-border-warning-subtle);
+}
+
+.reference-mention--quote:hover {
+  background-color: var(--color-background-warning);
+  border-color: var(--color-border-warning);
+}
+
+.reference-mention__icon {
+  margin-right: 0.25rem;
+  font-size: 0.875em;
+}
+
+.reference-mention__text {
+  font-weight: 500;
+}
+
+/* Quote demo styling */
+.quote-demo-status {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: var(--color-background-subtle);
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border-subtle);
+}
+
+.quote-demo-info strong {
+  color: var(--color-text-accent);
+}
+
+.quote-demo-stats {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.quote-demo-editor {
+  margin: 1rem 0;
+}
+
+.quote-demo-legend {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: var(--color-background);
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+}
+
+.quote-demo-legend h4 {
+  margin-top: 0;
+  color: var(--color-text-accent);
+}
+
+.quote-demo-legend ol,
+.quote-demo-legend ul {
+  margin: 0.5rem 0;
+}
+
+.quote-demo-existing {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.quote-demo-quote-button {
+  background: none;
+  border: none;
+  color: var(--color-text-accent);
+  cursor: pointer;
+  text-decoration: underline;
+  font-family: inherit;
+}
+
+.quote-demo-quote-button:hover {
+  color: var(--color-text-accent-emphasis);
+}
+
 /* Enhanced Template Fields */
 .template-field {
   display: inline-block;

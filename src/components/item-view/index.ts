@@ -18,7 +18,6 @@ export {
 
 // Adapter base classes
 export { CommentAwareAdapterBase } from './adapters/CommentAwareAdapterBase';
-export { QuoteAdapterBase } from './quote-adapters/QuoteAdapterBase';
 
 // Modal service integration
 export { 
@@ -41,4 +40,3 @@ export type {
   UniversalComment
 } from './types';
 
-export type { QuoteObject } from './quote-adapters/QuoteAdapterBase';

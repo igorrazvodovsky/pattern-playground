@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { ReferenceEditor } from '../../../components/reference';
-import { referenceCategories, basicReferenceCategories, getReferenceContentById } from '../../shared-data';
+import { referenceCategories, basicReferenceCategories, getReferenceContentById, quotes } from '../../shared-data';
 import type { SelectedReference } from '../../../components/reference';
-// TODO: Add quote objects to reference categories for comprehensive object linking
 
 type FilterPattern = `@${string}` | `#${string}` | `/${string}`;
 type ReferenceType = 'user' | 'project' | 'document';
@@ -18,20 +17,47 @@ type Story = StoryObj<typeof meta>;
 const ReferenceEditorExample = () => {
   const handleReferenceSelect = useCallback((reference: SelectedReference) => {
     console.log('Reference selected:', reference);
+    if (reference.referenceType === 'quote') {
+      console.log('Quote object selected for cross-document referencing:', reference);
+    }
   }, []);
+
+  // Enhanced reference categories with quotes
+  const enhancedReferenceCategories = useMemo(() => [
+    ...referenceCategories,
+    {
+      id: 'quotes',
+      name: 'Quote Objects',
+      icon: 'ph:quotes',
+      searchableText: 'quotes excerpts selections text references',
+      children: quotes.map(quote => ({
+        id: quote.id,
+        name: quote.name,
+        icon: 'ph:quotes',
+        searchableText: `${quote.searchableText} ${quote.metadata.selectedText}`,
+        type: 'quote' as const,
+        metadata: {
+          sourceDocument: quote.metadata.sourceDocument,
+          createdBy: quote.metadata.createdBy,
+          selectedText: quote.metadata.selectedText,
+          description: quote.description
+        }
+      }))
+    }
+  ], []);
 
   return (
     <div className="layer">
       <ReferenceEditor
-        data={referenceCategories}
+        data={enhancedReferenceCategories}
         onReferenceSelect={handleReferenceSelect}
-        placeholder="Type @ to open hierarchical reference picker..."
+        placeholder="Type @ to open reference picker (includes users, documents, projects & quotes)..."
         content={getReferenceContentById('sustainability-meeting-content')?.content || {
           type: 'doc',
           content: [
             {
               type: 'paragraph',
-              content: [{ type: 'text', text: 'Loading reference content... In quote object system, this will include rich quote references alongside user/document mentions.' }]
+              content: [{ type: 'text', text: 'Enhanced reference system with Quote Objects! Try @reshaping, @habitats, or @coral to reference specific quote objects across documents. Also supports @elena, @climate, @circular for traditional references.' }]
             }
           ]
         }}
@@ -45,7 +71,7 @@ export const Reference: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Complete hierarchical reference system with sustainability-focused content. Shows existing references for team members (Elena, David, Sarah), projects, and documents (Climate Change Impact Report, Circular Economy Implementation Guide). Type @ to add more references or try @elena, @climate, @circular to see filtering across categories.'
+        story: 'Enhanced reference system with Quote Objects integration. Now includes quote objects as referenceable entities alongside users, projects, and documents. Type @ and try @reshaping, @habitats, @coral for quote objects, or @elena, @climate, @circular for traditional references. Demonstrates cross-document quote referencing capabilities.'
       }
     }
   }
@@ -67,7 +93,7 @@ const BasicReferenceEditor = () => {
           content: [
             {
               type: 'paragraph',
-              content: [{ type: 'text', text: 'Loading team content... Quote objects will appear here as referenceable entities alongside users.' }]
+              content: [{ type: 'text', text: 'Basic user references for team collaboration. In the full system, quote objects would also be available here for cross-document referencing and discussions.' }]
             }
           ]
         }}
@@ -103,7 +129,7 @@ const ProjectPlanningEditor = () => {
           content: [
             {
               type: 'paragraph',
-              content: [{ type: 'text', text: 'Loading project content... Quote objects from project documents will be linkable from here via the reference system.' }]
+              content: [{ type: 'text', text: 'Project planning content with full reference support. Quote objects from related documents can be referenced here for comprehensive project discussions and analysis.' }]
             }
           ]
         }}

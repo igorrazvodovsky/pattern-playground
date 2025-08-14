@@ -1,6 +1,7 @@
 import React from 'react';
 import type { BaseItem, ViewScope } from '../types';
 import { ItemView } from '../ItemView';
+import { ContentAdapterProvider } from '../ContentAdapterRegistry';
 import { renderReactToHtmlString } from '../utils/render-to-string';
 
 export interface ModalContentConfig {
@@ -14,13 +15,33 @@ export const createModalContent = (
   contentType: string,
   scope: ViewScope
 ): React.ReactNode => {
+  // Transform Quote objects to be BaseItem compatible
+  const transformedItem: BaseItem = {
+    id: item.id,
+    label: (item as any).name || item.id, // Quote uses 'name' instead of 'label'
+    type: item.type,
+    metadata: {
+      ...item.metadata,
+      // Include quote-specific data in metadata for generic rendering
+      ...(contentType === 'quote' && {
+        content: (item as any).content,
+        description: (item as any).description,
+        searchableText: (item as any).searchableText,
+      })
+    }
+  };
+
+  // Use generic item-view without custom adapters
+  // The system will fall back to DefaultFallbackRenderer for all content types
   return (
-    <ItemView
-      item={item}
-      contentType={contentType}
-      scope={scope}
-      mode="inspect"
-    />
+    <ContentAdapterProvider adapters={[]}>
+      <ItemView
+        item={transformedItem}
+        contentType={contentType}
+        scope={scope}
+        mode="inspect"
+      />
+    </ContentAdapterProvider>
   );
 };
 

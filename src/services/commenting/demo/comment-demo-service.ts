@@ -44,10 +44,10 @@ export class CommentDemoService {
     commentRanges.forEach(({ text, threadId, resolved }) => {
       try {
         const positions = this.findTextPositions(editor, text);
-        
+
         if (positions) {
           const { start, end } = positions;
-          
+
           // Create pointer and thread
           const pointer = pointerAdapter.createPointerForRange(start, end);
           const thread = service.createThread(pointer);
@@ -60,7 +60,7 @@ export class CommentDemoService {
 
           existingThreads.set(threadId, { thread, isResolved: resolved, pointer });
           result.threadsCreated++;
-          
+
           console.log(`Created thread for "${text}" at positions ${start}-${end}`);
         } else {
           result.errors.push(`Could not find positions for text: "${text}"`);
@@ -158,15 +158,5 @@ export class CommentDemoService {
       author: comment.authorId,
       timestamp: comment.timestamp
     }));
-  }
-
-  /**
-   * Create standard demo comment ranges for climate change content
-   */
-  createClimateChangeDemoRanges(): DemoCommentRange[] {
-    return [
-      { text: 'reshaping ecosystems', threadId: 'thread-1', resolved: false },
-      { text: 'habitats shrink or disappear', threadId: 'thread-2', resolved: true }
-    ];
   }
 }

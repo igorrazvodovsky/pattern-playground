@@ -1,5 +1,11 @@
-const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
-const dateFormatter = new Intl.DateTimeFormat('en', { dateStyle: 'medium', timeStyle: 'short' });
+// Check for Intl support with fallbacks
+const rtf = typeof Intl !== 'undefined' && Intl.RelativeTimeFormat 
+  ? new Intl.RelativeTimeFormat('en', { numeric: 'auto' })
+  : null;
+
+const dateFormatter = typeof Intl !== 'undefined' && Intl.DateTimeFormat
+  ? new Intl.DateTimeFormat('en', { dateStyle: 'medium', timeStyle: 'short' })
+  : null;
 
 const getTimeDifference = (date: Date, now: Date) => {
   const diffInMs = now.getTime() - date.getTime();
@@ -33,14 +39,27 @@ export const formatTimestamp = (timestamp: Date | string | number): string => {
     return 'now';
   }
 
+  // Fallback formatting when Intl is not available
+  const formatFallback = (val: number, timeUnit: string) => {
+    const absVal = Math.abs(val);
+    if (absVal === 1) {
+      return `1 ${timeUnit} ago`;
+    }
+    return `${absVal} ${timeUnit}s ago`;
+  };
+
   // Use relative format for recent events (within 7 days)
   if (Math.abs(value) <= 7 && unit === 'day') {
-    return rtf.format(value, unit);
+    return rtf ? rtf.format(value, unit) : formatFallback(value, 'day');
   }
   if (['hour', 'minute'].includes(unit)) {
-    return rtf.format(value, unit);
+    return rtf ? rtf.format(value, unit) : formatFallback(value, unit);
   }
 
-  // Use absolute date format for older events
-  return dateFormatter.format(date);
+  // Use absolute date format for older events, with fallback
+  if (dateFormatter) {
+    return dateFormatter.format(date);
+  } else {
+    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+  }
 };

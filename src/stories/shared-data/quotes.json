@@ -1,0 +1,234 @@
+[
+  {
+    "id": "quote-reshaping-ecosystems",
+    "name": "reshaping ecosystems",
+    "type": "quote",
+    "icon": "ph:quotes",
+    "description": "Quote from Climate Change Impact Report",
+    "searchableText": "reshaping ecosystems climate change biodiversity",
+    "metadata": {
+      "sourceDocument": "doc-climate-change",
+      "sourceRange": { "from": 18, "to": 38 },
+      "createdAt": "2024-01-15T12:00:00Z",
+      "createdBy": "user-1",
+      "selectedText": "reshaping ecosystems"
+    },
+    "content": {
+      "plainText": "reshaping ecosystems",
+      "richContent": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "marks": [{"type": "highlight"}], "text": "reshaping ecosystems" }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "quote-habitats-shrink",
+    "name": "habitats shrink or disappear",
+    "type": "quote",
+    "icon": "ph:quotes",
+    "description": "Quote from Climate Change Impact Report",
+    "searchableText": "habitats shrink disappear species adaptation",
+    "metadata": {
+      "sourceDocument": "doc-climate-change",
+      "sourceRange": { "from": 289, "to": 317 },
+      "createdAt": "2024-01-15T14:30:00Z",
+      "createdBy": "user-2",
+      "selectedText": "habitats shrink or disappear"
+    },
+    "content": {
+      "plainText": "habitats shrink or disappear",
+      "richContent": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "marks": [{"type": "highlight"}], "text": "habitats shrink or disappear" }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "quote-coral-reefs-bleaching",
+    "name": "Coral reefs, which are biodiversity hotspots, are bleaching and dying due to heat stress",
+    "type": "quote",
+    "icon": "ph:quotes",
+    "description": "Quote from Climate Change Impact Report",
+    "searchableText": "coral reefs biodiversity bleaching dying heat stress ocean",
+    "metadata": {
+      "sourceDocument": "doc-climate-change",
+      "sourceRange": { "from": 1082, "to": 1170 },
+      "createdAt": "2024-01-16T09:15:00Z",
+      "createdBy": "user-3",
+      "selectedText": "Coral reefs, which are biodiversity hotspots, are bleaching and dying due to heat stress"
+    },
+    "content": {
+      "plainText": "Coral reefs, which are biodiversity hotspots, are bleaching and dying due to heat stress",
+      "richContent": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "marks": [{"type": "highlight"}], "text": "Coral reefs, which are biodiversity hotspots, are bleaching and dying due to heat stress" }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "quote-material-inputs-outputs",
+    "name": "material inputs and outputs in the production process",
+    "type": "quote",
+    "icon": "ph:quotes",
+    "description": "Quote from Material Flow Analysis Report",
+    "searchableText": "material inputs outputs production process analysis",
+    "metadata": {
+      "sourceDocument": "doc-1",
+      "sourceRange": { "from": 45, "to": 89 },
+      "createdAt": "2024-01-17T10:45:00Z",
+      "createdBy": "user-1",
+      "selectedText": "material inputs and outputs in the production process"
+    },
+    "content": {
+      "plainText": "material inputs and outputs in the production process",
+      "richContent": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "marks": [{"type": "highlight"}], "text": "material inputs and outputs in the production process" }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "quote-circular-business-model",
+    "name": "implementing a circular business model",
+    "type": "quote",
+    "icon": "ph:quotes",
+    "description": "Quote from Circular Business Model Canvas",
+    "searchableText": "implementing circular business model strategy sustainability",
+    "metadata": {
+      "sourceDocument": "doc-3",
+      "sourceRange": { "from": 78, "to": 110 },
+      "createdAt": "2024-01-18T16:20:00Z",
+      "createdBy": "user-2",
+      "selectedText": "implementing a circular business model"
+    },
+    "content": {
+      "plainText": "implementing a circular business model",
+      "richContent": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "marks": [{"type": "highlight"}], "text": "implementing a circular business model" }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "quote-minimizing-waste",
+    "name": "minimizing waste in operations",
+    "type": "quote",
+    "icon": "ph:quotes",
+    "description": "Quote from Waste Reduction Guidelines",
+    "searchableText": "minimizing waste operations procedures efficiency",
+    "metadata": {
+      "sourceDocument": "doc-5",
+      "sourceRange": { "from": 123, "to": 151 },
+      "createdAt": "2024-01-19T11:10:00Z",
+      "createdBy": "user-3",
+      "selectedText": "minimizing waste in operations"
+    },
+    "content": {
+      "plainText": "minimizing waste in operations",
+      "richContent": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "marks": [{"type": "highlight"}], "text": "minimizing waste in operations" }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "quote-sustainable-products",
+    "name": "creating sustainable products",
+    "type": "quote",
+    "icon": "ph:quotes",
+    "description": "Quote from Eco-Design Principles",
+    "searchableText": "creating sustainable products eco-design principles environment",
+    "metadata": {
+      "sourceDocument": "doc-6",
+      "sourceRange": { "from": 89, "to": 114 },
+      "createdAt": "2024-01-20T13:45:00Z",
+      "createdBy": "user-1",
+      "selectedText": "creating sustainable products"
+    },
+    "content": {
+      "plainText": "creating sustainable products",
+      "richContent": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "marks": [{"type": "highlight"}], "text": "creating sustainable products" }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "quote-consumer-adoption",
+    "name": "consumer adoption of circular products",
+    "type": "quote",
+    "icon": "ph:quotes",
+    "description": "Quote from Consumer Behavior Study",
+    "searchableText": "consumer adoption circular products behavior research",
+    "metadata": {
+      "sourceDocument": "doc-8",
+      "sourceRange": { "from": 67, "to": 99 },
+      "createdAt": "2024-01-21T15:30:00Z",
+      "createdBy": "user-2",
+      "selectedText": "consumer adoption of circular products"
+    },
+    "content": {
+      "plainText": "consumer adoption of circular products",
+      "richContent": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "marks": [{"type": "highlight"}], "text": "consumer adoption of circular products" }
+            ]
+          }
+        ]
+      }
+    }
+  }
+]

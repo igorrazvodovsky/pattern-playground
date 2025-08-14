@@ -1,5 +1,5 @@
 import { Task } from './types';
-import { formatTimestamp } from './time-utils';
+import { formatTimestamp } from './time-utils.js';
 
 export const renderTaskToHTML = (task: Task): string => {
   const historyHTML = task.history.map(entry => `

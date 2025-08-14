@@ -4,11 +4,13 @@ import StarterKit from '@tiptap/starter-kit';
 import Highlight from '@tiptap/extension-highlight';
 import React, { useCallback, useState } from 'react';
 import { textTransformService } from '../../services/textTransformService';
-import { PpToast, PpButton, PpPopup } from '../../main.ts';
+import { PpToast } from '../../main.ts';
 import '../../components/modal/modal.ts';
-import { CommentMark, useCommentUI, CommentPopover, CommentDrawer } from '../../components/commenting/index.js';
-import { comments, users, getUserById, getCommentsByEntity, getCommentsByThreadId, getDocumentContentText, getDocumentContentRich, documentContent } from '../shared-data/index.ts';
-import type { Comment } from '../shared-data/index.ts';
+import { ReferenceMark } from '../../components/reference/index.js';
+import { useTipTapQuoteCommenting } from '../../components/commenting/tiptap/use-tiptap-quote-commenting.js';
+import { QuoteCommentPopover } from '../../components/commenting/quote/QuoteCommentPopover.js';
+import { CommentMark } from '../../components/commenting/index.js';
+import { getDocumentContentText, getDocumentContentRich } from '../shared-data/index.ts';
 
 const meta = {
   title: "Components/Bubble menu",
@@ -18,11 +20,15 @@ export default meta;
 type Story = StoryObj;
 
 // Simple editor hook for BubbleMenu
-const useSimpleEditor = (content: string, includeCommentMark = false) => {
+const useSimpleEditor = (content: string, includeReferenceMark = false, includeCommentMark = false) => {
   const extensions = [
     StarterKit,
     Highlight,
   ];
+
+  if (includeReferenceMark) {
+    extensions.push(ReferenceMark);
+  }
 
   if (includeCommentMark) {
     extensions.push(CommentMark);
@@ -48,7 +54,7 @@ export const ExplainText: Story = {
     const documentId = 'doc-climate-change';
     const sectionId = 'ecological-timing';
     const content = getDocumentContentText(documentId, sectionId);
-    
+
     const editor = useSimpleEditor(`<p>${content}</p>`);
 
     const handleExplain = useCallback(() => {
@@ -101,7 +107,7 @@ export const MultipleActions: Story = {
     const documentId = 'doc-climate-change';
     const sectionId = 'marine-ecosystems';
     const content = getDocumentContentText(documentId, sectionId);
-    
+
     const editor = useSimpleEditor(`
       <p>${content} Marine animals that depend on these reefs for food and shelter are left vulnerable. Ocean acidification, another by-product of increased CO₂ levels, is making it harder for shellfish and corals to build their skeletons. The decline of keystone species can cause cascading effects, altering food webs and leading to further biodiversity loss. In short, climate change is a force multiplier for stressors already facing wildlife, accelerating extinction rates and making conservation efforts more urgent and complex.</p>
     `);
@@ -202,242 +208,6 @@ export const MultipleActions: Story = {
   },
 };
 
-export const Commenting: Story = {
-  args: {},
-  render: () => {
-    const [hideBubbleMenu, setHideBubbleMenu] = useState(false);
-
-    // Use rich content from climate change document which demonstrates quote object potential
-    const richContent = getDocumentContentRich('doc-climate-change');
-    
-    const editor = useSimpleEditor('', true); // Enable CommentMark extension
-    
-    // Set content from rich content structure when editor is ready
-    React.useEffect(() => {
-      if (editor && richContent) {
-        editor.commands.setContent(richContent);
-      }
-    }, [editor, richContent]);
-
-    // Initialize comment UI system - this will be replaced by quote object system
-    const commentUI = useCommentUI(editor, {
-      documentId: 'bubble-menu-demo-climate-change',
-      editorId: 'bubble-menu-ui-demo', 
-      currentUser: 'user-1' // Current system - will become quote object creator
-    });
-
-    // Initialize comment threads after editor content is set
-    React.useEffect(() => {
-      if (editor && commentUI.service && commentUI.pointerAdapter && editor.state.doc.textContent.length > 0) {
-        // Use a timeout to ensure the rich content is fully loaded
-        const timer = setTimeout(() => {
-          const existingThreads = new Map();
-          
-          // Get sample comment content - in quote object system, these would be quotes with comments
-          const documentComments = getCommentsByEntity('document', 'doc-climate-change').slice(0, 3) as Comment[];
-          
-          // DEMO: Create comment threads on highlighted text
-          // TODO: Replace with quote object system where:
-          // 1. Text selections become persistent quote objects
-          // 2. Quote objects integrate with item-view system
-          // 3. Comments are attached to quote objects via universal commenting
-          const commentRanges = [
-            { 
-              text: 'reshaping ecosystems', 
-              threadKey: 'demo-thread-1', 
-              resolved: false,
-              // These comments would be attached to a quote object in the new system
-              comments: [
-                {
-                  content: documentComments[0]?.content || "The ecosystem impact assessment needs more specific metrics on biodiversity loss. Can we quantify the species displacement rates?",
-                  author: documentComments[0]?.authorId || 'user-5'
-                },
-                {
-                  content: documentComments[1]?.content || "Good point. I'll coordinate with the biodiversity team to get those displacement metrics from our latest field studies.",
-                  author: documentComments[1]?.authorId || 'user-1'
-                }
-              ]
-            },
-            { 
-              text: 'habitats shrink or disappear', 
-              threadKey: 'demo-thread-2', 
-              resolved: true,
-              // This would be a resolved quote object with comments in the new system
-              comments: [
-                {
-                  content: documentComments[2]?.content || "This section aligns well with our water conservation project findings. Should we cross-reference the data?",
-                  author: documentComments[2]?.authorId || 'user-8'
-                }
-              ]
-            }
-          ];
-
-          commentRanges.forEach(({ text, threadKey, resolved, comments }) => {
-            const content = editor.state.doc.textContent;
-            const startIndex = content.indexOf(text);
-
-            if (startIndex !== -1) {
-              // Find the actual document positions
-              let currentTextPos = 0;
-              let actualStart = -1;
-              let actualEnd = -1;
-
-              editor.state.doc.descendants((node, pos) => {
-                if (node.isText) {
-                  const nodeText = node.textContent;
-                  const nodeStart = currentTextPos;
-                  const nodeEnd = currentTextPos + nodeText.length;
-
-                  if (actualStart === -1 && startIndex >= nodeStart && startIndex < nodeEnd) {
-                    actualStart = pos + (startIndex - nodeStart);
-                  }
-
-                  if (actualEnd === -1 && (startIndex + text.length) > nodeStart && (startIndex + text.length) <= nodeEnd) {
-                    actualEnd = pos + ((startIndex + text.length) - nodeStart);
-                  }
-
-                  currentTextPos += nodeText.length;
-                }
-              });
-
-              if (actualStart !== -1 && actualEnd !== -1 && actualEnd > actualStart) {
-                try {
-                  // Create pointer and thread
-                  const pointer = commentUI.pointerAdapter.createPointerForRange(actualStart, actualEnd);
-                  const thread = commentUI.service.createThread(pointer);
-
-                  // Apply comment mark to highlight the text
-                  editor.chain()
-                    .setTextSelection({ from: actualStart, to: actualEnd })
-                    .setMark('comment', { commentId: thread.id, resolved })
-                    .run();
-
-                  // Add comments to thread
-                  comments.forEach(comment => {
-                    commentUI.service.addComment(thread.id, comment.content, comment.author);
-                  });
-
-                  // Resolve thread if needed
-                  if (resolved) {
-                    commentUI.service.resolveThread(thread.id, 'system');
-                  }
-
-                  existingThreads.set(threadKey, { thread, isResolved: resolved, pointer });
-                  console.log(`Created thread for "${text}" at positions ${actualStart}-${actualEnd}`);
-                } catch (error) {
-                  console.error(`Failed to create thread for "${text}":`, error);
-                }
-              }
-            }
-          });
-
-          console.log(`Initialized ${existingThreads.size} comment threads`);
-        }, 100);
-        
-        return () => clearTimeout(timer);
-      }
-    }, [editor, commentUI.service, commentUI.pointerAdapter, richContent]);
-
-    const handleComment = useCallback(() => {
-      if (commentUI.canCreateComment) {
-        const thread = commentUI.createCommentThread();
-        if (thread) {
-          // Hide bubble menu temporarily
-          setHideBubbleMenu(true);
-          setTimeout(() => {
-            setHideBubbleMenu(false);
-            editor?.commands.setTextSelection(0);
-          }, 100);
-        }
-      } else {
-        PpToast.show('Please select text to comment on');
-      }
-    }, [commentUI, editor]);
-
-    const handleHighlight = useCallback(() => {
-      if (editor) {
-        editor.chain().focus().toggleHighlight().run();
-      }
-    }, [editor]);
-
-    return (
-      <div className="layer">
-        <div className="rich-editor-container">
-          {editor && (
-            <>
-              <BubbleMenu
-                editor={editor}
-                pluginKey="bubbleMenuCommentUI"
-                shouldShow={({ state }) => {
-                  const { from, to } = state.selection;
-                  const isEmpty = from === to;
-                  // Hide bubble menu when comment popover is open or temporarily hidden
-                  return !isEmpty && !commentUI.uiState.popoverOpen && !hideBubbleMenu;
-                }}
-              >
-                <div className="bubble-menu inline-flow">
-                  <button
-                    className={`button button--small button--plain ${!commentUI.canCreateComment ? 'button--disabled' : ''}`}
-                    is="pp-button"
-                    onClick={handleComment}
-                    disabled={!commentUI.canCreateComment}
-                    title={commentUI.canCreateComment ? "Add comment" : "Select text to comment"}
-                  >
-                    <iconify-icon className="icon" icon="ph:chat-circle"></iconify-icon>
-                    Comment
-                  </button>
-                  <button
-                    className={`button button--small button--plain ${editor?.isActive('highlight') ? 'button--active' : ''}`}
-                    is="pp-button"
-                    onClick={handleHighlight}
-                    title="Highlight text"
-                  >
-                    <iconify-icon className="icon" icon="ph:highlighter"></iconify-icon>
-                    <span className="inclusively-hidden">Highlight</span>
-                  </button>
-                </div>
-              </BubbleMenu>
-
-              {/* Comment Popover */}
-              {commentUI.uiState.popoverOpen && commentUI.uiState.popoverThread && (
-                <CommentPopover
-                  thread={commentUI.uiState.popoverThread}
-                  comments={commentUI.commentsMap.get(commentUI.uiState.popoverThread.id) || []}
-                  currentUser="user-1"
-                  isOpen={commentUI.uiState.popoverOpen}
-                  triggerElement={commentUI.uiState.popoverTriggerElement}
-                  onAddComment={commentUI.handleAddComment}
-                  onResolveThread={commentUI.handleResolveThread}
-                  onClose={commentUI.closePopover}
-                  onSwitchToDrawer={() => {
-                    commentUI.closePopover();
-                    commentUI.openDrawer();
-                  }}
-                />
-              )}
-
-              {/* Comment Drawer */}
-              <CommentDrawer
-                threads={commentUI.editorThreads}
-                commentsMap={commentUI.commentsMap}
-                currentUser="user-1"
-                isOpen={commentUI.uiState.drawerOpen}
-                activeThreadId={commentUI.activeThreadId}
-                onAddComment={commentUI.handleAddComment}
-                onResolveThread={commentUI.handleResolveThread}
-                onClose={commentUI.closeDrawer}
-              />
-            </>
-          )}
-
-          <div onClick={commentUI.handleCommentClick}>
-            <EditorContent editor={editor} />
-          </div>
-        </div>
-      </div>
-    );
-  },
-};
 
 export const TextLense: Story = {
   args: {},
@@ -448,7 +218,7 @@ export const TextLense: Story = {
     const documentId = 'doc-climate-change';
     const sectionId = 'habitat-displacement';
     const content = getDocumentContentText(documentId, sectionId);
-    
+
     const editor = useSimpleEditor(`<p>${content} As temperatures rise, animals and plants are being pushed out of their natural habitats.</p>`);
 
     const handleZoom = useCallback(async (direction: 'in' | 'out') => {
@@ -558,3 +328,204 @@ export const TextLense: Story = {
     );
   },
 };
+
+export const Commenting: Story = {
+  args: {},
+  parameters: {
+    docs: {
+      description: {
+        story: 'Clean quote commenting workflow using universal commenting system. Select text → Click "Comment" → Popover opens → Enter rich comment → Submit. Uses integrated hooks and universal comment storage with persistent quotes.'
+      }
+    }
+  },
+  render: () => {
+    const richContent = getDocumentContentRich('doc-climate-change');
+    const editor = useSimpleEditor('', true); // Enable ReferenceMark extension
+
+    // Use the new integrated quote commenting system
+    const quoteCommenting = useTipTapQuoteCommenting(editor, {
+      documentId: 'doc-climate-change',
+      currentUser: 'user-1'
+    });
+
+    // Initialize content and existing quotes
+    React.useEffect(() => {
+      if (editor && richContent) {
+        editor.commands.setContent(richContent);
+      }
+    }, [editor, richContent]);
+
+    // Handle clicks on existing quote references
+    React.useEffect(() => {
+      if (!editor) return;
+
+      const handleClick = (event: MouseEvent) => {
+        const target = event.target as HTMLElement;
+        const referenceElement = target.closest('[data-reference-type="quote"]');
+
+        if (referenceElement) {
+          const quoteId = referenceElement.getAttribute('data-reference-id');
+          if (quoteId) {
+            event.preventDefault();
+            event.stopPropagation();
+            quoteCommenting.handleQuoteReferenceClick(quoteId);
+          }
+        }
+      };
+
+      const editorElement = editor.view.dom;
+      editorElement.addEventListener('click', handleClick);
+
+      return () => {
+        editorElement.removeEventListener('click', handleClick);
+      };
+    }, [editor, quoteCommenting]);
+
+    return (
+      <div className="layer">
+        <div className="rich-editor-container">
+          {editor && (
+            <>
+              <BubbleMenu
+                editor={editor}
+                pluginKey="bubbleMenuCommenting"
+                shouldShow={({ state }) => {
+                  const { from, to } = state.selection;
+                  return from !== to && !quoteCommenting.uiState.popoverOpen;
+                }}
+              >
+                <div className="bubble-menu inline-flow">
+                  <button
+                    className="button button--small button--plain"
+                    is="pp-button"
+                    onClick={quoteCommenting.createQuoteWithComment}
+                    title="Add comment"
+                    disabled={!quoteCommenting.canCreateQuoteComment()}
+                  >
+                    <iconify-icon className="icon" icon="ph:chat-circle"></iconify-icon>
+                    Comment
+                  </button>
+                </div>
+              </BubbleMenu>
+
+              {/* Quote comment popover using new integrated system */}
+              {quoteCommenting.uiState.popoverOpen && quoteCommenting.uiState.commentingQuote && (
+                <QuoteCommentPopover
+                  quote={quoteCommenting.uiState.commentingQuote}
+                  isOpen={quoteCommenting.uiState.popoverOpen}
+                  triggerElement={quoteCommenting.uiState.triggerElement}
+                  currentUser="user-1"
+                  onClose={quoteCommenting.closePopover}
+                  onCommentAdded={quoteCommenting.handleCommentAdded}
+                />
+              )}
+            </>
+          )}
+
+          <EditorContent editor={editor} />
+        </div>
+      </div>
+    );
+  },
+};
+
+export const UniversalCommenting: Story = {
+  args: {},
+  parameters: {
+    docs: {
+      description: {
+        story: 'Clean quote commenting workflow using universal commenting system. Select text → Click "Comment" → Popover opens → Enter rich comment → Submit. Uses new integrated hooks and universal comment storage.'
+      }
+    }
+  },
+  render: () => {
+    const richContent = getDocumentContentRich('doc-climate-change');
+    const editor = useSimpleEditor('', true); // Enable ReferenceMark extension
+
+    // Use the new integrated quote commenting system
+    const quoteCommenting = useTipTapQuoteCommenting(editor, {
+      documentId: 'doc-climate-change',
+      currentUser: 'user-1'
+    });
+
+    // Initialize content and existing quotes
+    React.useEffect(() => {
+      if (editor && richContent) {
+        editor.commands.setContent(richContent);
+      }
+    }, [editor, richContent]);
+
+    // Handle clicks on existing quote references
+    React.useEffect(() => {
+      if (!editor) return;
+
+      const handleClick = (event: MouseEvent) => {
+        const target = event.target as HTMLElement;
+        const referenceElement = target.closest('[data-reference-type="quote"]');
+
+        if (referenceElement) {
+          const quoteId = referenceElement.getAttribute('data-reference-id');
+          if (quoteId) {
+            event.preventDefault();
+            event.stopPropagation();
+            quoteCommenting.handleQuoteReferenceClick(quoteId);
+          }
+        }
+      };
+
+      const editorElement = editor.view.dom;
+      editorElement.addEventListener('click', handleClick);
+
+      return () => {
+        editorElement.removeEventListener('click', handleClick);
+      };
+    }, [editor, quoteCommenting]);
+
+    return (
+      <div className="layer">
+        <div className="rich-editor-container">
+          {editor && (
+            <>
+              <BubbleMenu
+                editor={editor}
+                pluginKey="bubbleMenuUniversalCommenting"
+                shouldShow={({ state }) => {
+                  const { from, to } = state.selection;
+                  return from !== to && !quoteCommenting.uiState.popoverOpen;
+                }}
+              >
+                <div className="bubble-menu inline-flow">
+                  <button
+                    className="button button--small button--plain"
+                    is="pp-button"
+                    onClick={quoteCommenting.createQuoteWithComment}
+                    title="Add comment"
+                    disabled={!quoteCommenting.canCreateQuoteComment()}
+                  >
+                    <iconify-icon className="icon" icon="ph:chat-circle"></iconify-icon>
+                    Comment
+                  </button>
+                </div>
+              </BubbleMenu>
+
+              {/* Quote comment popover using new integrated system */}
+              {quoteCommenting.uiState.popoverOpen && quoteCommenting.uiState.commentingQuote && (
+                <QuoteCommentPopover
+                  quote={quoteCommenting.uiState.commentingQuote}
+                  isOpen={quoteCommenting.uiState.popoverOpen}
+                  triggerElement={quoteCommenting.uiState.triggerElement}
+                  currentUser="user-1"
+                  onClose={quoteCommenting.closePopover}
+                  onCommentAdded={quoteCommenting.handleCommentAdded}
+                />
+              )}
+            </>
+          )}
+
+          <EditorContent editor={editor} />
+        </div>
+      </div>
+    );
+  },
+};
+
