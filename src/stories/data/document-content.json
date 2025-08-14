@@ -22,16 +22,12 @@
             "content": [
               { "type": "text", "text": "Climate change is " },
               { 
-                "type": "text", 
-                "marks": [{
-                  "type": "reference",
-                  "attrs": {
-                    "referenceId": "quote-reshaping-ecosystems",
-                    "referenceType": "quote",
-                    "label": "reshaping ecosystems"
-                  }
-                }], 
-                "text": "reshaping ecosystems" 
+                "type": "reference", 
+                "attrs": {
+                  "id": "quote-reshaping-ecosystems",
+                  "type": "quote",
+                  "label": "reshaping ecosystems"
+                }
               },
               { "type": "text", "text": " at a pace that many species can't keep up with. As temperatures rise, animals and plants are being pushed out of their natural habitats." }
             ]
@@ -41,16 +37,12 @@
             "content": [
               { "type": "text", "text": "Species adapted to cold environments—like polar bears, snow leopards, and certain alpine plants—are seeing their " },
               { 
-                "type": "text", 
-                "marks": [{
-                  "type": "reference",
-                  "attrs": {
-                    "referenceId": "quote-habitats-shrink",
-                    "referenceType": "quote", 
-                    "label": "habitats shrink or disappear"
-                  }
-                }], 
-                "text": "habitats shrink or disappear" 
+                "type": "reference", 
+                "attrs": {
+                  "id": "quote-habitats-shrink",
+                  "type": "quote", 
+                  "label": "habitats shrink or disappear"
+                }
               },
               { "type": "text", "text": " entirely. Some animals are migrating to higher altitudes or latitudes, but these shifts aren't always possible or fast enough, especially for species with limited mobility or specialised diets." }
             ]
@@ -66,16 +58,12 @@
             "content": [
               { "type": "text", "text": "Warming oceans are particularly devastating. " },
               { 
-                "type": "text", 
-                "marks": [{
-                  "type": "reference",
-                  "attrs": {
-                    "referenceId": "quote-coral-reefs-bleaching",
-                    "referenceType": "quote",
-                    "label": "Coral reefs, which are biodiversity hotspots, are bleaching and dying due to heat stress"
-                  }
-                }], 
-                "text": "Coral reefs, which are biodiversity hotspots, are bleaching and dying due to heat stress" 
+                "type": "reference", 
+                "attrs": {
+                  "id": "quote-coral-reefs-bleaching",
+                  "type": "quote",
+                  "label": "Coral reefs, which are biodiversity hotspots, are bleaching and dying due to heat stress"
+                }
               },
               { "type": "text", "text": ". Marine animals that depend on these reefs for food and shelter are left vulnerable. Ocean acidification, another by-product of increased CO₂ levels, is making it harder for shellfish and corals to build their skeletons. The decline of keystone species can cause cascading effects, altering food webs and leading to further biodiversity loss. In short, climate change is a force multiplier for stressors already facing wildlife, accelerating extinction rates and making conservation efforts more urgent and complex." }
             ]

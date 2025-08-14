@@ -10,6 +10,31 @@ import { ItemInteraction, ContentAdapterProvider } from '../item-view';
 import { referenceContentAdapter } from './ReferenceContentAdapter';
 import type { ReferenceCategory, SelectedReference, ReferenceType } from './types';
 
+declare module '@tiptap/core' {
+  interface Commands<ReturnType> {
+    reference: {
+      /**
+       * Convert selected text to quote reference
+       */
+      convertSelectionToQuoteReference: (quoteData: { 
+        id: string; 
+        label: string; 
+        metadata?: Record<string, unknown> 
+      }) => ReturnType;
+      
+      /**
+       * Create quote reference at current position
+       */
+      createQuoteReference: (attrs: { 
+        id: string; 
+        label: string; 
+        type: string; 
+        metadata?: Record<string, unknown> 
+      }) => ReturnType;
+    };
+  }
+}
+
 const privateComponentData = new WeakMap<HTMLDivElement, {
   abortController: AbortController;
   virtualElement: VirtualElement | null;
@@ -163,6 +188,39 @@ export const Reference = Mention.extend({
     };
   },
 
+  addCommands() {
+    return {
+      ...this.parent?.(),
+
+      // Convert selected text to quote reference
+      convertSelectionToQuoteReference: (quoteData: { id: string; label: string; metadata?: Record<string, unknown> }) => ({ commands, state }) => {
+        const { from, to } = state.selection;
+        if (from === to) return false;
+
+        return commands.insertContentAt(
+          { from, to },
+          {
+            type: 'reference',
+            attrs: {
+              id: quoteData.id,
+              label: quoteData.label,
+              type: 'quote',
+              metadata: quoteData.metadata
+            }
+          }
+        );
+      },
+
+      // Create quote reference at current position
+      createQuoteReference: (attrs: { id: string; label: string; type: string; metadata?: Record<string, unknown> }) => ({ commands }) => {
+        return commands.insertContent({
+          type: 'reference',
+          attrs
+        });
+      }
+    };
+  },
+
   addAttributes() {
     return {
       ...this.parent?.(),
@@ -199,8 +257,16 @@ export const Reference = Mention.extend({
   addNodeView() {
     return ({ node, editor }) => {
       const wrapper = document.createElement('span');
-      wrapper.className = 'reference-mention reference';
+      const classes = ['reference-mention', 'reference'];
+      
+      // Add type-specific classes
+      if (node.attrs.type === 'quote') {
+        classes.push('reference-mention--quote');
+      }
+      
+      wrapper.className = classes.join(' ');
       wrapper.setAttribute('data-reference-type', node.attrs.type ?? '');
+      wrapper.setAttribute('data-reference-id', node.attrs.id ?? '');
       if (node.attrs.metadata) {
         wrapper.setAttribute('data-metadata', JSON.stringify(node.attrs.metadata));
       }

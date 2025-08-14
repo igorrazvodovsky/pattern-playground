@@ -5,7 +5,7 @@ import Highlight from '@tiptap/extension-highlight';
 import type { UseEditorOptions, EditorState } from '../types';
 
 // Import existing extensions from your codebase
-import { ReferenceMark } from '../../reference/ReferenceMark';
+import { Reference, createReferenceSuggestion } from '../../reference';
 import { CommentMark } from '../../commenting';
 import { TemplateField } from '../../template-field';
 
@@ -42,7 +42,11 @@ export const useEditor = (options: UseEditorOptions = {}) => {
 
     // Conditionally add feature extensions
     if (enableReferences) {
-      baseExtensions.push(ReferenceMark);
+      // Use Reference Node extension with empty categories for now
+      // In real usage, pass categories through options
+      baseExtensions.push(Reference.configure({
+        suggestion: createReferenceSuggestion([])
+      }));
     }
 
     if (enableCommenting) {

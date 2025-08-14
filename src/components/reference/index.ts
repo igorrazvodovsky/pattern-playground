@@ -10,8 +10,7 @@ export { ReferenceEditor } from './ReferenceEditor';
 export { Reference, createReferenceSuggestion } from './Reference';
 export { referenceContentAdapter } from './ReferenceContentAdapter';
 
-// TipTap extensions
-export { ReferenceMark } from './ReferenceMark';
+// TipTap extensions - unified Reference Node extension
 
 // Public types
 export type {

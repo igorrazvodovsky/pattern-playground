@@ -104,26 +104,6 @@
   background-color: var(--c-accent-100);
 }
 
-/* Quote-specific styling */
-.reference-mention--quote {
-  background-color: var(--c-warning-50);
-  color: var(--c-warning-800);
-}
-
-.reference-mention--quote:hover {
-  background-color: var(--c-warning-100);
-}
-
-/* Quote resolved state */
-.reference-mention--quote[data-reference-resolved="true"] {
-  background-color: var(--c-success-50);
-  color: var(--c-success-800);
-}
-
-.reference-mention--quote[data-reference-resolved="true"]:hover {
-  background-color: var(--c-success-100);
-}
-
 /* Reference mention content wrapper */
 .reference-mention__content {
   display: inline;

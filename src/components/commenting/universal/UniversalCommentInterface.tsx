@@ -87,7 +87,7 @@ export const UniversalCommentInterface: React.FC<UniversalCommentInterfaceProps>
               />
             </pp-avatar>
             <div className="message__content">
-              <div className="message__body layer">
+              <div className="message__body">
                 <div className="message__author">{displayName}</div>
                 <CommentRenderer
                   content={comment.content}

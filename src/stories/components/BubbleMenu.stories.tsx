@@ -9,7 +9,27 @@ import { PpToast } from '../../main.ts';
 import '../../components/modal/modal.ts';
 import { useTipTapQuoteCommenting } from '../../components/commenting/tiptap/use-tiptap-quote-commenting.js';
 import { QuoteCommentPopover } from '../../components/commenting/quote/QuoteCommentPopover.js';
-import { ReferenceMark } from '../../components/reference/index.js';
+import { Reference, createReferenceSuggestion } from '../../components/reference/index.js';
+import { referenceCategories } from '../data/index.js';
+import type { ReferenceCategory } from '../../components/reference/types.js';
+
+// Convert data structure to match ReferenceCategory interface
+const convertToReferenceCategories = (categories: typeof referenceCategories): ReferenceCategory[] => {
+  return categories.map(cat => ({
+    id: cat.id,
+    label: cat.name,
+    items: cat.children.map(child => ({
+      id: child.id,
+      label: child.name,
+      type: child.type,
+      metadata: child.metadata
+    })),
+    metadata: {
+      icon: cat.icon,
+      searchableText: cat.searchableText
+    }
+  }));
+};
 import { getDocumentContentText, getDocumentContentRich } from '../data/index.ts';
 
 import {
@@ -183,12 +203,14 @@ export const TextLense: Story = {
 const CommentingEditor: React.FC = () => {
   const richContent = getDocumentContentRich('doc-climate-change');
 
-  // Use direct Tiptap useEditor hook (not wrapped in useMemo)
+  // Use direct Tiptap useEditor hook (not wrapped in useMemo)  
   const editor = useEditor({
     extensions: [
       StarterKit,
       Highlight,
-      ReferenceMark,
+      Reference.configure({
+        suggestion: createReferenceSuggestion(convertToReferenceCategories(referenceCategories)),
+      }),
     ],
     content: richContent || '',
     editorProps: {
@@ -224,17 +246,18 @@ const CommentingEditor: React.FC = () => {
         const quoteId = referenceElement.getAttribute('data-reference-id');
         if (quoteId) {
           event.preventDefault();
-          event.stopPropagation();
+          event.stopImmediatePropagation(); // Stop all other handlers
           quoteCommenting.handleQuoteReferenceClick(quoteId);
         }
       }
     };
 
     const editorElement = editor.view.dom;
-    editorElement.addEventListener('click', handleClick);
+    // Use capture phase to ensure this handler runs before ItemInteraction handlers
+    editorElement.addEventListener('click', handleClick, { capture: true });
 
     return () => {
-      editorElement.removeEventListener('click', handleClick);
+      editorElement.removeEventListener('click', handleClick, { capture: true });
     };
   }, [editor, quoteCommenting]);
 

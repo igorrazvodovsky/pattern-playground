@@ -33,7 +33,7 @@ const referenceCategories = [
   { id: 'users', children: users },
   { id: 'documents', children: documents },
   { id: 'projects', children: projects },
-  { id: 'quotes', children: quotes }  // Already supports quotes!
+  { id: 'quotes', children: quotes }
 ]
 ```
 
@@ -307,11 +307,11 @@ interface ReferenceAttrs {
 
 ### Week 2: Integration Layer Migration
 - [ ] Migrate useTipTapQuoteIntegration to Node-based
-- [ ] Update quote service integration  
+- [ ] Update quote service integration
 - [ ] Update TextEditor hook to use Reference Node when `enableReferences: true`
 - [ ] Test quote creation and click handling
 
-### Week 3: Component Updates  
+### Week 3: Component Updates
 - [ ] Update BubbleMenu.stories.tsx (simplified by TextEditor component)
 - [ ] Migrate quote commenting hooks to work with TextEditor infrastructure
 - [ ] Update document content structure

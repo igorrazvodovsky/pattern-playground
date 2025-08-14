@@ -1,8 +1,13 @@
 import { useCallback, useEffect, useMemo } from 'react';
+import React from 'react';
+import { createRoot } from 'react-dom/client';
 import type { Editor } from '@tiptap/react';
 import { getQuoteService, type QuoteObject } from '../../../services/commenting/quote-service.js';
 import { getQuotesByDocument } from '../../../stories/data/index.js';
-import { openItemInModal } from '../../item-view/services/item-view-modal-service.js';
+import { modalService } from '../../../services/modal-service.js';
+import { UniversalCommentInterface } from '../universal/UniversalCommentInterface.js';
+import { useUniversalCommenting } from '../../../services/commenting/hooks/use-universal-commenting.js';
+import { getUserById } from '../../../stories/data/index.js';
 
 interface UseTipTapQuoteIntegrationOptions {
   documentId: string;
@@ -21,6 +26,7 @@ export const useTipTapQuoteIntegration = (
 ) => {
   const { documentId, currentUser } = options;
   const quoteService = getQuoteService();
+  const { service: commentService } = useUniversalCommenting();
 
   // Get all quotes for this document
   const documentQuotes = useMemo(() => {
@@ -70,15 +76,12 @@ export const useTipTapQuoteIntegration = (
         documentId
       );
 
-      // Replace the selected text with a reference mark
-      editor.chain()
-        .setTextSelection({ from, to })
-        .setMark('reference', {
-          referenceId: quote.id,
-          referenceType: 'quote',
-          label: quote.name
-        })
-        .run();
+      // Replace the selected text with a reference node
+      editor.commands.convertSelectionToQuoteReference({
+        id: quote.id,
+        label: quote.name,
+        metadata: quote.metadata
+      });
 
       console.log('Created quote object:', quote);
       return quote;
@@ -106,20 +109,62 @@ export const useTipTapQuoteIntegration = (
     const quote = getQuote(quoteId);
     if (quote) {
       try {
-        console.log('Opening quote in modal:', quote);
+        console.log('Opening quote in drawer:', quote);
 
-        await openItemInModal(quote, 'maxi', {
-          title: `Quote: "${quote.name}"`,
-          size: 'large',
-          placement: 'center'
-        });
+        // Create quote drawer content with commenting interface
+        const quoteDrawerContent = `
+          <div class="quote-drawer">
+            <section class="quote-drawer__content flow">
 
-        console.log('Quote modal opened successfully');
+              <small class="dimmed">
+                From ${quote.metadata.sourceDocument}
+              </small>
+              <div class="quote-drawer__comments">
+                <div id="quote-comments-${quoteId}">
+                  <!-- React commenting interface will be rendered here -->
+                </div>
+              </div>
+            </section>
+          </div>
+        `;
+
+        modalService.openDrawer(quoteDrawerContent, 'right', `${quote.name}`);
+
+        // Render reusable commenting interface after drawer is in DOM
+        setTimeout(() => {
+          const commentsContainer = document.getElementById(`quote-comments-${quoteId}`);
+          if (commentsContainer && commentService) {
+
+            // Use the complete UniversalCommentInterface - same as dialog uses
+            const QuoteCommentsInterface = () => {
+              // Get user object for the interface
+              const currentUserObj = getUserById(currentUser) || {
+                id: currentUser,
+                name: currentUser
+              };
+
+              return React.createElement(UniversalCommentInterface, {
+                entityType: 'quote',
+                entityId: quote.id,
+                currentUser: currentUserObj,
+                className: 'quote-comments-drawer',
+                showHeader: false, // Don't show header in drawer context
+                allowNewComments: true,
+                maxHeight: '300px'
+              });
+            };
+
+            const root = createRoot(commentsContainer);
+            root.render(React.createElement(QuoteCommentsInterface));
+          }
+        }, 150);
+
+        console.log('Quote drawer opened successfully');
       } catch (error) {
-        console.error('Failed to open quote modal:', error);
+        console.error('Failed to open quote drawer:', error);
 
         // Fallback to console preview
-        console.group('Quote Preview (Modal Failed)');
+        console.group('Quote Preview (Drawer Failed)');
         console.log('Name:', quote.name);
         console.log('Description:', quote.description);
         console.log('Content:', quote.content.plainText);
@@ -155,19 +200,28 @@ export const useTipTapQuoteIntegration = (
     }
   }, [editor]);
 
-  // Delete a quote (removes reference mark and quote object)
+  // Delete a quote (removes reference node and quote object)
   const deleteQuote = useCallback((quoteId: string): boolean => {
     const quote = getQuote(quoteId);
     if (!quote || !editor) return false;
 
     try {
-      const { from, to } = quote.metadata.sourceRange;
+      // Find and remove the reference node with matching quote ID
+      const { doc } = editor.state;
+      let nodePos: number | null = null;
 
-      // Remove reference mark from editor
-      if (from >= 0 && to <= editor.state.doc.content.size && from < to) {
+      doc.descendants((node, pos) => {
+        if (node.type.name === 'reference' && node.attrs.id === quoteId) {
+          nodePos = pos;
+          return false; // Stop iterating
+        }
+        return true;
+      });
+
+      if (nodePos !== null) {
         editor.chain()
-          .setTextSelection({ from, to })
-          .unsetMark('reference')
+          .setTextSelection({ from: nodePos, to: nodePos + 1 })
+          .deleteSelection()
           .run();
       }
 
