@@ -7,7 +7,7 @@ Based on Daniel Jackson's "The Essence of Software" - https://essenceofsoftware.
 ### What is a Concept?
 A **concept** is a reusable unit of functionality that can be understood independently. It has:
 - **Purpose**: What problem it solves
-- **Operational Principle (OP)**: How users achieve that purpose  
+- **Operational Principle (OP)**: How users achieve that purpose
 - **State**: What data it maintains
 - **Actions**: What operations it provides
 
@@ -19,7 +19,7 @@ A **concept** is a reusable unit of functionality that can be understood indepen
 
 ### How to Apply This Methodology
 1. **Identify concepts** in your domain (start with user-facing functionality)
-2. **Define each concept's purpose** (one clear sentence)  
+2. **Define each concept's purpose** (one clear sentence)
 3. **Write operational principles** ("if...then" scenarios showing value)
 4. **Model state and actions** (what data and operations are needed)
 5. **Compose concepts** through synchronisation (how they work together)
@@ -50,18 +50,18 @@ Any software app, service or system can be viewed as a **collection of interacti
 
 This methodology is split across several focused files:
 
-- **@agent-rules/concept-design-guide.md** (this file) - Quick start and overview
-- **@agent-rules/concept-templates.md** - Practical templates and examples
-- **@agent-rules/operational-principles.md** - How to write effective "if...then" scenarios
-- **@agent-rules/concept-state-modeling.md** - Modeling data and behavior formally
-- **@agent-rules/concept-composition.md** - How concepts work together
-- **@agent-rules/concept-criteria.md** - What qualifies as a good concept
+- @agent-rules/concept-design-guide.md (this file) - Quick start and overview
+- @agent-rules/concept-templates.md - Practical templates and examples
+- @agent-rules/operational-principles.md - How to write effective "if...then" scenarios
+- @agent-rules/concept-state-modeling.md - Modeling data and behavior formally
+- @agent-rules/concept-composition.md - How concepts work together
+- @agent-rules/concept-criteria.md - What qualifies as a good concept
 
 ## Common Concept Examples
 
 ### Authentication Concepts
 - **Account**: User registration and identity management
-- **Session**: Temporary authenticated access  
+- **Session**: Temporary authenticated access
 - **Password**: Secret-based authentication
 
 ### Content Concepts
@@ -86,3 +86,4 @@ This methodology is split across several focused files:
 2. **Learn operational principles**: Read @agent-rules/operational-principles.md to write effective scenarios
 3. **Study composition**: Understand how concepts work together in @agent-rules/concept-composition.md
 4. **Deep dive**: Use @agent-rules/concept-tutorials-index.md to navigate advanced topics
+

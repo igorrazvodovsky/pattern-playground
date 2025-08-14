@@ -1,7 +1,7 @@
 import type { EntityComment } from '../state/comment-store.js';
 import commentsData from '../../../stories/data/comments.json' with { type: 'json' };
 
-// Load existing comments from shared-data - data is already in EntityComment format
+// Load existing comments from data - data is already in EntityComment format
 export function loadSharedDataComments(): EntityComment[] {
   try {
     // Transform timestamp strings to Date objects

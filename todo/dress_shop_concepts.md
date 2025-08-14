@@ -3,25 +3,8 @@
 ## 1. Conversation
 
 ## 2. ConditionOfSatisfaction
-```
-concept ConditionOfSatisfaction [Request]
-purpose define the criteria by which a request is deemed fulfilled
-principle
-  if an action on a request matches the agreed condition,
-  the requester can declare satisfaction and close the request
-state
-  condition: Request -> one Criteria
-  satisfied: set Request
-actions
-  setCondition (r: Request, c: Criteria)
-    r not in condition
-    condition[r] := c
-  declareSatisfied (r: Request)
-    r in condition
-    satisfied += r
-```
 
-## 3. AlterationRequest
+## 3. Task
 ```
 concept AlterationRequest [Item, Party]
 purpose modify an item to meet specific requester requirements within agreed timeframe
@@ -179,28 +162,6 @@ actions
 ```
 
 ## 12. Interpretation
-```
-concept Interpretation [Property, Community]
-purpose ground actions, properties, and satisfaction in shared background meaning
-principle
-  if parties share enough background, conditions of satisfaction can be declared and accepted
-state
-  sharedMeaning: Community -> set Property
-actions
-  addShared (c: Community, p: Property)
-    sharedMeaning[c] += p
-```
 
 ## 13. InnovationViaConversationDesign
-```
-concept InnovationViaConversationDesign [Conversation]
-purpose expand possibilities by introducing new conversations or reconfiguring existing ones
-principle
-  if new links or types of requests are introduced,
-  the organisation can create new domains of action
-state
-  newTypes: set ConversationType
-actions
-  introduceType (ct: ConversationType)
-    newTypes += ct
-```
+
