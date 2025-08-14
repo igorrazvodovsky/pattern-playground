@@ -147,7 +147,7 @@ export const getTasksByAssignee = (userId: string) => {
 };
 
 export const getCommentsByThreadId = (threadId: string) => {
-  return comments.filter(comment => comment.threadId === threadId);
+  return comments.filter(comment => comment.metadata?.threadId === threadId);
 };
 
 export const getCommentsByEntity = (entityType: string, entityId: string) => {

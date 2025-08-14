@@ -4,7 +4,7 @@ import { useState, useCallback } from 'react'
 import type { Node } from '@tiptap/pm/model'
 import StarterKit from '@tiptap/starter-kit'
 import { Reference, createReferenceSuggestion } from '../../../components/reference/Reference';
-import { referenceCategories } from '../../shared-data';
+import { referenceCategories } from '../../data';
 import '../../../jsx-types';
 
 const meta = {

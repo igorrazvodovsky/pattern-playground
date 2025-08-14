@@ -1,15 +1,15 @@
 [
   {
     "id": "comment-1",
-    "threadId": "thread-1",
     "content": "The ecosystem impact assessment needs more specific metrics on biodiversity loss. Can we quantify the species displacement rates?",
     "authorId": "user-5",
-    "timestamp": "2024-01-15T11:15:00Z",
+    "timestamp": "2024-01-15T11:15:00.000Z",
     "entityType": "document",
     "entityId": "doc-2",
     "status": "active",
     "replyTo": null,
     "metadata": {
+      "threadId": "thread-1",
       "selectionStart": 145,
       "selectionEnd": 189,
       "selectedText": "reshaping ecosystems at a pace that many"
@@ -17,325 +17,383 @@
   },
   {
     "id": "comment-2", 
-    "threadId": "thread-1",
     "content": "Good point, Fatima. I'll coordinate with the biodiversity team to get those displacement metrics from our latest field studies.",
     "authorId": "user-1",
-    "timestamp": "2024-01-15T13:45:00Z",
+    "timestamp": "2024-01-15T13:45:00.000Z",
     "entityType": "document",
     "entityId": "doc-2",
     "status": "active",
-    "replyTo": "comment-1"
+    "replyTo": "comment-1",
+    "metadata": {
+      "threadId": "thread-1"
+    }
   },
   {
     "id": "comment-3",
-    "threadId": "thread-2", 
     "content": "This section on habitat shrinkage aligns well with our water conservation project findings. Should we cross-reference the data?",
     "authorId": "user-8",
-    "timestamp": "2024-01-14T03:15:00Z",
+    "timestamp": "2024-01-14T03:15:00.000Z",
     "entityType": "document",
     "entityId": "doc-2",
     "status": "resolved",
     "replyTo": null,
     "metadata": {
+      "threadId": "thread-2",
       "selectionStart": 422,
       "selectionEnd": 450,
       "selectedText": "habitats shrink or disappear",
       "resolvedBy": "user-1",
-      "resolvedAt": "2024-01-16T10:30:00Z"
+      "resolvedAt": "2024-01-16T10:30:00.000Z"
     }
   },
   {
     "id": "comment-4",
-    "threadId": "thread-2",
     "content": "Absolutely! I've added the cross-reference in the updated methodology section.",
     "authorId": "user-1", 
-    "timestamp": "2024-01-16T10:30:00Z",
+    "timestamp": "2024-01-16T10:30:00.000Z",
     "entityType": "document",
     "entityId": "doc-2",
     "status": "resolved",
-    "replyTo": "comment-3"
+    "replyTo": "comment-3",
+    "metadata": {
+      "threadId": "thread-2"
+    }
   },
   {
     "id": "comment-5",
-    "threadId": "thread-3",
     "content": "The take-back program design looks comprehensive, but have we considered the logistics costs for rural areas?",
     "authorId": "user-2",
-    "timestamp": "2024-01-16T10:20:00Z", 
+    "timestamp": "2024-01-16T10:20:00.000Z", 
     "entityType": "task",
     "entityId": "task-4",
     "status": "active",
-    "replyTo": null
+    "replyTo": null,
+    "metadata": {
+      "threadId": "thread-3"
+    }
   },
   {
     "id": "comment-6",
-    "threadId": "thread-3", 
     "content": "That's a crucial consideration. Let me run the cost analysis for different coverage scenarios and update the proposal.",
     "authorId": "user-4",
-    "timestamp": "2024-01-16T12:45:00Z",
+    "timestamp": "2024-01-16T12:45:00.000Z",
     "entityType": "task", 
     "entityId": "task-4",
     "status": "active",
-    "replyTo": "comment-5"
+    "replyTo": "comment-5",
+    "metadata": {
+      "threadId": "thread-3"
+    }
   },
   {
     "id": "comment-7",
-    "threadId": "thread-4",
     "content": "Excellent work on the refurbishment process documentation! The visual flowchart makes it much clearer for the technicians.",
     "authorId": "user-3",
-    "timestamp": "2024-01-13T14:10:00Z",
+    "timestamp": "2024-01-13T14:10:00.000Z",
     "entityType": "document",
     "entityId": "doc-11",
     "status": "active",
+    "replyTo": null,
     "metadata": {
+      "threadId": "thread-4",
       "type": "approval"
     }
   },
   {
     "id": "comment-8", 
-    "threadId": "thread-5",
     "content": "The E-Waste collection numbers are impressive! Should we expand this model to other regions?",
     "authorId": "user-7",
-    "timestamp": "2024-01-12T16:30:00Z",
+    "timestamp": "2024-01-12T16:30:00.000Z",
     "entityType": "project",
     "entityId": "project-2",
-    "status": "active"
+    "status": "active",
+    "replyTo": null,
+    "metadata": {
+      "threadId": "thread-5"
+    }
   },
   {
     "id": "comment-9",
-    "threadId": "thread-5",
     "content": "I think we should. The success metrics support scaling up. Let me prepare a business case for the next quarter.",
     "authorId": "user-10",
-    "timestamp": "2024-01-13T09:15:00Z",
+    "timestamp": "2024-01-13T09:15:00.000Z",
     "entityType": "project",
     "entityId": "project-2", 
-    "status": "active"
+    "status": "active",
+    "replyTo": null,
+    "metadata": {
+      "threadId": "thread-5"
+    }
   },
   {
     "id": "comment-10",
-    "threadId": "thread-6",
     "content": "The LCA data update looks thorough, but I notice we're missing transportation emissions. Can we include those?",
     "authorId": "user-6",
-    "timestamp": "2024-01-14T10:45:00Z",
+    "timestamp": "2024-01-14T10:45:00.000Z",
     "entityType": "task",
     "entityId": "task-3",
-    "status": "active"
+    "status": "active",
+    "replyTo": null,
+    "metadata": {
+      "threadId": "thread-6"
+    }
   },
   {
     "id": "comment-11",
-    "threadId": "thread-6",
     "content": "Good catch! I've already collected the transport data from our logistics team. Will incorporate it in the next update.",
     "authorId": "user-9",
-    "timestamp": "2024-01-14T12:20:00Z", 
+    "timestamp": "2024-01-14T12:20:00.000Z", 
     "entityType": "task",
     "entityId": "task-3",
-    "status": "active"
+    "status": "active",
+    "replyTo": null,
+    "metadata": {
+      "threadId": "thread-6"
+    }
   },
   {
     "id": "comment-12",
-    "threadId": "thread-7",
     "content": "The supplier code updates look good, but we should add specific language about child labour compliance.",
     "authorId": "user-6",
-    "timestamp": "2024-01-11T15:30:00Z",
+    "timestamp": "2024-01-11T15:30:00.000Z",
     "entityType": "document", 
     "entityId": "doc-12",
     "status": "active",
+    "replyTo": null,
     "metadata": {
+      "threadId": "thread-7",
       "type": "review",
       "priority": "high"
     }
   },
   {
     "id": "comment-13",
-    "threadId": "thread-8",
     "content": "The closed-loop packaging prototype testing results exceeded expectations! Ready for the next phase.",
     "authorId": "user-4",
-    "timestamp": "2024-01-10T13:15:00Z",
+    "timestamp": "2024-01-10T13:15:00.000Z",
     "entityType": "project",
     "entityId": "project-3", 
     "status": "active",
+    "replyTo": null,
     "metadata": {
+      "threadId": "thread-8",
       "type": "milestone"
     }
   },
   {
     "id": "comment-14",
-    "threadId": "thread-8", 
     "content": "Fantastic! Let's schedule the stakeholder presentation for next week to get approval for full implementation.",
     "authorId": "user-1",
-    "timestamp": "2024-01-10T15:45:00Z",
+    "timestamp": "2024-01-10T15:45:00.000Z",
     "entityType": "project",
     "entityId": "project-3",
-    "status": "active"
+    "status": "active",
+    "replyTo": null,
+    "metadata": {
+      "threadId": "thread-8"
+    }
   },
   {
     "id": "comment-15", 
-    "threadId": "thread-9",
     "content": "The waste audit methodology needs refinement. We should standardise the categorisation approach across all facilities.",
     "authorId": "user-3", 
-    "timestamp": "2024-01-09T11:20:00Z",
+    "timestamp": "2024-01-09T11:20:00.000Z",
     "entityType": "task",
     "entityId": "task-1",
-    "status": "active"
+    "status": "active",
+    "replyTo": null,
+    "metadata": {
+      "threadId": "thread-9"
+    }
   },
   {
     "id": "comment-16",
-    "threadId": "thread-10", 
     "content": "The training module structure is well-designed, but we should add more interactive elements for better engagement.",
     "authorId": "user-7",
-    "timestamp": "2024-01-17T14:30:00Z",
+    "timestamp": "2024-01-17T14:30:00.000Z",
     "entityType": "task",
     "entityId": "task-10",
     "status": "active",
+    "replyTo": null,
     "metadata": {
+      "threadId": "thread-10",
       "type": "suggestion"
     }
   },
   {
     "id": "comment-17",
-    "threadId": "thread-10",
     "content": "Great suggestion! I'll work with the learning design team to add some scenario-based exercises.",
     "authorId": "user-1",
-    "timestamp": "2024-01-17T16:15:00Z", 
+    "timestamp": "2024-01-17T16:15:00.000Z", 
     "entityType": "task",
     "entityId": "task-10",
-    "status": "active"
+    "status": "active",
+    "replyTo": null,
+    "metadata": {
+      "threadId": "thread-10"
+    }
   },
   {
     "id": "comment-18",
-    "threadId": "thread-11",
     "content": "The smart bin data analysis reveals interesting patterns in contamination rates. Should we adjust collection frequencies?",
     "authorId": "user-9",
-    "timestamp": "2024-01-14T09:30:00Z",
+    "timestamp": "2024-01-14T09:30:00.000Z",
     "entityType": "task", 
     "entityId": "task-9",
     "status": "resolved",
+    "replyTo": null,
     "metadata": {
+      "threadId": "thread-11",
       "resolvedBy": "user-8",
-      "resolvedAt": "2024-01-15T14:20:00Z"
+      "resolvedAt": "2024-01-15T14:20:00.000Z"
     }
   },
   {
     "id": "comment-19",
-    "threadId": "thread-11",
     "content": "Yes, let's implement dynamic scheduling based on your analysis. I'll coordinate with the collection teams.",
     "authorId": "user-8",
-    "timestamp": "2024-01-15T14:20:00Z",
+    "timestamp": "2024-01-15T14:20:00.000Z",
     "entityType": "task",
     "entityId": "task-9", 
-    "status": "resolved"
+    "status": "resolved",
+    "replyTo": null,
+    "metadata": {
+      "threadId": "thread-11"
+    }
   },
   {
     "id": "comment-20",
-    "threadId": "thread-12",
     "content": "The renewable energy integration timeline seems ambitious. Do we have contingency plans for permitting delays?",
     "authorId": "user-10",
-    "timestamp": "2024-01-16T08:45:00Z",
+    "timestamp": "2024-01-16T08:45:00.000Z",
     "entityType": "project",
     "entityId": "project-6", 
     "status": "active",
+    "replyTo": null,
     "metadata": {
+      "threadId": "thread-12",
       "type": "risk-assessment"
     }
   },
   {
     "id": "comment-21",
-    "threadId": "thread-13",
     "content": "The material flow analysis reveals bottlenecks in our sorting process. We need to invest in automated sorting technology.",
     "authorId": "user-5",
-    "timestamp": "2024-01-15T10:15:00Z",
+    "timestamp": "2024-01-15T10:15:00.000Z",
     "entityType": "document",
     "entityId": "doc-1",
-    "status": "active"
+    "status": "active",
+    "replyTo": null,
+    "metadata": {
+      "threadId": "thread-13"
+    }
   },
   {
     "id": "comment-22",
-    "threadId": "thread-13",
     "content": "I agree. Let me prepare a cost-benefit analysis for the automation upgrade and present it to the leadership team.",
     "authorId": "user-2",
-    "timestamp": "2024-01-15T12:30:00Z",
+    "timestamp": "2024-01-15T12:30:00.000Z",
     "entityType": "document", 
     "entityId": "doc-1",
-    "status": "active"
+    "status": "active",
+    "replyTo": null,
+    "metadata": {
+      "threadId": "thread-13"
+    }
   },
   {
     "id": "comment-23",
-    "threadId": "thread-14",
     "content": "The circular business model canvas needs an additional revenue stream section. What about product-as-a-service models?",
     "authorId": "user-10",
-    "timestamp": "2024-01-12T15:45:00Z",
+    "timestamp": "2024-01-12T15:45:00.000Z",
     "entityType": "document",
     "entityId": "doc-3",
-    "status": "active"
+    "status": "active",
+    "replyTo": null,
+    "metadata": {
+      "threadId": "thread-14"
+    }
   },
   {
     "id": "comment-24",
-    "threadId": "thread-15",
     "content": "Community response to the composting initiative has been overwhelming! We may need to expand capacity sooner than planned.",
     "authorId": "user-7",
-    "timestamp": "2024-01-11T13:20:00Z",
+    "timestamp": "2024-01-11T13:20:00.000Z",
     "entityType": "project",
     "entityId": "project-1",
     "status": "active",
+    "replyTo": null,
     "metadata": {
+      "threadId": "thread-15",
       "type": "update",
       "priority": "medium"
     }
   },
   {
     "id": "comment-25",
-    "threadId": "thread-15",
     "content": "That's wonderful news! Let me check our budget flexibility and see if we can accelerate the expansion timeline.",
     "authorId": "user-1", 
-    "timestamp": "2024-01-11T15:10:00Z",
+    "timestamp": "2024-01-11T15:10:00.000Z",
     "entityType": "project",
     "entityId": "project-1",
-    "status": "active"
+    "status": "active",
+    "replyTo": null,
+    "metadata": {
+      "threadId": "thread-15"
+    }
   },
   {
     "id": "comment-26",
-    "threadId": "thread-16",
     "content": "This quote perfectly captures the urgency of the climate crisis. The phrase 'reshaping ecosystems' really emphasizes the scale of transformation happening.",
     "authorId": "user-2",
-    "timestamp": "2024-01-16T09:30:00Z",
+    "timestamp": "2024-01-16T09:30:00.000Z",
     "entityType": "quote",
     "entityId": "quote-reshaping-ecosystems",
     "status": "active",
     "replyTo": null,
     "metadata": {
+      "threadId": "thread-16",
       "quoteText": "reshaping ecosystems",
       "sourceDocument": "doc-climate-change"
     }
   },
   {
     "id": "comment-27",
-    "threadId": "thread-16",
     "content": "Absolutely! And it's not just about the speed - it's about the irreversibility. Once an ecosystem is reshaped, it may never return to its original state.",
     "authorId": "user-5",
-    "timestamp": "2024-01-16T11:45:00Z",
+    "timestamp": "2024-01-16T11:45:00.000Z",
     "entityType": "quote",
     "entityId": "quote-reshaping-ecosystems",
     "status": "active",
-    "replyTo": "comment-26"
+    "replyTo": "comment-26",
+    "metadata": {
+      "threadId": "thread-16"
+    }
   },
   {
     "id": "comment-28",
-    "threadId": "thread-17",
     "content": "This data point is crucial for our biodiversity loss calculations. We should reference this in the impact assessment section.",
     "authorId": "user-3",
-    "timestamp": "2024-01-17T14:20:00Z",
+    "timestamp": "2024-01-17T14:20:00.000Z",
     "entityType": "quote",
     "entityId": "quote-habitats-shrink",
     "status": "active",
-    "replyTo": null
+    "replyTo": null,
+    "metadata": {
+      "threadId": "thread-17"
+    }
   },
   {
     "id": "comment-29",
-    "threadId": "thread-18",
     "content": "The ocean acidification aspect here ties directly to our carbon footprint modeling. This quote supports our argument for urgent action.",
     "authorId": "user-7",
-    "timestamp": "2024-01-17T16:10:00Z",
+    "timestamp": "2024-01-17T16:10:00.000Z",
     "entityType": "quote",
     "entityId": "quote-coral-reefs-bleaching",
-    "status": "active"
+    "status": "active",
+    "replyTo": null,
+    "metadata": {
+      "threadId": "thread-18"
+    }
   }
 ]

@@ -10,7 +10,7 @@ import { ReferenceMark } from '../../components/reference/index.js';
 import { useTipTapQuoteCommenting } from '../../components/commenting/tiptap/use-tiptap-quote-commenting.js';
 import { QuoteCommentPopover } from '../../components/commenting/quote/QuoteCommentPopover.js';
 import { CommentMark } from '../../components/commenting/index.js';
-import { getDocumentContentText, getDocumentContentRich } from '../shared-data/index.ts';
+import { getDocumentContentText, getDocumentContentRich } from '../data/index.ts';
 
 const meta = {
   title: "Components/Bubble menu",

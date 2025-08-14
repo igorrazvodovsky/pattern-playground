@@ -1,7 +1,7 @@
 import { useMemo, useCallback } from 'react';
 import { useUniversalCommenting } from './use-universal-commenting.js';
 import { createQuoteCommentingService } from '../quote-commenting-service.js';
-import type { Quote, RichContent } from '../../../stories/shared-data/index.js';
+import type { Quote, RichContent } from '../../../stories/data/index.js';
 import type { UniversalComment } from '../document-pointer.js';
 
 /**
@@ -10,7 +10,7 @@ import type { UniversalComment } from '../document-pointer.js';
  */
 export const useQuoteCommenting = (quote?: Quote) => {
   const universalCommenting = useUniversalCommenting();
-  
+
   // Create quote commenting service
   const quoteCommentingService = useMemo(() => {
     return createQuoteCommentingService(universalCommenting.service);
@@ -43,7 +43,7 @@ export const useQuoteCommenting = (quote?: Quote) => {
     try {
       // Ensure thread exists for the quote
       quoteCommentingService.ensureQuoteThread(quote);
-      
+
       // Add the comment
       const comment = await quoteCommentingService.addQuoteComment(
         quote.id,
@@ -63,7 +63,7 @@ export const useQuoteCommenting = (quote?: Quote) => {
   // Resolve quote thread
   const resolveThread = useCallback((resolvedBy: string = 'user-1') => {
     if (!quote) return false;
-    
+
     return quoteCommentingService.resolveQuoteThread(quote.id, resolvedBy);
   }, [quote, quoteCommentingService]);
 
@@ -80,7 +80,7 @@ export const useQuoteCommenting = (quote?: Quote) => {
   // Search comments in this quote
   const searchComments = useCallback((searchTerm: string): UniversalComment[] => {
     if (!quote) return [];
-    
+
     return quoteCommentingService.searchQuoteComments(searchTerm, [quote.id]);
   }, [quote, quoteCommentingService]);
 
@@ -100,7 +100,7 @@ export const useQuoteCommenting = (quote?: Quote) => {
 
     // Services (for advanced usage)
     quoteCommentingService,
-    
+
     // Inherit universal commenting functionality
     ...universalCommenting,
   };
@@ -111,7 +111,7 @@ export const useQuoteCommenting = (quote?: Quote) => {
  */
 export const useMultiQuoteCommenting = (quotes: Quote[]) => {
   const universalCommenting = useUniversalCommenting();
-  
+
   const quoteCommentingService = useMemo(() => {
     return createQuoteCommentingService(universalCommenting.service);
   }, [universalCommenting.service]);

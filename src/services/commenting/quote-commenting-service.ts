@@ -1,4 +1,4 @@
-import type { RichContent, Quote } from '../../stories/shared-data/index.js';
+import type { RichContent, Quote } from '../../stories/data/index.js';
 import { UniversalCommentingService } from './universal-commenting-service.js';
 import type { DocumentPointer, UniversalComment, CommentThread } from './document-pointer.js';
 
@@ -64,7 +64,7 @@ export class QuoteCommentingService {
     try {
       // Find existing thread for this quote or create one
       const thread = this.getQuoteThread(quoteId);
-      
+
       if (!thread) {
         // We need the quote object to create a thread
         // In a real implementation, this would fetch from quote service
@@ -75,8 +75,8 @@ export class QuoteCommentingService {
       // Note: We'll need to extend the universal service to support rich content
       const plainTextContent = content.plainText || 'Rich content comment';
       const comment = this.universalService.addComment(
-        thread.id, 
-        plainTextContent, 
+        thread.id,
+        plainTextContent,
         authorId
       );
 
@@ -102,10 +102,10 @@ export class QuoteCommentingService {
    */
   getQuoteThread(quoteId: string): CommentThread | undefined {
     const allThreads = this.universalService.getAllThreads();
-    
+
     return allThreads.find(thread =>
-      thread.pointers.some(pointer => 
-        pointer.type === 'quote-object' && 
+      thread.pointers.some(pointer =>
+        pointer.type === 'quote-object' &&
         (pointer as QuotePointer).quoteId === quoteId
       )
     );
@@ -126,12 +126,12 @@ export class QuoteCommentingService {
    */
   getCommentsForQuotes(quoteIds: string[]): Map<string, UniversalComment[]> {
     const result = new Map<string, UniversalComment[]>();
-    
+
     quoteIds.forEach(quoteId => {
       const comments = this.getQuoteComments(quoteId);
       result.set(quoteId, comments);
     });
-    
+
     return result;
   }
 
@@ -151,12 +151,12 @@ export class QuoteCommentingService {
    */
   ensureQuoteThread(quote: Quote): CommentThread {
     let thread = this.getQuoteThread(quote.id);
-    
+
     if (!thread) {
       thread = this.createQuoteThread(quote);
       console.log(`Created comment thread for quote: ${quote.id}`);
     }
-    
+
     return thread;
   }
 
@@ -171,15 +171,15 @@ export class QuoteCommentingService {
   } {
     const comments = this.getQuoteComments(quoteId);
     const thread = this.getQuoteThread(quoteId);
-    
+
     const activeComments = comments.filter(c => c.status === 'active').length;
     const resolvedComments = comments.filter(c => c.status === 'resolved').length;
-    
+
     // Find most recent comment timestamp
-    const lastActivity = comments.length > 0 
+    const lastActivity = comments.length > 0
       ? comments.reduce((latest, comment) => {
-          return comment.timestamp > latest ? comment.timestamp : latest;
-        }, comments[0].timestamp)
+        return comment.timestamp > latest ? comment.timestamp : latest;
+      }, comments[0].timestamp)
       : null;
 
     return {
@@ -198,14 +198,14 @@ export class QuoteCommentingService {
     const quoteThreads = allThreads.filter(thread =>
       thread.pointers.some(pointer => {
         if (pointer.type !== 'quote-object') return false;
-        
+
         const quotePointer = pointer as QuotePointer;
         return !quoteIds || quoteIds.includes(quotePointer.quoteId);
       })
     );
 
     const matchingComments: UniversalComment[] = [];
-    
+
     quoteThreads.forEach(thread => {
       const comments = this.universalService.getCommentsForThread(thread.id);
       const filteredComments = comments.filter(comment =>

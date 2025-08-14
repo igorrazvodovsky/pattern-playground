@@ -30,7 +30,7 @@ import {
 
 import { generateFilterSuggestions } from "../../../components/filter/adapters/ai-filter-adapter";
 
-import { filterCategories } from "../../shared-data";
+import { filterCategories } from "../../data/index.ts";
 
 import '../../../components/dropdown/dropdown.ts';
 import 'iconify-icon';
@@ -93,18 +93,18 @@ export function FilteringDemo({
   const { state, actions, results, inputRef, placeholder } = useHierarchicalNavigation({
     data: filterCategories,
     searchFunction: createSortedSearchFunction(
-      (types, query) => sortByRelevance(types, query, { 
-        threshold: 0.05, 
+      (types, query) => sortByRelevance(types, query, {
+        threshold: 0.05,
         minMatchCharLength: 2,
         includeChildrenOnParentMatch: false
       }),
-      (values, query) => sortByRelevance(values, query, { 
-        threshold: 0.05, 
+      (values, query) => sortByRelevance(values, query, {
+        threshold: 0.05,
         minMatchCharLength: 2,
         includeChildrenOnParentMatch: false
       }),
-      { 
-        threshold: 0.05, 
+      {
+        threshold: 0.05,
         minMatchCharLength: 2,
         includeChildrenOnParentMatch: false
       }

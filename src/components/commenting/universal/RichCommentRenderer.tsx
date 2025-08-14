@@ -1,5 +1,5 @@
 import React from 'react';
-import type { RichContent } from '../../../stories/shared-data/index.js';
+import type { RichContent } from '../../../stories/data/index.js';
 
 interface CommentRendererProps {
   content: RichContent | string;
@@ -13,9 +13,9 @@ interface CommentRendererProps {
  * Handles both rich content objects and plain text fallbacks
  * Content only - layout is handled by parent component
  */
-export const CommentRenderer: React.FC<CommentRendererProps> = ({ 
+export const CommentRenderer: React.FC<CommentRendererProps> = ({
   content,
-  className = '' 
+  className = ''
 }) => {
 
   const renderRichContent = (richContent: RichContent | string): React.ReactNode => {
@@ -26,7 +26,7 @@ export const CommentRenderer: React.FC<CommentRendererProps> = ({
 
     // Handle RichContent objects
     const content = richContent.richContent;
-    
+
     // Fallback to plain text if rich content is not available
     if (!content || !content.content) {
       return richContent.plainText || 'No content';
@@ -41,25 +41,25 @@ export const CommentRenderer: React.FC<CommentRendererProps> = ({
                 {node.content ? renderContentNodes(node.content) : ''}
               </p>
             );
-            
+
           case 'bulletList':
             return (
               <ul key={index} className="comment-list">
                 {node.content ? renderContentNodes(node.content) : ''}
               </ul>
             );
-            
+
           case 'listItem':
             return (
               <li key={index} className="comment-list-item">
                 {node.content ? renderContentNodes(node.content) : ''}
               </li>
             );
-            
+
           case 'text':
             const text = node.text || '';
             let element: React.ReactNode = text;
-            
+
             // Apply marks if they exist
             if (node.marks) {
               node.marks.forEach((mark: any) => {
@@ -79,9 +79,9 @@ export const CommentRenderer: React.FC<CommentRendererProps> = ({
                 }
               });
             }
-            
+
             return <React.Fragment key={index}>{element}</React.Fragment>;
-            
+
           default:
             // Unknown node type - render as text content if available
             if (node.content) {

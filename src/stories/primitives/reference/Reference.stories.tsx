@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useCallback, useMemo } from 'react';
 import { ReferenceEditor } from '../../../components/reference';
-import { referenceCategories, basicReferenceCategories, getReferenceContentById, quotes } from '../../shared-data';
+import { referenceCategories, basicReferenceCategories, getReferenceContentById, quotes } from '../../data';
 import type { SelectedReference } from '../../../components/reference';
 
 type FilterPattern = `@${string}` | `#${string}` | `/${string}`;

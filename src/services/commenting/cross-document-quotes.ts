@@ -1,5 +1,5 @@
-import type { Quote } from '../../stories/shared-data/index.js';
-import { getQuotesByDocument, searchQuotes } from '../../stories/shared-data/index.js';
+import type { Quote } from '../../stories/data/index.js';
+import { getQuotesByDocument, searchQuotes } from '../../stories/data/index.js';
 
 /**
  * Cross-document quote referencing system
@@ -92,7 +92,7 @@ export class CrossDocumentQuoteService {
    */
   getDocumentQuoteReferences(documentId: string): CrossDocumentQuoteData[] {
     const quoteIds = this.documentToQuotes.get(documentId) || [];
-    
+
     return quoteIds.map(quoteId => {
       const quote = this.getQuoteById(quoteId);
       if (!quote) return null;
@@ -176,7 +176,7 @@ export class CrossDocumentQuoteService {
     const author = quote.metadata.createdBy; // Would lookup actual author name
     const date = new Date(quote.metadata.createdAt);
     const text = quote.content.plainText;
-    
+
     switch (style) {
       case 'apa':
         return `"${text}" (${author}, ${date.getFullYear()})`;
@@ -200,7 +200,7 @@ export class CrossDocumentQuoteService {
   } {
     const references = this.getQuoteReferences(quoteId);
     const documents = new Set(references.map(ref => ref.targetDocument));
-    
+
     const referenceTypes: Record<string, number> = {};
     references.forEach(ref => {
       referenceTypes[ref.referenceType] = (referenceTypes[ref.referenceType] || 0) + 1;
@@ -271,7 +271,7 @@ export class CrossDocumentQuoteService {
 
   private getQuoteById(quoteId: string): Quote | undefined {
     // This would use the quote service to get the quote
-    // For now, we'll use the shared-data function
+    // For now, we'll use the data function
     return searchQuotes(quoteId).find(q => q.id === quoteId);
   }
 

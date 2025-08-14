@@ -4,8 +4,8 @@ import { CommentRenderer } from './RichCommentRenderer.js';
 import { useEntityCommenting } from '../../../services/commenting/hooks/use-universal-commenting.js';
 import { useCommentInitialization } from '../../../services/commenting/hooks/use-comment-initialization.js';
 import { formatTimestamp } from '../../task/time-utils.js';
-import { getUserById } from '../../../stories/shared-data/index.js';
-import type { User } from '../../../stories/shared-data/index.js';
+import { getUserById } from '../../../stories/data/index.js';
+import type { User } from '../../../stories/data/index.js';
 
 // RichContent interface to match the shared data structure
 export interface RichContent {
@@ -41,10 +41,10 @@ export const UniversalCommentInterface: React.FC<UniversalCommentInterfaceProps>
 }) => {
   const [isComposing, setIsComposing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   // Initialize the commenting system
   useCommentInitialization();
-  
+
   // Get entity-specific commenting functionality
   const {
     comments,
@@ -89,7 +89,7 @@ export const UniversalCommentInterface: React.FC<UniversalCommentInterfaceProps>
             <div className="message__content">
               <div className="message__body layer">
                 <div className="message__author">{displayName}</div>
-                <CommentRenderer 
+                <CommentRenderer
                   content={comment.content}
                   author={comment.authorId}
                   timestamp={comment.timestamp}

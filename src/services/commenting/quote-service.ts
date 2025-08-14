@@ -1,5 +1,5 @@
 import { Editor } from '@tiptap/core';
-import { quotes, getQuoteById, getQuotesByDocument, type Quote } from '../../stories/shared-data/index.js';
+import { quotes, getQuoteById, getQuotesByDocument, type Quote } from '../../stories/data/index.js';
 
 /**
  * Rich content structure matching TipTap JSON format
@@ -13,7 +13,7 @@ export interface RichContent {
       content?: Array<{
         type: string;
         text?: string;
-        marks?: Array<{ type: string; [key: string]: any }>;
+        marks?: Array<{ type: string;[key: string]: any }>;
       }>;
     }>;
   };
@@ -64,14 +64,14 @@ export class QuoteService {
     documentId: string
   ): QuoteObject {
     const { from, to } = editor.state.selection;
-    
+
     if (from === to) {
       throw new Error('Cannot create quote from empty selection');
     }
 
     const selectedText = editor.state.doc.textBetween(from, to, ' ');
     const richContent = this.extractRichContent(editor, from, to);
-    
+
     const quote: QuoteObject = {
       id: `quote-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       name: this.generateName(selectedText),
@@ -94,7 +94,7 @@ export class QuoteService {
 
     // Add to internal collection
     this.quotes.set(quote.id, quote);
-    
+
     return quote;
   }
 
@@ -104,7 +104,7 @@ export class QuoteService {
   private extractRichContent(editor: Editor, from: number, to: number): RichContent['richContent'] {
     const slice = editor.state.doc.slice(from, to);
     const content = slice.toJSON();
-    
+
     return {
       type: 'doc',
       content: content.content || []
@@ -176,13 +176,13 @@ export class QuoteService {
       quote => quote.metadata.sourceDocument === documentId
     );
     const sharedQuotes = getQuotesByDocument(documentId) as QuoteObject[];
-    
+
     // Merge and deduplicate
     const allQuotes = new Map<string, QuoteObject>();
     [...sharedQuotes, ...localQuotes].forEach(quote => {
       allQuotes.set(quote.id, quote);
     });
-    
+
     return Array.from(allQuotes.values());
   }
 
@@ -237,14 +237,14 @@ export class QuoteService {
    */
   cleanupOrphanedQuotes(): string[] {
     const orphanedIds: string[] = [];
-    
+
     for (const [id, quote] of this.quotes.entries()) {
       if (!this.validateSourceIntegrity(quote)) {
         this.quotes.delete(id);
         orphanedIds.push(id);
       }
     }
-    
+
     return orphanedIds;
   }
 

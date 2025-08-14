@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { Reference, createReferenceSuggestion } from '../../../components/reference/Reference';
-import { materialCategory } from '../../shared-data/reference-utils';
+import { materialCategory } from '../../data/reference-utils';
 import { TemplateField } from '../../../components/template-field';
 
 interface TipTapContent {

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import type { Editor } from '@tiptap/react';
 import { getQuoteService, type QuoteObject } from '../../../services/commenting/quote-service.js';
-import { getQuotesByDocument } from '../../../stories/shared-data/index.js';
+import { getQuotesByDocument } from '../../../stories/data/index.js';
 import { openItemInModal } from '../../item-view/services/item-view-modal-service.js';
 
 interface UseTipTapQuoteIntegrationOptions {
@@ -34,12 +34,12 @@ export const useTipTapQuoteIntegration = (
     // Validate that existing quote reference marks are correctly positioned
     documentQuotes.forEach(quote => {
       const { from, to } = quote.metadata.sourceRange;
-      
+
       // Validate the range is still valid
       if (from >= 0 && to <= editor.state.doc.content.size && from < to) {
         try {
           const currentText = editor.state.doc.textBetween(from, to, ' ');
-          
+
           // Warn if text doesn't match (indicates data integrity issue)
           if (currentText.trim() !== quote.metadata.selectedText.trim()) {
             console.warn(`Quote text mismatch for ${quote.id}: expected "${quote.metadata.selectedText}", found "${currentText}"`);
@@ -56,7 +56,7 @@ export const useTipTapQuoteIntegration = (
     if (!editor) return null;
 
     const { from, to } = editor.state.selection;
-    
+
     if (from === to) {
       console.warn('No text selected for quote creation');
       return null;
@@ -91,7 +91,7 @@ export const useTipTapQuoteIntegration = (
   // Check if current selection is valid for quote creation
   const canCreateQuote = useCallback((): boolean => {
     if (!editor) return false;
-    
+
     const { from, to } = editor.state.selection;
     return from !== to; // Has text selection
   }, [editor]);
@@ -107,17 +107,17 @@ export const useTipTapQuoteIntegration = (
     if (quote) {
       try {
         console.log('Opening quote in modal:', quote);
-        
+
         await openItemInModal(quote, 'maxi', {
           title: `Quote: "${quote.name}"`,
           size: 'large',
           placement: 'center'
         });
-        
+
         console.log('Quote modal opened successfully');
       } catch (error) {
         console.error('Failed to open quote modal:', error);
-        
+
         // Fallback to console preview
         console.group('Quote Preview (Modal Failed)');
         console.log('Name:', quote.name);
@@ -138,12 +138,12 @@ export const useTipTapQuoteIntegration = (
     if (!editor) return;
 
     const { from, to } = quote.metadata.sourceRange;
-    
+
     // Validate range and focus editor at the quote position
     if (from >= 0 && to <= editor.state.doc.content.size && from < to) {
       editor.commands.focus();
       editor.commands.setTextSelection({ from, to });
-      
+
       // Scroll into view if needed
       const { view } = editor;
       const pos = view.coordsAtPos(from);
@@ -162,7 +162,7 @@ export const useTipTapQuoteIntegration = (
 
     try {
       const { from, to } = quote.metadata.sourceRange;
-      
+
       // Remove reference mark from editor
       if (from >= 0 && to <= editor.state.doc.content.size && from < to) {
         editor.chain()
@@ -170,14 +170,14 @@ export const useTipTapQuoteIntegration = (
           .unsetMark('reference')
           .run();
       }
-      
+
       // Delete quote object
       const deleted = quoteService.deleteQuote(quoteId);
-      
+
       if (deleted) {
         console.log(`Deleted quote: ${quoteId}`);
       }
-      
+
       return deleted;
     } catch (error) {
       console.error(`Failed to delete quote ${quoteId}:`, error);
@@ -201,25 +201,25 @@ export const useTipTapQuoteIntegration = (
 
     const quotes = getDocumentQuotes();
     const invalidQuotes: string[] = [];
-    
+
     quotes.forEach(quote => {
       if (!quoteService.validateSourceIntegrity(quote)) {
         invalidQuotes.push(quote.id);
         console.warn(`Quote ${quote.id} has invalid source integrity`);
       }
     });
-    
+
     return invalidQuotes;
   }, [editor, getDocumentQuotes, quoteService]);
 
   // Clean up orphaned quotes
   const cleanupOrphanedQuotes = useCallback(() => {
     const orphanedIds = quoteService.cleanupOrphanedQuotes();
-    
+
     if (orphanedIds.length > 0) {
       console.log(`Cleaned up ${orphanedIds.length} orphaned quotes:`, orphanedIds);
     }
-    
+
     return orphanedIds;
   }, [quoteService]);
 
@@ -237,7 +237,7 @@ export const useTipTapQuoteIntegration = (
         }
       }))
     };
-    
+
     return exportData;
   }, [documentId, getDocumentQuotes]);
 
@@ -247,21 +247,21 @@ export const useTipTapQuoteIntegration = (
     canCreateQuote,
     getQuote,
     handleQuoteClick,
-    
+
     // Navigation and management
     navigateToQuoteSource,
     deleteQuote,
-    
+
     // Data access
     documentQuotes,
     getDocumentQuotes,
     searchQuotes,
-    
+
     // Maintenance
     validateQuoteIntegrity,
     cleanupOrphanedQuotes,
     exportDocumentQuotes,
-    
+
     // Service instance for advanced usage
     quoteService
   };
@@ -280,7 +280,7 @@ export const useQuoteReferenceHandler = (
     const handleClick = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
       const referenceElement = target.closest('[data-reference-type="quote"]');
-      
+
       if (referenceElement) {
         const quoteId = referenceElement.getAttribute('data-reference-id');
         if (quoteId) {
@@ -293,7 +293,7 @@ export const useQuoteReferenceHandler = (
 
     const editorElement = editor.view.dom;
     editorElement.addEventListener('click', handleClick);
-    
+
     return () => {
       editorElement.removeEventListener('click', handleClick);
     };

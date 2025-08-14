@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useCommentStore } from '../state/comment-store.js';
-import { loadSharedDataComments, groupCommentsByEntity } from '../storage/shared-data-integration.js';
-import { loadCommentsFromLocalStorage, mergeWithSharedData } from '../storage/local-storage-adapter.js';
+import { loadSharedDataComments, groupCommentsByEntity } from '../storage/dummy-data-integration';
+import { loadCommentsFromLocalStorage, mergeWithSharedData } from '../storage/local-storage-adapter';
 
 // Hook to initialize the universal commenting system
 export const useCommentInitialization = () => {
@@ -13,7 +13,7 @@ export const useCommentInitialization = () => {
     if (initializationRef.current) {
       return;
     }
-    
+
     initializationRef.current = true;
 
     const initializeComments = async () => {
@@ -30,7 +30,7 @@ export const useCommentInitialization = () => {
         console.log(`Loaded ${localComments ? Array.from(localComments.values()).reduce((sum, comments) => sum + comments.length, 0) : 0} comments from localStorage`);
 
         // Merge shared data and local storage comments
-        const mergedComments = localComments 
+        const mergedComments = localComments
           ? mergeWithSharedData(localComments, groupedSharedComments)
           : groupedSharedComments;
 
@@ -48,7 +48,7 @@ export const useCommentInitialization = () => {
         console.log('Universal commenting system initialized successfully');
       } catch (error) {
         console.error('Failed to initialize universal commenting system:', error);
-        
+
         // Fallback: ensure store has empty state
         useCommentStore.setState({
           commentsByEntity: new Map(),
@@ -71,7 +71,7 @@ export const useCommentInitialization = () => {
 // Hook to get initialization status without triggering initialization
 export const useCommentInitializationStatus = () => {
   const commentStore = useCommentStore();
-  
+
   return {
     totalComments: Array.from(commentStore.commentsByEntity.values()).reduce((sum, comments) => sum + comments.length, 0),
     totalEntities: commentStore.commentsByEntity.size,

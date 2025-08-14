@@ -1,13 +1,13 @@
 import { FilterType, FilterOperator, Status, Assignee, Labels, Priority, DueDate, FilterOption } from "./filter-types";
 import { FilterIcon } from "./filter-options-icons";
 import { filterOperators } from "./filter-operator-logic";
-import { 
-  users, 
-  filterStatuses, 
-  filterLabels, 
-  filterPriorities, 
-  filterDates 
-} from "../../stories/shared-data";
+import {
+  users,
+  filterStatuses,
+  filterLabels,
+  filterPriorities,
+  filterDates
+} from "../../stories/data";
 
 const createFilterOptionsFromEnum = <T extends string>(
   enumObject: Record<string, T>,

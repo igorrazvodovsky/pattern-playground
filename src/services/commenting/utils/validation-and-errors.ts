@@ -1,4 +1,4 @@
-import type { Quote, RichContent } from '../../../stories/shared-data/index.js';
+import type { Quote, RichContent } from '../../../stories/data/index.js';
 
 /**
  * Production-ready validation and error handling utilities
@@ -61,10 +61,10 @@ export const validateQuote = (quote: any): quote is Quote => {
     if (!quote.metadata.sourceDocument) {
       errors.push('Source document ID is required');
     }
-    
-    if (!quote.metadata.sourceRange || 
-        typeof quote.metadata.sourceRange.from !== 'number' ||
-        typeof quote.metadata.sourceRange.to !== 'number') {
+
+    if (!quote.metadata.sourceRange ||
+      typeof quote.metadata.sourceRange.from !== 'number' ||
+      typeof quote.metadata.sourceRange.to !== 'number') {
       errors.push('Valid source range is required');
     }
 
@@ -95,7 +95,7 @@ export const validateQuote = (quote: any): quote is Quote => {
 // Rich content validation
 export const validateRichContent = (content: any): content is RichContent => {
   if (!content) return false;
-  
+
   // Must have plainText
   if (!content.plainText || typeof content.plainText !== 'string') {
     return false;
@@ -223,7 +223,7 @@ export class Logger {
     };
 
     this.logs.push(entry);
-    
+
     // Keep only recent logs
     if (this.logs.length > this.maxLogs) {
       this.logs = this.logs.slice(-this.maxLogs);
@@ -293,12 +293,12 @@ export class PerformanceMonitor {
     // Store metric
     const existing = this.metrics.get(operation) || [];
     existing.push(duration);
-    
+
     // Keep only recent measurements
     if (existing.length > 100) {
       existing.splice(0, existing.length - 100);
     }
-    
+
     this.metrics.set(operation, existing);
 
     logger.debug('PerformanceMonitor', `Operation ${operation} took ${duration}ms`);

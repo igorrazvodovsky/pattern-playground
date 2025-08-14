@@ -1,7 +1,7 @@
 import React from 'react';
 import type { ItemViewProps, BaseItem } from './types';
 import { UniversalCommentInterface } from '../commenting/universal/UniversalCommentInterface.js';
-import { getUserById } from '../../stories/shared-data/index.js';
+import { getUserById } from '../../stories/data/index.js';
 
 /**
  * DefaultFallbackRenderer - Unified fallback rendering for items without adapters
@@ -70,11 +70,11 @@ export const DefaultFallbackRenderer = <T extends BaseItem = BaseItem>({
   // Special handling for quote content
   const renderQuoteContent = () => {
     if (contentType !== 'quote' || !item.metadata?.content) return null;
-    
+
     const content = item.metadata.content as any;
     const plainText = content.plainText;
     const description = item.metadata.description;
-    
+
     return (
       <section className="quote-content flow">
         {description && <p className="text-secondary">{description}</p>}
@@ -96,10 +96,10 @@ export const DefaultFallbackRenderer = <T extends BaseItem = BaseItem>({
           </small>
         </div>
       </header>
-      
+
       {/* Render quote content prominently */}
       {renderQuoteContent()}
-      
+
       {scope === 'maxi' && (
         <main className="flow">
           {!renderQuoteContent() && (
@@ -108,7 +108,7 @@ export const DefaultFallbackRenderer = <T extends BaseItem = BaseItem>({
               <p>This is a {item.type} item with ID {item.id}.</p>
             </section>
           )}
-          
+
           {/* Universal commenting interface for quote objects */}
           {contentType === 'quote' && (
             <UniversalCommentInterface
@@ -119,7 +119,7 @@ export const DefaultFallbackRenderer = <T extends BaseItem = BaseItem>({
               allowNewComments={true}
             />
           )}
-          
+
           {item.metadata && Object.keys(item.metadata).length > 0 && (
             <section className="flow">
               <h2>Properties</h2>
@@ -128,7 +128,7 @@ export const DefaultFallbackRenderer = <T extends BaseItem = BaseItem>({
           )}
         </main>
       )}
-      
+
       {scope !== 'maxi' && !renderQuoteContent() && renderMetadata()}
       {renderEscalationButton()}
     </div>

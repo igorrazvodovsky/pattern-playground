@@ -5,8 +5,8 @@ import Bold from '@tiptap/extension-bold';
 import Italic from '@tiptap/extension-italic';
 import BulletList from '@tiptap/extension-bullet-list';
 import ListItem from '@tiptap/extension-list-item';
-import type { RichContent } from '../../../stories/shared-data/index.js';
-import { getUserById } from '../../../stories/shared-data/index.js';
+import type { RichContent } from '../../../stories/data/index.js';
+import { getUserById } from '../../../stories/data/index.js';
 
 interface CommentComposerProps {
   placeholder?: string;
@@ -108,7 +108,7 @@ export const CommentComposer: React.FC<CommentComposerProps> = ({
         />
       </pp-avatar>
       <div className="message-composer__input" style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
-        <EditorContent 
+        <EditorContent
           editor={editor}
           className="comment-composer__editor"
           style={{ flex: 1, minHeight: '38px' }}

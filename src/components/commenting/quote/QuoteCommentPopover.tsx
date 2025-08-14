@@ -2,7 +2,7 @@ import React from 'react';
 import { CommentComposer } from '../universal/RichCommentComposer.js';
 import { useAddComment } from '../../../services/commenting/hooks/use-universal-commenting.js';
 import type { QuoteObject } from '../../../services/commenting/quote-service.js';
-import type { RichContent } from '../../../stories/shared-data/index.js';
+import type { RichContent } from '../../../stories/data/index.js';
 
 interface QuoteCommentPopoverProps {
   quote: QuoteObject;
