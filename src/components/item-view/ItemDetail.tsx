@@ -18,10 +18,6 @@ export const ItemDetail = <T extends BaseItem = BaseItem>({
     return (
       <div className="flow" data-content-type={contentType}>
         <header className="inline-flow">
-          <div className="flow-2xs">
-            <h2>{item.label}</h2>
-            <small className="text-secondary">{item.type}</small>
-          </div>
           <div className="inline-flow">
             {onEscalate && (
               <button
@@ -47,25 +43,11 @@ export const ItemDetail = <T extends BaseItem = BaseItem>({
             )}
           </div>
         </header>
-        
+
         <div className="flow">
           <div>
             <strong>ID:</strong> {item.id}
           </div>
-          
-          {item.metadata && Object.keys(item.metadata).length > 0 && (
-            <div className="flow-xs">
-              <h3>Properties</h3>
-              <dl className="flow-2xs">
-                {Object.entries(item.metadata).map(([key, value]) => (
-                  <div key={key}>
-                    <dt className="text-bold">{key}</dt>
-                    <dd>{String(value)}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-          )}
         </div>
       </div>
     );

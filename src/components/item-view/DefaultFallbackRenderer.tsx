@@ -87,15 +87,6 @@ export const DefaultFallbackRenderer = <T extends BaseItem = BaseItem>({
 
   return (
     <div className="flow" data-content-type={contentType} data-scope={scope}>
-      <header className={scope === 'maxi' ? 'inline-flow' : undefined}>
-        <div className="flow-2xs">
-          <HeaderTag>{item.label}</HeaderTag>
-          <small className="text-secondary">
-            {item.type}
-            {scope === 'maxi' && ` #${item.id}`}
-          </small>
-        </div>
-      </header>
 
       {/* Render quote content prominently */}
       {renderQuoteContent()}
@@ -122,14 +113,13 @@ export const DefaultFallbackRenderer = <T extends BaseItem = BaseItem>({
 
           {item.metadata && Object.keys(item.metadata).length > 0 && (
             <section className="flow">
-              <h2>Properties</h2>
               {renderMetadata()}
             </section>
           )}
         </main>
       )}
 
-      {scope !== 'maxi' && !renderQuoteContent() && renderMetadata()}
+      {scope !== 'maxi' && !renderQuoteContent()}
       {renderEscalationButton()}
     </div>
   );

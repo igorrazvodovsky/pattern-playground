@@ -19,14 +19,7 @@ export const ItemFullView = <T extends BaseItem = BaseItem>({
     return (
       <div className="layer flow" data-content-type={contentType}>
         <header className="inline-flow">
-          <div className="flow-2xs">
-            <h1>{item.label}</h1>
-            <div className="inline-flow text-secondary">
-              <span>{item.type}</span>
-              <span>#{item.id}</span>
-            </div>
-          </div>
-          
+
           {onInteraction && (
             <div className="inline-flow">
               <button
@@ -54,22 +47,6 @@ export const ItemFullView = <T extends BaseItem = BaseItem>({
               This is a {item.type} item with ID {item.id}.
             </p>
           </section>
-
-          {item.metadata && Object.keys(item.metadata).length > 0 && (
-            <section className="flow">
-              <h2>Properties</h2>
-              <dl className="flow-xs">
-                {Object.entries(item.metadata).map(([key, value]) => (
-                  <div key={key}>
-                    <dt className="text-bold">{key}</dt>
-                    <dd>
-                      {typeof value === 'object' ? JSON.stringify(value, null, 2) : String(value)}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </section>
-          )}
         </main>
       </div>
     );

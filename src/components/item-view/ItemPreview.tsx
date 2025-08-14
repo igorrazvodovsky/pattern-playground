@@ -22,16 +22,6 @@ export const ItemPreview = <T extends BaseItem = BaseItem>({
           <h4>{item.label}</h4>
           <small className="text-secondary">{item.type}</small>
         </header>
-        {item.metadata && Object.keys(item.metadata).length > 0 && (
-          <dl className="flow-2xs">
-            {Object.entries(item.metadata).slice(0, 3).map(([key, value]) => (
-              <div key={key}>
-                <dt className="text-bold">{key}:</dt>
-                <dd>{String(value)}</dd>
-              </div>
-            ))}
-          </dl>
-        )}
         {onEscalate && (
           <footer>
             <button

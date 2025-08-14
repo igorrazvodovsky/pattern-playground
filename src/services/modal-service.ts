@@ -43,9 +43,6 @@ class ModalService {
       <article class="modal-content">
         ${options.content}
       </article>
-      <footer>
-        <button class="button modal-close" autofocus>Close</button>
-      </footer>
     `;
 
     // Add close event listeners

@@ -15,18 +15,14 @@ export const ReferencePreviewAdapter: React.FC<ReferencePreviewAdapterProps> = (
   if (isQuoteReference(reference)) {
     const { sourceDocument, createdAt, selectedText, plainText } = safeMetadata as QuoteMetadata;
     const displayText = plainText || selectedText || label;
-    const truncatedText = displayText.length > 100 
-      ? `${displayText.substring(0, 100)}...` 
+    const truncatedText = displayText.length > 100
+      ? `${displayText.substring(0, 100)}...`
       : displayText;
 
     return (
       <div className="reference-preview reference-preview--quote">
         <div className="reference-preview__quote-header">
-          <iconify-icon icon="ph:quotes" className="reference-preview__quote-icon" />
           <div className="reference-preview__quote-content">
-            <blockquote className="reference-preview__quote-text">
-              "{truncatedText}"
-            </blockquote>
             <div className="reference-preview__quote-meta">
               <span className="reference-preview__quote-source">
                 from {sourceDocument || 'document'}
