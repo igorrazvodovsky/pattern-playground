@@ -1,0 +1,30 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Concepts/Intervention" />
+
+# Intervention
+
+## Purpose
+
+Pause or divert normal execution when an actor identifies an issue, uncertainty, or authority gap, and coordinate the follow-up needed to resolve it.
+
+## Operational principle
+
+When an actor raises an intervention on an entity, record the reason and type, and create a follow-up path until it is resolved or closed.
+
+## State
+
+- status: open, resolved
+- target: task
+- raisedBy
+- type: exception, escalation, clarification, etc.
+- reason
+- createdAt
+- followUp
+
+## Actions
+
+- raise
+- startFollowUp
+- resolve
+

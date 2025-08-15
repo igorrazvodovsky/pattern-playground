@@ -1,0 +1,44 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Concepts/Continuous operation" />
+
+# Continuous operation
+
+## Purpose
+
+Keep a delegated task running, at a set cadence, until paused or stopped.
+{/* Alt.: Maintain persistent execution of assigned responsibilities without human oversight */}
+
+## Operational principle
+
+After starting a run for a task, the system will, on each beat request execution of the task while the run is active.
+
+## State
+
+- task
+- status: active, paused
+- cadence
+- lastBeat
+
+## Actions
+
+- start
+- pause
+- resume
+- set cadence
+- stop
+- system beat: occurs when external source produces a tick. When accepted, it requests execution of the associated task.
+
+## Synchronisations
+
+- Register runs with the `TODO:scheduler` when they start; deregister on stop
+- Drive beats from scheduler ticks; each accepted beat requests execution
+- Reflect cadence updates in the scheduler
+- Auto-govern running via policy
+{/* TODO: Sync with 'delegation' */}
+
+{/* Notify via 'Notification' on outcomes? No, task itself notifies */}
+
+## Related patterns
+
+[Living document](../?path=/docs/patterns-living-document--docs) - continuous operation is a key enabler for living documents, allowing them to stay up-to-date with ongoing tasks and activities.
