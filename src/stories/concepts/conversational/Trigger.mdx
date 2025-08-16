@@ -1,0 +1,52 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Concepts/Trigger" />
+
+# Trigger
+
+## Purpose
+
+Start one or more follow-on actions (usually conversations or tasks) automatically when a defined event, condition, or time rule is met.
+
+## Operational principle
+
+If a trigger rule becomes true for a source entity, the system creates the configured target(s) and optionally passes mapped data, subject to guards like idempotency and rate limits.
+
+## State
+
+Definitions
+- trig: what kind of source this rule listens to
+- when: event/condition/time predicate
+- make: what to create or call
+- map: how to build payload/context for the target
+- guard: idempotency, debounce, rate limit, authority checks
+- enabled
+Bookkeeping
+- fired
+- firedAt
+- sourceOf
+- targetOf
+- outcome: success, partial, failed
+- reason
+
+## Actions
+
+- create: define a new trigger rule with source, condition, target, and mapping
+- edit
+- enable
+- disable
+- fire
+
+## Synchronizations
+
+...
+
+{/* Trigger shapes */}
+{/* - One-to-one: finish Task → start one Conversation. */}
+{/* - One-to-many: accept Order → create N delivery Tasks (one per item). */}
+{/* - Conditional: only fire if paymentReceived = true. */}
+{/* - Delayed/debounced: wait 10 minutes of inactivity before firing. */}
+{/* - Rate-limited: max 1 reminder per day per customer. */}
+{/* - Idempotent: don’t fire again for same (trigger, source) pair. */}
+{/* - Cancelable: disabling a trigger prevents future fires; existing firings are unaffected. */}
+

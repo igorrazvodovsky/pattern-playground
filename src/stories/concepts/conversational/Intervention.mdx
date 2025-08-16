@@ -28,3 +28,11 @@ When an actor raises an intervention on an entity, record the reason and type, a
 - startFollowUp
 - resolve
 
+## Synchronisations
+
+- Conversation → Intervention: Any actor in a conversation can raise an intervention
+- Task → Intervention: Task past deadline or blocked by dependencies can trigger an intervention
+- Task → Intervention: Fulfiller requests clarification
+- Intervention → Conversation: Escalation triggers a higher-authority conversation
+- Intervention → Task: Clarification triggers a decision task
+- 

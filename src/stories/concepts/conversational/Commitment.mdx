@@ -1,0 +1,33 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Concepts/Commitment" />
+
+# Commitment
+
+## Purpose
+Provide a public promise about task completion that others can rely on.
+{/* It’s not the task itself (that lives in Task) and it’s not the acceptance of the work (that’s in ConditionOfSatisfaction). Instead, it’s the visible pledge that others can coordinate around. */}
+
+## Operational principle
+
+If a party commits to complete a task and updates progress, others can coordinate their work accordingly
+{/* Without commitments, everything is ad hoc and “done when it’s done.” With commitments, you have a shared schedule of promises. */}
+
+## State
+- commitments: Task → Date
+- committedBy: Task → Actor
+
+## Actions
+
+- commit
+- reschedule
+
+## Synchronisations
+
+- Task.assign → Commitment.commit: When a task is assigned, it creates a corresponding commitment.
+- Commitment.reschedule → Task.retime: When a commitment is rescheduled, the task’s deadline is updated.
+- Task.complete → Conversation (review) → SatisfactionCondition: Completing the task doesn’t auto-close the commitment. Instead, it prompts the authority to review and accept.
+- SatisfactionCondition.declareAccepted → Commitment (fulfilled): Once the requester declares satisfaction, the commitment is fulfilled and can be closed.
+- Task.cancel → Commitment.clear:Cancelling a task voids the associated commitment.
+- Commitment overdue → Intervention: If the deadline passes and no acceptance is declared, raise an intervention (exception, escalation, or clarification)
+- Commitment.reschedule → Conversation: If someone reschedules or changes a commitment, the update is posted into the conversation so stakeholders are informed.
