@@ -1,0 +1,37 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Concepts/Domain" />
+
+# Domain
+
+## Purpose
+Define a shared context or area of responsibility for a set of tasks or conversations,
+
+## Operational principle
+When a request is assigned to a domain, then its conditions of satisfaction and commitments can be drawn from the domain’s distinctions instead of being negotiated from scratch.
+
+## State
+
+- categories: the named “bins” (e.g., t-shirt sizes: S, M, L).
+- properties: the measurable or descriptive distinctions attached to each category (e.g. chest 92–96 cm)
+- criteria: the conditions of satisfaction that follow from being in that category
+- assigned: which tasks are currently interpreted as falling into which category
+
+## Actions
+
+- defineCategory
+- addProperty
+- setCriteria
+- assign
+
+## Synchronisations
+
+- Domain → Satisfaction condition: When a request is assigned to a domain, its condition of satisfaction can be derived automatically.
+- Domain → Conversation: When you assign a request to a domain, broadcast it into the conversation so everyone knows what framework applies.
+- Intervention → Domain: If a request doesn’t fit any existing domain (e.g., customer wants an exotic customisation), raise an intervention.
+- Commitment → Domain: Commitments may draw deadlines or acceptance criteria from the domain.
+
+## Limitations and risks
+- Incomplete by design: no domain anticipates every breakdown.
+- Interpretive: what counts as belonging to a domain is negotiated by actors.
+
