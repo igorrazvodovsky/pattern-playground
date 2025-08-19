@@ -23,6 +23,7 @@ A **concept** is a reusable unit of functionality that can be understood indepen
 3. **Write operational principles** ("if...then" scenarios showing value)
 4. **Model state and actions** (what data and operations are needed)
 5. **Compose concepts** through synchronisation (how they work together)
+6. **Refine with concept moves** (split/merge, unify/specialise, tighten/loosen)
 
 ## Key Principles
 
@@ -45,6 +46,7 @@ Any software app, service or system can be viewed as a **collection of interacti
 - **Align with life patterns**: Ground concepts in real-world behaviours people already know
 - **Start simple**: Begin with core concepts before adding complexity
 - **One purpose per concept**: If a concept serves multiple purposes, consider splitting it
+- **Use concept moves for refinement**: Apply transformational moves to improve flexibility, generality, or automation
 
 ## File Structure
 
@@ -56,6 +58,7 @@ This methodology is split across several focused files:
 - @agent-rules/concept-state-modeling.md - Modeling data and behavior formally
 - @agent-rules/concept-composition.md - How concepts work together
 - @agent-rules/concept-criteria.md - What qualifies as a good concept
+- @agent-rules/concept-moves.md - Six transformational moves for refining designs
 
 ## Common Concept Examples
 
@@ -80,10 +83,29 @@ This methodology is split across several focused files:
 - **Follow**: Subscribing to user content
 - **Notification**: System-initiated user alerts
 
+## Concept Moves for Design Refinement
+
+Once you have an initial concept design, use **concept moves** to improve it. These are six transformational techniques organized in three dual pairs:
+
+### Split ↔ Merge (Flexibility vs Simplicity)
+- **Split**: Break one concept into multiple independent concepts for more user control
+- **Merge**: Combine multiple concepts for simplicity and tight integration
+
+### Unify ↔ Specialise (Generality vs Specificity)  
+- **Unify**: Replace specialised concepts with one general-purpose concept
+- **Specialise**: Split general concepts into optimised variants for specific scenarios
+
+### Tighten ↔ Loosen (Automation vs Independent Control)
+- **Tighten**: Increase synchronisation between concepts to prevent errors
+- **Loosen**: Reduce coupling to give users more flexibility in sequencing actions
+
+**Example**: Split a monolithic "Photocopy" concept into separate "Print" and "Scan" concepts to give users independent control over each function.
+
 ## Next Steps
 
 1. **Start with templates**: Use @agent-rules/concept-templates.md for practical guidance
 2. **Learn operational principles**: Read @agent-rules/operational-principles.md to write effective scenarios
 3. **Study composition**: Understand how concepts work together in @agent-rules/concept-composition.md
-4. **Deep dive**: Use @agent-rules/concept-tutorials-index.md to navigate advanced topics
+4. **Master concept moves**: Apply @agent-rules/concept-moves.md to refine your designs
+5. **Deep dive**: Use @agent-rules/concept-tutorials-index.md to navigate advanced topics
 

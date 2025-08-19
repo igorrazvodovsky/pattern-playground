@@ -16,17 +16,18 @@ This directory contains Daniel Jackson's concept design methodology organized in
 - **@agent-rules/concept-templates.md** - Templates, examples, checklists, anti-patterns
 - **@agent-rules/operational-principles.md** - How to write compelling OPs
 
-### Advanced Theory (Future Development)  
-- **@agent-rules/concept-state-modeling.md** - Formal state machine modeling (TBD)
-- **@agent-rules/concept-composition.md** - How concepts work together via sync (TBD)
-- **@agent-rules/concept-criteria.md** - What qualifies as a good concept (TBD)
+### Advanced Theory
+- **@agent-rules/concept-state-modeling.md** - Formal state machine modeling
+- **@agent-rules/concept-composition.md** - How concepts work together via sync
+- **@agent-rules/concept-criteria.md** - What qualifies as a good concept
+- **@agent-rules/concept-moves.md** - Six transformational moves for refining concept designs
 
 ## Methodology Summary
 
 ### Core Idea
 Software = collection of interacting **concepts**. Each concept is an independent, reusable unit with:
 - **Purpose**: What problem it solves (one sentence)
-- **Operational Principle**: "If [user action], then [valuable result]"  
+- **Operational Principle**: "If [user action], then [valuable result]"
 - **State**: Data structures needed
 - **Actions**: Operations provided
 
@@ -43,6 +44,12 @@ Software = collection of interacting **concepts**. Each concept is an independen
 4. **Model state and actions** (essential data/operations only)
 5. **Compose concepts** through synchronization
 
+### Concept Refinement
+After initial design, use **concept moves** to improve your design:
+- **Split/Merge**: Trade flexibility vs simplicity
+- **Unify/Specialise**: Trade generality vs specificity  
+- **Tighten/Loosen**: Trade automation vs independent control
+
 ## Common Concept Examples
 
 ### Authentication & Access
@@ -53,7 +60,7 @@ Software = collection of interacting **concepts**. Each concept is an independen
 
 ### Content & Social
 - **Post** - Publishing content for others
-- **Comment** - Responses to existing content  
+- **Comment** - Responses to existing content
 - **Upvote** - Collective quality ranking
 - **Follow** - Subscribing to user content
 - **Tag** - Categorization and discovery
@@ -90,7 +97,7 @@ This methodology comes from Daniel Jackson's book **"The Essence of Software"** 
 ## Getting Help
 
 - **For practical application**: Start with templates and examples
-- **For theoretical understanding**: Read the complete tutorials  
+- **For theoretical understanding**: Read the complete tutorials
 - **For specific questions**: Focus on the relevant specialized file
 - **For quick reference**: Use this index to navigate
 
