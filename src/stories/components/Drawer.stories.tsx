@@ -1,5 +1,6 @@
+import React from 'react';
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import '../../components/modal/modal.ts';
+import { useModalService } from '../../hooks/useModalService';
 
 const meta = {
   title: "Components/Drawer",
@@ -8,26 +9,66 @@ const meta = {
 export default meta;
 type Story = StoryObj;
 
-export const Drawer: Story = {
+export const RightDrawer: Story = {
   render: () => {
-    return (
-      <pp-modal>
-        <dialog className="drawer drawer--right">
-          <header>
-            <h3>Drawer</h3>
-            <button className="button button--plain" data-close>
-              <iconify-icon className="icon" icon="ph:x"></iconify-icon>
-              <span className="inclusively-hidden">Close</span>
-            </button>
-          </header>
-          <div></div>
-          <footer>
-            <button className="button" autoFocus data-close>Save</button>
-          </footer>
-        </dialog>
-        <button className="button">Open drawer</button>
-      </pp-modal>
-    );
+    const DrawerExample = () => {
+      const { openDrawer } = useModalService();
+
+      const openRightDrawer = () => {
+        openDrawer(
+          <div>
+            <p>This is a right-side drawer content.</p>
+            <p>Drawers are great for forms, details, and secondary content.</p>
+            <footer style={{ marginTop: '20px' }}>
+              <button className="button" autoFocus>Save</button>
+            </footer>
+          </div>,
+          {
+            title: 'Right Drawer',
+            position: 'right'
+          }
+        );
+      };
+
+      return (
+        <button className="button" onClick={openRightDrawer}>
+          Open right drawer
+        </button>
+      );
+    };
+
+    return <DrawerExample />;
   },
 };
 
+export const LeftDrawer: Story = {
+  render: () => {
+    const LeftDrawerExample = () => {
+      const { openDrawer } = useModalService();
+
+      const openLeftDrawer = () => {
+        openDrawer(
+          <div>
+            <p>This is a left-side drawer content.</p>
+            <p>Left drawers are often used for navigation or filters.</p>
+            <footer style={{ marginTop: '20px' }}>
+              <button className="button" autoFocus>Close</button>
+            </footer>
+          </div>,
+          {
+            title: 'Left Drawer',
+            position: 'left'
+          }
+        );
+      };
+
+      return (
+        <button className="button" onClick={openLeftDrawer}>
+          Open left drawer
+        </button>
+      );
+    };
+
+    return <LeftDrawerExample />;
+  },
+};

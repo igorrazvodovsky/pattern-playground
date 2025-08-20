@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import { ItemView } from './ItemView';
 import { modalService } from '../../services/modal-service';
-import { createModalContentAsHtml, getSizeForScope, getPlacementForScope } from './services/modal-service-integration';
+import { createModalContent, getSizeForScope, getPlacementForScope } from './services/modal-service-integration';
 import type { ItemInteractionProps, ViewScope, BaseItem } from './types';
 
 /**
@@ -76,12 +76,18 @@ export const ItemInteraction = <T extends BaseItem = BaseItem>({
     // Handle different scope transitions using modal service
     switch (newScope) {
       case 'mid':
-        const detailContent = createModalContentAsHtml(item, contentType, 'mid');
-        modalService.openDrawer(detailContent, 'right', item.label);
+        const detailContent = createModalContent(item, contentType, 'mid');
+        modalService.openDrawer(detailContent as React.ReactElement, {
+          position: 'right',
+          title: item.label
+        });
         break;
       case 'maxi':
-        const fullContent = createModalContentAsHtml(item, contentType, 'maxi');
-        modalService.openDialog(fullContent, item.label);
+        const fullContent = createModalContent(item, contentType, 'maxi');
+        modalService.openDialog(fullContent as React.ReactElement, {
+          title: item.label,
+          size: 'large'
+        });
         break;
     }
   }, [onScopeChange, item, contentType]);

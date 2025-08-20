@@ -1,11 +1,10 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import React from 'react';
-import { createRoot } from 'react-dom/client';
 import type { Editor } from '@tiptap/react';
 import { getQuoteService, type QuoteObject } from '../../../services/commenting/quote-service.js';
 import { getQuotesByDocument } from '../../../stories/data/index.js';
-import { modalService } from '../../../services/modal-service.js';
-import { UniversalCommentInterface } from '../universal/UniversalCommentInterface.js';
+import { useModalService } from '../../../hooks/useModalService.js';
+import { QuoteDrawerContent } from '../../quote/QuoteDrawerContent.js';
 import { useUniversalCommenting } from '../../../services/commenting/hooks/use-universal-commenting.js';
 import { getUserById } from '../../../stories/data/index.js';
 
@@ -27,6 +26,7 @@ export const useTipTapQuoteIntegration = (
   const { documentId, currentUser } = options;
   const quoteService = getQuoteService();
   const { service: commentService } = useUniversalCommenting();
+  const { openDrawer } = useModalService();
 
   // Get all quotes for this document
   const documentQuotes = useMemo(() => {
@@ -111,72 +111,32 @@ export const useTipTapQuoteIntegration = (
       try {
         console.log('Opening quote in drawer:', quote);
 
-        // Create quote drawer content with commenting interface
-        const quoteDrawerContent = `
-          <div class="quote-drawer">
-            <section class="quote-drawer__content flow">
+        const currentUserObj = getUserById(currentUser) || {
+          id: currentUser,
+          name: currentUser
+        };
 
-              <small class="dimmed">
-                From ${quote.metadata.sourceDocument}
-              </small>
-              <div class="quote-drawer__comments">
-                <div id="quote-comments-${quoteId}">
-                  <!-- React commenting interface will be rendered here -->
-                </div>
-              </div>
-            </section>
-          </div>
-        `;
-
-        modalService.openDrawer(quoteDrawerContent, 'right', `${quote.name}`);
-
-        // Render reusable commenting interface after drawer is in DOM
-        setTimeout(() => {
-          const commentsContainer = document.getElementById(`quote-comments-${quoteId}`);
-          if (commentsContainer && commentService) {
-
-            // Use the complete UniversalCommentInterface - same as dialog uses
-            const QuoteCommentsInterface = () => {
-              // Get user object for the interface
-              const currentUserObj = getUserById(currentUser) || {
-                id: currentUser,
-                name: currentUser
-              };
-
-              return React.createElement(UniversalCommentInterface, {
-                entityType: 'quote',
-                entityId: quote.id,
-                currentUser: currentUserObj,
-                className: 'quote-comments-drawer',
-                showHeader: false, // Don't show header in drawer context
-                allowNewComments: true,
-                maxHeight: '300px'
-              });
-            };
-
-            const root = createRoot(commentsContainer);
-            root.render(React.createElement(QuoteCommentsInterface));
+        // Clean React component approach using Web Component infrastructure
+        const modalId = openDrawer(
+          React.createElement(QuoteDrawerContent, {
+            quote: quote, 
+            currentUser: currentUserObj 
+          }),
+          {
+            position: 'right',
+            title: quote.name,
+            className: 'quote-drawer-modal'
           }
-        }, 150);
+        );
 
-        console.log('Quote drawer opened successfully');
+        console.log('Quote drawer opened successfully:', modalId);
       } catch (error) {
         console.error('Failed to open quote drawer:', error);
-
-        // Fallback to console preview
-        console.group('Quote Preview (Drawer Failed)');
-        console.log('Name:', quote.name);
-        console.log('Description:', quote.description);
-        console.log('Content:', quote.content.plainText);
-        console.log('Source:', quote.metadata.sourceDocument);
-        console.log('Created by:', quote.metadata.createdBy);
-        console.log('Created at:', new Date(quote.metadata.createdAt).toLocaleString());
-        console.groupEnd();
       }
     } else {
       console.warn(`Quote not found: ${quoteId}`);
     }
-  }, [getQuote]);
+  }, [openDrawer, getQuote, currentUser]);
 
   // Navigate to source position of a quote
   const navigateToQuoteSource = useCallback((quote: QuoteObject) => {

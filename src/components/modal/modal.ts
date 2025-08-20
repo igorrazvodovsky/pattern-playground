@@ -1,3 +1,6 @@
+import React from 'react';
+import { createRoot, type Root } from 'react-dom/client';
+
 /**
  * Progressive enhancement modal component
  * Enhances existing dialog or div elements with modal behavior
@@ -8,6 +11,8 @@ export class PPModal extends HTMLElement {
   private closeButtons: HTMLElement[] = [];
   private lastFocusedElement: HTMLElement | null = null;
   private isDialogElement = false;
+  private reactRoot: Root | null = null;
+  private reactContainer: HTMLElement | null = null;
 
   constructor() {
     super();
@@ -177,6 +182,12 @@ export class PPModal extends HTMLElement {
   private closeModal() {
     if (!this.modal) return;
 
+    // Emit close event before cleanup (for service to listen)
+    this.dispatchEvent(new CustomEvent('modal:close', {
+      bubbles: true,
+      detail: { modal: this.modal }
+    }));
+
     if (this.isDialogElement) {
       (this.modal as HTMLDialogElement).close();
     } else {
@@ -193,12 +204,6 @@ export class PPModal extends HTMLElement {
     if (this.lastFocusedElement) {
       this.lastFocusedElement.focus();
     }
-
-    // Emit custom event
-    this.dispatchEvent(new CustomEvent('modal:close', {
-      bubbles: true,
-      detail: { modal: this.modal }
-    }));
   }
 
   private isOpen(): boolean {
@@ -252,7 +257,68 @@ export class PPModal extends HTMLElement {
     }
   }
 
+  /**
+   * Set React content in the modal
+   * @param reactElement React element to render
+   * @param containerId Optional specific container ID
+   */
+  public setReactContent(reactElement: React.ReactElement, containerId?: string): void {
+    if (typeof window === 'undefined' || !window.React) {
+      console.warn('React is not available');
+      return;
+    }
+
+    // Find or create container
+    this.reactContainer = containerId ? 
+      this.querySelector(`#${containerId}`) as HTMLElement :
+      this.findReactContainer();
+
+    if (!this.reactContainer) {
+      console.warn('No suitable container found for React content');
+      return;
+    }
+
+    // Clean up existing React root
+    this.cleanupReactContent();
+
+    // Create new React root and render
+    this.reactRoot = createRoot(this.reactContainer);
+    this.reactRoot.render(reactElement);
+  }
+
+  /**
+   * Update React content without recreating the root
+   */
+  public updateReactContent(reactElement: React.ReactElement): void {
+    if (this.reactRoot && this.reactContainer) {
+      this.reactRoot.render(reactElement);
+    } else {
+      this.setReactContent(reactElement);
+    }
+  }
+
+  /**
+   * Clean up React content
+   */
+  public cleanupReactContent(): void {
+    if (this.reactRoot) {
+      this.reactRoot.unmount();
+      this.reactRoot = null;
+    }
+    this.reactContainer = null;
+  }
+
+  private findReactContainer(): HTMLElement | null {
+    // Look for common content containers
+    return this.querySelector('.drawer__content') ||
+           this.querySelector('.dialog__content') ||
+           this.querySelector('.modal__content') ||
+           this.querySelector('.react-modal-content');
+  }
+
   private cleanup() {
+    this.cleanupReactContent();
+    
     // Remove all event listeners
     this.triggers.forEach(trigger => {
       trigger.removeEventListener('click', this.handleTriggerClick);

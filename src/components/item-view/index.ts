@@ -22,7 +22,6 @@ export { CommentAwareAdapterBase } from './adapters/CommentAwareAdapterBase';
 // Modal service integration
 export { 
   createModalContent, 
-  createModalContentAsHtml, 
   getSizeForScope, 
   getPlacementForScope 
 } from './services/modal-service-integration';

@@ -2,7 +2,6 @@ import React from 'react';
 import type { BaseItem, ViewScope } from '../types';
 import { ItemView } from '../ItemView';
 import { ContentAdapterProvider } from '../ContentAdapterRegistry';
-import { renderReactToHtmlString } from '../utils/render-to-string';
 
 export interface ModalContentConfig {
   size: 'small' | 'medium' | 'large' | 'fullscreen';
@@ -45,14 +44,6 @@ export const createModalContent = (
   );
 };
 
-export const createModalContentAsHtml = (
-  item: BaseItem,
-  contentType: string,
-  scope: ViewScope
-): string => {
-  const content = createModalContent(item, contentType, scope);
-  return renderReactToHtmlString(content);
-};
 
 export const getSizeForScope = (scope: ViewScope): ModalContentConfig['size'] => {
   switch (scope) {
