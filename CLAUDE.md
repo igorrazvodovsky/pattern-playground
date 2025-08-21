@@ -54,6 +54,7 @@ Components follow a **progressive enhancement** strategy:
 - **Streaming API responses** with Server-Sent Events
 - **HTML Web Components** - Progressive enhancement approach using standard HTML with JavaScript sprinkled on top for behaviour
 - **Light-DOM Web Components** - Custom elements that use the light DOM instead of shadow DOM for better accessibility and styling inheritance
+- **Centralized component registration** - Use dependency-aware registration system for consistent component instantiation order
 - **Leverage existing dependencies** - Before adding a new dependency, check if existing ones solve the problem
 
 #### Progressive enhancement
@@ -97,6 +98,41 @@ Use the latest language features and APIs without backward compatibility constra
 - **Event binding**: Bind all event handlers in constructor using `.bind(this)`
 - **Custom events**: Define typed event interfaces and use `this.$emit('event-name', detail)`
 - **Event cleanup**: Remove all listeners in `disconnectedCallback()`
+- **Bulletproof initialization**: Use DOM readiness checks in `connectedCallback()` to ensure reliable component startup
+
+## Web Component Loading Patterns
+
+### Bulletproof loading implementation
+All web components follow a bulletproof loading pattern to ensure reliable initialization:
+
+```typescript
+connectedCallback() {
+  super.connectedCallback(); // For Lit components
+  if (document.readyState !== 'loading') {
+    this.init();
+    return;
+  }
+  document.addEventListener('DOMContentLoaded', () => this.init());
+}
+
+private init() {
+  // Component initialization logic here
+  this.setupEventListeners();
+  this.setAttribute('role', 'appropriate-role');
+}
+```
+
+### Component registration system
+- **Centralized registration**: All components are registered via `src/components/register-all.ts`
+- **Dependency management**: Components with dependencies (e.g., `pp-tab-group` depends on `pp-tab` and `pp-tab-panel`) are registered in proper order
+- **Individual `customElements.define()` calls removed**: Components rely on the centralized registry for consistent instantiation order
+
+### Component lifecycle best practices
+- **DOM readiness checks**: Always check document readiness before component initialization
+- **Dependency awareness**: Components that depend on other custom elements should be registered after their dependencies
+- **Progressive enhancement**: Components enhance existing HTML gracefully, regardless of script loading timing
+
+Reference: Based on [bulletproof web component loading patterns](https://gomakethings.com/bulletproof-web-component-loading/)
 
 ## Testing and quality
 - TypeScript strict mode enabled

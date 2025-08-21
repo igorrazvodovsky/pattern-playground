@@ -79,7 +79,14 @@ export class PpPopup extends LitElement {
 
   async connectedCallback() {
     super.connectedCallback();
+    if (document.readyState !== 'loading') {
+      await this.init();
+      return;
+    }
+    document.addEventListener('DOMContentLoaded', async () => await this.init());
+  }
 
+  private async init() {
     await this.updateComplete;
     this.start();
   }
@@ -271,7 +278,7 @@ export class PpPopup extends LitElement {
   }
 }
 
-customElements.define('pp-popup', PpPopup);
+// Component registration is handled by the centralized registry
 declare global {
   interface HTMLElementTagNameMap {
     'pp-popup': PpPopup;

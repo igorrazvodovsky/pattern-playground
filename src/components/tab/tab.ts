@@ -25,6 +25,14 @@ export class PpTab extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+    if (document.readyState !== 'loading') {
+      this.init();
+      return;
+    }
+    document.addEventListener('DOMContentLoaded', () => this.init());
+  }
+
+  private init() {
     this.setAttribute('role', 'tab');
   }
 
@@ -60,7 +68,7 @@ export class PpTab extends LitElement {
   }
 }
 
-customElements.define('pp-tab', PpTab);
+// Component registration is handled by the centralized registry
 declare global {
   interface HTMLElementTagNameMap {
     'pp-tab': PpTab;

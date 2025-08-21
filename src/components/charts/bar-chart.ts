@@ -116,6 +116,14 @@ export class BarChart extends ChartComponent {
 
   connectedCallback() {
     super.connectedCallback();
+    if (document.readyState !== 'loading') {
+      this.init();
+      return;
+    }
+    document.addEventListener('DOMContentLoaded', () => this.init());
+  }
+
+  private init() {
     this.setAttribute('tabindex', '0');
     this.setAttribute('role', 'img');
     this.addEventListener('keydown', this.handleKeydown);

@@ -63,6 +63,14 @@ export class PpInput extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+    if (document.readyState !== 'loading') {
+      this.init();
+      return;
+    }
+    document.addEventListener('DOMContentLoaded', () => this.init());
+  }
+
+  private init() {
     this.initialValue = this.value;
   }
 

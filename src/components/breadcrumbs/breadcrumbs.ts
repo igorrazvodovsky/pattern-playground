@@ -15,7 +15,14 @@ export class PpBreadcrumbs extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+    if (document.readyState !== 'loading') {
+      this.init();
+      return;
+    }
+    document.addEventListener('DOMContentLoaded', () => this.init());
+  }
 
+  private init() {
     // Setup mutation observer to watch for changes in the DOM
     this.observer = new MutationObserver(() => {
       this.setupEventListeners();

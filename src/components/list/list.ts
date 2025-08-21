@@ -21,6 +21,14 @@ export class PpList extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+    if (document.readyState !== 'loading') {
+      this.init();
+      return;
+    }
+    document.addEventListener('DOMContentLoaded', () => this.init());
+  }
+
+  private init() {
     this.setAttribute('role', 'menu');
   }
 
@@ -145,7 +153,7 @@ export class PpList extends LitElement {
   }
 }
 
-customElements.define('pp-list', PpList);
+// Component registration is handled by the centralized registry
 declare global {
   interface HTMLElementTagNameMap {
     "pp-list": PpList;

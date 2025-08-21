@@ -60,12 +60,19 @@ export class PpTabGroup extends LitElement {
   @property({ attribute: 'no-scroll-controls', type: Boolean }) noScrollControls = false;
 
   connectedCallback() {
+    super.connectedCallback();
+    if (document.readyState !== 'loading') {
+      this.init();
+      return;
+    }
+    document.addEventListener('DOMContentLoaded', () => this.init());
+  }
+
+  private init() {
     const whenAllDefined = Promise.all([
       customElements.whenDefined('pp-tab'),
       customElements.whenDefined('pp-tab-panel')
     ]);
-
-    super.connectedCallback();
 
     this.resizeObserver = new ResizeObserver(() => {
       this.repositionIndicator();
@@ -358,7 +365,7 @@ export class PpTabGroup extends LitElement {
   }
 }
 
-customElements.define('pp-tab-group', PpTabGroup);
+// Component registration is handled by the centralized registry
 declare global {
   interface HTMLElementTagNameMap {
     'pp-tab-group': PpTabGroup;

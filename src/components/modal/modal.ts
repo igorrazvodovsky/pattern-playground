@@ -23,7 +23,11 @@ export class PPModal extends HTMLElement {
   }
 
   connectedCallback() {
-    this.init();
+    if (document.readyState !== 'loading') {
+      this.init();
+      return;
+    }
+    document.addEventListener('DOMContentLoaded', () => this.init());
   }
 
   disconnectedCallback() {

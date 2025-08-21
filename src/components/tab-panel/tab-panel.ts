@@ -23,6 +23,14 @@ export class PpTabPanel extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+    if (document.readyState !== 'loading') {
+      this.init();
+      return;
+    }
+    document.addEventListener('DOMContentLoaded', () => this.init());
+  }
+
+  private init() {
     this.id = this.id.length > 0 ? this.id : this.componentId;
     this.setAttribute('role', 'tabpanel');
   }
@@ -45,7 +53,7 @@ export class PpTabPanel extends LitElement {
   }
 }
 
-customElements.define('pp-tab-panel', PpTabPanel);
+// Component registration is handled by the centralized registry
 declare global {
   interface HTMLElementTagNameMap {
     'pp-tab-panel': PpTabPanel;

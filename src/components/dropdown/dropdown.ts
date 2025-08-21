@@ -89,7 +89,14 @@ export class PpDropdown extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+    if (document.readyState !== 'loading') {
+      this.init();
+      return;
+    }
+    document.addEventListener('DOMContentLoaded', () => this.init());
+  }
 
+  private init() {
     if (!this.containingElement) {
       this.containingElement = this;
     }
@@ -405,7 +412,7 @@ setDefaultAnimation('dropdown.hide', {
   options: { duration: 100, easing: 'ease' }
 });
 
-customElements.define('pp-dropdown', PpDropdown);
+// Component registration is handled by the centralized registry
 declare global {
   interface HTMLElementTagNameMap {
     "pp-dropdown": PpDropdown;

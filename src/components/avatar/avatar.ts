@@ -17,6 +17,14 @@ export class PpAvatar extends HTMLElement {
   }
 
   connectedCallback() {
+    if (document.readyState !== 'loading') {
+      this.init();
+      return;
+    }
+    document.addEventListener('DOMContentLoaded', () => this.init());
+  }
+
+  private init() {
     this.classList.add('pp-avatar', 'pp-avatar__container');
     this.setAttribute('size', this._size);
     this.setAttribute('role', 'img');

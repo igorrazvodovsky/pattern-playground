@@ -1,3 +1,7 @@
+// Register all components with centralized registry
+import './components/register-all.js';
+
+// Export component classes for programmatic use
 export { PpButton } from './components/button/button.ts';
 export { Spinner } from './components/spinner/spinner.ts';
 export { SimpleTable } from './components/table/table.ts';
@@ -15,3 +19,6 @@ export { PpAvatar } from './components/avatar/avatar.ts';
 export { PpTooltip } from './components/tooltip/tooltip.ts';
 export { PpToast } from './components/toast/toast.ts';
 export { PPModal } from './components/modal/modal.ts';
+
+// Export component registry for advanced use cases
+export { componentRegistry } from './components/component-registry.js';
