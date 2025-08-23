@@ -1,8 +1,7 @@
-import React from 'react';
-import { CommentComposer } from '../universal/RichCommentComposer.js';
-import { useAddComment } from '../../../services/commenting/hooks/use-universal-commenting.js';
+import React, { useEffect, useRef } from 'react';
+import { UniversalCommentInterface } from '../universal/UniversalCommentInterface.js';
 import type { QuoteObject } from '../../../services/commenting/quote-service.js';
-import type { RichContent } from '../../../stories/data/index.js';
+import { getUserById } from '../../../stories/data/index.js';
 
 interface QuoteCommentPopoverProps {
   quote: QuoteObject;
@@ -25,36 +24,72 @@ export const QuoteCommentPopover: React.FC<QuoteCommentPopoverProps> = ({
   onClose,
   onCommentAdded
 }) => {
-  const { submitComment, isSubmitting } = useAddComment();
+  const user = getUserById(currentUser);
+  const popoverRef = useRef<HTMLDivElement>(null);
+  
+  const handleCommentAdded = () => {
+    onCommentAdded?.();
+    // Don't close immediately - let user see the comment was added
+  };
 
-  const handleSubmit = async (content: RichContent) => {
-    try {
-      await submitComment('quote', quote.id, content, currentUser);
-      onCommentAdded?.();
+  // Handle clicks outside the popover
+  useEffect(() => {
+    if (!isOpen || !onClose) return;
+
+    const handleDocumentClick = (e: MouseEvent) => {
+      const target = e.target as Node;
+      
+      // Don't close if clicking inside the popover
+      if (popoverRef.current && popoverRef.current.contains(target)) {
+        return;
+      }
+      
+      // Don't close if clicking on the trigger element
+      if (triggerElement && triggerElement.contains(target)) {
+        return;
+      }
+      
+      // Close the popover
       onClose();
-    } catch (error) {
-      console.error('Failed to add comment to quote:', error);
-    }
-  };
+    };
 
-  const handleCancel = () => {
-    onClose();
-  };
+    const handleEscapeKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    // Add event listeners with a small delay to avoid immediate closing
+    const timeoutId = setTimeout(() => {
+      document.addEventListener('mousedown', handleDocumentClick);
+      document.addEventListener('keydown', handleEscapeKey);
+    }, 100);
+
+    return () => {
+      clearTimeout(timeoutId);
+      document.removeEventListener('mousedown', handleDocumentClick);
+      document.removeEventListener('keydown', handleEscapeKey);
+    };
+  }, [isOpen, onClose, triggerElement]);
 
   if (!isOpen || !triggerElement) {
+    return null;
+  }
+
+  if (!user) {
     return null;
   }
 
   const popoverContent = (
     <div className="popover">
       <div className="quote-comment-popover__content">
-        <CommentComposer
-          currentUser={currentUser}
-          onSubmit={handleSubmit}
-          onCancel={handleCancel}
-          isSubmitting={isSubmitting}
-          placeholder={`Comment on this quote...`}
-          autoFocus={true}
+        <UniversalCommentInterface
+          entityType="quote"
+          entityId={quote.id}
+          currentUser={user}
+          showHeader={false}
+          allowNewComments={true}
+          maxHeight="300px"
         />
       </div>
     </div>
@@ -64,6 +99,7 @@ export const QuoteCommentPopover: React.FC<QuoteCommentPopoverProps> = ({
   // Since PpHoverCard is designed for hover interactions, we'll render directly
   return (
     <div
+      ref={popoverRef}
       className="quote-comment-popover-container"
       style={{
         position: 'fixed',

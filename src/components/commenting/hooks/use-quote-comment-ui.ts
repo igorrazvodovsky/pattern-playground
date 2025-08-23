@@ -86,10 +86,11 @@ export const useQuoteCommentUI = (options: UseQuoteCommentUIOptions) => {
     }));
   }, []);
 
-  // Handle comment being added (close popover)
+  // Handle comment being added (keep popover open to show the comment)
   const handleCommentAdded = useCallback(() => {
-    closePopover();
-  }, [closePopover]);
+    // Don't close popover immediately - let user see the comment was added
+    // The popover can be closed manually or when clicking elsewhere
+  }, []);
 
   // Check if current selection is valid for quote commenting
   const canCreateQuoteComment = useCallback((): boolean => {

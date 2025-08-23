@@ -72,7 +72,7 @@ export const UniversalCommentInterface: React.FC<UniversalCommentInterfaceProps>
 
 
   return (
-    <div className={`messages layer ${className}`}>
+    <div className={`messages ${className}`}>
       {comments.map((comment) => {
         const user = getUserById(comment.authorId);
         const displayName = user?.name || comment.authorId;

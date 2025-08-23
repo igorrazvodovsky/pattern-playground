@@ -58,7 +58,7 @@ a.sbdocs,
   color: inherit !important;
   /* TODO: Fix */
   text-decoration: underline !important;
-  text-decoration: underline oklch(from #2e3438 l c h / 0.6) !important;
+  text-decoration: underline oklch(from #2e3438 l c h / 0.3) !important;
   text-decoration-thickness: max(0.05em, 1px);
   text-underline-offset: 0.15em;
 }
@@ -218,11 +218,6 @@ aside[class*="sbdocs-toc"] {
   margin-top: 0 !important;
 }
 
-.docs-intro-img {
-  border: 1px solid oklch(0% 0 0 / 30%);
-  /* transform: translate(-2rem, 2rem); */
-}
-
 .product-model-navigation {
   margin: -1.5rem;
   padding: 1rem 1.5rem;
@@ -241,5 +236,34 @@ aside[class*="sbdocs-toc"] {
   blockquote,
   p {
     margin-block: 0;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: underline oklch(from #2e3438 l c h / 0.3);
+  }
+}
+
+#docs-intro-structure > article {
+  position: relative;
+
+  h3 {
+    position: initial;
+  }
+
+  .docs-intro-img {
+    border: 1px solid oklch(0% 0 0 / 30%);
+    transition: var(--transition-fast) border-color;
+  }
+
+  &:has(*:hover) img {
+    border-color: oklch(0% 0 0 / 50%);
+  }
+
+  a::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
   }
 }
