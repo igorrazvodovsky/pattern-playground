@@ -67,7 +67,7 @@ a.sbdocs,
   font-size: larger !important;
   line-height: var(--globalLineHeight) !important;
   text-wrap: balance;
-  margin-bottom: 2rem !important;
+  margin-bottom: 1em !important;
 }
 
 .card a::first-letter,

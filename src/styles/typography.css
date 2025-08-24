@@ -62,7 +62,3 @@ blockquote {
   background: var(--c-accent-50);
 
 }
-
-.lead {
-  font-size: var(--text-lg);
-}
