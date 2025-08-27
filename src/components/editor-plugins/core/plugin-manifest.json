@@ -1,0 +1,61 @@
+{
+  "version": "1.0.0",
+  "plugins": {
+    "formatting": {
+      "id": "formatting",
+      "name": "Formatting Plugin",
+      "version": "1.0.0",
+      "description": "Basic text formatting (bold, italic, etc.)",
+      "entry": "./formatting/FormattingPlugin.js",
+      "dependencies": [],
+      "capabilities": {
+        "modifiesContent": true,
+        "providesUI": true
+      }
+    },
+    "commenting": {
+      "id": "commenting",
+      "name": "Commenting Plugin",
+      "version": "1.0.0", 
+      "description": "Quote comments and inline comments",
+      "entry": "./commenting/CommentingPlugin.js",
+      "dependencies": [],
+      "capabilities": {
+        "requiresSelection": true,
+        "providesUI": true,
+        "requiresNetwork": true
+      }
+    },
+    "ai-assistant": {
+      "id": "ai-assistant",
+      "name": "AI Assistant Plugin",
+      "version": "1.0.0",
+      "description": "AI-powered text assistance",
+      "entry": "./ai-assistant/AIAssistantPlugin.js",
+      "dependencies": [],
+      "capabilities": {
+        "requiresSelection": true,
+        "requiresNetwork": true,
+        "supportsStreaming": true,
+        "providesUI": true
+      }
+    },
+    "references": {
+      "id": "references",
+      "name": "References Plugin", 
+      "version": "1.0.0",
+      "description": "Reference management and mentions",
+      "entry": "./references/ReferencesPlugin.js",
+      "dependencies": [],
+      "capabilities": {
+        "modifiesContent": true,
+        "providesUI": true
+      }
+    }
+  },
+  "presets": {
+    "minimal": ["formatting"],
+    "standard": ["formatting", "commenting"],
+    "full": ["formatting", "commenting", "ai-assistant", "references"]
+  }
+}

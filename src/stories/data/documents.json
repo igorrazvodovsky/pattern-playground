@@ -1,12 +1,204 @@
 [
   {
+    "id": "doc-climate-change",
+    "name": "Climate Change Impact Report",
+    "type": "document",
+    "icon": "ph:file-text-fill",
+    "description": "Comprehensive analysis of climate change effects on global ecosystems",
+    "searchableText": "climate change impact report ecosystems biodiversity",
+    "metadata": { 
+      "type": "analysis", 
+      "lastUpdated": "2024-01-15",
+      "author": "user-1",
+      "wordCount": 450
+    },
+    "content": {
+      "plainText": "Climate change is reshaping ecosystems at a pace that many species can't keep up with. As temperatures rise, animals and plants are being pushed out of their natural habitats. Species adapted to cold environments—like polar bears, snow leopards, and certain alpine plants—are seeing their habitats shrink or disappear entirely. Some animals are migrating to higher altitudes or latitudes, but these shifts aren't always possible or fast enough, especially for species with limited mobility or specialised diets.\n\nChanges in temperature and precipitation are also throwing off the rhythms of nature. Many species rely on environmental cues for breeding, migration, and feeding. When spring arrives earlier, some birds migrate before their food sources are abundant. If insects hatch too early or too late for birds to feed their chicks, or if flowers bloom before pollinators are active, the entire chain can fall apart. These mismatches can ripple through ecosystems, weakening the interdependence that many species rely on to survive.\n\nWarming oceans are particularly devastating. Coral reefs, which are biodiversity hotspots, are bleaching and dying due to heat stress. Marine animals that depend on these reefs for food and shelter are left vulnerable. Ocean acidification, another by-product of increased CO₂ levels, is making it harder for shellfish and corals to build their skeletons. The decline of keystone species can cause cascading effects, altering food webs and leading to further biodiversity loss. In short, climate change is a force multiplier for stressors already facing wildlife, accelerating extinction rates and making conservation efforts more urgent and complex.",
+      "richContent": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "text": "Climate change is " },
+              { 
+                "type": "reference", 
+                "attrs": {
+                  "id": "quote-reshaping-ecosystems",
+                  "type": "quote",
+                  "label": "reshaping ecosystems"
+                }
+              },
+              { "type": "text", "text": " at a pace that many species can't keep up with. As temperatures rise, animals and plants are being pushed out of their natural habitats." }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "text": "Species adapted to cold environments—like polar bears, snow leopards, and certain alpine plants—are seeing their " },
+              { 
+                "type": "reference", 
+                "attrs": {
+                  "id": "quote-habitats-shrink",
+                  "type": "quote", 
+                  "label": "habitats shrink or disappear"
+                }
+              },
+              { "type": "text", "text": " entirely. Some animals are migrating to higher altitudes or latitudes, but these shifts aren't always possible or fast enough, especially for species with limited mobility or specialised diets." }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "text": "Changes in temperature and precipitation are also throwing off the rhythms of nature. Many species rely on environmental cues for breeding, migration, and feeding. When spring arrives earlier, some birds migrate before their food sources are abundant. If insects hatch too early or too late for birds to feed their chicks, or if flowers bloom before pollinators are active, the entire chain can fall apart. These mismatches can ripple through ecosystems, weakening the interdependence that many species rely on to survive." }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "text": "Warming oceans are particularly devastating. " },
+              { 
+                "type": "reference", 
+                "attrs": {
+                  "id": "quote-coral-reefs-bleaching",
+                  "type": "quote",
+                  "label": "Coral reefs, which are biodiversity hotspots, are bleaching and dying due to heat stress"
+                }
+              },
+              { "type": "text", "text": ". Marine animals that depend on these reefs for food and shelter are left vulnerable. Ocean acidification, another by-product of increased CO₂ levels, is making it harder for shellfish and corals to build their skeletons. The decline of keystone species can cause cascading effects, altering food webs and leading to further biodiversity loss. In short, climate change is a force multiplier for stressors already facing wildlife, accelerating extinction rates and making conservation efforts more urgent and complex." }
+            ]
+          }
+        ]
+      }
+    },
+    "sections": [
+      {
+        "id": "habitat-displacement",
+        "title": "Habitat Displacement",
+        "startIndex": 0,
+        "endIndex": 387,
+        "text": "Climate change is reshaping ecosystems at a pace that many species can't keep up with. As temperatures rise, animals and plants are being pushed out of their natural habitats. Species adapted to cold environments—like polar bears, snow leopards, and certain alpine plants—are seeing their habitats shrink or disappear entirely."
+      },
+      {
+        "id": "ecological-timing",
+        "title": "Disrupted Ecological Timing", 
+        "startIndex": 388,
+        "endIndex": 915,
+        "text": "Changes in temperature and precipitation are also throwing off the rhythms of nature. Many species rely on environmental cues for breeding, migration, and feeding. When spring arrives earlier, some birds migrate before their food sources are abundant. If insects hatch too early or too late for birds to feed their chicks, or if flowers bloom before pollinators are active, the entire chain can fall apart."
+      },
+      {
+        "id": "marine-ecosystems",
+        "title": "Marine Ecosystem Collapse",
+        "startIndex": 916,
+        "endIndex": 1466,
+        "text": "Warming oceans are particularly devastating. Coral reefs, which are biodiversity hotspots, are bleaching and dying due to heat stress. Marine animals that depend on these reefs for food and shelter are left vulnerable. Ocean acidification, another by-product of increased CO₂ levels, is making it harder for shellfish and corals to build their skeletons."
+      }
+    ]
+  },
+  {
+    "id": "doc-circular-economy",
+    "name": "Circular Economy Implementation Guide",
+    "type": "document", 
+    "icon": "ph:file-text-fill",
+    "description": "Strategic framework for transitioning to circular economy principles",
+    "searchableText": "circular economy implementation guide strategy framework",
+    "metadata": { 
+      "type": "strategy", 
+      "lastUpdated": "2024-01-20",
+      "author": "user-2", 
+      "wordCount": 380
+    },
+    "content": {
+      "plainText": "The circular economy represents a fundamental shift from the traditional linear 'take-make-waste' model to a regenerative approach that keeps products and materials in use for as long as possible. This transformation requires systematic changes across design, manufacturing, distribution, and consumption patterns.\n\nAt the design stage, products must be conceived with their entire lifecycle in mind. Designers need to prioritise durability, repairability, and modularity, ensuring that components can be easily separated for recycling or reuse. Material selection becomes crucial, favouring renewable, recyclable, or biodegradable options over finite resources.\n\nManufacturing processes must embrace efficiency and waste minimisation. Industrial symbiosis, where waste from one process becomes input for another, exemplifies this approach. Companies are increasingly adopting closed-loop systems that capture and reintegrate byproducts back into production cycles.\n\nConsumer behaviour plays a pivotal role in this transition. The shift from ownership to access—through sharing platforms, leasing models, and service-based offerings—reduces overall resource consumption while maintaining quality of life. Education and incentives help consumers make more sustainable choices and participate actively in recycling and reuse programmes.",
+      "richContent": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "text": "The " },
+              { "type": "text", "marks": [{"type": "bold"}], "text": "circular economy" },
+              { "type": "text", "text": " represents a fundamental shift from the traditional linear 'take-make-waste' model to a regenerative approach that keeps products and materials in use for as long as possible. This transformation requires systematic changes across design, manufacturing, distribution, and consumption patterns." }
+            ]
+          },
+          {
+            "type": "paragraph", 
+            "content": [
+              { "type": "text", "text": "At the design stage, products must be conceived with their entire lifecycle in mind. Designers need to prioritise " },
+              { "type": "text", "marks": [{"type": "highlight"}], "text": "durability, repairability, and modularity" },
+              { "type": "text", "text": ", ensuring that components can be easily separated for recycling or reuse. Material selection becomes crucial, favouring renewable, recyclable, or biodegradable options over finite resources." }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "text": "Manufacturing processes must embrace efficiency and waste minimisation. " },
+              { "type": "text", "marks": [{"type": "italic"}], "text": "Industrial symbiosis" },
+              { "type": "text", "text": ", where waste from one process becomes input for another, exemplifies this approach. Companies are increasingly adopting closed-loop systems that capture and reintegrate byproducts back into production cycles." }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "text": "Consumer behaviour plays a pivotal role in this transition. The shift from ownership to access—through sharing platforms, leasing models, and service-based offerings—reduces overall resource consumption while maintaining quality of life. Education and incentives help consumers make more sustainable choices and participate actively in recycling and reuse programmes." }
+            ]
+          }
+        ]
+      }
+    },
+    "sections": [
+      {
+        "id": "design-principles",
+        "title": "Design for Circularity",
+        "startIndex": 0,
+        "endIndex": 280,
+        "text": "The circular economy represents a fundamental shift from the traditional linear 'take-make-waste' model to a regenerative approach that keeps products and materials in use for as long as possible."
+      },
+      {
+        "id": "design-stage",
+        "title": "Product Design Stage",
+        "startIndex": 281,
+        "endIndex": 612,
+        "text": "At the design stage, products must be conceived with their entire lifecycle in mind. Designers need to prioritise durability, repairability, and modularity, ensuring that components can be easily separated for recycling or reuse."
+      },
+      {
+        "id": "manufacturing",
+        "title": "Manufacturing Efficiency",
+        "startIndex": 613,
+        "endIndex": 922,
+        "text": "Manufacturing processes must embrace efficiency and waste minimisation. Industrial symbiosis, where waste from one process becomes input for another, exemplifies this approach."
+      },
+      {
+        "id": "consumer-behaviour",
+        "title": "Consumer Behaviour Change",
+        "startIndex": 923,
+        "endIndex": 1275,
+        "text": "Consumer behaviour plays a pivotal role in this transition. The shift from ownership to access—through sharing platforms, leasing models, and service-based offerings—reduces overall resource consumption while maintaining quality of life."
+      }
+    ]
+  },
+  {
     "id": "doc-1",
     "name": "Material Flow Analysis Report",
     "type": "document",
     "icon": "ph:file-text-fill",
     "description": "Analysis of material inputs and outputs in the production process",
     "searchableText": "material flow analysis report mfa production",
-    "metadata": { "type": "analysis", "lastUpdated": "2024-01-15" }
+    "metadata": { "type": "analysis", "lastUpdated": "2024-01-15" },
+    "content": {
+      "plainText": "Material flow analysis provides a systematic approach to quantifying material and energy inputs, outputs, and flows within industrial systems. This methodology helps organizations understand their resource consumption patterns and identify opportunities for efficiency improvements.",
+      "richContent": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "text": "Material flow analysis provides a systematic approach to quantifying material and energy inputs, outputs, and flows within industrial systems. This methodology helps organizations understand their resource consumption patterns and identify opportunities for efficiency improvements." }
+            ]
+          }
+        ]
+      }
+    }
   },
   {
     "id": "doc-2",
@@ -15,7 +207,21 @@
     "icon": "ph:file-text-fill",
     "description": "Environmental impact assessment of a product's lifecycle",
     "searchableText": "life cycle assessment lca environmental impact",
-    "metadata": { "type": "assessment", "lastUpdated": "2024-01-10" }
+    "metadata": { "type": "assessment", "lastUpdated": "2024-01-10" },
+    "content": {
+      "plainText": "Life Cycle Assessment (LCA) is a methodology for assessing environmental impacts associated with all stages of a product's life, from raw material extraction through materials processing, manufacture, distribution, use, repair and maintenance, and disposal or recycling.",
+      "richContent": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "text": "Life Cycle Assessment (LCA) is a methodology for assessing environmental impacts associated with all stages of a product's life, from raw material extraction through materials processing, manufacture, distribution, use, repair and maintenance, and disposal or recycling." }
+            ]
+          }
+        ]
+      }
+    }
   },
   {
     "id": "doc-3",
@@ -24,7 +230,21 @@
     "icon": "ph:file-text-fill",
     "description": "Strategic plan for implementing a circular business model",
     "searchableText": "circular business model canvas strategy plan",
-    "metadata": { "type": "strategy", "quarter": "Q3 2024" }
+    "metadata": { "type": "strategy", "quarter": "Q3 2024" },
+    "content": {
+      "plainText": "The Circular Business Model Canvas is an adapted version of the traditional business model canvas, specifically designed to help organizations transition from linear to circular business models. It emphasizes resource loops, partnerships, and value retention.",
+      "richContent": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "text": "The Circular Business Model Canvas is an adapted version of the traditional business model canvas, specifically designed to help organizations transition from linear to circular business models. It emphasizes resource loops, partnerships, and value retention." }
+            ]
+          }
+        ]
+      }
+    }
   },
   {
     "id": "doc-4",
@@ -33,7 +253,21 @@
     "icon": "ph:file-text-fill",
     "description": "Legal agreement with certified recycling partners",
     "searchableText": "recycling partner agreement legal contract",
-    "metadata": { "type": "legal", "version": "3.0" }
+    "metadata": { "type": "legal", "version": "3.0" },
+    "content": {
+      "plainText": "This agreement establishes the terms and conditions for partnerships with certified recycling facilities. It covers material specifications, quality standards, collection schedules, and compliance requirements for sustainable waste management.",
+      "richContent": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "text": "This agreement establishes the terms and conditions for partnerships with certified recycling facilities. It covers material specifications, quality standards, collection schedules, and compliance requirements for sustainable waste management." }
+            ]
+          }
+        ]
+      }
+    }
   },
   {
     "id": "doc-5",
@@ -42,7 +276,21 @@
     "icon": "ph:file-text-fill",
     "description": "Procedures for minimizing waste in operations",
     "searchableText": "waste reduction guidelines procedures operations",
-    "metadata": { "type": "guideline", "recurring": true }
+    "metadata": { "type": "guideline", "recurring": true },
+    "content": {
+      "plainText": "These guidelines provide practical steps for reducing waste across all operational areas. They include measurement protocols, reduction targets, and best practices for implementing zero-waste initiatives in manufacturing and office environments.",
+      "richContent": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "text": "These guidelines provide practical steps for reducing waste across all operational areas. They include measurement protocols, reduction targets, and best practices for implementing zero-waste initiatives in manufacturing and office environments." }
+            ]
+          }
+        ]
+      }
+    }
   },
   {
     "id": "doc-6",
@@ -51,7 +299,21 @@
     "icon": "ph:file-text-fill",
     "description": "Design principles for creating sustainable products",
     "searchableText": "eco-design principles sustainable products guidelines",
-    "metadata": { "type": "design", "version": "1.5" }
+    "metadata": { "type": "design", "version": "1.5" },
+    "content": {
+      "plainText": "Eco-design principles guide the creation of products with minimal environmental impact throughout their lifecycle. These principles focus on material selection, energy efficiency, durability, and end-of-life considerations.",
+      "richContent": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "text": "Eco-design principles guide the creation of products with minimal environmental impact throughout their lifecycle. These principles focus on material selection, energy efficiency, durability, and end-of-life considerations." }
+            ]
+          }
+        ]
+      }
+    }
   },
   {
     "id": "doc-7",
@@ -60,7 +322,21 @@
     "icon": "ph:file-text-fill",
     "description": "API documentation for tracking materials in the supply chain",
     "searchableText": "supply chain traceability api documentation",
-    "metadata": { "type": "technical", "version": "1.0" }
+    "metadata": { "type": "technical", "version": "1.0" },
+    "content": {
+      "plainText": "This API documentation provides endpoints and methods for tracking materials throughout the supply chain. It enables real-time monitoring of material origins, processing stages, and environmental impact metrics.",
+      "richContent": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "text": "This API documentation provides endpoints and methods for tracking materials throughout the supply chain. It enables real-time monitoring of material origins, processing stages, and environmental impact metrics." }
+            ]
+          }
+        ]
+      }
+    }
   },
   {
     "id": "doc-8",
@@ -69,7 +345,21 @@
     "icon": "ph:file-text-fill",
     "description": "Research on consumer adoption of circular products",
     "searchableText": "consumer behavior study research adoption",
-    "metadata": { "type": "research", "quarter": "Q3 2024" }
+    "metadata": { "type": "research", "quarter": "Q3 2024" },
+    "content": {
+      "plainText": "This study examines consumer attitudes, preferences, and behaviors related to circular economy products and services. It provides insights into adoption barriers and motivating factors for sustainable consumption patterns.",
+      "richContent": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "text": "This study examines consumer attitudes, preferences, and behaviors related to circular economy products and services. It provides insights into adoption barriers and motivating factors for sustainable consumption patterns." }
+            ]
+          }
+        ]
+      }
+    }
   },
   {
     "id": "doc-9",
@@ -78,7 +368,21 @@
     "icon": "ph:file-xls-fill",
     "description": "Inventory of recycled materials for production",
     "searchableText": "recycled material inventory spreadsheet excel",
-    "metadata": { "path": "inventory/Recycled Material Inventory.xlsx", "type": "spreadsheet", "size": "68KB" }
+    "metadata": { "path": "inventory/Recycled Material Inventory.xlsx", "type": "spreadsheet", "size": "68KB" },
+    "content": {
+      "plainText": "Comprehensive inventory tracking recycled materials available for production. Includes material types, quantities, quality grades, and supplier information for circular manufacturing processes.",
+      "richContent": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "text": "Comprehensive inventory tracking recycled materials available for production. Includes material types, quantities, quality grades, and supplier information for circular manufacturing processes." }
+            ]
+          }
+        ]
+      }
+    }
   },
   {
     "id": "doc-10",
@@ -87,7 +391,21 @@
     "icon": "ph:file-pdf-fill",
     "description": "Schedule for regular waste audits",
     "searchableText": "waste audit schedule calendar pdf",
-    "metadata": { "path": "audits/Waste Audit Schedule.pdf", "type": "pdf", "size": "1.8MB" }
+    "metadata": { "path": "audits/Waste Audit Schedule.pdf", "type": "pdf", "size": "1.8MB" },
+    "content": {
+      "plainText": "Detailed schedule for conducting regular waste audits across all facilities. Includes audit frequency, responsible personnel, measurement protocols, and reporting requirements.",
+      "richContent": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "text": "Detailed schedule for conducting regular waste audits across all facilities. Includes audit frequency, responsible personnel, measurement protocols, and reporting requirements." }
+            ]
+          }
+        ]
+      }
+    }
   },
   {
     "id": "doc-11",
@@ -96,7 +414,21 @@
     "icon": "ph:file-ppt-fill",
     "description": "Presentation on the product refurbishment process",
     "searchableText": "refurbishment process presentation pptx",
-    "metadata": { "path": "processes/Refurbishment Process.pptx", "type": "presentation", "size": "6.2MB" }
+    "metadata": { "path": "processes/Refurbishment Process.pptx", "type": "presentation", "size": "6.2MB" },
+    "content": {
+      "plainText": "Comprehensive presentation detailing the product refurbishment process. Covers assessment procedures, repair techniques, quality standards, and certification requirements for refurbished products.",
+      "richContent": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "text": "Comprehensive presentation detailing the product refurbishment process. Covers assessment procedures, repair techniques, quality standards, and certification requirements for refurbished products." }
+            ]
+          }
+        ]
+      }
+    }
   },
   {
     "id": "doc-12",
@@ -105,6 +437,95 @@
     "icon": "ph:file-doc-fill",
     "description": "Code of conduct for suppliers regarding sustainability",
     "searchableText": "supplier code of conduct sustainability docx",
-    "metadata": { "path": "suppliers/Supplier Code of Conduct.docx", "type": "document", "size": "150KB" }
+    "metadata": { "path": "suppliers/Supplier Code of Conduct.docx", "type": "document", "size": "150KB" },
+    "content": {
+      "plainText": "Comprehensive code of conduct outlining sustainability requirements and ethical standards for all suppliers. Includes environmental compliance, labor practices, and circular economy participation requirements.",
+      "richContent": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "text": "Comprehensive code of conduct outlining sustainability requirements and ethical standards for all suppliers. Includes environmental compliance, labor practices, and circular economy participation requirements." }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "doc-sustainability-metrics",
+    "name": "Sustainability Metrics Dashboard",
+    "type": "document",
+    "icon": "ph:file-text-fill",
+    "description": "Framework for measuring and tracking sustainability performance",
+    "searchableText": "sustainability metrics dashboard kpi tracking performance",
+    "metadata": { 
+      "type": "analytics", 
+      "lastUpdated": "2024-01-18",
+      "author": "user-3",
+      "wordCount": 320
+    },
+    "content": {
+      "plainText": "Effective sustainability measurement requires a comprehensive framework of key performance indicators that capture both environmental impact and operational efficiency. These metrics serve as the foundation for data-driven decision making and progress tracking toward sustainability goals.\n\nCarbon footprint tracking forms the foundation of environmental monitoring. This includes direct emissions from operations (Scope 1), indirect emissions from purchased energy (Scope 2), and value chain emissions (Scope 3). Regular measurement enables organisations to identify reduction opportunities and track progress toward net-zero goals.\n\nResource utilisation metrics provide insights into efficiency and waste reduction. Water consumption, material usage rates, and waste generation patterns reveal opportunities for circular economy implementation. Energy intensity measurements help optimise operations and transition to renewable sources.\n\nBiodiversity impact assessments are becoming increasingly important. Companies operating in sensitive ecosystems must monitor their effects on local wildlife and vegetation. This includes habitat disruption metrics, species population changes, and ecosystem service valuation.",
+      "richContent": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "text": "Effective " },
+              { "type": "text", "marks": [{"type": "bold"}], "text": "sustainability measurement" },
+              { "type": "text", "text": " requires a comprehensive framework of key performance indicators that capture both environmental impact and operational efficiency. These metrics serve as the foundation for data-driven decision making and progress tracking toward sustainability goals." }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "marks": [{"type": "bold"}], "text": "Carbon footprint tracking" },
+              { "type": "text", "text": " forms the foundation of environmental monitoring. This includes direct emissions from operations (Scope 1), indirect emissions from purchased energy (Scope 2), and value chain emissions (Scope 3). Regular measurement enables organisations to identify reduction opportunities and track progress toward net-zero goals." }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "text": "Resource utilisation metrics provide insights into efficiency and waste reduction. " },
+              { "type": "text", "marks": [{"type": "highlight"}], "text": "Water consumption, material usage rates, and waste generation patterns" },
+              { "type": "text", "text": " reveal opportunities for circular economy implementation. Energy intensity measurements help optimise operations and transition to renewable sources." }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "marks": [{"type": "italic"}], "text": "Biodiversity impact assessments" },
+              { "type": "text", "text": " are becoming increasingly important. Companies operating in sensitive ecosystems must monitor their effects on local wildlife and vegetation. This includes habitat disruption metrics, species population changes, and ecosystem service valuation." }
+            ]
+          }
+        ]
+      }
+    },
+    "sections": [
+      {
+        "id": "kpi-framework",
+        "title": "KPI Framework", 
+        "startIndex": 0,
+        "endIndex": 267,
+        "text": "Effective sustainability measurement requires a comprehensive framework of key performance indicators that capture both environmental impact and operational efficiency."
+      },
+      {
+        "id": "carbon-tracking",
+        "title": "Carbon Footprint Tracking",
+        "startIndex": 268,
+        "endIndex": 512,
+        "text": "Carbon footprint tracking forms the foundation of environmental monitoring. This includes direct emissions from operations (Scope 1), indirect emissions from purchased energy (Scope 2), and value chain emissions (Scope 3)."
+      },
+      {
+        "id": "resource-metrics", 
+        "title": "Resource Utilisation",
+        "startIndex": 513,
+        "endIndex": 723,
+        "text": "Resource utilisation metrics provide insights into efficiency and waste reduction. Water consumption, material usage rates, and waste generation patterns reveal opportunities for circular economy implementation."
+      }
+    ]
   }
 ]

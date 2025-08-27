@@ -37,9 +37,61 @@ Bookkeeping
 - disable
 - fire
 
-## Synchronizations
+## Synchronisations
 
-...
+- Conversation
+- Task
+- Planning
+- Delegation
+- Commitment
+- Domain
+- Intervention
+- Interpretation
+
+{/*
+### Trigger-Conversation
+- Conversation.close → Trigger: Finished conversations can trigger follow-on conversations or actions
+- Trigger.fire → Conversation.start: Triggered actions often create new conversations for coordination
+- Conversation patterns → Trigger: Recurring conversation types can trigger automated workflows
+
+### Trigger-Task
+- Task.complete → Trigger: Task completion can trigger follow-on tasks or conversations
+- Task patterns → Trigger: Recurring task patterns can trigger automated task creation
+- Task.fail → Trigger: Task failures can trigger retry or escalation rules
+- Trigger.fire → Task.create: Many triggers create new tasks for execution
+
+### Trigger-Planning
+- Planning.complete → Trigger: Completed plans can trigger execution or follow-on planning cycles
+- Planning patterns → Trigger → Planning.optimise: Recurring planning patterns trigger optimisation rules
+- Resource constraints → Trigger → Planning.revise: Systematic constraints trigger replanning automation
+- Trigger.fire → Planning.initiate: Some triggers initiate new planning cycles
+
+### Trigger-Delegation
+- Task patterns → Trigger → Delegation.assess: Recurring task patterns can trigger automated delegation assessments
+- Delegation.complete → Trigger: Successful delegations can trigger similar future delegations
+- Authority gaps → Trigger → Delegation.escalate: Systematic authority gaps trigger escalation rules
+
+### Trigger-Commitment
+- Commitment.commit → Trigger: New commitments can trigger reminder or monitoring workflows
+- Commitment overdue → Trigger → Intervention.raise: Automated deadline monitoring triggers interventions
+- Commitment.fulfill → Trigger: Fulfilled commitments can trigger follow-up actions or notifications
+
+### Trigger-Domain
+- Domain patterns → Trigger: Recurring domain-specific patterns can trigger automated actions
+- Domain.assign → Trigger: Domain assignment can trigger domain-specific workflows or notifications
+- Domain evolution → Trigger → Domain.addProperty: Domain usage patterns trigger automated domain refinement
+
+### Trigger-Intervention
+- Intervention patterns → Trigger: Recurring intervention types can trigger automated prevention measures
+- Intervention.resolve → Trigger: Intervention resolutions can trigger follow-up actions or monitoring
+- System errors → Trigger → Intervention.raise: Automated error detection triggers intervention creation
+- Trigger.fire → Intervention.raise: Some triggers raise interventions for attention or escalation
+
+### Trigger-Interpretation
+- Interpretation patterns → Trigger: Recurring interpretation types can trigger automated assistance
+- Interpretation.reject → Trigger → Intervention.raise: Rejected interpretations trigger clarification workflows
+- Interpretation.accept → Trigger: Accepted interpretations can trigger execution or follow-up actions
+*/}
 
 {/* Trigger shapes */}
 {/* - One-to-one: finish Task → start one Conversation. */}

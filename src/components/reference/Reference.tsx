@@ -9,6 +9,7 @@ import { ReferencePicker } from './ReferencePicker';
 import { ItemInteraction, ContentAdapterProvider } from '../item-view';
 import { referenceContentAdapter } from './ReferenceContentAdapter';
 import type { ReferenceCategory, SelectedReference, ReferenceType } from './types';
+import { resolveReferenceData } from '../../stories/data';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -16,20 +17,20 @@ declare module '@tiptap/core' {
       /**
        * Convert selected text to quote reference
        */
-      convertSelectionToQuoteReference: (quoteData: { 
-        id: string; 
-        label: string; 
-        metadata?: Record<string, unknown> 
+      convertSelectionToQuoteReference: (quoteData: {
+        id: string;
+        label: string;
+        metadata?: Record<string, unknown>
       }) => ReturnType;
-      
+
       /**
        * Create quote reference at current position
        */
-      createQuoteReference: (attrs: { 
-        id: string; 
-        label: string; 
-        type: string; 
-        metadata?: Record<string, unknown> 
+      createQuoteReference: (attrs: {
+        id: string;
+        label: string;
+        type: string;
+        metadata?: Record<string, unknown>
       }) => ReturnType;
     };
   }
@@ -258,12 +259,12 @@ export const Reference = Mention.extend({
     return ({ node, editor }) => {
       const wrapper = document.createElement('span');
       const classes = ['reference-mention', 'reference'];
-      
+
       // Add type-specific classes
       if (node.attrs.type === 'quote') {
         classes.push('reference-mention--quote');
       }
-      
+
       wrapper.className = classes.join(' ');
       wrapper.setAttribute('data-reference-type', node.attrs.type ?? '');
       wrapper.setAttribute('data-reference-id', node.attrs.id ?? '');
@@ -271,7 +272,16 @@ export const Reference = Mention.extend({
         wrapper.setAttribute('data-metadata', JSON.stringify(node.attrs.metadata));
       }
 
-      const referenceData: SelectedReference = {
+      // Try to resolve full reference data dynamically
+      const resolvedData = resolveReferenceData(node.attrs.id, node.attrs.type);
+      
+      const referenceData: SelectedReference = resolvedData ? {
+        id: resolvedData.id,
+        label: resolvedData.name,
+        type: resolvedData.type as ReferenceType,
+        metadata: resolvedData.metadata,
+      } : {
+        // Fallback to node attributes if resolution fails
         id: node.attrs.id,
         label: node.attrs.label,
         type: node.attrs.type as ReferenceType,
@@ -285,9 +295,8 @@ export const Reference = Mention.extend({
             contentType="reference"
             enableEscalation={true}
           >
-            <span className="reference-mention__content">
               {node.attrs.label ?? node.attrs.id}
-            </span>
+
           </ItemInteraction>
         </ContentAdapterProvider>
       );

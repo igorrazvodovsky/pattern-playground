@@ -12,8 +12,6 @@ export class PpButton extends HTMLButtonElement {
   // }
 }
 
-customElements.define("pp-button", PpButton, { extends: "button" });
-
 declare global {
   interface HTMLElementTagNameMap {
     "pp-button": PpButton;

@@ -23,5 +23,66 @@ and can be accepted, rejected, or refined by others within the shared background
 - mapping: alignment between human intent and system tasks
 - status: accepted, rejected, refined
 
-  {/* ## Resources & references */}
-  {/* NeuroSync */}
+## Actions
+
+- record: capture an interpretive act with its context and background
+- accept: validate and confirm an interpretation as correct
+- reject: decline an interpretation with reasons
+- refine: adjust or improve an interpretation based on feedback
+
+
+## Synchronisations
+
+- Conversation
+- Task
+- Planning
+- Delegation
+- Commitment
+- Domain
+- Intervention
+- Trigger
+
+{/*
+### Interpretation-Conversation
+- Conversation.start → Interpretation.record: New conversations record interpretive acts connecting intent with understanding
+- Interpretation.accept → Conversation.logEvent: Accepted interpretations are logged into the conversation for shared reference
+- Interpretation.reject → Conversation → Intervention.raise: Rejected interpretations trigger interventions through conversations
+
+### Interpretation-Task
+- Task.create → Interpretation.record: New tasks record interpretive acts connecting intent with execution
+- Interpretation.refine → Task.update: Interpretation refinements update task specifications
+- Task.complete → Interpretation.validate: Task completion validates the interpretation accuracy
+
+### Interpretation-Planning
+- Planning.initiate → Interpretation.record: New planning contexts record interpretive acts about objectives
+- Interpretation.accept → Planning.validate: Accepted interpretations inform plan validation
+- Planning.revise → Interpretation.refine: Plan revisions may require interpretation refinement
+
+### Interpretation-Delegation
+- Delegation.negotiate → Interpretation.record: Delegation negotiations record interpretive acts about authority and scope
+- Interpretation.accept → Delegation.transfer: Accepted interpretations enable authority transfer
+- Delegation.adjust → Interpretation.refine: Delegation changes may require interpretation refinement
+
+### Interpretation-Commitment
+- Commitment.commit → Interpretation.record: New commitments record interpretive acts about obligations
+- Interpretation.accept → Commitment.validate: Accepted interpretations validate commitment feasibility
+- Commitment.reschedule → Interpretation.refine: Commitment changes may require interpretation updates
+
+### Interpretation-Domain
+- Domain.assign → Interpretation.record: Domain assignment records the interpretive context for understanding
+- Interpretation.accept → Domain.validate: Accepted interpretations are validated against domain criteria
+- Domain evolution → Interpretation.refine: Domain changes may require interpretation refinement
+
+### Interpretation-Intervention
+- Interpretation.reject → Intervention.raise: Rejected interpretations trigger interventions for clarification
+- Intervention → Interpretation.refine: Interventions may lead to interpretation refinement
+- Interpretation gaps → Intervention: Missing or unclear interpretations trigger intervention requests
+
+### Interpretation-Trigger
+- Interpretation patterns → Trigger: Recurring interpretation types can trigger automated assistance
+- Interpretation.reject → Trigger → Intervention.raise: Rejected interpretations trigger clarification workflows
+- Interpretation.accept → Trigger: Accepted interpretations can trigger execution or follow-up actions
+*/}
+
+{/* ## Resources & references */}
+{/* NeuroSync */}

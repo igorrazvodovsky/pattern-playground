@@ -32,8 +32,6 @@ export class PpAvatar extends HTMLElement {
   }
 }
 
-customElements.define('pp-avatar', PpAvatar);
-
 declare global {
   interface HTMLElementTagNameMap {
     "pp-avatar": PpAvatar;

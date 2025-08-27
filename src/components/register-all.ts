@@ -42,7 +42,7 @@ export function registerAllComponents(): void {
     { tagName: 'pp-tooltip', constructor: PpTooltip },
     { tagName: 'pp-modal', constructor: PPModal },
     { tagName: 'pp-table', constructor: SimpleTable },
-    { tagName: 'pp-priority-plus', constructor: PpPriorityPlus },
+    { tagName: 'pp-p-plus', constructor: PpPriorityPlus },
     
     // Chart primitives
     { tagName: 'pp-chart-grid', constructor: PpChartGrid },

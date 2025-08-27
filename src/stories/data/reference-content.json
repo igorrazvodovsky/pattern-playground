@@ -14,25 +14,17 @@
               "type": "reference",
               "attrs": {
                 "id": "user-1",
-                "label": "Elena Petrova",
-                "type": "user",
-                "metadata": {
-                  "role": "Environmental Scientist",
-                  "department": "Sustainability"
-                }
+                "label": "Megan Wilkinson",
+                "type": "user"
               }
             },
             { "type": "text", "text": ", with input from the circular economy team working on " },
             {
               "type": "reference",
               "attrs": {
-                "id": "project-1",
+                "id": "PRJ-1",
                 "label": "Customer Survey Analysis",
-                "type": "project",
-                "metadata": {
-                  "status": "active",
-                  "priority": "high"
-                }
+                "type": "project"
               }
             },
             { "type": "text", "text": ". Please review the " },
@@ -41,11 +33,7 @@
               "attrs": {
                 "id": "doc-climate-change",
                 "label": "Climate Change Impact Report",
-                "type": "document",
-                "metadata": {
-                  "type": "analysis",
-                  "lastUpdated": "2024-01-15"
-                }
+                "type": "document"
               }
             },
             { "type": "text", "text": " and the " },
@@ -54,11 +42,7 @@
               "attrs": {
                 "id": "doc-circular-economy",
                 "label": "Circular Economy Implementation Guide",
-                "type": "document",
-                "metadata": {
-                  "type": "strategy",
-                  "lastUpdated": "2024-01-20"
-                }
+                "type": "document"
               }
             },
             { "type": "text", "text": " before the next meeting. For technical questions, contact " },
@@ -176,7 +160,7 @@
     }
   },
   {
-    "id": "project-planning-content",
+    "id": "PRJ-planning-content",
     "name": "Project Planning Content",
     "description": "Multi-reference content for project planning scenarios",
     "content": {
@@ -189,7 +173,7 @@
             {
               "type": "reference",
               "attrs": {
-                "id": "project-2",
+                "id": "PRJ-2",
                 "label": "Sustainability Audit",
                 "type": "project",
                 "metadata": {

@@ -20,14 +20,7 @@ system, and complete execution when all criteria are satisfied and specified out
 ## State
 
 - specification: the formal or informal description of what needs to be accomplished
-- status: current execution state:
-  - uninitialized: No task exists
-  - submitted: User has provided a task request
-  - planning: System is analysing the request and formulating an approach
-  - executing: System is actively performing work using tools and knowledge
-  - asking: System requires user clarification or input to proceed
-  - completed: Task has been fulfilled and results delivered
-  - failed: Task could not be completed due to insurmountable obstacles
+- status: submitted, planning, executing, clarifying, completed, failed
 - requester: the actor who initiated the task
 - fulfiller: the actor responsible for execution
 - resources: available tools, information, and capabilities accessible to the actor
@@ -74,15 +67,66 @@ system, and complete execution when all criteria are satisfied and specified out
 
 {/* Uninitialized → Submitted → Planning → Executing → (potentially Asking → Executing cycles) → Completed/Failed. */}
 
-## TODO: Synchronizations
+## Synchronisations
 
-- Task creation: Create a task, capture acceptance criteria and authority, and open the conversation
-- Coordination establishment?
-- Execution feedback
-- Adaptive restructuring
-- Task completion → seek acceptance (optional): when the fulfiller marks the task complete, don’t auto-close; prompt authority to accept or reject.
-- Acceptance closes conversation; optional follow-ons: Authority declares accepted → conversation completes and can trigger the next step.
-- Acceptance triggers notification to requester.
+- Conversation
+- Planning
+- Delegation
+- Commitment
+- Domain
+- Intervention
+- Trigger
+- Interpretation
+
+{/*
+### Task-Conversation
+- Task.create → Conversation.start: Creating a task opens a conversation with acceptance criteria and authority
+- Task.complete → Conversation.declareSatisfied: Task completion prompts the authority to declare satisfaction
+- Conversation.declareSatisfied → Task (accepted): Conversation satisfaction accepts and closes the task
+- Conversation.close → Task.fail: Conversations closed without satisfaction mark tasks as failed
+
+### Task-Planning
+- Planning.decompose → Task.create: Objective decomposition automatically generates corresponding task hierarchies
+- Planning.structure → Task.addDependency: Temporal ordering establishes dependencies between tasks
+- Task.report → Planning.monitor: Task progress feeds back to planning for adaptive restructuring
+- Planning.revise → Task.update: Plan modifications trigger updates to task specifications and dependencies
+- Task.fail → Planning.analyse: Task failures initiate replanning to address obstacles
+- Planning.approve → Task.assign: Approved plans enable task assignment to capable actors
+
+### Task-Delegation
+- Delegation.transfer → Task.assign: Delegated authority enables direct task assignment within granted scope
+- Task.block → Delegation.escalate: Blocked tasks trigger escalation when exceeding delegated authority
+- Task.complete → Delegation.evaluate: Task completion provides performance data for capability assessment
+- Delegation.adjust → Task.update: Changes in delegated scope require task specification updates
+- Task.fail → Delegation.takeback: Task failures may trigger authority reclamation
+
+### Task-Commitment
+- Task.assign → Commitment.commit: Task assignment creates corresponding commitments from fulfilers
+- Commitment.reschedule → Task.retime: Commitment rescheduling updates task deadlines
+- Task.complete → Commitment (review): Task completion prompts commitment review rather than auto-fulfillment
+- Task.cancel → Commitment.clear: Task cancellation voids associated commitments
+
+### Task-Domain
+- Task.create → Domain.assign: New tasks are assigned to appropriate domains for context
+- Domain.criteria → Task.validate: Domain-specific criteria inform task validation and success conditions
+- Domain boundaries → Task.coordinate: Tasks coordinate across domain boundaries when necessary
+
+### Task-Intervention
+- Task.block → Intervention.raise: Blocked tasks trigger interventions for resolution
+- Task overdue → Intervention: Tasks past deadline without completion trigger interventions
+- Task.request → Intervention.raise: Fulfiler requests for clarification raise interventions
+- Intervention.resolve → Task.resume: Intervention resolutions enable blocked tasks to resume
+
+### Task-Trigger
+- Task.complete → Trigger: Task completion can trigger follow-on tasks or conversations
+- Task patterns → Trigger: Recurring task patterns can trigger automated task creation
+- Task.fail → Trigger: Task failures can trigger retry or escalation rules
+
+### Task-Interpretation
+- Task.create → Interpretation.record: New tasks record interpretive acts connecting intent with execution
+- Interpretation.refine → Task.update: Interpretation refinements update task specifications
+- Task.complete → Interpretation.validate: Task completion validates the interpretation accuracy
+*/}
 
 ## Related patterns
 

@@ -77,9 +77,6 @@ export const CommentDrawer: React.FC<CommentDrawerProps> = ({
               ></iconify-icon>
               <div>
                 <p>No comments yet</p>
-                <p>
-                  Select text and click "Comment" to start a discussion
-                </p>
               </div>
             </div>
           ) : (

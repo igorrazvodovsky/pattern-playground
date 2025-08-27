@@ -2,7 +2,6 @@
 import usersData from './users.json' with { type: 'json' };
 import projectsData from './projects.json' with { type: 'json' };
 import documentsData from './documents.json' with { type: 'json' };
-import documentContentData from './document-content.json' with { type: 'json' };
 import referenceContentData from './reference-content.json' with { type: 'json' };
 import editorContentData from './editor-content.json' with { type: 'json' };
 import commentThreadsData from './comment-threads.json' with { type: 'json' };
@@ -22,7 +21,6 @@ import filterDatesData from './filter-dates.json' with { type: 'json' };
 export const users = usersData;
 export const projects = projectsData;
 export const documents = documentsData;
-export const documentContent = documentContentData;
 export const referenceContent = referenceContentData;
 export const editorContent = editorContentData;
 export const commentThreads = commentThreadsData;
@@ -66,7 +64,7 @@ export const getDocumentById = (id: string) => {
 };
 
 export const getDocumentContentById = (id: string) => {
-  return documentContent.find(doc => doc.id === id);
+  return documents.find(doc => doc.id === id);
 };
 
 export const getReferenceContentById = (id: string) => {
@@ -78,7 +76,7 @@ export const getEditorContentById = (id: string) => {
 };
 
 export const getDocumentContentBySection = (documentId: string, sectionId: string) => {
-  const doc = documentContent.find(doc => doc.id === documentId);
+  const doc = documents.find(doc => doc.id === documentId);
   if (!doc) return null;
   
   const section = doc.sections?.find(section => section.id === sectionId);
@@ -86,7 +84,7 @@ export const getDocumentContentBySection = (documentId: string, sectionId: strin
 };
 
 export const getDocumentContentText = (documentId: string, sectionId?: string) => {
-  const doc = documentContent.find(doc => doc.id === documentId);
+  const doc = documents.find(doc => doc.id === documentId);
   if (!doc) return '';
   
   if (sectionId) {
@@ -94,11 +92,11 @@ export const getDocumentContentText = (documentId: string, sectionId?: string) =
     return section?.text || '';
   }
   
-  return doc.content.plainText;
+  return doc.content?.plainText || '';
 };
 
 export const getDocumentContentRich = (documentId: string, sectionId?: string) => {
-  const doc = documentContent.find(doc => doc.id === documentId);
+  const doc = documents.find(doc => doc.id === documentId);
   if (!doc) return null;
   
   if (sectionId) {
@@ -106,16 +104,72 @@ export const getDocumentContentRich = (documentId: string, sectionId?: string) =
     if (section) {
       // For sections, we need to extract the relevant rich content portion
       // For now, return the full document rich content - this could be enhanced
-      return doc.content.richContent;
+      return doc.content?.richContent;
     }
     return null;
   }
   
-  return doc.content.richContent;
+  return doc.content?.richContent;
 };
 
 export const getCommentThreadSetupById = (id: string) => {
   return commentThreads.find(setup => setup.id === id);
+};
+
+// Dynamic reference resolution utility
+export const resolveReferenceData = (id: string, type: string) => {
+  switch (type) {
+    case 'user':
+      const user = users.find(u => u.id === id);
+      return user ? {
+        id: user.id,
+        name: user.name,
+        icon: user.icon,
+        type: user.type,
+        description: user.description,
+        searchableText: user.searchableText,
+        metadata: { ...user.metadata, description: user.description }
+      } : null;
+    
+    case 'project':
+      const project = projects.find(p => p.id === id);
+      return project ? {
+        id: project.id,
+        name: project.name,
+        icon: project.icon,
+        type: project.type,
+        description: project.description,
+        searchableText: project.searchableText,
+        metadata: { ...project.metadata, description: project.description }
+      } : null;
+    
+    case 'document':
+      const document = documents.find(d => d.id === id);
+      return document ? {
+        id: document.id,
+        name: document.name,
+        icon: document.icon,
+        type: document.type,
+        description: document.description,
+        searchableText: document.searchableText,
+        metadata: { ...document.metadata, description: document.description }
+      } : null;
+    
+    case 'quote':
+      const quote = quotes.find(q => q.id === id);
+      return quote ? {
+        id: quote.id,
+        name: quote.name,
+        icon: quote.icon,
+        type: quote.type,
+        description: quote.description,
+        searchableText: quote.searchableText,
+        metadata: { ...quote.metadata, description: quote.description }
+      } : null;
+    
+    default:
+      return null;
+  }
 };
 
 export const getTaskById = (id: string) => {
@@ -203,7 +257,6 @@ export const searchQuotes = (searchText: string) => {
 export type User = typeof users[0];
 export type Project = typeof projects[0];
 export type Document = typeof documents[0];
-export type DocumentContent = typeof documentContent[0];
 export type ReferenceContent = typeof referenceContent[0];
 export type EditorContent = typeof editorContent[0];
 export type CommentThreadSetup = typeof commentThreads[0];
@@ -234,7 +287,7 @@ export const referenceCategories = [
       icon: 'ph:user',
       searchableText: item.name.toLowerCase(),
       type: 'user' as const,
-      metadata: item.metadata
+      metadata: { ...item.metadata, description: item.description }
     }))
   },
   {
@@ -248,7 +301,7 @@ export const referenceCategories = [
       icon: 'ph:file-text',
       searchableText: item.name.toLowerCase(),
       type: 'document' as const,
-      metadata: item.metadata
+      metadata: { ...item.metadata, description: item.description }
     }))
   },
   {
@@ -262,7 +315,7 @@ export const referenceCategories = [
       icon: 'ph:folder',
       searchableText: item.name.toLowerCase(),
       type: 'project' as const,
-      metadata: item.metadata
+      metadata: { ...item.metadata, description: item.description }
     }))
   },
   {
@@ -276,7 +329,7 @@ export const referenceCategories = [
       icon: 'ph:quotes',
       searchableText: quote.searchableText,
       type: 'quote' as const,
-      metadata: quote.metadata
+      metadata: { ...quote.metadata, description: quote.description }
     }))
   }
 ];
@@ -294,7 +347,7 @@ export const basicReferenceCategories = [
       icon: 'ph:user',
       searchableText: item.name.toLowerCase(),
       type: 'user' as const,
-      metadata: item.metadata
+      metadata: { ...item.metadata, description: item.description }
     }))
   }
 ];

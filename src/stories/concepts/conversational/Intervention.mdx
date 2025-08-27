@@ -16,23 +16,69 @@ When an actor raises an intervention on an entity, record the reason and type, a
 
 - status: open, resolved
 - target: task
-- raisedBy
+- raised by
 - type: exception, escalation, clarification, etc.
 - reason
-- createdAt
-- followUp
+- created at
+- followup
 
 ## Actions
 
 - raise
-- startFollowUp
+- start followup
 - resolve
 
 ## Synchronisations
 
-- Conversation → Intervention: Any actor in a conversation can raise an intervention
-- Task → Intervention: Task past deadline or blocked by dependencies can trigger an intervention
-- Task → Intervention: Fulfiller requests clarification
-- Intervention → Conversation: Escalation triggers a higher-authority conversation
-- Intervention → Task: Clarification triggers a decision task
-- 
+- Conversation
+- Task
+- Planning
+- Delegation
+- Commitment
+- Domain
+- Trigger
+- Interpretation
+
+{/*
+### Intervention-Conversation
+- Conversation → Intervention.raise: Any actor in a conversation can raise interventions for issues or clarifications
+- Intervention.resolve → Conversation.logEvent: Intervention resolutions are communicated back to the conversation
+- Intervention → Conversation.start: Escalation triggers higher-authority conversations for resolution
+
+### Intervention-Task
+- Task.block → Intervention.raise: Blocked tasks trigger interventions for resolution
+- Task overdue → Intervention: Tasks past deadline without completion trigger interventions
+- Task.request → Intervention.raise: Fulfiler requests for clarification raise interventions
+- Intervention.resolve → Task.resume: Intervention resolutions enable blocked tasks to resume
+- Intervention → Task.create: Clarification interventions may create decision tasks for resolution
+
+### Intervention-Planning
+- Planning.analyse → Intervention.raise: Resource or capability gaps trigger interventions during analysis
+- Intervention.resolve → Planning.revise: Intervention resolutions inform plan modifications
+- Planning overdue → Intervention: Stalled planning processes trigger interventions for unblocking
+
+### Intervention-Delegation
+- Delegation.escalate → Intervention.raise: Authority gaps trigger interventions for resolution
+- Intervention.resolve → Delegation.adjust: Intervention resolutions may modify delegation parameters
+- Delegation overdue → Intervention: Stuck delegations trigger interventions for unblocking
+
+### Intervention-Commitment
+- Commitment overdue → Intervention: Commitments past deadline trigger interventions for escalation or clarification
+- Intervention.resolve → Commitment.reschedule: Intervention resolutions may result in commitment rescheduling
+- Intervention → Commitment.clear: Some interventions may void commitments when tasks become impossible
+
+### Intervention-Domain
+- Domain mismatch → Intervention.raise: Requests not fitting existing domains trigger interventions
+- Intervention.resolve → Domain.defineCategory: Interventions may result in new domain categories
+- Domain boundaries → Intervention: Work crossing domain boundaries may trigger coordination interventions
+
+### Intervention-Trigger
+- Intervention patterns → Trigger: Recurring intervention types can trigger automated prevention measures
+- Intervention.resolve → Trigger: Intervention resolutions can trigger follow-up actions or monitoring
+- System errors → Trigger → Intervention.raise: Automated error detection triggers intervention creation
+
+### Intervention-Interpretation
+- Interpretation.reject → Intervention.raise: Rejected interpretations trigger interventions for clarification
+- Intervention → Interpretation.refine: Interventions may lead to interpretation refinement
+- Interpretation gaps → Intervention: Missing or unclear interpretations trigger intervention requests
+*/}

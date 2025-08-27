@@ -2,7 +2,7 @@
   dialog.drawer {
     grid-template-rows: auto 1fr auto;
     align-items: start;
-    gap: var(--space-xl);
+    gap: var(--space-m);
 
     min-inline-size: 20rem;
     max-inline-size: 24rem;

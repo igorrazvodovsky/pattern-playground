@@ -1,9 +1,8 @@
 import { LitElement, html, CSSResultGroup, unsafeCSS } from 'lit';
-import { customElement, state } from 'lit/decorators.js';
+import { state } from 'lit/decorators.js';
 import styles from './breadcrumbs.css?inline';
 
 
-@customElement('pp-breadcrumbs')
 export class PpBreadcrumbs extends LitElement {
   static styles: CSSResultGroup = [unsafeCSS(styles)];
 

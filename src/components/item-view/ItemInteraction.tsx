@@ -156,7 +156,7 @@ export const ItemInteraction = <T extends BaseItem = BaseItem>({
   return (
     <>
       {shouldEnableHoverCard ? (
-        <div style={{ position: 'relative', display: 'inline-block' }}>
+        <span style={{ position: 'relative', display: 'inline', lineHeight: 'inherit', verticalAlign: 'baseline' }}>
           {childrenWithInteraction}
           {shouldShowHoverCard && (
             <div
@@ -186,7 +186,7 @@ export const ItemInteraction = <T extends BaseItem = BaseItem>({
               />
             </div>
           )}
-        </div>
+        </span>
       ) : (
         childrenWithInteraction
       )}

@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "ES2022",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     // https://lit.dev/docs/components/decorators/#decorators-typescript
     "useDefineForClassFields": false,
     "module": "ESNext",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
     "jsx": "react-jsx",
+    "downlevelIteration": true,
 
     /* Bundler mode */
     "moduleResolution": "bundler",

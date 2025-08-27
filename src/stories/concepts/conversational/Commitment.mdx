@@ -24,10 +24,53 @@ If a party commits to complete a task and updates progress, others can coordinat
 
 ## Synchronisations
 
-- Task.assign → Commitment.commit: When a task is assigned, it creates a corresponding commitment.
-- Commitment.reschedule → Task.retime: When a commitment is rescheduled, the task’s deadline is updated.
-- Task.complete → Conversation (review) → SatisfactionCondition: Completing the task doesn’t auto-close the commitment. Instead, it prompts the authority to review and accept.
-- SatisfactionCondition.declareAccepted → Commitment (fulfilled): Once the requester declares satisfaction, the commitment is fulfilled and can be closed.
-- Task.cancel → Commitment.clear:Cancelling a task voids the associated commitment.
-- Commitment overdue → Intervention: If the deadline passes and no acceptance is declared, raise an intervention (exception, escalation, or clarification)
-- Commitment.reschedule → Conversation: If someone reschedules or changes a commitment, the update is posted into the conversation so stakeholders are informed.
+- Conversation
+- Task
+- Planning
+- Delegation
+- Domain
+- Intervention
+- Trigger
+
+{/*
+### Commitment-Task
+- Task.assign → Commitment.commit: Task assignment creates corresponding commitments from fulfilers
+- Commitment.reschedule → Task.retime: Commitment rescheduling updates task deadlines
+- Task.complete → Commitment (review): Task completion prompts commitment review rather than auto-fulfillment
+- Task.cancel → Commitment.clear: Task cancellation voids associated commitments
+
+### Commitment-Conversation
+- Commitment.commit → Conversation.logEvent: New commitments are logged into conversations for transparency
+- Commitment.reschedule → Conversation.logEvent: Commitment changes are communicated to stakeholders
+- Conversation.declareSatisfied → Commitment (fulfilled): Conversation satisfaction fulfills associated commitments
+
+### Commitment-Planning
+- Planning.approve → Commitment.commit: Approved plans create commitments from assigned actors
+- Commitment.reschedule → Planning.revise: Commitment changes may trigger plan timeline adjustments
+- Planning.monitor → Commitment tracking: Plan monitoring includes tracking commitment fulfillment
+
+### Commitment-Delegation
+- Delegation.transfer → Commitment.commit: Delegated authority creates corresponding commitments from the delegate
+- Commitment.reschedule → Delegation.adjust: Commitment changes may require delegation scope adjustments
+- Delegation.evaluate → Commitment (trust update): Performance evaluation updates trust levels for future commitments
+
+### Commitment-Domain
+- Domain.criteria → Commitment.commit: Domain-specific criteria inform commitment deadlines and acceptance criteria
+- Commitment.reschedule → Domain.validate: Commitment changes are validated against domain constraints
+- Domain standards → Commitment evaluation: Domain standards guide commitment fulfillment assessment
+
+### Commitment-Intervention
+- Commitment overdue → Intervention: Commitments past deadline trigger interventions for escalation or clarification
+- Intervention.resolve → Commitment.reschedule: Intervention resolutions may result in commitment rescheduling
+- Intervention → Commitment.clear: Some interventions may void commitments when tasks become impossible
+
+### Commitment-Trigger
+- Commitment.commit → Trigger: New commitments can trigger reminder or monitoring workflows
+- Commitment overdue → Trigger → Intervention.raise: Automated deadline monitoring triggers interventions
+- Commitment.fulfill → Trigger: Fulfilled commitments can trigger follow-up actions or notifications
+
+### Commitment-SatisfactionCondition
+- SatisfactionCondition.declareAccepted → Commitment (fulfilled): Satisfaction declaration fulfills associated commitments
+- Commitment.commit → SatisfactionCondition.attach: New commitments attach corresponding satisfaction conditions
+- SatisfactionCondition.declareRejected → Commitment.reschedule: Rejected satisfaction may trigger commitment rescheduling
+*/}

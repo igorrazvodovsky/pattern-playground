@@ -1,4 +1,5 @@
 import { Meta } from '@storybook/addon-docs/blocks';
+import { MermaidDiagram } from '../../../components/MermaidDiagram';
 
 <Meta title="Concepts/Conversation" />
 
@@ -33,9 +34,32 @@ If an actor requests an action on a topic and another actor accepts, the convers
 
 ## Synchronisations
 
-- Conversation ↔ Breakdown: If a conversation is closed without meeting its conditions, mark it as a breakdown and possibly start a repair conversation.
-- Conversation ↔ Triggering: Finishing one conversation can trigger another (e.g., customer order completion triggers a follow-up survey conversation).
--
+### Initiation and setup
+- Conversation.start → Planning.initiate: Starting a complex conversation can trigger planning to decompose the request into structured work
+- Conversation.start → Domain.assign: New conversations are assigned to appropriate domains for context and criteria
+- Conversation.start → Interpretation.record: New conversations record interpretive acts connecting intent with understanding
+
+### Work execution
+- Conversation.accept → Task.create: Accepting a conversation request creates corresponding tasks for execution
+- Task.complete → Conversation.declareSatisfied: Task completion prompts the authority to declare satisfaction in the conversation
+
+### Authority and delegation
+- Conversation → Delegation.negotiate: Complex conversations may require delegation of authority to capable actors
+- Delegation.complete → Conversation.logEvent: Delegation completion is logged back into the originating conversation
+
+### Issue resolution
+- Conversation → Intervention.raise: Any actor in a conversation can raise interventions for issues or clarifications
+- Intervention.resolve → Conversation.logEvent: Intervention resolutions are communicated back to the conversation
+
+### Completion and follow-up
+- Conversation.declareSatisfied → Commitment (fulfilled): Declaring satisfaction fulfills any associated commitments
+- Conversation ↔ Breakdown: If a conversation is closed without meeting its conditions, mark it as a breakdown and possibly start a repair conversation
+- Conversation ↔ Triggering: Finishing one conversation can trigger another (e.g., customer order completion triggers a follow-up survey conversation)
+
+### Transparency and logging
+- Planning.approve → Conversation.logEvent: When a plan is approved, the approval is logged into the conversation for transparency
+- Domain.assign → Conversation.logEvent: Domain assignment is broadcast into the conversation for stakeholder awareness
+- Interpretation.accept → Conversation.logEvent: Accepted interpretations are logged into the conversation for shared reference
 
 {/* ## Notes */}
 

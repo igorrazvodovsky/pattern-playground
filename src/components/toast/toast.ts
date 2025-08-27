@@ -133,7 +133,6 @@ export class PpToast extends HTMLElement {
   }
 }
 
-customElements.define('pp-toast', PpToast);
 declare global {
   interface HTMLElementTagNameMap {
     "pp-toast": PpToast;

@@ -26,12 +26,58 @@ When a request is assigned to a domain, then its conditions of satisfaction and 
 
 ## Synchronisations
 
-- Domain → Satisfaction condition: When a request is assigned to a domain, its condition of satisfaction can be derived automatically.
-- Domain → Conversation: When you assign a request to a domain, broadcast it into the conversation so everyone knows what framework applies.
-- Intervention → Domain: If a request doesn’t fit any existing domain (e.g., customer wants an exotic customisation), raise an intervention.
-- Commitment → Domain: Commitments may draw deadlines or acceptance criteria from the domain.
+- Conversation
+- Task
+- Planning
+- Delegation
+- Commitment
+- Intervention
+- Trigger
+- Interpretation
 
-## Limitations and risks
-- Incomplete by design: no domain anticipates every breakdown.
-- Interpretive: what counts as belonging to a domain is negotiated by actors.
+{/*
+### Domain-Conversation
+- Conversation.start → Domain.assign: New conversations are assigned to appropriate domains for context and criteria
+- Domain.assign → Conversation.logEvent: Domain assignment is broadcast into the conversation for stakeholder awareness
+- Conversation satisfaction → Domain criteria: Conversation completion validates domain-specific success criteria
 
+### Domain-Task
+- Task.create → Domain.assign: New tasks are assigned to appropriate domains for context
+- Domain.criteria → Task.validate: Domain-specific criteria inform task validation and success conditions
+- Domain boundaries → Task.coordinate: Tasks coordinate across domain boundaries when necessary
+
+### Domain-Planning
+- Planning.initiate → Domain.assign: New planning contexts are assigned to appropriate domains
+- Domain.criteria → Planning.validate: Domain-specific criteria inform plan validation and feasibility
+- Planning.decompose → Domain boundaries: Task decomposition respects domain expertise boundaries
+
+### Domain-Delegation
+- Domain → Delegation.assess: Domain expertise requirements inform delegation capability matching
+- Delegation.transfer → Domain.assign: Delegated work is assigned to appropriate domains for context
+- Domain boundaries → Delegation.constraint: Domain limitations become constraints on delegated authority
+
+### Domain-Commitment
+- Domain.criteria → Commitment.commit: Domain-specific criteria inform commitment deadlines and acceptance criteria
+- Commitment.reschedule → Domain.validate: Commitment changes are validated against domain constraints
+- Domain standards → Commitment evaluation: Domain standards guide commitment fulfillment assessment
+
+### Domain-Intervention
+- Domain mismatch → Intervention.raise: Requests not fitting existing domains trigger interventions
+- Intervention.resolve → Domain.defineCategory: Interventions may result in new domain categories
+- Domain boundaries → Intervention: Work crossing domain boundaries may trigger coordination interventions
+
+### Domain-Trigger
+- Domain patterns → Trigger: Recurring domain-specific patterns can trigger automated actions
+- Domain.assign → Trigger: Domain assignment can trigger domain-specific workflows or notifications
+- Domain evolution → Trigger → Domain.addProperty: Domain usage patterns trigger automated domain refinement
+
+### Domain-Interpretation
+- Domain.assign → Interpretation.record: Domain assignment records the interpretive context for understanding
+- Interpretation.accept → Domain.validate: Accepted interpretations are validated against domain criteria
+- Domain evolution → Interpretation.refine: Domain changes may require interpretation refinement
+
+### Domain-SatisfactionCondition
+- Domain.assign → SatisfactionCondition.derive: Domain assignment automatically derives conditions of satisfaction
+- SatisfactionCondition.declare → Domain.validate: Satisfaction declarations are validated against domain criteria
+- Domain.criteria → SatisfactionCondition.update: Domain criteria changes update associated satisfaction conditions
+ */}

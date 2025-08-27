@@ -8,14 +8,18 @@ export type ReferenceMode = typeof REFERENCE_MODES[number];
 
 export interface ReferenceCategory {
   id: string;
-  label: string;
-  items: ReferenceItem[];
+  name: string;
+  icon?: string;
+  searchableText?: string;
+  children?: ReferenceItem[];
   metadata?: Record<`${string}`, unknown>;
 }
 
 export interface ReferenceItem {
   id: string;
-  label: string;
+  name: string;
+  icon?: string;
+  searchableText?: string;
   type: ReferenceType;
   metadata?: Record<`${string}`, unknown>;
 }

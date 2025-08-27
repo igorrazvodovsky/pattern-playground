@@ -58,8 +58,16 @@ class ComponentRegistry {
   }
 
   private defineComponent(definition: ComponentDefinition): void {
+    // Check if already registered in our registry
     if (this.registered.has(definition.tagName)) {
-      console.warn(`Component ${definition.tagName} is already registered`);
+      console.warn(`Component ${definition.tagName} is already registered in ComponentRegistry`);
+      return;
+    }
+
+    // Check if already defined in the browser's custom elements registry
+    if (customElements.get(definition.tagName)) {
+      console.warn(`Component ${definition.tagName} is already defined in customElements`);
+      this.registered.add(definition.tagName); // Mark as registered to avoid future attempts
       return;
     }
 

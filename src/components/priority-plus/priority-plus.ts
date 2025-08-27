@@ -29,7 +29,6 @@ export class PpPriorityPlus extends LitElement {
   }
 }
 
-customElements.define('pp-p-plus', PpPriorityPlus);
 declare global {
   interface HTMLElementTagNameMap {
     'pp-p-plus': PpPriorityPlus;

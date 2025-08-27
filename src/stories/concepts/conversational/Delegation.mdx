@@ -44,23 +44,65 @@ and reclaim authority when the delegation is complete or needs to be revoked.
 - complete: conclude delegation when objectives are achieved
 - evaluate: assess delegation outcomes and update trust and capability assessments
 
-## Synchronization
+## Synchronisations
 
+- Conversation
+- Task
+- Planning
+- Commitment
+- Domain
+- Intervention
+- Trigger
+- Interpretation
+
+{/*
 ### Planning-Delegation
 
-...
+- Planning.decompose → Delegation.assess: Complex objectives trigger assessment of delegate capabilities for sub-planning
+- Planning.analyse → Delegation.negotiate: Resource and capability analysis informs delegation scope and authority levels
+- Delegation.transfer → Planning.monitor: Transferred planning authority creates monitoring requirements for the delegator
+- Delegation.escalate → Planning.revise: When delegates encounter planning boundaries, original planners revise or expand scope
+- Planning.optimise → Delegation.adjust: Plan optimisations may require adjustments to delegated authority and constraints
 
 ### Delegation-Task
 
-...
+- Delegation.transfer → Task.assign: Delegated authority enables direct task assignment within the granted scope
+- Task.block → Delegation.escalate: Blocked tasks trigger escalation when they exceed delegated decision-making authority
+- Task.complete → Delegation.evaluate: Task completion provides performance data for trust and capability assessment
+- Delegation.adjust → Task.update: Changes in delegated scope require corresponding updates to task specifications
+- Task.fail → Delegation.takeback: Task failures may trigger authority reclamation for direct intervention
 
-## To do
+### Delegation-Conversation
 
-- Delegation serves as a bridging mechanism that enhances the overall planning-task capabilities
-- Planning system can delegate not just task execution but also sub-planning authority, enabling recursive delegation where delegates can further delegate within their granted scope
-- The delegation enables coordination of intelligence across different actor types and capability levels.
-- Delegation provides mechanisms for systems to evolve trust relationships over time, enabling gradual expansion of delegated authority based on demonstrated capability and reliability. This might create learning systems that become more efficient through accumulated delegation experience.
-- Actor-agnostic coordination
+- Conversation → Delegation.negotiate: Complex conversations may require delegation of authority to capable actors
+- Delegation.transfer → Conversation.logEvent: Authority transfers are logged into conversations for transparency
+- Delegation.escalate → Conversation.start: Escalations create new conversations with higher authority levels
+- Delegation.complete → Conversation.logEvent: Delegation completion is communicated back to stakeholders
+
+### Delegation-Commitment
+
+- Delegation.transfer → Commitment.commit: Delegated authority creates corresponding commitments from the delegate
+- Commitment.reschedule → Delegation.adjust: Commitment changes may require delegation scope adjustments
+- Delegation.evaluate → Commitment (trust update): Performance evaluation updates trust levels for future delegations
+
+### Delegation-Domain
+
+- Domain → Delegation.assess: Domain expertise requirements inform delegation capability matching
+- Delegation.transfer → Domain.assign: Delegated work is assigned to appropriate domains for context
+- Domain boundaries → Delegation.constraint: Domain limitations become constraints on delegated authority
+
+### Delegation-Intervention
+
+- Delegation.escalate → Intervention.raise: Authority gaps trigger interventions for resolution
+- Intervention.resolve → Delegation.adjust: Intervention resolutions may modify delegation parameters
+- Delegation overdue → Intervention: Stuck delegations trigger interventions for unblocking
+
+### Delegation-Trigger
+
+- Task patterns → Trigger → Delegation.assess: Recurring task patterns can trigger automated delegation assessments
+- Delegation.complete → Trigger: Successful delegations can trigger similar future delegations
+- Authority gaps → Trigger → Delegation.escalate: Systematic authority gaps trigger escalation rules
+*/}
 
 ## Resources & references
 

@@ -114,11 +114,10 @@ export const CommentComposer: React.FC<CommentComposerProps> = ({
           style={{ flex: 1, minHeight: '38px' }}
         />
         <button
-          className={`button ${isEmpty || isSubmitting ? 'button--disabled' : ''}`}
+          className={`button button--plain ${isEmpty || isSubmitting ? 'button--disabled' : ''}`}
           onClick={handleSubmit}
           disabled={isEmpty || isSubmitting}
           type="button"
-          style={{ marginLeft: '8px' }}
         >
           {isSubmitting ? (
             <iconify-icon icon="ph:spinner" />

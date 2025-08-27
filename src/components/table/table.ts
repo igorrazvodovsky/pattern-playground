@@ -8,7 +8,6 @@
 export class SimpleTable extends HTMLElement {
 }
 
-customElements.define('pp-table', SimpleTable);
 declare global {
   interface HTMLElementTagNameMap {
     "pp-table": SimpleTable;

@@ -357,11 +357,6 @@ export class PPModal extends HTMLElement {
   }
 }
 
-// Register the custom element
-if (!customElements.get('pp-modal')) {
-  customElements.define('pp-modal', PPModal);
-}
-
 declare global {
   interface HTMLElementTagNameMap {
     "pp-modal": PPModal;

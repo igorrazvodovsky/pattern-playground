@@ -316,8 +316,6 @@ export class PpChartGrid extends LitElement implements ScaleConsumer {
   }
 }
 
-customElements.define('pp-chart-grid', PpChartGrid);
-
 declare global {
   interface HTMLElementTagNameMap {
     'pp-chart-grid': PpChartGrid;

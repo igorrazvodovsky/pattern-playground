@@ -20,13 +20,13 @@ const CommentSection: React.FC<CommentSectionProps> = ({ comments, onComment }) 
   return (
     <div className="comment-section flow">
       <h3>Comments</h3>
-      
+
       {comments.length === 0 ? (
         <p className="text-secondary">No comments yet.</p>
       ) : (
         <div className="comments-list flow-xs">
           {comments.map((comment) => (
-            <div key={comment.id} className="comment flow-2xs">
+            <div key={comment.id} className="comment">
               <header className="inline-flow">
                 <strong>{comment.author}</strong>
                 <small className="text-secondary">
@@ -38,8 +38,8 @@ const CommentSection: React.FC<CommentSectionProps> = ({ comments, onComment }) 
           ))}
         </div>
       )}
-      
-      <form onSubmit={handleSubmit} className="comment-form flow-2xs">
+
+      <form onSubmit={handleSubmit} className="comment-form">
         <textarea
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
@@ -47,8 +47,8 @@ const CommentSection: React.FC<CommentSectionProps> = ({ comments, onComment }) 
           rows={3}
           className="textarea"
         />
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           className="button button--small"
           disabled={!newComment.trim()}
         >

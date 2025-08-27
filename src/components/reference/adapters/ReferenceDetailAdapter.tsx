@@ -5,17 +5,18 @@ import { isUserReference } from '../types';
 
 export interface ReferenceDetailAdapterProps extends ItemViewProps<SelectedReference> {}
 
-export const ReferenceDetailAdapter: React.FC<ReferenceDetailAdapterProps> = ({ 
-  item: reference, 
+export const ReferenceDetailAdapter: React.FC<ReferenceDetailAdapterProps> = ({
+  item: reference,
   onEscalate,
-  onInteraction 
+  onInteraction
 }) => {
   const { type, label, metadata, id } = reference;
   const safeMetadata = metadata ?? {};
+  const description = safeMetadata.description as string | undefined;
 
   if (isUserReference(reference)) {
     const { role, email, department, location, joinDate } = safeMetadata as UserMetadata;
-    
+
     const initials = label
       ?.split(' ')
       ?.map(n => n?.at(0) ?? '')
@@ -32,6 +33,7 @@ export const ReferenceDetailAdapter: React.FC<ReferenceDetailAdapterProps> = ({
             </div>
             <div className="reference-detail__user-info">
               <h2 className="reference-detail__user-name">{label}</h2>
+              {description && <div className="reference-detail__user-description">{description}</div>}
               {role && <div className="reference-detail__user-role">{role}</div>}
               {department && <div className="reference-detail__user-department">{department}</div>}
             </div>
@@ -82,10 +84,10 @@ export const ReferenceDetailAdapter: React.FC<ReferenceDetailAdapterProps> = ({
   }
 
   return (
-    <div className="reference-detail reference-detail--generic">
+    <div className="flow">
       <div className="reference-detail__header">
         <div className="reference-detail__title-section">
-          <h2 className="reference-detail__title">{label}</h2>
+          {description && <div className="reference-detail__description">{description}</div>}
           <div className="reference-detail__type">{type}</div>
         </div>
         <div className="reference-detail__actions">
@@ -111,17 +113,16 @@ export const ReferenceDetailAdapter: React.FC<ReferenceDetailAdapterProps> = ({
           )}
         </div>
       </div>
-      
+
       <div className="reference-detail__content">
         <div className="reference-detail__id">
           <strong>ID:</strong> {id}
         </div>
-        
-        {Object.keys(safeMetadata).length > 0 && (
+
+        {Object.keys(safeMetadata).filter(key => key !== 'description').length > 0 && (
           <div className="reference-detail__metadata">
-            <h3 className="reference-detail__section-title">Properties</h3>
             <dl className="reference-detail__metadata-list">
-              {Object.entries(safeMetadata).map(([key, value]) => (
+              {Object.entries(safeMetadata).filter(([key]) => key !== 'description').map(([key, value]) => (
                 <div key={key} className="reference-detail__metadata-item">
                   <dt className="reference-detail__metadata-key">{key}</dt>
                   <dd className="reference-detail__metadata-value">{String(value ?? 'N/A')}</dd>
@@ -130,7 +131,87 @@ export const ReferenceDetailAdapter: React.FC<ReferenceDetailAdapterProps> = ({
             </dl>
           </div>
         )}
+
+        {/* Placeholder actions section */}
+          <pp-list className='borderless'>
+            {type === 'document' && (
+              <>
+                <pp-list-item>
+                  <iconify-icon className="icon" slot="prefix" icon="ph:eye"></iconify-icon>
+                  View document
+                </pp-list-item>
+                <pp-list-item>
+                  <iconify-icon className="icon" slot="prefix" icon="ph:download-simple"></iconify-icon>
+                  Download
+                </pp-list-item>
+                <pp-list-item>
+                  <iconify-icon className="icon" slot="prefix" icon="ph:share-network"></iconify-icon>
+                  Share
+                </pp-list-item>
+                <pp-list-item>
+                  <iconify-icon className="icon" slot="prefix" icon="ph:trash"></iconify-icon>
+                  Delete
+                </pp-list-item>
+              </>
+            )}
+            {type === 'user' && (
+              <>
+                <pp-list-item>
+                  <iconify-icon className="icon" slot="prefix" icon="ph:chat-circle"></iconify-icon>
+                  Send message
+                </pp-list-item>
+                <pp-list-item>
+                  <iconify-icon className="icon" slot="prefix" icon="ph:calendar-plus"></iconify-icon>
+                  Schedule meeting
+                </pp-list-item>
+                <pp-list-item>
+                  <iconify-icon className="icon" slot="prefix" icon="ph:user-plus"></iconify-icon>
+                  Add to team
+                </pp-list-item>
+              </>
+            )}
+            {type === 'project' && (
+              <>
+                <pp-list-item>
+                  <iconify-icon className="icon" slot="prefix" icon="ph:folder-open"></iconify-icon>
+                  Open project
+                </pp-list-item>
+                <pp-list-item>
+                  <iconify-icon className="icon" slot="prefix" icon="ph:users"></iconify-icon>
+                  View team
+                </pp-list-item>
+                <pp-list-item>
+                  <iconify-icon className="icon" slot="prefix" icon="ph:chart-line"></iconify-icon>
+                  View progress
+                </pp-list-item>
+                <pp-list-item>
+                  <iconify-icon className="icon" slot="prefix" icon="ph:archive"></iconify-icon>
+                  Archive project
+                </pp-list-item>
+              </>
+            )}
+            {type === 'quote' && (
+              <>
+                <pp-list-item>
+                  <iconify-icon className="icon" slot="prefix" icon="ph:copy"></iconify-icon>
+                  Copy quote
+                </pp-list-item>
+                <pp-list-item>
+                  <iconify-icon className="icon" slot="prefix" icon="ph:link"></iconify-icon>
+                  Copy link
+                </pp-list-item>
+                <pp-list-item>
+                  <iconify-icon className="icon" slot="prefix" icon="ph:bookmark-simple"></iconify-icon>
+                  Add to collection
+                </pp-list-item>
+                <pp-list-item>
+                  <iconify-icon className="icon" slot="prefix" icon="ph:trash"></iconify-icon>
+                  Delete
+                </pp-list-item>
+              </>
+            )}
+          </pp-list>
+        </div>
       </div>
-    </div>
   );
 };

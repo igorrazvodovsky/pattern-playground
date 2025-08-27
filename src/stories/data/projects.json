@@ -1,6 +1,6 @@
 [
   {
-    "id": "project-1",
+    "id": "PRJ-1",
     "name": "Urban Composting Initiative",
     "type": "project",
     "icon": "ph:recycle-fill",
@@ -9,7 +9,7 @@
     "metadata": { "status": "active", "phase": "implementation", "updatedAt": "2024-01-16T14:30:00Z", "updatedBy": "user-1" }
   },
   {
-    "id": "project-2",
+    "id": "PRJ-2",
     "name": "E-Waste Collection & Refurbishment",
     "type": "project",
     "icon": "ph:wrench-fill",
@@ -18,7 +18,7 @@
     "metadata": { "status": "active", "phase": "operations", "updatedAt": "2024-01-17T09:15:00Z", "updatedBy": "user-3" }
   },
   {
-    "id": "project-3",
+    "id": "PRJ-3",
     "name": "Closed-Loop Packaging System",
     "type": "project",
     "icon": "ph:package-fill",
@@ -27,7 +27,7 @@
     "metadata": { "status": "planning", "phase": "design", "updatedAt": "2024-01-15T16:45:00Z", "updatedBy": "user-4" }
   },
   {
-    "id": "project-4",
+    "id": "PRJ-4",
     "name": "Textile Recycling Program",
     "type": "project",
     "icon": "ph:t-shirt-fill",
@@ -36,7 +36,7 @@
     "metadata": { "status": "completed", "recycled_kg": 15000, "updatedAt": "2024-01-10T12:00:00Z", "updatedBy": "user-1", "completedAt": "2024-01-10T12:00:00Z" }
   },
   {
-    "id": "project-5",
+    "id": "PRJ-5",
     "name": "Water Conservation & Reuse",
     "type": "project",
     "icon": "ph:drop-fill",
@@ -45,7 +45,7 @@
     "metadata": { "status": "active", "partners": 5, "updatedAt": "2024-01-17T11:20:00Z", "updatedBy": "user-2" }
   },
   {
-    "id": "project-6",
+    "id": "PRJ-6",
     "name": "Renewable Energy Integration",
     "type": "project",
     "icon": "ph:wind-turbine-fill",
@@ -54,7 +54,7 @@
     "metadata": { "status": "active", "phase": "installation", "updatedAt": "2024-01-16T08:30:00Z", "updatedBy": "user-10" }
   },
   {
-    "id": "project-7",
+    "id": "PRJ-7",
     "name": "Sustainable Agriculture Network",
     "type": "project",
     "icon": "ph:leaf-fill",

@@ -190,8 +190,6 @@ export class PpChartLegend extends LitElement {
   }
 }
 
-customElements.define('pp-chart-legend', PpChartLegend);
-
 declare global {
   interface HTMLElementTagNameMap {
     'pp-chart-legend': PpChartLegend;

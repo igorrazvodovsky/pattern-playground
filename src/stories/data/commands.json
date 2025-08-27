@@ -8,11 +8,11 @@
     "searchableText": "search find locate query",
     "shortcut": ["⌘", "S"],
     "children": [
-      { "id": "search-documents", "name": "Documents", "type": "command", "icon": "ph:file-text", "searchableText": "search documents files" },
-      { "id": "search-projects", "name": "Projects", "type": "command", "icon": "ph:folder", "searchableText": "search projects" },
-      { "id": "search-tasks", "name": "Tasks", "type": "command", "icon": "ph:check-square", "searchableText": "search tasks todos" },
-      { "id": "search-people", "name": "People", "type": "command", "icon": "ph:users", "searchableText": "search people users team" },
-      { "id": "search-messages", "name": "Messages", "type": "command", "icon": "ph:chat-circle", "searchableText": "search messages chat" }
+      { "id": "search-documents", "name": "Documents", "type": "command", "icon": "ph:file-text", "description": "Search through documents and files", "searchableText": "search documents files" },
+      { "id": "search-projects", "name": "Projects", "type": "command", "icon": "ph:folder", "description": "Search within projects and workspaces", "searchableText": "search projects" },
+      { "id": "search-tasks", "name": "Tasks", "type": "command", "icon": "ph:check-square", "description": "Search tasks and to-do items", "searchableText": "search tasks todos" },
+      { "id": "search-people", "name": "People", "type": "command", "icon": "ph:users", "description": "Search for team members and contacts", "searchableText": "search people users team" },
+      { "id": "search-messages", "name": "Messages", "type": "command", "icon": "ph:chat-circle", "description": "Search conversations and messages", "searchableText": "search messages chat" }
     ]
   },
   {
@@ -24,11 +24,11 @@
     "searchableText": "create new add make",
     "shortcut": ["⌘", "N"],
     "children": [
-      { "id": "create-material", "name": "Material", "type": "command", "icon": "ph:package", "searchableText": "create material resource" },
-      { "id": "create-product", "name": "Product", "type": "command", "icon": "ph:cube", "searchableText": "create product item" },
-      { "id": "create-waste-stream", "name": "Waste Stream", "type": "command", "icon": "ph:trash", "searchableText": "create waste stream outflow" },
-      { "id": "create-shipment", "name": "Shipment", "type": "command", "icon": "ph:truck", "searchableText": "create shipment logistics" },
-      { "id": "create-bunny", "name": "Bunny", "type": "command", "icon": "ph:rabbit", "searchableText": "create bunny easter egg" }
+      { "id": "create-material", "name": "Material", "type": "command", "icon": "ph:package", "description": "Add a new material to inventory", "searchableText": "create material resource" },
+      { "id": "create-product", "name": "Product", "type": "command", "icon": "ph:cube", "description": "Create a new product in the catalog", "searchableText": "create product item" },
+      { "id": "create-waste-stream", "name": "Waste Stream", "type": "command", "icon": "ph:trash", "description": "Define a new waste stream for tracking", "searchableText": "create waste stream outflow" },
+      { "id": "create-shipment", "name": "Shipment", "type": "command", "icon": "ph:truck", "description": "Create a new shipment for logistics", "searchableText": "create shipment logistics" },
+      { "id": "create-bunny", "name": "Bunny", "type": "command", "icon": "ph:rabbit", "description": "Create an adorable bunny (Easter egg)", "searchableText": "create bunny easter egg" }
     ]
   },
   {
@@ -39,11 +39,11 @@
     "description": "Modify settings and preferences",
     "searchableText": "change modify edit update settings",
     "children": [
-      { "id": "change-theme", "name": "Theme", "type": "command", "icon": "ph:palette", "searchableText": "change theme appearance" },
-      { "id": "change-settings", "name": "Settings", "type": "command", "icon": "ph:gear", "searchableText": "change settings preferences" },
-      { "id": "change-profile", "name": "Profile", "type": "command", "icon": "ph:user", "searchableText": "change profile account" },
-      { "id": "change-workspace", "name": "Workspace", "type": "command", "icon": "ph:buildings", "searchableText": "change workspace environment" },
-      { "id": "change-language", "name": "Language", "type": "command", "icon": "ph:translate", "searchableText": "change language locale" }
+      { "id": "change-theme", "name": "Theme", "type": "command", "icon": "ph:palette", "description": "Switch between light and dark themes", "searchableText": "change theme appearance" },
+      { "id": "change-settings", "name": "Settings", "type": "command", "icon": "ph:gear", "description": "Modify application settings and preferences", "searchableText": "change settings preferences" },
+      { "id": "change-profile", "name": "Profile", "type": "command", "icon": "ph:user", "description": "Update your profile information", "searchableText": "change profile account" },
+      { "id": "change-workspace", "name": "Workspace", "type": "command", "icon": "ph:buildings", "description": "Switch to a different workspace", "searchableText": "change workspace environment" },
+      { "id": "change-language", "name": "Language", "type": "command", "icon": "ph:translate", "description": "Change the interface language", "searchableText": "change language locale" }
     ]
   }
 ]

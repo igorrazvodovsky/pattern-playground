@@ -2,6 +2,7 @@ import React from 'react';
 import type { BaseItem, ViewScope } from '../types';
 import { ItemView } from '../ItemView';
 import { ContentAdapterProvider } from '../ContentAdapterRegistry';
+import { referenceContentAdapter } from '../../reference/ReferenceContentAdapter';
 
 export interface ModalContentConfig {
   size: 'small' | 'medium' | 'large' | 'fullscreen';
@@ -30,10 +31,11 @@ export const createModalContent = (
     }
   };
 
-  // Use generic item-view without custom adapters
-  // The system will fall back to DefaultFallbackRenderer for all content types
+  // Determine which adapters to use based on content type
+  const adapters = contentType === 'reference' ? [referenceContentAdapter] : [];
+  
   return (
-    <ContentAdapterProvider adapters={[]}>
+    <ContentAdapterProvider adapters={adapters}>
       <ItemView
         item={transformedItem}
         contentType={contentType}

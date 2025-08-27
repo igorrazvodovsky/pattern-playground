@@ -270,7 +270,6 @@ setDefaultAnimation('tooltip.hide', {
   options: { duration: 150, easing: 'ease' }
 });
 
-customElements.define('pp-tooltip', PpTooltip);
 declare global {
   interface HTMLElementTagNameMap {
     "pp-tooltip": PpTooltip;

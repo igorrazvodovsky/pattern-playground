@@ -87,11 +87,11 @@
 
 /* Reference mention styles - extending existing reference styles */
 .reference-mention {
-  background-color: var(--c-accent-50);
+  background-color: var(--c-neutral-50);
   color: var(--c-accent);
   padding: 0 var(--space-xs);
   border-radius: var(--radius-s);
-  display: inline-block;
+  display: inline;
   cursor: pointer;
   transition: all 0.15s ease;
   user-select: none;
@@ -101,12 +101,11 @@
 }
 
 .reference-mention:hover {
-  background-color: var(--c-accent-100);
+  background-color: var(--c-accent-50);
 }
 
-/* Reference mention content wrapper */
-.reference-mention__content {
-  display: inline;
+.reference-mention .react-renderer {
+  display: contents;
 }
 
 /* Reference picker popup positioning */
@@ -120,3 +119,4 @@
   border-radius: var(--radius-m);
   overflow: hidden;
 }
+

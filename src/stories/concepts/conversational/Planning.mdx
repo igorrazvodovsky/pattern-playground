@@ -34,29 +34,74 @@ and adaptively restructure the organization as conditions change to maintain pro
 - analyse: assess current state, constraints, and available resources
 - decompose: break down complex objectives into manageable components
 - structure: establish temporal ordering and dependencies between components
-{/* - coordinate */}
 - optimise: refine plan to improve efficiency, reduce risk, or enhance outcomes
 - validate: verify plan feasibility
 - approve: formally authorise plan for execution
 - monitor: track execution progress
 - revise: modify plan based on changing conditions or new information
 - obsolete: retire plan when no longer relevant or superseded
+{/* - coordinate? or a separate concept */}
 
-## Synchronizations
+## Synchronisations
 
-### Plan-Task
+- Task
+- Delegation
+- Conversation
+- Commitment
+- Domain
+- Intervention
+- Trigger
 
-- Task structure creation: when planning decomposes objectives, corresponding task hierarchies are automatically generated with proper specifications and coordination requirements.
-- Execution deedback integration: task progress, completion status, and performance data feeds back to planning systems for adaptive restructuring and optimization.
+{/*
+### Planning-Task
 
-{/* ### TODO: Planning-Delegation */}
+- Planning.decompose → Task.create: Objective decomposition automatically generates corresponding task hierarchies with specifications
+- Planning.structure → Task.addDependency: Temporal ordering and dependencies are established between generated tasks
+- Task.report → Planning.monitor: Task progress and performance data feeds back for adaptive restructuring
+- Planning.revise → Task.update: Plan modifications trigger corresponding updates to task specifications and dependencies
+- Task.fail → Planning.analyse: Task failures initiate replanning to address obstacles or reassess feasibility
+- Planning.approve → Task.assign: Approved plans enable task assignment to capable actors
 
-{/* - Decomposition */}
-{/* - Sequencing */}
-{/* - Allocation */}
-{/* - Execution monitoring */}
-{/* - Replanning */}
+### Planning-Delegation
 
-## Related
+- Planning.decompose → Delegation.assess: Complex objectives trigger assessment of delegate capabilities for sub-planning
+- Planning.analyse → Delegation.negotiate: Resource and capability analysis informs delegation scope and authority levels
+- Delegation.transfer → Planning.monitor: Transferred planning authority creates monitoring requirements for the delegator
+- Delegation.escalate → Planning.revise: When delegates encounter planning boundaries, original planners revise or expand scope
+- Planning.optimise → Delegation.adjust: Plan optimisations may require adjustments to delegated authority and constraints
 
-- [Task](../?path=/docs/concepts-task--docs): tasks are the atomic units of work within a planning context.
+### Planning-Conversation
+
+- Conversation.start → Planning.initiate: Complex conversation requests trigger planning to decompose work
+- Planning.validate → Conversation.logEvent: Plan validation results are communicated to stakeholders
+- Planning.approve → Conversation.logEvent: Plan approval is logged for transparency and coordination
+- Conversation.declareSatisfied → Planning.complete: Conversation satisfaction completes the planning cycle
+
+### Planning-Commitment
+
+- Planning.approve → Commitment.commit: Approved plans create commitments from assigned actors
+- Commitment.reschedule → Planning.revise: Commitment changes may trigger plan timeline adjustments
+- Planning.monitor → Commitment tracking: Plan monitoring includes tracking commitment fulfillment
+
+### Planning-Domain
+
+- Planning.initiate → Domain.assign: New planning contexts are assigned to appropriate domains
+- Domain.criteria → Planning.validate: Domain-specific criteria inform plan validation and feasibility
+- Planning.decompose → Domain boundaries: Task decomposition respects domain expertise boundaries
+
+### Planning-Intervention
+
+- Planning.analyse → Intervention.raise: Resource or capability gaps trigger interventions during analysis
+- Intervention.resolve → Planning.revise: Intervention resolutions inform plan modifications
+- Planning overdue → Intervention: Stalled planning processes trigger interventions for unblocking
+
+### Planning-Trigger
+
+- Planning.complete → Trigger: Completed plans can trigger execution or follow-on planning cycles
+- Planning patterns → Trigger → Planning.optimise: Recurring planning patterns trigger optimisation rules
+- Resource constraints → Trigger → Planning.revise: Systematic constraints trigger replanning automation
+*/}
+
+{/* ## Related */}
+
+{/* - [Task](../?path=/docs/concepts-task--docs): tasks are the atomic units of work within a planning context. */}

@@ -1,11 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useCallback, useMemo } from 'react';
 import { ReferenceEditor } from '../../../components/reference';
-import { referenceCategories, basicReferenceCategories, getReferenceContentById, quotes } from '../../data';
+import { referenceCategories, basicReferenceCategories, getReferenceContentById } from '../../data';
 import type { SelectedReference } from '../../../components/reference';
-
-type FilterPattern = `@${string}` | `#${string}` | `/${string}`;
-type ReferenceType = 'user' | 'project' | 'document';
 
 const meta = {
   title: "Primitives/Reference",
@@ -17,34 +14,13 @@ type Story = StoryObj<typeof meta>;
 const ReferenceEditorExample = () => {
   const handleReferenceSelect = useCallback((reference: SelectedReference) => {
     console.log('Reference selected:', reference);
-    if (reference.referenceType === 'quote') {
+    if (reference.type === 'quote') {
       console.log('Quote object selected for cross-document referencing:', reference);
     }
   }, []);
 
   // Enhanced reference categories with quotes
-  const enhancedReferenceCategories = useMemo(() => [
-    ...referenceCategories,
-    {
-      id: 'quotes',
-      name: 'Quote Objects',
-      icon: 'ph:quotes',
-      searchableText: 'quotes excerpts selections text references',
-      children: quotes.map(quote => ({
-        id: quote.id,
-        name: quote.name,
-        icon: 'ph:quotes',
-        searchableText: `${quote.searchableText} ${quote.metadata.selectedText}`,
-        type: 'quote' as const,
-        metadata: {
-          sourceDocument: quote.metadata.sourceDocument,
-          createdBy: quote.metadata.createdBy,
-          selectedText: quote.metadata.selectedText,
-          description: quote.description
-        }
-      }))
-    }
-  ], []);
+  const enhancedReferenceCategories = useMemo(() => referenceCategories, []);
 
   return (
     <div className="layer">
@@ -113,27 +89,3 @@ export const Basic: Story = {
   }
 };
 
-const ProjectPlanningEditor = () => {
-  const handleReferenceSelect = useCallback((reference: SelectedReference) => {
-    console.log('Project reference selected:', reference);
-  }, []);
-
-  return (
-    <div className="layer">
-      <ReferenceEditor
-        data={referenceCategories}
-        onReferenceSelect={handleReferenceSelect}
-        placeholder="Type @ to open reference picker..."
-        content={getReferenceContentById('project-planning-content')?.content || {
-          type: 'doc',
-          content: [
-            {
-              type: 'paragraph',
-              content: [{ type: 'text', text: 'Project planning content with full reference support. Quote objects from related documents can be referenced here for comprehensive project discussions and analysis.' }]
-            }
-          ]
-        }}
-      />
-    </div>
-  );
-};
