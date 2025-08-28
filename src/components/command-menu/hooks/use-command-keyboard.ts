@@ -25,7 +25,7 @@ export interface UseCommandKeyboardReturn {
 
   // Focus management
   focusInput: () => void;
-  inputRef: React.RefObject<HTMLInputElement>;
+  inputRef: React.RefObject<HTMLInputElement | null>;
 }
 
 export function useCommandKeyboard({

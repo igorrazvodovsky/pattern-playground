@@ -20,12 +20,12 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { select } from 'd3-selection';
 import { ChartComponent } from './base/chart-component.js';
 import './primitives/chart-axis.js';
-import {
+import type {
   BarChartData,
   BarChartDataPoint,
-  ChartDimensions,
-  isBarChartData
+  ChartDimensions
 } from './base/chart-types.js';
+import { isBarChartData } from './base/chart-types.js';
 import type { BarChartScales } from './renderers/bar-chart-renderer.js';
 import {
   convertToBarChartData,
@@ -35,14 +35,18 @@ import {
   renderBarChart,
   addBarChartInteractions,
   cleanupBarChart,
-  BarChartConfig,
-  BarChartRenderResult,
   defaultBarChartConfig,
   createBarChartScales
 } from './renderers/bar-chart-renderer.js';
+import type {
+  BarChartConfig,
+  BarChartRenderResult
+} from './renderers/bar-chart-renderer.js';
 import {
-  ScaleCoordinator,
   createScaleCoordinator
+} from './services/scale-coordinator.js';
+import type {
+  ScaleCoordinator
 } from './services/scale-coordinator.js';
 
 /**
@@ -117,13 +121,13 @@ export class BarChart extends ChartComponent {
   connectedCallback() {
     super.connectedCallback();
     if (document.readyState !== 'loading') {
-      this.init();
+      this.initBarChart();
       return;
     }
-    document.addEventListener('DOMContentLoaded', () => this.init());
+    document.addEventListener('DOMContentLoaded', () => this.initBarChart());
   }
 
-  private init() {
+  private initBarChart() {
     this.setAttribute('tabindex', '0');
     this.setAttribute('role', 'img');
     this.addEventListener('keydown', this.handleKeydown);
@@ -313,7 +317,13 @@ export class BarChart extends ChartComponent {
         event.preventDefault();
         if (this.renderResult) {
           const currentData = data.data[currentIndex];
-          this.handleBarClick(currentData, event as KeyboardEvent);
+          // Create a synthetic mouse event for click handling
+          const syntheticEvent = new MouseEvent('click', {
+            bubbles: true,
+            cancelable: true,
+            view: window
+          });
+          this.handleBarClick(currentData, syntheticEvent);
         }
         break;
     }
@@ -361,7 +371,7 @@ export class BarChart extends ChartComponent {
     this.renderAxisDirect(yAxisGroup, scales, dimensions, 'y');
   }
 
-  private renderAxisDirect(container: any, scales: BarChartScales, dimensions: { width: number; height: number }, axisType: 'x' | 'y'): void {
+  private renderAxisDirect(container: any, scales: BarChartScales, _dimensions: { width: number; height: number }, axisType: 'x' | 'y'): void {
     // Import and use d3-axis directly, similar to chart-axis component
     import('d3-axis').then(({ axisBottom, axisLeft }) => {
       let axis: any;

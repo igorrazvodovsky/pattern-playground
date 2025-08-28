@@ -59,7 +59,7 @@ export function useAICommand({
   }, [debouncedAIRequest]);
 
   // Handle applying AI result
-  const handleApplyAIResult = useCallback((result: AICommandResult) => {
+  const handleApplyAIResult = useCallback((_result: AICommandResult) => {
     setAIState(prev => ({
       ...prev,
       hasUnresolvedQuery: false,

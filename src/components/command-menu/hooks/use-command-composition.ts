@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useCommandNavigation, type UseCommandNavigationOptions } from './use-command-navigation';
+import { useCommandNavigation } from './use-command-navigation';
 import { useCommandRecents, type UseCommandRecentsOptions, type UseCommandRecentsReturn } from './use-command-recents';
 import { useCommandKeyboard, type UseCommandKeyboardOptions, type UseCommandKeyboardReturn } from './use-command-keyboard';
 import { useCommandSelection, type UseCommandSelectionOptions, type UseCommandSelectionReturn } from './use-command-selection';
@@ -200,7 +200,7 @@ export function useCommandComposition({
 
       isInChildView,
     shouldShowRecents,
-    shouldShowAI,
+    shouldShowAI: !!shouldShowAI,
     hasResults,
 
       placeholder,

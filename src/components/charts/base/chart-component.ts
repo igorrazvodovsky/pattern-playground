@@ -92,7 +92,7 @@ export abstract class ChartComponent extends D3Component {
   /**
    * Transform raw data into chart-ready format - override in subclasses
    */
-  protected transformData(): unknown[] {
+  protected transformData(): unknown {
     return this.data;
   }
 

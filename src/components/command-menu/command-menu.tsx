@@ -154,7 +154,7 @@ export function CommandMenu({
                     {command.name}
                     {command.shortcut && (
                       <span slot="suffix" className="cmdk-shortcuts">
-                        {composition.keyboard.formatShortcut(command.shortcut)}
+                        {composition.keyboard.formatShortcut([...command.shortcut])}
                       </span>
                     )}
                   </CommandItem>

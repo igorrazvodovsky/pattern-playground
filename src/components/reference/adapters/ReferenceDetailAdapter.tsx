@@ -28,12 +28,7 @@ export const ReferenceDetailAdapter: React.FC<ReferenceDetailAdapterProps> = ({
       <div className="reference-detail reference-detail--user">
         <div className="reference-detail__header">
           <div className="reference-detail__user-header">
-            <div className="reference-detail__user-avatar reference-detail__user-avatar--large">
-              {initials}
-            </div>
             <div className="reference-detail__user-info">
-              <h2 className="reference-detail__user-name">{label}</h2>
-              {description && <div className="reference-detail__user-description">{description}</div>}
               {role && <div className="reference-detail__user-role">{role}</div>}
               {department && <div className="reference-detail__user-department">{department}</div>}
             </div>
@@ -65,7 +60,7 @@ export const ReferenceDetailAdapter: React.FC<ReferenceDetailAdapterProps> = ({
         <div className="reference-detail__content">
           {email && (
             <div className="reference-detail__contact-item">
-              <strong>Email:</strong> <a href={`mailto:${email}`}>{email}</a>
+              <a href={`mailto:${email}`}>{email}</a>
             </div>
           )}
           {location && (
@@ -116,7 +111,7 @@ export const ReferenceDetailAdapter: React.FC<ReferenceDetailAdapterProps> = ({
 
       <div className="reference-detail__content">
         <div className="reference-detail__id">
-          <strong>ID:</strong> {id}
+          ID: {id}
         </div>
 
         {Object.keys(safeMetadata).filter(key => key !== 'description').length > 0 && (

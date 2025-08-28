@@ -44,29 +44,29 @@ export const CommentMark = Mark.create({
 
   addCommands() {
     return {
-      setComment: (threadId: string, from?: number, to?: number) => ({ commands }) => {
+      setComment: (threadId: string, from?: number, to?: number) => ({ commands }: any) => {
         if (from !== undefined && to !== undefined) {
           return commands.setTextSelection({ from, to })
             .setMark(this.name, { commentId: threadId });
         }
         return commands.setMark(this.name, { commentId: threadId });
       },
-      unsetComment: (from?: number, to?: number) => ({ commands }) => {
+      unsetComment: (from?: number, to?: number) => ({ commands }: any) => {
         if (from !== undefined && to !== undefined) {
           return commands.setTextSelection({ from, to })
             .unsetMark(this.name);
         }
         return commands.unsetMark(this.name);
       },
-      toggleComment: (threadId: string) => ({ commands }) => {
+      toggleComment: (threadId: string) => ({ commands }: any) => {
         return commands.toggleMark(this.name, { commentId: threadId });
       },
-      resolveComment: (threadId: string) => ({ commands }) => {
+      resolveComment: (_threadId: string) => ({ commands }: any) => {
         return commands.updateAttributes(this.name, { resolved: true });
       },
-      unresolveComment: (threadId: string) => ({ commands }) => {
+      unresolveComment: (_threadId: string) => ({ commands }: any) => {
         return commands.updateAttributes(this.name, { resolved: false });
       }
-    };
+    } as any;
   }
 });

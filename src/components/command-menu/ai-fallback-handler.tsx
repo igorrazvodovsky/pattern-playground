@@ -11,7 +11,6 @@ import { renderTaskToHTML } from '../task/task-html-renderer';
 export const AIFallbackHandler: React.FC<AIFallbackHandlerProps> = ({
   searchInput,
   aiState,
-  onAIRequest,
   onApplyAIResult,
   onEditPrompt,
   onInputChange,
@@ -28,7 +27,10 @@ export const AIFallbackHandler: React.FC<AIFallbackHandlerProps> = ({
     const task = createTask(searchInput.trim());
     PpToast.show(`Task created: ${task.specification}`, () => {
       const taskHTML = renderTaskToHTML(task);
-      modalService.openDrawer(taskHTML, 'right', `Task: ${task.specification}`);
+      modalService.openDrawer(
+        <div dangerouslySetInnerHTML={{ __html: taskHTML }} />,
+        { position: 'right', title: `Task: ${task.specification}` }
+      );
     });
     onEditPrompt();
     onClose?.();
