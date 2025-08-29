@@ -1,6 +1,6 @@
 import { ModelItem, RelationObject } from "../../../../schemas/index";
 import { RelationGroups } from "../components/ui-components";
-import juiceProductionData from '../data/JuiceProduction.json';
+import juiceProductionData from '../data/JuiceProduction.json' with { type: 'json' };
 
 /**
  * Ensures that an item from the data conforms to the ModelItem type

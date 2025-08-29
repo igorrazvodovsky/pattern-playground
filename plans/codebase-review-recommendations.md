@@ -1,4 +1,4 @@
-# Pattern Playground Codebase Reviewfix 
+# Pattern Playground Codebase Reviewfix
 
 ## 1. Consistency Issues
 
@@ -16,11 +16,9 @@
 ### 1.2 Import Styles
 - Mixed import patterns: Some files use named imports, others use default imports inconsistently
 - CSS imports vary between `?inline` suffix and regular imports
-- JSON imports use new `with { type: 'json' }` syntax inconsistently
 
 **Recommendations:**
 - Standardise import patterns across the codebase
-- Always use `with { type: 'json' }` for JSON imports (ES2023 standard)
 - Document CSS import strategy (?inline vs regular)
 
 ### 1.3 Component Lifecycle Patterns
