@@ -71,19 +71,30 @@ export const ItemInteraction = <T extends BaseItem = BaseItem>({
   }, []);
 
   const handleScopeChange = useCallback((newScope: ViewScope) => {
+    console.log('ItemInteraction.handleScopeChange called:', {
+      newScope,
+      item: item.id,
+      contentType,
+      label: item.label
+    });
+    
     onScopeChange?.(newScope);
 
     // Handle different scope transitions using modal service
     switch (newScope) {
       case 'mid':
+        console.log('ItemInteraction - Opening drawer for mid scope');
         const detailContent = createModalContent(item, contentType, 'mid');
+        console.log('ItemInteraction - Created detail content:', detailContent);
         modalService.openDrawer(detailContent as React.ReactElement, {
           position: 'right',
           title: item.label
         });
         break;
       case 'maxi':
+        console.log('ItemInteraction - Opening dialog for maxi scope');
         const fullContent = createModalContent(item, contentType, 'maxi');
+        console.log('ItemInteraction - Created full content:', fullContent);
         modalService.openDialog(fullContent as React.ReactElement, {
           title: item.label,
           size: 'large'
@@ -93,10 +104,16 @@ export const ItemInteraction = <T extends BaseItem = BaseItem>({
   }, [onScopeChange, item, contentType]);
 
   const handleEscalate = useCallback((targetScope: ViewScope) => {
+    console.log('ItemInteraction.handleEscalate called:', {
+      targetScope,
+      enableEscalation,
+      item: item.id,
+      contentType
+    });
     if (enableEscalation) {
       handleScopeChange(targetScope);
     }
-  }, [enableEscalation, handleScopeChange]);
+  }, [enableEscalation, handleScopeChange, item.id, contentType]);
 
   const handleInteraction = useCallback((mode: 'preview' | 'inspect' | 'edit' | 'transform', interactionItem: T) => {
     onInteraction?.(mode, interactionItem);
@@ -112,25 +129,38 @@ export const ItemInteraction = <T extends BaseItem = BaseItem>({
   }, []);
 
   const handleClick = useCallback((e: React.MouseEvent) => {
-    if (!enableEscalation) return;
+    console.log('ItemInteraction.handleClick triggered:', {
+      item: item.id,
+      contentType,
+      enableEscalation,
+      ctrlKey: e.ctrlKey,
+      metaKey: e.metaKey
+    });
+    
+    if (!enableEscalation) {
+      console.log('ItemInteraction - escalation disabled, returning');
+      return;
+    }
 
     const midConfig = resolvedScopeConfig.mid;
     const maxiConfig = resolvedScopeConfig.maxi;
 
     if (e.ctrlKey || e.metaKey) {
       // Ctrl/Cmd+click for maxi scope
+      console.log('ItemInteraction - Ctrl/Cmd+click detected, triggering maxi scope');
       if (maxiConfig?.trigger === 'click') {
         e.preventDefault();
         handleEscalate('maxi');
       }
     } else {
       // Regular click for mid scope
+      console.log('ItemInteraction - Regular click detected, triggering mid scope');
       if (midConfig?.trigger === 'click') {
         e.preventDefault();
         handleEscalate('mid');
       }
     }
-  }, [enableEscalation, resolvedScopeConfig, handleEscalate]);
+  }, [enableEscalation, resolvedScopeConfig, handleEscalate, item.id, contentType]);
 
   // Render children with hover card if mini scope is enabled and both hover + modifier key are active
   const miniConfig = resolvedScopeConfig.mini;

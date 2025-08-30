@@ -12,12 +12,6 @@ export const renderTaskToHTML = (task: Task): string => {
     </li>
   `).join('');
 
-  // <header >
-  //   <span class="${getStatusBadgeClass(task.status)}" >
-  //     ${ task.status }
-  //   </span>
-  // </header>
-
   return `
     <div class="task-view">
 

@@ -37,6 +37,14 @@ export const useCommentInitialization = () => {
         // Update the store with merged data
         const totalCommentsAfterMerge = Array.from(mergedComments.values()).reduce((sum, comments) => sum + comments.length, 0);
         console.log(`Merged ${totalCommentsAfterMerge} total comments into universal store`);
+        
+        // Debug: Log quote-specific comments
+        const quoteKeys = Array.from(mergedComments.keys()).filter(key => key.startsWith('quote:'));
+        console.log('Quote comment keys found:', quoteKeys);
+        quoteKeys.forEach(key => {
+          const comments = mergedComments.get(key) || [];
+          console.log(`${key}: ${comments.length} comments`, comments.map(c => c.content));
+        });
 
         // Use setState to update the store directly
         useCommentStore.setState({

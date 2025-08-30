@@ -9,6 +9,33 @@ export interface BaseItem {
   metadata?: Record<string, unknown>;
 }
 
+// Import the proper QuoteObject type
+export interface QuoteObject {
+  id: string;
+  content: {
+    plainText: string;
+    html: string;
+  };
+  metadata: {
+    sourceDocument: string;
+    authorId: string;
+    createdAt: string;
+    [key: string]: any;
+  };
+  actions: {
+    annotate: { enabled: boolean };
+    cite: { enabled: boolean };
+    challenge: { enabled: boolean };
+    pin: { enabled: boolean };
+  };
+}
+
+// Discriminated union based on contentType
+export type ItemObject<T extends string = string> = 
+  T extends 'quote' ? QuoteObject :
+  T extends 'reference' ? BaseItem :
+  BaseItem; // fallback for unknown types
+
 export interface ViewScopeConfig {
   scope: ViewScope;
   trigger?: 'hover' | 'click' | 'focus' | 'keydown';
@@ -17,28 +44,28 @@ export interface ViewScopeConfig {
   mode?: InteractionMode;
 }
 
-export interface ItemInteractionProps<T extends BaseItem = BaseItem> {
-  item: T;
-  contentType: string;
+export interface ItemInteractionProps<T extends string = string> {
+  item: ItemObject<T>;
+  contentType: T;
   children: React.ReactNode;
   initialScope?: ViewScope;
   enableEscalation?: boolean;
   scopeConfig?: Partial<Record<ViewScope, ViewScopeConfig>>;
   onScopeChange?: (scope: ViewScope) => void;
-  onInteraction?: (mode: InteractionMode, item: T) => void;
+  onInteraction?: (mode: InteractionMode, item: ItemObject<T>) => void;
 }
 
-export interface ItemViewProps<T extends BaseItem = BaseItem> {
-  item: T;
-  contentType: string;
+export interface ItemViewProps<T extends string = string> {
+  item: ItemObject<T>;
+  contentType: T;
   scope: ViewScope;
   mode?: InteractionMode;
   onEscalate?: (targetScope: ViewScope) => void;
-  onInteraction?: (mode: InteractionMode, item: T) => void;
+  onInteraction?: (mode: InteractionMode, item: ItemObject<T>) => void;
 }
 
-export interface ContentAdapter<T extends BaseItem = BaseItem> {
-  contentType: string;
+export interface ContentAdapter<T extends string = string> {
+  contentType: T;
   render: (props: ItemViewProps<T>) => React.ReactNode;
   
   // Enhanced adapter capabilities

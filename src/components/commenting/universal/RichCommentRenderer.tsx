@@ -17,6 +17,8 @@ export const CommentRenderer: React.FC<CommentRendererProps> = ({
   content,
   className = ''
 }) => {
+  // Debug logging
+  console.log('CommentRenderer - content:', content, typeof content);
 
   const renderRichContent = (richContent: RichContent | string): React.ReactNode => {
     // Handle plain string content (backward compatibility)

@@ -6,7 +6,7 @@ import type { RichContent } from '../state/comment-store.js';
 // React hooks for entity-agnostic commenting
 export const useUniversalCommenting = () => {
   const commentStore = useCommentStore();
-  
+
   // Initialize service with a function that returns the current state
   const service = useMemo(
     () => new UniversalCommentingService(() => useCommentStore.getState()),
@@ -31,13 +31,19 @@ export const useEntityComments = (entityType: string, entityId: string) => {
   const isLoading = false; // For now, we're fully local
 
   const comments = useMemo(() => {
-    return commentStore.actions.getComments(entityType, entityId);
+    const entityKey = `${entityType}:${entityId}`;
+    console.log(`useEntityComments - Looking for: ${entityKey}`);
+    console.log('Available entity keys:', Array.from(commentStore.commentsByEntity.keys()));
+
+    const foundComments = commentStore.actions.getComments(entityType, entityId);
+    console.log(`Found ${foundComments.length} comments for ${entityKey}:`, foundComments);
+
+    return foundComments;
   }, [commentStore.commentsByEntity, entityType, entityId]);
 
   return { comments, isLoading };
 };
 
-// Add comment to entity
 export const useAddComment = () => {
   const commentStore = useCommentStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -65,7 +71,7 @@ export const useCommentThread = (entityType: string, entityId: string) => {
     () => new UniversalCommentingService(() => useCommentStore.getState()),
     []
   );
-  
+
   const thread = useMemo(() => {
     return service.getCommentThread(entityType, entityId);
   }, [service, entityType, entityId]);
@@ -89,7 +95,7 @@ export const useCommentThread = (entityType: string, entityId: string) => {
 export const useEntityCommenting = (entityType: string, entityId: string) => {
   const universalCommenting = useUniversalCommenting();
   const entityComments = useEntityComments(entityType, entityId);
-  
+
   const addComment = async (content: RichContent | string, authorId: string) => {
     return universalCommenting.service.addComment(entityType, entityId, content, authorId);
   };

@@ -24,6 +24,7 @@ interface UniversalCommentInterfaceProps {
   showHeader?: boolean;
   allowNewComments?: boolean;
   maxHeight?: string;
+  onCommentAdded?: (content: string) => void;
 }
 
 /**
@@ -37,7 +38,8 @@ export const UniversalCommentInterface: React.FC<UniversalCommentInterfaceProps>
   className = '',
   showHeader = true,
   allowNewComments = true,
-  maxHeight = '400px'
+  maxHeight = '400px',
+  onCommentAdded
 }) => {
   const [isComposing, setIsComposing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -54,11 +56,26 @@ export const UniversalCommentInterface: React.FC<UniversalCommentInterfaceProps>
     resolvedCommentCount
   } = useEntityCommenting(entityType, entityId);
 
+  // Debug logging
+  React.useEffect(() => {
+    console.log(`UniversalCommentInterface Debug - entityType: ${entityType}, entityId: ${entityId}`);
+    console.log(`Comments found:`, comments);
+    console.log(`Active count: ${activeCommentCount}, Resolved count: ${resolvedCommentCount}`);
+  }, [entityType, entityId, comments, activeCommentCount, resolvedCommentCount]);
+
   const handleAddComment = async (content: RichContent) => {
     setIsSubmitting(true);
     try {
       await addComment(content, currentUser.id);
       setIsComposing(false);
+      
+      // Call the onCommentAdded callback if provided
+      if (onCommentAdded) {
+        console.log('UniversalCommentInterface: Calling onCommentAdded callback with content:', content.plainText);
+        onCommentAdded(content.plainText);
+      } else {
+        console.log('UniversalCommentInterface: No onCommentAdded callback provided');
+      }
     } catch (error) {
       console.error('Failed to add comment:', error);
     } finally {
@@ -77,6 +94,15 @@ export const UniversalCommentInterface: React.FC<UniversalCommentInterfaceProps>
         const user = getUserById(comment.authorId);
         const displayName = user?.name || comment.authorId;
         const photoUrl = user?.metadata?.photoUrl || `https://i.pravatar.cc/150?seed=${comment.authorId}`;
+
+        // Debug logging for each comment
+        console.log('Rendering comment:', {
+          id: comment.id,
+          authorId: comment.authorId,
+          user: user,
+          displayName,
+          content: comment.content
+        });
 
         return (
           <div key={comment.id} className="message">

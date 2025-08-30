@@ -1,25 +1,18 @@
 // Universal commenting system exports
 
-// Core types
-export * from './document-pointer.js';
-
-// State management
-export { useCommentStore } from './state/comment-store.js';
-
-// Universal service
-export { UniversalCommentingService } from './universal-commenting-service.js';
+// Core universal system
+export * from './core/index';
 
 // React hooks
-export * from './hooks/use-universal-commenting.js';
-export { useCommentSystem } from './hooks/use-comment-system.js';
+export { useCommenting } from './hooks/use-commenting';
+export { useEditorCommenting } from './hooks/use-editor-commenting';
 
-// Pointer system
-export { AbstractPointerAdapter } from './pointers/abstract-pointer-adapter.js';
-export { PointerAdapterRegistry, getPointerAdapterRegistry } from './pointers/pointer-adapter-registry.js';
-export { TipTapPointerAdapter } from './tiptap-pointer-adapter.js';
-
-// Error handling
-export * from './utils/error-handling.js';
-
-// Demo utilities
-export { CommentDemoService } from './demo/comment-demo-service.js';
+// Legacy exports (to be migrated)
+export * from './document-pointer';
+export { useCommentStore } from './state/comment-store';
+export { UniversalCommentingService } from './universal-commenting-service';
+export * from './hooks/use-universal-commenting';
+export { useCommentSystem } from './hooks/use-comment-system';
+export { TipTapPointerAdapter } from './tiptap-pointer-adapter';
+export * from './utils/error-handling';
+export { CommentDemoService } from './demo/comment-demo-service';

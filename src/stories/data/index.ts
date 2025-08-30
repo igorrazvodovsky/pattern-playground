@@ -164,6 +164,7 @@ export const resolveReferenceData = (id: string, type: string) => {
         type: quote.type,
         description: quote.description,
         searchableText: quote.searchableText,
+        content: quote.content, // Include the full content object
         metadata: { ...quote.metadata, description: quote.description }
       } : null;
     

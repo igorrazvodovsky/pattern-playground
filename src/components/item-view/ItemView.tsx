@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ItemViewProps, BaseItem } from './types';
+import type { ItemViewProps, ItemObject } from './types';
 import { useContentAdapter } from './ContentAdapterRegistry';
 import { DefaultFallbackRenderer } from './DefaultFallbackRenderer';
 
@@ -7,7 +7,7 @@ import { DefaultFallbackRenderer } from './DefaultFallbackRenderer';
  * ItemView - Unified item view component
  * Single component that handles all view scopes with adapter-based rendering
  */
-export const ItemView = <T extends BaseItem = BaseItem>({
+export const ItemView = <T extends string = string>({
   item,
   contentType,
   scope,

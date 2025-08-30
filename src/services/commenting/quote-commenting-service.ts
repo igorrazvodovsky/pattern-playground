@@ -71,7 +71,6 @@ export class QuoteCommentingService {
         throw new Error(`No thread found for quote ${quoteId}. Create thread first.`);
       }
 
-      // Add comment using universal service
       // Note: We'll need to extend the universal service to support rich content
       const plainTextContent = content.plainText || 'Rich content comment';
       const comment = this.universalService.addComment(

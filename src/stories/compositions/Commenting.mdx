@@ -1,13 +1,12 @@
-import { Meta } from '@storybook/addon-docs/blocks';
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import {Commenting} from '../components/BubbleMenu.stories';
 
-<Meta title="Patterns/Commenting" />
+<Meta title="Compositions/Commenting" />
 
 # Commenting
 
 Enables contextual discussion and annotation across any interface or content type.
 Commenting creates a layer of social interaction that can be applied to any object, supporting collaborative review and knowledge sharing without disrupting the primary experience.
-
-
 
 ## Variants
 
@@ -52,6 +51,16 @@ Ephemeral: Comments fade over time
 - Auto-save and recovery capabilities
 - Clear indication of draft vs published status
 
+## Examples
+Commenting can be integrated into any interface or content type, including:
+
+### Text documents
+<Story of={Commenting} />
+
+### Domain entities
+
+...
+
 ## Related patterns
 
 {/* **Precursors:** */}
@@ -72,8 +81,8 @@ Ephemeral: Comments fade over time
 
 ## Resources & references
 
-- [Ink & Switch / Universal Comments](https://www.inkandswitch.com/patchwork/notebook/11/) – Pointer-based commenting system concept
-- [Google Docs / Comments](https://support.google.com/docs/answer/65129) – Inline commenting implementation
+- [Ink & Switch / Universal Comments](https://www.inkandswitch.com/patchwork/notebook/11/)
+- [Google Docs / Comments](https://support.google.com/docs/answer/65129)
 - [Notion / Comments, mentions & reactions](https://www.notion.com/help/comments-mentions-and-reminders)
-- [Figma / Comments](https://help.figma.com/hc/en-us/articles/360041068574-Add-comments-to-files) – Visual design commenting patterns
+- [Figma / Comments](https://help.figma.com/hc/en-us/articles/360041068574-Add-comments-to-files)
 {/* - [GitHub / Review System](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests) – Code commenting workflows */}

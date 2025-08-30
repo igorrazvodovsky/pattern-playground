@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-import { UniversalCommentInterface } from '../universal/UniversalCommentInterface.js';
-import type { QuoteObject } from '../../../services/commenting/quote-service.js';
-import { getUserById } from '../../../stories/data/index.js';
+import React, { useEffect, useRef, useState } from 'react';
+import { UniversalCommentInterface } from '../universal/UniversalCommentInterface';
+import type { QuoteObject } from '../../../services/commenting/core/quote-pointer';
+import { getUserById } from '../../../stories/data/index';
 
 interface QuoteCommentPopoverProps {
   quote: QuoteObject;
@@ -9,7 +9,7 @@ interface QuoteCommentPopoverProps {
   triggerElement: HTMLElement | null;
   currentUser: string;
   onClose: () => void;
-  onCommentAdded?: () => void;
+  onCommentAdded?: (content: string) => void;
 }
 
 /**
@@ -26,11 +26,39 @@ export const QuoteCommentPopover: React.FC<QuoteCommentPopoverProps> = ({
 }) => {
   const user = getUserById(currentUser);
   const popoverRef = useRef<HTMLDivElement>(null);
+  const [position, setPosition] = useState({ top: 0, left: 0 });
   
-  const handleCommentAdded = () => {
-    onCommentAdded?.();
+  const handleCommentAdded = (content: string) => {
+    onCommentAdded?.(content);
     // Don't close immediately - let user see the comment was added
   };
+
+  // Update position when trigger element changes
+  useEffect(() => {
+    if (!isOpen || !triggerElement) {
+      return;
+    }
+
+    const updatePosition = () => {
+      const rect = triggerElement.getBoundingClientRect();
+      setPosition({
+        top: rect.bottom + 8,
+        left: rect.left
+      });
+    };
+
+    // Initial positioning
+    updatePosition();
+
+    // Update position when window resizes or scrolls
+    window.addEventListener('resize', updatePosition);
+    window.addEventListener('scroll', updatePosition);
+
+    return () => {
+      window.removeEventListener('resize', updatePosition);
+      window.removeEventListener('scroll', updatePosition);
+    };
+  }, [isOpen, triggerElement]);
 
   // Handle clicks outside the popover
   useEffect(() => {
@@ -90,6 +118,7 @@ export const QuoteCommentPopover: React.FC<QuoteCommentPopoverProps> = ({
           showHeader={false}
           allowNewComments={true}
           maxHeight="300px"
+          onCommentAdded={handleCommentAdded}
         />
       </div>
     </div>
@@ -104,8 +133,8 @@ export const QuoteCommentPopover: React.FC<QuoteCommentPopoverProps> = ({
       style={{
         position: 'fixed',
         zIndex: 1000,
-        top: triggerElement.getBoundingClientRect().bottom + 8,
-        left: triggerElement.getBoundingClientRect().left,
+        top: position.top,
+        left: position.left,
         minWidth: '320px',
         maxWidth: '480px'
       }}

@@ -139,9 +139,18 @@ const CommentingEditor: React.FC = () => {
     immediatelyRender: false,
   });
 
+  // Debug logging
+  React.useEffect(() => {
+    console.log('CommentingEditor - richContent:', richContent);
+    if (richContent) {
+      console.log('Rich content includes references:', JSON.stringify(richContent, null, 2));
+    }
+  }, [richContent]);
+
   // Initialize content
   React.useEffect(() => {
     if (editor && richContent && !editor.getHTML().includes('Marine ecosystems')) {
+      console.log('Setting editor content with rich content');
       editor.commands.setContent(richContent);
     }
   }, [editor, richContent]);
@@ -159,7 +168,6 @@ const CommentingEditor: React.FC = () => {
           commentingPlugin({
             documentId: 'doc-climate-change',
             currentUser: 'user-1',
-            referenceCategories: convertToReferenceCategories(referenceCategories),
             bubbleMenu: true,
             toolbar: false,
             enableQuoteComments: true,
@@ -171,9 +179,6 @@ const CommentingEditor: React.FC = () => {
           config={{
             documentId: 'doc-climate-change',
             currentUser: 'user-1',
-            referenceCategories: convertToReferenceCategories(referenceCategories),
-            bubbleMenu: true,
-            toolbar: false,
             enableQuoteComments: true,
           }}
         >

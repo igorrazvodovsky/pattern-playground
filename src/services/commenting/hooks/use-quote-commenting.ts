@@ -34,7 +34,6 @@ export const useQuoteCommenting = (quote?: Quote) => {
     return quoteCommentingService.getQuoteCommentStats(quote.id);
   }, [quoteCommentingService, quote, quoteComments]);
 
-  // Add comment to quote
   const addComment = useCallback(async (content: RichContent, authorId: string = 'user-1') => {
     if (!quote) {
       throw new Error('No quote provided for commenting');
