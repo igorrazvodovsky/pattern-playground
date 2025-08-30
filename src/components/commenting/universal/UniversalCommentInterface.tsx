@@ -3,7 +3,7 @@ import { CommentComposer } from './RichCommentComposer.js';
 import { CommentRenderer } from './RichCommentRenderer.js';
 import { useEntityCommenting } from '../../../services/commenting/hooks/use-universal-commenting.js';
 import { useCommentInitialization } from '../../../services/commenting/hooks/use-comment-initialization.js';
-import { formatTimestamp } from '../../task/time-utils.js';
+import { formatTimestamp } from '../../../utility/time-utils.js';
 import { getUserById } from '../../../stories/data/index.js';
 import type { User } from '../../../stories/data/index.js';
 

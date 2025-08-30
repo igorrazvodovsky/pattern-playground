@@ -37,13 +37,59 @@ export { default as filterPriorities } from './priorities.json' with { type: 'js
 export { default as filterDates } from './filter-dates.json' with { type: 'json' };
 
 export const tasks = tasksData.map(task => ({
-  ...task,
-  status: filterStatusesData.find(status => status.id === task.statusId),
-  priority: filterPrioritiesData.find(priority => priority.id === task.priorityId),
-  assignee: users.find(user => user.id === task.assigneeId) || null,
-  labels: task.labelIds.map(labelId => filterLabelsData.find(label => label.id === labelId)),
-  project: task.projectId ? projects.find(project => project.id === task.projectId) || null : null,
-  updatedByUser: task.updatedBy ? users.find(user => user.id === task.updatedBy) || null : null
+  id: task.id,
+  title: task.title,
+  specification: task.specification,
+  description: task.description,
+  
+  // Convert to rich objects
+  status: {
+    id: task.statusId,
+    label: filterStatusesData.find(s => s.id === task.statusId)?.name || task.statusId,
+    value: filterStatusesData.find(s => s.id === task.statusId)?.value || 'submitted',
+    color: '#gray'  // Status data doesn't have colors, using default
+  },
+  
+  priority: task.priorityId ? {
+    id: task.priorityId,
+    label: filterPrioritiesData.find(p => p.id === task.priorityId)?.name || task.priorityId,
+    value: filterPrioritiesData.find(p => p.id === task.priorityId)?.value || 'medium',
+    color: '#blue'  // Priority data doesn't have colors, using default
+  } : undefined,
+  
+  assignee: task.assigneeId ? users.find(user => user.id === task.assigneeId) : undefined,
+  
+  labels: task.labelIds ? task.labelIds.map(labelId => {
+    const label = filterLabelsData.find(l => l.id === labelId);
+    return label ? {
+      id: labelId,
+      label: label.name,  // Using 'name' field from labels.json
+      color: '#purple'    // Default color for labels
+    } : null;
+  }).filter(Boolean) : undefined,
+  
+  project: task.projectId ? projects.find(project => project.id === task.projectId) : undefined,
+  
+  // Progress and history from JSON
+  progress: task.progress || 0,
+  history: task.history.map(entry => ({
+    ...entry,
+    timestamp: new Date(entry.timestamp)
+  })),
+  
+  // Temporal fields
+  createdAt: new Date(task.createdDate),
+  updatedAt: task.updatedDate ? new Date(task.updatedDate) : undefined,
+  dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
+  
+  updatedBy: task.updatedBy ? users.find(user => user.id === task.updatedBy) : undefined,
+  
+  // Metadata for ItemView
+  metadata: {
+    tags: task.labelIds ? task.labelIds.map(labelId => 
+      filterLabelsData.find(l => l.id === labelId)?.name
+    ).filter(Boolean) : []
+  }
 }));
 
 // Utility functions
@@ -263,14 +309,16 @@ export type EditorContent = typeof editorContent[0];
 export type CommentThreadSetup = typeof commentThreads[0];
 export type Command = typeof commands[0];
 export type RecentItem = typeof recentItems[0];
-export type Task = Omit<typeof tasksData[0], 'statusId' | 'priorityId' | 'assigneeId' | 'labelIds' | 'projectId' | 'updatedBy'> & {
-  status: typeof filterStatuses[0];
-  priority: typeof filterPriorities[0];
-  assignee: User | null;
-  labels: typeof filterLabels;
-  project: Project | null;
-  updatedByUser: User | null;
-};
+// Import unified Task types
+export type { 
+  Task, 
+  TaskHistoryEntry, 
+  TaskStatus, 
+  TaskPriority, 
+  TaskLabel,
+  CreateTaskInput,
+  taskToItemObject 
+} from './task-types';
 export type Transaction = typeof transactions[0];
 export type Comment = typeof comments[0];
 export type Quote = typeof quotes[0];

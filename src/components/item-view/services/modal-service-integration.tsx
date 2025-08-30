@@ -4,6 +4,7 @@ import { ItemView } from '../ItemView';
 import { ContentAdapterProvider } from '../ContentAdapterRegistry';
 import { referenceContentAdapter } from '../../reference/ReferenceContentAdapter';
 import { quoteAdapter } from '../adapters/QuoteAdapter';
+import { taskAdapter } from '../adapters/TaskAdapter';
 
 export interface ModalContentConfig {
   size: 'small' | 'medium' | 'large' | 'fullscreen';
@@ -23,6 +24,8 @@ export const createModalContent = <T extends string>(
     adapters.push(referenceContentAdapter);
   } else if (contentType === 'quote') {
     adapters.push(quoteAdapter);
+  } else if (contentType === 'task') {
+    adapters.push(taskAdapter);
   }
 
   console.log('createModalContent - contentType:', contentType, 'item structure:', Object.keys(item));

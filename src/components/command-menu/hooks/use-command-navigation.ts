@@ -4,7 +4,7 @@ import {
   searchWithinParent,
   type SearchableParent,
   type SearchableItem
-} from '../../../utils/hierarchical-search';
+} from '../../../utility/hierarchical-search';
 import type { CommandData, RecentItem } from '../command-menu-types';
 
 interface CommandOption extends SearchableParent {

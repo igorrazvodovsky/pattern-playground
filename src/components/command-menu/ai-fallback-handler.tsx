@@ -6,7 +6,10 @@ import { AIFallbackHandlerProps } from './ai-command-types';
 import { PpToast } from '../toast/toast';
 import { modalService } from '../../services/modal-service';
 import { createTask } from '../task/task-utils';
-import { renderTaskToHTML } from '../task/task-html-renderer';
+import { ItemView } from '../item-view/ItemView';
+import { ContentAdapterProvider } from '../item-view/ContentAdapterRegistry';
+import { taskAdapter } from '../item-view/adapters/TaskAdapter';
+import { taskToItemObject } from '../../stories/data/task-types';
 
 export const AIFallbackHandler: React.FC<AIFallbackHandlerProps> = ({
   searchInput,
@@ -25,11 +28,17 @@ export const AIFallbackHandler: React.FC<AIFallbackHandlerProps> = ({
   // Handle create new item with clickable toast
   const handleCreateNewItem = React.useCallback(() => {
     const task = createTask(searchInput.trim());
-    PpToast.show(`Task created: ${task.specification}`, () => {
-      const taskHTML = renderTaskToHTML(task);
+    PpToast.show(`Task created: ${task.title}`, () => {
       modalService.openDrawer(
-        <div dangerouslySetInnerHTML={{ __html: taskHTML }} />,
-        { position: 'right', title: `Task: ${task.specification}` }
+        <ContentAdapterProvider adapters={[taskAdapter]}>
+          <ItemView
+            item={taskToItemObject(task)}
+            contentType="task"
+            scope="maxi"
+            mode="preview"
+          />
+        </ContentAdapterProvider>,
+        { position: 'right', title: `Task: ${task.title}` }
       );
     });
     onEditPrompt();

@@ -14,7 +14,7 @@ import {
 
 import { useHierarchicalNavigation, type SearchableItem } from '../../../hooks/useHierarchicalNavigation';
 import type { CommandParent, CommandChild } from '../../../types/hierarchical-navigation';
-import { createSortedSearchFunction, sortByRelevance } from '../../../utils/hierarchical-search';
+import { createSortedSearchFunction, sortByRelevance } from '../../../utility/hierarchical-search';
 
 import {
   createAISuggestionService,

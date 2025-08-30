@@ -30,9 +30,34 @@ export interface QuoteObject {
   };
 }
 
+export interface TaskObject {
+  id: string;
+  specification: string;
+  status: 'submitted' | 'planning' | 'executing' | 'asking' | 'completed' | 'failed';
+  history: TaskHistoryEntry[];
+  assignee?: string;
+  progress?: number;
+  createdAt: Date;
+  metadata?: {
+    priority?: 'low' | 'medium' | 'high' | 'critical';
+    tags?: string[];
+    dueDate?: Date;
+    [key: string]: any;
+  };
+}
+
+export interface TaskHistoryEntry {
+  id: string;
+  timestamp: Date;
+  actor: 'User' | 'System';
+  action: string;
+  details?: string;
+}
+
 // Discriminated union based on contentType
 export type ItemObject<T extends string = string> = 
   T extends 'quote' ? QuoteObject :
+  T extends 'task' ? TaskObject :
   T extends 'reference' ? BaseItem :
   BaseItem; // fallback for unknown types
 

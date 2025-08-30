@@ -2,7 +2,8 @@
   {
     "id": "task-1",
     "title": "Audit waste streams for plastic contamination",
-    "description": "Analyze waste streams to identify sources of plastic contamination and recommend solutions.",
+    "specification": "Analyze waste streams to identify sources of plastic contamination and recommend solutions",
+    "description": "Comprehensive analysis of our current waste streams to identify all sources of plastic contamination, assess their impact, and develop actionable recommendations for reducing plastic waste.",
     "statusId": "status-in-progress",
     "priorityId": "priority-high",
     "assigneeId": "user-3",
@@ -11,12 +12,44 @@
     "dueDate": "2024-01-20",
     "createdDate": "2024-01-10",
     "updatedDate": "2024-01-15",
-    "updatedBy": "user-3"
+    "updatedBy": "user-3",
+    "progress": 65,
+    "history": [
+      {
+        "id": "hist-1-1",
+        "timestamp": "2024-01-10T09:00:00Z",
+        "actor": "User",
+        "action": "Task created",
+        "details": "Initial task assignment to audit team"
+      },
+      {
+        "id": "hist-1-2", 
+        "timestamp": "2024-01-11T14:30:00Z",
+        "actor": "System",
+        "action": "Status changed to planning",
+        "details": "Automatic transition after task review"
+      },
+      {
+        "id": "hist-1-3",
+        "timestamp": "2024-01-12T10:15:00Z",
+        "actor": "User",
+        "action": "Status changed to executing",
+        "details": "Started data collection phase"
+      },
+      {
+        "id": "hist-1-4",
+        "timestamp": "2024-01-15T16:45:00Z",
+        "actor": "User",
+        "action": "Progress update",
+        "details": "Completed initial waste stream mapping - 65% complete"
+      }
+    ]
   },
   {
     "id": "task-2",
     "title": "Source 5 new recycled material suppliers",
-    "description": "Identify and vet five new suppliers of high-quality recycled materials for our production line.",
+    "specification": "Identify and vet five new suppliers of high-quality recycled materials for our production line",
+    "description": "Research, contact, and evaluate potential recycled material suppliers to expand our supplier network and improve material quality for production.",
     "statusId": "status-todo",
     "priorityId": "priority-medium",
     "assigneeId": "user-2",
@@ -25,12 +58,23 @@
     "dueDate": "2024-01-18",
     "createdDate": "2024-01-12",
     "updatedDate": "2024-01-12",
-    "updatedBy": "user-2"
+    "updatedBy": "user-2",
+    "progress": 0,
+    "history": [
+      {
+        "id": "hist-2-1",
+        "timestamp": "2024-01-12T11:20:00Z",
+        "actor": "User",
+        "action": "Task created",
+        "details": "Task assigned to procurement team"
+      }
+    ]
   },
   {
     "id": "task-3",
     "title": "Update product lifecycle assessment data",
-    "description": "Incorporate new data into the LCA model for our flagship product.",
+    "specification": "Incorporate new data into the LCA model for our flagship product",
+    "description": "Update the lifecycle assessment model with the latest data from our Q4 analysis to ensure accuracy in environmental impact calculations.",
     "statusId": "status-done",
     "priorityId": "priority-low",
     "assigneeId": "user-9",
@@ -39,12 +83,37 @@
     "dueDate": "2024-01-15",
     "createdDate": "2024-01-05",
     "updatedDate": "2024-01-14",
-    "updatedBy": "user-9"
+    "updatedBy": "user-9",
+    "progress": 100,
+    "history": [
+      {
+        "id": "hist-3-1",
+        "timestamp": "2024-01-05T08:30:00Z",
+        "actor": "User",
+        "action": "Task created",
+        "details": "LCA update requested by sustainability team"
+      },
+      {
+        "id": "hist-3-2",
+        "timestamp": "2024-01-08T14:00:00Z",
+        "actor": "User",
+        "action": "Status changed to executing",
+        "details": "Started data integration process"
+      },
+      {
+        "id": "hist-3-3",
+        "timestamp": "2024-01-14T17:30:00Z",
+        "actor": "User",
+        "action": "Task completed",
+        "details": "LCA model updated and validated successfully"
+      }
+    ]
   },
   {
     "id": "task-4",
     "title": "Design a take-back program for used products",
-    "description": "Develop a customer-facing program for returning used products for refurbishment or recycling.",
+    "specification": "Develop a customer-facing program for returning used products for refurbishment or recycling",
+    "description": "Create a comprehensive program that makes it easy for customers to return used products, including logistics, incentives, and communication strategies.",
     "statusId": "status-in-review",
     "priorityId": "priority-high",
     "assigneeId": "user-4",
@@ -53,12 +122,37 @@
     "dueDate": "2024-01-25",
     "createdDate": "2024-01-08",
     "updatedDate": "2024-01-16",
-    "updatedBy": "user-4"
+    "updatedBy": "user-4",
+    "progress": 80,
+    "history": [
+      {
+        "id": "hist-4-1",
+        "timestamp": "2024-01-08T10:00:00Z",
+        "actor": "User",
+        "action": "Task created",
+        "details": "Program design requested for Q1 launch"
+      },
+      {
+        "id": "hist-4-2",
+        "timestamp": "2024-01-10T09:30:00Z",
+        "actor": "User",
+        "action": "Status changed to executing",
+        "details": "Started stakeholder interviews"
+      },
+      {
+        "id": "hist-4-3",
+        "timestamp": "2024-01-16T15:20:00Z",
+        "actor": "User",
+        "action": "Status changed to in-review",
+        "details": "Draft proposal submitted for review"
+      }
+    ]
   },
   {
     "id": "task-5",
     "title": "Optimize logistics for reverse supply chain",
-    "description": "Improve the efficiency of collecting and transporting used products.",
+    "specification": "Improve the efficiency of collecting and transporting used products",
+    "description": "Analyze current reverse logistics processes and implement optimizations to reduce costs and improve collection efficiency.",
     "statusId": "status-backlog",
     "priorityId": "priority-medium",
     "assigneeId": "user-8",
@@ -67,76 +161,16 @@
     "dueDate": "2024-02-01",
     "createdDate": "2024-01-11",
     "updatedDate": "2024-01-11",
-    "updatedBy": "user-8"
-  },
-  {
-    "id": "task-6",
-    "title": "Draft policy brief on extended producer responsibility",
-    "description": "Create a brief for policymakers on the benefits of EPR legislation.",
-    "statusId": "status-todo",
-    "priorityId": "priority-urgent",
-    "assigneeId": "user-6",
-    "labelIds": ["label-policy", "label-advocacy"],
-    "projectId": null,
-    "dueDate": "2024-01-22",
-    "createdDate": "2024-01-13",
-    "updatedDate": "2024-01-13",
-    "updatedBy": "user-6"
-  },
-  {
-    "id": "task-7",
-    "title": "Develop a marketing campaign for refurbished products",
-    "description": "Create a campaign to promote the value and quality of our refurbished products.",
-    "statusId": "status-in-progress",
-    "priorityId": "priority-high",
-    "assigneeId": "user-7",
-    "labelIds": ["label-marketing", "label-refurbishment"],
-    "projectId": "PRJ-2",
-    "dueDate": "2024-01-28",
-    "createdDate": "2024-01-09",
-    "updatedDate": "2024-01-17",
-    "updatedBy": "user-7"
-  },
-  {
-    "id": "task-8",
-    "title": "Research biodegradable material alternatives",
-    "description": "Investigate new biodegradable materials for use in our packaging.",
-    "statusId": "status-cancelled",
-    "priorityId": "priority-low",
-    "assigneeId": null,
-    "labelIds": ["label-research", "label-innovation"],
-    "projectId": "PRJ-3",
-    "dueDate": "2024-01-30",
-    "createdDate": "2024-01-06",
-    "updatedDate": "2024-01-16",
-    "updatedBy": "user-1"
-  },
-  {
-    "id": "task-9",
-    "title": "Analyze data from smart recycling bins",
-    "description": "Review data from our smart bin pilot program to identify trends.",
-    "statusId": "status-done",
-    "priorityId": "priority-medium",
-    "assigneeId": "user-9",
-    "labelIds": ["label-data", "label-recycling"],
-    "projectId": "PRJ-1",
-    "dueDate": "2024-01-14",
-    "createdDate": "2024-01-07",
-    "updatedDate": "2024-01-14",
-    "updatedBy": "user-9"
-  },
-  {
-    "id": "task-10",
-    "title": "Create a training module on circular principles",
-    "description": "Develop a training module for new employees on the core principles of the circular economy.",
-    "statusId": "status-in-progress",
-    "priorityId": "priority-medium",
-    "assigneeId": "user-1",
-    "labelIds": ["label-training", "label-education"],
-    "projectId": null,
-    "dueDate": "2024-02-05",
-    "createdDate": "2024-01-14",
-    "updatedDate": "2024-01-17",
-    "updatedBy": "user-1"
+    "updatedBy": "user-8",
+    "progress": 0,
+    "history": [
+      {
+        "id": "hist-5-1",
+        "timestamp": "2024-01-11T13:45:00Z",
+        "actor": "User",
+        "action": "Task created",
+        "details": "Optimization task added to backlog"
+      }
+    ]
   }
 ]
