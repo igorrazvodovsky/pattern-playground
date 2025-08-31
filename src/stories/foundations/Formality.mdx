@@ -6,7 +6,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 When and how much structure to ask from the user.
 
-Systems that demand high levels of formal, structured input from users can often be counterproductive.
+Demanding high levels of formal, structured input from users can often be counterproductive.
 Users may resist or struggle when forced to formalize information that is still evolving, poorly understood,
 or part of their tacit knowledge.
 
@@ -16,23 +16,16 @@ A core design principle here is to **match the level of required formality to th
 Instead of a one-size-fits-all approach, the system should adapt its expectations based on where the user is in their process.
 
 ### Low maturity: exploration & emergence
--   User goal: The user is brainstorming, exploring a new topic, or capturing fleeting ideas. The goal is fuzzy and the structure is not yet known.
--   Required formality: low. The system should act like a simple notebook or whiteboard, accepting unstructured text, sketches, and collections of items without demanding categorization or relationships.
--   System's role: To capture information with minimal friction. The focus is on getting things *in*, not on getting them *right*.
-
-{/* - Related Patterns: Free-form text editors, canvases, simple lists. */}
+- *User goal*: The user is brainstorming, exploring a new topic, or capturing fleeting ideas. The goal is fuzzy and the structure is not yet known.
+- *Required formality*: Low. The system should act like a simple notebook or whiteboard, accepting unstructured text, sketches, and collections of items without demanding categorisation or relationships.
+- *System's role*: To capture information with minimal friction. The focus is on getting things *in*, not on getting them *right*.
 
 ### Medium maturity: structuring & sense-making
--   User goal: The user has gathered some information and is beginning to see patterns, make connections, and build a mental model.
--   Required formality: medium. The system should not demand formality but can begin to *suggest* it. This is the stage for incremental, system-assisted formalization.
--   System's role: To act as an intelligent assistant, recognizing potential structures (e.g., "This looks like a list," "These two items seem related") and offering to formalize them.
-
-{/* -   Related patterns: [Suggestion](../?path=/docs/patterns-suggestion--docs), [Embedded Intelligence](../?path=/docs/patterns-embedded-intelligence--docs), link creation, tagging, grouping. */}
+- *User goal*: The user has gathered some information and is beginning to see patterns, make connections, and build a mental model.
+- *Required formality*: Medium. The system should not demand formality but can begin to *suggest* it. This is the stage for incremental, system-assisted formalisation.
+- *System's role*: To act as an intelligent assistant, recognising potential structures (e.g., "This looks like a list," "These two items seem related") and offering to formalise them.
 
 ### High maturity: execution & automation
--   User goal: The user has a clear, well-defined task to complete. The structure of the information is stable and understood.
--   Required formality: high. The system can now require formal input because it enables powerful features like automation, validation, and computation.
--   System's role: To act as a powerful tool, leveraging the formal structure to execute tasks efficiently and correctly.
-
-{/* -   Related patterns: Structured forms, database queries, rule-based workflows, [AI Tuning](../?path=/docs/patterns-ai-tuning--docs). */}
-
+- *User goal*: The user has a clear, well-defined task to complete. The structure of the information is stable and understood.
+- *Required formality*: High. The system can now require formal input because it enables powerful features like automation, validation, and computation.
+- *System's role*: To act as a powerful tool, leveraging the formal structure to execute tasks efficiently and correctly.

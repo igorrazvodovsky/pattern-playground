@@ -11,7 +11,6 @@ import { Meta } from "@storybook/addon-docs/blocks";
 —Christopher Alexander, <cite><a href="https://en.wikipedia.org/wiki/The_Timeless_Way_of_Building">The Timeless Way of Building</a></cite>
 </div>
 
-
 <p className="lead">This is meant as an exploration of design system ideas. Through both experimental and practical approaches, I try different ways to organise and compose some of the elements of my design practice.</p>
 
 <p className="lead">Everything here is exploratory and evolving. Rather than detailed implementation, the focus is on mapping relationships between patterns and understanding how they connect.</p>
@@ -45,7 +44,7 @@ import { Meta } from "@storybook/addon-docs/blocks";
   <article>
     <img className="docs-intro-img" src="./primitives.png" />
     <h3 style={{marginBlock: '1rem'}}>[Primitives](../?path=/docs/primitives-overview--docs)</h3>
-    <p>Base building blocks to more complex components.</p>
+    <p>Base building blocks for more complex components.</p>
   </article>
 
   <article>
@@ -72,8 +71,8 @@ import { Meta } from "@storybook/addon-docs/blocks";
 
 <h2>Objective and approach</h2>
 
-Using the term "design system" is both helpful and misleading. I'm not trying to build one here (i.e. I think it's impossible without the context of a product/organisation).
-The thing I have in mind is more like an [ongoing design systems work](https://24ways.org/2019/there-is-no-design-system/), focusing on process and workflow improvements through decomposition. I guess **I'm using a part of my own design process as a target for design-system-ish organisation**.
+Using the term "design system" is both helpful and misleading. Building a complete design system requires the context of a product or organisation, which this project lacks.
+This work resembles ongoing design systems practice, focusing on process and workflow improvements through decomposition. *The project uses design practice itself as a target for design-system-style organisation*.
 {/* Is it weird? */}
 
 In practical terms the objective is to identify and describe smart, reusable patterns while approaching the process like tending a garden &mdash; cultivating ideas over time, refining structures and fostering connections.
@@ -99,7 +98,20 @@ I didn't set out to make this an AI project. The plan was to stay technology-neu
 
 A sporadically updated log of current focus.
 
-### June 2025
+### August 2025
+
+This summer I've been using [concept design](http://essenceofsoftware.com/) to tackle LLMs — breaking
+AI down into user-facing semantic blocks rather than mapping technology directly to interaction.
+This approach feels more promising than my previous attempts, but I haven't built anything with these concepts yet.
+It's possible I'm overextending Jackson's methodology, so I might scale back the LLM concept set.
+
+On the practical side, I'm vibing my way through block-based text patterns enabling [collaboration](../?path=/docs/patterns-collaboration--docs):
+commenting, [referencing](../?path=/docs/components-bubble-menu--docs), highlighting, etc. Thinking about collaboration led to updating foundations —
+I've added [conversation](../?path=/docs/foundations-conversation--docs) and [formality](../?path=/docs/foundations-formality--docs).
+Conversation now exists at three levels (foundation, pattern, and concept), which either reflects its fundamental role in interaction design or signals I'm overcomplicating things.
+Formality, on the other hand, remains purely inspirational for now—no patterns implementing it yet.
+
+### June
 
 Refining the LLM patterns. The focus continues on making AI interactions more
 deliberate and contextual, moving beyond chat toward embedded
