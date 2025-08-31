@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/addon-docs/blocks';
+import { Meta, Story } from '@storybook/addon-docs/blocks';
 import * as ItemViewStories from './ItemView.stories.tsx';
 
 <Meta of = { ItemViewStories } />
@@ -20,6 +20,8 @@ Different item view scopes provide progressive disclosure, allowing users to acc
 
 - Micro: inline [references](../?path=/docs/primitives-reference--docs) like `@Sarah Chen` and `@plan.pdf`
 - Mini: hover cards showing detailed previews
+
+<Story of = { ItemViewStories.Page } />
 
 {/*
 ## Representations

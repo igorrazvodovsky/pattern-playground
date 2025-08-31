@@ -316,9 +316,9 @@ export type {
   TaskStatus, 
   TaskPriority, 
   TaskLabel,
-  CreateTaskInput,
-  taskToItemObject 
+  CreateTaskInput 
 } from './task-types';
+export { taskToItemObject } from './task-types';
 export type Transaction = typeof transactions[0];
 export type Comment = typeof comments[0];
 export type Quote = typeof quotes[0];
