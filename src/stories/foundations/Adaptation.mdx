@@ -42,9 +42,39 @@ This is common when safety or trust is critical—predictions are filtered, rank
 Adaptation paths vary based on model confidence. High-confidence outputs are used directly.
 Low-confidence predictions trigger a fallback—either deterministic logic or human intervention.
 
+**Agency [spectrum](../?path=/docs/foundations-agency--docs#spectrum) mapping by confidence:**
+- 0-40% Passive: fallback to deterministic
+- 40-70% Reactive: suggest with caveats
+- 70-90% Proactive: act with notification
+- 90%+ Co-operative: act autonomously
+
 ### User control boundaries
 Let users see or influence which parts of the system adapt. This builds trust and improves UX predictability. UI may expose overrides, lock behaviours, or show when outputs are model-driven.
 
+Control preservation strategies:
+- Intervention points: Explicit moments where users can modify system behaviour
+- Granularity settings: Choose between high-level goals vs fine-grained control
+- History: Track and revert system changes
+
+### Adaptive scaffolding
+
+It's a good idea to adjust system support based on user expertise and context. More guidance for novices, more autonomy for experts.
+
+Progressive adaptation modes:
+- Learning mode: Heavy deterministic guardrails, explicit explanations, limited AI autonomy
+- Assisted mode: Balanced deterministic/probabilistic, contextual hints, shared control
+- Expert mode: Minimal constraints, subtle suggestions, maximum flexibility
+
+The system may track proficiency indicators (speed, error rates, feature usage) to automatically suggest mode transitions, though users always retain manual override.
+
+## Feedback loops
+
+Adaptation improves through iterative refinement. The system learns from corrections, preferences, and outcomes.
+
+Feedback mechanisms:
+- Implicit: Observing which suggestions are accepted/rejected
+- Explicit: Direct ratings, corrections, or preference settings
+- Contextual: Environmental signals and task outcomes
 
 {/* ## Relationships to different levels of design system */}
 
@@ -68,8 +98,12 @@ Adaptation here defines how systems should behave in response to users in a repe
 - User model: the requirements for understanding the user and their context of use are much higher in adaptive systems
 - Personalised response: adaptive systems go beyond static functionality, tailoring their responses to individual users and their specific needs
 - Beware the bubble: adaptive systems should be able to handle new situations and user needs, even when these deviate from established patterns
+- Recovery mechanisms: when adaptation fails, users need clear paths to correct or override system decisions
+- Skill preservation: over-adaptation can lead to skill atrophy—maintain opportunities for users to exercise judgement
 
 ## Related
 
-- Enables [agency](../?path=/docs/foundations-agency--docs)
+- Enables [agency](../?path=/docs/foundations-agency--docs) through dynamic control allocation
+- Powers [bot](../?path=/docs/patterns-bot--docs) interactions via probabilistic responses
+- Underlies [suggestion](../?path=/docs/patterns-suggestion--docs) and [explanation](../?path=/docs/patterns-explanation--docs) patterns
 {/* - [Focus and context](../?path=/docs/patterns-focus-and-context--docs) */}

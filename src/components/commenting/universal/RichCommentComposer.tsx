@@ -107,11 +107,11 @@ export const CommentComposer: React.FC<CommentComposerProps> = ({
           alt={getUserById(currentUser)?.name || currentUser}
         />
       </pp-avatar>
-      <div className="message-composer__input" style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
+      <div className="message-composer__input comment__input" style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
         <EditorContent
           editor={editor}
-          className="comment-composer__editor"
-          style={{ flex: 1, minHeight: '38px' }}
+          className="comment-composer__editor "
+          style={{ flex: 1 }}
         />
         <button
           className={`button button--plain ${isEmpty || isSubmitting ? 'button--disabled' : ''}`}

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { CommentComposer } from './RichCommentComposer.js';
 import { CommentRenderer } from './RichCommentRenderer.js';
-import { useEntityCommenting } from '../../../services/commenting/hooks/use-universal-commenting.js';
-import { useCommentInitialization } from '../../../services/commenting/hooks/use-comment-initialization.js';
-import { formatTimestamp } from '../../task/time-utils.js';
+import { useCommenting } from '../../../services/commenting/hooks/use-commenting.js';
+import { EntityPointer } from '../../../services/commenting/core/entity-pointer.js';
+import { formatTimestamp } from '../../../utility/time-utils.js';
 import { getUserById } from '../../../stories/data/index.js';
 import type { User } from '../../../stories/data/index.js';
 
@@ -24,12 +24,9 @@ interface UniversalCommentInterfaceProps {
   showHeader?: boolean;
   allowNewComments?: boolean;
   maxHeight?: string;
+  onCommentAdded?: (content: string) => void;
 }
 
-/**
- * Universal Comment Interface - Entity-agnostic comment component
- * Works with any entity type (quotes, documents, tasks, projects, etc.)
- */
 export const UniversalCommentInterface: React.FC<UniversalCommentInterfaceProps> = ({
   entityType,
   entityId,
@@ -37,39 +34,41 @@ export const UniversalCommentInterface: React.FC<UniversalCommentInterfaceProps>
   className = '',
   showHeader = true,
   allowNewComments = true,
-  maxHeight = '400px'
+  maxHeight = '400px',
+  onCommentAdded
 }) => {
   const [isComposing, setIsComposing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Initialize the commenting system
-  useCommentInitialization();
+  // Create pointer for the entity (memoized to prevent re-creating on every render)
+  const pointer = useMemo(() => new EntityPointer(entityType, entityId), [entityType, entityId]);
 
   // Get entity-specific commenting functionality
   const {
     comments,
-    addComment,
-    resolveComment,
-    activeCommentCount,
-    resolvedCommentCount
-  } = useEntityCommenting(entityType, entityId);
+    createComment,
+    updateComment,
+    loading
+  } = useCommenting(pointer, { currentUser: currentUser.id });
 
   const handleAddComment = async (content: RichContent) => {
     setIsSubmitting(true);
     try {
-      await addComment(content, currentUser.id);
+      // Convert RichContent to plain string for now
+      // In future, store rich content in comment metadata
+      await createComment(content.plainText);
       setIsComposing(false);
+
+      // Call the onCommentAdded callback if provided
+      if (onCommentAdded) {
+        onCommentAdded(content.plainText);
+      }
     } catch (error) {
       console.error('Failed to add comment:', error);
     } finally {
       setIsSubmitting(false);
     }
   };
-
-  const handleResolveComment = (commentId: string) => {
-    resolveComment(commentId, currentUser.id);
-  };
-
 
   return (
     <div className={`messages ${className}`}>

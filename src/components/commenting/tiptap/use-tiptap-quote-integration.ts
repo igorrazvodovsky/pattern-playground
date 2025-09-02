@@ -5,18 +5,11 @@ import { getQuoteService, type QuoteObject } from '../../../services/commenting/
 import { getQuotesByDocument } from '../../../stories/data/index.js';
 import { useModalService } from '../../../hooks/useModalService.js';
 import { QuoteDrawerContent } from '../../quote/QuoteDrawerContent.js';
-import { useUniversalCommenting } from '../../../services/commenting/hooks/use-universal-commenting.js';
 import { getUserById } from '../../../stories/data/index.js';
 
 interface UseTipTapQuoteIntegrationOptions {
   documentId: string;
   currentUser: string;
-}
-
-interface QuoteReference {
-  id: string;
-  type: 'quote';
-  label: string;
 }
 
 export const useTipTapQuoteIntegration = (
@@ -25,7 +18,6 @@ export const useTipTapQuoteIntegration = (
 ) => {
   const { documentId, currentUser } = options;
   const quoteService = getQuoteService();
-  const { service: commentService } = useUniversalCommenting();
   const { openDrawer } = useModalService();
 
   // Get all quotes for this document

@@ -7,7 +7,7 @@ import {
   CommandEmpty
 } from '../command-menu/command';
 import { useHierarchicalNavigation, type SearchableParent, type SearchableItem } from '../../hooks/useHierarchicalNavigation';
-import { createSortedSearchFunction, sortByRelevance } from '../../utils/hierarchical-search';
+import { createSortedSearchFunction, sortByRelevance } from '../../utility/hierarchical-search';
 import type {
   SelectedReference,
   ReferencePickerProps,

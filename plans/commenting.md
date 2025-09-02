@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-This plan addresses the commenting system's evolution from its current hybrid state to a clean, pointer-based architecture inspired by Ink & Switch's Patchwork universal comments concept. The key insight is that commenting is **universal** (works on any object), while the editor plugin provides **enhanced interactions** (quote creation, rich text composition) but is not the commenting system itself.
+This plan addresses the commenting system's evolution from its current hybrid state to a clean, pointer-based architecture. The key insight is that commenting is **universal** (works on any object), while the editor plugin provides **enhanced interactions** (quote creation, rich text composition) but is not the commenting system itself.
 
 ## Current State Assessment
 
@@ -22,7 +22,7 @@ This plan addresses the commenting system's evolution from its current hybrid st
 
 ### Key Insights
 1. The system is trying to be "universal" but gets lost in implementation complexity
-2. The Patchwork vision is simple: **developers define pointers, system handles comments**
+2. The vision is simple: **developers define pointers, system handles comments**
 3. **Critical realization**: The editor is both a consumer (via references) and provider (quote creation, rich text) for commenting, creating circular dependencies
 
 ## Design Principles
@@ -47,7 +47,7 @@ This plan addresses the commenting system's evolution from its current hybrid st
 ┌───────────────┐                    ┌───────────────┐
 │ Editor Plugin │                    │  Object Views │
 │ - Quote       │                    │  - Task View  │
-│   creation    │                    │  - Item View  │  
+│   creation    │                    │  - Item View  │
 │ - Rich text   │                    │  - Project    │
 │   composer    │                    │    View       │
 │ - References  │                    │               │
@@ -82,23 +82,23 @@ This plan addresses the commenting system's evolution from its current hybrid st
 
 ## Core Abstractions
 
-### 1. Pointer System (Following Patchwork)
+### 1. Pointer System
 
 ```typescript
 // Core pointer abstraction - what makes something commentable
 interface CommentPointer {
   // Unique identifier for this pointer
   readonly id: string;
-  
+
   // Type discrimination for pointer handling
   readonly type: string;
-  
+
   // Serialize for storage/transmission
   serialize(): string;
-  
+
   // Check equality with another pointer
   equals(other: CommentPointer): boolean;
-  
+
   // Get human-readable context for this pointer
   getContext(): Promise<PointerContext>;
 }
@@ -113,20 +113,20 @@ interface PointerContext {
 // Concrete pointer implementations
 class QuotePointer implements CommentPointer {
   readonly type = 'quote';
-  
+
   constructor(
     readonly id: string,
     private quote: QuoteObject
   ) {}
-  
+
   serialize(): string {
     return JSON.stringify({ type: this.type, id: this.id });
   }
-  
+
   equals(other: CommentPointer): boolean {
     return other.type === this.type && other.id === this.id;
   }
-  
+
   async getContext(): Promise<PointerContext> {
     return {
       title: 'Quote',
@@ -139,28 +139,28 @@ class QuotePointer implements CommentPointer {
 
 class EntityPointer implements CommentPointer {
   readonly type = 'entity';
-  
+
   constructor(
     readonly id: string,
     private entityType: string,
     private entityId: string
   ) {}
-  
+
   serialize(): string {
-    return JSON.stringify({ 
-      type: this.type, 
-      entityType: this.entityType, 
-      entityId: this.entityId 
+    return JSON.stringify({
+      type: this.type,
+      entityType: this.entityType,
+      entityId: this.entityId
     });
   }
-  
+
   equals(other: CommentPointer): boolean {
     if (other.type !== this.type) return false;
     const otherEntity = other as EntityPointer;
-    return otherEntity.entityType === this.entityType && 
+    return otherEntity.entityType === this.entityType &&
            otherEntity.entityId === this.entityId;
   }
-  
+
   async getContext(): Promise<PointerContext> {
     // Fetch entity details
     const entity = await entityService.get(this.entityType, this.entityId);
@@ -192,11 +192,11 @@ class CommentService {
     private storage: CommentStorage,
     private pointerRegistry: PointerRegistry
   ) {}
-  
+
   // Core operations
   async createComment(
-    pointer: CommentPointer, 
-    content: string, 
+    pointer: CommentPointer,
+    content: string,
     authorId: string
   ): Promise<Comment> {
     const comment: Comment = {
@@ -206,24 +206,24 @@ class CommentService {
       authorId,
       createdAt: new Date()
     };
-    
+
     await this.storage.save(comment);
     this.emit('comment:created', comment);
     return comment;
   }
-  
+
   async getComments(pointer: CommentPointer): Promise<Comment[]> {
     return this.storage.findByPointer(pointer);
   }
-  
+
   // Thread operations
   async reply(parentId: string, content: string, authorId: string): Promise<Comment> {
     const parent = await this.storage.findById(parentId);
     if (!parent) throw new Error('Parent comment not found');
-    
+
     return this.createComment(parent.pointer, content, authorId, parentId);
   }
-  
+
   // Batch operations
   async getCommentsByPointers(pointers: CommentPointer[]): Promise<Map<string, Comment[]>> {
     const results = new Map<string, Comment[]>();
@@ -243,43 +243,43 @@ The editor plugin is **not the comment system** - it's an integration layer that
 ```typescript
 class EditorCommentingPlugin extends BasePlugin {
   private quoteService: QuoteService;
-  
+
   constructor(
     private commentService: CommentService // Injected, not owned
   ) {
     super();
   }
-  
+
   onActivate(context: EditorContext): void {
     this.quoteService = new QuoteService();
-    
+
     // Editor-specific command: Create quote from selection
     context.editor.commands.createQuoteFromSelection = () => {
       const { from, to } = context.editor.state.selection;
       if (from === to) return false;
-      
+
       // Create quote object from selection
       const quote = this.quoteService.createFromSelection(
-        context.editor, 
-        from, 
+        context.editor,
+        from,
         to,
         this.currentUser
       );
-      
+
       // Quote is now just an object that can be commented on
       const pointer = new QuotePointer(quote.id, quote);
-      
+
       // Emit event for UI to show comment interface
       this.emit('quote:created', { quote, pointer });
       return true;
     };
-    
+
     // Editor-specific: Insert reference to any object
     context.editor.commands.insertReference = (object: any) => {
       // Implementation for @mentions
     };
   }
-  
+
   // Provide rich text editor for comment composition
   createCommentComposer(): Editor {
     return new Editor({
@@ -302,11 +302,11 @@ const commentService = new CommentService(
 // Hook for universal commenting (works anywhere)
 function useCommenting(pointer?: CommentPointer) {
   const [comments, setComments] = useState<Comment[]>([]);
-  
+
   useEffect(() => {
     if (!pointer) return;
     commentService.getComments(pointer).then(setComments);
-    
+
     const unsubscribe = commentService.on('comment:created', (comment) => {
       if (pointer.equals(comment.pointer)) {
         setComments(prev => [...prev, comment]);
@@ -314,12 +314,12 @@ function useCommenting(pointer?: CommentPointer) {
     });
     return unsubscribe;
   }, [pointer]);
-  
+
   const createComment = useCallback(async (content: string) => {
     if (!pointer) return;
     return commentService.createComment(pointer, content, currentUser);
   }, [pointer]);
-  
+
   return { comments, createComment };
 }
 
@@ -328,7 +328,7 @@ function useEditorCommenting(editor: Editor) {
   const plugin = editor.storage.plugins.get('editor-commenting') as EditorCommentingPlugin;
   const [activePointer, setActivePointer] = useState<CommentPointer | null>(null);
   const { comments, createComment } = useCommenting(activePointer);
-  
+
   // Listen for quote creation from editor
   useEffect(() => {
     const unsubscribe = plugin.on('quote:created', ({ quote, pointer }) => {
@@ -337,11 +337,11 @@ function useEditorCommenting(editor: Editor) {
     });
     return unsubscribe;
   }, [plugin]);
-  
+
   const createQuoteComment = useCallback(() => {
     editor.commands.createQuoteFromSelection();
   }, [editor]);
-  
+
   return {
     comments,
     createComment,
@@ -354,7 +354,7 @@ function useEditorCommenting(editor: Editor) {
 function TaskComments({ task }: { task: Task }) {
   const pointer = new EntityPointer(`task-${task.id}`, 'task', task.id);
   const { comments, createComment } = useCommenting(pointer);
-  
+
   return (
     <div>
       {comments.map(c => <Comment key={c.id} {...c} />)}
@@ -366,7 +366,7 @@ function TaskComments({ task }: { task: Task }) {
 // Example: Quote creation in editor
 function EditorWithQuoteComments({ editor }: { editor: Editor }) {
   const { createQuoteComment, activePointer, comments } = useEditorCommenting(editor);
-  
+
   return (
     <>
       <button onClick={createQuoteComment}>Comment on Selection</button>
@@ -385,7 +385,7 @@ function EditorWithQuoteComments({ editor }: { editor: Editor }) {
 
 - [ ] Delete unused components and providers
   - `CommentSystemProvider`
-  - `CommentThreadRenderer` 
+  - `CommentThreadRenderer`
   - Old hooks in `commenting/hooks/`
 - [ ] Remove dead exports from index files
 - [ ] Delete unused pointer adapter system
@@ -469,7 +469,7 @@ function EditorWithQuoteComments({ editor }: { editor: Editor }) {
 
 5. **Maintains existing functionality**
    - Quote commenting works
-   - Entity commenting works  
+   - Entity commenting works
    - References still function
    - Cross-document quotes preserved
 
@@ -506,4 +506,4 @@ function EditorWithQuoteComments({ editor }: { editor: Editor }) {
 - The "snake eating its tail" problem is resolved by clear boundaries
 - Editor creates quotes (objects), comments attach to objects (via pointers)
 - This is a **simplification**, not just a refactor
-- We're building toward the Patchwork vision of truly universal comments
+- We're building toward the vision of truly universal comments

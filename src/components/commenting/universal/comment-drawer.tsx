@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { CommentThread } from './comment-thread.js';
-import type { CommentThread as CommentThreadType, UniversalComment } from '../../../services/commenting/document-pointer.js';
+import type { Comment, CommentThread as CommentThreadType } from '../../../services/commenting/core/comment-service.js';
 
 interface CommentDrawerProps {
   threads: CommentThreadType[];
-  commentsMap: Map<string, UniversalComment[]>;
+  commentsMap: Map<string, Comment[]>;
   currentUser: string;
   isOpen: boolean;
   onAddComment?: (threadId: string, content: string) => void;

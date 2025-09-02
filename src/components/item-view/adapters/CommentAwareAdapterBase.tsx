@@ -1,60 +1,39 @@
 import React from 'react';
 import type { CommentAwareAdapter, ItemViewProps, UniversalComment, BaseItem } from '../types';
+import { UniversalCommentInterface } from '../../commenting/universal/UniversalCommentInterface';
+import { getUserById } from '../../../stories/data/index';
 
 export interface CommentSectionProps {
-  comments: UniversalComment[];
+  entityType: string;
+  entityId: string;
+  currentUser: string;
   onComment: (content: string) => void;
 }
 
-const CommentSection: React.FC<CommentSectionProps> = ({ comments, onComment }) => {
-  const [newComment, setNewComment] = React.useState('');
+const CommentSection: React.FC<CommentSectionProps> = ({ 
+  entityType, 
+  entityId, 
+  currentUser,
+  onComment 
+}) => {
+  const user = getUserById(currentUser);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (newComment.trim()) {
-      onComment(newComment.trim());
-      setNewComment('');
-    }
-  };
+  if (!user) {
+    return <div className="comment-section">Unable to load comments - user not found</div>;
+  }
 
   return (
     <div className="comment-section flow">
       <h3>Comments</h3>
-
-      {comments.length === 0 ? (
-        <p className="text-secondary">No comments yet.</p>
-      ) : (
-        <div className="comments-list flow-xs">
-          {comments.map((comment) => (
-            <div key={comment.id} className="comment">
-              <header className="inline-flow">
-                <strong>{comment.author}</strong>
-                <small className="text-secondary">
-                  {comment.timestamp.toLocaleDateString()}
-                </small>
-              </header>
-              <p>{comment.content}</p>
-            </div>
-          ))}
-        </div>
-      )}
-
-      <form onSubmit={handleSubmit} className="comment-form">
-        <textarea
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-          placeholder="Add a comment..."
-          rows={3}
-          className="textarea"
-        />
-        <button
-          type="submit"
-          className="button button--small"
-          disabled={!newComment.trim()}
-        >
-          Add Comment
-        </button>
-      </form>
+      <UniversalCommentInterface
+        entityType={entityType}
+        entityId={entityId}
+        currentUser={user}
+        showHeader={false}
+        allowNewComments={true}
+        maxHeight="400px"
+        onCommentAdded={onComment}
+      />
     </div>
   );
 };
@@ -71,6 +50,7 @@ export abstract class CommentAwareAdapterBase<T extends BaseItem = BaseItem>
   renderWithComments(props: ItemViewProps<T> & {
     comments: UniversalComment[];
     onComment: (content: string) => void;
+    currentUser?: string;
   }): React.ReactNode {
     return (
       <div className="item-with-comments flow">
@@ -78,7 +58,9 @@ export abstract class CommentAwareAdapterBase<T extends BaseItem = BaseItem>
           {this.render(props)}
         </div>
         <CommentSection
-          comments={props.comments}
+          entityType={this.contentType}
+          entityId={props.item.id}
+          currentUser={props.currentUser || 'user-1'}
           onComment={props.onComment}
         />
       </div>

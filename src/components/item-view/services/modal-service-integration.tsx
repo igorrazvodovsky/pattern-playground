@@ -1,8 +1,10 @@
 import React from 'react';
-import type { BaseItem, ViewScope } from '../types';
+import type { ItemObject, ViewScope } from '../types';
 import { ItemView } from '../ItemView';
 import { ContentAdapterProvider } from '../ContentAdapterRegistry';
 import { referenceContentAdapter } from '../../reference/ReferenceContentAdapter';
+import { quoteAdapter } from '../adapters/QuoteAdapter';
+import { taskAdapter } from '../adapters/TaskAdapter';
 
 export interface ModalContentConfig {
   size: 'small' | 'medium' | 'large' | 'fullscreen';
@@ -10,34 +12,28 @@ export interface ModalContentConfig {
   closeOnEscape?: boolean;
 }
 
-export const createModalContent = (
-  item: BaseItem,
-  contentType: string,
+export const createModalContent = <T extends string>(
+  item: ItemObject<T>,
+  contentType: T,
   scope: ViewScope
 ): React.ReactNode => {
-  // Transform Quote objects to be BaseItem compatible
-  const transformedItem: BaseItem = {
-    id: item.id,
-    label: (item as any).name || item.id, // Quote uses 'name' instead of 'label'
-    type: item.type,
-    metadata: {
-      ...item.metadata,
-      // Include quote-specific data in metadata for generic rendering
-      ...(contentType === 'quote' && {
-        content: (item as any).content,
-        description: (item as any).description,
-        searchableText: (item as any).searchableText,
-      })
-    }
-  };
+  // Pass the original item unchanged to its adapter
+  // The adapter knows how to handle its specific object structure
+  const adapters = [];
+  if (contentType === 'reference') {
+    adapters.push(referenceContentAdapter);
+  } else if (contentType === 'quote') {
+    adapters.push(quoteAdapter);
+  } else if (contentType === 'task') {
+    adapters.push(taskAdapter);
+  }
 
-  // Determine which adapters to use based on content type
-  const adapters = contentType === 'reference' ? [referenceContentAdapter] : [];
+  console.log('createModalContent - contentType:', contentType, 'item structure:', Object.keys(item));
   
   return (
     <ContentAdapterProvider adapters={adapters}>
       <ItemView
-        item={transformedItem}
+        item={item}
         contentType={contentType}
         scope={scope}
         mode="inspect"

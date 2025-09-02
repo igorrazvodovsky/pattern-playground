@@ -11,12 +11,28 @@ const CommentingBubbleMenu: React.FC<CommentingBubbleMenuProps> = ({ editor, con
   if (!editor) return null;
 
   const handleCreateComment = () => {
-    // Emit command through the plugin system
+    console.log('CommentingBubbleMenu: handleCreateComment called');
+    console.log('CommentingBubbleMenu: editor:', editor);
+    console.log('CommentingBubbleMenu: editor.commands.createQuoteFromSelection:', (editor?.commands as any)?.createQuoteFromSelection);
+    
+    // Call the editor command directly since we know it exists from the plugin
+    if (editor && (editor.commands as any).createQuoteFromSelection) {
+      console.log('CommentingBubbleMenu: Calling createQuoteFromSelection command');
+      const result = (editor.commands as any).createQuoteFromSelection();
+      console.log('CommentingBubbleMenu: Command result:', result);
+    } else {
+      console.log('CommentingBubbleMenu: createQuoteFromSelection command not found');
+    }
+    
+    // Also try the event bus approach as fallback
     if (editor?.storage?.editorContext?.eventBus) {
+      console.log('CommentingBubbleMenu: Trying event bus approach');
       editor.storage.editorContext.eventBus.emit('command:execute', {
         command: 'commenting:create-quote-comment',
         params: {},
       });
+    } else {
+      console.log('CommentingBubbleMenu: Event bus not available');
     }
   };
 

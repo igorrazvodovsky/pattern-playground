@@ -56,6 +56,8 @@ Components follow a **progressive enhancement** strategy:
 - **Light-DOM Web Components** - Custom elements that use the light DOM instead of shadow DOM for better accessibility and styling inheritance
 - **Centralized component registration** - Use dependency-aware registration system for consistent component instantiation order
 - **Leverage existing dependencies** - Before adding a new dependency, check if existing ones solve the problem
+- **Universal commenting system** - Pointer-based architecture that works on any object type (tasks, quotes, entities)
+- **Clean separation of concerns** - Core services (framework-agnostic), integrations (editor plugins), and UI layers are distinct
 
 #### Progressive enhancement
 The `<pp-modal>` component demonstrates several key patterns for building progressive enhancement components:
@@ -79,6 +81,11 @@ The `<pp-modal>` component demonstrates several key patterns for building progre
 - **Leverage built-in utilities**: Use `shallow` from `zustand/shallow` for object equality
 - **Persist strategically**: Use `persist` middleware with proper serialization for localStorage
 - **Validate rehydration**: Add error handling when loading persisted state
+
+#### **Service Architecture**
+- **Framework-agnostic core services** - Business logic lives in pure TypeScript classes (e.g., CommentService)
+- **Plugin architecture** - Editors and integrations consume services rather than owning them
+- **Pointer-based abstractions** - Use pointer objects to make any entity commentable without tight coupling
 
 ### Modern JavaScript/TypeScript features
 

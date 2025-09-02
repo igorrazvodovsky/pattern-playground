@@ -1,14 +1,16 @@
 // Commenting UI components exports
 
-// Context and providers
-export { CommentSystemProvider, useCommentSystemContext } from './CommentSystemProvider.js';
-
 // Universal components
-export { CommentThread, CommentPopover, CommentDrawer } from './universal/index.js';
+export { CommentThread, CommentPopover, CommentDrawer } from './universal/index';
 
-// Hooks
-export { useCommentUI } from './hooks/index.js';
+// TipTap integration - Plugin architecture
+export { 
+  EditorCommentingPlugin, 
+  createEditorCommentingPlugin,
+  useEditorCommenting 
+} from './tiptap/index';
 
-// TipTap integration
-export { CommentMark } from './tiptap/comment-mark.js';
-export { useTipTapCommentingIntegration } from './tiptap/use-tiptap-commenting.js';
+// Examples following the plan architecture
+export { TaskComments } from './examples/TaskComments';
+export { ProjectComments, ProjectViewScopes, DirectProjectCommenting } from './examples/ProjectComments';
+export { EditorWithQuoteComments } from './examples/EditorWithQuoteComments';

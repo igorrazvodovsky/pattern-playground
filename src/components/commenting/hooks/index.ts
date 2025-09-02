@@ -1,2 +1,2 @@
 // Comment UI integration hooks
-export { useCommentUI } from './use-comment-ui.js';
+export { useQuoteCommentUI } from './use-quote-comment-ui.js';

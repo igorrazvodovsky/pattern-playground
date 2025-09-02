@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import type { Editor } from '@tiptap/react';
 import { useQuoteCommentUI } from '../hooks/use-quote-comment-ui.js';
-import { useUniversalCommenting } from '../../../services/commenting/hooks/use-universal-commenting.js';
+import { getCommentService } from '../../../services/commenting/core/comment-service-instance.js';
 
 interface UseTipTapQuoteCommentingOptions {
   documentId: string;
@@ -26,7 +26,7 @@ export const useTipTapQuoteCommenting = (
   });
 
   // Get universal commenting service for advanced operations
-  const { service: universalCommentingService } = useUniversalCommenting();
+  const commentService = getCommentService();
 
   // Enhanced quote creation that triggers comment flow
   const createQuoteWithComment = useCallback(() => {
@@ -46,14 +46,18 @@ export const useTipTapQuoteCommenting = (
   }, [commentUI]);
 
   // Get quote comment count for UI indicators
-  const getQuoteCommentCount = useCallback((quoteId: string) => {
-    return universalCommentingService.getActiveCommentCount('quote', quoteId);
-  }, [universalCommentingService]);
+  const getQuoteCommentCount = useCallback(async (quoteId: string) => {
+    const { EntityPointer } = await import('../../../services/commenting/core/entity-pointer.js');
+    const pointer = new EntityPointer('quote', quoteId);
+    const comments = await commentService.getComments(pointer);
+    return comments.filter(c => !c.resolved).length;
+  }, [commentService]);
 
   // Check if a quote has any comments
-  const hasQuoteComments = useCallback((quoteId: string) => {
-    return universalCommentingService.hasCommentsForEntity('quote', quoteId);
-  }, [universalCommentingService]);
+  const hasQuoteComments = useCallback(async (quoteId: string) => {
+    const count = await getQuoteCommentCount(quoteId);
+    return count > 0;
+  }, [getQuoteCommentCount]);
 
   return {
     // Quote + Comment integration
@@ -84,6 +88,6 @@ export const useTipTapQuoteCommenting = (
     
     // Service access for advanced usage
     quoteService: commentUI.quoteService,
-    universalCommentingService
+    commentService
   };
 };

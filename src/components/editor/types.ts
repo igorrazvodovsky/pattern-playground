@@ -88,6 +88,7 @@ export type EventPayload = {
   'commenting:create-quote-comment': { params?: unknown };
   'commenting:show-comments': { quoteId?: string };
   'commenting:selection-change': { from: number; to: number; content: string };
+  'quote:created': { quote: any; pointer: any };
   'references:selection-changed': { hasSelection: boolean; selectedText: string; range: { from: number; to: number } };
   'references:data-updated': { data: unknown };
   'references:reference-inserted': { reference: unknown };

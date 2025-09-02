@@ -8,7 +8,9 @@ import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import { ReferencePicker } from './ReferencePicker';
 import { ItemInteraction, ContentAdapterProvider } from '../item-view';
 import { referenceContentAdapter } from './ReferenceContentAdapter';
+import { quoteAdapter, quoteToBaseItem } from '../item-view/adapters/QuoteAdapter';
 import type { ReferenceCategory, SelectedReference, ReferenceType } from './types';
+import type { QuoteObject } from '../../services/commenting/core/quote-pointer';
 import { resolveReferenceData } from '../../stories/data';
 
 declare module '@tiptap/core' {
@@ -91,7 +93,7 @@ const ReferencePickerPopup: React.FC<ReferencePickerPopupProps> = ({
       }
     } catch (error) {
       if (!abortController.signal.aborted) {
-        console.warn('Position update failed:', error);
+        // Position update failed - floating UI will handle fallback
       }
     }
   }, [anchor, placement, abortController.signal]);
@@ -288,6 +290,41 @@ export const Reference = Mention.extend({
         metadata: node.attrs.metadata ? structuredClone(node.attrs.metadata) : undefined,
       };
 
+      // For quote references, use the quote adapter with the quote object
+      if (node.attrs.type === 'quote' && resolvedData) {
+        try {
+          const quoteData = resolvedData as unknown as QuoteObject;
+          const quoteItem = quoteToBaseItem(quoteData);
+          const ReferenceComponent = () => (
+            <ContentAdapterProvider adapters={[quoteAdapter]}>
+              <ItemInteraction
+                item={quoteItem}
+                contentType="quote"
+                enableEscalation={true}
+              >
+                {node.attrs.label ?? node.attrs.id}
+              </ItemInteraction>
+            </ContentAdapterProvider>
+          );
+
+          const renderer = new ReactRenderer(ReferenceComponent, {
+            editor,
+          });
+
+          wrapper.appendChild(renderer.element);
+
+          return {
+            dom: wrapper,
+            destroy() {
+              renderer.destroy();
+            },
+          };
+        } catch (error) {
+          // Fall through to regular reference handling
+        }
+      }
+
+      // For non-quote references, use the standard reference adapter
       const ReferenceComponent = () => (
         <ContentAdapterProvider adapters={[referenceContentAdapter]}>
           <ItemInteraction

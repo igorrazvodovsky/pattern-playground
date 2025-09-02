@@ -1,12 +1,12 @@
 import React, { useCallback, useRef } from 'react';
-import type { CommentThread as CommentThreadType, UniversalComment } from '../../../services/commenting/document-pointer.js';
+import type { Comment, CommentThread as CommentThreadType } from '../../../services/commenting/core/comment-service.js';
 import type { PpInput } from '../../input/input.js';
 import { getUserById } from '../../../stories/data/index.js';
-import { formatTimestamp } from '../../task/time-utils.js';
+import { formatTimestamp } from '../../../utility/time-utils.js';
 
 interface CommentThreadProps {
   thread: CommentThreadType;
-  comments: UniversalComment[];
+  comments: Comment[];
   currentUser: string;
   onAddComment?: (threadId: string, content: string) => void;
   onResolveThread?: (threadId: string) => void;

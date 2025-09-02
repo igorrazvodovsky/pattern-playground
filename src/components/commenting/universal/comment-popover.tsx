@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import { CommentThread } from './comment-thread.js';
-import type { CommentThread as CommentThreadType, UniversalComment } from '../../../services/commenting/document-pointer.js';
+import type { Comment, CommentThread as CommentThreadType } from '../../../services/commenting/core/comment-service.js';
 
 interface CommentPopoverProps {
   thread: CommentThreadType;
-  comments: UniversalComment[];
+  comments: Comment[];
   currentUser: string;
   onAddComment?: (threadId: string, content: string) => void;
   onResolveThread?: (threadId: string) => void;

@@ -26,7 +26,7 @@ import { useHierarchicalNavigation } from '../../../hooks/useHierarchicalNavigat
 import {
   createSortedSearchFunction,
   sortByRelevance
-} from '../../../utils/hierarchical-search';
+} from '../../../utility/hierarchical-search';
 
 import { generateFilterSuggestions } from "../../../components/filter/adapters/ai-filter-adapter";
 

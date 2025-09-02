@@ -38,7 +38,7 @@ This pattern directly implements the paper's **Semi-active** and **Reactive** ag
   - Maps to: Proactive or Co-operative patterns
   - Control: AI has initiative
   - Mechanism: Suggestion generation
-  
+
 - **Disposing Phase** (Deterministic/Human Agency)
   - Maps to: Human-centric locus
   - Control: Human has veto power
@@ -99,22 +99,6 @@ From the paper's granularity concept:
 **Mixed Granularity**
 - Different levels for different aspects
 - Example: Coarse workflow, fine-tuned parameters
-
-## 6. Add Transparency Mechanisms
-
-### New Section: "Making Adaptation Transparent"
-
-Connect to paper's transparency requirements:
-
-**Adaptation Indicators**
-- Visual cues when system adapts
-- Confidence meters for probabilistic outputs
-- "Why did this change?" explanations
-
-**User Control Interface**
-- Adaptation settings panel
-- Lock/unlock adaptive features
-- History of adaptations
 
 ## 7. Expand User Control Boundaries
 
@@ -193,11 +177,11 @@ const adaptUI = (userRole, context) => {
 const adaptContent = async (user, context) => {
   const prediction = await model.predict({user, context});
   const confidence = prediction.confidence;
-  
+
   if (confidence < 0.6) {
     return deterministicFallback();
   }
-  
+
   return {
     content: prediction.result,
     confidence,

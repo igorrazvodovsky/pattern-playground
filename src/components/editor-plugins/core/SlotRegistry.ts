@@ -39,10 +39,6 @@ export class SlotRegistry implements ISlotRegistry {
       position = SlotRegistry.DEFAULT_OPTIONS.position 
     }: SlotRegistrationOptions = {}
   ): void {
-    if (process.env.NODE_ENV === 'development') {
-      console.log(`SlotRegistry.register: ${component.pluginId} -> ${slotId}`);
-    }
-
     // Initialize slot if needed
     if (!this.#slots.has(slotId)) {
       this.#slots.set(slotId, []);
@@ -214,9 +210,7 @@ export class SlotRegistry implements ISlotRegistry {
       const renderTime = performance.now() - startTime;
 
       // Update metrics using WeakMap (if we had a component reference)
-      if (process.env.NODE_ENV === 'development' && renderTime > 16) {
-        console.warn(`[SlotRegistry] Slow render detected for plugin '${pluginId}': ${renderTime.toFixed(2)}ms`);
-      }
+      // Slow render detection handled by metrics system
 
       return result;
     };

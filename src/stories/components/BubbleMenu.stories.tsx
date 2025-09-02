@@ -6,7 +6,6 @@ import Highlight from '@tiptap/extension-highlight';
 import '../../components/modal/modal.ts';
 import { Reference, createReferenceSuggestion } from '../../components/reference/index.js';
 import { referenceCategories } from '../data/index.js';
-import type { ReferenceCategory } from '../../components/reference/types.js';
 import { EditorProvider } from '../../components/editor/EditorProvider';
 import { EditorLayout } from '../../components/editor/EditorLayout';
 import { EditorContent as PluginEditorContent } from '../../components/editor/slots/EditorContent';
@@ -15,23 +14,6 @@ import { formattingPlugin } from '../../components/editor-plugins/formatting/For
 import { commentingPlugin } from '../../components/editor-plugins/commenting/CommentingPlugin';
 import { CommentingIntegration } from '../../components/editor-plugins/commenting/components/CommentingIntegration';
 import { aiAssistantPlugin } from '../../components/editor-plugins/ai-assistant';
-
-const convertToReferenceCategories = (categories: typeof referenceCategories): ReferenceCategory[] => {
-  return categories.map(cat => ({
-    id: cat.id,
-    label: cat.name,
-    items: cat.children.map(child => ({
-      id: child.id,
-      label: child.name,
-      type: child.type,
-      metadata: child.metadata
-    })),
-    metadata: {
-      icon: cat.icon,
-      searchableText: cat.searchableText
-    }
-  }));
-};
 import { getDocumentContentText, getDocumentContentRich } from '../data/index.ts';
 
 const meta = {
@@ -119,15 +101,20 @@ export const TextLense: Story = {
 const CommentingEditor: React.FC = () => {
   const richContent = getDocumentContentRich('doc-climate-change');
 
+  // Initialize mock comments on mount
+  React.useEffect(() => {
+    import('../../services/commenting/mock-data/initialize-mock-comments').then(({ initializeMockComments }) => {
+      initializeMockComments();
+    });
+  }, []);
+
   // Use direct Tiptap useEditor hook with minimal extensions
   const editor = useEditor({
     extensions: [
       StarterKit,
       Highlight,
       Reference.configure({
-        suggestion: createReferenceSuggestion(
-          convertToReferenceCategories(referenceCategories)
-        ),
+        suggestion: createReferenceSuggestion(referenceCategories),
       })
     ],
     content: richContent || '',
@@ -159,7 +146,6 @@ const CommentingEditor: React.FC = () => {
           commentingPlugin({
             documentId: 'doc-climate-change',
             currentUser: 'user-1',
-            referenceCategories: convertToReferenceCategories(referenceCategories),
             bubbleMenu: true,
             toolbar: false,
             enableQuoteComments: true,
@@ -171,9 +157,6 @@ const CommentingEditor: React.FC = () => {
           config={{
             documentId: 'doc-climate-change',
             currentUser: 'user-1',
-            referenceCategories: convertToReferenceCategories(referenceCategories),
-            bubbleMenu: true,
-            toolbar: false,
             enableQuoteComments: true,
           }}
         >

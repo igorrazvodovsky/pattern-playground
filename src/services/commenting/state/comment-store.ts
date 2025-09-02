@@ -127,7 +127,16 @@ export const useCommentStore = create<UniversalCommentingState & {
         
         getComments: (entityType, entityId) => {
           const entityKey = createEntityKey(entityType, entityId);
-          return get().commentsByEntity.get(entityKey) || [];
+          const state = get();
+          const comments = state.commentsByEntity.get(entityKey) || [];
+          
+          console.log(`CommentStore.getComments - Key: "${entityKey}", Found: ${comments.length} comments`);
+          console.log('CommentStore - All entity keys:', Array.from(state.commentsByEntity.keys()));
+          if (entityKey.includes('habitats')) {
+            console.log('CommentStore - Habitat comments debug:', comments);
+          }
+          
+          return comments;
         },
         
         resolveComment: (commentId) => {
