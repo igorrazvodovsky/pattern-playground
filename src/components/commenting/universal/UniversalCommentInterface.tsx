@@ -27,10 +27,6 @@ interface UniversalCommentInterfaceProps {
   onCommentAdded?: (content: string) => void;
 }
 
-/**
- * Universal Comment Interface - Entity-agnostic comment component
- * Works with any entity type (quotes, documents, tasks, projects, etc.)
- */
 export const UniversalCommentInterface: React.FC<UniversalCommentInterfaceProps> = ({
   entityType,
   entityId,
@@ -55,12 +51,6 @@ export const UniversalCommentInterface: React.FC<UniversalCommentInterfaceProps>
     loading
   } = useCommenting(pointer, { currentUser: currentUser.id });
 
-  // Debug logging (disabled to prevent console spam)
-  // React.useEffect(() => {
-  //   console.log(`UniversalCommentInterface Debug - entityType: ${entityType}, entityId: ${entityId}`);
-  //   console.log(`Comments found:`, comments);
-  // }, [entityType, entityId, comments]);
-
   const handleAddComment = async (content: RichContent) => {
     setIsSubmitting(true);
     try {
@@ -68,7 +58,7 @@ export const UniversalCommentInterface: React.FC<UniversalCommentInterfaceProps>
       // In future, store rich content in comment metadata
       await createComment(content.plainText);
       setIsComposing(false);
-      
+
       // Call the onCommentAdded callback if provided
       if (onCommentAdded) {
         onCommentAdded(content.plainText);
@@ -80,33 +70,12 @@ export const UniversalCommentInterface: React.FC<UniversalCommentInterfaceProps>
     }
   };
 
-  const handleResolveComment = async (commentId: string) => {
-    const comment = comments.find(c => c.id === commentId);
-    if (comment) {
-      await updateComment(commentId, { ...comment, resolved: true });
-    }
-  };
-
-  // Calculate counts from comments
-  const activeCommentCount = comments.filter(c => !c.resolved).length;
-  const resolvedCommentCount = comments.filter(c => c.resolved).length;
-
-
   return (
     <div className={`messages ${className}`}>
       {comments.map((comment) => {
         const user = getUserById(comment.authorId);
         const displayName = user?.name || comment.authorId;
         const photoUrl = user?.metadata?.photoUrl || `https://i.pravatar.cc/150?seed=${comment.authorId}`;
-
-        // Debug logging for each comment (disabled to prevent console spam)
-        // console.log('Rendering comment:', {
-        //   id: comment.id,
-        //   authorId: comment.authorId,
-        //   user: user,
-        //   displayName,
-        //   content: comment.content
-        // });
 
         return (
           <div key={comment.id} className="message">

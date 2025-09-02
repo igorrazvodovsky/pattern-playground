@@ -63,7 +63,6 @@ export class EditorCommentingPlugin extends BasePlugin {
   }
 
   onActivate(context: EditorContext): void {
-    console.log('CommentingPlugin: onActivate called with context:', context);
     super.onActivate(context);
     
     // Store plugin reference in editor storage for hook access
@@ -72,7 +71,6 @@ export class EditorCommentingPlugin extends BasePlugin {
         context.editor.storage.plugins = new Map();
       }
       context.editor.storage.plugins.set('editor-commenting', this);
-      console.log('CommentingPlugin: Plugin stored in editor storage');
     }
     
     // Add editor commands
@@ -90,12 +88,10 @@ export class EditorCommentingPlugin extends BasePlugin {
     
     // Add the createQuoteFromSelection command that the hook expects
     (context.editor.commands as any).createQuoteFromSelection = () => {
-      console.log('EditorCommand: createQuoteFromSelection called');
       this.handleCreateQuoteComment();
       return true;
     };
     
-    console.log('CommentingPlugin: Added createQuoteFromSelection command to editor');
   }
 
   private initializeQuoteCommenting(): void {
@@ -163,7 +159,6 @@ export class EditorCommentingPlugin extends BasePlugin {
 
       switch (command) {
         case 'commenting:create-quote-comment':
-          console.log('CommentingPlugin: Received commenting:create-quote-comment command');
           this.handleCreateQuoteComment();
           break;
         case 'commenting:show-comments':
@@ -182,14 +177,11 @@ export class EditorCommentingPlugin extends BasePlugin {
 
   private handleCreateQuoteComment(): void {
     if (!this.context?.editor) {
-      console.log('CommentingPlugin: No editor context available');
       return;
     }
 
-    console.log('CommentingPlugin: handleCreateQuoteComment called');
     const { from, to } = this.context.editor.state.selection;
     if (from === to) {
-      console.log('CommentingPlugin: No text selected');
       return;
     }
     
@@ -214,10 +206,7 @@ export class EditorCommentingPlugin extends BasePlugin {
     const pointer = new QuotePointer(quote.id, quote);
     
     // Show comment interface WITHOUT creating the reference yet
-    console.log('CommentingPlugin: About to emit quote:created event', { quote, pointer });
-    console.log('CommentingPlugin: Stored selection for quote:', { quoteId: quote.id, from, to, text: selectedText });
     const emitResult = this.emit('quote:created', { quote, pointer });
-    console.log('CommentingPlugin: Emit result:', emitResult);
   }
 
   // Store pending quotes with their selection info
@@ -230,24 +219,18 @@ export class EditorCommentingPlugin extends BasePlugin {
     // Get the stored selection for this quote
     const pendingQuote = this.pendingQuotes.get(quoteId);
     if (!pendingQuote) {
-      console.log('CommentingPlugin: No pending quote found for ID:', quoteId);
       return;
     }
 
-    console.log('CommentingPlugin: Finalizing quote with stored selection:', pendingQuote);
 
     // Use the stored selection to create the reference
     const { from, to, text } = pendingQuote;
 
     // First restore the selection to the original position
     const setSelectionResult = this.context.editor.commands.setTextSelection({ from, to });
-    console.log('CommentingPlugin: setTextSelection result:', setSelectionResult);
-    console.log('CommentingPlugin: Current selection after restore:', this.context.editor.state.selection);
     
     // Check if the text at that position still matches
     const currentText = this.context.editor.state.doc.textBetween(from, to, ' ');
-    console.log('CommentingPlugin: Original text:', text);
-    console.log('CommentingPlugin: Current text at position:', currentText);
     
     // Then create the reference at that position
     const convertResult = (this.context.editor.commands as any).convertSelectionToQuoteReference({
@@ -260,9 +243,6 @@ export class EditorCommentingPlugin extends BasePlugin {
       }
     });
     
-    console.log('CommentingPlugin: convertSelectionToQuoteReference available:', !!(this.context.editor.commands as any).convertSelectionToQuoteReference);
-
-    console.log('CommentingPlugin: Quote finalized, convertSelectionToQuoteReference result:', convertResult);
     
     // Clean up the pending quote
     this.pendingQuotes.delete(quoteId);

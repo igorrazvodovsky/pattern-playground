@@ -33,9 +33,6 @@ export class AIAssistantPlugin extends BasePlugin {
 
   constructor(options: AIAssistantPluginOptions = {}) {
     super();
-    if (process.env.NODE_ENV === 'development') {
-      console.log('AIAssistantPlugin constructor called');
-    }
     this.options = {
       enableExplain: true,
       enableSummarize: true,
@@ -48,9 +45,6 @@ export class AIAssistantPlugin extends BasePlugin {
   }
 
   onInstall(context: EditorContext): void {
-    if (process.env.NODE_ENV === 'development') {
-      console.log('AIAssistantPlugin.onInstall called');
-    }
     super.onInstall(context);
     
     // Subscribe to selection events
@@ -65,17 +59,11 @@ export class AIAssistantPlugin extends BasePlugin {
   }
 
   onActivate(context: EditorContext): void {
-    if (process.env.NODE_ENV === 'development') {
-      console.log('AIAssistantPlugin.onActivate called');
-    }
     super.onActivate(context);
     this.registerUI(context.slots);
   }
 
   registerUI(slots: any): void {
-    if (process.env.NODE_ENV === 'development') {
-      console.log('AIAssistantPlugin.registerUI called');
-    }
     // Register bubble menu component
     slots.register('bubble-menu', {
       pluginId: this.id,
@@ -104,9 +92,6 @@ export class AIAssistantPlugin extends BasePlugin {
   }
 
   subscribeToEvents(eventBus: any): void {
-    if (process.env.NODE_ENV === 'development') {
-      console.log('AIAssistantPlugin.subscribeToEvents called, cleaning up existing listeners');
-    }
     
     // Clean up existing event listeners to prevent duplicates
     this.eventUnsubscribers.forEach(unsubscribe => unsubscribe());
@@ -127,9 +112,6 @@ export class AIAssistantPlugin extends BasePlugin {
     // Handle streaming chunks for real-time updates
     const chunkUnsubscribe = eventBus.on('ai-assistant:chunk-received', (payload: { action: string; content: string; range: { from: number; to: number } }) => {
       if (this.options.streamingEnabled && this.context?.editor) {
-        if (process.env.NODE_ENV === 'development') {
-          console.log('Handling chunk received:', payload.content.substring(0, 50) + '...');
-        }
         const editor = this.context.editor;
         
         try {
@@ -139,12 +121,6 @@ export class AIAssistantPlugin extends BasePlugin {
             this.streamingRange = { from: payload.range.from, to: payload.range.to };
             this.streamingContent = payload.content;
             
-            if (process.env.NODE_ENV === 'development') {
-              console.log('First chunk - replacing selection:', {
-                originalRange: this.streamingRange,
-                contentLength: this.streamingContent.length
-              });
-            }
             
             // First chunk: replace the original selection
             editor.chain()
@@ -156,11 +132,6 @@ export class AIAssistantPlugin extends BasePlugin {
             // Accumulate content for subsequent chunks
             this.streamingContent += payload.content;
             
-            if (process.env.NODE_ENV === 'development') {
-              console.log('Subsequent chunk - replacing selected content:', {
-                totalContentLength: this.streamingContent.length
-              });
-            }
             
             // For subsequent chunks: select the current AI content and replace it
             // This avoids range tracking issues by using the current selection
@@ -198,9 +169,6 @@ export class AIAssistantPlugin extends BasePlugin {
   }
 
   onDeactivate(): void {
-    if (process.env.NODE_ENV === 'development') {
-      console.log('AIAssistantPlugin.onDeactivate called, cleaning up listeners');
-    }
     this.eventUnsubscribers.forEach(unsubscribe => unsubscribe());
     this.eventUnsubscribers = [];
     // Reset streaming state
@@ -210,9 +178,6 @@ export class AIAssistantPlugin extends BasePlugin {
   }
 
   onDestroy(): void {
-    if (process.env.NODE_ENV === 'development') {
-      console.log('AIAssistantPlugin.onDestroy called');
-    }
     this.eventUnsubscribers.forEach(unsubscribe => unsubscribe());
     this.eventUnsubscribers = [];
     // Reset streaming state
@@ -228,28 +193,6 @@ export class AIAssistantPlugin extends BasePlugin {
 
   // AI Assistant specific methods
   private async handleAIAction(action: string, selectedText: string, range: { from: number; to: number }): Promise<void> {
-    if (process.env.NODE_ENV === 'development') {
-      console.log('AIAssistantPlugin.handleAIAction called:', { 
-        action, 
-        selectedText: selectedText.substring(0, 100) + (selectedText.length > 100 ? '...' : ''),
-        selectedTextLength: selectedText.length,
-        range,
-        rangeLength: range.to - range.from
-      });
-      
-      // Additional debugging for text mismatch issues
-      if (this.context?.editor) {
-        const actualContent = this.context.editor.state.doc.textBetween(range.from, range.to);
-        if (actualContent !== selectedText) {
-          console.warn('Selection text mismatch!', {
-            expectedText: selectedText.substring(0, 50),
-            actualContent: actualContent.substring(0, 50),
-            expectedLength: selectedText.length,
-            actualLength: actualContent.length
-          });
-        }
-      }
-    }
     if (!this.context?.editor || !selectedText) return;
 
     // Reset streaming state for new action
@@ -258,9 +201,6 @@ export class AIAssistantPlugin extends BasePlugin {
 
     const callbacks: TextLensCallbacks = {
       onChunk: (content: string) => {
-        if (process.env.NODE_ENV === 'development') {
-          console.log('AI chunk received:', content);
-        }
         // Emit chunk event for real-time updates
         this.context?.eventBus.emit('ai-assistant:chunk-received', { 
           action, 
@@ -269,15 +209,9 @@ export class AIAssistantPlugin extends BasePlugin {
         });
       },
       onComplete: () => {
-        if (process.env.NODE_ENV === 'development') {
-          console.log('AI action completed:', action);
-        }
         this.context?.eventBus.emit('ai-assistant:action-complete', { action });
       },
       onError: (error: string) => {
-        if (process.env.NODE_ENV === 'development') {
-          console.log('AI action error:', error);
-        }
         this.context?.eventBus.emit('ai-assistant:action-error', { action, error });
       }
     };
@@ -304,9 +238,6 @@ export class AIAssistantPlugin extends BasePlugin {
       }
 
       // Replace selected text with AI result if streaming is not enabled
-      if (process.env.NODE_ENV === 'development') {
-        console.log('AI action result:', { result, streamingEnabled: this.options.streamingEnabled });
-      }
       if (!this.options.streamingEnabled && result) {
         // Use the same reliable chain approach as the working version
         const success = this.context.editor.chain()
@@ -318,16 +249,10 @@ export class AIAssistantPlugin extends BasePlugin {
         if (success) {
           // Select the newly inserted text
           const newTo = range.from + result.length;
-          if (process.env.NODE_ENV === 'development') {
-            console.log('Setting text selection (non-streaming):', { from: range.from, to: newTo });
-          }
           
           setTimeout(() => {
             if (this.context?.editor) {
               this.context.editor.commands.setTextSelection({ from: range.from, to: newTo });
-              if (process.env.NODE_ENV === 'development') {
-                console.log('Non-streaming selection set, current selection:', this.context.editor.state.selection);
-              }
             }
           }, 10);
         } else {

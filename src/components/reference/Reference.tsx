@@ -93,7 +93,7 @@ const ReferencePickerPopup: React.FC<ReferencePickerPopupProps> = ({
       }
     } catch (error) {
       if (!abortController.signal.aborted) {
-        console.warn('Position update failed:', error);
+        // Position update failed - floating UI will handle fallback
       }
     }
   }, [anchor, placement, abortController.signal]);
@@ -292,16 +292,9 @@ export const Reference = Mention.extend({
 
       // For quote references, use the quote adapter with the quote object
       if (node.attrs.type === 'quote' && resolvedData) {
-        console.log('Reference.tsx - Creating quote reference component for:', {
-          id: node.attrs.id,
-          type: node.attrs.type,
-          label: node.attrs.label,
-          resolvedData
-        });
         try {
           const quoteData = resolvedData as unknown as QuoteObject;
           const quoteItem = quoteToBaseItem(quoteData);
-          console.log('Reference.tsx - Created quoteItem:', quoteItem);
           const ReferenceComponent = () => (
             <ContentAdapterProvider adapters={[quoteAdapter]}>
               <ItemInteraction
@@ -327,7 +320,6 @@ export const Reference = Mention.extend({
             },
           };
         } catch (error) {
-          console.error('Error creating quote reference component:', error);
           // Fall through to regular reference handling
         }
       }

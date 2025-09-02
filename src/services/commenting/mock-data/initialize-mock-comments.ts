@@ -89,7 +89,6 @@ export async function initializeMockComments(): Promise<void> {
   // Check if we already have comments (to avoid re-initializing)
   const storageKey = 'mock-comments-initialized';
   if (localStorage.getItem(storageKey) === 'true') {
-    console.log('Mock comments already initialized');
     return;
   }
   
@@ -135,7 +134,6 @@ export async function initializeMockComments(): Promise<void> {
     
     // Mark as initialized
     localStorage.setItem(storageKey, 'true');
-    console.log('Mock comments initialized successfully');
   } catch (error) {
     console.error('Failed to initialize mock comments:', error);
   }
@@ -150,5 +148,4 @@ export function clearMockComments(): void {
   commentService.clearAll();
   localStorage.removeItem('mock-comments-initialized');
   localStorage.removeItem('universal-comments'); // Clear the actual comment storage
-  console.log('Mock comments cleared');
 }

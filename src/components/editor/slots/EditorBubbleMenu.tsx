@@ -12,9 +12,6 @@ export function EditorBubbleMenu({ className, tippyOptions }: EditorBubbleMenuPr
   const { editor, slots } = useEditorContext();
   const components = slots.getComponents('bubble-menu');
 
-  if (process.env.NODE_ENV === 'development') {
-    console.log('EditorBubbleMenu rendering with components:', components.map(c => c.pluginId));
-  }
 
   if (components.length === 0) {
     return null;
