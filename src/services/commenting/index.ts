@@ -3,16 +3,18 @@
 // Core universal system
 export * from './core/index';
 
-// React hooks
+// React hooks - the only two hooks needed
 export { useCommenting } from './hooks/use-commenting';
 export { useEditorCommenting } from './hooks/use-editor-commenting';
 
-// Legacy exports (to be migrated)
-export * from './document-pointer';
+// Quote service (still needed for quote creation)
+export { getQuoteService, type QuoteObject } from './quote-service';
+
+// State management
 export { useCommentStore } from './state/comment-store';
-export { UniversalCommentingService } from './universal-commenting-service';
-export * from './hooks/use-universal-commenting';
-export { useCommentSystem } from './hooks/use-comment-system';
-export { TipTapPointerAdapter } from './tiptap-pointer-adapter';
+
+// Utilities
 export * from './utils/error-handling';
-export { CommentDemoService } from './demo/comment-demo-service';
+
+// Mock data initialization (for development/demo)
+export { initializeMockComments, clearMockComments } from './mock-data/initialize-mock-comments';

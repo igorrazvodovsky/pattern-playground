@@ -61,11 +61,12 @@ const renderMaxiView = (task: Task) => {
   }
 
   return (
-    <div className="task-maxi">
-      <header>
+    <div className="task-maxi flow">
+      <header className="flow">
         <span className={getStatusBadgeClass(task.status.value)}>
           {task.status.label}
         </span>
+        <h2>{task.title}</h2>
       </header>
 
       {task.description && (

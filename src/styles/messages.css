@@ -171,3 +171,9 @@
     font-size: var(--text-xs);
   }
 }
+
+dialog .comment__input {
+  border: var(--border);
+  padding: var(--space-2xs) 0 var(--space-2xs) var(--space-s);
+  border-radius: var(--radius-m);
+}

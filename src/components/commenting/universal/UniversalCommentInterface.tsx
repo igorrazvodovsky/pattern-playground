@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { CommentComposer } from './RichCommentComposer.js';
 import { CommentRenderer } from './RichCommentRenderer.js';
-import { useEntityCommenting } from '../../../services/commenting/hooks/use-universal-commenting.js';
-import { useCommentInitialization } from '../../../services/commenting/hooks/use-comment-initialization.js';
+import { useCommenting } from '../../../services/commenting/hooks/use-commenting.js';
+import { EntityPointer } from '../../../services/commenting/core/entity-pointer.js';
 import { formatTimestamp } from '../../../utility/time-utils.js';
 import { getUserById } from '../../../stories/data/index.js';
 import type { User } from '../../../stories/data/index.js';
@@ -44,37 +44,34 @@ export const UniversalCommentInterface: React.FC<UniversalCommentInterfaceProps>
   const [isComposing, setIsComposing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Initialize the commenting system
-  useCommentInitialization();
+  // Create pointer for the entity (memoized to prevent re-creating on every render)
+  const pointer = useMemo(() => new EntityPointer(entityType, entityId), [entityType, entityId]);
 
   // Get entity-specific commenting functionality
   const {
     comments,
-    addComment,
-    resolveComment,
-    activeCommentCount,
-    resolvedCommentCount
-  } = useEntityCommenting(entityType, entityId);
+    createComment,
+    updateComment,
+    loading
+  } = useCommenting(pointer, { currentUser: currentUser.id });
 
-  // Debug logging
-  React.useEffect(() => {
-    console.log(`UniversalCommentInterface Debug - entityType: ${entityType}, entityId: ${entityId}`);
-    console.log(`Comments found:`, comments);
-    console.log(`Active count: ${activeCommentCount}, Resolved count: ${resolvedCommentCount}`);
-  }, [entityType, entityId, comments, activeCommentCount, resolvedCommentCount]);
+  // Debug logging (disabled to prevent console spam)
+  // React.useEffect(() => {
+  //   console.log(`UniversalCommentInterface Debug - entityType: ${entityType}, entityId: ${entityId}`);
+  //   console.log(`Comments found:`, comments);
+  // }, [entityType, entityId, comments]);
 
   const handleAddComment = async (content: RichContent) => {
     setIsSubmitting(true);
     try {
-      await addComment(content, currentUser.id);
+      // Convert RichContent to plain string for now
+      // In future, store rich content in comment metadata
+      await createComment(content.plainText);
       setIsComposing(false);
       
       // Call the onCommentAdded callback if provided
       if (onCommentAdded) {
-        console.log('UniversalCommentInterface: Calling onCommentAdded callback with content:', content.plainText);
         onCommentAdded(content.plainText);
-      } else {
-        console.log('UniversalCommentInterface: No onCommentAdded callback provided');
       }
     } catch (error) {
       console.error('Failed to add comment:', error);
@@ -83,9 +80,16 @@ export const UniversalCommentInterface: React.FC<UniversalCommentInterfaceProps>
     }
   };
 
-  const handleResolveComment = (commentId: string) => {
-    resolveComment(commentId, currentUser.id);
+  const handleResolveComment = async (commentId: string) => {
+    const comment = comments.find(c => c.id === commentId);
+    if (comment) {
+      await updateComment(commentId, { ...comment, resolved: true });
+    }
   };
+
+  // Calculate counts from comments
+  const activeCommentCount = comments.filter(c => !c.resolved).length;
+  const resolvedCommentCount = comments.filter(c => c.resolved).length;
 
 
   return (
@@ -95,14 +99,14 @@ export const UniversalCommentInterface: React.FC<UniversalCommentInterfaceProps>
         const displayName = user?.name || comment.authorId;
         const photoUrl = user?.metadata?.photoUrl || `https://i.pravatar.cc/150?seed=${comment.authorId}`;
 
-        // Debug logging for each comment
-        console.log('Rendering comment:', {
-          id: comment.id,
-          authorId: comment.authorId,
-          user: user,
-          displayName,
-          content: comment.content
-        });
+        // Debug logging for each comment (disabled to prevent console spam)
+        // console.log('Rendering comment:', {
+        //   id: comment.id,
+        //   authorId: comment.authorId,
+        //   user: user,
+        //   displayName,
+        //   content: comment.content
+        // });
 
         return (
           <div key={comment.id} className="message">

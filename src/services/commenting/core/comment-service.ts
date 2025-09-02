@@ -177,6 +177,12 @@ export class CommentService extends EventEmitter {
     return this.storage.getRecent(limit);
   }
   
+  // Clear all comments (useful for testing/demo reset)
+  async clearAll(): Promise<void> {
+    await this.storage.clear();
+    this.emit('comments:cleared', {});
+  }
+  
   // Utility methods
   private generateId(): string {
     return `comment-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;

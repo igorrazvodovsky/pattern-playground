@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Universal Commenting System provides a clean, pointer-based architecture for adding comments to any object in the application. Inspired by Ink & Switch's Patchwork, it separates commenting functionality from specific UI contexts, allowing comments to work on tasks, quotes, projects, or any other entity.
+The Universal Commenting System provides a clean, pointer-based architecture for adding comments to any object in the application.
 
 ## Architecture Layers
 
@@ -54,7 +54,7 @@ class CustomPointer extends BaseCommentPointer {
 function ProjectComments({ project }) {
   const pointer = new EntityPointer('project', project.id);
   const { comments, createComment } = useCommenting(pointer);
-  
+
   return (
     <div>
       {comments.map(c => <Comment key={c.id} {...c} />)}
@@ -67,12 +67,12 @@ function ProjectComments({ project }) {
 ### Editor Quote Commenting
 ```tsx
 function Editor({ documentId }) {
-  const { 
+  const {
     createQuoteFromSelection,
     activePointer,
-    comments 
+    comments
   } = useEditorCommenting(editor, { documentId });
-  
+
   return (
     <>
       <button onClick={createQuoteFromSelection}>
@@ -92,15 +92,15 @@ Adding a new commentable object type requires minimal code:
 ```typescript
 class IssuePointer extends BaseCommentPointer {
   readonly type = 'issue';
-  
+
   constructor(readonly id: string, private issue: Issue) {
     super();
   }
-  
+
   serialize(): string {
     return JSON.stringify({ type: this.type, id: this.id });
   }
-  
+
   async getContext(): Promise<PointerContext> {
     return {
       title: `Issue #${this.issue.number}`,
@@ -116,7 +116,7 @@ class IssuePointer extends BaseCommentPointer {
 function IssueComments({ issue }) {
   const pointer = new IssuePointer(issue.id, issue);
   const { comments, createComment } = useCommenting(pointer);
-  
+
   return <CommentInterface comments={comments} onSubmit={createComment} />;
 }
 ```
@@ -172,7 +172,7 @@ function useCommenting(pointer?, options?) {
     thread: CommentThread | null
     loading: boolean
     error: string | null
-    
+
     // Actions
     createComment(content, parentId?): Promise<Comment>
     updateComment(id, content): Promise<Comment>
@@ -191,7 +191,7 @@ function useEditorCommenting(editor, options) {
     // Quote-specific
     createQuoteFromSelection(): { quote, pointer }
     createQuoteWithComment(content): Promise<{ quote, pointer, comment }>
-    
+
     // Plus all useCommenting returns...
   }
 }

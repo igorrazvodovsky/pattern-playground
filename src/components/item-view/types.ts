@@ -54,10 +54,27 @@ export interface TaskHistoryEntry {
   details?: string;
 }
 
+export interface ProjectObject {
+  id: string;
+  name: string;
+  description: string;
+  type: 'project';
+  icon: string;
+  searchableText: string;
+  metadata?: {
+    status?: 'planning' | 'active' | 'completed' | 'archived';
+    phase?: string;
+    updatedAt?: string;
+    updatedBy?: string;
+    [key: string]: any;
+  };
+}
+
 // Discriminated union based on contentType
 export type ItemObject<T extends string = string> = 
   T extends 'quote' ? QuoteObject :
   T extends 'task' ? TaskObject :
+  T extends 'project' ? ProjectObject :
   T extends 'reference' ? BaseItem :
   BaseItem; // fallback for unknown types
 
@@ -108,7 +125,7 @@ export interface UniversalComment {
   parentId?: string;
 }
 
-export interface CommentAwareAdapter<T extends BaseItem = BaseItem>
+export interface CommentAwareAdapter<T extends string = string>
   extends ContentAdapter<T> {
   supportsCommenting: true;
   renderWithComments: (props: ItemViewProps<T> & {

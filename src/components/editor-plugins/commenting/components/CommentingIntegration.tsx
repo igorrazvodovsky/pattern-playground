@@ -1,7 +1,6 @@
 import React from 'react';
 import type { Editor } from '@tiptap/react';
 import { useEditorCommenting } from '../../../../services/commenting/hooks/use-editor-commenting';
-import { useCommentInitialization } from '../../../../services/commenting/hooks/use-comment-initialization';
 import { QuoteCommentPopover } from '../../../commenting/quote/QuoteCommentPopover';
 import { getQuoteService } from '../../../../services/commenting/quote-service';
 import type { CommentingPluginConfig } from '../CommentingPlugin';
@@ -21,26 +20,19 @@ export const CommentingIntegration: React.FC<CommentingIntegrationProps> = ({
   config,
   children,
 }) => {
-  // Initialize the comment system first
-  const commentInit = useCommentInitialization();
-
   // Use the universal commenting hook as shown in the plan
-  const { activePointer, comments, createComment, clearActivePointer } = useEditorCommenting(editor, {
+  const { activePointer, comments, createComment, clearActiveComment } = useEditorCommenting(editor, {
     documentId: config.documentId,
-    currentUser: config.currentUser,
-    enableQuoteComments: config.enableQuoteComments,
+    currentUser: config.currentUser
   });
 
-  // Debug logging
-  React.useEffect(() => {
-    console.log('CommentingIntegration Debug:', {
-      isInitialized: commentInit.isInitialized,
-      totalComments: commentInit.totalComments,
-      totalEntities: commentInit.totalEntities,
-      activePointer,
-      currentComments: comments?.length || 0
-    });
-  }, [commentInit, activePointer, comments]);
+  // Debug logging (disabled to prevent console spam)
+  // React.useEffect(() => {
+  //   console.log('CommentingIntegration Debug:', {
+  //     activePointer,
+  //     currentComments: comments?.length || 0
+  //   });
+  // }, [activePointer, comments]);
 
   // State to track the trigger element for positioning
   const [triggerElement, setTriggerElement] = React.useState<HTMLElement | null>(null);
@@ -62,36 +54,23 @@ export const CommentingIntegration: React.FC<CommentingIntegrationProps> = ({
       const plugin = editor?.storage?.plugins?.get('editor-commenting') as any;
       if (plugin && plugin.pendingQuotes) {
         plugin.pendingQuotes.delete(activePointer.id);
-        console.log('Cleaned up pending quote:', activePointer.id);
       }
     }
     
     // Clear the active pointer when closing
-    clearActivePointer();
+    clearActiveComment();
   };
 
   const handleCommentAdded = async (content: string) => {
-    console.log('CommentingIntegration: handleCommentAdded called with content:', content);
-    console.log('CommentingIntegration: activePointer:', activePointer);
-    
     await createComment(content);
-    console.log('CommentingIntegration: createComment completed');
     
     // After successfully adding the comment, finalize the quote creation
     if (activePointer) {
-      console.log('CommentingIntegration: Looking for plugin in editor storage');
       const plugin = editor?.storage?.plugins?.get('editor-commenting') as any;
-      console.log('CommentingIntegration: Found plugin:', !!plugin);
-      console.log('CommentingIntegration: Plugin has finalizeQuoteCreation:', !!(plugin && plugin.finalizeQuoteCreation));
       
       if (plugin && plugin.finalizeQuoteCreation) {
-        console.log('CommentingIntegration: Calling finalizeQuoteCreation with ID:', activePointer.id);
         plugin.finalizeQuoteCreation(activePointer.id);
-      } else {
-        console.log('CommentingIntegration: Cannot finalize - plugin or method not found');
       }
-    } else {
-      console.log('CommentingIntegration: Cannot finalize - no activePointer');
     }
   };
 

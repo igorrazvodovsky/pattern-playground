@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Editor } from '@tiptap/react';
-import { useEditorCommenting } from '../../../services/commenting/hooks/use-editor-commenting';
+import { useEditorCommenting } from '../tiptap/useEditorCommenting.js';
 
 interface EditorWithQuoteCommentsProps {
   editor: Editor;
@@ -16,11 +16,10 @@ export const EditorWithQuoteComments: React.FC<EditorWithQuoteCommentsProps> = (
   editor, 
   documentId, 
   currentUser = 'demo-user' 
-}: EditorWithQuoteCommentsProps) {
+}) => {
   const { createQuoteComment, activePointer, comments } = useEditorCommenting(editor, {
     documentId,
-    currentUser,
-    enableQuoteComments: true,
+    currentUser
   });
   
   return (
