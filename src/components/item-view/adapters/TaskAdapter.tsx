@@ -73,6 +73,74 @@ const renderMaxiView = (task: Task) => {
         <p className="task-description">{task.description}</p>
       )}
 
+      <div role="table" className="attribute-list">
+        <div role="row">
+          <div role="cell" className="attribute-list__label muted">
+            <div>Properties</div>
+          </div>
+          <div role="cell" className="attribute-list__value">
+            {/* topics */}
+            {/* people */}
+            <span>
+              <iconify-icon icon="ph:calendar" className="icon" />
+              16:24 → Sep 10
+            </span>
+            {/* more... */}
+          </div>
+        </div>
+        <div role="row">
+          <div role="cell" className="attribute-list__label muted">
+            <div>Initiatives</div>
+          </div>
+          <div role="cell" className="attribute-list__value">
+            <div className="flex wrap">
+              <span className="tag">
+                <iconify-icon icon="ph:link"></iconify-icon> Sustainable packaging roadmap
+              </span>
+              <span className="tag">
+                <iconify-icon icon="ph:link"></iconify-icon> EPR
+              </span>
+            </div>
+          </div>
+        </div>
+        <div role="row">
+          <div role="cell" className="attribute-list__label muted">
+            <div>Depends on</div>
+          </div>
+          <div role="cell" className="attribute-list__value">
+            <div className="flex wrap">
+              <span className="tag">
+                <iconify-icon icon="ph:link"></iconify-icon> Segregation practices
+              </span>
+              <span className="tag">
+                <iconify-icon icon="ph:link"></iconify-icon>
+                Sorting
+              </span>
+              <span className="tag">
+                <iconify-icon icon="ph:link"></iconify-icon>
+                Local regulations
+              </span>
+            </div>
+          </div>
+        </div>
+        <div role="row">
+          <div role="cell" className="attribute-list__label muted">
+            <div>Resources</div>
+          </div>
+          <div role="cell" className="attribute-list__value">
+            <div className="flex wrap">
+              <span className="tag">
+                <iconify-icon icon="ph:link"></iconify-icon> Waste audit
+              </span>
+              <span className="tag">
+                <iconify-icon icon="ph:link"></iconify-icon>
+                Policy & Regulatory Guidance
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {task.assignee && (
         <div>
           <strong>Assignee:</strong> {task.assignee.name}
@@ -90,9 +158,9 @@ const renderMaxiView = (task: Task) => {
           <strong>Due Date:</strong> {task.dueDate.toLocaleDateString()}
         </div>
       )}
-
+      <h3>History</h3>
       <section>
-        <ol className="stepper">
+        <ol className="stepper" style={{ '--_circle-size': '2rem' } as React.CSSProperties}>
           {task.history.map((entry) => (
             <li key={entry.id} className="stepper__item">
               <div className="stepper__content">
@@ -109,6 +177,7 @@ const renderMaxiView = (task: Task) => {
         </ol>
       </section>
 
+      <h3>Comments</h3>
       <section className="task-comments-section">
         <UniversalCommentInterface
           entityType="task"

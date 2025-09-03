@@ -110,3 +110,41 @@
 /* .flex-layout-grid > *:has(.card > *:nth-child(2)) {
   --flex-grid-min: calc(24ch * 2 + var(--space-m));
 } */
+
+.attribute-list {
+  display: flex;
+  flex-direction: column;
+
+  [role="row"] {
+    display: flex;
+    width: 100%;
+    position: relative;
+    opacity: 1;
+
+    [role="cell"]:first-child {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      align-self: flex-start;
+
+      /* TODO: Remove/move */
+      div {
+          display: flex;
+          align-items: center;
+          height: 34px;
+          width: 160px;
+          max-width: 160px;
+          min-width: 0px;
+      }
+    }
+
+    [role="cell"]:last-child {
+      display: flex;
+      height: 100%;
+      flex: 1 1 auto;
+      flex-direction: column;
+      min-width: 0px;
+      margin-inline-start: 4px;
+    }
+  }
+}
