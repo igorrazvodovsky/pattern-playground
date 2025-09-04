@@ -141,23 +141,24 @@ const renderMaxiView = (task: Task) => {
         </div>
       </div>
 
-      {task.assignee && (
+      {/* {task.assignee && (
         <div>
           <strong>Assignee:</strong> {task.assignee.name}
         </div>
-      )}
+      )} */}
 
-      {task.priority && (
+      {/* {task.priority && (
         <div>
           <strong>Priority:</strong> {task.priority.label}
         </div>
-      )}
+      )} */}
 
-      {task.dueDate && (
+      {/* {task.dueDate && (
         <div>
           <strong>Due Date:</strong> {task.dueDate.toLocaleDateString()}
         </div>
-      )}
+      )} */}
+      
       <h3>History</h3>
       <section>
         <ol className="stepper" style={{ '--_circle-size': '2rem' } as React.CSSProperties}>
