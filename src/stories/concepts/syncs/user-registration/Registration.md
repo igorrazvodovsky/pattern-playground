@@ -5,8 +5,10 @@ when {
   Web/request: [
     method: "register" ;
     username: ?username ;
-    email: ?email ]
-    => [] }
+    email: ?email ;
+    password: ?password ] => []
+  Password/validate: [ password: ?password ]
+    => [ valid: true ] }
 where { bind ( uuid() as ?user) }
 then {
   User/register: [
