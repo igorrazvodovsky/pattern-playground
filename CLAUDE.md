@@ -262,3 +262,9 @@ When creating cross-references between documen£tation files:
 - **Reusable data** that might be shared across multiple components
 - **Rich data objects** with multiple properties that would clutter the main file
 - **Leave inline** simple arrays with <10 primitive items for basic examples
+
+## Code review workflow
+After completing any implementation or change to code:
+1. Use the code-reviewer agent to review the code for quality, security, maintainability, errors, inconsistencies, and best practice violations.
+2. Implement any suggestions or improvements identified by the code-reviewer
+3. Only consider the implementation complete after addressing code review feedback

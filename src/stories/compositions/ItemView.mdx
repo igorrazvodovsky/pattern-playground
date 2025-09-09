@@ -7,41 +7,70 @@ import * as ItemViewStories from './ItemView.stories.tsx';
 
 # Item view
 
-Varying ways an [item](../?path=/docs/concepts-item--docs) is rendered in UI — from small previews to full-page views, cards, nodes, etc. — reflect different levels of user intent, context, and task focus.
+The system must allow each [entity](../?path=/docs/concepts-item--docs) to be represented in progressively richer forms, so that users can fluidly move between them depending on their task, without losing orientation or recognition.
 
-Different item view scopes provide progressive disclosure, allowing users to access the right level of detail for their current context without overwhelming them with unnecessary information.
+## User needs
 
-## Scope of view
+- People need to *recognise* an entity wherever it appears, but they don’t always need all of its details.
+- They want to stay in the *flow of their current task*, but sometimes they must shift into deep focus.
+- Entities must sometimes act as *links to other places*, and sometimes as *self-sufficient centres of work*.
 
-- Micro: Tooltip, inline tag, icon
-- Mini: Hover card, compact drawer
-- Mid: Dialog, side panel, expandable card
-- Maxi: Full-page detail, dedicated workspace
+## Semantic level
+Item representation is the combination of semantic level and UI element.
 
-### Examples
+### Reference
+- Purpose: identify and link to items
+- Data: name, type
+- Interaction: navigation
 
-- Micro: inline [references](../?path=/docs/primitives-reference--docs) like `@Sarah Chen` and `@plan.pdf`
-- Mini: hover cards showing detailed previews
+### Summary
+- Purpose: quick assessment and comparison without leaving current task
+- Data: key attributes, status, recent activity
+- Interaction: navigation, actions for common operations
+
+### Detail
+- Purpose: inspection of most important information while maintaining context
+- Data: relevant details for current task
+- Interaction: editing, navigate to full page
+
+### Full
+- Purpose: Complete focus on single item
+- Data: All data, history, relationships
+- Interaction: editing, analysis, management
+
+## UI element
+- Inline: within text or structured UI.
+- Contextual overlay: popover, hovercard.
+- Transient container: modal, drawer, side panel.
+- Dedicated view: section, panel, page, workspace, tab.
+{/* TODO: Children of inline? */}
+{/* - List: Sequential items in feeds or search results */}
+{/* - Grid: Card-based layouts for visual browsing */}
+{/* - Table: Data-dense views with sortable columns */}
+{/* - Canvas: Spatial arrangements with relationships */}
+{/* - Text: Inline references within documents */}
+
+## Examples
+
+### Reference as @mention + detail modal
+
+...
+
+### Reference as tag
+
+...
+
+### Summary as list item + detail drawer
+
+{/* table */}
+
+### Full view
 
 <Story of = { ItemViewStories.Page } />
 
-{/*
-## Representations
-
-- Card
-- Node
-- Canvas block
-- Inline block
-*/}
-
-## Interaction mode
-
-- Preview: click-to-expand, zoom
-- Inspect: Focused drill-in, modal
-- Edit: In-place or full-form
-- Transform: Object reshaping (e.g., convert to template)
-
 ## Related patterns
 
-- Enables progressive disclosure: show just enough info, allow deeper dive
-- Supports different interaction modes based on user context and task requirements
+- [Reference](../?path=/docs/primitives-reference--docs)
+- [Progressive disclosure](../?path=/docs/patterns-progressive-disclosure--docs)
+- [Dialog](../?path=/docs/components-dialog--docs) & [drawer](../?path=/docs/components-drawer--docs)
+{/* - Information scent: Each level provides cues about deeper content */}
