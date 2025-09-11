@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 
-<Meta title="Patterns/States/Saving" />
+<Meta title="Patterns/Data operations/Saving" />
 
 > 😀 **Fun meter: 4/5**.
 
@@ -103,11 +103,31 @@ When creating a new record or entity, decide whether to:
 - Offer a choice: e.g. “create Another” vs. “go to created Item.”
 </div>
 
+## Save/Cancel as confirmation mechanism
+
+The save/cancel paradigm can serve as a confirmation mechanism for destructive operations like deletion. Changes (including deletions) are staged but not committed until the user explicitly saves.
+
+### Benefits
+- Batch operations: Multiple deletions can be reviewed together before committing
+- Safe exploration: Users can experiment with changes knowing they can cancel
+- Clear transaction boundaries: All changes succeed or fail together
+- Reduced confirmation fatigue: One save action confirms all changes
+
+### Implementation
+- Visual indicators for pending deletions (strikethrough, fade, colour coding)
+- "Unsaved changes" warnings when navigating away
+- Clear distinction between staged and committed states
+- Ability to restore individual items before saving
+
+This approach is particularly effective when deletion is part of a larger editing session. See [Deletion](../?path=/docs/patterns-states-deletion--docs) for detailed implementation examples.
+
 ## Related patterns
 
 <div>
+- [Deletion](../?path=/docs/patterns-states-deletion--docs) – Save/cancel workflows as confirmation for destructive operations
+- [Action Consequences](../?path=/docs/patterns-action-consequences--docs) – Evaluating when save/cancel is appropriate
 - Draft vs. publish workflow
-- Undo
+- [Undo](../?path=/docs/patterns-undo--docs) – Reversibility in saved states
 - Multiplayer
 - [Collaboration](../?path=/docs/patterns-collaboration--docs) – Saving patterns handle conflict resolution and multi-user editing scenarios in shared workspaces
 </div>

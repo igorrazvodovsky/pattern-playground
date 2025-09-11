@@ -19,7 +19,6 @@ const ReferenceEditorExample = () => {
     }
   }, []);
 
-  // Enhanced reference categories with quotes
   const enhancedReferenceCategories = useMemo(() => referenceCategories, []);
 
   return (

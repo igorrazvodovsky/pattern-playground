@@ -37,6 +37,10 @@
     & > button {
       flex-shrink: 0;
     }
+
+    & .modal__close:only-child {
+      margin-inline-start: auto;
+    }
   }
 
   dialog > article {

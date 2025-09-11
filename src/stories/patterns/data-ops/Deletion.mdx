@@ -1,0 +1,107 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import * as InlineConfirmationStories from '../../components/InlineConfirmation.stories.tsx';
+import * as DialogStories from '../../components/Dialog.stories.tsx';
+import * as ToastStories from '../../primitives/Toast.stories.tsx';
+import { MermaidDiagram } from '../../../components/MermaidDiagram.tsx';
+
+<Meta title="Patterns/Data operations/Deletion" />
+
+> 🙂 **Fun meter: 3/5**
+
+# Deletion
+
+The controlled removal of data from a system, balancing user confidence with protection against accidental loss. Deletion exists in tension with creation and modification, requiring careful consideration of consequences, reversibility, and user intent.
+
+## Anatomy
+
+- Trigger: The initiating action
+- Confirmation: Verification of intent (varies by consequence severity)
+- Execution: The actual deletion operation
+- Feedback: Communication of result
+- Recovery: Mechanism for reversal when available
+
+## Variants by confirmation method
+
+### No confirmation with/-out undo
+For low-consequence actions that can be easily reversed. The deletion happens immediately, followed by a toast notification with an undo option.
+
+<Story of={ToastStories.ToastWithUndo} />
+
+### Inline
+The delete button transforms into a confirmation state, requiring a second click to complete the action.
+
+<Story of={InlineConfirmationStories.Default} />
+
+### Modal
+A dialog presents the consequences and requires explicit confirmation.
+
+<Story of={DialogStories.DeletionConfirmation} />
+
+### Typed
+For critical, irreversible actions, users must type a specific phrase to proceed.
+
+<Story of={DialogStories.TypedConfirmation} />
+
+## Integration with save/cancel workflow
+
+Deletion can be part of a broader editing session where changes are staged until explicitly saved. This approach treats the save button as the confirmation mechanism for all changes, including deletions.
+
+Benefits
+- Implicit confirmation: The save action confirms all changes, reducing confirmation fatigue
+- Batch review: Users can see all pending changes before committing
+- Safe experimentation: Users can try different configurations without immediate consequences
+- Unified mental model: All changes follow the same commit pattern
+
+<Story of={InlineConfirmationStories.StagedDeletion} />
+
+This approach aligns with the [Saving](../?path=/docs/patterns-data-operations-saving--docs#save-cancel-as-confirmation-mechanism) pattern's hybrid model, providing a safety net while maintaining user control. It's particularly effective for:
+- Form-based interfaces with multiple fields
+- Configuration screens with interconnected settings
+- Bulk editing sessions
+- Scenarios where deletions affect calculated values or totals
+
+## States
+
+### Deletion states
+- Available: Delete action is accessible
+- Confirming: Awaiting user confirmation
+- Deleting: Operation in progress
+- Deleted: Successfully removed
+- Failed: Deletion unsuccessful
+- Recovering: Undo in progress
+
+### Visual states
+- Pending deletion: Marked for deletion but not yet committed
+- Soft deleted: Logically deleted but recoverable
+- Hard deleted: Permanently removed
+
+## Recovery mechanisms
+
+- [Undo](../?path=/docs/patterns-undo--docs)
+- Soft delete: Items moved to archive; configurable retention period
+- Version history
+
+
+## Decision tree
+
+<MermaidDiagram chart={`
+flowchart TD
+    A[Is the deletion reversible?] --> B[Yes]
+    A --> C[No]
+    B --> D[How quickly can it be recreated?]
+    D --> E[Seconds] --> F["No confirmation<br/>(with undo)"]
+    D --> G[Minutes] --> H[Inline confirmation]
+    C --> I[What is the impact scope?]
+    I --> J[Single user] --> K[Modal confirmation]
+    I --> L[Multiple users] --> M[Modal with details]
+    I --> N[System-wide] --> O[Typed confirmation]
+`} />
+
+## Related patterns
+
+- [Action Consequences](../?path=/docs/patterns-action-consequences--docs) – Framework for evaluating appropriate confirmation methods
+- [Saving](../?path=/docs/patterns-data-operations-saving--docs) – Staged deletions within save/cancel workflows
+- [Undo](../?path=/docs/patterns-undo--docs) – Reversibility and recovery mechanisms
+- [Status Feedback](../?path=/docs/patterns-status-feedback--docs) – Communicating deletion results
+- [Activity Log](../?path=/docs/patterns-activity-log--docs) – Historical record of deletions
+- [Notification](../?path=/docs/patterns-notification--docs) – Alerting about deletion events

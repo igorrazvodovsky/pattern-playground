@@ -271,3 +271,10 @@ aside[class*="sbdocs-toc"] {
     z-index: 1;
   }
 }
+
+.mermaid .node .basic {
+  rx: var(--radius-s);
+  ry: var(--radius-s);
+  fill: var(--c-neutral-0) !important;
+  stroke: var(--c-neutral-200) !important;
+}

@@ -1,5 +1,7 @@
 import { Meta, Story } from '@storybook/addon-docs/blocks';
 import * as ItemViewStories from './ItemView.stories.tsx';
+import { Reference } from '../primitives/reference/Reference.stories.tsx';
+import { SimpleTable } from '../components/Table.stories.tsx';
 
 <Meta of = { ItemViewStories } />
 
@@ -54,15 +56,15 @@ Item representation is the combination of semantic level and UI element.
 
 ### Reference as @mention + detail modal
 
-...
+<Story of = { Reference } />
 
 ### Reference as tag
 
-...
+TODO:
 
-### Summary as list item + detail drawer
+### Summary as list item {/* TODO: + drawer */}
 
-{/* table */}
+<Story of = { SimpleTable } />
 
 ### Full view
 

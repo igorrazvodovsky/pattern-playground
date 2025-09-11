@@ -27,7 +27,7 @@
   font-family: system-ui, sans-serif;
   background: hsl(0 0% var(--_bg-lightness) / 90%);
 
-  inline-size: 320px;
+  /* inline-size: 320px; */
   padding-block: 1ch;
   padding-inline: 1.5ch;
 

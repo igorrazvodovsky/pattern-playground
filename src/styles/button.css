@@ -89,6 +89,8 @@
     }
 
     &.button--plain {
+      --button-bg: transparent;
+      --button-color: var(--c-body);
       --button-border: transparent;
       --button-box-shadow: none;
 

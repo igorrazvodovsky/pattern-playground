@@ -9,7 +9,6 @@ export interface BaseItem {
   metadata?: Record<string, unknown>;
 }
 
-// Import the proper QuoteObject type
 export interface QuoteObject {
   id: string;
   content: {
@@ -71,7 +70,7 @@ export interface ProjectObject {
 }
 
 // Discriminated union based on contentType
-export type ItemObject<T extends string = string> = 
+export type ItemObject<T extends string = string> =
   T extends 'quote' ? QuoteObject :
   T extends 'task' ? TaskObject :
   T extends 'project' ? ProjectObject :
@@ -109,7 +108,7 @@ export interface ItemViewProps<T extends string = string> {
 export interface ContentAdapter<T extends string = string> {
   contentType: T;
   render: (props: ItemViewProps<T>) => React.ReactNode;
-  
+
   // Enhanced adapter capabilities
   supportedScopes?: ViewScope[];
   supportsCommenting?: boolean;

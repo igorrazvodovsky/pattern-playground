@@ -57,6 +57,9 @@
   display: inline-block;
   text-overflow: ellipsis;
   overflow: hidden;
+  /* TODO: This is temporary and probably will fail in some case. */
+  /* Added to center label when used with a button as a suffix */
+  align-self: center;
 }
 
 .list-item .list-item__label:first-letter {
