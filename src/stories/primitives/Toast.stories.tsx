@@ -54,6 +54,7 @@ export const Notification: Story = {
 };
 
 export const ToastWithUndo: Story = {
+  tags: ['!autodocs', '!dev'],
   render: () => {
     const Component = () => {
       const [items, setItems] = useState(() =>
@@ -63,12 +64,7 @@ export const ToastWithUndo: Story = {
       const handleDelete = (item: string, index: number) => {
         setItems(items.filter((_, i) => i !== index));
 
-        PpToast.show(`${item} deleted`, () => {
-          const restoredItems = [...items];
-          restoredItems.splice(index, 0, item);
-          setItems(restoredItems);
-          PpToast.show(`${item} restored`);
-        });
+        PpToast.show(`${item} deleted`);
       };
 
       return (
@@ -101,5 +97,5 @@ export const ToastWithUndo: Story = {
     };
 
     return <Component />;
-  }
+  },
 };

@@ -74,6 +74,7 @@ export const Scrolling: Story = {
 };
 
 export const DisruptiveNotification: Story = {
+  tags: ['!autodocs', '!dev'],
   render: () => {
     const ConfirmationDialogExample = () => {
       const { openDialog } = useModalService();
@@ -114,6 +115,7 @@ export const DisruptiveNotification: Story = {
 };
 
 export const DeletionConfirmation: Story = {
+  tags: ['!autodocs', '!dev'],
   render: () => {
     const DeletionDialogExample = () => {
       const { openDialog, closeModal: closeDialog } = useModalService();
@@ -154,11 +156,12 @@ export const DeletionConfirmation: Story = {
 
       return (
         <div className="stack">
-          <ul className="stack">
+          <pp-list className='borderless'>
             {items.map((item, index) => (
-              <li key={index} className="inline-flow">
-                <span>{item}</span>
+              <pp-list-item key={index}>
+                {item}
                 <button
+                  slot="suffix"
                   className="button button--small button--plain"
                   onClick={() => handleDelete(item, index)}
                 >
@@ -167,12 +170,12 @@ export const DeletionConfirmation: Story = {
                     icon="ph:trash-simple"
                   />
                   <span className="inclusively-hidden">
-                    Button
+                    Delete
                   </span>
                 </button>
-              </li>
+              </pp-list-item>
             ))}
-          </ul>
+          </pp-list>
           {items.length === 0 && (
             <p className="muted">No companies left</p>
           )}
@@ -192,6 +195,7 @@ export const DeletionConfirmation: Story = {
 };
 
 export const TypedConfirmation: Story = {
+  tags: ['!autodocs', '!dev'],
   render: () => {
     const TypedConfirmationExample = () => {
       const { openDialog, closeModal: closeDialog } = useModalService();
@@ -199,7 +203,7 @@ export const TypedConfirmation: Story = {
 
       const handleDeleteWorkspace = () => {
         const dialogId = openDialog(
-          <div>
+          <div className='flow'>
             <div className="flow">
               <p>
                 Deleting <strong>{workspace}</strong> will permanently remove:
@@ -217,7 +221,7 @@ export const TypedConfirmation: Story = {
               />
             </div>
             <footer>
-              <div className="flow">
+              <div className="inline-flow">
                 <button
                   className="button button--danger"
                   onClick={() => {closeDialog(dialogId)}}
@@ -259,12 +263,5 @@ export const TypedConfirmation: Story = {
     };
 
     return <TypedConfirmationExample />;
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: "Critical deletions requiring typed confirmation to prevent accidental activation."
-      }
-    }
   }
 };
