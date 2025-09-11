@@ -10,7 +10,7 @@ type Story = StoryObj;
 export const Toolbar: Story = {
   args: {},
   render: () => (
-    <div className="toolbar inline-flow">
+    <div className="toolbar flex">
       <pp-input placeholder="Search">
         <iconify-icon className="icon" icon="ph:magnifying-glass" slot="suffix"></iconify-icon>
       </pp-input>
