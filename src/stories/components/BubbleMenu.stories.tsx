@@ -101,14 +101,12 @@ export const TextLense: Story = {
 const CommentingEditor: React.FC = () => {
   const richContent = getDocumentContentRich('doc-climate-change');
 
-  // Initialize mock comments on mount
   React.useEffect(() => {
     import('../../services/commenting/mock-data/initialize-mock-comments').then(({ initializeMockComments }) => {
       initializeMockComments();
     });
   }, []);
 
-  // Use direct Tiptap useEditor hook with minimal extensions
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -126,7 +124,6 @@ const CommentingEditor: React.FC = () => {
     immediatelyRender: false,
   });
 
-  // Initialize content
   React.useEffect(() => {
     if (editor && richContent && !editor.getHTML().includes('Marine ecosystems')) {
       editor.commands.setContent(richContent);
