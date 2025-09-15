@@ -13,7 +13,7 @@ export class CommentError extends Error {
   constructor(
     public readonly type: CommentErrorType,
     message: string,
-    public readonly context?: Record<string, any>
+    public readonly context?: Record<string, unknown>
   ) {
     super(message);
     this.name = 'CommentError';
@@ -26,7 +26,7 @@ export class CommentError extends Error {
 export const createCommentError = (
   type: CommentErrorType,
   message: string,
-  context?: Record<string, any>
+  context?: Record<string, unknown>
 ): CommentError => {
   return new CommentError(type, message, context);
 };
@@ -166,7 +166,7 @@ export const withAsyncCommentErrorHandling = async <T>(
 /**
  * Validation helpers for common comment operations
  */
-export const validateThread = (threadId: string, threads: Map<string, any>): void => {
+export const validateThread = (threadId: string, threads: Map<string, unknown>): void => {
   if (!threadId) {
     throw createCommentError(
       CommentErrorType.VALIDATION_ERROR,
@@ -184,7 +184,7 @@ export const validateThread = (threadId: string, threads: Map<string, any>): voi
   }
 };
 
-export const validateComment = (commentId: string, comments: Map<string, any>): void => {
+export const validateComment = (commentId: string, comments: Map<string, unknown>): void => {
   if (!commentId) {
     throw createCommentError(
       CommentErrorType.VALIDATION_ERROR,
@@ -202,7 +202,7 @@ export const validateComment = (commentId: string, comments: Map<string, any>): 
   }
 };
 
-export const validatePointer = (pointer: any): void => {
+export const validatePointer = (pointer: unknown): void => {
   if (!pointer) {
     throw createCommentError(
       CommentErrorType.INVALID_POINTER,

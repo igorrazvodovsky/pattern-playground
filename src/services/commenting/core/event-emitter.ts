@@ -1,4 +1,4 @@
-type EventHandler = (data: any) => void;
+type EventHandler = (data: unknown) => void;
 
 export class EventEmitter {
   private events: Map<string, Set<EventHandler>> = new Map();
@@ -26,7 +26,7 @@ export class EventEmitter {
     }
   }
   
-  emit(event: string, data?: any): void {
+  emit(event: string, data?: unknown): void {
     const handlers = this.events.get(event);
     if (handlers) {
       handlers.forEach(handler => {
@@ -40,7 +40,7 @@ export class EventEmitter {
   }
   
   once(event: string, handler: EventHandler): () => void {
-    const wrappedHandler = (data: any) => {
+    const wrappedHandler = (data: unknown) => {
       handler(data);
       this.off(event, wrappedHandler);
     };

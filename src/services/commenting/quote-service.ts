@@ -1,5 +1,5 @@
 import { Editor } from '@tiptap/core';
-import { quotes, getQuoteById, getQuotesByDocument, type Quote } from '../../stories/data/index.js';
+import { quotes, getQuoteById, getQuotesByDocument } from '../../stories/data/index.js';
 
 /**
  * Rich content structure matching TipTap JSON format
@@ -13,7 +13,7 @@ export interface RichContent {
       content?: Array<{
         type: string;
         text?: string;
-        marks?: Array<{ type: string;[key: string]: any }>;
+        marks?: Array<{ type: string; [key: string]: unknown }>;
       }>;
     }>;
   };

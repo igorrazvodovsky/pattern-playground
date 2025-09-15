@@ -1,10 +1,36 @@
 // Modern plugin loader with dynamic imports
 import type { Plugin } from '../../editor/types';
 
+// Type definitions for plugin modules
+interface PluginModule {
+  default?: Plugin | PluginFactory;
+  Plugin?: PluginConstructor;
+  createPlugin?: () => Plugin;
+  [key: string]: unknown;
+}
+
+interface PluginConstructor {
+  new (): Plugin;
+}
+
+interface PluginFactory {
+  (): Plugin;
+}
+
+interface LoadedPluginData {
+  plugin: Plugin;
+  module: PluginModule;
+}
+
+interface PluginLoadError {
+  pluginId: string;
+  error: Error;
+}
+
 // Plugin loading utilities with modern JavaScript features
 export class PluginLoader {
   // Private fields - ES2020 compatible
-  private loadedModules = new Map<string, { plugin: Plugin; module: any }>();
+  private loadedModules = new Map<string, LoadedPluginData>();
   private loadingPromises = new Map<string, Promise<Plugin>>();
   private failedPlugins = new Set<string>();
   
@@ -84,7 +110,7 @@ export class PluginLoader {
   }
 
   // Modern dynamic import patterns
-  private async importPluginModule(pluginId: string): Promise<any> {
+  private async importPluginModule(pluginId: string): Promise<PluginModule> {
     // Try different plugin path patterns
     const patterns = [
       `../${pluginId}/${pluginId.charAt(0).toUpperCase() + pluginId.slice(1)}Plugin`,
@@ -95,7 +121,7 @@ export class PluginLoader {
     for (const pattern of patterns) {
       try {
         return await import(pattern);
-      } catch (error) {
+      } catch {
         // Continue to next pattern
         continue;
       }
@@ -105,7 +131,7 @@ export class PluginLoader {
   }
 
   // Extract plugin instance from module with modern type checking
-  private extractPluginFromModule(module: any, pluginId: string): Plugin {
+  private extractPluginFromModule(module: PluginModule, pluginId: string): Plugin {
     // Use modern object destructuring and type guards
     const { 
       default: defaultExport,
@@ -152,7 +178,7 @@ export class PluginLoader {
     );
 
     const plugins: Plugin[] = [];
-    const errors: Array<{ pluginId: string; error: any }> = [];
+    const errors: PluginLoadError[] = [];
 
     results.forEach((result, index) => {
       if (result.status === 'fulfilled') {
@@ -160,7 +186,7 @@ export class PluginLoader {
       } else {
         errors.push({
           pluginId: pluginIds[index],
-          error: result.reason
+          error: result.reason instanceof Error ? result.reason : new Error(String(result.reason))
         });
       }
     });
@@ -193,14 +219,14 @@ export class PluginLoader {
     }>;
 
     // Topological sort for dependency order
-    const sorted = this.#topologicalSort(pluginData);
+    const sorted = this.topologicalSort(pluginData);
     
     // Return plugins in dependency order
     return sorted.map(({ plugin }) => plugin);
   }
 
   // Modern topological sort with better error handling
-  private topologicalSort<T extends { id: string; dependencies: string[] | undefined }>(
+  private topologicalSort<T extends { id: string; dependencies: readonly string[] | undefined }>(
     items: T[]
   ): T[] {
     const graph = new Map<string, Set<string>>();
@@ -227,7 +253,7 @@ export class PluginLoader {
 
     // Kahn's algorithm with modern array methods
     const queue = [...inDegree.entries()]
-      .filter(([_, degree]) => degree === 0)
+      .filter(([, degree]) => degree === 0)
       .map(([id]) => id);
 
     const sorted: T[] = [];
@@ -316,6 +342,8 @@ export function createPluginFactory<TConfig = unknown>(
     configure(pluginConfig: unknown) {
       // Modern configuration merging with optional chaining
       baseConfig.configure?.(pluginConfig);
+      // Use config parameter to avoid unused variable warning
+      void config;
     }
   });
 }

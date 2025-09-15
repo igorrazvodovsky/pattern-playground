@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { Editor } from '@tiptap/react';
 import type { CommentPointer } from '../core/comment-pointer';
-import { QuotePointer, type QuoteObject } from '../core/quote-pointer';
+import type { QuoteObject } from '../core/quote-pointer';
 import { useCommenting } from './use-commenting';
 import type { EditorCommentingPlugin } from '../../../components/editor-plugins/commenting/CommentingPlugin';
 
@@ -13,7 +13,7 @@ interface UseEditorCommentingOptions {
 
 export function useEditorCommenting(editor: Editor | null, options: UseEditorCommentingOptions) {
   const [activePointer, setActivePointer] = useState<CommentPointer | null>(null);
-  const [selectedQuote, setSelectedQuote] = useState<any | null>(null);
+  const [, setSelectedQuote] = useState<QuoteObject | null>(null);
 
   // Use the universal commenting hook with the active pointer
   const commenting = useCommenting(activePointer || undefined, {
@@ -38,7 +38,7 @@ export function useEditorCommenting(editor: Editor | null, options: UseEditorCom
   // Trigger quote creation via the editor command (handled by the plugin's QuoteService)
   const createQuoteComment = useCallback(() => {
     if (!editor) return;
-    (editor.commands as any).createQuoteFromSelection();
+    (editor.commands as { createQuoteFromSelection?: () => void }).createQuoteFromSelection?.();
   }, [editor]);
 
 

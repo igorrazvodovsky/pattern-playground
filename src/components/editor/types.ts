@@ -1,6 +1,16 @@
 import type { Editor, Extension } from '@tiptap/core';
 import type { ReactNode } from 'react';
 import type { Transaction } from '@tiptap/pm/state';
+import type { Quote } from '../../stories/data';
+
+// Type definitions for better event payload typing
+export interface PointerData {
+  id: string;
+  type: string;
+  target: string;
+  position?: { x: number; y: number };
+  metadata?: Record<string, unknown>;
+}
 
 export interface Plugin {
   id: string;
@@ -88,10 +98,10 @@ export type EventPayload = {
   'commenting:create-quote-comment': { params?: unknown };
   'commenting:show-comments': { quoteId?: string };
   'commenting:selection-change': { from: number; to: number; content: string };
-  'quote:created': { quote: any; pointer: any };
+  'quote:created': { quote: Quote; pointer: PointerData };
   'references:selection-changed': { hasSelection: boolean; selectedText: string; range: { from: number; to: number } };
-  'references:data-updated': { data: unknown };
-  'references:reference-inserted': { reference: unknown };
+  'references:data-updated': { data: Record<string, unknown> };
+  'references:reference-inserted': { reference: Record<string, unknown> };
   'ai-assistant:selection-changed': { hasSelection: boolean; selectedText: string; range: { from: number; to: number } };
   'ai-assistant:chunk-received': { action: string; content: string; range: { from: number; to: number } };
   'ai-assistant:action-complete': { action: string };
@@ -142,10 +152,10 @@ export interface PluginRegistry {
   register(plugin: Plugin): Promise<void>;
   unregister(pluginId: string): void;
   get<T extends Plugin>(pluginId: string): T | undefined;
-  getAll(): readonly Plugin[]; // Immutable array return
+  getAll(): readonly Plugin[];
   has(pluginId: string): boolean;
-  getLoadOrder(): readonly string[]; // Immutable array return
-  
+  getLoadOrder(): readonly string[];
+
   // Modern additions
   getState(pluginId: string): PluginState | undefined;
   destroy(): void;

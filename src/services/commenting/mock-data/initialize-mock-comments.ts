@@ -1,7 +1,5 @@
 import { getCommentService } from '../core/comment-service-instance';
 import { EntityPointer } from '../core/entity-pointer';
-import { QuotePointer } from '../core/quote-pointer';
-import type { QuoteObject } from '../quote-service';
 
 const MOCK_QUOTE_COMMENTS = [
   {

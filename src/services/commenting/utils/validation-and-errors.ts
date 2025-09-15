@@ -1,5 +1,4 @@
 import type { Quote, RichContent } from '../../../stories/data/index.js';
-import type { JsonValue } from '../../../types/common.js';
 
 /**
  * Production-ready validation and error handling utilities
@@ -9,7 +8,7 @@ export class QuoteCommentingError extends Error {
   constructor(
     message: string,
     public code: string,
-    public details?: any // Error details can contain complex debugging info
+    public details?: unknown // Error details can contain complex debugging info
   ) {
     super(message);
     this.name = 'QuoteCommentingError';
@@ -17,7 +16,7 @@ export class QuoteCommentingError extends Error {
 }
 
 export class ValidationError extends QuoteCommentingError {
-  constructor(message: string, public field: string, value?: any) { // Error context can be any type
+  constructor(message: string, public field: string, value?: unknown) { // Error context can be any type
     super(message, 'VALIDATION_ERROR', { field, value });
     this.name = 'ValidationError';
   }
@@ -156,7 +155,7 @@ export const validateUserId = (userId: string): void => {
  * Error boundary and recovery utilities
  */
 
-export const withErrorHandling = <T extends any[], R>(
+export const withErrorHandling = <T extends unknown[], R>(
   fn: (...args: T) => R,
   errorContext: string
 ) => {
@@ -177,7 +176,7 @@ export const withErrorHandling = <T extends any[], R>(
   };
 };
 
-export const withAsyncErrorHandling = <T extends any[], R>(
+export const withAsyncErrorHandling = <T extends unknown[], R>(
   fn: (...args: T) => Promise<R>,
   errorContext: string
 ) => {
@@ -207,14 +206,14 @@ export interface LogEntry {
   level: 'info' | 'warn' | 'error' | 'debug';
   context: string;
   message: string;
-  data?: any; // Log data can contain complex objects for debugging
+  data?: unknown; // Log data can contain complex objects for debugging
 }
 
 export class Logger {
   private logs: LogEntry[] = [];
   private maxLogs: number = 1000;
 
-  log(level: LogEntry['level'], context: string, message: string, data?: any): void {
+  log(level: LogEntry['level'], context: string, message: string, data?: unknown): void {
     const entry: LogEntry = {
       timestamp: new Date().toISOString(),
       level,
@@ -235,19 +234,19 @@ export class Logger {
     }
   }
 
-  info(context: string, message: string, data?: any): void {
+  info(context: string, message: string, data?: unknown): void {
     this.log('info', context, message, data);
   }
 
-  warn(context: string, message: string, data?: any): void {
+  warn(context: string, message: string, data?: unknown): void {
     this.log('warn', context, message, data);
   }
 
-  error(context: string, message: string, data?: any): void {
+  error(context: string, message: string, data?: unknown): void {
     this.log('error', context, message, data);
   }
 
-  debug(context: string, message: string, data?: any): void {
+  debug(context: string, message: string, data?: unknown): void {
     this.log('debug', context, message, data);
   }
 
@@ -329,7 +328,7 @@ export const performanceMonitor = new PerformanceMonitor();
 /**
  * Utility for measuring function performance
  */
-export const measurePerformance = <T extends any[], R>(
+export const measurePerformance = <T extends unknown[], R>(
   fn: (...args: T) => R,
   operationName: string
 ) => {
@@ -344,7 +343,7 @@ export const measurePerformance = <T extends any[], R>(
   };
 };
 
-export const measureAsyncPerformance = <T extends any[], R>(
+export const measureAsyncPerformance = <T extends unknown[], R>(
   fn: (...args: T) => Promise<R>,
   operationName: string
 ) => {

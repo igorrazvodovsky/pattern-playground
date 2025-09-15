@@ -12,7 +12,7 @@ export interface ReferenceCategory {
   icon?: string;
   searchableText?: string;
   children?: ReferenceItem[];
-  metadata?: Record<`${string}`, unknown>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface ReferenceItem {
@@ -21,7 +21,7 @@ export interface ReferenceItem {
   icon?: string;
   searchableText?: string;
   type: ReferenceType;
-  metadata?: Record<`${string}`, unknown>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface SelectedReference extends BaseItem {

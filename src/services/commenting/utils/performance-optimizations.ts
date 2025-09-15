@@ -7,7 +7,7 @@ import { useEffect, useRef, useCallback } from 'react';
 /**
  * Debounce utility for reducing API calls
  */
-export const debounce = <T extends (...args: any[]) => any>(
+export const debounce = <T extends (...args: unknown[]) => unknown>(
   func: T,
   delay: number
 ): ((...args: Parameters<T>) => void) => {
@@ -22,7 +22,7 @@ export const debounce = <T extends (...args: any[]) => any>(
 /**
  * Throttle utility for limiting event frequency
  */
-export const throttle = <T extends (...args: any[]) => any>(
+export const throttle = <T extends (...args: unknown[]) => unknown>(
   func: T,
   delay: number
 ): ((...args: Parameters<T>) => void) => {
@@ -88,18 +88,19 @@ export const useOptimizedSearch = <T>(
   const searchRef = useRef<string>('');
   const resultsRef = useRef<T[]>([]);
 
-  const debouncedSearch = useCallback(
-    debounce((query: string) => {
-      if (query.trim() === '') {
+  const debouncedSearch = useCallback((query: string) => {
+    const debouncedFunc = debounce((q: string) => {
+      if (q.trim() === '') {
         resultsRef.current = [];
         return;
       }
-      
-      const results = searchFunction(query);
+
+      const results = searchFunction(q);
       resultsRef.current = results;
-    }, delay),
-    [searchFunction, delay]
-  );
+    }, delay);
+
+    debouncedFunc(query);
+  }, [searchFunction, delay]);
 
   const search = useCallback((query: string) => {
     searchRef.current = query;
@@ -201,7 +202,7 @@ export class MemoryManager {
 
   checkMemoryUsage(): void {
     if ('memory' in performance) {
-      const memInfo = (performance as any).memory;
+      const memInfo = (performance as { memory?: { usedJSHeapSize: number } }).memory;
       if (memInfo.usedJSHeapSize > this.memoryThreshold) {
         console.warn('High memory usage detected, running cleanup...');
         this.runCleanup();

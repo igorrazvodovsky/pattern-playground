@@ -10,7 +10,7 @@ export interface QuoteObject {
     sourceDocument: string;
     authorId: string;
     createdAt: string;
-    [key: string]: any;
+    [key: string]: unknown;
   };
   actions: {
     annotate: { enabled: boolean };
