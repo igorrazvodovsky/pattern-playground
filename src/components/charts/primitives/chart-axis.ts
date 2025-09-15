@@ -27,7 +27,6 @@ import type { ScaleConsumer, TickInfo, ChartScale, ScaleCoordinator } from '../s
  * @cssproperty --grid-color - Color of the grid lines (if enabled)
  * @cssproperty --grid-opacity - Opacity of the grid lines
  */
-@customElement('pp-chart-axis')
 export class PpChartAxis extends LitElement implements ScaleConsumer {
   protected createRenderRoot() {
     return this;

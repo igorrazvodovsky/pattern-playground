@@ -12,7 +12,7 @@ export default [
   {
     ignores: ["dist/**", "storybook-static/**", "node_modules/**"],
   },
-  lit.configs['flat/recommended'], 
+  lit.configs['flat/recommended'],
   {
     files: ["**/*.{js,mjs,cjs,ts,jsx,jsx,tsx}"],
     plugins: {
@@ -28,6 +28,15 @@ export default [
       ],
     },
   },
-  ...tseslint.configs.recommended, 
+  ...tseslint.configs.recommended,
+  {
+    files: ["**/*.{ts,tsx}"],
+    rules: {
+      '@typescript-eslint/no-namespace': ['error', {
+        allowDeclarations: true,
+        allowDefinitionFiles: true
+      }],
+    },
+  },
   ...storybook.configs["flat/recommended"]
 ];

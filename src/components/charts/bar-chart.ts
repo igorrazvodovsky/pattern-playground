@@ -63,7 +63,6 @@ export const barChartDataConverter = {
   }
 };
 
-@customElement('pp-bar-chart')
 export class BarChart extends ChartComponent {
   static styles = ChartComponent.styles;
 

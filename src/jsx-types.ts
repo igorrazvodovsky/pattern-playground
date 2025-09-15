@@ -46,7 +46,7 @@ declare module 'react' {
         onClick?: () => void;
       };
       'pp-dropdown': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
-        ref?: React.Ref<any>;
+        ref?: React.Ref<HTMLElement>;
         open?: boolean;
         disabled?: boolean;
         placement?: string;
