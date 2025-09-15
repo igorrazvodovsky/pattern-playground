@@ -5,9 +5,9 @@ export interface PromptConfig {
   specificRules: string[];
   exampleId: string;
   exampleLabel: string;
-  exampleValue: any;
+  exampleValue: string | number | boolean | null | string[]; // Simple serializable value or array
   exampleConfidence: number;
-  exampleMetadata: Record<string, any>;
+  exampleMetadata: Record<string, string | number | boolean | null | string[]>; // Simple serializable metadata
   exampleExplanation: string;
 }
 
@@ -74,7 +74,7 @@ export const PROMPT_CONFIGS: Record<string, PromptConfig> = {
 export class PromptTemplateBuilder {
   static buildSystemPrompt(
     _type: string,
-    availableOptions: Record<string, any[]>,
+    availableOptions: Record<string, (string | number | boolean)[]>, // Arrays of primitive values for prompt building
     config?: PromptConfig
   ): string {
     const optionsText = Object.entries(availableOptions)

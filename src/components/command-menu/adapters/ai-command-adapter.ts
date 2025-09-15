@@ -9,7 +9,7 @@ export function convertToAICommandResult(suggestionResult: AISuggestionResult): 
     id: suggestion.id,
     label: suggestion.label,
     value: suggestion.value,
-    icon: suggestion.metadata?.icon || 'ph:sparkle',
+    icon: typeof suggestion.metadata?.icon === 'string' ? suggestion.metadata.icon : 'ph:sparkle',
     metadata: suggestion.metadata
   }));
 

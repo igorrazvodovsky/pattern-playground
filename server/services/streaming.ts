@@ -92,13 +92,13 @@ export class StreamingService {
 
   static async handleTextLensStream(
     res: Response,
-    request: any,
+    request: unknown,
     signal?: AbortSignal
   ): Promise<void> {
     this.setupSSEHeaders(res);
 
     try {
-      const streamGenerator = openaiService.generateTextLensStream(request, signal);
+      const streamGenerator = openaiService.generateTextLensStream(request as import('../schemas.js').TextLensRequest, signal);
 
       for await (const chunk of streamGenerator) {
         const content = chunk.text || "";

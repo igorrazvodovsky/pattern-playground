@@ -5,7 +5,7 @@ import logger from '../logger.js';
 
 export interface AISuggestionResponse {
   success: boolean;
-  data: any | null;
+  data: unknown | null;
   error: string | null;
 }
 

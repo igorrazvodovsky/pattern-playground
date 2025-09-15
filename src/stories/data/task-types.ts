@@ -76,7 +76,7 @@ export interface Task {
   // ItemView metadata
   metadata?: {
     tags?: string[];
-    [key: string]: any;
+    [key: string]: string | number | boolean | null | string[]; // Serializable metadata only
   };
 }
 

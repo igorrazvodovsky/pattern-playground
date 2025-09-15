@@ -8,7 +8,7 @@ import {
 import type { CommandData, RecentItem } from '../command-menu-types';
 
 interface CommandOption extends SearchableParent {
-  shortcut?: string[];
+  shortcut?: readonly string[];
   children?: CommandChildOption[];
 }
 

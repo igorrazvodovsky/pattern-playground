@@ -4,6 +4,11 @@ import logger from '../logger.js';
 import { JuiceProductionModel, TextLensRequest, jsonSchema } from '../schemas.js';
 import { PromptTemplateBuilder, PROMPT_CONFIGS } from './promptTemplates.js';
 
+type JsonPrimitive = string | number | boolean | null;
+type JsonObject = { [key: string]: JsonValue };
+type JsonArray = JsonValue[];
+type JsonValue = JsonPrimitive | JsonObject | JsonArray;
+
 export interface OpenAIServiceConfig {
   apiKey: string;
   model: string;
@@ -13,8 +18,8 @@ export interface AISuggestionRequest {
   prompt: string;
   context: {
     type: 'filters' | 'commands' | 'navigation' | 'actions' | string;
-    availableOptions: Record<string, any[]>;
-    metadata?: Record<string, any>;
+    availableOptions: Record<string, (string | number | boolean)[]>;
+    metadata?: Record<string, JsonValue>;
   };
 }
 
@@ -22,9 +27,9 @@ export interface AISuggestionData {
   suggestions: Array<{
     id: string;
     label: string;
-    value: any;
+    value: string | number | boolean;
     confidence: number;
-    metadata?: Record<string, any>;
+    metadata?: Record<string, JsonValue>;
   }>;
   explanation: string;
   confidence: number;
@@ -196,8 +201,8 @@ export class OpenAIService {
 
   private createSystemPrompt(
     type: string,
-    availableOptions: Record<string, any[]>,
-    _metadata?: Record<string, any>
+    availableOptions: Record<string, (string | number | boolean)[]>,
+    _metadata?: Record<string, JsonValue>
   ): string {
     const config = PROMPT_CONFIGS[type];
     return PromptTemplateBuilder.buildSystemPrompt(type, availableOptions, config);
@@ -206,7 +211,7 @@ export class OpenAIService {
   private parseAndTransformResponse(
     content: string,
     type: string,
-    availableOptions: Record<string, any[]>
+    availableOptions: Record<string, (string | number | boolean)[]>
   ): AISuggestionData {
     try {
       const parsedContent = JSON.parse(content);
@@ -215,13 +220,16 @@ export class OpenAIService {
         throw new Error("Invalid response structure: missing suggestions array");
       }
 
-      const transformedSuggestions = parsedContent.suggestions.map((suggestion: any, index: number) => ({
-        id: suggestion.id || `${type}-${Date.now()}-${index}`,
-        label: suggestion.label || suggestion.value || `Suggestion ${index + 1}`,
-        value: suggestion.value,
-        confidence: Math.min(100, Math.max(0, suggestion.confidence || 70)),
-        metadata: suggestion.metadata || {}
-      }));
+      const transformedSuggestions = parsedContent.suggestions.map((suggestion: unknown, index: number) => {
+        const suggestionRecord = suggestion as Record<string, unknown>;
+        return {
+          id: suggestionRecord.id || `${type}-${Date.now()}-${index}`,
+          label: suggestionRecord.label || suggestionRecord.value || `Suggestion ${index + 1}`,
+          value: suggestionRecord.value,
+          confidence: Math.min(100, Math.max(0, (suggestionRecord.confidence as number) || 70)),
+          metadata: suggestionRecord.metadata || {}
+        };
+      });
 
       return {
         suggestions: transformedSuggestions,
@@ -238,7 +246,7 @@ export class OpenAIService {
 
   private generateFallbackSuggestions(
     type: string,
-    availableOptions: Record<string, any[]>
+    availableOptions: Record<string, (string | number | boolean)[]>
   ): AISuggestionData {
     const suggestions: AISuggestionData['suggestions'] = [];
 
@@ -246,7 +254,7 @@ export class OpenAIService {
       options.slice(0, 2).forEach((option, optionIndex) => {
         suggestions.push({
           id: `fallback-${type}-${categoryIndex}-${optionIndex}`,
-          label: option,
+          label: String(option),
           value: option,
           confidence: 50,
           metadata: { category, fallback: true }

@@ -33,7 +33,8 @@ function getFilterIcon(type: FilterType): string {
 export async function generateFilterSuggestions(
   prompt: string,
   availableFilters: FilterType[],
-  availableValues: Record<FilterType, string[]>
+  availableValues: Record<FilterType, string[]>,
+  signal?: AbortSignal
 ): Promise<AICommandResult> {
   const service = createAISuggestionService();
   const request = createFilterSuggestionRequest(
@@ -42,6 +43,6 @@ export async function generateFilterSuggestions(
     availableValues as Record<string, string[]>
   );
 
-  const result = await service.generateSuggestions(request);
+  const result = await service.generateSuggestions(request, signal);
   return convertGenericSuggestionToAICommandResult(result);
 }

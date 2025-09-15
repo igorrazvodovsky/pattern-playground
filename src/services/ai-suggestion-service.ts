@@ -1,21 +1,21 @@
 import { APIError } from "../../utils/api";
+import type { JsonValue } from '../types/common.js';
 
-// Generic interfaces matching the backend
 export interface AISuggestionRequest {
   prompt: string;
   context: {
     type: 'filters' | 'commands' | 'navigation' | 'actions' | string;
-    availableOptions: Record<string, any[]>;
-    metadata?: Record<string, any>;
+    availableOptions: Record<string, (string | number | boolean)[]>;
+    metadata?: Record<string, JsonValue>;
   };
 }
 
 export interface AISuggestionItem {
   id: string;
   label: string;
-  value: any;
+  value: string | number | boolean;
   confidence: number;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, JsonValue>;
 }
 
 export interface AISuggestionResult {
@@ -32,28 +32,22 @@ export interface AIState {
   error?: string;
 }
 
-/**
- * Get the appropriate API endpoint based on environment
- */
 function getSuggestionApiEndpoint(): string {
-  // Development environment
-  if (typeof process !== 'undefined' && process.env?.NODE_ENV === 'development' ||
-    (typeof window !== 'undefined' && window.location.hostname === 'localhost')) {
+  if (process?.env?.NODE_ENV === 'development' ||
+    window?.location?.hostname === 'localhost') {
     return 'http://localhost:3000/api/generate-suggestions';
   }
 
-  // Production environment - use environment variable if available
   const apiUrl = import.meta.env.VITE_API_URL;
   if (apiUrl) {
     return `${apiUrl}/api/generate-suggestions`;
   }
 
-  // Fallback to same-origin API
   return '/api/generate-suggestions';
 }
 
 export class AISuggestionService {
-  async generateSuggestions(request: AISuggestionRequest): Promise<AISuggestionResult> {
+  async generateSuggestions(request: AISuggestionRequest, signal?: AbortSignal): Promise<AISuggestionResult> {
     const endpoint = getSuggestionApiEndpoint();
 
     try {
@@ -64,7 +58,8 @@ export class AISuggestionService {
         },
         mode: 'cors',
         credentials: 'include',
-        body: JSON.stringify(request)
+        body: JSON.stringify(request),
+        signal
       });
 
       if (!response.ok) {
@@ -87,22 +82,28 @@ export class AISuggestionService {
     }
   }
 
-  private transformBackendResponse(backendData: any): AISuggestionResult {
+  private transformBackendResponse(backendData: unknown): AISuggestionResult {
     try {
-      // Transform backend response to frontend format
-      const suggestions: AISuggestionItem[] = (backendData.suggestions || []).map((suggestion: any) => ({
-        id: suggestion.id,
-        label: suggestion.label,
-        value: suggestion.value,
-        confidence: Math.min(100, Math.max(0, suggestion.confidence || 70)),
-        metadata: suggestion.metadata || {}
-      }));
+      // Type-safe response transformation
+      const backendRecord = backendData as Record<string, unknown>;
+      const suggestionsArray = (backendRecord.suggestions as unknown[]) || [];
+
+      const suggestions: AISuggestionItem[] = suggestionsArray.map((suggestion: unknown) => {
+        const suggestionRecord = suggestion as Record<string, unknown>;
+        return {
+          id: String(suggestionRecord.id),
+          label: String(suggestionRecord.label),
+          value: suggestionRecord.value as string | number | boolean,
+          confidence: Math.min(100, Math.max(0, Number(suggestionRecord.confidence) || 70)),
+          metadata: (suggestionRecord.metadata as Record<string, JsonValue>) || {}
+        };
+      });
 
       return {
         suggestions,
-        explanation: backendData.explanation || 'AI generated suggestions',
-        confidence: Math.min(100, Math.max(0, backendData.confidence || 70)),
-        unmatchedCriteria: backendData.unmatchedCriteria || []
+        explanation: String(backendRecord.explanation || 'AI generated suggestions'),
+        confidence: Math.min(100, Math.max(0, Number(backendRecord.confidence) || 70)),
+        unmatchedCriteria: (backendRecord.unmatchedCriteria as string[]) || []
       };
     } catch (error) {
       throw new APIError(`Failed to transform AI response: ${(error as Error).message}`);

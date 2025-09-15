@@ -1,4 +1,5 @@
 import type { Quote, RichContent } from '../../../stories/data/index.js';
+import type { JsonValue } from '../../../types/common.js';
 
 /**
  * Production-ready validation and error handling utilities
@@ -8,7 +9,7 @@ export class QuoteCommentingError extends Error {
   constructor(
     message: string,
     public code: string,
-    public details?: any
+    public details?: any // Error details can contain complex debugging info
   ) {
     super(message);
     this.name = 'QuoteCommentingError';
@@ -16,7 +17,7 @@ export class QuoteCommentingError extends Error {
 }
 
 export class ValidationError extends QuoteCommentingError {
-  constructor(message: string, public field: string, value?: any) {
+  constructor(message: string, public field: string, value?: any) { // Error context can be any type
     super(message, 'VALIDATION_ERROR', { field, value });
     this.name = 'ValidationError';
   }
@@ -206,7 +207,7 @@ export interface LogEntry {
   level: 'info' | 'warn' | 'error' | 'debug';
   context: string;
   message: string;
-  data?: any;
+  data?: any; // Log data can contain complex objects for debugging
 }
 
 export class Logger {
