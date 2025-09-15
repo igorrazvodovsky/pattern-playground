@@ -46,7 +46,7 @@ export class OpenAIService {
   constructor(config?: OpenAIServiceConfig) {
     const serviceConfig = config || {
       apiKey: process.env.OPENAI_API_KEY!,
-      model: process.env.OPENAI_MODEL || 'gpt-4.1'
+      model: process.env.OPENAI_MODEL || 'gpt-4-turbo'
     };
 
     this.client = new OpenAI({

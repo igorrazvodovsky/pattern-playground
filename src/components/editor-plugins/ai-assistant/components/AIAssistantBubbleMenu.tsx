@@ -12,7 +12,7 @@ export function AIAssistantBubbleMenu({ options, onAction }: AIAssistantBubbleMe
   const aiAssistantPlugin = usePlugin<AIAssistantPlugin>('ai-assistant');
   const [hasSelection, setHasSelection] = useState(false);
   const [selectedText, setSelectedText] = useState('');
-  const [selectionRange, setSelectionRange] = useState({ from: 0, to: 0 });
+  const [, setSelectionRange] = useState({ from: 0, to: 0 });
   const [isProcessing, setIsProcessing] = useState(false);
 
   // Listen to selection changes
@@ -72,14 +72,8 @@ export function AIAssistantBubbleMenu({ options, onAction }: AIAssistantBubbleMe
     setIsProcessing(true);
     // Use the plugin architecture as designed
     await onAction(action, currentSelectedText, currentRange);
-  }, [hasSelection, selectedText, selectionRange, isProcessing, onAction, editor]);
+  }, [hasSelection, selectedText, isProcessing, onAction, editor]);
 
-  const handleCancelOperation = useCallback(() => {
-    if (aiAssistantPlugin && aiAssistantPlugin.isStreaming()) {
-      aiAssistantPlugin.cancelCurrentOperation();
-      setIsProcessing(false);
-    }
-  }, [aiAssistantPlugin]);
 
   // Don't render if no selection or plugin is not active
   if (!hasSelection || selectedText.length === 0) {

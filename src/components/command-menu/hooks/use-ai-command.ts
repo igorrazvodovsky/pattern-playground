@@ -3,15 +3,17 @@ import { debounce } from 'lodash';
 import { AIState, AICommandResult } from '../ai-command-types';
 
 export interface UseAICommandOptions {
-  onAIRequest: (prompt: string) => Promise<AICommandResult>;
+  onAIRequest?: (prompt: string) => Promise<AICommandResult>;
   debounceMs?: number;
   minInputLength?: number;
+  enabled?: boolean;
 }
 
 export function useAICommand({
   onAIRequest,
   debounceMs = 1500,
-  minInputLength = 3
+  minInputLength = 3,
+  enabled = true
 }: UseAICommandOptions) {
   const [aiState, setAIState] = useState<AIState>({
     isProcessing: false,
@@ -20,7 +22,7 @@ export function useAICommand({
 
   // Create a stable AI request function
   const makeAIRequest = useCallback(async (prompt: string) => {
-    if (prompt.length < minInputLength) return;
+    if (!enabled || !onAIRequest || prompt.length < minInputLength) return;
 
     setAIState(prev => ({
       ...prev,
@@ -45,7 +47,7 @@ export function useAICommand({
         error: (error as Error).message
       }));
     }
-  }, [onAIRequest, minInputLength]);
+  }, [onAIRequest, minInputLength, enabled]);
 
   // Debounced AI request function
   const debouncedAIRequest = useMemo(

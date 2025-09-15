@@ -33,8 +33,7 @@ export interface AIState {
 }
 
 function getSuggestionApiEndpoint(): string {
-  if (process?.env?.NODE_ENV === 'development' ||
-    window?.location?.hostname === 'localhost') {
+  if (import.meta.env.DEV || window?.location?.hostname === 'localhost') {
     return 'http://localhost:3000/api/generate-suggestions';
   }
 

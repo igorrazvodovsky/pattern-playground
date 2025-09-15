@@ -9,8 +9,6 @@ interface CommentingBubbleMenuProps {
 }
 
 const CommentingBubbleMenu: React.FC<CommentingBubbleMenuProps> = ({ editor }) => {
-  if (!editor) return null;
-
   // Use useEditorState to properly track selection changes
   const editorState = useEditorState({
     editor,
@@ -18,6 +16,8 @@ const CommentingBubbleMenu: React.FC<CommentingBubbleMenuProps> = ({ editor }) =
       hasSelection: !editor.state.selection.empty,
     }),
   });
+
+  if (!editor) return null;
 
   const handleCreateComment = () => {
     console.log('CommentingBubbleMenu: handleCreateComment called');

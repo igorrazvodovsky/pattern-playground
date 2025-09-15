@@ -6,6 +6,7 @@ export interface UseCommandRecentsOptions {
   persistRecents?: boolean;
   storageKey?: string;
   initialRecents?: RecentItem[];
+  enabled?: boolean;
 }
 
 export interface UseCommandRecentsReturn {
@@ -27,9 +28,12 @@ export function useCommandRecents({
   persistRecents = false,
   storageKey = 'command-menu-recents',
   initialRecents = [],
+  enabled = true,
 }: UseCommandRecentsOptions = {}): UseCommandRecentsReturn {
 
   const [recentItems, setRecentItems] = useState<RecentItem[]>(() => {
+    if (!enabled) return [];
+
     if (persistRecents && typeof window !== 'undefined') {
       try {
         const stored = localStorage.getItem(storageKey);
@@ -45,16 +49,18 @@ export function useCommandRecents({
   });
 
   useEffect(() => {
-    if (persistRecents && typeof window !== 'undefined') {
+    if (enabled && persistRecents && typeof window !== 'undefined') {
       try {
         localStorage.setItem(storageKey, JSON.stringify(recentItems));
       } catch (error) {
         console.warn('Failed to save recent items to localStorage:', error);
       }
     }
-  }, [recentItems, persistRecents, storageKey]);
+  }, [recentItems, persistRecents, storageKey, enabled]);
 
   const addToRecents = useCallback((item: RecentItem) => {
+    if (!enabled) return;
+
     setRecentItems(prevRecents => {
       const filteredRecents = prevRecents.filter(recent => recent.id !== item.id);
 
@@ -67,7 +73,7 @@ export function useCommandRecents({
         .toSorted((a, b) => (b.timestamp ?? 0) - (a.timestamp ?? 0))
         .slice(0, maxRecents);
     });
-  }, [maxRecents]);
+  }, [maxRecents, enabled]);
 
   const removeFromRecents = useCallback((itemId: string) => {
     setRecentItems(prevRecents => prevRecents.filter(item => item.id !== itemId));

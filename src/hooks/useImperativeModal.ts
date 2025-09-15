@@ -52,7 +52,7 @@ export const useImperativeModal = (type: 'drawer' | 'dialog' = 'drawer') => {
     // Find the PPModal element
     const modalElement = document.getElementById(currentModalId.current);
     currentPPModal.current = modalElement?.closest('pp-modal') as PPModal;
-  }, [currentModalId.current]);
+  }, []);
 
   // Cleanup on unmount
   useEffect(() => {

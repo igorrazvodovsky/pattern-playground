@@ -34,7 +34,7 @@ export const AIFallbackHandler: React.FC<AIFallbackHandlerProps> = ({
           <ItemView
             item={taskToItemObject(task)}
             contentType="task"
-            scope="maxi"
+            scope="mid"
             mode="preview"
           />
         </ContentAdapterProvider>,

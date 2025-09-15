@@ -7,7 +7,7 @@ export interface HttpError extends Error {
   status?: number;
 }
 
-export const errorHandler = (err: Error | AppError | ZodError, _req: Request, res: Response): void => {
+export const errorHandler = (err: Error | AppError | ZodError, _req: Request, res: Response, _next: NextFunction): void => {
   logger.error('Express error:', err);
 
   // Handle Zod validation errors

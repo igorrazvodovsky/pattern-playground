@@ -70,13 +70,12 @@ export function useCommandComposition({
   onClose,
 }: UseCommandCompositionOptions): UseCommandCompositionReturn {
 
-  const recents = enableRecents
-    ? useCommandRecents({
-      maxRecents: DEFAULT_CONFIG.maxRecents,
-      persistRecents: false,
-      ...recentsConfig,
-    })
-    : undefined;
+  const recents = useCommandRecents({
+    maxRecents: DEFAULT_CONFIG.maxRecents,
+    persistRecents: false,
+    enabled: enableRecents,
+    ...recentsConfig,
+  });
 
   const selectionOptions = {
     onSelect,
@@ -86,9 +85,9 @@ export function useCommandComposition({
 
   const navigation = useCommandNavigation({
     data,
-    recentItems: recents?.recentItems ?? [],
+    recentItems: enableRecents ? (recents?.recentItems ?? []) : [],
     onSelect: (item) => {
-      if (recents && 'name' in item) {
+      if (enableRecents && recents && 'name' in item) {
         const recentItem: RecentItem = {
           id: item.id,
           name: item.name,
@@ -106,13 +105,12 @@ export function useCommandComposition({
     onEscape,
   });
 
-  const ai = enableAI && aiConfig
-    ? useAICommand({
-      onAIRequest: aiConfig.onAIRequest,
-      debounceMs: aiConfig.debounceMs,
-      minInputLength: aiConfig.minInputLength,
-    })
-    : undefined;
+  const ai = useAICommand({
+    onAIRequest: aiConfig?.onAIRequest,
+    debounceMs: aiConfig?.debounceMs,
+    minInputLength: aiConfig?.minInputLength,
+    enabled: enableAI && !!aiConfig,
+  });
 
   const keyboard = useCommandKeyboard({
     onEscape: navigation.handleEscape,
@@ -144,7 +142,7 @@ export function useCommandComposition({
   const results = useMemo((): UnifiedResults => {
     const commands = navigation.filteredResults.parents as CommandData[];
     const children = navigation.filteredResults.children as Array<{ parent: CommandData; child: any }>;
-    const currentRecents = recents
+    const currentRecents = enableRecents && recents
       ? recents.filterRecents(navigation.searchInput)
       : [];
 
@@ -162,7 +160,7 @@ export function useCommandComposition({
       aiSuggestions,
       isEmpty,
     };
-  }, [navigation.filteredResults, navigation.searchInput, recents, ai?.aiState]);
+  }, [navigation.filteredResults, navigation.searchInput, recents, enableRecents]);
 
   const isInChildView = navigation.isInCommandView;
   const shouldShowRecents = enableRecents &&

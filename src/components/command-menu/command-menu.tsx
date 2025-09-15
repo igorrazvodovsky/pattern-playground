@@ -54,7 +54,7 @@ export function CommandMenu({
   }, [
     composition.shouldShowAI,
     composition.searchInput,
-    composition.ai?.handleAIRequest
+    composition.ai
   ]);
 
   const handleApplyAIResult = (result: AICommandResult) => {
