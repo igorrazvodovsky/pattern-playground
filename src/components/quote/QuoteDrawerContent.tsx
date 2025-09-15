@@ -11,8 +11,7 @@ interface QuoteDrawerContentProps {
 
 export const QuoteDrawerContent: React.FC<QuoteDrawerContentProps> = ({
   quote,
-  currentUser,
-  onClose
+  currentUser
 }) => {
   return (
     <div className="quote-drawer">

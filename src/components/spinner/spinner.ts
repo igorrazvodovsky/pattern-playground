@@ -12,8 +12,7 @@ import styles from './spinner.css?inline';
  * @cssproperty --speed - The time it takes for the spinner to complete one animation cycle.
  */
 
-@customElement('pp-spinner')
-export class Spinner extends LitElement {
+export class PpSpinner extends LitElement {
   static styles: CSSResultGroup = [unsafeCSS(styles)];
 
   render() {
@@ -23,11 +22,5 @@ export class Spinner extends LitElement {
         <circle class="spinner__indicator"></circle>
       </svg>
     `;
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    "pp-spinner": Spinner;
   }
 }

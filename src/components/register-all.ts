@@ -1,6 +1,6 @@
 /**
  * Register all Pattern Playground components in dependency order
- * 
+ *
  * This file centrally manages component registration to ensure proper
  * instantiation order for interdependent components.
  */
@@ -23,9 +23,9 @@ import { PpTab } from './tab/tab.js';
 import { PpTabPanel } from './tab-panel/tab-panel.js';
 import { PpTabGroup } from './tab-group/tab-group.js';
 import { PpPriorityPlus } from './priority-plus/priority-plus.js';
-import { SimpleTable } from './table/table.js';
+import { SimpleTable } from './table/table';
+import { PpSpinner } from './spinner/spinner';
 
-// Chart components
 import { PpChartGrid } from './charts/primitives/chart-grid.js';
 import { PpChartLegend } from './charts/primitives/chart-legend.js';
 
@@ -35,6 +35,7 @@ import { PpChartLegend } from './charts/primitives/chart-legend.js';
 export function registerAllComponents(): void {
   componentRegistry.registerAll([
     // Base/primitive components first (no dependencies)
+    { tagName: 'pp-spinner', constructor: PpSpinner },
     { tagName: 'pp-avatar', constructor: PpAvatar },
     { tagName: 'pp-button', constructor: PpButton, options: { extends: 'button' } },
     { tagName: 'pp-input', constructor: PpInput },
@@ -43,20 +44,19 @@ export function registerAllComponents(): void {
     { tagName: 'pp-modal', constructor: PPModal },
     { tagName: 'pp-table', constructor: SimpleTable },
     { tagName: 'pp-p-plus', constructor: PpPriorityPlus },
-    
-    // Chart primitives
+
     { tagName: 'pp-chart-grid', constructor: PpChartGrid },
     { tagName: 'pp-chart-legend', constructor: PpChartLegend },
-    
+
     // Components with popup dependency
     { tagName: 'pp-popup', constructor: PpPopup },
     { tagName: 'pp-dropdown', constructor: PpDropdown, dependencies: ['pp-popup'] },
-    
+
     // List components (list-item before list)
     { tagName: 'pp-list-item', constructor: PpListItem },
     { tagName: 'pp-list', constructor: PpList, dependencies: ['pp-list-item'] },
     { tagName: 'pp-breadcrumbs', constructor: PpBreadcrumbs },
-    
+
     // Tab components (tab and tab-panel before tab-group)
     { tagName: 'pp-tab', constructor: PpTab },
     { tagName: 'pp-tab-panel', constructor: PpTabPanel },

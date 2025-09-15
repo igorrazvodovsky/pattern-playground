@@ -103,7 +103,7 @@ export abstract class BasePlugin implements IPlugin {
     return [];
   }
 
-  configure?(config: unknown): void {
+  configure?(): void {
     // Base implementation - can be overridden
   }
 

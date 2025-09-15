@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ItemViewProps, ItemObject } from './types';
+import type { ItemViewProps } from './types';
 import { useContentAdapter } from './ContentAdapterRegistry';
 import { DefaultFallbackRenderer } from './DefaultFallbackRenderer';
 

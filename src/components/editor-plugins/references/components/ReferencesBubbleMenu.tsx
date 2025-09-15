@@ -9,10 +9,8 @@ interface ReferencesBubbleMenuProps {
   enableQuoteReferences?: boolean;
 }
 
-export function ReferencesBubbleMenu({ 
-  data, 
-  onReferenceSelect,
-  enableQuoteReferences = true 
+export function ReferencesBubbleMenu({
+  enableQuoteReferences = true
 }: ReferencesBubbleMenuProps) {
   const { editor, eventBus, getPlugin } = useEditorContext();
   const referencesPlugin = getPlugin('references') as ReferencesPlugin;

@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import { ItemView } from './ItemView';
 import { modalService } from '../../services/modal-service';
-import { createModalContent, getSizeForScope, getPlacementForScope } from './services/modal-service-integration';
+import { createModalContent } from './services/modal-service-integration';
 import type { ItemInteractionProps, ViewScope, BaseItem } from './types';
 
 /**

@@ -1,13 +1,8 @@
 import React, { useCallback } from 'react';
 import { useEditorContext } from '../../../editor/EditorProvider';
-import type { ReferenceCategory, SelectedReference } from '../../../reference/types';
 
-interface ReferencesToolbarProps {
-  data: ReferenceCategory[];
-  onReferenceSelect?: (reference: SelectedReference) => void;
-}
 
-export function ReferencesToolbar({ data, onReferenceSelect }: ReferencesToolbarProps) {
+export function ReferencesToolbar(): React.ReactElement {
   const { editor } = useEditorContext();
 
   const handleInsertReference = useCallback(() => {

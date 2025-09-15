@@ -91,7 +91,7 @@ const ReferencePickerPopup: React.FC<ReferencePickerPopupProps> = ({
       if (!abortController.signal.aborted) {
         setPosition({ x, y });
       }
-    } catch (error) {
+    } catch {
       if (!abortController.signal.aborted) {
         // Position update failed - floating UI will handle fallback
       }
@@ -325,7 +325,7 @@ export const Reference = Mention.extend({
               }
             },
           };
-        } catch (error) {
+        } catch {
           // Fall through to regular reference handling
         }
       }

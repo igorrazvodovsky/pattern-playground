@@ -1,5 +1,5 @@
 import { BasePlugin } from '../core/Plugin';
-import type { PluginCapabilities, EditorContext, SlotRegistry, EventBus } from '../../editor/types';
+import type { PluginCapabilities, EditorContext } from '../../editor/types';
 import type { Extension } from '@tiptap/core';
 
 /**
@@ -118,7 +118,7 @@ export class TemplatePlugin extends BasePlugin {
   }
 
   // Step 7: Register UI components
-  registerUI(slots: SlotRegistry): void {
+  registerUI(): void {
     // Example: Register a bubble menu item
     /*
     slots.register('bubble-menu', {
@@ -160,7 +160,7 @@ export class TemplatePlugin extends BasePlugin {
   }
 
   // Step 8: Subscribe to editor events
-  subscribeToEvents(eventBus: EventBus): void {
+  subscribeToEvents(): void {
     // Example: Listen to selection changes
     /*
     eventBus.on('selection:change', ({ from, to, content }) => {

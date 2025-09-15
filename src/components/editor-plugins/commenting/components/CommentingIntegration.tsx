@@ -16,7 +16,7 @@ export const CommentingIntegration: React.FC<CommentingIntegrationProps> = ({
   config,
   children,
 }) => {
-  const { activePointer, comments, createComment, clearActiveComment } = useEditorCommenting(editor, {
+  const { activePointer, comments, createComment, clearActivePointer } = useEditorCommenting(editor, {
     documentId: config.documentId,
     currentUser: config.currentUser
   });
@@ -41,7 +41,7 @@ export const CommentingIntegration: React.FC<CommentingIntegrationProps> = ({
         plugin.pendingQuotes.delete(activePointer.id);
       }
     }
-    clearActiveComment();
+    clearActivePointer();
   };
 
   const handleCommentAdded = async (content: string) => {

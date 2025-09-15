@@ -1,5 +1,5 @@
 import { FilterType, FilterOperator, DueDate } from "./filter-types";
-import { SINGLE_VALUE_FILTER_TYPES, isDateFilter, isSingleValueFilter } from "./filter-constants";
+import { isDateFilter, isSingleValueFilter } from "./filter-constants";
 
 interface FilterOperatorConfig {
   single: FilterOperator[];

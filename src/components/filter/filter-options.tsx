@@ -1,4 +1,4 @@
-import { FilterType, FilterOperator, Status, Assignee, Labels, Priority, DueDate, FilterOption } from "./filter-types";
+import { FilterType, Status, Assignee, Labels, Priority, DueDate, FilterOption } from "./filter-types";
 import { FilterIcon } from "./filter-options-icons";
 import { filterOperators } from "./filter-operator-logic";
 import {

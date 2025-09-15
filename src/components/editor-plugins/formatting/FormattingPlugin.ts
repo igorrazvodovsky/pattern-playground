@@ -1,5 +1,5 @@
 import { BasePlugin } from '../core/Plugin';
-import type { EditorContext, SlotRegistry, EventBus } from '../../editor/types';
+import type { SlotRegistry, EventBus } from '../../editor/types';
 import type { Extension } from '@tiptap/core';
 import Bold from '@tiptap/extension-bold';
 import Italic from '@tiptap/extension-italic';

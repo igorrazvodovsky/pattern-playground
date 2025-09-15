@@ -151,7 +151,7 @@ export class PluginRegistry implements IPluginRegistry {
 
     // Use modern array methods for queue initialization
     const queue = [...inDegree.entries()]
-      .filter(([_, degree]) => degree === 0)
+      .filter(([, degree]) => degree === 0)
       .map(([id]) => id);
 
     const sorted: string[] = [];

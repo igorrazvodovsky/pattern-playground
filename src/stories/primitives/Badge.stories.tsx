@@ -155,7 +155,7 @@ export const Dot: Story = {
   ),
 };
 
-export const withIcon: Story = {
+export const WithIcon: Story = {
   render: () => (
     <div className="inline-flow">
       <span className="badge badge--pill">
@@ -223,6 +223,6 @@ export const Link: Story = {
   render: () => <a href="#" className="badge">Badge</a>,
 };
 
-export const withTags: Story = {
+export const WithTags: Story = {
   render: () => <></>,
 };

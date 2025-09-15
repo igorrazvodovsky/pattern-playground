@@ -3,7 +3,6 @@ import './components/register-all.js';
 
 // Export component classes for programmatic use
 export { PpButton } from './components/button/button.ts';
-export { Spinner } from './components/spinner/spinner.ts';
 export { SimpleTable } from './components/table/table.ts';
 export { PpInput } from './components/input/input.ts';
 export { PpTab } from './components/tab/tab.ts';
