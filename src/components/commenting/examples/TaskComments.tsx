@@ -14,8 +14,7 @@ interface TaskCommentsProps {
 }
 
 /**
- * Example following the plan architecture.
- * Shows how to add comments to any entity (no editor needed).
+ * Example: Add comments to any entity
  */
 export function TaskComments({ task, currentUser = 'demo-user' }: TaskCommentsProps) {
   const pointer = new EntityPointer('task', task.id);

@@ -7,6 +7,8 @@ import commentThreadsData from './comment-threads.json' with { type: 'json' };
 import commandsData from './commands.json' with { type: 'json' };
 import recentItemsData from './recent-items.json' with { type: 'json' };
 import tasksData from './tasks.json' with { type: 'json' };
+import { transformTasksData } from './transformations/tasks';
+import { createFinder, createMultiFieldSearcher } from './finders';
 import transactionsData from './transactions.json' with { type: 'json' };
 import commentsData from './comments.json' with { type: 'json' };
 import quotesData from './quotes.json' with { type: 'json' };
@@ -43,89 +45,26 @@ export { default as filterLabels } from './labels.json' with { type: 'json' };
 export { default as filterPriorities } from './priorities.json' with { type: 'json' };
 export { default as filterDates } from './filter-dates.json' with { type: 'json' };
 
-export const tasks = tasksData.map(task => ({
-  id: task.id,
-  title: task.title,
-  specification: task.specification,
-  description: task.description,
+export const tasks = transformTasksData(
+  tasksData,
+  users,
+  projects,
+  filterStatusesData,
+  filterPrioritiesData,
+  filterLabelsData
+);
 
-  // Convert to rich objects
-  status: {
-    id: task.statusId,
-    label: filterStatusesData.find(s => s.id === task.statusId)?.name || task.statusId,
-    value: filterStatusesData.find(s => s.id === task.statusId)?.value || 'submitted',
-    color: '#gray'  // Status data doesn't have colors, using default
-  },
+// Create finder utilities using generic functions
+export const getUserById = createFinder(users);
+export const getProjectById = createFinder(projects);
+export const getDocumentById = createFinder(documents);
+export const getDocumentContentById = createFinder(documents);
+export const getReferenceContentById = createFinder(referenceContent);
+export const getEditorContentById = createFinder(editorContent);
 
-  priority: task.priorityId ? {
-    id: task.priorityId,
-    label: filterPrioritiesData.find(p => p.id === task.priorityId)?.name || task.priorityId,
-    value: filterPrioritiesData.find(p => p.id === task.priorityId)?.value || 'medium',
-    color: '#blue'  // Priority data doesn't have colors, using default
-  } : undefined,
-
-  assignee: task.assigneeId ? users.find(user => user.id === task.assigneeId) : undefined,
-
-  labels: task.labelIds ? task.labelIds.map(labelId => {
-    const label = filterLabelsData.find(l => l.id === labelId);
-    return label ? {
-      id: labelId,
-      label: label.name,  // Using 'name' field from labels.json
-      color: '#purple'    // Default color for labels
-    } : null;
-  }).filter(Boolean) : undefined,
-
-  project: task.projectId ? projects.find(project => project.id === task.projectId) : undefined,
-
-  // Progress and history from JSON
-  progress: task.progress || 0,
-  history: task.history.map(entry => ({
-    ...entry,
-    timestamp: new Date(entry.timestamp)
-  })),
-
-  // Temporal fields
-  createdAt: new Date(task.createdDate),
-  updatedAt: task.updatedDate ? new Date(task.updatedDate) : undefined,
-  dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
-
-  updatedBy: task.updatedBy ? users.find(user => user.id === task.updatedBy) : undefined,
-
-  // Metadata for ItemView
-  metadata: {
-    tags: task.labelIds ? task.labelIds.map(labelId =>
-      filterLabelsData.find(l => l.id === labelId)?.name
-    ).filter(Boolean) : []
-  }
-}));
-
-// Utility functions
+// Legacy function using property finder
 export const getUserByName = (name: string) => {
   return users.find(user => user.name === name);
-};
-
-export const getUserById = (id: string) => {
-  return users.find(user => user.id === id);
-};
-
-export const getProjectById = (id: string) => {
-  return projects.find(project => project.id === id);
-};
-
-export const getDocumentById = (id: string) => {
-  return documents.find(doc => doc.id === id);
-};
-
-export const getDocumentContentById = (id: string) => {
-  return documents.find(doc => doc.id === id);
-};
-
-export const getReferenceContentById = (id: string) => {
-  return referenceContent.find(ref => ref.id === id);
-};
-
-export const getEditorContentById = (id: string) => {
-  return editorContent.find(content => content.id === id);
 };
 
 export const getDocumentContentBySection = (documentId: string, sectionId: string) => {
@@ -165,9 +104,7 @@ export const getDocumentContentRich = (documentId: string, sectionId?: string) =
   return doc.content?.richContent;
 };
 
-export const getCommentThreadSetupById = (id: string) => {
-  return commentThreads.find(setup => setup.id === id);
-};
+export const getCommentThreadSetupById = createFinder(commentThreads);
 
 // Dynamic reference resolution utility
 export const resolveReferenceData = (id: string, type: string) => {
@@ -274,25 +211,11 @@ export const resolveReferenceData = (id: string, type: string) => {
   }
 };
 
-export const getTaskById = (id: string) => {
-  return tasks.find(task => task.id === id);
-};
-
-export const getStatusById = (id: string) => {
-  return filterStatusesData.find(status => status.id === id);
-};
-
-export const getPriorityById = (id: string) => {
-  return filterPrioritiesData.find(priority => priority.id === id);
-};
-
-export const getLabelById = (id: string) => {
-  return filterLabelsData.find(label => label.id === id);
-};
-
-export const getCommentById = (id: string) => {
-  return comments.find(comment => comment.id === id);
-};
+export const getTaskById = createFinder(tasks);
+export const getStatusById = createFinder(filterStatusesData);
+export const getPriorityById = createFinder(filterPrioritiesData);
+export const getLabelById = createFinder(filterLabelsData);
+export const getCommentById = createFinder(comments);
 
 export const getTasksByProject = (projectId: string) => {
   return tasks.filter(task => task.project?.id === projectId);
@@ -327,9 +250,7 @@ export const getResolvedComments = () => {
 };
 
 // Quote utility functions
-export const getQuoteById = (id: string) => {
-  return quotes.find(quote => quote.id === id);
-};
+export const getQuoteById = createFinder(quotes);
 
 export const getQuotesByDocument = (documentId: string) => {
   return quotes.filter(quote => quote.metadata.sourceDocument === documentId);
@@ -374,6 +295,14 @@ export type {
   CreateTaskInput
 } from './task-types';
 export { taskToItemObject } from './task-types';
+
+// Re-export transformation types
+export type {
+  TransformedTask,
+  TaskStatus as TaskStatusTransformed,
+  TaskPriority as TaskPriorityTransformed,
+  TaskLabel as TaskLabelTransformed
+} from './transformations/tasks';
 export type Transaction = typeof transactions[0];
 export type Comment = typeof comments[0];
 export type Quote = typeof quotes[0];
@@ -394,21 +323,10 @@ export type Product = typeof products[0];
 export type Service = typeof services[0];
 
 // Circular economy utility functions
-export const getMaterialById = (id: string) => {
-  return materials.find(material => material.id === id);
-};
-
-export const getComponentById = (id: string) => {
-  return components.find(component => component.id === id);
-};
-
-export const getProductById = (id: string) => {
-  return products.find(product => product.id === id);
-};
-
-export const getServiceById = (id: string) => {
-  return services.find(service => service.id === id);
-};
+export const getMaterialById = createFinder(materials);
+export const getComponentById = createFinder(components);
+export const getProductById = createFinder(products);
+export const getServiceById = createFinder(services);
 
 export const getMaterialsByCategory = (category: string) => {
   return materials.filter(material => material.metadata.category === category);
@@ -509,38 +427,18 @@ export const getModularProducts = () => {
   return products.filter(product => product.metadata.circular.modularDesign);
 };
 
-export const searchCircularEconomyData = (searchText: string) => {
-  const lowerSearchText = searchText.toLowerCase();
+// Create search functions for circular economy data
+const searchMaterials = createMultiFieldSearcher(materials, ['searchableText', 'name', 'description']);
+const searchComponents = createMultiFieldSearcher(components, ['searchableText', 'name', 'description']);
+const searchProducts = createMultiFieldSearcher(products, ['searchableText', 'name', 'description']);
+const searchServices = createMultiFieldSearcher(services, ['searchableText', 'name', 'description']);
 
-  const matchingMaterials = materials.filter(item =>
-    item.searchableText.includes(lowerSearchText) ||
-    item.name.toLowerCase().includes(lowerSearchText) ||
-    item.description.toLowerCase().includes(lowerSearchText)
-  );
-
-  const matchingComponents = components.filter(item =>
-    item.searchableText.includes(lowerSearchText) ||
-    item.name.toLowerCase().includes(lowerSearchText) ||
-    item.description.toLowerCase().includes(lowerSearchText)
-  );
-
-  const matchingProducts = products.filter(item =>
-    item.searchableText.includes(lowerSearchText) ||
-    item.name.toLowerCase().includes(lowerSearchText) ||
-    item.description.toLowerCase().includes(lowerSearchText)
-  );
-
-  const matchingServices = services.filter(item =>
-    item.searchableText.includes(lowerSearchText) ||
-    item.name.toLowerCase().includes(lowerSearchText) ||
-    item.description.toLowerCase().includes(lowerSearchText)
-  );
-
+export const searchProductData = (searchText: string) => {
   return {
-    materials: matchingMaterials,
-    components: matchingComponents,
-    products: matchingProducts,
-    services: matchingServices
+    materials: searchMaterials(searchText),
+    components: searchComponents(searchText),
+    products: searchProducts(searchText),
+    services: searchServices(searchText)
   };
 };
 

@@ -200,7 +200,7 @@ export function transformBarChartData(
     sort?: 'asc' | 'desc' | 'none';
   } = {}
 ): BarChartData {
-  let transformedData = { ...data };
+  const transformedData = { ...data };
 
   // Sort data if requested
   if (options.sort && options.sort !== 'none') {

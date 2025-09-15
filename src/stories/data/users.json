@@ -6,9 +6,9 @@
     "icon": "ph:user-fill",
     "description": "Sustainability Manager",
     "searchableText": "megan wilkinson sustainability manager circular economy",
-    "metadata": { 
-      "role": "Sustainability Manager", 
-      "email": "megan@circulareconomy.com", 
+    "metadata": {
+      "role": "Sustainability Manager",
+      "email": "megan@acme.com",
       "photoUrl": "https://i.pravatar.cc/150?img=20",
       "lastActiveAt": "2024-01-17T15:45:00Z",
       "timezone": "Europe/London",
@@ -22,9 +22,9 @@
     "icon": "ph:user-fill",
     "description": "Supply Chain Analyst",
     "searchableText": "javier gomez supply chain analyst logistics",
-    "metadata": { 
-      "role": "Supply Chain Analyst", 
-      "email": "javier@circulareconomy.com", 
+    "metadata": {
+      "role": "Supply Chain Analyst",
+      "email": "javier@acme.com",
       "photoUrl": "https://i.pravatar.cc/150?img=2",
       "lastActiveAt": "2024-01-17T14:20:00Z",
       "timezone": "Europe/Madrid",
@@ -38,9 +38,9 @@
     "icon": "ph:user-fill",
     "description": "Refurbishment Technician",
     "searchableText": "nia adebayo refurbishment technician repair",
-    "metadata": { 
-      "role": "Refurbishment Technician", 
-      "email": "nia@circulareconomy.com", 
+    "metadata": {
+      "role": "Refurbishment Technician",
+      "email": "nia@acme.com",
       "photoUrl": "https://i.pravatar.cc/150?img=3",
       "lastActiveAt": "2024-01-17T16:10:00Z",
       "timezone": "Africa/Lagos",
@@ -54,9 +54,9 @@
     "icon": "ph:user-fill",
     "description": "Eco-designer",
     "searchableText": "kenji tanaka eco-designer product design",
-    "metadata": { 
-      "role": "Eco-designer", 
-      "email": "kenji@circulareconomy.com", 
+    "metadata": {
+      "role": "Eco-designer",
+      "email": "kenji@acme.com",
       "photoUrl": "https://i.pravatar.cc/150?img=4",
       "lastActiveAt": "2024-01-17T10:30:00Z",
       "timezone": "Asia/Tokyo",
@@ -70,9 +70,9 @@
     "icon": "ph:user-fill",
     "description": "Materials Scientist",
     "searchableText": "fatima al-jamil materials scientist research",
-    "metadata": { 
-      "role": "Materials Scientist", 
-      "email": "fatima@circulareconomy.com", 
+    "metadata": {
+      "role": "Materials Scientist",
+      "email": "fatima@acme.com",
       "photoUrl": "https://i.pravatar.cc/150?img=5",
       "lastActiveAt": "2024-01-17T13:15:00Z",
       "timezone": "Asia/Dubai",
@@ -86,9 +86,9 @@
     "icon": "ph:user-fill",
     "description": "Policy Advisor",
     "searchableText": "david chen policy advisor regulations",
-    "metadata": { 
-      "role": "Policy Advisor", 
-      "email": "david@circulareconomy.com", 
+    "metadata": {
+      "role": "Policy Advisor",
+      "email": "david@acme.com",
       "photoUrl": "https://i.pravatar.cc/150?img=26",
       "lastActiveAt": "2024-01-17T12:45:00Z",
       "timezone": "America/Vancouver",
@@ -102,9 +102,9 @@
     "icon": "ph:user-fill",
     "description": "Community Manager",
     "searchableText": "maria garcia community manager outreach",
-    "metadata": { 
-      "role": "Community Manager", 
-      "email": "maria@circulareconomy.com", 
+    "metadata": {
+      "role": "Community Manager",
+      "email": "maria@acme.com",
       "photoUrl": "https://i.pravatar.cc/150?img=7",
       "lastActiveAt": "2024-01-17T17:20:00Z",
       "timezone": "America/Mexico_City",
@@ -118,9 +118,9 @@
     "icon": "ph:user-fill",
     "description": "Logistics Coordinator",
     "searchableText": "sam wilson logistics coordinator transport",
-    "metadata": { 
-      "role": "Logistics Coordinator", 
-      "email": "sam@circulareconomy.com", 
+    "metadata": {
+      "role": "Logistics Coordinator",
+      "email": "sam@acme.com",
       "photoUrl": "https://i.pravatar.cc/150?img=28",
       "lastActiveAt": "2024-01-17T11:30:00Z",
       "timezone": "Australia/Sydney",
@@ -134,9 +134,9 @@
     "icon": "ph:user-fill",
     "description": "Data Analyst",
     "searchableText": "chloe kim data analyst metrics",
-    "metadata": { 
-      "role": "Data Analyst", 
-      "email": "chloe@circulareconomy.com", 
+    "metadata": {
+      "role": "Data Analyst",
+      "email": "chloe@acme.com",
       "photoUrl": "https://i.pravatar.cc/150?img=9",
       "lastActiveAt": "2024-01-17T09:45:00Z",
       "timezone": "Asia/Seoul",
@@ -150,9 +150,9 @@
     "icon": "ph:user-fill",
     "description": "Investment Analyst",
     "searchableText": "ben carter investment analyst finance",
-    "metadata": { 
-      "role": "Investment Analyst", 
-      "email": "ben@circulareconomy.com", 
+    "metadata": {
+      "role": "Investment Analyst",
+      "email": "ben@acme.com",
       "photoUrl": "https://i.pravatar.cc/150?img=10",
       "lastActiveAt": "2024-01-17T16:55:00Z",
       "timezone": "America/New_York",

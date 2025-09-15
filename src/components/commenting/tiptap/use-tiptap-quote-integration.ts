@@ -20,25 +20,22 @@ export const useTipTapQuoteIntegration = (
   const quoteService = getQuoteService();
   const { openDrawer } = useModalService();
 
-  // Get all quotes for this document
   const documentQuotes = useMemo(() => {
     return getQuotesByDocument(documentId) as QuoteObject[];
   }, [documentId]);
 
-  // Validate existing quote reference marks when editor loads
+  // Validate quote integrity when editor loads
   useEffect(() => {
     if (!editor || documentQuotes.length === 0) return;
 
-    // Validate that existing quote reference marks are correctly positioned
     documentQuotes.forEach(quote => {
       const { from, to } = quote.metadata.sourceRange;
 
-      // Validate the range is still valid
       if (from >= 0 && to <= editor.state.doc.content.size && from < to) {
         try {
           const currentText = editor.state.doc.textBetween(from, to, ' ');
 
-          // Warn if text doesn't match (indicates data integrity issue)
+          // Detect if document changes broke quote integrity
           if (currentText.trim() !== quote.metadata.selectedText.trim()) {
             console.warn(`Quote text mismatch for ${quote.id}: expected "${quote.metadata.selectedText}", found "${currentText}"`);
           }
@@ -49,7 +46,6 @@ export const useTipTapQuoteIntegration = (
     });
   }, [editor, documentQuotes]);
 
-  // Create a quote object from current selection
   const createQuote = useCallback((): QuoteObject | null => {
     if (!editor) return null;
 
@@ -68,7 +64,6 @@ export const useTipTapQuoteIntegration = (
         documentId
       );
 
-      // Replace the selected text with a reference node
       editor.commands.convertSelectionToQuoteReference({
         id: quote.id,
         label: quote.name,
@@ -83,20 +78,17 @@ export const useTipTapQuoteIntegration = (
     }
   }, [editor, currentUser, documentId, quoteService]);
 
-  // Check if current selection is valid for quote creation
   const canCreateQuote = useCallback((): boolean => {
     if (!editor) return false;
 
     const { from, to } = editor.state.selection;
-    return from !== to; // Has text selection
+    return from !== to;
   }, [editor]);
 
-  // Get quote object by ID
   const getQuote = useCallback((quoteId: string): QuoteObject | undefined => {
     return quoteService.getQuoteById(quoteId);
   }, [quoteService]);
 
-  // Handle clicking on a quote reference mark
   const handleQuoteClick = useCallback(async (quoteId: string) => {
     const quote = getQuote(quoteId);
     if (quote) {
@@ -108,7 +100,6 @@ export const useTipTapQuoteIntegration = (
           name: currentUser
         };
 
-        // Clean React component approach using Web Component infrastructure
         const modalId = openDrawer(
           React.createElement(QuoteDrawerContent, {
             quote: quote, 
@@ -130,7 +121,6 @@ export const useTipTapQuoteIntegration = (
     }
   }, [openDrawer, getQuote, currentUser]);
 
-  // Navigate to source position of a quote
   const navigateToQuoteSource = useCallback((quote: QuoteObject) => {
     if (!editor) return;
 
@@ -141,7 +131,6 @@ export const useTipTapQuoteIntegration = (
       editor.commands.focus();
       editor.commands.setTextSelection({ from, to });
 
-      // Scroll into view if needed
       const { view } = editor;
       const pos = view.coordsAtPos(from);
       if (pos) {
@@ -152,20 +141,19 @@ export const useTipTapQuoteIntegration = (
     }
   }, [editor]);
 
-  // Delete a quote (removes reference node and quote object)
   const deleteQuote = useCallback((quoteId: string): boolean => {
     const quote = getQuote(quoteId);
     if (!quote || !editor) return false;
 
     try {
-      // Find and remove the reference node with matching quote ID
+      // Find reference node in document tree
       const { doc } = editor.state;
       let nodePos: number | null = null;
 
       doc.descendants((node, pos) => {
         if (node.type.name === 'reference' && node.attrs.id === quoteId) {
           nodePos = pos;
-          return false; // Stop iterating
+          return false;
         }
         return true;
       });
@@ -177,7 +165,6 @@ export const useTipTapQuoteIntegration = (
           .run();
       }
 
-      // Delete quote object
       const deleted = quoteService.deleteQuote(quoteId);
 
       if (deleted) {

@@ -40,10 +40,8 @@ export const UniversalCommentInterface: React.FC<UniversalCommentInterfaceProps>
   const [isComposing, setIsComposing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Create pointer for the entity (memoized to prevent re-creating on every render)
   const pointer = useMemo(() => new EntityPointer(entityType, entityId), [entityType, entityId]);
 
-  // Get entity-specific commenting functionality
   const {
     comments,
     createComment,
@@ -54,12 +52,10 @@ export const UniversalCommentInterface: React.FC<UniversalCommentInterfaceProps>
   const handleAddComment = async (content: RichContent) => {
     setIsSubmitting(true);
     try {
-      // Convert RichContent to plain string for now
-      // In future, store rich content in comment metadata
+      // TODO: Store rich content in comment metadata
       await createComment(content.plainText);
       setIsComposing(false);
 
-      // Call the onCommentAdded callback if provided
       if (onCommentAdded) {
         onCommentAdded(content.plainText);
       }

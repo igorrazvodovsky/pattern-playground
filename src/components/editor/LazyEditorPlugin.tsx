@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useEditorContext } from './EditorProvider';
 import type { Plugin } from './types';
 
@@ -93,14 +93,14 @@ export function LazyEditorPlugin({ loader, fallback = null }: LazyEditorPluginPr
  * @returns A loader function compatible with LazyEditorPlugin
  */
 export function createPluginLoader<T extends Plugin>(
-  importFn: () => Promise<{ [key: string]: any }>
+  importFn: () => Promise<Record<string, unknown>>
 ): () => Promise<{ default: () => T }> {
   return async () => {
     const module = await importFn();
     
     // Find the plugin factory function
     // First check for default export, then look for first function value
-    let pluginFactory: any = module.default;
+    let pluginFactory: unknown = module.default;
     
     if (!pluginFactory) {
       // Look for the first function in the module exports
@@ -114,6 +114,6 @@ export function createPluginLoader<T extends Plugin>(
       throw new Error('No plugin factory function found in module');
     }
     
-    return { default: pluginFactory };
+    return { default: pluginFactory as () => T };
   };
 }

@@ -18,6 +18,7 @@
 import { html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { select } from 'd3-selection';
+import * as d3 from 'd3';
 import { ChartComponent } from './base/chart-component.js';
 import './primitives/chart-axis.js';
 import type {
@@ -371,10 +372,10 @@ export class BarChart extends ChartComponent {
     this.renderAxisDirect(yAxisGroup, scales, dimensions, 'y');
   }
 
-  private renderAxisDirect(container: any, scales: BarChartScales, _dimensions: { width: number; height: number }, axisType: 'x' | 'y'): void {
+  private renderAxisDirect(container: d3.Selection<SVGGElement, unknown, null, undefined>, scales: BarChartScales, _dimensions: { width: number; height: number }, axisType: 'x' | 'y'): void {
     // Import and use d3-axis directly, similar to chart-axis component
     import('d3-axis').then(({ axisBottom, axisLeft }) => {
-      let axis: any;
+      let axis: d3.Axis<d3.AxisDomain>;
 
       if (axisType === 'x') {
         // X-axis configuration based on orientation
@@ -404,7 +405,7 @@ export class BarChart extends ChartComponent {
     });
   }
 
-  private applyAxisStyling(container: any, axisType: 'x' | 'y'): void {
+  private applyAxisStyling(container: d3.Selection<SVGGElement, unknown, null, undefined>, axisType: 'x' | 'y'): void {
     // Style domain line
     container.select('.domain')
       .attr('stroke', 'var(--c-border)')

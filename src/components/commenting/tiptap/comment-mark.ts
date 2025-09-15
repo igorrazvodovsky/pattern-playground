@@ -1,5 +1,33 @@
 import { Mark, mergeAttributes } from '@tiptap/core';
 
+// Extend Tiptap's Commands interface with comment mark commands
+declare module '@tiptap/core' {
+  interface Commands<ReturnType> {
+    commentMark: {
+      /**
+       * Set a comment mark on selected text
+       */
+      setComment: (threadId: string, from?: number, to?: number) => ReturnType;
+      /**
+       * Remove a comment mark from selected text
+       */
+      unsetComment: (from?: number, to?: number) => ReturnType;
+      /**
+       * Toggle a comment mark on selected text
+       */
+      toggleComment: (threadId: string) => ReturnType;
+      /**
+       * Mark a comment as resolved
+       */
+      resolveComment: (threadId: string) => ReturnType;
+      /**
+       * Mark a comment as unresolved
+       */
+      unresolveComment: (threadId: string) => ReturnType;
+    };
+  }
+}
+
 // Custom comment mark extension for TipTap v3
 export const CommentMark = Mark.create({
   name: 'comment',
@@ -44,29 +72,29 @@ export const CommentMark = Mark.create({
 
   addCommands() {
     return {
-      setComment: (threadId: string, from?: number, to?: number) => ({ commands }: any) => {
+      setComment: (threadId: string, from?: number, to?: number) => ({ commands }) => {
         if (from !== undefined && to !== undefined) {
           return commands.setTextSelection({ from, to })
             .setMark(this.name, { commentId: threadId });
         }
         return commands.setMark(this.name, { commentId: threadId });
       },
-      unsetComment: (from?: number, to?: number) => ({ commands }: any) => {
+      unsetComment: (from?: number, to?: number) => ({ commands }) => {
         if (from !== undefined && to !== undefined) {
           return commands.setTextSelection({ from, to })
             .unsetMark(this.name);
         }
         return commands.unsetMark(this.name);
       },
-      toggleComment: (threadId: string) => ({ commands }: any) => {
+      toggleComment: (threadId: string) => ({ commands }) => {
         return commands.toggleMark(this.name, { commentId: threadId });
       },
-      resolveComment: (_threadId: string) => ({ commands }: any) => {
+      resolveComment: (_threadId: string) => ({ commands }) => {
         return commands.updateAttributes(this.name, { resolved: true });
       },
-      unresolveComment: (_threadId: string) => ({ commands }: any) => {
+      unresolveComment: (_threadId: string) => ({ commands }) => {
         return commands.updateAttributes(this.name, { resolved: false });
       }
-    } as any;
+    };
   }
 });

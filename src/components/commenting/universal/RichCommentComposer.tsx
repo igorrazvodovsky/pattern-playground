@@ -18,8 +18,7 @@ interface CommentComposerProps {
 }
 
 /**
- * TipTap-powered rich text comment composer
- * Enables rich formatting in comments while maintaining universal commenting integration
+ * Rich text comment composer using TipTap
  */
 export const CommentComposer: React.FC<CommentComposerProps> = ({
   placeholder = "Write a comment...",
@@ -34,7 +33,6 @@ export const CommentComposer: React.FC<CommentComposerProps> = ({
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
-        // Disable some extensions we don't need for comments
         heading: false,
         horizontalRule: false,
         codeBlock: false,
@@ -76,7 +74,6 @@ export const CommentComposer: React.FC<CommentComposerProps> = ({
 
     onSubmit(commentContent);
 
-    // Clear editor after successful submit
     editor.commands.clearContent();
     setIsEmpty(true);
   }, [editor, isEmpty, onSubmit]);

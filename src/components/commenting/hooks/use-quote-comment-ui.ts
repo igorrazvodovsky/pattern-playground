@@ -16,8 +16,7 @@ interface QuoteCommentUIState {
 }
 
 /**
- * Hook for managing quote commenting UI state and flow
- * Bridges quote creation with comment popover workflow
+ * Manages quote commenting UI state and popover flow
  */
 export const useQuoteCommentUI = (options: UseQuoteCommentUIOptions) => {
   const { editor, documentId, currentUser } = options;
@@ -28,7 +27,6 @@ export const useQuoteCommentUI = (options: UseQuoteCommentUIOptions) => {
     triggerElement: null
   });
 
-  // Get base quote integration functionality
   const quoteIntegration = useTipTapQuoteIntegration(editor, {
     documentId,
     currentUser

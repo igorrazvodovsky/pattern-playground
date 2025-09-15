@@ -5,11 +5,42 @@ import { StarterKit } from '@tiptap/starter-kit';
 import { Mention } from '@tiptap/extension-mention';
 import type { CommentPointer } from '../../../services/commenting/core/comment-pointer.js';
 
+// Extend Tiptap's Commands interface with our custom commands
+declare module '@tiptap/core' {
+  interface Commands<ReturnType> {
+    editorCommenting: {
+      /**
+       * Create a quote from the current selection
+       */
+      createQuoteFromSelection: () => ReturnType;
+      /**
+       * Insert a reference to an object (like a mention)
+       */
+      insertReference: (object: { id: string; type: string; label: string }) => ReturnType;
+      /**
+       * Convert selection to a quote reference
+       */
+      convertSelectionToQuoteReference: (quote: {
+        id: string;
+        label: string;
+        metadata: Record<string, any>;
+      }) => ReturnType;
+    };
+  }
+}
+
 interface EditorContext {
   editor: Editor;
   documentId: string;
   currentUser: string;
 }
+
+interface EditorSelection {
+  from: number;
+  to: number;
+  empty: boolean;
+}
+
 
 interface QuoteCreatedEvent {
   quote: QuoteObject;
@@ -17,7 +48,7 @@ interface QuoteCreatedEvent {
 }
 
 /**
- * Convert quote-service QuoteObject to quote-pointer QuoteObject
+ * Adapts quote-service format to quote-pointer format
  */
 function adaptQuoteForPointer(quote: QuoteObject): import('../../../services/commenting/core/quote-pointer.js').QuoteObject {
   return {
@@ -46,9 +77,8 @@ interface PluginCapabilities {
 }
 
 /**
- * Editor plugin that provides enhanced commenting capabilities for TipTap
- * This is NOT the comment system - it's an integration layer that provides
- * editor-specific capabilities like quote creation and rich text composition
+ * TipTap integration layer for commenting system
+ * Provides editor-specific capabilities like quote creation
  */
 export class EditorCommentingPlugin extends EventEmitter {
   private context: EditorContext | null = null;
@@ -103,8 +133,9 @@ export class EditorCommentingPlugin extends EventEmitter {
       );
 
       // Check if editor has the command (may not be available)
-      if ('convertSelectionToQuoteReference' in this.context.editor.commands) {
-        (this.context.editor.commands as any).convertSelectionToQuoteReference({
+      const editorCommands = this.context.editor.commands as any;
+      if ('convertSelectionToQuoteReference' in editorCommands) {
+        editorCommands.convertSelectionToQuoteReference({
           id: quote.id,
           label: quote.name,
           metadata: quote.metadata
@@ -133,9 +164,9 @@ export class EditorCommentingPlugin extends EventEmitter {
    */
   canCreateQuote(): boolean {
     if (!this.context) return false;
-    
-    const { from, to } = this.context.editor.state.selection;
-    return from !== to; // Has text selection
+
+    const selection = this.context.editor.state.selection as EditorSelection;
+    return !selection.empty && selection.from !== selection.to;
   }
 
   /**
@@ -200,23 +231,28 @@ export class EditorCommentingPlugin extends EventEmitter {
   navigateToQuoteSource(quote: QuoteObject): boolean {
     if (!this.context) return false;
 
-    const { from, to } = quote.metadata.sourceRange;
+    const { from, to } = quote.metadata.sourceRange as { from: number; to: number };
     const { editor } = this.context;
+    const docSize = editor.state.doc.content.size;
 
-    if (from >= 0 && to <= editor.state.doc.content.size && from < to) {
+    if (from >= 0 && to <= docSize && from < to) {
       editor.commands.focus();
       editor.commands.setTextSelection({ from, to });
 
       // Scroll into view
       const { view } = editor;
-      const pos = view.coordsAtPos(from);
-      if (pos) {
-        view.dom.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      try {
+        const pos = view.coordsAtPos(from);
+        if (pos) {
+          view.dom.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      } catch (error) {
+        console.warn('Failed to scroll to quote position:', error);
       }
       return true;
     }
 
-    console.warn(`Invalid quote source range for ${quote.id}`);
+    console.warn(`Invalid quote source range for ${quote.id}: from=${from}, to=${to}, docSize=${docSize}`);
     return false;
   }
 
@@ -228,19 +264,22 @@ export class EditorCommentingPlugin extends EventEmitter {
   }
 
   /**
-   * Setup editor commands
+   * Setup editor commands with proper typing
    */
   private setupEditorCommands(): void {
     if (!this.context) return;
 
-    // Add custom commands to editor (extend the commands object)
+    // Add custom commands to editor with proper typing
     try {
-      (this.context.editor.commands as any).createQuoteFromSelection = async () => {
+      // Extend the editor commands object with our custom methods
+      const editorCommands = this.context.editor.commands as any;
+
+      editorCommands.createQuoteFromSelection = async (): Promise<boolean> => {
         const result = await this.createQuoteFromSelection();
         return result !== null;
       };
 
-      (this.context.editor.commands as any).insertReference = (object: any) => {
+      editorCommands.insertReference = (object: { id: string; type: string; label: string }): boolean => {
         return this.insertReference(object);
       };
     } catch (error) {
