@@ -262,7 +262,7 @@ export class PpDropdown extends LitElement {
     if (accessibleTrigger) {
       switch (accessibleTrigger.tagName.toLowerCase()) {
         case 'pp-button':
-          target = (accessibleTrigger as any).button || accessibleTrigger;
+          target = (accessibleTrigger as HTMLElement & { button?: HTMLElement }).button || accessibleTrigger;
           break;
 
         default:

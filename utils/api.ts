@@ -90,14 +90,14 @@ export async function callOpenAI(prompt: string, options: OpenAIOptions = {}): P
   }
 
   // Logger function that only logs when debug is enabled
-  const log = (message: string, ...args: any[]) => {
+  const log = (message: string, ...args: unknown[]) => {
     if (debug) {
       console.log(`[API] ${message}`, ...args);
     }
   };
 
   // Error logger always logs
-  const logError = (message: string, ...args: any[]) => {
+  const logError = (message: string, ...args: unknown[]) => {
     console.error(`[API ERROR] ${message}`, ...args);
   };
 
@@ -175,8 +175,8 @@ export async function callOpenAI(prompt: string, options: OpenAIOptions = {}): P
 async function handleStreamingResponse(
   response: Response,
   onChunk: (chunk: string, isDone: boolean) => void,
-  log: (message: string, ...args: any[]) => void,
-  logError: (message: string, ...args: any[]) => void
+  log: (message: string, ...args: unknown[]) => void,
+  logError: (message: string, ...args: unknown[]) => void
 ): Promise<string> {
   try {
     const reader = response.body!.getReader();
@@ -284,8 +284,8 @@ async function handleJsonResponse(
   response: Response,
   stream: boolean,
   onChunk: ((chunk: string, isDone: boolean) => void) | null,
-  log: (message: string, ...args: any[]) => void,
-  logError: (message: string, ...args: any[]) => void
+  log: (message: string, ...args: unknown[]) => void,
+  logError: (message: string, ...args: unknown[]) => void
 ): Promise<string> {
   try {
     const data = await response.json();

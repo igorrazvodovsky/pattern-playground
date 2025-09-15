@@ -56,7 +56,7 @@ export class EditorCommentingPlugin extends BasePlugin {
       const referenceExt = Reference.configure({
         suggestion: createReferenceSuggestion(this.config.referenceCategories),
       });
-      extensions.push(referenceExt as any);
+      extensions.push(referenceExt as Extension);
     }
 
     return extensions;
@@ -87,7 +87,7 @@ export class EditorCommentingPlugin extends BasePlugin {
     if (!context.editor) return;
     
     // Add the createQuoteFromSelection command that the hook expects
-    (context.editor.commands as any).createQuoteFromSelection = () => {
+    (context.editor.commands as unknown as { createQuoteFromSelection: () => boolean }).createQuoteFromSelection = () => {
       this.handleCreateQuoteComment();
       return true;
     };
@@ -163,7 +163,7 @@ export class EditorCommentingPlugin extends BasePlugin {
           break;
         case 'commenting:show-comments':
           if (typeof params === 'object' && params && 'quoteId' in params) {
-            this.emit('commenting:show-comments', { quoteId: (params as any).quoteId });
+            this.emit('commenting:show-comments', { quoteId: (params as { quoteId: string }).quoteId });
           }
           break;
       }
@@ -233,7 +233,7 @@ export class EditorCommentingPlugin extends BasePlugin {
     const currentText = this.context.editor.state.doc.textBetween(from, to, ' ');
     
     // Then create the reference at that position
-    const convertResult = (this.context.editor.commands as any).convertSelectionToQuoteReference({
+    const convertResult = (this.context.editor.commands as unknown as { convertSelectionToQuoteReference: (quote: { id: string; label: string; metadata: Record<string, unknown> }) => boolean }).convertSelectionToQuoteReference({
       id: quoteId,
       label: text.length > 50 ? text.substring(0, 47) + '...' : text,
       metadata: {

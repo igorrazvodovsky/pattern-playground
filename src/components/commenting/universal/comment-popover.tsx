@@ -25,7 +25,7 @@ export const CommentPopover: React.FC<CommentPopoverProps> = ({
   isOpen = false,
   triggerElement
 }) => {
-  const popupRef = useRef<any>(null);
+  const popupRef = useRef<HTMLElement & { active: boolean; anchor: Element | null; contains: (node: Node) => boolean }>(null);
 
   useEffect(() => {
     const popup = popupRef.current;

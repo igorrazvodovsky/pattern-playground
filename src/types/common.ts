@@ -12,13 +12,13 @@ export type JsonValue = JsonPrimitive | JsonObject | JsonArray;
 export type MetadataRecord = Record<string, JsonValue>;
 
 // For flexible generic arrays that need maximum flexibility
-export type FlexibleArray<T = any> = T[];
+export type FlexibleArray<T = unknown> = T[];
 
 // Common error types - more flexible for error handling
 export interface ErrorDetails {
   code: string;
   message: string;
-  details?: any; // Errors can contain complex data that doesn't need to be serialized
+  details?: unknown; // Errors can contain complex data that doesn't need to be serialized
 }
 
 // API response wrapper

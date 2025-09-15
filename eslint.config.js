@@ -10,7 +10,7 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   {
-    ignores: ["dist/**", "storybook-static/**", "node_modules/**"],
+    ignores: ["dist/**", "storybook-static/**", "node_modules/**", "src/stories/.obsidian/**"],
   },
   lit.configs['flat/recommended'],
   {

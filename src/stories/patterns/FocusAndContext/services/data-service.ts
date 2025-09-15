@@ -2,6 +2,11 @@ import { ModelItem, RelationObject } from "../../../../schemas/index";
 import { RelationGroups } from "../components/ui-components";
 import juiceProductionData from '../data/JuiceProduction.json' with { type: 'json' };
 
+interface JuiceProductionDataStructure {
+  flattenedModel?: unknown[];
+  [key: string]: unknown;
+}
+
 /**
  * Ensures that an item from the data conforms to the ModelItem type
  * @param item - The item to ensure type compatibility
@@ -182,7 +187,7 @@ export class DataService {
 
     try {
       // Load and process the JSON data
-      const rawData = juiceProductionData as any;
+      const rawData = juiceProductionData as JuiceProductionDataStructure;
       this.items = ensureModelItems(rawData.flattenedModel || []);
       this.initialized = true;
     } catch (error) {

@@ -116,9 +116,7 @@ export abstract class D3Component extends LitElement {
     }
   }
 
-  /**
-   * Override this method to specify additional properties that should trigger re-rendering
-   */
+  // Override this method to specify additional properties that should trigger re-rendering
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected shouldRerender(_changedProperties: Map<string | number | symbol, unknown>): boolean {
     return false;

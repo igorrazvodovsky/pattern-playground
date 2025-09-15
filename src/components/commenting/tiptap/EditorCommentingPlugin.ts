@@ -23,7 +23,7 @@ declare module '@tiptap/core' {
       convertSelectionToQuoteReference: (quote: {
         id: string;
         label: string;
-        metadata: Record<string, any>;
+        metadata: Record<string, unknown>;
       }) => ReturnType;
     };
   }
@@ -133,7 +133,7 @@ export class EditorCommentingPlugin extends EventEmitter {
       );
 
       // Check if editor has the command (may not be available)
-      const editorCommands = this.context.editor.commands as any;
+      const editorCommands = this.context.editor.commands as unknown;
       if ('convertSelectionToQuoteReference' in editorCommands) {
         editorCommands.convertSelectionToQuoteReference({
           id: quote.id,
@@ -272,7 +272,7 @@ export class EditorCommentingPlugin extends EventEmitter {
     // Add custom commands to editor with proper typing
     try {
       // Extend the editor commands object with our custom methods
-      const editorCommands = this.context.editor.commands as any;
+      const editorCommands = this.context.editor.commands as unknown;
 
       editorCommands.createQuoteFromSelection = async (): Promise<boolean> => {
         const result = await this.createQuoteFromSelection();
@@ -310,7 +310,7 @@ export class EditorCommentingPlugin extends EventEmitter {
     this.context.editor.view.dom.addEventListener('click', handleClick);
     
     // Store reference for cleanup
-    (this.context.editor as any)._commentPluginClickHandler = handleClick;
+    (this.context.editor as unknown as { _commentPluginClickHandler?: (event: MouseEvent) => void })._commentPluginClickHandler = handleClick;
   }
 
   /**
@@ -319,10 +319,10 @@ export class EditorCommentingPlugin extends EventEmitter {
   private removeEventListeners(): void {
     if (!this.context) return;
 
-    const handler = (this.context.editor as any)._commentPluginClickHandler;
+    const handler = (this.context.editor as unknown as { _commentPluginClickHandler?: (event: MouseEvent) => void })._commentPluginClickHandler;
     if (handler) {
       this.context.editor.view.dom.removeEventListener('click', handler);
-      delete (this.context.editor as any)._commentPluginClickHandler;
+      delete (this.context.editor as unknown as { _commentPluginClickHandler?: (event: MouseEvent) => void })._commentPluginClickHandler;
     }
   }
 }

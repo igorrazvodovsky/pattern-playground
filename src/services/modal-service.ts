@@ -149,7 +149,7 @@ export class ModalService {
   private waitForElementReady(ppModal: HTMLElement): Promise<PPModal> {
     return new Promise((resolve, reject) => {
       // Check if the element already has the open method
-      if (typeof (ppModal as any).open === 'function') {
+      if (typeof (ppModal as PPModal).open === 'function') {
         resolve(ppModal as PPModal);
         return;
       }
@@ -161,7 +161,7 @@ export class ModalService {
       const checkReady = () => {
         attempts++;
         
-        if (typeof (ppModal as any).open === 'function') {
+        if (typeof (ppModal as PPModal).open === 'function') {
           resolve(ppModal as PPModal);
         } else if (attempts >= maxAttempts) {
           const error = new Error(`pp-modal failed to initialize after ${maxAttempts} attempts`);

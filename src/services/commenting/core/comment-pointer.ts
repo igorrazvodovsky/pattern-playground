@@ -19,11 +19,24 @@ export interface CommentPointer {
 export abstract class BaseCommentPointer implements CommentPointer {
   abstract readonly id: string;
   abstract readonly type: string;
-  
+
   abstract serialize(): string;
   abstract getContext(): Promise<PointerContext>;
-  
+
   equals(other: CommentPointer): boolean {
     return other.type === this.type && other.id === this.id;
   }
 }
+
+export interface TiptapTextRangePointer {
+  type: 'tiptap-text-range';
+  text?: string;
+}
+
+export interface ItemViewSectionPointer {
+  type: 'item-view-section';
+  sectionPath?: string;
+  viewScope?: string;
+}
+
+export type SpecificPointer = TiptapTextRangePointer | ItemViewSectionPointer;

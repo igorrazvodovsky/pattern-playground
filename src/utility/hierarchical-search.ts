@@ -6,8 +6,8 @@ export interface SearchableItem {
   name: string;
   icon?: ReactNode | string;
   searchableText?: string;
-  // Allow additional properties - using any for flexibility while keeping core properties typed
-  [key: string]: any;
+  // Allow additional properties - keeping core properties typed
+  [key: string]: unknown;
 }
 
 export interface SearchableParent extends SearchableItem {

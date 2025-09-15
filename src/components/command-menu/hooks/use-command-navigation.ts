@@ -12,13 +12,15 @@ interface CommandOption extends SearchableParent {
   children?: CommandChildOption[];
 }
 
-interface CommandChildOption extends SearchableItem {
+interface CommandChildOption extends Omit<SearchableItem, 'icon'> {
+  // Command child-specific properties
+  icon?: string;
 }
 
 export interface UseCommandNavigationOptions {
   data: CommandData[];
   recentItems?: RecentItem[];
-  onSelect?: (item: any) => void;
+  onSelect?: (item: CommandData | CommandChildOption | RecentItem) => void;
   onEscape?: () => boolean | void;
 }
 

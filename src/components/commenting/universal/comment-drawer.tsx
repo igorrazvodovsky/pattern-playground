@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { CommentThread } from './comment-thread.js';
 import type { Comment, CommentThread as CommentThreadType } from '../../../services/commenting/core/comment-service.js';
+import type { TiptapTextRangePointer, ItemViewSectionPointer } from '../../../services/commenting/core/comment-pointer.js';
 
 interface CommentDrawerProps {
   threads: CommentThreadType[];
@@ -86,7 +87,7 @@ export const CommentDrawer: React.FC<CommentDrawerProps> = ({
                 let contextElement = null;
 
                 if (contextInfo?.type === 'tiptap-text-range') {
-                  const textPointer = contextInfo as any;
+                  const textPointer = contextInfo as TiptapTextRangePointer;
                   if (textPointer.text) {
                     const truncatedText = textPointer.text.slice(0, 50);
                     contextElement = (
@@ -96,7 +97,7 @@ export const CommentDrawer: React.FC<CommentDrawerProps> = ({
                     );
                   }
                 } else if (contextInfo?.type === 'item-view-section') {
-                  const itemPointer = contextInfo as any;
+                  const itemPointer = contextInfo as ItemViewSectionPointer;
                   contextElement = (
                     <div>
                       <iconify-icon icon="ph:target"></iconify-icon>

@@ -242,10 +242,7 @@ export class PpTooltip extends LitElement {
         shift
         hover-bridge
       >
-        ${'' /* eslint-disable-next-line lit-a11y/no-aria-slot */}
         <slot slot="anchor" aria-describedby="tooltip"></slot>
-
-        ${'' /* eslint-disable-next-line lit-a11y/accessible-name */}
         <div part="body" id="tooltip" class="tooltip__body" role="tooltip" aria-live=${this.open ? 'polite' : 'off'}>
           <slot name="content">${this.content}</slot>
         </div>

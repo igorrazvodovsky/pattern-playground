@@ -1,9 +1,23 @@
+import React from 'react';
 import { BasePlugin } from '../core/Plugin';
 import type { PluginCapabilities, EditorContext } from '../../editor/types';
 import { textTransformService, type TextLensCallbacks } from '../../../services/textTransformService';
 import { AIAssistantBubbleMenu } from './components/AIAssistantBubbleMenu';
 import { AIAssistantToolbar } from './components/AIAssistantToolbar';
 import type { Extension } from '@tiptap/core';
+
+interface UISlots {
+  register: (slotName: string, config: {
+    pluginId: string;
+    render: () => React.ReactNode;
+    condition?: () => boolean;
+  }) => void;
+}
+
+interface EventBus {
+  on: (event: string, handler: (...args: unknown[]) => void) => () => void;
+  emit: (event: string, ...args: unknown[]) => void;
+}
 
 export interface AIAssistantPluginOptions {
   enableExplain?: boolean;
@@ -46,12 +60,12 @@ export class AIAssistantPlugin extends BasePlugin {
 
   onInstall(context: EditorContext): void {
     super.onInstall(context);
-    
+
     // Subscribe to selection events
     context.eventBus.on('selection:change', (payload) => {
       const hasSelection = payload.from !== payload.to;
-      context.eventBus.emit('ai-assistant:selection-changed', { 
-        hasSelection, 
+      context.eventBus.emit('ai-assistant:selection-changed', {
+        hasSelection,
         selectedText: payload.content,
         range: { from: payload.from, to: payload.to }
       });
@@ -63,12 +77,12 @@ export class AIAssistantPlugin extends BasePlugin {
     this.registerUI(context.slots);
   }
 
-  registerUI(slots: any): void {
+  registerUI(slots: UISlots): void {
     // Register bubble menu component
     slots.register('bubble-menu', {
       pluginId: this.id,
       render: () => (
-        <AIAssistantBubbleMenu 
+        <AIAssistantBubbleMenu
           options={this.options}
           onAction={this.handleAIAction.bind(this)}
         />
@@ -81,7 +95,7 @@ export class AIAssistantPlugin extends BasePlugin {
     slots.register('toolbar', {
       pluginId: this.id,
       render: () => (
-        <AIAssistantToolbar 
+        <AIAssistantToolbar
           options={this.options}
           onAction={this.handleAIAction.bind(this)}
         />
@@ -91,8 +105,8 @@ export class AIAssistantPlugin extends BasePlugin {
     });
   }
 
-  subscribeToEvents(eventBus: any): void {
-    
+  subscribeToEvents(eventBus: EventBus): void {
+
     // Clean up existing event listeners to prevent duplicates
     this.eventUnsubscribers.forEach(unsubscribe => unsubscribe());
     this.eventUnsubscribers = [];
@@ -100,7 +114,7 @@ export class AIAssistantPlugin extends BasePlugin {
     // Listen to selection changes and emit AI assistant specific events
     const selectionUnsubscribe = eventBus.on('selection:change', (payload: { from: number; to: number; content: string }) => {
       const hasSelection = payload.content.trim().length > 0;
-      
+
       eventBus.emit('ai-assistant:selection-changed', {
         hasSelection,
         selectedText: payload.content,
@@ -113,15 +127,15 @@ export class AIAssistantPlugin extends BasePlugin {
     const chunkUnsubscribe = eventBus.on('ai-assistant:chunk-received', (payload: { action: string; content: string; range: { from: number; to: number } }) => {
       if (this.options.streamingEnabled && this.context?.editor) {
         const editor = this.context.editor;
-        
+
         try {
           // Initialize streaming state if this is the first chunk
           if (this.streamingRange === null) {
             // Store original selection for first replacement
             this.streamingRange = { from: payload.range.from, to: payload.range.to };
             this.streamingContent = payload.content;
-            
-            
+
+
             // First chunk: replace the original selection
             editor.chain()
               .focus()
@@ -131,12 +145,12 @@ export class AIAssistantPlugin extends BasePlugin {
           } else {
             // Accumulate content for subsequent chunks
             this.streamingContent += payload.content;
-            
-            
+
+
             // For subsequent chunks: select the current AI content and replace it
             // This avoids range tracking issues by using the current selection
             const currentSelection = editor.state.selection;
-            
+
             // Replace whatever is currently selected with the accumulated content
             editor.chain()
               .focus()
@@ -202,10 +216,10 @@ export class AIAssistantPlugin extends BasePlugin {
     const callbacks: TextLensCallbacks = {
       onChunk: (content: string) => {
         // Emit chunk event for real-time updates
-        this.context?.eventBus.emit('ai-assistant:chunk-received', { 
-          action, 
-          content, 
-          range 
+        this.context?.eventBus.emit('ai-assistant:chunk-received', {
+          action,
+          content,
+          range
         });
       },
       onComplete: () => {
@@ -218,7 +232,7 @@ export class AIAssistantPlugin extends BasePlugin {
 
     try {
       let result = '';
-      
+
       switch (action) {
         case 'explain':
           result = await this.explainText(selectedText, callbacks);
@@ -245,11 +259,11 @@ export class AIAssistantPlugin extends BasePlugin {
           .deleteRange({ from: range.from, to: range.to })
           .insertContent(result)
           .run();
-          
+
         if (success) {
           // Select the newly inserted text
           const newTo = range.from + result.length;
-          
+
           setTimeout(() => {
             if (this.context?.editor) {
               this.context.editor.commands.setTextSelection({ from: range.from, to: newTo });

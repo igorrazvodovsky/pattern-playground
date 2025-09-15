@@ -1,13 +1,14 @@
-import type { ContentAdapter } from '../item-view/types';
+import React from 'react';
+import type { ContentAdapter, ItemViewProps } from '../item-view/types';
 import type { SelectedReference } from './types';
 import { ReferencePreviewAdapter } from './adapters/ReferencePreviewAdapter';
 import { ReferenceDetailAdapter } from './adapters/ReferenceDetailAdapter';
 import { ReferenceFullViewAdapter } from './adapters/ReferenceFullViewAdapter';
 
 const adapterCache = new WeakMap<SelectedReference, {
-  mini?: React.ComponentType<any>;
-  mid?: React.ComponentType<any>;
-  maxi?: React.ComponentType<any>;
+  mini?: React.ComponentType<ItemViewProps<'reference'>>;
+  mid?: React.ComponentType<ItemViewProps<'reference'>>;
+  maxi?: React.ComponentType<ItemViewProps<'reference'>>;
 }>();
 
 export const referenceContentAdapter: ContentAdapter<'reference'> = {

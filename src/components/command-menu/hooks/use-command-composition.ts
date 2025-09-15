@@ -4,7 +4,7 @@ import { useCommandRecents, type UseCommandRecentsOptions, type UseCommandRecent
 import { useCommandKeyboard, type UseCommandKeyboardOptions, type UseCommandKeyboardReturn } from './use-command-keyboard';
 import { useCommandSelection, type UseCommandSelectionOptions, type UseCommandSelectionReturn } from './use-command-selection';
 import { useAICommand } from './use-ai-command';
-import type { CommandData, RecentItem, CommandMenuProps } from '../command-menu-types';
+import type { CommandData, CommandChildData, RecentItem, CommandMenuProps } from '../command-menu-types';
 import type { AICommandItem } from '../ai-command-types';
 
 export interface UseCommandCompositionOptions {
@@ -24,7 +24,7 @@ export interface UseCommandCompositionOptions {
 
 export interface UnifiedResults {
   commands: CommandData[];
-  children: Array<{ parent: CommandData; child: any }>;
+  children: Array<{ parent: CommandData; child: CommandChildData }>;
   recents: RecentItem[];
   aiSuggestions: AICommandItem[];
   isEmpty: boolean;
@@ -141,7 +141,7 @@ export function useCommandComposition({
 
   const results = useMemo((): UnifiedResults => {
     const commands = navigation.filteredResults.parents as CommandData[];
-    const children = navigation.filteredResults.children as Array<{ parent: CommandData; child: any }>;
+    const children = navigation.filteredResults.children as Array<{ parent: CommandData; child: CommandChildData }>;
     const currentRecents = enableRecents && recents
       ? recents.filterRecents(navigation.searchInput)
       : [];

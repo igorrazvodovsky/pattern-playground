@@ -57,7 +57,7 @@ export class PpTab extends LitElement {
       tab: true,
       'tab--active': this.active,
     })}
-        tabindex="0"}
+        tabindex="0"
       >
         <slot name="icon"></slot>
         <span part="label"><slot></slot></span>

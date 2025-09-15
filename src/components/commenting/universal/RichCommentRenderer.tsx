@@ -1,6 +1,19 @@
 import React from 'react';
 import type { RichContent } from '../../../stories/data/index.js';
 
+// TipTap content node types
+interface ContentNode {
+  type: string;
+  content?: ContentNode[];
+  text?: string;
+  marks?: ContentMark[];
+}
+
+interface ContentMark {
+  type: string;
+  attrs?: Record<string, unknown>;
+}
+
 interface CommentRendererProps {
   content: RichContent | string;
   author: string;
@@ -34,7 +47,7 @@ export const CommentRenderer: React.FC<CommentRendererProps> = ({
       return richContent.plainText || 'No content';
     }
 
-    const renderContentNodes = (contentArray: any[]): React.ReactNode[] => {
+    const renderContentNodes = (contentArray: ContentNode[]): React.ReactNode[] => {
       return contentArray.map((node, index) => {
         switch (node.type) {
           case 'paragraph':
@@ -64,7 +77,7 @@ export const CommentRenderer: React.FC<CommentRendererProps> = ({
 
             // Apply marks if they exist
             if (node.marks) {
-              node.marks.forEach((mark: any) => {
+              node.marks.forEach((mark: ContentMark) => {
                 switch (mark.type) {
                   case 'bold':
                     element = <strong key={`bold-${index}`}>{element}</strong>;

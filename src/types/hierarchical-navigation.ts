@@ -24,7 +24,8 @@ export interface CommandParent extends HierarchicalParent {
 }
 
 export interface CommandChild extends HierarchicalChild {
-  // Command-specific properties can be added here
+  // Command-specific properties
+  shortcut?: readonly string[];
 }
 
 // Filter-specific extensions
