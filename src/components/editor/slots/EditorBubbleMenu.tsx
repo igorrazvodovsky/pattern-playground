@@ -1,14 +1,14 @@
 import React from 'react';
-import { BubbleMenu } from '@tiptap/react';
+import { BubbleMenu } from '@tiptap/react/menus'
 import { useEditorContext } from '../EditorProvider';
 import type { SlotComponent } from '../types';
 
 interface EditorBubbleMenuProps {
   className?: string;
-  tippyOptions?: Record<string, unknown>;
+  options?: Record<string, unknown>;
 }
 
-export function EditorBubbleMenu({ className, tippyOptions }: EditorBubbleMenuProps) {
+export function EditorBubbleMenu({ className, options }: EditorBubbleMenuProps) {
   const { editor, slots } = useEditorContext();
   const components = slots.getComponents('bubble-menu');
 
@@ -21,7 +21,7 @@ export function EditorBubbleMenu({ className, tippyOptions }: EditorBubbleMenuPr
     <BubbleMenu
       editor={editor}
       className={className}
-      tippyOptions={tippyOptions}
+      options={options}
     >
       <div className="bubble-menu inline-flow" data-slot="bubble-menu">
         {components.map((component: SlotComponent, index: number) => (

@@ -276,7 +276,7 @@ export const Reference = Mention.extend({
 
       // Try to resolve full reference data dynamically
       const resolvedData = resolveReferenceData(node.attrs.id, node.attrs.type);
-      
+
       const referenceData: SelectedReference = resolvedData ? {
         id: resolvedData.id,
         label: resolvedData.name,
@@ -307,16 +307,22 @@ export const Reference = Mention.extend({
             </ContentAdapterProvider>
           );
 
-          const renderer = new ReactRenderer(ReferenceComponent, {
-            editor,
-          });
+          let renderer: ReactRenderer;
 
-          wrapper.appendChild(renderer.element);
+          // Defer ReactRenderer creation to avoid flushSync warnings
+          setTimeout(() => {
+            renderer = new ReactRenderer(ReferenceComponent, {
+              editor,
+            });
+            wrapper.appendChild(renderer.element);
+          }, 0);
 
           return {
             dom: wrapper,
             destroy() {
-              renderer.destroy();
+              if (renderer) {
+                renderer.destroy();
+              }
             },
           };
         } catch (error) {
@@ -338,16 +344,22 @@ export const Reference = Mention.extend({
         </ContentAdapterProvider>
       );
 
-      const renderer = new ReactRenderer(ReferenceComponent, {
-        editor,
-      });
+      let renderer: ReactRenderer;
 
-      wrapper.appendChild(renderer.element);
+      // Defer ReactRenderer creation to avoid flushSync warnings
+      setTimeout(() => {
+        renderer = new ReactRenderer(ReferenceComponent, {
+          editor,
+        });
+        wrapper.appendChild(renderer.element);
+      }, 0);
 
       return {
         dom: wrapper,
         destroy() {
-          renderer.destroy();
+          if (renderer) {
+            renderer.destroy();
+          }
         },
       };
     };
@@ -376,7 +388,10 @@ export function createReferenceSuggestion(
       return {
         onStart: (props: SuggestionProps<unknown, ReferenceCommandAttrs>) => {
           virtualElement = {
-            getBoundingClientRect: props.clientRect || (() => new DOMRect(0, 0, 0, 0)),
+            getBoundingClientRect: () => {
+              const rect = props.clientRect ? props.clientRect() : null;
+              return rect || { x: 0, y: 0, width: 0, height: 0, bottom: 0, top: 0, left: 0, right: 0 };
+            },
           };
 
           component = new ReactRenderer(ReferencePickerPopup, {
@@ -405,7 +420,10 @@ export function createReferenceSuggestion(
 
         onUpdate: (props: SuggestionProps<unknown, ReferenceCommandAttrs>) => {
           if (virtualElement) {
-            virtualElement.getBoundingClientRect = props.clientRect || (() => new DOMRect(0, 0, 0, 0));
+            virtualElement.getBoundingClientRect = () => {
+              const rect = props.clientRect ? props.clientRect() : null;
+              return rect || { x: 0, y: 0, width: 0, height: 0, bottom: 0, top: 0, left: 0, right: 0 };
+            };
           }
 
           component.updateProps({

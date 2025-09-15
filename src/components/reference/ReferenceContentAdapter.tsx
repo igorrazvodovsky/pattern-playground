@@ -10,7 +10,7 @@ const adapterCache = new WeakMap<SelectedReference, {
   maxi?: React.ComponentType<any>;
 }>();
 
-export const referenceContentAdapter: ContentAdapter<SelectedReference> = {
+export const referenceContentAdapter: ContentAdapter<'reference'> = {
   contentType: 'reference',
   render: (props) => {
     const { scope, item } = props;

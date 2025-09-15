@@ -5,10 +5,10 @@ import type { SlotComponent } from '../types';
 
 interface EditorFloatingMenuProps {
   className?: string;
-  tippyOptions?: Record<string, unknown>;
+  options?: Record<string, unknown>;
 }
 
-export function EditorFloatingMenu({ className, tippyOptions }: EditorFloatingMenuProps) {
+export function EditorFloatingMenu({ className, options }: EditorFloatingMenuProps) {
   const { editor, slots } = useEditorContext();
   const components = slots.getComponents('floating-menu');
 
@@ -20,7 +20,7 @@ export function EditorFloatingMenu({ className, tippyOptions }: EditorFloatingMe
     <FloatingMenu 
       editor={editor} 
       className={className}
-      tippyOptions={tippyOptions}
+      options={options}
     >
       <div data-slot="floating-menu">
         {components.map((component: SlotComponent, index: number) => (
