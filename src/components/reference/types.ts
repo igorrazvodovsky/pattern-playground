@@ -1,6 +1,6 @@
 import type { BaseItem } from '../item-view/types';
 
-export const REFERENCE_TYPES = ['user', 'document', 'project', 'task', 'file', 'link', 'quote'] as const;
+export const REFERENCE_TYPES = ['user', 'document', 'project', 'task', 'file', 'link', 'quote', 'material', 'component', 'product', 'service'] as const;
 export type ReferenceType = typeof REFERENCE_TYPES[number];
 
 export const REFERENCE_MODES = ['global', 'contextual'] as const;
@@ -38,6 +38,18 @@ export const isDocumentReference = (ref: SelectedReference): ref is SelectedRefe
 
 export const isQuoteReference = (ref: SelectedReference): ref is SelectedReference & { type: 'quote' } =>
   ref.type === 'quote';
+
+export const isMaterialReference = (ref: SelectedReference): ref is SelectedReference & { type: 'material' } =>
+  ref.type === 'material';
+
+export const isComponentReference = (ref: SelectedReference): ref is SelectedReference & { type: 'component' } =>
+  ref.type === 'component';
+
+export const isProductReference = (ref: SelectedReference): ref is SelectedReference & { type: 'product' } =>
+  ref.type === 'product';
+
+export const isServiceReference = (ref: SelectedReference): ref is SelectedReference & { type: 'service' } =>
+  ref.type === 'service';
 
 // User metadata interface for type-safe access
 export interface UserMetadata {

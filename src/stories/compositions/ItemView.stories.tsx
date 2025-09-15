@@ -32,7 +32,7 @@ const getSampleTaskObject = (): TaskObject => {
 
 export const Page: Story = {
   args: {
-    item: getSampleTaskObject() as any,
+    item: getSampleTaskObject(),
     contentType: 'task',
     scope: 'maxi',
     mode: 'preview',
@@ -44,7 +44,7 @@ export const Page: Story = {
 
 export const TaskCompact: Story = {
   args: {
-    item: getSampleTaskObject() as any,
+    item: getSampleTaskObject(),
     contentType: 'task',
     scope: 'mid',
     mode: 'preview',
@@ -62,7 +62,7 @@ export const TaskCompact: Story = {
 
 export const TaskMini: Story = {
   args: {
-    item: getSampleTaskObject() as any,
+    item: getSampleTaskObject(),
     contentType: 'task',
     scope: 'mini',
     mode: 'preview',

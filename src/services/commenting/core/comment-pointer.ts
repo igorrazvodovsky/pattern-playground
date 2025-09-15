@@ -1,30 +1,21 @@
 // Core pointer abstraction for universal commenting system
 
 export interface PointerContext {
-  title: string;        // What is being commented on
-  excerpt?: string;     // Preview of the content
-  location?: string;    // Where in the document/app
+  title: string;
+  excerpt?: string;
+  location?: string;
   metadata?: Record<string, unknown>;
 }
 
 export interface CommentPointer {
-  // Unique identifier for this pointer
   readonly id: string;
-  
-  // Type discrimination for pointer handling
   readonly type: string;
-  
-  // Serialize for storage/transmission
+
   serialize(): string;
-  
-  // Check equality with another pointer
   equals(other: CommentPointer): boolean;
-  
-  // Get human-readable context for this pointer
   getContext(): Promise<PointerContext>;
 }
 
-// Base implementation for common pointer functionality
 export abstract class BaseCommentPointer implements CommentPointer {
   abstract readonly id: string;
   abstract readonly type: string;

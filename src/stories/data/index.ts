@@ -1,4 +1,3 @@
-// Centralized data exports for consistency across components
 import usersData from './users.json' with { type: 'json' };
 import projectsData from './projects.json' with { type: 'json' };
 import documentsData from './documents.json' with { type: 'json' };
@@ -11,8 +10,11 @@ import tasksData from './tasks.json' with { type: 'json' };
 import transactionsData from './transactions.json' with { type: 'json' };
 import commentsData from './comments.json' with { type: 'json' };
 import quotesData from './quotes.json' with { type: 'json' };
+import materialsData from './materials.json' with { type: 'json' };
+import componentsData from './components.json' with { type: 'json' };
+import productsData from './products.json' with { type: 'json' };
+import servicesData from './services.json' with { type: 'json' };
 
-// Filter-specific data
 import filterStatusesData from './statuses.json' with { type: 'json' };
 import filterLabelsData from './labels.json' with { type: 'json' };
 import filterPrioritiesData from './priorities.json' with { type: 'json' };
@@ -30,6 +32,11 @@ export const transactions = transactionsData;
 export const comments = commentsData;
 export const quotes = quotesData;
 
+export const materials = materialsData;
+export const components = componentsData;
+export const products = productsData;
+export const services = servicesData;
+
 // Re-export for external use
 export { default as filterStatuses } from './statuses.json' with { type: 'json' };
 export { default as filterLabels } from './labels.json' with { type: 'json' };
@@ -41,7 +48,7 @@ export const tasks = tasksData.map(task => ({
   title: task.title,
   specification: task.specification,
   description: task.description,
-  
+
   // Convert to rich objects
   status: {
     id: task.statusId,
@@ -49,16 +56,16 @@ export const tasks = tasksData.map(task => ({
     value: filterStatusesData.find(s => s.id === task.statusId)?.value || 'submitted',
     color: '#gray'  // Status data doesn't have colors, using default
   },
-  
+
   priority: task.priorityId ? {
     id: task.priorityId,
     label: filterPrioritiesData.find(p => p.id === task.priorityId)?.name || task.priorityId,
     value: filterPrioritiesData.find(p => p.id === task.priorityId)?.value || 'medium',
     color: '#blue'  // Priority data doesn't have colors, using default
   } : undefined,
-  
+
   assignee: task.assigneeId ? users.find(user => user.id === task.assigneeId) : undefined,
-  
+
   labels: task.labelIds ? task.labelIds.map(labelId => {
     const label = filterLabelsData.find(l => l.id === labelId);
     return label ? {
@@ -67,26 +74,26 @@ export const tasks = tasksData.map(task => ({
       color: '#purple'    // Default color for labels
     } : null;
   }).filter(Boolean) : undefined,
-  
+
   project: task.projectId ? projects.find(project => project.id === task.projectId) : undefined,
-  
+
   // Progress and history from JSON
   progress: task.progress || 0,
   history: task.history.map(entry => ({
     ...entry,
     timestamp: new Date(entry.timestamp)
   })),
-  
+
   // Temporal fields
   createdAt: new Date(task.createdDate),
   updatedAt: task.updatedDate ? new Date(task.updatedDate) : undefined,
   dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
-  
+
   updatedBy: task.updatedBy ? users.find(user => user.id === task.updatedBy) : undefined,
-  
+
   // Metadata for ItemView
   metadata: {
-    tags: task.labelIds ? task.labelIds.map(labelId => 
+    tags: task.labelIds ? task.labelIds.map(labelId =>
       filterLabelsData.find(l => l.id === labelId)?.name
     ).filter(Boolean) : []
   }
@@ -124,7 +131,7 @@ export const getEditorContentById = (id: string) => {
 export const getDocumentContentBySection = (documentId: string, sectionId: string) => {
   const doc = documents.find(doc => doc.id === documentId);
   if (!doc) return null;
-  
+
   const section = doc.sections?.find(section => section.id === sectionId);
   return section ? { document: doc, section } : null;
 };
@@ -132,19 +139,19 @@ export const getDocumentContentBySection = (documentId: string, sectionId: strin
 export const getDocumentContentText = (documentId: string, sectionId?: string) => {
   const doc = documents.find(doc => doc.id === documentId);
   if (!doc) return '';
-  
+
   if (sectionId) {
     const section = doc.sections?.find(section => section.id === sectionId);
     return section?.text || '';
   }
-  
+
   return doc.content?.plainText || '';
 };
 
 export const getDocumentContentRich = (documentId: string, sectionId?: string) => {
   const doc = documents.find(doc => doc.id === documentId);
   if (!doc) return null;
-  
+
   if (sectionId) {
     const section = doc.sections?.find(section => section.id === sectionId);
     if (section) {
@@ -154,7 +161,7 @@ export const getDocumentContentRich = (documentId: string, sectionId?: string) =
     }
     return null;
   }
-  
+
   return doc.content?.richContent;
 };
 
@@ -176,7 +183,7 @@ export const resolveReferenceData = (id: string, type: string) => {
         searchableText: user.searchableText,
         metadata: { ...user.metadata, description: user.description }
       } : null;
-    
+
     case 'project':
       const project = projects.find(p => p.id === id);
       return project ? {
@@ -188,7 +195,7 @@ export const resolveReferenceData = (id: string, type: string) => {
         searchableText: project.searchableText,
         metadata: { ...project.metadata, description: project.description }
       } : null;
-    
+
     case 'document':
       const document = documents.find(d => d.id === id);
       return document ? {
@@ -200,7 +207,7 @@ export const resolveReferenceData = (id: string, type: string) => {
         searchableText: document.searchableText,
         metadata: { ...document.metadata, description: document.description }
       } : null;
-    
+
     case 'quote':
       const quote = quotes.find(q => q.id === id);
       return quote ? {
@@ -213,7 +220,55 @@ export const resolveReferenceData = (id: string, type: string) => {
         content: quote.content, // Include the full content object
         metadata: { ...quote.metadata, description: quote.description }
       } : null;
-    
+
+    case 'material':
+      const material = materials.find(m => m.id === id);
+      return material ? {
+        id: material.id,
+        name: material.name,
+        icon: material.icon,
+        type: material.type,
+        description: material.description,
+        searchableText: material.searchableText,
+        metadata: { ...material.metadata, description: material.description }
+      } : null;
+
+    case 'component':
+      const component = components.find(c => c.id === id);
+      return component ? {
+        id: component.id,
+        name: component.name,
+        icon: component.icon,
+        type: component.type,
+        description: component.description,
+        searchableText: component.searchableText,
+        metadata: { ...component.metadata, description: component.description }
+      } : null;
+
+    case 'product':
+      const product = products.find(p => p.id === id);
+      return product ? {
+        id: product.id,
+        name: product.name,
+        icon: product.icon,
+        type: product.type,
+        description: product.description,
+        searchableText: product.searchableText,
+        metadata: { ...product.metadata, description: product.description }
+      } : null;
+
+    case 'service':
+      const service = services.find(s => s.id === id);
+      return service ? {
+        id: service.id,
+        name: service.name,
+        icon: service.icon,
+        type: service.type,
+        description: service.description,
+        searchableText: service.searchableText,
+        metadata: { ...service.metadata, description: service.description }
+      } : null;
+
     default:
       return null;
   }
@@ -293,7 +348,7 @@ export const getQuotesByDateRange = (startDate: string, endDate: string) => {
 
 export const searchQuotes = (searchText: string) => {
   const lowerSearchText = searchText.toLowerCase();
-  return quotes.filter(quote => 
+  return quotes.filter(quote =>
     quote.searchableText.includes(lowerSearchText) ||
     quote.content.plainText.toLowerCase().includes(lowerSearchText) ||
     quote.description.toLowerCase().includes(lowerSearchText)
@@ -310,18 +365,184 @@ export type CommentThreadSetup = typeof commentThreads[0];
 export type Command = typeof commands[0];
 export type RecentItem = typeof recentItems[0];
 // Import unified Task types
-export type { 
-  Task, 
-  TaskHistoryEntry, 
-  TaskStatus, 
-  TaskPriority, 
+export type {
+  Task,
+  TaskHistoryEntry,
+  TaskStatus,
+  TaskPriority,
   TaskLabel,
-  CreateTaskInput 
+  CreateTaskInput
 } from './task-types';
 export { taskToItemObject } from './task-types';
 export type Transaction = typeof transactions[0];
 export type Comment = typeof comments[0];
 export type Quote = typeof quotes[0];
+
+// Content structure types
+export interface RichContent {
+  plainText: string;
+  richContent?: {
+    type: 'doc';
+    content: unknown[];
+  };
+}
+
+// Circular economy types
+export type Material = typeof materials[0];
+export type Component = typeof components[0];
+export type Product = typeof products[0];
+export type Service = typeof services[0];
+
+// Circular economy utility functions
+export const getMaterialById = (id: string) => {
+  return materials.find(material => material.id === id);
+};
+
+export const getComponentById = (id: string) => {
+  return components.find(component => component.id === id);
+};
+
+export const getProductById = (id: string) => {
+  return products.find(product => product.id === id);
+};
+
+export const getServiceById = (id: string) => {
+  return services.find(service => service.id === id);
+};
+
+export const getMaterialsByCategory = (category: string) => {
+  return materials.filter(material => material.metadata.category === category);
+};
+
+export const getComponentsByHierarchy = (hierarchy: 'part' | 'sub_assembly' | 'assembly') => {
+  return components.filter(component => component.metadata.hierarchy === hierarchy);
+};
+
+export const getComponentsByParent = (parentId: string) => {
+  return components.filter(component => component.metadata.parentComponent === parentId);
+};
+
+export const getChildComponents = (componentId: string) => {
+  const component = getComponentById(componentId);
+  if (!component) return [];
+  return component.metadata.childComponents.map(childId => getComponentById(childId)).filter(Boolean);
+};
+
+export const getProductsByCategory = (category: string) => {
+  return products.filter(product => product.metadata.category === category);
+};
+
+export const getServicesByType = (serviceType: string) => {
+  return services.filter(service => service.metadata.serviceType === serviceType);
+};
+
+export const getServicesForProduct = (productId: string) => {
+  return services.filter(service =>
+    service.metadata.applicableProducts.includes(productId) ||
+    service.metadata.applicableProducts.includes('all')
+  );
+};
+
+export const getServicesForComponent = (componentId: string) => {
+  return services.filter(service =>
+    service.metadata.applicableComponents.includes(componentId) ||
+    service.metadata.applicableComponents.includes('all')
+  );
+};
+
+export const getMaterialsUsedInComponent = (componentId: string) => {
+  const component = getComponentById(componentId);
+  if (!component) return [];
+  return component.metadata.materials.map(materialId => getMaterialById(materialId)).filter(Boolean);
+};
+
+export const getMaterialsUsedInProduct = (productId: string) => {
+  const product = getProductById(productId);
+  if (!product) return [];
+  return product.metadata.keyMaterials.map(materialId => getMaterialById(materialId)).filter(Boolean);
+};
+
+export const getComponentsInProduct = (productId: string) => {
+  const product = getProductById(productId);
+  if (!product) return [];
+  return product.metadata.assemblyComponents.map(componentId => getComponentById(componentId)).filter(Boolean);
+};
+
+export const getProductLifecycleStage = (productId: string) => {
+  const product = getProductById(productId);
+  if (!product) return null;
+  return product.metadata.availability.status;
+};
+
+export const getRecyclableComponents = () => {
+  return components.filter(component => component.metadata.lifecycle.recyclable);
+};
+
+export const getRefurbishableComponents = () => {
+  return components.filter(component => component.metadata.lifecycle.refurbishable);
+};
+
+export const getHighRepairabilityProducts = () => {
+  return products.filter(product => product.metadata.lifecycle.repairability === 'high');
+};
+
+export const getCompostableMaterials = () => {
+  return materials.filter(material =>
+    material.metadata.recyclability === 'compostable' ||
+    material.metadata.recyclability === 'compostable_matrix'
+  );
+};
+
+export const getHighRecycledContentMaterials = (threshold: number = 75) => {
+  return materials.filter(material => material.metadata.recycledContent >= threshold);
+};
+
+export const getCarbonNegativeMaterials = () => {
+  return materials.filter(material => material.metadata.carbonFootprint < 0);
+};
+
+export const getTakeBackPrograms = () => {
+  return products.filter(product => product.metadata.circular.takeBackProgram);
+};
+
+export const getModularProducts = () => {
+  return products.filter(product => product.metadata.circular.modularDesign);
+};
+
+export const searchCircularEconomyData = (searchText: string) => {
+  const lowerSearchText = searchText.toLowerCase();
+
+  const matchingMaterials = materials.filter(item =>
+    item.searchableText.includes(lowerSearchText) ||
+    item.name.toLowerCase().includes(lowerSearchText) ||
+    item.description.toLowerCase().includes(lowerSearchText)
+  );
+
+  const matchingComponents = components.filter(item =>
+    item.searchableText.includes(lowerSearchText) ||
+    item.name.toLowerCase().includes(lowerSearchText) ||
+    item.description.toLowerCase().includes(lowerSearchText)
+  );
+
+  const matchingProducts = products.filter(item =>
+    item.searchableText.includes(lowerSearchText) ||
+    item.name.toLowerCase().includes(lowerSearchText) ||
+    item.description.toLowerCase().includes(lowerSearchText)
+  );
+
+  const matchingServices = services.filter(item =>
+    item.searchableText.includes(lowerSearchText) ||
+    item.name.toLowerCase().includes(lowerSearchText) ||
+    item.description.toLowerCase().includes(lowerSearchText)
+  );
+
+  return {
+    materials: matchingMaterials,
+    components: matchingComponents,
+    products: matchingProducts,
+    services: matchingServices
+  };
+};
 
 // Reference data using unified SearchableParent format (same as commands)
 export const referenceCategories = [
@@ -379,6 +600,62 @@ export const referenceCategories = [
       searchableText: quote.searchableText,
       type: 'quote' as const,
       metadata: { ...quote.metadata, description: quote.description }
+    }))
+  },
+  {
+    id: 'materials',
+    name: 'Materials',
+    icon: 'ph:cube',
+    searchableText: 'materials substances raw supplies circular economy',
+    children: materials.map(material => ({
+      id: material.id,
+      name: material.name,
+      icon: material.icon,
+      searchableText: material.searchableText,
+      type: 'material' as const,
+      metadata: { ...material.metadata, description: material.description }
+    }))
+  },
+  {
+    id: 'components',
+    name: 'Components',
+    icon: 'ph:gear',
+    searchableText: 'components parts assemblies hardware pieces',
+    children: components.map(component => ({
+      id: component.id,
+      name: component.name,
+      icon: component.icon,
+      searchableText: component.searchableText,
+      type: 'component' as const,
+      metadata: { ...component.metadata, description: component.description }
+    }))
+  },
+  {
+    id: 'products',
+    name: 'Products',
+    icon: 'ph:package',
+    searchableText: 'products items goods merchandise finished',
+    children: products.map(product => ({
+      id: product.id,
+      name: product.name,
+      icon: product.icon,
+      searchableText: product.searchableText,
+      type: 'product' as const,
+      metadata: { ...product.metadata, description: product.description }
+    }))
+  },
+  {
+    id: 'services',
+    name: 'Services',
+    icon: 'ph:wrench',
+    searchableText: 'services maintenance repair support circular',
+    children: services.map(service => ({
+      id: service.id,
+      name: service.name,
+      icon: service.icon,
+      searchableText: service.searchableText,
+      type: 'service' as const,
+      metadata: { ...service.metadata, description: service.description }
     }))
   }
 ];

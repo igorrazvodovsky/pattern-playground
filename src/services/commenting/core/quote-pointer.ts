@@ -1,6 +1,5 @@
 import { BaseCommentPointer, type PointerContext } from './comment-pointer';
 
-// Define the expected QuoteObject interface for the new commenting system
 export interface QuoteObject {
   id: string;
   content: {

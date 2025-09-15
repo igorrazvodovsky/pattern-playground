@@ -1,26 +1,23 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
-// Entity-agnostic comment interface aligned with the universal commenting plan
 export interface EntityComment {
   id: string;
-  entityType: string; // 'quote', 'document', 'task', etc.
+  entityType: string;
   entityId: string;
   content: RichContent | string;
   authorId: string;
   timestamp: Date;
   status: 'active' | 'resolved';
   replyTo?: string | null;
-  metadata?: Record<string, unknown>; // For additional data like selection ranges, etc.
+  metadata?: Record<string, unknown>;
 }
 
-// Rich content type for comment content
 export interface RichContent {
   type: 'rich';
-  content: unknown; // TipTap JSON or other rich content format
+  content: unknown;
 }
 
-// Entity comment thread for grouping comments by entity
 export interface EntityCommentThread {
   entityType: string;
   entityId: string;
@@ -31,12 +28,9 @@ export interface EntityCommentThread {
   updatedAt: Date;
 }
 
-// Universal commenting state with entity-agnostic approach
 interface UniversalCommentingState {
-  // Key format: `${entityType}:${entityId}`
   commentsByEntity: Map<string, EntityComment[]>;
-  
-  // UI state
+
   activeEntity: { type: string; id: string } | null;
   panelVisible: boolean;
   draftComment?: {
@@ -45,46 +39,37 @@ interface UniversalCommentingState {
     content: string;
     tempId: string;
   };
-  
-  // Local persistence state
+
   lastSavedTimestamp: number;
   hasUnsavedChanges: boolean;
 }
 
 interface CommentActions {
-  // Universal entity commenting
   addComment: (entityType: string, entityId: string, comment: Omit<EntityComment, 'id' | 'timestamp'>) => EntityComment;
   getComments: (entityType: string, entityId: string) => EntityComment[];
   resolveComment: (commentId: string) => void;
   deleteComment: (commentId: string) => void;
   setActiveEntity: (entityType: string, entityId: string) => void;
-  
-  // Draft management
+
   setDraftComment: (draft?: { entityType: string; entityId: string; content: string; tempId: string }) => void;
-  
-  // UI state
+
   togglePanel: () => void;
-  
-  // Thread-like operations
+
   getCommentThread: (entityType: string, entityId: string) => EntityCommentThread | null;
   getActiveCommentCount: (entityType: string, entityId: string) => number;
   getResolvedCommentCount: (entityType: string, entityId: string) => number;
-  
-  // Search and filtering
+
   searchComments: (query: string, entityType?: string) => EntityComment[];
   getCommentsByAuthor: (authorId: string) => EntityComment[];
   getRecentComments: (limit?: number) => EntityComment[];
-  
-  // Clear all data
+
   clearAllData: () => void;
 }
 
-// Generate unique IDs
-const generateId = (prefix: string): string => 
+const generateId = (prefix: string): string =>
   `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
 
-// Create entity key
-const createEntityKey = (entityType: string, entityId: string): string => 
+const createEntityKey = (entityType: string, entityId: string): string =>
   `${entityType}:${entityId}`;
 
 export const useCommentStore = create<UniversalCommentingState & {
@@ -142,8 +127,7 @@ export const useCommentStore = create<UniversalCommentingState & {
         resolveComment: (commentId) => {
           set(state => {
             const newCommentsByEntity = new Map(state.commentsByEntity);
-            
-            // Find and update the comment across all entities
+
             for (const [entityKey, comments] of newCommentsByEntity.entries()) {
               const updatedComments = comments.map(comment => 
                 comment.id === commentId 
@@ -167,8 +151,7 @@ export const useCommentStore = create<UniversalCommentingState & {
         deleteComment: (commentId) => {
           set(state => {
             const newCommentsByEntity = new Map(state.commentsByEntity);
-            
-            // Find and remove the comment across all entities
+
             for (const [entityKey, comments] of newCommentsByEntity.entries()) {
               const filteredComments = comments.filter(comment => comment.id !== commentId);
               
@@ -297,21 +280,19 @@ export const useCommentStore = create<UniversalCommentingState & {
       onRehydrateStorage: () => (state) => {
         if (state) {
           try {
-            // Safely convert arrays back to Maps with validation
             const commentsByEntity = Array.isArray(state.commentsByEntity) 
               ? state.commentsByEntity 
               : [];
             
             state.commentsByEntity = new Map(commentsByEntity.map(([key, comments]) => [
-              key, 
+              key,
               Array.isArray(comments) ? comments.map(c => ({
                 ...c,
-                timestamp: new Date(c.timestamp) // Ensure Date objects are restored
+                timestamp: new Date(c.timestamp)
               })) : []
             ]));
           } catch (error) {
             console.error('Failed to rehydrate universal comment store:', error);
-            // Reset to empty state on corruption
             state.commentsByEntity = new Map();
             state.lastSavedTimestamp = 0;
             state.hasUnsavedChanges = false;

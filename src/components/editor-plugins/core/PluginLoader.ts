@@ -133,13 +133,14 @@ export class PluginLoader {
   }
 
   // Modern type guard with optional chaining
-  private isValidPlugin(candidate: any): candidate is Plugin {
+  private isValidPlugin(candidate: unknown): candidate is Plugin {
+    if (typeof candidate !== 'object' || candidate === null) return false;
+    
+    const record = candidate as Record<string, unknown>;
     return (
-      candidate &&
-      typeof candidate === 'object' &&
-      typeof candidate.id === 'string' &&
-      typeof candidate.name === 'string' &&
-      typeof candidate.version === 'string'
+      typeof record.id === 'string' &&
+      typeof record.name === 'string' &&
+      typeof record.version === 'string'
     );
   }
 

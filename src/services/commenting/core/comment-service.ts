@@ -28,8 +28,7 @@ export class CommentService extends EventEmitter {
   ) {
     super();
   }
-  
-  // Core operations
+
   async createComment(
     pointer: CommentPointer, 
     content: string, 
@@ -81,13 +80,11 @@ export class CommentService extends EventEmitter {
     }
     return success;
   }
-  
-  // Thread operations
+
   async getThread(pointer: CommentPointer): Promise<CommentThread | null> {
     const comments = await this.getComments(pointer);
     if (comments.length === 0) return null;
     
-    // Sort comments by creation date
     comments.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
     
     const resolved = comments.every(c => c.resolved);
@@ -132,16 +129,14 @@ export class CommentService extends EventEmitter {
     this.emit('thread:unresolved', { pointer });
     return true;
   }
-  
-  // Reply operations
+
   async reply(parentId: string, content: string, authorId: string): Promise<Comment | null> {
     const parent = await this.storage.findById(parentId);
     if (!parent) return null;
     
     return this.createComment(parent.pointer, content, authorId, parentId);
   }
-  
-  // Batch operations
+
   async getCommentsByPointers(pointers: CommentPointer[]): Promise<Map<string, Comment[]>> {
     const results = new Map<string, Comment[]>();
     
@@ -163,8 +158,7 @@ export class CommentService extends EventEmitter {
     
     return results;
   }
-  
-  // Search operations
+
   async searchComments(query: string): Promise<Comment[]> {
     return this.storage.search(query);
   }
@@ -176,14 +170,12 @@ export class CommentService extends EventEmitter {
   async getRecentComments(limit: number = 10): Promise<Comment[]> {
     return this.storage.getRecent(limit);
   }
-  
-  // Clear all comments (useful for testing/demo reset)
+
   async clearAll(): Promise<void> {
     await this.storage.clear();
     this.emit('comments:cleared', {});
   }
-  
-  // Utility methods
+
   private generateId(): string {
     return `comment-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
   }

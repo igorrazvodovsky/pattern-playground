@@ -91,13 +91,15 @@ export interface CreateTaskInput {
 }
 
 // Type guards and utilities
-export const isTask = (obj: any): obj is Task => {
-  return typeof obj === 'object' && 
-         typeof obj.id === 'string' &&
-         typeof obj.title === 'string' &&
-         typeof obj.specification === 'string' &&
-         typeof obj.status === 'object' &&
-         Array.isArray(obj.history);
+export const isTask = (obj: unknown): obj is Task => {
+  if (typeof obj !== 'object' || obj === null) return false;
+  
+  const record = obj as Record<string, unknown>;
+  return typeof record.id === 'string' &&
+         typeof record.title === 'string' &&
+         typeof record.specification === 'string' &&
+         typeof record.status === 'object' &&
+         Array.isArray(record.history);
 };
 
 // Simple status values for backward compatibility

@@ -1,0 +1,434 @@
+[
+  {
+    "id": "CMP-BAT-001",
+    "name": "Lithium-Ion Battery Cell",
+    "type": "part",
+    "icon": "ph:battery-charging",
+    "description": "18650 lithium-ion cell with recycled lithium content",
+    "searchableText": "lithium ion battery cell 18650 rechargeable energy",
+    "metadata": {
+      "category": "electronic",
+      "hierarchy": "part",
+      "parentComponent": null,
+      "childComponents": [],
+      "materials": ["MAT-LIT-009", "MAT-ALU-001"],
+      "specifications": {
+        "capacity": "3500mAh",
+        "voltage": "3.7V",
+        "weight": "48g",
+        "dimensions": "18x65mm",
+        "cycleLife": 1000,
+        "operatingTemp": "-20 to 60°C"
+      },
+      "lifecycle": {
+        "designLife": 10,
+        "designLifeUnit": "years",
+        "repairability": "low",
+        "refurbishable": true,
+        "recyclable": true,
+        "endOfLife": ["material_recovery", "chemical_recycling"]
+      },
+      "sustainability": {
+        "carbonFootprint": 12.5,
+        "unit": "kg CO2e",
+        "recycledContent": 85,
+        "repairInstructions": "CMP-BAT-001-repair.pdf"
+      },
+      "supplier": "GreenCell Technologies",
+      "cost": 18.50,
+      "leadTime": 30
+    }
+  },
+  {
+    "id": "CMP-BAT-002",
+    "name": "Battery Management System",
+    "type": "sub_assembly",
+    "icon": "ph:circuit-board",
+    "description": "PCB controlling battery charging and safety",
+    "searchableText": "battery management system bms pcb charging safety circuit",
+    "metadata": {
+      "category": "electronic",
+      "hierarchy": "sub_assembly",
+      "parentComponent": "CMP-BAT-003",
+      "childComponents": ["CMP-ELE-001", "CMP-ELE-002", "CMP-ELE-003"],
+      "materials": ["MAT-ALU-001", "MAT-PET-004"],
+      "specifications": {
+        "maxCurrent": "50A",
+        "voltage": "36V",
+        "protection": ["overcurrent", "overvoltage", "temperature"],
+        "weight": "85g",
+        "dimensions": "60x40x15mm"
+      },
+      "lifecycle": {
+        "designLife": 15,
+        "designLifeUnit": "years",
+        "repairability": "medium",
+        "refurbishable": true,
+        "recyclable": true,
+        "endOfLife": ["component_reuse", "material_recovery"]
+      },
+      "sustainability": {
+        "carbonFootprint": 8.2,
+        "unit": "kg CO2e",
+        "recycledContent": 60,
+        "repairInstructions": "CMP-BAT-002-repair.pdf"
+      },
+      "supplier": "CircuitTech Ltd",
+      "cost": 45.00,
+      "leadTime": 21
+    }
+  },
+  {
+    "id": "CMP-BAT-003",
+    "name": "Battery Pack Assembly",
+    "type": "assembly",
+    "icon": "ph:battery-high",
+    "description": "Complete battery pack with 10 cells and BMS",
+    "searchableText": "battery pack assembly lithium ion cells bms complete",
+    "metadata": {
+      "category": "electronic",
+      "hierarchy": "assembly",
+      "parentComponent": null,
+      "childComponents": ["CMP-BAT-001", "CMP-BAT-002", "CMP-MEC-001"],
+      "materials": ["MAT-ALU-001", "MAT-PET-004"],
+      "specifications": {
+        "capacity": "35Ah",
+        "voltage": "36V",
+        "weight": "2.8kg",
+        "dimensions": "200x150x80mm",
+        "cells": 10,
+        "configuration": "10S1P"
+      },
+      "lifecycle": {
+        "designLife": 10,
+        "designLifeUnit": "years",
+        "repairability": "high",
+        "refurbishable": true,
+        "recyclable": true,
+        "endOfLife": ["refurbishment", "component_reuse", "material_recovery"]
+      },
+      "sustainability": {
+        "carbonFootprint": 145.0,
+        "unit": "kg CO2e",
+        "recycledContent": 78,
+        "repairInstructions": "CMP-BAT-003-repair.pdf"
+      },
+      "supplier": "EcoPower Systems",
+      "cost": 320.00,
+      "leadTime": 35
+    }
+  },
+  {
+    "id": "CMP-ELE-001",
+    "name": "Microcontroller",
+    "type": "part",
+    "icon": "ph:cpu",
+    "description": "ARM Cortex-M4 microcontroller for system control",
+    "searchableText": "microcontroller arm cortex m4 cpu processor control",
+    "metadata": {
+      "category": "electronic",
+      "hierarchy": "part",
+      "parentComponent": "CMP-BAT-002",
+      "childComponents": [],
+      "materials": ["MAT-ALU-001", "MAT-PET-004"],
+      "specifications": {
+        "architecture": "ARM Cortex-M4",
+        "frequency": "180MHz",
+        "memory": "2MB Flash, 256KB RAM",
+        "package": "LQFP144",
+        "power": "3.3V"
+      },
+      "lifecycle": {
+        "designLife": 20,
+        "designLifeUnit": "years",
+        "repairability": "low",
+        "refurbishable": false,
+        "recyclable": true,
+        "endOfLife": ["material_recovery"]
+      },
+      "sustainability": {
+        "carbonFootprint": 2.8,
+        "unit": "kg CO2e",
+        "recycledContent": 45,
+        "repairInstructions": null
+      },
+      "supplier": "ChipTech Corp",
+      "cost": 12.30,
+      "leadTime": 45
+    }
+  },
+  {
+    "id": "CMP-ELE-002",
+    "name": "Current Sensor",
+    "type": "part",
+    "icon": "ph:gauge",
+    "description": "Hall-effect current sensor for monitoring",
+    "searchableText": "current sensor hall effect monitoring measurement",
+    "metadata": {
+      "category": "electronic",
+      "hierarchy": "part",
+      "parentComponent": "CMP-BAT-002",
+      "childComponents": [],
+      "materials": ["MAT-ALU-001", "MAT-PET-004"],
+      "specifications": {
+        "range": "±50A",
+        "accuracy": "±1%",
+        "response": "2µs",
+        "voltage": "5V",
+        "package": "SOIC-8"
+      },
+      "lifecycle": {
+        "designLife": 15,
+        "designLifeUnit": "years",
+        "repairability": "low",
+        "refurbishable": false,
+        "recyclable": true,
+        "endOfLife": ["material_recovery"]
+      },
+      "sustainability": {
+        "carbonFootprint": 1.2,
+        "unit": "kg CO2e",
+        "recycledContent": 40,
+        "repairInstructions": null
+      },
+      "supplier": "SensorTech Ltd",
+      "cost": 8.90,
+      "leadTime": 28
+    }
+  },
+  {
+    "id": "CMP-ELE-003",
+    "name": "Temperature Sensor",
+    "type": "part",
+    "icon": "ph:thermometer",
+    "description": "Digital temperature sensor with I2C interface",
+    "searchableText": "temperature sensor digital i2c thermal monitoring",
+    "metadata": {
+      "category": "electronic",
+      "hierarchy": "part",
+      "parentComponent": "CMP-BAT-002",
+      "childComponents": [],
+      "materials": ["MAT-ALU-001", "MAT-PET-004"],
+      "specifications": {
+        "range": "-40 to 125°C",
+        "accuracy": "±0.5°C",
+        "interface": "I2C",
+        "voltage": "3.3V",
+        "package": "SOT-23"
+      },
+      "lifecycle": {
+        "designLife": 15,
+        "designLifeUnit": "years",
+        "repairability": "low",
+        "refurbishable": false,
+        "recyclable": true,
+        "endOfLife": ["material_recovery"]
+      },
+      "sustainability": {
+        "carbonFootprint": 0.8,
+        "unit": "kg CO2e",
+        "recycledContent": 35,
+        "repairInstructions": null
+      },
+      "supplier": "TempSense Inc",
+      "cost": 4.50,
+      "leadTime": 21
+    }
+  },
+  {
+    "id": "CMP-MEC-001",
+    "name": "Battery Enclosure",
+    "type": "part",
+    "icon": "ph:package",
+    "description": "Aluminum enclosure with thermal management",
+    "searchableText": "battery enclosure aluminum housing thermal management case",
+    "metadata": {
+      "category": "mechanical",
+      "hierarchy": "part",
+      "parentComponent": "CMP-BAT-003",
+      "childComponents": [],
+      "materials": ["MAT-ALU-001"],
+      "specifications": {
+        "material": "Recycled Aluminum 6061",
+        "finish": "Anodized",
+        "protection": "IP54",
+        "weight": "450g",
+        "dimensions": "200x150x80mm"
+      },
+      "lifecycle": {
+        "designLife": 25,
+        "designLifeUnit": "years",
+        "repairability": "high",
+        "refurbishable": true,
+        "recyclable": true,
+        "endOfLife": ["reuse", "material_recovery"]
+      },
+      "sustainability": {
+        "carbonFootprint": 3.2,
+        "unit": "kg CO2e",
+        "recycledContent": 85,
+        "repairInstructions": "CMP-MEC-001-repair.pdf"
+      },
+      "supplier": "MetalForm Industries",
+      "cost": 28.00,
+      "leadTime": 18
+    }
+  },
+  {
+    "id": "CMP-MOT-001",
+    "name": "Brushless DC Motor",
+    "type": "assembly",
+    "icon": "ph:engine",
+    "description": "High-efficiency BLDC motor with regenerative braking",
+    "searchableText": "brushless dc motor bldc efficiency regenerative braking electric",
+    "metadata": {
+      "category": "mechanical",
+      "hierarchy": "assembly",
+      "parentComponent": null,
+      "childComponents": ["CMP-MOT-002", "CMP-MOT-003", "CMP-MOT-004"],
+      "materials": ["MAT-ALU-001", "MAT-STL-002", "MAT-PET-004"],
+      "specifications": {
+        "power": "750W",
+        "voltage": "36V",
+        "efficiency": "92%",
+        "speed": "3000rpm",
+        "weight": "3.2kg",
+        "torque": "2.4Nm"
+      },
+      "lifecycle": {
+        "designLife": 20,
+        "designLifeUnit": "years",
+        "repairability": "high",
+        "refurbishable": true,
+        "recyclable": true,
+        "endOfLife": ["refurbishment", "component_reuse", "material_recovery"]
+      },
+      "sustainability": {
+        "carbonFootprint": 18.5,
+        "unit": "kg CO2e",
+        "recycledContent": 75,
+        "repairInstructions": "CMP-MOT-001-repair.pdf"
+      },
+      "supplier": "EcoMotors Ltd",
+      "cost": 185.00,
+      "leadTime": 42
+    }
+  },
+  {
+    "id": "CMP-MOT-002",
+    "name": "Motor Stator",
+    "type": "sub_assembly",
+    "icon": "ph:gear",
+    "description": "Wound stator with copper windings and steel core",
+    "searchableText": "motor stator copper windings steel core electromagnetic",
+    "metadata": {
+      "category": "mechanical",
+      "hierarchy": "sub_assembly",
+      "parentComponent": "CMP-MOT-001",
+      "childComponents": ["CMP-MOT-005", "CMP-MOT-006"],
+      "materials": ["MAT-STL-002", "MAT-ALU-001"],
+      "specifications": {
+        "slots": 12,
+        "material": "Silicon Steel",
+        "winding": "Copper",
+        "insulation": "Class H",
+        "weight": "1.8kg"
+      },
+      "lifecycle": {
+        "designLife": 25,
+        "designLifeUnit": "years",
+        "repairability": "medium",
+        "refurbishable": true,
+        "recyclable": true,
+        "endOfLife": ["component_reuse", "material_recovery"]
+      },
+      "sustainability": {
+        "carbonFootprint": 8.2,
+        "unit": "kg CO2e",
+        "recycledContent": 70,
+        "repairInstructions": "CMP-MOT-002-repair.pdf"
+      },
+      "supplier": "ElectroWind Corp",
+      "cost": 85.00,
+      "leadTime": 35
+    }
+  },
+  {
+    "id": "CMP-MOT-003",
+    "name": "Motor Rotor",
+    "type": "sub_assembly",
+    "icon": "ph:circle",
+    "description": "Permanent magnet rotor with rare earth magnets",
+    "searchableText": "motor rotor permanent magnet rare earth neodymium",
+    "metadata": {
+      "category": "mechanical",
+      "hierarchy": "sub_assembly",
+      "parentComponent": "CMP-MOT-001",
+      "childComponents": ["CMP-MOT-007", "CMP-MOT-008"],
+      "materials": ["MAT-STL-002", "MAT-LIT-009"],
+      "specifications": {
+        "poles": 8,
+        "magnetType": "Neodymium",
+        "balancing": "Grade G2.5",
+        "weight": "0.9kg",
+        "inertia": "0.008 kg⋅m²"
+      },
+      "lifecycle": {
+        "designLife": 25,
+        "designLifeUnit": "years",
+        "repairability": "low",
+        "refurbishable": false,
+        "recyclable": true,
+        "endOfLife": ["material_recovery", "rare_earth_recovery"]
+      },
+      "sustainability": {
+        "carbonFootprint": 15.8,
+        "unit": "kg CO2e",
+        "recycledContent": 60,
+        "repairInstructions": null
+      },
+      "supplier": "MagnetTech Industries",
+      "cost": 65.00,
+      "leadTime": 50
+    }
+  },
+  {
+    "id": "CMP-MOT-004",
+    "name": "Motor Housing",
+    "type": "part",
+    "icon": "ph:house",
+    "description": "Aluminum housing with integrated cooling fins",
+    "searchableText": "motor housing aluminum cooling fins enclosure thermal",
+    "metadata": {
+      "category": "mechanical",
+      "hierarchy": "part",
+      "parentComponent": "CMP-MOT-001",
+      "childComponents": [],
+      "materials": ["MAT-ALU-001"],
+      "specifications": {
+        "material": "Aluminum 6061",
+        "finish": "Anodized",
+        "protection": "IP65",
+        "weight": "0.5kg",
+        "mountingPattern": "IEC B5"
+      },
+      "lifecycle": {
+        "designLife": 30,
+        "designLifeUnit": "years",
+        "repairability": "high",
+        "refurbishable": true,
+        "recyclable": true,
+        "endOfLife": ["reuse", "material_recovery"]
+      },
+      "sustainability": {
+        "carbonFootprint": 2.1,
+        "unit": "kg CO2e",
+        "recycledContent": 85,
+        "repairInstructions": "CMP-MOT-004-repair.pdf"
+      },
+      "supplier": "CastTech Ltd",
+      "cost": 35.00,
+      "leadTime": 25
+    }
+  }
+]

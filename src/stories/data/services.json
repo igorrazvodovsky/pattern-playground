@@ -1,0 +1,336 @@
+[
+  {
+    "id": "SVC-MNT-001",
+    "name": "E-Bike Annual Maintenance",
+    "type": "maintenance",
+    "icon": "ph:wrench",
+    "description": "Comprehensive annual maintenance service for electric bicycles",
+    "searchableText": "ebike maintenance annual service repair tune-up",
+    "metadata": {
+      "category": "maintenance",
+      "serviceType": "preventive",
+      "applicableProducts": ["PRD-EBK-001"],
+      "applicableComponents": ["CMP-BAT-003", "CMP-MOT-001"],
+      "serviceProvider": "EcoMobility Services",
+      "location": "mobile_on_site",
+      "duration": 90,
+      "durationUnit": "minutes",
+      "frequency": "annual",
+      "checklist": [
+        "Battery health check and calibration",
+        "Motor performance test",
+        "Brake system inspection and adjustment",
+        "Tire condition and pressure check",
+        "Chain lubrication and tension",
+        "Electrical connections inspection",
+        "Software updates",
+        "Frame and components visual inspection"
+      ],
+      "materialsUsed": ["MAT-ALU-001", "MAT-PET-004"],
+      "tools": ["battery_tester", "torque_wrench", "diagnostic_scanner"],
+      "sustainability": {
+        "carbonFootprint": 2.5,
+        "unit": "kg CO2e",
+        "wasteGenerated": 0.1,
+        "wasteUnit": "kg",
+        "recycledParts": true
+      },
+      "pricing": {
+        "cost": 89.00,
+        "currency": "USD",
+        "included": ["inspection", "minor_adjustments", "report"],
+        "additional": ["parts", "major_repairs"]
+      },
+      "warranty": {
+        "period": 90,
+        "periodUnit": "days",
+        "coverage": "service_work"
+      }
+    }
+  },
+  {
+    "id": "SVC-RPR-001",
+    "name": "Battery Pack Refurbishment",
+    "type": "repair",
+    "icon": "ph:battery-charging",
+    "description": "Complete refurbishment of lithium-ion battery packs with cell replacement",
+    "searchableText": "battery refurbishment repair lithium ion cell replacement rebuild",
+    "metadata": {
+      "category": "repair",
+      "serviceType": "refurbishment",
+      "applicableProducts": ["PRD-EBK-001", "PRD-PWR-001"],
+      "applicableComponents": ["CMP-BAT-003", "CMP-BAT-001"],
+      "serviceProvider": "BatteryCircular Ltd",
+      "location": "service_center",
+      "duration": 3,
+      "durationUnit": "days",
+      "frequency": "as_needed",
+      "process": [
+        "Disassembly and inspection",
+        "Cell testing and sorting",
+        "Replace degraded cells",
+        "BMS firmware update",
+        "Reassembly and testing",
+        "Quality assurance",
+        "Performance certification"
+      ],
+      "materialsUsed": ["MAT-LIT-009", "MAT-ALU-001"],
+      "tools": ["cell_tester", "spot_welder", "bms_programmer"],
+      "sustainability": {
+        "carbonFootprint": 15.2,
+        "unit": "kg CO2e",
+        "wasteGenerated": 0.8,
+        "wasteUnit": "kg",
+        "materialRecovery": 95,
+        "energySavings": 80
+      },
+      "pricing": {
+        "cost": 180.00,
+        "currency": "USD",
+        "included": ["diagnostics", "refurbishment", "testing", "warranty"],
+        "additional": ["expedited_service", "pickup_delivery"]
+      },
+      "warranty": {
+        "period": 12,
+        "periodUnit": "months",
+        "coverage": "full_replacement"
+      }
+    }
+  },
+  {
+    "id": "SVC-UPG-001",
+    "name": "Motor Upgrade Service",
+    "type": "upgrade",
+    "icon": "ph:arrow-circle-up",
+    "description": "Upgrade older motor to new high-efficiency model with improved performance",
+    "searchableText": "motor upgrade service efficiency performance improvement retrofit",
+    "metadata": {
+      "category": "upgrade",
+      "serviceType": "enhancement",
+      "applicableProducts": ["PRD-EBK-001"],
+      "applicableComponents": ["CMP-MOT-001"],
+      "serviceProvider": "EcoMotors Ltd",
+      "location": "service_center",
+      "duration": 2,
+      "durationUnit": "hours",
+      "frequency": "optional",
+      "upgradeOptions": [
+        "750W to 1000W power increase",
+        "Improved efficiency (88% to 92%)",
+        "Enhanced regenerative braking",
+        "Reduced noise operation",
+        "Better torque response"
+      ],
+      "materialsUsed": ["MAT-ALU-001", "MAT-STL-002"],
+      "tools": ["torque_wrench", "alignment_tool", "programmer"],
+      "sustainability": {
+        "carbonFootprint": 8.5,
+        "unit": "kg CO2e",
+        "wasteGenerated": 0.0,
+        "wasteUnit": "kg",
+        "oldComponentReuse": 100,
+        "efficiencyGain": 15
+      },
+      "pricing": {
+        "cost": 350.00,
+        "currency": "USD",
+        "included": ["new_motor", "installation", "programming", "testing"],
+        "tradeInCredit": 120.00
+      },
+      "warranty": {
+        "period": 24,
+        "periodUnit": "months",
+        "coverage": "full_replacement"
+      }
+    }
+  },
+  {
+    "id": "SVC-EOL-001",
+    "name": "Product Take-Back & Recycling",
+    "type": "end_of_life",
+    "icon": "ph:recycle",
+    "description": "Complete product take-back service with material recovery and recycling",
+    "searchableText": "take back recycling end of life material recovery disposal",
+    "metadata": {
+      "category": "end_of_life",
+      "serviceType": "take_back",
+      "applicableProducts": ["PRD-EBK-001", "PRD-PWR-001", "PRD-FUR-001", "PRD-TEX-001"],
+      "applicableComponents": ["CMP-BAT-003", "CMP-MOT-001"],
+      "serviceProvider": "CircularFlow Recycling",
+      "location": "pickup_collection",
+      "duration": 1,
+      "durationUnit": "day",
+      "frequency": "end_of_life",
+      "process": [
+        "Product assessment and documentation",
+        "Disassembly and component sorting",
+        "Material identification and separation",
+        "Refurbishment potential evaluation",
+        "Material processing and recovery",
+        "Waste stream management",
+        "Certificate of destruction/recycling"
+      ],
+      "materialsRecovered": ["MAT-ALU-001", "MAT-STL-002", "MAT-LIT-009", "MAT-PET-004"],
+      "tools": ["disassembly_station", "material_sorter", "shredder"],
+      "sustainability": {
+        "carbonFootprint": -25.8,
+        "unit": "kg CO2e",
+        "materialRecovery": 88,
+        "wasteReduction": 92,
+        "energyRecovery": 15
+      },
+      "pricing": {
+        "cost": 0.00,
+        "currency": "USD",
+        "included": ["pickup", "processing", "certificate"],
+        "additional": ["expedited_pickup", "data_destruction"]
+      },
+      "certification": {
+        "standards": ["R2", "e-Stewards", "ISO 14001"],
+        "certificate": "provided"
+      }
+    }
+  },
+  {
+    "id": "SVC-RMF-001",
+    "name": "Furniture Remanufacturing",
+    "type": "remanufacturing",
+    "icon": "ph:hammer",
+    "description": "Complete furniture remanufacturing with design updates and material refresh",
+    "searchableText": "furniture remanufacturing refurbishment design update restoration",
+    "metadata": {
+      "category": "remanufacturing",
+      "serviceType": "restoration",
+      "applicableProducts": ["PRD-FUR-001"],
+      "applicableComponents": [],
+      "serviceProvider": "FurnitureCircle",
+      "location": "workshop",
+      "duration": 5,
+      "durationUnit": "days",
+      "frequency": "as_needed",
+      "process": [
+        "Product condition assessment",
+        "Disassembly and component inspection",
+        "Surface refinishing and treatment",
+        "Hardware replacement if needed",
+        "Design customization options",
+        "Quality control testing",
+        "Packaging and delivery"
+      ],
+      "materialsUsed": ["MAT-BAM-006", "MAT-ALU-001"],
+      "tools": ["sanders", "finishing_equipment", "assembly_tools"],
+      "sustainability": {
+        "carbonFootprint": 12.5,
+        "unit": "kg CO2e",
+        "materialRecovery": 95,
+        "lifeExtension": 10,
+        "lifeExtensionUnit": "years"
+      },
+      "pricing": {
+        "cost": 199.00,
+        "currency": "USD",
+        "included": ["assessment", "remanufacturing", "delivery"],
+        "additional": ["design_customization", "expedited_service"]
+      },
+      "warranty": {
+        "period": 36,
+        "periodUnit": "months",
+        "coverage": "manufacturing_defects"
+      }
+    }
+  },
+  {
+    "id": "SVC-DIG-001",
+    "name": "Digital Product Passport",
+    "type": "digital_service",
+    "icon": "ph:qr-code",
+    "description": "Digital tracking and documentation service for product lifecycle data",
+    "searchableText": "digital passport blockchain tracking lifecycle documentation traceability",
+    "metadata": {
+      "category": "digital_service",
+      "serviceType": "tracking",
+      "applicableProducts": ["PRD-EBK-001", "PRD-PWR-001", "PRD-FUR-001", "PRD-TEX-001"],
+      "applicableComponents": ["CMP-BAT-003", "CMP-MOT-001"],
+      "serviceProvider": "CircularTrace Technologies",
+      "location": "cloud_based",
+      "duration": "continuous",
+      "durationUnit": "product_lifetime",
+      "frequency": "real_time",
+      "features": [
+        "Real-time product status tracking",
+        "Maintenance history logging",
+        "Performance analytics",
+        "Circular economy metrics",
+        "End-of-life planning",
+        "Compliance reporting",
+        "Stakeholder dashboard"
+      ],
+      "dataTracked": ["usage_patterns", "maintenance_events", "location", "performance_metrics"],
+      "technology": ["blockchain", "iot_sensors", "ai_analytics"],
+      "sustainability": {
+        "carbonFootprint": 0.5,
+        "unit": "kg CO2e/year",
+        "efficiencyGains": 15,
+        "lifeExtension": 20,
+        "optimizedMaintenance": true
+      },
+      "pricing": {
+        "cost": 24.00,
+        "currency": "USD/year",
+        "included": ["tracking", "analytics", "reporting"],
+        "tiers": ["basic", "premium", "enterprise"]
+      },
+      "privacy": {
+        "dataEncryption": true,
+        "userControl": "full",
+        "gdprCompliant": true
+      }
+    }
+  },
+  {
+    "id": "SVC-CON-001",
+    "name": "Circular Design Consulting",
+    "type": "consulting",
+    "icon": "ph:lightbulb",
+    "description": "Expert consulting for circular economy product design and implementation",
+    "searchableText": "circular design consulting sustainability strategy advisory",
+    "metadata": {
+      "category": "consulting",
+      "serviceType": "advisory",
+      "applicableProducts": ["all"],
+      "applicableComponents": ["all"],
+      "serviceProvider": "Circular Design Lab",
+      "location": "hybrid",
+      "duration": "project_based",
+      "durationUnit": "weeks",
+      "frequency": "as_needed",
+      "services": [
+        "Circular design strategy development",
+        "Material selection optimization",
+        "Lifecycle assessment and LCA",
+        "Supply chain circularity audit",
+        "End-of-life planning",
+        "Certification guidance",
+        "Training and workshops"
+      ],
+      "expertise": ["material_science", "design_for_circularity", "lca", "policy"],
+      "deliverables": ["strategy_document", "implementation_roadmap", "training_materials"],
+      "sustainability": {
+        "carbonFootprint": 1.2,
+        "unit": "kg CO2e/hour",
+        "impactMultiplier": 50,
+        "clientCarbonReduction": "varies"
+      },
+      "pricing": {
+        "cost": 180.00,
+        "currency": "USD/hour",
+        "included": ["analysis", "recommendations", "documentation"],
+        "packages": ["assessment", "implementation", "ongoing_support"]
+      },
+      "certification": {
+        "consultants": ["Cradle to Cradle Accredited", "Ellen MacArthur Foundation"],
+        "methods": ["ISO 14040/14044", "PEF", "Cradle to Cradle"]
+      }
+    }
+  }
+]

@@ -4,7 +4,6 @@ import type { Quote, RichContent } from '../../../stories/data/index.js';
  * Production-ready validation and error handling utilities
  */
 
-// Error classes for better error handling
 export class QuoteCommentingError extends Error {
   constructor(
     message: string,
@@ -34,53 +33,56 @@ export class ServiceError extends QuoteCommentingError {
  * Validation schemas and functions
  */
 
-// Quote validation
-export const validateQuote = (quote: any): quote is Quote => {
+export const validateQuote = (quote: unknown): quote is Quote => {
   const errors: string[] = [];
 
-  if (!quote) {
+  if (typeof quote !== 'object' || quote === null) {
     errors.push('Quote object is required');
     return false;
   }
 
-  if (!quote.id || typeof quote.id !== 'string') {
+  const record = quote as Record<string, unknown>;
+
+  if (!record.id || typeof record.id !== 'string') {
     errors.push('Quote ID is required and must be a string');
   }
 
-  if (!quote.name || typeof quote.name !== 'string') {
+  if (!record.name || typeof record.name !== 'string') {
     errors.push('Quote name is required and must be a string');
   }
 
-  if (quote.type !== 'quote') {
+  if (record.type !== 'quote') {
     errors.push('Quote type must be "quote"');
   }
 
-  if (!quote.metadata) {
+  if (!record.metadata) {
     errors.push('Quote metadata is required');
   } else {
-    if (!quote.metadata.sourceDocument) {
+    const metadata = record.metadata as Record<string, unknown>;
+    if (!metadata.sourceDocument) {
       errors.push('Source document ID is required');
     }
 
-    if (!quote.metadata.sourceRange ||
-      typeof quote.metadata.sourceRange.from !== 'number' ||
-      typeof quote.metadata.sourceRange.to !== 'number') {
+    const sourceRange = metadata.sourceRange as Record<string, unknown>;
+    if (!metadata.sourceRange ||
+      typeof sourceRange?.from !== 'number' ||
+      typeof sourceRange?.to !== 'number') {
       errors.push('Valid source range is required');
     }
 
-    if (!quote.metadata.selectedText) {
+    if (!metadata.selectedText) {
       errors.push('Selected text is required');
     }
 
-    if (!quote.metadata.createdBy) {
+    if (!metadata.createdBy) {
       errors.push('Creator user ID is required');
     }
   }
 
-  if (!quote.content) {
+  if (!record.content) {
     errors.push('Quote content is required');
   } else {
-    if (!validateRichContent(quote.content)) {
+    if (!validateRichContent(record.content)) {
       errors.push('Invalid rich content structure');
     }
   }
@@ -92,26 +94,27 @@ export const validateQuote = (quote: any): quote is Quote => {
   return true;
 };
 
-// Rich content validation
-export const validateRichContent = (content: any): content is RichContent => {
-  if (!content) return false;
+export const validateRichContent = (content: unknown): content is RichContent => {
+  if (typeof content !== 'object' || content === null) return false;
+
+  const record = content as Record<string, unknown>;
 
   // Must have plainText
-  if (!content.plainText || typeof content.plainText !== 'string') {
+  if (!record.plainText || typeof record.plainText !== 'string') {
     return false;
   }
 
   // Rich content should be valid TipTap JSON if present
-  if (content.richContent) {
-    if (typeof content.richContent !== 'object') return false;
-    if (!content.richContent.type || content.richContent.type !== 'doc') return false;
-    if (!Array.isArray(content.richContent.content)) return false;
+  if (record.richContent) {
+    if (typeof record.richContent !== 'object' || record.richContent === null) return false;
+    const richContent = record.richContent as Record<string, unknown>;
+    if (!richContent.type || richContent.type !== 'doc') return false;
+    if (!Array.isArray(richContent.content)) return false;
   }
 
   return true;
 };
 
-// Comment content validation
 export const validateCommentContent = (content: RichContent): void => {
   if (!validateRichContent(content)) {
     throw new ValidationError('Invalid comment content structure', 'content', content);
@@ -133,7 +136,6 @@ export const validateCommentContent = (content: RichContent): void => {
   }
 };
 
-// User ID validation
 export const validateUserId = (userId: string): void => {
   if (!userId || typeof userId !== 'string') {
     throw new ValidationError('User ID is required and must be a string', 'userId', userId);
@@ -162,11 +164,9 @@ export const withErrorHandling = <T extends any[], R>(
       return fn(...args);
     } catch (error) {
       if (error instanceof QuoteCommentingError) {
-        // Re-throw our custom errors
         throw error;
       }
 
-      // Wrap unknown errors
       throw new ServiceError(
         `${errorContext}: ${error instanceof Error ? error.message : String(error)}`,
         errorContext,
@@ -224,12 +224,10 @@ export class Logger {
 
     this.logs.push(entry);
 
-    // Keep only recent logs
     if (this.logs.length > this.maxLogs) {
       this.logs = this.logs.slice(-this.maxLogs);
     }
 
-    // Console output in development
     if (process.env.NODE_ENV === 'development') {
       const consoleMethod = level === 'error' ? 'error' : level === 'warn' ? 'warn' : 'log';
       console[consoleMethod](`[${context}] ${message}`, data || '');
@@ -290,11 +288,9 @@ export class PerformanceMonitor {
     const duration = Date.now() - startTime;
     this.timers.delete(operation);
 
-    // Store metric
     const existing = this.metrics.get(operation) || [];
     existing.push(duration);
 
-    // Keep only recent measurements
     if (existing.length > 100) {
       existing.splice(0, existing.length - 100);
     }

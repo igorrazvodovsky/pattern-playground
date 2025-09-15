@@ -4,8 +4,8 @@ import type { CommentPointer } from './comment-pointer';
 
 export class LocalCommentStorage implements CommentStorage {
   private comments: Map<string, Comment> = new Map();
-  private pointerIndex: Map<string, Set<string>> = new Map(); // pointer.serialize() -> comment ids
-  private authorIndex: Map<string, Set<string>> = new Map(); // authorId -> comment ids
+  private pointerIndex: Map<string, Set<string>> = new Map();
+  private authorIndex: Map<string, Set<string>> = new Map();
   
   constructor(private readonly storageKey: string = 'universal-comments') {
     this.loadFromLocalStorage();
@@ -13,15 +13,13 @@ export class LocalCommentStorage implements CommentStorage {
   
   async save(comment: Comment): Promise<void> {
     this.comments.set(comment.id, comment);
-    
-    // Update pointer index
+
     const pointerKey = comment.pointer.serialize();
     if (!this.pointerIndex.has(pointerKey)) {
       this.pointerIndex.set(pointerKey, new Set());
     }
     this.pointerIndex.get(pointerKey)!.add(comment.id);
-    
-    // Update author index
+
     if (!this.authorIndex.has(comment.authorId)) {
       this.authorIndex.set(comment.authorId, new Set());
     }
@@ -70,11 +68,9 @@ export class LocalCommentStorage implements CommentStorage {
   async delete(id: string): Promise<boolean> {
     const comment = this.comments.get(id);
     if (!comment) return false;
-    
-    // Remove from main storage
+
     this.comments.delete(id);
-    
-    // Remove from pointer index
+
     const pointerKey = comment.pointer.serialize();
     const pointerIds = this.pointerIndex.get(pointerKey);
     if (pointerIds) {
@@ -83,8 +79,7 @@ export class LocalCommentStorage implements CommentStorage {
         this.pointerIndex.delete(pointerKey);
       }
     }
-    
-    // Remove from author index
+
     const authorIds = this.authorIndex.get(comment.authorId);
     if (authorIds) {
       authorIds.delete(id);
@@ -112,8 +107,7 @@ export class LocalCommentStorage implements CommentStorage {
   
   async getRecent(limit: number): Promise<Comment[]> {
     const allComments = Array.from(this.comments.values());
-    
-    // Sort by creation date (newest first)
+
     allComments.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
     
     return allComments.slice(0, limit);
@@ -132,8 +126,7 @@ export class LocalCommentStorage implements CommentStorage {
       if (!stored) return;
       
       const data = JSON.parse(stored);
-      
-      // Restore comments with Date objects
+
       if (data.comments) {
         for (const [id, comment] of Object.entries(data.comments)) {
           const restoredComment = comment as Comment;
@@ -144,15 +137,13 @@ export class LocalCommentStorage implements CommentStorage {
           this.comments.set(id, restoredComment);
         }
       }
-      
-      // Restore pointer index
+
       if (data.pointerIndex) {
         for (const [key, ids] of Object.entries(data.pointerIndex)) {
           this.pointerIndex.set(key, new Set(ids as string[]));
         }
       }
-      
-      // Restore author index
+
       if (data.authorIndex) {
         for (const [key, ids] of Object.entries(data.authorIndex)) {
           this.authorIndex.set(key, new Set(ids as string[]));

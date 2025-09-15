@@ -67,16 +67,18 @@ export function deserializeComments(serialized: string): Map<string, EntityComme
 }
 
 // Validate comment structure
-function isValidComment(comment: any): comment is EntityComment {
+function isValidComment(comment: unknown): comment is EntityComment {
+  if (typeof comment !== 'object' || comment === null) return false;
+  
+  const record = comment as Record<string, unknown>;
   return (
-    typeof comment === 'object' &&
-    typeof comment.id === 'string' &&
-    typeof comment.entityType === 'string' &&
-    typeof comment.entityId === 'string' &&
-    typeof comment.authorId === 'string' &&
-    (typeof comment.content === 'string' || (typeof comment.content === 'object' && comment.content?.type === 'rich')) &&
-    (comment.status === 'active' || comment.status === 'resolved') &&
-    (comment.timestamp instanceof Date || typeof comment.timestamp === 'string')
+    typeof record.id === 'string' &&
+    typeof record.entityType === 'string' &&
+    typeof record.entityId === 'string' &&
+    typeof record.authorId === 'string' &&
+    (typeof record.content === 'string' || (typeof record.content === 'object' && record.content !== null && (record.content as Record<string, unknown>).type === 'rich')) &&
+    (record.status === 'active' || record.status === 'resolved') &&
+    (record.timestamp instanceof Date || typeof record.timestamp === 'string')
   );
 }
 
