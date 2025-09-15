@@ -1,10 +1,8 @@
-import type { 
-  SlotRegistry as ISlotRegistry, 
-  SlotId, 
-  SlotComponent, 
-  SlotRegistrationOptions,
-  SlotPosition,
-  SLOT_POSITIONS
+import type {
+  SlotRegistry as ISlotRegistry,
+  SlotId,
+  SlotComponent,
+  SlotRegistrationOptions
 } from '../../editor/types';
 
 interface RegisteredComponent extends SlotComponent {
@@ -201,8 +199,7 @@ export class SlotRegistry implements ISlotRegistry {
 
   // Performance monitoring wrapper
   #wrapRenderWithMetrics(
-    originalRender: () => React.ReactNode | HTMLElement,
-    pluginId: string
+    originalRender: () => React.ReactNode | HTMLElement
   ): () => React.ReactNode | HTMLElement {
     return () => {
       const startTime = performance.now();

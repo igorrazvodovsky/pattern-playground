@@ -1,6 +1,6 @@
 import { classMap } from 'lit/directives/class-map.js';
 import { LitElement, html, unsafeCSS } from 'lit';
-import { customElement, property, query, state } from 'lit/decorators.js';
+import { property, query, state } from 'lit/decorators.js';
 import { scrollIntoView } from '../../utility/scroll';
 // import { watch } from '../../internal/watch.js';
 import styles from './tab-group.css?inline';

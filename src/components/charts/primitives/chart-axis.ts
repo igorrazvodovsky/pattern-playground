@@ -1,5 +1,5 @@
 import { LitElement, html } from 'lit';
-import { property, query, customElement } from 'lit/decorators.js';
+import { property, query } from 'lit/decorators.js';
 import type { TemplateResult } from 'lit';
 import { select } from 'd3-selection';
 import { axisBottom, axisTop, axisLeft, axisRight } from 'd3-axis';

@@ -89,10 +89,10 @@ export const CommentMark = Mark.create({
       toggleComment: (threadId: string) => ({ commands }) => {
         return commands.toggleMark(this.name, { commentId: threadId });
       },
-      resolveComment: (_threadId: string) => ({ commands }) => {
+      resolveComment: () => ({ commands }) => {
         return commands.updateAttributes(this.name, { resolved: true });
       },
-      unresolveComment: (_threadId: string) => ({ commands }) => {
+      unresolveComment: () => ({ commands }) => {
         return commands.updateAttributes(this.name, { resolved: false });
       }
     };

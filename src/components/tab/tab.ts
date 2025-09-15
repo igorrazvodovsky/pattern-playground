@@ -2,7 +2,6 @@ import { classMap } from 'lit/directives/class-map.js';
 import { LitElement, html, unsafeCSS } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import styles from './tab.css?inline';
-import { customElement } from 'lit/decorators.js';
 
 let id = 0;
 

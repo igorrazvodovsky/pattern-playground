@@ -20,8 +20,7 @@ export const CommentDrawer: React.FC<CommentDrawerProps> = ({
   isOpen,
   onAddComment,
   onResolveThread,
-  onClose,
-  activeThreadId
+  onClose
 }) => {
   const modalRef = useRef<HTMLElement>(null);
 

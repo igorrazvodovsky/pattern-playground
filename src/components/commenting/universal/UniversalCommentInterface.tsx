@@ -32,9 +32,7 @@ export const UniversalCommentInterface: React.FC<UniversalCommentInterfaceProps>
   entityId,
   currentUser,
   className = '',
-  showHeader = true,
   allowNewComments = true,
-  maxHeight = '400px',
   onCommentAdded
 }) => {
   const [isComposing, setIsComposing] = useState(false);
@@ -44,9 +42,7 @@ export const UniversalCommentInterface: React.FC<UniversalCommentInterfaceProps>
 
   const {
     comments,
-    createComment,
-    updateComment,
-    loading
+    createComment
   } = useCommenting(pointer, { currentUser: currentUser.id });
 
   const handleAddComment = async (content: RichContent) => {

@@ -7,7 +7,7 @@ interface CommentingToolbarProps {
   config: CommentingPluginConfig;
 }
 
-const CommentingToolbar: React.FC<CommentingToolbarProps> = ({ editor, config }) => {
+const CommentingToolbar: React.FC<CommentingToolbarProps> = ({ editor }) => {
   if (!editor) return null;
 
   const handleCreateComment = () => {

@@ -16,7 +16,7 @@
  */
 
 import { html } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { property, state } from 'lit/decorators.js';
 import { select } from 'd3-selection';
 import * as d3 from 'd3';
 import { ChartComponent } from './base/chart-component.js';

@@ -1,5 +1,4 @@
 import { LitElement, html, CSSResultGroup, unsafeCSS } from 'lit';
-import { customElement } from 'lit/decorators.js';
 import styles from './spinner.css?inline';
 
 /**

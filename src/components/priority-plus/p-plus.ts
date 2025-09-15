@@ -265,9 +265,9 @@ function priorityPlus(targetElem: HTMLElement) {
         ).get(item) as HTMLElement;
 
         if (navType == El.OverflowNav) {
-          var newElem = document.createElement('pp-list-item');
-          for (var i = 0; i < elem.attributes.length; i++) {
-            var attr = elem.attributes[i];
+          const newElem = document.createElement('pp-list-item');
+          for (let i = 0; i < elem.attributes.length; i++) {
+            const attr = elem.attributes[i];
             newElem.setAttribute(attr.name, attr.value);
           }
           newElem.innerHTML = elem.innerHTML;

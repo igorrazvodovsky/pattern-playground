@@ -201,8 +201,7 @@ export class OpenAIService {
 
   private createSystemPrompt(
     type: string,
-    availableOptions: Record<string, (string | number | boolean)[]>,
-    _metadata?: Record<string, JsonValue>
+    availableOptions: Record<string, (string | number | boolean)[]>
   ): string {
     const config = PROMPT_CONFIGS[type];
     return PromptTemplateBuilder.buildSystemPrompt(type, availableOptions, config);

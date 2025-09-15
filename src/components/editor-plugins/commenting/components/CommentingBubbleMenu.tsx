@@ -8,7 +8,7 @@ interface CommentingBubbleMenuProps {
   config: CommentingPluginConfig;
 }
 
-const CommentingBubbleMenu: React.FC<CommentingBubbleMenuProps> = ({ editor, config }) => {
+const CommentingBubbleMenu: React.FC<CommentingBubbleMenuProps> = ({ editor }) => {
   if (!editor) return null;
 
   // Use useEditorState to properly track selection changes

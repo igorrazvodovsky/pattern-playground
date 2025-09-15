@@ -24,7 +24,6 @@ export const CommentComposer: React.FC<CommentComposerProps> = ({
   placeholder = "Write a comment...",
   currentUser,
   onSubmit,
-  onCancel,
   isSubmitting = false,
   autoFocus = true
 }) => {
