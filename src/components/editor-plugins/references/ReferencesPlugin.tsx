@@ -1,6 +1,6 @@
 import React from 'react';
 import { BasePlugin } from '../core/Plugin';
-import type { PluginCapabilities, EditorContext } from '../../editor/types';
+import type { PluginCapabilities, EditorContext, SlotRegistry } from '../../editor/types';
 import { Reference, createReferenceSuggestion } from '../../reference';
 import type { ReferenceCategory, SelectedReference } from '../../reference/types';
 import { ReferencesBubbleMenu } from './components/ReferencesBubbleMenu';
@@ -58,7 +58,7 @@ export class ReferencesPlugin extends BasePlugin {
     this.registerUI(context.slots);
   }
 
-  registerUI(slots: any): void {
+  registerUI(slots: SlotRegistry): void {
     // Register bubble menu component
     slots.register('bubble-menu', {
       pluginId: this.id,

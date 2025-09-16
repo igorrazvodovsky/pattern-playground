@@ -32,9 +32,11 @@ interface CommandOption extends CommandParent {
   children?: CommandChildOption[];
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface CommandChildOption extends CommandChild {
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface RecentItem extends SearchableItem {
 }
 

@@ -1,7 +1,21 @@
 import React from 'react';
 import type { Editor } from '@tiptap/react';
-import { useEditorState } from '@tiptap/react';
 import type { CommentingPluginConfig } from '../CommentingPlugin';
+import type { EditorContext } from '../../../editor/types';
+
+interface EditorCommandsWithComments {
+  createQuoteFromSelection: () => boolean;
+}
+
+type EditorWithCommentingCommands = Editor & {
+  commands: Editor['commands'] & EditorCommandsWithComments;
+};
+
+type EditorWithContext = Editor & {
+  storage: Editor['storage'] & {
+    editorContext?: EditorContext;
+  };
+}
 
 interface CommentingBubbleMenuProps {
   editor?: Editor;
@@ -9,39 +23,25 @@ interface CommentingBubbleMenuProps {
 }
 
 const CommentingBubbleMenu: React.FC<CommentingBubbleMenuProps> = ({ editor }) => {
-  // Use useEditorState to properly track selection changes
-  const editorState = useEditorState({
-    editor,
-    selector: ({ editor }) => ({
-      hasSelection: !editor.state.selection.empty,
-    }),
-  });
 
   if (!editor) return null;
 
   const handleCreateComment = () => {
-    console.log('CommentingBubbleMenu: handleCreateComment called');
-    console.log('CommentingBubbleMenu: editor:', editor);
-    console.log('CommentingBubbleMenu: editor.commands.createQuoteFromSelection:', (editor?.commands as any)?.createQuoteFromSelection);
+    const editorWithComments = editor as EditorWithCommentingCommands;
+    const editorWithContext = editor as EditorWithContext;
 
     // Call the editor command directly since we know it exists from the plugin
-    if (editor && (editor.commands as any).createQuoteFromSelection) {
-      console.log('CommentingBubbleMenu: Calling createQuoteFromSelection command');
-      const result = (editor.commands as any).createQuoteFromSelection();
-      console.log('CommentingBubbleMenu: Command result:', result);
-    } else {
-      console.log('CommentingBubbleMenu: createQuoteFromSelection command not found');
+    if (editorWithComments.commands.createQuoteFromSelection) {
+      const success = editorWithComments.commands.createQuoteFromSelection();
+      if (success) return;
     }
 
     // Also try the event bus approach as fallback
-    if (editor?.storage?.editorContext?.eventBus) {
-      console.log('CommentingBubbleMenu: Trying event bus approach');
-      editor.storage.editorContext.eventBus.emit('command:execute', {
+    if (editorWithContext.storage.editorContext?.eventBus) {
+      editorWithContext.storage.editorContext.eventBus.emit('command:execute', {
         command: 'commenting:create-quote-comment',
         params: {},
       });
-    } else {
-      console.log('CommentingBubbleMenu: Event bus not available');
     }
   };
 

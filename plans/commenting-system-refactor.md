@@ -89,7 +89,7 @@ src/
 
 3. **Implement adapter pattern**
    ```typescript
-   interface IEditorAdapter {
+   interface EditorAdapter {
      attachToEditor(editor: any): void;
      getSelection(): ISelection;
      createPointer(selection: ISelection): IPointer;
@@ -117,52 +117,17 @@ src/
    - Graceful degradation for older browsers
    - Accessibility-first approach
 
-## Implementation Details
-
-### Core Service Interface
-```typescript
-// interfaces.ts
-export interface IComment {
-  id: string;
-  pointer: IPointer;
-  content: string | IRichContent;
-  authorId: string;
-  createdAt: Date;
-  updatedAt?: Date;
-  parentId?: string;
-  resolved?: boolean;
-}
-
-export interface IPointer {
-  readonly id: string;
-  readonly type: string;
-  serialize(): string;
-  equals(other: IPointer): boolean;
-  getContext(): Promise<IPointerContext>;
-}
-
-export interface ICommentService {
-  createComment(pointer: IPointer, content: string, authorId: string): Promise<IComment>;
-  getComments(pointer: IPointer): Promise<IComment[]>;
-  updateComment(id: string, content: string): Promise<IComment>;
-  deleteComment(id: string): Promise<boolean>;
-}
-```
-
 ### Zustand Store Structure
 ```typescript
 interface CommentStore {
-  // State
   comments: Map<string, IComment[]>;
   activePointer: IPointer | null;
 
-  // Actions
   addComment: (comment: IComment) => void;
   updateComment: (id: string, updates: Partial<IComment>) => void;
   deleteComment: (id: string) => void;
   setActivePointer: (pointer: IPointer) => void;
 
-  // Selectors
   getCommentsByPointer: (pointer: IPointer) => IComment[];
   getThreadStatus: (pointer: IPointer) => 'active' | 'resolved';
 }
@@ -208,18 +173,4 @@ interface CommentStore {
 - [ ] Single state management system
 - [ ] All components follow bulletproof loading
 - [ ] 100% TypeScript coverage
-- [ ] Tests passing
 
-## Timeline Estimate
-- **Phase 1**: 2-3 days (immediate fixes)
-- **Phase 2**: 1 week (architecture improvements)
-- **Phase 3**: 2-3 days (component enhancements)
-
-Total: ~2 weeks for complete refactoring
-
-## Risk Mitigation
-- Create feature branch for all changes
-- Implement changes incrementally
-- Maintain backward compatibility during migration
-- Comprehensive testing at each phase
-- Code review before merging

@@ -10,7 +10,7 @@ import type { TemplatePluginOptions } from '../PluginTemplate';
 
 interface TemplateBubbleMenuProps {
   options: TemplatePluginOptions;
-  onAction: (action: string, data?: any) => void;
+  onAction: (action: string, data?: unknown) => void;
 }
 
 export const TemplateBubbleMenu: React.FC<TemplateBubbleMenuProps> = ({ 

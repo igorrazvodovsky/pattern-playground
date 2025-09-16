@@ -37,9 +37,9 @@ interface ElementRefs {
   };
 }
 interface Instance {
-  eventListeners: Map<((eventDetail: CustomEvent<{}>) => void), {
+  eventListeners: Map<((eventDetail: CustomEvent<Record<string, unknown>>) => void), {
     eventType: string;
-    wrappedCallback: (eventDetail: CustomEvent<{}>) => void;
+    wrappedCallback: (eventDetail: CustomEvent<Record<string, unknown>>) => void;
   }>;
   itemMap: WeakMap<HTMLElement | Element, NavType>;
   observer: IntersectionObserver;
@@ -116,8 +116,8 @@ function priorityPlus(targetElem: HTMLElement) {
 
   // References to DOM elements so we can easily retrieve them. Force a cast as we know we will initialise these.
   const el: ElementRefs = {
-    clone: {},
-    primary: {},
+    clone: {} as Record<string, never>,
+    primary: {} as Record<string, never>,
   } as ElementRefs;
 
   // Gets an element's 'mirror' Map for the clone/primary navigation - e.g. if you pass a clone Map, you get the original Map and vice-versa.
@@ -324,7 +324,7 @@ function priorityPlus(targetElem: HTMLElement) {
   }
 
   // Callback for when either nav is updated.
-  function onItemsChanged({ detail: { overflowCount } = {} }: CustomEvent<{ [x: string]: any }>) {
+  function onItemsChanged({ detail: { overflowCount } = {} as Record<string, unknown> }: CustomEvent<Record<string, unknown>>) {
     updateBtnDisplay(overflowCount > 0);
 
     if (overflowCount === 0) {

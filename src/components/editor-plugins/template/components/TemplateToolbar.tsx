@@ -10,7 +10,7 @@ import type { TemplatePluginOptions } from '../PluginTemplate';
 
 interface TemplateToolbarProps {
   options: TemplatePluginOptions;
-  onClick: (action: string, data?: any) => void;
+  onClick: (action: string, data?: unknown) => void;
 }
 
 export const TemplateToolbar: React.FC<TemplateToolbarProps> = ({ 

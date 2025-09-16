@@ -35,6 +35,13 @@ export interface TemplatePluginOptions {
   // theme?: 'light' | 'dark';
 }
 
+// Interface for the plugin state
+export interface TemplatePluginState {
+  enabled?: boolean;
+  customOption?: string;
+  // Add more state properties as needed
+}
+
 // Step 2: Create your plugin class extending BasePlugin
 export class TemplatePlugin extends BasePlugin {
   // Step 3: Define plugin metadata
@@ -212,7 +219,7 @@ export class TemplatePlugin extends BasePlugin {
   /**
    * Example custom method
    */
-  private handleAction(action: string, data?: any): void {
+  private handleAction(action: string, data?: unknown): void {
     if (!this.context?.editor) return;
     
     switch (action) {
@@ -249,7 +256,7 @@ export class TemplatePlugin extends BasePlugin {
   /**
    * Example getter for plugin state
    */
-  public getState(): any {
+  public getState(): TemplatePluginState {
     return {
       enabled: this.options.enabled,
       customOption: this.options.customOption,

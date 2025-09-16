@@ -5,6 +5,11 @@ import { QuoteCommentPopover } from '../../../commenting/quote/QuoteCommentPopov
 import { getQuoteService } from '../../../../services/commenting/quote-service';
 import type { CommentingPluginConfig } from '../CommentingPlugin';
 
+interface CommentingPluginInstance {
+  pendingQuotes: Map<string, { from: number; to: number; text: string }>;
+  finalizeQuoteCreation: (quoteId: string) => void;
+}
+
 interface CommentingIntegrationProps {
   editor: Editor;
   config: CommentingPluginConfig;
@@ -36,7 +41,7 @@ export const CommentingIntegration: React.FC<CommentingIntegrationProps> = ({
 
   const handleClosePopover = () => {
     if (activePointer) {
-      const plugin = editor?.storage?.plugins?.get('editor-commenting') as any;
+      const plugin = editor?.storage?.plugins?.get('editor-commenting') as CommentingPluginInstance;
       if (plugin && plugin.pendingQuotes) {
         plugin.pendingQuotes.delete(activePointer.id);
       }
@@ -48,7 +53,7 @@ export const CommentingIntegration: React.FC<CommentingIntegrationProps> = ({
     await createComment(content);
 
     if (activePointer) {
-      const plugin = editor?.storage?.plugins?.get('editor-commenting') as any;
+      const plugin = editor?.storage?.plugins?.get('editor-commenting') as CommentingPluginInstance;
 
       if (plugin && plugin.finalizeQuoteCreation) {
         plugin.finalizeQuoteCreation(activePointer.id);

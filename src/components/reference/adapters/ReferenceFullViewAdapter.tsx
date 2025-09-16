@@ -3,6 +3,7 @@ import type { ItemViewProps } from '../../item-view/types';
 import type { SelectedReference, UserMetadata } from '../types';
 import { isUserReference } from '../types';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface ReferenceFullViewAdapterProps extends ItemViewProps<SelectedReference> {}
 
 export const ReferenceFullViewAdapter: React.FC<ReferenceFullViewAdapterProps> = ({ 

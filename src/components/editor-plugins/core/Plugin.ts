@@ -222,8 +222,8 @@ export abstract class BasePlugin implements IPlugin {
     const error = new Error(`[${this.id}] ${message}`);
     
     // Add plugin context to error for debugging
-    (error as any).cause = cause;
-    (error as any).pluginContext = {
+    (error as Error & { cause?: unknown; pluginContext?: Record<string, unknown> }).cause = cause;
+    (error as Error & { cause?: unknown; pluginContext?: Record<string, unknown> }).pluginContext = {
       pluginId: this.id,
       state: this.state,
       isActive: this.isActive,

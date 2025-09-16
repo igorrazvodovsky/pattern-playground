@@ -97,7 +97,7 @@ export class FormattingPlugin extends BasePlugin {
           break;
         case 'formatting:heading':
           if (typeof params === 'object' && params && 'level' in params) {
-            const level = (params as any).level;
+            const level = (params as { level: number }).level;
             this.context.editor.chain().focus().toggleHeading({ level }).run();
           }
           break;
