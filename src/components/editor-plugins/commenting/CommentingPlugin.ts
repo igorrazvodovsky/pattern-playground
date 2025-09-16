@@ -65,28 +65,23 @@ export class EditorCommentingPlugin extends BasePlugin {
   onActivate(context: EditorContext): void {
     super.onActivate(context);
     
-    // Store plugin reference in editor storage for hook access
     if (context.editor && context.editor.storage) {
       if (!context.editor.storage.plugins) {
         context.editor.storage.plugins = new Map();
       }
       context.editor.storage.plugins.set('editor-commenting', this);
     }
-    
-    // Add editor commands
+
     this.addEditorCommands(context);
-    
-    // Initialize quote commenting when plugin activates
+
     this.initializeQuoteCommenting();
-    
-    // Set up click handlers for existing quote references
+
     this.setupQuoteReferenceHandlers();
   }
 
   private addEditorCommands(context: EditorContext): void {
     if (!context.editor) return;
-    
-    // Add the createQuoteFromSelection command that the hook expects
+
     (context.editor.commands as unknown as { createQuoteFromSelection: () => boolean }).createQuoteFromSelection = () => {
       this.handleCreateQuoteComment();
       return true;
@@ -97,7 +92,6 @@ export class EditorCommentingPlugin extends BasePlugin {
   private initializeQuoteCommenting(): void {
     if (!this.config.enableQuoteComments) return;
 
-    // Emit initialization event for UI components
     this.emit('commenting:initialized', {
       documentId: this.config.documentId,
       currentUser: this.config.currentUser,
@@ -105,10 +99,7 @@ export class EditorCommentingPlugin extends BasePlugin {
   }
 
   private setupQuoteReferenceHandlers(): void {
-    // Reference handlers will be set up when context is available
-    // For now, simplified implementation
     this.cleanupHandlers = () => {
-      // Cleanup logic here
     };
   }
 
@@ -133,7 +124,6 @@ export class EditorCommentingPlugin extends BasePlugin {
           config: this.config,
         }),
         condition: () => {
-          // Only show when there's a text selection
           const selection = this.context?.editor?.state?.selection;
           return selection ? !selection.empty : false;
         },
@@ -169,7 +159,6 @@ export class EditorCommentingPlugin extends BasePlugin {
       }
     });
 
-    // Listen for selection changes to update UI state
     eventBus.on('selection:change', ({ from, to, content }) => {
       this.emit('commenting:selection-change', { from, to, content });
     });
@@ -184,56 +173,44 @@ export class EditorCommentingPlugin extends BasePlugin {
     if (from === to) {
       return;
     }
-    
-    // Get selected text for the pending quote
+
     const selectedText = this.context.editor.state.doc.textBetween(from, to, ' ');
-    
-    // Create quote using the quote service
+
     const quote = this.quoteService.createFromTipTapSelection(
       this.context.editor, 
       this.config.currentUser,
       this.config.documentId
     );
-    
-    // Store the selection info for later use
+
     this.pendingQuotes.set(quote.id, {
       from,
       to,
       text: selectedText
     });
-    
-    // Create pointer for the quote
+
     const pointer = new QuotePointer(quote.id, quote);
-    
-    // Show comment interface WITHOUT creating the reference yet
-    const emitResult = this.emit('quote:created', { quote, pointer });
+
+    this.emit('quote:created', { quote, pointer });
   }
 
-  // Store pending quotes with their selection info
   private pendingQuotes = new Map<string, { from: number; to: number; text: string }>();
 
-  // Method to finalize the quote creation after comment is added
   finalizeQuoteCreation(quoteId: string): void {
     if (!this.context?.editor) return;
 
-    // Get the stored selection for this quote
     const pendingQuote = this.pendingQuotes.get(quoteId);
     if (!pendingQuote) {
       return;
     }
 
 
-    // Use the stored selection to create the reference
     const { from, to, text } = pendingQuote;
 
-    // First restore the selection to the original position
-    const setSelectionResult = this.context.editor.commands.setTextSelection({ from, to });
-    
-    // Check if the text at that position still matches
-    const currentText = this.context.editor.state.doc.textBetween(from, to, ' ');
-    
-    // Then create the reference at that position
-    const convertResult = (this.context.editor.commands as unknown as { convertSelectionToQuoteReference: (quote: { id: string; label: string; metadata: Record<string, unknown> }) => boolean }).convertSelectionToQuoteReference({
+    this.context.editor.commands.setTextSelection({ from, to });
+
+    this.context.editor.state.doc.textBetween(from, to, ' ');
+
+    (this.context.editor.commands as unknown as { convertSelectionToQuoteReference: (quote: { id: string; label: string; metadata: Record<string, unknown> }) => boolean }).convertSelectionToQuoteReference({
       id: quoteId,
       label: text.length > 50 ? text.substring(0, 47) + '...' : text,
       metadata: {
@@ -242,13 +219,10 @@ export class EditorCommentingPlugin extends BasePlugin {
         createdAt: new Date().toISOString()
       }
     });
-    
-    
-    // Clean up the pending quote
+
     this.pendingQuotes.delete(quoteId);
   }
 
-  // Public API for accessing services
   getCommentService() {
     return this.commentService;
   }
@@ -264,8 +238,6 @@ export class EditorCommentingPlugin extends BasePlugin {
   }
 
   createQuoteWithComment(): void {
-    // This method will be called by the editor command
-    // Implementation moved to addEditorCommands
     this.emit('command:execute', {
       command: 'commenting:create-quote-comment',
       params: {},

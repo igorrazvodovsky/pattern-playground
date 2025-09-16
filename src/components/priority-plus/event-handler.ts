@@ -1,4 +1,4 @@
-type EventCallback = (eventDetail: CustomEvent<{}>) => void;
+type EventCallback = (eventDetail: CustomEvent<unknown>) => void;
 
 interface CallbackRef {
   eventType: string;
@@ -25,7 +25,7 @@ function createEventHandler() {
    * However this can be overridden by setting 'afterReady' to 'false'.
    */
   function on(eventType: string, cb: EventCallback, afterReady = true) {
-    function wrappedCallback(event: CustomEvent<{}>) {
+    function wrappedCallback(event: CustomEvent<unknown>) {
       if (!afterReady || state.eventReady) cb(event);
     }
 
@@ -49,7 +49,7 @@ function createEventHandler() {
   /**
    * Dispatch an event.
    */
-  function trigger(event: CustomEvent<{}>) {
+  function trigger(event: CustomEvent<unknown>) {
     eventChannel.dispatchEvent(event);
   }
 

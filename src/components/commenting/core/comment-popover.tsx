@@ -40,9 +40,6 @@ export const CommentPopover: React.FC<CommentPopoverProps> = ({
     const popup = popupRef.current;
     if (!popup || !onClose) return;
 
-    const handleClose = () => {
-      onClose();
-    };
 
     // Listen for clicks outside or escape key via document events
     const handleDocumentClick = (e: MouseEvent) => {

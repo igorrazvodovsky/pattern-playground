@@ -10,21 +10,8 @@ interface AIAssistantToolbarProps {
 export function AIAssistantToolbar({ options, onAction }: AIAssistantToolbarProps) {
   const { editor, eventBus } = useEditorContext();
   const aiAssistantPlugin = usePlugin<AIAssistantPlugin>('ai-assistant');
-  const [hasSelection, setHasSelection] = useState(false);
-  const [selectedText, setSelectedText] = useState('');
-  const [selectionRange, setSelectionRange] = useState({ from: 0, to: 0 });
   const [isProcessing, setIsProcessing] = useState(false);
 
-  // Listen to selection changes
-  useEffect(() => {
-    const unsubscribe = eventBus.on('ai-assistant:selection-changed', (payload) => {
-      setHasSelection(payload.hasSelection);
-      setSelectedText(payload.selectedText);
-      setSelectionRange(payload.range);
-    });
-
-    return unsubscribe;
-  }, [eventBus]);
 
   // Listen to processing events
   useEffect(() => {

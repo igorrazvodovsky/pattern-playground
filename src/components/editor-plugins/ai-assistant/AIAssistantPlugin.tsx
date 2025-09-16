@@ -147,11 +147,7 @@ export class AIAssistantPlugin extends BasePlugin {
             this.streamingContent += payload.content;
 
 
-            // For subsequent chunks: select the current AI content and replace it
-            // This avoids range tracking issues by using the current selection
-            const currentSelection = editor.state.selection;
-
-            // Replace whatever is currently selected with the accumulated content
+            // For subsequent chunks: replace whatever is currently selected with the accumulated content
             editor.chain()
               .focus()
               .insertContent(this.streamingContent)

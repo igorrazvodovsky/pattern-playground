@@ -204,7 +204,8 @@ export class SlotRegistry implements ISlotRegistry {
     return () => {
       const startTime = performance.now();
       const result = originalRender();
-      const renderTime = performance.now() - startTime;
+      // TODO: Use this timing data for performance monitoring
+      void (performance.now() - startTime);
 
       // Update metrics using WeakMap (if we had a component reference)
       // Slow render detection handled by metrics system

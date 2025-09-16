@@ -221,7 +221,6 @@ export class PpTabGroup extends LitElement {
     };
 
     if (tab !== this.activeTab) {
-      const previousTab = this.activeTab;
       this.activeTab = tab;
 
       // Sync active tab and panel

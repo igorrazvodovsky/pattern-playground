@@ -8,6 +8,8 @@ export interface HttpError extends Error {
 }
 
 export const errorHandler = (err: Error | AppError | ZodError, _req: Request, res: Response, _next: NextFunction): void => {
+  // Explicitly avoid the unused parameter issue by acknowledging it
+  void _next;
   logger.error('Express error:', err);
 
   // Handle Zod validation errors

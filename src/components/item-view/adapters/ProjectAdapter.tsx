@@ -161,18 +161,18 @@ export const projectAdapter: ContentAdapter<'project'> = {
 };
 
 // Helper function to convert project JSON data to ProjectObject format
-export const projectToItemObject = (project: any): ProjectObject => ({
-  id: project.id,
-  name: project.name,
-  description: project.description,
+export const projectToItemObject = (project: Record<string, unknown>): ProjectObject => ({
+  id: project.id as string,
+  name: project.name as string,
+  description: project.description as string,
   type: 'project',
-  icon: project.icon || 'ph:folder',
-  searchableText: project.searchableText || `${project.name} ${project.description}`,
+  icon: (project.icon as string) || 'ph:folder',
+  searchableText: (project.searchableText as string) || `${project.name} ${project.description}`,
   metadata: {
-    status: project.metadata?.status,
-    phase: project.metadata?.phase,
-    updatedAt: project.metadata?.updatedAt,
-    updatedBy: project.metadata?.updatedBy,
-    ...project.metadata
+    status: (project.metadata as Record<string, unknown>)?.status as ProjectObject['metadata']['status'],
+    phase: (project.metadata as Record<string, unknown>)?.phase as string,
+    updatedAt: (project.metadata as Record<string, unknown>)?.updatedAt as string,
+    updatedBy: (project.metadata as Record<string, unknown>)?.updatedBy as string,
+    ...(project.metadata as Record<string, unknown>)
   }
 });

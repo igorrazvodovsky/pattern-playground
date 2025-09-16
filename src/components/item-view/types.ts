@@ -19,7 +19,7 @@ export interface QuoteObject {
     sourceDocument: string;
     authorId: string;
     createdAt: string;
-    [key: string]: any;
+    [key: string]: unknown;
   };
   actions: {
     annotate: { enabled: boolean };
@@ -41,7 +41,7 @@ export interface TaskObject {
     priority?: 'low' | 'medium' | 'high' | 'critical';
     tags?: string[];
     dueDate?: Date;
-    [key: string]: any;
+    [key: string]: unknown;
   };
 }
 
@@ -65,7 +65,7 @@ export interface ProjectObject {
     phase?: string;
     updatedAt?: string;
     updatedBy?: string;
-    [key: string]: any;
+    [key: string]: unknown;
   };
 }
 

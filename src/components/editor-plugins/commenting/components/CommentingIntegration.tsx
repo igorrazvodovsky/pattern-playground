@@ -21,7 +21,7 @@ export const CommentingIntegration: React.FC<CommentingIntegrationProps> = ({
   config,
   children,
 }) => {
-  const { activePointer, comments, createComment, clearActivePointer } = useEditorCommenting(editor, {
+  const { activePointer, createComment, clearActivePointer } = useEditorCommenting(editor, {
     documentId: config.documentId,
     currentUser: config.currentUser
   });

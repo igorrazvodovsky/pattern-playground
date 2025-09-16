@@ -180,9 +180,6 @@ export const FilterValueDateDropdown = ({
   filterValues: string[];
   setFilterValues: (filterValues: string[]) => void;
 }) => {
-  const [open, setOpen] = useState(false);
-  const [commandInput, setCommandInput] = useState("");
-  const commandInputRef = useRef<HTMLInputElement>(null);
   return (
     <pp-dropdown placement="bottom-start">
       <button slot="trigger" className="tag">

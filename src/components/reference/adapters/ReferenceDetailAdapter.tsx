@@ -18,12 +18,6 @@ export const ReferenceDetailAdapter: React.FC<ReferenceDetailAdapterProps> = ({
   if (isUserReference(reference)) {
     const { role, email, department, location, joinDate } = safeMetadata as UserMetadata;
 
-    const initials = label
-      ?.split(' ')
-      ?.map(n => n?.at(0) ?? '')
-      ?.join('')
-      ?.substring(0, 2)
-      ?.toUpperCase() ?? 'N/A';
 
     return (
       <div className="reference-detail reference-detail--user">

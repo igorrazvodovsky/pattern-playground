@@ -16,9 +16,6 @@ export const ReferencePreviewAdapter: React.FC<ReferencePreviewAdapterProps> = (
   if (isQuoteReference(reference)) {
     const { sourceDocument, createdAt, selectedText, plainText } = safeMetadata as QuoteMetadata;
     const displayText = plainText || selectedText || label;
-    const truncatedText = displayText.length > 100
-      ? `${displayText.substring(0, 100)}...`
-      : displayText;
 
     return (
       <div className="reference-preview reference-preview--quote">

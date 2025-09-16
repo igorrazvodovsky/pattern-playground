@@ -5,6 +5,29 @@ import { PluginRegistry } from '../editor-plugins/core/PluginRegistry';
 import { SlotRegistry } from '../editor-plugins/core/SlotRegistry';
 import type { EditorContext, Plugin } from './types';
 
+interface EditorDebug {
+  plugins: () => Plugin[];
+  events: () => unknown[];
+  registry: PluginRegistry;
+  eventBus: EventBus;
+  slots: SlotRegistry;
+  context?: EditorContext;
+  performance: {
+    pluginLoadTime: Map<string, number>;
+    eventProcessingTime: Map<string, number>;
+    renderCount: number;
+    activePlugins: number;
+    totalEvents: number;
+  };
+  triggerEvent: (event: string, payload: unknown) => void;
+}
+
+declare global {
+  interface Window {
+    __editorDebug?: EditorDebug;
+  }
+}
+
 interface EditorProviderProps {
   children: React.ReactNode;
   editor?: Editor;
@@ -37,11 +60,15 @@ export function EditorProvider({
       editorRef.current = providedEditor;
     }
 
+    // Capture ref values to avoid stale closures in cleanup
+    const eventBus = eventBusRef.current;
+    const slotRegistry = slotRegistryRef.current;
+
     const context: EditorContext = {
       editor: editorRef.current!,
       eventBus: eventBusRef.current,
       slots: slotRegistryRef.current,
-      registry: null as any,
+      registry: null as unknown as PluginRegistry,
       getPlugin: (id: string) => pluginRegistryRef.current?.get(id),
     };
 
@@ -51,7 +78,7 @@ export function EditorProvider({
     
     // Add performance monitoring in development
     if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined') {
-      (window as any).__editorDebug = {
+      window.__editorDebug = {
         plugins: registry.getAll.bind(registry),
         events: eventBusRef.current.getHistory?.bind(eventBusRef.current) || (() => []),
         registry,
@@ -126,23 +153,23 @@ export function EditorProvider({
     }
 
     if (process.env.NODE_ENV === 'development') {
-      (window as any).__editorDebug = {
+      window.__editorDebug = {
         context,
         plugins: registry.getAll(),
         events: eventBusRef.current,
         slots: slotRegistryRef.current,
-        triggerEvent: (event: any, payload: any) => 
+        triggerEvent: (event: string, payload: unknown) =>
           eventBusRef.current.emit(event, payload),
       };
     }
 
     return () => {
       registry.destroy();
-      eventBusRef.current.clear();
-      slotRegistryRef.current.clear();
+      eventBus.clear();
+      slotRegistry.clear();
       
       if (process.env.NODE_ENV === 'development') {
-        delete (window as any).__editorDebug;
+        delete window.__editorDebug;
       }
     };
   }, [providedEditor, plugins, onReady]);

@@ -35,7 +35,6 @@ export const CommentThread: React.FC<CommentThreadProps> = ({
   allowNewComments = true,
   onCommentAdded
 }) => {
-  const [isComposing, setIsComposing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const pointer = useMemo(() => new EntityPointer(entityType, entityId), [entityType, entityId]);
@@ -50,7 +49,6 @@ export const CommentThread: React.FC<CommentThreadProps> = ({
     try {
       // TODO: Store rich content in comment metadata
       await createComment(content.plainText);
-      setIsComposing(false);
 
       if (onCommentAdded) {
         onCommentAdded(content.plainText);
@@ -99,7 +97,7 @@ export const CommentThread: React.FC<CommentThreadProps> = ({
         <CommentComposer
           currentUser={currentUser.id}
           onSubmit={handleAddComment}
-          onCancel={() => setIsComposing(false)}
+          onCancel={() => {}}
           isSubmitting={isSubmitting}
           placeholder={`Comment on this ${entityType}...`}
         />

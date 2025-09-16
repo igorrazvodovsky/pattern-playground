@@ -87,7 +87,7 @@ function createMirror() {
     if (!cache.get(keyArr)) {
       cache.set(
         keyArr,
-        new Map(Array.from(keyArr).reduce((acc: any[], item, i) => (
+        new Map(Array.from(keyArr).reduce((acc: [HTMLElement, HTMLElement][], item, i) => (
           acc.concat([[item, valueArr[i]]])
         ), [])),
       );

@@ -136,10 +136,11 @@ const ReferencePickerPopup: React.FC<ReferencePickerPopupProps> = ({
   }, [isSingleCategory]);
 
   useEffect(() => {
+    const floatingElement = floatingRef.current;
     return () => {
       abortController.abort();
-      if (floatingRef.current) {
-        privateComponentData.delete(floatingRef.current);
+      if (floatingElement) {
+        privateComponentData.delete(floatingElement);
       }
     };
   }, [abortController]);

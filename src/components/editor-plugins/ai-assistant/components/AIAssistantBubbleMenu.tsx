@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { useEditorContext, usePlugin } from '../../../editor/EditorProvider';
-import type { AIAssistantPlugin, AIAssistantPluginOptions } from '../AIAssistantPlugin';
+import { useEditorContext } from '../../../editor/EditorProvider';
+import type { AIAssistantPluginOptions } from '../AIAssistantPlugin';
 
 interface AIAssistantBubbleMenuProps {
   options: AIAssistantPluginOptions;
@@ -9,7 +9,6 @@ interface AIAssistantBubbleMenuProps {
 
 export function AIAssistantBubbleMenu({ options, onAction }: AIAssistantBubbleMenuProps) {
   const { editor, eventBus } = useEditorContext();
-  const aiAssistantPlugin = usePlugin<AIAssistantPlugin>('ai-assistant');
   const [hasSelection, setHasSelection] = useState(false);
   const [selectedText, setSelectedText] = useState('');
   const [, setSelectionRange] = useState({ from: 0, to: 0 });

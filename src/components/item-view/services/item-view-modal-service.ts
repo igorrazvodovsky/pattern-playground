@@ -37,7 +37,7 @@ export class ItemViewModalService {
         className: `item-view-modal item-view-modal--${size}`,
         ...(placement === 'drawer-right' && { position: 'right' as const }),
         ...(placement === 'drawer-left' && { position: 'left' as const }),
-        ...(size && ['small', 'medium', 'large'].includes(size) && { size: size as any })
+        ...(size && ['small', 'medium', 'large'].includes(size) && { size: size as 'small' | 'medium' | 'large' })
       };
 
       // Open using the enhanced modal service

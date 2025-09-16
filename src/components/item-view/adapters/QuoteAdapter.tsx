@@ -31,9 +31,7 @@ const quoteToBaseItem = (quote: QuoteObject): QuoteItem => {
   };
 };
 
-interface QuoteItemViewProps extends ItemViewProps<QuoteItem> {}
-
-const QuotePreview: React.FC<QuoteItemViewProps> = ({ item: quote }) => {
+const QuotePreview: React.FC<ItemViewProps<QuoteItem>> = ({ item: quote }) => {
   const { content, metadata } = quote;
 
   return (
@@ -50,8 +48,8 @@ const QuotePreview: React.FC<QuoteItemViewProps> = ({ item: quote }) => {
   );
 };
 
-const QuoteDetail: React.FC<QuoteItemViewProps> = ({ item: quote }) => {
-  const { content, metadata } = quote;
+const QuoteDetail: React.FC<ItemViewProps<QuoteItem>> = ({ item: quote }) => {
+  const { metadata } = quote;
   const author = metadata.authorId ? getUserById(metadata.authorId) : null;
   const currentUser = getUserById('user-1'); // TODO: Get from context/auth
 
@@ -97,7 +95,7 @@ const QuoteDetail: React.FC<QuoteItemViewProps> = ({ item: quote }) => {
   );
 };
 
-const QuoteFullView: React.FC<QuoteItemViewProps> = ({ item: quote }) => {
+const QuoteFullView: React.FC<ItemViewProps<QuoteItem>> = ({ item: quote }) => {
   const { content, metadata } = quote;
   const author = metadata.authorId ? getUserById(metadata.authorId) : null;
   const currentUser = getUserById('user-1'); // TODO: Get from context/auth
