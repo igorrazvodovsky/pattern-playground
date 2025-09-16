@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
-import { CommentThread } from './comment-thread.js';
-import type { Comment, CommentThread as CommentThreadType } from '../../../services/commenting/core/comment-service.js';
-import type { TiptapTextRangePointer, ItemViewSectionPointer } from '../../../services/commenting/core/comment-pointer.js';
+import { CommentThread } from './comment-thread';
+import type { Comment, CommentThread as CommentThreadType } from '../../../services/commenting/core/comment-service';
+import type { TiptapTextRangePointer, ItemViewSectionPointer } from '../../../services/commenting/core/comment-pointer';
 
 interface CommentDrawerProps {
   threads: CommentThreadType[];
@@ -23,9 +23,8 @@ export const CommentDrawer: React.FC<CommentDrawerProps> = ({
   onResolveThread,
   onClose
 }) => {
-  const modalRef = useRef<HTMLElement>(null);
+  const modalRef = useRef<HTMLDialogElement>(null);
 
-  // Handle drawer open/close
   useEffect(() => {
     const modal = modalRef.current;
     if (!modal) return;
@@ -83,7 +82,7 @@ export const CommentDrawer: React.FC<CommentDrawerProps> = ({
             <section className='flow'>
               {threads.map(thread => {
                 // Extract context from thread pointers
-                const contextInfo = thread.pointers?.[0];
+                const contextInfo = thread.pointer;
                 let contextElement = null;
 
                 if (contextInfo?.type === 'tiptap-text-range') {
@@ -126,7 +125,7 @@ export const CommentDrawer: React.FC<CommentDrawerProps> = ({
                       currentUser={currentUser}
                       onAddComment={onAddComment}
                       onResolveThread={onResolveThread}
-                      showComposer={thread.status !== 'resolved'}
+                      showComposer={!thread.resolved}
                     />
                   </div>
                 );

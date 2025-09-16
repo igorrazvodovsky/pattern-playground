@@ -1,1 +1,1 @@
-export { QuoteCommentPopover } from './QuoteCommentPopover.js';
+export { QuoteCommentPopover } from './QuoteCommentPopover';

@@ -1,6 +1,6 @@
 import React from 'react';
 import type { CommentAwareAdapter, ItemViewProps, UniversalComment, BaseItem } from '../types';
-import { UniversalCommentInterface } from '../../commenting/universal/UniversalCommentInterface';
+import { CommentThread } from '../../commenting/core/CommentThread';
 import { getUserById } from '../../../stories/data/index';
 
 export interface CommentSectionProps {
@@ -10,11 +10,11 @@ export interface CommentSectionProps {
   onComment: (content: string) => void;
 }
 
-const CommentSection: React.FC<CommentSectionProps> = ({ 
-  entityType, 
-  entityId, 
+const CommentSection: React.FC<CommentSectionProps> = ({
+  entityType,
+  entityId,
   currentUser,
-  onComment 
+  onComment
 }) => {
   const user = getUserById(currentUser);
 
@@ -25,7 +25,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
   return (
     <div className="comment-section flow">
       <h3>Comments</h3>
-      <UniversalCommentInterface
+      <CommentThread
         entityType={entityType}
         entityId={entityId}
         currentUser={user}

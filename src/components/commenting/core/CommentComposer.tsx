@@ -5,8 +5,8 @@ import Bold from '@tiptap/extension-bold';
 import Italic from '@tiptap/extension-italic';
 import BulletList from '@tiptap/extension-bullet-list';
 import ListItem from '@tiptap/extension-list-item';
-import type { RichContent } from '../../../stories/data/index.js';
-import { getUserById } from '../../../stories/data/index.js';
+import type { RichContent } from '../../../stories/data/index';
+import { getUserById } from '../../../stories/data/index';
 
 interface CommentComposerProps {
   placeholder?: string;
@@ -17,9 +17,7 @@ interface CommentComposerProps {
   autoFocus?: boolean;
 }
 
-/**
- * Rich text comment composer using TipTap
- */
+
 export const CommentComposer: React.FC<CommentComposerProps> = ({
   placeholder = "Write a comment...",
   currentUser,

@@ -1,7 +1,7 @@
 import React from 'react';
 import type { ItemViewProps, ContentAdapter, BaseItem } from '../types';
 import type { QuoteObject } from '../../../services/commenting/core/quote-pointer';
-import { UniversalCommentInterface } from '../../commenting/universal/UniversalCommentInterface';
+import { CommentThread } from '../../commenting/core/CommentThread';
 import { getUserById } from '../../../stories/data';
 
 // Extend QuoteObject to match BaseItem interface
@@ -57,7 +57,6 @@ const QuoteDetail: React.FC<QuoteItemViewProps> = ({ item: quote }) => {
 
   console.log('QuoteDetail rendering for quote:', quote.id);
   console.log('QuoteDetail - currentUser:', currentUser);
-  console.log('QuoteDetail - About to render UniversalCommentInterface');
 
   if (!currentUser) {
     return <div>Unable to load user context</div>;
@@ -84,7 +83,7 @@ const QuoteDetail: React.FC<QuoteItemViewProps> = ({ item: quote }) => {
       </div>
 
       <section className="quote-detail__comments-section">
-        <UniversalCommentInterface
+        <CommentThread
           entityType="quote"
           entityId={quote.id}
           currentUser={currentUser}
@@ -142,7 +141,7 @@ const QuoteFullView: React.FC<QuoteItemViewProps> = ({ item: quote }) => {
         </section>
 
         <section className="quote-full-view__comments-section">
-          <UniversalCommentInterface
+          <CommentThread
             entityType="quote"
             entityId={quote.id}
             currentUser={currentUser}

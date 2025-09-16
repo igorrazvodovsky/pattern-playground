@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import type { Editor } from '@tiptap/react';
-import { useQuoteCommentUI } from '../hooks/use-quote-comment-ui.js';
-import { getCommentService } from '../../../services/commenting/core/comment-service-instance.js';
+import { useQuoteCommentUI } from '../hooks/use-quote-comment-ui';
+import { getCommentService } from '../../../services/commenting/core/comment-service-instance';
 
 interface UseTipTapQuoteCommentingOptions {
   documentId: string;
@@ -10,14 +10,14 @@ interface UseTipTapQuoteCommentingOptions {
 
 /**
  * Main hook for TipTap quote commenting integration
- * Combines quote creation, comment UI, and universal commenting system
+ * Combines quote creation, comment UI, and commenting system
  */
 export const useTipTapQuoteCommenting = (
   editor: Editor | null,
   options: UseTipTapQuoteCommentingOptions
 ) => {
   const { documentId, currentUser } = options;
-  
+
   // Get comment UI layer with quote integration
   const commentUI = useQuoteCommentUI({
     editor,
@@ -25,7 +25,6 @@ export const useTipTapQuoteCommenting = (
     currentUser
   });
 
-  // Get universal commenting service for advanced operations
   const commentService = getCommentService();
 
   // Enhanced quote creation that triggers comment flow
@@ -47,7 +46,7 @@ export const useTipTapQuoteCommenting = (
 
   // Get quote comment count for UI indicators
   const getQuoteCommentCount = useCallback(async (quoteId: string) => {
-    const { EntityPointer } = await import('../../../services/commenting/core/entity-pointer.js');
+    const { EntityPointer } = await import('../../../services/commenting/core/entity-pointer');
     const pointer = new EntityPointer('quote', quoteId);
     const comments = await commentService.getComments(pointer);
     return comments.filter(c => !c.resolved).length;
@@ -63,17 +62,17 @@ export const useTipTapQuoteCommenting = (
     // Quote + Comment integration
     createQuoteWithComment,
     handleQuoteReferenceClick,
-    
+
     // Comment utilities
     getQuoteCommentCount,
     hasQuoteComments,
-    
+
     // UI state from comment UI layer
     uiState: commentUI.uiState,
     closePopover: commentUI.closePopover,
     handleCommentAdded: commentUI.handleCommentAdded,
     canCreateQuoteComment: commentUI.canCreateQuoteComment,
-    
+
     // Quote integration passthrough (from base quote integration)
     documentQuotes: commentUI.documentQuotes,
     getQuote: commentUI.getQuote,
@@ -85,7 +84,7 @@ export const useTipTapQuoteCommenting = (
     validateQuoteIntegrity: commentUI.validateQuoteIntegrity,
     cleanupOrphanedQuotes: commentUI.cleanupOrphanedQuotes,
     exportDocumentQuotes: commentUI.exportDocumentQuotes,
-    
+
     // Service access for advanced usage
     quoteService: commentUI.quoteService,
     commentService

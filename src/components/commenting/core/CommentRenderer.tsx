@@ -1,7 +1,6 @@
 import React from 'react';
-import type { RichContent } from '../../../stories/data/index.js';
+import type { RichContent } from '../../../stories/data/index';
 
-// TipTap content node types
 interface ContentNode {
   type: string;
   content?: ContentNode[];
@@ -30,8 +29,6 @@ export const CommentRenderer: React.FC<CommentRendererProps> = ({
   content,
   className = ''
 }) => {
-  // Debug logging
-  console.log('CommentRenderer - content:', content, typeof content);
 
   const renderRichContent = (richContent: RichContent | string): React.ReactNode => {
     // Handle plain string content (backward compatibility)
@@ -39,7 +36,6 @@ export const CommentRenderer: React.FC<CommentRendererProps> = ({
       return richContent;
     }
 
-    // Handle RichContent objects
     const content = richContent.richContent;
 
     // Fallback to plain text if rich content is not available
@@ -75,7 +71,6 @@ export const CommentRenderer: React.FC<CommentRendererProps> = ({
             const text = node.text || '';
             let element: React.ReactNode = text;
 
-            // Apply marks if they exist
             if (node.marks) {
               node.marks.forEach((mark: ContentMark) => {
                 switch (mark.type) {

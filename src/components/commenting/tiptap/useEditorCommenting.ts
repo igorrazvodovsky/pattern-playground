@@ -1,9 +1,9 @@
 import { useState, useCallback, useEffect } from 'react';
 import type { Editor } from '@tiptap/react';
-import { EditorCommentingPlugin } from './EditorCommentingPlugin.js';
-import { useCommenting } from '../../../services/commenting/hooks/use-commenting.js';
-import type { CommentPointer } from '../../../services/commenting/core/comment-pointer.js';
-import type { QuoteObject } from '../../../services/commenting/quote-service.js';
+import { EditorCommentingPlugin } from './EditorCommentingPlugin';
+import { useCommenting } from '../../../services/commenting/hooks/use-commenting';
+import type { CommentPointer } from '../../../services/commenting/core/comment-pointer';
+import type { QuoteObject } from '../../../services/commenting/quote-service';
 
 interface UseEditorCommentingOptions {
   documentId: string;
@@ -16,31 +16,25 @@ interface EditorCommentingState {
   plugin: EditorCommentingPlugin | null;
 }
 
-/**
- * Hook for editor-enhanced commenting
- * Combines universal commenting system with editor-specific capabilities
- */
 export function useEditorCommenting(
   editor: Editor | null,
   options: UseEditorCommentingOptions
 ) {
   const { documentId, currentUser } = options;
-  
+
   const [state, setState] = useState<EditorCommentingState>({
     activePointer: null,
     activeQuote: null,
     plugin: null
   });
 
-  // Get universal commenting capabilities for active pointer
   const { comments, createComment } = useCommenting(state.activePointer || undefined);
 
-  // Initialize plugin when editor is available
   useEffect(() => {
     if (!editor) return;
 
     const plugin = new EditorCommentingPlugin();
-    
+
     plugin.onActivate({
       editor,
       documentId,
@@ -49,7 +43,6 @@ export function useEditorCommenting(
 
     setState(prev => ({ ...prev, plugin }));
 
-    // Listen for quote creation events
     const handleQuoteCreated = ({ quote, pointer }: { quote: QuoteObject; pointer: CommentPointer }) => {
       setState(prev => ({
         ...prev,
@@ -58,11 +51,9 @@ export function useEditorCommenting(
       }));
     };
 
-    // Listen for quote clicks
     const handleQuoteClicked = ({ quoteId, quote }: { quoteId: string; quote: QuoteObject }) => {
-      // Create pointer for existing quote
-      import('../../../services/commenting/core/quote-pointer.js').then(({ QuotePointer }) => {
-        // Use the same adapter function from the plugin
+      import('../../../services/commenting/core/quote-pointer').then(({ QuotePointer }) => {
+        // Adapt quote object to match pointer expectations
         const adaptedQuote = {
           id: quote.id,
           content: {
@@ -99,7 +90,6 @@ export function useEditorCommenting(
     };
   }, [editor, documentId, currentUser]);
 
-  // Create quote and start commenting flow
   const createQuoteComment = useCallback(() => {
     if (!state.plugin) {
       console.warn('Plugin not initialized');
@@ -110,19 +100,16 @@ export function useEditorCommenting(
     return quote !== null;
   }, [state.plugin]);
 
-  // Navigate to quote source
   const navigateToQuote = useCallback((quote: QuoteObject) => {
     if (!state.plugin) return false;
     return state.plugin.navigateToQuoteSource(quote);
   }, [state.plugin]);
 
-  // Insert reference to any object
   const insertReference = useCallback((object: { id: string; type: string; label: string }) => {
     if (!state.plugin) return false;
     return state.plugin.insertReference(object);
   }, [state.plugin]);
 
-  // Clear active comment context
   const clearActiveComment = useCallback(() => {
     setState(prev => ({
       ...prev,
@@ -131,39 +118,28 @@ export function useEditorCommenting(
     }));
   }, []);
 
-  // Get plugin capabilities
   const capabilities = state.plugin?.getCapabilities() || {
     canCreateQuote: false,
     canInsertReference: false,
     hasRichTextComposer: false
   };
 
-  // Create rich text composer for comments
   const createCommentComposer = useCallback(() => {
     if (!state.plugin) return null;
     return state.plugin.createCommentComposer();
   }, [state.plugin]);
 
   return {
-    // Comment data (from universal system)
     comments,
     createComment,
-    
-    // Editor-specific actions
     createQuoteComment,
     navigateToQuote,
     insertReference,
     createCommentComposer,
-    
-    // State
     activePointer: state.activePointer,
     activeQuote: state.activeQuote,
     capabilities,
-    
-    // Control
     clearActiveComment,
-    
-    // Plugin instance for advanced usage
     plugin: state.plugin
   };
 }

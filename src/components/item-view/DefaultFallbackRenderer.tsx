@@ -1,5 +1,5 @@
 import type { ItemViewProps, BaseItem } from './types';
-import { UniversalCommentInterface } from '../commenting/universal/UniversalCommentInterface.js';
+import { CommentThread } from '../commenting/core/CommentThread.js';
 import { getUserById } from '../../stories/data/index.js';
 
 /**
@@ -97,7 +97,7 @@ export const DefaultFallbackRenderer = <T extends BaseItem = BaseItem>({
 
           {/* Universal commenting interface for quote objects */}
           {contentType === 'quote' && (
-            <UniversalCommentInterface
+            <CommentThread
               entityType="quote"
               entityId={item.id}
               currentUser={getUserById('user-1')!}

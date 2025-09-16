@@ -1,6 +1,6 @@
 import React from 'react';
 import type { ContentAdapter, ItemViewProps, ProjectObject } from '../types';
-import { UniversalCommentInterface } from '../../commenting/universal/UniversalCommentInterface';
+import { CommentThread } from '../../commenting/core/CommentThread';
 import { getUserById } from '../../../stories/data';
 
 const getStatusBadgeClass = (status?: string): string => {
@@ -52,9 +52,9 @@ const renderMidView = (project: ProjectObject) => (
         </span>
       )}
     </header>
-    
+
     <p className="project-description">{project.description}</p>
-    
+
     <div className="project-details">
       {project.metadata?.phase && (
         <div><strong>Phase:</strong> {project.metadata.phase}</div>
@@ -96,21 +96,21 @@ const renderMaxiView = (project: ProjectObject) => {
         <dl className="details-list">
           <dt>Project ID</dt>
           <dd><code>{project.id}</code></dd>
-          
+
           {project.metadata?.phase && (
             <>
               <dt>Current Phase</dt>
               <dd>{project.metadata.phase}</dd>
             </>
           )}
-          
+
           {project.metadata?.updatedAt && (
             <>
               <dt>Last Updated</dt>
               <dd>{new Date(project.metadata.updatedAt).toLocaleDateString()}</dd>
             </>
           )}
-          
+
           {project.metadata?.updatedBy && (
             <>
               <dt>Updated By</dt>
@@ -122,7 +122,7 @@ const renderMaxiView = (project: ProjectObject) => {
 
       <section className="project-comments-section">
         <h3>Project Discussion</h3>
-        <UniversalCommentInterface
+        <CommentThread
           entityType="project"
           entityId={project.id}
           currentUser={currentUser}

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { UniversalCommentInterface } from '../universal/UniversalCommentInterface';
+import { CommentThread } from '../core/CommentThread';
 import type { QuoteObject } from '../../../services/commenting/core/quote-pointer';
 import { getUserById } from '../../../stories/data/index';
 
@@ -12,10 +12,6 @@ interface QuoteCommentPopoverProps {
   onCommentAdded?: (content: string) => void;
 }
 
-/**
- * Quote-specific comment popover using PpHoverCard
- * Provides a clean, positioned interface for adding comments to quotes
- */
 export const QuoteCommentPopover: React.FC<QuoteCommentPopoverProps> = ({
   quote,
   isOpen,
@@ -27,13 +23,12 @@ export const QuoteCommentPopover: React.FC<QuoteCommentPopoverProps> = ({
   const user = getUserById(currentUser);
   const popoverRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ top: 0, left: 0 });
-  
+
   const handleCommentAdded = (content: string) => {
     onCommentAdded?.(content);
     // Don't close immediately - let user see the comment was added
   };
 
-  // Update position when trigger element changes
   useEffect(() => {
     if (!isOpen || !triggerElement) {
       return;
@@ -47,10 +42,8 @@ export const QuoteCommentPopover: React.FC<QuoteCommentPopoverProps> = ({
       });
     };
 
-    // Initial positioning
     updatePosition();
 
-    // Update position when window resizes or scrolls
     window.addEventListener('resize', updatePosition);
     window.addEventListener('scroll', updatePosition);
 
@@ -60,24 +53,20 @@ export const QuoteCommentPopover: React.FC<QuoteCommentPopoverProps> = ({
     };
   }, [isOpen, triggerElement]);
 
-  // Handle clicks outside the popover
   useEffect(() => {
     if (!isOpen || !onClose) return;
 
     const handleDocumentClick = (e: MouseEvent) => {
       const target = e.target as Node;
-      
-      // Don't close if clicking inside the popover
+
       if (popoverRef.current && popoverRef.current.contains(target)) {
         return;
       }
-      
-      // Don't close if clicking on the trigger element
+
       if (triggerElement && triggerElement.contains(target)) {
         return;
       }
-      
-      // Close the popover
+
       onClose();
     };
 
@@ -111,7 +100,7 @@ export const QuoteCommentPopover: React.FC<QuoteCommentPopoverProps> = ({
   const popoverContent = (
     <div className="popover">
       <div className="quote-comment-popover__content">
-        <UniversalCommentInterface
+        <CommentThread
           entityType="quote"
           entityId={quote.id}
           currentUser={user}
@@ -124,8 +113,6 @@ export const QuoteCommentPopover: React.FC<QuoteCommentPopoverProps> = ({
     </div>
   );
 
-  // For manual positioning with trigger element, we'll use a portal approach
-  // Since PpHoverCard is designed for hover interactions, we'll render directly
   return (
     <div
       ref={popoverRef}

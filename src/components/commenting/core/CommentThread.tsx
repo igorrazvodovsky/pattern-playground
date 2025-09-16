@@ -1,11 +1,11 @@
 import React, { useState, useMemo } from 'react';
-import { CommentComposer } from './RichCommentComposer.js';
-import { CommentRenderer } from './RichCommentRenderer.js';
-import { useCommenting } from '../../../services/commenting/hooks/use-commenting.js';
-import { EntityPointer } from '../../../services/commenting/core/entity-pointer.js';
-import { formatTimestamp } from '../../../utility/time-utils.js';
-import { getUserById } from '../../../stories/data/index.js';
-import type { User } from '../../../stories/data/index.js';
+import { CommentComposer } from './CommentComposer';
+import { CommentRenderer } from './CommentRenderer';
+import { useCommenting } from '../../../services/commenting/hooks/use-commenting';
+import { EntityPointer } from '../../../services/commenting/core/entity-pointer';
+import { formatTimestamp } from '../../../utility/time-utils';
+import { getUserById } from '../../../stories/data/index';
+import type { User } from '../../../stories/data/index';
 
 // RichContent interface to match the shared data structure
 export interface RichContent {
@@ -16,7 +16,7 @@ export interface RichContent {
   };
 }
 
-interface UniversalCommentInterfaceProps {
+interface CommentThreadProps {
   entityType: string;
   entityId: string;
   currentUser: User;
@@ -27,7 +27,7 @@ interface UniversalCommentInterfaceProps {
   onCommentAdded?: (content: string) => void;
 }
 
-export const UniversalCommentInterface: React.FC<UniversalCommentInterfaceProps> = ({
+export const CommentThread: React.FC<CommentThreadProps> = ({
   entityType,
   entityId,
   currentUser,

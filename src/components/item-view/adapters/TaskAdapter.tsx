@@ -2,7 +2,7 @@ import React from 'react';
 import type { ContentAdapter, ItemViewProps, TaskObject } from '../types';
 import type { Task } from '../../../stories/data/task-types';
 import { formatTimestamp } from '../../../utility/time-utils.js';
-import { UniversalCommentInterface } from '../../commenting/universal/UniversalCommentInterface';
+import { CommentThread } from '../../commenting/core/CommentThread.js';
 import { getUserById } from '../../../stories/data';
 
 const getStatusBadgeClass = (status: Task['status']['value']): string => {
@@ -158,7 +158,7 @@ const renderMaxiView = (task: Task) => {
           <strong>Due Date:</strong> {task.dueDate.toLocaleDateString()}
         </div>
       )} */}
-      
+
       <h3>History</h3>
       <section>
         <ol className="stepper" style={{ '--_circle-size': '2rem' } as React.CSSProperties}>
@@ -180,7 +180,7 @@ const renderMaxiView = (task: Task) => {
 
       <h3>Comments</h3>
       <section className="task-comments-section">
-        <UniversalCommentInterface
+        <CommentThread
           entityType="task"
           entityId={task.id}
           currentUser={currentUser}

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import { CommentThread } from './comment-thread.js';
-import type { Comment, CommentThread as CommentThreadType } from '../../../services/commenting/core/comment-service.js';
+import { CommentThread } from './comment-thread';
+import type { Comment, CommentThread as CommentThreadType } from '../../../services/commenting/core/comment-service';
 
 interface CommentPopoverProps {
   thread: CommentThreadType;

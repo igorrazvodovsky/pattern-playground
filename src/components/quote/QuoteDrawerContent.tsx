@@ -1,5 +1,5 @@
 import React from 'react';
-import { UniversalCommentInterface } from '../commenting/universal/UniversalCommentInterface';
+import { CommentThread } from '../commenting/core/CommentThread';
 import type { QuoteObject } from '../../services/commenting/quote-service';
 import type { User } from '../../stories/data';
 
@@ -19,8 +19,8 @@ export const QuoteDrawerContent: React.FC<QuoteDrawerContentProps> = ({
         <small className="dimmed">
           From {quote.metadata.sourceDocument}
         </small>
-        
-        <UniversalCommentInterface
+
+        <CommentThread
           entityType="quote"
           entityId={quote.id}
           currentUser={currentUser}

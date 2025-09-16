@@ -1,4 +1,4 @@
-export { CommentThread, CommentPopover, CommentDrawer } from './universal/index';
+export { CommentThread, CommentPopover, CommentDrawer } from './core/index';
 export {
   EditorCommentingPlugin,
   createEditorCommentingPlugin,

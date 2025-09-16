@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import React from 'react';
 import type { Editor } from '@tiptap/react';
-import { getQuoteService, type QuoteObject } from '../../../services/commenting/quote-service.js';
-import { getQuotesByDocument } from '../../../stories/data/index.js';
-import { useModalService } from '../../../hooks/useModalService.js';
-import { QuoteDrawerContent } from '../../quote/QuoteDrawerContent.js';
-import { getUserById } from '../../../stories/data/index.js';
+import { getQuoteService, type QuoteObject } from '../../../services/commenting/quote-service';
+import { getQuotesByDocument } from '../../../stories/data/index';
+import { useModalService } from '../../../hooks/useModalService';
+import { QuoteDrawerContent } from '../../quote/QuoteDrawerContent';
+import { getUserById } from '../../../stories/data/index';
 
 interface UseTipTapQuoteIntegrationOptions {
   documentId: string;
@@ -102,8 +102,8 @@ export const useTipTapQuoteIntegration = (
 
         const modalId = openDrawer(
           React.createElement(QuoteDrawerContent, {
-            quote: quote, 
-            currentUser: currentUserObj 
+            quote: quote,
+            currentUser: currentUserObj
           }),
           {
             position: 'right',

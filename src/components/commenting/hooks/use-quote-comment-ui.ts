@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import type { Editor } from '@tiptap/react';
-import type { QuoteObject } from '../../../services/commenting/quote-service.js';
-import { useTipTapQuoteIntegration } from '../tiptap/use-tiptap-quote-integration.js';
+import type { QuoteObject } from '../../../services/commenting/quote-service';
+import { useTipTapQuoteIntegration } from '../tiptap/use-tiptap-quote-integration';
 
 interface UseQuoteCommentUIOptions {
   editor: Editor | null;
@@ -20,7 +20,7 @@ interface QuoteCommentUIState {
  */
 export const useQuoteCommentUI = (options: UseQuoteCommentUIOptions) => {
   const { editor, documentId, currentUser } = options;
-  
+
   const [uiState, setUIState] = useState<QuoteCommentUIState>({
     popoverOpen: false,
     commentingQuote: null,
@@ -38,7 +38,7 @@ export const useQuoteCommentUI = (options: UseQuoteCommentUIOptions) => {
 
     const editorElement = editor.view.dom;
     const referenceElement = editorElement.querySelector(`[data-reference-id="${quoteId}"]`) as HTMLElement;
-    
+
     return referenceElement;
   }, [editor]);
 
@@ -59,7 +59,7 @@ export const useQuoteCommentUI = (options: UseQuoteCommentUIOptions) => {
     // 2. Find the reference element for positioning (wait a frame for DOM update)
     requestAnimationFrame(() => {
       const triggerElement = findQuoteReferenceElement(quote.id);
-      
+
       if (!triggerElement) {
         console.warn('Could not find reference element for quote positioning');
         return;
@@ -76,8 +76,8 @@ export const useQuoteCommentUI = (options: UseQuoteCommentUIOptions) => {
 
   // Close popover
   const closePopover = useCallback(() => {
-    setUIState(prev => ({ 
-      ...prev, 
+    setUIState(prev => ({
+      ...prev,
       popoverOpen: false,
       commentingQuote: null,
       triggerElement: null
@@ -98,13 +98,13 @@ export const useQuoteCommentUI = (options: UseQuoteCommentUIOptions) => {
   return {
     // UI state
     uiState,
-    
+
     // Actions
     handleComment,
     closePopover,
     handleCommentAdded,
     canCreateQuoteComment,
-    
+
     // Quote integration passthrough
     ...quoteIntegration
   };
