@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "storybook": "storybook dev -p 6006",
-    "test": "eslint . && stylelint **/*.css",
+    "test": "eslint .",
+    "test styles": "stylelint **/*.css",
     "build-storybook": "storybook build"
   },
   "devDependencies": {

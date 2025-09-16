@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useEditorContext } from './EditorProvider';
+import type { Plugin } from './types';
 
 interface PerformanceMetrics {
   pluginLoadTime: Map<string, number>;
@@ -46,7 +47,7 @@ export function PerformanceMonitor({
     const originalOn = context.eventBus.on.bind(context.eventBus);
     
     // Monitor event emissions
-    context.eventBus.emit = function(event: string, payload: any) {
+    context.eventBus.emit = function(event: string, payload: unknown) {
       eventCounter.current++;
       
       if (eventCounter.current % sampleRate === 0) {
@@ -77,7 +78,7 @@ export function PerformanceMonitor({
 
     // Monitor plugin registration
     const originalRegister = context.registry.register.bind(context.registry);
-    context.registry.register = async function(plugin: any) {
+    context.registry.register = async function(plugin: Plugin) {
       const startTime = performance.now();
       
       try {
@@ -106,7 +107,7 @@ export function PerformanceMonitor({
     // Monitor memory usage (if available)
     if ('memory' in performance) {
       const memoryInterval = setInterval(() => {
-        const memory = (performance as any).memory;
+        const memory = (performance as Performance & { memory?: { usedJSHeapSize: number } }).memory;
         if (memory) {
           setMetrics(prev => ({
             ...prev,
@@ -137,7 +138,7 @@ export function PerformanceMonitor({
       ...prev,
       renderCount: renderCounter.current,
     }));
-  });
+  }, []);
 
   // Notify parent of metrics updates
   useEffect(() => {
@@ -161,9 +162,12 @@ export function usePerformanceMetrics(): PerformanceMetrics | null {
     // Access metrics from window if in development mode
     if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined') {
       const interval = setInterval(() => {
-        const editorDebug = (window as any).__editorDebug;
+        const editorDebug = window.__editorDebug;
         if (editorDebug?.performance) {
-          setMetrics(editorDebug.performance);
+          setMetrics({
+            ...editorDebug.performance,
+            eventProcessingTime: new Map()
+          });
         }
       }, 1000);
 

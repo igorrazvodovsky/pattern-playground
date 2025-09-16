@@ -1,3 +1,4 @@
+import React from 'react';
 import { FilterType, Status, Assignee, Labels, Priority } from "./filter-types";
 import 'iconify-icon';
 import '../../jsx-types';
@@ -8,8 +9,7 @@ export const FilterIcon = ({
   ...props
 }: {
   type: FilterType | Status | Assignee | Labels | Priority;
-  [key: string]: any;
-}) => {
+} & React.ComponentProps<'iconify-icon'>) => {
   switch (type) {
     // Assignee specific icons
     case Assignee.NO_ASSIGNEE:

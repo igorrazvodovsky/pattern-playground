@@ -74,7 +74,7 @@ export function LazyEditorPlugin({ loader, fallback = null }: LazyEditorPluginPr
         context.registry.unregister(plugin.id);
       }
     };
-  }, [loader, context.registry, context.editor]);
+  }, [loader, context.registry, context.editor, error, isLoading, plugin]);
 
   if (error) {
     return <div className="plugin-error">Failed to load plugin: {error.message}</div>;

@@ -3,7 +3,7 @@ import { useState, useRef, useCallback } from 'react';
 export const useDropdownState = () => {
   const [commandInput, setCommandInput] = useState("");
   const commandInputRef = useRef<HTMLInputElement>(null);
-  const dropdownRef = useRef<any>(null);
+  const dropdownRef = useRef<HTMLElement & { open?: boolean; hide(): void }>(null);
 
   const handleDropdownShow = useCallback(() => {
     document.querySelectorAll('pp-dropdown').forEach((dropdown) => {

@@ -11,7 +11,7 @@ export const ReferenceDetailAdapter: React.FC<ReferenceDetailAdapterProps> = ({
   onEscalate,
   onInteraction
 }) => {
-  const { type, label, metadata, id } = reference;
+  const { type, metadata, id } = reference;
   const safeMetadata = metadata ?? {};
   const description = safeMetadata.description as string | undefined;
 

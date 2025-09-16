@@ -1,4 +1,4 @@
-import type { ItemViewProps, BaseItem } from './types';
+import type { ItemViewProps } from './types';
 import { CommentThread } from '../commenting/core/CommentThread.js';
 import { getUserById } from '../../stories/data/index.js';
 
@@ -6,7 +6,7 @@ import { getUserById } from '../../stories/data/index.js';
  * DefaultFallbackRenderer - Unified fallback rendering for items without adapters
  * Replaces the duplicated fallback logic from ItemPreview, ItemDetail, ItemFullView
  */
-export const DefaultFallbackRenderer = <T extends BaseItem = BaseItem>({
+export const DefaultFallbackRenderer = <T extends string = string>({
   item,
   scope,
   contentType,
@@ -64,7 +64,7 @@ export const DefaultFallbackRenderer = <T extends BaseItem = BaseItem>({
   const renderQuoteContent = () => {
     if (contentType !== 'quote' || !item.metadata?.content) return null;
 
-    const content = item.metadata.content as any;
+    const content = item.metadata.content as { plainText: string };
     const plainText = content.plainText;
 
     return (

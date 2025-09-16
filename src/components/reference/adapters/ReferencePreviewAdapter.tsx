@@ -14,8 +14,7 @@ export const ReferencePreviewAdapter: React.FC<ReferencePreviewAdapterProps> = (
   const safeMetadata = metadata ?? {};
 
   if (isQuoteReference(reference)) {
-    const { sourceDocument, createdAt, selectedText, plainText } = safeMetadata as QuoteMetadata;
-    const displayText = plainText || selectedText || label;
+    const { sourceDocument, createdAt } = safeMetadata as QuoteMetadata;
 
     return (
       <div className="reference-preview reference-preview--quote">

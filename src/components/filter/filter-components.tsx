@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import React from "react";
 import { FilterType, FilterOperator, FilterOption } from "./filter-types";
 import { filterOperators, filterViewToFilterOptions } from "./filter-options";
 import { FilterIcon } from "./filter-options-icons";

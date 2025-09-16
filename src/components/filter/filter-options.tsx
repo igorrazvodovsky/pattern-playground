@@ -9,15 +9,6 @@ import {
   filterDates
 } from "../../stories/data";
 
-const createFilterOptionsFromEnum = <T extends string>(
-  enumObject: Record<string, T>,
-  hasIcon: boolean = true
-): FilterOption[] => {
-  return Object.values(enumObject).map((value) => ({
-    name: value as FilterType | Status | Assignee | Labels | Priority | DueDate,
-    icon: hasIcon ? <FilterIcon type={value as any} /> : undefined,
-  }));
-};
 
 export const filterViewOptions: FilterOption[][] = [
   [

@@ -34,12 +34,6 @@ export const ItemInteraction = <T extends BaseItem = BaseItem>({
 
   // Track modifier key state globally
   useEffect(() => {
-    // Check initial modifier key state on mount
-    const checkInitialModifierState = (e?: Event) => {
-      if ((e as KeyboardEvent)?.ctrlKey || (e as KeyboardEvent)?.metaKey) {
-        setIsModifierPressed(true);
-      }
-    };
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.ctrlKey || e.metaKey) {

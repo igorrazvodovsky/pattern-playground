@@ -144,9 +144,9 @@ export class OpenAIService {
     context: AISuggestionRequest['context'],
     signal?: AbortSignal
   ): Promise<AISuggestionData> {
-    const { type, availableOptions, metadata } = context;
+    const { type, availableOptions } = context;
 
-    const systemPrompt = this.createSystemPrompt(type, availableOptions, metadata);
+    const systemPrompt = this.createSystemPrompt(type, availableOptions);
 
     const response = await this.client.chat.completions.create({
       model: config.openai.model,
