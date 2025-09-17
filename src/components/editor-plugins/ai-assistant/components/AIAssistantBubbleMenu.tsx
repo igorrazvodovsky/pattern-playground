@@ -42,7 +42,6 @@ export function AIAssistantBubbleMenu({ options, onAction }: AIAssistantBubbleMe
   }, [eventBus]);
 
   const handleAction = useCallback(async (action: string) => {
-    console.log('AIAssistantBubbleMenu.handleAction called:', { action, hasSelection, selectedText, isProcessing });
     if (!hasSelection || !selectedText || isProcessing) return;
 
     // Get current selection at action time to ensure accuracy
@@ -50,21 +49,7 @@ export function AIAssistantBubbleMenu({ options, onAction }: AIAssistantBubbleMe
     const currentSelectedText = editor ? editor.state.doc.textBetween(from, to) : selectedText;
     const currentRange = { from, to };
 
-    if (process.env.NODE_ENV === 'development') {
-      console.log('Current selection at action time:', {
-        from,
-        to,
-        length: to - from,
-        text: `"${currentSelectedText}"`,
-        text_length: currentSelectedText.length,
-        cached_text: `"${selectedText}"`,
-        cached_length: selectedText.length,
-        matches_cache: currentSelectedText === selectedText
-      });
-    }
-
     if (!currentSelectedText || currentSelectedText.trim().length === 0) {
-      console.warn('No text selected at action time');
       return;
     }
 

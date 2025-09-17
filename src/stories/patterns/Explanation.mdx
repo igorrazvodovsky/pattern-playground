@@ -1,4 +1,5 @@
-import { Meta } from '@storybook/addon-docs/blocks';
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import { DynamicExplanation } from '../components/BubbleMenu.stories';
 
 <Meta title="Patterns/Explanation" />
 
@@ -46,13 +47,12 @@ How the system arrived at a prediction, recommendation, or generated output.
 
 ### Dynamic explanation
 
-{/* Supporting contextualised learning. */}
+Supporting contextualised learning by providing on-demand explanations for any selected content.
+User can select any textual block and receive AI-generated explanation.
 
-- Takes in any input
-- Does its best to explain it
-- TODO: Example: text selection → context menu → "explain this"
+<Story of={DynamicExplanation} />
 
-{/* https://andymatuschak.org/hmwl/#contextualized-study */}
+{/* Reference: https://andymatuschak.org/hmwl/#contextualized-study */}
 
 
 ## Amount of detail

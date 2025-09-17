@@ -182,8 +182,39 @@ const textLensRequestSchema = z.object({
   intensity: z.number().min(10).max(100)
 });
 
+// Explanation schemas
+export type ExplanationRequest = {
+  text: string;
+  references?: Array<{
+    id: string;
+    label: string;
+    type: 'user' | 'document' | 'project' | 'task' | 'file' | 'link' | 'quote' | 'material' | 'component' | 'product' | 'service';
+    metadata?: Record<string, unknown>;
+  }>;
+  context?: string;
+};
+
+export type ExplanationStreamChunk = {
+  type: 'chunk' | 'complete' | 'error';
+  content?: string;
+  done: boolean;
+  error?: string;
+};
+
+const explanationRequestSchema = z.object({
+  text: z.string().min(1).max(10000),
+  references: z.array(z.object({
+    id: z.string(),
+    label: z.string(),
+    type: z.enum(['user', 'document', 'project', 'task', 'file', 'link', 'quote', 'material', 'component', 'product', 'service']),
+    metadata: z.record(z.unknown()).optional()
+  })).optional(),
+  context: z.string().optional()
+});
+
 export {
   juiceProductionSchema,
   jsonSchema,
-  textLensRequestSchema
+  textLensRequestSchema,
+  explanationRequestSchema
 };

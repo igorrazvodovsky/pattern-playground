@@ -179,14 +179,14 @@ export const Reference = Mention.extend({
 
   addOptions() {
     return {
-      ...this.parent?.(),
+      ...(this as any).parent?.(),
       HTMLAttributes: {
         class: 'reference-mention reference',
       },
-      renderText({ node }) {
+      renderText({ node }: any) {
         return `${node.attrs.label ?? node.attrs.id}`;
       },
-      renderHTML({ node }) {
+      renderHTML({ node }: any) {
         return `${node.attrs.label ?? node.attrs.id}`;
       },
     };
@@ -194,10 +194,10 @@ export const Reference = Mention.extend({
 
   addCommands() {
     return {
-      ...this.parent?.(),
+      ...(this as any).parent?.(),
 
       // Convert selected text to quote reference
-      convertSelectionToQuoteReference: (quoteData: { id: string; label: string; metadata?: Record<string, unknown> }) => ({ commands, state }) => {
+      convertSelectionToQuoteReference: (quoteData: { id: string; label: string; metadata?: Record<string, unknown> }) => ({ commands, state }: any) => {
         const { from, to } = state.selection;
         if (from === to) return false;
 
@@ -216,7 +216,7 @@ export const Reference = Mention.extend({
       },
 
       // Create quote reference at current position
-      createQuoteReference: (attrs: { id: string; label: string; type: string; metadata?: Record<string, unknown> }) => ({ commands }) => {
+      createQuoteReference: (attrs: { id: string; label: string; type: string; metadata?: Record<string, unknown> }) => ({ commands }: any) => {
         return commands.insertContent({
           type: 'reference',
           attrs
@@ -227,11 +227,11 @@ export const Reference = Mention.extend({
 
   addAttributes() {
     return {
-      ...this.parent?.(),
+      ...(this as any).parent?.(),
       type: {
         default: null,
-        parseHTML: element => element.getAttribute('data-reference-type'),
-        renderHTML: attributes => {
+        parseHTML: (element: any) => element.getAttribute('data-reference-type'),
+        renderHTML: (attributes: any) => {
           if (!attributes.type) {
             return {};
           }
@@ -242,11 +242,11 @@ export const Reference = Mention.extend({
       },
       metadata: {
         default: null,
-        parseHTML: element => {
+        parseHTML: (element: any) => {
           const metadata = element.getAttribute('data-metadata');
           return metadata ? structuredClone(JSON.parse(metadata)) : null;
         },
-        renderHTML: attributes => {
+        renderHTML: (attributes: any) => {
           if (!attributes.metadata) {
             return {};
           }
@@ -259,21 +259,55 @@ export const Reference = Mention.extend({
   },
 
   addNodeView() {
-    return ({ node, editor }) => {
+    return ({ node, editor, getPos }: any) => {
       const wrapper = document.createElement('span');
-      const classes = ['reference-mention', 'reference'];
+      wrapper.contentEditable = 'false';
 
-      // Add type-specific classes
-      if (node.attrs.type === 'quote') {
-        classes.push('reference-mention--quote');
-      }
+      // Helper function to update wrapper classes based on text selection
+      const updateWrapperClasses = (isInTextSelection: boolean) => {
+        const classes = ['reference-mention', 'reference'];
 
-      wrapper.className = classes.join(' ');
+        // Add type-specific classes
+        if (node.attrs.type === 'quote') {
+          classes.push('reference-mention--quote');
+        }
+
+        // Add selected state class when in text selection
+        if (isInTextSelection) {
+          classes.push('reference-mention--selected');
+        }
+
+        wrapper.className = classes.join(' ');
+      };
+
+      // Check if reference is within text selection range
+      const checkIfInSelection = () => {
+        if (typeof getPos !== 'function') return false;
+
+        const pos = getPos();
+        const { from, to } = editor.state.selection;
+        const nodeEnd = pos + node.nodeSize;
+
+        // Check if the reference is within the selection range
+        return (from <= pos && to >= nodeEnd) || (from > pos && from < nodeEnd) || (to > pos && to < nodeEnd);
+      };
+
+      // Initial setup
+      updateWrapperClasses(checkIfInSelection());
       wrapper.setAttribute('data-reference-type', node.attrs.type ?? '');
       wrapper.setAttribute('data-reference-id', node.attrs.id ?? '');
       if (node.attrs.metadata) {
         wrapper.setAttribute('data-metadata', JSON.stringify(node.attrs.metadata));
       }
+
+      // Listen to selection changes in the editor
+      const handleSelectionUpdate = () => {
+        const isInSelection = checkIfInSelection();
+        updateWrapperClasses(isInSelection);
+      };
+
+      // Subscribe to editor updates
+      editor.on('selectionUpdate', handleSelectionUpdate);
 
       // Try to resolve full reference data dynamically
       const resolvedData = resolveReferenceData(node.attrs.id, node.attrs.type);
@@ -297,9 +331,9 @@ export const Reference = Mention.extend({
           const quoteData = resolvedData as unknown as QuoteObject;
           const quoteItem = quoteToBaseItem(quoteData);
           const ReferenceComponent = () => (
-            <ContentAdapterProvider adapters={[quoteAdapter]}>
+            <ContentAdapterProvider adapters={[quoteAdapter as any]}>
               <ItemInteraction
-                item={quoteItem}
+                item={quoteItem as any}
                 contentType="quote"
                 enableEscalation={true}
               >
@@ -321,6 +355,7 @@ export const Reference = Mention.extend({
           return {
             dom: wrapper,
             destroy() {
+              editor.off('selectionUpdate', handleSelectionUpdate);
               if (renderer) {
                 renderer.destroy();
               }
@@ -333,9 +368,9 @@ export const Reference = Mention.extend({
 
       // For non-quote references, use the standard reference adapter
       const ReferenceComponent = () => (
-        <ContentAdapterProvider adapters={[referenceContentAdapter]}>
+        <ContentAdapterProvider adapters={[referenceContentAdapter as any]}>
           <ItemInteraction
-            item={referenceData}
+            item={referenceData as any}
             contentType="reference"
             enableEscalation={true}
           >
@@ -358,6 +393,7 @@ export const Reference = Mention.extend({
       return {
         dom: wrapper,
         destroy() {
+          editor.off('selectionUpdate', handleSelectionUpdate);
           if (renderer) {
             renderer.destroy();
           }

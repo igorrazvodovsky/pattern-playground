@@ -14,6 +14,7 @@ import { formattingPlugin } from '../../components/editor-plugins/formatting/For
 import { commentingPlugin } from '../../components/editor-plugins/commenting/CommentingPlugin';
 import { CommentingIntegration } from '../../components/editor-plugins/commenting/components/CommentingIntegration';
 import { aiAssistantPlugin } from '../../components/editor-plugins/ai-assistant';
+import { explanationPlugin } from '../../components/editor-plugins/explanation';
 import { getDocumentContentText, getDocumentContentRich } from '../data/index.ts';
 
 const meta = {
@@ -171,5 +172,62 @@ const CommentingEditor: React.FC = () => {
 
 export const Commenting: Story = {
   render: () => <CommentingEditor />,
+};
+
+const DynamicExplanationEditor: React.FC = () => {
+  const richContent = getDocumentContentRich('doc-climate-change');
+
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      Highlight,
+      Reference.configure({
+        suggestion: createReferenceSuggestion(referenceCategories),
+      })
+    ],
+    content: richContent || '',
+    editorProps: {
+      attributes: {
+        class: 'rich-editor',
+      }
+    },
+    immediatelyRender: false,
+  });
+
+  React.useEffect(() => {
+    if (editor && richContent && !editor.getHTML().includes('Marine ecosystems')) {
+      editor.commands.setContent(richContent);
+    }
+  }, [editor, richContent]);
+
+  if (!editor) {
+    return <div>Loading editor...</div>;
+  }
+
+  return (
+    <div className="layer">
+      <EditorProvider
+        editor={editor}
+        plugins={[
+          explanationPlugin({
+            enableExplain: true,
+            streamingEnabled: true,
+            includeReferences: true,
+          })
+        ]}
+      >
+        <EditorLayout>
+          <div className="rich-editor-container">
+            <PluginEditorContent />
+            <EditorBubbleMenu />
+          </div>
+        </EditorLayout>
+      </EditorProvider>
+    </div>
+  );
+};
+
+export const DynamicExplanation: Story = {
+  render: () => <DynamicExplanationEditor />,
 };
 

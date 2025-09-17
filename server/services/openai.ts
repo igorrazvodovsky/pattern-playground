@@ -1,7 +1,7 @@
 import { OpenAI } from 'openai';
 import config from '../config.js';
 import logger from '../logger.js';
-import { JuiceProductionModel, TextLensRequest, jsonSchema } from '../schemas.js';
+import { JuiceProductionModel, TextLensRequest, ExplanationRequest, jsonSchema } from '../schemas.js';
 import { PromptTemplateBuilder, PROMPT_CONFIGS } from './promptTemplates.js';
 
 type JsonPrimitive = string | number | boolean | null;
@@ -285,6 +285,59 @@ export class OpenAIService {
     }
 
     prompt += `\n\nOutput only the transformed text without any preamble, explanation, or meta-commentary.`;
+
+    return prompt;
+  }
+
+  async *generateExplanationStream(
+    request: ExplanationRequest,
+    signal?: AbortSignal
+  ): AsyncGenerator<StreamChunk> {
+    const systemPrompt = `You are an expert explainer. Provide clear, concise explanations for the given text.
+If references are provided, incorporate them into your explanation to provide richer context.`;
+
+    const userPrompt = this.buildExplanationPrompt(request);
+
+    try {
+      const stream = await this.client.chat.completions.create({
+        model: config.openai.model,
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt }
+        ],
+        stream: true,
+        temperature: 0.7,
+        max_tokens: 1000
+      }, { signal });
+
+      for await (const chunk of stream) {
+        const content = chunk.choices[0]?.delta?.content;
+        if (content) {
+          yield { text: content };
+        }
+      }
+    } catch (error) {
+      logger.error("Error in explanation streaming:", error);
+      throw error;
+    }
+  }
+
+  private buildExplanationPrompt(request: ExplanationRequest): string {
+    let prompt = `Please explain the following text:\n\n"${request.text}"`;
+
+    if (request.references && request.references.length > 0) {
+      prompt += '\n\nRelevant references:';
+      for (const ref of request.references) {
+        prompt += `\n- ${ref.label} (${ref.type})`;
+        if (ref.metadata) {
+          prompt += `: ${JSON.stringify(ref.metadata)}`;
+        }
+      }
+    }
+
+    if (request.context) {
+      prompt += `\n\nAdditional context: ${request.context}`;
+    }
 
     return prompt;
   }

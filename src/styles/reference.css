@@ -1,7 +1,11 @@
 /* TODO: Refactor */
 
+::selection {
+  background-color: var(--c-accent-100);
+  text-shadow: none;
+}
+
 .reference {
-  background-color: var(--c-neutral-100); /* Neutral background color */
   padding: var(--space-2xs) var(--space-xs);
   border-radius: var(--radius-s);
 }
@@ -87,7 +91,7 @@
 
 /* Reference mention styles - extending existing reference styles */
 .reference-mention {
-  background-color: var(--c-neutral-50);
+  /* background-color: var(--c-neutral-50); */
   color: var(--c-accent);
   padding: 0 var(--space-xs);
   border-radius: var(--radius-s);
@@ -104,11 +108,15 @@
   background-color: var(--c-accent-50);
 }
 
+.reference-mention.reference-mention--selected {
+  background-color: var(--c-accent-100);
+  /* color: color-mix(in oklab, currentColor 10%, black); */
+}
+
 .reference-mention .react-renderer {
   display: contents;
 }
 
-/* Reference picker popup positioning */
 .reference-picker-popup {
   position: absolute;
   z-index: var(--layer-dropdown);
