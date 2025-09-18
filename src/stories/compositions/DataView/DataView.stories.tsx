@@ -34,18 +34,9 @@ const DataViewComponent: React.FC<DataViewProps> = ({
     });
   };
 
-  if (selectedAttributes.size === 0 && (viewMode === 'table' || viewMode === 'list')) {
+  if (selectedAttributes.size === 0) {
     return (
       <div>
-        <div className="toolbar flex" style={{ marginBottom: 'var(--space-l)' }}>
-          <ViewSwitcher currentView={viewMode} onViewChange={setViewMode} />
-          <AttributeSelector
-            availableAttributes={availableAttributes}
-            selectedAttributes={selectedAttributes}
-            onAttributeToggle={handleAttributeToggle}
-          />
-        </div>
-
         <div className="empty-state border flow">
           <iconify-icon style={{fontSize: "3rem"}} icon="ph:list"></iconify-icon>
           <h3>Select attributes to view</h3>
@@ -58,15 +49,6 @@ const DataViewComponent: React.FC<DataViewProps> = ({
   if (products.length === 0) {
     return (
       <div>
-        <div className="toolbar flex" style={{ marginBottom: 'var(--space-l)' }}>
-          <ViewSwitcher currentView={viewMode} onViewChange={setViewMode} />
-          <AttributeSelector
-            availableAttributes={availableAttributes}
-            selectedAttributes={selectedAttributes}
-            onAttributeToggle={handleAttributeToggle}
-          />
-        </div>
-
         <div className="empty-state border flow">
           <h3>No products to display</h3>
           <p>Check your data source or try adjusting your filters.</p>
@@ -103,7 +85,7 @@ const DataViewComponent: React.FC<DataViewProps> = ({
 };
 
 const meta = {
-  title: "Compositions/Data View",
+  title: "Compositions/Data view",
   component: DataViewComponent,
   argTypes: {
     defaultView: {
@@ -119,60 +101,10 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof DataViewComponent>;
 
-// Default story
-export const Default: Story = {
+export const DataView: Story = {
   args: {
     products: productsData as unknown as Product[],
     defaultView: 'card',
     defaultAttributes: ['category', 'pricing.msrp', 'availability.status'],
-  },
-};
-
-export const ListViewStory: Story = {
-  args: {
-    products: productsData as unknown as Product[],
-    defaultView: 'list',
-    defaultAttributes: ['category', 'pricing.msrp', 'availability.status'],
-  },
-};
-
-export const TableViewStory: Story = {
-  args: {
-    products: productsData as unknown as Product[],
-    defaultView: 'table',
-    defaultAttributes: ['category', 'sustainability.carbonFootprint', 'pricing.msrp'],
-  },
-};
-
-export const MinimalAttributes: Story = {
-  args: {
-    products: productsData as unknown as Product[],
-    defaultView: 'card',
-    defaultAttributes: ['category'],
-  },
-};
-
-export const DetailedView: Story = {
-  args: {
-    products: productsData as unknown as Product[],
-    defaultView: 'table',
-    defaultAttributes: [
-      'category',
-      'pricing.msrp',
-      'sustainability.carbonFootprint',
-      'sustainability.recyclabilityScore',
-      'lifecycle.repairability',
-      'availability.status',
-      'availability.leadTime'
-    ],
-  },
-};
-
-// Empty products story
-export const EmptyProducts: Story = {
-  args: {
-    products: [],
-    defaultView: 'card',
-    defaultAttributes: ['category', 'pricing.msrp'],
   },
 };

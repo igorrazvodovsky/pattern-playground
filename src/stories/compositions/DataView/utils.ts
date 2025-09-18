@@ -1,29 +1,54 @@
 import { Product } from '../../data/types';
 
-export const getAvailableAttributes = (products: Product[]): string[] => {
-  const attributes = new Set<string>();
+// Static attributes that are always available
+const STATIC_ATTRIBUTES = [
+  'name',
+  'description',
+  'category',
+  'subcategory',
+  'sustainability.carbonFootprint',
+  'sustainability.recyclabilityScore',
+  'lifecycle.designLife',
+  'lifecycle.repairability',
+  'pricing.msrp',
+  'pricing.currency',
+  'availability.status',
+  'availability.leadTime'
+].sort();
 
-  attributes.add('name');
-  attributes.add('description');
-  attributes.add('category');
-  attributes.add('subcategory');
+// Cache for dynamic specification attributes
+let cachedSpecificationKeys: string[] | null = null;
+let lastProductsHash: string | null = null;
 
+// Generate a simple hash of product specifications structure
+const getProductsSpecificationHash = (products: Product[]): string => {
+  const specKeys = new Set<string>();
   products.forEach(product => {
     Object.keys(product.metadata.specifications || {}).forEach(key => {
-      attributes.add(`specifications.${key}`);
+      specKeys.add(key);
     });
   });
+  return Array.from(specKeys).sort().join('|');
+};
 
-  attributes.add('sustainability.carbonFootprint');
-  attributes.add('sustainability.recyclabilityScore');
-  attributes.add('lifecycle.designLife');
-  attributes.add('lifecycle.repairability');
-  attributes.add('pricing.msrp');
-  attributes.add('pricing.currency');
-  attributes.add('availability.status');
-  attributes.add('availability.leadTime');
+export const getAvailableAttributes = (products: Product[]): string[] => {
+  const currentHash = getProductsSpecificationHash(products);
 
-  return Array.from(attributes).sort();
+  // Only recalculate specification attributes if products structure changed
+  if (cachedSpecificationKeys === null || lastProductsHash !== currentHash) {
+    const specKeys = new Set<string>();
+    products.forEach(product => {
+      Object.keys(product.metadata.specifications || {}).forEach(key => {
+        specKeys.add(`specifications.${key}`);
+      });
+    });
+
+    cachedSpecificationKeys = Array.from(specKeys).sort();
+    lastProductsHash = currentHash;
+  }
+
+  // Merge static and dynamic attributes
+  return [...STATIC_ATTRIBUTES, ...cachedSpecificationKeys].sort();
 };
 
 export const getAttributeValue = (product: Product, attributePath: string): unknown => {
