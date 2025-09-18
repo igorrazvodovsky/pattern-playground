@@ -1,6 +1,7 @@
 import { Canvas, Story, Meta, Subtitle } from '@storybook/addon-docs/blocks';
+import * as DataViewStories from './DataView.stories';
 
-<Meta title="Compositions/Data view" />
+<Meta of={DataViewStories} />
 
 > 🙂 **Fun meter: 3/5**. Dependency.
 
@@ -19,8 +20,15 @@ Saved views reduce friction for repeat tasks, support different actor roles, and
 
 ## Example
 
-TODO:
+<Canvas>
+  <Story of={DataViewStories.Default} />
+</Canvas>
+
+{/* TODO: */}
 {/* ✓ cards */}
+{/* ✓ table */}
+{/* ✓ representation switching */}
+{/* ✓ attribute selection */}
 {/* ✗ filtering */}
 {/* ✗ sorting */}
 {/* ✗ grouping */}

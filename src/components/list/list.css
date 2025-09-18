@@ -7,7 +7,7 @@
   border: var(--border);
   border-radius: var(--radius-m);
   padding: var(--space-xs) 0;
-  /* overflow: auto; */
+  overflow: auto;
   overscroll-behavior: none;
 }
 
