@@ -1,6 +1,7 @@
 import { Canvas, Story, Meta, Subtitle } from '@storybook/addon-docs/blocks';
+import * as DataViewStories from './DataView.stories';
 
-<Meta title="Compositions/Data view" />
+<Meta of={DataViewStories} />
 
 > 🙂 **Fun meter: 3/5**. Dependency.
 
@@ -9,6 +10,17 @@ import { Canvas, Story, Meta, Subtitle } from '@storybook/addon-docs/blocks';
 Displays a [collection](../?path=/docs/concepts-collection--docs), enabling actors to quickly scan, explore, and interact with [items](../?path=/docs/concepts-item--docs).
 By combining varied representations with filtering, sorting, and grouping, data view provides tools for framing the data.
 
+<Story of={DataViewStories.DataView} />
+
+{/* TODO: */}
+{/* ✓ cards */}
+{/* ✓ table */}
+{/* ✓ representation switching */}
+{/* ✓ attribute selection */}
+{/* ✗ filtering */}
+{/* ✗ sorting */}
+{/* ✗ grouping */}
+
 ## Saved views
 
 Saved views reduce friction for repeat tasks, support different actor roles, and provide continuity across sessions.
@@ -16,14 +28,6 @@ Saved views reduce friction for repeat tasks, support different actor roles, and
 - Developers define default views that align with the application's core use cases or intended actor journeys
 - Administrators configure role-specific or task-specific views shared across teams or departments
 - End users create personalised views tuned to their workflow or preferences
-
-## Example
-
-TODO:
-{/* ✓ cards */}
-{/* ✗ filtering */}
-{/* ✗ sorting */}
-{/* ✗ grouping */}
 
 ## Related
 ### Precursor patterns
