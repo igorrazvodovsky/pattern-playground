@@ -10,6 +10,8 @@ import { TableView } from './TableView';
 import { ViewSwitcher } from './ViewSwitcher';
 import { AttributeSelector } from './AttributeSelector';
 import { SortingControls } from './SortingControls';
+import { SearchControls } from './SearchControls';
+import { useProductSearch } from './useProductSearch';
 
 const DataViewComponent: React.FC<DataViewProps> = ({
   products,
@@ -22,6 +24,7 @@ const DataViewComponent: React.FC<DataViewProps> = ({
   );
   const [sortField, setSortField] = useState<SortField>('name');
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   const availableAttributes = useMemo(() => getAvailableAttributes(products), [products]);
 
@@ -42,11 +45,14 @@ const DataViewComponent: React.FC<DataViewProps> = ({
     setSortOrder(order);
   };
 
+  const filteredProducts = useProductSearch(products, searchQuery);
+
   const sortedProducts = useMemo(() =>
-    sortProducts(products, sortField, sortOrder),
-    [products, sortField, sortOrder]
+    sortProducts(filteredProducts, sortField, sortOrder),
+    [filteredProducts, sortField, sortOrder]
   );
 
+  // Early return for no attributes selected - this is a configuration issue
   if (selectedAttributes.size === 0) {
     return (
       <div>
@@ -59,12 +65,18 @@ const DataViewComponent: React.FC<DataViewProps> = ({
     );
   }
 
-  if (sortedProducts.length === 0) {
+  // Determine if we have no data at all vs no results from search/filter
+  const hasNoData = products.length === 0;
+  const hasNoResults = !hasNoData && sortedProducts.length === 0;
+
+  // No data at all - hide toolbar
+  if (hasNoData) {
     return (
       <div>
         <div className="empty-state border flow">
-          <h3>No products to display</h3>
-          <p>Check your data source or try adjusting your filters.</p>
+          <iconify-icon style={{fontSize: "3rem"}} icon="ph:database"></iconify-icon>
+          <h3>No products available</h3>
+          <p>Check your data source - no products have been loaded.</p>
         </div>
       </div>
     );
@@ -73,6 +85,10 @@ const DataViewComponent: React.FC<DataViewProps> = ({
   return (
     <div>
       <div className="toolbar flex" style={{ marginBottom: 'var(--space-l)' }}>
+        <SearchControls
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+        />
         <ViewSwitcher currentView={viewMode} onViewChange={setViewMode} />
         <AttributeSelector
           availableAttributes={availableAttributes}
@@ -87,18 +103,31 @@ const DataViewComponent: React.FC<DataViewProps> = ({
         />
       </div>
 
-      {(() => {
-        switch (viewMode) {
-          case 'card':
-            return <CardView products={sortedProducts} selectedAttributes={selectedAttributes} />;
-          case 'list':
-            return <ListView products={sortedProducts} selectedAttributes={selectedAttributes} />;
-          case 'table':
-            return <TableView products={sortedProducts} selectedAttributes={selectedAttributes} />;
-          default:
-            return <CardView products={sortedProducts} selectedAttributes={selectedAttributes} />;
-        }
-      })()}
+      {hasNoResults ? (
+        <div className="empty-state border flow">
+          <iconify-icon style={{fontSize: "3rem"}} icon="ph:magnifying-glass"></iconify-icon>
+          <h3>No results found</h3>
+          <p>
+            {searchQuery
+              ? `No products match "${searchQuery}". Try adjusting your search terms or filters.`
+              : 'No products match your current filters. Try adjusting your criteria.'
+            }
+          </p>
+        </div>
+      ) : (
+        (() => {
+          switch (viewMode) {
+            case 'card':
+              return <CardView products={sortedProducts} selectedAttributes={selectedAttributes} />;
+            case 'list':
+              return <ListView products={sortedProducts} selectedAttributes={selectedAttributes} />;
+            case 'table':
+              return <TableView products={sortedProducts} selectedAttributes={selectedAttributes} />;
+            default:
+              return <CardView products={sortedProducts} selectedAttributes={selectedAttributes} />;
+          }
+        })()
+      )}
     </div>
   );
 };

@@ -28,13 +28,11 @@ export interface InputProps {
 export class PpInput extends LitElement {
   static styles: CSSResultGroup = [unsafeCSS(styles)];
 
-  @query('.input__control') input: HTMLInputElement;
+  @query('.input__control') input!: HTMLInputElement;
 
   @state() private hasFocus = false;
   @property() title = ''; // make reactive to pass through
 
-  private __numberInput = Object.assign(document.createElement('input'), { type: 'number' });
-  private __dateInput = Object.assign(document.createElement('input'), { type: 'date' });
 
   /**
    * The type of input. Works the same as a native `<input>` element, but only a subset of types are supported.
@@ -58,8 +56,10 @@ export class PpInput extends LitElement {
   @property({ type: Boolean }) clearable = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property() placeholder = '';
-  @property() autocomplete: string;
-  @property({ type: Boolean }) autofocus: boolean;
+  @property() autocomplete = '';
+  @property({ type: Boolean }) autofocus = false;
+  @property() autocapitalize = '';
+  @property({ type: Boolean }) spellcheck = false;
 
   connectedCallback() {
     super.connectedCallback();
@@ -76,6 +76,19 @@ export class PpInput extends LitElement {
 
   private handleInput() {
     this.value = this.input.value;
+    this.dispatchEvent(new CustomEvent('input', { detail: { value: this.value } }));
+  }
+
+  private handleClear() {
+    this.value = '';
+    this.input.focus();
+    // Dispatch both custom event and native input event for React compatibility
+    this.dispatchEvent(new CustomEvent('input', {
+      detail: { value: this.value },
+      bubbles: true
+    }));
+    // Also dispatch a native input event that React can handle
+    this.input.dispatchEvent(new Event('input', { bubbles: true }));
   }
 
   focus(options?: FocusOptions) {
@@ -133,10 +146,10 @@ export class PpInput extends LitElement {
               ?disabled=${this.disabled}
               placeholder=${ifDefined(this.placeholder)}
               .value=${live(this.value)}
-              autocapitalize=${ifDefined(this.autocapitalize)}
-              autocomplete=${ifDefined(this.autocomplete)}
+              autocapitalize=${ifDefined(this.autocapitalize || undefined)}
+              autocomplete=${ifDefined(this.autocomplete || undefined)}
               ?autofocus=${this.autofocus}
-              spellcheck=${this.spellcheck}
+              spellcheck=${this.spellcheck ? 'true' : 'false'}
               aria-describedby="help-text"
               @input=${this.handleInput}
             />
@@ -151,6 +164,7 @@ export class PpInput extends LitElement {
                     type="button"
                     aria-label="Clear"
                     tabindex="-1"
+                    @click=${this.handleClear}
                   >
                     <slot name="clear-icon">
                       <iconify-icon icon="ph:x-circle-fill"></iconify-icon>

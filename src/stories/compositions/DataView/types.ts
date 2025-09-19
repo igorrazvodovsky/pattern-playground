@@ -38,3 +38,9 @@ export interface SortingControlsProps {
   currentOrder: SortOrder;
   onSortChange: (field: SortField, order: SortOrder) => void;
 }
+
+export interface SearchControlsProps {
+  searchQuery: string;
+  onSearchChange: (query: string) => void;
+  placeholder?: string;
+}
