@@ -9,7 +9,7 @@ export const AttributeSelector: React.FC<AttributeSelectorProps> = ({
   return (
     <pp-dropdown>
       <button className="button" is="pp-button" slot="trigger">
-        <iconify-icon className="icon" icon="ph:funnel-simple"></iconify-icon>
+        <iconify-icon className="icon" icon="ph:eye"></iconify-icon>
         Attributes
         {/* {selectedAttributes.size} */}
         <iconify-icon className="icon" icon="ph:caret-down" aria-hidden="true"></iconify-icon>

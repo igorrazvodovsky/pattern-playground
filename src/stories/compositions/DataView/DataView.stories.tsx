@@ -2,13 +2,14 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import React, { useState, useMemo } from "react";
 import productsData from '../../data/products.json' with { type: 'json' };
 import { Product } from '../../data/types';
-import { DataViewProps, ViewMode, AttributeSelection } from './types';
-import { getAvailableAttributes } from './utils';
+import { DataViewProps, ViewMode, AttributeSelection, SortField, SortOrder } from './types';
+import { getAvailableAttributes, sortProducts } from './utils';
 import { CardView } from './CardView';
 import { ListView } from './ListView';
 import { TableView } from './TableView';
 import { ViewSwitcher } from './ViewSwitcher';
 import { AttributeSelector } from './AttributeSelector';
+import { SortingControls } from './SortingControls';
 
 const DataViewComponent: React.FC<DataViewProps> = ({
   products,
@@ -19,6 +20,8 @@ const DataViewComponent: React.FC<DataViewProps> = ({
   const [selectedAttributes, setSelectedAttributes] = useState<AttributeSelection>(
     new Set(defaultAttributes)
   );
+  const [sortField, setSortField] = useState<SortField>('name');
+  const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
 
   const availableAttributes = useMemo(() => getAvailableAttributes(products), [products]);
 
@@ -34,6 +37,16 @@ const DataViewComponent: React.FC<DataViewProps> = ({
     });
   };
 
+  const handleSortChange = (field: SortField, order: SortOrder) => {
+    setSortField(field);
+    setSortOrder(order);
+  };
+
+  const sortedProducts = useMemo(() =>
+    sortProducts(products, sortField, sortOrder),
+    [products, sortField, sortOrder]
+  );
+
   if (selectedAttributes.size === 0) {
     return (
       <div>
@@ -46,7 +59,7 @@ const DataViewComponent: React.FC<DataViewProps> = ({
     );
   }
 
-  if (products.length === 0) {
+  if (sortedProducts.length === 0) {
     return (
       <div>
         <div className="empty-state border flow">
@@ -66,18 +79,24 @@ const DataViewComponent: React.FC<DataViewProps> = ({
           selectedAttributes={selectedAttributes}
           onAttributeToggle={handleAttributeToggle}
         />
+        <SortingControls
+          availableFields={availableAttributes}
+          currentField={sortField}
+          currentOrder={sortOrder}
+          onSortChange={handleSortChange}
+        />
       </div>
 
       {(() => {
         switch (viewMode) {
           case 'card':
-            return <CardView products={products} selectedAttributes={selectedAttributes} />;
+            return <CardView products={sortedProducts} selectedAttributes={selectedAttributes} />;
           case 'list':
-            return <ListView products={products} selectedAttributes={selectedAttributes} />;
+            return <ListView products={sortedProducts} selectedAttributes={selectedAttributes} />;
           case 'table':
-            return <TableView products={products} selectedAttributes={selectedAttributes} />;
+            return <TableView products={sortedProducts} selectedAttributes={selectedAttributes} />;
           default:
-            return <CardView products={products} selectedAttributes={selectedAttributes} />;
+            return <CardView products={sortedProducts} selectedAttributes={selectedAttributes} />;
         }
       })()}
     </div>

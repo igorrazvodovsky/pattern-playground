@@ -1,4 +1,35 @@
 import { Product } from '../../data/types';
+import { SortField, SortOrder } from './types';
+
+// Field display name mappings for user-friendly labels
+export const FIELD_DISPLAY_NAMES: Record<string, string> = {
+  'name': 'Name',
+  'category': 'Category',
+  'pricing.msrp': 'Price',
+  'availability.status': 'Availability',
+  'sustainability.carbonFootprint': 'Carbon Footprint',
+  'sustainability.recyclabilityScore': 'Recyclability',
+  'lifecycle.designLife': 'Design Life',
+  'lifecycle.repairability': 'Repairability',
+  'availability.leadTime': 'Lead Time',
+  'subcategory': 'Subcategory',
+  'description': 'Description',
+  'pricing.currency': 'Currency',
+  'lifecycle.warrantyPeriod': 'Warranty Period',
+  'lifecycle.upgradeability': 'Upgradeability',
+  'sustainability.recyclabilityScore': 'Recyclability Score',
+  'pricing.leaseOptions': 'Lease Options',
+  'pricing.subscriptionModel': 'Subscription Model',
+  'pricing.tradeInValue': 'Trade-in Value',
+  'availability.leadTimeUnit': 'Lead Time Unit',
+  'availability.regions': 'Regions',
+  'availability.channels': 'Channels'
+};
+
+export const getFieldDisplayName = (field: string): string => {
+  return FIELD_DISPLAY_NAMES[field] ||
+    field.split('.').pop()?.replace(/([A-Z])/g, ' $1').trim() || field;
+};
 
 // Static attributes that are always available
 const STATIC_ATTRIBUTES = [
@@ -91,4 +122,59 @@ export const formatAttributeValue = (value: unknown, attributePath: string): str
   }
 
   return String(value);
+};
+
+export const sortProducts = (
+  products: Product[],
+  sortField: SortField,
+  sortOrder: SortOrder
+): Product[] => {
+
+  try {
+    return [...products].sort((a, b) => {
+      try {
+        const valueA = getAttributeValue(a, sortField);
+        const valueB = getAttributeValue(b, sortField);
+
+        // Handle null/undefined values
+        if (valueA === null || valueA === undefined) {
+          if (valueB === null || valueB === undefined) return 0;
+          return sortOrder === 'asc' ? 1 : -1;
+        }
+        if (valueB === null || valueB === undefined) {
+          return sortOrder === 'asc' ? -1 : 1;
+        }
+
+        // Convert to comparable values
+        let compareA: string | number = valueA;
+        let compareB: string | number = valueB;
+
+        // Handle numeric fields
+        if (typeof valueA === 'number' && typeof valueB === 'number') {
+          compareA = valueA;
+          compareB = valueB;
+        } else {
+          // Convert to strings for comparison
+          compareA = String(valueA).toLowerCase();
+          compareB = String(valueB).toLowerCase();
+        }
+
+        let result: number;
+        if (typeof compareA === 'number' && typeof compareB === 'number') {
+          result = compareA - compareB;
+        } else {
+          result = compareA < compareB ? -1 : compareA > compareB ? 1 : 0;
+        }
+
+        return sortOrder === 'asc' ? result : -result;
+      } catch (error) {
+        // If individual comparison fails, maintain original order
+        console.warn('Comparison failed for sorting:', error);
+        return 0;
+      }
+    });
+  } catch (error) {
+    console.warn('Sorting failed, returning unsorted data:', error);
+    return [...products];
+  }
 };

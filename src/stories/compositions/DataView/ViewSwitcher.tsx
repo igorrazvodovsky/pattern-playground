@@ -12,9 +12,9 @@ export const ViewSwitcher: React.FC<ViewSwitcherProps> = ({ currentView, onViewC
 
   const getViewLabel = (view: ViewMode) => {
     switch (view) {
-      case 'card': return 'Cards';
-      case 'list': return 'List';
-      case 'table': return 'Table';
+      case 'card': return 'Card view';
+      case 'list': return 'List view';
+      case 'table': return 'Table view';
     }
   };
 
@@ -30,7 +30,7 @@ export const ViewSwitcher: React.FC<ViewSwitcherProps> = ({ currentView, onViewC
           onClick={() => onViewChange('card')}
         >
           <iconify-icon slot="prefix" className="icon" icon="ph:squares-four"></iconify-icon>
-          Cards
+          Card view
         </pp-list-item>
         {/* <pp-list-item
           onClick={() => onViewChange('list')}
@@ -42,7 +42,7 @@ export const ViewSwitcher: React.FC<ViewSwitcherProps> = ({ currentView, onViewC
           onClick={() => onViewChange('table')}
         >
           <iconify-icon slot="prefix" className="icon" icon="ph:table"></iconify-icon>
-          Table
+          Table view
         </pp-list-item>
       </pp-list>
     </pp-dropdown>

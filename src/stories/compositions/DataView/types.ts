@@ -2,6 +2,8 @@ import { Product } from '../../data/types';
 
 export type ViewMode = 'card' | 'list' | 'table';
 export type AttributeSelection = Set<string>;
+export type SortOrder = 'asc' | 'desc';
+export type SortField = string;
 
 export interface DataViewProps {
   products: Product[];
@@ -28,4 +30,11 @@ export interface AttributeSelectorProps {
   availableAttributes: string[];
   selectedAttributes: AttributeSelection;
   onAttributeToggle: (attribute: string) => void;
+}
+
+export interface SortingControlsProps {
+  availableFields: string[];
+  currentField: SortField;
+  currentOrder: SortOrder;
+  onSortChange: (field: SortField, order: SortOrder) => void;
 }
