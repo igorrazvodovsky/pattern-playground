@@ -1,4 +1,5 @@
 import { Product } from '../../data/types';
+import { ProductFilter } from './ProductFilterTypes';
 
 export type ViewMode = 'card' | 'list' | 'table';
 export type AttributeSelection = Set<string>;
@@ -9,6 +10,7 @@ export interface DataViewProps {
   products: Product[];
   defaultView?: ViewMode;
   defaultAttributes?: string[];
+  defaultFilters?: ProductFilter[];
 }
 
 export interface CardViewProps {

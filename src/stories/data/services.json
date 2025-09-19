@@ -4,7 +4,7 @@
     "name": "E-Bike Annual Maintenance",
     "type": "maintenance",
     "icon": "ph:wrench",
-    "description": "Comprehensive annual maintenance service for electric bicycles",
+    "description": "Annual maintenance service for electric bicycles",
     "searchableText": "ebike maintenance annual service repair tune-up",
     "metadata": {
       "category": "maintenance",

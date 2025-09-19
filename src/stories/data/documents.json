@@ -4,10 +4,10 @@
     "name": "Climate Change Impact Report",
     "type": "document",
     "icon": "ph:file-text-fill",
-    "description": "Comprehensive analysis of climate change effects on global ecosystems",
+    "description": "Analysis of climate change effects on global ecosystems",
     "searchableText": "climate change impact report ecosystems biodiversity",
-    "metadata": { 
-      "type": "analysis", 
+    "metadata": {
+      "type": "analysis",
       "lastUpdated": "2024-01-15",
       "author": "user-1",
       "wordCount": 450
@@ -21,8 +21,8 @@
             "type": "paragraph",
             "content": [
               { "type": "text", "text": "Climate change is " },
-              { 
-                "type": "reference", 
+              {
+                "type": "reference",
                 "attrs": {
                   "id": "quote-reshaping-ecosystems",
                   "type": "quote",
@@ -36,11 +36,11 @@
             "type": "paragraph",
             "content": [
               { "type": "text", "text": "Species adapted to cold environments—like polar bears, snow leopards, and certain alpine plants—are seeing their " },
-              { 
-                "type": "reference", 
+              {
+                "type": "reference",
                 "attrs": {
                   "id": "quote-habitats-shrink",
-                  "type": "quote", 
+                  "type": "quote",
                   "label": "habitats shrink or disappear"
                 }
               },
@@ -57,8 +57,8 @@
             "type": "paragraph",
             "content": [
               { "type": "text", "text": "Warming oceans are particularly devastating. " },
-              { 
-                "type": "reference", 
+              {
+                "type": "reference",
                 "attrs": {
                   "id": "quote-coral-reefs-bleaching",
                   "type": "quote",
@@ -81,7 +81,7 @@
       },
       {
         "id": "ecological-timing",
-        "title": "Disrupted Ecological Timing", 
+        "title": "Disrupted Ecological Timing",
         "startIndex": 388,
         "endIndex": 915,
         "text": "Changes in temperature and precipitation are also throwing off the rhythms of nature. Many species rely on environmental cues for breeding, migration, and feeding. When spring arrives earlier, some birds migrate before their food sources are abundant. If insects hatch too early or too late for birds to feed their chicks, or if flowers bloom before pollinators are active, the entire chain can fall apart."
@@ -98,14 +98,14 @@
   {
     "id": "doc-circular-economy",
     "name": "Circular Economy Implementation Guide",
-    "type": "document", 
+    "type": "document",
     "icon": "ph:file-text-fill",
     "description": "Strategic framework for transitioning to circular economy principles",
     "searchableText": "circular economy implementation guide strategy framework",
-    "metadata": { 
-      "type": "strategy", 
+    "metadata": {
+      "type": "strategy",
       "lastUpdated": "2024-01-20",
-      "author": "user-2", 
+      "author": "user-2",
       "wordCount": 380
     },
     "content": {
@@ -122,7 +122,7 @@
             ]
           },
           {
-            "type": "paragraph", 
+            "type": "paragraph",
             "content": [
               { "type": "text", "text": "At the design stage, products must be conceived with their entire lifecycle in mind. Designers need to prioritise " },
               { "type": "text", "marks": [{"type": "highlight"}], "text": "durability, repairability, and modularity" },
@@ -370,14 +370,14 @@
     "searchableText": "recycled material inventory spreadsheet excel",
     "metadata": { "path": "inventory/Recycled Material Inventory.xlsx", "type": "spreadsheet", "size": "68KB" },
     "content": {
-      "plainText": "Comprehensive inventory tracking recycled materials available for production. Includes material types, quantities, quality grades, and supplier information for circular manufacturing processes.",
+      "plainText": "Inventory tracking recycled materials available for production. Includes material types, quantities, quality grades, and supplier information for circular manufacturing processes.",
       "richContent": {
         "type": "doc",
         "content": [
           {
             "type": "paragraph",
             "content": [
-              { "type": "text", "text": "Comprehensive inventory tracking recycled materials available for production. Includes material types, quantities, quality grades, and supplier information for circular manufacturing processes." }
+              { "type": "text", "text": "Inventory tracking recycled materials available for production. Includes material types, quantities, quality grades, and supplier information for circular manufacturing processes." }
             ]
           }
         ]
@@ -416,14 +416,14 @@
     "searchableText": "refurbishment process presentation pptx",
     "metadata": { "path": "processes/Refurbishment Process.pptx", "type": "presentation", "size": "6.2MB" },
     "content": {
-      "plainText": "Comprehensive presentation detailing the product refurbishment process. Covers assessment procedures, repair techniques, quality standards, and certification requirements for refurbished products.",
+      "plainText": "Presentation detailing the product refurbishment process. Covers assessment procedures, repair techniques, quality standards, and certification requirements for refurbished products.",
       "richContent": {
         "type": "doc",
         "content": [
           {
             "type": "paragraph",
             "content": [
-              { "type": "text", "text": "Comprehensive presentation detailing the product refurbishment process. Covers assessment procedures, repair techniques, quality standards, and certification requirements for refurbished products." }
+              { "type": "text", "text": "Presentation detailing the product refurbishment process. Covers assessment procedures, repair techniques, quality standards, and certification requirements for refurbished products." }
             ]
           }
         ]
@@ -439,14 +439,14 @@
     "searchableText": "supplier code of conduct sustainability docx",
     "metadata": { "path": "suppliers/Supplier Code of Conduct.docx", "type": "document", "size": "150KB" },
     "content": {
-      "plainText": "Comprehensive code of conduct outlining sustainability requirements and ethical standards for all suppliers. Includes environmental compliance, labor practices, and circular economy participation requirements.",
+      "plainText": "Code of conduct outlining sustainability requirements and ethical standards for all suppliers. Includes environmental compliance, labor practices, and circular economy participation requirements.",
       "richContent": {
         "type": "doc",
         "content": [
           {
             "type": "paragraph",
             "content": [
-              { "type": "text", "text": "Comprehensive code of conduct outlining sustainability requirements and ethical standards for all suppliers. Includes environmental compliance, labor practices, and circular economy participation requirements." }
+              { "type": "text", "text": "Code of conduct outlining sustainability requirements and ethical standards for all suppliers. Includes environmental compliance, labor practices, and circular economy participation requirements." }
             ]
           }
         ]
@@ -460,14 +460,14 @@
     "icon": "ph:file-text-fill",
     "description": "Framework for measuring and tracking sustainability performance",
     "searchableText": "sustainability metrics dashboard kpi tracking performance",
-    "metadata": { 
-      "type": "analytics", 
+    "metadata": {
+      "type": "analytics",
       "lastUpdated": "2024-01-18",
       "author": "user-3",
       "wordCount": 320
     },
     "content": {
-      "plainText": "Effective sustainability measurement requires a comprehensive framework of key performance indicators that capture both environmental impact and operational efficiency. These metrics serve as the foundation for data-driven decision making and progress tracking toward sustainability goals.\n\nCarbon footprint tracking forms the foundation of environmental monitoring. This includes direct emissions from operations (Scope 1), indirect emissions from purchased energy (Scope 2), and value chain emissions (Scope 3). Regular measurement enables organisations to identify reduction opportunities and track progress toward net-zero goals.\n\nResource utilisation metrics provide insights into efficiency and waste reduction. Water consumption, material usage rates, and waste generation patterns reveal opportunities for circular economy implementation. Energy intensity measurements help optimise operations and transition to renewable sources.\n\nBiodiversity impact assessments are becoming increasingly important. Companies operating in sensitive ecosystems must monitor their effects on local wildlife and vegetation. This includes habitat disruption metrics, species population changes, and ecosystem service valuation.",
+      "plainText": "Effective sustainability measurement requires a framework of key performance indicators that capture both environmental impact and operational efficiency. These metrics serve as the foundation for data-driven decision making and progress tracking toward sustainability goals.\n\nCarbon footprint tracking forms the foundation of environmental monitoring. This includes direct emissions from operations (Scope 1), indirect emissions from purchased energy (Scope 2), and value chain emissions (Scope 3). Regular measurement enables organisations to identify reduction opportunities and track progress toward net-zero goals.\n\nResource utilisation metrics provide insights into efficiency and waste reduction. Water consumption, material usage rates, and waste generation patterns reveal opportunities for circular economy implementation. Energy intensity measurements help optimise operations and transition to renewable sources.\n\nBiodiversity impact assessments are becoming increasingly important. Companies operating in sensitive ecosystems must monitor their effects on local wildlife and vegetation. This includes habitat disruption metrics, species population changes, and ecosystem service valuation.",
       "richContent": {
         "type": "doc",
         "content": [
@@ -476,7 +476,7 @@
             "content": [
               { "type": "text", "text": "Effective " },
               { "type": "text", "marks": [{"type": "bold"}], "text": "sustainability measurement" },
-              { "type": "text", "text": " requires a comprehensive framework of key performance indicators that capture both environmental impact and operational efficiency. These metrics serve as the foundation for data-driven decision making and progress tracking toward sustainability goals." }
+              { "type": "text", "text": " requires a framework of key performance indicators that capture both environmental impact and operational efficiency. These metrics serve as the foundation for data-driven decision making and progress tracking toward sustainability goals." }
             ]
           },
           {
@@ -507,10 +507,10 @@
     "sections": [
       {
         "id": "kpi-framework",
-        "title": "KPI Framework", 
+        "title": "KPI Framework",
         "startIndex": 0,
         "endIndex": 267,
-        "text": "Effective sustainability measurement requires a comprehensive framework of key performance indicators that capture both environmental impact and operational efficiency."
+        "text": "Effective sustainability measurement requires a framework of key performance indicators that capture both environmental impact and operational efficiency."
       },
       {
         "id": "carbon-tracking",
@@ -520,7 +520,7 @@
         "text": "Carbon footprint tracking forms the foundation of environmental monitoring. This includes direct emissions from operations (Scope 1), indirect emissions from purchased energy (Scope 2), and value chain emissions (Scope 3)."
       },
       {
-        "id": "resource-metrics", 
+        "id": "resource-metrics",
         "title": "Resource Utilisation",
         "startIndex": 513,
         "endIndex": 723,

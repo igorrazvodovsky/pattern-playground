@@ -3,7 +3,7 @@
     "id": "task-1",
     "title": "Audit waste streams for plastic contamination",
     "specification": "Analyze waste streams to identify sources of plastic contamination and recommend solutions",
-    "description": "Comprehensive analysis of our current waste streams to identify all sources of plastic contamination, assess their impact, and develop actionable recommendations for reducing plastic waste.",
+    "description": "Analysis of our current waste streams to identify all sources of plastic contamination, assess their impact, and develop actionable recommendations for reducing plastic waste.",
     "statusId": "status-in-progress",
     "priorityId": "priority-high",
     "assigneeId": "user-3",
@@ -23,7 +23,7 @@
         "details": "Initial task assignment to audit team"
       },
       {
-        "id": "hist-1-2", 
+        "id": "hist-1-2",
         "timestamp": "2024-01-11T14:30:00Z",
         "actor": "System",
         "action": "Status changed to planning",
@@ -113,7 +113,7 @@
     "id": "task-4",
     "title": "Design a take-back program for used products",
     "specification": "Develop a customer-facing program for returning used products for refurbishment or recycling",
-    "description": "Create a comprehensive program that makes it easy for customers to return used products, including logistics, incentives, and communication strategies.",
+    "description": "Create a program that makes it easy for customers to return used products, including logistics, incentives, and communication strategies.",
     "statusId": "status-in-review",
     "priorityId": "priority-high",
     "assigneeId": "user-4",

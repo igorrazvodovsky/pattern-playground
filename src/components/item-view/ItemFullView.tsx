@@ -4,7 +4,7 @@ import { useContentAdapter } from './ContentAdapterRegistry';
 
 /**
  * ItemFullView - Maxi scope item view
- * Used for full pages, dedicated workspaces, comprehensive views
+ * Used for full pages and dedicated workspaces
  */
 export const ItemFullView = <T extends BaseItem = BaseItem>({
   item,

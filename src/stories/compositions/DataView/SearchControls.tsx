@@ -5,15 +5,15 @@ export const SearchControls: React.FC<SearchControlsProps> = ({
   searchQuery,
   onSearchChange
 }) => {
-  const handleInput = (e: any) => {
+  const handleInput = (e: Event | CustomEvent) => {
     // Handle both custom events from clear button and native input events
     let value = '';
-    if (e.detail && typeof e.detail.value === 'string') {
+    if ('detail' in e && e.detail && typeof (e.detail as { value?: string }).value === 'string') {
       // Custom event from clear button
-      value = e.detail.value;
-    } else if (e.target && typeof e.target.value === 'string') {
+      value = (e.detail as { value: string }).value;
+    } else if ('target' in e && e.target && typeof (e.target as HTMLInputElement).value === 'string') {
       // Native input event
-      value = e.target.value;
+      value = (e.target as HTMLInputElement).value;
     }
     onSearchChange(value);
   };

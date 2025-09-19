@@ -11,12 +11,16 @@ import { ViewSwitcher } from './ViewSwitcher';
 import { AttributeSelector } from './AttributeSelector';
 import { SortingControls } from './SortingControls';
 import { SearchControls } from './SearchControls';
+import { FilterControls } from './FilterControls';
 import { useProductSearch } from './useProductSearch';
+import { useProductFiltering } from './useProductFiltering';
+import { ProductFilter, ProductFilterType, ProductFilterOperator } from './ProductFilterTypes';
 
 const DataViewComponent: React.FC<DataViewProps> = ({
   products,
   defaultView = 'card',
-  defaultAttributes = ['category', 'pricing.msrp', 'availability.status']
+  defaultAttributes = ['category', 'pricing.msrp', 'availability.status'],
+  defaultFilters = []
 }) => {
   const [viewMode, setViewMode] = useState<ViewMode>(defaultView);
   const [selectedAttributes, setSelectedAttributes] = useState<AttributeSelection>(
@@ -25,6 +29,7 @@ const DataViewComponent: React.FC<DataViewProps> = ({
   const [sortField, setSortField] = useState<SortField>('name');
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [filters, setFilters] = useState<ProductFilter[]>(defaultFilters);
 
   const availableAttributes = useMemo(() => getAvailableAttributes(products), [products]);
 
@@ -45,7 +50,8 @@ const DataViewComponent: React.FC<DataViewProps> = ({
     setSortOrder(order);
   };
 
-  const filteredProducts = useProductSearch(products, searchQuery);
+  const searchedProducts = useProductSearch(products, searchQuery);
+  const { filteredProducts, filterCategories } = useProductFiltering(searchedProducts, filters);
 
   const sortedProducts = useMemo(() =>
     sortProducts(filteredProducts, sortField, sortOrder),
@@ -89,6 +95,11 @@ const DataViewComponent: React.FC<DataViewProps> = ({
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
         />
+        <FilterControls
+          filters={filters}
+          setFilters={setFilters}
+          filterCategories={filterCategories}
+        />
         <ViewSwitcher currentView={viewMode} onViewChange={setViewMode} />
         <AttributeSelector
           availableAttributes={availableAttributes}
@@ -108,9 +119,13 @@ const DataViewComponent: React.FC<DataViewProps> = ({
           <iconify-icon style={{fontSize: "3rem"}} icon="ph:magnifying-glass"></iconify-icon>
           <h3>No results found</h3>
           <p>
-            {searchQuery
-              ? `No products match "${searchQuery}". Try adjusting your search terms or filters.`
-              : 'No products match your current filters. Try adjusting your criteria.'
+            {searchQuery && filters.length > 0
+              ? `No products match "${searchQuery}" with current filters. Try adjusting your search or filters.`
+              : searchQuery
+              ? `No products match "${searchQuery}". Try adjusting your search terms.`
+              : filters.length > 0
+              ? 'No products match your current filters. Try adjusting your criteria.'
+              : 'No products found.'
             }
           </p>
         </div>
@@ -143,6 +158,9 @@ const meta = {
     defaultAttributes: {
       control: { type: 'object' },
     },
+    defaultFilters: {
+      control: { type: 'object' },
+    },
   },
 } satisfies Meta<typeof DataViewComponent>;
 
@@ -154,5 +172,22 @@ export const DataView: Story = {
     products: productsData as unknown as Product[],
     defaultView: 'card',
     defaultAttributes: ['category', 'pricing.msrp', 'availability.status'],
+    defaultFilters: [],
+  },
+};
+
+export const DataViewWithFilters: Story = {
+  args: {
+    products: productsData as unknown as Product[],
+    defaultView: 'list',
+    defaultAttributes: ['category', 'pricing.msrp', 'availability.status', 'metadata.lifecycle.repairability'],
+    defaultFilters: [
+      {
+        id: 'filter-1',
+        type: ProductFilterType.CATEGORY,
+        operator: ProductFilterOperator.IS,
+        value: ['transportation']
+      }
+    ],
   },
 };
