@@ -20,14 +20,14 @@ export const SortingControls: React.FC<SortingControlsProps> = ({
     <div className="button-group">
       <pp-dropdown>
         <button className="button" is="pp-button" slot="trigger">
-          <span className="muted">Sort by</span> {currentField === 'name' ? 'A→Z' : getFieldDisplayName(currentField)}
+          <span className="muted">Sort by</span> {currentField === 'name' ? 'A-Z' : getFieldDisplayName(currentField)}
           <iconify-icon className="icon" icon="ph:caret-down" aria-hidden="true"></iconify-icon>
         </button>
         <pp-list>
           <pp-list-item
             type="checkbox"
             checked={currentField === 'name'}
-            onInput={() => handleFieldChange('name')}
+            onClick={() => handleFieldChange('name')}
           >
             Alphabetical
           </pp-list-item>
@@ -36,7 +36,7 @@ export const SortingControls: React.FC<SortingControlsProps> = ({
               key={field}
               type="checkbox"
               checked={currentField === field}
-              onInput={() => handleFieldChange(field)}
+              onClick={() => handleFieldChange(field)}
             >
               {getFieldDisplayName(field)}
             </pp-list-item>

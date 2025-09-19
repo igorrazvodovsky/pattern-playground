@@ -8,7 +8,7 @@ export const FIELD_DISPLAY_NAMES: Record<string, string> = {
   'pricing.msrp': 'Price',
   'availability.status': 'Availability',
   'sustainability.carbonFootprint': 'Carbon Footprint',
-  'sustainability.recyclabilityScore': 'Recyclability',
+  'sustainability.recyclabilityScore': 'Recyclability Score',
   'lifecycle.designLife': 'Design Life',
   'lifecycle.repairability': 'Repairability',
   'availability.leadTime': 'Lead Time',
@@ -17,7 +17,6 @@ export const FIELD_DISPLAY_NAMES: Record<string, string> = {
   'pricing.currency': 'Currency',
   'lifecycle.warrantyPeriod': 'Warranty Period',
   'lifecycle.upgradeability': 'Upgradeability',
-  'sustainability.recyclabilityScore': 'Recyclability Score',
   'pricing.leaseOptions': 'Lease Options',
   'pricing.subscriptionModel': 'Subscription Model',
   'pricing.tradeInValue': 'Trade-in Value',
@@ -146,8 +145,8 @@ export const sortProducts = (
         }
 
         // Convert to comparable values
-        let compareA: string | number = valueA;
-        let compareB: string | number = valueB;
+        let compareA: string | number;
+        let compareB: string | number;
 
         // Handle numeric fields
         if (typeof valueA === 'number' && typeof valueB === 'number') {
