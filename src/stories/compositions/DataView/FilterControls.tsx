@@ -13,7 +13,7 @@ import {
   type AICommandItem
 } from "../../../components/command-menu";
 import { AnimateChangeInHeight } from "../../../components/filter/animate-change-in-height";
-import Filters from "../../../components/filter/filters";
+import ProductFilters from "./ProductFilters";
 import { useHierarchicalNavigation } from '../../../hooks/useHierarchicalNavigation';
 import {
   createSortedSearchFunction,
@@ -192,7 +192,7 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
 
   return (
     <div className="flex">
-      <Filters filters={filters} setFilters={setFilters} />
+      <ProductFilters filters={filters} setFilters={setFilters} filterCategories={filterCategories} />
       {hasActiveFilters && (
         <button
           className="button"
