@@ -91,6 +91,7 @@ const DataViewComponent: React.FC<DataViewProps> = ({
   return (
     <div>
       <div className="toolbar flex" style={{ marginBottom: 'var(--space-l)' }}>
+        <ViewSwitcher currentView={viewMode} onViewChange={setViewMode} />
         <SearchControls
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
@@ -100,7 +101,6 @@ const DataViewComponent: React.FC<DataViewProps> = ({
           setFilters={setFilters}
           filterCategories={filterCategories}
         />
-        <ViewSwitcher currentView={viewMode} onViewChange={setViewMode} />
         <AttributeSelector
           availableAttributes={availableAttributes}
           selectedAttributes={selectedAttributes}

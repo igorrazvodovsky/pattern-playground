@@ -8,53 +8,62 @@ export const SortingControls: React.FC<SortingControlsProps> = ({
   currentOrder,
   onSortChange
 }) => {
+  const handleDirectionChange = (order: 'asc' | 'desc') => {
+    onSortChange(currentField, order);
+  };
+
   const handleFieldChange = (field: string) => {
     onSortChange(field, currentOrder);
   };
 
-  const handleOrderToggle = () => {
-    onSortChange(currentField, currentOrder === 'asc' ? 'desc' : 'asc');
+  const getCurrentLabel = () => {
+    const fieldLabel = currentField === 'name' ? 'A-Z' : getFieldDisplayName(currentField);
+    const orderLabel = currentOrder === 'asc' ? 'Ascending' : 'Descending';
+    return `${fieldLabel} (${orderLabel})`;
   };
 
   return (
-    <div className="button-group">
-      <pp-dropdown>
-        <button className="button" is="pp-button" slot="trigger">
-          <span className="muted">Sort by</span> {currentField === 'name' ? 'A-Z' : getFieldDisplayName(currentField)}
-          <iconify-icon className="icon" icon="ph:caret-down" aria-hidden="true"></iconify-icon>
-        </button>
-        <pp-list>
-          <pp-list-item
-            type="checkbox"
-            checked={currentField === 'name'}
-            onClick={() => handleFieldChange('name')}
-          >
-            Alphabetical
-          </pp-list-item>
-          {availableFields.filter(field => field !== 'name').map(field => (
-            <pp-list-item
-              key={field}
-              type="checkbox"
-              checked={currentField === field}
-              onClick={() => handleFieldChange(field)}
-            >
-              {getFieldDisplayName(field)}
-            </pp-list-item>
-          ))}
-        </pp-list>
-      </pp-dropdown>
-      <button
-        className="button"
-        is="pp-button"
-        onClick={handleOrderToggle}
-        title={`Sort ${currentOrder === 'asc' ? 'descending' : 'ascending'}`}
-      >
-        <iconify-icon
-          className="icon"
-          icon={currentOrder === 'asc' ? 'ph:sort-ascending' : 'ph:sort-descending'}
-          aria-hidden="true"
-        ></iconify-icon>
+    <pp-dropdown>
+      <button className="button" is="pp-button" slot="trigger">
+        <span className="muted inclusively-hidden">Sorted by {getCurrentLabel()}</span>
+        <iconify-icon className="icon" icon="ph:arrows-down-up" aria-hidden="true"></iconify-icon>
       </button>
-    </div>
+      <pp-list>
+        <pp-list-item
+          type="checkbox"
+          checked={currentOrder === 'desc'}
+          onClick={() => handleDirectionChange('desc')}
+        >
+          <iconify-icon className="icon" icon="ph:sort-descending" aria-hidden="true"></iconify-icon>
+          Descending
+        </pp-list-item>
+        <pp-list-item
+          type="checkbox"
+          checked={currentOrder === 'asc'}
+          onClick={() => handleDirectionChange('asc')}
+        >
+          <iconify-icon className="icon" icon="ph:sort-ascending" aria-hidden="true"></iconify-icon>
+          Ascending
+        </pp-list-item>
+        <hr />
+        <pp-list-item
+          type="checkbox"
+          checked={currentField === 'name'}
+          onClick={() => handleFieldChange('name')}
+        >
+          Alphabetical
+        </pp-list-item>
+        {availableFields.filter(field => field !== 'name').map(field => (
+          <pp-list-item
+            key={field}
+            type="checkbox"
+            checked={currentField === field}
+            onClick={() => handleFieldChange(field)}
+          >
+            {getFieldDisplayName(field)}
+          </pp-list-item>
+        ))}
+      </pp-list>
+    </pp-dropdown>
   );
 };

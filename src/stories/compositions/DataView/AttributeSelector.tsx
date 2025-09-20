@@ -10,9 +10,9 @@ export const AttributeSelector: React.FC<AttributeSelectorProps> = ({
     <pp-dropdown>
       <button className="button" is="pp-button" slot="trigger">
         <iconify-icon className="icon" icon="ph:eye"></iconify-icon>
-        Attributes
+        <span className="muted inclusively-hidden">Attributes</span>
         {/* {selectedAttributes.size} */}
-        <iconify-icon className="icon" icon="ph:caret-down" aria-hidden="true"></iconify-icon>
+        {/* <iconify-icon className="icon" icon="ph:caret-down" aria-hidden="true"></iconify-icon> */}
       </button>
       <pp-list>
         {availableAttributes.map((attribute) => (
