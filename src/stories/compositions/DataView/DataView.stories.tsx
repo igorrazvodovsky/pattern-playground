@@ -12,6 +12,7 @@ import { AttributeSelector } from './AttributeSelector';
 import { SortingControls } from './SortingControls';
 import { SearchControls } from './SearchControls';
 import { FilterControls } from './FilterControls';
+import ProductFilters from './ProductFilters';
 import { useProductSearch } from './useProductSearch';
 import { useProductFiltering } from './useProductFiltering';
 import { ProductFilter, ProductFilterType, ProductFilterOperator } from './ProductFilterTypes';
@@ -89,8 +90,8 @@ const DataViewComponent: React.FC<DataViewProps> = ({
   }
 
   return (
-    <div>
-      <div className="toolbar flex" style={{ marginBottom: 'var(--space-l)' }}>
+    <div className="flow">
+      <div className="flex">
         <ViewSwitcher currentView={viewMode} onViewChange={setViewMode} />
         <SearchControls
           searchQuery={searchQuery}
@@ -113,6 +114,14 @@ const DataViewComponent: React.FC<DataViewProps> = ({
           onSortChange={handleSortChange}
         />
       </div>
+
+      {filters.length > 0 && (
+        <ProductFilters
+          filters={filters}
+          setFilters={setFilters}
+          filterCategories={filterCategories}
+        />
+      )}
 
       {hasNoResults ? (
         <div className="empty-state border flow">
