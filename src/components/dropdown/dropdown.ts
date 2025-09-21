@@ -12,6 +12,7 @@ import { property, query } from 'lit/decorators.js';
 import { waitForEvent } from '../../utility/event.ts';
 import { watch } from '../../utility/watch.ts';
 import { PpPopup } from '../popup/popup.ts';
+import { getDeepestActiveElement, computeClosestContaining, getRootContainingElement } from '../../utility/shadow-dom.ts';
 import styles from './dropdown.css?inline';
 import type { CSSResultGroup } from 'lit';
 import type { PpList } from '../list/list';
@@ -63,6 +64,8 @@ export class PpDropdown extends LitElement {
   @query('.dropdown__panel') panel!: HTMLSlotElement;
 
   private closeWatcher: CloseWatcher | null = null;
+  private announcer: HTMLElement | null = null;
+  private submenuPopups: Map<PpListItem, PpPopup> = new Map();
 
   @property({ type: Boolean, reflect: true }) open = false;
   @property({ reflect: true }) placement:
@@ -87,6 +90,14 @@ export class PpDropdown extends LitElement {
   @property({ type: Boolean }) hoist = false;
   @property({ reflect: true }) sync: 'width' | 'height' | 'both' | undefined = undefined;
 
+  // Missing popup properties that were being used in render but not declared
+  @property({ type: Boolean, reflect: true }) flip = true;
+  @property({ type: Boolean, reflect: true }) shift = true;
+  @property({ attribute: 'auto-size', reflect: true }) autoSize: 'horizontal' | 'vertical' | 'both' | undefined = 'vertical';
+  @property({ attribute: 'auto-size-padding', type: Number }) autoSizePadding = 10;
+  @property({ attribute: 'flip-padding', type: Number }) flipPadding = 0;
+  @property({ attribute: 'shift-padding', type: Number }) shiftPadding = 0;
+
   connectedCallback() {
     super.connectedCallback();
     if (document.readyState !== 'loading') {
@@ -98,7 +109,30 @@ export class PpDropdown extends LitElement {
 
   private init() {
     if (!this.containingElement) {
-      this.containingElement = this;
+      // Use improved shadow DOM traversal to find the proper containing element
+      this.containingElement = getRootContainingElement(this);
+    }
+    this.createScreenReaderAnnouncer();
+  }
+
+  private createScreenReaderAnnouncer() {
+    // Create a live region for screen reader announcements
+    if (!this.announcer) {
+      this.announcer = document.createElement('div');
+      this.announcer.setAttribute('aria-live', 'polite');
+      this.announcer.setAttribute('aria-atomic', 'true');
+      this.announcer.style.position = 'absolute';
+      this.announcer.style.left = '-10000px';
+      this.announcer.style.width = '1px';
+      this.announcer.style.height = '1px';
+      this.announcer.style.overflow = 'hidden';
+      document.body.appendChild(this.announcer);
+    }
+  }
+
+  private announce(message: string) {
+    if (this.announcer) {
+      this.announcer.textContent = message;
     }
   }
 
@@ -114,7 +148,20 @@ export class PpDropdown extends LitElement {
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeOpenListeners();
-    this.hide();
+
+    // Clean up screen reader announcer
+    if (this.announcer && this.announcer.parentNode) {
+      this.announcer.parentNode.removeChild(this.announcer);
+      this.announcer = null;
+    }
+
+    // Clean up submenu popups
+    this.cleanupSubmenuPopups();
+
+    // Ensure we clean up any remaining state
+    if (this.open) {
+      this.open = false;
+    }
   }
 
   focusOnTrigger() {
@@ -154,29 +201,51 @@ export class PpDropdown extends LitElement {
         return;
       }
 
-      // If the dropdown is used within a shadow DOM, we need to obtain the activeElement within that shadowRoot,
-      // otherwise `document.activeElement` will only return the name of the parent shadow DOM element.
-      setTimeout(() => {
-        const activeElement =
-          this.containingElement?.getRootNode() instanceof ShadowRoot
-            ? document.activeElement?.shadowRoot?.activeElement
-            : document.activeElement;
+      // Use improved Shadow DOM traversal for better active element detection
+      // Use requestAnimationFrame for better performance than setTimeout
+      requestAnimationFrame(() => {
+        const activeElement = getDeepestActiveElement();
 
-        if (
-          !this.containingElement ||
-          activeElement?.closest(this.containingElement.tagName.toLowerCase()) !== this.containingElement
-        ) {
+        if (!this.containingElement || !activeElement) {
           this.hide();
+          return;
         }
+
+        // Check if focus is within the main dropdown
+        if (computeClosestContaining(activeElement, this.containingElement.tagName.toLowerCase()) === this.containingElement) {
+          return; // Focus is in main dropdown, keep open
+        }
+
+        // Check if focus is within any submenu popup
+        for (const popup of this.submenuPopups.values()) {
+          if (popup.contains(activeElement)) {
+            return; // Focus is in submenu, keep open
+          }
+        }
+
+        // Focus is outside both main dropdown and all submenus, so close
+        this.hide();
       });
     }
   };
 
   private handleDocumentMouseDown = (event: MouseEvent) => {
     const path = event.composedPath();
-    if (this.containingElement && !path.includes(this.containingElement)) {
-      this.hide();
+
+    // Check if click is within the main dropdown
+    if (this.containingElement && path.includes(this.containingElement)) {
+      return;
     }
+
+    // Check if click is within any submenu popup
+    for (const popup of this.submenuPopups.values()) {
+      if (path.includes(popup)) {
+        return; // Don't close if clicking in submenu
+      }
+    }
+
+    // Click is outside both main dropdown and all submenus, so close
+    this.hide();
   };
 
   private handlePanelSelect = (event: PpSelectEvent) => {
@@ -248,11 +317,15 @@ export class PpDropdown extends LitElement {
     this.updateAccessibleTrigger();
   }
 
+  // Type guard for components with button property
+  private hasButton(element: HTMLElement): element is HTMLElement & { button: HTMLElement } {
+    return 'button' in element && element.button instanceof HTMLElement;
+  }
+
+  // Improved accessible trigger detection that handles more component types beyond just pp-button
   // Slotted triggers can be arbitrary content, but we need to link them to the dropdown panel with `aria-haspopup` and
   // `aria-expanded`. These must be applied to the "accessible trigger" (the tabbable portion of the trigger element
-  // that gets slotted in) so screen readers will understand them. For example, the accessible trigger of an <pp-button>
-  // is a <button> located inside its shadow root. To determine this, we assume the first tabbable element in the trigger
-  // slot is the "accessible trigger."
+  // that gets slotted in) so screen readers will understand them.
 
   updateAccessibleTrigger() {
     const assignedElements = this.trigger.assignedElements({ flatten: true }) as HTMLElement[];
@@ -260,13 +333,23 @@ export class PpDropdown extends LitElement {
     let target: HTMLElement;
 
     if (accessibleTrigger) {
+      // More generic component detection with improved type safety
       switch (accessibleTrigger.tagName.toLowerCase()) {
         case 'pp-button':
-          target = (accessibleTrigger as HTMLElement & { button?: HTMLElement }).button || accessibleTrigger;
+        case 'pp-icon-button':
+          target = this.hasButton(accessibleTrigger) ? accessibleTrigger.button : accessibleTrigger;
+          break;
+
+        case 'button':
+        case 'a':
+        case 'input':
+          target = accessibleTrigger;
           break;
 
         default:
-          target = accessibleTrigger;
+          // For custom elements or other components, look for a button/link inside
+          const innerButton = accessibleTrigger.querySelector('button, a, [role="button"]') as HTMLElement;
+          target = innerButton || accessibleTrigger;
       }
 
       target.setAttribute('aria-haspopup', 'true');
@@ -298,6 +381,8 @@ export class PpDropdown extends LitElement {
 
   addOpenListeners() {
     this.panel.addEventListener('pp-select', this.handlePanelSelect as EventListener);
+    this.panel.addEventListener('pp-submenu-open', this.handleSubmenuOpen as EventListener);
+    this.panel.addEventListener('pp-submenu-close', this.handleSubmenuClose as EventListener);
     if ('CloseWatcher' in window) {
       this.closeWatcher?.destroy();
       this.closeWatcher = new CloseWatcher();
@@ -315,11 +400,18 @@ export class PpDropdown extends LitElement {
   removeOpenListeners() {
     if (this.panel) {
       this.panel.removeEventListener('pp-select', this.handlePanelSelect as EventListener);
+      this.panel.removeEventListener('pp-submenu-open', this.handleSubmenuOpen as EventListener);
+      this.panel.removeEventListener('pp-submenu-close', this.handleSubmenuClose as EventListener);
       this.panel.removeEventListener('keydown', this.handleKeyDown);
     }
     document.removeEventListener('keydown', this.handleDocumentKeyDown);
     document.removeEventListener('mousedown', this.handleDocumentMouseDown);
-    this.closeWatcher?.destroy();
+
+    // Ensure CloseWatcher is properly cleaned up
+    if (this.closeWatcher) {
+      this.closeWatcher.destroy();
+      this.closeWatcher = null;
+    }
   }
 
   @watch('open', { waitUntilFirstUpdate: true })
@@ -336,6 +428,11 @@ export class PpDropdown extends LitElement {
       this.dispatchEvent(new Event('pp-show', { bubbles: true, cancelable: false, composed: true }))
       this.addOpenListeners();
 
+      // Announce dropdown opening to screen readers
+      const list = this.getList();
+      const itemCount = list ? list.getAllItems().length : 0;
+      this.announce(`Dropdown opened with ${itemCount} ${itemCount === 1 ? 'option' : 'options'}`);
+
       await stopAnimations(this);
       this.panel.hidden = false;
       this.popup.active = true;
@@ -344,9 +441,21 @@ export class PpDropdown extends LitElement {
 
       this.dispatchEvent(new Event('pp-after-show', { bubbles: true, cancelable: false, composed: true }))
 
+      // Focus first item for better keyboard navigation
+      if (list) {
+        const items = list.getAllItems();
+        if (items.length > 0) {
+          list.setCurrentItem(items[0]);
+          // Don't focus automatically here - let keyboard navigation handle it
+        }
+      }
+
     } else {
       this.dispatchEvent(new Event('pp-hide', { bubbles: true, cancelable: false, composed: true }))
       this.removeOpenListeners();
+
+      // Announce dropdown closing to screen readers
+      this.announce('Dropdown closed');
 
       await stopAnimations(this);
       const { keyframes, options } = getAnimation(this, 'dropdown.hide');
@@ -358,6 +467,124 @@ export class PpDropdown extends LitElement {
     }
   }
 
+  // Submenu event handlers
+  private handleSubmenuOpen = (event: CustomEvent) => {
+    const item = event.detail.item as PpListItem;
+    this.createSubmenuPopup(item);
+  };
+
+  private handleSubmenuClose = (event: CustomEvent) => {
+    const item = event.detail.item as PpListItem;
+    this.destroySubmenuPopup(item);
+  };
+
+  // Submenu popup management methods
+  private async createSubmenuPopup(item: PpListItem) {
+    if (this.submenuPopups.has(item)) return;
+
+    // Find the submenu content (light DOM element with slot="submenu")
+    const submenuContent = item.querySelector('[slot="submenu"]') as HTMLElement;
+    if (!submenuContent) return;
+
+    // Create a new popup for the submenu
+    const popup = document.createElement('pp-popup') as PpPopup;
+
+    // Set anchor BEFORE adding to DOM (critical for initialization)
+    popup.anchor = item;
+
+    // Set all properties before DOM insertion
+    popup.placement = item.submenuPlacement || 'right-start';
+    popup.distance = 4;
+    popup.strategy = this.hoist ? 'fixed' : 'absolute';
+    popup.flip = this.flip;
+    popup.shift = this.shift;
+    popup.autoSize = 'vertical';
+    popup.autoSizePadding = this.autoSizePadding;
+    popup.flipPadding = this.flipPadding;
+    popup.shiftPadding = this.shiftPadding;
+
+    // Clone and append content
+    const clonedContent = submenuContent.cloneNode(true) as HTMLElement;
+    clonedContent.removeAttribute('slot');
+    popup.appendChild(clonedContent);
+
+    // Add to document and wait for it to be fully rendered
+    document.body.appendChild(popup);
+    this.submenuPopups.set(item, popup);
+
+    // Wait for the popup to complete its first render before activating
+    await popup.updateComplete;
+
+    // Wait an additional frame to ensure DOM is settled
+    await new Promise(resolve => requestAnimationFrame(resolve));
+
+    // Now activate the popup
+    popup.active = true;
+
+    // Final positioning after activation
+    requestAnimationFrame(() => {
+      popup.reposition();
+    });
+
+    // Handle submenu selection events
+    popup.addEventListener('pp-select', (e) => {
+      // Bubble up the selection event to the main dropdown
+      this.dispatchEvent(new CustomEvent('pp-select', {
+        detail: e.detail,
+        bubbles: true,
+        composed: true
+      }));
+
+      // Close submenu and potentially the whole dropdown based on stayOpenOnSelect
+      if (!this.stayOpenOnSelect) {
+        this.hide();
+      }
+    });
+
+    // Handle mouse events to prevent premature closing
+    popup.addEventListener('mouseenter', () => {
+      // Clear any pending close timeout when mouse enters submenu
+      const list = this.panel.querySelector('pp-list');
+      if (list && (list as any).submenuTimeout) {
+        clearTimeout((list as any).submenuTimeout);
+        (list as any).submenuTimeout = null;
+      }
+
+      // Keep the parent item as current when in submenu
+      const parentList = this.panel.querySelector('pp-list');
+      if (parentList) {
+        (parentList as any).setCurrentItem(item);
+      }
+    });
+
+    popup.addEventListener('mouseleave', () => {
+      // Start a new timeout to close submenu when leaving
+      const list = this.panel.querySelector('pp-list');
+      if (list) {
+        (list as any).submenuTimeout = window.setTimeout(() => {
+          (list as any).closeAllSubmenus();
+        }, 100);
+      }
+    });
+  }
+
+  private destroySubmenuPopup(item: PpListItem) {
+    const popup = this.submenuPopups.get(item);
+    if (popup && popup.parentNode) {
+      popup.parentNode.removeChild(popup);
+      this.submenuPopups.delete(item);
+    }
+  }
+
+  private cleanupSubmenuPopups() {
+    this.submenuPopups.forEach((popup) => {
+      if (popup.parentNode) {
+        popup.parentNode.removeChild(popup);
+      }
+    });
+    this.submenuPopups.clear();
+  }
+
   render() {
     return html`
       <pp-popup
@@ -367,10 +594,12 @@ export class PpDropdown extends LitElement {
         distance=${this.distance}
         skidding=${this.skidding}
         strategy=${this.hoist ? 'fixed' : 'absolute'}
-        flip
-        shift
-        auto-size="vertical"
-        auto-size-padding="10"
+        ?flip=${this.flip}
+        ?shift=${this.shift}
+        auto-size=${ifDefined(this.autoSize)}
+        auto-size-padding=${this.autoSizePadding}
+        flip-padding=${this.flipPadding}
+        shift-padding=${this.shiftPadding}
         sync=${ifDefined(this.sync ? this.sync : undefined)}
         class=${classMap({
       dropdown: true,

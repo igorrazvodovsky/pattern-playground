@@ -123,4 +123,21 @@
   justify-content: center;
   width: 1.5em;
   visibility: hidden;
+  transition: transform var(--transition-fast);
+}
+
+.list-item--has-submenu .list-item__chevron {
+  visibility: visible;
+}
+
+.list-item__submenu {
+  display: none;
+}
+
+:host([has-submenu]:hover:not([aria-disabled="true"])) .list-item {
+  background-color: var(--c-neutral-50);
+}
+
+:host([submenu-open]) .list-item {
+  background-color: var(--c-neutral-50);
 }
