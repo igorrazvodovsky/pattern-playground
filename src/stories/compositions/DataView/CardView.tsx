@@ -1,6 +1,6 @@
 import React from 'react';
 import { CardViewProps } from './types';
-import { getAttributeValue, formatAttributeValue } from './utils';
+import { AttributeBadge } from './AttributeBadge';
 
 export const CardView: React.FC<CardViewProps> = ({ products, selectedAttributes }) => {
   return (
@@ -12,16 +12,14 @@ export const CardView: React.FC<CardViewProps> = ({ products, selectedAttributes
             <p className="description">{product.description}</p>
             {selectedAttributes.size > 0 && (
               <div className="card__attributes badges">
-                {Array.from(selectedAttributes).map((attr) => {
-                  const value = getAttributeValue(product, attr);
-                  const formattedValue = formatAttributeValue(value, attr);
-                  return (
-                    <span key={attr} className="badge">
-                      <span className="badge__label">{attr.split('.').pop()}</span>
-                      {formattedValue}
-                    </span>
-                  );
-                })}
+                {Array.from(selectedAttributes).map((attr) => (
+                  <AttributeBadge
+                    key={attr}
+                    product={product}
+                    attribute={attr}
+                    showLabel={false}
+                  />
+                ))}
               </div>
             )}
           </article>

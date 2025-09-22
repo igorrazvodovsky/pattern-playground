@@ -23,15 +23,16 @@ import {
   ProductFilterOperator,
   ProductFilter,
   ProductFilterCategory
-} from './ProductFilterTypes';
+} from './FilterTypes';
+import { useFilterState } from './hooks/useFilterState';
+import { useDropdownState } from './hooks/useDropdownState';
+import { generateProductFilterSuggestions } from './aiFilterAdapter';
+import { DROPDOWN_CLOSE_DELAY, MIN_AI_TRIGGER_LENGTH } from './constants';
 
 // Import required web components
 import '../../../components/dropdown/dropdown.ts';
 import 'iconify-icon';
 import '../../../jsx-types';
-
-const DROPDOWN_CLOSE_DELAY = 200;
-const MIN_AI_TRIGGER_LENGTH = 3;
 
 export interface FilterControlsProps {
   filters: ProductFilter[];
@@ -39,74 +40,6 @@ export interface FilterControlsProps {
   filterCategories: ProductFilterCategory[];
 }
 
-const getFilterOperator = (): ProductFilterOperator => {
-  return ProductFilterOperator.IS;
-};
-
-const useFilterState = (filters: ProductFilter[], setFilters: React.Dispatch<React.SetStateAction<ProductFilter[]>>) => {
-  const addFilter = React.useCallback((filterType: ProductFilterType, value: string) => {
-    const newFilter: ProductFilter = {
-      id: nanoid(),
-      type: filterType,
-      operator: getFilterOperator(),
-      value: [value],
-    };
-    setFilters(prev => [...prev, newFilter]);
-  }, [setFilters]);
-
-  const clearFilters = React.useCallback(() => setFilters([]), [setFilters]);
-
-  const hasActiveFilters = React.useMemo(
-    () => filters.some(filter => filter.value?.length > 0),
-    [filters]
-  );
-
-  return { addFilter, clearFilters, hasActiveFilters };
-};
-
-const useDropdownState = (dropdownRef: React.RefObject<{ hide: () => void }>) => {
-  const hideDropdownWithDelay = React.useCallback(() => {
-    setTimeout(() => dropdownRef.current?.hide(), DROPDOWN_CLOSE_DELAY);
-  }, [dropdownRef]);
-
-  return { hideDropdownWithDelay };
-};
-
-// Simplified AI adapter for product filters
-const generateProductFilterSuggestions = async (
-  prompt: string,
-  filterTypes: ProductFilterType[],
-  availableValues: Record<ProductFilterType, string[]>
-): Promise<AICommandResult> => {
-  // Simple mock implementation - in real app this would call AI service
-  const suggestions: AICommandItem[] = [];
-
-  // Basic keyword matching for demonstration
-  const lowercasePrompt = prompt.toLowerCase();
-
-  filterTypes.forEach(type => {
-    const values = availableValues[type] || [];
-    values.forEach(value => {
-      if (value.toLowerCase().includes(lowercasePrompt) ||
-          type.toLowerCase().includes(lowercasePrompt)) {
-        suggestions.push({
-          label: `${type}: ${value}`,
-          metadata: {
-            type,
-            operator: ProductFilterOperator.IS,
-            value: [value]
-          }
-        });
-      }
-    });
-  });
-
-  return {
-    prompt,
-    suggestedItems: suggestions.slice(0, 5), // Limit to 5 suggestions
-    reasoning: `Found ${suggestions.length} filter suggestions based on "${prompt}"`
-  };
-};
 
 export const FilterControls: React.FC<FilterControlsProps> = ({
   filters,
@@ -116,7 +49,7 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
   const dropdownRef = React.useRef<{ hide: () => void } | null>(null);
 
   const { addFilter, clearFilters, hasActiveFilters } = useFilterState(filters, setFilters);
-  const { hideDropdownWithDelay } = useDropdownState(dropdownRef);
+  const { hideDropdownWithDelay } = useDropdownState(dropdownRef, DROPDOWN_CLOSE_DELAY);
 
   const { state, actions, results, inputRef, placeholder } = useHierarchicalNavigation({
     data: filterCategories,

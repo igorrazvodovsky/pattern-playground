@@ -3,10 +3,8 @@ import React, { useState, useMemo } from "react";
 import productsData from '../../data/products.json' with { type: 'json' };
 import { Product } from '../../data/types';
 import { DataViewProps, ViewMode, AttributeSelection, SortField, SortOrder } from './types';
-import { getAvailableAttributes, sortProducts } from './utils';
-import { CardView } from './CardView';
-import { ListView } from './ListView';
-import { TableView } from './TableView';
+import { getAvailableAttributes } from './AttributeUtils';
+import { sortProducts } from './SortingUtils';
 import { ViewSwitcher } from './ViewSwitcher';
 import { AttributeSelector } from './AttributeSelector';
 import { SortingControls } from './SortingControls';
@@ -15,7 +13,9 @@ import { FilterControls } from './FilterControls';
 import ProductFilters from './ProductFilters';
 import { useProductSearch } from './useProductSearch';
 import { useProductFiltering } from './useProductFiltering';
-import { ProductFilter, ProductFilterType, ProductFilterOperator } from './ProductFilterTypes';
+import { ProductFilter, ProductFilterType, ProductFilterOperator } from './FilterTypes';
+import { EmptyState } from './EmptyState';
+import { DataViewRenderer } from './DataViewRenderer';
 
 const DataViewComponent: React.FC<DataViewProps> = ({
   products,
@@ -63,11 +63,11 @@ const DataViewComponent: React.FC<DataViewProps> = ({
   if (selectedAttributes.size === 0) {
     return (
       <div>
-        <div className="empty-state border flow">
-          <iconify-icon style={{fontSize: "3rem"}} icon="ph:list"></iconify-icon>
-          <h3>Select attributes to view</h3>
-          <p>Choose which product details you'd like to see from the attributes dropdown.</p>
-        </div>
+        <EmptyState
+          icon="ph:list"
+          title="Select attributes to view"
+          message="Choose which product details you'd like to see from the attributes dropdown."
+        />
       </div>
     );
   }
@@ -80,11 +80,11 @@ const DataViewComponent: React.FC<DataViewProps> = ({
   if (hasNoData) {
     return (
       <div>
-        <div className="empty-state border flow">
-          <iconify-icon style={{fontSize: "3rem"}} icon="ph:database"></iconify-icon>
-          <h3>No products available</h3>
-          <p>Check your data source - no products have been loaded.</p>
-        </div>
+        <EmptyState
+          icon="ph:database"
+          title="No products available"
+          message="Check your data source - no products have been loaded."
+        />
       </div>
     );
   }
@@ -124,33 +124,25 @@ const DataViewComponent: React.FC<DataViewProps> = ({
       )}
 
       {hasNoResults ? (
-        <div className="empty-state border flow">
-          <iconify-icon style={{fontSize: "3rem"}} icon="ph:magnifying-glass"></iconify-icon>
-          <h3>No results found</h3>
-          <p>
-            {searchQuery && filters.length > 0
+        <EmptyState
+          icon="ph:magnifying-glass"
+          title="No results found"
+          message={
+            searchQuery && filters.length > 0
               ? `No products match "${searchQuery}" with current filters. Try adjusting your search or filters.`
               : searchQuery
               ? `No products match "${searchQuery}". Try adjusting your search terms.`
               : filters.length > 0
               ? 'No products match your current filters. Try adjusting your criteria.'
               : 'No products found.'
-            }
-          </p>
-        </div>
-      ) : (
-        (() => {
-          switch (viewMode) {
-            case 'card':
-              return <CardView products={sortedProducts} selectedAttributes={selectedAttributes} />;
-            case 'list':
-              return <ListView products={sortedProducts} selectedAttributes={selectedAttributes} />;
-            case 'table':
-              return <TableView products={sortedProducts} selectedAttributes={selectedAttributes} />;
-            default:
-              return <CardView products={sortedProducts} selectedAttributes={selectedAttributes} />;
           }
-        })()
+        />
+      ) : (
+        <DataViewRenderer
+          viewMode={viewMode}
+          products={sortedProducts}
+          selectedAttributes={selectedAttributes}
+        />
       )}
     </div>
   );

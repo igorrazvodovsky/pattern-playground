@@ -1,11 +1,8 @@
 import { useMemo } from 'react';
 import { Product } from '../../data/types';
-import {
-  ProductFilter,
-  ProductFilterCategory,
-  generateProductFilterCategories,
-  applyFiltersToProducts
-} from './ProductFilterTypes';
+import { ProductFilter, ProductFilterCategory } from './FilterTypes';
+import { applyFiltersToProducts } from './FilterOperations';
+import { generateProductFilterCategories } from './FilterCategories';
 
 export interface UseProductFilteringResult {
   filteredProducts: Product[];
