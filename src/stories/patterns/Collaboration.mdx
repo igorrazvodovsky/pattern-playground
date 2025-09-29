@@ -26,6 +26,17 @@ Enables multiple actors to work together effectively (i.e. without confusion, du
 - Human ↔ Human
 - Human ↔ Bot
 
+## Interaction stages
+
+These stages describe the shared workflow actors move through when creating together, from initial perception to final evaluation.
+
+1. Perceive: actors gather and interpret information to establish a shared understanding of the task context and goals.
+2. Think: This stage encompasses the internal cognitive or computational processes where both human and AI formulate ideas, strategies, and potential solutions.
+3. Express: Articulating and externalizing internally generated ideas or results. The clarity, relevance, and interpretability of expression are crucial for collaborator comprehension and subsequent action, influencing the perceived usefulness and agency of each participant.
+4. Collaborate: The core interactive partnership, characterized by iterative exchanges aimed at refining ideas, resolving discrepancies. Involves turn-taking, negotiation, critique, modification, and coordinated responses. Effective collaboration requires mechanisms that foster mutual understanding, transparency regarding actions and reasoning, and well-designed communication protocols.
+5. Build: Translating collaboratively refined concepts into tangible artifacts or implemented solutions. Contributions from earlier stages serve as foundational blocks, templates, or reference materials. Actors may work in parallel or sequentially.
+6. Test: Evaluating the co-created output against initial goals or emergent criteria. Actors assess quality, functionality, and alignment with shared vision. Evaluation often involves providing feedback through various modalities (explicit adjustments, natural language corrections, ratings), which can loop back to earlier stages for iteration.
+
 {/* ## Core components */}
 
 {/* - Shared workspace: common environment accessible to all participants */}
@@ -53,17 +64,9 @@ TODO: Commenting, annotations, notifications, activity log, version management
 
 ## Human ↔ Bot
 
-### Dialogic collaboration
+Human-AI collaboration involves navigating through the interaction stages with considerations for [agency distribution](../?path=/docs/foundations-agency--docs#distribution) and [control mechanisms](../?path=/docs/foundations-agency--docs#control-patterns). Bot agency follows the general [agency spectrum](../?path=/docs/foundations-agency--docs#spectrum), shifting dynamically across interaction stages—reactive during perceive, co-operative during collaborate, semi-active during test.
 
-Turn-based interaction where meaning and direction emerge through iterative conversation.
-
-TODO: Interaction patterns
-- Recap rituals (“Here’s what we’ve covered…”)
-- Prompt scaffolding (templates, few-shot examples)
-- Clarification turns (“Did you mean…?”)
-- Transparency prompts (“Because you said X, I suggested Y”)
-
-### ...
+See [Bot](../?path=/docs/patterns-bot--docs) for detailed interaction patterns.
 
 ## Bot ↔ Bot
 
@@ -98,6 +101,7 @@ TODO: Interaction patterns
 
 ## Resources & references
 
+- Zhang, Wang, Yi (2025) [Exploring Collaboration Patterns and Strategies in Human-AI Co-creation through the Lens of Agency](https://arxiv.org/abs/2507.06000)
 - Nardi et al (1998) [Collaborative, programmable intelligent agents](https://dl.acm.org/doi/10.1145/272287.272331)
 - Matt Webb, [Designing multiplayer apps with patterns from architecture](https://interconnected.org/home/2022/01/21/social_gradient)
 - [Apple HIG](https://developer.apple.com/design/human-interface-guidelines/collaboration-and-sharing)
