@@ -64,7 +64,67 @@ TODO: Commenting, annotations, notifications, activity log, version management
 
 ## Human ↔ Bot
 
-Human-AI collaboration involves navigating through the interaction stages with considerations for [agency distribution](../?path=/docs/foundations-agency--docs#distribution) and [control mechanisms](../?path=/docs/foundations-agency--docs#control-patterns). Bot agency follows the general [agency spectrum](../?path=/docs/foundations-agency--docs#spectrum), shifting dynamically across interaction stages—reactive during perceive, co-operative during collaborate, semi-active during test.
+Human-AI collaboration unfolds through the interaction stages with shifting [agency patterns](../?path=/docs/foundations-agency--docs#spectrum), [distribution](../?path=/docs/foundations-agency--docs#distribution), and [control mechanisms](../?path=/docs/foundations-agency--docs#control-patterns).
+
+### Perceive
+
+Actors gather and interpret information to establish shared understanding of the task context and goals.
+Actors formulate intent and provide input.
+
+- Agency: typically *reactive*—bot responds to user input without independent initiative
+- Distribution: *human-centric* locus with user providing initial direction and framing
+- Control mechanisms: *guided input* structures user prompts and parameters; *context awareness* enables bot to leverage history and environment
+
+### Think
+
+Internal cognitive or computational processes where actors formulate ideas, strategies, and potential solutions.
+This involves processing perceived input, generating novel representations, planning approaches, and evaluating possibilities.
+The alignment (or misalignment) between collaborators' thinking critically impacts the trajectory of collaboration.
+
+- Agency: *semi-active* to *proactive*—bot analyzes inputs and may generate insights or suggestions independently
+- Distribution: shifting toward *shared* locus as bot contributes substantive thinking; *dynamic allocation* based on problem complexity
+- Control mechanisms: *transparency* makes bot reasoning visible; *intervention* allows real-time adjustment; *context management* maintains task continuity
+
+### Express
+
+Articulating and externalizing generated ideas or results.
+Actors manifest thoughts through various outputs: text, multimodal content, actions, or decisions.
+The clarity, relevance, and interpretability of expression are crucial for collaborator comprehension and subsequent action, influencing the perceived usefulness and agency of each participant.
+
+- Agency: *reactive* to *semi-active*—bot generates outputs in response to prompts or contextual triggers
+- Distribution: varies by output type; may be *human-centric* (user directs generation) or *shared* (bot proposes options)
+- Control mechanisms: *transparency* distinguishes AI-generated content; *adaptive scaffolding* adjusts output complexity; *modification* enables direct editing
+
+### Collaborate
+
+The core interactive partnership, characterized by iterative exchanges aimed at refining ideas and resolving discrepancies.
+Involves turn-taking, negotiation, critique, modification, and coordinated responses.
+Agency becomes highly distributed and dynamically negotiated during this stage.
+Effective collaboration requires fostering mutual understanding and transparency regarding actions and reasoning.
+
+- Agency: *co-operative*—bot acts as active partner, both actors mutually influence the creative output
+- Distribution: *shared* locus with *dynamic allocation* as control shifts based on task phase; both *high-level* (strategic) and *fine-grained* (tactical) granularity
+- Control mechanisms: full range applies—*iterative feedback loops* enable refinement; *intervention* allows course correction; *transparency* maintains shared understanding; *confidence visualization* surfaces reliability
+
+### Build
+
+Translating collaboratively refined concepts into tangible artifacts or implemented solutions.
+Contributions from earlier stages serve as foundational blocks, templates, or reference materials.
+Actors may work in parallel or sequentially, with agency pivoting towards execution, integration, and fine-grained control during materialization of the co-created vision.
+
+- Agency: *proactive* to *co-operative*—bot may execute tasks autonomously or work alongside user
+- Distribution: may shift between *human-centric*, *shared*, and *system-centric* based on sub-task; *fine-grained* control during implementation
+- Control mechanisms: *intervention* enables real-time adjustments; *modification* allows direct editing of outputs; *adaptive scaffolding* adjusts assistance levels; *chain-of-thought* reveals execution reasoning
+
+### Test
+
+Evaluating the co-created output against initial goals or emergent criteria.
+Actors assess quality, functionality, and alignment with shared vision.
+Evaluation often involves providing feedback through various modalities (explicit adjustments, natural language, ratings, embodied reactions), which can loop back to earlier stages for iteration.
+
+- Agency: *semi-active*—bot provides evaluation support and identifies issues, but doesn't make final judgments
+- Distribution: *human-centric* locus for ultimate acceptance/rejection decisions; bot contributes analysis
+- Control mechanisms: *confidence visualization* indicates bot's certainty about issues; *explanatory feedback* clarifies evaluation reasoning; *iterative feedback loops* enable refinement cycles; *intervention* allows override of bot assessments
 
 See [Bot](../?path=/docs/patterns-bot--docs) for detailed interaction patterns.
 

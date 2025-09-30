@@ -54,20 +54,95 @@ Passive → Reactive → Semi-active → Proactive → Co-operative
 - Proactive: System initiates actions and introduces insights based on analysis.
 - Co-operative: System collaborates as equal partner in problem-solving.
 
-Agency patterns may shift across different contexts and stages. For example, in collaborative workflows, a system might operate reactively during initial input gathering, shift to co-operative during refinement, and become semi-active during final evaluation.
+Agency patterns may shift across different contexts and stages. For example, in collaborative workflows, a system might operate reactively during initial input gathering, shift to co-operative during refinement, and become semi-active during final evaluation. See [Collaboration](../?path=/docs/patterns-collaboration--docs#human--bot) for how these agency patterns shift across interaction stages in human-AI co-creation.
 
 As system agency increases, preserving user agency becomes more critical to maintain user control and prevent skill atrophy. Each level requires increasing trust between user and system, with co-operative modes demanding the highest levels of mutual understanding and shared mental models.
 
-{/* ## Control patterns */}
+## Control patterns
 
-{/* Various patterns enable users to exert control and preserve agency as system autonomy increases: */}
+Various patterns enable users to exert control and preserve agency as system autonomy increases:
 
-{/* - Guided input - Structured prompts, parameters, and multimodal input methods that shape system behaviour */}
-{/* - Context management - Leveraging history, environment, task, and user information to inform system decisions */}
-{/* - Transparency - Making system operations and reasoning visible and inspectable */}
-{/* - Intervention - Direct modification, real-time adjustment, or rejection of system outputs */}
-{/* - Adaptive scaffolding - Dynamic adjustment of assistance levels based on user needs and capabilities */}
-{/* - Feedback loops - Iterative refinement through evaluation and correction cycles */}
+### Input: information access
+#### Guided Input Interaction
+Patterns that structure and facilitate how users provide input to AI.
+- User-centered input optimization enhances users control to align AI outputs with expectations. Users actively refine prompts iteratively based on AI responses or tailor their experience via customizable interface elements like adjustable parameters and views
+- Interface-supported input guidance employs interface design to actively direct user input, improving interaction
+efficiency. Interfaces provide interactive visual feedback (e.g., confidence highlighting, code comparison) to help users understand and refine inputs.
+
+#### Context awareness and memory
+Patterns that enable AI to leverage historical, environmental, task, and user information, enhancing contextual understanding and collaboration
+continuity, encompassing several detailed approaches.
+- interaction history integration – incorporate past conversational or operational history into decision-making
+- task-oriented context management – maintain awareness of specific tasks, objectives, and histories to ensure consistency. System might enable retrieving artifacts for context-aware iteration, track design goals, adapt interfaces to workflow stages, or use
+history to inform alerts.
+- personalized context adaptation – AI tailors its behavior to individual user backgrounds, needs and preferences.
+
+#### Transparency and Explainability
+Enhance user understanding of AI operations and build trust.
+- interaction tracking, systems document and present interaction histories, allowing users to review contributions from both humans and AI.
+- decision visualization – visualize AI’s decision-making processes or influencing factors. For instance, provide users with clear interface suggestions, or make algorithmic processes transparent by visually linking decision/actions to results.
+- system explanation – explain the reasoning behind AI-generated outputs to clarify internal workings. Examples include providing rationales for generated content, documenting iterative project changes to track solution evolution, surfacing relevant reports to explain potential
+harms.
+
+### Action exploration & coordination
+
+#### Multimodal action space exploration
+Patterns facilitateting human-AI collaboration by enabling interaction through diverse modalities.
+- Text-based interaction
+- Combined and integrated modalities explicitly merge interaction modes, e.g. integrating goal-setting, messaging,
+and custom representations.
+
+#### Action Coordination
+How human-AI co-creation systems distribute responsibilities, decision-making authority, and interaction dynamics based on the assumed roles of human and AI agents.
+- complementary role distribution – systems assign distinct, interdependent roles leveraging respective strength. Humans typically provide strategic direction or creative input, while AI handles data processing or routine tasks
+- human-dominated agency with AI support – humans retain primary decision-making authority, utilizing AI as an auxiliary tool or assistant
+that provides suggestions or analysis but lacks autonomous agency
+- shared creative agency – humans and AI engage jointly with mutual influence on the creative output. Both participate throughout
+idea generation, refinement and evaluation, fostering an emergent process
+- technical precision and control – systems focus on enabling users to exert detailed, fine-grained control over AI outputs
+through interfaces offering parameter tuning, prompt refinement, or direct manipulation
+- autonomous AI contribution – AI operates with significant autonomy on specific sub-tasks within parameters established by humans, contributing independently while remaining accountable to human oversight.
+
+### Output: direct intervention
+
+#### Modification and Intervention
+Detail how users exert control over AI systems by intervening in processes or modifying outputs.
+- direct editing and adjustment – user directly alter AI outputs. This includes manually labeling or modifying generated content, or identifying and correcting errors.
+- parameter and prompt control – users influence AI outcomes indirectly through system settings or inputs, rather than altering the output itself. Examples include shaping generative processes via prompts and parameters, controlling the sequence or level of AI assistance [45], or adjusting AI decision-making parameters.
+- real-time intervention and adjustment – users intervene during an ongoing AI process.
+- acceptance or rejection or AI suggestions – users act as gatekeepers by explicitly accepting or rejecting AI
+contributions. This includes users overriding suggestions and documenting their own assessments, manually acknowledging or dismissing system-identified problems, or users controlling annotations by accepting/rejecting recommendations.
+
+#### Adaptive Scaffolding
+Dynamically adjusting the level and type of AI assistance provided to users, operating on a spectrum from system-controlled to user-driven approaches, often incorporating hybrid models.
+- system-controlled adaptive scaffolding – the AI autonomously modifies support based on pre-defined rules, learned models, or analysis of user behavior and context. Examples include AI suggesting relevant steps based on conversation flow, adjusting guidance based on analyzed user progress, adapting assistance levels to user's skill, tailoring support based on learner understanding, structuring learning based on observed behavior, adapting based on user interaction interpretation, or curating data views based on context.
+- user-driven adaptive scaffolding – users explicitly control the adaptation of support mechanisms. They might manually adjust settings, select different assistance levels, request specific types of support, trigger or dismiss system hints, specify proficiency levels, or set
+goals to modify assistance intensity.
+- hybrid adaptive scaffolding – combines system autonomy with user control, where the system might make adjustments but allow user overrides or modifications. Adaptation factors include user proficiency, task phase or context, explicit user feedback, and observed task progress.
+
+#### Chain-of-Thought
+Explicitly display the AI’s step-by-step reasoning process used to reach a solution or suggestion. Making the system’s logic transparent helps users understand and evaluate the output.
+
+### Feedback
+
+#### Confidence visualization
+Communicate AI reliability or influence user confidence regarding AI outputs and actions.
+
+- confidence/uncertainty visualization – interface visually represent the AI’s confidence level (e.g., via scores, intervals or alternatives) for
+its outputs or actions. This helps users gauge reliability and make informed decisions about interpreting or acting upon AI contributions.
+- user feedback and trust management – systems incorporate feedback channels to measure how design choices influence users’ perception of system reliability, bias, and overall trust
+- confidence-based ranking and prioritization – algorithms order or rank AI suggestions based on calculated confidence metrics. This guides user attention towards reliable items first, as seen in pattern prioritization based on model confidence
+
+#### Explanatory feedback
+Transparency strategies to help users understand AI operations and reasoning, facilitating informed decisions.
+- model explanation and reasoning disclosure – systems provide explicit insights into AI decision-making. This involves interpreting ambiguous outputs, offering views into model operations, using visualizations like feature importance plots, explaining design outcomes, displaying flags based on rules.
+- visual highlighting and differentiation – interfaces use visual cues to distinguish AI contributions or guide user attention. Examples include color-coding AI-written text, highlighting key points in peer reviews, emphasizing generative variability.
+
+#### Iterative feedback loop
+Continuous refinement of co-created outputs through dynamic exchanges based on user input or environmental changes.
+- user-directed feedback – users explicitly provide feedback to guide AI performance and improvements. Examples include using AI outputs to inform subsequent prompts, offering direct interaction feedback or ratings, providing textual feedback on generated content, iteratively testing outputs with parameter adjustments, manually indicating alignment with assessments.
+- system-initiated feedback – systems proactively provide these feedback to enhance the interaction process or guide users. AI might respond to users’ additional queries, provide real-time suggestions with system adaptations, offer immediate visual feedback, monitor user actions and adjust responses, serve as a feedback tool during ideation, track goals for immediate feedback, propose updated content based on input, or establish user-system response cycles for refinement
+- bidirectional interaction feedback – the feedback flows dynamically in both directions between users and the AI
 
 ## Relationships to different levels of design system
 
