@@ -2,6 +2,58 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Table of contents
+- [Quick reference](#quick-reference)
+- [Development commands](#development-commands)
+- [Architecture overview](#architecture-overview)
+- [TypeScript & type safety](#typescript--type-safety)
+- [State management best practices](#state-management-best-practices)
+- [Modern JavaScript/TypeScript features](#modern-javascripttypescript-features)
+- [Event handling & lifecycle](#event-handling--lifecycle)
+- [Web Component Loading Patterns](#web-component-loading-patterns)
+- [Testing and quality](#testing-and-quality)
+- [Code comments](#code-comments)
+- [Styling guidelines](#styling-guidelines)
+- [JavaScript hooks and functionality](#javascript-hooks-and-functionality)
+- [Documentation standards](#documentation-standards)
+- [Mock data and testing](#mock-data-and-testing)
+- [Code review workflow](#code-review-workflow)
+- [Anti-patterns](#anti-patterns)
+
+## Quick reference
+
+### Common commands
+```bash
+npm run test              # Run ESLint and Stylelint
+npm run storybook         # Start Storybook on port 6006
+cd server && npm run dev  # Start Express server with hot reload
+```
+
+### Component conventions
+- **Prefix**: All custom elements use `pp-` prefix (e.g., `<pp-button>`, `<pp-modal>`)
+- **Pattern**: Components extend native elements: `<button is="pp-button">`
+- **Registration**: All components registered via `src/components/register-all.ts`
+- **Loading**: Use bulletproof loading pattern with DOM readiness checks
+
+### File organization
+- `src/components/` - Core components
+- `src/stories/` - Storybook documentation (primitives, components, compositions, patterns, foundations)
+- `src/services/` - API services and utilities
+- `src/styles/` - Global styles (never use inline styles)
+- `server/` - Express backend with AI integration
+
+### When to use what
+- **Lit vs React**: Lit for production components, React for Storybook stories and complex compositions
+- **Zustand vs Context**: Zustand for complex state needing persistence, Context for simple prop drilling
+- **Light DOM vs Shadow DOM**: Light DOM for better accessibility/styling inheritance (preferred)
+- **Mock data**: Extract to JSON files if >5 complex items or reusable across components
+
+### Key patterns
+- Progressive enhancement (CSS-only → JavaScript enhanced)
+- Framework-agnostic services with plugin architecture
+- Pointer-based abstractions for universal features
+- Centralized component registration with dependency management
+
 ## Development commands
 
 **Frontend (root directory):**
@@ -234,7 +286,7 @@ Use the Intent & Interaction framework (`src/stories/foundations/Behaviours.mdx`
 - Reference established design principles (modularity, hierarchy, complexity management)
 
 ### Documentation linking
-When creating cross-references between documen£tation files:
+When creating cross-references between documentation files:
 - **Storybook URLs**: Generated from Meta title - `<Meta title="Category/Name" />` becomes `../?path=/docs/category-name--docs`
 - **URL transformation**:
   - Category/Name → category-name
@@ -247,6 +299,23 @@ When creating cross-references between documen£tation files:
 ### Writing style
 - Use British spelling throughout (behaviour, organisation, colour, etc.)
 - **Always use sentence case for headings and titles**
+- **Prioritize conciseness** - Each sentence should add new information. Remove elaborative phrases that restate rather than extend. Trust reader comprehension—avoid over-explaining implications. Edit ruthlessly to remove redundancy.
+
+### Research and source material
+When working with academic papers or research sources:
+- **Verify before writing** - Always check source material before making claims about frameworks or concepts
+- **Never fabricate** - Extract frameworks directly from sources, don't invent or embellish them
+- **Understand paper type** - Distinguish between descriptive papers (literature reviews, surveys) and prescriptive papers (proposing new frameworks)
+- **Cite specifically** - Reference specific sections/pages when extracting concepts
+- **When uncertain, re-read** - If you can't remember exact source content, read it again before writing
+
+### Conceptual integrity
+When organizing concepts in the design system:
+- **Test boundaries** - Apply frameworks to edge cases to understand scope (e.g., "Does this apply to human-human collaboration or just human-AI?")
+- **Check definitional consistency** - If a foundation is defined as "distribution of X", creating an "X distribution" section may indicate redundancy
+- **Question placement** - Foundations define universal principles ("what it is"), Patterns show specific applications ("how it's used")
+- **Prefer applied examples** - Concrete examples in applied contexts often clarify better than abstract cross-references
+- **Use Socratic questioning** - Ask "What happens if...?" to test framework boundaries
 
 ## Mock data and testing
 
@@ -266,5 +335,39 @@ When creating cross-references between documen£tation files:
 ## Code review workflow
 After completing any implementation or change to code:
 1. Use the code-reviewer agent to review the code for quality, security, maintainability, errors, inconsistencies, and best practice violations.
+   - Invoke via: `Task` tool with `subagent_type: "code-reviewer"`
+   - Provide file paths or directories to review in the prompt
+   - Agent runs autonomously and returns findings in a single report
 2. Implement any suggestions or improvements identified by the code-reviewer
 3. Only consider the implementation complete after addressing code review feedback
+
+## Anti-patterns
+
+### Styling
+- **Never use inline styles** - All styling must go through CSS classes or design tokens
+- **Don't rely on CSS classes for JavaScript hooks** - Use `data-*` attributes instead
+- **Don't add styles without asking** - Verify approach aligns with design system first
+
+### Components
+- **Don't skip bulletproof loading pattern** - Always check `document.readyState` in `connectedCallback()`
+- **Don't create components without checking existing solutions** - Leverage existing dependencies first
+- **Don't define components individually** - Use centralized registration in `register-all.ts`
+- **Don't mix concerns** - Keep services framework-agnostic, separate from UI integrations
+
+### TypeScript
+- **Don't use `any`** - Create proper types or use `unknown` with type guards
+- **Don't skip type guards** - Create `is*` functions for runtime type checking
+- **Don't avoid generics** - Use them for reusable, type-safe components
+
+### Code organization
+- **Don't inline long mock data** - Extract arrays with >5 complex items to JSON files
+- **Don't write redundant comments** - Code should be self-documenting; comment only non-obvious logic
+
+### Web Components
+- **Don't use Shadow DOM by default** - Prefer Light DOM for accessibility and styling inheritance
+- **Don't forget event cleanup** - Remove all listeners in `disconnectedCallback()`
+- **Don't use semantic attributes as JS hooks** - Avoid using `role`, `aria-*` for event handling
+
+### State management
+- **Don't use Context for complex state** - Use Zustand when persistence or complex logic is needed
+- **Don't use arrays for frequent lookups** - Use Maps for O(1) performance
