@@ -7,8 +7,8 @@
     "description": "Electric bicycle designed for urban commuting with 90% recyclable materials",
     "searchableText": "electric bike ebike commuter urban bicycle sustainable transport",
     "metadata": {
-      "category": "transportation",
-      "subcategory": "e-mobility",
+      "category": "Transportation",
+      "subcategory": "E-Mobility",
       "assemblyComponents": ["CMP-BAT-003", "CMP-MOT-001"],
       "keyMaterials": ["MAT-ALU-001", "MAT-STL-002", "MAT-PET-004"],
       "specifications": {
@@ -27,9 +27,9 @@
         "expectedMileage": 50000,
         "mileageUnit": "km",
         "maintenanceInterval": 1000,
-        "repairability": "high",
-        "upgradeability": "medium",
-        "endOfLifeOptions": ["refurbishment", "component_reuse", "material_recovery"]
+        "repairability": "High",
+        "upgradeability": "Medium",
+        "endOfLifeOptions": ["Refurbishment", "Component Reuse", "Material Recovery"]
       },
       "sustainability": {
         "carbonFootprint": 280.5,
@@ -57,11 +57,11 @@
         "tradeInValue": 1200.00
       },
       "availability": {
-        "status": "in_production",
+        "status": "In Production",
         "leadTime": 28,
         "leadTimeUnit": "days",
         "regions": ["EU", "North America"],
-        "channels": ["direct", "retail", "subscription"]
+        "channels": ["Direct", "Retail", "Subscription"]
       }
     }
   },
@@ -73,8 +73,8 @@
     "description": "Compact solar charger with recycled battery and bio-based casing",
     "searchableText": "solar power bank portable charger renewable energy battery",
     "metadata": {
-      "category": "electronics",
-      "subcategory": "energy_storage",
+      "category": "Electronics",
+      "subcategory": "Energy Storage",
       "assemblyComponents": ["CMP-BAT-001"],
       "keyMaterials": ["MAT-PLA-003", "MAT-LIT-009", "MAT-ALU-001"],
       "specifications": {
@@ -91,10 +91,10 @@
         "designLifeUnit": "years",
         "warrantyPeriod": 2,
         "expectedCycles": 2000,
-        "maintenanceInterval": "annual",
-        "repairability": "medium",
-        "upgradeability": "low",
-        "endOfLifeOptions": ["component_reuse", "material_recovery", "battery_recycling"]
+        "maintenanceInterval": "Annual",
+        "repairability": "Medium",
+        "upgradeability": "Low",
+        "endOfLifeOptions": ["Component Reuse", "Material Recovery", "Battery Recycling"]
       },
       "sustainability": {
         "carbonFootprint": 45.2,
@@ -122,11 +122,11 @@
         "tradeInValue": 25.00
       },
       "availability": {
-        "status": "in_production",
+        "status": "In Production",
         "leadTime": 14,
         "leadTimeUnit": "days",
         "regions": ["Global"],
-        "channels": ["online", "retail"]
+        "channels": ["Online", "Retail"]
       }
     }
   },
@@ -138,8 +138,8 @@
     "description": "Modular desk system using bamboo and recycled aluminum with flat-pack design",
     "searchableText": "modular office desk bamboo aluminum sustainable furniture workspace",
     "metadata": {
-      "category": "furniture",
-      "subcategory": "office",
+      "category": "Furniture",
+      "subcategory": "Office",
       "assemblyComponents": [],
       "keyMaterials": ["MAT-BAM-006", "MAT-ALU-001", "MAT-PET-004"],
       "specifications": {
@@ -155,11 +155,11 @@
         "designLife": 20,
         "designLifeUnit": "years",
         "warrantyPeriod": 5,
-        "expectedUsage": "normal office use",
-        "maintenanceInterval": "annual",
-        "repairability": "high",
-        "upgradeability": "high",
-        "endOfLifeOptions": ["reuse", "material_recovery", "composting"]
+        "expectedUsage": "Normal Office Use",
+        "maintenanceInterval": "Annual",
+        "repairability": "High",
+        "upgradeability": "High",
+        "endOfLifeOptions": ["Reuse", "Material Recovery", "Composting"]
       },
       "sustainability": {
         "carbonFootprint": -12.8,
@@ -186,11 +186,11 @@
         "tradeInValue": 180.00
       },
       "availability": {
-        "status": "in_production",
+        "status": "In Production",
         "leadTime": 21,
         "leadTimeUnit": "days",
         "regions": ["EU", "North America", "Asia Pacific"],
-        "channels": ["direct", "retail", "B2B"]
+        "channels": ["Direct", "Retail", "B2B"]
       }
     }
   },
@@ -202,8 +202,8 @@
     "description": "Single-use food container made from mycelium foam with compostable coating",
     "searchableText": "compostable food container mycelium foam biodegradable packaging",
     "metadata": {
-      "category": "packaging",
-      "subcategory": "food_service",
+      "category": "Packaging",
+      "subcategory": "Food Service",
       "assemblyComponents": [],
       "keyMaterials": ["MAT-MYC-007", "MAT-PLA-003"],
       "specifications": {
@@ -216,14 +216,14 @@
         "stackable": true
       },
       "lifecycle": {
-        "designLife": "single_use",
+        "designLife": "Single Use",
         "designLifeUnit": "uses",
         "warrantyPeriod": 0,
-        "expectedUsage": "food service",
-        "maintenanceInterval": "none",
-        "repairability": "not_applicable",
-        "upgradeability": "not_applicable",
-        "endOfLifeOptions": ["home_composting", "industrial_composting"]
+        "expectedUsage": "Food Service",
+        "maintenanceInterval": "None",
+        "repairability": "Not Applicable",
+        "upgradeability": "Not Applicable",
+        "endOfLifeOptions": ["Home Composting", "Industrial Composting"]
       },
       "sustainability": {
         "carbonFootprint": 0.08,
@@ -251,11 +251,11 @@
         "tradeInValue": 0.00
       },
       "availability": {
-        "status": "in_production",
+        "status": "In Production",
         "leadTime": 7,
         "leadTimeUnit": "days",
         "regions": ["North America", "EU"],
-        "channels": ["B2B", "foodservice"]
+        "channels": ["B2B", "Food Service"]
       }
     }
   },
@@ -267,8 +267,8 @@
     "description": "Organic cotton t-shirt designed for circularity with take-back program",
     "searchableText": "organic cotton t-shirt circular fashion sustainable clothing apparel",
     "metadata": {
-      "category": "apparel",
-      "subcategory": "basics",
+      "category": "Apparel",
+      "subcategory": "Basics",
       "assemblyComponents": [],
       "keyMaterials": ["MAT-TEX-010"],
       "specifications": {
@@ -285,10 +285,10 @@
         "designLifeUnit": "years",
         "warrantyPeriod": 1,
         "expectedWashes": 200,
-        "maintenanceInterval": "as_needed",
-        "repairability": "high",
-        "upgradeability": "low",
-        "endOfLifeOptions": ["repair", "upcycling", "fiber_recovery", "composting"]
+        "maintenanceInterval": "As Needed",
+        "repairability": "High",
+        "upgradeability": "Low",
+        "endOfLifeOptions": ["Repair", "Upcycling", "Fiber Recovery", "Composting"]
       },
       "sustainability": {
         "carbonFootprint": 8.5,
@@ -316,11 +316,11 @@
         "tradeInValue": 8.00
       },
       "availability": {
-        "status": "in_production",
+        "status": "In Production",
         "leadTime": 14,
         "leadTimeUnit": "days",
         "regions": ["Global"],
-        "channels": ["online", "retail"]
+        "channels": ["Online", "Retail"]
       }
     }
   }

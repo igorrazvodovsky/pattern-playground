@@ -172,7 +172,7 @@ export const DataView: Story = {
   args: {
     products: productsData as unknown as Product[],
     defaultView: 'card',
-    defaultAttributes: ['category', 'pricing.msrp', 'availability.status'],
+    defaultAttributes: ['name', 'description', 'category', 'pricing.msrp', 'availability.status'],
     defaultFilters: [],
   },
 };
@@ -181,7 +181,7 @@ export const DataViewWithFilters: Story = {
   args: {
     products: productsData as unknown as Product[],
     defaultView: 'list',
-    defaultAttributes: ['category', 'pricing.msrp', 'availability.status', 'metadata.lifecycle.repairability'],
+    defaultAttributes: ['name', 'category', 'pricing.msrp', 'availability.status', 'lifecycle.repairability'],
     defaultFilters: [
       {
         id: 'filter-1',

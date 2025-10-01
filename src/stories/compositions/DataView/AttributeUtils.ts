@@ -1,9 +1,10 @@
 import { Product } from '../../data/types';
 
-// Static attributes that are always available
-const STATIC_ATTRIBUTES = [
-  'name',
-  'description',
+// Identity attributes - define what the item is (have dedicated UI slots)
+const IDENTITY_ATTRIBUTES = ['name', 'description'];
+
+// Metadata attributes - provide context about the item (rendered as badges/columns)
+const METADATA_ATTRIBUTES = [
   'category',
   'subcategory',
   'sustainability.carbonFootprint',
@@ -15,6 +16,10 @@ const STATIC_ATTRIBUTES = [
   'availability.status',
   'availability.leadTime'
 ].sort();
+
+export const isIdentityAttribute = (attribute: string): boolean => {
+  return IDENTITY_ATTRIBUTES.includes(attribute);
+};
 
 // Cache for dynamic specification attributes
 let cachedSpecificationKeys: string[] | null = null;
@@ -47,8 +52,8 @@ export const getAvailableAttributes = (products: Product[]): string[] => {
     lastProductsHash = currentHash;
   }
 
-  // Merge static and dynamic attributes
-  return [...STATIC_ATTRIBUTES, ...cachedSpecificationKeys].sort();
+  // Merge identity, metadata, and dynamic specification attributes
+  return [...IDENTITY_ATTRIBUTES, ...METADATA_ATTRIBUTES, ...cachedSpecificationKeys].sort();
 };
 
 export const getAttributeValue = (product: Product, attributePath: string): unknown => {
