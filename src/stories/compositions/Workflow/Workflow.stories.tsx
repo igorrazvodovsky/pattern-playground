@@ -31,7 +31,7 @@ const components: TLComponents = {
 	InFrontOfTheCanvas: () => (
 		<>
 			<OnCanvasComponentPicker />
-			<WorkflowRegions />
+			{/* <WorkflowRegions /> */}
 		</>
 	),
 	Toolbar: () => (
@@ -73,6 +73,7 @@ function DefaultWorkflow() {
 	return (
 		<div style={{ position: 'fixed', inset: 0 }}>
 			<Tldraw
+				licenseKey="tldraw-2030-10-02/WyJhU2o4TlRIdCIsWyIqLnBhdHRlcm4tcGxheWdyb3VuZC5vbnJlbmRlci5jb20iXSw5LCIyMDMwLTEwLTAyIl0.jPYfftBSCICOdDXZwxj+tWGLQgbITA9SJ0tHGUGBYmo8oJT8ZaY1j+8vkkzLbWx8KNs6EnjZJMnNlCqads8xVA"
 				persistenceKey="workflow"
 				options={options}
 				overrides={overrides}
@@ -105,6 +106,8 @@ function DefaultWorkflow() {
 
 const meta = {
   title: "Compositions/Workflow",
+	tags: ['!autodocs'],
+
 } satisfies Meta;
 
 export default meta;

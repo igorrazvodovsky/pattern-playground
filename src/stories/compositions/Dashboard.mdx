@@ -1,0 +1,38 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Compositions/Needs-based view" />
+
+# Needs-based view
+
+Views shaped by the user's immediate purpose rather than fixed interface conventions. The same underlying data presents itself differently depending on whether the user needs to monitor, analyse, or investigate—configuring granularity, metrics, and navigation mechanisms to match the task at hand.
+
+Within the [view](../?path=/docs/foundations-view-system--docs) system, needs-based views demonstrate how framing determines representation.
+
+## Variants
+
+### Monitoring and situational awareness
+Maintain operational awareness without deep investigation. Emphasises aggregate metrics, trends, and status indicators in high-level overview format. Users track state changes and identify anomalies requiring attention.
+
+**Typical configuration:** Zoomed-out [collection view](../?path=/docs/compositions-data-view--docs) with summary-level items, auto-refresh, visual indicators for status changes.
+
+### Analytical exploration
+Draw conclusions through structured investigation. Provides medium granularity with comparison tools, filtering, and grouping capabilities. Users explore patterns, test hypotheses, generate insights.
+
+**Typical configuration:** [Collection view](../?path=/docs/compositions-data-view--docs) with flexible filtering/sorting, multiple representation options (table, cards, charts), attribute selection.
+
+### Drilldown investigation
+Investigate specific entities by progressively narrowing focus. Users navigate from collection overview through filtering to individual [item detail](../?path=/docs/compositions-item-view--docs), using [semantic zoom](../?path=/docs/patterns-semantic-zoom--docs) to maintain spatial context.
+
+**Typical configuration:** Linked views enabling collection → item transitions, preserved filter state, breadcrumb navigation for context.
+
+## Related patterns
+
+- [View system](../?path=/docs/foundations-view-system--docs) - Conceptual framework for need-driven framings
+- [Semantic zoom](../?path=/docs/patterns-semantic-zoom--docs) - Density-preserving transitions between views
+- [Data view](../?path=/docs/compositions-data-view--docs) - Collection representations with framing intents
+- [Item view](../?path=/docs/compositions-item-view--docs) - Single-entity representations at different granularities
+
+## Resources & references
+
+- [PatternFly Dashboard](https://www.patternfly.org/patterns/dashboard/design-guidelines/)
+- [Carbon Dashboards](https://carbondesignsystem.com/data-visualization/dashboards/)

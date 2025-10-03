@@ -7,8 +7,9 @@ import * as DataViewStories from './DataView.stories';
 
 # Data view
 
+Collection-scope representations within the [view](../?path=/docs/foundations-view-system--docs) system.
 Displays a [collection](../?path=/docs/concepts-collection--docs), enabling actors to quickly scan, explore, and interact with [items](../?path=/docs/concepts-item--docs).
-By combining varied representations with filtering, sorting, and grouping, data view provides tools for framing the data.
+By combining varied representations with filtering, sorting, and grouping, data view provides tools for framing the data according to user needs.
 
 <Story of={DataViewStories.DataView} />
 
@@ -23,13 +24,26 @@ By combining varied representations with filtering, sorting, and grouping, data 
 
 ## Saved views
 
-Saved views reduce friction for repeat tasks, support different actor roles, and provide continuity across sessions.
+Saved views persist particular framings to reduce friction for repeat tasks, support different actor roles, and provide continuity across sessions.
 
 - Developers define default views that align with the application's core use cases or intended actor journeys
 - Administrators configure role-specific or task-specific views shared across teams or departments
 - End users create personalised views tuned to their workflow or preferences
 
-## Related
+
+{/* ## Transitions */}
+{/* Data views enable fluid navigation between collection and item: */}
+{/* - Collection → Item summary: Select row in table to reveal expanded detail panel */}
+{/* - Collection → Item detail: Click card to open modal with task-relevant information */}
+{/* - Collection → Item full: Navigate from collection to dedicated item page */}
+{/* - Item → Collection: Return to filtered/sorted collection view while preserving framing */}
+
+## Related patterns
+
+- [View](../?path=/docs/foundations-view-system--docs) - Conceptual framework for need-driven framings
+- [Semantic zoom](../?path=/docs/patterns-semantic-zoom--docs) - Density-preserving transitions between collection and items
+- [Item view](../?path=/docs/compositions-item-view--docs) - Single-entity counterpart
+
 ### Precursor patterns
 <div>
 - Filtering
@@ -44,6 +58,5 @@ Saved views reduce friction for repeat tasks, support different actor roles, and
 ### Follow-up patterns
 <div>
 - Batch actions: enables interacting with multiple items simultaneously
-- View: provides a deeper look into an individual item
 - Inline editing: supports direct manipulation or updating of displayed data
 </div>

@@ -9,9 +9,6 @@ import { modalService } from '../../../services/modal-service';
 export class ItemViewModalService {
   private openModals = new Map<string, string>(); // item.id -> modalId
 
-  /**
-   * Opens an item in a modal using the item-view system
-   */
   async openItem(
     item: BaseItem,
     scope: ViewScope = 'mid',
@@ -27,10 +24,10 @@ export class ItemViewModalService {
 
       // Create the React content for the item
       const itemViewComponent = createModalContent(item, item.type, scope);
-      
+
       const size = options.size || getSizeForScope(scope);
       const placement = options.placement || getPlacementForScope(scope);
-      
+
       // Convert placement to our modal service format
       const modalOptions = {
         title: options.title || item.name || 'Item Details',

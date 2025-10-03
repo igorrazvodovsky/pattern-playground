@@ -1,0 +1,77 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/View" />
+
+> 🙂 **Fun meter: 4/5**
+
+# View
+
+Views are purposeful framings of data that make information legible for specific needs and contexts. Rather than presenting data in a single fixed way, the system enables fluid navigation across multiple dimensions of representation.
+
+## User needs
+
+- Access information at the right granularity for their current task without losing context
+- Navigate seamlessly between overview and detail without disorientation
+- Frame data according to their immediate purpose (monitoring, analysis, investigation)
+- Maintain recognition of entities across different representations
+- Define and persist useful framings for repeated tasks
+
+## Framing dimensions
+
+Views vary along several independent dimensions that combine to create appropriate representations:
+
+### Scope
+- **Single item:** Focus on one entity with varying levels of detail
+- **Collection:** Display multiple items with tools for comparison and exploration
+
+### Granularity
+The semantic level of information shown:
+- **Reference:** Identification and linking (name, type)
+- **Summary:** Quick assessment without leaving current context (key attributes, status)
+- **Detail:** Relevant information for current task (task-specific data)
+- **Full:** Complete information with history and relationships
+
+### Intent
+The purpose driving the view selection:
+- **Monitoring:** Track operational data and maintain situational awareness
+- **Analysis:** Compare and explore to draw conclusions
+- **Drilldown:** Investigate specific entities by progressively narrowing focus
+
+### Time
+- **Snapshot:** Current state
+- **Trend:** Changes over time
+- **History:** Complete record and evolution
+
+## Navigation mechanisms
+
+Users navigate between views through various mechanisms:
+- Links and menu items for discrete navigation between pages or sections
+- [Semantic zoom](../?path=/docs/patterns-semantic-zoom--docs) for density-preserving transitions
+- Expand/collapse controls for progressive disclosure
+- Modal and drawer triggers for contextual overlays
+- Breadcrumbs and back navigation for hierarchical traversal
+
+The choice of mechanism depends on the relationship between views and the need to preserve spatial context.
+
+## Implementation patterns
+
+The view system manifests through several compositional patterns:
+
+- [Item view](../?path=/docs/compositions-item-view--docs) - Single-entity representations across semantic levels
+- [Data view](../?path=/docs/compositions-data-view--docs) - Collection representations with filtering, sorting, and grouping
+
+## Saved views
+
+Views can be persisted to reduce friction for repeated tasks:
+- **Default views:** Developers define framings aligned with core use cases
+- **Role-specific views:** Administrators configure shared views for teams or departments
+- **Personal views:** End users create framings tuned to their individual workflows
+
+Saved views capture the complete framing: scope, granularity, filters, sort order, visible attributes, and layout.
+
+## Related patterns
+
+- [Semantic zoom](../?path=/docs/patterns-semantic-zoom--docs) - Density-preserving transitions between framings
+- [Progressive disclosure](../?path=/docs/patterns-progressive-disclosure--docs) - Sequential revelation of information
+- [Density](../?path=/docs/foundations-density--docs) - Information per unit of space
+- [Adaptation](../?path=/docs/foundations-adaptation--docs) - System response to context changes

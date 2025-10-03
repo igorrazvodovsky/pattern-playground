@@ -9,7 +9,8 @@ import { SimpleTable } from '../components/Table.stories.tsx';
 
 # Item view
 
-The system must allow each [entity](../?path=/docs/concepts-item--docs) to be represented in progressively richer forms, so that users can fluidly move between them depending on their task, without losing orientation or recognition.
+Single-entity representation within the [view system](../?path=/docs/foundations-view-system--docs).
+Both system and user-defined items can be represented in progressively richer forms, enabling fluid navigation between granularities depending on task needs, without losing orientation or recognition.
 
 ## User needs
 
@@ -70,8 +71,22 @@ TODO:
 
 <Story of = { ItemViewStories.Page } />
 
+## Transitions
+
+Item views support fluid navigation through semantic levels:
+
+**Reference → summary:** Hover over inline reference reveals summary in popover
+**Summary → detail:** Click table row to expand detail panel or open modal
+**Detail → full:** Navigate from modal to dedicated page view
+**Full → collection:** Return to parent collection view ([data view](../?path=/docs/compositions-data-view--docs))
+
+These transitions preserve context and maintain recognition of the entity across representations.
+
 ## Related patterns
 
+- [View](../?path=/docs/foundations-view-system--docs) - Conceptual framework for need-driven framings
+- [Semantic zoom](../?path=/docs/patterns-semantic-zoom--docs) - Density-preserving transitions between granularities
+- [Data view](../?path=/docs/compositions-data-view--docs) - Collection-scope counterpart
 - [Reference](../?path=/docs/primitives-reference--docs)
 - [Progressive disclosure](../?path=/docs/patterns-progressive-disclosure--docs)
 - [Dialog](../?path=/docs/components-dialog--docs) & [drawer](../?path=/docs/components-drawer--docs)
