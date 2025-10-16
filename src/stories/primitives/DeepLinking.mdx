@@ -1,0 +1,71 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Primitives/Deep linking" />
+
+# Deep linking
+
+A primitive that makes any state, object, or view in the system addressable and shareable through URLs.
+
+## Description
+
+Deep linking treats URLs as pointers to specific application states. Rather than linking only to top-level pages, every meaningful state — a filtered view, a selected item, an open modal, a specific comment — gets its own URL. This enables users to bookmark, share, and navigate to exact contexts.
+
+## Core characteristics
+
+- Addressability: Every distinct state has a unique URL
+- Shareability: URLs can be copied and shared with others
+- Bookmarkability: URLs can be saved for later return
+- Navigability: Browser back/forward buttons work as expected
+- Persistence: URLs remain stable over time
+
+## Implementation patterns
+
+**Query parameters** for transient state:
+```
+/tasks?filter=completed&sort=date&view=list
+```
+
+**Path segments** for resource hierarchy:
+```
+/projects/abc123/tasks/def456/comments/ghi789
+```
+
+**Hash fragments** for view state within a resource:
+```
+/document/123#section-4
+/workspace/456#comment-thread-789
+```
+
+**Combined approach** for complex states:
+```
+/board/sprint-3?filter=assigned-to-me#card-1234
+```
+
+## Variants
+
+- Full state encoding: Entire application state in URL (enables exact reproduction)
+- Partial state encoding: Only meaningful navigation state in URL (cleaner, more stable)
+- Opaque identifiers: Short codes that resolve to complex state server-side
+
+## States
+
+- Valid: URL resolves to accessible content
+- Invalid: Resource doesn't exist or user lacks permission (show appropriate error)
+- Stale: URL format changed but can be migrated to new structure
+
+## Accessibility
+
+- URLs should be human-readable when possible
+- Screen readers should announce navigation changes
+- Keyboard navigation should update URLs appropriately
+- URL changes shouldn't interrupt screen reader flow
+
+## Related patterns
+
+- [Messaging](../?path=/docs/compositions-messaging--docs) — Each message/thread is addressable
+- [Commenting](../?path=/docs/compositions-commenting--docs) — Comments get unique URLs
+- [Progressive disclosure](../?path=/docs/patterns-progressive-disclosure--docs) — URL state tracks what's expanded/revealed
+
+## Resources
+
+- [Cool URIs don't change](https://www.w3.org/Provider/Style/URI) — Tim Berners-Lee on URL stability

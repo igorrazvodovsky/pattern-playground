@@ -6,3 +6,81 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 Best practice design solutions for specific actor needs.
 
+
+## First contact
+
+The moments when someone encounters the system for the first time, or discovers something new. These patterns resolve the tension between welcoming unfamiliarity and preventing overwhelm.
+
+- [Onboarding](../?path=/docs/patterns-onboarding--docs) - first-time experience establishing mental models
+- [Progressive disclosure](../?path=/docs/patterns-progressivedisclosure--docs) - revealing complexity gradually as needed
+- [Explanation](../?path=/docs/patterns-explanation--docs) - clarifying system behaviour and decisions
+
+*Creates the context for understanding what's possible, leading naturally into dialogue initiation.*
+
+## Initiating dialogue
+
+Starting conversations with intelligent systems. These patterns address the challenge of expressing fuzzy intent to systems that need structured input.
+
+- [Bot](../?path=/docs/patterns-bot--docs) - the conversational partner mediating between intent and action
+- [Prompt](../?path=/docs/patterns-prompt-prompt--docs) - expressing what you want the bot to do
+- [Suggestion](../?path=/docs/patterns-suggestion--docs) - system offers starting points and possibilities
+- [AI tuning](../?path=/docs/patterns-aituning--docs) - configuring bot behaviour and preferences
+
+*Establishes the conversational foundation, enabling the sustained exchanges that follow.*
+
+## Active exchange
+
+The core interaction unfolds through sustained dialogue. These patterns balance system intelligence with user control, transparency with fluency.
+
+- [Conversation](../?path=/docs/patterns-conversation--docs) - sustained back-and-forth dialogue
+- [Messaging](../?path=/docs/compositions-messaging--docs) - where conversation actually happens
+- [Generated content](../?path=/docs/patterns-generatedcontent--docs) - what the bot produces
+- [Transparent reasoning](../?path=/docs/patterns-transparentreasoning--docs) - making the bot's thinking visible
+- [Annotation](../?path=/docs/patterns-annotation--docs) - adding layers of meaning to content
+
+*The main workspace where ideas develop, creating artifacts that may need collaborative refinement.*
+
+## Collaborative creation
+
+Multiple actors coordinate their efforts. These patterns resolve tensions between individual agency and group alignment, visibility and noise, real-time and asynchronous work.
+
+- [Collaboration](../?path=/docs/patterns-collaboration--docs) - coordination framework for shared work
+- [Activity log](../?path=/docs/patterns-activitylog--docs) - chronological record of who did what
+- [Notification](../?path=/docs/patterns-notification--docs) - keeping everyone appropriately informed
+- [Commenting](../?path=/docs/compositions-commenting--docs) - discussion around artifacts
+
+*Shared creation produces changes that need to be managed and persisted.*
+
+## Managing outcomes
+
+Handling the results of interaction. These patterns address the fundamental tension between committing changes and maintaining safety, between action and reversibility.
+
+### Data operations
+- [Saving](../?path=/docs/patterns-data-ops-saving--docs) - committing changes with appropriate friction
+- [Deletion](../?path=/docs/patterns-data-ops-deletion--docs) - controlled removal with safeguards
+- [Action consequences](../?path=/docs/patterns-data-ops-actionconsequences--docs) - understanding impact before committing
+- [Undo](../?path=/docs/patterns-undo--docs) - reversing actions when needed
+
+### Feedback and awareness
+- [Status feedback](../?path=/docs/patterns-statusfeedback--docs) - communicating system state and results
+- [Notification](../?path=/docs/patterns-notification--docs) - alerting to events requiring attention
+
+*Proper outcome management enables confident exploration, feeding back into continued dialogue.*
+
+## Specialized contexts
+
+Domain-specific patterns for particular interaction needs. These emerge when the general patterns need tailoring for specific use cases.
+
+- [Command menu](../?path=/docs/patterns-commandmenu-commandmenu--docs) - quick access to actions and navigation
+- [Focus and context](../?path=/docs/patterns-focusandcontext-focusandcontext--docs) - balancing detail and overview
+- [Living document](../?path=/docs/patterns-livingdocument--docs) - documents that evolve through use
+- [Embedded intelligence](../?path=/docs/patterns-embeddedintelligence--docs) - AI capabilities woven into workflows
+- [Text lense](../?path=/docs/patterns-textlense--docs) - dynamic content transformation
+
+## States
+
+Patterns addressing specific system states that cut across interaction stages.
+
+- [Empty](../?path=/docs/patterns-states-stateempty--docs) - guiding actors when nothing exists yet
+- [Disabled](../?path=/docs/patterns-states-statedisabled--docs) - communicating unavailable options
+- [Unavailable actions](../?path=/docs/patterns-states-unavailableactions--docs) - explaining why actions aren't possible
