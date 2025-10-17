@@ -24,20 +24,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Common commands
 ```bash
-npm run test              # Run ESLint and Stylelint
+npm run test              # Run ESLint (use 'npm run test styles' for Stylelint)
 npm run storybook         # Start Storybook on port 6006
 cd server && npm run dev  # Start Express server with hot reload
 ```
 
 ### Component conventions
 - **Prefix**: All custom elements use `pp-` prefix (e.g., `<pp-button>`, `<pp-modal>`)
-- **Pattern**: Components extend native elements: `<button is="pp-button">`
 - **Registration**: All components registered via `src/components/register-all.ts`
 - **Loading**: Use bulletproof loading pattern with DOM readiness checks
 
 ### File organization
 - `src/components/` - Core components
 - `src/stories/` - Storybook documentation (primitives, components, compositions, patterns, foundations)
+- `src/stories/data/` - Shared mock data as JSON files
 - `src/services/` - API services and utilities
 - `src/styles/` - Global styles (never use inline styles)
 - `server/` - Express backend with AI integration
@@ -57,7 +57,7 @@ cd server && npm run dev  # Start Express server with hot reload
 ## Development commands
 
 **Frontend (root directory):**
-- `npm run test` - Run ESLint and Stylelint
+- `npm run test` - Run ESLint
 - `npm run storybook` - Start Storybook on port 6006
 - `npm run build-storybook` - Build static Storybook
 
@@ -86,7 +86,6 @@ This is a **design system playground** with a hybrid frontend/backend architectu
 Components follow a **progressive enhancement** strategy:
 - CSS-only components that work without JavaScript
 - Web Components extend native HTML elements with `pp-` prefix
-- Components use custom elements: `<button is="pp-button">` pattern
 
 ### Key directories
 - `src/components/` - Core components
@@ -96,6 +95,7 @@ Components follow a **progressive enhancement** strategy:
   - `compositions/` - Component combinations
   - `patterns/` - Reusable patterns
   - `foundations/` - Design principles
+  - `data/` - Shared mock data as JSON files
 - `src/services/` - API services and utilities
 - `server/` - Express backend with AI integration
 
@@ -277,7 +277,7 @@ When documenting patterns, follow this structure:
 - **Resources** - External references and research
 
 ### Behavioural framework
-Use the Intent & Interaction framework (`src/stories/foundations/Behaviours.mdx`) to select and design patterns that support how users move through the interface and perform tasks. The framework is grounded in **Seek–Use–Share** temporal progression and treats interaction as conversational alignment with turn-taking and cooperative principles.
+Use the Intent & Interaction framework (`src/stories/foundations/Interaction.mdx`) to select and design patterns that support how users move through the interface and perform tasks. The framework is grounded in **Seek–Use–Share** temporal progression and treats interaction as conversational alignment with turn-taking and cooperative principles.
 
 ### Content guidelines
 - Focus on relational definitions over static properties
@@ -320,17 +320,22 @@ When organizing concepts in the design system:
 ## Mock data and testing
 
 ### Mock data best practices
-- **External JSON files**: Store all long mock data arrays in separate JSON files
+- **Centralized data directory**: Store all shared mock data in `src/stories/data/` as JSON files
 - **JSON imports**: Use the import syntax with type assertion for JSON files:
-  ```
-  import mockData from './mockData.json' with { type: 'json' };
+  ```typescript
+  import mockData from '../data/mockData.json' with { type: 'json' };
   ```
 
 ### When to extract to JSON
 - **Long arrays** (>5 items) with complex object structures
-- **Reusable data** that might be shared across multiple components
+- **Reusable data** that might be shared across multiple components or stories
 - **Rich data objects** with multiple properties that would clutter the main file
 - **Leave inline** simple arrays with <10 primitive items for basic examples
+
+### When to use existing data files
+- **Check first**: Before creating new mock data, check if suitable data exists in `src/stories/data/`
+- **Reuse across stories**: Import existing JSON files to maintain consistency across Storybook stories
+- **Extend existing**: If close match exists, consider extending an existing file rather than creating new one
 
 ## Code review workflow
 After completing any implementation or change to code:
