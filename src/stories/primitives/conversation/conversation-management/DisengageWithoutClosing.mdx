@@ -1,0 +1,25 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Primitives/Conversation/Conversation management/Disengage without closing" />
+
+> 😊 **Fun meter: 3/5**. Looking for useful building blocks for conversational UI.
+
+# Disengage without closing
+
+Allow either party to step away without a formal close (e.g., idle, context switch), keeping state ready for later resumption.
+
+1. U or A: Disengage trigger (idle, multitask, network drop, “hold on”).
+2. A: Non-intrusive acknowledgement; save state and provide a resume affordance (e.g., “Pick up where we left off”).
+3. A (Optional): Set a gentle reminder or time-bound expiration (with consent).
+4. U: Return later → resume at the same step or start a fresh opening.
+
+- Avoid pushy re-engagement; prefer user-initiated resume.
+- Show *what’s saved* and how to *change or discard* it.
+- For privacy, clearly state what persists and for how long.
+
+## Support & transitions
+- On resume, confirm *assumptions/state* and offer to continue or start over.
+- If state is stale, propose *opening* re-open or an updated *scope*.
+
+## Metrics
+Successful resumes; time-to-resume; stale-state errors; opt-outs of reminders.

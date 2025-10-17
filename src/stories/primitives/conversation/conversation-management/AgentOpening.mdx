@@ -1,0 +1,24 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Primitives/Conversation/Conversation management/Agent opening" />
+
+> 😊 **Fun meter: 3/5**. Looking for useful building blocks for conversational UI.
+
+# Agent opening
+
+The agent opens the encounter, establishes footing, and proposes the first topic.
+
+1. A → U: Greeting + brief capability/role statement.
+2. A: Offer or propose a *topic* and optionally preview next/alt. topics.
+3. U: Accept topic or propose a different one.
+4. A: Transition into the chosen activity (e.g., *open request*, *information capture*).
+
+- Include optional *welfare check/name request* and *capability giving* where appropriate.
+- Ensure accessibility: text + voice greetings, clear affordances.
+
+## Support & transitions
+- If user response is ambiguous, use *agent repair*.
+- On user refusal, allow *abort* or offer help in a shape of *extended telling*.
+
+## Metrics
+First-topic acceptance rate; time-to-first-action; bounce rate after opening.

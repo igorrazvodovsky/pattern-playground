@@ -1,3 +1,9 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Primitives/Conversation/Conversational activities/Extended telling" />
+
+> 😊 **Fun meter: 3/5**. Looking for useful building blocks for conversational UI.
+
 # Extended telling
 
 The agent delivers a multi-part telling (e.g., instructions, narrative, explanation).
@@ -10,9 +16,9 @@ The agent delivers a multi-part telling (e.g., instructions, narrative, explanat
    - Support moves (available on demand), e.g. repeat, paraphrase, give an example, or define any key term used.
    - Advance rule: move to the next step only on a **continuer** (e.g. “OK”, “next”, “go on”, “mm-hmm”, 👍).
    - Interrupt rule: if the user gives a *new intent* (e.g., asks “why?”, changes topic/parameters: “use method B”), *pause* *extended telling* and:
-      - handle the clarification as *repair* within A3, or
-      - collect new data via *A5 information capture*, or
-      - switch to *A2 open request* for a new task.
+      - handle the clarification as *repair* within *extended telling*, or
+      - collect new data via *agent inquiry*, or
+      - switch to *open request* for a new task.
 3. Closing step: recap, offer an artifact, and propose next steps.
 
 ## Guidance
