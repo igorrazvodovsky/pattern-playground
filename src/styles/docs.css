@@ -63,6 +63,11 @@ a.sbdocs,
   text-underline-offset: 0.15em;
 }
 
+.sbdocs.sbdocs-content > :is(ul, ol) li :is(ul, ol) li :is(ul, ol) li {
+  /* color: var(--c-bodyDimmed); */
+  /* font-size: smaller !important; */
+}
+
 .lead {
   font-size: larger !important;
   line-height: var(--globalLineHeight) !important;

@@ -1,0 +1,31 @@
+# Extended telling
+
+The agent delivers a multi-part telling (e.g., instructions, narrative, explanation).
+
+## Sequence
+
+1. Announce scope & parts: “I’ll walk you through [topic].”
+2. For each step
+   - Agent utterance with core content.
+   - Support moves (available on demand), e.g. repeat, paraphrase, give an example, or define any key term used.
+   - Advance rule: move to the next step only on a **continuer** (e.g. “OK”, “next”, “go on”, “mm-hmm”, 👍).
+   - Interrupt rule: if the user gives a *new intent* (e.g., asks “why?”, changes topic/parameters: “use method B”), *pause* *extended telling* and:
+      - handle the clarification as *repair* within A3, or
+      - collect new data via *A5 information capture*, or
+      - switch to *A2 open request* for a new task.
+3. Closing step: recap, offer an artifact, and propose next steps.
+
+## When To Use
+Stepwise procedures, tutorials, multi-paragraph explanations where brevity would harm clarity.
+
+## Guidance
+- Keep each agent utterance short; move detail to *paraphrase* and *example*. TODO: needs alignment with user preference.
+- Provide a **progress indicator** and allow “skip/back/stop” at any step.
+
+## Repair Affordances
+- Repeat, paraphrase, example, definition at each step.
+- Allow *jump-to-step* and quick exit to other activities.
+
+## Metrics
+- Step completion/abort rates; dwell time per step.
+- Repair distribution (which steps cause trouble).
