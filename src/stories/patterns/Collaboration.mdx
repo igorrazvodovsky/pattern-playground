@@ -123,7 +123,60 @@ Evaluation often involves providing feedback through various modalities (explici
 - Distribution: *human-centric* locus for ultimate acceptance/rejection decisions; bot contributes analysis
 - Control mechanisms: *confidence visualization* indicates bot's certainty about issues; *explanatory feedback* clarifies evaluation reasoning; *iterative feedback loops* enable refinement cycles; *intervention* allows override of bot assessments
 
-See [Bot](../?path=/docs/patterns-bot--docs) for detailed interaction patterns.
+### Human elaboration of bot contributions
+
+**Level 1-2: Surface acceptance**
+
+Human accepts or minimally modifies AI output without substantial original contribution.
+
+- Lowest cognitive engagement and perceived ownership
+- Risk of [algorithmic loafing](../?path=/docs/patterns-bot--docs#algorithmic-loafing)—reduced human effort when AI takes creative lead
+- Appropriate for routine tasks but problematic for creative or learning contexts
+
+**Level 3: Substantive elaboration**
+
+Human adds independent features, mechanisms, constraints, specifications, or context not provided by AI.
+
+- Moderate-high cognitive engagement
+- Concrete detailing that extends AI contributions
+- Maintains human creative agency
+
+**Level 4: Integrative advancement**
+
+Human creates incrementally new ideas by combining, syncing, or restructuring components from AI input to extend or refine the core concept.
+
+- Requires active synthesis between human and AI contributions
+- High cognitive engagement and co-creative ownership
+
+**Level 5: Human-led reframing**
+
+Human pivots core concept to serve different primary purpose, audience, or context—replacing the fundamental frame whilst leveraging AI input as inspiration.
+
+- Maximum cognitive engagement and perceived ownership
+- Radical innovation through conceptual pivoting
+- Demonstrates human creative lead with AI as scaffolding
+
+#### Factors influencing elaboration
+
+- [Agency distribution](../?path=/docs/foundations-agency--docs#distribution): Human-centric locus enables deeper elaboration; system-centric locus often correlates with surface acceptance
+- Interface affordances: What modifications the interface permits
+- Cognitive capacity: Available mental resources and task complexity
+- Task nature: Creative vs routine work; exploratory vs optimisation goals
+
+#### Cognitive effort paradox
+
+Higher cognitive workload during collaboration correlates with increased perceived ownership and deeper elaboration (Maier et al. 2025).
+Whilst reducing mental effort seems beneficial, appropriate cognitive load maintains skill development, creative engagement, and protection against algorithmic loafing.
+
+#### Elaboration across [collaboration stages](#interaction-stages)
+
+- Perceive/Think: Higher elaboration maintains human agency in problem framing
+- Express: Surface acceptance risks fixation on AI-provided options
+- Collaborate: Substantive elaboration enables shared locus and mutual influence
+- Build: Elaboration depth from earlier stages carries forward into execution quality
+- Test: Higher elaboration enables more critical evaluation and iteration
+
+See [Conversation](../?path=/docs/patterns-conversation--docs#dialogue-forms) for how dialogue forms shape elaboration in conversational interfaces, and [Bot](../?path=/docs/patterns-bot--docs) for interaction patterns that maintain engagement.
 
 ## Bot ↔ Bot
 
@@ -161,6 +214,7 @@ See [Bot](../?path=/docs/patterns-bot--docs) for detailed interaction patterns.
 
 ## Resources & references
 
+- Maier, Schneider, Feuerriegel (2025) [Partnering with Generative AI: Experimental evaluation of human-led and model-led interaction in human-AI co-creation](https://arxiv.org/abs/2510.23324)
 - Zhang, Wang, Yi (2025) [Exploring Collaboration Patterns and Strategies in Human-AI Co-creation through the Lens of Agency](https://arxiv.org/abs/2507.06000)
 - Nardi et al (1998) [Collaborative, programmable intelligent agents](https://dl.acm.org/doi/10.1145/272287.272331)
 - Matt Webb, [Designing multiplayer apps with patterns from architecture](https://interconnected.org/home/2022/01/21/social_gradient)

@@ -1,0 +1,174 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Primitives/Dynamic hyperlinks" />
+
+# Dynamic hyperlinks
+
+A primitive that transforms text into densely interconnected networks where any word or phrase can become a contextual link based on semantic relationships across content.
+
+## Description
+
+Dynamic hyperlinks shift from author-defined, sparse link networks to reader-driven, dense connection systems. Rather than relying solely on manually-created links, the system analyzes content similarity to surface relevant connections on-demand. When users select text, the interface searches across available content to show contextually-ranked related mentions, transforming navigation from a linear path to a multidimensional exploration.
+
+This approach complements traditional hyperlinks by scaling connection-discovery through automation while preserving author intent where explicit links exist.
+
+## Core characteristics
+
+- **On-demand generation**: Links emerge contextually rather than existing statically
+- **Visual density mapping**: Connection strength visualized through heatmaps or highlighting
+- **Semantic similarity**: Content relationships determined algorithmically (n-gram overlap, embedding similarity)
+- **Reader agency**: Users decide which connections to explore rather than following predetermined paths
+- **Contextual ranking**: Related content sorted by relevance to selected text
+
+## Implementation patterns
+
+**Heatmap overlay** shows connection density:
+```html
+<!-- Visual feedback indicates link-rich areas -->
+<pp-hyperlink-heatmap>
+  <p>Text with varying connection density...</p>
+</pp-hyperlink-heatmap>
+```
+
+**Selection-triggered popup** displays related content:
+```html
+<!-- Selecting text surfaces relevant mentions -->
+<pp-connection-popup
+  position="auto"
+  max-results="10"
+  min-similarity="0.2">
+</pp-connection-popup>
+```
+
+**Orchestration component** coordinates the experience:
+```html
+<!-- Wrapper manages heatmap and popup interaction -->
+<pp-hyperlink-text>
+  <article>Document content...</article>
+</pp-hyperlink-text>
+```
+
+## Similarity algorithms
+
+**N-gram matching** (simple, fast):
+- Extract overlapping word sequences (3-4 words)
+- Calculate Jaccard similarity: `|A ∩ B| / |A ∪ B|`
+- Efficient for in-browser computation
+
+**Embedding similarity** (semantic, slower):
+- Generate vector representations of text segments
+- Compute cosine similarity between vectors
+- Captures meaning beyond surface-level word overlap
+
+**Hybrid approach**:
+- Fast n-gram filtering for initial candidates
+- Semantic ranking for top results
+- Balance between speed and accuracy
+
+## Variants
+
+### Functional variants
+
+- **Always-on heatmap**: Continuous visualization of connection density
+- **Hover-activated**: Heatmap appears on pointer hover
+- **Toggle mode**: Keyboard shortcut enables/disables dynamic linking
+- **Selection-only**: No heatmap, only popup on text selection
+
+### Contextual variants
+
+- **Single-document**: Links reference content within the same document
+- **Multi-document**: Connections span across document collections
+- **Cross-domain**: Links connect internal content with external sources
+- **Temporal**: Historical versions or related timeline events surface
+
+### Visual variants
+
+- **Subtle highlighting**: Low-contrast background tints
+- **Underline thickness**: Line weight indicates connection strength
+- **Color gradients**: Hue/saturation maps to relevance scores
+- **Annotation markers**: Inline indicators for high-density phrases
+
+## States
+
+### Heatmap states
+
+- **Inactive**: No visual overlay, standard text display
+- **Loading**: Computing connection density (show progress if slow)
+- **Active**: Heatmap rendered with varying intensities
+- **Updated**: Content changed, recomputing connections
+
+### Popup states
+
+- **Hidden**: No selection, popup dismissed
+- **Loading**: Searching for related content
+- **Results**: Related mentions displayed with snippets
+- **Empty**: No relevant connections found above threshold
+- **Error**: Search failed, show recovery options
+
+## Accessibility
+
+### Visual considerations
+
+- Heatmap overlays must maintain sufficient contrast ratios
+- Don't rely solely on color to convey connection density
+- Respect `prefers-reduced-motion` for animations
+- Ensure heatmap doesn't interfere with text readability
+
+### Screen reader support
+
+- Heatmap is decorative, hidden from assistive technology
+- Popup content announced when triggered
+- Connection count communicated via ARIA labels
+- Keyboard shortcuts documented and discoverable
+
+### Keyboard interaction
+
+- Text selection via keyboard triggers popup
+- Arrow keys navigate results list
+- Enter/Return opens selected connection
+- Escape dismisses popup
+- Configurable shortcuts (e.g., Ctrl+L toggle mode)
+
+## Decision tree
+
+**Use dynamic hyperlinks when**:
+- Content corpus is large and densely interconnected
+- Discovering relationships is valuable to users
+- Manual linking is impractical at scale
+- Serendipitous discovery enhances the experience
+
+**Avoid when**:
+- Content is sparse or isolated
+- Navigation paths are intentionally linear
+- Performance constraints prevent real-time analysis
+- User base unfamiliar with exploratory interfaces
+
+**Choose algorithm based on**:
+- N-gram matching: Speed critical, simple text, in-browser
+- Embedding similarity: Semantic understanding needed, server-side
+- Hybrid: Balance between performance and accuracy
+
+## Related patterns
+
+### Precursors
+
+- [Deep linking](../?path=/docs/primitives-deep-linking--docs) — Foundational addressability for content
+- [Search](../?path=/docs/patterns-search--docs) — Query-driven content discovery
+
+### Complementary
+
+- [Progressive disclosure](../?path=/docs/patterns-progressive-disclosure--docs) — Expand related content inline
+- [Hover cards](../?path=/docs/components-hover-card--docs) — Preview linked content without navigation
+- [Highlighting](../?path=/docs/primitives-text-highlighting--docs) — Visual marking of relevant text
+
+### Tangentially related
+
+- [Commenting](../?path=/docs/compositions-commenting--docs) — Anchor discussions to text selections
+- [Annotation](../?path=/docs/patterns-annotation--docs) — User-created markers and notes
+
+## Resources
+
+- [Hyperlink Maximalism](https://thesephist.com/posts/hyperlink/) — Linus Lee's original proposal
+- [Notation](https://notation.linus.zone/) — Reference implementation using n-gram similarity
+- [Semantic Text Networks](https://www.aaai.org/Papers/Symposia/Spring/2008/SS-08-07/SS08-07-005.pdf) — Academic research on document interconnection
+- [Fluid Text Selection](https://arxiv.org/abs/2009.10979) — HCI research on selection-based interaction

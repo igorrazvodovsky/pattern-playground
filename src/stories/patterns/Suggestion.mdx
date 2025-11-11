@@ -57,6 +57,28 @@ Users should be able to refine or modify suggestions to better match their needs
 
 {/* **Example:** A calendar scheduling assistant suggests meeting times, but allows users to specify preferences like "only mornings" or "avoid Fridays" to improve future recommendations. */}
 
+## Limitations
+
+### Fixation risk
+
+Providing explicit suggestions can constrain creative exploration through fixation effects:
+
+- Users anchor to AI-generated examples rather than exploring alternatives
+- Ideas homogenise as multiple users converge on similar AI-suggested approaches
+- Diversity decreases even when users generate initial ideas before seeing suggestions
+- Lower elaboration depth compared to question-driven approaches (65% minor elaboration, 25% no elaboration in suggestion-based dialogue vs 55% substantive elaboration in question-driven)
+
+Research shows suggestion-based dialogue reduces both individual creativity and collective diversity (Maier et al. 2025). The effect occurs because concrete examples limit the solution space users consider, even when suggestions are high quality.
+
+**Mitigation strategies:**
+- Use question-driven scaffolding or ambiguous analogies that leave interpretive space for human creativity rather than concrete examples
+- Delay suggestions until after initial ideation to reduce anchoring
+- Present suggestions as inspiration rather than recommendations
+- Provide diverse suggestion sets from different conceptual domains
+- Consider whether the task benefits more from exploration (use questions) or optimisation (use suggestions)
+
+See [Conversation](../?path=/docs/patterns-conversation--docs) dialogue forms for alternative interaction patterns that preserve diversity and elaboration depth.
+
 ## Dismission and override
 
 Users must have clear paths to reject suggestions and provide alternative input.
@@ -70,8 +92,11 @@ Users must have clear paths to reject suggestions and provide alternative input.
 - [Messaging](../?path=/docs/compositions-messaging--docs)
 - [Transparent reasoning](../?path=/docs/patterns-transparent-reasoning--docs) - suggestions can emerge from visible reasoning processes
 - [Collaboration](../?path=/docs/patterns-collaboration--docs) - Suggestions support collaborative decision-making through AI-assisted discovery
+- [Conversation](../?path=/docs/patterns-conversation--docs) - dialogue forms that provide alternatives to suggestion-based interaction
 
-{/* ## Resources & references */}
+## Resources & references
+
+- Maier, Schneider, Feuerriegel (2025) [Partnering with Generative AI: Experimental evaluation of human-led and model-led interaction in human-AI co-creation](https://arxiv.org/abs/2510.23324)
 
 {/* https://experience.sap.com/fiori-design-web/recommendations/ */}
 {/* https://www.nngroup.com/articles/prompt-suggestions/ */}

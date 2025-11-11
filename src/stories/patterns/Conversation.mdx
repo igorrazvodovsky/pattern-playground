@@ -18,8 +18,88 @@ Conversation unfolds over time, often nonlinearly:
 TODO: pre-conversation, early turns, mid-flow, transition to action, error paths, post-conversation, ...
 
 ## Dialogue forms
-Conversations are not all alike:
-TODO: inquiry, conversation, instruction, debate
+
+Conversations take different structural forms that shape collaboration dynamics, cognitive engagement, and outcome quality. Research shows dialogue form significantly impacts elaboration depth, ownership, and diversity in co-creative work (Maier et al. 2025).
+
+### Question-driven dialogue
+
+Bot asks reflective, open-ended questions that prompt human thinking and elaboration rather than providing direct solutions.
+
+**Characteristics:**
+- Maintains human creative agency and perceived ownership
+- Increases elaboration depth (55% substantive, 45% reframing)
+- Preserves idea diversity through exploration
+- Requires higher cognitive engagement
+- Mitigates fixation effects from premature convergence
+- Effective for creative, exploratory, and learning tasks
+
+**Question approaches:**
+- *Knowledge-based*: Share specific capabilities or lesser-known functions that could inspire new directions ("Feature X has capability Y that enables Z. How might this change your approach?")
+- *Analogy-based*: Provide cross-domain analogies that resemble the core concept or solve similar problems ("Domain A addresses this with approach B. How could that lens apply here?")
+- *Clarification*: Ask targeted questions about problem context, audience, constraints, or mechanisms to develop ideas from abstract to concrete
+
+**Example flow:**
+1. Human shares initial idea
+2. Bot asks knowledge or analogy question to generate alternatives
+3. Human selects direction and elaborates
+4. Bot asks clarifying questions to increase specificity and usefulness
+5. Iterative refinement through continued questioning
+
+**When to use:** Creative ideation, exploratory problem-solving, skill development, complex decision-making, learning contexts where depth matters more than speed
+
+**Trade-offs:** Higher cognitive load, slower task completion, requires human to do substantive thinking work
+
+### Suggestion-based dialogue
+
+Bot provides explicit recommendations, examples, or alternative approaches for human consideration.
+
+**Characteristics:**
+- Reduces cognitive load through concrete options
+- Risk of fixation on provided examples (65% minor elaboration, 25% no elaboration)
+- Can decrease diversity through homogenisation effects
+- Lower perceived ownership when suggestions dominate
+- Effective for optimisation and refinement tasks within bounded spaces
+
+**When to use:** Refinement of existing ideas, efficiency improvements, tasks with clear evaluation criteria, contexts where speed matters more than novelty
+
+**Trade-offs:** Risk of anchoring bias, reduced exploration, homogenisation across users, lower skill development
+
+### Instruction-based dialogue
+
+Bot executes direct commands or requests with minimal back-and-forth.
+
+**Characteristics:**
+- System-led agency during execution
+- Lowest elaboration depth (90% surface acceptance in model-led mode)
+- High risk of algorithmic loafing—human disengagement from cognitive work
+- Efficient for well-defined, routine tasks
+- Reduced ownership and skill maintenance over time
+
+**When to use:** Routine execution, translation, formatting, tasks with single correct approach, automation of mechanical work
+
+**Trade-offs:** Skill atrophy, reduced learning, loss of creative engagement, dependency on system capabilities
+
+### Critique and debate
+
+Bot challenges assumptions, questions reasoning, or presents opposing viewpoints to strengthen thinking.
+
+**Characteristics:**
+- Adversarial stance that tests robustness
+- Reveals hidden assumptions and weak points
+- Requires human to defend and refine reasoning
+- Can increase frustration if tone isn't calibrated
+
+**When to use:** Validation, quality assurance, decision review, risk assessment, learning through argumentation
+
+## Dialogue form selection
+
+Choice of dialogue form depends on:
+- **Task nature**: Creative vs routine, exploratory vs optimisation
+- **Outcome goals**: Novelty vs efficiency, depth vs speed, diversity vs convergence
+- **Human state**: Available cognitive capacity, skill level, learning vs producing mode
+- **Relationship stage**: Early exploration benefits from questions; late refinement from suggestions
+
+Effective [collaboration](../?path=/docs/patterns-collaboration--docs) often sequences dialogue forms—using questions during exploration phases and suggestions during refinement.
 
 ## [Behaviour](../?path=/docs/foundations-intent-interaction--docs)-oriented patterns
 
@@ -33,7 +113,6 @@ The [seek–use–share framework](../?path=/docs/foundations-intent-interaction
 
 ## Related patterns
 
-<div>
 - [Messaging](../?path=/docs/compositions-messaging--docs) – where conversation happens
 - [Bot](../?path=/docs/patterns-bot--docs) – conversation partner
 - [Prompt](../?path=/docs/patterns-prompt--docs) translates user needs into structured AI behavior within a conversation
@@ -41,7 +120,20 @@ The [seek–use–share framework](../?path=/docs/foundations-intent-interaction
 - *Conversation history* facilitates continuity, knowledge retention, and revisiting prior interactions
 - [Collaboration](../?path=/docs/patterns-collaboration--docs) – uses conversation as a core communication mechanism for collaborative work
 - [Form](../?path=/docs/compositions-form--docs) can evolve into a conversation by adopting a dialogic flow
-</div>
 
-{/* ## Resources & references */}
-{/* - Burbules (2010) Theory and Research on Teaching as Dialogue */}
+### Conversational primitives
+
+Dialogue forms are composed from tactical turn-taking primitives that structure individual conversational moves:
+
+- Question-driven dialogue chains [agent inquiry](../?path=/docs/primitives-conversation-conversational-activities-inquiry-agent--docs) moves, where the agent asks questions to elicit human thinking
+- Instruction-based dialogue typically begins with [open request](../?path=/docs/primitives-conversation-conversational-activities-open-request--docs), where users make complex requests requiring clarification and multi-step execution
+- All dialogue forms leverage [repair affordances](../?path=/docs/primitives-conversation-sequence-management-agent-repair--docs) and [sequence management](../?path=/docs/primitives-conversation-sequence-management-sequence-completion--docs) patterns to handle breakdowns and closures
+
+These primitives provide the micro-level structure for conversations, whilst dialogue forms describe the macro-level strategic approach.
+
+
+## Resources & references
+
+- Maier, Schneider, Feuerriegel (2025) [Partnering with Generative AI: Experimental evaluation of human-led and model-led interaction in human-AI co-creation](https://arxiv.org/abs/2510.23324)
+- Moore, Liu, Mishra, Ren (2020) [Design Systems for Conversational UX](https://dl.acm.org/doi/10.1145/3405755.3406150)
+- Burbules (2010) [Theory and research on teaching as dialogue](https://www.jstor.org/stable/42979746)

@@ -78,21 +78,32 @@ Persistent memory requires explicit implementation through:
 
 {/* Integrated with *input-output mapping*, it's aimed to increase transparency by indicating the bot/model's confidence in different parts of its response. */}
 
-{/* ## Limitations and anti-patterns */}
+## Anti-patterns
 
-{/* ### Fundamental limitations */}
-{/* - No genuine accountability: Bots cannot take responsibility for actions or form independent intentions */}
-{/* - Bounded understanding: Operating within learned or programmed patterns without true comprehension */}
-{/* - Context degradation: Performance deteriorates with extended interactions or complex state */}
-{/* - Hallucination risks: Potential for generating plausible but incorrect information */}
+### Algorithmic loafing
 
-{/* ### Anti-patterns to avoid */}
-{/* - Human replacement fallacy: Assuming bots can fully replace human judgement and accountability */}
-{/* - Over-automation: Applying bots to tasks requiring genuine human understanding or empathy */}
-{/* - Undefined boundaries: Unclear capabilities leading to user frustration or misuse */}
-{/* - Memory sprawl: Implementing persistence without proper management strategies */}
-{/* - Complexity creep: Adding features without considering overall system coherence */}
-{/* - Trust without verification: Assuming bot outputs are always accurate or appropriate */}
+When bots take creative or cognitive lead, humans reduce effort and disengage—accepting bot output with minimal reflection. This manifests as:
+
+- Reduced cognitive engagement despite task importance
+- Loss of skill development and expertise over time
+- Decreased perceived ownership and commitment to outcomes
+- Homogenisation of outputs across users
+
+The effect parallels [social loafing](https://en.wikipedia.org/wiki/Social_loafing), where individuals reduce contribution when responsibility diffuses.
+
+*Mitigation*: Design interactions where humans remain in creative or cognitive lead whilst bot provides scaffolding through questions, analogies, or contextual knowledge rather than complete solutions. See [Conversation](../?path=/docs/patterns-conversation--docs) dialogue forms for question-driven approaches that maintain engagement.
+
+### Mismatched scope
+
+Applying bots to tasks requiring genuine accountability, sustained comprehension, or human empathy. Bots cannot take responsibility for actions or form independent intentions, and their understanding operates within learned patterns without true comprehension.
+
+### Uncalibrated trust
+
+Treating bot outputs as authoritative without verification mechanisms. Bots can generate plausible but incorrect information, and performance degrades with extended interactions or complex state.
+
+### Undefined boundaries
+
+Failing to communicate bot capabilities and limitations, leading to misuse and frustration. Users need clear understanding of what bots can and cannot do to set appropriate expectations.
 
 ## Related patterns
 
@@ -124,6 +135,7 @@ Persistent memory requires explicit implementation through:
 
 
 ## Resources & references
+- Maier, Schneider, Feuerriegel (2025) [Partnering with Generative AI: Experimental evaluation of human-led and model-led interaction in human-AI co-creation](https://arxiv.org/abs/2510.23324)
 - Nardi, B., Miller, J. R., & Wright, D. J. (1998). [Collaborative, programmable intelligent agents](https://dl.acm.org/doi/10.1145/272287.272331). Communications of the ACM, 41(3), 96–104.
 - [Personalization features for Human-LLM Interactions](https://www.arxiv.org/pdf/2503.00681) by Thu, Kocaballi · 2025
 - [Agents](https://simonwillison.net/2025/Sep/18/agents/) by Simon Willison · 2025
