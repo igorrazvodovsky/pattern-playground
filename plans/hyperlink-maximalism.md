@@ -1,16 +1,29 @@
-# Hyperlink Maximalism Implementation Plan
+# Dynamic Hyperlinks Implementation Plan
 
 ## Overview
 
-Implement the "hyperlink maximalism" pattern from [Linus Lee's article](https://thesephist.com/posts/hyperlink/), where documents become densely interconnected knowledge systems through dynamic, on-demand link generation rather than relying solely on author-created static links.
+Implement the dynamic hyperlinks pattern from [Linus Lee's hyperlink maximalism article](https://thesephist.com/posts/hyperlink/), where text content gains a configurable soft data layer of inferred semantic connections, enabling reader-driven exploration of related content through algorithmic similarity analysis.
 
 ## Core Concept
 
-Transform text into an interactive network where:
-- Any word/phrase can become a hyperlink dynamically
-- Visual feedback (heatmap) shows connection density
-- Text selection triggers contextual search across content
-- Related mentions appear ranked by similarity
+Following the [Data foundation](../src/stories/foundations/Data.mdx) principles, dynamic hyperlinks add a soft data layer over hard text content:
+
+**Hard layer** (deterministic):
+- Explicit hyperlinks and references created by authors
+- User-created bookmarks and cross-references
+- Typed entity links via the reference system
+
+**Soft layer** (inferred):
+- Algorithmically-discovered semantic relationships
+- Connection density visualization (heatmap)
+- On-demand contextual search results
+- Configurable similarity thresholds
+
+**Key characteristics**:
+- Visual distinction between hard and soft connections
+- User control over layer visibility and sensitivity
+- Confidence indicators for inferred relationships
+- Progressive enhancement (works without JS)
 
 ## Key Components
 
@@ -30,34 +43,47 @@ Transform text into an interactive network where:
 - Support for multiple content sources (documents, notes, etc.)
 
 ### 2. Hyperlink Heatmap Component
-**Purpose**: Visualize connection density across text
+**Purpose**: Visualize soft data layer (inferred connection density) across text
 
-**Visual design**:
-- Gradient overlay indicating connection strength
-- Subtle highlighting that doesn't interfere with readability
-- Configurable color schemes
+**Visual design** (soft data indicators):
+- Gradient overlay or dashed underlines indicating connection strength
+- Muted colors (not primary palette) to distinguish from hard links
+- Configurable intensity and color schemes
 - Responsive to content updates
+- Respects `prefers-reduced-motion`
 
 **Implementation**:
 - `<pp-hyperlink-heatmap>` web component
 - CSS custom properties for theming
 - Uses text analysis service for density calculation
 - Light DOM for accessibility
+- Toggle attribute to show/hide layer
+- Confidence-based styling intensity
 
 ### 3. Connection Popup Component
-**Purpose**: Display related content on text selection
+**Purpose**: Display soft data layer results (inferred connections) on text selection
 
 **Features**:
-- Shows contextually-ranked mentions
+- Shows contextually-ranked mentions with confidence scores
 - Includes snippets with highlighted matching text
+- Visual distinction: Dashed borders, confidence indicators
 - Keyboard navigation support
 - Click-to-navigate to related content
+- Accept/bookmark action to promote to hard layer
+
+**Soft data indicators**:
+- Similarity score displayed (e.g., "78% match")
+- Dashed borders around result cards
+- Muted background colors
+- Source attribution ("via semantic similarity")
+- Dismiss button for each result
 
 **Implementation**:
 - `<pp-connection-popup>` web component
 - Positioned relative to selection
 - Async loading with spinner for search
 - Escape key to dismiss
+- Data flags: `isAIInferred: true`, `confidenceLevel`, `layerSource: 'semantic-similarity'`
 
 ### 4. Interactive Text Component
 **Purpose**: Orchestrate the hyperlink maximalism experience
@@ -170,8 +196,41 @@ For each word/phrase:
 - ARIA labels for connection counts
 - Respects prefers-reduced-motion
 
+## Data Flags and Metadata
+
+Following the [Data foundation](../src/stories/foundations/Data.mdx#implementation-patterns) implementation patterns:
+
+### Connection result metadata
+```typescript
+interface ConnectionResult {
+  id: string;
+  documentId: string;
+  title: string;
+  snippet: string;
+  matchedText: string;
+
+  // Soft data flags
+  isAIInferred: true;                    // Always true for dynamic hyperlinks
+  confidenceLevel: number;                // 0-1 similarity score
+  layerSource: 'semantic-similarity';     // Algorithm used
+  canDismiss: true;                       // User can hide
+  canAccept: true;                        // User can bookmark
+
+  // Navigation
+  url: string;
+  timestamp: string;
+}
+```
+
+### Visual styling based on data flags
+- `isAIInferred: true` → Dashed borders, muted colors
+- `confidenceLevel < 0.4` → Lower opacity, "Low match" label
+- `confidenceLevel >= 0.7` → Standard soft data styling
+- Dismissed items stored in user preferences
+
 ## Mock Data Structure
 
+### Hard data (document corpus)
 ```json
 {
   "documents": [
@@ -182,7 +241,32 @@ For each word/phrase:
       "metadata": {
         "created": "2025-01-10",
         "tags": ["tag1", "tag2"]
-      }
+      },
+      "explicitLinks": [
+        {
+          "target": "doc-2",
+          "isAIInferred": false
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Soft data (inferred connections - computed at runtime)
+```json
+{
+  "inferredConnections": [
+    {
+      "sourceDocId": "doc-1",
+      "targetDocId": "doc-3",
+      "isAIInferred": true,
+      "confidenceLevel": 0.82,
+      "layerSource": "semantic-similarity",
+      "algorithm": "n-gram-jaccard",
+      "matchedNgrams": ["machine learning", "neural networks"],
+      "canDismiss": true,
+      "canAccept": true
     }
   ]
 }
@@ -241,6 +325,18 @@ For each word/phrase:
 
 ## References
 
-- [Original article](https://thesephist.com/posts/hyperlink/)
-- [Notation app](https://notation.linus.zone/) - Reference implementation
-- Related patterns: Deep Linking, Reference Systems, Search
+### Core concepts
+- [Hyperlink Maximalism](https://thesephist.com/posts/hyperlink/) — Linus Lee's original article
+- [Notation app](https://notation.linus.zone/) — Reference implementation using n-gram similarity
+- [Hard and Soft](https://wattenberger.com/thoughts/hard-and-soft) — Amelia Wattenberger on interface material properties
+
+### Design system foundations
+- [Data](../src/stories/foundations/Data.mdx) — Hard and soft data layering principles
+- [Agency](../src/stories/foundations/Agency.mdx) — User control over inferred connections
+- [Adaptation](../src/stories/foundations/Adaptation.mdx) — Probabilistic vs deterministic responses
+
+### Related patterns
+- [Focus and Context](../src/stories/patterns/FocusAndContext/FocusAndContext.mdx) — Inferred component relationships
+- [Reference](../src/stories/primitives/reference/Reference.mdx) — Explicit entity linking (hard data counterpart)
+- [Suggestion](../src/stories/patterns/Suggestion.mdx) — AI-suggested actions and connections
+- [Deep Linking](../src/stories/primitives/DeepLinking.mdx) — URL-based addressability

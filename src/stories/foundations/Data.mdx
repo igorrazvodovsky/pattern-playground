@@ -1,0 +1,78 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Data" />
+
+> 🤯 **Fun meter: 5/5**. Exploring how AI-powered software operates on layered data architectures where deterministic foundations are augmented with probabilistic layers.
+
+# Data
+
+Data exists in layers of varying certainty and permanence, from deterministic source-of-truth records to contextual AI-generated inferences that users can configure based on their needs.
+
+## Two-dimensional framework
+
+Data can be categorized along two independent dimensions that determine trustworthiness and appropriate treatment:
+
+### Certainty
+
+#### Deterministic
+- Same input always produces same output
+- No probability or confidence scores needed
+- Fully explainable through rules or computation
+- Examples: RDF inferences, aggregations, rule-based derivations
+
+#### Probabilistic
+- Same input may produce different outputs
+- Confidence scores communicate uncertainty
+- Explanations are approximations
+- Examples: AI pattern detection, ML predictions, semantic similarity
+
+### Provenance
+
+#### Explicit
+- Created directly by users or source systems
+- Manually entered or imported
+- Examples: Form submissions, uploaded files, user selections
+
+#### Derived
+- Computed from explicit data using rules or logic
+- Deterministic transformations
+- Examples: Calculated totals, RDF inferences, taxonomy classifications
+
+#### Inferred
+- Discovered through pattern analysis
+- Typically probabilistic
+- Examples: Semantic similarity, AI-detected relationships, clustering
+
+#### Deduced
+- Suggested possibilities not yet confirmed
+- Speculative, lowest certainty
+- Examples: AI recommendations, predicted missing data, suggested next steps
+
+## Layered data architecture
+
+
+1. Foundation: Explicit deterministic data—user input, source records, canonical relationships
+2. Computed: Derived deterministic data—aggregations, rule-based inferences, RDF reasoning
+3. Inferenced: Inferred probabilistic data—AI-discovered patterns, semantic connections, learned models
+4. Speculation layer: Deduced probabilistic data—AI suggestions, domain knowledge applications, predicted needs
+
+## Configurability principle
+
+Different users and contexts benefit from different ratios of hard to soft data.
+The design may support adjustable layering:
+
+- Intensity: How much soft data to show. Minimal (hard data only) → Moderate → Maximum (all inferences)
+- Specificity: Which domain knowledge to use. Generic patterns → Domain-specific → User-provided
+- Interactivity: How soft data behaves. Passive (view only) → Suggestive (accept/reject) → Active
+
+## Related patterns
+
+- [Agency](../?path=/docs/foundations-agency--docs) — User control over data layer configuration
+- [Adaptation](../?path=/docs/foundations-adaptation--docs) — Soft layers enable probabilistic adaptation
+- [Conversation](../?path=/docs/foundations-conversation--docs) — Turn-taking between user input and system responses
+
+## Resources
+
+- [Hard and Soft](https://wattenberger.com/thoughts/hard-and-soft) — Amelia Wattenberger on interface material properties
+- [Data and Reality](https://www.bkent.net/Doc/darxrp.htm) — William Kent on the nature of information systems
+- [Living in Information](https://rosenfeldmedia.com/books/living-in-information/) — Jorge Arango on information environments
