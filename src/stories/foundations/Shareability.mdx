@@ -52,145 +52,46 @@ Best for: in-page positions, highlighted ranges, canvas coordinates, selected el
 ### Appropriate candidates
 
 State that enhances collaboration, reference, and reproducibility:
-
-- **Search and filters** — preserve query context for shared discovery
-- **View configuration** — layout mode (grid/list), density, grouping
-- **Sort and pagination** — maintain position within large datasets
-- - **Date ranges and timeframes** — coordinate temporal views
-- **Feature toggles** — experimental or accessibility settings
-- **Canvas state** — zoom, pan, selected elements (design tools, maps)
-- **Highlighting and selection** — specific content ranges or annotations
+- Search and filters — preserve query context for shared discovery
+- View configuration — layout mode (grid/list), density, grouping
+- Sort and pagination — maintain position within large datasets
+- Feature toggles — experimental or accessibility settings
+- Canvas state — zoom, pan, selected elements (design tools, maps)
+- Highlighting and selection — specific content ranges or annotations
 
 ### Poor candidates
 
 State that compromises security, performance, or user experience:
+- Sensitive data — passwords, tokens, personal identifiers
+- Temporary UI states — modal visibility, dropdown expansion, hover states
+- Unsaved input — draft content, incomplete forms
+- High-frequency transient data — mouse position, animation frames
+- Session-specific state — authentication status, temporary permissions
 
-- **Sensitive data** — passwords, tokens, personal identifiers
-- **Temporary UI states** — modal visibility, dropdown expansion, hover states
-- **Unsaved input** — draft content, incomplete forms
-- **High-frequency transient data** — mouse position, animation frames
-- **Session-specific state** — authentication status, temporary permissions
-
-## Best practices
-
-### Encode only non-default values
-
-Avoid URL pollution by omitting parameters that match system defaults:
-
-```
-❌ /search?view=list&sort=relevance&page=1&theme=light
-✓ /search?sort=date&page=2
-```
-
-Empty parameters indicate default state; changed parameters signal user intent.
-
-### Debounce frequent updates
-
-Prevent history flooding during rapid interactions:
-
-- **Search-as-you-type** — update URL only after typing pauses (300-500ms)
-- **Range sliders** — commit values on release, not during drag
-- **Canvas navigation** — batch position updates during pan/zoom
-
-### Respect browser history
-
-Use appropriate history APIs to maintain navigability:
-
-- **`pushState`** for distinct actions — new search, filter change, page navigation
-- **`replaceState`** for refinements — updating existing search, adjusting zoom
-
-Users should be able to use the back button to retrace meaningful steps, not every micro-adjustment.
-
-### Maintain readable parameters
-
-Self-documenting URLs support both users and developers:
-
-```
-❌ ?f=42&s=d&v=g
-✓ ?category=design&sort=date&view=grid
-```
-
-Descriptive parameter names make URLs comprehensible when pasted in chat, email, or documentation.
-
-### Handle URL restoration gracefully
-
-When reconstructing state from URLs:
-
-- **Validate parameters** — handle malformed, outdated, or malicious values
-- **Provide fallbacks** — default to sensible states when parameters are invalid
-- **Communicate failures** — inform users if shared state can't be restored
-- **Preserve partial state** — apply valid parameters even if some are rejected
-
-## Relationship to other foundations
+## Related patterns
 
 ### Agency
-
 Shareability strengthens [user agency](../?path=/docs/foundations-agency--docs) by making system state explicit and controllable. Users can precisely communicate their view, bookmark moments for later, and verify that "what they see is what they share." URLs become user-accessible state inspectors rather than opaque technical addresses.
 
 ### Conversation
-
 URLs function as [conversational interfaces](../?path=/docs/foundations-conversation--docs)—they're contracts between application and user that communicate intent clearly. A well-designed URL answers "what am I looking at?" just by being read. This transparency builds trust and supports cooperative interaction.
 
 ### Adaptation
-
 [Adaptive systems](../?path=/docs/foundations-adaptation--docs) benefit from URL state as a mechanism for user-driven personalisation. View preferences, feature toggles, and configuration encoded in URLs let users experiment with adaptations and share successful configurations with others.
 
 ### Accessibility
-
 Shareable URLs improve [accessibility](../?path=/docs/foundations-a11y--docs) by enabling users to bookmark and return to specific configurations (high contrast, increased density, focus modes). State persistence through URLs ensures assistive preferences aren't lost between sessions.
 
-## Patterns that enable shareability
+{/* ### Collaborative patterns */}
+{/* - Share link generators — create shortened or formatted share links */}
+{/* - Link previews — show what state a shared link will restore */}
+{/* - Deep linking — direct access to specific content or configurations */}
 
-### State synchronisation patterns
+{/* ### Progressive enhancement */}
+{/* - Client-side routing — URLs work with and without JavaScript */}
+{/* - Server-side rendering — URLs produce meaningful responses server-side */}
+{/* - Bookmarkability — every significant state has a unique, stable URL */}
 
-- **URL parameter watchers** — sync interface state to URL on change
-- **URL restoration hooks** — reconstruct interface from URL on load
-- **History management** — strategic use of `pushState` vs `replaceState`
-
-### Collaborative patterns
-
-- **Share link generators** — create shortened or formatted share links
-- **Link previews** — show what state a shared link will restore
-- **Deep linking** — direct access to specific content or configurations
-
-### Progressive enhancement
-
-- **Client-side routing** — URLs work with and without JavaScript
-- **Server-side rendering** — URLs produce meaningful responses server-side
-- **Bookmarkability** — every significant state has a unique, stable URL
-
-## Anti-patterns
-
-### URL abuse
-
-- **Encoding sensitive data** — never put secrets, tokens, or PII in URLs
-- **Creating unusably long URLs** — browsers have limits (~2000 characters)
-- **Non-semantic parameters** — `?x=42&y=g` tells users nothing
-- **Breaking bookmark stability** — changing URL schema breaks saved links
-
-### History pollution
-
-- **Flooding history** — every keystroke or micro-adjustment as new history entry
-- **Losing navigation** — back button doesn't work because history is polluted
-- **Missing state changes** — significant changes don't update URL at all
-
-### State inconsistency
-
-- **URL drift** — interface state diverges from URL state over time
-- **Refresh surprises** — reloading page shows different content than before
-- **Share failures** — shared links don't recreate the sender's view
-
-## Why this matters
-
-URLs are 34-year-old technology that still work because they respect fundamental web architecture. When interfaces honour URL-based state management, they:
-
-- **Preserve user intent** — bookmarks and shared links capture precise moments
-- **Enable collaboration** — "here's what I'm seeing" becomes trivially shareable
-- **Support debugging** — developers can reproduce exact user states
-- **Build trust** — transparency about state creates predictable, understandable systems
-- **Leverage standards** — browsers, search engines, and tools already understand URLs
-
-As the article author notes: *"URLs aren't just technical addresses that browsers use to fetch resources. They're interfaces."* Treating them as first-class state containers honours how the internet is supposed to work.
 
 ## Resources & references
 
