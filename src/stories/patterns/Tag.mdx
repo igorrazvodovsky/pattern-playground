@@ -1,0 +1,78 @@
+import { Canvas, Story, Meta, Subtitle } from '@storybook/addon-docs/blocks';
+
+<Meta title="Patterns/Tag" />
+
+> 🙂 **Fun meter: 2/5** mapping out the basics.
+
+# Tag
+
+Method of classifying content through keyword labels that enable multi-faceted organisation and discovery. Unlike hierarchical taxonomies that force single-path categorisation, tags allow items to belong to multiple topic dimensions simultaneously. Tags may be applied by users, systems, or curators.
+
+## Forces
+
+- Controlled vocabulary vs open tagging: curated taxonomies provide consistency and prevent redundancy, but flexible tagging captures domain-specific language
+- Single vs multiple classification: hierarchical categories may force exclusive placement, whilst tags allow content to exist across multiple topic facets simultaneously
+- Precision vs discoverability: specific tags improve targeted search, but broad tags increase content visibility
+- Stability vs ephemerality: some tags remain evergreen, while others fade away with passing trends.
+- Manual vs automated tagging: human-applied tags capture nuanced meaning, but system-generated tags scale efficiently
+
+{/* ## Variants */}
+
+{/* ### By interactivity */}
+{/* - Read-only tags: Static labels for categorisation without interactive functionality */}
+{/* - Removable tags: Dismissible labels commonly used in search filters and active selections */}
+{/* - Selectable tags: Toggle-based filtering enabling multi-faceted browsing */}
+
+{/* ### By scope */}
+{/* - Personal tags: Private organisation visible only to the creator */}
+{/* - Shared tags: Collaborative classification within defined groups */}
+{/* - Public tags: Open folksonomy accessible across the system, enabling social discovery */}
+
+{/* ### By source */}
+{/* - User-generated: Actors apply tags based on personal understanding or organisation needs, creating folksonomy when shared */}
+{/* - System-generated: Automated tagging through content analysis, entity extraction, or algorithmic classification */}
+{/* - Curated: Editorial or expert-applied tags maintaining controlled vocabulary */}
+{/* - Hybrid: Combination of user and system tagging, often with suggested tags that users can accept or modify */}
+
+{/* ### By format */}
+{/* - Free-form tags: Unrestricted keywords */}
+{/* - Hashtags: Prefixed with #, standard in social platforms, automatically linkable */}
+{/* - Controlled vocabulary: Tags drawn from predefined taxonomy or ontology */}
+
+
+## When to use
+
+- Content maps to multiple conceptual categories rather than single hierarchical placement
+- Faceted browsing and filtering enhance discoverability
+- The system contains sufficient content volume to benefit from topic-based organisation
+- Classification needs to scale beyond manual curation capabilities
+- Diverse perspectives or domain vocabularies enrich content organisation
+
+## Implementation considerations
+
+- Tags should link to filtered views showing all similarly tagged content
+- Search functionality must index tagged content
+- For user-generated tags: provide autocomplete to encourage consistent vocabulary whilst allowing new terms
+- For system-generated tags: communicate confidence levels and allow correction
+- Consider tag frequency thresholds to surface trending or popular topics
+- Provide merge capabilities for synonymous tags in open folksonomy systems
+- Balance tag proliferation against discoverability through suggested tags or controlled vocabularies
+
+## Related patterns
+
+- [Tag](../?path=/docs/primitives-tag--docs) - UI primitive for displaying and interacting with tags
+- [Badge](../?path=/docs/primitives-badge--docs) - similar visual treatment for status and system-generated classifications
+- [Annotation](../?path=/docs/patterns-annotation--docs) - tags as structured semantic annotation enabling systematic organisation
+- Search - tags enable faceted search and filtering
+- Filters - tags as user-selected filter criteria
+
+### [Intent & Interaction](../?path=/docs/foundations-intent-interaction--docs)
+
+- Supports *organising & structuring* phase through flexible classification
+- Enables *exploration & discovery* through tag-based browsing and filtering
+- Facilitates *sharing & collaboration* via hashtag-based social distribution in user-generated systems
+
+## Resources & references
+
+- Golder, S., & Huberman, B. A. (2006). [Usage patterns of collaborative tagging systems](https://scispace.com/pdf/usage-patterns-of-collaborative-tagging-systems-42t00kyp9o.pdf)
+- [Folksonomy](https://en.wikipedia.org/wiki/Folksonomy)
