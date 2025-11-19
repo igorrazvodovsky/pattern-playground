@@ -1,0 +1,88 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Patterns/Workspace" />
+
+> 😊 **Fun meter: 4/5**
+
+# Workspace
+
+An organisational container that enables users to separate, view, and navigate between different scopes of work and multiple contexts without losing coherence.
+
+Workspaces create boundaries that reflect how work is structured—by ownership (personal, team, organisational), by topic (projects, areas, subjects), or by activity (active work, reference, archive). They mediate the tension between focused attention on a single context and the need to coordinate across multiple concurrent contexts.
+
+Workspaces implement [privacy](../?path=/docs/foundations-privacy--docs) principles through spatial and organisational separation, [agency](../?path=/docs/foundations-agency--docs) through control over context organisation, and support [collaboration](../?path=/docs/foundations-collaboration--docs) by defining shared and individual work zones.
+
+## Problem
+
+Users need to manage work that spans multiple contexts whilst maintaining coherent focus. Working in a single undifferentiated space creates cognitive overload and makes it difficult to separate concerns. Constantly switching between different applications or windows disrupts flow and makes it hard to resume interrupted work. Different contexts require different levels of visibility and access—personal work should remain private, team work should be visible to collaborators, organisational resources should be broadly available.
+
+## Solution
+
+Create distinct workspaces that reflect natural boundaries in how work is organised. Enable users to view multiple contexts simultaneously through spatial arrangement, or switch rapidly between contexts whilst preserving state. Make workspace boundaries align with privacy, permission, and organisational structures so visibility and access control feel natural rather than imposed.
+
+## Variants
+Workspaces organised around ownership and access boundaries:
+
+- Personal workspace: Individual's private work, organised according to personal taxonomy and priorities. Only the owner can view and modify contents. Supports autonomous work without coordination overhead.
+- Team workspace: Shared context for collaborative work within a defined group. Members can view and contribute to shared objects whilst maintaining individual private areas within the team space. Access controlled by team membership.
+- Organisational workspace: Company-wide or cross-team contexts with broad visibility. May be read-only for most users, editable by designated roles. Serves as shared resource library or communication space.
+
+These scopes often nest—personal workspaces exist within team contexts, team workspaces exist within organisational boundaries. Users move work between scopes as it progresses from private ideation to team collaboration to organisation-wide sharing.
+
+{/* TODO: This can be done as links to components/compositions. */}
+{/* ### By structure */}
+{/* Implementation mechanisms for viewing and switching between contexts: */}
+{/* **Tabbed workspaces**: Discrete contexts accessible through labelled tabs. Only one context visible at a time. Optimised for limited sets of contexts (typically 5–7) where full attention on single context is primary mode. Tab labels provide peripheral awareness of other available contexts. */}
+{/* **Panelled workspaces**: Multiple contexts visible simultaneously through spatial arrangement (side-by-side, tiled, or resizable regions). Enables comparison, reference, and parallel work across contexts. Fixed or user-configurable layouts. */}
+{/* **Windowed workspaces**: Overlapping or free-floating containers users position and layer. Maximum flexibility for personal organisation. May create visual clutter; requires active window management. */}
+{/* **Multi-device workspaces**: Contexts distributed across personal and shared devices. Physical device ownership creates natural [privacy gradient](../?path=/docs/foundations-privacy--docs#privacy-gradient)—personal devices hold private contexts, shared displays show public contexts. Micro-mobility (tilting, showing) enables temporary visibility changes. */}
+
+### By persistence
+
+- Project-based: Temporary workspace assembled for specific goal. Disbanded when project completes. Members and resources change as project evolves.
+- Persistent: Durable workspace maintained over time. Accumulates shared knowledge and history. Membership stable but may evolve gradually.
+- Ephemeral: Short-lived workspace for temporary collaboration or exploration. No expectation of durability. Created and destroyed fluidly as needed.
+
+## States
+
+- Empty state: New workspace with no active contexts. May offer templates, recent items, suggested starting points, or creation actions appropriate to workspace scope.
+- Single context: One active item fills available space. Workspace navigation chrome may hide to maximise content area. Easy transition to multi-context state.
+- Multi-context: Multiple tabs, panels, or windows active. Navigation and organisation controls become prominent. Visual indicators show active context and available alternatives.
+- Overflow state: More contexts than comfortably fit available space. Requires scrolling tabs, carousels, hierarchical grouping, or search to access all contexts. May indicate need to archive, close, or reorganise.
+
+## Considerations
+
+### Access control and permissions
+
+While detailed permission systems are separate concerns, access control fundamentally affects workspace boundaries. Personal workspaces are implicitly private. Team workspaces require membership verification. Organisational workspaces may have role-based editing rights. Workspace design should acknowledge these boundaries even if permission enforcement is implemented elsewhere.
+
+### Context preservation
+
+Switching between workspaces should preserve state—scroll position, unsaved changes, view configuration—so users can resume interrupted work without cognitive cost.
+
+### Privacy management
+
+Users working in co-located settings need control over what information is visible to others. See [privacy gradient](../?path=/docs/foundations-privacy--docs#privacy-gradient) for principles. Workspaces implement privacy through scope separation and spatial arrangement.
+
+
+## Related patterns
+
+### Precursors
+- [Navigation](../?path=/docs/patterns-navigation--docs) enables movement through application structure; workspaces extend navigation by supporting parallel access to multiple destinations.
+
+### Complementary
+- [Focus and Context](../?path=/docs/patterns-focus-and-context--docs) manages detail and overview within a single context; workspaces manage switching between distinct contexts.
+- [Command menu](../?path=/docs/patterns-command-menu--docs) provides rapid access to workspaces and contexts without navigating interface hierarchy.
+
+### Follow-ups
+- [Activity log](../?path=/docs/patterns-activity-log--docs) shows history within a workspace.
+- [Notification](../?path=/docs/patterns-notification--docs) alerts users to changes in non-visible workspaces.
+
+### Tangentially related
+- [Canvas](../?path=/docs/patterns-canvas--docs) offers infinite spatial workspace for single domain.
+- [Stream](../?path=/docs/patterns-stream--docs) presents chronological single-context view.
+
+## Resources
+
+- Arvola (2005). Interaction design patterns for computers in sociable use.
+- Tidwell (2019) Designing Interfaces. *Many Workspaces* pattern.

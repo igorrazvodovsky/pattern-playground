@@ -1,0 +1,83 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Privacy" />
+
+# Privacy
+
+The strategic control over what information is visible to different actors across contexts.
+
+Privacy enables selective disclosure—the ability to reveal information to intended audiences whilst concealing it from others. It operates on a gradient rather than as binary state, creating zones of visibility that range from completely private through semi-public to fully shared.
+
+Privacy interacts with [agency](../?path=/docs/foundations-agency--docs) (who controls visibility), [collaboration](../?path=/docs/foundations-collaboration--docs) (balancing individual privacy with group transparency), and [shareability](../?path=/docs/foundations-shareability--docs) (what happens when state becomes public).
+
+## Privacy gradient
+
+Rather than treating visibility as binary (public/private), privacy operates across a spectrum:
+
+- Private: Information controlled by and visible only to a single actor. Others cannot perceive it.
+
+- Semi-public: Information peripherally available to others for awareness and coordination, whilst remaining under individual control. Others can monitor it but cannot manipulate it.
+
+- Public: Information fully shared and available to all actors within a context. Control may be distributed or transferred.
+
+This gradient mirrors how people naturally manage visibility in physical spaces—through spatial proximity, screen orientation, voice modulation, and body language. Digital systems should support similarly fluid transitions between privacy levels.
+
+## Forces
+
+- Individual control vs collaborative transparency: People need autonomous private work whilst participating in shared activities; hiding everything prevents coordination, revealing everything prevents autonomy
+- Contextual revelation vs persistent visibility: Some information should be private in one context but public in another; static privacy states cannot accommodate dynamic social situations
+- Spatial privacy vs technological privacy: Physical separation and device ownership create natural privacy gradients; access control systems create technological boundaries; both approaches have different affordances
+- Privacy as user need vs privacy as compliance: Users control visibility for functional and social reasons (politeness, focus, autonomy); organisations must enforce privacy for regulatory and ethical reasons; these motivations create different design requirements
+- Extemporaneity vs planning: Face-to-face dialogue is spontaneous—previously private information may suddenly become relevant for joint work; privacy controls must support serendipitous sharing without requiring advance planning
+
+Managing these tensions requires understanding the specific contexts in which privacy operates.
+
+## Contexts for privacy
+
+Privacy manifests differently depending on physical, technological, and social arrangements.
+
+### Co-located contexts
+
+People working in shared physical spaces need to manage what others can see:
+- Screen orientation and viewing angle create natural visibility zones
+- Tilting a device towards someone invites them into semi-public viewing
+- Moving to a different room creates completely private space
+- Spatial arrangement of desks and surfaces provides surfaces for different privacy levels
+
+### Multi-device contexts
+
+When work spans personal and shared devices, device ownership creates privacy boundaries:
+- Personal devices hold private information under individual control
+- Shared displays provide public workspace for joint activities
+- Moving information between devices shifts it between privacy levels
+- Micro-mobility (tilting, showing) enables temporary privacy level changes
+
+### Organisational contexts
+
+Team and company boundaries define visibility zones:
+- Personal workspaces hold individual work in progress
+- Team workspaces share information within group boundaries
+- Organisational workspaces make information broadly available
+- Access control and permissions enforce these boundaries technologically
+
+### Temporal contexts
+
+Privacy requirements change over time:
+- Ephemeral visibility for temporary collaboration or exploration
+- Persistent visibility for durable shared knowledge
+- Progressive disclosure as work moves from private ideation to public sharing
+- Conversational flow determines when private information becomes relevant to share
+
+## Related foundations
+
+- [Agency](../?path=/docs/foundations-agency--docs) — determines who controls visibility decisions and how control is distributed
+- [Collaboration](../?path=/docs/foundations-collaboration--docs) — requires balancing individual privacy needs with group transparency requirements
+- [Conversation](../?path=/docs/foundations-conversation--docs) — privacy affects audience awareness and appropriate disclosure in dialogue
+- [Shareability](../?path=/docs/foundations-shareability--docs) — describes how state becomes public through sharing; privacy governs when that transition should occur
+- [Data & Information](../?path=/docs/foundations-data-information--docs) — privacy affects what information can be perceived and by whom
+
+## Resources & references
+
+- Arvola, M. (2005). *Interaction design patterns for computers in sociable use*. International Journal of Computer Applications in Technology. Describes privacy gradients in co-located collaboration and workspace design patterns.
+- Goffman, E. (1967). *Interaction Ritual: Essays on Face-to-Face Behavior*. Chicago: Aldine. Foundation for understanding face management and privacy as social concern.
+- [Apple HIG](https://developer.apple.com/design/human-interface-guidelines/privacy)
