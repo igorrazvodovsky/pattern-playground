@@ -47,6 +47,44 @@ Client-side navigation, scroll positions, and element targeting:
 
 Best for: in-page positions, highlighted ranges, canvas coordinates, selected elements.
 
+## Navigation context vs destination
+
+When content exists in multiple locations or is reachable through multiple paths, shareability faces a fundamental choice: should URLs encode the destination alone, or preserve the navigation context that led there?
+
+### Destination-only addressing
+URLs identify content regardless of how users arrived:
+```
+/documents/42
+```
+
+Advantages: Clean URLs, unambiguous addressing, stable references
+Limitations: Loses spatial context, navigation history, and relationship to surrounding content
+
+### Path-preserving addressing
+URLs capture the route taken to reach content:
+```
+/projects/alpha/documents/42
+/teams/design/documents/42
+```
+
+When the same content appears in multiple contexts (linked cards, symmetric references, spatial canvases), the path becomes meaningful state. Users may need to know not just *what* they're viewing, but *how they got there*.
+
+### Navigation stack restoration
+Complex applications may need to restore entire navigation histories:
+```
+/projects/alpha/teams/design/documents/42
+```
+
+This enables "back" navigation and preserves hierarchical context, but creates longer URLs and couples shareability to navigation implementation.
+
+### Trade-offs
+- *Addressability simplicity* vs *context preservation*
+- *URL stability* vs *relationship visibility*
+- *Unique references* vs *multiple valid paths*
+
+Choose based on whether spatial or temporal context materially affects content meaning.
+Document viewers benefit from destination-only addressing; spatial canvases and relationship-rich environments often require path preservation.
+
 ## What to share
 
 ### Appropriate candidates
@@ -58,6 +96,8 @@ State that enhances collaboration, reference, and reproducibility:
 - Feature toggles — experimental or accessibility settings
 - Canvas state — zoom, pan, selected elements (design tools, maps)
 - Highlighting and selection — specific content ranges or annotations
+- Navigation history — preserve spatial/temporal context when path to content is meaningful
+- Reference paths — capture route through relationship graphs or linked structures
 
 ### Poor candidates
 
@@ -75,6 +115,9 @@ Shareability strengthens [user agency](../?path=/docs/foundations-agency--docs) 
 
 ### Conversation
 URLs function as [conversational interfaces](../?path=/docs/foundations-conversation--docs)—they're contracts between application and user that communicate intent clearly. A well-designed URL answers "what am I looking at?" just by being read. This transparency builds trust and supports cooperative interaction.
+
+### Collaboration
+[Collaborative work](../?path=/docs/foundations-collaboration--docs) benefits when participants can share precise application states through URLs.
 
 ### Adaptation
 [Adaptive systems](../?path=/docs/foundations-adaptation--docs) benefit from URL state as a mechanism for user-driven personalisation. View preferences, feature toggles, and configuration encoded in URLs let users experiment with adaptations and share successful configurations with others.
@@ -96,6 +139,5 @@ Shareable URLs improve [accessibility](../?path=/docs/foundations-a11y--docs) by
 ## Resources & references
 
 - Alfy (2025) [Your URL is your state](https://alfy.blog/2025/10/31/your-url-is-your-state.html)
-- Fielding (2000) [Architectural Styles and the Design of Network-based Software Architectures](https://ics.uci.edu/~fielding/pubs/dissertation/top.htm) — REST architectural principles
 - W3C [History API specification](https://html.spec.whatwg.org/multipage/history.html)
-- Nielsen (1999) [Deep Linking is Good Linking](https://www.nngroup.com/articles/deep-linking/)
+- Nielsen (1999) [Deep Linking is Good Linking](https://www.nngroup.com/articles/deep-linking-is-good-linking/)
