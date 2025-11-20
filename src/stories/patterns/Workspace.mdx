@@ -50,24 +50,16 @@ These scopes often nest—personal workspaces exist within team contexts, team w
 - Multi-context: Multiple tabs, panels, or windows active. Navigation and organisation controls become prominent. Visual indicators show active context and available alternatives.
 - Overflow state: More contexts than comfortably fit available space. Requires scrolling tabs, carousels, hierarchical grouping, or search to access all contexts. May indicate need to archive, close, or reorganise.
 
-## Considerations
+## Access control and permissions
 
-### Access control and permissions
-
-While detailed permission systems are separate concerns, access control fundamentally affects workspace boundaries. Personal workspaces are implicitly private. Team workspaces require membership verification. Organisational workspaces may have role-based editing rights. Workspace design should acknowledge these boundaries even if permission enforcement is implemented elsewhere.
-
-### Context preservation
-
-Switching between workspaces should preserve state—scroll position, unsaved changes, view configuration—so users can resume interrupted work without cognitive cost.
-
-### Privacy management
-
-Users working in co-located settings need control over what information is visible to others. See [privacy gradient](../?path=/docs/foundations-privacy--docs#privacy-gradient) for principles. Workspaces implement privacy through scope separation and spatial arrangement.
-
+While detailed TODO:permission managment is separate concern, access control strongly affects workspace boundaries.
+Personal workspaces are implicitly private. Team workspaces require membership verification.
+Organisational workspaces may have role-based editing rights.
 
 ## Related patterns
 
 ### Precursors
+- [Privacy](../?path=/docs/foundations-privacy--docs#privacy-gradient) – workspaces implement privacy through scope separation and spatial arrangement.
 - [Navigation](../?path=/docs/patterns-navigation--docs) enables movement through application structure; workspaces extend navigation by supporting parallel access to multiple destinations.
 
 ### Complementary
