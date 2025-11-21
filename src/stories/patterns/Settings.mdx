@@ -1,0 +1,140 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Patterns/Settings" />
+
+> 😐 **Fun meter: 2/5** mapping out the basics.
+
+# Settings
+
+Centralized configuration space where actors define system behaviour, establish preferences, and exercise control over their environment. Settings mediate the tension between sensible defaults that serve most users and the diversity of individual needs that those defaults cannot accommodate.
+
+Settings implement [agency](../?path=/docs/foundations-agency--docs) through configuration control, respect [privacy](../?path=/docs/foundations-privacy--docs) through visibility and access preferences, and enable [adaptation](../?path=/docs/foundations-adaptation--docs) by allowing actors to shape system behaviour to their contexts.
+
+## Behavioural position
+
+Within the [Intent & Interaction framework](../?path=/docs/foundations-intent-interaction--docs), settings operate across multiple behavioural categories depending on actor familiarity and intent.
+
+### Navigating for experienced actors
+
+When actors know exactly which setting they need, settings support efficient [navigating behaviour](../?path=/docs/foundations-intent-interaction--docs#navigating). Clear organization, search functionality, and predictable structure enable direct access. Recent settings and favourites support swift re-finding.
+
+### Exploring for discovery
+
+New actors or those investigating available options engage in [exploring behaviour](../?path=/docs/foundations-intent-interaction--docs#exploring). Progressive disclosure, logical grouping, and helpful descriptions support this discovery mode without overwhelming. Settings can serve as educational space—revealing capabilities through configuration options.
+
+### Sense-making and integration
+
+Settings facilitate [sense-making](../?path=/docs/foundations-intent-interaction--docs#sense-making--integration) by organizing system capabilities into comprehensible structure. Actors build mental models of what's configurable and how different options relate. This understanding extends beyond immediate configuration tasks—settings documentation becomes reference material for understanding system behaviour.
+
+## Organizational structure
+
+- Flat structure (≤7 preferences): Present all options without grouping. Single-page view enables actors to see everything available. Appropriate for simple systems or specialized tools with limited configuration needs.
+- Sectioned structure (8–16 preferences): Use visual dividers or expandable sections to create logical groupings. Actors can scan section headers to locate relevant areas. Still maintains single-page cohesion whilst reducing visual complexity.
+- Hierarchical structure (16+ preferences): Create separate pages or screens for distinct configuration areas. Use consistent navigation (sidebar, tabs, or breadcrumbs) to show location and enable movement. Match terminology between navigation labels and screen titles. This approach prevents overwhelming actors but requires careful information architecture—groupings must align with mental models.
+
+### Organisation rules
+
+- Priority by frequency: Most commonly needed settings appear first or most prominently
+- Grouping by domain: Cluster related preferences (all notification settings together, all privacy controls together)
+- Separation by scope: Distinguish personal, team, and organizational settings clearly
+
+## Access control and scope
+
+### Personal settings
+
+Individual actor preferences visible and modifiable only by that actor. These implement [privacy](../?path=/docs/foundations-privacy--docs) through individual control and don't require coordination.
+
+### Team settings
+
+Shared configuration visible to team members, modifiable by designated roles. Requires clear permission communication—actors should understand why settings are disabled and who can modify them.
+
+### Organizational settings
+
+Company-wide configuration affecting all actors. Typically restricted to administrative roles. Changes here have broad consequences requiring careful communication and appropriate confirmation friction.
+
+### Inheritance and overrides
+
+Complex systems may support inheritance—team settings inherit from organizational settings, individuals can override team defaults.
+
+## In-context shortcuts
+
+Rather than forcing actors into settings for every adjustment, provide contextual access where appropriate:
+
+- Icon-only buttons with tooltips linking directly to relevant settings from feature pages
+- Quick toggles for frequently accessed preferences in primary interface
+- Right-click or long-press contextual menus offering "Configure..." options
+- Smart defaults that detect usage patterns and suggest relevant settings
+
+This approach balances settings as dedicated configuration space with practical access patterns. Not everything belongs in settings; some "preferences" are actually modes or filters that should remain in primary workflows.
+
+## Settings as onboarding
+
+Settings can serve educational purposes beyond configuration. By organizing and documenting available capabilities, settings help actors understand what's possible. This is particularly valuable in systems with extensive features that actors may not discover through normal usage.
+
+Linear's approach demonstrates this: settings include tutorials and feature explanations, transforming a traditionally utilitarian space into engagement opportunity. This works when settings reveal advanced functionality rather than basic operation.
+
+## Design legitimacy
+
+The perception that "settings equal design failure" oversimplifies. Settings represent design failure when they:
+- Expose decisions designers should make definitively
+- Dump unresolved questions onto actors as false "choice"
+- Proliferate because every stakeholder demanded their preference become configurable
+
+Settings represent legitimate design when they:
+- Acknowledge genuine preference diversity ("I prefer 12-hour time" vs "I prefer 24-hour time"—both valid)
+- Respect actor expertise and working styles (keyboard shortcuts, information density)
+- Accommodate edge cases essential to minority users without compromising majority experience
+- Enable systems to fit diverse contexts (timezone, language, accessibility needs)
+
+The question isn't "Should this have settings?" but "Is this genuinely preferential, or should we make a decision?"
+
+## When settings serve
+
+- Preferences are genuinely preferential: No objectively "correct" choice exists; different actors have legitimate different needs
+- Minority needs matter: The preference serves a smaller user group but is essential to their experience
+- Infrequent configuration: Setting is established once or rarely changed, not manipulated during primary workflows
+- Scope of control: Configuration affects system-wide behaviour rather than document-specific choices
+- Defaults exist: Sensible starting values work for most actors; settings enable refinement not initialization
+- Educational value: Revealing available options helps actors understand system capabilities
+
+## When settings constrain
+
+- Frequently accessed: If actors regularly toggle a setting, it belongs in primary interface as mode switch or filter
+- No reasonable default: Forcing actors into settings immediately after signup indicates missing design decisions
+- Dumping ground: Settings become repository for design failures—unresolved feature questions disguised as "user choice"
+- Configuration complexity: When settings require extensive documentation, the underlying feature may need simplification
+- Inconsistent application: Unclear scope (does this affect just me? my team? the whole company?) creates confusion
+- Overwhelming choice: Exposing every internal parameter creates analysis paralysis rather than empowerment
+
+The "convention over configuration" principle suggests systems should make good decisions on behalf of actors, requiring settings only where genuine preference diversity exists.
+
+## Related patterns
+
+### Precursors
+- [Agency](../?path=/docs/foundations-agency--docs) – settings implement actor control over system behaviour
+- [Privacy](../?path=/docs/foundations-privacy--docs) – settings include visibility and access preferences
+- [Adaptation](../?path=/docs/foundations-adaptation--docs) – settings enable system customization to context
+
+### Complementary
+- [Progressive disclosure](../?path=/docs/patterns-progressive-disclosure--docs) – manages complexity in extensive settings through hierarchical revelation
+- [Form](../?path=/docs/compositions-form--docs) – settings are essentially configuration forms requiring similar patterns (validation, feedback, submission)
+- [Wizard](../?path=/docs/patterns-wizard--docs) – may guide actors through initial settings configuration during setup
+- [Onboarding](../?path=/docs/patterns-onboarding--docs) – settings can be introduced gradually during first-time experience
+- [AI tuning](../?path=/docs/patterns-ai-tuning--docs) – specialized settings for configuring AI behaviour
+
+### Follow-ups
+- [Undo](../?path=/docs/patterns-undo--docs) – enables reversal of settings changes, particularly valuable for exploratory configuration
+- [Status feedback](../?path=/docs/patterns-status-feedback--docs) – confirms settings changes and communicates their application
+- [Notification](../?path=/docs/patterns-notification--docs) – alerts actors to settings-related changes, particularly in shared configuration contexts
+
+### Tangentially related
+- [Workspace](../?path=/docs/patterns-workspace--docs) – settings affect workspace behaviour and may be scoped to workspace contexts
+- [Collaboration](../?path=/docs/patterns-collaboration--docs) – settings include collaboration preferences and affect shared work
+
+## Resources & references
+
+### Practitioner guidance
+- UI Patterns / [Settings](https://ui-patterns.com/patterns/settings)
+- GitLab Pajamas / [Settings management](https://design.gitlab.com/patterns/settings-management/)
+- Apple HIG / [Settings](https://developer.apple.com/design/human-interface-guidelines/settings)
+- Linear / [Settings are not a design failure](https://linear.app/now/settings-are-not-a-design-failure)
