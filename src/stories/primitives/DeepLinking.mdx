@@ -8,15 +8,25 @@ A primitive that makes any state, object, or view in the system addressable and 
 
 ## Description
 
-Deep linking treats URLs as pointers to specific application states. Rather than linking only to top-level pages, every meaningful state — a filtered view, a selected item, an open modal, a specific comment — gets its own URL. This enables users to bookmark, share, and navigate to exact contexts.
+Deep linking treats URLs as pointers to specific application states. Rather than linking only to top-level pages, every meaningful state — a filtered view, a selected item, an open modal, a specific comment — gets its own URL. When loaded, these links restore the exact state the user was seeing, allowing them to jump directly to desired content without traversing multiple navigation levels.
+
+This enables users to save their position within complex applications, share specific states with others, and resume incomplete processes exactly where they left off. Deep links can capture both content location (what you're viewing) and application state (how you're viewing it).
+
+{/* ## When to use */}
+{/* - Content is specific and interactive (map locations with zoom levels, book pages, video timestamps, data visualisations) */}
+{/* - Users need to share particular states that would be difficult to find otherwise */}
+{/* - Getting to a specific view requires multiple navigation steps from typical entry points */}
+{/* - Applications have many user-settable parameters (viewing modes, scales, data layers, filters) */}
+{/* - States might become "socially mediated objects" — URLs that are discussed, shared virally, or referenced in conversations across platforms */}
 
 ## Core characteristics
 
 - Addressability: Every distinct state has a unique URL
-- Shareability: URLs can be copied and shared with others
-- Bookmarkability: URLs can be saved for later return
+- Shareability: URLs can be emailed, tweeted, posted to social networks, discussed in forums, and shared across any platform
+- Bookmarkability: URLs can be saved for later return using browser bookmarks or external services
 - Navigability: Browser back/forward buttons work as expected
 - Persistence: URLs remain stable over time
+- Time-saving: Users jump directly to desired states rather than recreating them through multiple steps
 
 ## Implementation patterns
 
@@ -41,17 +51,29 @@ Deep linking treats URLs as pointers to specific application states. Rather than
 /board/sprint-3?filter=assigned-to-me#card-1234
 ```
 
-## Variants
+**Parameter selection**
+- Capture navigation-critical state (position, filters, selections)
+- Avoid capturing user preferences that shouldn't change when loading shared links
+- Consider which parameters are essential for recreating the intended view
+- Balance completeness with URL length and readability
 
-- Full state encoding: Entire application state in URL (enables exact reproduction)
-- Partial state encoding: Only meaningful navigation state in URL (cleaner, more stable)
-- Opaque identifiers: Short codes that resolve to complex state server-side
+**URL visibility and sharing features**
+- Update the browser's URL field immediately as users navigate and change parameters
+- Provide explicit "Share link" or "Copy link" buttons to make the feature discoverable
+- Consider offering embed code that captures both position and state for external sites
+- Show shortened URLs or QR codes for mobile sharing
 
 ## States
 
 - Valid: URL resolves to accessible content
 - Invalid: Resource doesn't exist or user lacks permission (show appropriate error)
 - Stale: URL format changed but can be migrated to new structure
+
+## State encoding approaches
+- Full state encoding: Entire application state in URL (enables exact reproduction)
+- Partial state encoding: Only meaningful navigation state in URL (cleaner, more stable)
+- Opaque identifiers: Short codes that resolve to complex state server-side
+
 
 ## Accessibility
 
@@ -69,3 +91,4 @@ Deep linking treats URLs as pointers to specific application states. Rather than
 ## Resources
 
 - [Cool URIs don't change](https://www.w3.org/Provider/Style/URI) — Tim Berners-Lee on URL stability
+- _Designing Interfaces_ (3rd ed.) by Jenifer Tidwell, Charles Brewer, Aynne Valencia
