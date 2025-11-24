@@ -50,7 +50,7 @@ TODO: Patterns: share, comment thread, feedback loop, reflective summaries.
 
 ## Navigation
 
-Behaviours are organised into four broad categories—each containing behaviour sets that reflect the actor’s intent, motivation, and level of confidence.
+Behaviours are organised into four broad categories—each containing behaviour sets that reflect the actor's intent, motivation, and level of confidence.
 
 ### Motivated movement
 
@@ -85,11 +85,16 @@ Can emerge from browsing when confidence increases, or from transactional search
 
 ##### Related patterns
 
+**Structural compositions that enable navigating:**
+- [Fully connected](../?path=/docs/compositions-structure-fully-connected--docs) — maximum efficiency for precise movement
+- [Multilevel tree](../?path=/docs/compositions-structure-multilevel-tree--docs) — efficient when mental model matches structure
+- [Pyramid](../?path=/docs/compositions-structure-pyramid--docs) — hub enables direct targeting
+
+**UI patterns:**
 - Navigation is used at the very start of a session.
 – Tree for lateral and vertical movement.
 - Breadcrumbs show the travelled path and lets actors return (or go sideways).
-- Step by step navigation
-- Contextual actions — localised controls (“edit”, “share”, “export”) tied to the reached content.
+- Contextual actions — localised controls ("edit", "share", "export") tied to the reached content.
 - Related content links that leverage the current location to propose a subsequent path.
 - Bookmark captures the reached node for later re-finding.
 - Command bar – jumps anywhere.
@@ -107,6 +112,12 @@ They engage in sweeping (broad scanning) to reveal patterns or next steps. Brows
 Can sharpen into navigating, or loosen into exploring if uncertainty grows.
 
 ##### Related patterns
+
+**Structural compositions that support browsing:**
+- [Pyramid](../?path=/docs/compositions-structure-pyramid--docs) — overview enables pattern recognition
+- [Multilevel tree](../?path=/docs/compositions-structure-multilevel-tree--docs) — structured exploration within sections
+
+**UI patterns:**
 - Filtering and grouping
 - Progressive disclosure | auto-load plus expanding details. | keeps sweep motion fluid; prevents premature transitions.
 - Semantic highlight – LLM spots entities and highlights them in views. Speeds pattern-spotting and helps shift into monitoring.
@@ -123,7 +134,13 @@ Transitions out of this mode are usually unwanted, unless the actor gives up and
 Navigational transitions are discouraged – switching into browsing or navigating can feel like system failure unless clearly supported. Successful search results in doing the job.
 
 ##### Related patterns
-Search or command bar
+
+**Structural compositions that optimise transactional search:**
+- [Step by step](../?path=/docs/compositions-structure-step-by-step--docs) — guided completion without distraction
+- [Flat navigation](../?path=/docs/compositions-structure-flat-navigation--docs) — sustained focus on work
+
+**UI patterns:**
+- Search or command bar
 
 {/* ### Browsing to Navigating */}
 
@@ -145,7 +162,13 @@ Exploration can either settle into more directed behaviour or remain open-ended.
 May mature into browsing or navigating once a goal crystallises
 
 ##### Related patterns
-- Personalisation – enables “start somewhere sensible” rather than dumping the actor at a generic wall.
+
+**Structural compositions that enable exploring:**
+- [Pan and zoom](../?path=/docs/compositions-structure-pan-and-zoom--docs) — spatial exploration feels natural
+- [Fully connected](../?path=/docs/compositions-structure-fully-connected--docs) — freedom to follow curiosity
+
+**UI patterns:**
+- Personalisation – enables "start somewhere sensible" rather than dumping the actor at a generic wall.
 - "Focus & context" shifts actor into browsing.
 - Breadcrumbs preserves context so the next hop can be precise navigating if curiosity crystallises.
 
@@ -182,7 +205,13 @@ The actor wants to return to something they’ve seen before, but lacks the exac
 May evolve into navigating or transactional search if memory strengthens
 
 ##### Related patterns
-Recently accessed, activity history
+
+**Structural compositions that aid re-finding:**
+- Any model with clear structure and good wayfinding helps
+- [Multilevel tree](../?path=/docs/compositions-structure-multilevel-tree--docs) — hierarchy provides memory cues
+
+**UI patterns:**
+- Recently accessed, activity history
 
 #### Uncovering
 
@@ -191,7 +220,13 @@ This is often a sign of poor affordance or overly strict syntax (e.g. voice comm
 Good design reduces the opacity of systems to make uncovering unnecessary.
 
 ##### Transitions
-May improve into transactional search or navigating when actor figures out “how the system thinks”
+May improve into transactional search or navigating when actor figures out "how the system thinks"
+
+##### Related patterns
+
+**Structural compositions that mitigate uncovering:**
+- [Fully connected](../?path=/docs/compositions-structure-fully-connected--docs) — transparency reduces opacity
+- Avoid opaque [hub and spoke](../?path=/docs/compositions-structure-hub-and-spoke--docs) implementations
 
 #### Hunting
 
@@ -201,6 +236,12 @@ high-motivation behaviour that thrives when systems reward skill and persistence
 
 ##### Transitions
 Can resolve into navigating or browsing; if prolonged, risks frustration or abandonment
+
+##### Related patterns
+
+**Structural compositions that support hunting:**
+- [Fully connected](../?path=/docs/compositions-structure-fully-connected--docs) — multiple navigation paths available
+- TODO: Search
 
 ## Actions
 

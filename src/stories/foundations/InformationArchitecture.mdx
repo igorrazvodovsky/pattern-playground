@@ -1,0 +1,141 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Information architecture" />
+
+> 🗺️ **Fun meter: 5/5**. IA is my personal favourite design domain.
+
+# Information architecture
+
+How information is organised, structured, and labelled to enable discovery, navigation, and use. Information architecture establishes the structural foundation that determines what can be found, how it connects, and which [navigation behaviours](../?path=/docs/foundations-intent--interaction--docs#navigation) are possible.
+
+## Scope
+
+- **Organization schemes** — how information is grouped and categorized
+- **Labeling systems** — how information is represented and named
+- **Navigation systems** — how actors browse, move through, and retrieve information (see [structure compositions](../?path=/docs/compositions-structure-overview--docs))
+
+## Organization schemes
+
+How to group information. The fundamental choice is between closed, predetermined categories and open, multi-dimensional classification.
+
+**Enumerative schemes** establish complete, predefined category sets where every concept has a designated place.
+These closed systems work well for stable, bounded domains—alphabetical listings, chronological timelines, geographical hierarchies, topical taxonomies.
+The structure is rigid but consistent, with single correct placement for each item. Use enumerative schemes when content is stable, categories are well-understood, and consistency matters more than flexibility.
+
+**Faceted schemes** build categories from multiple independent dimensions rather than single hierarchies.
+Items are described by combining semantic facets—time, place, topic, task, audience, format, etc.
+This openness expresses emerging concepts through combination. Use faceted schemes when content evolves rapidly, actors approach information from different angles, or rich filtering is essential.
+
+**Real systems typically combine both approaches**: enumerative structure provides stable backbone, faceted attributes enable flexible filtering and discovery.
+
+## Structure and relationships
+
+How information elements connect determines what paths through content exist.
+Four common structural patterns shape how information relates and how actors navigate through it.
+
+### Hierarchies
+
+Parent-child relationships where items nest within categories. Use hierarchies when content naturally fits into containment structures—product catalogs, file systems, organizational charts.
+Hierarchies support [multilevel tree navigation](../?path=/docs/compositions-structure-multilevel-tree--docs) and enable top-down browsing from general to specific.
+
+Clear hierarchies reduce search depth and provide familiar mental models.
+Strict hierarchies assign single parents to each item, while polyhierarchies allow multiple parents when items legitimately belong in several categories.
+
+Design challenges emerge at boundaries: where does something belong when it fits multiple categories?
+How deep should the structure go before actors get lost? What granularity makes sense at each level?
+Items that don't fit neatly often get forced into inappropriate categories or hidden in "miscellaneous" sections.
+
+Most hierarchies use controlled vocabularies—defined term sets that reduce ambiguity and support precise filtering.
+As domains evolve, these vocabularies require maintenance to stay current.
+
+### Relational structures
+
+Items are defined through relationships between them. Use relational structures when items connect through multiple types of relationships beyond simple containment.
+
+**One-to-many relationships** create natural hierarchies where parents have multiple children but each child has a single parent.
+These are efficient for query and retrieval, matching how many systems naturally organize.
+
+**Many-to-many relationships** allow items to relate to multiple others without ownership constraints.
+This flexibility enables multiple browsing paths and supports faceted navigation, though it requires join tables or link structures to implement.
+
+Entity-relationship thinking provides the conceptual foundation: entities are things with attributes, relationships define how entities connect (authorship, participation, association),
+and attributes capture properties (dates, names, statuses, quantities). This thinking informs both data models and interface structure, bridging technical architecture and user experience.
+
+### Hypertext structures
+
+Associative, non-hierarchical connections based on semantic relationships rather than containment.
+Use hypertext structures when exploring conceptual connections matters more than following prescribed paths.
+
+Links can be structural (navigation through hierarchy), associative (related content, "see also"), temporal (previous/next, chronological).
+Multiple paths to the same content enable [exploring](../?path=/docs/foundations-intent-interaction--docs#exploring) and serendipitous discovery.
+[Dynamic hyperlinks](../?path=/docs/patterns-dynamic-hyperlinks--docs) adapt based on context or actor behaviour.
+
+### Social structures
+
+Emergent organization from collective activity rather than top-down design.
+Use social structures when organic, actor-driven categorization provides value—social bookmarking, community-tagged content, collaborative filtering, recommendation systems.
+
+**Tags and folksonomies** enable bottom-up categorization where many actors create labels reflecting actual usage patterns.
+The organic vocabulary adapts quickly to new concepts and reveals how people actually think about content.
+This flexibility comes with inconsistency—different actors use different terms for the same concept.
+Social structures typically supplement rather than replace controlled vocabularies, adding flexibility to formal organization.
+
+**Network effects** shape what becomes visible through popularity metrics, recommendations, and collective curation.
+Emergent hierarchies form from link patterns as frequently referenced items rise in prominence.
+Social proof influences discovery—actors trust what others have validated.
+These patterns create feedback loops: popular items become more visible, which makes them more popular.
+
+## Labeling systems
+
+Labels create the interface between system structure and actor understanding.
+Consistency matters—use the same term for the same concept throughout, distinguish different concepts with different terms, align with actor vocabulary rather than internal jargon.
+Labels appear across contexts—navigation (menus, buttons), structural (headings), contextual (in-content links), and metadata (tags, search terms)—each demanding appropriate specificity for its use.
+
+The central tension is control versus flexibility.
+**Controlled vocabularies** (taxonomies, thesauri, authority files) provide consistency, synonym management, and governance, but require maintenance as domains evolve and can't adapt organically to emerging concepts.
+**Uncontrolled vocabularies** (tags, folksonomies) adapt quickly and reveal actual usage patterns, but produce fragmentation (e.g. "JavaScript" becomes "js", "javascript", "JS", "Java Script").
+
+Labels must match actor mental models shaped by domain expertise, cultural context, and prior systems.
+Multilingual contexts complicate this—direct translation often fails when concepts don't map cleanly across languages.
+
+## Related patterns
+
+- Structure of information shapes [agency distribution](../?path=/docs/foundations-agency--docs).
+  - Strict hierarchies constrain (system-centric locus)
+  - Multiple paths and tags increase agency (human-centric locus)
+  - Controlled vocabularies vs free tagging reflects agency choices
+  - etc.
+- Organization schemes enable or constrain [navigation behaviours](../?path=/docs/foundations-intent--interaction--docs#navigation):
+  - Clear hierarchies support [navigating](../?path=/docs/foundations-intent--interaction--docs#navigating)
+  - Rich linking supports [exploring](../?path=/docs/foundations-intent--interaction--docs#exploring)
+  - Faceted structures support [browsing](../?path=/docs/foundations-intent--interaction--docs#browsing)
+- IA manifests [view framing dimensions](../?path=/docs/foundations-view--docs):
+- Structure affects what can be [shared](../?path=/docs/foundations-shareability--docs):
+- Shared structure enables [collaboration](../?path=/docs/foundations-collaboration--docs):
+  - Common taxonomies create shared vocabulary
+  - Controlled vocabularies reduce miscommunication
+  - Social structures emerge from collective activity
+- [Data & information](../?path=/docs/foundations-data--information--docs) — metadata and relationships can have varying certainty and provenance
+- [Structure compositions](../?path=/docs/compositions-structure-overview--docs) — patterns that manifest structural choices
+
+{/* ## Practical application */}
+{/* Information architecture thinking bridges UX and technical architecture: */}
+
+{/* **Structure decisions that affect both:** */}
+{/* - Taxonomy drives both navigation UI and database schema */}
+{/* - Entity relationships inform both backend models and interface connections */}
+{/* - Metadata requirements affect both storage and search interfaces */}
+{/* - Access control hierarchies shape both permissions systems and UI visibility */}
+
+{/* **Starting with structure:** */}
+{/* 1. Understand content and data (what exists, how it relates) */}
+{/* 2. Understand actor needs (what they seek, how they think about it) */}
+{/* 3. Design organization schemes (how to group and label) */}
+{/* 4. Define relationships (how things connect) */}
+{/* 5. Choose navigation patterns that manifest structure */}
+{/* 6. Implement search that leverages structure */}
+
+## Resources & references
+
+- Rosenfeld, Morville, Arango (2015) Information Architecture: For the Web and Beyond, 4th ed.
+- Morville, Peter (2005) Ambient Findability
