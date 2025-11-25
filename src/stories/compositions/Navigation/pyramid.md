@@ -215,5 +215,5 @@ Essential for shareability:
 
 ## Resources & references
 
-- Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed., "Pyramid" pattern
+- Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed.
 - Nielsen Norman Group (2012) [Photo Galleries: Designing for Delight](https://www.nngroup.com/articles/photo-galleries/)

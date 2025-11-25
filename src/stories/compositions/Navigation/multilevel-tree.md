@@ -210,6 +210,6 @@ The hierarchy communicates relationships and importance. Good tree structures fe
 
 ## Resources & references
 
-- Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed., "Multilevel" pattern
+- Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed.
 - Rosenfeld, Morville, Arango (2015) *Information Architecture*, 4th ed., Chapter 6: Organization Systems
 - Nielsen Norman Group (2018) [Tree Testing: Fast, Iterative Evaluation of Menu Labels and Categories](https://www.nngroup.com/articles/tree-testing/)

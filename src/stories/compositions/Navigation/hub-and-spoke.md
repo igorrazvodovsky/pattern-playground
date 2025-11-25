@@ -190,5 +190,5 @@ Hub provides entry point, but spokes include global navigation to all sections.
 
 ## Resources & references
 
-- Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed., "Hub and Spoke" pattern
+- Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed.
 - Nielsen Norman Group (2015) [Mobile Navigation Patterns](https://www.nngroup.com/articles/mobile-navigation-patterns/)

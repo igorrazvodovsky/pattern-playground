@@ -213,6 +213,6 @@ This constraint is appropriate when completion rates matter more than exploratio
 
 ## Resources & references
 
-- Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed., "Step by Step" pattern
+- Tidwell, Brewer, Valencia (2020) Designing Interfaces, 3rd ed.
 - Nielsen Norman Group (2015) [Wizard Design Pattern](https://www.nngroup.com/articles/wizards/)
 - Nielsen Norman Group (2017) [Checkouts: Progress Indicators](https://www.nngroup.com/articles/checkouts-progress-indicator/)

@@ -295,5 +295,5 @@ Validate that hybrids serve actor needs:
 
 ## Resources & references
 
-- Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed., "These mechanisms and patterns can be rendered on screen in different ways...they're mix and match"
+- Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed.
 - Rosenfeld, Morville, Arango (2015) *Information Architecture*, 4th ed., Chapter 3: Thinking About Information Architecture

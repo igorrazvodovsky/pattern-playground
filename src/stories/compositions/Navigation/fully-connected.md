@@ -202,6 +202,6 @@ The cost: "navigation fatigue" where too many options create paralysis. Mitigati
 
 ## Resources & references
 
-- Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed., "Fully Connected" pattern
+- Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed.
 - Nielsen Norman Group (2020) [Mega Menus Work Well for Site Navigation](https://www.nngroup.com/articles/mega-menus-work-well/)
 - Nielsen Norman Group (2019) [Hamburger Menus and Hidden Navigation Hurt UX Metrics](https://www.nngroup.com/articles/hamburger-menus/)
