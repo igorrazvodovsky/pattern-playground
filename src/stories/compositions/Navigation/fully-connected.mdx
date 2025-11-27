@@ -1,0 +1,75 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Compositions/Structure/Fully connected" />
+
+> 🗺️ **Fun meter: 2/5**. Mapping out the basics.
+
+# Fully connected
+
+Every page or screen links to all others through global navigation. Actors can reach any location from any other location with a single action.
+
+Global navigation appears consistently across all pages—typically as a top menu, sidebar, or persistent header. The navigation might be single-level or deep and complex, but what defines fully connected is complete connectivity: any page to any other page in one hop.
+
+## Behavioural position
+
+### Supports
+- [Navigating](../?path=/docs/foundations-intent--interaction--docs#navigating) — maximum efficiency for precise movement
+- [Exploring](../?path=/docs/foundations-intent--interaction--docs#exploring) — freedom to follow curiosity without constraint
+- [Browsing](../?path=/docs/foundations-intent--interaction--docs#browsing) — can move laterally across sections whilst scanning
+
+### Challenges
+The presence of full global navigation everywhere is not without cost: it takes up space, clutters the screen, and incurs cognitive load.
+
+## Variants
+
+- Single-level: All navigation options at one level.
+- Multi-level: Top navigation with secondary menus, or sidebars revealing subsections. Consider a hybrid with a [tree](../?path=/docs/compositions-structure-hybrid-patterns--docs#multilevel-tree--fully-connected)
+- [Priority+](../?path=/docs/components-priority--docs): Shows most important items, hides rest behind "more" menu.
+
+## Decision tree
+
+### When to use
+
+### Content structure
+- 5-7 top-level sections that actors need to access frequently
+- Shallow hierarchy (few levels deep)
+- Sections with frequent cross-referencing
+- Desktop or web applications with adequate screen space
+
+### Behavioural needs
+- Actors frequently navigate between sections
+- Multiple entry points to content are valuable
+- Actors have clear mental models of structure
+- Cross-section workflows are common
+
+### Agency preference
+- Maximum user agency valued (high control)
+- Navigation efficiency prioritised over simplicity
+- Actors comfortable with complexity
+
+### When not to use
+
+- More than 8-10 top-level sections (overwhelming)
+- Mobile primary context (screen space constraints)
+- Tasks require focused attention (navigation becomes distraction)
+- Actors are new/infrequent users (complexity barrier)
+- Content has deep hierarchies (consider [multilevel tree](../?path=/docs/compositions-structure-multilevel-tree--docs))
+
+## Related patterns
+
+### Complements
+- [Command menu](../?path=/docs/patterns-command-menu--docs) — keyboard-driven alternative for power users
+- [Breadcrumbs](../?path=/docs/patterns-breadcrumbs--docs) — supplements with location context
+- [Search](../?path=/docs/compositions-search--docs) — alternative navigation path
+- [Deep linking](../?path=/docs/primitives-deeplinking--docs) — enables direct access to any page
+- [Navbar](../?path=/docs/compositions-navbar--docs), TODO: sidebar, TODO: mega menus, [tabs](../?path=/docs/components-tabs--docs) — implement this model
+- Can be combined with [tree](../?path=/docs/compositions-structure-hybrid-patterns--docs#multilevel-tree--fully-connected) as content grows
+
+### Alternatives
+- [Hub and spoke](../?path=/docs/compositions-structure-hub-and-spoke--docs) for mobile or simpler structures
+- [Multilevel tree](../?path=/docs/compositions-structure-multilevel-tree--docs) for deep hierarchies
+- [Step by step](../?path=/docs/compositions-structure-step-by-step--docs) for focused processes
+
+## Resources & references
+
+- Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed.
