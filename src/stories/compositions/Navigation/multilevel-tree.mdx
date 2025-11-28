@@ -1,0 +1,88 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Compositions/Structure/Multilevel tree" />
+
+> 🗺️ **Fun meter: 2/5**. Mapping out the basics.
+
+# Multilevel tree
+
+Global navigation connects main pages. Each main page contains subpages visible only after entering that section—typically through sidebars, subtabs, or expanded menus. Subpages connect only among themselves and to their parent page, creating a tree structure.
+
+Common in systems where content has natural categorical divisions. Balances the navigation freedom of [fully connected](../?path=/docs/compositions-structure-fully-connected--docs) with the structure needed for deep content hierarchies.
+
+## Behavioural position
+
+### Supports
+- [Browsing](../?path=/docs/foundations-intent--interaction--docs#browsing) — structured exploration within known domains
+- [Navigating](../?path=/docs/foundations-intent--interaction--docs#navigating) — efficient when mental model matches structure
+- [Re-finding](../?path=/docs/foundations-intent--interaction--docs#re-finding) — hierarchy provides memory cues
+
+### Challenges
+- [Uncovering](../?path=/docs/foundations-intent--interaction--docs#uncovering) — opaque hierarchy frustrates actors
+- [Exploring](../?path=/docs/foundations-intent--interaction--docs#exploring) — hierarchy constrains free exploration
+- Cross-section browsing requires backtracking to top level
+
+The model assumes actors can predict or learn where content lives in the hierarchy. When categorisation is unclear or content fits multiple categories, actors experience friction.
+
+## Variants
+
+- Two-level tree. Global navigation for top level, single level of subnavigation.
+- Deep tree. Multiple levels of nested categories.
+- Expandable tree. Sidebar or menu shows/hides nested levels.
+- Faceted tree. Multiple independent hierarchies.
+
+## Wayfinding states
+
+- Breadcrumb trail — path from root to current location
+- Section indicator — visual cue of current main section
+- Depth indicator — how deep in hierarchy
+
+## Decision tree
+
+### When to use
+
+**Content structure:**
+- Clear hierarchical relationships between content
+- Deep structures (3+ levels)
+- Large content volume (50+ pages) with natural groupings
+- Enterprise applications with functional divisions
+
+**Behavioural needs:**
+- Actors work primarily within sections
+- Cross-section movement is less frequent
+- Content categories are intuitive and stable
+- Structure aids rather than obscures discovery
+
+**Agency preference:**
+- Balanced agency (structure guides without constraining)
+- Hierarchy provides cognitive scaffolding
+- Actors value organisation over maximum freedom
+
+### When not to use
+
+- Content has no clear hierarchical structure
+- Frequent cross-section navigation required
+- Hierarchy depth exceeds 3-4 levels (becomes labyrinthine)
+- Categories are ambiguous or overlapping
+- Mobile-first context (consider [hub and spoke](../?path=/docs/compositions-structure-hub-and-spoke--docs))
+
+## Related patterns
+
+Sidebar, [dropdown](../?path=/docs/components-dropdown--docs), [tabs](../?path=/docs/components-tabs--docs), [breadcrumbs](../?path=/docs/components-breadcrumbs--docs) - implementations of multilevel trees.
+
+### Complements
+- [Breadcrumbs](../?path=/docs/patterns-breadcrumbs--docs) — essential for wayfinding in deep trees
+- [Search](../?path=/docs/compositions-search--docs) — escape hatch when hierarchy fails
+- [Command menu](../?path=/docs/patterns-command-menu--docs) — quick access bypassing hierarchy
+- [Deep linking](../?path=/docs/primitives-deeplinking--docs) — enables direct access to any node
+
+## Alternatives
+- [Fully connected](../?path=/docs/compositions-structure-fully-connected--docs) for shallow structures
+- [Hub and spoke](../?path=/docs/compositions-structure-hub-and-spoke--docs) for independent sections
+- [Tree + fully connected](../?path=/docs/compositions-structure-hybrid-patterns--docs#multilevel-tree--fully-connected) when cross-section links become common
+- Deep tree → multiple shallow trees or [search](../?path=/docs/compositions-search--docs)-first navigation
+
+## Resources & references
+
+- Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed.
+- Rosenfeld, Morville, Arango (2015) *Information Architecture*, 4th ed., Chapter 6: Organization Systems
