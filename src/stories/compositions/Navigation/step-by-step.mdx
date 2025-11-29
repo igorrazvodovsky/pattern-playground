@@ -1,0 +1,83 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Compositions/Structure/Step by step" />
+
+> 🗺️ **Fun meter: 2/5**. Mapping out the basics.
+
+# Step by step
+
+Navigation follows a designed sequence with clear progression indicators and back/next controls. Flows range from simple two-step processes (search interface → results page) to complex multi-stage processes (questionnaires, purchase flows, onboarding), with supplementary options like skip, save and continue later, or jump to step.
+
+## Behavioural position
+
+This model optimises for task completion over exploration, reducing cognitive load from navigation decisions whilst constraining freedom to deviate.
+
+Primarily supports
+- [Transactional search](../?path=/docs/foundations-intent--interaction--docs#transactional-search) — optimised for getting the job done
+- TODO: Goal-oriented task completion with clear endpoints
+
+Deliberately constrains
+- [Exploring](../?path=/docs/foundations-intent--interaction--docs#exploring) — intentionally limited to maintain focus
+- [Browsing](../?path=/docs/foundations-intent--interaction--docs#browsing) — lateral movement discouraged or impossible
+- [Navigating](../?path=/docs/foundations-intent--interaction--docs#navigating) — constrained to sequence, even when destination is known
+
+## Variants
+
+- Linear: strict sequence, must complete steps in order.
+- Flexible: steps shown in overview, some skippable or reorderable. Approaches [pyramid model](../?path=/docs/compositions-structure-pyramid--docs)
+- Branching: different paths based on choices or conditions.
+- Progressive disclosure sequence: simple initial steps, complexity revealed gradually.
+
+{/* ## Validation approaches */}
+{/* - **Step validation** — must complete current step to proceed */}
+{/* - **Deferred validation** — gather all information, validate at end */}
+{/* - **Inline validation** — real-time feedback as actor completes fields */}
+
+## Decision tree
+
+### When to use
+
+**Content structure:**
+- Clear logical sequence that actors should follow
+- Steps with dependencies (step 2 requires information from step 1)
+- Processes with clear start and end points
+- Linear workflows without branching
+
+**Behavioural needs:**
+- Task completion rate is critical
+- Focus and reduced distraction are valuable
+- Actors benefit from guidance
+- Process must complete in sequence (payment before confirmation)
+
+**Agency preference:**
+- System-guided acceptable or desirable
+- Reduced cognitive load valued over navigation freedom
+- Commitment to completing the process
+
+### When not to use
+
+- Actors need to work non-linearly
+- Process has significant branching or optional steps
+- Information gathering rather than transaction (consider [pyramid](../?path=/docs/compositions-structure-pyramid--docs))
+- Long processes without clear milestones (creates abandonment risk)
+- Actors may need to reference multiple steps simultaneously
+
+## Related patterns
+
+### Implements this model
+- [Wizard](../?path=/docs/patterns-wizard--docs) — detailed implementation of strict step by step navigation
+- Multi-step [forms](../?path=/docs/compositions-form--docs) and onboarding
+
+### Complements
+- [Deep linking](../?path=/docs/primitives-deeplinking--docs) — enables returning to specific steps via URL
+- [Progress indicators](../?path=/docs/components-progress-indicator--docs) — visualise progression through steps
+- TODO: Form validation
+
+### Alternatives
+- [Pyramid](../?path=/docs/compositions-structure-pyramid--docs) for sequences with flexible navigation
+- [Step by step + pyramid](../?path=/docs/compositions-structure-hybrid-patterns--docs#step-by-step--pyramid) for guided but flexible processes
+- [Multilevel tree](../?path=/docs/compositions-structure-multilevel-tree--docs) for structured but non-linear content
+
+## Resources & references
+
+- Tidwell, Brewer, Valencia (2020) Designing Interfaces, 3rd ed.
