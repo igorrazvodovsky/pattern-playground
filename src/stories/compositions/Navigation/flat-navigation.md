@@ -165,33 +165,6 @@ The lack of navigation reduces one source of cognitive load but increases anothe
 - **Debounced updates** — batch rapid tool changes
 - **Canvas optimisation** — efficient rendering of work surface
 
-## Accessibility
-
-### Keyboard navigation
-- Comprehensive keyboard shortcuts essential
-- Tab/arrow keys navigate toolbars and palettes
-- Keyboard-only workflow possible for all features
-- Shortcut customisation valuable
-
-### Screen readers
-Challenging model for screen readers due to spatial/visual emphasis:
-- Tool names and descriptions announced
-- Current tool state communicated
-- Canvas changes described (difficult with visual work)
-- Consider complementary text-based alternatives
-
-### Focus management
-- Clear focus indicators throughout UI
-- Predictable focus order
-- Focus returns logically after modal actions
-- Tool selection doesn't trap focus
-
-### Cognitive accessibility
-- Progressive disclosure of advanced features
-- Preset/template systems reduce need for tool mastery
-- Wizards for complex multi-step operations
-- Undo/redo supports experimentation
-
 ## Related patterns
 
 ### Implements this model
@@ -202,11 +175,7 @@ Challenging model for screen readers due to spatial/visual emphasis:
 - DAWs (Ableton, Logic Pro)
 
 ### Complements
-- **[Command menu](../?path=/docs/patterns-command-menu--docs)** — essential for efficient tool access
-- Keyboard shortcut systems
-- Tool presets and templates
-- Workspace layouts
-- Context-sensitive tool panels
+- **[Command menu](../?path=/docs/patterns-command-menu--docs)** — efficient tool access
 
 ### Precursors
 - Simple single-function tools → flat navigation as features accumulate

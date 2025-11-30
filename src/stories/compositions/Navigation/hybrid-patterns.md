@@ -71,7 +71,7 @@ Global navigation for top level, tree navigation within sections, but also cross
 **Implementation considerations:**
 - Top navigation for sections
 - Sidebar or expandable tree for within-section
-- [Breadcrumbs](../?path=/docs/patterns-breadcrumbs--docs) essential for wayfinding
+- [Breadcrumbs](../?path=/docs/patterns-breadcrumbs--docs) for wayfinding
 - Related/see also links for contextual connections
 
 ### Step by step + pyramid
@@ -202,7 +202,7 @@ Actors should understand when navigation model changes:
 
 **2. Consistent fundamentals**
 Even as models change, maintain:
-- [Deep linking](../?path=/docs/primitives-deeplinking--docs) throughout
+- [Deep linking](../?path=/docs/primitives-deep-linking--docs) throughout
 - [Search](../?path=/docs/compositions-search--docs) as universal escape hatch
 - Consistent branding and visual language
 - Unified [command menu](../?path=/docs/patterns-command-menu--docs) if present

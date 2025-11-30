@@ -1,0 +1,72 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Compositions/Structure/Pyramid" />
+
+> 🗺️ **Fun meter: 2/5**. Mapping out the basics.
+
+# Pyramid
+
+Hub page lists an entire sequence of items. Actors select any item and navigate through the sequence using back/next links, or return to hub anytime to jump to different positions.
+
+Named for its shape: a hub at the top, with individual items below, connected both to the hub and to one another in sequence. Very common for content sites publishing galleries, photo essays, tutorial sequences, and product showcases.
+
+## Behavioural position
+
+- [Browsing](../?path=/docs/foundations-intent--interaction--docs#browsing) — hub overview enables pattern recognition and scanning
+- [Navigating](../?path=/docs/foundations-intent--interaction--docs#navigating) — direct access via hub when target is known
+- Sequential progression via back/next when linear consumption is preferred
+
+## Variants
+
+- Gallery pyramid: Hub shows thumbnails, items are full images.
+- List pyramid: Hub shows titles/descriptions in list format.
+- Card pyramid: Hub shows rich cards with images, titles, descriptions.
+- Numbered pyramid: Hub explicitly numbers items, progress indication emphasised.
+
+## Decision tree
+
+### When to use
+
+**Content structure**
+- Sequential collections (galleries, tutorials, articles split into pages)
+- Related items that form a narrative or progression
+- 5-30 items ideal (beyond 30, hub becomes crowded)
+- Items can be consumed independently but benefit from sequence
+
+**Behavioural needs**
+- Actors want overview before committing to sequence
+- Some actors prefer linear progression, others jump around
+- Items are bite-sized (images, short articles, steps)
+- Context from full collection aids comprehension
+
+**Agency preference**
+- Balanced agency — structure guides but doesn't force
+- Actor controls their path through content
+- Hub provides cognitive scaffolding without constraint
+
+### When not to use
+
+- Very long sequences (50+ items) — hub becomes unwieldy
+- Items must be consumed in strict order due to dependencies
+- No meaningful sequence exists (use [grid/list layout](../?path=/docs/compositions-card--docs) instead)
+- Mobile bandwidth concerns (loading all hub thumbnails costly)
+- Content requires no overview (use simple [step by step](../?path=/docs/compositions-structure-step-by-step--docs))
+
+## Related patterns
+
+### Complements
+- [Deep linking](../?path=/docs/primitives-deep-linking--docs) — sharing and bookmarking items
+- Progress tracking and resume features
+- Image loading optimisation (lazy loading)
+- Breadcrumbs showing hub context
+
+### Alternatives
+- [Hybrid with filtering](../?path=/docs/compositions-filtering--docs) for large collections
+- [Step by step](../?path=/docs/compositions-structure-step-by-step--docs) for strict sequences
+- [Multilevel tree](../?path=/docs/compositions-structure-multilevel-tree--docs) for hierarchical content
+- [Hub and spoke](../?path=/docs/compositions-structure-hub-and-spoke--docs) when items don't form sequences
+- TODO: Infinite scroll with anchors for very long sequences
+
+## Resources & references
+
+Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed.

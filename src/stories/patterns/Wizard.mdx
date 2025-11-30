@@ -63,7 +63,7 @@ The interaction cost of repeated clicking through steps compounds quickly. If us
 - Step validation: Inline feedback confirming input correctness before allowing progression. Prevents cascading errors.
 - Navigation controls: Primary action advances ("Continue", "Next"), secondary action retreats ("Back"), tertiary abandons ("Cancel"). Crucially, "Back" undoes the previous "Next" action rather than merely browsing—selections must persist through navigation cycles.
 - State persistence: Maintains entered data across steps and, ideally, across sessions.
-- Summary/review step: Before final commitment, display collected data for verification. Essential for high-stakes operations where errors carry significant cost.
+- Summary/review step: Before final commitment, display collected data for verification. 
 - Branching logic: Conditional paths that adapt subsequent steps based on prior input—the defining characteristic.
 
 ## Anti-conversational structure
@@ -107,7 +107,7 @@ Wizards privilege the system's understanding of task structure over actors' situ
 - [Form](../?path=/docs/compositions-form--docs) - the single-page structure that wizards fragment across steps
 - [Progressive disclosure](../?path=/docs/patterns-progressive-disclosure--docs) - the conceptual foundation for revealing complexity gradually
 - [Onboarding](../?path=/docs/patterns-onboarding--docs) - often employs wizards for initial setup and configuration
-- [Step by Step](../?path=/docs/compositions-structure-step-by-step--docs) - Wizard is a specific implementation of the step by step navigation model, applying it to form-based tasks with validation and branching logic. 
+- [Step by Step](../?path=/docs/compositions-structure-step-by-step--docs) - Wizard is a specific implementation of the step by step navigation model, applying it to form-based tasks with validation and branching logic.
 
 ### Alternatives
 - [Conversational form](../?path=/docs/compositions-form--docs#conversational-forms): Embeds form inputs within [messaging](../?path=/docs/compositions-messaging--docs) interface, allowing flexible dialogue whilst collecting structured data. Better for actors who benefit from clarifying questions.

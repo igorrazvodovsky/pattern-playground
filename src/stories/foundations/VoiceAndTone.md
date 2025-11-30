@@ -6,7 +6,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Voice and tone
 
-The words we choose are an essential part of the experience.
+The words we choose are a part of the experience.
 
 # Tactics
 

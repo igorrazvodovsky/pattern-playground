@@ -6,7 +6,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Pan and zoom
 
-Single large continuous spaces rather than discrete pages. Actors navigate by panning (horizontal/vertical movement) and zooming (scale changes). Controls for reset to known position and state are essential.
+Single large continuous spaces rather than discrete pages. Actors navigate by panning (horizontal/vertical movement) and zooming (scale changes). Controls for reset to known position and state.
 
 ## Description
 
@@ -199,8 +199,8 @@ Spatial content is inherently visual and challenging for screen readers:
 - Network visualisations
 
 ### Complements
-- **[Search](../?path=/docs/compositions-search--docs)** — essential for large spaces, enables jumping to locations
-- **[Deep linking](../?path=/docs/primitives-deeplinking--docs)** — encode position and zoom in URLs for sharing
+- [Search](../?path=/docs/compositions-search--docs) — enables jumping to locations
+- [Deep linking](../?path=/docs/primitives-deep-linking--docs) — encode position and zoom in URLs for sharing
 - Bookmarks or saved views
 - Minimap or overview + detail patterns
 - Layers or filtering for complex spaces
