@@ -14,19 +14,30 @@ Steps are arranged sequentially, like a conversation or narrative, with separati
 model responses, and intermediate reasoning steps. Actors can scroll, expand, comment on,
 or revisit earlier steps — and if needed, branch the thread to explore alternatives.
 
-## Representation
+## Temporal modes
 
-### Linear
+Breaking down reasoning transparency by when it occurs in the execution lifecycle makes the timing distinction explicit.
 
-Linear presentation helps break down complex tasks into a series of simpler, sequential subtasks, making the model’s reasoning process more interpretable and transparent.
+### Before execution: planning
+
+TODO: Presents complete, verified information before commitment, building trust through transparency of upcoming actions.
+
+### During execution: stream of thought
+
+Reveals reasoning as work unfolds, enabling monitoring and early intervention.
 
 <Story of={LLMReasoningStory} />
 
-### Branching
+### After execution: Retrospective analysis
 
-The nature of reasoning in LLMs, and human reasoning more broadly, is more nuanced than a simple linear chain.
+TODO: Condensed summary after completion, supporting learning and debugging.
 
-TODO:
+## Representation structures
+
+Beyond temporal positioning, reasoning can be structured as linear sequences or branching explorations.
+
+- Linear: presentation breaks down complex tasks into a series of simpler, sequential subtasks, making the model's reasoning process more interpretable and transparent. Most implementations of Stream of Thought and Action Plan use linear structures.
+- TODO: Branching: The nature of reasoning in LLMs, and human reasoning more broadly, is more nuanced than a simple linear chain.
 
 {/* https://d3js.org/d3-hierarchy */}
 
