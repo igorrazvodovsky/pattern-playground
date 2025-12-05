@@ -1,11 +1,11 @@
 # [Paper Title] - Notes
 
 ## Metadata
-- **Title**: 
-- **Authors**: 
-- **Year**: 
-- **Source/Conference**: 
-- **Link**: 
+- **Title**:
+- **Authors**:
+- **Year**:
+- **Source/Conference**:
+- **Link**: *(Search online for canonical link even if working from local PDF: DOI, arXiv, ACM DL, IEEE Xplore, publisher URL, etc.)*
 - **Tags**: #research, #ui, #ai, ...
 
 ## 1. Executive Summary

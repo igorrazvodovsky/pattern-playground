@@ -4,7 +4,8 @@
 - **Title**: Recognizing Creative Needs in User Interface Design
 - **Authors**: Michael Terry, Elizabeth D. Mynatt
 - **Year**: 2002
-- **Source/Conference**: C&C'02
+- **Source/Conference**: C&C'02 (Creativity & Cognition)
+- **DOI**: 10.1145/581710.581718
 - **Link**: https://dl.acm.org/doi/10.1145/581710.581718
 - **Tags**: #creativity, #ui, #undo, #exploration, #history
 

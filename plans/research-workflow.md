@@ -9,6 +9,7 @@ To transform insights from research papers into concrete, actionable pattern des
 
 ### 1. Selection & Ingestion
 *   **Select a Paper**: Choose a paper from `resources/papers/` or add a new one.
+*   **Find Online Link**: Even if working from a local PDF, search online for the canonical link (DOI, arXiv, ACM Digital Library, etc.) for proper citation and reference.
 *   **Goal Setting**: Briefly define *why* we are reading this paper. What problem are we trying to solve?
 
 ### 2. Analysis (The "Notes" Phase)
