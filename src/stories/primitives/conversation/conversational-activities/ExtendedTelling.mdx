@@ -6,7 +6,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Extended telling
 
-The agent delivers a multi-part telling (e.g., instructions, narrative, explanation).
+The bot delivers a multi-part telling (e.g., instructions, narrative, explanation).
 
 Extended telling commonly appears in [instruction-based dialogue](../?path=/docs/patterns-conversation--docs#instruction-based-dialogue).
 
@@ -14,17 +14,17 @@ Extended telling commonly appears in [instruction-based dialogue](../?path=/docs
 
 1. Announce scope & parts: “I’ll walk you through [topic].”
 2. For each step
-   - Agent utterance with core content.
+   - Bot utterance with core content.
    - Support moves (available on demand), e.g. repeat, paraphrase, give an example, or define any key term used.
    - Advance rule: move to the next step only on a **continuer** (e.g. “OK”, “next”, “go on”, “mm-hmm”, 👍).
    - Interrupt rule: if the user gives a *new intent* (e.g., asks “why?”, changes topic/parameters: “use method B”), *pause* *extended telling* and:
       - handle the clarification as *repair* within *extended telling*, or
-      - collect new data via *agent inquiry*, or
+      - collect new data via *bot inquiry*, or
       - switch to *open request* for a new task.
 3. Closing step: recap, offer an artifact, and propose next steps.
 
 ## Guidance
-- Keep each agent utterance short; move detail to *paraphrase* and *example*. TODO: needs alignment with user preference.
+- Keep each bot utterance short; move detail to *paraphrase* and *example*. TODO: needs alignment with user preference.
 - Provide a **progress indicator** and allow “skip/back/stop” at any step.
 
 ## Repair Affordances

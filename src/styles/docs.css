@@ -261,12 +261,14 @@ aside[class*="sbdocs-toc"] {
   }
 
   .docs-intro-img {
-    border: 1px solid oklch(0% 0 0 / 30%);
-    transition: var(--transition-fast) border-color;
+    /* border: 1px solid oklch(0% 0 0 / 30%); */
+    background: oklch(0% 0 0 / 5%);
+    transition: var(--transition-fast) all;
   }
 
   &:has(*:hover) img {
-    border-color: oklch(0% 0 0 / 50%);
+    /* border-color: oklch(0% 0 0 / 50%); */
+    background: oklch(0% 0 0 / 8%);
   }
 
   a::before {

@@ -38,6 +38,30 @@ Labeling and organizing information. These primitives support [sense-making & in
 - [Tag](../?path=/docs/primitives-tag--docs) - categorization and filtering labels
 - [Badge](../?path=/docs/primitives-badge--docs) - status indicators and counts
 - [Reference](../?path=/docs/primitives-reference-reference--docs) - citations and source tracking
+- [Deep linking](../?path=/docs/primitives-deep-linking--docs) - direct access to specific states
+
+## Conversation
+
+Building blocks for constructing conversational flows.
+
+### Conversational activities
+
+Conversational activities consist of basic interaction patterns,
+including the user asking the bot a question through [inquiry](../?path=/docs/primitives-conversation-conversational-activities-inquiry-user--docs),
+the user making an [open request](../?path=/docs/primitives-conversation-conversational-activities-open-request--docs),
+the bot doing [extended telling](../?path=/docs/primitives-conversation-conversational-activities-extended-telling--docs) such as giving instructions or explanations,
+and the bot asking the user a question through [inquiry](../?path=/docs/primitives-conversation-conversational-activities-inquiry-bot--docs) to gather information or clarify understanding.
+
+### Sequence management
+
+While activity patterns make up the primary activities of a conversation space,
+sequence management patterns enable user and bot to manage those activities:
+patterns for [bot repair](../?path=/docs/primitives-conversation-sequence-management-bot-repair--docs) of its own concerns in understanding,
+for [user repair](../?path=/docs/primitives-conversation-sequence-management-user-repair--docs) of their understanding issues, for users to signal [sequence completion](../?path=/docs/primitives-conversation-sequence-management-sequence-completion--docs), and for users to [abort](../?path=/docs/primitives-conversation-sequence-management-abort--docs) an unsuccessful sequence.
+
+### Conversation management
+
+Conversation-level management patterns enable actors to coordinate the initiation and ending of the encounter. They provide ways for the bot to [open the conversation](../?path=/docs/primitives-conversation-conversation-management-opening-bot--docs), for the user to [open the conversation](../?path=/docs/primitives-conversation-conversation-management-opening-user--docs), discuss [capability and scope](../?path=/docs/primitives-conversation-conversation-management-capability-and-scope--docs) of what they can do together, and ways to end the conversation by [closing](../?path=/docs/primitives-conversation-conversation-management-closing--docs) it or by [disengaging without closing](../?path=/docs/primitives-conversation-conversation-management-disengage-without-closing--docs).
 
 {/* Metadata primitives appear throughout [cards](../?path=/docs/compositions-card-card--docs), [data views](../?path=/docs/compositions-dataview-dataview--docs), and enable [filtering](../?path=/docs/compositions-filtering-filtering--docs) and [grouping](../?path=/docs/compositions-grouping--docs). */}
 

@@ -1,19 +1,19 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 
-<Meta title="Primitives/Conversation/Conversation management/User opening" />
+<Meta title="Primitives/Conversation/Conversation management/Opening (User)" />
 
 > 😊 **Fun meter: 3/5**. Looking for useful building blocks for conversational UI.
 
 # User opening
 
-The user initiates the encounter; the agent recognizes the open and aligns quickly to a topic.
+The user initiates the encounter; the bot recognizes the open and aligns quickly to a topic.
 
 1. U → A: Greeting or first move (“Hi”, “I need a quote”).
 2. A: Receipt + capability/role (brief), and *topic alignment* (accept the stated topic or offer nearby options).
-3. A: Transition into the selected activity (*user inquiry, open request, or agent inquiry*), or request clarification via *agent repair*.
+3. A: Transition into the selected activity (*user inquiry, open request, or bot inquiry*), or request clarification via *bot repair*.
 
 ## Support & transitions
-- Use *agent inquiry* for missing parameters; *agent repair* for disambiguation.
+- Use *bot inquiry* for missing parameters; *bot repair* for disambiguation.
 - If the user changes their mind immediately, allow *abort*.
 
 ## Metrics
