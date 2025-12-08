@@ -296,4 +296,4 @@ Validate that hybrids serve actor needs:
 ## Resources & references
 
 - Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed.
-- Rosenfeld, Morville, Arango (2015) *Information Architecture*, 4th ed., Chapter 3: Thinking About Information Architecture
+- Rosenfeld, Morville, Arango (2015) *Information Architecture*, 4th ed.
