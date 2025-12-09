@@ -1,0 +1,44 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Patterns/Good defaults" />
+
+> 🗺️ **Fun meter: 2/5**. Mapping out the basics.
+
+# Good defaults
+
+Pre-fill fields and pre-select options with intelligent guesses.
+
+## Types of defaults
+
+### Mass defaults
+Apply to all users universally.
+- Benign defaults: The "best guess" for the majority (e.g., standard shipping).
+- Smart defaults: Optimization for based on general data.
+- Random defaults: Arbitrary assignment when no preference exists.
+
+### Personalized defaults
+Tailored to the individual actor.
+- Persistent defaults: Based on the user's past choices (e.g., "Use my last address").
+- Adaptive defaults: Updated in real-time based on immediate context or behavior.
+
+## Risks & ethical considerations
+
+- *Dark patterns*: "Hidden options" or pre-checking consent boxes (e.g., for marketing) exploits the default effect to the user's detriment.
+- *Social signaling*: In some contexts, the default changes the meaning of the choice (e.g., opting out feels like a stronger rejection than not opting in).
+- *Status quo bias*: Users rarely change defaults.
+- *Invisibility*: Users might not notice a default value and submit incorrect data.
+
+## Related patterns
+
+- [Onboarding](../?path=/docs/patterns-onboarding--docs) - Often sets the initial state and defaults for the application.
+- [Settings](../?path=/docs/patterns-settings--docs) - Where global defaults are managed and overridden.
+- [Suggestion](../?path=/docs/patterns-suggestion--docs) - A weaker form of default ("Did you mean X?") or a dynamic default.
+- [Autofill](../?path=/docs/patterns-autofill--docs) - The mechanism for applying defaults to forms.
+- [Agency](../?path=/docs/foundations-agency--docs) - Defaults represent a shift towards system agency (system deciding for the user).
+- [Form](../?path=/docs/compositions-form--docs) - The primary container where defaults are encountered.
+{/* - [Profile](../?path=/docs/compositions-profile--docs) - Source of truth for personalized defaults. */}
+
+## Resources
+- [UI Patterns - Good Defaults](https://ui-patterns.com/patterns/GoodDefaults)
+- [NN/g - The Power of Defaults](https://www.nngroup.com/articles/the-power-of-defaults/)
+- [Wikipedia - Default effect](https://en.wikipedia.org/wiki/Default_effect)
