@@ -52,35 +52,6 @@ Everything exists in a single coordinate system, eliminating page transitions bu
 - Orientation aids: TODO:minimap, landmarks, coordinates, reset button
 - Performance optimisation: viewport culling (rendering only visible area), level of detail, tile loading, debounced updates
 
-## Decision tree
-
-### When to use
-
-**Content structure:**
-- Continuous spatial information (maps, floor plans)
-- Large single images or documents
-- Timelines with temporal relationships
-- Network diagrams and relationship graphs
-- Canvas-based tools (design, whiteboarding)
-
-**Behavioural needs:**
-- Spatial relationships matter (proximity, direction, scale)
-- Overview + detail required (zoom out for context, zoom in for detail)
-- Content too large for single viewport
-- Exploration is primary activity
-
-**Agency preference:**
-- Maximum spatial agency valued
-- Actors comfortable with continuous navigation
-- Spatial memory or good wayfinding available
-
-### When not to use
-
-- Content naturally divides into discrete units (use [pyramid](../?path=/docs/compositions-structure-pyramid--docs) or [tree](../?path=/docs/compositions-structure-multilevel-tree--docs))
-- Actors need structured guidance (use [step by step](../?path=/docs/compositions-structure-step-by-step--docs))
-- Accessibility is critical and spatial alternatives limited
-- Simple information display (unnecessary complexity)
-- Mobile-only context where touch gestures conflict with other interactions
 
 ## Related patterns
 

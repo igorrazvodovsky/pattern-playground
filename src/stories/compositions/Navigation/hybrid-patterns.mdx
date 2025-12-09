@@ -1,0 +1,71 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Compositions/Structure/Hybrid patterns" />
+
+> 🗺️ **Fun meter: 2/5**. Mapping out the basics.
+
+# Hybrid navigation patterns
+
+Hybrid patterns combine multiple models to balance competing needs, accommodate diverse content types, or serve different actor contexts.
+
+## Hub and spoke + fully connected
+
+Hub provides entry point and overview, but spokes include global navigation to all sections.
+
+- Home screen or dashboard lists all main sections (hub behaviour)
+- Each section accessible from hub
+- But once in a section, global navigation enables cross-section movement without hub return (fully connected behaviour)
+
+## Multilevel tree + fully connected
+
+Global navigation for top level, tree navigation within sections, but also cross-section links where natural.
+
+- Top-level pages fully connected via global menu (fully connected)
+- Within sections, hierarchical navigation (multilevel tree)
+- Contextual cross-section links bypass hierarchy when relationships exist
+
+## Step by step + pyramid
+
+Hub shows all steps in process, actors can navigate sequentially or jump to any step.
+
+- Overview page lists all steps with descriptions (pyramid hub)
+- From overview, can start at beginning or jump to specific step
+- Within steps, back/next navigation available (step by step)
+- Can return to overview anytime
+
+> **Contrast with pure step by step:**
+[Wizard](../?path=/docs/patterns-wizard--docs) is pure step by step—strict sequence, no jumping. This hybrid relaxes that constraint.
+
+## Fully connected + pan and zoom
+
+Global navigation for discrete sections, spatial navigation within rich content.
+
+- Top-level navigation between named sections (fully connected)
+- Within certain sections, continuous spatial navigation (pan and zoom)
+- Switch between navigation paradigms based on content type
+
+## Hub and spoke + flat navigation
+
+Hub lists applications or workspaces, within each app all functions accessible.
+
+- Launch screen or app switcher shows available tools/workspaces (hub)
+- Select one to enter
+- Within workspace, flat navigation model applies—all tools accessible, minimal location navigation
+
+## Pyramid + multilevel tree
+
+Multiple pyramids (sequences) organised in tree structure.
+
+- Tree navigation for categories and sequences
+- Within each sequence, pyramid model applies (hub + sequential)
+
+## Related
+
+- [Navigation models](../?path=/docs/compositions-structure-overview--docs)
+- [Information architecture](../?path=/docs/foundations-information-architecture--docs) — conceptual framework
+- [Agency](../?path=/docs/foundations-agency--docs) — control implications of combinations
+
+## Resources & references
+
+- Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed.
+- Rosenfeld, Morville, Arango (2015) *Information Architecture*, 4th ed.

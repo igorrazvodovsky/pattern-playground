@@ -33,34 +33,6 @@ Deliberately constrains
 {/* - **Deferred validation** — gather all information, validate at end */}
 {/* - **Inline validation** — real-time feedback as actor completes fields */}
 
-## Decision tree
-
-### When to use
-
-**Content structure:**
-- Clear logical sequence that actors should follow
-- Steps with dependencies (step 2 requires information from step 1)
-- Processes with clear start and end points
-- Linear workflows without branching
-
-**Behavioural needs:**
-- Task completion rate is critical
-- Focus and reduced distraction are valuable
-- Actors benefit from guidance
-- Process must complete in sequence (payment before confirmation)
-
-**Agency preference:**
-- System-guided acceptable or desirable
-- Reduced cognitive load valued over navigation freedom
-- Commitment to completing the process
-
-### When not to use
-
-- Actors need to work non-linearly
-- Process has significant branching or optional steps
-- Information gathering rather than transaction (consider [pyramid](../?path=/docs/compositions-structure-pyramid--docs))
-- Long processes without clear milestones (creates abandonment risk)
-- Actors may need to reference multiple steps simultaneously
 
 ## Related patterns
 
