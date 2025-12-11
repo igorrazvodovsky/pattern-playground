@@ -1,0 +1,38 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Patterns/Data entry/Forgiving format" />
+
+# Forgiving format
+
+Permit users to enter inputs in a variety of choices, formats, and syntax, and make the system interpret it intelligently.
+
+- Data can be represented in multiple valid ways (e.g., dates: "tomorrow", "12/12", "Dec 12")
+- Users frequently make formatting errors that a computer could easily fix (e.g., phone numbers, credit cards)
+- Users might search by ID, name, date, or status in a single field
+
+## Anatomy
+
+1. Flexible input: an input that accepts free-form entry (mostly text, but also images or voice)
+2. Interpreter: logic/LLM that parses variable input into structured data
+3. Confirmation/feedback: visual feedback showing how the system interpreted the input (critical to prevent errors)
+
+{/* ## Examples */}
+{/* - Date pickers: typing "next friday" instead of selecting a date */}
+{/* - Search bars: pasting a messy list of IDs or typing a keyword */}
+{/* - Phone fields: accepting `(555) 123-4567` or `5551234567` */}
+
+## Decision tree
+
+Can the system reliably guess the intent?
+    - Yes → Use *forgiving format*
+    - No (e.g., risk of ambiguity, critical financial data) → Use [structured format](../?path=/docs/patterns-data-entry-structured-format--docs)
+
+Is the format complex to explain but easy to verify?
+    - Yes → Use _forgiving format_ (let them type, then show the result)
+
+## Related patterns
+
+- [Input](../?path=/docs/primitives-input--docs) - the basic component used
+- [Status feedback](../?path=/docs/patterns-status-feedback--docs) - confirming the interpretation
+- [Structured format](../?path=/docs/patterns-data-entry-structured-format--docs) - the rigid alternative
+{/* - [Input hints](../?path=/docs/patterns-data-entry-input-hints--docs) - showing examples of valid inputs ("Try 'tomorrow' or '12/12'") */}

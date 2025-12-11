@@ -1,0 +1,25 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Patterns/Data entry/Structured format" />
+
+# Structured format
+
+The structure of the control gives the user a clue about what kind of input is being requested.
+
+- Rigid expectations: the format is familiar and well defined (e.g., credit card information, local telephone numbers, licence strings)
+- No deviation expected: you don't expect any users to need to deviate from the format
+- Error reduction: breaking data into chunks (2-5 characters) makes it easier to transcribe or memorise
+
+{/* ## How it works */}
+{/* 1. Multiple fields: design a set of text fields that visually reflect the format (e.g., `[___] - [__] - [____]`) */}
+{/* 2. Field length: keep text fields short as a visual clue to the expected input length */}
+{/* 3. Auto-advance: after the user fills a field, automatically move focus to the next one (confirming they entered the right amount of characters) */}
+{/* 4. Use placeholder to clarify expected formats (e.g., "dd/mm/yyyy") */}
+
+## Related patterns
+
+- [Input](../?path=/docs/primitives-input--docs) - the basic component
+- [Forgiving format](../?path=/docs/patterns-data-entry-forgiving-format--docs) - best for open-ended input where valid formats vary; Structured Format is for very predictable formats
+
+{/* - [Input Hints](../?path=/docs/patterns-data-entry-input-hints--docs) - providing inline examples */}
+{/* - [Input Prompt](../?path=/docs/patterns-data-entry-input-prompt--docs) - providing additional clues */}
