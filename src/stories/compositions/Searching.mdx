@@ -14,15 +14,15 @@ The search experience spans three distinct phases, often distributed across diff
 
 ### 1. Entry & query formulation
 The point where the actor expresses intent.
-- Keyword Search: Matches exact strings or tags. Best for specific items (names, IDs).
-- Natural Language Prompt: Describes the desired outcome or characteristics. Best for complex queries that would otherwise require heavy filtering.
+- Keyword search: Matches exact strings or tags. Best for specific items (names, IDs).
+- Natural language prompt: Describes the desired outcome or characteristics. Best for complex queries that would otherwise require heavy filtering.
 - Scope:
     - Global: Searches the entire system.
     - Local: Searches only within the current context.
 
 ### 2. Processing & translation
-- Keyword matching
-- AI/LLM translation: uses world knowledge to map vague intent into precise system filters.
+- Lexical and statistical retrieval: explicit algorithms relying on patterns in the text.
+- AI intent translation: The system bridges the gap between the actor's language and the system's taxonomy.
 
 ### 3. Results & refinement
 - Instant results: Popover or dropdown.
@@ -40,7 +40,12 @@ Search shouldn't destroy context. It should be easily reversible, returning the 
 {/* ### Search vs. Filter */}
 {/* - **Do I want to refine the current set?** → Filter. */}
 {/* - **Do I want to find a specific item?** → Search. */}
-{/* *Note: AI blurs this line. A search query can be "translated" into a set of applied filters.* */}
+{/* *Note: AI blurs this line. A search query can be "translated" into a set of applied filters.*
+
+### Search vs. Prompt
+- **Search**: Typically retrieval of *existing* items.
+- **Prompt**: Can be retrieval, but often implies generation or execution of complex tasks.
+- **Convergence**: Modern search bars are becoming "Command Bars" that accept both search queries and commands (e.g., "Create a new file"). */}
 
 ## Related patterns
 
