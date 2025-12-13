@@ -1,0 +1,78 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Patterns/Data entry" />
+
+# Data entry
+
+Patterns for inputting information into the system. These resolve the tension between the messiness of human expression and the system's need for structure. The goal is to capture user intent with minimal effort—frictionless by default.
+
+## Strategies
+
+There are two main strategies for handling input, depending on the nature of the data and the system's capabilities.
+
+### Forgiving format
+
+Permit users to enter inputs in a variety of choices, formats, and syntax, and make the system interpret it intelligently.
+
+- Data flexibility: Data can be represented in multiple valid ways (e.g., dates: "tomorrow", "12/12", "Dec 12").
+- Error prevention: Users frequently make formatting errors that a computer could easily fix (e.g., phone numbers, credit cards).
+- Unified input: Users might enter ID, name, date, or status in a single field.
+
+{/* **Anatomy:** */}
+{/* 1.  Flexible input: an input that accepts free-form entry (mostly text, but also images or voice). */}
+{/* 2.  Interpreter: logic/LLM that parses variable input into structured data. */}
+{/* 3.  Confirmation/feedback. */}
+
+TODO: Example (date picker accepting "next friday")
+
+### Structured format
+
+The structure of the control gives the user a clue about what kind of input is being requested. Use this when ambiguity is dangerous or the format is strict.
+
+- Rigid expectations: The format is familiar and well defined (e.g., credit card information, local telephone numbers, license strings).
+- Error reduction: Breaking data into chunks (2-5 characters) makes it easier to transcribe or memorize.
+
+TODO: Example (also date?)
+
+## AI & verification
+
+When shifting from "user does the work" to "AI does the work, user verifies", a verification loop is critical to ensure accuracy and build trust.
+
+1.  Extraction: System normalizes unstructured input (OCR from image, transcript from voice, loose text).
+2.  Confidence: System flags low-confidence interpretations.
+3.  Review: User confirms or corrects the data.
+4.  Rationale: In complex tasks, the user verifies *why* the system made a choice, maintaining ownership of the decision.
+
+## Affordances
+
+Helper patterns that guide the user towards successful entry.
+
+### Input hints
+
+A phrase or example that explains what is required or gives additional detail about what is being requested.
+
+Hints can be provided in two ways:
+- **Helper text**: Text below or near the input.
+- **Placeholder text**: Text inside the control (if supported), though this disappears when typing.
+
+### Placeholder
+
+Prefill a text field with an example input or instructional text that helps the user with what to do or type.
+
+**When to use:**
+- **No good default**: When you can't guess a reasonable default value but need to explain the field.
+- **Clarification**: When the purpose or format of a control isn't immediately clear from the label alone.
+
+## Related patterns
+
+- [Input](../?path=/docs/primitives-input--docs) - the basic component used.
+- [Form](../?path=/docs/compositions-form--docs) - the container for multiple data entry inputs.
+- [Good defaults](../?path=/docs/patterns-good-defaults--docs) - use when you can make a good guess to avoid data entry entirely.
+- [Status feedback](../?path=/docs/patterns-status-feedback--docs) - confirming the interpretation of forgiving input.
+- [Bot](../?path=/docs/patterns-bot--docs) - the agent often responsible for interpreting forgiving input.
+- [Transparent reasoning](../?path=/docs/patterns-transparent-reasoning--docs) - explaining *why* a specific interpretation was made.
+
+## Resources & references
+
+- Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed.
+- Reicherts et al. (2025) *AI, Help Me Think—but for Myself* (arXiv:2504.06771)
