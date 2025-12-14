@@ -75,39 +75,25 @@ Where conversations support natural turn-taking and allow actors to redirect foc
 
 This rigidity can be appropriate when the system genuinely knows the optimal path (e.g., legal compliance workflows), but feels authoritarian when actor knowledge exceeds system assumptions.
 
-## Research tensions
+{/* ## Critique */}
+{/* The pattern's prevalence exceeds its empirical support. Academic usability research contradicts practitioner advocacy, whilst theoretical HCI challenges the planning model wizards embody. */}
 
-The pattern's prevalence exceeds its empirical support. Academic usability research contradicts practitioner advocacy, whilst theoretical HCI challenges the planning model wizards embody.
+{/* ### Usability evidence favours single-page forms */}
+{/* Healthcare usability study (Schnall et al. 2021) found single-page forms outperformed multipage equivalents across metrics: higher usability scores (SUS 76 vs 67), faster task completion, fewer errors (31% vs 69% medium-severity), and stronger user preference. Participants valued seeing "all information at once" rather than fragmented views. */}
+{/* Neuroimaging research (Pušnik et al. 2016) demonstrated that dividing forms into subforms *increased* mental workload, contrary to wizard advocates' cognitive load reduction claims. */}
 
-### Usability evidence favours single-page forms
-
-Healthcare usability study (Schnall et al. 2021) found single-page forms outperformed multipage equivalents across metrics: higher usability scores (SUS 76 vs 67), faster task completion, fewer errors (31% vs 69% medium-severity), and stronger user preference. Participants valued seeing "all information at once" rather than fragmented views.
-
-Neuroimaging research (Pušnik et al. 2016) demonstrated that dividing forms into subforms *increased* mental workload, contrary to wizard advocates' cognitive load reduction claims.
-
-### Conversion versus usability
-
-Industry sources report 86-300% conversion improvements from multi-step forms, but this likely reflects psychological manipulation rather than genuine usability enhancement. The foot-in-the-door effect and commitment bias increase completion rates without improving the experience—actors comply rather than benefit.
-
-Getting more people to complete a form doesn't make the form better. It makes it more coercive.
-
-### Situated action critique
-
-Suchman's foundational work on situated action (1987, 2007) challenges the planning model that wizards assume. Her research demonstrated that human action emerges from contextual contingencies, not pre-planned sequential execution. "Action is organized not simply by rule following but by the contingencies and improvisations of applying rules."
-
-She specifically critiqued rigid workflow systems for failing to accommodate the "ad hoc practices and contingent operations" characteristic of actual work. Wizards presume tasks follow predictable sequences, but situated action reveals that flexibility and responsiveness to context matter more than predetermined paths.
-
-Wizards privilege the system's understanding of task structure over actors' situated knowledge—precisely the design stance Suchman challenged.
+{/* ### Situated action critique */}
+{/* Suchman's work on situated action (1987, 2007) challenges the planning model that wizards assume. Her research demonstrated that human action emerges from contextual contingencies, not pre-planned sequential execution. "Action is organized not simply by rule following but by the contingencies and improvisations of applying rules." */}
+{/* She specifically critiqued rigid workflow systems for failing to accommodate the "ad hoc practices and contingent operations" characteristic of actual work. Wizards presume tasks follow predictable sequences, but situated action reveals that flexibility and responsiveness to context matter more than predetermined paths. */}
+{/* Wizards privilege the system's understanding of task structure over actors' situated knowledge—precisely the design stance Suchman challenged. */}
 
 ## Related patterns
-
-### Navigation model
 
 ### Precursors
 - [Form](../?path=/docs/compositions-form--docs) - the single-page structure that wizards fragment across steps
 - [Progressive disclosure](../?path=/docs/patterns-progressive-disclosure--docs) - the conceptual foundation for revealing complexity gradually
 - [Onboarding](../?path=/docs/patterns-onboarding--docs) - often employs wizards for initial setup and configuration
-- [Step by Step](../?path=/docs/compositions-structure-step-by-step--docs) - Wizard is a specific implementation of the step by step navigation model, applying it to form-based tasks with validation and branching logic.
+- [Step by step](../?path=/docs/compositions-structure-step-by-step--docs) - Wizard is a specific implementation of the step by step navigation model, applying it to form-based tasks with validation and branching logic.
 
 ### Alternatives
 - [Conversational form](../?path=/docs/compositions-form--docs#conversational-forms): Embeds form inputs within [messaging](../?path=/docs/compositions-messaging--docs) interface, allowing flexible dialogue whilst collecting structured data. Better for actors who benefit from clarifying questions.
@@ -119,7 +105,6 @@ Wizards privilege the system's understanding of task structure over actors' situ
 
 ## Resources & references
 
-### Practitioner guidance
 - Nielsen Norman Group / [Wizards: Definition and Design Recommendations](https://www.nngroup.com/articles/wizards/)
 - Windows UX guide / [Wizards](https://learn.microsoft.com/en-us/windows/win32/uxguide/win-wizards)
 - PatternFly / [Comparing web forms: A progressive form vs. a wizard](https://medium.com/patternfly/comparing-web-forms-a-progressive-form-vs-a-wizard-110eefc584e7)
