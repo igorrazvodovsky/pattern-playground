@@ -14,7 +14,7 @@ The pattern trades spatial freedom for temporal clarity. Like a corridor in arch
 
 Critically, wizards aren't just multi-page forms. The defining characteristic is *dynamic branching*—subsequent steps depend on information entered previously. Without this conditionality, you simply have a long form with pagination.
 
-Wizards handle multi-step tasks that form a single atomic operation. The entire sequence represents one conceptual goal, not multiple bundled tasks. This distinguishes wizards from navigation menus or tabbed interfaces masquerading as guided flows.
+Wizards handle multi-step tasks that form a single atomic operation. The entire sequence represents one conceptual goal. This distinguishes wizards from navigation menus or tabbed interfaces masquerading as guided flows.
 
 ## Behavioural position
 
@@ -63,7 +63,7 @@ The interaction cost of repeated clicking through steps compounds quickly. If us
 - Step validation: Inline feedback confirming input correctness before allowing progression. Prevents cascading errors.
 - Navigation controls: Primary action advances ("Continue", "Next"), secondary action retreats ("Back"), tertiary abandons ("Cancel"). Crucially, "Back" undoes the previous "Next" action rather than merely browsing—selections must persist through navigation cycles.
 - State persistence: Maintains entered data across steps and, ideally, across sessions.
-- Summary/review step: Before final commitment, display collected data for verification. 
+- Summary/review step: Before final commitment, display collected data for verification.
 - Branching logic: Conditional paths that adapt subsequent steps based on prior input—the defining characteristic.
 
 ## Anti-conversational structure
