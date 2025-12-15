@@ -1,2 +1,0 @@
-- https://developer.apple.com/design/human-interface-guidelines/offering-help
-- https://www.nngroup.com/articles/onboarding-tutorials/
