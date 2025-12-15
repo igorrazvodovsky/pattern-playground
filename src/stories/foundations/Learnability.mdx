@@ -1,0 +1,50 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Learnability" />
+
+# Learnability
+
+The capability of a system to enable users to achieve and maintain competence with minimal training demand. It is not just about initial "ease of use", but about the structural support for transition from novice to expert.
+
+## Dimensions of learnability
+
+- Initial learnability: Performance of a [first-time](../?path=/docs/patterns-onboarding--docs) user.
+- Extended learnability: [Change](../?path=/docs/patterns-mastery--docs) in performance over time. How easy is it to *become* proficient?
+
+## Training demand
+The cognitive cost required to move from initial to extended learnability.
+
+## Scaffolding
+Temporary support structures that help users perform tasks they couldn't yet do alone. Effective scaffolding fades as competence grows.
+
+## Mechanisms
+
+### Strategies
+
+- *Preparation:* Introducing a concept effectively before it's needed
+- *Contextual:* Prompts that appear exactly when needed, rather than in a separate manual
+- *Safe practice:* Providing a safe environment to fail and experiment
+
+{/* ### Context-sensitive help & reasoning */}
+{/* AI facilitates learnability by moving beyond static documentation to dynamic, in-context explanations. */}
+{/* - *Transparent Reasoning:* Showing *why* a system made a suggestion helps users learn the underlying logic. */}
+{/* - *Proactive Prompts:* Monitoring user behavior to suggest more efficient methods (e.g., shortcuts, batch actions) at the right moment. */}
+
+{/* ## Trade-offs */}
+{/* - **Layered interfaces** improve *initial* learnability and safety (preventing destructive errors) but may initially limit speed for tasks requiring advanced tools. */}
+{/* - **Full functionality** offers maximum efficiency for experts but creates a "wall of complexity" for novices. */}
+{/* - **Context matters:** Use progressive/layered approaches for infrequent users, novices, or high-risk tasks. Use full functionality for dedicated expert applications. */}
+
+## Related patterns
+
+- [Agency](../?path=/docs/foundations-agency--docs) - competence facilitates agency
+- [Progressive disclosure](../?path=/docs/patterns-progressive-disclosure--docs) structures the learning curve.
+- [Transparent reasoning](../?path=/docs/patterns-transparent-reasoning--docs) - AI explaining itself to teach usage
+- [Onboarding](../?path=/docs/patterns-onboarding--docs) - initial learnability spike
+
+## Resources & references
+
+- Forsey et al. (2024). [Designing for Learnability: Improvement Through Layered Interfaces](https://journals.sagepub.com/doi/10.1177/10648046241273291). Ergonomics in Design.
+- Nielsen, J. (2006). [Progressive disclosure](https://www.nngroup.com/articles/progressive-disclosure/). NN/g.
+- Grossman, T., Fitzmaurice, G., & Attar, R. (2009). [A survey of software learnability](https://dl.acm.org/doi/10.1145/1518701.1518803).
+- Poretski, L., & Tang, A. (2022). [Press A to Jump: Design Strategies for Video Game Learnability](https://dl.acm.org/doi/10.1145/3491102.3517685). CHI 2022.

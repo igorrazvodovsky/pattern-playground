@@ -11,13 +11,18 @@ The approach prevents overwhelming users when presenting large amounts of conten
 By revealing hidden elements only when triggered, you maintain full functionality while significantly reducing
 initial cognitive load and creating a cleaner interface.
 
+{/* ### Scaffolding via *greying out* */}
+{/* When designing layered interfaces, prefer **greying out** (ghosting) unavailable features over hiding them completely. */}
+{/* - **Why:** Seeing the disabled controls helps users build a mental model of *where* advanced features live. */}
+{/* - **Result:** Users know the capability exists, reducing the need to re-learn the interface when they transition to the expert layer. */}
+
 {/* # Best practices
 
 - Clearly distinguishing between the primary and secondary tasks.
 - Creating clear trigger actions for secondary content.
-- Minimising nested disclosures; simplifing features with multiple levels. */}
+- Minimising nested disclosures; simplifing features with multiple levels.*/}
 
-# Related
+## Related patterns
 
 - [Density](../?path=/docs/foundations-density--docs) - progressive disclosure manages information and visual density by deferring secondary content
 - [Details](../?path=/docs/primitives-details--docs) provides the core expand/collapse functionality
@@ -27,6 +32,8 @@ initial cognitive load and creating a cleaner interface.
 - [Bot](../?path=/docs/patterns-bot--docs) - helps bots operate with incremental complexity
 - [Explanation](../?path=/docs/patterns-explanation--docs) - assists in transitioning between different levels of detail
 - [Focus and context](../?path=/docs/patterns-focus-and-context--docs) - can be combined for layered information presentation
+- May support [learnability](../?path=/docs/foundations-learnability--docs) by allowing users to master value-generating tasks before introducing advanced configuration.
+
 {/* - Detail view */}
 
 
