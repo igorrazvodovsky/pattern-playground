@@ -6,40 +6,27 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 The capability of a system to enable users to achieve and maintain competence with minimal training demand. It is not just about initial "ease of use", but about the structural support for transition from novice to expert.
 
-## Dimensions of learnability
+## Dimensions
 
 - Initial learnability: Performance of a [first-time](../?path=/docs/patterns-onboarding--docs) user.
-- Extended learnability: [Change](../?path=/docs/patterns-mastery--docs) in performance over time. How easy is it to *become* proficient?
+- Extended learnability: [Change](../?path=/docs/patterns-mastery--docs) in performance over time.
 
-## Training demand
-The cognitive cost required to move from initial to extended learnability.
+{/* ## Training demand */}
+{/* The cognitive cost required to move from initial to extended learnability. */}
 
-## Scaffolding
-Temporary support structures that help users perform tasks they couldn't yet do alone. Effective scaffolding fades as competence grows.
+{/* ## Scaffolding */}
+{/* Temporary support structures that help users perform tasks they couldn't yet do alone. Effective scaffolding fades as competence grows. */}
 
-{/* ## Command modalities */}
-{/* Different command interfaces support different skill levels: */}
-{/* - Pedagogic: Commands that teach via inspection — menus, dialogs with descriptive text. Beginners use these to orient in new applications. */}
-{/* - Immediate: Direct-manipulation controls with instant effect. No intermediary step required. */}
-{/* - Invisible: Memorised commands with no visual locus — keyboard shortcuts, gestures. Users must know these exist; there's no visible affordance. */}
+{/* ## Interaction modalities */}
+{/* Different command interfaces support different skill levels. */}
+{/* - **Pedagogic:** Commands that teach via inspection — menus, dialogs with descriptive text. Beginners use these to orient in new applications. */}
+{/* - **Immediate:** Direct-manipulation controls with instant effect. No intermediary step required. */}
+{/* - **Invisible:** Memorised commands with no visual locus — keyboard shortcuts, gestures. Expert users rely on these for speed, but they require prior knowledge. */}
 
 {/* ## Working sets */}
 {/* The subset of commands a user memorises through repeated use. Working sets are personal but overlap significantly among users with similar patterns. */}
 
 {/* *Minimal working set*: The commands most users will need, identified through usage analytics or scenario-based design. Commands in the minimal working set should use immediate modality, not pedagogic. */}
-
-## Mechanisms
-
-### Strategies
-
-- *Preparation:* Introducing a concept effectively before it's needed
-- *Contextual:* [prompts](../?path=/docs/patterns-help--docs) that appear exactly when needed (e.g., Drawers)
-- *Safe practice:* Providing a safe environment to fail and experiment
-
-{/* ### Context-sensitive help & reasoning */}
-{/* AI facilitates learnability by moving beyond static documentation to dynamic, in-context explanations. */}
-{/* - *Transparent Reasoning:* Showing *why* a system made a suggestion helps users learn the underlying logic. */}
-{/* - *Proactive Prompts:* Monitoring user behavior to suggest more efficient methods (e.g., shortcuts, batch actions) at the right moment. */}
 
 {/* ## Trade-offs */}
 {/* - **Layered interfaces** improve *initial* learnability and safety (preventing destructive errors) but may initially limit speed for tasks requiring advanced tools. */}
@@ -48,10 +35,18 @@ Temporary support structures that help users perform tasks they couldn't yet do 
 
 ## Related patterns
 
-- [Agency](../?path=/docs/foundations-agency--docs) - competence facilitates agency
-- [Progressive disclosure](../?path=/docs/patterns-progressive-disclosure--docs) structures the learning curve.
-- [Transparent reasoning](../?path=/docs/patterns-transparent-reasoning--docs) - AI explaining itself to teach usage
-- [Onboarding](../?path=/docs/patterns-onboarding--docs) - initial learnability spike
+### Mechanisms
+- [Annotation](../?path=/docs/patterns-annotation--docs) – marking content to add context and meaning
+- [Transparent reasoning](../?path=/docs/patterns-transparent-reasoning--docs) – Showing *why* a system made a suggestion helps users learn the underlying logic
+- [Progressive disclosure](../?path=/docs/patterns-progressive-disclosure--docs) – structures the learning curve by hiding complexity
+- [Bot](../?path=/docs/patterns-bot--docs) – interactive agents can guide users through tasks and provide just-in-time assistance
+
+### Lifecycle
+- [Onboarding](../?path=/docs/patterns-onboarding--docs) – the initial spike in learning
+- [Mastery](../?path=/docs/patterns-mastery--docs) – the long tail of expert performance
+
+### Foundation
+- [Agency](../?path=/docs/foundations-agency--docs) – competence facilitates agency
 
 ## Resources & references
 
