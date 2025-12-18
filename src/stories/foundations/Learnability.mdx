@@ -8,14 +8,33 @@ The capability of a system to enable users to achieve and maintain competence wi
 
 ## Dimensions
 
-- Initial learnability: Performance of a [first-time](../?path=/docs/patterns-onboarding--docs) user.
-- Extended learnability: [Change](../?path=/docs/patterns-mastery--docs) in performance over time.
+### Temporal
 
-{/* ## Training demand */}
-{/* The cognitive cost required to move from initial to extended learnability. */}
+- Initial learnability, e.g. performance of a [first-time](../?path=/docs/patterns-onboarding--docs) user.
+- Extended learnability, i.e. [change](../?path=/docs/patterns-mastery--docs) in performance over time.
 
-{/* ## Scaffolding */}
-{/* Temporary support structures that help users perform tasks they couldn't yet do alone. Effective scaffolding fades as competence grows. */}
+### Subject
+
+- Interface: Can the user operate the system?
+- Domain: Does the system help users understand the domain it embodies?
+
+The tool frequently (always?) encodes domain knowledge—process logic, business rules, institutional decisions. Learning to use it well *is* domain learning. These dimensions interact: a user may be proficient with the interface but unfamiliar with certain domain areas, or understand the domain but struggle with the tool.
+
+## Training demand
+
+The cognitive cost required to move from initial to extended learnability. This cost differs by subject:
+
+- Interface training demand: effort to operate the system fluently
+- Domain training demand: effort to understand what the system represents
+
+{/* Sometimes these compete (complex interface obscures domain concepts); sometimes they align (well-designed interface *teaches* domain through use). */}
+
+## Scaffolding
+
+Temporary support structures that help users perform tasks they couldn't yet do alone.
+
+- For interface skills, effective scaffolding fades as competence grows—training wheels that eventually come off.
+- For domain understanding, scaffolding may *deepen* rather than fade. As users master basics, they become ready for richer [explanations](../?path=/docs/patterns-explanation--docs) of why the system works as it does.
 
 {/* ## Interaction modalities */}
 {/* Different command interfaces support different skill levels. */}
@@ -37,9 +56,10 @@ The capability of a system to enable users to achieve and maintain competence wi
 
 ### Mechanisms
 - [Annotation](../?path=/docs/patterns-annotation--docs) – marking content to add context and meaning
-- [Transparent reasoning](../?path=/docs/patterns-transparent-reasoning--docs) – Showing *why* a system made a suggestion helps users learn the underlying logic
+- [Explanation](../?path=/docs/patterns-explanation--docs) – domain explanations support domain learnability
+- [Transparent reasoning](../?path=/docs/patterns-transparent-reasoning--docs) – showing *why* a system made a suggestion helps users learn the underlying logic
 - [Progressive disclosure](../?path=/docs/patterns-progressive-disclosure--docs) – structures the learning curve by hiding complexity
-- [Bot](../?path=/docs/patterns-bot--docs) – interactive agents can guide users through tasks and provide just-in-time assistance
+- [Bot](../?path=/docs/patterns-bot--docs) – can serve as domain mentor, bridging system actions to domain understanding through contextual enrichment, question-driven exploration, and world knowledge integration
 
 ### Lifecycle
 - [Onboarding](../?path=/docs/patterns-onboarding--docs) – the initial spike in learning
@@ -50,6 +70,7 @@ The capability of a system to enable users to achieve and maintain competence wi
 
 ## Resources & references
 
+- Andy Matuschak (2025). [How might we learn?](https://andymatuschak.org/hmwl/) – synthesis of implicit and guided learning through AI-enhanced contexts
 - Forsey et al. (2024). [Designing for Learnability: Improvement Through Layered Interfaces](https://journals.sagepub.com/doi/10.1177/10648046241273291). Ergonomics in Design.
 - Nielsen, J. (2006). [Progressive disclosure](https://www.nngroup.com/articles/progressive-disclosure/). NN/g.
 - Grossman, T., Fitzmaurice, G., & Attar, R. (2009). [A survey of software learnability](https://dl.acm.org/doi/10.1145/1518701.1518803).

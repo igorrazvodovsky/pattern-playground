@@ -6,52 +6,44 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Help
 
-Assistance provided at the point of need.
+A [conversation](../?path=/docs/foundations-conversation--docs) channel for sensemaking. It allows users to recover context ("Where am I?"), acquire domain knowledge ("What does this mean?"), and bridge the gulf of execution ("How do I do this?").
 
-{/* ## Push vs. Pull */}
-{/* - **Push revelations (Tutorials):** System interrupts to show information (often unwanted and ignored). */}
-{/* - **Pull revelations (Contextual Help):** User signals intent or need, and system responds. **Prefer Pull over Push.** */}
+> 💭 Help is primarily *pull-based* (user seeks understanding). When the system proactively offers to *do* things, that is [embedded intelligence](../?path=/docs/patterns-embedded-intelligence--docs).
 
-## Contextual help
-The best help provides assistance when and where it's needed, without requiring users to break flow to seek it out. Instead of forcing users to leave the UI to read documentation, bring relevant reference material into the view.
-*Mechanism:* popovers, modals, expandable sections.
+## The spectrum
 
-### Guided tours
-Sequential screens or cards that introduce features and interface behaviours. Similar to a wizard, but informational rather than configurational — users advance by swiping or tapping through the sequence.
+Help operates on a gradient effectively mirroring the user's depth of inquiry:
 
-- Typically launch on first run or after major version updates
-- Must include a skip button on each screen
-- Final screen should offer a way to re-launch the tour
+### Operational/interface
+Addressing the "How".
+- *Goal:* Overcome interface friction.
+- *Mechanisms:* Tooltips, empty states, input hints.
+- *Example:* "Enter date in YYYY-MM-DD format."
 
-Variant: Video demonstrations — short, looping clips showing gestures or interactions (e.g., macOS trackpad settings).
+### Conceptual/domain
+Addressing the "Why".
+- *Goal:* Build mental models of the underlying system/business logic.
+- *Mechanisms:* [Explanations](../?path=/docs/patterns-explanation--docs), deep-dive documentation, "Learn more" sidebars.
+- *Example:* "Why is this option disabled? Because the fiscal year is closed."
 
-### Overlays
-A transparent annotation layer laid over the interface, with arrows and text pointing out key features. Best suited to simple apps where function isn't pedagogically evident.
+### Agentic/conversation
+Addressing the "What now".
+- *Goal:* Collaborative problem solving.
+- *Mechanisms:* Chat interfaces, [bots](../?path=/docs/patterns-bot--docs) that can answer natural language queries about the current context.
+- *Example:* "I'm stuck. How do I approve this without a PO number?"
 
-- Launch on first run or major updates
-- Include a means to re-launch (settings menu or help icon)
-- One-shot: dismissed after viewing, unlike persistent contextual help
+## Contextual availability
 
-## Inline help
-Textual guidance embedded directly in the form or flow.
+Effective help is *situated*. It exists broadly in the same space as the user's focus, rather than requiring a context switch to a separate "Help Center."
 
-- *Input hints:* Greyed text inside input fields that clears on focus. Provides brief directions or examples of expected input format.
-- *Content area hints:* Verbose descriptions of how to get started/proceed.
-- *Empty states:* Guidance on how to populate a blank view.
-- *Instructions:* Critical info that must be visible from the start.
-
-## Documentation
-Standalone reference material when contextual and inline help are insufficient.
-Can be deep-linked from contextual help into relevant documentation sections.
+- Inline: Guidance embedded directly in the flow. E.g. input hints and empty states
+- Just-in-time: Revealed on specific interaction. TODO: expand, examples
 
 ## Related patterns
-- [Learnability](../?path=/docs/foundations-learnability--docs) structures the system to be easier to understand
-- [Onboarding](../?path=/docs/patterns-onboarding--docs) - Help is often remedial onboarding.
-- [Progressive Disclosure](../?path=/docs/patterns-progressive-disclosure--docs) - Help can be revealed progressively (e.g., "More info" toggles).
-- [Transparent Reasoning](../?path=/docs/patterns-transparent-reasoning--docs) - Explaining *why* something happened is the ultimate form of help.
 
-## Resources
-- GitLab Pajamas: [Contextual help](https://design.gitlab.com/patterns/contextual-help/)
-- NN/g: [Onboarding Tutorials vs. Contextual Help](https://www.nngroup.com/articles/onboarding-tutorials/) (Push vs. Pull revelations)
-- Apple HIG: [Offering Help](https://developer.apple.com/design/human-interface-guidelines/offering-help)
-{/* - SEB Group / [Contextual help](https://designlibrary.sebgroup.com/patterns/pattern-contextualhelp) */}
+- *[Embedded intelligence](../?path=/docs/patterns-embedded-intelligence--docs)* – The proactive sibling to Help. If Help explains how to do X, Embedded Intelligence offers to do X for you.
+- *[Learnability](../?path=/docs/foundations-learnability--docs)* – The goal of effective help is to support Learnability (both initial and extended).
+- *[Explanation](../?path=/docs/patterns-explanation--docs)* – The core content unit of high-quality help.
+- *[Annotation](../?path=/docs/patterns-annotation--docs)* – A mechanism for attaching help to specific elements.
+- *[Conversation](../?path=/docs/foundations-conversation--docs)* – The broader context for help as a dialogic process.
+- TODO: Guided tours and overlays
