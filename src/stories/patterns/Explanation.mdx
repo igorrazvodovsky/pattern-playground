@@ -11,16 +11,28 @@ Provides actors with contextual information to clarify system behaviors, human a
 
 ## Types of explanation
 
-### Explaining (deterministic) system or business logic
+### Explaining (deterministic) system logic
 Rules, workflows, why certain options appear, validation errors, etc.
 
 #### Examples
 
-<div>
 - Explaining why an action is unavailable
 - Clarifying validation errors or required fields in forms
 - Communicating the next steps or expected actor actions in workflows
-</div>
+
+### Domain explanations
+Connecting system behaviour to real-world domain concepts.
+In complex systems, the interface embeds domain knowledge—process logic, regulatory requirements, industry practices.
+Domain explanations surface this embedded knowledge.
+
+#### Examples
+
+- Explaining why a workflow exists (regulatory requirement, industry standard, organisational policy)
+- Clarifying domain terminology embedded in field labels or options
+- Connecting data structures to the real-world entities they represent
+- Grounding validation rules in domain constraints, not arbitrary system rules
+
+Domain explanations transform system constraints from arbitrary-feeling to meaningful. They support [domain learnability](../?path=/docs/foundations-learnability--docs)—helping users understand the domain through the tool.
 
 ### Social/Collaboration explanations
 Actions taken by other actors, notifications about shared resources, edits, status changes, etc.
@@ -28,29 +40,30 @@ transparency regarding the actions of other people to reduce uncertainty in coll
 
 #### Examples
 
-<div>
 - Explaining edits or changes made by another actor
 - Providing context about shared resources or history
 - Clarifying reasons for notifications or status updates initiated by other people
-</div>
 
-### AI Explanations
+### AI explanations
 How the system arrived at a prediction, recommendation, or generated output.
 
 #### Examples
 
-<div>
 - Explaining recommendation or prediction logic ("Why am I seeing this?")
 - Clarifying the limitations or confidence levels of AI-generated outputs
 - Communicating factors influencing automated decisions or outputs
-</div>
 
 ### Dynamic explanation
 
-Supporting contextualised learning by providing on-demand explanations for any selected content.
-User can select any textual block and receive AI-generated explanation.
+On-demand explanations for any selected content, supporting contextualised learning.
 
 <Story of={DynamicExplanation} />
+
+When users select content, explanations can address different aspects:
+- Interface mechanics: *how* to use this element
+- Domain significance: *why* it exists and what it represents
+- Personal relevance: connecting to the user's actual data and context
+- World knowledge: bridging system concepts to broader domain understanding
 
 {/* Reference: https://andymatuschak.org/hmwl/#contextualized-study */}
 
@@ -97,13 +110,15 @@ TODO: Example: drawer with instructions or help text.
 
 ## Related patterns
 
+- [Learnability](../?path=/docs/foundations-learnability--docs) – domain explanations support domain learnability
 - [Disabled state](./?path=/docs/patterns-states-disabled-state--docs)
 - [Progressive disclosure](../?path=/docs/patterns-progressive-disclosure--docs)
-- [Transparent reasoning](../?path=/docs/patterns-communication-transparent-reasonining--docs) - shows step-by-step process while explanation encourages understanding through interaction
+- [Transparent reasoning](../?path=/docs/patterns-transparent-reasoning--docs) – shows step-by-step process while explanation encourages understanding through interaction
 - [Popover](./?path=/docs/primitives-popover--docs)
-- Drawer
-- [Collaboration](../?path=/docs/patterns-collaboration--docs) - Uses explanations to facilitate understanding through transparency about other actors' actions
+- [Drawer](./?path=/docs/components-drawer--docs)
+- [Collaboration](../?path=/docs/patterns-collaboration--docs) – uses explanations to facilitate understanding through transparency about other actors' actions
 
 ## Resources
 
-[Explainable artificial intelligence](https://en.wikipedia.org/wiki/Explainable_artificial_intelligence)
+- Andy Matuschak (2025) [How might we learn?](https://andymatuschak.org/hmwl/) – contextualised study and dynamic explanations grounded in user's actual work
+- Wikipedia / [Explainable artificial intelligence](https://en.wikipedia.org/wiki/Explainable_artificial_intelligence)
