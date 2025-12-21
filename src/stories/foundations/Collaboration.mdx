@@ -11,8 +11,7 @@ The distribution of work and decision-making across multiple actors who jointly 
 Collaboration requires distributed [agency](../?path=/docs/foundations-agency--docs) and reciprocal [adaptation](../?path=/docs/foundations-adaptation--docs).
 Actors continuously align their understanding of goals and coordinate their means.
 
-Effective collaboration depends on [conversation](../?path=/docs/foundations-conversation--docs) to shared understanding and enable actors to surface goals, verify comprehension, and tune complexity through agreed protocols.
-Without this conversational foundation, systems may achieve *communication* (data transfer) but not *collaboration* (coordinated partnership).
+Effective collaboration depends on [conversation](../?path=/docs/foundations-conversation--docs) to build shared understanding and enable actors to surface goals, verify comprehension, and tune complexity through agreed protocols.
 
 Quality collaboration often follows a hybrid rhythm: individuals ideate privately, then groups filter and synthesise, iterating between these modes multiple times.
 This alternation preserves the benefits of solo thinking while leveraging collective intelligence for refinement.
@@ -28,7 +27,7 @@ Effective collaboration must balance competing forces:
 - Permanence vs ephemerality: balancing durable intellectual corpus building with temporary workgroup spaces
 - Synchronicity: choosing between real-time simultaneous work and asynchronous threaded collaboration
 
-Managing these tensions requires deliberate design of conversational protocols, [agency](../?path=/docs/foundations-agency--docs) distribution, and variety management.
+Managing these tensions requires deliberate design of conversational protocols and [agency](../?path=/docs/foundations-agency--docs) distribution.
 
 ## Collaboration modes
 
@@ -41,26 +40,46 @@ Collaborative work manifests across four distinct archetypes, each serving diffe
 
 Effective collaboration systems support fluid movement between these modes rather than forcing a single interaction pattern.
 
-## TODO: Collective agency
-Groups might behave like a single participant: a workgroup can hold goals, take action, and be perceived as a unit (a "we" with intent).
+## Collective intelligence
 
-{/* ## Variety management */}
-{/* Following Ashby's Law of Requisite Variety, effective collaboration requires: */}
-{/* - *Amplifying variety* when diverse perspectives and approaches add value */}
-{/* - *Attenuating variety* when coordination costs exceed benefits */}
-{/* Conversation provides the mechanism for this tuning—through shared vocabulary, agreed protocols, and explicit negotiation of what requires alignment vs what permits divergence. */}
+The emergent ability of groups, whether composed of humans, or networks of humans and [bots](../?path=/docs/patterns-bot--docs), to solve problems, make decisions, or generate knowledge more effectively than individual actors alone.
+Conditions for this emergence include:
+
+- Diversity: Broad participation increases the information base and reduces blind spots. Design should invite perspectives from different roles, backgrounds, and expertise levels rather than defaulting to homogeneous input.
+- Independence: Contributions made without correlated influence avoid groupthink and preserve signal diversity. When actors see others' contributions before forming their own views, anchoring effects reduce collective accuracy.
+- Aggregation: Principled mechanisms synthesise many inputs into collective outputs. Without aggregation, diverse independent contributions remain fragmented. {/* Voting, rating, weighted synthesis, and editorial curation are all aggregation mechanisms with different properties. */}
+- Holopticism: Shared visibility of contributions and evolving state enables participants to see how their input relates to the whole.
+
+> *Independence* and *holopticism* create tension: full visibility can undermine independence through social influence, yet without visibility actors can't calibrate their contributions to group needs. Effective CI design sequences these—independence during contribution, holopticism during synthesis.
+
+{/* Design choices that support one CI condition may undermine another. Showing others' annotations (holopticism) can anchor subsequent annotators (reducing independence). The hybrid rhythm—solo ideation → group synthesis—manages this by sequencing conditions appropriately. */}
+
+### Parallel vs serial aggregation
+
+Serial aggregation introduces noise: early contributions disproportionately influence later ones. Where possible, collect contributions in parallel before revealing aggregate state.
+
+### CI across interaction stages
+
+CI conditions map to [collaboration stages](../?path=/docs/patterns-collaboration--docs#interaction-stages):
+
+- *Perceive/Think*: independence matters most—blind contribution phases prevent anchoring
+- *Express*: diversity surfaces through varied articulation modes and formats
+- *Collaborate*: holopticism enables calibration; turn-taking supports equal contribution
+- *Test*: aggregation synthesises evaluation into collective judgment
 
 ## Related patterns
 
-- [Conversation](../?path=/docs/foundations-conversation--docs) - the foundational capability that enables effective collaboration
-- [Agency](../?path=/docs/foundations-agency--docs) - the distribution of control and initiative between collaborative actors
-- [Shareability](../?path=/docs/foundations-shareability--docs) - enables precise state communication through links, reducing ambiguity and supporting visibility
-- [Collaboration](../?path=/docs/patterns-collaboration--docs) – specific patterns and their variants.
+- [Conversation](../?path=/docs/foundations-conversation--docs) — the foundational capability that enables effective collaboration
+- [Agency](../?path=/docs/foundations-agency--docs) — the distribution of control and initiative between collaborative actors
+- [Shareability](../?path=/docs/foundations-shareability--docs) – provides infrastructure for holopticism through URLs that capture and communicate precise application states
+- [Annotation](../?path=/docs/patterns-annotation--docs) — collective sense-making through shared markup and layered interpretation
+- [Collaboration](../?path=/docs/patterns-collaboration--docs) — interaction stages and variants for human↔human and human↔bot collaboration
+- [Activity feed](../?path=/docs/patterns-activity-feed--docs) – aggregation mechanism for distributed awareness
+{/* - TODO: [Adaptation](../?path=/docs/foundations-adaptation--docs) */}
 
 ## Resources & references
 
 - [Collective intelligence](https://en.wikipedia.org/wiki/Collective_intelligence)
 - Dubberly, Pangaro (2015) [Distinguishing between control and collaboration; and between communication and conversation](https://www.dubberly.com/articles/distinguishing-between-control-and-collaboration-and-communication-and-conversation.html)
-- [Metamuse / Multiplayer](https://museapp.com/podcast/68-multiplayer/) - discussion of collaboration modes, hybrid ideation models, and design tensions in multiplayer tools
+- [Metamuse / Multiplayer](https://museapp.com/podcast/68-multiplayer/) — discussion of collaboration modes, hybrid ideation models, and design tensions in multiplayer tools
 - Brenda Laurel (2013) *Computers as Theatre*, 2nd ed.
-{/* - Ashby, W. Ross (1956) An Introduction to Cybernetics */}
