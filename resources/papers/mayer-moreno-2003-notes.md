@@ -120,7 +120,7 @@ The paper focuses on empirical research rather than technical implementation, bu
   - **Information density** addresses meaningful content per unit of space (relates to weeding principle)
   - **Temporal density** directly addresses cognitive processing pacing (relates to segmenting)
   - **Design density** captures interaction complexity (relates to overall cognitive burden)
-- **Opportunity**: Could reference working memory constraints (7±2 items) in information density discussion
+- **Opportunity**: Could reference working memory constraints (~4 chunks) in information density discussion
 
 **[Progressive Disclosure](../src/stories/patterns/ProgressiveDisclosure.mdx)**
 - **Relevant Files**: `src/stories/patterns/ProgressiveDisclosure.mdx`
@@ -191,7 +191,7 @@ The paper focuses on empirical research rather than technical implementation, bu
 - **Potential home**: Practical considerations in Explanation or Status Feedback patterns
 
 **4. Working Memory Constraints**
-- Chunking strategies and 7±2 item limits not explicitly discussed
+- Chunking strategies and ~4 chunk limits not explicitly discussed
 - No guidance on limiting simultaneous choices/options
 - **Potential home**: Density foundation (information density) or Learnability foundation
 
@@ -221,7 +221,7 @@ The paper focuses on empirical research rather than technical implementation, bu
 **Goal**: Add working memory constraints to information density discussion
 
 **Changes to** `src/stories/foundations/Density.mdx`:
-- Brief mention of 7±2 item constraint in information density section
+- Brief mention of ~4 chunk constraint in information density section
 - Reference chunking strategies for managing complex information
 - Note relationship between expertise and capacity (experienced users can process more density)
 
@@ -264,20 +264,20 @@ The paper focuses on empirical research rather than technical implementation, bu
 ### 5.4 Action Items
 
 - [x] Create notes file `resources/papers/mayer-moreno-2003-notes.md`
-- [ ] Decide which existing patterns would benefit most from cognitive load enhancements
-- [ ] Implement targeted enhancements:
-  - [ ] Density: working memory constraints (7±2 items)
-  - [ ] Layout: spatial contiguity principle
-  - [ ] Learnability: cognitive capacity discussion
-  - [ ] Explanation: redundancy warning
-- [ ] Optional: Add Mayer & Moreno reference to Resources sections where relevant
+- [x] Decide which existing patterns would benefit most from cognitive load enhancements
+- [x] Implement targeted enhancements:
+  - [x] Density: working memory constraints (~4 chunks)
+  - [x] Learnability: cognitive capacity discussion
+  - [x] Mastery: automation benefits
+  - [x] Explanation: redundancy warning
+- [x] Add Mayer & Moreno reference to Resources sections where relevant
 
 ## 6. Priority Recommendations
 
 ### Recommended Enhancements (All Low Effort)
 
 **1. Enhance Density Foundation** (Proposal A)
-- Add 1-2 sentences about working memory limits (7±2 items) in information density section
+- Add 1-2 sentences about working memory limits (~4 chunks) in information density section
 - Quick win that strengthens existing strong foundation
 
 **2. Enhance Learnability Foundation** (Proposal E)
