@@ -24,31 +24,31 @@ After analysing Mayer & Moreno's (2003) "Nine Ways to Reduce Cognitive Load in M
 
 ### Opportunities for Enhancement
 
-Five targeted enhancements that add value without redundancy:
+Four targeted enhancements that add value without redundancy:
 
-1. **Density**: Working memory constraints (7±2 items)
+1. **Density**: Working memory constraints (~4 chunks, not 7±2)
 2. **Learnability**: Cognitive capacity and expertise relationship
-3. **Explanation**: Redundancy warning
-4. **Layout**: Spatial contiguity (optional)
-5. **Temporality/Motion**: Temporal synchronisation (optional)
+3. **Mastery**: Automation frees cognitive resources (brief connection)
+4. **Explanation**: Redundancy warning
 
 ## Proposed Enhancements
 
 ### Enhancement 1: Density Foundation
 
 **File**: `src/stories/foundations/Density.mdx`
-**Effort**: Minimal (1-2 sentences)
+**Effort**: Minimal (2-3 sentences)
 
 **Suggested addition** in information density section:
 ```markdown
-Working memory can typically hold 7±2 distinct items. High information density
-challenges this limit—effective designs chunk related information into
-meaningful units or use progressive disclosure to manage complexity.
-Experienced users can process higher density through domain expertise and
-pattern recognition.
+Working memory can hold roughly 3-5 chunks of information at once. High
+information density challenges this constraint—effective designs group related
+information into meaningful units that can be processed as single chunks.
+Expertise expands effective capacity: experienced users recognise domain
+patterns and automatically chunk information, enabling them to process higher
+density interfaces that would overwhelm novices.
 ```
 
-**Rationale**: Strengthens existing strong foundation with cognitive science backing
+**Rationale**: Uses current research (Cowan's ~4 chunks vs outdated Miller's 7±2), explains chunking mechanism that connects to expertise
 
 ### Enhancement 2: Learnability Foundation
 
@@ -59,17 +59,31 @@ pattern recognition.
 ```markdown
 ### Cognitive capacity
 
-Training demand relates directly to working memory limitations. Novices
-allocate cognitive resources to both task execution and learning the interface,
+Training demand relates directly to working memory constraints. Novices
+allocate cognitive resources to both interface operation and task execution,
 while experts automate basic operations, freeing capacity for complex work.
-This is why the same interface density that overwhelms beginners supports
-expert efficiency—expertise effectively increases cognitive capacity through
-chunking and automation.
+Expertise effectively expands cognitive capacity through chunking and
+automation—the same interface density that overwhelms beginners supports
+expert efficiency.
 ```
 
 **Rationale**: Natural fit with existing content on scaffolding and skill progression
 
-### Enhancement 3: Explanation Pattern
+### Enhancement 3: Mastery Pattern
+
+**File**: `src/stories/patterns/Mastery.mdx`
+**Effort**: Single sentence addition
+
+**Suggested addition** in "Accelerators" section, after line 17:
+```markdown
+Automation through accelerators reduces cognitive load—memorised shortcuts and
+gestures become automatic, freeing working memory for domain-level thinking
+rather than interface mechanics.
+```
+
+**Rationale**: Connects existing accelerators content to cognitive benefit; reinforces why experts can handle higher complexity
+
+### Enhancement 4: Explanation Pattern
 
 **File**: `src/stories/patterns/Explanation.mdx`
 **Effort**: Single paragraph
@@ -87,51 +101,17 @@ layering redundant presentations.
 
 **Rationale**: Prevents common mistake, addresses gap in current documentation
 
-### Enhancement 4: Layout Foundation (Optional)
-
-**File**: `src/stories/foundations/Layout.mdx`
-**Effort**: Brief note
-
-**Suggested addition**:
-```markdown
-### Proximity and cognitive load
-
-Related elements should be spatially proximate. Separated labels, distant
-tooltips, and scattered related content force visual scanning that increases
-cognitive load. Place labels near inputs, position popovers adjacent to
-triggers, and group related controls to reduce integration effort.
-```
-
-**Rationale**: Addresses spatial contiguity principle (may state the obvious for experienced designers)
-
-### Enhancement 5: Temporality/Motion Foundation (Optional)
-
-**File**: `src/stories/foundations/Temporality.mdx` or `Motion.mdx`
-**Effort**: Brief note
-
-**Suggested addition** (needs review for best location):
-```markdown
-### Temporal synchronisation
-
-Present related information simultaneously rather than sequentially when
-possible. Delayed feedback, staggered animation of related elements, or
-asynchronous revelation of connected content requires holding information
-in working memory, increasing cognitive load.
-```
-
-**Rationale**: Addresses temporal contiguity (may already be implicit in existing content)
-
 ## Implementation Approach
 
-1. Review Density, Learnability, and Explanation files to find natural integration points
-2. Draft concise enhancements (1-2 sentences for Density, brief section for Learnability, single paragraph for Explanation)
+1. Review Density, Learnability, Mastery, and Explanation files to find natural integration points
+2. Draft concise enhancements using current research (3-5 chunks, not 7±2)
 3. Get feedback on drafts before committing
 4. Implement approved enhancements
-5. Optionally address Layout and Temporality/Motion if valuable
 
 ## Success Criteria
 
 - Enhancements feel like natural extensions of existing content
+- Use current cognitive science research (Cowan's ~4 chunks, not outdated Miller's 7±2)
 - No redundancy or overlap with other patterns
 - Concise enough for experienced designer audience
 - Strengthens pattern documentation without creating new theoretical foundations
@@ -140,20 +120,20 @@ in working memory, increasing cognitive load.
 
 - ❌ Create "Cognitive Load" foundation (it's a universal HCI principle, not specific to this practice)
 - ❌ Create "Signalling" pattern (Status Feedback already covers this)
-- ❌ Create "Contiguity" pattern (belongs as notes in Layout/Temporality foundations)
+- ❌ Reference outdated "7±2" research (current consensus is ~4 chunks)
+- ❌ Add obvious spatial/temporal contiguity notes (experienced designers know this)
 - ❌ Write extensive theoretical exposition (audience is experienced designers)
-- ❌ Propose adaptive complexity infrastructure (beyond current scope)
 
 ## Open Questions
 
-1. **Layout enhancement**: Is spatial contiguity worth stating explicitly, or is it obvious to experienced designers?
-2. **Temporality/Motion enhancement**: Does existing Motion/Temporality content already implicitly cover synchronisation?
-3. **Research attribution**: Should Mayer & Moreno be cited in Resources sections, or is the principle more important than attribution?
+1. **Research attribution**: Should Mayer & Moreno (2003) and Cowan (2001) be cited in Resources sections?
+2. **Mastery enhancement**: Is single sentence enough, or would brief paragraph add more value?
 
 ## Next Steps
 
 1. ✅ Create research notes and revised plan
-2. Review existing Density, Learnability, and Explanation files to find natural integration points
-3. Draft concise enhancements
-4. Get feedback before committing
-5. Implement approved enhancements
+2. ✅ Research current working memory capacity findings (Cowan's ~4 chunks)
+3. ✅ Update enhancement proposals with current research
+4. Review existing Density, Learnability, Mastery, and Explanation files for integration points
+5. Draft final enhancement text based on approved proposals
+6. Implement enhancements
