@@ -107,6 +107,8 @@ The paper focuses on empirical research rather than technical implementation, bu
 
 ## 5. Application to Pattern Playground
 
+**Context**: This is an exploratory personal design practice focused on mapping relationships between patterns, not a comprehensive design system. The audience is experienced designers. Cognitive load theory is a universal HCI principle that exists beyond this project scope—it should inform enhancements to existing patterns, not become a new foundation.
+
 ### 5.1 Existing Foundations Analysis
 
 #### Aligned Implementations
@@ -118,7 +120,7 @@ The paper focuses on empirical research rather than technical implementation, bu
   - **Information density** addresses meaningful content per unit of space (relates to weeding principle)
   - **Temporal density** directly addresses cognitive processing pacing (relates to segmenting)
   - **Design density** captures interaction complexity (relates to overall cognitive burden)
-- **Gap**: Doesn't explicitly reference dual-channel processing or cross-modal load balancing (offloading principle)
+- **Opportunity**: Could reference working memory constraints (7±2 items) in information density discussion
 
 **[Progressive Disclosure](../src/stories/patterns/ProgressiveDisclosure.mdx)**
 - **Relevant Files**: `src/stories/patterns/ProgressiveDisclosure.mdx`
@@ -145,6 +147,14 @@ The paper focuses on empirical research rather than technical implementation, bu
   - Sandbox/safe exploration reduces cognitive load from fear of errors
 - **Gap**: Doesn't explicitly structure around cognitive load management or dual-channel theory
 
+**[Status Feedback](../src/stories/patterns/StatusFeedback.mdx)**
+- **Relevant Files**: `src/stories/patterns/StatusFeedback.mdx`, `src/stories/primitives/Badge.mdx`
+- **Assessment**: ✅ **Aligned** — already implements signalling/cueing principle
+  - **Indication** covers attention management through typography, colour, size, icons, animation
+  - Badge variations provide visual hierarchy for status communication
+  - Purpose-based colour system guides attention appropriately
+- **Note**: This pattern already addresses Mayer & Moreno's "signalling" principle—no separate pattern needed
+
 **[Explanation](../src/stories/patterns/Explanation.mdx)**
 - **Relevant Files**: `src/stories/patterns/Explanation.mdx`
 - **Assessment**: ⚠️ **Partial alignment** with potential overload risks
@@ -152,7 +162,6 @@ The paper focuses on empirical research rather than technical implementation, bu
   - Levels of detail (bare minimum, moderate, extended) align with individualising principle
   - Progressive disclosure integration prevents overwhelming
 - **Risk**: Natural language explanations could violate redundancy principle if presented alongside other content modalities
-- **Opportunity**: Dynamic explanations could implement signalling/cueing when done well
 
 **[Information Architecture](../src/stories/foundations/InformationArchitecture.mdx)**
 - **Relevant Files**: `src/stories/foundations/InformationArchitecture.mdx`
@@ -164,37 +173,27 @@ The paper focuses on empirical research rather than technical implementation, bu
 
 ### 5.2 Gap Analysis
 
-#### Missing Concepts
+#### Missing Explicit Principles (That Could Enhance Existing Patterns)
 
-**1. Explicit Dual-Channel (Offloading) Guidance**
-- The pattern playground doesn't have guidance on audio vs visual presentation
-- No discussion of when to use auditory feedback, voice UI, or sonification
-- Missing: Framework for distributing information across sensory modalities
+**1. Spatial Contiguity (Aligning)**
+- Layout foundation doesn't explicitly discuss cognitive load from spatial separation of related elements
+- Tooltip/popover positioning relative to triggers could be addressed more explicitly
+- **Potential home**: Layout foundation or as practical guidance in Popover/Tooltip documentation
 
-**2. Spatial Contiguity Principle (Aligning)**
-- While Layout foundation exists, it doesn't explicitly address cognitive load from spatial separation
-- Missing explicit guidance: "Related content must be spatially proximate to reduce visual search"
-- No pattern specifically about tooltip/popover positioning relative to trigger elements
+**2. Temporal Synchronisation**
+- Temporality foundation doesn't explicitly address presenting related information simultaneously
+- Animation timing relative to explanatory content not discussed
+- **Potential home**: Temporality foundation or Motion foundation
 
-**3. Temporal Contiguity Principle (Synchronising)**
-- Temporality foundation exists but doesn't explicitly address synchronisation
-- Missing guidance on presenting related information simultaneously vs sequentially
-- No discussion of animation timing relative to explanatory content
-
-**4. Redundancy Elimination Principle**
+**3. Redundancy Awareness**
 - No explicit guidance on avoiding redundant information presentation
-- Pattern playground doesn't warn about cognitive costs of presenting identical content in multiple forms
-- Missing: Design principle about when NOT to add more explanation/labels
+- Missing discussion of when NOT to add labels/explanations
+- **Potential home**: Practical considerations in Explanation or Status Feedback patterns
 
-**5. Signalling/Cueing as Explicit Pattern**
-- While visual hierarchy exists implicitly, no dedicated pattern for attention cueing
-- Missing explicit guidance on highlighting essential information vs de-emphasising secondary content
-- No discussion of progressive visual weight or attention management
-
-**6. Working Memory Limitations as Foundation**
-- Cognitive capacity isn't explicitly discussed as foundational constraint
-- Missing: Discussion of 7±2 item limits, chunking strategies, memory load management
-- No guidance on how many options/choices/items to present simultaneously
+**4. Working Memory Constraints**
+- Chunking strategies and 7±2 item limits not explicitly discussed
+- No guidance on limiting simultaneous choices/options
+- **Potential home**: Density foundation (information density) or Learnability foundation
 
 #### Missing Interactions
 
@@ -213,138 +212,91 @@ The paper focuses on empirical research rather than technical implementation, bu
 - Missing: Guided prerequisite learning before complex task introduction
 - No pattern for "learn X before attempting Y" dependency structures
 
-### 5.3 Proposed Features / Refactors
+### 5.3 Proposed Enhancements
 
-#### Proposal A: Enhance Density Foundation with Cognitive Load Theory
+**Approach**: Use cognitive load research as a lens to strengthen existing patterns with concise, practical insights for experienced designers. No new foundations or redundant patterns.
 
-**Goal**: Make explicit connection between density dimensions and cognitive load management
+#### Proposal A: Enhance Density Foundation
 
-**Changes**:
-- **Modify** `src/stories/foundations/Density.mdx`:
-  - Add section on "Cognitive Foundations" referencing dual-channel theory and working memory limits
-  - Explicitly connect visual density to visual channel capacity
-  - Discuss information density in terms of essential vs incidental processing
-  - Reference temporal density as cognitive pacing mechanism
-  - Add warning about cross-modal redundancy (narration + identical text)
+**Goal**: Add working memory constraints to information density discussion
 
-#### Proposal B: Create "Cognitive Load" Foundation Document
+**Changes to** `src/stories/foundations/Density.mdx`:
+- Brief mention of 7±2 item constraint in information density section
+- Reference chunking strategies for managing complex information
+- Note relationship between expertise and capacity (experienced users can process more density)
 
-**Goal**: Establish cognitive load theory as explicit foundational principle
+#### Proposal B: Enhance Layout Foundation
 
-**Changes**:
-- **Create** `src/stories/foundations/CognitiveLoad.mdx`:
-  - Document dual-channel processing, limited capacity, active processing assumptions
-  - Define essential, incidental, and representational processing
-  - Provide decision framework for choosing load-reduction strategies
-  - Link to all related patterns (Progressive Disclosure, Density, Learnability, etc.)
-  - Include section on measuring/estimating cognitive load in designs
+**Goal**: Add spatial contiguity principle
 
-#### Proposal C: Enhance Progressive Disclosure with Specific Cognitive Load Techniques
+**Changes to** `src/stories/foundations/Layout.mdx`:
+- Add note on proximity of related elements (labels near inputs, tooltips near triggers)
+- Reference cognitive cost of visual scanning between separated elements
+- Link to Mayer & Moreno's aligning principle
 
-**Goal**: Expand Progressive Disclosure pattern with explicit cognitive load reduction mechanisms
+#### Proposal C: Enhance Temporality or Motion Foundation
 
-**Changes**:
-- **Modify** `src/stories/patterns/ProgressiveDisclosure.mdx`:
-  - Add subsection on "Segmenting" (user-controlled pacing)
-  - Add subsection on "Weeding" (removing seductive details)
-  - Add subsection on "Pre-training" (establishing concepts before details)
-  - Include examples of each technique
-  - Add decision tree: "Which load-reduction technique should I use?"
+**Goal**: Address temporal synchronisation
 
-#### Proposal D: Create "Signalling & Cueing" Pattern
+**Changes to** `src/stories/foundations/Temporality.mdx` or `Motion.mdx`:
+- Note importance of synchronising related information streams
+- Discuss animation timing relative to content presentation
+- Reference cognitive cost of holding information in memory while waiting for related content
 
-**Goal**: Fill gap for attention management and highlighting essential content
+#### Proposal D: Add Redundancy Note to Explanation Pattern
 
-**Changes**:
-- **Create** `src/stories/patterns/Signalling.mdx`:
-  - Define signalling/cueing as attention management
-  - Describe techniques: visual weight, colour, motion, position, size
-  - Distinguish essential signalling from decorative highlighting
-  - Provide examples: highlighting changed content, indicating required fields, emphasising critical information
-  - Link to Typography, Color, Motion foundations
-  - Discuss accessibility implications
+**Goal**: Warn about cognitive costs of redundant presentation
 
-#### Proposal E: Create "Spatial & Temporal Contiguity" Pattern
+**Changes to** `src/stories/patterns/Explanation.mdx`:
+- Add brief note in "Amount of detail" section about avoiding redundant presentation
+- Mention risk of narration + identical on-screen text
+- Provide guidance on when NOT to add more explanation
 
-**Goal**: Establish explicit guidance on proximity principles
+#### Proposal E: Enhance Learnability Foundation
 
-**Changes**:
-- **Create** `src/stories/patterns/Contiguity.mdx`:
-  - Define spatial contiguity (related content spatially close)
-  - Define temporal contiguity (related content temporally synchronised)
-  - Provide layout examples: tooltip positioning, label placement, related content grouping
-  - Discuss animation timing and synchronisation
-  - Link to Layout foundation and Temporality foundation
-  - Provide anti-patterns: separated labels, delayed feedback, scattered related content
+**Goal**: Make cognitive capacity explicit
 
-#### Proposal F: Add "Multimodal Information Presentation" Pattern
-
-**Goal**: Fill gap on offloading and cross-channel distribution
-
-**Changes**:
-- **Create** `src/stories/patterns/MultimodalPresentation.mdx`:
-  - Document visual vs auditory channel characteristics
-  - Provide guidance on when to use audio (screen readers, voice feedback, sonification)
-  - Discuss offloading principle: moving processing between channels
-  - Warning about redundancy: narration + identical on-screen text
-  - Discuss accessibility: multimodal as accommodation vs overload
-  - Link to A11y foundation
-
-#### Proposal G: Enhance Learnability with Working Memory Discussion
-
-**Goal**: Make cognitive capacity constraints explicit in Learnability foundation
-
-**Changes**:
-- **Modify** `src/stories/foundations/Learnability.mdx`:
-  - Add section on "Cognitive Capacity Constraints"
-  - Discuss working memory limitations (7±2 items)
-  - Reference chunking strategies
-  - Explain how training reduces cognitive load through automation
-  - Connect to individualising principle (user expertise affects capacity)
-
-#### Proposal H: Add Adaptive Complexity Pattern
-
-**Goal**: Implement individualising principle through adaptive UI
-
-**Changes**:
-- **Enhance** `src/stories/foundations/Adaptation.mdx` or create new pattern:
-  - Document expertise-based adaptation
-  - Provide examples: progressive feature revelation, complexity scaling
-  - Discuss detection mechanisms: usage analytics, explicit skill settings, progressive assessment
-  - Link to Learnability and Agency foundations
-  - Address privacy and transparency concerns
+**Changes to** `src/stories/foundations/Learnability.mdx`:
+- Add brief section connecting training demand to working memory
+- Explain how expertise reduces cognitive load through chunking and automation
+- Reference Mayer & Moreno's individualising principle
 
 ### 5.4 Action Items
 
 - [x] Create notes file `resources/papers/mayer-moreno-2003-notes.md`
-- [ ] Review proposals with stakeholders to prioritise implementation order
-- [ ] Create implementation plan for highest-priority enhancement (likely Proposal B: Cognitive Load foundation)
-- [ ] Audit existing components for cognitive load anti-patterns:
-  - [ ] Scan for redundant information presentation
-  - [ ] Check tooltip/popover spatial proximity to triggers
-  - [ ] Review animation timing relative to content presentation
-  - [ ] Identify areas with excessive visual density
-- [ ] Create "Cognitive Load Audit Checklist" in plans/ directory for systematic pattern review
-- [ ] Consider adding cognitive load principles to CLAUDE.md for AI-assisted development guidance
+- [ ] Decide which existing patterns would benefit most from cognitive load enhancements
+- [ ] Implement targeted enhancements:
+  - [ ] Density: working memory constraints (7±2 items)
+  - [ ] Layout: spatial contiguity principle
+  - [ ] Learnability: cognitive capacity discussion
+  - [ ] Explanation: redundancy warning
+- [ ] Optional: Add Mayer & Moreno reference to Resources sections where relevant
 
 ## 6. Priority Recommendations
 
-### High Priority (Immediate Value)
+### Recommended Enhancements (All Low Effort)
 
-1. **Enhance Density foundation** (Proposal A) — low effort, high impact, leverages existing strong foundation
-2. **Create Cognitive Load foundation** (Proposal B) — establishes theoretical grounding for entire system
-3. **Add Signalling pattern** (Proposal D) — fills clear gap, widely applicable
+**1. Enhance Density Foundation** (Proposal A)
+- Add 1-2 sentences about working memory limits (7±2 items) in information density section
+- Quick win that strengthens existing strong foundation
 
-### Medium Priority (Strong Value)
+**2. Enhance Learnability Foundation** (Proposal E)
+- Brief section connecting training demand to cognitive capacity
+- Natural fit with existing content on scaffolding and expertise
 
-4. **Enhance Progressive Disclosure** (Proposal C) — strengthens existing pattern with specific techniques
-5. **Create Contiguity pattern** (Proposal E) — addresses spatial/temporal proximity gaps
-6. **Enhance Learnability** (Proposal G) — adds cognitive science grounding to existing foundation
+**3. Add Redundancy Note to Explanation Pattern** (Proposal D)
+- Single paragraph warning about redundant presentation
+- Prevents common pitfall
 
-### Lower Priority (Future Enhancement)
+### Optional Enhancements (Medium Effort)
 
-7. **Multimodal Presentation pattern** (Proposal F) — valuable but less immediately applicable to web interfaces
-8. **Adaptive Complexity** (Proposal H) — complex implementation, requires user modelling infrastructure
+**4. Enhance Layout Foundation** (Proposal B)
+- Spatial contiguity discussion might be valuable
+- Needs careful integration to avoid stating obvious
+
+**5. Enhance Temporality/Motion Foundation** (Proposal C)
+- Temporal synchronisation worth considering
+- May already be implicit in existing content
 
 ## 7. Research Methodology Notes
 
