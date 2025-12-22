@@ -11,6 +11,14 @@ To transform insights from research papers into concrete, actionable pattern des
 *   **Select a Paper**: Choose a paper from `resources/papers/` or add a new one.
 *   **Find Online Link**: Even if working from a local PDF, search online for the canonical link (DOI, arXiv, ACM Digital Library, etc.) for proper citation and reference.
 *   **Goal Setting**: Briefly define *why* we are reading this paper. What problem are we trying to solve?
+*   **Research Broader Context**: Investigate the paper's influence and reception
+    *   Check citation count and who cites it (Google Scholar, Semantic Scholar)
+    *   Look for responses, critiques, or follow-up research
+    *   Identify if this represents emerging consensus or contested territory
+*   **Author & Source Credibility**: Evaluate the source's reliability
+    *   Check author affiliations, expertise, and previous work
+    *   Identify potential conflicts of interest (industry funding, commercial products)
+    *   Consider publication venue reputation (peer-reviewed conference, journal, preprint)
 
 ### 2. Analysis (The "Notes" Phase)
 Create a new notes file using the template: `resources/papers/_template-notes.md`.
@@ -28,6 +36,11 @@ Naming convention: `[paper-filename]-notes.md` (e.g., `IntentFlow-notes.md`).
 *   **Validate Paper Claims**: If uncertain about a framework or concept, re-read the source section
     *   Don't fabricate or embellish frameworks—extract them directly from the paper
     *   Distinguish descriptive papers (surveys) from prescriptive papers (proposing new frameworks)
+*   **Assess Perspective & Bias**: Examine the paper's framing and assumptions
+    *   What viewpoint does the author take? (e.g., designer-centric vs user-centric)
+    *   What's emphasised vs minimised or omitted?
+    *   Does the framing serve a particular agenda or commercial interest?
+    *   Are alternative explanations or competing frameworks acknowledged?
 *   **Test Framework Boundaries**: Apply frameworks to edge cases to understand scope
     *   Example: "Does this apply to human-human collaboration or just human-AI?"
 
@@ -56,6 +69,11 @@ Fill out the **Application to Pattern Playground** section in the notes file.
         *   **Missing patterns** that should be added
         *   **Enhancement opportunities** for existing patterns (brief additions)
         *   **Universal principles** that should inform but not become foundations
+*   **Exploratory Connections**: Look beyond obvious mappings
+    *   What unexpected applications exist? (e.g., could a framework about AI interaction inform human-to-human patterns?)
+    *   How does this research challenge our current categorisations or assumptions?
+    *   Are there cross-cutting themes emerging across multiple papers?
+    *   What patterns in the research itself suggest gaps in our taxonomy?
 
 ### 4. Synthesis & Planning
 Once the notes are complete and ideas are generated:
@@ -97,6 +115,11 @@ Once the notes are complete and ideas are generated:
 **Example**: Creating "Contiguity" pattern vs adding spatial proximity note to Layout foundation
 **Solution**: Prefer enhancing existing patterns with brief, targeted additions over creating new structures
 
+### Pitfall 6: Accepting Research Uncritically
+**Problem**: Treating published research as objective truth without examining bias, agenda, or limitations
+**Example**: Applying a framework funded by a specific tech company without considering how commercial interests shaped the research questions and conclusions
+**Solution**: Always assess perspective and bias (see Critical Verification Steps). Ask: "What isn't this paper telling me? Who benefits from this framing?"
+
 ---
 
 ## AI Prompt Template
@@ -105,14 +128,16 @@ Use this prompt to instruct an AI assistant to process a paper according to this
 
 > **Role**: Research Engineer
 > **Task**: Analyze the attached research paper and propose an implementation plan for `pattern-playground`.
-> 
+>
 > **Instructions**:
-> 1.  Read the paper thoroughly.
-> 2.  Create a notes file in `resources/papers/` using the structure in `resources/papers/_template-notes.md`.
-> 3.  **Crucially**, fill out the "Application to Pattern Playground" section.
+> 1.  **Research the context**: Investigate the paper's influence, author credibility, and potential biases before detailed analysis.
+> 2.  **Read critically**: As you read, assess the author's perspective, what's emphasised vs omitted, and potential conflicts of interest.
+> 3.  Create a notes file in `resources/papers/` using the structure in `resources/papers/_template-notes.md`.
+> 4.  **Crucially**, fill out the "Application to Pattern Playground" section.
 >     *   **Scan the codebase** (specifically `src/stories`, `specs/`, and `plans/`) to find existing implementations that relate to the paper's concepts.
 >     *   **Identify Gaps**: What concepts are missing entirely?
-> 4.  Propose specific code changes:
+>     *   **Explore unexpected connections**: How might this research apply beyond obvious mappings?
+> 5.  Propose specific code changes:
 >     *   **Refactors**: How to improve existing components based on the paper.
 >     *   **New Features**: What new components need to be built to fill the gaps.
-> 5.  Output a list of immediate Action Items.
+> 6.  Output a list of immediate Action Items.
