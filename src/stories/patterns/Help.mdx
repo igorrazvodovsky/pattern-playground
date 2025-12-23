@@ -1,4 +1,5 @@
 import { Meta } from '@storybook/addon-docs/blocks';
+import { MermaidDiagram } from '../../components/MermaidDiagram';
 
 <Meta title="Patterns/Help" />
 
@@ -10,34 +11,55 @@ A [conversation](../?path=/docs/foundations-conversation--docs) channel for sens
 
 > 💭 Help is primarily *pull-based* (user seeks understanding). When the system proactively offers to *do* things, that is [embedded intelligence](../?path=/docs/patterns-embedded-intelligence--docs).
 
-## The spectrum
+## Why users seek help
 
-Help operates on a gradient effectively mirroring the user's depth of inquiry:
+### Do: How do I execute this task?
 
-### Operational/interface
-Addressing the "How".
-- *Goal:* Overcome interface friction.
-- *Mechanisms:* Tooltips, empty states, input hints.
-- *Example:* "Enter date in YYYY-MM-DD format."
+Users need to act but face interface friction. Help here is operational—tooltips, input hints, empty states, wizards. The goal is immediate unblocking, not deep understanding.
 
-### Conceptual/domain
-Addressing the "Why".
-- *Goal:* Build mental models of the underlying system/business logic.
-- *Mechanisms:* [Explanations](../?path=/docs/patterns-explanation--docs), deep-dive documentation, "Learn more" sidebars.
-- *Example:* "Why is this option disabled? Because the fiscal year is closed."
+### Study: Why does this work this way?"
 
-### Agentic/conversation
-Addressing the "What now".
-- *Goal:* Collaborative problem solving.
-- *Mechanisms:* Chat interfaces, [bots](../?path=/docs/patterns-bot--docs) that can answer natural language queries about the current context.
-- *Example:* "I'm stuck. How do I approve this without a PO number?"
+Users want to build mental models of the underlying system or domain logic. Help here is conceptual—[explanations](../?path=/docs/patterns-explanation--docs), documentation, "learn more" sidebars. Example: "Why is this option disabled? Because the fiscal year is closed."
+
+### Locate: Where is X?
+
+Users know something exists but can't find it. This cuts across depth levels—locating a button is operational, locating a policy definition is conceptual. Mechanisms include search, index, [command menu](../?path=/docs/patterns-command-menu--docs), and glossary.
+
+### Recover: Something went wrong—now what?
+
+Users encounter errors or get stuck. Recovery may require quick interface correction (operational) or deeper diagnostic understanding (conceptual). Often begins with [status feedback](../?path=/docs/patterns-status-feedback--docs) that signals the problem.
+{/* Mechanisms include error messages, troubleshooting guides, and contextual suggestions.  */}
+When recovery needs exceed what static content can provide, help shifts to *conversation*—[bots](../?path=/docs/patterns-bot--docs) or chat interfaces that can reason about the specific context.
+
+## Subject matter
+
+Each help request concerns either:
+
+- *Interface*: How to operate the UI—where to click, what fields to fill, how to navigate. Help here addresses execution mechanics.
+- *Domain*: Why the system works this way—business rules, data relationships, regulatory constraints. Help here builds mental models of the underlying logic.
+
+The same purpose can require either. A user seeking to "Do" might need interface help ("Where's the export button?") or domain help ("What format meets compliance requirements?"). "Locate" cuts across both—finding a button is interface; finding a policy definition is domain.
 
 ## Contextual availability
 
-Effective help is *situated*. It exists broadly in the same space as the user's focus, rather than requiring a context switch to a separate "Help Center."
+Help effectiveness depends on *proximity to point of need*. The closer help is to where users encounter friction, the less cognitive overhead required to find and apply it.
 
-- Inline: Guidance embedded directly in the flow. E.g. input hints and empty states
-- Just-in-time: Revealed on specific interaction. TODO: expand, examples
+- *Inline*: Guidance embedded directly in the flow—input hints, empty states, field-level validation messages.
+- *Just-in-time*: Revealed on specific interaction—tooltips on hover, contextual panels on focus.
+
+### What belongs where
+
+<MermaidDiagram chart={`
+flowchart TD
+  A["Placing help content"]
+  A --> B{"Error prevention<br/>or warning?"}
+  B -->|Yes| INLINE["Inline"]
+  B -->|No| C{"Requires sustained<br/>attention?"}
+  C -->|Yes| STANDALONE["Standalone"]
+  C -->|No| D{"User mid-task?"}
+  D -->|Yes| INLINE
+  D -->|No| JIT["Just-in-time"]
+`} />
 
 ## Related patterns
 
@@ -46,4 +68,5 @@ Effective help is *situated*. It exists broadly in the same space as the user's 
 - *[Explanation](../?path=/docs/patterns-explanation--docs)* – The core content unit of high-quality help.
 - *[Annotation](../?path=/docs/patterns-annotation--docs)* – A mechanism for attaching help to specific elements.
 - *[Conversation](../?path=/docs/foundations-conversation--docs)* – The broader context for help as a dialogic process.
+- *[Status feedback](../?path=/docs/patterns-status-feedback--docs)* – Communicates system state; the "Recover" purpose often begins with status feedback.
 - TODO: Guided tours and overlays
