@@ -1,0 +1,87 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Malleability" />
+
+> **Fun meter: 5/5**. This one is aspirational. Haven't done anything properly malleable yet.
+
+# Malleability
+
+The capacity for users to reshape their tools with minimal friction—from adjusting preferences to building custom workflows.
+
+Where [adaptation](../?path=/docs/foundations-adaptation--docs) describes how the *system* responds to users, malleability describes how easily *users* can reshape the system itself. Both require [agency](../?path=/docs/foundations-agency--docs), but malleability specifically concerns user-driven modification.
+
+## Scope of change
+
+What can be made malleable, from surface to core:
+
+- *UI*: Visual appearance, [layout](../?path=/docs/foundations-layout--docs), and presentation. Includes [colour](../?path=/docs/foundations-color--docs), [density](../?path=/docs/foundations-density--docs), and [accessibility](../?path=/docs/foundations-a11y--docs) preferences.
+- *Logic*: Behaviour, rules, and automations. [Interaction](../?path=/docs/foundations-interaction--docs) patterns and [views](../?path=/docs/foundations-view--docs).
+- *Data*: [Schemas, structures](../?path=/docs/foundations-data-information--docs), and entity definitions.
+
+## Gentle slope
+
+Users progress from passive use to active creation. The goal: each step requires only incremental investment of learning, with no sharp "cliffs" that block progression.
+
+### Use → Configure → Modify → Create
+
+- *Use*: Interact with defaults as provided
+- *Configure*: Adjust exposed settings and preferences
+- *Modify*: Rearrange, combine, and extend existing elements
+- *Create*: Build new views, tools, or workflows
+
+### Avoiding cliffs
+
+Sharp jumps in required skill block progression. MacLean et al. (1990) propose that each incremental increase in tailoring power should require only a small incremental investment of learning.
+
+Key enablers:
+- In-place toolchain: Edit where you use, no separate development environment
+- Progressive disclosure: Reveal complexity only when needed
+- Safe experimentation: Undo, drafts, and previews reduce fear. [Temporality](../?path=/docs/foundations-temporality--docs) enables versioning and history.
+
+### Not everyone needs to reach the top
+
+Most users stay in the lower and middle parts of the slope. "Local developers"—enthusiasts within a team or community—help others climb higher when needed. This enables collaboration between people with different skill levels.
+
+## TODO: Communal creation
+
+Malleability isn't purely individual. Customizations can be shared, and communities can collectively shape their tools.
+
+- Individual modifications become [shareable](../?path=/docs/foundations-shareability--docs) templates
+- "Local developers" guide others up the slope
+- *Situated software*: tools shaped for specific community needs
+- Shared modifications benefit groups, not just individuals
+
+{/* ## Design considerations */}
+
+{/* ### Key tensions */}
+{/* - *Friction vs power*: Easy changes are limited; powerful changes require effort */}
+{/* - *Stability vs flexibility*: Users need reliable defaults alongside customization options */}
+{/* - *Individual vs shared*: Personal tweaks may conflict with team standards */}
+{/* - *Exploration vs commitment*: Users need safe ways to experiment before committing changes */}
+
+{/* ### Enabling factors */}
+{/* - In-place editing without switching tools */}
+{/* - Progressive disclosure of complexity */}
+{/* - Safe experimentation through undo, drafts, and previews */}
+{/* - Scrappy aesthetic that invites modification (polished interfaces feel "finished") */}
+
+## Related patterns
+
+- [Agency](../?path=/docs/foundations-agency--docs) – prerequisite for user control
+- [Adaptation](../?path=/docs/foundations-adaptation--docs) – system-driven complement
+- [Learnability](../?path=/docs/foundations-learnability--docs) – gentle slope supports skill development
+- [Shareability](../?path=/docs/foundations-shareability--docs) – customizations as shareable state
+- [Temporality](../?path=/docs/foundations-temporality--docs) – versioning and undo history
+- [View](../?path=/docs/foundations-view--docs#saved-views) – saved views as malleability pattern
+- [Information architecture](../?path=/docs/foundations-information-architecture--docs) – user-created hierarchies
+- [Mastery](../?path=/docs/patterns-mastery--docs) – customisation as a path to expertise
+{/* - Customizable layouts and dashboards */}
+{/* - User preferences */}
+{/* - Saved views and filters */}
+
+## Resources
+
+- Litt, Horowitz, van Hardenberg, Matthews (2025) [Malleable Software](https://www.inkandswitch.com/essay/malleable-software/), Ink & Switch
+- MacLean, Carter, Lövstrand, Moran (1990) [User-Tailorable Systems: Pressing the Issues with Buttons](https://dl.acm.org/doi/10.1145/97243.97271)
+- Kay (1984) [Computer Software](https://worrydream.com/refs/Kay_1984_-_Computer_Software.pdf)
+- Brand (1994) How Buildings Learn
