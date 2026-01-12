@@ -12,6 +12,8 @@ Structural patterns describing how screens, pages, or spaces connect to one anot
 ## Models
 
 - [Hub and spoke](../?path=/docs/compositions-structure-hub-and-spoke--docs) — central hub lists all sections, actors return to hub for cross-section navigation
+- [Overview and detail](../?path=/docs/compositions-structure-overview-and-detail--docs) — simultaneous display of collection and item (Split View)
+- [Fully connected](../?path=/docs/compositions-structure-fully-connected--docs) — every page links to all others through global navigation
 - [Fully connected](../?path=/docs/compositions-structure-fully-connected--docs) — every page links to all others through global navigation
 - [Multilevel tree](../?path=/docs/compositions-structure-multilevel-tree--docs) — hierarchical structure with global navigation for main pages, local navigation for subpages
 - [Step by step](../?path=/docs/compositions-structure-step-by-step--docs) — prescribed sequences with back/next controls
@@ -41,6 +43,7 @@ flowchart TD
 
     F -->|Yes| FC["Fully connected"]
     F -->|Rare| HUB["Hub and spoke"]
+    F -->|Simultaneous| SPLIT["Overview & Detail"]
 `} />
 
 ### Refining by behaviour
@@ -72,6 +75,17 @@ When single models don't fit:
 - Fully connected + pan and zoom — mix discrete and spatial content
 - Hub + flat — multiple independent workspaces, each feature-rich
 - Pyramid + tree — many sequences requiring category organisation
+
+## Malleable Routing
+
+In a [malleable system](../?path=/docs/foundations-malleability--docs), the target of a link is not a fixed location. Users can choose *how* they want to open a resource, affecting the [composition](../?path=/docs/foundations-malleability--docs#3-composition-topology) of their workspace:
+
+*   **Standard**: Navigate to new page (Replace current context).
+*   **Split**: Open side-by-side (Compare contexts).
+*   **Peek**: Open in overlay/modal (Temporary reference).
+*   **Background**: Open in background tab (Queue for later).
+
+Navigation becomes a tool for [composition](../?path=/docs/compositions-composition-canvas--docs).
 
 ## Implementation considerations
 
