@@ -2,6 +2,7 @@ import type { StorybookConfig } from "@storybook/react-vite";
 
 const config: StorybookConfig = {
   stories: [
+    "../src/stories/Intro.mdx",
     "../src/stories/@(components|compositions|data-visualization|foundations|hooks|patterns|primitives|utils)/**/*.mdx",
     "../src/stories/@(components|compositions|data-visualization|foundations|hooks|patterns|primitives|utils)/**/*.stories.@(js|jsx|mjs|ts|tsx)",
   ],
@@ -62,6 +63,12 @@ const config: StorybookConfig = {
   },
 
   staticDirs: ['../public'],
+
+  docs: {
+    defaultName: 'Docs',
+  },
+
+  initialPath: '/docs/introduction--docs',
 
   core: {
     disableTelemetry: true,
