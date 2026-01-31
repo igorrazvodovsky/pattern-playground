@@ -68,21 +68,21 @@ System-wide alerts that inform the user about events or statuses affecting the e
 
 <MermaidDiagram chart={`
 flowchart TD
-    A["What notification should I use?"] --> B{Is action required?}
+    A[What notification should I use?] --> B{Is action required?}
 
-    B -- Yes --> C{Is immediate attention required?}
-    C -- Yes --> D[Dialog]
-    C -- No --> E[Callout]
+    B -->|Yes| C{Is immediate attention required?}
+    C -->|Yes| D[Dialog]
+    C -->|No| E[Callout]
 
-    B -- No --> F{Does the notification communicate status?}
-    F -- Yes --> G[Toast]
+    B -->|No| F{Does the notification communicate status?}
+    F -->|Yes| G[Toast]
 
-    F -- No --> H{Is the notification an alert?}
-    H -- Yes --> I{Can the alert be easily dismissed?}
-    I -- Yes --> J[Toast]
-    I -- No --> K[Callout]
+    F -->|No| H{Is the notification an alert?}
+    H -->|Yes| I{Can the alert be easily dismissed?}
+    I -->|Yes| J[Toast]
+    I -->|No| K[Callout]
 
-    H -- No --> L[Dialog]
+    H -->|No| L[Dialog]
 `} />
 
 ## Related patterns

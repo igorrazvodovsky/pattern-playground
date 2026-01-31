@@ -51,22 +51,22 @@ Help effectiveness depends on *proximity to point of need*. The closer help is t
 
 <MermaidDiagram chart={`
 flowchart TD
-  A["Placing help content"]
-  A --> B{"Error prevention<br/>or warning?"}
-  B -->|Yes| INLINE["Inline"]
-  B -->|No| C{"Requires sustained<br/>attention?"}
-  C -->|Yes| STANDALONE["Standalone"]
-  C -->|No| D{"User mid-task?"}
+  A[Placing help content]
+  A --> B{Error prevention or warning?}
+  B -->|Yes| INLINE[Inline]
+  B -->|No| C{Requires sustained attention?}
+  C -->|Yes| STANDALONE[Standalone]
+  C -->|No| D{User mid-task?}
   D -->|Yes| INLINE
-  D -->|No| JIT["Just-in-time"]
+  D -->|No| JIT[Just-in-time]
 `} />
 
 ## Related patterns
 
-- *[Embedded intelligence](../?path=/docs/patterns-embedded-intelligence--docs)* – The proactive sibling to Help. If Help explains how to do X, Embedded Intelligence offers to do X for you.
-- *[Learnability](../?path=/docs/foundations-learnability--docs)* – The goal of effective help is to support Learnability (both initial and extended).
-- *[Explanation](../?path=/docs/patterns-explanation--docs)* – The core content unit of high-quality help.
-- *[Annotation](../?path=/docs/patterns-annotation--docs)* – A mechanism for attaching help to specific elements.
-- *[Conversation](../?path=/docs/foundations-conversation--docs)* – The broader context for help as a dialogic process.
-- *[Status feedback](../?path=/docs/patterns-status-feedback--docs)* – Communicates system state; the "Recover" purpose often begins with status feedback.
+- [Embedded intelligence](../?path=/docs/patterns-embedded-intelligence--docs) – The proactive sibling to Help. If Help explains how to do X, Embedded Intelligence offers to do X for you.
+- [Learnability](../?path=/docs/foundations-learnability--docs) – The goal of effective help is to support Learnability (both initial and extended).
+- [Explanation](../?path=/docs/patterns-explanation--docs) – The core content unit of high-quality help.
+- [Annotation](../?path=/docs/patterns-annotation--docs) – A mechanism for attaching help to specific elements.
+- [Conversation](../?path=/docs/foundations-conversation--docs) – The broader context for help as a dialogic process.
+- [Status feedback](../?path=/docs/patterns-status-feedback--docs) – Communicates system state; the "Recover" purpose often begins with status feedback.
 - TODO: Guided tours and overlays

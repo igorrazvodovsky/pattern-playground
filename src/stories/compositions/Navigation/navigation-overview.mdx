@@ -26,24 +26,24 @@ Structural patterns describing how screens, pages, or spaces connect to one anot
 
 <MermaidDiagram chart={`
 flowchart TD
-    A["Single continuous space?<br/>(map, canvas, timeline)"]
-    A -->|Yes| PZ["Pan and zoom"]
-    A -->|No| B["Prescribed sequence<br/>with dependencies?"]
+    A[Single continuous space (map, canvas, timeline)?]
+    A -->|Yes| PZ[Pan and zoom]
+    A -->|No| B[Prescribed sequence with dependencies?]
 
-    B -->|Yes| C["Strict ordering<br/>required?"]
-    C -->|Yes| SBS["Step by step"]
-    C -->|No, flexible| PYR["Pyramid"]
+    B -->|Yes| C[Strict ordering required?]
+    C -->|Yes| SBS[Step by step]
+    C -->|No, flexible| PYR[Pyramid]
 
-    B -->|No| D["Deep hierarchy?<br/>(3+ levels, 50+ pages)"]
-    D -->|Yes| TREE["Multilevel tree"]
-    D -->|No| E["Single workspace<br/>with rich toolset?"]
+    B -->|No| D[Deep hierarchy? (3+ levels, 50+ pages)]
+    D -->|Yes| TREE[Multilevel tree]
+    D -->|No| E[Single workspace with rich toolset?]
 
-    E -->|Yes| FLAT["Flat navigation"]
-    E -->|No| F["Cross-section<br/>workflows common?"]
+    E -->|Yes| FLAT[Flat navigation]
+    E -->|No| F[Cross-section workflows common?]
 
-    F -->|Yes| FC["Fully connected"]
-    F -->|Rare| HUB["Hub and spoke"]
-    F -->|Simultaneous| SPLIT["Overview & Detail"]
+    F -->|Yes| FC[Fully connected]
+    F -->|Rare| HUB[Hub and spoke]
+    F -->|Simultaneous| SPLIT[Overview & Detail]
 `} />
 
 ### Refining by behaviour

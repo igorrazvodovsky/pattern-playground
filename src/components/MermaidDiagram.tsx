@@ -1,34 +1,29 @@
 import React, { useEffect, useRef } from 'react';
-import mermaid from 'mermaid';
+import { renderMermaid, THEMES } from 'beautiful-mermaid';
 
 interface MermaidDiagramProps {
   chart: string;
+  theme?: keyof typeof THEMES;
 }
 
-let mermaidInitialized = false;
-
-export const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart }) => {
+export const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart, theme = 'zinc-light' }) => {
   const elementRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!mermaidInitialized) {
-      mermaid.initialize({
-        startOnLoad: false,
-        theme: 'neutral',
-        flowchart: {
-          useMaxWidth: true,
-          htmlLabels: true
+    const renderDiagram = async () => {
+      if (elementRef.current) {
+        try {
+          const svg = await renderMermaid(chart.trim(), THEMES[theme]);
+          elementRef.current.innerHTML = svg;
+        } catch (error) {
+          console.error('Failed to render mermaid diagram:', error);
+          elementRef.current.innerHTML = `<div style="color: red;">Failed to render diagram</div>`;
         }
-      });
-      mermaidInitialized = true;
-    }
+      }
+    };
 
-    if (elementRef.current) {
-      const id = `mermaid-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-      elementRef.current.innerHTML = `<div class="mermaid" id="${id}">${chart}</div>`;
-      mermaid.run({ nodes: [elementRef.current.querySelector(`#${id}`) as Element] });
-    }
-  }, [chart]);
+    renderDiagram();
+  }, [chart, theme]);
 
   return <div ref={elementRef} />;
 };

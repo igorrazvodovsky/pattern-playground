@@ -89,7 +89,7 @@ flowchart TD
     A[Is the deletion reversible?] --> B[Yes]
     A --> C[No]
     B --> D[How quickly can it be recreated?]
-    D --> E[Seconds] --> F["No confirmation<br/>(with undo)"]
+    D --> E[Seconds] --> F[No confirmation (with undo)]
     D --> G[Minutes] --> H[Inline confirmation]
     C --> I[What is the impact scope?]
     I --> J[Single user] --> K[Modal confirmation]
