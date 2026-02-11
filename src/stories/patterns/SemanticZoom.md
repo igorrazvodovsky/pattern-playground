@@ -7,7 +7,7 @@ import { Indicators } from '../compositions/Card/Card.stories.tsx';
 
 # Semantic zoom
 
-Controlling the [density](../?path=/docs/foundations-density--docs#information-density) of a GUI through dynamic, user-driven transformations of information representation: showing different types and amounts of information at different scales.
+Controlling the [density](../?path=/docs/qualities-density--docs#information-density) of a GUI through dynamic, user-driven transformations of information representation: showing different types and amounts of information at different scales.
 
 Within the [view](../?path=/docs/foundations-view-system--docs) system, semantic zoom enables fluid transitions across framing dimensions while preserving spatial context.
 
@@ -37,8 +37,8 @@ Borrowing from fish-eye distortion techniques, semantic zoom allows simultaneous
 - [Item view](../?path=/docs/compositions-item-view--docs)
 - [Data view](../?path=/docs/compositions-data-view--docs)
 - [Progressive disclosure](../?path=/docs/patterns-progressive-disclosure--docs) - Sequential revelation vs simultaneous levels
-- [Density](../?path=/docs/foundations-density--docs#information-density) - Information per unit space
-- [Adaptation](../?path=/docs/foundations-adaptation--docs) - System response to context changes
+- [Density](../?path=/docs/qualities-density--docs#information-density) - Information per unit space
+- [Adaptability](../?path=/docs/qualities-adaptability--docs) - System response to context changes
 
 ## Resources & references
 

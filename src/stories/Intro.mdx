@@ -66,24 +66,23 @@ import { Meta } from "@storybook/addon-docs/blocks";
   </article>
 
 </section>
-<br />
-<hr />
 
-<h2>Objective and approach</h2>
+---
 
-Using the term "design system" is both helpful and misleading. Building a complete design system requires the context of a product or organisation, which this project lacks.
-This work resembles ongoing design systems practice, focusing on process and workflow improvements through decomposition. *The project uses design practice itself as a target for design-system-style organisation*.
-{/* Is it weird? */}
+## Objective and approach
 
-In practical terms the objective is to identify and describe smart, reusable patterns while approaching the process like tending a garden &mdash; cultivating ideas over time, refining structures and fostering connections.
+Using the term *design system* is both helpful and misleading.
+Building a design system requires the context of a product or organisation, which this project lacks.
+What it resembles more closely is a *design repertoire* — a personal collection of patterns that shape how I approach design problems↔solutions.
+The project uses design practice itself as the material being organised and explored.
+
+In practical terms the objective is to map relationships between patterns and understand how they connect,
+while approaching the process like tending a garden — cultivating ideas over time, refining structures and fostering connections.
+I'm interested in two layers: patterns as components (the structural building blocks) and patterns as carriers of experiential qualities — malleability, agency, accessibility, transparency, and other dimensions of what it feels like to use something.
+
 {/* TODO: 'garden' needs clarification */}
 
 {/* From a design process perspective, I'm trying to keep an eye on topic of maintenance... */}
-
-On a technical level, it is also a learning exercise. Not all patterns follow the same implementation strategy. Some are kept as CSS-only, others are made into web and React components.
-The aim is to look for structures that are easy to use both in design tools and code. This approach can simultaneously help designers and developers collaborate, help with pattern adoption, and make them more accessible for contribution.
-
-{/* I'm particularly interested in the idea of [HTML web components](https://adactio.com/journal/20618). */}
 
 {/* <p>something about it being descriptive</p> */}
 
@@ -98,13 +97,22 @@ I didn't set out to make this an AI project. The plan was to stay technology-neu
 
 A sporadically updated log of current focus.
 
+### January 2026
+
+I've been reading [Thoughtful Interaction Design](https://mitpress.mit.edu/9780262622097/thoughtful-interaction-design/) and it's shifting how I think about this project.
+Löwgren & Stolterman describe a design repertoire as a personal collection of designs, formats, and related ideas that structure and inform the designer's thinking.
+This repertoire shapes how they see new situations and what solutions they can imagine. What this means in practice is the need to connect this project to day-to-day practice via some LLM-powered workflow.
+
+Alongside this, I'm looking for a more sustainable way to approach what Löwgren & Stolterman call use-oriented qualities — experiential dimensions like malleability, tight coupling, transparency, fluency.
+Throughout the year, the *foundations* list kept growing, and mixing qualities from different rungs of the abstraction ladder—practical versus purely visual—made it feel incoherent.
+
 ### November 2025
 
 *Collaboration* and *conversation* have become central this autumn.
-I've added [conversation](../?path=/docs/foundations-conversation--docs) as a foundational layer—treating all interaction as coordinated turn-taking.
+I've added [conversation](../?path=/docs/qualities-conversation--docs) as a foundational layer—treating all interaction as coordinated turn-taking.
 
 This led to expanding the [collaboration](../?path=/docs/patterns-collaboration--docs) patterns, particularly around human↔bot dynamics.
-The collaboration stages now map how [agency patterns](../?path=/docs/foundations-agency--docs) shift throughout co-creation. I've been particularly interested in how humans elaborate on AI contributions—from surface acceptance to integrative advancement—and what that means for maintaining agency whilst working with generative systems.
+The collaboration stages now map how [agency patterns](../?path=/docs/qualities-agency--docs) shift throughout co-creation. I've been particularly interested in how humans elaborate on AI contributions—from surface acceptance to integrative advancement—and what that means for maintaining agency whilst working with generative systems.
 
 ### August
 
@@ -115,7 +123,7 @@ It's possible I'm overextending Jackson's methodology, so I might scale back the
 
 On the practical side, I'm vibing my way through block-based text patterns enabling [collaboration](../?path=/docs/patterns-collaboration--docs):
 commenting, [referencing](../?path=/docs/components-bubble-menu--docs), highlighting, etc. Thinking about collaboration led to updating foundations —
-I've added [conversation](../?path=/docs/foundations-conversation--docs) and [formality](../?path=/docs/foundations-formality--docs).
+I've added [conversation](../?path=/docs/qualities-conversation--docs) and [formality](../?path=/docs/qualities-formality--docs).
 Conversation now exists at three levels (foundation, pattern, and concept), which either reflects its central role in interaction design or signals I'm overcomplicating things.
 Formality, on the other hand, remains purely inspirational for now—no patterns implementing it yet.
 
@@ -158,6 +166,6 @@ Exhausted from trying to define cards and lists and all their countless variatio
 
 Setting up the basics.
 
-### January
+### January 2025
 
 First commit.

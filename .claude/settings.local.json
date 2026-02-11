@@ -103,7 +103,9 @@
       "mcp__chrome-devtools__take_snapshot",
       "mcp__chrome-devtools__click",
       "mcp__chrome-devtools__close_page",
-      "Bash(lsof:*)"
+      "Bash(lsof:*)",
+      "Bash(done)",
+      "Bash(xargs:*)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"

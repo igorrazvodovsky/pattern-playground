@@ -47,7 +47,7 @@ Instead of sending 5 notifications in 1 minute, the system waits and sends 1 sum
 ## Related Patterns
 
 **Precursors**
-*   [Temporality](?path=/docs/foundations-temporality--docs): The underlying philosophy of "Lived Time".
+*   [Temporality](?path=/docs/qualities-temporality--docs): The underlying philosophy of "Lived Time".
 
 **Complementary**
 *   [Notification](?path=/docs/patterns-notification--docs): The UI component for delivery.
