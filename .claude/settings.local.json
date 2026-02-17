@@ -105,7 +105,8 @@
       "mcp__chrome-devtools__close_page",
       "Bash(lsof:*)",
       "Bash(done)",
-      "Bash(xargs:*)"
+      "Bash(xargs:*)",
+      "WebFetch(domain:www.figma.com)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"
