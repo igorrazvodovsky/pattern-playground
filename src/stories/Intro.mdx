@@ -1,4 +1,5 @@
 import { Meta } from "@storybook/addon-docs/blocks";
+import { PatternGraph } from '../components/PatternGraph';
 
 <Meta title="Introduction" />
 
@@ -33,41 +34,7 @@ import { Meta } from "@storybook/addon-docs/blocks";
 {/* I'm trying to categorise different patterns based on their relationships to other patterns. */}
 {/* This is not THE structure; it is just a practical arrangement that suits my current needs. */}
 
-<section id="docs-intro-structure" className="layout-grid" style={{'--layout-grid-gap': '4vmax', '--layout-grid-min': '24ch', marginBlock: '4vmax'}}>
-
-  <article>
-    <img className="docs-intro-img" src="./foundations.png" />
-    <h3 style={{marginBlock: '1rem'}}>[Foundations](../?path=/docs/foundations-overview--docs)</h3>
-    <p>Underlying structures that ensure a unified experience.</p>
-  </article>
-
-  <article>
-    <img className="docs-intro-img" src="./primitives.png" />
-    <h3 style={{marginBlock: '1rem'}}>[Primitives](../?path=/docs/primitives-overview--docs)</h3>
-    <p>Base building blocks for more complex components.</p>
-  </article>
-
-  <article>
-    <img className="docs-intro-img" src="./components.png" />
-    <h3 style={{marginBlock: '1rem'}}>[Components](../?path=/docs/components-overview--docs)</h3>
-    <p>Main UI building blocks.</p>
-  </article>
-
-  <article>
-    <img className="docs-intro-img" src="./compositions.png"/>
-    <h3 style={{marginBlock: '1rem'}}>[Compositions](../?path=/docs/compositions-overview--docs)</h3>
-    <p>Application of components within a larger design context.</p>
-  </article>
-
-  <article>
-    <img className="docs-intro-img" src="./patterns.png" />
-    <h3 style={{marginBlock: '1rem'}}>[Patterns](../?path=/docs/patterns-overview--docs)</h3>
-    <p>Best practice design solutions for specific actor needs.</p>
-  </article>
-
-</section>
-
----
+<PatternGraph />
 
 ## Objective and approach
 
@@ -101,7 +68,8 @@ A sporadically updated log of current focus.
 
 I've been reading [Thoughtful Interaction Design](https://mitpress.mit.edu/9780262622097/thoughtful-interaction-design/) and it's shifting how I think about this project.
 Löwgren & Stolterman describe a design repertoire as a personal collection of designs, formats, and related ideas that structure and inform the designer's thinking.
-This repertoire shapes how they see new situations and what solutions they can imagine. What this means in practice is the need to connect this project to day-to-day practice via some LLM-powered workflow.
+This repertoire shapes how they see new situations and what solutions they can imagine. So, it's a collection, yes, but what is lacking is actionability.
+I think I need to connect this project to day-to-day practice via some LLM-powered workflow.
 
 Alongside this, I'm looking for a more sustainable way to approach what Löwgren & Stolterman call use-oriented qualities — experiential dimensions like malleability, tight coupling, transparency, fluency.
 Throughout the year, the *foundations* list kept growing, and mixing qualities from different rungs of the abstraction ladder—practical versus purely visual—made it feel incoherent.

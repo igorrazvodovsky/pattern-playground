@@ -1,0 +1,138 @@
+@layer components {
+  .pattern-graph {
+    width: 100%;
+    overflow: hidden;
+    background: var(--c-neutral-0);
+  }
+
+  .pattern-graph__svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+  }
+
+  .pattern-graph__svg:active {
+    cursor: grabbing;
+  }
+
+  /* Edges */
+
+  .pattern-graph__edge {
+    stroke: var(--c-neutral-400, #aaa);
+    stroke-width: 0.75;
+    stroke-opacity: 0.3;
+    pointer-events: none;
+    transition: stroke-opacity 0.2s;
+  }
+
+  .pattern-graph__svg--hovering .pattern-graph__edge--dimmed {
+    stroke-opacity: 0.03;
+  }
+
+  .pattern-graph__svg--hovering .pattern-graph__edge--active {
+    stroke-opacity: 0.6;
+    stroke: var(--c-neutral-600, #666);
+  }
+
+  /* Nodes */
+
+  .pattern-graph__node {
+    cursor: pointer;
+  }
+
+  .pattern-graph__node:focus-visible {
+    outline: none;
+  }
+
+  .pattern-graph__node:focus-visible .pattern-graph__circle {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+
+  .pattern-graph__circle {
+    stroke: white;
+    stroke-width: 1;
+    transition: opacity 0.2s;
+  }
+
+  .pattern-graph__node:hover .pattern-graph__circle,
+  .pattern-graph__node--active .pattern-graph__circle {
+    stroke-width: 2;
+  }
+
+  .pattern-graph__svg--hovering .pattern-graph__node--dimmed .pattern-graph__circle {
+    opacity: 0.08;
+  }
+
+  /* Category colours via data-category attribute */
+
+  [data-category="Foundations"] .pattern-graph__circle,
+  .pattern-graph__legend-dot[data-category="Foundations"] {
+    fill: oklch(55% 0.16 260);
+  }
+
+  [data-category="Primitives"] .pattern-graph__circle,
+  .pattern-graph__legend-dot[data-category="Primitives"] {
+    fill: oklch(60% 0.14 195);
+  }
+
+  [data-category="Components"] .pattern-graph__circle,
+  .pattern-graph__legend-dot[data-category="Components"] {
+    fill: oklch(58% 0.17 235);
+  }
+
+  [data-category="Compositions"] .pattern-graph__circle,
+  .pattern-graph__legend-dot[data-category="Compositions"] {
+    fill: oklch(58% 0.14 155);
+  }
+
+  [data-category="Patterns"] .pattern-graph__circle,
+  .pattern-graph__legend-dot[data-category="Patterns"] {
+    fill: oklch(58% 0.18 28);
+  }
+
+  [data-category="Qualities"] .pattern-graph__circle,
+  .pattern-graph__legend-dot[data-category="Qualities"] {
+    fill: oklch(55% 0.17 310);
+  }
+
+  [data-category="Data Visualisation"] .pattern-graph__circle,
+  .pattern-graph__legend-dot[data-category="Data Visualisation"] {
+    fill: oklch(65% 0.17 65);
+  }
+
+  [data-category="Visual Elements"] .pattern-graph__circle,
+  .pattern-graph__legend-dot[data-category="Visual Elements"] {
+    fill: oklch(58% 0.18 340);
+  }
+
+  /* Labels */
+
+  .pattern-graph__label {
+    font-size: 9px;
+    font-family: var(--font-sans, system-ui, sans-serif);
+    fill: var(--c-neutral-900, #1a1a2e);
+    paint-order: stroke fill;
+    stroke: var(--c-neutral-0);
+    stroke-width: 3px;
+    stroke-linejoin: round;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  .pattern-graph__node:hover .pattern-graph__label,
+  .pattern-graph__node:focus-visible .pattern-graph__label,
+  .pattern-graph__svg--hovering .pattern-graph__node--active .pattern-graph__label,
+  .pattern-graph__svg--hovering .pattern-graph__node--neighbor .pattern-graph__label {
+    opacity: 0.9;
+  }
+
+  .pattern-graph__svg--show-labels .pattern-graph__label {
+    opacity: 0.9;
+  }
+
+}

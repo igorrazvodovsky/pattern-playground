@@ -39,6 +39,7 @@
 @import url(explanation.css);
 @import url(tldraw.css);
 @import url(docs.css);
+@import url(pattern-graph.css);
 
 @layer reset, theme, global, layout, components, utilities, states;
 
