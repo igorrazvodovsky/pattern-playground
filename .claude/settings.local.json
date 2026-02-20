@@ -106,7 +106,9 @@
       "Bash(lsof:*)",
       "Bash(done)",
       "Bash(xargs:*)",
-      "WebFetch(domain:www.figma.com)"
+      "WebFetch(domain:www.figma.com)",
+      "Bash(chmod:*)",
+      "Bash(git rm:*)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"
