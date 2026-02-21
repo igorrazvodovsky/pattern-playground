@@ -385,6 +385,12 @@
       "path": "../?path=/docs/patterns-states-disabled-state--docs"
     },
     {
+      "id": "patterns-states-unavailable-actions",
+      "title": "Unavailable actions",
+      "category": "Patterns",
+      "path": "../?path=/docs/patterns-states-unavailable-actions--docs"
+    },
+    {
       "id": "patterns-states-empty-state",
       "title": "Empty state",
       "category": "Patterns",
@@ -631,6 +637,12 @@
       "path": "../?path=/docs/primitives-button--docs"
     },
     {
+      "id": "primitives-overflow",
+      "title": "Overflow",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-overflow--docs"
+    },
+    {
       "id": "primitives-details",
       "title": "Details",
       "category": "Primitives",
@@ -641,6 +653,54 @@
       "title": "Toast",
       "category": "Primitives",
       "path": "../?path=/docs/primitives-toast--docs"
+    },
+    {
+      "id": "primitives-conversation-conversation-management-opening-bot",
+      "title": "Opening (Bot)",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-conversation-conversation-management-opening-bot--docs"
+    },
+    {
+      "id": "primitives-conversation-conversation-management-opening-user",
+      "title": "Opening (User)",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-conversation-conversation-management-opening-user--docs"
+    },
+    {
+      "id": "primitives-conversation-conversation-management-capability-scope",
+      "title": "Capability & scope",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-conversation-conversation-management-capability-scope--docs"
+    },
+    {
+      "id": "primitives-conversation-conversation-management-closing",
+      "title": "Closing",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-conversation-conversation-management-closing--docs"
+    },
+    {
+      "id": "primitives-conversation-conversation-management-disengage-without-closing",
+      "title": "Disengage without closing",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-conversation-conversation-management-disengage-without-closing--docs"
+    },
+    {
+      "id": "primitives-conversation-sequence-management-abort",
+      "title": "Abort",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-conversation-sequence-management-abort--docs"
+    },
+    {
+      "id": "primitives-conversation-sequence-management-bot-repair",
+      "title": "Bot repair",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-conversation-sequence-management-bot-repair--docs"
+    },
+    {
+      "id": "primitives-conversation-sequence-management-user-repair",
+      "title": "User repair",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-conversation-sequence-management-user-repair--docs"
     }
   ],
   "edges": [
@@ -823,6 +883,78 @@
     {
       "source": "compositions-form",
       "target": "patterns-states-disabled-state"
+    },
+    {
+      "source": "patterns-states-disabled-state",
+      "target": "patterns-states-unavailable-actions"
+    },
+    {
+      "source": "patterns-states-unavailable-actions",
+      "target": "patterns-states-disabled-state"
+    },
+    {
+      "source": "patterns-states-unavailable-actions",
+      "target": "patterns-progressive-disclosure"
+    },
+    {
+      "source": "patterns-progressive-disclosure",
+      "target": "patterns-states-unavailable-actions"
+    },
+    {
+      "source": "patterns-states-unavailable-actions",
+      "target": "compositions-toolbar"
+    },
+    {
+      "source": "compositions-toolbar",
+      "target": "patterns-states-unavailable-actions"
+    },
+    {
+      "source": "compositions-toolbar",
+      "target": "components-priority"
+    },
+    {
+      "source": "components-priority",
+      "target": "compositions-toolbar"
+    },
+    {
+      "source": "primitives-overflow",
+      "target": "components-priority"
+    },
+    {
+      "source": "components-priority",
+      "target": "primitives-overflow"
+    },
+    {
+      "source": "primitives-overflow",
+      "target": "components-table"
+    },
+    {
+      "source": "components-table",
+      "target": "primitives-overflow"
+    },
+    {
+      "source": "primitives-overflow",
+      "target": "components-breadcrumbs"
+    },
+    {
+      "source": "components-breadcrumbs",
+      "target": "primitives-overflow"
+    },
+    {
+      "source": "compositions-toolbar",
+      "target": "patterns-command-menu"
+    },
+    {
+      "source": "compositions-toolbar",
+      "target": "compositions-browsing-sensemaking-filtering"
+    },
+    {
+      "source": "patterns-states-unavailable-actions",
+      "target": "patterns-command-menu"
+    },
+    {
+      "source": "patterns-command-menu",
+      "target": "patterns-states-unavailable-actions"
     },
     {
       "source": "compositions-browsing-sensemaking-grouping",
@@ -2369,6 +2501,130 @@
       "target": "patterns-command-menu"
     },
     {
+      "source": "primitives-conversation-conversation-management-opening-bot",
+      "target": "patterns-conversation"
+    },
+    {
+      "source": "primitives-conversation-conversation-management-opening-bot",
+      "target": "primitives-conversation-conversational-activities-open-request"
+    },
+    {
+      "source": "primitives-conversation-conversation-management-opening-bot",
+      "target": "primitives-conversation-conversational-activities-extended-telling"
+    },
+    {
+      "source": "primitives-conversation-conversation-management-opening-bot",
+      "target": "primitives-conversation-conversation-management-capability-scope"
+    },
+    {
+      "source": "primitives-conversation-conversation-management-opening-user",
+      "target": "patterns-conversation"
+    },
+    {
+      "source": "primitives-conversation-conversation-management-opening-user",
+      "target": "primitives-conversation-conversational-activities-open-request"
+    },
+    {
+      "source": "primitives-conversation-conversation-management-opening-user",
+      "target": "primitives-conversation-conversational-activities-inquiry-bot"
+    },
+    {
+      "source": "primitives-conversation-conversation-management-opening-user",
+      "target": "primitives-conversation-conversational-activities-inquiry-user"
+    },
+    {
+      "source": "primitives-conversation-conversation-management-capability-scope",
+      "target": "patterns-conversation"
+    },
+    {
+      "source": "primitives-conversation-conversation-management-capability-scope",
+      "target": "patterns-bot"
+    },
+    {
+      "source": "primitives-conversation-conversation-management-closing",
+      "target": "patterns-conversation"
+    },
+    {
+      "source": "primitives-conversation-conversation-management-closing",
+      "target": "primitives-conversation-sequence-management-sequence-completion"
+    },
+    {
+      "source": "primitives-conversation-conversation-management-disengage-without-closing",
+      "target": "patterns-conversation"
+    },
+    {
+      "source": "primitives-conversation-conversation-management-disengage-without-closing",
+      "target": "primitives-conversation-conversation-management-closing"
+    },
+    {
+      "source": "primitives-conversation-conversation-management-disengage-without-closing",
+      "target": "qualities-privacy"
+    },
+    {
+      "source": "primitives-conversation-conversation-management-disengage-without-closing",
+      "target": "primitives-conversation-conversation-management-opening-bot"
+    },
+    {
+      "source": "primitives-conversation-conversation-management-disengage-without-closing",
+      "target": "primitives-conversation-conversation-management-opening-user"
+    },
+    {
+      "source": "primitives-conversation-conversation-management-opening-bot",
+      "target": "primitives-conversation-sequence-management-abort"
+    },
+    {
+      "source": "primitives-conversation-conversation-management-opening-user",
+      "target": "primitives-conversation-sequence-management-abort"
+    },
+    {
+      "source": "primitives-conversation-conversation-management-capability-scope",
+      "target": "primitives-conversation-sequence-management-bot-repair"
+    },
+    {
+      "source": "primitives-conversation-sequence-management-sequence-completion",
+      "target": "patterns-conversation"
+    },
+    {
+      "source": "primitives-conversation-sequence-management-sequence-completion",
+      "target": "primitives-conversation-conversation-management-closing"
+    },
+    {
+      "source": "primitives-conversation-sequence-management-abort",
+      "target": "patterns-conversation"
+    },
+    {
+      "source": "primitives-conversation-sequence-management-abort",
+      "target": "patterns-undo"
+    },
+    {
+      "source": "primitives-conversation-sequence-management-abort",
+      "target": "primitives-conversation-conversation-management-closing"
+    },
+    {
+      "source": "primitives-conversation-sequence-management-bot-repair",
+      "target": "patterns-conversation"
+    },
+    {
+      "source": "primitives-conversation-sequence-management-bot-repair",
+      "target": "primitives-conversation-conversational-activities-inquiry-user"
+    },
+    {
+      "source": "primitives-conversation-sequence-management-bot-repair",
+      "target": "primitives-conversation-sequence-management-sequence-completion"
+    },
+    {
+      "source": "primitives-conversation-sequence-management-user-repair",
+      "target": "patterns-conversation"
+    },
+    {
+      "source": "primitives-conversation-sequence-management-user-repair",
+      "target": "primitives-conversation-conversational-activities-extended-telling"
+    },
+    {
+      "source": "primitives-conversation-sequence-management-user-repair",
+      "target": "primitives-conversation-sequence-management-sequence-completion"
+    },
+    {
       "source": "qualities-adaptability",
       "target": "qualities-agency"
     },
@@ -2631,6 +2887,62 @@
     {
       "source": "visual-elements-layout",
       "target": "qualities-density"
+    },
+    {
+      "source": "components-table",
+      "target": "compositions-data-view"
+    },
+    {
+      "source": "components-table",
+      "target": "compositions-browsing-sensemaking-sorting"
+    },
+    {
+      "source": "components-table",
+      "target": "compositions-browsing-sensemaking-filtering"
+    },
+    {
+      "source": "components-table",
+      "target": "compositions-card"
+    },
+    {
+      "source": "compositions-data-view",
+      "target": "components-table"
+    },
+    {
+      "source": "compositions-data-view",
+      "target": "compositions-card"
+    },
+    {
+      "source": "compositions-data-view",
+      "target": "components-timeline"
+    },
+    {
+      "source": "compositions-browsing-sensemaking-sorting",
+      "target": "components-table"
+    },
+    {
+      "source": "compositions-browsing-sensemaking-filtering",
+      "target": "components-table"
+    },
+    {
+      "source": "components-timeline",
+      "target": "compositions-data-view"
+    },
+    {
+      "source": "compositions-card",
+      "target": "compositions-data-view"
+    },
+    {
+      "source": "compositions-card",
+      "target": "components-table"
+    },
+    {
+      "source": "compositions-card",
+      "target": "compositions-item-view"
+    },
+    {
+      "source": "compositions-item-view",
+      "target": "compositions-card"
     }
   ]
 }

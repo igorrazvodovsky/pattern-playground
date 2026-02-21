@@ -6,6 +6,7 @@ import * as PriorityPlusStories from './PriorityPlus.stories.tsx';
 > 🥱 **Fun meter: not very captivating by itself**. Included as a prerequisite for more interesting things.
 
 # Priority+
+
 <Subtitle>Shows elements that fit the container and tucks away everything else behind an dropdown.</Subtitle>
 
 <Story of={ PriorityPlusStories.PriorityPlus } />
@@ -17,7 +18,10 @@ Priority+ is a low-level utility that implements a [pattern](https://bradfrost.c
 By default Priority+ will move the element to `list` as is but certain components are transformed along the way. E.g. `button` becomes `list-item`.
 
 ## Related patterns
-It depends on a `dropdown` as a place to hide things in and a `list-item` for element transformation.
+
+- Depends on a [dropdown](../?path=/docs/components-dropdown--docs) as a place to hide things in and a [list item](../?path=/docs/components-list--docs) for element transformation.
+- [Toolbar](../?path=/docs/compositions-toolbar--docs) — the primary consumer. Priority+ makes toolbars responsive
+- Priority+ is a way to handle [overflow](../?path=/docs/primitives-overflow--docs) for list-like components.
 
 ## TODO:
 - Placing things under dropdown by default. It might happen that user might need to hide certain things under the dropdown anyway.

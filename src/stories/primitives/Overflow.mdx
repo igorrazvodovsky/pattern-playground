@@ -7,7 +7,7 @@ import { MermaidDiagram } from '../../components/MermaidDiagram';
 
 # Overflow
 
-Defines the behavior of content or elements that do not fit within an assigned area.
+Governs how text and continuous content respond when they exceed their container. For discrete sets of UI elements — toolbars, tab bars, navigation items — see [priority+](../?path=/docs/components-priority--docs).
 
 ## Decision tree
 
@@ -24,5 +24,13 @@ flowchart TD
     H -->|No| J[Consider redesign/priority]
 `} />
 
-## To do
-- [Accessibility & Truncating Text](https://tab-able.co.uk/accessibility-tip-truncating-text/)
+## Accessibility
+
+See [Accessibility & truncating text](https://tab-able.co.uk/accessibility-tip-truncating-text/)
+
+## Related patterns
+
+- [Priority+](../?path=/docs/components-priority--docs) — handles overflow for *discrete element sets* (toolbars, nav bars)
+- [Table](../?path=/docs/components-table--docs) — table cells are a primary site for text overflow decisions
+- [Card](../?path=/docs/compositions-card--docs) — cards often contain text that may overflow
+- [Breadcrumbs](../?path=/docs/components-breadcrumbs--docs) — long paths collapse, applying overflow logic to navigation items

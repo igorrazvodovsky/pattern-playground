@@ -10,7 +10,7 @@ import {
 } from 'd3-force';
 import type { SimulationNodeDatum, SimulationLinkDatum } from 'd3-force';
 import { scaleSqrt } from 'd3-scale';
-import graphData from '../stories/data/pattern-graph.json' with { type: 'json' };
+import graphData from '../pattern-graph.json' with { type: 'json' };
 
 interface GraphNode extends SimulationNodeDatum {
   readonly id: string;
