@@ -10,8 +10,15 @@ The user signals the current sequence has **successfully completed**.
 
 1. U → A: Minimal **receipt** in “third position” (e.g., “Thanks,” “Got it,” "👍").
 2. A: Brief acknowledgement; *transition* to next activity or offer *projected next steps*.
-3. U (Optional): Start a new activity or close (see conversation managment patterns).
+3. U (Optional): Start a new activity or close (see conversation management patterns).
 
 ## Metrics
 Completion without next-move pick; next-move acceptance rate; premature re-prompts.
+
+## Related patterns
+
+- [Conversation](../?path=/docs/patterns-conversation--docs) — parent pattern
+- [Bot repair](../?path=/docs/primitives-conversation-sequence-management-bot-repair--docs) — resumes the primary activity at sequence completion once a bot-side breakdown is resolved
+- [User repair](../?path=/docs/primitives-conversation-sequence-management-user-repair--docs) — resumes at sequence completion once the user's comprehension is restored
+- [Closing](../?path=/docs/primitives-conversation-conversation-management-closing--docs) — natural follow-up when sequence completion signals the overall goal is achieved
 

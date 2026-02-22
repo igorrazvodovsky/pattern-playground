@@ -391,6 +391,12 @@
       "path": "../?path=/docs/patterns-states-unavailable-actions--docs"
     },
     {
+      "id": "patterns-states-morphing-controls",
+      "title": "Morphing controls",
+      "category": "Patterns",
+      "path": "../?path=/docs/patterns-states-morphing-controls--docs"
+    },
+    {
       "id": "patterns-states-empty-state",
       "title": "Empty state",
       "category": "Patterns",
@@ -891,6 +897,46 @@
     {
       "source": "patterns-states-unavailable-actions",
       "target": "patterns-states-disabled-state"
+    },
+    {
+      "source": "primitives-button",
+      "target": "patterns-states-morphing-controls"
+    },
+    {
+      "source": "patterns-states-morphing-controls",
+      "target": "primitives-button"
+    },
+    {
+      "source": "patterns-states-morphing-controls",
+      "target": "patterns-states-unavailable-actions"
+    },
+    {
+      "source": "patterns-states-unavailable-actions",
+      "target": "patterns-states-morphing-controls"
+    },
+    {
+      "source": "patterns-states-morphing-controls",
+      "target": "patterns-states-disabled-state"
+    },
+    {
+      "source": "patterns-states-disabled-state",
+      "target": "patterns-states-morphing-controls"
+    },
+    {
+      "source": "patterns-states-morphing-controls",
+      "target": "patterns-status-feedback"
+    },
+    {
+      "source": "patterns-status-feedback",
+      "target": "patterns-states-morphing-controls"
+    },
+    {
+      "source": "patterns-states-morphing-controls",
+      "target": "patterns-progressive-disclosure"
+    },
+    {
+      "source": "patterns-progressive-disclosure",
+      "target": "patterns-states-morphing-controls"
     },
     {
       "source": "patterns-states-unavailable-actions",
@@ -2623,6 +2669,66 @@
     {
       "source": "primitives-conversation-sequence-management-user-repair",
       "target": "primitives-conversation-sequence-management-sequence-completion"
+    },
+    {
+      "source": "primitives-conversation-conversation-management-opening-bot",
+      "target": "primitives-conversation-conversation-management-disengage-without-closing"
+    },
+    {
+      "source": "primitives-conversation-conversation-management-opening-user",
+      "target": "primitives-conversation-sequence-management-bot-repair"
+    },
+    {
+      "source": "primitives-conversation-conversation-management-capability-scope",
+      "target": "primitives-conversation-conversation-management-opening-bot"
+    },
+    {
+      "source": "primitives-conversation-conversation-management-closing",
+      "target": "primitives-conversation-conversation-management-disengage-without-closing"
+    },
+    {
+      "source": "primitives-conversation-sequence-management-bot-repair",
+      "target": "primitives-conversation-conversation-management-capability-scope"
+    },
+    {
+      "source": "primitives-conversation-conversational-activities-extended-telling",
+      "target": "primitives-conversation-conversation-management-opening-bot"
+    },
+    {
+      "source": "primitives-conversation-conversational-activities-extended-telling",
+      "target": "primitives-conversation-sequence-management-user-repair"
+    },
+    {
+      "source": "primitives-conversation-conversational-activities-open-request",
+      "target": "patterns-conversation"
+    },
+    {
+      "source": "primitives-conversation-conversational-activities-open-request",
+      "target": "primitives-conversation-conversation-management-opening-bot"
+    },
+    {
+      "source": "primitives-conversation-conversational-activities-open-request",
+      "target": "primitives-conversation-conversation-management-opening-user"
+    },
+    {
+      "source": "primitives-conversation-conversational-activities-open-request",
+      "target": "primitives-conversation-conversational-activities-inquiry-bot"
+    },
+    {
+      "source": "primitives-conversation-conversational-activities-inquiry-bot",
+      "target": "primitives-conversation-conversation-management-opening-user"
+    },
+    {
+      "source": "primitives-conversation-conversational-activities-inquiry-bot",
+      "target": "primitives-conversation-conversational-activities-open-request"
+    },
+    {
+      "source": "primitives-conversation-conversational-activities-inquiry-user",
+      "target": "primitives-conversation-sequence-management-bot-repair"
+    },
+    {
+      "source": "primitives-conversation-conversational-activities-inquiry-user",
+      "target": "primitives-conversation-conversational-activities-extended-telling"
     },
     {
       "source": "qualities-adaptability",

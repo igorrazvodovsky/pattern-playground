@@ -1,0 +1,34 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import * as MorphingControlsStories from './MorphingControls.stories';
+
+<Meta of={MorphingControlsStories} />
+
+# Morphing controls
+
+A control that transforms its appearance and available actions in response to a state change, replacing the previous set of options with those relevant to the new mode.
+
+## When to use
+
+Use morphing controls when the completion of that action makes the original trigger meaningless. The control communicates the current state while offering the most logical next step.
+
+Avoid when users need to see the full range of possible actions to build a mental model, or when the transition between states is ambiguous and requires explanation.
+
+## Examples
+
+### Toggle
+
+<Story of={MorphingControlsStories.FollowUnfollow} />
+
+### Multi-state close
+
+Close with confirmation is a common pattern, but instead of a separate dialog, the control itself morphs to offer the confirm action. This keeps the user in context and reduces friction.
+
+<Story of={MorphingControlsStories.MultiState} />
+
+## Related patterns
+
+- TODO: button toggle, checkbox toggle
+- Morphing provides [status feedback](./?path=/docs/patterns-status-feedback--docs)
+- [Unavailable actions](./?path=/docs/patterns-states-unavailable-actions--docs) removes controls entirely; morphing keeps them present but transformed
+- [Disabled state](./?path=/docs/patterns-states-disabled-state--docs) greys out controls without indicating the new state
+- [Progressive disclosure](./?path=/docs/patterns-progressive-disclosure--docs) — a broader pattern

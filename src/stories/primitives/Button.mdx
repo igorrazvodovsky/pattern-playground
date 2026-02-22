@@ -1,0 +1,28 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import * as ButtonStories from './Button.stories.tsx';
+
+<Meta of={ButtonStories} />
+
+> 🥱 **Fun meter: boring**. Prerequisite for more interesting things.
+
+# Button
+
+Triggers an action or navigates to a destination.
+
+## Variants
+
+<Story of={ButtonStories.Variants} />
+
+## With icons
+
+<Story of={ButtonStories.Prefixes} />
+
+## Icon-only
+
+<Story of={ButtonStories.IconButton} />
+
+## Related patterns
+
+- [Unavailable actions](../?path=/docs/patterns-states-unavailable-actions--docs)
+- [Disabled state](../?path=/docs/patterns-states-disabled-state--docs)
+- [Morphing controls](../?path=/docs/patterns-states-morphing-controls--docs)

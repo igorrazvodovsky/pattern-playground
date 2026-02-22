@@ -108,7 +108,8 @@
       "Bash(xargs:*)",
       "WebFetch(domain:www.figma.com)",
       "Bash(chmod:*)",
-      "Bash(git rm:*)"
+      "Bash(git rm:*)",
+      "WebFetch(domain:ui-patterns.com)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"

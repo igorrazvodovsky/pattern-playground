@@ -27,3 +27,10 @@ A user makes a complex request that typically requires clarification and/or mult
 - Wrong-action rate before confirmation
 - Clarifications per task; completion time
 - Accuracy against source-of-truth/tool outputs
+
+## Related patterns
+
+- [Conversation](../?path=/docs/patterns-conversation--docs) — parent pattern; open request is the primary primitive for instruction-based dialogue
+- [Opening (Bot)](../?path=/docs/primitives-conversation-conversation-management-opening-bot--docs) — bot-initiated openings typically transition into an open request
+- [Opening (User)](../?path=/docs/primitives-conversation-conversation-management-opening-user--docs) — user-initiated openings with a complex request map directly to this primitive
+- [Inquiry (Bot)](../?path=/docs/primitives-conversation-conversational-activities-inquiry-bot--docs) — used within open request to gather missing or ambiguous constraints
