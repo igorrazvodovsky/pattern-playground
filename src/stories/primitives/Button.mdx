@@ -1,4 +1,5 @@
 import { Meta, Story } from '@storybook/addon-docs/blocks';
+import { MermaidDiagram } from '../../components/MermaidDiagram';
 import * as ButtonStories from './Button.stories.tsx';
 
 <Meta of={ButtonStories} />
@@ -21,8 +22,41 @@ Triggers an action or navigates to a destination.
 
 <Story of={ButtonStories.IconButton} />
 
+## Button vs link
+
+`<button>` is used for actions, an `<a>` for navigation. When a navigational element needs button styling — use `<a class="button">`.
+
+## Choosing a variant
+
+<MermaidDiagram chart={`
+flowchart TD
+  A[Is this the main call to action?]
+
+  A -->|Yes| B[Does the icon aid recognition?]
+  A -->|No| C[Is the action related to the primary CTA?]
+
+  B -->|No| Primary[Primary]
+  B -->|Yes| D[Space available?]
+  D -->|No| Primary
+  D -->|Yes| PrimaryIcon[Primary with icon]
+
+  C -->|Yes| E[Needs a lot of emphasis?]
+  C -->|No| F[Needs a lot of emphasis?]
+
+  E -->|No| Tertiary[Tertiary]
+  E -->|Yes| Secondary[Secondary]
+
+  F -->|Yes| Secondary2[Secondary]
+  F -->|No| G[Space available?]
+  G -->|Yes| TertiaryText[Tertiary text]
+  G -->|No| H[Metaphor unambiguous without a label?]
+  H -->|No| TertiaryText
+  H -->|Yes| TertiaryIcon[Tertiary icon]
+`} />
+
 ## Related patterns
 
+- [Iconography](../?path=/docs/visual-elements-iconography--docs) — rules for when and how to use icons in buttons
 - [Unavailable actions](../?path=/docs/patterns-states-unavailable-actions--docs)
 - [Disabled state](../?path=/docs/patterns-states-disabled-state--docs)
 - [Morphing controls](../?path=/docs/patterns-states-morphing-controls--docs)

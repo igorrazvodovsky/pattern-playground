@@ -12,8 +12,10 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^9.4.0",
+    "@storybook/addon-a11y": "^10.2.10",
     "@storybook/addon-docs": "^10.2.8",
     "@storybook/addon-links": "^10.2.8",
+    "@storybook/addon-vitest": "^10.2.10",
     "@storybook/react-vite": "^10.2.8",
     "@storybook/testing-library": "^0.2.2",
     "@storybook/web-components-vite": "^10.2.8",
@@ -33,6 +35,8 @@
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react": "^4.7.0",
+    "@vitest/browser-playwright": "^4.0.18",
+    "@vitest/coverage-v8": "^4.0.18",
     "composed-offset-position": "^0.0.6",
     "eslint": "^9.35.0",
     "eslint-plugin-lit": "^2.1.1",
@@ -41,13 +45,15 @@
     "eslint-plugin-storybook": "^10.2.8",
     "globals": "^16.4.0",
     "lit": "^3.3.1",
+    "playwright": "^1.58.2",
     "storybook": "^10.2.8",
     "stylelint": "^16.24.0",
     "stylelint-config-standard": "^37.0.0",
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.43.0",
     "vite": "^6.3.6",
-    "vite-plugin-dts": "^4.5.0"
+    "vite-plugin-dts": "^4.5.0",
+    "vitest": "^4.0.18"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.7.4",

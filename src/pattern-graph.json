@@ -643,6 +643,18 @@
       "path": "../?path=/docs/primitives-button--docs"
     },
     {
+      "id": "visual-elements-iconography",
+      "title": "Iconography",
+      "category": "Visual elements",
+      "path": "../?path=/docs/visual-elements-iconography--docs"
+    },
+    {
+      "id": "visual-elements-typography",
+      "title": "Typography",
+      "category": "Visual elements",
+      "path": "../?path=/docs/visual-elements-typography--docs"
+    },
+    {
       "id": "primitives-overflow",
       "title": "Overflow",
       "category": "Primitives",
@@ -897,6 +909,54 @@
     {
       "source": "patterns-states-unavailable-actions",
       "target": "patterns-states-disabled-state"
+    },
+    {
+      "source": "primitives-button",
+      "target": "visual-elements-iconography"
+    },
+    {
+      "source": "visual-elements-iconography",
+      "target": "primitives-button"
+    },
+    {
+      "source": "visual-elements-iconography",
+      "target": "visual-elements-typography"
+    },
+    {
+      "source": "visual-elements-typography",
+      "target": "visual-elements-iconography"
+    },
+    {
+      "source": "visual-elements-iconography",
+      "target": "components-list"
+    },
+    {
+      "source": "components-list",
+      "target": "visual-elements-iconography"
+    },
+    {
+      "source": "visual-elements-iconography",
+      "target": "compositions-toolbar"
+    },
+    {
+      "source": "compositions-toolbar",
+      "target": "visual-elements-iconography"
+    },
+    {
+      "source": "visual-elements-iconography",
+      "target": "patterns-status-feedback"
+    },
+    {
+      "source": "patterns-status-feedback",
+      "target": "visual-elements-iconography"
+    },
+    {
+      "source": "visual-elements-iconography",
+      "target": "patterns-command-menu"
+    },
+    {
+      "source": "patterns-command-menu",
+      "target": "visual-elements-iconography"
     },
     {
       "source": "primitives-button",
