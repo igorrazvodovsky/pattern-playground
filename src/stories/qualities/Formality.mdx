@@ -4,28 +4,55 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Formality
 
-When and how much structure to ask from the user.
+The degree of structure a system requires from the user at a given moment.
+The same system might accept freeform text in one context and demand structured input in another.
+The question for any interaction point is: *how much structure does the system need here, and how much can the user comfortably provide?*
 
-Demanding high levels of formal, structured input from users can often be counterproductive.
-Users may resist or struggle when forced to formalize information that is still evolving, poorly understood,
-or part of their tacit knowledge.
+More structure enables more computational power (retrieval, automation, validation). But structure demanded too early — before the user's understanding has matured — creates friction.
+The cost of formalisation includes learning the system's language, committing to categories that might not fit, and articulating knowledge that may still be tacit.
 
-## The formality-maturity spectrum
+## The formality-maturity principle
 
-A core design principle here is to **match the level of required formality to the maturity of the user's goal.**
-Instead of a one-size-fits-all approach, the system should adapt its expectations based on where the user is in their process.
+Match required formality to the maturity of the user's understanding.
 
 ### Low maturity: exploration & emergence
-- *User goal*: The user is brainstorming, exploring a new topic, or capturing fleeting ideas. The goal is fuzzy and the structure is not yet known.
-- *Required formality*: Low. The system should act like a simple notebook or whiteboard, accepting unstructured text, sketches, and collections of items without demanding categorisation or relationships.
-- *System's role*: To capture information with minimal friction. The focus is on getting things *in*, not on getting them *right*.
+- Accept unstructured text, sketches, loose collections
+- System captures with minimal friction — getting things *in* without demanding categorisation or relationships.
+- Patterns: free-text input, spatial canvas, [references](../?path=/docs/primitives-reference--docs) without type requirements
 
 ### Medium maturity: structuring & sense-making
-- *User goal*: The user has gathered some information and is beginning to see patterns, make connections, and build a mental model.
-- *Required formality*: Medium. The system should not demand formality but can begin to *suggest* it. This is the stage for incremental, system-assisted formalisation.
-- *System's role*: To act as an intelligent assistant, recognising potential structures (e.g., "This looks like a list," "These two items seem related") and offering to formalise them.
+- System *suggests* structure without demanding it — incremental, system-assisted formalisation
+- Recognise potential patterns ("This looks like a list," "These two items seem related") and offer to formalise
+- Patterns: [suggestion](../?path=/docs/patterns-suggestion--docs), inline [tagging](../?path=/docs/patterns-tag--docs), [progressive disclosure](../?path=/docs/patterns-progressive-disclosure--docs)
 
 ### High maturity: execution & automation
-- *User goal*: The user has a clear, well-defined task to complete. The structure of the information is stable and understood.
-- *Required formality*: High. The system can now require formal input because it enables powerful features like automation, validation, and computation.
-- *System's role*: To act as a powerful tool, leveraging the formal structure to execute tasks efficiently and correctly.
+- Structure is stable and understood — formal input enables automation, validation, computation
+- Patterns: structured [forms](../?path=/docs/compositions-form--docs), validation, workflow, query builders
+
+## Two strategies for reducing formality demands
+
+### Gradual formalisation
+
+Let information enter informally and gain structure over time. Don't require categorisation at capture — allow the user to add it when ready. Systems can suggest possible formalisations based on recognised patterns in content, presenting them for acceptance, modification, or rejection. This keeps the door open for computational benefit without imposing premature structure.
+
+### Inferred structure
+
+Rather than requiring users to declare structure explicitly, recognise it from what's already there — textual, spatial, temporal, or visual patterns. Inferred structure should be treated as *transient and lightweight*: useful for interaction (e.g. expanding a visual grouping, offering a contextual action) but not committed as permanent metadata. If the inference is wrong, it costs the user nothing.
+
+## Related patterns
+
+- [Suggestion](../?path=/docs/patterns-suggestion--docs) — the primary mechanism for gradual formalisation; offers structure without demanding it
+- [Data entry](../?path=/docs/patterns-data-entry--docs) — where formality demands are most directly felt
+- [Form](../?path=/docs/compositions-form--docs) — the high-formality end of the spectrum
+- [Tag](../?path=/docs/patterns-tag--docs) — lightweight formalisation through inline categorisation
+
+## Related qualities
+
+- [Agency](../?path=/docs/qualities-agency--docs) — low formality preserves user agency during exploration
+- [Learnability](../?path=/docs/qualities-learnability--docs) — every formalism carries its own learning curve, independent of the task
+- [Adaptation](../?path=/docs/qualities-adaptability--docs) — systems that adapt formality to context avoid premature structure
+
+## Resources
+
+- Shipman, F. M. & Marshall, C. C. (1999). [Formality Considered Harmful: Experiences, Emerging Themes, and Directions on the Use of Formal Representations in Interactive Systems](https://andymatuschak.org/files/papers/Shipman%20and%20Marshall%20-%201999%20-%20Formality%20Considered%20Harmful%20Experiences,%20Emergin.pdf). *Computer-Supported Cooperative Work*, 8(4), 333–352.
+- Ink & Switch. [Formality on demand](https://www.inkandswitch.com/ink/notes/formality-on-demand/).

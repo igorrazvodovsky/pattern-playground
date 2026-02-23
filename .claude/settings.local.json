@@ -109,7 +109,9 @@
       "WebFetch(domain:www.figma.com)",
       "Bash(chmod:*)",
       "Bash(git rm:*)",
-      "WebFetch(domain:ui-patterns.com)"
+      "WebFetch(domain:ui-patterns.com)",
+      "Bash(echo exit: $?:*)",
+      "Bash(git diff:*)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"

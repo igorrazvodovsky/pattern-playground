@@ -9,10 +9,11 @@
  * Always exits 0 (warn-only). Findings are printed to stderr.
  */
 
-import { execSync } from 'node:child_process';
+import { execSync, execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 
 const isGitHook = process.argv.includes('--git-hook');
+const out = isGitHook ? process.stderr : process.stdout;
 
 async function main() {
   if (!isGitHook) {
@@ -54,20 +55,25 @@ async function main() {
   try {
     execSync('which claude', { stdio: 'ignore' });
   } catch {
-    process.stderr.write('[pre-commit] claude CLI not found — skipping CLAUDE.md alignment check\n');
+    out.write('[pre-commit] claude CLI not found — skipping CLAUDE.md alignment check\n');
     process.exit(0);
   }
 
   const prompt = buildPrompt(diff);
 
+  // Remove CLAUDECODE so the subprocess is not blocked by nested-session detection
+  const env = { ...process.env };
+  delete env.CLAUDECODE;
+
   let result;
   try {
-    result = execSync(`claude --print ${JSON.stringify(prompt)}`, {
+    result = execFileSync('claude', ['--print', prompt], {
       encoding: 'utf8',
       timeout: 55_000,
+      env,
     });
   } catch (err) {
-    process.stderr.write(`[pre-commit] claude check failed: ${err.message}\n`);
+    out.write(`[pre-commit] claude check failed: ${err.message}\n`);
     process.exit(0);
   }
 
@@ -85,9 +91,9 @@ async function main() {
   const hasIssues = !/^(no issues|looks good|all good|none|ok)\b/i.test(text.trim());
 
   if (hasIssues && text.trim()) {
-    process.stderr.write('\n[pre-commit] CLAUDE.md alignment check found potential issues:\n\n');
-    process.stderr.write(text.trim());
-    process.stderr.write('\n\n');
+    out.write('\n[pre-commit] CLAUDE.md alignment check found potential issues:\n\n');
+    out.write(text.trim());
+    out.write('\n\n');
   }
 
   process.exit(0);
@@ -144,6 +150,6 @@ ${diff}`;
 }
 
 main().catch((err) => {
-  process.stderr.write(`[pre-commit] unexpected error: ${err.message}\n`);
+  out.write(`[pre-commit] unexpected error: ${err.message}\n`);
   process.exit(0);
 });

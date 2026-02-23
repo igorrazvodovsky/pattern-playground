@@ -595,6 +595,12 @@
       "path": "../?path=/docs/qualities-shareability--docs"
     },
     {
+      "id": "qualities-formality",
+      "title": "Formality",
+      "category": "Qualities",
+      "path": "../?path=/docs/qualities-formality--docs"
+    },
+    {
       "id": "qualities-temporality",
       "title": "Temporality",
       "category": "Qualities",
@@ -3109,6 +3115,50 @@
     {
       "source": "compositions-item-view",
       "target": "compositions-card"
+    },
+    {
+      "source": "qualities-formality",
+      "target": "qualities-agency"
+    },
+    {
+      "source": "qualities-formality",
+      "target": "qualities-learnability"
+    },
+    {
+      "source": "qualities-formality",
+      "target": "qualities-adaptability"
+    },
+    {
+      "source": "qualities-formality",
+      "target": "patterns-suggestion"
+    },
+    {
+      "source": "qualities-formality",
+      "target": "patterns-data-entry"
+    },
+    {
+      "source": "qualities-formality",
+      "target": "compositions-form"
+    },
+    {
+      "source": "patterns-suggestion",
+      "target": "qualities-formality"
+    },
+    {
+      "source": "patterns-data-entry",
+      "target": "qualities-formality"
+    },
+    {
+      "source": "compositions-form",
+      "target": "qualities-formality"
+    },
+    {
+      "source": "qualities-formality",
+      "target": "patterns-tag"
+    },
+    {
+      "source": "patterns-tag",
+      "target": "qualities-formality"
     }
   ]
 }
