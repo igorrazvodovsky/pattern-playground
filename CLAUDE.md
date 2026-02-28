@@ -2,21 +2,14 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+Domain-specific rules (styling, web components, documentation, etc.) live in `.claude/rules/` and activate automatically based on file paths.
+
 ## Table of contents
 - [Quick reference](#quick-reference)
 - [Development commands](#development-commands)
 - [Architecture overview](#architecture-overview)
-- [TypeScript & type safety](#typescript--type-safety)
-- [State management best practices](#state-management-best-practices)
-- [Modern JavaScript/TypeScript features](#modern-javascripttypescript-features)
-- [Event handling & lifecycle](#event-handling--lifecycle)
-- [Web Component Loading Patterns](#web-component-loading-patterns)
 - [Testing and quality](#testing-and-quality)
 - [Code comments](#code-comments)
-- [Styling guidelines](#styling-guidelines)
-- [JavaScript hooks and functionality](#javascript-hooks-and-functionality)
-- [Documentation standards](#documentation-standards)
-- [Mock data and testing](#mock-data-and-testing)
 - [Code review workflow](#code-review-workflow)
 - [Anti-patterns](#anti-patterns)
 
@@ -30,9 +23,9 @@ cd server && npm run dev  # Start Express server with hot reload
 ```
 
 ### Component conventions
-- **Prefix**: All custom elements use `pp-` prefix (e.g., `<pp-button>`, `<pp-modal>`)
-- **Registration**: All components registered via `src/components/register-all.ts`
-- **Loading**: Use bulletproof loading pattern with DOM readiness checks
+- *Prefix*: All custom elements use `pp-` prefix (e.g., `<pp-button>`, `<pp-modal>`)
+- *Registration*: All components registered via `src/components/register-all.ts`
+- *Loading*: Use bulletproof loading pattern with DOM readiness checks
 
 ### File organization
 - `src/components/` - Core components
@@ -43,10 +36,10 @@ cd server && npm run dev  # Start Express server with hot reload
 - `server/` - Express backend with AI integration
 
 ### When to use what
-- **Lit vs React**: Lit for production components, React for Storybook stories and complex compositions
-- **Zustand vs Context**: Zustand for complex state needing persistence, Context for simple prop drilling
-- **Light DOM vs Shadow DOM**: Light DOM for better accessibility/styling inheritance (preferred)
-- **Mock data**: Extract to JSON files if >5 complex items or reusable across components
+- *Lit vs React*: Lit for production components, React for Storybook stories and complex compositions
+- *Zustand vs Context*: Zustand for complex state needing persistence, Context for simple prop drilling
+- *Light DOM vs Shadow DOM*: Light DOM for better accessibility/styling inheritance (preferred)
+- *Mock data*: Extract to JSON files if >5 complex items or reusable across components
 
 ### Key patterns
 - Progressive enhancement (CSS-only → JavaScript enhanced)
@@ -56,12 +49,12 @@ cd server && npm run dev  # Start Express server with hot reload
 
 ## Development commands
 
-**Frontend (root directory):**
+*Frontend (root directory):*
 - `npm run test` - Run ESLint
 - `npm run storybook` - Start Storybook on port 6006
 - `npm run build-storybook` - Build static Storybook
 
-**Backend (server directory):**
+*Backend (server directory):*
 - `cd server && npm run dev` - Start Express server with hot reload
 - `cd server && npm run build` - Compile TypeScript
 - `cd server && npm run start` - Run production server
@@ -69,273 +62,42 @@ cd server && npm run dev  # Start Express server with hot reload
 
 ## Architecture overview
 
-This is a **design system playground** with a hybrid frontend/backend architecture:
+This is a *design system playground* with a hybrid frontend/backend architecture:
 
 ### Frontend
-- **TypeScript** with **Vite** build system
-- **Web Components** (Lit) as primary component architecture
-- **React** for Storybook stories and complex components
-- **Storybook** for component documentation and development
-- **Tiptap** for rich text editing
+- TypeScript with Vite build system
+- Web Components (Lit) as primary component architecture
+- React for Storybook stories and complex components
+- Storybook for component documentation and development
+- Tiptap for rich text editing
 
 ### Backend
-- **Node.js/Express** server with **OpenAI API** integration
+- Node.js/Express server with OpenAI API integration
 - TypeScript with ES modules
-
-### Component architecture
-Components follow a **progressive enhancement** strategy:
-- CSS-only components that work without JavaScript
-- Web Components extend native HTML elements with `pp-` prefix
 
 ### Key directories
 - `src/components/` - Core components
-- `src/stories/` - Storybook documentation organized by:
-  - `primitives/` - Basic UI elements
-  - `components/` - Complex components
-  - `compositions/` - Component combinations
-  - `patterns/` - Reusable patterns
-  - `foundations/` - Design principles
-  - `data/` - Shared mock data as JSON files
+- `src/stories/` - Storybook documentation organized by: primitives, components, compositions, patterns, foundations, data
 - `src/services/` - API services and utilities
 - `server/` - Express backend with AI integration
 
 ### Development patterns
-- **Atomic Design** principles with clear component hierarchy
-- **Composition hooks** for complex React component logic
-- **AI adapters** for different component suggestion types
-- **Streaming API responses** with Server-Sent Events
-- **HTML Web Components** - Progressive enhancement approach using standard HTML with JavaScript sprinkled on top for behaviour
-- **Light-DOM Web Components** - Custom elements that use the light DOM instead of shadow DOM for better accessibility and styling inheritance
-- **Centralized component registration** - Use dependency-aware registration system for consistent component instantiation order
-- **Leverage existing dependencies** - Before adding a new dependency, check if existing ones solve the problem
-- **Universal commenting system** - Pointer-based architecture that works on any object type (tasks, quotes, entities)
-- **Clean separation of concerns** - Core services (framework-agnostic), integrations (editor plugins), and UI layers are distinct
-
-#### Progressive enhancement
-The `<pp-modal>` component demonstrates several key patterns for building progressive enhancement components:
-- **Wrapper enhancement** - Wrap existing HTML structures (`<dialog>`, `<div class="modal">`) with custom elements that add behaviour
-- **Smart element detection** - Automatically detect and enhance different modal types: `dialog`, `.drawer`, `.modal`, `[role="dialog"]`
-- **Auto-wiring** - Automatically connect trigger buttons (`button:not([data-close])`) and close buttons (`[data-close]`, header buttons)
-
-### TypeScript & type safety
-
-- **Type guards**: Create `is*` functions for runtime type checking (e.g., `isIOption`, `isOptionToggleValue`)
-- **Interfaces**: Define clear interfaces for component contracts (`IOptionBase`, `IOptionParent`)
-- **Generic types**: Use generics for reusable components (`SelectBase<Value>`, `IOption<Value>`)
-- **Value converters**: Create custom `ValueConverter` objects for complex attribute parsing
-- **Strict typing**: All properties should have explicit types, avoid `any`
-
-### State management best practices
-
-#### **Zustand for Local State**
-- **Prefer Zustand** over Context API for complex state that needs persistence
-- **Use Maps for O(1) lookups** instead of arrays when frequent searches are needed
-- **Leverage built-in utilities**: Use `shallow` from `zustand/shallow` for object equality
-- **Persist strategically**: Use `persist` middleware with proper serialization for localStorage
-- **Validate rehydration**: Add error handling when loading persisted state
-
-#### **Service Architecture**
-- **Framework-agnostic core services** - Business logic lives in pure TypeScript classes (e.g., CommentService)
-- **Plugin architecture** - Editors and integrations consume services rather than owning them
-- **Pointer-based abstractions** - Use pointer objects to make any entity commentable without tight coupling
-
-### Modern JavaScript/TypeScript features
-
-Use the latest language features and APIs without backward compatibility constraints:
-- **ES2023+ features**: Top-level await, private class fields, static class blocks, array methods like `findLast()`, `toSorted()`
-- **Import assertions**: Use `with { type: 'json' }` for JSON imports
-- **Optional chaining** (`?.`) and **nullish coalescing** (`??`) for safe property access
-- **Template literal types** for type-safe string manipulation
-- **Const assertions** (`as const`) for immutable type inference
-- **Module resolution**: Use `import.meta` for module metadata
-- **Decorators**: Use stage 3 decorators for Web Components and class enhancements
-- **Native APIs**: Prefer native `fetch()`, `AbortController`, `URL`, `URLSearchParams` over polyfills
-- **Modern DOM APIs**: Use `querySelector()`, `closest()`, `matches()`, `toggleAttribute()`
-
-### Event handling & lifecycle
-
-- **Event binding**: Bind all event handlers in constructor using `.bind(this)`
-- **Custom events**: Define typed event interfaces and use `this.$emit('event-name', detail)`
-- **Event cleanup**: Remove all listeners in `disconnectedCallback()`
-- **Bulletproof initialization**: Use DOM readiness checks in `connectedCallback()` to ensure reliable component startup
-
-## Web Component Loading Patterns
-
-### Bulletproof loading implementation
-All web components follow a bulletproof loading pattern to ensure reliable initialization:
-
-```typescript
-connectedCallback() {
-  super.connectedCallback(); // For Lit components
-  if (document.readyState !== 'loading') {
-    this.init();
-    return;
-  }
-  document.addEventListener('DOMContentLoaded', () => this.init());
-}
-
-private init() {
-  // Component initialization logic here
-  this.setupEventListeners();
-  this.setAttribute('role', 'appropriate-role');
-}
-```
-
-### Component registration system
-- **Centralized registration**: All components are registered via `src/components/register-all.ts`
-- **Dependency management**: Components with dependencies (e.g., `pp-tab-group` depends on `pp-tab` and `pp-tab-panel`) are registered in proper order
-- **Individual `customElements.define()` calls removed**: Components rely on the centralized registry for consistent instantiation order
-
-### Component lifecycle best practices
-- **DOM readiness checks**: Always check document readiness before component initialization
-- **Dependency awareness**: Components that depend on other custom elements should be registered after their dependencies
-- **Progressive enhancement**: Components enhance existing HTML gracefully, regardless of script loading timing
-
-Reference: Based on [bulletproof web component loading patterns](https://gomakethings.com/bulletproof-web-component-loading/)
+- Atomic Design principles with clear component hierarchy
+- Progressive enhancement (CSS-only → JS enhanced)
+- HTML Web Components and Light-DOM Web Components
+- Centralized component registration with dependency-aware ordering
+- Leverage existing dependencies before adding new ones
+- Clean separation of concerns: core services, integrations, UI layers
 
 ## Testing and quality
 - TypeScript strict mode enabled
 - Components should extend native HTML elements when possible
 
 ## Code comments
-- **Avoid redundant comments** - Don't comment on what the code already clearly expresses
-- **Self-documenting code** - Prefer descriptive names and clear structure over explanatory comments
-- **When to comment**: Complex business logic, non-obvious algorithms, or important context that isn't apparent from the code
-- **Comment style**: Use `//` for brief explanations, avoid verbose JSDoc blocks for simple interfaces or self-evident functions
-
-## Styling guidelines
-
-### Core principles
-- **Never use inline styles** - All styling must be handled through CSS classes
-- Add styles to `src/styles/` directory for global styles and shared components
-- For Web Components using Shadow DOM, use component-specific CSS files
-- Use design system tokens (CSS custom properties) consistently
-- Ask before adding new styles
-
-### CSS architecture methodology
-Follow a layered CSS architecture using CSS cascade layers:
-
-**CSS Layers for predictable cascade control:**
-Use the existing layer structure defined in `src/styles/main.css`:
-- `reset` - Browser reset and normalisation styles
-- `theme` - Design tokens and theme-related custom properties
-- `global` - Global base styles applied to HTML elements
-- `layout` - Layout-specific styles (Grid, Flexbox patterns)
-- `components` - Component-specific styling
-- `utilities` - Single-purpose utility classes
-- `states` - State-based styling and interactions
-
-**HUG CSS approach (HTML + Utility + Group):**
-- **HTML**: Apply default styles directly to semantic HTML elements
-- **Utility classes**: Single-purpose classes for minor adjustments (e.g., `.no-margin-bottom`, `.text-muted`)
-- **Group classes**: Complex styling for collections of elements (e.g., `.list-inline`, `.card-layout`)
-- Minimise class usage in HTML markup by leveraging semantic elements
-- Use attribute-based styling for interactive states when possible
-
-### Modern CSS for dynamic components
-- **Custom properties API**: Use CSS custom properties to create flexible, themeable components
-  - Example: `--button-color: var(--primary)` enables easy variant creation
-  - Prefer custom properties over hardcoded values for reusability
-- **Container queries**: Design components that adapt to their own available space
-  - Use `@container (min-width: 40ch)` for size-based queries
-  - Leverage style queries: `@container style(--show-menu: true)`
-  - Implement quantity queries with `:has()` for dynamic content adaptation
-- **Progressive enhancement**: Build resilient components that gracefully degrade
-  - Use `:has()` for conditional styling with fallbacks
-  - Implement feature detection for advanced CSS properties
-- **Modern layout primitives**: Leverage contemporary CSS layout capabilities
-  - Use CSS Grid and Flexbox for flexible component layouts
-  - Apply `clamp()` for fluid, responsive typography
-  - Utilise container query units (`cqi`, `cqw`) where appropriate
-- **Accessibility-first styling**: Ensure inclusive design through CSS
-  - Use `:focus-visible` for improved focus management
-  - Implement WCAG-compliant focus states and contrast ratios
-  - Support reflow requirements for responsive design
-
-## JavaScript hooks and functionality
-- **Use data-* attributes as JavaScript hooks** - Use `data-*` attributes (e.g., `data-reference-picker`, `data-action="toggle"`) for JavaScript event handling and DOM queries
-- **Separate styling from scripting** - Never rely on CSS classes for JavaScript functionality; they should remain purely for styling
-- **Prefer semantic data attributes** - Use descriptive names like `data-component-name` or `data-action` instead of generic selectors
-- **Avoid semantic attribute overloading** - Don't use `role`, `aria-*`, or other accessibility attributes as JavaScript hooks
-
-## Documentation standards
-
-### Documentation format
-- Use `.mdx` format for Storybook documentation with rich interactive content
-- Include Meta component for proper Storybook integration: `<Meta title="Category/Name" />`
-- Mark work-in-progress items with `*` in titles (e.g., "Component Name*")
-
-### Pattern documentation template
-When documenting patterns, follow this structure:
-- **Description** - Relational definition based on position within system
-- **Anatomy** - Structural breakdown (for complex patterns)
-- **Variants** - Functional, contextual, accessibility variants
-- **States** - Empty, validation, loading states
-- **Accessibility** - Concerns and implementation notes
-- **Decision tree** - Logic for pattern/variant selection
-- **Related patterns** - Precursors, follow-ups, complementary, tangentially related
-- **Resources** - External references and research
-
-### Behavioural framework
-Use the Intent & Interaction framework (`src/stories/foundations/Interaction.mdx`) to select and design patterns that support how users move through the interface and perform tasks. The framework is grounded in **Seek–Use–Share** temporal progression and treats interaction as conversational alignment with turn-taking and cooperative principles.
-
-### Content guidelines
-- Focus on relational definitions over static properties
-- Explain diverse implementations of flexible patterns
-- Include transitions between behavioural modes
-- Reference established design principles (modularity, hierarchy, complexity management)
-
-### Documentation linking
-When creating cross-references between documentation files:
-- **Storybook URLs**: Generated from Meta title - `<Meta title="Category/Name" />` becomes `../?path=/docs/category-name--docs`
-- **URL transformation**:
-  - Category/Name → category-name
-  - Spaces become hyphens
-  - Case is lowercased
-  - Asterisks (*) are removed from URLs
-- **Link format**: Use relative paths like `[Agency](../?path=/docs/foundations-agency--docs)` for internal Storybook links
-- **Cross-pattern links**: Reference related patterns in "Related patterns" sections using proper Storybook URLs
-
-### Writing style
-- Use British spelling throughout (behaviour, organisation, colour, etc.)
-- **Always use sentence case for headings and titles**
-- **Prioritize conciseness** - Each sentence should add new information. Remove elaborative phrases that restate rather than extend. Trust reader comprehension—avoid over-explaining implications. Edit ruthlessly to remove redundancy.
-
-### Research and source material
-When working with academic papers or research sources:
-- **Verify before writing** - Always check source material before making claims about frameworks or concepts
-- **Never fabricate** - Extract frameworks directly from sources, don't invent or embellish them
-- **Understand paper type** - Distinguish between descriptive papers (literature reviews, surveys) and prescriptive papers (proposing new frameworks)
-- **Cite specifically** - Reference specific sections/pages when extracting concepts
-- **When uncertain, re-read** - If you can't remember exact source content, read it again before writing
-
-### Conceptual integrity
-When organizing concepts in the design system:
-- **Test boundaries** - Apply frameworks to edge cases to understand scope (e.g., "Does this apply to human-human collaboration or just human-AI?")
-- **Check definitional consistency** - If a foundation is defined as "distribution of X", creating an "X distribution" section may indicate redundancy
-- **Question placement** - Foundations define universal principles ("what it is"), Patterns show specific applications ("how it's used")
-- **Prefer applied examples** - Concrete examples in applied contexts often clarify better than abstract cross-references
-- **Use Socratic questioning** - Ask "What happens if...?" to test framework boundaries
-
-## Mock data and testing
-
-### Mock data best practices
-- **Centralized data directory**: Store all shared mock data in `src/stories/data/` as JSON files
-- **JSON imports**: Use the import syntax with type assertion for JSON files:
-  ```typescript
-  import mockData from '../data/mockData.json' with { type: 'json' };
-  ```
-
-### When to extract to JSON
-- **Long arrays** (>5 items) with complex object structures
-- **Reusable data** that might be shared across multiple components or stories
-- **Rich data objects** with multiple properties that would clutter the main file
-- **Leave inline** simple arrays with <10 primitive items for basic examples
-
-### When to use existing data files
-- **Check first**: Before creating new mock data, check if suitable data exists in `src/stories/data/`
-- **Reuse across stories**: Import existing JSON files to maintain consistency across Storybook stories
-- **Extend existing**: If close match exists, consider extending an existing file rather than creating new one
+- *Avoid redundant comments* - Don't comment on what the code already clearly expresses
+- *Self-documenting code* - Prefer descriptive names and clear structure over explanatory comments
+- *When to comment*: Complex business logic, non-obvious algorithms, or important context that isn't apparent from the code
+- *Comment style*: Use `//` for brief explanations, avoid verbose JSDoc blocks for simple interfaces or self-evident functions
 
 ## Code review workflow
 After completing any implementation or change to code:
@@ -348,31 +110,6 @@ After completing any implementation or change to code:
 
 ## Anti-patterns
 
-### Styling
-- **Never use inline styles** - All styling must go through CSS classes or design tokens
-- **Don't rely on CSS classes for JavaScript hooks** - Use `data-*` attributes instead
-- **Don't add styles without asking** - Verify approach aligns with design system first
-
-### Components
-- **Don't skip bulletproof loading pattern** - Always check `document.readyState` in `connectedCallback()`
-- **Don't create components without checking existing solutions** - Leverage existing dependencies first
-- **Don't define components individually** - Use centralized registration in `register-all.ts`
-- **Don't mix concerns** - Keep services framework-agnostic, separate from UI integrations
-
-### TypeScript
-- **Don't use `any`** - Create proper types or use `unknown` with type guards
-- **Don't skip type guards** - Create `is*` functions for runtime type checking
-- **Don't avoid generics** - Use them for reusable, type-safe components
-
 ### Code organization
-- **Don't inline long mock data** - Extract arrays with >5 complex items to JSON files
-- **Don't write redundant comments** - Code should be self-documenting; comment only non-obvious logic
-
-### Web Components
-- **Don't use Shadow DOM by default** - Prefer Light DOM for accessibility and styling inheritance
-- **Don't forget event cleanup** - Remove all listeners in `disconnectedCallback()`
-- **Don't use semantic attributes as JS hooks** - Avoid using `role`, `aria-*` for event handling
-
-### State management
-- **Don't use Context for complex state** - Use Zustand when persistence or complex logic is needed
-- **Don't use arrays for frequent lookups** - Use Maps for O(1) performance
+- Don't inline long mock data - Extract arrays with >5 complex items to JSON files
+- Don't write redundant comments - Code should be self-documenting; comment only non-obvious logic
