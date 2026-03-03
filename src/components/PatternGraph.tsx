@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   forceSimulation,
   forceLink,
@@ -40,15 +40,8 @@ interface RenderedEdge {
   y2: number;
 }
 
-interface Transform {
-  x: number;
-  y: number;
-  scale: number;
-}
-
 const SVG_WIDTH = 900;
 const SVG_HEIGHT = 600;
-const INITIAL_TRANSFORM: Transform = { x: 0, y: 0, scale: 1 };
 
 const CATEGORY_TARGETS: Record<string, [number, number]> = {
   Foundations:        [190, 300],
@@ -151,13 +144,7 @@ function buildGraph() {
 
 export function PatternGraph() {
   const [graph] = useState(buildGraph);
-  const [transform, setTransform] = useState<Transform>(INITIAL_TRANSFORM);
-  const transformRef = useRef(transform);
-  transformRef.current = transform;
-
   const [hoveredId, setHoveredId] = useState<string | null>(null);
-  const dragRef = useRef<{ startX: number; startY: number; tx: number; ty: number } | null>(null);
-  const hasDragged = useRef(false);
 
   const neighbors = hoveredId ? (graph.adjacency.get(hoveredId) ?? new Set<string>()) : null;
 
@@ -174,37 +161,8 @@ export function PatternGraph() {
     return 'pattern-graph__edge pattern-graph__edge--dimmed';
   };
 
-  const handlePointerDown = useCallback((e: React.PointerEvent<SVGSVGElement>) => {
-    if (e.button !== 0) return;
-    const t = transformRef.current;
-    dragRef.current = { startX: e.clientX, startY: e.clientY, tx: t.x, ty: t.y };
-    hasDragged.current = false;
-  }, []);
-
-  const handlePointerMove = useCallback((e: React.PointerEvent<SVGSVGElement>) => {
-    if (!dragRef.current) return;
-    const dx = e.clientX - dragRef.current.startX;
-    const dy = e.clientY - dragRef.current.startY;
-    if (!hasDragged.current && Math.hypot(dx, dy) > 3) {
-      hasDragged.current = true;
-    }
-    if (hasDragged.current) {
-      setTransform((t) => ({ ...t, x: dragRef.current!.tx + dx, y: dragRef.current!.ty + dy }));
-    }
-  }, []);
-
-  const handlePointerUp = useCallback(() => {
-    dragRef.current = null;
-  }, []);
-
-  const handleDoubleClick = useCallback(() => {
-    setTransform(INITIAL_TRANSFORM);
-  }, []);
-
   const handleNodeActivate = useCallback((path: string) => {
-    if (!hasDragged.current) {
-      window.parent.location.href = path;
-    }
+    window.parent.location.href = path;
   }, []);
 
   return (
@@ -214,12 +172,8 @@ export function PatternGraph() {
         viewBox={graph.viewBox}
         role="img"
         aria-label="Force-directed graph of design system patterns and their relationships"
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onDoubleClick={handleDoubleClick}
       >
-        <g transform={`translate(${transform.x},${transform.y}) scale(${transform.scale})`}>
+        <g>
           {graph.edges.map((edge) => (
             <line
               key={edge.id}

@@ -13,9 +13,9 @@ paths:
 ## Document structure
 Standard section order:
 1. Import + `<Meta title="Category/Name" />`
-2. Fun meter: `> 🙂 **Fun meter: X/5**. [Brief context]`
+2. Fun meter: `> 🙂 **Fun meter: X/5**. [How interesting it is to work with this pattern. Typically, it's inversely proportional to how established the pattern is]`
 3. `# Title` (sentence case) with a one-sentence definition
-4. Core content (Variants, Forces, States — varies by doc type)
+4. Core content (varies by pattern type)
 5. `## Related patterns` with subcategories: *Precursors*, *Follow-ups*, *Complementary*, *Tangentially related*
 6. `## Resources & references` for external sources
 

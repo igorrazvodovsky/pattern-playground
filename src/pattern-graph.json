@@ -3159,6 +3159,150 @@
     {
       "source": "patterns-tag",
       "target": "qualities-formality"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "compositions-searching"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "compositions-browsing-sensemaking-filtering"
+    },
+    {
+      "source": "compositions-browsing-sensemaking-filtering",
+      "target": "foundations-intent-interaction"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "patterns-command-menu"
+    },
+    {
+      "source": "patterns-command-menu",
+      "target": "foundations-intent-interaction"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "patterns-annotation"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "patterns-tag"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "patterns-undo"
+    },
+    {
+      "source": "patterns-undo",
+      "target": "foundations-intent-interaction"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "components-dialog"
+    },
+    {
+      "source": "components-dialog",
+      "target": "foundations-intent-interaction"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "compositions-commenting"
+    },
+    {
+      "source": "compositions-commenting",
+      "target": "foundations-intent-interaction"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "patterns-activity-feed"
+    },
+    {
+      "source": "patterns-activity-feed",
+      "target": "foundations-intent-interaction"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "patterns-states-empty-state"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "patterns-onboarding"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "compositions-messaging"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "patterns-bot"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "patterns-prompt"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "compositions-browsing-sensemaking-sorting"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "compositions-browsing-sensemaking-grouping"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "compositions-item-view"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "compositions-structure-overview-and-detail"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "patterns-focus-and-context"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "patterns-progressive-disclosure"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "patterns-dynamic-hyperlinks"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "patterns-workspace"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "primitives-button"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "compositions-form"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "compositions-wizard"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "patterns-data-operations-saving"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "patterns-status-feedback"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "patterns-activity-log"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "patterns-notification"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "patterns-ai-tuning"
     }
   ]
 }
