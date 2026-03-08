@@ -112,7 +112,8 @@
       "WebFetch(domain:ui-patterns.com)",
       "Bash(echo exit: $?:*)",
       "Bash(git diff:*)",
-      "Bash(wc:*)"
+      "Bash(wc:*)",
+      "WebFetch(domain:catalogue.projectsbyif.com)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"

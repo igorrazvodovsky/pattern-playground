@@ -13,10 +13,10 @@ paths:
 ## Document structure
 Standard section order:
 1. Import + `<Meta title="Category/Name" />`
-2. Fun meter: `> 🙂 **Fun meter: X/5**. [How interesting it is to work with this pattern. Typically, it's inversely proportional to how established the pattern is]`
+2. Fun meter: `> 🙂 **Fun meter: X/5**. [How interesting it is to work with this pattern. Typically, it's inversely proportional to how established the pattern is]` — the X/5 rating is conventional but the format can vary; a short description without a numeric rating is acceptable
 3. `# Title` (sentence case) with a one-sentence definition
 4. Core content (varies by pattern type)
-5. `## Related patterns` with subcategories: *Precursors*, *Follow-ups*, *Complementary*, *Tangentially related*
+5. `## Related patterns` with subcategories — standard set is *Precursors*, *Follow-ups*, *Complementary*, *Tangentially related*, but custom subcategories (e.g., *Containers and primitives*, *Applied in*) are acceptable when they clarify the nature of the relationship better
 6. `## Resources & references` for external sources
 
 ## Behavioural framework
