@@ -8,18 +8,27 @@ const preview: Preview = {
     docs: {
       toc: { headingSelector: '.sbdocs-content > h2:not(.sbdocs-subtitle), .sbdocs-content > h3' },
     },
+
     controls: {
       matchers: {
         color: /(background|color)$/i,
         date: /Date$/i,
       },
     },
+
     options: {
       storySort: {
         method: 'alphabetical',
         order: ['Introduction', 'Foundations', ['Overview', 'Principles', '*'], 'Qualities', ['Overview', '*'], 'Visual elements', ['Overview', '*'], 'Primitives', ['Overview', '*'], 'Components', ['Overview', '*'], 'Compositions', ['Overview', 'Structure', ['Overview', '*'], '*'], 'Patterns', ['Overview', '*'], 'Data visualization*', ['Overview', 'Chart types', 'Elements', '*'], 'Concepts', ['Overview', '*'], '*'],
       },
     },
+
+    a11y: {
+      // 'todo' - show a11y violations in the test UI only
+      // 'error' - fail CI on a11y violations
+      // 'off' - skip a11y checks entirely
+      test: 'todo'
+    }
   },
 
   tags: ['autodocs']
