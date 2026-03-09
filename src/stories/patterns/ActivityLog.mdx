@@ -15,9 +15,31 @@ Who, what, and when – chronological list of the actors' actions.
 
 - Actor: user, other humans, system, LLM, etc.
 - Activity: what the actor did
-- Object: The specific item that was affected by the action
+- Object: the specific item that was affected by the action
 - When: when the action happened
 - Available actions
+
+## Inspecting an event
+
+An event entry can expand from a record into an interactive surface. Closer inspection might reveal decision context, trigger follow-up actions, or simply satisfy curiosity — it isn't limited to corrective scenarios.
+
+### Decision context
+
+The factors that contributed to the event: inputs, rules, model confidence, actor permissions, or prior state. For deterministic system actions, this might be a rule trace. For AI-driven decisions, it could be a reasoning chain, feature attributions, or a natural-language summary. [Explanation](../?path=/docs/patterns-explanation--docs) and [transparent reasoning](../?path=/docs/patterns-transparent-reasoning--docs) provide the content; the log provides the anchor.
+
+### Actions from inspection
+
+What an actor might do after inspecting an event depends on the domain and what the inspection reveals:
+
+- _Follow up_ — continue a conversation, ask a clarifying question, or act on what they've learned
+- _Flag or dispute_ — mark the event for review if something looks wrong
+- _Adjust settings_ — change conditions that led to the event (permissions, preferences, thresholds)
+- _Escalate_ — route to a human reviewer or support channel
+
+### Anti-patterns
+
+- _Theatre transparency_ — surfacing decision factors that are technically accurate but too abstract to be meaningful ("Based on your profile"). The context must be specific enough for the actor to evaluate what happened.
+- _Inspection without action_ — showing _why_ something happened but offering no way to act on it.
 
 ## Examples
 
