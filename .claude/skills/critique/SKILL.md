@@ -150,6 +150,3 @@ Effective critique results in:
 - The purpose is to arrive at better understanding, not to "win" an argument
 - Be willing to acknowledge when reasoning holds up under scrutiny
 
-## References
-
-For the original concise guidelines, see `references/critique.md`.
