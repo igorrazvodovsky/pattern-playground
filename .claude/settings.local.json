@@ -113,7 +113,8 @@
       "Bash(echo exit: $?:*)",
       "Bash(git diff:*)",
       "Bash(wc:*)",
-      "WebFetch(domain:catalogue.projectsbyif.com)"
+      "WebFetch(domain:catalogue.projectsbyif.com)",
+      "WebFetch(domain:assets.interaction-design.org)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"
