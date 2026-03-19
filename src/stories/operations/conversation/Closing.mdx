@@ -1,0 +1,27 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Operations/Conversation/Conversation management/Closing" tags={['activity-level:operation', 'atomic:primitive']} />
+
+> 😊 **Fun meter: 3/5**. Looking for useful building blocks for conversational UI.
+
+
+# Closing
+
+End the encounter cleanly with an opportunity for last topics.
+
+1. A → U: Check for user last topics** (“Anything else?”).
+2. U: Add last topic(s) or decline.
+3. A: Address last topic(s) briefly or schedule follow‑ups.
+4. A: Deliver last topic.
+
+## When to use
+After fulfilling the current goal or when the user signals completion.
+
+## Metrics
+“Anything else?” conversion; post-close re-openings; satisfaction/CSAT on closes.
+
+## Related patterns
+
+- [Conversation](../?path=/docs/activities-conversation--docs) — parent pattern
+- [Sequence completion](../?path=/docs/operations-conversation-sequence-management-sequence-completion--docs) — the user's minimal receipt that signals a sequence is done; closing follows when the overall goal is achieved
+- [Disengage without closing](../?path=/docs/operations-conversation-conversation-management-disengage-without-closing--docs) — alternative when the user steps away without a formal close

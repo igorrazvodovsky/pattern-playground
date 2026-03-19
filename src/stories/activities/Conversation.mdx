@@ -1,0 +1,138 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Activities/Conversation" tags={['activity-level:activity', 'atomic:pattern']} />
+
+> 🙂 **Fun meter: 5/5**.
+
+# Conversation
+
+Building on the [foundational understanding](../?path=/docs/qualities-conversation--docs) that all interactions are conversational, this pattern focuses on designing explicit conversational interfaces where dialogue is the primary interaction mode.
+Conversation patterns create structured dialogue between users and systems, supporting natural back-and-forth exchanges that adapt to context and intent over multiple turns.
+
+## Interaction-type specific patterns
+Conversation patterns flex based on the actors involved:
+TODO: Human ↔︎ Human, Human ↔︎ LLM, Human ↔︎ Agent, Human xN ↔︎ Agent, Agent ↔︎ Agent?
+
+## Conversation stages
+Conversation unfolds over time, often nonlinearly:
+TODO: pre-conversation, early turns, mid-flow, transition to action, error paths, post-conversation, ...
+
+## Dialogue forms
+
+Conversations take different structural forms that shape collaboration dynamics, cognitive engagement, and outcome quality. Research shows dialogue form significantly impacts elaboration depth, ownership, and diversity in co-creative work (Maier et al. 2025).
+
+### Question-driven dialogue
+
+Bot asks reflective, open-ended questions that prompt human thinking and elaboration rather than providing direct solutions.
+
+**Characteristics:**
+- Maintains human creative agency and perceived ownership
+- Increases elaboration depth (55% substantive, 45% reframing)
+- Preserves idea diversity through exploration
+- Requires higher cognitive engagement
+- Mitigates fixation effects from premature convergence
+- Effective for creative, exploratory, and learning tasks
+
+**Question approaches:**
+- *Knowledge-based*: Share specific capabilities or lesser-known functions that could inspire new directions ("Feature X has capability Y that enables Z. How might this change your approach?")
+- *Analogy-based*: Provide cross-domain analogies that resemble the core concept or solve similar problems ("Domain A addresses this with approach B. How could that lens apply here?")
+- *Clarification*: Ask targeted questions about problem context, audience, constraints, or mechanisms to develop ideas from abstract to concrete
+
+**Example flow:**
+1. Human shares initial idea
+2. Bot asks knowledge or analogy question to generate alternatives
+3. Human selects direction and elaborates
+4. Bot asks clarifying questions to increase specificity and usefulness
+5. Iterative refinement through continued questioning
+
+**When to use:** Creative ideation, exploratory problem-solving, skill development, complex decision-making, learning contexts where depth matters more than speed
+
+**Trade-offs:** Higher cognitive load, slower task completion, requires human to do substantive thinking work
+
+### Suggestion-based dialogue
+
+Bot provides explicit recommendations, examples, or alternative approaches for human consideration.
+
+**Characteristics:**
+- Reduces cognitive load through concrete options
+- Risk of fixation on provided examples (65% minor elaboration, 25% no elaboration)
+- Can decrease diversity through homogenisation effects
+- Lower perceived ownership when suggestions dominate
+- Effective for optimisation and refinement tasks within bounded spaces
+
+**When to use:** Refinement of existing ideas, efficiency improvements, tasks with clear evaluation criteria, contexts where speed matters more than novelty
+
+**Trade-offs:** Risk of anchoring bias, reduced exploration, homogenisation across users, lower skill development
+
+### Instruction-based dialogue
+
+Bot executes direct commands or requests with minimal back-and-forth.
+
+**Characteristics:**
+- System-led agency during execution
+- Lowest elaboration depth (90% surface acceptance in model-led mode)
+- High risk of algorithmic loafing—human disengagement from cognitive work
+- Efficient for well-defined, routine tasks
+- Reduced ownership and skill maintenance over time
+
+**When to use:** Routine execution, translation, formatting, tasks with single correct approach, automation of mechanical work
+
+**Trade-offs:** Skill atrophy, reduced learning, loss of creative engagement, dependency on system capabilities
+
+### Critique and debate
+
+Bot challenges assumptions, questions reasoning, or presents opposing viewpoints to strengthen thinking.
+
+**Characteristics:**
+- Adversarial stance that tests robustness
+- Reveals hidden assumptions and weak points
+- Requires human to defend and refine reasoning
+- Can increase frustration if tone isn't calibrated
+
+**When to use:** Validation, quality assurance, decision review, risk assessment, learning through argumentation
+
+## Dialogue form selection
+
+Choice of dialogue form depends on:
+- **Task nature**: Creative vs routine, exploratory vs optimisation
+- **Outcome goals**: Novelty vs efficiency, depth vs speed, diversity vs convergence
+- **Human state**: Available cognitive capacity, skill level, learning vs producing mode
+- **Relationship stage**: Early exploration benefits from questions; late refinement from suggestions
+
+Effective [collaboration](../?path=/docs/activities-collaboration--docs) often sequences dialogue forms—using questions during exploration phases and suggestions during refinement.
+
+## [Behaviour](../?path=/docs/foundations-intent-interaction--docs)-oriented patterns
+
+Conversation patterns align with the behavioural framework's turn-taking structure. Each behaviour mode creates natural conversational rhythms:
+
+- **Motivated movement**: clear query-response cycles where actors state intent and systems provide targeted responses
+- **Delightful discovery**: system-initiated turns that invite exploration, with actors responding through engagement
+- **Foggy finding**: collaborative problem-solving where both actors and systems contribute to clarification
+
+The [intent lifecycle](../?path=/docs/foundations-intent-interaction--docs#intent-lifecycle) provides temporal structure for extended conversations, while cooperation maxims ensure each turn respects actor agency and intent.
+
+## Related patterns
+
+- [Localization](../?path=/docs/activities-localization--docs) — dialogue structure adapted to cultural communication norms
+- [Messaging](../?path=/docs/actions-coordination-messaging--docs) – where conversation happens
+- [Bot](../?path=/docs/activities-bot--docs) – conversation partner
+- [Prompt](../?path=/docs/activities-prompt--docs) translates user needs into structured AI behavior within a conversation
+- [Text lens](../?path=/docs/actions-evaluation-text-lens--docs) – filter lenses adapt conversational tone and style based on context and relationship
+- *Conversation history* facilitates continuity, knowledge retention, and revisiting prior interactions
+- [Collaboration](../?path=/docs/activities-collaboration--docs) – uses conversation as a core communication mechanism for collaborative work
+- [Form](../?path=/docs/actions-application-form--docs) can evolve into a conversation by adopting a dialogic flow
+
+### Conversational primitives
+
+Dialogue forms are composed from tactical turn-taking primitives that structure individual conversational moves.
+
+- Question-driven dialogue chains [bot inquiry](../?path=/docs/operations-conversation-conversational-activities-inquiry-bot--docs) moves, where the bot asks questions to elicit human thinking
+- Instruction-based dialogue typically begins with [open request](../?path=/docs/operations-conversation-conversational-activities-open-request--docs), where users make complex requests requiring clarification and multi-step execution
+- All dialogue forms leverage [repair affordances](../?path=/docs/operations-conversation-sequence-management-bot-repair--docs) and [sequence management](../?path=/docs/operations-conversation-sequence-management-sequence-completion--docs) patterns to handle breakdowns and closures
+- Encounters are framed by conversation management primitives — [opening (bot)](../?path=/docs/operations-conversation-conversation-management-opening-bot--docs), [opening (user)](../?path=/docs/operations-conversation-conversation-management-opening-user--docs), [capability & scope](../?path=/docs/operations-conversation-conversation-management-capability-scope--docs), [closing](../?path=/docs/operations-conversation-conversation-management-closing--docs), and [disengage without closing](../?path=/docs/operations-conversation-conversation-management-disengage-without-closing--docs) — that structure the start, end, and interruption of encounters
+
+## Resources & references
+
+- Maier, Schneider, Feuerriegel (2025) [Partnering with Generative AI: Experimental evaluation of human-led and model-led interaction in human-AI co-creation](https://arxiv.org/abs/2510.23324)
+- Moore, Liu, Mishra, Ren (2020) [Design Systems for Conversational UX](https://dl.acm.org/doi/10.1145/3405755.3406150)
+- Burbules (2010) [Theory and research on teaching as dialogue](https://www.jstor.org/stable/42979746)

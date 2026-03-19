@@ -114,7 +114,17 @@
       "Bash(git diff:*)",
       "Bash(wc:*)",
       "WebFetch(domain:catalogue.projectsbyif.com)",
-      "WebFetch(domain:assets.interaction-design.org)"
+      "WebFetch(domain:assets.interaction-design.org)",
+      "Bash(grep -n \"from ''''.*data\" /Users/igors.razvodovskis/Development/pattern-plgrnd/src/stories/operations/Reference.stories.tsx)",
+      "Bash(for f:*)",
+      "Bash(do sed:*)",
+      "Bash(while read:*)",
+      "Bash(do)",
+      "Bash(cd:*)",
+      "WebFetch(domain:informationr.net)",
+      "Bash(git:*)",
+      "WebFetch(domain:www.interaction-design.org)",
+      "WebFetch(domain:ixdf.org)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"

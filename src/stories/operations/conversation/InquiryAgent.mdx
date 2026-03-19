@@ -1,0 +1,27 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Operations/Conversation/Conversational activities/Inquiry (Bot)" tags={['activity-level:operation', 'atomic:primitive']} />
+
+> 😊 **Fun meter: 3/5**. Looking for useful building blocks for conversational UI.
+
+# Inquiry (Bot)
+
+The bot asks the user a question to which it does *not* know the answer in order to capture new information.
+
+1. A: Ask for a specific piece of information (slot).
+2. U: Provide value → A: Confirm/store.
+3. U (Optional): Sequence closer.
+
+This primitive is the building block for [question-driven dialogue](../?path=/docs/activities-conversation--docs#question-driven-dialogue), where chains of bot inquiries prompt human thinking and elaboration.
+
+## Repair affordances
+Repeat the question; paraphrase; example of valid input; define technical terms.
+
+## Metrics
+Drop-off per slot; correction rate; time-to-complete; data validity rate.
+
+## Related patterns
+
+- [Conversation](../?path=/docs/activities-conversation--docs) — parent pattern; bot inquiry drives question-driven dialogue
+- [Opening (User)](../?path=/docs/operations-conversation-conversation-management-opening-user--docs) — bot inquiry is used when a user opening requires clarification before the bot can proceed
+- [Open request](../?path=/docs/operations-conversation-conversational-activities-open-request--docs) — bot inquiry is embedded within open request to gather missing constraints

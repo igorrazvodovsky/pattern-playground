@@ -1,0 +1,60 @@
+import { Canvas, Story, Meta, Subtitle } from '@storybook/addon-docs/blocks';
+import * as DataViewStories from './DataView.stories';
+
+<Meta of={DataViewStories} tags={['activity-level:action', 'atomic:composition', 'lifecycle:seeking']} />
+
+> 🙂 **Fun meter: 3/5**. Dependency.
+
+# Data view
+
+Collection-scope representations within the [view](../?path=/docs/actions-sensemaking-view--docs) system.
+Displays a [collection](../?path=/docs/concepts-collection--docs), enabling actors to quickly scan, explore, and interact with [items](../?path=/docs/concepts-item--docs).
+By combining varied representations with filtering, sorting, and grouping, data view provides tools for framing the data according to user needs.
+
+<Story of={DataViewStories.DataView} />
+
+{/* TODO: */}
+{/* ✓ cards */}
+{/* ✓ table */}
+{/* ✓ representation switching */}
+{/* ✓ attribute selection */}
+{/* ✓ sorting */}
+{/* ✗ filtering */}
+{/* ✗ grouping */}
+
+## Saved views
+
+Saved views persist particular framings to reduce friction for repeat tasks, support different actor roles, and provide continuity across sessions.
+
+- Developers define default views that align with the application's core use cases or intended actor journeys
+- Administrators configure role-specific or task-specific views shared across teams or departments
+- End users create personalised views tuned to their workflow or preferences
+
+
+{/* ## Transitions */}
+{/* Data views enable fluid navigation between collection and item: */}
+{/* - Collection → Item summary: Select row in table to reveal expanded detail panel */}
+{/* - Collection → Item detail: Click card to open modal with task-relevant information */}
+{/* - Collection → Item full: Navigate from collection to dedicated item page */}
+{/* - Item → Collection: Return to filtered/sorted collection view while preserving framing */}
+
+## Related patterns
+
+- [View](../?path=/docs/foundations-view-system--docs) - Conceptual framework for need-driven framings
+- [Semantic zoom](../?path=/docs/actions-application-semantic-zoom--docs) - Density-preserving transitions between collection and items
+- [Item view](../?path=/docs/actions-seeking-item-view--docs) - Single-entity counterpart
+
+### Precursor patterns
+
+- Filtering
+- [Sorting](../?path=/docs/actions-seeking-sorting--docs)
+- [Grouping](../?path=/docs/actions-sensemaking-grouping--docs)
+- Search
+- [Toolbar](../?path=/docs/actions-coordination-toolbar--docs)
+- Pagination
+- Representation: [Table](../?path=/docs/actions-evaluation-table--docs), [cards](../?path=/docs/actions-sensemaking-card--docs), list, [timeline](../?path=/docs/actions-evaluation-timeline--docs), canvas, grid, calendar, gallery, kanban, gantt, the list goes on
+
+### Follow-up patterns
+
+- Batch actions: enables interacting with multiple items simultaneously
+- Inline editing: supports direct manipulation or updating of displayed data

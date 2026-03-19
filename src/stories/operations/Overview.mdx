@@ -1,0 +1,87 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Operations/Overview" />
+
+# Operations
+
+Automatic, infrastructural interactions that should just work. Operations are the reliable substrate beneath conscious action — well-established patterns with standardised implementations that actors use without deliberation.
+
+>The boundary between operations and [actions](../?path=/docs/actions-overview--docs) is fluid. An action practised enough becomes operational; an operation in an unfamiliar context demands conscious attention.
+
+## Data entry
+
+Capturing information from actors. These provide the fundamental controls for input with appropriate validation and feedback.
+
+- [Input](../?path=/docs/operations-input--docs)
+- [Textarea](../?path=/docs/operations-textarea--docs)
+- [Checkbox](../?path=/docs/operations-checkbox--docs)
+
+Input operations combine into [forms](../?path=/docs/actions-application-form--docs) and other compositions.
+
+## Metadata & categorisation
+
+Labelling and organising information — adding semantic layers to content.
+
+- [Tag](../?path=/docs/operations-tag--docs) — categorisation and filtering labels
+- [Badge](../?path=/docs/operations-badge--docs) — status indicators and counts
+- [Reference](../?path=/docs/operations-reference--docs) — citations and source tracking
+- [Deep linking](../?path=/docs/operations-deep-linking--docs) — direct access to specific states
+
+## Navigation infrastructure
+
+Structural elements that enable movement through information.
+
+- [Breadcrumbs](../?path=/docs/operations-breadcrumbs--docs) — location awareness within hierarchy
+- [Tabs](../?path=/docs/operations-tabs--docs) — switching between parallel views
+- [Details](../?path=/docs/operations-details--docs) — collapsible content sections
+
+## Controls & affordances
+
+Communicating interactive possibilities and triggering actions.
+
+- [Button](../?path=/docs/operations-button--docs) — primary action trigger
+- [Keyboard key](../?path=/docs/operations-keyboard-key--docs) — documenting keyboard interactions
+- [Overflow](../?path=/docs/operations-overflow--docs) — indicating hidden content or actions
+- [Morphing controls](../?path=/docs/operations-morphing-controls--docs) — controls that adapt their form to context
+- [Inline confirmation](../?path=/docs/operations-inline-confirmation--docs) — lightweight commitment before destructive actions
+
+## Display & feedback
+
+Conveying system state and contextual information.
+
+- [Avatar](../?path=/docs/operations-avatar--docs) — visual identity representation
+- [Callout](../?path=/docs/operations-callout--docs) — contextual alerts and guidance
+- [Popover](../?path=/docs/operations-popover--docs) — temporary contextual information
+- [Toast](../?path=/docs/operations-toast--docs) — transient status messages
+- [Status feedback](../?path=/docs/operations-status-feedback--docs) — communicating system state
+- [Progress indicator](../?path=/docs/operations-progress-indicator--docs) — visualising ongoing processes
+- [Bar chart](../?path=/docs/data-visualization-bar-chart--docs) — simple data comparison
+
+## States
+
+Addressing specific system states that cut across other categories.
+
+- [Empty state](../?path=/docs/operations-empty-state--docs) — guiding actors when nothing exists yet
+- [Disabled state](../?path=/docs/operations-disabled-state--docs) — communicating unavailable options
+- [Unavailable actions](../?path=/docs/operations-unavailable-actions--docs) — explaining why actions aren't possible
+
+## Recovery
+
+- [Undo](../?path=/docs/operations-undo--docs) — reversing actions
+- [Good defaults](../?path=/docs/operations-good-defaults--docs) — reducing the need for recovery by starting right
+
+## Conversation building blocks
+
+Primitives for constructing conversational flows. These form the turn-taking substrate that [conversation](../?path=/docs/activities-conversation--docs) as an activity is built from.
+
+### Conversational activities
+
+Core interaction moves: the actor asking a question through [inquiry](../?path=/docs/operations-conversation-conversational-activities-inquiry-user--docs), making an [open request](../?path=/docs/operations-conversation-conversational-activities-open-request--docs), the bot doing [extended telling](../?path=/docs/operations-conversation-conversational-activities-extended-telling--docs), and the bot asking a question through [inquiry](../?path=/docs/operations-conversation-conversational-activities-inquiry-bot--docs).
+
+### Sequence management
+
+Handling breakdowns and transitions within a sequence: [bot repair](../?path=/docs/operations-conversation-sequence-management-bot-repair--docs), [user repair](../?path=/docs/operations-conversation-sequence-management-user-repair--docs), [sequence completion](../?path=/docs/operations-conversation-sequence-management-sequence-completion--docs), and [abort](../?path=/docs/operations-conversation-sequence-management-abort--docs).
+
+### Conversation management
+
+Initiating and ending encounters: the bot [opening](../?path=/docs/operations-conversation-conversation-management-opening-bot--docs), the actor [opening](../?path=/docs/operations-conversation-conversation-management-opening-user--docs), establishing [capability & scope](../?path=/docs/operations-conversation-conversation-management-capability-scope--docs), [closing](../?path=/docs/operations-conversation-conversation-management-closing--docs), or [disengaging without closing](../?path=/docs/operations-conversation-conversation-management-disengage-without-closing--docs).

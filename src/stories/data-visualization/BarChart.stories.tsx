@@ -134,7 +134,7 @@ function BarChartWrapper({
 }
 
 const meta = {
-  title: "Data visualization*/Bar chart",
+  title: "Data visualization/Bar chart",
   component: BarChartWrapper,
   argTypes: {
     orientation: {

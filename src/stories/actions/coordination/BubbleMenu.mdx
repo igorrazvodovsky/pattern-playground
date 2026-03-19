@@ -1,0 +1,43 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import * as BubbleMenuStories from './BubbleMenu.stories';
+
+<Meta of={BubbleMenuStories} tags={['activity-level:action', 'atomic:component', 'lifecycle:coordination']} />
+
+> **Fun meter: 3/5**. Dependency.
+
+# Bubble menu
+
+A contextual menu that appears when users select content, providing relevant actions for the selected text or elements. Enables users to act on specific content without interrupting their reading or editing flow.
+
+<Story of={BubbleMenuStories.Basic} />
+
+
+## Variants
+
+### Commenting
+
+<Story of={BubbleMenuStories.Commenting} />
+
+### Text lense
+
+<Story of={BubbleMenuStories.TextLense} />
+
+## Related patterns
+
+### Precursors
+
+- [Progressive disclosure](../?path=/docs/actions-seeking-progressive-disclosure--docs)
+
+### Complementary
+
+- [Popover](../?path=/docs/operations-popover--docs) - underlying positioning mechanism
+- [Command menu](../?path=/docs/actions-seeking-command-menu--docs) - alternative access to actions
+- Context menu - alternative access to actions
+
+### Follow-ups
+
+- [Block-based editor](../?path=/docs/actions-sensemaking-blockbased-editor--docs) - uses bubble menu for contextual text actions
+
+### Tangentially related
+
+- [Suggestion](../?path=/docs/actions-application-suggestion--docs) - system-recommended actions

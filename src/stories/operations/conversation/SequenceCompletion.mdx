@@ -1,0 +1,24 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Operations/Conversation/Sequence management/Sequence completion" tags={['activity-level:operation', 'atomic:primitive']} />
+
+> 😊 **Fun meter: 3/5**. Looking for useful building blocks for conversational UI.
+
+# Sequence completion
+
+The user signals the current sequence has **successfully completed**.
+
+1. U → A: Minimal **receipt** in “third position” (e.g., “Thanks,” “Got it,” "👍").
+2. A: Brief acknowledgement; *transition* to next activity or offer *projected next steps*.
+3. U (Optional): Start a new activity or close (see conversation management patterns).
+
+## Metrics
+Completion without next-move pick; next-move acceptance rate; premature re-prompts.
+
+## Related patterns
+
+- [Conversation](../?path=/docs/activities-conversation--docs) — parent pattern
+- [Bot repair](../?path=/docs/operations-conversation-sequence-management-bot-repair--docs) — resumes the primary activity at sequence completion once a bot-side breakdown is resolved
+- [User repair](../?path=/docs/operations-conversation-sequence-management-user-repair--docs) — resumes at sequence completion once the user's comprehension is restored
+- [Closing](../?path=/docs/operations-conversation-conversation-management-closing--docs) — natural follow-up when sequence completion signals the overall goal is achieved
+

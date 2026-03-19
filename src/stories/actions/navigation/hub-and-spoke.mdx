@@ -1,0 +1,69 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Actions/Navigation/Hub and spoke" tags={['activity-level:action', 'atomic:composition', 'lifecycle:seeking']} />
+
+> 🗺️ **Fun meter: 2/5**. Mapping out the basics.
+
+# Hub and spoke
+
+Hub lists major sections. Actors navigate to spokes, complete tasks, then return to hub for other sections. Spokes link only to hub, not to each other.
+
+This structure trades navigation flexibility for cognitive simplicity—actors always know the path to any destination. Limited space in spokes constrains additional navigation options.
+
+Most commonly found on mobile devices where screen space is limited and clear task focus is valuable. The iPhone home screen exemplifies the pattern: apps are spokes, the home screen is the hub.
+
+## Behavioural position
+
+**Supports**
+- [Monitoring](../?path=/docs/foundations-intent-interaction--docs#monitoring) — hub can surface updates and status from all spokes
+- [Transactional search](../?path=/docs/foundations-intent-interaction--docs#transactional-search) — direct selection from hub when target is known
+
+**Constrains**
+- [Navigating](../?path=/docs/foundations-intent-interaction--docs#navigating) — forces hub return even when destination is known
+- [Browsing](../?path=/docs/foundations-intent-interaction--docs#browsing) — limits lateral movement between related spokes
+
+The constraint on navigating can frustrate actors who know their destination but must take two-step journeys. However, for [exploring](../?path=/docs/foundations-intent-interaction--docs#exploring), the hub provides clear overview of available spaces.
+
+## Variants
+
+- Pure hub and spoke: Spokes contain no navigation to other spokes. Only path back is to hub. Best for completely independent sections.
+- Hub and spoke with limited cross-links: Spokes can link to closely related spokes directly. Good for sections with clear relationships.
+- Hub and spoke with global navigation: Hub provides entry point, but spokes include global navigation to all sections. Becomes [hybrid pattern](../?path=/docs/actions-navigation-hybrid-patterns--docs#hub-and-spoke--fully-connected).
+
+## States
+
+### Hub states
+- Active — currently displaying, actors select destination
+- Returning — navigated back from spoke, may need visual indication of previous context
+- Updated — indicators show changes in spokes (badges, highlights, notifications)
+
+### Spoke states
+- Active — currently displaying content/functionality
+- Accessible — available from hub
+- Restricted — greyed out or hidden based on permissions or prerequisites
+- Notifying — has updates or requires attention (shown on hub)
+
+
+## Related patterns
+
+### Precursors
+- [Flat navigation](../?path=/docs/actions-navigation-flat-navigation--docs) → hub and spoke when items exceed screen capacity
+
+### Complements
+- [Command menu](../?path=/docs/actions-seeking-command-menu--docs) — provides escape hatch for quick navigation without hub return
+- [Deep linking](../?path=/docs/operations-deep-linking--docs) — enables direct spoke access from external sources
+- [Searching](../?path=/docs/actions-seeking-searching--docs) — alternative to hub browsing for known destinations
+
+### Follow-ups
+- [Workspace](../?path=/docs/activities-workspace--docs) — organisational containers often use hub and spoke
+- Mobile app architectures with tab bars
+
+### Alternatives
+- [Fully connected](../?path=/docs/actions-navigation-fully-connected--docs) for frequent cross-section movement
+- [Multilevel tree](../?path=/docs/actions-navigation-multilevel-tree--docs) for hierarchical relationships
+- [Hub and spoke + fully connected](../?path=/docs/actions-navigation-hybrid-patterns--docs#hub-and-spoke--fully-connected) to add cross-spoke navigation
+
+## Resources & references
+
+- Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed.
+- Nielsen Norman Group (2015) [Mobile Navigation Patterns](https://www.nngroup.com/articles/mobile-navigation-patterns/)

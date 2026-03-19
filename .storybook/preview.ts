@@ -19,7 +19,16 @@ const preview: Preview = {
     options: {
       storySort: {
         method: 'alphabetical',
-        order: ['Introduction', 'Foundations', ['Overview', 'Principles', '*'], 'Qualities', ['Overview', '*'], 'Visual elements', ['Overview', '*'], 'Primitives', ['Overview', '*'], 'Components', ['Overview', '*'], 'Compositions', ['Overview', 'Structure', ['Overview', '*'], '*'], 'Patterns', ['Overview', '*'], 'Data visualization*', ['Overview', 'Chart types', 'Elements', '*'], 'Concepts', ['Overview', '*'], '*'],
+        order: [
+          'Introduction',
+          'Foundations', ['Overview', 'Principles', '*'],
+          'Qualities', ['Overview', '*'],
+          'Operations', ['Overview', 'Conversation', ['Conversational activities', 'Sequence management', 'Conversation management', '*'], '*'],
+          'Actions', ['Overview', 'Seeking', 'Evaluation', 'Sense-making', 'Application', 'Coordination', 'Navigation', ['Overview', '*'], '*'],
+          'Activities', ['Overview', '*'],
+          'Data visualization', ['Overview', '*'],
+          'Concepts', ['Overview', '*'],
+          '*'],
       },
     },
 

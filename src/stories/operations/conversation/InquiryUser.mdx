@@ -1,0 +1,37 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Operations/Conversation/Conversational activities/Inquiry (User)" tags={['activity-level:operation', 'atomic:primitive']} />
+
+> 😊 **Fun meter: 3/5**. Looking for useful building blocks for conversational UI.
+
+# Inquiry (User)
+
+A user asks a simple question or makes a simple request; the bot provides a direct response.
+
+1. U → A: Inquiry → Fulfillment
+2. U (Optional): Sequence closer ("Thanks", "Got it").
+
+This primitive appears across all [dialogue forms](../?path=/docs/activities-conversation--docs#dialogue-forms).
+
+## Guidance
+- Optimise for *minimisation*: answer first, then offer one-tap *next moves*.
+- Prefer *explicit evidence* for non-trivial answers (source, timestamp).
+- Keep turns short; avoid multi-part instructions (use *extended telling* instead).
+
+## Repair affordances
+Repeat, paraphrase, example, definition
+
+## Next moves
+Ask a follow-up, see sources, change scope, or start a new activity.
+
+## Metrics
+- Adjacency-pair completion rate (Inquiry→Answer)
+- Repair rate & time-to-correct
+- Evidence uptake (user opens source)
+
+## Related patterns
+
+- [Conversation](../?path=/docs/activities-conversation--docs) — parent pattern; user inquiry appears across all dialogue forms
+- [Bot repair](../?path=/docs/operations-conversation-sequence-management-bot-repair--docs) — information capture via this primitive is used to resolve bot-side ambiguity
+- [Extended telling](../?path=/docs/operations-conversation-conversational-activities-extended-telling--docs) — for multi-part answers that exceed the scope of a single inquiry response
+

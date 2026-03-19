@@ -1,0 +1,60 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Actions/Navigation/Multilevel tree" tags={['activity-level:action', 'atomic:composition', 'lifecycle:seeking']} />
+
+> 🗺️ **Fun meter: 2/5**. Mapping out the basics.
+
+# Multilevel tree
+
+Global navigation connects main pages. Each main page contains subpages visible only after entering that section—typically through sidebars, subtabs, or expanded menus. Subpages connect only among themselves and to their parent page, creating a tree structure.
+
+Common in systems where content has natural categorical divisions. Balances the navigation freedom of [fully connected](../?path=/docs/actions-navigation-fully-connected--docs) with the structure needed for deep content hierarchies.
+
+## Behavioural position
+
+### Supports
+- [Browsing](../?path=/docs/foundations-intent-interaction--docs#browsing) — structured exploration within known domains
+- [Navigating](../?path=/docs/foundations-intent-interaction--docs#navigating) — efficient when mental model matches structure
+- [Re-finding](../?path=/docs/foundations-intent-interaction--docs#re-finding) — hierarchy provides memory cues
+
+### Challenges
+- [Uncovering](../?path=/docs/foundations-intent-interaction--docs#uncovering) — opaque hierarchy frustrates actors
+- [Exploring](../?path=/docs/foundations-intent-interaction--docs#exploring) — hierarchy constrains free exploration
+- Cross-section browsing requires backtracking to top level
+
+The model assumes actors can predict or learn where content lives in the hierarchy. When categorisation is unclear or content fits multiple categories, actors experience friction.
+
+## Variants
+
+- Two-level tree. Global navigation for top level, single level of subnavigation.
+- Deep tree. Multiple levels of nested categories.
+- Expandable tree. Sidebar or menu shows/hides nested levels.
+- Faceted tree. Multiple independent hierarchies.
+
+## Wayfinding states
+
+- Breadcrumb trail — path from root to current location
+- Section indicator — visual cue of current main section
+- Depth indicator — how deep in hierarchy
+
+
+## Related patterns
+
+Sidebar, [dropdown](../?path=/docs/actions-coordination-dropdown--docs), [tabs](../?path=/docs/operations-tabs--docs), [breadcrumbs](../?path=/docs/operations-breadcrumbs--docs) - implementations of multilevel trees.
+
+### Complements
+- [Breadcrumbs](../?path=/docs/operations-breadcrumbs--docs) — for wayfinding
+- [Searching](../?path=/docs/actions-seeking-searching--docs) — escape hatch when hierarchy fails
+- [Command menu](../?path=/docs/actions-seeking-command-menu--docs) — quick access bypassing hierarchy
+- [Deep linking](../?path=/docs/operations-deep-linking--docs) — enables direct access to any node
+
+## Alternatives
+- [Fully connected](../?path=/docs/actions-navigation-fully-connected--docs) for shallow structures
+- [Hub and spoke](../?path=/docs/actions-navigation-hub-and-spoke--docs) for independent sections
+- [Tree + fully connected](../?path=/docs/actions-navigation-hybrid-patterns--docs#multilevel-tree--fully-connected) when cross-section links become common
+- Deep tree → multiple shallow trees or [searching](../?path=/docs/actions-seeking-searching--docs)-first navigation
+
+## Resources & references
+
+- Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed.
+- Rosenfeld, Morville, Arango (2015) *Information Architecture*, 4th ed., Chapter 6: Organization Systems

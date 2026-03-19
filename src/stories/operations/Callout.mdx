@@ -1,0 +1,27 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import * as CalloutStories from './Callout.stories.tsx';
+
+<Meta of={CalloutStories} tags={['activity-level:operation', 'atomic:primitive']} />
+
+> 🥱 **Fun meter: boring**. Included as a prerequisite for more interesting things.
+
+# Callout
+
+Display important information. Can be used as alerts.
+
+<Story of={ CalloutStories.Callout } />
+
+## Purpose
+
+<Story of={ CalloutStories.Purpose } />
+
+## Related patterns
+
+- [Notification](../?path=/docs/actions-coordination-notification--docs) — the broader system that defines alert types and delivery modes
+- [Status feedback](../?path=/docs/operations-status-feedback--docs) — the framework callout belongs to
+- [Form](../?path=/docs/actions-application-form--docs) — validation and instructional feedback patterns
+
+## Resources & references
+
+- W3C WAI-ARIA — [Alert pattern](https://www.w3.org/WAI/ARIA/apg/patterns/alert/)
+

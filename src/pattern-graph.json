@@ -1,190 +1,376 @@
 {
   "nodes": [
     {
-      "id": "components-breadcrumbs",
-      "title": "Breadcrumbs",
-      "category": "Components",
-      "path": "../?path=/docs/components-breadcrumbs--docs"
+      "id": "actions-application-action-consequences",
+      "title": "Action consequences",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-application-action-consequences--docs"
     },
     {
-      "id": "components-bubble-menu",
-      "title": "Bubble menu",
-      "category": "Components",
-      "path": "../?path=/docs/components-bubble-menu--docs"
+      "id": "actions-application-data-entry",
+      "title": "Data entry",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-application-data-entry--docs"
     },
     {
-      "id": "components-dialog",
+      "id": "actions-application-deletion",
+      "title": "Deletion",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-application-deletion--docs"
+    },
+    {
+      "id": "actions-application-dialog",
       "title": "Dialog",
-      "category": "Components",
-      "path": "../?path=/docs/components-dialog--docs"
+      "category": "Actions",
+      "path": "../?path=/docs/actions-application-dialog--docs"
     },
     {
-      "id": "components-priority",
-      "title": "Priority+",
-      "category": "Components",
-      "path": "../?path=/docs/components-priority--docs"
-    },
-    {
-      "id": "components-progress-indicator",
-      "title": "Progress indicator",
-      "category": "Components",
-      "path": "../?path=/docs/components-progress-indicator--docs"
-    },
-    {
-      "id": "components-table",
-      "title": "Table",
-      "category": "Components",
-      "path": "../?path=/docs/components-table--docs"
-    },
-    {
-      "id": "components-timeline",
-      "title": "Timeline",
-      "category": "Components",
-      "path": "../?path=/docs/components-timeline--docs"
-    },
-    {
-      "id": "compositions-card",
-      "title": "Card",
-      "category": "Compositions",
-      "path": "../?path=/docs/compositions-card--docs"
-    },
-    {
-      "id": "compositions-commenting",
-      "title": "Commenting",
-      "category": "Compositions",
-      "path": "../?path=/docs/compositions-commenting--docs"
-    },
-    {
-      "id": "compositions-needsbased-view",
-      "title": "Needs-based view",
-      "category": "Compositions",
-      "path": "../?path=/docs/compositions-needsbased-view--docs"
-    },
-    {
-      "id": "compositions-data-view",
-      "title": "Data view",
-      "category": "Compositions",
-      "path": "../?path=/docs/compositions-data-view--docs"
-    },
-    {
-      "id": "compositions-browsing-sensemaking-filtering",
-      "title": "Filtering",
-      "category": "Compositions",
-      "path": "../?path=/docs/compositions-browsing-sensemaking-filtering--docs"
-    },
-    {
-      "id": "compositions-form",
+      "id": "actions-application-form",
       "title": "Form",
-      "category": "Compositions",
-      "path": "../?path=/docs/compositions-form--docs"
+      "category": "Actions",
+      "path": "../?path=/docs/actions-application-form--docs"
     },
     {
-      "id": "compositions-browsing-sensemaking-grouping",
-      "title": "Grouping",
-      "category": "Compositions",
-      "path": "../?path=/docs/compositions-browsing-sensemaking-grouping--docs"
+      "id": "actions-application-saving",
+      "title": "Saving",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-application-saving--docs"
     },
     {
-      "id": "compositions-item-view",
-      "title": "Item view",
-      "category": "Compositions",
-      "path": "../?path=/docs/compositions-item-view--docs"
+      "id": "actions-application-settings",
+      "title": "Settings",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-application-settings--docs"
     },
     {
-      "id": "compositions-messaging",
-      "title": "Messaging",
-      "category": "Compositions",
-      "path": "../?path=/docs/compositions-messaging--docs"
+      "id": "actions-application-suggestion",
+      "title": "Suggestion",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-application-suggestion--docs"
     },
     {
-      "id": "compositions-nav-bar",
-      "title": "Nav bar",
-      "category": "Compositions",
-      "path": "../?path=/docs/compositions-nav-bar--docs"
+      "id": "actions-application-template",
+      "title": "Template",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-application-template--docs"
     },
     {
-      "id": "compositions-structure-overview-and-detail",
-      "title": "Overview and detail",
-      "category": "Compositions",
-      "path": "../?path=/docs/compositions-structure-overview-and-detail--docs"
-    },
-    {
-      "id": "compositions-structure-flat-navigation",
-      "title": "Flat navigation",
-      "category": "Compositions",
-      "path": "../?path=/docs/compositions-structure-flat-navigation--docs"
-    },
-    {
-      "id": "compositions-structure-fully-connected",
-      "title": "Fully connected",
-      "category": "Compositions",
-      "path": "../?path=/docs/compositions-structure-fully-connected--docs"
-    },
-    {
-      "id": "compositions-structure-hub-and-spoke",
-      "title": "Hub and spoke",
-      "category": "Compositions",
-      "path": "../?path=/docs/compositions-structure-hub-and-spoke--docs"
-    },
-    {
-      "id": "compositions-structure-hybrid-patterns",
-      "title": "Hybrid patterns",
-      "category": "Compositions",
-      "path": "../?path=/docs/compositions-structure-hybrid-patterns--docs"
-    },
-    {
-      "id": "compositions-structure-multilevel-tree",
-      "title": "Multilevel tree",
-      "category": "Compositions",
-      "path": "../?path=/docs/compositions-structure-multilevel-tree--docs"
-    },
-    {
-      "id": "compositions-structure-pan-and-zoom",
-      "title": "Pan and zoom",
-      "category": "Compositions",
-      "path": "../?path=/docs/compositions-structure-pan-and-zoom--docs"
-    },
-    {
-      "id": "compositions-structure-pyramid",
-      "title": "Pyramid",
-      "category": "Compositions",
-      "path": "../?path=/docs/compositions-structure-pyramid--docs"
-    },
-    {
-      "id": "compositions-structure-step-by-step",
-      "title": "Step by step",
-      "category": "Compositions",
-      "path": "../?path=/docs/compositions-structure-step-by-step--docs"
-    },
-    {
-      "id": "compositions-searching",
-      "title": "Searching",
-      "category": "Compositions",
-      "path": "../?path=/docs/compositions-searching--docs"
-    },
-    {
-      "id": "compositions-browsing-sensemaking-sorting",
-      "title": "Sorting",
-      "category": "Compositions",
-      "path": "../?path=/docs/compositions-browsing-sensemaking-sorting--docs"
-    },
-    {
-      "id": "compositions-view",
-      "title": "View",
-      "category": "Compositions",
-      "path": "../?path=/docs/compositions-view--docs"
-    },
-    {
-      "id": "compositions-wizard",
+      "id": "actions-application-wizard",
       "title": "Wizard",
-      "category": "Compositions",
-      "path": "../?path=/docs/compositions-wizard--docs"
+      "category": "Actions",
+      "path": "../?path=/docs/actions-application-wizard--docs"
     },
     {
-      "id": "compositions-toolbar",
+      "id": "actions-coordination-bubble-menu",
+      "title": "Bubble menu",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-coordination-bubble-menu--docs"
+    },
+    {
+      "id": "actions-coordination-commenting",
+      "title": "Commenting",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-coordination-commenting--docs"
+    },
+    {
+      "id": "actions-coordination-messaging",
+      "title": "Messaging",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-coordination-messaging--docs"
+    },
+    {
+      "id": "actions-coordination-nav-bar",
+      "title": "Nav bar",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-coordination-nav-bar--docs"
+    },
+    {
+      "id": "actions-coordination-notification",
+      "title": "Notification",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-coordination-notification--docs"
+    },
+    {
+      "id": "actions-coordination-priority",
+      "title": "Priority+",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-coordination-priority--docs"
+    },
+    {
+      "id": "actions-coordination-toolbar",
       "title": "Toolbar",
-      "category": "Compositions",
-      "path": "../?path=/docs/compositions-toolbar--docs"
+      "category": "Actions",
+      "path": "../?path=/docs/actions-coordination-toolbar--docs"
+    },
+    {
+      "id": "actions-evaluation-focus-and-context",
+      "title": "Focus and context",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-evaluation-focus-and-context--docs"
+    },
+    {
+      "id": "actions-evaluation-table",
+      "title": "Table",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-evaluation-table--docs"
+    },
+    {
+      "id": "actions-evaluation-text-lens",
+      "title": "Text lens",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-evaluation-text-lens--docs"
+    },
+    {
+      "id": "actions-evaluation-timeline",
+      "title": "Timeline",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-evaluation-timeline--docs"
+    },
+    {
+      "id": "actions-navigation-overview-and-detail",
+      "title": "Overview and detail",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-navigation-overview-and-detail--docs"
+    },
+    {
+      "id": "actions-navigation-flat-navigation",
+      "title": "Flat navigation",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-navigation-flat-navigation--docs"
+    },
+    {
+      "id": "actions-navigation-fully-connected",
+      "title": "Fully connected",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-navigation-fully-connected--docs"
+    },
+    {
+      "id": "actions-navigation-hub-and-spoke",
+      "title": "Hub and spoke",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-navigation-hub-and-spoke--docs"
+    },
+    {
+      "id": "actions-navigation-hybrid-patterns",
+      "title": "Hybrid patterns",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-navigation-hybrid-patterns--docs"
+    },
+    {
+      "id": "actions-navigation-multilevel-tree",
+      "title": "Multilevel tree",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-navigation-multilevel-tree--docs"
+    },
+    {
+      "id": "actions-navigation-pan-and-zoom",
+      "title": "Pan and zoom",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-navigation-pan-and-zoom--docs"
+    },
+    {
+      "id": "actions-navigation-pyramid",
+      "title": "Pyramid",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-navigation-pyramid--docs"
+    },
+    {
+      "id": "actions-navigation-step-by-step",
+      "title": "Step by step",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-navigation-step-by-step--docs"
+    },
+    {
+      "id": "actions-seeking-command-menu",
+      "title": "Command menu",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-seeking-command-menu--docs"
+    },
+    {
+      "id": "actions-seeking-data-view",
+      "title": "Data view",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-seeking-data-view--docs"
+    },
+    {
+      "id": "actions-seeking-dynamic-hyperlinks",
+      "title": "Dynamic hyperlinks",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-seeking-dynamic-hyperlinks--docs"
+    },
+    {
+      "id": "actions-seeking-filtering",
+      "title": "Filtering",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-seeking-filtering--docs"
+    },
+    {
+      "id": "actions-seeking-item-view",
+      "title": "Item view",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-seeking-item-view--docs"
+    },
+    {
+      "id": "actions-seeking-progressive-disclosure",
+      "title": "Progressive disclosure",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-seeking-progressive-disclosure--docs"
+    },
+    {
+      "id": "actions-seeking-searching",
+      "title": "Searching",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-seeking-searching--docs"
+    },
+    {
+      "id": "actions-seeking-sorting",
+      "title": "Sorting",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-seeking-sorting--docs"
+    },
+    {
+      "id": "actions-sensemaking-annotation",
+      "title": "Annotation",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-sensemaking-annotation--docs"
+    },
+    {
+      "id": "actions-sensemaking-blockbased-editor",
+      "title": "Block-based editor",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-sensemaking-blockbased-editor--docs"
+    },
+    {
+      "id": "actions-sensemaking-card",
+      "title": "Card",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-sensemaking-card--docs"
+    },
+    {
+      "id": "actions-sensemaking-needsbased-view",
+      "title": "Needs-based view",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-sensemaking-needsbased-view--docs"
+    },
+    {
+      "id": "actions-sensemaking-explanation",
+      "title": "Explanation",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-sensemaking-explanation--docs"
+    },
+    {
+      "id": "actions-sensemaking-grouping",
+      "title": "Grouping",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-sensemaking-grouping--docs"
+    },
+    {
+      "id": "actions-sensemaking-tag",
+      "title": "Tag",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-sensemaking-tag--docs"
+    },
+    {
+      "id": "actions-sensemaking-view",
+      "title": "View",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-sensemaking-view--docs"
+    },
+    {
+      "id": "activities-ai-tuning",
+      "title": "AI tuning",
+      "category": "Activities",
+      "path": "../?path=/docs/activities-ai-tuning--docs"
+    },
+    {
+      "id": "activities-activity-feed",
+      "title": "Activity feed",
+      "category": "Activities",
+      "path": "../?path=/docs/activities-activity-feed--docs"
+    },
+    {
+      "id": "activities-activity-log",
+      "title": "Activity log",
+      "category": "Activities",
+      "path": "../?path=/docs/activities-activity-log--docs"
+    },
+    {
+      "id": "activities-bot",
+      "title": "Bot",
+      "category": "Activities",
+      "path": "../?path=/docs/activities-bot--docs"
+    },
+    {
+      "id": "activities-collaboration",
+      "title": "Collaboration",
+      "category": "Activities",
+      "path": "../?path=/docs/activities-collaboration--docs"
+    },
+    {
+      "id": "activities-conversation",
+      "title": "Conversation",
+      "category": "Activities",
+      "path": "../?path=/docs/activities-conversation--docs"
+    },
+    {
+      "id": "activities-embedded-intelligence",
+      "title": "Embedded intelligence",
+      "category": "Activities",
+      "path": "../?path=/docs/activities-embedded-intelligence--docs"
+    },
+    {
+      "id": "activities-generated-content",
+      "title": "Generated content",
+      "category": "Activities",
+      "path": "../?path=/docs/activities-generated-content--docs"
+    },
+    {
+      "id": "activities-help",
+      "title": "Help",
+      "category": "Activities",
+      "path": "../?path=/docs/activities-help--docs"
+    },
+    {
+      "id": "activities-living-document",
+      "title": "Living document",
+      "category": "Activities",
+      "path": "../?path=/docs/activities-living-document--docs"
+    },
+    {
+      "id": "activities-localization",
+      "title": "Localization",
+      "category": "Activities",
+      "path": "../?path=/docs/activities-localization--docs"
+    },
+    {
+      "id": "activities-mastery",
+      "title": "Mastery",
+      "category": "Activities",
+      "path": "../?path=/docs/activities-mastery--docs"
+    },
+    {
+      "id": "activities-onboarding",
+      "title": "Onboarding",
+      "category": "Activities",
+      "path": "../?path=/docs/activities-onboarding--docs"
+    },
+    {
+      "id": "activities-prompt",
+      "title": "Prompt",
+      "category": "Activities",
+      "path": "../?path=/docs/activities-prompt--docs"
+    },
+    {
+      "id": "activities-transparent-reasoning",
+      "title": "Transparent reasoning",
+      "category": "Activities",
+      "path": "../?path=/docs/activities-transparent-reasoning--docs"
+    },
+    {
+      "id": "activities-workspace",
+      "title": "Workspace",
+      "category": "Activities",
+      "path": "../?path=/docs/activities-workspace--docs"
     },
     {
       "id": "data-visualization-bar-chart",
@@ -217,328 +403,238 @@
       "path": "../?path=/docs/foundations-intent-interaction--docs"
     },
     {
-      "id": "patterns-ai-tuning",
-      "title": "AI tuning",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-ai-tuning--docs"
+      "id": "foundations-material-color",
+      "title": "Color",
+      "category": "Foundations",
+      "path": "../?path=/docs/foundations-material-color--docs"
     },
     {
-      "id": "patterns-activity-feed",
-      "title": "Activity feed",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-activity-feed--docs"
+      "id": "foundations-material-iconography",
+      "title": "Iconography",
+      "category": "Foundations",
+      "path": "../?path=/docs/foundations-material-iconography--docs"
     },
     {
-      "id": "patterns-activity-log",
-      "title": "Activity log",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-activity-log--docs"
+      "id": "foundations-material-layout",
+      "title": "Layout",
+      "category": "Foundations",
+      "path": "../?path=/docs/foundations-material-layout--docs"
     },
     {
-      "id": "patterns-annotation",
-      "title": "Annotation",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-annotation--docs"
+      "id": "foundations-material-motion",
+      "title": "Motion",
+      "category": "Foundations",
+      "path": "../?path=/docs/foundations-material-motion--docs"
     },
     {
-      "id": "patterns-bot",
-      "title": "Bot",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-bot--docs"
+      "id": "foundations-material-typography",
+      "title": "Typography",
+      "category": "Foundations",
+      "path": "../?path=/docs/foundations-material-typography--docs"
     },
     {
-      "id": "patterns-collaboration",
-      "title": "Collaboration",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-collaboration--docs"
-    },
-    {
-      "id": "patterns-command-menu",
-      "title": "Command menu",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-command-menu--docs"
-    },
-    {
-      "id": "patterns-conversation",
-      "title": "Conversation",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-conversation--docs"
-    },
-    {
-      "id": "patterns-data-operations-action-consequences",
-      "title": "Action consequences",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-data-operations-action-consequences--docs"
-    },
-    {
-      "id": "patterns-data-operations-deletion",
-      "title": "Deletion",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-data-operations-deletion--docs"
-    },
-    {
-      "id": "patterns-data-operations-saving",
-      "title": "Saving",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-data-operations-saving--docs"
-    },
-    {
-      "id": "patterns-data-entry",
-      "title": "Data entry",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-data-entry--docs"
-    },
-    {
-      "id": "patterns-dynamic-hyperlinks",
-      "title": "Dynamic hyperlinks",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-dynamic-hyperlinks--docs"
-    },
-    {
-      "id": "patterns-embedded-intelligence",
-      "title": "Embedded intelligence",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-embedded-intelligence--docs"
-    },
-    {
-      "id": "patterns-explanation",
-      "title": "Explanation",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-explanation--docs"
-    },
-    {
-      "id": "patterns-focus-and-context",
-      "title": "Focus and context",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-focus-and-context--docs"
-    },
-    {
-      "id": "patterns-generated-content",
-      "title": "Generated content",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-generated-content--docs"
-    },
-    {
-      "id": "patterns-good-defaults",
-      "title": "Good defaults",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-good-defaults--docs"
-    },
-    {
-      "id": "patterns-help",
-      "title": "Help",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-help--docs"
-    },
-    {
-      "id": "patterns-living-document",
-      "title": "Living document",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-living-document--docs"
-    },
-    {
-      "id": "patterns-localization",
-      "title": "Localization",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-localization--docs"
-    },
-    {
-      "id": "patterns-mastery",
-      "title": "Mastery",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-mastery--docs"
-    },
-    {
-      "id": "patterns-notification",
-      "title": "Notification",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-notification--docs"
-    },
-    {
-      "id": "patterns-onboarding",
-      "title": "Onboarding",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-onboarding--docs"
-    },
-    {
-      "id": "patterns-progressive-disclosure",
-      "title": "Progressive disclosure",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-progressive-disclosure--docs"
-    },
-    {
-      "id": "patterns-prompt",
-      "title": "Prompt",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-prompt--docs"
-    },
-    {
-      "id": "patterns-settings",
-      "title": "Settings",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-settings--docs"
-    },
-    {
-      "id": "patterns-states-disabled-state",
-      "title": "Disabled state",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-states-disabled-state--docs"
-    },
-    {
-      "id": "patterns-states-unavailable-actions",
-      "title": "Unavailable actions",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-states-unavailable-actions--docs"
-    },
-    {
-      "id": "patterns-states-morphing-controls",
-      "title": "Morphing controls",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-states-morphing-controls--docs"
-    },
-    {
-      "id": "patterns-states-empty-state",
-      "title": "Empty state",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-states-empty-state--docs"
-    },
-    {
-      "id": "patterns-status-feedback",
-      "title": "Status feedback",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-status-feedback--docs"
-    },
-    {
-      "id": "patterns-suggestion",
-      "title": "Suggestion",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-suggestion--docs"
-    },
-    {
-      "id": "patterns-tag",
-      "title": "Tag",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-tag--docs"
-    },
-    {
-      "id": "patterns-template",
-      "title": "Template",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-template--docs"
-    },
-    {
-      "id": "patterns-text-lens",
-      "title": "Text lens",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-text-lens--docs"
-    },
-    {
-      "id": "patterns-transparent-reasoning",
-      "title": "Transparent reasoning",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-transparent-reasoning--docs"
-    },
-    {
-      "id": "patterns-undo",
-      "title": "Undo",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-undo--docs"
-    },
-    {
-      "id": "patterns-workspace",
-      "title": "Workspace",
-      "category": "Patterns",
-      "path": "../?path=/docs/patterns-workspace--docs"
-    },
-    {
-      "id": "primitives-badge",
+      "id": "operations-badge",
       "title": "Badge",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-badge--docs"
+      "category": "Operations",
+      "path": "../?path=/docs/operations-badge--docs"
     },
     {
-      "id": "primitives-callout",
+      "id": "operations-breadcrumbs",
+      "title": "Breadcrumbs",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-breadcrumbs--docs"
+    },
+    {
+      "id": "operations-button",
+      "title": "Button",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-button--docs"
+    },
+    {
+      "id": "operations-callout",
       "title": "Callout",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-callout--docs"
+      "category": "Operations",
+      "path": "../?path=/docs/operations-callout--docs"
     },
     {
-      "id": "primitives-checkbox",
+      "id": "operations-checkbox",
       "title": "Checkbox",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-checkbox--docs"
+      "category": "Operations",
+      "path": "../?path=/docs/operations-checkbox--docs"
     },
     {
-      "id": "primitives-deep-linking",
+      "id": "operations-deep-linking",
       "title": "Deep linking",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-deep-linking--docs"
+      "category": "Operations",
+      "path": "../?path=/docs/operations-deep-linking--docs"
     },
     {
-      "id": "primitives-input",
+      "id": "operations-good-defaults",
+      "title": "Good defaults",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-good-defaults--docs"
+    },
+    {
+      "id": "operations-input",
       "title": "Input",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-input--docs"
+      "category": "Operations",
+      "path": "../?path=/docs/operations-input--docs"
     },
     {
-      "id": "primitives-keyboard-key",
+      "id": "operations-keyboard-key",
       "title": "Keyboard key",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-keyboard-key--docs"
+      "category": "Operations",
+      "path": "../?path=/docs/operations-keyboard-key--docs"
     },
     {
-      "id": "primitives-popover",
+      "id": "operations-morphing-controls",
+      "title": "Morphing controls",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-morphing-controls--docs"
+    },
+    {
+      "id": "operations-overflow",
+      "title": "Overflow",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-overflow--docs"
+    },
+    {
+      "id": "operations-popover",
       "title": "Popover",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-popover--docs"
+      "category": "Operations",
+      "path": "../?path=/docs/operations-popover--docs"
     },
     {
-      "id": "primitives-tag",
-      "title": "Tag",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-tag--docs"
+      "id": "operations-progress-indicator",
+      "title": "Progress indicator",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-progress-indicator--docs"
     },
     {
-      "id": "primitives-textarea",
-      "title": "Textarea",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-textarea--docs"
-    },
-    {
-      "id": "primitives-conversation-conversational-activities-extended-telling",
-      "title": "Extended telling",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-conversation-conversational-activities-extended-telling--docs"
-    },
-    {
-      "id": "primitives-conversation-conversational-activities-inquiry-bot",
-      "title": "Inquiry (Bot)",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-conversation-conversational-activities-inquiry-bot--docs"
-    },
-    {
-      "id": "primitives-conversation-conversational-activities-inquiry-user",
-      "title": "Inquiry (User)",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-conversation-conversational-activities-inquiry-user--docs"
-    },
-    {
-      "id": "primitives-conversation-conversational-activities-open-request",
-      "title": "Open request",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-conversation-conversational-activities-open-request--docs"
-    },
-    {
-      "id": "primitives-conversation-sequence-management-sequence-completion",
-      "title": "Sequence completion",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-conversation-sequence-management-sequence-completion--docs"
-    },
-    {
-      "id": "primitives-reference",
+      "id": "operations-reference",
       "title": "Reference",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-reference--docs"
+      "category": "Operations",
+      "path": "../?path=/docs/operations-reference--docs"
+    },
+    {
+      "id": "operations-disabled-state",
+      "title": "Disabled state",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-disabled-state--docs"
+    },
+    {
+      "id": "operations-empty-state",
+      "title": "Empty state",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-empty-state--docs"
+    },
+    {
+      "id": "operations-status-feedback",
+      "title": "Status feedback",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-status-feedback--docs"
+    },
+    {
+      "id": "operations-tag",
+      "title": "Tag",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-tag--docs"
+    },
+    {
+      "id": "operations-textarea",
+      "title": "Textarea",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-textarea--docs"
+    },
+    {
+      "id": "operations-unavailable-actions",
+      "title": "Unavailable actions",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-unavailable-actions--docs"
+    },
+    {
+      "id": "operations-undo",
+      "title": "Undo",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-undo--docs"
+    },
+    {
+      "id": "operations-conversation-sequence-management-abort",
+      "title": "Abort",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-conversation-sequence-management-abort--docs"
+    },
+    {
+      "id": "operations-conversation-conversation-management-opening-bot",
+      "title": "Opening (Bot)",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-conversation-conversation-management-opening-bot--docs"
+    },
+    {
+      "id": "operations-conversation-sequence-management-bot-repair",
+      "title": "Bot repair",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-conversation-sequence-management-bot-repair--docs"
+    },
+    {
+      "id": "operations-conversation-conversation-management-capability-scope",
+      "title": "Capability & scope",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-conversation-conversation-management-capability-scope--docs"
+    },
+    {
+      "id": "operations-conversation-conversation-management-closing",
+      "title": "Closing",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-conversation-conversation-management-closing--docs"
+    },
+    {
+      "id": "operations-conversation-conversation-management-disengage-without-closing",
+      "title": "Disengage without closing",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-conversation-conversation-management-disengage-without-closing--docs"
+    },
+    {
+      "id": "operations-conversation-conversational-activities-extended-telling",
+      "title": "Extended telling",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-conversation-conversational-activities-extended-telling--docs"
+    },
+    {
+      "id": "operations-conversation-conversational-activities-inquiry-bot",
+      "title": "Inquiry (Bot)",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-conversation-conversational-activities-inquiry-bot--docs"
+    },
+    {
+      "id": "operations-conversation-conversational-activities-inquiry-user",
+      "title": "Inquiry (User)",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-conversation-conversational-activities-inquiry-user--docs"
+    },
+    {
+      "id": "operations-conversation-conversational-activities-open-request",
+      "title": "Open request",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-conversation-conversational-activities-open-request--docs"
+    },
+    {
+      "id": "operations-conversation-sequence-management-sequence-completion",
+      "title": "Sequence completion",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-conversation-sequence-management-sequence-completion--docs"
+    },
+    {
+      "id": "operations-conversation-conversation-management-opening-user",
+      "title": "Opening (User)",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-conversation-conversation-management-opening-user--docs"
+    },
+    {
+      "id": "operations-conversation-sequence-management-user-repair",
+      "title": "User repair",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-conversation-sequence-management-user-repair--docs"
     },
     {
       "id": "qualities-accessibility",
@@ -571,6 +667,12 @@
       "path": "../?path=/docs/qualities-density--docs"
     },
     {
+      "id": "qualities-formality",
+      "title": "Formality",
+      "category": "Qualities",
+      "path": "../?path=/docs/qualities-formality--docs"
+    },
+    {
       "id": "qualities-learnability",
       "title": "Learnability",
       "category": "Qualities",
@@ -595,890 +697,1752 @@
       "path": "../?path=/docs/qualities-shareability--docs"
     },
     {
-      "id": "qualities-formality",
-      "title": "Formality",
-      "category": "Qualities",
-      "path": "../?path=/docs/qualities-formality--docs"
-    },
-    {
       "id": "qualities-temporality",
       "title": "Temporality",
       "category": "Qualities",
       "path": "../?path=/docs/qualities-temporality--docs"
     },
     {
-      "id": "visual-elements-color",
-      "title": "Color",
-      "category": "Visual Elements",
-      "path": "../?path=/docs/visual-elements-color--docs"
-    },
-    {
-      "id": "visual-elements-layout",
-      "title": "Layout",
-      "category": "Visual Elements",
-      "path": "../?path=/docs/visual-elements-layout--docs"
-    },
-    {
-      "id": "components-drawer",
+      "id": "actions-application-drawer",
       "title": "Drawer",
-      "category": "Components",
-      "path": "../?path=/docs/components-drawer--docs"
+      "category": "Actions",
+      "path": "../?path=/docs/actions-application-drawer--docs"
     },
     {
-      "id": "components-dropdown",
+      "id": "actions-coordination-dropdown",
       "title": "Dropdown",
-      "category": "Components",
-      "path": "../?path=/docs/components-dropdown--docs"
+      "category": "Actions",
+      "path": "../?path=/docs/actions-coordination-dropdown--docs"
     },
     {
-      "id": "components-list",
+      "id": "actions-evaluation-list",
       "title": "List",
-      "category": "Components",
-      "path": "../?path=/docs/components-list--docs"
+      "category": "Actions",
+      "path": "../?path=/docs/actions-evaluation-list--docs"
     },
     {
-      "id": "components-tabs",
-      "title": "Tabs",
-      "category": "Components",
-      "path": "../?path=/docs/components-tabs--docs"
-    },
-    {
-      "id": "primitives-button",
-      "title": "Button",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-button--docs"
-    },
-    {
-      "id": "visual-elements-iconography",
-      "title": "Iconography",
-      "category": "Visual elements",
-      "path": "../?path=/docs/visual-elements-iconography--docs"
-    },
-    {
-      "id": "visual-elements-typography",
-      "title": "Typography",
-      "category": "Visual elements",
-      "path": "../?path=/docs/visual-elements-typography--docs"
-    },
-    {
-      "id": "primitives-overflow",
-      "title": "Overflow",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-overflow--docs"
-    },
-    {
-      "id": "primitives-details",
+      "id": "operations-details",
       "title": "Details",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-details--docs"
+      "category": "Operations",
+      "path": "../?path=/docs/operations-details--docs"
     },
     {
-      "id": "primitives-toast",
+      "id": "operations-tabs",
+      "title": "Tabs",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-tabs--docs"
+    },
+    {
+      "id": "operations-toast",
       "title": "Toast",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-toast--docs"
-    },
-    {
-      "id": "primitives-conversation-conversation-management-opening-bot",
-      "title": "Opening (Bot)",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-conversation-conversation-management-opening-bot--docs"
-    },
-    {
-      "id": "primitives-conversation-conversation-management-opening-user",
-      "title": "Opening (User)",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-conversation-conversation-management-opening-user--docs"
-    },
-    {
-      "id": "primitives-conversation-conversation-management-capability-scope",
-      "title": "Capability & scope",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-conversation-conversation-management-capability-scope--docs"
-    },
-    {
-      "id": "primitives-conversation-conversation-management-closing",
-      "title": "Closing",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-conversation-conversation-management-closing--docs"
-    },
-    {
-      "id": "primitives-conversation-conversation-management-disengage-without-closing",
-      "title": "Disengage without closing",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-conversation-conversation-management-disengage-without-closing--docs"
-    },
-    {
-      "id": "primitives-conversation-sequence-management-abort",
-      "title": "Abort",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-conversation-sequence-management-abort--docs"
-    },
-    {
-      "id": "primitives-conversation-sequence-management-bot-repair",
-      "title": "Bot repair",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-conversation-sequence-management-bot-repair--docs"
-    },
-    {
-      "id": "primitives-conversation-sequence-management-user-repair",
-      "title": "User repair",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-conversation-sequence-management-user-repair--docs"
+      "category": "Operations",
+      "path": "../?path=/docs/operations-toast--docs"
     }
   ],
   "edges": [
     {
-      "source": "components-breadcrumbs",
-      "target": "foundations-intent-interaction"
+      "source": "actions-application-action-consequences",
+      "target": "actions-application-deletion"
     },
     {
-      "source": "components-breadcrumbs",
-      "target": "patterns-command-menu"
+      "source": "actions-application-action-consequences",
+      "target": "actions-application-saving"
     },
     {
-      "source": "components-bubble-menu",
-      "target": "patterns-progressive-disclosure"
+      "source": "actions-application-action-consequences",
+      "target": "operations-undo"
     },
     {
-      "source": "components-bubble-menu",
-      "target": "primitives-popover"
+      "source": "actions-application-data-entry",
+      "target": "activities-localization"
     },
     {
-      "source": "components-bubble-menu",
-      "target": "patterns-command-menu"
+      "source": "actions-application-data-entry",
+      "target": "operations-input"
     },
     {
-      "source": "components-bubble-menu",
-      "target": "patterns-suggestion"
+      "source": "actions-application-data-entry",
+      "target": "actions-application-form"
     },
     {
-      "source": "components-dialog",
-      "target": "primitives-popover"
+      "source": "actions-application-data-entry",
+      "target": "operations-good-defaults"
     },
     {
-      "source": "components-dialog",
-      "target": "components-drawer"
+      "source": "actions-application-data-entry",
+      "target": "operations-status-feedback"
     },
     {
-      "source": "components-progress-indicator",
-      "target": "components-timeline"
+      "source": "actions-application-data-entry",
+      "target": "activities-bot"
     },
     {
-      "source": "components-timeline",
-      "target": "components-progress-indicator"
+      "source": "actions-application-data-entry",
+      "target": "activities-transparent-reasoning"
     },
     {
-      "source": "compositions-commenting",
-      "target": "patterns-annotation"
+      "source": "actions-application-data-entry",
+      "target": "qualities-formality"
     },
     {
-      "source": "compositions-commenting",
-      "target": "patterns-collaboration"
+      "source": "actions-application-deletion",
+      "target": "actions-application-saving"
     },
     {
-      "source": "compositions-commenting",
-      "target": "patterns-activity-log"
+      "source": "actions-application-deletion",
+      "target": "operations-undo"
     },
     {
-      "source": "compositions-commenting",
-      "target": "patterns-notification"
+      "source": "actions-application-deletion",
+      "target": "actions-application-action-consequences"
     },
     {
-      "source": "compositions-commenting",
-      "target": "patterns-conversation"
+      "source": "actions-application-deletion",
+      "target": "operations-status-feedback"
     },
     {
-      "source": "compositions-commenting",
-      "target": "patterns-status-feedback"
+      "source": "actions-application-deletion",
+      "target": "activities-activity-log"
     },
     {
-      "source": "compositions-needsbased-view",
-      "target": "compositions-data-view"
+      "source": "actions-application-deletion",
+      "target": "actions-coordination-notification"
     },
     {
-      "source": "compositions-needsbased-view",
-      "target": "compositions-item-view"
+      "source": "actions-application-dialog",
+      "target": "operations-popover"
     },
     {
-      "source": "compositions-data-view",
-      "target": "compositions-view"
+      "source": "actions-application-dialog",
+      "target": "actions-application-drawer"
     },
     {
-      "source": "compositions-data-view",
-      "target": "compositions-item-view"
+      "source": "actions-application-form",
+      "target": "actions-application-data-entry"
     },
     {
-      "source": "compositions-data-view",
-      "target": "compositions-browsing-sensemaking-sorting"
+      "source": "actions-application-form",
+      "target": "actions-coordination-messaging"
     },
     {
-      "source": "compositions-data-view",
-      "target": "compositions-browsing-sensemaking-grouping"
+      "source": "actions-application-form",
+      "target": "activities-conversation"
     },
     {
-      "source": "compositions-browsing-sensemaking-filtering",
-      "target": "patterns-bot"
+      "source": "actions-application-form",
+      "target": "qualities-formality"
     },
     {
-      "source": "compositions-browsing-sensemaking-filtering",
-      "target": "compositions-toolbar"
+      "source": "actions-application-form",
+      "target": "operations-input"
     },
     {
-      "source": "compositions-browsing-sensemaking-filtering",
-      "target": "patterns-command-menu"
+      "source": "actions-application-form",
+      "target": "operations-textarea"
     },
     {
-      "source": "compositions-browsing-sensemaking-filtering",
-      "target": "compositions-browsing-sensemaking-grouping"
+      "source": "actions-application-form",
+      "target": "operations-checkbox"
     },
     {
-      "source": "compositions-browsing-sensemaking-filtering",
-      "target": "compositions-browsing-sensemaking-sorting"
+      "source": "actions-application-form",
+      "target": "operations-button"
     },
     {
-      "source": "compositions-browsing-sensemaking-filtering",
-      "target": "compositions-data-view"
+      "source": "actions-application-form",
+      "target": "actions-coordination-dropdown"
     },
     {
-      "source": "compositions-form",
-      "target": "patterns-data-entry"
+      "source": "actions-application-form",
+      "target": "operations-tag"
     },
     {
-      "source": "compositions-form",
-      "target": "compositions-messaging"
+      "source": "actions-application-form",
+      "target": "actions-evaluation-list"
     },
     {
-      "source": "compositions-form",
-      "target": "patterns-conversation"
+      "source": "actions-application-form",
+      "target": "operations-tabs"
     },
     {
-      "source": "compositions-form",
-      "target": "primitives-input"
+      "source": "actions-application-form",
+      "target": "operations-status-feedback"
     },
     {
-      "source": "compositions-form",
-      "target": "primitives-textarea"
+      "source": "actions-application-form",
+      "target": "actions-application-saving"
     },
     {
-      "source": "compositions-form",
-      "target": "primitives-checkbox"
+      "source": "actions-application-form",
+      "target": "operations-callout"
     },
     {
-      "source": "compositions-form",
-      "target": "primitives-button"
+      "source": "actions-application-form",
+      "target": "operations-good-defaults"
     },
     {
-      "source": "compositions-form",
-      "target": "components-dropdown"
+      "source": "actions-application-form",
+      "target": "operations-details"
     },
     {
-      "source": "compositions-form",
-      "target": "primitives-tag"
+      "source": "actions-application-form",
+      "target": "actions-seeking-command-menu"
     },
     {
-      "source": "compositions-form",
-      "target": "components-list"
+      "source": "actions-application-form",
+      "target": "operations-disabled-state"
     },
     {
-      "source": "compositions-form",
-      "target": "components-tabs"
+      "source": "actions-application-form",
+      "target": "operations-keyboard-key"
     },
     {
-      "source": "compositions-form",
-      "target": "patterns-status-feedback"
+      "source": "actions-application-saving",
+      "target": "actions-application-deletion"
     },
     {
-      "source": "compositions-form",
-      "target": "patterns-data-operations-saving"
+      "source": "actions-application-saving",
+      "target": "actions-application-action-consequences"
     },
     {
-      "source": "compositions-form",
-      "target": "patterns-good-defaults"
+      "source": "actions-application-saving",
+      "target": "operations-undo"
     },
     {
-      "source": "compositions-form",
-      "target": "primitives-details"
+      "source": "actions-application-saving",
+      "target": "activities-collaboration"
     },
     {
-      "source": "compositions-form",
-      "target": "patterns-command-menu"
-    },
-    {
-      "source": "compositions-form",
-      "target": "patterns-states-disabled-state"
-    },
-    {
-      "source": "patterns-states-disabled-state",
-      "target": "patterns-states-unavailable-actions"
-    },
-    {
-      "source": "patterns-states-unavailable-actions",
-      "target": "patterns-states-disabled-state"
-    },
-    {
-      "source": "primitives-button",
-      "target": "visual-elements-iconography"
-    },
-    {
-      "source": "visual-elements-iconography",
-      "target": "primitives-button"
-    },
-    {
-      "source": "visual-elements-iconography",
-      "target": "visual-elements-typography"
-    },
-    {
-      "source": "visual-elements-typography",
-      "target": "visual-elements-iconography"
-    },
-    {
-      "source": "visual-elements-iconography",
-      "target": "components-list"
-    },
-    {
-      "source": "components-list",
-      "target": "visual-elements-iconography"
-    },
-    {
-      "source": "visual-elements-iconography",
-      "target": "compositions-toolbar"
-    },
-    {
-      "source": "compositions-toolbar",
-      "target": "visual-elements-iconography"
-    },
-    {
-      "source": "visual-elements-iconography",
-      "target": "patterns-status-feedback"
-    },
-    {
-      "source": "patterns-status-feedback",
-      "target": "visual-elements-iconography"
-    },
-    {
-      "source": "visual-elements-iconography",
-      "target": "patterns-command-menu"
-    },
-    {
-      "source": "patterns-command-menu",
-      "target": "visual-elements-iconography"
-    },
-    {
-      "source": "primitives-button",
-      "target": "patterns-states-morphing-controls"
-    },
-    {
-      "source": "patterns-states-morphing-controls",
-      "target": "primitives-button"
-    },
-    {
-      "source": "patterns-states-morphing-controls",
-      "target": "patterns-states-unavailable-actions"
-    },
-    {
-      "source": "patterns-states-unavailable-actions",
-      "target": "patterns-states-morphing-controls"
-    },
-    {
-      "source": "patterns-states-morphing-controls",
-      "target": "patterns-states-disabled-state"
-    },
-    {
-      "source": "patterns-states-disabled-state",
-      "target": "patterns-states-morphing-controls"
-    },
-    {
-      "source": "patterns-states-morphing-controls",
-      "target": "patterns-status-feedback"
-    },
-    {
-      "source": "patterns-status-feedback",
-      "target": "patterns-states-morphing-controls"
-    },
-    {
-      "source": "patterns-states-morphing-controls",
-      "target": "patterns-progressive-disclosure"
-    },
-    {
-      "source": "patterns-progressive-disclosure",
-      "target": "patterns-states-morphing-controls"
-    },
-    {
-      "source": "patterns-states-unavailable-actions",
-      "target": "patterns-progressive-disclosure"
-    },
-    {
-      "source": "patterns-progressive-disclosure",
-      "target": "patterns-states-unavailable-actions"
-    },
-    {
-      "source": "patterns-states-unavailable-actions",
-      "target": "compositions-toolbar"
-    },
-    {
-      "source": "compositions-toolbar",
-      "target": "patterns-states-unavailable-actions"
-    },
-    {
-      "source": "compositions-toolbar",
-      "target": "components-priority"
-    },
-    {
-      "source": "components-priority",
-      "target": "compositions-toolbar"
-    },
-    {
-      "source": "primitives-overflow",
-      "target": "components-priority"
-    },
-    {
-      "source": "components-priority",
-      "target": "primitives-overflow"
-    },
-    {
-      "source": "primitives-overflow",
-      "target": "components-table"
-    },
-    {
-      "source": "components-table",
-      "target": "primitives-overflow"
-    },
-    {
-      "source": "primitives-overflow",
-      "target": "components-breadcrumbs"
-    },
-    {
-      "source": "components-breadcrumbs",
-      "target": "primitives-overflow"
-    },
-    {
-      "source": "compositions-toolbar",
-      "target": "patterns-command-menu"
-    },
-    {
-      "source": "compositions-toolbar",
-      "target": "compositions-browsing-sensemaking-filtering"
-    },
-    {
-      "source": "patterns-states-unavailable-actions",
-      "target": "patterns-command-menu"
-    },
-    {
-      "source": "patterns-command-menu",
-      "target": "patterns-states-unavailable-actions"
-    },
-    {
-      "source": "compositions-browsing-sensemaking-grouping",
-      "target": "primitives-details"
-    },
-    {
-      "source": "compositions-browsing-sensemaking-grouping",
-      "target": "compositions-browsing-sensemaking-filtering"
-    },
-    {
-      "source": "compositions-browsing-sensemaking-grouping",
-      "target": "compositions-browsing-sensemaking-sorting"
-    },
-    {
-      "source": "compositions-browsing-sensemaking-grouping",
-      "target": "compositions-data-view"
-    },
-    {
-      "source": "compositions-item-view",
-      "target": "compositions-data-view"
-    },
-    {
-      "source": "compositions-item-view",
-      "target": "primitives-reference"
-    },
-    {
-      "source": "compositions-item-view",
-      "target": "patterns-progressive-disclosure"
-    },
-    {
-      "source": "compositions-item-view",
-      "target": "components-dialog"
-    },
-    {
-      "source": "compositions-item-view",
-      "target": "components-drawer"
-    },
-    {
-      "source": "compositions-messaging",
-      "target": "patterns-conversation"
-    },
-    {
-      "source": "compositions-messaging",
-      "target": "patterns-bot"
-    },
-    {
-      "source": "compositions-nav-bar",
-      "target": "compositions-structure-fully-connected"
-    },
-    {
-      "source": "compositions-nav-bar",
-      "target": "foundations-information-architecture"
-    },
-    {
-      "source": "compositions-nav-bar",
-      "target": "compositions-structure-multilevel-tree"
-    },
-    {
-      "source": "compositions-nav-bar",
-      "target": "patterns-command-menu"
-    },
-    {
-      "source": "compositions-structure-overview-and-detail",
-      "target": "compositions-data-view"
-    },
-    {
-      "source": "compositions-structure-overview-and-detail",
-      "target": "compositions-item-view"
-    },
-    {
-      "source": "compositions-structure-overview-and-detail",
-      "target": "compositions-structure-hub-and-spoke"
-    },
-    {
-      "source": "compositions-structure-overview-and-detail",
-      "target": "foundations-intent-interaction"
-    },
-    {
-      "source": "compositions-structure-overview-and-detail",
-      "target": "qualities-malleability"
-    },
-    {
-      "source": "compositions-structure-flat-navigation",
-      "target": "foundations-intent-interaction"
-    },
-    {
-      "source": "compositions-structure-flat-navigation",
-      "target": "patterns-command-menu"
-    },
-    {
-      "source": "compositions-structure-flat-navigation",
-      "target": "compositions-structure-hub-and-spoke"
-    },
-    {
-      "source": "compositions-structure-flat-navigation",
-      "target": "compositions-structure-fully-connected"
-    },
-    {
-      "source": "compositions-structure-flat-navigation",
-      "target": "compositions-structure-hybrid-patterns"
-    },
-    {
-      "source": "compositions-structure-fully-connected",
-      "target": "foundations-intent-interaction"
-    },
-    {
-      "source": "compositions-structure-fully-connected",
-      "target": "compositions-structure-hybrid-patterns"
-    },
-    {
-      "source": "compositions-structure-fully-connected",
-      "target": "components-priority"
-    },
-    {
-      "source": "compositions-structure-fully-connected",
-      "target": "patterns-command-menu"
-    },
-    {
-      "source": "compositions-structure-fully-connected",
-      "target": "compositions-searching"
-    },
-    {
-      "source": "compositions-structure-fully-connected",
-      "target": "primitives-deep-linking"
-    },
-    {
-      "source": "compositions-structure-fully-connected",
-      "target": "components-tabs"
-    },
-    {
-      "source": "compositions-structure-fully-connected",
-      "target": "compositions-structure-hub-and-spoke"
-    },
-    {
-      "source": "compositions-structure-fully-connected",
-      "target": "compositions-structure-multilevel-tree"
-    },
-    {
-      "source": "compositions-structure-fully-connected",
-      "target": "compositions-structure-step-by-step"
-    },
-    {
-      "source": "compositions-structure-hub-and-spoke",
-      "target": "foundations-intent-interaction"
-    },
-    {
-      "source": "compositions-structure-hub-and-spoke",
-      "target": "compositions-structure-hybrid-patterns"
-    },
-    {
-      "source": "compositions-structure-hub-and-spoke",
-      "target": "compositions-structure-flat-navigation"
-    },
-    {
-      "source": "compositions-structure-hub-and-spoke",
-      "target": "patterns-command-menu"
-    },
-    {
-      "source": "compositions-structure-hub-and-spoke",
-      "target": "primitives-deep-linking"
-    },
-    {
-      "source": "compositions-structure-hub-and-spoke",
-      "target": "compositions-searching"
-    },
-    {
-      "source": "compositions-structure-hub-and-spoke",
-      "target": "patterns-workspace"
-    },
-    {
-      "source": "compositions-structure-hub-and-spoke",
-      "target": "compositions-structure-fully-connected"
-    },
-    {
-      "source": "compositions-structure-hub-and-spoke",
-      "target": "compositions-structure-multilevel-tree"
-    },
-    {
-      "source": "compositions-structure-hybrid-patterns",
-      "target": "compositions-wizard"
-    },
-    {
-      "source": "compositions-structure-hybrid-patterns",
-      "target": "foundations-information-architecture"
-    },
-    {
-      "source": "compositions-structure-hybrid-patterns",
+      "source": "actions-application-settings",
       "target": "qualities-agency"
     },
     {
-      "source": "compositions-structure-multilevel-tree",
-      "target": "compositions-structure-fully-connected"
+      "source": "actions-application-settings",
+      "target": "qualities-privacy"
     },
     {
-      "source": "compositions-structure-multilevel-tree",
-      "target": "foundations-intent-interaction"
-    },
-    {
-      "source": "compositions-structure-multilevel-tree",
-      "target": "components-dropdown"
-    },
-    {
-      "source": "compositions-structure-multilevel-tree",
-      "target": "components-tabs"
-    },
-    {
-      "source": "compositions-structure-multilevel-tree",
-      "target": "components-breadcrumbs"
-    },
-    {
-      "source": "compositions-structure-multilevel-tree",
-      "target": "compositions-searching"
-    },
-    {
-      "source": "compositions-structure-multilevel-tree",
-      "target": "patterns-command-menu"
-    },
-    {
-      "source": "compositions-structure-multilevel-tree",
-      "target": "primitives-deep-linking"
-    },
-    {
-      "source": "compositions-structure-multilevel-tree",
-      "target": "compositions-structure-hub-and-spoke"
-    },
-    {
-      "source": "compositions-structure-multilevel-tree",
-      "target": "compositions-structure-hybrid-patterns"
-    },
-    {
-      "source": "compositions-structure-pan-and-zoom",
-      "target": "foundations-intent-interaction"
-    },
-    {
-      "source": "compositions-structure-pan-and-zoom",
-      "target": "compositions-searching"
-    },
-    {
-      "source": "compositions-structure-pan-and-zoom",
-      "target": "primitives-deep-linking"
-    },
-    {
-      "source": "compositions-structure-pan-and-zoom",
-      "target": "compositions-structure-hybrid-patterns"
-    },
-    {
-      "source": "compositions-structure-pan-and-zoom",
-      "target": "compositions-structure-pyramid"
-    },
-    {
-      "source": "compositions-structure-pan-and-zoom",
-      "target": "compositions-structure-fully-connected"
-    },
-    {
-      "source": "compositions-structure-pan-and-zoom",
-      "target": "compositions-structure-multilevel-tree"
-    },
-    {
-      "source": "compositions-structure-pyramid",
-      "target": "foundations-intent-interaction"
-    },
-    {
-      "source": "compositions-structure-pyramid",
-      "target": "primitives-deep-linking"
-    },
-    {
-      "source": "compositions-structure-pyramid",
-      "target": "compositions-structure-step-by-step"
-    },
-    {
-      "source": "compositions-structure-pyramid",
-      "target": "compositions-structure-multilevel-tree"
-    },
-    {
-      "source": "compositions-structure-pyramid",
-      "target": "compositions-structure-hub-and-spoke"
-    },
-    {
-      "source": "compositions-structure-step-by-step",
-      "target": "foundations-intent-interaction"
-    },
-    {
-      "source": "compositions-structure-step-by-step",
-      "target": "compositions-structure-pyramid"
-    },
-    {
-      "source": "compositions-structure-step-by-step",
-      "target": "compositions-wizard"
-    },
-    {
-      "source": "compositions-structure-step-by-step",
-      "target": "compositions-form"
-    },
-    {
-      "source": "compositions-structure-step-by-step",
-      "target": "primitives-deep-linking"
-    },
-    {
-      "source": "compositions-structure-step-by-step",
-      "target": "components-progress-indicator"
-    },
-    {
-      "source": "compositions-structure-step-by-step",
-      "target": "compositions-structure-hybrid-patterns"
-    },
-    {
-      "source": "compositions-structure-step-by-step",
-      "target": "compositions-structure-multilevel-tree"
-    },
-    {
-      "source": "compositions-searching",
-      "target": "foundations-intent-interaction"
-    },
-    {
-      "source": "compositions-searching",
-      "target": "compositions-data-view"
-    },
-    {
-      "source": "compositions-searching",
-      "target": "foundations-information-architecture"
-    },
-    {
-      "source": "compositions-searching",
-      "target": "patterns-prompt"
-    },
-    {
-      "source": "compositions-searching",
-      "target": "patterns-suggestion"
-    },
-    {
-      "source": "compositions-browsing-sensemaking-sorting",
-      "target": "compositions-browsing-sensemaking-grouping"
-    },
-    {
-      "source": "compositions-browsing-sensemaking-sorting",
-      "target": "compositions-browsing-sensemaking-filtering"
-    },
-    {
-      "source": "compositions-browsing-sensemaking-sorting",
-      "target": "compositions-data-view"
-    },
-    {
-      "source": "compositions-view",
-      "target": "compositions-item-view"
-    },
-    {
-      "source": "compositions-view",
-      "target": "compositions-data-view"
-    },
-    {
-      "source": "compositions-view",
-      "target": "qualities-malleability"
-    },
-    {
-      "source": "compositions-view",
-      "target": "patterns-progressive-disclosure"
-    },
-    {
-      "source": "compositions-view",
-      "target": "qualities-density"
-    },
-    {
-      "source": "compositions-view",
+      "source": "actions-application-settings",
       "target": "qualities-adaptability"
     },
     {
-      "source": "compositions-wizard",
-      "target": "patterns-progressive-disclosure"
-    },
-    {
-      "source": "compositions-wizard",
-      "target": "compositions-form"
-    },
-    {
-      "source": "compositions-wizard",
+      "source": "actions-application-settings",
       "target": "foundations-intent-interaction"
     },
     {
-      "source": "compositions-wizard",
-      "target": "patterns-conversation"
+      "source": "actions-application-settings",
+      "target": "activities-onboarding"
     },
     {
-      "source": "compositions-wizard",
-      "target": "patterns-onboarding"
+      "source": "actions-application-settings",
+      "target": "actions-seeking-progressive-disclosure"
     },
     {
-      "source": "compositions-wizard",
-      "target": "compositions-structure-step-by-step"
+      "source": "actions-application-settings",
+      "target": "actions-application-form"
     },
     {
-      "source": "compositions-wizard",
-      "target": "compositions-messaging"
+      "source": "actions-application-settings",
+      "target": "actions-application-wizard"
     },
     {
-      "source": "compositions-wizard",
-      "target": "patterns-bot"
+      "source": "actions-application-settings",
+      "target": "activities-ai-tuning"
     },
     {
-      "source": "compositions-wizard",
-      "target": "patterns-status-feedback"
+      "source": "actions-application-settings",
+      "target": "operations-undo"
     },
     {
-      "source": "compositions-wizard",
-      "target": "patterns-undo"
+      "source": "actions-application-settings",
+      "target": "operations-status-feedback"
+    },
+    {
+      "source": "actions-application-settings",
+      "target": "actions-coordination-notification"
+    },
+    {
+      "source": "actions-application-settings",
+      "target": "activities-localization"
+    },
+    {
+      "source": "actions-application-settings",
+      "target": "activities-workspace"
+    },
+    {
+      "source": "actions-application-settings",
+      "target": "activities-collaboration"
+    },
+    {
+      "source": "actions-application-suggestion",
+      "target": "activities-conversation"
+    },
+    {
+      "source": "actions-application-suggestion",
+      "target": "qualities-adaptability"
+    },
+    {
+      "source": "actions-application-suggestion",
+      "target": "activities-bot"
+    },
+    {
+      "source": "actions-application-suggestion",
+      "target": "actions-coordination-messaging"
+    },
+    {
+      "source": "actions-application-suggestion",
+      "target": "activities-transparent-reasoning"
+    },
+    {
+      "source": "actions-application-suggestion",
+      "target": "activities-collaboration"
+    },
+    {
+      "source": "actions-application-suggestion",
+      "target": "qualities-formality"
+    },
+    {
+      "source": "actions-application-template",
+      "target": "activities-onboarding"
+    },
+    {
+      "source": "actions-application-template",
+      "target": "actions-application-wizard"
+    },
+    {
+      "source": "actions-application-template",
+      "target": "qualities-learnability"
+    },
+    {
+      "source": "actions-application-wizard",
+      "target": "actions-seeking-progressive-disclosure"
+    },
+    {
+      "source": "actions-application-wizard",
+      "target": "actions-application-form"
+    },
+    {
+      "source": "actions-application-wizard",
+      "target": "foundations-intent-interaction"
+    },
+    {
+      "source": "actions-application-wizard",
+      "target": "activities-conversation"
+    },
+    {
+      "source": "actions-application-wizard",
+      "target": "activities-onboarding"
+    },
+    {
+      "source": "actions-application-wizard",
+      "target": "actions-navigation-step-by-step"
+    },
+    {
+      "source": "actions-application-wizard",
+      "target": "actions-coordination-messaging"
+    },
+    {
+      "source": "actions-application-wizard",
+      "target": "activities-bot"
+    },
+    {
+      "source": "actions-application-wizard",
+      "target": "operations-status-feedback"
+    },
+    {
+      "source": "actions-application-wizard",
+      "target": "operations-undo"
+    },
+    {
+      "source": "actions-coordination-bubble-menu",
+      "target": "actions-seeking-progressive-disclosure"
+    },
+    {
+      "source": "actions-coordination-bubble-menu",
+      "target": "operations-popover"
+    },
+    {
+      "source": "actions-coordination-bubble-menu",
+      "target": "actions-seeking-command-menu"
+    },
+    {
+      "source": "actions-coordination-bubble-menu",
+      "target": "actions-sensemaking-blockbased-editor"
+    },
+    {
+      "source": "actions-coordination-bubble-menu",
+      "target": "actions-application-suggestion"
+    },
+    {
+      "source": "actions-coordination-commenting",
+      "target": "actions-sensemaking-annotation"
+    },
+    {
+      "source": "actions-coordination-commenting",
+      "target": "activities-collaboration"
+    },
+    {
+      "source": "actions-coordination-commenting",
+      "target": "activities-activity-log"
+    },
+    {
+      "source": "actions-coordination-commenting",
+      "target": "actions-coordination-notification"
+    },
+    {
+      "source": "actions-coordination-commenting",
+      "target": "activities-conversation"
+    },
+    {
+      "source": "actions-coordination-commenting",
+      "target": "operations-status-feedback"
+    },
+    {
+      "source": "actions-coordination-messaging",
+      "target": "activities-conversation"
+    },
+    {
+      "source": "actions-coordination-messaging",
+      "target": "activities-bot"
+    },
+    {
+      "source": "actions-coordination-messaging",
+      "target": "qualities-formality"
+    },
+    {
+      "source": "actions-coordination-nav-bar",
+      "target": "actions-navigation-fully-connected"
+    },
+    {
+      "source": "actions-coordination-nav-bar",
+      "target": "foundations-information-architecture"
+    },
+    {
+      "source": "actions-coordination-nav-bar",
+      "target": "actions-navigation-multilevel-tree"
+    },
+    {
+      "source": "actions-coordination-nav-bar",
+      "target": "actions-seeking-command-menu"
+    },
+    {
+      "source": "actions-coordination-nav-bar",
+      "target": "operations-breadcrumbs"
+    },
+    {
+      "source": "actions-coordination-notification",
+      "target": "operations-status-feedback"
+    },
+    {
+      "source": "actions-coordination-notification",
+      "target": "operations-toast"
+    },
+    {
+      "source": "actions-coordination-notification",
+      "target": "operations-callout"
+    },
+    {
+      "source": "actions-coordination-notification",
+      "target": "actions-application-dialog"
+    },
+    {
+      "source": "actions-coordination-notification",
+      "target": "activities-collaboration"
+    },
+    {
+      "source": "actions-coordination-priority",
+      "target": "actions-coordination-dropdown"
+    },
+    {
+      "source": "actions-coordination-priority",
+      "target": "actions-evaluation-list"
+    },
+    {
+      "source": "actions-coordination-priority",
+      "target": "actions-coordination-toolbar"
+    },
+    {
+      "source": "actions-coordination-priority",
+      "target": "operations-overflow"
+    },
+    {
+      "source": "actions-coordination-toolbar",
+      "target": "actions-coordination-priority"
+    },
+    {
+      "source": "actions-coordination-toolbar",
+      "target": "actions-seeking-command-menu"
+    },
+    {
+      "source": "actions-coordination-toolbar",
+      "target": "operations-unavailable-actions"
+    },
+    {
+      "source": "actions-evaluation-focus-and-context",
+      "target": "qualities-agency"
+    },
+    {
+      "source": "actions-evaluation-focus-and-context",
+      "target": "qualities-adaptability"
+    },
+    {
+      "source": "actions-evaluation-focus-and-context",
+      "target": "actions-seeking-progressive-disclosure"
+    },
+    {
+      "source": "actions-evaluation-table",
+      "target": "operations-overflow"
+    },
+    {
+      "source": "actions-evaluation-table",
+      "target": "actions-seeking-data-view"
+    },
+    {
+      "source": "actions-evaluation-table",
+      "target": "actions-seeking-sorting"
+    },
+    {
+      "source": "actions-evaluation-table",
+      "target": "actions-seeking-filtering"
+    },
+    {
+      "source": "actions-evaluation-table",
+      "target": "actions-sensemaking-card"
+    },
+    {
+      "source": "actions-evaluation-text-lens",
+      "target": "actions-coordination-bubble-menu"
+    },
+    {
+      "source": "actions-evaluation-text-lens",
+      "target": "activities-conversation"
+    },
+    {
+      "source": "actions-evaluation-text-lens",
+      "target": "actions-seeking-progressive-disclosure"
+    },
+    {
+      "source": "actions-evaluation-text-lens",
+      "target": "activities-localization"
+    },
+    {
+      "source": "actions-evaluation-timeline",
+      "target": "operations-progress-indicator"
+    },
+    {
+      "source": "actions-navigation-overview-and-detail",
+      "target": "actions-seeking-data-view"
+    },
+    {
+      "source": "actions-navigation-overview-and-detail",
+      "target": "actions-seeking-item-view"
+    },
+    {
+      "source": "actions-navigation-overview-and-detail",
+      "target": "actions-navigation-hub-and-spoke"
+    },
+    {
+      "source": "actions-navigation-overview-and-detail",
+      "target": "foundations-intent-interaction"
+    },
+    {
+      "source": "actions-navigation-overview-and-detail",
+      "target": "qualities-malleability"
+    },
+    {
+      "source": "actions-navigation-flat-navigation",
+      "target": "foundations-intent-interaction"
+    },
+    {
+      "source": "actions-navigation-flat-navigation",
+      "target": "actions-seeking-command-menu"
+    },
+    {
+      "source": "actions-navigation-flat-navigation",
+      "target": "actions-navigation-hub-and-spoke"
+    },
+    {
+      "source": "actions-navigation-flat-navigation",
+      "target": "actions-navigation-fully-connected"
+    },
+    {
+      "source": "actions-navigation-flat-navigation",
+      "target": "actions-navigation-hybrid-patterns"
+    },
+    {
+      "source": "actions-navigation-fully-connected",
+      "target": "foundations-intent-interaction"
+    },
+    {
+      "source": "actions-navigation-fully-connected",
+      "target": "actions-navigation-hybrid-patterns"
+    },
+    {
+      "source": "actions-navigation-fully-connected",
+      "target": "actions-coordination-priority"
+    },
+    {
+      "source": "actions-navigation-fully-connected",
+      "target": "actions-seeking-command-menu"
+    },
+    {
+      "source": "actions-navigation-fully-connected",
+      "target": "operations-breadcrumbs"
+    },
+    {
+      "source": "actions-navigation-fully-connected",
+      "target": "actions-seeking-searching"
+    },
+    {
+      "source": "actions-navigation-fully-connected",
+      "target": "operations-deep-linking"
+    },
+    {
+      "source": "actions-navigation-fully-connected",
+      "target": "actions-coordination-nav-bar"
+    },
+    {
+      "source": "actions-navigation-fully-connected",
+      "target": "operations-tabs"
+    },
+    {
+      "source": "actions-navigation-fully-connected",
+      "target": "actions-navigation-hub-and-spoke"
+    },
+    {
+      "source": "actions-navigation-fully-connected",
+      "target": "actions-navigation-multilevel-tree"
+    },
+    {
+      "source": "actions-navigation-fully-connected",
+      "target": "actions-navigation-step-by-step"
+    },
+    {
+      "source": "actions-navigation-hub-and-spoke",
+      "target": "foundations-intent-interaction"
+    },
+    {
+      "source": "actions-navigation-hub-and-spoke",
+      "target": "actions-navigation-hybrid-patterns"
+    },
+    {
+      "source": "actions-navigation-hub-and-spoke",
+      "target": "actions-navigation-flat-navigation"
+    },
+    {
+      "source": "actions-navigation-hub-and-spoke",
+      "target": "actions-seeking-command-menu"
+    },
+    {
+      "source": "actions-navigation-hub-and-spoke",
+      "target": "operations-deep-linking"
+    },
+    {
+      "source": "actions-navigation-hub-and-spoke",
+      "target": "actions-seeking-searching"
+    },
+    {
+      "source": "actions-navigation-hub-and-spoke",
+      "target": "activities-workspace"
+    },
+    {
+      "source": "actions-navigation-hub-and-spoke",
+      "target": "actions-navigation-fully-connected"
+    },
+    {
+      "source": "actions-navigation-hub-and-spoke",
+      "target": "actions-navigation-multilevel-tree"
+    },
+    {
+      "source": "actions-navigation-hybrid-patterns",
+      "target": "actions-application-wizard"
+    },
+    {
+      "source": "actions-navigation-hybrid-patterns",
+      "target": "foundations-information-architecture"
+    },
+    {
+      "source": "actions-navigation-hybrid-patterns",
+      "target": "qualities-agency"
+    },
+    {
+      "source": "actions-navigation-multilevel-tree",
+      "target": "actions-navigation-fully-connected"
+    },
+    {
+      "source": "actions-navigation-multilevel-tree",
+      "target": "foundations-intent-interaction"
+    },
+    {
+      "source": "actions-navigation-multilevel-tree",
+      "target": "actions-coordination-dropdown"
+    },
+    {
+      "source": "actions-navigation-multilevel-tree",
+      "target": "operations-tabs"
+    },
+    {
+      "source": "actions-navigation-multilevel-tree",
+      "target": "operations-breadcrumbs"
+    },
+    {
+      "source": "actions-navigation-multilevel-tree",
+      "target": "actions-seeking-searching"
+    },
+    {
+      "source": "actions-navigation-multilevel-tree",
+      "target": "actions-seeking-command-menu"
+    },
+    {
+      "source": "actions-navigation-multilevel-tree",
+      "target": "operations-deep-linking"
+    },
+    {
+      "source": "actions-navigation-multilevel-tree",
+      "target": "actions-navigation-hub-and-spoke"
+    },
+    {
+      "source": "actions-navigation-multilevel-tree",
+      "target": "actions-navigation-hybrid-patterns"
+    },
+    {
+      "source": "actions-navigation-pan-and-zoom",
+      "target": "foundations-intent-interaction"
+    },
+    {
+      "source": "actions-navigation-pan-and-zoom",
+      "target": "actions-seeking-searching"
+    },
+    {
+      "source": "actions-navigation-pan-and-zoom",
+      "target": "operations-deep-linking"
+    },
+    {
+      "source": "actions-navigation-pan-and-zoom",
+      "target": "actions-navigation-hybrid-patterns"
+    },
+    {
+      "source": "actions-navigation-pan-and-zoom",
+      "target": "actions-navigation-pyramid"
+    },
+    {
+      "source": "actions-navigation-pan-and-zoom",
+      "target": "actions-navigation-fully-connected"
+    },
+    {
+      "source": "actions-navigation-pan-and-zoom",
+      "target": "actions-navigation-multilevel-tree"
+    },
+    {
+      "source": "actions-navigation-pyramid",
+      "target": "foundations-intent-interaction"
+    },
+    {
+      "source": "actions-navigation-pyramid",
+      "target": "operations-deep-linking"
+    },
+    {
+      "source": "actions-navigation-pyramid",
+      "target": "actions-seeking-filtering"
+    },
+    {
+      "source": "actions-navigation-pyramid",
+      "target": "actions-navigation-step-by-step"
+    },
+    {
+      "source": "actions-navigation-pyramid",
+      "target": "actions-navigation-multilevel-tree"
+    },
+    {
+      "source": "actions-navigation-pyramid",
+      "target": "actions-navigation-hub-and-spoke"
+    },
+    {
+      "source": "actions-navigation-step-by-step",
+      "target": "foundations-intent-interaction"
+    },
+    {
+      "source": "actions-navigation-step-by-step",
+      "target": "actions-navigation-pyramid"
+    },
+    {
+      "source": "actions-navigation-step-by-step",
+      "target": "actions-application-wizard"
+    },
+    {
+      "source": "actions-navigation-step-by-step",
+      "target": "actions-application-form"
+    },
+    {
+      "source": "actions-navigation-step-by-step",
+      "target": "operations-deep-linking"
+    },
+    {
+      "source": "actions-navigation-step-by-step",
+      "target": "operations-progress-indicator"
+    },
+    {
+      "source": "actions-navigation-step-by-step",
+      "target": "actions-navigation-hybrid-patterns"
+    },
+    {
+      "source": "actions-navigation-step-by-step",
+      "target": "actions-navigation-multilevel-tree"
+    },
+    {
+      "source": "actions-seeking-command-menu",
+      "target": "actions-seeking-filtering"
+    },
+    {
+      "source": "actions-seeking-command-menu",
+      "target": "operations-keyboard-key"
+    },
+    {
+      "source": "actions-seeking-command-menu",
+      "target": "activities-embedded-intelligence"
+    },
+    {
+      "source": "actions-seeking-command-menu",
+      "target": "actions-coordination-toolbar"
+    },
+    {
+      "source": "actions-seeking-command-menu",
+      "target": "activities-collaboration"
+    },
+    {
+      "source": "actions-seeking-command-menu",
+      "target": "operations-unavailable-actions"
+    },
+    {
+      "source": "actions-seeking-data-view",
+      "target": "actions-sensemaking-view"
+    },
+    {
+      "source": "actions-seeking-data-view",
+      "target": "actions-seeking-item-view"
+    },
+    {
+      "source": "actions-seeking-data-view",
+      "target": "actions-seeking-sorting"
+    },
+    {
+      "source": "actions-seeking-data-view",
+      "target": "actions-sensemaking-grouping"
+    },
+    {
+      "source": "actions-seeking-data-view",
+      "target": "actions-coordination-toolbar"
+    },
+    {
+      "source": "actions-seeking-data-view",
+      "target": "actions-evaluation-table"
+    },
+    {
+      "source": "actions-seeking-data-view",
+      "target": "actions-sensemaking-card"
+    },
+    {
+      "source": "actions-seeking-data-view",
+      "target": "actions-evaluation-timeline"
+    },
+    {
+      "source": "actions-seeking-dynamic-hyperlinks",
+      "target": "operations-reference"
+    },
+    {
+      "source": "actions-seeking-dynamic-hyperlinks",
+      "target": "qualities-agency"
+    },
+    {
+      "source": "actions-seeking-dynamic-hyperlinks",
+      "target": "actions-evaluation-focus-and-context"
+    },
+    {
+      "source": "actions-seeking-dynamic-hyperlinks",
+      "target": "actions-application-suggestion"
+    },
+    {
+      "source": "actions-seeking-dynamic-hyperlinks",
+      "target": "operations-deep-linking"
+    },
+    {
+      "source": "actions-seeking-dynamic-hyperlinks",
+      "target": "actions-seeking-progressive-disclosure"
+    },
+    {
+      "source": "actions-seeking-dynamic-hyperlinks",
+      "target": "actions-sensemaking-annotation"
+    },
+    {
+      "source": "actions-seeking-filtering",
+      "target": "activities-bot"
+    },
+    {
+      "source": "actions-seeking-filtering",
+      "target": "actions-coordination-toolbar"
+    },
+    {
+      "source": "actions-seeking-filtering",
+      "target": "actions-seeking-command-menu"
+    },
+    {
+      "source": "actions-seeking-filtering",
+      "target": "actions-sensemaking-grouping"
+    },
+    {
+      "source": "actions-seeking-filtering",
+      "target": "actions-seeking-sorting"
+    },
+    {
+      "source": "actions-seeking-filtering",
+      "target": "actions-seeking-data-view"
+    },
+    {
+      "source": "actions-seeking-item-view",
+      "target": "actions-seeking-data-view"
+    },
+    {
+      "source": "actions-seeking-item-view",
+      "target": "operations-reference"
+    },
+    {
+      "source": "actions-seeking-item-view",
+      "target": "actions-seeking-progressive-disclosure"
+    },
+    {
+      "source": "actions-seeking-item-view",
+      "target": "actions-application-dialog"
+    },
+    {
+      "source": "actions-seeking-item-view",
+      "target": "actions-application-drawer"
+    },
+    {
+      "source": "actions-seeking-item-view",
+      "target": "actions-sensemaking-card"
+    },
+    {
+      "source": "actions-seeking-progressive-disclosure",
+      "target": "operations-details"
+    },
+    {
+      "source": "actions-seeking-progressive-disclosure",
+      "target": "actions-application-dialog"
+    },
+    {
+      "source": "actions-seeking-progressive-disclosure",
+      "target": "actions-sensemaking-explanation"
+    },
+    {
+      "source": "actions-seeking-progressive-disclosure",
+      "target": "activities-help"
+    },
+    {
+      "source": "actions-seeking-progressive-disclosure",
+      "target": "operations-good-defaults"
+    },
+    {
+      "source": "actions-seeking-progressive-disclosure",
+      "target": "activities-transparent-reasoning"
+    },
+    {
+      "source": "actions-seeking-progressive-disclosure",
+      "target": "qualities-density"
+    },
+    {
+      "source": "actions-seeking-progressive-disclosure",
+      "target": "actions-evaluation-focus-and-context"
+    },
+    {
+      "source": "actions-seeking-progressive-disclosure",
+      "target": "activities-activity-log"
+    },
+    {
+      "source": "actions-seeking-progressive-disclosure",
+      "target": "activities-bot"
+    },
+    {
+      "source": "actions-seeking-progressive-disclosure",
+      "target": "qualities-learnability"
+    },
+    {
+      "source": "actions-seeking-progressive-disclosure",
+      "target": "activities-onboarding"
+    },
+    {
+      "source": "actions-seeking-searching",
+      "target": "foundations-intent-interaction"
+    },
+    {
+      "source": "actions-seeking-searching",
+      "target": "actions-seeking-data-view"
+    },
+    {
+      "source": "actions-seeking-searching",
+      "target": "foundations-information-architecture"
+    },
+    {
+      "source": "actions-seeking-searching",
+      "target": "actions-seeking-filtering"
+    },
+    {
+      "source": "actions-seeking-searching",
+      "target": "activities-prompt"
+    },
+    {
+      "source": "actions-seeking-searching",
+      "target": "actions-application-suggestion"
+    },
+    {
+      "source": "actions-seeking-sorting",
+      "target": "actions-coordination-toolbar"
+    },
+    {
+      "source": "actions-seeking-sorting",
+      "target": "actions-sensemaking-grouping"
+    },
+    {
+      "source": "actions-seeking-sorting",
+      "target": "actions-seeking-filtering"
+    },
+    {
+      "source": "actions-seeking-sorting",
+      "target": "actions-seeking-data-view"
+    },
+    {
+      "source": "actions-seeking-sorting",
+      "target": "actions-evaluation-table"
+    },
+    {
+      "source": "actions-sensemaking-annotation",
+      "target": "qualities-temporality"
+    },
+    {
+      "source": "actions-sensemaking-annotation",
+      "target": "qualities-learnability"
+    },
+    {
+      "source": "actions-sensemaking-annotation",
+      "target": "activities-collaboration"
+    },
+    {
+      "source": "actions-sensemaking-annotation",
+      "target": "activities-conversation"
+    },
+    {
+      "source": "actions-sensemaking-annotation",
+      "target": "actions-coordination-commenting"
+    },
+    {
+      "source": "actions-sensemaking-annotation",
+      "target": "actions-sensemaking-explanation"
+    },
+    {
+      "source": "actions-sensemaking-annotation",
+      "target": "activities-transparent-reasoning"
+    },
+    {
+      "source": "actions-sensemaking-annotation",
+      "target": "activities-generated-content"
+    },
+    {
+      "source": "actions-sensemaking-annotation",
+      "target": "actions-sensemaking-tag"
+    },
+    {
+      "source": "actions-sensemaking-annotation",
+      "target": "operations-badge"
+    },
+    {
+      "source": "actions-sensemaking-annotation",
+      "target": "foundations-intent-interaction"
+    },
+    {
+      "source": "actions-sensemaking-card",
+      "target": "actions-seeking-data-view"
+    },
+    {
+      "source": "actions-sensemaking-card",
+      "target": "actions-evaluation-table"
+    },
+    {
+      "source": "actions-sensemaking-card",
+      "target": "actions-seeking-item-view"
+    },
+    {
+      "source": "actions-sensemaking-needsbased-view",
+      "target": "actions-seeking-data-view"
+    },
+    {
+      "source": "actions-sensemaking-needsbased-view",
+      "target": "actions-seeking-item-view"
+    },
+    {
+      "source": "actions-sensemaking-explanation",
+      "target": "qualities-learnability"
+    },
+    {
+      "source": "actions-sensemaking-explanation",
+      "target": "actions-seeking-progressive-disclosure"
+    },
+    {
+      "source": "actions-sensemaking-explanation",
+      "target": "activities-transparent-reasoning"
+    },
+    {
+      "source": "actions-sensemaking-explanation",
+      "target": "activities-collaboration"
+    },
+    {
+      "source": "actions-sensemaking-explanation",
+      "target": "activities-localization"
+    },
+    {
+      "source": "actions-sensemaking-grouping",
+      "target": "actions-coordination-toolbar"
+    },
+    {
+      "source": "actions-sensemaking-grouping",
+      "target": "operations-details"
+    },
+    {
+      "source": "actions-sensemaking-grouping",
+      "target": "actions-seeking-filtering"
+    },
+    {
+      "source": "actions-sensemaking-grouping",
+      "target": "actions-seeking-sorting"
+    },
+    {
+      "source": "actions-sensemaking-grouping",
+      "target": "actions-seeking-data-view"
+    },
+    {
+      "source": "actions-sensemaking-tag",
+      "target": "operations-tag"
+    },
+    {
+      "source": "actions-sensemaking-tag",
+      "target": "operations-badge"
+    },
+    {
+      "source": "actions-sensemaking-tag",
+      "target": "actions-sensemaking-annotation"
+    },
+    {
+      "source": "actions-sensemaking-tag",
+      "target": "foundations-intent-interaction"
+    },
+    {
+      "source": "actions-sensemaking-view",
+      "target": "actions-seeking-item-view"
+    },
+    {
+      "source": "actions-sensemaking-view",
+      "target": "actions-seeking-data-view"
+    },
+    {
+      "source": "actions-sensemaking-view",
+      "target": "qualities-malleability"
+    },
+    {
+      "source": "actions-sensemaking-view",
+      "target": "actions-seeking-progressive-disclosure"
+    },
+    {
+      "source": "actions-sensemaking-view",
+      "target": "qualities-density"
+    },
+    {
+      "source": "actions-sensemaking-view",
+      "target": "qualities-adaptability"
+    },
+    {
+      "source": "activities-ai-tuning",
+      "target": "activities-bot"
+    },
+    {
+      "source": "activities-ai-tuning",
+      "target": "qualities-agency"
+    },
+    {
+      "source": "activities-ai-tuning",
+      "target": "activities-localization"
+    },
+    {
+      "source": "activities-activity-feed",
+      "target": "activities-activity-log"
+    },
+    {
+      "source": "activities-activity-feed",
+      "target": "actions-sensemaking-card"
+    },
+    {
+      "source": "activities-activity-feed",
+      "target": "activities-collaboration"
+    },
+    {
+      "source": "activities-activity-feed",
+      "target": "actions-coordination-notification"
+    },
+    {
+      "source": "activities-activity-feed",
+      "target": "actions-coordination-messaging"
+    },
+    {
+      "source": "activities-activity-feed",
+      "target": "activities-conversation"
+    },
+    {
+      "source": "activities-activity-log",
+      "target": "actions-sensemaking-explanation"
+    },
+    {
+      "source": "activities-activity-log",
+      "target": "activities-transparent-reasoning"
+    },
+    {
+      "source": "activities-activity-log",
+      "target": "activities-bot"
+    },
+    {
+      "source": "activities-activity-log",
+      "target": "actions-evaluation-timeline"
+    },
+    {
+      "source": "activities-activity-log",
+      "target": "operations-progress-indicator"
+    },
+    {
+      "source": "activities-activity-log",
+      "target": "operations-details"
+    },
+    {
+      "source": "activities-activity-log",
+      "target": "actions-seeking-progressive-disclosure"
+    },
+    {
+      "source": "activities-activity-log",
+      "target": "activities-collaboration"
+    },
+    {
+      "source": "activities-bot",
+      "target": "qualities-agency"
+    },
+    {
+      "source": "activities-bot",
+      "target": "actions-coordination-messaging"
+    },
+    {
+      "source": "activities-bot",
+      "target": "activities-conversation"
+    },
+    {
+      "source": "activities-bot",
+      "target": "activities-onboarding"
+    },
+    {
+      "source": "activities-bot",
+      "target": "actions-application-suggestion"
+    },
+    {
+      "source": "activities-bot",
+      "target": "actions-seeking-progressive-disclosure"
+    },
+    {
+      "source": "activities-bot",
+      "target": "activities-prompt"
+    },
+    {
+      "source": "activities-bot",
+      "target": "qualities-formality"
+    },
+    {
+      "source": "activities-bot",
+      "target": "activities-ai-tuning"
+    },
+    {
+      "source": "activities-bot",
+      "target": "activities-generated-content"
+    },
+    {
+      "source": "activities-bot",
+      "target": "activities-transparent-reasoning"
+    },
+    {
+      "source": "activities-bot",
+      "target": "activities-activity-log"
+    },
+    {
+      "source": "activities-bot",
+      "target": "activities-collaboration"
+    },
+    {
+      "source": "activities-collaboration",
+      "target": "foundations-collaboration"
+    },
+    {
+      "source": "activities-collaboration",
+      "target": "qualities-agency"
+    },
+    {
+      "source": "activities-collaboration",
+      "target": "activities-bot"
+    },
+    {
+      "source": "activities-collaboration",
+      "target": "activities-conversation"
+    },
+    {
+      "source": "activities-collaboration",
+      "target": "qualities-conversation"
+    },
+    {
+      "source": "activities-collaboration",
+      "target": "activities-activity-log"
+    },
+    {
+      "source": "activities-collaboration",
+      "target": "actions-coordination-notification"
+    },
+    {
+      "source": "activities-collaboration",
+      "target": "actions-sensemaking-explanation"
+    },
+    {
+      "source": "activities-collaboration",
+      "target": "actions-application-suggestion"
+    },
+    {
+      "source": "activities-collaboration",
+      "target": "activities-transparent-reasoning"
+    },
+    {
+      "source": "activities-collaboration",
+      "target": "activities-prompt"
+    },
+    {
+      "source": "activities-collaboration",
+      "target": "actions-seeking-command-menu"
+    },
+    {
+      "source": "activities-conversation",
+      "target": "qualities-conversation"
+    },
+    {
+      "source": "activities-conversation",
+      "target": "activities-collaboration"
+    },
+    {
+      "source": "activities-conversation",
+      "target": "foundations-intent-interaction"
+    },
+    {
+      "source": "activities-conversation",
+      "target": "activities-localization"
+    },
+    {
+      "source": "activities-conversation",
+      "target": "actions-coordination-messaging"
+    },
+    {
+      "source": "activities-conversation",
+      "target": "activities-bot"
+    },
+    {
+      "source": "activities-conversation",
+      "target": "activities-prompt"
+    },
+    {
+      "source": "activities-conversation",
+      "target": "actions-evaluation-text-lens"
+    },
+    {
+      "source": "activities-conversation",
+      "target": "actions-application-form"
+    },
+    {
+      "source": "activities-conversation",
+      "target": "operations-conversation-conversational-activities-inquiry-bot"
+    },
+    {
+      "source": "activities-conversation",
+      "target": "operations-conversation-conversational-activities-open-request"
+    },
+    {
+      "source": "activities-conversation",
+      "target": "operations-conversation-sequence-management-bot-repair"
+    },
+    {
+      "source": "activities-conversation",
+      "target": "operations-conversation-sequence-management-sequence-completion"
+    },
+    {
+      "source": "activities-conversation",
+      "target": "operations-conversation-conversation-management-opening-bot"
+    },
+    {
+      "source": "activities-conversation",
+      "target": "operations-conversation-conversation-management-opening-user"
+    },
+    {
+      "source": "activities-conversation",
+      "target": "operations-conversation-conversation-management-capability-scope"
+    },
+    {
+      "source": "activities-conversation",
+      "target": "operations-conversation-conversation-management-closing"
+    },
+    {
+      "source": "activities-conversation",
+      "target": "operations-conversation-conversation-management-disengage-without-closing"
+    },
+    {
+      "source": "activities-embedded-intelligence",
+      "target": "qualities-adaptability"
+    },
+    {
+      "source": "activities-embedded-intelligence",
+      "target": "qualities-agency"
+    },
+    {
+      "source": "activities-embedded-intelligence",
+      "target": "actions-seeking-command-menu"
+    },
+    {
+      "source": "activities-embedded-intelligence",
+      "target": "actions-seeking-filtering"
+    },
+    {
+      "source": "activities-embedded-intelligence",
+      "target": "actions-evaluation-focus-and-context"
+    },
+    {
+      "source": "activities-embedded-intelligence",
+      "target": "actions-application-suggestion"
+    },
+    {
+      "source": "activities-generated-content",
+      "target": "activities-bot"
+    },
+    {
+      "source": "activities-generated-content",
+      "target": "qualities-agency"
+    },
+    {
+      "source": "activities-generated-content",
+      "target": "activities-prompt"
+    },
+    {
+      "source": "activities-generated-content",
+      "target": "activities-localization"
+    },
+    {
+      "source": "activities-generated-content",
+      "target": "activities-conversation"
+    },
+    {
+      "source": "activities-generated-content",
+      "target": "actions-application-suggestion"
+    },
+    {
+      "source": "activities-generated-content",
+      "target": "activities-transparent-reasoning"
+    },
+    {
+      "source": "activities-generated-content",
+      "target": "actions-sensemaking-explanation"
+    },
+    {
+      "source": "activities-generated-content",
+      "target": "activities-ai-tuning"
+    },
+    {
+      "source": "activities-help",
+      "target": "qualities-conversation"
+    },
+    {
+      "source": "activities-help",
+      "target": "activities-embedded-intelligence"
+    },
+    {
+      "source": "activities-help",
+      "target": "actions-sensemaking-explanation"
+    },
+    {
+      "source": "activities-help",
+      "target": "actions-seeking-command-menu"
+    },
+    {
+      "source": "activities-help",
+      "target": "operations-status-feedback"
+    },
+    {
+      "source": "activities-help",
+      "target": "activities-bot"
+    },
+    {
+      "source": "activities-help",
+      "target": "activities-localization"
+    },
+    {
+      "source": "activities-help",
+      "target": "qualities-learnability"
+    },
+    {
+      "source": "activities-help",
+      "target": "actions-sensemaking-annotation"
+    },
+    {
+      "source": "activities-living-document",
+      "target": "activities-generated-content"
+    },
+    {
+      "source": "activities-localization",
+      "target": "foundations-information-architecture"
+    },
+    {
+      "source": "activities-localization",
+      "target": "actions-evaluation-text-lens"
+    },
+    {
+      "source": "activities-localization",
+      "target": "actions-application-data-entry"
+    },
+    {
+      "source": "activities-localization",
+      "target": "operations-good-defaults"
+    },
+    {
+      "source": "activities-localization",
+      "target": "actions-application-settings"
+    },
+    {
+      "source": "activities-localization",
+      "target": "qualities-privacy"
+    },
+    {
+      "source": "activities-localization",
+      "target": "activities-collaboration"
+    },
+    {
+      "source": "activities-localization",
+      "target": "activities-generated-content"
+    },
+    {
+      "source": "activities-localization",
+      "target": "actions-coordination-notification"
+    },
+    {
+      "source": "activities-localization",
+      "target": "activities-conversation"
+    },
+    {
+      "source": "activities-localization",
+      "target": "activities-help"
+    },
+    {
+      "source": "activities-localization",
+      "target": "qualities-adaptability"
+    },
+    {
+      "source": "activities-localization",
+      "target": "activities-ai-tuning"
+    },
+    {
+      "source": "activities-localization",
+      "target": "activities-onboarding"
+    },
+    {
+      "source": "activities-localization",
+      "target": "qualities-shareability"
+    },
+    {
+      "source": "activities-localization",
+      "target": "qualities-temporality"
+    },
+    {
+      "source": "activities-localization",
+      "target": "qualities-density"
+    },
+    {
+      "source": "activities-localization",
+      "target": "qualities-learnability"
+    },
+    {
+      "source": "activities-localization",
+      "target": "activities-workspace"
+    },
+    {
+      "source": "activities-localization",
+      "target": "actions-application-suggestion"
+    },
+    {
+      "source": "activities-localization",
+      "target": "activities-bot"
+    },
+    {
+      "source": "activities-localization",
+      "target": "actions-sensemaking-explanation"
+    },
+    {
+      "source": "activities-mastery",
+      "target": "activities-onboarding"
+    },
+    {
+      "source": "activities-mastery",
+      "target": "qualities-learnability"
+    },
+    {
+      "source": "activities-mastery",
+      "target": "qualities-malleability"
+    },
+    {
+      "source": "activities-mastery",
+      "target": "qualities-temporality"
+    },
+    {
+      "source": "activities-mastery",
+      "target": "actions-seeking-command-menu"
+    },
+    {
+      "source": "activities-mastery",
+      "target": "actions-application-settings"
+    },
+    {
+      "source": "activities-mastery",
+      "target": "qualities-density"
+    },
+    {
+      "source": "activities-onboarding",
+      "target": "activities-help"
+    },
+    {
+      "source": "activities-onboarding",
+      "target": "activities-activity-log"
+    },
+    {
+      "source": "activities-onboarding",
+      "target": "qualities-learnability"
+    },
+    {
+      "source": "activities-onboarding",
+      "target": "activities-mastery"
+    },
+    {
+      "source": "activities-onboarding",
+      "target": "operations-empty-state"
+    },
+    {
+      "source": "activities-onboarding",
+      "target": "activities-localization"
+    },
+    {
+      "source": "activities-prompt",
+      "target": "activities-bot"
+    },
+    {
+      "source": "activities-prompt",
+      "target": "qualities-agency"
+    },
+    {
+      "source": "activities-prompt",
+      "target": "actions-application-suggestion"
+    },
+    {
+      "source": "activities-prompt",
+      "target": "activities-ai-tuning"
+    },
+    {
+      "source": "activities-prompt",
+      "target": "activities-generated-content"
+    },
+    {
+      "source": "activities-prompt",
+      "target": "activities-collaboration"
+    },
+    {
+      "source": "activities-prompt",
+      "target": "actions-coordination-messaging"
+    },
+    {
+      "source": "activities-transparent-reasoning",
+      "target": "activities-bot"
+    },
+    {
+      "source": "activities-transparent-reasoning",
+      "target": "activities-activity-log"
+    },
+    {
+      "source": "activities-transparent-reasoning",
+      "target": "actions-sensemaking-explanation"
+    },
+    {
+      "source": "activities-transparent-reasoning",
+      "target": "actions-coordination-messaging"
+    },
+    {
+      "source": "activities-transparent-reasoning",
+      "target": "actions-application-suggestion"
+    },
+    {
+      "source": "activities-transparent-reasoning",
+      "target": "activities-collaboration"
+    },
+    {
+      "source": "activities-transparent-reasoning",
+      "target": "qualities-learnability"
+    },
+    {
+      "source": "activities-workspace",
+      "target": "qualities-privacy"
+    },
+    {
+      "source": "activities-workspace",
+      "target": "qualities-agency"
+    },
+    {
+      "source": "activities-workspace",
+      "target": "foundations-collaboration"
+    },
+    {
+      "source": "activities-workspace",
+      "target": "actions-navigation-hub-and-spoke"
+    },
+    {
+      "source": "activities-workspace",
+      "target": "foundations-information-architecture"
+    },
+    {
+      "source": "activities-workspace",
+      "target": "actions-evaluation-focus-and-context"
+    },
+    {
+      "source": "activities-workspace",
+      "target": "actions-seeking-command-menu"
+    },
+    {
+      "source": "activities-workspace",
+      "target": "activities-activity-log"
+    },
+    {
+      "source": "activities-workspace",
+      "target": "actions-coordination-notification"
     },
     {
       "source": "data-visualization-bar-chart",
-      "target": "components-table"
+      "target": "actions-evaluation-table"
     },
     {
       "source": "data-visualization-bar-chart",
-      "target": "compositions-card"
+      "target": "actions-sensemaking-card"
+    },
+    {
+      "source": "data-visualization-bar-chart",
+      "target": "actions-seeking-sorting"
+    },
+    {
+      "source": "data-visualization-bar-chart",
+      "target": "actions-seeking-filtering"
     },
     {
       "source": "foundations-collaboration",
@@ -1494,11 +2458,11 @@
     },
     {
       "source": "foundations-collaboration",
-      "target": "patterns-bot"
+      "target": "activities-bot"
     },
     {
       "source": "foundations-collaboration",
-      "target": "patterns-collaboration"
+      "target": "activities-collaboration"
     },
     {
       "source": "foundations-collaboration",
@@ -1506,11 +2470,15 @@
     },
     {
       "source": "foundations-collaboration",
-      "target": "patterns-annotation"
+      "target": "actions-sensemaking-annotation"
     },
     {
       "source": "foundations-collaboration",
-      "target": "patterns-activity-feed"
+      "target": "activities-activity-feed"
+    },
+    {
+      "source": "foundations-collaboration",
+      "target": "qualities-formality"
     },
     {
       "source": "foundations-data-information",
@@ -1534,11 +2502,11 @@
     },
     {
       "source": "foundations-information-architecture",
-      "target": "compositions-structure-multilevel-tree"
+      "target": "actions-navigation-multilevel-tree"
     },
     {
       "source": "foundations-information-architecture",
-      "target": "patterns-dynamic-hyperlinks"
+      "target": "actions-seeking-dynamic-hyperlinks"
     },
     {
       "source": "foundations-information-architecture",
@@ -1546,7 +2514,7 @@
     },
     {
       "source": "foundations-information-architecture",
-      "target": "compositions-view"
+      "target": "actions-sensemaking-view"
     },
     {
       "source": "foundations-information-architecture",
@@ -1558,1319 +2526,579 @@
     },
     {
       "source": "foundations-information-architecture",
-      "target": "patterns-localization"
+      "target": "activities-localization"
     },
     {
       "source": "foundations-intent-interaction",
-      "target": "compositions-structure-fully-connected"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "compositions-structure-multilevel-tree"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "compositions-structure-pyramid"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "compositions-structure-step-by-step"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "compositions-structure-flat-navigation"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "compositions-structure-pan-and-zoom"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "compositions-structure-hub-and-spoke"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "patterns-suggestion"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "qualities-conversation"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "patterns-collaboration"
-    },
-    {
-      "source": "patterns-ai-tuning",
-      "target": "patterns-bot"
-    },
-    {
-      "source": "patterns-ai-tuning",
       "target": "qualities-agency"
     },
     {
-      "source": "patterns-ai-tuning",
-      "target": "patterns-localization"
-    },
-    {
-      "source": "patterns-activity-feed",
-      "target": "patterns-activity-log"
-    },
-    {
-      "source": "patterns-activity-feed",
-      "target": "compositions-card"
-    },
-    {
-      "source": "patterns-activity-feed",
-      "target": "patterns-collaboration"
-    },
-    {
-      "source": "patterns-activity-feed",
-      "target": "patterns-notification"
-    },
-    {
-      "source": "patterns-activity-feed",
-      "target": "compositions-messaging"
-    },
-    {
-      "source": "patterns-activity-feed",
-      "target": "patterns-conversation"
-    },
-    {
-      "source": "patterns-activity-log",
-      "target": "patterns-bot"
-    },
-    {
-      "source": "patterns-activity-log",
-      "target": "patterns-transparent-reasoning"
-    },
-    {
-      "source": "patterns-activity-log",
-      "target": "components-timeline"
-    },
-    {
-      "source": "patterns-activity-log",
-      "target": "components-progress-indicator"
-    },
-    {
-      "source": "patterns-activity-log",
-      "target": "primitives-details"
-    },
-    {
-      "source": "patterns-activity-log",
-      "target": "patterns-progressive-disclosure"
-    },
-    {
-      "source": "patterns-activity-log",
-      "target": "patterns-collaboration"
-    },
-    {
-      "source": "patterns-annotation",
+      "source": "foundations-intent-interaction",
       "target": "qualities-temporality"
     },
     {
-      "source": "patterns-annotation",
-      "target": "qualities-learnability"
+      "source": "foundations-intent-interaction",
+      "target": "qualities-formality"
     },
     {
-      "source": "patterns-annotation",
-      "target": "patterns-collaboration"
-    },
-    {
-      "source": "patterns-annotation",
-      "target": "patterns-conversation"
-    },
-    {
-      "source": "patterns-annotation",
-      "target": "compositions-commenting"
-    },
-    {
-      "source": "patterns-annotation",
-      "target": "patterns-explanation"
-    },
-    {
-      "source": "patterns-annotation",
-      "target": "patterns-transparent-reasoning"
-    },
-    {
-      "source": "patterns-annotation",
-      "target": "patterns-generated-content"
-    },
-    {
-      "source": "patterns-annotation",
-      "target": "patterns-tag"
-    },
-    {
-      "source": "patterns-annotation",
-      "target": "primitives-badge"
-    },
-    {
-      "source": "patterns-annotation",
-      "target": "foundations-intent-interaction"
-    },
-    {
-      "source": "patterns-bot",
-      "target": "qualities-agency"
-    },
-    {
-      "source": "patterns-bot",
-      "target": "compositions-messaging"
-    },
-    {
-      "source": "patterns-bot",
-      "target": "patterns-conversation"
-    },
-    {
-      "source": "patterns-bot",
-      "target": "patterns-onboarding"
-    },
-    {
-      "source": "patterns-bot",
-      "target": "patterns-suggestion"
-    },
-    {
-      "source": "patterns-bot",
-      "target": "patterns-progressive-disclosure"
-    },
-    {
-      "source": "patterns-bot",
-      "target": "patterns-prompt"
-    },
-    {
-      "source": "patterns-bot",
-      "target": "patterns-generated-content"
-    },
-    {
-      "source": "patterns-bot",
-      "target": "patterns-transparent-reasoning"
-    },
-    {
-      "source": "patterns-bot",
-      "target": "patterns-activity-log"
-    },
-    {
-      "source": "patterns-bot",
-      "target": "patterns-collaboration"
-    },
-    {
-      "source": "patterns-collaboration",
-      "target": "foundations-collaboration"
-    },
-    {
-      "source": "patterns-collaboration",
-      "target": "qualities-agency"
-    },
-    {
-      "source": "patterns-collaboration",
-      "target": "patterns-bot"
-    },
-    {
-      "source": "patterns-collaboration",
-      "target": "patterns-conversation"
-    },
-    {
-      "source": "patterns-collaboration",
-      "target": "qualities-conversation"
-    },
-    {
-      "source": "patterns-collaboration",
-      "target": "patterns-activity-log"
-    },
-    {
-      "source": "patterns-collaboration",
-      "target": "patterns-notification"
-    },
-    {
-      "source": "patterns-collaboration",
-      "target": "patterns-explanation"
-    },
-    {
-      "source": "patterns-collaboration",
-      "target": "patterns-suggestion"
-    },
-    {
-      "source": "patterns-collaboration",
-      "target": "patterns-transparent-reasoning"
-    },
-    {
-      "source": "patterns-collaboration",
-      "target": "patterns-command-menu"
-    },
-    {
-      "source": "patterns-command-menu",
-      "target": "compositions-browsing-sensemaking-filtering"
-    },
-    {
-      "source": "patterns-command-menu",
-      "target": "primitives-keyboard-key"
-    },
-    {
-      "source": "patterns-command-menu",
-      "target": "patterns-embedded-intelligence"
-    },
-    {
-      "source": "patterns-command-menu",
-      "target": "patterns-collaboration"
-    },
-    {
-      "source": "patterns-conversation",
-      "target": "qualities-conversation"
-    },
-    {
-      "source": "patterns-conversation",
-      "target": "patterns-collaboration"
-    },
-    {
-      "source": "patterns-conversation",
-      "target": "foundations-intent-interaction"
-    },
-    {
-      "source": "patterns-conversation",
-      "target": "patterns-localization"
-    },
-    {
-      "source": "patterns-conversation",
-      "target": "compositions-messaging"
-    },
-    {
-      "source": "patterns-conversation",
-      "target": "patterns-bot"
-    },
-    {
-      "source": "patterns-conversation",
-      "target": "patterns-prompt"
-    },
-    {
-      "source": "patterns-conversation",
-      "target": "patterns-text-lens"
-    },
-    {
-      "source": "patterns-conversation",
-      "target": "compositions-form"
-    },
-    {
-      "source": "patterns-conversation",
-      "target": "primitives-conversation-conversational-activities-open-request"
-    },
-    {
-      "source": "patterns-conversation",
-      "target": "primitives-conversation-sequence-management-sequence-completion"
-    },
-    {
-      "source": "patterns-data-operations-action-consequences",
-      "target": "patterns-data-operations-saving"
-    },
-    {
-      "source": "patterns-data-operations-action-consequences",
-      "target": "patterns-undo"
-    },
-    {
-      "source": "patterns-data-operations-deletion",
-      "target": "patterns-data-operations-saving"
-    },
-    {
-      "source": "patterns-data-operations-deletion",
-      "target": "patterns-undo"
-    },
-    {
-      "source": "patterns-data-operations-deletion",
-      "target": "patterns-status-feedback"
-    },
-    {
-      "source": "patterns-data-operations-deletion",
-      "target": "patterns-activity-log"
-    },
-    {
-      "source": "patterns-data-operations-deletion",
-      "target": "patterns-notification"
-    },
-    {
-      "source": "patterns-data-operations-saving",
-      "target": "patterns-undo"
-    },
-    {
-      "source": "patterns-data-operations-saving",
-      "target": "patterns-collaboration"
-    },
-    {
-      "source": "patterns-data-entry",
-      "target": "patterns-localization"
-    },
-    {
-      "source": "patterns-data-entry",
-      "target": "primitives-input"
-    },
-    {
-      "source": "patterns-data-entry",
-      "target": "compositions-form"
-    },
-    {
-      "source": "patterns-data-entry",
-      "target": "patterns-good-defaults"
-    },
-    {
-      "source": "patterns-data-entry",
-      "target": "patterns-status-feedback"
-    },
-    {
-      "source": "patterns-data-entry",
-      "target": "patterns-bot"
-    },
-    {
-      "source": "patterns-data-entry",
-      "target": "patterns-transparent-reasoning"
-    },
-    {
-      "source": "patterns-dynamic-hyperlinks",
-      "target": "qualities-agency"
-    },
-    {
-      "source": "patterns-dynamic-hyperlinks",
-      "target": "patterns-focus-and-context"
-    },
-    {
-      "source": "patterns-dynamic-hyperlinks",
-      "target": "patterns-suggestion"
-    },
-    {
-      "source": "patterns-dynamic-hyperlinks",
-      "target": "primitives-deep-linking"
-    },
-    {
-      "source": "patterns-dynamic-hyperlinks",
-      "target": "patterns-progressive-disclosure"
-    },
-    {
-      "source": "patterns-dynamic-hyperlinks",
-      "target": "patterns-annotation"
-    },
-    {
-      "source": "patterns-embedded-intelligence",
+      "source": "foundations-intent-interaction",
       "target": "qualities-adaptability"
     },
     {
-      "source": "patterns-embedded-intelligence",
-      "target": "qualities-agency"
-    },
-    {
-      "source": "patterns-embedded-intelligence",
-      "target": "patterns-command-menu"
-    },
-    {
-      "source": "patterns-embedded-intelligence",
-      "target": "patterns-focus-and-context"
-    },
-    {
-      "source": "patterns-embedded-intelligence",
-      "target": "patterns-suggestion"
-    },
-    {
-      "source": "patterns-explanation",
-      "target": "qualities-learnability"
-    },
-    {
-      "source": "patterns-explanation",
-      "target": "patterns-progressive-disclosure"
-    },
-    {
-      "source": "patterns-explanation",
-      "target": "patterns-transparent-reasoning"
-    },
-    {
-      "source": "patterns-explanation",
-      "target": "patterns-collaboration"
-    },
-    {
-      "source": "patterns-explanation",
-      "target": "patterns-localization"
-    },
-    {
-      "source": "patterns-focus-and-context",
-      "target": "qualities-agency"
-    },
-    {
-      "source": "patterns-focus-and-context",
-      "target": "qualities-adaptability"
-    },
-    {
-      "source": "patterns-focus-and-context",
-      "target": "patterns-progressive-disclosure"
-    },
-    {
-      "source": "patterns-generated-content",
-      "target": "patterns-bot"
-    },
-    {
-      "source": "patterns-generated-content",
-      "target": "qualities-agency"
-    },
-    {
-      "source": "patterns-generated-content",
-      "target": "patterns-prompt"
-    },
-    {
-      "source": "patterns-generated-content",
-      "target": "patterns-localization"
-    },
-    {
-      "source": "patterns-generated-content",
-      "target": "patterns-conversation"
-    },
-    {
-      "source": "patterns-generated-content",
-      "target": "patterns-suggestion"
-    },
-    {
-      "source": "patterns-generated-content",
-      "target": "patterns-transparent-reasoning"
-    },
-    {
-      "source": "patterns-generated-content",
-      "target": "patterns-explanation"
-    },
-    {
-      "source": "patterns-generated-content",
-      "target": "patterns-ai-tuning"
-    },
-    {
-      "source": "patterns-good-defaults",
-      "target": "patterns-onboarding"
-    },
-    {
-      "source": "patterns-good-defaults",
-      "target": "patterns-settings"
-    },
-    {
-      "source": "patterns-good-defaults",
-      "target": "patterns-suggestion"
-    },
-    {
-      "source": "patterns-good-defaults",
-      "target": "qualities-agency"
-    },
-    {
-      "source": "patterns-good-defaults",
-      "target": "compositions-form"
-    },
-    {
-      "source": "patterns-good-defaults",
-      "target": "patterns-data-entry"
-    },
-    {
-      "source": "patterns-good-defaults",
-      "target": "patterns-localization"
-    },
-    {
-      "source": "patterns-help",
-      "target": "qualities-conversation"
-    },
-    {
-      "source": "patterns-help",
-      "target": "patterns-embedded-intelligence"
-    },
-    {
-      "source": "patterns-help",
-      "target": "patterns-explanation"
-    },
-    {
-      "source": "patterns-help",
-      "target": "patterns-command-menu"
-    },
-    {
-      "source": "patterns-help",
-      "target": "patterns-status-feedback"
-    },
-    {
-      "source": "patterns-help",
-      "target": "patterns-bot"
-    },
-    {
-      "source": "patterns-help",
-      "target": "patterns-localization"
-    },
-    {
-      "source": "patterns-help",
-      "target": "qualities-learnability"
-    },
-    {
-      "source": "patterns-help",
-      "target": "patterns-annotation"
-    },
-    {
-      "source": "patterns-living-document",
-      "target": "patterns-generated-content"
-    },
-    {
-      "source": "patterns-localization",
+      "source": "foundations-intent-interaction",
       "target": "foundations-information-architecture"
     },
     {
-      "source": "patterns-localization",
-      "target": "patterns-text-lens"
+      "source": "foundations-intent-interaction",
+      "target": "actions-navigation-fully-connected"
     },
     {
-      "source": "patterns-localization",
-      "target": "patterns-data-entry"
+      "source": "foundations-intent-interaction",
+      "target": "actions-navigation-multilevel-tree"
     },
     {
-      "source": "patterns-localization",
-      "target": "patterns-good-defaults"
+      "source": "foundations-intent-interaction",
+      "target": "actions-navigation-pyramid"
     },
     {
-      "source": "patterns-localization",
-      "target": "patterns-settings"
+      "source": "foundations-intent-interaction",
+      "target": "actions-navigation-step-by-step"
     },
     {
-      "source": "patterns-localization",
-      "target": "qualities-privacy"
+      "source": "foundations-intent-interaction",
+      "target": "actions-navigation-flat-navigation"
     },
     {
-      "source": "patterns-localization",
-      "target": "patterns-collaboration"
+      "source": "foundations-intent-interaction",
+      "target": "actions-navigation-pan-and-zoom"
     },
     {
-      "source": "patterns-localization",
-      "target": "patterns-generated-content"
+      "source": "foundations-intent-interaction",
+      "target": "actions-navigation-hub-and-spoke"
     },
     {
-      "source": "patterns-localization",
-      "target": "patterns-notification"
+      "source": "foundations-intent-interaction",
+      "target": "qualities-conversation"
     },
     {
-      "source": "patterns-localization",
-      "target": "patterns-conversation"
+      "source": "foundations-intent-interaction",
+      "target": "activities-collaboration"
     },
     {
-      "source": "patterns-localization",
-      "target": "patterns-help"
+      "source": "foundations-material-iconography",
+      "target": "operations-button"
     },
     {
-      "source": "patterns-localization",
-      "target": "qualities-adaptability"
+      "source": "foundations-material-iconography",
+      "target": "actions-evaluation-list"
     },
     {
-      "source": "patterns-localization",
-      "target": "patterns-ai-tuning"
+      "source": "foundations-material-iconography",
+      "target": "operations-input"
     },
     {
-      "source": "patterns-localization",
-      "target": "patterns-onboarding"
+      "source": "foundations-material-iconography",
+      "target": "actions-coordination-toolbar"
     },
     {
-      "source": "patterns-localization",
-      "target": "qualities-shareability"
+      "source": "foundations-material-iconography",
+      "target": "actions-seeking-command-menu"
     },
     {
-      "source": "patterns-localization",
-      "target": "qualities-temporality"
+      "source": "foundations-material-iconography",
+      "target": "operations-status-feedback"
     },
     {
-      "source": "patterns-localization",
+      "source": "foundations-material-iconography",
+      "target": "foundations-material-typography"
+    },
+    {
+      "source": "foundations-material-layout",
       "target": "qualities-density"
     },
     {
-      "source": "patterns-localization",
-      "target": "qualities-learnability"
+      "source": "foundations-material-typography",
+      "target": "foundations-material-iconography"
     },
     {
-      "source": "patterns-localization",
-      "target": "patterns-workspace"
-    },
-    {
-      "source": "patterns-localization",
-      "target": "patterns-suggestion"
-    },
-    {
-      "source": "patterns-localization",
-      "target": "patterns-bot"
-    },
-    {
-      "source": "patterns-localization",
-      "target": "patterns-explanation"
-    },
-    {
-      "source": "patterns-mastery",
-      "target": "patterns-onboarding"
-    },
-    {
-      "source": "patterns-mastery",
-      "target": "qualities-learnability"
-    },
-    {
-      "source": "patterns-mastery",
-      "target": "qualities-malleability"
-    },
-    {
-      "source": "patterns-mastery",
-      "target": "qualities-temporality"
-    },
-    {
-      "source": "patterns-mastery",
-      "target": "patterns-settings"
-    },
-    {
-      "source": "patterns-mastery",
+      "source": "foundations-material-typography",
       "target": "qualities-density"
     },
     {
-      "source": "patterns-notification",
-      "target": "patterns-status-feedback"
+      "source": "foundations-material-typography",
+      "target": "foundations-material-color"
     },
     {
-      "source": "patterns-notification",
-      "target": "primitives-toast"
+      "source": "operations-badge",
+      "target": "operations-tag"
     },
     {
-      "source": "patterns-notification",
-      "target": "primitives-callout"
-    },
-    {
-      "source": "patterns-notification",
-      "target": "components-dialog"
-    },
-    {
-      "source": "patterns-notification",
-      "target": "patterns-collaboration"
-    },
-    {
-      "source": "patterns-onboarding",
-      "target": "patterns-help"
-    },
-    {
-      "source": "patterns-onboarding",
-      "target": "patterns-activity-log"
-    },
-    {
-      "source": "patterns-onboarding",
-      "target": "qualities-learnability"
-    },
-    {
-      "source": "patterns-onboarding",
-      "target": "patterns-mastery"
-    },
-    {
-      "source": "patterns-onboarding",
-      "target": "patterns-states-empty-state"
-    },
-    {
-      "source": "patterns-onboarding",
-      "target": "patterns-localization"
-    },
-    {
-      "source": "patterns-progressive-disclosure",
-      "target": "qualities-density"
-    },
-    {
-      "source": "patterns-progressive-disclosure",
-      "target": "primitives-details"
-    },
-    {
-      "source": "patterns-progressive-disclosure",
-      "target": "components-dialog"
-    },
-    {
-      "source": "patterns-progressive-disclosure",
-      "target": "patterns-activity-log"
-    },
-    {
-      "source": "patterns-progressive-disclosure",
-      "target": "patterns-bot"
-    },
-    {
-      "source": "patterns-progressive-disclosure",
-      "target": "patterns-explanation"
-    },
-    {
-      "source": "patterns-progressive-disclosure",
-      "target": "patterns-focus-and-context"
-    },
-    {
-      "source": "patterns-progressive-disclosure",
-      "target": "qualities-learnability"
-    },
-    {
-      "source": "patterns-prompt",
-      "target": "patterns-bot"
-    },
-    {
-      "source": "patterns-prompt",
-      "target": "qualities-agency"
-    },
-    {
-      "source": "patterns-prompt",
-      "target": "patterns-suggestion"
-    },
-    {
-      "source": "patterns-prompt",
-      "target": "patterns-generated-content"
-    },
-    {
-      "source": "patterns-prompt",
-      "target": "patterns-collaboration"
-    },
-    {
-      "source": "patterns-prompt",
-      "target": "compositions-messaging"
-    },
-    {
-      "source": "patterns-settings",
-      "target": "qualities-agency"
-    },
-    {
-      "source": "patterns-settings",
-      "target": "qualities-privacy"
-    },
-    {
-      "source": "patterns-settings",
-      "target": "qualities-adaptability"
-    },
-    {
-      "source": "patterns-settings",
+      "source": "operations-breadcrumbs",
       "target": "foundations-intent-interaction"
     },
     {
-      "source": "patterns-settings",
-      "target": "patterns-onboarding"
+      "source": "operations-breadcrumbs",
+      "target": "actions-seeking-command-menu"
     },
     {
-      "source": "patterns-settings",
-      "target": "patterns-progressive-disclosure"
+      "source": "operations-breadcrumbs",
+      "target": "actions-seeking-filtering"
     },
     {
-      "source": "patterns-settings",
-      "target": "compositions-form"
+      "source": "operations-breadcrumbs",
+      "target": "operations-overflow"
     },
     {
-      "source": "patterns-settings",
-      "target": "compositions-wizard"
+      "source": "operations-breadcrumbs",
+      "target": "actions-coordination-priority"
     },
     {
-      "source": "patterns-settings",
-      "target": "patterns-ai-tuning"
+      "source": "operations-button",
+      "target": "foundations-material-iconography"
     },
     {
-      "source": "patterns-settings",
-      "target": "patterns-undo"
+      "source": "operations-button",
+      "target": "operations-unavailable-actions"
     },
     {
-      "source": "patterns-settings",
-      "target": "patterns-status-feedback"
+      "source": "operations-button",
+      "target": "operations-disabled-state"
     },
     {
-      "source": "patterns-settings",
-      "target": "patterns-notification"
+      "source": "operations-button",
+      "target": "operations-morphing-controls"
     },
     {
-      "source": "patterns-settings",
-      "target": "patterns-localization"
+      "source": "operations-callout",
+      "target": "actions-coordination-notification"
     },
     {
-      "source": "patterns-settings",
-      "target": "patterns-workspace"
+      "source": "operations-callout",
+      "target": "operations-status-feedback"
     },
     {
-      "source": "patterns-settings",
-      "target": "patterns-collaboration"
+      "source": "operations-callout",
+      "target": "actions-application-form"
     },
     {
-      "source": "patterns-status-feedback",
-      "target": "primitives-badge"
+      "source": "operations-deep-linking",
+      "target": "actions-coordination-messaging"
     },
     {
-      "source": "patterns-status-feedback",
-      "target": "patterns-notification"
+      "source": "operations-deep-linking",
+      "target": "actions-coordination-commenting"
     },
     {
-      "source": "patterns-status-feedback",
-      "target": "patterns-activity-log"
+      "source": "operations-deep-linking",
+      "target": "actions-seeking-progressive-disclosure"
     },
     {
-      "source": "patterns-status-feedback",
-      "target": "patterns-collaboration"
+      "source": "operations-good-defaults",
+      "target": "activities-onboarding"
     },
     {
-      "source": "patterns-suggestion",
-      "target": "patterns-conversation"
+      "source": "operations-good-defaults",
+      "target": "actions-application-settings"
     },
     {
-      "source": "patterns-suggestion",
+      "source": "operations-good-defaults",
+      "target": "actions-application-suggestion"
+    },
+    {
+      "source": "operations-good-defaults",
+      "target": "qualities-agency"
+    },
+    {
+      "source": "operations-good-defaults",
+      "target": "actions-application-form"
+    },
+    {
+      "source": "operations-good-defaults",
+      "target": "actions-application-data-entry"
+    },
+    {
+      "source": "operations-good-defaults",
+      "target": "activities-localization"
+    },
+    {
+      "source": "operations-overflow",
+      "target": "actions-coordination-priority"
+    },
+    {
+      "source": "operations-overflow",
+      "target": "actions-evaluation-table"
+    },
+    {
+      "source": "operations-overflow",
+      "target": "actions-sensemaking-card"
+    },
+    {
+      "source": "operations-overflow",
+      "target": "operations-breadcrumbs"
+    },
+    {
+      "source": "operations-progress-indicator",
+      "target": "operations-breadcrumbs"
+    },
+    {
+      "source": "operations-progress-indicator",
+      "target": "actions-application-wizard"
+    },
+    {
+      "source": "operations-progress-indicator",
+      "target": "actions-evaluation-timeline"
+    },
+    {
+      "source": "operations-reference",
+      "target": "actions-seeking-item-view"
+    },
+    {
+      "source": "operations-reference",
+      "target": "actions-seeking-command-menu"
+    },
+    {
+      "source": "operations-status-feedback",
+      "target": "operations-badge"
+    },
+    {
+      "source": "operations-status-feedback",
+      "target": "actions-coordination-notification"
+    },
+    {
+      "source": "operations-status-feedback",
+      "target": "operations-callout"
+    },
+    {
+      "source": "operations-status-feedback",
+      "target": "activities-activity-log"
+    },
+    {
+      "source": "operations-status-feedback",
+      "target": "activities-collaboration"
+    },
+    {
+      "source": "operations-tag",
+      "target": "operations-badge"
+    },
+    {
+      "source": "operations-tag",
+      "target": "actions-sensemaking-tag"
+    },
+    {
+      "source": "operations-unavailable-actions",
+      "target": "actions-seeking-progressive-disclosure"
+    },
+    {
+      "source": "operations-unavailable-actions",
+      "target": "actions-coordination-toolbar"
+    },
+    {
+      "source": "operations-unavailable-actions",
+      "target": "actions-seeking-command-menu"
+    },
+    {
+      "source": "operations-undo",
+      "target": "operations-status-feedback"
+    },
+    {
+      "source": "operations-undo",
+      "target": "actions-seeking-command-menu"
+    },
+    {
+      "source": "operations-undo",
+      "target": "activities-activity-log"
+    },
+    {
+      "source": "operations-conversation-sequence-management-abort",
+      "target": "activities-conversation"
+    },
+    {
+      "source": "operations-conversation-sequence-management-abort",
+      "target": "operations-undo"
+    },
+    {
+      "source": "operations-conversation-sequence-management-abort",
+      "target": "operations-conversation-conversation-management-closing"
+    },
+    {
+      "source": "operations-conversation-sequence-management-abort",
+      "target": "operations-conversation-conversation-management-opening-bot"
+    },
+    {
+      "source": "operations-conversation-sequence-management-abort",
+      "target": "operations-conversation-conversation-management-opening-user"
+    },
+    {
+      "source": "operations-conversation-conversation-management-opening-bot",
+      "target": "activities-conversation"
+    },
+    {
+      "source": "operations-conversation-conversation-management-opening-bot",
+      "target": "operations-conversation-conversation-management-capability-scope"
+    },
+    {
+      "source": "operations-conversation-conversation-management-opening-bot",
+      "target": "operations-conversation-conversational-activities-open-request"
+    },
+    {
+      "source": "operations-conversation-conversation-management-opening-bot",
+      "target": "operations-conversation-conversational-activities-extended-telling"
+    },
+    {
+      "source": "operations-conversation-conversation-management-opening-bot",
+      "target": "operations-conversation-sequence-management-abort"
+    },
+    {
+      "source": "operations-conversation-conversation-management-opening-bot",
+      "target": "operations-conversation-conversation-management-disengage-without-closing"
+    },
+    {
+      "source": "operations-conversation-sequence-management-bot-repair",
+      "target": "activities-conversation"
+    },
+    {
+      "source": "operations-conversation-sequence-management-bot-repair",
+      "target": "operations-conversation-conversational-activities-inquiry-user"
+    },
+    {
+      "source": "operations-conversation-sequence-management-bot-repair",
+      "target": "operations-conversation-sequence-management-sequence-completion"
+    },
+    {
+      "source": "operations-conversation-sequence-management-bot-repair",
+      "target": "operations-conversation-conversation-management-capability-scope"
+    },
+    {
+      "source": "operations-conversation-conversation-management-capability-scope",
+      "target": "activities-conversation"
+    },
+    {
+      "source": "operations-conversation-conversation-management-capability-scope",
+      "target": "activities-bot"
+    },
+    {
+      "source": "operations-conversation-conversation-management-capability-scope",
+      "target": "operations-conversation-conversation-management-opening-bot"
+    },
+    {
+      "source": "operations-conversation-conversation-management-capability-scope",
+      "target": "operations-conversation-sequence-management-bot-repair"
+    },
+    {
+      "source": "operations-conversation-conversation-management-closing",
+      "target": "activities-conversation"
+    },
+    {
+      "source": "operations-conversation-conversation-management-closing",
+      "target": "operations-conversation-sequence-management-sequence-completion"
+    },
+    {
+      "source": "operations-conversation-conversation-management-closing",
+      "target": "operations-conversation-conversation-management-disengage-without-closing"
+    },
+    {
+      "source": "operations-conversation-conversation-management-disengage-without-closing",
+      "target": "activities-conversation"
+    },
+    {
+      "source": "operations-conversation-conversation-management-disengage-without-closing",
+      "target": "operations-conversation-conversation-management-closing"
+    },
+    {
+      "source": "operations-conversation-conversation-management-disengage-without-closing",
+      "target": "operations-conversation-conversation-management-opening-bot"
+    },
+    {
+      "source": "operations-conversation-conversation-management-disengage-without-closing",
+      "target": "operations-conversation-conversation-management-opening-user"
+    },
+    {
+      "source": "operations-conversation-conversational-activities-extended-telling",
+      "target": "activities-conversation"
+    },
+    {
+      "source": "operations-conversation-conversational-activities-extended-telling",
+      "target": "operations-conversation-conversation-management-opening-bot"
+    },
+    {
+      "source": "operations-conversation-conversational-activities-extended-telling",
+      "target": "operations-conversation-sequence-management-user-repair"
+    },
+    {
+      "source": "operations-conversation-conversational-activities-inquiry-bot",
+      "target": "activities-conversation"
+    },
+    {
+      "source": "operations-conversation-conversational-activities-inquiry-bot",
+      "target": "operations-conversation-conversation-management-opening-user"
+    },
+    {
+      "source": "operations-conversation-conversational-activities-inquiry-bot",
+      "target": "operations-conversation-conversational-activities-open-request"
+    },
+    {
+      "source": "operations-conversation-conversational-activities-inquiry-user",
+      "target": "activities-conversation"
+    },
+    {
+      "source": "operations-conversation-conversational-activities-inquiry-user",
+      "target": "operations-conversation-sequence-management-bot-repair"
+    },
+    {
+      "source": "operations-conversation-conversational-activities-inquiry-user",
+      "target": "operations-conversation-conversational-activities-extended-telling"
+    },
+    {
+      "source": "operations-conversation-conversational-activities-open-request",
+      "target": "activities-conversation"
+    },
+    {
+      "source": "operations-conversation-conversational-activities-open-request",
+      "target": "operations-conversation-conversation-management-opening-bot"
+    },
+    {
+      "source": "operations-conversation-conversational-activities-open-request",
+      "target": "operations-conversation-conversation-management-opening-user"
+    },
+    {
+      "source": "operations-conversation-conversational-activities-open-request",
+      "target": "operations-conversation-conversational-activities-inquiry-bot"
+    },
+    {
+      "source": "operations-conversation-sequence-management-sequence-completion",
+      "target": "activities-conversation"
+    },
+    {
+      "source": "operations-conversation-sequence-management-sequence-completion",
+      "target": "operations-conversation-sequence-management-bot-repair"
+    },
+    {
+      "source": "operations-conversation-sequence-management-sequence-completion",
+      "target": "operations-conversation-sequence-management-user-repair"
+    },
+    {
+      "source": "operations-conversation-sequence-management-sequence-completion",
+      "target": "operations-conversation-conversation-management-closing"
+    },
+    {
+      "source": "operations-conversation-conversation-management-opening-user",
+      "target": "activities-conversation"
+    },
+    {
+      "source": "operations-conversation-conversation-management-opening-user",
+      "target": "operations-conversation-conversational-activities-open-request"
+    },
+    {
+      "source": "operations-conversation-conversation-management-opening-user",
+      "target": "operations-conversation-conversational-activities-inquiry-bot"
+    },
+    {
+      "source": "operations-conversation-conversation-management-opening-user",
+      "target": "operations-conversation-conversational-activities-inquiry-user"
+    },
+    {
+      "source": "operations-conversation-conversation-management-opening-user",
+      "target": "operations-conversation-sequence-management-bot-repair"
+    },
+    {
+      "source": "operations-conversation-conversation-management-opening-user",
+      "target": "operations-conversation-sequence-management-abort"
+    },
+    {
+      "source": "operations-conversation-sequence-management-user-repair",
+      "target": "activities-conversation"
+    },
+    {
+      "source": "operations-conversation-sequence-management-user-repair",
+      "target": "operations-conversation-conversational-activities-extended-telling"
+    },
+    {
+      "source": "operations-conversation-sequence-management-user-repair",
+      "target": "operations-conversation-sequence-management-sequence-completion"
+    },
+    {
+      "source": "qualities-adaptability",
+      "target": "qualities-agency"
+    },
+    {
+      "source": "qualities-adaptability",
+      "target": "activities-onboarding"
+    },
+    {
+      "source": "qualities-adaptability",
+      "target": "activities-mastery"
+    },
+    {
+      "source": "qualities-adaptability",
+      "target": "activities-bot"
+    },
+    {
+      "source": "qualities-adaptability",
+      "target": "actions-application-suggestion"
+    },
+    {
+      "source": "qualities-adaptability",
+      "target": "actions-sensemaking-explanation"
+    },
+    {
+      "source": "qualities-adaptability",
+      "target": "activities-localization"
+    },
+    {
+      "source": "qualities-adaptability",
+      "target": "actions-evaluation-focus-and-context"
+    },
+    {
+      "source": "qualities-agency",
       "target": "qualities-adaptability"
     },
     {
-      "source": "patterns-suggestion",
-      "target": "patterns-bot"
+      "source": "qualities-agency",
+      "target": "activities-collaboration"
     },
     {
-      "source": "patterns-suggestion",
-      "target": "compositions-messaging"
-    },
-    {
-      "source": "patterns-suggestion",
-      "target": "patterns-transparent-reasoning"
-    },
-    {
-      "source": "patterns-suggestion",
-      "target": "patterns-collaboration"
-    },
-    {
-      "source": "patterns-tag",
-      "target": "primitives-tag"
-    },
-    {
-      "source": "patterns-tag",
-      "target": "primitives-badge"
-    },
-    {
-      "source": "patterns-tag",
-      "target": "patterns-annotation"
-    },
-    {
-      "source": "patterns-tag",
+      "source": "qualities-agency",
       "target": "foundations-intent-interaction"
     },
     {
-      "source": "patterns-template",
-      "target": "patterns-onboarding"
-    },
-    {
-      "source": "patterns-template",
-      "target": "compositions-wizard"
-    },
-    {
-      "source": "patterns-template",
-      "target": "qualities-learnability"
-    },
-    {
-      "source": "patterns-text-lens",
-      "target": "components-bubble-menu"
-    },
-    {
-      "source": "patterns-text-lens",
-      "target": "patterns-conversation"
-    },
-    {
-      "source": "patterns-text-lens",
-      "target": "patterns-progressive-disclosure"
-    },
-    {
-      "source": "patterns-text-lens",
-      "target": "patterns-localization"
-    },
-    {
-      "source": "patterns-transparent-reasoning",
-      "target": "patterns-bot"
-    },
-    {
-      "source": "patterns-transparent-reasoning",
-      "target": "patterns-activity-log"
-    },
-    {
-      "source": "patterns-transparent-reasoning",
-      "target": "patterns-explanation"
-    },
-    {
-      "source": "patterns-transparent-reasoning",
-      "target": "compositions-messaging"
-    },
-    {
-      "source": "patterns-transparent-reasoning",
-      "target": "patterns-suggestion"
-    },
-    {
-      "source": "patterns-transparent-reasoning",
-      "target": "patterns-collaboration"
-    },
-    {
-      "source": "patterns-transparent-reasoning",
-      "target": "qualities-learnability"
-    },
-    {
-      "source": "patterns-undo",
-      "target": "patterns-status-feedback"
-    },
-    {
-      "source": "patterns-undo",
-      "target": "patterns-command-menu"
-    },
-    {
-      "source": "patterns-undo",
-      "target": "patterns-activity-log"
-    },
-    {
-      "source": "patterns-workspace",
-      "target": "qualities-privacy"
-    },
-    {
-      "source": "patterns-workspace",
-      "target": "qualities-agency"
-    },
-    {
-      "source": "patterns-workspace",
-      "target": "foundations-collaboration"
-    },
-    {
-      "source": "patterns-workspace",
-      "target": "compositions-structure-hub-and-spoke"
-    },
-    {
-      "source": "patterns-workspace",
-      "target": "foundations-information-architecture"
-    },
-    {
-      "source": "patterns-workspace",
-      "target": "patterns-focus-and-context"
-    },
-    {
-      "source": "patterns-workspace",
-      "target": "patterns-command-menu"
-    },
-    {
-      "source": "patterns-workspace",
-      "target": "patterns-activity-log"
-    },
-    {
-      "source": "patterns-workspace",
-      "target": "patterns-notification"
-    },
-    {
-      "source": "primitives-badge",
-      "target": "primitives-tag"
-    },
-    {
-      "source": "primitives-callout",
-      "target": "primitives-badge"
-    },
-    {
-      "source": "primitives-callout",
-      "target": "primitives-input"
-    },
-    {
-      "source": "primitives-callout",
-      "target": "components-dialog"
-    },
-    {
-      "source": "primitives-callout",
-      "target": "patterns-notification"
-    },
-    {
-      "source": "primitives-callout",
-      "target": "patterns-status-feedback"
-    },
-    {
-      "source": "primitives-callout",
-      "target": "compositions-form"
-    },
-    {
-      "source": "primitives-callout",
-      "target": "patterns-explanation"
-    },
-    {
-      "source": "primitives-callout",
-      "target": "primitives-popover"
-    },
-    {
-      "source": "primitives-callout",
-      "target": "primitives-tag"
-    },
-    {
-      "source": "primitives-deep-linking",
-      "target": "compositions-messaging"
-    },
-    {
-      "source": "primitives-deep-linking",
-      "target": "compositions-commenting"
-    },
-    {
-      "source": "primitives-deep-linking",
-      "target": "patterns-progressive-disclosure"
-    },
-    {
-      "source": "primitives-tag",
-      "target": "primitives-badge"
-    },
-    {
-      "source": "primitives-tag",
-      "target": "patterns-tag"
-    },
-    {
-      "source": "primitives-conversation-conversational-activities-extended-telling",
-      "target": "patterns-conversation"
-    },
-    {
-      "source": "primitives-conversation-conversational-activities-inquiry-bot",
-      "target": "patterns-conversation"
-    },
-    {
-      "source": "primitives-conversation-conversational-activities-inquiry-user",
-      "target": "patterns-conversation"
-    },
-    {
-      "source": "primitives-reference",
-      "target": "compositions-item-view"
-    },
-    {
-      "source": "primitives-reference",
-      "target": "patterns-command-menu"
-    },
-    {
-      "source": "primitives-conversation-conversation-management-opening-bot",
-      "target": "patterns-conversation"
-    },
-    {
-      "source": "primitives-conversation-conversation-management-opening-bot",
-      "target": "primitives-conversation-conversational-activities-open-request"
-    },
-    {
-      "source": "primitives-conversation-conversation-management-opening-bot",
-      "target": "primitives-conversation-conversational-activities-extended-telling"
-    },
-    {
-      "source": "primitives-conversation-conversation-management-opening-bot",
-      "target": "primitives-conversation-conversation-management-capability-scope"
-    },
-    {
-      "source": "primitives-conversation-conversation-management-opening-user",
-      "target": "patterns-conversation"
-    },
-    {
-      "source": "primitives-conversation-conversation-management-opening-user",
-      "target": "primitives-conversation-conversational-activities-open-request"
-    },
-    {
-      "source": "primitives-conversation-conversation-management-opening-user",
-      "target": "primitives-conversation-conversational-activities-inquiry-bot"
-    },
-    {
-      "source": "primitives-conversation-conversation-management-opening-user",
-      "target": "primitives-conversation-conversational-activities-inquiry-user"
-    },
-    {
-      "source": "primitives-conversation-conversation-management-capability-scope",
-      "target": "patterns-conversation"
-    },
-    {
-      "source": "primitives-conversation-conversation-management-capability-scope",
-      "target": "patterns-bot"
-    },
-    {
-      "source": "primitives-conversation-conversation-management-closing",
-      "target": "patterns-conversation"
-    },
-    {
-      "source": "primitives-conversation-conversation-management-closing",
-      "target": "primitives-conversation-sequence-management-sequence-completion"
-    },
-    {
-      "source": "primitives-conversation-conversation-management-disengage-without-closing",
-      "target": "patterns-conversation"
-    },
-    {
-      "source": "primitives-conversation-conversation-management-disengage-without-closing",
-      "target": "primitives-conversation-conversation-management-closing"
-    },
-    {
-      "source": "primitives-conversation-conversation-management-disengage-without-closing",
-      "target": "qualities-privacy"
-    },
-    {
-      "source": "primitives-conversation-conversation-management-disengage-without-closing",
-      "target": "primitives-conversation-conversation-management-opening-bot"
-    },
-    {
-      "source": "primitives-conversation-conversation-management-disengage-without-closing",
-      "target": "primitives-conversation-conversation-management-opening-user"
-    },
-    {
-      "source": "primitives-conversation-conversation-management-opening-bot",
-      "target": "primitives-conversation-sequence-management-abort"
-    },
-    {
-      "source": "primitives-conversation-conversation-management-opening-user",
-      "target": "primitives-conversation-sequence-management-abort"
-    },
-    {
-      "source": "primitives-conversation-conversation-management-capability-scope",
-      "target": "primitives-conversation-sequence-management-bot-repair"
-    },
-    {
-      "source": "primitives-conversation-sequence-management-sequence-completion",
-      "target": "patterns-conversation"
-    },
-    {
-      "source": "primitives-conversation-sequence-management-sequence-completion",
-      "target": "primitives-conversation-conversation-management-closing"
-    },
-    {
-      "source": "primitives-conversation-sequence-management-abort",
-      "target": "patterns-conversation"
-    },
-    {
-      "source": "primitives-conversation-sequence-management-abort",
-      "target": "patterns-undo"
-    },
-    {
-      "source": "primitives-conversation-sequence-management-abort",
-      "target": "primitives-conversation-conversation-management-closing"
-    },
-    {
-      "source": "primitives-conversation-sequence-management-bot-repair",
-      "target": "patterns-conversation"
-    },
-    {
-      "source": "primitives-conversation-sequence-management-bot-repair",
-      "target": "primitives-conversation-conversational-activities-inquiry-user"
-    },
-    {
-      "source": "primitives-conversation-sequence-management-bot-repair",
-      "target": "primitives-conversation-sequence-management-sequence-completion"
-    },
-    {
-      "source": "primitives-conversation-sequence-management-user-repair",
-      "target": "patterns-conversation"
-    },
-    {
-      "source": "primitives-conversation-sequence-management-user-repair",
-      "target": "primitives-conversation-conversational-activities-extended-telling"
-    },
-    {
-      "source": "primitives-conversation-sequence-management-user-repair",
-      "target": "primitives-conversation-sequence-management-sequence-completion"
-    },
-    {
-      "source": "primitives-conversation-conversation-management-opening-bot",
-      "target": "primitives-conversation-conversation-management-disengage-without-closing"
-    },
-    {
-      "source": "primitives-conversation-conversation-management-opening-user",
-      "target": "primitives-conversation-sequence-management-bot-repair"
-    },
-    {
-      "source": "primitives-conversation-conversation-management-capability-scope",
-      "target": "primitives-conversation-conversation-management-opening-bot"
-    },
-    {
-      "source": "primitives-conversation-conversation-management-closing",
-      "target": "primitives-conversation-conversation-management-disengage-without-closing"
-    },
-    {
-      "source": "primitives-conversation-sequence-management-bot-repair",
-      "target": "primitives-conversation-conversation-management-capability-scope"
-    },
-    {
-      "source": "primitives-conversation-conversational-activities-extended-telling",
-      "target": "primitives-conversation-conversation-management-opening-bot"
-    },
-    {
-      "source": "primitives-conversation-conversational-activities-extended-telling",
-      "target": "primitives-conversation-sequence-management-user-repair"
-    },
-    {
-      "source": "primitives-conversation-conversational-activities-open-request",
-      "target": "patterns-conversation"
-    },
-    {
-      "source": "primitives-conversation-conversational-activities-open-request",
-      "target": "primitives-conversation-conversation-management-opening-bot"
-    },
-    {
-      "source": "primitives-conversation-conversational-activities-open-request",
-      "target": "primitives-conversation-conversation-management-opening-user"
-    },
-    {
-      "source": "primitives-conversation-conversational-activities-open-request",
-      "target": "primitives-conversation-conversational-activities-inquiry-bot"
-    },
-    {
-      "source": "primitives-conversation-conversational-activities-inquiry-bot",
-      "target": "primitives-conversation-conversation-management-opening-user"
-    },
-    {
-      "source": "primitives-conversation-conversational-activities-inquiry-bot",
-      "target": "primitives-conversation-conversational-activities-open-request"
-    },
-    {
-      "source": "primitives-conversation-conversational-activities-inquiry-user",
-      "target": "primitives-conversation-sequence-management-bot-repair"
-    },
-    {
-      "source": "primitives-conversation-conversational-activities-inquiry-user",
-      "target": "primitives-conversation-conversational-activities-extended-telling"
-    },
-    {
-      "source": "qualities-adaptability",
-      "target": "qualities-agency"
-    },
-    {
-      "source": "qualities-adaptability",
-      "target": "patterns-onboarding"
-    },
-    {
-      "source": "qualities-adaptability",
-      "target": "patterns-mastery"
-    },
-    {
-      "source": "qualities-adaptability",
-      "target": "patterns-bot"
-    },
-    {
-      "source": "qualities-adaptability",
-      "target": "patterns-suggestion"
-    },
-    {
-      "source": "qualities-adaptability",
-      "target": "patterns-explanation"
-    },
-    {
-      "source": "qualities-adaptability",
-      "target": "patterns-localization"
-    },
-    {
-      "source": "qualities-adaptability",
-      "target": "patterns-focus-and-context"
-    },
-    {
-      "source": "qualities-agency",
-      "target": "qualities-adaptability"
-    },
-    {
-      "source": "qualities-agency",
-      "target": "patterns-collaboration"
-    },
-    {
       "source": "qualities-agency",
       "target": "qualities-learnability"
     },
     {
       "source": "qualities-agency",
-      "target": "patterns-good-defaults"
+      "target": "operations-good-defaults"
     },
     {
       "source": "qualities-agency",
-      "target": "compositions-messaging"
+      "target": "actions-coordination-toolbar"
     },
     {
       "source": "qualities-agency",
-      "target": "compositions-card"
+      "target": "actions-coordination-messaging"
     },
     {
       "source": "qualities-agency",
-      "target": "patterns-explanation"
+      "target": "actions-sensemaking-card"
     },
     {
       "source": "qualities-agency",
-      "target": "patterns-suggestion"
+      "target": "actions-sensemaking-explanation"
     },
     {
       "source": "qualities-agency",
-      "target": "patterns-focus-and-context"
+      "target": "actions-application-suggestion"
     },
     {
       "source": "qualities-agency",
-      "target": "patterns-conversation"
+      "target": "actions-evaluation-focus-and-context"
     },
     {
       "source": "qualities-agency",
-      "target": "patterns-bot"
+      "target": "activities-conversation"
+    },
+    {
+      "source": "qualities-agency",
+      "target": "activities-bot"
     },
     {
       "source": "qualities-conversation",
@@ -2882,39 +3110,95 @@
     },
     {
       "source": "qualities-density",
-      "target": "components-table"
+      "target": "actions-evaluation-table"
     },
     {
       "source": "qualities-density",
-      "target": "compositions-card"
+      "target": "actions-sensemaking-card"
+    },
+    {
+      "source": "qualities-density",
+      "target": "actions-seeking-progressive-disclosure"
+    },
+    {
+      "source": "qualities-formality",
+      "target": "operations-reference"
+    },
+    {
+      "source": "qualities-formality",
+      "target": "actions-coordination-messaging"
+    },
+    {
+      "source": "qualities-formality",
+      "target": "activities-bot"
+    },
+    {
+      "source": "qualities-formality",
+      "target": "actions-application-suggestion"
+    },
+    {
+      "source": "qualities-formality",
+      "target": "actions-sensemaking-tag"
+    },
+    {
+      "source": "qualities-formality",
+      "target": "actions-seeking-progressive-disclosure"
+    },
+    {
+      "source": "qualities-formality",
+      "target": "actions-application-form"
+    },
+    {
+      "source": "qualities-formality",
+      "target": "foundations-intent-interaction"
+    },
+    {
+      "source": "qualities-formality",
+      "target": "actions-application-data-entry"
+    },
+    {
+      "source": "qualities-formality",
+      "target": "qualities-agency"
+    },
+    {
+      "source": "qualities-formality",
+      "target": "qualities-learnability"
+    },
+    {
+      "source": "qualities-formality",
+      "target": "qualities-adaptability"
+    },
+    {
+      "source": "qualities-formality",
+      "target": "foundations-collaboration"
     },
     {
       "source": "qualities-learnability",
-      "target": "patterns-onboarding"
+      "target": "activities-onboarding"
     },
     {
       "source": "qualities-learnability",
-      "target": "patterns-mastery"
+      "target": "activities-mastery"
     },
     {
       "source": "qualities-learnability",
-      "target": "patterns-explanation"
+      "target": "actions-sensemaking-explanation"
     },
     {
       "source": "qualities-learnability",
-      "target": "patterns-annotation"
+      "target": "actions-sensemaking-annotation"
     },
     {
       "source": "qualities-learnability",
-      "target": "patterns-transparent-reasoning"
+      "target": "activities-transparent-reasoning"
     },
     {
       "source": "qualities-learnability",
-      "target": "patterns-progressive-disclosure"
+      "target": "actions-seeking-progressive-disclosure"
     },
     {
       "source": "qualities-learnability",
-      "target": "patterns-bot"
+      "target": "activities-bot"
     },
     {
       "source": "qualities-learnability",
@@ -2922,7 +3206,7 @@
     },
     {
       "source": "qualities-learnability",
-      "target": "patterns-localization"
+      "target": "activities-localization"
     },
     {
       "source": "qualities-malleability",
@@ -2934,11 +3218,11 @@
     },
     {
       "source": "qualities-malleability",
-      "target": "visual-elements-layout"
+      "target": "foundations-material-layout"
     },
     {
       "source": "qualities-malleability",
-      "target": "visual-elements-color"
+      "target": "foundations-material-color"
     },
     {
       "source": "qualities-malleability",
@@ -2950,7 +3234,7 @@
     },
     {
       "source": "qualities-malleability",
-      "target": "compositions-view"
+      "target": "actions-sensemaking-view"
     },
     {
       "source": "qualities-malleability",
@@ -2974,7 +3258,7 @@
     },
     {
       "source": "qualities-malleability",
-      "target": "patterns-mastery"
+      "target": "activities-mastery"
     },
     {
       "source": "qualities-privacy",
@@ -2998,7 +3282,7 @@
     },
     {
       "source": "qualities-privacy",
-      "target": "patterns-localization"
+      "target": "activities-localization"
     },
     {
       "source": "qualities-shareability",
@@ -3022,7 +3306,7 @@
     },
     {
       "source": "qualities-shareability",
-      "target": "patterns-localization"
+      "target": "activities-localization"
     },
     {
       "source": "qualities-temporality",
@@ -3030,19 +3314,27 @@
     },
     {
       "source": "qualities-temporality",
-      "target": "patterns-command-menu"
+      "target": "actions-seeking-command-menu"
     },
     {
       "source": "qualities-temporality",
-      "target": "patterns-annotation"
+      "target": "actions-application-wizard"
     },
     {
       "source": "qualities-temporality",
-      "target": "patterns-onboarding"
+      "target": "actions-sensemaking-annotation"
     },
     {
       "source": "qualities-temporality",
-      "target": "patterns-undo"
+      "target": "foundations-intent-interaction"
+    },
+    {
+      "source": "qualities-temporality",
+      "target": "activities-onboarding"
+    },
+    {
+      "source": "qualities-temporality",
+      "target": "operations-undo"
     },
     {
       "source": "qualities-temporality",
@@ -3050,259 +3342,35 @@
     },
     {
       "source": "qualities-temporality",
-      "target": "patterns-mastery"
+      "target": "foundations-material-motion"
     },
     {
       "source": "qualities-temporality",
-      "target": "patterns-localization"
+      "target": "activities-mastery"
     },
     {
-      "source": "visual-elements-layout",
-      "target": "qualities-density"
+      "source": "qualities-temporality",
+      "target": "activities-activity-log"
     },
     {
-      "source": "components-table",
-      "target": "compositions-data-view"
+      "source": "qualities-temporality",
+      "target": "actions-application-suggestion"
     },
     {
-      "source": "components-table",
-      "target": "compositions-browsing-sensemaking-sorting"
+      "source": "qualities-temporality",
+      "target": "actions-coordination-notification"
     },
     {
-      "source": "components-table",
-      "target": "compositions-browsing-sensemaking-filtering"
+      "source": "qualities-temporality",
+      "target": "operations-status-feedback"
     },
     {
-      "source": "components-table",
-      "target": "compositions-card"
+      "source": "qualities-temporality",
+      "target": "actions-application-saving"
     },
     {
-      "source": "compositions-data-view",
-      "target": "components-table"
-    },
-    {
-      "source": "compositions-data-view",
-      "target": "compositions-card"
-    },
-    {
-      "source": "compositions-data-view",
-      "target": "components-timeline"
-    },
-    {
-      "source": "compositions-browsing-sensemaking-sorting",
-      "target": "components-table"
-    },
-    {
-      "source": "compositions-browsing-sensemaking-filtering",
-      "target": "components-table"
-    },
-    {
-      "source": "components-timeline",
-      "target": "compositions-data-view"
-    },
-    {
-      "source": "compositions-card",
-      "target": "compositions-data-view"
-    },
-    {
-      "source": "compositions-card",
-      "target": "components-table"
-    },
-    {
-      "source": "compositions-card",
-      "target": "compositions-item-view"
-    },
-    {
-      "source": "compositions-item-view",
-      "target": "compositions-card"
-    },
-    {
-      "source": "qualities-formality",
-      "target": "qualities-agency"
-    },
-    {
-      "source": "qualities-formality",
-      "target": "qualities-learnability"
-    },
-    {
-      "source": "qualities-formality",
-      "target": "qualities-adaptability"
-    },
-    {
-      "source": "qualities-formality",
-      "target": "patterns-suggestion"
-    },
-    {
-      "source": "qualities-formality",
-      "target": "patterns-data-entry"
-    },
-    {
-      "source": "qualities-formality",
-      "target": "compositions-form"
-    },
-    {
-      "source": "patterns-suggestion",
-      "target": "qualities-formality"
-    },
-    {
-      "source": "patterns-data-entry",
-      "target": "qualities-formality"
-    },
-    {
-      "source": "compositions-form",
-      "target": "qualities-formality"
-    },
-    {
-      "source": "qualities-formality",
-      "target": "patterns-tag"
-    },
-    {
-      "source": "patterns-tag",
-      "target": "qualities-formality"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "compositions-searching"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "compositions-browsing-sensemaking-filtering"
-    },
-    {
-      "source": "compositions-browsing-sensemaking-filtering",
-      "target": "foundations-intent-interaction"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "patterns-command-menu"
-    },
-    {
-      "source": "patterns-command-menu",
-      "target": "foundations-intent-interaction"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "patterns-annotation"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "patterns-tag"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "patterns-undo"
-    },
-    {
-      "source": "patterns-undo",
-      "target": "foundations-intent-interaction"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "components-dialog"
-    },
-    {
-      "source": "components-dialog",
-      "target": "foundations-intent-interaction"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "compositions-commenting"
-    },
-    {
-      "source": "compositions-commenting",
-      "target": "foundations-intent-interaction"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "patterns-activity-feed"
-    },
-    {
-      "source": "patterns-activity-feed",
-      "target": "foundations-intent-interaction"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "patterns-states-empty-state"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "patterns-onboarding"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "compositions-messaging"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "patterns-bot"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "patterns-prompt"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "compositions-browsing-sensemaking-sorting"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "compositions-browsing-sensemaking-grouping"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "compositions-item-view"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "compositions-structure-overview-and-detail"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "patterns-focus-and-context"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "patterns-progressive-disclosure"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "patterns-dynamic-hyperlinks"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "patterns-workspace"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "primitives-button"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "compositions-form"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "compositions-wizard"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "patterns-data-operations-saving"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "patterns-status-feedback"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "patterns-activity-log"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "patterns-notification"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "patterns-ai-tuning"
+      "source": "qualities-temporality",
+      "target": "activities-localization"
     }
   ]
 }

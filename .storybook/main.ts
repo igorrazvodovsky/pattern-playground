@@ -3,8 +3,8 @@ import type { StorybookConfig } from "@storybook/react-vite";
 const config: StorybookConfig = {
   stories: [
     "../src/stories/Intro.mdx",
-    "../src/stories/@(components|compositions|data-visualization|foundations|qualities|visual-elements|hooks|patterns|primitives|utils)/**/*.mdx",
-    "../src/stories/@(components|compositions|data-visualization|foundations|qualities|visual-elements|hooks|patterns|primitives|utils)/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+    "../src/stories/@(operations|actions|activities|foundations|qualities|components|compositions|data-visualization|visual-elements|hooks|patterns|primitives|utils)/**/*.mdx",
+    "../src/stories/@(operations|actions|activities|foundations|qualities|components|compositions|data-visualization|visual-elements|hooks|patterns|primitives|utils)/**/*.stories.@(js|jsx|mjs|ts|tsx)",
   ],
 
   addons: [

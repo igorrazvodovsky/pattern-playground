@@ -11,6 +11,15 @@ import {
 import type { SimulationNodeDatum, SimulationLinkDatum } from 'd3-force';
 import { scaleSqrt } from 'd3-scale';
 import graphData from '../pattern-graph.json' with { type: 'json' };
+import activityLevels from '../stories/data/activity-levels.json' with { type: 'json' };
+
+interface NodeMeta {
+  'activity-level': string;
+  'lifecycle-stage': string | null;
+  'atomic-category': string;
+}
+
+const nodeMeta = activityLevels.nodes as Record<string, NodeMeta>;
 
 interface GraphNode extends SimulationNodeDatum {
   readonly id: string;
@@ -28,6 +37,9 @@ interface RenderedNode {
   x: number;
   y: number;
   radius: number;
+  atLevel: string;
+  lifecycleStage: string | null;
+  atomicCategory: string;
 }
 
 interface RenderedEdge {
@@ -44,14 +56,11 @@ const SVG_WIDTH = 900;
 const SVG_HEIGHT = 600;
 
 const CATEGORY_TARGETS: Record<string, [number, number]> = {
-  Foundations:        [190, 300],
-  Primitives:         [340, 140],
-  Components:         [580, 155],
-  Compositions:       [730, 310],
-  Patterns:           [600, 490],
-  Qualities:          [290, 490],
-  'Data Visualisation': [135, 430],
-  'Visual Elements':  [145, 175],
+  Operations:   [450, 120],
+  Actions:      [680, 320],
+  Activities:   [550, 520],
+  Foundations:  [200, 200],
+  Qualities:    [180, 460],
 };
 
 
@@ -103,15 +112,21 @@ function buildGraph() {
     .stop()
     .tick(300);
 
-  const nodes: RenderedNode[] = simNodes.map((n) => ({
-    id: n.id,
-    title: n.title,
-    category: n.category,
-    path: n.path,
-    x: n.x ?? SVG_WIDTH / 2,
-    y: n.y ?? SVG_HEIGHT / 2,
-    radius: n.radius,
-  }));
+  const nodes: RenderedNode[] = simNodes.map((n) => {
+    const meta = nodeMeta[n.id];
+    return {
+      id: n.id,
+      title: n.title,
+      category: n.category,
+      path: n.path,
+      x: n.x ?? SVG_WIDTH / 2,
+      y: n.y ?? SVG_HEIGHT / 2,
+      radius: n.radius,
+      atLevel: meta?.['activity-level'] ?? 'cross-cutting',
+      lifecycleStage: meta?.['lifecycle-stage'] ?? null,
+      atomicCategory: meta?.['atomic-category'] ?? n.category.toLowerCase(),
+    };
+  });
 
   const adjacency = new Map<string, Set<string>>();
   const edges: RenderedEdge[] = simLinks.map((link, i) => {
@@ -161,6 +176,11 @@ export function PatternGraph() {
     return 'pattern-graph__edge pattern-graph__edge--dimmed';
   };
 
+  const svgClass = [
+    'pattern-graph__svg',
+    hoveredId ? 'pattern-graph__svg--hovering' : '',
+  ].filter(Boolean).join(' ');
+
   const handleNodeActivate = useCallback((path: string) => {
     window.parent.location.href = path;
   }, []);
@@ -168,7 +188,7 @@ export function PatternGraph() {
   return (
     <div className="pattern-graph">
       <svg
-        className={`pattern-graph__svg${hoveredId ? ' pattern-graph__svg--hovering' : ''}`}
+        className={svgClass}
         viewBox={graph.viewBox}
         role="img"
         aria-label="Force-directed graph of design system patterns and their relationships"
@@ -193,6 +213,9 @@ export function PatternGraph() {
               aria-label={`${node.title} (${node.category})`}
               tabIndex={0}
               data-category={node.category}
+              data-at-level={node.atLevel}
+              data-lifecycle-stage={node.lifecycleStage ?? undefined}
+              data-atomic-category={node.atomicCategory}
               onMouseEnter={() => setHoveredId(node.id)}
               onMouseLeave={() => setHoveredId(null)}
               onClick={() => handleNodeActivate(node.path)}

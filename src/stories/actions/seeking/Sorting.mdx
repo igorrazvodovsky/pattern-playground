@@ -1,0 +1,20 @@
+import { Canvas, Story, Meta, Subtitle } from '@storybook/addon-docs/blocks';
+import * as SortingStories from './Sorting.stories.tsx';
+
+<Meta of={ SortingStories } tags={['activity-level:action', 'atomic:composition', 'lifecycle:seeking']} />
+
+> 🙂 **Fun meter: 2/5**. Dependency.
+
+# Sorting
+
+Allows to quickly re-organize a [collection](../?path=/docs/concepts-collection--docs) to better suit the actors's current task.
+
+<Story of={ SortingStories.Sorting } />
+
+## Related patterns
+
+- [Toolbar](../?path=/docs/actions-coordination-toolbar--docs)
+- [Grouping](../?path=/docs/actions-sensemaking-grouping--docs)
+- [Filtering](../?path=/docs/actions-seeking-filtering--docs)
+- [Data view](../?path=/docs/actions-seeking-data-view--docs)
+- [Table](../?path=/docs/actions-evaluation-table--docs)

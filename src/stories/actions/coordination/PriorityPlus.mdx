@@ -1,0 +1,32 @@
+import { Canvas, Story, Meta, Subtitle } from '@storybook/addon-docs/blocks';
+import * as PriorityPlusStories from './PriorityPlus.stories.tsx';
+
+<Meta title="Actions/Coordination/Priority+" of = { PriorityPlusStories } tags={['activity-level:action', 'atomic:component', 'lifecycle:coordination']} />
+
+> 🥱 **Fun meter: not very captivating by itself**. Included as a prerequisite for more interesting things.
+
+# Priority+
+
+<Subtitle>Shows elements that fit the container and tucks away everything else behind an dropdown.</Subtitle>
+
+<Story of={ PriorityPlusStories.PriorityPlus } />
+
+Priority+ is a low-level utility that implements a [pattern](https://bradfrost.com/blog/post/complex-navigation-patterns-for-responsive-design/#priority-plus) of the same name and built specifically for making other components responsive. The assumption is that almost every usage of it will involve building other components. It should rarely, occur directly in HTML.
+
+## Supported components
+
+By default Priority+ will move the element to `list` as is but certain components are transformed along the way. E.g. `button` becomes `list-item`.
+
+## Related patterns
+
+- Depends on a [dropdown](../?path=/docs/actions-coordination-dropdown--docs) as a place to hide things in and a [list item](../?path=/docs/actions-evaluation-list--docs) for element transformation.
+- [Toolbar](../?path=/docs/actions-coordination-toolbar--docs) — the primary consumer. Priority+ makes toolbars responsive
+- Priority+ is a way to handle [overflow](../?path=/docs/operations-overflow--docs) for list-like components.
+
+## TODO:
+- Placing things under dropdown by default. It might happen that user might need to hide certain things under the dropdown anyway.
+- Exceptions?
+- Component support
+  - toggles → list items + checkbox
+  - select → sublist
+  - inputs?

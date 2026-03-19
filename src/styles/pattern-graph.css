@@ -67,46 +67,26 @@
     opacity: 0.08;
   }
 
-  /* Category colours via data-category attribute */
+  /* Activity Theory level colours */
 
-  [data-category="Foundations"] .pattern-graph__circle,
-  .pattern-graph__legend-dot[data-category="Foundations"] {
-    fill: oklch(55% 0.16 260);
+  [data-at-level="operation"] .pattern-graph__circle,
+  .pattern-graph__legend-dot[data-at-level="operation"] {
+    fill: oklch(55% 0.13 155);
   }
 
-  [data-category="Primitives"] .pattern-graph__circle,
-  .pattern-graph__legend-dot[data-category="Primitives"] {
-    fill: oklch(60% 0.14 195);
-  }
-
-  [data-category="Components"] .pattern-graph__circle,
-  .pattern-graph__legend-dot[data-category="Components"] {
+  [data-at-level="action"] .pattern-graph__circle,
+  .pattern-graph__legend-dot[data-at-level="action"] {
     fill: oklch(58% 0.17 235);
   }
 
-  [data-category="Compositions"] .pattern-graph__circle,
-  .pattern-graph__legend-dot[data-category="Compositions"] {
-    fill: oklch(58% 0.14 155);
+  [data-at-level="activity"] .pattern-graph__circle,
+  .pattern-graph__legend-dot[data-at-level="activity"] {
+    fill: oklch(62% 0.18 55);
   }
 
-  [data-category="Patterns"] .pattern-graph__circle,
-  .pattern-graph__legend-dot[data-category="Patterns"] {
-    fill: oklch(58% 0.18 28);
-  }
-
-  [data-category="Qualities"] .pattern-graph__circle,
-  .pattern-graph__legend-dot[data-category="Qualities"] {
-    fill: oklch(55% 0.17 310);
-  }
-
-  [data-category="Data Visualisation"] .pattern-graph__circle,
-  .pattern-graph__legend-dot[data-category="Data Visualisation"] {
-    fill: oklch(65% 0.17 65);
-  }
-
-  [data-category="Visual Elements"] .pattern-graph__circle,
-  .pattern-graph__legend-dot[data-category="Visual Elements"] {
-    fill: oklch(58% 0.18 340);
+  [data-at-level="cross-cutting"] .pattern-graph__circle,
+  .pattern-graph__legend-dot[data-at-level="cross-cutting"] {
+    fill: oklch(55% 0.10 300);
   }
 
   /* Labels */
@@ -135,4 +115,6 @@
     opacity: 0.9;
   }
 
+
 }
+

@@ -43,6 +43,10 @@ Building a design system requires the context of a product or organisation, whic
 What it resembles more closely is a *design repertoire* — a personal collection of patterns that shape how I approach design problems↔solutions.
 The project uses design practice itself as the material being organised and explored.
 
+The repertoire is shaped by a context of [my work](https://igorrazvodovsky.com/): professional work-support systems — tools that facilitate work, coordination, and information-intensive activities.
+This is worth stating because it determines what patterns appear here, how they get evaluated, and which use [qualities](..?path=/docs/qualities-overview--docs) receive attention.
+
+
 In practical terms the objective is to map relationships between patterns and understand how they connect,
 while approaching the process like tending a garden — cultivating ideas over time, refining structures and fostering connections.
 I'm interested in two layers: patterns as components (the structural building blocks) and patterns as carriers of experiential qualities — malleability, agency, accessibility, transparency, and other dimensions of what it feels like to use something.
@@ -55,7 +59,12 @@ I'm interested in two layers: patterns as components (the structural building bl
 
 ## On LLMs and AI
 
-I didn't set out to make this an AI project. The plan was to stay technology-neutral. But in reality of 2025 it's become a playground for weaving LLM patterns into component-based structures, using design systems as a lens to explore what's emerging.
+I didn't set out to make this an AI project. The plan was to stay technology-neutral.
+But in reality of 2025 it's become a playground for weaving LLM patterns into component-based structures,
+using design systems as a lens to explore what's emerging.
+
+Now in 2026 my focus moved towards the generative UI specification. For this project this means that its
+audience is divided between myself (a designer who uses it as a thinking tool) and AI (that uses it as knowledge graph for task-grounded generation).
 
 <br />
 <hr />
@@ -79,7 +88,7 @@ Throughout the year, the *foundations* list kept growing, and mixing qualities f
 *Collaboration* and *conversation* have become central this autumn.
 I've added [conversation](../?path=/docs/qualities-conversation--docs) as a foundational layer—treating all interaction as coordinated turn-taking.
 
-This led to expanding the [collaboration](../?path=/docs/patterns-collaboration--docs) patterns, particularly around human↔bot dynamics.
+This led to expanding the [collaboration](../?path=/docs/activities-collaboration--docs) patterns, particularly around human↔bot dynamics.
 The collaboration stages now map how [agency patterns](../?path=/docs/qualities-agency--docs) shift throughout co-creation. I've been particularly interested in how humans elaborate on AI contributions—from surface acceptance to integrative advancement—and what that means for maintaining agency whilst working with generative systems.
 
 ### August
@@ -89,8 +98,8 @@ AI down into user-facing semantic blocks rather than mapping technology directly
 This approach feels more promising than my previous attempts, but I haven't built anything with these concepts yet.
 It's possible I'm overextending Jackson's methodology, so I might scale back the LLM concept set.
 
-On the practical side, I'm vibing my way through block-based text patterns enabling [collaboration](../?path=/docs/patterns-collaboration--docs):
-commenting, [referencing](../?path=/docs/components-bubble-menu--docs), highlighting, etc. Thinking about collaboration led to updating foundations —
+On the practical side, I'm vibing my way through block-based text patterns enabling [collaboration](../?path=/docs/activities-collaboration--docs):
+commenting, [referencing](../?path=/docs/actions-coordination-bubble-menu--docs), highlighting, etc. Thinking about collaboration led to updating foundations —
 I've added [conversation](../?path=/docs/qualities-conversation--docs) and [formality](../?path=/docs/qualities-formality--docs).
 Conversation now exists at three levels (foundation, pattern, and concept), which either reflects its central role in interaction design or signals I'm overcomplicating things.
 Formality, on the other hand, remains purely inspirational for now—no patterns implementing it yet.
@@ -100,8 +109,8 @@ Formality, on the other hand, remains purely inspirational for now—no patterns
 Refining the LLM patterns. The focus continues on making AI interactions more
 deliberate and contextual, moving beyond chat toward embedded
 intelligence patterns.
-- Basic LLM interactions: steadily filling in the details. Describing patterns that shape model's [input](../?path=/docs/patterns-prompt--docs) and [output](../?path=/docs/patterns-generated-content--docs). Where possible (and makes sense), I'm trying to describe these patterns generically, without tying them specifically to AI. I'm not entirely sure yet how useful this approach is, but it seems to spark interesting connections and conversations. Also filling in missing UI components. Added [TipTap](https://tiptap.dev/) to add more interactivity to help with mainly textual patterns.
-- Described [embedded intelligence](../?path=/docs/patterns-embedded-intelligence--docs) as an AI integration strategy.
+- Basic LLM interactions: steadily filling in the details. Describing patterns that shape model's [input](../?path=/docs/activities-prompt--docs) and [output](../?path=/docs/activities-generated-content--docs). Where possible (and makes sense), I'm trying to describe these patterns generically, without tying them specifically to AI. I'm not entirely sure yet how useful this approach is, but it seems to spark interesting connections and conversations. Also filling in missing UI components. Added [TipTap](https://tiptap.dev/) to add more interactivity to help with mainly textual patterns.
+- Described [embedded intelligence](../?path=/docs/activities-embedded-intelligence--docs) as an AI integration strategy.
 - Next: [task](../?path=/docs/concepts-task--docs) as a building block of agentic interactions.
 
 {/* Thinking about ways to generate UI... */}
@@ -109,8 +118,8 @@ intelligence patterns.
 ### May
 
 I continue building the map of LLM interaction patterns. Right now exploring how user intent gets captured and acted on. There are three interconnected tracks:
-1. First, I've pulled apart [chat](../?path=/docs/compositions-messaging--docs) and [bot](../?path=/docs/patterns-bot--docs)—chat is where the [conversation](../?path=/docs/patterns-conversation--docs) happen; the bot is the part that gets things done, often outside the chat. Seeing them separately makes it easier to think about assistants that shift between interface roles: from conversation partner to background actor.
-2. This separation reveals that the chatbot implements a cluster of patterns revolving around clear, deliberate user intent provided via [prompt](../?path=/docs/patterns-prompt--docs), and supported by mechanics like prompt guidance and scaffolding, and model switching.
+1. First, I've pulled apart [chat](../?path=/docs/actions-coordination-messaging--docs) and [bot](../?path=/docs/activities-bot--docs)—chat is where the [conversation](../?path=/docs/activities-conversation--docs) happen; the bot is the part that gets things done, often outside the chat. Seeing them separately makes it easier to think about assistants that shift between interface roles: from conversation partner to background actor.
+2. This separation reveals that the chatbot implements a cluster of patterns revolving around clear, deliberate user intent provided via [prompt](../?path=/docs/activities-prompt--docs), and supported by mechanics like prompt guidance and scaffolding, and model switching.
 3. This distinction, in turn, points toward another set of patterns—ways to handle unclear intent when the user doesn't or can't say what they want.
 
 {/* To support patterns that work around user's intent, I added [behaviour](../?path=/docs/foundations-intent-interaction--docs) as a foundational layer. */}

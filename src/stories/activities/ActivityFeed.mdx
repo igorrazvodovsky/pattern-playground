@@ -1,0 +1,51 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+
+<Meta title="Activities/Activity feed" tags={['activity-level:activity', 'atomic:pattern']} />
+
+> 🗺️ **Fun meter: 2/5**. Mapping out the basics.
+
+# Activity feed
+
+Ordered feed of content that updates continuously, blending multiple sources into a single scannable flow.
+
+Feed prioritise recency – newest content surfaces first, pushing older items down. Unlike [activity logs](../?path=/docs/activities-activity-log--docs) that record system events or user actions, feeds aggregate diverse content types (posts, updates, articles, media) from multiple sources for consumption and quick engagement.
+
+## Ordering strategies
+
+- Chronological: reverse-chronological ordering where newest items always appear first. Simple and predictable – users know where to look for updates.
+- Algorithmic: Sequence determined by relevance algorithms. Orders content based on predicted interest rather than strict time order.
+
+## Variants
+
+- Personal: Aggregates content relevant to individual user – posts from connections, subscribed sources, or topics of interest. Single unified feed across multiple sources.
+- Curated: Publisher-defined collections organised by topic, source type, or editorial selection. Users browse multiple feeds (e.g., "Technology", "Design", "News") alongside personal feed.
+- Custom: User-created filters based on topics, tags, or lists of specific sources. Advanced functionality for power users wanting precise control over content feeds.
+
+## Item anatomy
+
+Each feed item typically includes:
+
+- Content: full text for micro-updates, or title/teaser with thumbnail for longer content
+- Source: actor (person, organisation, system) who created or triggered the item
+- Timestamp: relative time for recent items ("2 hours ago"), switching to absolute timestamps as content ages
+- Actions: lightweight engagement options (like, star, bookmark) alongside deeper responses (comment, share)
+
+## Related patterns
+
+### Precursors
+
+- [Cards](../?path=/docs/actions-sensemaking-card--docs) – common container format for feed items
+- TODO:Infinite scrolling – loads additional content as user reaches end of current items
+
+### Complementary patterns
+
+- [Activity log](../?path=/docs/activities-activity-log--docs) – distinct from feeds; logs are histories of _actions taken by_ an entity, whilst feeds aggregate content _of interest to_ users from diverse sources
+- [Collaboration](../?path=/docs/activities-collaboration--docs) – uses feeds to surface updates and changes in shared workspaces
+- [Notification](../?path=/docs/actions-coordination-notification--docs) – alerts users to new feed activity requiring attention
+- [Messaging / Comment thread](../?path=/docs/actions-coordination-messaging--docs#comment-thread) – enable [conversations](../?path=/docs/activities-conversation--docs) around feed items
+
+## Resources & references
+
+- https://www.w3.org/wiki/Activity_Streams
+- https://ui-patterns.com/patterns/ActivityStream
+- https://www.w3.org/WAI/ARIA/apg/patterns/feed/

@@ -1,0 +1,109 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Actions/Seeking/Progressive disclosure" tags={['activity-level:action', 'atomic:pattern', 'lifecycle:seeking']} />
+
+> 🙄 **Fun meter:** boring but important groundwork.
+
+# Progressive disclosure
+
+Progressive disclosure reduces initial cognitive load by showing the minimum needed for the current task while keeping deeper detail available when it becomes relevant.
+
+Sequencing complexity — rather than hiding capability — lets actors move quickly, then inspect more when they need understanding, control, or proof.
+
+## Forces
+
+- *Simplicity vs completeness* — the first view should be easy to parse, but the full system still needs to remain reachable
+- *Speed vs understanding* — actors often want to finish the task before they want to study the logic behind it
+- *Reduced distraction vs explainability* — extra detail can help sensemaking, but it can also interrupt flow and create doubt
+- *Default clarity vs accountability* — concise interfaces still need a path to evidence, rationale, and contestability
+
+## Main forms
+
+### Triggered expansion
+
+Secondary detail stays hidden behind an explicit action such as a details element, accordion, or "Show more" link.
+
+Use when the deeper layer is optional for most actors but important for some.
+
+### Staged flows
+
+Complexity is distributed across steps so one decision is made before the next set of controls appears.
+
+Use when users need guidance through an ordered process, such as setup, onboarding, or multi-step configuration.
+
+### Contextual reveal / progressive enabling
+
+Extra options appear only after a preceding choice makes them relevant, such as selecting a filter that reveals sub-filters or enabling an advanced mode that unlocks more controls.
+
+Use when later controls depend on earlier choices and would otherwise read as noise.
+
+## Disclosure ladder
+
+Movement between levels should usually be actor-driven and reversible. The point is not to trap people in a shallow view, but to make deeper inspection feel proportional to the current need.
+
+0. *Outcome or primary state*. Show the result, current status, or core action.
+1. *Short reason or summary*. Offer a compact explanation of what happened or why this is the current state.
+2. *Key factors or high-impact details*. Reveal the major factors, dependencies, or advanced controls that explain most of the outcome.
+3. *Full explanation or inspectable evidence*. Provide detailed rationale, full configuration, logs, proofs, or traceable evidence for actors who need to audit, troubleshoot, or contest the result.
+
+## When to disclose more
+
+- *The actor asks for it* — explicit curiosity is the cleanest trigger for deeper explanation
+- *Expectation violation occurs* — if the system surprises the actor, they are more likely to seek and benefit from detail
+- *The stakes are high* — consequential, contestable, or risky decisions need a shorter path to proof
+- *The task shifts from doing to understanding* — troubleshooting, learning, and model-building need deeper inspection than routine execution
+
+{/* ## Examples */}
+
+{/* ### Advanced settings in forms */}
+
+{/* Show the fields required to complete the common path first. Keep import options, edge-case validation controls, and expert overrides behind an explicit "Advanced settings" section. */}
+
+{/* ### Dependent filters and options */}
+
+{/* Reveal sub-options only after the parent filter is chosen. This keeps the first view legible while preserving full control for users who are narrowing results precisely. */}
+
+{/* ### Automated score or recommendation */}
+
+{/* Show the score or recommendation first, then a short reason, then the main contributing factors, then deeper evidence such as source excerpts, activity history, or linked rationale. */}
+
+## Anti-patterns
+
+- *Hiding primary actions* — progressive disclosure should defer secondary detail, not conceal core actions that most users need
+- *Premature exhaustiveness* — exposing every factor up front can overwhelm users and undermine trust instead of improving understanding
+- *Silent depth* — if there is no hint that more exists, users cannot form an accurate mental model of the system
+- *Nested tunnels* — too many levels of expansion create navigation overhead and make people lose context
+- *Noise masquerading as transparency* — showing low-signal detail is not the same as explaining what materially drove the outcome
+
+## Related patterns
+
+### Containers and primitives
+
+- [Details](../?path=/docs/operations-details--docs) — a mechanism for triggered expansion, not the pattern itself
+- [Dialog](../?path=/docs/actions-application-dialog--docs) — a container for disclosed content that needs more space or focus
+
+### Complementary
+
+- [Explanation](../?path=/docs/actions-sensemaking-explanation--docs) — provides the content revealed at each disclosure level
+- [Help](../?path=/docs/activities-help--docs) — the pull-based channel actors use when they shift from doing to understanding
+- [Good defaults](../?path=/docs/operations-good-defaults--docs) — what is visible by default is the first disclosure decision
+- [Transparent reasoning](../?path=/docs/activities-transparent-reasoning--docs) — a specialized high-detail form of disclosure for AI systems
+- [Density](../?path=/docs/qualities-density--docs) — progressive disclosure manages information density by deferring secondary content
+- [Focus and context](../?path=/docs/actions-evaluation-focus-and-context--docs) — helps preserve orientation while moving between shallow and deep views
+
+### Applied in
+
+- [Activity log](../?path=/docs/activities-activity-log--docs) — event summaries can expand into detailed histories and proofs
+- [Bot](../?path=/docs/activities-bot--docs) — bots often need to reveal capability, intent, and reasoning incrementally
+
+### Tangentially related
+
+- [Learnability](../?path=/docs/qualities-learnability--docs) — staged exposure helps actors build mental models without immediate overload
+- [Onboarding](../?path=/docs/activities-onboarding--docs) — stretches disclosure across an initial learning journey rather than a single view
+
+## Resources & references
+
+- Springer, A., & Whittaker, S. (2020). [Progressive Disclosure: When, Why, and How Do Users Want Algorithmic Transparency Information?](https://doi.org/10.1145/3374218)
+- Springer, A., & Whittaker, S. (2019). [Progressive Disclosure: Empirically Motivated Approaches to Designing Effective Transparency](https://doi.org/10.1145/3301275.3302322)
+- NN/g - [Progressive Disclosure](https://www.nngroup.com/articles/progressive-disclosure/)
+- Wikipedia - [Progressive disclosure](https://en.wikipedia.org/wiki/Progressive_disclosure/)

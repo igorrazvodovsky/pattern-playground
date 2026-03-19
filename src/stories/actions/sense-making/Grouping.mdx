@@ -1,0 +1,52 @@
+import { Canvas, Story, Meta, Subtitle } from '@storybook/addon-docs/blocks';
+import * as GroupingStories from './Grouping.stories.tsx';
+
+<Meta of={ GroupingStories } tags={['activity-level:action', 'atomic:composition', 'lifecycle:sense-making']} />
+
+> 🙂 **Fun meter: 3/5**. Dependency.
+
+# Grouping
+
+Organises a collection of items based on shared attribute values. It structures the representation of
+items into clusters, making large datasets more navigable and meaningfully sorted.
+
+Grouping enables actors to detect patterns, draw comparisons, or focus on subsets of items that matter
+most to their current context or goal.
+
+## Examples
+
+### Cards
+
+<Story of={ GroupingStories.Cards } />
+
+### Table
+
+`TODO:`
+
+### Canvas
+
+...
+
+## Orientation
+
+`TODO:`
+
+## Nesting
+
+`TODO:` Well, maybe not just yet.
+
+## Related patterns
+
+### Precursors
+
+- [Toolbar](../?path=/docs/actions-coordination-toolbar--docs)
+- [Details](../?path=/docs/operations-details--docs)
+
+### Complementary
+
+- [Filtering](../?path=/docs/actions-seeking-filtering--docs) helps narrow what groups show up
+- [Sorting](../?path=/docs/actions-seeking-sorting--docs) helps organise groups
+
+### Follow-ups
+
+- [Data view](../?path=/docs/actions-seeking-data-view--docs)

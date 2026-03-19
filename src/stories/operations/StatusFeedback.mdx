@@ -1,0 +1,46 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import { Indicators } from '../actions/sense-making/Card.stories.tsx';
+
+<Meta title="Operations/Status feedback" tags={['activity-level:operation', 'atomic:pattern']} />
+
+> 🥱 **Fun meter: boring** but important groundwork.
+
+# Status feedback
+
+A system should always keep users informed, by providing appropriate feedback. The "appropriate" way to communicate system status varies depending on several key factors:
+
+- The *type* of information being communicated
+- The *urgency* of the information — how important it is that the user sees it immediately
+- The necessity to take *action* as an effect of the information
+
+Three common approaches for status communication: validation, notification, and status indication.
+
+## Indication
+
+An indicator is a way of making an element stand out to inform the user that there is something special about it that warrants the user’s attention. Ways to do it include: typographic variations (e.g. making something bold, or changing its colour or size), using icons, and animations.
+
+{/* See [badges](../?path=/docs/operations-badge--docs) */}
+
+<Story of={ Indicators } />
+
+## Validation
+
+Validation is the process of verifying the data to ensure it meets certain criteria.
+
+TODO:
+
+## [Notification](../?path=/docs/actions-coordination-notification--docs)
+
+Notifications communicate system status changes, events, and outcomes to users. They provide feedback about actions taken, system states, and important information that requires user awareness.
+
+## Related patterns
+
+- [Callout](../?path=/docs/operations-callout--docs) — primary inline delivery mechanism for status feedback
+- [Activity log](../?path=/docs/activities-activity-log--docs) - Records status changes as Events for chronological review
+- [Collaboration](../?path=/docs/activities-collaboration--docs) – Status feedback provides awareness of system state and action effects in collaborative environments
+
+## Resources & references
+
+- [NN/g / Indicators, Validations, and Notifications](https://www.nngroup.com/articles/indicators-validations-notifications/)
+- [Apple HIG / Feedback](https://developer.apple.com/design/human-interface-guidelines/feedback)
+{/* https://designlibrary.sebgroup.com/patterns/pattern-feedback */}

@@ -1,0 +1,135 @@
+import { MermaidDiagram } from '../../../components/MermaidDiagram';
+import { Canvas, Story, Meta } from '@storybook/addon-docs/blocks';
+import * as FormStories from './Form.stories.tsx';
+
+<Meta of={FormStories} tags={['activity-level:action', 'atomic:composition', 'lifecycle:application']} />
+
+> 🥱 **Fun meter: boring** but important groundwork.
+
+# Form
+
+Form facilitates the structured collection of user input. It guides users through a task, ensuring clarity, usability, and accuracy.
+
+## Input & controls
+
+...
+
+### Labels and helper texts
+
+...
+
+### Required fields
+
+...
+
+### Grouping & sections
+
+...
+
+## Validation & feedback
+
+- inline or on-submit validation strategies
+- styling invalid form controls
+- user confusion
+- user abandonment
+
+...
+
+...
+
+## AI-augmented form
+
+Forms force users to translate their reality into database fields.
+AI allows systems to handle the structure, accepting [forgiving input](../?path=/docs/actions-application-data-entry--docs#forgiving-format) from the user.
+
+In an AI-augmented form, the primary user action shifts from data *entry to data *verification*.
+1. Input: User provides raw data (image, PDF, pasted text, voice dump).
+2. Extraction: AI maps this to the form schema.
+3. Verification: User reviews the pre-filled form for accuracy.
+
+## Conversational forms
+
+Forms can be embedded in a [messaging](../?path=/docs/actions-coordination-messaging--docs) interface, allowing for a more [conversational](../?path=/docs/activities-conversation--docs) interaction.
+
+<Story of={FormStories.Conversational} />
+
+## Decision tree
+
+### Choosing an input
+
+<MermaidDiagram chart={`
+flowchart LR
+  A[Options basic and no search?]
+  A -->|Yes| B[Select/Text/Date/Password/Textarea]
+  A -->|No| C[Need searchable dropdown?]
+  C -->|Yes| D[Combobox]
+  C -->|No| E[Search input]
+`} />
+
+### Choosing a control
+
+<MermaidDiagram chart={`
+flowchart TD
+  A[Can you select more than one option?]
+  A -->|No| B[Single select]
+  A -->|Yes| C[Multi select]
+
+  %% Single-select branch
+  B -->|Filters or swaps content| D[Tabs]
+  B -->|No filtering| E[How many options?]
+  E -->|1| F[Need confirm?]
+  F -->|Yes| G[Checkbox]
+  F -->|No| H[Switch]
+  E -->|2-5| I[Short, consistent labels?]
+  I -->|Yes| J[Segmented control]
+  I -->|No| K[Radio buttons]
+  E -->|More than 5| L[Dropdown]
+
+  %% Multi-select branch
+  C -->|Needs emphasis| M[Selectable cards]
+  C -->|No emphasis| N[Short, uniform labels?]
+  N -->|Yes| O[Pill-style toggles]
+  N -->|No| P[Checkbox list]
+
+`} />
+
+## Related patterns
+
+### Precursors
+
+- [Messaging](../?path=/docs/actions-coordination-messaging--docs) - for conversational variant.
+- [Formality](../?path=/docs/qualities-formality--docs) - forms sit at the high-formality end
+
+{/*
+### Precursors
+- [Input](../?path=/docs/operations-input--docs) - Basic text input with label and helper text
+- [Textarea](../?path=/docs/operations-textarea--docs) - Multi-line text input with auto-resize
+- [Checkbox](../?path=/docs/operations-checkbox--docs) - Binary choice input with indeterminate state
+- [Button](../?path=/docs/operations-button--docs) - Form submission and action triggers
+- [Dropdown](../?path=/docs/actions-coordination-dropdown--docs) - Selection from options list
+- [Tag](../?path=/docs/operations-tag--docs) - Interactive tags for multi-select scenarios
+- [List](../?path=/docs/actions-evaluation-list--docs) - Structured options with checkbox/radio/toggle variants
+- [Tabs](../?path=/docs/operations-tabs--docs) - Content filtering and single selection
+*/}
+
+### Follow-ups
+- [Status feedback](../?path=/docs/operations-status-feedback--docs) - validation and system status communication
+- [Saving](../?path=/docs/actions-application-saving--docs) - autosave and manual save strategies
+
+### Complementary
+- [Callout](../?path=/docs/operations-callout--docs) — inline validation and instructional feedback within forms
+- [Good defaults](../?path=/docs/operations-good-defaults--docs) - reduce friction by pre-selecting likely options
+- [Details](../?path=/docs/operations-details--docs) - collapsible form sections
+- [Command menu](../?path=/docs/actions-seeking-command-menu--docs) - quick access to form actions
+- [Conversation](../?path=/docs/activities-conversation--docs) may resolve into a form when a dialog stabilizes around well-structured data collection
+
+### Tangentially related
+- [Disabled state](../?path=/docs/operations-disabled-state--docs) - alternatives to disabling form elements
+- [KeyboardKey](../?path=/docs/operations-keyboard-key--docs) - keyboard shortcuts and navigation
+
+## Resources & references
+- [Patternfly](https://www.patternfly.org/components/forms/form/)
+- [Bootstrap](https://getbootstrap.com/docs/5.3/forms/overview/)
+- [Carbon](https://carbondesignsystem.com/components/form/usage/)
+- [Atlassian](https://atlassian.design/components/form/)
+- [Luke Wroblewski / Unstructured Input in AI Apps](https://lukew.com/ff/entry.asp?2120)

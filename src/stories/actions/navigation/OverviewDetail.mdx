@@ -1,0 +1,24 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Actions/Navigation/Overview and detail" tags={['activity-level:action', 'atomic:composition', 'lifecycle:evaluation']} />
+
+> 🗺️ **Fun meter: 2/5**. Mapping out the basics.
+
+# Overview and detail
+
+A navigation model where the [collection](../?path=/docs/actions-seeking-data-view--docs) and the [item](../?path=/docs/actions-seeking-item-view--docs) are displayed simultaneously. Selection in the overview immediately updates the detail view.
+Unlike [Hub and Spoke](../?path=/docs/actions-navigation-hub-and-spoke--docs), which requires navigation *between* screens, Overview-Detail maintains context by keeping the parent list visible.
+
+## Behavioural position
+- [Rapid browsing](../?path=/docs/foundations-intent-interaction--docs#browsing) — actors can scan list and verify details without back-and-forth navigation.
+- [Comparison](../?path=/docs/foundations-intent-interaction--docs#evaluation--relevance-construction) — actors can quickly switch between items to compare details.
+
+## Variants
+- Split view – The list and detail are permanently locked side-by-side. Common in email clients and admin panels.
+– Popover – The detail view temporarily overlays the list. This preserves the list's full width when the detail is not active but allows quick context switching.
+
+## Related patterns
+- [Hub and Spoke](../?path=/docs/actions-navigation-hub-and-spoke--docs) — The sequential alternative.
+- [Data view](../?path=/docs/actions-seeking-data-view--docs) — The "Overview" component.
+- [Item view](../?path=/docs/actions-seeking-item-view--docs) — The "Detail" component.
+- [Malleability](../?path=/docs/qualities-malleability--docs) — The capability to switch between topologies.

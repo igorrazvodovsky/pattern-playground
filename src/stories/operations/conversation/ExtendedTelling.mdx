@@ -1,0 +1,42 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Operations/Conversation/Conversational activities/Extended telling" tags={['activity-level:operation', 'atomic:primitive']} />
+
+> 😊 **Fun meter: 3/5**. Looking for useful building blocks for conversational UI.
+
+# Extended telling
+
+The bot delivers a multi-part telling (e.g., instructions, narrative, explanation).
+
+Extended telling commonly appears in [instruction-based dialogue](../?path=/docs/activities-conversation--docs#instruction-based-dialogue).
+
+## Sequence
+
+1. Announce scope & parts: “I’ll walk you through [topic].”
+2. For each step
+   - Bot utterance with core content.
+   - Support moves (available on demand), e.g. repeat, paraphrase, give an example, or define any key term used.
+   - Advance rule: move to the next step only on a **continuer** (e.g. “OK”, “next”, “go on”, “mm-hmm”, 👍).
+   - Interrupt rule: if the user gives a *new intent* (e.g., asks “why?”, changes topic/parameters: “use method B”), *pause* *extended telling* and:
+      - handle the clarification as *repair* within *extended telling*, or
+      - collect new data via *bot inquiry*, or
+      - switch to *open request* for a new task.
+3. Closing step: recap, offer an artifact, and propose next steps.
+
+## Guidance
+- Keep each bot utterance short; move detail to *paraphrase* and *example*. TODO: needs alignment with user preference.
+- Provide a **progress indicator** and allow “skip/back/stop” at any step.
+
+## Repair Affordances
+- Repeat, paraphrase, example, definition at each step.
+- Allow *jump-to-step* and quick exit to other activities.
+
+## Metrics
+- Step completion/abort rates; dwell time per step.
+- Repair distribution (which steps cause trouble).
+
+## Related patterns
+
+- [Conversation](../?path=/docs/activities-conversation--docs) — parent pattern; extended telling is a primitive for instruction-based dialogue
+- [Opening (Bot)](../?path=/docs/operations-conversation-conversation-management-opening-bot--docs) — offered as an alternative to immediate engagement on user refusal
+- [User repair](../?path=/docs/operations-conversation-sequence-management-user-repair--docs) — extended telling is the fallback when simple paraphrase or definition fails to resolve confusion

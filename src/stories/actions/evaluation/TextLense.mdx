@@ -1,0 +1,48 @@
+import { Canvas, Story, Meta, Subtitle } from '@storybook/addon-docs/blocks';
+import * as BubbleMenuStories from '../coordination/BubbleMenu.stories.tsx';
+
+<Meta title="Actions/Evaluation/Text lens" tags={['activity-level:action', 'atomic:pattern', 'lifecycle:evaluation']} />
+
+> 🙂 **Fun meter: 5/5**. A part of a bigger attempt to map LLM-related patterns.
+
+# Text lens
+
+Applying different lenses to view and modify text content. Actors can switch between different perspectives to transform how content is presented:
+
+**Magnifying lens:** Adjust detail level
+- Zoom out: summarisation
+- Zoom in: elaboration or expansion
+
+**Filter lens:** Shift tone and style
+- Formal ↔ casual
+- Technical ↔ accessible
+- Assertive ↔ diplomatic
+
+## User control
+
+Text lenses can be applied with varying degrees of user control:
+- Direct control: Users explicitly select and apply specific lens types
+- Contextual suggestions: System recommends appropriate lenses based on content or context
+- Automatic application: Lenses applied based on user preferences or situational needs
+
+## Examples
+
+### Interactive text transformation
+
+The [Bubble menu](../?path=/docs/actions-coordination-bubble-menu--docs) pattern demonstrates text lens application through text selection and transformation.
+Users can select text and apply different lenses using AI-powered tools to modify content presentation at granular levels.
+
+<Story of={BubbleMenuStories.TextLense} />
+
+## Related patterns
+- [Conversation](../?path=/docs/activities-conversation--docs): Filter lenses implement the conversational maxims of manner and politeness by adapting tone and clarity for different contexts
+- Combined with *citations*, summaries let you capture key takeaways from a long document and then go deeper into the content that are relevant to you
+- Combined with *synthesis*, summaries can take multiple inputs such as an email thread and capture the main ideas
+- Combined with *workflow*, summaries can be added automatically to specific objects
+- [Progressive disclosure](../?path=/docs/actions-seeking-progressive-disclosure--docs): Lenses support revealing or concealing information based on user needs
+- [Localization](../?path=/docs/activities-localization--docs) — tone adjustment with cultural bounds
+{/* - Contextual assistance: AI-powered suggestions for appropriate lens selection based on content and situation */}
+
+## Resources & references
+
+- [NN/g / Accordion editing](https://www.nngroup.com/articles/accordion-editing-apple-picking/)

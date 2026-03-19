@@ -1,0 +1,22 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks';
+import * as DialogStories from './Dialog.stories.tsx';
+
+<Meta title="Actions/Application/Dialog" tags={['activity-level:action', 'atomic:component', 'lifecycle:application']} />
+
+> 🥱 **Fun meter: boring**. This is more or less the standard way of doing things. Included as a prerequisite for more interesting things.
+
+# Dialog
+
+<Story of={ DialogStories.Default } />
+
+## Scrolling
+By design, a dialog’s height will never exceed that of the viewport. As such, dialogs will not scroll with the page ensuring the header and footer are always accessible to the user.
+
+<Story of={ DialogStories.Scrolling } />
+
+
+## Related patterns
+
+Dialog is one of the ways to implement a `TODO:` mode. There is also significant overlap between it, [popover](../?path=/docs/operations-popover--docs) and [drawer](../?path=/docs/actions-application-drawer--docs).
+
+A dialog can be used for presenting critical [notifications](./?path=/docs/actions-coordination-notification--docs) that require user action.

@@ -1,0 +1,81 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+import * as LLMPromptStories from './Prompt.stories.tsx';
+
+<Meta title="Activities/Prompt" of = { LLMPromptStories } tags={['activity-level:activity', 'atomic:pattern']} />
+
+> 🙂 **Fun meter: 5/5**. A part of a bigger attempt to map LLM-related patterns.
+
+# Prompt
+
+An input for a [bot](../?path=/docs/activities-bot--docs).
+
+<Story of={ LLMPromptStories.Basic } />
+
+## Intent
+
+explicit and implicit...
+
+## Input mechanisms
+
+### Structured prompt
+
+<Story of={ LLMPromptStories.PromptTemplate } />
+
+## Reference materials with @mentions
+
+Using @mentions to reference documents, images, code, and other materials provides context for better LLM responses.
+
+<Story of={ LLMPromptStories.WithMaterialReferences } />
+
+## Prompt guidance and scaffolding
+
+Bridging the gap between fuzzy idea inside a human's head and what makes an effective prompt for LLMs.
+
+### Quality feedback
+
+<Story of={ LLMPromptStories.QualityFeedback } />
+
+### Editing assistance
+
+### Templates
+
+...
+
+### Suggestions
+
+...
+
+### Prompt evaluation
+
+...
+
+### Reflective prompting
+
+{/* TODO: Here or in suggestions+link */}
+Real-time, context-aware prompt completions derived dynamically from users’ immediate and historical interactions.
+
+## Related patterns
+
+### Precursor patterns
+
+- [Agency](../?path=/docs/qualities-agency--docs) – enables proactive prompt assistance and scaffolding.
+- [Bot](../?path=/docs/activities-bot--docs) – a thing that gets prompted.
+- [Suggestion](../?path=/docs/actions-application-suggestion--docs) can provide an initial prompt.
+- session, thread, etc.
+
+### Follow-up patterns
+
+- [Settings](../?path=/docs/activities-ai-tuning--docs) let users refine the way LLM gets prompted.
+- [Generated content](../?path=/docs/activities-generated-content--docs) – what (and how) user gets from the model.
+- [Collaboration](../?path=/docs/activities-collaboration--docs) – LLM prompts enable effective human-to-AI communication in collaborative contexts
+
+{/* ### Complementary patterns */}
+
+{/* - LLM model selection */}
+{/* - [Messaging](../?path=/docs/actions-coordination-messaging--docs) */}
+{/* - [Suggestion](../?path=/docs/actions-application-suggestion--docs) */}
+
+## Resources & references
+
+- [shapeof.ai](https://www.shapeof.ai/)
+- [aiuxpatterns.com](https://aiuxpatterns.com/)

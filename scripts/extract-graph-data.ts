@@ -5,7 +5,8 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = join(__dirname, '..');
 const storiesDir = join(rootDir, 'src/stories');
-const outputPath = join(rootDir, 'src/stories/data/pattern-graph.json');
+const outputPath = join(rootDir, 'src/pattern-graph.json');
+const activityLevelsPath = join(rootDir, 'src/stories/data/activity-levels.json');
 
 interface Node {
   id: string;
@@ -19,9 +20,16 @@ interface Edge {
   target: string;
 }
 
+interface ActivityLevel {
+  'activity-level': string;
+  'lifecycle-stage': string | null;
+  'atomic-category': string;
+}
+
 function globMdx(dir: string): string[] {
   const results: string[] = [];
   for (const entry of readdirSync(dir)) {
+    if (entry === '.obsidian') continue;
     const full = join(dir, entry);
     if (statSync(full).isDirectory()) {
       results.push(...globMdx(full));
@@ -57,26 +65,49 @@ function titleToId(title: string): string {
 function titleToCategory(title: string): string {
   const first = title.split('/')[0].replace(/\*/g, '').trim();
   const map: Record<string, string> = {
-    'Foundations': 'Foundations',
-    'Primitives': 'Primitives',
-    'Components': 'Components',
+    // AT hierarchy (new)
+    'Operations':   'Operations',
+    'Actions':      'Actions',
+    'Activities':   'Activities',
+    // Cross-cutting (unchanged)
+    'Foundations':  'Foundations',
+    'Qualities':    'Qualities',
+    // Legacy (kept for backward compatibility during transition)
+    'Primitives':   'Primitives',
+    'Components':   'Components',
     'Compositions': 'Compositions',
-    'Patterns': 'Patterns',
-    'Qualities': 'Qualities',
+    'Patterns':     'Patterns',
     'Data visualization': 'Data Visualisation',
-    'Visual elements': 'Visual Elements',
+    'Visual elements':    'Visual Elements',
   };
   return map[first] ?? first;
 }
 
+/** Extract title= from a <Meta title="..."> tag. */
 function extractMetaTitle(content: string): string | null {
-  const match = content.match(/<Meta\s+title=['"]([^'"]+)['"]\s*\/>/);
-  return match ? match[1] : null;
+  const m = content.match(/<Meta\b[^>]*title=['"]([^'"]+)['"]/);
+  return m ? m[1] : null;
+}
+
+/** Extract tags={[...]} values from a <Meta> tag. */
+function extractMetaTags(content: string): string[] {
+  const m = content.match(/<Meta\b[^>]*tags=\{(\[[^\]]*\])\}/);
+  if (!m) return [];
+  // Parse array like ['foo', 'bar', "baz"]
+  const raw = m[1];
+  return [...raw.matchAll(/['"]([^'"]+)['"]/g)].map((r) => r[1]);
 }
 
 function extractStoriesTitle(content: string): string | null {
-  const match = content.match(/title:\s*['"]([^'"]+)['"]/);
-  return match ? match[1] : null;
+  const m = content.match(/^\s*title:\s*['"]([^'"]+)['"]/m);
+  return m ? m[1] : null;
+}
+
+/** Extract tags: [...] from a .stories.tsx default export object. */
+function extractStoriesTags(content: string): string[] {
+  const m = content.match(/^\s*tags:\s*(\[[^\]]*\])/m);
+  if (!m) return [];
+  return [...m[1].matchAll(/['"]([^'"]+)['"]/g)].map((r) => r[1]);
 }
 
 function extractLinks(content: string): string[] {
@@ -89,8 +120,26 @@ function extractLinks(content: string): string[] {
   return ids;
 }
 
+/** Derive activity level and lifecycle stage from a title path. */
+function deriveActivityLevel(title: string): Pick<ActivityLevel, 'activity-level' | 'lifecycle-stage'> {
+  const parts = title.split('/');
+  const top = parts[0];
+  if (top === 'Operations') return { 'activity-level': 'operation', 'lifecycle-stage': null };
+  if (top === 'Actions') {
+    const stage = parts[1]?.toLowerCase().replace(/\s+/g, '-') ?? null;
+    const validStages = ['seeking', 'evaluation', 'sense-making', 'application', 'coordination', 'conversation'];
+    return {
+      'activity-level': 'action',
+      'lifecycle-stage': validStages.includes(stage ?? '') ? stage : null,
+    };
+  }
+  if (top === 'Activities') return { 'activity-level': 'activity', 'lifecycle-stage': null };
+  return { 'activity-level': 'cross-cutting', 'lifecycle-stage': null };
+}
+
 const nodeMap = new Map<string, Node>();
 const fileLinks = new Map<string, string[]>();
+const activityData = new Map<string, ActivityLevel>();
 
 // --- Process MDX files ---
 const mdxFiles = globMdx(storiesDir).filter(
@@ -127,6 +176,21 @@ for (const filePath of mdxFiles) {
     nodeMap.set(id, { id, title: shortTitle, category: cat, path });
   }
 
+  // Extract AT metadata from tags (or derive from title)
+  const tags = extractMetaTags(content);
+  const atLevelTag = tags.find((t) => t.startsWith('activity-level:'));
+  const atomicTag = tags.find((t) => t.startsWith('atomic:'));
+  const lifecycleTag = tags.find((t) => t.startsWith('lifecycle:'));
+
+  const derived = deriveActivityLevel(title);
+  const atomicCategory = atomicTag ? atomicTag.split(':')[1] : category.toLowerCase();
+
+  activityData.set(id, {
+    'activity-level': atLevelTag ? atLevelTag.split(':')[1] : derived['activity-level'],
+    'lifecycle-stage': lifecycleTag ? lifecycleTag.split(':')[1] : derived['lifecycle-stage'],
+    'atomic-category': atomicCategory,
+  });
+
   const links = extractLinks(content);
   if (links.length > 0) {
     fileLinks.set(id, links);
@@ -159,6 +223,19 @@ for (const filePath of globStoriesTsx(storiesDir)) {
   if (!nodeMap.has(id)) {
     nodeMap.set(id, { id, title: shortTitle, category: cat, path });
   }
+
+  if (!activityData.has(id)) {
+    const tags = extractStoriesTags(content);
+    const atLevelTag = tags.find((t) => t.startsWith('activity-level:'));
+    const atomicTag = tags.find((t) => t.startsWith('atomic:'));
+    const lifecycleTag = tags.find((t) => t.startsWith('lifecycle:'));
+    const derived = deriveActivityLevel(title);
+    activityData.set(id, {
+      'activity-level': atLevelTag ? atLevelTag.split(':')[1] : derived['activity-level'],
+      'lifecycle-stage': lifecycleTag ? lifecycleTag.split(':')[1] : derived['lifecycle-stage'],
+      'atomic-category': atomicTag ? atomicTag.split(':')[1] : cat.toLowerCase(),
+    });
+  }
 }
 
 // --- Build edges ---
@@ -183,7 +260,20 @@ const output = { nodes, edges };
 
 writeFileSync(outputPath, JSON.stringify(output, null, 2));
 
+// --- Write activity-levels.json (generated, supersedes the hand-authored version) ---
+const activityLevelsNodes: Record<string, ActivityLevel> = {};
+for (const node of nodes) {
+  const data = activityData.get(node.id);
+  if (data) activityLevelsNodes[node.id] = data;
+}
+const activityLevelsOutput = {
+  _note: 'Generated by scripts/extract-graph-data.ts — do not edit by hand. Source of truth is each story file\'s Meta tags.',
+  nodes: activityLevelsNodes,
+};
+writeFileSync(activityLevelsPath, JSON.stringify(activityLevelsOutput, null, 2));
+
 console.log(`Nodes: ${nodes.length}`);
 console.log(`Edges: ${edges.length}`);
 console.log(`Categories: ${[...new Set(nodes.map((n) => n.category))].sort().join(', ')}`);
 console.log(`Output: ${outputPath}`);
+console.log(`Activity levels: ${activityLevelsPath}`);

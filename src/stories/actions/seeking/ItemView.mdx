@@ -1,0 +1,94 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import * as ItemViewStories from './ItemView.stories.tsx';
+import { Reference } from '../../operations/Reference.stories.tsx';
+import { SimpleTable } from '../evaluation/Table.stories.tsx';
+
+<Meta title="Actions/Seeking/Item view" of = { ItemViewStories } tags={['activity-level:action', 'atomic:composition', 'lifecycle:seeking']} />
+
+> 🙂 **Fun meter: 4/5**. Flexibility in displaying an entity enables a lot of emergent behaviour and contextual adaptation.
+
+# Item view
+
+Single-entity representation within the [view system](../?path=/docs/foundations-view-system--docs).
+Both system and user-defined items can be represented in progressively richer forms, enabling fluid navigation between granularities depending on task needs, without losing orientation or recognition.
+
+## User needs
+
+- People need to *recognise* an entity wherever it appears, but they don’t always need all of its details.
+- They want to stay in the *flow of their current task*, but sometimes they must shift into deep focus.
+- Entities must sometimes act as *links to other places*, and sometimes as *self-sufficient centres of work*.
+
+## Semantic level
+Item representation is the combination of semantic level and UI element.
+
+### Reference
+- Purpose: identify and link to items
+- Data: name, type
+- Interaction: navigation
+
+### Summary
+- Purpose: quick assessment and comparison without leaving current task
+- Data: key attributes, status, recent activity
+- Interaction: navigation, actions for common operations
+
+### Detail
+- Purpose: inspection of most important information while maintaining context
+- Data: relevant details for current task
+- Interaction: editing, navigate to full page
+
+### Full
+- Purpose: Complete focus on single item
+- Data: All data, history, relationships
+- Interaction: editing, analysis, management
+
+## UI element
+- Inline: within text or structured UI.
+- Contextual overlay: popover, hovercard.
+- Transient container: modal, drawer, side panel.
+- Dedicated view: section, panel, page, workspace, tab.
+{/* TODO: Children of inline? */}
+{/* - List: Sequential items in feeds or search results */}
+{/* - Grid: Card-based layouts for visual browsing */}
+{/* - Table: Data-dense views with sortable columns */}
+{/* - Canvas: Spatial arrangements with relationships */}
+{/* - Text: Inline references within documents */}
+
+## Examples
+
+### Reference as @mention + detail modal
+
+<Story of = { Reference } />
+
+### Reference as tag
+
+TODO:
+
+### Summary as list item {/* TODO: + drawer */}
+
+<Story of = { SimpleTable } />
+
+### Full view
+
+<Story of = { ItemViewStories.Page } />
+
+## Transitions
+
+Item views support fluid navigation through semantic levels:
+
+**Reference → summary:** Hover over inline reference reveals summary in popover
+**Summary → detail:** Click table row to expand detail panel or open modal
+**Detail → full:** Navigate from modal to dedicated page view
+**Full → collection:** Return to parent collection view ([data view](../?path=/docs/actions-seeking-data-view--docs))
+
+These transitions preserve context and maintain recognition of the entity across representations.
+
+## Related patterns
+
+- [View](../?path=/docs/foundations-view-system--docs) - Conceptual framework for need-driven framings
+- [Semantic zoom](../?path=/docs/actions-application-semantic-zoom--docs) - Density-preserving transitions between granularities
+- [Data view](../?path=/docs/actions-seeking-data-view--docs) - Collection-scope counterpart
+- [Reference](../?path=/docs/operations-reference--docs)
+- [Progressive disclosure](../?path=/docs/actions-seeking-progressive-disclosure--docs)
+- [Dialog](../?path=/docs/actions-application-dialog--docs) & [drawer](../?path=/docs/actions-application-drawer--docs)
+- [Card](../?path=/docs/actions-sensemaking-card--docs) – summary-level item representations
+{/* - Information scent: Each level provides cues about deeper content */}

@@ -1,0 +1,73 @@
+{/* TODO: examples of agency? */}
+
+import { Canvas, Story, Meta, Subtitle } from '@storybook/addon-docs/blocks';
+import * as MessagingStories from './Messaging.stories.tsx';
+
+<Meta title="Actions/Coordination/Messaging" of = { MessagingStories } tags={['activity-level:action', 'atomic:composition', 'lifecycle:coordination']} />
+
+> 🙂 **Fun meter: 3/5**. Dependency.
+
+# Messaging
+
+{/* TODO: replacing with 'actors?' */}
+Real-time and asynchronous text-based [conversations](../?path=/docs/activities-conversation--docs) between people and [machines](../?path=/docs/activities-bot--docs).
+
+## Human ↔︎ Human
+
+<Story of={ MessagingStories.HumanToHumanChat } />
+
+## Human ↔︎ [LLM](../?path=/docs/activities-bot--docs)
+
+<Story of={ MessagingStories.HumanToLLM } />
+
+## Anatomy
+
+### Message
+
+#### Variants
+
+With and without avatar, only avatar, ...
+
+### Message composer
+
+...
+
+## Branching & threading
+
+{/* 1. conversation branching: user can switch between branches using the arrow navigation buttons. */}
+{/* 2. thereading via replies */}
+
+...
+
+## Outlining
+
+TODO: Collapsing/expanding the question-answer pairs or other identifiable conversation blocks.
+
+## Error handling
+
+...
+
+## Content visibility
+
+...
+
+## Examples
+
+### Group chat
+
+### Chatbot
+
+### Comment thread
+
+<Story of={ MessagingStories.HumanToHumanComments } />
+
+{/* ### Code  */}
+
+## Related patterns
+<div>
+- [Bot](../?path=/docs/activities-bot--docs) – conversation partner
+- [Conversation](../?path=/docs/activities-conversation--docs) – conversation structure
+- [Formality](../?path=/docs/qualities-formality--docs) – messaging is a low-formality input context; structure can emerge gradually from conversation
+{/* - *Notifications* often trigger users to start or respond to messaging interactions. */}
+{/* - Messaging is often an entry point for automating follow-up *tasks* based on conversational decisions. */}
+</div>

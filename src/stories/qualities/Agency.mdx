@@ -54,7 +54,7 @@ Passive → Reactive → Semi-active → Proactive → Co-operative
 - Proactive: System initiates actions and introduces insights based on analysis.
 - Co-operative: System collaborates as equal partner in problem-solving.
 
-Agency patterns may shift across different contexts and stages. For example, in collaborative workflows, a system might operate reactively during initial input gathering, shift to co-operative during refinement, and become semi-active during final evaluation. See [Collaboration](../?path=/docs/patterns-collaboration--docs#human--bot) for how these agency patterns shift across interaction stages in human-AI co-creation.
+Agency patterns may shift across different contexts and stages. For example, in collaborative workflows, a system might operate reactively during initial input gathering, shift to co-operative during refinement, and become semi-active during final evaluation. See [Collaboration](../?path=/docs/activities-collaboration--docs#human--bot) for how these agency patterns shift across interaction stages in human-AI co-creation.
 
 As system agency increases, preserving user agency becomes more critical to maintain user control and prevent skill atrophy. Each level requires increasing trust between user and system, with co-operative modes demanding the highest levels of mutual understanding and shared mental models.
 
@@ -178,22 +178,22 @@ At the  level, basic elements provide limited to no agency.
 They're tightly constrained, predictable, and dependable—ensuring everything stays
 visually and contextually coherent.
 
-### [Primitives](../?path=/docs/primitives-overview--docs) and [components](../?path=/docs/components-overview--docs)
+### [Operations](../?path=/docs/operations-overview--docs)
 
-Assistance—like [setting a default value](../?path=/docs/patterns-good-defaults--docs)—is probably the most typical example of agency on this level.
+Assistance—like [setting a default value](../?path=/docs/operations-good-defaults--docs)—is probably the most typical example of agency on this level.
 Primitives can also be dynamically arranged, selected, or shown based on context.
-A [toolbar](../?path=/docs/components-toolbar--docs) might offer precisely relevant actions in response to user intent,
+A [toolbar](../?path=/docs/actions-coordination-toolbar--docs) might offer precisely relevant actions in response to user intent,
 actively supporting the user's immediate goals without straying too far from familiar interactions.
 
-### [Compositions](../?path=/docs/compositions-overview--docs)
-[Messages](../?path=/docs/compositions-messaging--docs) or product [cards](../?path=/docs/compositions-card--docs)—can carry greater agency.
-They intelligently package sets of components into meaningful units. With increased agency, compositions can adapt themselves dynamically,
-appearing precisely where and when users need them, leveraging context.
+### [Actions](../?path=/docs/actions-overview--docs)
+[Messages](../?path=/docs/actions-coordination-messaging--docs) or product [cards](../?path=/docs/actions-sensemaking-card--docs) can carry greater agency.
+They intelligently package sets of operations into meaningful units. With increased agency, actions can adapt themselves dynamically,
+appearing precisely where and when actors need them, leveraging context.
 
-### [Patterns](../?path=/docs/patterns-overview--docs)
-Patterns can adapt and reshape themselves strategically to construct the flow of
-an interface and to actively guide the user. [Explanations](../?path=/docs/patterns-explanation--docs), [suggestions](../?path=/docs/patterns-suggestion--docs), or [dynamically
-arranged sections](../?path=/docs/patterns-focus-and-context--docs) respond proactively, anticipating user needs and creating experiences that feel
+### [Activities](../?path=/docs/activities-overview--docs)
+Activities can adapt and reshape themselves strategically to construct the flow of
+an interface and to actively guide the actor. [Explanations](../?path=/docs/actions-sensemaking-explanation--docs), [suggestions](../?path=/docs/actions-application-suggestion--docs), or [dynamically
+arranged sections](../?path=/docs/actions-evaluation-focus-and-context--docs) respond proactively, anticipating needs and creating experiences that feel
 coherent, intentional, and responsive.
 
 ## Balancing system and user agency
@@ -201,7 +201,7 @@ coherent, intentional, and responsive.
 - Mental model shift: Designing agentive software requires viewing software as an active participant rather than passive tool.
 - Delegation vs control: Strike a balance between leveraging system capabilities and maintaining user oversight. Users should retain the ability to review, modify, and make final decisions.
 - Preserving expertise: Protect user domain knowledge by ensuring meaningful engagement with tasks. Complete delegation can lead to skill atrophy and loss of critical judgement.
-- Cognitive engagement paradox: Whilst reducing mental effort seems beneficial, [appropriate cognitive](../?path=/docs/patterns-conversation--docs#question-driven-dialogue) load maintains higher perceived ownership, deeper elaboration, sustained skill development, and protection against [algorithmic loafing](../?path=/docs/patterns-bot--docs#anti-patterns).
+- Cognitive engagement paradox: Whilst reducing mental effort seems beneficial, [appropriate cognitive](../?path=/docs/activities-conversation--docs#question-driven-dialogue) load maintains higher perceived ownership, deeper elaboration, sustained skill development, and protection against [algorithmic loafing](../?path=/docs/activities-bot--docs#anti-patterns).
 - Efficiency vs understanding: Users may want quick task completion or deeper domain comprehension. Systems should support both modes and let users signal which they need. Forcing learning when efficiency is wanted creates friction; offering only efficiency when understanding is wanted misses opportunity.
 - Transparency: System decisions should be explainable and understandable to maintain user trust and enable informed intervention.
 - Graceful degradation: When system agency fails, users should be able to seamlessly take control without losing context or progress.
@@ -210,7 +210,7 @@ coherent, intentional, and responsive.
 
 - AX: agent experience
 - Relies on [adaptability](../?path=/docs/qualities-adaptability--docs)
-- [Bot patterns](../?path=/docs/patterns-bot--docs) demonstrate different agency levels through interaction modes
+- [Bot patterns](../?path=/docs/activities-bot--docs) demonstrate different agency levels through interaction modes
 
 ## Resources & references
 

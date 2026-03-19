@@ -1,0 +1,117 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { MermaidDiagram } from '../../components/MermaidDiagram';
+
+<Meta title="Activities/Localization" tags={['activity-level:activity', 'atomic:pattern']} />
+
+> 🙂 **Fun meter: 3/5**. Mapping out the basics.
+
+# Localization
+
+The orchestration concern that re-tunes interface when context shifts across linguistic, cultural, or regional boundaries.
+Every pattern in the system carries implicit assumptions about language, culture, and convention.
+
+## Layers
+
+### Linguistic
+
+Surface text: translation, plural rules, grammatical gender, script direction.
+{/* Text expansion and contraction have direct layout consequences — German compound nouns run 30–40% longer than English equivalents; Chinese often contracts. Controlled vocabularies from [information architecture](../?path=/docs/foundations-information-architecture--docs) need locale-specific variants, not word-for-word translation. Tone shifts documented in the [text lens](../?path=/docs/actions-evaluation-text-lens--docs) may lack clean equivalents across languages — English "friendly casual" doesn't map to Japanese keigo registers. */}
+
+### Cultural
+
+Communication directness (high-context vs low-context cultures), formality expectations, colour and iconography symbolism, culturally-situated mental models.
+
+### Regional
+
+Date, time, number, currency, and address formats. Measurement units. First day of week. Legal and regulatory requirements (GDPR, data residency, accessibility mandates). Links to [data entry](../?path=/docs/actions-application-data-entry--docs) (forgiving format parsing), [good defaults](../?path=/docs/operations-good-defaults--docs) (smart defaults from location), [settings](../?path=/docs/actions-application-settings--docs) (language and timezone preferences), [privacy](../?path=/docs/qualities-privacy--docs).
+
+{/* ## Locale resolution */}
+{/* How the system determines locale: browser signal → account setting → URL parameter → explicit selection. */}
+{/* The cascade should be transparent — actors should understand *why* the interface appears in a given language and how to change it. */}
+
+{/* ## Format adapters */}
+{/* Data display adjusting to locale — dates, numbers, currencies rendered through locale-aware formatters rather than hardcoded patterns. The same underlying value appears differently depending on context. Links to [data entry](../?path=/docs/actions-application-data-entry--docs). */}
+
+{/* ## Layout response */}
+{/* Accommodating text expansion (German, Finnish), contraction (Chinese, Korean), RTL script direction (Arabic, Hebrew), and content density variation. Layout must flex without breaking hierarchy or truncating meaning. */}
+
+## Variants
+
+### Full localisation
+
+All four layers adapted — linguistic, cultural, regional, contextual. Reserved for areas where investment justifies the depth. Requires ongoing maintenance as language evolves and cultural norms shift.
+
+### Partial localisation
+
+Translate the interface, format the data, defer deeper cultural adaptation.
+
+### Community localisation
+
+Actor-contributed translations. Requires review workflows, quality thresholds, and attribution. See also [collaboration](../?path=/docs/activities-collaboration--docs).
+
+### Machine-assisted localisation
+
+Bot-generated translations (with human review). Quality varies by language pair and domain. See also [generated content](../?path=/docs/activities-generated-content--docs).
+
+## Accessibility
+
+- `lang` attributes on elements signal language to screen readers, enabling correct pronunciation and hyphenation
+- RTL/LTR is both a localisation and accessibility concern
+- Translation quality directly affects plain language thresholds — a well-written English interface can become inaccessible in a poorly translated locale
+
+## Decision tree
+
+<MermaidDiagram chart={`
+flowchart TD
+    A{Used across language boundaries?} -->|Yes| B[Linguistic layer required]
+    B --> C{Same cultural context?}
+    C -->|"Yes (e.g., en-GB vs en-US)"| D[Regional layer only]
+    C -->|No| E[Cultural + regional layers]
+    E --> F{AI/bot present?}
+    F -->|Yes| G[Contextual layer too]
+    F -->|No| H[Linguistic + cultural + regional]
+
+    A -->|No| I{Used across regional boundaries?}
+    I -->|Yes| D
+    I -->|No| J[Not needed at pattern level]
+`} />
+
+## Related patterns
+
+### Precursors
+- [Information architecture](../?path=/docs/foundations-information-architecture--docs) — controlled vocabularies and label strategies that localization must adapt
+- [Settings](../?path=/docs/actions-application-settings--docs) — language, timezone, and format preferences
+- [Good defaults](../?path=/docs/operations-good-defaults--docs) — locale detection and sensible starting configuration
+
+### Follow-ups
+- [Data entry](../?path=/docs/actions-application-data-entry--docs) — locale-aware input parsing and format tolerance
+- [Notification](../?path=/docs/actions-coordination-notification--docs) — localised message content, timing conventions
+- [Conversation](../?path=/docs/activities-conversation--docs) — dialogue structure adapted to communication norms
+- [Generated content](../?path=/docs/activities-generated-content--docs) — locale-native generation
+- [Help](../?path=/docs/activities-help--docs) — localised documentation and support content
+
+### Complementary
+- [Adaptability](../?path=/docs/qualities-adaptability--docs) — the capacity that localization exercises
+- [AI tuning](../?path=/docs/activities-ai-tuning--docs) — locale as a generation parameter
+- [Onboarding](../?path=/docs/activities-onboarding--docs) — first-run locale detection and selection
+- [Shareability](../?path=/docs/qualities-shareability--docs) — locale-aware URLs and shared content
+
+### Tangentially related
+- [Privacy](../?path=/docs/qualities-privacy--docs) — data residency, GDPR, locale-specific regulation
+- [Temporality](../?path=/docs/qualities-temporality--docs) — timezone handling, date format conventions
+- [Density](../?path=/docs/qualities-density--docs) — text expansion affecting information density
+- [Learnability](../?path=/docs/qualities-learnability--docs) — learning curves differ across localised interfaces
+- [Collaboration](../?path=/docs/activities-collaboration--docs) — multilingual team dynamics
+- [Workspace](../?path=/docs/activities-workspace--docs) — per-actor locale in shared spaces
+- [Suggestion](../?path=/docs/actions-application-suggestion--docs) — locale mismatch prompts
+- [Bot](../?path=/docs/activities-bot--docs) — multilingual interaction
+- [Explanation](../?path=/docs/actions-sensemaking-explanation--docs) — culturally appropriate explanation styles
+
+## Resources & references
+
+- [W3C Internationalization Activity](https://www.w3.org/International/) — technical standards for web internationalisation
+- GOV.UK / [How we improved translations on GOV.UK](https://insidegovuk.blog.gov.uk/2022/02/09/how-we-improved-translations-on-gov-uk/)
+- Figma / [Behind the scenes: international keyboard shortcuts](https://www.figma.com/blog/behind-the-scenes-international-keyboard-shortcuts/) — keyboard layout variation across locales
+- Nielsen Norman Group / [International user research](https://www.nngroup.com/topic/international-users/) — research on cross-cultural usability
+- [High-context and low-context cultures](https://en.wikipedia.org/wiki/High-context_and_low-context_cultures)
+- Hofstede, G., Hofstede, G.J. & Minkov, M. (2010) *Cultures and Organizations: Software of the Mind* — cultural dimensions model

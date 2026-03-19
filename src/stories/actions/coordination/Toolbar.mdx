@@ -1,0 +1,38 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import * as ToolbarStories from './Toolbar.stories.tsx';
+
+<Meta title="Actions/Coordination/Toolbar" of = { ToolbarStories } tags={['activity-level:action', 'atomic:composition', 'lifecycle:coordination']} />
+
+> 🙂 **Fun meter: 3/5**. Dependency.
+
+# Toolbar
+
+Convenient access to frequently used commands, controls, navigation, and search that allow users to manage and manipulate a data set.
+
+<Story of={ ToolbarStories.Toolbar } />
+
+## Context
+
+Options presented in the toolbar can depend on the context and state of the parent component. Things that are not applicable in the parent’s state can be hidden. For example, if the parent is empty the user will have different needs compared with a full state.
+
+## Order
+
+Things inside toolbars are consistently ordered so that users can easily find things across different features and applications.
+
+Features should be sorted in order of importance. Secondarily, features should be organized in logical groupings for easier recall.
+
+{/* ## Item groupings */}
+
+{/* - Start:  */}
+{/* - End: important items that need to remain available, an optional search field, and the More menu that contains additional items. It also includes a primary action when one exists. */}
+
+## Related patterns
+
+- [Priority+](../?path=/docs/actions-coordination-priority--docs) — handles overflow when toolbar items don't fit the available space
+- [Command menu](../?path=/docs/actions-seeking-command-menu--docs) — a keyboard-driven complement; exposes the full command set on demand where the toolbar exposes a persistent subset
+- [Unavailable actions](../?path=/docs/operations-unavailable-actions--docs) — the pattern behind hiding toolbar items that are inaccessible in the current context
+
+{/* # Resources & references */}
+
+{/* - https://developer.apple.com/design/human-interface-guidelines/toolbars */}
+{/* https://www.patternfly.org/components/toolbar/design-guidelines/ */}

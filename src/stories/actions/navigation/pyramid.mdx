@@ -1,0 +1,44 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Actions/Navigation/Pyramid" tags={['activity-level:action', 'atomic:composition', 'lifecycle:seeking']} />
+
+> 🗺️ **Fun meter: 2/5**. Mapping out the basics.
+
+# Pyramid
+
+Hub page lists an entire sequence of items. Actors select any item and navigate through the sequence using back/next links, or return to hub anytime to jump to different positions.
+
+Named for its shape: a hub at the top, with individual items below, connected both to the hub and to one another in sequence. Very common for content sites publishing galleries, photo essays, tutorial sequences, and product showcases.
+
+## Behavioural position
+
+- [Browsing](../?path=/docs/foundations-intent-interaction--docs#browsing) — hub overview enables pattern recognition and scanning
+- [Navigating](../?path=/docs/foundations-intent-interaction--docs#navigating) — direct access via hub when target is known
+- Sequential progression via back/next when linear consumption is preferred
+
+## Variants
+
+- Gallery pyramid: Hub shows thumbnails, items are full images.
+- List pyramid: Hub shows titles/descriptions in list format.
+- Card pyramid: Hub shows rich cards with images, titles, descriptions.
+- Numbered pyramid: Hub explicitly numbers items, progress indication emphasised.
+
+
+## Related patterns
+
+### Complements
+- [Deep linking](../?path=/docs/operations-deep-linking--docs) — sharing and bookmarking items
+- Progress tracking and resume features
+- Image loading optimisation (lazy loading)
+- Breadcrumbs showing hub context
+
+### Alternatives
+- [Hybrid with filtering](../?path=/docs/actions-seeking-filtering--docs) for large collections
+- [Step by step](../?path=/docs/actions-navigation-step-by-step--docs) for strict sequences
+- [Multilevel tree](../?path=/docs/actions-navigation-multilevel-tree--docs) for hierarchical content
+- [Hub and spoke](../?path=/docs/actions-navigation-hub-and-spoke--docs) when items don't form sequences
+- TODO: Infinite scroll with anchors for very long sequences
+
+## Resources & references
+
+Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed.

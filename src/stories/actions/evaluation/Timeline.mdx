@@ -1,0 +1,28 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks';
+import * as TimelineStories from './Timeline.stories';
+
+<Meta of={TimelineStories} tags={['activity-level:action', 'atomic:component', 'lifecycle:evaluation']} />
+
+> **Fun meter: 3/5**. Dependency.
+
+# Timeline
+
+Presents a chronological record of events—past, present, and future.
+
+<Story of={ TimelineStories.Basic } />
+
+## Nested timelines
+
+<Story of={ TimelineStories.Nested } />
+
+## Orientation
+
+TODO: horizontal
+
+## Related patterns
+
+[Progress indicator](../?path=/docs/operations-progress-indicator--docs) is often integrated within timelines to clarify current or next states, enhancing comprehension of events as sequentially progressing.
+
+## Resources & references
+
+[Tinderbox / Timeline](https://www.eastgate.com/Tinderbox/updates/Tinderbox56.html)
