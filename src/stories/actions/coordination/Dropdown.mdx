@@ -1,0 +1,23 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import * as DropdownStories from './Dropdown.stories';
+
+<Meta of={DropdownStories} />
+
+> 🥱 **Fun meter: boring**. Included as a prerequisite for more interesting things.
+
+# Dropdown
+
+The reveal of a predefined set of options on demand, balancing compact layout with immediate access when the actor explicitly asks.
+
+<Story of={DropdownStories.Dropdown} />
+
+## Submenus
+
+<Story of={DropdownStories.DropdownWithSubmenus} />
+
+## Related patterns
+
+- [Popover](../?path=/docs/operations-popover--docs) — underlying positioning and light-dismiss behaviour
+- [Bubble menu](../?path=/docs/actions-coordination-bubble-menu--docs) — adds selection-awareness; dropdown provides the container, bubble menu determines *what* goes in it based on content selection
+- [Command menu](../?path=/docs/actions-seeking-command-menu--docs) — searchable alternative for large option sets
+- [Priority+](../?path=/docs/actions-coordination-priority--docs) — uses dropdown as overflow container for responsive layouts

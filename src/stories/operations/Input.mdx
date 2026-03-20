@@ -1,4 +1,4 @@
-import { Canvas, Controls, Description, Meta, Subtitle, Story } from '@storybook/addon-docs/blocks';
+import { Canvas, Controls, Description, Meta, Story } from '@storybook/addon-docs/blocks';
 import * as InputStories from './Input.stories.tsx';
 
 > 🥱 **Fun meter: boring**. This is more or less the standard way of doing things. Included as a prerequisite for more interesting things.
@@ -7,7 +7,7 @@ import * as InputStories from './Input.stories.tsx';
 
 <Meta title="Operations/Input" of = { InputStories } tags={['activity-level:operation', 'atomic:primitive']} />
 
-<Subtitle>Extends input with some useful extras.</Subtitle>
+Accept free-form text, giving the actor a place to supply information the system cannot infer.
 
 <Canvas>
   <Story of={ InputStories.Default } />

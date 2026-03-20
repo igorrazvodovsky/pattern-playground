@@ -7,6 +7,8 @@ import * as DialogStories from './Dialog.stories.tsx';
 
 # Dialog
 
+The interruption of a workflow to demand a focused decision, balancing urgency against disruption.
+
 <Story of={ DialogStories.Default } />
 
 ## Scrolling
@@ -17,6 +19,6 @@ By design, a dialog’s height will never exceed that of the viewport. As such, 
 
 ## Related patterns
 
-Dialog is one of the ways to implement a `TODO:` mode. There is also significant overlap between it, [popover](../?path=/docs/operations-popover--docs) and [drawer](../?path=/docs/actions-application-drawer--docs).
+Dialog is a [transient mode](../?path=/docs/foundations-intent-interaction--docs#modes) — it suspends the primary workflow to force a focused decision. There is also significant overlap between it, [popover](../?path=/docs/operations-popover--docs) and [drawer](../?path=/docs/actions-application-drawer--docs).
 
 A dialog can be used for presenting critical [notifications](./?path=/docs/actions-coordination-notification--docs) that require user action.

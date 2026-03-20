@@ -1,4 +1,4 @@
-import { Canvas, Story, Meta, Subtitle } from '@storybook/addon-docs/blocks';
+import { Canvas, Story, Meta } from '@storybook/addon-docs/blocks';
 import * as PriorityPlusStories from './PriorityPlus.stories.tsx';
 
 <Meta title="Actions/Coordination/Priority+" of = { PriorityPlusStories } tags={['activity-level:action', 'atomic:component', 'lifecycle:coordination']} />
@@ -7,11 +7,11 @@ import * as PriorityPlusStories from './PriorityPlus.stories.tsx';
 
 # Priority+
 
-<Subtitle>Shows elements that fit the container and tucks away everything else behind an dropdown.</Subtitle>
+The allocation of limited space to competing controls, balancing immediate access against visual simplicity.
 
 <Story of={ PriorityPlusStories.PriorityPlus } />
 
-Priority+ is a low-level utility that implements a [pattern](https://bradfrost.com/blog/post/complex-navigation-patterns-for-responsive-design/#priority-plus) of the same name and built specifically for making other components responsive. The assumption is that almost every usage of it will involve building other components. It should rarely, occur directly in HTML.
+Priority+ implements a [pattern](https://bradfrost.com/blog/post/complex-navigation-patterns-for-responsive-design/#priority-plus) of the same name: show elements that fit the container, tuck everything else behind a dropdown. Built specifically for making other components responsive — almost every usage involves building other components rather than appearing directly in markup.
 
 ## Supported components
 

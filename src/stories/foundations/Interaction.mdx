@@ -275,6 +275,30 @@ The system's contribution to intent resolution — testing readiness, scaffoldin
 
 Intent resolution is conversational: each turn is a bid to advance resolution. [Conversation](../?path=/docs/qualities-conversation--docs) covers the cooperative principles; [Temporality](../?path=/docs/qualities-temporality--docs) covers rhythm and pacing. For multi-actor coordination, see [Collaboration](../?path=/docs/activities-collaboration--docs).
 
+## Modes
+
+Same input, different outcome depending on a state the actor must remember. Design stance following Tesler and Raskin: prefer modeless; when unavoidable, make modes visible, escapable, and hard to forget.
+
+### Types
+
+*Persistent modes* remain active until explicitly dismissed — highest mode-error risk. Edit vs. view, or [focused vs. inline vs. ambient](../?path=/docs/activities-bot--docs) bot interaction.
+
+*Quasimodes* last only while a physical action is maintained (holding a modifier key, long-pressing). The body is the reminder. [Toggle mode in dynamic hyperlinks](../?path=/docs/actions-seeking-dynamic-hyperlinks--docs) is an example. Preferred for temporary mode shifts.
+
+*Transient modes* are system-imposed interruptions blocking the primary workflow (e.g. [dialog](../?path=/docs/actions-application-dialog--docs)).
+
+### Design considerations
+
+- *Visibility*: if discovering the current mode requires performing an action, the mode is invisible.
+- *Escapability*: cheap exit always. [Undo](../?path=/docs/operations-undo--docs) mitigates mode errors but doesn't excuse them.
+- *Scope*: narrow (single tool) safer than broad (all input).
+- *Promotion/demotion*: a frequently toggled [setting](../?path=/docs/actions-application-settings--docs) is a mode switch that belongs in the primary interface. A mode actors rarely leave may just be the default.
+- *[Agency](../?path=/docs/qualities-agency--docs)*: actor-initiated transitions are legible; system-initiated ones risk mode error.
+
+### Modes and intent resolution
+
+The navigation categories above — navigating, browsing, exploring, monitoring — are themselves modes of intent resolution, though transitions are typically fluid rather than discrete state switches. [Collaboration modes](../?path=/docs/foundations-collaboration--docs) and [temporal modes](../?path=/docs/qualities-temporality--docs) follow a similar pattern.
+
 ## Resources & references
 
 - Ramsden (2017) [model for navigation and information-seeking](https://danramsden.com/2017/01/27/model-navigation-information-seeking/)
@@ -283,3 +307,5 @@ Intent resolution is conversational: each turn is a bid to advance resolution. [
 - Ellis (1989). A behavioural approach to information retrieval design. Journal of Documentation, 45(3), 171-212.
 - Ellis, Haugan (1997). Modelling the information seeking patterns of engineers and research scientists in an industrial environment. Journal of Documentation, 53(4), 384-403.
 - Ambient Findability by Peter Morville
+- Raskin (2000). *The Humane Interface* — mode error, quasimodes, and the cost of invisible state
+- [Wikipedia / Mode](https://en.wikipedia.org/wiki/Mode_(user_interface))

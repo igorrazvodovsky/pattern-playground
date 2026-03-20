@@ -1,213 +1,40 @@
 import { Meta } from '@storybook/addon-docs/blocks';
+import { Canvas } from '@storybook/addon-docs/blocks';
+import * as Stories from './DynamicHyperlinks/DynamicHyperlinks.stories';
 
 <Meta title="Actions/Seeking/Dynamic hyperlinks" tags={['activity-level:action', 'atomic:pattern', 'lifecycle:seeking']} />
 
+> 🤩 **Fun meter: 5/5**.
+
 # Dynamic hyperlinks
 
-A pattern that layers inferred semantic connections onto text content, transforming any word or phrase into a contextual link based on algorithmic similarity analysis across a document corpus.
+The algorithmic discovery of latent connections within a corpus, presenting them as *suggestions* rather than claims about semantic structure.
 
-## Description
+<Canvas of={Stories.Heatmap} />
 
-Dynamic hyperlinks exemplify [soft data](../?path=/docs/foundations-data--docs#hard-and-soft-data) layering over hard content.
-While explicit hyperlinks and [references](../?path=/docs/operations-reference--docs) represent author-defined, deterministic connections,
-dynamic hyperlinks add a configurable inference layer that discovers semantic relationships algorithmically.
+## Hard and soft links
 
-When users select text, the system searches across available content to present contextually-
-ranked related mentions, presenting these inferred connections with appropriate visual distinction and confidence indicators.
-Users control the visibility and sensitivity of this soft layer through toggles and threshold adjustments.
+Where explicit hyperlinks and [references](../?path=/docs/operations-reference--docs) are author-curated (hard [data](../?path=/docs/foundations-data--docs#hard-and-soft-data)),
+dynamic hyperlinks are inferred (soft). A heatmap layer shows connection density across the corpus — varying intensity signals how many related mentions exist elsewhere. Selecting text surfaces those mentions ranked by similarity.
 
-This pattern shifts navigation from following predetermined paths to multidimensional exploration, scaling connection-discovery through automation whilst preserving explicit links where they exist.
-
-The implicit network of semantic connections is irreducibly dense—any sufficiently rich corpus contains countless valid relationships.
-Dynamic hyperlinks acknowledge this by presenting algorithmic discoveries as *suggestions* and *exploration aids* rather than claims about "true" semantic structure.
-This humility distinguishes them from explicit links, where actors commit to meaningful, curated connections.
-
-## Core characteristics
-
-- **Soft data layer**: Inferred connections computed algorithmically, distinct from explicit hard data
-- **On-demand generation**: Links emerge contextually rather than existing statically
-- **Visual density mapping**: Connection strength visualized through heatmaps or highlighting
-- **Semantic similarity**: Content relationships determined algorithmically (n-gram overlap, embedding similarity)
-- **Reader agency**: Users decide which connections to explore rather than following predetermined paths
-- **Contextual ranking**: Related content sorted by relevance to selected text
-- **Configurability**: Users control layer visibility, sensitivity thresholds, and algorithm parameters
-
-## Data layering
-
-Following the [Data foundation](../?path=/docs/foundations-data--docs) principles:
-
-**Hard layer** (explicit connections):
-- Author-created hyperlinks
-- [References](../?path=/docs/operations-reference--docs) to typed entities
-- Manual cross-references
-- Visual treatment: Standard link styling, solid underlines
-
-**Soft layer** (inferred connections):
-- Algorithmically-discovered semantic relationships
-- Computed similarity scores (confidence indicators)
-- Suggested related content
-- Visual treatment: Heatmap highlighting, dashed underlines, muted colors
-
-**User control**:
-- Toggle heatmap on/off (Ctrl+L or similar)
-- Adjust similarity threshold (0.0-1.0 scale)
-- Filter by content type or source
-- Accept suggestions to promote to hard layer (bookmark related content)
-
-## Implementation patterns
-
-**Heatmap overlay** shows connection density:
-```html
-<!-- Visual feedback indicates link-rich areas -->
-<pp-hyperlink-heatmap>
-  <p>Text with varying connection density...</p>
-</pp-hyperlink-heatmap>
-```
-
-**Selection-triggered popup** displays related content:
-```html
-<!-- Selecting text surfaces relevant mentions -->
-<pp-connection-popup
-  position="auto"
-  max-results="10"
-  min-similarity="0.2">
-</pp-connection-popup>
-```
-
-**Orchestration component** coordinates the experience:
-```html
-<!-- Wrapper manages heatmap and popup interaction -->
-<pp-hyperlink-text>
-  <article>Document content...</article>
-</pp-hyperlink-text>
-```
-
-## Similarity algorithms
-
-**N-gram matching** (simple, fast):
-- Extract overlapping word sequences (3-4 words)
-- Calculate Jaccard similarity: `|A ∩ B| / |A ∪ B|`
-- Efficient for in-browser computation
-
-**Embedding similarity** (semantic, slower):
-- Generate vector representations of text segments
-- Compute cosine similarity between vectors
-- Captures meaning beyond surface-level word overlap
-
-**Hybrid approach**:
-- Fast n-gram filtering for initial candidates
-- Semantic ranking for top results
-- Balance between speed and accuracy
-
-## Variants
-
-### Functional variants
-
-- **Always-on heatmap**: Continuous visualization of connection density
-- **Hover-activated**: Heatmap appears on pointer hover
-- **Toggle mode**: Keyboard shortcut enables/disables dynamic linking
-- **Selection-only**: No heatmap, only popup on text selection
-
-### Contextual variants
-
-- **Single-document**: Links reference content within the same document
-- **Multi-document**: Connections span across document collections
-- **Cross-domain**: Links connect internal content with external sources
-- **Temporal**: Historical versions or related timeline events surface
-
-### Visual variants
-
-- **Subtle highlighting**: Low-contrast background tints
-- **Underline thickness**: Line weight indicates connection strength
-- **Color gradients**: Hue/saturation maps to relevance scores
-- **Annotation markers**: Inline indicators for high-density phrases
-
-## States
-
-### Heatmap states
-
-- **Inactive**: No visual overlay, standard text display
-- **Loading**: Computing connection density (show progress if slow)
-- **Active**: Heatmap rendered with varying intensities
-- **Updated**: Content changed, recomputing connections
-
-### Popup states
-
-- **Hidden**: No selection, popup dismissed
-- **Loading**: Searching for related content
-- **Results**: Related mentions displayed with snippets
-- **Empty**: No relevant connections found above threshold
-- **Error**: Search failed, show recovery options
-
-## Accessibility
-
-### Visual considerations
-
-- Heatmap overlays must maintain sufficient contrast ratios
-- Don't rely solely on color to convey connection density
-- Respect `prefers-reduced-motion` for animations
-- Ensure heatmap doesn't interfere with text readability
-
-### Screen reader support
-
-- Heatmap is decorative, hidden from assistive technology
-- Popup content announced when triggered
-- Connection count communicated via ARIA labels
-- Keyboard shortcuts documented and discoverable
-
-### Keyboard interaction
-
-- Text selection via keyboard triggers popup
-- Arrow keys navigate results list
-- Enter/Return opens selected connection
-- Escape dismisses popup
-- Configurable shortcuts (e.g., Ctrl+L toggle mode)
-
-## Decision tree
-
-**Use dynamic hyperlinks when**:
-- Content corpus is large and densely interconnected
-- Discovering relationships is valuable to users
-- Manual linking is impractical at scale
-- Serendipitous discovery enhances the experience
-
-**Avoid when**:
-- Content is sparse or isolated
-- Navigation paths are intentionally linear
-- Performance constraints prevent real-time analysis
-- User base unfamiliar with exploratory interfaces
-
-**Choose algorithm based on**:
-- N-gram matching: Speed critical, simple text, in-browser
-- Embedding similarity: Semantic understanding needed, server-side
-- Hybrid: Balance between performance and accuracy
+The implicit network is irreducibly dense — any sufficiently rich corpus contains countless valid relationships.
+Dynamic hyperlinks acknowledge this by treating discoveries as exploration aids, not as "true" structure.
+This humility distinguishes them from explicit links, where actors commit to meaningful connections.
 
 ## Related patterns
 
-### Foundations
+### Precursors
 
-- [Data](../?path=/docs/foundations-data--docs) — Hard and soft data layering principles
-- [Agency](../?path=/docs/qualities-agency--docs) — User control over inferred connections
+- [Data](../?path=/docs/foundations-data--docs) — hard and soft data layering
+- [Reference](../?path=/docs/operations-reference--docs) — explicit, typed entity linking (the hard counterpart)
 
-### Similar soft data patterns
+### Complementary
 
-- [Focus and Context](../?path=/docs/actions-evaluation-focus-and-context--docs) — Inferred component relationships and deduced missing elements
-- [Suggestion](../?path=/docs/actions-application-suggestion--docs) — AI-suggested actions and connections
+- [Suggestion](../?path=/docs/actions-application-suggestion--docs) — suggested actions and connections
+- [Bubble menu](../?path=/docs/actions-coordination-bubble-menu--docs) — selection-anchored interaction surface
+- [Annotation](../?path=/docs/actions-sensemaking-annotation--docs) — user-created markers (hard) and system-generated insights (soft)
+- [Deep linking](../?path=/docs/operations-deep-linking--docs) — URL-based addressability
 
-### Hard data counterparts
+## Resources & references
 
-- [Reference](../?path=/docs/operations-reference--docs) — Explicit, typed entity linking (hard data layer)
-- [Deep linking](../?path=/docs/operations-deep-linking--docs) — Deterministic URL-based addressability
-
-### Complementary patterns
-
-- [Progressive disclosure](../?path=/docs/actions-seeking-progressive-disclosure--docs) — Expand related content inline
-- Hover cards — preview linked content without navigation
-- [Annotation](../?path=/docs/actions-sensemaking-annotation--docs) — User-created markers (hard) and system-generated insights (soft)
-
-## Resources
-
-- [Hyperlink Maximalism](https://thesephist.com/posts/hyperlink/)
-- [Notation](https://notation.linus.zone/)
-{/* - [Semantic Text Networks](https://www.aaai.org/Papers/Symposia/Spring/2008/SS-08-07/SS08-07-005.pdf) */}
-{/* - [Fluid Text Selection](https://arxiv.org/abs/2009.10979) */}
+Inspired by Linus Lee's [Hyperlink Maximalism](https://thesephist.com/posts/hyperlink/) and the [Notation](https://notation.app) app.
