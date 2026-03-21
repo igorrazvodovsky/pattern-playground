@@ -73,6 +73,12 @@
       "path": "../?path=/docs/actions-coordination-commenting--docs"
     },
     {
+      "id": "actions-coordination-dropdown",
+      "title": "Dropdown",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-coordination-dropdown--docs"
+    },
+    {
       "id": "actions-coordination-messaging",
       "title": "Messaging",
       "category": "Actions",
@@ -709,12 +715,6 @@
       "path": "../?path=/docs/actions-application-drawer--docs"
     },
     {
-      "id": "actions-coordination-dropdown",
-      "title": "Dropdown",
-      "category": "Actions",
-      "path": "../?path=/docs/actions-coordination-dropdown--docs"
-    },
-    {
       "id": "actions-evaluation-list",
       "title": "List",
       "category": "Actions",
@@ -807,6 +807,10 @@
     {
       "source": "actions-application-deletion",
       "target": "actions-coordination-notification"
+    },
+    {
+      "source": "actions-application-dialog",
+      "target": "foundations-intent-interaction"
     },
     {
       "source": "actions-application-dialog",
@@ -1054,6 +1058,10 @@
     },
     {
       "source": "actions-coordination-bubble-menu",
+      "target": "actions-sensemaking-blockbased-editor"
+    },
+    {
+      "source": "actions-coordination-bubble-menu",
       "target": "actions-seeking-progressive-disclosure"
     },
     {
@@ -1062,11 +1070,11 @@
     },
     {
       "source": "actions-coordination-bubble-menu",
-      "target": "actions-seeking-command-menu"
+      "target": "actions-coordination-dropdown"
     },
     {
       "source": "actions-coordination-bubble-menu",
-      "target": "actions-sensemaking-blockbased-editor"
+      "target": "actions-seeking-command-menu"
     },
     {
       "source": "actions-coordination-bubble-menu",
@@ -1095,6 +1103,22 @@
     {
       "source": "actions-coordination-commenting",
       "target": "operations-status-feedback"
+    },
+    {
+      "source": "actions-coordination-dropdown",
+      "target": "operations-popover"
+    },
+    {
+      "source": "actions-coordination-dropdown",
+      "target": "actions-coordination-bubble-menu"
+    },
+    {
+      "source": "actions-coordination-dropdown",
+      "target": "actions-seeking-command-menu"
+    },
+    {
+      "source": "actions-coordination-dropdown",
+      "target": "actions-coordination-priority"
     },
     {
       "source": "actions-coordination-messaging",
@@ -1270,6 +1294,10 @@
     },
     {
       "source": "actions-navigation-fully-connected",
+      "target": "actions-coordination-nav-bar"
+    },
+    {
+      "source": "actions-navigation-fully-connected",
       "target": "foundations-intent-interaction"
     },
     {
@@ -1295,10 +1323,6 @@
     {
       "source": "actions-navigation-fully-connected",
       "target": "operations-deep-linking"
-    },
-    {
-      "source": "actions-navigation-fully-connected",
-      "target": "actions-coordination-nav-bar"
     },
     {
       "source": "actions-navigation-fully-connected",
@@ -1550,27 +1574,19 @@
     },
     {
       "source": "actions-seeking-dynamic-hyperlinks",
-      "target": "qualities-agency"
-    },
-    {
-      "source": "actions-seeking-dynamic-hyperlinks",
-      "target": "actions-evaluation-focus-and-context"
-    },
-    {
-      "source": "actions-seeking-dynamic-hyperlinks",
       "target": "actions-application-suggestion"
     },
     {
       "source": "actions-seeking-dynamic-hyperlinks",
-      "target": "operations-deep-linking"
-    },
-    {
-      "source": "actions-seeking-dynamic-hyperlinks",
-      "target": "actions-seeking-progressive-disclosure"
+      "target": "actions-coordination-bubble-menu"
     },
     {
       "source": "actions-seeking-dynamic-hyperlinks",
       "target": "actions-sensemaking-annotation"
+    },
+    {
+      "source": "actions-seeking-dynamic-hyperlinks",
+      "target": "operations-deep-linking"
     },
     {
       "source": "actions-seeking-filtering",
@@ -2583,6 +2599,30 @@
     {
       "source": "foundations-intent-interaction",
       "target": "activities-collaboration"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "activities-bot"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "actions-seeking-dynamic-hyperlinks"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "actions-application-dialog"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "operations-undo"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "actions-application-settings"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "foundations-collaboration"
     },
     {
       "source": "foundations-material-iconography",

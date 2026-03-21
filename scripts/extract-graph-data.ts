@@ -24,6 +24,7 @@ interface ActivityLevel {
   'activity-level': string;
   'lifecycle-stage': string | null;
   'atomic-category': string;
+  'mediation': string | null;
 }
 
 function globMdx(dir: string): string[] {
@@ -149,13 +150,15 @@ const mdxFiles = globMdx(storiesDir).filter(
 for (const filePath of mdxFiles) {
   const content = readFileSync(filePath, 'utf-8');
   let title = extractMetaTitle(content);
+  let storiesTags: string[] = [];
 
   if (!title) {
-    // Try co-located .stories.tsx
+    // Try co-located .stories.tsx for title and tags
     const base = filePath.replace(/\.mdx$/, '.stories.tsx');
     try {
       const storiesContent = readFileSync(base, 'utf-8');
       title = extractStoriesTitle(storiesContent);
+      storiesTags = extractStoriesTags(storiesContent);
     } catch {
       // no co-located stories file
     }
@@ -176,11 +179,13 @@ for (const filePath of mdxFiles) {
     nodeMap.set(id, { id, title: shortTitle, category: cat, path });
   }
 
-  // Extract AT metadata from tags (or derive from title)
-  const tags = extractMetaTags(content);
+  // Extract AT metadata — prefer MDX tags, fall back to co-located .stories.tsx tags
+  const mdxTags = extractMetaTags(content);
+  const tags = mdxTags.length > 0 ? mdxTags : storiesTags;
   const atLevelTag = tags.find((t) => t.startsWith('activity-level:'));
   const atomicTag = tags.find((t) => t.startsWith('atomic:'));
   const lifecycleTag = tags.find((t) => t.startsWith('lifecycle:'));
+  const mediationTag = tags.find((t) => t.startsWith('mediation:'));
 
   const derived = deriveActivityLevel(title);
   const atomicCategory = atomicTag ? atomicTag.split(':')[1] : category.toLowerCase();
@@ -189,6 +194,7 @@ for (const filePath of mdxFiles) {
     'activity-level': atLevelTag ? atLevelTag.split(':')[1] : derived['activity-level'],
     'lifecycle-stage': lifecycleTag ? lifecycleTag.split(':')[1] : derived['lifecycle-stage'],
     'atomic-category': atomicCategory,
+    'mediation': mediationTag ? mediationTag.split(':')[1] : null,
   });
 
   const links = extractLinks(content);
@@ -229,11 +235,13 @@ for (const filePath of globStoriesTsx(storiesDir)) {
     const atLevelTag = tags.find((t) => t.startsWith('activity-level:'));
     const atomicTag = tags.find((t) => t.startsWith('atomic:'));
     const lifecycleTag = tags.find((t) => t.startsWith('lifecycle:'));
+    const mediationTag = tags.find((t) => t.startsWith('mediation:'));
     const derived = deriveActivityLevel(title);
     activityData.set(id, {
       'activity-level': atLevelTag ? atLevelTag.split(':')[1] : derived['activity-level'],
       'lifecycle-stage': lifecycleTag ? lifecycleTag.split(':')[1] : derived['lifecycle-stage'],
       'atomic-category': atomicTag ? atomicTag.split(':')[1] : cat.toLowerCase(),
+      'mediation': mediationTag ? mediationTag.split(':')[1] : null,
     });
   }
 }

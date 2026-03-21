@@ -3,7 +3,7 @@ import React from "react";
 
 const meta = {
   title: "Actions/Evaluation/List",
-  tags: ['activity-level:action', 'atomic:component', 'lifecycle:evaluation'],
+  tags: ['activity-level:action', 'atomic:component', 'lifecycle:evaluation', 'mediation:individual'],
   argTypes: {},
 } satisfies Meta;
 

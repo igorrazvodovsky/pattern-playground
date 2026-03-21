@@ -5,9 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "extract-graph": "npx tsx scripts/extract-graph-data.ts",
+    "prestorybook": "npm run extract-graph",
     "storybook": "storybook dev -p 6006",
     "test": "eslint .",
     "test styles": "stylelint **/*.css",
+    "prebuild-storybook": "npm run extract-graph",
     "build-storybook": "storybook build"
   },
   "devDependencies": {

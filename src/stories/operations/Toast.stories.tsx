@@ -5,7 +5,7 @@ import { useState } from "react";
 
 const meta = {
   title: "Operations/Toast",
-  tags: ["activity-level:operation", "atomic:primitive"],
+  tags: ["activity-level:operation", "atomic:primitive", 'mediation:individual'],
 } satisfies Meta;
 
 export default meta;

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const meta = {
   title: "Operations/Details",
-  tags: ['activity-level:operation', 'atomic:primitive'],
+  tags: ['activity-level:operation', 'atomic:primitive', 'mediation:individual'],
   render: () => (
     <details>
       <summary>Title</summary>

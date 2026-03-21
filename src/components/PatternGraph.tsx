@@ -17,6 +17,7 @@ interface NodeMeta {
   'activity-level': string;
   'lifecycle-stage': string | null;
   'atomic-category': string;
+  'mediation': string | null;
 }
 
 const nodeMeta = activityLevels.nodes as Record<string, NodeMeta>;
@@ -40,7 +41,10 @@ interface RenderedNode {
   atLevel: string;
   lifecycleStage: string | null;
   atomicCategory: string;
+  mediation: string | null;
 }
+
+type ColorMode = 'at-level' | 'mediation';
 
 interface RenderedEdge {
   id: string;
@@ -125,6 +129,7 @@ function buildGraph() {
       atLevel: meta?.['activity-level'] ?? 'cross-cutting',
       lifecycleStage: meta?.['lifecycle-stage'] ?? null,
       atomicCategory: meta?.['atomic-category'] ?? n.category.toLowerCase(),
+      mediation: meta?.['mediation'] ?? null,
     };
   });
 
@@ -160,6 +165,7 @@ function buildGraph() {
 export function PatternGraph() {
   const [graph] = useState(buildGraph);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [colorMode, setColorMode] = useState<ColorMode>('at-level');
 
   const neighbors = hoveredId ? (graph.adjacency.get(hoveredId) ?? new Set<string>()) : null;
 
@@ -192,6 +198,7 @@ export function PatternGraph() {
         viewBox={graph.viewBox}
         role="img"
         aria-label="Force-directed graph of design system patterns and their relationships"
+        data-color-mode={colorMode}
       >
         <g>
           {graph.edges.map((edge) => (
@@ -216,13 +223,14 @@ export function PatternGraph() {
               data-at-level={node.atLevel}
               data-lifecycle-stage={node.lifecycleStage ?? undefined}
               data-atomic-category={node.atomicCategory}
+              data-mediation={node.mediation ?? undefined}
               onMouseEnter={() => setHoveredId(node.id)}
               onMouseLeave={() => setHoveredId(null)}
               onClick={() => handleNodeActivate(node.path)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault();
-                  window.parent.location.href = node.path;
+                  handleNodeActivate(node.path);
                 }
               }}
             >
@@ -235,6 +243,29 @@ export function PatternGraph() {
         </g>
 
       </svg>
+      <fieldset className="pattern-graph__color-toggle">
+        <legend className="pattern-graph__color-toggle-legend">Colour by</legend>
+        <label className="pattern-graph__color-toggle-option">
+          <input
+            type="radio"
+            name="color-mode"
+            value="at-level"
+            checked={colorMode === 'at-level'}
+            onChange={() => setColorMode('at-level')}
+          />
+          AT level
+        </label>
+        <label className="pattern-graph__color-toggle-option">
+          <input
+            type="radio"
+            name="color-mode"
+            value="mediation"
+            checked={colorMode === 'mediation'}
+            onChange={() => setColorMode('mediation')}
+          />
+          Mediation type
+        </label>
+      </fieldset>
     </div>
   );
 }

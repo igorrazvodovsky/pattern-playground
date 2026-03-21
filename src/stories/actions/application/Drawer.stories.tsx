@@ -4,7 +4,12 @@ import { useModalService } from '../../../hooks/useModalService';
 
 const meta = {
   title: "Actions/Application/Drawer",
-  tags: ['activity-level:action', 'atomic:component', 'lifecycle:application'],
+  tags: [
+    'activity-level:action',
+    'atomic:component',
+    'lifecycle:application',
+    'mediation:individual'
+  ],
 } satisfies Meta;
 
 export default meta;

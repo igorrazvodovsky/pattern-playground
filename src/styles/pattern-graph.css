@@ -69,24 +69,77 @@
 
   /* Activity Theory level colours */
 
-  [data-at-level="operation"] .pattern-graph__circle,
+  [data-color-mode="at-level"] [data-at-level="operation"] .pattern-graph__circle,
   .pattern-graph__legend-dot[data-at-level="operation"] {
     fill: oklch(55% 0.13 155);
   }
 
-  [data-at-level="action"] .pattern-graph__circle,
+  [data-color-mode="at-level"] [data-at-level="action"] .pattern-graph__circle,
   .pattern-graph__legend-dot[data-at-level="action"] {
     fill: oklch(58% 0.17 235);
   }
 
-  [data-at-level="activity"] .pattern-graph__circle,
+  [data-color-mode="at-level"] [data-at-level="activity"] .pattern-graph__circle,
   .pattern-graph__legend-dot[data-at-level="activity"] {
     fill: oklch(62% 0.18 55);
   }
 
-  [data-at-level="cross-cutting"] .pattern-graph__circle,
+  [data-color-mode="at-level"] [data-at-level="cross-cutting"] .pattern-graph__circle,
   .pattern-graph__legend-dot[data-at-level="cross-cutting"] {
     fill: oklch(55% 0.10 300);
+  }
+
+  /* Mediation type colours */
+
+  [data-color-mode="mediation"] [data-mediation="individual"] .pattern-graph__circle,
+  .pattern-graph__legend-dot[data-mediation="individual"] {
+    fill: oklch(55% 0.10 240);
+  }
+
+  [data-color-mode="mediation"] [data-mediation="coordination"] .pattern-graph__circle,
+  .pattern-graph__legend-dot[data-mediation="coordination"] {
+    fill: oklch(62% 0.16 65);
+  }
+
+  [data-color-mode="mediation"] [data-mediation="networking"] .pattern-graph__circle,
+  .pattern-graph__legend-dot[data-mediation="networking"] {
+    fill: oklch(58% 0.14 180);
+  }
+
+  [data-color-mode="mediation"] .pattern-graph__node:not([data-mediation]) .pattern-graph__circle {
+    fill: oklch(55% 0.05 300);
+  }
+
+  /* Colour mode toggle */
+
+  .pattern-graph__color-toggle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: none;
+    padding: 8px 0 0;
+    margin: 0;
+    font-size: 12px;
+    font-family: var(--font-sans, system-ui, sans-serif);
+    color: var(--c-neutral-600, #666);
+  }
+
+  .pattern-graph__color-toggle-legend {
+    font-weight: 500;
+    padding: 0;
+    margin-inline-end: 4px;
+  }
+
+  .pattern-graph__color-toggle-option {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+  }
+
+  .pattern-graph__color-toggle-option input[type="radio"] {
+    margin: 0;
+    accent-color: var(--c-neutral-700, #333);
   }
 
   /* Labels */
