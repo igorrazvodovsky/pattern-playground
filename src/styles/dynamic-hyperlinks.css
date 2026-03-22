@@ -2,36 +2,10 @@
   .dynamic-hyperlinks {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
-    gap: var(--space-m);
+    grid-template-rows: 1fr;
     height: 100%;
     min-height: 500px;
     font-family: var(--font-body);
-  }
-
-  .dynamic-hyperlinks__controls {
-    display: flex;
-    align-items: center;
-    gap: var(--space-m);
-    padding: var(--space-s) var(--space-m);
-    background: var(--c-surface);
-    border: var(--border);
-    border-color: var(--c-border);
-    border-radius: var(--radius-m);
-  }
-
-  .dynamic-hyperlinks__controls label {
-    display: flex;
-    align-items: center;
-    gap: var(--space-xs);
-    font-size: var(--step--1);
-    color: var(--c-text-muted);
-  }
-
-  .dynamic-hyperlinks__controls kbd {
-    font-size: var(--step--2);
-    color: var(--c-text-muted);
-    opacity: 0.7;
   }
 
   .dynamic-hyperlinks__body {
@@ -45,7 +19,11 @@
 
   /* Heatmap spans — purely visual indicators, not interactive */
   .heatmap-span {
-    background: oklch(calc(95% - 25% * var(--intensity)) calc(0.06 + 0.12 * var(--intensity)) 250);
+    background: oklch(
+      calc(var(--lInitial) - var(--lIncrement) * 2 * var(--intensity))
+      calc(var(--c200-neutral) * var(--intensity))
+      var(--h)
+    );
     border-radius: 2px;
     transition: background 200ms ease;
   }
@@ -71,8 +49,8 @@
 
   /* Bubble menu: expanded mentions list */
   .dynamic-hyperlinks__mentions-expanded {
-    width: 340px;
-    max-height: 300px;
+    width: 480px;
+    max-height: 420px;
     display: flex;
     flex-direction: column;
   }
@@ -113,9 +91,6 @@
 
   .dynamic-hyperlinks__mention {
     padding: var(--space-xs) var(--space-s);
-    border-radius: var(--radius-s);
-    border: var(--border);
-    border-color: var(--c-border);
     display: flex;
     flex-direction: column;
     gap: 2px;
@@ -145,9 +120,16 @@
     color: var(--c-text-muted);
     line-height: 1.4;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+
+  .dynamic-hyperlinks__mention-context mark {
+    background: var(--c-neutral-100);
+    color: var(--c-body);
+    border-radius: 2px;
+    padding-inline: 1px;
   }
 
   /* Tiptap editor */

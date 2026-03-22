@@ -69,11 +69,14 @@ function buildDecorations(spans: ScoredSpan[], doc: PmNode): DecorationSet {
     const to = plainTextToPmPos(span.end, map);
     if (from == null || to == null || from >= to) continue;
 
+    const matchCount = span.docIds.length;
+    const intensity = Math.min(matchCount / 3, 1);
+
     decorations.push(
       Decoration.inline(from, to, {
         class: 'heatmap-span',
-        style: `--intensity: ${span.score}`,
-        title: `${Math.round(span.score * 100)}% — ${span.docIds.length} related doc${span.docIds.length > 1 ? 's' : ''}`,
+        style: `--intensity: ${intensity}`,
+        title: `${matchCount} match${matchCount > 1 ? 'es' : ''} — ${Math.round(span.score * 100)}% similarity`,
       }),
     );
   }
