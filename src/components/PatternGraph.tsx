@@ -241,31 +241,7 @@ export function PatternGraph() {
             </g>
           ))}
         </g>
-
       </svg>
-      <fieldset className="pattern-graph__color-toggle">
-        <legend className="pattern-graph__color-toggle-legend">Colour by</legend>
-        <label className="pattern-graph__color-toggle-option">
-          <input
-            type="radio"
-            name="color-mode"
-            value="at-level"
-            checked={colorMode === 'at-level'}
-            onChange={() => setColorMode('at-level')}
-          />
-          AT level
-        </label>
-        <label className="pattern-graph__color-toggle-option">
-          <input
-            type="radio"
-            name="color-mode"
-            value="mediation"
-            checked={colorMode === 'mediation'}
-            onChange={() => setColorMode('mediation')}
-          />
-          Mediation type
-        </label>
-      </fieldset>
     </div>
   );
 }
