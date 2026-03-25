@@ -124,7 +124,8 @@
       "WebFetch(domain:informationr.net)",
       "Bash(git:*)",
       "WebFetch(domain:www.interaction-design.org)",
-      "WebFetch(domain:ixdf.org)"
+      "WebFetch(domain:ixdf.org)",
+      "WebFetch(domain:en.wikipedia.org)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"

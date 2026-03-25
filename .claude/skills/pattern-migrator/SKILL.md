@@ -1,6 +1,6 @@
 ---
 name: pattern-migrator
-description: Systematic approach for migrating patterns between directories in Storybook-based design systems while maintaining cross-references and documentation integrity. Use this skill when reorganizing Storybook structure, moving patterns to new categories, refactoring documentation hierarchy, or performing bulk pattern migrations that require careful tracking of Meta titles, URLs, and cross-references.
+description: Systematic approach for migrating patterns between directories in Storybook-based pattern libraries while maintaining cross-references and documentation integrity. Use this skill when reorganizing Storybook structure, moving patterns to new categories, refactoring documentation hierarchy, or performing bulk pattern migrations that require careful tracking of Meta titles, URLs, and cross-references.
 disable-model-invocation: true
 argument-hint: "[source-dir] [target-dir]"
 ---

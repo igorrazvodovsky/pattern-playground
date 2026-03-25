@@ -7,6 +7,18 @@
       "atomic-category": "pattern",
       "mediation": "individual"
     },
+    "actions-application-ai-completion": {
+      "activity-level": "action",
+      "lifecycle-stage": "application",
+      "atomic-category": "pattern",
+      "mediation": "individual"
+    },
+    "actions-application-assisted-task-completion": {
+      "activity-level": "action",
+      "lifecycle-stage": "application",
+      "atomic-category": "pattern",
+      "mediation": "individual"
+    },
     "actions-application-data-entry": {
       "activity-level": "action",
       "lifecycle-stage": "application",
@@ -29,6 +41,12 @@
       "activity-level": "action",
       "lifecycle-stage": "application",
       "atomic-category": "composition",
+      "mediation": "individual"
+    },
+    "actions-application-nextbest-action": {
+      "activity-level": "action",
+      "lifecycle-stage": "application",
+      "atomic-category": "pattern",
       "mediation": "individual"
     },
     "actions-application-saving": {
@@ -438,6 +456,18 @@
       "lifecycle-stage": null,
       "atomic-category": "visual-element",
       "mediation": null
+    },
+    "operations-autocomplete": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": "individual"
+    },
+    "operations-autofill": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": "individual"
     },
     "operations-badge": {
       "activity-level": "operation",

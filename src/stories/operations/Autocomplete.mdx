@@ -1,0 +1,48 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta
+  title="Operations/Autocomplete"
+  tags={[
+    'activity-level:operation',
+    'atomic:pattern',
+    'mediation:individual'
+    ]}/>
+
+> 🙂 **Fun meter: 2/5**. Dependency.
+
+# Autocomplete
+
+Predicting and suggesting completions for a value the actor is actively typing, so they can pick from a narrowing set of options instead of finishing the thought themselves.
+
+Part of the [assisted task completion](../?path=/docs/actions-application-assisted-task-completion--docs) spectrum, at the most reactive end — the system takes almost no initiative here.
+
+## Design considerations
+
+- Recent and frequent items often beat algorithmic suggestions, or at least deserve a spot alongside them
+- Worth distinguishing *narrowing* (filtering a known list) from *expanding* (proposing related or trending terms the actor hasn't thought of)
+
+## Related patterns
+
+### Precursors
+
+- [Input](../?path=/docs/operations-input--docs) — the primitive that autocomplete builds on
+- [Good defaults](../?path=/docs/operations-good-defaults--docs) — pre-populating values before the actor starts typing
+
+### Complementary
+
+- [Assisted task completion](../?path=/docs/actions-application-assisted-task-completion--docs) — the spectrum autocomplete sits within
+- [Suggestion](../?path=/docs/actions-application-suggestion--docs) — system-generated recommendations more broadly
+- [Searching](../?path=/docs/actions-seeking-searching--docs) — autocomplete in search fields is really a seeking pattern
+- [Command menu](../?path=/docs/actions-seeking-command-menu--docs) — autocomplete applied to actions and navigation
+- [Filtering](../?path=/docs/actions-seeking-filtering--docs) — autocomplete within filter value selection
+- [Learnability](../?path=/docs/qualities-learnability--docs) — suggestions teach people what options exist
+
+### Follow-ups
+
+- [Form](../?path=/docs/actions-application-form--docs) — where autocomplete most commonly lives
+- [Data entry](../?path=/docs/actions-application-data-entry--docs) — autocomplete as a way to reduce input friction
+
+## Resources & references
+
+- Baymard Institute [9 UX best practice design patterns for autocomplete suggestions](https://baymard.com/blog/autocomplete-design)
+- Friedman [Five simple steps for better autocomplete UX](https://smart-interface-design-patterns.com/articles/autocomplete-ux/). Smart Interface Design Patterns

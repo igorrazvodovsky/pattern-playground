@@ -13,7 +13,7 @@ paths:
 ## Document structure
 Standard section order:
 1. Import + `<Meta title="Category/Name" />`
-2. Fun meter: `> 🙂 **Fun meter: X/5**. [How interesting it is to work with this pattern. Typically, it's inversely proportional to how established the pattern is]` — the X/5 rating is conventional but the format can vary; a short description without a numeric rating is acceptable
+2. Fun meter: `> 🙂 **Fun meter: X/5**. [Personal reflection]` — the author's intellectual engagement with the topic, not the pattern's importance or novelty. Inversely proportional to how established and well-documented the area is. The description should name what makes it interesting to *think about* — open questions, unexpected connections, unresolved tensions. The X/5 rating is conventional but the format can vary; a short description without a numeric rating is acceptable
 3. `# Title` (sentence case) with a one-sentence definition
 4. Core content (varies by pattern type)
 5. `## Related patterns` with subcategories — standard set is *Precursors*, *Follow-ups*, *Complementary*, *Tangentially related*, but custom subcategories (e.g., *Containers and primitives*, *Applied in*) are acceptable when they clarify the nature of the relationship better
@@ -44,7 +44,7 @@ When creating cross-references between documentation files:
 - Prioritize conciseness - Each sentence should add new information. Remove elaborative phrases that restate rather than extend. Trust reader comprehension—avoid over-explaining implications. Edit ruthlessly to remove redundancy.
 
 ## Conceptual integrity
-When organizing concepts in the design system:
+When organizing concepts in the pattern library:
 - *Test boundaries* - Apply frameworks to edge cases to understand scope (e.g., "Does this apply to human-human collaboration or just human-AI?")
 - *Check definitional consistency* - If a foundation is defined as "distribution of X", creating an "X distribution" section may indicate redundancy
 - *Question placement* — Each level has a role: Foundations define universal principles, Qualities describe cross-cutting attributes, Patterns show interaction approaches, Compositions combine patterns into features, Components implement specific UI elements, Primitives provide building blocks

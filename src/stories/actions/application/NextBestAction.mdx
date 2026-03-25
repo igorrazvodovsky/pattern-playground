@@ -1,0 +1,52 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta
+  title="Actions/Application/Next-best action"
+  tags={[
+    'activity-level:action',
+    'atomic:pattern',
+    'lifecycle:application',
+    'mediation:individual'
+    ]}/>
+
+> 🙂 **Fun meter: 4/5**. Connects workflow guidance with agentic AI.
+
+# Next-best action
+
+The system analyses what you're doing and recommends the most useful next step before you ask.
+
+The most forward-leaning pattern on the [assisted task completion](../?path=/docs/actions-application-assisted-task-completion--docs) spectrum, right at the edge of autonomous action. It works at the *workflow level*, not at the field or content level, and suggests *actions* — schedule a call, run tests, send a follow-up — rather than data values or text.
+
+{/* ## When it works */}
+
+{/* - The workflow has clear sequential steps and the system has strong contextual signals: CRM after logging a call, IDE after editing code, onboarding flows */}
+{/* - Recommendations appear at natural *transition points* between workflow steps, not mid-task */}
+{/* - The suggestion includes a brief rationale. Actors need to understand *why* this action is recommended, or they won't act on it */}
+
+{/* ## When it fails */}
+
+{/* - Recommendations feel presumptuous or interruptive. This is the "annoying assistant" trap, and it's easy to fall into */}
+{/* - The system doesn't have enough context to suggest anything useful */}
+{/* - Suggestions pile up without resolution, and actors start ignoring all of them */}
+
+## Related patterns
+
+### Precursors
+
+- [Suggestion](../?path=/docs/actions-application-suggestion--docs) — the broader pattern; next-best action is specifically about recommending workflow steps
+- [Wizard](../?path=/docs/actions-application-wizard--docs) — prescribed sequences; next-best action is the adaptive, context-aware alternative
+
+### Complementary
+
+- [Assisted task completion](../?path=/docs/actions-application-assisted-task-completion--docs) — the spectrum this pattern belongs to
+- [Bot](../?path=/docs/activities-bot--docs) — powers next-best action via the [ambient mode](../?path=/docs/activities-bot--docs#modes-of-interaction) of interaction
+- [Embedded intelligence](../?path=/docs/activities-embedded-intelligence--docs) — next-best action as intelligence woven into the workflow
+- [Transparent reasoning](../?path=/docs/activities-transparent-reasoning--docs) — explaining the rationale behind recommendations
+- [Agency](../?path=/docs/qualities-agency--docs) — proactive recommendations must preserve actor control
+- [Notification](../?path=/docs/actions-coordination-notification--docs) — a common delivery mechanism for next-best action prompts
+- [Onboarding](../?path=/docs/activities-onboarding--docs) — next-best action as guided first-use experience
+
+### Follow-ups
+
+- [Action consequences](../?path=/docs/actions-application-action-consequences--docs) — when accepting a recommendation leads to consequential decisions
+- [Adaptability](../?path=/docs/qualities-adaptability--docs) — recommendations that improve from accepted/rejected signal over time

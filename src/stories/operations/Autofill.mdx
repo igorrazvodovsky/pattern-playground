@@ -1,0 +1,64 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta
+  title="Operations/Autofill"
+  tags={[
+    'activity-level:operation',
+    'atomic:pattern',
+    'mediation:individual'
+    ]}/>
+
+> 🙂 **Fun meter: 2/5**. Dependency.
+
+# Autofill
+
+Populating fields with previously known or stored values, pulled from actor profiles, prior sessions, browser data, or contextual defaults.
+
+Part of the [assisted task completion](../?path=/docs/actions-application-assisted-task-completion--docs) spectrum. Preemptive, silent, and only useful when confidence is high.
+
+{/* ## When it works */}
+
+{/* - The data is structured and repetitive: addresses, payment details, profile fields */}
+{/* - Stored values are almost always correct */}
+{/* - Pre-filled values look different from typed ones (Chrome's yellow highlight, for instance) so the actor can tell what came from the system */}
+
+{/* ## When it fails */}
+
+{/* - Pre-populated data is wrong, and deleting before correcting costs more effort than typing from scratch */}
+{/* - The system fills fields the actor didn't expect it to know about, raising [privacy](../?path=/docs/qualities-privacy--docs) questions */}
+{/* - Hidden fields get silently filled and read via JavaScript before submission. This is the autofill dark pattern (Friedman 2021) */}
+
+## Data sources
+
+### Browser
+
+Address, payment, and identity data that the actor manages through browser settings. The actor controls what gets stored; the browser matches fields by name attributes and autocomplete hints.
+
+### System
+
+The application fills fields from its own knowledge of the actor: account details, preferences, prior entries. Less transparent than browser autofill because the actor may not realise what the system has on file.
+
+## Related patterns
+
+### Precursors
+
+- [Input](../?path=/docs/operations-input--docs) — the primitive autofill populates
+- [Good defaults](../?path=/docs/operations-good-defaults--docs) — when the system can guess a reasonable value without stored data
+
+### Complementary
+
+- [Assisted task completion](../?path=/docs/actions-application-assisted-task-completion--docs) — the spectrum this pattern belongs to
+- [Suggestion](../?path=/docs/actions-application-suggestion--docs) — autofill as a form of implicit recommendation
+- [Privacy](../?path=/docs/qualities-privacy--docs) — autofill surfaces what the system knows about the actor
+- [Adaptability](../?path=/docs/qualities-adaptability--docs) — autofill that learns from corrections over time
+
+### Follow-ups
+
+- [Form](../?path=/docs/actions-application-form--docs) — the container where autofill most commonly appears
+- [Data entry](../?path=/docs/actions-application-data-entry--docs) — autofill as a strategy for frictionless input
+- [Saving](../?path=/docs/actions-application-saving--docs) — what happens after pre-filled data is accepted
+
+## Resources & references
+
+- Friedman (2021) [The autofill dark pattern](https://www.smashingmagazine.com/2021/10/autofill-dark-pattern/). Smashing Magazine
+- MDN [HTML autocomplete attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/autocomplete)

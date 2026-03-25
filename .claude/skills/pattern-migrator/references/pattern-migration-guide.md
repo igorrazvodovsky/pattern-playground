@@ -1,7 +1,7 @@
 # Pattern Migration Guide for Storybook Documentation
 
 ## Overview
-This guide provides a systematic approach for migrating patterns between directories in a Storybook-based design system while maintaining all cross-references and documentation integrity.
+This guide provides a systematic approach for migrating patterns between directories in a Storybook-based pattern library while maintaining all cross-references and documentation integrity.
 
 ## Prerequisites
 Before starting any migration:

@@ -1,0 +1,42 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta
+  title="Actions/Application/Assisted task completion"
+  tags={[
+    'activity-level:action',
+    'atomic:pattern',
+    'lifecycle:application',
+    'mediation:individual'
+    ]}/>
+
+> 🙂 **Fun meter: 4/5**. A usefull umbrella for all things where the system does part of the work
+
+# Assisted task completion
+
+Four ways the system can offer to do part of the work: predictions, stored values, generated content, or recommended actions. The actor accepts, edits, or dismisses.
+
+All four share the same basic loop (system offers, actor decides) but they vary in scope, timing, and how much trust the actor has to place in them. More system initiative means a greater need for [transparency](../?path=/docs/activities-transparent-reasoning--docs), easy dismissal, and earned trust.
+
+## The spectrum
+
+**[Autocomplete](../?path=/docs/operations-autocomplete--docs)** narrows a known list as the actor types. One field, partial value, from a known list or index.
+
+**[Autofill](../?path=/docs/operations-autofill--docs)** inserts stored values when a form loads or a field gains focus. Multiple fields, complete values, from the actor's own data.
+
+**[AI completion](../?path=/docs/actions-application-ai-completion--docs)** generates content inline while the actor writes.
+
+**[Next-best action](../?path=/docs/actions-application-nextbest-action--docs)** recommends the next step when context changes. Whole actions or decisions, from contextual reasoning or rules.
+
+Autocomplete and autofill are operational: skilled actors barely notice them. AI completion and next-best action stay in conscious attention and require deliberate evaluation.
+
+## Related patterns
+
+- [Suggestion](../?path=/docs/actions-application-suggestion--docs) — the broader pattern of system-generated recommendations; this spectrum focuses on the specific mechanisms
+- [Agency](../?path=/docs/qualities-agency--docs) — mirrors this spectrum; more system initiative demands more careful preservation of actor control
+- [Bot](../?path=/docs/activities-bot--docs) — powers AI completion and next-best action; the [inline and ambient modes](../?path=/docs/activities-bot--docs#modes-of-interaction) map directly to this group
+- [Good defaults](../?path=/docs/operations-good-defaults--docs) — the simplest form of pre-population, before any of these patterns kick in
+
+## Resources & references
+
+- Horvitz (1999) [Principles of mixed-initiative user interfaces](https://dl.acm.org/doi/10.1145/302979.303030). CHI '99
+- Parasuraman, Sheridan, Wickens (2000) [A model for types and levels of human interaction with automation](https://ieeexplore.ieee.org/document/844354). IEEE Transactions on Systems, Man, and Cybernetics

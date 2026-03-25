@@ -9,7 +9,7 @@ paths:
 - Never use inline styles - All styling must be handled through CSS classes
 - Add styles to `src/styles/` directory for global styles and shared components
 - For Web Components using Shadow DOM, use component-specific CSS files
-- Use design system tokens (CSS custom properties) consistently
+- Use shared tokens (CSS custom properties) consistently
 - Ask before adding new styles
 
 ## CSS architecture methodology
@@ -55,4 +55,4 @@ Use the existing layer structure defined in `src/styles/main.css`:
 ## Anti-patterns
 - Never use inline styles - All styling must go through CSS classes or design tokens
 - Don't rely on CSS classes for JavaScript hooks - Use `data-*` attributes instead
-- Don't add styles without asking - Verify approach aligns with design system first
+- Don't add styles without asking - Verify approach aligns with existing conventions first

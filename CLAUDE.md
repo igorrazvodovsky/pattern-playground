@@ -62,7 +62,7 @@ cd server && npm run dev  # Start Express server with hot reload
 
 ## Architecture overview
 
-This is a *design system playground* with a hybrid frontend/backend architecture:
+This is an *interaction design pattern library* with a hybrid frontend/backend architecture:
 
 ### Frontend
 - TypeScript with Vite build system
