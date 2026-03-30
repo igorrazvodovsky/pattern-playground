@@ -14,10 +14,12 @@ Accept free-form text, giving the actor a place to supply information the system
 </Canvas>
 
 ## Label
-TODO:
+
+<Story of={ InputStories.WithLabel } />
 
 ## Help text
-TODO:
+
+<Story of={ InputStories.WithHelpText } />
 
 ## Size
 TODO: small, medium, large
@@ -32,5 +34,21 @@ TODO: small, medium, large
 
 ## Autocomplete
 
-*Autocomplete* attribute is one way of helping users complete forms more quickly.
-For more complex cases a TODO:autocomplete can be used.
+The `autocomplete` attribute is one way of helping users complete forms more quickly.
+For more complex cases an [autocomplete](../?path=/docs/operations-autocomplete--docs) pattern can be used.
+
+## Related patterns
+
+### Assisted input
+- [Autocomplete](../?path=/docs/operations-autocomplete--docs) — narrows a known list as the actor types
+- [Autofill](../?path=/docs/operations-autofill--docs) — pre-populates from stored values (browser or system)
+- [Good defaults](../?path=/docs/operations-good-defaults--docs) — pre-fills with an intelligent guess when no stored value exists
+- [Suggestion](../?path=/docs/actions-application-suggestion--docs) — offers completions the actor can accept, modify, or reject
+
+### Applied in
+- [Data entry](../?path=/docs/actions-application-data-entry--docs) — the broader activity input supports, including format strategies and friction reduction
+- [Form](../?path=/docs/actions-application-form--docs) — the most common container for inputs
+- [Searching](../?path=/docs/actions-seeking-searching--docs) — input as the entry point for query formulation
+
+### Related primitives
+- [Textarea](../?path=/docs/operations-textarea--docs) — the multi-line counterpart for longer free-form text

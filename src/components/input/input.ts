@@ -60,6 +60,9 @@ export class PpInput extends LitElement {
   @property({ type: Boolean }) autofocus = false;
   @property() autocapitalize = '';
   @property({ type: Boolean }) spellcheck = false;
+  @property() label = '';
+  @property() labelledby = '';
+  @property() describedby = '';
 
   connectedCallback() {
     super.connectedCallback();
@@ -150,7 +153,9 @@ export class PpInput extends LitElement {
               autocomplete=${ifDefined(this.autocomplete || undefined)}
               ?autofocus=${this.autofocus}
               spellcheck=${this.spellcheck ? 'true' : 'false'}
-              aria-describedby="help-text"
+              aria-label=${ifDefined(this.label || undefined)}
+              aria-labelledby=${ifDefined(this.labelledby || undefined)}
+              aria-describedby=${ifDefined(this.describedby || undefined)}
               @input=${this.handleInput}
             />
             ${hasClearIcon
