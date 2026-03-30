@@ -1,26 +1,66 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import type { InputProps } from "../../components/input/input";
+
+interface InputArgs {
+  value: string;
+  placeholder: string;
+  disabled: boolean;
+  addon: 'none' | 'prefix' | 'suffix' | 'both';
+}
 
 const meta = {
   title: "Operations/Input",
-} satisfies Meta<InputProps>;
+  argTypes: {
+    value: {
+      control: 'text',
+      description: 'Input value',
+    },
+    placeholder: {
+      control: 'text',
+      description: 'Placeholder text',
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Disabled state',
+    },
+    addon: {
+      control: { type: 'radio' },
+      options: ['none', 'prefix', 'suffix', 'both'],
+      description: 'Icon addon position',
+    },
+  },
+} satisfies Meta<InputArgs>;
 
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<InputArgs>;
 
 export const Default: Story = {
   args: {
-    value: 'Test',
+    value: '',
+    placeholder: 'Enter value…',
+    disabled: false,
+    addon: 'none',
   },
-  render: () => <pp-input></pp-input>,
+  render: (args) => (
+    <pp-input value={args.value} placeholder={args.placeholder} disabled={args.disabled}>
+      {(args.addon === 'prefix' || args.addon === 'both') && (
+        <iconify-icon className="icon" icon="ph:magnifying-glass" slot="prefix" />
+      )}
+      {(args.addon === 'suffix' || args.addon === 'both') && (
+        <iconify-icon className="icon" icon="ph:x" slot="suffix" />
+      )}
+    </pp-input>
+  ),
 };
 
 export const Disabled: Story = {
   args: {
-    value: 'Test',
+    value: '',
+    placeholder: 'Disabled',
+    disabled: true,
+    addon: 'none',
   },
-  render: () => (
-    <pp-input placeholder="Disabled" disabled></pp-input>
+  render: (args) => (
+    <pp-input placeholder={args.placeholder} disabled={args.disabled}></pp-input>
   ),
 };
 

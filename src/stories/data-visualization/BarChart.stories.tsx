@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useEffect, useRef } from "react";
+import { action } from 'storybook/actions';
 
 // Import the bar chart component (this will register the custom element)
 import "../../components/charts/bar-chart.js";
@@ -111,11 +112,11 @@ function BarChartWrapper({
 
       // Add event listeners for interaction demonstration
       const handleBarHover = (e: CustomEvent) => {
-        console.log('Bar hovered:', e.detail.data);
+        action('pp-bar-hover')(e.detail.data);
       };
 
       const handleBarClick = (e: CustomEvent) => {
-        console.log('Bar clicked:', e.detail.data);
+        action('pp-bar-click')(e.detail.data);
       };
 
       chartElement.addEventListener('pp-bar-hover', handleBarHover as EventListener);

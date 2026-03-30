@@ -29,7 +29,6 @@ declare module 'react' {
 
 const meta = {
   title: "Actions/Evaluation/Table",
-  argTypes: {},
 } satisfies Meta;
 
 export default meta;

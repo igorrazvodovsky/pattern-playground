@@ -6,7 +6,6 @@ import React from "react";
 const meta = {
   title: "Actions/Coordination/Dropdown",
   tags: ['activity-level:action', 'atomic:component', 'lifecycle:coordination', 'mediation:coordination'],
-  argTypes: {},
 } satisfies Meta;
 
 export default meta;

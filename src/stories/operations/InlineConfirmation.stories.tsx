@@ -5,7 +5,7 @@ import { PpToast } from "../../components/toast/toast";
 
 const meta = {
   title: "Operations/Inline confirmation",
-  tags: ['!autodocs', '!dev'],
+  tags: ['!autodocs', '!dev', 'activity-level:operation', 'atomic:component', 'mediation:individual'],
 } satisfies Meta;
 
 export default meta;

@@ -5,7 +5,6 @@ import { getRandomIcon } from '../../utils/icons';
 
 const meta = {
   title: "Actions/Coordination/Priority+",
-  argTypes: {},
 } satisfies Meta;
 
 export default meta;

@@ -3,6 +3,7 @@ import { DynamicHyperlinksDemo } from './DynamicHyperlinksDemo';
 
 const meta = {
   title: 'Actions/Seeking/Dynamic hyperlinks',
+  tags: ['activity-level:action', 'atomic:component', 'lifecycle:seeking', 'mediation:individual'],
   component: DynamicHyperlinksDemo,
   parameters: {
     layout: 'padded',

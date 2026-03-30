@@ -106,7 +106,7 @@ function DefaultWorkflow() {
 
 const meta = {
   title: "Activities/Workflow",
-	tags: ['!autodocs'],
+  tags: ['!autodocs', 'activity-level:activity', 'atomic:composition', 'mediation:coordination'],
 
 } satisfies Meta;
 

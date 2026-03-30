@@ -3,12 +3,51 @@ import React from "react";
 import { faker } from '@faker-js/faker';
 import { getRandomIcon } from '../utils/icons';
 
+type BadgePurpose = 'default' | 'accent' | 'info' | 'success' | 'warning' | 'danger';
+
+interface BadgeArgs {
+  label: string;
+  purpose: BadgePurpose;
+  pill: boolean;
+}
+
 const meta = {
   title: "Operations/Badge",
-} satisfies Meta;
+  argTypes: {
+    label: {
+      control: 'text',
+      description: 'Badge label',
+    },
+    purpose: {
+      control: { type: 'radio' },
+      options: ['default', 'accent', 'info', 'success', 'warning', 'danger'],
+      description: 'Semantic purpose',
+    },
+    pill: {
+      control: 'boolean',
+      description: 'Pill shape (rounded)',
+    },
+  },
+} satisfies Meta<BadgeArgs>;
 
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<BadgeArgs>;
+
+export const Default: Story = {
+  args: {
+    label: 'Badge',
+    purpose: 'default',
+    pill: false,
+  },
+  render: (args) => {
+    const classes = [
+      'badge',
+      args.purpose !== 'default' ? `badge--${args.purpose}` : '',
+      args.pill ? 'badge--pill' : '',
+    ].filter(Boolean).join(' ');
+    return <span className={classes}>{args.label}</span>;
+  },
+};
 
 export const Basic: Story = {
   render: () => <span className="badge">Badge</span>,
@@ -65,7 +104,7 @@ export const WithList: Story = {
 
 export const AttributeValuePair: Story = {
   render: () => (
-    <>
+    <div style={{display: 'flex', gap: '1ch', alignItems: 'center'}}>
       <span className="badge">
         <span className="badge__label">Attribute</span>Value
       </span>
@@ -73,7 +112,7 @@ export const AttributeValuePair: Story = {
         <span className="badge__label">{faker.person.jobTitle()}</span>
         {faker.person.fullName()}
       </strong>
-    </>
+    </div>
   ),
 };
 

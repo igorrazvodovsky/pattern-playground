@@ -4,6 +4,9 @@ import { faker } from '@faker-js/faker';
 
 const meta = {
   title: "Actions/Coordination/Nav bar",
+  parameters: {
+    layout: 'fullscreen',
+  },
 } satisfies Meta;
 
 export default meta;

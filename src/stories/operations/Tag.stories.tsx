@@ -5,12 +5,50 @@ function capitalizeFirstLetter(v) {
   return String(v).charAt(0).toUpperCase() + String(v).slice(1);
 }
 
+interface TagArgs {
+  label: string;
+  pill: boolean;
+  removable: boolean;
+}
+
 const meta = {
   title: "Operations/Tag",
-} satisfies Meta;
+  argTypes: {
+    label: {
+      control: 'text',
+      description: 'Tag label',
+    },
+    pill: {
+      control: 'boolean',
+      description: 'Pill shape (rounded)',
+    },
+    removable: {
+      control: 'boolean',
+      description: 'Show remove button',
+    },
+  },
+} satisfies Meta<TagArgs>;
 
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<TagArgs>;
+
+export const Default: Story = {
+  args: {
+    label: 'Tag',
+    pill: false,
+    removable: false,
+  },
+  render: (args) => (
+    <span className={['tag', args.pill ? 'tag--pill' : ''].filter(Boolean).join(' ')}>
+      {args.label}
+      {args.removable && (
+        <button>
+          <iconify-icon className="icon" icon="ph:x" />
+        </button>
+      )}
+    </span>
+  ),
+};
 
 export const Basic: Story = {
   render: () => (

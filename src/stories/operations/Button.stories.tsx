@@ -1,15 +1,57 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
+interface ButtonArgs {
+  label: string;
+  variant: 'default' | 'primary' | 'danger' | 'plain';
+  disabled: boolean;
+  iconPosition: 'none' | 'prefix' | 'suffix' | 'both';
+}
+
 const meta = {
   title: "Operations/Button",
-} satisfies Meta;
+  argTypes: {
+    label: {
+      control: 'text',
+      description: 'Button label',
+    },
+    variant: {
+      control: { type: 'radio' },
+      options: ['default', 'primary', 'danger', 'plain'],
+      description: 'Visual variant',
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Disabled state',
+    },
+    iconPosition: {
+      control: { type: 'radio' },
+      options: ['none', 'prefix', 'suffix', 'both'],
+      description: 'Icon position relative to label',
+    },
+  },
+} satisfies Meta<ButtonArgs>;
 
 export default meta;
-type Story = StoryObj<{ label?: string }>;
+type Story = StoryObj<ButtonArgs>;
 
 export const Default: Story = {
-  args: { label: "Button" },
-  render: (args) => <button className="button" is="pp-button">{args.label}</button>,
+  args: {
+    label: 'Button',
+    variant: 'default',
+    disabled: false,
+    iconPosition: 'none',
+  },
+  render: (args) => {
+    const classes = ['button', args.variant !== 'default' ? `button--${args.variant}` : ''].filter(Boolean).join(' ');
+    const icon = <iconify-icon className="icon" icon="ph:circle-dashed" />;
+    return (
+      <button className={classes} is="pp-button" disabled={args.disabled}>
+        {(args.iconPosition === 'prefix' || args.iconPosition === 'both') && icon}
+        {args.label}
+        {(args.iconPosition === 'suffix' || args.iconPosition === 'both') && icon}
+      </button>
+    );
+  },
 };
 
 export const Variants: Story = {

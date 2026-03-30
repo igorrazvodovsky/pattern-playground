@@ -3,7 +3,6 @@ import React from "react";
 
 const meta = {
   title: "Operations/Breadcrumbs",
-  argTypes: {},
 } satisfies Meta;
 
 export default meta;

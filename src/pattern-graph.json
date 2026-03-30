@@ -784,6 +784,14 @@
     },
     {
       "source": "actions-application-ai-completion",
+      "target": "activities-generated-content"
+    },
+    {
+      "source": "actions-application-ai-completion",
+      "target": "actions-application-assisted-task-completion"
+    },
+    {
+      "source": "actions-application-ai-completion",
       "target": "qualities-agency"
     },
     {
@@ -796,15 +804,7 @@
     },
     {
       "source": "actions-application-ai-completion",
-      "target": "actions-application-assisted-task-completion"
-    },
-    {
-      "source": "actions-application-ai-completion",
       "target": "activities-bot"
-    },
-    {
-      "source": "actions-application-ai-completion",
-      "target": "activities-generated-content"
     },
     {
       "source": "actions-application-ai-completion",
@@ -820,10 +820,6 @@
     },
     {
       "source": "actions-application-ai-completion",
-      "target": "qualities-formality"
-    },
-    {
-      "source": "actions-application-ai-completion",
       "target": "actions-sensemaking-blockbased-editor"
     },
     {
@@ -833,10 +829,6 @@
     {
       "source": "actions-application-assisted-task-completion",
       "target": "activities-transparent-reasoning"
-    },
-    {
-      "source": "actions-application-assisted-task-completion",
-      "target": "qualities-agency"
     },
     {
       "source": "actions-application-assisted-task-completion",
@@ -857,6 +849,10 @@
     {
       "source": "actions-application-assisted-task-completion",
       "target": "actions-application-suggestion"
+    },
+    {
+      "source": "actions-application-assisted-task-completion",
+      "target": "qualities-agency"
     },
     {
       "source": "actions-application-assisted-task-completion",
@@ -2856,10 +2852,6 @@
     },
     {
       "source": "operations-autocomplete",
-      "target": "actions-seeking-command-menu"
-    },
-    {
-      "source": "operations-autocomplete",
       "target": "operations-input"
     },
     {
@@ -2873,6 +2865,10 @@
     {
       "source": "operations-autocomplete",
       "target": "actions-seeking-searching"
+    },
+    {
+      "source": "operations-autocomplete",
+      "target": "actions-seeking-command-menu"
     },
     {
       "source": "operations-autocomplete",

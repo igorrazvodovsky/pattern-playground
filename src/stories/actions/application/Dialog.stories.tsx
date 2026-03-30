@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { faker } from '@faker-js/faker';
 import { useModalService } from '../../../hooks/useModalService';
+import { userEvent, within } from '@storybook/testing-library';
 
 const meta = {
   title: "Actions/Application/Dialog",
@@ -38,6 +39,11 @@ export const Default: Story = {
     };
 
     return <DialogExample />;
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: 'Open dialog' });
+    await userEvent.click(trigger);
   },
 };
 

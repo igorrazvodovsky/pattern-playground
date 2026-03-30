@@ -6,9 +6,6 @@ import { getRandomIcon } from '../utils/icons';
 const meta = {
   title: "Operations/Tabs",
   tags: ["autodocs", "activity-level:operation", "atomic:component", 'mediation:individual'],
-  component: 'pp-tabs',
-  argTypes: {
-  },
 } satisfies Meta;
 
 export default meta;

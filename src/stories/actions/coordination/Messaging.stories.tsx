@@ -9,7 +9,6 @@ export default meta;
 type Story = StoryObj;
 
 export const HumanToHumanChat: Story = {
-  args: {},
   render: () => (
     <div className="messages layer">
       <div className="messages__turn">
@@ -65,7 +64,6 @@ export const HumanToHumanChat: Story = {
 };
 
 export const HumanToHumanComments: Story = {
-  args: {},
   render: () => (
     <div className="messages layer">
       <div className="message">
@@ -105,7 +103,6 @@ export const HumanToHumanComments: Story = {
 };
 
 export const HumanToLLM: Story = {
-  args: {},
   render: () => (
     <div className="messages layer">
       <div className="messages__turn">
