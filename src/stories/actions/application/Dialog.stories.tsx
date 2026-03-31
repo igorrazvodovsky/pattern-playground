@@ -191,6 +191,11 @@ export const DeletionConfirmation: Story = {
 
     return <DeletionDialogExample />;
   },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const [firstDelete] = canvas.getAllByRole('button', { name: /delete/i });
+    await userEvent.click(firstDelete);
+  },
   parameters: {
     docs: {
       description: {

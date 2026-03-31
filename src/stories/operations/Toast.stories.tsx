@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { PpToast } from "../../main.ts";
 import { faker } from '@faker-js/faker';
 import { useState } from "react";
+import { userEvent, within } from '@storybook/testing-library';
 
 const meta = {
   title: "Operations/Toast",
@@ -22,6 +23,11 @@ export const Default: Story = {
       </button>
     </div>
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button', { name: 'Show toast' }));
+    await within(document.body).findByRole('alert');
+  },
 };
 
 export const Multiple: Story = {

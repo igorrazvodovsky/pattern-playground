@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { faker } from '@faker-js/faker';
+import { userEvent, within } from '@storybook/testing-library';
 
 const meta = {
   title: "Operations/Popover",
@@ -58,4 +59,9 @@ export const Popover: Story = {
       </div>
     </>
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: 'Click me' });
+    await userEvent.click(trigger);
+  },
 };

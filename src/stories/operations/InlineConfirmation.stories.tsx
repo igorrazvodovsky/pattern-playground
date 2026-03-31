@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
 import { faker } from "@faker-js/faker";
 import { PpToast } from "../../components/toast/toast";
+import { userEvent, within } from '@storybook/testing-library';
 
 const meta = {
   title: "Operations/Inline confirmation",
@@ -104,7 +105,6 @@ export const Default: Story = {
             <pp-list-item key={index}>
               {item}
               <InlineConfirmButton
-
                 onDelete={() => {
                   setItems(items.filter((_, i) => i !== index));
                 }}
@@ -117,7 +117,12 @@ export const Default: Story = {
         )}
       </>
     );
-  }
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const [firstDelete] = canvas.getAllByRole('button', { name: /delete/i });
+    await userEvent.click(firstDelete);
+  },
 };
 
 export const StagedDeletion: Story = {

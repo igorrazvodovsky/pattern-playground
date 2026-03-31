@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useModalService } from '../../../hooks/useModalService';
+import { userEvent, within } from '@storybook/testing-library';
 
 const meta = {
   title: "Actions/Application/Drawer",
@@ -31,7 +32,6 @@ export const RightDrawer: Story = {
           </div>,
           {
             title: 'Right Drawer',
-  tags: ['activity-level:action', 'atomic:component', 'lifecycle:application'],
             position: 'right'
           }
         );
@@ -45,6 +45,11 @@ export const RightDrawer: Story = {
     };
 
     return <DrawerExample />;
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: 'Open right drawer' });
+    await userEvent.click(trigger);
   },
 };
 
@@ -64,7 +69,6 @@ export const LeftDrawer: Story = {
           </div>,
           {
             title: 'Left Drawer',
-  tags: ['activity-level:action', 'atomic:component', 'lifecycle:application'],
             position: 'left'
           }
         );
@@ -78,5 +82,10 @@ export const LeftDrawer: Story = {
     };
 
     return <LeftDrawerExample />;
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: 'Open left drawer' });
+    await userEvent.click(trigger);
   },
 };

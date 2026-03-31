@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
+import { userEvent, within } from '@storybook/testing-library';
 
 const meta = {
   title: "Actions/Seeking/Sorting",
@@ -10,6 +11,10 @@ type Story = StoryObj;
 
 export const Sorting: Story = {
   args: {},
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button', { name: /sorting criteria 1/i }));
+  },
   render: () => (
     <div className="button-group">
       <pp-dropdown>

@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
 import { faker } from '@faker-js/faker';
 import { getRandomIcon } from '../utils/icons';
+import { userEvent, within } from '@storybook/testing-library';
 
 const meta = {
   title: "Operations/Tabs",
@@ -37,6 +38,11 @@ export const Basic: Story = {
       </pp-tab-panel>
     </pp-tab-group>
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const tabs = canvas.getAllByRole('tab');
+    await userEvent.click(tabs[1]);
+  },
 };
 
 export const WithIcons: Story = {

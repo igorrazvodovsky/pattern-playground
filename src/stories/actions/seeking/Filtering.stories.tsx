@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { FilteringDemo } from './Filtering';
-import { FilterType, FilterOperator, Status, Priority, Assignee } from '../../../components/filter/filter-types'
+import { FilterType, FilterOperator, Status, Priority, Assignee } from '../../../components/filter/filter-types';
+import { userEvent, within } from '@storybook/testing-library';
 
 const meta = {
   title: 'Actions/Seeking/Filtering',
@@ -14,6 +15,10 @@ export default meta;
 type Story = StoryObj<typeof FilteringDemo>;
 
 export const Filtering: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button', { name: 'Filter' }));
+  },
   args: {
     initialFilters: [
       {
