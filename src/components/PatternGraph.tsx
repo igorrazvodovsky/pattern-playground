@@ -11,7 +11,7 @@ import {
 import type { SimulationNodeDatum, SimulationLinkDatum } from 'd3-force';
 import { scaleSqrt } from 'd3-scale';
 import graphData from '../pattern-graph.json' with { type: 'json' };
-import activityLevels from '../stories/data/activity-levels.json' with { type: 'json' };
+import activityLevels from '../activity-levels.json' with { type: 'json' };
 
 interface NodeMeta {
   'activity-level': string;

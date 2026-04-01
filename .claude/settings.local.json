@@ -8,14 +8,11 @@
       "Bash(eslint:*)",
       "Bash(python3:*)",
       "Bash(sudo npm update -g @anthropic-ai/claude-code)",
-
       "Bash(git:*)",
-
       "Bash(claude mcp:*)",
       "Bash(claude config:*)",
       "Bash(claude doctor)",
       "Bash(claude --version)",
-
       "Bash(ls:*)",
       "Bash(find:*)",
       "Bash(mv:*)",
@@ -26,28 +23,22 @@
       "Bash(chmod:*)",
       "Bash(realpath:*)",
       "Bash(wc:*)",
-
       "Bash(grep:*)",
       "Bash(rg:*)",
       "Bash(sed:*)",
       "Bash(awk:*)",
       "Bash(xargs:*)",
-
       "Bash(curl:*)",
       "Bash(kill:*)",
       "Bash(pkill:*)",
       "Bash(lsof:*)",
       "Bash(timeout:*)",
       "Bash(brew list:*)",
-
       "Bash(.specify/scripts/create-new-feature.sh:*)",
       "Bash(.specify/scripts/setup-plan.sh:*)",
       "Bash(.specify/scripts/check-task-prerequisites.sh:*)",
-
       "Read(//Users/igors.razvodovskis/.npm-global/lib/node_modules/@anthropic-ai/**)",
-
       "Skill(example-skills:skill-creator)",
-
       "mcp__ide__getDiagnostics",
       "mcp__ide__executeCode",
       "mcp__context7__resolve-library-id",
@@ -68,7 +59,6 @@
       "mcp__chrome-devtools__take_snapshot",
       "mcp__chrome-devtools__click",
       "mcp__chrome-devtools__close_page",
-
       "WebSearch",
       "WebFetch(domain:localhost)",
       "WebFetch(domain:developer.mozilla.org)",
@@ -99,12 +89,10 @@
       "WebFetch(domain:informationr.net)",
       "WebFetch(domain:www.interaction-design.org)",
       "WebFetch(domain:ixdf.org)",
-      "WebFetch(domain:www.pavley.com)"
+      "WebFetch(domain:www.pavley.com)",
+      "WebFetch(domain:www.smashingmagazine.com)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"
-  },
-  "enabledPlugins": {
-    "planning-with-files@planning-with-files": true
   }
 }

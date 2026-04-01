@@ -6,7 +6,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = join(__dirname, '..');
 const storiesDir = join(rootDir, 'src/stories');
 const outputPath = join(rootDir, 'src/pattern-graph.json');
-const activityLevelsPath = join(rootDir, 'src/stories/data/activity-levels.json');
+const activityLevelsPath = join(rootDir, 'src/activity-levels.json');
 
 interface Node {
   id: string;
