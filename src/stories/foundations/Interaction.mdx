@@ -113,7 +113,6 @@ Can emerge from browsing when confidence increases, or from transactional search
 
 ##### Related patterns
 
-**Structural compositions that enable navigating:**
 - [Fully connected](../?path=/docs/actions-navigation-fully-connected--docs) — maximum efficiency for precise movement
 - [Multilevel tree](../?path=/docs/actions-navigation-multilevel-tree--docs) — efficient when mental model matches structure
 - [Pyramid](../?path=/docs/actions-navigation-pyramid--docs) — hub enables direct targeting
@@ -141,7 +140,6 @@ Can sharpen into navigating, or loosen into exploring if uncertainty grows.
 
 ##### Related patterns
 
-**Structural compositions that support browsing:**
 - [Pyramid](../?path=/docs/actions-navigation-pyramid--docs) — overview enables pattern recognition
 - [Multilevel tree](../?path=/docs/actions-navigation-multilevel-tree--docs) — structured exploration within sections
 
@@ -163,7 +161,6 @@ Navigational transitions are discouraged – switching into browsing or navigati
 
 ##### Related patterns
 
-**Structural compositions that optimise transactional search:**
 - [Step by step](../?path=/docs/actions-navigation-step-by-step--docs) — guided completion without distraction
 - [Flat navigation](../?path=/docs/actions-navigation-flat-navigation--docs) — sustained focus on work
 
@@ -191,7 +188,6 @@ May mature into browsing or navigating once a goal crystallises
 
 ##### Related patterns
 
-**Structural compositions that enable exploring:**
 - [Pan and zoom](../?path=/docs/actions-navigation-pan-and-zoom--docs) — spatial exploration feels natural
 - [Fully connected](../?path=/docs/actions-navigation-fully-connected--docs) — freedom to follow curiosity
 
@@ -234,7 +230,6 @@ May evolve into navigating or transactional search if memory strengthens
 
 ##### Related patterns
 
-**Structural compositions that aid re-finding:**
 - Any model with clear structure and good wayfinding helps
 - [Multilevel tree](../?path=/docs/actions-navigation-multilevel-tree--docs) — hierarchy provides memory cues
 
@@ -252,7 +247,6 @@ May improve into transactional search or navigating when actor figures out "how 
 
 ##### Related patterns
 
-**Structural compositions that mitigate uncovering:**
 - [Fully connected](../?path=/docs/actions-navigation-fully-connected--docs) — transparency reduces opacity
 - Avoid opaque [hub and spoke](../?path=/docs/actions-navigation-hub-and-spoke--docs) implementations
 
@@ -267,37 +261,8 @@ Can resolve into navigating or browsing; if prolonged, risks frustration or aban
 
 ##### Related patterns
 
-**Structural compositions that support hunting:**
 - [Fully connected](../?path=/docs/actions-navigation-fully-connected--docs) — multiple navigation paths available
 - TODO: Search
-
-The system's contribution to intent resolution — testing readiness, scaffolding execution, calibrating commitment — is an [agency](../?path=/docs/qualities-agency--docs) concern. Each resolution stage implies a different distribution of control between actor and system.
-
-Intent resolution is conversational: each turn is a bid to advance resolution. [Conversation](../?path=/docs/qualities-conversation--docs) covers the cooperative principles; [Temporality](../?path=/docs/qualities-temporality--docs) covers rhythm and pacing. For multi-actor coordination, see [Collaboration](../?path=/docs/activities-collaboration--docs).
-
-## Modes
-
-Same input, different outcome depending on a state the actor must remember. Design stance following Tesler and Raskin: prefer modeless; when unavoidable, make modes visible, escapable, and hard to forget.
-
-### Types
-
-*Persistent modes* remain active until explicitly dismissed — highest mode-error risk. Edit vs. view, or [focused vs. inline vs. ambient](../?path=/docs/activities-bot--docs) bot interaction.
-
-*Quasimodes* last only while a physical action is maintained (holding a modifier key, long-pressing). The body is the reminder. [Toggle mode in dynamic hyperlinks](../?path=/docs/actions-seeking-dynamic-hyperlinks--docs) is an example. Preferred for temporary mode shifts.
-
-*Transient modes* are system-imposed interruptions blocking the primary workflow (e.g. [dialog](../?path=/docs/actions-application-dialog--docs)).
-
-### Design considerations
-
-- *Visibility*: if discovering the current mode requires performing an action, the mode is invisible.
-- *Escapability*: cheap exit always. [Undo](../?path=/docs/operations-undo--docs) mitigates mode errors but doesn't excuse them.
-- *Scope*: narrow (single tool) safer than broad (all input).
-- *Promotion/demotion*: a frequently toggled [setting](../?path=/docs/actions-application-settings--docs) is a mode switch that belongs in the primary interface. A mode actors rarely leave may just be the default.
-- *[Agency](../?path=/docs/qualities-agency--docs)*: actor-initiated transitions are legible; system-initiated ones risk mode error.
-
-### Modes and intent resolution
-
-The navigation categories above — navigating, browsing, exploring, monitoring — are themselves modes of intent resolution, though transitions are typically fluid rather than discrete state switches. [Collaboration modes](../?path=/docs/foundations-collaboration--docs) and [temporal modes](../?path=/docs/qualities-temporality--docs) follow a similar pattern.
 
 ## Resources & references
 
@@ -307,5 +272,3 @@ The navigation categories above — navigating, browsing, exploring, monitoring 
 - Ellis (1989). A behavioural approach to information retrieval design. Journal of Documentation, 45(3), 171-212.
 - Ellis, Haugan (1997). Modelling the information seeking patterns of engineers and research scientists in an industrial environment. Journal of Documentation, 53(4), 384-403.
 - Ambient Findability by Peter Morville
-- Raskin (2000). *The Humane Interface* — mode error, quasimodes, and the cost of invisible state
-- [Wikipedia / Mode](https://en.wikipedia.org/wiki/Mode_(user_interface))

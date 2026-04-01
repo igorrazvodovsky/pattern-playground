@@ -1,0 +1,24 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Actions/Application/Context menu" tags={[
+    'activity-level:action',
+    'atomic:component',
+    'lifecycle:application',
+    'mediation:individual'
+    ]} />
+
+> 🚧 **Placeholder** — this pattern needs work.
+
+# Context menu
+
+The reveal of actions relevant to a specific target, invoked at the point of interaction through right-click or long-press.
+
+Unlike [dropdown](../?path=/docs/actions-coordination-dropdown--docs) (triggered by a visible button) or [command menu](../?path=/docs/actions-seeking-command-menu--docs) (invoked by name via keyboard shortcut), a context menu is spatially anchored to the target and its contents adapt to what was clicked.
+
+## Related patterns
+
+- [Dropdown](../?path=/docs/actions-coordination-dropdown--docs) — shares the overlay mechanism but is button-triggered with a fixed option set
+- [Command menu](../?path=/docs/actions-seeking-command-menu--docs) — searchable, keyboard-first; context menu is pointer-first and target-aware
+- [Popover](../?path=/docs/operations-popover--docs) — underlying positioning and light-dismiss behaviour
+- [Modality](../?path=/docs/foundations-modality--docs) — context menus are non-modal overlays
+- [Unavailable actions](../?path=/docs/operations-unavailable-actions--docs) — context menus should hide or disable actions inaccessible for the selected target

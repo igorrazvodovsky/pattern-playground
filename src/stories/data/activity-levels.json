@@ -19,6 +19,12 @@
       "atomic-category": "pattern",
       "mediation": "individual"
     },
+    "actions-application-context-menu": {
+      "activity-level": "action",
+      "lifecycle-stage": "application",
+      "atomic-category": "component",
+      "mediation": "individual"
+    },
     "actions-application-data-entry": {
       "activity-level": "action",
       "lifecycle-stage": "application",
@@ -32,6 +38,12 @@
       "mediation": "individual"
     },
     "actions-application-dialog": {
+      "activity-level": "action",
+      "lifecycle-stage": "application",
+      "atomic-category": "component",
+      "mediation": "individual"
+    },
+    "actions-application-drawer": {
       "activity-level": "action",
       "lifecycle-stage": "application",
       "atomic-category": "component",
@@ -427,6 +439,12 @@
       "atomic-category": "foundations",
       "mediation": null
     },
+    "foundations-modality": {
+      "activity-level": "cross-cutting",
+      "lifecycle-stage": null,
+      "atomic-category": "foundations",
+      "mediation": null
+    },
     "foundations-material-color": {
       "activity-level": "cross-cutting",
       "lifecycle-stage": null,
@@ -738,12 +756,6 @@
       "lifecycle-stage": null,
       "atomic-category": "qualities",
       "mediation": null
-    },
-    "actions-application-drawer": {
-      "activity-level": "action",
-      "lifecycle-stage": "application",
-      "atomic-category": "component",
-      "mediation": "individual"
     },
     "actions-evaluation-list": {
       "activity-level": "action",

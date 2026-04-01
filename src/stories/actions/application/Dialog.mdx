@@ -26,6 +26,8 @@ By design, a dialog’s height will never exceed that of the viewport. As such, 
 
 ## Related patterns
 
-Dialog is a [transient mode](../?path=/docs/foundations-intent-interaction--docs#modes) — it suspends the primary workflow to force a focused decision. There is also significant overlap between it, [popover](../?path=/docs/operations-popover--docs) and [drawer](../?path=/docs/actions-application-drawer--docs).
+Dialog is the canonical [transient mode](../?path=/docs/foundations-modality--docs) — it suspends the primary workflow to force a focused decision. See the [modality decision tree](../?path=/docs/foundations-modality--docs#overlay-vs-page) for when to use dialog vs. [drawer](../?path=/docs/actions-application-drawer--docs) vs. a separate page.
 
-A dialog can be used for presenting critical [notifications](./?path=/docs/actions-coordination-notification--docs) that require user action.
+- [Drawer](../?path=/docs/actions-application-drawer--docs) — when the actor needs to maintain awareness of the primary context rather than being forced to resolve before returning
+- [Popover](../?path=/docs/operations-popover--docs) — lighter, non-modal alternative for contextual content that doesn't require a decision
+- [Notification](../?path=/docs/actions-coordination-notification--docs) — dialog is the most disruptive notification type, reserved for critical alerts that require action

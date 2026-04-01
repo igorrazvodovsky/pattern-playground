@@ -1,0 +1,84 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { MermaidDiagram } from '../../components/MermaidDiagram';
+
+<Meta title="Foundations/Modality" />
+
+> 🙂 **Fun meter: 3/5**. The tension between Tesler's "no modes" ideal and the pragmatic reality is an interesting design problem.
+
+# Modality
+
+The degree to which a system constrains available actions to focus attention on a specific task or context.
+
+All interfaces exist on a spectrum from fully modeless (any action available at any time) to fully modal (only the presented task can be addressed). Design stance following Tesler and Raskin: prefer modeless; when unavoidable, make modes visible, escapable, and scoped as narrowly as possible. The cost of a mode is cognitive — the actor must track what state they're in, and same input producing different outcomes is the root of mode error.
+
+## Mode types
+
+*Persistent modes* remain active until explicitly dismissed — highest mode-error risk. Edit vs. view, or [focused vs. inline vs. ambient](../?path=/docs/activities-bot--docs) bot interaction. The actor must remember which mode they're in; nothing in the physical world reminds them.
+
+*Quasimodes* last only while a physical action is maintained (holding a modifier key, long-pressing). The body is the reminder — release the key, exit the mode. [Toggle mode in dynamic hyperlinks](../?path=/docs/actions-seeking-dynamic-hyperlinks--docs) is an example. Preferred for temporary mode shifts because they're self-terminating.
+
+*Transient modes* are system-imposed interruptions that block the primary workflow until resolved — [dialog](../?path=/docs/actions-application-dialog--docs) is the most common. The system forces focus; the actor cannot continue until they respond.
+
+## Modal vs. non-modal
+
+Transient modes split further by whether they block the underlying interface:
+
+*Modal* surfaces disable interaction with the background. The actor must resolve the presented task before returning. Typically paired with a scrim (lightbox overlay) that signals the blocked state. [Dialog](../?path=/docs/actions-application-dialog--docs) is always modal; [drawer](../?path=/docs/actions-application-drawer--docs) can be either.
+
+*Non-modal* surfaces coexist with the primary interface. The actor can interact with both. [Popover](../?path=/docs/operations-popover--docs), [toast](../?path=/docs/operations-toast--docs), and [callout](../?path=/docs/operations-callout--docs) are non-modal — they add information or options without demanding resolution.
+
+Some patterns shift between modal and non-modal depending on context. A [drawer](../?path=/docs/actions-application-drawer--docs) may be non-modal on a wide viewport (side peek alongside the main content) and modal on a narrow one (covering the primary surface). Mobile platforms often call this a *sheet*.
+
+## Design considerations
+
+- *Visibility*: if discovering the current mode requires performing an action, the mode is invisible — and invisible modes cause errors.
+- *Escapability*: cheap exit always. [Undo](../?path=/docs/operations-undo--docs) mitigates mode errors but doesn't excuse them.
+- *Scope*: narrow (single tool, single field) is safer than broad (all input reinterpreted). The broader the mode, the more the actor must hold in memory.
+- *Promotion/demotion*: a frequently toggled [setting](../?path=/docs/actions-application-settings--docs) is a mode switch that belongs in the primary interface. A mode actors rarely leave may just be the default.
+- *[Agency](../?path=/docs/qualities-agency--docs)*: actor-initiated transitions are legible; system-initiated ones risk mode error. Transient modes imposed by the system (alerts, confirmations) should be rare and clearly justified.
+- *[Temporality](../?path=/docs/qualities-temporality--docs)*: how long the mode persists affects its cost. A quasimode lasting 200ms barely registers; a persistent mode lasting an entire session accumulates error risk.
+
+## Overlay vs. page decision tree
+
+When something needs more space or focus than the current page allows, the first question is whether to use an overlay or navigate to a separate page. The second is which overlay fits.
+
+<MermaidDiagram chart={`
+flowchart TD
+    A{Needs focused attention?} -->|No| B[Inline or non-modal]
+    A -->|Yes| C{Complex, multi-step, or bookmarkable?}
+
+    C -->|Yes| D[Separate page]
+    C -->|No| E{Actor needs to see underlying content?}
+
+    E -->|Yes| F[Drawer]
+    E -->|No| G{Irreversible or needs confirmation?}
+
+    G -->|Yes| H[Dialog]
+    G -->|No| I[Drawer or sheet]
+
+    style B fill:#e8f5e9
+    style D fill:#e8f5e9
+    style F fill:#e8f5e9
+    style H fill:#e8f5e9
+    style I fill:#e8f5e9
+`} />
+
+## Related patterns
+
+### Transient-mode patterns
+- [Dialog](../?path=/docs/actions-application-dialog--docs) — forces resolution before return
+- [Drawer](../?path=/docs/actions-application-drawer--docs) — maintains primary context alongside secondary content
+- [Popover](../?path=/docs/operations-popover--docs) — non-modal contextual layer with light-dismiss
+
+### Notification as modality gradient
+- [Notification](../?path=/docs/actions-coordination-notification--docs) — the coordination pattern that selects disruption level, from inline (modeless) through [toast](../?path=/docs/operations-toast--docs) and [callout](../?path=/docs/operations-callout--docs) (non-modal) to [dialog](../?path=/docs/actions-application-dialog--docs) (modal)
+
+### Complementary
+- [Command menu](../?path=/docs/actions-seeking-command-menu--docs) — modal overlay for command invocation
+- [Dropdown](../?path=/docs/actions-coordination-dropdown--docs) — non-modal option reveal
+- [Context menu](../?path=/docs/actions-application-context-menu--docs) — right-click/long-press overlay for contextual actions. Complements [command menu](../?path=/docs/actions-seeking-command-menu--docs) (invoked by name) and [dropdown](../?path=/docs/actions-coordination-dropdown--docs) (predefined options)
+
+## Resources & references
+
+- Raskin (2000). *The Humane Interface* — mode error, quasimodes, and the cost of invisible state
+- [Apple HIG / Modality](https://developer.apple.com/design/human-interface-guidelines/modality) — platform guidance on when modal presentations are justified

@@ -19,6 +19,12 @@
       "path": "../?path=/docs/actions-application-assisted-task-completion--docs"
     },
     {
+      "id": "actions-application-context-menu",
+      "title": "Context menu",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-application-context-menu--docs"
+    },
+    {
       "id": "actions-application-data-entry",
       "title": "Data entry",
       "category": "Actions",
@@ -35,6 +41,12 @@
       "title": "Dialog",
       "category": "Actions",
       "path": "../?path=/docs/actions-application-dialog--docs"
+    },
+    {
+      "id": "actions-application-drawer",
+      "title": "Drawer",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-application-drawer--docs"
     },
     {
       "id": "actions-application-form",
@@ -427,6 +439,12 @@
       "path": "../?path=/docs/foundations-intent-interaction--docs"
     },
     {
+      "id": "foundations-modality",
+      "title": "Modality",
+      "category": "Foundations",
+      "path": "../?path=/docs/foundations-modality--docs"
+    },
+    {
       "id": "foundations-material-color",
       "title": "Color",
       "category": "Foundations",
@@ -739,12 +757,6 @@
       "path": "../?path=/docs/qualities-temporality--docs"
     },
     {
-      "id": "actions-application-drawer",
-      "title": "Drawer",
-      "category": "Actions",
-      "path": "../?path=/docs/actions-application-drawer--docs"
-    },
-    {
       "id": "actions-evaluation-list",
       "title": "List",
       "category": "Actions",
@@ -863,6 +875,26 @@
       "target": "operations-good-defaults"
     },
     {
+      "source": "actions-application-context-menu",
+      "target": "actions-coordination-dropdown"
+    },
+    {
+      "source": "actions-application-context-menu",
+      "target": "actions-seeking-command-menu"
+    },
+    {
+      "source": "actions-application-context-menu",
+      "target": "operations-popover"
+    },
+    {
+      "source": "actions-application-context-menu",
+      "target": "foundations-modality"
+    },
+    {
+      "source": "actions-application-context-menu",
+      "target": "operations-unavailable-actions"
+    },
+    {
       "source": "actions-application-data-entry",
       "target": "activities-localization"
     },
@@ -920,7 +952,11 @@
     },
     {
       "source": "actions-application-dialog",
-      "target": "foundations-intent-interaction"
+      "target": "foundations-modality"
+    },
+    {
+      "source": "actions-application-dialog",
+      "target": "actions-application-drawer"
     },
     {
       "source": "actions-application-dialog",
@@ -928,7 +964,35 @@
     },
     {
       "source": "actions-application-dialog",
-      "target": "actions-application-drawer"
+      "target": "actions-coordination-notification"
+    },
+    {
+      "source": "actions-application-drawer",
+      "target": "actions-application-dialog"
+    },
+    {
+      "source": "actions-application-drawer",
+      "target": "foundations-modality"
+    },
+    {
+      "source": "actions-application-drawer",
+      "target": "operations-popover"
+    },
+    {
+      "source": "actions-application-drawer",
+      "target": "actions-application-form"
+    },
+    {
+      "source": "actions-application-drawer",
+      "target": "actions-application-settings"
+    },
+    {
+      "source": "actions-application-drawer",
+      "target": "actions-coordination-notification"
+    },
+    {
+      "source": "actions-application-drawer",
+      "target": "operations-toast"
     },
     {
       "source": "actions-application-form",
@@ -1285,6 +1349,10 @@
     {
       "source": "actions-coordination-dropdown",
       "target": "actions-coordination-priority"
+    },
+    {
+      "source": "actions-coordination-dropdown",
+      "target": "actions-application-context-menu"
     },
     {
       "source": "actions-coordination-messaging",
@@ -1701,6 +1769,10 @@
     {
       "source": "actions-seeking-command-menu",
       "target": "operations-unavailable-actions"
+    },
+    {
+      "source": "actions-seeking-command-menu",
+      "target": "actions-application-context-menu"
     },
     {
       "source": "actions-seeking-data-view",
@@ -2780,27 +2852,79 @@
     },
     {
       "source": "foundations-intent-interaction",
-      "target": "activities-bot"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "actions-seeking-dynamic-hyperlinks"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "actions-application-dialog"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "operations-undo"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "actions-application-settings"
+      "target": "foundations-modality"
     },
     {
       "source": "foundations-intent-interaction",
       "target": "foundations-collaboration"
+    },
+    {
+      "source": "foundations-modality",
+      "target": "activities-bot"
+    },
+    {
+      "source": "foundations-modality",
+      "target": "actions-seeking-dynamic-hyperlinks"
+    },
+    {
+      "source": "foundations-modality",
+      "target": "actions-application-dialog"
+    },
+    {
+      "source": "foundations-modality",
+      "target": "actions-application-drawer"
+    },
+    {
+      "source": "foundations-modality",
+      "target": "operations-popover"
+    },
+    {
+      "source": "foundations-modality",
+      "target": "operations-toast"
+    },
+    {
+      "source": "foundations-modality",
+      "target": "operations-callout"
+    },
+    {
+      "source": "foundations-modality",
+      "target": "operations-undo"
+    },
+    {
+      "source": "foundations-modality",
+      "target": "actions-application-settings"
+    },
+    {
+      "source": "foundations-modality",
+      "target": "qualities-agency"
+    },
+    {
+      "source": "foundations-modality",
+      "target": "qualities-temporality"
+    },
+    {
+      "source": "foundations-modality",
+      "target": "foundations-intent-interaction"
+    },
+    {
+      "source": "foundations-modality",
+      "target": "foundations-collaboration"
+    },
+    {
+      "source": "foundations-modality",
+      "target": "actions-coordination-notification"
+    },
+    {
+      "source": "foundations-modality",
+      "target": "actions-seeking-command-menu"
+    },
+    {
+      "source": "foundations-modality",
+      "target": "actions-coordination-dropdown"
+    },
+    {
+      "source": "foundations-modality",
+      "target": "actions-application-context-menu"
     },
     {
       "source": "foundations-material-iconography",
@@ -3013,6 +3137,38 @@
     {
       "source": "operations-good-defaults",
       "target": "activities-localization"
+    },
+    {
+      "source": "operations-input",
+      "target": "operations-autocomplete"
+    },
+    {
+      "source": "operations-input",
+      "target": "operations-autofill"
+    },
+    {
+      "source": "operations-input",
+      "target": "operations-good-defaults"
+    },
+    {
+      "source": "operations-input",
+      "target": "actions-application-suggestion"
+    },
+    {
+      "source": "operations-input",
+      "target": "actions-application-data-entry"
+    },
+    {
+      "source": "operations-input",
+      "target": "actions-application-form"
+    },
+    {
+      "source": "operations-input",
+      "target": "actions-seeking-searching"
+    },
+    {
+      "source": "operations-input",
+      "target": "operations-textarea"
     },
     {
       "source": "operations-overflow",

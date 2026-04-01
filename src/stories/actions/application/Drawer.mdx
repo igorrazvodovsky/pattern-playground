@@ -1,0 +1,62 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import * as DrawerStories from './Drawer.stories.tsx';
+
+<Meta
+  title="Actions/Application/Drawer"
+  tags={[
+    'activity-level:action',
+    'atomic:component',
+    'lifecycle:application',
+    'lifecycle:evaluation',
+    'mediation:individual'
+    ]} />
+
+> 🥱 **Fun meter: boring**. This is more or less the standard way of doing things. Included as a prerequisite for more interesting things.
+
+# Drawer
+
+A surface that slides in from an edge, letting the actor inspect or act on secondary content while maintaining awareness of the primary task they intend to return to.
+
+The key distinction from [dialog](../?path=/docs/actions-application-dialog--docs) is temporal: a dialog demands resolution before the actor can continue, while a drawer assumes the primary context remains the actor's anchor. The distinction from navigating to a separate page is spatial: the drawer keeps the origin visible (or at least preservable), signalling that this is a detour, not a destination.
+
+
+## Position variants
+
+<Story of={ DrawerStories.RightDrawer } />
+
+Right drawers are the most common — they follow the reading direction and leave the primary navigation visible.
+
+<Story of={ DrawerStories.LeftDrawer } />
+
+Left drawers typically serve navigation or filter panels, where the content relates to *where to go* rather than *what to inspect*.
+
+## Modal vs. non-modal
+
+A drawer can operate in either mode depending on context:
+
+*Non-modal* (side peek) — the actor can interact with both the drawer and the underlying page. Preferred on wide viewports where both surfaces fit comfortably. This is the drawer's natural state.
+
+*Modal* — the drawer covers enough of the viewport that the background is effectively blocked, often with a scrim. On narrow viewports this happens on its own; on wider ones it can be a deliberate choice for focused editing.
+
+The transition between these is often viewport-driven rather than explicit: the same drawer component that sits alongside content on a desktop becomes a modal sheet on a phone.
+
+## Design considerations
+
+- *Return expectation*: the drawer's content should be completable or dismissible — if the task is complex enough to become the primary focus, it probably belongs on its own page.
+- *Stacking*: opening a drawer from within a drawer is possible but rapidly increases cognitive load. If the secondary content needs its own secondary content, the information architecture may need rethinking.
+- *Persistence*: some drawers persist across navigation (e.g., a chat panel). These are closer to persistent [modes](../?path=/docs/foundations-modality--docs) than transient ones — the design considerations shift accordingly.
+
+## Related patterns
+
+### Precursors
+- [Modality](../?path=/docs/foundations-modality--docs) — how overlays constrain attention
+
+### Complementary
+- [Dialog](../?path=/docs/actions-application-dialog--docs) — when the task demands resolution before return, use dialog instead
+- [Popover](../?path=/docs/operations-popover--docs) — lighter alternative when the secondary content is brief and contextual
+- [Form](../?path=/docs/actions-application-form--docs) — drawers frequently house forms for editing detail without leaving the list
+- [Settings](../?path=/docs/actions-application-settings--docs) — configuration panels often live in drawers
+
+### Follow-ups
+- [Notification](../?path=/docs/actions-coordination-notification--docs) — completing an action in a drawer often triggers a [toast](../?path=/docs/operations-toast--docs) confirmation
+
