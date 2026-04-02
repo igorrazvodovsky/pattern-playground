@@ -4,20 +4,31 @@ import { faker } from '@faker-js/faker';
 import { useState } from "react";
 import { userEvent, within } from '@storybook/testing-library';
 
+interface ToastArgs {
+  message: string;
+}
+
 const meta = {
   title: "Operations/Toast",
   tags: ["activity-level:operation", "atomic:primitive", 'mediation:individual'],
-} satisfies Meta;
+  argTypes: {
+    message: {
+      control: 'text',
+      description: 'Toast message text',
+    },
+  },
+} satisfies Meta<ToastArgs>;
 
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<ToastArgs>;
 
 export const Default: Story = {
-  render: () => (
+  args: { message: 'Something happened' },
+  render: ({ message }) => (
     <div className="inline-flow">
       <button
         className="button"
-        onClick={() => PpToast.show(faker.word.words())}
+        onClick={() => PpToast.show(message)}
       >
         Show toast
       </button>

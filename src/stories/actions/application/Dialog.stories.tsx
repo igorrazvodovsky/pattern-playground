@@ -4,29 +4,51 @@ import { faker } from '@faker-js/faker';
 import { useModalService } from '../../../hooks/useModalService';
 import { userEvent, within } from '@storybook/testing-library';
 
+interface DialogArgs {
+  title: string;
+  size: 'small' | 'medium' | 'large';
+  message: string;
+}
+
 const meta = {
   title: "Actions/Application/Dialog",
-} satisfies Meta;
+  argTypes: {
+    title: {
+      control: 'text',
+      description: 'Dialog title',
+    },
+    size: {
+      control: { type: 'radio' },
+      options: ['small', 'medium', 'large'] as DialogArgs['size'][],
+      description: 'Dialog size',
+    },
+    message: {
+      control: 'text',
+      description: 'Dialog body content',
+    },
+  },
+} satisfies Meta<DialogArgs>;
 
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<DialogArgs>;
 
 export const Default: Story = {
-  render: () => {
+  args: { title: 'Dialog title', size: 'medium', message: faker.hacker.phrase() },
+  render: (args) => {
     const DialogExample = () => {
       const { openDialog } = useModalService();
 
       const openBasicDialog = () => {
         openDialog(
           <div className="flow">
-            <p>{faker.hacker.phrase()}</p>
+            <p>{args.message}</p>
             <footer>
               <button className="button" autoFocus>Close</button>
             </footer>
           </div>,
           {
-            title: 'Dialog title',
-            size: 'medium'
+            title: args.title,
+            size: args.size,
           }
         );
       };

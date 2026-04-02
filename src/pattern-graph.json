@@ -2843,22 +2843,6 @@
       "target": "actions-navigation-hub-and-spoke"
     },
     {
-      "source": "foundations-intent-interaction",
-      "target": "qualities-conversation"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "activities-collaboration"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "foundations-modality"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "foundations-collaboration"
-    },
-    {
       "source": "foundations-modality",
       "target": "activities-bot"
     },
@@ -2901,14 +2885,6 @@
     {
       "source": "foundations-modality",
       "target": "qualities-temporality"
-    },
-    {
-      "source": "foundations-modality",
-      "target": "foundations-intent-interaction"
-    },
-    {
-      "source": "foundations-modality",
-      "target": "foundations-collaboration"
     },
     {
       "source": "foundations-modality",
