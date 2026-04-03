@@ -90,16 +90,14 @@ h3::first-letter,
   text-transform: capitalize;
 }
 
-#popover-tooltip[popover] {
-  position-anchor: --anchor_1;
-  inset-block-start: anchor(--anchor_1 top);
-  inset-inline-start: anchor(--anchor_1 left);
+[popovertarget="popover-1"] {
+  anchor-name: --anchor_1;
 }
 
 #popover-1[popover] {
-  position-anchor: --anchor_2;
-  inset-block-start: anchor(--anchor_2 top);
-  inset-inline-start: anchor(--anchor_2 left);
+  position-anchor: --anchor_1;
+  inset-block-start: anchor(--anchor_1 top);
+  inset-inline-start: anchor(--anchor_1 left);
 }
 
 .docs-palette {

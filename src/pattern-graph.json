@@ -601,6 +601,12 @@
       "path": "../?path=/docs/operations-textarea--docs"
     },
     {
+      "id": "operations-toast",
+      "title": "Toast",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-toast--docs"
+    },
+    {
       "id": "operations-unavailable-actions",
       "title": "Unavailable actions",
       "category": "Operations",
@@ -773,12 +779,6 @@
       "title": "Tabs",
       "category": "Operations",
       "path": "../?path=/docs/operations-tabs--docs"
-    },
-    {
-      "id": "operations-toast",
-      "title": "Toast",
-      "category": "Operations",
-      "path": "../?path=/docs/operations-toast--docs"
     }
   ],
   "edges": [
@@ -1913,6 +1913,10 @@
     {
       "source": "actions-seeking-progressive-disclosure",
       "target": "activities-bot"
+    },
+    {
+      "source": "actions-seeking-progressive-disclosure",
+      "target": "operations-popover"
     },
     {
       "source": "actions-seeking-progressive-disclosure",
@@ -3163,6 +3167,26 @@
       "target": "operations-breadcrumbs"
     },
     {
+      "source": "operations-popover",
+      "target": "actions-application-dialog"
+    },
+    {
+      "source": "operations-popover",
+      "target": "actions-application-drawer"
+    },
+    {
+      "source": "operations-popover",
+      "target": "foundations-modality"
+    },
+    {
+      "source": "operations-popover",
+      "target": "actions-coordination-dropdown"
+    },
+    {
+      "source": "operations-popover",
+      "target": "actions-application-context-menu"
+    },
+    {
       "source": "operations-progress-indicator",
       "target": "operations-breadcrumbs"
     },
@@ -3209,6 +3233,34 @@
     {
       "source": "operations-tag",
       "target": "actions-sensemaking-tag"
+    },
+    {
+      "source": "operations-toast",
+      "target": "operations-callout"
+    },
+    {
+      "source": "operations-toast",
+      "target": "actions-application-dialog"
+    },
+    {
+      "source": "operations-toast",
+      "target": "actions-coordination-notification"
+    },
+    {
+      "source": "operations-toast",
+      "target": "operations-status-feedback"
+    },
+    {
+      "source": "operations-toast",
+      "target": "operations-undo"
+    },
+    {
+      "source": "operations-popover",
+      "target": "actions-seeking-progressive-disclosure"
+    },
+    {
+      "source": "operations-popover",
+      "target": "qualities-learnability"
     },
     {
       "source": "operations-unavailable-actions",

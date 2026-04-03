@@ -4,56 +4,17 @@ import { userEvent, within } from '@storybook/testing-library';
 
 const meta = {
   title: "Operations/Popover",
+  tags: ["activity-level:operation", "atomic:primitive", "mediation:individual"],
 } satisfies Meta;
 
 export default meta;
 type Story = StoryObj;
 
-export const Tooltip: Story = {
-  render: () => (
-    <>
-      <button className="button" popoverTarget="popover-tooltip" style={{ anchorName: '--anchor_1' }}>Hover me</button>
-      <div id="popover-tooltip" className="tooltip" popover="true">
-        <p>I am a popover with more information. Hit <kbd>esc</kbd> or click away to close me.</p>
-      </div>
-
-      <script dangerouslySetInnerHTML={{
-        __html: `
-          const button = document.querySelector('[popovertarget="popover-tooltip"]');
-          let timeout = 0;
-          button.addEventListener("mouseenter", () => {
-            const target = button.getAttribute("popovertarget");
-            const popover = document.querySelector("#" + target);
-            timeout = setTimeout(() => {
-              popover.showPopover();
-            }, 1000);
-          });
-
-          button.addEventListener("mouseleave", () => {
-            clearTimeout(timeout);
-          });
-        `
-      }} />
-    </>
-  ),
-};
-
-export const Toast: Story = {
-  render: () => (
-    <>
-      <button className="button" popoverTarget="popover-toast">Toast!</button>
-      <div id="popover-toast" className="toast" popover="true">
-        <p>I am a popover with more information. Hit <kbd>esc</kbd> or click away to close me.</p>
-      </div>
-    </>
-  ),
-};
-
 export const Popover: Story = {
   render: () => (
     <>
-      <button className="button" popoverTarget="popover-1" style={{ anchorName: '--anchor_2' }}>Click me</button>
-      <div id="popover-1" popover="true">
+      <button className="button" popoverTarget="popover-1">Click me</button>
+      <div id="popover-1" popover="auto">
         <strong>Popover header</strong>
         <p>{faker.hacker.phrase()}</p>
       </div>
@@ -64,4 +25,24 @@ export const Popover: Story = {
     const trigger = canvas.getByRole('button', { name: 'Click me' });
     await userEvent.click(trigger);
   },
+};
+
+export const Tooltip: Story = {
+  render: () => (
+    <pp-tooltip content="Supplementary information about this control.">
+      <button className="button">Hover me</button>
+    </pp-tooltip>
+  ),
+};
+
+export const TooltipOnIcon: Story = {
+  name: "Tooltip on icon",
+  render: () => (
+    <pp-tooltip content="Delete this item permanently">
+      <button className="button button--plain">
+        <iconify-icon className="icon" icon="ph:trash-simple" />
+        <span className="inclusively-hidden">Delete</span>
+      </button>
+    </pp-tooltip>
+  ),
 };
