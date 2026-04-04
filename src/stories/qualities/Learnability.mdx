@@ -36,6 +36,23 @@ Temporary support structures that help users perform tasks they couldn't yet do 
 - For interface skills, effective scaffolding fades as competence grows—training wheels that eventually come off.
 - For domain understanding, scaffolding may *deepen* rather than fade. As users master basics, they become ready for richer [explanations](../?path=/docs/actions-sensemaking-explanation--docs) of why the system works as it does.
 
+## Cognitive levels as a design heuristic
+
+[Bloom's taxonomy](https://en.wikipedia.org/wiki/Bloom%27s_taxonomy) provides a useful lens for two decisions that the concepts above leave underspecified:
+
+1. *What level does the user need to reach?* Typical UI learning plateaus at Apply — users need to remember where things are, understand what they do, and operate them. Domain learning often requires Analyse or Evaluate — understanding *why* the system works as it does, or judging whether a recommendation is correct. Knowing the target level sharpens what "extended learnability" means for a given context.
+
+2. *What kind of scaffolding to provide?* A tooltip that aids recall is different from an explanation that supports analysis. Scaffolding has not just an *intensity* dimension (how much support) but a *cognitive level* dimension (what kind of thinking it supports).
+
+Some rough correspondences between cognitive levels and patterns in this library:
+
+- *Remember* — [annotation](../?path=/docs/actions-sensemaking-annotation--docs), consistent layout, familiar affordances
+- *Understand* — [explanation](../?path=/docs/actions-sensemaking-explanation--docs), [transparent reasoning](../?path=/docs/activities-transparent-reasoning--docs)
+- *Apply* — [onboarding](../?path=/docs/activities-onboarding--docs), direct manipulation
+- *Analyse* — [bot](../?path=/docs/activities-bot--docs) (contextual enrichment), comparison views
+- *Evaluate* — [transparent reasoning](../?path=/docs/activities-transparent-reasoning--docs) (judging system suggestions)
+- *Create* — [mastery](../?path=/docs/activities-mastery--docs)-stage tools, composition patterns
+
 {/* ## Interaction modalities */}
 {/* Different command interfaces support different skill levels. */}
 {/* - **Pedagogic:** Commands that teach via inspection — menus, dialogs with descriptive text. Beginners use these to orient in new applications. */}
@@ -73,6 +90,7 @@ Temporary support structures that help users perform tasks they couldn't yet do 
 
 ## Resources & references
 
+- Anderson, L. W. & Krathwohl, D. R. (2001). *A Taxonomy for Learning, Teaching, and Assessing: A Revision of Bloom's Taxonomy of Educational Objectives*
 - Andy Matuschak (2025). [How might we learn?](https://andymatuschak.org/hmwl/) – synthesis of implicit and guided learning through AI-enhanced contexts
 - Forsey et al. (2024). [Designing for Learnability: Improvement Through Layered Interfaces](https://journals.sagepub.com/doi/10.1177/10648046241273291). Ergonomics in Design
 - Nielsen, J. (2006). [Progressive disclosure](https://www.nngroup.com/articles/progressive-disclosure/). NN/g
