@@ -1,5 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
+import { faker } from '@faker-js/faker';
+
+interface MessagingArgs {
+  messageCount: number;
+  participantCount: number;
+}
 
 const meta = {
   title: "Actions/Coordination/Messaging",
@@ -63,43 +69,55 @@ export const HumanToHumanChat: Story = {
   ),
 };
 
-export const HumanToHumanComments: Story = {
-  render: () => (
-    <div className="messages layer">
-      <div className="message">
-        <pp-avatar size="small">
-          <img src="https://i.pravatar.cc/150?img=11" alt="John Doe" />
-        </pp-avatar>
-        <div className="message__content">
-          <div className="message__body layer">
-            <div className="message__author">Brogan Weaver</div>
-            Completely agree with everything you said here!
+export const HumanToHumanComments: StoryObj<MessagingArgs> = {
+  argTypes: {
+    messageCount: {
+      control: { type: 'range', min: 1, max: 10, step: 1 },
+      description: 'Number of messages to display',
+    },
+    participantCount: {
+      control: { type: 'range', min: 1, max: 5, step: 1 },
+      description: 'Number of distinct participants',
+    },
+  },
+  args: { messageCount: 2, participantCount: 2 },
+  render: ({ messageCount, participantCount }) => {
+    const participants = Array.from({ length: participantCount }, (_, i) => ({
+      name: faker.person.fullName(),
+      avatarSeed: 5 + i,
+    }));
+    const messages = Array.from({ length: messageCount }, (_, i) => ({
+      participant: participants[i % participantCount],
+      text: faker.lorem.sentence(),
+    }));
+
+    return (
+      <div className="messages layer">
+        {messages.map((msg, i) => (
+          <div key={i} className="message">
+            <pp-avatar size="small">
+              <img src={`https://i.pravatar.cc/150?img=${msg.participant.avatarSeed}`} alt={msg.participant.name} />
+            </pp-avatar>
+            <div className="message__content">
+              <div className="message__body layer">
+                <div className="message__author">{msg.participant.name}</div>
+                {msg.text}
+              </div>
+              <small className="message__timestamp">12:00</small>
+            </div>
           </div>
-          <small className="message__timestamp">12:00</small>
+        ))}
+        <div className="message-composer">
+          <pp-avatar size="small">
+            <img src="https://i.pravatar.cc/150?img=16" alt="You" />
+          </pp-avatar>
+          <pp-input placeholder="Type a message">
+            <iconify-icon className="icon" icon="ph:arrow-elbow-down-left" slot="suffix"></iconify-icon>
+          </pp-input>
         </div>
       </div>
-      <div className="message">
-        <pp-avatar size="small">
-          <img src="https://i.pravatar.cc/150?img=5" alt="John Doe" />
-        </pp-avatar>
-        <div className="message__content">
-          <div className="message__body layer">
-            <div className="message__author">Nellie Mora</div>
-            Thanks for sharing your thoughts
-          </div>
-          <small className="message__timestamp">12:00</small>
-        </div>
-      </div>
-      <div className="message-composer">
-        <pp-avatar size="small">
-          <img src="https://i.pravatar.cc/150?img=16" alt="John Doe" />
-        </pp-avatar>
-        <pp-input placeholder="Type a message">
-          <iconify-icon className="icon" icon="ph:arrow-elbow-down-left" slot="suffix"></iconify-icon>
-        </pp-input>
-      </div>
-    </div>
-  ),
+    );
+  },
 };
 
 export const HumanToLLM: Story = {
@@ -117,7 +135,7 @@ export const HumanToLLM: Story = {
           <div className="message message--inbound">
             <div className="message__content">
               <div className="message__body">
-                Cats knead with their paws — like they’re making biscuits — because it’s a leftover behaviour from kittenhood. Kittens knead their mother’s belly to stimulate milk flow, and adult cats often keep doing it when they’re relaxed or showing affection.
+                Cats knead with their paws — like they're making biscuits — because it's a leftover behaviour from kittenhood. Kittens knead their mother's belly to stimulate milk flow, and adult cats often keep doing it when they're relaxed or showing affection.
               </div>
             </div>
           </div>
@@ -125,7 +143,7 @@ export const HumanToLLM: Story = {
       </div>
       <div className="message-follow-up">
         <button className="button">Do all cats knead?</button>
-        <button className="button">What does kneading tell us about a cat’s mood?</button>
+        <button className="button">What does kneading tell us about a cat's mood?</button>
         <button className="button">Why do some cats knead with claws out?</button>
       </div>
       <div className="message-composer layer">

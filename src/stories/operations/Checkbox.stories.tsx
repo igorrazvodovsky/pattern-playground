@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useEffect, useRef } from "react";
+import { action } from 'storybook/actions';
 import { userEvent, within } from '@storybook/testing-library';
 
 interface CheckboxArgs {
@@ -21,6 +22,7 @@ function CheckboxStory({ label, checked, disabled, indeterminate }: CheckboxArgs
         ref={ref}
         defaultChecked={checked}
         disabled={disabled}
+        onChange={action('change')}
       />
       {label}
     </label>
@@ -31,19 +33,19 @@ const meta = {
   title: "Operations/Checkbox",
   argTypes: {
     label: {
-      control: 'text',
+      control: { type: 'text' },
       description: 'Checkbox label',
     },
     checked: {
-      control: 'boolean',
+      control: { type: 'boolean' },
       description: 'Checked state',
     },
     disabled: {
-      control: 'boolean',
+      control: { type: 'boolean' },
       description: 'Disabled state',
     },
     indeterminate: {
-      control: 'boolean',
+      control: { type: 'boolean' },
       description: 'Indeterminate state (partial selection)',
     },
   },

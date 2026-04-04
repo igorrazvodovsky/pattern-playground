@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { PpToast } from "../../main.ts";
 import { faker } from '@faker-js/faker';
 import { useState } from "react";
+import { action } from 'storybook/actions';
 import { userEvent, within } from '@storybook/testing-library';
 
 interface ToastArgs {
@@ -13,7 +14,7 @@ const meta = {
   tags: ["activity-level:operation", "atomic:primitive", 'mediation:individual'],
   argTypes: {
     message: {
-      control: 'text',
+      control: { type: 'text' },
       description: 'Toast message text',
     },
   },
@@ -28,7 +29,10 @@ export const Default: Story = {
     <div className="inline-flow">
       <button
         className="button"
-        onClick={() => PpToast.show(message)}
+        onClick={() => {
+          action('toast-shown')(message);
+          PpToast.show(message);
+        }}
       >
         Show toast
       </button>
@@ -81,7 +85,6 @@ export const ToastWithUndo: Story = {
 
       const handleDelete = (item: string, index: number) => {
         setItems(items.filter((_, i) => i !== index));
-
         PpToast.show(`${item} deleted`);
       };
 
@@ -116,4 +119,11 @@ export const ToastWithUndo: Story = {
 
     return <Component />;
   },
+  parameters: {
+    docs: {
+      description: {
+        story: "Confirms a destructive action with immediate toast feedback, giving users a clear signal the operation completed without interrupting their flow."
+      }
+    }
+  }
 };

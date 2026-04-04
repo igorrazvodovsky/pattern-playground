@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { action } from 'storybook/actions';
 
 interface ButtonArgs {
   label: string;
@@ -11,7 +12,7 @@ const meta = {
   title: "Operations/Button",
   argTypes: {
     label: {
-      control: 'text',
+      control: { type: 'text' },
       description: 'Button label',
     },
     variant: {
@@ -20,7 +21,7 @@ const meta = {
       description: 'Visual variant',
     },
     disabled: {
-      control: 'boolean',
+      control: { type: 'boolean' },
       description: 'Disabled state',
     },
     iconPosition: {
@@ -45,7 +46,7 @@ export const Default: Story = {
     const classes = ['button', args.variant !== 'default' ? `button--${args.variant}` : ''].filter(Boolean).join(' ');
     const icon = <iconify-icon className="icon" icon="ph:circle-dashed" />;
     return (
-      <button className={classes} is="pp-button" disabled={args.disabled}>
+      <button className={classes} is="pp-button" disabled={args.disabled} onClick={action('click')}>
         {(args.iconPosition === 'prefix' || args.iconPosition === 'both') && icon}
         {args.label}
         {(args.iconPosition === 'suffix' || args.iconPosition === 'both') && icon}
@@ -102,4 +103,3 @@ export const IconButton: Story = {
     </button>
   ),
 };
-

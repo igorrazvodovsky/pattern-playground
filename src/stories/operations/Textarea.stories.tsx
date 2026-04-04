@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
+import { action } from 'storybook/actions';
 
 const meta = {
   title: "Operations/Textarea",
@@ -10,10 +11,12 @@ type Story = StoryObj;
 
 export const Basic: Story = {
   render: () => {
-    const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      const parentNode = e.target.parentNode as HTMLElement;
+    const handleInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
+      const target = e.currentTarget;
+      action('input')(target.value);
+      const parentNode = target.parentNode as HTMLElement;
       if (parentNode) {
-        parentNode.dataset.replicatedValue = e.target.value;
+        parentNode.dataset.replicatedValue = target.value;
       }
     };
 

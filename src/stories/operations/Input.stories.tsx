@@ -12,19 +12,19 @@ const meta = {
   title: "Operations/Input",
   argTypes: {
     label: {
-      control: 'text',
+      control: { type: 'text' },
       description: 'Accessible label (aria-label on the internal input)',
     },
     value: {
-      control: 'text',
+      control: { type: 'text' },
       description: 'Input value',
     },
     placeholder: {
-      control: 'text',
+      control: { type: 'text' },
       description: 'Placeholder text',
     },
     disabled: {
-      control: 'boolean',
+      control: { type: 'boolean' },
       description: 'Disabled state',
     },
     addon: {
@@ -47,7 +47,12 @@ export const Default: Story = {
     addon: 'none',
   },
   render: (args) => (
-    <pp-input label={args.label} value={args.value} placeholder={args.placeholder} disabled={args.disabled}>
+    <pp-input
+      label={args.label}
+      value={args.value}
+      placeholder={args.placeholder}
+      disabled={args.disabled}
+    >
       {(args.addon === 'prefix' || args.addon === 'both') && (
         <iconify-icon className="icon" icon="ph:magnifying-glass" slot="prefix" />
       )}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { faker } from '@faker-js/faker';
+import { action } from 'storybook/actions';
 import { useModalService } from '../../../hooks/useModalService';
 import { userEvent, within } from '@storybook/testing-library';
 
@@ -12,9 +13,12 @@ interface DialogArgs {
 
 const meta = {
   title: "Actions/Application/Dialog",
+  parameters: {
+    layout: 'centered',
+  },
   argTypes: {
     title: {
-      control: 'text',
+      control: { type: 'text' },
       description: 'Dialog title',
     },
     size: {
@@ -23,7 +27,7 @@ const meta = {
       description: 'Dialog size',
     },
     message: {
-      control: 'text',
+      control: { type: 'text' },
       description: 'Dialog body content',
     },
   },
@@ -39,6 +43,7 @@ export const Default: Story = {
       const { openDialog } = useModalService();
 
       const openBasicDialog = () => {
+        action('dialog-opened')({ title: args.title, size: args.size });
         openDialog(
           <div className="flow">
             <p>{args.message}</p>
@@ -229,6 +234,13 @@ export const DeletionConfirmation: Story = {
 
 export const TypedConfirmation: Story = {
   tags: ['!autodocs', '!dev'],
+  parameters: {
+    docs: {
+      description: {
+        story: "Prevents accidental deletion of high-stakes resources by requiring the user to type the resource name—making intent explicit before the destructive action is enabled."
+      }
+    }
+  },
   render: () => {
     const TypedConfirmationExample = () => {
       const { openDialog, closeModal: closeDialog } = useModalService();

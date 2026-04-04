@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { action } from 'storybook/actions';
 import { useModalService } from '../../../hooks/useModalService';
 import { modalService } from '../../../services/modal-service';
 import { userEvent, within } from '@storybook/testing-library';
@@ -16,9 +17,12 @@ const meta = {
     'lifecycle:application',
     'mediation:individual'
   ],
+  parameters: {
+    layout: 'centered',
+  },
   argTypes: {
     title: {
-      control: 'text',
+      control: { type: 'text' },
       description: 'Drawer title',
     },
     position: {
@@ -37,7 +41,8 @@ export const Default: Story = {
   render: ({ title, position }) => (
     <button
       className="button"
-      onClick={() =>
+      onClick={() => {
+        action('drawer-opened')({ title, position });
         modalService.openDrawer(
           <div>
             <p>Drawer content. Drawers are great for forms, details, and secondary content.</p>
@@ -47,7 +52,7 @@ export const Default: Story = {
           </div>,
           { title, position }
         )
-      }
+      }}
     >
       Open {position} drawer
     </button>
