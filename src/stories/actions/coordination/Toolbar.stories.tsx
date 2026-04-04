@@ -11,19 +11,19 @@ const meta = {
   title: "Actions/Coordination/Toolbar",
   argTypes: {
     showFilter: {
-      control: 'boolean',
+      control: { type: 'boolean' },
       description: 'Show the filter button',
     },
     showGrouping: {
-      control: 'boolean',
+      control: { type: 'boolean' },
       description: 'Show the grouping button',
     },
     showSort: {
-      control: 'boolean',
+      control: { type: 'boolean' },
       description: 'Show the sort controls',
     },
     searchPlaceholder: {
-      control: 'text',
+      control: { type: 'text' },
       description: 'Search input placeholder text',
     },
   },

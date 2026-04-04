@@ -17,9 +17,16 @@ interface AvatarProps {
 const meta = {
   title: 'Operations/Avatar',
   tags: ['autodocs', 'activity-level:operation', 'atomic:component', 'mediation:individual'],
+  parameters: {
+    docs: {
+      description: {
+        component: 'Visual representation of a user or entity. Supports image, initials, and icon fallbacks at four sizes.',
+      },
+    },
+  },
   argTypes: {
     size: {
-      control: 'select',
+      control: { type: 'select' },
       options: ['xsmall', 'small', 'medium', 'large'],
       description: 'The size of the avatar',
     }

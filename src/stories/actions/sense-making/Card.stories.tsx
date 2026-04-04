@@ -34,8 +34,10 @@ const description = faker.word.words(50);
 const meta = {
   title: "Actions/Sense-making/Card",
   argTypes: {
-    // backgroundColor: { control: "color" },
-    loading: { control: 'boolean' }
+    loading: {
+      control: { type: 'boolean' },
+      description: 'Loading skeleton state',
+    },
   },
 } satisfies Meta;
 

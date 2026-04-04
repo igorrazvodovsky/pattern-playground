@@ -4,6 +4,13 @@ import { userEvent, within } from '@storybook/testing-library';
 
 const meta = {
   title: "Actions/Seeking/Sorting",
+  parameters: {
+    docs: {
+      description: {
+        component: 'Controls for applying and chaining sort criteria to a dataset. Each criterion exposes an attribute selector and a direction toggle.',
+      },
+    },
+  },
 } satisfies Meta;
 
 export default meta;

@@ -15,15 +15,15 @@ const meta = {
   title: "Operations/Tag",
   argTypes: {
     label: {
-      control: 'text',
+      control: { type: 'text' },
       description: 'Tag label',
     },
     pill: {
-      control: 'boolean',
+      control: { type: 'boolean' },
       description: 'Pill shape (rounded)',
     },
     removable: {
-      control: 'boolean',
+      control: { type: 'boolean' },
       description: 'Show remove button',
     },
   },

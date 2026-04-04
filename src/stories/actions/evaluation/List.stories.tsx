@@ -4,6 +4,13 @@ import React from "react";
 const meta = {
   title: "Actions/Evaluation/List",
   tags: ['activity-level:action', 'atomic:component', 'lifecycle:evaluation', 'mediation:individual'],
+  parameters: {
+    docs: {
+      description: {
+        component: 'Composable list component for menus, option sets, and vertical navigation. List items support inline checkboxes, radios, toggles, and separators.',
+      },
+    },
+  },
 } satisfies Meta;
 
 export default meta;

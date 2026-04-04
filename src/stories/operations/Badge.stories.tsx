@@ -15,7 +15,7 @@ const meta = {
   title: "Operations/Badge",
   argTypes: {
     label: {
-      control: 'text',
+      control: { type: 'text' },
       description: 'Badge label',
     },
     purpose: {
@@ -24,7 +24,7 @@ const meta = {
       description: 'Semantic purpose',
     },
     pill: {
-      control: 'boolean',
+      control: { type: 'boolean' },
       description: 'Pill shape (rounded)',
     },
   },

@@ -20,7 +20,7 @@ const meta = {
   title: "Operations/Callout",
   argTypes: {
     message: {
-      control: 'text',
+      control: { type: 'text' },
       description: 'Callout message',
     },
     purpose: {

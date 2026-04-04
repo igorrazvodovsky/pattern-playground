@@ -7,6 +7,13 @@ import { userEvent, within } from '@storybook/testing-library';
 const meta = {
   title: "Operations/Tabs",
   tags: ["autodocs", "activity-level:operation", "atomic:component", 'mediation:individual'],
+  parameters: {
+    docs: {
+      description: {
+        component: 'Tabbed interface that organises related content into discrete panels.',
+      },
+    },
+  },
 } satisfies Meta;
 
 export default meta;
