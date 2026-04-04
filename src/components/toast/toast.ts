@@ -21,43 +21,37 @@ export class PpToast extends HTMLElement {
     toast.setAttribute('aria-live', 'assertive');
     toast.setAttribute('aria-atomic', 'true');
 
+    const body = document.createElement('div');
+    body.className = 'toast-body';
+    const message = document.createElement('span');
+    message.className = 'toast-message';
+    message.textContent = text;
+    body.appendChild(message);
+
+    const closeIcon = document.createElement('iconify-icon');
+    closeIcon.setAttribute('icon', 'ph:x');
+    closeIcon.className = 'icon';
+    const closeButton = document.createElement('button');
+    closeButton.className = 'toast-close';
+    closeButton.setAttribute('aria-label', 'Close');
+    closeButton.appendChild(closeIcon);
+    closeButton.addEventListener('click', () => this.removeToast(toast));
+
     if (onClick) {
-      toast.innerHTML = `
-        <button class="toast-button" aria-label="Open details for: ${text}">
-          <div class="toast-body">
-            <span class="toast-message">${text}</span>
-          </div>
-        </button>
-        <button class="toast-close" aria-label="Close">
-          <iconify-icon icon="ph:x" class="icon"></iconify-icon>
-        </button>
-      `;
-
-      const openButton = toast.querySelector('.toast-button') as HTMLButtonElement;
-      if (openButton) {
-        openButton.addEventListener('click', () => {
-          onClick();
-          this.removeToast(toast);
-        });
-      }
-    } else {
-      toast.innerHTML = `
-        <div class="toast-body">
-          <span class="toast-message">${text}</span>
-        </div>
-        <button class="toast-close" aria-label="Close">
-          <iconify-icon icon="ph:x" class="icon"></iconify-icon>
-        </button>
-      `;
-    }
-
-    const closeButton = toast.querySelector('.toast-close') as HTMLButtonElement;
-    if (closeButton) {
-      closeButton.addEventListener('click', () => {
+      const openButton = document.createElement('button');
+      openButton.className = 'toast-button';
+      openButton.setAttribute('aria-label', `Open details for: ${text}`);
+      openButton.appendChild(body);
+      openButton.addEventListener('click', () => {
+        onClick();
         this.removeToast(toast);
       });
+      toast.appendChild(openButton);
+    } else {
+      toast.appendChild(body);
     }
 
+    toast.appendChild(closeButton);
     return toast;
   }
 
@@ -106,30 +100,29 @@ export class PpToast extends HTMLElement {
   }
 
 
-  // Public API method to show a toast
-  public show(text: string, onClick?: () => void): Promise<void> {
+  public show(text: string, onClick?: () => void, duration = onClick ? 8000 : 4000): Promise<void> {
     const toast = this.createToast(text, onClick);
     this.addToast(toast);
 
-    return new Promise<void>(async (resolve) => {
-      await Promise.allSettled(
-        toast.getAnimations().map(animation =>
-          animation.finished
-        )
-      );
-      this.removeToast(toast);
-      resolve();
+    return new Promise<void>((resolve) => {
+      setTimeout(async () => {
+        toast.classList.add('fade-out');
+        await Promise.allSettled(
+          toast.getAnimations().map(a => a.finished)
+        );
+        this.removeToast(toast);
+        resolve();
+      }, duration);
     });
   }
 
-  // Static method for easy usage
-  static show(text: string, onClick?: () => void): Promise<void> {
+  static show(text: string, onClick?: () => void, duration?: number): Promise<void> {
     let toaster = document.querySelector('pp-toast') as PpToast;
     if (!toaster) {
       toaster = document.createElement('pp-toast') as PpToast;
       document.body.appendChild(toaster);
     }
-    return toaster.show(text, onClick);
+    return toaster.show(text, onClick, duration);
   }
 }
 

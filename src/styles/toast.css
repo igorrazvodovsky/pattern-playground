@@ -36,8 +36,7 @@
   border-radius: var(--radius-m);
 
   will-change: transform;
-  animation: fade-in 0.2s ease, slide-in 0.2s ease,
-    fade-out 0.2s ease var(--_duration);
+  animation: fade-in 0.2s ease, slide-in 0.2s ease;
 
   /* Re-enable pointer events for toast interactions */
   pointer-events: auto;
@@ -53,6 +52,10 @@
   to {
     opacity: 0;
   }
+}
+
+.toast.fade-out {
+  animation: fade-out 0.2s ease forwards;
 }
 
 @keyframes slide-in {
