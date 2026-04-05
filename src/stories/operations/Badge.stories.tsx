@@ -56,7 +56,7 @@ export const Basic: Story = {
 export const Size: Story = {
   render: () => (
     <div className="flow">
-      <h2 style={{display: 'flex', gap: '0.5ch', alignItems: 'center'}}>
+      <h2 className="flex">
         Heading 2 <span className="badge badge--pill badge--danger">Large</span>
       </h2>
       <p>In a paragraph <span className="badge">Small</span></p>

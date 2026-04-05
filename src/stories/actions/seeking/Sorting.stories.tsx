@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
+import { action } from 'storybook/actions';
 import { userEvent, within } from '@storybook/testing-library';
 
 const meta = {
@@ -30,9 +31,9 @@ export const Sorting: Story = {
           <iconify-icon className="icon" icon="ph:caret-down" aria-hidden="true"></iconify-icon>
         </button>
         <pp-list>
-          <pp-list-item type="checkbox" defaultChecked>Sorting criteria 1</pp-list-item>
-          <pp-list-item>Sorting criteria 2</pp-list-item>
-          <pp-list-item>Sorting criteria 3</pp-list-item>
+          <pp-list-item type="checkbox" defaultChecked onClick={action('sort-change')}>Sorting criteria 1</pp-list-item>
+          <pp-list-item onClick={action('sort-change')}>Sorting criteria 2</pp-list-item>
+          <pp-list-item onClick={action('sort-change')}>Sorting criteria 3</pp-list-item>
         </pp-list>
       </pp-dropdown>
       <button className="button" is="pp-button">

@@ -225,6 +225,16 @@ aside[class*="sbdocs-toc"] {
   margin-top: 0 !important;
 }
 
+.story-centered {
+  padding: var(--space-m);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.story-centered--narrow {
+  max-width: 400px;
+}
+
 .product-model-navigation {
   margin: -1.5rem;
   padding: 1rem 1.5rem;

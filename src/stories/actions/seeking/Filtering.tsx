@@ -82,12 +82,18 @@ const useDropdownState = (dropdownRef: React.RefObject<{ hide: () => void }>) =>
 
 export function FilteringDemo({
   initialFilters = [],
+  onFilterChange,
 }: {
   initialFilters?: Filter[];
+  onFilterChange?: (filters: Filter[]) => void;
 } = {}) {
   const dropdownRef = React.useRef<{ hide: () => void } | null>(null);
 
   const { filters, setFilters, addFilter, clearFilters, hasActiveFilters } = useFilterState(initialFilters);
+
+  React.useEffect(() => {
+    onFilterChange?.(filters);
+  }, [filters, onFilterChange]);
   const { hideDropdownWithDelay } = useDropdownState(dropdownRef);
 
   const { state, actions, results, inputRef, placeholder } = useHierarchicalNavigation({

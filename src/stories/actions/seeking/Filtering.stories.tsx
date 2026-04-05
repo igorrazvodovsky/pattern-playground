@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { fn } from 'storybook/test';
 import { FilteringDemo } from './Filtering';
 import { FilterType, FilterOperator, Status, Priority, Assignee } from '../../../components/filter/filter-types';
 import { userEvent, within } from '@storybook/testing-library';
@@ -8,6 +9,9 @@ const meta = {
   component: FilteringDemo,
   parameters: {
     layout: 'centered',
+  },
+  args: {
+    onFilterChange: fn(),
   },
 } satisfies Meta<typeof FilteringDemo>;
 

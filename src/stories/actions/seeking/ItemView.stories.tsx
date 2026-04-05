@@ -5,6 +5,7 @@ import { ContentAdapterProvider } from '../../../components/item-view/ContentAda
 import { taskAdapter } from '../../../components/item-view/adapters';
 import type { TaskObject } from '../../../components/item-view/types';
 import { tasks, taskToItemObject } from '../../data';
+import { centeredLayout, centeredLayoutNarrow } from '../../utils/decorators';
 
 const meta = {
   title: "Actions/Seeking/Item view",
@@ -49,15 +50,8 @@ export const TaskCompact: Story = {
     scope: 'mid',
     mode: 'preview',
   },
-  render: (args) => (
-    <div style={{
-      padding: '1rem',
-      maxWidth: '800px',
-      margin: '0 auto'
-    }}>
-      <ItemView {...args} />
-    </div>
-  ),
+  decorators: [centeredLayout],
+  render: (args) => <ItemView {...args} />,
 };
 
 export const TaskMini: Story = {
@@ -67,15 +61,8 @@ export const TaskMini: Story = {
     scope: 'mini',
     mode: 'preview',
   },
-  render: (args) => (
-    <div style={{
-      padding: '1rem',
-      maxWidth: '400px',
-      margin: '0 auto'
-    }}>
-      <ItemView {...args} />
-    </div>
-  ),
+  decorators: [centeredLayoutNarrow],
+  render: (args) => <ItemView {...args} />,
 };
 
 
