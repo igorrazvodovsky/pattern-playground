@@ -66,6 +66,10 @@ declare global {
         duration?: number;
         closable?: boolean;
       };
+      'pp-h': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
+      'pp-sections': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+        affordance?: 'tab-bar' | 'details';
+      };
       'iconify-icon': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         icon?: string;
         width?: string | number;

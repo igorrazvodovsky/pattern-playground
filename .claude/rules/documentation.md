@@ -1,6 +1,7 @@
 ---
 paths:
   - "src/stories/**/*.mdx"
+  - "src/stories/**/*.stories.tsx"
 ---
 
 # Documentation standards
@@ -8,7 +9,7 @@ paths:
 ## Documentation format
 - Use `.mdx` format for Storybook documentation with rich interactive content
 - Include Meta component for proper Storybook integration: `<Meta title="Category/Name" />`
-- *Established categories*: Foundations, Primitives, Components, Compositions, Patterns, Qualities, Visual elements, Data visualization
+- *Established categories*: Operations, Actions, Activities, Foundations, Qualities, Concepts, Data visualisation
 
 ## Document structure
 Standard section order:
@@ -27,6 +28,11 @@ Use the Intent & Interaction framework (`src/stories/foundations/Interaction.mdx
 - Explain diverse implementations of flexible patterns
 - Reference relevant foundations and qualities through inline links
 - Weave cross-references naturally into prose, not just in dedicated sections
+
+## Story and pattern descriptions
+- Frame descriptions from the *human situation inward*, not from the implementation outward. Start with what problem in activity the pattern addresses or what experiential shift it enables — not what the component does or what API it exposes. Implementation details belong in the body, not the framing.
+- Avoid opening descriptions with the `pp-` tag name or technical vocabulary like "container", "wrapper", "semantics". These signal component-catalogue voice rather than design-repertoire voice.
+- When an implementation plan produces stories, it should include a *Design framing* section — a few sentences about the human situation the pattern addresses, written in the repertoire voice. If the plan lacks this, flag it as a gap rather than silently filling it with generic filler.
 
 ## Documentation linking
 When creating cross-references between documentation files:
@@ -47,5 +53,5 @@ When creating cross-references between documentation files:
 When organizing concepts in the pattern library:
 - *Test boundaries* - Apply frameworks to edge cases to understand scope (e.g., "Does this apply to human-human collaboration or just human-AI?")
 - *Check definitional consistency* - If a foundation is defined as "distribution of X", creating an "X distribution" section may indicate redundancy
-- *Question placement* — Each level has a role: Foundations define universal principles, Qualities describe cross-cutting attributes, Patterns show interaction approaches, Compositions combine patterns into features, Components implement specific UI elements, Primitives provide building blocks
+- *Question placement* — Each level has a role: Operations are automatic and infrastructural (the substrate); Actions are conscious and goal-directed (what users deliberately do); Activities are motive-driven and strategic (how work unfolds over time). Foundations define universal principles, Qualities describe cross-cutting attributes, Concepts describe what the system knows about. Atomic Design categories (primitive, component, composition, pattern) persist as metadata tags, not as the primary organising dimension.
 - *Use Socratic questioning* - Ask "What happens if...?" to test framework boundaries

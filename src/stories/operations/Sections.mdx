@@ -1,0 +1,43 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import * as SectionsStories from './Sections.stories.tsx';
+
+<Meta of={SectionsStories} />
+
+> 🙂 **Fun meter: 3/5**. One of the building blocks of adaptive UI. Inspired by the [spicy sections](https://github.com/tabvengers/spicy-sections).
+
+# Sections
+
+An adaptive container that presents the same content structure through different affordances depending on context.
+
+<Story of={SectionsStories.Responsive} />
+
+Content often divides into a small, stable set of named parts. Whether those parts appear as horizontal tabs or collapsible disclosure regions is not a property of the content — it's a property of the *context*: available space, information density, reading mode.
+Sections treats this as a single design decision rather than a choice between separate components.
+
+The two modes — tab bar and details — are not layout options but *disclosure affordances*: different ways of managing which content is visible and how the actor navigates between parts.
+
+## Related patterns
+
+### Precursors
+
+- [Tabs](../?path=/docs/operations-tabs--docs) — the implementation is more complete when it comes to tab-related functionality: overflow scrolling, icon and subtitle slots, auto/manual activation.
+- [Details](../?path=/docs/operations-details--docs) — the standalone disclosure primitive that Sections' `details` affordance mirrors across multiple siblings
+
+### Complementary
+
+- [Progressive disclosure](../?path=/docs/actions-seeking-progressive-disclosure--docs) — the pattern these affordances serve; Sections is one of its containers
+- [Adaptability](../?path=/docs/qualities-adaptability--docs) — Sections is a concrete example of deterministic context-driven adaptation
+- [Grouping](../?path=/docs/actions-sensemaking-grouping--docs) — organising content into named groups is a prerequisite for sectioning
+
+## Resources & references
+
+- Kardell, B. (2021). [Spicy Sections](https://bkardell.com/blog/SpicySections.html)
+- de Vries, H. (2021). [Trying out Spicy Sections on here](https://hidde.blog/trying-out-spicy-sections-on-here/)
+- Coyier, C. (2021). [Spicy Sections](https://css-tricks.com/spicy-sections/) — CSS-Tricks
+- [Tabvengers / spicy-sections](https://github.com/tabvengers/spicy-sections) — GitHub repository (CC0)
+- [Open UI — Tabs research](https://open-ui.org/components/tabs.research/)
+
+## TODO:
+
+- *Focus rescue* — when focus is on a tab button and the affordance switches to `details`, the tab button disappears. Focus is not currently redirected to the corresponding heading trigger.
+- *Vertical tab bar* — not currently supported (horizontal only).

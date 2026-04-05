@@ -571,6 +571,12 @@
       "atomic-category": "primitive",
       "mediation": "individual"
     },
+    "operations-sections": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "component",
+      "mediation": "individual"
+    },
     "operations-disabled-state": {
       "activity-level": "operation",
       "lifecycle-stage": null,

@@ -25,6 +25,8 @@ import { PpTabGroup } from './tab-group/tab-group.js';
 import { PpPriorityPlus } from './priority-plus/priority-plus.js';
 import { SimpleTable } from './table/table';
 import { PpSpinner } from './spinner/spinner';
+import { PpH } from './h/h.js';
+import { PpSections } from './sections/sections.js';
 
 import { PpChartGrid } from './charts/primitives/chart-grid.js';
 import { PpChartLegend } from './charts/primitives/chart-legend.js';
@@ -65,6 +67,10 @@ export function registerAllComponents(): void {
     { tagName: 'pp-tab', constructor: PpTab },
     { tagName: 'pp-tab-panel', constructor: PpTabPanel },
     { tagName: 'pp-tab-group', constructor: PpTabGroup, dependencies: ['pp-tab', 'pp-tab-panel'] },
+
+    // Sections
+    { tagName: 'pp-h', constructor: PpH },
+    { tagName: 'pp-sections', constructor: PpSections },
   ]);
 }
 

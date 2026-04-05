@@ -571,6 +571,12 @@
       "path": "../?path=/docs/operations-reference--docs"
     },
     {
+      "id": "operations-sections",
+      "title": "Sections",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-sections--docs"
+    },
+    {
       "id": "operations-disabled-state",
       "title": "Disabled state",
       "category": "Operations",
@@ -1877,6 +1883,10 @@
     {
       "source": "actions-seeking-progressive-disclosure",
       "target": "operations-details"
+    },
+    {
+      "source": "actions-seeking-progressive-disclosure",
+      "target": "operations-sections"
     },
     {
       "source": "actions-seeking-progressive-disclosure",
@@ -3187,6 +3197,14 @@
       "target": "actions-application-context-menu"
     },
     {
+      "source": "operations-popover",
+      "target": "actions-seeking-progressive-disclosure"
+    },
+    {
+      "source": "operations-popover",
+      "target": "qualities-learnability"
+    },
+    {
       "source": "operations-progress-indicator",
       "target": "operations-breadcrumbs"
     },
@@ -3205,6 +3223,26 @@
     {
       "source": "operations-reference",
       "target": "actions-seeking-command-menu"
+    },
+    {
+      "source": "operations-sections",
+      "target": "operations-tabs"
+    },
+    {
+      "source": "operations-sections",
+      "target": "operations-details"
+    },
+    {
+      "source": "operations-sections",
+      "target": "actions-seeking-progressive-disclosure"
+    },
+    {
+      "source": "operations-sections",
+      "target": "qualities-adaptability"
+    },
+    {
+      "source": "operations-sections",
+      "target": "actions-sensemaking-grouping"
     },
     {
       "source": "operations-status-feedback",
@@ -3240,10 +3278,6 @@
     },
     {
       "source": "operations-toast",
-      "target": "actions-application-dialog"
-    },
-    {
-      "source": "operations-toast",
       "target": "actions-coordination-notification"
     },
     {
@@ -3255,12 +3289,8 @@
       "target": "operations-undo"
     },
     {
-      "source": "operations-popover",
-      "target": "actions-seeking-progressive-disclosure"
-    },
-    {
-      "source": "operations-popover",
-      "target": "qualities-learnability"
+      "source": "operations-toast",
+      "target": "actions-application-dialog"
     },
     {
       "source": "operations-unavailable-actions",
@@ -3672,11 +3702,11 @@
     },
     {
       "source": "qualities-learnability",
-      "target": "actions-seeking-progressive-disclosure"
+      "target": "activities-bot"
     },
     {
       "source": "qualities-learnability",
-      "target": "activities-bot"
+      "target": "actions-seeking-progressive-disclosure"
     },
     {
       "source": "qualities-learnability",

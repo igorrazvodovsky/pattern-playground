@@ -1,0 +1,109 @@
+@layer components {
+  pp-sections {
+    display: block;
+  }
+
+  pp-h {
+    display: block;
+  }
+
+  /* ---- Tab-bar nav ---- */
+
+  [data-pp-nav] {
+    display: flex;
+    border-bottom: 1px solid var(--c-neutral-200);
+  }
+
+  [data-pp-tab] {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-m) var(--space-l);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: var(--text-s);
+    font-weight: var(--font-weight-semibold);
+    color: var(--c-neutral-600);
+    white-space: nowrap;
+    transition:
+      color var(--transition-speed),
+      border-color var(--transition-speed);
+
+    &:hover {
+      color: var(--c-accent);
+    }
+
+    &:focus-visible {
+      outline: var(--focus-ring);
+      outline-offset: calc(-1 * var(--focus-ring-width) - var(--focus-ring-offset));
+    }
+
+    &[aria-selected="true"] {
+      color: var(--c-accent);
+      border-bottom-color: var(--c-accent);
+    }
+  }
+
+  /* Hide headings when tab-bar nav takes over labelling */
+  :is(h1, h2, h3, h4, h5, h6, pp-h)[data-pp-affordance="tab-bar"] {
+    display: none;
+  }
+
+  /* Tab-bar: show only the active panel */
+  pp-sections[data-pp-mode="tab-bar"] [data-pp-panel]:not([data-pp-active]) {
+    display: none;
+  }
+
+  /* ---- Details triggers ---- */
+
+  [data-pp-trigger] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0;
+    padding: var(--space-m) var(--space-l);
+    border: none;
+    border-bottom: 1px solid var(--c-neutral-200);
+    background: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: var(--text-s);
+    font-weight: var(--font-weight-semibold);
+    color: var(--c-neutral-600);
+    text-align: left;
+
+    &:hover {
+      color: var(--c-accent);
+    }
+
+    &:focus-visible {
+      outline: var(--focus-ring);
+      outline-offset: calc(-1 * var(--focus-ring-width) - var(--focus-ring-offset));
+    }
+
+    &::after {
+      content: '';
+      display: block;
+      width: 0.5em;
+      height: 0.5em;
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      transform: rotate(45deg);
+      flex-shrink: 0;
+      transition: transform var(--transition-fast);
+    }
+
+    &[aria-expanded="true"]::after {
+      transform: rotate(-135deg);
+    }
+  }
+
+  /* Details: show only open panels */
+  pp-sections[data-pp-mode="details"] [data-pp-panel]:not([data-pp-open]) {
+    display: none;
+  }
+}
