@@ -79,6 +79,20 @@ const config: StorybookConfig = {
 
   typescript: {
     reactDocgen: false,
-  }
+  },
+
+  tags: {
+    'activity-level:operation': {},
+    'activity-level:action': {},
+    'activity-level:activity': {},
+    'atomic:primitive': {},
+    'atomic:component': {},
+    'atomic:composition': {},
+    'lifecycle:seeking': {},
+    'lifecycle:evaluation': {},
+    'lifecycle:coordination': {},
+    'mediation:individual': {},
+    'mediation:coordination': {},
+  },
 };
 export default config;
