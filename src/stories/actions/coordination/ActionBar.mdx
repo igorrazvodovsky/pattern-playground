@@ -1,0 +1,73 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Actions/Coordination/Action bar" tags={[
+    'activity-level:action',
+    'atomic:composition',
+    'lifecycle:coordination',
+    'mediation:coordination'
+    ]} />
+
+> 🙂 *Fun meter: 2/5*. Dependency.
+
+# Action bar
+
+The surfacing of operations that become applicable once the actor has staked a selection, held ready until the selection is released.
+
+Where a [toolbar](../?path=/docs/actions-coordination-toolbar--docs) is permanent and scoped to a feature, an action bar is *conditional*: it exists only while there is a selection to act on, and it disappears when that selection is cleared.
+
+## Anatomy
+
+- *Selection counter* — names the scope of the upcoming actions ("3 items selected"). Without it, the actor has to remember what they picked, and the action bar starts behaving like an opaque command surface.
+- *Dismiss affordance* — clears the selection (and with it, the bar). Distinct from cancelling an in-flight action; this is a way back to the unselected state.
+- *Action group* — the operations themselves, ordered by importance and grouped by affinity. Internally this is a small [toolbar](../?path=/docs/actions-coordination-toolbar--docs); when it overflows, it hands off to [Priority+](../?path=/docs/actions-coordination-priority--docs).
+- *Optional title or context* — when the selection scope is non-obvious (e.g., "3 of 247"), a label clarifies what's about to be acted on.
+
+## Summoning and dismissal
+
+- *Appearance* should be tied to the existence of selection, not to a button press. The moment the first item is selected, the bar arrives; while selection persists, it stays. This means the bar must enter and leave gracefully — instant pop-in is jarring, slow fades hide that an action has become available.
+- *Persistence across scrolling* matters because selections are typically made and acted on in different parts of the viewport. Sticky positioning is the usual answer; the trade-off is that the bar occludes underlying content, so it should never grow tall enough to feel like a second toolbar.
+- *Dismissal paths* are plural: clearing the selection, completing an action that consumes the selection (delete, move), pressing escape, or navigating away. Each path should leave the underlying content in a coherent state.
+- *Selection scope changes* should update the bar without re-mounting it. If the actor goes from 3 to 4 items, the count changes; the bar doesn't flicker.
+
+## Position
+
+Position is a variant, not part of the definition. Common placements:
+
+- *Bottom of viewport* — Keeps the bar out of the reading flow and close to the thumb on touch devices. Risks occluding content the actor needs to verify before acting.
+- *Top, replacing or augmenting the toolbar* — Anchors the bar where the actor is already looking for controls; risks confusing the persistent and transient surfaces.
+
+## Which actions belong here
+
+The action bar should hold operations that *only make sense against a selection*: delete, archive, move, tag, assign, export. Operations that apply to the whole view (filter, sort, create) belong in the persistent [toolbar](../?path=/docs/actions-coordination-toolbar--docs). See [Unavailable actions](../?path=/docs/operations-unavailable-actions--docs).
+
+## Related patterns
+
+### Precursors
+
+- [Selection](../?path=/docs/actions-coordination-selection--docs) — the action bar exists only because a selection has been staked; its lifecycle is bound to the selection's
+- [Toolbar](../?path=/docs/actions-coordination-toolbar--docs) — the persistent counterpart; an action bar typically composes a toolbar internally for its action group
+
+### Complementary
+
+- [Bubble menu](../?path=/docs/actions-coordination-bubble-menu--docs) — the spatially-anchored sibling; surfaces actions on selected content inside an editor rather than on a selection of items in a list or grid
+- [Context menu](../?path=/docs/actions-application-context-menu--docs) — the pointer-invoked sibling; both are transient action surfaces, but the context menu is summoned by the actor on a single target rather than auto-summoned by selection state
+- [Priority+](../?path=/docs/actions-coordination-priority--docs) — handles overflow when the action group is too wide for the available width
+- [Unavailable actions](../?path=/docs/operations-unavailable-actions--docs) — governs which actions appear or disable as the selection scope changes
+- [Modality](../?path=/docs/foundations-modality--docs) — action bars are non-modal: the underlying content remains interactive
+
+### Follow-ups
+
+- [Deletion](../?path=/docs/actions-application-deletion--docs) — the most common bulk operation routed through an action bar; the confirmation strategy should scale with the selection count
+- [Undo](../?path=/docs/operations-undo--docs) — bulk actions raise the cost of mistakes; reversibility is more valuable here than for single-item operations
+- [Status feedback](../?path=/docs/operations-status-feedback--docs) — communicating the result of an action that consumed a multi-item selection
+
+### Tangentially related
+
+- [Table](../?path=/docs/actions-evaluation-table--docs), [List](../?path=/docs/actions-evaluation-list--docs), [Data view](../?path=/docs/actions-seeking-data-view--docs) — the typical containers in which selection happens and from which the action bar is summoned
+
+## Resources & references
+
+- [Adobe Spectrum: Action bar](https://spectrum.adobe.com/page/action-bar/)
+- [Chakra UI: Action Bar](https://chakra-ui.com/docs/components/action-bar)
+- [GitHub Primer: ActionBar](https://primer.style/product/components/action-bar) — note: Primer uses the name for what this library calls a toolbar
+- [Designsystems.surf: Action bar](https://designsystems.surf/components/action-bar)

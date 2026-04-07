@@ -91,6 +91,12 @@
       "path": "../?path=/docs/actions-application-wizard--docs"
     },
     {
+      "id": "actions-coordination-action-bar",
+      "title": "Action bar",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-coordination-action-bar--docs"
+    },
+    {
       "id": "actions-coordination-bubble-menu",
       "title": "Bubble menu",
       "category": "Actions",
@@ -131,6 +137,12 @@
       "title": "Priority+",
       "category": "Actions",
       "path": "../?path=/docs/actions-coordination-priority--docs"
+    },
+    {
+      "id": "actions-coordination-selection",
+      "title": "Selection",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-coordination-selection--docs"
     },
     {
       "id": "actions-coordination-toolbar",
@@ -890,6 +902,14 @@
     },
     {
       "source": "actions-application-context-menu",
+      "target": "actions-coordination-action-bar"
+    },
+    {
+      "source": "actions-application-context-menu",
+      "target": "actions-coordination-bubble-menu"
+    },
+    {
+      "source": "actions-application-context-menu",
       "target": "operations-popover"
     },
     {
@@ -955,6 +975,14 @@
     {
       "source": "actions-application-deletion",
       "target": "actions-coordination-notification"
+    },
+    {
+      "source": "actions-application-deletion",
+      "target": "actions-coordination-action-bar"
+    },
+    {
+      "source": "actions-application-deletion",
+      "target": "actions-coordination-selection"
     },
     {
       "source": "actions-application-dialog",
@@ -1293,8 +1321,64 @@
       "target": "operations-undo"
     },
     {
+      "source": "actions-coordination-action-bar",
+      "target": "actions-coordination-toolbar"
+    },
+    {
+      "source": "actions-coordination-action-bar",
+      "target": "actions-coordination-priority"
+    },
+    {
+      "source": "actions-coordination-action-bar",
+      "target": "operations-unavailable-actions"
+    },
+    {
+      "source": "actions-coordination-action-bar",
+      "target": "actions-coordination-selection"
+    },
+    {
+      "source": "actions-coordination-action-bar",
+      "target": "actions-coordination-bubble-menu"
+    },
+    {
+      "source": "actions-coordination-action-bar",
+      "target": "actions-application-context-menu"
+    },
+    {
+      "source": "actions-coordination-action-bar",
+      "target": "foundations-modality"
+    },
+    {
+      "source": "actions-coordination-action-bar",
+      "target": "actions-application-deletion"
+    },
+    {
+      "source": "actions-coordination-action-bar",
+      "target": "operations-undo"
+    },
+    {
+      "source": "actions-coordination-action-bar",
+      "target": "operations-status-feedback"
+    },
+    {
+      "source": "actions-coordination-action-bar",
+      "target": "actions-evaluation-table"
+    },
+    {
+      "source": "actions-coordination-action-bar",
+      "target": "actions-evaluation-list"
+    },
+    {
+      "source": "actions-coordination-action-bar",
+      "target": "actions-seeking-data-view"
+    },
+    {
       "source": "actions-coordination-bubble-menu",
       "target": "actions-sensemaking-blockbased-editor"
+    },
+    {
+      "source": "actions-coordination-bubble-menu",
+      "target": "actions-coordination-selection"
     },
     {
       "source": "actions-coordination-bubble-menu",
@@ -1310,7 +1394,15 @@
     },
     {
       "source": "actions-coordination-bubble-menu",
+      "target": "actions-coordination-action-bar"
+    },
+    {
+      "source": "actions-coordination-bubble-menu",
       "target": "actions-seeking-command-menu"
+    },
+    {
+      "source": "actions-coordination-bubble-menu",
+      "target": "actions-application-context-menu"
     },
     {
       "source": "actions-coordination-bubble-menu",
@@ -1426,7 +1518,71 @@
     },
     {
       "source": "actions-coordination-priority",
+      "target": "actions-coordination-action-bar"
+    },
+    {
+      "source": "actions-coordination-priority",
       "target": "operations-overflow"
+    },
+    {
+      "source": "actions-coordination-selection",
+      "target": "actions-coordination-action-bar"
+    },
+    {
+      "source": "actions-coordination-selection",
+      "target": "actions-coordination-bubble-menu"
+    },
+    {
+      "source": "actions-coordination-selection",
+      "target": "foundations-intent-interaction"
+    },
+    {
+      "source": "actions-coordination-selection",
+      "target": "actions-application-context-menu"
+    },
+    {
+      "source": "actions-coordination-selection",
+      "target": "actions-application-deletion"
+    },
+    {
+      "source": "actions-coordination-selection",
+      "target": "actions-sensemaking-tag"
+    },
+    {
+      "source": "actions-coordination-selection",
+      "target": "actions-sensemaking-grouping"
+    },
+    {
+      "source": "actions-coordination-selection",
+      "target": "actions-seeking-filtering"
+    },
+    {
+      "source": "actions-coordination-selection",
+      "target": "actions-seeking-sorting"
+    },
+    {
+      "source": "actions-coordination-selection",
+      "target": "actions-seeking-searching"
+    },
+    {
+      "source": "actions-coordination-selection",
+      "target": "operations-checkbox"
+    },
+    {
+      "source": "actions-coordination-selection",
+      "target": "actions-seeking-data-view"
+    },
+    {
+      "source": "actions-coordination-selection",
+      "target": "actions-sensemaking-card"
+    },
+    {
+      "source": "actions-coordination-selection",
+      "target": "actions-sensemaking-blockbased-editor"
+    },
+    {
+      "source": "actions-coordination-toolbar",
+      "target": "actions-coordination-action-bar"
     },
     {
       "source": "actions-coordination-toolbar",
@@ -1813,6 +1969,14 @@
       "target": "actions-evaluation-timeline"
     },
     {
+      "source": "actions-seeking-data-view",
+      "target": "actions-coordination-selection"
+    },
+    {
+      "source": "actions-seeking-data-view",
+      "target": "actions-coordination-action-bar"
+    },
+    {
       "source": "actions-seeking-dynamic-hyperlinks",
       "target": "operations-reference"
     },
@@ -1851,6 +2015,10 @@
     {
       "source": "actions-seeking-filtering",
       "target": "actions-seeking-sorting"
+    },
+    {
+      "source": "actions-seeking-filtering",
+      "target": "actions-coordination-selection"
     },
     {
       "source": "actions-seeking-filtering",

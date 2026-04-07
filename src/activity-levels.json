@@ -91,6 +91,12 @@
       "atomic-category": "composition",
       "mediation": "individual"
     },
+    "actions-coordination-action-bar": {
+      "activity-level": "action",
+      "lifecycle-stage": "coordination",
+      "atomic-category": "composition",
+      "mediation": "coordination"
+    },
     "actions-coordination-bubble-menu": {
       "activity-level": "action",
       "lifecycle-stage": "coordination",
@@ -132,6 +138,12 @@
       "lifecycle-stage": "coordination",
       "atomic-category": "component",
       "mediation": "coordination"
+    },
+    "actions-coordination-selection": {
+      "activity-level": "action",
+      "lifecycle-stage": "coordination",
+      "atomic-category": "pattern",
+      "mediation": "individual"
     },
     "actions-coordination-toolbar": {
       "activity-level": "action",

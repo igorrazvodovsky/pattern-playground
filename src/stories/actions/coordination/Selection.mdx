@@ -1,0 +1,121 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Actions/Coordination/Selection" tags={[
+    'activity-level:action',
+    'atomic:pattern',
+    'lifecycle:coordination',
+    'mediation:individual'
+    ]} />
+
+> 😣 *Fun meter: 3/5*. Selection looks trivial until you ask what it means for a selection to survive a filter.
+
+# Selection
+
+The staking of a subset of items or content as the target of subsequent action, persisting until released or consumed.
+
+## Dimensions
+
+- *Cardinality* — single, multi (set), range (contiguous span). These have different mental models and different input grammars; a UI that pretends one cardinality is just a degenerate case of another usually picks the wrong defaults for at least one of them.
+- *Granularity* — items in a collection, sub-items inside an item (cells in a row), content inside an item (text in a cell). Each granularity layer can hold its own selection, and they have to compose without colliding.
+- *Persistence scope* — does the selection survive scrolling, filtering, sorting, paging, navigation, refresh? Each "yes" raises a coherence question that has to be answered explicitly.
+- *Visibility* — explicit (checkboxes always present), implicit (highlight only, no resting affordance), or mode-based (an edit-mode toggle reveals checkboxes). The trade is discoverability against visual cost.
+- *Input modality* — pointer (click, shift+click, ctrl+click, drag-rectangle), keyboard (shift+arrow, ctrl+a, space), touch (long-press, edit mode), assistive technology. A selection pattern that only works in one modality is broken; the gesture grammars have to map onto the same underlying state.
+
+## Cardinality
+
+### Single selection
+
+The "current item" model. The actor picks one thing; picking another replaces the first. This is the implicit baseline in inspector-style interfaces where one item drives a detail view.
+
+>The question is whether this is selection at all, or *focus* with extra affordance. The distinction is whether the item is *acted on as a target* (selection) or *navigated to as a position* (focus). When clicking a row reveals its details in a panel, that's focus. When clicking a row arms a delete button in a toolbar, that's selection.
+
+### Multi-selection
+
+Non-contiguous, additive. The actor builds up a set by ticking checkboxes or modifier-clicking. The set has no internal order beyond insertion; each item is in or out independently of the others.
+
+Multi-selection is where most of the design pressure on [action bars](../?path=/docs/actions-coordination-action-bar--docs) comes from: the action set is a function of the selected set, and operations that apply to one item but not to many (or vice versa) have to disable or disappear as the count changes.
+
+### Range selection
+
+Contiguous, anchor-and-extend. The actor picks a start, then a span. Shift+click and drag-rectangle are the canonical inputs.
+
+Range selection looks like a subset of multi-selection but behaves differently under sort and filter: when the underlying order changes, "the range from row 5 to row 12" loses meaning, while "these specific items" survives. A range selection has to be reified into a set the moment its frame of reference moves, or it has to explicitly track the anchors and re-resolve them.
+
+## Granularity
+
+### Item selection
+
+The default case: items in a list, rows in a table, cards in a grid. Everything in the cardinality section above assumes this granularity.
+
+### Sub-item selection
+
+Cells in a row, fields in a record. Common in spreadsheets; rare elsewhere. Sub-item selection composes with item selection — selecting a cell can imply selecting its row, or it can stay strictly local. The choice should match how the action surfaces are scoped: if the toolbar acts on rows, cell selection should imply row selection; if it acts on cells, it shouldn't.
+
+### Content selection
+
+Text inside an item, regions of an image, ranges of time on a timeline. The mechanics are isomorphic to range selection (anchor-and-extend).
+
+>The principles transfer: persistence under view changes, coherent input grammar, explicit semantics for "select all". The differences are mostly in the affordances, not the underlying pattern.
+
+## Cross-view persistence
+
+When the actor selects 12 rows and then sorts the table, are the same 12 still selected? When they filter, do filtered-out items remain in the selection set? When they page forward, does the selection from page 1 survive? Three coherent answers exist:
+
+- *Selection lives with the viewport* — anything not currently visible is silently removed from the selection. Simple to implement, easy to reason about, but loses the actor's commitment the moment they look away. Acceptable when selections are short-lived and small.
+- *Selection lives with the data* — selected items persist regardless of whether they're currently visible. The actor's commitment is honoured, but they may end up acting on items they can't see. This requires showing the actor that off-screen items are still in the selection ("12 selected, 8 not in current view"), or it becomes a footgun.
+- *Selection lives with the data, filter narrows the scope of action* — selected items persist, but operations apply only to the visible intersection. Honours commitment without acting on the invisible. The most defensible choice for most cases, and the hardest to implement coherently.
+
+## "Select all" under filtering and paging
+
+When 50 of 10,000 items are visible and the actor clicks the master checkbox, what does it mean?
+
+- *All visible* — selects the 50 on screen. Predictable but often not what the actor wants.
+- *All matching* — selects all 10,000 that match the current filter. What the actor probably wants, but invisible to them; needs explicit confirmation.
+- *All in collection* — selects all items in the underlying collection regardless of filter. Almost never what the actor wants and usually a bug.
+
+A go-to solution is to select the visible view first, then offer a follow-up affordance ("Select all 1,234 items") that escalates to the matching set.
+
+## Visibility and discoverability
+
+How does the actor learn that items are selectable in the first place?
+
+- *Always-visible checkboxes* — maximum discoverability, maximum visual noise. Appropriate when selection is a primary capability of the view (inboxes, file managers).
+- *Hover-revealed checkboxes* — checkboxes appear on row hover, persist when selected. Reduces visual noise without hiding the affordance entirely. Doesn't work on touch.
+- *Mode-based selection* — an explicit select/edit toggle reveals checkboxes.
+- *Implicit selection through pointer gestures* — no checkboxes; click-to-select, shift+click for range, `ctrl`+`click` for set.
+
+## Selection and filter as duals
+
+Filter is declarative selection ("everything matching X"); selection is imperative filtering ("these specific items"). They solve adjacent problems, and the same scope can usually be reached either way.
+
+>The question for any view that supports both: can a filter be *narrowed by* a selection (act on these specific items within the filter)? Can a selection be *converted into* a filter (show only what I selected)?
+
+## Related patterns
+
+### Used by
+
+- [Action bar](../?path=/docs/actions-coordination-action-bar--docs) — the primary consumer of multi-item selection; its existence is conditional on a selection existing
+- [Bubble menu](../?path=/docs/actions-coordination-bubble-menu--docs) — the primary consumer of content-range selection; spatially anchored to the selection
+- [Context menu](../?path=/docs/actions-application-context-menu--docs) — degenerate-case consumer; pointer-invoked on a single target
+- [Deletion](../?path=/docs/actions-application-deletion--docs) — the most common operation routed through selection; confirmation strategy should scale with the selection count
+- [Tag](../?path=/docs/actions-sensemaking-tag--docs), [Grouping](../?path=/docs/actions-sensemaking-grouping--docs) — common payloads of bulk action
+
+### Adjacent to
+
+- [Filtering](../?path=/docs/actions-seeking-filtering--docs) — the declarative counterpart; filter narrows by predicate, selection narrows by enumeration
+- [Sorting](../?path=/docs/actions-seeking-sorting--docs) — re-orders the basis on which range selections are reckoned; range selections have to survive or re-resolve
+- [Searching](../?path=/docs/actions-seeking-searching--docs) — narrows the candidate pool from which selections are made
+
+### Composed from
+
+- [Checkbox](../?path=/docs/operations-checkbox--docs) — the most explicit selection affordance
+- [Focus](../?path=/docs/foundations-intent-interaction--docs) — distinct but adjacent; the gesture grammar usually has to coexist with focus
+
+### Containers
+
+- [Data view](../?path=/docs/actions-seeking-data-view--docs), [Card](../?path=/docs/actions-sensemaking-card--docs) — the views in which item selection happens
+- [Block-based editor](../?path=/docs/actions-sensemaking-blockbased-editor--docs) — the surface in which content selection happens
+
+## TODO:
+
+Collaborative selection – co-presence cursors, shared selection state, "see what others have selected". The mechanics differ enough (conflict, decay, identity) that they deserve their own treatment.
