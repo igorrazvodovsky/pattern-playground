@@ -427,6 +427,12 @@
       "atomic-category": "data-visualization",
       "mediation": "individual"
     },
+    "foundations-assistance": {
+      "activity-level": "cross-cutting",
+      "lifecycle-stage": null,
+      "atomic-category": "foundations",
+      "mediation": null
+    },
     "foundations-collaboration": {
       "activity-level": "cross-cutting",
       "lifecycle-stage": null,
@@ -434,6 +440,12 @@
       "mediation": null
     },
     "foundations-data-information": {
+      "activity-level": "cross-cutting",
+      "lifecycle-stage": null,
+      "atomic-category": "foundations",
+      "mediation": null
+    },
+    "foundations-delegation": {
       "activity-level": "cross-cutting",
       "lifecycle-stage": null,
       "atomic-category": "foundations",

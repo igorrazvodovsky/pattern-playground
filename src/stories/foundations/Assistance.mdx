@@ -1,0 +1,88 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Assistance" />
+
+> 🧪 **Fun meter: 5/5**. An attempt at grouping all that is unique to AI "assistants" under one roof.
+
+# Assistance
+
+TODO: Define in agency-grounded terms
+
+The [interaction lifecycle](../?path=/docs/foundations-intent-interaction--docs#intent-lifecycle) traces how actors move from recognising a need through to action and reflection. In the assistant frame, the human drives this loop while the system intervenes selectively — raising a signal, explaining something, narrowing the options, supporting execution, or helping the user look back at what just happened.
+
+## Assistance across interaction stages
+
+### Perceiving
+
+Help the user notice what matters before they interpret or decide. Examples:
+
+- Summarize situation: compress a large field of signals into a first-pass overview so the user can grasp the overall state before inspecting details.
+- Guide the attention: highlight salient regions, anomalies, or cues so important signals stand out against distraction and clutter.
+- Extend senses: translate otherwise hidden or imperceptible signals into forms the user can notice and use.
+- Prime for possibilities: prepare the user to look for particular cues or conditions before scanning begins.
+
+{/* *Related patterns:* [Needs-based view](../?path=/docs/actions-sense-making-needs-based-view--docs) compresses state into a glanceable monitoring overview. [Activity feed](../?path=/docs/activities-activity-feed--docs) keeps recent events visible as they accumulate. [Explanation](../?path=/docs/actions-sense-making-explanation--docs) extends into know territory when it surfaces what a signal means alongside the signal itself. */}
+
+### Knowing
+
+The user has noticed something — a change, a cue, an anomaly. Help them understand what it means: state, process, stakes, context. Examples:
+
+- Answer questions: give users a low-friction way to ask about the document, situation, or environment they are already in.
+- Help to understand the state of things: explain labels, trends, workflow position, stakes, or likely consequences so the current situation makes sense.
+- Help to recall: refresh relevant history, preferences, or prior context that the user has seen before but cannot fully hold in memory.
+- Help to make sense of it all: support deeper conceptual understanding, so users build mental models they can reuse later.
+
+{/* [Explanation](../?path=/docs/actions-sense-making-explanation--docs) is the canonical know-assist pattern. */}
+{/* [Transparent reasoning](../?path=/docs/activities-transparent-reasoning--docs) makes the system's interpretive work visible. */}
+{/* [AI completion](../?path=/docs/actions-application-ai-completion--docs) can carry knowing assistance when it surfaces context inline with composition. */}
+
+### Planning
+
+The user understands the situation. Helps them choose what to do. Examples:
+
+- Suggest next actions: narrow a large action space to plausible next moves without hiding the broader set of available actions.
+- Generate options in open-ended domains: propose candidate approaches or stepwise plans where the space of possible actions is not fixed in advance.
+- Visualize outcomes ahead of time: preview or simulate likely consequences so users can compare futures before they commit.
+- Rank outcomes and support decisions: recommend or sort options while still exposing enough rationale, tradeoffs, and uncertainty for user judgment.
+
+{/* [Suggestion](../?path=/docs/actions-application-suggestion--docs) is the lightweight end of plan assistance — a next-likely action surfaced in context. */}
+{/* [Next-best action](../?path=/docs/actions-application-next-best-action--docs) extends this to proactive recommendation. */}
+{/* [Assisted task completion](../?path=/docs/actions-application-assisted-task-completion--docs) bridges plan and perform by guiding multi-step execution. */}
+
+### Performing
+
+The user has decided. Help them carry out the action well. Examples:
+
+- Help practice: create low-stakes rehearsal where users can build skill with coaching before the real stakes apply.
+- Help keep on point: provide live cues during action so users stay within relevant boundaries while still doing the task themselves.
+- Show best practices: place meaningful benchmarks inside the act so users can compare and regulate their performance in the moment.
+
+{/* [Assisted task completion](../?path=/docs/actions-application-assisted-task-completion--docs) provides structured guidance during multi-step execution. */}
+{/* [AI completion](../?path=/docs/actions-application-ai-completion--docs) offers inline perform assistance in composition contexts, keeping the user as the author while reducing execution friction. */}
+
+### Reflection
+
+Help the user look back — comparing recent behaviour to goals and values, identifying drift, and deciding what to improve. Examples:
+
+- Help review performance: bring the just-finished action back into view so the user can assess what happened rather than only move on.
+- Reconnect behavior to goals or values: compare recent choices or habits against the standards, priorities, or commitments the user cares about.
+- Decide what to improve next: turn hindsight into a concrete next focus for future attempts rather than leaving reflection at the level of summary.
+- Structure reflection: lower the barrier to retrospective thinking by giving users a shape for the review.
+
+{/* [Activity log](../?path=/docs/activities-activity-log--docs) provides the supervisory record that makes reflection possible. */}
+{/* [Mastery](../?path=/docs/activities-mastery--docs) supports the longer arc of skill development that sustained reflection enables. */}
+
+## Related patterns
+
+[Intent & Interaction](../?path=/docs/foundations-intent-interaction--docs) is the substrate: the intent lifecycle and navigation modes describe how actors move through tasks. Assistance names the places where a system can intervene in that movement to help.
+
+[Delegation](../?path=/docs/foundations-delegation--docs) is the sibling foundation, covering the configuration where the system runs the loop and the human supervises. The same patterns can serve both frames — an activity log is a reflect-assist in the assistance frame and a supervisory touchpoint in the delegation frame.
+
+[Agency](../?path=/docs/qualities-agency--docs) is the upstream quality. Assistance is a configuration of agency where coupling between human and system stays tight: the human drives, the system intervenes selectively. Wu and Zhang's six activity types in Agency describe *what kind of work* is happening; Noessel's five assists describe *where help can enter* the human's cognitive loop. The two frameworks cross freely.
+
+{/* [Bot](../?path=/docs/activities-bot--docs), [Help](../?path=/docs/activities-help--docs), and [Onboarding](../?path=/docs/activities-onboarding--docs) are activity-level patterns where assistance often lives. Assistance is the framework that names what those patterns are doing at the cognitive-assist level — not a substitute for them. */}
+
+
+{/* ## Resources & references */}
+
+{/* - Noessel (2026). *Designing Assistant Technology* */}

@@ -13,7 +13,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Next-best action
 
-The system analyses what you're doing and recommends the most useful next step before you ask.
+The system analyses what the actor is doing and recommends the most useful next step.
 
 The most forward-leaning pattern on the [assisted task completion](../?path=/docs/actions-application-assisted-task-completion--docs) spectrum, right at the edge of autonomous action. It works at the *workflow level*, not at the field or content level, and suggests *actions* — schedule a call, run tests, send a follow-up — rather than data values or text.
 
@@ -31,6 +31,13 @@ The most forward-leaning pattern on the [assisted task completion](../?path=/doc
 
 ## Related patterns
 
+### Foundations & use qualities
+
+- [Assistance](../?path=/docs/foundations-assistance--docs) — narrowing the option space to the most likely next action at workflow transitions
+- [Delegation](../?path=/docs/foundations-delegation--docs) — the action can also be suggested to the user by the agent
+- [Agency](../?path=/docs/qualities-agency--docs) — proactive recommendations must preserve actor control
+- [Adaptability](../?path=/docs/qualities-adaptability--docs) — recommendations that improve from accepted/rejected signal over time
+
 ### Precursors
 
 - [Suggestion](../?path=/docs/actions-application-suggestion--docs) — the broader pattern; next-best action is specifically about recommending workflow steps
@@ -42,11 +49,9 @@ The most forward-leaning pattern on the [assisted task completion](../?path=/doc
 - [Bot](../?path=/docs/activities-bot--docs) — powers next-best action via the [ambient mode](../?path=/docs/activities-bot--docs#modes-of-interaction) of interaction
 - [Embedded intelligence](../?path=/docs/activities-embedded-intelligence--docs) — next-best action as intelligence woven into the workflow
 - [Transparent reasoning](../?path=/docs/activities-transparent-reasoning--docs) — explaining the rationale behind recommendations
-- [Agency](../?path=/docs/qualities-agency--docs) — proactive recommendations must preserve actor control
 - [Notification](../?path=/docs/actions-coordination-notification--docs) — a common delivery mechanism for next-best action prompts
 - [Onboarding](../?path=/docs/activities-onboarding--docs) — next-best action as guided first-use experience
 
 ### Follow-ups
 
 - [Action consequences](../?path=/docs/actions-application-action-consequences--docs) — when accepting a recommendation leads to consequential decisions
-- [Adaptability](../?path=/docs/qualities-adaptability--docs) — recommendations that improve from accepted/rejected signal over time

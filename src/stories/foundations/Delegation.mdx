@@ -1,0 +1,123 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Delegation" />
+
+> 🧪 **Fun meter: 5/5**. An attempt at grouping all that is unique to user-facing AI "agents" under one roof.
+
+<div class="docs-quote">
+  <blockquote>
+    An agent is something that acts in an environment; it does something. Agents include worms, dogs, thermostats, airplanes, robots, humans, companies, and countries.
+  </blockquote>
+  —David L. Poole and Alan K. Mackworth, <cite><a href="https://artint.info/3e/html/ArtInt3e.Ch1.S1.html">Artificial Intelligence: Foundations of Computational Agents</a></cite>
+</div>
+
+# Delegation
+
+Delegation is the relationship structure where a human offloads sustained work to a system, the system runs the loop in the background, and the human re-enters at discrete moments rather than attending continuously.
+{/* AT take: the human supervises from the activity level, the system runs goal-directed actions as ongoing operations. */}
+
+The [intent lifecycle](../?path=/docs/foundations-intent-interaction--docs#intent-lifecycle) traces how actors move from recognising a need through to action and reflection.
+In the delegation frame, the system *runs* the loop on the human's behalf. The same phases happen but the human is not necessarily in the room.
+They set the agent running and return only when something requires their attention.
+
+This redistribution changes the focus of interaction design. There are no *flows* to optimise. Instead, the design problem becomes:
+1. what does the human need when they first hand work to the system?
+2. what do they need to remain informed while work happens out of sight?
+3. what do they need when the system can't proceed alone?
+
+The sibling frame is [assistance](../?path=/docs/foundations-assistance--docs), where the human stays in the loop throughout and the system intervenes selectively. In practice a system often supports both frames.
+What distinguishes delegation is the background arc — the expectation that the system will act autonomously over time.
+
+## Touchpoints by lifecycle stage
+
+Delegated work has a temporal arc from the moment the human first hands work to the system through the moment the work ends.
+The stages are not strictly sequential — a system may cycle between execution and exception handling many times — but each stage has characteristic touchpoints and design concerns.
+
+### Set-up
+
+The human is learning what the system can and can't do & defines goals while the system is learning what the human wants.
+Design concerns centre on calibrating expectations and getting the agent running without front-loading more specification than the user can provide.
+
+*Capabilities and constraints* — the user learns what the agent can and can't do before committing authority to it.
+
+*Goals and preferences* — the agent learns what outcome the user wants and how it should be shaped.
+
+*Permissions and authorisation* — the system requests data access and delegated authority it needs to act on the user's behalf.
+
+*Test drive* — the user rehearses the agent's likely behaviour before real stakes begin.
+
+*Tuning tools* — the user inspects or edits the rules that govern when the agent acts.
+
+*Launch* — the system goes live; must show liveness and an immediate stop control.
+
+*Distributed customisation* — lower-priority setup is deferred into early use rather than front-loaded.
+
+### Execution
+
+Interaction shifts to lightweight maintenance. The design concern is keeping the agent actions legible without requiring constant babysitting.
+
+*Monitoring* — the user checks status, trends, and next triggers at a glance.
+
+*Pause and restart* — the user temporarily suspends the agent or resumes it when conditions change.
+
+*Notifications* — suggestions, performance, or completion.
+
+*A hood to look under* — the affordance to inspect the system's current state and reasoning.
+
+{/* *False negatives* — the system reveals near-misses or cases it failed to catch, so the user can inspect what the agent missed. */}
+
+### Exception handling
+
+The agent has encountered something it cannot handle and must return the human to the loop without losing the context they need to act.
+
+*Steering* — direct mid-stream controls to correct the agent without taking over wholesale.
+
+*Notifications* — problems, concerns, or low resources.
+
+*Tuning tools (repair)* — the user repairs triggers or behaviours when the agent misfires.
+
+### Handoff and takeback
+
+Authority shifts in either direction: the system hands back because it cannot safely proceed, or the human takes back to intervene.
+
+*Handoff* — control shifts from agent to human because the agent cannot safely continue.
+
+*Takeback* — control returns to the agent once stability is restored; needs a readiness signal and a confidence-repair window.
+
+*Practice* — the user maintains recovery skills through rehearsal so takeover is meaningful when needed.
+
+### Disengagement
+
+The work is doen or the human stops using the system — deliberately or by neglect.
+
+*Disengagement check-ins* — the agent checks whether a persistent task is still worth continuing.
+
+*Graceful shutdown* — how a human turns the system off without losing context.
+
+*Data portability* — what the human takes with them when they leave.
+
+*Death and succession* — in higher-stakes or longer-lived systems, handling when the user can no longer disengage themselves.
+
+{/* ## Trust */}
+
+{/* The trust arc follows the lifecycle. During *ramp-up*, trust is established: the human discovers what the agent can and cannot do and forms a prior about whether it will hold up. During *smooth operation*, trust is validated: every successful run is a small piece of evidence, and systems that report their own performance give users something to track. During *exception handling*, trust is repaired or lost: a system that fails gracefully and provides actionable context can survive a bad outcome; a system that fails silently or shifts blame may not recover. During *handoff and takeback*, trust is transferred and renegotiated — each transfer is a re-examination of who is responsible and what the agent has earned. During *disengagement*, trust is withdrawn — usually quietly, without explicit termination. */}
+
+{/* ## Failure */}
+
+{/* Delegation fails — or becomes unethical — when individual decisions are high-stakes, when goals are novel or contested, when the human needs to maintain skills that only practice provides, or when accountability cannot meaningfully transfer to a non-human system. Clinical diagnosis, high-stakes legal decisions, and situations where the human will be held responsible for outcomes they did not review are cases where delegation violates the implicit terms of the relationship. The frame to apply in those situations is [assistance](../?path=/docs/foundations-assistance--docs), not delegation — even if the underlying technology could run fully autonomously. */}
+
+## Related patterns
+
+[Intent & Interaction](../?path=/docs/foundations-intent-interaction--docs) is the substrate. Delegation redistributes who runs the lifecycle.
+
+[Assistance](../?path=/docs/foundations-assistance--docs) is the sibling foundation — the frame for when the human stays in the loop and the system intervenes selectively. The two frames coexist in most systems.
+
+[Agency](../?path=/docs/qualities-agency--docs) is the upstream quality. Delegation is a configuration of agency where coupling is loose — the human sets goals and supervises; the system executes autonomously until it can't. Appropriate reliance is the distribution target.
+
+[Bot](../?path=/docs/activities-bot--docs) is the activity-level pattern category for AI-mediated interaction.
+
+[Activity log](../?path=/docs/activities-activity-log--docs) and [Notification](../?path=/docs/actions-coordination-notification--docs) are the action-level patterns that most directly serve delegated supervision.
+
+{/* ## Resources & references */}
+
+{/* - Noessel, C. (2017). *Designing Agentive Technology.* */}

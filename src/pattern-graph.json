@@ -427,6 +427,12 @@
       "path": "../?path=/docs/data-visualization-bar-chart--docs"
     },
     {
+      "id": "foundations-assistance",
+      "title": "Assistance",
+      "category": "Foundations",
+      "path": "../?path=/docs/foundations-assistance--docs"
+    },
+    {
       "id": "foundations-collaboration",
       "title": "Collaboration",
       "category": "Foundations",
@@ -437,6 +443,12 @@
       "title": "Data & Information",
       "category": "Foundations",
       "path": "../?path=/docs/foundations-data-information--docs"
+    },
+    {
+      "id": "foundations-delegation",
+      "title": "Delegation",
+      "category": "Foundations",
+      "path": "../?path=/docs/foundations-delegation--docs"
     },
     {
       "id": "foundations-information-architecture",
@@ -846,6 +858,10 @@
     },
     {
       "source": "actions-application-ai-completion",
+      "target": "foundations-assistance"
+    },
+    {
+      "source": "actions-application-ai-completion",
       "target": "activities-transparent-reasoning"
     },
     {
@@ -875,6 +891,10 @@
     {
       "source": "actions-application-assisted-task-completion",
       "target": "actions-application-nextbest-action"
+    },
+    {
+      "source": "actions-application-assisted-task-completion",
+      "target": "foundations-assistance"
     },
     {
       "source": "actions-application-assisted-task-completion",
@@ -1122,6 +1142,14 @@
     },
     {
       "source": "actions-application-nextbest-action",
+      "target": "foundations-assistance"
+    },
+    {
+      "source": "actions-application-nextbest-action",
+      "target": "foundations-delegation"
+    },
+    {
+      "source": "actions-application-nextbest-action",
       "target": "activities-bot"
     },
     {
@@ -1190,6 +1218,10 @@
     },
     {
       "source": "actions-application-settings",
+      "target": "foundations-delegation"
+    },
+    {
+      "source": "actions-application-settings",
       "target": "actions-seeking-progressive-disclosure"
     },
     {
@@ -1231,6 +1263,14 @@
     {
       "source": "actions-application-suggestion",
       "target": "activities-conversation"
+    },
+    {
+      "source": "actions-application-suggestion",
+      "target": "foundations-assistance"
+    },
+    {
+      "source": "actions-application-suggestion",
+      "target": "foundations-delegation"
     },
     {
       "source": "actions-application-suggestion",
@@ -1359,6 +1399,10 @@
     {
       "source": "actions-coordination-action-bar",
       "target": "operations-status-feedback"
+    },
+    {
+      "source": "actions-coordination-action-bar",
+      "target": "foundations-delegation"
     },
     {
       "source": "actions-coordination-action-bar",
@@ -1502,6 +1546,10 @@
     },
     {
       "source": "actions-coordination-notification",
+      "target": "foundations-delegation"
+    },
+    {
+      "source": "actions-coordination-notification",
       "target": "activities-collaboration"
     },
     {
@@ -1534,10 +1582,6 @@
     },
     {
       "source": "actions-coordination-selection",
-      "target": "foundations-intent-interaction"
-    },
-    {
-      "source": "actions-coordination-selection",
       "target": "actions-application-context-menu"
     },
     {
@@ -1554,6 +1598,10 @@
     },
     {
       "source": "actions-coordination-selection",
+      "target": "foundations-delegation"
+    },
+    {
+      "source": "actions-coordination-selection",
       "target": "actions-seeking-filtering"
     },
     {
@@ -1567,6 +1615,10 @@
     {
       "source": "actions-coordination-selection",
       "target": "operations-checkbox"
+    },
+    {
+      "source": "actions-coordination-selection",
+      "target": "foundations-intent-interaction"
     },
     {
       "source": "actions-coordination-selection",
@@ -2217,12 +2269,24 @@
       "target": "actions-seeking-item-view"
     },
     {
+      "source": "actions-sensemaking-needsbased-view",
+      "target": "foundations-assistance"
+    },
+    {
+      "source": "actions-sensemaking-needsbased-view",
+      "target": "foundations-delegation"
+    },
+    {
       "source": "actions-sensemaking-explanation",
       "target": "qualities-learnability"
     },
     {
       "source": "actions-sensemaking-explanation",
       "target": "actions-seeking-progressive-disclosure"
+    },
+    {
+      "source": "actions-sensemaking-explanation",
+      "target": "foundations-assistance"
     },
     {
       "source": "actions-sensemaking-explanation",
@@ -2302,6 +2366,10 @@
     },
     {
       "source": "activities-ai-tuning",
+      "target": "foundations-delegation"
+    },
+    {
+      "source": "activities-ai-tuning",
       "target": "qualities-agency"
     },
     {
@@ -2315,6 +2383,14 @@
     {
       "source": "activities-activity-feed",
       "target": "actions-sensemaking-card"
+    },
+    {
+      "source": "activities-activity-feed",
+      "target": "foundations-assistance"
+    },
+    {
+      "source": "activities-activity-feed",
+      "target": "foundations-delegation"
     },
     {
       "source": "activities-activity-feed",
@@ -2343,6 +2419,14 @@
     {
       "source": "activities-activity-log",
       "target": "activities-bot"
+    },
+    {
+      "source": "activities-activity-log",
+      "target": "foundations-assistance"
+    },
+    {
+      "source": "activities-activity-log",
+      "target": "foundations-delegation"
     },
     {
       "source": "activities-activity-log",
@@ -2383,6 +2467,14 @@
     {
       "source": "activities-bot",
       "target": "activities-conversation"
+    },
+    {
+      "source": "activities-bot",
+      "target": "foundations-assistance"
+    },
+    {
+      "source": "activities-bot",
+      "target": "foundations-delegation"
     },
     {
       "source": "activities-bot",
@@ -2750,6 +2842,14 @@
     },
     {
       "source": "activities-mastery",
+      "target": "foundations-assistance"
+    },
+    {
+      "source": "activities-mastery",
+      "target": "foundations-delegation"
+    },
+    {
+      "source": "activities-mastery",
       "target": "actions-seeking-command-menu"
     },
     {
@@ -2775,6 +2875,10 @@
     {
       "source": "activities-onboarding",
       "target": "activities-mastery"
+    },
+    {
+      "source": "activities-onboarding",
+      "target": "foundations-delegation"
     },
     {
       "source": "activities-onboarding",
@@ -2819,6 +2923,14 @@
     {
       "source": "activities-transparent-reasoning",
       "target": "activities-activity-log"
+    },
+    {
+      "source": "activities-transparent-reasoning",
+      "target": "foundations-assistance"
+    },
+    {
+      "source": "activities-transparent-reasoning",
+      "target": "foundations-delegation"
     },
     {
       "source": "activities-transparent-reasoning",
@@ -2893,6 +3005,58 @@
       "target": "actions-seeking-filtering"
     },
     {
+      "source": "foundations-assistance",
+      "target": "foundations-intent-interaction"
+    },
+    {
+      "source": "foundations-assistance",
+      "target": "foundations-delegation"
+    },
+    {
+      "source": "foundations-assistance",
+      "target": "activities-activity-feed"
+    },
+    {
+      "source": "foundations-assistance",
+      "target": "activities-transparent-reasoning"
+    },
+    {
+      "source": "foundations-assistance",
+      "target": "actions-application-ai-completion"
+    },
+    {
+      "source": "foundations-assistance",
+      "target": "actions-application-suggestion"
+    },
+    {
+      "source": "foundations-assistance",
+      "target": "actions-application-assisted-task-completion"
+    },
+    {
+      "source": "foundations-assistance",
+      "target": "activities-activity-log"
+    },
+    {
+      "source": "foundations-assistance",
+      "target": "activities-mastery"
+    },
+    {
+      "source": "foundations-assistance",
+      "target": "qualities-agency"
+    },
+    {
+      "source": "foundations-assistance",
+      "target": "activities-bot"
+    },
+    {
+      "source": "foundations-assistance",
+      "target": "activities-help"
+    },
+    {
+      "source": "foundations-assistance",
+      "target": "activities-onboarding"
+    },
+    {
       "source": "foundations-collaboration",
       "target": "qualities-agency"
     },
@@ -2943,6 +3107,78 @@
     {
       "source": "foundations-data-information",
       "target": "foundations-information-architecture"
+    },
+    {
+      "source": "foundations-delegation",
+      "target": "foundations-intent-interaction"
+    },
+    {
+      "source": "foundations-delegation",
+      "target": "foundations-assistance"
+    },
+    {
+      "source": "foundations-delegation",
+      "target": "activities-onboarding"
+    },
+    {
+      "source": "foundations-delegation",
+      "target": "activities-ai-tuning"
+    },
+    {
+      "source": "foundations-delegation",
+      "target": "operations-conversation-conversation-management-capability-scope"
+    },
+    {
+      "source": "foundations-delegation",
+      "target": "activities-activity-feed"
+    },
+    {
+      "source": "foundations-delegation",
+      "target": "actions-coordination-notification"
+    },
+    {
+      "source": "foundations-delegation",
+      "target": "activities-activity-log"
+    },
+    {
+      "source": "foundations-delegation",
+      "target": "activities-transparent-reasoning"
+    },
+    {
+      "source": "foundations-delegation",
+      "target": "activities-mastery"
+    },
+    {
+      "source": "foundations-delegation",
+      "target": "actions-coordination-action-bar"
+    },
+    {
+      "source": "foundations-delegation",
+      "target": "actions-coordination-selection"
+    },
+    {
+      "source": "foundations-delegation",
+      "target": "operations-undo"
+    },
+    {
+      "source": "foundations-delegation",
+      "target": "operations-conversation-sequence-management-abort"
+    },
+    {
+      "source": "foundations-delegation",
+      "target": "operations-conversation-conversation-management-disengage-without-closing"
+    },
+    {
+      "source": "foundations-delegation",
+      "target": "operations-conversation-conversation-management-closing"
+    },
+    {
+      "source": "foundations-delegation",
+      "target": "qualities-agency"
+    },
+    {
+      "source": "foundations-delegation",
+      "target": "activities-bot"
     },
     {
       "source": "foundations-information-architecture",
@@ -3474,6 +3710,10 @@
     },
     {
       "source": "operations-undo",
+      "target": "foundations-delegation"
+    },
+    {
+      "source": "operations-undo",
       "target": "operations-status-feedback"
     },
     {
@@ -3483,6 +3723,10 @@
     {
       "source": "operations-undo",
       "target": "activities-activity-log"
+    },
+    {
+      "source": "operations-conversation-sequence-management-abort",
+      "target": "foundations-delegation"
     },
     {
       "source": "operations-conversation-sequence-management-abort",
@@ -3546,6 +3790,10 @@
     },
     {
       "source": "operations-conversation-conversation-management-capability-scope",
+      "target": "foundations-delegation"
+    },
+    {
+      "source": "operations-conversation-conversation-management-capability-scope",
       "target": "activities-conversation"
     },
     {
@@ -3562,6 +3810,10 @@
     },
     {
       "source": "operations-conversation-conversation-management-closing",
+      "target": "foundations-delegation"
+    },
+    {
+      "source": "operations-conversation-conversation-management-closing",
       "target": "activities-conversation"
     },
     {
@@ -3571,6 +3823,10 @@
     {
       "source": "operations-conversation-conversation-management-closing",
       "target": "operations-conversation-conversation-management-disengage-without-closing"
+    },
+    {
+      "source": "operations-conversation-conversation-management-disengage-without-closing",
+      "target": "foundations-delegation"
     },
     {
       "source": "operations-conversation-conversation-management-disengage-without-closing",
