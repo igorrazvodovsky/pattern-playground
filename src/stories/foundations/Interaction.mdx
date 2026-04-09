@@ -6,17 +6,36 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Intent & Interaction
 
-Intent is the relationship between what an actor needs and what a system offers. All interaction behaviours are modes of this relationship at different stages of resolution.
+All interaction has a substrate: the actor perceives a situation, interprets what it means, decides what to do, and acts.
+Intent — the relationship between what an actor needs and what a system offers — forms and sharpens across many such loops.
 
-Two dimensions follow from this.
-*Intent lifecycle* traces how the relationship forms, sharpens, and reflects.
-*Navigation* describes how lifecycle stages produce different traversal patterns.
+Two dimensions follow.
+*How engagement unfolds over time* traces the arc of work across six stages, from loose recognition to action to reflection.
+*Navigation* describes how those stages produce different traversal patterns.
 
-[Agency](../?path=/docs/qualities-agency--docs) determines who drives resolution at any given moment — including what the system contributes at each stage. [Temporality](../?path=/docs/qualities-temporality--docs) provides the rhythm and pacing of turn-taking. [Formality](../?path=/docs/qualities-formality--docs) parallels the lifecycle — as intent matures, so does the structure around it, loose to precise.
+## Interaction cycle
 
-## Intent lifecycle
+Every interaction shares the same basic shape:
+- *See* – perceive a situation
+- *Think* – interpret what it means and decide what to do
+- *Do* – act on that interpretation
+Action produces a new situation to perceive, and the loop repeats.
 
-Each stage represents a shift in state, from nascent awareness through committed action to reflective feedback.
+{/* > This substrate appears across various traditions — cybernetics, Boyd's [OODA loop](https://en.wikipedia.org/wiki/OODA_loop), Norman's [action cycle](https://en.wikipedia.org/wiki/Human_action_cycle). */}
+
+What varies across frames is *how* each phase can be assisted and *who* runs the loop at any given moment:
+
+- When the human stays in the loop and the system helps at each phase, the relevant frame is [assistance](../?path=/docs/foundations-assistance--docs) — the kinds of support a system can offer at each stage of the actor's cognitive cycle (perceiving, knowing, planning, performing, reflecting).
+- When the system runs the loop in the background and the human returns at discrete moments, the relevant frame is [delegation](../?path=/docs/foundations-delegation--docs) — the lifecycle and touchpoints of agentive systems.
+
+{/* Both refine the same substrate, with different distributions of attention. */}
+{/* Either way, the loop is the micro-scale: one round-trip of cognition that repeats many times within any single task. How those loops compound into a longer narrative — how the actor's relationship to the problem matures over minutes, hours, or a session — is covered below. */}
+
+## How engagement unfolds over time
+
+Each stage represents a different kind of work, from first recognition through enactment and reflection.
+Each stage typically contains many turns around the [interaction cycle](#interaction-cycle).
+
 The framework connects navigation and action patterns into one narrative.
 
 ### Trigger & need recognition
@@ -51,7 +70,7 @@ Resolution state: intent *integrates* — dimensions connect as the actor builds
 
 Patterns here help actors organise, connect, and externalise emerging understanding — they turn scattered findings into structure the actor owns.
 
-### Application & behavioural enactment
+### Commitment & enactment
 
 Intent: taking decisions, completing tasks.
 
@@ -59,7 +78,7 @@ Resolution state: intent *commits* — resolved intent is enacted. The system ex
 
 Patterns here operationalise decisions — they confirm, execute, and provide feedback proportional to the commitment involved. Friction should match reversibility.
 
-### Sharing, feedback, & iterative learning
+### Reflection & feedback
 
 Intent: communicating outcomes, adapting future behaviours.
 
@@ -67,9 +86,9 @@ Resolution state: intent *reflects* — outcomes are evaluated against the origi
 
 Patterns here make outcomes visible, shareable, and reusable — they close the loop between what was intended and what happened, feeding forward into the next cycle.
 
-### Activity types and *agency*
+## Activity types and agency
 
-Each resolution stage involves different kinds of [activity](../?path=/docs/qualities-agency--docs#agency-across-activity-types-and-intent-resolution) with different agency [distributions](../?path=/docs/qualities-agency--docs#distribution). The lifecycle tracks *why* (how resolved is the intent?); the activity types track *what* (what kind of work is happening?). The two axes cross freely: an actor seeking information may be expressing a query, perceiving results, and thinking about criteria within a single stage.
+Each stage of engagement involves different kinds of [activity](../?path=/docs/qualities-agency--docs#agency-across-activity-types-and-intent-resolution) with different agency [distributions](../?path=/docs/qualities-agency--docs#distribution). The two axes cross freely.
 
 ## Navigation
 
@@ -92,20 +111,20 @@ Purposeful progress through a known or emerging structure. Intent is sufficientl
 
 #### Navigating
 
-Movement with precision and high intent. The actor knows both what they’re looking for and how the structure is likely organised.
+Movement with precision and high intent. The actor knows both what they're looking for and how the structure is likely organised.
 Success is driven by targeting (choosing a specific goal) and predictive understanding of the structure.
 
 {/* TODO: compare with: */}
 
 {/* Navigation describes a mode of interaction where the actor moves through a system with purpose and precision. Following Ramsden,
 I use the term *navigating* to describe a type of highly directed *browsing*. They know what they want, and where they need to go.
-It’s a highly intentional activity driven by a clear target in mind.
+It's a highly intentional activity driven by a clear target in mind.
 
-Before actor begins, they often already pinpointed their focus (a step Ramsden calls “targeting”), even if it happens unconsciously.
+Before actor begins, they often already pinpointed their focus (a step Ramsden calls "targeting"), even if it happens unconsciously.
 With that target defined, the behaviour follows ordered information-seeking strategies. They either understand the structure or can predict
 it accurately, and that mental map lets them navigate swiftly and efficiently.
 
-Along the way, they might briefly *sweep* the environment—scanning broadly to reassure themselves they’re on the right track—but these moments are confirmations, not detours.
+Along the way, they might briefly *sweep* the environment—scanning broadly to reassure themselves they're on the right track—but these moments are confirmations, not detours.
 Because *navigation* combined a precise intent with a solid grasp of the space, every step carries actor closer to their goal with minimal friction. */}
 
 ##### Transitions
@@ -173,13 +192,13 @@ Navigational transitions are discouraged – switching into browsing or navigati
 
 ### Delightful discovery
 
-Intent is unresolved or absent — the system can help it form. Discovery happens when actors encounter information they didn’t explicitly seek but find valuable, relevant, or exciting.
+Intent is unresolved or absent — the system can help it form. Discovery happens when actors encounter information they didn't explicitly seek but find valuable, relevant, or exciting.
 This category rewards designs that support curiosity, enable surprise, and create psychological safety for getting a little lost.
 Transitions often depend on motivation and momentary clarity of purpose.
 
 #### Exploring
 
-Movement through loosely bounded content or ideas, often triggered by a vague goal or simply curiosity. The actor’s understanding of both the content
+Movement through loosely bounded content or ideas, often triggered by a vague goal or simply curiosity. The actor's understanding of both the content
 and their own need sharpens as they go. Sweeping dominates early stages; conditioning emerges as patterns form.
 Exploration can either settle into more directed behaviour or remain open-ended.
 
@@ -200,7 +219,7 @@ May mature into browsing or navigating once a goal crystallises
 
 A strategy for staying updated about known areas of interest. Can be active (manual checks) or passive (automated updates).
 Monitoring creates continuity over time and can either lead to deeper engagement or enable light, ongoing awareness.
-It’s a low-friction way to maintain relevance and context.
+It's a low-friction way to maintain relevance and context.
 
 ##### Transitions
 
@@ -217,13 +236,13 @@ Often initiates movement or exploration; can also feed directly into the "job".
 
 ### Foggy finding
 
-Intent is resolved but can’t map to the system’s structure — a relationship failure, not an actor failure. The actor knows what they want but can’t access it easily. Friction stems from memory gaps, unclear structures, or unhelpful tools.
-The risk is high frustration, especially when actors believe the system is “hiding” something from them.
+Intent is resolved but can't map to the system's structure — a relationship failure, not an actor failure. The actor knows what they want but can't access it easily. Friction stems from memory gaps, unclear structures, or unhelpful tools.
+The risk is high frustration, especially when actors believe the system is "hiding" something from them.
 Transitions here are about either clarifying the goal or improving system feedback to allow escape into more fluent modes.
 
 #### Re-finding
 
-The actor wants to return to something they’ve seen before, but lacks the exact pathway. They rely on cues, memory, or system support (like history or recognisable patterns). This mode rewards good differentiation, meaningful labels, and predictable paths.
+The actor wants to return to something they've seen before, but lacks the exact pathway. They rely on cues, memory, or system support (like history or recognisable patterns). This mode rewards good differentiation, meaningful labels, and predictable paths.
 
 ##### Transitions
 May evolve into navigating or transactional search if memory strengthens
@@ -252,7 +271,7 @@ May improve into transactional search or navigating when actor figures out "how 
 
 #### Hunting
 
-Similar to uncovering but more adaptable and determined. The actor doesn’t care where the solution comes from—only that they find it.
+Similar to uncovering but more adaptable and determined. The actor doesn't care where the solution comes from—only that they find it.
 They may use multiple strategies simultaneously (search, scanning, filtering, backtracking). This is an intense,
 high-motivation behaviour that thrives when systems reward skill and persistence.
 
@@ -264,6 +283,16 @@ Can resolve into navigating or browsing; if prolonged, risks frustration or aban
 - [Fully connected](../?path=/docs/actions-navigation-fully-connected--docs) — multiple navigation paths available
 - TODO: Search
 
+## Cross-cutting qualities
+
+Several qualities cut across everything this page describes. They apply at every level — within a single turn around the [interaction cycle](#interaction-cycle), across any stage of the [engagement arc](#how-engagement-unfolds-over-time), and across any [delegation](../?path=/docs/foundations-delegation--docs) touchpoint. They are orthogonal to both the loop and the arc: any loop phase and any arc stage can involve any distribution of any of them.
+
+- [Agency](../?path=/docs/qualities-agency--docs) asks who is driving at any given moment&nbsp;— including what the system contributes at each stage.
+- [Activity types](../?path=/docs/qualities-agency--docs#agency-across-activity-types-and-intent-resolution) describe what kind of work is happening (perceiving, thinking, expressing, building, testing). The arc tracks *how committed the relationship is*; activity types track *what kind of work* is happening within it. The two axes cross freely — an actor whose relationship with the system is still forming may be expressing a query, perceiving results, and thinking about criteria within a single stage.
+- [Temporality](../?path=/docs/qualities-temporality--docs) provides the rhythm and pacing of turn-taking.
+- [Formality](../?path=/docs/qualities-formality--docs) parallels the arc — as engagement matures, so does the structure around it, loose to precise.
+
+
 ## Resources & references
 
 - Ramsden (2017) [model for navigation and information-seeking](https://danramsden.com/2017/01/27/model-navigation-information-seeking/)
@@ -271,4 +300,6 @@ Can resolve into navigating or browsing; if prolonged, risks frustration or aban
 - Spencer (2006) [Four Modes of Seeking Information and How to Design for Them](http://boxesandarrows.com/four-modes-of-seeking-information-and-how-to-design-for-them/)
 - Ellis (1989). A behavioural approach to information retrieval design. Journal of Documentation, 45(3), 171-212.
 - Ellis, Haugan (1997). Modelling the information seeking patterns of engineers and research scientists in an industrial environment. Journal of Documentation, 53(4), 384-403.
-- Ambient Findability by Peter Morville
+- Morville (2005) *Ambient Findability*
+- Noessel (2024). *Designing Assistant Technology*
+- Noessel (2017). *Designing Agentive Technology*
