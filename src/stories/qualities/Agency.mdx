@@ -42,6 +42,15 @@ Level of detail at which authority is exercised:
 - High-level: strategic goals and overall workflow direction
 - Fine-grained: specific actions and parameter adjustments within processes
 
+### Coupling
+
+How tightly the human stays in the loop while the system acts:
+- *Tight coupling:* the human attends continuously; the system helps at each step. Work proceeds as a conversation, with many opportunities for live correction. Associated with assistant-mode interaction.
+- *Loose coupling:* the human disengages while the system works; attention returns at discrete touchpoints (problem, completion, handoff). Work proceeds as delegation, with correction happening at re-entry rather than continuously. Associated with agent-mode interaction.
+- *Variable coupling:* coupling shifts based on the situation. The same system may run loose-coupled during smooth operation and switch to tight-coupled when something needs judgement.
+
+See the [assistance](../?path=/docs/foundations-assistance--docs) and [delegation](../?path=/docs/foundations-delegation--docs) foundations for how coupling shapes the temporal flow.
+
 ## Spectrum
 
 System agency operates on a five-level spectrum, with each level building upon the previous while adding new capabilities:
@@ -73,6 +82,9 @@ Six activity types (Wu et al. and Zhang et al.) recur across co-creative process
 6. Test: evaluating outcomes
 
 Each activity type invites a different agency distribution — perceiving and thinking often favour system initiative, while building and testing favour user control.
+{/* TODO: Not sure about this */}
+>The six activity types describe *what kind of work is happening* in human-AI co-creation. They are close but not identical to modes of [assistance](../?path=/docs/foundations-assistance--docs).
+The assists describe stages of the cognitive loop a system can help with; the activity types describe the work itself. Use the assists when reasoning about *where assistance can enter*; use the activity types when reasoning about *how work divides between human and system across a task*.
 
 ### Relationship to the interaction arc
 
@@ -206,9 +218,28 @@ coherent, intentional, and responsive.
 - Transparency: System decisions should be explainable and understandable to maintain user trust and enable informed intervention.
 - Graceful degradation: When system agency fails, users should be able to seamlessly take control without losing context or progress.
 
+## Appropriate reliance
+
+Appropriate reliance is the calibrated middle between rejecting useful system help and deferring to system output that's wrong.
+A user exhibits appropriate reliance when they accept system suggestions that are correct and override them when they're not.
+It is not a single quality; it emerges from the interaction of several:
+
+- *Agency distribution* determines whether the user *can* override. No override path, no reliance calibration.
+- *Transparency* determines whether the user *knows* whether to override — whether the system makes its reasoning, confidence, and uncertainty legible.
+- *Temporality* determines whether the user has *time* to override. Systems that commit too fast remove the opportunity.
+- *Learnability* determines whether the user can tell right from wrong in the domain at all. Without competence, reliance defaults to trust-by-necessity.
+- *Coupling* ([see above](#coupling)) determines *when* override opportunities occur. Tight coupling offers live correction; loose coupling requires pre-commitment safeguards or post-hoc review.
+
+When reliance calibration fails, it fails in two directions.
+- *Under-reliance* – rejecting useful assistance — the user ignores correct suggestions, often because they don't trust the system or find its output costly to verify.
+- *Over-reliance* – accepting incorrect assistance — the user rubber-stamps output without catching errors, a failure mode that's especially dangerous when the system is confident but wrong.
+{/* See [cognitive forcing functions](../?path=/docs/actions-application-cognitive-forcing-functions--docs) for patterns that deliberately create friction to prevent over-reliance. TODO: link once CFF family exists. */}
+
+Appropriate reliance is not itself a pattern; it is the effect patterns at multiple levels try to produce jointly. Design for it by identifying which of the contributing qualities is weakest in the current interaction and strengthening that one.
+
 ## Related patterns
 
-- AX: agent experience
+- `TBD:` agent experience
 - Relies on [adaptability](../?path=/docs/qualities-adaptability--docs)
 - [Bot patterns](../?path=/docs/activities-bot--docs) demonstrate different agency levels through interaction modes
 
@@ -219,3 +250,5 @@ coherent, intentional, and responsive.
 - Nardi, B., Miller, J. R., & Wright, D. J. (1998). [Collaborative, programmable intelligent agents](https://dl.acm.org/doi/10.1145/272287.272331). Communications of the ACM, 41(3), 96–104.
 - [NN/g / Noncommand user interfaces](https://www.nngroup.com/articles/noncommand/), Jakob Nielsen, 1993
 - Reicherts et al. (2025) [AI, Help Me Think—but for Myself](https://arxiv.org/abs/2504.06771)
+- Noessel (2024). *Designing Assistant Technology*
+- Noessel (2017). *Designing Agentive Technology*

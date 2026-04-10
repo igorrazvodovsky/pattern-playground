@@ -1305,6 +1305,10 @@
       "target": "qualities-formality"
     },
     {
+      "source": "actions-application-suggestion",
+      "target": "qualities-agency"
+    },
+    {
       "source": "actions-application-template",
       "target": "activities-onboarding"
     },
@@ -1543,6 +1547,10 @@
     {
       "source": "actions-coordination-notification",
       "target": "activities-collaboration"
+    },
+    {
+      "source": "actions-coordination-notification",
+      "target": "qualities-agency"
     },
     {
       "source": "actions-coordination-priority",
@@ -2281,6 +2289,10 @@
       "target": "activities-localization"
     },
     {
+      "source": "actions-sensemaking-explanation",
+      "target": "qualities-agency"
+    },
+    {
       "source": "actions-sensemaking-grouping",
       "target": "actions-coordination-toolbar"
     },
@@ -2423,6 +2435,10 @@
     {
       "source": "activities-activity-log",
       "target": "activities-collaboration"
+    },
+    {
+      "source": "activities-activity-log",
+      "target": "qualities-agency"
     },
     {
       "source": "activities-bot",
@@ -2915,6 +2931,10 @@
     {
       "source": "activities-transparent-reasoning",
       "target": "qualities-learnability"
+    },
+    {
+      "source": "activities-transparent-reasoning",
+      "target": "qualities-agency"
     },
     {
       "source": "activities-workspace",
@@ -3887,6 +3907,14 @@
     {
       "source": "qualities-agency",
       "target": "qualities-adaptability"
+    },
+    {
+      "source": "qualities-agency",
+      "target": "foundations-assistance"
+    },
+    {
+      "source": "qualities-agency",
+      "target": "foundations-delegation"
     },
     {
       "source": "qualities-agency",
