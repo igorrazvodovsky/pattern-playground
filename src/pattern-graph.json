@@ -19,6 +19,12 @@
       "path": "../?path=/docs/actions-application-assisted-task-completion--docs"
     },
     {
+      "id": "actions-application-cognitive-forcing-functions",
+      "title": "Cognitive forcing functions",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-application-cognitive-forcing-functions--docs"
+    },
+    {
       "id": "actions-application-context-menu",
       "title": "Context menu",
       "category": "Actions",
@@ -89,6 +95,48 @@
       "title": "Wizard",
       "category": "Actions",
       "path": "../?path=/docs/actions-application-wizard--docs"
+    },
+    {
+      "id": "actions-application-cognitive-forcing-functions-human-goes-first",
+      "title": "Human goes first",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-application-cognitive-forcing-functions-human-goes-first--docs"
+    },
+    {
+      "id": "actions-application-cognitive-forcing-functions-ondemand-reveal",
+      "title": "On-demand reveal",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-application-cognitive-forcing-functions-ondemand-reveal--docs"
+    },
+    {
+      "id": "actions-application-cognitive-forcing-functions-checklist",
+      "title": "Checklist",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-application-cognitive-forcing-functions-checklist--docs"
+    },
+    {
+      "id": "actions-application-cognitive-forcing-functions-partial-explanations",
+      "title": "Partial explanations",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-application-cognitive-forcing-functions-partial-explanations--docs"
+    },
+    {
+      "id": "actions-application-cognitive-forcing-functions-rationale-logging",
+      "title": "Rationale logging",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-application-cognitive-forcing-functions-rationale-logging--docs"
+    },
+    {
+      "id": "actions-application-cognitive-forcing-functions-update-after-initial-judgement",
+      "title": "Update after initial judgement",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-application-cognitive-forcing-functions-update-after-initial-judgement--docs"
+    },
+    {
+      "id": "actions-application-cognitive-forcing-functions-wait-before-reveal",
+      "title": "Wait before reveal",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-application-cognitive-forcing-functions-wait-before-reveal--docs"
     },
     {
       "id": "actions-coordination-action-bar",
@@ -854,6 +902,14 @@
     },
     {
       "source": "actions-application-ai-completion",
+      "target": "actions-application-cognitive-forcing-functions"
+    },
+    {
+      "source": "actions-application-ai-completion",
+      "target": "actions-application-cognitive-forcing-functions-wait-before-reveal"
+    },
+    {
+      "source": "actions-application-ai-completion",
       "target": "actions-application-data-entry"
     },
     {
@@ -911,6 +967,74 @@
     {
       "source": "actions-application-assisted-task-completion",
       "target": "operations-good-defaults"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions",
+      "target": "qualities-agency"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions",
+      "target": "qualities-learnability"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions",
+      "target": "actions-application-cognitive-forcing-functions-wait-before-reveal"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions",
+      "target": "actions-application-cognitive-forcing-functions-ondemand-reveal"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions",
+      "target": "actions-application-cognitive-forcing-functions-update-after-initial-judgement"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions",
+      "target": "actions-application-cognitive-forcing-functions-human-goes-first"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions",
+      "target": "actions-application-cognitive-forcing-functions-checklist"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions",
+      "target": "actions-application-cognitive-forcing-functions-partial-explanations"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions",
+      "target": "actions-application-cognitive-forcing-functions-rationale-logging"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions",
+      "target": "actions-application-suggestion"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions",
+      "target": "actions-application-nextbest-action"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions",
+      "target": "actions-application-ai-completion"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions",
+      "target": "actions-sensemaking-explanation"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions",
+      "target": "activities-transparent-reasoning"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions",
+      "target": "activities-generated-content"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions",
+      "target": "qualities-temporality"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions",
+      "target": "activities-activity-log"
     },
     {
       "source": "actions-application-context-menu",
@@ -1146,6 +1270,10 @@
     },
     {
       "source": "actions-application-nextbest-action",
+      "target": "actions-application-cognitive-forcing-functions"
+    },
+    {
+      "source": "actions-application-nextbest-action",
       "target": "qualities-adaptability"
     },
     {
@@ -1258,7 +1386,15 @@
     },
     {
       "source": "actions-application-suggestion",
+      "target": "actions-application-cognitive-forcing-functions-wait-before-reveal"
+    },
+    {
+      "source": "actions-application-suggestion",
       "target": "activities-conversation"
+    },
+    {
+      "source": "actions-application-suggestion",
+      "target": "actions-application-cognitive-forcing-functions"
     },
     {
       "source": "actions-application-suggestion",
@@ -1303,10 +1439,6 @@
     {
       "source": "actions-application-suggestion",
       "target": "qualities-formality"
-    },
-    {
-      "source": "actions-application-suggestion",
-      "target": "qualities-agency"
     },
     {
       "source": "actions-application-template",
@@ -1359,6 +1491,126 @@
     {
       "source": "actions-application-wizard",
       "target": "operations-undo"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-human-goes-first",
+      "target": "qualities-learnability"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-human-goes-first",
+      "target": "actions-application-cognitive-forcing-functions-rationale-logging"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-human-goes-first",
+      "target": "actions-application-cognitive-forcing-functions"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-human-goes-first",
+      "target": "actions-application-cognitive-forcing-functions-update-after-initial-judgement"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-human-goes-first",
+      "target": "qualities-agency"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-ondemand-reveal",
+      "target": "actions-seeking-progressive-disclosure"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-ondemand-reveal",
+      "target": "actions-application-cognitive-forcing-functions-update-after-initial-judgement"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-ondemand-reveal",
+      "target": "actions-application-cognitive-forcing-functions"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-ondemand-reveal",
+      "target": "actions-application-cognitive-forcing-functions-wait-before-reveal"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-ondemand-reveal",
+      "target": "actions-application-suggestion"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-checklist",
+      "target": "actions-application-cognitive-forcing-functions"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-checklist",
+      "target": "actions-application-action-consequences"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-checklist",
+      "target": "actions-application-form"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-partial-explanations",
+      "target": "actions-sensemaking-explanation"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-partial-explanations",
+      "target": "actions-application-cognitive-forcing-functions"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-partial-explanations",
+      "target": "activities-transparent-reasoning"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-partial-explanations",
+      "target": "qualities-learnability"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-rationale-logging",
+      "target": "activities-activity-log"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-rationale-logging",
+      "target": "actions-application-cognitive-forcing-functions"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-rationale-logging",
+      "target": "activities-transparent-reasoning"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-rationale-logging",
+      "target": "activities-collaboration"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-update-after-initial-judgement",
+      "target": "actions-application-cognitive-forcing-functions"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-update-after-initial-judgement",
+      "target": "actions-application-cognitive-forcing-functions-human-goes-first"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-update-after-initial-judgement",
+      "target": "actions-application-cognitive-forcing-functions-wait-before-reveal"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-update-after-initial-judgement",
+      "target": "actions-application-cognitive-forcing-functions-ondemand-reveal"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-wait-before-reveal",
+      "target": "actions-application-cognitive-forcing-functions-update-after-initial-judgement"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-wait-before-reveal",
+      "target": "actions-application-cognitive-forcing-functions"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-wait-before-reveal",
+      "target": "actions-application-cognitive-forcing-functions-ondemand-reveal"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-wait-before-reveal",
+      "target": "qualities-temporality"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-wait-before-reveal",
+      "target": "operations-status-feedback"
     },
     {
       "source": "actions-coordination-action-bar",
@@ -1547,10 +1799,6 @@
     {
       "source": "actions-coordination-notification",
       "target": "activities-collaboration"
-    },
-    {
-      "source": "actions-coordination-notification",
-      "target": "qualities-agency"
     },
     {
       "source": "actions-coordination-priority",
@@ -2290,7 +2538,7 @@
     },
     {
       "source": "actions-sensemaking-explanation",
-      "target": "qualities-agency"
+      "target": "actions-application-cognitive-forcing-functions-partial-explanations"
     },
     {
       "source": "actions-sensemaking-grouping",
@@ -2438,7 +2686,7 @@
     },
     {
       "source": "activities-activity-log",
-      "target": "qualities-agency"
+      "target": "actions-application-cognitive-forcing-functions-rationale-logging"
     },
     {
       "source": "activities-bot",
@@ -2935,6 +3183,14 @@
     {
       "source": "activities-transparent-reasoning",
       "target": "qualities-agency"
+    },
+    {
+      "source": "activities-transparent-reasoning",
+      "target": "actions-application-cognitive-forcing-functions"
+    },
+    {
+      "source": "activities-transparent-reasoning",
+      "target": "actions-application-cognitive-forcing-functions-partial-explanations"
     },
     {
       "source": "activities-workspace",
@@ -3963,6 +4219,10 @@
     {
       "source": "qualities-agency",
       "target": "activities-bot"
+    },
+    {
+      "source": "qualities-agency",
+      "target": "actions-application-cognitive-forcing-functions"
     },
     {
       "source": "qualities-conversation",

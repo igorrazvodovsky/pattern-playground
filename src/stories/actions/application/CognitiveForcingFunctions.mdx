@@ -1,0 +1,70 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Actions/Application/Cognitive forcing functions" tags={['activity-level:action', 'atomic:pattern', 'lifecycle:application', 'lifecycle:evaluation', 'mediation:individual']} />
+
+> 🤯 **Fun meter: 4/5**. Practical tools for addressing overreliance on AI.
+
+# Cognitive forcing functions
+
+Interventions that add analytical friction at the moment of accepting a system recommendation, so users engage their own judgement instead of rubber-stamping output.
+
+>The term comes from human-factors engineering's *forcing function* tradition and was applied to AI-assisted decision-making by [Buçinca et al. (2021)](https://arxiv.org/abs/2102.09692). The mechanism is the same across all variants: *interpose a moment of active cognition between system output and user acceptance*.
+
+[Over-reliance](../?path=/docs/qualities-agency--docs#appropriate-reliance) has several pathways — anchoring on the system's answer, automation bias that treats machine output as authoritative, cognitive offloading where evaluating feels costlier than accepting — and cognitive forcing functions interrupt all of them by requiring the user to do something (wait, decide first, articulate a reason, complete a gap) before acceptance. The friction is load-bearing: without it, users accept wrong answers at higher rates.
+
+## When to apply
+
+Cognitive forcing functions earn their cost when:
+- *Stakes are high* — the consequence of accepting a wrong answer matters (medical, legal, financial, safety-critical)
+- *The user has domain competence* — they can evaluate the output if given the chance; forcing functions don't help when the user has no basis for judgement
+- *The decision is discrete* — there's a clear moment of accept/reject (as opposed to continuous collaboration)
+
+They're not warranted when:
+- *Stakes are low* — a wrong autocomplete in casual writing doesn't need a checklist
+- *The user lacks the competence to evaluate* — forcing them to think doesn't help if they can't tell right from wrong; see [learnability](../?path=/docs/qualities-learnability--docs)
+- *Speed is the primary value* — in time-critical workflows, friction can cause worse outcomes than the over-reliance it prevents
+
+Susceptibility to over-reliance varies with [need for cognition](https://en.wikipedia.org/wiki/Need_for_cognition) — the tendency to engage in effortful thinking.
+High-NfC users naturally evaluate system output before accepting it; they're less prone to over-reliance and may not need forcing functions at all.
+Low-NfC users default to cognitive offloading and are the primary audience for these interventions.
+
+## The family
+
+Each member of the family uses a different mechanism to interpose judgement. They vary in friction intensity, anchoring resistance, and implementation cost:
+
+- Wait before reveal — delay the recommendation for a fixed interval.
+- On-demand reveal — hide the recommendation behind an explicit user action.
+- Update after initial judgement — user records their answer first, then sees the system's and can revise.
+- [Checklist](../?path=/docs/actions-application-cognitive-forcing-functions-checklist--docs) — structured review of considerations before accepting.
+- Partial explanations — show only part of the reasoning; user must complete the logic.
+- Rationale logging — user records why they accepted or rejected.
+- [Human goes first](../?path=/docs/actions-application-cognitive-forcing-functions-human-goes-first--docs) — user performs the task unaided; system compares and teaches.
+
+## Related patterns
+
+### Precursors
+
+- [Agency / appropriate reliance](../?path=/docs/qualities-agency--docs#appropriate-reliance) — the outcome this family is trying to produce
+- [Suggestion](../?path=/docs/actions-application-suggestion--docs) — the primary site where forcing functions apply; see its fixation risk section
+- [Next-best action](../?path=/docs/actions-application-nextbest-action--docs) — workflow-level recommendations that benefit from forcing functions when stakes are high
+- [AI completion](../?path=/docs/actions-application-ai-completion--docs) — inline generation prone to over-reliance because accepting is cheaper than evaluating
+
+### Complementary
+
+- [Explanation](../?path=/docs/actions-sensemaking-explanation--docs) — full explanations can *increase* over-reliance by giving users a plausible justification they don't need to think through; partial explanations counteract this
+- [Transparent reasoning](../?path=/docs/activities-transparent-reasoning--docs) — visible reasoning is valuable but can also anchor; the trade-off is central to this family
+- [Generated content](../?path=/docs/activities-generated-content--docs) — long-form output especially prone to over-reliance because verification cost is high
+- [Learnability](../?path=/docs/qualities-learnability--docs) — forcing functions only work when users have the competence to evaluate; learnability builds that competence
+- [Temporality](../?path=/docs/qualities-temporality--docs) — timing-based forcing functions (wait, human goes first) depend on temporal design
+
+### Follow-ups
+
+- [Activity log](../?path=/docs/activities-activity-log--docs) — rationale logging produces an audit trail that the activity log can surface
+
+## Resources & references
+
+- Buçinca, Z., Malaya, M. B., & Gajos, K. Z. (2021). [To trust or to think: cognitive forcing functions can reduce overreliance on AI in AI-assisted decision-making](https://dl.acm.org/doi/10.1145/3449287). *Proceedings of the ACM on Human-Computer Interaction, 5(CSCW1), 1–21.*
+- Bansal, G. et al. (2021). [Does the whole exceed its parts? The effect of AI explanations on complementary team performance](https://dl.acm.org/doi/10.1145/3411764.3445717). *CHI '21.*
+- Vasconcelos, H. et al. (2023). [Explanations can reduce overreliance on AI systems during decision-making](https://dl.acm.org/doi/10.1145/3579605). *Proceedings of the ACM on Human-Computer Interaction, 7(CSCW1), 1–38.*
+- Parasuraman, R. & Riley, V. (1997). Humans and automation: Use, misuse, disuse, abuse. *Human Factors, 39(2), 230–253.*
+- Noessel, C. (2024). *Designing Assistant Technology*, ch. 12: "Cognitive Forcing Functions (Horribly Named, Universally Disliked, Incredibly Useful)."

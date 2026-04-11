@@ -1,0 +1,48 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Actions/Application/Cognitive forcing functions/Checklist" tags={['activity-level:action', 'atomic:pattern', 'lifecycle:application', 'lifecycle:evaluation', 'mediation:individual']} />
+
+> 🙂 **Fun meter: 3/5**. The most procedural forcing function — established and effective.
+
+# Checklist
+
+A structured list of considerations the user must address before accepting system output, forcing systematic review rather than gestalt acceptance.
+
+## Mechanism
+
+Before the user can accept a system recommendation, the interface presents a set of review items — common failure modes to check, alternative explanations to consider, or domain-specific criteria to verify. The user must engage with each item (checking a box, selecting a status, or answering a question) before the accept action becomes available.
+
+Unlike timing-based forcing functions, the checklist targets *process completeness*: it doesn't just delay the decision, it structures *what the user should think about* during the delay.
+
+## When it works
+
+- The domain has known failure modes or common oversights that a checklist can enumerate
+- The checklist items are genuinely informative — they direct attention to things the user might miss, not things they already considered
+- The items are specific enough to guide action ("Did you check whether the patient is on contraindicated medication?") rather than generic ("Are you sure?")
+- Compliance or safety contexts where process documentation matters
+
+## When it doesn't
+
+- When the checklist items are too generic to guide real thinking — "Have you reviewed the output?" produces checkbox-clicking, not analysis
+- When the list is too long for the decision's stakes — checklist fatigue is real
+- When the failure modes are too varied or unpredictable to enumerate in advance
+- When the user lacks the competence to evaluate the checklist items — the pattern becomes ritual rather than review
+
+## Design considerations
+
+- *Domain-specific items.* Generic checklists don't work. Each checklist should be tuned to the specific decision type and its known failure modes.
+- *Adaptive checklists.* Consider surfacing different items based on the system's confidence, the type of recommendation, or the user's track record. A system that's uncertain about a particular factor can highlight that factor in the checklist.
+- *Completion gating.* The forcing effect depends on the checklist being required, not optional. But required checklists create compliance pressure — monitor for rote completion.
+- *Distinguish from confirmation dialogs.* A confirmation dialog ("Are you sure?") is not a checklist. The value of the checklist is in its structured, specific items, not in the act of clicking "confirm."
+
+## Related patterns
+
+- [Cognitive forcing functions](../?path=/docs/actions-application-cognitive-forcing-functions--docs) — the family this pattern belongs to
+- [Action consequences](../?path=/docs/actions-application-action-consequences--docs) — consequences preview before commitment; checklists add structured review
+- [Form](../?path=/docs/actions-application-form--docs) — the checklist interaction resembles a form with verification items
+
+## Resources & references
+
+- Gawande, A. (2009). *The Checklist Manifesto: How to Get Things Right.*
+- Noessel, C. (2024). *Designing Assistant Technology*, ch. 12.
+- Buçinca, Z., Malaya, M. B., & Gajos, K. Z. (2021). [To trust or to think](https://dl.acm.org/doi/10.1145/3449287). *CSCW.*

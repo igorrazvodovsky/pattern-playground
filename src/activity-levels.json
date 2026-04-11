@@ -19,6 +19,12 @@
       "atomic-category": "pattern",
       "mediation": "individual"
     },
+    "actions-application-cognitive-forcing-functions": {
+      "activity-level": "action",
+      "lifecycle-stage": "application",
+      "atomic-category": "pattern",
+      "mediation": "individual"
+    },
     "actions-application-context-menu": {
       "activity-level": "action",
       "lifecycle-stage": "application",
@@ -89,6 +95,48 @@
       "activity-level": "action",
       "lifecycle-stage": "application",
       "atomic-category": "composition",
+      "mediation": "individual"
+    },
+    "actions-application-cognitive-forcing-functions-human-goes-first": {
+      "activity-level": "action",
+      "lifecycle-stage": "application",
+      "atomic-category": "pattern",
+      "mediation": "individual"
+    },
+    "actions-application-cognitive-forcing-functions-ondemand-reveal": {
+      "activity-level": "action",
+      "lifecycle-stage": "application",
+      "atomic-category": "pattern",
+      "mediation": "individual"
+    },
+    "actions-application-cognitive-forcing-functions-checklist": {
+      "activity-level": "action",
+      "lifecycle-stage": "application",
+      "atomic-category": "pattern",
+      "mediation": "individual"
+    },
+    "actions-application-cognitive-forcing-functions-partial-explanations": {
+      "activity-level": "action",
+      "lifecycle-stage": "application",
+      "atomic-category": "pattern",
+      "mediation": "individual"
+    },
+    "actions-application-cognitive-forcing-functions-rationale-logging": {
+      "activity-level": "action",
+      "lifecycle-stage": "application",
+      "atomic-category": "pattern",
+      "mediation": "individual"
+    },
+    "actions-application-cognitive-forcing-functions-update-after-initial-judgement": {
+      "activity-level": "action",
+      "lifecycle-stage": "application",
+      "atomic-category": "pattern",
+      "mediation": "individual"
+    },
+    "actions-application-cognitive-forcing-functions-wait-before-reveal": {
+      "activity-level": "action",
+      "lifecycle-stage": "application",
+      "atomic-category": "pattern",
       "mediation": "individual"
     },
     "actions-coordination-action-bar": {
