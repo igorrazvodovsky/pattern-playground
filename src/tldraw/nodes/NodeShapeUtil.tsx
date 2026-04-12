@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- tldraw generic types require any; see plans/tech-debt-tracker.md */
 import classNames from 'classnames'
 import {
 	Circle2d,

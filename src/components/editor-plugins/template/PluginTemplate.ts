@@ -4,21 +4,21 @@ import type { Extension } from '@tiptap/core';
 
 /**
  * PLUGIN TEMPLATE
- * 
+ *
  * This is a template for creating new editor plugins.
  * Follow these steps to create your own plugin:
- * 
+ *
  * 1. Copy this file and rename it to YourPluginName.ts
  * 2. Update the class name, id, and name properties
  * 3. Define your plugin's configuration interface
  * 4. Implement the required methods
  * 5. Export a factory function for easy usage
- * 
+ *
  * @example
  * ```typescript
  * import { yourPlugin } from './YourPlugin';
- * 
- * <EditorPlugin plugin={yourPlugin({ 
+ *
+ * <EditorPlugin plugin={yourPlugin({
  *   // your config here
  * })} />
  * ```
@@ -48,7 +48,7 @@ export class TemplatePlugin extends BasePlugin {
   public readonly id = 'template-plugin'; // Unique identifier
   public readonly name = 'Template Plugin'; // Human-readable name
   public readonly version = '1.0.0'; // Semantic version
-  
+
   // Step 4: Define plugin capabilities
   public readonly capabilities: PluginCapabilities = {
     requiresSelection: false, // Does the plugin need text selection?
@@ -63,7 +63,7 @@ export class TemplatePlugin extends BasePlugin {
 
   constructor(options: TemplatePluginOptions = {}) {
     super();
-    
+
     // Set default options
     this.options = {
       enabled: true,
@@ -73,16 +73,13 @@ export class TemplatePlugin extends BasePlugin {
   }
 
   // Step 6: Lifecycle hooks (all optional)
-  
+
   /**
    * Called when the plugin is installed
    * Use this for one-time setup
    */
   onInstall(context: EditorContext): void {
     super.onInstall(context);
-    
-    // Example: Initialize plugin resources
-    console.log(`${this.name} installed`);
     
     // Example: Set up initial state
     // this.initializeState();
@@ -94,10 +91,10 @@ export class TemplatePlugin extends BasePlugin {
    */
   onActivate(context: EditorContext): void {
     super.onActivate(context);
-    
+
     // Register UI components
     this.registerUI(context.slots);
-    
+
     // Example: Start listening to editor events
     // this.startListening();
   }
@@ -108,7 +105,7 @@ export class TemplatePlugin extends BasePlugin {
    */
   onDeactivate(): void {
     super.onDeactivate();
-    
+
     // Example: Stop listening to events
     // this.stopListening();
   }
@@ -119,7 +116,7 @@ export class TemplatePlugin extends BasePlugin {
    */
   onDestroy(): void {
     super.onDestroy();
-    
+
     // Example: Clean up resources
     // this.cleanup();
   }
@@ -131,7 +128,7 @@ export class TemplatePlugin extends BasePlugin {
     slots.register('bubble-menu', {
       pluginId: this.id,
       render: () => (
-        <YourBubbleMenuComponent 
+        <YourBubbleMenuComponent
           options={this.options}
           onAction={this.handleAction.bind(this)}
         />
@@ -149,7 +146,7 @@ export class TemplatePlugin extends BasePlugin {
     slots.register('toolbar', {
       pluginId: this.id,
       render: () => (
-        <YourToolbarButton 
+        <YourToolbarButton
           options={this.options}
           onClick={this.handleClick.bind(this)}
         />
@@ -171,11 +168,11 @@ export class TemplatePlugin extends BasePlugin {
     // Example: Listen to selection changes
     /*
     eventBus.on('selection:change', ({ from, to, content }) => {
-      console.log('Selection changed:', { from, to, content });
-      
+      console.warn('Selection changed:', { from, to, content });
+
       // Emit custom events for other plugins
-      eventBus.emit('template-plugin:selection-updated', { 
-        hasSelection: from !== to 
+      eventBus.emit('template-plugin:selection-updated', {
+        hasSelection: from !== to
       });
     });
     */
@@ -183,7 +180,7 @@ export class TemplatePlugin extends BasePlugin {
     // Example: Listen to content changes
     /*
     eventBus.on('content:change', ({ transaction }) => {
-      console.log('Content changed');
+      console.warn('Content changed');
     });
     */
 
@@ -198,41 +195,41 @@ export class TemplatePlugin extends BasePlugin {
   // Step 9: Provide Tiptap extensions (if needed)
   getExtensions(): Extension[] {
     const extensions: Extension[] = [];
-    
+
     // Example: Add a custom node or mark
     /*
     import { Node } from '@tiptap/core';
-    
+
     const CustomNode = Node.create({
       name: 'customNode',
       // ... node configuration
     });
-    
+
     extensions.push(CustomNode);
     */
-    
+
     return extensions;
   }
 
   // Step 10: Add your custom plugin methods
-  
+
   /**
    * Example custom method
    */
   private handleAction(action: string, data?: unknown): void {
     if (!this.context?.editor) return;
-    
+
     switch (action) {
       case 'example-action':
         // Perform your action
-        console.log('Executing example action with data:', data);
-        
+        console.warn('Executing example action with data:', data);
+
         // Example: Modify editor content
         // this.context.editor.commands.insertContent('Hello World');
-        
+
         // Example: Emit an event
         // this.emit('template-plugin:action-completed', { action, data });
-        
+
         break;
       default:
         console.warn(`Unknown action: ${action}`);
@@ -240,7 +237,7 @@ export class TemplatePlugin extends BasePlugin {
   }
 
   // Public API methods for other components to use
-  
+
   /**
    * Example public method
    */
@@ -249,7 +246,7 @@ export class TemplatePlugin extends BasePlugin {
       console.warn(`${this.name} is disabled`);
       return;
     }
-    
+
     this.handleAction('example-action', { timestamp: Date.now() });
   }
 
@@ -272,7 +269,7 @@ export function templatePlugin(options?: TemplatePluginOptions): TemplatePlugin 
 
 /**
  * NEXT STEPS:
- * 
+ *
  * 1. Copy this file and rename it (e.g., SpellCheckPlugin.ts)
  * 2. Update all "template" references to your plugin name
  * 3. Define your configuration interface
@@ -280,9 +277,9 @@ export function templatePlugin(options?: TemplatePluginOptions): TemplatePlugin 
  * 5. Create UI components if needed (in ./components/)
  * 6. Add your plugin to the main exports (in ../index.ts)
  * 7. Create a Storybook story to demonstrate your plugin
- * 
+ *
  * TIPS:
- * 
+ *
  * - Keep your plugin focused on a single responsibility
  * - Use TypeScript for better type safety
  * - Emit events for other plugins to listen to

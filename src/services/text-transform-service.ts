@@ -60,7 +60,7 @@ export class TextTransformService {
   ): Promise<string> {
     // Cancel any existing stream
     this.cancelStream();
-    
+
     // Create new abort controller
     this.abortController = new AbortController();
 
@@ -93,21 +93,21 @@ export class TextTransformService {
       try {
         while (true) {
           const { done, value } = await reader.read();
-          
+
           if (done) break;
 
           // Decode the chunk
           const chunk = decoder.decode(value, { stream: true });
-          
+
           // Process SSE format (data: {...}\n\n)
           const lines = chunk.split('\n');
-          
+
           for (const line of lines) {
             if (line.startsWith('data: ')) {
               try {
                 const jsonStr = line.slice(6); // Remove 'data: ' prefix
                 const data: TextLensStreamChunk = JSON.parse(jsonStr);
-                
+
                 if (data.type === 'chunk' && data.content) {
                   accumulatedContent += data.content;
                   callbacks.onChunk?.(data.content);
@@ -131,10 +131,9 @@ export class TextTransformService {
 
     } catch (error) {
       if (error instanceof Error && error.name === 'AbortError') {
-        console.log('Stream was cancelled');
         return accumulatedContent;
       }
-      
+
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       callbacks.onError?.(errorMessage);
       throw error;

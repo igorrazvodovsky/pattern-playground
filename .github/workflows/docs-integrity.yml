@@ -1,0 +1,20 @@
+name: Docs integrity
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check AGENTS.md stub and links
+        run: node scripts/check-agents-stub.mjs
+
+      - name: Check taxonomy sync
+        run: node scripts/check-taxonomy-sync.mjs
+
+      - name: Check internal link integrity
+        run: npx --yes lychee --offline AGENTS.md ARCHITECTURE.md "docs/**/*.md"

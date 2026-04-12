@@ -2,7 +2,7 @@ import React from 'react';
 import { BasePlugin } from '../core/Plugin';
 import type { PluginCapabilities, EditorContext, SlotRegistry } from '../../editor/types';
 import type { SelectedReference } from '../../reference/types';
-import { explanationService, type ExplanationCallbacks } from '../../../services/explanationService';
+import { explanationService, type ExplanationCallbacks } from '../../../services/explanation-service';
 import { ExplanationBubbleMenu } from './components/ExplanationBubbleMenu';
 import type { Extension } from '@tiptap/core';
 

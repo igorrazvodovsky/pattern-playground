@@ -48,7 +48,6 @@ export class ItemViewModalService {
       // Store the modal ID for this item
       this.openModals.set(item.id, modalId);
 
-      console.log(`✅ Successfully opened React item-view for ${item.type}:${item.id} at scope ${scope}`);
     } catch (error) {
       console.error('Failed to open item in modal:', error);
       throw error;

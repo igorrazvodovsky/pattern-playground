@@ -65,8 +65,6 @@ export function integrateSharedDataComments() {
       hasUnsavedChanges: false, // This is initial data, not a user change
       lastSavedTimestamp: Date.now()
     });
-
-    console.log(`Integrated ${sharedComments.length} comments from shared data into universal comment store`);
   });
 }
 

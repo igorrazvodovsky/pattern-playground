@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- complex event handling types; see plans/tech-debt-tracker.md */
 // TODO:
 // Submenu
 // Positioning glitch

@@ -22,7 +22,7 @@ interface PerformanceMonitorProps {
  * Performance monitoring component for the editor plugin system.
  * Tracks plugin load times, event processing, and resource usage.
  */
-export function PerformanceMonitor({ 
+export function PerformanceMonitor({
   enabled = true,
   sampleRate = 10,
   maxEventHistory = 100,
@@ -36,7 +36,7 @@ export function PerformanceMonitor({
     activePlugins: 0,
     totalEvents: 0,
   });
-  
+
   const eventCounter = useRef(0);
   const renderCounter = useRef(0);
 
@@ -45,34 +45,34 @@ export function PerformanceMonitor({
 
     const originalEmit = context.eventBus.emit.bind(context.eventBus);
     const originalOn = context.eventBus.on.bind(context.eventBus);
-    
+
     // Monitor event emissions
     context.eventBus.emit = function(event: string, payload: unknown) {
       eventCounter.current++;
-      
+
       if (eventCounter.current % sampleRate === 0) {
         const startTime = performance.now();
         const result = originalEmit(event, payload);
         const endTime = performance.now();
-        
+
         setMetrics(prev => {
           const newMetrics = { ...prev };
           const times = newMetrics.eventProcessingTime.get(event) || [];
           times.push(endTime - startTime);
-          
+
           // Keep only recent history
           if (times.length > maxEventHistory) {
             times.shift();
           }
-          
+
           newMetrics.eventProcessingTime.set(event, times);
           newMetrics.totalEvents = eventCounter.current;
           return newMetrics;
         });
-        
+
         return result;
       }
-      
+
       return originalEmit(event, payload);
     };
 
@@ -80,22 +80,18 @@ export function PerformanceMonitor({
     const originalRegister = context.registry.register.bind(context.registry);
     context.registry.register = async function(plugin: Plugin) {
       const startTime = performance.now();
-      
+
       try {
         const result = await originalRegister(plugin);
         const loadTime = performance.now() - startTime;
-        
+
         setMetrics(prev => {
           const newMetrics = { ...prev };
           newMetrics.pluginLoadTime.set(plugin.id, loadTime);
           newMetrics.activePlugins = context.registry.getAll().length;
           return newMetrics;
         });
-        
-        if (process.env.NODE_ENV === 'development') {
-          console.log(`Plugin ${plugin.id} loaded in ${loadTime.toFixed(2)}ms`);
-        }
-        
+
         return result;
       } catch (error) {
         const loadTime = performance.now() - startTime;
@@ -197,14 +193,14 @@ export function PerformanceDashboard() {
 
   const getSlowEvents = (): Array<[string, number]> => {
     const slowEvents: Array<[string, number]> = [];
-    
+
     metrics.eventProcessingTime.forEach((times, event) => {
       const avg = calculateAverageEventTime(times);
       if (avg > 10) { // Events taking more than 10ms
         slowEvents.push([event, avg]);
       }
     });
-    
+
     return slowEvents.sort((a, b) => b[1] - a[1]).slice(0, 5);
   };
 
@@ -225,25 +221,25 @@ export function PerformanceDashboard() {
       <div style={{ marginBottom: '10px', borderBottom: '1px solid #0f0', paddingBottom: '5px' }}>
         <strong>🎯 Performance Monitor</strong>
       </div>
-      
+
       <div style={{ marginBottom: '5px' }}>
         <strong>Plugins:</strong> {metrics.activePlugins} active
       </div>
-      
+
       <div style={{ marginBottom: '5px' }}>
         <strong>Events:</strong> {metrics.totalEvents} processed
       </div>
-      
+
       <div style={{ marginBottom: '5px' }}>
         <strong>Renders:</strong> {metrics.renderCount}
       </div>
-      
+
       {metrics.memoryUsage && (
         <div style={{ marginBottom: '5px' }}>
           <strong>Memory:</strong> {metrics.memoryUsage.toFixed(2)} MB
         </div>
       )}
-      
+
       {metrics.pluginLoadTime.size > 0 && (
         <div style={{ marginTop: '10px', marginBottom: '5px' }}>
           <strong>Plugin Load Times:</strong>
@@ -254,13 +250,13 @@ export function PerformanceDashboard() {
           ))}
         </div>
       )}
-      
+
       {getSlowEvents().length > 0 && (
         <div style={{ marginTop: '10px' }}>
           <strong>Slow Events:</strong>
           {getSlowEvents().map(([event, time]) => (
-            <div key={event} style={{ 
-              paddingLeft: '10px', 
+            <div key={event} style={{
+              paddingLeft: '10px',
               fontSize: '11px',
               color: time > 50 ? '#f00' : time > 20 ? '#ff0' : '#0f0'
             }}>
@@ -269,8 +265,8 @@ export function PerformanceDashboard() {
           ))}
         </div>
       )}
-      
-      <PerformanceMonitor 
+
+      <PerformanceMonitor
         enabled={true}
         sampleRate={5}
         onMetricsUpdate={setMetrics}
@@ -308,13 +304,13 @@ export class PluginPerformanceTracker {
   getAverageTime(label: string): number {
     const measures = this.measures.get(label);
     if (!measures || measures.length === 0) return 0;
-    
+
     return measures.reduce((a, b) => a + b, 0) / measures.length;
   }
 
   getReport(): Record<string, { count: number; average: number; total: number }> {
     const report: Record<string, { count: number; average: number; total: number }> = {};
-    
+
     this.measures.forEach((times, label) => {
       const total = times.reduce((a, b) => a + b, 0);
       report[label] = {

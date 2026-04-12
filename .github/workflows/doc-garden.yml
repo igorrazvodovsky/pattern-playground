@@ -1,0 +1,29 @@
+name: Doc garden
+
+on:
+  schedule:
+    - cron: '0 9 * * 0'  # Sunday morning
+  workflow_dispatch: {}
+
+jobs:
+  doc-garden:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Run doc gardening
+        uses: anthropics/claude-code-action@beta
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          direct_prompt: |
+            Walk AGENTS.md, ARCHITECTURE.md, and docs/. For each claim about file paths,
+            rule names, taxonomy categories, or directory structure, verify it against the
+            current repo state. For each drift you find, open a single fix-up PR with the
+            minimal correction. Do not refactor, restructure, or add new content. If
+            everything is current, exit silently.

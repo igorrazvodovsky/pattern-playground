@@ -28,7 +28,7 @@ export const createModalContent = <T extends string>(
     adapters.push(taskAdapter);
   }
 
-  console.log('createModalContent - contentType:', contentType, 'item structure:', Object.keys(item));
+  console.warn('createModalContent - contentType:', contentType, 'item structure:', Object.keys(item));
   
   return (
     <ContentAdapterProvider adapters={adapters}>

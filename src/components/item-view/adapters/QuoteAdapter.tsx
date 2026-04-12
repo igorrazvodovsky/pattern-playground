@@ -53,8 +53,8 @@ const QuoteDetail: React.FC<ItemViewProps<QuoteItem>> = ({ item: quote }) => {
   const author = metadata.authorId ? getUserById(metadata.authorId) : null;
   const currentUser = getUserById('user-1'); // TODO: Get from context/auth
 
-  console.log('QuoteDetail rendering for quote:', quote.id);
-  console.log('QuoteDetail - currentUser:', currentUser);
+  console.warn('QuoteDetail rendering for quote:', quote.id);
+  console.warn('QuoteDetail - currentUser:', currentUser);
 
   if (!currentUser) {
     return <div>Unable to load user context</div>;

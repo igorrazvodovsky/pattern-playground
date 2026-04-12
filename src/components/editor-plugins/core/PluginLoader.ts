@@ -33,7 +33,7 @@ export class PluginLoader {
   private loadedModules = new Map<string, LoadedPluginData>();
   private loadingPromises = new Map<string, Promise<Plugin>>();
   private failedPlugins = new Set<string>();
-  
+
   // Static configuration
   static readonly PLUGIN_TIMEOUT = 10000; // 10 seconds
   static readonly RETRY_ATTEMPTS = 3;
@@ -81,7 +81,7 @@ export class PluginLoader {
 
       // Dynamic import with timeout
       const modulePromise = this.importPluginModule(pluginId);
-      
+
       const module = await Promise.race([
         modulePromise,
         new Promise<never>((_, reject) => {
@@ -95,10 +95,10 @@ export class PluginLoader {
 
       // Extract plugin from module
       const plugin = this.extractPluginFromModule(module, pluginId);
-      
+
       // Store loaded module for future reference
       this.loadedModules.set(pluginId, { plugin, module });
-      
+
       return plugin;
     } catch (error) {
       if (attempt < PluginLoader.RETRY_ATTEMPTS) {
@@ -133,11 +133,11 @@ export class PluginLoader {
   // Extract plugin instance from module with modern type checking
   private extractPluginFromModule(module: PluginModule, pluginId: string): Plugin {
     // Use modern object destructuring and type guards
-    const { 
+    const {
       default: defaultExport,
       Plugin: PluginClass,
       createPlugin,
-      ...namedExports 
+      ...namedExports
     } = module;
 
     // Try different plugin extraction patterns
@@ -161,7 +161,7 @@ export class PluginLoader {
   // Modern type guard with optional chaining
   private isValidPlugin(candidate: unknown): candidate is Plugin {
     if (typeof candidate !== 'object' || candidate === null) return false;
-    
+
     const record = candidate as Record<string, unknown>;
     return (
       typeof record.id === 'string' &&
@@ -220,7 +220,7 @@ export class PluginLoader {
 
     // Topological sort for dependency order
     const sorted = this.topologicalSort(pluginData);
-    
+
     // Return plugins in dependency order
     return sorted.map(({ plugin }) => plugin);
   }
@@ -323,7 +323,6 @@ if (typeof window !== 'undefined') {
     const essentialPlugins = ['formatting', 'commenting'];
     try {
       await pluginLoader.loadPlugins(essentialPlugins);
-      console.log('Essential plugins loaded successfully');
     } catch (error) {
       console.error('Failed to load essential plugins:', error);
     }

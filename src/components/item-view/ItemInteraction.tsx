@@ -65,30 +65,30 @@ export const ItemInteraction = <T extends BaseItem = BaseItem>({
   }, []);
 
   const handleScopeChange = useCallback((newScope: ViewScope) => {
-    console.log('ItemInteraction.handleScopeChange called:', {
+    console.warn('ItemInteraction.handleScopeChange called:', {
       newScope,
       item: item.id,
       contentType,
       label: item.label
     });
-    
+
     onScopeChange?.(newScope);
 
     // Handle different scope transitions using modal service
     switch (newScope) {
       case 'mid':
-        console.log('ItemInteraction - Opening drawer for mid scope');
+        console.warn('ItemInteraction - Opening drawer for mid scope');
         const detailContent = createModalContent(item, contentType, 'mid');
-        console.log('ItemInteraction - Created detail content:', detailContent);
+        console.warn('ItemInteraction - Created detail content:', detailContent);
         modalService.openDrawer(detailContent as React.ReactElement, {
           position: 'right',
           title: item.label
         });
         break;
       case 'maxi':
-        console.log('ItemInteraction - Opening dialog for maxi scope');
+        console.warn('ItemInteraction - Opening dialog for maxi scope');
         const fullContent = createModalContent(item, contentType, 'maxi');
-        console.log('ItemInteraction - Created full content:', fullContent);
+        console.warn('ItemInteraction - Created full content:', fullContent);
         modalService.openDialog(fullContent as React.ReactElement, {
           title: item.label,
           size: 'large'
@@ -98,7 +98,7 @@ export const ItemInteraction = <T extends BaseItem = BaseItem>({
   }, [onScopeChange, item, contentType]);
 
   const handleEscalate = useCallback((targetScope: ViewScope) => {
-    console.log('ItemInteraction.handleEscalate called:', {
+    console.warn('ItemInteraction.handleEscalate called:', {
       targetScope,
       enableEscalation,
       item: item.id,
@@ -123,16 +123,16 @@ export const ItemInteraction = <T extends BaseItem = BaseItem>({
   }, []);
 
   const handleClick = useCallback((e: React.MouseEvent) => {
-    console.log('ItemInteraction.handleClick triggered:', {
+    console.warn('ItemInteraction.handleClick triggered:', {
       item: item.id,
       contentType,
       enableEscalation,
       ctrlKey: e.ctrlKey,
       metaKey: e.metaKey
     });
-    
+
     if (!enableEscalation) {
-      console.log('ItemInteraction - escalation disabled, returning');
+      console.warn('ItemInteraction - escalation disabled, returning');
       return;
     }
 
@@ -141,14 +141,14 @@ export const ItemInteraction = <T extends BaseItem = BaseItem>({
 
     if (e.ctrlKey || e.metaKey) {
       // Ctrl/Cmd+click for maxi scope
-      console.log('ItemInteraction - Ctrl/Cmd+click detected, triggering maxi scope');
+      console.warn('ItemInteraction - Ctrl/Cmd+click detected, triggering maxi scope');
       if (maxiConfig?.trigger === 'click') {
         e.preventDefault();
         handleEscalate('maxi');
       }
     } else {
       // Regular click for mid scope
-      console.log('ItemInteraction - Regular click detected, triggering mid scope');
+      console.warn('ItemInteraction - Regular click detected, triggering mid scope');
       if (midConfig?.trigger === 'click') {
         e.preventDefault();
         handleEscalate('mid');

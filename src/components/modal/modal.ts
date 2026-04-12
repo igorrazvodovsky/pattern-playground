@@ -47,6 +47,7 @@ export class PPModal extends HTMLElement {
     this.modal = this.querySelector('dialog') || 
                  this.querySelector('.drawer') ||
                  this.querySelector('.modal') ||
+                 // eslint-disable-next-line no-restricted-syntax -- DOM lookup, not JS hook; role is the correct semantic selector here
                  this.querySelector('[role="dialog"]');
     
     if (this.modal) {

@@ -105,6 +105,7 @@ export const CommentComposer: React.FC<CommentComposerProps> = ({
         <EditorContent
           editor={editor}
           className="comment-composer__editor "
+          // eslint-disable-next-line react/forbid-component-props -- dynamic layout value, see plans/tech-debt-tracker.md
           style={{ flex: 1 }}
         />
         <button

@@ -69,8 +69,6 @@ export const useTipTapQuoteIntegration = (
         label: quote.name,
         metadata: quote.metadata
       });
-
-      console.log('Created quote object:', quote);
       return quote;
     } catch (error) {
       console.error('Failed to create quote:', error);
@@ -93,8 +91,6 @@ export const useTipTapQuoteIntegration = (
     const quote = getQuote(quoteId);
     if (quote) {
       try {
-        console.log('Opening quote in drawer:', quote);
-
         const currentUserObj = getUserById(currentUser) || {
           id: currentUser,
           name: currentUser
@@ -111,8 +107,6 @@ export const useTipTapQuoteIntegration = (
             className: 'quote-drawer-modal'
           }
         );
-
-        console.log('Quote drawer opened successfully:', modalId);
       } catch (error) {
         console.error('Failed to open quote drawer:', error);
       }
@@ -167,10 +161,6 @@ export const useTipTapQuoteIntegration = (
 
       const deleted = quoteService.deleteQuote(quoteId);
 
-      if (deleted) {
-        console.log(`Deleted quote: ${quoteId}`);
-      }
-
       return deleted;
     } catch (error) {
       console.error(`Failed to delete quote ${quoteId}:`, error);
@@ -208,11 +198,6 @@ export const useTipTapQuoteIntegration = (
   // Clean up orphaned quotes
   const cleanupOrphanedQuotes = useCallback(() => {
     const orphanedIds = quoteService.cleanupOrphanedQuotes();
-
-    if (orphanedIds.length > 0) {
-      console.log(`Cleaned up ${orphanedIds.length} orphaned quotes:`, orphanedIds);
-    }
-
     return orphanedIds;
   }, [quoteService]);
 

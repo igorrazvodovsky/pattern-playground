@@ -82,12 +82,12 @@ export const useCommentStore = create<UniversalCommentingState & {
       panelVisible: false,
       lastSavedTimestamp: 0,
       hasUnsavedChanges: false,
-      
+
       actions: {
         addComment: (entityType, entityId, commentData) => {
           const commentId = generateId('comment');
           const entityKey = createEntityKey(entityType, entityId);
-          
+
           const comment: EntityComment = {
             ...commentData,
             id: commentId,
@@ -100,7 +100,7 @@ export const useCommentStore = create<UniversalCommentingState & {
             const newCommentsByEntity = new Map(state.commentsByEntity);
             const existingComments = newCommentsByEntity.get(entityKey) || [];
             newCommentsByEntity.set(entityKey, [...existingComments, comment]);
-            
+
             return {
               commentsByEntity: newCommentsByEntity,
               hasUnsavedChanges: true
@@ -109,88 +109,82 @@ export const useCommentStore = create<UniversalCommentingState & {
 
           return comment;
         },
-        
+
         getComments: (entityType, entityId) => {
           const entityKey = createEntityKey(entityType, entityId);
           const state = get();
           const comments = state.commentsByEntity.get(entityKey) || [];
-          
-          console.log(`CommentStore.getComments - Key: "${entityKey}", Found: ${comments.length} comments`);
-          console.log('CommentStore - All entity keys:', Array.from(state.commentsByEntity.keys()));
-          if (entityKey.includes('habitats')) {
-            console.log('CommentStore - Habitat comments debug:', comments);
-          }
-          
+
           return comments;
         },
-        
+
         resolveComment: (commentId) => {
           set(state => {
             const newCommentsByEntity = new Map(state.commentsByEntity);
 
             for (const [entityKey, comments] of newCommentsByEntity.entries()) {
-              const updatedComments = comments.map(comment => 
-                comment.id === commentId 
+              const updatedComments = comments.map(comment =>
+                comment.id === commentId
                   ? { ...comment, status: 'resolved' as const }
                   : comment
               );
-              
+
               if (updatedComments !== comments) {
                 newCommentsByEntity.set(entityKey, updatedComments);
                 break;
               }
             }
-            
+
             return {
               commentsByEntity: newCommentsByEntity,
               hasUnsavedChanges: true
             };
           });
         },
-        
+
         deleteComment: (commentId) => {
           set(state => {
             const newCommentsByEntity = new Map(state.commentsByEntity);
 
             for (const [entityKey, comments] of newCommentsByEntity.entries()) {
               const filteredComments = comments.filter(comment => comment.id !== commentId);
-              
+
               if (filteredComments.length !== comments.length) {
                 newCommentsByEntity.set(entityKey, filteredComments);
                 break;
               }
             }
-            
+
             return {
               commentsByEntity: newCommentsByEntity,
               hasUnsavedChanges: true
             };
           });
         },
-        
+
         setActiveEntity: (entityType, entityId) => {
           set({ activeEntity: { type: entityType, id: entityId } });
         },
-        
+
         setDraftComment: (draft) => set({ draftComment: draft }),
-        
+
         togglePanel: () => set(state => ({ panelVisible: !state.panelVisible })),
-        
+
         getCommentThread: (entityType, entityId) => {
           const comments = get().actions.getComments(entityType, entityId);
           if (comments.length === 0) return null;
-          
+
           const participants = Array.from(new Set(comments.map(c => c.authorId)));
           const hasActiveComments = comments.some(c => c.status === 'active');
-          const createdAt = comments.reduce((earliest, comment) => 
-            comment.timestamp < earliest ? comment.timestamp : earliest, 
+          const createdAt = comments.reduce((earliest, comment) =>
+            comment.timestamp < earliest ? comment.timestamp : earliest,
             comments[0].timestamp
           );
-          const updatedAt = comments.reduce((latest, comment) => 
-            comment.timestamp > latest ? comment.timestamp : latest, 
+          const updatedAt = comments.reduce((latest, comment) =>
+            comment.timestamp > latest ? comment.timestamp : latest,
             comments[0].timestamp
           );
-          
+
           return {
             entityType,
             entityId,
@@ -201,63 +195,63 @@ export const useCommentStore = create<UniversalCommentingState & {
             updatedAt
           };
         },
-        
+
         getActiveCommentCount: (entityType, entityId) => {
           const comments = get().actions.getComments(entityType, entityId);
           return comments.filter(c => c.status === 'active').length;
         },
-        
+
         getResolvedCommentCount: (entityType, entityId) => {
           const comments = get().actions.getComments(entityType, entityId);
           return comments.filter(c => c.status === 'resolved').length;
         },
-        
+
         searchComments: (query, entityType) => {
           const allComments: EntityComment[] = [];
           const lowerQuery = query.toLowerCase();
-          
+
           for (const [entityKey, comments] of get().commentsByEntity.entries()) {
             const [keyEntityType] = entityKey.split(':');
-            
+
             if (entityType && keyEntityType !== entityType) continue;
-            
+
             const matchingComments = comments.filter(comment => {
-              const contentStr = typeof comment.content === 'string' 
-                ? comment.content 
+              const contentStr = typeof comment.content === 'string'
+                ? comment.content
                 : JSON.stringify(comment.content);
               return contentStr.toLowerCase().includes(lowerQuery) ||
                      comment.authorId.toLowerCase().includes(lowerQuery);
             });
-            
+
             allComments.push(...matchingComments);
           }
-          
+
           return allComments.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
         },
-        
+
         getCommentsByAuthor: (authorId) => {
           const allComments: EntityComment[] = [];
-          
+
           for (const comments of get().commentsByEntity.values()) {
             const authorComments = comments.filter(comment => comment.authorId === authorId);
             allComments.push(...authorComments);
           }
-          
+
           return allComments.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
         },
-        
+
         getRecentComments: (limit = 10) => {
           const allComments: EntityComment[] = [];
-          
+
           for (const comments of get().commentsByEntity.values()) {
             allComments.push(...comments);
           }
-          
+
           return allComments
             .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
             .slice(0, limit);
         },
-        
+
         clearAllData: () => {
           set({
             commentsByEntity: new Map(),
@@ -280,10 +274,10 @@ export const useCommentStore = create<UniversalCommentingState & {
       onRehydrateStorage: () => (state) => {
         if (state) {
           try {
-            const commentsByEntity = Array.isArray(state.commentsByEntity) 
-              ? state.commentsByEntity 
+            const commentsByEntity = Array.isArray(state.commentsByEntity)
+              ? state.commentsByEntity
               : [];
-            
+
             state.commentsByEntity = new Map(commentsByEntity.map(([key, comments]) => [
               key,
               Array.isArray(comments) ? comments.map(c => ({

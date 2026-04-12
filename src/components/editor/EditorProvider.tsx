@@ -37,11 +37,11 @@ interface EditorProviderProps {
 
 const EditorContextReact = createContext<EditorContext | null>(null);
 
-export function EditorProvider({ 
-  children, 
+export function EditorProvider({
+  children,
   editor: providedEditor,
   plugins = [],
-  onReady 
+  onReady
 }: EditorProviderProps) {
   const [isReady, setIsReady] = useState(false);
   const contextRef = useRef<EditorContext | null>(null);
@@ -75,7 +75,7 @@ export function EditorProvider({
     const registry = new PluginRegistry(context);
     pluginRegistryRef.current = registry;
     context.registry = registry;
-    
+
     // Add performance monitoring in development
     if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined') {
       window.__editorDebug = {
@@ -117,23 +117,11 @@ export function EditorProvider({
     // Set up editor event listeners to emit plugin events
     if (editorRef.current) {
       const editor = editorRef.current;
-      
+
       const emitSelectionChange = () => {
         const { from, to } = editor.state.selection;
         const content = editor.state.doc.textBetween(from, to);
-        
-        // Debug selection issues
-        if (process.env.NODE_ENV === 'development' && content.length > 50) {
-          console.log('EditorProvider selection debug:', {
-            from,
-            to,
-            selectionLength: to - from,
-            contentLength: content.length,
-            content: content.substring(0, 100) + (content.length > 100 ? '...' : ''),
-            selectionEmpty: from === to
-          });
-        }
-        
+
         eventBusRef.current.emit('selection:change', {
           from,
           to,
@@ -143,12 +131,12 @@ export function EditorProvider({
 
       // Listen to selection updates
       editor.on('selectionUpdate', emitSelectionChange);
-      
+
       // Clean up listeners on unmount
       const cleanup = () => {
         editor.off('selectionUpdate', emitSelectionChange);
       };
-      
+
       return cleanup;
     }
 
@@ -167,7 +155,7 @@ export function EditorProvider({
       registry.destroy();
       eventBus.clear();
       slotRegistry.clear();
-      
+
       if (process.env.NODE_ENV === 'development') {
         delete window.__editorDebug;
       }

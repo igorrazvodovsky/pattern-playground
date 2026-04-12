@@ -130,7 +130,6 @@ export class ExplanationService {
 
     } catch (error) {
       if (error instanceof Error && error.name === 'AbortError') {
-        console.log('Stream was cancelled');
         return accumulatedContent;
       }
 

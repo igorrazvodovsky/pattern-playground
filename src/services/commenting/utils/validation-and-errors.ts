@@ -230,6 +230,7 @@ export class Logger {
 
     if (process.env.NODE_ENV === 'development') {
       const consoleMethod = level === 'error' ? 'error' : level === 'warn' ? 'warn' : 'log';
+      // eslint-disable-next-line no-console -- dynamic level-based console method
       console[consoleMethod](`[${context}] ${message}`, data || '');
     }
   }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- tldraw generic types require any; see plans/tech-debt-tracker.md */
 import { Editor, T, useEditor, WeakCache } from 'tldraw'
 import {
 	NODE_HEADER_HEIGHT_PX,

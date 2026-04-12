@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- Tiptap extension types require any; see plans/tech-debt-tracker.md */
 import { Mention } from '@tiptap/extension-mention';
 import { ReactRenderer } from '@tiptap/react';
 import { createPortal } from 'react-dom';

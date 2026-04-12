@@ -1,7 +1,7 @@
 import React from 'react';
 import { BasePlugin } from '../core/Plugin';
 import type { PluginCapabilities, EditorContext } from '../../editor/types';
-import { textTransformService, type TextLensCallbacks } from '../../../services/textTransformService';
+import { textTransformService, type TextLensCallbacks } from '../../../services/text-transform-service';
 import { AIAssistantBubbleMenu } from './components/AIAssistantBubbleMenu';
 import { AIAssistantToolbar } from './components/AIAssistantToolbar';
 import type { Extension } from '@tiptap/core';

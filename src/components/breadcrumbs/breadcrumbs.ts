@@ -104,9 +104,6 @@ export class PpBreadcrumbs extends LitElement {
         value: selectedOption
       }
     }));
-
-    // For demo purposes, simulate navigation
-    console.log(`Navigating to: ${selectedOption}`);
   }
 
 

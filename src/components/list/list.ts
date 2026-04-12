@@ -438,6 +438,7 @@ export class PpList extends LitElement {
     if (!dropdown) return false;
 
     // Get all submenu popups from the dropdown
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- accessing internal dropdown API
     const submenuPopups = (dropdown as any).submenuPopups;
     if (!submenuPopups) return false;
 
