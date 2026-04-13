@@ -8,8 +8,7 @@ import {
   CommandList,
   AIFallbackHandler,
   useAICommand,
-  type AICommandResult,
-  type AICommandItem
+  type AICommandResult
 } from "../../../components/command-menu";
 
 import { useHierarchicalNavigation, type SearchableItem } from '../../../hooks/useHierarchicalNavigation';
@@ -51,8 +50,7 @@ function CommandMenu({ onClose }: { onClose?: () => void } = {}) {
       (commands, query) => sortByRelevance(commands, query),
       (actions, query) => sortByRelevance(actions, query)
     ),
-    onSelectChild: (action, command) => {
-      console.log(`Executing command: ${command?.name || 'Unknown'} - ${action.name}`);
+    onSelectChild: () => {
       onClose?.();
     },
     onClose,
@@ -94,9 +92,6 @@ function CommandMenu({ onClose }: { onClose?: () => void } = {}) {
   }, [state.mode, results, filteredRecentItems]);
 
   const handleApplyAICommands = useCallback((result: AICommandResult) => {
-    result.suggestedItems.forEach((item: AICommandItem) => {
-      console.log(`Executing AI command: ${item.label}`, item.metadata);
-    });
     handleApplyAIResult(result);
     actions.resetState();
     onClose?.();

@@ -12,7 +12,6 @@ import {
 } from 'tldraw'
 
 import { OnCanvasComponentPicker } from '../../tldraw/components/OnCanvasComponentPicker.tsx'
-import { WorkflowRegions } from '../../tldraw/components/WorkflowRegions.tsx'
 import { overrides, WorkflowToolbar } from '../../tldraw/components/WorkflowToolbar.tsx'
 import { ConnectionBindingUtil } from '../../tldraw/connection/ConnectionBindingUtil'
 import { ConnectionShapeUtil } from '../../tldraw/connection/ConnectionShapeUtil'

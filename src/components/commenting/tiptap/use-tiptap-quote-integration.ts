@@ -96,7 +96,7 @@ export const useTipTapQuoteIntegration = (
           name: currentUser
         };
 
-        const modalId = openDrawer(
+        openDrawer(
           React.createElement(QuoteDrawerContent, {
             quote: quote,
             currentUser: currentUserObj

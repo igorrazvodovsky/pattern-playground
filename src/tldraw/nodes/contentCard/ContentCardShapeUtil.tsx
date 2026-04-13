@@ -4,7 +4,6 @@ import {
 	HTMLContainer,
 	Rectangle2d,
 	ShapeUtil,
-	T,
 	useEditor,
 	useUniqueSafeId,
 	useValue,
@@ -92,7 +91,7 @@ export class ContentCardShapeUtil extends ShapeUtil<ContentCardShape> {
 		}
 	}
 
-	getGeometry(shape: ContentCardShape) {
+	getGeometry(_shape: ContentCardShape) {
 		const zoom = this.editor.getZoomLevel()
 		const lod = getLODFromZoom(zoom)
 		const dimensions = CONTENT_CARD_DIMENSIONS[lod]
@@ -140,7 +139,7 @@ export class ContentCardShapeUtil extends ShapeUtil<ContentCardShape> {
 		return <ContentCardComponent shape={shape} />
 	}
 
-	indicator(shape: ContentCardShape) {
+	indicator(_shape: ContentCardShape) {
 		const zoom = this.editor.getZoomLevel()
 		const lod = getLODFromZoom(zoom)
 		const dimensions = CONTENT_CARD_DIMENSIONS[lod]

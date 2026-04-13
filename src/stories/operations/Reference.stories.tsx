@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useCallback, useMemo } from 'react';
 import { ReferenceEditor } from '../../components/reference';
 import { referenceCategories, basicReferenceCategories, getReferenceContentById } from '../data';
-import type { SelectedReference } from '../../components/reference';
 
 const meta = {
   title: "Operations/Reference",
@@ -12,12 +11,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const ReferenceEditorExample = () => {
-  const handleReferenceSelect = useCallback((reference: SelectedReference) => {
-    console.log('Reference selected:', reference);
-    if (reference.type === 'quote') {
-      console.log('Quote object selected for cross-document referencing:', reference);
-    }
-  }, []);
+  const handleReferenceSelect = useCallback(() => {}, []);
 
   const enhancedReferenceCategories = useMemo(() => referenceCategories, []);
 
@@ -53,9 +47,7 @@ export const Reference: Story = {
 };
 
 const BasicReferenceEditor = () => {
-  const handleReferenceSelect = useCallback((reference: SelectedReference) => {
-    console.log('User selected:', reference);
-  }, []);
+  const handleReferenceSelect = useCallback(() => {}, []);
 
   return (
     <div className="layer">

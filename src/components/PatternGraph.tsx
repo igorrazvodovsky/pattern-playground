@@ -165,7 +165,7 @@ function buildGraph() {
 export function PatternGraph() {
   const [graph] = useState(buildGraph);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
-  const [colorMode, setColorMode] = useState<ColorMode>('at-level');
+  const [colorMode] = useState<ColorMode>('at-level');
 
   const neighbors = hoveredId ? (graph.adjacency.get(hoveredId) ?? new Set<string>()) : null;
 

@@ -43,9 +43,7 @@ const usePromptEditor = (content: string | TipTapContent = '<p></p>') => {
           class: 'reference-mention reference',
           'data-type': 'material',
         },
-        suggestion: createReferenceSuggestion([materialCategory], (reference) => {
-          console.log('Material reference selected:', reference);
-        }),
+        suggestion: createReferenceSuggestion([materialCategory], () => {}),
       }),
     ],
     content,

@@ -14,7 +14,7 @@ The end goal of typing is to make the graph usable as a *knowledge surface for d
 
 2. *Patterns as generative moves* (Christopher Alexander, *The Nature of Order*). Patterns are not catalogue items to be selected — they are transformations that produce *centres*. Design happens through sequences of structure-preserving moves, each acting on what already exists. The vocabulary and the graph should be read in this register: relationships describe how moves combine, not how options are picked.
 
-These two framings are compatible and reinforcing. The first is an epistemic claim about the data (it's incomplete, fuzzy, hint-grade). The second is an ontological claim about the operation (design is transformation, not selection). Together they push in two directions: the data should be looser and the use should be transformative. See `references/relationship-vocabulary.md` for the full articulation.
+These two framings are compatible and reinforcing. The first is an epistemic claim about the data (it's incomplete, fuzzy, hint-grade). The second is an ontological claim about the operation (design is transformation, not selection). Together they push in two directions: the data should be looser and the use should be transformative. See `docs/specs/relationship-vocabulary.md` for the full articulation.
 
 ### Plan scope
 
@@ -24,7 +24,7 @@ This plan covers **Phase 0** (vocabulary foundation), **Phase 0.5** (generative 
 
 ## Phase 0 — Relationship vocabulary
 
-*Status*: drafted at `references/relationship-vocabulary.md`
+*Status*: drafted at `docs/specs/relationship-vocabulary.md`
 
 Before implementing typed edges, the vocabulary itself needs a formal definition: what each relationship type means, its directionality, inverse pair handling (where applicable), SKOS alignment (where natural), and how each type should be read under the generative-moves framing.
 

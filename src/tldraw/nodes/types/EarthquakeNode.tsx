@@ -104,7 +104,6 @@ export class EarthquakeNodeDefinition extends NodeDefinition<EarthquakeNode> {
 			// Pick a random earthquake
 			const randomIndex = Math.floor(Math.random() * data.features.length)
 			const earthquake = data.features[randomIndex]
-			console.log(data.features)
 
 			const earthquakeData = {
 				magnitude: earthquake.properties.mag,

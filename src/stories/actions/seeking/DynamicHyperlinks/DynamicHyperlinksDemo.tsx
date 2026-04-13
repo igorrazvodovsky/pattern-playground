@@ -5,7 +5,6 @@ import StarterKit from '@tiptap/starter-kit';
 import documents from '../../../data/documents.json';
 import { referenceCategories } from '../../../data';
 import { Reference, createReferenceSuggestion } from '../../../../components/reference/Reference';
-import type { SelectedReference } from '../../../../components/reference/types';
 import type { CorpusDocument } from './types';
 import { useHeatmap } from './useHeatmap';
 import { useSelectionMentions } from './useSelectionPopup';
@@ -57,9 +56,7 @@ export function DynamicHyperlinksDemo() {
   const spans = useHeatmap(editorText, corpus, threshold, true);
   const { mentions, selectedText, expanded, expand, collapse } = useSelectionMentions(readerRef, corpus);
 
-  const handleReferenceSelect = useCallback((ref: SelectedReference) => {
-    console.log('Reference selected:', ref);
-  }, []);
+  const handleReferenceSelect = useCallback(() => {}, []);
 
   const referenceSuggestion = useMemo(
     () => createReferenceSuggestion(referenceCategories, handleReferenceSelect),
