@@ -49,7 +49,7 @@ Things that shape how work unfolds over time. Flat — ~18 items.
 
 - `data-visualization/` — kept as a top-level placeholder pending fuller development, rather than absorbed into `actions/evaluation/`
 - `data/` — shared mock data as JSON files (not patterns)
-- `hooks/` — empty, ignored
+- `patterns/` — legacy Atomic Design directory; contains only `.md` stubs, not served by Storybook
 - `utils/` — Storybook utility components
 
 ## Where does a new pattern go?
