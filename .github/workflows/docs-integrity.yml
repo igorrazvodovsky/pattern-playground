@@ -17,4 +17,7 @@ jobs:
         run: node scripts/check-taxonomy-sync.mjs
 
       - name: Check internal link integrity
-        run: npx --yes lychee --offline AGENTS.md ARCHITECTURE.md "docs/**/*.md"
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --offline AGENTS.md ARCHITECTURE.md "docs/**/*.md"
+          fail: true
