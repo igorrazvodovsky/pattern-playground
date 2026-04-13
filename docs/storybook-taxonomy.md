@@ -52,10 +52,6 @@ Things that shape how work unfolds over time. Flat — ~18 items.
 - `hooks/` — empty, ignored
 - `utils/` — Storybook utility components
 
-### Legacy directories (migrating)
-
-- `components/`, `compositions/`, `patterns/` — old Atomic Design directories. Fully cleared of stories and MDX files. Residual `.md` stub files remain in `patterns/` — not served by Storybook, low priority.
-
 ## Where does a new pattern go?
 
 1. Ask: *does the user consciously engage with this, or does it work automatically?*

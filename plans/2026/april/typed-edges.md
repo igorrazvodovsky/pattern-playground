@@ -6,15 +6,15 @@ The pattern graph (`src/pattern-graph.json`) has 131 nodes and 773 edges, all un
 
 ### End goal
 
-The end goal of typing is to make the graph usable as a *knowledge surface for design generation* — a structure an LLM agent (or a human reader thinking generatively) can draw on when proposing design moves. Visualisation is one consumer; the primary value is in the data being structured enough to support reasoning about how patterns combine.
+The end goal of typing is to make the graph usable as a *knowledge surface for design generation* — a structure an actor (LLM agent or a human reader thinking generatively) can draw on when proposing design moves. Visualisation is one consumer; the primary value is in the data being structured enough to support reasoning about how patterns combine.
 
 ### Two framings that shape the plan
 
-1. *Suggestion, not matching.* The library is not mature enough to support structured retrieval. Edges, tags, and decision-tree conditions are all *hint-grade* — they describe what has been useful in similar situations, not predicates to be matched against a query. An agent uses the graph as context for judgement, not as a lookup table.
+1. *Suggestion, not matching.* The library is not mature enough to support structured retrieval. Edges, tags, and decision-tree conditions are all *hint-grade* — they describe what has been useful in similar situations, not predicates to be matched against a query. An actor uses the graph as context for judgement, not as a lookup table.
 
-2. *Patterns as generative moves* (Christopher Alexander, *The Nature of Order*). Patterns are not catalogue items to be selected — they are transformations that produce *centres*. Design happens through sequences of structure-preserving moves, each acting on what already exists. The vocabulary and the graph should be read in this register: relationships describe how moves combine, not how options are picked.
+2. *Patterns as moves in a design vocabulary* (Christopher Alexander). The library draws on two phases of Alexander's work at different stages of realisation. Currently it operates in the *Pattern Language register*: a navigational vocabulary of typed moves and relationships, hint-grade rather than rule-grade, where design reasoning is sequential and associative. The aspiration is toward the *Nature of Order register*: structural properties that function as recursive production rules, giving design a grammar. The library is not there yet — getting there would require discovering interaction-design analogues of Alexander's structural properties from empirical patterns in the data, which requires more corpus than currently exists. The typed edges and quality vocabulary are the scaffolding for that discovery. See `docs/relationship-vocabulary.md` for the full articulation of the two-stage trajectory.
 
-These two framings are compatible and reinforcing. The first is an epistemic claim about the data (it's incomplete, fuzzy, hint-grade). The second is an ontological claim about the operation (design is transformation, not selection). Together they push in two directions: the data should be looser and the use should be transformative. See `docs/specs/relationship-vocabulary.md` for the full articulation.
+These two framings are compatible and reinforcing. The first is an epistemic claim about the data (incomplete, fuzzy, hint-grade). The second names where the library sits on a longer trajectory (Pattern Language now, aspiring toward Nature of Order). Together they push in two directions: the data should be looser and the use should be transformative.
 
 ### Plan scope
 
@@ -33,7 +33,7 @@ The vocabulary document defines ten relationship types: `precedes`, `follows`, `
 Key decisions captured in the vocabulary doc:
 
 - *Only `precedes`/`follows` form a true inverse pair.* `enables` and `instantiates` are distinct directed relationships (compositional vs. taxonomic), not inverses. Reverse traversal is handled by graph queries, not by storing inverse edges.
-- *Conditions on `recommends` edges are situational hints, not predicates.* They preserve the original decision-tree question phrasings rather than being canonicalised. The library is not mature enough for a controlled vocabulary of conditions, and "suggestion not matching" is the right framing for how an agent should use them.
+- *Conditions on `recommends` edges are situational hints, not predicates.* They preserve the original decision-tree question phrasings rather than being canonicalised. The library is not mature enough for a controlled vocabulary of conditions, and "suggestion not matching" is the right framing for how an actor should use them.
 - *`enacts` is a new pattern → quality relationship*, promoting prose references from pattern pages to qualities pages into typed edges. This is the bridge between patterns-as-moves and the qualities they strengthen.
 - *SKOS alignment is documented where it fits* (instantiates → skos:broader, complements/related → skos:related, alternative → skos:closeMatch) and explicitly noted where it doesn't (precedes/follows, recommends, enacts have no SKOS equivalents).
 
@@ -51,7 +51,7 @@ Pick 5–10 patterns spanning the activity-level hierarchy (e.g., a primitive li
 
 - *Operates on*: what kind of structure or situation the move acts on
 - *Produces*: what new centre or affordance the move creates
-- *Enhances*: which qualities the move tends to strengthen (informal references)
+- *Enacts*: which quality dimensions the move's effect is legible in (informal references). Named to match the `enacts` edge type — see the vocabulary doc for how this connects the Alexandrian process vocabulary to the library's evaluative frame.
 
 These are short prose phrases, not structured fields. No controlled vocabulary, no normalisation. Place the subsection near the top of the pattern page, after the fun meter and definition.
 
@@ -358,9 +358,9 @@ Parse Mermaid flowcharts in the 8 active decision-tree MDX files and emit `recom
    }
    ```
 
-   The `sourceTree` field provides provenance — useful for debugging extraction and for an agent to cite its sources.
+   The `sourceTree` field provides provenance — useful for debugging extraction and for an actor to cite its sources.
 
-4. *No canonicalisation*: question phrasings and branch labels are stored as raw text. No mapping to a controlled dimension vocabulary. The agent (or human reader) reads them as natural-language hints.
+4. *No canonicalisation*: question phrasings and branch labels are stored as raw text. No mapping to a controlled dimension vocabulary. The actor reads them as hints.
 
 ### Files modified
 
@@ -379,7 +379,7 @@ Run extraction. Spot-check that:
 
 ## Phase 4 — Query API (sketch, not committed)
 
-A small TypeScript module exposing the queries an agent (or any consumer) would use against the graph. Lives at something like `src/pattern-graph-query.ts`. Functions return raw graph data, leaving interpretation to the caller.
+A small TypeScript module exposing the queries an actor would use against the graph. Lives at something like `src/pattern-graph-query.ts`. Functions return raw graph data, leaving interpretation to the caller.
 
 ```typescript
 function findEnablers(patternId: string): Pattern[]              // reverse `enables`

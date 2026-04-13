@@ -57,7 +57,7 @@ docs/                           Agent-facing knowledge base (curated)
 
 `src/components/` is organised *compositionally* — by what things are made of (following Atomic Design principles). `src/stories/` is organised *experientially* — by Activity Theory levels (what role a pattern plays in human activity). These two organisations coexist deliberately: components don't need to match the story tree, and the story tree doesn't dictate component structure.
 
-The canonical taxonomy for stories is in `docs/specs/storybook-taxonomy.md`.
+The canonical taxonomy for stories is in `docs/storybook-taxonomy.md`.
 
 ## Key patterns
 
