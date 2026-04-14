@@ -1,0 +1,21 @@
+story: src/stories/actions/application/CognitiveForcingFunctions.mdx
+topic: cognitive forcing functions in AI-assisted decision-making
+interaction: |
+  A user faces a discrete accept/reject decision on an AI recommendation.
+  The interface interposes a moment of active cognition (wait, decide-first,
+  articulate, complete) before acceptance, so the user engages judgement
+  instead of rubber-stamping the system's answer.
+context: |
+  AI-assisted decision-making interfaces — medical, legal, financial, safety-
+  critical, or high-stakes analytical work. Assumes the user has domain
+  competence. Not warranted when stakes are low, user lacks evaluative
+  competence, or speed dominates. Susceptibility varies with need-for-cognition.
+questions:
+  # Edit these — they drive retrieval more than topic. Replace with what you
+  # actually want to know. Suggested seeds based on the story's open edges:
+  - when does friction help vs backfire (timing-critical or low-stakes cases)
+  - how do forcing-function variants compare on anchoring resistance
+  - what is the evidence for wait-before-reveal specifically
+  - how do individual differences (need for cognition, expertise) modulate effectiveness
+  - can forcing functions train judgement over time, or only gate it in the moment
+keywords: [overreliance, automation bias, appropriate reliance, AI-assisted decision-making, anchoring, need for cognition]

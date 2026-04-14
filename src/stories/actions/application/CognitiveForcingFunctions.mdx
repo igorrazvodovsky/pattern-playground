@@ -10,23 +10,24 @@ Interventions that add analytical friction at the moment of accepting a system r
 
 >The term comes from human-factors engineering's *forcing function* tradition and was applied to AI-assisted decision-making by [Buçinca et al. (2021)](https://arxiv.org/abs/2102.09692). The mechanism is the same across all variants: *interpose a moment of active cognition between system output and user acceptance*.
 
-[Over-reliance](../?path=/docs/qualities-agency--docs#appropriate-reliance) has several pathways — anchoring on the system's answer, automation bias that treats machine output as authoritative, cognitive offloading where evaluating feels costlier than accepting — and cognitive forcing functions interrupt all of them by requiring the user to do something (wait, decide first, articulate a reason, complete a gap) before acceptance. The friction is load-bearing: without it, users accept wrong answers at higher rates.
+[Over-reliance](../?path=/docs/qualities-agency--docs#appropriate-reliance) runs through several pathways: anchoring on the system's answer, automation bias that treats machine output as authoritative, cognitive offloading where evaluating feels costlier than accepting. Cognitive forcing functions interrupt all of them by requiring the user to act (wait, decide first, articulate a reason, complete a gap) before accepting. The friction is load-bearing: without it, users accept wrong answers at higher rates.
 
 ## When to apply
 
 Cognitive forcing functions earn their cost when:
 - *Stakes are high* — the consequence of accepting a wrong answer matters (medical, legal, financial, safety-critical)
 - *The user has domain competence* — they can evaluate the output if given the chance; forcing functions don't help when the user has no basis for judgement
-- *The decision is discrete* — there's a clear moment of accept/reject (as opposed to continuous collaboration)
+- *The task supports verification* — thought can land on a checkable answer. [Fok & Weld (2023)](https://arxiv.org/abs/2305.07722) argue many decision tasks fundamentally resist verification regardless of intervention; in those cases no amount of forcing rescues reliance
+- *The decision is discrete* — there's a clear moment of accept/reject. [Ashktorab et al. (2024)](https://arxiv.org/abs/2409.08937) show that in open-ended generation, users bypass the structure by appending AI output alongside their own correct answers — the intervention assumed a seam the task didn't have
 
 They're not warranted when:
 - *Stakes are low* — a wrong autocomplete in casual writing doesn't need a checklist
 - *The user lacks the competence to evaluate* — forcing them to think doesn't help if they can't tell right from wrong; see [learnability](../?path=/docs/qualities-learnability--docs)
 - *Speed is the primary value* — in time-critical workflows, friction can cause worse outcomes than the over-reliance it prevents
 
-Susceptibility to over-reliance varies with [need for cognition](https://en.wikipedia.org/wiki/Need_for_cognition) — the tendency to engage in effortful thinking.
-High-NfC users naturally evaluate system output before accepting it; they're less prone to over-reliance and may not need forcing functions at all.
-Low-NfC users default to cognitive offloading and are the primary audience for these interventions.
+Susceptibility to over-reliance varies with [need for cognition](https://en.wikipedia.org/wiki/Need_for_cognition) (the tendency to engage in effortful thinking), and this produces a tension in who forcing functions actually help.
+Low-NfC users are the population of concern: they default to cognitive offloading and accept AI output most readily. But Buçinca's own data shows the intervention benefits *high-NfC users more*: the friction only works on people already motivated to engage with it.
+One reading, from [Vasconcelos et al. (2022)](https://arxiv.org/abs/2212.06823), is that engagement is a rational cost-benefit choice rather than a cognitive bias: users evaluate when verification is cheaper than acceptance.
 
 ## The family
 
@@ -63,8 +64,11 @@ Each member of the family uses a different mechanism to interpose judgement. The
 
 ## Resources & references
 
-- Buçinca, Z., Malaya, M. B., & Gajos, K. Z. (2021). [To trust or to think: cognitive forcing functions can reduce overreliance on AI in AI-assisted decision-making](https://dl.acm.org/doi/10.1145/3449287). *Proceedings of the ACM on Human-Computer Interaction, 5(CSCW1), 1–21.*
-- Bansal, G. et al. (2021). [Does the whole exceed its parts? The effect of AI explanations on complementary team performance](https://dl.acm.org/doi/10.1145/3411764.3445717). *CHI '21.*
-- Vasconcelos, H. et al. (2023). [Explanations can reduce overreliance on AI systems during decision-making](https://dl.acm.org/doi/10.1145/3579605). *Proceedings of the ACM on Human-Computer Interaction, 7(CSCW1), 1–38.*
-- Parasuraman, R. & Riley, V. (1997). Humans and automation: Use, misuse, disuse, abuse. *Human Factors, 39(2), 230–253.*
-- Noessel, C. (2024). *Designing Assistant Technology*, ch. 12: "Cognitive Forcing Functions (Horribly Named, Universally Disliked, Incredibly Useful)."
+- Buçinca, Z., Malaya, M. B., & Gajos, K. Z. (2021). [To trust or to think: cognitive forcing functions can reduce overreliance on AI in AI-assisted decision-making](https://dl.acm.org/doi/10.1145/3449287)
+- Bansal, G. et al. (2021). [Does the whole exceed its parts? The effect of AI explanations on complementary team performance](https://dl.acm.org/doi/10.1145/3411764.3445717)
+- Vasconcelos, H. et al. (2023). [Explanations can reduce overreliance on AI systems during decision-making](https://dl.acm.org/doi/10.1145/3579605)
+- Fok, R. & Weld, D. S. (2023). [In search of verifiability: explanations rarely enable complementary performance in AI-advised decision making](https://arxiv.org/abs/2305.07722)
+- Ashktorab, Z. et al. (2024). [Emerging reliance behaviors in human-AI content grounded data generation: the role of cognitive forcing functions and hallucinations](https://arxiv.org/abs/2409.08937)
+- Ghosh, A., Sarkar, A., Lindley, S. & Poelitz, C. (2026). [An experimental comparison of cognitive forcing functions for execution plans in AI-assisted writing](https://arxiv.org/abs/2601.18033)
+- Parasuraman, R. & Riley, V. (1997). [Humans and automation: Use, misuse, disuse, abuse](https://web.mit.edu/16.459/www/parasuraman.pdf). *Human Factors, 39(2), 230–253.*
+- Noessel, C. (2024). [Designing Assistant Technology](https://rosenfeldmedia.com/books/designing-assistant-technology/)

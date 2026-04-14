@@ -90,7 +90,12 @@
       "WebFetch(domain:www.interaction-design.org)",
       "WebFetch(domain:ixdf.org)",
       "WebFetch(domain:www.pavley.com)",
-      "WebFetch(domain:www.smashingmagazine.com)"
+      "WebFetch(domain:www.smashingmagazine.com)",
+      "WebFetch(domain:www.anthropic.com)",
+      "Bash(gh repo:*)",
+      "WebFetch(domain:arxiv.org)",
+      "Bash(curl -sG https://api.semanticscholar.org/graph/v1/paper/search --data-urlencode 'query=cognitive forcing functions overreliance AI-assisted decision-making' --data-urlencode limit=25 --data-urlencode fields=title,abstract,year,venue,authors,tldr,externalIds,citationCount,referenceCount,paperId)",
+      "Read(//tmp/**)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"
