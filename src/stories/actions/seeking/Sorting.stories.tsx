@@ -31,9 +31,9 @@ export const Sorting: Story = {
           <iconify-icon className="icon" icon="ph:caret-down" aria-hidden="true"></iconify-icon>
         </button>
         <pp-list>
-          <pp-list-item type="checkbox" defaultChecked onClick={action('sort-change')}>Sorting criteria 1</pp-list-item>
-          <pp-list-item type="checkbox" onClick={action('sort-change')}>Sorting criteria 2</pp-list-item>
-          <pp-list-item type="checkbox" onClick={action('sort-change')}>Sorting criteria 3</pp-list-item>
+          <pp-list-item type="radio" defaultChecked onClick={action('sort-change')}>Sorting criteria 1</pp-list-item>
+          <pp-list-item type="radio" onClick={action('sort-change')}>Sorting criteria 2</pp-list-item>
+          <pp-list-item type="radio" onClick={action('sort-change')}>Sorting criteria 3</pp-list-item>
         </pp-list>
       </pp-dropdown>
       <button className="button" is="pp-button" aria-label="Sort ascending">
