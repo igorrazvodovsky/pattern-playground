@@ -158,10 +158,10 @@ export class PpListItem extends LitElement {
   @watch('type')
   handleTypeChange() {
     if (this.type === 'checkbox') {
-      this.setAttribute('role', 'listitemcheckbox');
+      this.setAttribute('role', 'menuitemcheckbox');
       this.setAttribute('aria-checked', this.checked ? 'true' : 'false');
     } else {
-      this.setAttribute('role', 'listitem');
+      this.setAttribute('role', 'menuitem');
       this.removeAttribute('aria-checked');
     }
   }

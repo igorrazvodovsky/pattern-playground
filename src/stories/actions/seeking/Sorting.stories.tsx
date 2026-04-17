@@ -36,9 +36,8 @@ export const Sorting: Story = {
           <pp-list-item type="checkbox" onClick={action('sort-change')}>Sorting criteria 3</pp-list-item>
         </pp-list>
       </pp-dropdown>
-      <button className="button" is="pp-button">
+      <button className="button" is="pp-button" aria-label="Sort ascending">
         <iconify-icon className="icon" icon="ph:sort-ascending" aria-hidden="true"></iconify-icon>
-        <span className="inclusively-hidden">Sort ascending</span>
       </button>
     </div>
   ),
