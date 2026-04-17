@@ -108,7 +108,7 @@ export class PpList extends LitElement {
   }
 
   private handleClick(event: MouseEvent) {
-    const listItemTypes = ['listitem', 'listitemcheckbox'];
+    const listItemTypes = ['menuitem', 'menuitemcheckbox', 'menuitemradio'];
 
     const target = event.composedPath().find((el: Element) => listItemTypes.includes(el?.getAttribute?.('role') || ''));
 
@@ -288,7 +288,7 @@ export class PpList extends LitElement {
   private isListItem(item: HTMLElement) {
     return (
       item.tagName.toLowerCase() === 'pp-list-item' ||
-      ['listitem', 'listitemcheckbox', 'listitemradio'].includes(item.getAttribute('role') ?? '')
+      ['menuitem', 'menuitemcheckbox', 'menuitemradio'].includes(item.getAttribute('role') ?? '')
     );
   }
 

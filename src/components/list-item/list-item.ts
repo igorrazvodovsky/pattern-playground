@@ -32,7 +32,7 @@ export class PpListItem extends LitElement {
   @query('slot:not([name])') defaultSlot!: HTMLSlotElement;
   @query('.list-item') listItem!: HTMLElement;
 
-  @property() type: 'normal' | 'checkbox' = 'normal';
+  @property() type: 'normal' | 'checkbox' | 'radio' = 'normal';
   @property({ type: Boolean, reflect: true }) checked = false;
   @property() value = '';
   @property({ type: Boolean, reflect: true }) disabled = false;
@@ -137,13 +137,13 @@ export class PpListItem extends LitElement {
 
   @watch('checked')
   handleCheckedChange() {
-    if (this.checked && this.type !== 'checkbox') {
+    if (this.checked && this.type !== 'checkbox' && this.type !== 'radio') {
       this.checked = false;
-      console.error('The checked attribute can only be used on list items with type="checkbox"', this);
+      console.error('The checked attribute can only be used on list items with type="checkbox" or type="radio"', this);
       return;
     }
 
-    if (this.type === 'checkbox') {
+    if (this.type === 'checkbox' || this.type === 'radio') {
       this.setAttribute('aria-checked', this.checked ? 'true' : 'false');
     } else {
       this.removeAttribute('aria-checked');
@@ -158,10 +158,13 @@ export class PpListItem extends LitElement {
   @watch('type')
   handleTypeChange() {
     if (this.type === 'checkbox') {
-      this.setAttribute('role', 'listitemcheckbox');
+      this.setAttribute('role', 'menuitemcheckbox');
+      this.setAttribute('aria-checked', this.checked ? 'true' : 'false');
+    } else if (this.type === 'radio') {
+      this.setAttribute('role', 'menuitemradio');
       this.setAttribute('aria-checked', this.checked ? 'true' : 'false');
     } else {
-      this.setAttribute('role', 'listitem');
+      this.setAttribute('role', 'menuitem');
       this.removeAttribute('aria-checked');
     }
   }
