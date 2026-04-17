@@ -29,37 +29,20 @@ export const SortingControls: React.FC<SortingControlsProps> = ({
         <iconify-icon className="icon" icon="ph:arrows-down-up" aria-hidden="true"></iconify-icon>
       </button>
       <pp-list>
-        <pp-list-item
-          type="checkbox"
-          checked={currentOrder === 'desc'}
-          onClick={() => handleDirectionChange('desc')}
-        >
+        <pp-list-item onClick={() => handleDirectionChange('desc')}>
           <iconify-icon className="icon" icon="ph:sort-descending" aria-hidden="true"></iconify-icon>
           Descending
         </pp-list-item>
-        <pp-list-item
-          type="checkbox"
-          checked={currentOrder === 'asc'}
-          onClick={() => handleDirectionChange('asc')}
-        >
+        <pp-list-item onClick={() => handleDirectionChange('asc')}>
           <iconify-icon className="icon" icon="ph:sort-ascending" aria-hidden="true"></iconify-icon>
           Ascending
         </pp-list-item>
         <hr />
-        <pp-list-item
-          type="checkbox"
-          checked={currentField === 'name'}
-          onClick={() => handleFieldChange('name')}
-        >
+        <pp-list-item onClick={() => handleFieldChange('name')}>
           Alphabetical
         </pp-list-item>
         {availableFields.filter(field => field !== 'name').map(field => (
-          <pp-list-item
-            key={field}
-            type="checkbox"
-            checked={currentField === field}
-            onClick={() => handleFieldChange(field)}
-          >
+          <pp-list-item key={field} onClick={() => handleFieldChange(field)}>
             {getFieldDisplayName(field)}
           </pp-list-item>
         ))}
