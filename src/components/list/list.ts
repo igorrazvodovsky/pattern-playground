@@ -108,7 +108,7 @@ export class PpList extends LitElement {
   }
 
   private handleClick(event: MouseEvent) {
-    const listItemTypes = ['menuitem', 'menuitemcheckbox'];
+    const listItemTypes = ['menuitem', 'menuitemcheckbox', 'menuitemradio'];
 
     const target = event.composedPath().find((el: Element) => listItemTypes.includes(el?.getAttribute?.('role') || ''));
 
