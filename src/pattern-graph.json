@@ -619,6 +619,12 @@
       "path": "../?path=/docs/operations-sections--docs"
     },
     {
+      "id": "operations-select",
+      "title": "Select",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-select--docs"
+    },
+    {
       "id": "operations-disabled-state",
       "title": "Disabled state",
       "category": "Operations",
@@ -1016,6 +1022,10 @@
     },
     {
       "source": "actions-application-data-entry",
+      "target": "operations-select"
+    },
+    {
+      "source": "actions-application-data-entry",
       "target": "actions-application-form"
     },
     {
@@ -1140,6 +1150,10 @@
     },
     {
       "source": "actions-application-form",
+      "target": "operations-select"
+    },
+    {
+      "source": "actions-application-form",
       "target": "operations-checkbox"
     },
     {
@@ -1152,15 +1166,7 @@
     },
     {
       "source": "actions-application-form",
-      "target": "operations-tag"
-    },
-    {
-      "source": "actions-application-form",
       "target": "actions-evaluation-list"
-    },
-    {
-      "source": "actions-application-form",
-      "target": "operations-tabs"
     },
     {
       "source": "actions-application-form",
@@ -1565,6 +1571,10 @@
     {
       "source": "actions-coordination-dropdown",
       "target": "operations-popover"
+    },
+    {
+      "source": "actions-coordination-dropdown",
+      "target": "operations-select"
     },
     {
       "source": "actions-coordination-dropdown",
@@ -3404,6 +3414,10 @@
     },
     {
       "source": "operations-autocomplete",
+      "target": "operations-select"
+    },
+    {
+      "source": "operations-autocomplete",
       "target": "actions-application-suggestion"
     },
     {
@@ -3673,6 +3687,30 @@
     {
       "source": "operations-sections",
       "target": "actions-sensemaking-grouping"
+    },
+    {
+      "source": "operations-select",
+      "target": "operations-autocomplete"
+    },
+    {
+      "source": "operations-select",
+      "target": "operations-input"
+    },
+    {
+      "source": "operations-select",
+      "target": "operations-checkbox"
+    },
+    {
+      "source": "operations-select",
+      "target": "actions-coordination-dropdown"
+    },
+    {
+      "source": "operations-select",
+      "target": "actions-application-form"
+    },
+    {
+      "source": "operations-select",
+      "target": "actions-application-data-entry"
     },
     {
       "source": "operations-status-feedback",

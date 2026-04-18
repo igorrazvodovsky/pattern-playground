@@ -1,0 +1,74 @@
+import { Canvas, Controls, Description, Meta, Story } from '@storybook/addon-docs/blocks';
+import * as SelectStories from './Select.stories.tsx';
+
+<Meta title="Operations/Select" of={ SelectStories } tags={['activity-level:operation', 'atomic:primitive', 'mediation:individual']} />
+
+> 🥱 **Fun meter: boring**. A well-trodden primitive. Included as a prerequisite for more interesting things; the interesting questions live next door in [Autocomplete](../?path=/docs/operations-autocomplete--docs) and a future combobox.
+
+# Select
+
+Committing to one value from a short, bounded set the actor already recognises — compressing a known space rather than collecting new information.
+
+<Canvas>
+  <Story of={ SelectStories.Default } />
+</Canvas>
+
+## Label
+
+<Story of={ SelectStories.WithLabel } />
+
+## Hint text
+
+<Story of={ SelectStories.WithHintText } />
+
+## Sizes
+
+<Story of={ SelectStories.Sizes } />
+
+## Disabled
+
+<Story of={ SelectStories.Disabled } />
+
+## Invalid
+
+<Story of={ SelectStories.Invalid } />
+
+## Grouping
+
+Native `<optgroup>` organises options into labelled regions without moving the interaction into a separate overlay.
+
+<Story of={ SelectStories.Grouped } />
+
+## Required
+
+<Story of={ SelectStories.Required } />
+
+## Design considerations
+
+- With five or fewer choices, radios are faster and surface the whole set at once. Reach for select only when the list is long enough that collapsing it is worth the extra interaction.
+- When the set is long *or* the actor doesn't yet know what they're looking for, narrowing-as-you-type wins — see [Autocomplete](../?path=/docs/operations-autocomplete--docs). Select assumes the actor already knows the answer.
+- Multi-select is intentionally out of scope. Native `<select multiple>` is poorly supported by assistive tech and hard to discover; use checkboxes or a forthcoming combobox instead.
+- Errors are announced with a visually-hidden "Error:" prefix and wired through `aria-describedby`, so screen readers hear the error class before the message.
+- Native keyboard behaviour (space/enter to open, arrows to navigate, home/end, typeahead, escape to close) comes for free because the control wraps a native `<select>` rather than rebuilding as an ARIA listbox.
+
+## Related patterns
+
+### Precursors
+- [Input](../?path=/docs/operations-input--docs) — the free-form counterpart when the system cannot enumerate the possibilities.
+- [Checkbox](../?path=/docs/operations-checkbox--docs) — the binary counterpart for on/off choices.
+
+### Complementary
+- [Autocomplete](../?path=/docs/operations-autocomplete--docs) — the right move when the option set is long or the actor is still formulating the query.
+- [Dropdown](../?path=/docs/actions-coordination-dropdown--docs) — shares the collapsed-options silhouette but carries actions, not a form value.
+- [Form](../?path=/docs/actions-application-form--docs) — the usual home for select among other controls.
+- [Data entry](../?path=/docs/actions-application-data-entry--docs) — the broader activity select participates in.
+
+### Follow-ups
+- A future combobox for searchable, async, or custom-rendered option sets, built on the WAI-ARIA APG combobox pattern.
+
+## Resources & references
+
+- [WAI-ARIA Authoring Practices](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/) — native `<select>` needs no custom ARIA; escalate to the combobox pattern only when you outgrow it.
+- [Nordhealth Select](https://nordhealth.design/components/select/)
+- [Open UI — Select research](https://open-ui.org/components/select.research/)
+- [GOV.UK Design System — Select](https://design-system.service.gov.uk/components/select/)
