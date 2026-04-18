@@ -15,6 +15,19 @@ declare module 'react' {
         autofocus?: boolean;
         type?: 'text' | 'email' | 'password' | 'number' | 'search' | 'tel' | 'url' | 'date' | 'datetime-local' | 'time';
       };
+      'pp-select': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+        name?: string;
+        value?: string;
+        placeholder?: string;
+        disabled?: boolean;
+        required?: boolean;
+        invalid?: boolean;
+        size?: 'small' | 'medium' | 'large';
+        autofocus?: boolean;
+        label?: string;
+        labelledby?: string;
+        describedby?: string;
+      };
       'pp-button': React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
       'pp-spinner': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         size?: 'small' | 'medium' | 'large';

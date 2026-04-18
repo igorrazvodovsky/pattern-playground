@@ -11,6 +11,7 @@ import { componentRegistry } from './component-registry.js';
 import { PpAvatar } from './avatar/avatar.js';
 import { PpButton } from './button/button.js';
 import { PpInput } from './input/input.js';
+import { PpSelect } from './select/select.js';
 import { PPModal } from './modal/modal.js';
 import { PpToast } from './toast/toast.js';
 import { PpTooltip } from './tooltip/tooltip.js';
@@ -43,6 +44,7 @@ export function registerAllComponents(): void {
     { tagName: 'pp-avatar', constructor: PpAvatar },
     { tagName: 'pp-button', constructor: PpButton, options: { extends: 'button' } },
     { tagName: 'pp-input', constructor: PpInput },
+    { tagName: 'pp-select', constructor: PpSelect },
     { tagName: 'pp-toast', constructor: PpToast },
     { tagName: 'pp-tooltip', constructor: PpTooltip },
     { tagName: 'pp-modal', constructor: PPModal },
