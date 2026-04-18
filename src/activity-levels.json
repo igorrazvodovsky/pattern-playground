@@ -619,6 +619,12 @@
       "atomic-category": "component",
       "mediation": "individual"
     },
+    "operations-select": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "primitive",
+      "mediation": "individual"
+    },
     "operations-disabled-state": {
       "activity-level": "operation",
       "lifecycle-stage": null,
