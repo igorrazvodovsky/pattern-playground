@@ -3677,16 +3677,8 @@
       "target": "actions-evaluation-timeline"
     },
     {
-      "source": "operations-progress-indicator",
-      "target": "operations-range"
-    },
-    {
       "source": "operations-range",
       "target": "operations-input"
-    },
-    {
-      "source": "operations-range",
-      "target": "operations-progress-indicator"
     },
     {
       "source": "operations-range",
