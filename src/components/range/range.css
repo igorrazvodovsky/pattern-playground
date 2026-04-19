@@ -1,0 +1,198 @@
+:host {
+  display: block;
+
+  --range-fill: var(--c-accent-600);
+  --range-track-color: var(--c-border);
+  --range-track-height: var(--space-xs);
+  --range-thumb-size: 1rem;
+  --range-mark-size: 2px;
+  --range-mark-color: var(--c-border);
+}
+
+.range {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-s);
+  width: 100%;
+  font-family: inherit;
+  vertical-align: middle;
+}
+
+.range__track-wrapper {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.range__control {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+}
+
+.range__control:focus {
+  outline: none;
+}
+
+/* Track — WebKit */
+.range__control::-webkit-slider-runnable-track {
+  height: var(--range-track-height);
+  border-radius: var(--radius-pill);
+  background: linear-gradient(
+    to right,
+    var(--range-fill) 0%,
+    var(--range-fill) var(--range-percent, 0%),
+    var(--range-track-color) var(--range-percent, 0%),
+    var(--range-track-color) 100%
+  );
+  transition: var(--transition-fast) background-color;
+}
+
+/* Track — Firefox */
+.range__control::-moz-range-track {
+  height: var(--range-track-height);
+  border-radius: var(--radius-pill);
+  background: var(--range-track-color);
+}
+
+.range__control::-moz-range-progress {
+  height: var(--range-track-height);
+  border-radius: var(--radius-pill);
+  background: var(--range-fill);
+}
+
+/* Thumb — WebKit */
+.range__control::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: var(--range-thumb-size);
+  height: var(--range-thumb-size);
+  margin-top: calc((var(--range-track-height) - var(--range-thumb-size)) / 2);
+  border: none;
+  border-radius: var(--radius-circle);
+  background: var(--range-fill);
+  cursor: grab;
+  transition: var(--transition-fast) transform, var(--transition-fast) box-shadow;
+}
+
+.range__control:active::-webkit-slider-thumb {
+  cursor: grabbing;
+  transform: scale(1.1);
+}
+
+/* Thumb — Firefox */
+.range__control::-moz-range-thumb {
+  width: var(--range-thumb-size);
+  height: var(--range-thumb-size);
+  border: none;
+  border-radius: var(--radius-circle);
+  background: var(--range-fill);
+  cursor: grab;
+  transition: var(--transition-fast) transform, var(--transition-fast) box-shadow;
+}
+
+.range__control:active::-moz-range-thumb {
+  cursor: grabbing;
+  transform: scale(1.1);
+}
+
+/* Focus ring */
+.range--focused .range__control::-webkit-slider-thumb {
+  box-shadow: 0 0 0 var(--focus-ring-width) var(--focus-ring-color);
+}
+
+.range--focused .range__control::-moz-range-thumb {
+  box-shadow: 0 0 0 var(--focus-ring-width) var(--focus-ring-color);
+}
+
+/* Hover */
+.range:hover:not(.range--disabled) .range__control::-webkit-slider-thumb {
+  background: var(--c-active-border);
+}
+
+.range:hover:not(.range--disabled) .range__control::-moz-range-thumb {
+  background: var(--c-active-border);
+}
+
+/* Disabled */
+.range--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.range--disabled .range__control {
+  cursor: not-allowed;
+}
+
+.range--disabled .range__control::-webkit-slider-thumb {
+  cursor: not-allowed;
+}
+
+.range--disabled .range__control::-moz-range-thumb {
+  cursor: not-allowed;
+}
+
+/* Marks */
+.range__marks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  margin-inline: calc(var(--range-thumb-size) / 2);
+}
+
+.range__mark {
+  position: absolute;
+  top: 50%;
+  width: var(--range-mark-size);
+  height: var(--range-mark-size);
+  margin-top: calc(var(--range-mark-size) / -2);
+  margin-inline-start: calc(var(--range-mark-size) / -2);
+  border-radius: var(--radius-circle);
+  background: var(--range-mark-color);
+}
+
+/* Prefix / suffix */
+.range__prefix,
+.range__suffix {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  color: var(--c-secondary);
+  white-space: nowrap;
+}
+
+.range__value {
+  font-variant-numeric: tabular-nums;
+  color: var(--c-body);
+  min-width: 2ch;
+  text-align: end;
+}
+
+/* Sizes */
+.range--small {
+  --range-track-height: calc(var(--space-xs) * 0.75);
+  --range-thumb-size: 0.75rem;
+
+  font-size: var(--text-xs);
+}
+
+.range--medium {
+  --range-track-height: var(--space-xs);
+  --range-thumb-size: 1rem;
+
+  font-size: var(--text-s);
+}
+
+.range--large {
+  --range-track-height: calc(var(--space-xs) * 1.5);
+  --range-thumb-size: 1.25rem;
+
+  font-size: var(--text-m);
+}

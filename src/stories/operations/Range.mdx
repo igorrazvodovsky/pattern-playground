@@ -1,0 +1,69 @@
+import { Canvas, Controls, Description, Meta, Story } from '@storybook/addon-docs/blocks';
+import * as RangeStories from './Range.stories.tsx';
+
+> 🥱 **Fun meter: boring**. An old primitive, but the question of when to offer a slider instead of a number field stays alive — it's a bet about what kind of knowing the actor has.
+
+# Range
+
+<Meta title="Operations/Range" of={RangeStories} tags={['activity-level:operation', 'atomic:primitive', 'mediation:individual']} />
+
+Commit to a value on a continuum by direct manipulation — trading numeric precision for spatial reasoning.
+
+<Canvas>
+  <Story of={RangeStories.Default} />
+</Canvas>
+
+A slider is appropriate when the actor's knowledge of the scale is approximate rather than exact — turning a volume down until it feels right, nudging a price ceiling until the result set looks sensible. When the value is already known precisely (a year of birth, a line count), a number input respects that certainty better.
+
+## Label and hint
+
+<Story of={RangeStories.WithLabelAndHint} />
+
+## Marks
+
+Visible tick marks turn a continuous scale into a discrete-feeling one. Use them when the `step` carries meaning the actor should see — preset tiers, discrete grades — rather than every time `step` is coarse.
+
+<Story of={RangeStories.WithMarks} />
+
+## Prefix and suffix
+
+*Prefix* and *suffix* slots hold units, endpoint labels, or icons. With `hide-value`, the default numeric readout is suppressed so the slot can carry a formatted value instead.
+
+<Story of={RangeStories.WithPrefixAndSuffix} />
+
+## Formatted value
+
+When the display value is formatted (currency, units, categorical labels), pass the formatted string as `value-text`. Screen readers announce this instead of the raw number, keeping the spoken form aligned with the visual one.
+
+<Story of={RangeStories.FormattedValue} />
+
+## Size
+
+<Story of={RangeStories.Sizes} />
+
+## Disabled
+
+<Story of={RangeStories.Disabled} />
+
+## Accessibility
+
+Wrapping a native `<input type="range">` inherits `role="slider"`, `aria-valuemin`, `aria-valuemax`, `aria-valuenow`, and the full keyboard contract: arrow keys step, *Page Up*/*Page Down* jump by a larger increment, *Home*/*End* snap to the bounds. Touch and pointer drag come for free. The one thing the primitive exposes deliberately is `value-text` — the hook for `aria-valuetext` — so that formatted values stay legible to assistive technology.
+
+## Related patterns
+
+### Related primitives
+- [Input](../?path=/docs/operations-input--docs) — typed numeric entry when the actor already knows the exact value.
+- [Progress indicator](../?path=/docs/operations-progress-indicator--docs) — shares the track metaphor but reports *system* state where a slider captures *actor* input.
+- [Counter](../?path=/docs/operations-counter--docs) — announces the numeric state a slider changes; useful as a passive readout alongside direct manipulation.
+
+### Applied in
+- [Data entry](../?path=/docs/actions-application-data-entry--docs) — the broader activity, where slider-vs-input is the key choice.
+- [Form](../?path=/docs/actions-application-form--docs) — the common container.
+
+## Resources & references
+
+- [Open UI — Slider research](https://open-ui.org/components/slider.research/) and [Parts breakdown](https://open-ui.org/components/slider.research.parts/)
+- [W3C ARIA Authoring Practices — Slider pattern](https://www.w3.org/WAI/ARIA/apg/patterns/slider/)
+- [Apple Human Interface Guidelines — Sliders](https://developer.apple.com/design/human-interface-guidelines/sliders)
+- [Nordhealth Design — Range](https://nordhealth.design/components/range/)
+- [andreruffert / range-slider-element](https://github.com/andreruffert/range-slider-element)

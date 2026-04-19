@@ -51,7 +51,10 @@ export const Conversational: Story = {
         <div className="message__content">
           <div className="message__body layer">
             <div className="flex">
-              <span>0</span><input type="range" id="range" name="range" min="0" max="100" /><span>100</span>
+              <pp-range name="range" min={0} max={100} value={50}>
+                <span slot="prefix">0</span>
+                <span slot="suffix">100</span>
+              </pp-range>
               <button className="button button--plain" is="pp-button">
                 <iconify-icon className="icon" icon="ph:check"></iconify-icon><span className="inclusively-hidden">Submit</span>
               </button>
