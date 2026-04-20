@@ -69,7 +69,8 @@ export class PpRange extends LitElement {
     if (this.value > this.max) this.value = this.max;
   }
 
-  private handleInput = () => {
+  private handleInput = (event: Event) => {
+    event.stopPropagation();
     this.value = Number(this.input.value);
     this.dispatchEvent(new CustomEvent('input', {
       detail: { value: this.value },
@@ -86,24 +87,26 @@ export class PpRange extends LitElement {
     this.hasFocus = false;
   };
 
-  focus(options?: FocusOptions) {
-    this.input.focus(options);
+  async focus(options?: FocusOptions) {
+    await this.updateComplete;
+    this.input?.focus(options);
   }
 
-  blur() {
-    this.input.blur();
+  async blur() {
+    await this.updateComplete;
+    this.input?.blur();
   }
 
   private renderMarks() {
     if (!this.marks || this.step <= 0) return '';
     const span = this.max - this.min;
     if (span <= 0) return '';
-    const count = Math.floor(span / this.step);
+    const count = Math.floor(span / this.step + 1e-9);
     if (count <= 0) return '';
     const ticks = [];
     for (let i = 0; i <= count; i++) {
       const percent = (i * this.step / span) * 100;
-      ticks.push(html`<span class="range__mark" style="left: ${percent}%"></span>`);
+      ticks.push(html`<span class="range__mark" style="inset-inline-start: ${percent}%"></span>`);
     }
     return html`<div part="marks" class="range__marks" aria-hidden="true">${ticks}</div>`;
   }

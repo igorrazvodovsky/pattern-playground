@@ -102,7 +102,7 @@ export const Default: Story = {
 export const WithLabelAndHint: Story = {
   render: () => (
     <div className="flow">
-      <label id="brightness-label" htmlFor="">Brightness</label>
+      <label id="brightness-label">Brightness</label>
       <pp-range
         labelledby="brightness-label"
         describedby="brightness-help"
