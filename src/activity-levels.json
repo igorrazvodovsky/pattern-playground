@@ -607,6 +607,12 @@
       "atomic-category": "component",
       "mediation": "individual"
     },
+    "operations-range": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "primitive",
+      "mediation": "individual"
+    },
     "operations-reference": {
       "activity-level": "operation",
       "lifecycle-stage": null,
@@ -821,6 +827,12 @@
       "activity-level": "action",
       "lifecycle-stage": "evaluation",
       "atomic-category": "component",
+      "mediation": "individual"
+    },
+    "operations-counter": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "primitive",
       "mediation": "individual"
     },
     "operations-details": {

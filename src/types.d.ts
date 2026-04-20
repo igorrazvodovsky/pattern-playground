@@ -12,6 +12,21 @@ declare global {
         autofocus?: boolean;
         type?: 'text' | 'email' | 'password' | 'number' | 'search' | 'tel' | 'url' | 'date' | 'datetime-local' | 'time';
       };
+      'pp-range': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+        name?: string;
+        value?: number | string;
+        min?: number | string;
+        max?: number | string;
+        step?: number | string;
+        disabled?: boolean;
+        size?: 'small' | 'medium' | 'large';
+        label?: string;
+        labelledby?: string;
+        describedby?: string;
+        marks?: boolean;
+        'hide-value'?: boolean;
+        'value-text'?: string;
+      };
       'pp-select': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         name?: string;
         value?: string;
