@@ -1,7 +1,6 @@
 name: Docs integrity
 
 on:
-  push:
   pull_request:
 
 jobs:
