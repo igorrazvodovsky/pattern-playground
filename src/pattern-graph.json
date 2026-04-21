@@ -457,6 +457,12 @@
       "path": "../?path=/docs/foundations-collaboration--docs"
     },
     {
+      "id": "foundations-content",
+      "title": "Content",
+      "category": "Foundations",
+      "path": "../?path=/docs/foundations-content--docs"
+    },
+    {
       "id": "foundations-data-information",
       "title": "Data & Information",
       "category": "Foundations",
@@ -2126,6 +2132,10 @@
     },
     {
       "source": "actions-seeking-dynamic-hyperlinks",
+      "target": "foundations-content"
+    },
+    {
+      "source": "actions-seeking-dynamic-hyperlinks",
       "target": "actions-application-suggestion"
     },
     {
@@ -3169,6 +3179,102 @@
       "target": "qualities-formality"
     },
     {
+      "source": "foundations-content",
+      "target": "foundations-information-architecture"
+    },
+    {
+      "source": "foundations-content",
+      "target": "qualities-formality"
+    },
+    {
+      "source": "foundations-content",
+      "target": "activities-localization"
+    },
+    {
+      "source": "foundations-content",
+      "target": "actions-sensemaking-explanation"
+    },
+    {
+      "source": "foundations-content",
+      "target": "qualities-agency"
+    },
+    {
+      "source": "foundations-content",
+      "target": "qualities-learnability"
+    },
+    {
+      "source": "foundations-content",
+      "target": "activities-transparent-reasoning"
+    },
+    {
+      "source": "foundations-content",
+      "target": "activities-ai-tuning"
+    },
+    {
+      "source": "foundations-content",
+      "target": "actions-seeking-dynamic-hyperlinks"
+    },
+    {
+      "source": "foundations-content",
+      "target": "operations-reference"
+    },
+    {
+      "source": "foundations-content",
+      "target": "operations-deep-linking"
+    },
+    {
+      "source": "foundations-content",
+      "target": "actions-application-data-entry"
+    },
+    {
+      "source": "foundations-content",
+      "target": "operations-status-feedback"
+    },
+    {
+      "source": "foundations-content",
+      "target": "operations-toast"
+    },
+    {
+      "source": "foundations-content",
+      "target": "operations-callout"
+    },
+    {
+      "source": "foundations-content",
+      "target": "actions-coordination-notification"
+    },
+    {
+      "source": "foundations-content",
+      "target": "foundations-intent-interaction"
+    },
+    {
+      "source": "foundations-content",
+      "target": "foundations-collaboration"
+    },
+    {
+      "source": "foundations-content",
+      "target": "foundations-assistance"
+    },
+    {
+      "source": "foundations-content",
+      "target": "foundations-delegation"
+    },
+    {
+      "source": "foundations-content",
+      "target": "qualities-conversation"
+    },
+    {
+      "source": "foundations-content",
+      "target": "actions-application-suggestion"
+    },
+    {
+      "source": "foundations-content",
+      "target": "activities-bot"
+    },
+    {
+      "source": "foundations-content",
+      "target": "activities-generated-content"
+    },
+    {
       "source": "foundations-data-information",
       "target": "qualities-agency"
     },
@@ -3219,6 +3325,10 @@
     {
       "source": "foundations-information-architecture",
       "target": "actions-seeking-dynamic-hyperlinks"
+    },
+    {
+      "source": "foundations-information-architecture",
+      "target": "foundations-content"
     },
     {
       "source": "foundations-information-architecture",
@@ -3659,6 +3769,14 @@
     {
       "source": "operations-progress-indicator",
       "target": "actions-evaluation-timeline"
+    },
+    {
+      "source": "operations-reference",
+      "target": "foundations-content"
+    },
+    {
+      "source": "operations-reference",
+      "target": "actions-seeking-dynamic-hyperlinks"
     },
     {
       "source": "operations-reference",
@@ -4135,6 +4253,10 @@
     {
       "source": "qualities-formality",
       "target": "actions-application-form"
+    },
+    {
+      "source": "qualities-formality",
+      "target": "foundations-content"
     },
     {
       "source": "qualities-formality",

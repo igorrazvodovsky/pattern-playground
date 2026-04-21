@@ -1,0 +1,141 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Content" />
+
+> ✍️ **Fun meter: 4/5**. The tension that makes prose a design surface: the library resists prescriptive voice-and-tone rules, yet has to say something about how word choice shapes what an interface does. What counts as a "move" when the thing being moved is a sentence?
+
+# Content
+
+The prose stratum of the interface — the words, phrasings, labels, and linking choices through which the system takes its turn in the conversation with the user.
+
+## Scope
+
+This foundation treats prose as a set of *generative moves* on the actor↔system conversation: choices that transform the structure of the exchange rather than decorate it. What to call a button, whether to narrate a save, which word to anchor a link on, how much to scaffold an empty state — these are design decisions of comparable weight to structure, affordance, and flow.
+
+Adjacent territory lives elsewhere and is referenced, not re-covered:
+
+- *Terminology as taxonomy* — vocabulary control, synonym management, controlled-vs-uncontrolled labelling — belongs to [information architecture](../?path=/docs/foundations-information-architecture--docs) § Labelling systems.
+- *Structural formality demanded of the user's input* — when to accept freeform text, when to require categories — belongs to [formality](../?path=/docs/qualities-formality--docs). The word "register" recurs across both pages; this foundation uses it for *prose choice*, Formality uses it for *structural demand*.
+- *Prose that varies across locales* — translation, linguistic expansion, culturally-specific register — belongs to [localisation](../?path=/docs/activities-localization--docs).
+- *Prose of explanation as transparency* — the choices inside explaining domain terms, rules, or reasoning — belongs to [explanation](../?path=/docs/actions-sensemaking-explanation--docs).
+
+The anchoring tension: *prose-as-move versus prose-as-rule*. Production design systems (Atlassian, Nielsen Norman Group) cover this ground prescriptively — inclusive-language rules, voice attributes, message templates. That register fits products with a brand to serve and a content team to align. It sits here only as adjacent reference, not as template. The moves and tensions named below are meant to inform judgement, not replace it.
+
+## Prose as a design move
+
+Shifting *Cancel* to *Keep editing* is a design move. It changes what the interaction does — the reader's default, the weight of the consequence, the stance the system takes toward the interrupted work — without changing a line of structure. The same is true of the decision to say *Saved* instead of *We've saved your draft*: one yields the stage, the other claims it.
+
+Prose moves are generative in the same sense structural moves are: they act on an existing centre (a button, a confirmation, an empty state, a tooltip) and produce a new one (a softer default, a warmer apology, a more trusting absence). They can be read through the same lenses as structural moves — [agency](../?path=/docs/qualities-agency--docs) shifts, [learnability](../?path=/docs/qualities-learnability--docs) gains, [formality](../?path=/docs/qualities-formality--docs) loosens — because they alter the same structure.
+
+The tension worth holding: prose and structure are often substitutable. A confirmation dialog and a reversible action with a gentle toast solve overlapping problems; so do a verbose tooltip and a better-chosen label. Which to reach for is a design decision, not a default.
+
+## Stance and voice
+
+The authorial question behind every piece of interface prose is *who does the system sound like?* A continuum runs from narrating system — "We've saved your draft", "I'm thinking about this", "Here are three suggestions" — to *yielding the stage*: prose that steps back and lets the user's own material, own vocabulary, own judgement carry the interaction.
+
+Yielding the stage is a rhetorical move (see Rao's *Rhetoric of the Hyperlink* below). Its counter-intuitive payoff: generosity in not filling the space — not narrating the save, not explaining the obvious, not claiming credit — often produces deeper engagement than scaffolded prose does. The move treats the reader as a competent adult rather than a user needing reassurance. It is the prose counterpart of trusting the user's judgement in an [agency](../?path=/docs/qualities-agency--docs) sense.
+
+The tension: *system voice versus user voice*. Foregrounding the system's narration helps when the system's action is non-obvious, non-reversible, or requires the user's trust — an AI completion that needs to explain its own uncertainty, a background agent reporting what it did. Foregrounding gets in the way when the user is in flow, the action is obvious, or the narration is there to perform presence. [Transparent reasoning](../?path=/docs/activities-transparent-reasoning--docs) is a case where system voice is load-bearing; most microcopy is a case where it isn't.
+
+For AI-participant systems, stance is not only a prose choice but a specifiable generation input — see § *Generated prose as a design surface* below and [AI tuning](../?path=/docs/activities-ai-tuning--docs).
+
+## Register and tone as prose decision
+
+Tone as a prose choice — warmth, distance, playfulness, seriousness — is distinct from [formality](../?path=/docs/qualities-formality--docs)'s sense of structural demand on the user. Formality asks how much structure the system requires from the user's input. Tone asks what register the system's own utterances occupy. Both move along an arc as the interaction matures, but they move independently: a system can demand high structural formality in a warm tone, or accept freeform input coldly.
+
+The anchoring tension: *consistency versus situational fit*. A single "brand voice" is easier to apply and easier to recognise, but can jar against moments that want a different register (a bad-news message that stays chirpy; a celebratory confirmation that stays clinical). Tone that follows the conversational turn is harder to keep coherent but fits the moment.
+
+{/* TODO: develop tone-across-arc table — what register typical moments want */}
+{/* TODO: discuss tone drift between human-authored and AI-generated prose in the same surface */}
+{/* TODO: reference specific patterns that expose tone decisions (Toast, Notification purposes, Callout) */}
+
+## Link rhetoric
+
+Three modes of authored linking, after Rao (2009):
+
+1. *Citation mode.* The link functions as a footnote. The anchor names its target ("see [Rao](...)"), and the reader can follow it if they want verification. The author-reader relationship is backward-looking: the link inherits its rhetoric from academic writing. This is the default mode in most documentation, including the links in this library.
+
+2. *Form-content blending.* The link is placed on anchors that do not obviously name their target. The effect is disruption-and-reward: the reader notices the link, follows it on trust, and is surprised by what opens. The move is most legible in essayistic writing and least useful in instrumental interfaces — it asks the reader to be curious, which is a register interface prose cannot usually presume.
+
+3. *Figure-ground-voice integration.* The link compresses cultural or contextual density into minimal surface text, trusting the reader to expand the compression by following if they need to, and to stay in the flow if they don't. The move treats the reader as a competent adult; it is the authorial-linking counterpart of § *Stance and voice*'s *yielding the stage*.
+
+The anchoring tension: *link as reference versus link as prose*. Citation mode is safe and legible; it also produces the thinnest reading. Mode 3 compresses reading for competent readers and yields a richer text, but presumes the reader can do the work. Design choice: the more instrumental the surface, the further toward citation mode it should sit; the more essayistic or expressive, the further toward mode 3.
+
+Relationship to the library's existing linking patterns:
+
+- [Dynamic hyperlinks](../?path=/docs/actions-seeking-dynamic-hyperlinks--docs) are the *algorithmic* counterpart — links the system infers rather than the author places. The three modes here apply only to author-placed links.
+- [Reference](../?path=/docs/operations-reference--docs) shares the rhetorical intent of mode 3 (compress context, trust the reader) but resolves it through *inline* surfacing — hover, preview, detail — rather than navigation. Same move, different interaction mechanism.
+- [Deep linking](../?path=/docs/operations-deep-linking--docs) treats URLs as addressable state rather than as rhetorical anchors. Adjacent concern, disjoint design question.
+- [Information architecture](../?path=/docs/foundations-information-architecture--docs) § Hypertext structures covers the *structural* dimension of linking (associative, temporal, hierarchical); the rhetorical dimension lives here.
+
+The design heuristic Rao names — that opening a link in a new tab collapses its rhetoric back to citation — is worth holding as a tension, not a rule. Documentation often benefits from new-tab behaviour because context loss is costly. Essayistic writing benefits from same-tab behaviour because the departure is the point. The library's current Storybook cross-references sit firmly in citation mode; that is the correct register for documentation.
+
+## Microcopy as assistance-register prose
+
+Helper text, placeholders, empty states, confirmations, error messages, toasts — the thin prose that surrounds component-level interactions. Framed as design moves rather than templated outputs, these are *assistive turns*: short utterances that perceive ("You have no drafts"), plan ("Try adding your first tag"), recover ("We couldn't save that — your changes are still here"), or acknowledge ("Saved") on the user's behalf.
+
+The anchoring tension: *silence versus scaffolding*. Every microcopy surface has a no-prose option (absent helper text, blank empty state, no toast) that is sometimes better than the filled option. Over-narrated interfaces feel patronising; under-narrated ones feel indifferent. The decision is per-surface.
+
+Microcopy touches several patterns without being owned by any. [Data entry](../?path=/docs/actions-application-data-entry--docs) covers helper text and placeholder; [status feedback](../?path=/docs/operations-status-feedback--docs) covers validation and notification categories; [toast](../?path=/docs/operations-toast--docs) covers brief confirmations; [callout](../?path=/docs/operations-callout--docs) covers unskippable messages; [notification](../?path=/docs/actions-coordination-notification--docs) covers the information/success/warning/error taxonomy. Each is a surface where prose-as-move decisions get made. This foundation is the home of the decisions themselves, not of the surfaces.
+
+{/* TODO: treat each microcopy surface in one paragraph — entry, confirmation, error, empty, toast — per surface */}
+{/* TODO: document the "silence as default" heuristic and when to override it */}
+{/* TODO: relate to Norman's H9 (error messages) and H10 (help and documentation) without adopting their prescriptive register */}
+
+## Generated prose as a design surface
+
+When prose is generated rather than authored, the design question shifts from *what to write* to *what to specify*. Tone of voice becomes a parameter of generation rather than an editorial choice — see Park et al.'s structured semantic input at design-system level (`references/semantic-guidance-for-ui-generation.md`). Stance of AI output — hedge, assertion, deference, initiative — can be read as an authorial move the system makes on the user's behalf, and can be tuned deliberately rather than inherited from the model's defaults.
+
+The anchoring tension: *authored prose versus generated prose*. Most interfaces now hold both — authored microcopy beside model-generated completions, authored labels beside model-written summaries. Register drift between the two is a design risk: a warm empty state followed by a clinical AI completion reads as two interfaces stitched together. The design surface is the coherence between them, not either alone.
+
+{/* TODO: discuss specifiability of stance (hedge / assert / defer / initiate) as a tuning parameter */}
+{/* TODO: link to AI tuning's Voice and tone section as the bot-specific manifestation of this foundation */}
+{/* TODO: treat transparent reasoning as a case where authored framing and generated content share a surface */}
+
+## Tensions and non-rules
+
+This foundation names moves and tensions, not rules. Some residual tensions worth holding without resolving:
+
+- *Local warmth versus global consistency.* A register that fits one moment may not fit the whole product. Enforcing consistency kills the fit; enforcing fit kills the coherence. Neither side wins in the general case.
+- *Inclusive phrasing as default versus inclusive phrasing as rule.* Inclusive language belongs in the repertoire. Phrased as a rule, it joins Atlassian-style prescription; phrased as a default, it leaves room for considered exception. The foundation takes the latter stance.
+- *Tone as affordance versus tone as decoration.* A warm tone that does no work is decoration; a warm tone that lowers the user's threshold for asking a second question is an affordance. The test is whether the register shifts what the user can do, not whether it feels friendly.
+
+## Related patterns
+
+### Neighbouring foundations
+
+- [Information architecture](../?path=/docs/foundations-information-architecture--docs) — labelling as vocabulary structure; this foundation owns label-as-prose
+- [Intent & interaction](../?path=/docs/foundations-intent-interaction--docs) — interaction as conversational alignment
+- [Collaboration](../?path=/docs/foundations-collaboration--docs) — prose as shared ground between participants
+- [Assistance](../?path=/docs/foundations-assistance--docs) — microcopy as assistive turns
+- [Delegation](../?path=/docs/foundations-delegation--docs) — prose stance in agentive touchpoints
+
+### Neighbouring qualities
+
+- [Formality](../?path=/docs/qualities-formality--docs) — structural demand on user input (disambiguation)
+- [Conversation](../?path=/docs/qualities-conversation--docs) — turn-taking as substrate
+- [Agency](../?path=/docs/qualities-agency--docs) — yielding the stage as locus shift
+- [Learnability](../?path=/docs/qualities-learnability--docs) — prose carries domain scaffolding
+
+### Patterns that manifest prose moves
+
+- [Dynamic hyperlinks](../?path=/docs/actions-seeking-dynamic-hyperlinks--docs), [Reference](../?path=/docs/operations-reference--docs), [Deep linking](../?path=/docs/operations-deep-linking--docs) — linking surfaces
+- [Data entry](../?path=/docs/actions-application-data-entry--docs), [Status feedback](../?path=/docs/operations-status-feedback--docs), [Toast](../?path=/docs/operations-toast--docs), [Callout](../?path=/docs/operations-callout--docs), [Notification](../?path=/docs/actions-coordination-notification--docs) — microcopy surfaces
+- [Explanation](../?path=/docs/actions-sensemaking-explanation--docs) — domain prose, terminology, progressive disclosure of detail
+- [Suggestion](../?path=/docs/actions-application-suggestion--docs) — prose of proposing
+
+### Activities where prose is central
+
+- [Localisation](../?path=/docs/activities-localization--docs) — prose across locales
+- [AI tuning](../?path=/docs/activities-ai-tuning--docs) — tone of voice as specifiable generation parameter
+- [Bot](../?path=/docs/activities-bot--docs) — conversational participant
+- [Transparent reasoning](../?path=/docs/activities-transparent-reasoning--docs) — authored framing over generated reasoning
+- [Generated content](../?path=/docs/activities-generated-content--docs) — register drift between authored and generated surfaces
+
+## Resources & references
+
+- Rao (2009) [The rhetoric of the hyperlink](https://www.ribbonfarm.com/2009/07/01/the-rhetoric-of-the-hyperlink/) — primary exemplar for § *Stance and voice* and § *Link rhetoric*. Summary in `references/rhetoric-of-hyperlink.md`.
+- Atlassian Design System — [Content foundation](https://atlassian.design/foundations/content) — adjacent production register. Useful reference for inclusive language, messaging categories, date/time conventions; not adopted as template.
+- Nielsen Norman Group — [Content design systems](https://www.nngroup.com/articles/content-design-systems/) — strategy-plus-creation framing for content standards in production design systems. Adjacency reference.
+- Park et al. (CHI 2026) — semantic guidance for UI generation. See `references/semantic-guidance-for-ui-generation.md`. Primary citation for § *Generated prose as a design surface*.
+- Nielsen (1994) [Ten usability heuristics](https://www.nngroup.com/articles/ten-usability-heuristics/) — H9 (help users recognise, diagnose, recover from errors) and H10 (help and documentation) as historical anchors for microcopy.
