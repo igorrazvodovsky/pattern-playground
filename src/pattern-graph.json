@@ -457,12 +457,6 @@
       "path": "../?path=/docs/foundations-collaboration--docs"
     },
     {
-      "id": "foundations-content",
-      "title": "Content",
-      "category": "Foundations",
-      "path": "../?path=/docs/foundations-content--docs"
-    },
-    {
       "id": "foundations-data-information",
       "title": "Data & Information",
       "category": "Foundations",
@@ -491,6 +485,12 @@
       "title": "Modality",
       "category": "Foundations",
       "path": "../?path=/docs/foundations-modality--docs"
+    },
+    {
+      "id": "foundations-prose",
+      "title": "Prose",
+      "category": "Foundations",
+      "path": "../?path=/docs/foundations-prose--docs"
     },
     {
       "id": "foundations-material-color",
@@ -2144,10 +2144,6 @@
     },
     {
       "source": "actions-seeking-dynamic-hyperlinks",
-      "target": "foundations-content"
-    },
-    {
-      "source": "actions-seeking-dynamic-hyperlinks",
       "target": "actions-application-suggestion"
     },
     {
@@ -3191,102 +3187,6 @@
       "target": "qualities-formality"
     },
     {
-      "source": "foundations-content",
-      "target": "foundations-information-architecture"
-    },
-    {
-      "source": "foundations-content",
-      "target": "qualities-formality"
-    },
-    {
-      "source": "foundations-content",
-      "target": "activities-localization"
-    },
-    {
-      "source": "foundations-content",
-      "target": "actions-sensemaking-explanation"
-    },
-    {
-      "source": "foundations-content",
-      "target": "qualities-agency"
-    },
-    {
-      "source": "foundations-content",
-      "target": "qualities-learnability"
-    },
-    {
-      "source": "foundations-content",
-      "target": "activities-transparent-reasoning"
-    },
-    {
-      "source": "foundations-content",
-      "target": "activities-ai-tuning"
-    },
-    {
-      "source": "foundations-content",
-      "target": "actions-seeking-dynamic-hyperlinks"
-    },
-    {
-      "source": "foundations-content",
-      "target": "operations-reference"
-    },
-    {
-      "source": "foundations-content",
-      "target": "operations-deep-linking"
-    },
-    {
-      "source": "foundations-content",
-      "target": "actions-application-data-entry"
-    },
-    {
-      "source": "foundations-content",
-      "target": "operations-status-feedback"
-    },
-    {
-      "source": "foundations-content",
-      "target": "operations-toast"
-    },
-    {
-      "source": "foundations-content",
-      "target": "operations-callout"
-    },
-    {
-      "source": "foundations-content",
-      "target": "actions-coordination-notification"
-    },
-    {
-      "source": "foundations-content",
-      "target": "foundations-intent-interaction"
-    },
-    {
-      "source": "foundations-content",
-      "target": "foundations-collaboration"
-    },
-    {
-      "source": "foundations-content",
-      "target": "foundations-assistance"
-    },
-    {
-      "source": "foundations-content",
-      "target": "foundations-delegation"
-    },
-    {
-      "source": "foundations-content",
-      "target": "qualities-conversation"
-    },
-    {
-      "source": "foundations-content",
-      "target": "actions-application-suggestion"
-    },
-    {
-      "source": "foundations-content",
-      "target": "activities-bot"
-    },
-    {
-      "source": "foundations-content",
-      "target": "activities-generated-content"
-    },
-    {
       "source": "foundations-data-information",
       "target": "qualities-agency"
     },
@@ -3301,6 +3201,10 @@
     {
       "source": "foundations-data-information",
       "target": "foundations-information-architecture"
+    },
+    {
+      "source": "foundations-data-information",
+      "target": "foundations-prose"
     },
     {
       "source": "foundations-delegation",
@@ -3340,7 +3244,7 @@
     },
     {
       "source": "foundations-information-architecture",
-      "target": "foundations-content"
+      "target": "foundations-prose"
     },
     {
       "source": "foundations-information-architecture",
@@ -3477,6 +3381,102 @@
     {
       "source": "foundations-modality",
       "target": "actions-application-context-menu"
+    },
+    {
+      "source": "foundations-prose",
+      "target": "qualities-agency"
+    },
+    {
+      "source": "foundations-prose",
+      "target": "qualities-learnability"
+    },
+    {
+      "source": "foundations-prose",
+      "target": "qualities-formality"
+    },
+    {
+      "source": "foundations-prose",
+      "target": "activities-transparent-reasoning"
+    },
+    {
+      "source": "foundations-prose",
+      "target": "activities-ai-tuning"
+    },
+    {
+      "source": "foundations-prose",
+      "target": "actions-seeking-dynamic-hyperlinks"
+    },
+    {
+      "source": "foundations-prose",
+      "target": "operations-reference"
+    },
+    {
+      "source": "foundations-prose",
+      "target": "operations-deep-linking"
+    },
+    {
+      "source": "foundations-prose",
+      "target": "foundations-information-architecture"
+    },
+    {
+      "source": "foundations-prose",
+      "target": "actions-application-data-entry"
+    },
+    {
+      "source": "foundations-prose",
+      "target": "operations-status-feedback"
+    },
+    {
+      "source": "foundations-prose",
+      "target": "operations-toast"
+    },
+    {
+      "source": "foundations-prose",
+      "target": "operations-callout"
+    },
+    {
+      "source": "foundations-prose",
+      "target": "actions-coordination-notification"
+    },
+    {
+      "source": "foundations-prose",
+      "target": "foundations-intent-interaction"
+    },
+    {
+      "source": "foundations-prose",
+      "target": "foundations-collaboration"
+    },
+    {
+      "source": "foundations-prose",
+      "target": "foundations-assistance"
+    },
+    {
+      "source": "foundations-prose",
+      "target": "foundations-delegation"
+    },
+    {
+      "source": "foundations-prose",
+      "target": "qualities-conversation"
+    },
+    {
+      "source": "foundations-prose",
+      "target": "actions-sensemaking-explanation"
+    },
+    {
+      "source": "foundations-prose",
+      "target": "actions-application-suggestion"
+    },
+    {
+      "source": "foundations-prose",
+      "target": "activities-localization"
+    },
+    {
+      "source": "foundations-prose",
+      "target": "activities-bot"
+    },
+    {
+      "source": "foundations-prose",
+      "target": "activities-generated-content"
     },
     {
       "source": "foundations-material-iconography",
@@ -3804,7 +3804,7 @@
     },
     {
       "source": "operations-reference",
-      "target": "foundations-content"
+      "target": "foundations-prose"
     },
     {
       "source": "operations-reference",
@@ -4285,10 +4285,6 @@
     {
       "source": "qualities-formality",
       "target": "actions-application-form"
-    },
-    {
-      "source": "qualities-formality",
-      "target": "foundations-content"
     },
     {
       "source": "qualities-formality",
