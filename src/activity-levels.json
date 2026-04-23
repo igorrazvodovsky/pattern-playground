@@ -457,12 +457,6 @@
       "atomic-category": "foundations",
       "mediation": null
     },
-    "foundations-content": {
-      "activity-level": "cross-cutting",
-      "lifecycle-stage": null,
-      "atomic-category": "foundations",
-      "mediation": null
-    },
     "foundations-data-information": {
       "activity-level": "cross-cutting",
       "lifecycle-stage": null,
@@ -488,6 +482,12 @@
       "mediation": null
     },
     "foundations-modality": {
+      "activity-level": "cross-cutting",
+      "lifecycle-stage": null,
+      "atomic-category": "foundations",
+      "mediation": null
+    },
+    "foundations-prose": {
       "activity-level": "cross-cutting",
       "lifecycle-stage": null,
       "atomic-category": "foundations",

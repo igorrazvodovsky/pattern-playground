@@ -30,10 +30,10 @@ Research inputs for pattern development. Each entry summarises what the project 
 - `DIRA.md` — Bergström & Hornbæk's DIRA model of the user interface (Devices, Interaction Techniques, Representations, Assemblies).
   *Project takeaway*: a structural decomposition of what a UI *is*, independent of paradigm. Useful as an analytical frame when the project's patterns need positioning relative to the UI as a whole — which element of the interface does a given pattern primarily act on?
 
-## Content and rhetoric
+## Prose and rhetoric
 
 - `rhetoric-of-hyperlink.md` — Venkatesh Rao's 2009 *Ribbonfarm* essay on the hyperlink as rhetorical technology.
-  *Project takeaway*: authored links are prose moves, not references. Three modes — citation, form-content blending, figure-ground-voice integration — give the library a vocabulary for what "hard" (author-placed) linking does. "Yielding the stage" reads larger than linking: it names an authorial stance that trusts the reader to construct meaning, mirroring the library's human-centric [agency](../src/stories/qualities/Agency.mdx) framing from the author's side. Primary citation in the `Content` foundation's § *Stance and voice* and § *Link rhetoric* sections.
+  *Project takeaway*: authored links are prose moves, not references. Three modes — citation, form-content blending, figure-ground-voice integration — give the library a vocabulary for what "hard" (author-placed) linking does. "Yielding the stage" reads larger than linking: it names an authorial stance that trusts the reader to construct meaning, mirroring the library's human-centric [agency](../src/stories/qualities/Agency.mdx) framing from the author's side. Primary citation in the `Prose` foundation's § *Stance and voice* and § *Link rhetoric* sections.
 
 ## Harness engineering
 
