@@ -18,13 +18,21 @@ These two framings are compatible and reinforcing. The first is an epistemic cla
 
 ### Plan scope
 
-This plan covers **Phase 0** (vocabulary foundation), **Phase 0.5** (generative profiles, `enacts` edges, decision-dimension inventory), and **Phase 1** (typed edge extraction). **Phase 2** (visual rendering) is deprioritised — kept as a deliverable but no longer blocking. **Phase 3** (decision tree extraction) is reframed: not as parsing for structured conditions, but as extracting situational hints that travel with `recommends` edges. **Phase 4** (query API) is sketched but not committed.
+This plan covers Phase 0 (foundation and exploration — vocabulary doc plus two gating experiments) and Phase 1 (typed edge extraction, including `enacts` edges). Phase 2 (visual rendering) is deprioritised — kept as a deliverable but no longer blocking. Phase 3 (decision tree extraction) is reframed: not as parsing for structured conditions, but as extracting situational hints that travel with `recommends` edges. Phase 4 (query API) is sketched but not committed.
 
 ---
 
-## Phase 0 — Relationship vocabulary
+## Phase 0 — Foundation and exploration
 
-*Status*: drafted at `docs/specs/relationship-vocabulary.md`
+Phase 0 does three things together: it drafts the relationship vocabulary, and runs two cheap experiments that test whether the vocabulary is load-bearing when applied to real pattern pages and real decision trees. The experiments are gates, not parallel strands. Their outputs feed back into the vocabulary doc's changelog before any extraction work begins.
+
+The three pieces answer one question from different angles — is the vocabulary we drafted useful when applied? B (generative profiles) tests it from the pattern-page side. C (dimension inventory) tests it from the decision-tree side. A (the vocabulary doc) is what they're testing.
+
+Phase 1 starts only after the gate. If either experiment surfaces something that breaks the current vocabulary, Phase 1's extraction spec gets revised before code changes begin.
+
+### A. Relationship vocabulary
+
+*Status*: drafted at `docs/relationship-vocabulary.md`
 
 Before implementing typed edges, the vocabulary itself needs a formal definition: what each relationship type means, its directionality, inverse pair handling (where applicable), SKOS alignment (where natural), and how each type should be read under the generative-moves framing.
 
@@ -37,41 +45,43 @@ Key decisions captured in the vocabulary doc:
 - *`enacts` is a new pattern → quality relationship*, promoting prose references from pattern pages to qualities pages into typed edges. This is the bridge between patterns-as-moves and the qualities they strengthen.
 - *SKOS alignment is documented where it fits* (instantiates → skos:broader, complements/related → skos:related, alternative → skos:closeMatch) and explicitly noted where it doesn't (precedes/follows, recommends, enacts have no SKOS equivalents).
 
-Phase 0 work: review and finalise the vocabulary document, treating its open questions as inputs to phase planning. No code changes.
+A also establishes a *Changelog* section at the bottom of the vocabulary document — a running record of why types were added, merged, renamed, or retired, what alternatives were considered, and what was lost in each decision. The gate outcomes from B and C append the first entries. Every subsequent vocabulary change appends an entry. The log exists because the vocabulary is provisional and will keep evolving as the library grows; making its construction visible is part of treating classification as a living artifact rather than a closed specification. Compare Bowker & Star, *Sorting Things Out*: "the only good classification is a living classification."
 
----
+*Work*: review and finalise the vocabulary document, treating its open questions as inputs to B and C. No code changes.
 
-## Phase 0.5 — Generative profiles, `enacts` edges, and dimension inventory
+### B. Generative profile annotations (experiment — gate)
 
-This phase makes the generative-moves framing operational with the smallest concrete additions that honour it. Three discrete pieces of work, each independent of the others.
-
-### A. Generative profile annotations (proof of concept)
-
-Pick 5–10 patterns spanning the activity-level hierarchy (e.g., a primitive like Button, a pattern like Confirmation dialog, a composition like Form, an activity like Onboarding, plus one or two cross-cutting patterns). For each, add a small *Generative profile* subsection to the MDX file with three short phrases:
+For each selected pattern, add a small *Generative profile* subsection to the MDX file with three prose slots:
 
 - *Operates on*: what kind of structure or situation the move acts on
 - *Produces*: what new centre or affordance the move creates
-- *Enacts*: which quality dimensions the move's effect is legible in (informal references). Named to match the `enacts` edge type — see the vocabulary doc for how this connects the Alexandrian process vocabulary to the library's evaluative frame.
+- *Enacts*: which quality dimensions the move's effect is legible in (informal references, written as prose — not `<LinkTo>`. At this stage we want to see which quality words the author reaches for, not whether they match existing quality pages). Named to match the `enacts` edge type — see the vocabulary doc for how this connects the Alexandrian process vocabulary to the library's evaluative frame.
 
-These are short prose phrases, not structured fields. No controlled vocabulary, no normalisation. Place the subsection near the top of the pattern page, after the fun meter and definition.
+No controlled vocabulary, no normalisation, no soft length rule — let each slot be whatever length it needs. If a profile balloons, note that as data; the gate is about whether the frame fits, not whether the author is disciplined. Place the subsection near the top of the pattern page, after the fun meter and definition.
 
-The proof-of-concept population is the test of whether this addition pulls its weight before retrofitting across the whole library. If writing a generative profile feels natural and improves the page, expand. If it feels like ceremony, stop.
+Write profiles without first reading the pattern's *Related patterns* section. If operates-on/produces ends up restating what *Precursors* or *Complements* already encode, the profile is redundant with the edge types Phase 1 will extract. Writing blind surfaces that overlap.
 
-*Files modified*: 5–10 MDX files in `src/stories/`. No script or schema changes for the profiles themselves at this stage — they exist only in MDX prose. Extraction into structured node metadata is a follow-up if the experiment lands.
+*Pattern selection — three clusters of different character.*
 
-### B. `enacts` edge type
+A flat spread across altitude tests range but cannot detect the most important failure mode: whether the frame *differentiates* near-neighbours. If four data-entry patterns all collapse into "operates on: user input", the vocabulary is failing where it most needs to work. Three clusters of different character triangulate: within-cluster differentiation, between-cluster contrast, and some signal on whether the frame fits some characters of pattern better than others.
 
-Promote pattern → quality references from `related` edges to typed `enacts` edges. The extraction logic is identical to Phase 1's typed-link extraction (which adds the edge type during parsing) — `enacts` is detected by the *target* being a quality page (`qualities-*` ID) rather than by an MDX header.
+- *Cluster A — Form and its decision tree* (tests whether the profile vocabulary and the decision tree are saying the same thing in different notations): [Form](../../../src/stories/actions/application/Form.mdx), [Select](../../../src/stories/operations/Select.mdx), [Checkbox](../../../src/stories/operations/Checkbox.mdx), [Autocomplete](../../../src/stories/operations/Autocomplete.mdx), [Input](../../../src/stories/operations/Input.mdx). The selection principle is the tree itself — each pattern sits at a different branch of Form's "Choosing a control" tree (single/multi-select, option count, searchability, confirm-need, free-form vs. bounded). The hypothesis being tested: *a decision tree is a generative profile expressed as a diagram* — its branches are operates-on dimensions, its leaves are produced moves. If that's right, Form's own profile will restate its tree in prose (a redundancy finding that would reshape Phase 3), and the leaves' operates-on slots will recover the tree's discriminating dimensions (option count, confirm-need, cardinality). If profiles run orthogonal to the tree — reaching for latency, data shape, attention, social context — then tree and profile are complementary and both earn their keep. Both outcomes are informative; the gate asks which one we see.
+- *Cluster B — action feedback* (moderately tight, strong `enacts` pull): [Undo](../../../src/stories/operations/Undo.mdx), [Notification](../../../src/stories/actions/coordination/Notification.mdx), [Toast](../../../src/stories/operations/Toast.mdx). These all appear after something happens; the test is whether the frame differentiates by what they operate on (the action, the user's attention, the system state) and whether `enacts` reaches for different qualities (forgiveness vs. awareness vs. acknowledgement) or the same one.
+- *Cluster C — altitude* (tests differentiation at high altitude): [Conversation](../../../src/stories/activities/Conversation.mdx), [Onboarding](../../../src/stories/activities/Onboarding.mdx). Both are activity-scale and both are concrete at that altitude (Conversation has a clear interactional shape; Onboarding is time-bounded with a clear subject). The test is twofold: (a) does the frame still say something non-vacuous at activity scale, and (b) does it differentiate two activity patterns from each other, or do both collapse into "operates on: the user" / "produces: familiarity with the system"? Picking two well-bounded activity patterns rather than one activity and one composition means a collapse here is a real ceiling signal, not an artefact of target vagueness.
 
-*Files modified*:
-- `scripts/extract-graph-data.ts` — add target-based type assignment for quality references
-- `src/pattern-graph.json` — regenerated output now contains `enacts` edges
+*Ordering within the sitting*: start with Cluster A (cheapest, most likely to expose close-range collapse). If A already resists, stop — the frame needs revision before burning the other clusters on it. Otherwise continue to B, then C.
 
-*Verification*: spot-check a pattern with explicit quality references (e.g., a pattern that names Agency or Privacy in its prose). The edge from that pattern to the quality should now be `enacts`, not `related`.
+*Resistance log* (required output, not just implicit in the gate): for each pattern, write one sentence noting what resisted — a slot that felt forced, a concept the frame didn't have a word for, or a pattern where all three slots said the same thing. Capture in the changelog entry, not in the MDX files.
 
-### C. Decision-dimension inventory
+*Bound*: one sitting, ~8 patterns, no iteration on the framing mid-way. If it doesn't work in one pass, that's the signal.
 
-Produce `docs/specs/decision-dimensions.md`: a snapshot of what dimensions the library currently uses to discriminate between patterns, extracted from the 8 active decision trees. This is a *research artifact*, not a controlled vocabulary — the goal is to surface what the library already reasons about and, by absence, what it doesn't.
+*Gate criteria*: (a) for Cluster A, do the profiles recover Form's tree dimensions, run orthogonal to them, or something mixed? (b) for Cluster B, do profiles differentiate patterns that all appear after an action, and does `enacts` reach for distinct qualities? (c) for Cluster C, does the frame still say something non-vacuous at activity scale, and does it differentiate two activity patterns? (d) across clusters, does the frame fit some characters of pattern better than others? (e) did any pattern surface a relationship dimension the vocabulary doesn't name? Outcomes feed into the vocabulary doc's changelog and may revise Phase 1's spec (and Phase 3's, if Cluster A surfaces the redundancy finding) before extraction begins.
+
+*Files modified*: 9 MDX files in `src/stories/` (one per pattern above). No script or schema changes at this stage — profiles exist only in MDX prose. Extraction into structured node metadata is a follow-up if the experiment lands.
+
+### C. Decision-dimension inventory (research — gate)
+
+Produce `docs/decision-dimensions.md`: a snapshot of what dimensions the library currently uses to discriminate between patterns, extracted from the 8 active decision trees. This is a research artifact, not a controlled vocabulary — the goal is to surface what the library already reasons about and, by absence, what it doesn't.
 
 The document lists, for each pattern that has a decision tree, the questions its tree branches on. Example entries:
 
@@ -83,46 +93,19 @@ The document lists, for each pattern that has a decision tree, the questions its
 
 The artifact is interesting partly for what it includes and partly for what it omits. It points to where the library's conceptual coverage is thin (no decision tree currently reasons about latency, async-vs-sync, persistence, multi-user state, or AI-specific concerns) and where future pattern work might focus.
 
-*Files modified*: new file `docs/specs/decision-dimensions.md`. No code changes.
+The document opens with a short note framing the inventory as a snapshot of a *current frame* — the dimensions the library reasons about right now, not the ones that "matter" in some absolute sense. The absences listed are choices, past and accumulating, not oversights. Making them legible is the point; over time the inventory becomes a map of the library's conceptual reach and a prompt for where to extend it.
 
-*Verification*: read the document. The value is in the inventory itself, not in any downstream consumer.
+*Bound*: one pass through the 8 active decision trees. Extract questions only. No cross-linking between trees, no mapping to a controlled vocabulary, no downstream consumer at this stage.
 
-### Phase 0.5 ordering
+*Gate criteria*: do decision-tree questions read as situational hints that could travel with a `recommends` edge, or do they resist that framing? Are there dimensions the library reasons about that the vocabulary doesn't accommodate? Outcomes feed into the changelog and may revise Phase 3's spec.
 
-A, B, and C can happen in any order or in parallel. None blocks the others. Recommended order: C (lowest cost, surfaces useful research output), then B (small mechanical change), then A (the experimental piece).
+*Files modified*: new file `docs/decision-dimensions.md`. No code changes.
 
-```
-┌─────────────────────────┐
-│  MDX files (120 files)  │
-│  ### Precursors         │
-│  ### Follow-ups         │
-│  ### Complementary      │
-│  ### (flat list)        │
-└───────────┬─────────────┘
-            │ extract-graph-data.ts
-            ▼
-┌─────────────────────────┐
-│  pattern-graph.json     │
-│  edges: [{              │
-│    source, target,      │
-│    type, label?         │  ◄── NEW
-│  }]                     │
-└───────────┬─────────────┘
-            │ import
-            ▼
-┌─────────────────────────┐
-│  PatternGraph.tsx        │
-│  data-edge-type on <line>│  ◄── NEW
-│  Edge type filter UI     │  ◄── NEW
-└───────────┬─────────────┘
-            │ styled by
-            ▼
-┌─────────────────────────┐
-│  pattern-graph.css       │
-│  dash patterns per type  │  ◄── NEW
-│  arrowhead markers       │  ◄── NEW
-└─────────────────────────┘
-```
+### Phase 0 ordering
+
+A is drafted. B and C are independent and can run in either order or in parallel. Recommended order: C first (lowest cost, surfaces useful research output alongside the gate check), then B (the experimental piece that more directly stresses the vocabulary).
+
+Each experiment ends with a changelog entry in the vocabulary doc recording what was learned, and any revisions to the ten relationship types or to the generative-profile framing. Only then does Phase 1 start.
 
 ---
 
@@ -146,7 +129,7 @@ Thematic headers (e.g., "Core collaborative components", "Human-AI collaboration
 
 Flat lists (72 files) and prose links default to `related`.
 
-`enacts` is added by Phase 0.5.B and detected by target ID prefix (`qualities-*`), not by header. Phase 1 simply needs to leave room for it in the schema.
+`enacts` is detected by source category *and* target ID prefix: source must be a non-quality pattern page, target must be a `qualities-*` ID. Quality-to-quality links (from pages in `src/stories/qualities/`) stay `related` — they're ontological cross-references between qualities, not generative moves. Target-based type assignment runs in the same extraction pass as header-based typing (see "Target-based typing for `enacts`" below).
 
 ### Tag extraction (from thematic subcategories)
 
@@ -184,6 +167,8 @@ Logic:
 6. Links *outside* Related patterns (prose, anatomy, variants sections) get `type: 'related'`
 7. The link regex remains `../\?path=/docs/([a-z0-9][a-z0-9-]*)--docs`
 
+Provenance: when a typed edge is created from a `### ` header, `extractedFrom` is set to `header:"<raw header text>"` — so `header:"Precursors"` and `header:"Precursor patterns"` both yield `type: 'precedes'` but remain distinguishable. Thematic headers already capture their raw text in `label`, so `extractedFrom` stays unset there. Flat-list and prose links (which become `related` with no judgement) also leave `extractedFrom` unset. `enacts` edges use `extractedFrom: 'quality-target'`. `recommends` edges use `extractedFrom: 'decision-tree:<tree-id>'` (Phase 3, replacing the earlier `sourceTree` field — they describe the same thing).
+
 **3. Edge deduplication**
 
 When the same source→target pair appears multiple times:
@@ -199,6 +184,7 @@ interface Edge {
   target: string;
   type?: string;
   label?: string;
+  extractedFrom?: string;  // provenance — populated where type assignment required a judgement
 }
 
 interface Node {
@@ -213,6 +199,17 @@ interface Node {
 **5. Update edge and node building**
 
 Replace `fileLinks` Map with a `typedFileLinks` Map storing `TypedLink[]`. Build edges with type and label. As thematic-header links are processed, also collect tags and merge them into the linked node's `tags` array.
+
+**6. Target-based typing for `enacts`**
+
+After header-based typing is assigned, promote an edge to `enacts` only when *both*:
+
+- the source node's `category` is not `Qualities` (i.e., the source is a pattern, not a quality page), and
+- the target ID has the `qualities-*` prefix.
+
+Set `extractedFrom: 'quality-target'`. This is the bridge between patterns-as-moves and the qualities they strengthen — prose references from pattern pages to quality pages become typed edges without authors needing to put them under a specific subcategory header.
+
+Quality-to-quality links (e.g., Malleability → Agency, Shareability → Conversation) stay `related`. They're ontological cross-references internal to the quality vocabulary, not generative moves, and conflating them with `enacts` would pollute the graph with false pattern→quality relationships. If structure within the quality vocabulary turns out to be load-bearing for a future consumer (e.g., coverage critique), it should be introduced as a distinct edge type via the vocabulary changelog, not by overloading `enacts`.
 
 ### Files modified
 
@@ -233,6 +230,23 @@ Then verify:
 - Flat-list files (e.g., Deletion.mdx) should all be `related`
 - No links from `{/* */}` comment blocks should appear
 - Patterns linked under thematic headers should have `tags` populated on their nodes
+- Typed edges from subcategory headers carry `extractedFrom` with the raw header text (`header:"Precursors"`, `header:"Precursor patterns"`); `related` edges from flat lists or prose do not
+- Edges from a pattern to a quality page (`qualities-*` target) are typed `enacts` with `extractedFrom: 'quality-target'`, regardless of which section they appeared in
+- *Invariant*: every `enacts` edge has a non-quality source and a `qualities-*` target. Quality-to-quality edges (source category `Qualities`, target `qualities-*`) stay `related`. Spot-check Malleability.mdx and Shareability.mdx — their outgoing edges to other quality pages should be `related`, not `enacts`.
+
+---
+
+## Classification as a living artifact
+
+Three additions across this plan reinforce that the vocabulary, the edge types, and the decision dimensions are provisional artifacts to keep revising as the library grows, not closed specifications.
+
+1. *Provenance on edges where extraction required a judgement* (Phase 1 and Phase 3). The `extractedFrom` field records the raw source — header text, `quality-target`, `decision-tree:<id>` — so the construction of each typed edge stays inspectable. "Precursors" and "Precursor patterns" both produce `precedes`, but the difference is no longer silently erased.
+
+2. *A changelog in the vocabulary document* (Phase 0, extended by every subsequent phase). Every type added, merged, renamed, or retired gets a short entry: what it replaced, what alternatives were considered, what got lost. The gate outcomes from Phase 0.B and 0.C are the first entries.
+
+3. *A classification-health gardening sweep* (specified in `plans/2026/april/harness.md` Phase 3). Monthly PR surfacing drift — types with few edges, thematic headers repeating across files and looking ready for promotion, tags used once vs. many times. Reports to the changelog under *Observed drift* so revisions stay grounded in use rather than in speculation.
+
+None of this closes the vocabulary. The aim is a classification that stays answerable about its own history and amenable to revision, rather than one that seals itself against use.
 
 ---
 
@@ -354,18 +368,18 @@ Parse Mermaid flowcharts in the 8 active decision-tree MDX files and emit `recom
        { question: 'Is the deletion reversible?', branch: 'Yes' },
        { question: 'How quickly can it be recreated?', branch: 'Seconds' }
      ],
-     sourceTree: 'deletion-decision-tree'
+     extractedFrom: 'decision-tree:deletion'
    }
    ```
 
-   The `sourceTree` field provides provenance — useful for debugging extraction and for an actor to cite its sources.
+   `extractedFrom` provides provenance — useful for debugging extraction and for an actor to cite its sources. It unifies with the field introduced in Phase 1, so every edge that required extractor judgement shares one provenance convention.
 
 4. *No canonicalisation*: question phrasings and branch labels are stored as raw text. No mapping to a controlled dimension vocabulary. The actor reads them as hints.
 
 ### Files modified
 
 - `scripts/extract-graph-data.ts` — Mermaid parser, leaf mapping table, situational hint extraction
-- `src/pattern-graph.json` — output gains `recommends` edges with `situationalHints` and `sourceTree`
+- `src/pattern-graph.json` — output gains `recommends` edges with `situationalHints` and `extractedFrom`
 
 ### Verification
 
@@ -393,27 +407,30 @@ function findEnactingPatterns(qualityId: string): Pattern[]
 
 Inference patterns (transitive composition, co-instantiated foundations, alternative-conflict detection) can be added as separate functions if they prove useful. The lighter-weight default is to compute on demand rather than precompute and store.
 
-This phase is sketched but not committed. It depends on Phase 1 and Phase 0.5 being in place, and on having a concrete consumer (an agent prompt, a CLI, a notebook) that exercises the queries. Without a consumer, the API would be speculative.
+This phase is sketched but not committed. It depends on Phase 1 being in place (which covers typed edges, tags, and `enacts`), and on having a concrete consumer (an agent prompt, a CLI, a notebook) that exercises the queries. Without a consumer, the API would be speculative.
 
 ---
 
 ## Phase ordering and dependencies
 
 ```
-Phase 0   (vocabulary doc, no code)
-   │
-   ├──► Phase 0.5.A (generative profiles, MDX only)
-   ├──► Phase 0.5.B (enacts edges)  ────────────┐
-   ├──► Phase 0.5.C (dimension inventory)       │
-   │                                            ▼
-   └──► Phase 1 (typed extraction + tags) ──► Phase 2 (visualisation, deprioritised)
-                          │
-                          ▼
-                       Phase 3 (decision tree extraction)
-                          │
-                          ▼
-                       Phase 4 (query API, sketch)
+Phase 0.A  (vocabulary doc, drafted)
+     │
+     ├──► Phase 0.B  (generative profiles — experiment, gate)
+     ├──► Phase 0.C  (dimension inventory — research, gate)
+     │         │
+     │         ▼
+     │    changelog entries, possible vocabulary revisions
+     │         │
+     ▼         ▼
+Phase 1 (typed extraction + tags + enacts) ──► Phase 2 (visualisation, deprioritised)
+     │
+     ▼
+Phase 3 (decision tree extraction)
+     │
+     ▼
+Phase 4 (query API, sketch)
 ```
 
-Phase 0.5 sub-phases are independent and can run in parallel. Phase 1 should land before Phase 3 (Phase 3 builds on the same extraction script). Phase 2 is unblocked by Phase 1 but no longer blocking. Phase 4 depends on a concrete consumer existing.
+Phase 0.B and 0.C are independent gates and can run in either order or in parallel. Phase 1 starts only after both gates close (a changelog entry per experiment, possibly revising the vocabulary or Phase 1's spec). Phase 1 should land before Phase 3 (Phase 3 builds on the same extraction script). Phase 2 is unblocked by Phase 1 but no longer blocking. Phase 4 depends on a concrete consumer existing.
 

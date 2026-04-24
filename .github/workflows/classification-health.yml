@@ -1,0 +1,45 @@
+name: Classification health
+
+on:
+  schedule:
+    - cron: '0 9 15 * *'  # mid-month, off-cycle from doc-garden
+  workflow_dispatch: {}
+
+jobs:
+  classification-health:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Scan graph for drift signals
+        id: scan
+        run: |
+          node scripts/check-classification-health.mjs > /tmp/drift-report.md
+          cat /tmp/drift-report.md
+          echo "empty=$(grep -q 'No drift signals\|nothing to report' /tmp/drift-report.md && echo true || echo false)" >> "$GITHUB_OUTPUT"
+
+      - name: Append drift report and open PR
+        if: steps.scan.outputs.empty == 'false'
+        uses: anthropics/claude-code-action@beta
+        with:
+          mode: agent
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          direct_prompt: |
+            Read the drift report at /tmp/drift-report.md. Append it verbatim to
+            docs/relationship-vocabulary.md under a top-level "## Changelog" section,
+            creating that section at the bottom of the file if it does not exist.
+            The report already has an "### Observed drift — YYYY-MM-DD" subheading.
+            Do not edit the report, do not edit any other file, and do not propose
+            vocabulary changes — the user decides whether the drift is signal or
+            noise. Open a single PR titled "Classification health: observed drift
+            <date>" with the appended report as the only diff.

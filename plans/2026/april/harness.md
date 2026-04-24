@@ -32,7 +32,9 @@ pattern-plgrnd/
 │   │   └── core-beliefs.md                # NEW: extracted from GEMINI.md + activity-theory-reorg.md
 │   │
 │   ├── specs/
-│   │   └── storybook-taxonomy.md          # NEW: current AT tree + dual-projection note
+│   │   ├── storybook-taxonomy.md          # NEW: current AT tree + dual-projection note
+│   │   ├── relationship-vocabulary.md     # from typed-edges plan: edge types + changelog
+│   │   └── decision-dimensions.md         # from typed-edges plan: what trees reason about
 │   │
 │   ├── quality/
 │   │   ├── testing-strategy.md            # NEW: extracted from CLAUDE.md
@@ -79,11 +81,13 @@ pattern-plgrnd/
 12. `scripts/check-agents-stub.mjs`
 13. `.github/workflows/docs-integrity.yml`
 
-*Phase 3 (doc gardening — recommended starter set: 14, 15, plus a hook entry in 16):*
+*Phase 3 (doc gardening — recommended starter set: 14, 15, 20, 21, plus a hook entry in 16):*
 14. `.github/workflows/doc-garden.yml` — weekly stale-doc PR agent
 15. `scripts/check-taxonomy-sync.mjs` — taxonomy sync check (called from `docs-integrity.yml`)
 16. `.claude/settings.json` — add `PostToolUse` hook entry for the reference-index seeder (currently has empty `hooks` object)
 17. `scripts/reference-index-prompt.mjs` — small script invoked by the hook in (16)
+20. `.github/workflows/classification-health.yml` — monthly classification-drift PR; reports to vocabulary changelog
+21. `scripts/check-classification-health.mjs` — scans pattern-graph.json for drift signals
 
 *Phase 3 (optional):*
 18. `.github/workflows/plans-sweep.yml` — monthly plans staleness sweeper
@@ -137,6 +141,11 @@ Full list and conventions: docs/quality/testing-strategy.md
 
 ## Research inputs (read on demand, not eagerly)
 - docs/references/README.md   — index of references/
+
+## Provisional classifications
+Works in progress, not settled. Treat as the current frame, not the right frame.
+- docs/specs/relationship-vocabulary.md  — edge type vocabulary + changelog
+- docs/specs/decision-dimensions.md      — what patterns reason about (and what they don't)
 
 ## Quality gates
 - docs/quality/testing-strategy.md
@@ -305,7 +314,9 @@ Five small, *scheduled* automations that keep the control layer self-maintaining
 
 4. *Tech-debt accumulator* (optional, weekly). Companion to (1). Greps the codebase for new `TODO`/`FIXME`/`HACK` comments since the last run (using a stored marker file in `.github/`), and opens a PR adding any new ones to `plans/tech-debt-tracker.md` with file:line links. Most projects find this becomes noise within a few weeks; install only if signal-to-noise stays high.
 
-*Recommended starter set*: items 1, 2. Add 3 and 4 only if the starter set proves its weight after a few weeks.
+5. *Classification health sweeper* (recommended, monthly). New `.github/workflows/classification-health.yml`, scheduled `0 9 15 * *` (mid-month, off-cycle from the other sweeps). Runs `scripts/check-classification-health.mjs`, which inspects `src/pattern-graph.json` for drift signals: edge types with fewer than N edges (underused), thematic-header `label` values repeating across many files (candidates for promotion to a typed edge), tags used only once (noise) vs. many times (candidates for structuring), and patterns with a high density of `related` edges (the extractor may have flattened a distinction). Output: a PR appending findings to the changelog in `docs/specs/relationship-vocabulary.md` under an *Observed drift* subheading. Does not propose vocabulary changes — the user decides whether drift is signal or noise. Pairs with the `extractedFrom` provenance field and the vocabulary changelog introduced by `plans/2026/april/typed-edges.md`.
+
+*Recommended starter set*: items 1, 2, 5. Items 3 and 4 are narrower and can wait until the starter set proves its weight.
 
 *Cost discipline*: every workflow that calls Claude is bounded by a fix-only or report-only prompt, runs at most weekly, and outputs PRs that the user merges manually. No auto-merge. No retry loops. No background context accumulation. The user remains in the loop on every action that touches the repo.
 
