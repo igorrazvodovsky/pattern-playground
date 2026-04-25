@@ -126,6 +126,24 @@ The relationships defined below should be read in this register throughout.
 - Example: Confirmation dialog *enacts* Agency — the pause-before-consequence is a move that strengthens the user's sense of intentional control.
 - Why this matters: under the generative-moves framing, the qualities act as a vocabulary for what a transformation should accomplish. An actor reasoning "what's weak in the current structure that I should strengthen?" needs to know which moves enhance which qualities. Promoting these from prose links to typed edges makes that reasoning possible.
 
+## Edge axis
+
+Each edge type carries an implicit *axis* — the dimension along which the relationship moves. The axis is derived from the type, not stored as a field.
+
+| Axis | Edge types | What it means |
+|---|---|---|
+| Vertical | `instantiates`, `enables`, `enacts` | Crosses altitudes — taxonomic (genus/species), compositional (part/whole), or pattern → quality |
+| Horizontal | `complements`, `tangential`, `alternative` | Same altitude — moves that share a structural role or co-deploy |
+| Sequential | `precedes`, `follows`, `recommends` | Generative sequence — one move sets up another, or a tree branch routes to one |
+| Unspecified | `related` | Default catch-all; no axis claim |
+
+The distinction matters for two consumers:
+
+- A query API can expose `edgeAxis(type)` so a caller can ask "what's vertically related to Form?" (its foundations and primitives) separately from "what's horizontally related?" (its alternatives and complements). The axis is computed on demand, not stored.
+- A gardening sweep can check axis against altitude. The category folders (`activities/`, `actions/`, `operations/`, `qualities/`) act as a coarse altitude proxy. An `instantiates` edge whose endpoints sit in the same folder is suspicious; a `complements` edge crossing two altitude bands is suspicious. Either is a finding for the changelog, not a failure.
+
+The axis classification is a sanity-check tool, not a taxonomy commitment. A pattern can legitimately complement another at a different altitude; the point is to surface those cases for review rather than silently letting them pass.
+
 ## SKOS alignment summary
 
 | Relationship | SKOS equivalent | Fit |
@@ -212,7 +230,9 @@ A generative profile has three fields:
 
 These are *informal phrases*, not structured fields. No controlled vocabulary, no normalisation. The point is to give an actor a richer mental model of each pattern as a move, while staying close to how the MDX prose already talks about it.
 
-A generative profile lives in the MDX file, ideally as a small subsection near the top of the pattern page (after the fun meter and definition). It's extracted into `pattern-graph.json` as node-level metadata. Initially this can be populated for a small starting set of patterns (5–10) as a proof of concept rather than retrofitted across the whole library.
+A generative profile lives in a `*.profile.ts` sidecar next to the pattern's MDX (e.g. `Form.profile.ts` next to `Form.mdx`), exporting a typed `GenerativeProfile` object. The shared interface lives at `src/pattern-profile.ts`. The MDX imports the profile to keep authoring co-located, but does not render it — the data is for tooling, not for the rendered page. Phase 1 extraction reads sidecars directly into `pattern-graph.json` as node-level metadata. Initially this is populated for a small starting set of patterns (the nine from Phase 0.B) as a proof of concept rather than retrofitted across the whole library.
+
+*When to skip a profile*: minimal primitives (the move's definition exhausts the description), unbounded stances (no discrete move), and umbrella/projection MDX (the page describes a territory, not a move) — see the Phase 0.B probe in the changelog for the reasoning.
 
 ## Open questions
 
@@ -224,7 +244,11 @@ A generative profile lives in the MDX file, ideally as a small subsection near t
 
 4. *How much should the actor infer vs. read*: transitive enablement (Form → Combobox → Autocomplete → AI completion), co-grounding (patterns sharing a foundation), and alternative-conflict detection are all derivable from the graph. They could be computed on demand by query functions, or pre-computed and stored. The lighter approach is to compute on demand and let inference stay implicit.
 
-5. *A structural-property layer underneath qualities?* Dorian Taylor's information-theoretic reading of Alexander's 15 properties clusters them around three functions: *conveying* information, *compressing* information, and *throttling* information to facilitate uptake. Taylor and Alexander both note that other contexts may need their own sets of properties, distinct from the geometric 15. The library's qualities are experiential dimensions, not structural properties — but there may eventually be a vocabulary for *structural* properties of interaction (how information differentiates, flows, and compresses) that sits underneath them, in the same way that "the building feels welcoming" sits above "the entrance has levels of scale, strong centres, and thick boundaries." Not something to act on now, but a direction the framing might develop if the generative-moves framing proves load-bearing.
+5. *A `tensions-with` edge type between qualities?* Patterns can `enacts` multiple qualities, and a composition can pull in patterns whose enacted qualities are in tension (Agency vs. Speed, Consistency vs. Novelty). The graph currently has no way to express that tension. A quality → quality `tensions-with` edge would let a query surface "these moves enhance qualities the library has noted as in tension — worth a look" without crossing into rule-grade conflict detection. Defer until two or three concrete examples exist; introduce through the changelog rather than speculatively. Until then, `alternative` co-presence in a proposed composition is the available tension signal.
+
+6. *MDX role: information origin vs. projection target.* The Phase 0.B adversarial probe surfaced that some MDX files (Bot, Assisted task completion, Status feedback) are not authoritative sources for a single pattern but rather *projections* — views that gather and organise information about a territory of related moves. Umbrellas serve sensemaking by making gaps visible; treating them as origins forces the framework into shapes (single profile, single edge endpoint) that don't fit. Compare Dorian Taylor's [specificity gradient](https://doriantaylor.com/the-specificity-gradient): authoring should happen at the most specific level, with less-specific levels being projections. The library currently treats every MDX file as an origin, which collapses this distinction. Acting on this would require a bigger restructuring than the typed-edges plan covers — distinguishing source-MDX from projection-MDX, and handling them differently in extraction, graph data, and rendering. Flagged for after Phase 4.
+
+7. *A structural-property layer underneath qualities?* Dorian Taylor's information-theoretic reading of Alexander's 15 properties clusters them around three functions: *conveying* information, *compressing* information, and *throttling* information to facilitate uptake. Taylor and Alexander both note that other contexts may need their own sets of properties, distinct from the geometric 15. The library's qualities are experiential dimensions, not structural properties — but there may eventually be a vocabulary for *structural* properties of interaction (how information differentiates, flows, and compresses) that sits underneath them, in the same way that "the building feels welcoming" sits above "the entrance has levels of scale, strong centres, and thick boundaries." Not something to act on now, but a direction the framing might develop if the generative-moves framing proves load-bearing.
 
 ## Structural invariants
 
@@ -236,3 +260,70 @@ Testable assertions derived from this vocabulary's own definitions. These can be
 4. *No redundant inverses*: if A `precedes` B exists, no separate B `follows` A edge should be stored. `follows` is inferred at query time, not stored as data.
 5. *Hint-only fields are scoped*: `situationalHints` and `sourceTree` fields appear only on `recommends` edges.
 6. *Symmetric edges are consistent*: for undirected types (complements, tangential, alternative, related), if A→B exists then B→A must also exist (or the graph component must treat them as bidirectional).
+
+## Changelog
+
+A running record of why types were added, merged, renamed, or retired, what alternatives were considered, and what was lost in each decision. The vocabulary is provisional — it will keep evolving as the library grows. Making its construction visible is part of treating classification as a living artifact rather than a closed specification (compare Bowker & Star, *Sorting Things Out*: "the only good classification is a living classification").
+
+Each entry: date, change, why, what was considered, what was lost.
+
+### 2026-04-25 — Initial vocabulary drafted
+
+Ten types (`precedes`, `follows`, `enables`, `instantiates`, `complements`, `tangential`, `alternative`, `recommends`, `related`, `enacts`) and the generative-profile node-level metadata. Drafted from a sweep of existing `### ` subcategory headers in `## Related patterns` sections across 120 MDX files, plus the suggestion-not-matching and patterns-as-generative-moves framings from `plans/2026/april/typed-edges.md`.
+
+Considered and rejected:
+
+- *Inverse pairs across the board* (e.g., `enables`/`enabled-by`, `instantiates`/`instantiated-by`). Rejected: only `precedes`/`follows` are genuine inverses (the same fact viewed from either side). For directed compositional or taxonomic relationships, reverse traversal is a query concern, not a data concern. Storing inverses doubles the edge count without adding information.
+- *Merging `tangential` into `related`*. Rejected: 13 files explicitly use "Tangentially related" as a header, distinct from flat lists. The author signal is real and worth preserving even if SKOS doesn't grade associative strength.
+- *A single `composes` relationship covering both `enables` and `instantiates`*. Rejected: compositional ("Button is a part Form uses") and taxonomic ("Autocomplete is a kind of Good defaults application") are different operations. Conflation would lose the genus/species vs. part/whole distinction.
+
+Lost in the drafting: thematic subcategories (~14 unique headers like "Human-AI collaboration") collapse to `related` with the header text retained as a label. Phase 1 promotes these to lightweight tags rather than minting more edge types — a partial recovery, not a full one.
+
+### 2026-04-25 — `recommends` shape validated against the 8 active decision trees
+
+Inventoried the questions and branches across all decision trees ([decision-dimensions.md](./decision-dimensions.md)). The `recommends` shape (raw question/branch text, `extractedFrom: 'decision-tree:<id>'`) holds: most decision-tree questions read naturally as situational hints an actor would weigh, vindicating the choice not to canonicalise them. No revisions. Drift observations (heterogeneity of hint kinds, hybrid leaves, design-state vs. situational questions) recorded in [the gate notes](../plans/2026/april/notes/typed-edges-phase-0-gates.md).
+
+### 2026-04-25 — Generative profiles validated on 9 patterns
+
+Drafted profiles (blind to *Related patterns*) for Form, Select, Checkbox, Autocomplete, Input, Undo, Notification, Toast, Conversation, Onboarding. The frame holds: the three slots produce non-vacuous, differentiating descriptions across data-entry primitives, after-the-fact feedback patterns, and activity-scale patterns. The frame strains on irreducibly minimal primitives (Checkbox), where `operates-on` and `produces` restate each other. No vocabulary revisions. Per-pattern resistance log in [the gate notes](../plans/2026/april/notes/typed-edges-phase-0-gates.md).
+
+### 2026-04-25 — Profile storage: MDX subsection → sidecar TS
+
+Profiles moved from a rendered `## Generative profile` MDX subsection to `*.profile.ts` sidecars imported but not rendered. *Why*: the rendered subsection conflated two audiences (human reader, tooling). Sidecar TS gives tooling a typed importable object; the MDX import keeps authoring co-located. *Considered*: YAML/JSON sidecar (loses type-checking), `export const` in MDX (mixes voices), MDX comment blocks (reads as dead code). *Lost*: framing is no longer visible to page readers — acceptable while the vocabulary is still being tested.
+
+### 2026-04-25 — Axis-flagged edges resolved (1 confirm, 2 re-types proposed)
+
+Outcomes for the three edges flagged by the Phase 1 axis sanity check (recorded under *Observed drift*):
+
+- *step-by-step → wizard (`instantiates`)*: confirmed. Wizard is the canonical instantiation of step-by-step. Same-altitude `instantiates` is genuine — taxonomy doesn't require altitude difference. Drift signal: same-altitude `instantiates` should not auto-flag where the type is correct on its merits.
+- *step-by-step → form (`instantiates`)*: re-type proposed → `enables`. Multi-step form *uses* step-by-step navigation; step-by-step is not a kind of form. The source MDX has the link under "Implements this model"; the right header would be a building-block one. Edit pending; current edge stands and the gloss carries the corrected reading.
+- *onboarding → empty-state (`complements`)*: re-type proposed → `enables` with inverted direction (empty-state → onboarding). Empty-state is the canvas onboarding paints on; the relationship is compositional, not symmetric. Source MDX has the link under "Complementary"; restructuring pending.
+
+Two re-types are recorded as glosses; the source MDX edits are deferred (small, isolated changes that can ride along with future edits to those pages). The first edge confirms that the axis sanity check's same-altitude `instantiates` heuristic is advisory: it surfaces edges worth a look, not edges that are necessarily wrong.
+
+### 2026-04-25 — Three thematic headers promoted to `enables`; direction semantics tightened
+
+Cluster scan of the Phase 1 gloss queue (56 thematic edges across 17 labels) showed three labels were promotion candidates rather than page-specific tags: `Used by` (6 edges), `Composed from` (2), `Containers` (3). All sit on a single source page (`actions-coordination-selection`), but they encode the same compositional relationship as the existing `Components` / `Mechanisms` / `Related primitives` / `Containers and primitives` / `Conversational primitives` headers — i.e. `enables`.
+
+Adding them surfaced a direction inconsistency in the existing extraction. The vocabulary doc states `enables` runs from building block to composite ("Button is a building block Form uses" → Button enables Form). The mechanical extraction emitted page→listed for every header, which was correct for `Used by` (the page is the building block) but inverted for every other building-block header (the listed pattern is the building block). Fixed: `Containers and primitives`, `Containers`, `Related primitives`, `Mechanisms`, `Components`, `Conversational primitives`, `Composed from` now invert to listed→page; `Used by` stays page→listed. Result: every `enables` edge now reads source = building block, target = composite.
+
+Other thematic labels were judged page-specific and stay as `related` with tags: `Patterns that manifest prose moves` (10), `Activities where prose is central` (5), `Neighbouring foundations` (5), `Assisted input` (4), `Adjacent to` (3), `Transient-mode patterns` (3), `Notification as modality gradient` (3), `Foundations & use qualities` (2), `Communication and awareness` (2), `Collaborative decision-making and co-creation` (2), `Human-AI collaboration` (2), `Lifecycle` (2), `Core collaborative components` (1), `Supporting patterns` (1). These are editorial cuts of a single page's concerns, not a controlled vocabulary trying to emerge.
+
+Open follow-up: `Transient-mode patterns` and `Notification as modality gradient` (both from `foundations-modality`) read taxonomically — candidate `instantiates` promotion, but only n=1 source so deferred.
+
+### 2026-04-25 — Phase 1 extraction landed
+
+Typed-edge extraction implemented in [`scripts/extract-graph-data.ts`](../scripts/extract-graph-data.ts). The mechanical layer maps `### ` headers in `## Related patterns` sections to typed edges via the lookup table in [`plans/2026/april/typed-edges.md`](../plans/2026/april/typed-edges.md), promotes pattern → `qualities-*` edges to `enacts` regardless of where they appeared, and collects thematic-header text as lightweight `tags` on linked nodes. Comment-block links (`{/* ... */}`) are stripped before extraction. Glosses survive regeneration when `(source, target, type)` is unchanged. The qualitative gloss layer emits a queue at `pattern-graph.gloss-queue.json` for external authoring, merged back via [`scripts/merge-glosses.ts`](../scripts/merge-glosses.ts).
+
+Distribution from the first run: 898 edges across 142 nodes, 49 of which carry tags. By type: `related` 460, `complements` 141, `enacts` 88, `precedes` 74, `follows` 58, `enables` 25, `tangential` 22, `alternative` 19, `instantiates` 11.
+
+*Observed drift (axis sanity check)*:
+
+- Same-altitude `instantiates` (2): `actions-navigation/step-by-step → actions-application/wizard`; `actions-navigation/step-by-step → actions-application/form`. Both are within the Actions band. Worth a gloss to confirm whether `instantiates` is the right relationship or whether `enables`/`complements` would read more truly.
+- `complements` crossing two altitude bands (1): `activities/onboarding → operations/empty-state`. An activity-scale pattern listing an operation-scale move as complementary is suspicious; likely the relationship is closer to `enables` or a weak `related`.
+
+These three edges entered the gloss queue under `axis-flagged`. No vocabulary revision; the flagged edges are findings, not failures.
+
+### 2026-04-25 — Profile applicability scoped to three strain categories
+
+Adversarial probe on Card, Bot, Mastery, Sections, Status feedback, Assisted task completion (chosen because they look hostile to the generative-profile frame), then reviewer reconciliation. Outcome: profiles should not be retrofitted across the whole library. Three categories where the frame strains for structural reasons and profiles should be skipped: *minimal primitives* (move definition exhausts description), *unbounded stances* (no discrete move), *umbrella/projection patterns* (page describes a territory, not a move; profiles belong on the constituent patterns). A separate zone — *frame holds but profile adds little* (Sections, Status feedback) — is tracked but not exempted. The earlier "pure structural containers" exemption was withdrawn after Card showed the apparent collapse was drafter-sensitive, not structural. Captured in the *When to skip a profile* note in the generative-profiles section above; full reconciliation in [the gate notes](../plans/2026/april/notes/typed-edges-phase-0-gates.md).

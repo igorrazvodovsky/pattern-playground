@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, readdirSync, statSync } from 'fs';
+import { readFileSync, writeFileSync, readdirSync, statSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -7,17 +7,36 @@ const rootDir = join(__dirname, '..');
 const storiesDir = join(rootDir, 'src/stories');
 const outputPath = join(rootDir, 'src/pattern-graph.json');
 const activityLevelsPath = join(rootDir, 'src/activity-levels.json');
+const glossQueuePath = join(rootDir, 'pattern-graph.gloss-queue.json');
 
 interface Node {
   id: string;
   title: string;
   category: string;
   path: string;
+  tags?: string[];
 }
+
+type EdgeType =
+  | 'precedes'
+  | 'follows'
+  | 'enables'
+  | 'instantiates'
+  | 'complements'
+  | 'tangential'
+  | 'alternative'
+  | 'recommends'
+  | 'related'
+  | 'enacts';
 
 interface Edge {
   source: string;
   target: string;
+  type: EdgeType;
+  label?: string;
+  extractedFrom?: string;
+  gloss?: string;
+  glossSource?: string;
 }
 
 interface ActivityLevel {
@@ -26,6 +45,60 @@ interface ActivityLevel {
   'atomic-category': string;
   'mediation': string | null;
 }
+
+interface TypedLink {
+  target: string;
+  type: EdgeType;
+  label?: string;
+  extractedFrom?: string;
+  /** When true, the listed pattern is the source and the page is the target. */
+  inverse?: boolean;
+  /** Raw header text when the link sat under a thematic (non-typed) `### ` header. */
+  thematicHeader?: string;
+}
+
+const HEADER_TYPE_MAP: Record<string, EdgeType> = {
+  'Precursors': 'precedes',
+  'Precursor patterns': 'precedes',
+  'Follow-ups': 'follows',
+  'Follow-up patterns': 'follows',
+  'Follow-ups & Complements': 'follows',
+  'Complementary': 'complements',
+  'Complements': 'complements',
+  'Complementary patterns': 'complements',
+  'Tangentially related': 'tangential',
+  'Alternatives': 'alternative',
+  'Containers and primitives': 'enables',
+  'Containers': 'enables',
+  'Related primitives': 'enables',
+  'Mechanisms': 'enables',
+  'Components': 'enables',
+  'Conversational primitives': 'enables',
+  'Composed from': 'enables',
+  'Used by': 'enables',
+  'Foundation': 'instantiates',
+  'Applied in': 'instantiates',
+  'Implements this model': 'instantiates',
+};
+
+/**
+ * Headers where the listed pattern is the *source* of the edge, not the target.
+ * For `enables` the source is the building block and the target is the composite,
+ * so headers that name the page's components/containers invert the default
+ * page→listed direction.
+ *
+ * "Used by" is the exception: the page is the building block; the listed pattern
+ * is the composite that uses it. Default direction is correct.
+ */
+const INVERSE_DIRECTION_HEADERS = new Set<string>([
+  'Containers and primitives',
+  'Containers',
+  'Related primitives',
+  'Mechanisms',
+  'Components',
+  'Conversational primitives',
+  'Composed from',
+]);
 
 function globMdx(dir: string): string[] {
   const results: string[] = [];
@@ -66,14 +139,11 @@ function titleToId(title: string): string {
 function titleToCategory(title: string): string {
   const first = title.split('/')[0].replace(/\*/g, '').trim();
   const map: Record<string, string> = {
-    // AT hierarchy (new)
     'Operations':   'Operations',
     'Actions':      'Actions',
     'Activities':   'Activities',
-    // Cross-cutting (unchanged)
     'Foundations':  'Foundations',
     'Qualities':    'Qualities',
-    // Legacy (kept for backward compatibility during transition)
     'Primitives':   'Primitives',
     'Components':   'Components',
     'Compositions': 'Compositions',
@@ -84,19 +154,15 @@ function titleToCategory(title: string): string {
   return map[first] ?? first;
 }
 
-/** Extract title= from a <Meta title="..."> tag. */
 function extractMetaTitle(content: string): string | null {
   const m = content.match(/<Meta\b[^>]*title=['"]([^'"]+)['"]/);
   return m ? m[1] : null;
 }
 
-/** Extract tags={[...]} values from a <Meta> tag. */
 function extractMetaTags(content: string): string[] {
   const m = content.match(/<Meta\b[^>]*tags=\{(\[[^\]]*\])\}/);
   if (!m) return [];
-  // Parse array like ['foo', 'bar', "baz"]
-  const raw = m[1];
-  return [...raw.matchAll(/['"]([^'"]+)['"]/g)].map((r) => r[1]);
+  return [...m[1].matchAll(/['"]([^'"]+)['"]/g)].map((r) => r[1]);
 }
 
 function extractStoriesTitle(content: string): string | null {
@@ -104,24 +170,155 @@ function extractStoriesTitle(content: string): string | null {
   return m ? m[1] : null;
 }
 
-/** Extract tags: [...] from a .stories.tsx default export object. */
 function extractStoriesTags(content: string): string[] {
   const m = content.match(/^\s*tags:\s*(\[[^\]]*\])/m);
   if (!m) return [];
   return [...m[1].matchAll(/['"]([^'"]+)['"]/g)].map((r) => r[1]);
 }
 
-function extractLinks(content: string): string[] {
-  const pattern = /\.\.\/\?path=\/docs\/([a-z0-9][a-z0-9-]*)--docs/g;
+const LINK_PATTERN = /\.\.\/\?path=\/docs\/([a-z0-9][a-z0-9-]*)--docs/g;
+
+function stripComments(content: string): string {
+  return content.replace(/\{\/\*[\s\S]*?\*\/\}/g, '');
+}
+
+/**
+ * Find the `## Related patterns` section body — everything between that header and
+ * the next `## ` (or EOF). Returns null when the section isn't present.
+ */
+function extractRelatedSection(content: string): string | null {
+  const start = content.search(/^## Related patterns\s*$/m);
+  if (start === -1) return null;
+  const after = content.slice(start);
+  const nextH2 = after.slice(1).search(/\n## /);
+  return nextH2 === -1 ? after : after.slice(0, nextH2 + 1);
+}
+
+/** Strip `[text](url)` markdown links to plain text for header normalisation. */
+function stripMarkdownLinks(text: string): string {
+  return text.replace(/\[([^\]]+)\]\([^)]*\)/g, '$1');
+}
+
+function normaliseHeaderToTag(header: string): string {
+  return stripMarkdownLinks(header)
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]+/g, '')
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+}
+
+/**
+ * Extract a per-line link annotation: text after ` — ` or ` – ` following the link.
+ * Only returned when the line contains exactly one link (otherwise the annotation
+ * is ambiguous).
+ */
+function extractAnnotation(line: string): string | undefined {
+  const linkCount = (line.match(LINK_PATTERN) || []).length;
+  if (linkCount !== 1) return undefined;
+  const m = line.match(/\)\s*[—–]\s*(.+?)$/);
+  return m ? m[1].trim() : undefined;
+}
+
+function findLinksInText(text: string): string[] {
   const ids: string[] = [];
   let m: RegExpExecArray | null;
-  while ((m = pattern.exec(content)) !== null) {
-    ids.push(m[1]);
-  }
+  LINK_PATTERN.lastIndex = 0;
+  while ((m = LINK_PATTERN.exec(text)) !== null) ids.push(m[1]);
   return ids;
 }
 
-/** Derive activity level and lifecycle stage from a title path. */
+interface ParsedLinks {
+  typed: TypedLink[];
+  /** Tags collected per linked target from thematic-header subsections. */
+  tagsByTarget: Map<string, Set<string>>;
+}
+
+function extractTypedLinks(rawContent: string): ParsedLinks {
+  const content = stripComments(rawContent);
+  const typed: TypedLink[] = [];
+  const tagsByTarget = new Map<string, Set<string>>();
+
+  const related = extractRelatedSection(content);
+  const seenInRelated = new Set<string>();
+
+  if (related) {
+    // Split on `### ` headers. The first chunk is text before any subsection.
+    const parts = related.split(/^### /m);
+    const preface = parts[0];
+
+    // Links in the section body but outside any `### ` subsection → flat-list `related`.
+    for (const id of findLinksInText(preface)) {
+      const key = `${id}|related`;
+      if (seenInRelated.has(key)) continue;
+      seenInRelated.add(key);
+      typed.push({ target: id, type: 'related' });
+    }
+
+    for (let i = 1; i < parts.length; i++) {
+      const chunk = parts[i];
+      const headerEnd = chunk.indexOf('\n');
+      const headerLine = headerEnd === -1 ? chunk : chunk.slice(0, headerEnd);
+      const body = headerEnd === -1 ? '' : chunk.slice(headerEnd + 1);
+      const headerText = headerLine.trim();
+      const headerKey = stripMarkdownLinks(headerText).trim();
+      const mappedType = HEADER_TYPE_MAP[headerKey];
+
+      const lines = body.split('\n');
+      for (const line of lines) {
+        const ids = findLinksInText(line);
+        if (ids.length === 0) continue;
+        const annotation = extractAnnotation(line);
+        for (const id of ids) {
+          if (mappedType) {
+            const key = `${id}|${mappedType}`;
+            if (seenInRelated.has(key)) continue;
+            seenInRelated.add(key);
+            typed.push({
+              target: id,
+              type: mappedType,
+              label: annotation,
+              extractedFrom: `header:"${headerText}"`,
+              ...(INVERSE_DIRECTION_HEADERS.has(headerKey) ? { inverse: true } : {}),
+            });
+          } else {
+            // Thematic subcategory — emit `related` with header as label, collect tag.
+            const key = `${id}|related`;
+            if (!seenInRelated.has(key)) {
+              seenInRelated.add(key);
+              typed.push({
+                target: id,
+                type: 'related',
+                label: headerText,
+                thematicHeader: headerText,
+              });
+            }
+            const tag = normaliseHeaderToTag(headerText);
+            if (tag) {
+              if (!tagsByTarget.has(id)) tagsByTarget.set(id, new Set());
+              tagsByTarget.get(id)!.add(tag);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Links anywhere else in the document (prose, anatomy, variants) → `related`.
+  const seenAnywhere = new Set(typed.map((t) => `${t.target}|${t.type}`));
+  for (const id of findLinksInText(content)) {
+    const key = `${id}|related`;
+    if (seenAnywhere.has(key)) continue;
+    // Only emit a prose `related` if the target hasn't already been typed any way.
+    const alreadyTyped = typed.some((t) => t.target === id);
+    if (alreadyTyped) continue;
+    seenAnywhere.add(key);
+    typed.push({ target: id, type: 'related' });
+  }
+
+  return { typed, tagsByTarget };
+}
+
 function deriveActivityLevel(title: string): Pick<ActivityLevel, 'activity-level' | 'lifecycle-stage'> {
   const parts = title.split('/');
   const top = parts[0];
@@ -139,13 +336,11 @@ function deriveActivityLevel(title: string): Pick<ActivityLevel, 'activity-level
 }
 
 const nodeMap = new Map<string, Node>();
-const fileLinks = new Map<string, string[]>();
+const nodeTags = new Map<string, Set<string>>();
+const fileLinks = new Map<string, TypedLink[]>();
 const activityData = new Map<string, ActivityLevel>();
 
-// --- Process MDX files ---
-const mdxFiles = globMdx(storiesDir).filter(
-  (f) => !f.endsWith('Intro.mdx')
-);
+const mdxFiles = globMdx(storiesDir).filter((f) => !f.endsWith('Intro.mdx'));
 
 for (const filePath of mdxFiles) {
   const content = readFileSync(filePath, 'utf-8');
@@ -153,7 +348,6 @@ for (const filePath of mdxFiles) {
   let storiesTags: string[] = [];
 
   if (!title) {
-    // Try co-located .stories.tsx for title and tags
     const base = filePath.replace(/\.mdx$/, '.stories.tsx');
     try {
       const storiesContent = readFileSync(base, 'utf-8');
@@ -179,7 +373,6 @@ for (const filePath of mdxFiles) {
     nodeMap.set(id, { id, title: shortTitle, category: cat, path });
   }
 
-  // Extract AT metadata — prefer MDX tags, fall back to co-located .stories.tsx tags
   const mdxTags = extractMetaTags(content);
   const tags = mdxTags.length > 0 ? mdxTags : storiesTags;
   const atLevelTag = tags.find((t) => t.startsWith('activity-level:'));
@@ -197,18 +390,19 @@ for (const filePath of mdxFiles) {
     'mediation': mediationTag ? mediationTag.split(':')[1] : null,
   });
 
-  const links = extractLinks(content);
-  if (links.length > 0) {
-    fileLinks.set(id, links);
+  const { typed, tagsByTarget } = extractTypedLinks(content);
+  if (typed.length > 0) fileLinks.set(id, typed);
+  for (const [targetId, tagSet] of tagsByTarget) {
+    if (!nodeTags.has(targetId)) nodeTags.set(targetId, new Set());
+    for (const t of tagSet) nodeTags.get(targetId)!.add(t);
   }
 }
 
-// --- Process .stories.tsx without co-located .mdx ---
 for (const filePath of globStoriesTsx(storiesDir)) {
   const mdxPath = filePath.replace(/\.stories\.tsx$/, '.mdx');
   try {
     statSync(mdxPath);
-    continue; // MDX exists, already processed
+    continue;
   } catch {
     // no MDX — process this stories file
   }
@@ -246,20 +440,104 @@ for (const filePath of globStoriesTsx(storiesDir)) {
   }
 }
 
-// --- Build edges ---
-const edgeSet = new Set<string>();
-const edges: Edge[] = [];
+// --- Read prior graph for gloss preservation ---
+const priorGlosses = new Map<string, { gloss?: string; glossSource?: string }>();
+if (existsSync(outputPath)) {
+  try {
+    const prior = JSON.parse(readFileSync(outputPath, 'utf-8')) as {
+      edges?: Array<Edge & { gloss?: string; glossSource?: string }>;
+    };
+    for (const e of prior.edges ?? []) {
+      if (!e.gloss) continue;
+      const key = `${e.source}|${e.target}|${e.type}`;
+      priorGlosses.set(key, { gloss: e.gloss, glossSource: e.glossSource });
+    }
+  } catch {
+    // ignore — first run or unparseable prior
+  }
+}
 
-for (const [sourceId, targetIds] of fileLinks.entries()) {
-  for (const targetId of targetIds) {
-    if (!nodeMap.has(targetId)) continue;
-    if (sourceId === targetId) continue;
-    const key = `${sourceId}→${targetId}`;
-    if (!edgeSet.has(key)) {
-      edgeSet.add(key);
-      edges.push({ source: sourceId, target: targetId });
+// --- Build edges ---
+type EdgeKey = string; // `source|target|type`
+const edgeMap = new Map<EdgeKey, Edge>();
+
+function addEdge(edge: Edge) {
+  const key = `${edge.source}|${edge.target}|${edge.type}`;
+  if (edgeMap.has(key)) return;
+  const carry = priorGlosses.get(key);
+  if (carry) {
+    edge.gloss = carry.gloss;
+    edge.glossSource = carry.glossSource;
+  }
+  edgeMap.set(key, edge);
+}
+
+for (const [sourceId, links] of fileLinks.entries()) {
+  for (const link of links) {
+    if (!nodeMap.has(link.target)) continue;
+    if (sourceId === link.target) continue;
+    const [src, tgt] = link.inverse ? [link.target, sourceId] : [sourceId, link.target];
+    addEdge({
+      source: src,
+      target: tgt,
+      type: link.type,
+      ...(link.label !== undefined ? { label: link.label } : {}),
+      ...(link.extractedFrom !== undefined ? { extractedFrom: link.extractedFrom } : {}),
+    });
+  }
+}
+
+// --- Promote pattern → quality edges to `enacts` ---
+//
+// An edge is `enacts` when the source is a non-quality pattern and the target is a
+// `qualities-*` page. Header-derived typing (e.g. "Foundation") is overridden — the
+// quality-target signal is stronger than any header. Quality → quality edges keep
+// their original type (typically `related`).
+{
+  const promoted: Edge[] = [];
+  for (const [key, edge] of edgeMap) {
+    const sourceNode = nodeMap.get(edge.source);
+    if (!sourceNode) continue;
+    if (sourceNode.category === 'Qualities') continue;
+    if (!edge.target.startsWith('qualities-')) continue;
+    if (edge.type === 'enacts') continue;
+    edgeMap.delete(key);
+    promoted.push({
+      ...edge,
+      type: 'enacts',
+      extractedFrom: 'quality-target',
+    });
+  }
+  for (const e of promoted) addEdge(e);
+}
+
+// --- Dedup pass: where the same (source, target) has both a typed edge and a `related`
+// edge, drop the `related`. Multiple typed edges between the same pair are kept. ---
+{
+  const byPair = new Map<string, Edge[]>();
+  for (const e of edgeMap.values()) {
+    const k = `${e.source}|${e.target}`;
+    if (!byPair.has(k)) byPair.set(k, []);
+    byPair.get(k)!.push(e);
+  }
+  for (const [, list] of byPair) {
+    const hasTyped = list.some((e) => e.type !== 'related');
+    if (!hasTyped) continue;
+    for (const e of list) {
+      if (e.type === 'related') {
+        edgeMap.delete(`${e.source}|${e.target}|${e.type}`);
+      }
     }
   }
+}
+
+const edges: Edge[] = [...edgeMap.values()];
+
+// --- Apply node tags ---
+for (const [targetId, tagSet] of nodeTags) {
+  const node = nodeMap.get(targetId);
+  if (!node) continue;
+  node.tags = [...tagSet].sort();
 }
 
 const connected = new Set(edges.flatMap((e) => [e.source, e.target]));
@@ -268,7 +546,6 @@ const output = { nodes, edges };
 
 writeFileSync(outputPath, JSON.stringify(output, null, 2));
 
-// --- Write activity-levels.json (generated, supersedes the hand-authored version) ---
 const activityLevelsNodes: Record<string, ActivityLevel> = {};
 for (const node of nodes) {
   const data = activityData.get(node.id);
@@ -280,8 +557,113 @@ const activityLevelsOutput = {
 };
 writeFileSync(activityLevelsPath, JSON.stringify(activityLevelsOutput, null, 2));
 
-console.log(`Nodes: ${nodes.length}`);
+// --- Axis sanity check (advisory) ---
+//
+// Coarse altitude proxy from category folder: activities > actions > operations.
+// Foundations and Qualities are cross-cutting and skipped.
+const ALTITUDE: Record<string, number> = {
+  'Activities': 3,
+  'Actions': 2,
+  'Operations': 1,
+};
+function altitudeOf(id: string): number | null {
+  const cat = nodeMap.get(id)?.category;
+  if (!cat) return null;
+  return ALTITUDE[cat] ?? null;
+}
+
+const axisFlagged: Edge[] = [];
+let sameAltitudeInstantiates = 0;
+let crossTwoBandsComplements = 0;
+for (const e of edges) {
+  const sa = altitudeOf(e.source);
+  const ta = altitudeOf(e.target);
+  if (sa === null || ta === null) continue;
+  if (e.type === 'instantiates' && sa === ta) {
+    sameAltitudeInstantiates++;
+    axisFlagged.push(e);
+  } else if (e.type === 'complements' && Math.abs(sa - ta) >= 2) {
+    crossTwoBandsComplements++;
+    axisFlagged.push(e);
+  }
+}
+
+// --- Build gloss queue ---
+//
+// Edges that earn a manually authored gloss: every `enacts` edge, every axis-flagged
+// edge, and every edge whose label was a thematic subcategory header.
+type QueueEntry = {
+  source: string;
+  target: string;
+  type: EdgeType;
+  reason: 'enacts' | 'axis-flagged' | 'thematic';
+  label?: string;
+  extractedFrom?: string;
+  hasGloss: boolean;
+};
+const queue: QueueEntry[] = [];
+const queueSeen = new Set<string>();
+function addToQueue(e: Edge, reason: QueueEntry['reason']) {
+  const k = `${e.source}|${e.target}|${e.type}|${reason}`;
+  if (queueSeen.has(k)) return;
+  queueSeen.add(k);
+  queue.push({
+    source: e.source,
+    target: e.target,
+    type: e.type,
+    reason,
+    ...(e.label !== undefined ? { label: e.label } : {}),
+    ...(e.extractedFrom !== undefined ? { extractedFrom: e.extractedFrom } : {}),
+    hasGloss: !!e.gloss,
+  });
+}
+
+const thematicLabels = new Set<string>();
+// Collect raw thematic header texts from extraction so we can identify thematic-label
+// edges. A label is "thematic" when it came from a header that didn't map to a typed
+// edge. (Per-link annotations on typed edges also use `label`, but those came from
+// `— ` per-line text and aren't in this set.)
+for (const [, links] of fileLinks) {
+  for (const link of links) {
+    if (link.thematicHeader) thematicLabels.add(link.thematicHeader);
+  }
+}
+
+for (const e of edges) {
+  if (e.type === 'enacts') addToQueue(e, 'enacts');
+}
+for (const e of axisFlagged) addToQueue(e, 'axis-flagged');
+for (const e of edges) {
+  if (e.type === 'related' && e.label && thematicLabels.has(e.label)) {
+    addToQueue(e, 'thematic');
+  }
+}
+
+writeFileSync(
+  glossQueuePath,
+  JSON.stringify(
+    {
+      _note: 'Generated by scripts/extract-graph-data.ts. Edges awaiting a gloss. Author entries by adding a `gloss` field; merge back with scripts/merge-glosses.ts.',
+      entries: queue,
+    },
+    null,
+    2,
+  ),
+);
+
+// --- Logging ---
+const typeCounts: Record<string, number> = {};
+for (const e of edges) typeCounts[e.type] = (typeCounts[e.type] ?? 0) + 1;
+const taggedNodes = nodes.filter((n) => n.tags && n.tags.length > 0).length;
+
+console.log(`Nodes: ${nodes.length} (${taggedNodes} with tags)`);
 console.log(`Edges: ${edges.length}`);
+console.log(`  by type: ${Object.entries(typeCounts).sort((a, b) => b[1] - a[1]).map(([t, c]) => `${t}=${c}`).join(', ')}`);
 console.log(`Categories: ${[...new Set(nodes.map((n) => n.category))].sort().join(', ')}`);
+console.log(`Axis sanity check (advisory):`);
+console.log(`  same-altitude instantiates: ${sameAltitudeInstantiates}`);
+console.log(`  complements crossing 2 altitude bands: ${crossTwoBandsComplements}`);
+console.log(`Gloss queue: ${queue.length} entries (${queue.filter((q) => q.hasGloss).length} already glossed)`);
 console.log(`Output: ${outputPath}`);
 console.log(`Activity levels: ${activityLevelsPath}`);
+console.log(`Gloss queue: ${glossQueuePath}`);

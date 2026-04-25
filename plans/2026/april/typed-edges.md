@@ -51,13 +51,15 @@ A also establishes a *Changelog* section at the bottom of the vocabulary documen
 
 ### B. Generative profile annotations (experiment — gate)
 
-For each selected pattern, add a small *Generative profile* subsection to the MDX file with three prose slots:
+For each selected pattern, author a small generative profile in a sidecar file with three prose slots:
 
 - *Operates on*: what kind of structure or situation the move acts on
 - *Produces*: what new centre or affordance the move creates
 - *Enacts*: which quality dimensions the move's effect is legible in (informal references, written as prose — not `<LinkTo>`. At this stage we want to see which quality words the author reaches for, not whether they match existing quality pages). Named to match the `enacts` edge type — see the vocabulary doc for how this connects the Alexandrian process vocabulary to the library's evaluative frame.
 
-No controlled vocabulary, no normalisation, no soft length rule — let each slot be whatever length it needs. If a profile balloons, note that as data; the gate is about whether the frame fits, not whether the author is disciplined. Place the subsection near the top of the pattern page, after the fun meter and definition.
+No controlled vocabulary, no normalisation, no soft length rule — let each slot be whatever length it needs. If a profile balloons, note that as data; the gate is about whether the frame fits, not whether the author is disciplined.
+
+*Storage*: profiles live in a `*.profile.ts` sidecar next to each pattern's MDX (e.g. `Form.profile.ts` next to `Form.mdx`), exporting a typed `GenerativeProfile` object. The shared interface lives at `src/pattern-profile.ts`. The MDX imports the profile to keep authoring co-located, but does not render it — the data is for tooling (Phase 1 extraction reads sidecars directly). This keeps prose voice in MDX, structured data in TS, and a single human-visible link between them. No subsection is added to the rendered page.
 
 Write profiles without first reading the pattern's *Related patterns* section. If operates-on/produces ends up restating what *Precursors* or *Complements* already encode, the profile is redundant with the edge types Phase 1 will extract. Writing blind surfaces that overlap.
 
@@ -77,7 +79,7 @@ A flat spread across altitude tests range but cannot detect the most important f
 
 *Gate criteria*: (a) for Cluster A, do the profiles recover Form's tree dimensions, run orthogonal to them, or something mixed? (b) for Cluster B, do profiles differentiate patterns that all appear after an action, and does `enacts` reach for distinct qualities? (c) for Cluster C, does the frame still say something non-vacuous at activity scale, and does it differentiate two activity patterns? (d) across clusters, does the frame fit some characters of pattern better than others? (e) did any pattern surface a relationship dimension the vocabulary doesn't name? Outcomes feed into the vocabulary doc's changelog and may revise Phase 1's spec (and Phase 3's, if Cluster A surfaces the redundancy finding) before extraction begins.
 
-*Files modified*: 9 MDX files in `src/stories/` (one per pattern above). No script or schema changes at this stage — profiles exist only in MDX prose. Extraction into structured node metadata is a follow-up if the experiment lands.
+*Files modified*: 9 `*.profile.ts` sidecar files in `src/stories/` (one per pattern above), plus one-line imports in the corresponding MDX files. New shared interface at `src/pattern-profile.ts`. No script or schema changes at this stage — extraction into `pattern-graph.json` node metadata is a follow-up in Phase 1 if the experiment lands.
 
 ### C. Decision-dimension inventory (research — gate)
 
@@ -110,6 +112,20 @@ Each experiment ends with a changelog entry in the vocabulary doc recording what
 ---
 
 ## Phase 1 — Typed edges from Related patterns sections
+
+### Mixed extraction approach
+
+Phase 1 runs in two layers. The *mechanical layer* maps `### ` headers to edge types via a lookup table — cheap, reproducible, regenerable on every MDX change. The *qualitative layer* adds a short prose `gloss` to a subset of edges where judgement earns its keep.
+
+Three places earn a gloss:
+
+- *`enacts` edges* — the move-to-quality link is the most generative relationship in the graph and the one an actor most needs to read in context. A one-sentence gloss says *what about this move strengthens that quality*, not just that the link exists.
+- *Edges flagged by the axis sanity check* — `instantiates` within the same altitude band, `complements` crossing two bands. The mechanical layer has already labelled these; the gloss either confirms the label or proposes a different type, and the disagreement gets recorded in the changelog rather than silently overwriting the header.
+- *Edges under thematic or ambiguous headers* — where the header text didn't map to a typed edge and the link became `related`. A gloss can recover the move that was actually being described, surfacing thematic clusters that might earn promotion to a typed relationship in a later changelog entry.
+
+Other edges (header-typed under unambiguous headers, flat-list `related`, prose `related`) get no gloss. They're not worth the cost, and `label` already carries the author's annotation where one exists.
+
+Glosses are stored on the edge in `pattern-graph.json` and regenerated only for the affected edges when the underlying MDX changes — they don't get rewritten on every extraction run. The mechanical layer treats existing glosses as data: when an edge survives a regeneration, its `gloss` is preserved; when an edge disappears or its endpoints change, the gloss is dropped and flagged for re-annotation.
 
 ### Edge type vocabulary
 
@@ -185,6 +201,7 @@ interface Edge {
   type?: string;
   label?: string;
   extractedFrom?: string;  // provenance — populated where type assignment required a judgement
+  gloss?: string;          // qualitative annotation — populated only on enacts, axis-flagged, and thematic edges
 }
 
 interface Node {
@@ -200,7 +217,19 @@ interface Node {
 
 Replace `fileLinks` Map with a `typedFileLinks` Map storing `TypedLink[]`. Build edges with type and label. As thematic-header links are processed, also collect tags and merge them into the linked node's `tags` array.
 
-**6. Target-based typing for `enacts`**
+**6. Qualitative gloss layer**
+
+After the mechanical pass produces the full edge set, a follow-up pass populates `gloss` on the three eligible subsets:
+
+- All `enacts` edges (post target-based typing — see below).
+- Edges flagged by the axis sanity check (counts logged to the changelog, list of edge IDs emitted to a sidecar `pattern-graph.gloss-queue.json`).
+- Edges with a thematic-header `label` (the ones that became `related` because the header didn't map to a typed edge).
+
+The script does not generate glosses itself. It produces the queue file; glosses are authored externally (manually or via an LLM pass over the source MDX with the link's surrounding context) and merged back into `pattern-graph.json`. A separate `scripts/merge-glosses.ts` command reads a glosses file and writes them onto matching edges, setting `glossSource` accordingly.
+
+Preservation across regenerations: when `extract-graph-data.ts` runs and an edge with an existing `gloss` survives unchanged (same source, target, and type), the gloss is carried forward. When the type changes or an endpoint changes, the gloss is dropped and the edge re-enters the queue.
+
+**7. Target-based typing for `enacts`**
 
 After header-based typing is assigned, promote an edge to `enacts` only when *both*:
 
@@ -213,8 +242,10 @@ Quality-to-quality links (e.g., Malleability → Agency, Shareability → Conver
 
 ### Files modified
 
-- `scripts/extract-graph-data.ts` — extraction logic
-- `src/pattern-graph.json` — regenerated output (edges gain `type`, optional `label`; nodes gain optional `tags`)
+- `scripts/extract-graph-data.ts` — extraction logic, gloss preservation, gloss-queue emission
+- `scripts/merge-glosses.ts` — new, merges authored glosses onto edges
+- `src/pattern-graph.json` — regenerated output (edges gain `type`, optional `label`, optional `gloss` and `glossSource`; nodes gain optional `tags`)
+- `pattern-graph.gloss-queue.json` — sidecar listing edges awaiting a gloss
 
 ### Verification
 
@@ -233,6 +264,8 @@ Then verify:
 - Typed edges from subcategory headers carry `extractedFrom` with the raw header text (`header:"Precursors"`, `header:"Precursor patterns"`); `related` edges from flat lists or prose do not
 - Edges from a pattern to a quality page (`qualities-*` target) are typed `enacts` with `extractedFrom: 'quality-target'`, regardless of which section they appeared in
 - *Invariant*: every `enacts` edge has a non-quality source and a `qualities-*` target. Quality-to-quality edges (source category `Qualities`, target `qualities-*`) stay `related`. Spot-check Malleability.mdx and Shareability.mdx — their outgoing edges to other quality pages should be `related`, not `enacts`.
+- *Axis sanity check (advisory, not a failure mode)*: using the category folder as a coarse altitude proxy, count `instantiates` edges whose endpoints sit in the same folder, and `complements` edges crossing two altitude bands. Both are suspicious — possibly mislabeled, possibly genuinely mixed-altitude. Log counts to the changelog under *Observed drift*; don't block extraction. Flagged edges enter the gloss queue. See [docs/relationship-vocabulary.md](../../../docs/relationship-vocabulary.md)'s "Edge axis" section for the axis classification.
+- *Gloss queue*: after extraction, `pattern-graph.gloss-queue.json` lists every `enacts` edge, every axis-flagged edge, and every edge with a thematic-header `label` that doesn't yet have a `gloss`. Existing glosses on unchanged edges are preserved across regeneration.
 
 ---
 
@@ -276,11 +309,7 @@ interface RenderedEdge {
 
 In `buildGraph()`, pass through `type` and `label` from `graphData.edges` when constructing `simLinks` and `RenderedEdge[]`.
 
-**3. Add `<defs>` with arrowhead marker**
-
-Add a single arrowhead marker in SVG `<defs>` for directed edge types. The directed types are: `precedes`, `follows`, `enables`, `instantiates`. Undirected: `complements`, `tangential`, `alternative`, `related`.
-
-**4. Render `data-edge-type` attribute on `<line>` elements**
+**3. Render `data-edge-type` attribute on `<line>` elements**
 
 ```tsx
 <line
@@ -289,11 +318,10 @@ Add a single arrowhead marker in SVG `<defs>` for directed edge types. The direc
   data-edge-type={edge.type}
   x1={edge.x1} y1={edge.y1}
   x2={edge.x2} y2={edge.y2}
-  markerEnd={isDirected(edge.type) ? 'url(#arrowhead)' : undefined}
 />
 ```
 
-**5. Edge type filter UI**
+**4. Edge type filter UI**
 
 Add a `Set<string>` state for visible edge types (all enabled by default). Add a `<fieldset>` with checkboxes below the existing color-mode toggle, following the same CSS pattern (`.pattern-graph__color-toggle`). Filter edges in the render pass.
 
@@ -321,9 +349,7 @@ Add a `Set<string>` state for visible edge types (all enabled by default). Add a
 }
 ```
 
-**2. Arrowhead marker styling** — small, subtle, inherits stroke color.
-
-**3. Edge filter fieldset** — reuse the `.pattern-graph__color-toggle` pattern with checkboxes instead of radios.
+**2. Edge filter fieldset** — reuse the `.pattern-graph__color-toggle` pattern with checkboxes instead of radios.
 
 ### Files modified
 
@@ -403,9 +429,15 @@ function findRecommendations(patternId: string): RecommendsEdge[]  // raw, with 
 function findByTag(tag: string): Pattern[]
 function findEnactedQualities(patternId: string): Quality[]
 function findEnactingPatterns(qualityId: string): Pattern[]
+function edgeAxis(type: EdgeType): 'vertical' | 'horizontal' | 'sequential' | 'unspecified'
+function findAlternativeOverlap(patternIds: string[]): Array<[string, string]>  // tension surfacing — pairs in the input that are `alternative` to each other or share an `alternative` neighbour
 ```
 
 Inference patterns (transitive composition, co-instantiated foundations, alternative-conflict detection) can be added as separate functions if they prove useful. The lighter-weight default is to compute on demand rather than precompute and store.
+
+`findAlternativeOverlap` is the first concrete tension-surfacing query and the answer to Bridging Gulfs' "conflict detection" use case in suggestion-grade form. Output is framed as "these moves have shown tension before — worth a look", never as "conflict detected". A richer version becomes possible once the `tensions-with` quality → quality edge exists (see vocabulary doc open question 5): a composition's enacted qualities can then be checked for known tensions.
+
+`edgeAxis` is a derived classifier (no schema change) that lets a caller separate vertical relations (foundations, primitives, qualities) from horizontal ones (alternatives, complements) when reasoning about a pattern. See the "Edge axis" section in the vocabulary doc.
 
 This phase is sketched but not committed. It depends on Phase 1 being in place (which covers typed edges, tags, and `enacts`), and on having a concrete consumer (an agent prompt, a CLI, a notebook) that exercises the queries. Without a consumer, the API would be speculative.
 
