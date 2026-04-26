@@ -207,14 +207,16 @@ function normaliseHeaderToTag(header: string): string {
 }
 
 /**
- * Extract a per-line link annotation: text after ` — ` or ` – ` following the link.
+ * Extract a per-line link annotation: text after ` — `, ` – `, or ` - ` following
+ * the link. Em dash is the canonical form, but hyphens turn up in normal authoring;
+ * accepting them stops a stylistic choice from silently dropping the annotation.
  * Only returned when the line contains exactly one link (otherwise the annotation
  * is ambiguous).
  */
 function extractAnnotation(line: string): string | undefined {
   const linkCount = (line.match(LINK_PATTERN) || []).length;
   if (linkCount !== 1) return undefined;
-  const m = line.match(/\)\s*[—–]\s*(.+?)$/);
+  const m = line.match(/\)\s+[—–-]\s+(.+?)$/);
   return m ? m[1].trim() : undefined;
 }
 
@@ -322,7 +324,7 @@ function extractTypedLinks(rawContent: string): ParsedLinks {
   const allLines = content.split('\n');
   for (let i = 0; i < allLines.length; i++) {
     const line = allLines[i];
-    if (!/^\s*-\s/.test(line)) continue;
+    if (!/^\s*[-*]\s/.test(line)) continue;
     const ids = findLinksInText(line);
     if (ids.length !== 1) continue;
     const annotation = extractAnnotation(line);

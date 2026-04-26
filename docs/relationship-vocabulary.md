@@ -268,6 +268,76 @@ A running record of why types were added, merged, renamed, or retired, what alte
 
 Each entry: date, change, why, what was considered, what was lost.
 
+### 2026-04-26 — Enacts batch 4 (activities part 2): 6 missing labels authored
+
+Fourth batch of [label-enacts.md](../plans/2026/april/label-enacts.md). Six missing labels authored on `activities-mastery → qualities-{learnability, malleability, temporality, density}`, `activities-transparent-reasoning → qualities-agency`, `activities-workspace → qualities-agency`.
+
+MDX restructuring done along the way:
+
+- *Mastery* — four quality bullets used `:` as separator with restating labels ("Framework for customisation capabilities", "Lifecycle progression", etc.). Moved them into a new `### Enacted qualities` subsection with single-link `— ` annotations and substantive labels naming what mastery does to each quality.
+- *Transparent reasoning → agency* — the bullet had two links (`qualities-agency#appropriate-reliance` plus an inline `cognitive-forcing-functions` link). Split: agency now stands as its own bullet, and cognitive forcing functions moved to its own bullet describing the counter-balance relationship. Also fixed an en-dash (`–`) accidentally used as a bullet marker on the prior line, which had been preventing extraction from seeing it as a list item.
+- *Workspace → agency* — relationship was only present in the page's intro prose. Added an `### Enacted qualities` subsection containing the existing privacy bullet (relabelled with `— `) plus a new agency bullet.
+
+Three thin existing labels in this batch flagged as override candidates for a later pass:
+
+- `activities-localization → qualities-adaptability` ("the capacity that localization exercises") — meta-restatement, not mechanism.
+- `activities-onboarding → qualities-learnability` ("the foundation supporting value demonstration.") — vague.
+- `activities-prompt → qualities-agency` ("enables proactive prompt assistance and scaffolding.") — generic, uses "enables" which restates the type.
+
+### 2026-04-26 — Enacts batch 3 (activities part 1): 5 missing labels authored
+
+Third batch of [label-enacts.md](../plans/2026/april/label-enacts.md). Five missing labels on `activities-collaboration → qualities-agency`, `activities-conversation → qualities-conversation`, `activities-embedded-intelligence → qualities-adaptability`, `activities-embedded-intelligence → qualities-agency`, `activities-generated-content → qualities-agency`.
+
+MDX restructuring done along the way:
+
+- *Embedded intelligence* — the two precursor bullets ("Extends adaptability by..." / "Enhances the system's agency by...") read as prose-with-link rather than as labelled bullets. Rewrote in single-link `[Quality] — text` form.
+- *Generated content → agency* — the bullet had two links to `qualities-agency` (the main link plus an `#appropriate-reliance` anchor). Annotation extraction requires linkCount === 1; folded the appropriate-reliance reference into the label prose without the second link.
+- *Collaboration → agency* and *Conversation → conversation* — both relationships were only present in inline prose, not as bullets. Added a `### Enacted qualities` subsection to each page's `## Related patterns` and authored a single-link bullet there.
+
+Two existing labels rewritten in the same sitting (originally flagged as override candidates):
+
+- `activities-bot → qualities-learnability` — was rule-of-three with AI vocabulary; now reads "the bot lets the actor ask the system rather than decipher it; learning happens through dialogue at the actor's pace." Authored in [Learnability.mdx](../src/stories/qualities/Learnability.mdx) (the inverse direction the page links from).
+- `activities-help → qualities-learnability` — was a meta-statement about the goal of help; now reads "help meets the actor at the moment of friction, both on first use and later when memory fades; learning happens in context rather than ahead of time."
+
+### 2026-04-26 — Enacts batch 2 (coordination + sense-making + seeking + navigation): 2 missing labels authored, two extractor fixes
+
+Second batch of [label-enacts.md](../plans/2026/april/label-enacts.md). Two missing labels authored on `actions-evaluation-focus-and-context`:
+
+- `→ qualities-agency` — required restructuring the source MDX. The original `## Related patterns` section had `* Has [agency] to` and `* [Adapts]` as parent bullets with five sub-bullets each. Per-link annotations need a single-link bullet line; the parent lines now read as labelled bullets while sub-bullets are preserved as elaboration.
+- `→ qualities-adaptability` — same pattern.
+
+Two extractor relaxations made along the way:
+
+- *Hyphen accepted as label separator.* `extractAnnotation` previously matched only ` — ` and ` – `. It now also matches ` - ` after `\)`. Authoring with a hyphen is common; the old rule silently dropped these annotations. After the relaxation, five queue entries that already had hyphen-separated text in MDX flipped to `hasLabel: true` without any further authoring.
+- *`*` bullets accepted alongside `-` in the document-wide annotation pass.* Markdown treats them equivalently; the extractor was unnecessarily strict.
+
+Eleven existing labels in this batch left as-is. Override candidates flagged for a later pass:
+
+- `actions-navigation-overview-and-detail → qualities-malleability` ("The capability to switch between topologies.") — restates the quality, doesn't name the move's mechanism.
+- `actions-navigation-hybrid-patterns → qualities-agency` ("control implications of combinations") — too thin to read.
+- `actions-sensemaking-view → qualities-malleability` ("The capability to change the view's content, layout, and composition") — restates.
+- `actions-sensemaking-view → qualities-density` ("Information per unit of space") — defines the quality.
+- `actions-sensemaking-view → qualities-adaptability` ("System response to context changes") — defines the quality.
+- `actions-sensemaking-explanation → qualities-learnability` ("domain explanations support domain learnability") — recursive restatement of the type.
+
+### 2026-04-26 — Enacts batch 1 (application actions): 5 missing labels authored
+
+First batch of [label-enacts.md](../plans/2026/april/label-enacts.md). Five edges had no per-line annotation in their source MDX (extraction couldn't fall back because the bullets used " - " as a descriptive separator, not " — "). Authored fresh labels and converted the separator on those lines:
+
+- `actions-application-data-entry → qualities-formality`
+- `actions-application-form → qualities-formality`
+- `actions-application-suggestion → qualities-adaptability`
+- `actions-application-suggestion → qualities-formality`
+- `actions-application-template → qualities-learnability`
+
+The 13 already-labelled edges in this batch were left as-is. Five candidates flagged for a future override pass — the labels describe the relationship from outside the move rather than naming the mechanism that strengthens the quality:
+
+- `cognitive-forcing-functions → agency` ("the outcome this family is trying to produce") — meta about the family, not about the move.
+- `cognitive-forcing-functions → learnability` and `→ temporality` — both phrased as dependencies (CFF *requires* learnability / temporal design) rather than enactments. If retained, they argue for re-typing in the inverse direction (learnability/temporality enable CFF).
+- `settings → privacy` ("settings include visibility and access preferences") and `settings → adaptability` ("settings enable system customization to context") — restate the type rather than naming the mechanism.
+
+Observed drift: one stale enacts edge dropped out of the queue this run (`activities-collaboration → qualities-conversation`). `qualities-conversation` is not a quality node; the edge appears to have been pre-existing queue residue from earlier extraction state. No action needed beyond noting it.
+
 ### 2026-04-25 — Initial vocabulary drafted
 
 Ten types (`precedes`, `follows`, `enables`, `instantiates`, `complements`, `tangential`, `alternative`, `recommends`, `related`, `enacts`) and the generative-profile node-level metadata. Drafted from a sweep of existing `### ` subcategory headers in `## Related patterns` sections across 120 MDX files, plus the suggestion-not-matching and patterns-as-generative-moves framings from `plans/2026/april/typed-edges.md`.

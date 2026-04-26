@@ -2,6 +2,14 @@
 
 Part of [label-queue.md](./label-queue.md). 89 edges. Largest task; do in batches.
 
+## Status
+
+- *Batch 1 (application actions)* — done 2026-04-26. Five missing labels authored (`data-entry → formality`, `form → formality`, `suggestion → adaptability`, `suggestion → formality`, `template → learnability`). Thirteen existing labels left as-is; five flagged in the changelog as override candidates for a later pass (CFF → agency/learnability/temporality, settings → privacy/adaptability). Extractor rule relaxed in the same sitting to accept ` - ` alongside ` — ` / ` – ` as a label separator, so authoring can use a hyphen without silently dropping the annotation.
+- *Batch 2 (coordination + sense-making + seeking + navigation)* — done 2026-04-26. Two missing labels authored (`focus-and-context → agency`, `focus-and-context → adaptability`); both required restructuring nested-sub-bullet parents in [FocusAndContext.mdx](../../../src/stories/actions/evaluation/FocusAndContext/FocusAndContext.mdx) into single-link bullet lines. Eleven existing labels left as-is; six flagged as override candidates (overview-and-detail → malleability; hybrid-patterns → agency; view → malleability/density/adaptability; explanation → learnability). Extractor also relaxed to accept `*` bullets in the document-wide annotation pass.
+- *Batch 3 (activities part 1)* — done 2026-04-26. Five missing labels authored (`collaboration → agency`, `conversation → conversation`, `embedded-intelligence → adaptability/agency`, `generated-content → agency`). Three required MDX restructuring: embedded-intelligence's prose-form bullets rewritten in `[Quality] — text` shape; generated-content's two-link line collapsed to one; collaboration and conversation gained new `### Enacted qualities` subsections. Two thin existing labels rewritten in the same sitting (`bot → learnability`, `help → learnability`); other six left as-is.
+- *Batch 4 (activities part 2)* — done 2026-04-26. Six missing labels authored (`mastery → learnability/malleability/temporality/density`, `transparent-reasoning → agency`, `workspace → agency`). Restructuring: mastery's four quality bullets relocated into a new `### Enacted qualities` subsection; transparent-reasoning split a two-link bullet into separate agency and CFF bullets and fixed an en-dash bullet marker; workspace gained an `### Enacted qualities` subsection. Ten existing labels left as-is; three flagged as override candidates (`localization → adaptability`, `onboarding → learnability`, `prompt → agency`).
+- *Batches 5–6* — pending.
+
 ## What
 
 Every `enacts` edge in the graph is queued for a label. `enacts` is the bridge between patterns-as-moves and the qualities they strengthen, and it's the most generative relationship in the graph — the one an actor most needs to read in context. The type alone says *this pattern enacts that quality*. The label says *what about this move strengthens that quality.*

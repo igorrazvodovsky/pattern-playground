@@ -60,16 +60,18 @@
       "target": "qualities-formality",
       "type": "enacts",
       "reason": "enacts",
+      "label": "every data entry field is a choice about how formal the input has to be",
       "extractedFrom": "quality-target",
-      "hasLabel": false
+      "hasLabel": true
     },
     {
       "source": "actions-application-form",
       "target": "qualities-formality",
       "type": "enacts",
       "reason": "enacts",
+      "label": "forms commit the actor to the system's full shape up front",
       "extractedFrom": "quality-target",
-      "hasLabel": false
+      "hasLabel": true
     },
     {
       "source": "actions-application-nextbest-action",
@@ -121,24 +123,27 @@
       "target": "qualities-adaptability",
       "type": "enacts",
       "reason": "enacts",
+      "label": "suggestions might sharpen on the actor's accepted-or-rejected signal, fitting their patterns over time",
       "extractedFrom": "quality-target",
-      "hasLabel": false
+      "hasLabel": true
     },
     {
       "source": "actions-application-suggestion",
       "target": "qualities-formality",
       "type": "enacts",
       "reason": "enacts",
+      "label": "suggestions ease the step from informal intent to formal expression, formalising by recognition rather than recall",
       "extractedFrom": "quality-target",
-      "hasLabel": false
+      "hasLabel": true
     },
     {
       "source": "actions-application-template",
       "target": "qualities-learnability",
       "type": "enacts",
       "reason": "enacts",
+      "label": "templates carry the shape of competent work, letting the actor learn the form by occupying it",
       "extractedFrom": "quality-target",
-      "hasLabel": false
+      "hasLabel": true
     },
     {
       "source": "actions-application-cognitive-forcing-functions-human-goes-first",
@@ -172,16 +177,27 @@
       "target": "qualities-agency",
       "type": "enacts",
       "reason": "enacts",
+      "label": "agency here belongs to the system as well as the user;",
       "extractedFrom": "quality-target",
-      "hasLabel": false
+      "hasLabel": true
     },
     {
       "source": "actions-evaluation-focus-and-context",
       "target": "qualities-adaptability",
       "type": "enacts",
       "reason": "enacts",
+      "label": "the focused frame and its surrounding context recalibrate as the actor's task shifts",
       "extractedFrom": "quality-target",
-      "hasLabel": false
+      "hasLabel": true
+    },
+    {
+      "source": "actions-evaluation-focus-and-context",
+      "target": "qualities-density",
+      "type": "enacts",
+      "reason": "enacts",
+      "label": "balanced against the actor's cognitive load as focus shifts",
+      "extractedFrom": "quality-target",
+      "hasLabel": true
     },
     {
       "source": "actions-navigation-overview-and-detail",
@@ -251,24 +267,27 @@
       "target": "qualities-malleability",
       "type": "enacts",
       "reason": "enacts",
+      "label": "The capability to change the view's content, layout, and composition",
       "extractedFrom": "quality-target",
-      "hasLabel": false
+      "hasLabel": true
     },
     {
       "source": "actions-sensemaking-view",
       "target": "qualities-density",
       "type": "enacts",
       "reason": "enacts",
+      "label": "Information per unit of space",
       "extractedFrom": "quality-target",
-      "hasLabel": false
+      "hasLabel": true
     },
     {
       "source": "actions-sensemaking-view",
       "target": "qualities-adaptability",
       "type": "enacts",
       "reason": "enacts",
+      "label": "System response to context changes",
       "extractedFrom": "quality-target",
-      "hasLabel": false
+      "hasLabel": true
     },
     {
       "source": "activities-ai-tuning",
@@ -284,8 +303,9 @@
       "target": "qualities-agency",
       "type": "enacts",
       "reason": "enacts",
+      "label": "how much freedom the bot has to act on its own.",
       "extractedFrom": "quality-target",
-      "hasLabel": false
+      "hasLabel": true
     },
     {
       "source": "activities-bot",
@@ -298,58 +318,55 @@
     },
     {
       "source": "activities-collaboration",
-      "target": "qualities-conversation",
-      "type": "enacts",
-      "reason": "enacts",
-      "extractedFrom": "quality-target",
-      "hasLabel": false
-    },
-    {
-      "source": "activities-collaboration",
       "target": "qualities-agency",
       "type": "enacts",
       "reason": "enacts",
+      "label": "agency is distributed, traded, and renegotiated turn by turn; human-centric locus tends to deepen elaboration, system-centric locus tends to surface acceptance",
       "extractedFrom": "quality-target",
-      "hasLabel": false
+      "hasLabel": true
     },
     {
       "source": "activities-conversation",
       "target": "qualities-conversation",
       "type": "enacts",
       "reason": "enacts",
+      "label": "names the foundational stance this activity makes its primary mode: dialogue as the substrate of meaning, not one option among many",
       "extractedFrom": "quality-target",
-      "hasLabel": false
+      "hasLabel": true
     },
     {
       "source": "activities-embedded-intelligence",
       "target": "qualities-adaptability",
       "type": "enacts",
       "reason": "enacts",
+      "label": "the system mixes rule-driven and inferred responses, so behaviour shifts with context rather than staying fixed",
       "extractedFrom": "quality-target",
-      "hasLabel": false
+      "hasLabel": true
     },
     {
       "source": "activities-embedded-intelligence",
       "target": "qualities-agency",
       "type": "enacts",
       "reason": "enacts",
+      "label": "the system decides and acts on its own behalf rather than only responding to the actor's explicit moves",
       "extractedFrom": "quality-target",
-      "hasLabel": false
+      "hasLabel": true
     },
     {
       "source": "activities-generated-content",
       "target": "qualities-agency",
       "type": "enacts",
       "reason": "enacts",
+      "label": "the actor steers, edits, and improves the output rather than receiving a finished artefact",
       "extractedFrom": "quality-target",
-      "hasLabel": false
+      "hasLabel": true
     },
     {
       "source": "activities-help",
       "target": "qualities-learnability",
       "type": "enacts",
       "reason": "enacts",
-      "label": "The goal of effective help is to support Learnability (both initial and extended).",
+      "label": "help meets the actor at the moment of friction, both on first use and later when memory fades; learning happens in context rather than ahead of time",
       "extractedFrom": "quality-target",
       "hasLabel": true
     },
@@ -421,32 +438,36 @@
       "target": "qualities-learnability",
       "type": "enacts",
       "reason": "enacts",
+      "label": "extended learnability: the long curve after onboarding, where the actor accumulates keyboard fluency, customisations, and tricks the surface no longer needs to teach",
       "extractedFrom": "quality-target",
-      "hasLabel": false
+      "hasLabel": true
     },
     {
       "source": "activities-mastery",
       "target": "qualities-malleability",
       "type": "enacts",
       "reason": "enacts",
+      "label": "the experienced actor reshapes the tool around their own workflow, turning patterns of use into custom shortcuts and rearranged surfaces",
       "extractedFrom": "quality-target",
-      "hasLabel": false
+      "hasLabel": true
     },
     {
       "source": "activities-mastery",
       "target": "qualities-temporality",
       "type": "enacts",
       "reason": "enacts",
+      "label": "mastery is the long-arc shape of one actor's relationship with the tool; each session deposits experience the next builds on",
       "extractedFrom": "quality-target",
-      "hasLabel": false
+      "hasLabel": true
     },
     {
       "source": "activities-mastery",
       "target": "qualities-density",
       "type": "enacts",
       "reason": "enacts",
+      "label": "experts tolerate and benefit from higher density; what overwhelms a newcomer becomes a glanceable surface for someone fluent",
       "extractedFrom": "quality-target",
-      "hasLabel": false
+      "hasLabel": true
     },
     {
       "source": "activities-onboarding",
@@ -471,7 +492,7 @@
       "target": "qualities-learnability",
       "type": "enacts",
       "reason": "enacts",
-      "label": "by observing *why* the system made a decision, users implicitly learn the system's logic and capabilities.",
+      "label": "by observing *why* the system made a decision, the actor implicitly learns its logic and capabilities",
       "extractedFrom": "quality-target",
       "hasLabel": true
     },
@@ -480,15 +501,16 @@
       "target": "qualities-agency",
       "type": "enacts",
       "reason": "enacts",
+      "label": "visible reasoning is one of the levers for reliance calibration, helping the actor judge when to trust and when to override; full reasoning can also *increase* over-reliance by supplying a plausible justification the actor doesn't scrutinise",
       "extractedFrom": "quality-target",
-      "hasLabel": false
+      "hasLabel": true
     },
     {
       "source": "activities-workspace",
       "target": "qualities-privacy",
       "type": "enacts",
       "reason": "enacts",
-      "label": "workspaces implement privacy through scope separation and spatial arrangement.",
+      "label": "workspaces implement privacy through scope separation and spatial arrangement",
       "extractedFrom": "quality-target",
       "hasLabel": true
     },
@@ -497,8 +519,9 @@
       "target": "qualities-agency",
       "type": "enacts",
       "reason": "enacts",
+      "label": "the actor decides what work belongs together and what stays apart, shaping the boundaries of their own attention rather than accepting a pre-defined frame",
       "extractedFrom": "quality-target",
-      "hasLabel": false
+      "hasLabel": true
     },
     {
       "source": "foundations-assistance",
@@ -653,24 +676,6 @@
     },
     {
       "source": "foundations-prose",
-      "target": "qualities-formality",
-      "type": "enacts",
-      "reason": "enacts",
-      "label": "structural demand on user input (disambiguation)",
-      "extractedFrom": "quality-target",
-      "hasLabel": true
-    },
-    {
-      "source": "foundations-prose",
-      "target": "qualities-conversation",
-      "type": "enacts",
-      "reason": "enacts",
-      "label": "turn-taking as substrate",
-      "extractedFrom": "quality-target",
-      "hasLabel": true
-    },
-    {
-      "source": "foundations-prose",
       "target": "qualities-agency",
       "type": "enacts",
       "reason": "enacts",
@@ -684,6 +689,24 @@
       "type": "enacts",
       "reason": "enacts",
       "label": "prose carries domain scaffolding",
+      "extractedFrom": "quality-target",
+      "hasLabel": true
+    },
+    {
+      "source": "foundations-prose",
+      "target": "qualities-formality",
+      "type": "enacts",
+      "reason": "enacts",
+      "label": "structural demand on user input (disambiguation)",
+      "extractedFrom": "quality-target",
+      "hasLabel": true
+    },
+    {
+      "source": "foundations-prose",
+      "target": "qualities-conversation",
+      "type": "enacts",
+      "reason": "enacts",
+      "label": "turn-taking as substrate",
       "extractedFrom": "quality-target",
       "hasLabel": true
     },
@@ -736,8 +759,9 @@
       "target": "qualities-agency",
       "type": "enacts",
       "reason": "enacts",
+      "label": "Defaults represent a shift towards system agency (system deciding for the user).",
       "extractedFrom": "quality-target",
-      "hasLabel": false
+      "hasLabel": true
     },
     {
       "source": "operations-popover",
@@ -762,7 +786,7 @@
       "target": "qualities-learnability",
       "type": "enacts",
       "reason": "enacts",
-      "label": "can serve as domain mentor, bridging system actions to domain understanding through contextual enrichment, question-driven exploration, and world knowledge integration",
+      "label": "the bot lets the actor ask the system rather than decipher it; learning happens through dialogue at the actor's pace",
       "extractedFrom": "quality-target",
       "hasLabel": true
     },
@@ -782,15 +806,6 @@
       "reason": "axis-flagged",
       "label": "Form might use step-by-step navigation as a building block",
       "extractedFrom": "header:\"Implements this model\"",
-      "hasLabel": true
-    },
-    {
-      "source": "activities-onboarding",
-      "target": "operations-empty-state",
-      "type": "complements",
-      "reason": "axis-flagged",
-      "label": "Empty-state is the canvas onboarding paints on; the relationship is compositional (empty-state enables onboarding), not symmetric complement. Direction would also invert under the building-block convention: empty-state → onboarding. Current edge stands until the source MDX is restructured.",
-      "extractedFrom": "header:\"Complementary\"",
       "hasLabel": true
     },
     {
@@ -834,315 +849,11 @@
       "hasLabel": true
     },
     {
-      "source": "activities-collaboration",
-      "target": "activities-activity-log",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Activity log is the shared record that lets participants reconstruct what happened",
-      "hasLabel": true
-    },
-    {
-      "source": "activities-collaboration",
-      "target": "actions-coordination-notification",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Notification carries the cross-actor awareness signal — what changed, by whom, and whether you should look.",
-      "hasLabel": true
-    },
-    {
-      "source": "activities-collaboration",
-      "target": "actions-sensemaking-explanation",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Explanation is the longer-form sibling of notification — how participants understand each other's reasoning, not just each other's actions.",
-      "hasLabel": true
-    },
-    {
-      "source": "activities-collaboration",
-      "target": "actions-application-suggestion",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Suggestion is co-creation in tentative form — proposing options the participants can converge on or reject without commitment.",
-      "hasLabel": true
-    },
-    {
-      "source": "activities-collaboration",
-      "target": "activities-transparent-reasoning",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Transparent reasoning makes the basis of collaborative decisions auditable, which is what lets participants disagree productively rather than past each other.",
-      "hasLabel": true
-    },
-    {
-      "source": "activities-collaboration",
-      "target": "activities-bot",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Bot frames the AI as a collaborator with its own modes; collaborating with a bot is a different gesture grammar than collaborating with a human.",
-      "hasLabel": true
-    },
-    {
-      "source": "activities-collaboration",
-      "target": "activities-prompt",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Prompt is how humans address an AI participant; the structuring move that makes a bot legible as a collaborator rather than a tool.",
-      "hasLabel": true
-    },
-    {
-      "source": "activities-collaboration",
-      "target": "actions-seeking-command-menu",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Command menu is the affordance that keeps collaboration commands accessible without crowding the surface — collaboration depth without UI weight.",
-      "hasLabel": true
-    },
-    {
-      "source": "foundations-modality",
-      "target": "actions-application-dialog",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Dialog is the strict-modal end of the modality gradient — return to primary context is blocked until the actor resolves it.",
-      "hasLabel": true
-    },
-    {
-      "source": "foundations-modality",
-      "target": "actions-application-drawer",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Drawer is mid-gradient — secondary content adjacent to the primary, modal in attention but not in workflow.",
-      "hasLabel": true
-    },
-    {
-      "source": "foundations-modality",
-      "target": "operations-popover",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Popover is the loosest transient mode — a contextual layer that yields to any other interaction.",
-      "hasLabel": true
-    },
-    {
-      "source": "foundations-modality",
-      "target": "actions-coordination-notification",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Notification is the coordination pattern that picks where on the modality gradient a signal lands — same payload, different intrusion.",
-      "hasLabel": true
-    },
-    {
-      "source": "foundations-modality",
-      "target": "operations-toast",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Toast is the non-modal floor of the notification gradient — visible, dismissible, never blocks.",
-      "hasLabel": true
-    },
-    {
-      "source": "foundations-modality",
-      "target": "operations-callout",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Callout sits adjacent to toast on the modality gradient — non-modal but spatially anchored rather than ephemeral.",
-      "hasLabel": true
-    },
-    {
-      "source": "foundations-prose",
-      "target": "foundations-information-architecture",
-      "type": "related",
-      "reason": "thematic",
-      "label": "IA owns the labelling vocabulary; prose owns how those labels get phrased and where they tolerate ambiguity.",
-      "hasLabel": true
-    },
-    {
-      "source": "foundations-prose",
-      "target": "foundations-intent-interaction",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Intent & Interaction frames interaction as a sequence of turns; prose is what those turns are made of when they are text.",
-      "hasLabel": true
-    },
-    {
-      "source": "foundations-prose",
-      "target": "foundations-collaboration",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Collaboration depends on shared interpretive ground; prose is the most flexible carrier of that ground between participants.",
-      "hasLabel": true
-    },
-    {
-      "source": "foundations-prose",
-      "target": "foundations-assistance",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Assistance lives largely as microcopy; each helper line is a small assistive turn made of prose.",
-      "hasLabel": true
-    },
-    {
-      "source": "foundations-prose",
-      "target": "foundations-delegation",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Delegation surfaces are increasingly written rather than chosen; the prose decides what the agent sounds like and what authority it claims.",
-      "hasLabel": true
-    },
-    {
-      "source": "foundations-prose",
-      "target": "actions-seeking-dynamic-hyperlinks",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Dynamic hyperlinks are prose-as-affordance: the link text is the prose, and the move from authored phrase to actionable target is itself the prose move.",
-      "hasLabel": true
-    },
-    {
-      "source": "foundations-prose",
-      "target": "operations-reference",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Reference links rest on a prose convention — that an authored phrase points to a canonical entity. The prose decides what counts as a name worth linking.",
-      "hasLabel": true
-    },
-    {
-      "source": "foundations-prose",
-      "target": "operations-deep-linking",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Deep linking surfaces a piece of system state as a shareable address; the prose around the link does the work of telling the recipient what they will land in.",
-      "hasLabel": true
-    },
-    {
-      "source": "foundations-prose",
-      "target": "actions-application-data-entry",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Data entry is where microcopy carries most of the in-context guidance — labels, helper text, and error language are the prose surface that decides whether a form reads as instructive or as interrogation.",
-      "hasLabel": true
-    },
-    {
-      "source": "foundations-prose",
-      "target": "operations-status-feedback",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Status feedback is where prose makes a system state legible; the difference between 'Saved' and 'Your changes are safe' is a prose decision about register, not a state decision.",
-      "hasLabel": true
-    },
-    {
-      "source": "foundations-prose",
-      "target": "operations-toast",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Toast is microcopy under a time constraint; the prose has one beat to be intelligible and is judged by whether it can be read at a glance.",
-      "hasLabel": true
-    },
-    {
-      "source": "foundations-prose",
-      "target": "operations-callout",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Callout prose carries the framing for advisory content; the line between helpful and patronising is set by the prose rather than the styling.",
-      "hasLabel": true
-    },
-    {
-      "source": "foundations-prose",
-      "target": "actions-coordination-notification",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Notification prose has to telegraph relevance fast enough that the actor can decide whether to engage; the prose is the decision-making surface, not just the message.",
-      "hasLabel": true
-    },
-    {
-      "source": "foundations-prose",
-      "target": "actions-sensemaking-explanation",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Explanation is sustained domain prose; the place where the library's prose voice has to scale beyond microcopy without losing precision.",
-      "hasLabel": true
-    },
-    {
-      "source": "foundations-prose",
-      "target": "actions-application-suggestion",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Suggestion is prose-as-tentative-move; the framing has to invite without committing, and the difference between 'Try X' and 'You should X' lives entirely in the prose.",
-      "hasLabel": true
-    },
-    {
-      "source": "foundations-prose",
-      "target": "activities-localization",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Localisation is where prose architecture meets variability — what reads as natural in one locale needs a translation strategy that protects the underlying move.",
-      "hasLabel": true
-    },
-    {
-      "source": "foundations-prose",
-      "target": "activities-ai-tuning",
-      "type": "related",
-      "reason": "thematic",
-      "label": "AI tuning treats voice and register as specifiable parameters; prose becomes a thing that can be tuned, not just authored.",
-      "hasLabel": true
-    },
-    {
-      "source": "foundations-prose",
-      "target": "activities-bot",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Bot pages are mostly prose decisions — the bot is its prose, and the persona is the language.",
-      "hasLabel": true
-    },
-    {
-      "source": "foundations-prose",
-      "target": "activities-transparent-reasoning",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Transparent reasoning surfaces system reasoning as readable text; the framing prose decides whether the explanation reads as transparent or as performance.",
-      "hasLabel": true
-    },
-    {
-      "source": "foundations-prose",
-      "target": "activities-generated-content",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Generated content lives in tension with authored prose; the register drift between the two is one of the harder problems in the library.",
-      "hasLabel": true
-    },
-    {
-      "source": "operations-input",
-      "target": "operations-autocomplete",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Autocomplete is the narrowing form of input assistance — the option space already exists; the assistance is reducing it.",
-      "hasLabel": true
-    },
-    {
-      "source": "operations-input",
-      "target": "operations-autofill",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Autofill is assistance from prior state — the system already knows the value; the input just surfaces it.",
-      "hasLabel": true
-    },
-    {
-      "source": "operations-input",
-      "target": "operations-good-defaults",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Good defaults are assistance without prior state — the system picks the most likely value to save the actor a decision.",
-      "hasLabel": true
-    },
-    {
-      "source": "operations-input",
-      "target": "actions-application-suggestion",
-      "type": "related",
-      "reason": "thematic",
-      "label": "Suggestion is the proposing form of input assistance — the option space does not pre-exist; the system invents candidates.",
-      "hasLabel": true
-    },
-    {
       "source": "qualities-learnability",
       "target": "activities-onboarding",
       "type": "related",
       "reason": "thematic",
-      "label": "Onboarding is the front-loaded learning event — the deliberate spike where the actor is willing to be taught.",
+      "label": "the initial spike in learning",
       "hasLabel": true
     },
     {
@@ -1150,7 +861,7 @@
       "target": "activities-mastery",
       "type": "related",
       "reason": "thematic",
-      "label": "Mastery is the late-lifecycle stance — learnability that keeps paying off after the actor has become competent.",
+      "label": "the long tail of expert performance",
       "hasLabel": true
     }
   ]
