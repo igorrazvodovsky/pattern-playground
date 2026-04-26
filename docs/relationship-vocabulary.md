@@ -268,6 +268,35 @@ A running record of why types were added, merged, renamed, or retired, what alte
 
 Each entry: date, change, why, what was considered, what was lost.
 
+### 2026-04-26 — Foundation pages: drop generic related-pattern lists, keep `## Enacted qualities`
+
+Editorial pass on every foundation MDX (Assistance, Collaboration, Data, Delegation, Information Architecture, Intent & Interaction, Modality, Prose, plus Material/Color, Iconography, Layout, Motion, Typography). Generic `### Complementary` / `### Precursors` / `### Follow-ups` / `### Tangentially related` / `## Related` lists removed; substantive cross-foundation references (e.g. assistance ↔ delegation) collapsed into a one-sentence prose note below the qualities list.
+
+Reasoning: the complete list of patterns a foundation relates to is necessarily very long (that is what *foundation* means). Listing only some raises the question of why those and not others. By contrast, `## Enacted qualities` is bounded by the qualities vocabulary itself — it carries a specific claim about which qualities the foundation activates, and how. The lists that survived are now those (one per foundation, where a relationship exists).
+
+Headings unified to top-level `## Enacted qualities` (rather than `### Enacted qualities` under `## Related patterns`) since there's nothing else to nest under after the cleanup.
+
+Exception: Modality kept its `## Related patterns` with `### Complementary` (a list of patterns along the modality gradient — strict-modal at one end, non-modal at the other) and `### Tangentially related`. The gradient list is a specific structural claim, not a generic "what relates to modality" enumeration; it earns its place.
+
+Effect on the graph: ~24 fewer `related` edges and a handful fewer `complements` edges from foundation pages — these were the bullets just removed. The 24 `enacts` edges from foundation pages all preserved with labels intact (verified via re-extraction). Total enacts coverage: 98/98 labelled (up from 65 before this session).
+
+Edge counts before/after this pass (from extraction logs): related 416 → 392; complements 153 → 147; enacts 88 → 89; total 879 → 854.
+
+### 2026-04-26 — Enacts batch 5 (foundations): 11 missing labels authored
+
+Fifth batch of [label-enacts.md](../plans/2026/april/label-enacts.md). Eleven missing labels authored across seven foundation pages: `assistance → agency`, `collaboration → adaptability`, `delegation → agency`, `information-architecture → agency/shareability`, `intent-interaction → formality/adaptability/agency/temporality`, `modality → agency/temporality`, `material-layout → density`.
+
+MDX restructuring done along the way:
+
+- *Assistance* and *Delegation* — both pages had paragraph-form `## Related patterns` sections (linked but unbulleted). Restructured into `### Enacted qualities` plus other subsections with proper bullets, so the relationships now extract.
+- *Collaboration (foundation)* — adaptability had a commented-out TODO. Replaced with a substantive bullet.
+- *Information architecture* — five top-level prose-bullets (each with a quality link partway through and sub-bullets below) restructured into a flat single-link-bullet list under `### Enacted qualities` and `### Complementary`. Lost some of the original sub-bullet elaboration (kept what fit into label sentences).
+- *Intent & interaction* — the four `## Cross-cutting qualities` bullets used the prose form `[Quality] does X` rather than `[Quality] — does X`. Converted; added a new adaptability bullet that had previously only existed in inline prose at line 85. Activity-types reference moved from the bulleted list to a paragraph below (it's not an enacts edge, just a related concept and was confusing the list).
+- *Modality* — added an `### Enacted qualities` subsection (relationships had previously only existed in topical prose under the modality gradient).
+- *Material/Layout* — page had no `## Related patterns` section at all. Added one with a single `### Enacted qualities` bullet for density.
+
+No labels left as override candidates this round; the existing labelled edges in the foundations batch (`collaboration → conversation/agency/shareability/formality`, `data-information → agency/adaptability/conversation`, `prose → agency/learnability/formality/conversation`, `material-typography → density`) read substantively enough.
+
 ### 2026-04-26 — Enacts batch 4 (activities part 2): 6 missing labels authored
 
 Fourth batch of [label-enacts.md](../plans/2026/april/label-enacts.md). Six missing labels authored on `activities-mastery → qualities-{learnability, malleability, temporality, density}`, `activities-transparent-reasoning → qualities-agency`, `activities-workspace → qualities-agency`.

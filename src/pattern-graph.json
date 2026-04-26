@@ -4060,32 +4060,13 @@
     },
     {
       "source": "foundations-collaboration",
-      "target": "actions-sensemaking-annotation",
-      "type": "related",
-      "label": "collective sense-making through shared markup and layered interpretation"
-    },
-    {
-      "source": "foundations-collaboration",
-      "target": "activities-collaboration",
-      "type": "related",
-      "label": "interaction stages and variants for human↔human and human↔bot collaboration"
-    },
-    {
-      "source": "foundations-collaboration",
-      "target": "activities-activity-feed",
-      "type": "related",
-      "label": "aggregation mechanism for distributed awareness"
-    },
-    {
-      "source": "foundations-collaboration",
       "target": "activities-bot",
       "type": "related"
     },
     {
-      "source": "foundations-data-information",
-      "target": "foundations-information-architecture",
-      "type": "related",
-      "label": "structural organisation determines how data layers are accessed and discovered"
+      "source": "foundations-collaboration",
+      "target": "activities-collaboration",
+      "type": "related"
     },
     {
       "source": "foundations-delegation",
@@ -4098,40 +4079,9 @@
       "type": "related"
     },
     {
-      "source": "foundations-delegation",
-      "target": "activities-bot",
-      "type": "related"
-    },
-    {
-      "source": "foundations-delegation",
-      "target": "activities-activity-log",
-      "type": "related"
-    },
-    {
-      "source": "foundations-delegation",
-      "target": "actions-coordination-notification",
-      "type": "related"
-    },
-    {
       "source": "foundations-information-architecture",
       "target": "foundations-intent-interaction",
       "type": "related"
-    },
-    {
-      "source": "foundations-information-architecture",
-      "target": "actions-sensemaking-view",
-      "type": "related"
-    },
-    {
-      "source": "foundations-information-architecture",
-      "target": "foundations-collaboration",
-      "type": "related"
-    },
-    {
-      "source": "foundations-information-architecture",
-      "target": "activities-localization",
-      "type": "related",
-      "label": "adapts IA across locales"
     },
     {
       "source": "foundations-information-architecture",
@@ -4208,75 +4158,37 @@
     },
     {
       "source": "foundations-modality",
-      "target": "actions-application-dialog",
-      "type": "complements",
-      "label": "the strict-modal anchor of the gradient",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "foundations-modality",
-      "target": "actions-application-drawer",
-      "type": "complements",
-      "label": "the gradient's hinge, where modal and non-modal behaviour meet",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "foundations-modality",
-      "target": "operations-callout",
-      "type": "complements",
-      "label": "sits beside toast on the non-modal end, anchored rather than ambient",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "foundations-modality",
-      "target": "operations-popover",
-      "type": "complements",
-      "label": "the loosest transient mode, yielding to any other interaction",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "foundations-modality",
-      "target": "operations-toast",
-      "type": "complements",
-      "label": "the non-modal floor of the gradient",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "foundations-modality",
-      "target": "actions-coordination-notification",
-      "type": "complements",
-      "label": "chooses where on the gradient a signal lands",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "foundations-modality",
-      "target": "actions-seeking-command-menu",
-      "type": "tangential",
-      "label": "overlay invocation that intersects modality without being defined by it",
-      "extractedFrom": "header:\"Tangentially related\""
-    },
-    {
-      "source": "foundations-modality",
-      "target": "actions-coordination-dropdown",
-      "type": "tangential",
-      "label": "an option reveal that demonstrates non-modal selection",
-      "extractedFrom": "header:\"Tangentially related\""
-    },
-    {
-      "source": "foundations-modality",
-      "target": "actions-application-context-menu",
-      "type": "tangential",
-      "label": "contextual overlay whose modality depends on platform conventions",
-      "extractedFrom": "header:\"Tangentially related\""
-    },
-    {
-      "source": "foundations-modality",
       "target": "activities-bot",
       "type": "related"
     },
     {
       "source": "foundations-modality",
       "target": "actions-seeking-dynamic-hyperlinks",
+      "type": "related"
+    },
+    {
+      "source": "foundations-modality",
+      "target": "actions-application-dialog",
+      "type": "related"
+    },
+    {
+      "source": "foundations-modality",
+      "target": "actions-application-drawer",
+      "type": "related"
+    },
+    {
+      "source": "foundations-modality",
+      "target": "operations-popover",
+      "type": "related"
+    },
+    {
+      "source": "foundations-modality",
+      "target": "operations-toast",
+      "type": "related"
+    },
+    {
+      "source": "foundations-modality",
+      "target": "operations-callout",
       "type": "related"
     },
     {
@@ -4320,8 +4232,7 @@
     {
       "source": "foundations-prose",
       "target": "foundations-information-architecture",
-      "type": "related",
-      "label": "IA owns the labelling vocabulary; prose owns how those labels get phrased and where they tolerate ambiguity."
+      "type": "related"
     },
     {
       "source": "foundations-prose",
@@ -4347,79 +4258,6 @@
       "source": "foundations-prose",
       "target": "actions-coordination-notification",
       "type": "related"
-    },
-    {
-      "source": "foundations-prose",
-      "target": "foundations-intent-interaction",
-      "type": "related",
-      "label": "Intent & Interaction frames interaction as a sequence of turns; prose is what those turns are made of when they are text."
-    },
-    {
-      "source": "foundations-prose",
-      "target": "foundations-collaboration",
-      "type": "related",
-      "label": "Collaboration depends on shared interpretive ground; prose is the most flexible carrier of that ground between participants."
-    },
-    {
-      "source": "foundations-prose",
-      "target": "foundations-assistance",
-      "type": "related",
-      "label": "Assistance lives largely as microcopy; each helper line is a small assistive turn made of prose."
-    },
-    {
-      "source": "foundations-prose",
-      "target": "foundations-delegation",
-      "type": "related",
-      "label": "Delegation surfaces are increasingly written rather than chosen; the prose decides what the agent sounds like and what authority it claims."
-    },
-    {
-      "source": "foundations-material-iconography",
-      "target": "operations-button",
-      "type": "related"
-    },
-    {
-      "source": "foundations-material-iconography",
-      "target": "actions-evaluation-list",
-      "type": "related"
-    },
-    {
-      "source": "foundations-material-iconography",
-      "target": "operations-input",
-      "type": "related"
-    },
-    {
-      "source": "foundations-material-iconography",
-      "target": "actions-coordination-toolbar",
-      "type": "related"
-    },
-    {
-      "source": "foundations-material-iconography",
-      "target": "actions-seeking-command-menu",
-      "type": "related"
-    },
-    {
-      "source": "foundations-material-iconography",
-      "target": "operations-status-feedback",
-      "type": "related",
-      "label": "another common use of icons, with its own set of best practices"
-    },
-    {
-      "source": "foundations-material-iconography",
-      "target": "foundations-material-typography",
-      "type": "related",
-      "label": "match the weight and style of surrounding type"
-    },
-    {
-      "source": "foundations-material-typography",
-      "target": "foundations-material-iconography",
-      "type": "related",
-      "label": "match the weight and style of surrounding type"
-    },
-    {
-      "source": "foundations-material-typography",
-      "target": "foundations-material-color",
-      "type": "related",
-      "label": "typography interacts with colour to create hierarchy and emphasis"
     },
     {
       "source": "operations-autocomplete",
@@ -6094,28 +5932,28 @@
       "source": "activities-mastery",
       "target": "qualities-learnability",
       "type": "enacts",
-      "label": "extended learnability: the long curve after onboarding, where the actor accumulates keyboard fluency, customisations, and tricks the surface no longer needs to teach",
+      "label": "extended learnability: the long curve after onboarding",
       "extractedFrom": "quality-target"
     },
     {
       "source": "activities-mastery",
       "target": "qualities-malleability",
       "type": "enacts",
-      "label": "the experienced actor reshapes the tool around their own workflow, turning patterns of use into custom shortcuts and rearranged surfaces",
+      "label": "the experienced actor reshapes the tool around their own workflow",
       "extractedFrom": "quality-target"
     },
     {
       "source": "activities-mastery",
       "target": "qualities-temporality",
       "type": "enacts",
-      "label": "mastery is the long-arc shape of one actor's relationship with the tool; each session deposits experience the next builds on",
+      "label": "mastery is the long-arc shape of one actor's relationship with the tool",
       "extractedFrom": "quality-target"
     },
     {
       "source": "activities-mastery",
       "target": "qualities-density",
       "type": "enacts",
-      "label": "experts tolerate and benefit from higher density; what overwhelms a newcomer becomes a glanceable surface for someone fluent",
+      "label": "experts tolerate and benefit from higher density",
       "extractedFrom": "quality-target"
     },
     {
@@ -6143,7 +5981,7 @@
       "source": "activities-transparent-reasoning",
       "target": "qualities-agency",
       "type": "enacts",
-      "label": "visible reasoning is one of the levers for reliance calibration, helping the actor judge when to trust and when to override; full reasoning can also *increase* over-reliance by supplying a plausible justification the actor doesn't scrutinise",
+      "label": "visible reasoning is one of the levers for reliance calibration, helping the actor judge when to trust and when to override",
       "extractedFrom": "quality-target"
     },
     {
@@ -6157,20 +5995,14 @@
       "source": "activities-workspace",
       "target": "qualities-agency",
       "type": "enacts",
-      "label": "the actor decides what work belongs together and what stays apart, shaping the boundaries of their own attention rather than accepting a pre-defined frame",
+      "label": "the actor decides what work belongs together and what stays apart",
       "extractedFrom": "quality-target"
     },
     {
       "source": "foundations-assistance",
       "target": "qualities-agency",
       "type": "enacts",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-collaboration",
-      "target": "qualities-conversation",
-      "type": "enacts",
-      "label": "the foundational capability that enables effective collaboration",
+      "label": "assistance keeps the locus human-centric: the actor stays in the loop and the system intervenes selectively, raising signals or narrowing options at each cognitive step rather than taking over",
       "extractedFrom": "quality-target"
     },
     {
@@ -6178,6 +6010,20 @@
       "target": "qualities-agency",
       "type": "enacts",
       "label": "the distribution of control and initiative between collaborative actors",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-collaboration",
+      "target": "qualities-adaptability",
+      "type": "enacts",
+      "label": "collaboration only works when each actor adjusts to the other's contributions in flight; the system has to read and respond to changes in who is doing what",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-collaboration",
+      "target": "qualities-conversation",
+      "type": "enacts",
+      "label": "the foundational capability that enables effective collaboration",
       "extractedFrom": "quality-target"
     },
     {
@@ -6192,12 +6038,6 @@
       "target": "qualities-formality",
       "type": "enacts",
       "label": "shared artefacts raise formality demands beyond what any single actor needs; the fidelity vs exploration tension is a formality tension",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-collaboration",
-      "target": "qualities-adaptability",
-      "type": "enacts",
       "extractedFrom": "quality-target"
     },
     {
@@ -6225,54 +6065,63 @@
       "source": "foundations-delegation",
       "target": "qualities-agency",
       "type": "enacts",
+      "label": "delegation moves the locus toward the system: the actor offloads sustained work and re-enters at handoff, takeback, and exception boundaries rather than attending continuously",
       "extractedFrom": "quality-target"
     },
     {
       "source": "foundations-information-architecture",
       "target": "qualities-agency",
       "type": "enacts",
+      "label": "the structure of information shapes who can do what with it; strict hierarchies concentrate authorship in the system, while multiple paths and tags distribute it to the actor",
       "extractedFrom": "quality-target"
     },
     {
       "source": "foundations-information-architecture",
       "target": "qualities-shareability",
       "type": "enacts",
+      "label": "the structure determines what travels: a deeply nested item is hard to point at, while a flat, URL-addressable one is easy",
       "extractedFrom": "quality-target"
     },
     {
       "source": "foundations-intent-interaction",
       "target": "qualities-formality",
       "type": "enacts",
+      "label": "parallels the arc: as engagement matures, so does the structure around it, loose to precise",
       "extractedFrom": "quality-target"
     },
     {
       "source": "foundations-intent-interaction",
       "target": "qualities-adaptability",
       "type": "enacts",
+      "label": "what each engagement leaves behind reshapes the next one before it begins; the system that learns from how things closed is a different system on the actor's return",
       "extractedFrom": "quality-target"
     },
     {
       "source": "foundations-intent-interaction",
       "target": "qualities-agency",
       "type": "enacts",
+      "label": "who is driving at any given moment, and what the system contributes at each stage",
       "extractedFrom": "quality-target"
     },
     {
       "source": "foundations-intent-interaction",
       "target": "qualities-temporality",
       "type": "enacts",
+      "label": "the rhythm and pacing of turn-taking",
       "extractedFrom": "quality-target"
     },
     {
       "source": "foundations-modality",
       "target": "qualities-agency",
       "type": "enacts",
+      "label": "actor-initiated transitions are legible; system-imposed transient modes risk mode error and should be rare and clearly justified",
       "extractedFrom": "quality-target"
     },
     {
       "source": "foundations-modality",
       "target": "qualities-temporality",
       "type": "enacts",
+      "label": "how long a mode persists shapes its cost: a 200ms quasimode barely registers, a session-long mode accumulates error risk",
       "extractedFrom": "quality-target"
     },
     {
@@ -6307,6 +6156,7 @@
       "source": "foundations-material-layout",
       "target": "qualities-density",
       "type": "enacts",
+      "label": "the spacing scale itself is the density lever; base unit and increment values choose how much breathing room each piece of information gets",
       "extractedFrom": "quality-target"
     },
     {
