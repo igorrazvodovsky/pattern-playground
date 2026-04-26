@@ -546,7 +546,7 @@
       "target": "qualities-adaptability",
       "type": "enacts",
       "reason": "enacts",
-      "label": "collaboration only works when each actor adjusts to the other's contributions in flight; the system has to read and respond to changes in who is doing what",
+      "label": "collaboration only works when each actor adjusts to the other's contributions in flight",
       "extractedFrom": "quality-target",
       "hasLabel": true
     },
@@ -564,7 +564,7 @@
       "target": "qualities-shareability",
       "type": "enacts",
       "reason": "enacts",
-      "label": "provides infrastructure for holopticism through URLs that capture and communicate precise application states",
+      "label": "provides infrastructure for holopticism",
       "extractedFrom": "quality-target",
       "hasLabel": true
     },
@@ -645,9 +645,8 @@
       "target": "qualities-adaptability",
       "type": "enacts",
       "reason": "enacts",
-      "label": "what each engagement leaves behind reshapes the next one before it begins; the system that learns from how things closed is a different system on the actor's return",
       "extractedFrom": "quality-target",
-      "hasLabel": true
+      "hasLabel": false
     },
     {
       "source": "foundations-intent-interaction",
@@ -672,18 +671,16 @@
       "target": "qualities-agency",
       "type": "enacts",
       "reason": "enacts",
-      "label": "actor-initiated transitions are legible; system-imposed transient modes risk mode error and should be rare and clearly justified",
       "extractedFrom": "quality-target",
-      "hasLabel": true
+      "hasLabel": false
     },
     {
       "source": "foundations-modality",
       "target": "qualities-temporality",
       "type": "enacts",
       "reason": "enacts",
-      "label": "how long a mode persists shapes its cost: a 200ms quasimode barely registers, a session-long mode accumulates error risk",
       "extractedFrom": "quality-target",
-      "hasLabel": true
+      "hasLabel": false
     },
     {
       "source": "foundations-prose",
@@ -726,7 +723,7 @@
       "target": "qualities-density",
       "type": "enacts",
       "reason": "enacts",
-      "label": "the spacing scale itself is the density lever; base unit and increment values choose how much breathing room each piece of information gets",
+      "label": "base unit and increment values choose how much breathing room each piece of information gets",
       "extractedFrom": "quality-target",
       "hasLabel": true
     },
@@ -771,7 +768,7 @@
       "target": "qualities-agency",
       "type": "enacts",
       "reason": "enacts",
-      "label": "Defaults represent a shift towards system agency (system deciding for the user).",
+      "label": "a default is the system making the small decision so the actor doesn't have to; the actor still has the final say but doesn't have to spend it on this field",
       "extractedFrom": "quality-target",
       "hasLabel": true
     },
@@ -789,7 +786,7 @@
       "target": "qualities-adaptability",
       "type": "enacts",
       "reason": "enacts",
-      "label": "Sections is a concrete example of deterministic context-driven adaptation",
+      "label": "sections rearrange and reveal content based on context (collapsed by default for unfamiliar areas, expanded for the work in front of the actor) without learning from behaviour",
       "extractedFrom": "quality-target",
       "hasLabel": true
     },

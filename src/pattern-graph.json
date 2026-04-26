@@ -4158,37 +4158,75 @@
     },
     {
       "source": "foundations-modality",
+      "target": "actions-application-dialog",
+      "type": "complements",
+      "label": "the strict-modal anchor of the gradient",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "foundations-modality",
+      "target": "actions-application-drawer",
+      "type": "complements",
+      "label": "the gradient's hinge, where modal and non-modal behaviour meet",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "foundations-modality",
+      "target": "operations-callout",
+      "type": "complements",
+      "label": "sits beside toast on the non-modal end, anchored rather than ambient",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "foundations-modality",
+      "target": "operations-popover",
+      "type": "complements",
+      "label": "the loosest transient mode, yielding to any other interaction",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "foundations-modality",
+      "target": "operations-toast",
+      "type": "complements",
+      "label": "the non-modal floor of the gradient",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "foundations-modality",
+      "target": "actions-coordination-notification",
+      "type": "complements",
+      "label": "chooses where on the gradient a signal lands",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "foundations-modality",
+      "target": "actions-seeking-command-menu",
+      "type": "tangential",
+      "label": "overlay invocation that intersects modality without being defined by it",
+      "extractedFrom": "header:\"Tangentially related\""
+    },
+    {
+      "source": "foundations-modality",
+      "target": "actions-coordination-dropdown",
+      "type": "tangential",
+      "label": "an option reveal that demonstrates non-modal selection",
+      "extractedFrom": "header:\"Tangentially related\""
+    },
+    {
+      "source": "foundations-modality",
+      "target": "actions-application-context-menu",
+      "type": "tangential",
+      "label": "contextual overlay whose modality depends on platform conventions",
+      "extractedFrom": "header:\"Tangentially related\""
+    },
+    {
+      "source": "foundations-modality",
       "target": "activities-bot",
       "type": "related"
     },
     {
       "source": "foundations-modality",
       "target": "actions-seeking-dynamic-hyperlinks",
-      "type": "related"
-    },
-    {
-      "source": "foundations-modality",
-      "target": "actions-application-dialog",
-      "type": "related"
-    },
-    {
-      "source": "foundations-modality",
-      "target": "actions-application-drawer",
-      "type": "related"
-    },
-    {
-      "source": "foundations-modality",
-      "target": "operations-popover",
-      "type": "related"
-    },
-    {
-      "source": "foundations-modality",
-      "target": "operations-toast",
-      "type": "related"
-    },
-    {
-      "source": "foundations-modality",
-      "target": "operations-callout",
       "type": "related"
     },
     {
@@ -4232,7 +4270,8 @@
     {
       "source": "foundations-prose",
       "target": "foundations-information-architecture",
-      "type": "related"
+      "type": "related",
+      "label": "IA owns the labelling vocabulary; prose owns how those labels get phrased and where they tolerate ambiguity."
     },
     {
       "source": "foundations-prose",
@@ -4258,6 +4297,30 @@
       "source": "foundations-prose",
       "target": "actions-coordination-notification",
       "type": "related"
+    },
+    {
+      "source": "foundations-prose",
+      "target": "foundations-intent-interaction",
+      "type": "related",
+      "label": "Intent & Interaction frames interaction as a sequence of turns; prose is what those turns are made of when they are text."
+    },
+    {
+      "source": "foundations-prose",
+      "target": "foundations-collaboration",
+      "type": "related",
+      "label": "Collaboration depends on shared interpretive ground; prose is the most flexible carrier of that ground between participants."
+    },
+    {
+      "source": "foundations-prose",
+      "target": "foundations-assistance",
+      "type": "related",
+      "label": "Assistance lives largely as microcopy; each helper line is a small assistive turn made of prose."
+    },
+    {
+      "source": "foundations-prose",
+      "target": "foundations-delegation",
+      "type": "related",
+      "label": "Delegation surfaces are increasingly written rather than chosen; the prose decides what the agent sounds like and what authority it claims."
     },
     {
       "source": "operations-autocomplete",
@@ -6016,7 +6079,7 @@
       "source": "foundations-collaboration",
       "target": "qualities-adaptability",
       "type": "enacts",
-      "label": "collaboration only works when each actor adjusts to the other's contributions in flight; the system has to read and respond to changes in who is doing what",
+      "label": "collaboration only works when each actor adjusts to the other's contributions in flight",
       "extractedFrom": "quality-target"
     },
     {
@@ -6030,7 +6093,7 @@
       "source": "foundations-collaboration",
       "target": "qualities-shareability",
       "type": "enacts",
-      "label": "provides infrastructure for holopticism through URLs that capture and communicate precise application states",
+      "label": "provides infrastructure for holopticism",
       "extractedFrom": "quality-target"
     },
     {
@@ -6093,7 +6156,6 @@
       "source": "foundations-intent-interaction",
       "target": "qualities-adaptability",
       "type": "enacts",
-      "label": "what each engagement leaves behind reshapes the next one before it begins; the system that learns from how things closed is a different system on the actor's return",
       "extractedFrom": "quality-target"
     },
     {
@@ -6114,14 +6176,12 @@
       "source": "foundations-modality",
       "target": "qualities-agency",
       "type": "enacts",
-      "label": "actor-initiated transitions are legible; system-imposed transient modes risk mode error and should be rare and clearly justified",
       "extractedFrom": "quality-target"
     },
     {
       "source": "foundations-modality",
       "target": "qualities-temporality",
       "type": "enacts",
-      "label": "how long a mode persists shapes its cost: a 200ms quasimode barely registers, a session-long mode accumulates error risk",
       "extractedFrom": "quality-target"
     },
     {
@@ -6156,7 +6216,7 @@
       "source": "foundations-material-layout",
       "target": "qualities-density",
       "type": "enacts",
-      "label": "the spacing scale itself is the density lever; base unit and increment values choose how much breathing room each piece of information gets",
+      "label": "base unit and increment values choose how much breathing room each piece of information gets",
       "extractedFrom": "quality-target"
     },
     {
@@ -6191,7 +6251,7 @@
       "source": "operations-good-defaults",
       "target": "qualities-agency",
       "type": "enacts",
-      "label": "Defaults represent a shift towards system agency (system deciding for the user).",
+      "label": "a default is the system making the small decision so the actor doesn't have to; the actor still has the final say but doesn't have to spend it on this field",
       "extractedFrom": "quality-target"
     },
     {
@@ -6205,7 +6265,7 @@
       "source": "operations-sections",
       "target": "qualities-adaptability",
       "type": "enacts",
-      "label": "Sections is a concrete example of deterministic context-driven adaptation",
+      "label": "sections rearrange and reveal content based on context (collapsed by default for unfamiliar areas, expanded for the work in front of the actor) without learning from behaviour",
       "extractedFrom": "quality-target"
     },
     {

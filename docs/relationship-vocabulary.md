@@ -268,6 +268,15 @@ A running record of why types were added, merged, renamed, or retired, what alte
 
 Each entry: date, change, why, what was considered, what was lost.
 
+### 2026-04-26 — Enacts batch 6 (operations): 2 thin labels rewritten
+
+Sixth and final batch of [label-enacts.md](../plans/2026/april/label-enacts.md). All six edges already had labels (autocomplete → learnability, autofill → privacy/adaptability, good-defaults → agency, popover → learnability, sections → adaptability). Two were thin restatements and got rewritten:
+
+- `operations-sections → qualities-adaptability` — was "Sections is a concrete example of deterministic context-driven adaptation" (meta-restatement). Now: "sections rearrange and reveal content based on context (collapsed by default for unfamiliar areas, expanded for the work in front of the actor) without learning from behaviour."
+- `operations-good-defaults → qualities-agency` — was "Defaults represent a shift towards system agency (system deciding for the user)." Now: "a default is the system making the small decision so the actor doesn't have to; the actor still has the final say but doesn't have to spend it on this field."
+
+This closes out the enacts label queue. All 88 enacts edges across the library now carry a substantive label authored or reviewed in the six batches plus the cross-cutting override pass on bot/help learnability and the foundation-page restructure.
+
 ### 2026-04-26 — Foundation pages: drop generic related-pattern lists, keep `## Enacted qualities`
 
 Editorial pass on every foundation MDX (Assistance, Collaboration, Data, Delegation, Information Architecture, Intent & Interaction, Modality, Prose, plus Material/Color, Iconography, Layout, Motion, Typography). Generic `### Complementary` / `### Precursors` / `### Follow-ups` / `### Tangentially related` / `## Related` lists removed; substantive cross-foundation references (e.g. assistance ↔ delegation) collapsed into a one-sentence prose note below the qualities list.
