@@ -65,18 +65,20 @@ flowchart TD
 
 ## Related patterns
 
-### Transient-mode patterns
-- [Dialog](../?path=/docs/actions-application-dialog--docs) — forces resolution before return
-- [Drawer](../?path=/docs/actions-application-drawer--docs) — maintains primary context alongside secondary content
-- [Popover](../?path=/docs/operations-popover--docs) — non-modal contextual layer with light-dismiss
-
-### Notification as modality gradient
-- [Notification](../?path=/docs/actions-coordination-notification--docs) — the coordination pattern that selects disruption level, from inline (modeless) through [toast](../?path=/docs/operations-toast--docs) and [callout](../?path=/docs/operations-callout--docs) (non-modal) to [dialog](../?path=/docs/actions-application-dialog--docs) (modal)
-
 ### Complementary
-- [Command menu](../?path=/docs/actions-seeking-command-menu--docs) — modal overlay for command invocation
-- [Dropdown](../?path=/docs/actions-coordination-dropdown--docs) — non-modal option reveal
-- [Context menu](../?path=/docs/actions-application-context-menu--docs) — right-click/long-press overlay for contextual actions. Complements [command menu](../?path=/docs/actions-seeking-command-menu--docs) (invoked by name) and [dropdown](../?path=/docs/actions-coordination-dropdown--docs) (predefined options)
+Patterns positioned along the modality gradient, from strict-modal to non-modal:
+
+- [Dialog](../?path=/docs/actions-application-dialog--docs) – the strict-modal anchor of the gradient
+- [Drawer](../?path=/docs/actions-application-drawer--docs) – the gradient's hinge, where modal and non-modal behaviour meet
+- [Callout](../?path=/docs/operations-callout--docs) – sits beside toast on the non-modal end, anchored rather than ambient
+- [Popover](../?path=/docs/operations-popover--docs) – the loosest transient mode, yielding to any other interaction
+- [Toast](../?path=/docs/operations-toast--docs) – the non-modal floor of the gradient
+- [Notification](../?path=/docs/actions-coordination-notification--docs) – chooses where on the gradient a signal lands
+
+### Tangentially related
+- [Command menu](../?path=/docs/actions-seeking-command-menu--docs) – overlay invocation that intersects modality without being defined by it
+- [Dropdown](../?path=/docs/actions-coordination-dropdown--docs) – an option reveal that demonstrates non-modal selection
+- [Context menu](../?path=/docs/actions-application-context-menu--docs) – contextual overlay whose modality depends on platform conventions
 
 ## Resources & references
 

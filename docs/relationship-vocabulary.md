@@ -187,7 +187,8 @@ interface Edge {
   source: string;
   target: string;
   type: EdgeType;
-  label?: string;                                            // annotation from MDX
+  label?: string;                                            // prose annotation — extracted from MDX `— ` text or authored manually
+  extractedFrom?: string;                                    // provenance — header text, 'quality-target', or 'decision-tree:<id>'
   situationalHints?: Array<{ question: string; branch: string }>;  // only for 'recommends'
   sourceTree?: string;                                       // provenance for 'recommends'
 }
@@ -290,6 +291,51 @@ Drafted profiles (blind to *Related patterns*) for Form, Select, Checkbox, Autoc
 ### 2026-04-25 — Profile storage: MDX subsection → sidecar TS
 
 Profiles moved from a rendered `## Generative profile` MDX subsection to `*.profile.ts` sidecars imported but not rendered. *Why*: the rendered subsection conflated two audiences (human reader, tooling). Sidecar TS gives tooling a typed importable object; the MDX import keeps authoring co-located. *Considered*: YAML/JSON sidecar (loses type-checking), `export const` in MDX (mixes voices), MDX comment blocks (reads as dead code). *Lost*: framing is no longer visible to page readers — acceptable while the vocabulary is still being tested.
+
+### 2026-04-26 — Manual labels live in MDX, graph is purely derived
+
+Manual labels migrated out of `pattern-graph.json` and into the source MDX as per-link `— ` annotations. The graph file no longer carries any authored content; every label in it is freshly derived on each extraction run. This makes MDX the singular source of truth — editing a label is editing a pattern, reviewing a label change is reviewing an MDX diff, and regeneration is idempotent against the same MDX.
+
+What changed:
+
+- *Migration*: 48 manually authored labels (47 replacing existing extracted text, 1 appended fresh) written into the corresponding bullets via a new `scripts/write-labels.ts`. The previous `scripts/merge-labels.ts` (which wrote into the graph) is removed.
+- *Extraction*: prior-graph label preservation removed. Extraction is now stateless against `pattern-graph.json` — it derives everything from MDX on every run.
+- *Document-wide annotation pass*: extraction now picks up per-link `— ` annotations on bullet lines anywhere in a document, not only inside `## Related patterns`. A labelled bullet under a topical `### Related patterns` H3 inside a `## Foo` section overrides the header-text fallback that the same edge would otherwise carry from a bullet under `## Related patterns`. This lets editors place labelled links wherever they editorially fit.
+- *MDX restructuring*: two pages (foundations-prose, foundations-modality) had multi-link bullets that couldn't carry per-link annotations. Split into one-link-per-bullet form, with the cluster name preserved as an intra-section heading rather than a shared annotation.
+
+Round-trip verified: MDX → extract → graph reproduces the same 137 queue entries with 83 labelled, identical to the pre-migration state.
+
+What this commits the project to:
+
+- Re-types from axis-flagged review become MDX edits (relocate the link to a different `### ` header), not graph annotations. The two pending re-types (step-by-step → form, onboarding → empty-state) are now ordinary editorial tasks against those source pages.
+- `enacts` edges that originate from inline prose references need an MDX bullet to carry a label. A `### Enacted qualities` subsection is a natural home; the document-wide pass also accepts labelled bullets elsewhere on the page.
+- The label queue becomes a coverage report rather than a staging area. Entries with `hasLabel: true` mean the MDX already says enough; entries without are the work to do.
+
+### 2026-04-26 — `gloss` field merged into `label`
+
+`gloss` and `glossSource` removed from the Edge schema. Edges now carry a single optional `label` slot. Two fields were doing the same job — prose attached to an edge — with a distinction (extracted-from-MDX vs authored-against-the-edge) that didn't earn its keep at the consumer level. The split was confusing in plans, in the queue, and in the merge script; the simplification removes a layer of nomenclature without removing any data.
+
+Migration: 47 edges had both `label` and `gloss` (gloss won, label was discarded); 1 had `gloss` only (became `label`); 239 had `label` only (unchanged). The 48 manually authored entries from the axis-flagged and thematic batches now sit in `label`.
+
+Two consequential changes elsewhere:
+
+- *Extraction now captures per-line annotations under thematic headers.* Previously the `label` on a thematic-`related` edge was the header text (e.g. `"Used by"`); the per-line `— ` annotation was discarded. Now extraction prefers the per-line annotation and falls back to the header text. This recovered ~35 extracted labels on thematic edges that previously needed manual authoring.
+- *`scripts/merge-glosses.ts` → `scripts/merge-labels.ts`*. Same logic, writes into `label`. The queue file moves from `pattern-graph.gloss-queue.json` to `pattern-graph.label-queue.json`. Plans renamed `gloss-*.md` → `label-*.md`.
+
+What's lost: the ability to programmatically distinguish "the source author wrote this" from "someone authored this against the edge." Easy to recover with a `labelSource` field if a future consumer needs it; not pre-emptively added.
+
+### 2026-04-25 — Thematic edges glossed (45); two candidates held for future promotion
+
+All 45 remaining thematic edges (after the `Used by` / `Composed from` / `Containers` promotion) now carry a manually authored `gloss`. The labels split across 14 single-source headers; each was treated as a page-specific editorial cut rather than a vocabulary signal.
+
+Promotion-scan decision: hold `Transient-mode patterns` (3) and `Notification as modality gradient` (3), both from `foundations-modality`. They read taxonomically and could earn `instantiates` promotion, but n=1 source is too thin a basis to mint a type. Revisit when a second page reaches for similar headers.
+
+Observations from the authoring pass:
+
+- *foundations-prose* dominates the queue (20 of 45). The page is doing the work of articulating its own scope by clustering patterns into "manifest prose moves", "neighbouring foundations", and "prose-central activities". The clusters are page-specific but coherent — they could plausibly become a *prose annex* in the foundation rather than edge types.
+- *activities-collaboration* (8 of 45) cuts the same set of patterns into editorial slices ("communication and awareness", "co-creation", "human-AI collaboration"). The slices are about *what role the linked pattern plays inside collaboration* — adjacent to a future `played-by-role` annotation if that ever earned its weight.
+- *Foundations & use qualities* on `nextbest-action` mixes `enacts` candidates (the qualities targets) with `related` candidates (the foundations targets). The mixing inside one header confirms that the target-based `enacts` promotion (Phase 1) was the right place to disambiguate, not the header.
+- Per-line annotations under thematic headers are currently lost (only the header text becomes the edge `label`). Captured as a follow-up: extract per-line `— ` annotations under thematic headers too, so the gloss layer doesn't have to re-author what the source MDX already states.
 
 ### 2026-04-25 — Axis-flagged edges resolved (1 confirm, 2 re-types proposed)
 

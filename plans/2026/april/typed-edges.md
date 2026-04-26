@@ -115,17 +115,19 @@ Each experiment ends with a changelog entry in the vocabulary doc recording what
 
 ### Mixed extraction approach
 
-Phase 1 runs in two layers. The *mechanical layer* maps `### ` headers to edge types via a lookup table — cheap, reproducible, regenerable on every MDX change. The *qualitative layer* adds a short prose `gloss` to a subset of edges where judgement earns its keep.
+Phase 1 runs in two layers. The *mechanical layer* maps `### ` headers to edge types via a lookup table — cheap, reproducible, regenerable on every MDX change. The *qualitative layer* writes manually authored labels back into the source MDX as per-link `— ` annotations, where the next extraction picks them up the same way.
 
-Three places earn a gloss:
+The graph is purely derived data. Manual labels live in MDX, not in `pattern-graph.json`. This keeps the source of truth singular: editing a label is editing the pattern; reviewing a label change is reviewing an MDX diff; regeneration is idempotent.
 
-- *`enacts` edges* — the move-to-quality link is the most generative relationship in the graph and the one an actor most needs to read in context. A one-sentence gloss says *what about this move strengthens that quality*, not just that the link exists.
-- *Edges flagged by the axis sanity check* — `instantiates` within the same altitude band, `complements` crossing two bands. The mechanical layer has already labelled these; the gloss either confirms the label or proposes a different type, and the disagreement gets recorded in the changelog rather than silently overwriting the header.
-- *Edges under thematic or ambiguous headers* — where the header text didn't map to a typed edge and the link became `related`. A gloss can recover the move that was actually being described, surfacing thematic clusters that might earn promotion to a typed relationship in a later changelog entry.
+Three places earn a manual label:
 
-Other edges (header-typed under unambiguous headers, flat-list `related`, prose `related`) get no gloss. They're not worth the cost, and `label` already carries the author's annotation where one exists.
+- *`enacts` edges* — the move-to-quality link is the most generative relationship in the graph and the one an actor most needs to read in context. A one-sentence label says *what about this move strengthens that quality*, not just that the link exists.
+- *Edges flagged by the axis sanity check* — `instantiates` within the same altitude band, `complements` crossing two bands. The mechanical layer has already typed these; the label either confirms the type or motivates a re-type, in which case the right move is to relocate the link to a different `### ` header in MDX (so the next extraction emits the right type) rather than to override the type in the graph.
+- *Edges under thematic or ambiguous headers* — where the header text didn't map to a typed edge and the link became `related`. A label can recover the move that was actually being described, surfacing thematic clusters that might earn promotion to a typed relationship in a later changelog entry.
 
-Glosses are stored on the edge in `pattern-graph.json` and regenerated only for the affected edges when the underlying MDX changes — they don't get rewritten on every extraction run. The mechanical layer treats existing glosses as data: when an edge survives a regeneration, its `gloss` is preserved; when an edge disappears or its endpoints change, the gloss is dropped and flagged for re-annotation.
+Other edges (header-typed under unambiguous headers, flat-list `related`, prose `related`) get no manual label; whatever extraction produces is enough.
+
+Where labels can live in MDX: extraction prefers per-line `— ` annotations on bullet lines containing exactly one link. The bullet can sit *inside `## Related patterns` under a `### ` header* (standard placement) or *anywhere else in the document* (e.g. under a topical `### Related patterns` H3 inside a `## Foo` section). A document-wide annotation pass picks up labelled bullets wherever they are, overriding header-text fallback labels.
 
 ### Edge type vocabulary
 
@@ -138,8 +140,10 @@ Map `### ` headers to 7 edge types (frequencies from codebase):
 | `complements` | Complementary (29), Complements (7), Complementary patterns (2) |
 | `tangential` | Tangentially related (13) |
 | `alternative` | Alternatives (6) |
-| `enables` | Containers and primitives (1), Related primitives (1), Mechanisms (1), Components (1), Conversational primitives (1) |
+| `enables` | Containers and primitives (1), Containers (1), Related primitives (1), Mechanisms (1), Components (1), Conversational primitives (1), Composed from (1), Used by (1) |
 | `instantiates` | Foundation (2), Applied in (2), Implements this model (1) |
+
+For `enables`, the source is the building block and the target is the composite. Headers that name the page's components/containers (Containers and primitives, Containers, Related primitives, Mechanisms, Components, Conversational primitives, Composed from) invert the default page→listed direction so the listed pattern becomes the source. `Used by` is the exception — the page is the building block, the listed pattern is the composite, default direction is correct.
 
 Thematic headers (e.g., "Core collaborative components", "Human-AI collaboration", ~14 unique) and the one malformed link header map to `related` with the original text as `label`. The header text is also captured as a *tag* on the linked patterns (see "Tag extraction" below).
 
@@ -179,7 +183,7 @@ Logic:
 2. Find the `## Related patterns` section (from `## Related patterns` to the next `## ` or EOF)
 3. Within Related patterns, split by `### ` headers. Map each header to an edge type via a lookup table. Links under a header get that type.
 4. Links in the Related patterns section but *not* under any `### ` header get `type: 'related'`
-5. Extract link annotation text (content after ` — ` or ` – ` on the same line) as `label`
+5. Extract link annotation text (content after ` — ` or ` – ` on the same line) as `label`. This applies under typed headers *and* under thematic headers — for thematic headers the per-line annotation is preferred over the header text, which becomes the fallback.
 6. Links *outside* Related patterns (prose, anatomy, variants sections) get `type: 'related'`
 7. The link regex remains `../\?path=/docs/([a-z0-9][a-z0-9-]*)--docs`
 
@@ -198,10 +202,9 @@ When the same source→target pair appears multiple times:
 interface Edge {
   source: string;
   target: string;
-  type?: string;
-  label?: string;
+  type: string;
+  label?: string;          // prose annotation — extracted from MDX `— ` text or authored manually
   extractedFrom?: string;  // provenance — populated where type assignment required a judgement
-  gloss?: string;          // qualitative annotation — populated only on enacts, axis-flagged, and thematic edges
 }
 
 interface Node {
@@ -217,17 +220,21 @@ interface Node {
 
 Replace `fileLinks` Map with a `typedFileLinks` Map storing `TypedLink[]`. Build edges with type and label. As thematic-header links are processed, also collect tags and merge them into the linked node's `tags` array.
 
-**6. Qualitative gloss layer**
+**6. Manual label layer (write-back to MDX)**
 
-After the mechanical pass produces the full edge set, a follow-up pass populates `gloss` on the three eligible subsets:
+After the mechanical pass produces the full edge set, the script emits a queue at `pattern-graph.label-queue.json` listing edges where a manually authored label is wanted:
 
 - All `enacts` edges (post target-based typing — see below).
-- Edges flagged by the axis sanity check (counts logged to the changelog, list of edge IDs emitted to a sidecar `pattern-graph.gloss-queue.json`).
-- Edges with a thematic-header `label` (the ones that became `related` because the header didn't map to a typed edge).
+- Edges flagged by the axis sanity check (counts logged to the changelog).
+- Edges that came from thematic subcategory headers (identified at extraction time via a thematic-header flag, not by string-matching the label — so per-line annotations don't break the categorisation).
 
-The script does not generate glosses itself. It produces the queue file; glosses are authored externally (manually or via an LLM pass over the source MDX with the link's surrounding context) and merged back into `pattern-graph.json`. A separate `scripts/merge-glosses.ts` command reads a glosses file and writes them onto matching edges, setting `glossSource` accordingly.
+The script does not author labels itself. It produces the queue, which doubles as a coverage report (each entry has a `hasLabel` flag indicating whether extraction already populated the slot from MDX). Labels are authored externally — either by editing the MDX directly to add or refine the per-link `— ` annotation, or by staging entries in a JSON file and running `scripts/write-labels.ts` to write the annotations into the corresponding bullets.
 
-Preservation across regenerations: when `extract-graph-data.ts` runs and an edge with an existing `gloss` survives unchanged (same source, target, and type), the gloss is carried forward. When the type changes or an endpoint changes, the gloss is dropped and the edge re-enters the queue.
+The graph itself stores no manual content: every label in `pattern-graph.json` is freshly derived from MDX on each extraction run. Labels survive regeneration because the MDX survives regeneration, not because the script preserves them.
+
+For `enacts` edges where no MDX bullet exists for the quality link (the reference is in inline prose only), the right move is to add a bullet — a `### Enacted qualities` subsection in `## Related patterns` is a natural home, but any single-link bullet anywhere in the document is enough.
+
+For axis-flagged re-types, the right move is to relocate the link in MDX (a different `### ` header inside `## Related patterns`), so the next extraction emits the corrected type. The graph is not the place to record a re-type intention.
 
 **7. Target-based typing for `enacts`**
 
@@ -242,10 +249,11 @@ Quality-to-quality links (e.g., Malleability → Agency, Shareability → Conver
 
 ### Files modified
 
-- `scripts/extract-graph-data.ts` — extraction logic, gloss preservation, gloss-queue emission
-- `scripts/merge-glosses.ts` — new, merges authored glosses onto edges
-- `src/pattern-graph.json` — regenerated output (edges gain `type`, optional `label`, optional `gloss` and `glossSource`; nodes gain optional `tags`)
-- `pattern-graph.gloss-queue.json` — sidecar listing edges awaiting a gloss
+- `scripts/extract-graph-data.ts` — extraction logic (mechanical typing, target-based `enacts`, document-wide annotation pass, label-queue emission)
+- `scripts/write-labels.ts` — new, writes authored labels into source MDX as per-link `— ` annotations
+- `src/pattern-graph.json` — regenerated output, purely derived (edges gain `type`, optional `label`, optional `extractedFrom`; nodes gain optional `tags`)
+- `pattern-graph.label-queue.json` — sidecar listing edges where a manual label is wanted; doubles as a coverage report via the `hasLabel` flag
+- *MDX files* — the source of truth for labels; manual authoring writes back here, not into the graph
 
 ### Verification
 
@@ -264,8 +272,8 @@ Then verify:
 - Typed edges from subcategory headers carry `extractedFrom` with the raw header text (`header:"Precursors"`, `header:"Precursor patterns"`); `related` edges from flat lists or prose do not
 - Edges from a pattern to a quality page (`qualities-*` target) are typed `enacts` with `extractedFrom: 'quality-target'`, regardless of which section they appeared in
 - *Invariant*: every `enacts` edge has a non-quality source and a `qualities-*` target. Quality-to-quality edges (source category `Qualities`, target `qualities-*`) stay `related`. Spot-check Malleability.mdx and Shareability.mdx — their outgoing edges to other quality pages should be `related`, not `enacts`.
-- *Axis sanity check (advisory, not a failure mode)*: using the category folder as a coarse altitude proxy, count `instantiates` edges whose endpoints sit in the same folder, and `complements` edges crossing two altitude bands. Both are suspicious — possibly mislabeled, possibly genuinely mixed-altitude. Log counts to the changelog under *Observed drift*; don't block extraction. Flagged edges enter the gloss queue. See [docs/relationship-vocabulary.md](../../../docs/relationship-vocabulary.md)'s "Edge axis" section for the axis classification.
-- *Gloss queue*: after extraction, `pattern-graph.gloss-queue.json` lists every `enacts` edge, every axis-flagged edge, and every edge with a thematic-header `label` that doesn't yet have a `gloss`. Existing glosses on unchanged edges are preserved across regeneration.
+- *Axis sanity check (advisory, not a failure mode)*: using the category folder as a coarse altitude proxy, count `instantiates` edges whose endpoints sit in the same folder, and `complements` edges crossing two altitude bands. Both are suspicious — possibly mislabeled, possibly genuinely mixed-altitude. Log counts to the changelog under *Observed drift*; don't block extraction. Flagged edges enter the label queue. See [docs/relationship-vocabulary.md](../../../docs/relationship-vocabulary.md)'s "Edge axis" section for the axis classification.
+- *Label queue*: after extraction, `pattern-graph.label-queue.json` lists every `enacts` edge, every axis-flagged edge, and every thematic-header edge, with a `hasLabel` flag indicating whether a label is already present (extracted or authored). Existing labels on unchanged edges are preserved across regeneration.
 
 ---
 

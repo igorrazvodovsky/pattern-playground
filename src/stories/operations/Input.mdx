@@ -40,17 +40,17 @@ For more complex cases an [autocomplete](../?path=/docs/operations-autocomplete-
 
 ## Related patterns
 
-### Assisted input
-- [Autocomplete](../?path=/docs/operations-autocomplete--docs) — narrows a known list as the actor types
-- [Autofill](../?path=/docs/operations-autofill--docs) — pre-populates from stored values (browser or system)
-- [Good defaults](../?path=/docs/operations-good-defaults--docs) — pre-fills with an intelligent guess when no stored value exists
-- [Suggestion](../?path=/docs/actions-application-suggestion--docs) — offers completions the actor can accept, modify, or reject
+### Complementary
+- [Autocomplete](../?path=/docs/operations-autocomplete--docs) — narrows the option space as the actor types, when a known set exists
+- [Autofill](../?path=/docs/operations-autofill--docs) — supplies the value the input would otherwise have to ask for
+- [Good defaults](../?path=/docs/operations-good-defaults--docs) — pre-populates the field so the actor only intervenes when the guess is wrong
+- [Suggestion](../?path=/docs/actions-application-suggestion--docs) — offers candidate values the input can adopt, modify, or reject
 
-### Applied in
-- [Data entry](../?path=/docs/actions-application-data-entry--docs) — the broader activity input supports, including format strategies and friction reduction
-- [Form](../?path=/docs/actions-application-form--docs) — the most common container for inputs
-- [Searching](../?path=/docs/actions-seeking-searching--docs) — input as the entry point for query formulation
+### Follow-ups
+- [Form](../?path=/docs/actions-application-form--docs) — the container that groups inputs into a coherent ask
+- [Data entry](../?path=/docs/actions-application-data-entry--docs) — the broader activity input contributes to, alongside format and friction choices
+- [Searching](../?path=/docs/actions-seeking-searching--docs) — where the input becomes the entry point for query formulation
 
-### Related primitives
-- [Textarea](../?path=/docs/operations-textarea--docs) — the multi-line counterpart for longer free-form text
-- [Range](../?path=/docs/operations-range--docs) — commits to a value on a continuum by direct manipulation rather than by typing
+### Tangentially related
+- [Textarea](../?path=/docs/operations-textarea--docs) — chosen instead when the answer doesn't fit a single line
+- [Range](../?path=/docs/operations-range--docs) — chosen instead when the value is bounded and better committed by direct manipulation than by typing

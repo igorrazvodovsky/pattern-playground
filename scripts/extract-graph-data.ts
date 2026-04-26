@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, readdirSync, statSync, existsSync } from 'fs';
+import { readFileSync, writeFileSync, readdirSync, statSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -7,7 +7,7 @@ const rootDir = join(__dirname, '..');
 const storiesDir = join(rootDir, 'src/stories');
 const outputPath = join(rootDir, 'src/pattern-graph.json');
 const activityLevelsPath = join(rootDir, 'src/activity-levels.json');
-const glossQueuePath = join(rootDir, 'pattern-graph.gloss-queue.json');
+const labelQueuePath = join(rootDir, 'pattern-graph.label-queue.json');
 
 interface Node {
   id: string;
@@ -35,8 +35,6 @@ interface Edge {
   type: EdgeType;
   label?: string;
   extractedFrom?: string;
-  gloss?: string;
-  glossSource?: string;
 }
 
 interface ActivityLevel {
@@ -282,14 +280,15 @@ function extractTypedLinks(rawContent: string): ParsedLinks {
               ...(INVERSE_DIRECTION_HEADERS.has(headerKey) ? { inverse: true } : {}),
             });
           } else {
-            // Thematic subcategory — emit `related` with header as label, collect tag.
+            // Thematic subcategory — emit `related`. Prefer the per-line annotation
+            // (more specific) over the header text (fallback).
             const key = `${id}|related`;
             if (!seenInRelated.has(key)) {
               seenInRelated.add(key);
               typed.push({
                 target: id,
                 type: 'related',
-                label: headerText,
+                label: annotation ?? headerText,
                 thematicHeader: headerText,
               });
             }
@@ -314,6 +313,29 @@ function extractTypedLinks(rawContent: string): ParsedLinks {
     if (alreadyTyped) continue;
     seenAnywhere.add(key);
     typed.push({ target: id, type: 'related' });
+  }
+
+  // Document-wide annotation pass: any bullet line anywhere in the doc that links to
+  // a known target with a `— ` annotation overrides the existing label. Lets the
+  // author put a labelled bullet wherever it editorially fits (e.g. under a topical
+  // H3 within a `## Foo` section), not only inside `## Related patterns`.
+  const allLines = content.split('\n');
+  for (let i = 0; i < allLines.length; i++) {
+    const line = allLines[i];
+    if (!/^\s*-\s/.test(line)) continue;
+    const ids = findLinksInText(line);
+    if (ids.length !== 1) continue;
+    const annotation = extractAnnotation(line);
+    if (!annotation) continue;
+    const id = ids[0];
+    for (const link of typed) {
+      if (link.target !== id) continue;
+      // Only override when the existing label is missing or is a header-text fallback
+      // (i.e. the link sat under a thematic header without a per-line annotation).
+      if (!link.label || (link.thematicHeader && link.label === link.thematicHeader)) {
+        link.label = annotation;
+      }
+    }
   }
 
   return { typed, tagsByTarget };
@@ -440,35 +462,18 @@ for (const filePath of globStoriesTsx(storiesDir)) {
   }
 }
 
-// --- Read prior graph for gloss preservation ---
-const priorGlosses = new Map<string, { gloss?: string; glossSource?: string }>();
-if (existsSync(outputPath)) {
-  try {
-    const prior = JSON.parse(readFileSync(outputPath, 'utf-8')) as {
-      edges?: Array<Edge & { gloss?: string; glossSource?: string }>;
-    };
-    for (const e of prior.edges ?? []) {
-      if (!e.gloss) continue;
-      const key = `${e.source}|${e.target}|${e.type}`;
-      priorGlosses.set(key, { gloss: e.gloss, glossSource: e.glossSource });
-    }
-  } catch {
-    // ignore — first run or unparseable prior
-  }
-}
-
 // --- Build edges ---
+//
+// The graph is purely derived from the MDX. Labels are extracted from the per-link
+// `— ` text on each run; no prior-graph carry-over. Manual label authoring writes
+// back into the source MDX (see scripts/write-labels.ts), so the next extraction
+// picks it up the same way.
 type EdgeKey = string; // `source|target|type`
 const edgeMap = new Map<EdgeKey, Edge>();
 
 function addEdge(edge: Edge) {
   const key = `${edge.source}|${edge.target}|${edge.type}`;
   if (edgeMap.has(key)) return;
-  const carry = priorGlosses.get(key);
-  if (carry) {
-    edge.gloss = carry.gloss;
-    edge.glossSource = carry.glossSource;
-  }
   edgeMap.set(key, edge);
 }
 
@@ -588,10 +593,11 @@ for (const e of edges) {
   }
 }
 
-// --- Build gloss queue ---
+// --- Build label queue ---
 //
-// Edges that earn a manually authored gloss: every `enacts` edge, every axis-flagged
-// edge, and every edge whose label was a thematic subcategory header.
+// Edges where a manually authored label adds something the type alone can't carry:
+// every `enacts` edge, every axis-flagged edge, and every edge that came from a
+// thematic subcategory header.
 type QueueEntry = {
   source: string;
   target: string;
@@ -599,7 +605,7 @@ type QueueEntry = {
   reason: 'enacts' | 'axis-flagged' | 'thematic';
   label?: string;
   extractedFrom?: string;
-  hasGloss: boolean;
+  hasLabel: boolean;
 };
 const queue: QueueEntry[] = [];
 const queueSeen = new Set<string>();
@@ -614,18 +620,19 @@ function addToQueue(e: Edge, reason: QueueEntry['reason']) {
     reason,
     ...(e.label !== undefined ? { label: e.label } : {}),
     ...(e.extractedFrom !== undefined ? { extractedFrom: e.extractedFrom } : {}),
-    hasGloss: !!e.gloss,
+    hasLabel: !!e.label,
   });
 }
 
-const thematicLabels = new Set<string>();
-// Collect raw thematic header texts from extraction so we can identify thematic-label
-// edges. A label is "thematic" when it came from a header that didn't map to a typed
-// edge. (Per-link annotations on typed edges also use `label`, but those came from
-// `— ` per-line text and aren't in this set.)
-for (const [, links] of fileLinks) {
+// Track edges that came from thematic subcategory headers — identified at extraction
+// time via the `thematicHeader` flag on the TypedLink, not by string-matching the
+// label (which can now be a per-line annotation).
+const thematicEdgeKeys = new Set<string>();
+for (const [sourceId, links] of fileLinks) {
   for (const link of links) {
-    if (link.thematicHeader) thematicLabels.add(link.thematicHeader);
+    if (!link.thematicHeader) continue;
+    const [src, tgt] = link.inverse ? [link.target, sourceId] : [sourceId, link.target];
+    thematicEdgeKeys.add(`${src}|${tgt}|${link.type}`);
   }
 }
 
@@ -634,16 +641,16 @@ for (const e of edges) {
 }
 for (const e of axisFlagged) addToQueue(e, 'axis-flagged');
 for (const e of edges) {
-  if (e.type === 'related' && e.label && thematicLabels.has(e.label)) {
+  if (thematicEdgeKeys.has(`${e.source}|${e.target}|${e.type}`)) {
     addToQueue(e, 'thematic');
   }
 }
 
 writeFileSync(
-  glossQueuePath,
+  labelQueuePath,
   JSON.stringify(
     {
-      _note: 'Generated by scripts/extract-graph-data.ts. Edges awaiting a gloss. Author entries by adding a `gloss` field; merge back with scripts/merge-glosses.ts.',
+      _note: 'Generated by scripts/extract-graph-data.ts. Coverage report for edges where a manual label is wanted (enacts, axis-flagged, thematic). Labels live in MDX as per-link `— ` annotations; author them by editing MDX directly or by staging a JSON file and running scripts/write-labels.ts.',
       entries: queue,
     },
     null,
@@ -663,7 +670,7 @@ console.log(`Categories: ${[...new Set(nodes.map((n) => n.category))].sort().joi
 console.log(`Axis sanity check (advisory):`);
 console.log(`  same-altitude instantiates: ${sameAltitudeInstantiates}`);
 console.log(`  complements crossing 2 altitude bands: ${crossTwoBandsComplements}`);
-console.log(`Gloss queue: ${queue.length} entries (${queue.filter((q) => q.hasGloss).length} already glossed)`);
+console.log(`Label queue: ${queue.length} entries (${queue.filter((q) => q.hasLabel).length} already labelled)`);
 console.log(`Output: ${outputPath}`);
 console.log(`Activity levels: ${activityLevelsPath}`);
-console.log(`Gloss queue: ${glossQueuePath}`);
+console.log(`Label queue: ${labelQueuePath}`);

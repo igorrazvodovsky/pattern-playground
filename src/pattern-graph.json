@@ -1074,7 +1074,8 @@
     {
       "source": "actions-application-assisted-task-completion",
       "target": "actions-application-suggestion",
-      "type": "related"
+      "type": "related",
+      "label": "the broader pattern of system-generated recommendations; this spectrum focuses on the specific mechanisms"
     },
     {
       "source": "actions-application-assisted-task-completion",
@@ -1084,7 +1085,8 @@
     {
       "source": "actions-application-assisted-task-completion",
       "target": "operations-good-defaults",
-      "type": "related"
+      "type": "related",
+      "label": "the simplest form of pre-population, before any of these patterns kick in"
     },
     {
       "source": "actions-application-assisted-task-completion",
@@ -1163,52 +1165,62 @@
     {
       "source": "actions-application-cognitive-forcing-functions",
       "target": "actions-application-cognitive-forcing-functions-checklist",
-      "type": "related"
+      "type": "related",
+      "label": "structured review of considerations before accepting."
     },
     {
       "source": "actions-application-cognitive-forcing-functions",
       "target": "actions-application-cognitive-forcing-functions-human-goes-first",
-      "type": "related"
+      "type": "related",
+      "label": "user performs the task unaided; system compares and teaches."
     },
     {
       "source": "actions-application-context-menu",
       "target": "actions-coordination-dropdown",
-      "type": "related"
+      "type": "related",
+      "label": "shares the overlay mechanism but is button-triggered with a fixed option set"
     },
     {
       "source": "actions-application-context-menu",
       "target": "actions-seeking-command-menu",
-      "type": "related"
+      "type": "related",
+      "label": "searchable, keyboard-first; context menu is pointer-first and target-aware"
     },
     {
       "source": "actions-application-context-menu",
       "target": "actions-coordination-action-bar",
-      "type": "related"
+      "type": "related",
+      "label": "the selection-summoned sibling; both surface actions for a current target, but the action bar is auto-summoned by selection state and scopes to many items rather than one"
     },
     {
       "source": "actions-application-context-menu",
       "target": "actions-coordination-bubble-menu",
-      "type": "related"
+      "type": "related",
+      "label": "the in-editor sibling; spatially anchored to selected content"
     },
     {
       "source": "actions-application-context-menu",
       "target": "operations-popover",
-      "type": "related"
+      "type": "related",
+      "label": "underlying positioning and light-dismiss behaviour"
     },
     {
       "source": "actions-application-context-menu",
       "target": "foundations-modality",
-      "type": "related"
+      "type": "related",
+      "label": "context menus are non-modal overlays"
     },
     {
       "source": "actions-application-context-menu",
       "target": "operations-unavailable-actions",
-      "type": "related"
+      "type": "related",
+      "label": "context menus should hide or disable actions inaccessible for the selected target"
     },
     {
       "source": "actions-application-data-entry",
       "target": "activities-localization",
-      "type": "related"
+      "type": "related",
+      "label": "locale-aware input parsing and format tolerance"
     },
     {
       "source": "actions-application-data-entry",
@@ -1248,42 +1260,50 @@
     {
       "source": "actions-application-deletion",
       "target": "actions-application-action-consequences",
-      "type": "related"
+      "type": "related",
+      "label": "Framework for evaluating appropriate confirmation methods"
     },
     {
       "source": "actions-application-deletion",
       "target": "actions-application-saving",
-      "type": "related"
+      "type": "related",
+      "label": "Staged deletions within save/cancel workflows"
     },
     {
       "source": "actions-application-deletion",
       "target": "operations-undo",
-      "type": "related"
+      "type": "related",
+      "label": "Reversibility and recovery mechanisms"
     },
     {
       "source": "actions-application-deletion",
       "target": "operations-status-feedback",
-      "type": "related"
+      "type": "related",
+      "label": "Communicating deletion results"
     },
     {
       "source": "actions-application-deletion",
       "target": "activities-activity-log",
-      "type": "related"
+      "type": "related",
+      "label": "Historical record of deletions"
     },
     {
       "source": "actions-application-deletion",
       "target": "actions-coordination-notification",
-      "type": "related"
+      "type": "related",
+      "label": "Alerting about deletion events"
     },
     {
       "source": "actions-application-deletion",
       "target": "actions-coordination-action-bar",
-      "type": "related"
+      "type": "related",
+      "label": "Common surface for bulk deletion"
     },
     {
       "source": "actions-application-deletion",
       "target": "actions-coordination-selection",
-      "type": "related"
+      "type": "related",
+      "label": "How the scope of a deletion gets staked"
     },
     {
       "source": "actions-application-dialog",
@@ -1293,17 +1313,20 @@
     {
       "source": "actions-application-dialog",
       "target": "actions-application-drawer",
-      "type": "related"
+      "type": "related",
+      "label": "when the actor needs to maintain awareness of the primary context rather than being forced to resolve before returning"
     },
     {
       "source": "actions-application-dialog",
       "target": "operations-popover",
-      "type": "related"
+      "type": "related",
+      "label": "lighter, non-modal alternative for contextual content that doesn't require a decision"
     },
     {
       "source": "actions-application-dialog",
       "target": "actions-coordination-notification",
-      "type": "related"
+      "type": "related",
+      "label": "dialog is the most disruptive notification type, reserved for critical alerts that require action"
     },
     {
       "source": "actions-application-drawer",
@@ -1464,13 +1487,13 @@
       "source": "actions-application-nextbest-action",
       "target": "foundations-assistance",
       "type": "related",
-      "label": "Foundations & use qualities"
+      "label": "Next-best action draws on assistance to decide *what* to suggest at workflow transitions"
     },
     {
       "source": "actions-application-nextbest-action",
       "target": "foundations-delegation",
       "type": "related",
-      "label": "Foundations & use qualities"
+      "label": "Next-best action straddles the suggestion/delegation line — the same recommendation can be presented for the actor to accept or for the agent to perform."
     },
     {
       "source": "actions-application-nextbest-action",
@@ -1537,22 +1560,26 @@
     {
       "source": "actions-application-saving",
       "target": "actions-application-deletion",
-      "type": "related"
+      "type": "related",
+      "label": "Save/cancel workflows as confirmation for destructive operations"
     },
     {
       "source": "actions-application-saving",
       "target": "actions-application-action-consequences",
-      "type": "related"
+      "type": "related",
+      "label": "Evaluating when save/cancel is appropriate"
     },
     {
       "source": "actions-application-saving",
       "target": "operations-undo",
-      "type": "related"
+      "type": "related",
+      "label": "Reversibility in saved states"
     },
     {
       "source": "actions-application-saving",
       "target": "activities-collaboration",
-      "type": "related"
+      "type": "related",
+      "label": "Saving patterns handle conflict resolution and multi-user editing scenarios in shared workspaces"
     },
     {
       "source": "actions-application-settings",
@@ -1639,12 +1666,14 @@
     {
       "source": "actions-application-suggestion",
       "target": "foundations-assistance",
-      "type": "related"
+      "type": "related",
+      "label": "providing likely next actions and narrowing the option space"
     },
     {
       "source": "actions-application-suggestion",
       "target": "foundations-delegation",
-      "type": "related"
+      "type": "related",
+      "label": "agent might suggest opportunities it believes will help"
     },
     {
       "source": "actions-application-suggestion",
@@ -1770,22 +1799,26 @@
     {
       "source": "actions-application-cognitive-forcing-functions-human-goes-first",
       "target": "actions-application-cognitive-forcing-functions",
-      "type": "related"
+      "type": "related",
+      "label": "the family this pattern belongs to"
     },
     {
       "source": "actions-application-cognitive-forcing-functions-checklist",
       "target": "actions-application-cognitive-forcing-functions",
-      "type": "related"
+      "type": "related",
+      "label": "the family this pattern belongs to"
     },
     {
       "source": "actions-application-cognitive-forcing-functions-checklist",
       "target": "actions-application-action-consequences",
-      "type": "related"
+      "type": "related",
+      "label": "consequences preview before commitment; checklists add structured review"
     },
     {
       "source": "actions-application-cognitive-forcing-functions-checklist",
       "target": "actions-application-form",
-      "type": "related"
+      "type": "related",
+      "label": "the checklist interaction resembles a form with verification items"
     },
     {
       "source": "actions-coordination-action-bar",
@@ -1969,52 +2002,62 @@
     {
       "source": "actions-coordination-dropdown",
       "target": "operations-popover",
-      "type": "related"
+      "type": "related",
+      "label": "underlying positioning and light-dismiss behaviour"
     },
     {
       "source": "actions-coordination-dropdown",
       "target": "operations-select",
-      "type": "related"
+      "type": "related",
+      "label": "shares the collapsed-options silhouette but carries a form value, not actions; reach for select when the outcome is \"this is the answer\", for dropdown when the outcome is \"do this thing\""
     },
     {
       "source": "actions-coordination-dropdown",
       "target": "actions-coordination-bubble-menu",
-      "type": "related"
+      "type": "related",
+      "label": "adds selection-awareness; dropdown provides the container, bubble menu determines *what* goes in it based on content selection"
     },
     {
       "source": "actions-coordination-dropdown",
       "target": "actions-seeking-command-menu",
-      "type": "related"
+      "type": "related",
+      "label": "searchable alternative for large option sets"
     },
     {
       "source": "actions-coordination-dropdown",
       "target": "actions-coordination-priority",
-      "type": "related"
+      "type": "related",
+      "label": "uses dropdown as overflow container for responsive layouts"
     },
     {
       "source": "actions-coordination-dropdown",
       "target": "actions-application-context-menu",
-      "type": "related"
+      "type": "related",
+      "label": "shares the overlay mechanism but is target-triggered (right-click) rather than button-triggered"
     },
     {
       "source": "actions-coordination-messaging",
       "target": "activities-bot",
-      "type": "related"
+      "type": "related",
+      "label": "conversation partner"
     },
     {
       "source": "actions-coordination-messaging",
       "target": "activities-conversation",
-      "type": "related"
+      "type": "related",
+      "label": "conversation structure"
     },
     {
       "source": "actions-coordination-nav-bar",
       "target": "actions-seeking-command-menu",
-      "type": "related"
+      "type": "related",
+      "label": "alternative navigation for power users"
     },
     {
       "source": "actions-coordination-nav-bar",
       "target": "operations-breadcrumbs",
-      "type": "related"
+      "type": "related",
+      "label": "complements nav bar by showing current location"
     },
     {
       "source": "actions-coordination-nav-bar",
@@ -2034,7 +2077,8 @@
     {
       "source": "actions-coordination-notification",
       "target": "foundations-delegation",
-      "type": "related"
+      "type": "related",
+      "label": "the primary communication channel for a background agent"
     },
     {
       "source": "actions-coordination-notification",
@@ -2044,7 +2088,8 @@
     {
       "source": "actions-coordination-notification",
       "target": "activities-collaboration",
-      "type": "related"
+      "type": "related",
+      "label": "Notifications keep collaborators informed of changes and events in shared environments"
     },
     {
       "source": "actions-coordination-notification",
@@ -2130,19 +2175,19 @@
       "source": "actions-coordination-selection",
       "target": "actions-seeking-filtering",
       "type": "related",
-      "label": "Adjacent to"
+      "label": "Filtering and selection cover the same job from opposite ends — filter narrows by predicate, selection narrows by enumeration"
     },
     {
       "source": "actions-coordination-selection",
       "target": "actions-seeking-sorting",
       "type": "related",
-      "label": "Adjacent to"
+      "label": "Sorting changes what a range selection refers to mid-flight — range selections have to either survive the sort or re-resolve to the new order"
     },
     {
       "source": "actions-coordination-selection",
       "target": "actions-seeking-searching",
       "type": "related",
-      "label": "Adjacent to"
+      "label": "Search shrinks the population from which selections are drawn"
     },
     {
       "source": "operations-checkbox",
@@ -2180,22 +2225,26 @@
     {
       "source": "actions-coordination-toolbar",
       "target": "actions-coordination-action-bar",
-      "type": "related"
+      "type": "related",
+      "label": "the transient counterpart; summoned by selection rather than persistent, and typically composes a toolbar internally for its action group"
     },
     {
       "source": "actions-coordination-toolbar",
       "target": "actions-coordination-priority",
-      "type": "related"
+      "type": "related",
+      "label": "handles overflow when toolbar items don't fit the available space"
     },
     {
       "source": "actions-coordination-toolbar",
       "target": "actions-seeking-command-menu",
-      "type": "related"
+      "type": "related",
+      "label": "a keyboard-driven complement; exposes the full command set on demand where the toolbar exposes a persistent subset"
     },
     {
       "source": "actions-coordination-toolbar",
       "target": "operations-unavailable-actions",
-      "type": "related"
+      "type": "related",
+      "label": "the pattern behind hiding toolbar items that are inaccessible in the current context"
     },
     {
       "source": "actions-evaluation-focus-and-context",
@@ -2205,7 +2254,8 @@
     {
       "source": "actions-evaluation-table",
       "target": "operations-overflow",
-      "type": "related"
+      "type": "related",
+      "label": "governs how cell content behaves when it exceeds column width"
     },
     {
       "source": "actions-evaluation-table",
@@ -2215,17 +2265,20 @@
     {
       "source": "actions-evaluation-table",
       "target": "actions-seeking-sorting",
-      "type": "related"
+      "type": "related",
+      "label": "column headers are the primary surface for sort controls"
     },
     {
       "source": "actions-evaluation-table",
       "target": "actions-seeking-filtering",
-      "type": "related"
+      "type": "related",
+      "label": "commonly paired with tables to narrow the displayed rows"
     },
     {
       "source": "actions-evaluation-table",
       "target": "actions-sensemaking-card",
-      "type": "related"
+      "type": "related",
+      "label": "an alternative representation"
     },
     {
       "source": "actions-evaluation-text-lens",
@@ -2240,7 +2293,8 @@
     {
       "source": "actions-evaluation-text-lens",
       "target": "activities-localization",
-      "type": "related"
+      "type": "related",
+      "label": "tone adjustment with cultural bounds"
     },
     {
       "source": "actions-evaluation-text-lens",
@@ -2255,27 +2309,32 @@
     {
       "source": "actions-navigation-overview-and-detail",
       "target": "actions-navigation-hub-and-spoke",
-      "type": "related"
+      "type": "related",
+      "label": "The sequential alternative."
     },
     {
       "source": "actions-navigation-overview-and-detail",
       "target": "actions-seeking-data-view",
-      "type": "related"
+      "type": "related",
+      "label": "The \"Overview\" component."
     },
     {
       "source": "actions-navigation-overview-and-detail",
       "target": "actions-seeking-item-view",
-      "type": "related"
+      "type": "related",
+      "label": "The \"Detail\" component."
     },
     {
       "source": "actions-navigation-overview-and-detail",
       "target": "foundations-intent-interaction",
-      "type": "related"
+      "type": "related",
+      "label": "actors can scan list and verify details without back-and-forth navigation."
     },
     {
       "source": "actions-navigation-flat-navigation",
       "target": "actions-seeking-command-menu",
-      "type": "related"
+      "type": "related",
+      "label": "efficient tool access"
     },
     {
       "source": "actions-navigation-flat-navigation",
@@ -2295,7 +2354,8 @@
     {
       "source": "actions-navigation-flat-navigation",
       "target": "foundations-intent-interaction",
-      "type": "related"
+      "type": "related",
+      "label": "finding tools vs finding content becomes the challenge"
     },
     {
       "source": "actions-navigation-fully-connected",
@@ -2364,7 +2424,8 @@
     {
       "source": "actions-navigation-fully-connected",
       "target": "foundations-intent-interaction",
-      "type": "related"
+      "type": "related",
+      "label": "maximum efficiency for precise movement"
     },
     {
       "source": "actions-navigation-fully-connected",
@@ -2426,12 +2487,14 @@
     {
       "source": "actions-navigation-hub-and-spoke",
       "target": "foundations-intent-interaction",
-      "type": "related"
+      "type": "related",
+      "label": "hub can surface updates and status from all spokes"
     },
     {
       "source": "actions-navigation-hybrid-patterns",
       "target": "foundations-information-architecture",
-      "type": "related"
+      "type": "related",
+      "label": "conceptual framework"
     },
     {
       "source": "actions-navigation-hybrid-patterns",
@@ -2484,7 +2547,8 @@
     {
       "source": "actions-navigation-multilevel-tree",
       "target": "foundations-intent-interaction",
-      "type": "related"
+      "type": "related",
+      "label": "structured exploration within known domains"
     },
     {
       "source": "actions-navigation-multilevel-tree",
@@ -2538,7 +2602,8 @@
     {
       "source": "actions-navigation-pan-and-zoom",
       "target": "foundations-intent-interaction",
-      "type": "related"
+      "type": "related",
+      "label": "spatial metaphors naturally support discovery"
     },
     {
       "source": "actions-navigation-pyramid",
@@ -2574,24 +2639,22 @@
     {
       "source": "actions-navigation-pyramid",
       "target": "foundations-intent-interaction",
-      "type": "related"
+      "type": "related",
+      "label": "hub overview enables pattern recognition and scanning"
     },
     {
       "source": "actions-navigation-step-by-step",
       "target": "actions-application-wizard",
       "type": "instantiates",
-      "label": "detailed implementation of strict step by step navigation",
-      "extractedFrom": "header:\"Implements this model\"",
-      "gloss": "Wizard is the canonical instantiation of step-by-step navigation: a strict linear sequence with explicit progress, back/next, and a defined end-state. Same-altitude instantiates is genuine here — taxonomy of moves doesn't require altitude difference.",
-      "glossSource": "manual"
+      "label": "Wizard is the canonical instantiation of step-by-step navigation",
+      "extractedFrom": "header:\"Implements this model\""
     },
     {
       "source": "actions-navigation-step-by-step",
       "target": "actions-application-form",
       "type": "instantiates",
-      "extractedFrom": "header:\"Implements this model\"",
-      "gloss": "Form (in the multi-step case) uses step-by-step navigation as a building block, not the other way around — step-by-step is not a kind of form. Reads more truly as `enables` (step-by-step enables multi-step form). Current edge stands until the source MDX header is corrected.",
-      "glossSource": "manual"
+      "label": "Form might use step-by-step navigation as a building block",
+      "extractedFrom": "header:\"Implements this model\""
     },
     {
       "source": "actions-navigation-step-by-step",
@@ -2628,7 +2691,8 @@
     {
       "source": "actions-navigation-step-by-step",
       "target": "foundations-intent-interaction",
-      "type": "related"
+      "type": "related",
+      "label": "optimised for getting the job done"
     },
     {
       "source": "actions-seeking-command-menu",
@@ -2839,7 +2903,8 @@
     {
       "source": "actions-seeking-item-view",
       "target": "actions-sensemaking-card",
-      "type": "related"
+      "type": "related",
+      "label": "summary-level item representations"
     },
     {
       "source": "operations-details",
@@ -3051,17 +3116,20 @@
     {
       "source": "actions-sensemaking-card",
       "target": "actions-seeking-data-view",
-      "type": "related"
+      "type": "related",
+      "label": "uses Card as one of its collection representations"
     },
     {
       "source": "actions-sensemaking-card",
       "target": "actions-evaluation-table",
-      "type": "related"
+      "type": "related",
+      "label": "alternative collection representation; prefer cards for visual scanning, table for dense comparison"
     },
     {
       "source": "actions-sensemaking-card",
       "target": "actions-seeking-item-view",
-      "type": "related"
+      "type": "related",
+      "label": "card is the canonical UI element for summary-level item representations"
     },
     {
       "source": "actions-sensemaking-needsbased-view",
@@ -3086,17 +3154,20 @@
     {
       "source": "actions-sensemaking-explanation",
       "target": "activities-transparent-reasoning",
-      "type": "related"
+      "type": "related",
+      "label": "shows step-by-step process while explanation encourages understanding through interaction"
     },
     {
       "source": "actions-sensemaking-explanation",
       "target": "activities-collaboration",
-      "type": "related"
+      "type": "related",
+      "label": "uses explanations to facilitate understanding through transparency about other actors' actions"
     },
     {
       "source": "actions-sensemaking-explanation",
       "target": "activities-localization",
-      "type": "related"
+      "type": "related",
+      "label": "culturally appropriate explanation styles"
     },
     {
       "source": "actions-sensemaking-grouping",
@@ -3166,7 +3237,8 @@
     {
       "source": "activities-ai-tuning",
       "target": "foundations-delegation",
-      "type": "related"
+      "type": "related",
+      "label": "shaping initial behaviours at set-up, and repairing misfires during exception handling"
     },
     {
       "source": "activities-ai-tuning",
@@ -3389,49 +3461,49 @@
       "source": "activities-collaboration",
       "target": "activities-activity-log",
       "type": "related",
-      "label": "Core collaborative components"
+      "label": "Activity log is the shared record that lets participants reconstruct what happened"
     },
     {
       "source": "activities-collaboration",
       "target": "actions-coordination-notification",
       "type": "related",
-      "label": "Communication and awareness"
+      "label": "Notification carries the cross-actor awareness signal — what changed, by whom, and whether you should look."
     },
     {
       "source": "activities-collaboration",
       "target": "actions-sensemaking-explanation",
       "type": "related",
-      "label": "Communication and awareness"
+      "label": "Explanation is the longer-form sibling of notification — how participants understand each other's reasoning, not just each other's actions."
     },
     {
       "source": "activities-collaboration",
       "target": "actions-application-suggestion",
       "type": "related",
-      "label": "Collaborative decision-making and co-creation"
+      "label": "Suggestion is co-creation in tentative form — proposing options the participants can converge on or reject without commitment."
     },
     {
       "source": "activities-collaboration",
       "target": "activities-transparent-reasoning",
       "type": "related",
-      "label": "Collaborative decision-making and co-creation"
+      "label": "Transparent reasoning makes the basis of collaborative decisions auditable, which is what lets participants disagree productively rather than past each other."
     },
     {
       "source": "activities-collaboration",
       "target": "activities-bot",
       "type": "related",
-      "label": "Human-AI collaboration"
+      "label": "Bot frames the AI as a collaborator with its own modes; collaborating with a bot is a different gesture grammar than collaborating with a human."
     },
     {
       "source": "activities-collaboration",
       "target": "activities-prompt",
       "type": "related",
-      "label": "Human-AI collaboration"
+      "label": "Prompt is how humans address an AI participant; the structuring move that makes a bot legible as a collaborator rather than a tool."
     },
     {
       "source": "activities-collaboration",
       "target": "actions-seeking-command-menu",
       "type": "related",
-      "label": "Supporting patterns"
+      "label": "Command menu is the affordance that keeps collaboration commands accessible without crowding the surface — collaboration depth without UI weight."
     },
     {
       "source": "activities-collaboration",
@@ -3441,17 +3513,20 @@
     {
       "source": "activities-conversation",
       "target": "activities-localization",
-      "type": "related"
+      "type": "related",
+      "label": "dialogue structure adapted to cultural communication norms"
     },
     {
       "source": "activities-conversation",
       "target": "actions-coordination-messaging",
-      "type": "related"
+      "type": "related",
+      "label": "where conversation happens"
     },
     {
       "source": "activities-conversation",
       "target": "activities-bot",
-      "type": "related"
+      "type": "related",
+      "label": "conversation partner"
     },
     {
       "source": "activities-conversation",
@@ -3461,12 +3536,14 @@
     {
       "source": "activities-conversation",
       "target": "actions-evaluation-text-lens",
-      "type": "related"
+      "type": "related",
+      "label": "filter lenses adapt conversational tone and style based on context and relationship"
     },
     {
       "source": "activities-conversation",
       "target": "activities-collaboration",
-      "type": "related"
+      "type": "related",
+      "label": "uses conversation as a core communication mechanism for collaborative work"
     },
     {
       "source": "activities-conversation",
@@ -3615,27 +3692,32 @@
     {
       "source": "activities-help",
       "target": "activities-localization",
-      "type": "related"
+      "type": "related",
+      "label": "localised documentation and support content"
     },
     {
       "source": "activities-help",
       "target": "activities-embedded-intelligence",
-      "type": "related"
+      "type": "related",
+      "label": "The proactive sibling to Help. If Help explains how to do X, Embedded Intelligence offers to do X for you."
     },
     {
       "source": "activities-help",
       "target": "actions-sensemaking-explanation",
-      "type": "related"
+      "type": "related",
+      "label": "The core content unit of high-quality help."
     },
     {
       "source": "activities-help",
       "target": "actions-sensemaking-annotation",
-      "type": "related"
+      "type": "related",
+      "label": "A mechanism for attaching help to specific elements."
     },
     {
       "source": "activities-help",
       "target": "operations-status-feedback",
-      "type": "related"
+      "type": "related",
+      "label": "Communicates system state; the \"Recover\" purpose often begins with status feedback."
     },
     {
       "source": "activities-help",
@@ -3793,10 +3875,8 @@
       "source": "activities-onboarding",
       "target": "operations-empty-state",
       "type": "complements",
-      "label": "often the canvas for onboarding.",
-      "extractedFrom": "header:\"Complementary\"",
-      "gloss": "Empty-state is the canvas onboarding paints on; the relationship is compositional (empty-state enables onboarding), not symmetric complement. Direction would also invert under the building-block convention: empty-state → onboarding. Current edge stands until the source MDX is restructured.",
-      "glossSource": "manual"
+      "label": "Empty-state is the canvas onboarding paints on; the relationship is compositional (empty-state enables onboarding), not symmetric complement. Direction would also invert under the building-block convention: empty-state → onboarding. Current edge stands until the source MDX is restructured.",
+      "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "activities-onboarding",
@@ -3975,17 +4055,20 @@
     {
       "source": "foundations-collaboration",
       "target": "actions-sensemaking-annotation",
-      "type": "related"
+      "type": "related",
+      "label": "collective sense-making through shared markup and layered interpretation"
     },
     {
       "source": "foundations-collaboration",
       "target": "activities-collaboration",
-      "type": "related"
+      "type": "related",
+      "label": "interaction stages and variants for human↔human and human↔bot collaboration"
     },
     {
       "source": "foundations-collaboration",
       "target": "activities-activity-feed",
-      "type": "related"
+      "type": "related",
+      "label": "aggregation mechanism for distributed awareness"
     },
     {
       "source": "foundations-collaboration",
@@ -3995,7 +4078,8 @@
     {
       "source": "foundations-data-information",
       "target": "foundations-information-architecture",
-      "type": "related"
+      "type": "related",
+      "label": "structural organisation determines how data layers are accessed and discovered"
     },
     {
       "source": "foundations-delegation",
@@ -4040,7 +4124,8 @@
     {
       "source": "foundations-information-architecture",
       "target": "activities-localization",
-      "type": "related"
+      "type": "related",
+      "label": "adapts IA across locales"
     },
     {
       "source": "foundations-information-architecture",
@@ -4060,12 +4145,14 @@
     {
       "source": "foundations-intent-interaction",
       "target": "foundations-assistance",
-      "type": "related"
+      "type": "related",
+      "label": "the kinds of support a system can offer at each stage of the actor's cognitive cycle (perceiving, knowing, planning, performing, reflecting)."
     },
     {
       "source": "foundations-intent-interaction",
       "target": "foundations-delegation",
-      "type": "related"
+      "type": "related",
+      "label": "the lifecycle and touchpoints of agentive systems."
     },
     {
       "source": "foundations-intent-interaction",
@@ -4075,32 +4162,38 @@
     {
       "source": "foundations-intent-interaction",
       "target": "actions-navigation-fully-connected",
-      "type": "related"
+      "type": "related",
+      "label": "maximum efficiency for precise movement"
     },
     {
       "source": "foundations-intent-interaction",
       "target": "actions-navigation-multilevel-tree",
-      "type": "related"
+      "type": "related",
+      "label": "efficient when mental model matches structure"
     },
     {
       "source": "foundations-intent-interaction",
       "target": "actions-navigation-pyramid",
-      "type": "related"
+      "type": "related",
+      "label": "hub enables direct targeting"
     },
     {
       "source": "foundations-intent-interaction",
       "target": "actions-navigation-step-by-step",
-      "type": "related"
+      "type": "related",
+      "label": "guided completion without distraction"
     },
     {
       "source": "foundations-intent-interaction",
       "target": "actions-navigation-flat-navigation",
-      "type": "related"
+      "type": "related",
+      "label": "sustained focus on work"
     },
     {
       "source": "foundations-intent-interaction",
       "target": "actions-navigation-pan-and-zoom",
-      "type": "related"
+      "type": "related",
+      "label": "spatial exploration feels natural"
     },
     {
       "source": "foundations-intent-interaction",
@@ -4111,37 +4204,37 @@
       "source": "foundations-modality",
       "target": "actions-application-dialog",
       "type": "related",
-      "label": "Transient-mode patterns"
+      "label": "Dialog is the strict-modal end of the modality gradient — return to primary context is blocked until the actor resolves it."
     },
     {
       "source": "foundations-modality",
       "target": "actions-application-drawer",
       "type": "related",
-      "label": "Transient-mode patterns"
+      "label": "Drawer is mid-gradient — secondary content adjacent to the primary, modal in attention but not in workflow."
     },
     {
       "source": "foundations-modality",
       "target": "operations-popover",
       "type": "related",
-      "label": "Transient-mode patterns"
+      "label": "Popover is the loosest transient mode — a contextual layer that yields to any other interaction."
     },
     {
       "source": "foundations-modality",
       "target": "actions-coordination-notification",
       "type": "related",
-      "label": "Notification as modality gradient"
+      "label": "Notification is the coordination pattern that picks where on the modality gradient a signal lands — same payload, different intrusion."
     },
     {
       "source": "foundations-modality",
       "target": "operations-toast",
       "type": "related",
-      "label": "Notification as modality gradient"
+      "label": "Toast is the non-modal floor of the notification gradient — visible, dismissible, never blocks."
     },
     {
       "source": "foundations-modality",
       "target": "operations-callout",
       "type": "related",
-      "label": "Notification as modality gradient"
+      "label": "Callout sits adjacent to toast on the modality gradient — non-modal but spatially anchored rather than ephemeral."
     },
     {
       "source": "foundations-modality",
@@ -4187,121 +4280,121 @@
       "source": "foundations-prose",
       "target": "foundations-information-architecture",
       "type": "related",
-      "label": "Neighbouring foundations"
+      "label": "IA owns the labelling vocabulary; prose owns how those labels get phrased and where they tolerate ambiguity."
     },
     {
       "source": "foundations-prose",
       "target": "foundations-intent-interaction",
       "type": "related",
-      "label": "Neighbouring foundations"
+      "label": "Intent & Interaction frames interaction as a sequence of turns; prose is what those turns are made of when they are text."
     },
     {
       "source": "foundations-prose",
       "target": "foundations-collaboration",
       "type": "related",
-      "label": "Neighbouring foundations"
+      "label": "Collaboration depends on shared interpretive ground; prose is the most flexible carrier of that ground between participants."
     },
     {
       "source": "foundations-prose",
       "target": "foundations-assistance",
       "type": "related",
-      "label": "Neighbouring foundations"
+      "label": "Assistance lives largely as microcopy; each helper line is a small assistive turn made of prose."
     },
     {
       "source": "foundations-prose",
       "target": "foundations-delegation",
       "type": "related",
-      "label": "Neighbouring foundations"
+      "label": "Delegation surfaces are increasingly written rather than chosen; the prose decides what the agent sounds like and what authority it claims."
     },
     {
       "source": "foundations-prose",
       "target": "actions-seeking-dynamic-hyperlinks",
       "type": "related",
-      "label": "Patterns that manifest prose moves"
+      "label": "Dynamic hyperlinks are prose-as-affordance: the link text is the prose, and the move from authored phrase to actionable target is itself the prose move."
     },
     {
       "source": "foundations-prose",
       "target": "operations-reference",
       "type": "related",
-      "label": "Patterns that manifest prose moves"
+      "label": "Reference links rest on a prose convention — that an authored phrase points to a canonical entity. The prose decides what counts as a name worth linking."
     },
     {
       "source": "foundations-prose",
       "target": "operations-deep-linking",
       "type": "related",
-      "label": "Patterns that manifest prose moves"
+      "label": "Deep linking surfaces a piece of system state as a shareable address; the prose around the link does the work of telling the recipient what they will land in."
     },
     {
       "source": "foundations-prose",
       "target": "actions-application-data-entry",
       "type": "related",
-      "label": "Patterns that manifest prose moves"
+      "label": "Data entry is where microcopy carries most of the in-context guidance — labels, helper text, and error language are the prose surface that decides whether a form reads as instructive or as interrogation."
     },
     {
       "source": "foundations-prose",
       "target": "operations-status-feedback",
       "type": "related",
-      "label": "Patterns that manifest prose moves"
+      "label": "Status feedback is where prose makes a system state legible; the difference between 'Saved' and 'Your changes are safe' is a prose decision about register, not a state decision."
     },
     {
       "source": "foundations-prose",
       "target": "operations-toast",
       "type": "related",
-      "label": "Patterns that manifest prose moves"
+      "label": "Toast is microcopy under a time constraint; the prose has one beat to be intelligible and is judged by whether it can be read at a glance."
     },
     {
       "source": "foundations-prose",
       "target": "operations-callout",
       "type": "related",
-      "label": "Patterns that manifest prose moves"
+      "label": "Callout prose carries the framing for advisory content; the line between helpful and patronising is set by the prose rather than the styling."
     },
     {
       "source": "foundations-prose",
       "target": "actions-coordination-notification",
       "type": "related",
-      "label": "Patterns that manifest prose moves"
+      "label": "Notification prose has to telegraph relevance fast enough that the actor can decide whether to engage; the prose is the decision-making surface, not just the message."
     },
     {
       "source": "foundations-prose",
       "target": "actions-sensemaking-explanation",
       "type": "related",
-      "label": "Patterns that manifest prose moves"
+      "label": "Explanation is sustained domain prose; the place where the library's prose voice has to scale beyond microcopy without losing precision."
     },
     {
       "source": "foundations-prose",
       "target": "actions-application-suggestion",
       "type": "related",
-      "label": "Patterns that manifest prose moves"
+      "label": "Suggestion is prose-as-tentative-move; the framing has to invite without committing, and the difference between 'Try X' and 'You should X' lives entirely in the prose."
     },
     {
       "source": "foundations-prose",
       "target": "activities-localization",
       "type": "related",
-      "label": "Activities where prose is central"
+      "label": "Localisation is where prose architecture meets variability — what reads as natural in one locale needs a translation strategy that protects the underlying move."
     },
     {
       "source": "foundations-prose",
       "target": "activities-ai-tuning",
       "type": "related",
-      "label": "Activities where prose is central"
+      "label": "AI tuning treats voice and register as specifiable parameters; prose becomes a thing that can be tuned, not just authored."
     },
     {
       "source": "foundations-prose",
       "target": "activities-bot",
       "type": "related",
-      "label": "Activities where prose is central"
+      "label": "Bot pages are mostly prose decisions — the bot is its prose, and the persona is the language."
     },
     {
       "source": "foundations-prose",
       "target": "activities-transparent-reasoning",
       "type": "related",
-      "label": "Activities where prose is central"
+      "label": "Transparent reasoning surfaces system reasoning as readable text; the framing prose decides whether the explanation reads as transparent or as performance."
     },
     {
       "source": "foundations-prose",
       "target": "activities-generated-content",
       "type": "related",
-      "label": "Activities where prose is central"
+      "label": "Generated content lives in tension with authored prose; the register drift between the two is one of the harder problems in the library."
     },
     {
       "source": "foundations-material-iconography",
@@ -4336,17 +4429,20 @@
     {
       "source": "foundations-material-iconography",
       "target": "foundations-material-typography",
-      "type": "related"
+      "type": "related",
+      "label": "match the weight and style of surrounding type"
     },
     {
       "source": "foundations-material-typography",
       "target": "foundations-material-iconography",
-      "type": "related"
+      "type": "related",
+      "label": "match the weight and style of surrounding type"
     },
     {
       "source": "foundations-material-typography",
       "target": "foundations-material-color",
-      "type": "related"
+      "type": "related",
+      "label": "typography interacts with colour to create hierarchy and emphasis"
     },
     {
       "source": "operations-autocomplete",
@@ -4475,22 +4571,26 @@
     {
       "source": "operations-breadcrumbs",
       "target": "actions-seeking-command-menu",
-      "type": "related"
+      "type": "related",
+      "label": "alternative navigation for transactional search"
     },
     {
       "source": "operations-breadcrumbs",
       "target": "actions-seeking-filtering",
-      "type": "related"
+      "type": "related",
+      "label": "complementary browsing support"
     },
     {
       "source": "operations-breadcrumbs",
       "target": "operations-overflow",
-      "type": "related"
+      "type": "related",
+      "label": "governs how long paths behave when they exceed available space"
     },
     {
       "source": "operations-breadcrumbs",
       "target": "actions-coordination-priority",
-      "type": "related"
+      "type": "related",
+      "label": "an alternative strategy for long paths"
     },
     {
       "source": "operations-breadcrumbs",
@@ -4500,7 +4600,8 @@
     {
       "source": "operations-button",
       "target": "foundations-material-iconography",
-      "type": "related"
+      "type": "related",
+      "label": "rules for when and how to use icons in buttons"
     },
     {
       "source": "operations-button",
@@ -4520,32 +4621,38 @@
     {
       "source": "operations-callout",
       "target": "actions-coordination-notification",
-      "type": "related"
+      "type": "related",
+      "label": "the broader system that defines alert types and delivery modes"
     },
     {
       "source": "operations-callout",
       "target": "operations-status-feedback",
-      "type": "related"
+      "type": "related",
+      "label": "the framework callout belongs to"
     },
     {
       "source": "operations-callout",
       "target": "actions-application-form",
-      "type": "related"
+      "type": "related",
+      "label": "validation and instructional feedback patterns"
     },
     {
       "source": "operations-deep-linking",
       "target": "actions-coordination-messaging",
-      "type": "related"
+      "type": "related",
+      "label": "Each message/thread is addressable"
     },
     {
       "source": "operations-deep-linking",
       "target": "actions-coordination-commenting",
-      "type": "related"
+      "type": "related",
+      "label": "Comments get unique URLs"
     },
     {
       "source": "operations-deep-linking",
       "target": "actions-seeking-progressive-disclosure",
-      "type": "related"
+      "type": "related",
+      "label": "URL state tracks what's expanded/revealed"
     },
     {
       "source": "operations-good-defaults",
@@ -4575,31 +4682,32 @@
     {
       "source": "operations-good-defaults",
       "target": "activities-localization",
-      "type": "related"
+      "type": "related",
+      "label": "locale detection as a source of sensible defaults"
     },
     {
       "source": "operations-input",
       "target": "operations-autocomplete",
       "type": "related",
-      "label": "Assisted input"
+      "label": "Autocomplete is the narrowing form of input assistance — the option space already exists; the assistance is reducing it."
     },
     {
       "source": "operations-input",
       "target": "operations-autofill",
       "type": "related",
-      "label": "Assisted input"
+      "label": "Autofill is assistance from prior state — the system already knows the value; the input just surfaces it."
     },
     {
       "source": "operations-input",
       "target": "operations-good-defaults",
       "type": "related",
-      "label": "Assisted input"
+      "label": "Good defaults are assistance without prior state — the system picks the most likely value to save the actor a decision."
     },
     {
       "source": "operations-input",
       "target": "actions-application-suggestion",
       "type": "related",
-      "label": "Assisted input"
+      "label": "Suggestion is the proposing form of input assistance — the option space does not pre-exist; the system invents candidates."
     },
     {
       "source": "operations-input",
@@ -4639,22 +4747,26 @@
     {
       "source": "operations-overflow",
       "target": "actions-coordination-priority",
-      "type": "related"
+      "type": "related",
+      "label": "handles overflow for *discrete element sets* (toolbars, nav bars)"
     },
     {
       "source": "operations-overflow",
       "target": "actions-evaluation-table",
-      "type": "related"
+      "type": "related",
+      "label": "table cells are a primary site for text overflow decisions"
     },
     {
       "source": "operations-overflow",
       "target": "actions-sensemaking-card",
-      "type": "related"
+      "type": "related",
+      "label": "cards often contain text that may overflow"
     },
     {
       "source": "operations-overflow",
       "target": "operations-breadcrumbs",
-      "type": "related"
+      "type": "related",
+      "label": "long paths collapse, applying overflow logic to navigation items"
     },
     {
       "source": "operations-popover",
@@ -4744,12 +4856,14 @@
     {
       "source": "operations-reference",
       "target": "foundations-prose",
-      "type": "related"
+      "type": "related",
+      "label": "link rhetoric and the authored-link counterpart of inline reference"
     },
     {
       "source": "operations-reference",
       "target": "actions-seeking-dynamic-hyperlinks",
-      "type": "related"
+      "type": "related",
+      "label": "the algorithmic (soft) counterpart to author-placed references"
     },
     {
       "source": "operations-reference",
@@ -4834,7 +4948,8 @@
     {
       "source": "operations-status-feedback",
       "target": "operations-callout",
-      "type": "related"
+      "type": "related",
+      "label": "primary inline delivery mechanism for status feedback"
     },
     {
       "source": "operations-status-feedback",
@@ -4844,7 +4959,8 @@
     {
       "source": "operations-status-feedback",
       "target": "activities-collaboration",
-      "type": "related"
+      "type": "related",
+      "label": "Status feedback provides awareness of system state and action effects in collaborative environments"
     },
     {
       "source": "operations-status-feedback",
@@ -4899,17 +5015,20 @@
     {
       "source": "operations-unavailable-actions",
       "target": "actions-seeking-progressive-disclosure",
-      "type": "related"
+      "type": "related",
+      "label": "a softer form: deferring rather than removing"
     },
     {
       "source": "operations-unavailable-actions",
       "target": "actions-coordination-toolbar",
-      "type": "related"
+      "type": "related",
+      "label": "primary context where actions are hidden based on selection or state"
     },
     {
       "source": "operations-unavailable-actions",
       "target": "actions-seeking-command-menu",
-      "type": "related"
+      "type": "related",
+      "label": "context menus apply the same principle, surfacing only relevant commands"
     },
     {
       "source": "operations-undo",
@@ -4929,217 +5048,260 @@
     {
       "source": "operations-conversation-sequence-management-abort",
       "target": "activities-conversation",
-      "type": "related"
+      "type": "related",
+      "label": "parent pattern"
     },
     {
       "source": "operations-conversation-sequence-management-abort",
       "target": "operations-undo",
-      "type": "related"
+      "type": "related",
+      "label": "related non-destructive exit; offer undo and restore affordances when state has been modified"
     },
     {
       "source": "operations-conversation-sequence-management-abort",
       "target": "operations-conversation-conversation-management-closing",
-      "type": "related"
+      "type": "related",
+      "label": "the clean alternative when a session ends intentionally rather than by abandonment"
     },
     {
       "source": "operations-conversation-sequence-management-abort",
       "target": "operations-conversation-conversation-management-opening-bot",
-      "type": "related"
+      "type": "related",
+      "label": "abort can occur immediately after a bot-initiated opening"
     },
     {
       "source": "operations-conversation-sequence-management-abort",
       "target": "operations-conversation-conversation-management-opening-user",
-      "type": "related"
+      "type": "related",
+      "label": "abort can occur immediately after a user-initiated opening"
     },
     {
       "source": "operations-conversation-conversation-management-opening-bot",
       "target": "operations-conversation-conversation-management-capability-scope",
-      "type": "related"
+      "type": "related",
+      "label": "capability giving is often embedded within the opening"
     },
     {
       "source": "operations-conversation-conversation-management-opening-bot",
       "target": "operations-conversation-conversational-activities-open-request",
-      "type": "related"
+      "type": "related",
+      "label": "typical first activity after a bot-initiated opening"
     },
     {
       "source": "operations-conversation-conversation-management-opening-bot",
       "target": "operations-conversation-conversational-activities-extended-telling",
-      "type": "related"
+      "type": "related",
+      "label": "offered on user refusal as an alternative to immediate engagement"
     },
     {
       "source": "operations-conversation-conversation-management-opening-bot",
       "target": "operations-conversation-sequence-management-abort",
-      "type": "related"
+      "type": "related",
+      "label": "if the user disengages before reaching the first activity"
     },
     {
       "source": "operations-conversation-conversation-management-opening-bot",
       "target": "operations-conversation-conversation-management-disengage-without-closing",
-      "type": "related"
+      "type": "related",
+      "label": "if the bot re-opens after a prior session was abandoned"
     },
     {
       "source": "operations-conversation-sequence-management-bot-repair",
       "target": "operations-conversation-conversational-activities-inquiry-user",
-      "type": "related"
+      "type": "related",
+      "label": "transitions into information capture when a specific required value is missing"
     },
     {
       "source": "operations-conversation-sequence-management-bot-repair",
       "target": "operations-conversation-sequence-management-sequence-completion",
-      "type": "related"
+      "type": "related",
+      "label": "the primary activity resumes once repair is resolved"
     },
     {
       "source": "operations-conversation-sequence-management-bot-repair",
       "target": "operations-conversation-conversation-management-capability-scope",
-      "type": "related"
+      "type": "related",
+      "label": "out-of-scope requests are a form of scope repair"
     },
     {
       "source": "operations-conversation-conversation-management-capability-scope",
       "target": "activities-bot",
-      "type": "related"
+      "type": "related",
+      "label": "the conversational partner whose capabilities are being stated"
     },
     {
       "source": "operations-conversation-conversation-management-capability-scope",
       "target": "operations-conversation-conversation-management-opening-bot",
-      "type": "related"
+      "type": "related",
+      "label": "capability giving is often embedded within a bot-initiated opening"
     },
     {
       "source": "operations-conversation-conversation-management-capability-scope",
       "target": "operations-conversation-sequence-management-bot-repair",
-      "type": "related"
+      "type": "related",
+      "label": "out-of-scope or ambiguous requests are handled via bot repair"
     },
     {
       "source": "operations-conversation-conversation-management-closing",
       "target": "operations-conversation-sequence-management-sequence-completion",
-      "type": "related"
+      "type": "related",
+      "label": "the user's minimal receipt that signals a sequence is done; closing follows when the overall goal is achieved"
     },
     {
       "source": "operations-conversation-conversation-management-closing",
       "target": "operations-conversation-conversation-management-disengage-without-closing",
-      "type": "related"
+      "type": "related",
+      "label": "alternative when the user steps away without a formal close"
     },
     {
       "source": "operations-conversation-conversation-management-disengage-without-closing",
       "target": "operations-conversation-conversation-management-closing",
-      "type": "related"
+      "type": "related",
+      "label": "the preferred alternative when a formal close is possible"
     },
     {
       "source": "operations-conversation-conversation-management-disengage-without-closing",
       "target": "operations-conversation-conversation-management-opening-bot",
-      "type": "related"
+      "type": "related",
+      "label": "re-entry point when the bot resumes after a disengagement"
     },
     {
       "source": "operations-conversation-conversation-management-disengage-without-closing",
       "target": "operations-conversation-conversation-management-opening-user",
-      "type": "related"
+      "type": "related",
+      "label": "users can also re-open on their own initiative after stepping away"
     },
     {
       "source": "operations-conversation-conversational-activities-extended-telling",
       "target": "activities-conversation",
-      "type": "related"
+      "type": "related",
+      "label": "parent pattern; extended telling is a primitive for instruction-based dialogue"
     },
     {
       "source": "operations-conversation-conversational-activities-extended-telling",
       "target": "operations-conversation-conversation-management-opening-bot",
-      "type": "related"
+      "type": "related",
+      "label": "offered as an alternative to immediate engagement on user refusal"
     },
     {
       "source": "operations-conversation-conversational-activities-extended-telling",
       "target": "operations-conversation-sequence-management-user-repair",
-      "type": "related"
+      "type": "related",
+      "label": "extended telling is the fallback when simple paraphrase or definition fails to resolve confusion"
     },
     {
       "source": "operations-conversation-conversational-activities-inquiry-bot",
       "target": "operations-conversation-conversation-management-opening-user",
-      "type": "related"
+      "type": "related",
+      "label": "bot inquiry is used when a user opening requires clarification before the bot can proceed"
     },
     {
       "source": "operations-conversation-conversational-activities-inquiry-bot",
       "target": "operations-conversation-conversational-activities-open-request",
-      "type": "related"
+      "type": "related",
+      "label": "bot inquiry is embedded within open request to gather missing constraints"
     },
     {
       "source": "operations-conversation-conversational-activities-inquiry-user",
       "target": "activities-conversation",
-      "type": "related"
+      "type": "related",
+      "label": "parent pattern; user inquiry appears across all dialogue forms"
     },
     {
       "source": "operations-conversation-conversational-activities-inquiry-user",
       "target": "operations-conversation-sequence-management-bot-repair",
-      "type": "related"
+      "type": "related",
+      "label": "information capture via this primitive is used to resolve bot-side ambiguity"
     },
     {
       "source": "operations-conversation-conversational-activities-inquiry-user",
       "target": "operations-conversation-conversational-activities-extended-telling",
-      "type": "related"
+      "type": "related",
+      "label": "for multi-part answers that exceed the scope of a single inquiry response"
     },
     {
       "source": "operations-conversation-conversational-activities-open-request",
       "target": "operations-conversation-conversation-management-opening-bot",
-      "type": "related"
+      "type": "related",
+      "label": "bot-initiated openings typically transition into an open request"
     },
     {
       "source": "operations-conversation-conversational-activities-open-request",
       "target": "operations-conversation-conversation-management-opening-user",
-      "type": "related"
+      "type": "related",
+      "label": "user-initiated openings with a complex request map directly to this primitive"
     },
     {
       "source": "operations-conversation-conversational-activities-open-request",
       "target": "operations-conversation-conversational-activities-inquiry-bot",
-      "type": "related"
+      "type": "related",
+      "label": "used within open request to gather missing or ambiguous constraints"
     },
     {
       "source": "operations-conversation-sequence-management-sequence-completion",
       "target": "operations-conversation-sequence-management-bot-repair",
-      "type": "related"
+      "type": "related",
+      "label": "resumes the primary activity at sequence completion once a bot-side breakdown is resolved"
     },
     {
       "source": "operations-conversation-sequence-management-sequence-completion",
       "target": "operations-conversation-sequence-management-user-repair",
-      "type": "related"
+      "type": "related",
+      "label": "resumes at sequence completion once the user's comprehension is restored"
     },
     {
       "source": "operations-conversation-sequence-management-sequence-completion",
       "target": "operations-conversation-conversation-management-closing",
-      "type": "related"
+      "type": "related",
+      "label": "natural follow-up when sequence completion signals the overall goal is achieved"
     },
     {
       "source": "operations-conversation-conversation-management-opening-user",
       "target": "operations-conversation-conversational-activities-open-request",
-      "type": "related"
+      "type": "related",
+      "label": "the most common activity a user-initiated opening transitions into"
     },
     {
       "source": "operations-conversation-conversation-management-opening-user",
       "target": "operations-conversation-conversational-activities-inquiry-bot",
-      "type": "related"
+      "type": "related",
+      "label": "used when the opening requires clarification before proceeding"
     },
     {
       "source": "operations-conversation-conversation-management-opening-user",
       "target": "operations-conversation-conversational-activities-inquiry-user",
-      "type": "related"
+      "type": "related",
+      "label": "when the opening is a simple question"
     },
     {
       "source": "operations-conversation-conversation-management-opening-user",
       "target": "operations-conversation-sequence-management-bot-repair",
-      "type": "related"
+      "type": "related",
+      "label": "for disambiguating ambiguous or overlapping user openings"
     },
     {
       "source": "operations-conversation-conversation-management-opening-user",
       "target": "operations-conversation-sequence-management-abort",
-      "type": "related"
+      "type": "related",
+      "label": "if the user immediately changes their mind"
     },
     {
       "source": "operations-conversation-sequence-management-user-repair",
       "target": "activities-conversation",
-      "type": "related"
+      "type": "related",
+      "label": "parent pattern"
     },
     {
       "source": "operations-conversation-sequence-management-user-repair",
       "target": "operations-conversation-conversational-activities-extended-telling",
-      "type": "related"
+      "type": "related",
+      "label": "fallback when a simple paraphrase or definition is insufficient"
     },
     {
       "source": "operations-conversation-sequence-management-user-repair",
       "target": "operations-conversation-sequence-management-sequence-completion",
-      "type": "related"
+      "type": "related",
+      "label": "the activity resumes from the same step once the repair is resolved"
     },
     {
       "source": "qualities-adaptability",
@@ -5164,7 +5326,8 @@
     {
       "source": "qualities-adaptability",
       "target": "activities-localization",
-      "type": "related"
+      "type": "related",
+      "label": "exercises adaptability across linguistic and cultural boundaries"
     },
     {
       "source": "qualities-adaptability",
@@ -5284,37 +5447,44 @@
     {
       "source": "qualities-formality",
       "target": "foundations-intent-interaction",
-      "type": "related"
+      "type": "related",
+      "label": "formality parallels the interaction arc; as intent matures, so does the structure around it"
     },
     {
       "source": "qualities-formality",
       "target": "actions-application-suggestion",
-      "type": "related"
+      "type": "related",
+      "label": "the primary mechanism for gradual formalisation; offers structure without demanding it"
     },
     {
       "source": "qualities-formality",
       "target": "actions-application-data-entry",
-      "type": "related"
+      "type": "related",
+      "label": "where formality demands are most directly felt"
     },
     {
       "source": "qualities-formality",
       "target": "actions-application-form",
-      "type": "related"
+      "type": "related",
+      "label": "the high-formality end of the spectrum"
     },
     {
       "source": "qualities-formality",
       "target": "actions-sensemaking-tag",
-      "type": "related"
+      "type": "related",
+      "label": "lightweight formalisation through inline categorisation"
     },
     {
       "source": "qualities-formality",
       "target": "actions-coordination-messaging",
-      "type": "related"
+      "type": "related",
+      "label": "conversational input accepts unstructured text by design"
     },
     {
       "source": "qualities-formality",
       "target": "activities-bot",
-      "type": "related"
+      "type": "related",
+      "label": "interprets intent from freeform input without requiring formal structure"
     },
     {
       "source": "qualities-formality",
@@ -5329,34 +5499,38 @@
     {
       "source": "qualities-formality",
       "target": "qualities-agency",
-      "type": "related"
+      "type": "related",
+      "label": "low formality preserves user agency during exploration"
     },
     {
       "source": "qualities-formality",
       "target": "qualities-learnability",
-      "type": "related"
+      "type": "related",
+      "label": "every formalism carries its own learning curve, independent of the task"
     },
     {
       "source": "qualities-formality",
       "target": "qualities-adaptability",
-      "type": "related"
+      "type": "related",
+      "label": "systems that adapt formality to context avoid premature structure"
     },
     {
       "source": "qualities-formality",
       "target": "foundations-collaboration",
-      "type": "related"
+      "type": "related",
+      "label": "multi-actor contexts introduce social pressure toward premature formalisation; structure that aids legibility for others can close off exploration for the originating actor"
     },
     {
       "source": "qualities-learnability",
       "target": "activities-onboarding",
       "type": "related",
-      "label": "Lifecycle"
+      "label": "Onboarding is the front-loaded learning event — the deliberate spike where the actor is willing to be taught."
     },
     {
       "source": "qualities-learnability",
       "target": "activities-mastery",
       "type": "related",
-      "label": "Lifecycle"
+      "label": "Mastery is the late-lifecycle stance — learnability that keeps paying off after the actor has become competent."
     },
     {
       "source": "qualities-learnability",
@@ -5375,42 +5549,50 @@
     {
       "source": "qualities-malleability",
       "target": "qualities-agency",
-      "type": "related"
+      "type": "related",
+      "label": "prerequisite for user control"
     },
     {
       "source": "qualities-malleability",
       "target": "qualities-adaptability",
-      "type": "related"
+      "type": "related",
+      "label": "system-driven complement"
     },
     {
       "source": "qualities-malleability",
       "target": "qualities-learnability",
-      "type": "related"
+      "type": "related",
+      "label": "gentle slope supports skill development"
     },
     {
       "source": "qualities-malleability",
       "target": "qualities-shareability",
-      "type": "related"
+      "type": "related",
+      "label": "customizations as shareable state"
     },
     {
       "source": "qualities-malleability",
       "target": "qualities-temporality",
-      "type": "related"
+      "type": "related",
+      "label": "versioning and undo history"
     },
     {
       "source": "qualities-malleability",
       "target": "actions-sensemaking-view",
-      "type": "related"
+      "type": "related",
+      "label": "saved views as malleability pattern"
     },
     {
       "source": "qualities-malleability",
       "target": "foundations-information-architecture",
-      "type": "related"
+      "type": "related",
+      "label": "user-created hierarchies"
     },
     {
       "source": "qualities-malleability",
       "target": "activities-mastery",
-      "type": "related"
+      "type": "related",
+      "label": "customisation as a path to expertise"
     },
     {
       "source": "qualities-malleability",
@@ -5440,32 +5622,38 @@
     {
       "source": "qualities-privacy",
       "target": "qualities-agency",
-      "type": "related"
+      "type": "related",
+      "label": "determines who controls visibility decisions and how control is distributed"
     },
     {
       "source": "qualities-privacy",
       "target": "foundations-collaboration",
-      "type": "related"
+      "type": "related",
+      "label": "requires balancing individual privacy needs with group transparency requirements"
     },
     {
       "source": "qualities-privacy",
       "target": "qualities-conversation",
-      "type": "related"
+      "type": "related",
+      "label": "privacy affects audience awareness and appropriate disclosure in dialogue"
     },
     {
       "source": "qualities-privacy",
       "target": "qualities-shareability",
-      "type": "related"
+      "type": "related",
+      "label": "describes how state becomes public through sharing; privacy governs when that transition should occur"
     },
     {
       "source": "qualities-privacy",
       "target": "foundations-data-information",
-      "type": "related"
+      "type": "related",
+      "label": "privacy affects what information can be perceived and by whom"
     },
     {
       "source": "qualities-privacy",
       "target": "activities-localization",
-      "type": "related"
+      "type": "related",
+      "label": "data residency and locale-specific regulation"
     },
     {
       "source": "qualities-shareability",
@@ -5475,7 +5663,8 @@
     {
       "source": "qualities-shareability",
       "target": "qualities-conversation",
-      "type": "related"
+      "type": "related",
+      "label": "they're contracts between application and user that communicate intent clearly. A well-designed URL answers \"what am I looking at?\" just by being read. This transparency builds trust and supports cooperative interaction."
     },
     {
       "source": "qualities-shareability",
@@ -5495,7 +5684,8 @@
     {
       "source": "qualities-shareability",
       "target": "activities-localization",
-      "type": "related"
+      "type": "related",
+      "label": "locale-aware URLs and shared content"
     },
     {
       "source": "qualities-temporality",
@@ -5545,7 +5735,8 @@
     {
       "source": "qualities-temporality",
       "target": "activities-localization",
-      "type": "related"
+      "type": "related",
+      "label": "timezone handling and date format conventions"
     },
     {
       "source": "qualities-temporality",
@@ -5595,6 +5786,7 @@
       "source": "actions-application-assisted-task-completion",
       "target": "qualities-agency",
       "type": "enacts",
+      "label": "mirrors this spectrum; more system initiative demands more careful preservation of actor control",
       "extractedFrom": "quality-target"
     },
     {
@@ -5634,14 +5826,14 @@
       "source": "actions-application-nextbest-action",
       "target": "qualities-agency",
       "type": "enacts",
-      "label": "Foundations & use qualities",
+      "label": "proactive recommendations must preserve actor control",
       "extractedFrom": "quality-target"
     },
     {
       "source": "actions-application-nextbest-action",
       "target": "qualities-adaptability",
       "type": "enacts",
-      "label": "Foundations & use qualities",
+      "label": "recommendations that improve from accepted/rejected signal over time",
       "extractedFrom": "quality-target"
     },
     {
@@ -5687,18 +5879,21 @@
       "source": "actions-application-cognitive-forcing-functions-human-goes-first",
       "target": "qualities-learnability",
       "type": "enacts",
+      "label": "domain learnability scaffolding that deepens rather than fades",
       "extractedFrom": "quality-target"
     },
     {
       "source": "actions-application-cognitive-forcing-functions-human-goes-first",
       "target": "qualities-agency",
       "type": "enacts",
+      "label": "directly prevents the skill atrophy side of over-reliance",
       "extractedFrom": "quality-target"
     },
     {
       "source": "actions-coordination-messaging",
       "target": "qualities-formality",
       "type": "enacts",
+      "label": "messaging is a low-formality input context; structure can emerge gradually from conversation",
       "extractedFrom": "quality-target"
     },
     {
@@ -5717,12 +5912,14 @@
       "source": "actions-navigation-overview-and-detail",
       "target": "qualities-malleability",
       "type": "enacts",
+      "label": "The capability to switch between topologies.",
       "extractedFrom": "quality-target"
     },
     {
       "source": "actions-navigation-hybrid-patterns",
       "target": "qualities-agency",
       "type": "enacts",
+      "label": "control implications of combinations",
       "extractedFrom": "quality-target"
     },
     {
@@ -5757,6 +5954,7 @@
       "source": "actions-sensemaking-explanation",
       "target": "qualities-learnability",
       "type": "enacts",
+      "label": "domain explanations support domain learnability",
       "extractedFrom": "quality-target"
     },
     {
@@ -5781,6 +5979,7 @@
       "source": "activities-ai-tuning",
       "target": "qualities-agency",
       "type": "enacts",
+      "label": "enables autonomous adaptation of bot behaviour based on user preferences and context.",
       "extractedFrom": "quality-target"
     },
     {
@@ -5836,12 +6035,14 @@
       "source": "activities-help",
       "target": "qualities-learnability",
       "type": "enacts",
+      "label": "The goal of effective help is to support Learnability (both initial and extended).",
       "extractedFrom": "quality-target"
     },
     {
       "source": "activities-help",
       "target": "qualities-conversation",
       "type": "enacts",
+      "label": "The broader context for help as a dialogic process.",
       "extractedFrom": "quality-target"
     },
     {
@@ -5960,24 +6161,28 @@
       "source": "foundations-collaboration",
       "target": "qualities-conversation",
       "type": "enacts",
+      "label": "the foundational capability that enables effective collaboration",
       "extractedFrom": "quality-target"
     },
     {
       "source": "foundations-collaboration",
       "target": "qualities-agency",
       "type": "enacts",
+      "label": "the distribution of control and initiative between collaborative actors",
       "extractedFrom": "quality-target"
     },
     {
       "source": "foundations-collaboration",
       "target": "qualities-shareability",
       "type": "enacts",
+      "label": "provides infrastructure for holopticism through URLs that capture and communicate precise application states",
       "extractedFrom": "quality-target"
     },
     {
       "source": "foundations-collaboration",
       "target": "qualities-formality",
       "type": "enacts",
+      "label": "shared artefacts raise formality demands beyond what any single actor needs; the fidelity vs exploration tension is a formality tension",
       "extractedFrom": "quality-target"
     },
     {
@@ -5990,18 +6195,21 @@
       "source": "foundations-data-information",
       "target": "qualities-agency",
       "type": "enacts",
+      "label": "User control over data layer configuration",
       "extractedFrom": "quality-target"
     },
     {
       "source": "foundations-data-information",
       "target": "qualities-adaptability",
       "type": "enacts",
+      "label": "Soft layers enable probabilistic adaptation",
       "extractedFrom": "quality-target"
     },
     {
       "source": "foundations-data-information",
       "target": "qualities-conversation",
       "type": "enacts",
+      "label": "Turn-taking between user input and system responses",
       "extractedFrom": "quality-target"
     },
     {
@@ -6062,28 +6270,28 @@
       "source": "foundations-prose",
       "target": "qualities-formality",
       "type": "enacts",
-      "label": "Neighbouring qualities",
+      "label": "structural demand on user input (disambiguation)",
       "extractedFrom": "quality-target"
     },
     {
       "source": "foundations-prose",
       "target": "qualities-conversation",
       "type": "enacts",
-      "label": "Neighbouring qualities",
+      "label": "turn-taking as substrate",
       "extractedFrom": "quality-target"
     },
     {
       "source": "foundations-prose",
       "target": "qualities-agency",
       "type": "enacts",
-      "label": "Neighbouring qualities",
+      "label": "yielding the stage as locus shift",
       "extractedFrom": "quality-target"
     },
     {
       "source": "foundations-prose",
       "target": "qualities-learnability",
       "type": "enacts",
-      "label": "Neighbouring qualities",
+      "label": "prose carries domain scaffolding",
       "extractedFrom": "quality-target"
     },
     {
@@ -6096,6 +6304,7 @@
       "source": "foundations-material-typography",
       "target": "qualities-density",
       "type": "enacts",
+      "label": "typography interacts with spacing and layout to create different feels",
       "extractedFrom": "quality-target"
     },
     {
