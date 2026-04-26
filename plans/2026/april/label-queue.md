@@ -1,5 +1,8 @@
 # Label queue — umbrella
 
+*Closed 2026-04-26.* All three sub-tasks complete. Every edge in the queue (axis-flagged, thematic, enacts) carries an authored or reviewed label in the source MDX. The queue file `pattern-graph.label-queue.json` continues to regenerate on each extraction as a coverage report; it should now show 100% labelled for these three reasons.
+
+
 After Phase 1 extraction landed ([typed-edges.md](./typed-edges.md)), `pattern-graph.label-queue.json` lists 137 edges where a manually authored `label` adds something the type alone can't carry. The queue mixes three reasons that want different work: pure authoring (`enacts`), judgement (`axis-flagged`), and partial research (`thematic`). They are scoped as three separate tasks rather than one sweep, because each wants different reading, different output, and a different commit.
 
 *MDX is the source of truth.* Labels live in the source MDX as the per-link `— ` annotation that extraction reads on the next run. Manual authoring writes back into MDX rather than into the graph. The graph is purely derived data.
