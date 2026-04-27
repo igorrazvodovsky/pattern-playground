@@ -58,7 +58,12 @@
       "id": "actions-application-form",
       "title": "Form",
       "category": "Actions",
-      "path": "../?path=/docs/actions-application-form--docs"
+      "path": "../?path=/docs/actions-application-form--docs",
+      "generativeProfile": {
+        "operatesOn": "a stretch of activity in which the system needs structured information from the actor that can't be inferred from prior context",
+        "produces": "a guided collection surface where fields are committed one at a time and the whole set can be reviewed before submission",
+        "enacts": "clarity about what's being asked, agency over what's submitted, room for revision before commit"
+      }
     },
     {
       "id": "actions-application-nextbest-action",
@@ -148,7 +153,12 @@
       "id": "actions-coordination-notification",
       "title": "Notification",
       "category": "Actions",
-      "path": "../?path=/docs/actions-coordination-notification--docs"
+      "path": "../?path=/docs/actions-coordination-notification--docs",
+      "generativeProfile": {
+        "operatesOn": "a system event whose existence the actor needs to know about, alongside an existing flow that has its own demands on attention",
+        "produces": "a delivery surface tuned to the event's urgency and the actor's availability",
+        "enacts": "awareness without disruption — or with disruption when warranted — and respect for the actor's current attention"
+      }
     },
     {
       "id": "actions-coordination-priority",
@@ -325,7 +335,12 @@
       "id": "actions-sensemaking-card",
       "title": "Card",
       "category": "Actions",
-      "path": "../?path=/docs/actions-sensemaking-card--docs"
+      "path": "../?path=/docs/actions-sensemaking-card--docs",
+      "generativeProfile": {
+        "operatesOn": "a heterogeneous collection of subjects that need to be browsed at a glance and compared against each other",
+        "produces": "a uniformly bounded representation per subject — a same-shaped frame across the collection — that lets attributes, media, and actions read in one pass",
+        "enacts": "scannability of the collection, density-comparability across items, legibility of each subject as one thing"
+      }
     },
     {
       "id": "actions-sensemaking-needsbased-view",
@@ -391,7 +406,12 @@
       "id": "activities-conversation",
       "title": "Conversation",
       "category": "Activities",
-      "path": "../?path=/docs/activities-conversation--docs"
+      "path": "../?path=/docs/activities-conversation--docs",
+      "generativeProfile": {
+        "operatesOn": "an evolving exchange between actors where meaning has to be built up over multiple turns rather than stated in one",
+        "produces": "a dialogue structure that carries context forward, lets either party take a turn, and accommodates repair when alignment slips",
+        "enacts": "shared understanding, mutual agency, room for the unfolding nature of meaning"
+      }
     },
     {
       "id": "activities-embedded-intelligence",
@@ -431,6 +451,11 @@
       "title": "Onboarding",
       "category": "Activities",
       "path": "../?path=/docs/activities-onboarding--docs",
+      "generativeProfile": {
+        "operatesOn": "an actor's first encounter with a system (or a changed part of one) before they have a working mental model of what's possible and what will happen",
+        "produces": "a bounded period in which the actor can build that model with low stakes, often by doing rather than reading",
+        "enacts": "learnability of the system's affordances, safety to try things, value visible early enough to motivate continued use"
+      },
       "tags": [
         "lifecycle"
       ]
@@ -553,7 +578,12 @@
       "id": "operations-autocomplete",
       "title": "Autocomplete",
       "category": "Operations",
-      "path": "../?path=/docs/operations-autocomplete--docs"
+      "path": "../?path=/docs/operations-autocomplete--docs",
+      "generativeProfile": {
+        "operatesOn": "a free-form input where the set of valid answers is large or the actor is still formulating the query",
+        "produces": "a narrowing surface of candidate completions running alongside what's been typed",
+        "enacts": "assistance without taking over, discoverability of options that exist, economy of typing"
+      }
     },
     {
       "id": "operations-autofill",
@@ -589,7 +619,12 @@
       "id": "operations-checkbox",
       "title": "Checkbox",
       "category": "Operations",
-      "path": "../?path=/docs/operations-checkbox--docs"
+      "path": "../?path=/docs/operations-checkbox--docs",
+      "generativeProfile": {
+        "operatesOn": "a single binary preference the actor wants to commit without leaving the surrounding flow",
+        "produces": "a visible on/off state the actor can flip in place",
+        "enacts": "legibility of state, continuity with the surrounding flow"
+      }
     },
     {
       "id": "operations-deep-linking",
@@ -607,7 +642,12 @@
       "id": "operations-input",
       "title": "Input",
       "category": "Operations",
-      "path": "../?path=/docs/operations-input--docs"
+      "path": "../?path=/docs/operations-input--docs",
+      "generativeProfile": {
+        "operatesOn": "a piece of information the system cannot enumerate or infer — it has to be supplied",
+        "produces": "a free-form text slot the actor can write into",
+        "enacts": "openness to anything sayable; trust in what the actor types"
+      }
     },
     {
       "id": "operations-keyboard-key",
@@ -655,13 +695,23 @@
       "id": "operations-sections",
       "title": "Sections",
       "category": "Operations",
-      "path": "../?path=/docs/operations-sections--docs"
+      "path": "../?path=/docs/operations-sections--docs",
+      "generativeProfile": {
+        "operatesOn": "content that divides into a small, stable set of named parts where which-mode-to-show is a property of context, not of the content",
+        "produces": "a single container whose disclosure affordance (tabs vs. accordion) shifts with context without restructuring the content",
+        "enacts": "adaptability to context, continuity of structure across affordances"
+      }
     },
     {
       "id": "operations-select",
       "title": "Select",
       "category": "Operations",
-      "path": "../?path=/docs/operations-select--docs"
+      "path": "../?path=/docs/operations-select--docs",
+      "generativeProfile": {
+        "operatesOn": "a single field whose value must come from a short, bounded set the actor already recognises",
+        "produces": "a collapsed control that hides the option set out of the way until the actor needs to act on it",
+        "enacts": "economy of attention and screen space; recognition over recall"
+      }
     },
     {
       "id": "operations-disabled-state",
@@ -697,7 +747,12 @@
       "id": "operations-toast",
       "title": "Toast",
       "category": "Operations",
-      "path": "../?path=/docs/operations-toast--docs"
+      "path": "../?path=/docs/operations-toast--docs",
+      "generativeProfile": {
+        "operatesOn": "a recent action whose outcome the actor would benefit from confirming, without needing acknowledgement before continuing",
+        "produces": "a brief peripheral message that auto-dismisses after a short window, optionally carrying a single trailing affordance such as undo",
+        "enacts": "acknowledgement of the action's completion, lightness of touch, recoverability within the dismissal window"
+      }
     },
     {
       "id": "operations-unavailable-actions",
@@ -709,7 +764,12 @@
       "id": "operations-undo",
       "title": "Undo",
       "category": "Operations",
-      "path": "../?path=/docs/operations-undo--docs"
+      "path": "../?path=/docs/operations-undo--docs",
+      "generativeProfile": {
+        "operatesOn": "a recently committed action whose consequences the actor wants to retract",
+        "produces": "a reverse path that returns the structure to its prior state, with a window in which the retraction is offered",
+        "enacts": "forgiveness for mistakes, room for confident exploration"
+      }
     },
     {
       "id": "operations-conversation-sequence-management-abort",
@@ -900,6 +960,12 @@
       "path": "../?path=/docs/operations-details--docs"
     },
     {
+      "id": "operations-inline-confirmation",
+      "title": "Inline confirmation",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-inline-confirmation--docs"
+    },
+    {
       "id": "operations-tabs",
       "title": "Tabs",
       "category": "Operations",
@@ -924,14 +990,21 @@
     },
     {
       "source": "actions-application-ai-completion",
-      "target": "actions-application-data-entry",
+      "target": "qualities-agency",
+      "type": "enacts",
+      "label": "the actor remains in creative lead; the system only proposes",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "actions-application-data-entry",
+      "target": "actions-application-ai-completion",
       "type": "precedes",
       "label": "AI completion as the AI-driven end of the input strategy spectrum",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "actions-application-ai-completion",
-      "target": "operations-autocomplete",
+      "source": "operations-autocomplete",
+      "target": "actions-application-ai-completion",
       "type": "precedes",
       "label": "the deterministic precursor; AI completion extends the same interaction to generated content",
       "extractedFrom": "header:\"Precursors\""
@@ -980,9 +1053,16 @@
     {
       "source": "actions-application-ai-completion",
       "target": "actions-sensemaking-blockbased-editor",
-      "type": "follows",
+      "type": "precedes",
       "label": "a natural container for AI completion",
       "extractedFrom": "header:\"Follow-ups\""
+    },
+    {
+      "source": "actions-application-ai-completion",
+      "target": "qualities-adaptability",
+      "type": "enacts",
+      "label": "completion that improves from actor corrections over time",
+      "extractedFrom": "quality-target"
     },
     {
       "source": "actions-application-ai-completion",
@@ -999,6 +1079,13 @@
       "target": "actions-application-suggestion",
       "type": "related",
       "label": "the broader pattern of system-generated recommendations; this spectrum focuses on the specific mechanisms"
+    },
+    {
+      "source": "actions-application-assisted-task-completion",
+      "target": "qualities-agency",
+      "type": "enacts",
+      "label": "mirrors this spectrum; more system initiative demands more careful preservation of actor control",
+      "extractedFrom": "quality-target"
     },
     {
       "source": "actions-application-assisted-task-completion",
@@ -1038,21 +1125,28 @@
     },
     {
       "source": "actions-application-cognitive-forcing-functions",
-      "target": "actions-application-suggestion",
+      "target": "qualities-agency",
+      "type": "enacts",
+      "label": "the outcome this family is trying to produce",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "actions-application-suggestion",
+      "target": "actions-application-cognitive-forcing-functions",
       "type": "precedes",
       "label": "the primary site where forcing functions apply; see its fixation risk section",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "actions-application-cognitive-forcing-functions",
-      "target": "actions-application-nextbest-action",
+      "source": "actions-application-nextbest-action",
+      "target": "actions-application-cognitive-forcing-functions",
       "type": "precedes",
       "label": "workflow-level recommendations that benefit from forcing functions when stakes are high",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "actions-application-cognitive-forcing-functions",
-      "target": "actions-application-ai-completion",
+      "source": "actions-application-ai-completion",
+      "target": "actions-application-cognitive-forcing-functions",
       "type": "precedes",
       "label": "inline generation prone to over-reliance because accepting is cheaper than evaluating",
       "extractedFrom": "header:\"Precursors\""
@@ -1080,8 +1174,22 @@
     },
     {
       "source": "actions-application-cognitive-forcing-functions",
+      "target": "qualities-learnability",
+      "type": "enacts",
+      "label": "forcing functions only work when users have the competence to evaluate; learnability builds that competence",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions",
+      "target": "qualities-temporality",
+      "type": "enacts",
+      "label": "timing-based forcing functions (wait, human goes first) depend on temporal design",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions",
       "target": "activities-activity-log",
-      "type": "follows",
+      "type": "precedes",
       "label": "rationale logging produces an audit trail that the activity log can surface",
       "extractedFrom": "header:\"Follow-ups\""
     },
@@ -1188,6 +1296,13 @@
       "label": "explaining *why* a specific interpretation was made."
     },
     {
+      "source": "actions-application-data-entry",
+      "target": "qualities-formality",
+      "type": "enacts",
+      "label": "every data entry field is a choice about how formal the input has to be",
+      "extractedFrom": "quality-target"
+    },
+    {
       "source": "actions-application-deletion",
       "target": "actions-application-action-consequences",
       "type": "related",
@@ -1259,8 +1374,8 @@
       "label": "dialog is the most disruptive notification type, reserved for critical alerts that require action"
     },
     {
-      "source": "actions-application-drawer",
-      "target": "foundations-modality",
+      "source": "foundations-modality",
+      "target": "actions-application-drawer",
       "type": "precedes",
       "label": "how overlays constrain attention",
       "extractedFrom": "header:\"Precursors\""
@@ -1296,67 +1411,74 @@
     {
       "source": "actions-application-drawer",
       "target": "actions-coordination-notification",
-      "type": "follows",
+      "type": "precedes",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "actions-application-drawer",
       "target": "operations-toast",
-      "type": "follows",
+      "type": "precedes",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
-      "source": "actions-application-form",
-      "target": "actions-coordination-messaging",
+      "source": "actions-coordination-messaging",
+      "target": "actions-application-form",
       "type": "precedes",
       "label": "for conversational variant.",
       "extractedFrom": "header:\"Precursors\""
     },
     {
       "source": "actions-application-form",
-      "target": "operations-input",
+      "target": "qualities-formality",
+      "type": "enacts",
+      "label": "forms commit the actor to the system's full shape up front",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "operations-input",
+      "target": "actions-application-form",
       "type": "precedes",
       "label": "free-form text entry with label and helper text",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "actions-application-form",
-      "target": "operations-textarea",
+      "source": "operations-textarea",
+      "target": "actions-application-form",
       "type": "precedes",
       "label": "multi-line counterpart for longer text",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "actions-application-form",
-      "target": "operations-select",
+      "source": "operations-select",
+      "target": "actions-application-form",
       "type": "precedes",
       "label": "choosing one value from a short, bounded set",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "actions-application-form",
-      "target": "operations-checkbox",
+      "source": "operations-checkbox",
+      "target": "actions-application-form",
       "type": "precedes",
       "label": "binary choice input",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "actions-application-form",
-      "target": "operations-button",
+      "source": "operations-button",
+      "target": "actions-application-form",
       "type": "precedes",
       "label": "form submission and action triggers",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "actions-application-form",
-      "target": "actions-coordination-dropdown",
+      "source": "actions-coordination-dropdown",
+      "target": "actions-application-form",
       "type": "precedes",
       "label": "action menu counterpart to Select",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "actions-application-form",
-      "target": "actions-evaluation-list",
+      "source": "actions-evaluation-list",
+      "target": "actions-application-form",
       "type": "precedes",
       "label": "structured options with checkbox/radio variants",
       "extractedFrom": "header:\"Precursors\""
@@ -1364,14 +1486,14 @@
     {
       "source": "actions-application-form",
       "target": "operations-status-feedback",
-      "type": "follows",
+      "type": "precedes",
       "label": "validation and system status communication",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "actions-application-form",
       "target": "actions-application-saving",
-      "type": "follows",
+      "type": "precedes",
       "label": "autosave and manual save strategies",
       "extractedFrom": "header:\"Follow-ups\""
     },
@@ -1442,14 +1564,28 @@
     },
     {
       "source": "actions-application-nextbest-action",
-      "target": "actions-application-suggestion",
+      "target": "qualities-agency",
+      "type": "enacts",
+      "label": "proactive recommendations must preserve actor control",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "actions-application-nextbest-action",
+      "target": "qualities-adaptability",
+      "type": "enacts",
+      "label": "recommendations that improve from accepted/rejected signal over time",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "actions-application-suggestion",
+      "target": "actions-application-nextbest-action",
       "type": "precedes",
       "label": "the broader pattern; next-best action is specifically about recommending workflow steps",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "actions-application-nextbest-action",
-      "target": "actions-application-wizard",
+      "source": "actions-application-wizard",
+      "target": "actions-application-nextbest-action",
       "type": "precedes",
       "label": "prescribed sequences; next-best action is the adaptive, context-aware alternative",
       "extractedFrom": "header:\"Precursors\""
@@ -1498,7 +1634,7 @@
     {
       "source": "actions-application-nextbest-action",
       "target": "actions-application-action-consequences",
-      "type": "follows",
+      "type": "precedes",
       "label": "when accepting a recommendation leads to consequential decisions",
       "extractedFrom": "header:\"Follow-ups\""
     },
@@ -1525,6 +1661,27 @@
       "target": "activities-collaboration",
       "type": "related",
       "label": "Saving patterns handle conflict resolution and multi-user editing scenarios in shared workspaces"
+    },
+    {
+      "source": "actions-application-settings",
+      "target": "qualities-agency",
+      "type": "enacts",
+      "label": "settings implement actor control over system behaviour",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "actions-application-settings",
+      "target": "qualities-privacy",
+      "type": "enacts",
+      "label": "settings include visibility and access preferences",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "actions-application-settings",
+      "target": "qualities-adaptability",
+      "type": "enacts",
+      "label": "settings enable system customization to context",
+      "extractedFrom": "quality-target"
     },
     {
       "source": "actions-application-settings",
@@ -1564,28 +1721,28 @@
     {
       "source": "actions-application-settings",
       "target": "operations-undo",
-      "type": "follows",
+      "type": "precedes",
       "label": "enables reversal of settings changes, particularly valuable for exploratory configuration",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "actions-application-settings",
       "target": "operations-status-feedback",
-      "type": "follows",
+      "type": "precedes",
       "label": "confirms settings changes and communicates their application",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "actions-application-settings",
       "target": "actions-coordination-notification",
-      "type": "follows",
+      "type": "precedes",
       "label": "alerts actors to settings-related changes, particularly in shared configuration contexts",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "actions-application-settings",
       "target": "foundations-localization",
-      "type": "follows",
+      "type": "precedes",
       "label": "language, timezone, and format preferences feed locale configuration",
       "extractedFrom": "header:\"Follow-ups\""
     },
@@ -1632,13 +1789,10 @@
     },
     {
       "source": "actions-application-suggestion",
-      "target": "actions-application-nextbest-action",
-      "type": "related"
-    },
-    {
-      "source": "actions-application-suggestion",
-      "target": "activities-bot",
-      "type": "related"
+      "target": "qualities-adaptability",
+      "type": "enacts",
+      "label": "suggestions might sharpen on the actor's accepted-or-rejected signal, fitting their patterns over time",
+      "extractedFrom": "quality-target"
     },
     {
       "source": "actions-application-suggestion",
@@ -1665,45 +1819,54 @@
     },
     {
       "source": "actions-application-suggestion",
-      "target": "actions-application-cognitive-forcing-functions",
-      "type": "related"
+      "target": "qualities-formality",
+      "type": "enacts",
+      "label": "suggestions ease the step from informal intent to formal expression, formalising by recognition rather than recall",
+      "extractedFrom": "quality-target"
     },
     {
-      "source": "actions-application-template",
-      "target": "activities-onboarding",
-      "type": "precedes",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "actions-application-template",
-      "target": "actions-application-wizard",
+      "source": "activities-onboarding",
+      "target": "actions-application-template",
       "type": "precedes",
       "extractedFrom": "header:\"Precursors\""
     },
     {
       "source": "actions-application-wizard",
-      "target": "actions-application-form",
+      "target": "actions-application-template",
+      "type": "precedes",
+      "extractedFrom": "header:\"Precursors\""
+    },
+    {
+      "source": "actions-application-template",
+      "target": "qualities-learnability",
+      "type": "enacts",
+      "label": "templates carry the shape of competent work, letting the actor learn the form by occupying it",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "actions-application-form",
+      "target": "actions-application-wizard",
       "type": "precedes",
       "label": "the single-page structure that wizards fragment across steps",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "actions-application-wizard",
-      "target": "actions-seeking-progressive-disclosure",
+      "source": "actions-seeking-progressive-disclosure",
+      "target": "actions-application-wizard",
       "type": "precedes",
       "label": "the conceptual foundation for revealing complexity gradually",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "actions-application-wizard",
-      "target": "activities-onboarding",
+      "source": "activities-onboarding",
+      "target": "actions-application-wizard",
       "type": "precedes",
       "label": "often employs wizards for initial setup and configuration",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "actions-application-wizard",
-      "target": "actions-navigation-step-by-step",
+      "source": "actions-navigation-step-by-step",
+      "target": "actions-application-wizard",
       "type": "precedes",
       "label": "Wizard is a specific implementation of the step by step navigation model, applying it to form-based tasks with validation and branching logic.",
       "extractedFrom": "header:\"Precursors\""
@@ -1759,6 +1922,20 @@
       "label": "the family this pattern belongs to"
     },
     {
+      "source": "actions-application-cognitive-forcing-functions-human-goes-first",
+      "target": "qualities-learnability",
+      "type": "enacts",
+      "label": "domain learnability scaffolding that deepens rather than fades",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-human-goes-first",
+      "target": "qualities-agency",
+      "type": "enacts",
+      "label": "directly prevents the skill atrophy side of over-reliance",
+      "extractedFrom": "quality-target"
+    },
+    {
       "source": "actions-application-cognitive-forcing-functions-checklist",
       "target": "actions-application-cognitive-forcing-functions",
       "type": "related",
@@ -1777,15 +1954,15 @@
       "label": "the checklist interaction resembles a form with verification items"
     },
     {
-      "source": "actions-coordination-action-bar",
-      "target": "actions-coordination-selection",
+      "source": "actions-coordination-selection",
+      "target": "actions-coordination-action-bar",
       "type": "precedes",
       "label": "the action bar exists only because a selection has been staked; its lifecycle is bound to the selection's",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "actions-coordination-action-bar",
-      "target": "actions-coordination-toolbar",
+      "source": "actions-coordination-toolbar",
+      "target": "actions-coordination-action-bar",
       "type": "precedes",
       "label": "the persistent counterpart; an action bar typically composes a toolbar internally for its action group",
       "extractedFrom": "header:\"Precursors\""
@@ -1828,21 +2005,21 @@
     {
       "source": "actions-coordination-action-bar",
       "target": "actions-application-deletion",
-      "type": "follows",
+      "type": "precedes",
       "label": "the most common bulk operation routed through an action bar; the confirmation strategy should scale with the selection count",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "actions-coordination-action-bar",
       "target": "operations-undo",
-      "type": "follows",
+      "type": "precedes",
       "label": "bulk actions raise the cost of mistakes; reversibility is more valuable here than for single-item operations",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "actions-coordination-action-bar",
       "target": "operations-status-feedback",
-      "type": "follows",
+      "type": "precedes",
       "label": "communicating the result of an action that consumed a multi-item selection",
       "extractedFrom": "header:\"Follow-ups\""
     },
@@ -1865,15 +2042,15 @@
       "extractedFrom": "header:\"Tangentially related\""
     },
     {
-      "source": "actions-coordination-bubble-menu",
-      "target": "actions-coordination-selection",
+      "source": "actions-coordination-selection",
+      "target": "actions-coordination-bubble-menu",
       "type": "precedes",
       "label": "the bubble menu exists because content has been selected; the content-range variant of selection is what it consumes",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "actions-coordination-bubble-menu",
-      "target": "actions-seeking-progressive-disclosure",
+      "source": "actions-seeking-progressive-disclosure",
+      "target": "actions-coordination-bubble-menu",
       "type": "precedes",
       "extractedFrom": "header:\"Precursors\""
     },
@@ -1915,7 +2092,7 @@
     {
       "source": "actions-coordination-bubble-menu",
       "target": "actions-sensemaking-blockbased-editor",
-      "type": "follows",
+      "type": "precedes",
       "label": "uses bubble menu for contextual text actions",
       "extractedFrom": "header:\"Follow-ups\""
     },
@@ -2005,9 +2182,10 @@
     },
     {
       "source": "actions-coordination-messaging",
-      "target": "activities-conversation",
-      "type": "related",
-      "label": "conversation structure"
+      "target": "qualities-formality",
+      "type": "enacts",
+      "label": "messaging is a low-formality input context; structure can emerge gradually from conversation",
+      "extractedFrom": "quality-target"
     },
     {
       "source": "actions-coordination-nav-bar",
@@ -2059,11 +2237,6 @@
       "target": "activities-collaboration",
       "type": "related",
       "label": "Notifications keep collaborators informed of changes and events in shared environments"
-    },
-    {
-      "source": "actions-coordination-notification",
-      "target": "operations-toast",
-      "type": "related"
     },
     {
       "source": "actions-coordination-notification",
@@ -2193,12 +2366,6 @@
     },
     {
       "source": "actions-coordination-toolbar",
-      "target": "actions-coordination-action-bar",
-      "type": "related",
-      "label": "the transient counterpart; summoned by selection rather than persistent, and typically composes a toolbar internally for its action group"
-    },
-    {
-      "source": "actions-coordination-toolbar",
       "target": "actions-coordination-priority",
       "type": "related",
       "label": "handles overflow when toolbar items don't fit the available space"
@@ -2217,6 +2384,27 @@
     },
     {
       "source": "actions-evaluation-focus-and-context",
+      "target": "qualities-agency",
+      "type": "enacts",
+      "label": "agency here belongs to the system as well as the user;",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "actions-evaluation-focus-and-context",
+      "target": "qualities-adaptability",
+      "type": "enacts",
+      "label": "the focused frame and its surrounding context recalibrate as the actor's task shifts",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "actions-evaluation-focus-and-context",
+      "target": "qualities-density",
+      "type": "enacts",
+      "label": "balanced against the actor's cognitive load as focus shifts",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "actions-evaluation-focus-and-context",
       "target": "actions-seeking-progressive-disclosure",
       "type": "related",
       "label": "staged exposure pairs naturally with focus-and-context, revealing detail as the actor moves toward it"
@@ -2226,11 +2414,6 @@
       "target": "operations-overflow",
       "type": "related",
       "label": "governs how cell content behaves when it exceeds column width"
-    },
-    {
-      "source": "actions-evaluation-table",
-      "target": "actions-seeking-data-view",
-      "type": "related"
     },
     {
       "source": "actions-evaluation-table",
@@ -2249,11 +2432,6 @@
       "target": "actions-sensemaking-card",
       "type": "related",
       "label": "an alternative representation"
-    },
-    {
-      "source": "actions-evaluation-text-lens",
-      "target": "activities-conversation",
-      "type": "related"
     },
     {
       "source": "actions-evaluation-text-lens",
@@ -2296,6 +2474,13 @@
     },
     {
       "source": "actions-navigation-overview-and-detail",
+      "target": "qualities-malleability",
+      "type": "enacts",
+      "label": "The capability to switch between topologies.",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "actions-navigation-overview-and-detail",
       "target": "foundations-intent-interaction",
       "type": "related",
       "label": "actors can scan list and verify details without back-and-forth navigation."
@@ -2305,11 +2490,6 @@
       "target": "actions-seeking-command-menu",
       "type": "related",
       "label": "efficient tool access"
-    },
-    {
-      "source": "actions-navigation-flat-navigation",
-      "target": "actions-navigation-hub-and-spoke",
-      "type": "related"
     },
     {
       "source": "actions-navigation-flat-navigation",
@@ -2403,8 +2583,8 @@
       "type": "related"
     },
     {
-      "source": "actions-navigation-hub-and-spoke",
-      "target": "actions-navigation-flat-navigation",
+      "source": "actions-navigation-flat-navigation",
+      "target": "actions-navigation-hub-and-spoke",
       "type": "precedes",
       "extractedFrom": "header:\"Precursors\""
     },
@@ -2432,7 +2612,7 @@
     {
       "source": "actions-navigation-hub-and-spoke",
       "target": "activities-workspace",
-      "type": "follows",
+      "type": "precedes",
       "label": "organisational containers often use hub and spoke",
       "extractedFrom": "header:\"Follow-ups\""
     },
@@ -2470,6 +2650,13 @@
       "target": "foundations-information-architecture",
       "type": "related",
       "label": "conceptual framework"
+    },
+    {
+      "source": "actions-navigation-hybrid-patterns",
+      "target": "qualities-agency",
+      "type": "enacts",
+      "label": "control implications of combinations",
+      "extractedFrom": "quality-target"
     },
     {
       "source": "actions-navigation-hybrid-patterns",
@@ -2549,6 +2736,13 @@
     },
     {
       "source": "actions-navigation-overview",
+      "target": "qualities-agency",
+      "type": "enacts",
+      "label": "control distribution implications",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "actions-navigation-overview",
       "target": "actions-navigation-hub-and-spoke",
       "type": "related",
       "label": "central hub lists all sections, actors return to hub for cross-section navigation"
@@ -2600,6 +2794,12 @@
       "target": "actions-navigation-hybrid-patterns",
       "type": "related",
       "label": "combinations of multiple models"
+    },
+    {
+      "source": "actions-navigation-overview",
+      "target": "qualities-malleability",
+      "type": "enacts",
+      "extractedFrom": "quality-target"
     },
     {
       "source": "actions-navigation-overview",
@@ -2756,8 +2956,8 @@
       "label": "optimised for getting the job done"
     },
     {
-      "source": "actions-seeking-command-menu",
-      "target": "operations-keyboard-key",
+      "source": "operations-keyboard-key",
+      "target": "actions-seeking-command-menu",
       "type": "precedes",
       "extractedFrom": "header:\"Precursors\""
     },
@@ -2777,14 +2977,14 @@
     {
       "source": "actions-seeking-command-menu",
       "target": "activities-collaboration",
-      "type": "follows",
+      "type": "precedes",
       "label": "Command menus provide quick access to collaborative actions and workflows",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "actions-seeking-command-menu",
       "target": "operations-unavailable-actions",
-      "type": "follows",
+      "type": "precedes",
       "label": "context menus show only relevant commands, hiding those inaccessible in the current context",
       "extractedFrom": "header:\"Follow-ups\""
     },
@@ -2796,63 +2996,58 @@
       "extractedFrom": "header:\"Tangentially related\""
     },
     {
-      "source": "actions-seeking-command-menu",
-      "target": "actions-seeking-filtering",
-      "type": "related"
-    },
-    {
       "source": "actions-seeking-data-view",
       "target": "actions-seeking-item-view",
       "type": "related",
       "label": "Single-entity counterpart"
     },
     {
-      "source": "actions-seeking-data-view",
-      "target": "actions-seeking-sorting",
+      "source": "actions-seeking-sorting",
+      "target": "actions-seeking-data-view",
       "type": "precedes",
       "extractedFrom": "header:\"Precursor patterns\""
     },
     {
-      "source": "actions-seeking-data-view",
-      "target": "actions-sensemaking-grouping",
+      "source": "actions-sensemaking-grouping",
+      "target": "actions-seeking-data-view",
       "type": "precedes",
       "extractedFrom": "header:\"Precursor patterns\""
     },
     {
-      "source": "actions-seeking-data-view",
-      "target": "actions-coordination-toolbar",
+      "source": "actions-coordination-toolbar",
+      "target": "actions-seeking-data-view",
       "type": "precedes",
       "extractedFrom": "header:\"Precursor patterns\""
     },
     {
-      "source": "actions-seeking-data-view",
-      "target": "actions-evaluation-table",
+      "source": "actions-evaluation-table",
+      "target": "actions-seeking-data-view",
       "type": "precedes",
       "extractedFrom": "header:\"Precursor patterns\""
     },
     {
-      "source": "actions-seeking-data-view",
-      "target": "actions-sensemaking-card",
+      "source": "actions-sensemaking-card",
+      "target": "actions-seeking-data-view",
       "type": "precedes",
       "extractedFrom": "header:\"Precursor patterns\""
     },
     {
-      "source": "actions-seeking-data-view",
-      "target": "actions-evaluation-timeline",
+      "source": "actions-evaluation-timeline",
+      "target": "actions-seeking-data-view",
       "type": "precedes",
       "extractedFrom": "header:\"Precursor patterns\""
     },
     {
       "source": "actions-seeking-data-view",
       "target": "actions-coordination-selection",
-      "type": "follows",
+      "type": "precedes",
       "label": "staking a subset of items as the target of subsequent action",
       "extractedFrom": "header:\"Follow-up patterns\""
     },
     {
       "source": "actions-seeking-data-view",
       "target": "actions-coordination-action-bar",
-      "type": "follows",
+      "type": "precedes",
       "label": "the container for batch actions once a selection has been made",
       "extractedFrom": "header:\"Follow-up patterns\""
     },
@@ -2862,8 +3057,8 @@
       "type": "related"
     },
     {
-      "source": "actions-seeking-dynamic-hyperlinks",
-      "target": "operations-reference",
+      "source": "operations-reference",
+      "target": "actions-seeking-dynamic-hyperlinks",
       "type": "precedes",
       "label": "explicit, typed entity linking (the hard counterpart)",
       "extractedFrom": "header:\"Precursors\""
@@ -2897,14 +3092,14 @@
       "extractedFrom": "header:\"Complementary\""
     },
     {
-      "source": "actions-seeking-filtering",
-      "target": "actions-coordination-toolbar",
+      "source": "actions-coordination-toolbar",
+      "target": "actions-seeking-filtering",
       "type": "precedes",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "actions-seeking-filtering",
-      "target": "actions-seeking-command-menu",
+      "source": "actions-seeking-command-menu",
+      "target": "actions-seeking-filtering",
       "type": "precedes",
       "extractedFrom": "header:\"Precursors\""
     },
@@ -2930,7 +3125,7 @@
     {
       "source": "actions-seeking-filtering",
       "target": "actions-seeking-data-view",
-      "type": "follows",
+      "type": "precedes",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
@@ -3021,6 +3216,13 @@
     },
     {
       "source": "actions-seeking-progressive-disclosure",
+      "target": "qualities-density",
+      "type": "enacts",
+      "label": "progressive disclosure manages information density by deferring secondary content",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "actions-seeking-progressive-disclosure",
       "target": "actions-evaluation-focus-and-context",
       "type": "complements",
       "label": "helps preserve orientation while moving between shallow and deep views",
@@ -3049,20 +3251,27 @@
     },
     {
       "source": "actions-seeking-progressive-disclosure",
+      "target": "qualities-learnability",
+      "type": "enacts",
+      "label": "staged exposure helps actors build mental models without immediate overload",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "actions-seeking-progressive-disclosure",
       "target": "activities-onboarding",
       "type": "tangential",
       "label": "stretches disclosure across an initial learning journey rather than a single view",
       "extractedFrom": "header:\"Tangentially related\""
     },
     {
-      "source": "actions-seeking-searching",
-      "target": "foundations-information-architecture",
+      "source": "foundations-information-architecture",
+      "target": "actions-seeking-searching",
       "type": "precedes",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "actions-seeking-searching",
-      "target": "foundations-intent-interaction",
+      "source": "foundations-intent-interaction",
+      "target": "actions-seeking-searching",
       "type": "precedes",
       "extractedFrom": "header:\"Precursors\""
     },
@@ -3093,13 +3302,13 @@
     {
       "source": "actions-seeking-searching",
       "target": "actions-seeking-data-view",
-      "type": "follows",
+      "type": "precedes",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "actions-seeking-searching",
       "target": "actions-navigation-overview",
-      "type": "follows",
+      "type": "precedes",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
@@ -3119,32 +3328,41 @@
     },
     {
       "source": "actions-seeking-sorting",
-      "target": "actions-seeking-data-view",
-      "type": "related"
-    },
-    {
-      "source": "actions-seeking-sorting",
       "target": "actions-evaluation-table",
       "type": "related"
     },
     {
       "source": "actions-sensemaking-annotation",
+      "target": "qualities-temporality",
+      "type": "enacts",
+      "label": "annotations are markers of time and wear.",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "actions-sensemaking-annotation",
+      "target": "qualities-learnability",
+      "type": "enacts",
+      "label": "annotations provide the context needed for learning.",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "actions-sensemaking-annotation",
       "target": "activities-collaboration",
-      "type": "follows",
+      "type": "precedes",
       "label": "shared annotations enable collaborative sense-making.",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "actions-sensemaking-annotation",
       "target": "activities-conversation",
-      "type": "follows",
+      "type": "precedes",
       "label": "annotations often initiate critical dialogue.",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "actions-sensemaking-annotation",
       "target": "actions-coordination-commenting",
-      "type": "follows",
+      "type": "precedes",
       "label": "extends static annotation into dynamic discussion.",
       "extractedFrom": "header:\"Follow-ups\""
     },
@@ -3185,12 +3403,6 @@
     },
     {
       "source": "actions-sensemaking-card",
-      "target": "actions-seeking-data-view",
-      "type": "related",
-      "label": "uses Card as one of its collection representations"
-    },
-    {
-      "source": "actions-sensemaking-card",
       "target": "actions-evaluation-table",
       "type": "related",
       "label": "alternative collection representation; prefer cards for visual scanning, table for dense comparison"
@@ -3220,6 +3432,13 @@
     },
     {
       "source": "actions-sensemaking-explanation",
+      "target": "qualities-learnability",
+      "type": "enacts",
+      "label": "domain explanations support domain learnability",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "actions-sensemaking-explanation",
       "target": "actions-seeking-progressive-disclosure",
       "type": "related"
     },
@@ -3242,14 +3461,14 @@
       "label": "culturally appropriate explanation styles"
     },
     {
-      "source": "actions-sensemaking-grouping",
-      "target": "actions-coordination-toolbar",
+      "source": "actions-coordination-toolbar",
+      "target": "actions-sensemaking-grouping",
       "type": "precedes",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "actions-sensemaking-grouping",
-      "target": "operations-details",
+      "source": "operations-details",
+      "target": "actions-sensemaking-grouping",
       "type": "precedes",
       "extractedFrom": "header:\"Precursors\""
     },
@@ -3264,12 +3483,6 @@
       "target": "actions-seeking-sorting",
       "type": "complements",
       "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "actions-sensemaking-grouping",
-      "target": "actions-seeking-data-view",
-      "type": "follows",
-      "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "actions-sensemaking-tag",
@@ -3296,9 +3509,30 @@
     },
     {
       "source": "actions-sensemaking-view",
+      "target": "qualities-malleability",
+      "type": "enacts",
+      "label": "The capability to change the view's content, layout, and composition",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "actions-sensemaking-view",
       "target": "actions-seeking-progressive-disclosure",
       "type": "related",
       "label": "Sequential revelation of information"
+    },
+    {
+      "source": "actions-sensemaking-view",
+      "target": "qualities-density",
+      "type": "enacts",
+      "label": "Information per unit of space",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "actions-sensemaking-view",
+      "target": "qualities-adaptability",
+      "type": "enacts",
+      "label": "System response to context changes",
+      "extractedFrom": "quality-target"
     },
     {
       "source": "actions-sensemaking-view",
@@ -3320,6 +3554,13 @@
     },
     {
       "source": "activities-ai-tuning",
+      "target": "qualities-agency",
+      "type": "enacts",
+      "label": "enables autonomous adaptation of bot behaviour based on user preferences and context.",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "activities-ai-tuning",
       "target": "foundations-localization",
       "type": "complements",
       "label": "locale as a generation parameter",
@@ -3331,8 +3572,8 @@
       "type": "related"
     },
     {
-      "source": "activities-activity-feed",
-      "target": "actions-sensemaking-card",
+      "source": "actions-sensemaking-card",
+      "target": "activities-activity-feed",
       "type": "precedes",
       "label": "common container format for feed items",
       "extractedFrom": "header:\"Precursors\""
@@ -3385,22 +3626,22 @@
       "extractedFrom": "header:\"Complementary patterns\""
     },
     {
-      "source": "activities-activity-log",
-      "target": "foundations-delegation",
+      "source": "foundations-delegation",
+      "target": "activities-activity-log",
       "type": "precedes",
       "label": "serves as the supervisory record for the *monitoring* and *hood to look under* touchpoints during execution",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "activities-activity-log",
-      "target": "activities-bot",
+      "source": "activities-bot",
+      "target": "activities-activity-log",
       "type": "precedes",
       "label": "actions and reasoning are tracked and displayed in the activity log.",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "activities-activity-log",
-      "target": "activities-transparent-reasoning",
+      "source": "activities-transparent-reasoning",
+      "target": "activities-activity-log",
       "type": "precedes",
       "label": "provides the detailed reasoning steps that get recorded in the activity log.",
       "extractedFrom": "header:\"Precursors\""
@@ -3432,7 +3673,7 @@
     {
       "source": "activities-activity-log",
       "target": "activities-collaboration",
-      "type": "follows",
+      "type": "precedes",
       "label": "Uses activity logs to provide transparency and accountability in shared workspaces",
       "extractedFrom": "header:\"Follow-ups\""
     },
@@ -3442,34 +3683,41 @@
       "type": "related"
     },
     {
-      "source": "activities-bot",
-      "target": "foundations-assistance",
+      "source": "foundations-assistance",
+      "target": "activities-bot",
       "type": "precedes",
       "label": "chatbot and inline bot modes",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "activities-bot",
-      "target": "foundations-delegation",
+      "source": "foundations-delegation",
+      "target": "activities-bot",
       "type": "precedes",
       "label": "ambient and workflow automation bot modes",
       "extractedFrom": "header:\"Precursors\""
     },
     {
       "source": "activities-bot",
-      "target": "activities-onboarding",
+      "target": "qualities-agency",
+      "type": "enacts",
+      "label": "how much freedom the bot has to act on its own.",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "activities-onboarding",
+      "target": "activities-bot",
       "type": "precedes",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "activities-bot",
-      "target": "actions-application-suggestion",
+      "source": "actions-application-suggestion",
+      "target": "activities-bot",
       "type": "precedes",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "activities-bot",
-      "target": "actions-seeking-progressive-disclosure",
+      "source": "actions-seeking-progressive-disclosure",
+      "target": "activities-bot",
       "type": "precedes",
       "label": "bots often operate well with incremental complexity. Progressive disclosure keeps things simple at first and helps actors build confidence.",
       "extractedFrom": "header:\"Precursors\""
@@ -3477,50 +3725,51 @@
     {
       "source": "activities-bot",
       "target": "actions-coordination-messaging",
-      "type": "follows",
+      "type": "precedes",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "activities-bot",
       "target": "activities-conversation",
-      "type": "follows",
+      "type": "precedes",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "activities-bot",
       "target": "activities-prompt",
-      "type": "follows",
+      "type": "precedes",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "activities-bot",
+      "target": "qualities-formality",
+      "type": "enacts",
+      "label": "bots accept unstructured input by design; structure can be inferred or gradually formalised from interaction.",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "activities-bot",
       "target": "activities-ai-tuning",
-      "type": "follows",
+      "type": "precedes",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "activities-bot",
       "target": "activities-generated-content",
-      "type": "follows",
+      "type": "precedes",
       "label": "presentation and manipulation of AI's output.",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "activities-bot",
       "target": "activities-transparent-reasoning",
-      "type": "follows",
-      "extractedFrom": "header:\"Follow-ups\""
-    },
-    {
-      "source": "activities-bot",
-      "target": "activities-activity-log",
-      "type": "follows",
+      "type": "precedes",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "activities-bot",
       "target": "activities-collaboration",
-      "type": "follows",
+      "type": "precedes",
       "label": "Bots participate as collaborative agents with adaptable mediation capabilities",
       "extractedFrom": "header:\"Follow-ups\""
     },
@@ -3536,28 +3785,28 @@
     },
     {
       "source": "activities-collaboration",
-      "target": "foundations-collaboration",
+      "target": "qualities-agency",
+      "type": "enacts",
+      "label": "agency is distributed, traded, and renegotiated turn by turn; human-centric locus tends to deepen elaboration, system-centric locus tends to surface acceptance",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-collaboration",
+      "target": "activities-collaboration",
       "type": "precedes",
       "label": "the foundation this activity enacts",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "activities-collaboration",
-      "target": "activities-conversation",
+      "source": "activities-conversation",
+      "target": "activities-collaboration",
       "type": "precedes",
       "label": "how collaborators reach understanding and commitment",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "activities-collaboration",
-      "target": "activities-bot",
-      "type": "precedes",
-      "label": "frames the AI as a collaborator with its own modes",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "activities-collaboration",
-      "target": "activities-prompt",
+      "source": "activities-prompt",
+      "target": "activities-collaboration",
       "type": "precedes",
       "label": "how humans address an AI participant",
       "extractedFrom": "header:\"Precursors\""
@@ -3606,48 +3855,48 @@
     },
     {
       "source": "activities-conversation",
-      "target": "foundations-localization",
+      "target": "qualities-conversation",
+      "type": "enacts",
+      "label": "names the foundational stance this activity makes its primary mode: dialogue as the substrate of meaning, not one option among many",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-localization",
+      "target": "activities-conversation",
       "type": "precedes",
       "label": "dialogue structure adapted to cultural communication norms",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "activities-conversation",
-      "target": "actions-coordination-messaging",
+      "source": "actions-coordination-messaging",
+      "target": "activities-conversation",
       "type": "precedes",
       "label": "where conversation happens",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "activities-conversation",
-      "target": "activities-bot",
-      "type": "precedes",
-      "label": "conversation partner",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "activities-conversation",
-      "target": "activities-prompt",
+      "source": "activities-prompt",
+      "target": "activities-conversation",
       "type": "precedes",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "activities-conversation",
-      "target": "actions-evaluation-text-lens",
+      "source": "actions-evaluation-text-lens",
+      "target": "activities-conversation",
       "type": "precedes",
       "label": "filter lenses adapt conversational tone and style based on context and relationship",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "activities-conversation",
-      "target": "activities-collaboration",
+      "source": "activities-collaboration",
+      "target": "activities-conversation",
       "type": "precedes",
       "label": "uses conversation as a core communication mechanism for collaborative work",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "activities-conversation",
-      "target": "actions-application-form",
+      "source": "actions-application-form",
+      "target": "activities-conversation",
       "type": "precedes",
       "extractedFrom": "header:\"Precursors\""
     },
@@ -3712,45 +3961,59 @@
     },
     {
       "source": "activities-embedded-intelligence",
+      "target": "qualities-adaptability",
+      "type": "enacts",
+      "label": "the system mixes rule-driven and inferred responses, so behaviour shifts with context rather than staying fixed",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "activities-embedded-intelligence",
+      "target": "qualities-agency",
+      "type": "enacts",
+      "label": "the system decides and acts on its own behalf rather than only responding to the actor's explicit moves",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "activities-embedded-intelligence",
       "target": "actions-seeking-command-menu",
-      "type": "follows",
+      "type": "precedes",
       "extractedFrom": "header:\"Follow-ups & Complements\""
     },
     {
       "source": "activities-embedded-intelligence",
       "target": "actions-seeking-filtering",
-      "type": "follows",
+      "type": "precedes",
       "extractedFrom": "header:\"Follow-ups & Complements\""
     },
     {
       "source": "activities-embedded-intelligence",
       "target": "actions-evaluation-focus-and-context",
-      "type": "follows",
+      "type": "precedes",
       "extractedFrom": "header:\"Follow-ups & Complements\""
     },
     {
       "source": "activities-embedded-intelligence",
       "target": "actions-application-suggestion",
-      "type": "follows",
+      "type": "precedes",
       "extractedFrom": "header:\"Follow-ups & Complements\""
     },
     {
       "source": "activities-generated-content",
-      "target": "activities-bot",
-      "type": "precedes",
-      "label": "generates the output being presented.",
-      "extractedFrom": "header:\"Precursors\""
+      "target": "qualities-agency",
+      "type": "enacts",
+      "label": "the actor steers, edits, and improves the output rather than receiving a finished artefact",
+      "extractedFrom": "quality-target"
     },
     {
-      "source": "activities-generated-content",
-      "target": "activities-prompt",
+      "source": "activities-prompt",
+      "target": "activities-generated-content",
       "type": "precedes",
       "label": "the input that leads to generated content.",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "activities-generated-content",
-      "target": "foundations-localization",
+      "source": "foundations-localization",
+      "target": "activities-generated-content",
       "type": "precedes",
       "label": "locale-aware generation",
       "extractedFrom": "header:\"Precursors\""
@@ -3758,14 +4021,14 @@
     {
       "source": "activities-generated-content",
       "target": "activities-conversation",
-      "type": "follows",
+      "type": "precedes",
       "label": "generated content can become part of ongoing dialogue.",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "activities-generated-content",
       "target": "actions-application-suggestion",
-      "type": "follows",
+      "type": "precedes",
       "label": "output can inform subsequent suggestions or recommendations.",
       "extractedFrom": "header:\"Follow-ups\""
     },
@@ -3804,6 +4067,13 @@
     },
     {
       "source": "activities-help",
+      "target": "qualities-learnability",
+      "type": "enacts",
+      "label": "help meets the actor at the moment of friction, both on first use and later when memory fades; learning happens in context rather than ahead of time",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "activities-help",
       "target": "actions-sensemaking-explanation",
       "type": "related",
       "label": "The core content unit of high-quality help."
@@ -3813,6 +4083,13 @@
       "target": "actions-sensemaking-annotation",
       "type": "related",
       "label": "A mechanism for attaching help to specific elements."
+    },
+    {
+      "source": "activities-help",
+      "target": "qualities-conversation",
+      "type": "enacts",
+      "label": "The broader context for help as a dialogic process.",
+      "extractedFrom": "quality-target"
     },
     {
       "source": "activities-help",
@@ -3837,7 +4114,35 @@
     },
     {
       "source": "activities-mastery",
-      "target": "activities-onboarding",
+      "target": "qualities-learnability",
+      "type": "enacts",
+      "label": "extended learnability: the long curve after onboarding",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "activities-mastery",
+      "target": "qualities-malleability",
+      "type": "enacts",
+      "label": "the experienced actor reshapes the tool around their own workflow",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "activities-mastery",
+      "target": "qualities-temporality",
+      "type": "enacts",
+      "label": "mastery is the long-arc shape of one actor's relationship with the tool",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "activities-mastery",
+      "target": "qualities-density",
+      "type": "enacts",
+      "label": "experts tolerate and benefit from higher density",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "activities-onboarding",
+      "target": "activities-mastery",
       "type": "precedes",
       "label": "initial phase before the actor develops efficiency",
       "extractedFrom": "header:\"Precursors\""
@@ -3858,17 +4163,17 @@
     },
     {
       "source": "activities-onboarding",
-      "target": "operations-empty-state",
+      "target": "qualities-learnability",
+      "type": "enacts",
+      "label": "the foundation supporting value demonstration.",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "operations-empty-state",
+      "target": "activities-onboarding",
       "type": "precedes",
       "label": "often the canvas for onboarding and as such an enabler for it",
       "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "activities-onboarding",
-      "target": "activities-mastery",
-      "type": "follows",
-      "label": "building proficiency after initial learning.",
-      "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "activities-onboarding",
@@ -3891,50 +4196,36 @@
     },
     {
       "source": "activities-prompt",
-      "target": "activities-bot",
-      "type": "precedes",
-      "label": "a thing that gets prompted.",
-      "extractedFrom": "header:\"Precursor patterns\""
+      "target": "qualities-agency",
+      "type": "enacts",
+      "label": "enables proactive prompt assistance and scaffolding.",
+      "extractedFrom": "quality-target"
     },
     {
-      "source": "activities-prompt",
-      "target": "actions-application-suggestion",
+      "source": "actions-application-suggestion",
+      "target": "activities-prompt",
       "type": "precedes",
       "extractedFrom": "header:\"Precursor patterns\""
     },
     {
       "source": "activities-prompt",
       "target": "activities-ai-tuning",
-      "type": "follows",
-      "extractedFrom": "header:\"Follow-up patterns\""
-    },
-    {
-      "source": "activities-prompt",
-      "target": "activities-generated-content",
-      "type": "follows",
-      "label": "what (and how) user gets from the model.",
-      "extractedFrom": "header:\"Follow-up patterns\""
-    },
-    {
-      "source": "activities-prompt",
-      "target": "activities-collaboration",
-      "type": "follows",
-      "label": "LLM prompts enable effective human-to-AI communication in collaborative contexts",
-      "extractedFrom": "header:\"Follow-up patterns\""
-    },
-    {
-      "source": "activities-transparent-reasoning",
-      "target": "activities-bot",
       "type": "precedes",
-      "label": "generates the reasoning that transparent reasoning makes visible and inspectable.",
-      "extractedFrom": "header:\"Precursors\""
+      "extractedFrom": "header:\"Follow-up patterns\""
     },
     {
       "source": "activities-transparent-reasoning",
-      "target": "activities-activity-log",
-      "type": "follows",
-      "label": "records the reasoning steps for review and audit.",
-      "extractedFrom": "header:\"Follow-ups\""
+      "target": "qualities-learnability",
+      "type": "enacts",
+      "label": "by observing *why* the system made a decision, the actor implicitly learns its logic and capabilities",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "activities-transparent-reasoning",
+      "target": "qualities-agency",
+      "type": "enacts",
+      "label": "visible reasoning is one of the levers for reliance calibration, helping the actor judge when to trust and when to override",
+      "extractedFrom": "quality-target"
     },
     {
       "source": "activities-transparent-reasoning",
@@ -3985,19 +4276,27 @@
     },
     {
       "source": "activities-workspace",
-      "target": "actions-navigation-overview",
+      "target": "qualities-privacy",
+      "type": "enacts",
+      "label": "workspaces implement privacy through scope separation and spatial arrangement",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "activities-workspace",
+      "target": "qualities-agency",
+      "type": "enacts",
+      "label": "the actor decides what work belongs together and what stays apart",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "actions-navigation-overview",
+      "target": "activities-workspace",
       "type": "precedes",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "activities-workspace",
-      "target": "actions-navigation-hub-and-spoke",
-      "type": "precedes",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "activities-workspace",
-      "target": "foundations-information-architecture",
+      "source": "foundations-information-architecture",
+      "target": "activities-workspace",
       "type": "precedes",
       "extractedFrom": "header:\"Precursors\""
     },
@@ -4016,13 +4315,13 @@
     {
       "source": "activities-workspace",
       "target": "activities-activity-log",
-      "type": "follows",
+      "type": "precedes",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "activities-workspace",
       "target": "actions-coordination-notification",
-      "type": "follows",
+      "type": "precedes",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
@@ -4031,8 +4330,8 @@
       "type": "related"
     },
     {
-      "source": "data-visualization-bar-chart",
-      "target": "actions-evaluation-table",
+      "source": "actions-evaluation-table",
+      "target": "data-visualization-bar-chart",
       "type": "precedes",
       "label": "Tabular data that could be visualized",
       "extractedFrom": "header:\"Precursors\""
@@ -4060,6 +4359,13 @@
     },
     {
       "source": "foundations-assistance",
+      "target": "qualities-agency",
+      "type": "enacts",
+      "label": "assistance keeps the locus human-centric: the actor stays in the loop and the system intervenes selectively, raising signals or narrowing options at each cognitive step rather than taking over",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-assistance",
       "target": "foundations-intent-interaction",
       "type": "related"
     },
@@ -4070,13 +4376,71 @@
     },
     {
       "source": "foundations-collaboration",
+      "target": "qualities-agency",
+      "type": "enacts",
+      "label": "the distribution of control and initiative between collaborative actors",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-collaboration",
+      "target": "qualities-adaptability",
+      "type": "enacts",
+      "label": "collaboration only works when each actor adjusts to the other's contributions in flight",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-collaboration",
+      "target": "qualities-conversation",
+      "type": "enacts",
+      "label": "the foundational capability that enables effective collaboration",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-collaboration",
       "target": "activities-bot",
       "type": "related"
     },
     {
       "source": "foundations-collaboration",
-      "target": "activities-collaboration",
-      "type": "related"
+      "target": "qualities-shareability",
+      "type": "enacts",
+      "label": "provides infrastructure for holopticism",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-collaboration",
+      "target": "qualities-formality",
+      "type": "enacts",
+      "label": "shared artefacts raise formality demands beyond what any single actor needs; the fidelity vs exploration tension is a formality tension",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-data-information",
+      "target": "qualities-agency",
+      "type": "enacts",
+      "label": "User control over data layer configuration",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-data-information",
+      "target": "qualities-adaptability",
+      "type": "enacts",
+      "label": "Soft layers enable probabilistic adaptation",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-data-information",
+      "target": "qualities-conversation",
+      "type": "enacts",
+      "label": "Turn-taking between user input and system responses",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-delegation",
+      "target": "qualities-agency",
+      "type": "enacts",
+      "label": "delegation moves the locus toward the system: the actor offloads sustained work and re-enters at handoff, takeback, and exception boundaries rather than attending continuously",
+      "extractedFrom": "quality-target"
     },
     {
       "source": "foundations-delegation",
@@ -4114,6 +4478,20 @@
       "type": "related"
     },
     {
+      "source": "foundations-information-architecture",
+      "target": "qualities-agency",
+      "type": "enacts",
+      "label": "the structure of information shapes who can do what with it; strict hierarchies concentrate authorship in the system, while multiple paths and tags distribute it to the actor",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-information-architecture",
+      "target": "qualities-shareability",
+      "type": "enacts",
+      "label": "the structure determines what travels: a deeply nested item is hard to point at, while a flat, URL-addressable one is easy",
+      "extractedFrom": "quality-target"
+    },
+    {
       "source": "foundations-intent-interaction",
       "target": "foundations-assistance",
       "type": "related",
@@ -4124,6 +4502,26 @@
       "target": "foundations-delegation",
       "type": "related",
       "label": "the lifecycle and touchpoints of agentive systems."
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "qualities-formality",
+      "type": "enacts",
+      "label": "parallels the arc: as engagement matures, so does the structure around it, loose to precise",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "qualities-adaptability",
+      "type": "enacts",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-intent-interaction",
+      "target": "qualities-agency",
+      "type": "enacts",
+      "label": "who is driving at any given moment, and what the system contributes at each stage",
+      "extractedFrom": "quality-target"
     },
     {
       "source": "foundations-intent-interaction",
@@ -4172,22 +4570,22 @@
       "type": "related"
     },
     {
-      "source": "foundations-localization",
-      "target": "foundations-information-architecture",
+      "source": "foundations-intent-interaction",
+      "target": "qualities-temporality",
+      "type": "enacts",
+      "label": "the rhythm and pacing of turn-taking",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-information-architecture",
+      "target": "foundations-localization",
       "type": "precedes",
       "label": "controlled vocabularies and label strategies that localization must adapt",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "foundations-localization",
-      "target": "actions-application-settings",
-      "type": "precedes",
-      "label": "language, timezone, and format preferences",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "foundations-localization",
-      "target": "operations-good-defaults",
+      "source": "operations-good-defaults",
+      "target": "foundations-localization",
       "type": "precedes",
       "label": "locale detection and sensible starting configuration",
       "extractedFrom": "header:\"Precursors\""
@@ -4195,37 +4593,30 @@
     {
       "source": "foundations-localization",
       "target": "actions-application-data-entry",
-      "type": "follows",
+      "type": "precedes",
       "label": "locale-aware input parsing and format tolerance",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "foundations-localization",
       "target": "actions-coordination-notification",
-      "type": "follows",
+      "type": "precedes",
       "label": "localised message content, timing conventions",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "foundations-localization",
-      "target": "activities-conversation",
-      "type": "follows",
-      "label": "dialogue structure adapted to communication norms",
-      "extractedFrom": "header:\"Follow-ups\""
-    },
-    {
-      "source": "foundations-localization",
-      "target": "activities-generated-content",
-      "type": "follows",
-      "label": "locale-native generation",
-      "extractedFrom": "header:\"Follow-ups\""
-    },
-    {
-      "source": "foundations-localization",
       "target": "activities-help",
-      "type": "follows",
+      "type": "precedes",
       "label": "localised documentation and support content",
       "extractedFrom": "header:\"Follow-ups\""
+    },
+    {
+      "source": "foundations-localization",
+      "target": "qualities-adaptability",
+      "type": "enacts",
+      "label": "the capacity that localization exercises",
+      "extractedFrom": "quality-target"
     },
     {
       "source": "foundations-localization",
@@ -4240,6 +4631,41 @@
       "type": "complements",
       "label": "first-run locale detection and selection",
       "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "foundations-localization",
+      "target": "qualities-shareability",
+      "type": "enacts",
+      "label": "locale-aware URLs and shared content",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-localization",
+      "target": "qualities-privacy",
+      "type": "enacts",
+      "label": "data residency, GDPR, locale-specific regulation",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-localization",
+      "target": "qualities-temporality",
+      "type": "enacts",
+      "label": "timezone handling, date format conventions",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-localization",
+      "target": "qualities-density",
+      "type": "enacts",
+      "label": "text expansion affecting information density",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-localization",
+      "target": "qualities-learnability",
+      "type": "enacts",
+      "label": "learning curves differ across localised interfaces",
+      "extractedFrom": "quality-target"
     },
     {
       "source": "foundations-localization",
@@ -4360,6 +4786,39 @@
       "type": "related"
     },
     {
+      "source": "foundations-modality",
+      "target": "qualities-agency",
+      "type": "enacts",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-modality",
+      "target": "qualities-temporality",
+      "type": "enacts",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-prose",
+      "target": "qualities-agency",
+      "type": "enacts",
+      "label": "yielding the stage as locus shift",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-prose",
+      "target": "qualities-learnability",
+      "type": "enacts",
+      "label": "prose carries domain scaffolding",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-prose",
+      "target": "qualities-formality",
+      "type": "enacts",
+      "label": "structural demand on user input (disambiguation)",
+      "extractedFrom": "quality-target"
+    },
+    {
       "source": "foundations-prose",
       "target": "activities-transparent-reasoning",
       "type": "related"
@@ -4443,15 +4902,36 @@
       "label": "Delegation surfaces are increasingly written rather than chosen; the prose decides what the agent sounds like and what authority it claims."
     },
     {
-      "source": "operations-autocomplete",
-      "target": "operations-input",
+      "source": "foundations-prose",
+      "target": "qualities-conversation",
+      "type": "enacts",
+      "label": "turn-taking as substrate",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-material-layout",
+      "target": "qualities-density",
+      "type": "enacts",
+      "label": "base unit and increment values choose how much breathing room each piece of information gets",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-material-typography",
+      "target": "qualities-density",
+      "type": "enacts",
+      "label": "typography interacts with spacing and layout to create different feels",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "operations-input",
+      "target": "operations-autocomplete",
       "type": "precedes",
       "label": "the primitive that autocomplete builds on",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "operations-autocomplete",
-      "target": "operations-good-defaults",
+      "source": "operations-good-defaults",
+      "target": "operations-autocomplete",
       "type": "precedes",
       "label": "pre-populating values before the actor starts typing",
       "extractedFrom": "header:\"Precursors\""
@@ -4500,28 +4980,35 @@
     },
     {
       "source": "operations-autocomplete",
+      "target": "qualities-learnability",
+      "type": "enacts",
+      "label": "suggestions teach people what options exist",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "operations-autocomplete",
       "target": "actions-application-form",
-      "type": "follows",
+      "type": "precedes",
       "label": "where autocomplete most commonly lives",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "operations-autocomplete",
       "target": "actions-application-data-entry",
-      "type": "follows",
+      "type": "precedes",
       "label": "autocomplete as a way to reduce input friction",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
-      "source": "operations-autofill",
-      "target": "operations-input",
+      "source": "operations-input",
+      "target": "operations-autofill",
       "type": "precedes",
       "label": "the primitive autofill populates",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "operations-autofill",
-      "target": "operations-good-defaults",
+      "source": "operations-good-defaults",
+      "target": "operations-autofill",
       "type": "precedes",
       "label": "when the system can guess a reasonable value without stored data",
       "extractedFrom": "header:\"Precursors\""
@@ -4542,22 +5029,36 @@
     },
     {
       "source": "operations-autofill",
+      "target": "qualities-privacy",
+      "type": "enacts",
+      "label": "autofill surfaces what the system knows about the actor",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "operations-autofill",
+      "target": "qualities-adaptability",
+      "type": "enacts",
+      "label": "autofill that learns from corrections over time",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "operations-autofill",
       "target": "actions-application-form",
-      "type": "follows",
+      "type": "precedes",
       "label": "the container where autofill most commonly appears",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "operations-autofill",
       "target": "actions-application-data-entry",
-      "type": "follows",
+      "type": "precedes",
       "label": "autofill as a strategy for frictionless input",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "operations-autofill",
       "target": "actions-application-saving",
-      "type": "follows",
+      "type": "precedes",
       "label": "what happens after pre-filled data is accepted",
       "extractedFrom": "header:\"Follow-ups\""
     },
@@ -4672,6 +5173,13 @@
     },
     {
       "source": "operations-good-defaults",
+      "target": "qualities-agency",
+      "type": "enacts",
+      "label": "a default is the system making the small decision so the actor doesn't have to; the actor still has the final say but doesn't have to spend it on this field",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "operations-good-defaults",
       "target": "actions-application-form",
       "type": "related",
       "label": "The primary container where defaults are encountered"
@@ -4681,12 +5189,6 @@
       "target": "actions-application-data-entry",
       "type": "related",
       "label": "The alternative when a default cannot be guessed"
-    },
-    {
-      "source": "operations-good-defaults",
-      "target": "foundations-localization",
-      "type": "related",
-      "label": "locale detection as a source of sensible defaults"
     },
     {
       "source": "operations-input",
@@ -4718,22 +5220,15 @@
     },
     {
       "source": "operations-input",
-      "target": "actions-application-form",
-      "type": "follows",
-      "label": "the container that groups inputs into a coherent ask",
-      "extractedFrom": "header:\"Follow-ups\""
-    },
-    {
-      "source": "operations-input",
       "target": "actions-application-data-entry",
-      "type": "follows",
+      "type": "precedes",
       "label": "the broader activity input contributes to, alongside format and friction choices",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "operations-input",
       "target": "actions-seeking-searching",
-      "type": "follows",
+      "type": "precedes",
       "label": "where the input becomes the entry point for query formulation",
       "extractedFrom": "header:\"Follow-ups\""
     },
@@ -4776,8 +5271,8 @@
       "label": "long paths collapse, applying overflow logic to navigation items"
     },
     {
-      "source": "operations-popover",
-      "target": "foundations-modality",
+      "source": "foundations-modality",
+      "target": "operations-popover",
       "type": "precedes",
       "label": "the framework for overlay and mode behaviour",
       "extractedFrom": "header:\"Precursors\""
@@ -4816,6 +5311,13 @@
       "type": "complements",
       "label": "the tooltip mode is the lightest tier of disclosure; deeper tiers need explicit triggers",
       "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "operations-popover",
+      "target": "qualities-learnability",
+      "type": "enacts",
+      "label": "tooltips help actors build familiarity with controls without cluttering the primary interface",
+      "extractedFrom": "quality-target"
     },
     {
       "source": "operations-progress-indicator",
@@ -4868,12 +5370,6 @@
     },
     {
       "source": "operations-reference",
-      "target": "actions-seeking-dynamic-hyperlinks",
-      "type": "related",
-      "label": "the algorithmic (soft) counterpart to author-placed references"
-    },
-    {
-      "source": "operations-reference",
       "target": "actions-seeking-item-view",
       "type": "related"
     },
@@ -4883,15 +5379,15 @@
       "type": "related"
     },
     {
-      "source": "operations-sections",
-      "target": "operations-tabs",
+      "source": "operations-tabs",
+      "target": "operations-sections",
       "type": "precedes",
       "label": "the implementation is more complete when it comes to tab-related functionality: overflow scrolling, icon and subtitle slots, auto/manual activation.",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "operations-sections",
-      "target": "operations-details",
+      "source": "operations-details",
+      "target": "operations-sections",
       "type": "precedes",
       "label": "the standalone disclosure primitive that Sections' `details` affordance mirrors across multiple siblings",
       "extractedFrom": "header:\"Precursors\""
@@ -4905,21 +5401,28 @@
     },
     {
       "source": "operations-sections",
+      "target": "qualities-adaptability",
+      "type": "enacts",
+      "label": "sections rearrange and reveal content based on context (collapsed by default for unfamiliar areas, expanded for the work in front of the actor) without learning from behaviour",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "operations-sections",
       "target": "actions-sensemaking-grouping",
       "type": "complements",
       "label": "organising content into named groups is a prerequisite for sectioning",
       "extractedFrom": "header:\"Complementary\""
     },
     {
-      "source": "operations-select",
-      "target": "operations-input",
+      "source": "operations-input",
+      "target": "operations-select",
       "type": "precedes",
       "label": "the free-form counterpart when the system cannot enumerate the possibilities.",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "operations-select",
-      "target": "operations-checkbox",
+      "source": "operations-checkbox",
+      "target": "operations-select",
       "type": "precedes",
       "label": "the binary counterpart for on/off choices.",
       "extractedFrom": "header:\"Precursors\""
@@ -4986,15 +5489,15 @@
       "type": "related"
     },
     {
-      "source": "operations-toast",
-      "target": "actions-coordination-notification",
+      "source": "actions-coordination-notification",
+      "target": "operations-toast",
       "type": "precedes",
       "label": "the coordination pattern that selects delivery type and disruption level",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "operations-toast",
-      "target": "operations-status-feedback",
+      "source": "operations-status-feedback",
+      "target": "operations-toast",
       "type": "precedes",
       "label": "the framework toast belongs to",
       "extractedFrom": "header:\"Precursors\""
@@ -5776,632 +6279,6 @@
       "type": "related"
     },
     {
-      "source": "actions-application-ai-completion",
-      "target": "qualities-agency",
-      "type": "enacts",
-      "label": "the actor remains in creative lead; the system only proposes",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-application-ai-completion",
-      "target": "qualities-adaptability",
-      "type": "enacts",
-      "label": "completion that improves from actor corrections over time",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-application-assisted-task-completion",
-      "target": "qualities-agency",
-      "type": "enacts",
-      "label": "mirrors this spectrum; more system initiative demands more careful preservation of actor control",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-application-cognitive-forcing-functions",
-      "target": "qualities-agency",
-      "type": "enacts",
-      "label": "the outcome this family is trying to produce",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-application-cognitive-forcing-functions",
-      "target": "qualities-learnability",
-      "type": "enacts",
-      "label": "forcing functions only work when users have the competence to evaluate; learnability builds that competence",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-application-cognitive-forcing-functions",
-      "target": "qualities-temporality",
-      "type": "enacts",
-      "label": "timing-based forcing functions (wait, human goes first) depend on temporal design",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-application-data-entry",
-      "target": "qualities-formality",
-      "type": "enacts",
-      "label": "every data entry field is a choice about how formal the input has to be",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-application-form",
-      "target": "qualities-formality",
-      "type": "enacts",
-      "label": "forms commit the actor to the system's full shape up front",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-application-nextbest-action",
-      "target": "qualities-agency",
-      "type": "enacts",
-      "label": "proactive recommendations must preserve actor control",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-application-nextbest-action",
-      "target": "qualities-adaptability",
-      "type": "enacts",
-      "label": "recommendations that improve from accepted/rejected signal over time",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-application-settings",
-      "target": "qualities-agency",
-      "type": "enacts",
-      "label": "settings implement actor control over system behaviour",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-application-settings",
-      "target": "qualities-privacy",
-      "type": "enacts",
-      "label": "settings include visibility and access preferences",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-application-settings",
-      "target": "qualities-adaptability",
-      "type": "enacts",
-      "label": "settings enable system customization to context",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-application-suggestion",
-      "target": "qualities-adaptability",
-      "type": "enacts",
-      "label": "suggestions might sharpen on the actor's accepted-or-rejected signal, fitting their patterns over time",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-application-suggestion",
-      "target": "qualities-formality",
-      "type": "enacts",
-      "label": "suggestions ease the step from informal intent to formal expression, formalising by recognition rather than recall",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-application-template",
-      "target": "qualities-learnability",
-      "type": "enacts",
-      "label": "templates carry the shape of competent work, letting the actor learn the form by occupying it",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-application-cognitive-forcing-functions-human-goes-first",
-      "target": "qualities-learnability",
-      "type": "enacts",
-      "label": "domain learnability scaffolding that deepens rather than fades",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-application-cognitive-forcing-functions-human-goes-first",
-      "target": "qualities-agency",
-      "type": "enacts",
-      "label": "directly prevents the skill atrophy side of over-reliance",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-coordination-messaging",
-      "target": "qualities-formality",
-      "type": "enacts",
-      "label": "messaging is a low-formality input context; structure can emerge gradually from conversation",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-evaluation-focus-and-context",
-      "target": "qualities-agency",
-      "type": "enacts",
-      "label": "agency here belongs to the system as well as the user;",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-evaluation-focus-and-context",
-      "target": "qualities-adaptability",
-      "type": "enacts",
-      "label": "the focused frame and its surrounding context recalibrate as the actor's task shifts",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-evaluation-focus-and-context",
-      "target": "qualities-density",
-      "type": "enacts",
-      "label": "balanced against the actor's cognitive load as focus shifts",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-navigation-overview-and-detail",
-      "target": "qualities-malleability",
-      "type": "enacts",
-      "label": "The capability to switch between topologies.",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-navigation-hybrid-patterns",
-      "target": "qualities-agency",
-      "type": "enacts",
-      "label": "control implications of combinations",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-navigation-overview",
-      "target": "qualities-agency",
-      "type": "enacts",
-      "label": "control distribution implications",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-navigation-overview",
-      "target": "qualities-malleability",
-      "type": "enacts",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-seeking-progressive-disclosure",
-      "target": "qualities-density",
-      "type": "enacts",
-      "label": "progressive disclosure manages information density by deferring secondary content",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-seeking-progressive-disclosure",
-      "target": "qualities-learnability",
-      "type": "enacts",
-      "label": "staged exposure helps actors build mental models without immediate overload",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-sensemaking-annotation",
-      "target": "qualities-temporality",
-      "type": "enacts",
-      "label": "annotations are markers of time and wear.",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-sensemaking-annotation",
-      "target": "qualities-learnability",
-      "type": "enacts",
-      "label": "annotations provide the context needed for learning.",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-sensemaking-explanation",
-      "target": "qualities-learnability",
-      "type": "enacts",
-      "label": "domain explanations support domain learnability",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-sensemaking-view",
-      "target": "qualities-malleability",
-      "type": "enacts",
-      "label": "The capability to change the view's content, layout, and composition",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-sensemaking-view",
-      "target": "qualities-density",
-      "type": "enacts",
-      "label": "Information per unit of space",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-sensemaking-view",
-      "target": "qualities-adaptability",
-      "type": "enacts",
-      "label": "System response to context changes",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "activities-ai-tuning",
-      "target": "qualities-agency",
-      "type": "enacts",
-      "label": "enables autonomous adaptation of bot behaviour based on user preferences and context.",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "activities-bot",
-      "target": "qualities-agency",
-      "type": "enacts",
-      "label": "how much freedom the bot has to act on its own.",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "activities-bot",
-      "target": "qualities-formality",
-      "type": "enacts",
-      "label": "bots accept unstructured input by design; structure can be inferred or gradually formalised from interaction.",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "activities-collaboration",
-      "target": "qualities-agency",
-      "type": "enacts",
-      "label": "agency is distributed, traded, and renegotiated turn by turn; human-centric locus tends to deepen elaboration, system-centric locus tends to surface acceptance",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "activities-conversation",
-      "target": "qualities-conversation",
-      "type": "enacts",
-      "label": "names the foundational stance this activity makes its primary mode: dialogue as the substrate of meaning, not one option among many",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "activities-embedded-intelligence",
-      "target": "qualities-adaptability",
-      "type": "enacts",
-      "label": "the system mixes rule-driven and inferred responses, so behaviour shifts with context rather than staying fixed",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "activities-embedded-intelligence",
-      "target": "qualities-agency",
-      "type": "enacts",
-      "label": "the system decides and acts on its own behalf rather than only responding to the actor's explicit moves",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "activities-generated-content",
-      "target": "qualities-agency",
-      "type": "enacts",
-      "label": "the actor steers, edits, and improves the output rather than receiving a finished artefact",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "activities-help",
-      "target": "qualities-learnability",
-      "type": "enacts",
-      "label": "help meets the actor at the moment of friction, both on first use and later when memory fades; learning happens in context rather than ahead of time",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "activities-help",
-      "target": "qualities-conversation",
-      "type": "enacts",
-      "label": "The broader context for help as a dialogic process.",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "activities-mastery",
-      "target": "qualities-learnability",
-      "type": "enacts",
-      "label": "extended learnability: the long curve after onboarding",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "activities-mastery",
-      "target": "qualities-malleability",
-      "type": "enacts",
-      "label": "the experienced actor reshapes the tool around their own workflow",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "activities-mastery",
-      "target": "qualities-temporality",
-      "type": "enacts",
-      "label": "mastery is the long-arc shape of one actor's relationship with the tool",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "activities-mastery",
-      "target": "qualities-density",
-      "type": "enacts",
-      "label": "experts tolerate and benefit from higher density",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "activities-onboarding",
-      "target": "qualities-learnability",
-      "type": "enacts",
-      "label": "the foundation supporting value demonstration.",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "activities-prompt",
-      "target": "qualities-agency",
-      "type": "enacts",
-      "label": "enables proactive prompt assistance and scaffolding.",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "activities-transparent-reasoning",
-      "target": "qualities-learnability",
-      "type": "enacts",
-      "label": "by observing *why* the system made a decision, the actor implicitly learns its logic and capabilities",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "activities-transparent-reasoning",
-      "target": "qualities-agency",
-      "type": "enacts",
-      "label": "visible reasoning is one of the levers for reliance calibration, helping the actor judge when to trust and when to override",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "activities-workspace",
-      "target": "qualities-privacy",
-      "type": "enacts",
-      "label": "workspaces implement privacy through scope separation and spatial arrangement",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "activities-workspace",
-      "target": "qualities-agency",
-      "type": "enacts",
-      "label": "the actor decides what work belongs together and what stays apart",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-assistance",
-      "target": "qualities-agency",
-      "type": "enacts",
-      "label": "assistance keeps the locus human-centric: the actor stays in the loop and the system intervenes selectively, raising signals or narrowing options at each cognitive step rather than taking over",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-collaboration",
-      "target": "qualities-agency",
-      "type": "enacts",
-      "label": "the distribution of control and initiative between collaborative actors",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-collaboration",
-      "target": "qualities-adaptability",
-      "type": "enacts",
-      "label": "collaboration only works when each actor adjusts to the other's contributions in flight",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-collaboration",
-      "target": "qualities-conversation",
-      "type": "enacts",
-      "label": "the foundational capability that enables effective collaboration",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-collaboration",
-      "target": "qualities-shareability",
-      "type": "enacts",
-      "label": "provides infrastructure for holopticism",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-collaboration",
-      "target": "qualities-formality",
-      "type": "enacts",
-      "label": "shared artefacts raise formality demands beyond what any single actor needs; the fidelity vs exploration tension is a formality tension",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-data-information",
-      "target": "qualities-agency",
-      "type": "enacts",
-      "label": "User control over data layer configuration",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-data-information",
-      "target": "qualities-adaptability",
-      "type": "enacts",
-      "label": "Soft layers enable probabilistic adaptation",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-data-information",
-      "target": "qualities-conversation",
-      "type": "enacts",
-      "label": "Turn-taking between user input and system responses",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-delegation",
-      "target": "qualities-agency",
-      "type": "enacts",
-      "label": "delegation moves the locus toward the system: the actor offloads sustained work and re-enters at handoff, takeback, and exception boundaries rather than attending continuously",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-information-architecture",
-      "target": "qualities-agency",
-      "type": "enacts",
-      "label": "the structure of information shapes who can do what with it; strict hierarchies concentrate authorship in the system, while multiple paths and tags distribute it to the actor",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-information-architecture",
-      "target": "qualities-shareability",
-      "type": "enacts",
-      "label": "the structure determines what travels: a deeply nested item is hard to point at, while a flat, URL-addressable one is easy",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "qualities-formality",
-      "type": "enacts",
-      "label": "parallels the arc: as engagement matures, so does the structure around it, loose to precise",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "qualities-adaptability",
-      "type": "enacts",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "qualities-agency",
-      "type": "enacts",
-      "label": "who is driving at any given moment, and what the system contributes at each stage",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "qualities-temporality",
-      "type": "enacts",
-      "label": "the rhythm and pacing of turn-taking",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-localization",
-      "target": "qualities-adaptability",
-      "type": "enacts",
-      "label": "the capacity that localization exercises",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-localization",
-      "target": "qualities-shareability",
-      "type": "enacts",
-      "label": "locale-aware URLs and shared content",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-localization",
-      "target": "qualities-privacy",
-      "type": "enacts",
-      "label": "data residency, GDPR, locale-specific regulation",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-localization",
-      "target": "qualities-temporality",
-      "type": "enacts",
-      "label": "timezone handling, date format conventions",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-localization",
-      "target": "qualities-density",
-      "type": "enacts",
-      "label": "text expansion affecting information density",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-localization",
-      "target": "qualities-learnability",
-      "type": "enacts",
-      "label": "learning curves differ across localised interfaces",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-modality",
-      "target": "qualities-agency",
-      "type": "enacts",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-modality",
-      "target": "qualities-temporality",
-      "type": "enacts",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-prose",
-      "target": "qualities-agency",
-      "type": "enacts",
-      "label": "yielding the stage as locus shift",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-prose",
-      "target": "qualities-learnability",
-      "type": "enacts",
-      "label": "prose carries domain scaffolding",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-prose",
-      "target": "qualities-formality",
-      "type": "enacts",
-      "label": "structural demand on user input (disambiguation)",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-prose",
-      "target": "qualities-conversation",
-      "type": "enacts",
-      "label": "turn-taking as substrate",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-material-layout",
-      "target": "qualities-density",
-      "type": "enacts",
-      "label": "base unit and increment values choose how much breathing room each piece of information gets",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-material-typography",
-      "target": "qualities-density",
-      "type": "enacts",
-      "label": "typography interacts with spacing and layout to create different feels",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "operations-autocomplete",
-      "target": "qualities-learnability",
-      "type": "enacts",
-      "label": "suggestions teach people what options exist",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "operations-autofill",
-      "target": "qualities-privacy",
-      "type": "enacts",
-      "label": "autofill surfaces what the system knows about the actor",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "operations-autofill",
-      "target": "qualities-adaptability",
-      "type": "enacts",
-      "label": "autofill that learns from corrections over time",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "operations-good-defaults",
-      "target": "qualities-agency",
-      "type": "enacts",
-      "label": "a default is the system making the small decision so the actor doesn't have to; the actor still has the final say but doesn't have to spend it on this field",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "operations-popover",
-      "target": "qualities-learnability",
-      "type": "enacts",
-      "label": "tooltips help actors build familiarity with controls without cluttering the primary interface",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "operations-sections",
-      "target": "qualities-adaptability",
-      "type": "enacts",
-      "label": "sections rearrange and reveal content based on context (collapsed by default for unfamiliar areas, expanded for the work in front of the actor) without learning from behaviour",
-      "extractedFrom": "quality-target"
-    },
-    {
       "source": "activities-bot",
       "target": "qualities-learnability",
       "type": "enacts",
@@ -6421,6 +6298,22 @@
         {
           "question": "How quickly can it be recreated?",
           "branch": "Seconds"
+        }
+      ]
+    },
+    {
+      "source": "actions-application-deletion",
+      "target": "operations-inline-confirmation",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:deletion",
+      "situationalHints": [
+        {
+          "question": "Is the deletion reversible?",
+          "branch": "Yes"
+        },
+        {
+          "question": "How quickly can it be recreated?",
+          "branch": "Minutes"
         }
       ]
     },

@@ -58,6 +58,13 @@ interface RenderedEdge {
   label?: string;
 }
 
+interface GraphEdgeData {
+  source: string;
+  target: string;
+  type?: string;
+  label?: string;
+}
+
 const SVG_WIDTH = 900;
 const SVG_HEIGHT = 600;
 
@@ -71,8 +78,10 @@ const CATEGORY_TARGETS: Record<string, [number, number]> = {
 
 
 function buildGraph() {
+  const allEdges = graphData.edges as GraphEdgeData[];
+  const structuralEdges = allEdges.filter((edge) => edge.type !== 'recommends');
   const degrees = new Map<string, number>();
-  for (const { source, target } of graphData.edges) {
+  for (const { source, target } of structuralEdges) {
     degrees.set(source, (degrees.get(source) ?? 0) + 1);
     degrees.set(target, (degrees.get(target) ?? 0) + 1);
   }
@@ -87,23 +96,27 @@ function buildGraph() {
 
   const nodeById = new Map(simNodes.map((n) => [n.id, n]));
 
-  type RawLink = {
+  type LayoutLink = {
     source: GraphNode | string;
     target: GraphNode | string;
-    type: string;
-    label?: string;
   };
-  const simLinks: RawLink[] = graphData.edges
+  const renderedGraphEdges = allEdges
     .filter((e) => nodeById.has(e.source) && nodeById.has(e.target))
     .map((e) => ({
       source: e.source,
       target: e.target,
-      type: (e as { type?: string }).type ?? 'related',
-      label: (e as { label?: string }).label,
+      type: e.type ?? 'related',
+      label: e.label,
+    }));
+  const layoutLinks: LayoutLink[] = renderedGraphEdges
+    .filter((e) => e.type !== 'recommends')
+    .map((e) => ({
+      source: e.source,
+      target: e.target,
     }));
 
   const linkForce = forceLink<GraphNode, SimulationLinkDatum<GraphNode>>(
-    simLinks as SimulationLinkDatum<GraphNode>[]
+    layoutLinks as SimulationLinkDatum<GraphNode>[]
   )
     .id((d) => d.id)
     .distance(80);
@@ -146,9 +159,9 @@ function buildGraph() {
   });
 
   const adjacency = new Map<string, Set<string>>();
-  const edges: RenderedEdge[] = simLinks.map((link, i) => {
-    const src = link.source as GraphNode;
-    const tgt = link.target as GraphNode;
+  const edges: RenderedEdge[] = renderedGraphEdges.map((edge, i) => {
+    const src = nodeById.get(edge.source)!;
+    const tgt = nodeById.get(edge.target)!;
     if (!adjacency.has(src.id)) adjacency.set(src.id, new Set());
     if (!adjacency.has(tgt.id)) adjacency.set(tgt.id, new Set());
     adjacency.get(src.id)!.add(tgt.id);
@@ -161,8 +174,8 @@ function buildGraph() {
       y1: src.y ?? 0,
       x2: tgt.x ?? 0,
       y2: tgt.y ?? 0,
-      type: link.type,
-      label: link.label,
+      type: edge.type,
+      label: edge.label,
     };
   });
 

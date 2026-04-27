@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync, readdirSync, statSync } from 'fs';
 import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = join(__dirname, '..');
@@ -14,6 +14,13 @@ interface Node {
   category: string;
   path: string;
   tags?: string[];
+  generativeProfile?: GenerativeProfile;
+}
+
+interface GenerativeProfile {
+  operatesOn: string;
+  produces: string;
+  enacts: string;
 }
 
 type EdgeType =
@@ -63,9 +70,9 @@ interface TypedLink {
 const HEADER_TYPE_MAP: Record<string, EdgeType> = {
   'Precursors': 'precedes',
   'Precursor patterns': 'precedes',
-  'Follow-ups': 'follows',
-  'Follow-up patterns': 'follows',
-  'Follow-ups & Complements': 'follows',
+  'Follow-ups': 'precedes',
+  'Follow-up patterns': 'precedes',
+  'Follow-ups & Complements': 'precedes',
   'Complementary': 'complements',
   'Complements': 'complements',
   'Complementary patterns': 'complements',
@@ -85,15 +92,17 @@ const HEADER_TYPE_MAP: Record<string, EdgeType> = {
 };
 
 /**
- * Headers where the listed pattern is the *source* of the edge, not the target.
- * For `enables` the source is the building block and the target is the composite,
- * so headers that name the page's components/containers invert the default
- * page→listed direction.
+ * Headers where the listed pattern is the *source* of the edge, not the page.
+ * For `precedes`, precursor headers list the earlier move on the later page.
+ * For `enables`, component/container headers list the building block on the
+ * composite page.
  *
  * "Used by" is the exception: the page is the building block; the listed pattern
  * is the composite that uses it. Default direction is correct.
  */
 const INVERSE_DIRECTION_HEADERS = new Set<string>([
+  'Precursors',
+  'Precursor patterns',
   'Containers and primitives',
   'Containers',
   'Related primitives',
@@ -128,6 +137,52 @@ function globStoriesTsx(dir: string): string[] {
     }
   }
   return results;
+}
+
+function fileExists(filePath: string): boolean {
+  try {
+    return statSync(filePath).isFile();
+  } catch {
+    return false;
+  }
+}
+
+function profileSidecarPath(mdxPath: string): string {
+  return mdxPath.replace(/\.mdx$/, '.profile.ts');
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null;
+}
+
+function isGenerativeProfile(value: unknown): value is GenerativeProfile {
+  return isRecord(value)
+    && typeof value.operatesOn === 'string'
+    && typeof value.produces === 'string'
+    && typeof value.enacts === 'string';
+}
+
+async function loadGenerativeProfile(profilePath: string): Promise<GenerativeProfile> {
+  let module: unknown;
+  try {
+    module = await import(pathToFileURL(profilePath).href);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    throw new Error(`Failed to load generative profile sidecar ${profilePath}: ${message}`);
+  }
+
+  const profile = isRecord(module) ? module.profile : undefined;
+  if (!isGenerativeProfile(profile)) {
+    throw new Error(
+      `Invalid generative profile sidecar ${profilePath}: expected export const profile with string operatesOn, produces, and enacts fields.`
+    );
+  }
+
+  return {
+    operatesOn: profile.operatesOn,
+    produces: profile.produces,
+    enacts: profile.enacts,
+  };
 }
 
 function titleToId(title: string): string {
@@ -458,6 +513,7 @@ const DECISION_TREES: Record<string, TreeConfig[]> = {
       treeId: 'deletion',
       leaves: {
         'No confirmation (with undo)': 'operations-undo',
+        'Inline confirmation': 'operations-inline-confirmation',
         'Modal confirmation': 'actions-application-dialog',
       },
     },
@@ -715,9 +771,12 @@ for (const filePath of mdxFiles) {
   const cat = titleToCategory(title);
   const path = `../?path=/docs/${id}--docs`;
 
-  if (!nodeMap.has(id)) {
-    nodeMap.set(id, { id, title: shortTitle, category: cat, path });
+  const node: Node = nodeMap.get(id) ?? { id, title: shortTitle, category: cat, path };
+  const profilePath = profileSidecarPath(filePath);
+  if (fileExists(profilePath)) {
+    node.generativeProfile = await loadGenerativeProfile(profilePath);
   }
+  nodeMap.set(id, node);
 
   const mdxTags = extractMetaTags(content);
   const tags = mdxTags.length > 0 ? mdxTags : storiesTags;
@@ -803,10 +862,27 @@ function addEdge(edge: Edge) {
   edgeMap.set(key, edge);
 }
 
+function isPatternToQualityLink(sourceId: string, targetId: string): boolean {
+  const sourceNode = nodeMap.get(sourceId);
+  return sourceNode !== undefined
+    && sourceNode.category !== 'Qualities'
+    && targetId.startsWith('qualities-');
+}
+
 for (const [sourceId, links] of fileLinks.entries()) {
   for (const link of links) {
     if (!nodeMap.has(link.target)) continue;
     if (sourceId === link.target) continue;
+    if (isPatternToQualityLink(sourceId, link.target)) {
+      addEdge({
+        source: sourceId,
+        target: link.target,
+        type: 'enacts',
+        ...(link.label !== undefined ? { label: link.label } : {}),
+        extractedFrom: 'quality-target',
+      });
+      continue;
+    }
     const [src, tgt] = link.inverse ? [link.target, sourceId] : [sourceId, link.target];
     addEdge({
       source: src,

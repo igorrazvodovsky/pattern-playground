@@ -58,7 +58,7 @@ The relationships defined below should be read in this register throughout.
 *A instantiates B*: A is a concrete application or specialisation of a more abstract principle, foundation, or pattern described by B. The relationship is taxonomic — A is a *kind of* B or A *applies* B.
 
 - Directionality: directed
-- Inverse: `enables` (when read from the abstract side — B enables A by providing the principle A applies)
+- Inverse: none stored. "What instantiates B?" and "what does A instantiate?" are both answered by traversing `instantiates` edges in either direction at query time. This is not the inverse of `enables`.
 - SKOS: aligns with `skos:broader` — A has broader concept B. This is the cleanest SKOS mapping in the vocabulary.
 - MDX headers: "Foundation", "Applied in", "Implements this model" → edge A `instantiates` B (where B is the foundation/model, A is the page that applies it).
 - Example: Autocomplete *instantiates* Good defaults — autocomplete is a specific mechanism that applies the principle of providing sensible defaults.

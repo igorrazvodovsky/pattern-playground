@@ -853,6 +853,12 @@
       "atomic-category": "primitive",
       "mediation": "individual"
     },
+    "operations-inline-confirmation": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "component",
+      "mediation": "individual"
+    },
     "operations-tabs": {
       "activity-level": "operation",
       "lifecycle-stage": null,

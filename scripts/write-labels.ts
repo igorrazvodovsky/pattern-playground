@@ -102,7 +102,7 @@ let written = 0, replaced = 0, appended = 0, missing = 0, ambiguous = 0, multiLi
 
 for (const [filePath, fileEntries] of bySource) {
   const original = readFileSync(filePath, 'utf-8');
-  let content = original;
+  const content = original;
   const lines = content.split('\n');
 
   for (const entry of fileEntries) {

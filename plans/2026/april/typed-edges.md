@@ -131,19 +131,18 @@ Where labels can live in MDX: extraction prefers per-line `— ` annotations on 
 
 ### Edge type vocabulary
 
-Map `### ` headers to 7 edge types (frequencies from codebase):
+Map `### ` headers to 6 stored edge types (frequencies from codebase). `follows` remains query/inverse vocabulary for `precedes`, but is not stored as a redundant edge:
 
 | Type | Headers (→ count) |
 |---|---|
-| `precedes` | Precursors (33), Precursor patterns (2) |
-| `follows` | Follow-ups (23), Follow-up patterns (2), Follow-ups & Complements (1) |
+| `precedes` | Precursors (33), Precursor patterns (2), Follow-ups (23), Follow-up patterns (2), Follow-ups & Complements (1) |
 | `complements` | Complementary (29), Complements (7), Complementary patterns (2) |
 | `tangential` | Tangentially related (13) |
 | `alternative` | Alternatives (6) |
 | `enables` | Containers and primitives (1), Containers (1), Related primitives (1), Mechanisms (1), Components (1), Conversational primitives (1), Composed from (1), Used by (1) |
 | `instantiates` | Foundation (2), Applied in (2), Implements this model (1) |
 
-For `enables`, the source is the building block and the target is the composite. Headers that name the page's components/containers (Containers and primitives, Containers, Related primitives, Mechanisms, Components, Conversational primitives, Composed from) invert the default page→listed direction so the listed pattern becomes the source. `Used by` is the exception — the page is the building block, the listed pattern is the composite, default direction is correct.
+For `precedes`, the source is the earlier move and the target is the later move. `Precursors` headers invert the default page→listed direction so the listed pattern becomes the source; `Follow-ups` headers keep default direction. For `enables`, the source is the building block and the target is the composite. Headers that name the page's components/containers (Containers and primitives, Containers, Related primitives, Mechanisms, Components, Conversational primitives, Composed from) invert the default page→listed direction so the listed pattern becomes the source. `Used by` is the exception — the page is the building block, the listed pattern is the composite, default direction is correct.
 
 Thematic headers (e.g., "Core collaborative components", "Human-AI collaboration", ~14 unique) and the one malformed link header map to `related` with the original text as `label`. The header text is also captured as a *tag* on the linked patterns (see "Tag extraction" below).
 
@@ -259,8 +258,8 @@ npx tsx scripts/extract-graph-data.ts
 Then verify:
 
 - Edge count should be similar (slightly lower due to commented-out link fix)
-- Spot-check Workspace.mdx edges: should have `precedes`, `complements`, `follows`, `tangential` types
-- Spot-check Form.mdx edges: should have `precedes`, `follows`, `complements`, `tangential`
+- Spot-check Workspace.mdx edges: should have `precedes`, `complements`, `tangential` types
+- Spot-check Form.mdx edges: should have `precedes`, `complements`, `tangential`
 - Flat-list files (e.g., Deletion.mdx) should all be `related`
 - No links from `{/* */}` comment blocks should appear
 - Patterns linked under thematic headers should have `tags` populated on their nodes
@@ -282,6 +281,15 @@ Three additions across this plan reinforce that the vocabulary, the edge types, 
 3. *A classification-health gardening sweep* (specified in `plans/2026/april/harness.md` Phase 3). Monthly PR surfacing drift — types with few edges, thematic headers repeating across files and looking ready for promotion, tags used once vs. many times. Reports to the changelog under *Observed drift* so revisions stay grounded in use rather than in speculation.
 
 None of this closes the vocabulary. The aim is a classification that stays answerable about its own history and amenable to revision, rather than one that seals itself against use.
+
+### Review remediation follow-ups
+
+The direct review fixes landed as mechanical corrections: sequence headers now store canonical `precedes` edges, profile sidecars enter node metadata, `recommends` no longer affects graph layout, and the existing Inline confirmation target is mapped. Four questions remain intentionally outside the direct pass:
+
+- Audit whether existing `Precursors` sections are overloaded; some primitive/building-block links may deserve `enables`.
+- Decide the long-term role of generative profiles, including whether projection/umbrella pages need explicit applicability metadata.
+- Design the `recommends` graph experience as an overlay/filter interaction rather than only a rendered edge type.
+- Decide how variant leaves such as Typed confirmation and Modal with details should be represented when they are not standalone pattern pages.
 
 ---
 
@@ -465,4 +473,3 @@ Phase 4 (query API, sketch)
 ```
 
 Phase 0.B and 0.C are independent gates and can run in either order or in parallel. Phase 1 starts only after both gates close (a changelog entry per experiment, possibly revising the vocabulary or Phase 1's spec). Phase 1 should land before Phase 3 (Phase 3 builds on the same extraction script). Phase 2 is unblocked by Phase 1 but no longer blocking. Phase 4 depends on a concrete consumer existing.
-
