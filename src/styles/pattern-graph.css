@@ -37,6 +37,26 @@
     stroke: var(--c-neutral-600, #666);
   }
 
+  /* Edge type differentiation — only on active/hovered edges to keep default view clean */
+
+  .pattern-graph__edge--active[data-edge-type="complements"] {
+    stroke-dasharray: 4 2;
+  }
+  .pattern-graph__edge--active[data-edge-type="tangential"] {
+    stroke-dasharray: 2 3;
+  }
+  .pattern-graph__edge--active[data-edge-type="alternative"] {
+    stroke-dasharray: 6 2 1 2;
+  }
+  .pattern-graph__edge--active[data-edge-type="enables"],
+  .pattern-graph__edge--active[data-edge-type="instantiates"] {
+    stroke-dasharray: 8 3;
+  }
+  .pattern-graph__edge--active[data-edge-type="enacts"] {
+    stroke-dasharray: 1 2;
+  }
+
+
   /* Nodes */
 
   .pattern-graph__node {

@@ -222,15 +222,11 @@ Replace `fileLinks` Map with a `typedFileLinks` Map storing `TypedLink[]`. Build
 
 **6. Manual label layer (write-back to MDX)**
 
-After the mechanical pass produces the full edge set, the script emits a queue at `pattern-graph.label-queue.json` listing edges where a manually authored label is wanted:
-
-- All `enacts` edges (post target-based typing — see below).
-- Edges flagged by the axis sanity check (counts logged to the changelog).
-- Edges that came from thematic subcategory headers (identified at extraction time via a thematic-header flag, not by string-matching the label — so per-line annotations don't break the categorisation).
-
-The script does not author labels itself. It produces the queue, which doubles as a coverage report (each entry has a `hasLabel` flag indicating whether extraction already populated the slot from MDX). Labels are authored externally — either by editing the MDX directly to add or refine the per-link `— ` annotation, or by staging entries in a JSON file and running `scripts/write-labels.ts` to write the annotations into the corresponding bullets.
+The script does not author labels itself. Labels are authored externally — either by editing the MDX directly to add or refine the per-link `— ` annotation, or by staging entries in a JSON file and running `scripts/write-labels.ts` to write the annotations into the corresponding bullets.
 
 The graph itself stores no manual content: every label in `pattern-graph.json` is freshly derived from MDX on each extraction run. Labels survive regeneration because the MDX survives regeneration, not because the script preserves them.
+
+(An earlier `pattern-graph.label-queue.json` coverage report was retired 2026-04-26 once the initial labelling sweep closed; spot-checks against the structural invariants in [docs/relationship-vocabulary.md](../../../docs/relationship-vocabulary.md) replace it. See the changelog entry of that date.)
 
 For `enacts` edges where no MDX bullet exists for the quality link (the reference is in inline prose only), the right move is to add a bullet — a `### Enacted qualities` subsection in `## Related patterns` is a natural home, but any single-link bullet anywhere in the document is enough.
 
@@ -249,10 +245,9 @@ Quality-to-quality links (e.g., Malleability → Agency, Shareability → Conver
 
 ### Files modified
 
-- `scripts/extract-graph-data.ts` — extraction logic (mechanical typing, target-based `enacts`, document-wide annotation pass, label-queue emission)
-- `scripts/write-labels.ts` — new, writes authored labels into source MDX as per-link `— ` annotations
+- `scripts/extract-graph-data.ts` — extraction logic (mechanical typing, target-based `enacts`, document-wide annotation pass)
+- `scripts/write-labels.ts` — writes authored labels into source MDX as per-link `— ` annotations from a staged `{source, target, type, label}` JSON file
 - `src/pattern-graph.json` — regenerated output, purely derived (edges gain `type`, optional `label`, optional `extractedFrom`; nodes gain optional `tags`)
-- `pattern-graph.label-queue.json` — sidecar listing edges where a manual label is wanted; doubles as a coverage report via the `hasLabel` flag
 - *MDX files* — the source of truth for labels; manual authoring writes back here, not into the graph
 
 ### Verification
@@ -272,8 +267,7 @@ Then verify:
 - Typed edges from subcategory headers carry `extractedFrom` with the raw header text (`header:"Precursors"`, `header:"Precursor patterns"`); `related` edges from flat lists or prose do not
 - Edges from a pattern to a quality page (`qualities-*` target) are typed `enacts` with `extractedFrom: 'quality-target'`, regardless of which section they appeared in
 - *Invariant*: every `enacts` edge has a non-quality source and a `qualities-*` target. Quality-to-quality edges (source category `Qualities`, target `qualities-*`) stay `related`. Spot-check Malleability.mdx and Shareability.mdx — their outgoing edges to other quality pages should be `related`, not `enacts`.
-- *Axis sanity check (advisory, not a failure mode)*: using the category folder as a coarse altitude proxy, count `instantiates` edges whose endpoints sit in the same folder, and `complements` edges crossing two altitude bands. Both are suspicious — possibly mislabeled, possibly genuinely mixed-altitude. Log counts to the changelog under *Observed drift*; don't block extraction. Flagged edges enter the label queue. See [docs/relationship-vocabulary.md](../../../docs/relationship-vocabulary.md)'s "Edge axis" section for the axis classification.
-- *Label queue*: after extraction, `pattern-graph.label-queue.json` lists every `enacts` edge, every axis-flagged edge, and every thematic-header edge, with a `hasLabel` flag indicating whether a label is already present (extracted or authored). Existing labels on unchanged edges are preserved across regeneration.
+- *Axis sanity check (advisory, not a failure mode)*: using the category folder as a coarse altitude proxy, count `instantiates` edges whose endpoints sit in the same folder, and `complements` edges crossing two altitude bands. Both are suspicious — possibly mislabeled, possibly genuinely mixed-altitude. Counts are printed by the script; log to the changelog under *Observed drift* if anything moves. See [docs/relationship-vocabulary.md](../../../docs/relationship-vocabulary.md)'s "Edge axis" section for the axis classification.
 
 ---
 

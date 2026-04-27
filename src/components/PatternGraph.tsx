@@ -54,6 +54,8 @@ interface RenderedEdge {
   y1: number;
   x2: number;
   y2: number;
+  type: string;
+  label?: string;
 }
 
 const SVG_WIDTH = 900;
@@ -85,10 +87,20 @@ function buildGraph() {
 
   const nodeById = new Map(simNodes.map((n) => [n.id, n]));
 
-  type RawLink = { source: GraphNode | string; target: GraphNode | string };
+  type RawLink = {
+    source: GraphNode | string;
+    target: GraphNode | string;
+    type: string;
+    label?: string;
+  };
   const simLinks: RawLink[] = graphData.edges
     .filter((e) => nodeById.has(e.source) && nodeById.has(e.target))
-    .map((e) => ({ source: e.source, target: e.target }));
+    .map((e) => ({
+      source: e.source,
+      target: e.target,
+      type: (e as { type?: string }).type ?? 'related',
+      label: (e as { label?: string }).label,
+    }));
 
   const linkForce = forceLink<GraphNode, SimulationLinkDatum<GraphNode>>(
     simLinks as SimulationLinkDatum<GraphNode>[]
@@ -149,6 +161,8 @@ function buildGraph() {
       y1: src.y ?? 0,
       x2: tgt.x ?? 0,
       y2: tgt.y ?? 0,
+      type: link.type,
+      label: link.label,
     };
   });
 
@@ -205,6 +219,7 @@ export function PatternGraph() {
             <line
               key={edge.id}
               className={edgeClass(edge)}
+              data-edge-type={edge.type}
               x1={edge.x1}
               y1={edge.y1}
               x2={edge.x2}

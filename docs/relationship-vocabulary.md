@@ -268,113 +268,31 @@ A running record of why types were added, merged, renamed, or retired, what alte
 
 Each entry: date, change, why, what was considered, what was lost.
 
-### 2026-04-26 — Enacts batch 6 (operations): 2 thin labels rewritten
+### 2026-04-26 — Label queue retired
 
-Sixth and final batch of [label-enacts.md](../plans/2026/april/label-enacts.md). All six edges already had labels (autocomplete → learnability, autofill → privacy/adaptability, good-defaults → agency, popover → learnability, sections → adaptability). Two were thin restatements and got rewritten:
+`pattern-graph.label-queue.json` and the queue-building logic in `scripts/extract-graph-data.ts` removed. The queue had served its purpose — driving the initial labelling sweep across `enacts`, axis-flagged, and thematic edges — and reached 95/98 coverage at close. Standing infrastructure for the remaining 3% (and for future drift) wasn't earning its keep against the broader review the vocabulary needs anyway.
 
-- `operations-sections → qualities-adaptability` — was "Sections is a concrete example of deterministic context-driven adaptation" (meta-restatement). Now: "sections rearrange and reveal content based on context (collapsed by default for unfamiliar areas, expanded for the work in front of the actor) without learning from behaviour."
-- `operations-good-defaults → qualities-agency` — was "Defaults represent a shift towards system agency (system deciding for the user)." Now: "a default is the system making the small decision so the actor doesn't have to; the actor still has the final say but doesn't have to spend it on this field."
+What's lost: a generated coverage report flagging the three reasons that wanted manual labels. What replaces it: ad-hoc `jq` against `src/pattern-graph.json` when a specific check is wanted, plus the structural invariants listed in §"Structural invariants" of this doc as the manual-review checklist. The axis sanity check still runs and prints counts to the extraction log; only the per-edge queue entries are gone.
 
-This closes out the enacts label queue. All 88 enacts edges across the library now carry a substantive label authored or reviewed in the six batches plus the cross-cutting override pass on bot/help learnability and the foundation-page restructure.
+`scripts/write-labels.ts` is kept — it remains useful for batch label authoring against an arbitrary `{source, target, type, label}` JSON, independent of any queue.
 
-### 2026-04-26 — Foundation pages: drop generic related-pattern lists, keep `## Enacted qualities`
+The `thematicHeader` and `inverse` flags on the internal `TypedLink` type are kept; `thematicHeader` is no longer consumed downstream but the cost of leaving it is zero, and re-introducing the queue (or a different consumer of thematic provenance) would need it back.
 
-Editorial pass on every foundation MDX (Assistance, Collaboration, Data, Delegation, Information Architecture, Intent & Interaction, Modality, Prose, plus Material/Color, Iconography, Layout, Motion, Typography). Generic `### Complementary` / `### Precursors` / `### Follow-ups` / `### Tangentially related` / `## Related` lists removed; substantive cross-foundation references (e.g. assistance ↔ delegation) collapsed into a one-sentence prose note below the qualities list.
+Closed plans under `plans/2026/april/label-*.md` left as-is for history.
 
-Reasoning: the complete list of patterns a foundation relates to is necessarily very long (that is what *foundation* means). Listing only some raises the question of why those and not others. By contrast, `## Enacted qualities` is bounded by the qualities vocabulary itself — it carries a specific claim about which qualities the foundation activates, and how. The lists that survived are now those (one per foundation, where a relationship exists).
+### 2026-04-26 — Enacts label sweep (six batches) and foundation-page restructure
 
-Headings unified to top-level `## Enacted qualities` (rather than `### Enacted qualities` under `## Related patterns`) since there's nothing else to nest under after the cleanup.
+All 98 `enacts` edges now carry a substantive label, up from 65 at the start of the sweep. Per-batch run logs live in [plans/2026/april/label-enacts.md](../plans/2026/april/label-enacts.md); the vocabulary-relevant residue is recorded here.
 
-Exception: Modality kept its `## Related patterns` with `### Complementary` (a list of patterns along the modality gradient — strict-modal at one end, non-modal at the other) and `### Tangentially related`. The gradient list is a specific structural claim, not a generic "what relates to modality" enumeration; it earns its place.
+*Anti-pattern surfaced — labels that restate the type or the quality.* Recurring shape: "X enables/supports/is the capability for Q." These read as definitions of the quality or restatements of `enacts` rather than naming the mechanism by which the move alters the structure. The working rule that emerged: a label should name what the move *does* to the centre such that the effect is legible through Q's lens. Override candidates flagged across the batches included `cognitive-forcing-functions → agency/learnability/temporality`, `settings → privacy/adaptability`, `actions-sensemaking-view → malleability/density/adaptability`, `activities-localization → adaptability`, `activities-onboarding → learnability`, `activities-prompt → agency`, `operations-sections → adaptability`, `operations-good-defaults → agency`, `activities-bot/help → learnability`. Several rewritten in-pass; the rest stand as exemplars of the failure mode.
 
-Effect on the graph: ~24 fewer `related` edges and a handful fewer `complements` edges from foundation pages — these were the bullets just removed. The 24 `enacts` edges from foundation pages all preserved with labels intact (verified via re-extraction). Total enacts coverage: 98/98 labelled (up from 65 before this session).
+*Two extractor relaxations* (batch 2): hyphen accepted as label separator after `\)` (` - ` joins ` — ` and ` – `); `*` bullets accepted alongside `-` in the document-wide annotation pass. Both were silently dropping authored labels.
 
-Edge counts before/after this pass (from extraction logs): related 416 → 392; complements 153 → 147; enacts 88 → 89; total 879 → 854.
+*MDX shape lessons.* Per-link annotations require single-link bullets; parent-bullet-with-sub-bullets and prose-with-link forms had to be restructured in many pages. Several relationships existed only in inline prose and needed an `### Enacted qualities` subsection added before they could carry a label. Two-link bullets (main link + `#anchor`) had to be split or folded.
 
-### 2026-04-26 — Enacts batch 5 (foundations): 11 missing labels authored
+*Foundation pages — drop generic related-pattern lists, keep `## Enacted qualities`.* Editorial pass on every foundation MDX. Generic `### Complementary` / `### Precursors` / `### Follow-ups` / `### Tangentially related` lists removed; substantive cross-foundation references collapsed into prose. Rationale: the complete list of patterns a foundation relates to is necessarily very long (that is what *foundation* means); listing some raises the question of why those and not others. `## Enacted qualities` is bounded by the qualities vocabulary, so it carries a specific claim. Exception: Modality kept `### Complementary` for its modality-gradient list (a structural claim, not a generic enumeration). Edge counts: related 416 → 392; complements 153 → 147; enacts 88 → 89; total 879 → 854.
 
-Fifth batch of [label-enacts.md](../plans/2026/april/label-enacts.md). Eleven missing labels authored across seven foundation pages: `assistance → agency`, `collaboration → adaptability`, `delegation → agency`, `information-architecture → agency/shareability`, `intent-interaction → formality/adaptability/agency/temporality`, `modality → agency/temporality`, `material-layout → density`.
-
-MDX restructuring done along the way:
-
-- *Assistance* and *Delegation* — both pages had paragraph-form `## Related patterns` sections (linked but unbulleted). Restructured into `### Enacted qualities` plus other subsections with proper bullets, so the relationships now extract.
-- *Collaboration (foundation)* — adaptability had a commented-out TODO. Replaced with a substantive bullet.
-- *Information architecture* — five top-level prose-bullets (each with a quality link partway through and sub-bullets below) restructured into a flat single-link-bullet list under `### Enacted qualities` and `### Complementary`. Lost some of the original sub-bullet elaboration (kept what fit into label sentences).
-- *Intent & interaction* — the four `## Cross-cutting qualities` bullets used the prose form `[Quality] does X` rather than `[Quality] — does X`. Converted; added a new adaptability bullet that had previously only existed in inline prose at line 85. Activity-types reference moved from the bulleted list to a paragraph below (it's not an enacts edge, just a related concept and was confusing the list).
-- *Modality* — added an `### Enacted qualities` subsection (relationships had previously only existed in topical prose under the modality gradient).
-- *Material/Layout* — page had no `## Related patterns` section at all. Added one with a single `### Enacted qualities` bullet for density.
-
-No labels left as override candidates this round; the existing labelled edges in the foundations batch (`collaboration → conversation/agency/shareability/formality`, `data-information → agency/adaptability/conversation`, `prose → agency/learnability/formality/conversation`, `material-typography → density`) read substantively enough.
-
-### 2026-04-26 — Enacts batch 4 (activities part 2): 6 missing labels authored
-
-Fourth batch of [label-enacts.md](../plans/2026/april/label-enacts.md). Six missing labels authored on `activities-mastery → qualities-{learnability, malleability, temporality, density}`, `activities-transparent-reasoning → qualities-agency`, `activities-workspace → qualities-agency`.
-
-MDX restructuring done along the way:
-
-- *Mastery* — four quality bullets used `:` as separator with restating labels ("Framework for customisation capabilities", "Lifecycle progression", etc.). Moved them into a new `### Enacted qualities` subsection with single-link `— ` annotations and substantive labels naming what mastery does to each quality.
-- *Transparent reasoning → agency* — the bullet had two links (`qualities-agency#appropriate-reliance` plus an inline `cognitive-forcing-functions` link). Split: agency now stands as its own bullet, and cognitive forcing functions moved to its own bullet describing the counter-balance relationship. Also fixed an en-dash (`–`) accidentally used as a bullet marker on the prior line, which had been preventing extraction from seeing it as a list item.
-- *Workspace → agency* — relationship was only present in the page's intro prose. Added an `### Enacted qualities` subsection containing the existing privacy bullet (relabelled with `— `) plus a new agency bullet.
-
-Three thin existing labels in this batch flagged as override candidates for a later pass:
-
-- `activities-localization → qualities-adaptability` ("the capacity that localization exercises") — meta-restatement, not mechanism.
-- `activities-onboarding → qualities-learnability` ("the foundation supporting value demonstration.") — vague.
-- `activities-prompt → qualities-agency` ("enables proactive prompt assistance and scaffolding.") — generic, uses "enables" which restates the type.
-
-### 2026-04-26 — Enacts batch 3 (activities part 1): 5 missing labels authored
-
-Third batch of [label-enacts.md](../plans/2026/april/label-enacts.md). Five missing labels on `activities-collaboration → qualities-agency`, `activities-conversation → qualities-conversation`, `activities-embedded-intelligence → qualities-adaptability`, `activities-embedded-intelligence → qualities-agency`, `activities-generated-content → qualities-agency`.
-
-MDX restructuring done along the way:
-
-- *Embedded intelligence* — the two precursor bullets ("Extends adaptability by..." / "Enhances the system's agency by...") read as prose-with-link rather than as labelled bullets. Rewrote in single-link `[Quality] — text` form.
-- *Generated content → agency* — the bullet had two links to `qualities-agency` (the main link plus an `#appropriate-reliance` anchor). Annotation extraction requires linkCount === 1; folded the appropriate-reliance reference into the label prose without the second link.
-- *Collaboration → agency* and *Conversation → conversation* — both relationships were only present in inline prose, not as bullets. Added a `### Enacted qualities` subsection to each page's `## Related patterns` and authored a single-link bullet there.
-
-Two existing labels rewritten in the same sitting (originally flagged as override candidates):
-
-- `activities-bot → qualities-learnability` — was rule-of-three with AI vocabulary; now reads "the bot lets the actor ask the system rather than decipher it; learning happens through dialogue at the actor's pace." Authored in [Learnability.mdx](../src/stories/qualities/Learnability.mdx) (the inverse direction the page links from).
-- `activities-help → qualities-learnability` — was a meta-statement about the goal of help; now reads "help meets the actor at the moment of friction, both on first use and later when memory fades; learning happens in context rather than ahead of time."
-
-### 2026-04-26 — Enacts batch 2 (coordination + sense-making + seeking + navigation): 2 missing labels authored, two extractor fixes
-
-Second batch of [label-enacts.md](../plans/2026/april/label-enacts.md). Two missing labels authored on `actions-evaluation-focus-and-context`:
-
-- `→ qualities-agency` — required restructuring the source MDX. The original `## Related patterns` section had `* Has [agency] to` and `* [Adapts]` as parent bullets with five sub-bullets each. Per-link annotations need a single-link bullet line; the parent lines now read as labelled bullets while sub-bullets are preserved as elaboration.
-- `→ qualities-adaptability` — same pattern.
-
-Two extractor relaxations made along the way:
-
-- *Hyphen accepted as label separator.* `extractAnnotation` previously matched only ` — ` and ` – `. It now also matches ` - ` after `\)`. Authoring with a hyphen is common; the old rule silently dropped these annotations. After the relaxation, five queue entries that already had hyphen-separated text in MDX flipped to `hasLabel: true` without any further authoring.
-- *`*` bullets accepted alongside `-` in the document-wide annotation pass.* Markdown treats them equivalently; the extractor was unnecessarily strict.
-
-Eleven existing labels in this batch left as-is. Override candidates flagged for a later pass:
-
-- `actions-navigation-overview-and-detail → qualities-malleability` ("The capability to switch between topologies.") — restates the quality, doesn't name the move's mechanism.
-- `actions-navigation-hybrid-patterns → qualities-agency` ("control implications of combinations") — too thin to read.
-- `actions-sensemaking-view → qualities-malleability` ("The capability to change the view's content, layout, and composition") — restates.
-- `actions-sensemaking-view → qualities-density` ("Information per unit of space") — defines the quality.
-- `actions-sensemaking-view → qualities-adaptability` ("System response to context changes") — defines the quality.
-- `actions-sensemaking-explanation → qualities-learnability` ("domain explanations support domain learnability") — recursive restatement of the type.
-
-### 2026-04-26 — Enacts batch 1 (application actions): 5 missing labels authored
-
-First batch of [label-enacts.md](../plans/2026/april/label-enacts.md). Five edges had no per-line annotation in their source MDX (extraction couldn't fall back because the bullets used " - " as a descriptive separator, not " — "). Authored fresh labels and converted the separator on those lines:
-
-- `actions-application-data-entry → qualities-formality`
-- `actions-application-form → qualities-formality`
-- `actions-application-suggestion → qualities-adaptability`
-- `actions-application-suggestion → qualities-formality`
-- `actions-application-template → qualities-learnability`
-
-The 13 already-labelled edges in this batch were left as-is. Five candidates flagged for a future override pass — the labels describe the relationship from outside the move rather than naming the mechanism that strengthens the quality:
-
-- `cognitive-forcing-functions → agency` ("the outcome this family is trying to produce") — meta about the family, not about the move.
-- `cognitive-forcing-functions → learnability` and `→ temporality` — both phrased as dependencies (CFF *requires* learnability / temporal design) rather than enactments. If retained, they argue for re-typing in the inverse direction (learnability/temporality enable CFF).
-- `settings → privacy` ("settings include visibility and access preferences") and `settings → adaptability` ("settings enable system customization to context") — restate the type rather than naming the mechanism.
-
-Observed drift: one stale enacts edge dropped out of the queue this run (`activities-collaboration → qualities-conversation`). `qualities-conversation` is not a quality node; the edge appears to have been pre-existing queue residue from earlier extraction state. No action needed beyond noting it.
+One stale edge dropped out of extraction during the sweep: `activities-collaboration → qualities-conversation`. `qualities-conversation` is not a quality node; the edge was queue residue from earlier extraction state.
 
 ### 2026-04-25 — Initial vocabulary drafted
 
