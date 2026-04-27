@@ -190,7 +190,6 @@ interface Edge {
   label?: string;                                            // prose annotation — extracted from MDX `— ` text or authored manually
   extractedFrom?: string;                                    // provenance — header text, 'quality-target', or 'decision-tree:<id>'
   situationalHints?: Array<{ question: string; branch: string }>;  // only for 'recommends'
-  sourceTree?: string;                                       // provenance for 'recommends'
 }
 
 type EdgeType =
@@ -257,9 +256,9 @@ Testable assertions derived from this vocabulary's own definitions. These can be
 
 1. *Valid edge types*: every `type` value on an edge must be a member of `EdgeType` (precedes, follows, enables, instantiates, complements, tangential, alternative, recommends, related, enacts).
 2. *`enacts` targets qualities*: every edge with `type: 'enacts'` must target a node whose ID starts with `qualities-`.
-3. *`recommends` carries hints*: every edge with `type: 'recommends'` must have a non-empty `situationalHints` array and a `sourceTree` string.
+3. *`recommends` carries hints*: every edge with `type: 'recommends'` must have a non-empty `situationalHints` array and an `extractedFrom: 'decision-tree:<treeId>'` string.
 4. *No redundant inverses*: if A `precedes` B exists, no separate B `follows` A edge should be stored. `follows` is inferred at query time, not stored as data.
-5. *Hint-only fields are scoped*: `situationalHints` and `sourceTree` fields appear only on `recommends` edges.
+5. *Hint-only fields are scoped*: `situationalHints` appears only on `recommends` edges.
 6. *Symmetric edges are consistent*: for undirected types (complements, tangential, alternative, related), if A→B exists then B→A must also exist (or the graph component must treat them as bidirectional).
 
 ## Changelog
@@ -267,6 +266,23 @@ Testable assertions derived from this vocabulary's own definitions. These can be
 A running record of why types were added, merged, renamed, or retired, what alternatives were considered, and what was lost in each decision. The vocabulary is provisional — it will keep evolving as the library grows. Making its construction visible is part of treating classification as a living artifact rather than a closed specification (compare Bowker & Star, *Sorting Things Out*: "the only good classification is a living classification").
 
 Each entry: date, change, why, what was considered, what was lost.
+
+### 2026-04-27 — Phase 3 lands: `recommends` edges from decision trees
+
+Mermaid flowcharts in four of the eight active decision trees (Deletion, Notification, Navigation overview, Form's "Choosing a control") now extract into `recommends` edges with `situationalHints` and `extractedFrom: 'decision-tree:<treeId>'`. 19 edges total: deletion 2, form-control 3, notification 6, navigation-overview 8.
+
+The other four trees (BarChart, Overflow, Form's "Choosing an input", Localization) are deferred. BarChart is list-shaped, not a flowchart. The remaining three have leaves that are CSS techniques (Overflow), compound input families (Form input — "Select/Text/Date/Password/Textarea"), or descriptive layer assemblies (Localization — "Linguistic + cultural + regional"), none of which resolve cleanly to current pattern pages. The hand-curated leaf map honours the plan's "skip leaves that don't map to patterns" rule rather than minting placeholder targets.
+
+Two extractor mechanics worth recording so they can be reused or revised:
+
+- *Branch-as-intermediate-node collapse.* Some trees (notably Deletion) express branch labels as their own nodes — `A[Question?] --> B[Yes] --> D[Next question?]` — instead of as `-->|Yes|` edge labels. The parser now folds such intermediates into the predecessor's outgoing edge label when (a) the intermediate isn't itself a question, (b) it sits on a single in/out edge with no inbound edge label, and (c) its predecessor is a question. This keeps the `(question) --[branch]--> (next)` shape uniform across stylistic variants.
+- *Question detection accepts both shapes.* Mermaid's `{…}` rhombus marks a question explicitly, but several authors use `[…]` rectangles for question nodes too. The traversal treats any node whose label ends with `?` as a question, in addition to the rhombus form.
+
+The earlier `sourceTree` field is dropped in favour of `extractedFrom: 'decision-tree:<treeId>'` (already the convention used for header- and quality-derived provenance). Invariant 3 and the `Edge` interface in this doc are updated to match. The Phase 3 plan flagged this rename; this is where it lands.
+
+The Overview-page exclusion in `scripts/extract-graph-data.ts` is relaxed for any source id that has a `DECISION_TREES` entry — needed for `actions-navigation-overview`, which acts as the navigation tree's source even though it would otherwise be skipped as an index page.
+
+What's lost: nothing yet — but the four deferred trees represent dimensions the library reasons about (overflow handling, input families, localization layers) that the graph now declines to surface. If pages emerge for those leaves, the curated map is the only place to update.
 
 ### 2026-04-26 — Label queue retired
 

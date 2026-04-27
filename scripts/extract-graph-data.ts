@@ -28,12 +28,18 @@ type EdgeType =
   | 'related'
   | 'enacts';
 
+interface SituationalHint {
+  question: string;
+  branch: string;
+}
+
 interface Edge {
   source: string;
   target: string;
   type: EdgeType;
   label?: string;
   extractedFrom?: string;
+  situationalHints?: SituationalHint[];
 }
 
 interface ActivityLevel {
@@ -342,6 +348,317 @@ function extractTypedLinks(rawContent: string): ParsedLinks {
   return { typed, tagsByTarget };
 }
 
+// --- Mermaid decision-tree extraction (Phase 3 — `recommends` edges) ---
+
+interface MermaidNode { id: string; label: string; isQuestion: boolean }
+interface MermaidEdge { from: string; to: string; label?: string }
+interface MermaidGraph { nodes: Map<string, MermaidNode>; edges: MermaidEdge[] }
+
+const NODE_DEF_RE = /\b([A-Za-z][A-Za-z0-9_]*)(\[[^\]\n]*\]|\{[^}\n]*\}|\(\([^)\n]*\)\)|\([^)\n]*\))/g;
+
+function unwrapNodeLabel(wrapped: string): { label: string; isQuestion: boolean } {
+  const isQuestion = wrapped.startsWith('{');
+  let inner: string;
+  if (wrapped.startsWith('((')) inner = wrapped.slice(2, -2);
+  else inner = wrapped.slice(1, -1);
+  inner = inner.trim().replace(/^"(.*)"$/s, '$1').trim();
+  return { label: inner, isQuestion };
+}
+
+function parseMermaid(chart: string): MermaidGraph {
+  const nodes = new Map<string, MermaidNode>();
+  const edges: MermaidEdge[] = [];
+
+  const lines = chart.split('\n');
+  for (const raw of lines) {
+    const line = raw.trim();
+    if (!line) continue;
+    if (line.startsWith('%%')) continue;
+    if (/^flowchart\s/i.test(line)) continue;
+    if (/^(style|classDef|class|linkStyle|subgraph|end)\b/i.test(line)) continue;
+
+    // Capture inline node definitions.
+    NODE_DEF_RE.lastIndex = 0;
+    let m: RegExpExecArray | null;
+    while ((m = NODE_DEF_RE.exec(line)) !== null) {
+      const id = m[1];
+      const { label, isQuestion } = unwrapNodeLabel(m[2]);
+      if (!nodes.has(id)) {
+        nodes.set(id, { id, label, isQuestion });
+      } else {
+        // Prefer the first label seen but upgrade isQuestion if any def uses {…}.
+        const existing = nodes.get(id)!;
+        if (isQuestion) existing.isQuestion = true;
+        if (!existing.label && label) existing.label = label;
+      }
+    }
+
+    // Replace node defs with their bare ids so edge tokenisation is straightforward.
+    const stripped = line.replace(NODE_DEF_RE, '$1');
+
+    // Walk the line for `-->` (optionally followed by `|label|`) and split into segments.
+    const edgeSepRe = /-->\s*(?:\|([^|]+)\|)?\s*/g;
+    const segments: string[] = [];
+    const labels: (string | undefined)[] = [];
+    let lastIndex = 0;
+    let mm: RegExpExecArray | null;
+    while ((mm = edgeSepRe.exec(stripped)) !== null) {
+      segments.push(stripped.slice(lastIndex, mm.index).trim());
+      const lbl = mm[1]?.trim().replace(/^"(.*)"$/s, '$1').trim();
+      labels.push(lbl || undefined);
+      lastIndex = edgeSepRe.lastIndex;
+    }
+    segments.push(stripped.slice(lastIndex).trim());
+    if (segments.length < 2) continue;
+
+    for (let i = 0; i < segments.length - 1; i++) {
+      const fromId = segments[i].split(/\s+/).pop() ?? '';
+      const toId = segments[i + 1].split(/\s+/)[0];
+      if (!/^[A-Za-z][A-Za-z0-9_]*$/.test(fromId)) continue;
+      if (!/^[A-Za-z][A-Za-z0-9_]*$/.test(toId)) continue;
+      // Bare references with no label should still register a node entry so traversal can proceed.
+      if (!nodes.has(fromId)) nodes.set(fromId, { id: fromId, label: fromId, isQuestion: false });
+      if (!nodes.has(toId)) nodes.set(toId, { id: toId, label: toId, isQuestion: false });
+      edges.push({ from: fromId, to: toId, label: labels[i] });
+    }
+  }
+
+  return { nodes, edges };
+}
+
+const MERMAID_BLOCK_RE = /<MermaidDiagram\s+chart=\{`([\s\S]*?)`\}\s*\/>/g;
+
+function extractMermaidCharts(content: string): string[] {
+  const charts: string[] = [];
+  let m: RegExpExecArray | null;
+  MERMAID_BLOCK_RE.lastIndex = 0;
+  while ((m = MERMAID_BLOCK_RE.exec(content)) !== null) charts.push(m[1]);
+  return charts;
+}
+
+interface TreeConfig {
+  /** Stable identifier used in `extractedFrom: 'decision-tree:<treeId>'`. */
+  treeId: string;
+  /** Index of the `<MermaidDiagram>` block in the source MDX (0 = first). */
+  chartIndex?: number;
+  /** Map of leaf-node label text to target pattern id. Leaves not listed here are skipped. */
+  leaves: Record<string, string>;
+}
+
+/**
+ * Curated decision-tree configs, keyed by source pattern id (the page that contains the tree).
+ *
+ * Leaf labels are matched verbatim against the parsed Mermaid node labels. Trees and leaves
+ * that resolve to no current pattern page are omitted — this is the "skip leaves that don't
+ * map" branch of the Phase 3 plan.
+ */
+const DECISION_TREES: Record<string, TreeConfig[]> = {
+  'actions-application-deletion': [
+    {
+      treeId: 'deletion',
+      leaves: {
+        'No confirmation (with undo)': 'operations-undo',
+        'Modal confirmation': 'actions-application-dialog',
+      },
+    },
+  ],
+  'actions-coordination-notification': [
+    {
+      treeId: 'notification',
+      leaves: {
+        'Dialog': 'actions-application-dialog',
+        'Callout': 'operations-callout',
+        'Toast': 'operations-toast',
+      },
+    },
+  ],
+  'actions-navigation-overview': [
+    {
+      treeId: 'navigation-overview',
+      leaves: {
+        'Pan and zoom': 'actions-navigation-pan-and-zoom',
+        'Step by step': 'actions-navigation-step-by-step',
+        'Pyramid': 'actions-navigation-pyramid',
+        'Multilevel tree': 'actions-navigation-multilevel-tree',
+        'Flat navigation': 'actions-navigation-flat-navigation',
+        'Fully connected': 'actions-navigation-fully-connected',
+        'Hub and spoke': 'actions-navigation-hub-and-spoke',
+        'Overview & Detail': 'actions-navigation-overview-and-detail',
+      },
+    },
+  ],
+  'actions-application-form': [
+    {
+      treeId: 'form-control',
+      chartIndex: 1, // second <MermaidDiagram> — "Choosing a control"
+      leaves: {
+        'Tabs': 'operations-tabs',
+        'Checkbox': 'operations-checkbox',
+        'Dropdown': 'actions-coordination-dropdown',
+      },
+    },
+  ],
+};
+
+interface ResolvedPath {
+  leafTargetId: string;
+  hints: SituationalHint[];
+}
+
+/**
+ * Walk the parsed Mermaid graph from each root (a node with no incoming edges) to every leaf
+ * (a node with no outgoing edges). At each transition, if the *from* node is a question
+ * (`{…}` shape or its label ends with `?`), record `{question, branch}` where branch is the
+ * outgoing edge's label (`-->|…|`). Leaves are resolved against the curated map; unresolved
+ * leaves are dropped.
+ */
+/**
+ * Some Mermaid trees express branches as intermediate nodes rather than as `-->|label|` edge
+ * labels — e.g. Deletion's `A[Is the deletion reversible?] --> B[Yes]` followed by `B --> D`.
+ * Collapse such intermediates into the predecessor's outgoing edge label so the traversal
+ * sees a uniform `(question) --[branch]--> (next)` structure.
+ *
+ * A node qualifies as a branch intermediate when: it isn't itself a question, it sits on a
+ * single in/out edge, the inbound edge has no label, and its predecessor is a question.
+ */
+function isQuestionNode(node: MermaidNode): boolean {
+  return node.isQuestion || /\?\s*$/.test(node.label);
+}
+
+function collapseBranchNodes(graph: MermaidGraph, leafMap: Record<string, string>): MermaidGraph {
+  const incoming = new Map<string, MermaidEdge[]>();
+  const outgoing = new Map<string, MermaidEdge[]>();
+  for (const id of graph.nodes.keys()) {
+    incoming.set(id, []);
+    outgoing.set(id, []);
+  }
+  for (const e of graph.edges) {
+    incoming.get(e.to)!.push(e);
+    outgoing.get(e.from)!.push(e);
+  }
+
+  const collapse = new Set<string>();
+  for (const node of graph.nodes.values()) {
+    if (isQuestionNode(node)) continue;
+    if (node.label in leafMap) continue;
+    const inEdges = incoming.get(node.id) ?? [];
+    const outEdges = outgoing.get(node.id) ?? [];
+    if (inEdges.length !== 1 || outEdges.length !== 1) continue;
+    const inEdge = inEdges[0];
+    if (inEdge.label) continue;
+    const pred = graph.nodes.get(inEdge.from);
+    if (!pred || !isQuestionNode(pred)) continue;
+    if (!node.label) continue;
+    collapse.add(node.id);
+  }
+
+  const newNodes = new Map<string, MermaidNode>();
+  for (const node of graph.nodes.values()) {
+    if (!collapse.has(node.id)) newNodes.set(node.id, node);
+  }
+  const newEdges: MermaidEdge[] = [];
+  for (const e of graph.edges) {
+    if (collapse.has(e.from)) continue; // handled when its inbound edge is processed
+    if (collapse.has(e.to)) {
+      const intermediate = graph.nodes.get(e.to)!;
+      const out = outgoing.get(e.to)![0];
+      newEdges.push({ from: e.from, to: out.to, label: intermediate.label });
+    } else {
+      newEdges.push(e);
+    }
+  }
+  return { nodes: newNodes, edges: newEdges };
+}
+
+function walkPaths(rawGraph: MermaidGraph, leafMap: Record<string, string>): ResolvedPath[] {
+  const graph = collapseBranchNodes(rawGraph, leafMap);
+  const incoming = new Map<string, number>();
+  const outgoing = new Map<string, MermaidEdge[]>();
+  for (const id of graph.nodes.keys()) {
+    incoming.set(id, 0);
+    outgoing.set(id, []);
+  }
+  for (const e of graph.edges) {
+    incoming.set(e.to, (incoming.get(e.to) ?? 0) + 1);
+    outgoing.get(e.from)!.push(e);
+  }
+  const roots = [...graph.nodes.keys()].filter((id) => (incoming.get(id) ?? 0) === 0);
+  const paths: ResolvedPath[] = [];
+
+  function visit(nodeId: string, hints: SituationalHint[], visited: Set<string>) {
+    if (visited.has(nodeId)) return; // avoid cycles
+    const next = outgoing.get(nodeId) ?? [];
+    if (next.length === 0) {
+      // leaf
+      const node = graph.nodes.get(nodeId)!;
+      const target = leafMap[node.label];
+      if (target) paths.push({ leafTargetId: target, hints: [...hints] });
+      return;
+    }
+    const node = graph.nodes.get(nodeId)!;
+    const newVisited = new Set(visited);
+    newVisited.add(nodeId);
+    for (const edge of next) {
+      const stepHints = isQuestionNode(node)
+        ? [...hints, { question: node.label, branch: edge.label ?? '' }]
+        : hints;
+      visit(edge.to, stepHints, newVisited);
+    }
+  }
+
+  for (const root of roots) visit(root, [], new Set());
+  return paths;
+}
+
+interface RecommendsCollection {
+  edges: Edge[];
+  /** Per-tree counts for verification logging. */
+  resolvedByTree: Map<string, number>;
+  unresolvedLeaves: Map<string, Set<string>>;
+}
+
+function extractDecisionTreeEdges(
+  sourcePatternId: string,
+  content: string,
+  collection: RecommendsCollection,
+): void {
+  const configs = DECISION_TREES[sourcePatternId];
+  if (!configs) return;
+  const charts = extractMermaidCharts(content);
+  if (charts.length === 0) return;
+
+  for (const config of configs) {
+    const idx = config.chartIndex ?? 0;
+    const chart = charts[idx];
+    if (!chart) continue;
+    const graph = parseMermaid(chart);
+    const paths = walkPaths(graph, config.leaves);
+
+    // Track which mermaid leaf labels were resolved so unresolved ones can be reported.
+    const seenLeafLabels = new Set<string>();
+    for (const node of graph.nodes.values()) {
+      const out = graph.edges.filter((e) => e.from === node.id);
+      if (out.length === 0) seenLeafLabels.add(node.label);
+    }
+    const unresolved = new Set<string>();
+    for (const lbl of seenLeafLabels) {
+      if (!(lbl in config.leaves)) unresolved.add(lbl);
+    }
+    if (unresolved.size > 0) collection.unresolvedLeaves.set(config.treeId, unresolved);
+
+    for (const path of paths) {
+      collection.edges.push({
+        source: sourcePatternId,
+        target: path.leafTargetId,
+        type: 'recommends',
+        extractedFrom: `decision-tree:${config.treeId}`,
+        situationalHints: path.hints,
+      });
+    }
+    collection.resolvedByTree.set(config.treeId, paths.length);
+  }
+}
+
 function deriveActivityLevel(title: string): Pick<ActivityLevel, 'activity-level' | 'lifecycle-stage'> {
   const parts = title.split('/');
   const top = parts[0];
@@ -362,6 +679,11 @@ const nodeMap = new Map<string, Node>();
 const nodeTags = new Map<string, Set<string>>();
 const fileLinks = new Map<string, TypedLink[]>();
 const activityData = new Map<string, ActivityLevel>();
+const recommendsCollection: RecommendsCollection = {
+  edges: [],
+  resolvedByTree: new Map(),
+  unresolvedLeaves: new Map(),
+};
 
 const mdxFiles = globMdx(storiesDir).filter((f) => !f.endsWith('Intro.mdx'));
 
@@ -386,9 +708,10 @@ for (const filePath of mdxFiles) {
   const category = title.split('/')[0].replace(/\*/g, '').trim();
   const shortTitle = title.split('/').pop()!.replace(/\*/g, '').trim();
   if (category === 'Concepts' || category === 'Introduction') continue;
-  if (shortTitle === 'Overview') continue;
+  const provisionalId = titleToId(title);
+  if (shortTitle === 'Overview' && !DECISION_TREES[provisionalId]) continue;
 
-  const id = titleToId(title);
+  const id = provisionalId;
   const cat = titleToCategory(title);
   const path = `../?path=/docs/${id}--docs`;
 
@@ -419,6 +742,8 @@ for (const filePath of mdxFiles) {
     if (!nodeTags.has(targetId)) nodeTags.set(targetId, new Set());
     for (const t of tagSet) nodeTags.get(targetId)!.add(t);
   }
+
+  extractDecisionTreeEdges(id, content, recommendsCollection);
 }
 
 for (const filePath of globStoriesTsx(storiesDir)) {
@@ -539,6 +864,18 @@ for (const [sourceId, links] of fileLinks.entries()) {
 
 const edges: Edge[] = [...edgeMap.values()];
 
+// --- Append `recommends` edges from decision-tree extraction ---
+//
+// These bypass the (source, target, type) dedup path because multiple paths through the same
+// tree can reach the same leaf via different question/branch pairs (e.g. Notification → Toast
+// is reached both via "communicates status" and via "alert / dismissable"). Each path becomes
+// its own edge so the situational hints stay separable.
+for (const recEdge of recommendsCollection.edges) {
+  if (!nodeMap.has(recEdge.target)) continue;
+  if (recEdge.source === recEdge.target) continue;
+  edges.push(recEdge);
+}
+
 // --- Apply node tags ---
 for (const [targetId, tagSet] of nodeTags) {
   const node = nodeMap.get(targetId);
@@ -600,6 +937,16 @@ console.log(`Nodes: ${nodes.length} (${taggedNodes} with tags)`);
 console.log(`Edges: ${edges.length}`);
 console.log(`  by type: ${Object.entries(typeCounts).sort((a, b) => b[1] - a[1]).map(([t, c]) => `${t}=${c}`).join(', ')}`);
 console.log(`Categories: ${[...new Set(nodes.map((n) => n.category))].sort().join(', ')}`);
+if (recommendsCollection.resolvedByTree.size > 0) {
+  console.log(`Decision-tree extraction:`);
+  for (const [tree, count] of recommendsCollection.resolvedByTree) {
+    const skipped = recommendsCollection.unresolvedLeaves.get(tree);
+    const skippedNote = skipped && skipped.size > 0
+      ? ` (skipped leaves: ${[...skipped].map((l) => `"${l}"`).join(', ')})`
+      : '';
+    console.log(`  ${tree}: ${count} recommends edge${count === 1 ? '' : 's'}${skippedNote}`);
+  }
+}
 console.log(`Axis sanity check (advisory):`);
 console.log(`  same-altitude instantiates: ${sameAltitudeInstantiates}`);
 console.log(`  complements crossing 2 altitude bands: ${crossTwoBandsComplements}`);

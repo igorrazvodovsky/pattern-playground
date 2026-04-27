@@ -287,8 +287,6 @@ None of this closes the vocabulary. The aim is a classification that stays answe
 
 ## Phase 2 — Visual rendering of edge types
 
-*Status*: deprioritised. Kept as a deliverable for human navigation but no longer blocking. Under the design-generation framing, the graph data is the primary value; visualisation is one secondary consumer. Phase 2 can ship after Phase 1 and Phase 3 without holding them up.
-
 ### Changes to `PatternGraph.tsx`
 
 **1. Update `RenderedEdge` interface**

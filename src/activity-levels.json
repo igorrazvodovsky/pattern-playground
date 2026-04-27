@@ -229,6 +229,12 @@
       "atomic-category": "composition",
       "mediation": "individual"
     },
+    "actions-navigation-overview": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "atomic-category": "actions",
+      "mediation": null
+    },
     "actions-navigation-pan-and-zoom": {
       "activity-level": "action",
       "lifecycle-stage": "evaluation",

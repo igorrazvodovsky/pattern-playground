@@ -229,6 +229,12 @@
       "path": "../?path=/docs/actions-navigation-multilevel-tree--docs"
     },
     {
+      "id": "actions-navigation-overview",
+      "title": "Overview",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-navigation-overview--docs"
+    },
+    {
       "id": "actions-navigation-pan-and-zoom",
       "title": "Pan and zoom",
       "category": "Actions",
@@ -2005,6 +2011,12 @@
     },
     {
       "source": "actions-coordination-nav-bar",
+      "target": "actions-navigation-overview",
+      "type": "related",
+      "label": "full suite of navigation patterns"
+    },
+    {
+      "source": "actions-coordination-nav-bar",
       "target": "actions-seeking-command-menu",
       "type": "related",
       "label": "alternative navigation for power users"
@@ -2450,6 +2462,11 @@
     },
     {
       "source": "actions-navigation-hybrid-patterns",
+      "target": "actions-navigation-overview",
+      "type": "related"
+    },
+    {
+      "source": "actions-navigation-hybrid-patterns",
       "target": "foundations-information-architecture",
       "type": "related",
       "label": "conceptual framework"
@@ -2516,6 +2533,92 @@
     {
       "source": "actions-navigation-multilevel-tree",
       "target": "actions-navigation-hybrid-patterns",
+      "type": "related"
+    },
+    {
+      "source": "actions-navigation-overview",
+      "target": "foundations-information-architecture",
+      "type": "related",
+      "label": "structural and organizational foundation that navigation models manifest"
+    },
+    {
+      "source": "actions-navigation-overview",
+      "target": "foundations-intent-interaction",
+      "type": "related",
+      "label": "behavioural patterns enabled by structural choices"
+    },
+    {
+      "source": "actions-navigation-overview",
+      "target": "actions-navigation-hub-and-spoke",
+      "type": "related",
+      "label": "central hub lists all sections, actors return to hub for cross-section navigation"
+    },
+    {
+      "source": "actions-navigation-overview",
+      "target": "actions-navigation-overview-and-detail",
+      "type": "related",
+      "label": "simultaneous display of collection and item (Split View)"
+    },
+    {
+      "source": "actions-navigation-overview",
+      "target": "actions-navigation-fully-connected",
+      "type": "related",
+      "label": "every page links to all others through global navigation"
+    },
+    {
+      "source": "actions-navigation-overview",
+      "target": "actions-navigation-multilevel-tree",
+      "type": "related",
+      "label": "hierarchical structure with global navigation for main pages, local navigation for subpages"
+    },
+    {
+      "source": "actions-navigation-overview",
+      "target": "actions-navigation-step-by-step",
+      "type": "related",
+      "label": "prescribed sequences with back/next controls"
+    },
+    {
+      "source": "actions-navigation-overview",
+      "target": "actions-navigation-pyramid",
+      "type": "related",
+      "label": "hub lists sequence, actors can navigate sequentially or jump to any item"
+    },
+    {
+      "source": "actions-navigation-overview",
+      "target": "actions-navigation-pan-and-zoom",
+      "type": "related",
+      "label": "continuous spatial navigation through large single spaces"
+    },
+    {
+      "source": "actions-navigation-overview",
+      "target": "actions-navigation-flat-navigation",
+      "type": "related",
+      "label": "minimal navigation, all functions accessible in one place"
+    },
+    {
+      "source": "actions-navigation-overview",
+      "target": "actions-navigation-hybrid-patterns",
+      "type": "related",
+      "label": "combinations of multiple models"
+    },
+    {
+      "source": "actions-navigation-overview",
+      "target": "operations-deep-linking",
+      "type": "related"
+    },
+    {
+      "source": "actions-navigation-overview",
+      "target": "actions-seeking-searching",
+      "type": "related"
+    },
+    {
+      "source": "actions-navigation-overview",
+      "target": "operations-breadcrumbs",
+      "type": "related"
+    },
+    {
+      "source": "actions-navigation-overview",
+      "target": "actions-seeking-command-menu",
       "type": "related"
     },
     {
@@ -2990,6 +3093,12 @@
     {
       "source": "actions-seeking-searching",
       "target": "actions-seeking-data-view",
+      "type": "follows",
+      "extractedFrom": "header:\"Follow-ups\""
+    },
+    {
+      "source": "actions-seeking-searching",
+      "target": "actions-navigation-overview",
       "type": "follows",
       "extractedFrom": "header:\"Follow-ups\""
     },
@@ -3981,6 +4090,12 @@
     },
     {
       "source": "activities-workspace",
+      "target": "actions-navigation-overview",
+      "type": "precedes",
+      "extractedFrom": "header:\"Precursors\""
+    },
+    {
+      "source": "activities-workspace",
       "target": "actions-navigation-hub-and-spoke",
       "type": "precedes",
       "extractedFrom": "header:\"Precursors\""
@@ -4081,6 +4196,11 @@
     {
       "source": "foundations-information-architecture",
       "target": "foundations-intent-interaction",
+      "type": "related"
+    },
+    {
+      "source": "foundations-information-architecture",
+      "target": "actions-navigation-overview",
       "type": "related"
     },
     {
@@ -5824,6 +5944,19 @@
       "extractedFrom": "quality-target"
     },
     {
+      "source": "actions-navigation-overview",
+      "target": "qualities-agency",
+      "type": "enacts",
+      "label": "control distribution implications",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "actions-navigation-overview",
+      "target": "qualities-malleability",
+      "type": "enacts",
+      "extractedFrom": "quality-target"
+    },
+    {
       "source": "actions-seeking-progressive-disclosure",
       "target": "qualities-density",
       "type": "enacts",
@@ -6274,6 +6407,386 @@
       "type": "enacts",
       "label": "the bot lets the actor ask the system rather than decipher it; learning happens through dialogue at the actor's pace",
       "extractedFrom": "quality-target"
+    },
+    {
+      "source": "actions-application-deletion",
+      "target": "operations-undo",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:deletion",
+      "situationalHints": [
+        {
+          "question": "Is the deletion reversible?",
+          "branch": "Yes"
+        },
+        {
+          "question": "How quickly can it be recreated?",
+          "branch": "Seconds"
+        }
+      ]
+    },
+    {
+      "source": "actions-application-deletion",
+      "target": "actions-application-dialog",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:deletion",
+      "situationalHints": [
+        {
+          "question": "Is the deletion reversible?",
+          "branch": "No"
+        },
+        {
+          "question": "What is the impact scope?",
+          "branch": "Single user"
+        }
+      ]
+    },
+    {
+      "source": "actions-application-form",
+      "target": "operations-tabs",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:form-control",
+      "situationalHints": [
+        {
+          "question": "Can you select more than one option?",
+          "branch": "No"
+        }
+      ]
+    },
+    {
+      "source": "actions-application-form",
+      "target": "operations-checkbox",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:form-control",
+      "situationalHints": [
+        {
+          "question": "Can you select more than one option?",
+          "branch": "No"
+        },
+        {
+          "question": "How many options?",
+          "branch": "1"
+        },
+        {
+          "question": "Need confirm?",
+          "branch": "Yes"
+        }
+      ]
+    },
+    {
+      "source": "actions-application-form",
+      "target": "actions-coordination-dropdown",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:form-control",
+      "situationalHints": [
+        {
+          "question": "Can you select more than one option?",
+          "branch": "No"
+        },
+        {
+          "question": "How many options?",
+          "branch": "More than 5"
+        }
+      ]
+    },
+    {
+      "source": "actions-coordination-notification",
+      "target": "actions-application-dialog",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:notification",
+      "situationalHints": [
+        {
+          "question": "What notification should I use?",
+          "branch": ""
+        },
+        {
+          "question": "Is action required?",
+          "branch": "Yes"
+        },
+        {
+          "question": "Is immediate attention required?",
+          "branch": "Yes"
+        }
+      ]
+    },
+    {
+      "source": "actions-coordination-notification",
+      "target": "operations-callout",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:notification",
+      "situationalHints": [
+        {
+          "question": "What notification should I use?",
+          "branch": ""
+        },
+        {
+          "question": "Is action required?",
+          "branch": "Yes"
+        },
+        {
+          "question": "Is immediate attention required?",
+          "branch": "No"
+        }
+      ]
+    },
+    {
+      "source": "actions-coordination-notification",
+      "target": "operations-toast",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:notification",
+      "situationalHints": [
+        {
+          "question": "What notification should I use?",
+          "branch": ""
+        },
+        {
+          "question": "Is action required?",
+          "branch": "No"
+        },
+        {
+          "question": "Does the notification communicate status?",
+          "branch": "Yes"
+        }
+      ]
+    },
+    {
+      "source": "actions-coordination-notification",
+      "target": "operations-toast",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:notification",
+      "situationalHints": [
+        {
+          "question": "What notification should I use?",
+          "branch": ""
+        },
+        {
+          "question": "Is action required?",
+          "branch": "No"
+        },
+        {
+          "question": "Does the notification communicate status?",
+          "branch": "No"
+        },
+        {
+          "question": "Is the notification an alert?",
+          "branch": "Yes"
+        },
+        {
+          "question": "Can the alert be easily dismissed?",
+          "branch": "Yes"
+        }
+      ]
+    },
+    {
+      "source": "actions-coordination-notification",
+      "target": "operations-callout",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:notification",
+      "situationalHints": [
+        {
+          "question": "What notification should I use?",
+          "branch": ""
+        },
+        {
+          "question": "Is action required?",
+          "branch": "No"
+        },
+        {
+          "question": "Does the notification communicate status?",
+          "branch": "No"
+        },
+        {
+          "question": "Is the notification an alert?",
+          "branch": "Yes"
+        },
+        {
+          "question": "Can the alert be easily dismissed?",
+          "branch": "No"
+        }
+      ]
+    },
+    {
+      "source": "actions-coordination-notification",
+      "target": "actions-application-dialog",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:notification",
+      "situationalHints": [
+        {
+          "question": "What notification should I use?",
+          "branch": ""
+        },
+        {
+          "question": "Is action required?",
+          "branch": "No"
+        },
+        {
+          "question": "Does the notification communicate status?",
+          "branch": "No"
+        },
+        {
+          "question": "Is the notification an alert?",
+          "branch": "No"
+        }
+      ]
+    },
+    {
+      "source": "actions-navigation-overview",
+      "target": "actions-navigation-pan-and-zoom",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:navigation-overview",
+      "situationalHints": [
+        {
+          "question": "Single continuous space (map, canvas, timeline)?",
+          "branch": "Yes"
+        }
+      ]
+    },
+    {
+      "source": "actions-navigation-overview",
+      "target": "actions-navigation-step-by-step",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:navigation-overview",
+      "situationalHints": [
+        {
+          "question": "Single continuous space (map, canvas, timeline)?",
+          "branch": "No"
+        },
+        {
+          "question": "Prescribed sequence with dependencies?",
+          "branch": "Yes"
+        },
+        {
+          "question": "Strict ordering required?",
+          "branch": "Yes"
+        }
+      ]
+    },
+    {
+      "source": "actions-navigation-overview",
+      "target": "actions-navigation-pyramid",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:navigation-overview",
+      "situationalHints": [
+        {
+          "question": "Single continuous space (map, canvas, timeline)?",
+          "branch": "No"
+        },
+        {
+          "question": "Prescribed sequence with dependencies?",
+          "branch": "Yes"
+        },
+        {
+          "question": "Strict ordering required?",
+          "branch": "No, flexible"
+        }
+      ]
+    },
+    {
+      "source": "actions-navigation-overview",
+      "target": "actions-navigation-multilevel-tree",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:navigation-overview",
+      "situationalHints": [
+        {
+          "question": "Single continuous space (map, canvas, timeline)?",
+          "branch": "No"
+        },
+        {
+          "question": "Prescribed sequence with dependencies?",
+          "branch": "No"
+        }
+      ]
+    },
+    {
+      "source": "actions-navigation-overview",
+      "target": "actions-navigation-flat-navigation",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:navigation-overview",
+      "situationalHints": [
+        {
+          "question": "Single continuous space (map, canvas, timeline)?",
+          "branch": "No"
+        },
+        {
+          "question": "Prescribed sequence with dependencies?",
+          "branch": "No"
+        },
+        {
+          "question": "Single workspace with rich toolset?",
+          "branch": "Yes"
+        }
+      ]
+    },
+    {
+      "source": "actions-navigation-overview",
+      "target": "actions-navigation-fully-connected",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:navigation-overview",
+      "situationalHints": [
+        {
+          "question": "Single continuous space (map, canvas, timeline)?",
+          "branch": "No"
+        },
+        {
+          "question": "Prescribed sequence with dependencies?",
+          "branch": "No"
+        },
+        {
+          "question": "Single workspace with rich toolset?",
+          "branch": "No"
+        },
+        {
+          "question": "Cross-section workflows common?",
+          "branch": "Yes"
+        }
+      ]
+    },
+    {
+      "source": "actions-navigation-overview",
+      "target": "actions-navigation-hub-and-spoke",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:navigation-overview",
+      "situationalHints": [
+        {
+          "question": "Single continuous space (map, canvas, timeline)?",
+          "branch": "No"
+        },
+        {
+          "question": "Prescribed sequence with dependencies?",
+          "branch": "No"
+        },
+        {
+          "question": "Single workspace with rich toolset?",
+          "branch": "No"
+        },
+        {
+          "question": "Cross-section workflows common?",
+          "branch": "Rare"
+        }
+      ]
+    },
+    {
+      "source": "actions-navigation-overview",
+      "target": "actions-navigation-overview-and-detail",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:navigation-overview",
+      "situationalHints": [
+        {
+          "question": "Single continuous space (map, canvas, timeline)?",
+          "branch": "No"
+        },
+        {
+          "question": "Prescribed sequence with dependencies?",
+          "branch": "No"
+        },
+        {
+          "question": "Single workspace with rich toolset?",
+          "branch": "No"
+        },
+        {
+          "question": "Cross-section workflows common?",
+          "branch": "Simultaneous"
+        }
+      ]
     }
   ]
 }
