@@ -418,12 +418,6 @@
       "path": "../?path=/docs/activities-living-document--docs"
     },
     {
-      "id": "activities-localization",
-      "title": "Localization",
-      "category": "Activities",
-      "path": "../?path=/docs/activities-localization--docs"
-    },
-    {
       "id": "activities-mastery",
       "title": "Mastery",
       "category": "Activities",
@@ -506,6 +500,12 @@
       "title": "Intent & Interaction",
       "category": "Foundations",
       "path": "../?path=/docs/foundations-intent-interaction--docs"
+    },
+    {
+      "id": "foundations-localization",
+      "title": "Localization",
+      "category": "Foundations",
+      "path": "../?path=/docs/foundations-localization--docs"
     },
     {
       "id": "foundations-modality",
@@ -1141,7 +1141,7 @@
     },
     {
       "source": "actions-application-data-entry",
-      "target": "activities-localization",
+      "target": "foundations-localization",
       "type": "related",
       "label": "locale-aware input parsing and format tolerance"
     },
@@ -1584,7 +1584,7 @@
     },
     {
       "source": "actions-application-settings",
-      "target": "activities-localization",
+      "target": "foundations-localization",
       "type": "follows",
       "label": "language, timezone, and format preferences feed locale configuration",
       "extractedFrom": "header:\"Follow-ups\""
@@ -2262,7 +2262,7 @@
     },
     {
       "source": "actions-evaluation-text-lens",
-      "target": "activities-localization",
+      "target": "foundations-localization",
       "type": "related",
       "label": "tone adjustment with cultural bounds"
     },
@@ -3237,7 +3237,7 @@
     },
     {
       "source": "actions-sensemaking-explanation",
-      "target": "activities-localization",
+      "target": "foundations-localization",
       "type": "related",
       "label": "culturally appropriate explanation styles"
     },
@@ -3320,7 +3320,7 @@
     },
     {
       "source": "activities-ai-tuning",
-      "target": "activities-localization",
+      "target": "foundations-localization",
       "type": "complements",
       "label": "locale as a generation parameter",
       "extractedFrom": "header:\"Complementary\""
@@ -3606,7 +3606,7 @@
     },
     {
       "source": "activities-conversation",
-      "target": "activities-localization",
+      "target": "foundations-localization",
       "type": "precedes",
       "label": "dialogue structure adapted to cultural communication norms",
       "extractedFrom": "header:\"Precursors\""
@@ -3750,7 +3750,7 @@
     },
     {
       "source": "activities-generated-content",
-      "target": "activities-localization",
+      "target": "foundations-localization",
       "type": "precedes",
       "label": "locale-aware generation",
       "extractedFrom": "header:\"Precursors\""
@@ -3792,7 +3792,7 @@
     },
     {
       "source": "activities-help",
-      "target": "activities-localization",
+      "target": "foundations-localization",
       "type": "related",
       "label": "localised documentation and support content"
     },
@@ -3834,111 +3834,6 @@
       "source": "activities-living-document",
       "target": "activities-generated-content",
       "type": "related"
-    },
-    {
-      "source": "activities-localization",
-      "target": "foundations-information-architecture",
-      "type": "precedes",
-      "label": "controlled vocabularies and label strategies that localization must adapt",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "activities-localization",
-      "target": "actions-application-settings",
-      "type": "precedes",
-      "label": "language, timezone, and format preferences",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "activities-localization",
-      "target": "operations-good-defaults",
-      "type": "precedes",
-      "label": "locale detection and sensible starting configuration",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "activities-localization",
-      "target": "actions-application-data-entry",
-      "type": "follows",
-      "label": "locale-aware input parsing and format tolerance",
-      "extractedFrom": "header:\"Follow-ups\""
-    },
-    {
-      "source": "activities-localization",
-      "target": "actions-coordination-notification",
-      "type": "follows",
-      "label": "localised message content, timing conventions",
-      "extractedFrom": "header:\"Follow-ups\""
-    },
-    {
-      "source": "activities-localization",
-      "target": "activities-conversation",
-      "type": "follows",
-      "label": "dialogue structure adapted to communication norms",
-      "extractedFrom": "header:\"Follow-ups\""
-    },
-    {
-      "source": "activities-localization",
-      "target": "activities-generated-content",
-      "type": "follows",
-      "label": "locale-native generation",
-      "extractedFrom": "header:\"Follow-ups\""
-    },
-    {
-      "source": "activities-localization",
-      "target": "activities-help",
-      "type": "follows",
-      "label": "localised documentation and support content",
-      "extractedFrom": "header:\"Follow-ups\""
-    },
-    {
-      "source": "activities-localization",
-      "target": "activities-ai-tuning",
-      "type": "complements",
-      "label": "locale as a generation parameter",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "activities-localization",
-      "target": "activities-onboarding",
-      "type": "complements",
-      "label": "first-run locale detection and selection",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "activities-localization",
-      "target": "activities-collaboration",
-      "type": "tangential",
-      "label": "multilingual team dynamics",
-      "extractedFrom": "header:\"Tangentially related\""
-    },
-    {
-      "source": "activities-localization",
-      "target": "activities-workspace",
-      "type": "tangential",
-      "label": "per-actor locale in shared spaces",
-      "extractedFrom": "header:\"Tangentially related\""
-    },
-    {
-      "source": "activities-localization",
-      "target": "actions-application-suggestion",
-      "type": "tangential",
-      "label": "locale mismatch prompts",
-      "extractedFrom": "header:\"Tangentially related\""
-    },
-    {
-      "source": "activities-localization",
-      "target": "activities-bot",
-      "type": "tangential",
-      "label": "multilingual interaction",
-      "extractedFrom": "header:\"Tangentially related\""
-    },
-    {
-      "source": "activities-localization",
-      "target": "actions-sensemaking-explanation",
-      "type": "tangential",
-      "label": "culturally appropriate explanation styles",
-      "extractedFrom": "header:\"Tangentially related\""
     },
     {
       "source": "activities-mastery",
@@ -3984,7 +3879,7 @@
     },
     {
       "source": "activities-onboarding",
-      "target": "activities-localization",
+      "target": "foundations-localization",
       "type": "complements",
       "label": "first-run locale detection and selection",
       "extractedFrom": "header:\"Complementary\""
@@ -4275,6 +4170,111 @@
       "source": "foundations-intent-interaction",
       "target": "actions-navigation-hub-and-spoke",
       "type": "related"
+    },
+    {
+      "source": "foundations-localization",
+      "target": "foundations-information-architecture",
+      "type": "precedes",
+      "label": "controlled vocabularies and label strategies that localization must adapt",
+      "extractedFrom": "header:\"Precursors\""
+    },
+    {
+      "source": "foundations-localization",
+      "target": "actions-application-settings",
+      "type": "precedes",
+      "label": "language, timezone, and format preferences",
+      "extractedFrom": "header:\"Precursors\""
+    },
+    {
+      "source": "foundations-localization",
+      "target": "operations-good-defaults",
+      "type": "precedes",
+      "label": "locale detection and sensible starting configuration",
+      "extractedFrom": "header:\"Precursors\""
+    },
+    {
+      "source": "foundations-localization",
+      "target": "actions-application-data-entry",
+      "type": "follows",
+      "label": "locale-aware input parsing and format tolerance",
+      "extractedFrom": "header:\"Follow-ups\""
+    },
+    {
+      "source": "foundations-localization",
+      "target": "actions-coordination-notification",
+      "type": "follows",
+      "label": "localised message content, timing conventions",
+      "extractedFrom": "header:\"Follow-ups\""
+    },
+    {
+      "source": "foundations-localization",
+      "target": "activities-conversation",
+      "type": "follows",
+      "label": "dialogue structure adapted to communication norms",
+      "extractedFrom": "header:\"Follow-ups\""
+    },
+    {
+      "source": "foundations-localization",
+      "target": "activities-generated-content",
+      "type": "follows",
+      "label": "locale-native generation",
+      "extractedFrom": "header:\"Follow-ups\""
+    },
+    {
+      "source": "foundations-localization",
+      "target": "activities-help",
+      "type": "follows",
+      "label": "localised documentation and support content",
+      "extractedFrom": "header:\"Follow-ups\""
+    },
+    {
+      "source": "foundations-localization",
+      "target": "activities-ai-tuning",
+      "type": "complements",
+      "label": "locale as a generation parameter",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "foundations-localization",
+      "target": "activities-onboarding",
+      "type": "complements",
+      "label": "first-run locale detection and selection",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "foundations-localization",
+      "target": "activities-collaboration",
+      "type": "tangential",
+      "label": "multilingual team dynamics",
+      "extractedFrom": "header:\"Tangentially related\""
+    },
+    {
+      "source": "foundations-localization",
+      "target": "activities-workspace",
+      "type": "tangential",
+      "label": "per-actor locale in shared spaces",
+      "extractedFrom": "header:\"Tangentially related\""
+    },
+    {
+      "source": "foundations-localization",
+      "target": "actions-application-suggestion",
+      "type": "tangential",
+      "label": "locale mismatch prompts",
+      "extractedFrom": "header:\"Tangentially related\""
+    },
+    {
+      "source": "foundations-localization",
+      "target": "activities-bot",
+      "type": "tangential",
+      "label": "multilingual interaction",
+      "extractedFrom": "header:\"Tangentially related\""
+    },
+    {
+      "source": "foundations-localization",
+      "target": "actions-sensemaking-explanation",
+      "type": "tangential",
+      "label": "culturally appropriate explanation styles",
+      "extractedFrom": "header:\"Tangentially related\""
     },
     {
       "source": "foundations-modality",
@@ -4684,7 +4684,7 @@
     },
     {
       "source": "operations-good-defaults",
-      "target": "activities-localization",
+      "target": "foundations-localization",
       "type": "related",
       "label": "locale detection as a source of sensible defaults"
     },
@@ -5333,7 +5333,7 @@
     },
     {
       "source": "qualities-adaptability",
-      "target": "activities-localization",
+      "target": "foundations-localization",
       "type": "related",
       "label": "exercises adaptability across linguistic and cultural boundaries"
     },
@@ -5549,7 +5549,7 @@
     },
     {
       "source": "qualities-learnability",
-      "target": "activities-localization",
+      "target": "foundations-localization",
       "type": "tangential",
       "label": "learning curves might differ across localised interfaces",
       "extractedFrom": "header:\"Tangentially related\""
@@ -5659,7 +5659,7 @@
     },
     {
       "source": "qualities-privacy",
-      "target": "activities-localization",
+      "target": "foundations-localization",
       "type": "related",
       "label": "data residency and locale-specific regulation"
     },
@@ -5690,7 +5690,7 @@
     },
     {
       "source": "qualities-shareability",
-      "target": "activities-localization",
+      "target": "foundations-localization",
       "type": "related",
       "label": "locale-aware URLs and shared content"
     },
@@ -5741,7 +5741,7 @@
     },
     {
       "source": "qualities-temporality",
-      "target": "activities-localization",
+      "target": "foundations-localization",
       "type": "related",
       "label": "timezone handling and date format conventions"
     },
@@ -6083,48 +6083,6 @@
       "extractedFrom": "quality-target"
     },
     {
-      "source": "activities-localization",
-      "target": "qualities-adaptability",
-      "type": "enacts",
-      "label": "the capacity that localization exercises",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "activities-localization",
-      "target": "qualities-shareability",
-      "type": "enacts",
-      "label": "locale-aware URLs and shared content",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "activities-localization",
-      "target": "qualities-privacy",
-      "type": "enacts",
-      "label": "data residency, GDPR, locale-specific regulation",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "activities-localization",
-      "target": "qualities-temporality",
-      "type": "enacts",
-      "label": "timezone handling, date format conventions",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "activities-localization",
-      "target": "qualities-density",
-      "type": "enacts",
-      "label": "text expansion affecting information density",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "activities-localization",
-      "target": "qualities-learnability",
-      "type": "enacts",
-      "label": "learning curves differ across localised interfaces",
-      "extractedFrom": "quality-target"
-    },
-    {
       "source": "activities-mastery",
       "target": "qualities-learnability",
       "type": "enacts",
@@ -6303,6 +6261,48 @@
       "target": "qualities-temporality",
       "type": "enacts",
       "label": "the rhythm and pacing of turn-taking",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-localization",
+      "target": "qualities-adaptability",
+      "type": "enacts",
+      "label": "the capacity that localization exercises",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-localization",
+      "target": "qualities-shareability",
+      "type": "enacts",
+      "label": "locale-aware URLs and shared content",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-localization",
+      "target": "qualities-privacy",
+      "type": "enacts",
+      "label": "data residency, GDPR, locale-specific regulation",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-localization",
+      "target": "qualities-temporality",
+      "type": "enacts",
+      "label": "timezone handling, date format conventions",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-localization",
+      "target": "qualities-density",
+      "type": "enacts",
+      "label": "text expansion affecting information density",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "foundations-localization",
+      "target": "qualities-learnability",
+      "type": "enacts",
+      "label": "learning curves differ across localised interfaces",
       "extractedFrom": "quality-target"
     },
     {

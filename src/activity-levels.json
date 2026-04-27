@@ -409,12 +409,6 @@
       "atomic-category": "pattern",
       "mediation": "networking"
     },
-    "activities-localization": {
-      "activity-level": "activity",
-      "lifecycle-stage": null,
-      "atomic-category": "pattern",
-      "mediation": "individual"
-    },
     "activities-mastery": {
       "activity-level": "activity",
       "lifecycle-stage": null,
@@ -482,6 +476,12 @@
       "mediation": null
     },
     "foundations-intent-interaction": {
+      "activity-level": "cross-cutting",
+      "lifecycle-stage": null,
+      "atomic-category": "foundations",
+      "mediation": null
+    },
+    "foundations-localization": {
       "activity-level": "cross-cutting",
       "lifecycle-stage": null,
       "atomic-category": "foundations",
