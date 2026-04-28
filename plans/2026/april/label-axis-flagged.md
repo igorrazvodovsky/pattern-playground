@@ -35,5 +35,5 @@ For re-types, the right move is an MDX header change (move the link to a differe
 ## Done when
 
 - The three flagged edges either carry a confirming label in MDX or have been moved to the correct `### ` section.
-- Changelog entry in [docs/relationship-vocabulary.md](../../../docs/relationship-vocabulary.md) recording the outcomes (confirm / re-type / drop) under *Observed drift*.
+- Changelog entry in [docs/language/relationship-vocabulary.md](../../../docs/language/relationship-vocabulary.md) recording the outcomes (confirm / re-type / drop) under *Observed drift*.
 - Re-running `extract-graph-data.ts` reflects the changes.

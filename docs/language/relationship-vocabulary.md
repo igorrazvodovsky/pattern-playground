@@ -20,7 +20,7 @@ These framings are compatible and reinforcing. The first is an epistemic claim a
 
 ## Patterns as generative moves
 
-The vocabulary is written in the *Pattern Language register* of Christopher Alexander's work: patterns are moves, relationships describe how moves combine, and design proceeds through sequences of decisions each acting on what already exists. The library aspires toward the *Nature of Order register* — structural properties as recursive production rules — but is not there yet. See `docs/design-theory.md` for the full trajectory and what progress toward it looks like.
+The vocabulary is written in the *Pattern Language register* of Christopher Alexander's work: patterns are moves, relationships describe how moves combine, and design proceeds through sequences of decisions each acting on what already exists. The library aspires toward the *Nature of Order register* — structural properties as recursive production rules — but is not there yet. See [design-theory.md](./design-theory.md) for the full trajectory and what progress toward it looks like.
 
 Two consequences for how the vocabulary should be read now:
 
@@ -160,6 +160,35 @@ The axis classification is a sanity-check tool, not a taxonomy commitment. A pat
 
 The alignment is useful at two levels. First, it provides a sanity check — if a proposed relationship type has no SKOS equivalent *and* no clear justification for being domain-specific, it may be an unnecessary distinction. Second, if the graph data ever needs to interoperate with external tools or linked data systems, the SKOS mappings provide a bridge without requiring a full ontological commitment.
 
+## Literature support and local extensions
+
+The vocabulary is grounded in HCI pattern-language literature, but it is not a direct import of any one source vocabulary. Older HCI pattern-language work tends to use a smaller set of broad relationships — context/reference, contains/is-contained-by, is-a, association, alternatives, competitors, super-ordinate/sub-ordinate, neighbouring — and often leaves "related patterns" underspecified. This project decomposes those broad terms into distinctions that matter for graph reasoning in this corpus.
+
+Strongly literature-supported mappings:
+
+| This vocabulary | Literature precedent | Local interpretation |
+|---|---|---|
+| `enables` | aggregation, contains, sub-ordinate, lower-level patterns used to implement/refine a design | Compositional dependency: a mechanism, surface, or building block makes a move possible. |
+| `instantiates` | specialization, is-a | Taxonomic application: a concrete move applies or specialises a broader principle, foundation, or pattern. |
+| `precedes` | references to lower-level patterns used after the current one, sequence, generative traversal | Generative sequence: one move produces a condition on which another move can act. |
+| `alternative` | alternatives for the same problem, competitor relationships | Same-purpose substitution with different trade-offs. Unlike some competitor accounts, this remains suggestion-grade rather than rule-grade exclusion. |
+| `related` | generic related-pattern lists, association | Fallback for connections whose structural meaning is not yet clear enough to type more specifically. |
+
+Partly supported but sharpened locally:
+
+| This vocabulary | Literature precedent | Local interpretation |
+|---|---|---|
+| `complements` | association, co-occurrence in a larger context, same-size surrounding patterns | Stronger than generic relatedness: the moves are often useful together but neither depends on the other. |
+| `follows` | inverse view of sequence/reference | Not stored as a separate edge. It is the reverse traversal of `precedes`. |
+
+Project-specific extensions:
+
+| This vocabulary | Why it exists here |
+|---|---|
+| `enacts` | HCI pattern literature discusses forces, values, consequences, and qualities, but does not usually model a typed pattern → quality edge. This project needs that bridge because qualities are the lenses through which a move's effect is read. `enacts` is therefore a local extension, not a literature-derived relationship name. |
+| `recommends` | Pattern-oriented design literature supports context-oriented applicability and guided pattern selection, but the decision-tree extraction shape is local. `recommends` preserves authored decision-tree branches as situational hints rather than converting them into rule-grade conditions. |
+| `tangential` | Literature has generic association, neighbouring, and "related" language, but not a stable weak-adjacency type. `tangential` preserves the current author signal where pages explicitly distinguish conceptual adjacency from complementarity, dependency, or substitution. It is intentionally provisional: if future gardening shows it is only a weak form of `related`, or better handled by tags/projections, it can be merged or replaced through the changelog. |
+
 ## Inverse pair enforcement
 
 Only `precedes`/`follows` form a true inverse pair. The extraction script should treat these symmetrically:
@@ -267,6 +296,16 @@ A running record of why types were added, merged, renamed, or retired, what alte
 
 Each entry: date, change, why, what was considered, what was lost.
 
+### 2026-04-28 — Literature support documented; local extensions named
+
+Added a literature-support section distinguishing relationships strongly grounded in HCI pattern-language precedent (`enables`, `instantiates`, `precedes`, `alternative`, `related`), locally sharpened relationships (`complements`, inferred `follows`), and project-specific extensions (`enacts`, `recommends`, `tangential`).
+
+Why: comparison against Borchers, van Welie, Seffah/Taleb, and da Rosa/Silveira showed that the project vocabulary is mostly a decomposition of older broad terms, but three edge types are not directly named in the papers. `enacts` is a local bridge from moves to qualities. `recommends` is a local representation of decision-tree applicability hints. `tangential` preserves an existing authoring signal for weak conceptual adjacency, but is explicitly provisional and may later merge into `related` or move into tags/projections.
+
+What was considered: removing or merging `tangential` immediately. Rejected for now because the current MDX corpus still uses the distinction and removing it would erase author intent before a gardening sweep has a replacement. The right move is to mark its status honestly.
+
+What's lost: nothing in graph data. The main commitment added is explanatory: future consumers should treat the three extension types as project-local semantics, not literature-standard terms.
+
 ### 2026-04-27 — Phase 3 lands: `recommends` edges from decision trees
 
 Mermaid flowcharts in four of the eight active decision trees (Deletion, Notification, Navigation overview, Form's "Choosing a control") now extract into `recommends` edges with `situationalHints` and `extractedFrom: 'decision-tree:<treeId>'`. 19 edges total: deletion 2, form-control 3, notification 6, navigation-overview 8.
@@ -298,7 +337,7 @@ Closed plans under `plans/2026/april/label-*.md` left as-is for history.
 
 ### 2026-04-26 — Enacts label sweep (six batches) and foundation-page restructure
 
-All 98 `enacts` edges now carry a substantive label, up from 65 at the start of the sweep. Per-batch run logs live in [plans/2026/april/label-enacts.md](../plans/2026/april/label-enacts.md); the vocabulary-relevant residue is recorded here.
+All 98 `enacts` edges now carry a substantive label, up from 65 at the start of the sweep. Per-batch run logs live in [plans/2026/april/label-enacts.md](../../plans/2026/april/label-enacts.md); the vocabulary-relevant residue is recorded here.
 
 *Anti-pattern surfaced — labels that restate the type or the quality.* Recurring shape: "X enables/supports/is the capability for Q." These read as definitions of the quality or restatements of `enacts` rather than naming the mechanism by which the move alters the structure. The working rule that emerged: a label should name what the move *does* to the centre such that the effect is legible through Q's lens. Override candidates flagged across the batches included `cognitive-forcing-functions → agency/learnability/temporality`, `settings → privacy/adaptability`, `actions-sensemaking-view → malleability/density/adaptability`, `activities-localization → adaptability`, `activities-onboarding → learnability`, `activities-prompt → agency`, `operations-sections → adaptability`, `operations-good-defaults → agency`, `activities-bot/help → learnability`. Several rewritten in-pass; the rest stand as exemplars of the failure mode.
 
@@ -324,11 +363,11 @@ Lost in the drafting: thematic subcategories (~14 unique headers like "Human-AI 
 
 ### 2026-04-25 — `recommends` shape validated against the 8 active decision trees
 
-Inventoried the questions and branches across all decision trees ([decision-dimensions.md](./decision-dimensions.md)). The `recommends` shape (raw question/branch text, `extractedFrom: 'decision-tree:<id>'`) holds: most decision-tree questions read naturally as situational hints an actor would weigh, vindicating the choice not to canonicalise them. No revisions. Drift observations (heterogeneity of hint kinds, hybrid leaves, design-state vs. situational questions) recorded in [the gate notes](../plans/2026/april/notes/typed-edges-phase-0-gates.md).
+Inventoried the questions and branches across all decision trees ([decision-dimensions.md](./decision-dimensions.md)). The `recommends` shape (raw question/branch text, `extractedFrom: 'decision-tree:<id>'`) holds: most decision-tree questions read naturally as situational hints an actor would weigh, vindicating the choice not to canonicalise them. No revisions. Drift observations (heterogeneity of hint kinds, hybrid leaves, design-state vs. situational questions) recorded in [the gate notes](../../plans/2026/april/notes/typed-edges-phase-0-gates.md).
 
 ### 2026-04-25 — Generative profiles validated on 9 patterns
 
-Drafted profiles (blind to *Related patterns*) for Form, Select, Checkbox, Autocomplete, Input, Undo, Notification, Toast, Conversation, Onboarding. The frame holds: the three slots produce non-vacuous, differentiating descriptions across data-entry primitives, after-the-fact feedback patterns, and activity-scale patterns. The frame strains on irreducibly minimal primitives (Checkbox), where `operates-on` and `produces` restate each other. No vocabulary revisions. Per-pattern resistance log in [the gate notes](../plans/2026/april/notes/typed-edges-phase-0-gates.md).
+Drafted profiles (blind to *Related patterns*) for Form, Select, Checkbox, Autocomplete, Input, Undo, Notification, Toast, Conversation, Onboarding. The frame holds: the three slots produce non-vacuous, differentiating descriptions across data-entry primitives, after-the-fact feedback patterns, and activity-scale patterns. The frame strains on irreducibly minimal primitives (Checkbox), where `operates-on` and `produces` restate each other. No vocabulary revisions. Per-pattern resistance log in [the gate notes](../../plans/2026/april/notes/typed-edges-phase-0-gates.md).
 
 ### 2026-04-25 — Profile storage: MDX subsection → sidecar TS
 
@@ -401,7 +440,7 @@ Open follow-up: `Transient-mode patterns` and `Notification as modality gradient
 
 ### 2026-04-25 — Phase 1 extraction landed
 
-Typed-edge extraction implemented in [`scripts/extract-graph-data.ts`](../scripts/extract-graph-data.ts). The mechanical layer maps `### ` headers in `## Related patterns` sections to typed edges via the lookup table in [`plans/2026/april/typed-edges.md`](../plans/2026/april/typed-edges.md), promotes pattern → `qualities-*` edges to `enacts` regardless of where they appeared, and collects thematic-header text as lightweight `tags` on linked nodes. Comment-block links (`{/* ... */}`) are stripped before extraction. Glosses survive regeneration when `(source, target, type)` is unchanged. The qualitative gloss layer emits a queue at `pattern-graph.gloss-queue.json` for external authoring, merged back via [`scripts/merge-glosses.ts`](../scripts/merge-glosses.ts).
+Typed-edge extraction implemented in [`scripts/extract-graph-data.ts`](../../scripts/extract-graph-data.ts). The mechanical layer maps `### ` headers in `## Related patterns` sections to typed edges via the lookup table in [`plans/2026/april/typed-edges.md`](../../plans/2026/april/typed-edges.md), promotes pattern → `qualities-*` edges to `enacts` regardless of where they appeared, and collects thematic-header text as lightweight `tags` on linked nodes. Comment-block links (`{/* ... */}`) are stripped before extraction. Glosses survive regeneration when `(source, target, type)` is unchanged. The qualitative gloss layer emitted a queue at `pattern-graph.gloss-queue.json` for external authoring, merged back via `scripts/merge-glosses.ts` at the time of the first run.
 
 Distribution from the first run: 898 edges across 142 nodes, 49 of which carry tags. By type: `related` 460, `complements` 141, `enacts` 88, `precedes` 74, `follows` 58, `enables` 25, `tangential` 22, `alternative` 19, `instantiates` 11.
 
@@ -414,4 +453,4 @@ These three edges entered the gloss queue under `axis-flagged`. No vocabulary re
 
 ### 2026-04-25 — Profile applicability scoped to three strain categories
 
-Adversarial probe on Card, Bot, Mastery, Sections, Status feedback, Assisted task completion (chosen because they look hostile to the generative-profile frame), then reviewer reconciliation. Outcome: profiles should not be retrofitted across the whole library. Three categories where the frame strains for structural reasons and profiles should be skipped: *minimal primitives* (move definition exhausts description), *unbounded stances* (no discrete move), *umbrella/projection patterns* (page describes a territory, not a move; profiles belong on the constituent patterns). A separate zone — *frame holds but profile adds little* (Sections, Status feedback) — is tracked but not exempted. The earlier "pure structural containers" exemption was withdrawn after Card showed the apparent collapse was drafter-sensitive, not structural. Captured in the *When to skip a profile* note in the generative-profiles section above; full reconciliation in [the gate notes](../plans/2026/april/notes/typed-edges-phase-0-gates.md).
+Adversarial probe on Card, Bot, Mastery, Sections, Status feedback, Assisted task completion (chosen because they look hostile to the generative-profile frame), then reviewer reconciliation. Outcome: profiles should not be retrofitted across the whole library. Three categories where the frame strains for structural reasons and profiles should be skipped: *minimal primitives* (move definition exhausts description), *unbounded stances* (no discrete move), *umbrella/projection patterns* (page describes a territory, not a move; profiles belong on the constituent patterns). A separate zone — *frame holds but profile adds little* (Sections, Status feedback) — is tracked but not exempted. The earlier "pure structural containers" exemption was withdrawn after Card showed the apparent collapse was drafter-sensitive, not structural. Captured in the *When to skip a profile* note in the generative-profiles section above; full reconciliation in [the gate notes](../../plans/2026/april/notes/typed-edges-phase-0-gates.md).

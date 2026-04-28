@@ -68,12 +68,12 @@ pattern-plgrnd/
 *Phase 1 (truth repair):*
 1. `AGENTS.md` (rewritten as canonical thin map, ~80 lines)
 2. `ARCHITECTURE.md` (new, root-level)
-3. `docs/design-docs/core-beliefs.md`
-4. `docs/specs/storybook-taxonomy.md`
+3. `docs/project/core-beliefs.md`
+4. `docs/project/storybook-taxonomy.md`
 5. `docs/quality/testing-strategy.md`
 6. `docs/quality/code-review.md`
 7. `docs/quality/commenting-style.md`
-8. `docs/references/README.md`
+8. `docs/research/references.md`
 9. `plans/index.md`
 10. `plans/tech-debt-tracker.md`
 
@@ -100,7 +100,7 @@ pattern-plgrnd/
 
 ## Files to delete
 
-- `GEMINI.md` (after its philosophy content has been extracted into `docs/design-docs/core-beliefs.md`)
+- `GEMINI.md` (after its philosophy content has been extracted into `docs/project/core-beliefs.md`)
 
 ## Canonical AGENTS.md content (target)
 
@@ -111,12 +111,12 @@ A table of contents, *not* an instruction manual. Target ~80 lines. Structure:
 
 A design research project first, code repository second. A "garden" for cultivating
 interaction design patterns, with a focus on human↔AI collaboration. Full framing
-in docs/design-docs/core-beliefs.md.
+in docs/project/core-beliefs.md.
 
 ## Read first
-- docs/design-docs/core-beliefs.md           — project philosophy, voice, scope
+- docs/project/core-beliefs.md           — project philosophy, voice, scope
 - ARCHITECTURE.md                            — domain layering and directory map
-- docs/specs/storybook-taxonomy.md   — where stories live (Activity Theory)
+- docs/project/storybook-taxonomy.md   — where stories live (Activity Theory)
 
 ## Rules that auto-activate by file path
 .claude/rules/ — do not read eagerly; each attaches via path match:
@@ -140,12 +140,12 @@ Full list and conventions: docs/quality/testing-strategy.md
 - plans/tech-debt-tracker.md  — known rough edges
 
 ## Research inputs (read on demand, not eagerly)
-- docs/references/README.md   — index of references/
+- docs/research/references.md   — index of references/
 
 ## Provisional classifications
 Works in progress, not settled. Treat as the current frame, not the right frame.
-- docs/specs/relationship-vocabulary.md  — edge type vocabulary + changelog
-- docs/specs/decision-dimensions.md      — what patterns reason about (and what they don't)
+- docs/language/relationship-vocabulary.md  — edge type vocabulary + changelog
+- docs/language/decision-dimensions.md      — what patterns reason about (and what they don't)
 
 ## Quality gates
 - docs/quality/testing-strategy.md
@@ -161,7 +161,7 @@ The agent never has to *re-derive* anything that's currently scattered. Every na
 
 ## Critical content extractions
 
-### `docs/design-docs/core-beliefs.md`
+### `docs/project/core-beliefs.md`
 Source material — extract and merge:
 - `GEMINI.md` lines 4–7, 28–43 (garden framing, knowledge architecture, current research focus)
 - `plans/2026/march/activity-theory-reorg.md` lines 1–17 (the dual-projection rationale, the "thinking-tool" framing, the semilattice argument)
@@ -170,7 +170,7 @@ Source material — extract and merge:
 
 The merged file should state, in the user's voice: research-first; relational over static; multiple projections (no single tree is right); current focus on AI-collaboration patterns; aesthetic/philosophical decisions sit with the human, not the agent.
 
-### `docs/specs/storybook-taxonomy.md`
+### `docs/project/storybook-taxonomy.md`
 Source material — extract from `plans/2026/march/activity-theory-reorg.md` (lines 19–80) and verify against the actual `src/stories/` directory listing. The doc must:
 - Document the current state of `src/stories/` (operations, actions, activities, qualities, concepts, foundations, data-visualization, data — and the legacy folders components/, compositions/, patterns/, hooks/ marked as "migrating → target Activities/Actions").
 - Include the dual-projection rule from `references/semilattice.md`: AT is the default sidebar projection, Atomic stays as queryable metadata.
@@ -181,7 +181,7 @@ New file at root. Content:
 - Tech stack split (frontend: TS + Vite + Lit + React + Tldraw + Tiptap; backend: Express + OpenAI)
 - Top-level directory map with one-line annotations for each `src/` subdirectory
 - The Atomic-vs-Activity-Theory dual-projection note (because `src/components/` is still organised compositionally while `src/stories/` is now organised experientially — this tension is currently invisible in any doc)
-- Pointer to `docs/specs/storybook-taxonomy.md` for the story tree
+- Pointer to `docs/project/storybook-taxonomy.md` for the story tree
 
 ### `docs/quality/*.md`
 Move (don't copy) the corresponding sections from the current `CLAUDE.md`:
@@ -189,7 +189,7 @@ Move (don't copy) the corresponding sections from the current `CLAUDE.md`:
 - `code-review.md` ← lines 102–109 (Code review workflow)
 - `commenting-style.md` ← lines 96–100 (Code comments)
 
-`docs/references/README.md`
+`docs/research/references.md`
 For each file in `references/` one line with a short abstract. The file is seeded once and grown organically as the user engages with each source. *No autogeneration script* — hand-maintained per the "less autonomy" preference.
 
 ### `plans/index.md`
@@ -280,14 +280,14 @@ Wire into a new `.github/workflows/docs-integrity.yml`:
 ## Phased execution
 
 ### Phase 1 — truth repair
-1. Extract `GEMINI.md` philosophy + `activity-theory-reorg.md` framing + `README.md` framing into `docs/design-docs/core-beliefs.md`.
-2. Build `docs/specs/storybook-taxonomy.md` from the current `src/stories/` directory listing and the AT reorg plan.
+1. Extract `GEMINI.md` philosophy + `activity-theory-reorg.md` framing + `README.md` framing into `docs/project/core-beliefs.md`.
+2. Build `docs/project/storybook-taxonomy.md` from the current `src/stories/` directory listing and the AT reorg plan.
 3. Build `ARCHITECTURE.md` at root.
 4. Split `CLAUDE.md` body into `docs/quality/{testing-strategy,code-review,commenting-style}.md`.
 5. Write the new canonical `AGENTS.md` (~80 lines, structure above).
 6. Reduce `CLAUDE.md` to a 1-line stub.
 7. Delete `GEMINI.md`.
-8. Build `docs/references/README.md` from a directory listing of `references/`.
+8. Build `docs/research/references.md` from a directory listing of `references/`.
 9. Build `plans/index.md` and `plans/tech-debt-tracker.md`.
 
 After Phase 1, run the verification checks below. If they pass, the project's control layer is no longer lying to agents.
@@ -308,13 +308,13 @@ Five small, *scheduled* automations that keep the control layer self-maintaining
 
    Output: zero PRs (clean) or 1-N tiny diffs. Each PR is reviewable in seconds. The agent is *bounded* by the prompt to fix-only, no expansion.
 
-2. *Storybook taxonomy sync check* (recommended). Extend `docs-integrity.yml` (already added in Phase 2) with one extra step: a Node script `scripts/check-taxonomy-sync.mjs` (~30 lines) that lists `src/stories/*/` and verifies every directory is named in `docs/specs/storybook-taxonomy.md`. Fails the workflow if a top-level story folder is missing from the doc, or if the doc names a folder that no longer exists. This is the *single most important* drift to catch — the original sin of the current state was the taxonomy doc lying about the story tree.
+2. *Storybook taxonomy sync check* (recommended). Extend `docs-integrity.yml` (already added in Phase 2) with one extra step: a Node script `scripts/check-taxonomy-sync.mjs` (~30 lines) that lists `src/stories/*/` and verifies every directory is named in `docs/project/storybook-taxonomy.md`. Fails the workflow if a top-level story folder is missing from the doc, or if the doc names a folder that no longer exists. This is the *single most important* drift to catch — the original sin of the current state was the taxonomy doc lying about the story tree.
 
 3. *Plans staleness sweeper* (optional, scheduled monthly). New `.github/workflows/plans-sweep.yml`, scheduled `0 9 1 * *` (first of each month). Claude walks `plans/2025/` and `plans/2026/` for files untouched in 90+ days, checks recent commits for evidence of completion or abandonment, and opens a PR moving stale entries to `plans/archive/` with one-line tombstones in `plans/index.md`. Conservative: if uncertain, leaves the plan in place and tags it `status: review-needed` in the index.
 
 4. *Tech-debt accumulator* (optional, weekly). Companion to (1). Greps the codebase for new `TODO`/`FIXME`/`HACK` comments since the last run (using a stored marker file in `.github/`), and opens a PR adding any new ones to `plans/tech-debt-tracker.md` with file:line links. Most projects find this becomes noise within a few weeks; install only if signal-to-noise stays high.
 
-5. *Classification health sweeper* (recommended, monthly). New `.github/workflows/classification-health.yml`, scheduled `0 9 15 * *` (mid-month, off-cycle from the other sweeps). Runs `scripts/check-classification-health.mjs`, which inspects `src/pattern-graph.json` for drift signals: edge types with fewer than N edges (underused), thematic-header `label` values repeating across many files (candidates for promotion to a typed edge), tags used only once (noise) vs. many times (candidates for structuring), and patterns with a high density of `related` edges (the extractor may have flattened a distinction). Output: a PR appending findings to the changelog in `docs/specs/relationship-vocabulary.md` under an *Observed drift* subheading. Does not propose vocabulary changes — the user decides whether drift is signal or noise. Pairs with the `extractedFrom` provenance field and the vocabulary changelog introduced by `plans/2026/april/typed-edges.md`.
+5. *Classification health sweeper* (recommended, monthly). New `.github/workflows/classification-health.yml`, scheduled `0 9 15 * *` (mid-month, off-cycle from the other sweeps). Runs `scripts/check-classification-health.mjs`, which inspects `src/pattern-graph.json` for drift signals: edge types with fewer than N edges (underused), thematic-header `label` values repeating across many files (candidates for promotion to a typed edge), tags used only once (noise) vs. many times (candidates for structuring), and patterns with a high density of `related` edges (the extractor may have flattened a distinction). Output: a PR appending findings to the changelog in `docs/language/relationship-vocabulary.md` under an *Observed drift* subheading. Does not propose vocabulary changes — the user decides whether drift is signal or noise. Pairs with the `extractedFrom` provenance field and the vocabulary changelog introduced by `plans/2026/april/typed-edges.md`.
 
 *Recommended starter set*: items 1, 2, 5. Items 3 and 4 are narrower and can wait until the starter set proves its weight.
 
@@ -324,11 +324,11 @@ Five small, *scheduled* automations that keep the control layer self-maintaining
 
 Run all six checks after the refactor. The first three are the *truth-repair* checks; the last three are the *enforcement* checks.
 
-1. *Story-placement test*. Start a fresh Claude Code session with no prior context. Paste: *"I want to add a new Storybook story for a pattern called `SmartSuggestion` that takes user input and proactively offers AI completions. Where in the tree should it live?"* Healthy: the agent reads `CLAUDE.md` → `AGENTS.md` → `docs/specs/storybook-taxonomy.md` and answers correctly with `src/stories/activities/` or similar AT-grounded location. Unhealthy: the agent suggests `src/stories/components/` or `src/stories/patterns/` (the *old* names from the stale instruction files).
+1. *Story-placement test*. Start a fresh Claude Code session with no prior context. Paste: *"I want to add a new Storybook story for a pattern called `SmartSuggestion` that takes user input and proactively offers AI completions. Where in the tree should it live?"* Healthy: the agent reads `CLAUDE.md` → `AGENTS.md` → `docs/project/storybook-taxonomy.md` and answers correctly with `src/stories/activities/` or similar AT-grounded location. Unhealthy: the agent suggests `src/stories/components/` or `src/stories/patterns/` (the *old* names from the stale instruction files).
 
 2. *Rule-lookup test*. Paste: *"What's the styling convention in this project?"* Healthy: the agent arrives at `.claude/rules/styling.md` in one hop via `AGENTS.md`. Unhealthy: the agent re-derives the rules by reading CSS files.
 
-3. *Philosophy test*. Paste: *"What is this project about?"* Healthy: the agent quotes the "research-first / garden / human-AI collaboration" framing from `docs/design-docs/core-beliefs.md`. Unhealthy: the agent calls it a "design system" or a "component library".
+3. *Philosophy test*. Paste: *"What is this project about?"* Healthy: the agent quotes the "research-first / garden / human-AI collaboration" framing from `docs/project/core-beliefs.md`. Unhealthy: the agent calls it a "design system" or a "component library".
 
 4. *Drift detection*. Manually edit `CLAUDE.md` to add a stray sentence. Push the branch. CI (`docs-integrity.yml`) should fail on `check-agents-stub.mjs`. Revert.
 
@@ -342,13 +342,13 @@ If all six pass, the refactor has done its job: the control layer tells the trut
 
 Files most load-bearing for executing this plan:
 
-- `/Users/igors.razvodovskis/Development/pattern-plgrnd/AGENTS.md` — becomes the canonical map
-- `/Users/igors.razvodovskis/Development/pattern-plgrnd/CLAUDE.md` — becomes a stub
-- `/Users/igors.razvodovskis/Development/pattern-plgrnd/GEMINI.md` — deleted after content extraction
-- `/Users/igors.razvodovskis/Development/pattern-plgrnd/eslint.config.js` — Phase 2 enforcement
-- `/Users/igors.razvodovskis/Development/pattern-plgrnd/plans/2026/march/activity-theory-reorg.md` — source for `docs/specs/storybook-taxonomy.md`
-- `/Users/igors.razvodovskis/Development/pattern-plgrnd/references/semilattice.md` — source for the dual-projection rationale
-- `/Users/igors.razvodovskis/Development/pattern-plgrnd/src/stories/` — verify current directory listing matches what `storybook-taxonomy.md` claims
+- `AGENTS.md` — becomes the canonical map
+- `CLAUDE.md` — becomes a stub
+- `GEMINI.md` — deleted after content extraction
+- `eslint.config.js` — Phase 2 enforcement
+- `plans/2026/march/activity-theory-reorg.md` — source for `docs/project/storybook-taxonomy.md`
+- `semilattice.md` — source for the dual-projection rationale
+- `/src/stories/` — verify current directory listing matches what `storybook-taxonomy.md` claims
 
 ## Explicitly out of scope
 

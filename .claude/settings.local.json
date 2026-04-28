@@ -37,7 +37,6 @@
       "Bash(.specify/scripts/create-new-feature.sh:*)",
       "Bash(.specify/scripts/setup-plan.sh:*)",
       "Bash(.specify/scripts/check-task-prerequisites.sh:*)",
-      "Read(//Users/igors.razvodovskis/.npm-global/lib/node_modules/@anthropic-ai/**)",
       "Skill(example-skills:skill-creator)",
       "mcp__ide__getDiagnostics",
       "mcp__ide__executeCode",

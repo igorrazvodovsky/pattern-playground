@@ -39,11 +39,11 @@ Each layer should contextualise the next one down, so that implementation detail
 
 In this repository, levels of scale currently show up through a loose stack:
 
-- [docs/core-beliefs.md](./core-beliefs.md) provides the coarsest framing: what kind of project this is, what it values, and what kind of design work it is for
-- [docs/conceptual-glossary.md](./conceptual-glossary.md) defines the main conceptual vocabulary
-- [docs/relationship-vocabulary.md](./relationship-vocabulary.md) describes how patterns combine as generative moves
-- [docs/storybook-taxonomy.md](./storybook-taxonomy.md) gives the main projection for organising the pattern library
-- [ARCHITECTURE.md](../ARCHITECTURE.md) describes domain layering and directory structure
+- [docs/project/core-beliefs.md](../project/core-beliefs.md) provides the coarsest framing: what kind of project this is, what it values, and what kind of design work it is for
+- [docs/language/conceptual-glossary.md](./conceptual-glossary.md) defines the main conceptual vocabulary
+- [docs/language/relationship-vocabulary.md](./relationship-vocabulary.md) describes how patterns combine as generative moves
+- [docs/project/storybook-taxonomy.md](../project/storybook-taxonomy.md) gives the main projection for organising the pattern library
+- [ARCHITECTURE.md](../../ARCHITECTURE.md) describes domain layering and directory structure
 - `src/stories/` and `src/components/` hold the synthesised patterns and the implementation substrate
 
 This stack is incomplete, but it already points in the right direction: the project is trying to make the pattern space legible at multiple altitudes rather than collapsing everything into stories or code.

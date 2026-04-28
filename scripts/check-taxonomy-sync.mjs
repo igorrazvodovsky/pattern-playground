@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const storiesDir = resolve(root, 'src/stories');
-const taxonomyPath = resolve(root, 'docs/storybook-taxonomy.md');
+const taxonomyPath = resolve(root, 'docs/project/storybook-taxonomy.md');
 
 let failed = false;
 
@@ -26,7 +26,7 @@ const taxonomyContent = readFileSync(taxonomyPath, 'utf-8');
 // Check that every directory in src/stories/ is mentioned in the taxonomy doc
 for (const dir of storyDirs) {
   if (!taxonomyContent.includes(`\`${dir}/\``) && !taxonomyContent.includes(`\`${dir}\``)) {
-    fail(`src/stories/${dir}/ exists but is not mentioned in docs/storybook-taxonomy.md`);
+    fail(`src/stories/${dir}/ exists but is not mentioned in docs/project/storybook-taxonomy.md`);
   }
 }
 
@@ -43,10 +43,10 @@ while ((match = dirPattern.exec(taxonomyContent)) !== null) {
   const full = resolve(storiesDir, dirName);
   try {
     if (!statSync(full).isDirectory()) {
-      fail(`docs/storybook-taxonomy.md references ${dirName}/ but it is not a directory in src/stories/`);
+      fail(`docs/project/storybook-taxonomy.md references ${dirName}/ but it is not a directory in src/stories/`);
     }
   } catch {
-    fail(`docs/storybook-taxonomy.md references ${dirName}/ but it does not exist in src/stories/`);
+    fail(`docs/project/storybook-taxonomy.md references ${dirName}/ but it does not exist in src/stories/`);
   }
 }
 

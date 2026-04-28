@@ -1,6 +1,6 @@
 # Phase 0 gate notes
 
-Working notes from the Phase 0 gates of [typed-edges.md](../typed-edges.md). The vocabulary changelog at [relationship-vocabulary.md](../../../../docs/relationship-vocabulary.md) records the decisions; this file keeps the deliberation that produced them.
+Working notes from the Phase 0 gates of [typed-edges.md](../typed-edges.md). The vocabulary changelog at [relationship-vocabulary.md](../../../../docs/language/relationship-vocabulary.md) records the decisions; this file keeps the deliberation that produced them.
 
 ## 0.B — Generative profile experiment (resistance log)
 
@@ -49,7 +49,7 @@ Phase 1 implications:
 
 ## 0.C — Decision-dimension inventory observations
 
-Snapshot at [decision-dimensions.md](../../../../docs/decision-dimensions.md). The `recommends` shape (raw question/branch text, `extractedFrom: 'decision-tree:<id>'`) holds against the actual material — most questions read naturally as situational hints.
+Snapshot at [decision-dimensions.md](../../../../docs/language/decision-dimensions.md). The `recommends` shape (raw question/branch text, `extractedFrom: 'decision-tree:<id>'`) holds against the actual material — most questions read naturally as situational hints.
 
 Observed drift, not yet acted on:
 

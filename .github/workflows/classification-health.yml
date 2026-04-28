@@ -36,7 +36,7 @@ jobs:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           direct_prompt: |
             Read the drift report at /tmp/drift-report.md. Append it verbatim to
-            docs/relationship-vocabulary.md under a top-level "## Changelog" section,
+            docs/language/relationship-vocabulary.md under a top-level "## Changelog" section,
             creating that section at the bottom of the file if it does not exist.
             The report already has an "### Observed drift — YYYY-MM-DD" subheading.
             Do not edit the report, do not edit any other file, and do not propose

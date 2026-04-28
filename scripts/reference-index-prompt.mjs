@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // PostToolUse hook: fires after any Read tool call.
-// If the file is inside references/, checks whether it appears in docs/references.md.
-// If missing, prints a one-line reminder to stdout so Claude can surface it.
+// If the file is inside references/, checks whether it appears in docs/research/references.md.
+// If missing, prints a one-line reminder to stdout so the agent can surface it.
 
 import { readFileSync } from 'fs';
 import { resolve, basename } from 'path';
@@ -21,7 +21,7 @@ process.stdin.on('end', () => {
   const name = basename(filePath);
   let index = '';
   try {
-    index = readFileSync(resolve(ROOT, 'docs/references.md'), 'utf8');
+    index = readFileSync(resolve(ROOT, 'docs/research/references.md'), 'utf8');
   } catch {
     process.exit(0);
   }
@@ -29,7 +29,7 @@ process.stdin.on('end', () => {
   // Escape for a plain-string search (not regex).
   if (!index.includes(name)) {
     process.stdout.write(
-      `Note: \`${name}\` is not yet in docs/references.md. ` +
+      `Note: \`${name}\` is not yet in docs/research/references.md. ` +
       `If this source has a project takeaway worth keeping, add a one-line entry to the index.\n`
     );
   }

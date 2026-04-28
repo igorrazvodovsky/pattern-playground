@@ -34,7 +34,7 @@ There are two ways to author labels, and which one fits depends on what you're d
 
 Either way, the label ends up in MDX. Re-running `npx tsx scripts/extract-graph-data.ts` then re-derives the graph including the new labels.
 
-After each task, commit the MDX edits and append a short changelog entry to [docs/relationship-vocabulary.md](../../../docs/relationship-vocabulary.md) recording any vocabulary revisions, observed drift, or candidates surfaced for future promotion.
+After each task, commit the MDX edits and append a short changelog entry to [docs/language/relationship-vocabulary.md](../../../docs/language/relationship-vocabulary.md) recording any vocabulary revisions, observed drift, or candidates surfaced for future promotion.
 
 ## Cross-cutting context discipline
 

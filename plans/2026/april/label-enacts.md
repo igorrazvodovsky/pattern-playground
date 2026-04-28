@@ -32,7 +32,7 @@ For each edge:
 - Active: "Settings let actors override system defaults, expanding agency over the system's behaviour."
 - Specific to the move's mechanism: not "supports learnability" but "the suggestions teach option space without requiring the actor to recall it."
 - Avoid recursive phrasing: "enacts agency by enacting agency over the system."
-- Match the [design-repertoire voice from auto-memory](/Users/igors.razvodovskis/.claude/projects/-Users-igors-razvodovskis-Development-pattern-plgrnd/memory/feedback_description_voice.md) — frame from the human situation inward, not from the implementation outward.
+- Match the design-repertoire voice from auto-memory — frame from the human situation inward, not from the implementation outward.
 
 ## Suggested batching
 

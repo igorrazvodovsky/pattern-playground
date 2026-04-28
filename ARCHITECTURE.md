@@ -49,7 +49,12 @@ src/
 server/                         Express backend (separate package)
 plans/                          Design plans and decisions (year/month structure)
 references/                     Research inputs — papers, notes, academic sources
-docs/                           Agent-facing knowledge base (curated)
+docs/                           Agent-facing knowledge base
+├── index.md                    Sectioned docs map
+├── project/                    Project framing and Storybook taxonomy
+├── language/                   Pattern definition, graph vocabulary, theory
+├── quality/                    Testing, review, commenting
+└── research/                   References index for top-level research notes
 .claude/rules/                  Path-activated coding rules
 ```
 
@@ -57,7 +62,7 @@ docs/                           Agent-facing knowledge base (curated)
 
 `src/components/` is organised *compositionally* — by what things are made of (following Atomic Design principles). `src/stories/` is organised *experientially* — by Activity Theory levels (what role a pattern plays in human activity). These two organisations coexist deliberately: components don't need to match the story tree, and the story tree doesn't dictate component structure.
 
-The canonical taxonomy for stories is in `docs/storybook-taxonomy.md`.
+The canonical taxonomy for stories is in [docs/project/storybook-taxonomy.md](docs/project/storybook-taxonomy.md).
 
 ## Key patterns
 

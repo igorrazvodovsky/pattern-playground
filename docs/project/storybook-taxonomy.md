@@ -4,13 +4,13 @@ The canonical answer to "where does a new pattern go?"
 
 ## Organising principle
 
-The story tree is organised by *activity theory* levels — *where attention lives* during human activity. See `plans/2026/march/activity-theory-reorg.md` for the rationale and migration history.
+The story tree is organised by *activity theory* levels — *where attention lives* during human activity. See [`plans/2026/march/activity-theory-reorg.md`](../../plans/2026/march/activity-theory-reorg.md) for the rationale and migration history.
 
 ### Dual-projection rule
 
-Activity Theory is the *default sidebar projection* because it foregrounds experiential altitude. The Atomic Design categories (primitive, component, composition, pattern) persist as queryable metadata in `<Meta tags={[...]}>` — visible in the graph, available as an alternative projection. No classification is discarded; the question is which one gets the privileged sidebar position.
+Activity Theory is the *default sidebar projection* because it foregrounds experiential altitude. The Atomic Design categories (primitive, component, composition, pattern) persist as queryable metadata, available as an alternative projection. No classification is discarded; the question is which one gets the privileged sidebar position.
 
-See `references/semilattice.md` for the deeper argument: every tree is lossy; the answer is multiple projections, not a better tree.
+See [`references/semilattice.md`](../../references/semilattice.md) for the deeper argument: every tree is lossy; the answer is multiple projections, not a better tree.
 
 ## Current `src/stories/` directory listing
 

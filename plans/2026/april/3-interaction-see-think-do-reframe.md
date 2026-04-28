@@ -164,7 +164,6 @@ Run `npx tsx scripts/extract-graph-data.ts` to pick up any changed cross-referen
 - Noessel, C. (2017). *Designing Agentive Technology.*
 - Boyd, J. (1976). *Destruction and Creation.* (OODA loop.)
 - Norman, D. (1988). *The Design of Everyday Things.* (Action cycle.)
-- Local synthesis: `/Users/igors.razvodovskis/Documents/Notes/1 Projects/Agentive & Assistant Technology/synthesis.md`
 - Plans this one interacts with:
   - `plans/2026/april/assistance-foundation.md`
   - `plans/2026/april/delegation-foundation.md`

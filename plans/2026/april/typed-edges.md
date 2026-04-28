@@ -12,7 +12,7 @@ The end goal of typing is to make the graph usable as a *knowledge surface for d
 
 1. *Suggestion, not matching.* The library is not mature enough to support structured retrieval. Edges, tags, and decision-tree conditions are all *hint-grade* — they describe what has been useful in similar situations, not predicates to be matched against a query. An actor uses the graph as context for judgement, not as a lookup table.
 
-2. *Patterns as moves in a design vocabulary* (Christopher Alexander). The library draws on two phases of Alexander's work at different stages of realisation. Currently it operates in the *Pattern Language register*: a navigational vocabulary of typed moves and relationships, hint-grade rather than rule-grade, where design reasoning is sequential and associative. The aspiration is toward the *Nature of Order register*: structural properties that function as recursive production rules, giving design a grammar. The library is not there yet — getting there would require discovering interaction-design analogues of Alexander's structural properties from empirical patterns in the data, which requires more corpus than currently exists. The typed edges and quality vocabulary are the scaffolding for that discovery. See `docs/relationship-vocabulary.md` for the full articulation of the two-stage trajectory.
+2. *Patterns as moves in a design vocabulary* (Christopher Alexander). The library draws on two phases of Alexander's work at different stages of realisation. Currently it operates in the *Pattern Language register*: a navigational vocabulary of typed moves and relationships, hint-grade rather than rule-grade, where design reasoning is sequential and associative. The aspiration is toward the *Nature of Order register*: structural properties that function as recursive production rules, giving design a grammar. The library is not there yet — getting there would require discovering interaction-design analogues of Alexander's structural properties from empirical patterns in the data, which requires more corpus than currently exists. The typed edges and quality vocabulary are the scaffolding for that discovery. See `docs/language/relationship-vocabulary.md` for the full articulation of the two-stage trajectory.
 
 These two framings are compatible and reinforcing. The first is an epistemic claim about the data (incomplete, fuzzy, hint-grade). The second names where the library sits on a longer trajectory (Pattern Language now, aspiring toward Nature of Order). Together they push in two directions: the data should be looser and the use should be transformative.
 
@@ -32,7 +32,7 @@ Phase 1 starts only after the gate. If either experiment surfaces something that
 
 ### A. Relationship vocabulary
 
-*Status*: drafted at `docs/relationship-vocabulary.md`
+*Status*: drafted at `docs/language/relationship-vocabulary.md`
 
 Before implementing typed edges, the vocabulary itself needs a formal definition: what each relationship type means, its directionality, inverse pair handling (where applicable), SKOS alignment (where natural), and how each type should be read under the generative-moves framing.
 
@@ -83,7 +83,7 @@ A flat spread across altitude tests range but cannot detect the most important f
 
 ### C. Decision-dimension inventory (research — gate)
 
-Produce `docs/decision-dimensions.md`: a snapshot of what dimensions the library currently uses to discriminate between patterns, extracted from the 8 active decision trees. This is a research artifact, not a controlled vocabulary — the goal is to surface what the library already reasons about and, by absence, what it doesn't.
+Produce `docs/language/decision-dimensions.md`: a snapshot of what dimensions the library currently uses to discriminate between patterns, extracted from the 8 active decision trees. This is a research artifact, not a controlled vocabulary — the goal is to surface what the library already reasons about and, by absence, what it doesn't.
 
 The document lists, for each pattern that has a decision tree, the questions its tree branches on. Example entries:
 
@@ -101,7 +101,7 @@ The document opens with a short note framing the inventory as a snapshot of a *c
 
 *Gate criteria*: do decision-tree questions read as situational hints that could travel with a `recommends` edge, or do they resist that framing? Are there dimensions the library reasons about that the vocabulary doesn't accommodate? Outcomes feed into the changelog and may revise Phase 3's spec.
 
-*Files modified*: new file `docs/decision-dimensions.md`. No code changes.
+*Files modified*: new file `docs/language/decision-dimensions.md`. No code changes.
 
 ### Phase 0 ordering
 
@@ -225,7 +225,7 @@ The script does not author labels itself. Labels are authored externally — eit
 
 The graph itself stores no manual content: every label in `pattern-graph.json` is freshly derived from MDX on each extraction run. Labels survive regeneration because the MDX survives regeneration, not because the script preserves them.
 
-(An earlier `pattern-graph.label-queue.json` coverage report was retired 2026-04-26 once the initial labelling sweep closed; spot-checks against the structural invariants in [docs/relationship-vocabulary.md](../../../docs/relationship-vocabulary.md) replace it. See the changelog entry of that date.)
+(An earlier `pattern-graph.label-queue.json` coverage report was retired 2026-04-26 once the initial labelling sweep closed; spot-checks against the structural invariants in [docs/language/relationship-vocabulary.md](../../../docs/language/relationship-vocabulary.md) replace it. See the changelog entry of that date.)
 
 For `enacts` edges where no MDX bullet exists for the quality link (the reference is in inline prose only), the right move is to add a bullet — a `### Enacted qualities` subsection in `## Related patterns` is a natural home, but any single-link bullet anywhere in the document is enough.
 
@@ -266,7 +266,7 @@ Then verify:
 - Typed edges from subcategory headers carry `extractedFrom` with the raw header text (`header:"Precursors"`, `header:"Precursor patterns"`); `related` edges from flat lists or prose do not
 - Edges from a pattern to a quality page (`qualities-*` target) are typed `enacts` with `extractedFrom: 'quality-target'`, regardless of which section they appeared in
 - *Invariant*: every `enacts` edge has a non-quality source and a `qualities-*` target. Quality-to-quality edges (source category `Qualities`, target `qualities-*`) stay `related`. Spot-check Malleability.mdx and Shareability.mdx — their outgoing edges to other quality pages should be `related`, not `enacts`.
-- *Axis sanity check (advisory, not a failure mode)*: using the category folder as a coarse altitude proxy, count `instantiates` edges whose endpoints sit in the same folder, and `complements` edges crossing two altitude bands. Both are suspicious — possibly mislabeled, possibly genuinely mixed-altitude. Counts are printed by the script; log to the changelog under *Observed drift* if anything moves. See [docs/relationship-vocabulary.md](../../../docs/relationship-vocabulary.md)'s "Edge axis" section for the axis classification.
+- *Axis sanity check (advisory, not a failure mode)*: using the category folder as a coarse altitude proxy, count `instantiates` edges whose endpoints sit in the same folder, and `complements` edges crossing two altitude bands. Both are suspicious — possibly mislabeled, possibly genuinely mixed-altitude. Counts are printed by the script; log to the changelog under *Observed drift* if anything moves. See [docs/language/relationship-vocabulary.md](../../../docs/language/relationship-vocabulary.md)'s "Edge axis" section for the axis classification.
 
 ---
 
