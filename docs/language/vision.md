@@ -1,14 +1,18 @@
-# Pattern language direction
+# Vision
 
 Long-term orientation for the project as it moves from a documented pattern
-catalog toward a usable pattern language. This is not an implementation plan or
-schema contract.
+catalog toward a usable pattern language. It names the organizing direction and
+includes a few concrete sketches to make that direction discussable. It is not
+an implementation plan or schema contract.
+
+Compare this vision with [operative-image.md](./operative-image.md), which
+describes the current working picture.
 
 ## Why this exists
 
 The project currently uses `src/stories/` as both documentation surface and
 source of truth for the pattern graph. That has worked well enough for a garden,
-but it creates a semantic pressure. The long-term direction is to separate three concerns:
+but it creates a semantic pressure. The vision is to separate three concerns:
 
 - what exists in the pattern language
 - how it is rendered or demonstrated
@@ -218,13 +222,13 @@ but they are not the ontology.
 The operational definition in
 [pattern-definition.md](./pattern-definition.md) is grounded in
 [`references/hci-pattern-languages.md`](../../references/hci-pattern-languages.md).
-This direction document applies that research grounding to repository structure,
+This vision document applies that research grounding to repository structure,
 graph roles, and future harness-facing language objects.
 
 ## Non-goals
 
 Do not mechanically retrofit the whole library just because this document
-exists. The direction is useful only if it clarifies real pressure points.
+exists. The vision is useful only if it clarifies real pressure points.
 
 Do not add new edge types speculatively. Add them when repeated authored
 material shows that the current vocabulary is flattening a meaningful

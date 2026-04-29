@@ -13,7 +13,8 @@ A design research project first, code repository second. A "garden" for cultivat
 - [docs/language/conceptual-glossary.md](docs/language/conceptual-glossary.md) — terms used across the project
 - [docs/language/design-theory.md](docs/language/design-theory.md) — Alexander's two phases, centres, qualities, theoretical arc
 - [docs/language/levels-of-scale.md](docs/language/levels-of-scale.md) — structural legibility across altitudes
-- [docs/language/pattern-language-direction.md](docs/language/pattern-language-direction.md) — long-term direction for pattern vs component semantics
+- [docs/language/vision.md](docs/language/vision.md) — current vision, partly intuitive, partly inconsistent
+- [docs/language/operative-image.md](docs/language/operative-image.md) — current working picture
 - [docs/language/relationship-vocabulary.md](docs/language/relationship-vocabulary.md) — edge types, generative-moves framing, epistemic stance
 
 ## Rules that auto-activate by file path
