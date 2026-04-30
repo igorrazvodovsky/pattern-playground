@@ -3,7 +3,7 @@
 Operational definition for what counts as a pattern in this project. Use this
 when deciding whether material should be treated as a generative interaction
 move, an implementation mechanism, an activity observation, an anti-pattern, or
-a projection over a larger territory.
+an umbrella over a larger territory.
 
 This is not yet a metadata schema. It is a test for authoring judgement.
 

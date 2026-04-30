@@ -42,8 +42,8 @@ The missing axis is role. A possible future role vocabulary is:
 - `quality`: an experiential dimension such as Agency or Learnability
 - `foundation`: theory, model, principle, or material substrate
 - `concept`: a Jackson-style software concept
-- `projection`: an umbrella or sensemaking page that gathers a territory but is
-  not the authoritative source for one move
+- `umbrella`: a sensemaking page that gathers a territory of related moves but
+  is not the authoritative source for any single one.
 - `example`: a concrete instantiation, story variant, screenshot, prototype, or
   product case
 
@@ -68,7 +68,7 @@ component vs pattern
 It is:
 
 ```text
-mechanism vs move vs projection
+mechanism vs move vs umbrella
 ```
 
 A component can implement a mechanism.
@@ -77,7 +77,7 @@ A mechanism can enable a move.
 
 A control can become a move when it carries a complete interaction contract.
 
-A Storybook page can be a projection over many moves.
+A Storybook page can be an umbrella over many moves.
 
 This keeps the project compatible with its semilattice commitment: no single
 tree is the truth, and no single documentation surface should have to carry all
@@ -104,8 +104,8 @@ language objects -> decision support / agent context
 
 Storybook remains important because it makes the material explorable and
 demonstrable. It should not be forced to answer every ontology question. Some
-pages will be authored as pattern sources; some will be projections; some will
-be implementation examples.
+pages will be authored as pattern sources; some will be umbrellas over a
+territory; some will be implementation examples.
 
 ## Possible language layer
 
@@ -118,7 +118,7 @@ src/language/
   qualities/
   foundations/
   concepts/
-  projections/
+  umbrellas/
   examples/
   graph/
 ```
@@ -156,14 +156,16 @@ mechanisms make a move possible. It should not be confused with taxonomy.
 Uses `instantiates`. This records when a move is a concrete application of a
 more abstract principle, model, or concept.
 
-### Projection graph
+### Umbrella graph
 
-`projection -> move`
+`umbrella -> move`
 
-This relationship is not formalized yet. Possible names include `collects`,
-`frames`, or `surveys`. The important point is that projection pages such as an
-umbrella "Bot" or "Assisted task completion" page should not be forced to behave
-like single moves if they actually gather a territory.
+This relationship is not formalised yet. Possible names include `surveys`,
+`gathers`, or `frames`. The important point is that umbrella pages such as
+"Bot" or "Assisted task completion" should not be forced to behave like single
+moves if they actually gather a territory. See the 2026-04-30 changelog entry
+in [relationship-vocabulary.md](./relationship-vocabulary.md) for why the
+earlier "projection" framing was retired.
 
 ## Mature move record
 
@@ -201,7 +203,7 @@ signal: a seed can be useful, but it should not masquerade as a settled invarian
 When adding or revising material, ask these questions before choosing tags,
 edges, or file locations:
 
-1. Is this page an authoritative source for one move, or a projection over a
+1. Is this page an authoritative source for one move, or an umbrella over a
    territory?
 2. Does the thing act on a recurring human situation, or is it mainly an
    implementation mechanism?
@@ -247,8 +249,8 @@ replace judgement.
 - Should `role:*` become Storybook metadata, language-layer metadata, or both?
 - Should contract-bearing controls be modeled as `move`, `contract`, or
   `mechanism` plus `contract`?
-- What is the right relationship name for projection pages: `collects`,
-  `frames`, `surveys`, or something else?
+- What is the right relationship name from an umbrella page to its constituent
+  moves: `surveys`, `gathers`, `frames`, or something else?
 - When does a repeated Storybook composition become a move rather than an
   example of a move?
 - How much of the mature move record belongs in structured data versus MDX

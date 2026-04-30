@@ -20,7 +20,7 @@ map; this file routes people and agents into the sectioned docs.
 ## Language
 
 - [Pattern definition](language/pattern-definition.md) — what counts as a
-  pattern, versus a mechanism, observation, anti-pattern, or projection
+  pattern, versus a mechanism, observation, anti-pattern, or umbrella
 - [Vision](language/vision.md) — direction for role semantics, graph
   structure, and a future language layer
 - [Operative image](language/operative-image.md) — current working picture of

@@ -287,7 +287,7 @@ None of this closes the vocabulary. The aim is a classification that stays answe
 The direct review fixes landed as mechanical corrections: sequence headers now store canonical `precedes` edges, profile sidecars enter node metadata, `recommends` no longer affects graph layout, and the existing Inline confirmation target is mapped. Four questions remain intentionally outside the direct pass:
 
 - Audit whether existing `Precursors` sections are overloaded; some primitive/building-block links may deserve `enables`.
-- Decide the long-term role of generative profiles, including whether projection/umbrella pages need explicit applicability metadata.
+- Decide the long-term role of generative profiles, including whether umbrella pages need explicit applicability metadata.
 - Design the `recommends` graph experience as an overlay/filter interaction rather than only a rendered edge type.
 - Decide how variant leaves such as Typed confirmation and Modal with details should be represented when they are not standalone pattern pages.
 

@@ -44,7 +44,7 @@ Phase 1 implications:
 
 - Don't auto-extract profiles for everything. The proof-of-concept set (now 11) covers in-zone categories. Skip the three strain categories.
 - Apparent collapse triggers re-attempt at a different scale (collection vs. instance, system vs. flow, motive vs. mechanism) before exemption.
-- Umbrella patterns are *projection targets* (views organising information authored elsewhere), not *information origins*. Profiles belong on origins.
+- Umbrella patterns are pages that gather and organise a territory of related moves, not single-move sources. Profiles belong on single-move sources.
 - Open question for after Phase 1: should nodes carry a `profileApplicability` indicator?
 
 ## 0.C — Decision-dimension inventory observations
