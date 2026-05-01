@@ -2,9 +2,12 @@
 
 The canonical answer to "where does a new pattern go?"
 
+Settled specification: [docs/specs/storybook-taxonomy.md](../specs/storybook-taxonomy.md).
+This page keeps the detailed placement guide and migration context.
+
 ## Organising principle
 
-The story tree is organised by *activity theory* levels — *where attention lives* during human activity. See [`plans/2026/march/activity-theory-reorg.md`](../../plans/2026/march/activity-theory-reorg.md) for the rationale and migration history.
+The story tree is organised by *activity theory* levels — *where attention lives* during human activity. See [`plans/completed/2026-03-activity-theory-reorg.md`](../../plans/completed/2026-03-activity-theory-reorg.md) for the rationale and migration history.
 
 ### Dual-projection rule
 

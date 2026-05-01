@@ -1,6 +1,9 @@
 # Plan drafting
 
-Process notes for how plans in [`plans/`](../../plans/) get written. Narrow and process-focused; broader project commitments live in [core-beliefs.md](./core-beliefs.md).
+Process notes for how executable specifications in [`plans/`](../../plans/)
+get written. Narrow and process-focused; broader project commitments live in
+[core-beliefs.md](./core-beliefs.md), and the plan lifecycle contract lives in
+[`plans/README.md`](../../plans/README.md).
 
 ## Research checkpoint for problems without a straightforward solution
 

@@ -5,9 +5,10 @@ page as the main comparison surface against [vision.md](./vision.md): if they
 diverge, decide whether the vision should change, the operative image should be
 updated, or the difference should become a plan.
 
-This is not a specification. Implementation commitments normally live
-in [`plans/`](../../plans/). Stable commitments may later be encoded as scripts,
-schemas, lint rules, or CI checks.
+This is not a settled specification. Current commitments live in
+[`docs/specs/`](../specs/) once promoted. Implementation commitments normally
+start in [`plans/`](../../plans/) as executable specifications and may later be
+encoded as scripts, schemas, lint rules, generated data, or CI checks.
 
 ## Current picture
 
@@ -44,10 +45,12 @@ full language object imagined in the vision.
 
 - [pattern-definition.md](./pattern-definition.md) — operational test for what
   counts as a pattern
-- [storybook-taxonomy.md](../project/storybook-taxonomy.md) — current Storybook
+- [storybook-taxonomy.md](../specs/storybook-taxonomy.md) — settled Storybook
   projection and placement rules
-- [relationship-vocabulary.md](./relationship-vocabulary.md) — current graph
-  relationship model
+- [graph-relationship-model.md](../specs/graph-relationship-model.md) —
+  settled graph relationship model
+- [relationship-vocabulary.md](./relationship-vocabulary.md) — detailed graph
+  vocabulary and changelog
 - [decision-dimensions.md](./decision-dimensions.md) — current decision-tree
   discriminators
 - [`src/stories/`](../../src/stories/) — authored repertoire and Storybook
@@ -65,5 +68,6 @@ When the vision feels ahead of the repo, compare it to this page and ask:
 2. Has the operative image revealed that the vision is incoherent or incomplete?
 3. Is the difference actionable enough to become a plan?
 
-If the answer to the third question is yes, write the implementation
-specification in [`plans/`](../../plans/) rather than expanding this page.
+If the answer to the third question is yes, write the executable specification
+in [`plans/`](../../plans/) rather than expanding this page. Promote stable
+residue into [`docs/specs/`](../specs/) when it becomes current truth.

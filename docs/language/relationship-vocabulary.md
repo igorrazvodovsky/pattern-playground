@@ -2,6 +2,9 @@
 
 A controlled vocabulary for typed edges in `src/pattern-graph.json`. Each entry defines a relationship that can hold between two patterns. The vocabulary is small by design — it should capture the structural distinctions that matter for navigation and reasoning, not every possible nuance.
 
+Settled specification summary: [docs/specs/graph-relationship-model.md](../specs/graph-relationship-model.md).
+This page is the detailed vocabulary record and changelog.
+
 ## Epistemic stance
 
 Two framings shape how the vocabulary should be read and used:
@@ -310,9 +313,12 @@ Why this matters for the vocabulary: the structural question is narrower than "a
 
 What was considered: keeping "projection" with a clarifying note. Rejected because the term conflates two senses already in use across the project — the semilattice/multiple-views sense (AT vs Atomic vs Lifecycle as alternative projections of the underlying space) and the umbrella-page sense. Keeping the semilattice sense (`docs/project/core-beliefs.md`, `references/semilattice.md`) and renaming the role is cleaner than carrying the conflation.
 
-What's lost: nothing structural — the role wasn't yet implemented anywhere in code or extraction. References across `vision.md`, `pattern-definition.md`, `docs/index.md`, `plans/2026/april/typed-edges.md`, and the gate notes have been updated. The relationship name from umbrella to its constituent moves (`surveys` / `gathers` / `frames`) is still an open question.
+What's lost: nothing structural — the role wasn't yet implemented anywhere in code or extraction. References across `vision.md`, `pattern-definition.md`, `docs/index.md`, `plans/completed/2026-04-typed-edges.md`, and the gate notes have been updated. The relationship name from umbrella to its constituent moves (`surveys` / `gathers` / `frames`) is still an open question.
 
-Prompted by the comparison against `references/report-pattern-language-formats.md` (see `plans/2026/april/notes/report-pattern-language-formats-comparison.md`), where the projection-vs-source distinction was named as a place the project diverges from the report's tradition. The comparison made the conflation visible.
+Prompted by the comparison against `references/report-pattern-language-formats.md`,
+where the projection-vs-source distinction was named as a place the project
+diverges from the report's tradition. The comparison made the conflation
+visible.
 
 ### 2026-04-28 — Literature support documented; local extensions named
 
@@ -351,11 +357,12 @@ What's lost: a generated coverage report flagging the three reasons that wanted 
 
 The `thematicHeader` and `inverse` flags on the internal `TypedLink` type are kept; `thematicHeader` is no longer consumed downstream but the cost of leaving it is zero, and re-introducing the queue (or a different consumer of thematic provenance) would need it back.
 
-Closed plans under `plans/2026/april/label-*.md` left as-is for history.
+Closed label plans now live under `plans/completed/2026-04-label-*.md` for
+history.
 
 ### 2026-04-26 — Enacts label sweep (six batches) and foundation-page restructure
 
-All 98 `enacts` edges now carry a substantive label, up from 65 at the start of the sweep. Per-batch run logs live in [plans/2026/april/label-enacts.md](../../plans/2026/april/label-enacts.md); the vocabulary-relevant residue is recorded here.
+All 98 `enacts` edges now carry a substantive label, up from 65 at the start of the sweep. Per-batch run logs live in [plans/completed/2026-04-label-enacts.md](../../plans/completed/2026-04-label-enacts.md); the vocabulary-relevant residue is recorded here.
 
 *Anti-pattern surfaced — labels that restate the type or the quality.* Recurring shape: "X enables/supports/is the capability for Q." These read as definitions of the quality or restatements of `enacts` rather than naming the mechanism by which the move alters the structure. The working rule that emerged: a label should name what the move *does* to the centre such that the effect is legible through Q's lens. Override candidates flagged across the batches included `cognitive-forcing-functions → agency/learnability/temporality`, `settings → privacy/adaptability`, `actions-sensemaking-view → malleability/density/adaptability`, `activities-localization → adaptability`, `activities-onboarding → learnability`, `activities-prompt → agency`, `operations-sections → adaptability`, `operations-good-defaults → agency`, `activities-bot/help → learnability`. Several rewritten in-pass; the rest stand as exemplars of the failure mode.
 
@@ -369,7 +376,7 @@ One stale edge dropped out of extraction during the sweep: `activities-collabora
 
 ### 2026-04-25 — Initial vocabulary drafted
 
-Ten types (`precedes`, `follows`, `enables`, `instantiates`, `complements`, `tangential`, `alternative`, `recommends`, `related`, `enacts`) and the generative-profile node-level metadata. Drafted from a sweep of existing `### ` subcategory headers in `## Related patterns` sections across 120 MDX files, plus the suggestion-not-matching and patterns-as-generative-moves framings from `plans/2026/april/typed-edges.md`.
+Ten types (`precedes`, `follows`, `enables`, `instantiates`, `complements`, `tangential`, `alternative`, `recommends`, `related`, `enacts`) and the generative-profile node-level metadata. Drafted from a sweep of existing `### ` subcategory headers in `## Related patterns` sections across 120 MDX files, plus the suggestion-not-matching and patterns-as-generative-moves framings from `plans/completed/2026-04-typed-edges.md`.
 
 Considered and rejected:
 
@@ -381,11 +388,11 @@ Lost in the drafting: thematic subcategories (~14 unique headers like "Human-AI 
 
 ### 2026-04-25 — `recommends` shape validated against the 8 active decision trees
 
-Inventoried the questions and branches across all decision trees ([decision-dimensions.md](./decision-dimensions.md)). The `recommends` shape (raw question/branch text, `extractedFrom: 'decision-tree:<id>'`) holds: most decision-tree questions read naturally as situational hints an actor would weigh, vindicating the choice not to canonicalise them. No revisions. Drift observations (heterogeneity of hint kinds, hybrid leaves, design-state vs. situational questions) recorded in [the gate notes](../../plans/2026/april/notes/typed-edges-phase-0-gates.md).
+Inventoried the questions and branches across all decision trees ([decision-dimensions.md](./decision-dimensions.md)). The `recommends` shape (raw question/branch text, `extractedFrom: 'decision-tree:<id>'`) holds: most decision-tree questions read naturally as situational hints an actor would weigh, vindicating the choice not to canonicalise them. No revisions. Drift observations (heterogeneity of hint kinds, hybrid leaves, design-state vs. situational questions) recorded in [the gate notes](../../plans/completed/2026-04-typed-edges-phase-0-gates.md).
 
 ### 2026-04-25 — Generative profiles validated on 9 patterns
 
-Drafted profiles (blind to *Related patterns*) for Form, Select, Checkbox, Autocomplete, Input, Undo, Notification, Toast, Conversation, Onboarding. The frame holds: the three slots produce non-vacuous, differentiating descriptions across data-entry primitives, after-the-fact feedback patterns, and activity-scale patterns. The frame strains on irreducibly minimal primitives (Checkbox), where `operates-on` and `produces` restate each other. No vocabulary revisions. Per-pattern resistance log in [the gate notes](../../plans/2026/april/notes/typed-edges-phase-0-gates.md).
+Drafted profiles (blind to *Related patterns*) for Form, Select, Checkbox, Autocomplete, Input, Undo, Notification, Toast, Conversation, Onboarding. The frame holds: the three slots produce non-vacuous, differentiating descriptions across data-entry primitives, after-the-fact feedback patterns, and activity-scale patterns. The frame strains on irreducibly minimal primitives (Checkbox), where `operates-on` and `produces` restate each other. No vocabulary revisions. Per-pattern resistance log in [the gate notes](../../plans/completed/2026-04-typed-edges-phase-0-gates.md).
 
 ### 2026-04-25 — Profile storage: MDX subsection → sidecar TS
 
@@ -458,7 +465,7 @@ Open follow-up: `Transient-mode patterns` and `Notification as modality gradient
 
 ### 2026-04-25 — Phase 1 extraction landed
 
-Typed-edge extraction implemented in [`scripts/extract-graph-data.ts`](../../scripts/extract-graph-data.ts). The mechanical layer maps `### ` headers in `## Related patterns` sections to typed edges via the lookup table in [`plans/2026/april/typed-edges.md`](../../plans/2026/april/typed-edges.md), promotes pattern → `qualities-*` edges to `enacts` regardless of where they appeared, and collects thematic-header text as lightweight `tags` on linked nodes. Comment-block links (`{/* ... */}`) are stripped before extraction. Glosses survive regeneration when `(source, target, type)` is unchanged. The qualitative gloss layer emitted a queue at `pattern-graph.gloss-queue.json` for external authoring, merged back via `scripts/merge-glosses.ts` at the time of the first run.
+Typed-edge extraction implemented in [`scripts/extract-graph-data.ts`](../../scripts/extract-graph-data.ts). The mechanical layer maps `### ` headers in `## Related patterns` sections to typed edges via the lookup table in [`plans/completed/2026-04-typed-edges.md`](../../plans/completed/2026-04-typed-edges.md), promotes pattern → `qualities-*` edges to `enacts` regardless of where they appeared, and collects thematic-header text as lightweight `tags` on linked nodes. Comment-block links (`{/* ... */}`) are stripped before extraction. Glosses survive regeneration when `(source, target, type)` is unchanged. The qualitative gloss layer emitted a queue at `pattern-graph.gloss-queue.json` for external authoring, merged back via `scripts/merge-glosses.ts` at the time of the first run.
 
 Distribution from the first run: 898 edges across 142 nodes, 49 of which carry tags. By type: `related` 460, `complements` 141, `enacts` 88, `precedes` 74, `follows` 58, `enables` 25, `tangential` 22, `alternative` 19, `instantiates` 11.
 
@@ -471,4 +478,4 @@ These three edges entered the gloss queue under `axis-flagged`. No vocabulary re
 
 ### 2026-04-25 — Profile applicability scoped to three strain categories
 
-Adversarial probe on Card, Bot, Mastery, Sections, Status feedback, Assisted task completion (chosen because they look hostile to the generative-profile frame), then reviewer reconciliation. Outcome: profiles should not be retrofitted across the whole library. Three categories where the frame strains for structural reasons and profiles should be skipped: *minimal primitives* (move definition exhausts description), *unbounded stances* (no discrete move), *umbrella patterns* (page describes a territory, not a move; profiles belong on the constituent patterns). A separate zone — *frame holds but profile adds little* (Sections, Status feedback) — is tracked but not exempted. The earlier "pure structural containers" exemption was withdrawn after Card showed the apparent collapse was drafter-sensitive, not structural. Captured in the *When to skip a profile* note in the generative-profiles section above; full reconciliation in [the gate notes](../../plans/2026/april/notes/typed-edges-phase-0-gates.md).
+Adversarial probe on Card, Bot, Mastery, Sections, Status feedback, Assisted task completion (chosen because they look hostile to the generative-profile frame), then reviewer reconciliation. Outcome: profiles should not be retrofitted across the whole library. Three categories where the frame strains for structural reasons and profiles should be skipped: *minimal primitives* (move definition exhausts description), *unbounded stances* (no discrete move), *umbrella patterns* (page describes a territory, not a move; profiles belong on the constituent patterns). A separate zone — *frame holds but profile adds little* (Sections, Status feedback) — is tracked but not exempted. The earlier "pure structural containers" exemption was withdrawn after Card showed the apparent collapse was drafter-sensitive, not structural. Captured in the *When to skip a profile* note in the generative-profiles section above; full reconciliation in [the gate notes](../../plans/completed/2026-04-typed-edges-phase-0-gates.md).

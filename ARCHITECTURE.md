@@ -47,10 +47,11 @@ src/
 └── pattern-graph.json          Generated graph data (nodes + edges)
 
 server/                         Express backend (separate package)
-plans/                          Design plans and decisions (year/month structure)
+plans/                          Executable specifications
 references/                     Research inputs — papers, notes, academic sources
 docs/                           Agent-facing knowledge base
 ├── index.md                    Sectioned docs map
+├── specs/                      Settled specifications
 ├── project/                    Project framing and Storybook taxonomy
 ├── language/                   Pattern definition, graph vocabulary, theory
 ├── quality/                    Testing, review, commenting
@@ -62,7 +63,7 @@ docs/                           Agent-facing knowledge base
 
 `src/components/` is organised *compositionally* — by what things are made of (following Atomic Design principles). `src/stories/` is organised *experientially* — by Activity Theory levels (what role a pattern plays in human activity). These two organisations coexist deliberately: components don't need to match the story tree, and the story tree doesn't dictate component structure.
 
-The canonical taxonomy for stories is in [docs/project/storybook-taxonomy.md](docs/project/storybook-taxonomy.md).
+The settled taxonomy specification is in [docs/specs/storybook-taxonomy.md](docs/specs/storybook-taxonomy.md), with detailed placement guidance in [docs/project/storybook-taxonomy.md](docs/project/storybook-taxonomy.md).
 
 ## Key patterns
 

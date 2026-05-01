@@ -3,19 +3,31 @@
 Agent-facing knowledge base for the project. `AGENTS.md` stays the thin entry
 map; this file routes people and agents into the sectioned docs.
 
-## Design loop
+## Pattern Language Loop
 
 - *Vision*: [language/vision.md](language/vision.md) names the desired direction
   for the pattern language.
 - *Operative image*: [language/operative-image.md](language/operative-image.md)
   describes the current working picture that can be compared with the vision.
-- *Specification*: [plans/](../plans/) is where a chunk of current
-  understanding becomes an implementation plan.
+- *Specification*: [plans/](../plans/) is where a chunk of current understanding becomes an implementation plan. Selected specs in [specs/](specs/) hold promoted commitments that govern the process.
+
+## Settled Specs
+
+- [Specs index](specs/index.md) — broader settled specification map
+- [Agent harness](specs/agent-harness.md) — agent-facing control layer
+- [Storybook taxonomy](specs/storybook-taxonomy.md) — current sidebar projection
+- [Graph relationship model](specs/graph-relationship-model.md) — graph edge
+  model and epistemic stance
+- [Pattern role model](specs/pattern-role-model.md) — mechanism, move,
+  umbrella, quality, foundation, and concept roles
+
+No separate whole-project operative-image layer exists yet. Add one only if the
+broader product state starts needing its own current-state artifact.
 
 ## Project
 
 - [Core beliefs](project/core-beliefs.md) — project philosophy, voice, scope
-- [Storybook taxonomy](project/storybook-taxonomy.md) — where stories live
+- [Storybook taxonomy](project/storybook-taxonomy.md) — placement guide
 
 ## Language
 

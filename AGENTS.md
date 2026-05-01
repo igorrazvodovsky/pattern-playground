@@ -6,7 +6,8 @@ A design research project first, code repository second. A "garden" for cultivat
 - [docs/index.md](docs/index.md) — sectioned docs map
 - [docs/project/core-beliefs.md](docs/project/core-beliefs.md) — project philosophy, voice, scope
 - [ARCHITECTURE.md](ARCHITECTURE.md) — domain layering and directory map
-- [docs/project/storybook-taxonomy.md](docs/project/storybook-taxonomy.md) — where stories live (Activity Theory)
+- [docs/specs/index.md](docs/specs/index.md) — settled specifications for current truth
+- [docs/specs/storybook-taxonomy.md](docs/specs/storybook-taxonomy.md) — where stories live.
 
 ## Domain vocabulary (read when working on patterns, edges, or taxonomy)
 - [docs/language/pattern-definition.md](docs/language/pattern-definition.md) — what counts as a pattern, mechanism, observation, anti-pattern, or projection
@@ -36,8 +37,9 @@ cd server && npm run dev   # Express backend
 ```
 Full list and conventions: [docs/quality/testing-strategy.md](docs/quality/testing-strategy.md)
 
-## Plans and tech debt
-- [plans/index.md](plans/index.md) — active, recent, and archived plans
+## Executable specs and tech debt
+- [plans/README.md](plans/README.md) — how executable specifications work
+- [plans/index.md](plans/index.md) — active, completed, paused, superseded, and archived plans
 - [plans/tech-debt-tracker.md](plans/tech-debt-tracker.md) — known rough edges
 
 ## Research inputs (read on demand, not eagerly)

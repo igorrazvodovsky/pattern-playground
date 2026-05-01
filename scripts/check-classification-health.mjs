@@ -29,7 +29,7 @@ lines.push(`Automated scan of \`src/pattern-graph.json\` (${nodes.length} nodes,
 lines.push('');
 
 if (typed.length === 0 && labeled.length === 0 && taggedNodes.length === 0) {
-  lines.push('No typed-edge metadata (`type`, `label`, `tags`) present yet. Classification-health scan has nothing to report until the extractor emits typed edges and tags (see `plans/2026/april/typed-edges.md`).');
+  lines.push('No typed-edge metadata (`type`, `label`, `tags`) present yet. Classification-health scan has nothing to report until the extractor emits typed edges and tags (see `plans/completed/2026-04-typed-edges.md`).');
   process.stdout.write(lines.join('\n') + '\n');
   process.exit(0);
 }
