@@ -4,61 +4,71 @@
       "id": "actions-application-action-consequences",
       "title": "Action consequences",
       "category": "Actions",
-      "path": "../?path=/docs/actions-application-action-consequences--docs"
+      "path": "../?path=/docs/actions-application-action-consequences--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-application-ai-completion",
       "title": "AI completion",
       "category": "Actions",
-      "path": "../?path=/docs/actions-application-ai-completion--docs"
+      "path": "../?path=/docs/actions-application-ai-completion--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-application-assisted-task-completion",
       "title": "Assisted task completion",
       "category": "Actions",
-      "path": "../?path=/docs/actions-application-assisted-task-completion--docs"
+      "path": "../?path=/docs/actions-application-assisted-task-completion--docs",
+      "role": "umbrella"
     },
     {
       "id": "actions-application-cognitive-forcing-functions",
       "title": "Cognitive forcing functions",
       "category": "Actions",
-      "path": "../?path=/docs/actions-application-cognitive-forcing-functions--docs"
+      "path": "../?path=/docs/actions-application-cognitive-forcing-functions--docs",
+      "role": "umbrella"
     },
     {
       "id": "actions-application-context-menu",
       "title": "Context menu",
       "category": "Actions",
-      "path": "../?path=/docs/actions-application-context-menu--docs"
+      "path": "../?path=/docs/actions-application-context-menu--docs",
+      "role": "component"
     },
     {
       "id": "actions-application-data-entry",
       "title": "Data entry",
       "category": "Actions",
-      "path": "../?path=/docs/actions-application-data-entry--docs"
+      "path": "../?path=/docs/actions-application-data-entry--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-application-deletion",
       "title": "Deletion",
       "category": "Actions",
-      "path": "../?path=/docs/actions-application-deletion--docs"
+      "path": "../?path=/docs/actions-application-deletion--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-application-dialog",
       "title": "Dialog",
       "category": "Actions",
-      "path": "../?path=/docs/actions-application-dialog--docs"
+      "path": "../?path=/docs/actions-application-dialog--docs",
+      "role": "component"
     },
     {
       "id": "actions-application-drawer",
       "title": "Drawer",
       "category": "Actions",
-      "path": "../?path=/docs/actions-application-drawer--docs"
+      "path": "../?path=/docs/actions-application-drawer--docs",
+      "role": "component"
     },
     {
       "id": "actions-application-form",
       "title": "Form",
       "category": "Actions",
       "path": "../?path=/docs/actions-application-form--docs",
+      "role": "pattern",
       "generativeProfile": {
         "operatesOn": "a stretch of activity in which the system needs structured information from the actor that can't be inferred from prior context",
         "produces": "a guided collection surface where fields are committed one at a time and the whole set can be reviewed before submission",
@@ -69,91 +79,106 @@
       "id": "actions-application-nextbest-action",
       "title": "Next-best action",
       "category": "Actions",
-      "path": "../?path=/docs/actions-application-nextbest-action--docs"
+      "path": "../?path=/docs/actions-application-nextbest-action--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-application-saving",
       "title": "Saving",
       "category": "Actions",
-      "path": "../?path=/docs/actions-application-saving--docs"
+      "path": "../?path=/docs/actions-application-saving--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-application-settings",
       "title": "Settings",
       "category": "Actions",
-      "path": "../?path=/docs/actions-application-settings--docs"
+      "path": "../?path=/docs/actions-application-settings--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-application-suggestion",
       "title": "Suggestion",
       "category": "Actions",
-      "path": "../?path=/docs/actions-application-suggestion--docs"
+      "path": "../?path=/docs/actions-application-suggestion--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-application-template",
       "title": "Template",
       "category": "Actions",
-      "path": "../?path=/docs/actions-application-template--docs"
+      "path": "../?path=/docs/actions-application-template--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-application-wizard",
       "title": "Wizard",
       "category": "Actions",
-      "path": "../?path=/docs/actions-application-wizard--docs"
+      "path": "../?path=/docs/actions-application-wizard--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-application-cognitive-forcing-functions-human-goes-first",
       "title": "Human goes first",
       "category": "Actions",
-      "path": "../?path=/docs/actions-application-cognitive-forcing-functions-human-goes-first--docs"
+      "path": "../?path=/docs/actions-application-cognitive-forcing-functions-human-goes-first--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-application-cognitive-forcing-functions-checklist",
       "title": "Checklist",
       "category": "Actions",
-      "path": "../?path=/docs/actions-application-cognitive-forcing-functions-checklist--docs"
+      "path": "../?path=/docs/actions-application-cognitive-forcing-functions-checklist--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-coordination-action-bar",
       "title": "Action bar",
       "category": "Actions",
-      "path": "../?path=/docs/actions-coordination-action-bar--docs"
+      "path": "../?path=/docs/actions-coordination-action-bar--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-coordination-bubble-menu",
       "title": "Bubble menu",
       "category": "Actions",
-      "path": "../?path=/docs/actions-coordination-bubble-menu--docs"
+      "path": "../?path=/docs/actions-coordination-bubble-menu--docs",
+      "role": "component"
     },
     {
       "id": "actions-coordination-commenting",
       "title": "Commenting",
       "category": "Actions",
-      "path": "../?path=/docs/actions-coordination-commenting--docs"
+      "path": "../?path=/docs/actions-coordination-commenting--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-coordination-dropdown",
       "title": "Dropdown",
       "category": "Actions",
-      "path": "../?path=/docs/actions-coordination-dropdown--docs"
+      "path": "../?path=/docs/actions-coordination-dropdown--docs",
+      "role": "component"
     },
     {
       "id": "actions-coordination-messaging",
       "title": "Messaging",
       "category": "Actions",
-      "path": "../?path=/docs/actions-coordination-messaging--docs"
+      "path": "../?path=/docs/actions-coordination-messaging--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-coordination-nav-bar",
       "title": "Nav bar",
       "category": "Actions",
-      "path": "../?path=/docs/actions-coordination-nav-bar--docs"
+      "path": "../?path=/docs/actions-coordination-nav-bar--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-coordination-notification",
       "title": "Notification",
       "category": "Actions",
       "path": "../?path=/docs/actions-coordination-notification--docs",
+      "role": "pattern",
       "generativeProfile": {
         "operatesOn": "a system event whose existence the actor needs to know about, alongside an existing flow that has its own demands on attention",
         "produces": "a delivery surface tuned to the event's urgency and the actor's availability",
@@ -164,127 +189,148 @@
       "id": "actions-coordination-priority",
       "title": "Priority+",
       "category": "Actions",
-      "path": "../?path=/docs/actions-coordination-priority--docs"
+      "path": "../?path=/docs/actions-coordination-priority--docs",
+      "role": "component"
     },
     {
       "id": "actions-coordination-selection",
       "title": "Selection",
       "category": "Actions",
-      "path": "../?path=/docs/actions-coordination-selection--docs"
+      "path": "../?path=/docs/actions-coordination-selection--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-coordination-toolbar",
       "title": "Toolbar",
       "category": "Actions",
-      "path": "../?path=/docs/actions-coordination-toolbar--docs"
+      "path": "../?path=/docs/actions-coordination-toolbar--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-evaluation-focus-and-context",
       "title": "Focus and context",
       "category": "Actions",
-      "path": "../?path=/docs/actions-evaluation-focus-and-context--docs"
+      "path": "../?path=/docs/actions-evaluation-focus-and-context--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-evaluation-table",
       "title": "Table",
       "category": "Actions",
-      "path": "../?path=/docs/actions-evaluation-table--docs"
+      "path": "../?path=/docs/actions-evaluation-table--docs",
+      "role": "component"
     },
     {
       "id": "actions-evaluation-text-lens",
       "title": "Text lens",
       "category": "Actions",
-      "path": "../?path=/docs/actions-evaluation-text-lens--docs"
+      "path": "../?path=/docs/actions-evaluation-text-lens--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-evaluation-timeline",
       "title": "Timeline",
       "category": "Actions",
-      "path": "../?path=/docs/actions-evaluation-timeline--docs"
+      "path": "../?path=/docs/actions-evaluation-timeline--docs",
+      "role": "component"
     },
     {
       "id": "actions-navigation-overview-and-detail",
       "title": "Overview and detail",
       "category": "Actions",
-      "path": "../?path=/docs/actions-navigation-overview-and-detail--docs"
+      "path": "../?path=/docs/actions-navigation-overview-and-detail--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-navigation-flat-navigation",
       "title": "Flat navigation",
       "category": "Actions",
-      "path": "../?path=/docs/actions-navigation-flat-navigation--docs"
+      "path": "../?path=/docs/actions-navigation-flat-navigation--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-navigation-fully-connected",
       "title": "Fully connected",
       "category": "Actions",
-      "path": "../?path=/docs/actions-navigation-fully-connected--docs"
+      "path": "../?path=/docs/actions-navigation-fully-connected--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-navigation-hub-and-spoke",
       "title": "Hub and spoke",
       "category": "Actions",
-      "path": "../?path=/docs/actions-navigation-hub-and-spoke--docs"
+      "path": "../?path=/docs/actions-navigation-hub-and-spoke--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-navigation-hybrid-patterns",
       "title": "Hybrid patterns",
       "category": "Actions",
-      "path": "../?path=/docs/actions-navigation-hybrid-patterns--docs"
+      "path": "../?path=/docs/actions-navigation-hybrid-patterns--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-navigation-multilevel-tree",
       "title": "Multilevel tree",
       "category": "Actions",
-      "path": "../?path=/docs/actions-navigation-multilevel-tree--docs"
+      "path": "../?path=/docs/actions-navigation-multilevel-tree--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-navigation-overview",
       "title": "Overview",
       "category": "Actions",
-      "path": "../?path=/docs/actions-navigation-overview--docs"
+      "path": "../?path=/docs/actions-navigation-overview--docs",
+      "role": "umbrella"
     },
     {
       "id": "actions-navigation-pan-and-zoom",
       "title": "Pan and zoom",
       "category": "Actions",
-      "path": "../?path=/docs/actions-navigation-pan-and-zoom--docs"
+      "path": "../?path=/docs/actions-navigation-pan-and-zoom--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-navigation-pyramid",
       "title": "Pyramid",
       "category": "Actions",
-      "path": "../?path=/docs/actions-navigation-pyramid--docs"
+      "path": "../?path=/docs/actions-navigation-pyramid--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-navigation-step-by-step",
       "title": "Step by step",
       "category": "Actions",
-      "path": "../?path=/docs/actions-navigation-step-by-step--docs"
+      "path": "../?path=/docs/actions-navigation-step-by-step--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-seeking-command-menu",
       "title": "Command menu",
       "category": "Actions",
-      "path": "../?path=/docs/actions-seeking-command-menu--docs"
+      "path": "../?path=/docs/actions-seeking-command-menu--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-seeking-data-view",
       "title": "Data view",
       "category": "Actions",
-      "path": "../?path=/docs/actions-seeking-data-view--docs"
+      "path": "../?path=/docs/actions-seeking-data-view--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-seeking-dynamic-hyperlinks",
       "title": "Dynamic hyperlinks",
       "category": "Actions",
-      "path": "../?path=/docs/actions-seeking-dynamic-hyperlinks--docs"
+      "path": "../?path=/docs/actions-seeking-dynamic-hyperlinks--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-seeking-filtering",
       "title": "Filtering",
       "category": "Actions",
       "path": "../?path=/docs/actions-seeking-filtering--docs",
+      "role": "pattern",
       "tags": [
         "adjacent-to"
       ]
@@ -293,19 +339,22 @@
       "id": "actions-seeking-item-view",
       "title": "Item view",
       "category": "Actions",
-      "path": "../?path=/docs/actions-seeking-item-view--docs"
+      "path": "../?path=/docs/actions-seeking-item-view--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-seeking-progressive-disclosure",
       "title": "Progressive disclosure",
       "category": "Actions",
-      "path": "../?path=/docs/actions-seeking-progressive-disclosure--docs"
+      "path": "../?path=/docs/actions-seeking-progressive-disclosure--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-seeking-searching",
       "title": "Searching",
       "category": "Actions",
       "path": "../?path=/docs/actions-seeking-searching--docs",
+      "role": "pattern",
       "tags": [
         "adjacent-to"
       ]
@@ -315,6 +364,7 @@
       "title": "Sorting",
       "category": "Actions",
       "path": "../?path=/docs/actions-seeking-sorting--docs",
+      "role": "pattern",
       "tags": [
         "adjacent-to"
       ]
@@ -323,19 +373,22 @@
       "id": "actions-sensemaking-annotation",
       "title": "Annotation",
       "category": "Actions",
-      "path": "../?path=/docs/actions-sensemaking-annotation--docs"
+      "path": "../?path=/docs/actions-sensemaking-annotation--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-sensemaking-blockbased-editor",
       "title": "Block-based editor",
       "category": "Actions",
-      "path": "../?path=/docs/actions-sensemaking-blockbased-editor--docs"
+      "path": "../?path=/docs/actions-sensemaking-blockbased-editor--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-sensemaking-card",
       "title": "Card",
       "category": "Actions",
       "path": "../?path=/docs/actions-sensemaking-card--docs",
+      "role": "pattern",
       "generativeProfile": {
         "operatesOn": "a heterogeneous collection of subjects that need to be browsed at a glance and compared against each other",
         "produces": "a uniformly bounded representation per subject — a same-shaped frame across the collection — that lets attributes, media, and actions read in one pass",
@@ -346,67 +399,78 @@
       "id": "actions-sensemaking-needsbased-view",
       "title": "Needs-based view",
       "category": "Actions",
-      "path": "../?path=/docs/actions-sensemaking-needsbased-view--docs"
+      "path": "../?path=/docs/actions-sensemaking-needsbased-view--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-sensemaking-explanation",
       "title": "Explanation",
       "category": "Actions",
-      "path": "../?path=/docs/actions-sensemaking-explanation--docs"
+      "path": "../?path=/docs/actions-sensemaking-explanation--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-sensemaking-grouping",
       "title": "Grouping",
       "category": "Actions",
-      "path": "../?path=/docs/actions-sensemaking-grouping--docs"
+      "path": "../?path=/docs/actions-sensemaking-grouping--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-sensemaking-tag",
       "title": "Tag",
       "category": "Actions",
-      "path": "../?path=/docs/actions-sensemaking-tag--docs"
+      "path": "../?path=/docs/actions-sensemaking-tag--docs",
+      "role": "pattern"
     },
     {
       "id": "actions-sensemaking-view",
       "title": "View",
       "category": "Actions",
-      "path": "../?path=/docs/actions-sensemaking-view--docs"
+      "path": "../?path=/docs/actions-sensemaking-view--docs",
+      "role": "pattern"
     },
     {
       "id": "activities-ai-tuning",
       "title": "AI tuning",
       "category": "Activities",
-      "path": "../?path=/docs/activities-ai-tuning--docs"
+      "path": "../?path=/docs/activities-ai-tuning--docs",
+      "role": "pattern"
     },
     {
       "id": "activities-activity-feed",
       "title": "Activity feed",
       "category": "Activities",
-      "path": "../?path=/docs/activities-activity-feed--docs"
+      "path": "../?path=/docs/activities-activity-feed--docs",
+      "role": "pattern"
     },
     {
       "id": "activities-activity-log",
       "title": "Activity log",
       "category": "Activities",
-      "path": "../?path=/docs/activities-activity-log--docs"
+      "path": "../?path=/docs/activities-activity-log--docs",
+      "role": "pattern"
     },
     {
       "id": "activities-bot",
       "title": "Bot",
       "category": "Activities",
-      "path": "../?path=/docs/activities-bot--docs"
+      "path": "../?path=/docs/activities-bot--docs",
+      "role": "umbrella"
     },
     {
       "id": "activities-collaboration",
       "title": "Collaboration",
       "category": "Activities",
-      "path": "../?path=/docs/activities-collaboration--docs"
+      "path": "../?path=/docs/activities-collaboration--docs",
+      "role": "pattern"
     },
     {
       "id": "activities-conversation",
       "title": "Conversation",
       "category": "Activities",
       "path": "../?path=/docs/activities-conversation--docs",
+      "role": "pattern",
       "generativeProfile": {
         "operatesOn": "an evolving exchange between actors where meaning has to be built up over multiple turns rather than stated in one",
         "produces": "a dialogue structure that carries context forward, lets either party take a turn, and accommodates repair when alignment slips",
@@ -417,31 +481,36 @@
       "id": "activities-embedded-intelligence",
       "title": "Embedded intelligence",
       "category": "Activities",
-      "path": "../?path=/docs/activities-embedded-intelligence--docs"
+      "path": "../?path=/docs/activities-embedded-intelligence--docs",
+      "role": "pattern"
     },
     {
       "id": "activities-generated-content",
       "title": "Generated content",
       "category": "Activities",
-      "path": "../?path=/docs/activities-generated-content--docs"
+      "path": "../?path=/docs/activities-generated-content--docs",
+      "role": "pattern"
     },
     {
       "id": "activities-help",
       "title": "Help",
       "category": "Activities",
-      "path": "../?path=/docs/activities-help--docs"
+      "path": "../?path=/docs/activities-help--docs",
+      "role": "pattern"
     },
     {
       "id": "activities-living-document",
       "title": "Living document",
       "category": "Activities",
-      "path": "../?path=/docs/activities-living-document--docs"
+      "path": "../?path=/docs/activities-living-document--docs",
+      "role": "pattern"
     },
     {
       "id": "activities-mastery",
       "title": "Mastery",
       "category": "Activities",
       "path": "../?path=/docs/activities-mastery--docs",
+      "role": "pattern",
       "tags": [
         "lifecycle"
       ]
@@ -451,6 +520,7 @@
       "title": "Onboarding",
       "category": "Activities",
       "path": "../?path=/docs/activities-onboarding--docs",
+      "role": "pattern",
       "generativeProfile": {
         "operatesOn": "an actor's first encounter with a system (or a changed part of one) before they have a working mental model of what's possible and what will happen",
         "produces": "a bounded period in which the actor can build that model with low stakes, often by doing rather than reading",
@@ -464,31 +534,36 @@
       "id": "activities-prompt",
       "title": "Prompt",
       "category": "Activities",
-      "path": "../?path=/docs/activities-prompt--docs"
+      "path": "../?path=/docs/activities-prompt--docs",
+      "role": "pattern"
     },
     {
       "id": "activities-transparent-reasoning",
       "title": "Transparent reasoning",
       "category": "Activities",
-      "path": "../?path=/docs/activities-transparent-reasoning--docs"
+      "path": "../?path=/docs/activities-transparent-reasoning--docs",
+      "role": "pattern"
     },
     {
       "id": "activities-workspace",
       "title": "Workspace",
       "category": "Activities",
-      "path": "../?path=/docs/activities-workspace--docs"
+      "path": "../?path=/docs/activities-workspace--docs",
+      "role": "pattern"
     },
     {
       "id": "data-visualization-bar-chart",
       "title": "Bar chart",
       "category": "Data Visualisation",
-      "path": "../?path=/docs/data-visualization-bar-chart--docs"
+      "path": "../?path=/docs/data-visualization-bar-chart--docs",
+      "role": "component"
     },
     {
       "id": "foundations-assistance",
       "title": "Assistance",
       "category": "Foundations",
       "path": "../?path=/docs/foundations-assistance--docs",
+      "role": "foundation",
       "tags": [
         "foundations-use-qualities"
       ]
@@ -497,19 +572,22 @@
       "id": "foundations-collaboration",
       "title": "Collaboration",
       "category": "Foundations",
-      "path": "../?path=/docs/foundations-collaboration--docs"
+      "path": "../?path=/docs/foundations-collaboration--docs",
+      "role": "foundation"
     },
     {
       "id": "foundations-data-information",
       "title": "Data & Information",
       "category": "Foundations",
-      "path": "../?path=/docs/foundations-data-information--docs"
+      "path": "../?path=/docs/foundations-data-information--docs",
+      "role": "foundation"
     },
     {
       "id": "foundations-delegation",
       "title": "Delegation",
       "category": "Foundations",
       "path": "../?path=/docs/foundations-delegation--docs",
+      "role": "foundation",
       "tags": [
         "foundations-use-qualities"
       ]
@@ -518,67 +596,78 @@
       "id": "foundations-information-architecture",
       "title": "Information architecture",
       "category": "Foundations",
-      "path": "../?path=/docs/foundations-information-architecture--docs"
+      "path": "../?path=/docs/foundations-information-architecture--docs",
+      "role": "foundation"
     },
     {
       "id": "foundations-intent-interaction",
       "title": "Intent & Interaction",
       "category": "Foundations",
-      "path": "../?path=/docs/foundations-intent-interaction--docs"
+      "path": "../?path=/docs/foundations-intent-interaction--docs",
+      "role": "foundation"
     },
     {
       "id": "foundations-localization",
       "title": "Localization",
       "category": "Foundations",
-      "path": "../?path=/docs/foundations-localization--docs"
+      "path": "../?path=/docs/foundations-localization--docs",
+      "role": "foundation"
     },
     {
       "id": "foundations-modality",
       "title": "Modality",
       "category": "Foundations",
-      "path": "../?path=/docs/foundations-modality--docs"
+      "path": "../?path=/docs/foundations-modality--docs",
+      "role": "foundation"
     },
     {
       "id": "foundations-prose",
       "title": "Prose",
       "category": "Foundations",
-      "path": "../?path=/docs/foundations-prose--docs"
+      "path": "../?path=/docs/foundations-prose--docs",
+      "role": "foundation"
     },
     {
       "id": "foundations-material-color",
       "title": "Color",
       "category": "Foundations",
-      "path": "../?path=/docs/foundations-material-color--docs"
+      "path": "../?path=/docs/foundations-material-color--docs",
+      "role": "foundation"
     },
     {
       "id": "foundations-material-iconography",
       "title": "Iconography",
       "category": "Foundations",
-      "path": "../?path=/docs/foundations-material-iconography--docs"
+      "path": "../?path=/docs/foundations-material-iconography--docs",
+      "role": "foundation"
     },
     {
       "id": "foundations-material-layout",
       "title": "Layout",
       "category": "Foundations",
-      "path": "../?path=/docs/foundations-material-layout--docs"
+      "path": "../?path=/docs/foundations-material-layout--docs",
+      "role": "foundation"
     },
     {
       "id": "foundations-material-motion",
       "title": "Motion",
       "category": "Foundations",
-      "path": "../?path=/docs/foundations-material-motion--docs"
+      "path": "../?path=/docs/foundations-material-motion--docs",
+      "role": "foundation"
     },
     {
       "id": "foundations-material-typography",
       "title": "Typography",
       "category": "Foundations",
-      "path": "../?path=/docs/foundations-material-typography--docs"
+      "path": "../?path=/docs/foundations-material-typography--docs",
+      "role": "foundation"
     },
     {
       "id": "operations-autocomplete",
       "title": "Autocomplete",
       "category": "Operations",
       "path": "../?path=/docs/operations-autocomplete--docs",
+      "role": "pattern",
       "generativeProfile": {
         "operatesOn": "a free-form input where the set of valid answers is large or the actor is still formulating the query",
         "produces": "a narrowing surface of candidate completions running alongside what's been typed",
@@ -589,37 +678,43 @@
       "id": "operations-autofill",
       "title": "Autofill",
       "category": "Operations",
-      "path": "../?path=/docs/operations-autofill--docs"
+      "path": "../?path=/docs/operations-autofill--docs",
+      "role": "pattern"
     },
     {
       "id": "operations-badge",
       "title": "Badge",
       "category": "Operations",
-      "path": "../?path=/docs/operations-badge--docs"
+      "path": "../?path=/docs/operations-badge--docs",
+      "role": "component"
     },
     {
       "id": "operations-breadcrumbs",
       "title": "Breadcrumbs",
       "category": "Operations",
-      "path": "../?path=/docs/operations-breadcrumbs--docs"
+      "path": "../?path=/docs/operations-breadcrumbs--docs",
+      "role": "component"
     },
     {
       "id": "operations-button",
       "title": "Button",
       "category": "Operations",
-      "path": "../?path=/docs/operations-button--docs"
+      "path": "../?path=/docs/operations-button--docs",
+      "role": "component"
     },
     {
       "id": "operations-callout",
       "title": "Callout",
       "category": "Operations",
-      "path": "../?path=/docs/operations-callout--docs"
+      "path": "../?path=/docs/operations-callout--docs",
+      "role": "component"
     },
     {
       "id": "operations-checkbox",
       "title": "Checkbox",
       "category": "Operations",
       "path": "../?path=/docs/operations-checkbox--docs",
+      "role": "component",
       "generativeProfile": {
         "operatesOn": "a single binary preference the actor wants to commit without leaving the surrounding flow",
         "produces": "a visible on/off state the actor can flip in place",
@@ -630,19 +725,22 @@
       "id": "operations-deep-linking",
       "title": "Deep linking",
       "category": "Operations",
-      "path": "../?path=/docs/operations-deep-linking--docs"
+      "path": "../?path=/docs/operations-deep-linking--docs",
+      "role": "pattern"
     },
     {
       "id": "operations-good-defaults",
       "title": "Good defaults",
       "category": "Operations",
-      "path": "../?path=/docs/operations-good-defaults--docs"
+      "path": "../?path=/docs/operations-good-defaults--docs",
+      "role": "pattern"
     },
     {
       "id": "operations-input",
       "title": "Input",
       "category": "Operations",
       "path": "../?path=/docs/operations-input--docs",
+      "role": "component",
       "generativeProfile": {
         "operatesOn": "a piece of information the system cannot enumerate or infer — it has to be supplied",
         "produces": "a free-form text slot the actor can write into",
@@ -653,49 +751,57 @@
       "id": "operations-keyboard-key",
       "title": "Keyboard key",
       "category": "Operations",
-      "path": "../?path=/docs/operations-keyboard-key--docs"
+      "path": "../?path=/docs/operations-keyboard-key--docs",
+      "role": "component"
     },
     {
       "id": "operations-morphing-controls",
       "title": "Morphing controls",
       "category": "Operations",
-      "path": "../?path=/docs/operations-morphing-controls--docs"
+      "path": "../?path=/docs/operations-morphing-controls--docs",
+      "role": "pattern"
     },
     {
       "id": "operations-overflow",
       "title": "Overflow",
       "category": "Operations",
-      "path": "../?path=/docs/operations-overflow--docs"
+      "path": "../?path=/docs/operations-overflow--docs",
+      "role": "component"
     },
     {
       "id": "operations-popover",
       "title": "Popover",
       "category": "Operations",
-      "path": "../?path=/docs/operations-popover--docs"
+      "path": "../?path=/docs/operations-popover--docs",
+      "role": "component"
     },
     {
       "id": "operations-progress-indicator",
       "title": "Progress indicator",
       "category": "Operations",
-      "path": "../?path=/docs/operations-progress-indicator--docs"
+      "path": "../?path=/docs/operations-progress-indicator--docs",
+      "role": "component"
     },
     {
       "id": "operations-range",
       "title": "Range",
       "category": "Operations",
-      "path": "../?path=/docs/operations-range--docs"
+      "path": "../?path=/docs/operations-range--docs",
+      "role": "component"
     },
     {
       "id": "operations-reference",
       "title": "Reference",
       "category": "Operations",
-      "path": "../?path=/docs/operations-reference--docs"
+      "path": "../?path=/docs/operations-reference--docs",
+      "role": "component"
     },
     {
       "id": "operations-sections",
       "title": "Sections",
       "category": "Operations",
       "path": "../?path=/docs/operations-sections--docs",
+      "role": "pattern",
       "generativeProfile": {
         "operatesOn": "content that divides into a small, stable set of named parts where which-mode-to-show is a property of context, not of the content",
         "produces": "a single container whose disclosure affordance (tabs vs. accordion) shifts with context without restructuring the content",
@@ -707,6 +813,7 @@
       "title": "Select",
       "category": "Operations",
       "path": "../?path=/docs/operations-select--docs",
+      "role": "component",
       "generativeProfile": {
         "operatesOn": "a single field whose value must come from a short, bounded set the actor already recognises",
         "produces": "a collapsed control that hides the option set out of the way until the actor needs to act on it",
@@ -717,37 +824,43 @@
       "id": "operations-disabled-state",
       "title": "Disabled state",
       "category": "Operations",
-      "path": "../?path=/docs/operations-disabled-state--docs"
+      "path": "../?path=/docs/operations-disabled-state--docs",
+      "role": "pattern"
     },
     {
       "id": "operations-empty-state",
       "title": "Empty state",
       "category": "Operations",
-      "path": "../?path=/docs/operations-empty-state--docs"
+      "path": "../?path=/docs/operations-empty-state--docs",
+      "role": "pattern"
     },
     {
       "id": "operations-status-feedback",
       "title": "Status feedback",
       "category": "Operations",
-      "path": "../?path=/docs/operations-status-feedback--docs"
+      "path": "../?path=/docs/operations-status-feedback--docs",
+      "role": "umbrella"
     },
     {
       "id": "operations-tag",
       "title": "Tag",
       "category": "Operations",
-      "path": "../?path=/docs/operations-tag--docs"
+      "path": "../?path=/docs/operations-tag--docs",
+      "role": "component"
     },
     {
       "id": "operations-textarea",
       "title": "Textarea",
       "category": "Operations",
-      "path": "../?path=/docs/operations-textarea--docs"
+      "path": "../?path=/docs/operations-textarea--docs",
+      "role": "component"
     },
     {
       "id": "operations-toast",
       "title": "Toast",
       "category": "Operations",
       "path": "../?path=/docs/operations-toast--docs",
+      "role": "pattern",
       "generativeProfile": {
         "operatesOn": "a recent action whose outcome the actor would benefit from confirming, without needing acknowledgement before continuing",
         "produces": "a brief peripheral message that auto-dismisses after a short window, optionally carrying a single trailing affordance such as undo",
@@ -758,13 +871,15 @@
       "id": "operations-unavailable-actions",
       "title": "Unavailable actions",
       "category": "Operations",
-      "path": "../?path=/docs/operations-unavailable-actions--docs"
+      "path": "../?path=/docs/operations-unavailable-actions--docs",
+      "role": "pattern"
     },
     {
       "id": "operations-undo",
       "title": "Undo",
       "category": "Operations",
       "path": "../?path=/docs/operations-undo--docs",
+      "role": "pattern",
       "generativeProfile": {
         "operatesOn": "a recently committed action whose consequences the actor wants to retract",
         "produces": "a reverse path that returns the structure to its prior state, with a window in which the retraction is offered",
@@ -775,91 +890,106 @@
       "id": "operations-conversation-sequence-management-abort",
       "title": "Abort",
       "category": "Operations",
-      "path": "../?path=/docs/operations-conversation-sequence-management-abort--docs"
+      "path": "../?path=/docs/operations-conversation-sequence-management-abort--docs",
+      "role": "pattern"
     },
     {
       "id": "operations-conversation-conversation-management-opening-bot",
       "title": "Opening (Bot)",
       "category": "Operations",
-      "path": "../?path=/docs/operations-conversation-conversation-management-opening-bot--docs"
+      "path": "../?path=/docs/operations-conversation-conversation-management-opening-bot--docs",
+      "role": "pattern"
     },
     {
       "id": "operations-conversation-sequence-management-bot-repair",
       "title": "Bot repair",
       "category": "Operations",
-      "path": "../?path=/docs/operations-conversation-sequence-management-bot-repair--docs"
+      "path": "../?path=/docs/operations-conversation-sequence-management-bot-repair--docs",
+      "role": "pattern"
     },
     {
       "id": "operations-conversation-conversation-management-capability-scope",
       "title": "Capability & scope",
       "category": "Operations",
-      "path": "../?path=/docs/operations-conversation-conversation-management-capability-scope--docs"
+      "path": "../?path=/docs/operations-conversation-conversation-management-capability-scope--docs",
+      "role": "pattern"
     },
     {
       "id": "operations-conversation-conversation-management-closing",
       "title": "Closing",
       "category": "Operations",
-      "path": "../?path=/docs/operations-conversation-conversation-management-closing--docs"
+      "path": "../?path=/docs/operations-conversation-conversation-management-closing--docs",
+      "role": "pattern"
     },
     {
       "id": "operations-conversation-conversation-management-disengage-without-closing",
       "title": "Disengage without closing",
       "category": "Operations",
-      "path": "../?path=/docs/operations-conversation-conversation-management-disengage-without-closing--docs"
+      "path": "../?path=/docs/operations-conversation-conversation-management-disengage-without-closing--docs",
+      "role": "pattern"
     },
     {
       "id": "operations-conversation-conversational-activities-extended-telling",
       "title": "Extended telling",
       "category": "Operations",
-      "path": "../?path=/docs/operations-conversation-conversational-activities-extended-telling--docs"
+      "path": "../?path=/docs/operations-conversation-conversational-activities-extended-telling--docs",
+      "role": "pattern"
     },
     {
       "id": "operations-conversation-conversational-activities-inquiry-bot",
       "title": "Inquiry (Bot)",
       "category": "Operations",
-      "path": "../?path=/docs/operations-conversation-conversational-activities-inquiry-bot--docs"
+      "path": "../?path=/docs/operations-conversation-conversational-activities-inquiry-bot--docs",
+      "role": "pattern"
     },
     {
       "id": "operations-conversation-conversational-activities-inquiry-user",
       "title": "Inquiry (User)",
       "category": "Operations",
-      "path": "../?path=/docs/operations-conversation-conversational-activities-inquiry-user--docs"
+      "path": "../?path=/docs/operations-conversation-conversational-activities-inquiry-user--docs",
+      "role": "pattern"
     },
     {
       "id": "operations-conversation-conversational-activities-open-request",
       "title": "Open request",
       "category": "Operations",
-      "path": "../?path=/docs/operations-conversation-conversational-activities-open-request--docs"
+      "path": "../?path=/docs/operations-conversation-conversational-activities-open-request--docs",
+      "role": "pattern"
     },
     {
       "id": "operations-conversation-sequence-management-sequence-completion",
       "title": "Sequence completion",
       "category": "Operations",
-      "path": "../?path=/docs/operations-conversation-sequence-management-sequence-completion--docs"
+      "path": "../?path=/docs/operations-conversation-sequence-management-sequence-completion--docs",
+      "role": "pattern"
     },
     {
       "id": "operations-conversation-conversation-management-opening-user",
       "title": "Opening (User)",
       "category": "Operations",
-      "path": "../?path=/docs/operations-conversation-conversation-management-opening-user--docs"
+      "path": "../?path=/docs/operations-conversation-conversation-management-opening-user--docs",
+      "role": "pattern"
     },
     {
       "id": "operations-conversation-sequence-management-user-repair",
       "title": "User repair",
       "category": "Operations",
-      "path": "../?path=/docs/operations-conversation-sequence-management-user-repair--docs"
+      "path": "../?path=/docs/operations-conversation-sequence-management-user-repair--docs",
+      "role": "pattern"
     },
     {
       "id": "qualities-accessibility",
       "title": "Accessibility",
       "category": "Qualities",
-      "path": "../?path=/docs/qualities-accessibility--docs"
+      "path": "../?path=/docs/qualities-accessibility--docs",
+      "role": "quality"
     },
     {
       "id": "qualities-adaptability",
       "title": "Adaptability",
       "category": "Qualities",
       "path": "../?path=/docs/qualities-adaptability--docs",
+      "role": "quality",
       "tags": [
         "foundations-use-qualities"
       ]
@@ -869,6 +999,7 @@
       "title": "Agency",
       "category": "Qualities",
       "path": "../?path=/docs/qualities-agency--docs",
+      "role": "quality",
       "tags": [
         "enacted-qualities",
         "foundations-use-qualities",
@@ -880,6 +1011,7 @@
       "title": "Conversation",
       "category": "Qualities",
       "path": "../?path=/docs/qualities-conversation--docs",
+      "role": "quality",
       "tags": [
         "qualities"
       ]
@@ -889,6 +1021,7 @@
       "title": "Density",
       "category": "Qualities",
       "path": "../?path=/docs/qualities-density--docs",
+      "role": "quality",
       "tags": [
         "enacted-qualities"
       ]
@@ -897,13 +1030,15 @@
       "id": "qualities-formality",
       "title": "Formality",
       "category": "Qualities",
-      "path": "../?path=/docs/qualities-formality--docs"
+      "path": "../?path=/docs/qualities-formality--docs",
+      "role": "quality"
     },
     {
       "id": "qualities-learnability",
       "title": "Learnability",
       "category": "Qualities",
       "path": "../?path=/docs/qualities-learnability--docs",
+      "role": "quality",
       "tags": [
         "enacted-qualities"
       ]
@@ -913,6 +1048,7 @@
       "title": "Malleability",
       "category": "Qualities",
       "path": "../?path=/docs/qualities-malleability--docs",
+      "role": "quality",
       "tags": [
         "enacted-qualities"
       ]
@@ -922,6 +1058,7 @@
       "title": "Privacy",
       "category": "Qualities",
       "path": "../?path=/docs/qualities-privacy--docs",
+      "role": "quality",
       "tags": [
         "enacted-qualities"
       ]
@@ -930,13 +1067,15 @@
       "id": "qualities-shareability",
       "title": "Shareability",
       "category": "Qualities",
-      "path": "../?path=/docs/qualities-shareability--docs"
+      "path": "../?path=/docs/qualities-shareability--docs",
+      "role": "quality"
     },
     {
       "id": "qualities-temporality",
       "title": "Temporality",
       "category": "Qualities",
       "path": "../?path=/docs/qualities-temporality--docs",
+      "role": "quality",
       "tags": [
         "enacted-qualities"
       ]
@@ -945,31 +1084,36 @@
       "id": "actions-evaluation-list",
       "title": "List",
       "category": "Actions",
-      "path": "../?path=/docs/actions-evaluation-list--docs"
+      "path": "../?path=/docs/actions-evaluation-list--docs",
+      "role": "component"
     },
     {
       "id": "operations-counter",
       "title": "Counter",
       "category": "Operations",
-      "path": "../?path=/docs/operations-counter--docs"
+      "path": "../?path=/docs/operations-counter--docs",
+      "role": "component"
     },
     {
       "id": "operations-details",
       "title": "Details",
       "category": "Operations",
-      "path": "../?path=/docs/operations-details--docs"
+      "path": "../?path=/docs/operations-details--docs",
+      "role": "component"
     },
     {
       "id": "operations-inline-confirmation",
       "title": "Inline confirmation",
       "category": "Operations",
-      "path": "../?path=/docs/operations-inline-confirmation--docs"
+      "path": "../?path=/docs/operations-inline-confirmation--docs",
+      "role": "pattern"
     },
     {
       "id": "operations-tabs",
       "title": "Tabs",
       "category": "Operations",
-      "path": "../?path=/docs/operations-tabs--docs"
+      "path": "../?path=/docs/operations-tabs--docs",
+      "role": "component"
     }
   ],
   "edges": [

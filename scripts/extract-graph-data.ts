@@ -14,7 +14,18 @@ interface Node {
   category: string;
   path: string;
   tags?: string[];
+  role?: Role;
   generativeProfile?: GenerativeProfile;
+}
+
+const VALID_ROLES = ['component', 'pattern', 'umbrella', 'quality', 'foundation'] as const;
+type Role = typeof VALID_ROLES[number];
+
+type RoleSource = 'explicit' | 'inferred' | 'unset';
+
+interface RoleResolution {
+  role?: Role;
+  source: RoleSource;
 }
 
 interface GenerativeProfile {
@@ -232,6 +243,51 @@ function extractStoriesTags(content: string): string[] {
   const m = content.match(/^\s*tags:\s*(\[[^\]]*\])/m);
   if (!m) return [];
   return [...m[1].matchAll(/['"]([^'"]+)['"]/g)].map((r) => r[1]);
+}
+
+function isRole(value: string): value is Role {
+  return (VALID_ROLES as readonly string[]).includes(value);
+}
+
+function explicitRoleFromTags(tags: string[], sourcePath: string): Role | undefined {
+  const roleTags = tags.filter((tag) => tag.startsWith('role:'));
+  if (roleTags.length === 0) return undefined;
+
+  const validRoles: Role[] = [];
+  const invalidRoleTags: string[] = [];
+  for (const tag of roleTags) {
+    const value = tag.slice('role:'.length);
+    if (isRole(value)) {
+      validRoles.push(value);
+    } else {
+      invalidRoleTags.push(tag);
+    }
+  }
+
+  if (invalidRoleTags.length > 0) {
+    console.warn(`Role metadata warning: ${sourcePath} has invalid role tag(s): ${invalidRoleTags.join(', ')}`);
+  }
+  if (validRoles.length > 1) {
+    console.warn(`Role metadata warning: ${sourcePath} has multiple valid role tags; using role:${validRoles[0]}`);
+  }
+
+  return validRoles[0];
+}
+
+function inferredRoleFromPath(filePath: string): Role | undefined {
+  const relative = filePath.slice(storiesDir.length + 1);
+  const topFolder = relative.split('/')[0];
+  if (topFolder === 'qualities') return 'quality';
+  if (topFolder === 'foundations') return 'foundation';
+  return undefined;
+}
+
+function resolveRole(tags: string[], filePath: string): RoleResolution {
+  const explicit = explicitRoleFromTags(tags, filePath);
+  if (explicit) return { role: explicit, source: 'explicit' };
+  const inferred = inferredRoleFromPath(filePath);
+  if (inferred) return { role: inferred, source: 'inferred' };
+  return { source: 'unset' };
 }
 
 const LINK_PATTERN = /\.\.\/\?path=\/docs\/([a-z0-9][a-z0-9-]*)--docs/g;
@@ -733,6 +789,7 @@ function deriveActivityLevel(title: string): Pick<ActivityLevel, 'activity-level
 
 const nodeMap = new Map<string, Node>();
 const nodeTags = new Map<string, Set<string>>();
+const roleSourceById = new Map<string, RoleSource>();
 const fileLinks = new Map<string, TypedLink[]>();
 const activityData = new Map<string, ActivityLevel>();
 const recommendsCollection: RecommendsCollection = {
@@ -771,15 +828,25 @@ for (const filePath of mdxFiles) {
   const cat = titleToCategory(title);
   const path = `../?path=/docs/${id}--docs`;
 
+  const mdxTags = extractMetaTags(content);
+  const tags = mdxTags.length > 0 ? mdxTags : storiesTags;
+  const roleResolution = resolveRole(tags, filePath);
+  if (roleResolution.source === 'unset') {
+    console.warn(`Role metadata warning: ${filePath} has no role:* tag and no folder-inferred role`);
+  }
+
   const node: Node = nodeMap.get(id) ?? { id, title: shortTitle, category: cat, path };
+  if (roleResolution.role) {
+    node.role = roleResolution.role;
+  }
+  roleSourceById.set(id, roleResolution.source);
+
   const profilePath = profileSidecarPath(filePath);
   if (fileExists(profilePath)) {
     node.generativeProfile = await loadGenerativeProfile(profilePath);
   }
   nodeMap.set(id, node);
 
-  const mdxTags = extractMetaTags(content);
-  const tags = mdxTags.length > 0 ? mdxTags : storiesTags;
   const atLevelTag = tags.find((t) => t.startsWith('activity-level:'));
   const atomicTag = tags.find((t) => t.startsWith('atomic:'));
   const lifecycleTag = tags.find((t) => t.startsWith('lifecycle:'));
@@ -826,13 +893,22 @@ for (const filePath of globStoriesTsx(storiesDir)) {
   const id = titleToId(title);
   const cat = titleToCategory(title);
   const path = `../?path=/docs/${id}--docs`;
+  const tags = extractStoriesTags(content);
+  const roleResolution = resolveRole(tags, filePath);
 
   if (!nodeMap.has(id)) {
-    nodeMap.set(id, { id, title: shortTitle, category: cat, path });
+    if (roleResolution.source === 'unset') {
+      console.warn(`Role metadata warning: ${filePath} has no role:* tag and no folder-inferred role`);
+    }
+    const node: Node = { id, title: shortTitle, category: cat, path };
+    if (roleResolution.role) {
+      node.role = roleResolution.role;
+    }
+    nodeMap.set(id, node);
+    roleSourceById.set(id, roleResolution.source);
   }
 
   if (!activityData.has(id)) {
-    const tags = extractStoriesTags(content);
     const atLevelTag = tags.find((t) => t.startsWith('activity-level:'));
     const atomicTag = tags.find((t) => t.startsWith('atomic:'));
     const lifecycleTag = tags.find((t) => t.startsWith('lifecycle:'));
@@ -1009,10 +1085,28 @@ const typeCounts: Record<string, number> = {};
 for (const e of edges) typeCounts[e.type] = (typeCounts[e.type] ?? 0) + 1;
 const taggedNodes = nodes.filter((n) => n.tags && n.tags.length > 0).length;
 
+function roleCoverage(ids: string[]): Record<RoleSource, number> {
+  const coverage: Record<RoleSource, number> = {
+    explicit: 0,
+    inferred: 0,
+    unset: 0,
+  };
+  for (const id of ids) {
+    const source = roleSourceById.get(id) ?? 'unset';
+    coverage[source]++;
+  }
+  return coverage;
+}
+
+const sourceRoleCoverage = roleCoverage([...nodeMap.keys()]);
+const graphRoleCoverage = roleCoverage(nodes.map((node) => node.id));
+
 console.log(`Nodes: ${nodes.length} (${taggedNodes} with tags)`);
 console.log(`Edges: ${edges.length}`);
 console.log(`  by type: ${Object.entries(typeCounts).sort((a, b) => b[1] - a[1]).map(([t, c]) => `${t}=${c}`).join(', ')}`);
 console.log(`Categories: ${[...new Set(nodes.map((n) => n.category))].sort().join(', ')}`);
+console.log(`Role coverage (processed sources): explicit=${sourceRoleCoverage.explicit}, inferred=${sourceRoleCoverage.inferred}, unset=${sourceRoleCoverage.unset}`);
+console.log(`Role coverage (emitted graph nodes): explicit=${graphRoleCoverage.explicit}, inferred=${graphRoleCoverage.inferred}, unset=${graphRoleCoverage.unset}`);
 if (recommendsCollection.resolvedByTree.size > 0) {
   console.log(`Decision-tree extraction:`);
   for (const [tree, count] of recommendsCollection.resolvedByTree) {

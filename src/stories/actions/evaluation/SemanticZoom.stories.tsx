@@ -82,7 +82,7 @@ function SemanticZoomDemo() {
 
 const meta = {
 	title: 'Actions/Evaluation/Semantic zoom',
-  tags: ['!autodocs', 'activity-level:action', 'atomic:component', 'lifecycle:evaluation', 'mediation:individual'],
+  tags: ['!autodocs', 'activity-level:action', 'atomic:component', 'role:pattern', 'lifecycle:evaluation', 'mediation:individual'],
 	parameters: {
 		layout: 'fullscreen',
 	},

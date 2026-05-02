@@ -6,7 +6,7 @@ import { userEvent, within } from '@storybook/testing-library';
 
 const meta = {
   title: "Operations/Tabs",
-  tags: ["autodocs", "activity-level:operation", "atomic:component", 'mediation:individual'],
+  tags: ['autodocs', 'activity-level:operation', 'atomic:component', 'role:component', 'mediation:individual'],
   parameters: {
     docs: {
       description: {

@@ -127,6 +127,7 @@ The relationships defined below should be read in this register throughout.
 - SKOS: no equivalent. This is the most domain-specific relationship in the vocabulary.
 - MDX source: inline references from pattern pages to quality pages, and subcategory headers in qualities pages that group enacting patterns
 - Example: Confirmation dialog *enacts* Agency — the pause-before-consequence is a move that strengthens the user's sense of intentional control.
+- *Labelling*: a label should name what the move does to the centre such that the effect is legible through Q's lens — not restate the type ("X supports Q") or define the quality. "Creates a moment of intentional pause before acting" is a label; "supports agency" is not.
 - Why this matters: under the generative-moves framing, the qualities act as a vocabulary for what a transformation should accomplish. An actor reasoning "what's weak in the current structure that I should strengthen?" needs to know which moves enhance which qualities. Promoting these from prose links to typed edges makes that reasoning possible.
 
 ## Edge axis
@@ -305,74 +306,39 @@ A running record of why types were added, merged, renamed, or retired, what alte
 
 Each entry: date, change, why, what was considered, what was lost.
 
+### 2026-05-02 — Role metadata lands on graph nodes
+
+Storybook source pages now emit optional node-level `role` metadata in `src/pattern-graph.json`. Explicit `role:*` tags are authored in MDX or, for story-only docs pages, in CSF `meta.tags`. `src/stories/qualities/` and `src/stories/foundations/` infer `quality` and `foundation` roles from folder position.
+
+Why: the library needs to distinguish implementation mechanisms, generative moves, umbrella surveys, qualities, and foundations without overloading `atomic:*`. Atomic tags remain compositional metadata; role tags describe how a page should be read.
+
+What's lost: unmarked pages no longer signal "not yet classified." The extractor warns on future pages outside qualities/foundations that lack an explicit role.
+
 ### 2026-04-30 — "Projection" terminology retired in favour of "umbrella"
 
-Open question 6 previously framed Bot, Assisted task completion, and Status feedback as *projections* over a territory, borrowing Dorian Taylor's specificity gradient. The framing was a misfit. Dorian's projection runs data → generated document and is lossy in the document because the data is canonical. The project's situation runs the other way: MDX is the authoring medium and the graph is the project's projection of MDX, not the reverse. Umbrella pages are *authored surveys at a higher altitude*, not generated views over canonical data.
+Bot, Assisted task completion, and Status feedback were previously called *projections*, borrowing Dorian Taylor's specificity gradient. The framing was a misfit: Dorian's projection runs data → generated document; here MDX is the authoring medium and the graph is the project's projection of MDX. Umbrella pages are *authored surveys at a higher altitude*, not generated views over canonical data.
 
-Why this matters for the vocabulary: the structural question is narrower than "are some pages projections?" — it is whether the data model needs an *umbrella* role distinct from *single-move source*, so extraction and graph reasoning can handle them differently. The push/pull dynamic Dorian's framing suggested still applies, but at finer grain (per-field, per-edge, per-label) rather than whole-page generation; the 2026-04-26 labels-in-MDX migration is already an instance.
-
-What was considered: keeping "projection" with a clarifying note. Rejected because the term conflates two senses already in use across the project — the semilattice/multiple-views sense (AT vs Atomic vs Lifecycle as alternative projections of the underlying space) and the umbrella-page sense. Keeping the semilattice sense (`docs/project/core-beliefs.md`, `references/semilattice.md`) and renaming the role is cleaner than carrying the conflation.
-
-What's lost: nothing structural — the role wasn't yet implemented anywhere in code or extraction. References across `vision.md`, `pattern-definition.md`, `docs/index.md`, `plans/completed/2026-04-typed-edges.md`, and the gate notes have been updated. The relationship name from umbrella to its constituent moves (`surveys` / `gathers` / `frames`) is still an open question.
-
-Prompted by the comparison against `references/report-pattern-language-formats.md`,
-where the projection-vs-source distinction was named as a place the project
-diverges from the report's tradition. The comparison made the conflation
-visible.
-
-### 2026-04-28 — Literature support documented; local extensions named
-
-Added a literature-support section distinguishing relationships strongly grounded in HCI pattern-language precedent (`enables`, `instantiates`, `precedes`, `alternative`, `related`), locally sharpened relationships (`complements`, inferred `follows`), and project-specific extensions (`enacts`, `recommends`, `tangential`).
-
-Why: comparison against Borchers, van Welie, Seffah/Taleb, and da Rosa/Silveira showed that the project vocabulary is mostly a decomposition of older broad terms, but three edge types are not directly named in the papers. `enacts` is a local bridge from moves to qualities. `recommends` is a local representation of decision-tree applicability hints. `tangential` preserves an existing authoring signal for weak conceptual adjacency, but is explicitly provisional and may later merge into `related` or move into tags/projections.
-
-What was considered: removing or merging `tangential` immediately. Rejected for now because the current MDX corpus still uses the distinction and removing it would erase author intent before a gardening sweep has a replacement. The right move is to mark its status honestly.
-
-What's lost: nothing in graph data. The main commitment added is explanatory: future consumers should treat the three extension types as project-local semantics, not literature-standard terms.
+What was considered: keeping "projection" with a clarifying note. Rejected because the term conflated two senses already in use — the semilattice/multiple-views sense and the umbrella-page sense. See Open Question 6 for the structural implications.
 
 ### 2026-04-27 — Phase 3 lands: `recommends` edges from decision trees
 
-Mermaid flowcharts in four of the eight active decision trees (Deletion, Notification, Navigation overview, Form's "Choosing a control") now extract into `recommends` edges with `situationalHints` and `extractedFrom: 'decision-tree:<treeId>'`. 19 edges total: deletion 2, form-control 3, notification 6, navigation-overview 8.
+Mermaid flowcharts in four decision trees (Deletion, Notification, Navigation overview, Form's "Choosing a control") extract into `recommends` edges. 19 edges total.
 
-The other four trees (BarChart, Overflow, Form's "Choosing an input", Localization) are deferred. BarChart is list-shaped, not a flowchart. The remaining three have leaves that are CSS techniques (Overflow), compound input families (Form input — "Select/Text/Date/Password/Textarea"), or descriptive layer assemblies (Localization — "Linguistic + cultural + regional"), none of which resolve cleanly to current pattern pages. The hand-curated leaf map honours the plan's "skip leaves that don't map to patterns" rule rather than minting placeholder targets.
+Four trees deferred: BarChart (list-shaped, not a flowchart), Overflow (leaves are CSS techniques), Form's "Choosing an input" (compound input families), Localization (descriptive layer assemblies). None of those leaves resolve cleanly to current pattern pages.
 
-Two extractor mechanics worth recording so they can be reused or revised:
+What's lost: dimensions the library reasons about — overflow handling, input families, localization layers — that the graph now declines to surface. If pages emerge for those leaves, the curated leaf map is the only place to update.
 
-- *Branch-as-intermediate-node collapse.* Some trees (notably Deletion) express branch labels as their own nodes — `A[Question?] --> B[Yes] --> D[Next question?]` — instead of as `-->|Yes|` edge labels. The parser now folds such intermediates into the predecessor's outgoing edge label when (a) the intermediate isn't itself a question, (b) it sits on a single in/out edge with no inbound edge label, and (c) its predecessor is a question. This keeps the `(question) --[branch]--> (next)` shape uniform across stylistic variants.
-- *Question detection accepts both shapes.* Mermaid's `{…}` rhombus marks a question explicitly, but several authors use `[…]` rectangles for question nodes too. The traversal treats any node whose label ends with `?` as a question, in addition to the rhombus form.
+### 2026-04-26 — Manual labels live in MDX; label queue retired
 
-The earlier `sourceTree` field is dropped in favour of `extractedFrom: 'decision-tree:<treeId>'` (already the convention used for header- and quality-derived provenance). Invariant 3 and the `Edge` interface in this doc are updated to match. The Phase 3 plan flagged this rename; this is where it lands.
+Manual edge labels migrated from `pattern-graph.json` into source MDX as per-link `— ` annotations. The graph file carries no authored content; every label is freshly derived on each extraction run. MDX is the singular source of truth — editing a label is editing a pattern, reviewing a label change is reviewing an MDX diff.
 
-The Overview-page exclusion in `scripts/extract-graph-data.ts` is relaxed for any source id that has a `DECISION_TREES` entry — needed for `actions-navigation-overview`, which acts as the navigation tree's source even though it would otherwise be skipped as an index page.
+`pattern-graph.label-queue.json` and the queue-building logic removed after reaching 95/98 coverage. Replaced by ad-hoc `jq` against `src/pattern-graph.json` when a specific check is wanted.
 
-What's lost: nothing yet — but the four deferred trees represent dimensions the library reasons about (overflow handling, input families, localization layers) that the graph now declines to surface. If pages emerge for those leaves, the curated map is the only place to update.
+### 2026-04-26 — `gloss` field merged into `label`
 
-### 2026-04-26 — Label queue retired
+`gloss` and `glossSource` removed. Edges carry a single optional `label`. The distinction (extracted-from-MDX vs authored-against-the-edge) didn't earn its keep at the consumer level and was confusing in plans and the merge script.
 
-`pattern-graph.label-queue.json` and the queue-building logic in `scripts/extract-graph-data.ts` removed. The queue had served its purpose — driving the initial labelling sweep across `enacts`, axis-flagged, and thematic edges — and reached 95/98 coverage at close. Standing infrastructure for the remaining 3% (and for future drift) wasn't earning its keep against the broader review the vocabulary needs anyway.
-
-What's lost: a generated coverage report flagging the three reasons that wanted manual labels. What replaces it: ad-hoc `jq` against `src/pattern-graph.json` when a specific check is wanted, plus the structural invariants listed in §"Structural invariants" of this doc as the manual-review checklist. The axis sanity check still runs and prints counts to the extraction log; only the per-edge queue entries are gone.
-
-`scripts/write-labels.ts` is kept — it remains useful for batch label authoring against an arbitrary `{source, target, type, label}` JSON, independent of any queue.
-
-The `thematicHeader` and `inverse` flags on the internal `TypedLink` type are kept; `thematicHeader` is no longer consumed downstream but the cost of leaving it is zero, and re-introducing the queue (or a different consumer of thematic provenance) would need it back.
-
-Closed label plans now live under `plans/completed/2026-04-label-*.md` for
-history.
-
-### 2026-04-26 — Enacts label sweep (six batches) and foundation-page restructure
-
-All 98 `enacts` edges now carry a substantive label, up from 65 at the start of the sweep. Per-batch run logs live in [plans/completed/2026-04-label-enacts.md](../../plans/completed/2026-04-label-enacts.md); the vocabulary-relevant residue is recorded here.
-
-*Anti-pattern surfaced — labels that restate the type or the quality.* Recurring shape: "X enables/supports/is the capability for Q." These read as definitions of the quality or restatements of `enacts` rather than naming the mechanism by which the move alters the structure. The working rule that emerged: a label should name what the move *does* to the centre such that the effect is legible through Q's lens. Override candidates flagged across the batches included `cognitive-forcing-functions → agency/learnability/temporality`, `settings → privacy/adaptability`, `actions-sensemaking-view → malleability/density/adaptability`, `activities-localization → adaptability`, `activities-onboarding → learnability`, `activities-prompt → agency`, `operations-sections → adaptability`, `operations-good-defaults → agency`, `activities-bot/help → learnability`. Several rewritten in-pass; the rest stand as exemplars of the failure mode.
-
-*Two extractor relaxations* (batch 2): hyphen accepted as label separator after `\)` (` - ` joins ` — ` and ` – `); `*` bullets accepted alongside `-` in the document-wide annotation pass. Both were silently dropping authored labels.
-
-*MDX shape lessons.* Per-link annotations require single-link bullets; parent-bullet-with-sub-bullets and prose-with-link forms had to be restructured in many pages. Several relationships existed only in inline prose and needed an `### Enacted qualities` subsection added before they could carry a label. Two-link bullets (main link + `#anchor`) had to be split or folded.
-
-*Foundation pages — drop generic related-pattern lists, keep `## Enacted qualities`.* Editorial pass on every foundation MDX. Generic `### Complementary` / `### Precursors` / `### Follow-ups` / `### Tangentially related` lists removed; substantive cross-foundation references collapsed into prose. Rationale: the complete list of patterns a foundation relates to is necessarily very long (that is what *foundation* means); listing some raises the question of why those and not others. `## Enacted qualities` is bounded by the qualities vocabulary, so it carries a specific claim. Exception: Modality kept `### Complementary` for its modality-gradient list (a structural claim, not a generic enumeration). Edge counts: related 416 → 392; complements 153 → 147; enacts 88 → 89; total 879 → 854.
-
-One stale edge dropped out of extraction during the sweep: `activities-collaboration → qualities-conversation`. `qualities-conversation` is not a quality node; the edge was queue residue from earlier extraction state.
+What's lost: the ability to programmatically distinguish author-written from tool-written labels. Easy to recover with a `labelSource` field if a future consumer needs it.
 
 ### 2026-04-25 — Initial vocabulary drafted
 
@@ -384,98 +350,6 @@ Considered and rejected:
 - *Merging `tangential` into `related`*. Rejected: 13 files explicitly use "Tangentially related" as a header, distinct from flat lists. The author signal is real and worth preserving even if SKOS doesn't grade associative strength.
 - *A single `composes` relationship covering both `enables` and `instantiates`*. Rejected: compositional ("Button is a part Form uses") and taxonomic ("Autocomplete is a kind of Good defaults application") are different operations. Conflation would lose the genus/species vs. part/whole distinction.
 
-Lost in the drafting: thematic subcategories (~14 unique headers like "Human-AI collaboration") collapse to `related` with the header text retained as a label. Phase 1 promotes these to lightweight tags rather than minting more edge types — a partial recovery, not a full one.
-
-### 2026-04-25 — `recommends` shape validated against the 8 active decision trees
-
-Inventoried the questions and branches across all decision trees ([decision-dimensions.md](./decision-dimensions.md)). The `recommends` shape (raw question/branch text, `extractedFrom: 'decision-tree:<id>'`) holds: most decision-tree questions read naturally as situational hints an actor would weigh, vindicating the choice not to canonicalise them. No revisions. Drift observations (heterogeneity of hint kinds, hybrid leaves, design-state vs. situational questions) recorded in [the gate notes](../../plans/completed/2026-04-typed-edges-phase-0-gates.md).
-
-### 2026-04-25 — Generative profiles validated on 9 patterns
-
-Drafted profiles (blind to *Related patterns*) for Form, Select, Checkbox, Autocomplete, Input, Undo, Notification, Toast, Conversation, Onboarding. The frame holds: the three slots produce non-vacuous, differentiating descriptions across data-entry primitives, after-the-fact feedback patterns, and activity-scale patterns. The frame strains on irreducibly minimal primitives (Checkbox), where `operates-on` and `produces` restate each other. No vocabulary revisions. Per-pattern resistance log in [the gate notes](../../plans/completed/2026-04-typed-edges-phase-0-gates.md).
-
-### 2026-04-25 — Profile storage: MDX subsection → sidecar TS
-
-Profiles moved from a rendered `## Generative profile` MDX subsection to `*.profile.ts` sidecars imported but not rendered. *Why*: the rendered subsection conflated two audiences (human reader, tooling). Sidecar TS gives tooling a typed importable object; the MDX import keeps authoring co-located. *Considered*: YAML/JSON sidecar (loses type-checking), `export const` in MDX (mixes voices), MDX comment blocks (reads as dead code). *Lost*: framing is no longer visible to page readers — acceptable while the vocabulary is still being tested.
-
-### 2026-04-26 — Manual labels live in MDX, graph is purely derived
-
-Manual labels migrated out of `pattern-graph.json` and into the source MDX as per-link `— ` annotations. The graph file no longer carries any authored content; every label in it is freshly derived on each extraction run. This makes MDX the singular source of truth — editing a label is editing a pattern, reviewing a label change is reviewing an MDX diff, and regeneration is idempotent against the same MDX.
-
-What changed:
-
-- *Migration*: 48 manually authored labels (47 replacing existing extracted text, 1 appended fresh) written into the corresponding bullets via a new `scripts/write-labels.ts`. The previous `scripts/merge-labels.ts` (which wrote into the graph) is removed.
-- *Extraction*: prior-graph label preservation removed. Extraction is now stateless against `pattern-graph.json` — it derives everything from MDX on every run.
-- *Document-wide annotation pass*: extraction now picks up per-link `— ` annotations on bullet lines anywhere in a document, not only inside `## Related patterns`. A labelled bullet under a topical `### Related patterns` H3 inside a `## Foo` section overrides the header-text fallback that the same edge would otherwise carry from a bullet under `## Related patterns`. This lets editors place labelled links wherever they editorially fit.
-- *MDX restructuring*: two pages (foundations-prose, foundations-modality) had multi-link bullets that couldn't carry per-link annotations. Split into one-link-per-bullet form, with the cluster name preserved as an intra-section heading rather than a shared annotation.
-
-Round-trip verified: MDX → extract → graph reproduces the same 137 queue entries with 83 labelled, identical to the pre-migration state.
-
-What this commits the project to:
-
-- Re-types from axis-flagged review become MDX edits (relocate the link to a different `### ` header), not graph annotations. The two pending re-types (step-by-step → form, onboarding → empty-state) are now ordinary editorial tasks against those source pages.
-- `enacts` edges that originate from inline prose references need an MDX bullet to carry a label. A `### Enacted qualities` subsection is a natural home; the document-wide pass also accepts labelled bullets elsewhere on the page.
-- The label queue becomes a coverage report rather than a staging area. Entries with `hasLabel: true` mean the MDX already says enough; entries without are the work to do.
-
-### 2026-04-26 — `gloss` field merged into `label`
-
-`gloss` and `glossSource` removed from the Edge schema. Edges now carry a single optional `label` slot. Two fields were doing the same job — prose attached to an edge — with a distinction (extracted-from-MDX vs authored-against-the-edge) that didn't earn its keep at the consumer level. The split was confusing in plans, in the queue, and in the merge script; the simplification removes a layer of nomenclature without removing any data.
-
-Migration: 47 edges had both `label` and `gloss` (gloss won, label was discarded); 1 had `gloss` only (became `label`); 239 had `label` only (unchanged). The 48 manually authored entries from the axis-flagged and thematic batches now sit in `label`.
-
-Two consequential changes elsewhere:
-
-- *Extraction now captures per-line annotations under thematic headers.* Previously the `label` on a thematic-`related` edge was the header text (e.g. `"Used by"`); the per-line `— ` annotation was discarded. Now extraction prefers the per-line annotation and falls back to the header text. This recovered ~35 extracted labels on thematic edges that previously needed manual authoring.
-- *`scripts/merge-glosses.ts` → `scripts/merge-labels.ts`*. Same logic, writes into `label`. The queue file moves from `pattern-graph.gloss-queue.json` to `pattern-graph.label-queue.json`. Plans renamed `gloss-*.md` → `label-*.md`.
-
-What's lost: the ability to programmatically distinguish "the source author wrote this" from "someone authored this against the edge." Easy to recover with a `labelSource` field if a future consumer needs it; not pre-emptively added.
-
-### 2026-04-25 — Thematic edges glossed (45); two candidates held for future promotion
-
-All 45 remaining thematic edges (after the `Used by` / `Composed from` / `Containers` promotion) now carry a manually authored `gloss`. The labels split across 14 single-source headers; each was treated as a page-specific editorial cut rather than a vocabulary signal.
-
-Promotion-scan decision: hold `Transient-mode patterns` (3) and `Notification as modality gradient` (3), both from `foundations-modality`. They read taxonomically and could earn `instantiates` promotion, but n=1 source is too thin a basis to mint a type. Revisit when a second page reaches for similar headers.
-
-Observations from the authoring pass:
-
-- *foundations-prose* dominates the queue (20 of 45). The page is doing the work of articulating its own scope by clustering patterns into "manifest prose moves", "neighbouring foundations", and "prose-central activities". The clusters are page-specific but coherent — they could plausibly become a *prose annex* in the foundation rather than edge types.
-- *activities-collaboration* (8 of 45) cuts the same set of patterns into editorial slices ("communication and awareness", "co-creation", "human-AI collaboration"). The slices are about *what role the linked pattern plays inside collaboration* — adjacent to a future `played-by-role` annotation if that ever earned its weight.
-- *Foundations & use qualities* on `nextbest-action` mixes `enacts` candidates (the qualities targets) with `related` candidates (the foundations targets). The mixing inside one header confirms that the target-based `enacts` promotion (Phase 1) was the right place to disambiguate, not the header.
-- Per-line annotations under thematic headers are currently lost (only the header text becomes the edge `label`). Captured as a follow-up: extract per-line `— ` annotations under thematic headers too, so the gloss layer doesn't have to re-author what the source MDX already states.
-
-### 2026-04-25 — Axis-flagged edges resolved (1 confirm, 2 re-types proposed)
-
-Outcomes for the three edges flagged by the Phase 1 axis sanity check (recorded under *Observed drift*):
-
-- *step-by-step → wizard (`instantiates`)*: confirmed. Wizard is the canonical instantiation of step-by-step. Same-altitude `instantiates` is genuine — taxonomy doesn't require altitude difference. Drift signal: same-altitude `instantiates` should not auto-flag where the type is correct on its merits.
-- *step-by-step → form (`instantiates`)*: re-type proposed → `enables`. Multi-step form *uses* step-by-step navigation; step-by-step is not a kind of form. The source MDX has the link under "Implements this model"; the right header would be a building-block one. Edit pending; current edge stands and the gloss carries the corrected reading.
-- *onboarding → empty-state (`complements`)*: re-type proposed → `enables` with inverted direction (empty-state → onboarding). Empty-state is the canvas onboarding paints on; the relationship is compositional, not symmetric. Source MDX has the link under "Complementary"; restructuring pending.
-
-Two re-types are recorded as glosses; the source MDX edits are deferred (small, isolated changes that can ride along with future edits to those pages). The first edge confirms that the axis sanity check's same-altitude `instantiates` heuristic is advisory: it surfaces edges worth a look, not edges that are necessarily wrong.
-
 ### 2026-04-25 — Three thematic headers promoted to `enables`; direction semantics tightened
 
-Cluster scan of the Phase 1 gloss queue (56 thematic edges across 17 labels) showed three labels were promotion candidates rather than page-specific tags: `Used by` (6 edges), `Composed from` (2), `Containers` (3). All sit on a single source page (`actions-coordination-selection`), but they encode the same compositional relationship as the existing `Components` / `Mechanisms` / `Related primitives` / `Containers and primitives` / `Conversational primitives` headers — i.e. `enables`.
-
-Adding them surfaced a direction inconsistency in the existing extraction. The vocabulary doc states `enables` runs from building block to composite ("Button is a building block Form uses" → Button enables Form). The mechanical extraction emitted page→listed for every header, which was correct for `Used by` (the page is the building block) but inverted for every other building-block header (the listed pattern is the building block). Fixed: `Containers and primitives`, `Containers`, `Related primitives`, `Mechanisms`, `Components`, `Conversational primitives`, `Composed from` now invert to listed→page; `Used by` stays page→listed. Result: every `enables` edge now reads source = building block, target = composite.
-
-Other thematic labels were judged page-specific and stay as `related` with tags: `Patterns that manifest prose moves` (10), `Activities where prose is central` (5), `Neighbouring foundations` (5), `Assisted input` (4), `Adjacent to` (3), `Transient-mode patterns` (3), `Notification as modality gradient` (3), `Foundations & use qualities` (2), `Communication and awareness` (2), `Collaborative decision-making and co-creation` (2), `Human-AI collaboration` (2), `Lifecycle` (2), `Core collaborative components` (1), `Supporting patterns` (1). These are editorial cuts of a single page's concerns, not a controlled vocabulary trying to emerge.
-
-Open follow-up: `Transient-mode patterns` and `Notification as modality gradient` (both from `foundations-modality`) read taxonomically — candidate `instantiates` promotion, but only n=1 source so deferred.
-
-### 2026-04-25 — Phase 1 extraction landed
-
-Typed-edge extraction implemented in [`scripts/extract-graph-data.ts`](../../scripts/extract-graph-data.ts). The mechanical layer maps `### ` headers in `## Related patterns` sections to typed edges via the lookup table in [`plans/completed/2026-04-typed-edges.md`](../../plans/completed/2026-04-typed-edges.md), promotes pattern → `qualities-*` edges to `enacts` regardless of where they appeared, and collects thematic-header text as lightweight `tags` on linked nodes. Comment-block links (`{/* ... */}`) are stripped before extraction. Glosses survive regeneration when `(source, target, type)` is unchanged. The qualitative gloss layer emitted a queue at `pattern-graph.gloss-queue.json` for external authoring, merged back via `scripts/merge-glosses.ts` at the time of the first run.
-
-Distribution from the first run: 898 edges across 142 nodes, 49 of which carry tags. By type: `related` 460, `complements` 141, `enacts` 88, `precedes` 74, `follows` 58, `enables` 25, `tangential` 22, `alternative` 19, `instantiates` 11.
-
-*Observed drift (axis sanity check)*:
-
-- Same-altitude `instantiates` (2): `actions-navigation/step-by-step → actions-application/wizard`; `actions-navigation/step-by-step → actions-application/form`. Both are within the Actions band. Worth a gloss to confirm whether `instantiates` is the right relationship or whether `enables`/`complements` would read more truly.
-- `complements` crossing two altitude bands (1): `activities/onboarding → operations/empty-state`. An activity-scale pattern listing an operation-scale move as complementary is suspicious; likely the relationship is closer to `enables` or a weak `related`.
-
-These three edges entered the gloss queue under `axis-flagged`. No vocabulary revision; the flagged edges are findings, not failures.
-
-### 2026-04-25 — Profile applicability scoped to three strain categories
-
-Adversarial probe on Card, Bot, Mastery, Sections, Status feedback, Assisted task completion (chosen because they look hostile to the generative-profile frame), then reviewer reconciliation. Outcome: profiles should not be retrofitted across the whole library. Three categories where the frame strains for structural reasons and profiles should be skipped: *minimal primitives* (move definition exhausts description), *unbounded stances* (no discrete move), *umbrella patterns* (page describes a territory, not a move; profiles belong on the constituent patterns). A separate zone — *frame holds but profile adds little* (Sections, Status feedback) — is tracked but not exempted. The earlier "pure structural containers" exemption was withdrawn after Card showed the apparent collapse was drafter-sensitive, not structural. Captured in the *When to skip a profile* note in the generative-profiles section above; full reconciliation in [the gate notes](../../plans/completed/2026-04-typed-edges-phase-0-gates.md).
+`Used by`, `Composed from`, and `Containers` on `actions-coordination-selection` promoted from `related` to `enables`. This surfaced a direction inconsistency: mechanical extraction was emitting page→listed for every building-block header — correct for `Used by` (the page is the building block) but inverted for everything else. Fixed: `Containers and primitives`, `Containers`, `Related primitives`, `Mechanisms`, `Components`, `Conversational primitives`, `Composed from` now invert to listed→page. Every `enables` edge now reads source = building block, target = composite.

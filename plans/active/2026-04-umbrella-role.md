@@ -16,9 +16,7 @@ A plan to give *umbrella* MDX pages (authored surveys of a territory of related 
 
 The Phase 0.B adversarial probe (2026-04-25 changelog) flagged Bot, Assisted task completion, and Status feedback as MDX files where the generative-profile frame strains for *structural* reasons: the page describes a territory of related moves, not a single move. The library currently treats every MDX file as a single-move source. This collapses a real distinction.
 
-An earlier framing borrowed Dorian Taylor's [specificity gradient](https://doriantaylor.com/the-specificity-gradient) and called these pages *projections*. The 2026-04-30 changelog retired that term: Dorian's projection runs *data → generated document* (lossy in the document because the data is canonical), while the project's situation runs the other way (graph is the project's projection of MDX, not the reverse). Umbrella pages are *authored surveys at a higher altitude*, not generated views over canonical data. The structural question is therefore narrower and clearer than the projection framing suggested: does the data model need to distinguish single-move pages from umbrella pages at the node level so extraction and graph reasoning can handle them differently?
-
-This plan answers yes and proposes the smallest concrete shape that will bear weight.
+An earlier framing borrowed Dorian Taylor's [specificity gradient](https://doriantaylor.com/the-specificity-gradient) and called these pages *projections*. The 2026-04-30 changelog retired that term: Dorian's projection runs *data → generated document* (lossy in the document because the data is canonical), while the project's situation runs the other way (graph is the project's projection of MDX, not the reverse). Umbrella pages are *authored surveys at a higher altitude*, not generated views over canonical data. The structural question is therefore narrower and clearer than the projection framing suggested: does the data model need to distinguish single-move pages from umbrella pages at the node level so extraction and graph reasoning can handle them differently? This plan answers yes.
 
 ## Two framings
 

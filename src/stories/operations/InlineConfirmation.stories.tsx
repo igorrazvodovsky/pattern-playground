@@ -6,7 +6,7 @@ import { userEvent, within } from '@storybook/testing-library';
 
 const meta = {
   title: "Operations/Inline confirmation",
-  tags: ['!autodocs', '!dev', 'activity-level:operation', 'atomic:component', 'mediation:individual'],
+  tags: ['!autodocs', '!dev', 'activity-level:operation', 'atomic:component', 'role:pattern', 'mediation:individual'],
 } satisfies Meta;
 
 export default meta;

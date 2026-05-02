@@ -22,9 +22,17 @@ is a pattern source, a component source, or an umbrella.
 
 ## Current implementation status
 
-`role:*` metadata is not yet required across the corpus. The active role work
-lives in [`plans/active/2026-05-role-metadata.md`](../../plans/active/2026-05-role-metadata.md)
-and [`plans/active/2026-04-umbrella-role.md`](../../plans/active/2026-04-umbrella-role.md).
-Until that work lands, use
-[`docs/language/pattern-definition.md`](../language/pattern-definition.md) as
-the operational test for whether something is a pattern.
+`role:*` metadata is emitted into `src/pattern-graph.json` for every current
+graph node. MDX pages own their role tags through Storybook `Meta` tags. CSF
+story files own role tags only when they have no co-located MDX page or when an
+MDX page already uses CSF metadata as its fallback source.
+
+Explicit role tags currently cover `role:component`, `role:pattern`, and
+`role:umbrella`. `role:quality` and `role:foundation` are inferred from
+`src/stories/qualities/` and `src/stories/foundations/`. `role:concept` and
+`role:example` remain uncommitted.
+
+Use [`docs/language/pattern-definition.md`](../language/pattern-definition.md)
+as the operational test when changing a page's role. The extractor reports
+coverage and warnings, but role assignment remains authored judgement rather
+than validation.

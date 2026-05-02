@@ -15,7 +15,7 @@ matched mechanically against a design situation.
 - Source material lives primarily in `src/stories/**/*.mdx`.
 - `scripts/extract-graph-data.ts` derives `src/pattern-graph.json` and related
   generated data.
-- Node metadata includes title, category, path, tags, and extracted
+- Node metadata includes title, category, path, role, tags, and extracted
   classification fields where available.
 - Edges carry `source`, `target`, `type`, and optional `label`,
   `extractedFrom`, and situational hints.
