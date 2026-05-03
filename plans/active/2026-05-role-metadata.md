@@ -18,7 +18,7 @@ The project's `vision.md` names `mechanism vs move vs umbrella` as the durable d
 
 The 2026-04-30 comparison against [`references/report-pattern-language-formats.md`](../../references/report-pattern-language-formats.md) sharpened why this matters. The report is firm: implementation bindings (Design Tokens, Custom Elements Manifest, Storybook stories) should be treated as *attachments* to the pattern language, not the pattern language itself. The project has the conceptual space for the boundary; this plan draws it.
 
-The companion umbrella plan ([`2026-04-umbrella-role.md`](./2026-04-umbrella-role.md)) proposes a `role:umbrella` tag for pages that survey a territory of related moves. This plan is the larger sibling: introducing `role:component` and `role:pattern` for the two main page kinds. The three roles together cover the current corpus.
+The companion umbrella plan ([`2026-04-umbrella-role.md`](../completed/2026-04-umbrella-role.md)) proposes a `role:umbrella` tag for pages that survey a territory of related moves. This plan is the larger sibling: introducing `role:component` and `role:pattern` for the two main page kinds. The three roles together cover the current corpus.
 
 ## Terminology
 
@@ -198,4 +198,4 @@ Phase C (disentangle enables — only if audit shows it's needed)
 
 Phase A is a research artifact, not code. Phase B is the smallest concrete data-model change. Phase C is intentionally deferred and may be answered with "no split" depending on what the audit shows.
 
-This plan can run in parallel with [`2026-04-umbrella-role.md`](./2026-04-umbrella-role.md). The two share the `role:*` namespace and the same Phase B mechanics; the umbrella plan landed first and this plan extends it. If both proceed, Phase B can be a single coordinated extraction-script change covering all three role values.
+This plan can run in parallel with [`2026-04-umbrella-role.md`](../completed/2026-04-umbrella-role.md). The two share the `role:*` namespace and the same Phase B mechanics; the umbrella plan landed first and this plan extends it. If both proceed, Phase B can be a single coordinated extraction-script change covering all three role values.

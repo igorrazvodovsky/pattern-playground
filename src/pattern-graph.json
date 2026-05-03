@@ -136,7 +136,7 @@
       "title": "Action bar",
       "category": "Actions",
       "path": "../?path=/docs/actions-coordination-action-bar--docs",
-      "role": "pattern"
+      "role": "component"
     },
     {
       "id": "actions-coordination-bubble-menu",
@@ -164,7 +164,7 @@
       "title": "Messaging",
       "category": "Actions",
       "path": "../?path=/docs/actions-coordination-messaging--docs",
-      "role": "pattern"
+      "role": "component"
     },
     {
       "id": "actions-coordination-nav-bar",
@@ -381,14 +381,14 @@
       "title": "Block-based editor",
       "category": "Actions",
       "path": "../?path=/docs/actions-sensemaking-blockbased-editor--docs",
-      "role": "pattern"
+      "role": "umbrella"
     },
     {
       "id": "actions-sensemaking-card",
       "title": "Card",
       "category": "Actions",
       "path": "../?path=/docs/actions-sensemaking-card--docs",
-      "role": "pattern",
+      "role": "component",
       "generativeProfile": {
         "operatesOn": "a heterogeneous collection of subjects that need to be browsed at a glance and compared against each other",
         "produces": "a uniformly bounded representation per subject — a same-shaped frame across the collection — that lets attributes, media, and actions read in one pass",
@@ -635,13 +635,6 @@
       "role": "foundation"
     },
     {
-      "id": "foundations-material-iconography",
-      "title": "Iconography",
-      "category": "Foundations",
-      "path": "../?path=/docs/foundations-material-iconography--docs",
-      "role": "foundation"
-    },
-    {
       "id": "foundations-material-layout",
       "title": "Layout",
       "category": "Foundations",
@@ -860,7 +853,7 @@
       "title": "Toast",
       "category": "Operations",
       "path": "../?path=/docs/operations-toast--docs",
-      "role": "pattern",
+      "role": "component",
       "generativeProfile": {
         "operatesOn": "a recent action whose outcome the actor would benefit from confirming, without needing acknowledgement before continuing",
         "produces": "a brief peripheral message that auto-dismisses after a short window, optionally carrying a single trailing affordance such as undo",
@@ -1216,137 +1209,136 @@
     {
       "source": "actions-application-assisted-task-completion",
       "target": "foundations-assistance",
-      "type": "related"
+      "type": "surveys"
     },
     {
       "source": "actions-application-assisted-task-completion",
       "target": "actions-application-suggestion",
-      "type": "related",
+      "type": "surveys",
       "label": "the broader pattern of system-generated recommendations; this spectrum focuses on the specific mechanisms"
     },
     {
       "source": "actions-application-assisted-task-completion",
       "target": "qualities-agency",
-      "type": "enacts",
-      "label": "mirrors this spectrum; more system initiative demands more careful preservation of actor control",
-      "extractedFrom": "quality-target"
+      "type": "surveys",
+      "label": "mirrors this spectrum; more system initiative demands more careful preservation of actor control"
     },
     {
       "source": "actions-application-assisted-task-completion",
       "target": "activities-bot",
-      "type": "related"
+      "type": "surveys"
     },
     {
       "source": "actions-application-assisted-task-completion",
       "target": "operations-good-defaults",
-      "type": "related",
+      "type": "surveys",
       "label": "the simplest form of pre-population, before any of these patterns kick in"
     },
     {
       "source": "actions-application-assisted-task-completion",
       "target": "activities-transparent-reasoning",
-      "type": "related"
+      "type": "surveys"
     },
     {
       "source": "actions-application-assisted-task-completion",
       "target": "operations-autocomplete",
-      "type": "related"
+      "type": "surveys"
     },
     {
       "source": "actions-application-assisted-task-completion",
       "target": "operations-autofill",
-      "type": "related"
+      "type": "surveys"
     },
     {
       "source": "actions-application-assisted-task-completion",
       "target": "actions-application-ai-completion",
-      "type": "related"
+      "type": "surveys"
     },
     {
       "source": "actions-application-assisted-task-completion",
       "target": "actions-application-nextbest-action",
-      "type": "related"
+      "type": "surveys"
     },
     {
       "source": "actions-application-cognitive-forcing-functions",
       "target": "qualities-agency",
-      "type": "enacts",
+      "type": "surveys",
       "label": "the outcome this family is trying to produce",
-      "extractedFrom": "quality-target"
+      "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "actions-application-suggestion",
-      "target": "actions-application-cognitive-forcing-functions",
-      "type": "precedes",
+      "source": "actions-application-cognitive-forcing-functions",
+      "target": "actions-application-suggestion",
+      "type": "surveys",
       "label": "the primary site where forcing functions apply; see its fixation risk section",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "actions-application-nextbest-action",
-      "target": "actions-application-cognitive-forcing-functions",
-      "type": "precedes",
+      "source": "actions-application-cognitive-forcing-functions",
+      "target": "actions-application-nextbest-action",
+      "type": "surveys",
       "label": "workflow-level recommendations that benefit from forcing functions when stakes are high",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "actions-application-ai-completion",
-      "target": "actions-application-cognitive-forcing-functions",
-      "type": "precedes",
+      "source": "actions-application-cognitive-forcing-functions",
+      "target": "actions-application-ai-completion",
+      "type": "surveys",
       "label": "inline generation prone to over-reliance because accepting is cheaper than evaluating",
       "extractedFrom": "header:\"Precursors\""
     },
     {
       "source": "actions-application-cognitive-forcing-functions",
       "target": "actions-sensemaking-explanation",
-      "type": "complements",
+      "type": "surveys",
       "label": "full explanations can *increase* over-reliance by giving users a plausible justification they don't need to think through; partial explanations counteract this",
       "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "actions-application-cognitive-forcing-functions",
       "target": "activities-transparent-reasoning",
-      "type": "complements",
+      "type": "surveys",
       "label": "visible reasoning is valuable but can also anchor; the trade-off is central to this family",
       "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "actions-application-cognitive-forcing-functions",
       "target": "activities-generated-content",
-      "type": "complements",
+      "type": "surveys",
       "label": "long-form output especially prone to over-reliance because verification cost is high",
       "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "actions-application-cognitive-forcing-functions",
       "target": "qualities-learnability",
-      "type": "enacts",
+      "type": "surveys",
       "label": "forcing functions only work when users have the competence to evaluate; learnability builds that competence",
-      "extractedFrom": "quality-target"
+      "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "actions-application-cognitive-forcing-functions",
       "target": "qualities-temporality",
-      "type": "enacts",
+      "type": "surveys",
       "label": "timing-based forcing functions (wait, human goes first) depend on temporal design",
-      "extractedFrom": "quality-target"
+      "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "actions-application-cognitive-forcing-functions",
       "target": "activities-activity-log",
-      "type": "precedes",
+      "type": "surveys",
       "label": "rationale logging produces an audit trail that the activity log can surface",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "actions-application-cognitive-forcing-functions",
       "target": "actions-application-cognitive-forcing-functions-checklist",
-      "type": "related",
+      "type": "surveys",
       "label": "structured review of considerations before accepting."
     },
     {
       "source": "actions-application-cognitive-forcing-functions",
       "target": "actions-application-cognitive-forcing-functions-human-goes-first",
-      "type": "related",
+      "type": "surveys",
       "label": "user performs the task unaided; system compares and teaches."
     },
     {
@@ -1940,6 +1932,11 @@
     },
     {
       "source": "actions-application-suggestion",
+      "target": "activities-bot",
+      "type": "related"
+    },
+    {
+      "source": "actions-application-suggestion",
       "target": "actions-coordination-messaging",
       "type": "related"
     },
@@ -1967,6 +1964,11 @@
       "type": "enacts",
       "label": "suggestions ease the step from informal intent to formal expression, formalising by recognition rather than recall",
       "extractedFrom": "quality-target"
+    },
+    {
+      "source": "actions-application-suggestion",
+      "target": "actions-application-cognitive-forcing-functions",
+      "type": "related"
     },
     {
       "source": "activities-onboarding",
@@ -2869,101 +2871,99 @@
     {
       "source": "actions-navigation-overview",
       "target": "foundations-information-architecture",
-      "type": "related",
+      "type": "surveys",
       "label": "structural and organizational foundation that navigation models manifest"
     },
     {
       "source": "actions-navigation-overview",
       "target": "foundations-intent-interaction",
-      "type": "related",
+      "type": "surveys",
       "label": "behavioural patterns enabled by structural choices"
     },
     {
       "source": "actions-navigation-overview",
       "target": "qualities-agency",
-      "type": "enacts",
-      "label": "control distribution implications",
-      "extractedFrom": "quality-target"
+      "type": "surveys",
+      "label": "control distribution implications"
     },
     {
       "source": "actions-navigation-overview",
       "target": "actions-navigation-hub-and-spoke",
-      "type": "related",
+      "type": "surveys",
       "label": "central hub lists all sections, actors return to hub for cross-section navigation"
     },
     {
       "source": "actions-navigation-overview",
       "target": "actions-navigation-overview-and-detail",
-      "type": "related",
+      "type": "surveys",
       "label": "simultaneous display of collection and item (Split View)"
     },
     {
       "source": "actions-navigation-overview",
       "target": "actions-navigation-fully-connected",
-      "type": "related",
+      "type": "surveys",
       "label": "every page links to all others through global navigation"
     },
     {
       "source": "actions-navigation-overview",
       "target": "actions-navigation-multilevel-tree",
-      "type": "related",
+      "type": "surveys",
       "label": "hierarchical structure with global navigation for main pages, local navigation for subpages"
     },
     {
       "source": "actions-navigation-overview",
       "target": "actions-navigation-step-by-step",
-      "type": "related",
+      "type": "surveys",
       "label": "prescribed sequences with back/next controls"
     },
     {
       "source": "actions-navigation-overview",
       "target": "actions-navigation-pyramid",
-      "type": "related",
+      "type": "surveys",
       "label": "hub lists sequence, actors can navigate sequentially or jump to any item"
     },
     {
       "source": "actions-navigation-overview",
       "target": "actions-navigation-pan-and-zoom",
-      "type": "related",
+      "type": "surveys",
       "label": "continuous spatial navigation through large single spaces"
     },
     {
       "source": "actions-navigation-overview",
       "target": "actions-navigation-flat-navigation",
-      "type": "related",
+      "type": "surveys",
       "label": "minimal navigation, all functions accessible in one place"
     },
     {
       "source": "actions-navigation-overview",
       "target": "actions-navigation-hybrid-patterns",
-      "type": "related",
+      "type": "surveys",
       "label": "combinations of multiple models"
     },
     {
       "source": "actions-navigation-overview",
       "target": "qualities-malleability",
-      "type": "enacts",
-      "extractedFrom": "quality-target"
+      "type": "surveys"
     },
     {
       "source": "actions-navigation-overview",
       "target": "operations-deep-linking",
-      "type": "related"
+      "type": "surveys"
     },
     {
       "source": "actions-navigation-overview",
       "target": "actions-seeking-searching",
-      "type": "related"
+      "type": "surveys"
     },
     {
       "source": "actions-navigation-overview",
       "target": "operations-breadcrumbs",
-      "type": "related"
+      "type": "surveys"
     },
     {
       "source": "actions-navigation-overview",
       "target": "actions-seeking-command-menu",
-      "type": "related"
+      "type": "surveys"
     },
     {
       "source": "actions-navigation-pan-and-zoom",
@@ -3827,105 +3827,119 @@
       "type": "related"
     },
     {
-      "source": "foundations-assistance",
-      "target": "activities-bot",
-      "type": "precedes",
+      "source": "activities-bot",
+      "target": "foundations-assistance",
+      "type": "surveys",
       "label": "chatbot and inline bot modes",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "foundations-delegation",
-      "target": "activities-bot",
-      "type": "precedes",
+      "source": "activities-bot",
+      "target": "foundations-delegation",
+      "type": "surveys",
       "label": "ambient and workflow automation bot modes",
       "extractedFrom": "header:\"Precursors\""
     },
     {
       "source": "activities-bot",
       "target": "qualities-agency",
-      "type": "enacts",
+      "type": "surveys",
       "label": "how much freedom the bot has to act on its own.",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "activities-onboarding",
-      "target": "activities-bot",
-      "type": "precedes",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "actions-application-suggestion",
-      "target": "activities-bot",
-      "type": "precedes",
+      "source": "activities-bot",
+      "target": "activities-onboarding",
+      "type": "surveys",
+      "label": "Precursors",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "actions-seeking-progressive-disclosure",
-      "target": "activities-bot",
-      "type": "precedes",
+      "source": "activities-bot",
+      "target": "actions-application-suggestion",
+      "type": "surveys",
+      "label": "Precursors",
+      "extractedFrom": "header:\"Precursors\""
+    },
+    {
+      "source": "activities-bot",
+      "target": "actions-seeking-progressive-disclosure",
+      "type": "surveys",
       "label": "bots often operate well with incremental complexity. Progressive disclosure keeps things simple at first and helps actors build confidence.",
       "extractedFrom": "header:\"Precursors\""
     },
     {
       "source": "activities-bot",
       "target": "actions-coordination-messaging",
-      "type": "precedes",
+      "type": "surveys",
+      "label": "Follow-ups",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "activities-bot",
       "target": "activities-conversation",
-      "type": "precedes",
+      "type": "surveys",
+      "label": "Follow-ups",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "activities-bot",
       "target": "activities-prompt",
-      "type": "precedes",
+      "type": "surveys",
+      "label": "Follow-ups",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "activities-bot",
       "target": "qualities-formality",
-      "type": "enacts",
+      "type": "surveys",
       "label": "bots accept unstructured input by design; structure can be inferred or gradually formalised from interaction.",
-      "extractedFrom": "quality-target"
+      "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "activities-bot",
       "target": "activities-ai-tuning",
-      "type": "precedes",
+      "type": "surveys",
+      "label": "Follow-ups",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "activities-bot",
       "target": "activities-generated-content",
-      "type": "precedes",
+      "type": "surveys",
       "label": "presentation and manipulation of AI's output.",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "activities-bot",
       "target": "activities-transparent-reasoning",
-      "type": "precedes",
+      "type": "surveys",
+      "label": "Follow-ups",
+      "extractedFrom": "header:\"Follow-ups\""
+    },
+    {
+      "source": "activities-bot",
+      "target": "activities-activity-log",
+      "type": "surveys",
+      "label": "Follow-ups",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "activities-bot",
       "target": "activities-collaboration",
-      "type": "precedes",
+      "type": "surveys",
       "label": "Bots participate as collaborative agents with adaptable mediation capabilities",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "activities-bot",
       "target": "actions-application-ai-completion",
-      "type": "related"
+      "type": "surveys"
     },
     {
       "source": "activities-bot",
       "target": "actions-application-nextbest-action",
-      "type": "related"
+      "type": "surveys"
     },
     {
       "source": "activities-collaboration",
@@ -3946,6 +3960,13 @@
       "target": "activities-collaboration",
       "type": "precedes",
       "label": "how collaborators reach understanding and commitment",
+      "extractedFrom": "header:\"Precursors\""
+    },
+    {
+      "source": "activities-bot",
+      "target": "activities-collaboration",
+      "type": "precedes",
+      "label": "frames the AI as a collaborator with its own modes",
       "extractedFrom": "header:\"Precursors\""
     },
     {
@@ -4016,6 +4037,13 @@
       "target": "activities-conversation",
       "type": "precedes",
       "label": "where conversation happens",
+      "extractedFrom": "header:\"Precursors\""
+    },
+    {
+      "source": "activities-bot",
+      "target": "activities-conversation",
+      "type": "precedes",
+      "label": "conversation partner",
       "extractedFrom": "header:\"Precursors\""
     },
     {
@@ -4147,6 +4175,13 @@
       "type": "enacts",
       "label": "the actor steers, edits, and improves the output rather than receiving a finished artefact",
       "extractedFrom": "quality-target"
+    },
+    {
+      "source": "activities-bot",
+      "target": "activities-generated-content",
+      "type": "precedes",
+      "label": "generates the output being presented.",
+      "extractedFrom": "header:\"Precursors\""
     },
     {
       "source": "activities-prompt",
@@ -4346,6 +4381,13 @@
       "extractedFrom": "quality-target"
     },
     {
+      "source": "activities-bot",
+      "target": "activities-prompt",
+      "type": "precedes",
+      "label": "a thing that gets prompted.",
+      "extractedFrom": "header:\"Precursor patterns\""
+    },
+    {
       "source": "actions-application-suggestion",
       "target": "activities-prompt",
       "type": "precedes",
@@ -4370,6 +4412,13 @@
       "type": "enacts",
       "label": "visible reasoning is one of the levers for reliance calibration, helping the actor judge when to trust and when to override",
       "extractedFrom": "quality-target"
+    },
+    {
+      "source": "activities-bot",
+      "target": "activities-transparent-reasoning",
+      "type": "precedes",
+      "label": "generates the reasoning that transparent reasoning makes visible and inspectable.",
+      "extractedFrom": "header:\"Precursors\""
     },
     {
       "source": "activities-transparent-reasoning",
@@ -5242,12 +5291,6 @@
     },
     {
       "source": "operations-button",
-      "target": "foundations-material-iconography",
-      "type": "related",
-      "label": "rules for when and how to use icons in buttons"
-    },
-    {
-      "source": "operations-button",
       "target": "operations-unavailable-actions",
       "type": "related"
     },
@@ -5602,25 +5645,25 @@
     {
       "source": "operations-status-feedback",
       "target": "operations-callout",
-      "type": "related",
+      "type": "surveys",
       "label": "primary inline delivery mechanism for status feedback"
     },
     {
       "source": "operations-status-feedback",
       "target": "activities-activity-log",
-      "type": "related",
+      "type": "surveys",
       "label": "Records status changes as Events for chronological review"
     },
     {
       "source": "operations-status-feedback",
       "target": "activities-collaboration",
-      "type": "related",
+      "type": "surveys",
       "label": "Status feedback provides awareness of system state and action effects in collaborative environments"
     },
     {
       "source": "operations-status-feedback",
       "target": "actions-coordination-notification",
-      "type": "related"
+      "type": "surveys"
     },
     {
       "source": "operations-tag",

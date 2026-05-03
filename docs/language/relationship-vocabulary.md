@@ -118,6 +118,17 @@ The relationships defined below should be read in this register throughout.
 - MDX source: flat "Related patterns" lists, inline prose links, custom thematic subcategories
 - Note: this is the *default* type. When a more specific type applies, it should be used instead. Over time, `related` edges are candidates for reclassification as the vocabulary or MDX structure evolves.
 
+### surveys
+
+*U surveys A*: umbrella page U gathers A into an authored territory of related moves. The umbrella is not the authoritative source for A; it is a higher-altitude reading surface that frames how several moves relate.
+
+- Directionality: directed (umbrella -> move or referenced constituent)
+- Inverse: none formal.
+- SKOS: no exact equivalent. It is closest to an authored associative or scoped relation.
+- MDX source: internal Storybook links on pages tagged `role:umbrella`. Subheadings under `## Related patterns` are editorial groupings; per-link annotations become edge labels, falling back to the subheading text when no annotation exists.
+- Example: Assisted task completion *surveys* Autocomplete, Autofill, AI completion, and Next-best action as a spectrum of system-assisted work.
+- Why this matters: umbrella pages are authored surveys. `surveys` lets extraction preserve that editorial altitude without forcing umbrella pages through `precedes`, `related`, or `enacts` semantics.
+
 ### enacts
 
 *A enacts Q*: pattern A is a move whose effect is legible in the Q dimension — applying A changes the structure in a way that shows up when you read the result through quality Q's lens. This is the bridge between patterns (as moves) and qualities. The relationship does not assert that Q is maximised or always increased; it asserts that Q is the right lens through which to read what this move does.
@@ -139,6 +150,7 @@ Each edge type carries an implicit *axis* — the dimension along which the rela
 | Vertical | `instantiates`, `enables`, `enacts` | Crosses altitudes — taxonomic (genus/species), compositional (part/whole), or pattern → quality |
 | Horizontal | `complements`, `tangential`, `alternative` | Same altitude — moves that share a structural role or co-deploy |
 | Sequential | `precedes`, `follows`, `recommends` | Generative sequence — one move sets up another, or a tree branch routes to one |
+| Territorial | `surveys` | Authored umbrella territory — a higher-altitude page gathers constituent moves |
 | Unspecified | `related` | Default catch-all; no axis claim |
 
 The distinction matters for two consumers:
@@ -160,6 +172,7 @@ The axis classification is a sanity-check tool, not a taxonomy commitment. A pat
 | alternative | skos:closeMatch | Reasonable fit |
 | recommends | — | No equivalent (situational) |
 | related | skos:related | Direct mapping |
+| surveys | — | No exact equivalent (authored umbrella territory) |
 | enacts | — | No equivalent (pattern → quality) |
 
 The alignment is useful at two levels. First, it provides a sanity check — if a proposed relationship type has no SKOS equivalent *and* no clear justification for being domain-specific, it may be an unnecessary distinction. Second, if the graph data ever needs to interoperate with external tools or linked data systems, the SKOS mappings provide a bridge without requiring a full ontological commitment.
@@ -191,6 +204,7 @@ Project-specific extensions:
 |---|---|
 | `enacts` | HCI pattern literature discusses forces, values, consequences, and qualities, but does not usually model a typed pattern → quality edge. This project needs that bridge because qualities are the lenses through which a move's effect is read. `enacts` is therefore a local extension, not a literature-derived relationship name. |
 | `recommends` | Pattern-oriented design literature supports context-oriented applicability and guided pattern selection, but the decision-tree extraction shape is local. `recommends` preserves authored decision-tree branches as situational hints rather than converting them into rule-grade conditions. |
+| `surveys` | Umbrella pages are authored surveys over a territory of moves, not single-move sources. `surveys` preserves that editorial altitude and keeps umbrella pages from being flattened into generic `related` links. |
 | `tangential` | Literature has generic association, neighbouring, and "related" language, but not a stable weak-adjacency type. `tangential` preserves the current author signal where pages explicitly distinguish conceptual adjacency from complementarity, dependency, or substitution. It is intentionally provisional: if future gardening shows it is only a weak form of `related`, or better handled by tags/projections, it can be merged or replaced through the changelog. |
 
 ## Inverse pair enforcement
@@ -211,7 +225,7 @@ Each is extracted from its own set of MDX headers and stored once. Reverse trave
 
 Symmetric relationships (`complements`, `tangential`, `alternative`, `related`) generate edges in both directions by definition — the extraction script should emit both A→B and B→A, or the graph component should treat them as bidirectional.
 
-`enacts` (pattern → quality) and `recommends` (pattern → pattern, with situational hints) have no inverse — they are asymmetric and unidirectional.
+`enacts` (pattern → quality), `recommends` (pattern → pattern, with situational hints), and `surveys` (umbrella → constituent) have no inverse — they are asymmetric and unidirectional.
 
 ## Edge schema
 
@@ -235,9 +249,10 @@ type EdgeType =
   | 'alternative'
   | 'recommends'
   | 'related'
-  | 'enacts';
+  | 'enacts'
+  | 'surveys';
 
-type DirectedEdgeType = 'precedes' | 'follows' | 'enables' | 'instantiates' | 'recommends' | 'enacts';
+type DirectedEdgeType = 'precedes' | 'follows' | 'enables' | 'instantiates' | 'recommends' | 'enacts' | 'surveys';
 type UndirectedEdgeType = 'complements' | 'tangential' | 'alternative' | 'related';
 
 const inversePairs: Record<string, string> = {
@@ -279,32 +294,35 @@ A generative profile lives in a `*.profile.ts` sidecar next to the pattern's MDX
 
 5. *A `tensions-with` edge type between qualities?* Patterns can `enacts` multiple qualities, and a composition can pull in patterns whose enacted qualities are in tension (Agency vs. Speed, Consistency vs. Novelty). The graph currently has no way to express that tension. A quality → quality `tensions-with` edge would let a query surface "these moves enhance qualities the library has noted as in tension — worth a look" without crossing into rule-grade conflict detection. Defer until two or three concrete examples exist; introduce through the changelog rather than speculatively. Until then, `alternative` co-presence in a proposed composition is the available tension signal.
 
-6. *MDX role: single-move source vs. umbrella over a territory.* The Phase 0.B adversarial probe surfaced that some MDX files (Bot, Assisted task completion, Status feedback) are not authoritative sources for a single pattern but *umbrellas* — pages that gather and organise a territory of related moves. Treating umbrellas as single-move sources forces the framework into shapes (single profile, single edge endpoint) that don't fit. The library currently makes no structural distinction between the two roles, which collapses it.
-
-   An earlier draft of this question borrowed Dorian Taylor's [specificity gradient](https://doriantaylor.com/the-specificity-gradient) and called these pages *projections*, with the implication that authoring should happen at the most specific level and less-specific pages should be generated. That framing fits a different problem than the project actually has. Dorian's projection runs *data → generated document* (the document is lossy because the data is canonical and regenerable). The project's situation runs the other way: MDX is an authoring medium that carries prose voice, framing, and editorial cuts the graph cannot and shouldn't try to capture. The graph is the project's projection of MDX, not the reverse. Umbrella pages are *authored surveys at a higher altitude*, not generated views over canonical data — a different kind of object than Dorian names.
-
-   The push/pull dynamic does still apply, just at a finer grain than whole-page generation. The 2026-04-26 labels-in-MDX migration is a small instance: pull what extraction can derive (edges from headers, types from header text), push back what genuinely needs authoring (per-link labels). Over time more MDX content may move from purely authored to derivable-from-sidecar (profiles already crossed this line); other content stays authored because the prose voice is the point. The structural question is therefore narrower than "are some pages projections?" — it is whether the data model needs to distinguish *single-move pages* from *umbrella pages* at the node level so extraction and graph reasoning can handle them differently.
-
-   Acting on this would still require a bigger restructuring than the typed-edges plan covers — adding an umbrella role, a relationship from umbrella to its constituent moves (candidate names: `surveys`, `gathers`, `frames`), and extraction logic that recognises umbrella MDX without forcing it through the single-move shape. Flagged for after Phase 4. The reordering of priorities prompted by the 2026-04-30 report comparison promotes this question above the qualities-as-composition-evaluator direction.
-
-7. *A structural-property layer underneath qualities?* Dorian Taylor's information-theoretic reading of Alexander's 15 properties clusters them around three functions: *conveying* information, *compressing* information, and *throttling* information to facilitate uptake. Taylor and Alexander both note that other contexts may need their own sets of properties, distinct from the geometric 15. The library's qualities are experiential dimensions, not structural properties — but there may eventually be a vocabulary for *structural* properties of interaction (how information differentiates, flows, and compresses) that sits underneath them, in the same way that "the building feels welcoming" sits above "the entrance has levels of scale, strong centres, and thick boundaries." Not something to act on now, but a direction the framing might develop if the generative-moves framing proves load-bearing.
+6. *A structural-property layer underneath qualities?* The use qualities are experiential dimensions, not structural properties — but there may eventually be a vocabulary for *structural* properties of interaction  that sits underneath them, in the same way that "the building feels welcoming" sits above "the entrance has levels of scale, strong centres, and thick boundaries."
 
 ## Structural invariants
 
 Testable assertions derived from this vocabulary's own definitions. These can be checked against `pattern-graph.json` by a script or by an actor reviewing extraction output.
 
-1. *Valid edge types*: every `type` value on an edge must be a member of `EdgeType` (precedes, follows, enables, instantiates, complements, tangential, alternative, recommends, related, enacts).
+1. *Valid edge types*: every `type` value on an edge must be a member of `EdgeType` (precedes, follows, enables, instantiates, complements, tangential, alternative, recommends, related, enacts, surveys).
 2. *`enacts` targets qualities*: every edge with `type: 'enacts'` must target a node whose ID starts with `qualities-`.
 3. *`recommends` carries hints*: every edge with `type: 'recommends'` must have a non-empty `situationalHints` array and an `extractedFrom: 'decision-tree:<treeId>'` string.
 4. *No redundant inverses*: if A `precedes` B exists, no separate B `follows` A edge should be stored. `follows` is inferred at query time, not stored as data.
 5. *Hint-only fields are scoped*: `situationalHints` appears only on `recommends` edges.
 6. *Symmetric edges are consistent*: for undirected types (complements, tangential, alternative, related), if A→B exists then B→A must also exist (or the graph component must treat them as bidirectional).
+7. *`surveys` sources are umbrellas*: every edge with `type: 'surveys'` must have a source node with `role: 'umbrella'`.
 
 ## Changelog
 
 A running record of why types were added, merged, renamed, or retired, what alternatives were considered, and what was lost in each decision. The vocabulary is provisional — it will keep evolving as the library grows. Making its construction visible is part of treating classification as a living artifact rather than a closed specification (compare Bowker & Star, *Sorting Things Out*: "the only good classification is a living classification").
 
 Each entry: date, change, why, what was considered, what was lost.
+
+### 2026-05-02 — `surveys` edges formalise umbrella territories
+
+Internal Storybook links on `role:umbrella` pages now emit `surveys` edges. Subheadings inside `## Related patterns` become editorial groupings and labels rather than typed-edge headers, so an umbrella page reads as a territory map rather than a single-move dependency list.
+
+Why: the role survey confirmed the umbrella distinction and named survey-shaped pages such as Assisted task completion, Bot, Cognitive forcing functions, Navigation overview, and Status feedback. Pages tagged `role:umbrella` now preserve their umbrella relationship to constituent moves when they link into the corpus.
+
+What was considered: `gathers` and `frames`. `surveys` won because it names the authored, higher-altitude page without implying ownership, containment, or generated completeness.
+
+What's lost: header names such as "Precursors" and "Follow-ups" no longer produce `precedes` edges on umbrella pages. The header remains as an edge label when no per-link annotation exists, preserving the editorial cut without pretending the umbrella is a single move in a generative sequence.
 
 ### 2026-05-02 — Role metadata lands on graph nodes
 
@@ -318,7 +336,7 @@ What's lost: unmarked pages no longer signal "not yet classified." The extractor
 
 Bot, Assisted task completion, and Status feedback were previously called *projections*, borrowing Dorian Taylor's specificity gradient. The framing was a misfit: Dorian's projection runs data → generated document; here MDX is the authoring medium and the graph is the project's projection of MDX. Umbrella pages are *authored surveys at a higher altitude*, not generated views over canonical data.
 
-What was considered: keeping "projection" with a clarifying note. Rejected because the term conflated two senses already in use — the semilattice/multiple-views sense and the umbrella-page sense. See Open Question 6 for the structural implications.
+What was considered: keeping "projection" with a clarifying note. Rejected because the term conflated two senses already in use — the semilattice/multiple-views sense and the umbrella-page sense. The 2026-05-02 `surveys` entry records the structural outcome.
 
 ### 2026-04-27 — Phase 3 lands: `recommends` edges from decision trees
 

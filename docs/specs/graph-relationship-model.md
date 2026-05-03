@@ -33,6 +33,7 @@ The settled edge vocabulary is:
 - `recommends`
 - `related`
 - `enacts`
+- `surveys`
 
 The detailed definitions, extraction rules, SKOS notes, generative-profile
 guidance, and changelog live in

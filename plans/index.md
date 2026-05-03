@@ -16,7 +16,6 @@ the plan contract and `docs/specs/` for settled specifications.
 - [Action bar story](active/2026-04-action-bar-story.md) — add action bar Storybook examples
 - [Transient layers split](active/2026-04-transient-layers-split.md) — split Popover and Toast documentation
 - [Transient layers tech](active/2026-04-transient-layers-tech.md) — technical implementation for Popover, Tooltip, and Toast
-- [Umbrella role](active/2026-04-umbrella-role.md) — validate and encode umbrella pages
 
 ## Completed
 
@@ -26,6 +25,7 @@ the plan contract and `docs/specs/` for settled specifications.
 - [AT framing audit](completed/2026-03-at-framing-audit.md) — completed audit of AT-level framing
 - [Interactive pattern graph](completed/2026-03-cuddly-seeking-planet.md) — force-directed pattern graph implementation plan
 - [Typed edges](completed/2026-04-typed-edges.md) — typed relationship edges and graph extraction
+- [Umbrella role](completed/2026-04-umbrella-role.md) — role-aware surveys edges for umbrella pages
 - [Typed-edge phase 0 gates](completed/2026-04-typed-edges-phase-0-gates.md) — research notes for the typed-edge gates
 - [Label queue umbrella](completed/2026-04-label-queue.md) — closed label queue coordination
 - [Label task: axis-flagged edges](completed/2026-04-label-axis-flagged.md) — closed edge judgement task

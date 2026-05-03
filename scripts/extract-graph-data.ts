@@ -44,7 +44,8 @@ type EdgeType =
   | 'alternative'
   | 'recommends'
   | 'related'
-  | 'enacts';
+  | 'enacts'
+  | 'surveys';
 
 interface SituationalHint {
   question: string;
@@ -350,10 +351,11 @@ interface ParsedLinks {
   tagsByTarget: Map<string, Set<string>>;
 }
 
-function extractTypedLinks(rawContent: string): ParsedLinks {
+function extractTypedLinks(rawContent: string, sourceRole?: Role): ParsedLinks {
   const content = stripComments(rawContent);
   const typed: TypedLink[] = [];
   const tagsByTarget = new Map<string, Set<string>>();
+  const defaultUntypedLinkType: EdgeType = sourceRole === 'umbrella' ? 'surveys' : 'related';
 
   const related = extractRelatedSection(content);
   const seenInRelated = new Set<string>();
@@ -363,12 +365,13 @@ function extractTypedLinks(rawContent: string): ParsedLinks {
     const parts = related.split(/^### /m);
     const preface = parts[0];
 
-    // Links in the section body but outside any `### ` subsection → flat-list `related`.
+    // Links in the section body but outside any `### ` subsection use the page's
+    // default untyped link type. Umbrellas survey their territory here.
     for (const id of findLinksInText(preface)) {
-      const key = `${id}|related`;
+      const key = `${id}|${defaultUntypedLinkType}`;
       if (seenInRelated.has(key)) continue;
       seenInRelated.add(key);
-      typed.push({ target: id, type: 'related' });
+      typed.push({ target: id, type: defaultUntypedLinkType });
     }
 
     for (let i = 1; i < parts.length; i++) {
@@ -386,7 +389,18 @@ function extractTypedLinks(rawContent: string): ParsedLinks {
         if (ids.length === 0) continue;
         const annotation = extractAnnotation(line);
         for (const id of ids) {
-          if (mappedType) {
+          if (sourceRole === 'umbrella') {
+            const key = `${id}|surveys`;
+            if (seenInRelated.has(key)) continue;
+            seenInRelated.add(key);
+            typed.push({
+              target: id,
+              type: 'surveys',
+              label: annotation ?? headerText,
+              extractedFrom: `header:"${headerText}"`,
+              thematicHeader: headerText,
+            });
+          } else if (mappedType) {
             const key = `${id}|${mappedType}`;
             if (seenInRelated.has(key)) continue;
             seenInRelated.add(key);
@@ -421,16 +435,18 @@ function extractTypedLinks(rawContent: string): ParsedLinks {
     }
   }
 
-  // Links anywhere else in the document (prose, anatomy, variants) → `related`.
+  // Links anywhere else in the document (prose, anatomy, variants) use the
+  // default untyped link type. For umbrella pages, these are part of the authored
+  // survey territory rather than generic related edges.
   const seenAnywhere = new Set(typed.map((t) => `${t.target}|${t.type}`));
   for (const id of findLinksInText(content)) {
-    const key = `${id}|related`;
+    const key = `${id}|${defaultUntypedLinkType}`;
     if (seenAnywhere.has(key)) continue;
-    // Only emit a prose `related` if the target hasn't already been typed any way.
+    // Only emit a prose/default edge if the target hasn't already been typed any way.
     const alreadyTyped = typed.some((t) => t.target === id);
     if (alreadyTyped) continue;
     seenAnywhere.add(key);
-    typed.push({ target: id, type: 'related' });
+    typed.push({ target: id, type: defaultUntypedLinkType });
   }
 
   // Document-wide annotation pass: any bullet line anywhere in the doc that links to
@@ -862,7 +878,7 @@ for (const filePath of mdxFiles) {
     'mediation': mediationTag ? mediationTag.split(':')[1] : null,
   });
 
-  const { typed, tagsByTarget } = extractTypedLinks(content);
+  const { typed, tagsByTarget } = extractTypedLinks(content, roleResolution.role);
   if (typed.length > 0) fileLinks.set(id, typed);
   for (const [targetId, tagSet] of tagsByTarget) {
     if (!nodeTags.has(targetId)) nodeTags.set(targetId, new Set());
@@ -949,7 +965,7 @@ for (const [sourceId, links] of fileLinks.entries()) {
   for (const link of links) {
     if (!nodeMap.has(link.target)) continue;
     if (sourceId === link.target) continue;
-    if (isPatternToQualityLink(sourceId, link.target)) {
+    if (link.type !== 'surveys' && isPatternToQualityLink(sourceId, link.target)) {
       addEdge({
         source: sourceId,
         target: link.target,
@@ -974,8 +990,8 @@ for (const [sourceId, links] of fileLinks.entries()) {
 //
 // An edge is `enacts` when the source is a non-quality pattern and the target is a
 // `qualities-*` page. Header-derived typing (e.g. "Foundation") is overridden — the
-// quality-target signal is stronger than any header. Quality → quality edges keep
-// their original type (typically `related`).
+// quality-target signal is stronger than any header. Umbrella `surveys` links and
+// quality → quality edges keep their original type.
 {
   const promoted: Edge[] = [];
   for (const [key, edge] of edgeMap) {
@@ -983,7 +999,7 @@ for (const [sourceId, links] of fileLinks.entries()) {
     if (!sourceNode) continue;
     if (sourceNode.category === 'Qualities') continue;
     if (!edge.target.startsWith('qualities-')) continue;
-    if (edge.type === 'enacts') continue;
+    if (edge.type === 'enacts' || edge.type === 'surveys') continue;
     edgeMap.delete(key);
     promoted.push({
       ...edge,
@@ -1100,6 +1116,9 @@ function roleCoverage(ids: string[]): Record<RoleSource, number> {
 
 const sourceRoleCoverage = roleCoverage([...nodeMap.keys()]);
 const graphRoleCoverage = roleCoverage(nodes.map((node) => node.id));
+const invalidSurveyEdges = edges.filter((edge) => (
+  edge.type === 'surveys' && nodeMap.get(edge.source)?.role !== 'umbrella'
+));
 
 console.log(`Nodes: ${nodes.length} (${taggedNodes} with tags)`);
 console.log(`Edges: ${edges.length}`);
@@ -1107,6 +1126,9 @@ console.log(`  by type: ${Object.entries(typeCounts).sort((a, b) => b[1] - a[1])
 console.log(`Categories: ${[...new Set(nodes.map((n) => n.category))].sort().join(', ')}`);
 console.log(`Role coverage (processed sources): explicit=${sourceRoleCoverage.explicit}, inferred=${sourceRoleCoverage.inferred}, unset=${sourceRoleCoverage.unset}`);
 console.log(`Role coverage (emitted graph nodes): explicit=${graphRoleCoverage.explicit}, inferred=${graphRoleCoverage.inferred}, unset=${graphRoleCoverage.unset}`);
+if (invalidSurveyEdges.length > 0) {
+  console.warn(`Umbrella role warning: ${invalidSurveyEdges.length} surveys edge(s) have a non-umbrella source`);
+}
 if (recommendsCollection.resolvedByTree.size > 0) {
   console.log(`Decision-tree extraction:`);
   for (const [tree, count] of recommendsCollection.resolvedByTree) {

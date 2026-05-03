@@ -1,11 +1,11 @@
 ---
 title: "Umbrella role"
-status: "active"
+status: "completed"
 kind: "research-gate"
 created: "2026-04"
-last_reviewed: "2026-05-01"
+last_reviewed: "2026-05-02"
 area: "language"
-promoted_to: ""
+promoted_to: "docs/language/relationship-vocabulary.md; docs/specs/graph-relationship-model.md; docs/specs/pattern-role-model.md"
 superseded_by: ""
 ---
 # Umbrella role
@@ -29,6 +29,21 @@ These mirror the framings that shape `typed-edges.md` and apply equally here:
 ## Scope
 
 This plan covers a minimal first pass: identify the umbrella pages currently in the corpus, add an `umbrella` role marker, emit a typed edge from each umbrella to its constituent moves, and update extraction and graph data accordingly. It does *not* cover umbrella-aware rendering, umbrella-vs-single-move queries, or generation of umbrella views from underlying data. Those become possible once the role exists; they are not the gate.
+
+## Implementation outcome — 2026-05-02
+
+Implemented as the umbrella-specific completion of the role-metadata pass.
+[`plans/archive/2026-05-role-survey.md`](../archive/2026-05-role-survey.md)
+served as the Phase A gate and confirmed the binary distinction, naming
+survey-shaped pages such as Assisted task completion, Bot, Cognitive forcing
+functions, Navigation overview, and Status feedback. The role-metadata work had
+already added `role:umbrella` tags and node-level `role` extraction.
+
+This pass added `surveys` to the graph edge vocabulary, made internal Storybook
+links authored on `role:umbrella` pages emit `surveys`, preserved related-section
+subheadings as editorial labels, regenerated `src/pattern-graph.json`, and
+promoted the durable semantics into the relationship and role specs. Phase C
+remains intentionally deferred.
 
 ## Identified umbrella candidates
 
@@ -71,7 +86,9 @@ If most pages have umbrella character to some degree, the binary role is wrong a
 
 ### Files modified
 
-New file: `plans/active/2026-04-umbrella-survey.md` — survey notes and verdict. No code changes in Phase A.
+Satisfied by `plans/archive/2026-05-role-survey.md`, which covered the umbrella
+gate while implementing the broader role-metadata plan. No separate umbrella
+survey file was created.
 
 ## Phase B — Add the role to the data model
 

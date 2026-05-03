@@ -160,12 +160,8 @@ more abstract principle, model, or concept.
 
 `umbrella -> move`
 
-This relationship is not formalised yet. Possible names include `surveys`,
-`gathers`, or `frames`. The important point is that umbrella pages such as
-"Bot" or "Assisted task completion" should not be forced to behave like single
-moves if they actually gather a territory. See the 2026-04-30 changelog entry
-in [relationship-vocabulary.md](./relationship-vocabulary.md) for why the
-earlier "projection" framing was retired.
+Uses `surveys`. Umbrella pages such as "Bot" or "Assisted task completion"
+should not be forced to behave like single moves if they gather a territory.
 
 ## Mature move record
 
@@ -243,15 +239,3 @@ same kind of pattern, not to remove them from the graph.
 Do not turn the pattern language into a strict rules engine. Existing graph data
 is suggestion-grade. The long-term system should help an actor reason, not
 replace judgement.
-
-## Open questions
-
-- Should `role:*` become Storybook metadata, language-layer metadata, or both?
-- Should contract-bearing controls be modeled as `move`, `contract`, or
-  `mechanism` plus `contract`?
-- What is the right relationship name from an umbrella page to its constituent
-  moves: `surveys`, `gathers`, `frames`, or something else?
-- When does a repeated Storybook composition become a move rather than an
-  example of a move?
-- How much of the mature move record belongs in structured data versus MDX
-  prose?

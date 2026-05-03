@@ -505,12 +505,6 @@
       "atomic-category": "visual-element",
       "mediation": null
     },
-    "foundations-material-iconography": {
-      "activity-level": "cross-cutting",
-      "lifecycle-stage": null,
-      "atomic-category": "visual-element",
-      "mediation": null
-    },
     "foundations-material-layout": {
       "activity-level": "cross-cutting",
       "lifecycle-stage": null,
