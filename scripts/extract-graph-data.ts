@@ -846,6 +846,7 @@ for (const filePath of mdxFiles) {
 
   const mdxTags = extractMetaTags(content);
   const tags = mdxTags.length > 0 ? mdxTags : storiesTags;
+  if (tags.includes('!autodocs')) continue;
   const roleResolution = resolveRole(tags, filePath);
   if (roleResolution.source === 'unset') {
     console.warn(`Role metadata warning: ${filePath} has no role:* tag and no folder-inferred role`);
@@ -910,6 +911,7 @@ for (const filePath of globStoriesTsx(storiesDir)) {
   const cat = titleToCategory(title);
   const path = `../?path=/docs/${id}--docs`;
   const tags = extractStoriesTags(content);
+  if (tags.includes('!autodocs')) continue;
   const roleResolution = resolveRole(tags, filePath);
 
   if (!nodeMap.has(id)) {

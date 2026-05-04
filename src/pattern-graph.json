@@ -1095,13 +1095,6 @@
       "role": "component"
     },
     {
-      "id": "operations-inline-confirmation",
-      "title": "Inline confirmation",
-      "category": "Operations",
-      "path": "../?path=/docs/operations-inline-confirmation--docs",
-      "role": "pattern"
-    },
-    {
       "id": "operations-tabs",
       "title": "Tabs",
       "category": "Operations",
@@ -6485,22 +6478,6 @@
         {
           "question": "How quickly can it be recreated?",
           "branch": "Seconds"
-        }
-      ]
-    },
-    {
-      "source": "actions-application-deletion",
-      "target": "operations-inline-confirmation",
-      "type": "recommends",
-      "extractedFrom": "decision-tree:deletion",
-      "situationalHints": [
-        {
-          "question": "Is the deletion reversible?",
-          "branch": "Yes"
-        },
-        {
-          "question": "How quickly can it be recreated?",
-          "branch": "Minutes"
         }
       ]
     },
