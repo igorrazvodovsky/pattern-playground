@@ -113,6 +113,7 @@ export const CommentComposer: React.FC<CommentComposerProps> = ({
           onClick={handleSubmit}
           disabled={isEmpty || isSubmitting}
           type="button"
+          aria-label="Submit comment"
         >
           {isSubmitting ? (
             <iconify-icon icon="ph:spinner" />

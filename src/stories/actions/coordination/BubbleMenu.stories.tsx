@@ -32,9 +32,14 @@ export const Basic: Story = {
     const content = getDocumentContentText(documentId, sectionId);
 
     const editor = useEditor({
-      extensions: [StarterKit, Highlight],
-      content: `<p>${content}</p>`,
-    });
+    extensions: [StarterKit, Highlight],
+    content: `<p>${content}</p>`,
+    editorProps: {
+      attributes: {
+        'aria-label': 'Document editor',
+      },
+    },
+  });
 
     if (!editor) {
       return <div>Loading editor...</div>;
@@ -64,6 +69,11 @@ const TextLenseEditor: React.FC = () => {
   const editor = useEditor({
     extensions: [StarterKit, Highlight],
     content: `<p>${content} As temperatures rise, animals and plants are being pushed out of their natural habitats.</p>`,
+    editorProps: {
+      attributes: {
+        'aria-label': 'Document editor',
+      },
+    },
   });
 
   if (!editor) {
@@ -230,4 +240,3 @@ const DynamicExplanationEditor: React.FC = () => {
 export const DynamicExplanation: Story = {
   render: () => <DynamicExplanationEditor />,
 };
-

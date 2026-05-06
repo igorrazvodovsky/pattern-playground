@@ -37,6 +37,11 @@ export const Basic: Story = {
           Hey, try to select some text here. There will popup a menu for selecting some inline styles. Try typing @ to trigger mentions!
         </p>
       `,
+      editorProps: {
+        attributes: {
+          'aria-label': 'Block editor',
+        },
+      },
     });
 
     if (!editor) {
@@ -57,5 +62,4 @@ export const Basic: Story = {
     );
   },
 };
-
 

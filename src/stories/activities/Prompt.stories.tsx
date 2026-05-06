@@ -47,6 +47,12 @@ const usePromptEditor = (content: string | TipTapContent = '<p></p>') => {
       }),
     ],
     content,
+    editorProps: {
+      attributes: {
+        role: 'textbox',
+        'aria-label': 'Prompt editor',
+      },
+    },
     onTransaction: ({ editor }) => {
       // Track editor state for quality assessment
       const content = editor.getHTML();
@@ -171,7 +177,7 @@ export const QualityFeedback: Story = {
     </div>
     <div className="messages layer">
       <div className="message-composer layer">
-        <pp-input autoFocus value="What was that thing's name?">
+        <pp-input autoFocus label="Prompt" value="What was that thing's name?">
         </pp-input>
         <div className="message-composer__actions">
           <button className="button button--plain" is="pp-button">

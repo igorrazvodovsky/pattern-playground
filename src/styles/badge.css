@@ -138,25 +138,25 @@
   strong.badge.badge--accent,
   .badge--accent:not(.counter):empty,
   .badge.badge--accent.badge--plain:before {
-    --badge-bg: var(--c-accent-500);
+    --badge-bg: var(--c-accent-600);
   }
 
   strong.badge.badge--info,
   .badge--info:not(.counter):empty,
   .badge.badge--info.badge--plain:before {
-    --badge-bg: var(--c-info-500-boosted);
+    --badge-bg: var(--c-info-600-boosted);
   }
 
   strong.badge.badge--success,
   .badge--success:not(.counter):empty,
   .badge.badge--success.badge--plain:before {
-    --badge-bg: var(--c-success-500-boosted);
+    --badge-bg: var(--c-success-600-boosted);
   }
 
   strong.badge.badge--warning,
   .badge--warning:not(.counter):empty,
   .badge.badge--warning.badge--plain:before {
-    --badge-bg: var(--c-warning-500-boosted);
+    --badge-bg: var(--c-warning-600-boosted);
   }
 
   strong.badge.badge--danger,

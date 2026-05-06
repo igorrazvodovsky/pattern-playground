@@ -109,6 +109,24 @@ export class PpSections extends HTMLElement {
     return result;
   }
 
+  private _restoreHeading(heading: HTMLElement) {
+    const trigger = heading.querySelector(':scope > button[data-pp-trigger]');
+    if (!trigger) return;
+    heading.replaceChildren(...trigger.childNodes);
+  }
+
+  private _detailsTrigger(heading: HTMLElement): HTMLButtonElement {
+    const existing = heading.querySelector<HTMLButtonElement>(':scope > button[data-pp-trigger]');
+    if (existing) return existing;
+
+    const trigger = document.createElement('button');
+    trigger.type = 'button';
+    trigger.setAttribute('data-pp-trigger', '');
+    trigger.replaceChildren(...heading.childNodes);
+    heading.appendChild(trigger);
+    return trigger;
+  }
+
   private _render() {
     if (this._mutating) return;
     this._mutating = true;
@@ -132,13 +150,12 @@ export class PpSections extends HTMLElement {
   private _renderTabBar(sections: Array<{ heading: HTMLElement; panel: HTMLElement }>) {
     // Clean up details-mode wiring
     for (const { heading, panel } of sections) {
-      heading.removeAttribute('data-pp-trigger');
-      heading.removeAttribute('aria-expanded');
-      heading.removeAttribute('aria-controls');
-      heading.removeAttribute('tabindex');
-      heading.removeAttribute('role');
-      heading.onclick = null;
-      heading.onkeydown = null;
+      const trigger = heading.querySelector<HTMLButtonElement>(':scope > button[data-pp-trigger]');
+      if (trigger) {
+        trigger.onclick = null;
+        trigger.onkeydown = null;
+      }
+      this._restoreHeading(heading);
       panel.removeAttribute('data-pp-open');
     }
 
@@ -232,30 +249,22 @@ export class PpSections extends HTMLElement {
       panel.removeAttribute('data-pp-active');
       panel.removeAttribute('aria-labelledby');
 
-      // Wire as trigger
-      heading.setAttribute('data-pp-trigger', '');
-      heading.setAttribute('role', 'button');
-      heading.setAttribute('tabindex', '0');
-      heading.setAttribute('aria-expanded', panel.hasAttribute('data-pp-open') ? 'true' : 'false');
-      heading.setAttribute('aria-controls', panel.id);
+      const trigger = this._detailsTrigger(heading);
+      if (!trigger.id) trigger.id = `${heading.id}-trigger`;
+      trigger.setAttribute('aria-expanded', panel.hasAttribute('data-pp-open') ? 'true' : 'false');
+      trigger.setAttribute('aria-controls', panel.id);
 
       panel.setAttribute('role', 'region');
-      panel.setAttribute('aria-labelledby', heading.id);
+      panel.setAttribute('aria-labelledby', trigger.id);
 
-      heading.onclick = () => this._togglePanel(heading, panel);
-      heading.onkeydown = (e: KeyboardEvent) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          this._togglePanel(heading, panel);
-        }
-      };
+      trigger.onclick = () => this._togglePanel(trigger, panel);
     }
   }
 
-  private _togglePanel(heading: HTMLElement, panel: HTMLElement) {
+  private _togglePanel(trigger: HTMLElement, panel: HTMLElement) {
     const open = panel.hasAttribute('data-pp-open');
     panel.toggleAttribute('data-pp-open', !open);
-    heading.setAttribute('aria-expanded', open ? 'false' : 'true');
+    trigger.setAttribute('aria-expanded', open ? 'false' : 'true');
   }
 }
 

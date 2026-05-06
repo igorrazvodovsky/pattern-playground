@@ -5,6 +5,7 @@ import { live } from 'lit/directives/live.js';
 import { property, query, state } from 'lit/decorators.js';
 import type { CSSResultGroup } from 'lit';
 import styles from './range.css?inline';
+import { textFromIdRefs } from '../../utility/accessible-name.js';
 
 /**
  * @summary Range lets the actor commit to a value on a continuum by direct manipulation.
@@ -114,6 +115,8 @@ export class PpRange extends LitElement {
   render() {
     const span = this.max - this.min;
     const percent = span > 0 ? ((this.value - this.min) / span) * 100 : 0;
+    const accessibleName = this.label || textFromIdRefs(this.labelledby, this.getRootNode() as Document | ShadowRoot);
+    const labelledby = accessibleName ? undefined : this.labelledby || undefined;
 
     return html`
       <div
@@ -155,8 +158,8 @@ export class PpRange extends LitElement {
                 step=${this.step}
                 ?disabled=${this.disabled}
                 .value=${live(String(this.value))}
-                aria-label=${ifDefined(this.label || undefined)}
-                aria-labelledby=${ifDefined(this.labelledby || undefined)}
+                aria-label=${ifDefined(accessibleName || undefined)}
+                aria-labelledby=${ifDefined(labelledby)}
                 aria-describedby=${ifDefined(this.describedby || undefined)}
                 aria-valuetext=${ifDefined(this.valueText || undefined)}
                 @input=${this.handleInput}

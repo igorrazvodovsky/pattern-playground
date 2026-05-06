@@ -41,7 +41,7 @@ export const Toolbar: Story = {
   },
   render: ({ showFilter, showGrouping, showSort, searchPlaceholder }) => (
     <div className="toolbar flex">
-      <pp-input placeholder={searchPlaceholder}>
+      <pp-input label="Search" placeholder={searchPlaceholder}>
         <iconify-icon className="icon" icon="ph:magnifying-glass" slot="suffix"></iconify-icon>
       </pp-input>
       {showFilter && (
@@ -69,7 +69,7 @@ export const Toolbar: Story = {
               <pp-list-item>Sorting criteria 3</pp-list-item>
             </pp-list>
           </pp-dropdown>
-          <button className="button" is="pp-button">
+          <button className="button" is="pp-button" aria-label="Sort ascending">
             <iconify-icon className="icon" icon="ph:sort-ascending" aria-hidden="true"></iconify-icon>
           </button>
         </div>

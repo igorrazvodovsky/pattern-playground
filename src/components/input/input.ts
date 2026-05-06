@@ -5,6 +5,7 @@ import { live } from 'lit/directives/live.js';
 import { property, query, state } from 'lit/decorators.js';
 import type { CSSResultGroup } from 'lit';
 import styles from './input.css?inline';
+import { textFromIdRefs } from '../../utility/accessible-name.js';
 
 /**
  * @summary Inputs collect data from the user.
@@ -109,6 +110,8 @@ export class PpInput extends LitElement {
   render() {
     const hasClearIcon = this.clearable && !this.disabled;
     const isClearIconVisible = hasClearIcon && (typeof this.value === 'number' || this.value.length > 0);
+    const accessibleName = this.label || textFromIdRefs(this.labelledby, this.getRootNode() as Document | ShadowRoot);
+    const labelledby = accessibleName ? undefined : this.labelledby || undefined;
 
     return html`
       <div
@@ -145,7 +148,7 @@ export class PpInput extends LitElement {
               class="input__control"
               type="text"
               name=${ifDefined(this.name)}
-              title=${this.title /* An empty title prevents browser validation tooltips from appearing on hover */}
+              title=${ifDefined(this.title || undefined)}
               ?disabled=${this.disabled}
               placeholder=${ifDefined(this.placeholder)}
               .value=${live(this.value)}
@@ -153,8 +156,8 @@ export class PpInput extends LitElement {
               autocomplete=${ifDefined(this.autocomplete || undefined)}
               ?autofocus=${this.autofocus}
               spellcheck=${this.spellcheck ? 'true' : 'false'}
-              aria-label=${ifDefined(this.label || undefined)}
-              aria-labelledby=${ifDefined(this.labelledby || undefined)}
+              aria-label=${ifDefined(accessibleName || undefined)}
+              aria-labelledby=${ifDefined(labelledby)}
               aria-describedby=${ifDefined(this.describedby || undefined)}
               @input=${this.handleInput}
             />

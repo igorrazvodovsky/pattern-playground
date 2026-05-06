@@ -5,6 +5,7 @@ import { live } from 'lit/directives/live.js';
 import { property, query, state } from 'lit/decorators.js';
 import type { CSSResultGroup } from 'lit';
 import styles from './select.css?inline';
+import { textFromIdRefs } from '../../utility/accessible-name.js';
 
 /**
  * @summary Choose one value from a short, bounded set of pre-defined options.
@@ -102,6 +103,8 @@ export class PpSelect extends LitElement {
   }
 
   render() {
+    const accessibleName = this.label || textFromIdRefs(this.labelledby, this.getRootNode() as Document | ShadowRoot);
+    const labelledby = accessibleName ? undefined : this.labelledby || undefined;
     const describedbyIds = [
       this.describedby || null,
       'select-hint',
@@ -145,8 +148,8 @@ export class PpSelect extends LitElement {
               ?required=${this.required}
               ?autofocus=${this.autofocus}
               .value=${live(this.value)}
-              aria-label=${ifDefined(this.label || undefined)}
-              aria-labelledby=${ifDefined(this.labelledby || undefined)}
+              aria-label=${ifDefined(accessibleName || undefined)}
+              aria-labelledby=${ifDefined(labelledby)}
               aria-describedby=${ifDefined(describedbyIds)}
               aria-invalid=${this.invalid ? 'true' : 'false'}
               @change=${this.handleChange}

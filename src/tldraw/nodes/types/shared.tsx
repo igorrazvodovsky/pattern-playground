@@ -167,6 +167,7 @@ export function NodeInputRow({
 					ref={inputRef}
 					type="text"
 					inputMode="decimal"
+					aria-label={`${String(portId).replace(/_/g, ' ')} value`}
 					disabled={valueFromPort != null}
 					value={valueFromPort ?? pendingValue ?? value}
 					onChange={(e) => {

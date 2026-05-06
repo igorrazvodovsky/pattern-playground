@@ -70,10 +70,11 @@ export const Advanced: Story = {
           <iconify-icon icon="ph:caret-down"></iconify-icon>
           <select
             className="disguised-select"
-            title="Navigate to another section"
+            aria-label="Navigate to another section"
+            defaultValue="Section B"
           >
             <option>Section A</option>
-            <option selected>Section B</option>
+            <option>Section B</option>
             <option>Section C</option>
             <option>...</option>
           </select>
@@ -86,11 +87,12 @@ export const Advanced: Story = {
           <iconify-icon icon="ph:caret-down"></iconify-icon>
           <select
             className="disguised-select"
-            title="Navigate to another sub collection"
+            aria-label="Navigate to another sub collection"
+            defaultValue="Subsection C"
           >
             <option>Subsection A</option>
             <option>Subsection B</option>
-            <option selected>Subsection C</option>
+            <option>Subsection C</option>
             <option>...</option>
           </select>
         </span>

@@ -123,7 +123,9 @@
 
 /* Disabled */
 .range--disabled {
-  opacity: 0.5;
+  --range-fill: var(--c-neutral-600);
+  --range-track-color: var(--c-neutral-300);
+
   cursor: not-allowed;
 }
 

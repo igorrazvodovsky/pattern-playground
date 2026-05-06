@@ -6,6 +6,10 @@
 
 
 export class SimpleTable extends HTMLElement {
+  connectedCallback() {
+    if (!this.hasAttribute('tabindex')) this.setAttribute('tabindex', '0');
+    if (!this.hasAttribute('aria-label')) this.setAttribute('aria-label', 'Scrollable table');
+  }
 }
 
 declare global {

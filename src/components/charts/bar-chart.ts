@@ -130,6 +130,9 @@ export class BarChart extends ChartComponent {
   private initBarChart() {
     this.setAttribute('tabindex', '0');
     this.setAttribute('role', 'img');
+    if (!this.hasAttribute('aria-label')) {
+      this.setAttribute('aria-label', this.title || 'Bar chart');
+    }
     this.addEventListener('keydown', this.handleKeydown);
   }
 
@@ -240,6 +243,7 @@ export class BarChart extends ChartComponent {
     if (titleElement) {
       titleElement.textContent = this.title || `Bar chart with ${transformedData.data.length} data points`;
     }
+    this.setAttribute('aria-label', this.title || `Bar chart with ${transformedData.data.length} data points`);
   }
 
   private addInteractions(): void {

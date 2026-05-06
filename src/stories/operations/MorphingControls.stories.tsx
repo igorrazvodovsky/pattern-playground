@@ -66,6 +66,7 @@ const MultiStateDemo = () => {
     <button
       className="button"
       is="pp-button"
+      aria-label="Close"
       onClick={() => setState("confirming")}
     >
       <iconify-icon className="icon" icon="ph:x" />
@@ -84,4 +85,3 @@ export const PlayPause: Story = {
 export const MultiState: Story = {
   render: () => <MultiStateDemo />,
 };
-

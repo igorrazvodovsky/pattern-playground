@@ -42,7 +42,7 @@ export const Default: Story = {
     <span className={['tag', args.pill ? 'tag--pill' : ''].filter(Boolean).join(' ')}>
       {args.label}
       {args.removable && (
-        <button>
+        <button aria-label={`Remove ${args.label}`}>
           <iconify-icon className="icon" icon="ph:x" />
         </button>
       )}
@@ -73,13 +73,13 @@ export const Removable: Story = {
     <div className="inline-flow">
       <span className="tag">
         Tag
-        <button>
+        <button aria-label="Remove tag">
           <iconify-icon className="icon" icon="ph:x"></iconify-icon>
         </button>
       </span>
       <span className="tag tag--pill">
         Tag
-        <button>
+        <button aria-label="Remove tag">
           <iconify-icon className="icon" icon="ph:x"></iconify-icon>
         </button>
       </span>
@@ -111,7 +111,7 @@ export const Disabled: Story = {
     <div className="inline-flow">
       <span className="tag">
         Tag
-        <button disabled>
+        <button disabled aria-label="Remove tag">
           <iconify-icon className="icon" icon="ph:x"></iconify-icon>
         </button>
       </span>

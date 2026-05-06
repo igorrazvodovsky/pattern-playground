@@ -59,6 +59,10 @@
 
   /* ---- Details triggers ---- */
 
+  :is(h1, h2, h3, h4, h5, h6, pp-h):has(> [data-pp-trigger]) {
+    margin: 0;
+  }
+
   [data-pp-trigger] {
     display: flex;
     align-items: center;

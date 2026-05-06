@@ -37,7 +37,7 @@ export const Conversational: Story = {
             <div className="inline-flow">
               <label className="form-control tag"><input type="checkbox" />Option A</label>
               <label className="form-control tag"><input type="checkbox" />Option B</label>
-              <label className="form-control tag"><input type="checkbox" checked />Option C</label>
+              <label className="form-control tag"><input type="checkbox" defaultChecked />Option C</label>
             </div>
           </div>
         </div>
@@ -51,7 +51,7 @@ export const Conversational: Story = {
         <div className="message__content">
           <div className="message__body layer">
             <div className="flex">
-              <pp-range name="range" min={0} max={100} value={50}>
+              <pp-range label="Amount" name="range" min={0} max={100} value={50}>
                 <span slot="prefix">0</span>
                 <span slot="suffix">100</span>
               </pp-range>
@@ -79,7 +79,7 @@ export const Conversational: Story = {
         </div>
       </div>
       <div className="message-composer layer">
-        <pp-input placeholder="How can I help you today?">
+        <pp-input label="Message" placeholder="How can I help you today?">
         </pp-input>
         <div className="message-composer__actions">
           <button className="button button--plain" is="pp-button">
