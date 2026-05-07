@@ -21,12 +21,14 @@ When writing or modifying Storybook stories, use `/example-skills:webapp-testing
 
 ## Storybook accessibility tests
 
-Storybook uses `@storybook/addon-a11y` with `@storybook/addon-vitest`.
-The global accessibility test behavior lives in `.storybook/preview.ts`:
+Storybook uses `@storybook/addon-a11y` with `@storybook/addon-vitest`. The global accessibility test behavior lives in `.storybook/preview.ts`.
 
-- `todo` keeps violations visible in Storybook's test UI without failing CI.
-- `error` turns violations into failing Storybook Vitest tests.
-- `off` should be reserved for stories that intentionally demonstrate non-accessible usage.
+Default to `error` for all stories — violations should fail Storybook Vitest tests. Deviations require explicit justification:
+
+- `todo` only with a linked issue tracking the fix.
+- `off` only with an inline comment explaining the intentional non-accessible usage.
+
+A passing axe run is a regression floor, not accessibility sign-off — interaction behaviour, contrast in hover/focus/dark-mode states, and focus management still need whatever verification the implementation plan specifies.
 
 Use `npm run test-storybook -- --run` for a one-shot local run. If Chromium is missing after installing or updating Playwright, run `npx playwright install chromium`.
 
