@@ -1,3 +1,4 @@
+import { announce } from '../../utility/announce.js';
 import { LitElement, html, unsafeCSS } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import styles from './list.css?inline';
@@ -25,7 +26,6 @@ export class PpList extends LitElement {
   @property({ attribute: 'aria-describedby', reflect: true }) ariaDescribedby = '';
   @property({ type: Boolean, attribute: 'multiselectable', reflect: true }) multiselectable = false;
 
-  private announcer: HTMLElement | null = null;
   private openSubmenus: Set<PpListItem> = new Set();
   private currentSubmenu: PpListItem | null = null;
   private submenuTimeout: number | null = null;
@@ -42,11 +42,6 @@ export class PpList extends LitElement {
   disconnectedCallback() {
     super.disconnectedCallback();
 
-    if (this.announcer && this.announcer.parentNode) {
-      this.announcer.parentNode.removeChild(this.announcer);
-      this.announcer = null;
-    }
-
     // Clean up submenu state
     if (this.submenuTimeout) {
       clearTimeout(this.submenuTimeout);
@@ -59,7 +54,6 @@ export class PpList extends LitElement {
   private init() {
     this.setAttribute('role', 'menu');
     this.setupAccessibility();
-    this.createScreenReaderAnnouncer();
   }
 
   private setupAccessibility() {
@@ -85,26 +79,6 @@ export class PpList extends LitElement {
 
     this.setAttribute('tabindex', '0');
     this.setAttribute('aria-activedescendant', '');
-  }
-
-  private createScreenReaderAnnouncer() {
-    if (!this.announcer) {
-      this.announcer = document.createElement('div');
-      this.announcer.setAttribute('aria-live', 'polite');
-      this.announcer.setAttribute('aria-atomic', 'true');
-      this.announcer.style.position = 'absolute';
-      this.announcer.style.left = '-10000px';
-      this.announcer.style.width = '1px';
-      this.announcer.style.height = '1px';
-      this.announcer.style.overflow = 'hidden';
-      document.body.appendChild(this.announcer);
-    }
-  }
-
-  private announce(message: string) {
-    if (this.announcer) {
-      this.announcer.textContent = message;
-    }
   }
 
   private handleClick(event: MouseEvent) {
@@ -273,8 +247,8 @@ export class PpList extends LitElement {
     }
   }
 
-  private handleMouseLeave(event: MouseEvent) {
-    this.handleSubmenuMouseLeave(event);
+  private handleMouseLeave() {
+    this.handleSubmenuMouseLeave();
   }
 
   private handleSlotChange() {
@@ -393,22 +367,29 @@ export class PpList extends LitElement {
     this.currentSubmenu = null;
   }
 
-  focusOnCurrentItem() {
+  private focusOnCurrentItem() {
     const currentItem = this.getCurrentItem();
     if (currentItem) {
       currentItem.focus();
     }
   }
 
-  // Enhanced mouse handling for submenu hover
-  private handleSubmenuMouseEnter(item: PpListItem) {
-    // Clear any existing timeout
+  /** Cancel any pending submenu close. Called by pp-dropdown when the mouse enters a submenu popup. */
+  cancelSubmenuClose() {
     if (this.submenuTimeout) {
       clearTimeout(this.submenuTimeout);
       this.submenuTimeout = null;
     }
+  }
 
-    // Open submenu after a short delay
+  /** Schedule closing all submenus after a short delay. Called by pp-dropdown when the mouse leaves a submenu popup. */
+  scheduleSubmenuClose() {
+    this.cancelSubmenuClose();
+    this.submenuTimeout = window.setTimeout(() => this.closeAllSubmenus(), 100);
+  }
+
+  private handleSubmenuMouseEnter(item: PpListItem) {
+    this.cancelSubmenuClose();
     this.submenuTimeout = window.setTimeout(() => {
       if (item.hasSubmenu && !item.submenuOpen) {
         this.openSubmenu(item);
@@ -416,49 +397,8 @@ export class PpList extends LitElement {
     }, 150);
   }
 
-  private handleSubmenuMouseLeave(event: MouseEvent) {
-    if (this.submenuTimeout) {
-      clearTimeout(this.submenuTimeout);
-      this.submenuTimeout = null;
-    }
-
-    // Don't close submenu immediately - implement safe triangle pattern
-    // Give user time to move to submenu popup without closing
-    this.submenuTimeout = window.setTimeout(() => {
-      // Only close if mouse is not over any submenu popup
-      const isOverSubmenu = this.isMouseOverSubmenuPopup(event);
-      if (!isOverSubmenu) {
-        this.closeAllSubmenus();
-      }
-    }, 100); // Reduced delay for better responsiveness
-  }
-
-  private isMouseOverSubmenuPopup(event: MouseEvent): boolean {
-    const dropdown = this.closest('pp-dropdown');
-    if (!dropdown) return false;
-
-    // Get all submenu popups from the dropdown
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- accessing internal dropdown API
-    const submenuPopups = (dropdown as any).submenuPopups;
-    if (!submenuPopups) return false;
-
-    // Check if mouse coordinates are over any submenu popup
-    const elementsAtPoint = document.elementsFromPoint(event.clientX, event.clientY);
-
-    for (const popup of submenuPopups.values()) {
-      if (elementsAtPoint.includes(popup)) {
-        return true;
-      }
-      // Also check if any child elements of the popup are under the mouse
-      const popupChildren = popup.querySelectorAll('*');
-      for (const child of popupChildren) {
-        if (elementsAtPoint.includes(child)) {
-          return true;
-        }
-      }
-    }
-
-    return false;
+  private handleSubmenuMouseLeave() {
+    this.scheduleSubmenuClose();
   }
 
   render() {

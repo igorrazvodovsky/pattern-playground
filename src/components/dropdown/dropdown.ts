@@ -1,9 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any -- complex event handling types; see plans/tech-debt-tracker.md */
-// TODO:
-// Submenu
-// Positioning glitch
-
 import { animateTo, stopAnimations } from '../../utility/animate.ts';
+import { announce } from '../../utility/announce.ts';
 import { classMap } from 'lit/directives/class-map.js';
 import { getAnimation, setDefaultAnimation } from '../../utility/animation-registry.ts';
 import { getTabbableBoundary } from '../../utility/tabbable.ts';
@@ -65,8 +62,7 @@ export class PpDropdown extends LitElement {
   @query('.dropdown__panel') panel!: HTMLSlotElement;
 
   private closeWatcher: CloseWatcher | null = null;
-  private announcer: HTMLElement | null = null;
-  private submenuPopups: Map<PpListItem, PpPopup> = new Map();
+  private submenuPopups: Map<PpListItem, { popup: PpPopup; content: HTMLElement }> = new Map();
 
   @property({ type: Boolean, reflect: true }) open = false;
   @property({ reflect: true }) placement:
@@ -110,30 +106,7 @@ export class PpDropdown extends LitElement {
 
   private init() {
     if (!this.containingElement) {
-      // Use improved shadow DOM traversal to find the proper containing element
       this.containingElement = getRootContainingElement(this);
-    }
-    this.createScreenReaderAnnouncer();
-  }
-
-  private createScreenReaderAnnouncer() {
-    // Create a live region for screen reader announcements
-    if (!this.announcer) {
-      this.announcer = document.createElement('div');
-      this.announcer.setAttribute('aria-live', 'polite');
-      this.announcer.setAttribute('aria-atomic', 'true');
-      this.announcer.style.position = 'absolute';
-      this.announcer.style.left = '-10000px';
-      this.announcer.style.width = '1px';
-      this.announcer.style.height = '1px';
-      this.announcer.style.overflow = 'hidden';
-      document.body.appendChild(this.announcer);
-    }
-  }
-
-  private announce(message: string) {
-    if (this.announcer) {
-      this.announcer.textContent = message;
     }
   }
 
@@ -149,14 +122,6 @@ export class PpDropdown extends LitElement {
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeOpenListeners();
-
-    // Clean up screen reader announcer
-    if (this.announcer && this.announcer.parentNode) {
-      this.announcer.parentNode.removeChild(this.announcer);
-      this.announcer = null;
-    }
-
-    // Clean up submenu popups
     this.cleanupSubmenuPopups();
 
     // Ensure we clean up any remaining state
@@ -483,17 +448,11 @@ export class PpDropdown extends LitElement {
   private async createSubmenuPopup(item: PpListItem) {
     if (this.submenuPopups.has(item)) return;
 
-    // Find the submenu content (light DOM element with slot="submenu")
     const submenuContent = item.querySelector('[slot="submenu"]') as HTMLElement;
     if (!submenuContent) return;
 
-    // Create a new popup for the submenu
     const popup = document.createElement('pp-popup') as PpPopup;
-
-    // Set anchor BEFORE adding to DOM (critical for initialization)
     popup.anchor = item;
-
-    // Set all properties before DOM insertion
     popup.placement = item.submenuPlacement || 'right-start';
     popup.distance = 4;
     popup.strategy = this.hoist ? 'fixed' : 'absolute';
@@ -504,84 +463,63 @@ export class PpDropdown extends LitElement {
     popup.flipPadding = this.flipPadding;
     popup.shiftPadding = this.shiftPadding;
 
-    // Clone and append content
-    const clonedContent = submenuContent.cloneNode(true) as HTMLElement;
-    clonedContent.removeAttribute('slot');
-    popup.appendChild(clonedContent);
+    // Move the live element (not a clone) so reactivity and event listeners are preserved.
+    // It is restored to its original slot in destroySubmenuPopup.
+    submenuContent.removeAttribute('slot');
+    popup.appendChild(submenuContent);
 
-    // Add to document and wait for it to be fully rendered
     document.body.appendChild(popup);
-    this.submenuPopups.set(item, popup);
+    this.submenuPopups.set(item, { popup, content: submenuContent });
 
-    // Wait for the popup to complete its first render before activating
     await popup.updateComplete;
-
-    // Wait an additional frame to ensure DOM is settled
     await new Promise(resolve => requestAnimationFrame(resolve));
 
-    // Now activate the popup
     popup.active = true;
+    requestAnimationFrame(() => popup.reposition());
 
-    // Final positioning after activation
-    requestAnimationFrame(() => {
-      popup.reposition();
-    });
-
-    // Handle submenu selection events
     popup.addEventListener('pp-select', (e) => {
-      // Bubble up the selection event to the main dropdown
       this.dispatchEvent(new CustomEvent('pp-select', {
-        detail: e.detail,
+        detail: (e as CustomEvent).detail,
         bubbles: true,
         composed: true
       }));
-
-      // Close submenu and potentially the whole dropdown based on stayOpenOnSelect
       if (!this.stayOpenOnSelect) {
         this.hide();
       }
     });
 
-    // Handle mouse events to prevent premature closing
     popup.addEventListener('mouseenter', () => {
-      // Clear any pending close timeout when mouse enters submenu
-      const list = this.panel.querySelector('pp-list');
-      if (list && (list as any).submenuTimeout) {
-        clearTimeout((list as any).submenuTimeout);
-        (list as any).submenuTimeout = null;
-      }
-
-      // Keep the parent item as current when in submenu
-      const parentList = this.panel.querySelector('pp-list');
-      if (parentList) {
-        (parentList as any).setCurrentItem(item);
+      const list = this.getList();
+      if (list) {
+        list.cancelSubmenuClose();
+        list.setCurrentItem(item);
       }
     });
 
     popup.addEventListener('mouseleave', () => {
-      // Start a new timeout to close submenu when leaving
-      const list = this.panel.querySelector('pp-list');
+      const list = this.getList();
       if (list) {
-        (list as any).submenuTimeout = window.setTimeout(() => {
-          (list as any).closeAllSubmenus();
-        }, 100);
+        list.scheduleSubmenuClose();
       }
     });
   }
 
   private destroySubmenuPopup(item: PpListItem) {
-    const popup = this.submenuPopups.get(item);
-    if (popup && popup.parentNode) {
-      popup.parentNode.removeChild(popup);
-      this.submenuPopups.delete(item);
-    }
+    const entry = this.submenuPopups.get(item);
+    if (!entry) return;
+    const { popup, content } = entry;
+    // Restore content to its original slot before removing the popup
+    content.setAttribute('slot', 'submenu');
+    item.appendChild(content);
+    popup.remove();
+    this.submenuPopups.delete(item);
   }
 
   private cleanupSubmenuPopups() {
-    this.submenuPopups.forEach((popup) => {
-      if (popup.parentNode) {
-        popup.parentNode.removeChild(popup);
-      }
+    this.submenuPopups.forEach(({ popup, content }, item) => {
+      content.setAttribute('slot', 'submenu');
+      item.appendChild(content);
+      popup.remove();
     });
     this.submenuPopups.clear();
   }
