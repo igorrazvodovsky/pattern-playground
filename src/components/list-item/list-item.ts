@@ -48,16 +48,22 @@ export class PpListItem extends LitElement {
   @property({ attribute: 'aria-setsize', type: Number, reflect: true }) ariaSetsize?: number;
   @property({ attribute: 'aria-posinset', type: Number, reflect: true }) ariaPosinset?: number;
 
+  private initialized = false;
+
   connectedCallback() {
     super.connectedCallback();
     if (document.readyState !== 'loading') {
       this.init();
       return;
     }
-    document.addEventListener('DOMContentLoaded', () => this.init());
+    if (!this.initialized) {
+      document.addEventListener('DOMContentLoaded', () => this.init(), { once: true });
+    }
   }
 
   private init() {
+    if (this.initialized) return;
+    this.initialized = true;
     this.addEventListener('click', this.handleHostClick);
     this.addEventListener('mouseover', this.handleMouseOver);
     this.addEventListener('focus', this.handleFocus);
@@ -116,12 +122,10 @@ export class PpListItem extends LitElement {
     }
   };
 
-  private handleMouseOver = (event: MouseEvent) => {
-    // Provide visual focus indication on hover for better UX
+  private handleMouseOver = () => {
     if (!this.disabled) {
       this.focus();
     }
-    event.stopPropagation();
   };
 
   private handleFocus = () => {
