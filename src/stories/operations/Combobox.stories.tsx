@@ -20,7 +20,7 @@ type Story = StoryObj;
 
 const statusOptions = [
   { value: 'backlog', label: 'Backlog', icon: 'ph:circle' },
-  { value: 'todo', label: 'To do', icon: 'ph:circle-dotted' },
+  { value: 'todo', label: 'To do', icon: 'ph:circle-dashed' },
   { value: 'in-progress', label: 'In progress', icon: 'ph:circle-half' },
   { value: 'in-review', label: 'In review', icon: 'ph:circle-wavy' },
   { value: 'done', label: 'Done', icon: 'ph:check-circle' },

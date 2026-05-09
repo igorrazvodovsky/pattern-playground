@@ -14,17 +14,6 @@ A text input paired with a popup listbox: the actor types to narrow candidates, 
   <Story of={ ComboboxStories.Default } />
 </Canvas>
 
-## The WAI-ARIA contract
-
-The [WAI-ARIA APG combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/) specifies four invariants that `src/components/combobox/` realises via thin wrappers over [`cmdk`](https://www.npmjs.com/package/cmdk):
-
-1. **Text input** — typing filters the popup content
-2. **Popup listbox** — opens on focus or first keystroke; dismissed after selection or Escape
-3. **Selection commit** — Enter or pointer click activates an item, closes the popup, and writes the value
-4. **Keyboard model** — Arrow Up/Down navigate items; Home/End jump to list bounds; Escape cancels
-
-The exported primitives are: `Combobox`, `ComboboxInput`, `ComboboxList`, `ComboboxEmpty`, `ComboboxGroup`, `ComboboxItem`.
-
 ## Checked items
 
 `ComboboxItem` accepts a `checked` prop for multi-select use cases, where selections accumulate before the actor dismisses the popup. The filter value picker in [Filtering](../?path=/docs/actions-seeking-filtering--docs) uses this variant.
@@ -64,7 +53,7 @@ The exported primitives are: `Combobox`, `ComboboxInput`, `ComboboxList`, `Combo
 
 ## Resources & references
 
-- [WAI-ARIA APG combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/)
-- [`cmdk`](https://github.com/dip/cmdk) — React component library implementing the WAI-ARIA combobox pattern, which this component wraps
-- [Open UI — Combobox research](https://open-ui.org/components/combobox.research/)
+- [WAI-ARIA APG pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/)
+- [`cmdk`](https://github.com/dip/cmdk) — React component library which this component wraps
+- Open UI / [Research](https://open-ui.org/components/combobox.research/) & [Explainer](https://open-ui.org/components/combobox.explainer/)
 - Smashing Magazine — [Combobox vs Multiselect vs Listbox](https://www.smashingmagazine.com/2026/02/combobox-vs-multiselect-vs-listbox/)

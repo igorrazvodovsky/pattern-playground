@@ -133,6 +133,12 @@
       "atomic-category": "component",
       "mediation": "coordination"
     },
+    "actions-coordination-dual-listbox": {
+      "activity-level": "action",
+      "lifecycle-stage": "coordination",
+      "atomic-category": "pattern",
+      "mediation": "coordination"
+    },
     "actions-coordination-messaging": {
       "activity-level": "action",
       "lifecycle-stage": "coordination",
@@ -563,6 +569,12 @@
       "activity-level": "operation",
       "lifecycle-stage": null,
       "atomic-category": "primitive",
+      "mediation": "individual"
+    },
+    "operations-combobox": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
       "mediation": "individual"
     },
     "operations-deep-linking": {
