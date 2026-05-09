@@ -21,6 +21,15 @@ pp-dialog [cmdk-root] {
   outline: none;
 }
 
+[cmdk-root]:not(:has([cmdk-list])) {
+  padding-block-end: 0;
+}
+
+[cmdk-root]:not(:has([cmdk-list])) [cmdk-input-wrapper] {
+  /* padding-block-end: 0; */
+  border-bottom: none;
+}
+
 [cmdk-input-wrapper] {
   display: flex;
   align-items: center;
@@ -82,7 +91,8 @@ pp-dialog [cmdk-root] {
   /* border-radius: var(--radius-s); */
 }
 
-[cmdk-item]:hover:not([aria-disabled="true"]) {
+[cmdk-item]:hover:not([aria-disabled="true"]),
+[cmdk-item][aria-selected="true"]:not([aria-disabled="true"]) {
   background-color: var(--c-neutral-50);
   color: var(--c-neutral-1000);
 }

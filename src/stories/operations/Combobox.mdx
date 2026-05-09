@@ -14,24 +14,23 @@ A text input paired with a popup listbox: the actor types to narrow candidates, 
   <Story of={ ComboboxStories.Default } />
 </Canvas>
 
-## Checked items
+## Multiple selection
 
-`ComboboxItem` accepts a `checked` prop for multi-select use cases, where selections accumulate before the actor dismisses the popup. The filter value picker in [Filtering](../?path=/docs/actions-seeking-filtering--docs) uses this variant.
+`TODO:` Use `multiple` with [tags](../?path=/docs/operations-tag--docs) for multi-select behavior.
 
-<Story of={ ComboboxStories.Checked } />
+## Validation
+
+`TODO:` Use the `aria-invalid` prop to make the combobox invalid.
+
+## Disabled
+
+`TODO:` Use the `disabled` prop to disable the combobox.
 
 ## Grouped
 
 `ComboboxGroup` divides the listbox into labelled sections without adding interaction cost. Useful when the option set spans multiple categories.
 
 <Story of={ ComboboxStories.Grouped } />
-
-## Design considerations
-
-- Pass `shouldFilter={false}` when the parent owns filtering — all consuming patterns in this codebase do, to support fuzzy search and server-side results.
-- Match the input placeholder to the narrowing target ("Filter by priority…") rather than a generic label. Hierarchical consumers like Command menu and Reference picker update the placeholder dynamically as context shifts.
-- `onEscape` extends `cmdk`'s default behaviour. Returning `true` signals that the consumer handled the keypress — letting hierarchical consumers navigate back a level before closing rather than always exiting.
-- Prefer a native `<select>` for short, known option sets; a combobox earns its weight only when the set is long, unfamiliar, or fetched asynchronously.
 
 ## Related patterns
 

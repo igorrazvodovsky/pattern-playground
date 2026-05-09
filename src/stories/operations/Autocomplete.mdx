@@ -1,15 +1,16 @@
-import { Meta } from '@storybook/addon-docs/blocks';
+import { Canvas, Story, Meta } from '@storybook/addon-docs/blocks';
+import * as AutocompleteStories from './Autocomplete.stories.tsx';
 import { profile } from './Autocomplete.profile';
 
-<Meta
-  title="Operations/Autocomplete"
-  tags={['activity-level:operation', 'atomic:pattern', 'role:pattern', 'mediation:individual']}/>
+<Meta of={ AutocompleteStories } tags={['activity-level:operation', 'atomic:pattern', 'role:pattern', 'mediation:individual']} />
 
 > 🙂 **Fun meter: 2/5**. Dependency.
 
 # Autocomplete
 
 Predicting and suggesting completions for a value the actor is actively typing, so they can pick from a narrowing set of options instead of finishing the thought themselves.
+
+<Story of={ AutocompleteStories.Default } />
 
 Part of the [assisted task completion](../?path=/docs/actions-application-assisted-task-completion--docs) spectrum, at the most reactive end — the system takes almost no initiative here.
 
