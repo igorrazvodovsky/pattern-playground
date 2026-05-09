@@ -134,7 +134,7 @@ const ComboboxItem = React.forwardRef<
 
   if (asChild) {
     return (
-      <Comp ref={ref} className={`${checked ? 'command-item--checked' : ''} ${className || ''}`}>
+      <Comp ref={ref} className={`${checked ? 'combobox-item--checked' : ''} ${className || ''}`}>
         {children}
       </Comp>
     );
@@ -143,27 +143,27 @@ const ComboboxItem = React.forwardRef<
   return (
     <ComboboxPrimitive.Item
       ref={ref}
-      className={`${checked ? 'command-item--checked' : ''} ${className || ''}`}
+      className={`${checked ? 'combobox-item--checked' : ''} ${className || ''}`}
       {...props}
     >
-      <span className="command-item__check">
+      <span className="combobox-item__check">
         <Icon icon="ph:check" aria-hidden="true" />
       </span>
 
       {prefix.length > 0 && (
-        <span className="command-item__prefix">
+        <span className="combobox-item__prefix">
           {prefix.map((child, index) =>
             React.cloneElement(child as React.ReactElement, { key: index })
           )}
         </span>
       )}
 
-      <span className="command-item__label">
+      <span className="combobox-item__label">
         {content}
       </span>
 
       {suffix.length > 0 && (
-        <span className="command-item__suffix">
+        <span className="combobox-item__suffix">
           {suffix.map((child, index) =>
             React.cloneElement(child as React.ReactElement, { key: index })
           )}
