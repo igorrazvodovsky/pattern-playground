@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Command as CommandPrimitive } from "cmdk"
+import { Command as ComboboxPrimitive } from "cmdk"
 import { Icon } from '@iconify/react'
 import { Slot } from "@radix-ui/react-slot"
 
@@ -10,13 +10,13 @@ interface SlotProps {
   children?: React.ReactNode;
 }
 
-interface CommandItemSlots {
+interface ComboboxItemSlots {
   prefix: React.ReactNode[];
   suffix: React.ReactNode[];
   content: React.ReactNode[];
 }
 
-const useCommandItemSlots = (children: React.ReactNode): CommandItemSlots => {
+const useComboboxItemSlots = (children: React.ReactNode): ComboboxItemSlots => {
   return React.useMemo(() => {
     const childArray = React.Children.toArray(children);
 
@@ -34,14 +34,14 @@ const useCommandItemSlots = (children: React.ReactNode): CommandItemSlots => {
   }, [children]);
 };
 
-interface CommandProps extends React.ComponentPropsWithoutRef<typeof CommandPrimitive> {
+interface ComboboxProps extends React.ComponentPropsWithoutRef<typeof ComboboxPrimitive> {
   /** Callback fired when the Escape key is pressed. Return true to prevent default behavior. */
   onEscape?: () => boolean | void;
 }
 
-const Command = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive>,
-  CommandProps
+const Combobox = React.forwardRef<
+  React.ElementRef<typeof ComboboxPrimitive>,
+  ComboboxProps
 >(({ onEscape, onKeyDown, ...props }, ref) => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Escape' && onEscape) {
@@ -55,26 +55,26 @@ const Command = React.forwardRef<
   };
 
   return (
-    <CommandPrimitive
+    <ComboboxPrimitive
       ref={ref}
       onKeyDown={handleKeyDown}
       {...props}
     />
   )
 })
-Command.displayName = CommandPrimitive.displayName
+Combobox.displayName = ComboboxPrimitive.displayName
 
-interface CommandInputProps extends React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input> {
+interface ComboboxInputProps extends React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Input> {
   placeholder?: string;
 }
 
-const CommandInput = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive.Input>,
-  CommandInputProps
+const ComboboxInput = React.forwardRef<
+  React.ElementRef<typeof ComboboxPrimitive.Input>,
+  ComboboxInputProps
 >(({ placeholder = "Search, commands, etc.", ...props }, ref) => (
   <div cmdk-input-wrapper="">
     <Icon icon="ph:magnifying-glass" className="icon" aria-hidden="true" />
-    <CommandPrimitive.Input
+    <ComboboxPrimitive.Input
       ref={ref}
       placeholder={placeholder}
       {...props}
@@ -82,55 +82,55 @@ const CommandInput = React.forwardRef<
   </div>
 ))
 
-CommandInput.displayName = CommandPrimitive.Input.displayName
+ComboboxInput.displayName = ComboboxPrimitive.Input.displayName
 
-const CommandList = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive.List>,
-  React.ComponentPropsWithoutRef<typeof CommandPrimitive.List>
+const ComboboxList = React.forwardRef<
+  React.ElementRef<typeof ComboboxPrimitive.List>,
+  React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.List>
 >(({ ...props }, ref) => (
-  <CommandPrimitive.List
+  <ComboboxPrimitive.List
     ref={ref}
     {...props}
   />
 ))
 
-CommandList.displayName = CommandPrimitive.List.displayName
+ComboboxList.displayName = ComboboxPrimitive.List.displayName
 
-const CommandEmpty = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive.Empty>,
-  React.ComponentPropsWithoutRef<typeof CommandPrimitive.Empty>
+const ComboboxEmpty = React.forwardRef<
+  React.ElementRef<typeof ComboboxPrimitive.Empty>,
+  React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Empty>
 >((props, ref) => (
-  <CommandPrimitive.Empty
+  <ComboboxPrimitive.Empty
     ref={ref}
     {...props}
   />
 ))
 
-CommandEmpty.displayName = CommandPrimitive.Empty.displayName
+ComboboxEmpty.displayName = ComboboxPrimitive.Empty.displayName
 
-const CommandGroup = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive.Group>,
-  React.ComponentPropsWithoutRef<typeof CommandPrimitive.Group>
+const ComboboxGroup = React.forwardRef<
+  React.ElementRef<typeof ComboboxPrimitive.Group>,
+  React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Group>
 >(({ ...props }, ref) => (
-  <CommandPrimitive.Group
+  <ComboboxPrimitive.Group
     ref={ref}
     {...props}
   />
 ))
 
-CommandGroup.displayName = CommandPrimitive.Group.displayName
+ComboboxGroup.displayName = ComboboxPrimitive.Group.displayName
 
-interface CommandItemProps extends React.ComponentPropsWithoutRef<typeof CommandPrimitive.Item> {
+interface ComboboxItemProps extends React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Item> {
   checked?: boolean;
   asChild?: boolean;
 }
 
-const CommandItem = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive.Item>,
-  CommandItemProps
+const ComboboxItem = React.forwardRef<
+  React.ElementRef<typeof ComboboxPrimitive.Item>,
+  ComboboxItemProps
 >(({ children, checked, asChild, className, ...props }, ref) => {
-  const Comp = asChild ? Slot : CommandPrimitive.Item;
-  const { prefix, suffix, content } = useCommandItemSlots(children);
+  const Comp = asChild ? Slot : ComboboxPrimitive.Item;
+  const { prefix, suffix, content } = useComboboxItemSlots(children);
 
   if (asChild) {
     return (
@@ -141,7 +141,7 @@ const CommandItem = React.forwardRef<
   }
 
   return (
-    <CommandPrimitive.Item
+    <ComboboxPrimitive.Item
       ref={ref}
       className={`${checked ? 'command-item--checked' : ''} ${className || ''}`}
       {...props}
@@ -169,49 +169,57 @@ const CommandItem = React.forwardRef<
           )}
         </span>
       )}
-    </CommandPrimitive.Item>
+    </ComboboxPrimitive.Item>
   );
 });
 
-CommandItem.displayName = CommandPrimitive.Item.displayName
+ComboboxItem.displayName = ComboboxPrimitive.Item.displayName
 
-interface CommandItemPrefixProps extends React.HTMLAttributes<HTMLSpanElement> {
+interface ComboboxItemPrefixProps extends React.HTMLAttributes<HTMLSpanElement> {
   /** Content to be rendered in the prefix slot */
   children?: React.ReactNode;
 }
 
-const CommandItemPrefix = React.forwardRef<
+const ComboboxItemPrefix = React.forwardRef<
   HTMLSpanElement,
-  CommandItemPrefixProps
+  ComboboxItemPrefixProps
 >(({ children, ...props }, ref) => (
   <span ref={ref} slot="prefix" {...props}>
     {children}
   </span>
 ))
-CommandItemPrefix.displayName = "CommandItemPrefix"
+ComboboxItemPrefix.displayName = "ComboboxItemPrefix"
 
-interface CommandItemSuffixProps extends React.HTMLAttributes<HTMLSpanElement> {
+interface ComboboxItemSuffixProps extends React.HTMLAttributes<HTMLSpanElement> {
   /** Content to be rendered in the suffix slot */
   children?: React.ReactNode;
 }
 
-const CommandItemSuffix = React.forwardRef<
+const ComboboxItemSuffix = React.forwardRef<
   HTMLSpanElement,
-  CommandItemSuffixProps
+  ComboboxItemSuffixProps
 >(({ children, ...props }, ref) => (
   <span ref={ref} slot="suffix" {...props}>
     {children}
   </span>
 ))
-CommandItemSuffix.displayName = "CommandItemSuffix"
+ComboboxItemSuffix.displayName = "ComboboxItemSuffix"
 
 export {
-  Command,
-  CommandInput,
-  CommandList,
-  CommandEmpty,
-  CommandGroup,
-  CommandItem,
-  CommandItemPrefix,
-  CommandItemSuffix,
+  Combobox,
+  ComboboxInput,
+  ComboboxList,
+  ComboboxEmpty,
+  ComboboxGroup,
+  ComboboxItem,
+  ComboboxItemPrefix,
+  ComboboxItemSuffix,
+}
+
+export type {
+  ComboboxProps,
+  ComboboxInputProps,
+  ComboboxItemProps,
+  ComboboxItemPrefixProps,
+  ComboboxItemSuffixProps,
 }

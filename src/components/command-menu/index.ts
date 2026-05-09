@@ -1,14 +1,3 @@
-export {
-  Command,
-  CommandInput,
-  CommandList,
-  CommandEmpty,
-  CommandGroup,
-  CommandItem,
-  CommandItemPrefix,
-  CommandItemSuffix,
-} from './command';
-
 export { AIFallbackHandler } from './ai-fallback-handler';
 
 // Core hooks

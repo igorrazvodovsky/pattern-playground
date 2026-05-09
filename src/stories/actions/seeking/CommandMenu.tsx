@@ -1,11 +1,13 @@
 import { useMemo, useCallback, useEffect } from 'react'
 
 import {
-  Command,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
+  Combobox,
+  ComboboxGroup,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "../../../components/combobox";
+import {
   AIFallbackHandler,
   useAICommand,
   type AICommandResult
@@ -105,14 +107,14 @@ function CommandMenu({ onClose }: { onClose?: () => void } = {}) {
 
   return (
     <>
-      <Command label="Command menu" shouldFilter={false} onEscape={actions.handleEscape}>
-        <CommandInput
+      <Combobox label="Command menu" shouldFilter={false} onEscape={actions.handleEscape}>
+        <ComboboxInput
           placeholder={placeholder}
           value={state.searchInput}
           onValueChange={actions.updateSearch}
           ref={inputRef}
         />
-        <CommandList>
+        <ComboboxList>
           {!hasResults && (
             <AIFallbackHandler
               searchInput={state.searchInput}
@@ -135,31 +137,31 @@ function CommandMenu({ onClose }: { onClose?: () => void } = {}) {
           {hasResults && (
             <>
               {state.mode === 'global' && filteredRecentItems.length > 0 && (
-                <CommandGroup heading="Recent">
+                <ComboboxGroup heading="Recent">
                   {filteredRecentItems.map((item) => (
-                    <CommandItem key={item.id}>
+                    <ComboboxItem key={item.id}>
                       <iconify-icon icon={item.icon as string} slot="prefix"></iconify-icon>
                       {item.name}
-                    </CommandItem>
+                    </ComboboxItem>
                   ))}
-                </CommandGroup>
+                </ComboboxGroup>
               )}
 
               {state.mode === 'contextual' ? (
-                <CommandGroup>
+                <ComboboxGroup>
                   {results.contextualItems?.map((action) => (
-                    <CommandItem key={action.id} onSelect={() => actions.selectChild(action)}>
+                    <ComboboxItem key={action.id} onSelect={() => actions.selectChild(action)}>
                       <iconify-icon icon={action.icon as string} slot="prefix"></iconify-icon>
                       {action.name}
-                    </CommandItem>
+                    </ComboboxItem>
                   ))}
-                </CommandGroup>
+                </ComboboxGroup>
               ) : (
                 <>
                   {results.parents.length > 0 && (
-                    <CommandGroup heading="Commands">
+                    <ComboboxGroup heading="Commands">
                       {results.parents.map((command) => (
-                        <CommandItem key={command.id} onSelect={() => actions.selectContext(command)}>
+                        <ComboboxItem key={command.id} onSelect={() => actions.selectContext(command)}>
                           <iconify-icon icon={command.icon as string} slot="prefix"></iconify-icon>
                           {command.name}
                           {command.shortcut && (
@@ -169,27 +171,27 @@ function CommandMenu({ onClose }: { onClose?: () => void } = {}) {
                               ))}
                             </span>
                           )}
-                        </CommandItem>
+                        </ComboboxItem>
                       ))}
-                    </CommandGroup>
+                    </ComboboxGroup>
                   )}
 
                   {results.children.length > 0 && (
-                    <CommandGroup heading="Actions">
+                    <ComboboxGroup heading="Actions">
                       {results.children.map(({ parent, child }) => (
-                        <CommandItem key={`${parent.id}-${child.id}`} onSelect={() => actions.selectChild(child, parent)}>
+                        <ComboboxItem key={`${parent.id}-${child.id}`} onSelect={() => actions.selectChild(child, parent)}>
                           <iconify-icon icon={child.icon as string} slot="prefix"></iconify-icon>
                           {parent.name} {child.name}
-                        </CommandItem>
+                        </ComboboxItem>
                       ))}
-                    </CommandGroup>
+                    </ComboboxGroup>
                   )}
                 </>
               )}
             </>
           )}
-        </CommandList>
-      </Command>
+        </ComboboxList>
+      </Combobox>
     </>
   )
 }

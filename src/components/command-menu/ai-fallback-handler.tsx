@@ -1,5 +1,5 @@
 import React from 'react';
-import { CommandEmpty, CommandGroup, CommandItem } from './command';
+import { ComboboxEmpty, ComboboxGroup, ComboboxItem } from '../combobox';
 import { Icon } from '@iconify/react';
 import { Slot } from "@radix-ui/react-slot";
 import { AIFallbackHandlerProps } from './ai-command-types';
@@ -56,14 +56,14 @@ export const AIFallbackHandler: React.FC<AIFallbackHandlerProps> = ({
   if (aiState.isProcessing) {
     return (
       <>
-        <CommandGroup>
-          <CommandItem disabled>
+        <ComboboxGroup>
+          <ComboboxItem disabled>
             <Slot slot="prefix">
               <Icon icon="ph:sparkle" />
             </Slot>
             <span className="shimmer">{aiProcessingMessage}</span>
-          </CommandItem>
-        </CommandGroup>
+          </ComboboxItem>
+        </ComboboxGroup>
       </>
     );
   }
@@ -74,9 +74,9 @@ export const AIFallbackHandler: React.FC<AIFallbackHandlerProps> = ({
 
     return (
       <>
-        <CommandGroup>
+        <ComboboxGroup>
           {result.suggestedItems.length > 0 && (
-            <CommandItem
+            <ComboboxItem
               onSelect={() => onApplyAIResult(result)}
             >
               {result.suggestedItems.length === 1 ? (
@@ -110,31 +110,31 @@ export const AIFallbackHandler: React.FC<AIFallbackHandlerProps> = ({
                   )
                 ]
               )}
-            </CommandItem>
+            </ComboboxItem>
           )}
 
           {/* Only show "no results" if there are truly no suggested items */}
           {result.suggestedItems.length === 0 && result.unmatchedCriteria && result.unmatchedCriteria.length > 0 && (
-            <CommandItem onSelect={handleCreateNewItem}>
+            <ComboboxItem onSelect={handleCreateNewItem}>
                <Slot slot="prefix">
                 <Icon icon="ph:sparkle" />
               </Slot>
               Create new task
-            </CommandItem>
+            </ComboboxItem>
           )}
 
           {/* Show partial match indicator when there are both matches and unmatched criteria */}
           {result.suggestedItems.length > 0 && result.unmatchedCriteria && result.unmatchedCriteria.length > 0 && (
-            <CommandItem onSelect={handleCreateNewItem}>
+            <ComboboxItem onSelect={handleCreateNewItem}>
               <Slot slot="prefix">
                 <Icon icon="ph:warning" />
               </Slot>
               <span>
                 Partial match - couldn't understand: {result.unmatchedCriteria.join(', ')}
               </span>
-            </CommandItem>
+            </ComboboxItem>
           )}
-        </CommandGroup>
+        </ComboboxGroup>
       </>
     );
   }
@@ -142,9 +142,9 @@ export const AIFallbackHandler: React.FC<AIFallbackHandlerProps> = ({
   if (aiState.error) {
     return (
       <>
-        <CommandEmpty>
+        <ComboboxEmpty>
           {aiErrorPrefix} {aiState.error}
-        </CommandEmpty>
+        </ComboboxEmpty>
       </>
     );
   }
@@ -152,9 +152,9 @@ export const AIFallbackHandler: React.FC<AIFallbackHandlerProps> = ({
   // Default empty state
   return (
     <>
-      <CommandEmpty>
+      <ComboboxEmpty>
         {searchInput.trim() ? noResultsMessage : emptyStateMessage}
-      </CommandEmpty>
+      </ComboboxEmpty>
     </>
   );
 };

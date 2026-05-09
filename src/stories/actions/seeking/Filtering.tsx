@@ -3,15 +3,17 @@ import { nanoid } from "nanoid";
 import { Icon } from '@iconify/react';
 
 import {
-  Command,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
+  Combobox,
+  ComboboxGroup,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "../../../components/combobox";
+import {
   AIFallbackHandler,
   useAICommand,
   type AICommandResult,
-  type AICommandItem
+  type AIComboboxItem
 } from "../../../components/command-menu";
 import { AnimateChangeInHeight } from "../../../components/filter/animate-change-in-height";
 import Filters from "../../../components/filter/filters";
@@ -142,7 +144,7 @@ export function FilteringDemo({
   });
 
   const handleApplyAIFilters = React.useCallback((result: AICommandResult) => {
-    const newFilters = result.suggestedItems.map((item: AICommandItem) => {
+    const newFilters = result.suggestedItems.map((item: AIComboboxItem) => {
       if (!item.metadata) throw new Error('Invalid AI command item: missing metadata');
       return {
         id: nanoid(),
@@ -187,14 +189,14 @@ export function FilteringDemo({
 
         <div>
           <AnimateChangeInHeight>
-            <Command shouldFilter={false} onEscape={actions.handleEscape}>
-              <CommandInput
+            <Combobox shouldFilter={false} onEscape={actions.handleEscape}>
+              <ComboboxInput
                 placeholder={placeholder}
                 value={state.searchInput}
                 onValueChange={actions.updateSearch}
                 ref={inputRef}
               />
-              <CommandList>
+              <ComboboxList>
                 {!hasResults && state.searchInput.length >= 2 && (
                   <AIFallbackHandler
                     searchInput={state.searchInput}
@@ -208,41 +210,41 @@ export function FilteringDemo({
                 )}
 
                 {state.mode === 'contextual' ? (
-                  <CommandGroup>
+                  <ComboboxGroup>
                     {results.contextualItems?.map((filterValue) => (
-                      <CommandItem key={filterValue.id} onSelect={() => actions.selectChild(filterValue)}>
+                      <ComboboxItem key={filterValue.id} onSelect={() => actions.selectChild(filterValue)}>
                         <iconify-icon icon={filterValue.icon} slot="prefix" />
                         <span>{filterValue.name}</span>
-                      </CommandItem>
+                      </ComboboxItem>
                     ))}
-                  </CommandGroup>
+                  </ComboboxGroup>
                 ) : (
                   <>
                     {results.parents.length > 0 && (
-                      <CommandGroup>
+                      <ComboboxGroup>
                         {results.parents.map((filterType) => (
-                          <CommandItem key={filterType.id} onSelect={() => actions.selectContext(filterType)}>
+                          <ComboboxItem key={filterType.id} onSelect={() => actions.selectContext(filterType)}>
                             <iconify-icon icon={filterType.icon} slot="prefix" />
                             {filterType.name}
-                          </CommandItem>
+                          </ComboboxItem>
                         ))}
-                      </CommandGroup>
+                      </ComboboxGroup>
                     )}
 
                     {results.children.length > 0 && (
-                      <CommandGroup>
+                      <ComboboxGroup>
                         {results.children.map(({ parent, child }) => (
-                          <CommandItem key={`${parent.id}-${child.id}`} onSelect={() => actions.selectChild(child, parent)}>
+                          <ComboboxItem key={`${parent.id}-${child.id}`} onSelect={() => actions.selectChild(child, parent)}>
                             <iconify-icon icon={child.icon} slot="prefix" />
                             <span>{child.name}</span>
-                          </CommandItem>
+                          </ComboboxItem>
                         ))}
-                      </CommandGroup>
+                      </ComboboxGroup>
                     )}
                   </>
                 )}
-              </CommandList>
-            </Command>
+              </ComboboxList>
+            </Combobox>
           </AnimateChangeInHeight>
         </div>
       </pp-dropdown>

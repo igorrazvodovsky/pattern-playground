@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from './command';
+  Combobox,
+  ComboboxEmpty,
+  ComboboxGroup,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from '../combobox';
 import { AIFallbackHandler } from './ai-fallback-handler';
 import { useCommandComposition } from './hooks/use-command-composition';
 import type {
@@ -66,19 +66,19 @@ export function CommandMenu({
   const effectivePlaceholder = placeholder ?? composition.placeholder;
 
   return (
-    <Command
+    <Combobox
       label="Command menu"
       shouldFilter={false}
       onKeyDown={composition.keyboard.handleKeyDown}
       className={className}
     >
-      <CommandInput
+      <ComboboxInput
         placeholder={effectivePlaceholder}
         value={composition.searchInput}
         onValueChange={composition.setSearchInput}
         ref={composition.keyboard.inputRef}
       />
-      <CommandList>
+      <ComboboxList>
         {composition.shouldShowAI && composition.ai && (
           <AIFallbackHandler
             searchInput={composition.searchInput}
@@ -99,13 +99,13 @@ export function CommandMenu({
         )}
 
         {!composition.shouldShowAI && !composition.hasResults && (
-          <CommandEmpty>{emptyMessage}</CommandEmpty>
+          <ComboboxEmpty>{emptyMessage}</ComboboxEmpty>
         )}
 
         {composition.shouldShowRecents && composition.results.recents.length > 0 && (
-          <CommandGroup heading="Recent">
+          <ComboboxGroup heading="Recent">
             {composition.results.recents.map((item) => (
-              <CommandItem
+              <ComboboxItem
                 key={item.id}
                 onSelect={() => composition.navigation.handleRecentSelect(item.id)}
               >
@@ -113,15 +113,15 @@ export function CommandMenu({
                   <iconify-icon icon={item.icon as string} slot="prefix"></iconify-icon>
                 )}
                 {item.name}
-              </CommandItem>
+              </ComboboxItem>
             ))}
-          </CommandGroup>
+          </ComboboxGroup>
         )}
 
         {composition.isInChildView ? (
-          <CommandGroup>
+          <ComboboxGroup>
             {composition.results.children.map(({ child }) => (
-              <CommandItem
+              <ComboboxItem
                 key={child.id}
                 onSelect={() => composition.navigation.handleChildSelect(child.id)}
               >
@@ -129,15 +129,15 @@ export function CommandMenu({
                   <iconify-icon icon={child.icon as string} slot="prefix"></iconify-icon>
                 )}
                 {child.name}
-              </CommandItem>
+              </ComboboxItem>
             ))}
-          </CommandGroup>
+          </ComboboxGroup>
         ) : (
           <>
             {composition.results.commands.length > 0 && (
-              <CommandGroup heading="Commands">
+              <ComboboxGroup heading="Commands">
                 {composition.results.commands.map((command) => (
-                  <CommandItem
+                  <ComboboxItem
                     key={command.id}
                     onSelect={() => {
                       if (enableNavigation && command.children?.length) {
@@ -157,15 +157,15 @@ export function CommandMenu({
                         {composition.keyboard.formatShortcut([...command.shortcut])}
                       </span>
                     )}
-                  </CommandItem>
+                  </ComboboxItem>
                 ))}
-              </CommandGroup>
+              </ComboboxGroup>
             )}
 
             {composition.results.children.length > 0 && (
-              <CommandGroup heading="Actions">
+              <ComboboxGroup heading="Actions">
                 {composition.results.children.map(({ parent, child }) => (
-                  <CommandItem
+                  <ComboboxItem
                     key={`${parent.id}-${child.id}`}
                     onSelect={() => composition.navigation.handleChildSelect(child.id)}
                   >
@@ -173,13 +173,13 @@ export function CommandMenu({
                       <iconify-icon icon={child.icon as string} slot="prefix"></iconify-icon>
                     )}
                     {parent.name} {child.name}
-                  </CommandItem>
+                  </ComboboxItem>
                 ))}
-              </CommandGroup>
+              </ComboboxGroup>
             )}
           </>
         )}
-      </CommandList>
-    </Command>
+      </ComboboxList>
+    </Combobox>
   );
 }
