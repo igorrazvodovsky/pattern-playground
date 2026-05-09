@@ -65,12 +65,15 @@ declare module 'react' {
         activation?: 'auto' | 'manual';
         'no-scroll-controls'?: boolean;
       };
-      'pp-list': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
+      'pp-list': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+        multiselectable?: boolean;
+      };
       'pp-list-item': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         type?: 'checkbox' | 'radio' | string;
         disabled?: boolean;
         defaultChecked?: boolean;
         checked?: boolean;
+        value?: string;
         onClick?: () => void;
       };
       'pp-dropdown': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
