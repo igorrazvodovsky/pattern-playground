@@ -18,7 +18,7 @@ Smashing Magazine's *[Combobox vs Multiselect vs Listbox](https://www.smashingma
 
 The conversation-level decision is to treat the article as one input, not a canonical decomposition:
 
-- *Combobox* lands as `role:component` — the contract-bearing mechanism that Autocomplete, Command menu, Filtering, and a future searchable Select all compose with. It is the prototype case named in [`2026-05-role-metadata.md`](./2026-05-role-metadata.md) Open Question 1 ("is `role:control` a needed third role?"). The combobox page is a useful empirical case for that question — its prose may strain the `role:component` reading. Capture the strain if it appears; do not pre-emptively introduce `role:control`.
+- *Combobox* lands as `role:component` — the contract-bearing mechanism that Autocomplete, Command menu, Filtering, Searching, and a future searchable Select all compose with. The mechanism is **already realised** in this codebase: `cmdk` (`package.json:81`) implements the WAI-ARIA combobox pattern, and `src/components/command-menu/command.tsx` exposes thin wrappers under `Command*` names. The companion plan [`2026-05-combobox-primitives-extraction.md`](./2026-05-combobox-primitives-extraction.md) renames those primitives to `Combobox*` under `src/components/combobox/`, after which `Combobox.mdx` documents the contract that the renamed primitives realise. The Combobox case decomposes cleanly under the existing role binary — see *Findings* — so [`2026-05-role-metadata.md`](./2026-05-role-metadata.md) Open Question 1 about `role:control` likely doesn't need to be promoted.
 - *Multiselect* is absorbed into [`Selection.mdx`](../../src/stories/actions/coordination/Selection.mdx) as a cardinality + visibility variant. Rather than fork a new page that would compete with Selection's already richer treatment of persistence, "select all visible vs. matching", and selection-as-imperative-filter duality.
 - *Listbox-as-exhaustive-visibility* is deferred. The article's "all options visible" can also be radios or checkboxes, and overlaps with [`Modality.mdx`](../../src/stories/foundations/Modality.mdx)'s framing. No action this round; leave a note for a future pass.
 - *Dual listbox* gets a placeholder so the territory map is complete and Selection / ActionBar can cross-link to it. No story, no full pattern doc — a stub with the situation, the forces, and a TODO marker.
@@ -29,19 +29,19 @@ The conversation-level decision is to treat the article as one input, not a cano
 
 New files under `src/stories/operations/`:
 
-- `Combobox.mdx` — `role:component`, `atomic:pattern`, `mediation:individual`. Frame combobox as the WAI-ARIA APG control (text input + popup listbox + selection commit + keyboard model). Cite [APG combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/). Explicitly position it as the mechanism Autocomplete (predicting), Command menu (invoking), Filtering value pickers (narrowing), Searching (retrieving), and a future searchable Select compose with. Note that the page documents a contract, not a move — the situation lives next door.
+- `Combobox.mdx` — `role:component`, `atomic:pattern`, `mediation:individual`. Frame combobox as the WAI-ARIA APG control (text input + popup listbox + selection commit + keyboard model). Cite [APG combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/) and [`cmdk`](https://www.npmjs.com/package/cmdk). Name `src/components/combobox/` (post-refactor) as the realisation. Explicitly position the contract as the mechanism Autocomplete (predicting), Command menu (invoking), Filtering value pickers (narrowing), Searching (retrieving), Reference picker (lookup), and a future searchable Select compose with. The page documents a contract, not a move — the situation lives next door in each consuming pattern.
 - `Combobox.profile.ts` — generative profile in the format of [`Select.profile.ts`](../../src/stories/operations/Select.profile.ts). Operates on: a single value drawn from a long or unfamiliar option set. Produces: a typing surface that narrows candidates as the actor types. Enacts: recognition over recall, economy of typing, discoverability of options.
-- `Combobox.stories.tsx` — at minimum a Default story illustrating the contract; other stories at the author's discretion.
+- `Combobox.stories.tsx` — at minimum a Default story illustrating the contract using the renamed `Combobox*` primitives; other stories at the author's discretion.
 
 Cross-links to add:
 
 - `Select.mdx:68` — replace "a future combobox" with a real link.
 - `Autocomplete.mdx` — note that combobox is the underlying contract.
-- `CommandMenu.mdx` — note that combobox is the underlying contract.
+- `CommandMenu.mdx` — note that combobox is the underlying contract; the command-menu primitives `Command*` were renamed to `Combobox*` in the extraction refactor.
 - `Filtering.mdx` — note that combobox is the value-picker substrate.
 - `Searching.mdx` — note combobox in the entry/query phase.
 
-**Open question (capture, do not pre-resolve)**: does Combobox earn a `pp-combobox` web component, or is the page a documented contract over existing primitives (Input + Popup + List)? The page can launch with the *documented contract* shape; authoring the web component is its own follow-up plan if and when a story needs it. Per `web-components.md`, a real `pp-combobox` carries the bulletproof loading pattern, central registration, and event lifecycle obligations — non-trivial scope. Defer until a concrete demand surfaces.
+**`pp-combobox` (Lit web component) — out of scope.** Initial framing kept this as an open question. After tracing the consumers (`reference/ReferencePicker.tsx`, `filter/filter-components.tsx`, `command-menu.tsx`, plus stories), every current need is satisfied by the React combobox primitives `cmdk` provides. Lit-side primitives (`pp-list`, `pp-input`, `pp-popup`) cover the simpler cases without needing a composed `pp-combobox`. Reopen only when a Lit-side composition demands combobox semantics (none currently does). The directory naming chosen by the extraction plan (`src/components/combobox/`) is friendly to a future `pp-combobox.ts` sibling if that day comes.
 
 ### B. Selection multi-select extension
 
@@ -96,10 +96,12 @@ Out of scope:
 
 - `pp-list` with `multiselectable` (`src/components/list/list.ts`) — substrate for Selection multi-select stories
 - `pp-list-item` with checkbox/radio types (`src/components/list-item/list-item.ts`) — option rendering
-- `pp-input` (`src/components/input/input.ts`) — combobox text-entry
-- `pp-popup` (`src/components/popup/`) — combobox popup positioning
-- The React `command-menu` (`src/components/command-menu/`) — exists as a working combobox-shaped surface; reference in Combobox.mdx as an example of the contract being satisfied today
-- The React `filter` value pickers (`src/components/filter/`) — another combobox-shaped surface to reference
+- `pp-input` (`src/components/input/input.ts`) — minor combobox primitive on the Lit side (not a current consumer)
+- `pp-popup` (`src/components/popup/`) — minor combobox primitive on the Lit side (not a current consumer)
+- The React combobox primitives at `src/components/combobox/` (post-refactor) — the realisation Combobox.mdx documents
+- `command-menu/CommandMenu` (`src/components/command-menu/command-menu.tsx`) — Command menu pattern's React composition over the combobox primitives
+- `filter/FilterValueDropdown` and friends (`src/components/filter/filter-components.tsx`) — filter value pickers as a second combobox consumer
+- `reference/ReferencePicker` (`src/components/reference/ReferencePicker.tsx`) — reference picker as a third combobox consumer; useful prior art for the searchable-Select pattern
 
 ## Verification
 
@@ -111,22 +113,21 @@ Out of scope:
 
 ## Findings
 
-(populate during execution)
+- *The `role:component` reading holds for Combobox.* Tracing the existing consumers (`command-menu`, `filter`, `reference/ReferencePicker`) shows three distinct moves — invoke a command, narrow a filter, look up a reference — composing the same primitive. The page's natural prose is "what the contract is" (semantics, keyboard, focus, popup positioning, narrowing behaviour); the situation belongs to each consumer. Open Question 1 in [`2026-05-role-metadata.md`](./2026-05-role-metadata.md) about whether `role:control` deserves to exist can be answered **no, not on this case** — combobox decomposes cleanly under the existing component/pattern binary.
 
 ## Open questions
 
-1. *Does authoring the Combobox page surface a strain in `role:component`?* The role-metadata plan's Open Question 1 uses combobox as its test case. Capture any sentence in `Combobox.mdx` where the natural framing pulls toward "situation / forces / consequences" rather than "API / contract / states". If the strain is more than a footnote, that is the empirical signal for `role:control`.
+1. *Listbox-as-exhaustive-visibility — pattern, decision-dimension, or Modality extension?* Three coherent answers; no current pressure. Revisit when `Modality.mdx` is next edited or when the Form decision tree gets its next pass.
 
-2. *Should `pp-combobox` be authored?* Out of scope for this plan; reopen if a story or example needs a real composed control rather than a documented contract. Likely candidates: a searchable Select demo, a filter value picker demo with async options, a `command-menu` migration if the React implementation is ever ported to web components.
-
-3. *Listbox-as-exhaustive-visibility — pattern, decision-dimension, or Modality extension?* Three coherent answers; no current pressure. Revisit when `Modality.mdx` is next edited or when the Form decision tree gets its next pass.
-
-4. *Does `Selection.stories.tsx` belong as one file with multiple stories, or split into Multi-select and Range stories?* Default to one file; split only if the file outgrows ~300 lines or the cardinalities diverge enough to confuse readers.
+2. *Does `Selection.stories.tsx` belong as one file with multiple stories, or split into Multi-select and Range stories?* Default to one file; split only if the file outgrows ~300 lines or the cardinalities diverge enough to confuse readers.
 
 ## Phase ordering
 
 ```
-A. Combobox component page (atomic; can ship alone)
+0. Combobox primitives extraction (separate plan: 2026-05-combobox-primitives-extraction.md)
+   │
+   ▼
+A. Combobox component page (depends on 0 for the path/identifiers it documents)
    │
    ▼
 B. Selection extension + stories (depends on A for combobox cross-link)
@@ -135,4 +136,4 @@ B. Selection extension + stories (depends on A for combobox cross-link)
 C. Dual listbox placeholder (depends on B for Selection cross-link)
 ```
 
-A and C can ship in parallel if needed; B is the integrator. Each phase is independently revertible.
+The extraction refactor is the gate. A, B, C are this plan's phases; each is independently revertible. A and C can ship in parallel after the refactor lands.
