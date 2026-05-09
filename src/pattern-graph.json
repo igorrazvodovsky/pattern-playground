@@ -5204,7 +5204,7 @@
       "source": "operations-combobox",
       "target": "operations-autocomplete",
       "type": "precedes",
-      "label": "the WAI-ARIA contract this pattern builds on: text input + popup listbox + keyboard model",
+      "label": "component this pattern builds on",
       "extractedFrom": "header:\"Precursors\""
     },
     {
@@ -5448,6 +5448,11 @@
       "type": "instantiates",
       "label": "the entry phase of instant-results search (popover or dropdown variant) follows the combobox model",
       "extractedFrom": "header:\"Applied in\""
+    },
+    {
+      "source": "operations-combobox",
+      "target": "operations-tag",
+      "type": "related"
     },
     {
       "source": "operations-deep-linking",
