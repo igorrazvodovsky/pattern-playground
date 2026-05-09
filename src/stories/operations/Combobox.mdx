@@ -4,7 +4,7 @@ import { profile } from './Combobox.profile';
 
 <Meta of={ ComboboxStories } tags={['activity-level:operation', 'atomic:pattern', 'role:component', 'mediation:individual']} />
 
-> 🔧 **Fun meter: 2/5**. Mechanism, not a move. One contract — type to narrow, commit on activation — spans [Command menu](../?path=/docs/actions-seeking-command-menu--docs) (invoke), [Filtering](../?path=/docs/actions-seeking-filtering--docs) (narrow), and [Autocomplete](../?path=/docs/operations-autocomplete--docs) (suggest) without changing shape. The interesting questions live in those consuming patterns.
+> 🔧 **Fun meter: 2/5**. Dependency.
 
 # Combobox
 
@@ -48,7 +48,6 @@ The exported primitives are: `Combobox`, `ComboboxInput`, `ComboboxList`, `Combo
 
 ### Containers and primitives
 
-- [`cmdk`](https://www.npmjs.com/package/cmdk) — upstream primitive this module wraps
 - [Input](../?path=/docs/operations-input--docs) — the text field half of the contract, without the popup
 - [Select](../?path=/docs/operations-select--docs) — the simpler counterpart for short, bounded sets already known to the actor
 
@@ -66,6 +65,6 @@ The exported primitives are: `Combobox`, `ComboboxInput`, `ComboboxList`, `Combo
 ## Resources & references
 
 - [WAI-ARIA APG combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/)
-- [`cmdk`](https://github.com/pacocoursey/cmdk) — the upstream library
+- [`cmdk`](https://github.com/dip/cmdk) — React component library implementing the WAI-ARIA combobox pattern, which this component wraps
 - [Open UI — Combobox research](https://open-ui.org/components/combobox.research/)
 - Smashing Magazine — [Combobox vs Multiselect vs Listbox](https://www.smashingmagazine.com/2026/02/combobox-vs-multiselect-vs-listbox/)
