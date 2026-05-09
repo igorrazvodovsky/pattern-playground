@@ -1,0 +1,71 @@
+import { Canvas, Story, Meta } from '@storybook/addon-docs/blocks';
+import * as ComboboxStories from './Combobox.stories.tsx';
+import { profile } from './Combobox.profile';
+
+<Meta of={ ComboboxStories } tags={['activity-level:operation', 'atomic:pattern', 'role:component', 'mediation:individual']} />
+
+> 🔧 **Fun meter: 2/5**. Mechanism, not a move. One contract — type to narrow, commit on activation — spans [Command menu](../?path=/docs/actions-seeking-command-menu--docs) (invoke), [Filtering](../?path=/docs/actions-seeking-filtering--docs) (narrow), and [Autocomplete](../?path=/docs/operations-autocomplete--docs) (suggest) without changing shape. The interesting questions live in those consuming patterns.
+
+# Combobox
+
+A text input paired with a popup listbox: the actor types to narrow candidates, then activates one to commit.
+
+<Canvas>
+  <Story of={ ComboboxStories.Default } />
+</Canvas>
+
+## The WAI-ARIA contract
+
+The [WAI-ARIA APG combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/) specifies four invariants that `src/components/combobox/` realises via thin wrappers over [`cmdk`](https://www.npmjs.com/package/cmdk):
+
+1. **Text input** — typing filters the popup content
+2. **Popup listbox** — opens on focus or first keystroke; dismissed after selection or Escape
+3. **Selection commit** — Enter or pointer click activates an item, closes the popup, and writes the value
+4. **Keyboard model** — Arrow Up/Down navigate items; Home/End jump to list bounds; Escape cancels
+
+The exported primitives are: `Combobox`, `ComboboxInput`, `ComboboxList`, `ComboboxEmpty`, `ComboboxGroup`, `ComboboxItem`.
+
+## Checked items
+
+`ComboboxItem` accepts a `checked` prop for multi-select use cases, where selections accumulate before the actor dismisses the popup. The filter value picker in [Filtering](../?path=/docs/actions-seeking-filtering--docs) uses this variant.
+
+<Story of={ ComboboxStories.Checked } />
+
+## Grouped
+
+`ComboboxGroup` divides the listbox into labelled sections without adding interaction cost. Useful when the option set spans multiple categories.
+
+<Story of={ ComboboxStories.Grouped } />
+
+## Design considerations
+
+- Pass `shouldFilter={false}` when the parent owns filtering — all consuming patterns in this codebase do, to support fuzzy search and server-side results.
+- Match the input placeholder to the narrowing target ("Filter by priority…") rather than a generic label. Hierarchical consumers like Command menu and Reference picker update the placeholder dynamically as context shifts.
+- `onEscape` extends `cmdk`'s default behaviour. Returning `true` signals that the consumer handled the keypress — letting hierarchical consumers navigate back a level before closing rather than always exiting.
+- Prefer a native `<select>` for short, known option sets; a combobox earns its weight only when the set is long, unfamiliar, or fetched asynchronously.
+
+## Related patterns
+
+### Containers and primitives
+
+- [`cmdk`](https://www.npmjs.com/package/cmdk) — upstream primitive this module wraps
+- [Input](../?path=/docs/operations-input--docs) — the text field half of the contract, without the popup
+- [Select](../?path=/docs/operations-select--docs) — the simpler counterpart for short, bounded sets already known to the actor
+
+### Applied in
+
+- [Command menu](../?path=/docs/actions-seeking-command-menu--docs) — the combobox contract drives hierarchical navigation and command activation
+- [Filtering](../?path=/docs/actions-seeking-filtering--docs) — each filter chip's value-picker uses a combobox to narrow available values
+- [Autocomplete](../?path=/docs/operations-autocomplete--docs) — narrowing-as-you-type is the combobox contract applied to query suggestion
+- [Searching](../?path=/docs/actions-seeking-searching--docs) — the entry phase of instant-results search (popover or dropdown variant) follows the combobox model
+
+### Follow-ups
+
+- A searchable Select built on this module, for option sets too long for native `<select>`
+
+## Resources & references
+
+- [WAI-ARIA APG combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/)
+- [`cmdk`](https://github.com/pacocoursey/cmdk) — the upstream library
+- [Open UI — Combobox research](https://open-ui.org/components/combobox.research/)
+- Smashing Magazine — [Combobox vs Multiselect vs Listbox](https://www.smashingmagazine.com/2026/02/combobox-vs-multiselect-vs-listbox/)
