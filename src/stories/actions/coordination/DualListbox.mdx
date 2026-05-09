@@ -2,13 +2,11 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 <Meta title="Actions/Coordination/Dual listbox" tags={['activity-level:action', 'atomic:pattern', 'role:pattern', 'lifecycle:coordination', 'mediation:coordination']} />
 
-> 🌱 **Seed** — no project example yet. See TODO below.
-
-> 🤔 **Fun meter: 3/5**. Dual listbox is regularly cited as a UX anti-pattern, but that critique targets overuse. The more interesting question is when "staged commit with full review" actually justifies two lists.
+> 🤔 **Fun meter: 2/5**. Dependency. 
 
 # Dual listbox
 
-A side-by-side pair of scrollable lists — source pool and selection set — with transfer controls between them, so the actor can inspect both before committing a bulk assignment.
+A side-by-side pair of lists — source pool and selection set — with transfer controls, so the actor can inspect both before committing a bulk assignment.
 
 ## The situation
 
@@ -21,28 +19,6 @@ A plain [multiselect](../?path=/docs/operations-combobox--docs) (combobox with c
 - **Commitment scale** — the larger the assignment, the more the actor benefits from seeing the full "going" set before acting.
 - **Error cost** — when undoing is expensive or requires escalation, staging review before confirming is a net win even if the UI is heavier.
 - **Reviewability** — the side-by-side layout makes visible what multiselect hides (the selected set) and what a confirm-on-activate model destroys (the candidate pool).
-
-## Anatomy
-
-Two scrollable lists with a transfer zone between them:
-
-- *Source list* — the candidate pool, minus what has already been assigned. Supports search/filter when the pool is large.
-- *Transfer controls* — at minimum: "Add selected →" / "← Remove selected". Often supplemented by "Add all →" / "← Remove all". Keyboard: Arrow keys navigate within each list; Space (or Alt+Arrow) transfers a focused item.
-- *Destination list* — the accumulating selection. Order may matter (drag to reorder) or be irrelevant.
-- *Confirm action* — outside the widget. Transfers are tentative until the actor explicitly applies.
-
-## When to use
-
-Dual listbox earns its weight when:
-- The assignment involves enough items that a single scrollable popup obscures the full picture
-- The actor needs to verify what *remains* in the source after removing items
-- The widget lives in a staged context — a bulk-edit dialog or wizard step — so the dedicated layout isn't wasted on a routine interaction
-
-Prefer [multiselect](../?path=/docs/operations-combobox--docs) (checkboxes in a combobox popup) when the set is short, the commitment is cheap and reversible, or the actor adds items one at a time and progressive chip feedback is enough.
-
-## TODO
-
-No project example exists yet. A good motivating case: an "assign labels to tasks" bulk dialog, or a "grant roles to users" screen. Add one when the use case surfaces naturally in the project — this stub exists so [Selection](../?path=/docs/actions-coordination-selection--docs) and [Action bar](../?path=/docs/actions-coordination-action-bar--docs) can cross-link to it.
 
 ## Related patterns
 
