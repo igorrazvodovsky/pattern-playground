@@ -1,4 +1,4 @@
-import { forwardRef, useImperativeHandle, useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import {
   Combobox,
   ComboboxGroup,
@@ -10,13 +10,12 @@ import { useHierarchicalNavigation, type SearchableParent, type SearchableItem }
 import { createSortedSearchFunction, sortByRelevance } from '../../utility/hierarchical-search';
 import type {
   SelectedReference,
-  ReferencePickerProps,
-  ReferencePickerRef
+  ReferencePickerProps
 } from './types';
 import 'iconify-icon';
 import '../../jsx-types';
 
-export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerProps>(({
+export const ReferencePicker = ({
   data,
   query = '',
   onSelect,
@@ -28,11 +27,11 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
   selectedCategory: _selectedCategory = null,
   onCategorySelect,
   onBack
-}, ref) => {
+}: ReferencePickerProps) => {
 
   const hierarchicalData = data as SearchableParent[];
-  
-  const { state, actions, results, inputRef } = useHierarchicalNavigation({
+
+  const { state, actions, results } = useHierarchicalNavigation({
     data: hierarchicalData,
     searchFunction: createSortedSearchFunction(
       (categories, query) => sortByRelevance(categories, query),
@@ -72,17 +71,6 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
       onBack?.();
     }
   }, [actions, onClose, onBack, state.mode]);
-
-  useImperativeHandle(ref, () => ({
-    focus: () => {
-      inputRef.current?.focus();
-    },
-    selectFirst: () => {},
-    selectLast: () => {},
-    selectNext: () => {},
-    selectPrevious: () => {},
-    getSelectedReference: () => null,
-  }), [inputRef]);
 
   if (!open) return null;
 
@@ -171,6 +159,4 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
       </Combobox>
     </div>
   );
-});
-
-ReferencePicker.displayName = 'ReferencePicker';
+};

@@ -86,11 +86,3 @@ export interface ReferencePickerProps {
   onBack?: () => void;
 }
 
-export interface ReferencePickerRef {
-  focus: () => void;
-  selectFirst: () => void;
-  selectLast: () => void;
-  selectNext: () => void;
-  selectPrevious: () => void;
-  getSelectedReference: () => SelectedReference | null;
-}

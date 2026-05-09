@@ -43,7 +43,7 @@
     "id": "CMP-BAT-002",
     "name": "Battery Management System",
     "type": "sub_assembly",
-    "icon": "ph:circuit-board",
+    "icon": "ph:circle-dashed",
     "description": "PCB controlling battery charging and safety",
     "searchableText": "battery management system bms pcb charging safety circuit",
     "metadata": {
