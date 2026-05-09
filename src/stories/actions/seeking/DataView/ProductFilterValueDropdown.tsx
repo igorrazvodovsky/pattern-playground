@@ -1,12 +1,12 @@
 import React from 'react';
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '../../../../components/command-menu/command';
+  Combobox,
+  ComboboxEmpty,
+  ComboboxGroup,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from '../../../../components/combobox';
 import { AnimateChangeInHeight } from '../../../../components/filter/animate-change-in-height';
 import { useDropdownState } from '../../../../components/filter/hooks/use-dropdown-state';
 import { ProductFilterType, ProductFilterCategory } from './ProductFilterTypes';
@@ -29,7 +29,7 @@ export const ProductFilterValueDropdown: React.FC<ProductFilterValueDropdownProp
 }) => {
   const {
     commandInput,
-    setCommandInput,
+    setComboboxInput,
     commandInputRef,
     dropdownRef,
     handleDropdownShow,
@@ -89,35 +89,35 @@ export const ProductFilterValueDropdown: React.FC<ProductFilterValueDropdownProp
 
       <div>
         <AnimateChangeInHeight>
-          <Command>
-            <CommandInput
+          <Combobox>
+            <ComboboxInput
               placeholder={filterType}
               className="h-9"
               value={commandInput}
               onInputCapture={(e) => {
-                setCommandInput(e.currentTarget.value);
+                setComboboxInput(e.currentTarget.value);
               }}
               ref={commandInputRef}
             />
-            <CommandList>
-              <CommandEmpty>No results found.</CommandEmpty>
-              <CommandGroup>
+            <ComboboxList>
+              <ComboboxEmpty>No results found.</ComboboxEmpty>
+              <ComboboxGroup>
                 {filterValues.map((value) => (
-                  <CommandItem
+                  <ComboboxItem
                     key={value}
                     checked={true}
                     onSelect={() => handleValueRemove(value)}
                   >
                     <iconify-icon icon={getIconForValue(value)} slot="prefix" />
                     {getDisplayName(value)}
-                  </CommandItem>
+                  </ComboboxItem>
                 ))}
-              </CommandGroup>
+              </ComboboxGroup>
               {nonSelectedFilterValues?.length > 0 && (
                 <>
-                  <CommandGroup>
+                  <ComboboxGroup>
                     {nonSelectedFilterValues.map((option) => (
-                      <CommandItem
+                      <ComboboxItem
                         key={option.value}
                         value={option.name}
                         checked={false}
@@ -127,13 +127,13 @@ export const ProductFilterValueDropdown: React.FC<ProductFilterValueDropdownProp
                         <span>
                           {option.name}
                         </span>
-                      </CommandItem>
+                      </ComboboxItem>
                     ))}
-                  </CommandGroup>
+                  </ComboboxGroup>
                 </>
               )}
-            </CommandList>
-          </Command>
+            </ComboboxList>
+          </Combobox>
         </AnimateChangeInHeight>
       </div>
     </pp-dropdown>

@@ -5,6 +5,8 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Active
 
+- [Combobox and adjacent surfaces](active/2026-05-combobox-territory.md) — pattern-language work for Combobox, Selection multi-select, Dual listbox placeholder
+- [Combobox primitives extraction](active/2026-05-combobox-primitives-extraction.md) — rename Command* React primitives to Combobox* under src/components/combobox/
 - [Role metadata](active/2026-05-role-metadata.md) — introduce role tags for component/pattern/umbrella distinctions
 - [Harness refactor](active/2026-04-harness.md) — control layer repair, enforcement, and drift detection
 - [Assistance foundation](active/2026-04-assistance-foundation.md) — ground assistance in agency theory

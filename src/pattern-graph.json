@@ -160,6 +160,16 @@
       "role": "component"
     },
     {
+      "id": "actions-coordination-dual-listbox",
+      "title": "Dual listbox",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-coordination-dual-listbox--docs",
+      "role": "pattern",
+      "tags": [
+        "adjacent-to"
+      ]
+    },
+    {
       "id": "actions-coordination-messaging",
       "title": "Messaging",
       "category": "Actions",
@@ -712,6 +722,18 @@
         "operatesOn": "a single binary preference the actor wants to commit without leaving the surrounding flow",
         "produces": "a visible on/off state the actor can flip in place",
         "enacts": "legibility of state, continuity with the surrounding flow"
+      }
+    },
+    {
+      "id": "operations-combobox",
+      "title": "Combobox",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-combobox--docs",
+      "role": "component",
+      "generativeProfile": {
+        "operatesOn": "a value drawn from a long, unfamiliar, or dynamically fetched option set",
+        "produces": "a text input bound to a filtered popup list: type to narrow, activate to commit",
+        "enacts": "recognition over recall, economy of typing, predictable keyboard navigation"
       }
     },
     {
@@ -2314,6 +2336,48 @@
       "label": "shares the overlay mechanism but is target-triggered (right-click) rather than button-triggered"
     },
     {
+      "source": "actions-coordination-selection",
+      "target": "actions-coordination-dual-listbox",
+      "type": "precedes",
+      "label": "the commitment model is a staged variant of multi-selection; the explicit review step before confirm is what distinguishes it",
+      "extractedFrom": "header:\"Precursors\""
+    },
+    {
+      "source": "operations-combobox",
+      "target": "actions-coordination-dual-listbox",
+      "type": "precedes",
+      "label": "the lighter-weight alternative when full side-by-side review isn't needed",
+      "extractedFrom": "header:\"Precursors\""
+    },
+    {
+      "source": "actions-coordination-dual-listbox",
+      "target": "actions-coordination-action-bar",
+      "type": "complements",
+      "label": "the immediate-action alternative; when \"assign these to that\" is a bulk action on an existing selection without a review step, an action bar suffices",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "actions-coordination-dual-listbox",
+      "target": "actions-application-form",
+      "type": "complements",
+      "label": "dual listbox typically lives inside a dialog or form, with a confirm button that commits the assignment",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "actions-coordination-dual-listbox",
+      "target": "actions-seeking-filtering",
+      "type": "tangential",
+      "label": "source lists often need search/filter when the pool is large",
+      "extractedFrom": "header:\"Tangentially related\""
+    },
+    {
+      "source": "actions-coordination-dual-listbox",
+      "target": "actions-seeking-sorting",
+      "type": "tangential",
+      "label": "destination list order may be significant (priority, ranking), requiring reorder controls",
+      "extractedFrom": "header:\"Tangentially related\""
+    },
+    {
       "source": "actions-coordination-messaging",
       "target": "activities-bot",
       "type": "related",
@@ -3093,6 +3157,13 @@
       "label": "optimised for getting the job done"
     },
     {
+      "source": "operations-combobox",
+      "target": "actions-seeking-command-menu",
+      "type": "precedes",
+      "label": "the mechanism this pattern builds on; `src/components/combobox/` drives the text input, filtered list, and keyboard model",
+      "extractedFrom": "header:\"Precursors\""
+    },
+    {
       "source": "operations-keyboard-key",
       "target": "actions-seeking-command-menu",
       "type": "precedes",
@@ -3238,6 +3309,13 @@
       "source": "actions-seeking-command-menu",
       "target": "actions-seeking-filtering",
       "type": "precedes",
+      "extractedFrom": "header:\"Precursors\""
+    },
+    {
+      "source": "operations-combobox",
+      "target": "actions-seeking-filtering",
+      "type": "precedes",
+      "label": "the value-picker inside each active filter chip uses a combobox to narrow available values",
       "extractedFrom": "header:\"Precursors\""
     },
     {
@@ -3428,6 +3506,13 @@
       "source": "actions-seeking-searching",
       "target": "operations-autocomplete",
       "type": "complements",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "actions-seeking-searching",
+      "target": "operations-combobox",
+      "type": "complements",
+      "label": "the entry-phase mechanism for instant-results variants (popover/dropdown); the search input binding follows the combobox contract.",
       "extractedFrom": "header:\"Complementary\""
     },
     {
@@ -5116,6 +5201,13 @@
       "extractedFrom": "header:\"Precursors\""
     },
     {
+      "source": "operations-combobox",
+      "target": "operations-autocomplete",
+      "type": "precedes",
+      "label": "the WAI-ARIA contract this pattern builds on: text input + popup listbox + keyboard model",
+      "extractedFrom": "header:\"Precursors\""
+    },
+    {
       "source": "operations-good-defaults",
       "target": "operations-autocomplete",
       "type": "precedes",
@@ -5314,6 +5406,48 @@
       "target": "actions-application-form",
       "type": "related",
       "label": "validation and instructional feedback patterns"
+    },
+    {
+      "source": "operations-input",
+      "target": "operations-combobox",
+      "type": "enables",
+      "label": "the text field half of the contract, without the popup",
+      "extractedFrom": "header:\"Containers and primitives\""
+    },
+    {
+      "source": "operations-select",
+      "target": "operations-combobox",
+      "type": "enables",
+      "label": "the simpler counterpart for short, bounded sets already known to the actor",
+      "extractedFrom": "header:\"Containers and primitives\""
+    },
+    {
+      "source": "operations-combobox",
+      "target": "actions-seeking-command-menu",
+      "type": "instantiates",
+      "label": "the combobox contract drives hierarchical navigation and command activation",
+      "extractedFrom": "header:\"Applied in\""
+    },
+    {
+      "source": "operations-combobox",
+      "target": "actions-seeking-filtering",
+      "type": "instantiates",
+      "label": "each filter chip's value-picker uses a combobox to narrow available values",
+      "extractedFrom": "header:\"Applied in\""
+    },
+    {
+      "source": "operations-combobox",
+      "target": "operations-autocomplete",
+      "type": "instantiates",
+      "label": "narrowing-as-you-type is the combobox contract applied to query suggestion",
+      "extractedFrom": "header:\"Applied in\""
+    },
+    {
+      "source": "operations-combobox",
+      "target": "actions-seeking-searching",
+      "type": "instantiates",
+      "label": "the entry phase of instant-results search (popover or dropdown variant) follows the combobox model",
+      "extractedFrom": "header:\"Applied in\""
     },
     {
       "source": "operations-deep-linking",
@@ -5634,6 +5768,13 @@
       "type": "complements",
       "label": "the broader activity select participates in.",
       "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "operations-select",
+      "target": "operations-combobox",
+      "type": "precedes",
+      "label": "for searchable, async, or custom-rendered option sets, built on the WAI-ARIA APG combobox pattern.",
+      "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "operations-status-feedback",

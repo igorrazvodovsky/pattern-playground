@@ -19,16 +19,5 @@ export { useDropdownState } from './hooks/use-dropdown-state';
 // Type declarations
 import './filter-component-types';
 
-// Re-export command menu components
-export {
-  Command,
-  CommandInput,
-  CommandList,
-  CommandEmpty,
-  CommandGroup,
-  CommandItem,
-  CommandItemPrefix,
-  CommandItemSuffix,
-  AIFallbackHandler,
-  useAICommand
-} from '../command-menu';
+// Re-export AI command menu utilities
+export { AIFallbackHandler, useAICommand } from '../command-menu';

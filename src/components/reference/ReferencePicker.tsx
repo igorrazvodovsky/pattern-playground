@@ -1,22 +1,21 @@
-import { forwardRef, useImperativeHandle, useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import {
-  Command,
-  CommandGroup,
-  CommandItem,
-  CommandList,
-  CommandEmpty
-} from '../command-menu/command';
+  Combobox,
+  ComboboxGroup,
+  ComboboxItem,
+  ComboboxList,
+  ComboboxEmpty
+} from '../combobox';
 import { useHierarchicalNavigation, type SearchableParent, type SearchableItem } from '../../hooks/useHierarchicalNavigation';
 import { createSortedSearchFunction, sortByRelevance } from '../../utility/hierarchical-search';
 import type {
   SelectedReference,
-  ReferencePickerProps,
-  ReferencePickerRef
+  ReferencePickerProps
 } from './types';
 import 'iconify-icon';
 import '../../jsx-types';
 
-export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerProps>(({
+export const ReferencePicker = ({
   data,
   query = '',
   onSelect,
@@ -28,11 +27,11 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
   selectedCategory: _selectedCategory = null,
   onCategorySelect,
   onBack
-}, ref) => {
+}: ReferencePickerProps) => {
 
   const hierarchicalData = data as SearchableParent[];
-  
-  const { state, actions, results, inputRef } = useHierarchicalNavigation({
+
+  const { state, actions, results } = useHierarchicalNavigation({
     data: hierarchicalData,
     searchFunction: createSortedSearchFunction(
       (categories, query) => sortByRelevance(categories, query),
@@ -73,17 +72,6 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
     }
   }, [actions, onClose, onBack, state.mode]);
 
-  useImperativeHandle(ref, () => ({
-    focus: () => {
-      inputRef.current?.focus();
-    },
-    selectFirst: () => {},
-    selectLast: () => {},
-    selectNext: () => {},
-    selectPrevious: () => {},
-    getSelectedReference: () => null,
-  }), [inputRef]);
-
   if (!open) return null;
 
   return (
@@ -92,18 +80,18 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
       aria-label="Reference picker"
       data-reference-picker
     >
-      <Command
+      <Combobox
         label="Reference picker"
         shouldFilter={false}
         onEscape={handleEscape}
       >
-        <CommandList>
+        <ComboboxList>
           {state.mode === 'contextual' ? (
             <>
               {results.contextualItems && results.contextualItems.length > 0 ? (
-                <CommandGroup>
+                <ComboboxGroup>
                   {results.contextualItems.map((item) => (
-                    <CommandItem
+                    <ComboboxItem
                       key={item.id}
                       onSelect={() => actions.selectChild(item)}
                     >
@@ -112,19 +100,19 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
                         slot="prefix"
                       />
                       {item.name}
-                    </CommandItem>
+                    </ComboboxItem>
                   ))}
-                </CommandGroup>
+                </ComboboxGroup>
               ) : (
-                <CommandEmpty>No {state.selectedContext?.name?.toLowerCase() ?? 'items'} found.</CommandEmpty>
+                <ComboboxEmpty>No {state.selectedContext?.name?.toLowerCase() ?? 'items'} found.</ComboboxEmpty>
               )}
             </>
           ) : (
             <>
               {results.parents.length > 0 && (
-                <CommandGroup>
+                <ComboboxGroup>
                   {results.parents.map((category) => (
-                    <CommandItem
+                    <ComboboxItem
                       key={category.id}
                       onSelect={() => handleCategorySelect(category)}
                     >
@@ -137,15 +125,15 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
                         icon="ph:caret-right"
                         slot="suffix"
                       />
-                    </CommandItem>
+                    </ComboboxItem>
                   ))}
-                </CommandGroup>
+                </ComboboxGroup>
               )}
 
               {results.children.length > 0 && (
-                <CommandGroup>
+                <ComboboxGroup>
                   {results.children.map(({ parent, child }) => (
-                    <CommandItem
+                    <ComboboxItem
                       key={`${parent.id}-${child.id}`}
                       onSelect={() => actions.selectChild(child)}
                     >
@@ -154,23 +142,21 @@ export const ReferencePicker = forwardRef<ReferencePickerRef, ReferencePickerPro
                         slot="prefix"
                       />
                       {child.name}
-                    </CommandItem>
+                    </ComboboxItem>
                   ))}
-                </CommandGroup>
+                </ComboboxGroup>
               )}
 
               {state.searchInput &&
                state.searchInput.length >= 2 &&
                results.parents.length === 0 &&
                results.children.length === 0 && (
-                <CommandEmpty>No references found for "{state.searchInput}".</CommandEmpty>
+                <ComboboxEmpty>No references found for "{state.searchInput}".</ComboboxEmpty>
               )}
             </>
           )}
-        </CommandList>
-      </Command>
+        </ComboboxList>
+      </Combobox>
     </div>
   );
-});
-
-ReferencePicker.displayName = 'ReferencePicker';
+};

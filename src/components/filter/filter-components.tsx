@@ -5,13 +5,13 @@ import { FilterIcon } from "./filter-options-icons";
 import { AnimateChangeInHeight } from "./animate-change-in-height";
 import { Slot } from "@radix-ui/react-slot";
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "../command-menu/command";
+  Combobox,
+  ComboboxEmpty,
+  ComboboxGroup,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "../combobox";
 import { useDropdownState } from "./hooks/use-dropdown-state";
 import 'iconify-icon';
 import '../dropdown/dropdown.ts';
@@ -64,7 +64,7 @@ export const FilterValueDropdown = ({
 }) => {
   const {
     commandInput,
-    setCommandInput,
+    setComboboxInput,
     commandInputRef,
     dropdownRef,
     handleDropdownShow,
@@ -113,35 +113,35 @@ export const FilterValueDropdown = ({
 
       <div>
         <AnimateChangeInHeight>
-          <Command>
-            <CommandInput
+          <Combobox>
+            <ComboboxInput
               placeholder={filterType}
               className="h-9"
               value={commandInput}
               onInputCapture={(e) => {
-                setCommandInput(e.currentTarget.value);
+                setComboboxInput(e.currentTarget.value);
               }}
               ref={commandInputRef}
             />
-            <CommandList>
-              <CommandEmpty>No results found.</CommandEmpty>
-              <CommandGroup>
+            <ComboboxList>
+              <ComboboxEmpty>No results found.</ComboboxEmpty>
+              <ComboboxGroup>
                 {filterValues.map((value) => (
-                  <CommandItem
+                  <ComboboxItem
                     key={value}
                     checked={true}
                     onSelect={() => handleValueRemove(value)}
                   >
                     <FilterIcon type={value as FilterType} slot="prefix" />
                     {value}
-                  </CommandItem>
+                  </ComboboxItem>
                 ))}
-              </CommandGroup>
+              </ComboboxGroup>
               {nonSelectedFilterValues?.length > 0 && (
                 <>
-                  <CommandGroup>
+                  <ComboboxGroup>
                     {nonSelectedFilterValues.map((filter: FilterOption) => (
-                      <CommandItem
+                      <ComboboxItem
                         key={filter.name}
                         value={filter.name}
                         checked={false}
@@ -158,13 +158,13 @@ export const FilterValueDropdown = ({
                             {filter.label}
                           </span>
                         )}
-                      </CommandItem>
+                      </ComboboxItem>
                     ))}
-                  </CommandGroup>
+                  </ComboboxGroup>
                 </>
               )}
-            </CommandList>
-          </Command>
+            </ComboboxList>
+          </Combobox>
         </AnimateChangeInHeight>
       </div>
     </pp-dropdown>
