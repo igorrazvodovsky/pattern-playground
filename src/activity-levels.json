@@ -409,6 +409,12 @@
       "atomic-category": "pattern",
       "mediation": "individual"
     },
+    "activities-live-presentation": {
+      "activity-level": "activity",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": "individual"
+    },
     "activities-living-document": {
       "activity-level": "activity",
       "lifecycle-stage": null,

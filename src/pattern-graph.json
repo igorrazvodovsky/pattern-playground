@@ -509,6 +509,13 @@
       "role": "pattern"
     },
     {
+      "id": "activities-live-presentation",
+      "title": "Live presentation",
+      "category": "Activities",
+      "path": "../?path=/docs/activities-live-presentation--docs",
+      "role": "pattern"
+    },
+    {
       "id": "activities-living-document",
       "title": "Living document",
       "category": "Activities",
@@ -4363,6 +4370,53 @@
       "source": "activities-help",
       "target": "activities-bot",
       "type": "related"
+    },
+    {
+      "source": "activities-bot",
+      "target": "activities-live-presentation",
+      "type": "precedes",
+      "label": "generates the stream that this surface presents in flight",
+      "extractedFrom": "header:\"Precursors\""
+    },
+    {
+      "source": "activities-live-presentation",
+      "target": "activities-generated-content",
+      "type": "precedes",
+      "label": "once the stream completes, the move shifts from holding the surface stable to negotiating what arrived",
+      "extractedFrom": "header:\"Follow-ups\""
+    },
+    {
+      "source": "activities-live-presentation",
+      "target": "activities-transparent-reasoning",
+      "type": "complements",
+      "label": "its \"stream of thought\" mode rides on the same rendering substrate",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "activities-live-presentation",
+      "target": "activities-conversation",
+      "type": "complements",
+      "label": "live presentation is one of the rhythms a conversational turn can take",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "activities-live-presentation",
+      "target": "operations-conversation-sequence-management-abort",
+      "type": "complements",
+      "label": "the user-side stop depends on the surface having a quiet resting state to land in",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "activities-live-presentation",
+      "target": "qualities-agency",
+      "type": "enacts",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "activities-live-presentation",
+      "target": "qualities-temporality",
+      "type": "enacts",
+      "extractedFrom": "quality-target"
     },
     {
       "source": "activities-living-document",
