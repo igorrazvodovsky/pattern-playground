@@ -32,6 +32,7 @@ src/
 │   ├── qualities/              Cross-cutting attributes (agency, conversation, etc.)
 │   ├── concepts/               Concept design vocabulary (Jackson)
 │   ├── data-visualization/     Charts and data encoding (placeholder)
+│   ├── patterns/               Pattern definitions and examples
 │   ├── data/                   Shared mock data (JSON files)
 │   └── utils/                  Storybook utility components
 │
