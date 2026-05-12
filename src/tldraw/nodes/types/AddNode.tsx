@@ -1,4 +1,5 @@
-import { Editor, getIndexAbove, getIndicesBetween, IndexKey, sleep, T, useEditor } from 'tldraw'
+import { Editor, getIndexAbove, getIndicesBetween, IndexKey, T, useEditor } from 'tldraw'
+import { sleep } from '../../utils/sleep'
 import { AddIcon } from '../../components/icons/AddIcon'
 import {
 	NODE_HEADER_HEIGHT_PX,

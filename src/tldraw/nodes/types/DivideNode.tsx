@@ -1,4 +1,5 @@
-import { sleep, T, useEditor } from 'tldraw'
+import { T, useEditor } from 'tldraw'
+import { sleep } from '../../utils/sleep'
 import { DivideIcon } from '../../components/icons/DivideIcon'
 import {
 	NODE_HEADER_HEIGHT_PX,

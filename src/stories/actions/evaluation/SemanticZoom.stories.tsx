@@ -73,7 +73,7 @@ function SemanticZoomDemo() {
 					})
 
 					// Zoom to fit all cards with some padding
-					editor.zoomToFit({ padding: 100 })
+					editor.zoomToFit()
 				}}
 			/>
 		</div>

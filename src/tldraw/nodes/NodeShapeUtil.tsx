@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- tldraw generic types require any; see plans/tech-debt-tracker.md */
 import classNames from 'classnames'
 import {
 	Circle2d,
@@ -9,25 +8,31 @@ import {
 	resizeBox,
 	ShapeUtil,
 	T,
-	TLBaseShape,
 	TLResizeInfo,
+	TLShape,
 	useEditor,
-	useUniqueSafeId,
 	useValue,
 } from 'tldraw'
 import { NODE_WIDTH_PX, PORT_RADIUS_PX } from '../constants'
 import { executionState } from '../execution/executionState'
-import { Port, ShapePort } from '../ports/Port'
+import { Port } from '../ports/Port'
 import { getNodeOutputPortInfo, getNodePorts } from './nodePorts'
 import { getNodeDefinition, getNodeHeightPx, NodeBody, NodeType } from './nodeTypes'
 import { NodeValue, STOP_EXECUTION } from './types/shared'
 
-// Define our custom node shape type that extends tldraw's base shape system
-export type NodeShape = TLBaseShape<'node', { node: NodeType; isOutOfDate: boolean }>
+const NODE_TYPE = 'node'
+
+declare module 'tldraw' {
+	export interface TLGlobalShapePropsMap {
+		[NODE_TYPE]: { node: NodeType; isOutOfDate: boolean }
+	}
+}
+
+export type NodeShape = TLShape<typeof NODE_TYPE>
 
 // This class extends tldraw's ShapeUtil to define how our custom node shapes behave
 export class NodeShapeUtil extends ShapeUtil<NodeShape> {
-	static override type = 'node' as const
+	static override type = NODE_TYPE
 	static override props: RecordProps<NodeShape> = {
 		node: NodeType,
 		isOutOfDate: T.boolean,
@@ -40,25 +45,25 @@ export class NodeShapeUtil extends ShapeUtil<NodeShape> {
 		}
 	}
 
-	override canEdit() {
+	override canEdit(_shape: NodeShape) {
 		return false
 	}
-	override canResize() {
+	override canResize(_shape: NodeShape) {
 		return false
 	}
-	override hideResizeHandles() {
+	override hideResizeHandles(_shape: NodeShape) {
 		return true
 	}
-	override hideRotateHandle() {
+	override hideRotateHandle(_shape: NodeShape) {
 		return true
 	}
-	override hideSelectionBoundsBg() {
+	override hideSelectionBoundsBg(_shape: NodeShape) {
 		return true
 	}
-	override hideSelectionBoundsFg() {
+	override hideSelectionBoundsFg(_shape: NodeShape) {
 		return true
 	}
-	override isAspectRatioLocked() {
+	override isAspectRatioLocked(_shape: NodeShape) {
 		return false
 	}
 	override getBoundsSnapGeometry(_shape: NodeShape) {
@@ -95,6 +100,7 @@ export class NodeShapeUtil extends ShapeUtil<NodeShape> {
 		})
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	override onResize(shape: any, info: TLResizeInfo<any>) {
 		return resizeBox(shape, info)
 	}
@@ -103,50 +109,17 @@ export class NodeShapeUtil extends ShapeUtil<NodeShape> {
 		return <NodeShape shape={shape} />
 	}
 
-	indicator(shape: NodeShape) {
+	getIndicatorPath(shape: NodeShape) {
+		const height = getNodeHeightPx(this.editor, shape)
+		const path = new Path2D()
+		path.rect(0, 0, NODE_WIDTH_PX, height)
 		const ports = Object.values(getNodePorts(this.editor, shape))
-		return <NodeShapeIndicator shape={shape} ports={ports} />
+		for (const port of ports) {
+			path.moveTo(port.x + PORT_RADIUS_PX, port.y)
+			path.arc(port.x, port.y, PORT_RADIUS_PX, 0, Math.PI * 2)
+		}
+		return path
 	}
-}
-
-// SVG indicator component that shows selection bounds and ports
-function NodeShapeIndicator({ shape, ports }: { shape: NodeShape; ports: ShapePort[] }) {
-	const id = useUniqueSafeId()
-	const editor = useEditor()
-
-	return (
-		<>
-			{/* Create a mask to show ports as holes in the selection bounds */}
-			<mask id={id}>
-				<rect
-					width={NODE_WIDTH_PX + 10}
-					height={getNodeHeightPx(editor, shape) + 10}
-					fill="white"
-					x={-5}
-					y={-5}
-				/>
-				{ports.map((port) => (
-					<circle
-						key={port.id}
-						cx={port.x}
-						cy={port.y}
-						r={PORT_RADIUS_PX}
-						fill="black"
-						strokeWidth={0}
-					/>
-				))}
-			</mask>
-			<rect
-				rx={9}
-				width={NODE_WIDTH_PX}
-				height={getNodeHeightPx(editor, shape)}
-				mask={`url(#${id})`}
-			/>
-			{ports.map((port) => (
-				<circle key={port.id} cx={port.x} cy={port.y} r={PORT_RADIUS_PX} />
-			))}
-		</>
-	)
 }
 
 // Main node component that renders the HTML content

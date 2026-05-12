@@ -32,7 +32,8 @@ export function keepConnectionsAtBottom(editor: Editor) {
 		const changedParentIds = pendingChangedParentIds
 		pendingChangedParentIds = new Set()
 
-		const updates = []
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		const updates: any[] = []
 
 		for (const parentId of changedParentIds) {
 			// iterate through all the children of this parent. We want all the connections at the

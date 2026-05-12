@@ -1,4 +1,4 @@
-import { T, TLBaseShape } from 'tldraw'
+import { T, TLShape } from 'tldraw'
 
 // Level of Detail types
 export type LODLevel = 'A' | 'B' | 'C' | 'D'
@@ -24,6 +24,14 @@ export const CONTENT_CARD_DIMENSIONS = {
 	D: { width: 400, height: 300 },
 } as const
 
+const CONTENT_CARD_TYPE = 'contentCard'
+
+declare module 'tldraw' {
+	export interface TLGlobalShapePropsMap {
+		[CONTENT_CARD_TYPE]: ContentCardProps
+	}
+}
+
 // ContentCard shape props
 export interface ContentCardProps {
 	title: string
@@ -33,7 +41,7 @@ export interface ContentCardProps {
 }
 
 // ContentCard shape type
-export type ContentCardShape = TLBaseShape<'contentCard', ContentCardProps>
+export type ContentCardShape = TLShape<typeof CONTENT_CARD_TYPE>
 
 // Validator for ContentCard props
 export const contentCardPropsValidator = {

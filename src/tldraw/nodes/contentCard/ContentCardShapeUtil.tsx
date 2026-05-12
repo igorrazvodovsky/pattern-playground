@@ -5,7 +5,6 @@ import {
 	Rectangle2d,
 	ShapeUtil,
 	useEditor,
-	useUniqueSafeId,
 	useValue,
 } from 'tldraw'
 import {
@@ -139,13 +138,30 @@ export class ContentCardShapeUtil extends ShapeUtil<ContentCardShape> {
 		return <ContentCardComponent shape={shape} />
 	}
 
-	indicator(_shape: ContentCardShape) {
+	getIndicatorPath(_shape: ContentCardShape): Path2D {
 		const zoom = this.editor.getZoomLevel()
 		const lod = getLODFromZoom(zoom)
 		const dimensions = CONTENT_CARD_DIMENSIONS[lod]
 		const ports = getPortsForLOD(lod)
+		const path = new Path2D()
 
-		return <ContentCardIndicator lod={lod} dimensions={dimensions} ports={ports} />
+		if (lod === 'A') {
+			const r = dimensions.width / 2
+			const cx = r
+			const cy = r
+			path.moveTo(cx + r, cy)
+			path.arc(cx, cy, r, 0, Math.PI * 2)
+		} else {
+			const borderRadius = lod === 'B' ? dimensions.height / 2 : 9
+			path.roundRect(0, 0, dimensions.width, dimensions.height, borderRadius)
+		}
+
+		for (const port of Object.values(ports)) {
+			path.moveTo(port.x + CONTENT_CARD_PORT_RADIUS_PX, port.y)
+			path.arc(port.x, port.y, CONTENT_CARD_PORT_RADIUS_PX, 0, Math.PI * 2)
+		}
+
+		return path
 	}
 }
 
@@ -178,65 +194,5 @@ function ContentCardComponent({ shape }: { shape: ContentCardShape }) {
 				<div className="ContentCard-fulltext">{fullText}</div>
 			</div>
 		</HTMLContainer>
-	)
-}
-
-function ContentCardIndicator({
-	lod,
-	dimensions,
-	ports,
-}: {
-	lod: LODLevel
-	dimensions: { width: number; height: number }
-	ports: { input: ShapePort; output: ShapePort }
-}) {
-	const id = useUniqueSafeId()
-
-	// LOD A uses circular indicator
-	if (lod === 'A') {
-		return (
-			<>
-				<circle cx={dimensions.width / 2} cy={dimensions.height / 2} r={dimensions.width / 2} />
-				{Object.values(ports).map((port) => (
-					<circle key={port.id} cx={port.x} cy={port.y} r={CONTENT_CARD_PORT_RADIUS_PX} />
-				))}
-			</>
-		)
-	}
-
-	// LOD B-D use rounded rectangle indicator
-	const borderRadius = lod === 'B' ? dimensions.height / 2 : 9
-
-	return (
-		<>
-			<mask id={id}>
-				<rect
-					width={dimensions.width + 10}
-					height={dimensions.height + 10}
-					fill="white"
-					x={-5}
-					y={-5}
-				/>
-				{Object.values(ports).map((port) => (
-					<circle
-						key={port.id}
-						cx={port.x}
-						cy={port.y}
-						r={CONTENT_CARD_PORT_RADIUS_PX}
-						fill="black"
-						strokeWidth={0}
-					/>
-				))}
-			</mask>
-			<rect
-				rx={borderRadius}
-				width={dimensions.width}
-				height={dimensions.height}
-				mask={`url(#${id})`}
-			/>
-			{Object.values(ports).map((port) => (
-				<circle key={port.id} cx={port.x} cy={port.y} r={CONTENT_CARD_PORT_RADIUS_PX} />
-			))}
-		</>
 	)
 }

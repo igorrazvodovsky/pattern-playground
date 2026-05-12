@@ -1,4 +1,5 @@
-import { sleep, T, useEditor } from 'tldraw'
+import { T, useEditor } from 'tldraw'
+import { sleep } from '../../utils/sleep'
 import { MultiplyIcon } from '../../components/icons/MultiplyIcon'
 import {
 	NODE_HEADER_HEIGHT_PX,

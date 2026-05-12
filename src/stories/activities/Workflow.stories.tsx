@@ -12,25 +12,30 @@ import {
 } from 'tldraw'
 
 import { OnCanvasComponentPicker } from '../../tldraw/components/OnCanvasComponentPicker.tsx'
+import { WorkflowRegions } from '../../tldraw/components/WorkflowRegions.tsx'
 import { overrides, WorkflowToolbar } from '../../tldraw/components/WorkflowToolbar.tsx'
 import { ConnectionBindingUtil } from '../../tldraw/connection/ConnectionBindingUtil'
+import { ConnectionCenterHandleOverlayUtil } from '../../tldraw/connection/ConnectionCenterHandleOverlayUtil'
 import { ConnectionShapeUtil } from '../../tldraw/connection/ConnectionShapeUtil'
 import { keepConnectionsAtBottom } from '../../tldraw/connection/keepConnectionsAtBottom'
 import { disableTransparency } from '../../tldraw/disableTransparency.tsx'
+import { ContentCardShapeUtil } from '../../tldraw/nodes/contentCard/ContentCardShapeUtil'
 import { NodeShapeUtil } from '../../tldraw/nodes/NodeShapeUtil'
 import { PointingPort } from '../../tldraw/ports/PointingPort'
 
 // Define custom shape utilities that extend tldraw's shape system
-const shapeUtils = [NodeShapeUtil, ConnectionShapeUtil]
+const shapeUtils = [NodeShapeUtil, ConnectionShapeUtil, ContentCardShapeUtil]
 // Define binding utilities that handle relationships between shapes
 const bindingUtils = [ConnectionBindingUtil]
+// Canvas overlays — adds the "+" insert handle at the midpoint of each connection
+const overlayUtils = [ConnectionCenterHandleOverlayUtil]
 
 // Customize tldraw's UI components to add workflow-specific functionality
 const components: TLComponents = {
 	InFrontOfTheCanvas: () => (
 		<>
 			<OnCanvasComponentPicker />
-			{/* <WorkflowRegions /> */}
+			<WorkflowRegions />
 		</>
 	),
 	Toolbar: () => (
@@ -78,6 +83,7 @@ function DefaultWorkflow() {
 				overrides={overrides}
 				shapeUtils={shapeUtils}
 				bindingUtils={bindingUtils}
+				overlayUtils={overlayUtils}
 				components={components}
 				onMount={(editor) => {
 					// eslint-disable-next-line @typescript-eslint/no-explicit-any -- tldraw debug access

@@ -1,4 +1,5 @@
-import { sleep, T } from 'tldraw'
+import { T } from 'tldraw'
+import { sleep } from '../../utils/sleep'
 import { EarthquakeIcon } from '../../components/icons/EarthquakeIcon'
 import { NODE_HEADER_HEIGHT_PX, NODE_ROW_HEIGHT_PX, NODE_WIDTH_PX } from '../../constants'
 import { ShapePort } from '../../ports/Port'
