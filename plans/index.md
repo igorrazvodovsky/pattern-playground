@@ -5,6 +5,7 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Active
 
+- [Workspace split](active/2026-05-workspace-split.md) — split into components package and pattern-site package (npm workspaces, Astro)
 - [Combobox and adjacent surfaces](active/2026-05-combobox-territory.md) — pattern-language work for Combobox, Selection multi-select, Dual listbox placeholder
 - [Combobox primitives extraction](active/2026-05-combobox-primitives-extraction.md) — rename Command* React primitives to Combobox* under src/components/combobox/
 - [Live presentation research synthesis](active/2026-05-live-presentation-research.md) — broaden evidence base for Activities/Live presentation seed
