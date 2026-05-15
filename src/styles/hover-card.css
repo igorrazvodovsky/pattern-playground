@@ -18,11 +18,11 @@
   animation-timing-function: ease;
 }
 
-.hover-card__content[data-state="open"] {
+.hover-card__content[data-open] {
   animation-name: hover-card-open;
 }
 
-.hover-card__content[data-state="closed"] {
+.hover-card__content[data-closed] {
   animation-name: hover-card-close;
 }
 

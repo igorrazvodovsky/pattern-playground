@@ -3,7 +3,6 @@ import { FilterType, FilterOperator, FilterOption } from "./filter-types";
 import { filterOperators, filterViewToFilterOptions } from "./filter-options";
 import { FilterIcon } from "./filter-options-icons";
 import { AnimateChangeInHeight } from "./animate-change-in-height";
-import { Slot } from "@radix-ui/react-slot";
 import {
   Combobox,
   ComboboxEmpty,
@@ -147,9 +146,9 @@ export const FilterValueDropdown = ({
                         checked={false}
                         onSelect={(currentValue: string) => handleValueAdd(currentValue)}
                       >
-                        <Slot slot="prefix">
-                          {filter.icon}
-                        </Slot>
+                        {React.isValidElement(filter.icon)
+                          ? React.cloneElement(filter.icon as React.ReactElement<{ slot?: string }>, { slot: 'prefix' })
+                          : null}
                         <span>
                           {filter.name}
                         </span>

@@ -3,7 +3,6 @@
 import * as React from "react"
 import { Command as ComboboxPrimitive } from "cmdk"
 import { Icon } from '@iconify/react'
-import { Slot } from "@radix-ui/react-slot"
 
 interface SlotProps {
   slot?: string;
@@ -129,15 +128,18 @@ const ComboboxItem = React.forwardRef<
   React.ElementRef<typeof ComboboxPrimitive.Item>,
   ComboboxItemProps
 >(({ children, checked, asChild, className, ...props }, ref) => {
-  const Comp = asChild ? Slot : ComboboxPrimitive.Item;
   const { prefix, suffix, content } = useComboboxItemSlots(children);
 
   if (asChild) {
-    return (
-      <Comp ref={ref} className={`${checked ? 'combobox-item--checked' : ''} ${className || ''}`}>
-        {children}
-      </Comp>
-    );
+    if (!React.isValidElement<{ className?: string; ref?: React.Ref<unknown> }>(children)) {
+      return null;
+    }
+    const mergedClassName = [
+      checked ? 'combobox-item--checked' : '',
+      className || '',
+      children.props.className || '',
+    ].filter(Boolean).join(' ');
+    return React.cloneElement(children, { ref, className: mergedClassName });
   }
 
   return (

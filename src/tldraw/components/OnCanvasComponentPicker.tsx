@@ -1,5 +1,4 @@
-import * as Dialog from '@radix-ui/react-dialog'
-import * as VisuallyHidden from '@radix-ui/react-visually-hidden'
+import { Dialog } from '@base-ui/react/dialog'
 import { useCallback, useMemo, useState } from 'react'
 import {
 	TldrawUiButton,
@@ -114,27 +113,32 @@ function OnCanvasComponentPickerDialog({
 		<Dialog.Root
 			open={shouldRender}
 			modal={false}
-			onOpenChange={(isOpen) => {
+			onOpenChange={(isOpen, eventDetails) => {
+				if (
+					eventDetails.reason === 'outside-press' ||
+					eventDetails.reason === 'focus-out'
+				) {
+					eventDetails.cancel()
+					return
+				}
 				if (!isOpen) onClose()
 			}}
 		>
-			<Dialog.Content
-				ref={setContainer}
-				className={`OnCanvasComponentPicker OnCanvasComponentPicker_${location}`}
-				// eslint-disable-next-line react/forbid-component-props -- dynamic layout value, see plans/tech-debt-tracker.md
-				style={{ width: NODE_WIDTH_PX }}
-				onFocusOutside={(e) => e.preventDefault()}
-				onPointerDownOutside={(e) => e.preventDefault()}
-			>
-				<div className="OnCanvasComponentPicker-content">
-					<VisuallyHidden.Root>
-						<Dialog.Title>Insert Node</Dialog.Title>
-					</VisuallyHidden.Root>
-					<TldrawUiMenuContextProvider sourceId="dialog" type="menu">
-						{children}
-					</TldrawUiMenuContextProvider>
-				</div>
-			</Dialog.Content>
+			<Dialog.Portal>
+				<Dialog.Popup
+					ref={setContainer}
+					className={`OnCanvasComponentPicker OnCanvasComponentPicker_${location}`}
+					// eslint-disable-next-line react/forbid-component-props -- dynamic layout value, see plans/tech-debt-tracker.md
+					style={{ width: NODE_WIDTH_PX }}
+				>
+					<div className="OnCanvasComponentPicker-content">
+						<Dialog.Title className="visually-hidden">Insert Node</Dialog.Title>
+						<TldrawUiMenuContextProvider sourceId="dialog" type="menu">
+							{children}
+						</TldrawUiMenuContextProvider>
+					</div>
+				</Dialog.Popup>
+			</Dialog.Portal>
 		</Dialog.Root>
 	)
 }

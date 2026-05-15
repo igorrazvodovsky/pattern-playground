@@ -1,8 +1,8 @@
 import React from 'react';
-import * as HoverCard from '@radix-ui/react-hover-card';
+import { PreviewCard } from '@base-ui/react/preview-card';
 
 export interface HoverCardProps {
-  children: React.ReactNode;
+  children: React.ReactElement;
   content: React.ReactNode;
   /**
    * The duration from when the mouse enters the trigger until the hover card opens.
@@ -53,23 +53,22 @@ export const PpHoverCard: React.FC<HoverCardProps> = ({
   avoidCollisions = true,
 }) => {
   return (
-    <HoverCard.Root openDelay={openDelay} closeDelay={closeDelay}>
-      <HoverCard.Trigger asChild>
-        {children}
-      </HoverCard.Trigger>
+    <PreviewCard.Root>
+      <PreviewCard.Trigger delay={openDelay} closeDelay={closeDelay} render={children} />
 
-      <HoverCard.Portal>
-        <HoverCard.Content
-          className="hover-card__content"
+      <PreviewCard.Portal>
+        <PreviewCard.Positioner
           side={side}
           sideOffset={sideOffset}
           align={align}
-          avoidCollisions={avoidCollisions}
+          collisionAvoidance={avoidCollisions ? undefined : { side: 'none', align: 'none' }}
         >
-          {content}
-          {showArrow && <HoverCard.Arrow className="hover-card__arrow" />}
-        </HoverCard.Content>
-      </HoverCard.Portal>
-    </HoverCard.Root>
+          <PreviewCard.Popup className="hover-card__content">
+            {content}
+            {showArrow && <PreviewCard.Arrow className="hover-card__arrow" />}
+          </PreviewCard.Popup>
+        </PreviewCard.Positioner>
+      </PreviewCard.Portal>
+    </PreviewCard.Root>
   );
 };

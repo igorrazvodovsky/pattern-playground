@@ -32,9 +32,9 @@ Mirroring the framings that shape [2026-05-role-metadata.md](2026-05-role-metada
 
 In scope:
 
-- Restructure the repo into npm workspaces: `packages/components/` and `packages/patterns/`.
-- Bootstrap a pattern-site runtime (Astro) in `packages/patterns/`.
-- Migrate non-component MDX out of `src/stories/` into `packages/patterns/`.
+- Restructure the repo into npm workspaces: `packages/components/`, `apps/patterns/`, and `apps/server/`.
+- Bootstrap a pattern-site runtime (Astro) in `apps/patterns/`.
+- Migrate non-component MDX out of `src/stories/` into `apps/patterns/`.
 - Conduct the move/mechanism split audit (folded with the role-coverage survey) and execute the resulting splits for APG-style entries during Phase D.
 - Establish Foundations and Qualities as bilingual: language entry in the pattern site, implementation substrate in the components package.
 - Decide on a home for cross-cutting material (`docs/language/`, `references/`, `research/`, `plans/`) — likely the patterns package, possibly top-level shared.
@@ -50,31 +50,24 @@ Out of scope:
 - Changing the graph's edge vocabulary or role taxonomy. Those are the property of the role-metadata and typed-edges plans.
 - Server-side concerns (`server/` Express app). Stays where it is unless a clear reason to move emerges.
 
-## Prerequisites and coordination
-
-Three prerequisites, in order:
-
-1. *Role coverage complete.* Phase B of [2026-05-role-metadata.md](2026-05-role-metadata.md) must be at full coverage before this plan's Phase D begins. The physical split is driven entirely by the `role:` tag (with folder inference for `qualities/` and `foundations/`). Any page without an explicit or inferred role is invisible to the migration — and silently ends up on the wrong side. The coverage warning in the extractor is the gate.
-
-2. *Move/mechanism split audit complete.* This plan resolves the `role:control` open question in the role-metadata plan *in the negative*: no third role; contract-bearing widgets (combobox, tabs, tree, listbox, disclosure, menu, slider, dialog, and similar APG-style entries) get split into two artifacts — a move at the language level (situation, forces, consequences, edges) and a mechanism at the components level (props, states, anatomy, keyboard model, ARIA). Moves are named *by the move*, not by the widget — "Constrained selection from a set", "Hierarchical navigation", "Reveal on demand" — so the move-level name survives a change of widget. The audit is folded into the role survey: each entry gets three verdicts (role, move/mechanism split needed and proposed move name if applicable, AT altitude after any component portion leaves).
-
-3. *Combobox territory landed.* [2026-05-combobox-territory.md](2026-05-combobox-territory.md) is mostly done and should close before the split audit applies the move/mechanism treatment to the combobox entries. The audit then operates on a stable combobox surface rather than a moving target. Other APG-style entries are not blocked on combobox.
-
-Pages flagged ambiguous by the role survey must have a verdict before they move. Splitting an ambiguous page into two pages is the default resolution (per prerequisite 2); deferring is not acceptable, because the two halves end up on different sides of the workspace.
-
 ## Mechanism: npm workspaces
 
-The repo becomes a workspace root with two packages:
+The repo becomes a workspace root with one library package and two runnable apps, following the `packages/` (libraries) + `apps/` (runtimes) convention:
 
-- `packages/components/` — current `src/components/`, `src/styles/`, the component-bound parts of `src/services/`, design tokens, Storybook config, and the components-only deps (Tldraw, Tiptap, the heavier d3 set if components want them). Owns the existing Storybook on port 6006. Exports a public API via its `package.json` `exports` field; patterns import only what's exported.
+- `packages/components/` — current `src/components/`, `src/styles/`, the component-bound parts of `src/services/`, design tokens, Storybook config, and the components-only deps (Tldraw, Tiptap, the heavier d3 set if components want them). Owns the existing Storybook on port 6006. Exports a public API via its `package.json` `exports` field; consumers import only what's exported.
 
-- `packages/patterns/` — pattern MDX, the pattern-site app (Astro), the graph extractor, `docs/language/` (most likely), and pattern-site-only deps (Astro, Pagefind, remark/rehype plugins). Depends on `@pattern-plgrnd/components` as a workspace dependency for live examples.
+- `apps/patterns/` — pattern MDX, the Astro pattern-site app, the graph extractor, `docs/language/` (most likely), and pattern-site-only deps (Astro, Pagefind, remark/rehype plugins). Depends on `@pattern-plgrnd/components` as a workspace dependency for live examples.
 
-Top-level shared material lives where it naturally belongs: `references/` and `research/` likely follow `docs/language/` into the patterns package, because their primary consumer is pattern-language work. `plans/` (this file included) is harder — it serves both packages and may stay at the repo root.
+- `apps/server/` — the existing Express backend, moved from its current root-level `server/` home. No behavioral change; the move makes the workspace layout symmetric and gives the server a formal package boundary.
+
+The `packages/` vs `apps/` distinction encodes what's actually different: `packages/components` is a library you import from; `apps/patterns` and `apps/server` are runtimes you run. Root-level `workspaces: ["packages/*", "apps/*"]`.
+
+Top-level shared material lives where it naturally belongs: `references/` and `research/` likely follow `docs/language/` into `apps/patterns/`, because their primary consumer is pattern-language work. `plans/` (this file included) is harder — it serves all workspaces and may stay at the repo root.
 
 ### Considered alternatives
 
 - *Sibling top-level dirs (mechanism A from the discussion).* Cheaper migration, but no formal boundary; bumping a heavy component dep affects the pattern site even when it shouldn't. Viable as an *interim* step if the workspace restructure feels too heavy for one move — the migration order in Phase B can take it through the sibling-dir shape on the way to workspaces.
+- *All workspaces under `packages/`.* Uniform but `packages/server/` is an awkward name for an Express backend; moves existing structure for naming reasons only.
 - *Two repos (mechanism C from the discussion).* Rejected. Authoring-loop cost outweighs boundary strength for a single-author research project; cross-cutting material (docs, references, plans) doesn't split cleanly.
 
 ## Mechanism: Astro for the pattern site
@@ -154,7 +147,7 @@ No code changes. Output: a Phase-A audit note at `plans/active/2026-05-workspace
 
 Only after Phase A closes cleanly. The mechanical move; no behavior change yet.
 
-- Create `packages/components/` and `packages/patterns/` skeletons.
+- Create `packages/components/`, `apps/patterns/`, and `apps/server/` skeletons.
 - Move existing `src/components/`, `src/styles/`, `src/services/` (component-bound parts), `src/tokens/`, `.storybook/`, and Storybook stories that are `role:component` into `packages/components/`.
 - Move `src/services/` parts that are pattern-bound, `src/types/`, `src/utility/`, `src/hooks/` to the package they primarily serve, or to a top-level `shared/` if used by both.
 - Set up root `package.json` with workspaces configured for `packages/*`.
@@ -166,9 +159,10 @@ Only after Phase A closes cleanly. The mechanical move; no behavior change yet.
 
 ### Files modified
 
-- Root `package.json` (workspaces, hoisted dev deps)
+- Root `package.json` (workspaces `["packages/*", "apps/*"]`, hoisted dev deps)
 - `packages/components/package.json` (component deps, Storybook scripts)
-- `packages/patterns/package.json` (placeholder, deps added in Phase C)
+- `apps/patterns/package.json` (placeholder, deps added in Phase C)
+- `apps/server/package.json` (moved from `server/package.json`; scripts unchanged)
 - `tsconfig.json` (root references, per-package project tsconfigs)
 - `vite.config.ts` (split or per-package)
 - `.storybook/` (move into `packages/components/`)
@@ -189,23 +183,23 @@ The pattern-site app gets its skeleton, but no pattern content has moved yet. Th
 
 ### Files modified
 
-- `packages/patterns/astro.config.mjs`
-- `packages/patterns/src/content/config.ts` (collection schemas)
-- `packages/patterns/src/pages/` (initial routes)
-- `packages/patterns/src/components/` (the React `PatternGraph` re-exported as an island)
+- `apps/patterns/astro.config.mjs`
+- `apps/patterns/src/content/config.ts` (collection schemas)
+- `apps/patterns/src/pages/` (initial routes)
+- `apps/patterns/src/components/` (the React `PatternGraph` re-exported as an island)
 
 ## Phase D — Pattern MDX migration
 
 The bulk move. Every non-component page leaves `src/stories/` and lands in `packages/patterns/src/content/`. Mechanical for most entries, with three exceptions: APG-style splits, bilingual Foundations/Qualities, and pages that didn't have MDX.
 
 - For each MDX page with `role:pattern`, `role:umbrella`:
-  - Move file from `src/stories/<path>/<name>.mdx` to `packages/patterns/src/content/patterns/<path>/<name>.mdx` (or `.md` if no MDX features used).
+  - Move file from `src/stories/<path>/<name>.mdx` to `apps/patterns/src/content/patterns/<path>/<name>.mdx` (or `.md` if no MDX features used).
   - Transform `<Meta of={...} tags={[...]} />` to YAML frontmatter. Keep all tag values; tags like `role:pattern`, `activity-level:action`, `atomic:pattern` map to typed frontmatter fields.
   - Rewrite inter-page links from `../?path=/docs/<id>--docs` to the chosen link format from Phase C.
   - Co-locate `.profile.ts` sidecars; keep the same filename relationship the extractor uses ([scripts/extract-graph-data.ts:162](../../scripts/extract-graph-data.ts#L162)).
   - Co-located `.stories.tsx` files: for pages that had no MDX (extracted-from-stories-only metadata), generate an `.md` shell that hosts the frontmatter. If the page's previews are essential, decide page-by-page whether to migrate them as MDX with React/Lit embeds, or leave a Storybook backreference.
 - For each `role:quality` and `role:foundation` page (bilingual):
-  - The language entry — what the quality or foundation *is* as a design concept, with edges to patterns that enact it — moves to `packages/patterns/src/content/`.
+  - The language entry — what the quality or foundation *is* as a design concept, with edges to patterns that enact it — moves to `apps/patterns/src/content/`.
   - The implementation substrate (CSS tokens, type scale, modality CSS, quality-expressing classes, design-token JSON) stays in or moves to `packages/components/`. Where the current MDX page mixes both, split into a pattern-site page that links to the components-side Storybook documentation for the substrate.
   - The cross-reference from the language entry to the substrate uses the same scheme as pattern → component references.
 - For each entry flagged by the Phase A audit for move/mechanism split:
@@ -227,14 +221,14 @@ Component-roled pages stay where they are in `packages/components/`, with whatev
 
 Point [scripts/extract-graph-data.ts](../../scripts/extract-graph-data.ts) at the new source. Replace Storybook-specific assumptions per the Phase A audit.
 
-- New source path: walk `packages/patterns/src/content/patterns/` instead of `src/stories/`.
+- New source path: walk `apps/patterns/src/content/patterns/` instead of `src/stories/`.
 - Frontmatter reading replaces `<Meta>` regex. The metadata is already validated by the Astro content-collection schema; the extractor reads the same parsed frontmatter.
 - New link format: replace the `LINK_PATTERN` regex ([scripts/extract-graph-data.ts:294](../../scripts/extract-graph-data.ts#L294)) with the format chosen in Phase C.
-- New output path: `pattern-graph.json` lives wherever the pattern site reads it from. Probably `packages/patterns/src/data/pattern-graph.json`.
+- New output path: `pattern-graph.json` lives wherever the pattern site reads it from. Probably `apps/patterns/src/data/pattern-graph.json`.
 - Output URL format: links in the emitted graph nodes point at pattern-site routes, not Storybook docs URLs.
 - Decision-tree extraction, typed-link parsing, role resolution, profile sidecars: unchanged.
 - Component nodes: continue to be emitted under stage 2 of the data model migration. The pattern site filters them out of the default view; the data remains available for tooling and for the future linked-datasets stage.
-- `scripts/` directory: stays at workspace root if used by both packages; moves into `packages/patterns/` if not. Default: root, since `extract-graph-data.ts` reads from both packages (patterns content for nodes, components package for the component portion of the combined dataset).
+- `scripts/` directory: stays at workspace root if used by both workspaces; moves into `apps/patterns/` if not. Default: root, since `extract-graph-data.ts` reads from both workspaces (patterns content for nodes, components package for the component portion of the combined dataset).
 
 ### Verification
 
@@ -246,8 +240,8 @@ Point [scripts/extract-graph-data.ts](../../scripts/extract-graph-data.ts) at th
 ### Files modified
 
 - `scripts/extract-graph-data.ts`
-- `packages/patterns/src/data/pattern-graph.json` (regenerated)
-- `packages/patterns/src/data/activity-levels.json` (regenerated)
+- `apps/patterns/src/data/pattern-graph.json` (regenerated)
+- `apps/patterns/src/data/activity-levels.json` (regenerated)
 
 ## Phase F — Cleanup and documentation
 
@@ -265,7 +259,7 @@ Once both surfaces work and the graph is stable:
 
 2. *What happens to `plans/`?* This file is itself the dilemma — it describes a workspace-level change. Likely stays at workspace root.
 
-3. *What happens to `server/`?* Express backend is currently a separate sub-package with its own `package.json`. It can become a third workspace package (`packages/server/`) for symmetry, or stay at the root. Symmetry is appealing; deferred decision.
+3. *What happens to `server/`?* Resolved: it moves to `apps/server/`. The `apps/` + `packages/` convention makes the move natural — `server/` is a runtime, not a library, so it belongs alongside `apps/patterns/`.
 
 4. *Plain markdown + directives vs MDX for new pattern authoring.* Astro supports both extensions side-by-side. The conservative default is "MDX where existing pages use it; markdown for new pages unless they need component embeds." A future tighter decision could mandate one shape — likely after pattern volume grows.
 

@@ -45,6 +45,29 @@
 
 @layer reset, theme, global, layout, components, utilities, states;
 
+@layer utilities {
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .inclusively-hidden {
+    clip-path: inset(50%);
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+  }
+}
+
 :root,
 body {
   color-scheme: light only;
@@ -52,15 +75,6 @@ body {
 
 [hidden] {
   display: none !important;
-}
-
-.inclusively-hidden {
-  clip-path: inset(50%);
-  height: 1px;
-  width: 1px;
-  overflow: hidden;
-  position: absolute;
-  white-space: nowrap;
 }
 
 /* TODO: move */
