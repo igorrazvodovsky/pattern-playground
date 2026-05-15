@@ -1,0 +1,105 @@
+:host {
+  display: inline-block;
+
+  --switch-track-color: var(--c-border);
+  --switch-on-color: var(--c-accent-600);
+  --switch-thumb-size: 1rem;
+}
+
+.switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.switch__control {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.switch__control:disabled {
+  cursor: not-allowed;
+}
+
+/* Track */
+.switch__track {
+  position: relative;
+  flex-shrink: 0;
+  width: calc(var(--switch-thumb-size) * 2 + 8px);
+  height: calc(var(--switch-thumb-size) + 8px);
+  border-radius: var(--radius-pill);
+  background: var(--switch-track-color);
+  transition: var(--transition-fast) background-color;
+}
+
+/* Thumb */
+.switch__thumb {
+  position: absolute;
+  top: 50%;
+  left: 4px;
+  width: var(--switch-thumb-size);
+  height: var(--switch-thumb-size);
+  border-radius: var(--radius-circle);
+  background: white;
+  transform: translateY(-50%);
+  transition: var(--transition-fast) transform;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Checked */
+.switch--checked .switch__track {
+  background: var(--switch-on-color);
+}
+
+.switch--checked .switch__thumb {
+  transform: translateY(-50%) translateX(var(--switch-thumb-size));
+}
+
+/* Focus ring */
+.switch--focused .switch__track {
+  box-shadow: 0 0 0 var(--focus-ring-width) var(--focus-ring-color);
+}
+
+/* Hover */
+.switch:hover:not(.switch--disabled) .switch__track {
+  filter: brightness(0.92);
+}
+
+/* Disabled */
+.switch--disabled {
+  cursor: not-allowed;
+}
+
+.switch--disabled .switch__track {
+  --switch-track-color: var(--c-neutral-300);
+  --switch-on-color: var(--c-neutral-600);
+  opacity: 0.6;
+}
+
+/* Sizes */
+.switch--small {
+  --switch-thumb-size: 0.75rem;
+
+  font-size: var(--text-xs);
+}
+
+.switch--medium {
+  --switch-thumb-size: 1rem;
+
+  font-size: var(--text-s);
+}
+
+.switch--large {
+  --switch-thumb-size: 1.25rem;
+
+  font-size: var(--text-m);
+}

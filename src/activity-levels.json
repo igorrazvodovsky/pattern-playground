@@ -451,7 +451,7 @@
       "atomic-category": "pattern",
       "mediation": "individual"
     },
-    "data-visualization-bar-chart": {
+    "data-visualisation-bar-chart": {
       "activity-level": "operation",
       "lifecycle-stage": null,
       "atomic-category": "data-visualization",
@@ -671,6 +671,12 @@
       "activity-level": "operation",
       "lifecycle-stage": null,
       "atomic-category": "pattern",
+      "mediation": "individual"
+    },
+    "operations-switch": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "primitive",
       "mediation": "individual"
     },
     "operations-tag": {

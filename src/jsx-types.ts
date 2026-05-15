@@ -30,6 +30,16 @@ declare module 'react' {
         'hide-value'?: boolean;
         'value-text'?: string;
       };
+      'pp-switch': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+        name?: string;
+        checked?: boolean;
+        disabled?: boolean;
+        required?: boolean;
+        size?: 'small' | 'medium' | 'large';
+        label?: string;
+        labelledby?: string;
+        describedby?: string;
+      };
       'pp-select': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         name?: string;
         value?: string;

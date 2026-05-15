@@ -13,6 +13,7 @@ import { PpButton } from './button/button.js';
 import { PpInput } from './input/input.js';
 import { PpRange } from './range/range.js';
 import { PpSelect } from './select/select.js';
+import { PpSwitch } from './switch/switch.js';
 import { PPModal } from './modal/modal.js';
 import { PpToast } from './toast/toast.js';
 import { PpTooltip } from './tooltip/tooltip.js';
@@ -47,6 +48,7 @@ export function registerAllComponents(): void {
     { tagName: 'pp-input', constructor: PpInput },
     { tagName: 'pp-range', constructor: PpRange },
     { tagName: 'pp-select', constructor: PpSelect },
+    { tagName: 'pp-switch', constructor: PpSwitch },
     { tagName: 'pp-toast', constructor: PpToast },
     { tagName: 'pp-tooltip', constructor: PpTooltip },
     { tagName: 'pp-modal', constructor: PPModal },

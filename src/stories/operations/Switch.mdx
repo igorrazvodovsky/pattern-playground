@@ -1,0 +1,40 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks';
+import * as SwitchStories from './Switch.stories.tsx';
+import { profile } from './Switch.profile';
+
+<Meta title="Operations/Switch" of={SwitchStories} tags={['activity-level:operation', 'atomic:primitive', 'role:component', 'mediation:individual']} />
+
+> 🥱 Fun meter: dependency.
+
+# Switch
+
+Flip a setting whose effect should apply the moment the actor commits, with no intervening submit step.
+
+<Canvas>
+  <Story of={SwitchStories.Switch} />
+</Canvas>
+
+## When to reach for a switch over a checkbox
+
+Immediate-effect settings — notifications on/off, dark mode, feature toggles — belong on switches. Deferred-commit form fields belong on checkboxes.
+
+## Accessibility
+
+`pp-switch` follows the [WAI-ARIA APG switch pattern](https://www.w3.org/WAI/ARIA/apg/patterns/switch/):
+
+- `role="switch"` so assistive tech announces "on/off" rather than "checked/unchecked".
+- `aria-checked` is strictly `"true"` or `"false"` — switches do not have a mixed state. If a third state is needed, the answer is a different control, not an extended switch.
+- Space toggles the switch (native checkbox behaviour, preserved). Enter does not toggle, by APG convention.
+- The accessible name comes from the `label` or `labelledby` properties.
+
+## Related patterns
+
+- [Checkbox](../?path=/docs/operations-checkbox--docs) — same binary-state input, different commit timing
+- [Button](../?path=/docs/operations-button--docs) — for one-shot actions where state isn't carried forward
+- [Morphing controls](../?path=/docs/operations-morphing-controls--docs) — when each state needs a distinct label or affordance (Follow/Unfollow, Start/Stop), a morphing control is the better fit
+
+## Resources & references
+
+- [WAI-ARIA Authoring Practices — Switch](https://www.w3.org/WAI/ARIA/apg/patterns/switch/)
+- [Open UI — Switch explainer](https://open-ui.org/components/switch.explainer/)
+- [Open UI — Switch research](https://open-ui.org/components/switch/)

@@ -569,10 +569,10 @@
       "role": "pattern"
     },
     {
-      "id": "data-visualization-bar-chart",
+      "id": "data-visualisation-bar-chart",
       "title": "Bar chart",
-      "category": "Data Visualisation",
-      "path": "../?path=/docs/data-visualization-bar-chart--docs",
+      "category": "Data visualisation",
+      "path": "../?path=/docs/data-visualisation-bar-chart--docs",
       "role": "component"
     },
     {
@@ -862,6 +862,18 @@
       "category": "Operations",
       "path": "../?path=/docs/operations-status-feedback--docs",
       "role": "umbrella"
+    },
+    {
+      "id": "operations-switch",
+      "title": "Switch",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-switch--docs",
+      "role": "component",
+      "generativeProfile": {
+        "operatesOn": "a single setting whose change should take effect the moment the actor flips it, with no submit step in between",
+        "produces": "a control whose state and effect are bound together — flipping it *is* the commit",
+        "enacts": "immediacy of commit; legibility of current state at a glance"
+      }
     },
     {
       "id": "operations-tag",
@@ -4656,27 +4668,27 @@
     },
     {
       "source": "actions-evaluation-table",
-      "target": "data-visualization-bar-chart",
+      "target": "data-visualisation-bar-chart",
       "type": "precedes",
       "label": "Tabular data that could be visualized",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "data-visualization-bar-chart",
+      "source": "data-visualisation-bar-chart",
       "target": "actions-sensemaking-card",
       "type": "complements",
       "label": "Chart containers",
       "extractedFrom": "header:\"Complementary\""
     },
     {
-      "source": "data-visualization-bar-chart",
+      "source": "data-visualisation-bar-chart",
       "target": "actions-seeking-sorting",
       "type": "tangential",
       "label": "Data organization",
       "extractedFrom": "header:\"Tangentially related\""
     },
     {
-      "source": "data-visualization-bar-chart",
+      "source": "data-visualisation-bar-chart",
       "target": "actions-seeking-filtering",
       "type": "tangential",
       "label": "Data subset selection",
@@ -5857,6 +5869,28 @@
       "source": "operations-status-feedback",
       "target": "actions-coordination-notification",
       "type": "surveys"
+    },
+    {
+      "source": "operations-switch",
+      "target": "operations-checkbox",
+      "type": "related",
+      "label": "same binary-state input, different commit timing."
+    },
+    {
+      "source": "operations-switch",
+      "target": "operations-button",
+      "type": "related"
+    },
+    {
+      "source": "operations-switch",
+      "target": "operations-undo",
+      "type": "related"
+    },
+    {
+      "source": "operations-switch",
+      "target": "operations-morphing-controls",
+      "type": "related",
+      "label": "a switch can rebind to a different control once flipped."
     },
     {
       "source": "operations-tag",
