@@ -1,0 +1,41 @@
+{
+  "navItems": [
+    {
+      "label": "Dashboard",
+      "icon": "ph:squares-four",
+      "isActive": true
+    },
+    {
+      "label": "Projects",
+      "icon": "ph:folder",
+      "badge": 4,
+      "subItems": [
+        { "label": "All projects" },
+        { "label": "Recent", "isActive": true },
+        { "label": "Archived" }
+      ]
+    },
+    {
+      "label": "Tasks",
+      "icon": "ph:check-square",
+      "badge": 12
+    },
+    {
+      "label": "Messages",
+      "icon": "ph:chat",
+      "badge": 3
+    },
+    {
+      "label": "Analytics",
+      "icon": "ph:chart-bar"
+    },
+    {
+      "label": "Settings",
+      "icon": "ph:gear"
+    }
+  ],
+  "teamItems": [
+    { "label": "Meridian Solutions", "icon": "ph:users" },
+    { "label": "Kova Industries", "icon": "ph:buildings" }
+  ]
+}

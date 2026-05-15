@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { faker } from '@faker-js/faker';
+import { navItems as NAV_ITEMS, teamItems as TEAM_ITEMS } from '../../data/nav-items.json' with { type: 'json' };
 import {
   SidebarProvider,
   Sidebar,
@@ -26,55 +27,6 @@ import {
 } from '../../../components/sidebar';
 
 faker.seed(42);
-
-interface NavItem {
-  label: string;
-  icon: string;
-  badge?: number;
-  isActive?: boolean;
-  subItems?: { label: string; isActive?: boolean }[];
-}
-
-const NAV_ITEMS: NavItem[] = [
-  {
-    label: 'Dashboard',
-    icon: 'ph:squares-four',
-    isActive: true,
-  },
-  {
-    label: 'Projects',
-    icon: 'ph:folder',
-    badge: 4,
-    subItems: [
-      { label: 'All projects' },
-      { label: 'Recent', isActive: true },
-      { label: 'Archived' },
-    ],
-  },
-  {
-    label: 'Tasks',
-    icon: 'ph:check-square',
-    badge: 12,
-  },
-  {
-    label: 'Messages',
-    icon: 'ph:chat',
-    badge: 3,
-  },
-  {
-    label: 'Analytics',
-    icon: 'ph:chart-bar',
-  },
-  {
-    label: 'Settings',
-    icon: 'ph:gear',
-  },
-];
-
-const TEAM_ITEMS = [
-  { label: faker.company.name(), icon: 'ph:users' },
-  { label: faker.company.name(), icon: 'ph:buildings' },
-];
 
 interface SidebarArgs {
   collapsible: 'offcanvas' | 'icon' | 'none';
@@ -184,11 +136,11 @@ function DemoSidebar({
 }
 
 const meta = {
-  title: "Actions/Navigation/Sidebar",
+  title: "Operations/Sidebar",
   tags: [
-    'activity-level:action',
-    'atomic:component',
-    'lifecycle:navigation',
+    'activity-level:operation',
+    'atomic:composition',
+    'role:component',
     'mediation:individual',
   ],
   parameters: {

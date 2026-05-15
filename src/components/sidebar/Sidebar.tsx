@@ -10,7 +10,7 @@ import { Dialog } from '@base-ui/react/dialog';
 import { Tooltip } from '@base-ui/react/tooltip';
 import { useRender } from '@base-ui/react/use-render';
 import clsx from 'clsx';
-import { useIsMobile } from './use-is-mobile';
+import { useIsMobile } from '../../hooks/use-is-mobile';
 
 export const SIDEBAR_COOKIE_NAME = 'sidebar_state';
 export const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
