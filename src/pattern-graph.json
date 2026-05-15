@@ -5632,6 +5632,16 @@
       "extractedFrom": "header:\"Tangentially related\""
     },
     {
+      "source": "operations-morphing-controls",
+      "target": "operations-switch",
+      "type": "related"
+    },
+    {
+      "source": "operations-morphing-controls",
+      "target": "operations-checkbox",
+      "type": "related"
+    },
+    {
       "source": "operations-overflow",
       "target": "actions-coordination-priority",
       "type": "related",
@@ -5874,23 +5884,19 @@
       "source": "operations-switch",
       "target": "operations-checkbox",
       "type": "related",
-      "label": "same binary-state input, different commit timing."
+      "label": "same binary-state input, different commit timing"
     },
     {
       "source": "operations-switch",
       "target": "operations-button",
-      "type": "related"
-    },
-    {
-      "source": "operations-switch",
-      "target": "operations-undo",
-      "type": "related"
+      "type": "related",
+      "label": "for one-shot actions where state isn't carried forward"
     },
     {
       "source": "operations-switch",
       "target": "operations-morphing-controls",
       "type": "related",
-      "label": "a switch can rebind to a different control once flipped."
+      "label": "when each state needs a distinct label or affordance (Follow/Unfollow, Start/Stop), a morphing control is the better fit"
     },
     {
       "source": "operations-tag",
