@@ -1,11 +1,11 @@
 import React from 'react';
+import { Collapsible } from '@base-ui/react/collapsible';
 import {
   SidebarProvider,
   Sidebar,
   SidebarHeader,
   SidebarContent,
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarGroupContent,
   SidebarMenu,
   SidebarMenuItem,
@@ -41,22 +41,37 @@ export function AppShell({ navItems, title, currentPath, children, slug }: AppSh
         <SidebarContent>
           {navItems.map((group) => (
             <SidebarGroup key={group.label}>
-              <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {group.items.map((item) => (
-                    <SidebarMenuItem key={item.href}>
-                      <SidebarMenuButton
-                        render={<a href={item.href} />}
-                        isActive={currentPath === item.href}
-                        tooltip={item.label}
-                      >
-                        {item.label}
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
-              </SidebarGroupContent>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <Collapsible.Root defaultOpen>
+                    <SidebarMenuButton
+                      render={<Collapsible.Trigger />}
+                      className="sidebar-collapsible-group-trigger"
+                      tooltip={group.label}
+                    >
+                      <span>{group.label}</span>
+                      {React.createElement('iconify-icon', { icon: 'ph:caret-down', className: 'sidebar-collapsible-chevron' })}
+                    </SidebarMenuButton>
+                    <Collapsible.Panel>
+                      <SidebarGroupContent className="sidebar-collapsible-group-content">
+                        <SidebarMenu>
+                          {group.items.map((item) => (
+                            <SidebarMenuItem key={item.href}>
+                              <SidebarMenuButton
+                                render={<a href={item.href} />}
+                                isActive={currentPath === item.href}
+                                tooltip={item.label}
+                              >
+                                {item.label}
+                              </SidebarMenuButton>
+                            </SidebarMenuItem>
+                          ))}
+                        </SidebarMenu>
+                      </SidebarGroupContent>
+                    </Collapsible.Panel>
+                  </Collapsible.Root>
+                </SidebarMenuItem>
+              </SidebarMenu>
             </SidebarGroup>
           ))}
         </SidebarContent>

@@ -683,6 +683,40 @@
   }
 
   /* -------------------------------------------------------------------------
+   * Collapsible group trigger (group header as a menu button)
+   * ------------------------------------------------------------------------- */
+
+  .sidebar-collapsible-chevron {
+    margin-inline-start: auto;
+    flex-shrink: 0;
+    transition: transform 200ms;
+  }
+
+  [data-open] > .sidebar-collapsible-group-trigger .sidebar-collapsible-chevron {
+    transform: rotate(180deg);
+  }
+
+  [data-slot="sidebar"][data-collapsible="icon"] .sidebar-collapsible-group-trigger {
+    margin-block-start: calc(-2rem);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .sidebar-collapsible-group-content {
+    padding-inline-start: var(--space-xs);
+    border-inline-start: 1px solid var(--sidebar-border);
+    margin-inline-start: calc(var(--space-m) / 2 + 2px);
+    margin-block: var(--space-2xs);
+  }
+
+  [data-slot="sidebar"][data-collapsible="icon"] .sidebar-collapsible-group-content {
+    padding-inline-start: 0;
+    border-inline-start: none;
+    margin-inline-start: 0;
+    margin-block: 0;
+  }
+
+  /* -------------------------------------------------------------------------
    * SidebarTrigger
    * ------------------------------------------------------------------------- */
 
