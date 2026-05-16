@@ -1,42 +1,49 @@
 # Storybook taxonomy specification
 
-Storybook is the current authored repertoire and demonstration surface for the
-pattern language. Its sidebar projection is Activity Theory: where attention
-lives during human activity.
+Storybook (`packages/components/`) is the development and documentation surface
+for *components* (`role:component`). Its sidebar projection uses Activity Theory
+levels as a practical navigation convention, not as a design-language claim.
 
-## Current top-level projection
+The pattern language — `role:pattern`, `role:umbrella`, `role:quality`,
+`role:foundation` — lives in the Astro pattern site (`apps/patterns/`). AT
+levels there carry design-language semantics; see
+[`docs/specs/pattern-site.md`](pattern-site.md).
 
-- `operations/` — automatic, infrastructural patterns that absorb or respond to
-  conditions without requiring deliberate attention.
-- `actions/` — conscious, goal-directed patterns. Actions are sub-grouped by
-  lifecycle stage: `seeking/`, `evaluation/`, `sense-making/`, `application/`,
-  `coordination/`, and `navigation/`.
-- `activities/` — motive-driven patterns that shape work across time.
-- `foundations/` — theory, principles, interaction models, and material
-  substrate.
-- `qualities/` — cross-cutting experiential dimensions.
+## Current top-level projection in Storybook
+
+- `operations/` — component stories organised at the automatic/infrastructural
+  AT level
+- `actions/` — component stories at the conscious/goal-directed AT level.
+  Sub-grouped by lifecycle stage: `seeking/`, `evaluation/`, `sense-making/`,
+  `application/`, `coordination/`, and `navigation/`.
+- `activities/` — component stories at the motive-driven AT level.
+- `foundations/` — theory, principles, and material substrate. Language entries
+  for foundations live in the pattern site; this folder holds substrate
+  documentation (tokens, type scale, modality CSS) and unmigrated language
+  entries pending full bilingual split.
+- `qualities/` — cross-cutting experiential dimensions. Language entries live
+  in the pattern site; this folder retains substrate documentation and serves
+  as a link target for component pages that reference qualities. Will be removed
+  once component-page cross-references are rewritten to pattern-site routes.
 - `concepts/` — Daniel Jackson-style concept design vocabulary.
-- `data-visualization/` — data encoding material kept separate pending fuller
-  development.
+- `data-visualization/` — data encoding components.
 - `data/` — shared mock data, not pattern material.
-- `patterns/` — legacy Atomic Design stubs, not served as active Storybook
-  pattern pages.
-- `utils/` — Storybook utilities, not pattern material.
+- `patterns/` — legacy Atomic Design stubs, not active pattern pages.
+- `utils/` — Storybook utilities.
 
-## Placement rule
+## Placement rule for component stories
 
-Put a new pattern where its primary reader attention belongs:
+New component stories go where the component's primary usage context falls:
 
-1. Automatic condition-response behavior goes in `operations/`.
-2. Conscious goal-directed work goes in `actions/` under the closest lifecycle
+1. Automatic condition-response components → `operations/`.
+2. Conscious goal-directed components → `actions/` under the closest lifecycle
    stage.
-3. Sustained motive-driven work goes in `activities/`.
-4. Cross-cutting theory, qualities, concepts, data, and utilities stay outside
-   the Activity Theory hierarchy.
+3. Motive-driven composition components → `activities/`.
+4. Cross-cutting, substrate, or utility material → `foundations/`, `qualities/`,
+   `concepts/`, or `utils/` as appropriate.
 
 Folders are projections, not ontology. `activity-level:*`, `atomic:*`, and
-`lifecycle:*` metadata preserve other useful readings. The graph carries
-cross-cutting relationships that no tree can represent.
+`lifecycle:*` frontmatter preserve other useful readings.
 
 Detailed placement guidance remains in
 [`docs/project/storybook-taxonomy.md`](../project/storybook-taxonomy.md).

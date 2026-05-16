@@ -1,6 +1,6 @@
 ---
 paths:
-  - "src/components/**/*.ts"
+  - "packages/components/src/components/**/*.ts"
 ---
 
 # Web components

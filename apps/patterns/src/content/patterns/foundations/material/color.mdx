@@ -1,0 +1,26 @@
+---
+title: "Color"
+role: foundation
+---
+
+> 🫤 *Fun meter: kind of boring*. The best part here is trying to find a *minimum viable* palette.
+
+# Colour
+
+The goal is to find a good enough tradeoff between simplicity, the needs of different components, and potential branding requirements.
+The focus is on functional needs: colour that supports guiding users, draws attention to important information, and makes content more accessible.
+
+> Substrate: [explore the colour swatches, hue slider, and token tables](/storybook/?path=/docs/foundations-material-color--docs) in Storybook.
+
+## Approach
+
+- Colours are defined using OKLCH notation and using Oklab colour space.
+- All palettes use the same scale for relative saturation and lightness.
+- Palettes (neutral, primary, info, warning, etc.) are defined by their hues.
+- The lightness of the colour corresponds to its use.
+- Chroma for each lightness level are picked to ensure maximum visual consistency between palettes.
+- Foreground colours are calculated based on background colour to ensure the necessary contrast.
+
+## Layering
+
+Neutral palette colours are layered to create depth and show how different parts of the UI relate to each other.

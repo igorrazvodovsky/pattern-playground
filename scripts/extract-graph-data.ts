@@ -1,12 +1,16 @@
-import { readFileSync, writeFileSync, readdirSync, statSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, statSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath, pathToFileURL } from 'url';
+import { load as yamlLoad } from 'js-yaml';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = join(__dirname, '..');
-const storiesDir = join(rootDir, 'src/stories');
-const outputPath = join(rootDir, 'src/pattern-graph.json');
-const activityLevelsPath = join(rootDir, 'src/activity-levels.json');
+const patternsContentDir = join(rootDir, 'apps/patterns/src/content/patterns');
+const storiesDir = join(rootDir, 'packages/components/src/stories');
+const outputPath = join(rootDir, 'apps/patterns/src/data/pattern-graph.json');
+const outputPathLegacy = join(rootDir, 'packages/components/src/pattern-graph.json');
+const activityLevelsPath = join(rootDir, 'apps/patterns/src/data/activity-levels.json');
+const activityLevelsPathLegacy = join(rootDir, 'packages/components/src/activity-levels.json');
 
 interface Node {
   id: string;
@@ -291,7 +295,64 @@ function resolveRole(tags: string[], filePath: string): RoleResolution {
   return { source: 'unset' };
 }
 
-const LINK_PATTERN = /\.\.\/\?path=\/docs\/([a-z0-9][a-z0-9-]*)--docs/g;
+function extractFrontmatter(content: string): Record<string, unknown> {
+  const m = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  if (!m) return {};
+  try {
+    return (yamlLoad(m[1]) as Record<string, unknown>) ?? {};
+  } catch {
+    return {};
+  }
+}
+
+function folderToCategory(folder: string): string {
+  const map: Record<string, string> = {
+    'operations':         'Operations',
+    'actions':            'Actions',
+    'activities':         'Activities',
+    'foundations':        'Foundations',
+    'qualities':          'Qualities',
+    'data-visualization': 'Data Visualisation',
+  };
+  return map[folder] ?? folder.charAt(0).toUpperCase() + folder.slice(1);
+}
+
+/** Normalize a single ID segment: lowercase, non-alphanumeric runs become a single hyphen. */
+function normalizeSegment(s: string): string {
+  return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+/** Derive the graph node ID from a patterns-content file path and its frontmatter title.
+ *  When the file stem equals its parent directory name (index-file convention), the parent
+ *  directory is not repeated in the ID — e.g. `seeking/data-view/data-view.mdx` + "Data view"
+ *  → `actions-seeking-data-view`, not `actions-seeking-data-view-data-view`. */
+function pathBasedId(filePath: string, contentDir: string, title: string): string {
+  const relative = filePath.slice(contentDir.length + 1).replace(/\.mdx$/, '');
+  const dirParts = relative.split('/').slice(0, -1);
+  const normalizedTitle = normalizeSegment(title);
+  const lastDir = dirParts[dirParts.length - 1];
+  if (lastDir === normalizedTitle) {
+    return [...dirParts.slice(0, -1), normalizedTitle].join('-');
+  }
+  return [...dirParts, normalizedTitle].join('-');
+}
+
+/** Derive activity-level from top-level folder name (pattern content dir). */
+function deriveActivityLevelFromFolder(topFolder: string): Pick<ActivityLevel, 'activity-level' | 'lifecycle-stage'> {
+  if (topFolder === 'operations') return { 'activity-level': 'operation', 'lifecycle-stage': null };
+  if (topFolder === 'actions') return { 'activity-level': 'action', 'lifecycle-stage': null };
+  if (topFolder === 'activities') return { 'activity-level': 'activity', 'lifecycle-stage': null };
+  return { 'activity-level': 'cross-cutting', 'lifecycle-stage': null };
+}
+
+// Matches both Storybook-style links (components stories) and pattern-site /patterns/ links.
+// Group 1: Storybook id  Group 2: pattern-site path (may contain slashes)
+const LINK_PATTERN = /(?:\.\.\/\?path=\/docs\/([a-z0-9][a-z0-9-]*)--docs|\/patterns\/([\w][\w/-]*)(?:#[^\s)]*)?)/g;
+
+function linkCaptureToId(m: RegExpExecArray): string {
+  if (m[1]) return m[1];
+  return (m[2] ?? '').replace(/\//g, '-').replace(/-+/g, '-');
+}
 
 function stripComments(content: string): string {
   return content.replace(/\{\/\*[\s\S]*?\*\/\}/g, '');
@@ -341,7 +402,7 @@ function findLinksInText(text: string): string[] {
   const ids: string[] = [];
   let m: RegExpExecArray | null;
   LINK_PATTERN.lastIndex = 0;
-  while ((m = LINK_PATTERN.exec(text)) !== null) ids.push(m[1]);
+  while ((m = LINK_PATTERN.exec(text)) !== null) ids.push(linkCaptureToId(m));
   return ids;
 }
 
@@ -814,6 +875,68 @@ const recommendsCollection: RecommendsCollection = {
   unresolvedLeaves: new Map(),
 };
 
+// --- Process pattern-site content (frontmatter-based) ---
+//
+// Runs first so patterns-content nodes win over any duplicate ID from the components stories.
+const patternMdxFiles = globMdx(patternsContentDir);
+
+for (const filePath of patternMdxFiles) {
+  const content = readFileSync(filePath, 'utf-8');
+  const fm = extractFrontmatter(content);
+
+  const title = typeof fm.title === 'string' ? fm.title : null;
+  if (!title) continue;
+
+  const topFolder = filePath.slice(patternsContentDir.length + 1).split('/')[0];
+  const cat = folderToCategory(topFolder);
+  const id = pathBasedId(filePath, patternsContentDir, title);
+
+  if (title.toLowerCase() === 'overview' && !DECISION_TREES[id]) continue;
+
+  const relativePathNoExt = filePath.slice(patternsContentDir.length + 1).replace(/\.mdx$/, '');
+  const patternSitePath = `/patterns/${relativePathNoExt}`;
+
+  const roleValue = typeof fm.role === 'string' ? fm.role : undefined;
+  const role: Role | undefined = roleValue && isRole(roleValue) ? roleValue : undefined;
+  if (!role) console.warn(`Role metadata warning: ${filePath} has no valid role field`);
+
+  const node: Node = nodeMap.get(id) ?? { id, title, category: cat, path: patternSitePath };
+  if (role) node.role = role;
+  roleSourceById.set(id, role ? 'explicit' : 'unset');
+
+  const profilePath = profileSidecarPath(filePath);
+  if (fileExists(profilePath)) {
+    node.generativeProfile = await loadGenerativeProfile(profilePath);
+  }
+  nodeMap.set(id, node);
+
+  const activityLevelRaw = typeof fm.activityLevel === 'string' ? fm.activityLevel : null;
+  const atomicRaw = typeof fm.atomic === 'string' ? fm.atomic : null;
+  const lifecycleRaw = typeof fm.lifecycle === 'string' ? fm.lifecycle : null;
+  const mediationRaw = typeof fm.mediation === 'string' ? fm.mediation : null;
+  const derived = deriveActivityLevelFromFolder(topFolder);
+
+  activityData.set(id, {
+    'activity-level': activityLevelRaw ?? derived['activity-level'],
+    'lifecycle-stage': lifecycleRaw ?? derived['lifecycle-stage'],
+    'atomic-category': atomicRaw ?? cat.toLowerCase(),
+    'mediation': mediationRaw,
+  });
+
+  const { typed, tagsByTarget } = extractTypedLinks(content, role);
+  if (typed.length > 0) fileLinks.set(id, typed);
+  for (const [targetId, tagSet] of tagsByTarget) {
+    if (!nodeTags.has(targetId)) nodeTags.set(targetId, new Set());
+    for (const t of tagSet) nodeTags.get(targetId)!.add(t);
+  }
+
+  extractDecisionTreeEdges(id, content, recommendsCollection);
+}
+
+// --- Process components stories (Meta-tag-based) ---
+//
+// Skips any ID already registered from the patterns-content pass above, so migrated
+// patterns don't get overwritten by their old stories copies.
 const mdxFiles = globMdx(storiesDir).filter((f) => !f.endsWith('Intro.mdx'));
 
 for (const filePath of mdxFiles) {
@@ -841,6 +964,17 @@ for (const filePath of mdxFiles) {
   if (shortTitle === 'Overview' && !DECISION_TREES[provisionalId]) continue;
 
   const id = provisionalId;
+
+  // Skip non-component entries: patterns, umbrellas, qualities, foundations have all been
+  // migrated to apps/patterns/src/content/patterns/ and are processed by the patterns pass.
+  // Only role:component content is sourced from the components stories dir.
+  const preCheckTags = [...extractMetaTags(content), ...storiesTags];
+  const preCheckRole = explicitRoleFromTags(preCheckTags, filePath) ?? inferredRoleFromPath(filePath);
+  if (preCheckRole && preCheckRole !== 'component') continue;
+
+  // Also skip if already registered (belt-and-suspenders).
+  if (nodeMap.has(id)) continue;
+
   const cat = titleToCategory(title);
   const path = `../?path=/docs/${id}--docs`;
 
@@ -908,10 +1042,15 @@ for (const filePath of globStoriesTsx(storiesDir)) {
   if (shortTitle === 'Overview') continue;
 
   const id = titleToId(title);
-  const cat = titleToCategory(title);
-  const path = `../?path=/docs/${id}--docs`;
+
+  // Only emit component-role entries from the stories-only loop; patterns are in the patterns dir.
   const tags = extractStoriesTags(content);
   if (tags.includes('!autodocs')) continue;
+  const preCheckRole2 = explicitRoleFromTags(tags, filePath) ?? inferredRoleFromPath(filePath);
+  if (preCheckRole2 && preCheckRole2 !== 'component') continue;
+
+  const cat = titleToCategory(title);
+  const path = `../?path=/docs/${id}--docs`;
   const roleResolution = resolveRole(tags, filePath);
 
   if (!nodeMap.has(id)) {
@@ -1057,7 +1196,9 @@ const connected = new Set(edges.flatMap((e) => [e.source, e.target]));
 const nodes = [...nodeMap.values()].filter((n) => connected.has(n.id));
 const output = { nodes, edges };
 
+mkdirSync(dirname(outputPath), { recursive: true });
 writeFileSync(outputPath, JSON.stringify(output, null, 2));
+writeFileSync(outputPathLegacy, JSON.stringify(output, null, 2));
 
 const activityLevelsNodes: Record<string, ActivityLevel> = {};
 for (const node of nodes) {
@@ -1065,10 +1206,12 @@ for (const node of nodes) {
   if (data) activityLevelsNodes[node.id] = data;
 }
 const activityLevelsOutput = {
-  _note: 'Generated by scripts/extract-graph-data.ts — do not edit by hand. Source of truth is each story file\'s Meta tags.',
+  _note: 'Generated by scripts/extract-graph-data.ts — do not edit by hand.',
   nodes: activityLevelsNodes,
 };
+mkdirSync(dirname(activityLevelsPath), { recursive: true });
 writeFileSync(activityLevelsPath, JSON.stringify(activityLevelsOutput, null, 2));
+writeFileSync(activityLevelsPathLegacy, JSON.stringify(activityLevelsOutput, null, 2));
 
 // --- Axis sanity check (advisory) ---
 //

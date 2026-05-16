@@ -1,0 +1,134 @@
+---
+title: "Form"
+role: pattern
+activityLevel: action
+atomic: composition
+mediation: individual
+---
+
+import { MermaidDiagram } from '@components/MermaidDiagram';
+
+
+> 🥱 **Fun meter: boring** but important groundwork.
+
+# Form
+
+The structured collection of input from the actor, balancing guidance with the freedom to express complex or messy information.
+
+## Input & controls
+
+...
+
+### Labels and helper texts
+
+...
+
+### Required fields
+
+...
+
+### Grouping & sections
+
+...
+
+## Validation & feedback
+
+- inline or on-submit validation strategies
+- styling invalid form controls
+- user confusion
+- user abandonment
+
+...
+
+...
+
+## AI-augmented form
+
+Forms force users to translate their reality into database fields.
+AI allows systems to handle the structure, accepting [forgiving input](/patterns/actions/application/data-entry#forgiving-format) from the user.
+
+In an AI-augmented form, the primary user action shifts from data *entry to data *verification*.
+1. Input: User provides raw data (image, PDF, pasted text, voice dump).
+2. Extraction: AI maps this to the form schema.
+3. Verification: User reviews the pre-filled form for accuracy.
+
+## Conversational forms
+
+Forms can be embedded in a [messaging](/patterns/actions-coordination-messaging) interface, allowing for a more [conversational](/patterns/activities/conversation) interaction.
+
+
+## Decision tree
+
+### Choosing an input
+
+<MermaidDiagram chart={`
+flowchart LR
+  A[Options basic and no search?]
+  A -->|Yes| B[Select/Text/Date/Password/Textarea]
+  A -->|No| C[Need searchable dropdown?]
+  C -->|Yes| D[Combobox]
+  C -->|No| E[Search input]
+`} />
+
+### Choosing a control
+
+<MermaidDiagram chart={`
+flowchart TD
+  A[Can you select more than one option?]
+  A -->|No| B[Single select]
+  A -->|Yes| C[Multi select]
+
+  %% Single-select branch
+  B -->|Filters or swaps content| D[Tabs]
+  B -->|No filtering| E[How many options?]
+  E -->|1| F[Need confirm?]
+  F -->|Yes| G[Checkbox]
+  F -->|No| H[Switch]
+  E -->|2-5| I[Short, consistent labels?]
+  I -->|Yes| J[Segmented control]
+  I -->|No| K[Radio buttons]
+  E -->|More than 5| L[Dropdown]
+
+  %% Multi-select branch
+  C -->|Needs emphasis| M[Selectable cards]
+  C -->|No emphasis| N[Short, uniform labels?]
+  N -->|Yes| O[Pill-style toggles]
+  N -->|No| P[Checkbox list]
+
+`} />
+
+## Related patterns
+
+### Precursors
+
+- [Messaging](/patterns/actions-coordination-messaging) - for conversational variant.
+- [Formality](/patterns/qualities/formality) — forms commit the actor to the system's full shape up front
+- [Input](/patterns/operations-input) - free-form text entry with label and helper text
+- [Textarea](/patterns/operations-textarea) - multi-line counterpart for longer text
+- [Select](/patterns/operations-select) - choosing one value from a short, bounded set
+- [Checkbox](/patterns/operations-checkbox) - binary choice input
+- [Button](/patterns/operations-button) - form submission and action triggers
+- [Dropdown](/patterns/actions-coordination-dropdown) - action menu counterpart to Select
+- [List](/patterns/actions-evaluation-list) - structured options with checkbox/radio variants
+
+### Follow-ups
+- [Status feedback](/patterns/operations/status-feedback) - validation and system status communication
+- [Saving](/patterns/actions/application/saving) - autosave and manual save strategies
+
+### Complementary
+- [Callout](/patterns/operations-callout) — inline validation and instructional feedback within forms
+- [Good defaults](/patterns/operations/good-defaults) - reduce friction by pre-selecting likely options
+- [Details](/patterns/operations-details) - collapsible form sections
+- [Command menu](/patterns/actions/seeking/command-menu) - quick access to form actions
+- [Conversation](/patterns/activities/conversation) may resolve into a form when a dialog stabilizes around well-structured data collection
+
+### Tangentially related
+- [Disabled state](/patterns/operations/state-disabled) - alternatives to disabling form elements
+- [KeyboardKey](/patterns/operations-keyboard-key) - keyboard shortcuts and navigation
+
+## Resources & references
+- [Patternfly](https://www.patternfly.org/components/forms/form/)
+- [Bootstrap](https://getbootstrap.com/docs/5.3/forms/overview/)
+- [Carbon](https://carbondesignsystem.com/components/form/usage/)
+- [Atlassian](https://atlassian.design/components/form/)
+- [Luke Wroblewski / Unstructured Input in AI Apps](https://lukew.com/ff/entry.asp?2120)

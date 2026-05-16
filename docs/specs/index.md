@@ -6,12 +6,16 @@ work packets in `plans/`.
 
 - [Agent harness](agent-harness.md) — repository knowledge, agent-facing entry
   points, and plan/spec boundaries.
-- [Storybook taxonomy](storybook-taxonomy.md) — current sidebar projection and
-  placement rules for pattern stories.
+- [Workspace layout](workspace-layout.md) — package structure, what each
+  workspace owns, bilingual entries, and workspace dependency direction.
+- [Pattern site](pattern-site.md) — content collection schema, frontmatter
+  fields, inter-page link format, AT-level conventions, and APG split rule.
+- [Storybook taxonomy](storybook-taxonomy.md) — component story projection and
+  placement rules in Storybook.
 - [Graph relationship model](graph-relationship-model.md) — current graph data
   model, edge vocabulary, and epistemic stance.
-- [Pattern role model](pattern-role-model.md) — current distinction between
-  mechanisms, moves, umbrellas, qualities, foundations, and concepts.
+- [Pattern role model](pattern-role-model.md) — distinction between components,
+  patterns, umbrellas, qualities, foundations, and concepts; APG split rule.
 
 Historical rationale and execution traces remain in `plans/`. When a completed
 plan changes what is true now, update the relevant settled spec.

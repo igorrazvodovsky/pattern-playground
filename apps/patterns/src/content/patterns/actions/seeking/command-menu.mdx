@@ -1,0 +1,52 @@
+---
+title: "Command menu"
+role: pattern
+activityLevel: action
+atomic: pattern
+mediation: individual
+lifecycle: seeking
+---
+
+> 🙂 **Fun meter: 4/5**.
+
+# Command menu
+
+The invocation of commands by name, navigating the tension between discoverability and speed.
+
+
+## Global
+
+Pop up in the middle of the screen...
+
+
+## Local
+
+Can also be used to support local functions, e.g. in [filters](/patterns/actions/seeking/filtering) or TODO:local search.
+
+
+## Related patterns
+
+### Precursors
+
+- [Combobox](/patterns/operations-combobox) — the mechanism this pattern builds on; `src/components/combobox/` drives the text input, filtered list, and keyboard model
+- *Search* establishes user familiarity with typing to filter results, setting expectations that input fields serve navigation and filtering tasks.
+- A command palette often extends or consolidates *keyboard shortcut* functionality, making them easier to discover and use.
+- [Keyboard key](/patterns/operations-keyboard-key)
+- *Navigation* menu establishes the baseline structure that a command menu can later streamline or augment.
+
+### Complementary
+
+- *Autocomplete* supports command menu functionality by reducing typing effort and increasing discoverability of commands.
+- [Embedded intelligence](/patterns/activities/embedded-intelligence) can help users find relevant commands when exact matches aren't available.
+- [Toolbar](/patterns/actions/coordination/toolbar) — exposes a persistent subset of commands; a command menu offers the full set on demand
+
+### Follow-ups
+
+{/* - *Action history* may streamline repetitive workflows */}
+- *Bookmarks*
+- [Collaboration](/patterns/activities/collaboration) - Command menus provide quick access to collaborative actions and workflows
+- [Unavailable actions](/patterns/operations/unavailable-actions) — context menus show only relevant commands, hiding those inaccessible in the current context
+
+### Tangentially related
+
+- [Context menu](/patterns/actions-application-context-menu) — pointer-driven and target-aware; command menu is keyboard-driven and name-based

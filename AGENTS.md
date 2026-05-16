@@ -7,7 +7,8 @@ A design research project first, code repository second. A "garden" for cultivat
 - [docs/project/core-beliefs.md](docs/project/core-beliefs.md) — project philosophy, voice, scope
 - [ARCHITECTURE.md](ARCHITECTURE.md) — domain layering and directory map
 - [docs/specs/index.md](docs/specs/index.md) — settled specifications for current truth
-- [docs/specs/storybook-taxonomy.md](docs/specs/storybook-taxonomy.md) — where stories live.
+- [docs/specs/workspace-layout.md](docs/specs/workspace-layout.md) — package structure and what each workspace owns
+- [docs/specs/pattern-site.md](docs/specs/pattern-site.md) — pattern site conventions, content schema, APG split rule
 
 ## Domain vocabulary (read when working on patterns, edges, or taxonomy)
 - [docs/language/pattern-definition.md](docs/language/pattern-definition.md) — what counts as a pattern, mechanism, observation, anti-pattern, or projection
@@ -20,20 +21,23 @@ A design research project first, code repository second. A "garden" for cultivat
 
 ## Rules that auto-activate by file path
 `.claude/rules/` — do not read eagerly; each attaches via path match:
-- web-components.md   → src/components/**/*.ts
-- styling.md          → src/styles/**/*.css
-- documentation.md    → src/stories/**/*.{mdx,stories.tsx}
-- mock-data.md        → src/stories/**/*.{tsx,json}
+- web-components.md   → packages/components/src/components/**/*.ts
+- styling.md          → packages/components/src/styles/**/*.css
+- documentation.md    → packages/components/src/stories/**/*.{mdx,stories.tsx}
+- pattern-content.md  → apps/patterns/src/content/**/*.{md,mdx}
+- mock-data.md        → packages/components/src/stories/**/*.{tsx,json}
 - typescript.md       → all *.ts, *.tsx
-- server.md           → server/**/*.ts
+- server.md           → apps/server/**/*.ts
 - state-management.md → all *.ts, *.tsx
 
 ## Common commands
 ```bash
-npm run test               # ESLint
+npm run test               # ESLint (workspace root)
 npm run test styles        # Stylelint
-npm run storybook          # Storybook on :6006
-cd server && npm run dev   # Express backend
+cd packages/components && npm run storybook   # Storybook on :6006
+cd apps/patterns && npm run dev               # Pattern site on :4321
+cd apps/server && npm run dev                 # Express backend on :3000
+node scripts/extract-graph-data.ts            # Regenerate pattern-graph.json
 ```
 Full list and conventions: [docs/quality/testing-strategy.md](docs/quality/testing-strategy.md)
 

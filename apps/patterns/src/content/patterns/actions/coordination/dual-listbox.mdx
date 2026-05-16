@@ -1,0 +1,47 @@
+---
+title: "Dual listbox"
+role: pattern
+activityLevel: action
+atomic: pattern
+mediation: coordination
+lifecycle: coordination
+---
+
+> 🤔 **Fun meter: 2/5**. Dependency. 
+
+# Dual listbox
+
+A side-by-side pair of lists — source pool and selection set — with transfer controls, so the actor can inspect both before committing a bulk assignment.
+
+## The situation
+
+The actor needs to assign a set of items from a pool to a destination. The assignment is consequential enough that seeing both the available candidates and the growing selection simultaneously — before confirming — is worth the extra surface area.
+
+A plain [multiselect](/patterns/operations-combobox) (combobox with checked items) commits items one at a time without showing the full selected set alongside the remaining pool. When the assignment is bulk, high-stakes, or requires cross-referencing ("am I leaving the right items behind?"), a staged view reduces error.
+
+## Forces
+
+- **Commitment scale** — the larger the assignment, the more the actor benefits from seeing the full "going" set before acting.
+- **Error cost** — when undoing is expensive or requires escalation, staging review before confirming is a net win even if the UI is heavier.
+- **Reviewability** — the side-by-side layout makes visible what multiselect hides (the selected set) and what a confirm-on-activate model destroys (the candidate pool).
+
+## Related patterns
+
+### Precursors
+
+- [Selection](/patterns/actions/coordination/selection) — the commitment model is a staged variant of multi-selection; the explicit review step before confirm is what distinguishes it
+- [Combobox](/patterns/operations-combobox) — the lighter-weight alternative when full side-by-side review isn't needed
+
+### Complementary
+
+- [Action bar](/patterns/actions-coordination-action-bar) — the immediate-action alternative; when "assign these to that" is a bulk action on an existing selection without a review step, an action bar suffices
+- [Form](/patterns/actions/application/form) — dual listbox typically lives inside a dialog or form, with a confirm button that commits the assignment
+
+### Tangentially related
+
+- [Filtering](/patterns/actions/seeking/filtering) — source lists often need search/filter when the pool is large
+- [Sorting](/patterns/actions/seeking/sorting) — destination list order may be significant (priority, ranking), requiring reorder controls
+
+## Resources & references
+
+- Smashing Magazine — [Combobox vs Multiselect vs Listbox](https://www.smashingmagazine.com/2026/02/combobox-vs-multiselect-vs-listbox/)

@@ -1,15 +1,18 @@
 ---
 paths:
-  - "src/stories/**/*.mdx"
-  - "src/stories/**/*.stories.tsx"
+  - "packages/components/src/stories/**/*.mdx"
+  - "packages/components/src/stories/**/*.stories.tsx"
 ---
 
-# Documentation standards
+# Documentation standards (components — Storybook)
+
+These rules apply to component documentation in `packages/components/src/stories/`.
+For pattern site content in `apps/patterns/src/content/`, see `.claude/rules/pattern-content.md`.
 
 ## Documentation format
 - Use `.mdx` format for Storybook documentation with rich interactive content
 - Include Meta component for proper Storybook integration: `<Meta title="Category/Name" />`
-- *Established categories*: Operations, Actions, Activities, Foundations, Qualities, Concepts, Data visualisation
+- *Established categories*: Operations, Actions, Activities, Foundations/Material, Concepts, Data visualisation. Qualities and non-material foundations live on the pattern site, not in Storybook.
 
 ## Document structure
 Standard section order:
@@ -36,13 +39,10 @@ Use the Intent & Interaction framework (`src/stories/foundations/Interaction.mdx
 
 ## Documentation linking
 When creating cross-references between documentation files:
-- *Storybook URLs*: Generated from Meta title - `<Meta title="Category/Name" />` becomes `../?path=/docs/category-name--docs`
-- *URL transformation*:
-  - Category/Name → category-name
-  - Spaces become hyphens
-  - Case is lowercased
-- *Link format*: Use relative paths like `[Agency](../?path=/docs/foundations-agency--docs)` for internal Storybook links
-- *Cross-pattern links*: Reference related patterns in "Related patterns" sections using proper Storybook URLs
+- *Internal Storybook links* (component → component, component → material foundation): keep `../?path=/docs/category-name--docs` format. URL transformation: Category/Name → category-name, spaces become hyphens, case is lowercased.
+- *Outbound to qualities*: `[Agency](/patterns/qualities/agency)` — absolute paths on the pattern-site origin.
+- *Outbound to non-material foundations*: `[Assistance](/patterns/foundations/assistance)`.
+- *Outbound to material foundation concept pages*: `[Colour](/patterns/foundations/material/color)` (concept prose lives on pattern site; substrate exploration stays in Storybook).
 
 ## Writing style
 - Use British spelling throughout (behaviour, organisation, colour, etc.)

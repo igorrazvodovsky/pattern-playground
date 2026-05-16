@@ -1,0 +1,62 @@
+---
+title: "Data view"
+role: pattern
+activityLevel: action
+atomic: composition
+mediation: individual
+lifecycle: seeking
+---
+
+> 🙂 **Fun meter: 3/5**. Dependency.
+
+# Data view
+
+The framing of a [collection](/patterns/concepts-collection) for a specific purpose, balancing comprehensiveness with the actor's immediate focus. Data view combines varied representations with filtering, sorting, and grouping to let actors scan, explore, and interact with [items](/patterns/concepts-item) within the [view system](/patterns/actions-sensemaking-view).
+
+
+{/* TODO: */}
+{/* ✓ cards */}
+{/* ✓ table */}
+{/* ✓ representation switching */}
+{/* ✓ attribute selection */}
+{/* ✓ sorting */}
+{/* ✗ filtering */}
+{/* ✗ grouping */}
+
+## Saved views
+
+Saved views persist particular framings to reduce friction for repeat tasks, support different actor roles, and provide continuity across sessions.
+
+- Developers define default views that align with the application's core use cases or intended actor journeys
+- Administrators configure role-specific or task-specific views shared across teams or departments
+- End users create personalised views tuned to their workflow or preferences
+
+
+{/* ## Transitions */}
+{/* Data views enable fluid navigation between collection and item: */}
+{/* - Collection → Item summary: Select row in table to reveal expanded detail panel */}
+{/* - Collection → Item detail: Click card to open modal with task-relevant information */}
+{/* - Collection → Item full: Navigate from collection to dedicated item page */}
+{/* - Item → Collection: Return to filtered/sorted collection view while preserving framing */}
+
+## Related patterns
+
+- [View](/patterns/foundations-view-system) - Conceptual framework for need-driven framings
+- [Semantic zoom](/patterns/actions-application-semantic-zoom) - Density-preserving transitions between collection and items
+- [Item view](/patterns/actions/seeking/item-view) - Single-entity counterpart
+
+### Precursor patterns
+
+- Filtering
+- [Sorting](/patterns/actions/seeking/sorting)
+- [Grouping](/patterns/actions-sensemaking-grouping)
+- Search
+- [Toolbar](/patterns/actions/coordination/toolbar)
+- Pagination
+- Representation: [Table](/patterns/actions-evaluation-table), [cards](/patterns/actions-sensemaking-card), list, [timeline](/patterns/actions-evaluation-timeline), canvas, grid, calendar, gallery, kanban, gantt, the list goes on
+
+### Follow-up patterns
+
+- [Selection](/patterns/actions/coordination/selection) — staking a subset of items as the target of subsequent action
+- [Action bar](/patterns/actions-coordination-action-bar) — the container for batch actions once a selection has been made
+- Inline editing: supports direct manipulation or updating of displayed data

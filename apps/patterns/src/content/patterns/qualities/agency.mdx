@@ -1,0 +1,254 @@
+---
+title: "Agency"
+role: quality
+---
+
+> 🤯 **Fun meter: 5/5**. Trying to find useful framing to integrate LLMs with design systems.
+
+# Agency
+
+The distribution of decision-making and control between system and user within an interface.
+
+## Actors
+
+- *System agency* is the ability of a system to act independently, make decisions, and execute tasks on behalf of the user.
+- *User agency* is the user's ability to maintain control, override system decisions, understand system behaviour, and retain their expertise and judgement.
+
+## Components
+
+ - Autonomy,
+ - [Adaptability](/patterns/qualities/adaptation)
+ - Interactivity
+
+## Distribution
+
+Agency distribution describes how decision-making authority and control are allocated between actors within a system. Three dimensions shape this distribution:
+
+### Locus
+
+Where primary decision-making authority resides:
+- Human-centric: human retains ultimate authority, system serves in assistive role
+- Shared: authority distributed between human and system as collaborators
+- System-centric: system executes autonomously within human-defined parameters
+
+### Dynamics
+
+How authority is managed over time:
+- Static allocation: predefined roles and control levels set during design
+- Dynamic allocation: control shifts situationally based on context and evolving factors
+
+### Granularity
+
+Level of detail at which authority is exercised:
+- High-level: strategic goals and overall workflow direction
+- Fine-grained: specific actions and parameter adjustments within processes
+
+### Coupling
+
+How tightly the human stays in the loop while the system acts:
+- *Tight coupling:* the human attends continuously; the system helps at each step. Work proceeds as a conversation, with many opportunities for live correction. Associated with assistant-mode interaction.
+- *Loose coupling:* the human disengages while the system works; attention returns at discrete touchpoints (problem, completion, handoff). Work proceeds as delegation, with correction happening at re-entry rather than continuously. Associated with agent-mode interaction.
+- *Variable coupling:* coupling shifts based on the situation. The same system may run loose-coupled during smooth operation and switch to tight-coupled when something needs judgement.
+
+See the [assistance](/patterns/foundations/assistance) and [delegation](/patterns/foundations/delegation) foundations for how coupling shapes the temporal flow.
+
+## Spectrum
+
+System agency operates on a five-level spectrum, with each level building upon the previous while adding new capabilities:
+
+Passive → Reactive → Semi-active → Proactive → Co-operative
+
+- Passive: System acts only when explicitly invoked by user.
+- Reactive: User-initiated actions trigger system responses, providing real-time assistance without independent initiative.
+- Semi-active: System provides contextual support when specific conditions are met.
+- Proactive: System initiates actions and introduces insights based on analysis.
+- Co-operative: System collaborates as equal partner in problem-solving.
+
+Agency patterns may shift across different contexts and stages. For example, in collaborative workflows, a system might operate reactively during initial input gathering, shift to co-operative during refinement, and become semi-active during final evaluation. See [Collaboration](/patterns/activities/collaboration#human--bot) for how these agency patterns shift across interaction stages in human-AI co-creation.
+
+As system agency increases, preserving user agency becomes more critical to maintain user control and prevent skill atrophy. Each level requires increasing trust between user and system, with co-operative modes demanding the highest levels of mutual understanding and shared mental models.
+
+## Agency across activity types and intent resolution
+
+Agency shifts along two independent axes: *what kind of work is happening* and *how resolved the intent is*.
+
+### Activity types
+
+Six activity types (Wu et al. and Zhang et al.) recur across co-creative processes:
+1. Perceive: gathering information
+2. Think: formulating strategies
+3. Express: externalising ideas
+4. Collaborate: iterative refinement
+5. Build: constructing artefacts
+6. Test: evaluating outcomes
+
+Each activity type invites a different agency distribution — perceiving and thinking often favour system initiative, while building and testing favour user control.
+{/* TODO: Not sure about this */}
+>The six activity types describe *what kind of work is happening* in human-AI co-creation. They are close but not identical to modes of [assistance](/patterns/foundations/assistance).
+The assists describe stages of the cognitive loop a system can help with; the activity types describe the work itself. Use the assists when reasoning about *where assistance can enter*; use the activity types when reasoning about *how work divides between human and system across a task*.
+
+### Relationship to the interaction arc
+
+The [interaction arc](/patterns/foundations-intent-interaction#how-engagement-unfolds-over-time) tracks how work moves — from recognition through enactment to reflection. Activity types track *what kind of work* is happening at any moment. The two axes cross freely: any stage of engagement can involve any activity type, and agency shifts along both dimensions independently.
+
+> As a rule of thumb, early lifecycle stages (trigger, seeking) favour system initiative — surfacing possibilities, structuring options. Later stages (application, reflection) favour user control — committing decisions, evaluating outcomes.
+
+## Control patterns
+
+Various patterns enable users to exert control and preserve agency as system autonomy increases:
+
+### Input: information access
+#### Guided Input Interaction
+Patterns that structure and facilitate how users provide input to AI.
+- User-centered input optimization enhances users control to align AI outputs with expectations. Users actively refine prompts iteratively based on AI responses or tailor their experience via customizable interface elements like adjustable parameters and views
+- Interface-supported input guidance employs interface design to actively direct user input, improving interaction
+efficiency. Interfaces provide interactive visual feedback (e.g., confidence highlighting, code comparison) to help users understand and refine inputs.
+
+#### Context awareness and memory
+Patterns that enable AI to leverage historical, environmental, task, and user information, enhancing contextual understanding and collaboration
+continuity, encompassing several detailed approaches.
+- world knowledge mapping: System uses broad world knowledge to interpret "vague" user intent and map it to precise system fields.
+- interaction history integration – incorporate past conversational or operational history into decision-making
+- task-oriented context management – maintain awareness of specific tasks, objectives, and histories to ensure consistency. System might enable retrieving artifacts for context-aware iteration, track design goals, adapt interfaces to workflow stages, or use
+history to inform alerts.
+- personalized context adaptation – AI tailors its behavior to individual user backgrounds, needs and preferences.
+
+#### Transparency and Explainability
+Enhance user understanding of AI operations and build trust.
+- interaction tracking, systems document and present interaction histories, allowing users to review contributions from both humans and AI.
+- decision visualization – visualize AI’s decision-making processes or influencing factors. For instance, provide users with clear interface suggestions, or make algorithmic processes transparent by visually linking decision/actions to results.
+- system explanation – explain the reasoning behind AI-generated outputs to clarify internal workings. Examples include providing rationales for generated content, documenting iterative project changes to track solution evolution, surfacing relevant reports to explain potential
+harms.
+
+### Action exploration & coordination
+
+#### Multimodal action space exploration
+Patterns facilitateting human-AI collaboration by enabling interaction through diverse modalities.
+- Text-based interaction
+- Combined and integrated modalities explicitly merge interaction modes, e.g. integrating goal-setting, messaging,
+and custom representations.
+
+#### Action coordination
+How human-AI co-creation systems distribute responsibilities, decision-making authority, and interaction dynamics based on the assumed roles of human and AI agents.
+- complementary role distribution – systems assign distinct, interdependent roles leveraging respective strength. Humans typically provide strategic direction or creative input, while AI handles data processing or routine tasks
+- human-dominated agency with AI support – humans retain primary decision-making authority, utilizing AI as an auxiliary tool or assistant
+that provides suggestions or analysis but lacks autonomous agency
+- shared creative agency – humans and AI engage jointly with mutual influence on the creative output. Both participate throughout
+idea generation, refinement and evaluation, fostering an emergent process
+- technical precision and control – systems focus on enabling users to exert detailed, fine-grained control over AI outputs
+through interfaces offering parameter tuning, prompt refinement, or direct manipulation
+- autonomous AI contribution – AI operates with significant autonomy on specific sub-tasks within parameters established by humans, contributing independently while remaining accountable to human oversight.
+
+### Output: direct intervention
+
+#### Modification and Intervention
+Detail how users exert control over AI systems by intervening in processes or modifying outputs.
+- direct editing and adjustment – user directly alter AI outputs. This includes manually labeling or modifying generated content, or identifying and correcting errors.
+- parameter and prompt control – users influence AI outcomes indirectly through system settings or inputs, rather than altering the output itself. Examples include shaping generative processes via prompts and parameters, controlling the sequence or level of AI assistance [45], or adjusting AI decision-making parameters.
+- real-time intervention and adjustment – users intervene during an ongoing AI process.
+- acceptance or rejection or AI suggestions – users act as gatekeepers by explicitly accepting or rejecting AI
+contributions. This includes users overriding suggestions and documenting their own assessments, manually acknowledging or dismissing system-identified problems, or users controlling annotations by accepting/rejecting recommendations.
+
+#### Adaptive scaffolding
+Dynamically adjusting the level and type of AI assistance provided to users, operating on a spectrum from system-controlled to user-driven approaches, often incorporating hybrid models.
+- system-controlled adaptive scaffolding – the AI autonomously modifies support based on pre-defined rules, learned models, or analysis of user behavior and context. Examples include AI suggesting relevant steps based on conversation flow, adjusting guidance based on analyzed user progress, adapting assistance levels to user's skill, tailoring support based on learner understanding, structuring learning based on observed behavior, adapting based on user interaction interpretation, or curating data views based on context.
+- user-driven adaptive scaffolding – users explicitly control the adaptation of support mechanisms. They might manually adjust settings, select different assistance levels, request specific types of support, trigger or dismiss system hints, specify proficiency levels, or set
+goals to modify assistance intensity.
+- hybrid adaptive scaffolding – combines system autonomy with user control, where the system might make adjustments but allow user overrides or modifications. Adaptation factors include user proficiency, task phase or context, explicit user feedback, and observed task progress.
+- domain-aware scaffolding – adapts not just to interface skill level but to domain understanding. A user may be proficient with the interface but unfamiliar with certain domain areas; scaffolding should recognise and support this distinction. For interface skills, scaffolding typically fades as competence grows. For [domain learnability](/patterns/qualities/learnability), scaffolding may deepen—offering richer explanations as users become ready for them.
+
+#### Chain-of-Thought
+Explicitly display the AI’s step-by-step reasoning process used to reach a solution or suggestion. Making the system’s logic transparent helps users understand and evaluate the output.
+
+### Feedback
+
+#### Confidence visualization
+Communicate AI reliability or influence user confidence regarding AI outputs and actions.
+
+- confidence/uncertainty visualization – interface visually represent the AI’s confidence level (e.g., via scores, intervals or alternatives) for
+its outputs or actions. This helps users gauge reliability and make informed decisions about interpreting or acting upon AI contributions.
+- user feedback and trust management – systems incorporate feedback channels to measure how design choices influence users’ perception of system reliability, bias, and overall trust
+- confidence-based ranking and prioritization – algorithms order or rank AI suggestions based on calculated confidence metrics. This guides user attention towards reliable items first, as seen in pattern prioritization based on model confidence
+
+#### Explanatory feedback
+Transparency strategies to help users understand AI operations and reasoning, facilitating informed decisions.
+- model explanation and reasoning disclosure – systems provide explicit insights into AI decision-making. This involves interpreting ambiguous outputs, offering views into model operations, using visualizations like feature importance plots, explaining design outcomes, displaying flags based on rules.
+- visual highlighting and differentiation – interfaces use visual cues to distinguish AI contributions or guide user attention. Examples include color-coding AI-written text, highlighting key points in peer reviews, emphasizing generative variability.
+
+#### Iterative feedback loop
+Continuous refinement of co-created outputs through dynamic exchanges based on user input or environmental changes.
+- user-directed feedback – users explicitly provide feedback to guide AI performance and improvements. Examples include using AI outputs to inform subsequent prompts, offering direct interaction feedback or ratings, providing textual feedback on generated content, iteratively testing outputs with parameter adjustments, manually indicating alignment with assessments.
+- system-initiated feedback – systems proactively provide these feedback to enhance the interaction process or guide users. AI might respond to users’ additional queries, provide real-time suggestions with system adaptations, offer immediate visual feedback, monitor user actions and adjust responses, serve as a feedback tool during ideation, track goals for immediate feedback, propose updated content based on input, or establish user-system response cycles for refinement
+- bidirectional interaction feedback – the feedback flows dynamically in both directions between users and the AI
+
+## Relationships to different levels of design system
+
+System agency progressively expands as we move up through scales of the design system:
+
+### [Foundation](/patterns/foundations/overview)
+
+At the  level, basic elements provide limited to no agency.
+They're tightly constrained, predictable, and dependable—ensuring everything stays
+visually and contextually coherent.
+
+### [Operations](/patterns/operations-overview)
+
+Assistance—like [setting a default value](/patterns/operations/good-defaults)—is probably the most typical example of agency on this level.
+Primitives can also be dynamically arranged, selected, or shown based on context.
+A [toolbar](/patterns/actions/coordination/toolbar) might offer precisely relevant actions in response to user intent,
+actively supporting the user's immediate goals without straying too far from familiar interactions.
+
+### [Actions](/patterns/actions-overview)
+[Messages](/patterns/actions-coordination-messaging) or product [cards](/patterns/actions-sensemaking-card) can carry greater agency.
+They intelligently package sets of operations into meaningful units. With increased agency, actions can adapt themselves dynamically,
+appearing precisely where and when actors need them, leveraging context.
+
+### [Activities](/patterns/activities-overview)
+Activities can adapt and reshape themselves strategically to construct the flow of
+an interface and to actively guide the actor. [Explanations](/patterns/actions-sensemaking-explanation), [suggestions](/patterns/actions/application/suggestion), or [dynamically
+arranged sections](/patterns/actions/evaluation/focus-and-context/focus-and-context) respond proactively, anticipating needs and creating experiences that feel
+coherent, intentional, and responsive.
+
+## Balancing system and user agency
+
+- Mental model shift: Designing agentive software requires viewing software as an active participant rather than passive tool.
+- Delegation vs control: Strike a balance between leveraging system capabilities and maintaining user oversight. Users should retain the ability to review, modify, and make final decisions.
+- Preserving expertise: Protect user domain knowledge by ensuring meaningful engagement with tasks. Complete delegation can lead to skill atrophy and loss of critical judgement.
+- Cognitive engagement paradox: Whilst reducing mental effort seems beneficial, [appropriate cognitive](/patterns/activities/conversation#question-driven-dialogue) load maintains higher perceived ownership, deeper elaboration, sustained skill development, and protection against [algorithmic loafing](/patterns/activities/bot#anti-patterns).
+- Efficiency vs understanding: Users may want quick task completion or deeper domain comprehension. Systems should support both modes and let users signal which they need. Forcing learning when efficiency is wanted creates friction; offering only efficiency when understanding is wanted misses opportunity.
+- Transparency: System decisions should be explainable and understandable to maintain user trust and enable informed intervention.
+- Graceful degradation: When system agency fails, users should be able to seamlessly take control without losing context or progress.
+
+## Appropriate reliance
+
+Appropriate reliance is the calibrated middle between rejecting useful system help and deferring to system output that's wrong.
+A user exhibits appropriate reliance when they accept system suggestions that are correct and override them when they're not.
+It is not a single quality; it emerges from the interaction of several:
+
+- *Agency distribution* determines whether the user *can* override. No override path, no reliance calibration.
+- *Transparency* determines whether the user *knows* whether to override — whether the system makes its reasoning, confidence, and uncertainty legible.
+- *Temporality* determines whether the user has *time* to override. Systems that commit too fast remove the opportunity.
+- *Learnability* determines whether the user can tell right from wrong in the domain at all. Without competence, reliance defaults to trust-by-necessity.
+- *Coupling* ([see above](#coupling)) determines *when* override opportunities occur. Tight coupling offers live correction; loose coupling requires pre-commitment safeguards or post-hoc review.
+
+When reliance calibration fails, it fails in two directions.
+- *Under-reliance* – rejecting useful assistance — the user ignores correct suggestions, often because they don't trust the system or find its output costly to verify.
+- *Over-reliance* – accepting incorrect assistance — the user rubber-stamps output without catching errors, a failure mode that's especially dangerous when the system is confident but wrong. Over-reliance is the harder failure because users often can't tell they're doing it. See [cognitive forcing functions](/patterns/actions/application/cognitive-forcing-functions) for patterns that deliberately create friction to prevent it.
+
+Appropriate reliance is not itself a pattern; it is the effect patterns at multiple levels try to produce jointly. Design for it by identifying which of the contributing qualities is weakest in the current interaction and strengthening that one.
+
+## Related patterns
+
+- `TBD:` agent experience
+- Relies on [adaptability](/patterns/qualities/adaptation)
+- [Bot patterns](/patterns/activities/bot) demonstrate different agency levels through interaction modes
+
+## Resources & references
+
+- Maier, Schneider, Feuerriegel (2025) [Partnering with Generative AI: Experimental evaluation of human-led and model-led interaction in human-AI co-creation](https://arxiv.org/abs/2510.23324)
+- Zhang, Wang, Yi (2025) [Exploring Collaboration Patterns and Strategies in Human-AI Co-creation through the Lens of Agency](https://arxiv.org/abs/2507.06000)
+- Nardi, B., Miller, J. R., & Wright, D. J. (1998). [Collaborative, programmable intelligent agents](https://dl.acm.org/doi/10.1145/272287.272331). Communications of the ACM, 41(3), 96–104.
+- [NN/g / Noncommand user interfaces](https://www.nngroup.com/articles/noncommand/), Jakob Nielsen, 1993
+- Reicherts et al. (2025) [AI, Help Me Think—but for Myself](https://arxiv.org/abs/2504.06771)
+- Noessel (2024). *Designing Assistant Technology*
+- Noessel (2017). *Designing Agentive Technology*

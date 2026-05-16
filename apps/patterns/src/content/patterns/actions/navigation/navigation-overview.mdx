@@ -1,0 +1,118 @@
+---
+title: "Overview"
+role: umbrella
+---
+
+import { MermaidDiagram } from '@components/MermaidDiagram';
+
+
+> 🗺️ **Fun meter: 2/5**. Mapping out the basics.
+
+# Navigation models
+
+The selection of a connective topology that shapes how actors move between destinations, balancing freedom of movement against orientation cost. Each model determines which [navigation behaviours](/patterns/foundations-intent-interaction#navigation) are possible and how [agency](/patterns/qualities/agency) is distributed.
+
+## Models
+
+- [Hub and spoke](/patterns/actions/navigation/hub-and-spoke) — central hub lists all sections, actors return to hub for cross-section navigation
+- [Overview and detail](/patterns/actions/navigation/overview-detail) — simultaneous display of collection and item (Split View)
+- [Fully connected](/patterns/actions/navigation/fully-connected) — every page links to all others through global navigation
+- [Fully connected](/patterns/actions/navigation/fully-connected) — every page links to all others through global navigation
+- [Multilevel tree](/patterns/actions/navigation/multilevel-tree) — hierarchical structure with global navigation for main pages, local navigation for subpages
+- [Step by step](/patterns/actions/navigation/step-by-step) — prescribed sequences with back/next controls
+- [Pyramid](/patterns/actions/navigation/pyramid) — hub lists sequence, actors can navigate sequentially or jump to any item
+- [Pan and zoom](/patterns/actions/navigation/pan-and-zoom) — continuous spatial navigation through large single spaces
+- [Flat navigation](/patterns/actions/navigation/flat-navigation) — minimal navigation, all functions accessible in one place
+- [Hybrid patterns](/patterns/actions/navigation/hybrid-patterns) — combinations of multiple models
+
+## Decision tree
+
+<MermaidDiagram chart={`
+flowchart TD
+    A[Single continuous space (map, canvas, timeline)?]
+    A -->|Yes| PZ[Pan and zoom]
+    A -->|No| B[Prescribed sequence with dependencies?]
+
+    B -->|Yes| C[Strict ordering required?]
+    C -->|Yes| SBS[Step by step]
+    C -->|No, flexible| PYR[Pyramid]
+
+    B -->|No| D[Deep hierarchy? (3+ levels, 50+ pages)]
+    D -->|Yes| TREE[Multilevel tree]
+    D -->|No| E[Single workspace with rich toolset?]
+
+    E -->|Yes| FLAT[Flat navigation]
+    E -->|No| F[Cross-section workflows common?]
+
+    F -->|Yes| FC[Fully connected]
+    F -->|Rare| HUB[Hub and spoke]
+    F -->|Simultaneous| SPLIT[Overview & Detail]
+`} />
+
+### Refining by behaviour
+
+- Navigate to known locations → [Fully connected](/patterns/actions/navigation/fully-connected), [tree](/patterns/actions/navigation/multilevel-tree)
+- Browse and discover → [Pyramid](/patterns/actions/navigation/pyramid), [pan and zoom](/patterns/actions/navigation/pan-and-zoom)
+- Complete focused tasks → [Step by step](/patterns/actions/navigation/step-by-step), [flat](/patterns/actions/navigation/flat-navigation)
+- Monitor multiple areas → [Hub and spoke](/patterns/actions/navigation/hub-and-spoke)
+
+### Refining by agency
+
+- Maximum control → [Fully connected](/patterns/actions/navigation/fully-connected), [pan and zoom](/patterns/actions/navigation/pan-and-zoom), [flat](/patterns/actions/navigation/flat-navigation)
+- Balanced guidance → [Pyramid](/patterns/actions/navigation/pyramid), [tree](/patterns/actions/navigation/multilevel-tree)
+- System-guided → [Hub and spoke](/patterns/actions/navigation/hub-and-spoke), [step by step](/patterns/actions/navigation/step-by-step)
+
+### Refining by scale
+
+- Small (< 10) → [Fully connected](/patterns/actions/navigation/fully-connected)
+- Medium (10-50) → [Hub](/patterns/actions/navigation/hub-and-spoke) (mobile), [tree](/patterns/actions/navigation/multilevel-tree) (desktop), [pyramid](/patterns/actions/navigation/pyramid) (sequences)
+- Large (50+) → [Hybrid patterns](/patterns/actions/navigation/hybrid-patterns)
+
+### Hybrid combinations
+
+When single models don't fit:
+
+- Hub + fully connected — hub feels constraining, cross-section workflows frequent
+- Tree + fully connected — large volume with clear sections, cross-section relationships
+- Step by step + pyramid — logical sequence but flexible ordering, varying expertise
+- Fully connected + pan and zoom — mix discrete and spatial content
+- Hub + flat — multiple independent workspaces, each feature-rich
+- Pyramid + tree — many sequences requiring category organisation
+
+## Malleable Routing
+
+In a [malleable system](/patterns/qualities/malleability), the target of a link is not a fixed location. Users can choose *how* they want to open a resource, affecting the [composition](/patterns/qualities/malleability#3-composition-topology) of their workspace:
+
+*   **Standard**: Navigate to new page (Replace current context).
+*   **Split**: Open side-by-side (Compare contexts).
+*   **Peek**: Open in overlay/modal (Temporary reference).
+*   **Background**: Open in background tab (Queue for later).
+
+Navigation becomes a tool for composition.
+
+## Implementation considerations
+
+### Universal navigation features
+
+All models benefit from:
+- [Deep linking](/patterns/operations/deep-linking) for addressability
+- [Searching](/patterns/actions/seeking/searching) for direct access
+- [Breadcrumbs](/patterns/operations-breadcrumbs) for context
+- [Command menu](/patterns/actions/seeking/command-menu) for power users
+
+### UI design independence
+
+Models can be rendered in various ways:
+- Tabs, menus, sidebar trees for *fully connected* or *tree*
+- Cards, lists, grids for *hub and spoke*
+- Progress indicators, stepper components, or next/previous for *step by step*
+
+## Related patterns
+
+- [Information architecture](/patterns/foundations/information-architecture) — structural and organizational foundation that navigation models manifest
+- [Intent & interaction](/patterns/foundations-intent-interaction) — behavioural patterns enabled by structural choices
+- [Agency](/patterns/qualities/agency) — control distribution implications
+
+## Resources & references
+
+Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed.

@@ -15,11 +15,16 @@ map; this file routes people and agents into the sectioned docs.
 
 - [Specs index](specs/index.md) — broader settled specification map
 - [Agent harness](specs/agent-harness.md) — agent-facing control layer
-- [Storybook taxonomy](specs/storybook-taxonomy.md) — current sidebar projection
+- [Workspace layout](specs/workspace-layout.md) — package structure and what
+  each workspace owns
+- [Pattern site](specs/pattern-site.md) — content schema, link format, AT
+  levels, APG split rule
+- [Storybook taxonomy](specs/storybook-taxonomy.md) — component story
+  projection; language taxonomy now in pattern site
 - [Graph relationship model](specs/graph-relationship-model.md) — graph edge
   model and epistemic stance
 - [Pattern role model](specs/pattern-role-model.md) — mechanism, move,
-  umbrella, quality, foundation, and concept roles
+  umbrella, quality, foundation, and concept roles; APG split naming convention
 
 No separate whole-project operative-image layer exists yet. Add one only if the
 broader product state starts needing its own current-state artifact.

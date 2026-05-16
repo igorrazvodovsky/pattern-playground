@@ -1,0 +1,56 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import ClientRouter from 'astro/components/ClientRouter.astro';
+import '@styles/main.css';
+import '../styles/app.css';
+import { AppShell } from '../components/AppShell';
+
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+const currentPath = Astro.url.pathname;
+
+type NavItem = { label: string; href: string };
+
+const patterns = await getCollection('patterns');
+const grouped: Record<string, NavItem[]> = {};
+for (const p of patterns as CollectionEntry<'patterns'>[]) {
+  const folder = p.id.split('/')[0];
+  (grouped[folder] ??= []).push({ label: p.data.title, href: `/patterns/${p.id}` });
+}
+
+const GROUP_ORDER = ['operations', 'activities', 'foundations', 'qualities'];
+const GROUP_LABELS: Record<string, string> = { 'data-visualization': 'Data visualisation' };
+
+const navItems = [
+  ...GROUP_ORDER,
+  ...Object.keys(grouped).filter((k) => !GROUP_ORDER.includes(k)),
+]
+  .filter((k) => grouped[k])
+  .map((key) => ({
+    label: GROUP_LABELS[key] ?? key.charAt(0).toUpperCase() + key.slice(1),
+    items: grouped[key].sort((a, b) => a.label.localeCompare(b.label)),
+  }));
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} — Pattern Playground</title>
+    <ClientRouter />
+    <style is:global>
+      html, body { height: 100%; margin: 0; }
+      body { font-family: system-ui, sans-serif; }
+    </style>
+  </head>
+  <body>
+    <AppShell client:only="react" navItems={navItems} title={title} currentPath={currentPath}>
+      <slot />
+    </AppShell>
+    <script>
+      import '@components/register-all.ts';
+    </script>
+  </body>
+</html>

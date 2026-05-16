@@ -1,6 +1,6 @@
 ---
 paths:
-  - "src/styles/**/*.css"
+  - "packages/components/src/styles/**/*.css"
 ---
 
 # Styling guidelines

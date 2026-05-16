@@ -1,6 +1,6 @@
 ---
 paths:
-  - "server/**/*.ts"
+  - "apps/server/**/*.ts"
 ---
 
 # Server

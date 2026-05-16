@@ -5,11 +5,9 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Active
 
-- [Workspace split](active/2026-05-workspace-split.md) — split into components package and pattern-site package (npm workspaces, Astro)
 - [Combobox and adjacent surfaces](active/2026-05-combobox-territory.md) — pattern-language work for Combobox, Selection multi-select, Dual listbox placeholder
 - [Combobox primitives extraction](active/2026-05-combobox-primitives-extraction.md) — rename Command* React primitives to Combobox* under src/components/combobox/
 - [Live presentation research synthesis](active/2026-05-live-presentation-research.md) — broaden evidence base for Activities/Live presentation seed
-- [Role metadata](active/2026-05-role-metadata.md) — introduce role tags for component/pattern/umbrella distinctions
 - [Harness refactor](active/2026-04-harness.md) — control layer repair, enforcement, and drift detection
 - [Assistance foundation](active/2026-04-assistance-foundation.md) — ground assistance in agency theory
 - [Delegation foundation](active/2026-04-delegation-foundation.md) — ground delegation in agency theory
@@ -23,6 +21,8 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Completed
 
+- [Workspace split](completed/2026-05-workspace-split.md) — split into components package and pattern-site app (npm workspaces, Astro); Phase D tail documented
+- [Role metadata](completed/2026-05-role-metadata.md) — introduce role tags for component/pattern/umbrella distinctions
 - [Codebase review recommendations](completed/2025-codebase-review-recommendations.md) — reference review and technical debt inventory
 - [Vite plugin Storybook overview](completed/2025-vite-plugin-storybook-overview.md) — reference overview
 - [Activity Theory reorg](completed/2026-03-activity-theory-reorg.md) — completed Storybook taxonomy migration history

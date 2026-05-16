@@ -1,0 +1,10 @@
+@layer layout {
+  main {
+    margin: 2rem 3rem;
+    max-width: 60ch;
+  }
+}
+
+@layer components {
+
+}

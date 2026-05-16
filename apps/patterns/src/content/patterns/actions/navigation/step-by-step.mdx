@@ -1,0 +1,59 @@
+---
+title: "Step by step"
+role: pattern
+activityLevel: action
+atomic: composition
+mediation: individual
+---
+
+> 🗺️ **Fun meter: 2/5**. Mapping out the basics.
+
+# Step by step
+
+The guided progression through a prescribed sequence, balancing task-completion focus against freedom to deviate. Flows range from simple two-step processes to complex multi-stage journeys, with supplementary options like skip, save and continue later, or jump to step.
+
+## Behavioural position
+
+This model optimises for task completion over exploration, reducing cognitive load from navigation decisions whilst constraining freedom to deviate.
+
+Primarily supports
+- [Transactional search](/patterns/foundations-intent-interaction#transactional-search) — optimised for getting the job done
+- TODO: Goal-oriented task completion with clear endpoints
+
+Deliberately constrains
+- [Exploring](/patterns/foundations-intent-interaction#exploring) — intentionally limited to maintain focus
+- [Browsing](/patterns/foundations-intent-interaction#browsing) — lateral movement discouraged or impossible
+- [Navigating](/patterns/foundations-intent-interaction#navigating) — constrained to sequence, even when destination is known
+
+## Variants
+
+- Linear: strict sequence, must complete steps in order.
+- Flexible: steps shown in overview, some skippable or reorderable. Approaches [pyramid model](/patterns/actions/navigation/pyramid)
+- Branching: different paths based on choices or conditions.
+- Progressive disclosure sequence: simple initial steps, complexity revealed gradually.
+
+{/* ## Validation approaches */}
+{/* - **Step validation** — must complete current step to proceed */}
+{/* - **Deferred validation** — gather all information, validate at end */}
+{/* - **Inline validation** — real-time feedback as actor completes fields */}
+
+
+## Related patterns
+
+### Implements this model
+- [Wizard](/patterns/actions/application/wizard) — Wizard is the canonical instantiation of step-by-step navigation
+- Multi-step [forms](/patterns/actions/application/form) — Form might use step-by-step navigation as a building block
+
+### Complements
+- [Deep linking](/patterns/operations/deep-linking) — enables returning to specific steps via URL
+- [Progress indicators](/patterns/operations-progress-indicator) — visualise progression through steps
+- TODO: Form validation
+
+### Alternatives
+- [Pyramid](/patterns/actions/navigation/pyramid) for sequences with flexible navigation
+- [Step by step + pyramid](/patterns/actions/navigation/hybrid-patterns#step-by-step--pyramid) for guided but flexible processes
+- [Multilevel tree](/patterns/actions/navigation/multilevel-tree) for structured but non-linear content
+
+## Resources & references
+
+- Tidwell, Brewer, Valencia (2020) Designing Interfaces, 3rd ed.
