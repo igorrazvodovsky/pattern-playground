@@ -3,5 +3,15 @@
 }
 
 @layer components {
+  :is(.content-inset, .pane article) a:not([class]) {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: oklch(from var(--c-body) l c h / 0.35);
+    text-decoration-thickness: max(0.05em, 1px);
+    text-underline-offset: 0.15em;
 
+    &:hover {
+      text-decoration-color: oklch(from var(--c-body) l c h / 0.75);
+    }
+  }
 }
