@@ -29,16 +29,8 @@ export function AppShell({ navItems, title, currentPath, children, slug }: AppSh
   return (
     <SidebarProvider>
       <Sidebar collapsible="icon">
-        <SidebarHeader>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton size="lg" render={<a href="/" />}>
-                Pattern Playground
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarHeader>
         <SidebarContent>
+          {/* TODO: logo */}
           {navItems.map((group) => (
             <SidebarGroup key={group.label}>
               <SidebarMenu>
