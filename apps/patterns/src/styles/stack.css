@@ -1,0 +1,97 @@
+@layer layout {
+  /* When a stack is active, lock SidebarInset to the viewport height so panes
+     can scroll independently rather than growing the page vertically. */
+  main.sidebar-inset:has(.stack) {
+    overflow: hidden;
+    height: 100svh;
+  }
+
+  /* Stack container fills the bounded SidebarInset */
+  .stack {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    height: 100%;
+    align-items: stretch;
+  }
+
+  /* Each pane */
+  .pane {
+    flex: 0 0 min(48rem, 100%);
+    scroll-snap-align: start;
+    border-inline-end: var(--border);
+    overflow-y: auto;
+    will-change: opacity;
+    transition: opacity 0.2s ease, filter 0.2s ease;
+    /* opacity: 0.55; */
+    filter: saturate(0.8);
+  }
+
+  /* Non-active panes dim; active pane is full opacity */
+  .pane.pane--active,
+  .pane:only-child {
+    opacity: 1;
+    filter: none;
+  }
+
+  /* Give only one pane the sidebar-like behaviour when stack is single pane */
+  .stack:has(.pane:only-child) .pane {
+    flex: 1 1 auto;
+  }
+
+  /* astro-slot is a layout no-op */
+  .pane astro-slot {
+    display: contents;
+  }
+
+  /* Article padding inside a pane */
+  .pane article {
+    margin: var(--space-xl);
+
+    & > * + * {
+      margin-top: var(--space-l);
+    }
+  }
+
+  /* Loading / error states */
+  .pane-loading,
+  .pane-error {
+    padding: 2rem 3rem;
+    color: var(--c-neutral-500, #6b7280);
+  }
+
+  /* Non-stack pages: regular content inset */
+  .content-inset {
+    margin: 2rem 3rem;
+    max-width: 60ch;
+  }
+}
+
+/* Mobile: single-pane view — only active pane visible */
+@media (max-width: 768px) {
+  .stack {
+    overflow: hidden;
+  }
+
+  .pane {
+    display: none;
+    flex: 0 0 100%;
+    opacity: 1;
+    filter: none;
+  }
+
+  .pane.pane--active {
+    display: block;
+  }
+}
+
+/* Honour reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .pane {
+    transition: none;
+  }
+
+  .stack {
+    scroll-behavior: auto;
+  }
+}

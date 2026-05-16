@@ -11,8 +11,8 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarInset,
-  SidebarTrigger,
 } from '@components/sidebar';
+import { StackManager } from './StackManager';
 
 type NavItem = { label: string; href: string };
 type NavGroup = { label: string; items: NavItem[] };
@@ -22,9 +22,10 @@ interface AppShellProps {
   title: string;
   currentPath: string;
   children: React.ReactNode;
+  slug?: string;
 }
 
-export function AppShell({ navItems, title, currentPath, children }: AppShellProps) {
+export function AppShell({ navItems, title, currentPath, children, slug }: AppShellProps) {
   return (
     <SidebarProvider>
       <Sidebar collapsible="icon">
@@ -61,9 +62,15 @@ export function AppShell({ navItems, title, currentPath, children }: AppShellPro
         </SidebarContent>
       </Sidebar>
       <SidebarInset>
-        <main>
-          {children}
-        </main>
+        {slug ? (
+          <StackManager slug={slug} title={title}>
+            {children}
+          </StackManager>
+        ) : (
+          <div className="content-inset">
+            {children}
+          </div>
+        )}
       </SidebarInset>
     </SidebarProvider>
   );

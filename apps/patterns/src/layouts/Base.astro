@@ -3,12 +3,14 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import ClientRouter from 'astro/components/ClientRouter.astro';
 import '@styles/main.css';
 import '../styles/app.css';
+import '../styles/stack.css';
 import { AppShell } from '../components/AppShell';
 
 interface Props {
   title: string;
+  slug?: string;
 }
-const { title } = Astro.props;
+const { title, slug } = Astro.props;
 const currentPath = Astro.url.pathname;
 
 type NavItem = { label: string; href: string };
@@ -46,7 +48,7 @@ const navItems = [
     </style>
   </head>
   <body>
-    <AppShell client:only="react" navItems={navItems} title={title} currentPath={currentPath}>
+    <AppShell client:only="react" navItems={navItems} title={title} currentPath={currentPath} slug={slug}>
       <slot />
     </AppShell>
     <script>
