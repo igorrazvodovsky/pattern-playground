@@ -6,6 +6,7 @@
  */
 
 import { componentRegistry } from './component-registry.js';
+import 'iconify-icon';
 
 // Import all component classes
 import { PpAvatar } from './avatar/avatar.js';

@@ -12,6 +12,7 @@ interface Props {
 }
 const { title, slug } = Astro.props;
 const currentPath = Astro.url.pathname;
+const storybookUrl = import.meta.env.PUBLIC_STORYBOOK_URL ?? 'http://localhost:6006';
 
 type NavItem = { label: string; href: string };
 
@@ -48,7 +49,7 @@ const navItems = [
     </style>
   </head>
   <body>
-    <AppShell client:only="react" navItems={navItems} title={title} currentPath={currentPath} slug={slug}>
+    <AppShell client:only="react" navItems={navItems} title={title} currentPath={currentPath} slug={slug} storybookUrl={storybookUrl}>
       <slot />
     </AppShell>
     <script>

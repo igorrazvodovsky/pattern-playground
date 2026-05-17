@@ -243,6 +243,7 @@
     gap: var(--space-xs);
     padding: var(--space-s);
     flex-shrink: 0;
+    /* border-block-start: var(--border); */
   }
 
   .sidebar-content {

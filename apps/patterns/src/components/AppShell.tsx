@@ -5,6 +5,7 @@ import {
   Sidebar,
   SidebarHeader,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarMenu,
@@ -23,9 +24,10 @@ interface AppShellProps {
   currentPath: string;
   children: React.ReactNode;
   slug?: string;
+  storybookUrl: string;
 }
 
-export function AppShell({ navItems, title, currentPath, children, slug }: AppShellProps) {
+export function AppShell({ navItems, title, currentPath, children, slug, storybookUrl }: AppShellProps) {
   return (
     <SidebarProvider>
       <Sidebar collapsible="icon">
@@ -67,6 +69,19 @@ export function AppShell({ navItems, title, currentPath, children, slug }: AppSh
             </SidebarGroup>
           ))}
         </SidebarContent>
+        <SidebarFooter>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                render={<a href={storybookUrl} />}
+                tooltip="Components (Storybook)"
+              >
+                {React.createElement('iconify-icon', { icon: 'ph:puzzle-piece' })}
+                <span>Components</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarFooter>
       </Sidebar>
       <SidebarInset>
         {slug ? (
