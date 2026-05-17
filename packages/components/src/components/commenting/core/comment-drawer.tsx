@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { CommentThread } from './comment-thread';
+import { CommentThread } from './CommentThread';
 import type { Comment, CommentThread as CommentThreadType } from '../../../services/commenting/core/comment-service';
 import type { TiptapTextRangePointer, ItemViewSectionPointer } from '../../../services/commenting/core/comment-pointer';
 
