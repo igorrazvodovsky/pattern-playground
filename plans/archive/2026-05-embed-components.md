@@ -17,7 +17,9 @@ This plan closes two residual items from `plans/completed/2026-05-workspace-spli
 - *Open Question 10* — bilingual rendering for Foundations/Qualities: embed substrate previews or link to Storybook?
 - *Phase D tail item 3* — cross-surface reference scheme (how pattern prose references Storybook component pages).
 
-Decision on both: embed for illustrative demos; link for fuller docs. A lightweight `<Example>` wrapper provides the embed surface. A `<ComponentRef>` inline component plus a `PUBLIC_STORYBOOK_URL` env var provide the link surface. Neither requires per-author imports — both are wired as global MDX components.
+Decision on both: embed for illustrative demos; link for fuller docs. A lightweight `<Demo>` wrapper provides the embed surface. A `<ComponentRef>` inline component plus a `PUBLIC_STORYBOOK_URL` env var provide the link surface. Neither requires per-author imports — both are wired as global MDX components.
+
+This is a substrate-only plan. Migrating existing Storybook story demos to the pattern site is a separate task: see `plans/active/2026-05-pattern-demos-migration.md`. That plan depends on this one being complete.
 
 ## What already works (no changes needed)
 
@@ -33,7 +35,7 @@ and it will render. The plan establishes this as a *documented* convention, adds
 
 ## Files to create
 
-### `apps/patterns/src/components/Example.tsx`
+### `apps/patterns/src/components/Demo.tsx`
 
 A framed demo sandbox. Props:
 
@@ -41,7 +43,7 @@ A framed demo sandbox. Props:
 - `label?` — short caption displayed below the demo
 - `storyId?` — Storybook story ID (e.g. `"operations-undo--docs"`); when present renders a "View in Storybook" link using `PUBLIC_STORYBOOK_URL`
 
-Style: a bordered, lightly padded box. Class `example-block`. Keep it minimal — not a Storybook canvas replacement.
+Style: a bordered, lightly padded box. Class `demo-block`. Keep it minimal — not a Storybook canvas replacement.
 
 ### `apps/patterns/src/components/ComponentRef.tsx`
 
@@ -62,13 +64,13 @@ Add `apps/patterns/.env` to `.gitignore` root entry if not already ignored; add 
 
 ### CSS in `apps/patterns/src/styles/app.css`
 
-Add `.example-block` styles: border using `var(--border)`, rounded corners, padding `var(--space-m)`, background `var(--c-surface)`.
+Add `.demo-block` styles: border using `var(--border)`, rounded corners, padding `var(--space-m)`, background `var(--c-surface)`.
 
 ## Files to modify
 
 ### `apps/patterns/src/pages/patterns/[...slug].astro`
 
-Import `Example` and `ComponentRef`. Change:
+Import `Demo` and `ComponentRef`. Change:
 
 ```astro
 const { Content } = await render(entry);
@@ -77,9 +79,9 @@ const { Content } = await render(entry);
 to:
 
 ```astro
-import { Example } from '../../components/Example';
+import { Demo } from '../../components/Demo';
 import { ComponentRef } from '../../components/ComponentRef';
-const { Content } = await render(entry, { components: { Example, ComponentRef } });
+const { Content } = await render(entry, { components: { Demo, ComponentRef } });
 ```
 
 No import needed in MDX files — both components are globally available.
@@ -96,11 +98,11 @@ Write tags directly in MDX for short inline illustrations:
 
     <pp-button>Undo</pp-button>
 
-Use `<Example>` for a framed demo sandbox (no import needed):
+Use `<Demo>` for a framed demo sandbox (no import needed):
 
-    <Example label="Undo trigger" storyId="operations-undo--docs">
+    <Demo label="Undo trigger" storyId="operations-undo--docs">
       <pp-button>Undo</pp-button>
-    </Example>
+    </Demo>
 
 Use `<ComponentRef>` for inline prose references to Storybook component pages
 (no import needed):
@@ -108,22 +110,18 @@ Use `<ComponentRef>` for inline prose references to Storybook component pages
     the <ComponentRef id="actions-application-button--docs">Button</ComponentRef> component
 
 Do not hardcode localhost:6006 URLs in content — use `<ComponentRef>` or `storyId`
-on `<Example>`, both of which read `PUBLIC_STORYBOOK_URL`.
+on `<Demo>`, both of which read `PUBLIC_STORYBOOK_URL`.
 ```
 
-### 2–3 showcase MDX pages
+### One verification page
 
-Update at least two existing content pages to demonstrate both embed shapes. Good candidates:
-
-- `operations/undo.mdx` — add a short `<Example>` block in the *Structure* section showing the undo trigger button
-- A quality or foundation page (e.g. `qualities/agency.mdx` or `foundations/modality.mdx`) — add an `<Example>` showing a live component that enacts the quality
-
-Do not force examples onto pages that don't benefit — author discretion is the convention.
+Add a single `<Demo>` and one `<ComponentRef>` to an existing pattern page to prove both components work end-to-end. `operations/state-empty.mdx` is the natural candidate — it already has inline `pp-button` usage; wrapping one of the existing blocks in `<Demo>` is a minimal change that proves the mechanism. This is substrate verification, not the start of a migration effort.
 
 ## Out of scope
 
+- Migrating any Storybook story demos to the pattern site — that is `2026-05-pattern-demos-migration.md`
+- Story audit and classification
 - Building a Storybook-equivalent docs surface inside the pattern site
-- Migrating all pattern pages — showcase only
 - PatternGraph island (separate plan)
 - Unmigrated foundations/material subtree (Color, Typography, Motion) — those pages don't exist yet
 - Stage 3 of the data-model arc (linked datasets / component-manifest.json)
@@ -131,8 +129,8 @@ Do not force examples onto pages that don't benefit — author discretion is the
 ## Verification
 
 1. `cd apps/patterns && npm run dev` — site starts on port 4321
-2. Navigate to one of the updated showcase pages — `<Example>` renders a bordered box with a live component inside
-3. Clicking the custom element behaves correctly (button responds to click/keyboard)
-4. "View in Storybook" link on `<Example storyId="...">` opens the correct Storybook URL
-5. `<ComponentRef>` renders as a working link to Storybook
+2. Navigate to the verification page — `<Demo>` renders a bordered box with a live component inside
+3. The custom element behaves correctly (button responds to click/keyboard)
+4. The `storyId` link on `<Demo>` opens the correct Storybook URL
+5. `<ComponentRef>` renders as a working link to the Storybook component page
 6. `npm run build` exits cleanly — no TypeScript errors, no broken imports

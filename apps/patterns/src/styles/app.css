@@ -3,6 +3,23 @@
 }
 
 @layer components {
+  .demo-block {
+    background: var(--c-surface);
+  }
+
+  .demo-block__footer {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s, 0.5rem);
+    margin-block-start: var(--space-s, 0.5rem);
+    font-size: 0.875em;
+    opacity: 0.75;
+  }
+
+  .demo-block__label {
+    flex: 1;
+  }
+
   :is(.content-inset, .pane article) a:not([class]) {
     color: inherit;
     text-decoration: underline;

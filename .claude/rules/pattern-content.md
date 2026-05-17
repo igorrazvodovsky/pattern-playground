@@ -39,6 +39,26 @@ Do not use Storybook URL format (`../?path=/docs/...--docs`).
 Old Storybook-format links in migrated pages are tech debt; rewrite them when
 editing the file for other reasons.
 
+## Component embeds
+
+Custom elements registered via `register-all.ts` are available on every page.
+Write tags directly in MDX for short inline illustrations:
+
+    <pp-button>Undo</pp-button>
+
+Use `<Demo>` for a framed demo sandbox (no import needed):
+
+    <Demo label="Undo trigger">
+      <pp-button>Undo</pp-button>
+    </Demo>
+
+Use `<ComponentRef>` for inline prose references to Storybook component pages
+(no import needed):
+
+    the <ComponentRef id="actions-application-button--docs">Button</ComponentRef> component
+
+Do not hardcode localhost:6006 URLs in content — use `<ComponentRef>`, which reads `PUBLIC_STORYBOOK_URL`.
+
 ## Document structure
 
 Standard section order:

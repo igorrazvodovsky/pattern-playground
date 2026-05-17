@@ -13,7 +13,7 @@ import { Icon } from '@iconify/react';
 
 # Empty state
 
-Tells actors that there’s no content to display. Provides explanation and guidance to help actor progress.
+Tells actors that there’s no content to display. Provides explanation and guidance to help actor progress. Typically surfaces a <ComponentRef id="actions-application-button--docs">Button</ComponentRef> as the primary call to action.
 
 ## Variants
 
@@ -31,11 +31,13 @@ Basic empty state for first use experience.
 
 Provides information about what to do next.
 
-<div className="empty-state border flow">
-  <h3>You don’t have access to this content</h3>
-  <p>Make sure the content exists. If it does, ask an admin for a permission to see the content.</p>
-  <button className="button" is="pp-button">Request access</button>
-</div>
+<Demo label="Access denied empty state">
+  <div className="empty-state border flow">
+    <h3>You don’t have access to this content</h3>
+    <p>Make sure the content exists. If it does, ask an admin for a permission to see the content.</p>
+    <button className="button" is="pp-button">Request access</button>
+  </div>
+</Demo>
 
 ## Educational
 
