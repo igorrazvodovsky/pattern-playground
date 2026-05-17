@@ -9,6 +9,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   integrations: [lit(), mdx(), react()],
+  publicDir: path.resolve(__dirname, '../../public'),
   vite: {
     resolve: {
       alias: {

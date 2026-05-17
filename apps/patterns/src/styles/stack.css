@@ -145,8 +145,8 @@
 
   /* Non-stack pages: regular content inset */
   .content-inset {
-    margin: 2rem 3rem;
-    max-width: 60ch;
+    margin: 2rem;
+    max-width: 70ch;
   }
 }
 

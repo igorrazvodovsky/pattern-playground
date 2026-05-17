@@ -90,7 +90,7 @@ export const CommentDrawer: React.FC<CommentDrawerProps> = ({
                   if (textPointer.text) {
                     const truncatedText = textPointer.text.slice(0, 50);
                     contextElement = (
-                      <blockquote>
+                      <blockquote className="callout layer">
                         {truncatedText}{textPointer.text.length > 50 ? '...' : ''}
                       </blockquote>
                     );

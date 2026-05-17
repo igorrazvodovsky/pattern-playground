@@ -20,7 +20,7 @@ export function ExplanationDrawer({
     <div className="explanation-drawer">
       <div className="explanation-drawer__section">
         <h3>Selected Text</h3>
-        <blockquote className="explanation-drawer__quote">
+        <blockquote className=" callout layer">
           "{text}"
         </blockquote>
       </div>

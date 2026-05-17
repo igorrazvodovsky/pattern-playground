@@ -69,7 +69,7 @@ export const DefaultFallbackRenderer = <T extends string = string>({
 
     return (
       <section className="quote-content flow">
-        <blockquote className="quote-text">
+        <blockquote className="callout layer">
           "{plainText}"
         </blockquote>
       </section>

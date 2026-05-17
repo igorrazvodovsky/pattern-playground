@@ -58,8 +58,6 @@ mark {
 
 blockquote {
   margin: 0;
-  padding: var(--space-m);
-  background: var(--c-accent-50);
 
   p {
     margin: 0;

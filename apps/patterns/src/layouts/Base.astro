@@ -23,7 +23,7 @@ for (const p of patterns as CollectionEntry<'patterns'>[]) {
   (grouped[folder] ??= []).push({ label: p.data.title, href: `/patterns/${p.id}` });
 }
 
-const GROUP_ORDER = ['operations', 'activities', 'foundations', 'qualities'];
+const GROUP_ORDER = ['foundations', 'qualities', 'activities', 'actions', 'operations', 'data-visualization'];
 const GROUP_LABELS: Record<string, string> = { 'data-visualization': 'Data visualisation' };
 
 const navItems = [

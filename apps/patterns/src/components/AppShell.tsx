@@ -14,6 +14,7 @@ import {
   SidebarInset,
 } from '@components/sidebar';
 import { StackManager } from './StackManager';
+import { useNavStore } from '../lib/nav-store';
 
 type NavItem = { label: string; href: string };
 type NavGroup = { label: string; items: NavItem[] };
@@ -28,16 +29,28 @@ interface AppShellProps {
 }
 
 export function AppShell({ navItems, title, currentPath, children, slug, storybookUrl }: AppShellProps) {
+  const { isOpen, setOpen } = useNavStore();
   return (
     <SidebarProvider>
       <Sidebar collapsible="icon">
         <SidebarContent>
-          {/* TODO: logo */}
-          {navItems.map((group) => (
-            <SidebarGroup key={group.label}>
-              <SidebarMenu>
-                <SidebarMenuItem>
-                  <Collapsible.Root defaultOpen>
+          <a href="/" className="sidebar-logo">
+            <img src="/playground.png" alt="Playground" />
+          </a>
+          <SidebarGroup>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  render={<a href="/" />}
+                  isActive={currentPath === '/'}
+                  tooltip="Introduction"
+                >
+                  Introduction
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              {navItems.map((group) => (
+                <SidebarMenuItem key={group.label}>
+                  <Collapsible.Root open={isOpen(group.label)} onOpenChange={(open) => setOpen(group.label, open)}>
                     <SidebarMenuButton
                       render={<Collapsible.Trigger />}
                       className="sidebar-collapsible-group-trigger"
@@ -65,9 +78,9 @@ export function AppShell({ navItems, title, currentPath, children, slug, storybo
                     </Collapsible.Panel>
                   </Collapsible.Root>
                 </SidebarMenuItem>
-              </SidebarMenu>
-            </SidebarGroup>
-          ))}
+              ))}
+            </SidebarMenu>
+          </SidebarGroup>
         </SidebarContent>
         <SidebarFooter>
           <SidebarMenu>

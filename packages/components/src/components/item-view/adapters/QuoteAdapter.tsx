@@ -37,7 +37,7 @@ const QuotePreview: React.FC<ItemViewProps<QuoteItem>> = ({ item: quote }) => {
   return (
     <div className="quote-preview">
       <div className="quote-preview__content">
-        <blockquote className="quote-preview__text">
+        <blockquote className="callout layer">
           {content.plainText}
         </blockquote>
         <small className="quote-preview__source dimmed">
@@ -118,7 +118,7 @@ const QuoteFullView: React.FC<ItemViewProps<QuoteItem>> = ({ item: quote }) => {
 
       <main className="quote-full-view__content">
         <section className="quote-full-view__quote-section">
-          <blockquote className="quote-full-view__text">
+          <blockquote className="callout layer">
             {content.plainText}
           </blockquote>
 

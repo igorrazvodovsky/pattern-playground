@@ -1,8 +1,27 @@
+@layer reset, theme, global, layout, components, utilities, states;
+
 @layer layout {
   /* Styling for non-stack pages lives in stack.css (.content-inset) */
+
+  main.sidebar-inset {
+    background: var(--c-neutral-50);
+  }
 }
 
 @layer components {
+  .sidebar-logo {
+    display: block;
+    padding: var(--space-xs, 0.25rem);
+  }
+
+  .sidebar-logo img {
+    display: block;
+    width: 100%;
+    max-width: 8rem;
+    height: auto;
+  }
+
+
   .demo-block {
     background: var(--c-surface);
   }
