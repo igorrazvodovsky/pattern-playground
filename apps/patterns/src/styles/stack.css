@@ -130,10 +130,10 @@
   /* Article padding inside a pane */
   .pane article {
     margin: var(--space-xl);
+  }
 
-    & > * + * {
-      margin-top: var(--space-l);
-    }
+  .flow > * + * {
+    margin-block-start: var(--flow-space, 1em);
   }
 
   /* Loading / error states */
@@ -145,7 +145,8 @@
 
   /* Non-stack pages: regular content inset */
   .content-inset {
-    margin: 2rem;
+    --flow-space: var(--space-xl);
+    margin: var(--space-2xl);
     max-width: 70ch;
   }
 }
