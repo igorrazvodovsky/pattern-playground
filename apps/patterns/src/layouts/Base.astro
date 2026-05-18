@@ -14,26 +14,60 @@ const { title, slug } = Astro.props;
 const currentPath = Astro.url.pathname;
 const storybookUrl = import.meta.env.PUBLIC_STORYBOOK_URL ?? 'http://localhost:6006';
 
-type NavItem = { label: string; href: string };
+type NavLeaf = { label: string; href: string };
+type NavBranch = { label: string; children: NavTreeNode[] };
+type NavTreeNode = NavLeaf | NavBranch;
+type NavGroup = NavBranch;
 
-const patterns = await getCollection('patterns');
-const grouped: Record<string, NavItem[]> = {};
-for (const p of patterns as CollectionEntry<'patterns'>[]) {
-  const folder = p.id.split('/')[0];
-  (grouped[folder] ??= []).push({ label: p.data.title, href: `/patterns/${p.id}` });
+const DIR_LABELS: Record<string, string> = {
+  'data-visualization': 'Data visualisation',
+  'conversational-activities': 'Conversational activities',
+  'sequence-management': 'Sequence management',
+  'conversation-management': 'Conversation management',
+};
+
+function toLabel(slug: string): string {
+  return DIR_LABELS[slug] ?? slug.charAt(0).toUpperCase() + slug.slice(1).replace(/-/g, ' ');
 }
 
 const GROUP_ORDER = ['foundations', 'qualities', 'activities', 'actions', 'operations', 'data-visualization'];
-const GROUP_LABELS: Record<string, string> = { 'data-visualization': 'Data visualisation' };
 
-const navItems = [
+const patterns = await getCollection('patterns');
+const tree: Record<string, NavTreeNode[]> = {};
+for (const p of patterns as CollectionEntry<'patterns'>[]) {
+  const parts = p.id.split('/');
+  const leaf: NavLeaf = { label: p.data.title, href: `/patterns/${p.id}` };
+  if (parts.length === 2) {
+    (tree[parts[0]] ??= []).push(leaf);
+  } else if (parts.length === 4) {
+    const [top, section, subgroup] = parts;
+    tree[top] ??= [];
+    let sectionNode = (tree[top] as NavBranch[]).find(
+      (n): n is NavBranch => 'children' in n && n.label === toLabel(section)
+    );
+    if (!sectionNode) {
+      sectionNode = { label: toLabel(section), children: [] };
+      tree[top].push(sectionNode);
+    }
+    let subNode = (sectionNode.children as NavBranch[]).find(
+      (n): n is NavBranch => 'children' in n && n.label === toLabel(subgroup)
+    );
+    if (!subNode) {
+      subNode = { label: toLabel(subgroup), children: [] };
+      sectionNode.children.push(subNode);
+    }
+    subNode.children.push(leaf);
+  }
+}
+
+const navItems: NavGroup[] = [
   ...GROUP_ORDER,
-  ...Object.keys(grouped).filter((k) => !GROUP_ORDER.includes(k)),
+  ...Object.keys(tree).filter((k) => !GROUP_ORDER.includes(k)),
 ]
-  .filter((k) => grouped[k])
+  .filter((k) => tree[k])
   .map((key) => ({
-    label: GROUP_LABELS[key] ?? key.charAt(0).toUpperCase() + key.slice(1),
-    items: grouped[key].sort((a, b) => a.label.localeCompare(b.label)),
+    label: toLabel(key),
+    children: tree[key].sort((a, b) => a.label.localeCompare(b.label)),
   }));
 ---
 <!doctype html>

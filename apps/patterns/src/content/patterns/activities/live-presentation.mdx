@@ -40,7 +40,7 @@ Tokens can arrive faster than the browser can paint. Updating on every arrival w
 
 ## Stopping cleanly
 
-When the actor [aborts](/patterns/operations/conversation/abort) a stream, the surface should reach a quiet resting state. Clear the pending buffer, drop the cursor and status indicator, and surface a retry that keeps the original prompt intact.
+When the actor [aborts](/patterns/operations/conversation/sequence-management/abort) a stream, the surface should reach a quiet resting state. Clear the pending buffer, drop the cursor and status indicator, and surface a retry that keeps the original prompt intact.
 
 ## Accessibility
 
@@ -60,7 +60,7 @@ Live-region semantics (`aria-live="polite"` with `aria-atomic="false"`) let addi
 
 - [Transparent reasoning](/patterns/activities/transparent-reasoning) — its "stream of thought" mode rides on the same rendering substrate
 - [Conversation](/patterns/activities/conversation) — live presentation is one of the rhythms a conversational turn can take
-- [Abort](/patterns/operations/conversation/abort) — the user-side stop depends on the surface having a quiet resting state to land in
+- [Abort](/patterns/operations/conversation/sequence-management/abort) — the user-side stop depends on the surface having a quiet resting state to land in
 
 ## Resources & references
 

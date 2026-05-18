@@ -16,8 +16,10 @@ import {
 import { StackManager } from './StackManager';
 import { useNavStore } from '../lib/nav-store';
 
-type NavItem = { label: string; href: string };
-type NavGroup = { label: string; items: NavItem[] };
+type NavLeaf = { label: string; href: string };
+type NavBranch = { label: string; children: NavTreeNode[] };
+type NavTreeNode = NavLeaf | NavBranch;
+type NavGroup = NavBranch;
 
 interface AppShellProps {
   navItems: NavGroup[];
@@ -26,6 +28,65 @@ interface AppShellProps {
   children: React.ReactNode;
   slug?: string;
   storybookUrl: string;
+}
+
+function isBranch(node: NavTreeNode): node is NavBranch {
+  return 'children' in node;
+}
+
+interface NavNodeProps {
+  node: NavTreeNode;
+  currentPath: string;
+  isOpen: (key: string) => boolean;
+  setOpen: (key: string, open: boolean) => void;
+}
+
+const Chevron = () =>
+  React.createElement('iconify-icon', { icon: 'ph:caret-down', className: 'sidebar-collapsible-chevron' });
+
+function NavNode({ node, currentPath, isOpen, setOpen }: NavNodeProps) {
+  if (isBranch(node)) {
+    return (
+      <SidebarMenuItem>
+        <Collapsible.Root open={isOpen(node.label)} onOpenChange={(open) => setOpen(node.label, open)}>
+          <SidebarMenuButton
+            render={<Collapsible.Trigger />}
+            className="sidebar-collapsible-group-trigger"
+            tooltip={node.label}
+          >
+            <span>{node.label}</span>
+            <Chevron />
+          </SidebarMenuButton>
+          <Collapsible.Panel>
+            <SidebarGroupContent className="sidebar-collapsible-group-content">
+              <SidebarMenu>
+                {node.children.map((child) => (
+                  <NavNode
+                    key={isBranch(child) ? child.label : child.href}
+                    node={child}
+                    currentPath={currentPath}
+                    isOpen={isOpen}
+                    setOpen={setOpen}
+                  />
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </Collapsible.Panel>
+        </Collapsible.Root>
+      </SidebarMenuItem>
+    );
+  }
+  return (
+    <SidebarMenuItem>
+      <SidebarMenuButton
+        render={<a href={node.href} />}
+        isActive={currentPath === node.href}
+        tooltip={node.label}
+      >
+        {node.label}
+      </SidebarMenuButton>
+    </SidebarMenuItem>
+  );
 }
 
 export function AppShell({ navItems, title, currentPath, children, slug, storybookUrl }: AppShellProps) {
@@ -49,35 +110,13 @@ export function AppShell({ navItems, title, currentPath, children, slug, storybo
                 </SidebarMenuButton>
               </SidebarMenuItem>
               {navItems.map((group) => (
-                <SidebarMenuItem key={group.label}>
-                  <Collapsible.Root open={isOpen(group.label)} onOpenChange={(open) => setOpen(group.label, open)}>
-                    <SidebarMenuButton
-                      render={<Collapsible.Trigger />}
-                      className="sidebar-collapsible-group-trigger"
-                      tooltip={group.label}
-                    >
-                      <span>{group.label}</span>
-                      {React.createElement('iconify-icon', { icon: 'ph:caret-down', className: 'sidebar-collapsible-chevron' })}
-                    </SidebarMenuButton>
-                    <Collapsible.Panel>
-                      <SidebarGroupContent className="sidebar-collapsible-group-content">
-                        <SidebarMenu>
-                          {group.items.map((item) => (
-                            <SidebarMenuItem key={item.href}>
-                              <SidebarMenuButton
-                                render={<a href={item.href} />}
-                                isActive={currentPath === item.href}
-                                tooltip={item.label}
-                              >
-                                {item.label}
-                              </SidebarMenuButton>
-                            </SidebarMenuItem>
-                          ))}
-                        </SidebarMenu>
-                      </SidebarGroupContent>
-                    </Collapsible.Panel>
-                  </Collapsible.Root>
-                </SidebarMenuItem>
+                <NavNode
+                  key={group.label}
+                  node={group}
+                  currentPath={currentPath}
+                  isOpen={isOpen}
+                  setOpen={setOpen}
+                />
               ))}
             </SidebarMenu>
           </SidebarGroup>
