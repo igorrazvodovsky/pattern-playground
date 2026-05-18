@@ -3,7 +3,7 @@ import { Indicators } from '../compositions/Card/Card.stories.tsx';
 
 <Meta title="Patterns/Semantic zoom" />
 
-> 🙂 **Fun meter: 5/5**.
+{/* > 🙂 **Fun meter: 5/5**. */}
 
 # Semantic zoom
 

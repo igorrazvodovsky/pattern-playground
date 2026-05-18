@@ -535,34 +535,6 @@
       "role": "foundation"
     },
     {
-      "id": "foundations-material-color",
-      "title": "Color",
-      "category": "Foundations",
-      "path": "/patterns/foundations/material/color",
-      "role": "foundation"
-    },
-    {
-      "id": "foundations-material-layout",
-      "title": "Layout",
-      "category": "Foundations",
-      "path": "/patterns/foundations/material/layout",
-      "role": "foundation"
-    },
-    {
-      "id": "foundations-material-motion",
-      "title": "Motion",
-      "category": "Foundations",
-      "path": "/patterns/foundations/material/motion",
-      "role": "foundation"
-    },
-    {
-      "id": "foundations-material-typography",
-      "title": "Typography",
-      "category": "Foundations",
-      "path": "/patterns/foundations/material/typography",
-      "role": "foundation"
-    },
-    {
       "id": "foundations-modality",
       "title": "Modality",
       "category": "Foundations",
@@ -4247,20 +4219,6 @@
       "extractedFrom": "header:\"Tangentially related\""
     },
     {
-      "source": "foundations-material-layout",
-      "target": "qualities-density",
-      "type": "enacts",
-      "label": "base unit and increment values choose how much breathing room each piece of information gets",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-material-typography",
-      "target": "qualities-density",
-      "type": "enacts",
-      "label": "typography interacts with spacing and layout to create different feels",
-      "extractedFrom": "quality-target"
-    },
-    {
       "source": "foundations-modality",
       "target": "actions-application-dialog",
       "type": "complements",
@@ -5210,16 +5168,6 @@
     },
     {
       "source": "qualities-malleability",
-      "target": "foundations-material-layout",
-      "type": "related"
-    },
-    {
-      "source": "qualities-malleability",
-      "target": "foundations-material-color",
-      "type": "related"
-    },
-    {
-      "source": "qualities-malleability",
       "target": "qualities-density",
       "type": "related"
     },
@@ -5284,11 +5232,6 @@
       "target": "foundations-localization",
       "type": "related",
       "label": "locale-aware URLs and shared content"
-    },
-    {
-      "source": "qualities-temporality",
-      "target": "foundations-material-motion",
-      "type": "related"
     },
     {
       "source": "qualities-temporality",
