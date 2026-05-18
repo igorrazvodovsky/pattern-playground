@@ -41,6 +41,7 @@ export function StackManager({ slug, title, children }: StackManagerProps) {
   const stackRef = useRef<HTMLDivElement>(null);
   const foldAnchorRef = useRef(Number.MAX_SAFE_INTEGER);
   const applyFoldsRef = useRef<(() => void) | null>(null);
+  const prevPanesRef = useRef<typeof panes>([]);
 
   useEffect(() => {
     syncFromURL(slug, title);
@@ -61,6 +62,16 @@ export function StackManager({ slug, title, children }: StackManagerProps) {
       setTimeout(() => h1.focus(), 0);
     }
   }, [panes.length]);
+
+  useEffect(() => {
+    panes.slice(1).forEach((pane, i) => {
+      if (!pane.hash || pane.status !== 'ready') return;
+      if (prevPanesRef.current[i + 1]?.status === 'ready') return;
+      const paneEl = stackRef.current?.querySelector<HTMLElement>(`[data-pane-index="${i + 1}"]`);
+      paneEl?.querySelector(pane.hash)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    prevPanesRef.current = panes;
+  }, [panes]);
 
   useEffect(() => {
     const stackEl = stackRef.current;

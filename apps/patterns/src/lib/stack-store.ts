@@ -5,13 +5,14 @@ export type Pane = {
   title: string;
   html: string;
   status: 'loading' | 'ready' | 'error';
+  hash?: string;
 };
 
 type StackState = {
   panes: Pane[];
   activeIndex: number;
   cache: Map<string, Pane>;
-  push: (slug: string, fromIndex: number) => Promise<void>;
+  push: (slug: string, fromIndex: number, hash?: string) => Promise<void>;
   syncFromURL: (slug0: string, title0: string) => Promise<void>;
 };
 
@@ -56,24 +57,24 @@ export const useStackStore = create<StackState>()((set, get) => ({
   activeIndex: 0,
   cache: new Map(),
 
-  push: async (slug, fromIndex) => {
+  push: async (slug, fromIndex, hash) => {
     const { panes, cache } = get();
     const truncated = panes.slice(0, fromIndex + 1);
-    const placeholder: Pane = { slug, title: slug, html: '', status: 'loading' };
+    const placeholder: Pane = { slug, title: slug, html: '', status: 'loading', hash };
     const newPanes = [...truncated, placeholder];
     set({ panes: newPanes, activeIndex: fromIndex + 1 });
     history.pushState({}, '', buildURL(newPanes));
 
     const cached = cache.get(slug);
     if (cached) {
-      set(state => ({ panes: replaceLoadingPane(state.panes, slug, cached) }));
+      set(state => ({ panes: replaceLoadingPane(state.panes, slug, { ...cached, hash }) }));
       return;
     }
 
     try {
       const pane = await fetchPane(slug);
       cache.set(slug, pane); // mutate in place — cache is never subscribed to by renderers
-      set(state => ({ panes: replaceLoadingPane(state.panes, slug, pane) }));
+      set(state => ({ panes: replaceLoadingPane(state.panes, slug, { ...pane, hash }) }));
     } catch {
       set(state => {
         const idx = state.panes.findIndex(p => p.slug === slug && p.status === 'loading');
@@ -156,7 +157,8 @@ if (typeof document !== 'undefined') {
       event.preventDefault(); // Stops ClientRouter from navigating (it checks defaultPrevented)
 
       const fromIndex = parseInt(paneEl.dataset.paneIndex ?? '0', 10);
-      useStackStore.getState().push(targetSlug, fromIndex);
+      const hash = url.hash || undefined;
+      useStackStore.getState().push(targetSlug, fromIndex, hash);
     },
     { capture: true }, // capture phase fires before ClientRouter's bubble-phase listener
   );
