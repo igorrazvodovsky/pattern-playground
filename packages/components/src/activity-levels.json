@@ -631,6 +631,102 @@
       "atomic-category": "qualities",
       "mediation": null
     },
+    "primitives-badge": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "primitive",
+      "mediation": "individual"
+    },
+    "primitives-button": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "primitive",
+      "mediation": "individual"
+    },
+    "operations-callout": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "primitive",
+      "mediation": "individual"
+    },
+    "primitives-checkbox": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "primitive",
+      "mediation": "individual"
+    },
+    "primitives-input": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "primitive",
+      "mediation": "individual"
+    },
+    "primitives-keyboard-key": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "primitive",
+      "mediation": "individual"
+    },
+    "primitives-popover": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "primitive",
+      "mediation": "individual"
+    },
+    "primitives-progress-indicator": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "component",
+      "mediation": "individual"
+    },
+    "primitives-range": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "primitive",
+      "mediation": "individual"
+    },
+    "primitives-reference": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "primitive",
+      "mediation": "individual"
+    },
+    "primitives-select": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "primitive",
+      "mediation": "individual"
+    },
+    "primitives-switch": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "primitive",
+      "mediation": "individual"
+    },
+    "primitives-tag": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "primitive",
+      "mediation": "individual"
+    },
+    "primitives-textarea": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "primitive",
+      "mediation": "individual"
+    },
+    "primitives-toast": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "primitive",
+      "mediation": "individual"
+    },
+    "primitives-breadcrumbs": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "component",
+      "mediation": "individual"
+    },
     "actions-application-context-menu": {
       "activity-level": "action",
       "lifecycle-stage": "application",
@@ -703,52 +799,10 @@
       "atomic-category": "data-visualization",
       "mediation": "individual"
     },
-    "operations-badge": {
-      "activity-level": "operation",
-      "lifecycle-stage": null,
-      "atomic-category": "primitive",
-      "mediation": "individual"
-    },
-    "operations-breadcrumbs": {
-      "activity-level": "operation",
-      "lifecycle-stage": null,
-      "atomic-category": "component",
-      "mediation": "individual"
-    },
-    "operations-button": {
-      "activity-level": "operation",
-      "lifecycle-stage": null,
-      "atomic-category": "primitive",
-      "mediation": "individual"
-    },
-    "operations-callout": {
-      "activity-level": "operation",
-      "lifecycle-stage": null,
-      "atomic-category": "primitive",
-      "mediation": "individual"
-    },
-    "operations-checkbox": {
-      "activity-level": "operation",
-      "lifecycle-stage": null,
-      "atomic-category": "primitive",
-      "mediation": "individual"
-    },
     "operations-combobox": {
       "activity-level": "operation",
       "lifecycle-stage": null,
       "atomic-category": "pattern",
-      "mediation": "individual"
-    },
-    "operations-input": {
-      "activity-level": "operation",
-      "lifecycle-stage": null,
-      "atomic-category": "primitive",
-      "mediation": "individual"
-    },
-    "operations-keyboard-key": {
-      "activity-level": "operation",
-      "lifecycle-stage": null,
-      "atomic-category": "primitive",
       "mediation": "individual"
     },
     "operations-overflow": {
@@ -757,81 +811,27 @@
       "atomic-category": "primitive",
       "mediation": "individual"
     },
-    "operations-popover": {
+    "primitives-counter": {
       "activity-level": "operation",
       "lifecycle-stage": null,
       "atomic-category": "primitive",
       "mediation": "individual"
     },
-    "operations-progress-indicator": {
+    "primitives-details": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "primitive",
+      "mediation": "individual"
+    },
+    "components-tabs": {
       "activity-level": "operation",
       "lifecycle-stage": null,
       "atomic-category": "component",
-      "mediation": "individual"
-    },
-    "operations-range": {
-      "activity-level": "operation",
-      "lifecycle-stage": null,
-      "atomic-category": "primitive",
-      "mediation": "individual"
-    },
-    "operations-reference": {
-      "activity-level": "operation",
-      "lifecycle-stage": null,
-      "atomic-category": "primitive",
-      "mediation": "individual"
-    },
-    "operations-select": {
-      "activity-level": "operation",
-      "lifecycle-stage": null,
-      "atomic-category": "primitive",
-      "mediation": "individual"
-    },
-    "operations-switch": {
-      "activity-level": "operation",
-      "lifecycle-stage": null,
-      "atomic-category": "primitive",
-      "mediation": "individual"
-    },
-    "operations-tag": {
-      "activity-level": "operation",
-      "lifecycle-stage": null,
-      "atomic-category": "primitive",
-      "mediation": "individual"
-    },
-    "operations-textarea": {
-      "activity-level": "operation",
-      "lifecycle-stage": null,
-      "atomic-category": "primitive",
-      "mediation": "individual"
-    },
-    "operations-toast": {
-      "activity-level": "operation",
-      "lifecycle-stage": null,
-      "atomic-category": "primitive",
       "mediation": "individual"
     },
     "actions-evaluation-list": {
       "activity-level": "action",
       "lifecycle-stage": "evaluation",
-      "atomic-category": "component",
-      "mediation": "individual"
-    },
-    "operations-counter": {
-      "activity-level": "operation",
-      "lifecycle-stage": null,
-      "atomic-category": "primitive",
-      "mediation": "individual"
-    },
-    "operations-details": {
-      "activity-level": "operation",
-      "lifecycle-stage": null,
-      "atomic-category": "primitive",
-      "mediation": "individual"
-    },
-    "operations-tabs": {
-      "activity-level": "operation",
-      "lifecycle-stage": null,
       "atomic-category": "component",
       "mediation": "individual"
     }

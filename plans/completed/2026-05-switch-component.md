@@ -118,8 +118,8 @@ Open UI's `<input type="checkbox" switch>` proposal (linked below) collapses the
 
 ## Related patterns
 
-- *Precursors*: [Checkbox](../?path=/docs/operations-checkbox--docs) — same binary-state input, different commit timing.
-- *Complementary*: [Button](../?path=/docs/operations-button--docs) — for one-shot actions where state isn't carried forward; [Undo](../?path=/docs/operations-undo--docs) — instant-commit changes benefit from a reversible escape hatch.
+- *Precursors*: [Checkbox](../?path=/docs/primitives-checkbox--docs) — same binary-state input, different commit timing.
+- *Complementary*: [Button](../?path=/docs/primitives-button--docs) — for one-shot actions where state isn't carried forward; [Undo](../?path=/docs/operations-undo--docs) — instant-commit changes benefit from a reversible escape hatch.
 - *Tangentially related*: [Morphing controls](../?path=/docs/operations-morphing-controls--docs) — a switch can rebind to a different control once flipped.
 
 ## Resources & references

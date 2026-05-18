@@ -657,7 +657,7 @@ const DECISION_TREES: Record<string, TreeConfig[]> = {
       leaves: {
         'Dialog': 'actions-application-dialog',
         'Callout': 'operations-callout',
-        'Toast': 'operations-toast',
+        'Toast': 'primitives-toast',
       },
     },
   ],
@@ -681,8 +681,8 @@ const DECISION_TREES: Record<string, TreeConfig[]> = {
       treeId: 'form-control',
       chartIndex: 1, // second <MermaidDiagram> — "Choosing a control"
       leaves: {
-        'Tabs': 'operations-tabs',
-        'Checkbox': 'operations-checkbox',
+        'Tabs': 'components-tabs',
+        'Checkbox': 'primitives-checkbox',
         'Dropdown': 'actions-coordination-dropdown',
       },
     },

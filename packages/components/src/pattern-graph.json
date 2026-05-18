@@ -818,6 +818,143 @@
       ]
     },
     {
+      "id": "primitives-badge",
+      "title": "Badge",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-badge--docs",
+      "role": "component"
+    },
+    {
+      "id": "primitives-button",
+      "title": "Button",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-button--docs",
+      "role": "component"
+    },
+    {
+      "id": "operations-callout",
+      "title": "Callout",
+      "category": "Operations",
+      "path": "../?path=/docs/operations-callout--docs",
+      "role": "component"
+    },
+    {
+      "id": "primitives-checkbox",
+      "title": "Checkbox",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-checkbox--docs",
+      "role": "component",
+      "generativeProfile": {
+        "operatesOn": "a single binary preference the actor wants to commit without leaving the surrounding flow",
+        "produces": "a visible on/off state the actor can flip in place",
+        "enacts": "legibility of state, continuity with the surrounding flow"
+      }
+    },
+    {
+      "id": "primitives-input",
+      "title": "Input",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-input--docs",
+      "role": "component",
+      "generativeProfile": {
+        "operatesOn": "a piece of information the system cannot enumerate or infer — it has to be supplied",
+        "produces": "a free-form text slot the actor can write into",
+        "enacts": "openness to anything sayable; trust in what the actor types"
+      }
+    },
+    {
+      "id": "primitives-keyboard-key",
+      "title": "Keyboard key",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-keyboard-key--docs",
+      "role": "component"
+    },
+    {
+      "id": "primitives-popover",
+      "title": "Popover",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-popover--docs",
+      "role": "component"
+    },
+    {
+      "id": "primitives-progress-indicator",
+      "title": "Progress indicator",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-progress-indicator--docs",
+      "role": "component"
+    },
+    {
+      "id": "primitives-range",
+      "title": "Range",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-range--docs",
+      "role": "component"
+    },
+    {
+      "id": "primitives-reference",
+      "title": "Reference",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-reference--docs",
+      "role": "component"
+    },
+    {
+      "id": "primitives-select",
+      "title": "Select",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-select--docs",
+      "role": "component",
+      "generativeProfile": {
+        "operatesOn": "a single field whose value must come from a short, bounded set the actor already recognises",
+        "produces": "a collapsed control that hides the option set out of the way until the actor needs to act on it",
+        "enacts": "economy of attention and screen space; recognition over recall"
+      }
+    },
+    {
+      "id": "primitives-switch",
+      "title": "Switch",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-switch--docs",
+      "role": "component",
+      "generativeProfile": {
+        "operatesOn": "a single setting whose change should take effect the moment the actor flips it, with no submit step in between",
+        "produces": "a control whose state and effect are bound together — flipping it *is* the commit",
+        "enacts": "immediacy of commit; legibility of current state at a glance"
+      }
+    },
+    {
+      "id": "primitives-tag",
+      "title": "Tag",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-tag--docs",
+      "role": "component"
+    },
+    {
+      "id": "primitives-textarea",
+      "title": "Textarea",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-textarea--docs",
+      "role": "component"
+    },
+    {
+      "id": "primitives-toast",
+      "title": "Toast",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-toast--docs",
+      "role": "component",
+      "generativeProfile": {
+        "operatesOn": "a recent action whose outcome the actor would benefit from confirming, without needing acknowledgement before continuing",
+        "produces": "a brief peripheral message that auto-dismisses after a short window, optionally carrying a single trailing affordance such as undo",
+        "enacts": "acknowledgement of the action's completion, lightness of touch, recoverability within the dismissal window"
+      }
+    },
+    {
+      "id": "primitives-breadcrumbs",
+      "title": "Breadcrumbs",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-breadcrumbs--docs",
+      "role": "component"
+    },
+    {
       "id": "actions-application-context-menu",
       "title": "Context menu",
       "category": "Actions",
@@ -907,46 +1044,6 @@
       "role": "component"
     },
     {
-      "id": "operations-badge",
-      "title": "Badge",
-      "category": "Operations",
-      "path": "../?path=/docs/operations-badge--docs",
-      "role": "component"
-    },
-    {
-      "id": "operations-breadcrumbs",
-      "title": "Breadcrumbs",
-      "category": "Operations",
-      "path": "../?path=/docs/operations-breadcrumbs--docs",
-      "role": "component"
-    },
-    {
-      "id": "operations-button",
-      "title": "Button",
-      "category": "Operations",
-      "path": "../?path=/docs/operations-button--docs",
-      "role": "component"
-    },
-    {
-      "id": "operations-callout",
-      "title": "Callout",
-      "category": "Operations",
-      "path": "../?path=/docs/operations-callout--docs",
-      "role": "component"
-    },
-    {
-      "id": "operations-checkbox",
-      "title": "Checkbox",
-      "category": "Operations",
-      "path": "../?path=/docs/operations-checkbox--docs",
-      "role": "component",
-      "generativeProfile": {
-        "operatesOn": "a single binary preference the actor wants to commit without leaving the surrounding flow",
-        "produces": "a visible on/off state the actor can flip in place",
-        "enacts": "legibility of state, continuity with the surrounding flow"
-      }
-    },
-    {
       "id": "operations-combobox",
       "title": "Combobox",
       "category": "Operations",
@@ -959,25 +1056,6 @@
       }
     },
     {
-      "id": "operations-input",
-      "title": "Input",
-      "category": "Operations",
-      "path": "../?path=/docs/operations-input--docs",
-      "role": "component",
-      "generativeProfile": {
-        "operatesOn": "a piece of information the system cannot enumerate or infer — it has to be supplied",
-        "produces": "a free-form text slot the actor can write into",
-        "enacts": "openness to anything sayable; trust in what the actor types"
-      }
-    },
-    {
-      "id": "operations-keyboard-key",
-      "title": "Keyboard key",
-      "category": "Operations",
-      "path": "../?path=/docs/operations-keyboard-key--docs",
-      "role": "component"
-    },
-    {
       "id": "operations-overflow",
       "title": "Overflow",
       "category": "Operations",
@@ -985,109 +1063,31 @@
       "role": "component"
     },
     {
-      "id": "operations-popover",
-      "title": "Popover",
-      "category": "Operations",
-      "path": "../?path=/docs/operations-popover--docs",
+      "id": "primitives-counter",
+      "title": "Counter",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-counter--docs",
       "role": "component"
     },
     {
-      "id": "operations-progress-indicator",
-      "title": "Progress indicator",
-      "category": "Operations",
-      "path": "../?path=/docs/operations-progress-indicator--docs",
+      "id": "primitives-details",
+      "title": "Details",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-details--docs",
       "role": "component"
     },
     {
-      "id": "operations-range",
-      "title": "Range",
-      "category": "Operations",
-      "path": "../?path=/docs/operations-range--docs",
+      "id": "components-tabs",
+      "title": "Tabs",
+      "category": "Components",
+      "path": "../?path=/docs/components-tabs--docs",
       "role": "component"
-    },
-    {
-      "id": "operations-reference",
-      "title": "Reference",
-      "category": "Operations",
-      "path": "../?path=/docs/operations-reference--docs",
-      "role": "component"
-    },
-    {
-      "id": "operations-select",
-      "title": "Select",
-      "category": "Operations",
-      "path": "../?path=/docs/operations-select--docs",
-      "role": "component",
-      "generativeProfile": {
-        "operatesOn": "a single field whose value must come from a short, bounded set the actor already recognises",
-        "produces": "a collapsed control that hides the option set out of the way until the actor needs to act on it",
-        "enacts": "economy of attention and screen space; recognition over recall"
-      }
-    },
-    {
-      "id": "operations-switch",
-      "title": "Switch",
-      "category": "Operations",
-      "path": "../?path=/docs/operations-switch--docs",
-      "role": "component",
-      "generativeProfile": {
-        "operatesOn": "a single setting whose change should take effect the moment the actor flips it, with no submit step in between",
-        "produces": "a control whose state and effect are bound together — flipping it *is* the commit",
-        "enacts": "immediacy of commit; legibility of current state at a glance"
-      }
-    },
-    {
-      "id": "operations-tag",
-      "title": "Tag",
-      "category": "Operations",
-      "path": "../?path=/docs/operations-tag--docs",
-      "role": "component"
-    },
-    {
-      "id": "operations-textarea",
-      "title": "Textarea",
-      "category": "Operations",
-      "path": "../?path=/docs/operations-textarea--docs",
-      "role": "component"
-    },
-    {
-      "id": "operations-toast",
-      "title": "Toast",
-      "category": "Operations",
-      "path": "../?path=/docs/operations-toast--docs",
-      "role": "component",
-      "generativeProfile": {
-        "operatesOn": "a recent action whose outcome the actor would benefit from confirming, without needing acknowledgement before continuing",
-        "produces": "a brief peripheral message that auto-dismisses after a short window, optionally carrying a single trailing affordance such as undo",
-        "enacts": "acknowledgement of the action's completion, lightness of touch, recoverability within the dismissal window"
-      }
     },
     {
       "id": "actions-evaluation-list",
       "title": "List",
       "category": "Actions",
       "path": "../?path=/docs/actions-evaluation-list--docs",
-      "role": "component"
-    },
-    {
-      "id": "operations-counter",
-      "title": "Counter",
-      "category": "Operations",
-      "path": "../?path=/docs/operations-counter--docs",
-      "role": "component"
-    },
-    {
-      "id": "operations-details",
-      "title": "Details",
-      "category": "Operations",
-      "path": "../?path=/docs/operations-details--docs",
-      "role": "component"
-    },
-    {
-      "id": "operations-tabs",
-      "title": "Tabs",
-      "category": "Operations",
-      "path": "../?path=/docs/operations-tabs--docs",
       "role": "component"
     }
   ],
@@ -1330,13 +1330,13 @@
     },
     {
       "source": "actions-application-data-entry",
-      "target": "operations-input",
+      "target": "primitives-input",
       "type": "related",
       "label": "the basic component used."
     },
     {
       "source": "actions-application-data-entry",
-      "target": "operations-select",
+      "target": "primitives-select",
       "type": "related",
       "label": "picking one value from a short, bounded set when the actor already knows the answer."
     },
@@ -1440,35 +1440,35 @@
       "extractedFrom": "quality-target"
     },
     {
-      "source": "operations-input",
+      "source": "primitives-input",
       "target": "actions-application-form",
       "type": "precedes",
       "label": "free-form text entry with label and helper text",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "operations-textarea",
+      "source": "primitives-textarea",
       "target": "actions-application-form",
       "type": "precedes",
       "label": "multi-line counterpart for longer text",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "operations-select",
+      "source": "primitives-select",
       "target": "actions-application-form",
       "type": "precedes",
       "label": "choosing one value from a short, bounded set",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "operations-checkbox",
+      "source": "primitives-checkbox",
       "target": "actions-application-form",
       "type": "precedes",
       "label": "binary choice input",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "operations-button",
+      "source": "primitives-button",
       "target": "actions-application-form",
       "type": "precedes",
       "label": "form submission and action triggers",
@@ -1518,7 +1518,7 @@
     },
     {
       "source": "actions-application-form",
-      "target": "operations-details",
+      "target": "primitives-details",
       "type": "complements",
       "label": "collapsible form sections",
       "extractedFrom": "header:\"Complementary\""
@@ -1538,7 +1538,7 @@
     },
     {
       "source": "actions-application-form",
-      "target": "operations-keyboard-key",
+      "target": "primitives-keyboard-key",
       "type": "tangential",
       "label": "keyboard shortcuts and navigation",
       "extractedFrom": "header:\"Tangentially related\""
@@ -1987,7 +1987,7 @@
     },
     {
       "source": "actions-coordination-nav-bar",
-      "target": "operations-breadcrumbs",
+      "target": "primitives-breadcrumbs",
       "type": "related",
       "label": "complements nav bar by showing current location"
     },
@@ -2081,7 +2081,7 @@
       "label": "Search shrinks the population from which selections are drawn"
     },
     {
-      "source": "operations-checkbox",
+      "source": "primitives-checkbox",
       "target": "actions-coordination-selection",
       "type": "enables",
       "label": "the most explicit selection affordance",
@@ -2190,7 +2190,7 @@
     },
     {
       "source": "actions-navigation-fully-connected",
-      "target": "operations-breadcrumbs",
+      "target": "primitives-breadcrumbs",
       "type": "complements",
       "label": "supplements with location context",
       "extractedFrom": "header:\"Complements\""
@@ -2217,7 +2217,7 @@
     },
     {
       "source": "actions-navigation-fully-connected",
-      "target": "operations-tabs",
+      "target": "components-tabs",
       "type": "complements",
       "extractedFrom": "header:\"Complements\""
     },
@@ -2339,12 +2339,12 @@
     },
     {
       "source": "actions-navigation-multilevel-tree",
-      "target": "operations-tabs",
+      "target": "components-tabs",
       "type": "related"
     },
     {
       "source": "actions-navigation-multilevel-tree",
-      "target": "operations-breadcrumbs",
+      "target": "primitives-breadcrumbs",
       "type": "complements",
       "label": "for wayfinding",
       "extractedFrom": "header:\"Complements\""
@@ -2474,7 +2474,7 @@
     },
     {
       "source": "actions-navigation-overview",
-      "target": "operations-breadcrumbs",
+      "target": "primitives-breadcrumbs",
       "type": "surveys"
     },
     {
@@ -2612,7 +2612,7 @@
     },
     {
       "source": "actions-navigation-step-by-step",
-      "target": "operations-progress-indicator",
+      "target": "primitives-progress-indicator",
       "type": "complements",
       "label": "visualise progression through steps",
       "extractedFrom": "header:\"Complements\""
@@ -2649,7 +2649,7 @@
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "operations-keyboard-key",
+      "source": "primitives-keyboard-key",
       "target": "actions-seeking-command-menu",
       "type": "precedes",
       "extractedFrom": "header:\"Precursors\""
@@ -2739,7 +2739,7 @@
       "extractedFrom": "header:\"Follow-up patterns\""
     },
     {
-      "source": "operations-reference",
+      "source": "primitives-reference",
       "target": "actions-seeking-dynamic-hyperlinks",
       "type": "precedes",
       "label": "explicit, typed entity linking (the hard counterpart)",
@@ -2805,7 +2805,7 @@
     },
     {
       "source": "actions-seeking-item-view",
-      "target": "operations-reference",
+      "target": "primitives-reference",
       "type": "related"
     },
     {
@@ -2830,7 +2830,7 @@
       "label": "summary-level item representations"
     },
     {
-      "source": "operations-details",
+      "source": "primitives-details",
       "target": "actions-seeking-progressive-disclosure",
       "type": "enables",
       "label": "a mechanism for triggered expansion",
@@ -2894,7 +2894,7 @@
     },
     {
       "source": "actions-seeking-progressive-disclosure",
-      "target": "operations-popover",
+      "target": "primitives-popover",
       "type": "tangential",
       "label": "the tooltip mode is the lightest disclosure tier: reveals supplementary information on hover/focus without an explicit expansion",
       "extractedFrom": "header:\"Tangentially related\""
@@ -3022,7 +3022,7 @@
     },
     {
       "source": "actions-sense-making-annotation",
-      "target": "operations-badge",
+      "target": "primitives-badge",
       "type": "tangential",
       "label": "visual indicators used as status annotations.",
       "extractedFrom": "header:\"Tangentially related\""
@@ -3058,7 +3058,7 @@
     },
     {
       "source": "actions-sense-making-explanation",
-      "target": "operations-popover",
+      "target": "primitives-popover",
       "type": "related"
     },
     {
@@ -3085,7 +3085,7 @@
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "operations-details",
+      "source": "primitives-details",
       "target": "actions-sense-making-grouping",
       "type": "precedes",
       "extractedFrom": "header:\"Precursors\""
@@ -3104,13 +3104,13 @@
     },
     {
       "source": "actions-sense-making-tag",
-      "target": "operations-tag",
+      "target": "primitives-tag",
       "type": "related",
       "label": "UI primitive for displaying and interacting with tags"
     },
     {
       "source": "actions-sense-making-tag",
-      "target": "operations-badge",
+      "target": "primitives-badge",
       "type": "related",
       "label": "similar visual treatment for status and system-generated classifications"
     },
@@ -3227,13 +3227,13 @@
       "extractedFrom": "header:\"Components\""
     },
     {
-      "source": "operations-progress-indicator",
+      "source": "primitives-progress-indicator",
       "target": "activities-activity-log",
       "type": "enables",
       "extractedFrom": "header:\"Components\""
     },
     {
-      "source": "operations-details",
+      "source": "primitives-details",
       "target": "activities-activity-log",
       "type": "enables",
       "extractedFrom": "header:\"Components\""
@@ -4241,14 +4241,14 @@
     },
     {
       "source": "foundations-modality",
-      "target": "operations-popover",
+      "target": "primitives-popover",
       "type": "complements",
       "label": "the loosest transient mode, yielding to any other interaction",
       "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "foundations-modality",
-      "target": "operations-toast",
+      "target": "primitives-toast",
       "type": "complements",
       "label": "the non-modal floor of the gradient",
       "extractedFrom": "header:\"Complementary\""
@@ -4352,7 +4352,7 @@
     },
     {
       "source": "foundations-prose",
-      "target": "operations-reference",
+      "target": "primitives-reference",
       "type": "related",
       "label": "Reference links rest on a prose convention — that an authored phrase points to a canonical entity. The prose decides what counts as a name worth linking."
     },
@@ -4380,7 +4380,7 @@
     },
     {
       "source": "foundations-prose",
-      "target": "operations-toast",
+      "target": "primitives-toast",
       "type": "related"
     },
     {
@@ -4425,7 +4425,7 @@
       "extractedFrom": "quality-target"
     },
     {
-      "source": "operations-input",
+      "source": "primitives-input",
       "target": "operations-autocomplete",
       "type": "precedes",
       "label": "the primitive that autocomplete builds on",
@@ -4447,7 +4447,7 @@
     },
     {
       "source": "operations-autocomplete",
-      "target": "operations-select",
+      "target": "primitives-select",
       "type": "complements",
       "label": "the counterpart when the set is short, bounded, and already known to the actor; autocomplete earns its complexity when the set is long or the query is still forming",
       "extractedFrom": "header:\"Complementary\""
@@ -4509,7 +4509,7 @@
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
-      "source": "operations-input",
+      "source": "primitives-input",
       "target": "operations-autofill",
       "type": "precedes",
       "label": "the primitive autofill populates",
@@ -4807,12 +4807,12 @@
     },
     {
       "source": "operations-morphing-controls",
-      "target": "operations-switch",
+      "target": "primitives-switch",
       "type": "related"
     },
     {
       "source": "operations-morphing-controls",
-      "target": "operations-checkbox",
+      "target": "primitives-checkbox",
       "type": "related"
     },
     {
@@ -4832,14 +4832,14 @@
       "label": "a broader pattern"
     },
     {
-      "source": "operations-tabs",
+      "source": "components-tabs",
       "target": "operations-sections",
       "type": "precedes",
       "label": "the implementation is more complete when it comes to tab-related functionality: overflow scrolling, icon and subtitle slots, auto/manual activation.",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "operations-details",
+      "source": "primitives-details",
       "target": "operations-sections",
       "type": "precedes",
       "label": "the standalone disclosure primitive that Sections' `details` affordance mirrors across multiple siblings",
@@ -5078,7 +5078,7 @@
     },
     {
       "source": "qualities-formality",
-      "target": "operations-reference",
+      "target": "primitives-reference",
       "type": "related"
     },
     {
@@ -5305,6 +5305,339 @@
       "type": "related"
     },
     {
+      "source": "primitives-badge",
+      "target": "primitives-tag",
+      "type": "related"
+    },
+    {
+      "source": "primitives-button",
+      "target": "operations-unavailable-actions",
+      "type": "related"
+    },
+    {
+      "source": "primitives-button",
+      "target": "operations-disabled-state",
+      "type": "related"
+    },
+    {
+      "source": "primitives-button",
+      "target": "operations-morphing-controls",
+      "type": "related"
+    },
+    {
+      "source": "operations-callout",
+      "target": "actions-coordination-notification",
+      "type": "related",
+      "label": "the broader system that defines alert types and delivery modes"
+    },
+    {
+      "source": "operations-callout",
+      "target": "operations-status-feedback",
+      "type": "related",
+      "label": "the framework callout belongs to"
+    },
+    {
+      "source": "operations-callout",
+      "target": "actions-application-form",
+      "type": "related",
+      "label": "validation and instructional feedback patterns"
+    },
+    {
+      "source": "primitives-input",
+      "target": "operations-autocomplete",
+      "type": "complements",
+      "label": "narrows the option space as the actor types, when a known set exists",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "primitives-input",
+      "target": "operations-autofill",
+      "type": "complements",
+      "label": "supplies the value the input would otherwise have to ask for",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "primitives-input",
+      "target": "operations-good-defaults",
+      "type": "complements",
+      "label": "pre-populates the field so the actor only intervenes when the guess is wrong",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "primitives-input",
+      "target": "actions-application-suggestion",
+      "type": "complements",
+      "label": "offers candidate values the input can adopt, modify, or reject",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "primitives-input",
+      "target": "actions-application-data-entry",
+      "type": "precedes",
+      "label": "the broader activity input contributes to, alongside format and friction choices",
+      "extractedFrom": "header:\"Follow-ups\""
+    },
+    {
+      "source": "primitives-input",
+      "target": "actions-seeking-searching",
+      "type": "precedes",
+      "label": "where the input becomes the entry point for query formulation",
+      "extractedFrom": "header:\"Follow-ups\""
+    },
+    {
+      "source": "primitives-input",
+      "target": "primitives-textarea",
+      "type": "tangential",
+      "label": "chosen instead when the answer doesn't fit a single line",
+      "extractedFrom": "header:\"Tangentially related\""
+    },
+    {
+      "source": "primitives-input",
+      "target": "primitives-range",
+      "type": "tangential",
+      "label": "chosen instead when the value is bounded and better committed by direct manipulation than by typing",
+      "extractedFrom": "header:\"Tangentially related\""
+    },
+    {
+      "source": "foundations-modality",
+      "target": "primitives-popover",
+      "type": "precedes",
+      "label": "the framework for overlay and mode behaviour",
+      "extractedFrom": "header:\"Precursors\""
+    },
+    {
+      "source": "primitives-popover",
+      "target": "actions-application-dialog",
+      "type": "complements",
+      "label": "for content that demands resolution before return",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "primitives-popover",
+      "target": "actions-application-drawer",
+      "type": "complements",
+      "label": "for content that needs the primary surface visible alongside",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "primitives-popover",
+      "target": "actions-coordination-dropdown",
+      "type": "complements",
+      "label": "option list triggered from a button, shares the overlay mechanism",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "primitives-popover",
+      "target": "actions-application-context-menu",
+      "type": "complements",
+      "label": "shares positioning and light-dismiss behaviour",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "primitives-popover",
+      "target": "actions-seeking-progressive-disclosure",
+      "type": "complements",
+      "label": "the tooltip mode is the lightest tier of disclosure; deeper tiers need explicit triggers",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "primitives-popover",
+      "target": "qualities-learnability",
+      "type": "enacts",
+      "label": "tooltips help actors build familiarity with controls without cluttering the primary interface",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "primitives-progress-indicator",
+      "target": "primitives-breadcrumbs",
+      "type": "related"
+    },
+    {
+      "source": "primitives-progress-indicator",
+      "target": "actions-application-wizard",
+      "type": "related"
+    },
+    {
+      "source": "primitives-progress-indicator",
+      "target": "actions-evaluation-timeline",
+      "type": "related"
+    },
+    {
+      "source": "primitives-input",
+      "target": "primitives-range",
+      "type": "enables",
+      "label": "typed numeric entry when the actor already knows the exact value.",
+      "extractedFrom": "header:\"Related primitives\""
+    },
+    {
+      "source": "primitives-counter",
+      "target": "primitives-range",
+      "type": "enables",
+      "label": "announces the numeric state a slider changes; useful as a passive readout alongside direct manipulation.",
+      "extractedFrom": "header:\"Related primitives\""
+    },
+    {
+      "source": "primitives-range",
+      "target": "actions-application-data-entry",
+      "type": "instantiates",
+      "label": "the broader activity, where slider-vs-input is the key choice.",
+      "extractedFrom": "header:\"Applied in\""
+    },
+    {
+      "source": "primitives-range",
+      "target": "actions-application-form",
+      "type": "instantiates",
+      "label": "the common container.",
+      "extractedFrom": "header:\"Applied in\""
+    },
+    {
+      "source": "primitives-reference",
+      "target": "foundations-prose",
+      "type": "related",
+      "label": "link rhetoric and the authored-link counterpart of inline reference"
+    },
+    {
+      "source": "primitives-reference",
+      "target": "actions-seeking-item-view",
+      "type": "related"
+    },
+    {
+      "source": "primitives-reference",
+      "target": "actions-seeking-command-menu",
+      "type": "related"
+    },
+    {
+      "source": "primitives-input",
+      "target": "primitives-select",
+      "type": "precedes",
+      "label": "the free-form counterpart when the system cannot enumerate the possibilities.",
+      "extractedFrom": "header:\"Precursors\""
+    },
+    {
+      "source": "primitives-checkbox",
+      "target": "primitives-select",
+      "type": "precedes",
+      "label": "the binary counterpart for on/off choices.",
+      "extractedFrom": "header:\"Precursors\""
+    },
+    {
+      "source": "primitives-select",
+      "target": "operations-autocomplete",
+      "type": "complements",
+      "label": "the right move when the option set is long or the actor is still formulating the query.",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "primitives-select",
+      "target": "actions-coordination-dropdown",
+      "type": "complements",
+      "label": "shares the collapsed-options silhouette but carries actions, not a form value.",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "primitives-select",
+      "target": "actions-application-form",
+      "type": "complements",
+      "label": "the usual home for select among other controls.",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "primitives-select",
+      "target": "actions-application-data-entry",
+      "type": "complements",
+      "label": "the broader activity select participates in.",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "primitives-select",
+      "target": "operations-combobox",
+      "type": "precedes",
+      "label": "for searchable, async, or custom-rendered option sets, built on the WAI-ARIA APG combobox pattern.",
+      "extractedFrom": "header:\"Follow-ups\""
+    },
+    {
+      "source": "primitives-switch",
+      "target": "primitives-checkbox",
+      "type": "related",
+      "label": "same binary-state input, different commit timing"
+    },
+    {
+      "source": "primitives-switch",
+      "target": "primitives-button",
+      "type": "related",
+      "label": "for one-shot actions where state isn't carried forward"
+    },
+    {
+      "source": "primitives-switch",
+      "target": "operations-morphing-controls",
+      "type": "related",
+      "label": "when each state needs a distinct label or affordance (Follow/Unfollow, Start/Stop), a morphing control is the better fit"
+    },
+    {
+      "source": "primitives-tag",
+      "target": "primitives-badge",
+      "type": "related"
+    },
+    {
+      "source": "actions-coordination-notification",
+      "target": "primitives-toast",
+      "type": "precedes",
+      "label": "the coordination pattern that selects delivery type and disruption level",
+      "extractedFrom": "header:\"Precursors\""
+    },
+    {
+      "source": "operations-status-feedback",
+      "target": "primitives-toast",
+      "type": "precedes",
+      "label": "the framework toast belongs to",
+      "extractedFrom": "header:\"Precursors\""
+    },
+    {
+      "source": "primitives-toast",
+      "target": "operations-callout",
+      "type": "complements",
+      "label": "persistent inline alternative when the message must not be missed",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "primitives-toast",
+      "target": "operations-undo",
+      "type": "complements",
+      "label": "toast is the primary delivery vehicle for undo affordances",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "primitives-toast",
+      "target": "actions-application-dialog",
+      "type": "complements",
+      "label": "when the message requires a decision before the actor can continue",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "primitives-breadcrumbs",
+      "target": "actions-seeking-command-menu",
+      "type": "related",
+      "label": "alternative navigation for transactional search"
+    },
+    {
+      "source": "primitives-breadcrumbs",
+      "target": "actions-seeking-filtering",
+      "type": "related",
+      "label": "complementary browsing support"
+    },
+    {
+      "source": "primitives-breadcrumbs",
+      "target": "operations-overflow",
+      "type": "related",
+      "label": "governs how long paths behave when they exceed available space"
+    },
+    {
+      "source": "primitives-breadcrumbs",
+      "target": "actions-coordination-priority",
+      "type": "related",
+      "label": "an alternative strategy for long paths"
+    },
+    {
       "source": "actions-application-context-menu",
       "target": "actions-coordination-dropdown",
       "type": "related",
@@ -5330,7 +5663,7 @@
     },
     {
       "source": "actions-application-context-menu",
-      "target": "operations-popover",
+      "target": "primitives-popover",
       "type": "related",
       "label": "underlying positioning and light-dismiss behaviour"
     },
@@ -5359,7 +5692,7 @@
     },
     {
       "source": "actions-application-dialog",
-      "target": "operations-popover",
+      "target": "primitives-popover",
       "type": "related",
       "label": "lighter, non-modal alternative for contextual content that doesn't require a decision"
     },
@@ -5385,7 +5718,7 @@
     },
     {
       "source": "actions-application-drawer",
-      "target": "operations-popover",
+      "target": "primitives-popover",
       "type": "complements",
       "label": "lighter alternative when the secondary content is brief and contextual",
       "extractedFrom": "header:\"Complementary\""
@@ -5412,7 +5745,7 @@
     },
     {
       "source": "actions-application-drawer",
-      "target": "operations-toast",
+      "target": "primitives-toast",
       "type": "precedes",
       "extractedFrom": "header:\"Follow-ups\""
     },
@@ -5519,7 +5852,7 @@
     },
     {
       "source": "actions-coordination-bubble-menu",
-      "target": "operations-popover",
+      "target": "primitives-popover",
       "type": "complements",
       "label": "underlying positioning mechanism",
       "extractedFrom": "header:\"Complementary\""
@@ -5561,13 +5894,13 @@
     },
     {
       "source": "actions-coordination-dropdown",
-      "target": "operations-popover",
+      "target": "primitives-popover",
       "type": "related",
       "label": "underlying positioning and light-dismiss behaviour"
     },
     {
       "source": "actions-coordination-dropdown",
-      "target": "operations-select",
+      "target": "primitives-select",
       "type": "related",
       "label": "shares the collapsed-options silhouette but carries a form value, not actions; reach for select when the outcome is \"this is the answer\", for dropdown when the outcome is \"do this thing\""
     },
@@ -5659,7 +5992,7 @@
     },
     {
       "source": "actions-evaluation-timeline",
-      "target": "operations-progress-indicator",
+      "target": "primitives-progress-indicator",
       "type": "related"
     },
     {
@@ -5703,76 +6036,14 @@
       "extractedFrom": "header:\"Tangentially related\""
     },
     {
-      "source": "operations-badge",
-      "target": "operations-tag",
-      "type": "related"
-    },
-    {
-      "source": "operations-breadcrumbs",
-      "target": "actions-seeking-command-menu",
-      "type": "related",
-      "label": "alternative navigation for transactional search"
-    },
-    {
-      "source": "operations-breadcrumbs",
-      "target": "actions-seeking-filtering",
-      "type": "related",
-      "label": "complementary browsing support"
-    },
-    {
-      "source": "operations-breadcrumbs",
-      "target": "operations-overflow",
-      "type": "related",
-      "label": "governs how long paths behave when they exceed available space"
-    },
-    {
-      "source": "operations-breadcrumbs",
-      "target": "actions-coordination-priority",
-      "type": "related",
-      "label": "an alternative strategy for long paths"
-    },
-    {
-      "source": "operations-button",
-      "target": "operations-unavailable-actions",
-      "type": "related"
-    },
-    {
-      "source": "operations-button",
-      "target": "operations-disabled-state",
-      "type": "related"
-    },
-    {
-      "source": "operations-button",
-      "target": "operations-morphing-controls",
-      "type": "related"
-    },
-    {
-      "source": "operations-callout",
-      "target": "actions-coordination-notification",
-      "type": "related",
-      "label": "the broader system that defines alert types and delivery modes"
-    },
-    {
-      "source": "operations-callout",
-      "target": "operations-status-feedback",
-      "type": "related",
-      "label": "the framework callout belongs to"
-    },
-    {
-      "source": "operations-callout",
-      "target": "actions-application-form",
-      "type": "related",
-      "label": "validation and instructional feedback patterns"
-    },
-    {
-      "source": "operations-input",
+      "source": "primitives-input",
       "target": "operations-combobox",
       "type": "enables",
       "label": "the text field half of the contract, without the popup",
       "extractedFrom": "header:\"Containers and primitives\""
     },
     {
-      "source": "operations-select",
+      "source": "primitives-select",
       "target": "operations-combobox",
       "type": "enables",
       "label": "the simpler counterpart for short, bounded sets already known to the actor",
@@ -5808,64 +6079,8 @@
     },
     {
       "source": "operations-combobox",
-      "target": "operations-tag",
+      "target": "primitives-tag",
       "type": "related"
-    },
-    {
-      "source": "operations-input",
-      "target": "operations-autocomplete",
-      "type": "complements",
-      "label": "narrows the option space as the actor types, when a known set exists",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "operations-input",
-      "target": "operations-autofill",
-      "type": "complements",
-      "label": "supplies the value the input would otherwise have to ask for",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "operations-input",
-      "target": "operations-good-defaults",
-      "type": "complements",
-      "label": "pre-populates the field so the actor only intervenes when the guess is wrong",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "operations-input",
-      "target": "actions-application-suggestion",
-      "type": "complements",
-      "label": "offers candidate values the input can adopt, modify, or reject",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "operations-input",
-      "target": "actions-application-data-entry",
-      "type": "precedes",
-      "label": "the broader activity input contributes to, alongside format and friction choices",
-      "extractedFrom": "header:\"Follow-ups\""
-    },
-    {
-      "source": "operations-input",
-      "target": "actions-seeking-searching",
-      "type": "precedes",
-      "label": "where the input becomes the entry point for query formulation",
-      "extractedFrom": "header:\"Follow-ups\""
-    },
-    {
-      "source": "operations-input",
-      "target": "operations-textarea",
-      "type": "tangential",
-      "label": "chosen instead when the answer doesn't fit a single line",
-      "extractedFrom": "header:\"Tangentially related\""
-    },
-    {
-      "source": "operations-input",
-      "target": "operations-range",
-      "type": "tangential",
-      "label": "chosen instead when the value is bounded and better committed by direct manipulation than by typing",
-      "extractedFrom": "header:\"Tangentially related\""
     },
     {
       "source": "operations-overflow",
@@ -5887,224 +6102,9 @@
     },
     {
       "source": "operations-overflow",
-      "target": "operations-breadcrumbs",
+      "target": "primitives-breadcrumbs",
       "type": "related",
       "label": "long paths collapse, applying overflow logic to navigation items"
-    },
-    {
-      "source": "foundations-modality",
-      "target": "operations-popover",
-      "type": "precedes",
-      "label": "the framework for overlay and mode behaviour",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "operations-popover",
-      "target": "actions-application-dialog",
-      "type": "complements",
-      "label": "for content that demands resolution before return",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "operations-popover",
-      "target": "actions-application-drawer",
-      "type": "complements",
-      "label": "for content that needs the primary surface visible alongside",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "operations-popover",
-      "target": "actions-coordination-dropdown",
-      "type": "complements",
-      "label": "option list triggered from a button, shares the overlay mechanism",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "operations-popover",
-      "target": "actions-application-context-menu",
-      "type": "complements",
-      "label": "shares positioning and light-dismiss behaviour",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "operations-popover",
-      "target": "actions-seeking-progressive-disclosure",
-      "type": "complements",
-      "label": "the tooltip mode is the lightest tier of disclosure; deeper tiers need explicit triggers",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "operations-popover",
-      "target": "qualities-learnability",
-      "type": "enacts",
-      "label": "tooltips help actors build familiarity with controls without cluttering the primary interface",
-      "extractedFrom": "quality-target"
-    },
-    {
-      "source": "operations-progress-indicator",
-      "target": "operations-breadcrumbs",
-      "type": "related"
-    },
-    {
-      "source": "operations-progress-indicator",
-      "target": "actions-application-wizard",
-      "type": "related"
-    },
-    {
-      "source": "operations-progress-indicator",
-      "target": "actions-evaluation-timeline",
-      "type": "related"
-    },
-    {
-      "source": "operations-input",
-      "target": "operations-range",
-      "type": "enables",
-      "label": "typed numeric entry when the actor already knows the exact value.",
-      "extractedFrom": "header:\"Related primitives\""
-    },
-    {
-      "source": "operations-counter",
-      "target": "operations-range",
-      "type": "enables",
-      "label": "announces the numeric state a slider changes; useful as a passive readout alongside direct manipulation.",
-      "extractedFrom": "header:\"Related primitives\""
-    },
-    {
-      "source": "operations-range",
-      "target": "actions-application-data-entry",
-      "type": "instantiates",
-      "label": "the broader activity, where slider-vs-input is the key choice.",
-      "extractedFrom": "header:\"Applied in\""
-    },
-    {
-      "source": "operations-range",
-      "target": "actions-application-form",
-      "type": "instantiates",
-      "label": "the common container.",
-      "extractedFrom": "header:\"Applied in\""
-    },
-    {
-      "source": "operations-reference",
-      "target": "foundations-prose",
-      "type": "related",
-      "label": "link rhetoric and the authored-link counterpart of inline reference"
-    },
-    {
-      "source": "operations-reference",
-      "target": "actions-seeking-item-view",
-      "type": "related"
-    },
-    {
-      "source": "operations-reference",
-      "target": "actions-seeking-command-menu",
-      "type": "related"
-    },
-    {
-      "source": "operations-input",
-      "target": "operations-select",
-      "type": "precedes",
-      "label": "the free-form counterpart when the system cannot enumerate the possibilities.",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "operations-checkbox",
-      "target": "operations-select",
-      "type": "precedes",
-      "label": "the binary counterpart for on/off choices.",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "operations-select",
-      "target": "operations-autocomplete",
-      "type": "complements",
-      "label": "the right move when the option set is long or the actor is still formulating the query.",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "operations-select",
-      "target": "actions-coordination-dropdown",
-      "type": "complements",
-      "label": "shares the collapsed-options silhouette but carries actions, not a form value.",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "operations-select",
-      "target": "actions-application-form",
-      "type": "complements",
-      "label": "the usual home for select among other controls.",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "operations-select",
-      "target": "actions-application-data-entry",
-      "type": "complements",
-      "label": "the broader activity select participates in.",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "operations-select",
-      "target": "operations-combobox",
-      "type": "precedes",
-      "label": "for searchable, async, or custom-rendered option sets, built on the WAI-ARIA APG combobox pattern.",
-      "extractedFrom": "header:\"Follow-ups\""
-    },
-    {
-      "source": "operations-switch",
-      "target": "operations-checkbox",
-      "type": "related",
-      "label": "same binary-state input, different commit timing"
-    },
-    {
-      "source": "operations-switch",
-      "target": "operations-button",
-      "type": "related",
-      "label": "for one-shot actions where state isn't carried forward"
-    },
-    {
-      "source": "operations-switch",
-      "target": "operations-morphing-controls",
-      "type": "related",
-      "label": "when each state needs a distinct label or affordance (Follow/Unfollow, Start/Stop), a morphing control is the better fit"
-    },
-    {
-      "source": "operations-tag",
-      "target": "operations-badge",
-      "type": "related"
-    },
-    {
-      "source": "actions-coordination-notification",
-      "target": "operations-toast",
-      "type": "precedes",
-      "label": "the coordination pattern that selects delivery type and disruption level",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "operations-status-feedback",
-      "target": "operations-toast",
-      "type": "precedes",
-      "label": "the framework toast belongs to",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "operations-toast",
-      "target": "operations-callout",
-      "type": "complements",
-      "label": "persistent inline alternative when the message must not be missed",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "operations-toast",
-      "target": "operations-undo",
-      "type": "complements",
-      "label": "toast is the primary delivery vehicle for undo affordances",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "operations-toast",
-      "target": "actions-application-dialog",
-      "type": "complements",
-      "label": "when the message requires a decision before the actor can continue",
-      "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "activities-bot",
@@ -6147,7 +6147,7 @@
     },
     {
       "source": "actions-application-form",
-      "target": "operations-tabs",
+      "target": "components-tabs",
       "type": "recommends",
       "extractedFrom": "decision-tree:form-control",
       "situationalHints": [
@@ -6159,7 +6159,7 @@
     },
     {
       "source": "actions-application-form",
-      "target": "operations-checkbox",
+      "target": "primitives-checkbox",
       "type": "recommends",
       "extractedFrom": "decision-tree:form-control",
       "situationalHints": [
@@ -6235,7 +6235,7 @@
     },
     {
       "source": "actions-coordination-notification",
-      "target": "operations-toast",
+      "target": "primitives-toast",
       "type": "recommends",
       "extractedFrom": "decision-tree:notification",
       "situationalHints": [
@@ -6255,7 +6255,7 @@
     },
     {
       "source": "actions-coordination-notification",
-      "target": "operations-toast",
+      "target": "primitives-toast",
       "type": "recommends",
       "extractedFrom": "decision-tree:notification",
       "situationalHints": [

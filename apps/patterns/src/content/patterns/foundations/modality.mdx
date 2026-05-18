@@ -28,7 +28,7 @@ Transient modes split further by whether they block the underlying interface:
 
 *Modal* surfaces disable interaction with the background. The actor must resolve the presented task before returning. Typically paired with a scrim (lightbox overlay) that signals the blocked state. [Dialog](/patterns/actions-application-dialog) is always modal; [drawer](/patterns/actions-application-drawer) can be either.
 
-*Non-modal* surfaces coexist with the primary interface. The actor can interact with both. [Popover](/patterns/operations-popover), [toast](/patterns/operations-toast), and [callout](/patterns/operations-callout) are non-modal — they add information or options without demanding resolution.
+*Non-modal* surfaces coexist with the primary interface. The actor can interact with both. [Popover](/patterns/primitives-popover), [toast](/patterns/primitives-toast), and [callout](/patterns/operations-callout) are non-modal — they add information or options without demanding resolution.
 
 Some patterns shift between modal and non-modal depending on context. A [drawer](/patterns/actions-application-drawer) may be non-modal on a wide viewport (side peek alongside the main content) and modal on a narrow one (covering the primary surface). Mobile platforms often call this a *sheet*.
 
@@ -74,8 +74,8 @@ Patterns positioned along the modality gradient, from strict-modal to non-modal:
 - [Dialog](/patterns/actions-application-dialog) – the strict-modal anchor of the gradient
 - [Drawer](/patterns/actions-application-drawer) – the gradient's hinge, where modal and non-modal behaviour meet
 - [Callout](/patterns/operations-callout) – sits beside toast on the non-modal end, anchored rather than ambient
-- [Popover](/patterns/operations-popover) – the loosest transient mode, yielding to any other interaction
-- [Toast](/patterns/operations-toast) – the non-modal floor of the gradient
+- [Popover](/patterns/primitives-popover) – the loosest transient mode, yielding to any other interaction
+- [Toast](/patterns/primitives-toast) – the non-modal floor of the gradient
 - [Notification](/patterns/actions/coordination/notification) – chooses where on the gradient a signal lands
 
 ### Tangentially related
