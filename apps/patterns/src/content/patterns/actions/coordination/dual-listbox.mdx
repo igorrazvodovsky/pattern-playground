@@ -17,7 +17,7 @@ A side-by-side pair of lists — source pool and selection set — with transfer
 
 The actor needs to assign a set of items from a pool to a destination. The assignment is consequential enough that seeing both the available candidates and the growing selection simultaneously — before confirming — is worth the extra surface area.
 
-A plain [multiselect](/patterns/operations-combobox) (combobox with checked items) commits items one at a time without showing the full selected set alongside the remaining pool. When the assignment is bulk, high-stakes, or requires cross-referencing ("am I leaving the right items behind?"), a staged view reduces error.
+A plain <ComponentRef id="operations-combobox--docs">multiselect</ComponentRef> (combobox with checked items) commits items one at a time without showing the full selected set alongside the remaining pool. When the assignment is bulk, high-stakes, or requires cross-referencing ("am I leaving the right items behind?"), a staged view reduces error.
 
 ## Forces
 
@@ -30,11 +30,11 @@ A plain [multiselect](/patterns/operations-combobox) (combobox with checked item
 ### Precursors
 
 - [Selection](/patterns/actions/coordination/selection) — the commitment model is a staged variant of multi-selection; the explicit review step before confirm is what distinguishes it
-- [Combobox](/patterns/operations-combobox) — the lighter-weight alternative when full side-by-side review isn't needed
+- <ComponentRef id="operations-combobox--docs">Combobox</ComponentRef> — the lighter-weight alternative when full side-by-side review isn't needed
 
 ### Complementary
 
-- [Action bar](/patterns/actions-coordination-action-bar) — the immediate-action alternative; when "assign these to that" is a bulk action on an existing selection without a review step, an action bar suffices
+- <ComponentRef id="actions-coordination-action-bar--docs">Action bar</ComponentRef> — the immediate-action alternative; when "assign these to that" is a bulk action on an existing selection without a review step, an action bar suffices
 - [Form](/patterns/actions/application/form) — dual listbox typically lives inside a dialog or form, with a confirm button that commits the assignment
 
 ### Tangentially related

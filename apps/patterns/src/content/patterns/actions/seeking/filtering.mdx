@@ -11,7 +11,7 @@ lifecycle: seeking
 
 # Filtering
 
-The narrowing of a [collection](/patterns/concepts-collection) to [items](/patterns/concepts-item) that match the actor's criteria, balancing precision with the risk of hiding relevant results.
+The narrowing of a collection to items that match the actor's criteria, balancing precision with the risk of hiding relevant results.
 
 
 ## Placement
@@ -27,7 +27,7 @@ The narrowing of a [collection](/patterns/concepts-collection) to [items](/patte
 
 When simple filter fails, the attribute search query is passed to LLM to find a match in the available attributes.
 
-If that fails, users can delegate filtering to a [bot](/patterns/activities/bot) via a [task](/patterns/concepts-task). Bot can have access to data beyond the attributes and values visible to the user.
+If that fails, users can delegate filtering to a [bot](/patterns/activities/bot) via a task. Bot can have access to data beyond the attributes and values visible to the user.
 
 ### Flow 1
 
@@ -48,12 +48,12 @@ If that fails, users can delegate filtering to a [bot](/patterns/activities/bot)
 
 - Typically placed in a [toolbar](/patterns/actions/coordination/toolbar)
 - Depends on [command menu](/patterns/actions/seeking/command-menu) for the local search through attributes and values.
-- [Combobox](/patterns/operations-combobox) — the value-picker inside each active filter chip uses a combobox to narrow available values
+- <ComponentRef id="operations-combobox--docs">Combobox</ComponentRef> — the value-picker inside each active filter chip uses a combobox to narrow available values
 
 
 ### Complementary
 
-- [Grouping](/patterns/actions-sensemaking-grouping)
+- [Grouping](/patterns/actions/sense-making/grouping)
 - [Sorting](/patterns/actions/seeking/sorting)
 - [Selection](/patterns/actions/coordination/selection) — the imperative dual; filter narrows by predicate, selection narrows by enumeration
 - Constrained natural language builder

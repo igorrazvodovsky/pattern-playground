@@ -9,11 +9,7 @@ const storybookUrl = import.meta.env.PUBLIC_STORYBOOK_URL ?? 'http://localhost:6
 
 export function ComponentRef({ id, children }: ComponentRefProps) {
   return (
-    <a
-      href={`${storybookUrl}/?path=/docs/${id}`}
-      target="_blank"
-      rel="noopener"
-    >
+    <a href={`${storybookUrl}/?path=/docs/${id}`}>
       {children}
     </a>
   );

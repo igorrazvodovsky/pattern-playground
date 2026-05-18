@@ -22,13 +22,13 @@ Wizards handle multi-step tasks that form a single atomic operation. The entire 
 
 ## Behavioural position
 
-Within the [Intent & Interaction framework](/patterns/foundations-intent-interaction), wizards operate primarily in the **instructions for action** category, providing structured guidance that bridges actor uncertainty to task completion.
+Within the [intent & interaction](/patterns/foundations/interaction) framework, wizards operate primarily in the **instructions for action** category, providing structured guidance that bridges actor uncertainty to task completion.
 
 ### From foggy finding to structured action
 
-Wizards work best when actors face tasks that would otherwise trigger [uncovering or hunting behaviours](/patterns/foundations-intent-interaction#foggy-finding)—they know what outcome they want but lack the structure to achieve it efficiently. By imposing a predetermined path, wizards convert potentially frustrating exploration into confident forward motion.
+Wizards work best when actors face tasks that would otherwise trigger [uncovering or hunting behaviours](/patterns/foundations/interaction#foggy-finding)—they know what outcome they want but lack the structure to achieve it efficiently. By imposing a predetermined path, wizards convert potentially frustrating exploration into confident forward motion.
 
-However, this same structure creates problems for actors in [navigating or browsing modes](/patterns/foundations-intent-interaction#motivated-movement) who possess sufficient context to move purposefully. Forcing navigation-capable actors through sequential steps transforms their fluent behaviour into tedious compliance.
+However, this same structure creates problems for actors in [navigating or browsing modes](/patterns/foundations/interaction#motivated-movement) who possess sufficient context to move purposefully. Forcing navigation-capable actors through sequential steps transforms their fluent behaviour into tedious compliance.
 
 ### Action completion characteristics
 
@@ -100,7 +100,7 @@ This rigidity can be appropriate when the system genuinely knows the optimal pat
 - [Step by step](/patterns/actions/navigation/step-by-step) - Wizard is a specific implementation of the step by step navigation model, applying it to form-based tasks with validation and branching logic.
 
 ### Alternatives
-- [Conversational form](/patterns/actions/application/form#conversational-forms): Embeds form inputs within [messaging](/patterns/actions-coordination-messaging) interface, allowing flexible dialogue whilst collecting structured data. Better for actors who benefit from clarifying questions.
+- [Conversational form](/patterns/actions/application/form#conversational-forms): Embeds form inputs within <ComponentRef id="actions-coordination-messaging--docs">messaging</ComponentRef> interface, allowing flexible dialogue whilst collecting structured data. Better for actors who benefit from clarifying questions.
 - [Bot](/patterns/activities/bot) - can guide through complex processes with conversational flexibility wizards lack
 
 ### Complementary

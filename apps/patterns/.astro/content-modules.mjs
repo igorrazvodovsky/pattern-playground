@@ -1,5 +1,6 @@
 
 export default new Map([
+["src/content/patterns/actions.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fpatterns%2Factions.mdx&astroContentModuleFlag=true")],
 ["src/content/patterns/actions/application/action-consequences.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fpatterns%2Factions%2Fapplication%2Faction-consequences.mdx&astroContentModuleFlag=true")],
 ["src/content/patterns/actions/application/ai-completion.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fpatterns%2Factions%2Fapplication%2Fai-completion.mdx&astroContentModuleFlag=true")],
 ["src/content/patterns/actions/application/assisted-task-completion.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fpatterns%2Factions%2Fapplication%2Fassisted-task-completion.mdx&astroContentModuleFlag=true")],
@@ -48,6 +49,7 @@ export default new Map([
 ["src/content/patterns/actions/sense-making/grouping.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fpatterns%2Factions%2Fsense-making%2Fgrouping.mdx&astroContentModuleFlag=true")],
 ["src/content/patterns/actions/sense-making/tag.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fpatterns%2Factions%2Fsense-making%2Ftag.mdx&astroContentModuleFlag=true")],
 ["src/content/patterns/actions/sense-making/view.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fpatterns%2Factions%2Fsense-making%2Fview.mdx&astroContentModuleFlag=true")],
+["src/content/patterns/activities.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fpatterns%2Factivities.mdx&astroContentModuleFlag=true")],
 ["src/content/patterns/activities/activity-feed.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fpatterns%2Factivities%2Factivity-feed.mdx&astroContentModuleFlag=true")],
 ["src/content/patterns/activities/activity-log.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fpatterns%2Factivities%2Factivity-log.mdx&astroContentModuleFlag=true")],
 ["src/content/patterns/activities/ai-tuning.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fpatterns%2Factivities%2Fai-tuning.mdx&astroContentModuleFlag=true")],
@@ -75,6 +77,7 @@ export default new Map([
 ["src/content/patterns/foundations/modality.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fpatterns%2Ffoundations%2Fmodality.mdx&astroContentModuleFlag=true")],
 ["src/content/patterns/foundations/principles.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fpatterns%2Ffoundations%2Fprinciples.mdx&astroContentModuleFlag=true")],
 ["src/content/patterns/foundations/prose.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fpatterns%2Ffoundations%2Fprose.mdx&astroContentModuleFlag=true")],
+["src/content/patterns/operations.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fpatterns%2Foperations.mdx&astroContentModuleFlag=true")],
 ["src/content/patterns/operations/autocomplete.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fpatterns%2Foperations%2Fautocomplete.mdx&astroContentModuleFlag=true")],
 ["src/content/patterns/operations/autofill.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fpatterns%2Foperations%2Fautofill.mdx&astroContentModuleFlag=true")],
 ["src/content/patterns/operations/conversation/conversation-management/agent-repair.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fpatterns%2Foperations%2Fconversation%2Fconversation-management%2Fagent-repair.mdx&astroContentModuleFlag=true")],

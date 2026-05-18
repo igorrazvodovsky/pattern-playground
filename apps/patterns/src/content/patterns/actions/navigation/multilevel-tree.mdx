@@ -18,13 +18,13 @@ Common in systems where content has natural categorical divisions. Balances the 
 ## Behavioural position
 
 ### Supports
-- [Browsing](/patterns/foundations-intent-interaction#browsing) — structured exploration within known domains
-- [Navigating](/patterns/foundations-intent-interaction#navigating) — efficient when mental model matches structure
-- [Re-finding](/patterns/foundations-intent-interaction#re-finding) — hierarchy provides memory cues
+- [Browsing](/patterns/foundations/interaction#browsing) — structured exploration within known domains
+- [Navigating](/patterns/foundations/interaction#navigating) — efficient when mental model matches structure
+- [Re-finding](/patterns/foundations/interaction#re-finding) — hierarchy provides memory cues
 
 ### Challenges
-- [Uncovering](/patterns/foundations-intent-interaction#uncovering) — opaque hierarchy frustrates actors
-- [Exploring](/patterns/foundations-intent-interaction#exploring) — hierarchy constrains free exploration
+- [Uncovering](/patterns/foundations/interaction#uncovering) — opaque hierarchy frustrates actors
+- [Exploring](/patterns/foundations/interaction#exploring) — hierarchy constrains free exploration
 - Cross-section browsing requires backtracking to top level
 
 The model assumes actors can predict or learn where content lives in the hierarchy. When categorisation is unclear or content fits multiple categories, actors experience friction.
@@ -45,10 +45,10 @@ The model assumes actors can predict or learn where content lives in the hierarc
 
 ## Related patterns
 
-Sidebar, [dropdown](/patterns/actions-coordination-dropdown), [tabs](/patterns/components-tabs), [breadcrumbs](/patterns/primitives-breadcrumbs) - implementations of multilevel trees.
+Sidebar, <ComponentRef id="actions-coordination-dropdown--docs">dropdown</ComponentRef>, <ComponentRef id="components-tabs--docs">tabs</ComponentRef>, <ComponentRef id="primitives-breadcrumbs--docs">breadcrumbs</ComponentRef> - implementations of multilevel trees.
 
 ### Complements
-- [Breadcrumbs](/patterns/primitives-breadcrumbs) — for wayfinding
+- <ComponentRef id="primitives-breadcrumbs--docs">Breadcrumbs</ComponentRef> — for wayfinding
 - [Searching](/patterns/actions/seeking/searching) — escape hatch when hierarchy fails
 - [Command menu](/patterns/actions/seeking/command-menu) — quick access bypassing hierarchy
 - [Deep linking](/patterns/operations/deep-linking) — enables direct access to any node

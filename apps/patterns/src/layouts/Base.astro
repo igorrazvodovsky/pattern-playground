@@ -39,6 +39,17 @@ for (const p of patterns as CollectionEntry<'patterns'>[]) {
   const leaf: NavLeaf = { label: p.data.title, href: `/patterns/${p.id}` };
   if (parts.length === 2) {
     (tree[parts[0]] ??= []).push(leaf);
+  } else if (parts.length === 3) {
+    const [top, section] = parts;
+    tree[top] ??= [];
+    let sectionNode = (tree[top] as NavBranch[]).find(
+      (n): n is NavBranch => 'children' in n && n.label === toLabel(section)
+    );
+    if (!sectionNode) {
+      sectionNode = { label: toLabel(section), children: [] };
+      tree[top].push(sectionNode);
+    }
+    sectionNode.children.push(leaf);
   } else if (parts.length === 4) {
     const [top, section, subgroup] = parts;
     tree[top] ??= [];

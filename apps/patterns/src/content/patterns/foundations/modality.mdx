@@ -20,17 +20,17 @@ All interfaces exist on a spectrum from fully modeless (any action available at 
 
 *Quasimodes* last only while a physical action is maintained (holding a modifier key, long-pressing). The body is the reminder — release the key, exit the mode. [Toggle mode in dynamic hyperlinks](/patterns/actions/seeking/dynamic-hyperlinks) is an example. Preferred for temporary mode shifts because they're self-terminating.
 
-*Transient modes* are system-imposed interruptions that block the primary workflow until resolved — [dialog](/patterns/actions-application-dialog) is the most common. The system forces focus; the actor cannot continue until they respond.
+*Transient modes* are system-imposed interruptions that block the primary workflow until resolved — <ComponentRef id="actions-application-dialog--docs">dialog</ComponentRef> is the most common. The system forces focus; the actor cannot continue until they respond.
 
 ## Modal vs. non-modal
 
 Transient modes split further by whether they block the underlying interface:
 
-*Modal* surfaces disable interaction with the background. The actor must resolve the presented task before returning. Typically paired with a scrim (lightbox overlay) that signals the blocked state. [Dialog](/patterns/actions-application-dialog) is always modal; [drawer](/patterns/actions-application-drawer) can be either.
+*Modal* surfaces disable interaction with the background. The actor must resolve the presented task before returning. Typically paired with a scrim (lightbox overlay) that signals the blocked state. <ComponentRef id="actions-application-dialog--docs">Dialog</ComponentRef> is always modal; <ComponentRef id="actions-application-drawer--docs">drawer</ComponentRef> can be either.
 
-*Non-modal* surfaces coexist with the primary interface. The actor can interact with both. [Popover](/patterns/primitives-popover), [toast](/patterns/primitives-toast), and [callout](/patterns/operations-callout) are non-modal — they add information or options without demanding resolution.
+*Non-modal* surfaces coexist with the primary interface. The actor can interact with both. <ComponentRef id="primitives-popover--docs">Popover</ComponentRef>, <ComponentRef id="primitives-toast--docs">toast</ComponentRef>, and <ComponentRef id="operations-callout--docs">callout</ComponentRef> are non-modal — they add information or options without demanding resolution.
 
-Some patterns shift between modal and non-modal depending on context. A [drawer](/patterns/actions-application-drawer) may be non-modal on a wide viewport (side peek alongside the main content) and modal on a narrow one (covering the primary surface). Mobile platforms often call this a *sheet*.
+Some patterns shift between modal and non-modal depending on context. A <ComponentRef id="actions-application-drawer--docs">drawer</ComponentRef> may be non-modal on a wide viewport (side peek alongside the main content) and modal on a narrow one (covering the primary surface). Mobile platforms often call this a *sheet*.
 
 ## Design considerations
 
@@ -71,17 +71,17 @@ flowchart TD
 ### Complementary
 Patterns positioned along the modality gradient, from strict-modal to non-modal:
 
-- [Dialog](/patterns/actions-application-dialog) – the strict-modal anchor of the gradient
-- [Drawer](/patterns/actions-application-drawer) – the gradient's hinge, where modal and non-modal behaviour meet
-- [Callout](/patterns/operations-callout) – sits beside toast on the non-modal end, anchored rather than ambient
-- [Popover](/patterns/primitives-popover) – the loosest transient mode, yielding to any other interaction
-- [Toast](/patterns/primitives-toast) – the non-modal floor of the gradient
+- <ComponentRef id="actions-application-dialog--docs">Dialog</ComponentRef> – the strict-modal anchor of the gradient
+- <ComponentRef id="actions-application-drawer--docs">Drawer</ComponentRef> – the gradient's hinge, where modal and non-modal behaviour meet
+- <ComponentRef id="operations-callout--docs">Callout</ComponentRef> – sits beside toast on the non-modal end, anchored rather than ambient
+- <ComponentRef id="primitives-popover--docs">Popover</ComponentRef> – the loosest transient mode, yielding to any other interaction
+- <ComponentRef id="primitives-toast--docs">Toast</ComponentRef> – the non-modal floor of the gradient
 - [Notification](/patterns/actions/coordination/notification) – chooses where on the gradient a signal lands
 
 ### Tangentially related
 - [Command menu](/patterns/actions/seeking/command-menu) – overlay invocation that intersects modality without being defined by it
-- [Dropdown](/patterns/actions-coordination-dropdown) – an option reveal that demonstrates non-modal selection
-- [Context menu](/patterns/actions-application-context-menu) – contextual overlay whose modality depends on platform conventions
+- <ComponentRef id="actions-coordination-dropdown--docs">Dropdown</ComponentRef> – an option reveal that demonstrates non-modal selection
+- <ComponentRef id="actions-application-context-menu--docs">Context menu</ComponentRef> – contextual overlay whose modality depends on platform conventions
 
 ## Resources & references
 

@@ -116,6 +116,17 @@ export const useStackStore = create<StackState>()((set, get) => ({
   },
 }));
 
+// Build-time-resolved set of valid pattern slugs from the content directory.
+// Keys match entry.id from getCollection('patterns'): e.g. 'actions/sense-making/tag'.
+// Mistyped or unmigrated slugs fall through to normal navigation instead of
+// landing in a broken stacked-notes pane.
+const patternFiles = import.meta.glob('/src/content/patterns/**/*.mdx');
+const validSlugs = new Set(
+  Object.keys(patternFiles).map(p =>
+    p.replace('/src/content/patterns/', '').replace(/\.mdx$/, '')
+  )
+);
+
 // Module-level: intercept in-pane pattern link clicks in the capture phase, before
 // ClientRouter's bubble-phase listener runs. ClientRouter checks ev.defaultPrevented
 // before calling navigate(), so a capture-phase preventDefault() stops soft navigation.
@@ -139,10 +150,12 @@ if (typeof document !== 'undefined') {
       if (url.origin !== location.origin) return;
       if (!url.pathname.startsWith('/patterns/')) return;
 
+      const targetSlug = url.pathname.replace(/^\/patterns\//, '').replace(/\/$/, '');
+      if (!validSlugs.has(targetSlug)) return; // fall through to normal navigation / Astro 404
+
       event.preventDefault(); // Stops ClientRouter from navigating (it checks defaultPrevented)
 
       const fromIndex = parseInt(paneEl.dataset.paneIndex ?? '0', 10);
-      const targetSlug = url.pathname.replace(/^\/patterns\//, '').replace(/\/$/, '');
       useStackStore.getState().push(targetSlug, fromIndex);
     },
     { capture: true }, // capture phase fires before ClientRouter's bubble-phase listener

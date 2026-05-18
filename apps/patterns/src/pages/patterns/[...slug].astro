@@ -16,7 +16,7 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 ---
 <Base title={entry.data.title} slug={entry.id}>
-  <article>
+  <article class="flow">
     <header>
       <h1>{entry.data.title}</h1>
       {entry.data.description && <p class="description">{entry.data.description}</p>}

@@ -26,7 +26,7 @@ An event entry can expand from a record into an interactive surface. Closer insp
 
 ### Decision context
 
-The factors that contributed to the event: inputs, rules, model confidence, actor permissions, or prior state. For deterministic system actions, this might be a rule trace. For AI-driven decisions, it could be a reasoning chain, feature attributions, or a natural-language summary. [Explanation](/patterns/actions-sensemaking-explanation) and [transparent reasoning](/patterns/activities/transparent-reasoning) provide the content; the log provides the anchor.
+The factors that contributed to the event: inputs, rules, model confidence, actor permissions, or prior state. For deterministic system actions, this might be a rule trace. For AI-driven decisions, it could be a reasoning chain, feature attributions, or a natural-language summary. [Explanation](/patterns/actions/sense-making/explanation) and [transparent reasoning](/patterns/activities/transparent-reasoning) provide the content; the log provides the anchor.
 
 ### Actions from inspection
 
@@ -66,8 +66,8 @@ What an actor might do after inspecting an event depends on the domain and what 
 
 ### Components
 
-- Uses a [timeline](/patterns/actions-evaluation-timeline) with embedded [progress indicator](/patterns/primitives-progress-indicator).
-- Depends on [details](/patterns/primitives-details) for [progressive disclosure](/patterns/actions/seeking/progressive-disclosure) of the event details.
+- Uses a <ComponentRef id="actions-evaluation-timeline--docs">timeline</ComponentRef> with embedded <ComponentRef id="primitives-progress-indicator--docs">progress indicator</ComponentRef>.
+- Depends on <ComponentRef id="primitives-details--docs">details</ComponentRef> for [progressive disclosure](/patterns/actions/seeking/progressive-disclosure) of the event details.
 
 ### Follow-ups
 

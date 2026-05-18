@@ -11,7 +11,7 @@ lifecycle: seeking
 
 # Searching
 
-A transactional method for retrieving specific information by matching actor intent (query) with system content. Unlike [Navigating](/patterns/foundations-intent-interaction#navigating) (where actors move through structure) or [Browsing](/patterns/foundations-intent-interaction#browsing) (where actors scan for patterns), Search relies on the system to do the heavy lifting of evaluation and discrimination.
+A transactional method for retrieving specific information by matching actor intent (query) with system content. Unlike [Navigating](/patterns/foundations/interaction#navigating) (where actors move through structure) or [Browsing](/patterns/foundations/interaction#browsing) (where actors scan for patterns), Search relies on the system to do the heavy lifting of evaluation and discrimination.
 
 ## Anatomy
 
@@ -56,13 +56,13 @@ Search shouldn't destroy context. It should be easily reversible, returning the 
 
 ### Precursors
 - [Information Architecture](/patterns/foundations/information-architecture): The underlying structure and labeling system that search indexes. Without good IA, search is brittle.
-- [Navigation / Transactional search](/patterns/foundations-intent-interaction#transactional-search): Defines the search as navigation *behaviour* and how it fits into the broader user movement through the system.
+- [Navigation / Transactional search](/patterns/foundations/interaction#transactional-search): Defines the search as navigation *behaviour* and how it fits into the broader user movement through the system.
 
 ### Complementary
 - [Filtering](/patterns/actions/seeking/filtering): Often used *after* a search to refine results. In AI-search, filters are the *output* of the search query.
 - [Prompt](/patterns/activities/prompt): Modern search inputs are evolving into Prompt interfaces, accepting instructions alongside keywords.
 - [Autocomplete](/patterns/operations/autocomplete): real-time narrowing of query suggestions as the actor types.
-- [Combobox](/patterns/operations-combobox) — the entry-phase mechanism for instant-results variants (popover/dropdown); the search input binding follows the combobox contract.
+- <ComponentRef id="operations-combobox--docs">Combobox</ComponentRef> — the entry-phase mechanism for instant-results variants (popover/dropdown); the search input binding follows the combobox contract.
 - [Suggestion](/patterns/actions/application/suggestion): "Did you mean?" and related patterns that guide query formulation.
 
 ### Follow-ups
