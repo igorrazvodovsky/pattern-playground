@@ -142,16 +142,6 @@
     padding: 2rem 3rem;
     color: var(--c-neutral-500, #6b7280);
   }
-
-  /* Non-stack pages: regular content inset */
-  .content-inset {
-    --flow-space: var(--space-xl);
-    margin: var(--space-2xl);
-
-    p, blockquote {
-      max-width: 70ch;
-    }
-  }
 }
 
 /* Mobile: single-pane view — only active pane visible */

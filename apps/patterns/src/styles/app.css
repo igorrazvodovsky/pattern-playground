@@ -9,6 +9,26 @@
 }
 
 @layer theme {
+  :is(.content-inset, .pane article) {
+    --font: 'Alegreya Sans', system-ui, sans-serif;
+  }
+
+  :is(.content-inset, .pane article) blockquote, cite {
+    --font: 'Alegreya', Georgia, serif;
+    font-style: italic;
+    color: var(--c-bodyDimmed);
+  }
+
+  blockquote + p {
+    --font: 'Alegreya', Georgia, serif;
+    margin-block-start: 0 !important;
+    color: var(--c-bodyDimmed);
+  }
+
+  :is(.content-inset, .pane article) .demo-block {
+    --font: system-ui, sans-serif;
+  }
+
   h1 i {
     font-style: normal;
   }
@@ -64,4 +84,24 @@
 
 .pattern-graph {
   max-width: 50vmax;
+}
+
+.content-inset {
+  --flow-space: var(--space-xl);
+  margin: var(--space-2xl);
+
+  p, blockquote {
+    max-width: 70ch;
+  }
+
+  p {
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
+  .lead {
+    font-size: 22px;
+    line-height: 1.5;
+    text-wrap: balance;
+  }
 }
