@@ -130,10 +130,10 @@
   /* Article padding inside a pane */
   .pane article {
     margin: var(--space-xl);
-  }
 
-  .flow > * + * {
-    margin-block-start: var(--flow-space, 1em);
+    & > * + * {
+      margin-block-start: var(--flow-space, 1em) !important;
+    }
   }
 
   /* Loading / error states */

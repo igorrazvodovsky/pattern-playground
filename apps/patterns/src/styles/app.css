@@ -88,8 +88,8 @@
 }
 
 .content-inset {
-  --flow-space: var(--space-xl);
-  margin: var(--space-2xl);
+  --flow-space: var(--space-2xl);
+  margin: var(--space-3xl);
 
   p, blockquote {
     max-width: 70ch;
@@ -105,4 +105,25 @@
     line-height: 1.5;
     text-wrap: balance;
   }
+}
+
+.pane article {
+    font-size: 1.25em;
+    line-height: 1.5;
+    max-width: 70ch;
+  }
+
+.pane ul, .content-inset ul {
+  list-style: "- ";
+  list-style-position: outside;
+  }
+
+.pane ol, .content-inset ol {
+  margin-inline-start: 0;
+  padding-inline-start: 0;
+  list-style: decimal;
+}
+
+.pane li + li, .content-inset li + li {
+  margin-top: var(--space-xs);
 }
