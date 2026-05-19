@@ -18,13 +18,11 @@ const { Content } = await render(entry);
 <Base title={entry.data.title} slug={entry.id}>
   <article class="flow">
     <header>
-      <h1>{entry.data.title}</h1>
-      {entry.data.description && <p class="description">{entry.data.description}</p>}
-      <div class="meta">
-        <span class="badge role">{entry.data.role}</span>
-        {entry.data.activityLevel && <span class="badge">{entry.data.activityLevel}</span>}
-        {entry.data.mediation && <span class="badge">{entry.data.mediation}</span>}
-      </div>
+      <!-- <div class="meta"> -->
+        <!-- <span class="badge role">{entry.data.role}</span> -->
+        <!-- {entry.data.activityLevel && <span class="badge">{entry.data.activityLevel}</span>} -->
+        <!-- {entry.data.mediation && <span class="badge">{entry.data.mediation}</span>} -->
+      <!-- </div> -->
     </header>
     <Content components={{ Demo, ComponentRef }} />
   </article>
