@@ -1,5 +1,6 @@
 import type { Preview } from "@storybook/react-vite";
 import '../src/styles/main.css';
+import '../src/styles/docs.css';
 import '../src/main.ts';
 import 'iconify-icon';
 

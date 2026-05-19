@@ -253,6 +253,12 @@
       "atomic-category": "pattern",
       "mediation": "individual"
     },
+    "actions-sense-making-block-based-editor": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "atomic-category": "composition",
+      "mediation": "individual"
+    },
     "actions-sense-making-needs-based-view": {
       "activity-level": "action",
       "lifecycle-stage": null,
@@ -282,6 +288,12 @@
       "lifecycle-stage": null,
       "atomic-category": "composition",
       "mediation": "individual"
+    },
+    "actions": {
+      "activity-level": "cross-cutting",
+      "lifecycle-stage": null,
+      "atomic-category": "actions.mdx",
+      "mediation": null
     },
     "activities-activity-feed": {
       "activity-level": "activity",
@@ -379,6 +391,12 @@
       "atomic-category": "pattern",
       "mediation": "individual"
     },
+    "activities": {
+      "activity-level": "cross-cutting",
+      "lifecycle-stage": null,
+      "atomic-category": "activities.mdx",
+      "mediation": null
+    },
     "foundations-assistance": {
       "activity-level": "cross-cutting",
       "lifecycle-stage": null,
@@ -445,79 +463,79 @@
       "atomic-category": "pattern",
       "mediation": "individual"
     },
-    "operations-conversation-abort": {
+    "operations-conversation-conversation-management-bot-repair": {
       "activity-level": "operation",
       "lifecycle-stage": null,
       "atomic-category": "primitive",
       "mediation": "coordination"
     },
-    "operations-conversation-opening-bot": {
+    "operations-conversation-conversation-management-capability-scope": {
       "activity-level": "operation",
       "lifecycle-stage": null,
       "atomic-category": "primitive",
       "mediation": "coordination"
     },
-    "operations-conversation-bot-repair": {
+    "operations-conversation-conversation-management-disengage-without-closing": {
       "activity-level": "operation",
       "lifecycle-stage": null,
       "atomic-category": "primitive",
       "mediation": "coordination"
     },
-    "operations-conversation-capability-scope": {
+    "operations-conversation-conversation-management-user-repair": {
       "activity-level": "operation",
       "lifecycle-stage": null,
       "atomic-category": "primitive",
       "mediation": "coordination"
     },
-    "operations-conversation-closing": {
+    "operations-conversation-conversational-activities-extended-telling": {
       "activity-level": "operation",
       "lifecycle-stage": null,
       "atomic-category": "primitive",
       "mediation": "coordination"
     },
-    "operations-conversation-disengage-without-closing": {
+    "operations-conversation-conversational-activities-inquiry-bot": {
       "activity-level": "operation",
       "lifecycle-stage": null,
       "atomic-category": "primitive",
       "mediation": "coordination"
     },
-    "operations-conversation-extended-telling": {
+    "operations-conversation-conversational-activities-inquiry-user": {
       "activity-level": "operation",
       "lifecycle-stage": null,
       "atomic-category": "primitive",
       "mediation": "coordination"
     },
-    "operations-conversation-inquiry-bot": {
+    "operations-conversation-conversational-activities-open-request": {
       "activity-level": "operation",
       "lifecycle-stage": null,
       "atomic-category": "primitive",
       "mediation": "coordination"
     },
-    "operations-conversation-inquiry-user": {
+    "operations-conversation-sequence-management-abort": {
       "activity-level": "operation",
       "lifecycle-stage": null,
       "atomic-category": "primitive",
       "mediation": "coordination"
     },
-    "operations-conversation-open-request": {
+    "operations-conversation-sequence-management-opening-bot": {
       "activity-level": "operation",
       "lifecycle-stage": null,
       "atomic-category": "primitive",
       "mediation": "coordination"
     },
-    "operations-conversation-sequence-completion": {
+    "operations-conversation-sequence-management-closing": {
       "activity-level": "operation",
       "lifecycle-stage": null,
       "atomic-category": "primitive",
       "mediation": "coordination"
     },
-    "operations-conversation-opening-user": {
+    "operations-conversation-sequence-management-sequence-completion": {
       "activity-level": "operation",
       "lifecycle-stage": null,
       "atomic-category": "primitive",
       "mediation": "coordination"
     },
-    "operations-conversation-user-repair": {
+    "operations-conversation-sequence-management-opening-user": {
       "activity-level": "operation",
       "lifecycle-stage": null,
       "atomic-category": "primitive",
@@ -570,6 +588,12 @@
       "lifecycle-stage": null,
       "atomic-category": "pattern",
       "mediation": "individual"
+    },
+    "operations": {
+      "activity-level": "cross-cutting",
+      "lifecycle-stage": null,
+      "atomic-category": "operations.mdx",
+      "mediation": null
     },
     "qualities-adaptability": {
       "activity-level": "cross-cutting",
@@ -656,12 +680,6 @@
       "mediation": "individual"
     },
     "primitives-input": {
-      "activity-level": "operation",
-      "lifecycle-stage": null,
-      "atomic-category": "primitive",
-      "mediation": "individual"
-    },
-    "primitives-keyboard-key": {
       "activity-level": "operation",
       "lifecycle-stage": null,
       "atomic-category": "primitive",
@@ -812,12 +830,6 @@
       "mediation": "individual"
     },
     "primitives-counter": {
-      "activity-level": "operation",
-      "lifecycle-stage": null,
-      "atomic-category": "primitive",
-      "mediation": "individual"
-    },
-    "primitives-details": {
       "activity-level": "operation",
       "lifecycle-stage": null,
       "atomic-category": "primitive",

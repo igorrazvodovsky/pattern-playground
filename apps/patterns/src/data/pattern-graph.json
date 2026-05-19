@@ -317,6 +317,13 @@
       "role": "pattern"
     },
     {
+      "id": "actions-sense-making-block-based-editor",
+      "title": "Block-based editor",
+      "category": "Actions",
+      "path": "/patterns/actions/sense-making/block-based-editor",
+      "role": "umbrella"
+    },
+    {
       "id": "actions-sense-making-needs-based-view",
       "title": "Needs-based view",
       "category": "Actions",
@@ -350,6 +357,13 @@
       "category": "Actions",
       "path": "/patterns/actions/sense-making/view",
       "role": "pattern"
+    },
+    {
+      "id": "actions",
+      "title": "Actions",
+      "category": "Actions.mdx",
+      "path": "/patterns/actions",
+      "role": "umbrella"
     },
     {
       "id": "activities-activity-feed",
@@ -480,6 +494,13 @@
       "role": "pattern"
     },
     {
+      "id": "activities",
+      "title": "Activities",
+      "category": "Activities.mdx",
+      "path": "/patterns/activities",
+      "role": "umbrella"
+    },
+    {
       "id": "foundations-assistance",
       "title": "Assistance",
       "category": "Foundations",
@@ -568,94 +589,94 @@
       "role": "pattern"
     },
     {
-      "id": "operations-conversation-abort",
-      "title": "Abort",
-      "category": "Operations",
-      "path": "/patterns/operations/conversation/abort",
-      "role": "pattern"
-    },
-    {
-      "id": "operations-conversation-opening-bot",
-      "title": "Opening (Bot)",
-      "category": "Operations",
-      "path": "/patterns/operations/conversation/agent-opening",
-      "role": "pattern"
-    },
-    {
-      "id": "operations-conversation-bot-repair",
+      "id": "operations-conversation-conversation-management-bot-repair",
       "title": "Bot repair",
       "category": "Operations",
-      "path": "/patterns/operations/conversation/agent-repair",
+      "path": "/patterns/operations/conversation/conversation-management/agent-repair",
       "role": "pattern"
     },
     {
-      "id": "operations-conversation-capability-scope",
+      "id": "operations-conversation-conversation-management-capability-scope",
       "title": "Capability & scope",
       "category": "Operations",
-      "path": "/patterns/operations/conversation/capability-and-scope",
+      "path": "/patterns/operations/conversation/conversation-management/capability-and-scope",
       "role": "pattern"
     },
     {
-      "id": "operations-conversation-closing",
-      "title": "Closing",
-      "category": "Operations",
-      "path": "/patterns/operations/conversation/closing",
-      "role": "pattern"
-    },
-    {
-      "id": "operations-conversation-disengage-without-closing",
+      "id": "operations-conversation-conversation-management-disengage-without-closing",
       "title": "Disengage without closing",
       "category": "Operations",
-      "path": "/patterns/operations/conversation/disengage-without-closing",
+      "path": "/patterns/operations/conversation/conversation-management/disengage-without-closing",
       "role": "pattern"
     },
     {
-      "id": "operations-conversation-extended-telling",
-      "title": "Extended telling",
-      "category": "Operations",
-      "path": "/patterns/operations/conversation/extended-telling",
-      "role": "pattern"
-    },
-    {
-      "id": "operations-conversation-inquiry-bot",
-      "title": "Inquiry (Bot)",
-      "category": "Operations",
-      "path": "/patterns/operations/conversation/inquiry-agent",
-      "role": "pattern"
-    },
-    {
-      "id": "operations-conversation-inquiry-user",
-      "title": "Inquiry (User)",
-      "category": "Operations",
-      "path": "/patterns/operations/conversation/inquiry-user",
-      "role": "pattern"
-    },
-    {
-      "id": "operations-conversation-open-request",
-      "title": "Open request",
-      "category": "Operations",
-      "path": "/patterns/operations/conversation/open-request",
-      "role": "pattern"
-    },
-    {
-      "id": "operations-conversation-sequence-completion",
-      "title": "Sequence completion",
-      "category": "Operations",
-      "path": "/patterns/operations/conversation/sequence-completion",
-      "role": "pattern"
-    },
-    {
-      "id": "operations-conversation-opening-user",
-      "title": "Opening (User)",
-      "category": "Operations",
-      "path": "/patterns/operations/conversation/user-opening",
-      "role": "pattern"
-    },
-    {
-      "id": "operations-conversation-user-repair",
+      "id": "operations-conversation-conversation-management-user-repair",
       "title": "User repair",
       "category": "Operations",
-      "path": "/patterns/operations/conversation/user-repair",
+      "path": "/patterns/operations/conversation/conversation-management/user-repair",
+      "role": "pattern"
+    },
+    {
+      "id": "operations-conversation-conversational-activities-extended-telling",
+      "title": "Extended telling",
+      "category": "Operations",
+      "path": "/patterns/operations/conversation/conversational-activities/extended-telling",
+      "role": "pattern"
+    },
+    {
+      "id": "operations-conversation-conversational-activities-inquiry-bot",
+      "title": "Inquiry (Bot)",
+      "category": "Operations",
+      "path": "/patterns/operations/conversation/conversational-activities/inquiry-agent",
+      "role": "pattern"
+    },
+    {
+      "id": "operations-conversation-conversational-activities-inquiry-user",
+      "title": "Inquiry (User)",
+      "category": "Operations",
+      "path": "/patterns/operations/conversation/conversational-activities/inquiry-user",
+      "role": "pattern"
+    },
+    {
+      "id": "operations-conversation-conversational-activities-open-request",
+      "title": "Open request",
+      "category": "Operations",
+      "path": "/patterns/operations/conversation/conversational-activities/open-request",
+      "role": "pattern"
+    },
+    {
+      "id": "operations-conversation-sequence-management-abort",
+      "title": "Abort",
+      "category": "Operations",
+      "path": "/patterns/operations/conversation/sequence-management/abort",
+      "role": "pattern"
+    },
+    {
+      "id": "operations-conversation-sequence-management-opening-bot",
+      "title": "Opening (Bot)",
+      "category": "Operations",
+      "path": "/patterns/operations/conversation/sequence-management/agent-opening",
+      "role": "pattern"
+    },
+    {
+      "id": "operations-conversation-sequence-management-closing",
+      "title": "Closing",
+      "category": "Operations",
+      "path": "/patterns/operations/conversation/sequence-management/closing",
+      "role": "pattern"
+    },
+    {
+      "id": "operations-conversation-sequence-management-sequence-completion",
+      "title": "Sequence completion",
+      "category": "Operations",
+      "path": "/patterns/operations/conversation/sequence-management/sequence-completion",
+      "role": "pattern"
+    },
+    {
+      "id": "operations-conversation-sequence-management-opening-user",
+      "title": "Opening (User)",
+      "category": "Operations",
+      "path": "/patterns/operations/conversation/sequence-management/user-opening",
       "role": "pattern"
     },
     {
@@ -723,6 +744,13 @@
         "produces": "a reverse path that returns the structure to its prior state, with a window in which the retraction is offered",
         "enacts": "forgiveness for mistakes, room for confident exploration"
       }
+    },
+    {
+      "id": "operations",
+      "title": "Operations",
+      "category": "Operations.mdx",
+      "path": "/patterns/operations",
+      "role": "umbrella"
     },
     {
       "id": "qualities-adaptability",
@@ -861,13 +889,6 @@
         "produces": "a free-form text slot the actor can write into",
         "enacts": "openness to anything sayable; trust in what the actor types"
       }
-    },
-    {
-      "id": "primitives-keyboard-key",
-      "title": "Keyboard key",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-keyboard-key--docs",
-      "role": "component"
     },
     {
       "id": "primitives-popover",
@@ -1070,13 +1091,6 @@
       "role": "component"
     },
     {
-      "id": "primitives-details",
-      "title": "Details",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-details--docs",
-      "role": "component"
-    },
-    {
       "id": "components-tabs",
       "title": "Tabs",
       "category": "Components",
@@ -1171,6 +1185,13 @@
     },
     {
       "source": "actions-application-ai-completion",
+      "target": "actions-sense-making-block-based-editor",
+      "type": "precedes",
+      "label": "a natural container for AI completion",
+      "extractedFrom": "header:\"Follow-ups\""
+    },
+    {
+      "source": "actions-application-ai-completion",
       "target": "operations-autofill",
       "type": "related"
     },
@@ -1220,6 +1241,11 @@
     {
       "source": "actions-application-assisted-task-completion",
       "target": "actions-application-ai-completion",
+      "type": "surveys"
+    },
+    {
+      "source": "actions-application-assisted-task-completion",
+      "target": "actions-application-next-best-action",
       "type": "surveys"
     },
     {
@@ -1276,10 +1302,24 @@
     },
     {
       "source": "actions-application-cognitive-forcing-functions",
+      "target": "actions-application-next-best-action",
+      "type": "surveys",
+      "label": "workflow-level recommendations that benefit from forcing functions when stakes are high",
+      "extractedFrom": "header:\"Precursors\""
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions",
       "target": "actions-application-ai-completion",
       "type": "surveys",
       "label": "inline generation prone to over-reliance because accepting is cheaper than evaluating",
       "extractedFrom": "header:\"Precursors\""
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions",
+      "target": "actions-sense-making-explanation",
+      "type": "surveys",
+      "label": "full explanations can *increase* over-reliance by giving users a plausible justification they don't need to think through; partial explanations counteract this",
+      "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "actions-application-cognitive-forcing-functions",
@@ -1327,18 +1367,6 @@
       "target": "foundations-localization",
       "type": "related",
       "label": "locale-aware input parsing and format tolerance"
-    },
-    {
-      "source": "actions-application-data-entry",
-      "target": "primitives-input",
-      "type": "related",
-      "label": "the basic component used."
-    },
-    {
-      "source": "actions-application-data-entry",
-      "target": "primitives-select",
-      "type": "related",
-      "label": "picking one value from a short, bounded set when the actor already knows the answer."
     },
     {
       "source": "actions-application-data-entry",
@@ -1415,22 +1443,9 @@
     },
     {
       "source": "actions-application-deletion",
-      "target": "actions-coordination-action-bar",
-      "type": "related",
-      "label": "Common surface for bulk deletion"
-    },
-    {
-      "source": "actions-application-deletion",
       "target": "actions-coordination-selection",
       "type": "related",
       "label": "How the scope of a deletion gets staked"
-    },
-    {
-      "source": "actions-coordination-messaging",
-      "target": "actions-application-form",
-      "type": "precedes",
-      "label": "for conversational variant.",
-      "extractedFrom": "header:\"Precursors\""
     },
     {
       "source": "actions-application-form",
@@ -1438,55 +1453,6 @@
       "type": "enacts",
       "label": "forms commit the actor to the system's full shape up front",
       "extractedFrom": "quality-target"
-    },
-    {
-      "source": "primitives-input",
-      "target": "actions-application-form",
-      "type": "precedes",
-      "label": "free-form text entry with label and helper text",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "primitives-textarea",
-      "target": "actions-application-form",
-      "type": "precedes",
-      "label": "multi-line counterpart for longer text",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "primitives-select",
-      "target": "actions-application-form",
-      "type": "precedes",
-      "label": "choosing one value from a short, bounded set",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "primitives-checkbox",
-      "target": "actions-application-form",
-      "type": "precedes",
-      "label": "binary choice input",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "primitives-button",
-      "target": "actions-application-form",
-      "type": "precedes",
-      "label": "form submission and action triggers",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "actions-coordination-dropdown",
-      "target": "actions-application-form",
-      "type": "precedes",
-      "label": "action menu counterpart to Select",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "actions-evaluation-list",
-      "target": "actions-application-form",
-      "type": "precedes",
-      "label": "structured options with checkbox/radio variants",
-      "extractedFrom": "header:\"Precursors\""
     },
     {
       "source": "actions-application-form",
@@ -1504,23 +1470,9 @@
     },
     {
       "source": "actions-application-form",
-      "target": "operations-callout",
-      "type": "complements",
-      "label": "inline validation and instructional feedback within forms",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "actions-application-form",
       "target": "operations-good-defaults",
       "type": "complements",
       "label": "reduce friction by pre-selecting likely options",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "actions-application-form",
-      "target": "primitives-details",
-      "type": "complements",
-      "label": "collapsible form sections",
       "extractedFrom": "header:\"Complementary\""
     },
     {
@@ -1535,13 +1487,6 @@
       "target": "activities-conversation",
       "type": "complements",
       "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "actions-application-form",
-      "target": "primitives-keyboard-key",
-      "type": "tangential",
-      "label": "keyboard shortcuts and navigation",
-      "extractedFrom": "header:\"Tangentially related\""
     },
     {
       "source": "actions-application-form",
@@ -1745,11 +1690,6 @@
       "extractedFrom": "header:\"Tangentially related\""
     },
     {
-      "source": "actions-application-settings",
-      "target": "foundations-intent-interaction",
-      "type": "related"
-    },
-    {
       "source": "actions-application-suggestion",
       "target": "foundations-assistance",
       "type": "related",
@@ -1774,11 +1714,6 @@
     {
       "source": "actions-application-suggestion",
       "target": "activities-bot",
-      "type": "related"
-    },
-    {
-      "source": "actions-application-suggestion",
-      "target": "actions-coordination-messaging",
       "type": "related"
     },
     {
@@ -1867,12 +1802,6 @@
     },
     {
       "source": "actions-application-wizard",
-      "target": "actions-coordination-messaging",
-      "type": "alternative",
-      "extractedFrom": "header:\"Alternatives\""
-    },
-    {
-      "source": "actions-application-wizard",
       "target": "activities-bot",
       "type": "alternative",
       "label": "can guide through complex processes with conversational flexibility wizards lack",
@@ -1891,11 +1820,6 @@
       "type": "complements",
       "label": "mitigates the high commitment level by allowing reversal of completed steps",
       "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "actions-application-wizard",
-      "target": "foundations-intent-interaction",
-      "type": "related"
     },
     {
       "source": "actions-application-wizard",
@@ -1945,20 +1869,6 @@
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "operations-combobox",
-      "target": "actions-coordination-dual-listbox",
-      "type": "precedes",
-      "label": "the lighter-weight alternative when full side-by-side review isn't needed",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "actions-coordination-dual-listbox",
-      "target": "actions-coordination-action-bar",
-      "type": "complements",
-      "label": "the immediate-action alternative; when \"assign these to that\" is a bulk action on an existing selection without a review step, an action bar suffices",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
       "source": "actions-coordination-dual-listbox",
       "target": "actions-application-form",
       "type": "complements",
@@ -1984,12 +1894,6 @@
       "target": "actions-seeking-command-menu",
       "type": "related",
       "label": "alternative navigation for power users"
-    },
-    {
-      "source": "actions-coordination-nav-bar",
-      "target": "primitives-breadcrumbs",
-      "type": "related",
-      "label": "complements nav bar by showing current location"
     },
     {
       "source": "actions-coordination-nav-bar",
@@ -2025,41 +1929,22 @@
       "label": "Notifications keep collaborators informed of changes and events in shared environments"
     },
     {
-      "source": "actions-coordination-notification",
-      "target": "operations-callout",
-      "type": "related"
-    },
-    {
-      "source": "actions-coordination-notification",
-      "target": "actions-application-dialog",
-      "type": "related"
-    },
-    {
-      "source": "actions-coordination-selection",
-      "target": "actions-coordination-action-bar",
-      "type": "enables",
-      "label": "the primary consumer of multi-item selection; its existence is conditional on a selection existing",
-      "extractedFrom": "header:\"Used by\""
-    },
-    {
-      "source": "actions-coordination-selection",
-      "target": "actions-coordination-bubble-menu",
-      "type": "enables",
-      "label": "the primary consumer of content-range selection; spatially anchored to the selection",
-      "extractedFrom": "header:\"Used by\""
-    },
-    {
-      "source": "actions-coordination-selection",
-      "target": "actions-application-context-menu",
-      "type": "enables",
-      "label": "degenerate-case consumer; pointer-invoked on a single target",
-      "extractedFrom": "header:\"Used by\""
-    },
-    {
       "source": "actions-coordination-selection",
       "target": "actions-application-deletion",
       "type": "enables",
       "label": "the most common operation routed through selection; confirmation strategy should scale with the selection count",
+      "extractedFrom": "header:\"Used by\""
+    },
+    {
+      "source": "actions-coordination-selection",
+      "target": "actions-sense-making-tag",
+      "type": "enables",
+      "extractedFrom": "header:\"Used by\""
+    },
+    {
+      "source": "actions-coordination-selection",
+      "target": "actions-sense-making-grouping",
+      "type": "enables",
       "extractedFrom": "header:\"Used by\""
     },
     {
@@ -2081,30 +1966,11 @@
       "label": "Search shrinks the population from which selections are drawn"
     },
     {
-      "source": "primitives-checkbox",
+      "source": "actions-sense-making-block-based-editor",
       "target": "actions-coordination-selection",
       "type": "enables",
-      "label": "the most explicit selection affordance",
-      "extractedFrom": "header:\"Composed from\""
-    },
-    {
-      "source": "foundations-intent-interaction",
-      "target": "actions-coordination-selection",
-      "type": "enables",
-      "label": "distinct but adjacent; the gesture grammar usually has to coexist with focus",
-      "extractedFrom": "header:\"Composed from\""
-    },
-    {
-      "source": "actions-sensemaking-card",
-      "target": "actions-coordination-selection",
-      "type": "enables",
+      "label": "the surface in which content selection happens",
       "extractedFrom": "header:\"Containers\""
-    },
-    {
-      "source": "actions-coordination-toolbar",
-      "target": "actions-coordination-priority",
-      "type": "related",
-      "label": "handles overflow when toolbar items don't fit the available space"
     },
     {
       "source": "actions-coordination-toolbar",
@@ -2155,11 +2021,6 @@
       "label": "tone adjustment with cultural bounds"
     },
     {
-      "source": "actions-evaluation-text-lens",
-      "target": "actions-coordination-bubble-menu",
-      "type": "related"
-    },
-    {
       "source": "actions-navigation-flat-navigation",
       "target": "actions-seeking-command-menu",
       "type": "related",
@@ -2176,23 +2037,10 @@
       "type": "related"
     },
     {
-      "source": "actions-navigation-flat-navigation",
-      "target": "foundations-intent-interaction",
-      "type": "related",
-      "label": "finding tools vs finding content becomes the challenge"
-    },
-    {
       "source": "actions-navigation-fully-connected",
       "target": "actions-seeking-command-menu",
       "type": "complements",
       "label": "keyboard-driven alternative for power users",
-      "extractedFrom": "header:\"Complements\""
-    },
-    {
-      "source": "actions-navigation-fully-connected",
-      "target": "primitives-breadcrumbs",
-      "type": "complements",
-      "label": "supplements with location context",
       "extractedFrom": "header:\"Complements\""
     },
     {
@@ -2212,12 +2060,6 @@
     {
       "source": "actions-navigation-fully-connected",
       "target": "actions-coordination-nav-bar",
-      "type": "complements",
-      "extractedFrom": "header:\"Complements\""
-    },
-    {
-      "source": "actions-navigation-fully-connected",
-      "target": "components-tabs",
       "type": "complements",
       "extractedFrom": "header:\"Complements\""
     },
@@ -2244,17 +2086,6 @@
       "target": "actions-navigation-step-by-step",
       "type": "alternative",
       "extractedFrom": "header:\"Alternatives\""
-    },
-    {
-      "source": "actions-navigation-fully-connected",
-      "target": "foundations-intent-interaction",
-      "type": "related",
-      "label": "maximum efficiency for precise movement"
-    },
-    {
-      "source": "actions-navigation-fully-connected",
-      "target": "actions-coordination-priority",
-      "type": "related"
     },
     {
       "source": "actions-navigation-flat-navigation",
@@ -2309,12 +2140,6 @@
       "extractedFrom": "header:\"Alternatives\""
     },
     {
-      "source": "actions-navigation-hub-and-spoke",
-      "target": "foundations-intent-interaction",
-      "type": "related",
-      "label": "hub can surface updates and status from all spokes"
-    },
-    {
       "source": "actions-navigation-hybrid-patterns",
       "target": "foundations-information-architecture",
       "type": "related",
@@ -2331,23 +2156,6 @@
       "source": "actions-navigation-hybrid-patterns",
       "target": "actions-application-wizard",
       "type": "related"
-    },
-    {
-      "source": "actions-navigation-multilevel-tree",
-      "target": "actions-coordination-dropdown",
-      "type": "related"
-    },
-    {
-      "source": "actions-navigation-multilevel-tree",
-      "target": "components-tabs",
-      "type": "related"
-    },
-    {
-      "source": "actions-navigation-multilevel-tree",
-      "target": "primitives-breadcrumbs",
-      "type": "complements",
-      "label": "for wayfinding",
-      "extractedFrom": "header:\"Complements\""
     },
     {
       "source": "actions-navigation-multilevel-tree",
@@ -2377,12 +2185,6 @@
     },
     {
       "source": "actions-navigation-multilevel-tree",
-      "target": "foundations-intent-interaction",
-      "type": "related",
-      "label": "structured exploration within known domains"
-    },
-    {
-      "source": "actions-navigation-multilevel-tree",
       "target": "actions-navigation-hub-and-spoke",
       "type": "related"
     },
@@ -2396,12 +2198,6 @@
       "target": "foundations-information-architecture",
       "type": "surveys",
       "label": "structural and organizational foundation that navigation models manifest"
-    },
-    {
-      "source": "actions-navigation-overview",
-      "target": "foundations-intent-interaction",
-      "type": "surveys",
-      "label": "behavioural patterns enabled by structural choices"
     },
     {
       "source": "actions-navigation-overview",
@@ -2474,11 +2270,6 @@
     },
     {
       "source": "actions-navigation-overview",
-      "target": "primitives-breadcrumbs",
-      "type": "surveys"
-    },
-    {
-      "source": "actions-navigation-overview",
       "target": "actions-seeking-command-menu",
       "type": "surveys"
     },
@@ -2500,12 +2291,6 @@
       "type": "enacts",
       "label": "The capability to switch between topologies.",
       "extractedFrom": "quality-target"
-    },
-    {
-      "source": "actions-navigation-overview-and-detail",
-      "target": "foundations-intent-interaction",
-      "type": "related",
-      "label": "actors can scan list and verify details without back-and-forth navigation."
     },
     {
       "source": "actions-navigation-pan-and-zoom",
@@ -2547,12 +2332,6 @@
       "extractedFrom": "header:\"Alternatives\""
     },
     {
-      "source": "actions-navigation-pan-and-zoom",
-      "target": "foundations-intent-interaction",
-      "type": "related",
-      "label": "spatial metaphors naturally support discovery"
-    },
-    {
       "source": "actions-navigation-pyramid",
       "target": "operations-deep-linking",
       "type": "complements",
@@ -2584,12 +2363,6 @@
       "extractedFrom": "header:\"Alternatives\""
     },
     {
-      "source": "actions-navigation-pyramid",
-      "target": "foundations-intent-interaction",
-      "type": "related",
-      "label": "hub overview enables pattern recognition and scanning"
-    },
-    {
       "source": "actions-navigation-step-by-step",
       "target": "actions-application-wizard",
       "type": "instantiates",
@@ -2612,13 +2385,6 @@
     },
     {
       "source": "actions-navigation-step-by-step",
-      "target": "primitives-progress-indicator",
-      "type": "complements",
-      "label": "visualise progression through steps",
-      "extractedFrom": "header:\"Complements\""
-    },
-    {
-      "source": "actions-navigation-step-by-step",
       "target": "actions-navigation-pyramid",
       "type": "alternative",
       "extractedFrom": "header:\"Alternatives\""
@@ -2634,25 +2400,6 @@
       "target": "actions-navigation-multilevel-tree",
       "type": "alternative",
       "extractedFrom": "header:\"Alternatives\""
-    },
-    {
-      "source": "actions-navigation-step-by-step",
-      "target": "foundations-intent-interaction",
-      "type": "related",
-      "label": "optimised for getting the job done"
-    },
-    {
-      "source": "operations-combobox",
-      "target": "actions-seeking-command-menu",
-      "type": "precedes",
-      "label": "the mechanism this pattern builds on; `src/components/combobox/` drives the text input, filtered list, and keyboard model",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "primitives-keyboard-key",
-      "target": "actions-seeking-command-menu",
-      "type": "precedes",
-      "extractedFrom": "header:\"Precursors\""
     },
     {
       "source": "actions-seeking-command-menu",
@@ -2682,13 +2429,6 @@
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
-      "source": "actions-seeking-command-menu",
-      "target": "actions-application-context-menu",
-      "type": "tangential",
-      "label": "pointer-driven and target-aware; command menu is keyboard-driven and name-based",
-      "extractedFrom": "header:\"Tangentially related\""
-    },
-    {
       "source": "actions-seeking-data-view",
       "target": "actions-seeking-item-view",
       "type": "related",
@@ -2701,25 +2441,13 @@
       "extractedFrom": "header:\"Precursor patterns\""
     },
     {
+      "source": "actions-sense-making-grouping",
+      "target": "actions-seeking-data-view",
+      "type": "precedes",
+      "extractedFrom": "header:\"Precursor patterns\""
+    },
+    {
       "source": "actions-coordination-toolbar",
-      "target": "actions-seeking-data-view",
-      "type": "precedes",
-      "extractedFrom": "header:\"Precursor patterns\""
-    },
-    {
-      "source": "actions-evaluation-table",
-      "target": "actions-seeking-data-view",
-      "type": "precedes",
-      "extractedFrom": "header:\"Precursor patterns\""
-    },
-    {
-      "source": "actions-sensemaking-card",
-      "target": "actions-seeking-data-view",
-      "type": "precedes",
-      "extractedFrom": "header:\"Precursor patterns\""
-    },
-    {
-      "source": "actions-evaluation-timeline",
       "target": "actions-seeking-data-view",
       "type": "precedes",
       "extractedFrom": "header:\"Precursor patterns\""
@@ -2733,17 +2461,8 @@
     },
     {
       "source": "actions-seeking-data-view",
-      "target": "actions-coordination-action-bar",
-      "type": "precedes",
-      "label": "the container for batch actions once a selection has been made",
-      "extractedFrom": "header:\"Follow-up patterns\""
-    },
-    {
-      "source": "primitives-reference",
-      "target": "actions-seeking-dynamic-hyperlinks",
-      "type": "precedes",
-      "label": "explicit, typed entity linking (the hard counterpart)",
-      "extractedFrom": "header:\"Precursors\""
+      "target": "actions-sense-making-view",
+      "type": "related"
     },
     {
       "source": "actions-seeking-dynamic-hyperlinks",
@@ -2754,9 +2473,9 @@
     },
     {
       "source": "actions-seeking-dynamic-hyperlinks",
-      "target": "actions-coordination-bubble-menu",
+      "target": "actions-sense-making-annotation",
       "type": "complements",
-      "label": "selection-anchored interaction surface",
+      "label": "user-created markers (hard) and system-generated insights (soft)",
       "extractedFrom": "header:\"Complementary\""
     },
     {
@@ -2779,11 +2498,10 @@
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "operations-combobox",
-      "target": "actions-seeking-filtering",
-      "type": "precedes",
-      "label": "the value-picker inside each active filter chip uses a combobox to narrow available values",
-      "extractedFrom": "header:\"Precursors\""
+      "source": "actions-seeking-filtering",
+      "target": "actions-sense-making-grouping",
+      "type": "complements",
+      "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "actions-seeking-filtering",
@@ -2805,36 +2523,8 @@
     },
     {
       "source": "actions-seeking-item-view",
-      "target": "primitives-reference",
-      "type": "related"
-    },
-    {
-      "source": "actions-seeking-item-view",
       "target": "actions-seeking-progressive-disclosure",
       "type": "related"
-    },
-    {
-      "source": "actions-seeking-item-view",
-      "target": "actions-application-dialog",
-      "type": "related"
-    },
-    {
-      "source": "actions-seeking-item-view",
-      "target": "actions-application-drawer",
-      "type": "related"
-    },
-    {
-      "source": "actions-seeking-item-view",
-      "target": "actions-sensemaking-card",
-      "type": "related",
-      "label": "summary-level item representations"
-    },
-    {
-      "source": "primitives-details",
-      "target": "actions-seeking-progressive-disclosure",
-      "type": "enables",
-      "label": "a mechanism for triggered expansion",
-      "extractedFrom": "header:\"Containers and primitives\""
     },
     {
       "source": "operations-sections",
@@ -2844,11 +2534,11 @@
       "extractedFrom": "header:\"Containers and primitives\""
     },
     {
-      "source": "actions-application-dialog",
-      "target": "actions-seeking-progressive-disclosure",
-      "type": "enables",
-      "label": "a container for disclosed content that needs more space or focus",
-      "extractedFrom": "header:\"Containers and primitives\""
+      "source": "actions-seeking-progressive-disclosure",
+      "target": "actions-sense-making-explanation",
+      "type": "complements",
+      "label": "provides the content revealed at each disclosure level",
+      "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "actions-seeking-progressive-disclosure",
@@ -2894,13 +2584,6 @@
     },
     {
       "source": "actions-seeking-progressive-disclosure",
-      "target": "primitives-popover",
-      "type": "tangential",
-      "label": "the tooltip mode is the lightest disclosure tier: reveals supplementary information on hover/focus without an explicit expansion",
-      "extractedFrom": "header:\"Tangentially related\""
-    },
-    {
-      "source": "actions-seeking-progressive-disclosure",
       "target": "qualities-learnability",
       "type": "enacts",
       "label": "staged exposure helps actors build mental models without immediate overload",
@@ -2915,12 +2598,6 @@
     },
     {
       "source": "foundations-information-architecture",
-      "target": "actions-seeking-searching",
-      "type": "precedes",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "foundations-intent-interaction",
       "target": "actions-seeking-searching",
       "type": "precedes",
       "extractedFrom": "header:\"Precursors\""
@@ -2945,13 +2622,6 @@
     },
     {
       "source": "actions-seeking-searching",
-      "target": "operations-combobox",
-      "type": "complements",
-      "label": "the entry-phase mechanism for instant-results variants (popover/dropdown); the search input binding follows the combobox contract.",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "actions-seeking-searching",
       "target": "actions-application-suggestion",
       "type": "complements",
       "extractedFrom": "header:\"Complementary\""
@@ -2963,12 +2633,12 @@
     },
     {
       "source": "actions-seeking-sorting",
-      "target": "actions-seeking-filtering",
+      "target": "actions-sense-making-grouping",
       "type": "related"
     },
     {
       "source": "actions-seeking-sorting",
-      "target": "actions-evaluation-table",
+      "target": "actions-seeking-filtering",
       "type": "related"
     },
     {
@@ -3008,6 +2678,13 @@
     },
     {
       "source": "actions-sense-making-annotation",
+      "target": "actions-sense-making-explanation",
+      "type": "complements",
+      "label": "clarifies complex concepts, often via description.",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "actions-sense-making-annotation",
       "target": "activities-transparent-reasoning",
       "type": "complements",
       "label": "system annotations that reveal decision logic.",
@@ -3022,10 +2699,10 @@
     },
     {
       "source": "actions-sense-making-annotation",
-      "target": "primitives-badge",
-      "type": "tangential",
-      "label": "visual indicators used as status annotations.",
-      "extractedFrom": "header:\"Tangentially related\""
+      "target": "actions-sense-making-tag",
+      "type": "complements",
+      "label": "semantic tagging for organisation.",
+      "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "actions-sense-making-needs-based-view",
@@ -3058,16 +2735,6 @@
     },
     {
       "source": "actions-sense-making-explanation",
-      "target": "primitives-popover",
-      "type": "related"
-    },
-    {
-      "source": "actions-sense-making-explanation",
-      "target": "actions-application-drawer",
-      "type": "related"
-    },
-    {
-      "source": "actions-sense-making-explanation",
       "target": "activities-collaboration",
       "type": "related",
       "label": "uses explanations to facilitate understanding through transparency about other actors' actions"
@@ -3080,12 +2747,6 @@
     },
     {
       "source": "actions-coordination-toolbar",
-      "target": "actions-sense-making-grouping",
-      "type": "precedes",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "primitives-details",
       "target": "actions-sense-making-grouping",
       "type": "precedes",
       "extractedFrom": "header:\"Precursors\""
@@ -3104,20 +2765,9 @@
     },
     {
       "source": "actions-sense-making-tag",
-      "target": "primitives-tag",
+      "target": "actions-sense-making-annotation",
       "type": "related",
-      "label": "UI primitive for displaying and interacting with tags"
-    },
-    {
-      "source": "actions-sense-making-tag",
-      "target": "primitives-badge",
-      "type": "related",
-      "label": "similar visual treatment for status and system-generated classifications"
-    },
-    {
-      "source": "actions-sense-making-tag",
-      "target": "foundations-intent-interaction",
-      "type": "related"
+      "label": "tags as structured semantic annotation enabling systematic organisation"
     },
     {
       "source": "actions-sense-making-view",
@@ -3146,11 +2796,247 @@
       "label": "Single-entity representations across semantic levels"
     },
     {
-      "source": "actions-sensemaking-card",
-      "target": "activities-activity-feed",
-      "type": "precedes",
-      "label": "common container format for feed items",
-      "extractedFrom": "header:\"Precursors\""
+      "source": "actions",
+      "target": "actions-seeking-filtering",
+      "type": "surveys",
+      "label": "narrowing scope during exploration"
+    },
+    {
+      "source": "actions",
+      "target": "actions-seeking-searching",
+      "type": "surveys",
+      "label": "query-driven retrieval"
+    },
+    {
+      "source": "actions",
+      "target": "actions-seeking-sorting",
+      "type": "surveys",
+      "label": "ordering for pattern recognition"
+    },
+    {
+      "source": "actions",
+      "target": "actions-seeking-item-view",
+      "type": "surveys",
+      "label": "detailed examination of individual entities"
+    },
+    {
+      "source": "actions",
+      "target": "actions-seeking-command-menu",
+      "type": "surveys",
+      "label": "quick access to actions and navigation"
+    },
+    {
+      "source": "actions",
+      "target": "actions-seeking-progressive-disclosure",
+      "type": "surveys",
+      "label": "revealing complexity gradually"
+    },
+    {
+      "source": "actions",
+      "target": "actions-seeking-dynamic-hyperlinks",
+      "type": "surveys",
+      "label": "contextual navigation within content"
+    },
+    {
+      "source": "actions",
+      "target": "actions-sense-making-annotation",
+      "type": "surveys",
+      "label": "adding layers of meaning to content"
+    },
+    {
+      "source": "actions",
+      "target": "actions-sense-making-grouping",
+      "type": "surveys",
+      "label": "clustering for categorical understanding"
+    },
+    {
+      "source": "actions",
+      "target": "actions-sense-making-tag",
+      "type": "surveys",
+      "label": "collaborative categorisation"
+    },
+    {
+      "source": "actions",
+      "target": "actions-sense-making-view",
+      "type": "surveys",
+      "label": "saved perspectives on information"
+    },
+    {
+      "source": "actions",
+      "target": "actions-sense-making-explanation",
+      "type": "surveys",
+      "label": "clarifying system behaviour and decisions"
+    },
+    {
+      "source": "actions",
+      "target": "actions-sense-making-block-based-editor",
+      "type": "surveys",
+      "label": "modular content assembly"
+    },
+    {
+      "source": "actions",
+      "target": "actions-application-form",
+      "type": "surveys",
+      "label": "structured input with validation"
+    },
+    {
+      "source": "actions",
+      "target": "actions-application-data-entry",
+      "type": "surveys",
+      "label": "philosophy of frictionless input"
+    },
+    {
+      "source": "actions",
+      "target": "actions-application-wizard",
+      "type": "surveys",
+      "label": "guided multi-stage tasks"
+    },
+    {
+      "source": "actions",
+      "target": "actions-application-saving",
+      "type": "surveys",
+      "label": "committing changes with appropriate friction"
+    },
+    {
+      "source": "actions",
+      "target": "actions-application-deletion",
+      "type": "surveys",
+      "label": "controlled removal with safeguards"
+    },
+    {
+      "source": "actions",
+      "target": "actions-application-action-consequences",
+      "type": "surveys",
+      "label": "understanding impact before committing"
+    },
+    {
+      "source": "actions",
+      "target": "actions-application-settings",
+      "type": "surveys",
+      "label": "configuration and preferences"
+    },
+    {
+      "source": "actions",
+      "target": "actions-application-suggestion",
+      "type": "surveys",
+      "label": "system-initiated recommendations"
+    },
+    {
+      "source": "actions",
+      "target": "actions-application-next-best-action",
+      "type": "surveys",
+      "label": "workflow-level recommendations"
+    },
+    {
+      "source": "actions",
+      "target": "actions-application-ai-completion",
+      "type": "surveys",
+      "label": "inline generation"
+    },
+    {
+      "source": "actions",
+      "target": "actions-application-assisted-task-completion",
+      "type": "surveys"
+    },
+    {
+      "source": "actions",
+      "target": "operations-autocomplete",
+      "type": "surveys"
+    },
+    {
+      "source": "actions",
+      "target": "operations-autofill",
+      "type": "surveys"
+    },
+    {
+      "source": "actions",
+      "target": "actions-application-cognitive-forcing-functions",
+      "type": "surveys",
+      "label": "analytical friction before accepting recommendations"
+    },
+    {
+      "source": "actions",
+      "target": "actions-application-template",
+      "type": "surveys",
+      "label": "predefined structures for content creation"
+    },
+    {
+      "source": "actions",
+      "target": "actions-coordination-toolbar",
+      "type": "surveys",
+      "label": "contextual actions for the current task"
+    },
+    {
+      "source": "actions",
+      "target": "actions-coordination-nav-bar",
+      "type": "surveys",
+      "label": "primary navigation structure"
+    },
+    {
+      "source": "actions",
+      "target": "actions-coordination-selection",
+      "type": "surveys",
+      "label": "staking a subset as the target of subsequent action"
+    },
+    {
+      "source": "actions",
+      "target": "actions-coordination-dual-listbox",
+      "type": "surveys",
+      "label": "staged assignment with side-by-side review"
+    },
+    {
+      "source": "actions",
+      "target": "actions-coordination-commenting",
+      "type": "surveys",
+      "label": "discussion around artefacts"
+    },
+    {
+      "source": "actions",
+      "target": "actions-coordination-notification",
+      "type": "surveys",
+      "label": "keeping actors appropriately informed"
+    },
+    {
+      "source": "actions",
+      "target": "actions-navigation-flat-navigation",
+      "type": "surveys"
+    },
+    {
+      "source": "actions",
+      "target": "actions-navigation-hub-and-spoke",
+      "type": "surveys"
+    },
+    {
+      "source": "actions",
+      "target": "actions-navigation-multilevel-tree",
+      "type": "surveys"
+    },
+    {
+      "source": "actions",
+      "target": "actions-navigation-pyramid",
+      "type": "surveys"
+    },
+    {
+      "source": "actions",
+      "target": "actions-navigation-fully-connected",
+      "type": "surveys"
+    },
+    {
+      "source": "actions",
+      "target": "actions-navigation-hybrid-patterns",
+      "type": "surveys"
+    },
+    {
+      "source": "actions",
+      "target": "actions-navigation-pan-and-zoom",
+      "type": "surveys",
+      "label": "spatial navigation at different scales"
+    },
+    {
+      "source": "actions",
+      "target": "actions-navigation-step-by-step",
+      "type": "surveys",
+      "label": "prescribed sequences with guided progression"
     },
     {
       "source": "activities-activity-feed",
@@ -3189,12 +3075,6 @@
     },
     {
       "source": "activities-activity-feed",
-      "target": "actions-coordination-messaging",
-      "type": "complements",
-      "extractedFrom": "header:\"Complementary patterns\""
-    },
-    {
-      "source": "activities-activity-feed",
       "target": "activities-conversation",
       "type": "complements",
       "extractedFrom": "header:\"Complementary patterns\""
@@ -3221,24 +3101,6 @@
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "actions-evaluation-timeline",
-      "target": "activities-activity-log",
-      "type": "enables",
-      "extractedFrom": "header:\"Components\""
-    },
-    {
-      "source": "primitives-progress-indicator",
-      "target": "activities-activity-log",
-      "type": "enables",
-      "extractedFrom": "header:\"Components\""
-    },
-    {
-      "source": "primitives-details",
-      "target": "activities-activity-log",
-      "type": "enables",
-      "extractedFrom": "header:\"Components\""
-    },
-    {
       "source": "actions-seeking-progressive-disclosure",
       "target": "activities-activity-log",
       "type": "enables",
@@ -3250,6 +3112,11 @@
       "type": "precedes",
       "label": "Uses activity logs to provide transparency and accountability in shared workspaces",
       "extractedFrom": "header:\"Follow-ups\""
+    },
+    {
+      "source": "activities-activity-log",
+      "target": "actions-sense-making-explanation",
+      "type": "related"
     },
     {
       "source": "activities-ai-tuning",
@@ -3320,13 +3187,6 @@
     },
     {
       "source": "activities-bot",
-      "target": "actions-coordination-messaging",
-      "type": "surveys",
-      "label": "Follow-ups",
-      "extractedFrom": "header:\"Follow-ups\""
-    },
-    {
-      "source": "activities-bot",
       "target": "activities-conversation",
       "type": "surveys",
       "label": "Follow-ups",
@@ -3387,6 +3247,11 @@
       "type": "surveys"
     },
     {
+      "source": "activities-bot",
+      "target": "actions-application-next-best-action",
+      "type": "surveys"
+    },
+    {
       "source": "activities-collaboration",
       "target": "qualities-agency",
       "type": "enacts",
@@ -3437,6 +3302,13 @@
     },
     {
       "source": "activities-collaboration",
+      "target": "actions-sense-making-explanation",
+      "type": "complements",
+      "label": "how participants understand each other's reasoning, not just each other's actions",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "activities-collaboration",
       "target": "actions-application-suggestion",
       "type": "complements",
       "label": "co-creation in tentative form: options participants can converge on or reject without commitment",
@@ -3471,13 +3343,6 @@
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "actions-coordination-messaging",
-      "target": "activities-conversation",
-      "type": "precedes",
-      "label": "where conversation happens",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
       "source": "activities-bot",
       "target": "activities-conversation",
       "type": "precedes",
@@ -3504,33 +3369,28 @@
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "operations-conversation-open-request",
+      "source": "operations-conversation-conversational-activities-open-request",
       "target": "activities-conversation",
       "type": "enables",
       "extractedFrom": "header:\"Conversational primitives\""
     },
     {
-      "source": "operations-conversation-sequence-completion",
+      "source": "operations-conversation-sequence-management-sequence-completion",
       "target": "activities-conversation",
       "type": "enables",
       "extractedFrom": "header:\"Conversational primitives\""
     },
     {
-      "source": "operations-conversation-closing",
+      "source": "operations-conversation-sequence-management-closing",
       "target": "activities-conversation",
       "type": "enables",
       "extractedFrom": "header:\"Conversational primitives\""
     },
     {
-      "source": "operations-conversation-disengage-without-closing",
+      "source": "operations-conversation-conversation-management-disengage-without-closing",
       "target": "activities-conversation",
       "type": "enables",
       "extractedFrom": "header:\"Conversational primitives\""
-    },
-    {
-      "source": "activities-conversation",
-      "target": "foundations-intent-interaction",
-      "type": "related"
     },
     {
       "source": "activities-embedded-intelligence",
@@ -3608,6 +3468,13 @@
     },
     {
       "source": "activities-generated-content",
+      "target": "actions-sense-making-explanation",
+      "type": "complements",
+      "label": "provides contextual information to clarify AI-driven decisions within the output.",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "activities-generated-content",
       "target": "activities-ai-tuning",
       "type": "complements",
       "label": "settings that influence how content is generated and presented.",
@@ -3631,6 +3498,18 @@
       "type": "enacts",
       "label": "help meets the actor at the moment of friction, both on first use and later when memory fades; learning happens in context rather than ahead of time",
       "extractedFrom": "quality-target"
+    },
+    {
+      "source": "activities-help",
+      "target": "actions-sense-making-explanation",
+      "type": "related",
+      "label": "The core content unit of high-quality help."
+    },
+    {
+      "source": "activities-help",
+      "target": "actions-sense-making-annotation",
+      "type": "related",
+      "label": "A mechanism for attaching help to specific elements."
     },
     {
       "source": "activities-help",
@@ -3685,7 +3564,7 @@
     },
     {
       "source": "activities-live-presentation",
-      "target": "operations-conversation-abort",
+      "target": "operations-conversation-sequence-management-abort",
       "type": "complements",
       "label": "the user-side stop depends on the surface having a quiet resting state to land in",
       "extractedFrom": "header:\"Complementary\""
@@ -3843,9 +3722,9 @@
     },
     {
       "source": "activities-transparent-reasoning",
-      "target": "actions-coordination-messaging",
+      "target": "actions-sense-making-explanation",
       "type": "complements",
-      "label": "provides the conversational interface where transparent reasoning can be displayed.",
+      "label": "encourages understanding through interaction, while transparent reasoning shows the step-by-step process.",
       "extractedFrom": "header:\"Complementary\""
     },
     {
@@ -3913,16 +3792,116 @@
       "type": "related"
     },
     {
+      "source": "activities",
+      "target": "actions",
+      "type": "surveys"
+    },
+    {
+      "source": "activities",
+      "target": "activities-bot",
+      "type": "surveys",
+      "label": "the conversational partner mediating between intent and action"
+    },
+    {
+      "source": "activities",
+      "target": "activities-prompt",
+      "type": "surveys",
+      "label": "expressing what you want the bot to do"
+    },
+    {
+      "source": "activities",
+      "target": "activities-conversation",
+      "type": "surveys"
+    },
+    {
+      "source": "activities",
+      "target": "operations",
+      "type": "surveys"
+    },
+    {
+      "source": "activities",
+      "target": "activities-generated-content",
+      "type": "surveys",
+      "label": "what the bot produces"
+    },
+    {
+      "source": "activities",
+      "target": "activities-transparent-reasoning",
+      "type": "surveys",
+      "label": "making the bot's thinking visible"
+    },
+    {
+      "source": "activities",
+      "target": "activities-embedded-intelligence",
+      "type": "surveys",
+      "label": "AI capabilities woven into existing workflows"
+    },
+    {
+      "source": "activities",
+      "target": "activities-ai-tuning",
+      "type": "surveys",
+      "label": "configuring bot behaviour and preferences"
+    },
+    {
+      "source": "activities",
+      "target": "activities-collaboration",
+      "type": "surveys",
+      "label": "coordination framework for shared work"
+    },
+    {
+      "source": "activities",
+      "target": "activities-activity-log",
+      "type": "surveys",
+      "label": "chronological record of who did what"
+    },
+    {
+      "source": "activities",
+      "target": "activities-activity-feed",
+      "type": "surveys",
+      "label": "aggregated stream of events"
+    },
+    {
+      "source": "activities",
+      "target": "activities-onboarding",
+      "type": "surveys",
+      "label": "first-time experience establishing mental models"
+    },
+    {
+      "source": "activities",
+      "target": "activities-help",
+      "type": "surveys",
+      "label": "assistance and guidance when needed"
+    },
+    {
+      "source": "activities",
+      "target": "activities-mastery",
+      "type": "surveys",
+      "label": "supporting long-term skill acquisition"
+    },
+    {
+      "source": "activities",
+      "target": "activities-workspace",
+      "type": "surveys",
+      "label": "unified environment for tasks"
+    },
+    {
+      "source": "activities",
+      "target": "activities-living-document",
+      "type": "surveys",
+      "label": "documents that evolve through use"
+    },
+    {
+      "source": "activities",
+      "target": "activities-live-presentation",
+      "type": "surveys",
+      "label": "real-time shared viewing and annotation"
+    },
+    {
       "source": "foundations-assistance",
       "target": "qualities-agency",
       "type": "enacts",
       "label": "assistance keeps the locus human-centric: the actor stays in the loop and the system intervenes selectively, raising signals or narrowing options at each cognitive step rather than taking over",
       "extractedFrom": "quality-target"
-    },
-    {
-      "source": "foundations-assistance",
-      "target": "foundations-intent-interaction",
-      "type": "related"
     },
     {
       "source": "foundations-assistance",
@@ -3985,17 +3964,7 @@
     },
     {
       "source": "foundations-delegation",
-      "target": "foundations-intent-interaction",
-      "type": "related"
-    },
-    {
-      "source": "foundations-delegation",
       "target": "foundations-assistance",
-      "type": "related"
-    },
-    {
-      "source": "foundations-information-architecture",
-      "target": "foundations-intent-interaction",
       "type": "related"
     },
     {
@@ -4219,39 +4188,11 @@
       "extractedFrom": "header:\"Tangentially related\""
     },
     {
-      "source": "foundations-modality",
-      "target": "actions-application-dialog",
-      "type": "complements",
-      "label": "the strict-modal anchor of the gradient",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "foundations-modality",
-      "target": "actions-application-drawer",
-      "type": "complements",
-      "label": "the gradient's hinge, where modal and non-modal behaviour meet",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "foundations-modality",
-      "target": "operations-callout",
-      "type": "complements",
-      "label": "sits beside toast on the non-modal end, anchored rather than ambient",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "foundations-modality",
-      "target": "primitives-popover",
-      "type": "complements",
-      "label": "the loosest transient mode, yielding to any other interaction",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "foundations-modality",
-      "target": "primitives-toast",
-      "type": "complements",
-      "label": "the non-modal floor of the gradient",
-      "extractedFrom": "header:\"Complementary\""
+      "source": "foundations-localization",
+      "target": "actions-sense-making-explanation",
+      "type": "tangential",
+      "label": "culturally appropriate explanation styles",
+      "extractedFrom": "header:\"Tangentially related\""
     },
     {
       "source": "foundations-modality",
@@ -4265,20 +4206,6 @@
       "target": "actions-seeking-command-menu",
       "type": "tangential",
       "label": "overlay invocation that intersects modality without being defined by it",
-      "extractedFrom": "header:\"Tangentially related\""
-    },
-    {
-      "source": "foundations-modality",
-      "target": "actions-coordination-dropdown",
-      "type": "tangential",
-      "label": "an option reveal that demonstrates non-modal selection",
-      "extractedFrom": "header:\"Tangentially related\""
-    },
-    {
-      "source": "foundations-modality",
-      "target": "actions-application-context-menu",
-      "type": "tangential",
-      "label": "contextual overlay whose modality depends on platform conventions",
       "extractedFrom": "header:\"Tangentially related\""
     },
     {
@@ -4352,12 +4279,6 @@
     },
     {
       "source": "foundations-prose",
-      "target": "primitives-reference",
-      "type": "related",
-      "label": "Reference links rest on a prose convention — that an authored phrase points to a canonical entity. The prose decides what counts as a name worth linking."
-    },
-    {
-      "source": "foundations-prose",
       "target": "operations-deep-linking",
       "type": "related",
       "label": "Deep linking surfaces a piece of system state as a shareable address; the prose around the link does the work of telling the recipient what they will land in."
@@ -4380,24 +4301,8 @@
     },
     {
       "source": "foundations-prose",
-      "target": "primitives-toast",
-      "type": "related"
-    },
-    {
-      "source": "foundations-prose",
-      "target": "operations-callout",
-      "type": "related"
-    },
-    {
-      "source": "foundations-prose",
       "target": "actions-coordination-notification",
       "type": "related"
-    },
-    {
-      "source": "foundations-prose",
-      "target": "foundations-intent-interaction",
-      "type": "related",
-      "label": "Intent & Interaction frames interaction as a sequence of turns; prose is what those turns are made of when they are text."
     },
     {
       "source": "foundations-prose",
@@ -4425,32 +4330,11 @@
       "extractedFrom": "quality-target"
     },
     {
-      "source": "primitives-input",
-      "target": "operations-autocomplete",
-      "type": "precedes",
-      "label": "the primitive that autocomplete builds on",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "operations-combobox",
-      "target": "operations-autocomplete",
-      "type": "precedes",
-      "label": "component this pattern builds on",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
       "source": "operations-good-defaults",
       "target": "operations-autocomplete",
       "type": "precedes",
       "label": "pre-populating values before the actor starts typing",
       "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "operations-autocomplete",
-      "target": "primitives-select",
-      "type": "complements",
-      "label": "the counterpart when the set is short, bounded, and already known to the actor; autocomplete earns its complexity when the set is long or the query is still forming",
-      "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "operations-autocomplete",
@@ -4509,13 +4393,6 @@
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
-      "source": "primitives-input",
-      "target": "operations-autofill",
-      "type": "precedes",
-      "label": "the primitive autofill populates",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
       "source": "operations-good-defaults",
       "target": "operations-autofill",
       "type": "precedes",
@@ -4565,196 +4442,190 @@
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
-      "source": "operations-conversation-abort",
+      "source": "operations-conversation-conversation-management-bot-repair",
       "target": "activities-conversation",
       "type": "related",
       "label": "parent pattern"
     },
     {
-      "source": "operations-conversation-abort",
-      "target": "operations-undo",
-      "type": "related",
-      "label": "related non-destructive exit; offer undo and restore affordances when state has been modified"
-    },
-    {
-      "source": "operations-conversation-abort",
-      "target": "operations-conversation-closing",
-      "type": "related",
-      "label": "the clean alternative when a session ends intentionally rather than by abandonment"
-    },
-    {
-      "source": "operations-conversation-opening-bot",
-      "target": "activities-conversation",
-      "type": "related",
-      "label": "parent pattern for all conversational encounters"
-    },
-    {
-      "source": "operations-conversation-opening-bot",
-      "target": "operations-conversation-open-request",
-      "type": "related",
-      "label": "typical first activity after a bot-initiated opening"
-    },
-    {
-      "source": "operations-conversation-opening-bot",
-      "target": "operations-conversation-extended-telling",
-      "type": "related",
-      "label": "offered on user refusal as an alternative to immediate engagement"
-    },
-    {
-      "source": "operations-conversation-opening-bot",
-      "target": "operations-conversation-abort",
-      "type": "related",
-      "label": "if the user disengages before reaching the first activity"
-    },
-    {
-      "source": "operations-conversation-opening-bot",
-      "target": "operations-conversation-disengage-without-closing",
-      "type": "related",
-      "label": "if the bot re-opens after a prior session was abandoned"
-    },
-    {
-      "source": "operations-conversation-bot-repair",
-      "target": "activities-conversation",
-      "type": "related",
-      "label": "parent pattern"
-    },
-    {
-      "source": "operations-conversation-bot-repair",
-      "target": "operations-conversation-inquiry-user",
+      "source": "operations-conversation-conversation-management-bot-repair",
+      "target": "operations-conversation-conversational-activities-inquiry-user",
       "type": "related",
       "label": "transitions into information capture when a specific required value is missing"
     },
     {
-      "source": "operations-conversation-bot-repair",
-      "target": "operations-conversation-sequence-completion",
+      "source": "operations-conversation-conversation-management-bot-repair",
+      "target": "operations-conversation-sequence-management-sequence-completion",
       "type": "related",
       "label": "the primary activity resumes once repair is resolved"
     },
     {
-      "source": "operations-conversation-capability-scope",
+      "source": "operations-conversation-conversation-management-capability-scope",
       "target": "activities-conversation",
       "type": "related",
       "label": "parent pattern"
     },
     {
-      "source": "operations-conversation-capability-scope",
+      "source": "operations-conversation-conversation-management-capability-scope",
       "target": "activities-bot",
       "type": "related",
       "label": "the conversational partner whose capabilities are being stated"
     },
     {
-      "source": "operations-conversation-closing",
-      "target": "operations-conversation-sequence-completion",
-      "type": "related",
-      "label": "the user's minimal receipt that signals a sequence is done; closing follows when the overall goal is achieved"
-    },
-    {
-      "source": "operations-conversation-closing",
-      "target": "operations-conversation-disengage-without-closing",
-      "type": "related",
-      "label": "alternative when the user steps away without a formal close"
-    },
-    {
-      "source": "operations-conversation-disengage-without-closing",
-      "target": "operations-conversation-closing",
+      "source": "operations-conversation-conversation-management-disengage-without-closing",
+      "target": "operations-conversation-sequence-management-closing",
       "type": "related",
       "label": "the preferred alternative when a formal close is possible"
     },
     {
-      "source": "operations-conversation-extended-telling",
+      "source": "operations-conversation-conversation-management-user-repair",
+      "target": "activities-conversation",
+      "type": "related",
+      "label": "parent pattern"
+    },
+    {
+      "source": "operations-conversation-conversation-management-user-repair",
+      "target": "operations-conversation-conversational-activities-extended-telling",
+      "type": "related",
+      "label": "fallback when a simple paraphrase or definition is insufficient"
+    },
+    {
+      "source": "operations-conversation-conversation-management-user-repair",
+      "target": "operations-conversation-sequence-management-sequence-completion",
+      "type": "related",
+      "label": "the activity resumes from the same step once the repair is resolved"
+    },
+    {
+      "source": "operations-conversation-conversational-activities-extended-telling",
       "target": "activities-conversation",
       "type": "related",
       "label": "parent pattern; extended telling is a primitive for instruction-based dialogue"
     },
     {
-      "source": "operations-conversation-extended-telling",
-      "target": "operations-conversation-user-repair",
+      "source": "operations-conversation-conversational-activities-extended-telling",
+      "target": "operations-conversation-conversation-management-user-repair",
       "type": "related",
       "label": "extended telling is the fallback when simple paraphrase or definition fails to resolve confusion"
     },
     {
-      "source": "operations-conversation-inquiry-bot",
+      "source": "operations-conversation-conversational-activities-inquiry-bot",
       "target": "activities-conversation",
       "type": "related",
       "label": "parent pattern; bot inquiry drives question-driven dialogue"
     },
     {
-      "source": "operations-conversation-inquiry-bot",
-      "target": "operations-conversation-open-request",
+      "source": "operations-conversation-conversational-activities-inquiry-bot",
+      "target": "operations-conversation-conversational-activities-open-request",
       "type": "related",
       "label": "bot inquiry is embedded within open request to gather missing constraints"
     },
     {
-      "source": "operations-conversation-inquiry-user",
+      "source": "operations-conversation-conversational-activities-inquiry-user",
       "target": "activities-conversation",
       "type": "related",
       "label": "parent pattern; user inquiry appears across all dialogue forms"
     },
     {
-      "source": "operations-conversation-inquiry-user",
-      "target": "operations-conversation-extended-telling",
+      "source": "operations-conversation-conversational-activities-inquiry-user",
+      "target": "operations-conversation-conversational-activities-extended-telling",
       "type": "related",
       "label": "for multi-part answers that exceed the scope of a single inquiry response"
     },
     {
-      "source": "operations-conversation-sequence-completion",
-      "target": "operations-conversation-user-repair",
+      "source": "operations-conversation-sequence-management-abort",
+      "target": "activities-conversation",
+      "type": "related",
+      "label": "parent pattern"
+    },
+    {
+      "source": "operations-conversation-sequence-management-abort",
+      "target": "operations-undo",
+      "type": "related",
+      "label": "related non-destructive exit; offer undo and restore affordances when state has been modified"
+    },
+    {
+      "source": "operations-conversation-sequence-management-abort",
+      "target": "operations-conversation-sequence-management-closing",
+      "type": "related",
+      "label": "the clean alternative when a session ends intentionally rather than by abandonment"
+    },
+    {
+      "source": "operations-conversation-sequence-management-opening-bot",
+      "target": "activities-conversation",
+      "type": "related",
+      "label": "parent pattern for all conversational encounters"
+    },
+    {
+      "source": "operations-conversation-sequence-management-opening-bot",
+      "target": "operations-conversation-conversational-activities-open-request",
+      "type": "related",
+      "label": "typical first activity after a bot-initiated opening"
+    },
+    {
+      "source": "operations-conversation-sequence-management-opening-bot",
+      "target": "operations-conversation-conversational-activities-extended-telling",
+      "type": "related",
+      "label": "offered on user refusal as an alternative to immediate engagement"
+    },
+    {
+      "source": "operations-conversation-sequence-management-opening-bot",
+      "target": "operations-conversation-sequence-management-abort",
+      "type": "related",
+      "label": "if the user disengages before reaching the first activity"
+    },
+    {
+      "source": "operations-conversation-sequence-management-opening-bot",
+      "target": "operations-conversation-conversation-management-disengage-without-closing",
+      "type": "related",
+      "label": "if the bot re-opens after a prior session was abandoned"
+    },
+    {
+      "source": "operations-conversation-sequence-management-closing",
+      "target": "operations-conversation-sequence-management-sequence-completion",
+      "type": "related",
+      "label": "the user's minimal receipt that signals a sequence is done; closing follows when the overall goal is achieved"
+    },
+    {
+      "source": "operations-conversation-sequence-management-closing",
+      "target": "operations-conversation-conversation-management-disengage-without-closing",
+      "type": "related",
+      "label": "alternative when the user steps away without a formal close"
+    },
+    {
+      "source": "operations-conversation-sequence-management-sequence-completion",
+      "target": "operations-conversation-conversation-management-user-repair",
       "type": "related",
       "label": "resumes at sequence completion once the user's comprehension is restored"
     },
     {
-      "source": "operations-conversation-sequence-completion",
-      "target": "operations-conversation-closing",
+      "source": "operations-conversation-sequence-management-sequence-completion",
+      "target": "operations-conversation-sequence-management-closing",
       "type": "related",
       "label": "natural follow-up when sequence completion signals the overall goal is achieved"
     },
     {
-      "source": "operations-conversation-opening-user",
+      "source": "operations-conversation-sequence-management-opening-user",
       "target": "activities-conversation",
       "type": "related",
       "label": "parent pattern"
     },
     {
-      "source": "operations-conversation-opening-user",
-      "target": "operations-conversation-open-request",
+      "source": "operations-conversation-sequence-management-opening-user",
+      "target": "operations-conversation-conversational-activities-open-request",
       "type": "related",
       "label": "the most common activity a user-initiated opening transitions into"
     },
     {
-      "source": "operations-conversation-opening-user",
-      "target": "operations-conversation-inquiry-user",
+      "source": "operations-conversation-sequence-management-opening-user",
+      "target": "operations-conversation-conversational-activities-inquiry-user",
       "type": "related",
       "label": "when the opening is a simple question"
     },
     {
-      "source": "operations-conversation-opening-user",
-      "target": "operations-conversation-abort",
+      "source": "operations-conversation-sequence-management-opening-user",
+      "target": "operations-conversation-sequence-management-abort",
       "type": "related",
       "label": "if the user immediately changes their mind"
-    },
-    {
-      "source": "operations-conversation-user-repair",
-      "target": "activities-conversation",
-      "type": "related",
-      "label": "parent pattern"
-    },
-    {
-      "source": "operations-conversation-user-repair",
-      "target": "operations-conversation-extended-telling",
-      "type": "related",
-      "label": "fallback when a simple paraphrase or definition is insufficient"
-    },
-    {
-      "source": "operations-conversation-user-repair",
-      "target": "operations-conversation-sequence-completion",
-      "type": "related",
-      "label": "the activity resumes from the same step once the repair is resolved"
-    },
-    {
-      "source": "operations-deep-linking",
-      "target": "actions-coordination-messaging",
-      "type": "related",
-      "label": "Each message/thread is addressable"
     },
     {
       "source": "operations-deep-linking",
@@ -4807,16 +4678,6 @@
     },
     {
       "source": "operations-morphing-controls",
-      "target": "primitives-switch",
-      "type": "related"
-    },
-    {
-      "source": "operations-morphing-controls",
-      "target": "primitives-checkbox",
-      "type": "related"
-    },
-    {
-      "source": "operations-morphing-controls",
       "target": "operations-status-feedback",
       "type": "related"
     },
@@ -4832,20 +4693,6 @@
       "label": "a broader pattern"
     },
     {
-      "source": "components-tabs",
-      "target": "operations-sections",
-      "type": "precedes",
-      "label": "the implementation is more complete when it comes to tab-related functionality: overflow scrolling, icon and subtitle slots, auto/manual activation.",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "primitives-details",
-      "target": "operations-sections",
-      "type": "precedes",
-      "label": "the standalone disclosure primitive that Sections' `details` affordance mirrors across multiple siblings",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
       "source": "operations-sections",
       "target": "actions-seeking-progressive-disclosure",
       "type": "complements",
@@ -4853,15 +4700,21 @@
       "extractedFrom": "header:\"Complementary\""
     },
     {
+      "source": "operations-sections",
+      "target": "actions-sense-making-grouping",
+      "type": "complements",
+      "label": "organising content into named groups is a prerequisite for sectioning",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
       "source": "operations-disabled-state",
-      "target": "operations-unavailable-actions",
+      "target": "actions-sense-making-explanation",
       "type": "related"
     },
     {
-      "source": "operations-status-feedback",
-      "target": "operations-callout",
-      "type": "surveys",
-      "label": "primary inline delivery mechanism for status feedback"
+      "source": "operations-disabled-state",
+      "target": "operations-unavailable-actions",
+      "type": "related"
     },
     {
       "source": "operations-status-feedback",
@@ -4920,6 +4773,109 @@
       "type": "related"
     },
     {
+      "source": "operations",
+      "target": "actions",
+      "type": "surveys"
+    },
+    {
+      "source": "operations",
+      "target": "operations-autocomplete",
+      "type": "surveys",
+      "label": "real-time query narrowing as the actor types"
+    },
+    {
+      "source": "operations",
+      "target": "operations-autofill",
+      "type": "surveys",
+      "label": "pre-populating fields from prior or inferred data"
+    },
+    {
+      "source": "operations",
+      "target": "actions-application-form",
+      "type": "surveys"
+    },
+    {
+      "source": "operations",
+      "target": "operations-deep-linking",
+      "type": "surveys",
+      "label": "direct access to specific states"
+    },
+    {
+      "source": "operations",
+      "target": "operations-sections",
+      "type": "surveys",
+      "label": "grouping content into named regions"
+    },
+    {
+      "source": "operations",
+      "target": "operations-status-feedback",
+      "type": "surveys",
+      "label": "communicating system state"
+    },
+    {
+      "source": "operations",
+      "target": "operations-unavailable-actions",
+      "type": "surveys",
+      "label": "explaining why actions aren't possible"
+    },
+    {
+      "source": "operations",
+      "target": "operations-undo",
+      "type": "surveys",
+      "label": "reversing actions"
+    },
+    {
+      "source": "operations",
+      "target": "operations-good-defaults",
+      "type": "surveys",
+      "label": "reducing the need for recovery by starting right"
+    },
+    {
+      "source": "operations",
+      "target": "activities-conversation",
+      "type": "surveys"
+    },
+    {
+      "source": "operations",
+      "target": "operations-conversation-conversational-activities-inquiry-user",
+      "type": "surveys"
+    },
+    {
+      "source": "operations",
+      "target": "operations-conversation-conversational-activities-open-request",
+      "type": "surveys"
+    },
+    {
+      "source": "operations",
+      "target": "operations-conversation-conversational-activities-extended-telling",
+      "type": "surveys"
+    },
+    {
+      "source": "operations",
+      "target": "operations-conversation-conversation-management-user-repair",
+      "type": "surveys"
+    },
+    {
+      "source": "operations",
+      "target": "operations-conversation-sequence-management-sequence-completion",
+      "type": "surveys"
+    },
+    {
+      "source": "operations",
+      "target": "operations-conversation-sequence-management-abort",
+      "type": "surveys"
+    },
+    {
+      "source": "operations",
+      "target": "operations-conversation-sequence-management-closing",
+      "type": "surveys"
+    },
+    {
+      "source": "operations",
+      "target": "operations-conversation-conversation-management-disengage-without-closing",
+      "type": "surveys"
+    },
+    {
       "source": "qualities-adaptability",
       "target": "qualities-agency",
       "type": "related"
@@ -4932,6 +4888,11 @@
     {
       "source": "qualities-adaptability",
       "target": "actions-application-suggestion",
+      "type": "related"
+    },
+    {
+      "source": "qualities-adaptability",
+      "target": "actions-sense-making-explanation",
       "type": "related"
     },
     {
@@ -4972,12 +4933,12 @@
     },
     {
       "source": "qualities-agency",
-      "target": "foundations-intent-interaction",
+      "target": "qualities-learnability",
       "type": "related"
     },
     {
       "source": "qualities-agency",
-      "target": "qualities-learnability",
+      "target": "operations",
       "type": "related"
     },
     {
@@ -4992,12 +4953,17 @@
     },
     {
       "source": "qualities-agency",
-      "target": "actions-coordination-messaging",
+      "target": "actions",
       "type": "related"
     },
     {
       "source": "qualities-agency",
-      "target": "actions-sensemaking-card",
+      "target": "activities",
+      "type": "related"
+    },
+    {
+      "source": "qualities-agency",
+      "target": "actions-sense-making-explanation",
       "type": "related"
     },
     {
@@ -5031,22 +4997,6 @@
       "type": "related"
     },
     {
-      "source": "qualities-density",
-      "target": "actions-evaluation-table",
-      "type": "related"
-    },
-    {
-      "source": "qualities-density",
-      "target": "actions-sensemaking-card",
-      "type": "related"
-    },
-    {
-      "source": "qualities-formality",
-      "target": "foundations-intent-interaction",
-      "type": "related",
-      "label": "formality parallels the interaction arc; as intent matures, so does the structure around it"
-    },
-    {
       "source": "qualities-formality",
       "target": "actions-application-suggestion",
       "type": "related",
@@ -5066,20 +5016,15 @@
     },
     {
       "source": "qualities-formality",
-      "target": "actions-coordination-messaging",
+      "target": "actions-sense-making-tag",
       "type": "related",
-      "label": "conversational input accepts unstructured text by design"
+      "label": "lightweight formalisation through inline categorisation"
     },
     {
       "source": "qualities-formality",
       "target": "activities-bot",
       "type": "related",
       "label": "interprets intent from freeform input without requiring formal structure"
-    },
-    {
-      "source": "qualities-formality",
-      "target": "primitives-reference",
-      "type": "related"
     },
     {
       "source": "qualities-formality",
@@ -5156,6 +5101,12 @@
     },
     {
       "source": "qualities-malleability",
+      "target": "actions-sense-making-view",
+      "type": "related",
+      "label": "saved views as malleability pattern"
+    },
+    {
+      "source": "qualities-malleability",
       "target": "foundations-information-architecture",
       "type": "related",
       "label": "user-created hierarchies"
@@ -5169,11 +5120,6 @@
     {
       "source": "qualities-malleability",
       "target": "qualities-density",
-      "type": "related"
-    },
-    {
-      "source": "qualities-malleability",
-      "target": "foundations-data-information",
       "type": "related"
     },
     {
@@ -5202,12 +5148,6 @@
     },
     {
       "source": "qualities-privacy",
-      "target": "foundations-data-information",
-      "type": "related",
-      "label": "privacy affects what information can be perceived and by whom"
-    },
-    {
-      "source": "qualities-privacy",
       "target": "foundations-localization",
       "type": "related",
       "label": "data residency and locale-specific regulation"
@@ -5232,6 +5172,11 @@
       "target": "foundations-localization",
       "type": "related",
       "label": "locale-aware URLs and shared content"
+    },
+    {
+      "source": "qualities-temporality",
+      "target": "actions-sense-making-annotation",
+      "type": "related"
     },
     {
       "source": "qualities-temporality",
@@ -5287,11 +5232,6 @@
     {
       "source": "qualities-temporality",
       "target": "actions-application-wizard",
-      "type": "related"
-    },
-    {
-      "source": "qualities-temporality",
-      "target": "foundations-intent-interaction",
       "type": "related"
     },
     {
@@ -5369,6 +5309,13 @@
       "type": "complements",
       "label": "offers candidate values the input can adopt, modify, or reject",
       "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "primitives-input",
+      "target": "actions-application-form",
+      "type": "precedes",
+      "label": "the container that groups inputs into a coherent ask",
+      "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "primitives-input",
@@ -5495,6 +5442,12 @@
       "target": "foundations-prose",
       "type": "related",
       "label": "link rhetoric and the authored-link counterpart of inline reference"
+    },
+    {
+      "source": "primitives-reference",
+      "target": "actions-seeking-dynamic-hyperlinks",
+      "type": "related",
+      "label": "the algorithmic (soft) counterpart to author-placed references"
     },
     {
       "source": "primitives-reference",
@@ -5936,6 +5889,12 @@
     },
     {
       "source": "actions-coordination-messaging",
+      "target": "activities-conversation",
+      "type": "related",
+      "label": "conversation structure"
+    },
+    {
+      "source": "actions-coordination-messaging",
       "target": "qualities-formality",
       "type": "enacts",
       "label": "messaging is a low-formality input context; structure can emerge gradually from conversation",
@@ -5974,6 +5933,11 @@
     },
     {
       "source": "actions-evaluation-table",
+      "target": "actions-seeking-data-view",
+      "type": "related"
+    },
+    {
+      "source": "actions-evaluation-table",
       "target": "actions-seeking-sorting",
       "type": "related",
       "label": "column headers are the primary surface for sort controls"
@@ -5994,6 +5958,12 @@
       "source": "actions-evaluation-timeline",
       "target": "primitives-progress-indicator",
       "type": "related"
+    },
+    {
+      "source": "actions-sensemaking-card",
+      "target": "actions-seeking-data-view",
+      "type": "related",
+      "label": "uses Card as one of its collection representations"
     },
     {
       "source": "actions-sensemaking-card",

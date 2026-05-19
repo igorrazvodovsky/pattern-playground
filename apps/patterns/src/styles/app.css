@@ -61,3 +61,7 @@
     }
   }
 }
+
+.pattern-graph {
+  max-width: 50vmax;
+}

@@ -147,7 +147,10 @@
   .content-inset {
     --flow-space: var(--space-xl);
     margin: var(--space-2xl);
-    max-width: 70ch;
+
+    p, blockquote {
+      max-width: 70ch;
+    }
   }
 }
 
