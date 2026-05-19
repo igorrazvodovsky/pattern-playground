@@ -37,7 +37,9 @@ const tree: Record<string, NavTreeNode[]> = {};
 for (const p of patterns as CollectionEntry<'patterns'>[]) {
   const parts = p.id.split('/');
   const leaf: NavLeaf = { label: p.data.title, href: `/patterns/${p.id}` };
-  if (parts.length === 2) {
+  if (parts.length === 1) {
+    (tree[parts[0]] ??= []).push({ label: 'Overview', href: `/patterns/${p.id}` });
+  } else if (parts.length === 2) {
     (tree[parts[0]] ??= []).push(leaf);
   } else if (parts.length === 3) {
     const [top, section] = parts;
@@ -76,10 +78,18 @@ const navItems: NavGroup[] = [
   ...Object.keys(tree).filter((k) => !GROUP_ORDER.includes(k)),
 ]
   .filter((k) => tree[k])
-  .map((key) => ({
-    label: toLabel(key),
-    children: tree[key].sort((a, b) => a.label.localeCompare(b.label)),
-  }));
+  .map((key) => {
+    const isOverview = (n: NavTreeNode): n is NavLeaf =>
+      !('children' in n) && n.href === `/patterns/${key}`;
+    const overview = tree[key].find(isOverview);
+    const rest = tree[key]
+      .filter((n) => !isOverview(n))
+      .sort((a, b) => a.label.localeCompare(b.label));
+    return {
+      label: toLabel(key),
+      children: overview ? [overview, ...rest] : rest,
+    };
+  });
 ---
 <!doctype html>
 <html lang="en">

@@ -23,6 +23,7 @@
     --font: 'Alegreya', Georgia, serif;
     margin-block-start: 0 !important;
     color: var(--c-bodyDimmed);
+    font-size: 16px !important;
   }
 
   :is(.content-inset, .pane article) .demo-block {
@@ -95,12 +96,12 @@
   }
 
   p {
-    font-size: 18px;
+    font-size: 1.25em;
     line-height: 1.5;
   }
 
   .lead {
-    font-size: 22px;
+    font-size: 1.25em;
     line-height: 1.5;
     text-wrap: balance;
   }
