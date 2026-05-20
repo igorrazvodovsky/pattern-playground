@@ -1,4 +1,3 @@
-import { MermaidDiagram } from '../../../components/MermaidDiagram';
 import { Canvas, Story, Meta } from '@storybook/addon-docs/blocks';
 import * as FormStories from './Form.stories.tsx';
 import { profile } from './Form.profile';
@@ -55,46 +54,6 @@ In an AI-augmented form, the primary user action shifts from data *entry to data
 Forms can be embedded in a [messaging](../?path=/docs/actions-coordination-messaging--docs) interface, allowing for a more [conversational](../?path=/docs/activities-conversation--docs) interaction.
 
 <Story of={FormStories.Conversational} />
-
-## Decision tree
-
-### Choosing an input
-
-<MermaidDiagram chart={`
-flowchart LR
-  A[Options basic and no search?]
-  A -->|Yes| B[Select/Text/Date/Password/Textarea]
-  A -->|No| C[Need searchable dropdown?]
-  C -->|Yes| D[Combobox]
-  C -->|No| E[Search input]
-`} />
-
-### Choosing a control
-
-<MermaidDiagram chart={`
-flowchart TD
-  A[Can you select more than one option?]
-  A -->|No| B[Single select]
-  A -->|Yes| C[Multi select]
-
-  %% Single-select branch
-  B -->|Filters or swaps content| D[Tabs]
-  B -->|No filtering| E[How many options?]
-  E -->|1| F[Need confirm?]
-  F -->|Yes| G[Checkbox]
-  F -->|No| H[Switch]
-  E -->|2-5| I[Short, consistent labels?]
-  I -->|Yes| J[Segmented control]
-  I -->|No| K[Radio buttons]
-  E -->|More than 5| L[Dropdown]
-
-  %% Multi-select branch
-  C -->|Needs emphasis| M[Selectable cards]
-  C -->|No emphasis| N[Short, uniform labels?]
-  N -->|Yes| O[Pill-style toggles]
-  N -->|No| P[Checkbox list]
-
-`} />
 
 ## Related patterns
 

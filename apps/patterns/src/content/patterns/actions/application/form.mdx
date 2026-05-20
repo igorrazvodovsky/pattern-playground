@@ -61,7 +61,7 @@ Forms can be embedded in a <ComponentRef id="actions-coordination-messaging--doc
 
 ### Choosing an input
 
-<MermaidDiagram chart={`
+<MermaidDiagram client:only="react" chart={`
 flowchart LR
   A[Options basic and no search?]
   A -->|Yes| B[Select/Text/Date/Password/Textarea]
@@ -72,7 +72,7 @@ flowchart LR
 
 ### Choosing a control
 
-<MermaidDiagram chart={`
+<MermaidDiagram client:only="react" chart={`
 flowchart TD
   A[Can you select more than one option?]
   A -->|No| B[Single select]

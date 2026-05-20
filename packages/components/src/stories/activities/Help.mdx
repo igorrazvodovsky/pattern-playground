@@ -1,5 +1,4 @@
 import { Meta } from '@storybook/addon-docs/blocks';
-import { MermaidDiagram } from '../../components/MermaidDiagram';
 
 <Meta title="Activities/Help" tags={['activity-level:activity', 'atomic:pattern', 'role:pattern', 'mediation:individual']} />
 
@@ -46,20 +45,6 @@ Help effectiveness depends on *proximity to point of need*. The closer help is t
 
 - *Inline*: Guidance embedded directly in the flow—input hints, empty states, field-level validation messages.
 - *Just-in-time*: Revealed on specific interaction—tooltips on hover, contextual panels on focus.
-
-### What belongs where
-
-<MermaidDiagram chart={`
-flowchart TD
-  A[Placing help content]
-  A --> B{Error prevention or warning?}
-  B -->|Yes| INLINE[Inline]
-  B -->|No| C{Requires sustained attention?}
-  C -->|Yes| STANDALONE[Standalone]
-  C -->|No| D{User mid-task?}
-  D -->|Yes| INLINE
-  D -->|No| JIT[Just-in-time]
-`} />
 
 ## Related patterns
 

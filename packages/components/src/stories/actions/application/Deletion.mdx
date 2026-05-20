@@ -1,8 +1,7 @@
 import { Meta, Story } from '@storybook/addon-docs/blocks';
 import * as InlineConfirmationStories from '../../operations/InlineConfirmation.stories.tsx';
-import * as DialogStories from './Dialog.stories.tsx';
+import * as DialogStories from '../../02-molecules/Dialog.stories.tsx';
 import * as ToastStories from '../../01-atoms/Toast.stories.tsx';
-import { MermaidDiagram } from '../../../components/MermaidDiagram.tsx';
 
 <Meta
     title="Actions/Application/Deletion"
@@ -82,22 +81,6 @@ This approach aligns with the [Saving](../?path=/docs/actions-application-saving
 - [Undo](../?path=/docs/operations-undo--docs)
 - Soft delete: Items moved to archive; configurable retention period
 - Version history
-
-
-## Decision tree
-
-<MermaidDiagram chart={`
-flowchart TD
-    A[Is the deletion reversible?] --> B[Yes]
-    A --> C[No]
-    B --> D[How quickly can it be recreated?]
-    D --> E[Seconds] --> F[No confirmation (with undo)]
-    D --> G[Minutes] --> H[Inline confirmation]
-    C --> I[What is the impact scope?]
-    I --> J[Single user] --> K[Modal confirmation]
-    I --> L[Multiple users] --> M[Modal with details]
-    I --> N[System-wide] --> O[Typed confirmation]
-`} />
 
 ## Related patterns
 
