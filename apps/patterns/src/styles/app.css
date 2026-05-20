@@ -60,6 +60,11 @@
     background: var(--c-surface);
   }
 
+  .demo-block__content {
+    padding: var(--space-m, 1rem);
+    border-radius: var(--radius, 0.5rem);
+  }
+
   .demo-block__footer {
     display: flex;
     align-items: center;

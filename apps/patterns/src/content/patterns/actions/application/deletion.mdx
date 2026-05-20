@@ -7,7 +7,13 @@ mediation: individual
 ---
 
 import { MermaidDiagram } from '@components/MermaidDiagram';
-
+import {
+  ToastWithUndoDemo,
+  InlineConfirmationDemo,
+  DialogDeletionDemo,
+  TypedConfirmationDemo,
+  StagedDeletionDemo,
+} from '../../../../components/deletion-demos';
 
 {/* > 🙂 **Fun meter: 3/5** */}
 
@@ -28,17 +34,30 @@ The controlled removal of data from a system, balancing user confidence with pro
 ### No confirmation with/-out undo
 For low-consequence actions that can be easily reversed. The deletion happens immediately, followed by a toast notification with an undo option.
 
+<Demo label="Delete with toast + undo">
+  <ToastWithUndoDemo client:only="react" />
+</Demo>
 
 ### Inline
 The delete button transforms into a confirmation state, requiring a second click to complete the action.
 
+<Demo label="Inline confirmation">
+  <InlineConfirmationDemo client:only="react" />
+</Demo>
 
 ### Modal
 A dialog presents the consequences and requires explicit confirmation.
 
+<Demo label="Modal confirmation">
+  <DialogDeletionDemo client:only="react" />
+</Demo>
 
 ### Typed
 For critical, irreversible actions, users must type a specific phrase to proceed.
+
+<Demo label="Type-to-confirm">
+  <TypedConfirmationDemo client:only="react" />
+</Demo>
 
 
 ## Integration with save/cancel workflow
@@ -51,6 +70,9 @@ Benefits
 - Safe experimentation: Users can try different configurations without immediate consequences
 - Unified mental model: All changes follow the same commit pattern
 
+<Demo label="Staged deletions with save/cancel">
+  <StagedDeletionDemo client:only="react" />
+</Demo>
 
 This approach aligns with the [Saving](/patterns/actions/application/saving#save-cancel-as-confirmation-mechanism) pattern's hybrid model, providing a safety net while maintaining user control. It's particularly effective for:
 - Form-based interfaces with multiple fields

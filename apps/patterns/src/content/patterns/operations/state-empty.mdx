@@ -21,18 +21,20 @@ Tells actors that there’s no content to display. Provides explanation and guid
 
 Basic empty state for first use experience.
 
-<div className="empty-state border flow">
-  <Icon style={{fontSize: "3rem"}} icon="ph:bell" />
-  <h3>Nothing to report</h3>
-  <p>We’ll keep you updated on any new developments.</p>
-</div>
+<Demo>
+  <div className="empty-state flow">
+    <Icon style={{fontSize: "3rem"}} icon="ph:bell" />
+    <h3>Nothing to report</h3>
+    <p>We’ll keep you updated on any new developments.</p>
+  </div>
+</Demo>
 
 ## Informational
 
 Provides information about what to do next.
 
 <Demo label="Access denied empty state">
-  <div className="empty-state border flow">
+  <div className="empty-state flow">
     <h3>You don’t have access to this content</h3>
     <p>Make sure the content exists. If it does, ask an admin for a permission to see the content.</p>
     <button className="button" is="pp-button">Request access</button>
@@ -43,21 +45,25 @@ Provides information about what to do next.
 
 A contextual onboarding flow to gain deeper understanding of the system.
 
-<div className="empty-state border flow">
-  <h3>Get insights by connecting your data</h3>
-  <p>Don’t worry—no coding needed. We’ll walk you through it step by step.</p>
-  <div className='inline-flow'>
-    <button className="button" is="pp-button"><Icon className="icon" icon="ph:book-open" />Show me how</button>
-    <button className="button button--plain" is="pp-button"><Icon className="icon" icon="ph:arrow-square-out-light" />Learn more</button>
+<Demo>
+  <div className="empty-state flow">
+    <h3>Get insights by connecting your data</h3>
+    <p>Don’t worry—no coding needed. We’ll walk you through it step by step.</p>
+    <div className='inline-flow'>
+      <button className="button" is="pp-button"><Icon className="icon" icon="ph:book-open" />Show me how</button>
+      <button className="button button--plain" is="pp-button"><Icon className="icon" icon="ph:arrow-square-out-light" />Learn more</button>
+    </div>
   </div>
-</div>
+</Demo>
 
 ## Guiding
 
 Starter that allows users to learn the system by tinkering or setting up their data.
 
-<div className="empty-state border flow">
-  <h3>Pick a template to begin customising your workflow</h3>
-  <p>TODO: Replace with some cards</p>
-  <button className="button" is="pp-button"><Icon className="icon" icon="ph:folder-open" /> Choose a template</button>
-</div>
+<Demo>
+  <div className="empty-state flow">
+    <h3>Pick a template to begin customising your workflow</h3>
+    <p>TODO: Replace with some cards</p>
+    <button className="button" is="pp-button"><Icon className="icon" icon="ph:folder-open" /> Choose a template</button>
+  </div>
+</Demo>

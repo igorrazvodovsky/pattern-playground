@@ -40,9 +40,7 @@ Use the Intent & Interaction framework (`src/stories/foundations/Interaction.mdx
 ## Documentation linking
 When creating cross-references between documentation files:
 - *Internal Storybook links* (component → component, component → material foundation): keep `../?path=/docs/category-name--docs` format. URL transformation: Category/Name → category-name, spaces become hyphens, case is lowercased.
-- *Outbound to qualities*: `[Agency](/patterns/qualities/agency)` — absolute paths on the pattern-site origin.
-- *Outbound to non-material foundations*: `[Assistance](/patterns/foundations/assistance)`.
-- *Outbound to material foundation concept pages*: `[Colour](/patterns/foundations/material/color)` (concept prose lives on pattern site; substrate exploration stays in Storybook).
+- *Outbound to the pattern site* (qualities, non-material foundations, material foundation concept pages, patterns moved out of Storybook): use the `<PatternRef slug="...">` component. It's registered globally in `.storybook/preview.ts`, so no import is needed in MDX. It reads `STORYBOOK_PATTERN_SITE_URL` (default `http://localhost:4321`) so the link resolves in dev (separate origins) and prod (merged origin). Examples: `<PatternRef slug="qualities/agency">Agency</PatternRef>`, `<PatternRef slug="foundations/assistance">Assistance</PatternRef>`, `<PatternRef slug="foundations/material/color">Colour</PatternRef>`. Plain root-relative `[Agency](/patterns/qualities/agency)` links also work, but only in the merged prod build.
 
 ## Writing style
 - Use British spelling throughout (behaviour, organisation, colour, etc.)

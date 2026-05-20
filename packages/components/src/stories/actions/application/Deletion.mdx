@@ -1,94 +1,16 @@
-import { Meta, Story } from '@storybook/addon-docs/blocks';
-import * as InlineConfirmationStories from '../../operations/InlineConfirmation.stories.tsx';
-import * as DialogStories from '../../02-molecules/Dialog.stories.tsx';
-import * as ToastStories from '../../01-atoms/Toast.stories.tsx';
+import { Meta } from '@storybook/addon-docs/blocks';
 
 <Meta
     title="Actions/Application/Deletion"
     tags={['activity-level:action', 'atomic:pattern', 'role:pattern', 'lifecycle:application', 'mediation:individual']} />
 
-{/* > 🙂 **Fun meter: 3/5** */}
-
 # Deletion
 
-The controlled removal of data from a system, balancing user confidence with protection against accidental loss. Deletion exists in tension with creation and modification, requiring careful consideration of consequences, reversibility, and user intent.
+The Deletion pattern lives on the pattern site: <PatternRef slug="actions/application/deletion">/patterns/actions/application/deletion</PatternRef>.
 
-## Anatomy
+Component-level stories that the pattern composes remain in Storybook:
 
-- Trigger: The initiating action
-- Confirmation: Verification of intent (varies by consequence severity)
-- Execution: The actual deletion operation
-- Feedback: Communication of result
-- Recovery: Mechanism for reversal when available
-
-## Variants by confirmation method
-
-### No confirmation with/-out undo
-For low-consequence actions that can be easily reversed. The deletion happens immediately, followed by a toast notification with an undo option.
-
-<Story of={ToastStories.ToastWithUndo} />
-
-### Inline
-The delete button transforms into a confirmation state, requiring a second click to complete the action.
-
-<Story of={InlineConfirmationStories.Default} />
-
-### Modal
-A dialog presents the consequences and requires explicit confirmation.
-
-<Story of={DialogStories.DeletionConfirmation} />
-
-### Typed
-For critical, irreversible actions, users must type a specific phrase to proceed.
-
-<Story of={DialogStories.TypedConfirmation} />
-
-## Integration with save/cancel workflow
-
-Deletion can be part of a broader editing session where changes are staged until explicitly saved. This approach treats the save button as the confirmation mechanism for all changes, including deletions.
-
-Benefits
-- Implicit confirmation: The save action confirms all changes, reducing confirmation fatigue
-- Batch review: Users can see all pending changes before committing
-- Safe experimentation: Users can try different configurations without immediate consequences
-- Unified mental model: All changes follow the same commit pattern
-
-<Story of={InlineConfirmationStories.StagedDeletion} />
-
-This approach aligns with the [Saving](../?path=/docs/actions-application-saving--docs#save-cancel-as-confirmation-mechanism) pattern's hybrid model, providing a safety net while maintaining user control. It's particularly effective for:
-- Form-based interfaces with multiple fields
-- Configuration screens with interconnected settings
-- Bulk editing sessions
-- Scenarios where deletions affect calculated values or totals
-
-## States
-
-### Deletion states
-- Available: Delete action is accessible
-- Confirming: Awaiting user confirmation
-- Deleting: Operation in progress
-- Deleted: Successfully removed
-- Failed: Deletion unsuccessful
-- Recovering: Undo in progress
-
-### Visual states
-- Pending deletion: Marked for deletion but not yet committed
-- Soft deleted: Logically deleted but recoverable
-- Hard deleted: Permanently removed
-
-## Recovery mechanisms
-
-- [Undo](../?path=/docs/operations-undo--docs)
-- Soft delete: Items moved to archive; configurable retention period
-- Version history
-
-## Related patterns
-
-- [Action consequences](../?path=/docs/actions-application-action-consequences--docs) – Framework for evaluating appropriate confirmation methods
-- [Saving](../?path=/docs/actions-application-saving--docs) – Staged deletions within save/cancel workflows
-- [Undo](../?path=/docs/operations-undo--docs) – Reversibility and recovery mechanisms
-- [Status feedback](../?path=/docs/operations-status-feedback--docs) – Communicating deletion results
-- [Activity Log](../?path=/docs/activities-activity-log--docs) – Historical record of deletions
-- [Notification](../?path=/docs/actions-coordination-notification--docs) – Alerting about deletion events
-- [Action bar](../?path=/docs/actions-coordination-action-bar--docs) – Common surface for bulk deletion
-- [Selection](../?path=/docs/actions-coordination-selection--docs) – How the scope of a deletion gets staked
+- [Toast — `ToastWithUndo`](../?path=/story/primitives-toast--toast-with-undo)
+- [Inline confirmation](../?path=/docs/operations-inline-confirmation--docs)
+- [Dialog — `DeletionConfirmation`](../?path=/story/actions-application-dialog--deletion-confirmation)
+- [Dialog — `TypedConfirmation`](../?path=/story/actions-application-dialog--typed-confirmation)

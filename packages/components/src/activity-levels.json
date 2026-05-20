@@ -841,12 +841,6 @@
       "atomic-category": "primitive",
       "mediation": "individual"
     },
-    "components-tabs": {
-      "activity-level": "operation",
-      "lifecycle-stage": null,
-      "atomic-category": "component",
-      "mediation": "individual"
-    },
     "actions-evaluation-list": {
       "activity-level": "action",
       "lifecycle-stage": "evaluation",

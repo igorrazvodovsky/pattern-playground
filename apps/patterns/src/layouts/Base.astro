@@ -107,7 +107,7 @@ const navItems: NavGroup[] = [
     </style>
   </head>
   <body>
-    <AppShell client:only="react" navItems={navItems} title={title} currentPath={currentPath} slug={slug} storybookUrl={storybookUrl}>
+    <AppShell client:load navItems={navItems} title={title} currentPath={currentPath} slug={slug} storybookUrl={storybookUrl}>
       <slot />
     </AppShell>
     <script>

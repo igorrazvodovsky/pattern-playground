@@ -15,6 +15,7 @@ export default defineConfig({
       alias: {
         '@components': path.resolve(__dirname, '../../packages/components/src/components'),
         '@styles': path.resolve(__dirname, '../../packages/components/src/styles'),
+        '@pkg': path.resolve(__dirname, '../../packages/components/src'),
       },
     },
   },

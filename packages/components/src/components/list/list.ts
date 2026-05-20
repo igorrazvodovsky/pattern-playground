@@ -126,7 +126,7 @@ export class PpList extends LitElement {
       if (item) {
         // Announce the selection to screen readers
         const itemText = item.getTextLabel();
-        this.announce(`Selected ${itemText}`);
+        announce(`Selected ${itemText}`);
         // Simulate a click to support @click handlers on list items that also work with the keyboard
         item.click();
       }
@@ -197,7 +197,7 @@ export class PpList extends LitElement {
     else if (event.key === 'Escape') {
       // Allow parent components (like dropdown) to handle escape
       event.stopPropagation();
-      this.announce('Navigation cancelled');
+      announce('Navigation cancelled');
     }
   }
 
@@ -306,7 +306,7 @@ export class PpList extends LitElement {
       const itemText = item.getTextLabel();
       const itemIndex = items.indexOf(item) + 1;
       const totalItems = items.length;
-      this.announce(`${itemText}, ${itemIndex} of ${totalItems}`);
+      announce(`${itemText}, ${itemIndex} of ${totalItems}`);
     }
   }
 
@@ -324,7 +324,7 @@ export class PpList extends LitElement {
 
     // Announce to screen readers
     const itemText = item.getTextLabel();
-    this.announce(`Opened submenu for ${itemText}`);
+    announce(`Opened submenu for ${itemText}`);
 
     // Find the submenu list and focus first item
     const submenuSlot = item.querySelector('slot[name="submenu"]') as HTMLSlotElement;
@@ -345,7 +345,7 @@ export class PpList extends LitElement {
       this.currentSubmenu.submenuOpen = false;
       this.openSubmenus.delete(this.currentSubmenu);
       this.currentSubmenu = null;
-      this.announce('Closed submenu');
+      announce('Closed submenu');
     }
   }
 
