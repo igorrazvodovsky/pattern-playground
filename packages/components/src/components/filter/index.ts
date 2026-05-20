@@ -16,8 +16,5 @@ export * from './filter-options';
 // Hooks
 export { useDropdownState } from './hooks/use-dropdown-state';
 
-// Type declarations
-import './filter-component-types';
-
 // Re-export AI command menu utilities
 export { AIFallbackHandler, useAICommand } from '../command-menu';
