@@ -1,6 +1,8 @@
 import { fileURLToPath } from "node:url";
-import { dirname } from "node:path";
+import { dirname, resolve } from "node:path";
 import type { StorybookConfig } from "@storybook/react-vite";
+
+const utilsPath = resolve(dirname(fileURLToPath(import.meta.url)), "../../../utils");
 
 const config: StorybookConfig = {
   stories: [
@@ -26,6 +28,14 @@ const config: StorybookConfig = {
     if (configType === 'PRODUCTION') {
       config.base = './';
     }
+
+    config.resolve = {
+      ...config.resolve,
+      alias: {
+        ...(config.resolve?.alias ?? {}),
+        '@utils': utilsPath,
+      },
+    };
 
     if (config.esbuild) {
       config.esbuild.target = 'es2020';

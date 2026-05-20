@@ -1,4 +1,4 @@
-import { callOpenAI } from "../../../../../../utils/api";
+import { callOpenAI } from "@utils/api";
 import { ModelItem } from "../../../../../schemas/index";
 
 /**

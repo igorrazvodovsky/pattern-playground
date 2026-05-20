@@ -75,7 +75,10 @@
   }
 
   .demo-block__label {
+    --font: 'Alegreya', Georgia, serif;
     flex: 1;
+    font-size: smaller;
+    color: var(--c-bodyDimmed);
   }
 
   :is(.content-inset, .pane article) a:not([class]) {

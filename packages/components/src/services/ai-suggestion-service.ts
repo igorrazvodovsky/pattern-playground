@@ -1,4 +1,4 @@
-import { APIError } from "../../utils/api";
+import { APIError } from "@utils/api";
 import type { JsonValue } from '../types/common.js';
 
 export interface AISuggestionRequest {
