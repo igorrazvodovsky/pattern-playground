@@ -56,10 +56,3 @@ mark {
   background: var(--c-accent-100);
 }
 
-blockquote {
-  margin: 0;
-
-  p {
-    margin: 0;
-  }
-}

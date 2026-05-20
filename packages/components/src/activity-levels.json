@@ -655,6 +655,12 @@
       "atomic-category": "qualities",
       "mediation": null
     },
+    "qualities": {
+      "activity-level": "cross-cutting",
+      "lifecycle-stage": null,
+      "atomic-category": "qualities.mdx",
+      "mediation": null
+    },
     "primitives-badge": {
       "activity-level": "operation",
       "lifecycle-stage": null,

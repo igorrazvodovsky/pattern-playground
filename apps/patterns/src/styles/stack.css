@@ -132,7 +132,7 @@
     margin: var(--space-xl);
 
     & > * + * {
-      margin-block-start: var(--flow-space, 1em) !important;
+      margin-block-start: var(--flow-space, 1em);
     }
   }
 

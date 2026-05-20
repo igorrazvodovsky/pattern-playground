@@ -11,6 +11,7 @@
 @layer theme {
   :is(.content-inset, .pane article) {
     --font: 'Alegreya Sans', system-ui, sans-serif;
+    --flow-space: 1em;
   }
 
   :is(.content-inset, .pane article) blockquote, cite {
@@ -39,6 +40,8 @@
   .sidebar-wrapper {
     /* Align sidebar width with Storybook's sidebar */
     --sidebar-width: 300px !important;
+    --font: 'Alegreya Sans', system-ui, sans-serif;
+    --text-s: 1rem;
   }
 
   .sidebar-logo {
@@ -88,10 +91,9 @@
 }
 
 .content-inset {
-  --flow-space: var(--space-2xl);
-  margin: var(--space-3xl);
+  margin: var(--space-2xl) var(--space-3xl);
 
-  p, blockquote {
+  p, blockquote, ul, ol {
     max-width: 70ch;
   }
 
@@ -126,4 +128,10 @@
 
 .pane li + li, .content-inset li + li {
   margin-top: var(--space-xs);
+}
+
+.content-inset h1 {
+  font-size: 3em;
+  line-height: 1.2;
+  margin-block-start: 1em !important;
 }

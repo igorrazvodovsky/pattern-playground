@@ -1,7 +1,6 @@
 @layer layout {
   .flow > * + * {
-    /* !important to override Storybook docs' styles  */
-    margin-block-start: var(--flow-space, var(--space-m)) !important;
+    margin-block-start: var(--flow-space, var(--space-m));
   }
 
   .inline-flow > * + * {

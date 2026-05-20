@@ -846,6 +846,13 @@
       ]
     },
     {
+      "id": "qualities",
+      "title": "Qualities",
+      "category": "Qualities.mdx",
+      "path": "/patterns/qualities",
+      "role": "umbrella"
+    },
+    {
       "id": "primitives-badge",
       "title": "Badge",
       "category": "Primitives",
@@ -5243,6 +5250,60 @@
       "source": "qualities-temporality",
       "target": "foundations-collaboration",
       "type": "related"
+    },
+    {
+      "source": "qualities",
+      "target": "qualities-agency",
+      "type": "surveys",
+      "label": "the distribution of decision-making between system and user"
+    },
+    {
+      "source": "qualities",
+      "target": "qualities-conversation",
+      "type": "surveys",
+      "label": "the dynamic exchange through which actors coordinate action"
+    },
+    {
+      "source": "qualities",
+      "target": "qualities-density",
+      "type": "surveys",
+      "label": "the amount of information an interface provides over a series of moments"
+    },
+    {
+      "source": "qualities",
+      "target": "qualities-formality",
+      "type": "surveys",
+      "label": "how much structure the system needs from the user at a given moment"
+    },
+    {
+      "source": "qualities",
+      "target": "qualities-learnability",
+      "type": "surveys",
+      "label": "structural support for the transition from novice to expert"
+    },
+    {
+      "source": "qualities",
+      "target": "qualities-malleability",
+      "type": "surveys",
+      "label": "how easily users can reshape their tools"
+    },
+    {
+      "source": "qualities",
+      "target": "qualities-privacy",
+      "type": "surveys",
+      "label": "strategic control over what is visible to different actors across contexts"
+    },
+    {
+      "source": "qualities",
+      "target": "qualities-shareability",
+      "type": "surveys",
+      "label": "the capture and faithful reconstruction of system state through links"
+    },
+    {
+      "source": "qualities",
+      "target": "qualities-temporality",
+      "type": "surveys",
+      "label": "time as the medium through which trust, rhythm, and agency are negotiated"
     },
     {
       "source": "primitives-badge",
