@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import React, { useEffect, useRef } from "react";
 import { faker } from '@faker-js/faker';
-import { transactions } from '../../data/index.js';
-import "../../../components/charts/bar-chart.js";
-import type { BarChartData } from "../../../components/charts/base/chart-types.js";
+import { transactions } from '../data/index.js';
+import "../../components/charts/bar-chart.js";
+import type { BarChartData } from "../../components/charts/base/chart-types.js";
 
 // Type definition for the pp-bar-chart custom element
 interface BarChartElement extends HTMLElement {
@@ -28,7 +28,7 @@ declare module 'react' {
 }
 
 const meta = {
-  title: "Actions/Evaluation/Table",
+  title: "Components/Table",
 } satisfies Meta;
 
 export default meta;

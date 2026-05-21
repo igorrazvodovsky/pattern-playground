@@ -2,7 +2,7 @@ import { Meta, Story } from '@storybook/addon-docs/blocks';
 import * as DrawerStories from './Drawer.stories.tsx';
 
 <Meta
-  title="Actions/Application/Drawer"
+  of={DrawerStories}
   tags={['activity-level:action', 'atomic:component', 'role:component', 'lifecycle:application', 'lifecycle:evaluation', 'mediation:individual']} />
 
 {/* > 🥱 **Fun meter: boring**. This is more or less the standard way of doing things. Included as a prerequisite for more interesting things. */}
@@ -11,7 +11,7 @@ import * as DrawerStories from './Drawer.stories.tsx';
 
 A surface that slides in from an edge, letting the actor inspect or act on secondary content while maintaining awareness of the primary task they intend to return to.
 
-The key distinction from [dialog](../?path=/docs/actions-application-dialog--docs) is temporal: a dialog demands resolution before the actor can continue, while a drawer assumes the primary context remains the actor's anchor. The distinction from navigating to a separate page is spatial: the drawer keeps the origin visible (or at least preservable), signalling that this is a detour, not a destination.
+The key distinction from [dialog](../?path=/docs/components-dialog--docs) is temporal: a dialog demands resolution before the actor can continue, while a drawer assumes the primary context remains the actor's anchor. The distinction from navigating to a separate page is spatial: the drawer keeps the origin visible (or at least preservable), signalling that this is a detour, not a destination.
 
 
 ## Position variants
@@ -46,7 +46,7 @@ The transition between these is often viewport-driven rather than explicit: the 
 - [Modality](/patterns/foundations/modality) — how overlays constrain attention
 
 ### Complementary
-- [Dialog](../?path=/docs/actions-application-dialog--docs) — when the task demands resolution before return, use dialog instead
+- [Dialog](../?path=/docs/components-dialog--docs) — when the task demands resolution before return, use dialog instead
 - [Popover](../?path=/docs/primitives-popover--docs) — lighter alternative when the secondary content is brief and contextual
 - [Form](../?path=/docs/actions-application-form--docs) — drawers frequently house forms for editing detail without leaving the list
 - [Settings](../?path=/docs/actions-application-settings--docs) — configuration panels often live in drawers

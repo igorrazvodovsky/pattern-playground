@@ -8,7 +8,7 @@ interface ToolbarArgs {
 }
 
 const meta = {
-  title: "Actions/Coordination/Toolbar",
+  title: "Components/Toolbar",
   argTypes: {
     showFilter: {
       control: { type: 'boolean' },

@@ -991,42 +991,42 @@
       "id": "actions-application-context-menu",
       "title": "Context menu",
       "category": "Actions",
-      "path": "../?path=/docs/actions-application-context-menu--docs",
+      "path": "../?path=/docs/components-context-menu--docs",
       "role": "component"
     },
     {
       "id": "actions-application-dialog",
       "title": "Dialog",
       "category": "Actions",
-      "path": "../?path=/docs/actions-application-dialog--docs",
+      "path": "../?path=/docs/components-dialog--docs",
       "role": "component"
     },
     {
       "id": "actions-application-drawer",
       "title": "Drawer",
       "category": "Actions",
-      "path": "../?path=/docs/actions-application-drawer--docs",
+      "path": "../?path=/docs/components-drawer--docs",
       "role": "component"
     },
     {
       "id": "actions-coordination-action-bar",
       "title": "Action bar",
       "category": "Actions",
-      "path": "../?path=/docs/actions-coordination-action-bar--docs",
+      "path": "../?path=/docs/components-action-bar--docs",
       "role": "component"
     },
     {
       "id": "actions-coordination-bubble-menu",
       "title": "Bubble menu",
       "category": "Actions",
-      "path": "../?path=/docs/actions-coordination-bubble-menu--docs",
+      "path": "../?path=/docs/components-bubble-menu--docs",
       "role": "component"
     },
     {
       "id": "actions-coordination-dropdown",
       "title": "Dropdown",
       "category": "Actions",
-      "path": "../?path=/docs/actions-coordination-dropdown--docs",
+      "path": "../?path=/docs/components-dropdown--docs",
       "role": "component"
     },
     {
@@ -1040,21 +1040,21 @@
       "id": "actions-coordination-priority",
       "title": "Priority+",
       "category": "Actions",
-      "path": "../?path=/docs/actions-coordination-priority--docs",
+      "path": "../?path=/docs/components-priority--docs",
       "role": "component"
     },
     {
       "id": "actions-evaluation-table",
       "title": "Table",
       "category": "Actions",
-      "path": "../?path=/docs/actions-evaluation-table--docs",
+      "path": "../?path=/docs/components-table--docs",
       "role": "component"
     },
     {
       "id": "actions-evaluation-timeline",
       "title": "Timeline",
       "category": "Actions",
-      "path": "../?path=/docs/actions-evaluation-timeline--docs",
+      "path": "../?path=/docs/components-timeline--docs",
       "role": "component"
     },
     {

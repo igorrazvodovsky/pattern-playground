@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { action } from 'storybook/actions';
-import { useModalService } from '../../../hooks/useModalService';
-import { modalService } from '../../../services/modal-service';
+import { useModalService } from '../../hooks/useModalService';
+import { modalService } from '../../services/modal-service';
 import { userEvent, within } from '@storybook/testing-library';
 
 interface DrawerArgs {
@@ -10,7 +10,7 @@ interface DrawerArgs {
 }
 
 const meta = {
-  title: "Actions/Application/Drawer",
+  title: "Components/Drawer",
   tags: [
     'activity-level:action',
     'atomic:component',

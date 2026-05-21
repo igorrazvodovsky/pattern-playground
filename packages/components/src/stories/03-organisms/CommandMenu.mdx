@@ -1,6 +1,6 @@
 import { Canvas, Story, Meta, Subtitle } from '@storybook/addon-docs/blocks';
 import * as CommandMenuStories from './CommandMenu.stories.tsx';
-import { Filtering as FilteringStory }  from './Filtering.stories.tsx';
+import { Filtering as FilteringStory }  from '../actions/seeking/Filtering.stories.tsx';
 
 <Meta of={ CommandMenuStories } tags={['activity-level:action', 'atomic:pattern', 'role:pattern', 'lifecycle:seeking', 'mediation:individual']} />
 
@@ -38,7 +38,7 @@ Can also be used to support local functions, e.g. in [filters](../?path=/docs/ac
 
 - *Autocomplete* supports command menu functionality by reducing typing effort and increasing discoverability of commands.
 - [Embedded intelligence](../?path=/docs/activities-embedded-intelligence--docs) can help users find relevant commands when exact matches aren't available.
-- [Toolbar](../?path=/docs/actions-coordination-toolbar--docs) — exposes a persistent subset of commands; a command menu offers the full set on demand
+- [Toolbar](../?path=/docs/components-toolbar--docs) — exposes a persistent subset of commands; a command menu offers the full set on demand
 
 ### Follow-ups
 
@@ -49,4 +49,4 @@ Can also be used to support local functions, e.g. in [filters](../?path=/docs/ac
 
 ### Tangentially related
 
-- [Context menu](../?path=/docs/actions-application-context-menu--docs) — pointer-driven and target-aware; command menu is keyboard-driven and name-based
+- [Context menu](../?path=/docs/components-context-menu--docs) — pointer-driven and target-aware; command menu is keyboard-driven and name-based

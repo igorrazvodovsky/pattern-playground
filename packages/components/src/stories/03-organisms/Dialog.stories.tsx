@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { faker } from '@faker-js/faker';
 import { action } from 'storybook/actions';
-import { useModalService } from '../../../hooks/useModalService';
+import { useModalService } from '../../hooks/useModalService';
 import { userEvent, within } from '@storybook/testing-library';
 
 interface DialogArgs {
@@ -12,7 +12,7 @@ interface DialogArgs {
 }
 
 const meta = {
-  title: "Actions/Application/Dialog",
+  title: "Components/Dialog",
   parameters: {
     layout: 'centered',
   },

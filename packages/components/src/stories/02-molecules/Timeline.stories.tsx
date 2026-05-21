@@ -12,7 +12,7 @@ const densityVars: Record<TimelineArgs['density'], React.CSSProperties> = {
 };
 
 const meta = {
-  title: "Actions/Evaluation/Timeline",
+  title: "Components/Timeline",
   argTypes: {
     count: {
       control: { type: 'range', min: 2, max: 10, step: 1 },

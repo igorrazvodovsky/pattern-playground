@@ -3,7 +3,7 @@ import React from "react";
 import { faker } from '@faker-js/faker';
 
 const meta = {
-  title: "Actions/Coordination/Nav bar",
+  title: "Components/Nav bar",
   parameters: {
     layout: 'fullscreen',
   },

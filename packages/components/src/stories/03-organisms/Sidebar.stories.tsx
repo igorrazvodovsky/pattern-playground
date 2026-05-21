@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { faker } from '@faker-js/faker';
-import { navItems as NAV_ITEMS, teamItems as TEAM_ITEMS } from '../../data/nav-items.json' with { type: 'json' };
+import { navItems as NAV_ITEMS, teamItems as TEAM_ITEMS } from '../data/nav-items.json' with { type: 'json' };
 import {
   SidebarProvider,
   Sidebar,
@@ -24,7 +24,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubItem,
   SidebarMenuSubButton,
-} from '../../../components/sidebar';
+} from '../../components/sidebar';
 
 faker.seed(42);
 
@@ -136,7 +136,7 @@ function DemoSidebar({
 }
 
 const meta = {
-  title: "Operations/Sidebar",
+  title: "Components/Sidebar",
   tags: [
     'activity-level:operation',
     'atomic:composition',

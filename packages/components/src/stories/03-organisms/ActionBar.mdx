@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 
-<Meta title="Actions/Coordination/Action bar" tags={['activity-level:action', 'atomic:composition', 'role:component', 'lifecycle:coordination', 'mediation:coordination']} />
+<Meta title="Components/Action bar" tags={['activity-level:action', 'atomic:composition', 'role:component', 'lifecycle:coordination', 'mediation:coordination']} />
 
 {/* > 🙂 *Fun meter: 2/5*. Dependency. */}
 
@@ -8,13 +8,13 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 The surfacing of operations that become applicable once the actor has staked a selection, held ready until the selection is released.
 
-Where a [toolbar](../?path=/docs/actions-coordination-toolbar--docs) is permanent and scoped to a feature, an action bar is *conditional*: it exists only while there is a selection to act on, and it disappears when that selection is cleared.
+Where a [toolbar](../?path=/docs/components-toolbar--docs) is permanent and scoped to a feature, an action bar is *conditional*: it exists only while there is a selection to act on, and it disappears when that selection is cleared.
 
 ## Anatomy
 
 - *Selection counter* — names the scope of the upcoming actions ("3 items selected"). Without it, the actor has to remember what they picked, and the action bar starts behaving like an opaque command surface.
 - *Dismiss affordance* — clears the selection (and with it, the bar). Distinct from cancelling an in-flight action; this is a way back to the unselected state.
-- *Action group* — the operations themselves, ordered by importance and grouped by affinity. Internally this is a small [toolbar](../?path=/docs/actions-coordination-toolbar--docs); when it overflows, it hands off to [Priority+](../?path=/docs/actions-coordination-priority--docs).
+- *Action group* — the operations themselves, ordered by importance and grouped by affinity. Internally this is a small [toolbar](../?path=/docs/components-toolbar--docs); when it overflows, it hands off to [Priority+](../?path=/docs/components-priority--docs).
 - *Optional title or context* — when the selection scope is non-obvious (e.g., "3 of 247"), a label clarifies what's about to be acted on.
 
 ## Summoning and dismissal
@@ -33,20 +33,20 @@ Position is a variant, not part of the definition. Common placements:
 
 ## Which actions belong here
 
-The action bar should hold operations that *only make sense against a selection*: delete, archive, move, tag, assign, export. Operations that apply to the whole view (filter, sort, create) belong in the persistent [toolbar](../?path=/docs/actions-coordination-toolbar--docs). See [Unavailable actions](../?path=/docs/operations-unavailable-actions--docs).
+The action bar should hold operations that *only make sense against a selection*: delete, archive, move, tag, assign, export. Operations that apply to the whole view (filter, sort, create) belong in the persistent [toolbar](../?path=/docs/components-toolbar--docs). See [Unavailable actions](../?path=/docs/operations-unavailable-actions--docs).
 
 ## Related patterns
 
 ### Precursors
 
 - [Selection](../?path=/docs/actions-coordination-selection--docs) — the action bar exists only because a selection has been staked; its lifecycle is bound to the selection's
-- [Toolbar](../?path=/docs/actions-coordination-toolbar--docs) — the persistent counterpart; an action bar typically composes a toolbar internally for its action group
+- [Toolbar](../?path=/docs/components-toolbar--docs) — the persistent counterpart; an action bar typically composes a toolbar internally for its action group
 
 ### Complementary
 
-- [Bubble menu](../?path=/docs/actions-coordination-bubble-menu--docs) — the spatially-anchored sibling; surfaces actions on selected content inside an editor rather than on a selection of items in a list or grid
-- [Context menu](../?path=/docs/actions-application-context-menu--docs) — the pointer-invoked sibling; both are transient action surfaces, but the context menu is summoned by the actor on a single target rather than auto-summoned by selection state
-- [Priority+](../?path=/docs/actions-coordination-priority--docs) — handles overflow when the action group is too wide for the available width
+- [Bubble menu](../?path=/docs/components-bubble-menu--docs) — the spatially-anchored sibling; surfaces actions on selected content inside an editor rather than on a selection of items in a list or grid
+- [Context menu](../?path=/docs/components-context-menu--docs) — the pointer-invoked sibling; both are transient action surfaces, but the context menu is summoned by the actor on a single target rather than auto-summoned by selection state
+- [Priority+](../?path=/docs/components-priority--docs) — handles overflow when the action group is too wide for the available width
 - [Unavailable actions](../?path=/docs/operations-unavailable-actions--docs) — governs which actions appear or disable as the selection scope changes
 - [Modality](/patterns/foundations/modality) — action bars are non-modal: the underlying content remains interactive
 
@@ -58,7 +58,7 @@ The action bar should hold operations that *only make sense against a selection*
 
 ### Tangentially related
 
-- [Table](../?path=/docs/actions-evaluation-table--docs), [List](../?path=/docs/actions-evaluation-list--docs), [Data view](../?path=/docs/actions-seeking-data-view--docs) — the typical containers in which selection happens and from which the action bar is summoned
+- [Table](../?path=/docs/components-table--docs), [List](../?path=/docs/actions-evaluation-list--docs), [Data view](../?path=/docs/actions-seeking-data-view--docs) — the typical containers in which selection happens and from which the action bar is summoned
 
 ## Resources & references
 

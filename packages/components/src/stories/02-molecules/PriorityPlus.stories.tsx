@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
 import { faker } from '@faker-js/faker';
-import { getRandomIcon } from '../../utils/icons';
+import { getRandomIcon } from '../utils/icons';
 
 const meta = {
-  title: "Actions/Coordination/Priority+",
+  title: "Components/Priority+",
 } satisfies Meta;
 
 export default meta;

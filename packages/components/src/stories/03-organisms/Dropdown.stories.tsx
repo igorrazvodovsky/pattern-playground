@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
 
 const meta = {
-  title: "Actions/Coordination/Dropdown",
+  title: "Components/Dropdown",
   tags: ['activity-level:action', 'atomic:component', 'lifecycle:coordination', 'mediation:coordination'],
 } satisfies Meta;
 

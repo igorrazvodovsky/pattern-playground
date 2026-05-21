@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useEffect } from 'react';
 import CommandMenu from './CommandMenu.tsx';
-import '../../../components/modal/modal.ts';
+import '../../components/modal/modal.ts';
 import { userEvent, within } from '@storybook/testing-library';
 
 const meta = {
-  title: 'Actions/Seeking/Command menu',
+  title: 'Components/Command menu',
   component: CommandMenu,
   parameters: {
     layout: 'centered',

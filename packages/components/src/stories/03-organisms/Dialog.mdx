@@ -2,7 +2,7 @@ import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks';
 import * as DialogStories from './Dialog.stories.tsx';
 
 <Meta
-  title="Actions/Application/Dialog"
+  of={DialogStories}
   tags={['activity-level:action', 'atomic:component', 'role:component', 'lifecycle:application', 'mediation:individual']} />
 
 {/* > 🥱 **Fun meter: boring**. This is more or less the standard way of doing things. Included as a prerequisite for more interesting things. */}
@@ -21,8 +21,8 @@ By design, a dialog’s height will never exceed that of the viewport. As such, 
 
 ## Related patterns
 
-Dialog is the canonical [transient mode](/patterns/foundations/modality) — it suspends the primary workflow to force a focused decision. See the [modality decision tree](/patterns/foundations/modality#overlay-vs-page) for when to use dialog vs. [drawer](../?path=/docs/actions-application-drawer--docs) vs. a separate page.
+Dialog is the canonical [transient mode](/patterns/foundations/modality) — it suspends the primary workflow to force a focused decision. See the [modality decision tree](/patterns/foundations/modality#overlay-vs-page) for when to use dialog vs. [drawer](../?path=/docs/components-drawer--docs) vs. a separate page.
 
-- [Drawer](../?path=/docs/actions-application-drawer--docs) — when the actor needs to maintain awareness of the primary context rather than being forced to resolve before returning
+- [Drawer](../?path=/docs/components-drawer--docs) — when the actor needs to maintain awareness of the primary context rather than being forced to resolve before returning
 - [Popover](../?path=/docs/primitives-popover--docs) — lighter, non-modal alternative for contextual content that doesn't require a decision
 - [Notification](../?path=/docs/actions-coordination-notification--docs) — dialog is the most disruptive notification type, reserved for critical alerts that require action
