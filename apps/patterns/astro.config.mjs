@@ -18,5 +18,11 @@ export default defineConfig({
         '@pkg': path.resolve(__dirname, '../../packages/components/src'),
       },
     },
+    optimizeDeps: {
+      include: ['beautiful-mermaid', 'elkjs/lib/elk.bundled.js'],
+    },
+    ssr: {
+      noExternal: ['beautiful-mermaid'],
+    },
   },
 });
