@@ -1,4 +1,4 @@
-import type { GenerativeProfile } from '../../pattern-profile';
+import type { GenerativeProfile } from '../pattern-profile';
 
 export const profile: GenerativeProfile = {
   operatesOn:

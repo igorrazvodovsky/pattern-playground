@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { PpToast } from "../../main.ts";
+import { PpToast } from "../main.ts";
 import { faker } from '@faker-js/faker';
 import { useState } from "react";
 import { action } from 'storybook/actions';

@@ -2,14 +2,14 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Highlight from '@tiptap/extension-highlight';
-import { Reference, createReferenceSuggestion } from '../../components/reference/Reference';
-import { referenceCategories } from '../data';
-import { EditorProvider } from '../../components/editor/EditorProvider';
-import { EditorLayout } from '../../components/editor/EditorLayout';
-import { EditorContent } from '../../components/editor/slots/EditorContent';
-import { EditorBubbleMenu } from '../../components/editor/slots/EditorBubbleMenu';
-import { formattingPlugin } from '../../components/editor-plugins/formatting/FormattingPlugin';
-import '../../jsx-types';
+import { Reference, createReferenceSuggestion } from '../components/reference/Reference';
+import { referenceCategories } from './data';
+import { EditorProvider } from '../components/editor/EditorProvider';
+import { EditorLayout } from '../components/editor/EditorLayout';
+import { EditorContent } from '../components/editor/slots/EditorContent';
+import { EditorBubbleMenu } from '../components/editor/slots/EditorBubbleMenu';
+import { formattingPlugin } from '../components/editor-plugins/formatting/FormattingPlugin';
+import '../jsx-types';
 
 const meta = {
   title: "Components/Block-based editor",

@@ -3,19 +3,19 @@ import React from 'react';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Highlight from '@tiptap/extension-highlight';
-import '../../components/modal/modal.ts';
-import { Reference, createReferenceSuggestion } from '../../components/reference/index.js';
-import { referenceCategories } from '../data/index.js';
-import { EditorProvider } from '../../components/editor/EditorProvider.tsx';
-import { EditorLayout } from '../../components/editor/EditorLayout.tsx';
-import { EditorContent as PluginEditorContent } from '../../components/editor/slots/EditorContent.tsx';
-import { EditorBubbleMenu } from '../../components/editor/slots/EditorBubbleMenu.tsx';
-import { formattingPlugin } from '../../components/editor-plugins/formatting/FormattingPlugin.ts';
-import { commentingPlugin } from '../../components/editor-plugins/commenting/CommentingPlugin.ts';
-import { CommentingIntegration } from '../../components/editor-plugins/commenting/components/CommentingIntegration.tsx';
-import { aiAssistantPlugin } from '../../components/editor-plugins/ai-assistant/index.ts';
-import { explanationPlugin } from '../../components/editor-plugins/explanation/index.ts';
-import { getDocumentContentText, getDocumentContentRich } from '../data/index.ts';
+import '../components/modal/modal.ts';
+import { Reference, createReferenceSuggestion } from '../components/reference/index.js';
+import { referenceCategories } from './data/index.js';
+import { EditorProvider } from '../components/editor/EditorProvider.tsx';
+import { EditorLayout } from '../components/editor/EditorLayout.tsx';
+import { EditorContent as PluginEditorContent } from '../components/editor/slots/EditorContent.tsx';
+import { EditorBubbleMenu } from '../components/editor/slots/EditorBubbleMenu.tsx';
+import { formattingPlugin } from '../components/editor-plugins/formatting/FormattingPlugin.ts';
+import { commentingPlugin } from '../components/editor-plugins/commenting/CommentingPlugin.ts';
+import { CommentingIntegration } from '../components/editor-plugins/commenting/components/CommentingIntegration.tsx';
+import { aiAssistantPlugin } from '../components/editor-plugins/ai-assistant/index.ts';
+import { explanationPlugin } from '../components/editor-plugins/explanation/index.ts';
+import { getDocumentContentText, getDocumentContentRich } from './data/index.ts';
 
 const meta = {
   title: "Components/Bubble menu",
@@ -113,7 +113,7 @@ const CommentingEditor: React.FC = () => {
   const richContent = getDocumentContentRich('doc-climate-change');
 
   React.useEffect(() => {
-    import('../../services/commenting/mock-data/initialize-mock-comments.ts').then(({ initializeMockComments }) => {
+    import('../services/commenting/mock-data/initialize-mock-comments.ts').then(({ initializeMockComments }) => {
       initializeMockComments();
     });
   }, []);

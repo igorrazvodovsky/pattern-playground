@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
 import { faker } from '@faker-js/faker';
-import { getRandomIcon } from '../utils/icons';
+import { getRandomIcon } from './utils/icons';
 
 type BadgePurpose = 'default' | 'accent' | 'info' | 'success' | 'warning' | 'danger';
 

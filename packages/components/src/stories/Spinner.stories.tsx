@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import "../../jsx-types";
+import "../jsx-types";
 
 interface SpinnerArgs {
   size: 'small' | 'medium' | 'large';

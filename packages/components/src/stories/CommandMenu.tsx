@@ -6,27 +6,27 @@ import {
   ComboboxInput,
   ComboboxItem,
   ComboboxList,
-} from "../../components/combobox";
+} from "../components/combobox";
 import {
   AIFallbackHandler,
   useAICommand,
   type AICommandResult
-} from "../../components/command-menu";
+} from "../components/command-menu";
 
-import { useHierarchicalNavigation, type SearchableItem } from '../../hooks/useHierarchicalNavigation';
-import type { CommandParent, CommandChild } from '../../types/hierarchical-navigation';
-import { createSortedSearchFunction, sortByRelevance } from '../../utility/hierarchical-search';
+import { useHierarchicalNavigation, type SearchableItem } from '../hooks/useHierarchicalNavigation';
+import type { CommandParent, CommandChild } from '../types/hierarchical-navigation';
+import { createSortedSearchFunction, sortByRelevance } from '../utility/hierarchical-search';
 
 import {
   createAISuggestionService,
   createCommandSuggestionRequest
-} from '../../services/ai-suggestion-service';
-import { convertToAICommandResult } from '../../components/command-menu/adapters/ai-command-adapter';
+} from '../services/ai-suggestion-service';
+import { convertToAICommandResult } from '../components/command-menu/adapters/ai-command-adapter';
 
-import { commands, recentItems } from '../data';
+import { commands, recentItems } from './data';
 
 import 'iconify-icon';
-import '../../jsx-types';
+import '../jsx-types';
 const MIN_AI_TRIGGER_LENGTH = 3;
 
 interface CommandOption extends CommandParent {

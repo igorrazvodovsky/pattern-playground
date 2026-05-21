@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useEffect } from 'react';
 import CommandMenu from './CommandMenu.tsx';
-import '../../components/modal/modal.ts';
+import '../components/modal/modal.ts';
 import { userEvent, within } from '@storybook/testing-library';
 
 const meta = {
