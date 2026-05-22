@@ -1,5 +1,5 @@
 import { Meta, Story } from '@storybook/addon-docs/blocks';
-import { DynamicExplanation } from '../../BubbleMenu.stories';
+import * as BubbleMenuStories from '../../BubbleMenu.stories';
 
 <Meta title="Actions/Sense-making/Explanation" tags={['activity-level:action', 'atomic:pattern', 'role:pattern', 'lifecycle:sense-making', 'mediation:individual']} />
 
@@ -57,7 +57,7 @@ How the system arrived at a prediction, recommendation, or generated output.
 
 On-demand explanations for any selected content, supporting contextualised learning.
 
-<Story of={DynamicExplanation} />
+<Story of={BubbleMenuStories.DynamicExplanation} />
 
 When users select content, explanations can address different aspects:
 - Interface mechanics: *how* to use this element
@@ -74,7 +74,7 @@ When users select content, explanations can address different aspects:
 2. Moderate detail: expanded explanations providing additional context, suitable for actors needing further clarity or reassurance.
 3. Extended report: explanations offering full transparency, suitable for complex decisions, troubleshooting, or expert actors who require in-depth understanding.
 
-[Progressive disclosure](../?path=/docs/actions-seeking-progressive-disclosure--docs)
+<PatternRef slug="actions/seeking/progressive-disclosure">Progressive disclosure</PatternRef>
 can be used to assist actors in transitioning between different levels of detail.
 
 ## Components
@@ -113,7 +113,7 @@ TODO: Example: drawer with instructions or help text.
 - [Assistance](/patterns/foundations/assistance)
 - [Learnability](/patterns/qualities/learnability) – domain explanations support domain learnability
 - [Disabled state](./?path=/docs/operations-disabled-state--docs)
-- [Progressive disclosure](../?path=/docs/actions-seeking-progressive-disclosure--docs)
+- <PatternRef slug="actions/seeking/progressive-disclosure">Progressive disclosure</PatternRef>
 - [Transparent reasoning](../?path=/docs/activities-transparent-reasoning--docs) – shows step-by-step process while explanation encourages understanding through interaction
 - [Popover](./?path=/docs/primitives-popover--docs)
 - [Drawer](./?path=/docs/components-drawer--docs)

@@ -36,7 +36,7 @@ Borrowing from fish-eye distortion techniques, semantic zoom allows simultaneous
 - [Needs-based view](../?path=/docs/compositions-needs-based-view--docs)
 - [Item view](../?path=/docs/compositions-item-view--docs)
 - [Data view](../?path=/docs/compositions-data-view--docs)
-- [Progressive disclosure](../?path=/docs/patterns-progressive-disclosure--docs) - Sequential revelation vs simultaneous levels
+- <PatternRef slug="actions/seeking/progressive-disclosure">Progressive disclosure</PatternRef> - Sequential revelation vs simultaneous levels
 - [Density](/patterns/qualities/density#information-density) - Information per unit space
 - [Adaptability](/patterns/qualities/adaptation) - System response to context changes
 

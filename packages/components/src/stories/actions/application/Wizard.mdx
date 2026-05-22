@@ -8,7 +8,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 Sequential task structure that enforces progression through dependent steps. Wizards transform complex processes into linear corridors—for good or bad.
 
-Wizards sit at the intersection of [progressive disclosure](../?path=/docs/actions-seeking-progressive-disclosure--docs) and [form](../?path=/docs/actions-application-form--docs) patterns, adding temporal sequencing and enforced dependencies. Where progressive disclosure reveals complexity gradually within a single context, wizards fragment the journey across multiple discrete steps, each gating access to the next.
+Wizards sit at the intersection of <PatternRef slug="actions/seeking/progressive-disclosure">progressive disclosure</PatternRef> and [form](../?path=/docs/actions-application-form--docs) patterns, adding temporal sequencing and enforced dependencies. Where progressive disclosure reveals complexity gradually within a single context, wizards fragment the journey across multiple discrete steps, each gating access to the next.
 
 The pattern trades spatial freedom for temporal clarity. Like a corridor in architecture, it provides clear direction but removes peripheral vision—you cannot easily compare information across steps or jump to known destinations. This makes wizards effective for novices navigating unfamiliar territory but frustrating for experts who've internalised the structure.
 
@@ -91,7 +91,7 @@ This rigidity can be appropriate when the system genuinely knows the optimal pat
 
 ### Precursors
 - [Form](../?path=/docs/actions-application-form--docs) - the single-page structure that wizards fragment across steps
-- [Progressive disclosure](../?path=/docs/actions-seeking-progressive-disclosure--docs) - the conceptual foundation for revealing complexity gradually
+- <PatternRef slug="actions/seeking/progressive-disclosure">Progressive disclosure</PatternRef> - the conceptual foundation for revealing complexity gradually
 - [Onboarding](../?path=/docs/activities-onboarding--docs) - often employs wizards for initial setup and configuration
 - [Step by step](../?path=/docs/actions-navigation-step-by-step--docs) - Wizard is a specific implementation of the step by step navigation model, applying it to form-based tasks with validation and branching logic.
 
