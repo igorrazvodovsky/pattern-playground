@@ -858,10 +858,31 @@
       "role": "umbrella"
     },
     {
+      "id": "components-action-bar",
+      "title": "Action bar",
+      "category": "Components",
+      "path": "../?path=/docs/components-action-bar--docs",
+      "role": "component"
+    },
+    {
       "id": "primitives-badge",
       "title": "Badge",
       "category": "Primitives",
       "path": "../?path=/docs/primitives-badge--docs",
+      "role": "component"
+    },
+    {
+      "id": "primitives-breadcrumbs",
+      "title": "Breadcrumbs",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-breadcrumbs--docs",
+      "role": "component"
+    },
+    {
+      "id": "components-bubble-menu",
+      "title": "Bubble menu",
+      "category": "Components",
+      "path": "../?path=/docs/components-bubble-menu--docs",
       "role": "component"
     },
     {
@@ -891,6 +912,34 @@
       }
     },
     {
+      "id": "components-context-menu",
+      "title": "Context menu",
+      "category": "Components",
+      "path": "../?path=/docs/components-context-menu--docs",
+      "role": "component"
+    },
+    {
+      "id": "components-dialog",
+      "title": "Dialog",
+      "category": "Components",
+      "path": "../?path=/docs/components-dialog--docs",
+      "role": "component"
+    },
+    {
+      "id": "components-drawer",
+      "title": "Drawer",
+      "category": "Components",
+      "path": "../?path=/docs/components-drawer--docs",
+      "role": "component"
+    },
+    {
+      "id": "components-dropdown",
+      "title": "Dropdown",
+      "category": "Components",
+      "path": "../?path=/docs/components-dropdown--docs",
+      "role": "component"
+    },
+    {
       "id": "primitives-input",
       "title": "Input",
       "category": "Primitives",
@@ -907,6 +956,13 @@
       "title": "Popover",
       "category": "Primitives",
       "path": "../?path=/docs/primitives-popover--docs",
+      "role": "component"
+    },
+    {
+      "id": "components-priority",
+      "title": "Priority+",
+      "category": "Components",
+      "path": "../?path=/docs/components-priority--docs",
       "role": "component"
     },
     {
@@ -955,6 +1011,13 @@
       }
     },
     {
+      "id": "components-table",
+      "title": "Table",
+      "category": "Components",
+      "path": "../?path=/docs/components-table--docs",
+      "role": "component"
+    },
+    {
       "id": "primitives-tag",
       "title": "Tag",
       "category": "Primitives",
@@ -966,6 +1029,13 @@
       "title": "Textarea",
       "category": "Primitives",
       "path": "../?path=/docs/primitives-textarea--docs",
+      "role": "component"
+    },
+    {
+      "id": "components-timeline",
+      "title": "Timeline",
+      "category": "Components",
+      "path": "../?path=/docs/components-timeline--docs",
       "role": "component"
     },
     {
@@ -981,80 +1051,10 @@
       }
     },
     {
-      "id": "primitives-breadcrumbs",
-      "title": "Breadcrumbs",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-breadcrumbs--docs",
-      "role": "component"
-    },
-    {
-      "id": "actions-application-context-menu",
-      "title": "Context menu",
-      "category": "Actions",
-      "path": "../?path=/docs/components-context-menu--docs",
-      "role": "component"
-    },
-    {
-      "id": "actions-application-dialog",
-      "title": "Dialog",
-      "category": "Actions",
-      "path": "../?path=/docs/components-dialog--docs",
-      "role": "component"
-    },
-    {
-      "id": "actions-application-drawer",
-      "title": "Drawer",
-      "category": "Actions",
-      "path": "../?path=/docs/components-drawer--docs",
-      "role": "component"
-    },
-    {
-      "id": "actions-coordination-action-bar",
-      "title": "Action bar",
-      "category": "Actions",
-      "path": "../?path=/docs/components-action-bar--docs",
-      "role": "component"
-    },
-    {
-      "id": "actions-coordination-bubble-menu",
-      "title": "Bubble menu",
-      "category": "Actions",
-      "path": "../?path=/docs/components-bubble-menu--docs",
-      "role": "component"
-    },
-    {
-      "id": "actions-coordination-dropdown",
-      "title": "Dropdown",
-      "category": "Actions",
-      "path": "../?path=/docs/components-dropdown--docs",
-      "role": "component"
-    },
-    {
       "id": "actions-coordination-messaging",
       "title": "Messaging",
       "category": "Actions",
       "path": "../?path=/docs/actions-coordination-messaging--docs",
-      "role": "component"
-    },
-    {
-      "id": "actions-coordination-priority",
-      "title": "Priority+",
-      "category": "Actions",
-      "path": "../?path=/docs/components-priority--docs",
-      "role": "component"
-    },
-    {
-      "id": "actions-evaluation-table",
-      "title": "Table",
-      "category": "Actions",
-      "path": "../?path=/docs/components-table--docs",
-      "role": "component"
-    },
-    {
-      "id": "actions-evaluation-timeline",
-      "title": "Timeline",
-      "category": "Actions",
-      "path": "../?path=/docs/components-timeline--docs",
       "role": "component"
     },
     {
@@ -5304,9 +5304,143 @@
       "label": "time as the medium through which trust, rhythm, and agency are negotiated"
     },
     {
+      "source": "actions-coordination-selection",
+      "target": "components-action-bar",
+      "type": "precedes",
+      "label": "the action bar exists only because a selection has been staked; its lifecycle is bound to the selection's",
+      "extractedFrom": "header:\"Precursors\""
+    },
+    {
+      "source": "components-action-bar",
+      "target": "components-bubble-menu",
+      "type": "complements",
+      "label": "the spatially-anchored sibling; surfaces actions on selected content inside an editor rather than on a selection of items in a list or grid",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "components-action-bar",
+      "target": "components-context-menu",
+      "type": "complements",
+      "label": "the pointer-invoked sibling; both are transient action surfaces, but the context menu is summoned by the actor on a single target rather than auto-summoned by selection state",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "components-action-bar",
+      "target": "components-priority",
+      "type": "complements",
+      "label": "handles overflow when the action group is too wide for the available width",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "components-action-bar",
+      "target": "operations-unavailable-actions",
+      "type": "complements",
+      "label": "governs which actions appear or disable as the selection scope changes",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "components-action-bar",
+      "target": "foundations-modality",
+      "type": "complements",
+      "label": "action bars are non-modal: the underlying content remains interactive",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "components-action-bar",
+      "target": "operations-undo",
+      "type": "precedes",
+      "label": "bulk actions raise the cost of mistakes; reversibility is more valuable here than for single-item operations",
+      "extractedFrom": "header:\"Follow-ups\""
+    },
+    {
+      "source": "components-action-bar",
+      "target": "operations-status-feedback",
+      "type": "precedes",
+      "label": "communicating the result of an action that consumed a multi-item selection",
+      "extractedFrom": "header:\"Follow-ups\""
+    },
+    {
+      "source": "components-action-bar",
+      "target": "components-table",
+      "type": "tangential",
+      "extractedFrom": "header:\"Tangentially related\""
+    },
+    {
+      "source": "components-action-bar",
+      "target": "actions-evaluation-list",
+      "type": "tangential",
+      "extractedFrom": "header:\"Tangentially related\""
+    },
+    {
+      "source": "components-action-bar",
+      "target": "actions-seeking-data-view",
+      "type": "tangential",
+      "extractedFrom": "header:\"Tangentially related\""
+    },
+    {
       "source": "primitives-badge",
       "target": "primitives-tag",
       "type": "related"
+    },
+    {
+      "source": "primitives-breadcrumbs",
+      "target": "actions-seeking-filtering",
+      "type": "related",
+      "label": "complementary browsing support"
+    },
+    {
+      "source": "primitives-breadcrumbs",
+      "target": "operations-overflow",
+      "type": "related",
+      "label": "governs how long paths behave when they exceed available space"
+    },
+    {
+      "source": "primitives-breadcrumbs",
+      "target": "components-priority",
+      "type": "related",
+      "label": "an alternative strategy for long paths"
+    },
+    {
+      "source": "actions-coordination-selection",
+      "target": "components-bubble-menu",
+      "type": "precedes",
+      "label": "the bubble menu exists because content has been selected; the content-range variant of selection is what it consumes",
+      "extractedFrom": "header:\"Precursors\""
+    },
+    {
+      "source": "components-bubble-menu",
+      "target": "primitives-popover",
+      "type": "complements",
+      "label": "underlying positioning mechanism",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "components-bubble-menu",
+      "target": "components-dropdown",
+      "type": "complements",
+      "label": "provides the container mechanism; bubble menu adds selection-awareness and contextual action composition",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "components-bubble-menu",
+      "target": "components-action-bar",
+      "type": "complements",
+      "label": "the globally-positioned sibling; both are summoned by selection, but the action bar scopes to a set of items in a list or grid rather than to content inside an editor",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "components-bubble-menu",
+      "target": "components-context-menu",
+      "type": "complements",
+      "label": "pointer-invoked alternative; both are transient action surfaces",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "components-bubble-menu",
+      "target": "actions-application-suggestion",
+      "type": "tangential",
+      "label": "system-recommended actions",
+      "extractedFrom": "header:\"Tangentially related\""
     },
     {
       "source": "primitives-button",
@@ -5340,6 +5474,142 @@
       "target": "actions-application-form",
       "type": "related",
       "label": "validation and instructional feedback patterns"
+    },
+    {
+      "source": "components-context-menu",
+      "target": "components-dropdown",
+      "type": "related",
+      "label": "shares the overlay mechanism but is button-triggered with a fixed option set"
+    },
+    {
+      "source": "components-context-menu",
+      "target": "components-action-bar",
+      "type": "related",
+      "label": "the selection-summoned sibling; both surface actions for a current target, but the action bar is auto-summoned by selection state and scopes to many items rather than one"
+    },
+    {
+      "source": "components-context-menu",
+      "target": "components-bubble-menu",
+      "type": "related",
+      "label": "the in-editor sibling; spatially anchored to selected content"
+    },
+    {
+      "source": "components-context-menu",
+      "target": "primitives-popover",
+      "type": "related",
+      "label": "underlying positioning and light-dismiss behaviour"
+    },
+    {
+      "source": "components-context-menu",
+      "target": "foundations-modality",
+      "type": "related",
+      "label": "context menus are non-modal overlays"
+    },
+    {
+      "source": "components-context-menu",
+      "target": "operations-unavailable-actions",
+      "type": "related",
+      "label": "context menus should hide or disable actions inaccessible for the selected target"
+    },
+    {
+      "source": "components-dialog",
+      "target": "foundations-modality",
+      "type": "related"
+    },
+    {
+      "source": "components-dialog",
+      "target": "components-drawer",
+      "type": "related",
+      "label": "when the actor needs to maintain awareness of the primary context rather than being forced to resolve before returning"
+    },
+    {
+      "source": "components-dialog",
+      "target": "primitives-popover",
+      "type": "related",
+      "label": "lighter, non-modal alternative for contextual content that doesn't require a decision"
+    },
+    {
+      "source": "components-dialog",
+      "target": "actions-coordination-notification",
+      "type": "related",
+      "label": "dialog is the most disruptive notification type, reserved for critical alerts that require action"
+    },
+    {
+      "source": "foundations-modality",
+      "target": "components-drawer",
+      "type": "precedes",
+      "label": "how overlays constrain attention",
+      "extractedFrom": "header:\"Precursors\""
+    },
+    {
+      "source": "components-drawer",
+      "target": "components-dialog",
+      "type": "complements",
+      "label": "when the task demands resolution before return, use dialog instead",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "components-drawer",
+      "target": "primitives-popover",
+      "type": "complements",
+      "label": "lighter alternative when the secondary content is brief and contextual",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "components-drawer",
+      "target": "actions-application-form",
+      "type": "complements",
+      "label": "drawers frequently house forms for editing detail without leaving the list",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "components-drawer",
+      "target": "actions-application-settings",
+      "type": "complements",
+      "label": "configuration panels often live in drawers",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "components-drawer",
+      "target": "actions-coordination-notification",
+      "type": "precedes",
+      "extractedFrom": "header:\"Follow-ups\""
+    },
+    {
+      "source": "components-drawer",
+      "target": "primitives-toast",
+      "type": "precedes",
+      "extractedFrom": "header:\"Follow-ups\""
+    },
+    {
+      "source": "components-dropdown",
+      "target": "primitives-popover",
+      "type": "related",
+      "label": "underlying positioning and light-dismiss behaviour"
+    },
+    {
+      "source": "components-dropdown",
+      "target": "primitives-select",
+      "type": "related",
+      "label": "shares the collapsed-options silhouette but carries a form value, not actions; reach for select when the outcome is \"this is the answer\", for dropdown when the outcome is \"do this thing\""
+    },
+    {
+      "source": "components-dropdown",
+      "target": "components-bubble-menu",
+      "type": "related",
+      "label": "adds selection-awareness; dropdown provides the container, bubble menu determines *what* goes in it based on content selection"
+    },
+    {
+      "source": "components-dropdown",
+      "target": "components-priority",
+      "type": "related",
+      "label": "uses dropdown as overflow container for responsive layouts"
+    },
+    {
+      "source": "components-dropdown",
+      "target": "components-context-menu",
+      "type": "related",
+      "label": "shares the overlay mechanism but is target-triggered (right-click) rather than button-triggered"
     },
     {
       "source": "primitives-input",
@@ -5413,37 +5683,30 @@
     },
     {
       "source": "primitives-popover",
-      "target": "actions-application-dialog",
+      "target": "components-dialog",
       "type": "complements",
       "label": "for content that demands resolution before return",
       "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "primitives-popover",
-      "target": "actions-application-drawer",
+      "target": "components-drawer",
       "type": "complements",
       "label": "for content that needs the primary surface visible alongside",
       "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "primitives-popover",
-      "target": "actions-coordination-dropdown",
+      "target": "components-dropdown",
       "type": "complements",
       "label": "option list triggered from a button, shares the overlay mechanism",
       "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "primitives-popover",
-      "target": "actions-application-context-menu",
+      "target": "components-context-menu",
       "type": "complements",
       "label": "shares positioning and light-dismiss behaviour",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "primitives-popover",
-      "target": "actions-seeking-progressive-disclosure",
-      "type": "complements",
-      "label": "the tooltip mode is the lightest tier of disclosure; deeper tiers need explicit triggers",
       "extractedFrom": "header:\"Complementary\""
     },
     {
@@ -5452,6 +5715,26 @@
       "type": "enacts",
       "label": "tooltips help actors build familiarity with controls without cluttering the primary interface",
       "extractedFrom": "quality-target"
+    },
+    {
+      "source": "components-priority",
+      "target": "components-dropdown",
+      "type": "related"
+    },
+    {
+      "source": "components-priority",
+      "target": "actions-evaluation-list",
+      "type": "related"
+    },
+    {
+      "source": "components-priority",
+      "target": "components-action-bar",
+      "type": "related"
+    },
+    {
+      "source": "components-priority",
+      "target": "operations-overflow",
+      "type": "related"
     },
     {
       "source": "primitives-progress-indicator",
@@ -5465,7 +5748,7 @@
     },
     {
       "source": "primitives-progress-indicator",
-      "target": "actions-evaluation-timeline",
+      "target": "components-timeline",
       "type": "related"
     },
     {
@@ -5514,11 +5797,6 @@
       "type": "related"
     },
     {
-      "source": "primitives-reference",
-      "target": "actions-seeking-command-menu",
-      "type": "related"
-    },
-    {
       "source": "primitives-input",
       "target": "primitives-select",
       "type": "precedes",
@@ -5541,7 +5819,7 @@
     },
     {
       "source": "primitives-select",
-      "target": "actions-coordination-dropdown",
+      "target": "components-dropdown",
       "type": "complements",
       "label": "shares the collapsed-options silhouette but carries actions, not a form value.",
       "extractedFrom": "header:\"Complementary\""
@@ -5586,8 +5864,42 @@
       "label": "when each state needs a distinct label or affordance (Follow/Unfollow, Start/Stop), a morphing control is the better fit"
     },
     {
+      "source": "components-table",
+      "target": "operations-overflow",
+      "type": "related",
+      "label": "governs how cell content behaves when it exceeds column width"
+    },
+    {
+      "source": "components-table",
+      "target": "actions-seeking-data-view",
+      "type": "related"
+    },
+    {
+      "source": "components-table",
+      "target": "actions-seeking-sorting",
+      "type": "related",
+      "label": "column headers are the primary surface for sort controls"
+    },
+    {
+      "source": "components-table",
+      "target": "actions-seeking-filtering",
+      "type": "related",
+      "label": "commonly paired with tables to narrow the displayed rows"
+    },
+    {
+      "source": "components-table",
+      "target": "actions-sensemaking-card",
+      "type": "related",
+      "label": "an alternative representation"
+    },
+    {
       "source": "primitives-tag",
       "target": "primitives-badge",
+      "type": "related"
+    },
+    {
+      "source": "components-timeline",
+      "target": "primitives-progress-indicator",
       "type": "related"
     },
     {
@@ -5620,318 +5932,10 @@
     },
     {
       "source": "primitives-toast",
-      "target": "actions-application-dialog",
+      "target": "components-dialog",
       "type": "complements",
       "label": "when the message requires a decision before the actor can continue",
       "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "primitives-breadcrumbs",
-      "target": "actions-seeking-command-menu",
-      "type": "related",
-      "label": "alternative navigation for transactional search"
-    },
-    {
-      "source": "primitives-breadcrumbs",
-      "target": "actions-seeking-filtering",
-      "type": "related",
-      "label": "complementary browsing support"
-    },
-    {
-      "source": "primitives-breadcrumbs",
-      "target": "operations-overflow",
-      "type": "related",
-      "label": "governs how long paths behave when they exceed available space"
-    },
-    {
-      "source": "primitives-breadcrumbs",
-      "target": "actions-coordination-priority",
-      "type": "related",
-      "label": "an alternative strategy for long paths"
-    },
-    {
-      "source": "actions-application-context-menu",
-      "target": "actions-coordination-dropdown",
-      "type": "related",
-      "label": "shares the overlay mechanism but is button-triggered with a fixed option set"
-    },
-    {
-      "source": "actions-application-context-menu",
-      "target": "actions-seeking-command-menu",
-      "type": "related",
-      "label": "searchable, keyboard-first; context menu is pointer-first and target-aware"
-    },
-    {
-      "source": "actions-application-context-menu",
-      "target": "actions-coordination-action-bar",
-      "type": "related",
-      "label": "the selection-summoned sibling; both surface actions for a current target, but the action bar is auto-summoned by selection state and scopes to many items rather than one"
-    },
-    {
-      "source": "actions-application-context-menu",
-      "target": "actions-coordination-bubble-menu",
-      "type": "related",
-      "label": "the in-editor sibling; spatially anchored to selected content"
-    },
-    {
-      "source": "actions-application-context-menu",
-      "target": "primitives-popover",
-      "type": "related",
-      "label": "underlying positioning and light-dismiss behaviour"
-    },
-    {
-      "source": "actions-application-context-menu",
-      "target": "foundations-modality",
-      "type": "related",
-      "label": "context menus are non-modal overlays"
-    },
-    {
-      "source": "actions-application-context-menu",
-      "target": "operations-unavailable-actions",
-      "type": "related",
-      "label": "context menus should hide or disable actions inaccessible for the selected target"
-    },
-    {
-      "source": "actions-application-dialog",
-      "target": "foundations-modality",
-      "type": "related"
-    },
-    {
-      "source": "actions-application-dialog",
-      "target": "actions-application-drawer",
-      "type": "related",
-      "label": "when the actor needs to maintain awareness of the primary context rather than being forced to resolve before returning"
-    },
-    {
-      "source": "actions-application-dialog",
-      "target": "primitives-popover",
-      "type": "related",
-      "label": "lighter, non-modal alternative for contextual content that doesn't require a decision"
-    },
-    {
-      "source": "actions-application-dialog",
-      "target": "actions-coordination-notification",
-      "type": "related",
-      "label": "dialog is the most disruptive notification type, reserved for critical alerts that require action"
-    },
-    {
-      "source": "foundations-modality",
-      "target": "actions-application-drawer",
-      "type": "precedes",
-      "label": "how overlays constrain attention",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "actions-application-drawer",
-      "target": "actions-application-dialog",
-      "type": "complements",
-      "label": "when the task demands resolution before return, use dialog instead",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "actions-application-drawer",
-      "target": "primitives-popover",
-      "type": "complements",
-      "label": "lighter alternative when the secondary content is brief and contextual",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "actions-application-drawer",
-      "target": "actions-application-form",
-      "type": "complements",
-      "label": "drawers frequently house forms for editing detail without leaving the list",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "actions-application-drawer",
-      "target": "actions-application-settings",
-      "type": "complements",
-      "label": "configuration panels often live in drawers",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "actions-application-drawer",
-      "target": "actions-coordination-notification",
-      "type": "precedes",
-      "extractedFrom": "header:\"Follow-ups\""
-    },
-    {
-      "source": "actions-application-drawer",
-      "target": "primitives-toast",
-      "type": "precedes",
-      "extractedFrom": "header:\"Follow-ups\""
-    },
-    {
-      "source": "actions-coordination-selection",
-      "target": "actions-coordination-action-bar",
-      "type": "precedes",
-      "label": "the action bar exists only because a selection has been staked; its lifecycle is bound to the selection's",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "actions-coordination-toolbar",
-      "target": "actions-coordination-action-bar",
-      "type": "precedes",
-      "label": "the persistent counterpart; an action bar typically composes a toolbar internally for its action group",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "actions-coordination-action-bar",
-      "target": "actions-coordination-bubble-menu",
-      "type": "complements",
-      "label": "the spatially-anchored sibling; surfaces actions on selected content inside an editor rather than on a selection of items in a list or grid",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "actions-coordination-action-bar",
-      "target": "actions-application-context-menu",
-      "type": "complements",
-      "label": "the pointer-invoked sibling; both are transient action surfaces, but the context menu is summoned by the actor on a single target rather than auto-summoned by selection state",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "actions-coordination-action-bar",
-      "target": "actions-coordination-priority",
-      "type": "complements",
-      "label": "handles overflow when the action group is too wide for the available width",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "actions-coordination-action-bar",
-      "target": "operations-unavailable-actions",
-      "type": "complements",
-      "label": "governs which actions appear or disable as the selection scope changes",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "actions-coordination-action-bar",
-      "target": "foundations-modality",
-      "type": "complements",
-      "label": "action bars are non-modal: the underlying content remains interactive",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "actions-coordination-action-bar",
-      "target": "operations-undo",
-      "type": "precedes",
-      "label": "bulk actions raise the cost of mistakes; reversibility is more valuable here than for single-item operations",
-      "extractedFrom": "header:\"Follow-ups\""
-    },
-    {
-      "source": "actions-coordination-action-bar",
-      "target": "operations-status-feedback",
-      "type": "precedes",
-      "label": "communicating the result of an action that consumed a multi-item selection",
-      "extractedFrom": "header:\"Follow-ups\""
-    },
-    {
-      "source": "actions-coordination-action-bar",
-      "target": "actions-evaluation-table",
-      "type": "tangential",
-      "extractedFrom": "header:\"Tangentially related\""
-    },
-    {
-      "source": "actions-coordination-action-bar",
-      "target": "actions-evaluation-list",
-      "type": "tangential",
-      "extractedFrom": "header:\"Tangentially related\""
-    },
-    {
-      "source": "actions-coordination-action-bar",
-      "target": "actions-seeking-data-view",
-      "type": "tangential",
-      "extractedFrom": "header:\"Tangentially related\""
-    },
-    {
-      "source": "actions-coordination-selection",
-      "target": "actions-coordination-bubble-menu",
-      "type": "precedes",
-      "label": "the bubble menu exists because content has been selected; the content-range variant of selection is what it consumes",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "actions-seeking-progressive-disclosure",
-      "target": "actions-coordination-bubble-menu",
-      "type": "precedes",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "actions-coordination-bubble-menu",
-      "target": "primitives-popover",
-      "type": "complements",
-      "label": "underlying positioning mechanism",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "actions-coordination-bubble-menu",
-      "target": "actions-coordination-dropdown",
-      "type": "complements",
-      "label": "provides the container mechanism; bubble menu adds selection-awareness and contextual action composition",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "actions-coordination-bubble-menu",
-      "target": "actions-coordination-action-bar",
-      "type": "complements",
-      "label": "the globally-positioned sibling; both are summoned by selection, but the action bar scopes to a set of items in a list or grid rather than to content inside an editor",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "actions-coordination-bubble-menu",
-      "target": "actions-seeking-command-menu",
-      "type": "complements",
-      "label": "alternative access to actions",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "actions-coordination-bubble-menu",
-      "target": "actions-application-context-menu",
-      "type": "complements",
-      "label": "pointer-invoked alternative; both are transient action surfaces",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "actions-coordination-bubble-menu",
-      "target": "actions-application-suggestion",
-      "type": "tangential",
-      "label": "system-recommended actions",
-      "extractedFrom": "header:\"Tangentially related\""
-    },
-    {
-      "source": "actions-coordination-dropdown",
-      "target": "primitives-popover",
-      "type": "related",
-      "label": "underlying positioning and light-dismiss behaviour"
-    },
-    {
-      "source": "actions-coordination-dropdown",
-      "target": "primitives-select",
-      "type": "related",
-      "label": "shares the collapsed-options silhouette but carries a form value, not actions; reach for select when the outcome is \"this is the answer\", for dropdown when the outcome is \"do this thing\""
-    },
-    {
-      "source": "actions-coordination-dropdown",
-      "target": "actions-coordination-bubble-menu",
-      "type": "related",
-      "label": "adds selection-awareness; dropdown provides the container, bubble menu determines *what* goes in it based on content selection"
-    },
-    {
-      "source": "actions-coordination-dropdown",
-      "target": "actions-seeking-command-menu",
-      "type": "related",
-      "label": "searchable alternative for large option sets"
-    },
-    {
-      "source": "actions-coordination-dropdown",
-      "target": "actions-coordination-priority",
-      "type": "related",
-      "label": "uses dropdown as overflow container for responsive layouts"
-    },
-    {
-      "source": "actions-coordination-dropdown",
-      "target": "actions-application-context-menu",
-      "type": "related",
-      "label": "shares the overlay mechanism but is target-triggered (right-click) rather than button-triggered"
     },
     {
       "source": "actions-coordination-messaging",
@@ -5953,65 +5957,6 @@
       "extractedFrom": "quality-target"
     },
     {
-      "source": "actions-coordination-priority",
-      "target": "actions-coordination-dropdown",
-      "type": "related"
-    },
-    {
-      "source": "actions-coordination-priority",
-      "target": "actions-evaluation-list",
-      "type": "related"
-    },
-    {
-      "source": "actions-coordination-priority",
-      "target": "actions-coordination-toolbar",
-      "type": "related"
-    },
-    {
-      "source": "actions-coordination-priority",
-      "target": "actions-coordination-action-bar",
-      "type": "related"
-    },
-    {
-      "source": "actions-coordination-priority",
-      "target": "operations-overflow",
-      "type": "related"
-    },
-    {
-      "source": "actions-evaluation-table",
-      "target": "operations-overflow",
-      "type": "related",
-      "label": "governs how cell content behaves when it exceeds column width"
-    },
-    {
-      "source": "actions-evaluation-table",
-      "target": "actions-seeking-data-view",
-      "type": "related"
-    },
-    {
-      "source": "actions-evaluation-table",
-      "target": "actions-seeking-sorting",
-      "type": "related",
-      "label": "column headers are the primary surface for sort controls"
-    },
-    {
-      "source": "actions-evaluation-table",
-      "target": "actions-seeking-filtering",
-      "type": "related",
-      "label": "commonly paired with tables to narrow the displayed rows"
-    },
-    {
-      "source": "actions-evaluation-table",
-      "target": "actions-sensemaking-card",
-      "type": "related",
-      "label": "an alternative representation"
-    },
-    {
-      "source": "actions-evaluation-timeline",
-      "target": "primitives-progress-indicator",
-      "type": "related"
-    },
-    {
       "source": "actions-sensemaking-card",
       "target": "actions-seeking-data-view",
       "type": "related",
@@ -6019,7 +5964,7 @@
     },
     {
       "source": "actions-sensemaking-card",
-      "target": "actions-evaluation-table",
+      "target": "components-table",
       "type": "related",
       "label": "alternative collection representation; prefer cards for visual scanning, table for dense comparison"
     },
@@ -6030,7 +5975,7 @@
       "label": "card is the canonical UI element for summary-level item representations"
     },
     {
-      "source": "actions-evaluation-table",
+      "source": "components-table",
       "target": "data-visualisation-bar-chart",
       "type": "precedes",
       "label": "Tabular data that could be visualized",
@@ -6073,13 +6018,6 @@
     },
     {
       "source": "operations-combobox",
-      "target": "actions-seeking-command-menu",
-      "type": "instantiates",
-      "label": "the combobox contract drives hierarchical navigation and command activation",
-      "extractedFrom": "header:\"Applied in\""
-    },
-    {
-      "source": "operations-combobox",
       "target": "actions-seeking-filtering",
       "type": "instantiates",
       "label": "each filter chip's value-picker uses a combobox to narrow available values",
@@ -6106,13 +6044,13 @@
     },
     {
       "source": "operations-overflow",
-      "target": "actions-coordination-priority",
+      "target": "components-priority",
       "type": "related",
       "label": "handles overflow for *discrete element sets* (toolbars, nav bars)"
     },
     {
       "source": "operations-overflow",
-      "target": "actions-evaluation-table",
+      "target": "components-table",
       "type": "related",
       "label": "table cells are a primary site for text overflow decisions"
     },

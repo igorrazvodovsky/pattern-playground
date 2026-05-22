@@ -661,11 +661,29 @@
       "atomic-category": "qualities.mdx",
       "mediation": null
     },
+    "components-action-bar": {
+      "activity-level": "action",
+      "lifecycle-stage": "coordination",
+      "atomic-category": "composition",
+      "mediation": "coordination"
+    },
     "primitives-badge": {
       "activity-level": "operation",
       "lifecycle-stage": null,
       "atomic-category": "primitive",
       "mediation": "individual"
+    },
+    "primitives-breadcrumbs": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "component",
+      "mediation": "individual"
+    },
+    "components-bubble-menu": {
+      "activity-level": "action",
+      "lifecycle-stage": "coordination",
+      "atomic-category": "component",
+      "mediation": "coordination"
     },
     "primitives-button": {
       "activity-level": "operation",
@@ -685,6 +703,30 @@
       "atomic-category": "primitive",
       "mediation": "individual"
     },
+    "components-context-menu": {
+      "activity-level": "action",
+      "lifecycle-stage": "application",
+      "atomic-category": "component",
+      "mediation": "individual"
+    },
+    "components-dialog": {
+      "activity-level": "action",
+      "lifecycle-stage": "application",
+      "atomic-category": "component",
+      "mediation": "individual"
+    },
+    "components-drawer": {
+      "activity-level": "action",
+      "lifecycle-stage": "application",
+      "atomic-category": "component",
+      "mediation": "individual"
+    },
+    "components-dropdown": {
+      "activity-level": "action",
+      "lifecycle-stage": "coordination",
+      "atomic-category": "component",
+      "mediation": "coordination"
+    },
     "primitives-input": {
       "activity-level": "operation",
       "lifecycle-stage": null,
@@ -696,6 +738,12 @@
       "lifecycle-stage": null,
       "atomic-category": "primitive",
       "mediation": "individual"
+    },
+    "components-priority": {
+      "activity-level": "action",
+      "lifecycle-stage": "coordination",
+      "atomic-category": "component",
+      "mediation": "coordination"
     },
     "primitives-progress-indicator": {
       "activity-level": "operation",
@@ -727,6 +775,12 @@
       "atomic-category": "primitive",
       "mediation": "individual"
     },
+    "components-table": {
+      "activity-level": "action",
+      "lifecycle-stage": "evaluation",
+      "atomic-category": "component",
+      "mediation": "individual"
+    },
     "primitives-tag": {
       "activity-level": "operation",
       "lifecycle-stage": null,
@@ -739,77 +793,23 @@
       "atomic-category": "primitive",
       "mediation": "individual"
     },
+    "components-timeline": {
+      "activity-level": "action",
+      "lifecycle-stage": "evaluation",
+      "atomic-category": "component",
+      "mediation": "individual"
+    },
     "primitives-toast": {
       "activity-level": "operation",
       "lifecycle-stage": null,
       "atomic-category": "primitive",
       "mediation": "individual"
     },
-    "primitives-breadcrumbs": {
-      "activity-level": "operation",
-      "lifecycle-stage": null,
-      "atomic-category": "component",
-      "mediation": "individual"
-    },
-    "actions-application-context-menu": {
-      "activity-level": "action",
-      "lifecycle-stage": "application",
-      "atomic-category": "component",
-      "mediation": "individual"
-    },
-    "actions-application-dialog": {
-      "activity-level": "action",
-      "lifecycle-stage": "application",
-      "atomic-category": "component",
-      "mediation": "individual"
-    },
-    "actions-application-drawer": {
-      "activity-level": "action",
-      "lifecycle-stage": "application",
-      "atomic-category": "component",
-      "mediation": "individual"
-    },
-    "actions-coordination-action-bar": {
-      "activity-level": "action",
-      "lifecycle-stage": "coordination",
-      "atomic-category": "composition",
-      "mediation": "coordination"
-    },
-    "actions-coordination-bubble-menu": {
-      "activity-level": "action",
-      "lifecycle-stage": "coordination",
-      "atomic-category": "component",
-      "mediation": "coordination"
-    },
-    "actions-coordination-dropdown": {
-      "activity-level": "action",
-      "lifecycle-stage": "coordination",
-      "atomic-category": "component",
-      "mediation": "coordination"
-    },
     "actions-coordination-messaging": {
       "activity-level": "action",
       "lifecycle-stage": "coordination",
       "atomic-category": "composition",
       "mediation": "coordination"
-    },
-    "actions-coordination-priority": {
-      "activity-level": "action",
-      "lifecycle-stage": "coordination",
-      "atomic-category": "component",
-      "mediation": "coordination"
-    },
-    "actions-evaluation-table": {
-      "activity-level": "action",
-      "lifecycle-stage": "evaluation",
-      "atomic-category": "component",
-      "mediation": "individual"
-    },
-    "actions-evaluation-timeline": {
-      "activity-level": "action",
-      "lifecycle-stage": "evaluation",
-      "atomic-category": "component",
-      "mediation": "individual"
     },
     "actions-sensemaking-card": {
       "activity-level": "action",
