@@ -1,6 +1,7 @@
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 import type { StorybookConfig } from "@storybook/react-vite";
+import remarkGfm from "remark-gfm";
 
 const utilsPath = resolve(dirname(fileURLToPath(import.meta.url)), "../../../utils");
 
@@ -13,7 +14,16 @@ const config: StorybookConfig = {
 
   addons: [
     getAbsolutePath("@storybook/addon-links"),
-    getAbsolutePath("@storybook/addon-docs"),
+    {
+      name: getAbsolutePath("@storybook/addon-docs"),
+      options: {
+        mdxPluginOptions: {
+          mdxCompileOptions: {
+            remarkPlugins: [remarkGfm],
+          },
+        },
+      },
+    },
     getAbsolutePath("@storybook/addon-vitest"),
     getAbsolutePath("@storybook/addon-a11y"),
     getAbsolutePath("@storybook/addon-mcp")

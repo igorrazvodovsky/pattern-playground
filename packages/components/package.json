@@ -8,5 +8,8 @@
     "build-storybook": "storybook build",
     "extract-graph": "npx tsx ../../scripts/extract-graph-data.ts",
     "prestorybook": "npm run extract-graph"
+  },
+  "devDependencies": {
+    "remark-gfm": "^4.0.1"
   }
 }
