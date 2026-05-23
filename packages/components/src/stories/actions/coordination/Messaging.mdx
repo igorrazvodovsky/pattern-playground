@@ -9,13 +9,13 @@ import * as MessagingStories from './Messaging.stories.tsx';
 
 # Messaging
 
-The exchange of messages between actors in real time or asynchronously, balancing conversational immediacy with the persistence of shared record. Messaging serves as the primary surface for [conversations](../?path=/docs/activities-conversation--docs) between people and [machines](../?path=/docs/activities-bot--docs).
+The exchange of messages between actors in real time or asynchronously, balancing conversational immediacy with the persistence of shared record. Messaging serves as the primary surface for [conversations](../?path=/docs/activities-conversation--docs) between people and <PatternRef slug="activities/bot">machines</PatternRef>.
 
 ## Human ↔︎ Human
 
 <Story of={ MessagingStories.HumanToHumanChat } />
 
-## Human ↔︎ [LLM](../?path=/docs/activities-bot--docs)
+## Human ↔︎ <PatternRef slug="activities/bot">LLM</PatternRef>
 
 <Story of={ MessagingStories.HumanToLLM } />
 
@@ -64,7 +64,7 @@ TODO: Collapsing/expanding the question-answer pairs or other identifiable conve
 
 ## Related patterns
 <div>
-- [Bot](../?path=/docs/activities-bot--docs) – conversation partner
+- <PatternRef slug="activities/bot">Bot</PatternRef> – conversation partner
 - [Conversation](../?path=/docs/activities-conversation--docs) – conversation structure
 - [Formality](/patterns/qualities/formality) – messaging is a low-formality input context; structure can emerge gradually from conversation
 {/* - *Notifications* often trigger users to start or respond to messaging interactions. */}

@@ -5347,13 +5347,6 @@
     },
     {
       "source": "components-action-bar",
-      "target": "operations-undo",
-      "type": "precedes",
-      "label": "bulk actions raise the cost of mistakes; reversibility is more valuable here than for single-item operations",
-      "extractedFrom": "header:\"Follow-ups\""
-    },
-    {
-      "source": "components-action-bar",
       "target": "operations-status-feedback",
       "type": "precedes",
       "label": "communicating the result of an action that consumed a multi-item selection",
@@ -5921,13 +5914,6 @@
       "target": "operations-callout",
       "type": "complements",
       "label": "persistent inline alternative when the message must not be missed",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "primitives-toast",
-      "target": "operations-undo",
-      "type": "complements",
-      "label": "toast is the primary delivery vehicle for undo affordances",
       "extractedFrom": "header:\"Complementary\""
     },
     {
