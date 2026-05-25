@@ -33,7 +33,7 @@ Position is a variant, not part of the definition. Common placements:
 
 ## Which actions belong here
 
-The action bar should hold operations that *only make sense against a selection*: delete, archive, move, tag, assign, export. Operations that apply to the whole view (filter, sort, create) belong in the persistent [toolbar](../?path=/docs/components-toolbar--docs). See [Unavailable actions](../?path=/docs/operations-unavailable-actions--docs).
+The action bar should hold operations that *only make sense against a selection*: delete, archive, move, tag, assign, export. Operations that apply to the whole view (filter, sort, create) belong in the persistent [toolbar](../?path=/docs/components-toolbar--docs). See <PatternRef slug="operations/unavailable-actions">Unavailable actions</PatternRef>.
 
 ## Related patterns
 
@@ -47,7 +47,7 @@ The action bar should hold operations that *only make sense against a selection*
 - [Bubble menu](../?path=/docs/components-bubble-menu--docs) — the spatially-anchored sibling; surfaces actions on selected content inside an editor rather than on a selection of items in a list or grid
 - [Context menu](../?path=/docs/components-context-menu--docs) — the pointer-invoked sibling; both are transient action surfaces, but the context menu is summoned by the actor on a single target rather than auto-summoned by selection state
 - [Priority+](../?path=/docs/components-priority--docs) — handles overflow when the action group is too wide for the available width
-- [Unavailable actions](../?path=/docs/operations-unavailable-actions--docs) — governs which actions appear or disable as the selection scope changes
+- <PatternRef slug="operations/unavailable-actions">Unavailable actions</PatternRef> — governs which actions appear or disable as the selection scope changes
 - [Modality](/patterns/foundations/modality) — action bars are non-modal: the underlying content remains interactive
 
 ### Follow-ups
