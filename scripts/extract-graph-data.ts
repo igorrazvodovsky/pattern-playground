@@ -893,7 +893,7 @@ for (const filePath of patternMdxFiles) {
 
   if (title.toLowerCase() === 'overview' && !DECISION_TREES[id]) continue;
 
-  const relativePathNoExt = filePath.slice(patternsContentDir.length + 1).replace(/\.mdx$/, '');
+  const relativePathNoExt = filePath.slice(patternsContentDir.length + 1).replace(/\.mdx$/, '').replace(/\/index$/, '');
   const patternSitePath = `/patterns/${relativePathNoExt}`;
 
   const roleValue = typeof fm.role === 'string' ? fm.role : undefined;

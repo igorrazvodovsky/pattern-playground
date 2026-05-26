@@ -73,6 +73,21 @@ for (const p of patterns as CollectionEntry<'patterns'>[]) {
   }
 }
 
+for (const group of Object.values(tree)) {
+  for (const node of group) {
+    if (!('children' in node)) continue;
+    const subgroups = node.children.filter((n): n is NavBranch => 'children' in n);
+    const leaves = node.children.filter((n): n is NavLeaf => !('children' in n));
+    for (const subgroup of subgroups) {
+      const matchingLeaf = leaves.find((l) => l.label === subgroup.label);
+      if (matchingLeaf) {
+        node.children = node.children.filter((n) => n !== matchingLeaf);
+        subgroup.children.unshift(matchingLeaf);
+      }
+    }
+  }
+}
+
 const navItems: NavGroup[] = [
   ...GROUP_ORDER,
   ...Object.keys(tree).filter((k) => !GROUP_ORDER.includes(k)),
