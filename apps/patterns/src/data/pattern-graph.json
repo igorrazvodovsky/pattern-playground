@@ -288,6 +288,13 @@
       "role": "pattern"
     },
     {
+      "id": "actions-seeking-link-preview",
+      "title": "Link preview",
+      "category": "Actions",
+      "path": "/patterns/actions/seeking/link-preview",
+      "role": "pattern"
+    },
+    {
       "id": "actions-seeking-progressive-disclosure",
       "title": "Progressive disclosure",
       "category": "Actions",
@@ -2471,6 +2478,13 @@
     },
     {
       "source": "actions-seeking-dynamic-hyperlinks",
+      "target": "actions-seeking-link-preview",
+      "type": "complements",
+      "label": "inferred links benefit from preview since actors have less prior expectation of the destination",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "actions-seeking-dynamic-hyperlinks",
       "target": "actions-application-suggestion",
       "type": "complements",
       "label": "suggested actions and connections",
@@ -2532,6 +2546,62 @@
       "type": "related"
     },
     {
+      "source": "primitives-popover",
+      "target": "actions-seeking-link-preview",
+      "type": "precedes",
+      "label": "the surface primitive; link preview is one specific application of its hover/focus mode",
+      "extractedFrom": "header:\"Precursors\""
+    },
+    {
+      "source": "actions-seeking-progressive-disclosure",
+      "target": "actions-seeking-link-preview",
+      "type": "precedes",
+      "label": "link preview is the lightest disclosure tier: sample a destination before committing",
+      "extractedFrom": "header:\"Precursors\""
+    },
+    {
+      "source": "actions-seeking-link-preview",
+      "target": "primitives-reference",
+      "type": "enables",
+      "label": "references reify connections as first-class entities; their preview escalation (hover → detail → full view) is one application of the link preview move within that broader pattern",
+      "extractedFrom": "header:\"Used by\""
+    },
+    {
+      "source": "actions-seeking-link-preview",
+      "target": "actions-seeking-dynamic-hyperlinks",
+      "type": "complements",
+      "label": "inferred links benefit even more from preview, since actors have less prior expectation of where they lead",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "actions-seeking-link-preview",
+      "target": "actions-sense-making-annotation",
+      "type": "complements",
+      "label": "previews can surface annotations and meta-layers attached to the target, enriching the probe",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "actions-seeking-link-preview",
+      "target": "operations-deep-linking",
+      "type": "complements",
+      "label": "when a link targets a specific section, the preview can scroll to and highlight the anchored fragment",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "actions-seeking-link-preview",
+      "target": "qualities-learnability",
+      "type": "enacts",
+      "label": "previews help actors build a mental map of the knowledge base without navigating away from their current reading",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "actions-seeking-link-preview",
+      "target": "qualities-density",
+      "type": "enacts",
+      "label": "by deferring full content to hover, preview lets dense cross-referencing exist without overwhelming the page",
+      "extractedFrom": "quality-target"
+    },
+    {
       "source": "operations-sections",
       "target": "actions-seeking-progressive-disclosure",
       "type": "enables",
@@ -2586,6 +2656,13 @@
       "type": "instantiates",
       "label": "bots often need to reveal capability, intent, and reasoning incrementally",
       "extractedFrom": "header:\"Applied in\""
+    },
+    {
+      "source": "actions-seeking-progressive-disclosure",
+      "target": "actions-seeking-link-preview",
+      "type": "tangential",
+      "label": "hover-to-peek at a linked destination; the lightest disclosure tier for cross-references",
+      "extractedFrom": "header:\"Tangentially related\""
     },
     {
       "source": "actions-seeking-progressive-disclosure",
@@ -2708,6 +2785,13 @@
       "type": "complements",
       "label": "semantic tagging for organisation.",
       "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "actions-sense-making-annotation",
+      "target": "actions-seeking-link-preview",
+      "type": "tangential",
+      "label": "previews can surface annotation layers attached to a linked destination",
+      "extractedFrom": "header:\"Tangentially related\""
     },
     {
       "source": "actions-sense-making-needs-based-view",
@@ -5333,13 +5417,6 @@
     },
     {
       "source": "components-action-bar",
-      "target": "operations-unavailable-actions",
-      "type": "complements",
-      "label": "governs which actions appear or disable as the selection scope changes",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "components-action-bar",
       "target": "foundations-modality",
       "type": "complements",
       "label": "action bars are non-modal: the underlying content remains interactive",
@@ -5437,11 +5514,6 @@
     },
     {
       "source": "primitives-button",
-      "target": "operations-unavailable-actions",
-      "type": "related"
-    },
-    {
-      "source": "primitives-button",
       "target": "operations-disabled-state",
       "type": "related"
     },
@@ -5497,12 +5569,6 @@
       "target": "foundations-modality",
       "type": "related",
       "label": "context menus are non-modal overlays"
-    },
-    {
-      "source": "components-context-menu",
-      "target": "operations-unavailable-actions",
-      "type": "related",
-      "label": "context menus should hide or disable actions inaccessible for the selected target"
     },
     {
       "source": "components-dialog",
@@ -5922,12 +5988,6 @@
       "type": "complements",
       "label": "when the message requires a decision before the actor can continue",
       "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "actions-coordination-messaging",
-      "target": "activities-bot",
-      "type": "related",
-      "label": "conversation partner"
     },
     {
       "source": "actions-coordination-messaging",

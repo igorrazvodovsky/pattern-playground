@@ -4,6 +4,7 @@ import ClientRouter from 'astro/components/ClientRouter.astro';
 import '@styles/main.css';
 import '../styles/app.css';
 import '../styles/stack.css';
+import '../styles/link-preview.css';
 import { AppShell } from '../components/AppShell';
 
 interface Props {
@@ -127,6 +128,7 @@ const navItems: NavGroup[] = [
     </AppShell>
     <script>
       import '@components/register-all.ts';
+      import '../lib/link-preview.ts';
     </script>
   </body>
 </html>

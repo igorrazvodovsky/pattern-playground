@@ -229,6 +229,12 @@
       "atomic-category": "composition",
       "mediation": "individual"
     },
+    "actions-seeking-link-preview": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": "individual"
+    },
     "actions-seeking-progressive-disclosure": {
       "activity-level": "action",
       "lifecycle-stage": "seeking",

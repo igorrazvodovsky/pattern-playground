@@ -122,7 +122,7 @@ export const useStackStore = create<StackState>()((set, get) => ({
 // Mistyped or unmigrated slugs fall through to normal navigation instead of
 // landing in a broken stacked-notes pane.
 const patternFiles = import.meta.glob('/src/content/patterns/**/*.mdx');
-const validSlugs = new Set(
+export const validSlugs = new Set(
   Object.keys(patternFiles).map(p =>
     p.replace('/src/content/patterns/', '').replace(/\.mdx$/, '')
   )

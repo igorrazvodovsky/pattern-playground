@@ -31,3 +31,6 @@ storybook-static.zip
 .env
 .obsidian
 plans/backlog-sources.md
+
+# Astro build cache
+.astro/

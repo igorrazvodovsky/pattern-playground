@@ -14,7 +14,7 @@ import {
   SidebarInset,
 } from '@components/sidebar';
 import { StackManager } from './StackManager';
-import { useNavStore } from '../lib/nav-store';
+import { useNavStore, useNavHydration } from '../lib/nav-store';
 
 type NavLeaf = { label: string; href: string };
 type NavBranch = { label: string; children: NavTreeNode[] };
@@ -91,6 +91,7 @@ function NavNode({ node, currentPath, isOpen, setOpen }: NavNodeProps) {
 
 export function AppShell({ navItems, title, currentPath, children, slug, storybookUrl }: AppShellProps) {
   const { isOpen, setOpen } = useNavStore();
+  useNavHydration();
   return (
     <SidebarProvider>
       <Sidebar collapsible="icon">

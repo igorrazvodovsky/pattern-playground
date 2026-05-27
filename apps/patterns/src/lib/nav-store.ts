@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -15,6 +16,15 @@ export const useNavStore = create<NavState>()(
         set(state => ({ openGroups: { ...state.openGroups, [label]: open } })),
       isOpen: (label) => get().openGroups[label] ?? false,
     }),
-    { name: 'nav-state' }
+    { name: 'nav-state', skipHydration: true }
   )
 );
+
+export function useNavHydration() {
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => {
+    useNavStore.persist.rehydrate();
+    setHydrated(true);
+  }, []);
+  return hydrated;
+}
