@@ -82,23 +82,37 @@ function prefetch(slug: string): Promise<string> {
 
 async function position(anchor: HTMLAnchorElement) {
   const preview = getPreviewEl();
+  const padding = 8;
+
+  preview.style.maxHeight = '';
   const { x, y } = await computePosition(anchor, preview, {
     strategy: 'fixed',
     placement: 'bottom-start',
     middleware: [
-      offset(8),
+      offset(padding),
       flip(),
-      shift({ padding: 8 }),
+      shift({ padding }),
       size({
-        padding: 8,
+        padding,
         apply({ availableHeight, elements }) {
-          elements.floating.style.maxHeight = `${availableHeight}px`;
+          elements.floating.style.maxHeight = `${Math.max(0, availableHeight)}px`;
         },
       }),
     ],
   });
   preview.style.left = `${x}px`;
   preview.style.top = `${y}px`;
+
+  // Chrome can render top-layer popovers inside a scrolled .pane-body with a
+  // shifted containing block, so style.top is interpreted with an offset from
+  // the viewport. Measure and correct.
+  const rect = preview.getBoundingClientRect();
+  const dy = rect.top - y;
+  const dx = rect.left - x;
+  if (Math.abs(dy) > 1 || Math.abs(dx) > 1) {
+    preview.style.top = `${y - dy}px`;
+    preview.style.left = `${x - dx}px`;
+  }
 }
 
 function watchScroll(anchor: HTMLAnchorElement) {
@@ -122,10 +136,11 @@ async function show(anchor: HTMLAnchorElement, gen: number) {
   currentAnchor = anchor;
   const preview = getPreviewEl();
   preview.innerHTML = content;
-  preview.style.top = '-9999px';
-  preview.style.left = '0px';
+  preview.scrollTop = 0;
+  preview.style.visibility = 'hidden';
   preview.showPopover();
   await position(anchor);
+  preview.style.visibility = '';
   anchor.setAttribute('aria-describedby', 'lp-popover');
   watchScroll(anchor);
 }
@@ -151,6 +166,12 @@ function cancelHide() {
 
 function scheduleHide() {
   clearTimeout(hideTimer);
+  if (pendingAnchor && !currentAnchor) {
+    clearTimeout(showTimer);
+    ++showGeneration;
+    pendingAnchor = null;
+    return;
+  }
   hideTimer = window.setTimeout(hide, HIDE_DELAY);
 }
 
@@ -187,14 +208,25 @@ function handlePreviewClick(e: Event) {
 
 function preloadPageLinks() {
   const seen = new Set<string>();
+  const slugs: string[] = [];
   for (const a of document.querySelectorAll<HTMLAnchorElement>('a[href]')) {
     if (a.closest('[data-sidebar]')) continue;
     const slug = resolveSlug(a);
     if (slug && !seen.has(slug)) {
       seen.add(slug);
-      prefetch(slug);
+      slugs.push(slug);
     }
   }
+  const idle = (window as any).requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 100));
+  let i = 0;
+  function pump() {
+    const start = performance.now();
+    while (i < slugs.length && performance.now() - start < 5) {
+      prefetch(slugs[i++]);
+    }
+    if (i < slugs.length) idle(pump);
+  }
+  idle(pump);
 }
 
 if (typeof document !== 'undefined') {
@@ -206,7 +238,7 @@ if (typeof document !== 'undefined') {
     const anchor = target.closest?.('a[href]') as HTMLAnchorElement | null;
 
     if (!anchor || !resolveSlug(anchor) || anchor.closest?.('[data-sidebar]')) {
-      if (currentAnchor && !target.closest?.('.link-preview')) {
+      if ((currentAnchor || pendingAnchor) && !target.closest?.('.link-preview')) {
         scheduleHide();
       }
       return;
@@ -227,7 +259,7 @@ if (typeof document !== 'undefined') {
   });
 
   document.addEventListener('focusout', () => {
-    if (currentAnchor) scheduleHide();
+    if (currentAnchor || pendingAnchor) scheduleHide();
   });
 
   document.addEventListener('keydown', (e) => {
