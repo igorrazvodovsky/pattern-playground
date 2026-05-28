@@ -7,16 +7,22 @@ interface StackManagerProps {
   children: React.ReactNode;
 }
 
-interface PaneSpineProps {
-  paneTitle: string;
-  onFoldedClick: (paneIndex: number) => void;
+function getSpineWidth(stackEl: HTMLElement): number {
+  const spine = stackEl.querySelector<HTMLElement>('.pane-spine');
+  return spine?.getBoundingClientRect().width ?? 28;
 }
 
-function scrollPaneIntoView(paneEl: HTMLElement) {
-  paneEl.scrollIntoView({ inline: 'start', behavior: 'smooth', block: 'nearest' });
+function scrollToPane(stackEl: HTMLElement, paneIndex: number) {
+  const section = stackEl.querySelector<HTMLElement>(`[data-pane-index="${paneIndex}"]`);
+  if (!section) return;
+  const spineW = getSpineWidth(stackEl);
+  stackEl.scrollTo({
+    left: section.offsetLeft - paneIndex * spineW,
+    behavior: 'smooth',
+  });
 }
 
-function PaneSpine({ paneTitle, onFoldedClick }: PaneSpineProps) {
+function PaneSpine({ paneTitle }: { paneTitle: string }) {
   return (
     <button
       className="pane-spine"
@@ -24,11 +30,10 @@ function PaneSpine({ paneTitle, onFoldedClick }: PaneSpineProps) {
       onClick={(e) => {
         const section = e.currentTarget.closest<HTMLElement>('[data-pane-index]');
         if (!section) return;
-        if ('folded' in section.dataset || 'covered' in section.dataset) {
-          onFoldedClick(parseInt(section.dataset.paneIndex ?? '0', 10));
-        } else {
-          scrollPaneIntoView(section);
-        }
+        const stack = section.parentElement;
+        if (!stack) return;
+        const paneIndex = parseInt(section.dataset.paneIndex ?? '0', 10);
+        scrollToPane(stack, paneIndex);
       }}
     >
       <span aria-hidden="true">{paneTitle}</span>
@@ -39,13 +44,10 @@ function PaneSpine({ paneTitle, onFoldedClick }: PaneSpineProps) {
 export function StackManager({ slug, title, children }: StackManagerProps) {
   const { panes, activeIndex, syncFromURL } = useStackStore();
   const stackRef = useRef<HTMLDivElement>(null);
-  const foldAnchorRef = useRef(Number.MAX_SAFE_INTEGER);
-  const applyFoldsRef = useRef<(() => void) | null>(null);
   const prevPanesRef = useRef<typeof panes>([]);
 
   useEffect(() => {
     syncFromURL(slug, title);
-
     const handlePopstate = () => syncFromURL(slug, title);
     window.addEventListener('popstate', handlePopstate);
     return () => window.removeEventListener('popstate', handlePopstate);
@@ -53,6 +55,7 @@ export function StackManager({ slug, title, children }: StackManagerProps) {
 
   useEffect(() => {
     if (!stackRef.current || panes.length <= 1) return;
+    scrollToPane(stackRef.current, panes.length - 1);
     const sections = stackRef.current.querySelectorAll<HTMLElement>('[data-pane-index]');
     const last = sections[sections.length - 1];
     if (!last) return;
@@ -73,85 +76,20 @@ export function StackManager({ slug, title, children }: StackManagerProps) {
     prevPanesRef.current = panes;
   }, [panes]);
 
-  useEffect(() => {
-    const stackEl = stackRef.current;
-    if (!stackEl) return;
-
-    foldAnchorRef.current = Number.MAX_SAFE_INTEGER;
-
-    const applyFolds = () => {
-      const W = stackEl.clientWidth;
-      const N = panes.length;
-      if (N === 0) return;
-
-      const spineProbe = document.createElement('div');
-      spineProbe.style.cssText = 'position:absolute;visibility:hidden;width:var(--pane-spine-w,1.75rem)';
-      stackEl.appendChild(spineProbe);
-      const s = spineProbe.getBoundingClientRect().width;
-      spineProbe.remove();
-
-      const coveredProbe = document.createElement('div');
-      coveredProbe.style.cssText = 'position:absolute;visibility:hidden;width:var(--pane-covered-w,12rem)';
-      stackEl.appendChild(coveredProbe);
-      const c = coveredProbe.getBoundingClientRect().width;
-      coveredProbe.remove();
-
-      const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
-      const rawMax = parseFloat(getComputedStyle(stackEl).getPropertyValue('--pane-max-w')) || 48;
-      const p = Math.min(rawMax * rem, W);
-
-      let K = p > s ? Math.max(1, Math.floor((W - N * s) / (p - s))) : 1;
-      K = Math.min(K, N);
-      const remainingForCovered = W - K * p - Math.max(0, N - K - 1) * s;
-      const hasCoverSlot = K < N && remainingForCovered >= c;
-
-      const maxAnchor = Math.max(0, N - K);
-      foldAnchorRef.current = Math.min(foldAnchorRef.current, maxAnchor);
-      const anchor = foldAnchorRef.current;
-
-      const coveredIndex = hasCoverSlot && anchor > 0 ? anchor - 1 : -1;
-
-      stackEl.querySelectorAll<HTMLElement>('[data-pane-index]').forEach((section, i) => {
-        if (i >= anchor) {
-          delete section.dataset.folded;
-          delete section.dataset.covered;
-        } else if (i === coveredIndex) {
-          delete section.dataset.folded;
-          section.dataset.covered = '';
-        } else {
-          section.dataset.folded = '';
-          delete section.dataset.covered;
-        }
-      });
-    };
-
-    applyFoldsRef.current = applyFolds;
-    applyFolds();
-
-    const ro = new ResizeObserver(applyFolds);
-    ro.observe(stackEl);
-    return () => ro.disconnect();
-  }, [panes.length]);
-
-  const handleFoldedClick = (paneIndex: number) => {
-    foldAnchorRef.current = paneIndex;
-    applyFoldsRef.current?.();
-  };
-
   return (
     <div className="stack" ref={stackRef}>
       <section
         className={`pane${activeIndex === 0 ? ' pane--active' : ''}`}
         data-pane-index={0}
+        style={{ '--pane-i': 0 } as React.CSSProperties}
         role="region"
         aria-label={`Pattern: ${title}`}
         aria-current={activeIndex === 0 ? 'true' : undefined}
       >
+        {panes.length > 1 && <PaneSpine paneTitle={title} />}
         <div className="pane-body">{children}</div>
-        <PaneSpine paneTitle={title} onFoldedClick={handleFoldedClick} />
       </section>
 
-      {/* Panes 1+: fetched and injected as HTML */}
       {panes.slice(1).map((pane, i) => {
         const paneIndex = i + 1;
         const isActive = paneIndex === activeIndex;
@@ -160,10 +98,12 @@ export function StackManager({ slug, title, children }: StackManagerProps) {
             key={pane.slug}
             className={`pane${isActive ? ' pane--active' : ''}`}
             data-pane-index={paneIndex}
+            style={{ '--pane-i': paneIndex } as React.CSSProperties}
             role="region"
             aria-label={`Pattern: ${pane.title}`}
             aria-current={isActive ? 'true' : undefined}
           >
+            <PaneSpine paneTitle={pane.title} />
             <div className="pane-body">
               {pane.status === 'loading' && (
                 <article className="pane-loading" aria-busy="true">
@@ -179,7 +119,6 @@ export function StackManager({ slug, title, children }: StackManagerProps) {
                 <article dangerouslySetInnerHTML={{ __html: pane.html }} />
               )}
             </div>
-            <PaneSpine paneTitle={pane.title} onFoldedClick={handleFoldedClick} />
           </section>
         );
       })}

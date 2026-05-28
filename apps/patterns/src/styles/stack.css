@@ -1,33 +1,27 @@
 @layer layout {
-  /* When a stack is active, lock SidebarInset to the viewport height so panes
-     can scroll independently rather than growing the page vertically. */
   main.sidebar-inset:has(.stack) {
     overflow: hidden;
     height: 100svh;
   }
 
-  /* Stack container fills the bounded SidebarInset */
   .stack {
     --pane-spine-w: 1.75rem;
-    --pane-covered-w: 14rem;
     --pane-max-w: 36rem;
     display: flex;
     overflow-x: auto;
     height: 100%;
     align-items: stretch;
+    position: relative;
   }
 
-  /* Each pane */
   .pane {
     flex: 0 0 min(var(--pane-max-w), 100%);
     display: flex;
     flex-direction: row;
     overflow-y: hidden;
-    will-change: opacity;
-    transition: flex-basis 0.3s ease, opacity 0.2s ease, filter 0.2s ease;
-    /* opacity: 0.55; */
-    filter: saturate(0.8);
-    position: relative;
+    position: sticky;
+    left: calc(var(--pane-i, 0) * var(--pane-spine-w));
+    z-index: calc(var(--pane-i, 0) + 1);
     background-color: var(--c-background);
 
     &:not(:first-child) {
@@ -50,17 +44,14 @@
     justify-content: center;
     background: none;
     border: none;
-    border-inline-start: var(--border);
+    border-inline-end: var(--border);
     cursor: pointer;
     padding-block: var(--space-m);
-    opacity: 0;
-    transition: opacity 0.2s ease;
     color: var(--c-neutral-400);
     font-size: var(--text-xs);
     font-weight: 500;
     letter-spacing: 0.08em;
     writing-mode: vertical-rl;
-    transform: rotate(180deg);
     text-transform: uppercase;
     overflow: hidden;
     white-space: nowrap;
@@ -75,49 +66,18 @@
     outline-offset: -2px;
   }
 
-  /* Folded pane: collapsed to spine width only */
-  .pane[data-folded] {
-    flex: 0 0 var(--pane-spine-w);
-    overflow: hidden;
+  /* Non-active panes dim slightly */
+  .pane {
+    filter: saturate(0.8);
   }
 
-  .pane[data-folded] .pane-body {
-    display: none;
-  }
-
-  .pane[data-folded] .pane-spine {
-    opacity: 1;
-    border-inline-start: none;
-  }
-
-  /* Covered pane: full-width behind the next pane which slides left over it */
-  .pane[data-covered] {
-    flex: 0 0 min(var(--pane-max-w), 100%);
-  }
-
-  /* First full pane after covered overlaps it, revealing only the peek strip */
-  .pane[data-covered] + .pane {
-    margin-inline-start: calc(var(--pane-covered-w) - var(--pane-max-w));
-  }
-
-  /* Spine moves to the left edge so it sits in the visible peek strip */
-  .pane[data-covered] .pane-spine {
-    order: -1;
-    opacity: 1;
-
-    &:not(:first-child) {
-      border-inline-start: var(--border);
-    }
-  }
-
-  /* Non-active panes dim; active pane is full opacity */
   .pane.pane--active,
   .pane:only-child {
     opacity: 1;
     filter: none;
   }
 
-  /* Give only one pane the sidebar-like behaviour when stack is single pane */
+  /* Single pane fills available space */
   .stack:has(.pane:only-child) .pane {
     flex: 1 1 auto;
   }
@@ -155,14 +115,11 @@
     flex: 0 0 100%;
     opacity: 1;
     filter: none;
+    position: static;
   }
 
   .pane.pane--active {
     display: flex;
-  }
-
-  .pane[data-covered] {
-    display: none;
   }
 
   .pane-spine {
@@ -172,14 +129,6 @@
 
 /* Honour reduced-motion preference */
 @media (prefers-reduced-motion: reduce) {
-  .pane {
-    transition: opacity 0.2s ease, filter 0.2s ease;
-  }
-
-  .pane-spine {
-    transition: none;
-  }
-
   .stack {
     scroll-behavior: auto;
   }
