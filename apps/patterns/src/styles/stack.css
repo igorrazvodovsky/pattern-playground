@@ -40,9 +40,15 @@
     background-color: var(--c-background);
 
     &:not(:first-child) {
-      /* The spine is the pane's leading edge, so this divider + shadow sit on the
-         content-facing side of a right-pinned spine automatically. */
+      /* Divider between adjacent panes — always present, even side by side. */
       border-inline-start: var(--border);
+    }
+
+    /* A raised pane casts a shadow onto the pane it overlaps, so the deck reads
+       front-to-back. data-overlapping is toggled by StackManager only while this
+       pane actually overlays its predecessor — never when panes merely sit side
+       by side. The shadow falls on the leading (left) edge, onto the pane below. */
+    &[data-overlapping] {
       box-shadow: -4px 0 12px -6px oklch(0% 0 0deg / 18%);
     }
   }
@@ -56,11 +62,11 @@
   /* The spine is the pane's leading edge: a vertical title that doubles as the
      left-rail spine (when the pane is pushed off the left and covered by the
      next) and the right-rail spine (when the pane is pushed off the right and
-     only its leading edge remains). */
+     only its leading edge remains). It is hidden while the pane is expanded and
+     revealed only once the pane collapses to a rail — see data-collapsed below. */
   .pane-spine {
     flex-shrink: 0;
     width: var(--pane-spine-w);
-    display: flex;
     align-items: center;
     justify-content: center;
     background: none;
@@ -123,6 +129,19 @@
     padding: 2rem 3rem;
     color: var(--c-neutral-500, #6b7280);
   }
+}
+
+/* Spine visibility lives OUTSIDE @layer on purpose: the spine is a <button>, and
+   the components-layer button reset (display: inline-flex) outranks any layered
+   rule regardless of specificity. Unlayered rules beat every layer, so these
+   win. The label is shown only while its pane is collapsed to a rail —
+   data-collapsed is toggled by StackManager from the live overlap geometry. */
+.pane:not([data-collapsed]) .pane-spine {
+  display: none;
+}
+
+.pane[data-collapsed] .pane-spine {
+  display: flex;
 }
 
 /* Mobile: single-pane view — only active pane visible */

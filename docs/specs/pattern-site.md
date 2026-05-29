@@ -84,7 +84,17 @@ Following a pattern link does not replace the page — it pushes the target into
 As the stack grows wider than the viewport, panes collapse into thin vertical _spines_ on both rails: earlier panes tuck under the left edge as you scroll right, later panes stay pinned at the right edge until you scroll back to them.
 Nothing ever scrolls off into nowhere — the deck is bounded by the viewport, like a hand of laid-out cards. State lives in the URL via `stackedNotes` query params, so a stacked view is shareable and survives reload.
 
-The whole effect is pure CSS `position: sticky` — there is no scroll listener or JavaScript classifier.
+The _geometry_ is mostly CSS `position: sticky`. A
+small rAF-throttled scroll handler in `StackManager.tsx` only reflects what is already painted onto two cosmetic state attributes which marks a note when it overlays another:
+
+- `data-collapsed` — set while only a spine's worth of the pane is visible
+  (pinned to a rail and clipped or covered). The spine label is revealed _only_
+  then; an expanded pane shows no spine. (The spine is a `<button>`, so the
+  components-layer button reset outranks any layered rule — its visibility rules
+  therefore live outside `@layer`, where they beat every layer.)
+- `data-overlapping` — set while the pane actually overlays its predecessor. The
+  front-to-back depth shadow is cast _only_ then, never when panes merely sit
+  side by side.
 
 - Each pane sticks to a per-pane _left_ inset (its slot in the left rail) and a
   _negative right_ inset of roughly spine-width-minus-pane-width. The negative
@@ -101,7 +111,7 @@ The whole effect is pure CSS `position: sticky` — there is no scroll listener 
   it reads as a left-rail spine when covered by the next pane and as a right-rail
   spine when only that leading edge remains visible.
 
-The exact geometry (inset formulas, spine and pane widths, z-index, shadows) is in `apps/patterns/src/styles/stack.css`; the scroll-into-view and URL-sync logic lives in `apps/patterns/src/components/StackManager.tsx` and
+The exact geometry is in `apps/patterns/src/styles/stack.css`; the overlap/collapse detection, scroll-into-view, and URL-sync logic live in `apps/patterns/src/components/StackManager.tsx` and
 `apps/patterns/src/lib/stack-store.ts`.
 
 A behavioural invariant to preserve: at the leftmost scroll position the first panes are fully visible and later panes are progressively clipped then spined — a partly-visible pane is _never_ overlapped by the next one.

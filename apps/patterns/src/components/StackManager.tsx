@@ -7,9 +7,45 @@ interface StackManagerProps {
   children: React.ReactNode;
 }
 
+// Spine width in px, read from the --pane-spine-w custom property. We can't
+// measure a .pane-spine element: it is display:none until its pane collapses.
 function getSpineWidth(stackEl: HTMLElement): number {
-  const spine = stackEl.querySelector<HTMLElement>('.pane-spine');
-  return spine?.getBoundingClientRect().width ?? 28;
+  const raw = getComputedStyle(stackEl).getPropertyValue('--pane-spine-w').trim();
+  const value = parseFloat(raw);
+  if (!value) return 28;
+  if (raw.endsWith('rem')) {
+    const root = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+    return value * root;
+  }
+  return value; // assume px
+}
+
+// Toggle the cosmetic state attributes the stylesheet keys off, matching the
+// reference (notes.andymatuschak.org) which marks a note when it overlays
+// another. Geometry stays pure-CSS sticky; this only reflects what is painted:
+//   data-collapsed   — only a spine's worth of the pane shows (pinned to a rail
+//                      and clipped/covered) → reveal its spine label.
+//   data-overlapping — the pane actually overlays its predecessor → cast the
+//                      depth shadow. Never set when panes merely sit side by side.
+function updateStackClasses(stackEl: HTMLElement) {
+  const panes = [...stackEl.querySelectorAll<HTMLElement>('[data-pane-index]')];
+  if (!panes.length) return;
+  const spineW = getSpineWidth(stackEl);
+  const stack = stackEl.getBoundingClientRect();
+  const rects = panes.map((p) => p.getBoundingClientRect());
+
+  panes.forEach((pane, i) => {
+    const r = rects[i];
+    // A later pane (higher z-index) covers this one; the viewport clips both edges.
+    const coveredRight = i + 1 < rects.length ? rects[i + 1].left : stack.right;
+    const visible = Math.min(r.right, stack.right, coveredRight) - Math.max(r.left, stack.left);
+    const collapsed = visible <= spineW + 4;
+    // This pane overlays its predecessor when their boxes intersect horizontally
+    // (1px slack so a plain side-by-side border seam doesn't count as overlap).
+    const overlapping = i > 0 && r.left < rects[i - 1].right - 1;
+    pane.toggleAttribute('data-collapsed', collapsed);
+    pane.toggleAttribute('data-overlapping', overlapping);
+  });
 }
 
 // Natural (un-stuck) left offset of a pane, summed from preceding pane widths.
@@ -73,6 +109,30 @@ export function StackManager({ slug, title, children }: StackManagerProps) {
       setTimeout(() => h1.focus(), 0);
     }
   }, [panes.length]);
+
+  // Reflect the painted overlap geometry into data-collapsed / data-overlapping
+  // on every scroll (rAF-throttled) and resize. Re-runs when panes change so a
+  // newly pushed or removed pane is classified immediately.
+  useEffect(() => {
+    const stackEl = stackRef.current;
+    if (!stackEl) return;
+    let raf = 0;
+    const schedule = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        updateStackClasses(stackEl);
+      });
+    };
+    updateStackClasses(stackEl);
+    stackEl.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    return () => {
+      if (raf) cancelAnimationFrame(raf);
+      stackEl.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', schedule);
+    };
+  }, [panes]);
 
   useEffect(() => {
     panes.slice(1).forEach((pane, i) => {
