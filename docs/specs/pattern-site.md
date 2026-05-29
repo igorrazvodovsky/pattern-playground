@@ -78,21 +78,33 @@ semantics. The authoritative AT classification for patterns lives in the pattern
 site; the Storybook projection is a practical convenience for component
 navigation.
 
-## APG-style splits: name the move, not the widget
+## Stacked-notes navigation
 
-When a pattern entry mixes move-level content (situation, forces, consequences,
-edges) with mechanism-level content (props, states, anatomy, keyboard, ARIA),
-it should be split:
+Following a pattern link does not replace the page — it pushes the target into a horizontal stack of panes.
+As the stack grows wider than the viewport, panes collapse into thin vertical _spines_ on both rails: earlier panes tuck under the left edge as you scroll right, later panes stay pinned at the right edge until you scroll back to them.
+Nothing ever scrolls off into nowhere — the deck is bounded by the viewport, like a hand of laid-out cards. State lives in the URL via `stackedNotes` query params, so a stacked view is shareable and survives reload.
 
-- The _move_ portion is authored as a pattern-site entry named after the
-  interaction move it describes, not the widget that implements it. Example:
-  "Constrained selection" rather than "Combobox".
-- The _mechanism_ portion stays as a component in `packages/components/` under
-  the existing widget name.
+The whole effect is pure CSS `position: sticky` — there is no scroll listener or JavaScript classifier.
 
-The naming principle: _what the actor is doing_, not _what the UI element is
-called_. This applies to all APG-style controls that earn a pattern-language
-entry.
+- Each pane sticks to a per-pane _left_ inset (its slot in the left rail) and a
+  _negative right_ inset of roughly spine-width-minus-pane-width. The negative
+  inset is the crux: it lets a pane flow normally and simply be _clipped_ at the
+  viewport edge until only a spine's worth would remain, and only _then_ pins it
+  as a right-rail spine. A _positive_ right inset — the obvious-looking choice —
+  pins a pane the instant it overflows, which slides a still-mostly-visible pane
+  on top of the previous one. That asymmetry (flow-then-pin, not pin-on-overflow)
+  is the entire trick.
+- `z-index` increases with pane order, so later panes always lay over earlier
+  ones — earlier panes tuck _under_ on the left, later panes sit _over_ on the
+  right, giving the stack its consistent front-to-back order.
+- One spine element per pane serves both rails: it is the pane's leading edge, so
+  it reads as a left-rail spine when covered by the next pane and as a right-rail
+  spine when only that leading edge remains visible.
+
+The exact geometry (inset formulas, spine and pane widths, z-index, shadows) is in `apps/patterns/src/styles/stack.css`; the scroll-into-view and URL-sync logic lives in `apps/patterns/src/components/StackManager.tsx` and
+`apps/patterns/src/lib/stack-store.ts`.
+
+A behavioural invariant to preserve: at the leftmost scroll position the first panes are fully visible and later panes are progressively clipped then spined — a partly-visible pane is _never_ overlapped by the next one.
 
 ## Profile sidecars
 

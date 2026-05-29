@@ -20,13 +20,30 @@
     flex-direction: row;
     overflow-y: hidden;
     position: sticky;
+
+    /* Both rails, one deck of cards (à la notes.andymatuschak.org). The left
+       inset stacks earlier panes on the left as you scroll right. The right
+       inset is NEGATIVE — spine-width minus pane-width, plus a per-pane step —
+       so a pane flows normally (and is simply clipped at the viewport edge)
+       until only its spine would remain, and only THEN pins as a spine on the
+       right. That keeps a partly-visible pane fully in flow instead of sliding
+       it on top of the previous one. --pane-n (pane count) is set on .stack. */
     left: calc(var(--pane-i, 0) * var(--pane-spine-w));
+    right: calc(
+      (var(--pane-n, 1) - var(--pane-i, 0)) * var(--pane-spine-w) - var(--pane-max-w)
+    );
+
+    /* Later panes always on top: earlier panes tuck UNDER on the left (left spine
+       peeks), later panes lay OVER on the right (spine on top, with the divider/
+       shadow below facing the content). */
     z-index: calc(var(--pane-i, 0) + 1);
     background-color: var(--c-background);
 
     &:not(:first-child) {
+      /* The spine is the pane's leading edge, so this divider + shadow sit on the
+         content-facing side of a right-pinned spine automatically. */
       border-inline-start: var(--border);
-      box-shadow: var(--shadow-l);
+      box-shadow: -4px 0 12px -6px oklch(0% 0 0deg / 18%);
     }
   }
 
@@ -36,6 +53,10 @@
     overflow-y: auto;
   }
 
+  /* The spine is the pane's leading edge: a vertical title that doubles as the
+     left-rail spine (when the pane is pushed off the left and covered by the
+     next) and the right-rail spine (when the pane is pushed off the right and
+     only its leading edge remains). */
   .pane-spine {
     flex-shrink: 0;
     width: var(--pane-spine-w);
@@ -122,6 +143,7 @@
     display: flex;
   }
 
+  /* Single-pane view: no rails, no spines. */
   .pane-spine {
     display: none;
   }

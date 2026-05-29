@@ -12,14 +12,22 @@ function getSpineWidth(stackEl: HTMLElement): number {
   return spine?.getBoundingClientRect().width ?? 28;
 }
 
+// Natural (un-stuck) left offset of a pane, summed from preceding pane widths.
+// offsetLeft can't be used: for a sticky pane it reports the *shifted* position.
+function naturalLeft(sections: HTMLElement[], paneIndex: number): number {
+  let acc = 0;
+  for (let i = 0; i < paneIndex && i < sections.length; i++) acc += sections[i].offsetWidth;
+  return acc;
+}
+
+// Scroll a pane to its expanded spot, just right of the left rail.
 function scrollToPane(stackEl: HTMLElement, paneIndex: number) {
-  const section = stackEl.querySelector<HTMLElement>(`[data-pane-index="${paneIndex}"]`);
-  if (!section) return;
+  const sections = [...stackEl.querySelectorAll<HTMLElement>('[data-pane-index]')];
+  if (!sections.length) return;
   const spineW = getSpineWidth(stackEl);
-  stackEl.scrollTo({
-    left: section.offsetLeft - paneIndex * spineW,
-    behavior: 'smooth',
-  });
+  const max = stackEl.scrollWidth - stackEl.clientWidth;
+  const target = naturalLeft(sections, paneIndex) - paneIndex * spineW;
+  stackEl.scrollTo({ left: Math.max(0, Math.min(max, target)), behavior: 'smooth' });
 }
 
 function PaneSpine({ paneTitle }: { paneTitle: string }) {
@@ -77,7 +85,11 @@ export function StackManager({ slug, title, children }: StackManagerProps) {
   }, [panes]);
 
   return (
-    <div className="stack" ref={stackRef}>
+    <div
+      className="stack"
+      ref={stackRef}
+      style={{ '--pane-n': panes.length } as React.CSSProperties}
+    >
       <section
         className={`pane${activeIndex === 0 ? ' pane--active' : ''}`}
         data-pane-index={0}

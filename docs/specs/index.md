@@ -9,7 +9,7 @@ work packets in `plans/`.
 - [Workspace layout](workspace-layout.md) — package structure, what each
   workspace owns, bilingual entries, and workspace dependency direction.
 - [Pattern site](pattern-site.md) — content collection schema, frontmatter
-  fields, inter-page link format, AT-level conventions, and APG split rule.
+  fields, inter-page link format, AT-level conventions.
 - [Storybook taxonomy](storybook-taxonomy.md) — component story projection and
   placement rules in Storybook.
 - [Graph relationship model](graph-relationship-model.md) — current graph data
