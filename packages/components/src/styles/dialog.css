@@ -104,7 +104,7 @@
     }
   }
 
-  @media (prefers-reduced-motion: no-preference) and @media (max-width: 768px) {
+  @media (prefers-reduced-motion: no-preference) and (max-width: 768px) {
     dialog {
       animation: var(--animation-slide-out-down) forwards;
       animation-timing-function: var(--ease-squish-2);
