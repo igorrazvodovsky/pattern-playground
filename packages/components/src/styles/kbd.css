@@ -3,7 +3,8 @@
     border: var(--border);
     padding: var(--space-2xs) var(--space-xs);
     border-radius: var(--radius-s);
-
     font-size: var(--text-xs);
+    line-height: 150%;
+    color: var(--c-text-muted, currentColor);
   }
 }

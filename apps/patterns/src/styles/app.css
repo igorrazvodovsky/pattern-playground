@@ -4,7 +4,7 @@
   /* Styling for non-stack pages lives in stack.css (.content-inset) */
 
   main.sidebar-inset {
-    background: var(--c-neutral-50);
+    background: var(--c-neutral-0);
   }
 }
 
@@ -49,10 +49,14 @@
     padding: var(--space-xs, 0.25rem);
   }
 
+  .sidebar-search .sidebar-search-kbd {
+    margin-inline-start: auto;
+  }
+
   .sidebar-logo img {
     display: block;
     width: 100%;
-    max-width: 8rem;
+    max-width: 8rem !important;
     height: auto;
   }
 

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev --port 4321",
-    "build": "astro build",
+    "build": "astro build && pagefind --site dist",
     "preview": "astro preview"
   },
   "dependencies": {
@@ -15,5 +15,8 @@
     "astro": "^6.3.3",
     "lit": "^3.3.1",
     "zustand": "^5.0.13"
+  },
+  "devDependencies": {
+    "pagefind": "^1.5.2"
   }
 }

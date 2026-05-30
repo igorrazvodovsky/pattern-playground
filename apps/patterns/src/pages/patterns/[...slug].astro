@@ -16,7 +16,7 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 ---
 <Base title={entry.data.title} slug={entry.id}>
-  <article class="flow">
+  <article class="flow" data-pagefind-body data-pagefind-meta={`title:${entry.data.title}`}>
     <header>
       <!-- <div class="meta"> -->
         <!-- <span class="badge role">{entry.data.role}</span> -->

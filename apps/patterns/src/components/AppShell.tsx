@@ -89,6 +89,14 @@ function NavNode({ node, currentPath, isOpen, setOpen }: NavNodeProps) {
   );
 }
 
+// Open the Pagefind search modal. We call its open() method directly rather
+// than relying on <pagefind-modal-trigger>, whose binding goes stale across
+// View Transitions swaps. See Base.astro for the matching ⌘K hotkey.
+function openSearch() {
+  const modal = document.querySelector('pagefind-modal') as (HTMLElement & { open?: () => void }) | null;
+  modal?.open?.();
+}
+
 export function AppShell({ navItems, title, currentPath, children, slug, storybookUrl }: AppShellProps) {
   const { isOpen, setOpen } = useNavStore();
   useNavHydration();
@@ -101,6 +109,17 @@ export function AppShell({ navItems, title, currentPath, children, slug, storybo
           </a>
           <SidebarGroup>
             <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  render={<button type="button" onClick={openSearch} />}
+                  className="sidebar-search"
+                  tooltip="Search"
+                >
+                  {React.createElement('iconify-icon', { icon: 'ph:magnifying-glass' })}
+                  <span>Search</span>
+                  <kbd className="sidebar-search-kbd">⌘K</kbd>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton
                   render={<a href="/" />}

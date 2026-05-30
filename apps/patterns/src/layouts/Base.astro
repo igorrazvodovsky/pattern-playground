@@ -115,6 +115,8 @@ const navItems: NavGroup[] = [
     <title>{title} — Pattern Playground</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <ClientRouter />
+    <link rel="stylesheet" href="/pagefind/pagefind-component-ui.css" is:inline />
+    <script src="/pagefind/pagefind-component-ui.js" type="module" is:inline></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Alegreya:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
@@ -126,6 +128,28 @@ const navItems: NavGroup[] = [
     <AppShell client:load navItems={navItems} title={title} currentPath={currentPath} slug={slug} storybookUrl={storybookUrl}>
       <slot />
     </AppShell>
+    <!-- Search. We drive the modal's open() method ourselves rather than using
+         <pagefind-modal-trigger>: the bundled trigger's coordination with the
+         modal is established once at script load and goes stale across
+         ClientRouter / View Transitions swaps (the recreated trigger opens a
+         detached modal). The modal itself — engine, UI, open() — survives swaps,
+         so a document-level hotkey (the document persists across swaps) and the
+         sidebar button both just call open() on the current modal. -->
+    <pagefind-modal reset-on-close></pagefind-modal>
+    <script is:inline>
+      if (!window.__pagefindHotkey) {
+        window.__pagefindHotkey = true;
+        document.addEventListener('keydown', (e) => {
+          if ((e.metaKey || e.ctrlKey) && !e.altKey && e.key.toLowerCase() === 'k') {
+            const modal = document.querySelector('pagefind-modal');
+            if (modal && typeof modal.open === 'function') {
+              e.preventDefault();
+              modal.open();
+            }
+          }
+        });
+      }
+    </script>
     <script>
       import '@components/register-all.ts';
       import '../lib/link-preview.ts';
