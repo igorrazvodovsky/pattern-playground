@@ -7,6 +7,8 @@ mediation: individual
 lifecycle: evaluation
 ---
 
+import { TextLensDemo } from '@pkg/demos/bubble-menu';
+
 {/* > 🙂 **Fun meter: 5/5**. A part of a bigger attempt to map LLM-related patterns. */}
 
 # Text lens
@@ -36,6 +38,9 @@ Text lenses can be applied with varying degrees of user control:
 The <ComponentRef id="components-bubble-menu--docs">Bubble menu</ComponentRef> pattern demonstrates text lens application through text selection and transformation.
 Users can select text and apply different lenses using AI-powered tools to modify content presentation at granular levels.
 
+<Demo label="Text lens via bubble menu">
+  <TextLensDemo client:only="react" />
+</Demo>
 
 ## Related patterns
 - [Conversation](/patterns/activities/conversation): Filter lenses implement the conversational maxims of manner and politeness by adapting tone and clarity for different contexts

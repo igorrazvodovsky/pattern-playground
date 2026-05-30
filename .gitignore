@@ -34,3 +34,5 @@ plans/backlog-sources.md
 
 # Astro build cache
 .astro/
+
+.claude/worktrees/

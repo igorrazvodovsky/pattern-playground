@@ -6,6 +6,8 @@ atomic: pattern
 mediation: individual
 ---
 
+import { DynamicExplanationDemo } from '@pkg/demos/bubble-menu';
+
 {/* > 💭 **Fun meter:** _calculating..._ */}
 
 # Explanation
@@ -60,6 +62,9 @@ How the system arrived at a prediction, recommendation, or generated output.
 
 On-demand explanations for any selected content, supporting contextualised learning.
 
+<Demo label="Dynamic explanation via bubble menu">
+  <DynamicExplanationDemo client:only="react" />
+</Demo>
 
 When users select content, explanations can address different aspects:
 - Interface mechanics: *how* to use this element
