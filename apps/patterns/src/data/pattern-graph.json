@@ -29,18 +29,18 @@
       "role": "pattern"
     },
     {
-      "id": "actions-application-cognitive-forcing-functions-checklist",
-      "title": "Checklist",
-      "category": "Actions",
-      "path": "/patterns/actions/application/cognitive-forcing-functions/overreliance-checklist",
-      "role": "pattern"
-    },
-    {
       "id": "actions-application-cognitive-forcing-functions",
       "title": "Cognitive forcing functions",
       "category": "Actions",
       "path": "/patterns/actions/application/cognitive-forcing-functions",
       "role": "umbrella"
+    },
+    {
+      "id": "actions-application-cognitive-forcing-functions-checklist",
+      "title": "Checklist",
+      "category": "Actions",
+      "path": "/patterns/actions/application/cognitive-forcing-functions/overreliance-checklist",
+      "role": "pattern"
     },
     {
       "id": "actions-application-data-entry",
@@ -1281,24 +1281,6 @@
       "extractedFrom": "quality-target"
     },
     {
-      "source": "actions-application-cognitive-forcing-functions-checklist",
-      "target": "actions-application-cognitive-forcing-functions",
-      "type": "related",
-      "label": "the family this pattern belongs to"
-    },
-    {
-      "source": "actions-application-cognitive-forcing-functions-checklist",
-      "target": "actions-application-action-consequences",
-      "type": "related",
-      "label": "consequences preview before commitment; checklists add structured review"
-    },
-    {
-      "source": "actions-application-cognitive-forcing-functions-checklist",
-      "target": "actions-application-form",
-      "type": "related",
-      "label": "the checklist interaction resembles a form with verification items"
-    },
-    {
       "source": "actions-application-cognitive-forcing-functions",
       "target": "qualities-agency",
       "type": "surveys",
@@ -1373,6 +1355,24 @@
       "target": "actions-application-cognitive-forcing-functions-human-goes-first",
       "type": "surveys",
       "label": "user performs the task unaided; system compares and teaches."
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-checklist",
+      "target": "actions-application-cognitive-forcing-functions",
+      "type": "related",
+      "label": "the family this pattern belongs to"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-checklist",
+      "target": "actions-application-action-consequences",
+      "type": "related",
+      "label": "consequences preview before commitment; checklists add structured review"
+    },
+    {
+      "source": "actions-application-cognitive-forcing-functions-checklist",
+      "target": "actions-application-form",
+      "type": "related",
+      "label": "the checklist interaction resembles a form with verification items"
     },
     {
       "source": "actions-application-data-entry",
@@ -2546,25 +2546,11 @@
       "type": "related"
     },
     {
-      "source": "primitives-popover",
-      "target": "actions-seeking-link-preview",
-      "type": "precedes",
-      "label": "the surface primitive; link preview is one specific application of its hover/focus mode",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
       "source": "actions-seeking-progressive-disclosure",
       "target": "actions-seeking-link-preview",
       "type": "precedes",
       "label": "link preview is the lightest disclosure tier: sample a destination before committing",
       "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "actions-seeking-link-preview",
-      "target": "primitives-reference",
-      "type": "enables",
-      "label": "references reify connections as first-class entities; their preview escalation (hover → detail → full view) is one application of the link preview move within that broader pattern",
-      "extractedFrom": "header:\"Used by\""
     },
     {
       "source": "actions-seeking-link-preview",
@@ -5082,7 +5068,17 @@
     },
     {
       "source": "qualities-density",
+      "target": "qualities-temporality",
+      "type": "related"
+    },
+    {
+      "source": "qualities-density",
       "target": "actions-seeking-progressive-disclosure",
+      "type": "related"
+    },
+    {
+      "source": "qualities-density",
+      "target": "qualities-learnability",
       "type": "related"
     },
     {
@@ -5264,7 +5260,22 @@
     },
     {
       "source": "qualities-temporality",
+      "target": "qualities-density",
+      "type": "related"
+    },
+    {
+      "source": "qualities-temporality",
       "target": "actions-sense-making-annotation",
+      "type": "related"
+    },
+    {
+      "source": "qualities-temporality",
+      "target": "qualities-conversation",
+      "type": "related"
+    },
+    {
+      "source": "qualities-temporality",
+      "target": "foundations-collaboration",
       "type": "related"
     },
     {
@@ -5310,11 +5321,6 @@
     },
     {
       "source": "qualities-temporality",
-      "target": "qualities-conversation",
-      "type": "related"
-    },
-    {
-      "source": "qualities-temporality",
       "target": "actions-seeking-command-menu",
       "type": "related"
     },
@@ -5326,11 +5332,6 @@
     {
       "source": "qualities-temporality",
       "target": "operations-undo",
-      "type": "related"
-    },
-    {
-      "source": "qualities-temporality",
-      "target": "foundations-collaboration",
       "type": "related"
     },
     {
@@ -5623,13 +5624,6 @@
     },
     {
       "source": "components-drawer",
-      "target": "actions-application-settings",
-      "type": "complements",
-      "label": "configuration panels often live in drawers",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "components-drawer",
       "target": "actions-coordination-notification",
       "type": "precedes",
       "extractedFrom": "header:\"Follow-ups\""
@@ -5703,13 +5697,6 @@
       "target": "actions-application-form",
       "type": "precedes",
       "label": "the container that groups inputs into a coherent ask",
-      "extractedFrom": "header:\"Follow-ups\""
-    },
-    {
-      "source": "primitives-input",
-      "target": "actions-application-data-entry",
-      "type": "precedes",
-      "label": "the broader activity input contributes to, alongside format and friction choices",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
@@ -5826,13 +5813,6 @@
     },
     {
       "source": "primitives-range",
-      "target": "actions-application-data-entry",
-      "type": "instantiates",
-      "label": "the broader activity, where slider-vs-input is the key choice.",
-      "extractedFrom": "header:\"Applied in\""
-    },
-    {
-      "source": "primitives-range",
       "target": "actions-application-form",
       "type": "instantiates",
       "label": "the common container.",
@@ -5888,13 +5868,6 @@
       "target": "actions-application-form",
       "type": "complements",
       "label": "the usual home for select among other controls.",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "primitives-select",
-      "target": "actions-application-data-entry",
-      "type": "complements",
-      "label": "the broader activity select participates in.",
       "extractedFrom": "header:\"Complementary\""
     },
     {

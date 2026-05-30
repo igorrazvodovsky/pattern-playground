@@ -25,13 +25,13 @@
       "atomic-category": "pattern",
       "mediation": "individual"
     },
-    "actions-application-cognitive-forcing-functions-checklist": {
+    "actions-application-cognitive-forcing-functions": {
       "activity-level": "action",
       "lifecycle-stage": "evaluation",
       "atomic-category": "pattern",
       "mediation": "individual"
     },
-    "actions-application-cognitive-forcing-functions": {
+    "actions-application-cognitive-forcing-functions-checklist": {
       "activity-level": "action",
       "lifecycle-stage": "evaluation",
       "atomic-category": "pattern",
