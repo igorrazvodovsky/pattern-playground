@@ -6,12 +6,17 @@ atomic: pattern
 mediation: individual
 ---
 
+import { PromptBasicDemo, PromptWithMaterialReferencesDemo, PromptQualityFeedbackDemo, PromptTemplateDemo } from '@pkg/demos/prompt';
+
 {/* > 🙂 **Fun meter: 5/5**. A part of a bigger attempt to map LLM-related patterns. */}
 
 # Prompt
 
 The articulation of intent to a machine, transforming a vague need into a request precise enough for a [bot](/patterns/activities/bot) to act on meaningfully.
 
+<Demo label="Structured prompt composer">
+  <PromptBasicDemo client:only="react" />
+</Demo>
 
 ## Intent
 
@@ -21,10 +26,17 @@ explicit and implicit...
 
 ### Structured prompt
 
+<Demo>
+  <PromptTemplateDemo client:only="react" />
+</Demo>
 
 ## Reference materials with @mentions
 
 Using @mentions to reference documents, images, code, and other materials provides context for better LLM responses.
+
+<Demo label="Prompt with @-referenced materials">
+  <PromptWithMaterialReferencesDemo client:only="react" />
+</Demo>
 
 
 ## Prompt guidance and scaffolding
@@ -33,6 +45,9 @@ Bridging the gap between fuzzy idea inside a human's head and what makes an effe
 
 ### Quality feedback
 
+<Demo label="Prompt quality feedback">
+  <PromptQualityFeedbackDemo client:only="react" />
+</Demo>
 
 ### Editing assistance
 

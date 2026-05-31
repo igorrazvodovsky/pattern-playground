@@ -52,6 +52,49 @@ serve all packages and are not co-located with a single workspace.
 - OpenAI API integration, handlers, middleware
 - No behavioral change from the move; the path change is structural only
 
+## Shared demos (`packages/components/src/demos/`)
+
+Runnable demonstration components live in `packages/components/src/demos/`. A single demo is frequently consumed by _both_ surfaces and by more than one pattern page — the bubble-menu demo, for instance, is shared by the text-lens, explanation, and commenting pattern pages and by Storybook.
+Co-locating demos with the components they wire lets one source feed both
+surfaces: Storybook stories import them by relative path, and pattern-site MDX
+imports them through the package surface (`@pkg/demos/*`) wrapped in
+`<Demo client:only="react">`.
+
+This supersedes the `apps/patterns/src/components/demos/` location named in the
+earlier [pattern-demos-migration](../../plans/active/2026-05-pattern-demos-migration.md)
+and [collection-move-demos](../../plans/active/2026-05-collection-move-demos.md)
+plans. Those plans assumed each demo was pattern-site-only; the shared-consumption
+case moved the home into the components package.
+
+### What `demos/` may and may not hold
+
+- _May hold:_ demo wiring — composition of library components with sample data,
+  local state, and layout, plus hooks or glue whose only consumer is a demo.
+- _May not hold:_ anything imported by production component code. If
+  `components/` imports it, it is substrate and lives in `components/` (or a
+  service/util), never in `demos/`.
+- _Grey zone — reusable substrate with only a demo consumer:_ a
+  framework-agnostic engine or an editor extension may live _temporarily_ in
+  `demos/` while the demo is its sole consumer. It is _tagged for promotion_ to
+  its structural home in the component library — `components/editor-plugins/<name>/`
+  for an editor extension, a service or util for a pure engine — the moment a
+  second consumer appears or the capability ships as a real component. `demos/`
+  is a parking lot for un-promoted mechanism, not its permanent address.
+
+The distinction is altitude, not reuse-in-principle: the question is not "could
+this be reused" but "does anything other than the demo depend on it today."
+Building a public API for a single demo consumer is speculative generality;
+promotion is trigger-gated.
+
+### Promotion register
+
+Known un-promoted substrate is recorded so the intent is not lost when the
+trigger eventually arrives. Current entries:
+
+- The `dynamic-hyperlinks/` demo's n-gram engine (`ngram.ts`) and heatmap Tiptap
+  extension (`HeatmapPlugin.ts`) — promotion target and trigger captured in
+  [2026-05-heatmap-ngram-promotion](../../plans/active/2026-05-heatmap-ngram-promotion.md).
+
 ## Workspace dependency direction
 
 `apps/patterns` → `packages/components` (workspace dep: `@pattern-plgrnd/components`)

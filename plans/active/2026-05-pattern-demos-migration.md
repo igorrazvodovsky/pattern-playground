@@ -9,6 +9,19 @@ depends_on: "plans/active/2026-05-embed-components.md"
 
 # Migrate pattern demos from Storybook to pattern site
 
+> _Superseded in part._ The demos home is now `packages/components/src/demos/`,
+> not `packages/components/src/demos/` — see
+> [workspace-layout](../../docs/specs/workspace-layout.md) (Shared demos). Path
+> references below have been corrected. Two model assumptions also predate the
+> realised tree and should be revisited before executing the remaining phases:
+> (a) demos are keyed by the _component_ they wire and shared across pattern
+> pages, not one file per pattern×story, so the `<PatternName><StoryName>Demo.tsx`
+> naming in Phases 3–4 no longer fits; (b) a demo that several pattern pages share
+> belongs in the components package by the spec's shared-consumption rule, which
+> blurs the A/B/C-per-story framing. The classification still holds as a _verdict
+> shape_ (Storybook-native vs migrate, and the gap-registry byproduct); the file
+> destinations and naming need reconciling with the component-keyed tree.
+
 ## Context
 
 Many pattern MDX files in `packages/components/src/stories/` reference `.stories.tsx` siblings via `<Story of={...} />`. These are the primary demo surface for patterns today. With the pattern site live and the embed substrate in place (see `plans/active/2026-05-embed-components.md`), those demos need new homes.
@@ -31,8 +44,8 @@ The verdicts above produce four classes:
 
 - *Storybook-native* — stays. Pattern page links to it via `<ComponentRef>`. This is the right home for any demo where the controls panel or a11y check is genuinely informative.
 - Class A — pure composition of registered `pp-*` elements. Migrates as `<Example>` markup in the pattern MDX. Trivial; no island needed.
-- Class B — composition with a thin shell (sample data, local state, layout container). Shell migrates as a named component in `apps/patterns/src/components/demos/`, used inside `<Example>`.
-- Class C — bespoke JSX because the underlying reusable component doesn't exist yet. Migrates as a demo island in `apps/patterns/src/components/demos/`, annotated with a `// gap:` comment. Missing component logged in the gap registry.
+- Class B — composition with a thin shell (sample data, local state, layout container). Shell migrates as a named component in `packages/components/src/demos/`, used inside `<Example>`.
+- Class C — bespoke JSX because the underlying reusable component doesn't exist yet. Migrates as a demo island in `packages/components/src/demos/`, annotated with a `// gap:` comment. Missing component logged in the gap registry.
 
 Class D (APG-split entries) is inherited from the workspace-split audit: demos for those entries are gated on the move/mechanism split for that pattern and are not classified or migrated here.
 
@@ -77,14 +90,14 @@ For each Class A story:
 ## Phase 3 — Class B migrations
 
 For each Class B story:
-- Extract the wrapper into a named component in `apps/patterns/src/components/demos/`. Naming convention: `<PatternName><StoryName>Demo.tsx` (e.g. `FilteringLLMFilterDemo.tsx`).
+- Extract the wrapper into a named component in `packages/components/src/demos/`. Naming convention: `<PatternName><StoryName>Demo.tsx` (e.g. `FilteringLLMFilterDemo.tsx`).
 - Use the wrapper inside `<Example>` in the pattern MDX.
 - Same removal logic as Phase 2 for the Storybook MDX reference.
 
 ## Phase 4 — Class C migrations
 
 For each Class C story:
-- Migrate the bespoke JSX as a component in `apps/patterns/src/components/demos/`.
+- Migrate the bespoke JSX as a component in `packages/components/src/demos/`.
 - Add a comment at the top: `// gap: [ComponentName] — replace once real component exists`.
 - Add the missing component to the gap registry if not already present.
 - The corresponding Storybook story may remain: it serves as a reference implementation for whoever eventually builds the real component.

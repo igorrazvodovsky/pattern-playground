@@ -6,6 +6,8 @@ atomic: pattern
 lifecycle: seeking
 ---
 
+import { DynamicHyperlinksDemo } from '@pkg/demos/dynamic-hyperlinks/DynamicHyperlinksDemo';
+
 {/* > 🤩 **Fun meter: 5/5**. */}
 
 # Dynamic hyperlinks
@@ -21,6 +23,10 @@ dynamic hyperlinks are inferred (soft). A heatmap layer shows connection density
 The implicit network is irreducibly dense — any sufficiently rich corpus contains countless valid relationships.
 Dynamic hyperlinks acknowledge this by treating discoveries as exploration aids, not as "true" structure.
 This humility distinguishes them from explicit links, where actors commit to meaningful connections.
+
+<Demo label="Heatmap and selection-driven mentions">
+  <DynamicHyperlinksDemo client:only="react" />
+</Demo>
 
 ## Related patterns
 

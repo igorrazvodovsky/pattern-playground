@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef, useCallback, useMemo, type ReactNode } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef, useCallback, useMemo, type ReactNode } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import { BubbleMenu } from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
-import documents from '../../../data/documents.json';
-import { referenceCategories } from '../../../data';
-import { Reference, createReferenceSuggestion } from '../../../../components/reference/Reference';
+import documents from '../../stories/data/documents.json';
+import { referenceCategories } from '../../stories/data';
+import { Reference, createReferenceSuggestion } from '../../components/reference/Reference';
 import type { CorpusDocument } from './types';
 import { useHeatmap } from './useHeatmap';
 import { useSelectionMentions } from './useSelectionPopup';
@@ -43,6 +43,21 @@ function highlightMatches(text: string, query: string): ReactNode {
   );
 }
 
+// The bubble menu positions itself against the live selection rect, but only
+// recomputes on scroll of its configured `scrollTarget` (window by default).
+// When embedded in a scrollable pane, scrolling that pane leaves the menu
+// stranded at its original spot — so resolve the nearest scrollable ancestor
+// and hand it to Floating UI as the scroll target.
+function getScrollParent(node: HTMLElement): HTMLElement | Window {
+  for (let el = node.parentElement; el; el = el.parentElement) {
+    const { overflowY } = getComputedStyle(el);
+    if (overflowY === 'auto' || overflowY === 'scroll' || overflowY === 'overlay') {
+      return el;
+    }
+  }
+  return window;
+}
+
 const mainRawDoc = documents[0];
 const mainDoc = toCorpusDoc(mainRawDoc);
 const corpus = documents.slice(1).map(toCorpusDoc);
@@ -55,6 +70,20 @@ export function DynamicHyperlinksDemo() {
 
   const spans = useHeatmap(editorText, corpus, threshold, true);
   const { mentions, selectedText, expanded, expand, collapse } = useSelectionMentions(readerRef, corpus);
+
+  // Resolve the scroll container before the bubble menu mounts, so its Floating
+  // UI plugin binds the scroll listener to the right element from the start. We
+  // gate the menu on this rather than updating it afterwards because the menu's
+  // `updateOptions` re-sync swallows the first post-init change, leaving the
+  // listener stuck on `window` (which never fires when an inner pane scrolls).
+  const [scrollTarget, setScrollTarget] = useState<HTMLElement | Window | null>(null);
+  useLayoutEffect(() => {
+    if (readerRef.current) setScrollTarget(getScrollParent(readerRef.current));
+  }, []);
+  const bubbleMenuOptions = useMemo(
+    () => (scrollTarget ? { scrollTarget } : undefined),
+    [scrollTarget],
+  );
 
   const handleReferenceSelect = useCallback(() => {}, []);
 
@@ -99,8 +128,8 @@ export function DynamicHyperlinksDemo() {
         <div className="dynamic-hyperlinks__reader" ref={readerRef}>
           <EditorContent editor={editor} />
 
-          {editor && (
-            <BubbleMenu editor={editor}>
+          {editor && scrollTarget && (
+            <BubbleMenu editor={editor} options={bubbleMenuOptions}>
               <div className="bubble-menu">
                 {!expanded ? (
                   <button

@@ -6,12 +6,17 @@ atomic: composition
 mediation: individual
 ---
 
+import { BlockBasedEditorDemo } from '@pkg/demos/block-based-editor';
+
 {/* > 🙂 **Fun meter: 5/5** Foundation for a block-based fun. */}
 
 # Block-based editor
 
 The composition of structured content from modular blocks, balancing the fluidity of prose with the precision of structured data.
 
+<Demo label="Block editor with bubble menu and @-references">
+  <BlockBasedEditorDemo client:only="react" />
+</Demo>
 
 ## Adding blocks
 
@@ -36,9 +41,6 @@ The composition of structured content from modular blocks, balancing the fluidit
 ## Contextual actions
 
 Select block(s) or text spans and invoke LLM from contextual menu.
-
-{/* TODO: Embed bubble menu story */}
-{/* See [Bubble menu](../../components/bubble-menu--docs) for contextual text-selection patterns. */}
 
 ## Co-editing & attribution
 {/* Parallel human/AI editing with attribution chips or overlays. */}

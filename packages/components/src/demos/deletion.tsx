@@ -1,11 +1,12 @@
 import { useState } from 'react';
+import '../jsx-types';
 
 const showToast = async (text: string, onClick?: () => void) => {
-  const { PpToast } = await import('@components/toast/toast');
+  const { PpToast } = await import('../components/toast/toast');
   return PpToast.show(text, onClick);
 };
 
-const getModalService = async () => (await import('@pkg/services/modal-service')).modalService;
+const getModalService = async () => (await import('../services/modal-service')).modalService;
 
 const SAMPLE_ITEMS = [
   'Coral Apron',

@@ -1772,6 +1772,12 @@
     },
     {
       "source": "actions-application-template",
+      "target": "actions-application-suggestion",
+      "type": "complements",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "actions-application-template",
       "target": "qualities-learnability",
       "type": "enacts",
       "label": "templates carry the shape of competent work, letting the actor learn the form by occupying it",
@@ -5507,13 +5513,6 @@
       "extractedFrom": "header:\"Complementary\""
     },
     {
-      "source": "components-bubble-menu",
-      "target": "actions-application-suggestion",
-      "type": "tangential",
-      "label": "system-recommended actions",
-      "extractedFrom": "header:\"Tangentially related\""
-    },
-    {
       "source": "primitives-button",
       "target": "operations-disabled-state",
       "type": "related"
@@ -5687,13 +5686,6 @@
     },
     {
       "source": "primitives-input",
-      "target": "actions-application-suggestion",
-      "type": "complements",
-      "label": "offers candidate values the input can adopt, modify, or reject",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "primitives-input",
       "target": "actions-application-form",
       "type": "precedes",
       "label": "the container that groups inputs into a coherent ask",
@@ -5785,11 +5777,6 @@
     {
       "source": "primitives-progress-indicator",
       "target": "primitives-breadcrumbs",
-      "type": "related"
-    },
-    {
-      "source": "primitives-progress-indicator",
-      "target": "actions-application-wizard",
       "type": "related"
     },
     {

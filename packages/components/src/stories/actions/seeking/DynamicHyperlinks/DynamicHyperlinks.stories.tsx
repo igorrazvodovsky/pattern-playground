@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { DynamicHyperlinksDemo } from './DynamicHyperlinksDemo';
+import { DynamicHyperlinksDemo } from '../../../../demos/dynamic-hyperlinks/DynamicHyperlinksDemo';
 
 const meta = {
   title: 'Actions/Seeking/Dynamic hyperlinks',

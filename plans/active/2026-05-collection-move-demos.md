@@ -33,7 +33,7 @@ In scope:
 - Define the *host-composition* class as a verdict alongside A/B/C/D in the demos-migration plan, and route collection-move stories through it.
 - Lift `DataViewRenderer` out of `packages/components/src/stories/actions/seeking/DataView/` into proper components-package source (e.g. `packages/components/src/components/data-view/`), with the substrate exported via the package's public API for pattern-site islands to import.
 - Implement grouping as a real feature of `DataViewRenderer` (closes the `✗ grouping` TODO in DataView.mdx).
-- Author parameterised example components (Astro islands) under `apps/patterns/src/components/demos/data-view/` that render `DataViewRenderer` with specific configurations. Naming follows the demos-migration convention: `DataViewGroupingSlice.tsx`, `DataViewFilteringSlice.tsx`, etc.
+- Author parameterised example components (Astro islands) under `packages/components/src/demos/data-view/` that render `DataViewRenderer` with specific configurations. Naming follows the demos-migration convention: `DataViewGroupingSlice.tsx`, `DataViewFilteringSlice.tsx`, etc.
 - Migrate the Grouping pattern page from `packages/components/src/stories/actions/sense-making/Grouping.mdx` to `apps/patterns/src/content/patterns/actions/sense-making/grouping.mdx`, embedding the grouping slice.
 - Delete `Grouping.stories.tsx` once the migration lands.
 - Repeat for Filtering and Sorting: implement in DataView, author slices, migrate pages, delete standalone stories.
@@ -90,9 +90,9 @@ For each candidate (Grouping, Filtering, Sorting, Selection, Search, Filtering's
 
 Decide how parameterised example components are authored. Two shapes:
 
-1. *Pattern-side slices* — each consuming pattern owns its slice. `apps/patterns/src/components/demos/grouping/GroupingViaDataView.tsx` imports `DataViewRenderer` from the components package and configures it. Slices live under the consuming pattern's path.
+1. *Pattern-side slices* — each consuming pattern owns its slice. `packages/components/src/demos/grouping/GroupingViaDataView.tsx` imports `DataViewRenderer` from the components package and configures it. Slices live under the consuming pattern's path.
 
-2. *Host-side slices registry* — DataView owns a registry of parameterised slices under `apps/patterns/src/components/demos/data-view/`, exposed by name (`grouping-foregrounded`, `filtering-foregrounded`, etc.). Each consuming pattern imports the slice by name.
+2. *Host-side slices registry* — DataView owns a registry of parameterised slices under `packages/components/src/demos/data-view/`, exposed by name (`grouping-foregrounded`, `filtering-foregrounded`, etc.). Each consuming pattern imports the slice by name.
 
 Default to option 2: it keeps slice authoring central, makes the parameterisation explicit, and means a change to the host's interface only updates one set of slice configurations. Option 1's appeal is locality, but the slices have more in common with each other than with the patterns that embed them.
 
@@ -126,7 +126,7 @@ The first host-composition migration. Sequence: feature in DataView → slice �
 
 - *Implement grouping in DataViewRenderer.* Add a `grouping` prop (or equivalent — the API shape is settled during implementation) that takes an attribute key. Render: group header per distinct value, items clustered under each header, expand/collapse via native `<details>` (matching the current Grouping.stories.tsx shape). Sensible defaults; no controlled vocabulary for the attribute.
 - *Update DataView's stories.* Add a story that exercises grouping. Update the DataView.mdx's `✗ grouping` TODO comment to `✓ grouping`.
-- *Author the grouping slice.* `apps/patterns/src/components/demos/data-view/DataViewGroupingSlice.tsx` (path per Phase A's slice authoring decision). Renders `DataViewRenderer` configured for representation: cards, grouping: on (by a sensible default attribute), filtering/sorting controls hidden or de-emphasised. The slice is the focused demonstration the Grouping page embeds.
+- *Author the grouping slice.* `packages/components/src/demos/data-view/DataViewGroupingSlice.tsx` (path per Phase A's slice authoring decision). Renders `DataViewRenderer` configured for representation: cards, grouping: on (by a sensible default attribute), filtering/sorting controls hidden or de-emphasised. The slice is the focused demonstration the Grouping page embeds.
 - *Migrate Grouping's pattern page.* From `packages/components/src/stories/actions/sense-making/Grouping.mdx` to `apps/patterns/src/content/patterns/actions/sense-making/grouping.mdx`. Frontmatter replaces `<Meta>`. The current `## Examples > Cards` section becomes an embed of `DataViewGroupingSlice` as a client-hydrated island. The Table and Canvas TODO subsections stay as TODO until DataView grows those representations (or until the surface-specific enactments warrant their own demos).
 - *Delete Grouping.stories.tsx.* Remove the file. Remove the Storybook tree entry under `Actions/Sense-making/Grouping`.
 - *Update inbound links.* Pages that point at the old Storybook URL for Grouping (`../?path=/docs/actions-sensemaking-grouping--docs`) need rewriting to the pattern-site route. This overlaps with the cross-surface reference scheme work tracked in the workspace-split plan's Phase D tail.
@@ -143,7 +143,7 @@ The first host-composition migration. Sequence: feature in DataView → slice �
 - `packages/components/src/components/data-view/DataViewRenderer.tsx` (grouping feature)
 - `packages/components/src/stories/actions/seeking/DataView/DataView.stories.tsx` (new grouping story)
 - `packages/components/src/stories/actions/seeking/DataView/DataView.mdx` (TODO → done)
-- `apps/patterns/src/components/demos/data-view/DataViewGroupingSlice.tsx` (new)
+- `packages/components/src/demos/data-view/DataViewGroupingSlice.tsx` (new)
 - `apps/patterns/src/content/patterns/actions/sense-making/grouping.mdx` (migrated)
 - `packages/components/src/stories/actions/sense-making/Grouping.mdx` (deleted)
 - `packages/components/src/stories/actions/sense-making/Grouping.stories.tsx` (deleted)
