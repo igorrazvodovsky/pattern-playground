@@ -18,11 +18,12 @@ const { Content } = await render(entry);
 <Base title={entry.data.title} slug={entry.id}>
   <article class="flow" data-pagefind-body data-pagefind-meta={`title:${entry.data.title}`}>
     <header>
-      <!-- <div class="meta"> -->
+      <div class="meta">
         <!-- <span class="badge role">{entry.data.role}</span> -->
         <!-- {entry.data.activityLevel && <span class="badge">{entry.data.activityLevel}</span>} -->
         <!-- {entry.data.mediation && <span class="badge">{entry.data.mediation}</span>} -->
-      <!-- </div> -->
+        <h1>{entry.data.title}</h1>
+      </div>
     </header>
     <Content components={{ Demo, ComponentRef }} />
   </article>
