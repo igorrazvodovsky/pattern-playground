@@ -4,6 +4,7 @@ role: pattern
 activityLevel: action
 atomic: pattern
 mediation: individual
+fun: "🙂 3/5"
 ---
 
 import { MermaidDiagram } from '@components/MermaidDiagram';
@@ -14,8 +15,6 @@ import {
   TypedConfirmationDemo,
   StagedDeletionDemo,
 } from '@pkg/demos/deletion';
-
-{/* > 🙂 **Fun meter: 3/5** */}
 
 # Deletion
 
@@ -59,7 +58,6 @@ For critical, irreversible actions, users must type a specific phrase to proceed
   <TypedConfirmationDemo client:only="react" />
 </Demo>
 
-
 ## Integration with save/cancel workflow
 
 Deletion can be part of a broader editing session where changes are staged until explicitly saved. This approach treats the save button as the confirmation mechanism for all changes, including deletions.
@@ -100,7 +98,6 @@ This approach aligns with the [Saving](/patterns/actions/application/saving#save
 - [Undo](/patterns/operations/undo)
 - Soft delete: Items moved to archive; configurable retention period
 - Version history
-
 
 ## Decision tree
 
