@@ -64,12 +64,15 @@ HCI literature distinguishes useful neighbouring forms:
   recommending it. It is research material.
 - A `design pattern` recommends a value-bearing move that has worked across
   situations. It is guidance.
-- An `anti-pattern` names recurring harmful practice and the repair that moves
-  away from it.
+- An `anti-pattern` names a recurring harmful practice.
 
 The project can use all three, but they should not be collapsed. The graph
 should only treat something as a generative move when it carries the
 design-pattern burden: context, forces, rationale, consequences, and relations.
+Antipatterns are a further case: a collection of antipatterns is not a language —
+it lacks the connective, generative structure that lets one move set up the next
+— so an antipattern belongs as an annotation on the moves it warns against, not
+as a node with generative edges of its own.
 
 ## Pattern language versus catalogue
 

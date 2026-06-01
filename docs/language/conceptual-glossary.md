@@ -24,7 +24,11 @@ A named, evidence-seeking interaction move that resolves a recurring human situa
 
 ## Pattern language
 
-A connected structure of patterns organised by an explicit principle so an actor can generate, sequence, and adapt design moves. A catalogue makes entries retrievable; a language makes their relationships operational. In this project, the typed graph is the primary claim that the material forms a language rather than only a library.
+Rules for how humans interact with form. A connected structure of patterns organised by an explicit principle so an actor can generate, sequence, and adapt design moves. A catalogue makes entries retrievable; a language makes their relationships operational. In this project, the typed graph is the primary claim that the material forms a language rather than only a library. See [pattern-and-form.md](./pattern-and-form.md) for its relationship to the form language.
+
+## Form language
+
+`packages/components/` – rules for putting matter together: the vocabulary of components, the rules for composing them, and the levels of scale (e.g. primitive → component → composition). See [pattern-and-form.md](./pattern-and-form.md).
 
 ## Levels of scale
 

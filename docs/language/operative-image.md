@@ -16,11 +16,6 @@ The project uses `src/stories/` as both the authored repertoire and the
 Storybook demonstration surface. MDX pages are therefore more than examples:
 they are the current source material from which the pattern graph is extracted.
 
-Activity Theory is the sidebar projection because it foregrounds
-where attention lives in human activity. Atomic Design remains useful as
-metadata, but it is not the ontology. See
-[storybook-taxonomy.md](../project/storybook-taxonomy.md).
-
 The pattern graph is the strongest current image of the language. It is built
 from authored links, Meta tags, decision trees, and profile sidecars. Its typed
 edges are suggestion-grade: they help an actor reason about possible moves, not
