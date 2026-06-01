@@ -78,7 +78,7 @@ Use the `research` skill to scaffold `research/live-presentation/`:
 
 - *Scope creep into adjacent activities*. Real-time captioning and collaborative editing are large literatures. Stay focused on what informs Live presentation specifically; log tangential findings without synthesising them.
 - *Negative results matter*. If the cross-domain hypothesis fails, that's a useful finding. Frame the goal as "test the hypothesis", not "support the hypothesis".
-- *Authority creep*. Until the research runs, the seed page should keep its seed-status signals (fun meter framing, "Beyond chat" qualifier, narrow reference list). Don't quietly upgrade authority claims before the research is in.
+- *Authority creep*. Until the research runs, the seed page should keep its seed-status signals (fun meter framing, "Beyond chat" qualifier, narrow reference list). Don't upgrade authority claims before the research is in.
 
 ## Dependencies and sequencing
 

@@ -78,7 +78,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 ## Trust as the through-line
 
-[~2 paragraphs. Trust is the design through-line of delegated relationships. It gets *established* during ramp-up (the human is figuring out whether the system is competent and aligned). It gets *validated* during smooth operation (every successful run is a tiny piece of evidence). It gets *repaired* during exception handling (how the system fails determines whether trust survives). It gets *transferred* during handoff (each transfer is a re-negotiation of who's responsible). It gets *withdrawn* during disengagement (often quietly, without explicit termination). Cross-reference appropriate reliance in Agency.mdx — appropriate reliance is the calibrated middle that delegation needs to land in.]
+[~2 paragraphs. Trust is the design through-line of delegated relationships. It gets *established* during ramp-up (the human is figuring out whether the system is competent and aligned). It gets *validated* during smooth operation (every successful run is a tiny piece of evidence). It gets *repaired* during exception handling (how the system fails determines whether trust survives). It gets *transferred* during handoff (each transfer is a re-negotiation of who's responsible). It gets *withdrawn* during disengagement (often without explicit termination). Cross-reference appropriate reliance in Agency.mdx — appropriate reliance is the calibrated middle that delegation needs to land in.]
 
 ## When delegation is the right frame
 
