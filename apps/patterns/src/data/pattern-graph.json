@@ -5813,12 +5813,6 @@
     },
     {
       "source": "primitives-reference",
-      "target": "actions-seeking-dynamic-hyperlinks",
-      "type": "related",
-      "label": "the algorithmic (soft) counterpart to author-placed references"
-    },
-    {
-      "source": "primitives-reference",
       "target": "actions-seeking-item-view",
       "type": "related"
     },

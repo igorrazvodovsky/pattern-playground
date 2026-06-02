@@ -1,6 +1,6 @@
 ---
 title: "Workspace split: components package and pattern site"
-status: "completed"
+status: "in progress"
 kind: "exec-spec"
 created: "2026-05"
 last_reviewed: "2026-05-15"

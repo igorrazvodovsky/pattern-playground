@@ -123,8 +123,6 @@ Out of scope:
 ## Verification
 
 - `npm run build` is clean in both `packages/components/` and `apps/patterns/`.
-- The Storybook `DynamicHyperlinks` story renders: heatmap decorations appear,
-  selecting text surfaces ranked mentions.
 - The pattern-site `dynamic-hyperlinks` page renders the demo island with the
   same behaviour (heatmap layer + selection-driven mentions), no console errors.
 - `grep` confirms no imports of the moved files from their old
