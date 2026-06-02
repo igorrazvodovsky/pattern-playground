@@ -94,7 +94,6 @@ The project runs two documentation surfaces:
 The AT-level taxonomy in Storybook is a practical sidebar projection for
 components. The AT-level taxonomy in the pattern site is the language itself.
 These are separate conventions sharing vocabulary; see
-[docs/specs/storybook-taxonomy.md](docs/specs/storybook-taxonomy.md) and
 [docs/specs/pattern-site.md](docs/specs/pattern-site.md).
 
 Settled workspace boundary specification: [docs/specs/workspace-layout.md](docs/specs/workspace-layout.md).

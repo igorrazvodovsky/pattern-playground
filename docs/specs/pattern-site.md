@@ -78,6 +78,21 @@ semantics. The authoritative AT classification for patterns lives in the pattern
 site; the Storybook projection is a practical convenience for component
 navigation.
 
+See [`plans/completed/2026-03-activity-theory-reorg.md`](../../plans/completed/2026-03-activity-theory-reorg.md)
+for the rationale and migration history behind the AT organisation.
+
+## Placement
+
+A pattern's directory follows its `activityLevel` (the folders above mirror the
+AT levels); actions additionally pick a lifecycle sub-group. When a pattern
+straddles levels, pick one for the directory and let tags and graph edges carry
+the overlap — every tree is lossy, the graph is the semilattice (see
+[`references/semilattice.md`](../../references/semilattice.md)). Concept
+vocabulary lives in the top-level `concepts/` directory, not the pattern content.
+
+The reasoning behind a placement — AT-level tests, granularity, umbrella
+strategy — is the `/pattern-classifier` skill's job.
+
 ## Stacked-notes navigation
 
 Following a pattern link does not replace the page — it pushes the target into a horizontal stack of panes.
@@ -125,16 +140,7 @@ Storybook — the sidecar is an optional companion, not a requirement.
 
 ## Document structure
 
-Standard section order for pattern MDX:
-
-1. YAML frontmatter
-2. Fun meter (optional but encouraged): a short reflection on intellectual
-   engagement with the topic — inversely proportional to how established and
-   well-documented the area is
-3. `# Title` with a one-sentence definition framed from the human situation
-   inward, not from the component outward
-4. Core content (varies by pattern type)
-5. `## Related patterns` with subcategory headings (_Precursors_,
-   _Follow-ups_, _Complementary_, _Tangentially related_, or custom subcategories
-   when they better name the relationship)
-6. `## Resources & references` for external sources (optional)
+Section order, headings, component embeds, and writing style for pattern MDX are
+the authoring rule's job — see
+[`.claude/rules/pattern-content.md`](../../.claude/rules/pattern-content.md),
+which auto-applies to `apps/patterns/src/content/`.

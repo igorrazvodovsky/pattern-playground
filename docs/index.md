@@ -19,8 +19,6 @@ map; this file routes people and agents into the sectioned docs.
   each workspace owns
 - [Pattern site](specs/pattern-site.md) — content schema, link format, AT
   levels, APG split rule
-- [Storybook taxonomy](specs/storybook-taxonomy.md) — component story
-  projection; language taxonomy now in pattern site
 - [Graph relationship model](specs/graph-relationship-model.md) — graph edge
   model and epistemic stance
 - [Pattern role model](specs/pattern-role-model.md) — mechanism, move,
@@ -32,7 +30,6 @@ broader product state starts needing its own current-state artifact.
 ## Project
 
 - [Core beliefs](project/core-beliefs.md) — project philosophy, voice, scope
-- [Storybook taxonomy](project/storybook-taxonomy.md) — placement guide
 
 ## Language
 
