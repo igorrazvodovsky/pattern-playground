@@ -5693,13 +5693,6 @@
     },
     {
       "source": "primitives-input",
-      "target": "actions-seeking-searching",
-      "type": "precedes",
-      "label": "where the input becomes the entry point for query formulation",
-      "extractedFrom": "header:\"Follow-ups\""
-    },
-    {
-      "source": "primitives-input",
       "target": "primitives-textarea",
       "type": "tangential",
       "label": "chosen instead when the answer doesn't fit a single line",
@@ -6028,13 +6021,6 @@
       "target": "operations-autocomplete",
       "type": "instantiates",
       "label": "narrowing-as-you-type is the combobox contract applied to query suggestion",
-      "extractedFrom": "header:\"Applied in\""
-    },
-    {
-      "source": "operations-combobox",
-      "target": "actions-seeking-searching",
-      "type": "instantiates",
-      "label": "the entry phase of instant-results search (popover or dropdown variant) follows the combobox model",
       "extractedFrom": "header:\"Applied in\""
     },
     {
