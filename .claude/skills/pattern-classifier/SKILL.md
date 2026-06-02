@@ -12,16 +12,17 @@ A structured conversation for integrating patterns into the library. Three phase
 
 The reasoning is grounded in the project's `docs/` knowledge base. Read the documents below before proceeding if you haven't already in this conversation. They're the canonical source — this skill summarises but doesn't restate them.
 
-- `docs/language/pattern-definition.md` — operational test for what counts as a pattern (vs. mechanism, contract, observation, anti-pattern, projection). The minimum-pattern checklist lives here.
+- `docs/language/pattern-definition.md` — operational test for what counts as a pattern (vs. mechanism, contract, observation, anti-pattern, umbrella). The minimum-pattern checklist lives here.
 - `docs/language/relationship-vocabulary.md` — describes relationships between patterns.
 - `docs/language/conceptual-glossary.md` — working definitions of pattern, centre, generative move, quality, semilattice, suggestion-grade, etc.
-- `docs/project/storybook-taxonomy.md` — the answer to "where does a new pattern go?" The sidebar projection is Activity Theory levels (operations / actions / activities), with actions sub-grouped by intent lifecycle stage. Atomic Design persists as queryable metadata.
+- `docs/specs/pattern-role-model.md` — the settled role set (component, pattern, umbrella, quality, foundation, concept) and the APG-style split rule.
+- `docs/specs/pattern-site.md` — the answer to "where does a new pattern go?"
 - `references/semilattice.md` — the pattern space is a semilattice, not a tree. Every tree placement is lossy; the question is which loss is least harmful. Multiple projections, not a better tree.
 
 Two generated JSON files give queryable views of the library:
 
-- `src/pattern-graph.json` — nodes (id, title, category, path) and *typed* edges (source, target, type, optional label, provenance, situational hints). Edge types follow the relationship vocabulary above. Use for neighbourhood scanning and to see what a candidate pattern would connect to.
-- `src/activity-levels.json` — per-node metadata: `activity-level`, `lifecycle-stage`, `atomic-category`, `mediation`. Use for classification checks: see how neighbours are classified, spot level mismatches, find patterns in the same lifecycle stage.
+- `apps/patterns/src/data/pattern-graph.json` — nodes (id, title, category, path, role) and *typed* edges (source, target, type, optional label, provenance, situational hints). Edge types follow the relationship vocabulary above. Use for neighbourhood scanning and to see what a candidate pattern would connect to.
+- `apps/patterns/src/data/activity-levels.json` — per-node metadata: `activity-level`, `lifecycle-stage`, `atomic-category`, `mediation` (the generated file keeps these hyphenated keys, distinct from the camelCase authoring frontmatter). Use for classification checks: see how neighbours are classified, spot level mismatches, find patterns in the same lifecycle stage.
 
 ## Scope: what belongs in this library
 
@@ -37,10 +38,11 @@ The definition is *evidence-seeking*, not evidence-proven. Seeds are fine as lon
 
 If the candidate isn't a generative move, name what it actually is and route it accordingly:
 
-- *mechanism* — component, primitive, control, visual element, implementation substrate
-- *quality* — an experiential dimension (Agency, Learnability, Conversation, …) → `src/stories/qualities/`
-- *foundation* — theory, model, principle, or material substrate → `src/stories/foundations/`
-- *projection* — an umbrella or sensemaking page that gathers a territory but isn't the authoritative source for one move
+- *mechanism* — component, primitive, control, visual element, implementation substrate → stays in Storybook (`packages/components/src/stories/`)
+- *quality* — an experiential dimension (Agency, Learnability, Conversation, …) → `apps/patterns/src/content/patterns/qualities/`
+- *foundation* — theory, model, principle, or material substrate → `apps/patterns/src/content/patterns/foundations/`
+- *concept* — a Jackson-style software concept vocabulary entry → top-level `concepts/`
+- *umbrella* — a sensemaking page that gathers a territory but isn't the authoritative source for one move
 - *variant* — a concrete instantiation, story variant, screenshot, prototype, product case → lives inside the pattern it illustrates
 
 Surface the role to the user with a recommendation for where the knowledge belongs. Don't promote to a pattern page just because there's nowhere obvious to put it.
@@ -51,7 +53,7 @@ Some material genuinely straddles roles. Signals:
 
 - *If it has an observable interaction structure* (actors do something, the system responds in a recognisable way that produces a centre) → it has a *move* dimension, even if it's also a quality or foundation. Document the move; reference the other role.
 - *If it only makes sense as a modifier of other patterns* → it's a quality or foundation, not a move.
-- *If it's primarily a framework for organising other patterns* → it's a projection. It might warrant a foundations or umbrella page, but not a pattern page.
+- *If it's primarily a framework for organising other patterns* → it's an umbrella or foundation page, not a pattern page.
 
 When genuinely uncertain, surface the ambiguity to the user rather than forcing a classification. The skill is a conversation, not a gate.
 
@@ -102,7 +104,7 @@ Search broadly. Check:
 The mapping produces one of five outcomes:
 
 1. *Already exists* — the move is covered. The work is enrichment. Skip to Phase 3.
-2. *Partially covered* — aspects are spread across multiple patterns, but the unifying move isn't represented. Consider whether a new pattern, an umbrella/projection, or just better cross-references would serve best.
+2. *Partially covered* — aspects are spread across multiple patterns, but the unifying move isn't represented. Consider whether a new pattern, an umbrella, or just better cross-references would serve best.
 3. *Distinct and new* — genuinely unrepresented. Proceed to Phase 2.
 4. *Existing pattern needs splitting* — mapping reveals an existing pattern is too broad and this concept deserves separation. Proceed to Phase 2 with attention to what stays and what moves.
 5. *Not a move* — the candidate is theory, method, quality, foundation, concept, or implementation convention rather than a generative move (see *Where non-moves go* in Scope). The work is referencing it from the patterns it informs, or directing it to where it belongs. Surface this with a recommendation.
@@ -172,30 +174,30 @@ Many actions serve multiple stages. The tree picks the *primary* stage; add `lif
 
 ### 5. Umbrella strategy
 
-Three kinds of umbrella exist in the system. In role-vocabulary terms: a standalone umbrella is a *move* that also frames children; a structural umbrella is a *projection*; an implicit umbrella is no node at all.
+Three kinds of umbrella exist in the system. In role-vocabulary terms: a standalone umbrella is a *move* that also frames children; a structural umbrella is a pure `umbrella` survey; an implicit umbrella is no node at all.
 
 *Standalone umbrella* — both a move in its own right and a container for sub-patterns. Example: Suggestion is a meaningful move (system-generated recommendations producing a centre of "considered alternatives") that also frames sub-topics. Test: does the umbrella have its own forces, consequences, and neighbourhood beyond just aggregating the children?
 
-*Structural umbrella (projection)* — exists only to frame and connect sub-patterns. Example: Navigation overview frames the navigation models but isn't itself a move you'd apply. Test: would removing it and relying on cross-references between the children lose something? If the umbrella's value is purely "these things form a group", cross-references and tags might suffice.
+*Structural umbrella* — exists only to frame and connect sub-patterns. Example: Navigation overview frames the navigation models but isn't itself a move you'd apply. Test: would removing it and relying on cross-references between the children lose something? If the umbrella's value is purely "these things form a group", cross-references and tags might suffice.
 
 *Implicit umbrella* — the relationship between patterns is real but doesn't need its own node. The connection lives in cross-references and graph edges. Test: would anyone navigate *to* this umbrella, or would they always go directly to a specific sub-pattern?
 
 When an umbrella is warranted, decide its placement:
 
 - A standalone umbrella gets its own AT level and lifecycle stage like any other pattern
-- A projection lives alongside its children (e.g., Navigation overview in `actions/navigation/`)
-- Consider whether the umbrella's Meta title creates a Storybook folder grouping or whether children sit as siblings with cross-references
+- A structural umbrella lives alongside its children (e.g., Navigation overview in `actions/navigation/`)
+- Consider whether the umbrella warrants its own content sub-directory grouping the children, or whether children sit as siblings tied together by cross-references
 
 ### 6. Tags and metadata
 
-Every pattern needs:
+Every pattern carries YAML frontmatter fields (see [`.claude/rules/pattern-content.md`](../../.claude/rules/pattern-content.md) for the authoring contract):
 
-- `activity-level:operation|action|activity` — AT level
-- `atomic:primitive|component|composition|pattern` — compositional projection (still required by `storybook-taxonomy.md`, though decisions in this skill rarely turn on it)
-- `lifecycle:seeking|evaluation|sensemaking|application|coordination` — for actions, primary stage (and secondary via additional tags)
-- `mediation:individual|collaborative` — whether the pattern involves multiple actors
+- `activityLevel: operation | action | activity` — AT level
+- `atomic: primitive | component | composition | pattern` — compositional metadata; decisions in this skill rarely turn on it
+- `lifecycle: seeking | evaluation | sense-making | application | coordination` — for actions, the primary stage
+- `mediation: individual | coordination` — whether the pattern involves multiple actors
 
-Consider domain tags (e.g., `ai`, `navigation-structure`, `async`) for graph clustering — but only when they emerge from existing clusters in the graph, not invented speculatively.
+Consider domain `tags` (e.g., `ai`, `navigation-structure`, `async`) for graph clustering — but only when they emerge from existing clusters in the graph, not invented speculatively.
 
 ### 7. Graph impact
 
@@ -210,8 +212,8 @@ Before finalising, consider the topology:
 
 Synthesise the answers into a concrete proposal:
 
-- File path(s) and Meta title(s)
-- Tags
+- File path(s) and frontmatter title(s)
+- Frontmatter fields and tags
 - Umbrella strategy (if applicable)
 - Key edges, *typed* — at minimum precursors (`precedes`/`follows`), mechanisms (`enables`), foundations (`instantiates`), complementary moves, alternatives, and the qualities the move enacts
 - Any existing patterns that need updating (new cross-references, absorbed content, redirects)
@@ -237,7 +239,7 @@ Research should inform the move's design considerations and the *forces* it bala
 
 ### Write or update
 
-For new patterns, follow the documentation standards in `.claude/rules/documentation.md`. Focus on:
+For new patterns, follow the authoring contract in `.claude/rules/pattern-content.md` (frontmatter, section order, link format, writing style). Focus on:
 
 - The relational definition (one sentence after the `# Title`) — phrased as a move that produces a centre
 - Forces, consequences, and design considerations structured around tensions and trade-offs rather than prescriptive rules — these are what make patterns generative
@@ -257,12 +259,12 @@ For enrichment of existing patterns, the changes might be:
 Adding or changing a pattern changes the topology. Check:
 
 - Do any existing patterns need new cross-references to this one?
-- Do overview pages (e.g., `actions/Overview.mdx`) need updating?
-- After writing, regenerate the graph data: `npx tsx scripts/extract-graph-data.ts`
+- Do section overview pages (e.g., `actions.mdx`) need updating?
+- After writing, regenerate the graph data: `npm run extract-graph`
 
 ## What this skill is not
 
 - Not a mechanical migration tool (use `pattern-migrator`)
-- Not a documentation template (see `.claude/rules/documentation.md`)
-- Not a style guide (see `.claude/rules/documentation.md` for writing conventions)
+- Not a documentation template (see `.claude/rules/pattern-content.md`)
+- Not a style guide (see `.claude/rules/pattern-content.md` for writing conventions)
 - Not a gate — the user makes the final call. This skill surfaces considerations and trade-offs; it doesn't enforce rules. The system is a semilattice; any tree placement is a compromise, and reasonable people can disagree about which compromise is best. Edges are suggestion-grade hints, not predicates; the same epistemic stance applies to classification decisions.
