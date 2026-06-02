@@ -12,12 +12,12 @@ encoded as scripts, schemas, lint rules, generated data, or CI checks.
 
 ## Current picture
 
-The project uses `src/stories/` as both the authored repertoire and the
-Storybook demonstration surface. MDX pages are therefore more than examples:
-they are the current source material from which the pattern graph is extracted.
+The authored repertoire lives as pattern MDX in
+`apps/patterns/src/content/patterns/`, rendered by the Astro pattern site;
+Storybook (`packages/components/src/stories/`) is the UI development workshop. The pattern MDX pages are the current source material from which the pattern graph is extracted.
 
 The pattern graph is the strongest current image of the language. It is built
-from authored links, Meta tags, decision trees, and profile sidecars. Its typed
+from authored links, frontmatter, decision trees, and profile sidecars. Its typed
 edges are suggestion-grade: they help an actor reason about possible moves, not
 match a situation against rules. See
 [relationship-vocabulary.md](./relationship-vocabulary.md).
@@ -40,20 +40,21 @@ full language object imagined in the vision.
 
 - [pattern-definition.md](./pattern-definition.md) — operational test for what
   counts as a pattern
-- [storybook-taxonomy.md](../specs/storybook-taxonomy.md) — settled Storybook
-  projection and placement rules
+- [pattern-site.md](../specs/pattern-site.md) — content schema, and pattern placement
 - [graph-relationship-model.md](../specs/graph-relationship-model.md) —
   settled graph relationship model
 - [relationship-vocabulary.md](./relationship-vocabulary.md) — detailed graph
   vocabulary and changelog
 - [decision-dimensions.md](./decision-dimensions.md) — current decision-tree
   discriminators
-- [`src/stories/`](../../src/stories/) — authored repertoire and Storybook
-  source
-- [`src/pattern-graph.json`](../../src/pattern-graph.json) — generated graph
-  view
-- [`src/pattern-profile.ts`](../../src/pattern-profile.ts) — current
-  generative-profile sidecar shape
+- [`apps/patterns/src/content/patterns/`](../../apps/patterns/src/content/patterns/) —
+  authored pattern repertoire
+- [`packages/components/src/stories/`](../../packages/components/src/stories/) —
+  Storybook component source
+- [`apps/patterns/src/data/pattern-graph.json`](../../apps/patterns/src/data/pattern-graph.json) —
+  generated graph view
+- [`apps/patterns/src/content/pattern-profile.ts`](../../apps/patterns/src/content/pattern-profile.ts) —
+  current generative-profile sidecar shape
 
 ## How to use this page
 

@@ -1,6 +1,6 @@
 # Relationship vocabulary for the pattern graph
 
-A controlled vocabulary for typed edges in `src/pattern-graph.json`. Each entry defines a relationship that can hold between two patterns. The vocabulary is small by design — it should capture the structural distinctions that matter for navigation and reasoning, not every possible nuance.
+A controlled vocabulary for typed edges in `apps/patterns/src/data/pattern-graph.json`. Each entry defines a relationship that can hold between two patterns. The vocabulary is small by design — it should capture the structural distinctions that matter for navigation and reasoning, not every possible nuance.
 
 Settled specification summary: [docs/specs/graph-relationship-model.md](../specs/graph-relationship-model.md).
 This page is the detailed vocabulary record and changelog.
@@ -278,7 +278,7 @@ A generative profile has three fields:
 
 These are *informal phrases*, not structured fields. No controlled vocabulary, no normalisation. The point is to give an actor a richer mental model of each pattern as a move, while staying close to how the MDX prose already talks about it.
 
-A generative profile lives in a `*.profile.ts` sidecar next to the pattern's MDX (e.g. `Form.profile.ts` next to `Form.mdx`), exporting a typed `GenerativeProfile` object. The shared interface lives at `src/pattern-profile.ts`. The MDX imports the profile to keep authoring co-located, but does not render it — the data is for tooling, not for the rendered page. Phase 1 extraction reads sidecars directly into `pattern-graph.json` as node-level metadata. Initially this is populated for a small starting set of patterns (the nine from Phase 0.B) as a proof of concept rather than retrofitted across the whole library.
+A generative profile lives in a `*.profile.ts` sidecar next to the pattern's MDX (e.g. `Form.profile.ts` next to `Form.mdx`), exporting a typed `GenerativeProfile` object. The shared interface lives at `apps/patterns/src/content/pattern-profile.ts`. The MDX imports the profile to keep authoring co-located, but does not render it — the data is for tooling, not for the rendered page. Phase 1 extraction reads sidecars directly into `pattern-graph.json` as node-level metadata. Initially this is populated for a small starting set of patterns (the nine from Phase 0.B) as a proof of concept rather than retrofitted across the whole library.
 
 *When to skip a profile*: minimal primitives (the move's definition exhausts the description), unbounded stances (no discrete move), and umbrella MDX (the page describes a territory, not a move) — see the Phase 0.B probe in the changelog for the reasoning.
 

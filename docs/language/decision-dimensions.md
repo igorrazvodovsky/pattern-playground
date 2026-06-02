@@ -1,6 +1,6 @@
 # Decision-dimension inventory
 
-A snapshot of what dimensions the library currently uses to discriminate between patterns, extracted from the 8 active decision trees in `src/stories/`. The list is descriptive: these are the questions the trees actually branch on, not a normative claim about which dimensions matter.
+A snapshot of what dimensions the library currently uses to discriminate between patterns, extracted from the 8 active decision trees across the pattern content (`apps/patterns/src/content/patterns/`) and component stories (`packages/components/src/stories/`). The list is descriptive: these are the questions the trees actually branch on, not a normative claim about which dimensions matter.
 
 This is a *current frame*, not an absolute one. The dimensions below are choices, past and accumulating, made by whoever drafted each tree. The absences listed at the end are also choices — places the library hasn't yet found it useful to discriminate. Making both legible is the point. Over time the inventory becomes a map of the library's conceptual reach and a prompt for where to extend it.
 
@@ -8,7 +8,7 @@ The vocabulary is left raw. No mapping to a controlled list, no cross-linking be
 
 ## Per-pattern dimensions
 
-### BarChart — `src/stories/data-visualization/BarChart.mdx`
+### BarChart — `packages/components/src/stories/data-visualization/BarChart.mdx`
 
 A list-shaped tree (no flowchart) discriminating on *what the data is and what the reading is for*:
 
@@ -18,7 +18,7 @@ A list-shaped tree (no flowchart) discriminating on *what the data is and what t
 
 Notable: orientation choice (vertical vs. horizontal, by label length) is drafted but commented out — the tree currently stops at "use bar charts vs. consider alternatives" and doesn't reach into bar-chart variants.
 
-### Overflow — `src/stories/operations/Overflow.mdx`
+### Overflow — `packages/components/src/stories/operations/Overflow.mdx`
 
 - *Content criticality*: is the overflowing content essential to the task?
 - *Container flexibility*: can the container expand to fit?
@@ -26,14 +26,14 @@ Notable: orientation choice (vertical vs. horizontal, by label length) is drafte
 
 The tree ends at "consider redesign/priority" when none of these dimensions yield a workable move — making absence of a fit visible is itself a result.
 
-### Notification — `src/stories/actions/coordination/Notification.mdx`
+### Notification — `apps/patterns/src/content/patterns/actions/coordination/notification.mdx`
 
 - *Action requirement*: does the user need to do something?
 - *Urgency*: is immediate attention required?
 - *Communicative intent*: status update vs. alert vs. confirmation
 - *Dismissibility*: can the alert be cleared by the user, or must it persist?
 
-### Navigation overview — `src/stories/actions/navigation/navigation-overview.mdx`
+### Navigation overview — `apps/patterns/src/content/patterns/actions/navigation/navigation-overview.mdx`
 
 The richest tree; branches on the *shape of the space being navigated* and then offers refinement axes:
 
@@ -54,7 +54,7 @@ Refinement axes (orthogonal to the primary branches):
 
 Hybrid combinations are listed explicitly — an acknowledgement that the dimensions don't always pick out a single move.
 
-### Form — `src/stories/actions/application/Form.mdx`
+### Form — `apps/patterns/src/content/patterns/actions/application/form.mdx`
 
 Two trees, picking a different facet each.
 
@@ -71,13 +71,13 @@ Two trees, picking a different facet each.
 - *Label uniformity*: are labels short and consistent?
 - *Visual emphasis*: do options need to read as prominent choices?
 
-### Deletion — `src/stories/actions/application/Deletion.mdx`
+### Deletion — `apps/patterns/src/content/patterns/actions/application/deletion.mdx`
 
 - *Reversibility*: can the deletion be undone?
 - *Recreation latency*: if not undoable, how long would recreating take? (seconds / minutes)
 - *Impact scope*: single user / multiple users / system-wide
 
-### Localization — `src/stories/activities/Localization.mdx`
+### Localization — `apps/patterns/src/content/patterns/foundations/localization.mdx`
 
 - *Language boundaries*: used across languages?
 - *Cultural context*: same cultural context, or different (with `en-GB` vs. `en-US` as a borderline case)

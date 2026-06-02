@@ -1,4 +1,4 @@
-story: src/stories/actions/application/CognitiveForcingFunctions.mdx
+story: apps/patterns/src/content/patterns/actions/application/cognitive-forcing-functions/index.mdx
 topic: cognitive forcing functions in AI-assisted decision-making
 interaction: |
   A user faces a discrete accept/reject decision on an AI recommendation.

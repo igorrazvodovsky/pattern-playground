@@ -10,9 +10,9 @@ describes the current working picture.
 
 ## Why this exists
 
-The project currently uses `src/stories/` as both documentation surface and
-source of truth for the pattern graph. That has worked well enough for a garden,
-but it creates a semantic pressure. The vision is to separate three concerns:
+The project currently uses `apps/patterns/src/content/patterns/`
+as both documentation surface and source of truth for the pattern graph. That has worked well enough until now,
+but future plans create a semantic pressure. The vision is to separate three concerns:
 
 - what exists in the pattern language
 - how it is rendered or demonstrated
@@ -85,13 +85,12 @@ ontological distinctions.
 
 ## Storybook's future role
 
-Long term, `src/stories/` should become one projection of a deeper language
-layer, not the ontology itself.
+Long term, `apps/patterns/src/content/patterns/` should become one projection of a deeper language layer, not the ontology itself.
 
 Current state:
 
 ```text
-src/stories/*.mdx -> extracted graph nodes and edges
+apps/patterns/src/content/patterns/*.mdx -> extracted graph nodes and edges
 ```
 
 Long-term direction:

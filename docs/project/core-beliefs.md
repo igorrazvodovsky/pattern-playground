@@ -14,7 +14,7 @@ A *personal design repertoire* — a collection of interaction patterns, qualiti
   - *Typological vs topological.* Bowker and Star's distinction: typological classification assigns to discrete bins; topological classification maps proximity and connectivity, where clusters emerge from structure rather than being imposed. The graph is a primary navigational surface, not a secondary annotation on the tree.
 - *Human↔AI collaboration as a design domain.* Current focus: how patterns shift when one participant is an AI — assistance, delegation, agency, conversation, transparent reasoning, embedded intelligence.
 - *Aesthetic and philosophical decisions sit with the human.* The agent's role is to support, not to resolve questions that are matters of judgement. When in doubt, ask.
-- *Synthesis outputs* — `src/stories/` is the product. Storybook (MDX files) documents synthesised design patterns, organised by Activity Theory levels. See [storybook-taxonomy.md](./storybook-taxonomy.md) for the current tree.
+- *Synthesis outputs* — the pattern content in `apps/patterns/src/content/patterns/` is the product, rendered by the Astro pattern site. Storybook (`packages/components/src/stories/`) documents the component substrate. See [pattern-site.md](../specs/pattern-site.md) for the current tree.
 
 ## Voice
 
