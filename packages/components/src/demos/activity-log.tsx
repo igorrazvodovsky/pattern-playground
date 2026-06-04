@@ -1,14 +1,8 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { CSSProperties } from 'react';
+import '../jsx-types';
 
-const meta = {
-  title: "Activities/Activity log",
-} satisfies Meta;
-
-export default meta;
-type Story = StoryObj;
-
-export const Basic = {
-  render: () => (
+export function ActivityLogBasicDemo() {
+  return (
     <ol className="stepper">
       <li className="stepper__item">
         <div className="stepper__content">
@@ -35,12 +29,12 @@ export const Basic = {
         </div>
       </li>
     </ol>
-  ),
-} satisfies Story;
+  );
+}
 
-export const LLMReasoning = {
-  render: () => (
-    <ol className="stepper layer" style={{ '--_circle-size': '0.5rem' } as React.CSSProperties}>
+export function ActivityLogLLMReasoningDemo() {
+  return (
+    <ol className="stepper layer" style={{ '--_circle-size': '0.5rem' } as CSSProperties}>
       <li className="stepper__item layer">
         <div className="stepper__content">
           <p>describe the importance of a notion of ontological design both for designing LLM-powered software and using LLM in the user-centred design process</p>
@@ -52,7 +46,7 @@ export const LLMReasoning = {
             <summary>
               I want to explore how ontologies are used in design, focusing on methodologies and practical approaches to ontological design. This will help me understand the principles and applications of designing with ontologies.
             </summary>
-            <ol className="stepper" style={{ '--_circle-size': '0.5rem'} as React.CSSProperties}>
+            <ol className="stepper" style={{ '--_circle-size': '0.5rem'} as CSSProperties}>
               <li className="stepper__item">
                 <div className="stepper__content flow">
                   <h5>Searching</h5>
@@ -81,7 +75,7 @@ export const LLMReasoning = {
         <div className="stepper__content">
           <details open>
             <summary>I want to explore how technology and design influence each other, focusing on the concept that we are shaped by the things we create. This search will help me understand the ontological implications and the mutual relationship between humans and their designs.</summary>
-            <ol className="stepper" style={{ '--_circle-size': '0.5rem'} as React.CSSProperties}>
+            <ol className="stepper" style={{ '--_circle-size': '0.5rem'} as CSSProperties}>
               <li className="stepper__item">
                 <div className="stepper__content flow">
                   <h5>Searching</h5>
@@ -113,5 +107,5 @@ export const LLMReasoning = {
         </div>
       </li>
     </ol>
-  ),
-} satisfies Story;
+  );
+}
