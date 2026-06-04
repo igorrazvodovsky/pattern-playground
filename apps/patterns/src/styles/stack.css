@@ -115,7 +115,8 @@
   }
 
   /* Article padding inside a pane */
-  .pane article {
+  /* TODO: cleaner rule */
+  .pane .pane-body > astro-slot > article, .pane .pane-body > article {
     margin: var(--space-xl);
 
     & > * + * {

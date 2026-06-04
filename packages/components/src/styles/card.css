@@ -4,8 +4,8 @@
     display: grid;
   }
 
-  .cards .card {
-    /* Spacing in default/grid cards */
+  .cards .card:not(.flow) {
+    /* Spacing in default/grid cards; .flow cards govern their own spacing */
     & > *:not(img, hr) {
       margin-block-start: var(--space-s);
       margin-inline: var(--space-s);
