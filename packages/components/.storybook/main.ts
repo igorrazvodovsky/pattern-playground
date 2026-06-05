@@ -8,8 +8,10 @@ const utilsPath = resolve(dirname(fileURLToPath(import.meta.url)), "../../../uti
 const config: StorybookConfig = {
   stories: [
     "../src/stories/Intro.mdx",
-    "../src/stories/@(operations|actions|activities|foundations|qualities|components|compositions|data-visualization|visual-elements|hooks|patterns|primitives|utils|01-atoms|02-molecules|03-organisms)/**/*.mdx",
-    "../src/stories/@(operations|actions|activities|foundations|qualities|components|compositions|data-visualization|visual-elements|hooks|patterns|primitives|utils|01-atoms|02-molecules|03-organisms)/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+    "../src/stories/*.mdx",
+    "../src/stories/*.stories.@(js|jsx|mjs|ts|tsx)",
+    "../src/stories/**/*.mdx",
+    "../src/stories/**/*.stories.@(js|jsx|mjs|ts|tsx)",
   ],
 
   addons: [

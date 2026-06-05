@@ -38,19 +38,19 @@ The transition between these is often viewport-driven rather than explicit: the 
 
 - *Return expectation*: the drawer's content should be completable or dismissible — if the task is complex enough to become the primary focus, it probably belongs on its own page.
 - *Stacking*: opening a drawer from within a drawer is possible but rapidly increases cognitive load. If the secondary content needs its own secondary content, the information architecture may need rethinking.
-- *Persistence*: some drawers persist across navigation (e.g., a chat panel). These are closer to persistent [modes](/patterns/foundations/modality) than transient ones — the design considerations shift accordingly.
+- *Persistence*: some drawers persist across navigation (e.g., a chat panel). These are closer to persistent [modes](/patterns/modality) than transient ones — the design considerations shift accordingly.
 
 ## Related patterns
 
 ### Precursors
-- [Modality](/patterns/foundations/modality) — how overlays constrain attention
+- [Modality](/patterns/modality) — how overlays constrain attention
 
 ### Complementary
 - [Dialog](../?path=/docs/components-dialog--docs) — when the task demands resolution before return, use dialog instead
 - [Popover](../?path=/docs/primitives-popover--docs) — lighter alternative when the secondary content is brief and contextual
-- [Form](../?path=/docs/actions-application-form--docs) — drawers frequently house forms for editing detail without leaving the list
-- <PatternRef slug="actions/application/settings">Settings</PatternRef> — configuration panels often live in drawers
+- [Form](/patterns/form) — drawers frequently house forms for editing detail without leaving the list
+- <PatternRef slug="settings">Settings</PatternRef> — configuration panels often live in drawers
 
 ### Follow-ups
-- [Notification](../?path=/docs/actions-coordination-notification--docs) — completing an action in a drawer often triggers a [toast](../?path=/docs/primitives-toast--docs) confirmation
+- [Notification](/patterns/notification) — completing an action in a drawer often triggers a [toast](../?path=/docs/primitives-toast--docs) confirmation
 

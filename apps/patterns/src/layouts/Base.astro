@@ -33,45 +33,46 @@ function toLabel(slug: string): string {
 
 const GROUP_ORDER = ['foundations', 'qualities', 'activities', 'actions', 'operations', 'data-visualization'];
 
+// The sidebar is one *projection* of the corpus — the Activity Theory lens —
+// computed from frontmatter facets, not from the (flat) file layout. The top group
+// is chosen from role / domain / activityLevel; within a group, the optional `group`
+// facet (a slash-delimited path) reconstructs the sub-branches. Other projections
+// (by domain, by design phase, …) can be added as alternative grouping functions
+// over the same entries without moving files.
+function groupKeyOf(entry: CollectionEntry<'patterns'>): string {
+  const { role, activityLevel, domain } = entry.data;
+  if (GROUP_ORDER.includes(entry.id)) return entry.id; // section overview umbrella
+  if (role === 'quality') return 'qualities';
+  if (role === 'foundation') return 'foundations';
+  if (domain === 'data-visualization') return 'data-visualization';
+  if (activityLevel === 'activity') return 'activities';
+  if (activityLevel === 'action') return 'actions';
+  return 'operations';
+}
+
 const patterns = await getCollection('patterns');
 const tree: Record<string, NavTreeNode[]> = {};
 for (const p of patterns as CollectionEntry<'patterns'>[]) {
-  const parts = p.id.split('/');
-  const leaf: NavLeaf = { label: p.data.title, href: `/patterns/${p.id}` };
-  if (parts.length === 1) {
-    (tree[parts[0]] ??= []).push({ label: 'Overview', href: `/patterns/${p.id}` });
-  } else if (parts.length === 2) {
-    (tree[parts[0]] ??= []).push(leaf);
-  } else if (parts.length === 3) {
-    const [top, section] = parts;
-    tree[top] ??= [];
-    let sectionNode = (tree[top] as NavBranch[]).find(
-      (n): n is NavBranch => 'children' in n && n.label === toLabel(section)
-    );
-    if (!sectionNode) {
-      sectionNode = { label: toLabel(section), children: [] };
-      tree[top].push(sectionNode);
-    }
-    sectionNode.children.push(leaf);
-  } else if (parts.length === 4) {
-    const [top, section, subgroup] = parts;
-    tree[top] ??= [];
-    let sectionNode = (tree[top] as NavBranch[]).find(
-      (n): n is NavBranch => 'children' in n && n.label === toLabel(section)
-    );
-    if (!sectionNode) {
-      sectionNode = { label: toLabel(section), children: [] };
-      tree[top].push(sectionNode);
-    }
-    let subNode = (sectionNode.children as NavBranch[]).find(
-      (n): n is NavBranch => 'children' in n && n.label === toLabel(subgroup)
-    );
-    if (!subNode) {
-      subNode = { label: toLabel(subgroup), children: [] };
-      sectionNode.children.push(subNode);
-    }
-    subNode.children.push(leaf);
+  const key = groupKeyOf(p);
+  tree[key] ??= [];
+  if (p.id === key) {
+    tree[key].push({ label: 'Overview', href: `/patterns/${p.id}` });
+    continue;
   }
+  const leaf: NavLeaf = { label: p.data.title, href: `/patterns/${p.id}` };
+  const segments = (p.data.group ?? '').split('/').filter(Boolean);
+  let level = tree[key];
+  for (const seg of segments) {
+    let branch = (level as NavBranch[]).find(
+      (n): n is NavBranch => 'children' in n && n.label === toLabel(seg)
+    );
+    if (!branch) {
+      branch = { label: toLabel(seg), children: [] };
+      level.push(branch);
+    }
+    level = branch.children;
+  }
+  level.push(leaf);
 }
 
 for (const group of Object.values(tree)) {

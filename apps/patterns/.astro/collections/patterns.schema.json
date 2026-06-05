@@ -23,6 +23,15 @@
         "activity"
       ]
     },
+    "lifecycle": {
+      "type": "string"
+    },
+    "group": {
+      "type": "string"
+    },
+    "domain": {
+      "type": "string"
+    },
     "atomic": {
       "type": "string",
       "enum": [

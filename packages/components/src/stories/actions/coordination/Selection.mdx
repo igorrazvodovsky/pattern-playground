@@ -110,24 +110,24 @@ Filter is declarative selection ("everything matching X"); selection is imperati
 - [Action bar](../?path=/docs/components-action-bar--docs) — the primary consumer of multi-item selection; its existence is conditional on a selection existing
 - [Bubble menu](../?path=/docs/components-bubble-menu--docs) — the primary consumer of content-range selection; spatially anchored to the selection
 - [Context menu](../?path=/docs/components-context-menu--docs) — degenerate-case consumer; pointer-invoked on a single target
-- <PatternRef slug="actions/application/deletion">Deletion</PatternRef> — the most common operation routed through selection; confirmation strategy should scale with the selection count
-- <PatternRef slug="actions/sense-making/tag">Tag</PatternRef>, [Grouping](../?path=/docs/actions-sensemaking-grouping--docs) — common payloads of bulk action
+- <PatternRef slug="deletion">Deletion</PatternRef> — the most common operation routed through selection; confirmation strategy should scale with the selection count
+- <PatternRef slug="tag">Tag</PatternRef>, [Grouping](../?path=/docs/actions-sensemaking-grouping--docs) — common payloads of bulk action
 
 ### Adjacent to
 
-- [Filtering](../?path=/docs/actions-seeking-filtering--docs) — Filtering and selection cover the same job from opposite ends — filter narrows by predicate, selection narrows by enumeration
-- [Sorting](../?path=/docs/actions-seeking-sorting--docs) — Sorting changes what a range selection refers to mid-flight — range selections have to either survive the sort or re-resolve to the new order
-- <PatternRef slug="actions/seeking/searching">Searching</PatternRef> — Search shrinks the population from which selections are drawn
-- [Dual listbox](../?path=/docs/actions-coordination-dual-listbox--docs) — the staged-commit variant; when a bulk assignment needs side-by-side review of source and selection before applying
+- [Filtering](/patterns/filtering) — Filtering and selection cover the same job from opposite ends — filter narrows by predicate, selection narrows by enumeration
+- [Sorting](/patterns/sorting) — Sorting changes what a range selection refers to mid-flight — range selections have to either survive the sort or re-resolve to the new order
+- <PatternRef slug="searching">Searching</PatternRef> — Search shrinks the population from which selections are drawn
+- [Dual listbox](/patterns/dual-listbox) — the staged-commit variant; when a bulk assignment needs side-by-side review of source and selection before applying
 
 ### Composed from
 
 - [Checkbox](../?path=/docs/primitives-checkbox--docs) — the most explicit selection affordance
-- [Focus](/patterns/foundations/interaction) — distinct but adjacent; the gesture grammar usually has to coexist with focus
+- [Focus](/patterns/interaction) — distinct but adjacent; the gesture grammar usually has to coexist with focus
 
 ### Containers
 
-- [Data view](../?path=/docs/actions-seeking-data-view--docs), [Card](../?path=/docs/actions-sensemaking-card--docs) — the views in which item selection happens
+- [Data view](/patterns/data-view), [Card](../?path=/docs/actions-sensemaking-card--docs) — the views in which item selection happens
 - [Block-based editor](../?path=/docs/components-blockbased-editor--docs) — the surface in which content selection happens
 
 ## TODO:

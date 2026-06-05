@@ -7,7 +7,7 @@ import * as BreadcrumbsStories from './Breadcrumbs.stories.tsx';
 
 # Breadcrumbs
 
-Reveal the actor's position in a hierarchy, enabling efficient backtracking and spatial orientation during [motivated movement](/patterns/foundations/interaction#motivated-movement).
+Reveal the actor's position in a hierarchy, enabling efficient backtracking and spatial orientation during [motivated movement](/patterns/interaction#motivated-movement).
 
 <Canvas>
   <Story of={ BreadcrumbsStories.Basic } />
@@ -22,7 +22,7 @@ When a breadcrumb has more items than it can show, it automatically collapses.
 ## Advanced
 
 Breadcrumbs can offer additional functionality by putting sibling pages right into the navigation with a `<select>`,
-making lateral movement possible alongside the default top-down flow. This supports [browsing](/patterns/foundations/interaction#browsing) behavior by enabling exploration of related content without losing current context.
+making lateral movement possible alongside the default top-down flow. This supports [browsing](/patterns/interaction#browsing) behavior by enabling exploration of related content without losing current context.
 
 <Story of={ BreadcrumbsStories.Advanced } />
 
@@ -39,9 +39,9 @@ making lateral movement possible alongside the default top-down flow. This suppo
 {/* **Modularity**: Each breadcrumb segment is an independent, clickable component that can be combined to create different path lengths without affecting other segments. */}
 {/* **Combinatorial logic**: Breadcrumbs work with other navigation patterns—when combined with filters, they show filtered paths; with command menus, they provide context after direct jumps; with sidebars, they clarify position within nested structures. */}
 
-## [Intent & interaction](/patterns/foundations/interaction)
+## [Intent & interaction](/patterns/interaction)
 
-Breadcrumbs support [motivated movement](/patterns/foundations/interaction#motivated-movement)
+Breadcrumbs support [motivated movement](/patterns/interaction#motivated-movement)
 through spatial context and efficient backtracking. They enable transitions between navigating (direct movement),
 re-finding (returning to known content), and browsing (lateral exploration via advanced variants).
 
@@ -54,7 +54,7 @@ re-finding (returning to known content), and browsing (lateral exploration via a
 ## Related patterns
 
 - [CommandMenu](../?path=/docs/components-command-menu--docs) – alternative navigation for transactional search
-- [Filters](../?path=/docs/actions-seeking-filtering--docs) – complementary browsing support
+- [Filters](/patterns/filtering) – complementary browsing support
 - [Overflow](../?path=/docs/operations-overflow--docs) — governs how long paths behave when they exceed available space
 - [Priority+](../?path=/docs/components-priority--docs) — an alternative strategy for long paths
 

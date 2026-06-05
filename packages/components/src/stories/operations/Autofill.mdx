@@ -10,7 +10,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 Populating fields with previously known or stored values, pulled from actor profiles, prior sessions, browser data, or contextual defaults.
 
-Part of the <PatternRef slug="actions/application/assisted-task-completion">assisted task completion</PatternRef> spectrum. Preemptive, silent, and only useful when confidence is high.
+Part of the <PatternRef slug="assisted-task-completion">assisted task completion</PatternRef> spectrum. Preemptive, silent, and only useful when confidence is high.
 
 {/* ## When it works */}
 
@@ -21,7 +21,7 @@ Part of the <PatternRef slug="actions/application/assisted-task-completion">assi
 {/* ## When it fails */}
 
 {/* - Pre-populated data is wrong, and deleting before correcting costs more effort than typing from scratch */}
-{/* - The system fills fields the actor didn't expect it to know about, raising [privacy](/patterns/qualities/privacy) questions */}
+{/* - The system fills fields the actor didn't expect it to know about, raising [privacy](/patterns/privacy) questions */}
 {/* - Hidden fields get silently filled and read via JavaScript before submission. This is the autofill dark pattern (Friedman 2021) */}
 
 ## Data sources
@@ -39,20 +39,20 @@ The application fills fields from its own knowledge of the actor: account detail
 ### Precursors
 
 - [Input](../?path=/docs/primitives-input--docs) — the primitive autofill populates
-- <PatternRef slug="operations/good-defaults">Good defaults</PatternRef> — when the system can guess a reasonable value without stored data
+- <PatternRef slug="good-defaults">Good defaults</PatternRef> — when the system can guess a reasonable value without stored data
 
 ### Complementary
 
-- <PatternRef slug="actions/application/assisted-task-completion">Assisted task completion</PatternRef> — the spectrum this pattern belongs to
-- <PatternRef slug="actions/application/suggestion">Suggestion</PatternRef> — autofill as a form of implicit recommendation
-- [Privacy](/patterns/qualities/privacy) — autofill surfaces what the system knows about the actor
-- [Adaptability](/patterns/qualities/adaptation) — autofill that learns from corrections over time
+- <PatternRef slug="assisted-task-completion">Assisted task completion</PatternRef> — the spectrum this pattern belongs to
+- <PatternRef slug="suggestion">Suggestion</PatternRef> — autofill as a form of implicit recommendation
+- [Privacy](/patterns/privacy) — autofill surfaces what the system knows about the actor
+- [Adaptability](/patterns/adaptation) — autofill that learns from corrections over time
 
 ### Follow-ups
 
-- [Form](../?path=/docs/actions-application-form--docs) — the container where autofill most commonly appears
-- <PatternRef slug="actions/application/data-entry">Data entry</PatternRef> — autofill as a strategy for frictionless input
-- <PatternRef slug="actions/application/saving">Saving</PatternRef> — what happens after pre-filled data is accepted
+- [Form](/patterns/form) — the container where autofill most commonly appears
+- <PatternRef slug="data-entry">Data entry</PatternRef> — autofill as a strategy for frictionless input
+- <PatternRef slug="saving">Saving</PatternRef> — what happens after pre-filled data is accepted
 
 ## Resources & references
 

@@ -26,14 +26,14 @@ Notable: orientation choice (vertical vs. horizontal, by label length) is drafte
 
 The tree ends at "consider redesign/priority" when none of these dimensions yield a workable move — making absence of a fit visible is itself a result.
 
-### Notification — `apps/patterns/src/content/patterns/actions/coordination/notification.mdx`
+### Notification — `apps/patterns/src/content/patterns/notification.mdx`
 
 - *Action requirement*: does the user need to do something?
 - *Urgency*: is immediate attention required?
 - *Communicative intent*: status update vs. alert vs. confirmation
 - *Dismissibility*: can the alert be cleared by the user, or must it persist?
 
-### Navigation overview — `apps/patterns/src/content/patterns/actions/navigation/navigation-overview.mdx`
+### Navigation overview — `apps/patterns/src/content/patterns/navigation-overview.mdx`
 
 The richest tree; branches on the *shape of the space being navigated* and then offers refinement axes:
 
@@ -54,7 +54,7 @@ Refinement axes (orthogonal to the primary branches):
 
 Hybrid combinations are listed explicitly — an acknowledgement that the dimensions don't always pick out a single move.
 
-### Form — `apps/patterns/src/content/patterns/actions/application/form.mdx`
+### Form — `apps/patterns/src/content/patterns/form.mdx`
 
 Two trees, picking a different facet each.
 
@@ -71,13 +71,13 @@ Two trees, picking a different facet each.
 - *Label uniformity*: are labels short and consistent?
 - *Visual emphasis*: do options need to read as prominent choices?
 
-### Deletion — `apps/patterns/src/content/patterns/actions/application/deletion.mdx`
+### Deletion — `apps/patterns/src/content/patterns/deletion.mdx`
 
 - *Reversibility*: can the deletion be undone?
 - *Recreation latency*: if not undoable, how long would recreating take? (seconds / minutes)
 - *Impact scope*: single user / multiple users / system-wide
 
-### Localization — `apps/patterns/src/content/patterns/foundations/localization.mdx`
+### Localization — `apps/patterns/src/content/patterns/localization.mdx`
 
 - *Language boundaries*: used across languages?
 - *Cultural context*: same cultural context, or different (with `en-GB` vs. `en-US` as a borderline case)

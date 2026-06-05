@@ -1,4 +1,4 @@
-import type { Preview } from "@storybook/react-vite";
+// import type { Preview } from "@storybook/react-vite";
 import '../src/styles/main.css';
 import '../src/styles/docs.css';
 import '../src/main.ts';
@@ -25,12 +25,6 @@ const preview: Preview = {
         order: [
           'Introduction',
           'Foundations', ['Overview', 'Principles', '*'],
-          'Qualities', ['Overview', '*'],
-          'Operations', ['Overview', 'Conversation', ['Conversational activities', 'Sequence management', 'Conversation management', '*'], '*'],
-          'Actions', ['Overview', 'Seeking', 'Evaluation', 'Sense-making', 'Application', 'Coordination', 'Navigation', ['Overview', '*'], '*'],
-          'Activities', ['Overview', '*'],
-          'Data visualization', ['Overview', '*'],
-          'Concepts', ['Overview', '*'],
           '*'],
       },
     },

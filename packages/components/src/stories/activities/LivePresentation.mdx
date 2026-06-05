@@ -8,7 +8,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 The co-presence of reading and writing on a single surface, with the rendering held steady enough that a human can follow what's already there while new content keeps arriving.
 
-This is the *during-generation* phase that precedes [generated content](../?path=/docs/activities-generated-content--docs)'s post-generation negotiation. While the system is still emitting, the design problem isn't yet trust or refinement. It's whether the surface lets the actor read at all.
+This is the *during-generation* phase that precedes [generated content](/patterns/generated-content)'s post-generation negotiation. While the system is still emitting, the design problem isn't yet trust or refinement. It's whether the surface lets the actor read at all.
 
 A streaming surface puts two clocks into one container: the system's emission rate and the actor's reading rate. They won't match, and most of the design work sits on that mismatch. Auto-scrolling chases the newest content while the reader wants to stay where they are. Painting on every token wastes work the browser will redo at its own pace. Announcing every change drowns a screen reader. Running the stream to completion punishes anyone who tries to stop.
 
@@ -16,7 +16,7 @@ A streaming surface puts two clocks into one container: the system's emission ra
 
 Auto-scrolling to new content fights the actor whenever they want to review what came earlier. Follow only when they consent: track whether they're still at the bottom, and read any upward scroll as intent to detach. A small dead zone near the bottom keeps jitter from being misread as deliberate scrolling.
 
-Preserving the reading position is one of the levers for [agency](/patterns/qualities/agency); the system shouldn't redirect the actor's attention without consent.
+Preserving the reading position is one of the levers for [agency](/patterns/agency); the system shouldn't redirect the actor's attention without consent.
 
 `TODO:` EXAMPLE
 
@@ -30,13 +30,13 @@ Generation should add to a stable scene rather than redraw a moving one.
 
 ## Render rhythm
 
-Tokens can arrive faster than the browser can paint. Updating on every arrival wastes work and looks worse than updating on a clock. Decouple arrival from paint: buffer incoming chunks and flush them once per animation frame. The trade is imperceptible latency for steady rendering, so the surface's [rhythm](/patterns/qualities/temporality) stays even when the underlying stream stutters.
+Tokens can arrive faster than the browser can paint. Updating on every arrival wastes work and looks worse than updating on a clock. Decouple arrival from paint: buffer incoming chunks and flush them once per animation frame. The trade is imperceptible latency for steady rendering, so the surface's [rhythm](/patterns/temporality) stays even when the underlying stream stutters.
 
 `TODO:` EXAMPLE
 
 ## Stopping cleanly
 
-When the actor [aborts](../?path=/docs/operations-conversation-sequence-management-abort--docs) a stream, the surface should reach a quiet resting state. Clear the pending buffer, drop the cursor and status indicator, and surface a retry that keeps the original prompt intact.
+When the actor [aborts](/patterns/abort) a stream, the surface should reach a quiet resting state. Clear the pending buffer, drop the cursor and status indicator, and surface a retry that keeps the original prompt intact.
 
 ## Accessibility
 
@@ -46,17 +46,17 @@ Live-region semantics (`aria-live="polite"` with `aria-atomic="false"`) let addi
 
 ### Precursors
 
-- <PatternRef slug="activities/bot">Bot</PatternRef> — generates the stream that this surface presents in flight
+- <PatternRef slug="bot">Bot</PatternRef> — generates the stream that this surface presents in flight
 
 ### Follow-ups
 
-- [Generated content](../?path=/docs/activities-generated-content--docs) — once the stream completes, the move shifts from holding the surface stable to negotiating what arrived
+- [Generated content](/patterns/generated-content) — once the stream completes, the move shifts from holding the surface stable to negotiating what arrived
 
 ### Complementary
 
-- <PatternRef slug="activities/transparent-reasoning">Transparent reasoning</PatternRef> — its "stream of thought" mode rides on the same rendering substrate
-- [Conversation](../?path=/docs/activities-conversation--docs) — live presentation is one of the rhythms a conversational turn can take
-- [Abort](../?path=/docs/operations-conversation-sequence-management-abort--docs) — the user-side stop depends on the surface having a quiet resting state to land in
+- <PatternRef slug="transparent-reasoning">Transparent reasoning</PatternRef> — its "stream of thought" mode rides on the same rendering substrate
+- [Conversation](/patterns/conversation) — live presentation is one of the rhythms a conversational turn can take
+- [Abort](/patterns/abort) — the user-side stop depends on the surface having a quiet resting state to land in
 
 ## Resources & references
 

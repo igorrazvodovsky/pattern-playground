@@ -42,7 +42,7 @@ The structured collection of input from the actor, balancing guidance with the f
 ## AI-augmented form
 
 Forms force users to translate their reality into database fields.
-AI allows systems to handle the structure, accepting <PatternRef slug="actions/application/data-entry#forgiving-format">forgiving input</PatternRef> from the user.
+AI allows systems to handle the structure, accepting <PatternRef slug="data-entry#forgiving-format">forgiving input</PatternRef> from the user.
 
 In an AI-augmented form, the primary user action shifts from data *entry to data *verification*.
 1. Input: User provides raw data (image, PDF, pasted text, voice dump).
@@ -51,7 +51,7 @@ In an AI-augmented form, the primary user action shifts from data *entry to data
 
 ## Conversational forms
 
-Forms can be embedded in a [messaging](../?path=/docs/actions-coordination-messaging--docs) interface, allowing for a more [conversational](../?path=/docs/activities-conversation--docs) interaction.
+Forms can be embedded in a [messaging](../?path=/docs/actions-coordination-messaging--docs) interface, allowing for a more [conversational](/patterns/conversation) interaction.
 
 <Story of={FormStories.Conversational} />
 
@@ -60,7 +60,7 @@ Forms can be embedded in a [messaging](../?path=/docs/actions-coordination-messa
 ### Precursors
 
 - [Messaging](../?path=/docs/actions-coordination-messaging--docs) - for conversational variant.
-- [Formality](/patterns/qualities/formality) — forms commit the actor to the system's full shape up front
+- [Formality](/patterns/formality) — forms commit the actor to the system's full shape up front
 - [Input](../?path=/docs/primitives-input--docs) - free-form text entry with label and helper text
 - [Textarea](../?path=/docs/primitives-textarea--docs) - multi-line counterpart for longer text
 - [Select](../?path=/docs/primitives-select--docs) - choosing one value from a short, bounded set
@@ -70,18 +70,18 @@ Forms can be embedded in a [messaging](../?path=/docs/actions-coordination-messa
 - [List](../?path=/docs/actions-evaluation-list--docs) - structured options with checkbox/radio variants
 
 ### Follow-ups
-- <PatternRef slug="operations/status-feedback">Status feedback</PatternRef> - validation and system status communication
-- <PatternRef slug="actions/application/saving">Saving</PatternRef> - autosave and manual save strategies
+- <PatternRef slug="status-feedback">Status feedback</PatternRef> - validation and system status communication
+- <PatternRef slug="saving">Saving</PatternRef> - autosave and manual save strategies
 
 ### Complementary
 - [Callout](../?path=/docs/operations-callout--docs) — inline validation and instructional feedback within forms
-- <PatternRef slug="operations/good-defaults">Good defaults</PatternRef> - reduce friction by pre-selecting likely options
+- <PatternRef slug="good-defaults">Good defaults</PatternRef> - reduce friction by pre-selecting likely options
 - [Details](../?path=/docs/primitives-details--docs) - collapsible form sections
 - [Command menu](../?path=/docs/components-command-menu--docs) - quick access to form actions
-- [Conversation](../?path=/docs/activities-conversation--docs) may resolve into a form when a dialog stabilizes around well-structured data collection
+- [Conversation](/patterns/conversation) may resolve into a form when a dialog stabilizes around well-structured data collection
 
 ### Tangentially related
-- [Disabled state](../?path=/docs/operations-disabled-state--docs) - alternatives to disabling form elements
+- [Disabled state](/patterns/state-disabled) - alternatives to disabling form elements
 - [KeyboardKey](../?path=/docs/primitives-keyboard-key--docs) - keyboard shortcuts and navigation
 
 ## Resources & references

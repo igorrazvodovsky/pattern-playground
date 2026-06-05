@@ -1,0 +1,36 @@
+---
+title: "Morphing controls"
+role: pattern
+activityLevel: operation
+atomic: pattern
+mediation: individual
+---
+
+{/* TODO: Storybook demo exists — packages/components/src/stories/operations/MorphingControls.stories.tsx */}
+
+
+A control that transforms its appearance and available actions in response to a state change, replacing the previous set of options with those relevant to the new mode.
+
+## When to use
+
+Use morphing controls when the completion of that action makes the original trigger meaningless. The control communicates the current state while offering the most logical next step.
+
+Avoid when users need to see the full range of possible actions to build a mental model, or when the transition between states is ambiguous and requires explanation.
+
+## Examples
+
+### Toggle
+
+
+### Multi-state close
+
+Close with confirmation is a common pattern, but instead of a separate dialog, the control itself morphs to offer the confirm action. This keeps the user in context and reduces friction.
+
+
+## Related patterns
+
+- <ComponentRef id="primitives-switch--docs">Switch</ComponentRef> & <ComponentRef id="primitives-checkbox--docs">Checkbox</ComponentRef> — use when on/off state is enough
+- Morphing provides [status feedback](/patterns/status-feedback)
+- [Unavailable actions](/patterns/unavailable-actions) removes controls entirely; morphing keeps them present but transformed
+- [Disabled state](/patterns/state-disabled) greys out controls without indicating the new state
+- [Progressive disclosure](/patterns/progressive-disclosure) — a broader pattern

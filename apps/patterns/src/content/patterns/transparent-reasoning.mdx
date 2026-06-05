@@ -1,0 +1,89 @@
+---
+title: "Transparent reasoning"
+role: pattern
+activityLevel: activity
+atomic: pattern
+mediation: individual
+fun: "🙂 5/5. A part of a bigger attempt to map LLM-related patterns."
+---
+
+import { ActivityLogLLMReasoningDemo } from '@pkg/demos/activity-log';
+
+The exposure of a [bot's](/patterns/bot) reasoning process as a legible trail of steps and decisions, transforming opaque computation into something the actor can inspect, trust, and challenge over time.
+
+Steps are arranged sequentially — like a conversation or narrative — with separation between user inputs, model responses, and intermediate reasoning. Actors can scroll, expand, comment on, or revisit earlier steps, and if needed, branch the thread to explore alternatives.
+
+## Temporal modes
+
+Breaking down reasoning transparency by when it occurs in the execution lifecycle makes the timing distinction explicit.
+
+### Before execution: planning
+
+TODO: Presents complete, verified information before commitment, building trust through transparency of upcoming actions.
+
+### During execution: stream of thought
+
+Reveals reasoning as work unfolds, enabling monitoring and early intervention.
+
+<Demo label="Stream of thought">
+  <ActivityLogLLMReasoningDemo client:only="react" />
+</Demo>
+
+### After execution: Retrospective analysis
+
+TODO: Condensed summary after completion, supporting learning and debugging.
+
+## Representation structures
+
+Beyond temporal positioning, reasoning can be structured as linear sequences or branching explorations.
+
+- Linear: presentation breaks down complex tasks into a series of simpler, sequential subtasks, making the model's reasoning process more interpretable and transparent. Most implementations of Stream of Thought and Action Plan use linear structures.
+- TODO: Branching: The nature of reasoning in LLMs, and human reasoning more broadly, is more nuanced than a simple linear chain.
+
+{/* https://d3js.org/d3-hierarchy */}
+
+## Placement
+
+### In a chat
+
+...
+
+### In a task
+
+...
+
+## Actions
+
+...
+
+{/* ### Correcting the bot */}
+
+## Related patterns
+
+### Enacted qualities
+
+- [Learnability](/patterns/learnability) — by observing *why* the system made a decision, the actor implicitly learns its logic and capabilities
+- [Agency](/patterns/agency) — visible reasoning is one of the levers for reliance calibration, helping the actor judge when to trust and when to override
+
+### Precursors
+
+- [Bot](/patterns/bot) - generates the reasoning that transparent reasoning makes visible and inspectable.
+
+### Follow-ups
+
+- [Activity log](/patterns/activity-log) - records the reasoning steps for review and audit.
+
+### Complementary
+
+- [Assistance](/patterns/assistance)
+- [Delegation](/patterns/delegation)
+- [Explanation](/patterns/explanation) - encourages understanding through interaction, while transparent reasoning shows the step-by-step process.
+- <ComponentRef id="actions-coordination-messaging--docs">Messaging</ComponentRef> - provides the conversational interface where transparent reasoning can be displayed.
+- [Suggestions](/patterns/suggestion) - can emerge from the visible reasoning process.
+- [Collaboration](/patterns/collaboration) - Transparent reasoning makes AI decision-making processes inspectable for human collaborators
+- Transparent reasoning can be seen as "TODO:workflow unpacking": in an LLM-driven system, reasoning processes can be viewed as dynamically generated workflows that emerge during runtime rather than being predefined.
+- [Cognitive forcing functions](/patterns/cognitive-forcing-functions) — counterbalancing interventions when transparent reasoning slides into over-reliance
+
+## Resources & references
+
+Rock Yuren Pang, K. J. Kevin Feng, Shangbin Feng, Chu Li, Weijia Shi, Yulia Tsvetkov, Jeffrey Heer, Katharina Reinecke. 2025. [Interactive Reasoning: Visualizing and Controlling Chain-of-Thought Reasoning in Large Language Models](https://arxiv.org/pdf/2506.23678)

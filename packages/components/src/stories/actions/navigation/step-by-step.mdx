@@ -13,18 +13,18 @@ The guided progression through a prescribed sequence, balancing task-completion 
 This model optimises for task completion over exploration, reducing cognitive load from navigation decisions whilst constraining freedom to deviate.
 
 Primarily supports
-- [Transactional search](/patterns/foundations/interaction#transactional-search) — optimised for getting the job done
+- [Transactional search](/patterns/interaction#transactional-search) — optimised for getting the job done
 - TODO: Goal-oriented task completion with clear endpoints
 
 Deliberately constrains
-- [Exploring](/patterns/foundations/interaction#exploring) — intentionally limited to maintain focus
-- [Browsing](/patterns/foundations/interaction#browsing) — lateral movement discouraged or impossible
-- [Navigating](/patterns/foundations/interaction#navigating) — constrained to sequence, even when destination is known
+- [Exploring](/patterns/interaction#exploring) — intentionally limited to maintain focus
+- [Browsing](/patterns/interaction#browsing) — lateral movement discouraged or impossible
+- [Navigating](/patterns/interaction#navigating) — constrained to sequence, even when destination is known
 
 ## Variants
 
 - Linear: strict sequence, must complete steps in order.
-- Flexible: steps shown in overview, some skippable or reorderable. Approaches [pyramid model](../?path=/docs/actions-navigation-pyramid--docs)
+- Flexible: steps shown in overview, some skippable or reorderable. Approaches [pyramid model](/patterns/pyramid)
 - Branching: different paths based on choices or conditions.
 - Progressive disclosure sequence: simple initial steps, complexity revealed gradually.
 
@@ -37,18 +37,18 @@ Deliberately constrains
 ## Related patterns
 
 ### Implements this model
-- <PatternRef slug="actions/application/wizard">Wizard</PatternRef> — Wizard is the canonical instantiation of step-by-step navigation
-- Multi-step [forms](../?path=/docs/actions-application-form--docs) — Form might use step-by-step navigation as a building block
+- <PatternRef slug="wizard">Wizard</PatternRef> — Wizard is the canonical instantiation of step-by-step navigation
+- Multi-step [forms](/patterns/form) — Form might use step-by-step navigation as a building block
 
 ### Complements
-- <PatternRef slug="operations/deep-linking">Deep linking</PatternRef> — enables returning to specific steps via URL
+- <PatternRef slug="deep-linking">Deep linking</PatternRef> — enables returning to specific steps via URL
 - [Progress indicators](../?path=/docs/primitives-progress-indicator--docs) — visualise progression through steps
 - TODO: Form validation
 
 ### Alternatives
-- [Pyramid](../?path=/docs/actions-navigation-pyramid--docs) for sequences with flexible navigation
-- [Step by step + pyramid](../?path=/docs/actions-navigation-hybrid-patterns--docs#step-by-step--pyramid) for guided but flexible processes
-- [Multilevel tree](../?path=/docs/actions-navigation-multilevel-tree--docs) for structured but non-linear content
+- [Pyramid](/patterns/pyramid) for sequences with flexible navigation
+- [Step by step + pyramid](/patterns/hybrid-patterns#step-by-step--pyramid) for guided but flexible processes
+- [Multilevel tree](/patterns/multilevel-tree) for structured but non-linear content
 
 ## Resources & references
 

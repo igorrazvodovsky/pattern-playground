@@ -12,7 +12,7 @@ Predicting and suggesting completions for a value the actor is actively typing, 
 
 <Story of={ AutocompleteStories.Default } />
 
-Part of the <PatternRef slug="actions/application/assisted-task-completion">assisted task completion</PatternRef> spectrum, at the most reactive end — the system takes almost no initiative here.
+Part of the <PatternRef slug="assisted-task-completion">assisted task completion</PatternRef> spectrum, at the most reactive end — the system takes almost no initiative here.
 
 ## Design considerations
 
@@ -25,22 +25,22 @@ Part of the <PatternRef slug="actions/application/assisted-task-completion">assi
 
 - [Input](../?path=/docs/primitives-input--docs) — the primitive that autocomplete builds on
 - [Combobox](../?path=/docs/operations-combobox--docs) — component this pattern builds on
-- <PatternRef slug="operations/good-defaults">Good defaults</PatternRef> — pre-populating values before the actor starts typing
+- <PatternRef slug="good-defaults">Good defaults</PatternRef> — pre-populating values before the actor starts typing
 
 ### Complementary
 
 - [Select](../?path=/docs/primitives-select--docs) — the counterpart when the set is short, bounded, and already known to the actor; autocomplete earns its complexity when the set is long or the query is still forming
-- <PatternRef slug="actions/application/assisted-task-completion">Assisted task completion</PatternRef> — the spectrum autocomplete sits within
-- <PatternRef slug="actions/application/suggestion">Suggestion</PatternRef> — system-generated recommendations more broadly
-- <PatternRef slug="actions/seeking/searching">Searching</PatternRef> — autocomplete in search fields is really a seeking pattern
+- <PatternRef slug="assisted-task-completion">Assisted task completion</PatternRef> — the spectrum autocomplete sits within
+- <PatternRef slug="suggestion">Suggestion</PatternRef> — system-generated recommendations more broadly
+- <PatternRef slug="searching">Searching</PatternRef> — autocomplete in search fields is really a seeking pattern
 - [Command menu](../?path=/docs/components-command-menu--docs) — autocomplete applied to actions and navigation
-- [Filtering](../?path=/docs/actions-seeking-filtering--docs) — autocomplete within filter value selection
-- [Learnability](/patterns/qualities/learnability) — suggestions teach people what options exist
+- [Filtering](/patterns/filtering) — autocomplete within filter value selection
+- [Learnability](/patterns/learnability) — suggestions teach people what options exist
 
 ### Follow-ups
 
-- [Form](../?path=/docs/actions-application-form--docs) — where autocomplete most commonly lives
-- <PatternRef slug="actions/application/data-entry">Data entry</PatternRef> — autocomplete as a way to reduce input friction
+- [Form](/patterns/form) — where autocomplete most commonly lives
+- <PatternRef slug="data-entry">Data entry</PatternRef> — autocomplete as a way to reduce input friction
 
 ## Resources & references
 

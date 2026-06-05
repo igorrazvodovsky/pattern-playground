@@ -15,20 +15,20 @@ Most commonly found on mobile devices where screen space is limited and clear ta
 ## Behavioural position
 
 **Supports**
-- [Monitoring](/patterns/foundations/interaction#monitoring) — hub can surface updates and status from all spokes
-- [Transactional search](/patterns/foundations/interaction#transactional-search) — direct selection from hub when target is known
+- [Monitoring](/patterns/interaction#monitoring) — hub can surface updates and status from all spokes
+- [Transactional search](/patterns/interaction#transactional-search) — direct selection from hub when target is known
 
 **Constrains**
-- [Navigating](/patterns/foundations/interaction#navigating) — forces hub return even when destination is known
-- [Browsing](/patterns/foundations/interaction#browsing) — limits lateral movement between related spokes
+- [Navigating](/patterns/interaction#navigating) — forces hub return even when destination is known
+- [Browsing](/patterns/interaction#browsing) — limits lateral movement between related spokes
 
-The constraint on navigating can frustrate actors who know their destination but must take two-step journeys. However, for [exploring](/patterns/foundations/interaction#exploring), the hub provides clear overview of available spaces.
+The constraint on navigating can frustrate actors who know their destination but must take two-step journeys. However, for [exploring](/patterns/interaction#exploring), the hub provides clear overview of available spaces.
 
 ## Variants
 
 - Pure hub and spoke: Spokes contain no navigation to other spokes. Only path back is to hub. Best for completely independent sections.
 - Hub and spoke with limited cross-links: Spokes can link to closely related spokes directly. Good for sections with clear relationships.
-- Hub and spoke with global navigation: Hub provides entry point, but spokes include global navigation to all sections. Becomes [hybrid pattern](../?path=/docs/actions-navigation-hybrid-patterns--docs#hub-and-spoke--fully-connected).
+- Hub and spoke with global navigation: Hub provides entry point, but spokes include global navigation to all sections. Becomes [hybrid pattern](/patterns/hybrid-patterns#hub-and-spoke--fully-connected).
 
 ## States
 
@@ -47,21 +47,21 @@ The constraint on navigating can frustrate actors who know their destination but
 ## Related patterns
 
 ### Precursors
-- [Flat navigation](../?path=/docs/actions-navigation-flat-navigation--docs) → hub and spoke when items exceed screen capacity
+- [Flat navigation](/patterns/flat-navigation) → hub and spoke when items exceed screen capacity
 
 ### Complements
 - [Command menu](../?path=/docs/components-command-menu--docs) — provides escape hatch for quick navigation without hub return
-- <PatternRef slug="operations/deep-linking">Deep linking</PatternRef> — enables direct spoke access from external sources
-- <PatternRef slug="actions/seeking/searching">Searching</PatternRef> — alternative to hub browsing for known destinations
+- <PatternRef slug="deep-linking">Deep linking</PatternRef> — enables direct spoke access from external sources
+- <PatternRef slug="searching">Searching</PatternRef> — alternative to hub browsing for known destinations
 
 ### Follow-ups
-- [Workspace](../?path=/docs/activities-workspace--docs) — organisational containers often use hub and spoke
+- [Workspace](/patterns/workspace) — organisational containers often use hub and spoke
 - Mobile app architectures with tab bars
 
 ### Alternatives
-- [Fully connected](../?path=/docs/actions-navigation-fully-connected--docs) for frequent cross-section movement
-- [Multilevel tree](../?path=/docs/actions-navigation-multilevel-tree--docs) for hierarchical relationships
-- [Hub and spoke + fully connected](../?path=/docs/actions-navigation-hybrid-patterns--docs#hub-and-spoke--fully-connected) to add cross-spoke navigation
+- [Fully connected](/patterns/fully-connected) for frequent cross-section movement
+- [Multilevel tree](/patterns/multilevel-tree) for hierarchical relationships
+- [Hub and spoke + fully connected](/patterns/hybrid-patterns#hub-and-spoke--fully-connected) to add cross-spoke navigation
 
 ## Resources & references
 

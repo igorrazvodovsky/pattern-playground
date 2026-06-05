@@ -11,13 +11,18 @@ For component Storybook documentation, see `.claude/rules/documentation.md`.
 
 ## Frontmatter (replaces `<Meta>` tags)
 
-Every pattern file must have YAML frontmatter with at least `title` and `role`:
+Files are flat under `apps/patterns/src/content/patterns/`; the filename stem is
+the slug, route, and graph ID. Classification lives in frontmatter facets, not
+folders. Every file needs at least `title` and `role`:
 
 ```yaml
 ---
 title: "Pattern name"
 role: pattern
-activityLevel: operation
+activityLevel: operation       # AT altitude (operation | action | activity)
+lifecycle: seeking             # optional Seek–Use–Share stage
+domain: data-visualization     # optional domain corpus
+group: "conversation/sequence-management"  # optional nav sub-grouping path
 atomic: pattern
 mediation: individual
 description: "One sentence framed from the human situation."
@@ -28,16 +33,18 @@ Do not use `<Meta title="..." />` or `<Meta of={...} />` in pattern site content
 
 ## Inter-page link format
 
-Use plain relative routes rooted at `/patterns/`:
+Use plain relative routes rooted at `/patterns/`, with the flat slug (filename
+stem) — never an Activity-Theory path:
 
 ```md
-[Undo](/patterns/operations/undo)
-[Agency](/patterns/qualities/agency)
+[Undo](/patterns/undo)
+[Agency](/patterns/agency)
 ```
 
-Do not use Storybook URL format (`../?path=/docs/...--docs`).
-Old Storybook-format links in migrated pages are tech debt; rewrite them when
-editing the file for other reasons.
+Do not use Storybook URL format (`../?path=/docs/...--docs`) for patterns, nor
+old multi-segment routes (`/patterns/operations/undo`). Both are tech debt;
+rewrite them when editing the file for other reasons. (Storybook URLs stay
+correct for links to component pages.)
 
 ## Component embeds
 

@@ -1,0 +1,63 @@
+---
+title: "Live presentation"
+role: pattern
+activityLevel: activity
+atomic: pattern
+mediation: individual
+fun: "🌊 4/5. The tactics are mechanical but the underlying problem is conversational: two paces sharing one surface."
+---
+The co-presence of reading and writing on a single surface, with the rendering held steady enough that a human can follow what's already there while new content keeps arriving.
+
+This is the *during-generation* phase that precedes [generated content](/patterns/generated-content)'s post-generation negotiation. While the system is still emitting, the design problem isn't yet trust or refinement. It's whether the surface lets the actor read at all.
+
+A streaming surface puts two clocks into one container: the system's emission rate and the actor's reading rate. They won't match, and most of the design work sits on that mismatch. Auto-scrolling chases the newest content while the reader wants to stay where they are. Painting on every token wastes work the browser will redo at its own pace. Announcing every change drowns a screen reader. Running the stream to completion punishes anyone who tries to stop.
+
+## Holding the reading position
+
+Auto-scrolling to new content fights the actor whenever they want to review what came earlier. Follow only when they consent: track whether they're still at the bottom, and read any upward scroll as intent to detach. A small dead zone near the bottom keeps jitter from being misread as deliberate scrolling.
+
+Preserving the reading position is one of the levers for [agency](/patterns/agency); the system shouldn't redirect the actor's attention without consent.
+
+`TODO:` EXAMPLE
+
+## Stable layout under growth
+
+Rebuilding the stream on each token forces the browser into continuous layout work and produces visible flicker. Append instead. Extend existing nodes with new text, reserve space for generation-only fixtures (cursor, status indicator), and let growth happen at the edge of the scene rather than throughout.
+
+Generation should add to a stable scene rather than redraw a moving one.
+
+`TODO:` EXAMPLE
+
+## Render rhythm
+
+Tokens can arrive faster than the browser can paint. Updating on every arrival wastes work and looks worse than updating on a clock. Decouple arrival from paint: buffer incoming chunks and flush them once per animation frame. The trade is imperceptible latency for steady rendering, so the surface's [rhythm](/patterns/temporality) stays even when the underlying stream stutters.
+
+`TODO:` EXAMPLE
+
+## Stopping cleanly
+
+When the actor [aborts](/patterns/abort) a stream, the surface should reach a quiet resting state. Clear the pending buffer, drop the cursor and status indicator, and surface a retry that keeps the original prompt intact.
+
+## Accessibility
+
+Live-region semantics (`aria-live="polite"` with `aria-atomic="false"`) let additions be announced as additions rather than as full re-readings of the growing region. When `prefers-reduced-motion` is set, render the complete response instantly instead of animating its arrival.
+
+## Related patterns
+
+### Precursors
+
+- [Bot](/patterns/bot) — generates the stream that this surface presents in flight
+
+### Follow-ups
+
+- [Generated content](/patterns/generated-content) — once the stream completes, the move shifts from holding the surface stable to negotiating what arrived
+
+### Complementary
+
+- [Transparent reasoning](/patterns/transparent-reasoning) — its "stream of thought" mode rides on the same rendering substrate
+- [Conversation](/patterns/conversation) — live presentation is one of the rhythms a conversational turn can take
+- [Abort](/patterns/abort) — the user-side stop depends on the surface having a quiet resting state to land in
+
+## Resources & references
+
+- [Designing stable interfaces for streaming content](https://www.smashingmagazine.com/2026/05/designing-stable-interfaces-streaming-content/) — Smashing Magazine

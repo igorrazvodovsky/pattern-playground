@@ -305,45 +305,19 @@ function extractFrontmatter(content: string): Record<string, unknown> {
   }
 }
 
-function folderToCategory(folder: string): string {
-  const map: Record<string, string> = {
-    'operations':         'Operations',
-    'actions':            'Actions',
-    'activities':         'Activities',
-    'foundations':        'Foundations',
-    'qualities':          'Qualities',
-    'data-visualization': 'Data Visualisation',
-  };
-  return map[folder] ?? folder.charAt(0).toUpperCase() + folder.slice(1);
+/** Display category, composed from frontmatter facets rather than folders.
+ *  role wins for qualities/foundations; domain names a domain corpus; otherwise
+ *  the AT activity level. Section umbrellas (no facets) read as cross-cutting. */
+function categoryOf(role: string | undefined, activityLevel: string | null, domain: string | null): string {
+  if (role === 'quality') return 'Qualities';
+  if (role === 'foundation') return 'Foundations';
+  if (domain === 'data-visualization') return 'Data Visualisation';
+  if (activityLevel === 'operation') return 'Operations';
+  if (activityLevel === 'action') return 'Actions';
+  if (activityLevel === 'activity') return 'Activities';
+  return 'Cross-cutting';
 }
 
-/** Normalize a single ID segment: lowercase, non-alphanumeric runs become a single hyphen. */
-function normalizeSegment(s: string): string {
-  return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-}
-
-/** Derive the graph node ID from a patterns-content file path and its frontmatter title.
- *  When the file stem equals its parent directory name (index-file convention), the parent
- *  directory is not repeated in the ID — e.g. `seeking/data-view/data-view.mdx` + "Data view"
- *  → `actions-seeking-data-view`, not `actions-seeking-data-view-data-view`. */
-function pathBasedId(filePath: string, contentDir: string, title: string): string {
-  const relative = filePath.slice(contentDir.length + 1).replace(/\.mdx$/, '');
-  const dirParts = relative.split('/').slice(0, -1);
-  const normalizedTitle = normalizeSegment(title);
-  const lastDir = dirParts[dirParts.length - 1];
-  if (lastDir === normalizedTitle) {
-    return [...dirParts.slice(0, -1), normalizedTitle].join('-');
-  }
-  return [...dirParts, normalizedTitle].join('-');
-}
-
-/** Derive activity-level from top-level folder name (pattern content dir). */
-function deriveActivityLevelFromFolder(topFolder: string): Pick<ActivityLevel, 'activity-level' | 'lifecycle-stage'> {
-  if (topFolder === 'operations') return { 'activity-level': 'operation', 'lifecycle-stage': null };
-  if (topFolder === 'actions') return { 'activity-level': 'action', 'lifecycle-stage': null };
-  if (topFolder === 'activities') return { 'activity-level': 'activity', 'lifecycle-stage': null };
-  return { 'activity-level': 'cross-cutting', 'lifecycle-stage': null };
-}
 
 // Matches both Storybook-style links (components stories) and pattern-site /patterns/ links.
 // Group 1: Storybook id  Group 2: pattern-site path (may contain slashes)
@@ -641,17 +615,20 @@ interface TreeConfig {
  * map" branch of the Phase 3 plan.
  */
 const DECISION_TREES: Record<string, TreeConfig[]> = {
-  'actions-application-deletion': [
+  // Keys and pattern leaves are flat stems (the content directory is flat); component
+  // leaves (primitives-*, components-*, and Storybook-only entries like dialog, callout,
+  // inline-confirmation, dropdown) keep their Storybook title-derived IDs.
+  'deletion': [
     {
       treeId: 'deletion',
       leaves: {
-        'No confirmation (with undo)': 'operations-undo',
+        'No confirmation (with undo)': 'undo',
         'Inline confirmation': 'operations-inline-confirmation',
         'Modal confirmation': 'actions-application-dialog',
       },
     },
   ],
-  'actions-coordination-notification': [
+  'notification': [
     {
       treeId: 'notification',
       leaves: {
@@ -661,22 +638,22 @@ const DECISION_TREES: Record<string, TreeConfig[]> = {
       },
     },
   ],
-  'actions-navigation-overview': [
+  'navigation-overview': [
     {
       treeId: 'navigation-overview',
       leaves: {
-        'Pan and zoom': 'actions-navigation-pan-and-zoom',
-        'Step by step': 'actions-navigation-step-by-step',
-        'Pyramid': 'actions-navigation-pyramid',
-        'Multilevel tree': 'actions-navigation-multilevel-tree',
-        'Flat navigation': 'actions-navigation-flat-navigation',
-        'Fully connected': 'actions-navigation-fully-connected',
-        'Hub and spoke': 'actions-navigation-hub-and-spoke',
-        'Overview & Detail': 'actions-navigation-overview-and-detail',
+        'Pan and zoom': 'pan-and-zoom',
+        'Step by step': 'step-by-step',
+        'Pyramid': 'pyramid',
+        'Multilevel tree': 'multilevel-tree',
+        'Flat navigation': 'flat-navigation',
+        'Fully connected': 'fully-connected',
+        'Hub and spoke': 'hub-and-spoke',
+        'Overview & Detail': 'overview-detail',
       },
     },
   ],
-  'actions-application-form': [
+  'form': [
     {
       treeId: 'form-control',
       chartIndex: 1, // second <MermaidDiagram> — "Choosing a control"
@@ -887,18 +864,23 @@ for (const filePath of patternMdxFiles) {
   const title = typeof fm.title === 'string' ? fm.title : null;
   if (!title) continue;
 
-  const topFolder = filePath.slice(patternsContentDir.length + 1).split('/')[0];
-  const cat = folderToCategory(topFolder);
-  const id = pathBasedId(filePath, patternsContentDir, title);
-
-  if (title.toLowerCase() === 'overview' && !DECISION_TREES[id]) continue;
-
-  const relativePathNoExt = filePath.slice(patternsContentDir.length + 1).replace(/\.mdx$/, '').replace(/\/index$/, '');
-  const patternSitePath = `/patterns/${relativePathNoExt}`;
+  // Identity is the filename stem: the content directory is flat, so the stem is
+  // the canonical slug, route, graph node ID, and inter-page link target all at once.
+  // Classification (activity level, lifecycle, domain, …) lives in frontmatter facets,
+  // not in folders — see docs/specs/pattern-site.md.
+  const id = filePath.slice(patternsContentDir.length + 1).replace(/\.mdx$/, '').split('/').pop()!;
 
   const roleValue = typeof fm.role === 'string' ? fm.role : undefined;
   const role: Role | undefined = roleValue && isRole(roleValue) ? roleValue : undefined;
   if (!role) console.warn(`Role metadata warning: ${filePath} has no valid role field`);
+
+  const activityLevelRaw = typeof fm.activityLevel === 'string' ? fm.activityLevel : null;
+  const domainRaw = typeof fm.domain === 'string' ? fm.domain : null;
+  const cat = categoryOf(role, activityLevelRaw, domainRaw);
+
+  if (title.toLowerCase() === 'overview' && !DECISION_TREES[id]) continue;
+
+  const patternSitePath = `/patterns/${id}`;
 
   const node: Node = nodeMap.get(id) ?? { id, title, category: cat, path: patternSitePath };
   if (role) node.role = role;
@@ -910,15 +892,15 @@ for (const filePath of patternMdxFiles) {
   }
   nodeMap.set(id, node);
 
-  const activityLevelRaw = typeof fm.activityLevel === 'string' ? fm.activityLevel : null;
   const atomicRaw = typeof fm.atomic === 'string' ? fm.atomic : null;
   const lifecycleRaw = typeof fm.lifecycle === 'string' ? fm.lifecycle : null;
   const mediationRaw = typeof fm.mediation === 'string' ? fm.mediation : null;
-  const derived = deriveActivityLevelFromFolder(topFolder);
 
   activityData.set(id, {
-    'activity-level': activityLevelRaw ?? derived['activity-level'],
-    'lifecycle-stage': lifecycleRaw ?? derived['lifecycle-stage'],
+    // Frontmatter is authoritative. Foundations, qualities, and section umbrellas
+    // carry no AT altitude — they read as cross-cutting.
+    'activity-level': activityLevelRaw ?? 'cross-cutting',
+    'lifecycle-stage': lifecycleRaw ?? null,
     'atomic-category': atomicRaw ?? cat.toLowerCase(),
     'mediation': mediationRaw,
   });
@@ -1097,9 +1079,10 @@ function addEdge(edge: Edge) {
 
 function isPatternToQualityLink(sourceId: string, targetId: string): boolean {
   const sourceNode = nodeMap.get(sourceId);
+  const targetNode = nodeMap.get(targetId);
   return sourceNode !== undefined
-    && sourceNode.category !== 'Qualities'
-    && targetId.startsWith('qualities-');
+    && sourceNode.role !== 'quality'
+    && targetNode?.role === 'quality';
 }
 
 for (const [sourceId, links] of fileLinks.entries()) {
@@ -1138,8 +1121,8 @@ for (const [sourceId, links] of fileLinks.entries()) {
   for (const [key, edge] of edgeMap) {
     const sourceNode = nodeMap.get(edge.source);
     if (!sourceNode) continue;
-    if (sourceNode.category === 'Qualities') continue;
-    if (!edge.target.startsWith('qualities-')) continue;
+    if (sourceNode.role === 'quality') continue;
+    if (nodeMap.get(edge.target)?.role !== 'quality') continue;
     if (edge.type === 'enacts' || edge.type === 'surveys') continue;
     edgeMap.delete(key);
     promoted.push({

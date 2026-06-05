@@ -1,0 +1,133 @@
+---
+title: "Form"
+role: pattern
+group: "application"
+activityLevel: action
+atomic: composition
+mediation: individual
+fun: "🥱 boring but important groundwork."
+---
+
+import { MermaidDiagram } from '@components/MermaidDiagram';
+
+{/* TODO: Storybook demo exists — packages/components/src/stories/actions/application/Form.stories.tsx */}
+
+
+The structured collection of input from the actor, balancing guidance with the freedom to express complex or messy information.
+
+## Input & controls
+
+...
+
+### Labels and helper texts
+
+...
+
+### Required fields
+
+...
+
+### Grouping & sections
+
+...
+
+## Validation & feedback
+
+- inline or on-submit validation strategies
+- styling invalid form controls
+- user confusion
+- user abandonment
+
+...
+
+...
+
+## AI-augmented form
+
+Forms force users to translate their reality into database fields.
+AI allows systems to handle the structure, accepting [forgiving input](/patterns/data-entry#forgiving-format) from the user.
+
+In an AI-augmented form, the primary user action shifts from data *entry to data *verification*.
+1. Input: User provides raw data (image, PDF, pasted text, voice dump).
+2. Extraction: AI maps this to the form schema.
+3. Verification: User reviews the pre-filled form for accuracy.
+
+## Conversational forms
+
+Forms can be embedded in a <ComponentRef id="actions-coordination-messaging--docs">messaging</ComponentRef> interface, allowing for a more [conversational](/patterns/conversation) interaction.
+
+## Decision tree
+
+### Choosing an input
+
+<MermaidDiagram client:only="react" chart={`
+flowchart LR
+  A[Options basic and no search?]
+  A -->|Yes| B[Select/Text/Date/Password/Textarea]
+  A -->|No| C[Need searchable dropdown?]
+  C -->|Yes| D[Combobox]
+  C -->|No| E[Search input]
+`} />
+
+### Choosing a control
+
+<MermaidDiagram client:only="react" chart={`
+flowchart TD
+  A[Can you select more than one option?]
+  A -->|No| B[Single select]
+  A -->|Yes| C[Multi select]
+
+  %% Single-select branch
+  B -->|Filters or swaps content| D[Tabs]
+  B -->|No filtering| E[How many options?]
+  E -->|1| F[Need confirm?]
+  F -->|Yes| G[Checkbox]
+  F -->|No| H[Switch]
+  E -->|2-5| I[Short, consistent labels?]
+  I -->|Yes| J[Segmented control]
+  I -->|No| K[Radio buttons]
+  E -->|More than 5| L[Dropdown]
+
+  %% Multi-select branch
+  C -->|Needs emphasis| M[Selectable cards]
+  C -->|No emphasis| N[Short, uniform labels?]
+  N -->|Yes| O[Pill-style toggles]
+  N -->|No| P[Checkbox list]
+
+`} />
+
+## Related patterns
+
+### Precursors
+
+- <ComponentRef id="actions-coordination-messaging--docs">Messaging</ComponentRef> - for conversational variant.
+- [Formality](/patterns/formality) — forms commit the actor to the system's full shape up front
+- <ComponentRef id="primitives-input--docs">Input</ComponentRef> - free-form text entry with label and helper text
+- <ComponentRef id="primitives-textarea--docs">Textarea</ComponentRef> - multi-line counterpart for longer text
+- <ComponentRef id="primitives-select--docs">Select</ComponentRef> - choosing one value from a short, bounded set
+- <ComponentRef id="primitives-checkbox--docs">Checkbox</ComponentRef> - binary choice input
+- <ComponentRef id="primitives-button--docs">Button</ComponentRef> - form submission and action triggers
+- <ComponentRef id="components-dropdown--docs">Dropdown</ComponentRef> - action menu counterpart to Select
+- <ComponentRef id="actions-evaluation-list--docs">List</ComponentRef> - structured options with checkbox/radio variants
+
+### Follow-ups
+- [Status feedback](/patterns/status-feedback) - validation and system status communication
+- [Saving](/patterns/saving) - autosave and manual save strategies
+
+### Complementary
+- <ComponentRef id="operations-callout--docs">Callout</ComponentRef> — inline validation and instructional feedback within forms
+- [Good defaults](/patterns/good-defaults) - reduce friction by pre-selecting likely options
+- <ComponentRef id="primitives-details--docs">Details</ComponentRef> - collapsible form sections
+- [Command menu](/patterns/command-menu) - quick access to form actions
+- [Conversation](/patterns/conversation) may resolve into a form when a dialog stabilizes around well-structured data collection
+
+### Tangentially related
+- [Disabled state](/patterns/state-disabled) - alternatives to disabling form elements
+- <ComponentRef id="primitives-keyboard-key--docs">KeyboardKey</ComponentRef> - keyboard shortcuts and navigation
+
+## Resources & references
+- [Patternfly](https://www.patternfly.org/components/forms/form/)
+- [Bootstrap](https://getbootstrap.com/docs/5.3/forms/overview/)
+- [Carbon](https://carbondesignsystem.com/components/form/usage/)
+- [Atlassian](https://atlassian.design/components/form/)
+- [Luke Wroblewski / Unstructured Input in AI Apps](https://lukew.com/ff/entry.asp?2120)

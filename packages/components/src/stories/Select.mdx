@@ -47,7 +47,7 @@ Native `<optgroup>` organises options into labelled regions without moving the i
 ## Design considerations
 
 - With five or fewer choices, radios are faster and surface the whole set at once. Reach for select only when the list is long enough that collapsing it is worth the extra interaction.
-- When the set is long *or* the actor doesn't yet know what they're looking for, narrowing-as-you-type wins — see [Autocomplete](../?path=/docs/operations-autocomplete--docs). Select assumes the actor already knows the answer.
+- When the set is long *or* the actor doesn't yet know what they're looking for, narrowing-as-you-type wins — see [Autocomplete](/patterns/autocomplete). Select assumes the actor already knows the answer.
 - Multi-select is intentionally out of scope. Native `<select multiple>` is poorly supported by assistive tech and hard to discover; use checkboxes or a [combobox](../?path=/docs/operations-combobox--docs) instead.
 - Errors are announced with a visually-hidden "Error:" prefix and wired through `aria-describedby`, so screen readers hear the error class before the message.
 - Native keyboard behaviour (space/enter to open, arrows to navigate, home/end, typeahead, escape to close) comes for free because the control wraps a native `<select>` rather than rebuilding as an ARIA listbox.
@@ -59,10 +59,10 @@ Native `<optgroup>` organises options into labelled regions without moving the i
 - [Checkbox](../?path=/docs/primitives-checkbox--docs) — the binary counterpart for on/off choices.
 
 ### Complementary
-- [Autocomplete](../?path=/docs/operations-autocomplete--docs) — the right move when the option set is long or the actor is still formulating the query.
+- [Autocomplete](/patterns/autocomplete) — the right move when the option set is long or the actor is still formulating the query.
 - [Dropdown](../?path=/docs/components-dropdown--docs) — shares the collapsed-options silhouette but carries actions, not a form value.
-- [Form](../?path=/docs/actions-application-form--docs) — the usual home for select among other controls.
-- <PatternRef slug="actions/application/data-entry">Data entry</PatternRef> — the broader activity select participates in.
+- [Form](/patterns/form) — the usual home for select among other controls.
+- <PatternRef slug="data-entry">Data entry</PatternRef> — the broader activity select participates in.
 
 ### Follow-ups
 - [Combobox](../?path=/docs/operations-combobox--docs) — for searchable, async, or custom-rendered option sets, built on the WAI-ARIA APG combobox pattern.

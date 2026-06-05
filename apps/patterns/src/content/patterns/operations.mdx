@@ -16,10 +16,10 @@ Capturing information from actors.
 - <ComponentRef id="primitives-select--docs">Select</ComponentRef>
 - <ComponentRef id="primitives-checkbox--docs">Checkbox</ComponentRef>
 - <ComponentRef id="operations-combobox--docs">Combobox</ComponentRef> — combining a text input with a selectable list
-- [Autocomplete](/patterns/operations/autocomplete) — real-time query narrowing as the actor types
-- [Autofill](/patterns/operations/autofill) — pre-populating fields from prior or inferred data
+- [Autocomplete](/patterns/autocomplete) — real-time query narrowing as the actor types
+- [Autofill](/patterns/autofill) — pre-populating fields from prior or inferred data
 
-Input operations combine into [forms](/patterns/actions/application/form) and other compositions.
+Input operations combine into [forms](/patterns/form) and other compositions.
 
 ## Metadata & categorisation
 
@@ -28,8 +28,8 @@ Labelling and organising information — adding semantic layers to content.
 - <ComponentRef id="primitives-tag--docs">Tag</ComponentRef> — categorisation labels
 - <ComponentRef id="primitives-badge--docs">Badge</ComponentRef> — status indicators and counts
 - <ComponentRef id="primitives-reference--docs">Reference</ComponentRef> — citations and source tracking
-- [Deep linking](/patterns/operations/deep-linking) — direct access to specific states
-- [Sections](/patterns/operations/sections) — grouping content into named regions
+- [Deep linking](/patterns/deep-linking) — direct access to specific states
+- [Sections](/patterns/sections) — grouping content into named regions
 
 ## Navigation infrastructure
 
@@ -56,33 +56,33 @@ Conveying system state and contextual information.
 - <ComponentRef id="primitives-toast--docs">Toast</ComponentRef> — transient status messages
 - <ComponentRef id="operations-callout--docs">Callout</ComponentRef> — contextual alerts and guidance
 - <ComponentRef id="primitives-progress-indicator--docs">Progress indicator</ComponentRef> — visualising ongoing processes
-- [Status feedback](/patterns/operations/status-feedback) — communicating system state
+- [Status feedback](/patterns/status-feedback) — communicating system state
 
 ## States
 
 Addressing specific system states that cut across other categories.
 
-- [Empty state](/patterns/operations/state-empty) — guiding actors when nothing exists yet
-- [Disabled state](/patterns/operations/state-disabled) — communicating unavailable options
-- [Unavailable actions](/patterns/operations/unavailable-actions) — explaining why actions aren't possible
+- [Empty state](/patterns/state-empty) — guiding actors when nothing exists yet
+- [Disabled state](/patterns/state-disabled) — communicating unavailable options
+- [Unavailable actions](/patterns/unavailable-actions) — explaining why actions aren't possible
 
 ## Recovery
 
-- [Undo](/patterns/operations/undo) — reversing actions
-- [Good defaults](/patterns/operations/good-defaults) — reducing the need for recovery by starting right
+- [Undo](/patterns/undo) — reversing actions
+- [Good defaults](/patterns/good-defaults) — reducing the need for recovery by starting right
 
 ## Conversation building blocks
 
-Primitives for constructing conversational flows. These form the turn-taking substrate that [conversation](/patterns/activities/conversation) as an activity is built from.
+Primitives for constructing conversational flows. These form the turn-taking substrate that [conversation](/patterns/conversation) as an activity is built from.
 
 ### Conversational activities
 
-Core interaction moves: the actor asking a question through [inquiry](/patterns/operations/conversation/conversational-activities/inquiry-user), making an [open request](/patterns/operations/conversation/conversational-activities/open-request), the agent doing [extended telling](/patterns/operations/conversation/conversational-activities/extended-telling), and the agent asking a question through [inquiry](/patterns/operations/conversation/conversational-activities/inquiry-agent).
+Core interaction moves: the actor asking a question through [inquiry](/patterns/inquiry-user), making an [open request](/patterns/open-request), the agent doing [extended telling](/patterns/extended-telling), and the agent asking a question through [inquiry](/patterns/inquiry-agent).
 
 ### Sequence management
 
-Handling breakdowns and transitions within a sequence: [agent repair](/patterns/operations/conversation/conversation-management/agent-repair), [user repair](/patterns/operations/conversation/conversation-management/user-repair), [sequence completion](/patterns/operations/conversation/sequence-management/sequence-completion), and [abort](/patterns/operations/conversation/sequence-management/abort).
+Handling breakdowns and transitions within a sequence: [agent repair](/patterns/agent-repair), [user repair](/patterns/user-repair), [sequence completion](/patterns/sequence-completion), and [abort](/patterns/abort).
 
 ### Conversation management
 
-Initiating and ending encounters: the [agent opening](/patterns/operations/conversation/sequence-management/agent-opening), [user opening](/patterns/operations/conversation/sequence-management/user-opening), establishing [capability & scope](/patterns/operations/conversation/conversation-management/capability-and-scope), [closing](/patterns/operations/conversation/sequence-management/closing), or [disengaging without closing](/patterns/operations/conversation/conversation-management/disengage-without-closing).
+Initiating and ending encounters: the [agent opening](/patterns/agent-opening), [user opening](/patterns/user-opening), establishing [capability & scope](/patterns/capability-and-scope), [closing](/patterns/closing), or [disengaging without closing](/patterns/disengage-without-closing).

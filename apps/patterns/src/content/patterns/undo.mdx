@@ -1,0 +1,45 @@
+---
+title: "Undo"
+role: pattern
+activityLevel: operation
+atomic: pattern
+mediation: individual
+---
+Reverse a prior action, absorbing the anxiety of mistakes and encouraging confident exploration.
+
+## Structure
+
+- Trigger
+- Feedback
+- Scope
+
+## Levels: single-action vs. multiple levels of undo
+Whether undo can be applied only once or successively.
+
+## Linear vs. non-linear undo
+
+- Single-action undo: Reverses only the most recent action.
+- Multi-action undo: Allows reversing multiple actions sequentially.
+
+- Selective undo: Allows to pick a specific action from a history to undo, without affecting subsequent actions.
+- Regional undo: Enables undoing operations within specific regions or contexts
+- Branching models: Creates tree-like structures where actors can explore alternative paths
+
+## Collaboration
+
+TODO:
+
+{/* Redo */}
+{/* Causal dependence: Redo requires an undo to have been performed. */}
+
+## Related patterns
+
+- Version history
+- [Status feedback](/patterns/status-feedback): Provides immediate feedback on the undo action.
+- [Command menu](/patterns/command-menu): Can be used to access undo options.
+- [Activity log](/patterns/activity-log): Displays a history of actions that can be undone.
+
+## Resources & references
+
+- [NN/g / User Control and Freedom](https://www.nngroup.com/articles/user-control-and-freedom/)
+- [Apple HIG / Undo and Redo](https://developer.apple.com/design/human-interface-guidelines/undo-and-redo/)

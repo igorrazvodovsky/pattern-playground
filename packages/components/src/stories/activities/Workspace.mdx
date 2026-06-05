@@ -8,7 +8,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 The ongoing organisation of work into meaningful contexts, transforming a single undifferentiated space into coherent zones that match how attention and responsibility are actually distributed.
 
-Workspaces create boundaries that reflect how work is structured — by ownership (personal, team, organisational), by topic (projects, areas, subjects), or by activity (active work, reference, archive). They mediate the tension between focused attention on a single context and the need to coordinate across multiple concurrent ones, implementing [privacy](/patterns/qualities/privacy) through spatial separation, [agency](/patterns/qualities/agency) through control over organisation, and [collaboration](/patterns/foundations/collaboration) by defining shared and individual work zones.
+Workspaces create boundaries that reflect how work is structured — by ownership (personal, team, organisational), by topic (projects, areas, subjects), or by activity (active work, reference, archive). They mediate the tension between focused attention on a single context and the need to coordinate across multiple concurrent ones, implementing [privacy](/patterns/privacy) through spatial separation, [agency](/patterns/agency) through control over organisation, and [collaboration](/patterns/collaboration-foundation) by defining shared and individual work zones.
 
 ## Problem
 
@@ -33,7 +33,7 @@ These scopes often nest—personal workspaces exist within team contexts, team w
 {/* **Tabbed workspaces**: Discrete contexts accessible through labelled tabs. Only one context visible at a time. Optimised for limited sets of contexts (typically 5–7) where full attention on single context is primary mode. Tab labels provide peripheral awareness of other available contexts. */}
 {/* **Panelled workspaces**: Multiple contexts visible simultaneously through spatial arrangement (side-by-side, tiled, or resizable regions). Enables comparison, reference, and parallel work across contexts. Fixed or user-configurable layouts. */}
 {/* **Windowed workspaces**: Overlapping or free-floating containers users position and layer. Maximum flexibility for personal organisation. May create visual clutter; requires active window management. */}
-{/* **Multi-device workspaces**: Contexts distributed across personal and shared devices. Physical device ownership creates natural [privacy gradient](/patterns/qualities/privacy#privacy-gradient)—personal devices hold private contexts, shared displays show public contexts. Micro-mobility (tilting, showing) enables temporary visibility changes. */}
+{/* **Multi-device workspaces**: Contexts distributed across personal and shared devices. Physical device ownership creates natural [privacy gradient](/patterns/privacy#privacy-gradient)—personal devices hold private contexts, shared displays show public contexts. Micro-mobility (tilting, showing) enables temporary visibility changes. */}
 
 ### By persistence
 
@@ -57,20 +57,20 @@ Organisational workspaces may have role-based editing rights.
 ## Related patterns
 
 ### Enacted qualities
-- [Privacy](/patterns/qualities/privacy#privacy-gradient) — workspaces implement privacy through scope separation and spatial arrangement
-- [Agency](/patterns/qualities/agency) — the actor decides what work belongs together and what stays apart
+- [Privacy](/patterns/privacy#privacy-gradient) — workspaces implement privacy through scope separation and spatial arrangement
+- [Agency](/patterns/agency) — the actor decides what work belongs together and what stays apart
 
 ### Precursors
-- [Navigation](../?path=/docs/actions-navigation-overview--docs) enables movement through application structure; workspaces extend navigation by supporting parallel access to multiple destinations.
-- [Hub and Spoke](../?path=/docs/actions-navigation-hub-and-spoke--docs) - Workspaces often implement hub and spoke navigation, where a workspace switcher or dashboard (hub) provides access to individual workspaces (spokes). See [Information Architecture foundation](/patterns/foundations/information-architecture) for the broader structural pattern.
+- [Navigation](/patterns/navigation-overview) enables movement through application structure; workspaces extend navigation by supporting parallel access to multiple destinations.
+- [Hub and Spoke](/patterns/hub-and-spoke) - Workspaces often implement hub and spoke navigation, where a workspace switcher or dashboard (hub) provides access to individual workspaces (spokes). See [Information Architecture foundation](/patterns/information-architecture) for the broader structural pattern.
 
 ### Complementary
-- [Focus and Context](../?path=/docs/actions-evaluation-focus-and-context--docs) manages detail and overview within a single context; workspaces manage switching between distinct contexts.
+- [Focus and Context](/patterns/focus-and-context) manages detail and overview within a single context; workspaces manage switching between distinct contexts.
 - [Command menu](../?path=/docs/components-command-menu--docs) provides rapid access to workspaces and contexts without navigating interface hierarchy.
 
 ### Follow-ups
-- <PatternRef slug="activities/activity-log">Activity log</PatternRef> shows history within a workspace.
-- [Notification](../?path=/docs/actions-coordination-notification--docs) alerts users to changes in non-visible workspaces.
+- <PatternRef slug="activity-log">Activity log</PatternRef> shows history within a workspace.
+- [Notification](/patterns/notification) alerts users to changes in non-visible workspaces.
 
 ### Tangentially related
 {/* - Canvas — offers infinite spatial workspace for single domain */}

@@ -1,0 +1,98 @@
+---
+title: "Learnability"
+role: quality
+---
+The capability of a system to enable users to achieve and maintain competence with minimal training demand. It is not just about initial "ease of use", but about the structural support for transition from novice to expert.
+
+## Dimensions
+
+### Temporal
+
+- Initial learnability, e.g. performance of a [first-time](/patterns/onboarding) user.
+- Extended learnability, i.e. [change](/patterns/mastery) in performance over time.
+
+### Subject
+
+- Interface: Can the user operate the system?
+- Domain: Does the system help users understand the domain it embodies?
+
+The tool frequently (always?) encodes domain knowledge—process logic, business rules, institutional decisions. Learning to use it well *is* domain learning. These dimensions interact: a user may be proficient with the interface but unfamiliar with certain domain areas, or understand the domain but struggle with the tool.
+
+## Training demand
+
+The cognitive cost required to move from initial to extended learnability. This cost differs by subject:
+
+- Interface training demand: effort to operate the system fluently
+- Domain training demand: effort to understand what the system represents
+
+{/* Sometimes these compete (complex interface obscures domain concepts); sometimes they align (well-designed interface *teaches* domain through use). */}
+
+## Scaffolding
+
+Temporary support structures that help users perform tasks they couldn't yet do alone.
+
+- For interface skills, effective scaffolding fades as competence grows—training wheels that eventually come off.
+- For domain understanding, scaffolding may *deepen* rather than fade. As users master basics, they become ready for richer [explanations](/patterns/explanation) of why the system works as it does.
+
+## Cognitive levels as a design heuristic
+
+[Bloom's taxonomy](https://en.wikipedia.org/wiki/Bloom%27s_taxonomy) provides a useful lens for two decisions that the concepts above leave underspecified:
+
+1. *What level does the user need to reach?* Typical UI learning plateaus at Apply — users need to remember where things are, understand what they do, and operate them. Domain learning often requires Analyse or Evaluate — understanding *why* the system works as it does, or judging whether a recommendation is correct. Knowing the target level sharpens what "extended learnability" means for a given context.
+
+2. *What kind of scaffolding to provide?* A tooltip that aids recall is different from an explanation that supports analysis. Scaffolding has not just an *intensity* dimension (how much support) but a *cognitive level* dimension (what kind of thinking it supports).
+
+Some rough correspondences between cognitive levels and patterns in this library:
+
+- *Remember* — [annotation](/patterns/annotation), consistent layout, familiar affordances
+- *Understand* — [explanation](/patterns/explanation), [transparent reasoning](/patterns/transparent-reasoning)
+- *Apply* — [onboarding](/patterns/onboarding), direct manipulation
+- *Analyse* — [bot](/patterns/bot) (contextual enrichment), comparison views
+- *Evaluate* — [transparent reasoning](/patterns/transparent-reasoning) (judging system suggestions)
+- *Create* — [mastery](/patterns/mastery)-stage tools, composition patterns
+
+{/* ## Interaction modalities */}
+{/* Different command interfaces support different skill levels. */}
+{/* - **Pedagogic:** Commands that teach via inspection — menus, dialogs with descriptive text. Beginners use these to orient in new applications. */}
+{/* - **Immediate:** Direct-manipulation controls with instant effect. No intermediary step required. */}
+{/* - **Invisible:** Memorised commands with no visual locus — keyboard shortcuts, gestures. Expert users rely on these for speed, but they require prior knowledge. */}
+
+{/* ## Working sets */}
+{/* The subset of commands a user memorises through repeated use. Working sets are personal but overlap significantly among users with similar patterns. */}
+
+{/* *Minimal working set*: The commands most users will need, identified through usage analytics or scenario-based design. Commands in the minimal working set should use immediate modality, not pedagogic. */}
+
+{/* ## Trade-offs */}
+{/* - **Layered interfaces** improve *initial* learnability and safety (preventing destructive errors) but may initially limit speed for tasks requiring advanced tools. */}
+{/* - **Full functionality** offers maximum efficiency for experts but creates a "wall of complexity" for novices. */}
+{/* - **Context matters:** Use progressive/layered approaches for infrequent users, novices, or high-risk tasks. Use full functionality for dedicated expert applications. */}
+
+## Related patterns
+
+### Mechanisms
+- [Annotation](/patterns/annotation) – marking content to add context and meaning
+- [Explanation](/patterns/explanation) – domain explanations support domain learnability
+- [Transparent reasoning](/patterns/transparent-reasoning) – showing *why* a system made a suggestion helps users learn the underlying logic
+- [Progressive disclosure](/patterns/progressive-disclosure) – structures the learning curve by hiding complexity
+- [Bot](/patterns/bot) — the bot lets the actor ask the system rather than decipher it; learning happens through dialogue at the actor's pace
+
+### Lifecycle
+- [Onboarding](/patterns/onboarding) – the initial spike in learning
+- [Mastery](/patterns/mastery) – the long tail of expert performance
+
+### Foundation
+- [Agency](/patterns/agency) – competence facilitates agency
+
+### Tangentially related
+- [Localization](/patterns/localization) — learning curves might differ across localised interfaces
+
+## Resources & references
+
+- Anderson, L. W. & Krathwohl, D. R. (2001). *A Taxonomy for Learning, Teaching, and Assessing: A Revision of Bloom's Taxonomy of Educational Objectives*
+- Andy Matuschak (2025). [How might we learn?](https://andymatuschak.org/hmwl/) – synthesis of implicit and guided learning through AI-enhanced contexts
+- Forsey et al. (2024). [Designing for Learnability: Improvement Through Layered Interfaces](https://journals.sagepub.com/doi/10.1177/10648046241273291). Ergonomics in Design
+- Nielsen, J. (2006). [Progressive disclosure](https://www.nngroup.com/articles/progressive-disclosure/). NN/g
+- Grossman, T., Fitzmaurice, G., & Attar, R. (2009). [A survey of software learnability](https://dl.acm.org/doi/10.1145/1518701.1518803)
+- Poretski, L., & Tang, A. (2022). [Press A to Jump: Design Strategies for Video Game Learnability](https://dl.acm.org/doi/10.1145/3491102.3517685). CHI 2022.
+- Carroll, J. M., & Rosson, M. B. (1987). [The Paradox of the Active User](https://www.semanticscholar.org/paper/Paradox-of-the-active-user-Carroll-Rosson/f560d34c1266abdea5a6fd2ddc11961995acf1a3)
+- Mayer, R. E., & Moreno, R. (2003). [Nine ways to reduce cognitive load in multimedia learning](https://www.tandfonline.com/doi/abs/10.1207/S15326985EP3801_6). Educational Psychologist, 38(1), 43-52.

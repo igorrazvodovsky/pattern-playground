@@ -1,0 +1,37 @@
+---
+title: "Assisted task completion"
+role: umbrella
+group: "application"
+activityLevel: action
+atomic: pattern
+mediation: individual
+fun: "🙂 4/5. A usefull umbrella for all things where the system does part of the work"
+---
+Four ways the system can offer to do part of the work: predictions, stored values, generated content, or recommended actions. The actor accepts, edits, or dismisses.
+
+All four share the same basic loop (system offers, actor decides) but they vary in scope, timing, and how much trust the actor has to place in them. More system initiative means a greater need for [transparency](/patterns/transparent-reasoning), easy dismissal, and earned trust.
+
+## The spectrum
+
+**[Autocomplete](/patterns/autocomplete)** narrows a known list as the actor types. One field, partial value, from a known list or index.
+
+**[Autofill](/patterns/autofill)** inserts stored values when a form loads or a field gains focus. Multiple fields, complete values, from the actor's own data.
+
+**[AI completion](/patterns/ai-completion)** generates content inline while the actor writes.
+
+**[Next-best action](/patterns/next-best-action)** recommends the next step when context changes. Whole actions or decisions, from contextual reasoning or rules.
+
+Autocomplete and autofill are operational: skilled actors barely notice them. AI completion and next-best action stay in conscious attention and require deliberate evaluation.
+
+## Related patterns
+
+- [Assistance](/patterns/assistance)
+- [Suggestion](/patterns/suggestion) — the broader pattern of system-generated recommendations; this spectrum focuses on the specific mechanisms
+- [Agency](/patterns/agency) — mirrors this spectrum; more system initiative demands more careful preservation of actor control
+- [Bot](/patterns/bot) — powers AI completion and next-best action; the [inline and ambient modes](/patterns/bot#modes-of-interaction) map directly to this group
+- [Good defaults](/patterns/good-defaults) — the simplest form of pre-population, before any of these patterns kick in
+
+## Resources & references
+
+- Horvitz (1999) [Principles of mixed-initiative user interfaces](https://dl.acm.org/doi/10.1145/302979.303030). CHI '99
+- Parasuraman, Sheridan, Wickens (2000) [A model for types and levels of human interaction with automation](https://ieeexplore.ieee.org/document/844354). IEEE Transactions on Systems, Man, and Cybernetics

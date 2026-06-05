@@ -1,0 +1,31 @@
+---
+title: "Opening (User)"
+role: pattern
+group: "conversation/sequence-management"
+activityLevel: operation
+atomic: primitive
+mediation: coordination
+fun: "😊 3/5. Looking for useful building blocks for conversational UI."
+---
+The user initiates the encounter; the bot recognizes the open and aligns quickly to a topic.
+
+1. U → A: Greeting or first move (“Hi”, “I need a quote”).
+2. A: Receipt + capability/role (brief), and *topic alignment* (accept the stated topic or offer nearby options).
+3. A: Transition into the selected activity (*user inquiry, open request, or bot inquiry*), or request clarification via *bot repair*.
+
+## Support & transitions
+- Use *bot inquiry* for missing parameters; *bot repair* for disambiguation.
+- If the user changes their mind immediately, allow *abort*.
+
+## Metrics
+Time-to-topic; unnecessary clarification rate after user openings; drop-offs before first action.
+
+## Related patterns
+
+- [Conversation](/patterns/conversation) — parent pattern
+- [Open request](/patterns/open-request) — the most common activity a user-initiated opening transitions into
+- [Inquiry (Bot)](/patterns/inquiry-agent) — used when the opening requires clarification before proceeding
+- [Inquiry (User)](/patterns/inquiry-user) — when the opening is a simple question
+- [Bot repair](/patterns/agent-repair) — for disambiguating ambiguous or overlapping user openings
+- [Abort](/patterns/abort) — if the user immediately changes their mind
+

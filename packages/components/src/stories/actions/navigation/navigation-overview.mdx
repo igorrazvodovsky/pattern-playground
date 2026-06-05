@@ -6,24 +6,24 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Navigation models
 
-The selection of a connective topology that shapes how actors move between destinations, balancing freedom of movement against orientation cost. Each model determines which [navigation behaviours](/patterns/foundations/interaction#navigation) are possible and how [agency](/patterns/qualities/agency) is distributed.
+The selection of a connective topology that shapes how actors move between destinations, balancing freedom of movement against orientation cost. Each model determines which [navigation behaviours](/patterns/interaction#navigation) are possible and how [agency](/patterns/agency) is distributed.
 
 ## Models
 
-- [Hub and spoke](../?path=/docs/actions-navigation-hub-and-spoke--docs) — central hub lists all sections, actors return to hub for cross-section navigation
-- [Overview and detail](../?path=/docs/actions-navigation-overview-and-detail--docs) — simultaneous display of collection and item (Split View)
-- [Fully connected](../?path=/docs/actions-navigation-fully-connected--docs) — every page links to all others through global navigation
-- [Fully connected](../?path=/docs/actions-navigation-fully-connected--docs) — every page links to all others through global navigation
-- [Multilevel tree](../?path=/docs/actions-navigation-multilevel-tree--docs) — hierarchical structure with global navigation for main pages, local navigation for subpages
-- [Step by step](../?path=/docs/actions-navigation-step-by-step--docs) — prescribed sequences with back/next controls
-- [Pyramid](../?path=/docs/actions-navigation-pyramid--docs) — hub lists sequence, actors can navigate sequentially or jump to any item
-- [Pan and zoom](../?path=/docs/actions-navigation-pan-and-zoom--docs) — continuous spatial navigation through large single spaces
-- [Flat navigation](../?path=/docs/actions-navigation-flat-navigation--docs) — minimal navigation, all functions accessible in one place
-- [Hybrid patterns](../?path=/docs/actions-navigation-hybrid-patterns--docs) — combinations of multiple models
+- [Hub and spoke](/patterns/hub-and-spoke) — central hub lists all sections, actors return to hub for cross-section navigation
+- [Overview and detail](/patterns/overview-detail) — simultaneous display of collection and item (Split View)
+- [Fully connected](/patterns/fully-connected) — every page links to all others through global navigation
+- [Fully connected](/patterns/fully-connected) — every page links to all others through global navigation
+- [Multilevel tree](/patterns/multilevel-tree) — hierarchical structure with global navigation for main pages, local navigation for subpages
+- [Step by step](/patterns/step-by-step) — prescribed sequences with back/next controls
+- [Pyramid](/patterns/pyramid) — hub lists sequence, actors can navigate sequentially or jump to any item
+- [Pan and zoom](/patterns/pan-and-zoom) — continuous spatial navigation through large single spaces
+- [Flat navigation](/patterns/flat-navigation) — minimal navigation, all functions accessible in one place
+- [Hybrid patterns](/patterns/hybrid-patterns) — combinations of multiple models
 
 ## Malleable Routing
 
-In a [malleable system](/patterns/qualities/malleability), the target of a link is not a fixed location. Users can choose *how* they want to open a resource, affecting the [composition](/patterns/qualities/malleability#3-composition-topology) of their workspace:
+In a [malleable system](/patterns/malleability), the target of a link is not a fixed location. Users can choose *how* they want to open a resource, affecting the [composition](/patterns/malleability#3-composition-topology) of their workspace:
 
 *   **Standard**: Navigate to new page (Replace current context).
 *   **Split**: Open side-by-side (Compare contexts).
@@ -37,8 +37,8 @@ Navigation becomes a tool for composition.
 ### Universal navigation features
 
 All models benefit from:
-- <PatternRef slug="operations/deep-linking">Deep linking</PatternRef> for addressability
-- <PatternRef slug="actions/seeking/searching">Searching</PatternRef> for direct access
+- <PatternRef slug="deep-linking">Deep linking</PatternRef> for addressability
+- <PatternRef slug="searching">Searching</PatternRef> for direct access
 - [Breadcrumbs](../?path=/docs/primitives-breadcrumbs--docs) for context
 - [Command menu](../?path=/docs/components-command-menu--docs) for power users
 
@@ -51,9 +51,9 @@ Models can be rendered in various ways:
 
 ## Related patterns
 
-- [Information architecture](/patterns/foundations/information-architecture) — structural and organizational foundation that navigation models manifest
-- [Intent & interaction](/patterns/foundations/interaction) — behavioural patterns enabled by structural choices
-- [Agency](/patterns/qualities/agency) — control distribution implications
+- [Information architecture](/patterns/information-architecture) — structural and organizational foundation that navigation models manifest
+- [Intent & interaction](/patterns/interaction) — behavioural patterns enabled by structural choices
+- [Agency](/patterns/agency) — control distribution implications
 
 ## Resources & references
 

@@ -48,12 +48,8 @@ apps/
 ├── patterns/               Pattern language site — Astro (:4321)
 │   └── src/
 │       ├── content/patterns/   Pattern MDX/MD (role:pattern, role:umbrella, role:quality, role:foundation)
-│       │   ├── operations/
-│       │   ├── actions/
-│       │   ├── activities/
-│       │   ├── foundations/
-│       │   ├── qualities/
-│       │   └── data-visualization/
+│       │                       slug = filename stem; classification is frontmatter
+│       │                       facets (activityLevel, lifecycle, group, domain), not folders
 │       ├── content.config.ts   Zod-validated content collection schema
 │       ├── pages/              Astro page routes
 │       ├── layouts/            Astro layouts
@@ -83,22 +79,13 @@ docs/                       Agent-facing knowledge base (workspace-level)
 
 The project runs two documentation surfaces:
 
-- *Storybook* (`packages/components/`) — component development and
-  demonstration. Organised by AT levels as a practical navigation convention.
-  Owned by `role:component` pages.
+- *Storybook* (`packages/components/`) — GUI component development and demonstration.
 
-- *Pattern site* (`apps/patterns/`) — the pattern language. Patterns,
-  qualities, foundations, and umbrellas live here as authoritative language
-  entries. AT levels here carry design-language semantics, not just navigation.
+- *Pattern site* (`apps/patterns/`) — the pattern language documentation & structure.
 
-The AT-level taxonomy in Storybook is a practical sidebar projection for
-components. The AT-level taxonomy in the pattern site is the language itself.
-These are separate conventions sharing vocabulary; see
-[docs/specs/pattern-site.md](docs/specs/pattern-site.md).
+Workspace boundary specification: [docs/specs/workspace-layout.md](docs/specs/workspace-layout.md).
 
-Settled workspace boundary specification: [docs/specs/workspace-layout.md](docs/specs/workspace-layout.md).
-
-## Key patterns
+## Some design details
 
 - *Progressive enhancement* — CSS-only baselines, JavaScript enhancement layered on top
 - *Centralised registration* — all `customElements.define()` calls go through `register-all.ts`

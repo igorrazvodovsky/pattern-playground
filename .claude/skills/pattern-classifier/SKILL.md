@@ -38,9 +38,9 @@ The definition is *evidence-seeking*, not evidence-proven. Seeds are fine as lon
 
 If the candidate isn't a generative move, name what it actually is and route it accordingly:
 
-- *mechanism* — component, primitive, control, visual element, implementation substrate → stays in Storybook (`packages/components/src/stories/`)
-- *quality* — an experiential dimension (Agency, Learnability, Conversation, …) → `apps/patterns/src/content/patterns/qualities/`
-- *foundation* — theory, model, principle, or material substrate → `apps/patterns/src/content/patterns/foundations/`
+- *mechanism* — component, primitive, control, visual element, implementation substrate → Storybook (`packages/components/src/stories/`)
+- *quality* — an experiential dimension (Agency, Learnability, Conversation, …) → `apps/patterns/src/content/patterns/` with `role: quality`
+- *foundation* — theory, model, principle, or material substrate → `apps/patterns/src/content/patterns/` with `role: foundation`
 - *concept* — a Jackson-style software concept vocabulary entry → top-level `concepts/`
 - *umbrella* — a sensemaking page that gathers a territory but isn't the authoritative source for one move
 - *variant* — a concrete instantiation, story variant, screenshot, prototype, product case → lives inside the pattern it illustrates
@@ -182,11 +182,11 @@ Three kinds of umbrella exist in the system. In role-vocabulary terms: a standal
 
 *Implicit umbrella* — the relationship between patterns is real but doesn't need its own node. The connection lives in cross-references and graph edges. Test: would anyone navigate *to* this umbrella, or would they always go directly to a specific sub-pattern?
 
-When an umbrella is warranted, decide its placement:
+When an umbrella is warranted, decide its facets (not its folder — content is flat):
 
 - A standalone umbrella gets its own AT level and lifecycle stage like any other pattern
-- A structural umbrella lives alongside its children (e.g., Navigation overview in `actions/navigation/`)
-- Consider whether the umbrella warrants its own content sub-directory grouping the children, or whether children sit as siblings tied together by cross-references
+- A structural umbrella shares the `group` facet of its children, so the navigation projection nests them together (e.g. Navigation overview carries `group: navigation`)
+- Children are tied together by the shared `group` facet and by cross-references / graph edges, not by a directory
 
 ### 6. Tags and metadata
 
@@ -195,6 +195,8 @@ Every pattern carries YAML frontmatter fields (see [`.claude/rules/pattern-conte
 - `activityLevel: operation | action | activity` — AT level
 - `atomic: primitive | component | composition | pattern` — compositional metadata; decisions in this skill rarely turn on it
 - `lifecycle: seeking | evaluation | sense-making | application | coordination` — for actions, the primary stage
+- `group` — slash-delimited nav sub-grouping path; reconstructs the sidebar sub-tree, no semantic claim
+- `domain` — domain corpus the entry belongs to (e.g. `data-visualization`)
 - `mediation: individual | coordination` — whether the pattern involves multiple actors
 
 Consider domain `tags` (e.g., `ai`, `navigation-structure`, `async`) for graph clustering — but only when they emerge from existing clusters in the graph, not invented speculatively.

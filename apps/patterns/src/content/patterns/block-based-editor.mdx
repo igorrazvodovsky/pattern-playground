@@ -1,0 +1,49 @@
+---
+title: "Block-based editor"
+role: umbrella
+group: "sense-making"
+activityLevel: action
+atomic: composition
+mediation: individual
+fun: "🙂 5/5 Foundation for a block-based fun."
+---
+
+import { BlockBasedEditorDemo } from '@pkg/demos/block-based-editor';
+
+{/* Storybook: packages/components/src/stories/BlockBasedEditor.stories.tsx — same component as inline demo above, no additional variants */}
+
+
+The composition of structured content from modular blocks, balancing the fluidity of prose with the precision of structured data.
+
+<Demo label="Block editor with bubble menu and @-references">
+  <BlockBasedEditorDemo client:only="react" />
+</Demo>
+
+## Adding blocks
+
+{/* Natural language or slash-command invocation for inserting blocks or triggering AI assistance. */}
+
+### Floating menu
+
+...
+
+### Slash commands
+
+...
+
+### Passing to LLM
+
+...
+
+## References
+{/* TODO: Embed reference example */}
+...
+
+## Contextual actions
+
+Select block(s) or text spans and invoke LLM from contextual menu.
+
+## Co-editing & attribution
+{/* Parallel human/AI editing with attribution chips or overlays. */}
+...
+

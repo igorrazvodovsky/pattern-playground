@@ -7,7 +7,7 @@ import { profile } from './Conversation.profile';
 
 # Conversation
 
-The sustained exchange of meaning through structured dialogue, transforming isolated requests into an evolving, shared understanding between actors over multiple turns. Building on the [foundational understanding](/patterns/qualities/conversation) that all interactions are conversational, this pattern focuses on interfaces where dialogue is the primary interaction mode.
+The sustained exchange of meaning through structured dialogue, transforming isolated requests into an evolving, shared understanding between actors over multiple turns. Building on the [foundational understanding](/patterns/conversation-quality) that all interactions are conversational, this pattern focuses on interfaces where dialogue is the primary interaction mode.
 
 ## Interaction-type specific patterns
 Conversation patterns flex based on the actors involved:
@@ -102,9 +102,9 @@ Choice of dialogue form depends on:
 - **Human state**: Available cognitive capacity, skill level, learning vs producing mode
 - **Relationship stage**: Early exploration benefits from questions; late refinement from suggestions
 
-Effective <PatternRef slug="activities/collaboration">collaboration</PatternRef> often sequences dialogue forms—using questions during exploration phases and suggestions during refinement.
+Effective <PatternRef slug="collaboration">collaboration</PatternRef> often sequences dialogue forms—using questions during exploration phases and suggestions during refinement.
 
-## [Behaviour](/patterns/foundations/interaction)-oriented patterns
+## [Behaviour](/patterns/interaction)-oriented patterns
 
 Conversation patterns align with the behavioural framework's turn-taking structure. Each behaviour mode creates natural conversational rhythms:
 
@@ -112,33 +112,33 @@ Conversation patterns align with the behavioural framework's turn-taking structu
 - **Delightful discovery**: system-initiated turns that invite exploration, with actors responding through engagement
 - **Foggy finding**: collaborative problem-solving where both actors and systems contribute to clarification
 
-The [interaction arc](/patterns/foundations/interaction#how-engagement-unfolds-over-time) provides temporal structure for extended conversations, while cooperation maxims ensure each turn respects actor agency and intent.
+The [interaction arc](/patterns/interaction#how-engagement-unfolds-over-time) provides temporal structure for extended conversations, while cooperation maxims ensure each turn respects actor agency and intent.
 
 ## Related patterns
 
 ### Qualities
 
-- [Conversation](/patterns/qualities/conversation) — names the foundational stance this activity makes its primary mode: dialogue as the substrate of meaning, not one option among many
+- [Conversation](/patterns/conversation-quality) — names the foundational stance this activity makes its primary mode: dialogue as the substrate of meaning, not one option among many
 
 ### Precursors
 
-- [Localization](/patterns/foundations/localization) — dialogue structure adapted to cultural communication norms
+- [Localization](/patterns/localization) — dialogue structure adapted to cultural communication norms
 - [Messaging](../?path=/docs/actions-coordination-messaging--docs) – where conversation happens
-- <PatternRef slug="activities/bot">Bot</PatternRef> – conversation partner
-- [Prompt](../?path=/docs/activities-prompt--docs) translates user needs into structured AI behavior within a conversation
-- <PatternRef slug="actions/evaluation/text-lense">Text lens</PatternRef> – filter lenses adapt conversational tone and style based on context and relationship
+- <PatternRef slug="bot">Bot</PatternRef> – conversation partner
+- [Prompt](/patterns/prompt) translates user needs into structured AI behavior within a conversation
+- <PatternRef slug="text-lense">Text lens</PatternRef> – filter lenses adapt conversational tone and style based on context and relationship
 - *Conversation history* facilitates continuity, knowledge retention, and revisiting prior interactions
-- <PatternRef slug="activities/collaboration">Collaboration</PatternRef> – uses conversation as a core communication mechanism for collaborative work
-- [Form](../?path=/docs/actions-application-form--docs) can evolve into a conversation by adopting a dialogic flow
+- <PatternRef slug="collaboration">Collaboration</PatternRef> – uses conversation as a core communication mechanism for collaborative work
+- [Form](/patterns/form) can evolve into a conversation by adopting a dialogic flow
 
 ### Conversational primitives
 
 Dialogue forms are composed from tactical turn-taking primitives that structure individual conversational moves.
 
-- Question-driven dialogue chains [bot inquiry](../?path=/docs/operations-conversation-conversational-activities-inquiry-bot--docs) moves, where the bot asks questions to elicit human thinking
-- Instruction-based dialogue typically begins with [open request](../?path=/docs/operations-conversation-conversational-activities-open-request--docs), where users make complex requests requiring clarification and multi-step execution
-- All dialogue forms leverage [repair affordances](../?path=/docs/operations-conversation-sequence-management-bot-repair--docs) and [sequence management](../?path=/docs/operations-conversation-sequence-management-sequence-completion--docs) patterns to handle breakdowns and closures
-- Encounters are framed by conversation management primitives — [opening (bot)](../?path=/docs/operations-conversation-conversation-management-opening-bot--docs), [opening (user)](../?path=/docs/operations-conversation-conversation-management-opening-user--docs), [capability & scope](../?path=/docs/operations-conversation-conversation-management-capability-scope--docs), [closing](../?path=/docs/operations-conversation-conversation-management-closing--docs), and [disengage without closing](../?path=/docs/operations-conversation-conversation-management-disengage-without-closing--docs) — that structure the start, end, and interruption of encounters
+- Question-driven dialogue chains [bot inquiry](/patterns/inquiry-agent) moves, where the bot asks questions to elicit human thinking
+- Instruction-based dialogue typically begins with [open request](/patterns/open-request), where users make complex requests requiring clarification and multi-step execution
+- All dialogue forms leverage [repair affordances](../?path=/docs/operations-conversation-sequence-management-bot-repair--docs) and [sequence management](/patterns/sequence-completion) patterns to handle breakdowns and closures
+- Encounters are framed by conversation management primitives — [opening (bot)](../?path=/docs/operations-conversation-conversation-management-opening-bot--docs), [opening (user)](../?path=/docs/operations-conversation-conversation-management-opening-user--docs), [capability & scope](/patterns/capability-and-scope), [closing](../?path=/docs/operations-conversation-conversation-management-closing--docs), and [disengage without closing](/patterns/disengage-without-closing) — that structure the start, end, and interruption of encounters
 
 ## Resources & references
 

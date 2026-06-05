@@ -16,10 +16,13 @@ title: "Pattern name"          # sentence case, short
 role: pattern                  # pattern | umbrella | quality | foundation | component
 ```
 
-Optional fields:
+Optional fields — each an independent _facet_ (see "Classification facets" below):
 
 ```yaml
-activityLevel: operation       # operation | action | activity
+activityLevel: operation       # operation | action | activity (AT altitude)
+lifecycle: seeking             # free-form lifecycle stage (Seek–Use–Share family)
+group: "conversation/sequence-management"  # nav sub-grouping path within a top group
+domain: data-visualization     # domain corpus the entry belongs to
 atomic: pattern                # primitive | component | composition | pattern
 mediation: individual          # individual | coordination
 description: "One sentence"    # used in graph node tooltip and site meta
@@ -32,66 +35,64 @@ entries are the exception, not the rule. Most components live only in Storybook.
 
 ## File layout
 
+The content directory is _flat_: every entry lives directly under
+`apps/patterns/src/content/patterns/`, with no classification subfolders.
+
 ```
 apps/patterns/src/content/patterns/
-├── operations/
-├── actions/
-│   ├── application/
-│   ├── coordination/
-│   ├── evaluation/
-│   ├── navigation/
-│   ├── seeking/
-│   └── sense-making/
-├── activities/
-├── foundations/
-├── qualities/
-└── data-visualization/
+├── undo.mdx
+├── constrained-selection.mdx
+├── notification.mdx
+├── conversation.mdx              # the activity pattern
+├── conversation-quality.mdx      # the quality of the same name
+└── …
 ```
 
-File names are kebab-case slugs that match the pattern's canonical ID in the
-graph (e.g. `undo.mdx`, `constrained-selection.mdx`).
+The filename stem _is_ the entry's identity: its slug, its route
+(`/patterns/<stem>`), its graph node ID, and the target of inter-page links —
+all the same string. The collection loader's `generateId`
+(`content.config.ts`) makes the stem authoritative independent of on-disk
+location, so files could later be regrouped into folders for authoring
+convenience without changing any slug.
+
+Stems are globally unique. When a pattern and a quality/foundation share a name,
+the pattern keeps the bare stem and the other takes a role suffix
+(`conversation-quality.mdx`, `collaboration-foundation.mdx`).
+
+A flat tree is deliberate, see "Classification facets" below and
+[`references/semilattice.md`](../../references/semilattice.md).
 
 ## Inter-page link format
 
-Plain relative routes rooted at `/patterns/`:
+Plain relative routes rooted at `/patterns/`, using the flat slug (the filename
+stem) — never an Activity-Theory path:
 
 ```md
-[Undo](/patterns/operations/undo)
-[Agency](/patterns/qualities/agency)
-[Constrained selection](/patterns/operations/constrained-selection)
+[Undo](/patterns/undo)
+[Agency](/patterns/agency)
+[Constrained selection](/patterns/constrained-selection)
 ```
 
-Do not use Storybook URL format (`../?path=/docs/operations-undo--docs`) in
-pattern site content. Old-format links in migrated pages are tech debt to be
-cleaned up.
+Do not use Storybook URL format (`../?path=/docs/operations-undo--docs`) for
+patterns, nor old multi-segment routes (`/patterns/operations/undo`). Both are
+tech debt to be cleaned up. (Storybook URLs remain correct for links to
+_component_ pages, which still live in Storybook.)
 
-## Activity Theory levels in the pattern site
+## Classification facets
 
-AT levels (`activityLevel: operation | action | activity`) are a
-_pattern-site-only_ classification. They describe the altitude of the human
-activity the pattern addresses. They are encoded in frontmatter and reflected in
-the content directory structure.
+An entry is classified by independent frontmatter _facets_, none of which is
+privileged by the filesystem (the content directory is flat). Each facet is a
+lens; navigation and the graph are _projections_ over them.
 
-Storybook uses AT levels as a sidebar projection for component stories, but this
-is a separate organisational convention that does not carry design-language
-semantics. The authoritative AT classification for patterns lives in the pattern
-site; the Storybook projection is a practical convenience for component
-navigation.
-
-See [`plans/completed/2026-03-activity-theory-reorg.md`](../../plans/completed/2026-03-activity-theory-reorg.md)
-for the rationale and migration history behind the AT organisation.
-
-## Placement
-
-A pattern's directory follows its `activityLevel` (the folders above mirror the
-AT levels); actions additionally pick a lifecycle sub-group. When a pattern
-straddles levels, pick one for the directory and let tags and graph edges carry
-the overlap — every tree is lossy, the graph is the semilattice (see
-[`references/semilattice.md`](../../references/semilattice.md)). Concept
-vocabulary lives in the top-level `concepts/` directory, not the pattern content.
-
-The reasoning behind a placement — AT-level tests, granularity, umbrella
-strategy — is the `/pattern-classifier` skill's job.
+- `activityLevel` (`operation | action | activity`) — Activity Theory altitude:
+  the altitude of the human activity the entry addresses. A
+  _pattern-site-only_ classification.
+- `lifecycle` — a stage in the Seek–Use–Share family (e.g. `seeking`,
+  `coordination`, `evaluation`). Free-form; not derived from `activityLevel`.
+- `group` — a slash-delimited path used only to reconstruct the navigation
+  sub-tree within a top group (e.g. `conversation/sequence-management`). It
+  records a structural grouping verbatim; it makes no semantic claim.
+- `domain` — the domain corpus an entry belongs to (e.g. `data-visualization`).
 
 ## Stacked-notes navigation
 

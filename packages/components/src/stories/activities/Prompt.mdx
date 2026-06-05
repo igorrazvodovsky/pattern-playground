@@ -7,7 +7,7 @@ import * as LLMPromptStories from './Prompt.stories.tsx';
 
 # Prompt
 
-The articulation of intent to a machine, transforming a vague need into a request precise enough for a <PatternRef slug="activities/bot">bot</PatternRef> to act on meaningfully.
+The articulation of intent to a machine, transforming a vague need into a request precise enough for a <PatternRef slug="bot">bot</PatternRef> to act on meaningfully.
 
 <Story of={ LLMPromptStories.Basic } />
 
@@ -58,22 +58,22 @@ Real-time, context-aware prompt completions derived dynamically from users’ im
 
 ### Precursor patterns
 
-- [Agency](/patterns/qualities/agency) – enables proactive prompt assistance and scaffolding.
-- <PatternRef slug="activities/bot">Bot</PatternRef> – a thing that gets prompted.
-- <PatternRef slug="actions/application/suggestion">Suggestion</PatternRef> can provide an initial prompt.
+- [Agency](/patterns/agency) – enables proactive prompt assistance and scaffolding.
+- <PatternRef slug="bot">Bot</PatternRef> – a thing that gets prompted.
+- <PatternRef slug="suggestion">Suggestion</PatternRef> can provide an initial prompt.
 - session, thread, etc.
 
 ### Follow-up patterns
 
-- [Settings](../?path=/docs/activities-ai-tuning--docs) let users refine the way LLM gets prompted.
-- [Generated content](../?path=/docs/activities-generated-content--docs) – what (and how) user gets from the model.
-- <PatternRef slug="activities/collaboration">Collaboration</PatternRef> – LLM prompts enable effective human-to-AI communication in collaborative contexts
+- [Settings](/patterns/ai-tuning) let users refine the way LLM gets prompted.
+- [Generated content](/patterns/generated-content) – what (and how) user gets from the model.
+- <PatternRef slug="collaboration">Collaboration</PatternRef> – LLM prompts enable effective human-to-AI communication in collaborative contexts
 
 {/* ### Complementary patterns */}
 
 {/* - LLM model selection */}
 {/* - [Messaging](../?path=/docs/actions-coordination-messaging--docs) */}
-{/* - <PatternRef slug="actions/application/suggestion">Suggestion</PatternRef> */}
+{/* - <PatternRef slug="suggestion">Suggestion</PatternRef> */}
 
 ## Resources & references
 

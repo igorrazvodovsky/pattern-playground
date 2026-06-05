@@ -33,13 +33,13 @@ Position is a variant, not part of the definition. Common placements:
 
 ## Which actions belong here
 
-The action bar should hold operations that *only make sense against a selection*: delete, archive, move, tag, assign, export. Operations that apply to the whole view (filter, sort, create) belong in the persistent [toolbar](../?path=/docs/components-toolbar--docs). See <PatternRef slug="operations/unavailable-actions">Unavailable actions</PatternRef>.
+The action bar should hold operations that *only make sense against a selection*: delete, archive, move, tag, assign, export. Operations that apply to the whole view (filter, sort, create) belong in the persistent [toolbar](../?path=/docs/components-toolbar--docs). See <PatternRef slug="unavailable-actions">Unavailable actions</PatternRef>.
 
 ## Related patterns
 
 ### Precursors
 
-- [Selection](../?path=/docs/actions-coordination-selection--docs) — the action bar exists only because a selection has been staked; its lifecycle is bound to the selection's
+- [Selection](/patterns/selection) — the action bar exists only because a selection has been staked; its lifecycle is bound to the selection's
 - [Toolbar](../?path=/docs/components-toolbar--docs) — the persistent counterpart; an action bar typically composes a toolbar internally for its action group
 
 ### Complementary
@@ -47,18 +47,18 @@ The action bar should hold operations that *only make sense against a selection*
 - [Bubble menu](../?path=/docs/components-bubble-menu--docs) — the spatially-anchored sibling; surfaces actions on selected content inside an editor rather than on a selection of items in a list or grid
 - [Context menu](../?path=/docs/components-context-menu--docs) — the pointer-invoked sibling; both are transient action surfaces, but the context menu is summoned by the actor on a single target rather than auto-summoned by selection state
 - [Priority+](../?path=/docs/components-priority--docs) — handles overflow when the action group is too wide for the available width
-- <PatternRef slug="operations/unavailable-actions">Unavailable actions</PatternRef> — governs which actions appear or disable as the selection scope changes
-- [Modality](/patterns/foundations/modality) — action bars are non-modal: the underlying content remains interactive
+- <PatternRef slug="unavailable-actions">Unavailable actions</PatternRef> — governs which actions appear or disable as the selection scope changes
+- [Modality](/patterns/modality) — action bars are non-modal: the underlying content remains interactive
 
 ### Follow-ups
 
-- <PatternRef slug="actions/application/deletion">Deletion</PatternRef> — the most common bulk operation routed through an action bar; the confirmation strategy should scale with the selection count
-- <PatternRef slug="operations/undo">Undo</PatternRef> — bulk actions raise the cost of mistakes; reversibility is more valuable here than for single-item operations
-- <PatternRef slug="operations/status-feedback">Status feedback</PatternRef> — communicating the result of an action that consumed a multi-item selection
+- <PatternRef slug="deletion">Deletion</PatternRef> — the most common bulk operation routed through an action bar; the confirmation strategy should scale with the selection count
+- <PatternRef slug="undo">Undo</PatternRef> — bulk actions raise the cost of mistakes; reversibility is more valuable here than for single-item operations
+- <PatternRef slug="status-feedback">Status feedback</PatternRef> — communicating the result of an action that consumed a multi-item selection
 
 ### Tangentially related
 
-- [Table](../?path=/docs/components-table--docs), [List](../?path=/docs/actions-evaluation-list--docs), [Data view](../?path=/docs/actions-seeking-data-view--docs) — the typical containers in which selection happens and from which the action bar is summoned
+- [Table](../?path=/docs/components-table--docs), [List](../?path=/docs/actions-evaluation-list--docs), [Data view](/patterns/data-view) — the typical containers in which selection happens and from which the action bar is summoned
 
 ## Resources & references
 
