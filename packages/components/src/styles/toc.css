@@ -1,0 +1,37 @@
+@layer components {
+  pp-toc {
+    display: block;
+    /* font-size: var(--text-s); */
+    /* line-height: 1.4; */
+  }
+
+  pp-toc[hidden] {
+    display: none;
+  }
+
+  pp-toc .toc ul {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-xs) var(--space-m);
+    margin: 0;
+    padding-block-end: var(--space-s);
+    list-style: none;
+  }
+
+  pp-toc .toc-link {
+    color: var(--c-bodyDimmed);
+    text-decoration: none;
+  }
+
+  pp-toc .toc-link:hover {
+    color: var(--c-body);
+    text-decoration: underline;
+  }
+
+  pp-toc .toc-link:focus-visible {
+    outline: 2px solid var(--c-accent-500);
+    outline-offset: 2px;
+    border-radius: var(--radius-s);
+  }
+}

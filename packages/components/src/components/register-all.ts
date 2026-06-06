@@ -31,6 +31,7 @@ import { SimpleTable } from './table/table';
 import { PpSpinner } from './spinner/spinner';
 import { PpH } from './h/h.js';
 import { PpSections } from './sections/sections.js';
+import { PpToc } from './toc/toc.js';
 
 import { PpChartGrid } from './charts/primitives/chart-grid.js';
 import { PpChartLegend } from './charts/primitives/chart-legend.js';
@@ -78,6 +79,7 @@ export function registerAllComponents(): void {
     // Sections
     { tagName: 'pp-h', constructor: PpH },
     { tagName: 'pp-sections', constructor: PpSections },
+    { tagName: 'pp-toc', constructor: PpToc },
   ]);
 }
 

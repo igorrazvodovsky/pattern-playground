@@ -32,7 +32,7 @@ storybook-static.zip
 .obsidian
 plans/backlog-sources.md
 
-# Astro build cache
+# Astro
 .astro/
 
 .claude/worktrees/

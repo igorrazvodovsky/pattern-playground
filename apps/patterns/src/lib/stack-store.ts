@@ -142,6 +142,10 @@ if (typeof document !== 'undefined') {
       const anchor = target.closest('a[href]') as HTMLAnchorElement | null;
       if (!anchor) return;
 
+      // In-page anchors (e.g. table-of-contents links) are same-document
+      // navigation, not a jump to another pattern — let them scroll.
+      if (anchor.getAttribute('href')?.startsWith('#')) return;
+
       const paneEl = anchor.closest('[data-pane-index]') as HTMLElement | null;
       if (!paneEl) return;
 

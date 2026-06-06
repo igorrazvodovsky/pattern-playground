@@ -25,6 +25,7 @@ const { Content } = await render(entry);
         <h1>{entry.data.title}</h1>
       </div>
     </header>
+    <pp-toc heading="On this page" data-pagefind-ignore></pp-toc>
     <Content components={{ Demo, ComponentRef }} />
   </article>
 </Base>

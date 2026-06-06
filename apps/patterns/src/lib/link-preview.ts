@@ -31,6 +31,8 @@ function getPreviewEl(): HTMLElement {
 }
 
 function resolveSlug(anchor: HTMLAnchorElement): string | null {
+  // Skip table-of-contents in-page links.
+  if (anchor.closest('pp-toc')) return null;
   const url = new URL(anchor.href, location.href);
   if (url.origin !== location.origin) return null;
   if (!url.pathname.startsWith('/patterns/')) return null;
