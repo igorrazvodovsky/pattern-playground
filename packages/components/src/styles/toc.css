@@ -1,8 +1,7 @@
 @layer components {
   pp-toc {
+    --font: 'Alegreya', Georgia, serif;
     display: block;
-    /* font-size: var(--text-s); */
-    /* line-height: 1.4; */
   }
 
   pp-toc[hidden] {
@@ -19,9 +18,34 @@
     list-style: none;
   }
 
+  /* Vertical variant: stack entries in a column and indent nested levels,
+     instead of the default inline flex-wrap. Placement (e.g. a sticky right
+     rail) is the consumer's concern — see .toc-rail in the patterns app. */
+  pp-toc[orientation="vertical"] .toc ul {
+    flex-direction: column;
+    gap: var(--space-2xs);
+    padding-block-end: 0;
+  }
+
+  pp-toc[orientation="vertical"] .toc li ul {
+    padding-inline-start: var(--space-s);
+    margin-block-start: var(--space-2xs);
+  }
+
   pp-toc .toc-link {
     color: var(--c-bodyDimmed);
     text-decoration: none;
+  }
+
+  /* Scroll-spy: highlight the link whose section is currently in view. Pure CSS
+     via scroll-target-group — browsers without it just never match
+     :target-current, so the TOC degrades to a plain (un-highlighted) list. */
+  pp-toc .toc {
+    scroll-target-group: auto;
+  }
+
+  pp-toc .toc-link:target-current {
+    color: var(--c-accent-600);
   }
 
   pp-toc .toc-link:hover {
@@ -33,5 +57,24 @@
     outline: 2px solid var(--c-accent-500);
     outline-offset: 2px;
     border-radius: var(--radius-s);
+  }
+
+  @supports (scroll-target-group: auto) {
+    @media (min-width: 800px) {
+      pp-toc.toc-rail .toc-link::before {
+        content: '–';
+        position: absolute;
+        opacity: 0;
+        transition: opacity 0.5s ease, transform 1s ease, visibility 0.2s ease allow-discrete;
+        transition-timing-function: linear(0, .009, .037 1.7%, .153 3.6%, .776 10.3%, 1.001, 1.142 16%, 1.185, 1.209 19%, 1.215 19.9% 20.8%, 1.199, 1.165 25%, 1.056 30.3%, 1.008 33%, .973, .955 39.2%, .953 41.1%, .957 43.3%, .998 53.3%, 1.009 59.1% 63.7%, .998 78.9%, 1);
+        transform: translateX(0);
+        visibility: hidden;
+      }
+      pp-toc.toc-rail .toc-link:target-current::before {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-1rem);
+      }
+    }
   }
 }

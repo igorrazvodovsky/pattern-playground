@@ -53,6 +53,7 @@ function renderList(nodes: TocNode[], lead = ''): string {
  * @attr level - Override the heading selector (e.g. "h2, h3").
  * @attr heading - Accessible label for the contents navigation.
  * @attr target - CSS selector for the element to scan instead of the closest article.
+ * @attr orientation - "vertical" stacks entries and indents nested levels; default is inline/horizontal.
  */
 
 export class PpToc extends HTMLElement {

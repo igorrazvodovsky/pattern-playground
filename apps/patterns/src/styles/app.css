@@ -149,3 +149,35 @@
   line-height: 1.2;
   margin-block-start: 1em !important;
 }
+
+/* Content (non-stack) pages scroll on the document, but the inset's default
+   overflow:auto (set in the components layer) makes it a scroll container that
+   never actually scrolls — which traps a sticky child (the right-rail TOC) and
+   stops it pinning. Hand scrolling back to the document so sticky anchors to the
+   viewport. Unlayered so it beats the components-layer rule. Stack pages use
+   StackManager (no .content-inset), so they keep the default overflow. */
+main.sidebar-inset:has(> .content-inset) {
+  overflow: visible;
+}
+
+/* Placement only — the vertical layout itself is the component's
+   orientation="vertical" variant. This pins the TOC as a sticky right rail. */
+.content-inset pp-toc.toc-rail {
+  float: right;
+  margin-block: 0;
+  margin-inline-start: var(--space-xl);
+  position: sticky;
+  top: var(--space-l);
+  font-size: var(--text-s);
+}
+
+/* On narrow viewports there's no room for a side rail: drop back to a normal
+   in-flow block (still vertical, via the component variant). */
+@media (max-width: 768px) {
+  .content-inset pp-toc.toc-rail {
+    float: none;
+    width: auto;
+    margin-inline-start: 0;
+    position: static;
+  }
+}
