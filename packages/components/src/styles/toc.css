@@ -61,7 +61,7 @@
 
   @supports (scroll-target-group: auto) {
     @media (min-width: 800px) {
-      pp-toc.toc-rail .toc-link::before {
+      pp-toc[orientation="vertical"] .toc-link::after {
         content: '–';
         position: absolute;
         opacity: 0;
@@ -70,10 +70,10 @@
         transform: translateX(0);
         visibility: hidden;
       }
-      pp-toc.toc-rail .toc-link:target-current::before {
+      pp-toc[orientation="vertical"] .toc-link:target-current::after {
         opacity: 1;
         visibility: visible;
-        transform: translateX(-1rem);
+        transform: translateX(0.5em);
       }
     }
   }

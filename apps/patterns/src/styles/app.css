@@ -106,7 +106,7 @@
   margin: var(--space-2xl) var(--space-3xl);
 
   p, blockquote, ul, ol {
-    max-width: 70ch;
+    max-width: 60ch;
   }
 
   p {
@@ -147,7 +147,15 @@
 .content-inset h1 {
   font-size: 3em;
   line-height: 1.2;
-  margin-block-start: 1em !important;
+}
+
+.content-inset header {
+  position: absolute;
+  right: var(--space-2xl);
+
+  h1, .lead {
+    text-align: right;
+    }
 }
 
 /* Content (non-stack) pages scroll on the document, but the inset's default
@@ -160,24 +168,15 @@ main.sidebar-inset:has(> .content-inset) {
   overflow: visible;
 }
 
-/* Placement only — the vertical layout itself is the component's
-   orientation="vertical" variant. This pins the TOC as a sticky right rail. */
-.content-inset pp-toc.toc-rail {
-  float: right;
-  margin-block: 0;
-  margin-inline-start: var(--space-xl);
-  position: sticky;
-  top: var(--space-l);
-  font-size: var(--text-s);
-}
+.content-inset pp-toc.toc-corner {
+  position: fixed;
+  right: var(--space-2xl);
+  bottom: var(--space-xl);
+  z-index: 10;
+  max-inline-size: min(20rem, calc(100vw - 2rem));
 
-/* On narrow viewports there's no room for a side rail: drop back to a normal
-   in-flow block (still vertical, via the component variant). */
-@media (max-width: 768px) {
-  .content-inset pp-toc.toc-rail {
-    float: none;
-    width: auto;
-    margin-inline-start: 0;
-    position: static;
+  ul {
+    align-items: end;
+    text-align: right;
   }
 }

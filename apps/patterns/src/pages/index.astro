@@ -5,7 +5,7 @@ import "@styles/pattern-graph.css";
 ---
 
 <Base title="Introduction">
-  <div class="flow">
+  <!-- <div class="flow">
     <blockquote>
       For it is not merely true that the relationships are attached to the
       elements: the fact is that the elements themselves are patterns of
@@ -17,8 +17,8 @@ import "@styles/pattern-graph.css";
           >The Timeless Way of Building</a
         ></cite
       >
-    </p>
-
+    </p> -->
+  <header class="flow">
     <h1><i class="muted">Pattern</i> playground</h1>
 
     <p class="lead">
@@ -34,18 +34,15 @@ import "@styles/pattern-graph.css";
       implementation, the focus is on mapping relationships between patterns and
       understanding how they connect.
     </p>
+  </header>
 
-    <pp-toc
-      class="toc-rail"
-      orientation="vertical"
-      heading="On this page"
-      target=".flow"
-      level="h2, h3"
-      data-pagefind-ignore></pp-toc>
+  <pp-toc
+    class="toc-corner"
+    orientation="vertical"
+    level="h2, h3"
+    data-pagefind-ignore></pp-toc>
 
-    <h2>Structure</h2>
-
-    <blockquote>
+  <!-- <blockquote>
       Animals are divided into (a) those that belong to the Emperor, (b)
       embalmed ones, (c) those that are trained, (d) suckling pigs, (e)
       mermaids, (f) fabulous ones, (g) stray dogs, (h) those that are included
@@ -58,18 +55,19 @@ import "@styles/pattern-graph.css";
           >The Analytical Language of John Wilkins</a
         ></cite
       >
-    </p>
+    </p> -->
 
-    <PatternGraph client:only="react" />
+  <PatternGraph client:only="react" />
 
+  <div class="flow">
     <h2>Objective and approach</h2>
 
     <p>
-      I think of this as a <em>design repertoire</em> — a personal collection
-      of patterns that shape how I approach design problems, an attempt to put on
-      paper what was mostly in my head for the last 10+ years. The result sits across
-      two layers: patterns as components (structural building blocks) and patterns
-      as carriers of
+      I think of this as a <em>design repertoire</em> — a personal collection of patterns
+      that shape how I approach design problems, an attempt to put on paper what was
+      mostly in my head for the last 10+ years. The result sits across two layers:
+      patterns as components (structural building blocks) and patterns as carriers
+      of
       <a href="/patterns/qualities">experiential qualities</a> — malleability, agency,
       accessibility, transparency, and other dimensions of what it feels like to use
       something.
@@ -89,7 +87,7 @@ import "@styles/pattern-graph.css";
       refining structures and fostering connections as understanding develops.
     </p>
 
-    <h2>On LLMs and AI</h2>
+    <h2>On AI</h2>
 
     <p>
       What started as an implementation-agnostic exploration of interaction
@@ -104,7 +102,7 @@ import "@styles/pattern-graph.css";
 
     <hr />
 
-    <h2>Now</h2>
+    <h2>Working notes</h2>
 
     <p>An occasionally updated log of current focus.</p>
 
