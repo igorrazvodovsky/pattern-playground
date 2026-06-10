@@ -2,10 +2,10 @@ import { useCallback, useEffect, useMemo } from 'react';
 import React from 'react';
 import type { Editor } from '@tiptap/react';
 import { getQuoteService, type QuoteObject } from '../../../services/commenting/quote-service';
-import { getQuotesByDocument } from '../../../stories/data/index';
+import { getQuotesByDocument } from '@shared/data';
 import { useModalService } from '../../../hooks/useModalService';
 import { QuoteDrawerContent } from '../../quote/QuoteDrawerContent';
-import { getUserById } from '../../../stories/data/index';
+import { getUserById } from '@shared/data';
 
 interface UseTipTapQuoteIntegrationOptions {
   documentId: string;

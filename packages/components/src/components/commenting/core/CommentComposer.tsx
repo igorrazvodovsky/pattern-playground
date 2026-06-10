@@ -5,8 +5,8 @@ import Bold from '@tiptap/extension-bold';
 import Italic from '@tiptap/extension-italic';
 import BulletList from '@tiptap/extension-bullet-list';
 import ListItem from '@tiptap/extension-list-item';
-import type { RichContent } from '../../../stories/data/index';
-import { getUserById } from '../../../stories/data/index';
+import type { RichContent } from '@shared/data';
+import { getUserById } from '@shared/data';
 
 interface CommentComposerProps {
   placeholder?: string;

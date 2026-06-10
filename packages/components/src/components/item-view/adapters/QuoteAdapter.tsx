@@ -2,7 +2,7 @@ import React from 'react';
 import type { ItemViewProps, ContentAdapter, BaseItem } from '../types';
 import type { QuoteObject } from '../../../services/commenting/core/quote-pointer';
 import { CommentThread } from '../../commenting/core/CommentThread';
-import { getUserById } from '../../../stories/data';
+import { getUserById } from '@shared/data';
 
 // Extend QuoteObject to match BaseItem interface
 interface QuoteItem extends BaseItem {

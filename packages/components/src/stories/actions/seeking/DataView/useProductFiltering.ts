@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Product } from '../../../data/types';
+import { Product } from '@shared/data/types';
 import { ProductFilter, ProductFilterCategory } from './FilterTypes';
 import { applyFiltersToProducts } from './FilterOperations';
 import { generateProductFilterCategories } from './FilterCategories';

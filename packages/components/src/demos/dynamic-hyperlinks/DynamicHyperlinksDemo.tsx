@@ -2,8 +2,8 @@ import { useState, useEffect, useLayoutEffect, useRef, useCallback, useMemo, typ
 import { useEditor, EditorContent } from '@tiptap/react';
 import { BubbleMenu } from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
-import documents from '../../stories/data/documents.json';
-import { referenceCategories } from '../../stories/data';
+import documents from '@shared/data/documents.json';
+import { referenceCategories } from '@shared/data';
 import { Reference, createReferenceSuggestion } from '../../components/reference/Reference';
 import type { CorpusDocument } from './types';
 import { useHeatmap } from './useHeatmap';

@@ -1,4 +1,4 @@
-import type { Task, TaskHistoryEntry, CreateTaskInput } from '../../stories/data/task-types';
+import type { Task, TaskHistoryEntry, CreateTaskInput } from '@shared/data/task-types';
 
 export const createTask = (input: string | CreateTaskInput): Task => {
   const taskId = crypto.randomUUID();

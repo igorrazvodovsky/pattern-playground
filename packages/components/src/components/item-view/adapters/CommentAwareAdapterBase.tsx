@@ -1,7 +1,7 @@
 import React from 'react';
 import type { CommentAwareAdapter, ItemViewProps, UniversalComment, BaseItem } from '../types';
 import { CommentThread } from '../../commenting/core/CommentThread';
-import { getUserById } from '../../../stories/data/index';
+import { getUserById } from '@shared/data';
 
 export interface CommentSectionProps {
   entityType: string;

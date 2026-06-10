@@ -1,5 +1,5 @@
 import React from 'react';
-import type { RichContent } from '../../../stories/data/index';
+import type { RichContent } from '@shared/data';
 
 interface ContentNode {
   type: string;

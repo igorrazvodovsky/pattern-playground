@@ -1,4 +1,4 @@
-import { Product } from '../../../data/types';
+import { Product } from '@shared/data/types';
 
 // Identity attributes - define what the item is (have dedicated UI slots)
 const IDENTITY_ATTRIBUTES = ['name', 'description'];

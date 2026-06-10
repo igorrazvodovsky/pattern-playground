@@ -7,7 +7,7 @@ import {
   ComboboxItem,
   ComboboxList,
 } from "../../components/combobox";
-import { recentItems, documents, tasks } from '../data';
+import { recentItems, documents, tasks } from '@shared/data';
 import 'iconify-icon';
 import '../../jsx-types';
 

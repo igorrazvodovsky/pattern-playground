@@ -12,7 +12,7 @@ import { referenceContentAdapter } from './ReferenceContentAdapter';
 import { quoteAdapter, quoteToBaseItem } from '../item-view/adapters/QuoteAdapter';
 import type { ReferenceCategory, SelectedReference, ReferenceType } from './types';
 import type { QuoteObject } from '../../services/commenting/core/quote-pointer';
-import { resolveReferenceData } from '../../stories/data';
+import { resolveReferenceData } from '@shared/data';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

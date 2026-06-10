@@ -1,9 +1,9 @@
 import React from 'react';
 import type { ContentAdapter, ItemViewProps, TaskObject } from '../types';
-import type { Task } from '../../../stories/data/task-types';
+import type { Task } from '@shared/data/task-types';
 import { formatTimestamp } from '../../../utility/time-utils.js';
 import { CommentThread } from '../../commenting/core/CommentThread.js';
-import { getUserById } from '../../../stories/data';
+import { getUserById } from '@shared/data';
 
 const getStatusBadgeClass = (status: Task['status']['value']): string => {
   switch (status) {

@@ -4,7 +4,7 @@ import { ItemView } from '../../../components/item-view/ItemView';
 import { ContentAdapterProvider } from '../../../components/item-view/ContentAdapterRegistry';
 import { taskAdapter } from '../../../components/item-view/adapters';
 import type { TaskObject } from '../../../components/item-view/types';
-import { tasks, taskToItemObject } from '../../data';
+import { tasks, taskToItemObject } from '@shared/data';
 import { centeredLayout, centeredLayoutNarrow } from '../../utils/decorators';
 
 const meta = {

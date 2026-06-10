@@ -7,7 +7,7 @@ import {
   filterLabels,
   filterPriorities,
   filterDates
-} from "../../stories/data";
+} from "@shared/data";
 
 
 export const filterViewOptions: FilterOption[][] = [

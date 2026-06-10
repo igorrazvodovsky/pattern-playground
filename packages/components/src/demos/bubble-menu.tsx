@@ -12,7 +12,7 @@ import { commentingPlugin } from '../components/editor-plugins/commenting/Commen
 import { CommentingIntegration } from '../components/editor-plugins/commenting/components/CommentingIntegration.tsx';
 import { aiAssistantPlugin } from '../components/editor-plugins/ai-assistant/index.ts';
 import { explanationPlugin } from '../components/editor-plugins/explanation/index.ts';
-import { getDocumentContentText, getDocumentContentRich, referenceCategories } from '../stories/data/index.ts';
+import { getDocumentContentText, getDocumentContentRich, referenceCategories } from '@shared/data';
 
 // Shared bubble-menu demos consumed by both the Storybook stories
 // (BubbleMenu.stories.tsx) and the pattern site (via @pkg/demos/bubble-menu).

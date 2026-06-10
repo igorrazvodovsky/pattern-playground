@@ -1,7 +1,7 @@
 import React from 'react';
 import type { ContentAdapter, ItemViewProps, ProjectObject } from '../types';
 import { CommentThread } from '../../commenting/core/CommentThread';
-import { getUserById } from '../../../stories/data';
+import { getUserById } from '@shared/data';
 
 const getStatusBadgeClass = (status?: string): string => {
   switch (status) {

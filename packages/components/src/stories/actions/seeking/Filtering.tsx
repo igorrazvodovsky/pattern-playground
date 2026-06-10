@@ -32,7 +32,7 @@ import {
 
 import { generateFilterSuggestions } from "../../../components/filter/adapters/ai-filter-adapter";
 
-import { filterCategories } from "../../data/index.ts";
+import { filterCategories } from "@shared/data";
 
 import '../../../components/dropdown/dropdown.ts';
 import 'iconify-icon';

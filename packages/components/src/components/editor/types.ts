@@ -1,7 +1,7 @@
 import type { Editor, Extension } from '@tiptap/core';
 import type { ReactNode } from 'react';
 import type { Transaction } from '@tiptap/pm/state';
-import type { Quote } from '../../stories/data';
+import type { Quote } from '@shared/data';
 
 // Type definitions for better event payload typing
 export interface PointerData {

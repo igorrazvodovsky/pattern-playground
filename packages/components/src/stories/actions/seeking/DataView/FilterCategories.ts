@@ -1,4 +1,4 @@
-import { Product } from '../../../data/types';
+import { Product } from '@shared/data/types';
 import { ProductFilterType, ProductFilterCategory } from './FilterTypes';
 import { getUniqueFilterValues } from './FilterOperations';
 

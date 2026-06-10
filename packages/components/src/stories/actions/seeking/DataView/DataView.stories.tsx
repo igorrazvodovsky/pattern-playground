@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import React, { useState, useMemo } from "react";
-import productsData from '../../../data/products.json' with { type: 'json' };
-import { Product } from '../../../data/types';
+import productsData from '@shared/data/products.json' with { type: 'json' };
+import { Product } from '@shared/data/types';
 import { DataViewProps, ViewMode, AttributeSelection, SortField, SortOrder } from './types';
 import { getAvailableAttributes } from './AttributeUtils';
 import { sortProducts } from './SortingUtils';

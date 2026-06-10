@@ -1,4 +1,4 @@
-import { Product } from '../../../data/types';
+import { Product } from '@shared/data/types';
 import { ProductFilter } from './ProductFilterTypes';
 
 export type ViewMode = 'card' | 'list' | 'table';

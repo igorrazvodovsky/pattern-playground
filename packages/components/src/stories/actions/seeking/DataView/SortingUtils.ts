@@ -1,4 +1,4 @@
-import { Product } from '../../../data/types';
+import { Product } from '@shared/data/types';
 import { SortField, SortOrder } from './types';
 import { getAttributeValue } from './AttributeUtils';
 

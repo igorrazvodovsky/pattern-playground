@@ -1,6 +1,6 @@
 import type { ItemViewProps } from './types';
 import { CommentThread } from '../commenting/core/CommentThread.js';
-import { getUserById } from '../../stories/data/index.js';
+import { getUserById } from '@shared/data';
 
 /**
  * DefaultFallbackRenderer - Unified fallback rendering for items without adapters

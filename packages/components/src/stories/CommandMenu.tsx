@@ -23,7 +23,7 @@ import {
 } from '../services/ai-suggestion-service';
 import { convertToAICommandResult } from '../components/command-menu/adapters/ai-command-adapter';
 
-import { commands, recentItems } from './data';
+import { commands, recentItems } from '@shared/data';
 
 import 'iconify-icon';
 import '../jsx-types';

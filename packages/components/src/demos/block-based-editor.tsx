@@ -2,7 +2,7 @@ import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Highlight from '@tiptap/extension-highlight';
 import { Reference, createReferenceSuggestion } from '../components/reference/Reference';
-import { referenceCategories } from '../stories/data';
+import { referenceCategories } from '@shared/data';
 import { EditorProvider } from '../components/editor/EditorProvider';
 import { EditorLayout } from '../components/editor/EditorLayout';
 import { EditorContent } from '../components/editor/slots/EditorContent';

@@ -1,0 +1,10 @@
+{
+  "name": "@pattern-plgrnd/shared",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    "./data": "./data/index.ts",
+    "./data/*": "./data/*"
+  }
+}

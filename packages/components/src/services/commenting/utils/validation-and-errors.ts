@@ -1,4 +1,4 @@
-import type { Quote, RichContent } from '../../../stories/data/index.js';
+import type { Quote, RichContent } from '@shared/data';
 
 /**
  * Production-ready validation and error handling utilities

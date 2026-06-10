@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { CommentThread } from '../core/CommentThread';
 import type { QuoteObject } from '../../../services/commenting/core/quote-pointer';
-import { getUserById } from '../../../stories/data/index';
+import { getUserById } from '@shared/data';
 
 interface QuoteCommentPopoverProps {
   quote: QuoteObject;

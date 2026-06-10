@@ -1,7 +1,7 @@
 import React from 'react';
 import { CommentThread } from '../commenting/core/CommentThread';
 import type { QuoteObject } from '../../services/commenting/quote-service';
-import type { User } from '../../stories/data';
+import type { User } from '@shared/data';
 
 interface QuoteDrawerContentProps {
   quote: QuoteObject;

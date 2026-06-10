@@ -8,7 +8,7 @@ import { createTask } from '../task/task-utils';
 import { ItemView } from '../item-view/ItemView';
 import { ContentAdapterProvider } from '../item-view/ContentAdapterRegistry';
 import { taskAdapter } from '../item-view/adapters/TaskAdapter';
-import { taskToItemObject } from '../../stories/data/task-types';
+import { taskToItemObject } from '@shared/data/task-types';
 
 export const AIFallbackHandler: React.FC<AIFallbackHandlerProps> = ({
   searchInput,

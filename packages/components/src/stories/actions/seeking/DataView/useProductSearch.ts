@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import Fuse from 'fuse.js';
-import { Product } from '../../../data/types';
+import { Product } from '@shared/data/types';
 
 export interface UseProductSearchOptions {
   threshold?: number;

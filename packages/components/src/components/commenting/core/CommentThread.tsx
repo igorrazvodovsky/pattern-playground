@@ -4,8 +4,8 @@ import { CommentRenderer } from './CommentRenderer';
 import { useCommenting } from '../../../services/commenting/hooks/use-commenting';
 import { EntityPointer } from '../../../services/commenting/core/entity-pointer';
 import { formatTimestamp } from '../../../utility/time-utils';
-import { getUserById } from '../../../stories/data/index';
-import type { User } from '../../../stories/data/index';
+import { getUserById } from '@shared/data';
+import type { User } from '@shared/data';
 
 // RichContent interface to match the shared data structure
 export interface RichContent {

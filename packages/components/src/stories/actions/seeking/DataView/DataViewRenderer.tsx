@@ -1,6 +1,6 @@
 import React from 'react';
 import { ViewMode, AttributeSelection } from './types';
-import { Product } from '../../../data/types';
+import { Product } from '@shared/data/types';
 import { CardView } from './CardView';
 import { ListView } from './ListView';
 import { TableView } from './TableView';

@@ -16,6 +16,7 @@ export default defineConfig({
         '@components': path.resolve(__dirname, '../../packages/components/src/components'),
         '@styles': path.resolve(__dirname, '../../packages/components/src/styles'),
         '@pkg': path.resolve(__dirname, '../../packages/components/src'),
+        '@shared': path.resolve(__dirname, '../../shared'),
       },
     },
     optimizeDeps: {

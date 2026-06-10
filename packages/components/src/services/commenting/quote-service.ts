@@ -1,5 +1,5 @@
 import { Editor } from '@tiptap/core';
-import { quotes, getQuoteById, getQuotesByDocument } from '../../stories/data/index.js';
+import { quotes, getQuoteById, getQuotesByDocument } from '@shared/data';
 
 /**
  * Rich content structure matching TipTap JSON format

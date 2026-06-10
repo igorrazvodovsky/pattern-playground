@@ -1,5 +1,5 @@
 import type { EntityComment } from '../state/comment-store.js';
-import commentsData from '../../../stories/data/comments.json' with { type: 'json' };
+import commentsData from '@shared/data/comments.json' with { type: 'json' };
 
 // Load existing comments from data - data is already in EntityComment format
 export function loadSharedDataComments(): EntityComment[] {

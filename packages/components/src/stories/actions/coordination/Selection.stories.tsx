@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState, useRef, useEffect } from "react";
-import projectsData from "../../data/projects.json" with { type: "json" };
+import projectsData from "@shared/data/projects.json" with { type: "json" };
 import 'iconify-icon';
 import '../../../jsx-types';
 

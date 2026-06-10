@@ -1,4 +1,4 @@
-import { Product } from '../../../data/types';
+import { Product } from '@shared/data/types';
 import { ProductFilter, ProductFilterType, ProductFilterOperator } from './FilterTypes';
 
 export function productMatchesFilter(product: Product, filter: ProductFilter): boolean {

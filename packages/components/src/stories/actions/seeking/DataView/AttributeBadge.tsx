@@ -1,7 +1,7 @@
 import React from 'react';
 import { getAttributeValue, formatAttributeValue } from './AttributeUtils';
 import { getFieldDisplayName } from './DisplayUtils';
-import { Product } from '../../../data/types';
+import { Product } from '@shared/data/types';
 
 export interface AttributeBadgeProps {
   product: Product;

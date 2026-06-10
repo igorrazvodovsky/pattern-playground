@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useCallback, useMemo } from 'react';
 import { ReferenceEditor } from '../components/reference';
-import { referenceCategories, basicReferenceCategories, getReferenceContentById } from './data';
+import { referenceCategories, basicReferenceCategories, getReferenceContentById } from '@shared/data';
 
 const meta = {
   title: "Primitives/Reference",
