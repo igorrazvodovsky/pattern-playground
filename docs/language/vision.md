@@ -1,126 +1,12 @@
 # Vision
 
-Long-term orientation for the project as it moves from a documented pattern
-catalog toward a usable pattern language. It names the organizing direction and
-includes a few concrete sketches to make that direction discussable. It is not
-an implementation plan or schema contract.
+Long-term orientation for the project as it moves from a documented pattern catalog toward a usable pattern language. It names the organizing direction and
+includes a few concrete sketches to make that direction discussable. It is not an implementation plan or schema contract.
 
 Compare this vision with [operative-image.md](./operative-image.md), which
 describes the current working picture.
 
-## Why this exists
-
-The project currently uses `apps/patterns/src/content/patterns/`
-as both documentation surface and source of truth for the pattern graph. That has worked well enough until now,
-but future plans create a semantic pressure. The vision is to separate three concerns:
-
-- what exists in the pattern language
-- how it is rendered or demonstrated
-- how it is projected for navigation and sensemaking
-
-## Current pin
-
-The near-term distinction to preserve is:
-
-- A `component` is a reusable implementation or UI part. Its center of gravity
-  is API, rendering, slots, props, states, styling, and examples.
-- A `pattern` is a reusable interaction move. Its center of gravity is a
-  recurring human situation, forces, invariant behavior, consequences, and
-  relations to other moves.
-
-Do not treat `atomic:*` as the answer to "is this a pattern?" The `atomic:*`
-tag is a compositional projection: primitive, component, composition, pattern.
-It says what something is made like, not whether it is a generative move.
-
-The missing axis is role. A possible future role vocabulary is:
-
-- `move`: a true pattern, understood as a generative interaction move
-- `mechanism`: component, primitive, control, visual element, or implementation
-  substrate
-- `contract`: a complete behavior, semantics, and accessibility agreement,
-  often attached to controls
-- `quality`: an experiential dimension such as Agency or Learnability
-- `foundation`: theory, model, principle, or material substrate
-- `concept`: a Jackson-style software concept
-- `umbrella`: a sensemaking page that gathers a territory of related moves but
-  is not the authoritative source for any single one.
-- `example`: a concrete instantiation, story variant, screenshot, prototype, or
-  product case
-
-This is not yet a required metadata schema. Treat it as the
-direction of travel when classifying or refactoring pattern material.
-
-## Definition source
-
-Use [pattern-definition.md](./pattern-definition.md) as the operational test for
-what counts as a pattern. This document assumes that definition and focuses on
-the repository shape needed to support it: role distinctions, graph semantics,
-Storybook's future position, and a possible deeper language layer.
-
-## The shift
-
-The durable distinction is not:
-
-```text
-component vs pattern
-```
-
-It is:
-
-```text
-mechanism vs move vs umbrella
-```
-
-A component can implement a mechanism.
-
-A mechanism can enable a move.
-
-A control can become a move when it carries a complete interaction contract.
-
-A Storybook page can be an umbrella over many moves.
-
-This keeps the project compatible with its semilattice commitment: no single
-tree is the truth, and no single documentation surface should have to carry all
-ontological distinctions.
-
-## Storybook's future role
-
-Long term, `apps/patterns/src/content/patterns/` should become one projection of a deeper language layer, not the ontology itself.
-
-Current state:
-
-```text
-apps/patterns/src/content/patterns/*.mdx -> extracted graph nodes and edges
-```
-
-Long-term direction:
-
-```text
-language objects -> graph data
-language objects -> Storybook pages
-language objects -> decision support / agent context
-```
-
-Storybook remains important because it makes the material explorable and
-demonstrable. It should not be forced to answer every ontology question. Some
-pages will be authored as pattern sources; some will be umbrellas over a
-territory; some will be implementation examples.
-
 ## Possible language layer
-
-A future repository shape might look like:
-
-```text
-src/language/
-  moves/
-  mechanisms/
-  qualities/
-  foundations/
-  concepts/
-  umbrellas/
-  examples/
-  graph/
-```
 
 It is a long-term shape to keep in mind when new tooling, schemas, or extraction
 scripts start straining against MDX as the only source of truth.
@@ -213,28 +99,3 @@ edges, or file locations:
 Prefer making role and relationship distinctions explicit in docs or source
 metadata over relying on path names. Path names are projections. They are useful,
 but they are not the ontology.
-
-## Research grounding
-
-The operational definition in
-[pattern-definition.md](./pattern-definition.md) is grounded in
-[`references/hci-pattern-languages.md`](../../references/hci-pattern-languages.md).
-This vision document applies that research grounding to repository structure,
-graph roles, and future harness-facing language objects.
-
-## Non-goals
-
-Do not mechanically retrofit the whole library just because this document
-exists. The vision is useful only if it clarifies real pressure points.
-
-Do not add new edge types speculatively. Add them when repeated authored
-material shows that the current vocabulary is flattening a meaningful
-distinction.
-
-Do not demote component documentation. Components, primitives, and controls are
-part of the language substrate. The goal is to stop pretending they are all the
-same kind of pattern, not to remove them from the graph.
-
-Do not turn the pattern language into a strict rules engine. Existing graph data
-is suggestion-grade. The long-term system should help an actor reason, not
-replace judgement.

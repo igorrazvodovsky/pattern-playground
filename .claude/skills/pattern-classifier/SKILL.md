@@ -15,7 +15,8 @@ The reasoning is grounded in the project's `docs/` knowledge base. Read the docu
 - `docs/language/pattern-definition.md` — operational test for what counts as a pattern (vs. mechanism, contract, observation, anti-pattern, umbrella). The minimum-pattern checklist lives here.
 - `docs/language/relationship-vocabulary.md` — describes relationships between patterns.
 - `docs/language/conceptual-glossary.md` — working definitions of pattern, centre, generative move, quality, semilattice, suggestion-grade, etc.
-- `docs/specs/pattern-role-model.md` — the settled role set (component, pattern, umbrella, quality, foundation, concept) and the APG-style split rule.
+- `docs/specs/pattern-role-model.md` — the settled role set (component, pattern, umbrella, quality, foundation, concept), the boundary stance, and the move/mechanism decomposition rule with its fission signals.
+- `docs/language/pattern-and-form.md` — the two-language framing: generative pattern language vs normative form language, and why the boundary is a projection rather than an ontology.
 - `docs/specs/pattern-site.md` — the answer to "where does a new pattern go?"
 - `references/semilattice.md` — the pattern space is a semilattice, not a tree. Every tree placement is lossy; the question is which loss is least harmful. Multiple projections, not a better tree.
 
@@ -30,7 +31,7 @@ This library is *design repertoire* — generative interaction moves between act
 
 ### The pattern test
 
-`pattern-definition.md` carries the operational test. In short: a pattern is a named, evidence-seeking interaction move that resolves a recurring human situation by balancing forces in a stated context, abstracting practice at a reusable level, producing a centre or affordance, carrying rationale and consequences, and linking to other moves. Most components are *not* patterns; a control qualifies only when its documentation captures a complete interaction contract (semantics, keyboard behaviour, focus model, state behaviour, use context).
+`pattern-definition.md` carries the operational test. In short: a pattern is a named, evidence-seeking interaction move that resolves a recurring human situation by balancing forces in a stated context, abstracting practice at a reusable level, producing a centre or affordance, carrying rationale and consequences, and linking to other moves. Most components are *not* patterns. A complete interaction contract (semantics, keyboard behaviour, focus model, state behaviour, use context) is pattern-grade content, but it enters the language as the move or moves it bundles, each named by what the actor is doing — the control stays a mechanism. A contract usually compresses several moves; see the decomposition rule in `pattern-role-model.md`.
 
 The definition is *evidence-seeking*, not evidence-proven. Seeds are fine as long as their maturity is legible. A seed names a suspected recurrence; a mature pattern has examples, rationale, consequences, and relationships that survive use.
 
@@ -106,7 +107,7 @@ The mapping produces one of five outcomes:
 1. *Already exists* — the move is covered. The work is enrichment. Skip to Phase 3.
 2. *Partially covered* — aspects are spread across multiple patterns, but the unifying move isn't represented. Consider whether a new pattern, an umbrella, or just better cross-references would serve best.
 3. *Distinct and new* — genuinely unrepresented. Proceed to Phase 2.
-4. *Existing pattern needs splitting* — mapping reveals an existing pattern is too broad and this concept deserves separation. Proceed to Phase 2 with attention to what stays and what moves.
+4. *Existing page is a compressed territory* — mapping reveals an existing page is too broad for one move, or mixes move and mechanism content. The outcome cardinality is decided by the territory, not assumed: several sibling moves, an umbrella plus moves, a move/mechanism decomposition, or just sharper edges (see the decomposition rule in `pattern-role-model.md`). Proceed to Phase 2 with attention to what stays and what moves.
 5. *Not a move* — the candidate is theory, method, quality, foundation, concept, or implementation convention rather than a generative move (see *Where non-moves go* in Scope). The work is referencing it from the patterns it informs, or directing it to where it belongs. Surface this with a recommendation.
 
 ## Phase 2: Classify
@@ -143,6 +144,8 @@ Keep unified when:
 - The patterns are always used together (compositional binding)
 - The relationships are mostly shared — other patterns link to the group, not to individual members
 - Splitting would create nodes too thin
+
+When in doubt, default to the coarsest node that doesn't lie: one well-situated move, with suspected sibling moves recorded as named forces or sections inside it. Under-differentiation self-corrects — the fission signals in `pattern-role-model.md` (disjoint related-patterns subsections, a decision tree growing inside the pattern, disagreeing profile fields, "in some variants…" prose) mark when a unified node has started straining. Over-differentiation produces stub nodes and graph noise, and corrects only by deletion.
 
 When splitting, also decide the umbrella strategy (step 5).
 

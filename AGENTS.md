@@ -8,11 +8,12 @@ A design research project first, code repository second. A "garden" for cultivat
 - [ARCHITECTURE.md](ARCHITECTURE.md) — domain layering and directory map
 - [docs/specs/index.md](docs/specs/index.md) — settled specifications for current truth
 - [docs/specs/workspace-layout.md](docs/specs/workspace-layout.md) — package structure and what each workspace owns
-- [docs/specs/pattern-site.md](docs/specs/pattern-site.md) — pattern site conventions, content schema, APG split rule
+- [docs/specs/pattern-site.md](docs/specs/pattern-site.md) — pattern site conventions, content schema, link format
 - [docs/levels-of-scale.md](docs/language/levels-of-scale.md) — structural legibility across altitudes
 
 ## Domain vocabulary (read when working on patterns, edges, or taxonomy)
-- [docs/language/pattern-definition.md](docs/language/pattern-definition.md) — what counts as a pattern, mechanism, observation, anti-pattern, or projection
+- [docs/language/pattern-definition.md](docs/language/pattern-definition.md) — what counts as a pattern, mechanism, observation, anti-pattern, or umbrella
+- [docs/language/pattern-and-form.md](docs/language/pattern-and-form.md) — pattern language vs form language; the move/mechanism boundary
 - [docs/language/conceptual-glossary.md](docs/language/conceptual-glossary.md) — terms used across the project
 - [docs/language/design-theory.md](docs/language/design-theory.md) — Alexander's two phases, centres, qualities, theoretical arc
 - [docs/language/vision.md](docs/language/vision.md) — current vision, partly intuitive, partly inconsistent

@@ -16,16 +16,11 @@ The authored repertoire lives as pattern MDX in
 `apps/patterns/src/content/patterns/`, rendered by the Astro pattern site;
 Storybook (`packages/components/src/stories/`) is the UI development workshop. The pattern MDX pages are the current source material from which the pattern graph is extracted.
 
-The pattern graph is the strongest current image of the language. It is built
-from authored links, frontmatter, decision trees, and profile sidecars. Its typed
-edges are suggestion-grade: they help an actor reason about possible moves, not
-match a situation against rules. See
+The pattern graph is the strongest current image of the language. It is built from authored links, frontmatter, decision trees, and profile sidecars. Its typed edges are suggestion-grade: they help an actor reason about possible moves, not match a situation against rules. See
 [relationship-vocabulary.md](./relationship-vocabulary.md).
 
-The pattern/component distinction is under active formation. The current
-working split is: a `component` is an implementation mechanism; a `pattern` is a
-generative interaction move acting on a recurring human situation. The possible
-future role vocabulary in [vision.md](./vision.md) is not yet implemented.
+The pattern/component distinction is defined in
+[pattern-and-form.md](./pattern-and-form.md) and the role model in [docs/specs/pattern-role-model.md](../specs/pattern-role-model.md): mechanisms converge in the form language, moves diverge in the pattern language, and pages that mix the two decompose.
 
 Decision trees are treated as authored situational hints. They expose what the
 library currently discriminates on, and what it does not yet know how to

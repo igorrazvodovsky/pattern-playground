@@ -87,9 +87,10 @@ Standard section order:
 - Sentence case for headings and titles.
 - Prefer conciseness; each sentence should add new information.
 
-## APG-style split naming
+## Move naming
 
-When authoring the move portion of an APG-style split, name the pattern by the
-interaction move, not the widget: "Constrained selection" not "Combobox",
-"Transient feedback" not "Toast". The name should apply to any valid
-implementation of the move.
+Name a pattern by the interaction move, not the component that implements it:
+"Transient feedback", not "Toast". The name must apply to any valid
+implementation of the move, and must not share its head noun with an unrelated
+existing entry (see the decomposition rule in
+`docs/specs/pattern-role-model.md`).

@@ -70,7 +70,7 @@ stem) — never an Activity-Theory path:
 ```md
 [Undo](/patterns/undo)
 [Agency](/patterns/agency)
-[Constrained selection](/patterns/constrained-selection)
+[Good defaults](/patterns/good-defaults)
 ```
 
 Do not use Storybook URL format (`../?path=/docs/operations-undo--docs`) for

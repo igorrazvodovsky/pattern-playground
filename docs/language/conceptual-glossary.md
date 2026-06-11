@@ -30,6 +30,10 @@ Rules for how humans interact with form. A connected structure of patterns organ
 
 `packages/components/` – rules for putting matter together: the vocabulary of components, the rules for composing them, and the levels of scale (e.g. primitive → component → composition). See [pattern-and-form.md](./pattern-and-form.md).
 
+## Mechanism
+
+A form-language unit — component, primitive, control, or visual or behavioural element. Mechanisms converge: a mechanism behaves identically wherever it is deployed, and its documentation (including a complete interaction contract) is normative rather than generative. A mechanism `enables` the moves it makes possible. See [pattern-and-form.md](./pattern-and-form.md) and the decomposition rule in [pattern-role-model.md](../specs/pattern-role-model.md).
+
 ## Levels of scale
 
 A structural property whereby a software system is legible at several connected altitudes, from coarse framing to fine implementation detail. In this project's usage, Dorian Taylor's *specificity gradient* is treated as a concrete software analogue: each lower level adds specificity without severing continuity with the level above. The absence of levels of scale shows up when intent is only recoverable from local code context. See [levels-of-scale.md](./levels-of-scale.md).
