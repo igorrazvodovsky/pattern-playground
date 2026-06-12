@@ -12,10 +12,16 @@ fun: "😣 *3/5*. Selection looks trivial until you ask what it means for a sele
 {/* TODO: Storybook demo exists — packages/components/src/stories/actions/coordination/Selection.stories.tsx */}
 
 
-The staking of a subset of items or content as the target of subsequent action, persisting until released or consumed.
+Picking one or more items from a set of options the actor can see, persisting until released or acted upon.
+
+## Forces
+
+- *Recognition against recall* — an exposed set lets the actor recognise the value instead of recalling it, and doubles as documentation of what's available
+- *Scan cost against typing cost* — small sets are cheapest to scan whole, large sets cheaper to type against; visible options → collapsed list → type-to-narrow → search is one move that scales with set size, not four separate ones
 
 ## Dimensions
 
+{/* - What the pick becomes — decided upstream by what the surrounding flow does with it, not at the picker. Three outcomes recur: consumed as a committed value (the set dismisses; [bounded choice](/patterns/bounded-choice) when the value must come from the set); staked as the target of a subsequent action (persisting until released); spliced into text the actor is producing ([autocomplete](/patterns/autocomplete)) */}
 - Cardinality — single, multi (set), range (contiguous span). These have different mental models and different input grammars
 - Granularity — items in a collection, sub-items inside an item (cells in a row), content inside an item (text in a cell). Each granularity layer can hold its own selection, and they have to compose without colliding
 - Persistence scope — does the selection survive scrolling, filtering, sorting, paging, navigation, refresh
@@ -128,6 +134,6 @@ Filter is declarative selection ("everything matching X"); selection is imperati
 - [Data view](/patterns/data-view), <ComponentRef id="actions-sense-making-card--docs">Card</ComponentRef> — the views in which item selection happens
 - [Block-based editor](/patterns/block-based-editor) — the surface in which content selection happens
 
-## TODO:
+## To-do
 
 Collaborative selection – co-presence cursors, shared selection state, "see what others have selected". The mechanics differ enough (conflict, decay, identity) that they deserve their own treatment.

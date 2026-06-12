@@ -1,0 +1,52 @@
+---
+title: "Bounded choice"
+role: pattern
+activityLevel: operation
+atomic: pattern
+mediation: individual
+description: "Committing a value from a set the actor didn't author and can't fully survey."
+fun: "🙂 2/5. Dependency."
+---
+
+Committing a value from a bounded set the actor didn't author and may not be able to survey.
+In exchange for taking away the actor's freedom to answer in their own words, it guarantees that whatever gets committed is valid.
+
+Set size determines which control fits. A handful of options the actor can scan whole → radio buttons; a few dozen recognisable ones → select; hundreds → combobox; a set the actor can't even characterise crosses over into [searching](/patterns/searching).
+
+## Forces
+
+- *Validity against freedom* — because the committed value must come from the set, everything downstream can trust it (no typos, no unknown values), at the cost of refusing answers the actor believes are right
+- *Set completeness* — the set claims to contain the answer; when it doesn't, the actor is stranded between an escape hatch (an "Other" value, a free-text fallback, autocomplete-style suggestions) and a hard boundary
+
+## Design considerations
+
+- A "no matches" result should say whether the value doesn't exist, isn't available to them, or is spelled differently — and if the boundary is hard, who owns the vocabulary.
+- Recent and frequent values deserve a place ahead of the canonical ordering; most bounded choices are re-choices.
+- Multi-select accumulation — chosen values piling up while narrowing continues — keeps each choice visible as the actor picks more.
+- When the boundary is soft, the transition from picking an existing value to creating a new one deserves its own design: a marked "Create '…'" item keeps the exception legible, and how the new value relates to the vocabulary — does it join the set, who approves it — needs designing too.
+
+## Related patterns
+
+### Controls
+
+- <ComponentRef id="primitives-select--docs">Select</ComponentRef>, <ComponentRef id="primitives-checkbox--docs">Checkbox</ComponentRef>, TODO: Radio buttons — small scale controls
+- <ComponentRef id="operations-combobox--docs">Combobox</ComponentRef> — large scale control
+
+### Prerequisites
+
+- [Formality](/patterns/formality) — the quality lens on the trade-off: bounded choice sits at the high-formality end
+- [Selection](/patterns/selection) — the general move: designating from an exposed option set
+
+### Complementary
+
+- [Good defaults](/patterns/good-defaults) — pre-selecting the likely value can resolve the choice before the actor engages with it
+- [Searching](/patterns/searching) — where the move escalates when the set outgrows narrowing
+
+### Alternatives
+
+- Free entry with advisory suggestions — the opposite stance: the field commits the actor's own text, and [autocomplete](/patterns/autocomplete) candidates can replace it but don't constrain it
+
+### Follow-ups
+
+- [Form](/patterns/form) — where bounded fields most commonly live
+- [Filtering](/patterns/filtering) — each filter condition is a bounded choice over a facet's values

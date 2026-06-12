@@ -157,6 +157,18 @@
       "role": "umbrella"
     },
     {
+      "id": "bounded-choice",
+      "title": "Bounded choice",
+      "category": "Operations",
+      "path": "/patterns/bounded-choice",
+      "role": "pattern",
+      "generativeProfile": {
+        "operatesOn": "a value the actor must supply from a set they didn't author and may not be able to survey",
+        "produces": "a visible, narrowable candidate set that converges on a valid committed value",
+        "enacts": "vocabulary legibility, integrity of what gets committed"
+      }
+    },
+    {
       "id": "capability-and-scope",
       "title": "Capability & scope",
       "category": "Operations",
@@ -380,7 +392,10 @@
       "title": "Formality",
       "category": "Qualities",
       "path": "/patterns/formality",
-      "role": "quality"
+      "role": "quality",
+      "tags": [
+        "prerequisites"
+      ]
     },
     {
       "id": "fully-connected",
@@ -714,7 +729,15 @@
       "title": "Selection",
       "category": "Actions",
       "path": "/patterns/selection",
-      "role": "pattern"
+      "role": "pattern",
+      "generativeProfile": {
+        "operatesOn": "a moment where the actor must designate members of an exposed set of options",
+        "produces": "a designation — narrowed by scanning or typing — whose fate (committed value, staked target, spliced text) is set by the surrounding flow",
+        "enacts": "recognition over recall, legibility of what can be picked, economy of designation"
+      },
+      "tags": [
+        "prerequisites"
+      ]
     },
     {
       "id": "sequence-completion",
@@ -1105,12 +1128,7 @@
       "title": "Combobox",
       "category": "Operations",
       "path": "../?path=/docs/operations-combobox--docs",
-      "role": "component",
-      "generativeProfile": {
-        "operatesOn": "a value drawn from a long, unfamiliar, or dynamically fetched option set",
-        "produces": "a text input bound to a filtered popup list: type to narrow, activate to commit",
-        "enacts": "recognition over recall, economy of typing, predictable keyboard navigation"
-      }
+      "role": "component"
     },
     {
       "id": "operations-overflow",
@@ -2062,6 +2080,20 @@
     },
     {
       "source": "autocomplete",
+      "target": "selection",
+      "type": "instantiates",
+      "label": "the general move: designating from an exposed option set. Autocomplete is the case where that designation gets spliced into the text the actor is producing; whether the spliced token must come from the set is the field's stance, not the mechanism's",
+      "extractedFrom": "header:\"Foundation\""
+    },
+    {
+      "source": "autocomplete",
+      "target": "bounded-choice",
+      "type": "complements",
+      "label": "the mandatory-set stance autocomplete often serves: the commit moves to the candidate channel. The set-size escalation (select → combobox → searching) lives there. A field serving a mixed population composes both stances — a mandatory set with a free-text escape hatch",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "autocomplete",
       "target": "assisted-task-completion",
       "type": "complements",
       "label": "the spectrum autocomplete sits within",
@@ -2279,6 +2311,53 @@
       "source": "bot",
       "target": "next-best-action",
       "type": "surveys"
+    },
+    {
+      "source": "bounded-choice",
+      "target": "formality",
+      "type": "enacts",
+      "label": "the quality lens on the trade-off: bounded choice sits at the high-formality end, demanding a committed value from the system's vocabulary. Validity-against-freedom is what formality weighs in general; a soft boundary is where formalisation turns gradual",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "bounded-choice",
+      "target": "selection",
+      "type": "related",
+      "label": "the general move: designating from an exposed option set. Bounded choice is the case where that designation must end up as a committed value, and the set claims to contain the answer"
+    },
+    {
+      "source": "bounded-choice",
+      "target": "good-defaults",
+      "type": "complements",
+      "label": "pre-selecting the likely value can resolve the choice before the actor engages with it",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "bounded-choice",
+      "target": "searching",
+      "type": "complements",
+      "label": "where the move escalates when the set outgrows narrowing",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "bounded-choice",
+      "target": "autocomplete",
+      "type": "alternative",
+      "extractedFrom": "header:\"Alternatives\""
+    },
+    {
+      "source": "bounded-choice",
+      "target": "form",
+      "type": "precedes",
+      "label": "where bounded fields most commonly live",
+      "extractedFrom": "header:\"Follow-ups\""
+    },
+    {
+      "source": "bounded-choice",
+      "target": "filtering",
+      "type": "precedes",
+      "label": "each filter condition is a bounded choice over a facet's values",
+      "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "capability-and-scope",
@@ -2507,6 +2586,27 @@
       "target": "command-menu",
       "type": "complements",
       "label": "keeps collaboration commands accessible without crowding the surface",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "bounded-choice",
+      "target": "command-menu",
+      "type": "precedes",
+      "label": "invoking a command means picking from a closed set: the available actions",
+      "extractedFrom": "header:\"Precursors\""
+    },
+    {
+      "source": "searching",
+      "target": "command-menu",
+      "type": "precedes",
+      "label": "establishes that typing into a field filters results; a command menu builds on that expectation",
+      "extractedFrom": "header:\"Precursors\""
+    },
+    {
+      "source": "command-menu",
+      "target": "autocomplete",
+      "type": "complements",
+      "label": "supports command menu functionality by reducing typing effort and increasing discoverability of commands.",
       "extractedFrom": "header:\"Complementary\""
     },
     {
@@ -3229,6 +3329,12 @@
       "target": "form",
       "type": "related",
       "label": "the high-formality end of the spectrum"
+    },
+    {
+      "source": "formality",
+      "target": "bounded-choice",
+      "type": "related",
+      "label": "high-formality input at field scale: commits a value from a closed set rather than accepting free text, trading the actor's freedom for a value everything downstream can trust"
     },
     {
       "source": "formality",
@@ -4528,6 +4634,12 @@
     },
     {
       "source": "operations",
+      "target": "bounded-choice",
+      "type": "surveys",
+      "label": "committing a value from a set too large to scan whole"
+    },
+    {
+      "source": "operations",
       "target": "autocomplete",
       "type": "surveys",
       "label": "real-time query narrowing as the actor types"
@@ -5247,6 +5359,16 @@
       "type": "enables",
       "label": "the surface in which content selection happens",
       "extractedFrom": "header:\"Containers\""
+    },
+    {
+      "source": "selection",
+      "target": "bounded-choice",
+      "type": "related"
+    },
+    {
+      "source": "selection",
+      "target": "autocomplete",
+      "type": "related"
     },
     {
       "source": "sequence-completion",
@@ -6440,6 +6562,13 @@
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
+      "source": "primitives-select",
+      "target": "bounded-choice",
+      "type": "enables",
+      "label": "select's job at small scale: a short set the actor already recognises.",
+      "extractedFrom": "header:\"Used by\""
+    },
+    {
       "source": "primitives-switch",
       "target": "primitives-checkbox",
       "type": "related",
@@ -6592,17 +6721,31 @@
     },
     {
       "source": "operations-combobox",
+      "target": "bounded-choice",
+      "type": "enables",
+      "label": "this control's job at large set sizes: type-to-narrow, commit from candidates",
+      "extractedFrom": "header:\"Used by\""
+    },
+    {
+      "source": "operations-combobox",
+      "target": "command-menu",
+      "type": "enables",
+      "label": "the combobox contract drives hierarchical navigation and command activation",
+      "extractedFrom": "header:\"Used by\""
+    },
+    {
+      "source": "operations-combobox",
       "target": "filtering",
-      "type": "instantiates",
+      "type": "enables",
       "label": "each filter chip's value-picker uses a combobox to narrow available values",
-      "extractedFrom": "header:\"Applied in\""
+      "extractedFrom": "header:\"Used by\""
     },
     {
       "source": "operations-combobox",
       "target": "autocomplete",
-      "type": "instantiates",
+      "type": "enables",
       "label": "narrowing-as-you-type is the combobox contract applied to query suggestion",
-      "extractedFrom": "header:\"Applied in\""
+      "extractedFrom": "header:\"Used by\""
     },
     {
       "source": "operations-combobox",

@@ -121,6 +121,12 @@
       "atomic-category": "pattern",
       "mediation": "individual"
     },
+    "bounded-choice": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": "individual"
+    },
     "capability-and-scope": {
       "activity-level": "operation",
       "lifecycle-stage": null,
@@ -543,7 +549,7 @@
     },
     "selection": {
       "activity-level": "action",
-      "lifecycle-stage": "coordination",
+      "lifecycle-stage": null,
       "atomic-category": "pattern",
       "mediation": "individual"
     },

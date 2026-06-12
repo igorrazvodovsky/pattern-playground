@@ -1,6 +1,5 @@
 import { Canvas, Story, Meta } from '@storybook/addon-docs/blocks';
 import * as ComboboxStories from './Combobox.stories.tsx';
-import { profile } from './Combobox.profile';
 
 <Meta of={ ComboboxStories } tags={['activity-level:operation', 'atomic:pattern', 'role:component', 'mediation:individual']} />
 
@@ -39,9 +38,10 @@ A text input paired with a popup listbox: the actor types to narrow candidates, 
 - [Input](../?path=/docs/primitives-input--docs) — the text field half of the contract, without the popup
 - [Select](../?path=/docs/primitives-select--docs) — the simpler counterpart for short, bounded sets already known to the actor
 
-### Applied in
+### Used by
 
-- [Command menu](../?path=/docs/components-command-menu--docs) — the combobox contract drives hierarchical navigation and command activation
+- [Bounded choice](/patterns/bounded-choice) — this control's job
+- [Command menu](/patterns/command-menu) — the combobox contract drives hierarchical navigation and command activation
 - [Filtering](/patterns/filtering) — each filter chip's value-picker uses a combobox to narrow available values
 - [Autocomplete](/patterns/autocomplete) — narrowing-as-you-type is the combobox contract applied to query suggestion
 - <PatternRef slug="searching">Searching</PatternRef> — the entry phase of instant-results search (popover or dropdown variant) follows the combobox model
