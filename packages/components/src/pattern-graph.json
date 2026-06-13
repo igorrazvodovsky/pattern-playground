@@ -947,6 +947,18 @@
       "role": "component"
     },
     {
+      "id": "actions-sensemaking-card",
+      "title": "Card",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-sensemaking-card--docs",
+      "role": "component",
+      "generativeProfile": {
+        "operatesOn": "a heterogeneous collection of subjects that need to be browsed at a glance and compared against each other",
+        "produces": "a uniformly bounded representation per subject — a same-shaped frame across the collection — that lets attributes, media, and actions read in one pass",
+        "enacts": "scannability of the collection, density-comparability across items, legibility of each subject as one thing"
+      }
+    },
+    {
       "id": "primitives-checkbox",
       "title": "Checkbox",
       "category": "Primitives",
@@ -1103,18 +1115,6 @@
       "category": "Actions",
       "path": "../?path=/docs/actions-coordination-messaging--docs",
       "role": "component"
-    },
-    {
-      "id": "actions-sensemaking-card",
-      "title": "Card",
-      "category": "Actions",
-      "path": "../?path=/docs/actions-sensemaking-card--docs",
-      "role": "component",
-      "generativeProfile": {
-        "operatesOn": "a heterogeneous collection of subjects that need to be browsed at a glance and compared against each other",
-        "produces": "a uniformly bounded representation per subject — a same-shaped frame across the collection — that lets attributes, media, and actions read in one pass",
-        "enacts": "scannability of the collection, density-comparability across items, legibility of each subject as one thing"
-      }
     },
     {
       "id": "data-visualisation-bar-chart",
@@ -2080,16 +2080,9 @@
     },
     {
       "source": "autocomplete",
-      "target": "selection",
-      "type": "instantiates",
-      "label": "the general move: designating from an exposed option set. Autocomplete is the case where that designation gets spliced into the text the actor is producing; whether the spliced token must come from the set is the field's stance, not the mechanism's",
-      "extractedFrom": "header:\"Foundation\""
-    },
-    {
-      "source": "autocomplete",
       "target": "bounded-choice",
       "type": "complements",
-      "label": "the mandatory-set stance autocomplete often serves: the commit moves to the candidate channel. The set-size escalation (select → combobox → searching) lives there. A field serving a mixed population composes both stances — a mandatory set with a free-text escape hatch",
+      "label": "the selection autocomplete often serves",
       "extractedFrom": "header:\"Complementary\""
     },
     {
@@ -2316,14 +2309,14 @@
       "source": "bounded-choice",
       "target": "formality",
       "type": "enacts",
-      "label": "the quality lens on the trade-off: bounded choice sits at the high-formality end, demanding a committed value from the system's vocabulary. Validity-against-freedom is what formality weighs in general; a soft boundary is where formalisation turns gradual",
+      "label": "the quality lens on the trade-off: bounded choice sits at the high-formality end",
       "extractedFrom": "quality-target"
     },
     {
       "source": "bounded-choice",
       "target": "selection",
       "type": "related",
-      "label": "the general move: designating from an exposed option set. Bounded choice is the case where that designation must end up as a committed value, and the set claims to contain the answer"
+      "label": "the general move: designating from an exposed option set"
     },
     {
       "source": "bounded-choice",
@@ -2589,17 +2582,10 @@
       "extractedFrom": "header:\"Complementary\""
     },
     {
-      "source": "bounded-choice",
-      "target": "command-menu",
-      "type": "precedes",
-      "label": "invoking a command means picking from a closed set: the available actions",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
       "source": "searching",
       "target": "command-menu",
       "type": "precedes",
-      "label": "establishes that typing into a field filters results; a command menu builds on that expectation",
+      "label": "broader seeking move",
       "extractedFrom": "header:\"Precursors\""
     },
     {
@@ -3329,12 +3315,6 @@
       "target": "form",
       "type": "related",
       "label": "the high-formality end of the spectrum"
-    },
-    {
-      "source": "formality",
-      "target": "bounded-choice",
-      "type": "related",
-      "label": "high-formality input at field scale: commits a value from a closed set rather than accepting free text, trading the actor's freedom for a value everything downstream can trust"
     },
     {
       "source": "formality",
@@ -4636,7 +4616,7 @@
       "source": "operations",
       "target": "bounded-choice",
       "type": "surveys",
-      "label": "committing a value from a set too large to scan whole"
+      "label": "committing a value from a set"
     },
     {
       "source": "operations",
@@ -5359,16 +5339,6 @@
       "type": "enables",
       "label": "the surface in which content selection happens",
       "extractedFrom": "header:\"Containers\""
-    },
-    {
-      "source": "selection",
-      "target": "bounded-choice",
-      "type": "related"
-    },
-    {
-      "source": "selection",
-      "target": "autocomplete",
-      "type": "related"
     },
     {
       "source": "sequence-completion",
@@ -6258,6 +6228,24 @@
       "label": "validation and instructional feedback patterns"
     },
     {
+      "source": "actions-sensemaking-card",
+      "target": "data-view",
+      "type": "related",
+      "label": "uses Card as one of its collection representations"
+    },
+    {
+      "source": "actions-sensemaking-card",
+      "target": "components-table",
+      "type": "related",
+      "label": "alternative collection representation; prefer cards for visual scanning, table for dense comparison"
+    },
+    {
+      "source": "actions-sensemaking-card",
+      "target": "item-view",
+      "type": "related",
+      "label": "card is the canonical UI element for summary-level item representations"
+    },
+    {
       "source": "components-context-menu",
       "target": "components-dropdown",
       "type": "related",
@@ -6660,24 +6648,6 @@
       "extractedFrom": "quality-target"
     },
     {
-      "source": "actions-sensemaking-card",
-      "target": "data-view",
-      "type": "related",
-      "label": "uses Card as one of its collection representations"
-    },
-    {
-      "source": "actions-sensemaking-card",
-      "target": "components-table",
-      "type": "related",
-      "label": "alternative collection representation; prefer cards for visual scanning, table for dense comparison"
-    },
-    {
-      "source": "actions-sensemaking-card",
-      "target": "item-view",
-      "type": "related",
-      "label": "card is the canonical UI element for summary-level item representations"
-    },
-    {
       "source": "components-table",
       "target": "data-visualisation-bar-chart",
       "type": "precedes",
@@ -6723,7 +6693,7 @@
       "source": "operations-combobox",
       "target": "bounded-choice",
       "type": "enables",
-      "label": "this control's job at large set sizes: type-to-narrow, commit from candidates",
+      "label": "this control's job",
       "extractedFrom": "header:\"Used by\""
     },
     {

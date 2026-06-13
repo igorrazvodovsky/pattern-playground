@@ -7,10 +7,13 @@ mediation: individual
 fun: "🙂 2/5. Dependency."
 ---
 
-{/* TODO: Storybook demo exists — packages/components/src/stories/operations/Autocomplete.stories.tsx */}
-
+import { AutocompleteDemo } from '@pkg/demos/autocomplete';
 
 Predicting and suggesting completions for a value the actor is actively typing, so they can pick from a narrowing set of options instead of finishing the thought themselves.
+
+<Demo label="Autocomplete">
+  <AutocompleteDemo client:only="react" />
+</Demo>
 
 Part of the [assisted task completion](/patterns/assisted-task-completion) spectrum, at the most reactive end — the system takes almost no initiative here.
 
@@ -29,6 +32,7 @@ Part of the [assisted task completion](/patterns/assisted-task-completion) spect
 
 ### Complementary
 
+- [Autofill](/patterns/autofill) — the preemptive counterpart: pre-populates from stored values rather than completing what the actor types (and what the HTML `autocomplete` attribute actually controls)
 - [Bounded choice](/patterns/bounded-choice) — the selection autocomplete often serves
 - <ComponentRef id="operations-combobox--docs">Combobox</ComponentRef> — that stance's large-scale control: autocomplete mechanics with a candidate-channel commit
 - [Assisted task completion](/patterns/assisted-task-completion) — the spectrum autocomplete sits within

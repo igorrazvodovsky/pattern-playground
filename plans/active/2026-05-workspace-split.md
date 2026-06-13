@@ -35,7 +35,7 @@ In scope:
 - Restructure the repo into npm workspaces: `packages/components/`, `apps/patterns/`, and `apps/server/`.
 - Bootstrap a pattern-site runtime (Astro) in `apps/patterns/`.
 - Migrate non-component MDX out of `src/stories/` into `apps/patterns/`.
-- Conduct the move/mechanism split audit (folded with the role-coverage survey) and execute the resulting splits for APG-style entries during Phase D.
+- Conduct the move/mechanism split audit (folded with the role-coverage survey) and execute the resulting splits during Phase D.
 - Establish Foundations and Qualities as bilingual: language entry in the pattern site, implementation substrate in the components package.
 - Decide on a home for cross-cutting material (`docs/language/`, `references/`, `research/`, `plans/`) — likely the patterns package, possibly top-level shared.
 - Update `extract-graph-data.ts` to read from the new source path with frontmatter rather than `<Meta>` tags, and to emit pattern-site routes rather than Storybook URLs.
@@ -93,11 +93,13 @@ Before touching any structure, answer the questions that decide what Phase B can
 
 ### Role coverage and move/mechanism split
 
+> **Update (thinking moved on):** the component/pattern boundary framing has since evolved — [docs/language/pattern-and-form.md](../../docs/language/pattern-and-form.md) is now canonical for where the line falls. The move/mechanism verdicts below were the working model at audit time; read them as a snapshot. One concrete consequence: Toast, listed under "pure-move entries" below as a re-tag-in-place, is settled in [docs/specs/pattern-role-model.md](../../docs/specs/pattern-role-model.md) to migrate under the move-named slug `transient-feedback.mdx` — *not* as a re-tagged `Toast`. It stays `role:component` in Storybook until that migration happens.
+
 A single walk of the corpus, three verdicts per entry. The walk produces the audit deliverable for both this plan and the role-metadata plan's Phase A survey.
 
 - *Role.* Is every page in `src/stories/` either tagged with `role:*` or in a folder that folder-infers a role? Resolve any unset entries.
-- *Move/mechanism split.* Does the page document an APG-style control whose interaction contract earns a move-level pattern? If yes, propose the move name (named by the move, not the widget) and identify which content goes to the move side (situation, forces, consequences, edges) versus the mechanism side (props, states, anatomy, keyboard, ARIA). Pure-move entries (Toast, Undo, Inline confirmation) and pure-mechanism entries (Input, basic Checkbox) skip this verdict.
-- *AT altitude after split.* For entries currently in the Operations folder, confirm the altitude that survives the migration. Pure-move entries keep their Operations altitude in the pattern site. Pure-mechanism entries leave the AT cascade entirely (they become components, organised atomically). APG-style entries that split: the move portion's altitude is whatever fits its scope (often Operations or Actions); the mechanism portion leaves the cascade.
+- *Move/mechanism split.* Does the page document a composite control whose interaction contract earns a move-level pattern? If yes, propose the move name (named by the move, not the widget) and identify which content goes to the move side (situation, forces, consequences, edges) versus the mechanism side (props, states, anatomy, keyboard, ARIA). Pure-move entries (Toast, Undo, Inline confirmation) and pure-mechanism entries (Input, basic Checkbox) skip this verdict.
+- *AT altitude after split.* For entries currently in the Operations folder, confirm the altitude that survives the migration. Pure-move entries keep their Operations altitude in the pattern site. Pure-mechanism entries leave the AT cascade entirely (they become components, organised atomically). Entries that split: the move portion's altitude is whatever fits its scope (often Operations or Actions); the mechanism portion leaves the cascade.
 
 Ambiguous entries that can't be classified after the audit are blockers — they must have a verdict before Phase D moves them.
 
@@ -141,7 +143,7 @@ If the prototype reveals serious friction with the registry pattern, Phase A loo
 
 ### Files modified
 
-No code changes. Output: a Phase-A audit note at `plans/active/2026-05-workspace-split-audit.md` capturing role coverage, the move/mechanism split verdicts (with proposed move names per APG-style entry), AT-altitude verdicts, cross-cutting verdicts, extractor coupling list, and the Astro prototype outcome. The audit note doubles as the role-metadata plan's Phase A survey deliverable.
+No code changes. Output: a Phase-A audit note at `plans/active/2026-05-workspace-split-audit.md` capturing role coverage, the move/mechanism split verdicts (with proposed move names per split entry), AT-altitude verdicts, cross-cutting verdicts, extractor coupling list, and the Astro prototype outcome. The audit note doubles as the role-metadata plan's Phase A survey deliverable.
 
 ## Phase B — Workspace restructure
 
@@ -191,10 +193,12 @@ The pattern-site app gets its skeleton, but no pattern content has moved yet. Th
 
 ## Phase D — Pattern MDX migration
 
-The bulk move. Every non-component page leaves `src/stories/` and lands in `packages/patterns/src/content/`. Mechanical for most entries, with three exceptions: APG-style splits, bilingual Foundations/Qualities, and pages that didn't have MDX.
+The bulk move. Every non-component page leaves `src/stories/` and lands in `apps/patterns/src/content/patterns/`. Mechanical for most entries, with three exceptions: move/mechanism splits, bilingual Foundations/Qualities, and pages that didn't have MDX.
+
+> **Update (thinking moved on):** the content directory is *flat* — every entry lives directly under `apps/patterns/src/content/patterns/` with no classification subfolders, and the filename stem *is* the slug, route, and graph node ID (commit c87c44b; see [docs/specs/pattern-site.md](../../docs/specs/pattern-site.md)). Classification moved into frontmatter *facets* (`group`, `activityLevel`, `domain`), not folders. Wherever this phase says `<path>/<name>.mdx`, read `<name>.mdx`.
 
 - For each MDX page with `role:pattern`, `role:umbrella`:
-  - Move file from `src/stories/<path>/<name>.mdx` to `apps/patterns/src/content/patterns/<path>/<name>.mdx` (or `.md` if no MDX features used).
+  - Move file from `src/stories/<path>/<name>.mdx` to the flat `apps/patterns/src/content/patterns/<name>.mdx` (or `.md` if no MDX features used).
   - Transform `<Meta of={...} tags={[...]} />` to YAML frontmatter. Keep all tag values; tags like `role:pattern`, `activity-level:action`, `atomic:pattern` map to typed frontmatter fields.
   - Rewrite inter-page links from `../?path=/docs/<id>--docs` to the chosen link format from Phase C.
   - Co-locate `.profile.ts` sidecars; keep the same filename relationship the extractor uses ([scripts/extract-graph-data.ts:162](../../scripts/extract-graph-data.ts#L162)).
@@ -204,9 +208,11 @@ The bulk move. Every non-component page leaves `src/stories/` and lands in `pack
   - The implementation substrate (CSS tokens, type scale, modality CSS, quality-expressing classes, design-token JSON) stays in or moves to `packages/components/`. Where the current MDX page mixes both, split into a pattern-site page that links to the components-side Storybook documentation for the substrate.
   - The cross-reference from the language entry to the substrate uses the same scheme as pattern → component references.
 - For each entry flagged by the Phase A audit for move/mechanism split:
-  - The move portion is authored as a new pattern-site entry under the move-level name from the audit (e.g. "Constrained selection" rather than "Combobox"). Pull the situational, forces, consequences, and edge content from the original page.
+  - The move portion is authored as a new pattern-site entry under the move-level name from the audit (e.g. "Bounded choice" rather than "Combobox"). Pull the situational, forces, consequences, and edge content from the original page.
   - The mechanism portion stays as a component in `packages/components/` under the existing widget name (e.g. "Combobox"). Keep the props, states, anatomy, keyboard model, ARIA content.
   - The original page becomes a stub or is removed; existing inter-page links that pointed to the original are rewritten to point at the move-level entry (the language graph's traversal target), with prose-level mentions of the widget linking to its component page via the cross-reference scheme.
+
+> **Worked example — the Combobox split is done** (commit b0f7052). The move landed as **Bounded choice** ([`apps/patterns/src/content/patterns/bounded-choice.mdx`](../../apps/patterns/src/content/patterns/bounded-choice.mdx), `role:pattern`, `activityLevel:operation`) — *not* the speculative "Constrained selection". Combobox stayed a `role:component` page in `packages/components/src/stories/operations/`. Two details worth carrying to the next split: (1) the *generative profile follows the move, not the mechanism* — `Combobox.profile.ts` was deleted and a new `bounded-choice.profile.ts` authored on the move side (the substrate's profile didn't survive as a `.profile.ts`); (2) the mechanism page's outbound section flipped from "Applied in" to "Used by", with the lead link `[Bounded choice](/patterns/bounded-choice) — this control's job`. The split also clarified the move hierarchy: Selection (general designation) → Bounded choice (value must come from the set) → Combobox/Select/Radio (controls sized to set cardinality).
 
 Component-roled pages stay where they are in `packages/components/`, with whatever Storybook tooling they already use. Under stage 2 of the data model migration (combined data with filtered view), the components package continues to feed the extractor; no metadata manifest is needed yet.
 
@@ -214,8 +220,8 @@ Component-roled pages stay where they are in `packages/components/`, with whatev
 
 - All `role:pattern` and `role:umbrella` MDX files (moved, frontmatter rewritten, links rewritten)
 - `role:quality` and `role:foundation` MDX files (language entries moved to pattern site; substrate stays in or moves to components package)
-- New pattern-site entries for moves extracted from APG-style split entries (e.g. `constrained-selection.mdx` for the combobox split); component pages for the corresponding mechanism portions stay in `packages/components/`
-- All `.profile.ts` sidecars for the above (moved)
+- New pattern-site entries for moves extracted from split entries (e.g. `bounded-choice.mdx` for the combobox split — done, commit b0f7052); component pages for the corresponding mechanism portions stay in `packages/components/`
+- `.profile.ts` sidecars: moved with the page where the page moves wholesale; for a move/mechanism split the profile is *re-authored on the move side* and the mechanism's old sidecar removed (combobox: `Combobox.profile.ts` deleted, `bounded-choice.profile.ts` added)
 - Storybook tree (entries for moved pages removed; component pages for split-mechanism portions kept)
 
 ## Phase E — Extractor migration
@@ -260,15 +266,15 @@ Three items from Phase D remain unfinished and carry over as independent tasks:
 
 1. *Unmigrated foundations.* `foundations/Data.mdx`, `foundations/Interaction.mdx`, `foundations/Localization.mdx`, and the entire `foundations/material/` subtree (Color, Iconography, Layout, Motion, Typography) have no counterparts in `apps/patterns/src/content/patterns/foundations/`. They remain in `packages/components/src/stories/foundations/` until authoring effort migrates them.
 
-2. *Storybook folder cleanup.* `packages/components/src/stories/qualities/` and `packages/components/src/stories/foundations/` retain their `.mdx` files because component pages in `operations/`, `actions/`, and `activities/` contain inbound links (Storybook URL format) to those pages. Removing the pages before those links are rewritten would break Storybook cross-references. The cleanup depends on the cross-surface reference scheme being established and the inbound links being rewritten to pattern-site routes.
+2. *Storybook folder cleanup.* `packages/components/src/stories/qualities/` and `packages/components/src/stories/foundations/` retain their `.mdx` files because component pages in `operations/`, `actions/`, and `activities/` contain inbound links to those pages. Removing the pages before those links are rewritten would break Storybook cross-references. **The gate (item 3) is now established**, so this is unblocked: what remains is rewriting the inbound links to use `PatternRef` and then removing the pages.
 
-3. *Cross-surface reference scheme.* The scheme for component pages referencing pattern-site entries (qualities, foundations, patterns) — whether `pattern:` URLs, plain `/patterns/` routes, or another form — is not yet established. Establishing it is the gate for item 2 above.
+3. *Cross-surface reference scheme.* ✅ **Established.** The `PatternRef` React component ([packages/components/src/stories/utils/PatternRef.tsx](../../packages/components/src/stories/utils/PatternRef.tsx)) emits `{STORYBOOK_PATTERN_SITE_URL}/patterns/<slug>` links; 48 stories MDX files already use it. The gate for item 2 above is therefore open.
 
 ## Open questions
 
-1. *Where do `docs/language/`, `references/`, and `research/` live?* Default in this plan is *patterns package* (their primary consumer is pattern-language work), but they're cross-cutting enough that workspace-root is defensible. Phase A's cross-cutting decision is the gate.
+1. *Where do `docs/language/`, `references/`, and `research/` live?* **Resolved — opposite to the Phase A audit's default.** [docs/specs/workspace-layout.md](../../docs/specs/workspace-layout.md) keeps `docs/`, `plans/`, `references/`, and `scripts/` at the workspace root, *not* inside `apps/patterns/`. The audit defaulted to moving cross-cutting material into the patterns package; that default was overridden in the settled spec. Read the audit (now in `plans/completed/`) as a snapshot, not authority.
 
-2. *What happens to `plans/`?* This file is itself the dilemma — it describes a workspace-level change. Likely stays at workspace root.
+2. *What happens to `plans/`?* **Resolved:** stays at the workspace root (per [docs/specs/workspace-layout.md](../../docs/specs/workspace-layout.md), same resolution as question 1).
 
 3. *What happens to `server/`?* Resolved: it moves to `apps/server/`. The `apps/` + `packages/` convention makes the move natural — `server/` is a runtime, not a library, so it belongs alongside `apps/patterns/`.
 
@@ -280,7 +286,7 @@ Three items from Phase D remain unfinished and carry over as independent tasks:
 
 7. *Component-package public API.* Phase B has to decide which paths the components package exports. Today everything in `src/` is reachable by relative import; a workspace boundary forces a verdict. Start narrow (the registered custom elements, the `register-all` entry, the design tokens, the public services); widen as patterns demand.
 
-8. *Cross-surface reference scheme.* Pattern pages reference components, and bilingual quality/foundation entries reference their substrate. Phase C picks the scheme: a typed external link (`@components/button` resolving to a Storybook URL), a plain URL, a wikilink with a component-namespaced prefix, or something else. The choice has to work for in-prose references *and* for the future linked-datasets cross-reference shape.
+8. *Cross-surface reference scheme.* **Resolved** (see Phase D tail item 3): the `PatternRef` component resolves a `slug` to a `{STORYBOOK_PATTERN_SITE_URL}/patterns/<slug>` link for the Storybook→pattern-site direction; the pattern→component direction uses Storybook URLs. The original concern about the future linked-datasets cross-reference shape still stands as future work.
 
 9. *Sibling-dirs interim step.* The migration order in Phase B could pass through a sibling-dirs shape (mechanism A) before promoting to workspaces. This is cheaper per step but adds a second restructure. Default: go straight to workspaces unless something during Phase A suggests otherwise.
 
@@ -300,7 +306,7 @@ The research happens between Phase A and Phase B, per the project's "research be
 - *Migration fatigue.* The plan is multi-phase and high-volume in Phase D. Pattern work that lands during the migration window has to choose a side mid-flight. Mitigation: time-box Phase D, keep Phase C's pattern-site bootstrap working with a small sample before unleashing the bulk move.
 - *Extractor regression.* Subtle MDX parsing changes (frontmatter vs `<Meta>`, new link format) can shift the graph silently. Mitigation: Phase E's verification step compares old and new graphs node-for-node and edge-for-edge before declaring done.
 - *Cross-cutting material limbo.* `docs/language/` belongs to both surfaces conceptually. If Phase A's decision puts it in the patterns package, the components package loses a reference; if at workspace root, it sits outside both packages. Mitigation: pick consciously, document the rationale in the Phase A audit.
-- *Move/mechanism split authoring debt.* APG-style splits aren't just file moves — they require pulling apart content that was authored as one page. Some pages will resist a clean split (the move and the mechanism may be intertwined in the prose). Mitigation: the Phase A audit proposes the split per entry; if any entry resists, escalate it to a separate authoring task rather than forcing a split mid-migration.
+- *Move/mechanism split authoring debt.* These splits aren't just file moves — they require pulling apart content that was authored as one page. Some pages will resist a clean split (the move and the mechanism may be intertwined in the prose). Mitigation: the Phase A audit proposes the split per entry; if any entry resists, escalate it to a separate authoring task rather than forcing a split mid-migration.
 - *Astro–Storybook Vite-version drift.* Both use Vite, but different majors. Mitigation: pin Vite at the workspace root if needed; accept that Storybook 10's Vite is the constraint.
 - *Component public-API ergonomics.* A narrow `exports` field forces patterns to import only what the components package chooses to expose. Mitigation: start narrow but be willing to widen quickly — the boundary is workspace-internal, not semver-bound.
 - *Reversal cost.* If Astro turns out wrong, the pattern site can be rebuilt on hand-rolled Vite while the workspace structure stays. If workspaces turn out wrong, the structure flattens back to a single package without the pattern-site work needing to be redone. The compounding risk is small.
@@ -331,4 +337,4 @@ Phase F (cleanup, doc updates, promotion)
 
 Phase A is the only true gate. Phases B and C can interleave if the workspace restructure exposes a need for the pattern site sooner (e.g. to validate frontmatter shape). Phases D and E are sequential: the extractor can only point at the new source once content is there.
 
-This plan has three prerequisites before Phase D begins (per the Prerequisites and coordination section): role coverage complete, move/mechanism split audit complete with proposed move names, and combobox territory landed. The plan does not block any current pattern work — patterns continue to be authored in `src/stories/` until Phase D moves them, and the extractor continues to operate against the existing tree until Phase E.
+This plan has three prerequisites before Phase D begins (per the Prerequisites and coordination section): role coverage complete, move/mechanism split audit complete with proposed move names, and combobox territory landed (done — commit b0f7052 split Combobox into the Bounded choice move plus the retained Combobox component). The plan does not block any current pattern work — patterns continue to be authored in `src/stories/` until Phase D moves them, and the extractor continues to operate against the existing tree until Phase E.

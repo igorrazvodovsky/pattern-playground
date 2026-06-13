@@ -549,7 +549,7 @@
     },
     "selection": {
       "activity-level": "action",
-      "lifecycle-stage": null,
+      "lifecycle-stage": "coordination",
       "atomic-category": "pattern",
       "mediation": "individual"
     },
@@ -721,6 +721,12 @@
       "atomic-category": "primitive",
       "mediation": "individual"
     },
+    "actions-sensemaking-card": {
+      "activity-level": "action",
+      "lifecycle-stage": "sense-making",
+      "atomic-category": "composition",
+      "mediation": "individual"
+    },
     "primitives-checkbox": {
       "activity-level": "operation",
       "lifecycle-stage": null,
@@ -834,12 +840,6 @@
       "lifecycle-stage": "coordination",
       "atomic-category": "composition",
       "mediation": "coordination"
-    },
-    "actions-sensemaking-card": {
-      "activity-level": "action",
-      "lifecycle-stage": "sense-making",
-      "atomic-category": "composition",
-      "mediation": "individual"
     },
     "data-visualisation-bar-chart": {
       "activity-level": "operation",
