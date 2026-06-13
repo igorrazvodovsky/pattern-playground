@@ -1,0 +1,31 @@
+import { Meta, Story, Canvas, Subtitle } from '@storybook/addon-docs/blocks';
+import * as RadioButtonStories from './RadioButton.stories.tsx';
+import { profile } from './RadioButton.profile.ts';
+
+<Meta title="Primitives/Radio button" of = { RadioButtonStories } tags={['activity-level:operation', 'atomic:primitive', 'role:component', 'mediation:individual']} />
+
+# Radio button
+
+Capture a single choice from a set of mutually exclusive options, letting the actor commit a selection without leaving their flow.
+
+<Canvas>
+  <Story of={ RadioButtonStories.RadioButton } />
+</Canvas>
+
+## Group
+
+Radio buttons share a `name` attribute so only one option in the set can be selected at a time.
+
+<Canvas>
+  <Story of={ RadioButtonStories.Group } />
+</Canvas>
+
+## States
+
+<Canvas>
+  <Story of={ RadioButtonStories.States } />
+</Canvas>
+
+## Resources & references
+
+- [WAI-ARIA Authoring Practices](https://www.w3.org/WAI/ARIA/apg/patterns/radio/)
