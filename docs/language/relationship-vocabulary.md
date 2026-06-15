@@ -371,3 +371,25 @@ Considered and rejected:
 ### 2026-04-25 — Three thematic headers promoted to `enables`; direction semantics tightened
 
 `Used by`, `Composed from`, and `Containers` on `actions-coordination-selection` promoted from `related` to `enables`. This surfaced a direction inconsistency: mechanical extraction was emitting page→listed for every building-block header — correct for `Used by` (the page is the building block) but inverted for everything else. Fixed: `Containers and primitives`, `Containers`, `Related primitives`, `Mechanisms`, `Components`, `Conversational primitives`, `Composed from` now invert to listed→page. Every `enables` edge now reads source = building block, target = composite.
+
+### Observed drift — 2026-06-15
+
+Automated scan of `src/pattern-graph.json` (146 nodes, 909 edges). Signals only; the vocabulary is unchanged until a human decides.
+
+*Recurring thematic labels* (candidates for promotion to a typed edge)
+- "Follow-ups" on `surveys` — 6 edges
+- "the spectrum this pattern belongs to" on `complements` — 3 edges
+
+*Heavily used tags* (≥ 5 nodes — structuring candidates)
+- `enacted-qualities` — 6 nodes
+
+*High `related` density* (≥ 8 untyped edges — extractor may have flattened a distinction)
+- `qualities-agency` — 16 related edges
+- `qualities-temporality` — 16 related edges
+- `foundations-prose` — 15 related edges
+- `qualities-formality` — 13 related edges
+- `qualities-malleability` — 13 related edges
+- `actions-application-suggestion` — 10 related edges
+- `foundations-intent-interaction` — 10 related edges
+- `actions-application-data-entry` — 8 related edges
+- `actions-application-deletion` — 8 related edges
