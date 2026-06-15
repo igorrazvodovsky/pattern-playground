@@ -3,7 +3,6 @@ import { Collapsible } from '@base-ui/react/collapsible';
 import {
   SidebarProvider,
   Sidebar,
-  SidebarHeader,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,

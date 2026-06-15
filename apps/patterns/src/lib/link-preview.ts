@@ -219,7 +219,7 @@ function preloadPageLinks() {
       slugs.push(slug);
     }
   }
-  const idle = (window as any).requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 100));
+  const idle = window.requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 100));
   let i = 0;
   function pump() {
     const start = performance.now();

@@ -21,9 +21,7 @@ export const ReferencePicker = ({
   onSelect,
   onClose,
   open = true,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   mode: _mode = 'global',
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   selectedCategory: _selectedCategory = null,
   onCategorySelect,
   onBack

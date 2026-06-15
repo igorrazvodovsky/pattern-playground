@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- complex event handling types; see plans/tech-debt-tracker.md */
 import { animateTo, stopAnimations } from '../../utility/animate.ts';
-import { announce } from '../../utility/announce.ts';
 import { classMap } from 'lit/directives/class-map.js';
 import { getAnimation, setDefaultAnimation } from '../../utility/animation-registry.ts';
 import { getTabbableBoundary } from '../../utility/tabbable.ts';
