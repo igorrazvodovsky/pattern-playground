@@ -61,6 +61,7 @@
   }
 
   .demo-block {
+    --_baseTextSize: 16px;
     background: var(--c-surface);
   }
 
@@ -123,7 +124,8 @@
 
 /* TODO: */
 .pane .pane-body > astro-slot > article, .pane .pane-body > article {
-    font-size: 1.25em;
+    /* Leaks into demos */
+    /* font-size: 1.25em; */
     line-height: 1.5;
     max-width: 70ch;
   }
