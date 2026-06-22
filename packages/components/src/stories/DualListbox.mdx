@@ -1,0 +1,30 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Actions/Coordination/Dual listbox" tags={['activity-level:action', 'atomic:pattern', 'role:component', 'lifecycle:coordination', 'mediation:coordination']} />
+
+{/* > 🤔 **Fun meter: 2/5**. Dependency.  */}
+
+# Dual listbox
+
+A side-by-side pair of lists — source pool and selection set — with transfer controls between them.
+
+The control realises the staged-commit end of [Selection](/patterns/selection)'s set-size spectrum: the actor moves items from the pool into the selection set and back, with both sides visible, before a surrounding [Form](/patterns/form) or dialog commits the assignment.
+
+## When to reach for it
+
+Compared with a [multiselect](../?path=/docs/operations-combobox--docs) (combobox with checked items), which commits items one at a time and never shows the full selected set beside the remaining pool, the dual listbox keeps both sides on screen. It earns its larger surface when the assignment is bulk, the cost of getting it wrong is high, or the actor needs to cross-reference ("am I leaving the right items behind?"). For lighter selection, prefer the combobox.
+
+{/* TODO: no implementation yet. Add a DualListbox.stories.tsx with a motivating
+    example — e.g. "assign labels to tasks" bulk dialog or "grant roles to users" — and switch
+    this Meta to `of={DualListboxStories}`. */}
+
+## Related
+
+- [Selection](/patterns/selection) — the pattern this component serves; the staged-commit variant
+- [Combobox](../?path=/docs/operations-combobox--docs) — the lighter-weight control when side-by-side review isn't needed
+- [Action bar](../?path=/docs/components-action-bar--docs) — the immediate-action alternative, when "assign these to that" needs no review step
+- [Form](/patterns/form) — the typical container; its confirm button commits the assignment
+
+## Resources & references
+
+- Smashing Magazine — [Combobox vs Multiselect vs Listbox](https://www.smashingmagazine.com/2026/02/combobox-vs-multiselect-vs-listbox/)

@@ -1,15 +1,12 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import '../jsx-types';
 
-const meta = {
-  title: "Actions/Application/Form",
-} satisfies Meta;
-
-export default meta;
-type Story = StoryObj;
-
-export const Conversational: Story = {
-  args: {},
-  render: () => (
+/**
+ * A form conducted as a conversation: its fields are asked and answered
+ * turn by turn, each control rendered inline inside a message rather than
+ * laid out on a single form surface. The form instance of an inline interface.
+ */
+export function ConversationalFormDemo() {
+  return (
     <div className="messages layer">
       <div className="message message--outbound">
         <div className="message__content">
@@ -29,11 +26,6 @@ export const Conversational: Story = {
       <div className="message message--inbound">
         <div className="message__content">
           <div className="message__body">
-            {/* <div className="inline-flow">
-              <span className="tag tag--pill">Option A</span>
-              <span className="tag tag--pill">Option B</span>
-              <span className="tag tag--pill">Option C</span>
-            </div> */}
             <div className="inline-flow">
               <label className="form-control tag"><input type="checkbox" />Option A</label>
               <label className="form-control tag"><input type="checkbox" />Option B</label>
@@ -79,7 +71,7 @@ export const Conversational: Story = {
         </div>
       </div>
       <div className="message-composer layer">
-        <pp-input label="Message" placeholder="How can I help you today?">
+        <pp-input label="Message" placeholder="Write a message...">
         </pp-input>
         <div className="message-composer__actions">
           <button className="button button--plain" is="pp-button">
@@ -97,5 +89,5 @@ export const Conversational: Story = {
         </div>
       </div>
     </div>
-  ),
-};
+  );
+}

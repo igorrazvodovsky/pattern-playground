@@ -1,0 +1,48 @@
+---
+title: "Inline interface"
+role: pattern
+group: "coordination"
+activityLevel: action
+atomic: pattern
+mediation: individual
+fun: "🤩 5/5. Part of mapping the LLM-era patterns."
+description: "Reading or acting on a piece of live interface that appears inside the message stream itself, so dialogue and application share a single surface."
+---
+
+import { ConversationalFormDemo } from '@pkg/demos/conversational-form';
+
+The [message](/patterns/conversation) is not words but a *thing* — a few fields to fill, a card to confirm, a slider to nudge, a chart to read.
+[Every GUI is already a conversation](/patterns/conversation-quality) in the loose sense; this is the literal case.
+
+The most familiar instance is a [form](/patterns/form) conducted as a conversation — its fields asked and answered turn by turn, each control rendered inline:
+
+<Demo label="Inline interface: a form distributed across a conversation">
+  <ConversationalFormDemo client:only="react" />
+</Demo>
+
+{/* TODO: add non-form instances here (a confirm card, a rendered result) to show the move is not limited to forms. */}
+
+## Boundary with *generated content*
+
+[Generated content](/patterns/generated-content) is about the actor negotiating produced *output* — judging it, trusting it, refining and appropriating it; the artifact is the thing under evaluation. Inline interface is about the *surface hosting interface* the actor reads or acts through in place. The two interlock — a generated chart the actor then filters, a draft they edit inline — but the moves are distinct: one asks "do I trust this output?", the other "how does the conversation hand me something to do?".
+
+## Related patterns
+
+### Surface
+- [Conversation](/patterns/conversation) — the exchange this move renders into; the <ComponentRef id="actions-coordination-messaging--docs">Messaging</ComponentRef> component is its mechanism.
+- [Conversation — the quality](/patterns/conversation-quality) — the foundational claim this concretises: the inline interface is where the conversation metaphor becomes a literal rendering.
+
+### Instances
+- [Form](/patterns/form) — fields distributed across an exchange; the form↔conversation move.
+- [Bounded choice](/patterns/bounded-choice) — selections offered inline as chips or cards.
+- [Suggestion](/patterns/suggestion) — recommendations the actor can accept, modify, or reject in the flow.
+- [Human goes first](/patterns/human-goes-first), [Agent repair](/patterns/agent-repair) — inline confirmation and correction checkpoints.
+
+### Complementary
+- [Generated content](/patterns/generated-content) — produced output the actor negotiates; interlocks with, but distinct from, this move.
+- [Status feedback](/patterns/status-feedback) — system and progress signals during inline work.
+
+## Resources & references
+- CopilotKit / [Generative UI overview](https://docs.copilotkit.ai/concepts/generative-ui-overview) — agent-driven rendering
+- AG-UI / [Generative UI specs](https://docs.ag-ui.com/concepts/generative-ui-specs) — the agent-emitted end as declarative specifications
+- Slack Block Kit, Microsoft Adaptive Cards — the practitioner mechanism for author-controlled inline interfaces.

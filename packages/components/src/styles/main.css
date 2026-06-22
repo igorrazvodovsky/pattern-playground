@@ -43,6 +43,7 @@
 @import url(toc.css);
 @import url(pattern-graph.css);
 @import url(dynamic-hyperlinks.css);
+@import url(form.css);
 
 @layer reset, theme, global, layout, components, utilities, states;
 

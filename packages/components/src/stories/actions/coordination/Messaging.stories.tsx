@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
 import { faker } from '@faker-js/faker';
+import { ConversationalFormDemo } from '../../../demos/conversational-form';
 
 interface MessagingArgs {
   messageCount: number;
@@ -118,6 +119,10 @@ export const HumanToHumanComments: StoryObj<MessagingArgs> = {
       </div>
     );
   },
+};
+
+export const InlineInterface: Story = {
+  render: () => <ConversationalFormDemo />,
 };
 
 export const HumanToLLM: Story = {

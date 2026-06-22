@@ -25,12 +25,26 @@ Set size determines which control fits. A handful of options the actor can scan 
 - Multi-select accumulation — chosen values piling up while narrowing continues — keeps each choice visible as the actor picks more.
 - When the boundary is soft, the transition from picking an existing value to creating a new one deserves its own design: a marked "Create '…'" item keeps the exception legible, and how the new value relates to the vocabulary — does it join the set, who approves it — needs designing too.
 
+## Choosing a control
+
+Control choice scales with set size and cardinality; [Selection](/patterns/selection) holds the general continuum.
+
+<pp-table>
+|  | **Single value** | **Multiple values** |
+| --- | --- | --- |
+| Binary | <ComponentRef id="primitives-checkbox--docs">Checkbox</ComponentRef>, <ComponentRef id="primitives-switch--docs">switch</ComponentRef> | — |
+| Few — scan whole | <ComponentRef id="primitives-radio-button--docs">Radio buttons</ComponentRef>, selectable <ComponentRef id="actions-sense-making-card--docs">cards</ComponentRef> | <ComponentRef id="primitives-checkbox--docs">Checkboxes</ComponentRef>, selectable <ComponentRef id="primitives-tag--docs">tags</ComponentRef> or cards |
+| Pack | <ComponentRef id="primitives-select--docs">Select</ComponentRef>, <ComponentRef id="components-dropdown--docs">dropdown</ComponentRef> | <ComponentRef id="actions-coordination-selection--docs">Multi select</ComponentRef>, <ComponentRef id="components-dropdown--docs">dropdown</ComponentRef> |
+| Lots — type to narrow | <ComponentRef id="operations-combobox--docs">Combobox</ComponentRef> | <ComponentRef id="operations-combobox--docs">Combobox</ComponentRef>, <ComponentRef id="actions-coordination-dual-listbox--docs">dual listbox</ComponentRef> |
+</pp-table>
+
 ## Related patterns
 
 ### Controls
 
-- <ComponentRef id="primitives-select--docs">Select</ComponentRef>, <ComponentRef id="primitives-checkbox--docs">Checkbox</ComponentRef>, TODO: Radio buttons — small scale controls
-- <ComponentRef id="operations-combobox--docs">Combobox</ComponentRef> — large scale control
+- <ComponentRef id="primitives-radio-button--docs">Radio button</ComponentRef>, <ComponentRef id="primitives-checkbox--docs">Checkbox</ComponentRef>, <ComponentRef id="primitives-select--docs">Select</ComponentRef> — small to medium scale, scanned whole
+- <ComponentRef id="operations-combobox--docs">Combobox</ComponentRef> — large scale, typed to narrow (single or `multiple`)
+- <ComponentRef id="actions-coordination-dual-listbox--docs">Dual listbox</ComponentRef> — bulk multi-select with side-by-side review
 
 ### Prerequisites
 

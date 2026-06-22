@@ -1,0 +1,29 @@
+fieldset {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+
+    /* TODO: is this weird? */
+    & > *:not(:first-child) + * {
+        --flow-space: var(--space-s);
+    }
+}
+
+@layer utilities {
+    /* Field sizing — width signals the expected length of input, so a
+       two-digit day and a four-digit year read as different questions
+       before the actor types. Sized to roughly N characters plus the
+       control's own inline padding and border. */
+    pp-input[class*="field--w"] {
+        flex: 0 0 auto;
+        inline-size: calc(var(--field-chars, 10) * 1ch + var(--space-m) * 2 + var(--space-s));
+    }
+
+    pp-input.field--w2 { --field-chars: 2; }
+    pp-input.field--w3 { --field-chars: 3; }
+    pp-input.field--w4 { --field-chars: 4; }
+    pp-input.field--w5 { --field-chars: 5; }
+    pp-input.field--w10 { --field-chars: 10; }
+    pp-input.field--w20 { --field-chars: 20; }
+}

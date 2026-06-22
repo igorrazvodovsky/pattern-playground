@@ -83,7 +83,10 @@
       "title": "Bot repair",
       "category": "Operations",
       "path": "/patterns/agent-repair",
-      "role": "pattern"
+      "role": "pattern",
+      "tags": [
+        "instances"
+      ]
     },
     {
       "id": "ai-completion",
@@ -166,7 +169,10 @@
         "operatesOn": "a value the actor must supply from a set they didn't author and may not be able to survey",
         "produces": "a visible, narrowable candidate set that converges on a valid committed value",
         "enacts": "vocabulary legibility, integrity of what gets committed"
-      }
+      },
+      "tags": [
+        "instances"
+      ]
     },
     {
       "id": "capability-and-scope",
@@ -224,7 +230,8 @@
       "path": "/patterns/conversation-quality",
       "role": "quality",
       "tags": [
-        "qualities"
+        "qualities",
+        "surface"
       ]
     },
     {
@@ -237,7 +244,10 @@
         "operatesOn": "an evolving exchange between actors where meaning has to be built up over multiple turns rather than stated in one",
         "produces": "a dialogue structure that carries context forward, lets either party take a turn, and accommodates repair when alignment slips",
         "enacts": "shared understanding, mutual agency, room for the unfolding nature of meaning"
-      }
+      },
+      "tags": [
+        "surface"
+      ]
     },
     {
       "id": "dashboard",
@@ -314,16 +324,6 @@
       "role": "pattern"
     },
     {
-      "id": "dual-listbox",
-      "title": "Dual listbox",
-      "category": "Actions",
-      "path": "/patterns/dual-listbox",
-      "role": "pattern",
-      "tags": [
-        "adjacent-to"
-      ]
-    },
-    {
       "id": "dynamic-hyperlinks",
       "title": "Dynamic hyperlinks",
       "category": "Actions",
@@ -380,12 +380,15 @@
       "title": "Form",
       "category": "Actions",
       "path": "/patterns/form",
-      "role": "pattern",
+      "role": "umbrella",
       "generativeProfile": {
         "operatesOn": "a stretch of activity in which the system needs structured information from the actor that can't be inferred from prior context",
         "produces": "a guided collection surface where fields are committed one at a time and the whole set can be reviewed before submission",
         "enacts": "clarity about what's being asked, agency over what's submitted, room for revision before commit"
-      }
+      },
+      "tags": [
+        "instances"
+      ]
     },
     {
       "id": "formality",
@@ -444,7 +447,10 @@
       "title": "Human goes first",
       "category": "Actions",
       "path": "/patterns/human-goes-first",
-      "role": "pattern"
+      "role": "pattern",
+      "tags": [
+        "instances"
+      ]
     },
     {
       "id": "hybrid-patterns",
@@ -459,6 +465,13 @@
       "category": "Foundations",
       "path": "/patterns/information-architecture",
       "role": "foundation"
+    },
+    {
+      "id": "inline-interface",
+      "title": "Inline interface",
+      "category": "Actions",
+      "path": "/patterns/inline-interface",
+      "role": "pattern"
     },
     {
       "id": "inquiry-agent",
@@ -803,7 +816,10 @@
       "title": "Suggestion",
       "category": "Actions",
       "path": "/patterns/suggestion",
-      "role": "pattern"
+      "role": "pattern",
+      "tags": [
+        "instances"
+      ]
     },
     {
       "id": "tag",
@@ -999,6 +1015,13 @@
       "role": "component"
     },
     {
+      "id": "actions-application-form",
+      "title": "Form",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-application-form--docs",
+      "role": "component"
+    },
+    {
       "id": "primitives-input",
       "title": "Input",
       "category": "Primitives",
@@ -1030,6 +1053,18 @@
       "category": "Primitives",
       "path": "../?path=/docs/primitives-progress-indicator--docs",
       "role": "component"
+    },
+    {
+      "id": "primitives-radio-button",
+      "title": "Radio button",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-radio-button--docs",
+      "role": "component",
+      "generativeProfile": {
+        "operatesOn": "a single choice the actor must make from a set of mutually exclusive options",
+        "produces": "a visible selection state showing which option is currently chosen",
+        "enacts": "legibility of mutual exclusivity, continuity with the surrounding flow"
+      }
     },
     {
       "id": "primitives-range",
@@ -1110,6 +1145,13 @@
       }
     },
     {
+      "id": "actions-coordination-dual-listbox",
+      "title": "Dual listbox",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-coordination-dual-listbox--docs",
+      "role": "component"
+    },
+    {
       "id": "actions-coordination-messaging",
       "title": "Messaging",
       "category": "Actions",
@@ -1142,6 +1184,13 @@
       "title": "Counter",
       "category": "Primitives",
       "path": "../?path=/docs/primitives-counter--docs",
+      "role": "component"
+    },
+    {
+      "id": "primitives-details",
+      "title": "Details",
+      "category": "Primitives",
+      "path": "../?path=/docs/primitives-details--docs",
       "role": "component"
     },
     {
@@ -1404,12 +1453,6 @@
       "target": "selection",
       "type": "surveys",
       "label": "staking a subset as the target of subsequent action"
-    },
-    {
-      "source": "actions",
-      "target": "dual-listbox",
-      "type": "surveys",
-      "label": "staged assignment with side-by-side review"
     },
     {
       "source": "actions",
@@ -2080,6 +2123,13 @@
     },
     {
       "source": "autocomplete",
+      "target": "autofill",
+      "type": "complements",
+      "label": "the preemptive counterpart: pre-populates from stored values rather than completing what the actor types (and what the HTML `autocomplete` attribute actually controls)",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "autocomplete",
       "target": "bounded-choice",
       "type": "complements",
       "label": "the selection autocomplete often serves",
@@ -2147,6 +2197,13 @@
       "type": "precedes",
       "label": "when the system can guess a reasonable value without stored data",
       "extractedFrom": "header:\"Precursors\""
+    },
+    {
+      "source": "autofill",
+      "target": "autocomplete",
+      "type": "complements",
+      "label": "the reactive counterpart: completes what the actor is actively typing rather than pre-populating from stored values",
+      "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "autofill",
@@ -2794,8 +2851,17 @@
     {
       "source": "data-entry",
       "target": "form",
-      "type": "related",
-      "label": "the container for multiple data entry inputs."
+      "type": "related"
+    },
+    {
+      "source": "data-entry",
+      "target": "conversation",
+      "type": "related"
+    },
+    {
+      "source": "data-entry",
+      "target": "inline-interface",
+      "type": "related"
     },
     {
       "source": "data-entry",
@@ -2988,34 +3054,6 @@
       "target": "user-opening",
       "type": "related",
       "label": "users can also re-open on their own initiative after stepping away"
-    },
-    {
-      "source": "selection",
-      "target": "dual-listbox",
-      "type": "precedes",
-      "label": "the commitment model is a staged variant of multi-selection; the explicit review step before confirm is what distinguishes it",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "dual-listbox",
-      "target": "form",
-      "type": "complements",
-      "label": "dual listbox typically lives inside a dialog or form, with a confirm button that commits the assignment",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "dual-listbox",
-      "target": "filtering",
-      "type": "tangential",
-      "label": "source lists often need search/filter when the pool is large",
-      "extractedFrom": "header:\"Tangentially related\""
-    },
-    {
-      "source": "dual-listbox",
-      "target": "sorting",
-      "type": "tangential",
-      "label": "destination list order may be significant (priority, ranking), requiring reorder controls",
-      "extractedFrom": "header:\"Tangentially related\""
     },
     {
       "source": "data",
@@ -3241,56 +3279,99 @@
     },
     {
       "source": "form",
+      "target": "bounded-choice",
+      "type": "surveys",
+      "label": "committing a value from a set the actor didn't author; the move behind selects, radios, and checkboxes.",
+      "extractedFrom": "header:\"Constituent moves\""
+    },
+    {
+      "source": "form",
+      "target": "sections",
+      "type": "surveys",
+      "label": "splitting a long form into adaptive, separately disclosed parts.",
+      "extractedFrom": "header:\"Constituent moves\""
+    },
+    {
+      "source": "form",
+      "target": "progressive-disclosure",
+      "type": "surveys",
+      "label": "revealing depth only as it becomes relevant.",
+      "extractedFrom": "header:\"Constituent moves\""
+    },
+    {
+      "source": "form",
+      "target": "wizard",
+      "type": "surveys",
+      "label": "Constituent moves",
+      "extractedFrom": "header:\"Constituent moves\""
+    },
+    {
+      "source": "form",
+      "target": "step-by-step",
+      "type": "surveys",
+      "label": "Constituent moves",
+      "extractedFrom": "header:\"Constituent moves\""
+    },
+    {
+      "source": "form",
       "target": "formality",
-      "type": "enacts",
-      "label": "forms commit the actor to the system's full shape up front",
-      "extractedFrom": "quality-target"
+      "type": "surveys",
+      "label": "how much structure the system demands of the actor, and when.",
+      "extractedFrom": "header:\"Constituent moves\""
     },
     {
       "source": "form",
-      "target": "status-feedback",
-      "type": "precedes",
-      "label": "validation and system status communication",
-      "extractedFrom": "header:\"Follow-ups\""
-    },
-    {
-      "source": "form",
-      "target": "saving",
-      "type": "precedes",
-      "label": "autosave and manual save strategies",
-      "extractedFrom": "header:\"Follow-ups\""
-    },
-    {
-      "source": "form",
-      "target": "good-defaults",
-      "type": "complements",
-      "label": "reduce friction by pre-selecting likely options",
-      "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "form",
-      "target": "command-menu",
-      "type": "complements",
-      "label": "quick access to form actions",
+      "target": "data-entry",
+      "type": "surveys",
+      "label": "the broader move each field enacts; the form is one of its containers.",
       "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "form",
       "target": "conversation",
-      "type": "complements",
+      "type": "surveys",
+      "label": "may resolve into a form when a dialogue stabilises around structured data collection.",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "form",
+      "target": "localization",
+      "type": "surveys",
+      "label": "locale-aware parsing and format tolerance for input.",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "form",
+      "target": "good-defaults",
+      "type": "surveys",
+      "label": "pre-selecting likely values to remove entry entirely.",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "form",
+      "target": "status-feedback",
+      "type": "surveys",
+      "label": "validation and system status during and after entry.",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "form",
+      "target": "saving",
+      "type": "surveys",
+      "label": "autosave and manual save strategies for in-progress and committed input.",
       "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "form",
       "target": "state-disabled",
-      "type": "tangential",
-      "label": "alternatives to disabling form elements",
+      "type": "surveys",
+      "label": "alternatives to disabling form elements.",
       "extractedFrom": "header:\"Tangentially related\""
     },
     {
       "source": "form",
-      "target": "data-entry",
-      "type": "related"
+      "target": "inline-interface",
+      "type": "surveys"
     },
     {
       "source": "formality",
@@ -3725,6 +3806,63 @@
       "type": "enacts",
       "label": "the structure determines what travels: a deeply nested item is hard to point at, while a flat, URL-addressable one is easy",
       "extractedFrom": "quality-target"
+    },
+    {
+      "source": "inline-interface",
+      "target": "conversation",
+      "type": "related",
+      "label": "the exchange this move renders into; the <ComponentRef id=\"actions-coordination-messaging--docs\">Messaging</ComponentRef> component is its mechanism."
+    },
+    {
+      "source": "inline-interface",
+      "target": "conversation-quality",
+      "type": "enacts",
+      "label": "the foundational claim this concretises: the inline interface is where the conversation metaphor becomes a literal rendering.",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "inline-interface",
+      "target": "form",
+      "type": "related",
+      "label": "fields distributed across an exchange; the form↔conversation move."
+    },
+    {
+      "source": "inline-interface",
+      "target": "bounded-choice",
+      "type": "related",
+      "label": "selections offered inline as chips or cards."
+    },
+    {
+      "source": "inline-interface",
+      "target": "suggestion",
+      "type": "related",
+      "label": "recommendations the actor can accept, modify, or reject in the flow."
+    },
+    {
+      "source": "inline-interface",
+      "target": "human-goes-first",
+      "type": "related",
+      "label": "Instances"
+    },
+    {
+      "source": "inline-interface",
+      "target": "agent-repair",
+      "type": "related",
+      "label": "Instances"
+    },
+    {
+      "source": "inline-interface",
+      "target": "generated-content",
+      "type": "complements",
+      "label": "produced output the actor negotiates; interlocks with, but distinct from, this move.",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "inline-interface",
+      "target": "status-feedback",
+      "type": "complements",
+      "label": "system and progress signals during inline work.",
+      "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "inquiry-agent",
@@ -6370,6 +6508,65 @@
     },
     {
       "source": "primitives-input",
+      "target": "actions-application-form",
+      "type": "enables",
+      "label": "free-form text entry with label and helper text",
+      "extractedFrom": "header:\"Containers and primitives\""
+    },
+    {
+      "source": "primitives-textarea",
+      "target": "actions-application-form",
+      "type": "enables",
+      "label": "multi-line counterpart for longer text",
+      "extractedFrom": "header:\"Containers and primitives\""
+    },
+    {
+      "source": "primitives-select",
+      "target": "actions-application-form",
+      "type": "enables",
+      "label": "choosing one value from a short, bounded set",
+      "extractedFrom": "header:\"Containers and primitives\""
+    },
+    {
+      "source": "primitives-checkbox",
+      "target": "actions-application-form",
+      "type": "enables",
+      "label": "binary choice input",
+      "extractedFrom": "header:\"Containers and primitives\""
+    },
+    {
+      "source": "primitives-button",
+      "target": "actions-application-form",
+      "type": "enables",
+      "label": "form submission and action triggers",
+      "extractedFrom": "header:\"Containers and primitives\""
+    },
+    {
+      "source": "primitives-details",
+      "target": "actions-application-form",
+      "type": "enables",
+      "label": "collapsible form sections",
+      "extractedFrom": "header:\"Containers and primitives\""
+    },
+    {
+      "source": "actions-application-form",
+      "target": "operations-callout",
+      "type": "complements",
+      "label": "inline validation and instructional feedback within forms",
+      "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "actions-application-form",
+      "target": "primitives-radio-button",
+      "type": "related"
+    },
+    {
+      "source": "actions-application-form",
+      "target": "actions-coordination-messaging",
+      "type": "related"
+    },
+    {
+      "source": "primitives-input",
       "target": "autocomplete",
       "type": "complements",
       "label": "narrows the option space as the actor types, when a known set exists",
@@ -6633,6 +6830,30 @@
       "type": "complements",
       "label": "when the message requires a decision before the actor can continue",
       "extractedFrom": "header:\"Complementary\""
+    },
+    {
+      "source": "actions-coordination-dual-listbox",
+      "target": "selection",
+      "type": "related",
+      "label": "the pattern this component serves; the staged-commit variant"
+    },
+    {
+      "source": "actions-coordination-dual-listbox",
+      "target": "form",
+      "type": "related",
+      "label": "the typical container; its confirm button commits the assignment"
+    },
+    {
+      "source": "actions-coordination-dual-listbox",
+      "target": "operations-combobox",
+      "type": "related",
+      "label": "the lighter-weight control when side-by-side review isn't needed"
+    },
+    {
+      "source": "actions-coordination-dual-listbox",
+      "target": "components-action-bar",
+      "type": "related",
+      "label": "the immediate-action alternative, when \"assign these to that\" needs no review step"
     },
     {
       "source": "actions-coordination-messaging",

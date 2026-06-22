@@ -235,12 +235,6 @@
       "atomic-category": "primitive",
       "mediation": "coordination"
     },
-    "dual-listbox": {
-      "activity-level": "action",
-      "lifecycle-stage": "coordination",
-      "atomic-category": "pattern",
-      "mediation": "coordination"
-    },
     "dynamic-hyperlinks": {
       "activity-level": "action",
       "lifecycle-stage": "seeking",
@@ -348,6 +342,12 @@
       "lifecycle-stage": null,
       "atomic-category": "foundations",
       "mediation": null
+    },
+    "inline-interface": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": "individual"
     },
     "inquiry-agent": {
       "activity-level": "operation",
@@ -757,6 +757,12 @@
       "atomic-category": "component",
       "mediation": "coordination"
     },
+    "actions-application-form": {
+      "activity-level": "action",
+      "lifecycle-stage": "application",
+      "atomic-category": "composition",
+      "mediation": "individual"
+    },
     "primitives-input": {
       "activity-level": "operation",
       "lifecycle-stage": null,
@@ -779,6 +785,12 @@
       "activity-level": "operation",
       "lifecycle-stage": null,
       "atomic-category": "component",
+      "mediation": "individual"
+    },
+    "primitives-radio-button": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "primitive",
       "mediation": "individual"
     },
     "primitives-range": {
@@ -835,6 +847,12 @@
       "atomic-category": "primitive",
       "mediation": "individual"
     },
+    "actions-coordination-dual-listbox": {
+      "activity-level": "action",
+      "lifecycle-stage": "coordination",
+      "atomic-category": "pattern",
+      "mediation": "coordination"
+    },
     "actions-coordination-messaging": {
       "activity-level": "action",
       "lifecycle-stage": "coordination",
@@ -860,6 +878,12 @@
       "mediation": "individual"
     },
     "primitives-counter": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "primitive",
+      "mediation": "individual"
+    },
+    "primitives-details": {
       "activity-level": "operation",
       "lifecycle-stage": null,
       "atomic-category": "primitive",
