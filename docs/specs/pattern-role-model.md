@@ -9,9 +9,13 @@ and graph metadata. The two-language framing behind it is
 - A `component` is a form-language mechanism: API, rendering, slots, props,
   states, styling, examples, and accessibility contract.
 - A `pattern` is a generative interaction move: a recurring human situation,
-  forces, invariant behaviour, consequences, and relations to other moves.
-- An `umbrella` is an authored survey over a territory of related moves, not the
-  authoritative source for one move.
+  forces, invariant behaviour, consequences, and relations to other moves. A composite move (e.g. Form) and a
+  general move with variants (e.g. Assisted task completion) are also patterns, not surveys. Scale is carried by `activityLevel` or similar and by edges, never by the role.
+- A `collection` is a labelled grouping of related entries for orientation and
+  navigation — a survey, not the authoritative source for any move. Following
+  SKOS `Collection` semantics, a collection groups members (the `surveys` edge,
+  ≈ `skos:member`) but sits *outside* the part-whole/taxonomic hierarchy: it is
+  never the broader or narrower term of a move.
 - A `quality` is an experiential lens such as Agency, Learnability, or
   Temporality. Qualities are bilingual: language entry in the pattern site,
   implementation substrate in the components package.
@@ -20,7 +24,7 @@ and graph metadata. The two-language framing behind it is
 - A `concept` is a software concept vocabulary entry.
 
 `atomic:*` tags are compositional metadata. They do not decide whether a page
-is a pattern source, a component source, or an umbrella.
+is a pattern source, a component source, or a collection.
 
 ## Boundary stance
 
@@ -43,8 +47,9 @@ accessibility), it decomposes:
 - The mechanism content keeps the component's existing name in the form
   language (Storybook).
 - The move content enters the pattern language *as whatever its territory
-  contains*: one move, several related moves, an umbrella plus moves, or no new
-  node — only edges to moves that already exist. One move plus one mechanism is
+  contains*: one move, several related moves, a composite move plus its
+  constituents, a collection plus moves, or no new node — only edges to moves
+  that already exist. One move plus one mechanism is
   the common outcome, not the definition; a component is where several moves
   coincide, not the unit of pattern-hood.
 - Default to the coarsest node that doesn't lie: author one well-situated move
@@ -84,9 +89,10 @@ for every graph node. Pattern-site MDX pages own their role through YAML
 frontmatter. Storybook component pages use `<Meta>` tags or `role:component`
 in CSF story files.
 
-Explicit role tags cover `role:component`, `role:pattern`, `role:umbrella`,
-`role:quality`, and `role:foundation` in frontmatter. `role:concept` and
-`role:example` remain uncommitted.
+Explicit role tags cover `role:component`, `role:pattern`, `role:collection`,
+`role:quality`, and `role:foundation` in frontmatter (`role:umbrella` is a
+deprecated alias of `role:collection`, still accepted by the extractor).
+`role:concept` and `role:example` remain uncommitted.
 
 Use [`docs/language/pattern-definition.md`](../language/pattern-definition.md)
 as the operational test when assigning or changing a role. The extractor reports

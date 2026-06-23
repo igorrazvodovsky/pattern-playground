@@ -2,7 +2,7 @@
 
 The pattern site runs on Astro at `apps/patterns/`. It is the primary authoring
 and navigation surface for the pattern language — patterns, qualities,
-foundations, and umbrellas. Components live in Storybook; patterns live here.
+foundations, and collections. Components live in Storybook; patterns live here.
 
 ## Content collection schema
 
@@ -13,7 +13,7 @@ Required fields:
 
 ```yaml
 title: "Pattern name"          # sentence case, short
-role: pattern                  # pattern | umbrella | quality | foundation | component
+role: pattern                  # pattern | collection | quality | foundation | component
 ```
 
 Optional fields — each an independent _facet_ (see "Classification facets" below):

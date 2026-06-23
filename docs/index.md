@@ -22,7 +22,7 @@ map; this file routes people and agents into the sectioned docs.
 - [Graph relationship model](specs/graph-relationship-model.md) — graph edge
   model and epistemic stance
 - [Pattern role model](specs/pattern-role-model.md) — mechanism, move,
-  umbrella, quality, foundation, and concept roles; boundary stance and the
+  collection, quality, foundation, and concept roles; boundary stance and the
   move/mechanism decomposition rule
 
 No separate whole-project operative-image layer exists yet. Add one only if the
@@ -35,7 +35,7 @@ broader product state starts needing its own current-state artifact.
 ## Language
 
 - [Pattern definition](language/pattern-definition.md) — what counts as a
-  pattern, versus a mechanism, observation, anti-pattern, or umbrella
+  pattern, versus a mechanism, observation, anti-pattern, or collection
 - [Pattern and form languages](language/pattern-and-form.md) — the two
   languages, their different jobs, and the move/mechanism boundary as
   projection

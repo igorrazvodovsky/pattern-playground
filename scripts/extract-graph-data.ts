@@ -22,7 +22,9 @@ interface Node {
   generativeProfile?: GenerativeProfile;
 }
 
-const VALID_ROLES = ['component', 'pattern', 'umbrella', 'quality', 'foundation'] as const;
+// `umbrella` is retained as a deprecated alias of `collection` for back-compat during
+// migration; both trigger the same `surveys` (member-collection) edge behaviour.
+const VALID_ROLES = ['component', 'pattern', 'collection', 'umbrella', 'quality', 'foundation'] as const;
 type Role = typeof VALID_ROLES[number];
 
 type RoleSource = 'explicit' | 'inferred' | 'unset';
@@ -101,6 +103,7 @@ const HEADER_TYPE_MAP: Record<string, EdgeType> = {
   'Components': 'enables',
   'Conversational primitives': 'enables',
   'Composed from': 'enables',
+  'Constituent moves': 'enables',
   'Used by': 'enables',
   'Foundation': 'instantiates',
   'Applied in': 'instantiates',
@@ -126,6 +129,7 @@ const INVERSE_DIRECTION_HEADERS = new Set<string>([
   'Components',
   'Conversational primitives',
   'Composed from',
+  'Constituent moves',
 ]);
 
 function globMdx(dir: string): string[] {
@@ -307,7 +311,7 @@ function extractFrontmatter(content: string): Record<string, unknown> {
 
 /** Display category, composed from frontmatter facets rather than folders.
  *  role wins for qualities/foundations; domain names a domain corpus; otherwise
- *  the AT activity level. Section umbrellas (no facets) read as cross-cutting. */
+ *  the AT activity level. Section collections (no facets) read as cross-cutting. */
 function categoryOf(role: string | undefined, activityLevel: string | null, domain: string | null): string {
   if (role === 'quality') return 'Qualities';
   if (role === 'foundation') return 'Foundations';
@@ -390,7 +394,8 @@ function extractTypedLinks(rawContent: string, sourceRole?: Role): ParsedLinks {
   const content = stripComments(rawContent);
   const typed: TypedLink[] = [];
   const tagsByTarget = new Map<string, Set<string>>();
-  const defaultUntypedLinkType: EdgeType = sourceRole === 'umbrella' ? 'surveys' : 'related';
+  const isCollectionSource = sourceRole === 'collection' || sourceRole === 'umbrella';
+  const defaultUntypedLinkType: EdgeType = isCollectionSource ? 'surveys' : 'related';
 
   const related = extractRelatedSection(content);
   const seenInRelated = new Set<string>();
@@ -401,7 +406,7 @@ function extractTypedLinks(rawContent: string, sourceRole?: Role): ParsedLinks {
     const preface = parts[0];
 
     // Links in the section body but outside any `### ` subsection use the page's
-    // default untyped link type. Umbrellas survey their territory here.
+    // default untyped link type. Collection pages survey their members here.
     for (const id of findLinksInText(preface)) {
       const key = `${id}|${defaultUntypedLinkType}`;
       if (seenInRelated.has(key)) continue;
@@ -424,7 +429,7 @@ function extractTypedLinks(rawContent: string, sourceRole?: Role): ParsedLinks {
         if (ids.length === 0) continue;
         const annotation = extractAnnotation(line);
         for (const id of ids) {
-          if (sourceRole === 'umbrella') {
+          if (isCollectionSource) {
             const key = `${id}|surveys`;
             if (seenInRelated.has(key)) continue;
             seenInRelated.add(key);
@@ -471,7 +476,7 @@ function extractTypedLinks(rawContent: string, sourceRole?: Role): ParsedLinks {
   }
 
   // Links anywhere else in the document (prose, anatomy, variants) use the
-  // default untyped link type. For umbrella pages, these are part of the authored
+  // default untyped link type. For collection pages, these are part of the authored
   // survey territory rather than generic related edges.
   const seenAnywhere = new Set(typed.map((t) => `${t.target}|${t.type}`));
   for (const id of findLinksInText(content)) {
@@ -897,7 +902,7 @@ for (const filePath of patternMdxFiles) {
   const mediationRaw = typeof fm.mediation === 'string' ? fm.mediation : null;
 
   activityData.set(id, {
-    // Frontmatter is authoritative. Foundations, qualities, and section umbrellas
+    // Frontmatter is authoritative. Foundations, qualities, and section collections
     // carry no AT altitude — they read as cross-cutting.
     'activity-level': activityLevelRaw ?? 'cross-cutting',
     'lifecycle-stage': lifecycleRaw ?? null,
@@ -947,7 +952,7 @@ for (const filePath of mdxFiles) {
 
   const id = provisionalId;
 
-  // Skip non-component entries: patterns, umbrellas, qualities, foundations have all been
+  // Skip non-component entries: patterns, collections, qualities, foundations have all been
   // migrated to apps/patterns/src/content/patterns/ and are processed by the patterns pass.
   // Only role:component content is sourced from the components stories dir.
   const preCheckTags = [...extractMetaTags(content), ...storiesTags];
@@ -1244,9 +1249,10 @@ function roleCoverage(ids: string[]): Record<RoleSource, number> {
 
 const sourceRoleCoverage = roleCoverage([...nodeMap.keys()]);
 const graphRoleCoverage = roleCoverage(nodes.map((node) => node.id));
-const invalidSurveyEdges = edges.filter((edge) => (
-  edge.type === 'surveys' && nodeMap.get(edge.source)?.role !== 'umbrella'
-));
+const invalidSurveyEdges = edges.filter((edge) => {
+  const role = nodeMap.get(edge.source)?.role;
+  return edge.type === 'surveys' && role !== 'collection' && role !== 'umbrella';
+});
 
 console.log(`Nodes: ${nodes.length} (${taggedNodes} with tags)`);
 console.log(`Edges: ${edges.length}`);
@@ -1255,7 +1261,7 @@ console.log(`Categories: ${[...new Set(nodes.map((n) => n.category))].sort().joi
 console.log(`Role coverage (processed sources): explicit=${sourceRoleCoverage.explicit}, inferred=${sourceRoleCoverage.inferred}, unset=${sourceRoleCoverage.unset}`);
 console.log(`Role coverage (emitted graph nodes): explicit=${graphRoleCoverage.explicit}, inferred=${graphRoleCoverage.inferred}, unset=${graphRoleCoverage.unset}`);
 if (invalidSurveyEdges.length > 0) {
-  console.warn(`Umbrella role warning: ${invalidSurveyEdges.length} surveys edge(s) have a non-umbrella source`);
+  console.warn(`Collection role warning: ${invalidSurveyEdges.length} surveys edge(s) have a non-collection source`);
 }
 if (recommendsCollection.resolvedByTree.size > 0) {
   console.log(`Decision-tree extraction:`);

@@ -38,7 +38,7 @@ serve all packages and are not co-located with a single workspace.
 
 ### `apps/patterns/`
 
-- Pattern MDX/MD files (`role:pattern`, `role:umbrella`, `role:quality`,
+- Pattern MDX/MD files (`role:pattern`, `role:collection`, `role:quality`,
   `role:foundation`)
 - Astro site config, page routes, layouts, site-specific components
 - Content collection schemas (zod-validated frontmatter)

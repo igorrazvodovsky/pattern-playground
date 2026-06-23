@@ -1,6 +1,6 @@
 ---
 title: "Qualities"
-role: umbrella
+role: collection
 description: "Experiential dimensions of an interface — what it feels like to use something, across time and contexts."
 ---
 The experiential dimensions of an interface — what it feels like to use something. A quality cuts across many patterns, and most patterns carry several qualities at once. Inspired by Löwgren & Stolterman's [use-oriented qualities](https://mitpress.mit.edu/9780262296922/thoughtful-interaction-design/) — properties a designer learns to perceive and deliberately shape — but the list reflects what this repertoire pays attention to.

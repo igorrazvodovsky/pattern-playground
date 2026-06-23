@@ -47,8 +47,7 @@ accessibility). Such a page *decomposes* — the operational rule is in
 
 The fact that matters at the language level: a control is where several moves
 *coincide*, not the unit of pattern-hood. Decomposing a control page therefore yields whatever its
-territory contains: one move, several related moves, an umbrella plus moves, or
-no new node at all — only edges to moves that already exist.
+territory contains: one move, several related moves, a composite pattern plus its constituents, a collection plus moves, or no new node at all — only edges to moves that already exist.
 
 ## Doors to the workshop
 

@@ -757,6 +757,12 @@
       "atomic-category": "component",
       "mediation": "coordination"
     },
+    "actions-coordination-dual-listbox": {
+      "activity-level": "action",
+      "lifecycle-stage": "coordination",
+      "atomic-category": "pattern",
+      "mediation": "coordination"
+    },
     "actions-application-form": {
       "activity-level": "action",
       "lifecycle-stage": "application",
@@ -785,12 +791,6 @@
       "activity-level": "operation",
       "lifecycle-stage": null,
       "atomic-category": "component",
-      "mediation": "individual"
-    },
-    "primitives-radio-button": {
-      "activity-level": "operation",
-      "lifecycle-stage": null,
-      "atomic-category": "primitive",
       "mediation": "individual"
     },
     "primitives-range": {
@@ -846,12 +846,6 @@
       "lifecycle-stage": null,
       "atomic-category": "primitive",
       "mediation": "individual"
-    },
-    "actions-coordination-dual-listbox": {
-      "activity-level": "action",
-      "lifecycle-stage": "coordination",
-      "atomic-category": "pattern",
-      "mediation": "coordination"
     },
     "actions-coordination-messaging": {
       "activity-level": "action",

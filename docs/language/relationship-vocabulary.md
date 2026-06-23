@@ -53,8 +53,9 @@ The relationships defined below should be read in this register throughout.
 - Inverse: none stored. "What does A enable?" and "what enables B?" are both answered by traversing `enables` edges in either direction at query time. There is no "used by" or "composed of" stored as data.
 - Not the inverse of `instantiates`. `enables` is compositional (part/whole); `instantiates` is taxonomic (genus/species). They share a directional sense ("more specific to more general") but encode different relationships.
 - SKOS: aligns with `skos:narrower` (from B's perspective, A is a narrower/more specific mechanism) and `skos:broader` (from A's perspective, B is a broader pattern that uses A). The fit is imperfect — SKOS broader/narrower is taxonomic, while enables is compositional. But the directionality is the same: the enabling pattern is more specific, the enabled pattern more general.
-- MDX headers: "Containers and primitives", "Related primitives", "Mechanisms", "Components", "Conversational primitives" → edge A `enables` B (where A is the primitive/mechanism listed, B is the page).
-- Example: Button *enables* Form — a form cannot function without actionable controls.
+- MDX headers: "Containers and primitives", "Related primitives", "Mechanisms", "Components", "Conversational primitives", and the composition headers "Composed from", "Constituent moves", "Used by" → edge A `enables` B (where A is the part/mechanism listed, B is the page).
+- This is the *component–integral* (part/whole) relation, and it holds at any altitude: a mechanism enables a move (Button → Form) *and* a constituent move enables the composite move that incorporates it (Bounded choice → Form). The endpoints' roles tell the two apart; no separate `composed-of` edge is stored.
+- Example: Button *enables* Form — a form cannot function without actionable controls. Bounded choice *enables* Form — the form is composed of the constrained-field move.
 
 ### instantiates
 
@@ -120,14 +121,26 @@ The relationships defined below should be read in this register throughout.
 
 ### surveys
 
-*U surveys A*: umbrella page U gathers A into an authored territory of related moves. The umbrella is not the authoritative source for A; it is a higher-altitude reading surface that frames how several moves relate.
+*C surveys A*: collection page C gathers member A for orientation. C is not the authoritative source for A; it lists what belongs to a grouping. This is the *member–collection* relation (Winston et al. 1987) — A is *filed under* C, not a part of it (`enables`) and not a kind of it (`instantiates`).
 
-- Directionality: directed (umbrella -> move or referenced constituent)
+- Directionality: directed (collection -> member)
 - Inverse: none formal.
-- SKOS: no exact equivalent. It is closest to an authored associative or scoped relation.
-- MDX source: internal Storybook links on pages tagged `role:umbrella`. Subheadings under `## Related patterns` are editorial groupings; per-link annotations become edge labels, falling back to the subheading text when no annotation exists.
-- Example: Assisted task completion *surveys* Autocomplete, Autofill, AI completion, and Next-best action as a spectrum of system-assisted work.
-- Why this matters: umbrella pages are authored surveys. `surveys` lets extraction preserve that editorial altitude without forcing umbrella pages through `precedes`, `related`, or `enacts` semantics.
+- SKOS: `skos:member` — collection membership. SKOS `Collection`s group members *without* placing them in the broader/narrower hierarchy, which is exactly the semantics here: a collection never sits on an `enables`/`instantiates` path. (Earlier records said "no exact equivalent"; that was wrong.)
+- MDX source: untyped links on pages tagged `role:collection` (or the deprecated `role:umbrella` alias). On a collection page, *all* outgoing links default to `surveys`; subheadings under `## Related patterns` are editorial groupings whose text becomes the edge label.
+- Example: Navigation overview *surveys* the navigation models it gathers; Operations *surveys* its constituent operation patterns.
+- Why this matters: collection pages are authored surveys. `surveys` preserves that membership altitude without forcing collection pages through `precedes`, `related`, or `enacts` semantics — and keeps member-collection grouping distinct from a composite *pattern*'s part-whole (`enables`) and genus-species (`instantiates`) relations.
+
+### The three part-whole relations (and why they don't compose)
+
+`surveys`, `enables`, and `instantiates` cover three distinct ways a "bigger" entry relates to "smaller" ones — the member-collection, component-integral, and genus-species relations of Winston et al.'s 1987 meronymy taxonomy:
+
+| Relation | Edge | A whole/general… | Example |
+|---|---|---|---|
+| component–integral (part/whole) | `enables` | …is *made up of* its parts | Bounded choice `enables` Form |
+| genus–species (kind) | `instantiates` | …is *specialised into* variants | Autocomplete `instantiates` Assisted task completion |
+| member–collection (grouping) | `surveys` | …merely *gathers* members for browsing | Operations `surveys` its operation patterns |
+
+These are different relations and are **not transitive across types**: do not traverse `surveys` → `enables` → `instantiates` as a single path. A composite *move* (Form) is a `pattern` that uses `enables`/`instantiates` to reach its constituents; only a `collection` page uses `surveys`. Misfiling a composite move as a collection (the retired `umbrella` conflation) collapsed component-integral parts into membership and broke this distinction.
 
 ### enacts
 
@@ -150,7 +163,7 @@ Each edge type carries an implicit *axis* — the dimension along which the rela
 | Vertical | `instantiates`, `enables`, `enacts` | Crosses altitudes — taxonomic (genus/species), compositional (part/whole), or pattern → quality |
 | Horizontal | `complements`, `tangential`, `alternative` | Same altitude — moves that share a structural role or co-deploy |
 | Sequential | `precedes`, `follows`, `recommends` | Generative sequence — one move sets up another, or a tree branch routes to one |
-| Territorial | `surveys` | Authored umbrella territory — a higher-altitude page gathers constituent moves |
+| Territorial | `surveys` | Collection membership — a `role:collection` page gathers its members |
 | Unspecified | `related` | Default catch-all; no axis claim |
 
 The distinction matters for two consumers:
@@ -172,7 +185,7 @@ The axis classification is a sanity-check tool, not a taxonomy commitment. A pat
 | alternative | skos:closeMatch | Reasonable fit |
 | recommends | — | No equivalent (situational) |
 | related | skos:related | Direct mapping |
-| surveys | — | No exact equivalent (authored umbrella territory) |
+| surveys | skos:member | Collection membership (member–collection) |
 | enacts | — | No equivalent (pattern → quality) |
 
 The alignment is useful at two levels. First, it provides a sanity check — if a proposed relationship type has no SKOS equivalent *and* no clear justification for being domain-specific, it may be an unnecessary distinction. Second, if the graph data ever needs to interoperate with external tools or linked data systems, the SKOS mappings provide a bridge without requiring a full ontological commitment.
@@ -204,7 +217,7 @@ Project-specific extensions:
 |---|---|
 | `enacts` | HCI pattern literature discusses forces, values, consequences, and qualities, but does not usually model a typed pattern → quality edge. This project needs that bridge because qualities are the lenses through which a move's effect is read. `enacts` is therefore a local extension, not a literature-derived relationship name. |
 | `recommends` | Pattern-oriented design literature supports context-oriented applicability and guided pattern selection, but the decision-tree extraction shape is local. `recommends` preserves authored decision-tree branches as situational hints rather than converting them into rule-grade conditions. |
-| `surveys` | Umbrella pages are authored surveys over a territory of moves, not single-move sources. `surveys` preserves that editorial altitude and keeps umbrella pages from being flattened into generic `related` links. |
+| `surveys` | Collection pages are authored surveys over a grouping of members, not single-move sources. `surveys` maps to `skos:member` and keeps collection pages from being flattened into generic `related` links — and keeps member-collection grouping distinct from the component-integral (`enables`) and genus-species (`instantiates`) relations a composite *pattern* uses. |
 | `tangential` | Literature has generic association, neighbouring, and "related" language, but not a stable weak-adjacency type. `tangential` preserves the current author signal where pages explicitly distinguish conceptual adjacency from complementarity, dependency, or substitution. It is intentionally provisional: if future gardening shows it is only a weak form of `related`, or better handled by tags/projections, it can be merged or replaced through the changelog. |
 
 ## Inverse pair enforcement
@@ -225,7 +238,7 @@ Each is extracted from its own set of MDX headers and stored once. Reverse trave
 
 Symmetric relationships (`complements`, `tangential`, `alternative`, `related`) generate edges in both directions by definition — the extraction script should emit both A→B and B→A, or the graph component should treat them as bidirectional.
 
-`enacts` (pattern → quality), `recommends` (pattern → pattern, with situational hints), and `surveys` (umbrella → constituent) have no inverse — they are asymmetric and unidirectional.
+`enacts` (pattern → quality), `recommends` (pattern → pattern, with situational hints), and `surveys` (collection → member) have no inverse — they are asymmetric and unidirectional.
 
 ## Edge schema
 
@@ -280,7 +293,7 @@ These are *informal phrases*, not structured fields. No controlled vocabulary, n
 
 A generative profile lives in a `*.profile.ts` sidecar next to the pattern's MDX (e.g. `Form.profile.ts` next to `Form.mdx`), exporting a typed `GenerativeProfile` object. The shared interface lives at `apps/patterns/src/content/pattern-profile.ts`. The MDX imports the profile to keep authoring co-located, but does not render it — the data is for tooling, not for the rendered page. Phase 1 extraction reads sidecars directly into `pattern-graph.json` as node-level metadata. Initially this is populated for a small starting set of patterns (the nine from Phase 0.B) as a proof of concept rather than retrofitted across the whole library.
 
-*When to skip a profile*: minimal primitives (the move's definition exhausts the description), unbounded stances (no discrete move), and umbrella MDX (the page describes a territory, not a move) — see the Phase 0.B probe in the changelog for the reasoning.
+*When to skip a profile*: minimal primitives (the move's definition exhausts the description), unbounded stances (no discrete move), and collection MDX (the page describes a grouping of members, not a move) — see the Phase 0.B probe in the changelog for the reasoning. Composite-move pages (`role: pattern`, `atomic: composition`) *do* describe a move and should carry a profile.
 
 ## Open questions
 
@@ -306,13 +319,23 @@ Testable assertions derived from this vocabulary's own definitions. These can be
 4. *No redundant inverses*: if A `precedes` B exists, no separate B `follows` A edge should be stored. `follows` is inferred at query time, not stored as data.
 5. *Hint-only fields are scoped*: `situationalHints` appears only on `recommends` edges.
 6. *Symmetric edges are consistent*: for undirected types (complements, tangential, alternative, related), if A→B exists then B→A must also exist (or the graph component must treat them as bidirectional).
-7. *`surveys` sources are umbrellas*: every edge with `type: 'surveys'` must have a source node with `role: 'umbrella'`.
+7. *`surveys` sources are collections*: every edge with `type: 'surveys'` must have a source node with `role: 'collection'` (or the deprecated `role: 'umbrella'` alias).
 
 ## Changelog
 
 A running record of why types were added, merged, renamed, or retired, what alternatives were considered, and what was lost in each decision. The vocabulary is provisional — it will keep evolving as the library grows. Making its construction visible is part of treating classification as a living artifact rather than a closed specification (compare Bowker & Star, *Sorting Things Out*: "the only good classification is a living classification").
 
 Each entry: date, change, why, what was considered, what was lost.
+
+### 2026-06-22 — `umbrella` role split into `pattern` + `collection`; `surveys` = `skos:member`
+
+The `umbrella` role conflated three relations under one `surveys` edge. Grounded in Winston/Chaffin/Herrmann's (1987) meronymy taxonomy and W3C SKOS (`Concept` vs `Collection`), they are now separated: *component–integral* parts use `enables` (a composite move's constituents — "Composed from" / "Constituent moves" headers), *genus–species* variants use `instantiates`, and only *member–collection* grouping uses `surveys`, now mapped to `skos:member`. Composite moves (Form, Block-based editor) and general moves with variants (Assisted task completion, Cognitive forcing functions) become `role: pattern` — they *are* sources for their move; genuine surveys (Qualities, Navigation overview, the AT strata) become `role: collection`.
+
+Why: a composite move is the authoritative source for its own move, so defining `umbrella` as "not the source for one move" was false for half its members (the Form contradiction). Scale is relational, not a node type — it already lives in `activityLevel` and edges.
+
+What was considered: adding a new `composed-of` edge (rejected — `enables` already carries component-integral composition at any altitude, and the vocabulary explicitly stores no "composed of"); renaming `surveys`. Kept `surveys`; re-tied its default trigger from `role:umbrella` to `role:collection`.
+
+What's lost / staged: bucket-B pages' child links currently fall back to `related` until each variant page is given an `instantiates`-producing header (deferred). `umbrella` remains a deprecated extractor alias. Full reasoning: `research/umbrella-role-scale/`.
 
 ### 2026-05-02 — `surveys` edges formalise umbrella territories
 

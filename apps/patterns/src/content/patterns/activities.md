@@ -1,6 +1,6 @@
 ---
 title: "Activities"
-role: umbrella
+role: collection
 description: "Sustained, motive-driven engagements that combine multiple actions toward larger goals."
 ---
 Sustained, motive-driven engagements that combine multiple [actions](/patterns/actions) toward larger goals. Activities give actions their meaning — the same action (e.g. searching) serves different purposes depending on the activity it's part of.

@@ -26,14 +26,14 @@
       "title": "Actions",
       "category": "Cross-cutting",
       "path": "/patterns/actions",
-      "role": "umbrella"
+      "role": "collection"
     },
     {
       "id": "activities",
       "title": "Activities",
       "category": "Cross-cutting",
       "path": "/patterns/activities",
-      "role": "umbrella"
+      "role": "collection"
     },
     {
       "id": "activity-feed",
@@ -124,7 +124,7 @@
       "title": "Assisted task completion",
       "category": "Actions",
       "path": "/patterns/assisted-task-completion",
-      "role": "umbrella"
+      "role": "pattern"
     },
     {
       "id": "autocomplete",
@@ -150,14 +150,14 @@
       "title": "Block-based editor",
       "category": "Actions",
       "path": "/patterns/block-based-editor",
-      "role": "umbrella"
+      "role": "pattern"
     },
     {
       "id": "bot",
       "title": "Bot",
       "category": "Activities",
       "path": "/patterns/bot",
-      "role": "umbrella"
+      "role": "pattern"
     },
     {
       "id": "bounded-choice",
@@ -193,7 +193,7 @@
       "title": "Cognitive forcing functions",
       "category": "Actions",
       "path": "/patterns/cognitive-forcing-functions",
-      "role": "umbrella"
+      "role": "pattern"
     },
     {
       "id": "collaboration-foundation",
@@ -380,7 +380,7 @@
       "title": "Form",
       "category": "Actions",
       "path": "/patterns/form",
-      "role": "umbrella",
+      "role": "pattern",
       "generativeProfile": {
         "operatesOn": "a stretch of activity in which the system needs structured information from the actor that can't be inferred from prior context",
         "produces": "a guided collection surface where fields are committed one at a time and the whole set can be reviewed before submission",
@@ -592,7 +592,7 @@
       "title": "Overview",
       "category": "Actions",
       "path": "/patterns/navigation-overview",
-      "role": "umbrella"
+      "role": "collection"
     },
     {
       "id": "next-best-action",
@@ -640,7 +640,7 @@
       "title": "Operations",
       "category": "Cross-cutting",
       "path": "/patterns/operations",
-      "role": "umbrella"
+      "role": "collection"
     },
     {
       "id": "overreliance-checklist",
@@ -706,7 +706,7 @@
       "title": "Qualities",
       "category": "Cross-cutting",
       "path": "/patterns/qualities",
-      "role": "umbrella"
+      "role": "collection"
     },
     {
       "id": "saving",
@@ -802,7 +802,7 @@
       "title": "Status feedback",
       "category": "Operations",
       "path": "/patterns/status-feedback",
-      "role": "umbrella"
+      "role": "pattern"
     },
     {
       "id": "step-by-step",
@@ -1015,6 +1015,13 @@
       "role": "component"
     },
     {
+      "id": "actions-coordination-dual-listbox",
+      "title": "Dual listbox",
+      "category": "Actions",
+      "path": "../?path=/docs/actions-coordination-dual-listbox--docs",
+      "role": "component"
+    },
+    {
       "id": "actions-application-form",
       "title": "Form",
       "category": "Actions",
@@ -1053,18 +1060,6 @@
       "category": "Primitives",
       "path": "../?path=/docs/primitives-progress-indicator--docs",
       "role": "component"
-    },
-    {
-      "id": "primitives-radio-button",
-      "title": "Radio button",
-      "category": "Primitives",
-      "path": "../?path=/docs/primitives-radio-button--docs",
-      "role": "component",
-      "generativeProfile": {
-        "operatesOn": "a single choice the actor must make from a set of mutually exclusive options",
-        "produces": "a visible selection state showing which option is currently chosen",
-        "enacts": "legibility of mutual exclusivity, continuity with the surrounding flow"
-      }
     },
     {
       "id": "primitives-range",
@@ -1143,13 +1138,6 @@
         "produces": "a brief peripheral message that auto-dismisses after a short window, optionally carrying a single trailing affordance such as undo",
         "enacts": "acknowledgement of the action's completion, lightness of touch, recoverability within the dismissal window"
       }
-    },
-    {
-      "id": "actions-coordination-dual-listbox",
-      "title": "Dual listbox",
-      "category": "Actions",
-      "path": "../?path=/docs/actions-coordination-dual-listbox--docs",
-      "role": "component"
     },
     {
       "id": "actions-coordination-messaging",
@@ -2064,55 +2052,56 @@
     {
       "source": "assisted-task-completion",
       "target": "assistance",
-      "type": "surveys"
+      "type": "related"
     },
     {
       "source": "assisted-task-completion",
       "target": "suggestion",
-      "type": "surveys",
+      "type": "related",
       "label": "the broader pattern of system-generated recommendations; this spectrum focuses on the specific mechanisms"
     },
     {
       "source": "assisted-task-completion",
       "target": "agency",
-      "type": "surveys",
-      "label": "mirrors this spectrum; more system initiative demands more careful preservation of actor control"
+      "type": "enacts",
+      "label": "mirrors this spectrum; more system initiative demands more careful preservation of actor control",
+      "extractedFrom": "quality-target"
     },
     {
       "source": "assisted-task-completion",
       "target": "bot",
-      "type": "surveys"
+      "type": "related"
     },
     {
       "source": "assisted-task-completion",
       "target": "good-defaults",
-      "type": "surveys",
+      "type": "related",
       "label": "the simplest form of pre-population, before any of these patterns kick in"
     },
     {
       "source": "assisted-task-completion",
       "target": "transparent-reasoning",
-      "type": "surveys"
+      "type": "related"
     },
     {
       "source": "assisted-task-completion",
       "target": "autocomplete",
-      "type": "surveys"
+      "type": "related"
     },
     {
       "source": "assisted-task-completion",
       "target": "autofill",
-      "type": "surveys"
+      "type": "related"
     },
     {
       "source": "assisted-task-completion",
       "target": "ai-completion",
-      "type": "surveys"
+      "type": "related"
     },
     {
       "source": "assisted-task-completion",
       "target": "next-best-action",
-      "type": "surveys"
+      "type": "related"
     },
     {
       "source": "good-defaults",
@@ -2255,112 +2244,99 @@
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
-      "source": "bot",
-      "target": "assistance",
-      "type": "surveys",
+      "source": "assistance",
+      "target": "bot",
+      "type": "precedes",
       "label": "chatbot and inline bot modes",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "bot",
-      "target": "delegation",
-      "type": "surveys",
+      "source": "delegation",
+      "target": "bot",
+      "type": "precedes",
       "label": "ambient and workflow automation bot modes",
       "extractedFrom": "header:\"Precursors\""
     },
     {
       "source": "bot",
       "target": "agency",
-      "type": "surveys",
+      "type": "enacts",
       "label": "how much freedom the bot has to act on its own.",
+      "extractedFrom": "quality-target"
+    },
+    {
+      "source": "onboarding",
+      "target": "bot",
+      "type": "precedes",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "bot",
-      "target": "onboarding",
-      "type": "surveys",
-      "label": "Precursors",
+      "source": "suggestion",
+      "target": "bot",
+      "type": "precedes",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "bot",
-      "target": "suggestion",
-      "type": "surveys",
-      "label": "Precursors",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "bot",
-      "target": "progressive-disclosure",
-      "type": "surveys",
+      "source": "progressive-disclosure",
+      "target": "bot",
+      "type": "precedes",
       "label": "bots often operate well with incremental complexity. Progressive disclosure keeps things simple at first and helps actors build confidence.",
       "extractedFrom": "header:\"Precursors\""
     },
     {
       "source": "bot",
       "target": "conversation",
-      "type": "surveys",
-      "label": "Follow-ups",
+      "type": "precedes",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "bot",
       "target": "prompt",
-      "type": "surveys",
-      "label": "Follow-ups",
+      "type": "precedes",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "bot",
       "target": "formality",
-      "type": "surveys",
+      "type": "enacts",
       "label": "bots accept unstructured input by design; structure can be inferred or gradually formalised from interaction.",
-      "extractedFrom": "header:\"Follow-ups\""
+      "extractedFrom": "quality-target"
     },
     {
       "source": "bot",
       "target": "ai-tuning",
-      "type": "surveys",
-      "label": "Follow-ups",
+      "type": "precedes",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "bot",
       "target": "generated-content",
-      "type": "surveys",
+      "type": "precedes",
       "label": "presentation and manipulation of AI's output.",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "bot",
       "target": "transparent-reasoning",
-      "type": "surveys",
-      "label": "Follow-ups",
-      "extractedFrom": "header:\"Follow-ups\""
-    },
-    {
-      "source": "bot",
-      "target": "activity-log",
-      "type": "surveys",
-      "label": "Follow-ups",
+      "type": "precedes",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "bot",
       "target": "collaboration",
-      "type": "surveys",
+      "type": "precedes",
       "label": "Bots participate as collaborative agents with adaptable mediation capabilities",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "bot",
       "target": "ai-completion",
-      "type": "surveys"
+      "type": "related"
     },
     {
       "source": "bot",
       "target": "next-best-action",
-      "type": "surveys"
+      "type": "related"
     },
     {
       "source": "bounded-choice",
@@ -2442,83 +2418,83 @@
     {
       "source": "cognitive-forcing-functions",
       "target": "agency",
-      "type": "surveys",
+      "type": "enacts",
       "label": "the outcome this family is trying to produce",
-      "extractedFrom": "header:\"Precursors\""
+      "extractedFrom": "quality-target"
     },
     {
-      "source": "cognitive-forcing-functions",
-      "target": "suggestion",
-      "type": "surveys",
+      "source": "suggestion",
+      "target": "cognitive-forcing-functions",
+      "type": "precedes",
       "label": "the primary site where forcing functions apply; see its fixation risk section",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "cognitive-forcing-functions",
-      "target": "next-best-action",
-      "type": "surveys",
+      "source": "next-best-action",
+      "target": "cognitive-forcing-functions",
+      "type": "precedes",
       "label": "workflow-level recommendations that benefit from forcing functions when stakes are high",
       "extractedFrom": "header:\"Precursors\""
     },
     {
-      "source": "cognitive-forcing-functions",
-      "target": "ai-completion",
-      "type": "surveys",
+      "source": "ai-completion",
+      "target": "cognitive-forcing-functions",
+      "type": "precedes",
       "label": "inline generation prone to over-reliance because accepting is cheaper than evaluating",
       "extractedFrom": "header:\"Precursors\""
     },
     {
       "source": "cognitive-forcing-functions",
       "target": "explanation",
-      "type": "surveys",
+      "type": "complements",
       "label": "full explanations can *increase* over-reliance by giving users a plausible justification they don't need to think through; partial explanations counteract this",
       "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "cognitive-forcing-functions",
       "target": "transparent-reasoning",
-      "type": "surveys",
+      "type": "complements",
       "label": "visible reasoning is valuable but can also anchor; the trade-off is central to this family",
       "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "cognitive-forcing-functions",
       "target": "generated-content",
-      "type": "surveys",
+      "type": "complements",
       "label": "long-form output especially prone to over-reliance because verification cost is high",
       "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "cognitive-forcing-functions",
       "target": "learnability",
-      "type": "surveys",
+      "type": "enacts",
       "label": "forcing functions only work when users have the competence to evaluate; learnability builds that competence",
-      "extractedFrom": "header:\"Complementary\""
+      "extractedFrom": "quality-target"
     },
     {
       "source": "cognitive-forcing-functions",
       "target": "temporality",
-      "type": "surveys",
+      "type": "enacts",
       "label": "timing-based forcing functions (wait, human goes first) depend on temporal design",
-      "extractedFrom": "header:\"Complementary\""
+      "extractedFrom": "quality-target"
     },
     {
       "source": "cognitive-forcing-functions",
       "target": "activity-log",
-      "type": "surveys",
+      "type": "precedes",
       "label": "rationale logging produces an audit trail that the activity log can surface",
       "extractedFrom": "header:\"Follow-ups\""
     },
     {
       "source": "cognitive-forcing-functions",
       "target": "overreliance-checklist",
-      "type": "surveys",
+      "type": "related",
       "label": "structured review of considerations before accepting."
     },
     {
       "source": "cognitive-forcing-functions",
       "target": "human-goes-first",
-      "type": "surveys",
+      "type": "related",
       "label": "user performs the task unaided; system compares and teaches."
     },
     {
@@ -2580,13 +2556,6 @@
       "target": "collaboration",
       "type": "precedes",
       "label": "how collaborators reach understanding and commitment",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "bot",
-      "target": "collaboration",
-      "type": "precedes",
-      "label": "frames the AI as a collaborator with its own modes",
       "extractedFrom": "header:\"Precursors\""
     },
     {
@@ -2736,13 +2705,6 @@
       "target": "conversation",
       "type": "precedes",
       "label": "dialogue structure adapted to cultural communication norms",
-      "extractedFrom": "header:\"Precursors\""
-    },
-    {
-      "source": "bot",
-      "target": "conversation",
-      "type": "precedes",
-      "label": "conversation partner",
       "extractedFrom": "header:\"Precursors\""
     },
     {
@@ -3278,100 +3240,98 @@
       "label": "staged exposure pairs naturally with focus-and-context, revealing detail as the actor moves toward it"
     },
     {
-      "source": "form",
-      "target": "bounded-choice",
-      "type": "surveys",
+      "source": "bounded-choice",
+      "target": "form",
+      "type": "enables",
       "label": "committing a value from a set the actor didn't author; the move behind selects, radios, and checkboxes.",
       "extractedFrom": "header:\"Constituent moves\""
     },
     {
-      "source": "form",
-      "target": "sections",
-      "type": "surveys",
+      "source": "sections",
+      "target": "form",
+      "type": "enables",
       "label": "splitting a long form into adaptive, separately disclosed parts.",
       "extractedFrom": "header:\"Constituent moves\""
     },
     {
-      "source": "form",
-      "target": "progressive-disclosure",
-      "type": "surveys",
+      "source": "progressive-disclosure",
+      "target": "form",
+      "type": "enables",
       "label": "revealing depth only as it becomes relevant.",
       "extractedFrom": "header:\"Constituent moves\""
     },
     {
-      "source": "form",
-      "target": "wizard",
-      "type": "surveys",
-      "label": "Constituent moves",
+      "source": "wizard",
+      "target": "form",
+      "type": "enables",
       "extractedFrom": "header:\"Constituent moves\""
     },
     {
-      "source": "form",
-      "target": "step-by-step",
-      "type": "surveys",
-      "label": "Constituent moves",
+      "source": "step-by-step",
+      "target": "form",
+      "type": "enables",
       "extractedFrom": "header:\"Constituent moves\""
     },
     {
       "source": "form",
       "target": "formality",
-      "type": "surveys",
+      "type": "enacts",
       "label": "how much structure the system demands of the actor, and when.",
-      "extractedFrom": "header:\"Constituent moves\""
+      "extractedFrom": "quality-target"
     },
     {
       "source": "form",
       "target": "data-entry",
-      "type": "surveys",
+      "type": "complements",
       "label": "the broader move each field enacts; the form is one of its containers.",
       "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "form",
       "target": "conversation",
-      "type": "surveys",
+      "type": "complements",
       "label": "may resolve into a form when a dialogue stabilises around structured data collection.",
       "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "form",
       "target": "localization",
-      "type": "surveys",
+      "type": "complements",
       "label": "locale-aware parsing and format tolerance for input.",
       "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "form",
       "target": "good-defaults",
-      "type": "surveys",
+      "type": "complements",
       "label": "pre-selecting likely values to remove entry entirely.",
       "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "form",
       "target": "status-feedback",
-      "type": "surveys",
+      "type": "complements",
       "label": "validation and system status during and after entry.",
       "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "form",
       "target": "saving",
-      "type": "surveys",
+      "type": "complements",
       "label": "autosave and manual save strategies for in-progress and committed input.",
       "extractedFrom": "header:\"Complementary\""
     },
     {
       "source": "form",
       "target": "state-disabled",
-      "type": "surveys",
+      "type": "tangential",
       "label": "alternatives to disabling form elements.",
       "extractedFrom": "header:\"Tangentially related\""
     },
     {
       "source": "form",
       "target": "inline-interface",
-      "type": "surveys"
+      "type": "related"
     },
     {
       "source": "formality",
@@ -3501,13 +3461,6 @@
       "type": "enacts",
       "label": "the actor steers, edits, and improves the output rather than receiving a finished artefact",
       "extractedFrom": "quality-target"
-    },
-    {
-      "source": "bot",
-      "target": "generated-content",
-      "type": "precedes",
-      "label": "generates the output being presented.",
-      "extractedFrom": "header:\"Precursors\""
     },
     {
       "source": "prompt",
@@ -5113,13 +5066,6 @@
       "extractedFrom": "quality-target"
     },
     {
-      "source": "bot",
-      "target": "prompt",
-      "type": "precedes",
-      "label": "a thing that gets prompted.",
-      "extractedFrom": "header:\"Precursor patterns\""
-    },
-    {
       "source": "suggestion",
       "target": "prompt",
       "type": "precedes",
@@ -5651,19 +5597,19 @@
     {
       "source": "status-feedback",
       "target": "activity-log",
-      "type": "surveys",
+      "type": "related",
       "label": "Records status changes as Events for chronological review"
     },
     {
       "source": "status-feedback",
       "target": "collaboration",
-      "type": "surveys",
+      "type": "related",
       "label": "Status feedback provides awareness of system state and action effects in collaborative environments"
     },
     {
       "source": "status-feedback",
       "target": "notification",
-      "type": "surveys"
+      "type": "related"
     },
     {
       "source": "step-by-step",
@@ -5741,11 +5687,6 @@
     },
     {
       "source": "suggestion",
-      "target": "bot",
-      "type": "related"
-    },
-    {
-      "source": "suggestion",
       "target": "transparent-reasoning",
       "type": "related",
       "label": "suggestions can emerge from visible reasoning processes"
@@ -5768,11 +5709,6 @@
       "type": "enacts",
       "label": "suggestions ease the step from informal intent to formal expression, formalising by recognition rather than recall",
       "extractedFrom": "quality-target"
-    },
-    {
-      "source": "suggestion",
-      "target": "cognitive-forcing-functions",
-      "type": "related"
     },
     {
       "source": "tag",
@@ -5927,13 +5863,6 @@
       "type": "enacts",
       "label": "visible reasoning is one of the levers for reliance calibration, helping the actor judge when to trust and when to override",
       "extractedFrom": "quality-target"
-    },
-    {
-      "source": "bot",
-      "target": "transparent-reasoning",
-      "type": "precedes",
-      "label": "generates the reasoning that transparent reasoning makes visible and inspectable.",
-      "extractedFrom": "header:\"Precursors\""
     },
     {
       "source": "transparent-reasoning",
@@ -6507,6 +6436,30 @@
       "label": "shares the overlay mechanism but is target-triggered (right-click) rather than button-triggered"
     },
     {
+      "source": "actions-coordination-dual-listbox",
+      "target": "selection",
+      "type": "related",
+      "label": "the pattern this component serves; the staged-commit variant"
+    },
+    {
+      "source": "actions-coordination-dual-listbox",
+      "target": "form",
+      "type": "related",
+      "label": "the typical container; its confirm button commits the assignment"
+    },
+    {
+      "source": "actions-coordination-dual-listbox",
+      "target": "operations-combobox",
+      "type": "related",
+      "label": "the lighter-weight control when side-by-side review isn't needed"
+    },
+    {
+      "source": "actions-coordination-dual-listbox",
+      "target": "components-action-bar",
+      "type": "related",
+      "label": "the immediate-action alternative, when \"assign these to that\" needs no review step"
+    },
+    {
       "source": "primitives-input",
       "target": "actions-application-form",
       "type": "enables",
@@ -6554,16 +6507,6 @@
       "type": "complements",
       "label": "inline validation and instructional feedback within forms",
       "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "actions-application-form",
-      "target": "primitives-radio-button",
-      "type": "related"
-    },
-    {
-      "source": "actions-application-form",
-      "target": "actions-coordination-messaging",
-      "type": "related"
     },
     {
       "source": "primitives-input",
@@ -6830,30 +6773,6 @@
       "type": "complements",
       "label": "when the message requires a decision before the actor can continue",
       "extractedFrom": "header:\"Complementary\""
-    },
-    {
-      "source": "actions-coordination-dual-listbox",
-      "target": "selection",
-      "type": "related",
-      "label": "the pattern this component serves; the staged-commit variant"
-    },
-    {
-      "source": "actions-coordination-dual-listbox",
-      "target": "form",
-      "type": "related",
-      "label": "the typical container; its confirm button commits the assignment"
-    },
-    {
-      "source": "actions-coordination-dual-listbox",
-      "target": "operations-combobox",
-      "type": "related",
-      "label": "the lighter-weight control when side-by-side review isn't needed"
-    },
-    {
-      "source": "actions-coordination-dual-listbox",
-      "target": "components-action-bar",
-      "type": "related",
-      "label": "the immediate-action alternative, when \"assign these to that\" needs no review step"
     },
     {
       "source": "actions-coordination-messaging",

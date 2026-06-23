@@ -1,6 +1,6 @@
 ---
 title: "Actions"
-role: umbrella
+role: collection
 description: "Conscious, goal-directed interactions requiring the actor's focal awareness."
 ---
 Conscious, goal-directed interactions. Actions require the actor's focal awareness — they know what they're trying to achieve and deliberately choose how to get there.

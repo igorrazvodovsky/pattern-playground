@@ -43,7 +43,7 @@ more abstract principle, model, or concept.
 
 ### Umbrella graph
 
-`umbrella -> move`
+`collection -> member`
 
 Uses `surveys`. Umbrella pages such as "Bot" or "Assisted task completion"
 should not be forced to behave like single moves if they gather a territory.
@@ -84,7 +84,7 @@ signal: a seed can be useful, but it should not masquerade as a settled invarian
 When adding or revising material, ask these questions before choosing tags,
 edges, or file locations:
 
-1. Is this page an authoritative source for one move, or an umbrella over a
+1. Is this page an authoritative source for one move, or a collection over a
    territory?
 2. Does the thing act on a recurring human situation, or is it mainly an
    implementation mechanism?

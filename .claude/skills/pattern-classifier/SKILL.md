@@ -12,10 +12,10 @@ A structured conversation for integrating patterns into the library. Three phase
 
 The reasoning is grounded in the project's `docs/` knowledge base. Read the documents below before proceeding if you haven't already in this conversation. They're the canonical source — this skill summarises but doesn't restate them.
 
-- `docs/language/pattern-definition.md` — operational test for what counts as a pattern (vs. mechanism, contract, observation, anti-pattern, umbrella). The minimum-pattern checklist lives here.
+- `docs/language/pattern-definition.md` — operational test for what counts as a pattern (vs. mechanism, contract, observation, anti-pattern, collection). The minimum-pattern checklist lives here.
 - `docs/language/relationship-vocabulary.md` — describes relationships between patterns.
 - `docs/language/conceptual-glossary.md` — working definitions of pattern, centre, generative move, quality, semilattice, suggestion-grade, etc.
-- `docs/specs/pattern-role-model.md` — the settled role set (component, pattern, umbrella, quality, foundation, concept), the boundary stance, and the move/mechanism decomposition rule with its fission signals.
+- `docs/specs/pattern-role-model.md` — the settled role set (component, pattern, collection, quality, foundation, concept, the boundary stance, and the move/mechanism decomposition rule with its fission signals.
 - `docs/language/pattern-and-form.md` — the two-language framing: generative pattern language vs normative form language, and why the boundary is a projection rather than an ontology.
 - `docs/specs/pattern-site.md` — the answer to "where does a new pattern go?"
 - `references/semilattice.md` — the pattern space is a semilattice, not a tree. Every tree placement is lossy; the question is which loss is least harmful. Multiple projections, not a better tree.
@@ -43,7 +43,7 @@ If the candidate isn't a generative move, name what it actually is and route it 
 - *quality* — an experiential dimension (Agency, Learnability, Conversation, …) → `apps/patterns/src/content/patterns/` with `role: quality`
 - *foundation* — theory, model, principle, or material substrate → `apps/patterns/src/content/patterns/` with `role: foundation`
 - *concept* — a Jackson-style software concept vocabulary entry → top-level `concepts/`
-- *umbrella* — a sensemaking page that gathers a territory but isn't the authoritative source for one move
+- *collection* — a survey page that gathers a grouping of members for browsing but isn't the authoritative source for any move. Distinct from a *composite pattern*, which gathers constituents that **make it up** and **is** a source — that stays `role: pattern`. See step 5.
 - *variant* — a concrete instantiation, story variant, screenshot, prototype, product case → lives inside the pattern it illustrates
 
 Surface the role to the user with a recommendation for where the knowledge belongs. Don't promote to a pattern page just because there's nowhere obvious to put it.
@@ -54,7 +54,7 @@ Some material genuinely straddles roles. Signals:
 
 - *If it has an observable interaction structure* (actors do something, the system responds in a recognisable way that produces a centre) → it has a *move* dimension, even if it's also a quality or foundation. Document the move; reference the other role.
 - *If it only makes sense as a modifier of other patterns* → it's a quality or foundation, not a move.
-- *If it's primarily a framework for organising other patterns* → it's an umbrella or foundation page, not a pattern page.
+- *If it's primarily a framework for organising other patterns* → it's a collection or foundation page, not a pattern page. (But if the children *make it up* or are *kinds of* it, it's a composite or general pattern — see step 5.)
 
 When genuinely uncertain, surface the ambiguity to the user rather than forcing a classification. The skill is a conversation, not a gate.
 
@@ -105,9 +105,9 @@ Search broadly. Check:
 The mapping produces one of five outcomes:
 
 1. *Already exists* — the move is covered. The work is enrichment. Skip to Phase 3.
-2. *Partially covered* — aspects are spread across multiple patterns, but the unifying move isn't represented. Consider whether a new pattern, an umbrella, or just better cross-references would serve best.
+2. *Partially covered* — aspects are spread across multiple patterns, but the unifying move isn't represented. Consider whether a new pattern, a collection, or just better cross-references would serve best.
 3. *Distinct and new* — genuinely unrepresented. Proceed to Phase 2.
-4. *Existing page is a compressed territory* — mapping reveals an existing page is too broad for one move, or mixes move and mechanism content. The outcome cardinality is decided by the territory, not assumed: several sibling moves, an umbrella plus moves, a move/mechanism decomposition, or just sharper edges (see the decomposition rule in `pattern-role-model.md`). Proceed to Phase 2 with attention to what stays and what moves.
+4. *Existing page is a compressed territory* — mapping reveals an existing page is too broad for one move, or mixes move and mechanism content. The outcome cardinality is decided by the territory, not assumed: several sibling moves, a composite pattern plus its constituents, a collection plus moves, a move/mechanism decomposition, or just sharper edges (see the decomposition rule in `pattern-role-model.md`). Proceed to Phase 2 with attention to what stays and what moves.
 5. *Not a move* — the candidate is theory, method, quality, foundation, concept, or implementation convention rather than a generative move (see *Where non-moves go* in Scope). The work is referencing it from the patterns it informs, or directing it to where it belongs. Surface this with a recommendation.
 
 ## Phase 2: Classify
@@ -147,7 +147,7 @@ Keep unified when:
 
 When in doubt, default to the coarsest node that doesn't lie: one well-situated move, with suspected sibling moves recorded as named forces or sections inside it. Under-differentiation self-corrects — the fission signals in `pattern-role-model.md` (disjoint related-patterns subsections, a decision tree growing inside the pattern, disagreeing profile fields, "in some variants…" prose) mark when a unified node has started straining. Over-differentiation produces stub nodes and graph noise, and corrects only by deletion.
 
-When splitting, also decide the umbrella strategy (step 5).
+When splitting, also decide the higher-altitude strategy (step 5).
 
 ### 3. AT level: where does attention live?
 
@@ -175,21 +175,22 @@ If the move is an action, determine which stage of the intent lifecycle it prima
 
 Many actions serve multiple stages. The tree picks the *primary* stage; add `lifecycle:*` tags for secondary stages. If a pattern serves all stages roughly equally, that's a signal it might not be an action — reconsider AT level.
 
-### 5. Umbrella strategy
+### 5. Higher-altitude strategy: composite pattern, collection, or implicit
 
-Three kinds of umbrella exist in the system. In role-vocabulary terms: a standalone umbrella is a *move* that also frames children; a structural umbrella is a pure `umbrella` survey; an implicit umbrella is no node at all.
+A page that gathers smaller pages is one of three things. The sorting instrument is Winston et al.'s (1987) part-whole test — *how do the children relate to the parent?* — which also picks the edge type:
 
-*Standalone umbrella* — both a move in its own right and a container for sub-patterns. Example: Suggestion is a meaningful move (system-generated recommendations producing a centre of "considered alternatives") that also frames sub-topics. Test: does the umbrella have its own forces, consequences, and neighbourhood beyond just aggregating the children?
+- *Do the children **make up** the thing?* (component–integral) → it is a **composite pattern**: `role: pattern`, `atomic: composition`. The children link to it by `enables` (part → whole), via a "Composed from" / "Constituent moves" header. A composite move is the authoritative source for *its own* move — it is **not** a collection. Example: Form is a single act assembled from data entry, bounded choice, sectioning; filling it is one move.
+- *Are the children **kinds of** the thing?* (genus–species) → it is a **general pattern with variants**: `role: pattern`. The variants link to it by `instantiates` (species → genus), via a "Foundation" / "Applied in" header on each variant. Example: Assisted task completion is the general move; Autocomplete, Autofill, AI completion *instantiate* it.
+- *Are the children merely **filed under** it for browsing?* (member–collection) → it is a **collection**: `role: collection`. It is a survey, not a source; its links emit `surveys` (≈ `skos:member`). Per SKOS, a collection sits *outside* the `enables`/`instantiates` hierarchy. Example: Navigation overview gathers the navigation models; Operations gathers its operation patterns.
+- *Does it need a node at all?* If membership is already computable from a facet (e.g. the AT-altitude strata are derivable from `activityLevel`) or the link lives fine in cross-references, prefer *implicit* — generated nav or edges, no authored node. Test: would anyone navigate *to* this page, or always straight to a child?
 
-*Structural umbrella* — exists only to frame and connect sub-patterns. Example: Navigation overview frames the navigation models but isn't itself a move you'd apply. Test: would removing it and relying on cross-references between the children lose something? If the umbrella's value is purely "these things form a group", cross-references and tags might suffice.
+The three relations are distinct and **not transitive across types** — never traverse `surveys` → `enables` → `instantiates` as one path. See `docs/language/relationship-vocabulary.md` ("The three part-whole relations").
 
-*Implicit umbrella* — the relationship between patterns is real but doesn't need its own node. The connection lives in cross-references and graph edges. Test: would anyone navigate *to* this umbrella, or would they always go directly to a specific sub-pattern?
+Facets (content is flat — these are tags, not folders):
 
-When an umbrella is warranted, decide its facets (not its folder — content is flat):
-
-- A standalone umbrella gets its own AT level and lifecycle stage like any other pattern
-- A structural umbrella shares the `group` facet of its children, so the navigation projection nests them together (e.g. Navigation overview carries `group: navigation`)
-- Children are tied together by the shared `group` facet and by cross-references / graph edges, not by a directory
+- A composite or general pattern gets its own AT level and lifecycle stage like any other pattern.
+- A collection shares the `group` facet of its members, so the navigation projection nests them (e.g. Navigation overview carries `group: navigation`).
+- Members are tied together by the shared `group` facet and by graph edges, not by a directory.
 
 ### 6. Tags and metadata
 

@@ -75,7 +75,7 @@ Standard section order:
    inversely proportional to how established and documented the area is
 3. `# Title` (sentence case) with a one-sentence definition framed from the
    *human situation inward*, not from the component outward
-4. Core content (varies by role: pattern, quality, foundation, umbrella)
+4. Core content (varies by role: pattern, quality, foundation, collection)
 5. `## Related patterns` with subcategory headings
 6. `## Resources & references` (optional)
 

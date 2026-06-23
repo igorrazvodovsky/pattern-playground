@@ -13,7 +13,7 @@ work packets in `plans/`.
 - [Graph relationship model](graph-relationship-model.md) — current graph data
   model, edge vocabulary, and epistemic stance.
 - [Pattern role model](pattern-role-model.md) — distinction between components,
-  patterns, umbrellas, qualities, foundations, and concepts; boundary stance
+  patterns, collections, qualities, foundations, and concepts; boundary stance
   and the move/mechanism decomposition rule.
 
 Historical rationale and execution traces remain in `plans/`. When a completed

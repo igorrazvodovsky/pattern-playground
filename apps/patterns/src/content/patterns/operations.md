@@ -1,6 +1,6 @@
 ---
 title: "Operations"
-role: umbrella
+role: collection
 description: "Automatic, infrastructural interactions that should just work — the reliable substrate beneath conscious action."
 ---
 Automatic, infrastructural interactions that should just work. Operations are the reliable substrate beneath conscious action — well-established patterns with standardised implementations that actors use without deliberation.
