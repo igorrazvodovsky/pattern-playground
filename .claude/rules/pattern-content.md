@@ -66,6 +66,33 @@ Use `<ComponentRef>` for inline prose references to Storybook component pages
 
 Do not hardcode localhost:6006 URLs in content — use `<ComponentRef>`, which reads `PUBLIC_STORYBOOK_URL`.
 
+## Declaring relationships
+
+Typed edges live in frontmatter `relationships:` or inline `{rel="type"}` on links — never inferred from heading text.
+
+Frontmatter declaration (one or many per rel type):
+
+```yaml
+relationships:
+  precedes: [wizard, step-by-step]
+  complements:
+    - to: bounded-choice
+      note: "the constrained-field move"
+    - sections
+  composed-of: [data-entry]    # alias for enables (P composed of target)
+  instantiates: [good-defaults]
+```
+
+Inline narrated edge (body prose):
+
+```mdx
+…each field is an act of [bounded choice](/patterns/bounded-choice){rel="composed-of"}…
+```
+
+The `{rel="type"}` is stripped at build time by the `remark-rel-strip` plugin and never appears in rendered output.
+
+Valid rel values: `precedes`, `follows`, `enables`, `composed-of`, `instantiates`, `instances`, `variants`, `complements`, `tangential`, `alternative`, `enacts`, `surveys`, `related`. Direction is fixed by the rel name (see `docs/language/relationship-vocabulary.md`). `recommends` is not authorable — it comes only from decision trees.
+
 ## Document structure
 
 Standard section order:
@@ -76,8 +103,7 @@ Standard section order:
 3. `# Title` (sentence case) with a one-sentence definition framed from the
    *human situation inward*, not from the component outward
 4. Core content (varies by role: pattern, quality, foundation, collection)
-5. `## Related patterns` with subcategory headings
-6. `## Resources & references` (optional)
+5. `## Resources & references` (optional, generated)
 
 ## Writing style
 

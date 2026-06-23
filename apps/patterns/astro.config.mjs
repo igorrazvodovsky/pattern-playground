@@ -4,11 +4,12 @@ import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import remarkRelStrip from '../../shared/remark-rel-strip.ts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  integrations: [lit(), mdx(), react()],
+  integrations: [lit(), mdx({ remarkPlugins: [remarkRelStrip] }), react()],
   publicDir: path.resolve(__dirname, '../../public'),
   vite: {
     resolve: {

@@ -5,17 +5,13 @@ const patterns = defineCollection({
   loader: glob({
     pattern: '**/*.{md,mdx}',
     base: './src/content/patterns',
-    // Identity is the filename stem, decoupled from on-disk location. The content
-    // directory is flat today; this keeps slugs stable if files are ever regrouped
-    // into folders for authoring convenience.
+    // Identity is the filename stem, decoupled from on-disk location.
     generateId: ({ entry }) => entry.split('/').pop()!.replace(/\.mdx?$/, ''),
   }),
   schema: z.object({
     title: z.string(),
-    role: z.enum(['pattern', 'umbrella', 'quality', 'foundation', 'component']),
-    // Classification facets — independent lenses, none privileged by the filesystem.
-    // Navigation is a projection over these (see Base.astro); more lenses can be
-    // added as fields without moving files.
+    role: z.enum(['pattern', 'collection', 'umbrella', 'quality', 'foundation', 'component']),
+    // Classification facets. Navigation is a projection over these (see Base.astro); more lenses can be added as fields without moving files.
     activityLevel: z.enum(['operation', 'action', 'activity']).optional(),
     lifecycle: z.string().optional(),
     group: z.string().optional(),
@@ -24,6 +20,12 @@ const patterns = defineCollection({
     mediation: z.enum(['individual', 'coordination']).optional(),
     description: z.string().optional(),
     tags: z.array(z.string()).optional(),
+    // Typed relationships: rel-type → array of bare slugs or {to, note} objects.
+    // Parsed by scripts/extract-graph-data.ts; see docs/language/relationship-vocabulary.md.
+    relationships: z.record(z.array(z.union([
+      z.string(),
+      z.object({ to: z.string(), note: z.string().optional() }),
+    ]))).optional(),
   }),
 });
 
