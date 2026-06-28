@@ -1,11 +1,29 @@
 ---
-title: "Deletion"
+title: Deletion
 role: pattern
-group: "application"
+group: application
 activityLevel: action
 atomic: pattern
 mediation: individual
-fun: "🙂 3/5"
+fun: 🙂 3/5
+relationships:
+  related:
+    - to: action-consequences
+      note: Framework for evaluating appropriate confirmation methods
+    - to: saving
+      note: Staged deletions within save/cancel workflows
+    - to: status-feedback
+      note: Communicating deletion results
+    - to: activity-log
+      note: Historical record of deletions
+    - to: notification
+      note: Alerting about deletion events
+  composed-of:
+    - to: selection
+      note: How the scope of a deletion gets staked
+  enables:
+    - to: undo
+      note: Reversibility and recovery mechanisms
 ---
 
 import { MermaidDiagram } from '@components/MermaidDiagram';
@@ -114,13 +132,6 @@ flowchart TD
     I --> N[System-wide] --> O[Typed confirmation]
 `} />
 
-## Related patterns
+## Related components
 
-- [Action consequences](/patterns/action-consequences) – Framework for evaluating appropriate confirmation methods
-- [Saving](/patterns/saving) – Staged deletions within save/cancel workflows
-- [Undo](/patterns/undo) – Reversibility and recovery mechanisms
-- [Status feedback](/patterns/status-feedback) – Communicating deletion results
-- [Activity Log](/patterns/activity-log) – Historical record of deletions
-- [Notification](/patterns/notification) – Alerting about deletion events
 - <ComponentRef id="components-action-bar--docs">Action bar</ComponentRef> – Common surface for bulk deletion
-- [Selection](/patterns/selection) – How the scope of a deletion gets staked

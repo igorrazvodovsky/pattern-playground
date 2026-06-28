@@ -1,9 +1,29 @@
 ---
-title: "Mastery"
+title: Mastery
 role: pattern
 activityLevel: activity
 atomic: pattern
 mediation: individual
+relationships:
+  follows:
+    - to: onboarding
+      note: initial phase before the actor develops efficiency
+  enacts:
+    - to: learnability
+      note: "extended learnability: the long curve after onboarding"
+    - to: malleability
+      note: the experienced actor reshapes the tool around their own workflow
+    - to: temporality
+      note: mastery is the long-arc shape of one actor's relationship with the tool
+    - to: density
+      note: experts tolerate and benefit from higher density
+    - to: adaptation
+      note: the system grants more autonomy and lighter scaffolding as expertise grows
+  complements:
+    - to: command-menu
+      note: key enabler of mastery, accessible to intermediates
+    - to: settings
+      note: where customisation lives
 ---
 While [onboarding](/patterns/onboarding) focuses on *initial* [learning](/patterns/learnability), mastery focuses on *extended* learnability—building proficiency for the subset of users who become experts.
 
@@ -53,21 +73,6 @@ Retention mechanisms address the forgetting curve for infrequently-used but impo
 {/* Switch between fundamentally different interaction models. */}
 {/* - Example: WYSIWYG editor ↔ markdown source view */}
 {/* - Example: Visual builder ↔ code editor */}
-
-## Related patterns
-
-### Enacted qualities
-- [Learnability](/patterns/learnability) — extended learnability: the long curve after onboarding
-- [Malleability](/patterns/malleability) — the experienced actor reshapes the tool around their own workflow
-- [Temporality](/patterns/temporality) — mastery is the long-arc shape of one actor's relationship with the tool
-- [Density](/patterns/density) — experts tolerate and benefit from higher density
-
-### Precursors
-- [Onboarding](/patterns/onboarding) — initial phase before the actor develops efficiency
-
-### Complementary
-- [Command menu](/patterns/command-menu) — key enabler of mastery, accessible to intermediates
-- [Settings](/patterns/settings) — where customisation lives
 
 ## Resources
 - Andy Matuschak (2025). [How might we learn?](https://andymatuschak.org/hmwl/) – dynamic practice and spaced reinforcement for retention

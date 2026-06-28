@@ -1,11 +1,43 @@
 ---
-title: "Suggestion"
+title: Suggestion
 role: pattern
-group: "application"
+group: application
 activityLevel: action
 atomic: pattern
 mediation: individual
-fun: "🙂 5/5. A part of a bigger attempt to map LLM-related patterns."
+fun: 🙂 5/5. A part of a bigger attempt to map LLM-related patterns.
+relationships:
+  precedes:
+    - bot
+    - to: cognitive-forcing-functions
+      note: the primary site where forcing functions apply; see its fixation risk section
+    - to: next-best-action
+      note: the broader pattern; next-best action is specifically about recommending workflow steps
+    - prompt
+  related:
+    - to: assistance
+      note: providing likely next actions and narrowing the option space
+    - to: delegation
+      note: agent might suggest opportunities it believes will help
+    - ai-completion
+    - to: transparent-reasoning
+      note: suggestions can emerge from visible reasoning processes
+  instances:
+    - to: assisted-task-completion
+      note: 'the completion spectrum, including [AI completion](/patterns/ai-completion) (inline generation) and [next-best action](/patterns/next-best-action) (workflow-level recommendations)'
+  complements:
+    - to: collaboration
+      note: Suggestions support collaborative decision-making through AI-assisted discovery
+  enacts:
+    - to: adaptation
+      note: suggestions might sharpen on the actor's accepted-or-rejected signal, fitting their patterns over time
+    - to: formality
+      note: suggestions ease the step from informal intent to formal expression, formalising by recognition rather than recall
+    - to: agency
+      note: the system proposes and the actor disposes; accept, modify, or reject keeps the final say with the user
+  alternative:
+    - to: conversation
+      note: dialogue forms that provide alternatives to suggestion-based interaction
 ---
 The offer of a system-generated recommendation that the actor can accept, modify, or reject, balancing automation with agency.
 
@@ -86,19 +118,9 @@ Users must have clear paths to reject suggestions and provide alternative input.
 
 {/* **Example:** Autocomplete suggestions include an "×" button to dismiss individual suggestions, and users can type past suggestions to enter custom values. */}
 
-## Related patterns
+## Related components
 
-- [Assistance](/patterns/assistance) — providing likely next actions and narrowing the option space
-- [Delegation](/patterns/delegation) — agent might suggest opportunities it believes will help
-- [Assisted task completion](/patterns/assisted-task-completion) — the completion spectrum, including [AI completion](/patterns/ai-completion) (inline generation) and [next-best action](/patterns/next-best-action) (workflow-level recommendations)
-- [Adaptability](/patterns/adaptation) — suggestions might sharpen on the actor's accepted-or-rejected signal, fitting their patterns over time
-- [Bot](/patterns/bot)
 - <ComponentRef id="actions-coordination-messaging--docs">Messaging</ComponentRef>
-- [Transparent reasoning](/patterns/transparent-reasoning) - suggestions can emerge from visible reasoning processes
-- [Collaboration](/patterns/collaboration) - Suggestions support collaborative decision-making through AI-assisted discovery
-- [Conversation](/patterns/conversation) - dialogue forms that provide alternatives to suggestion-based interaction
-- [Formality](/patterns/formality) — suggestions ease the step from informal intent to formal expression, formalising by recognition rather than recall
-- When suggestions carry real stakes, [cognitive forcing functions](/patterns/cognitive-forcing-functions) offer interventions that preserve the user's judgement.
 
 ## Resources & references
 
