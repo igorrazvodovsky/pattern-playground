@@ -1,10 +1,21 @@
 ---
-title: "Status feedback"
+title: Status feedback
 role: pattern
 activityLevel: operation
 atomic: pattern
 mediation: individual
-fun: "🥱 boring but important groundwork."
+fun: 🥱 boring but important groundwork.
+relationships:
+  related:
+    - to: activity-log
+      note: Records status changes as Events for chronological review
+    - notification
+  enables:
+    - to: collaboration
+      note: Status feedback provides awareness of system state and action effects in collaborative environments
+  enacts:
+    - to: temporality
+      note: the timing and latency with which the system reports a change back to the actor
 ---
 
 import { IndicatorsDemo } from '@pkg/demos/status-feedback';
@@ -33,11 +44,9 @@ TODO:
 
 Notifications communicate system status changes, events, and outcomes to users. They provide feedback about actions taken, system states, and important information that requires user awareness.
 
-## Related patterns
+## Related components
 
-- <ComponentRef id="operations-callout--docs">Callout</ComponentRef> — primary inline delivery mechanism for status feedback
-- [Activity log](/patterns/activity-log) - Records status changes as Events for chronological review
-- [Collaboration](/patterns/collaboration) – Status feedback provides awareness of system state and action effects in collaborative environments
+- <ComponentRef id="operations-callout--docs">Callout</ComponentRef> — inline delivery mechanism for status feedback
 
 ## Resources & references
 

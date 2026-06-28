@@ -1,9 +1,17 @@
 ---
-title: "Morphing controls"
+title: Morphing controls
 role: pattern
 activityLevel: operation
 atomic: pattern
 mediation: individual
+relationships:
+  related:
+    - status-feedback
+    - unavailable-actions
+    - state-disabled
+  instantiates:
+    - to: progressive-disclosure
+      note: a broader pattern
 ---
 
 {/* TODO: Storybook demo exists — packages/components/src/stories/operations/MorphingControls.stories.tsx */}
@@ -26,11 +34,6 @@ Avoid when users need to see the full range of possible actions to build a menta
 
 Close with confirmation is a common pattern, but instead of a separate dialog, the control itself morphs to offer the confirm action. This keeps the user in context and reduces friction.
 
-
-## Related patterns
+## Related components
 
 - <ComponentRef id="primitives-switch--docs">Switch</ComponentRef> & <ComponentRef id="primitives-checkbox--docs">Checkbox</ComponentRef> — use when on/off state is enough
-- Morphing provides [status feedback](/patterns/status-feedback)
-- [Unavailable actions](/patterns/unavailable-actions) removes controls entirely; morphing keeps them present but transformed
-- [Disabled state](/patterns/state-disabled) greys out controls without indicating the new state
-- [Progressive disclosure](/patterns/progressive-disclosure) — a broader pattern

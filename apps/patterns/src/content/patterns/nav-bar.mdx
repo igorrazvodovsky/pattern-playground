@@ -1,12 +1,23 @@
 ---
-title: "Nav bar"
+title: Nav bar
 role: pattern
-group: "coordination"
+group: coordination
 activityLevel: action
 atomic: composition
 mediation: coordination
 lifecycle: coordination
-fun: "🥱 boring. Included as a prerequisite for more interesting things."
+fun: 🥱 boring. Included as a prerequisite for more interesting things.
+relationships:
+  related:
+    - to: navigation-overview
+      note: full suite of navigation patterns
+    - fully-connected
+    - information-architecture
+    - to: multilevel-tree
+      note: when using dropdowns or expandable menus for hierarchical navigation
+  alternative:
+    - to: command-menu
+      note: alternative navigation for power users
 ---
 
 {/* TODO: Storybook demo exists — packages/components/src/stories/NavBar.stories.tsx */}
@@ -20,8 +31,6 @@ Nav bars can also implement:
 - [Multilevel tree](/patterns/multilevel-tree) - when using dropdowns or expandable menus for hierarchical navigation
 - Hybrid models - combining global access with contextual navigation
 
-## Related patterns
+## Related components
 
-- [Structure compositions](/patterns/navigation-overview) — full suite of navigation patterns
-- [Command menu](/patterns/command-menu) — alternative navigation for power users
 - <ComponentRef id="primitives-breadcrumbs--docs">Breadcrumbs</ComponentRef> — complements nav bar by showing current location
