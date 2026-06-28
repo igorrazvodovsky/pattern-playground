@@ -1,11 +1,20 @@
 ---
-title: "User repair"
+title: User repair
 role: pattern
-group: "conversation/conversation-management"
+group: conversation/conversation-management
 activityLevel: operation
 atomic: primitive
 mediation: coordination
-fun: "😊 3/5. Looking for useful building blocks for conversational UI."
+fun: 😊 3/5. Looking for useful building blocks for conversational UI.
+relationships:
+  instantiates:
+    - to: conversation
+      note: parent pattern
+  precedes:
+    - to: extended-telling
+      note: fallback when a simple paraphrase or definition is insufficient
+    - to: sequence-completion
+      note: the activity resumes from the same step once the repair is resolved
 ---
 The user signals they didn’t understand the bot's utterance.
 
@@ -21,9 +30,3 @@ Paraphrase, definition, example
 
 ## Metrics
 Understanding repair resolution rate; repeats per concept; time-to-understand; fallbacks to *extended telling*.
-
-## Related patterns
-
-- [Conversation](/patterns/conversation) — parent pattern
-- [Extended telling](/patterns/extended-telling) — fallback when a simple paraphrase or definition is insufficient
-- [Sequence completion](/patterns/sequence-completion) — the activity resumes from the same step once the repair is resolved

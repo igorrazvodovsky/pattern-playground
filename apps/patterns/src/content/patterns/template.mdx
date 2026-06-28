@@ -1,10 +1,16 @@
 ---
-title: "Template"
+title: Template
 role: pattern
-group: "application"
+group: application
 activityLevel: action
 atomic: pattern
 mediation: individual
+relationships:
+  complements:
+    - suggestion
+  enacts:
+    - to: learnability
+      note: templates carry the shape of competent work, letting the actor learn the form by occupying it
 ---
 Predefined, reusable structures that guide actors in creating consistent items.
 
@@ -22,20 +28,8 @@ Reduce cognitive load, standardise content quality, support collaborative workfl
 - Collaborative canvas suggestions (FigJam-like)
 - Workflow templates
 
-## Related patterns
+## To-do
 
-### Precursors
-
-- [Onboarding](/patterns/onboarding): Templates as part of first-use or training
-- [Wizards](/patterns/wizard) and step-by-step builders: When templates are generated through choices
-
-### Follow-ups
-
-- `TODO:` History and versioning
-- `TODO:` Comments and annotations
-- `TODO:` Sharing
-
-### Complementary
-
-- [Suggestion](/patterns/suggestion)
-- [Learnability](/patterns/learnability) — templates carry the shape of competent work, letting the actor learn the form by occupying it
+- History and versioning
+- Comments and annotations
+- Sharing

@@ -1,11 +1,23 @@
 ---
-title: "Bot repair"
+title: Bot repair
 role: pattern
-group: "conversation/conversation-management"
+group: conversation/conversation-management
 activityLevel: operation
 atomic: primitive
 mediation: coordination
-fun: "😊 3/5. Looking for useful building blocks for conversational UI."
+fun: 😊 3/5. Looking for useful building blocks for conversational UI.
+relationships:
+  enables:
+    - to: conversation
+      note: parent pattern
+  precedes:
+    - to: inquiry-user
+      note: transitions into information capture when a specific required value is missing
+    - to: sequence-completion
+      note: the primary activity resumes once repair is resolved
+  complements:
+    - to: capability-and-scope
+      note: out-of-scope requests are a form of scope repair
 ---
 The bot handles its *own* trouble in understanding: ambiguity, low confidence, conflicting entities, or missing slots.
 
@@ -27,11 +39,3 @@ The bot handles its *own* trouble in understanding: ambiguity, low confidence, c
 
 ## Metrics
 Repair resolution rate on first attempt; turns-to-repair; wrong-action rate after repair; drop-off during repair.
-
-## Related patterns
-
-- [Conversation](/patterns/conversation) — parent pattern
-- [Inquiry (User)](/patterns/inquiry-user) — transitions into information capture when a specific required value is missing
-- [Sequence completion](/patterns/sequence-completion) — the primary activity resumes once repair is resolved
-- [Capability & scope](/patterns/capability-and-scope) — out-of-scope requests are a form of scope repair
-

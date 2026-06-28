@@ -1,11 +1,23 @@
 ---
-title: "Disengage without closing"
+title: Disengage without closing
 role: pattern
-group: "conversation/conversation-management"
+group: conversation/conversation-management
 activityLevel: operation
 atomic: primitive
 mediation: coordination
-fun: "😊 3/5. Looking for useful building blocks for conversational UI."
+fun: 😊 3/5. Looking for useful building blocks for conversational UI.
+relationships:
+  enables:
+    - to: conversation
+      note: parent pattern
+  alternative:
+    - to: closing
+      note: the preferred alternative when a formal close is possible
+  precedes:
+    - to: agent-opening
+      note: re-entry point when the bot resumes after a disengagement
+    - to: user-opening
+      note: users can also re-open on their own initiative after stepping away
 ---
 Allow either party to step away without a formal close (e.g., idle, context switch), keeping state ready for later resumption.
 
@@ -24,10 +36,3 @@ Allow either party to step away without a formal close (e.g., idle, context swit
 
 ## Metrics
 Successful resumes; time-to-resume; stale-state errors; opt-outs of reminders.
-
-## Related patterns
-
-- [Conversation](/patterns/conversation) — parent pattern
-- [Closing](/patterns/closing) — the preferred alternative when a formal close is possible
-- [Opening (Bot)](/patterns/agent-opening) — re-entry point when the bot resumes after a disengagement
-- [Opening (User)](/patterns/user-opening) — users can also re-open on their own initiative after stepping away

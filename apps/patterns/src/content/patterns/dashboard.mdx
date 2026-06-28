@@ -1,10 +1,16 @@
 ---
-title: "Needs-based view"
+title: Needs-based view
 role: pattern
-group: "sense-making"
+group: sense-making
 activityLevel: action
 atomic: composition
 mediation: individual
+relationships:
+  related:
+    - to: data-view
+      note: Collection representations with framing intents
+    - to: item-view
+      note: Single-entity representations at different granularities
 ---
 Views shaped by the user's immediate purpose rather than fixed interface conventions. The same underlying data presents itself differently depending on whether the user needs to monitor, analyse, or investigate—configuring granularity, metrics, and navigation mechanisms to match the task at hand.
 
@@ -26,12 +32,6 @@ Draw conclusions through structured investigation. Provides medium granularity w
 Investigate specific entities by progressively narrowing focus. Users navigate from collection overview through filtering to individual [item detail](/patterns/item-view), using <ComponentRef id="actions-evaluation-semantic-zoom--docs">semantic zoom</ComponentRef> to maintain spatial context.
 
 **Typical configuration:** Linked views enabling collection → item transitions, preserved filter state, breadcrumb navigation for context.
-
-## Related patterns
-
-- <ComponentRef id="actions-evaluation-semantic-zoom--docs">Semantic zoom</ComponentRef> - Density-preserving transitions between views
-- [Data view](/patterns/data-view) - Collection representations with framing intents
-- [Item view](/patterns/item-view) - Single-entity representations at different granularities
 
 ## Resources & references
 

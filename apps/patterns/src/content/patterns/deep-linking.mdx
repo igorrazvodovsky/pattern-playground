@@ -1,9 +1,15 @@
 ---
-title: "Deep linking"
+title: Deep linking
 role: pattern
 activityLevel: operation
 atomic: primitive
 mediation: individual
+relationships:
+  related:
+    - to: commenting
+      note: Comments get unique URLs
+    - to: progressive-disclosure
+      note: URL state tracks what's expanded/revealed
 ---
 Make any state addressable through a URL, so the actor can return to it, share it, or bookmark it without reconstructing it.
 
@@ -83,11 +89,9 @@ This enables users to save their position within complex applications, share spe
 - Keyboard navigation should update URLs appropriately
 - URL changes shouldn't interrupt screen reader flow
 
-## Related patterns
+## Related components
 
 - <ComponentRef id="actions-coordination-messaging--docs">Messaging</ComponentRef> — Each message/thread is addressable
-- [Commenting](/patterns/commenting) — Comments get unique URLs
-- [Progressive disclosure](/patterns/progressive-disclosure) — URL state tracks what's expanded/revealed
 
 ## Resources
 

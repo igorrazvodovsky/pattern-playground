@@ -1,11 +1,30 @@
 ---
-title: "Opening (Bot)"
+title: Opening (Bot)
 role: pattern
-group: "conversation/sequence-management"
+group: conversation/sequence-management
 activityLevel: operation
 atomic: primitive
 mediation: coordination
-fun: "😊 3/5. Looking for useful building blocks for conversational UI."
+fun: 😊 3/5. Looking for useful building blocks for conversational UI.
+relationships:
+  related:
+    - to: abort
+      note: if the user disengages before reaching the first activity
+  enables:
+    - to: conversation
+      note: parent pattern for all conversational encounters
+  composed-of:
+    - to: capability-and-scope
+      note: capability giving is often embedded within the opening
+  precedes:
+    - to: open-request
+      note: typical first activity after a bot-initiated opening
+  alternative:
+    - to: extended-telling
+      note: offered on user refusal as an alternative to immediate engagement
+  follows:
+    - to: disengage-without-closing
+      note: if the bot re-opens after a prior session was abandoned
 ---
 The bot opens the encounter, establishes footing, and proposes the first topic.
 
@@ -23,12 +42,3 @@ The bot opens the encounter, establishes footing, and proposes the first topic.
 
 ## Metrics
 First-topic acceptance rate; time-to-first-action; bounce rate after opening.
-
-## Related patterns
-
-- [Conversation](/patterns/conversation) — parent pattern for all conversational encounters
-- [Capability & scope](/patterns/capability-and-scope) — capability giving is often embedded within the opening
-- [Open request](/patterns/open-request) — typical first activity after a bot-initiated opening
-- [Extended telling](/patterns/extended-telling) — offered on user refusal as an alternative to immediate engagement
-- [Abort](/patterns/abort) — if the user disengages before reaching the first activity
-- [Disengage without closing](/patterns/disengage-without-closing) — if the bot re-opens after a prior session was abandoned

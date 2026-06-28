@@ -1,12 +1,17 @@
 ---
-title: "Item view"
+title: Item view
 role: pattern
-group: "seeking"
+group: seeking
 activityLevel: action
 atomic: composition
 mediation: individual
 lifecycle: seeking
-fun: "🙂 4/5. Flexibility in displaying an entity enables a lot of emergent behaviour and contextual adaptation."
+fun: 🙂 4/5. Flexibility in displaying an entity enables a lot of emergent behaviour and contextual adaptation.
+relationships:
+  related:
+    - to: data-view
+      note: Collection-scope counterpart
+    - progressive-disclosure
 ---
 
 {/* TODO: Storybook demo exists — packages/components/src/stories/actions/seeking/ItemView.stories.tsx */}
@@ -78,12 +83,9 @@ Item views support fluid navigation through semantic levels:
 
 These transitions preserve context and maintain recognition of the entity across representations.
 
-## Related patterns
+## Related components
 
 - <ComponentRef id="actions-evaluation-semantic-zoom--docs">Semantic zoom</ComponentRef> - Density-preserving transitions between granularities
-- [Data view](/patterns/data-view) - Collection-scope counterpart
 - <ComponentRef id="primitives-reference--docs">Reference</ComponentRef>
-- [Progressive disclosure](/patterns/progressive-disclosure)
 - <ComponentRef id="components-dialog--docs">Dialog</ComponentRef> & <ComponentRef id="components-drawer--docs">drawer</ComponentRef>
 - <ComponentRef id="actions-sense-making-card--docs">Card</ComponentRef> – summary-level item representations
-{/* - Information scent: Each level provides cues about deeper content */}

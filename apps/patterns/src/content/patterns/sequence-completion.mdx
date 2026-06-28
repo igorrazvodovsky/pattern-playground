@@ -1,11 +1,23 @@
 ---
-title: "Sequence completion"
+title: Sequence completion
 role: pattern
-group: "conversation/sequence-management"
+group: conversation/sequence-management
 activityLevel: operation
 atomic: primitive
 mediation: coordination
-fun: "😊 3/5. Looking for useful building blocks for conversational UI."
+fun: 😊 3/5. Looking for useful building blocks for conversational UI.
+relationships:
+  enables:
+    - to: conversation
+      note: parent pattern
+  follows:
+    - to: agent-repair
+      note: resumes the primary activity at sequence completion once a bot-side breakdown is resolved
+    - to: user-repair
+      note: resumes at sequence completion once the user's comprehension is restored
+  precedes:
+    - to: closing
+      note: natural follow-up when sequence completion signals the overall goal is achieved
 ---
 The user signals the current sequence has **successfully completed**.
 
@@ -15,11 +27,3 @@ The user signals the current sequence has **successfully completed**.
 
 ## Metrics
 Completion without next-move pick; next-move acceptance rate; premature re-prompts.
-
-## Related patterns
-
-- [Conversation](/patterns/conversation) — parent pattern
-- [Bot repair](/patterns/agent-repair) — resumes the primary activity at sequence completion once a bot-side breakdown is resolved
-- [User repair](/patterns/user-repair) — resumes at sequence completion once the user's comprehension is restored
-- [Closing](/patterns/closing) — natural follow-up when sequence completion signals the overall goal is achieved
-

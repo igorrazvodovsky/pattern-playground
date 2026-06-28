@@ -1,11 +1,20 @@
 ---
-title: "Human goes first"
+title: Human goes first
 role: pattern
-group: "application/cognitive-forcing-functions"
+group: application/cognitive-forcing-functions
 activityLevel: action
 atomic: pattern
 mediation: individual
-fun: "🙂 3/5. Skill-building forcing function."
+fun: 🙂 3/5. Skill-building forcing function.
+relationships:
+  related:
+    - to: cognitive-forcing-functions
+      note: the family this pattern belongs to
+  enacts:
+    - to: learnability
+      note: domain learnability scaffolding that deepens rather than fades
+    - to: agency
+      note: directly prevents the skill atrophy side of over-reliance
 ---
 Periodically withholding the system's recommendation so the user performs the task unaided, then comparing human and machine results and using mismatches as feedback.
 
@@ -39,14 +48,11 @@ The pattern preserves an unaided first judgement and, used consistently, can mai
 - *Relationship to [learnability](/patterns/learnability).* This is the only forcing function with a genuine skill-building dimension. It connects to [domain learnability](/patterns/learnability) — the kind that builds competence over time rather than just supporting it temporarily.
 - *Opt-out with justification.* Let users skip the exercise, but consider rationale logging for the skip — "why are you bypassing the check?" creates a lighter forcing effect even on the escape hatch.
 
-## Related patterns
-
-- [Cognitive forcing functions](/patterns/cognitive-forcing-functions) — the family this pattern belongs to
-- Update after initial judgement — shares the "user judges first" structure but without the full skill-building arc
-- [Learnability](/patterns/learnability) — domain learnability scaffolding that deepens rather than fades
-- [Agency / appropriate reliance](/patterns/agency#appropriate-reliance) — directly prevents the skill atrophy side of over-reliance
-
 ## Resources & references
 
 - Noessel, C. (2024). *Designing Assistant Technology*
 - Buçinca, Z., Malaya, M. B., & Gajos, K. Z. (2021). [To trust or to think](https://dl.acm.org/doi/10.1145/3449287)
+
+## To-do
+
+- Update after initial judgement — shares the "user judges first" structure but without the full skill-building arc

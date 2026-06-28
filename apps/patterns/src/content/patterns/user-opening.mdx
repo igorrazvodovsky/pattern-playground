@@ -1,11 +1,28 @@
 ---
-title: "Opening (User)"
+title: Opening (User)
 role: pattern
-group: "conversation/sequence-management"
+group: conversation/sequence-management
 activityLevel: operation
 atomic: primitive
 mediation: coordination
-fun: "😊 3/5. Looking for useful building blocks for conversational UI."
+fun: 😊 3/5. Looking for useful building blocks for conversational UI.
+relationships:
+  enables:
+    - to: conversation
+      note: parent pattern
+  related:
+    - to: agent-repair
+      note: for disambiguating ambiguous or overlapping user openings
+    - to: abort
+      note: if the user immediately changes their mind
+  precedes:
+    - to: open-request
+      note: the most common activity a user-initiated opening transitions into
+    - to: inquiry-agent
+      note: used when the opening requires clarification before proceeding
+  instantiates:
+    - to: inquiry-user
+      note: when the opening is a simple question
 ---
 The user initiates the encounter; the bot recognizes the open and aligns quickly to a topic.
 
@@ -19,13 +36,3 @@ The user initiates the encounter; the bot recognizes the open and aligns quickly
 
 ## Metrics
 Time-to-topic; unnecessary clarification rate after user openings; drop-offs before first action.
-
-## Related patterns
-
-- [Conversation](/patterns/conversation) — parent pattern
-- [Open request](/patterns/open-request) — the most common activity a user-initiated opening transitions into
-- [Inquiry (Bot)](/patterns/inquiry-agent) — used when the opening requires clarification before proceeding
-- [Inquiry (User)](/patterns/inquiry-user) — when the opening is a simple question
-- [Bot repair](/patterns/agent-repair) — for disambiguating ambiguous or overlapping user openings
-- [Abort](/patterns/abort) — if the user immediately changes their mind
-

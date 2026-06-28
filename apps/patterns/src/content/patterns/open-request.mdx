@@ -1,11 +1,23 @@
 ---
-title: "Open request"
+title: Open request
 role: pattern
-group: "conversation/conversational-activities"
+group: conversation/conversational-activities
 activityLevel: operation
 atomic: primitive
 mediation: coordination
-fun: "😊 3/5. Looking for useful building blocks for conversational UI."
+fun: 😊 3/5. Looking for useful building blocks for conversational UI.
+relationships:
+  enables:
+    - to: conversation
+      note: parent pattern; open request is the primary primitive for instruction-based dialogue
+  follows:
+    - to: agent-opening
+      note: bot-initiated openings typically transition into an open request
+    - to: user-opening
+      note: user-initiated openings with a complex request map directly to this primitive
+  composed-of:
+    - to: inquiry-agent
+      note: used within open request to gather missing or ambiguous constraints
 ---
 A user makes a complex request that typically requires clarification and/or multiple steps.
 
@@ -28,10 +40,3 @@ A user makes a complex request that typically requires clarification and/or mult
 - Wrong-action rate before confirmation
 - Clarifications per task; completion time
 - Accuracy against source-of-truth/tool outputs
-
-## Related patterns
-
-- [Conversation](/patterns/conversation) — parent pattern; open request is the primary primitive for instruction-based dialogue
-- [Opening (Bot)](/patterns/agent-opening) — bot-initiated openings typically transition into an open request
-- [Opening (User)](/patterns/user-opening) — user-initiated openings with a complex request map directly to this primitive
-- [Inquiry (Bot)](/patterns/inquiry-agent) — used within open request to gather missing or ambiguous constraints
