@@ -99,6 +99,18 @@ Per-direction notes (directed edges — `precedes`, `enables`, `instantiates`): 
 
 Valid rel values: `precedes`, `follows`, `enables`, `composed-of`, `instantiates`, `instances`, `variants`, `complements`, `tangential`, `alternative`, `enacts`, `surveys`, `related`. Direction is fixed by the rel name (see `docs/language/relationship-vocabulary.md`). `recommends` is not authorable — it comes only from decision trees.
 
+### Suppressing the rendered block
+
+`RelatedPatterns.astro` renders a "Related patterns" section at the foot of each
+page. Two ways it is skipped:
+
+- `role: quality` — never rendered. A quality is a diagnostic lens, not a
+  catalogue; the bridge to patterns lives on the pattern side via `enacts`.
+- `showRelated: false` in frontmatter — opt out per page when the body already
+  narrates every relationship inline (e.g. a `collection` whose prose links each
+  member). The edges still feed the graph; only the redundant on-page list is
+  skipped.
+
 ## Document structure
 
 Standard section order:

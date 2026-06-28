@@ -20,6 +20,10 @@ const patterns = defineCollection({
     mediation: z.enum(['individual', 'coordination']).optional(),
     description: z.string().optional(),
     tags: z.array(z.string()).optional(),
+    // Suppress the rendered "Related patterns" block when the body already
+    // narrates its relationships inline. Edges still feed the graph; only the
+    // on-page section is skipped (see RelatedPatterns invocation in [...slug].astro).
+    showRelated: z.boolean().optional(),
     // Typed relationships: rel-type → array of bare slugs or {to, note} objects.
     // Parsed by scripts/extract-graph-data.ts; see docs/language/relationship-vocabulary.md.
     relationships: z.record(z.array(z.union([
