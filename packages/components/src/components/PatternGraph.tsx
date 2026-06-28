@@ -63,6 +63,7 @@ interface GraphEdgeData {
   target: string;
   type?: string;
   label?: string;
+  incomingNote?: string;
 }
 
 const SVG_WIDTH = 900;
@@ -106,7 +107,7 @@ function buildGraph() {
       source: e.source,
       target: e.target,
       type: e.type ?? 'related',
-      label: e.label,
+      label: e.label ?? e.incomingNote,
     }));
   const layoutLinks: LayoutLink[] = renderedGraphEdges
     .filter((e) => e.type !== 'recommends')

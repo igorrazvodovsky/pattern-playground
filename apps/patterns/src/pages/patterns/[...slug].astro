@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import { Demo } from '../../components/Demo';
 import { ComponentRef } from '../../components/ComponentRef';
+import RelatedPatterns from '../../components/RelatedPatterns.astro';
 
 export async function getStaticPaths() {
   const entries = await getCollection('patterns');
@@ -27,5 +28,6 @@ const { Content } = await render(entry);
     </header>
     <pp-toc heading="On this page" data-pagefind-ignore></pp-toc>
     <Content components={{ Demo, ComponentRef }} />
+    <RelatedPatterns slug={entry.id} />
   </article>
 </Base>
