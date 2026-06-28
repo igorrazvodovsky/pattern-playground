@@ -1,10 +1,30 @@
 ---
-title: "Autofill"
+title: Autofill
 role: pattern
 activityLevel: operation
 atomic: pattern
 mediation: individual
-fun: "🙂 2/5. Dependency."
+fun: 🙂 2/5. Dependency.
+relationships:
+  complements:
+    - to: autocomplete
+      note: "the reactive counterpart: completes what the actor is actively typing rather than pre-populating from stored values"
+    - to: assisted-task-completion
+      note: the spectrum this pattern belongs to
+    - to: suggestion
+      note: autofill as a form of implicit recommendation
+  enacts:
+    - to: privacy
+      note: autofill surfaces what the system knows about the actor
+    - to: adaptation
+      note: autofill that learns from corrections over time
+  precedes:
+    - to: form
+      note: the container where autofill most commonly appears
+    - to: data-entry
+      note: autofill as a strategy for frictionless input
+    - to: saving
+      note: what happens after pre-filled data is accepted
 ---
 Populating fields with previously known or stored values, pulled from actor profiles, prior sessions, browser data, or contextual defaults.
 
@@ -32,26 +52,9 @@ Address, payment, and identity data that the actor manages through browser setti
 
 The application fills fields from its own knowledge of the actor: account details, preferences, prior entries. Less transparent than browser autofill because the actor may not realise what the system has on file.
 
-## Related patterns
-
-### Precursors
+## Related components
 
 - <ComponentRef id="primitives-input--docs">Input</ComponentRef> — the primitive autofill populates
-- [Good defaults](/patterns/good-defaults) — when the system can guess a reasonable value without stored data
-
-### Complementary
-
-- [Autocomplete](/patterns/autocomplete) — the reactive counterpart: completes what the actor is actively typing rather than pre-populating from stored values
-- [Assisted task completion](/patterns/assisted-task-completion) — the spectrum this pattern belongs to
-- [Suggestion](/patterns/suggestion) — autofill as a form of implicit recommendation
-- [Privacy](/patterns/privacy) — autofill surfaces what the system knows about the actor
-- [Adaptability](/patterns/adaptation) — autofill that learns from corrections over time
-
-### Follow-ups
-
-- [Form](/patterns/form) — the container where autofill most commonly appears
-- [Data entry](/patterns/data-entry) — autofill as a strategy for frictionless input
-- [Saving](/patterns/saving) — what happens after pre-filled data is accepted
 
 ## Resources & references
 

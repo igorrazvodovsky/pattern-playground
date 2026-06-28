@@ -1,10 +1,34 @@
 ---
-title: "Good defaults"
+title: Good defaults
 role: pattern
 activityLevel: operation
 atomic: pattern
 mediation: individual
-fun: "🗺️ 2/5. Mapping out the basics."
+fun: 🗺️ 2/5. Mapping out the basics.
+relationships:
+  precedes:
+    - to: autocomplete
+      note: pre-populating values before the actor starts typing
+    - to: autofill
+      note: when the system can guess a reasonable value without stored data
+    - to: localization
+      note: locale detection and sensible starting configuration
+  related:
+    - to: onboarding
+      note: Often sets the initial state and defaults for the application
+    - to: settings
+      note: Where global defaults are managed and overridden
+    - to: suggestion
+      note: A weaker form of default ("Did you mean X?") or a dynamic default
+  complements:
+    - to: form
+      note: The primary container where defaults are encountered
+  enacts:
+    - to: agency
+      note: a default is the system making the small decision so the actor doesn't have to; the actor still has the final say but doesn't have to spend it on this field
+  alternative:
+    - to: data-entry
+      note: The alternative when a default cannot be guessed
 ---
 Pre-fill fields and pre-select options with intelligent guesses to save user effort and reduce errors.
 Defaults also serve as *examples*, showing users the expected answer format.
@@ -32,17 +56,9 @@ Tailored to the individual actor.
 - *Invisibility*: Users might not notice a default value and submit incorrect data.
 - *Blindness*: If a user can skip a field, the question might not "register" mentally, reducing their understanding of the system settings.
 
-## Related patterns
-
-- [Onboarding](/patterns/onboarding) - Often sets the initial state and defaults for the application
-- [Settings](/patterns/settings) - Where global defaults are managed and overridden
-- [Suggestion](/patterns/suggestion) - A weaker form of default ("Did you mean X?") or a dynamic default
-- Autofill — the mechanism for applying defaults to forms
-- [Agency](/patterns/agency) — a default is the system making the small decision so the actor doesn't have to; the actor still has the final say but doesn't have to spend it on this field
-- [Form](/patterns/form) - The primary container where defaults are encountered
-- [Input hints](/patterns/data-entry#input-hints) - The alternative when a default cannot be guessed
-- [Localization](/patterns/localization) — locale detection as a source of sensible defaults
-{/* - [Profile](/patterns/compositions-profile) - Source of truth for personalized defaults. */}
+{/* TODO: relations set aside, kept for review (not active edges):
+- [Profile](/patterns/compositions-profile) - Source of truth for personalized defaults.
+*/}
 
 ## Resources
 - [UI Patterns - Good Defaults](https://ui-patterns.com/patterns/GoodDefaults)
