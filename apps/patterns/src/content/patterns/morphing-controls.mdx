@@ -6,9 +6,12 @@ atomic: pattern
 mediation: individual
 relationships:
   related:
-    - status-feedback
-    - unavailable-actions
-    - state-disabled
+    - to: status-feedback
+      note: the control's transformation is itself a form of status feedback
+    - to: unavailable-actions
+      note: removes controls entirely; morphing keeps them present but transformed
+    - to: state-disabled
+      note: greys out controls without indicating the new state; morphing transforms instead
   instantiates:
     - to: progressive-disclosure
       note: a broader pattern
