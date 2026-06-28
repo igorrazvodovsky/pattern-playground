@@ -1,12 +1,34 @@
 ---
-title: "Form"
+title: Form
 role: pattern
-group: "application"
+group: application
 activityLevel: action
 atomic: composition
 mediation: individual
-fun: "🥱 boring but important groundwork."
-description: "The structured collection of input from the actor."
+fun: 🥱 boring but important groundwork.
+description: The structured collection of input from the actor.
+relationships:
+  enacts:
+    - to: formality
+      note: how much structure the system demands of the actor, and when.
+  complements:
+    - to: data-entry
+      note: the broader move each field enacts; the form is one of its containers.
+    - to: conversation
+      note: may resolve into a form when a dialogue stabilises around structured data collection.
+    - to: localization
+      note: locale-aware parsing and format tolerance for input.
+    - to: good-defaults
+      note: pre-selecting likely values to remove entry entirely.
+    - to: status-feedback
+      note: validation and system status during and after entry.
+    - to: saving
+      note: autosave and manual save strategies for in-progress and committed input.
+  tangential:
+    - to: state-disabled
+      note: alternatives to disabling form elements.
+  related:
+    - inline-interface
 ---
 
 import { FormDemo } from '@pkg/demos/form';
@@ -35,28 +57,6 @@ A form makes the actor translate their situation into the system's fields. When 
 {/* TODO (Fieldset gap): binding several controls into one labelled question — radio group, address block, day/month/year — has no mechanism yet, and is distinct from Sections (disclosure) and Grouping (comparison). Build it as the Form component's sub-mechanism; keep "composite field" as a named force until it earns a node. See plans/active/2026-05-workspace-split.md, "Decomposition: worked examples and learnings". */}
 
 {/* Decision trees relocated (the originals routed between mechanisms, not this umbrella's child moves): control-cardinality tree → bounded-choice.mdx; input-selection tree → Form component page (Storybook). A move-routing tree for the umbrella itself (one field or many? linear or single-page? rigid or forgiving?) could be authored here later. */}
-
-## Related patterns
-
-### Constituent moves
-- [Bounded choice](/patterns/bounded-choice) — committing a value from a set the actor didn't author; the move behind selects, radios, and checkboxes.
-- [Sections](/patterns/sections) — splitting a long form into adaptive, separately disclosed parts.
-- [Progressive disclosure](/patterns/progressive-disclosure) — revealing depth only as it becomes relevant.
-- [Wizard](/patterns/wizard) and [Step by step](/patterns/step-by-step) — fragmenting a complex submission into gated, sequential steps.
-- [Formality](/patterns/formality) — how much structure the system demands of the actor, and when.
-
-### Complementary
-- [Data entry](/patterns/data-entry) — the broader move each field enacts; the form is one of its containers.
-- [Conversation](/patterns/conversation) — may resolve into a form when a dialogue stabilises around structured data collection.
-- [Localization](/patterns/localization) — locale-aware parsing and format tolerance for input.
-- [Good defaults](/patterns/good-defaults) — pre-selecting likely values to remove entry entirely.
-- [Status feedback](/patterns/status-feedback) — validation and system status during and after entry.
-- [Saving](/patterns/saving) — autosave and manual save strategies for in-progress and committed input.
-
-### Tangentially related
-- [Disabled state](/patterns/state-disabled) — alternatives to disabling form elements.
-
-The constituent controls and primitives (Input, Textarea, Select, Checkbox, Button, Details) and the convergent layout, labelling, and validation craft are documented on the <ComponentRef id="actions-application-form--docs">Form component</ComponentRef> page.
 
 ## Resources & references
 

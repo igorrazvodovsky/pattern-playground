@@ -1,12 +1,35 @@
 ---
-title: "Cognitive forcing functions"
+title: Cognitive forcing functions
 role: pattern
-group: "application"
+group: application
 activityLevel: action
 atomic: pattern
 mediation: individual
 lifecycle: evaluation
-fun: "🤯 4/5. Practical tools for addressing overreliance on AI."
+fun: 🤯 4/5. Practical tools for addressing overreliance on AI.
+relationships:
+  enacts:
+    - to: agency
+      note: the outcome this family is trying to produce
+    - to: learnability
+      note: forcing functions only work when users have the competence to evaluate; learnability builds that competence
+    - to: temporality
+      note: timing-based forcing functions (wait, human goes first) depend on temporal design
+  complements:
+    - to: explanation
+      note: full explanations can *increase* over-reliance by giving users a plausible justification they don't need to think through; partial explanations counteract this
+    - to: transparent-reasoning
+      note: visible reasoning is valuable but can also anchor; the trade-off is central to this family
+    - to: generated-content
+      note: long-form output especially prone to over-reliance because verification cost is high
+  precedes:
+    - to: activity-log
+      note: rationale logging produces an audit trail that the activity log can surface
+  related:
+    - to: overreliance-checklist
+      note: structured review of considerations before accepting.
+    - to: human-goes-first
+      note: user performs the task unaided; system compares and teaches.
 ---
 Interventions that add analytical friction at the moment of accepting a system recommendation, so users engage their own judgement instead of rubber-stamping output.
 
@@ -43,27 +66,6 @@ Each member of the family uses a different mechanism to interpose judgement. The
 - Rationale logging — user records why they accepted or rejected.
 - [Human goes first](/patterns/human-goes-first) — user performs the task unaided; system compares and teaches.
 
-## Related patterns
-
-### Precursors
-
-- [Agency / appropriate reliance](/patterns/agency#appropriate-reliance) — the outcome this family is trying to produce
-- [Suggestion](/patterns/suggestion) — the primary site where forcing functions apply; see its fixation risk section
-- [Next-best action](/patterns/next-best-action) — workflow-level recommendations that benefit from forcing functions when stakes are high
-- [AI completion](/patterns/ai-completion) — inline generation prone to over-reliance because accepting is cheaper than evaluating
-
-### Complementary
-
-- [Explanation](/patterns/explanation) — full explanations can *increase* over-reliance by giving users a plausible justification they don't need to think through; partial explanations counteract this
-- [Transparent reasoning](/patterns/transparent-reasoning) — visible reasoning is valuable but can also anchor; the trade-off is central to this family
-- [Generated content](/patterns/generated-content) — long-form output especially prone to over-reliance because verification cost is high
-- [Learnability](/patterns/learnability) — forcing functions only work when users have the competence to evaluate; learnability builds that competence
-- [Temporality](/patterns/temporality) — timing-based forcing functions (wait, human goes first) depend on temporal design
-
-### Follow-ups
-
-- [Activity log](/patterns/activity-log) — rationale logging produces an audit trail that the activity log can surface
-
 ## Resources & references
 
 - Buçinca, Z., Malaya, M. B., & Gajos, K. Z. (2021). [To trust or to think: cognitive forcing functions can reduce overreliance on AI in AI-assisted decision-making](https://dl.acm.org/doi/10.1145/3449287)
@@ -73,4 +75,4 @@ Each member of the family uses a different mechanism to interpose judgement. The
 - Ashktorab, Z. et al. (2024). [Emerging reliance behaviors in human-AI content grounded data generation: the role of cognitive forcing functions and hallucinations](https://arxiv.org/abs/2409.08937)
 - Ghosh, A., Sarkar, A., Lindley, S. & Poelitz, C. (2026). [An experimental comparison of cognitive forcing functions for execution plans in AI-assisted writing](https://arxiv.org/abs/2601.18033)
 - Parasuraman, R. & Riley, V. (1997). [Humans and automation: Use, misuse, disuse, abuse](https://web.mit.edu/16.459/www/parasuraman.pdf). *Human Factors, 39(2), 230–253.*
-- Noessel, C. (2024). [Designing Assistant Technology](https://rosenfeldmedia.com/books/designing-assistant-technology/)
+- Noessel, C. (2026). [Designing Assistant Technology](https://rosenfeldmedia.com/books/designing-assistant-technology/)

@@ -1,10 +1,29 @@
 ---
-title: "Generated content"
+title: Generated content
 role: pattern
 activityLevel: activity
 atomic: pattern
 mediation: individual
-fun: "🙂 5/5. A part of a bigger attempt to map LLM-related patterns."
+fun: 🙂 5/5. A part of a bigger attempt to map LLM-related patterns.
+relationships:
+  follows:
+    - to: bot
+      note: generates the output being presented.
+  enacts:
+    - to: agency
+      note: the actor steers, edits, and improves the output rather than receiving a finished artefact
+  precedes:
+    - to: conversation
+      note: generated content can become part of ongoing dialogue.
+    - to: suggestion
+      note: output can inform subsequent suggestions or recommendations.
+  complements:
+    - to: transparent-reasoning
+      note: shows the step-by-step process behind the generated content.
+    - to: explanation
+      note: provides contextual information to clarify AI-driven decisions within the output.
+    - to: ai-tuning
+      note: settings that influence how content is generated and presented.
 ---
 
 {/* TODO: Storybook demo exists — packages/components/src/stories/activities/GeneratedContent.stories.tsx */}
@@ -61,26 +80,6 @@ Engages users in iterative dialogue (clarifying questions, multiple "regenerate"
 ## Caveats
 
 ...
-
-## Related patterns
-
-### Precursors
-
-- [Agency](/patterns/agency) — the actor steers, edits, and improves the output rather than receiving a finished artefact
-- [Bot](/patterns/bot) – generates the output being presented.
-- [Prompt](/patterns/prompt) – the input that leads to generated content.
-- [Localization](/patterns/localization) — locale-aware generation
-
-### Follow-ups
-
-- [Conversation](/patterns/conversation) – generated content can become part of ongoing dialogue.
-- [Suggestion](/patterns/suggestion) – output can inform subsequent suggestions or recommendations.
-
-### Complementary
-
-- [Transparent reasoning](/patterns/transparent-reasoning) – shows the step-by-step process behind the generated content.
-- [Explanation](/patterns/explanation) – provides contextual information to clarify AI-driven decisions within the output.
-- [AI tuning](/patterns/ai-tuning) – settings that influence how content is generated and presented.
 
 ## Resources & references
 
