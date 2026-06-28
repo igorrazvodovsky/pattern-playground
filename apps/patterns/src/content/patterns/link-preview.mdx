@@ -1,11 +1,22 @@
 ---
-title: "Link preview"
+title: Link preview
 role: pattern
-group: "seeking"
+group: seeking
 activityLevel: action
 atomic: pattern
 mediation: individual
-description: "Lets actors assess whether a linked destination is worth visiting before committing to the navigation."
+description: Lets actors assess whether a linked destination is worth visiting before committing to the navigation.
+relationships:
+  complements:
+    - to: dynamic-hyperlinks
+      note: inferred links benefit even more from preview, since actors have less prior expectation of where they lead
+    - to: deep-linking
+      note: when a link targets a specific section, the preview can scroll to and highlight the anchored fragment
+  enacts:
+    - to: learnability
+      note: previews help actors build a mental map of the knowledge base without navigating away from their current reading
+    - to: density
+      note: by deferring full content to hover, preview lets dense cross-referencing exist without overwhelming the page
 ---
 Lets actors assess whether a linked destination is worth visiting before committing to the navigation — a low-cost probe that reduces the penalty of following a wrong link and encourages exploration.
 
@@ -48,27 +59,10 @@ The preview acts as the first tier of [progressive disclosure](/patterns/progres
 - *No escape hatch* — previews must close on Escape and on scroll, and must never block interaction with the underlying page
 - *Touch hover emulation* — long-press-to-preview adds latency and confuses the tap model; skip it
 
-## Related patterns
-
-### Precursors
+## Related components
 
 - <ComponentRef id="primitives-popover--docs">Popover</ComponentRef> — the surface primitive; link preview is one specific application of its hover/focus mode
-- [Progressive disclosure](/patterns/progressive-disclosure) — link preview is the lightest disclosure tier: sample a destination before committing
-
-### Used by
-
 - <ComponentRef id="primitives-reference--docs">Reference</ComponentRef> — references reify connections as first-class entities; their preview escalation (hover → detail → full view) is one application of the link preview move within that broader pattern
-
-### Complementary
-
-- [Dynamic hyperlinks](/patterns/dynamic-hyperlinks) — inferred links benefit even more from preview, since actors have less prior expectation of where they lead
-- [Annotation](/patterns/annotation) — previews can surface annotations and meta-layers attached to the target, enriching the probe
-- [Deep linking](/patterns/deep-linking) — when a link targets a specific section, the preview can scroll to and highlight the anchored fragment
-
-### Tangentially related
-
-- [Learnability](/patterns/learnability) — previews help actors build a mental map of the knowledge base without navigating away from their current reading
-- [Density](/patterns/density) — by deferring full content to hover, preview lets dense cross-referencing exist without overwhelming the page
 
 ## Resources & references
 

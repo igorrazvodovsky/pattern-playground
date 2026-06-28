@@ -1,11 +1,40 @@
 ---
-title: "Next-best action"
+title: Next-best action
 role: pattern
-group: "application"
+group: application
 activityLevel: action
 atomic: pattern
 mediation: individual
-fun: "🙂 4/5. Connects workflow guidance with agentic AI."
+fun: 🙂 4/5. Connects workflow guidance with agentic AI.
+relationships:
+  precedes:
+    - to: cognitive-forcing-functions
+      note: workflow-level recommendations that benefit from forcing functions when stakes are high
+    - to: action-consequences
+      note: when accepting a recommendation leads to consequential decisions
+  related:
+    - to: assistance
+      note: Next-best action draws on assistance to decide *what* to suggest at workflow transitions
+    - to: delegation
+      note: Next-best action straddles the suggestion/delegation line — the same recommendation can be presented for the actor to accept or for the agent to perform.
+  enacts:
+    - to: agency
+      note: proactive recommendations must preserve actor control
+    - to: adaptation
+      note: recommendations that improve from accepted/rejected signal over time
+  complements:
+    - to: assisted-task-completion
+      note: the spectrum this pattern belongs to
+    - to: bot
+      note: 'powers next-best action via the [ambient mode](/patterns/bot#modes-of-interaction) of interaction'
+    - to: embedded-intelligence
+      note: next-best action as intelligence woven into the workflow
+    - to: transparent-reasoning
+      note: explaining the rationale behind recommendations
+    - to: notification
+      note: a common delivery mechanism for next-best action prompts
+    - to: onboarding
+      note: next-best action as guided first-use experience
 ---
 The system analyses what the actor is doing and recommends the most useful next step.
 
@@ -22,30 +51,3 @@ The most forward-leaning pattern on the [assisted task completion](/patterns/ass
 {/* - Recommendations feel presumptuous or interruptive. This is the "annoying assistant" trap, and it's easy to fall into */}
 {/* - The system doesn't have enough context to suggest anything useful */}
 {/* - Suggestions pile up without resolution, and actors start ignoring all of them */}
-
-## Related patterns
-
-### Foundations & use qualities
-
-- [Assistance](/patterns/assistance) — Next-best action draws on assistance to decide *what* to suggest at workflow transitions
-- [Delegation](/patterns/delegation) — Next-best action straddles the suggestion/delegation line — the same recommendation can be presented for the actor to accept or for the agent to perform.
-- [Agency](/patterns/agency) — proactive recommendations must preserve actor control
-- [Adaptability](/patterns/adaptation) — recommendations that improve from accepted/rejected signal over time
-
-### Precursors
-
-- [Suggestion](/patterns/suggestion) — the broader pattern; next-best action is specifically about recommending workflow steps
-- [Wizard](/patterns/wizard) — prescribed sequences; next-best action is the adaptive, context-aware alternative
-
-### Complementary
-
-- [Assisted task completion](/patterns/assisted-task-completion) — the spectrum this pattern belongs to
-- [Bot](/patterns/bot) — powers next-best action via the [ambient mode](/patterns/bot#modes-of-interaction) of interaction
-- [Embedded intelligence](/patterns/embedded-intelligence) — next-best action as intelligence woven into the workflow
-- [Transparent reasoning](/patterns/transparent-reasoning) — explaining the rationale behind recommendations
-- [Notification](/patterns/notification) — a common delivery mechanism for next-best action prompts
-- [Onboarding](/patterns/onboarding) — next-best action as guided first-use experience
-
-### Follow-ups
-
-- [Action consequences](/patterns/action-consequences) — when accepting a recommendation leads to consequential decisions

@@ -1,7 +1,48 @@
 ---
-title: "Localization"
+title: Localization
 role: foundation
-fun: "🙂 3/5. Mapping out the basics."
+fun: 🙂 3/5. Mapping out the basics.
+relationships:
+  precedes:
+    - to: conversation
+      note: dialogue structure adapted to cultural communication norms
+    - to: generated-content
+      note: locale-aware generation
+    - to: data-entry
+      note: locale-aware input parsing and format tolerance
+    - to: notification
+      note: localised message content, timing conventions
+    - to: help
+      note: localised documentation and support content
+  enacts:
+    - to: adaptation
+      note: the capacity that localization exercises
+    - to: shareability
+      note: locale-aware URLs and shared content
+    - to: privacy
+      note: data residency, GDPR, locale-specific regulation
+    - to: temporality
+      note: timezone handling, date format conventions
+    - to: density
+      note: text expansion affecting information density
+    - to: learnability
+      note: learning curves differ across localised interfaces
+  complements:
+    - to: ai-tuning
+      note: locale as a generation parameter
+    - to: onboarding
+      note: first-run locale detection and selection
+  tangential:
+    - to: collaboration
+      note: multilingual team dynamics
+    - to: workspace
+      note: per-actor locale in shared spaces
+    - to: suggestion
+      note: locale mismatch prompts
+    - to: bot
+      note: multilingual interaction
+    - to: explanation
+      note: culturally appropriate explanation styles
 ---
 
 import { MermaidDiagram } from '@components/MermaidDiagram';
@@ -74,37 +115,6 @@ flowchart TD
     I -->|Yes| D
     I -->|No| J[Not needed at pattern level]
 `} />
-
-## Related patterns
-
-### Precursors
-- [Information architecture](/patterns/information-architecture) — controlled vocabularies and label strategies that localization must adapt
-- [Settings](/patterns/settings) — language, timezone, and format preferences
-- [Good defaults](/patterns/good-defaults) — locale detection and sensible starting configuration
-
-### Follow-ups
-- [Data entry](/patterns/data-entry) — locale-aware input parsing and format tolerance
-- [Notification](/patterns/notification) — localised message content, timing conventions
-- [Conversation](/patterns/conversation) — dialogue structure adapted to communication norms
-- [Generated content](/patterns/generated-content) — locale-native generation
-- [Help](/patterns/help) — localised documentation and support content
-
-### Complementary
-- [Adaptability](/patterns/adaptation) — the capacity that localization exercises
-- [AI tuning](/patterns/ai-tuning) — locale as a generation parameter
-- [Onboarding](/patterns/onboarding) — first-run locale detection and selection
-- [Shareability](/patterns/shareability) — locale-aware URLs and shared content
-
-### Tangentially related
-- [Privacy](/patterns/privacy) — data residency, GDPR, locale-specific regulation
-- [Temporality](/patterns/temporality) — timezone handling, date format conventions
-- [Density](/patterns/density) — text expansion affecting information density
-- [Learnability](/patterns/learnability) — learning curves differ across localised interfaces
-- [Collaboration](/patterns/collaboration) — multilingual team dynamics
-- [Workspace](/patterns/workspace) — per-actor locale in shared spaces
-- [Suggestion](/patterns/suggestion) — locale mismatch prompts
-- [Bot](/patterns/bot) — multilingual interaction
-- [Explanation](/patterns/explanation) — culturally appropriate explanation styles
 
 ## Resources & references
 
