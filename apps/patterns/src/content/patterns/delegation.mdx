@@ -1,7 +1,19 @@
 ---
-title: "Delegation"
+title: Delegation
 role: foundation
-fun: "🧪 5/5. An attempt at grouping all that is unique to user-facing AI \"agents\" under one roof."
+fun: 🧪 5/5. An attempt at grouping all that is unique to user-facing AI "agents" under one roof.
+relationships:
+  precedes:
+    - to: activity-log
+      note: serves as the supervisory record for the *monitoring* and *hood to look under* touchpoints during execution
+    - to: bot
+      note: ambient and workflow automation bot modes
+  enacts:
+    - to: agency
+      note: "delegation moves the locus toward the system: the actor offloads sustained work and re-enters at handoff, takeback, and exception boundaries rather than attending continuously"
+  related:
+    - interaction
+    - assistance
 ---
 
 <div class="docs-quote">
@@ -105,11 +117,6 @@ The work is doen or the human stops using the system — deliberately or by negl
 
 {/* Delegation fails — or becomes unethical — when individual decisions are high-stakes, when goals are novel or contested, when the human needs to maintain skills that only practice provides, or when accountability cannot meaningfully transfer to a non-human system. Clinical diagnosis, high-stakes legal decisions, and situations where the human will be held responsible for outcomes they did not review are cases where delegation violates the implicit terms of the relationship. The frame to apply in those situations is [assistance](/patterns/assistance), not delegation — even if the underlying technology could run fully autonomously. */}
 
-## Enacted qualities & related foundations
+## Resources & references
 
-- [Agency](/patterns/agency) — delegation moves the locus toward the system: the actor offloads sustained work and re-enters at handoff, takeback, and exception boundaries rather than attending continuously
-- Delegation sits on the [Intent & Interaction](/patterns/interaction) substrate and is the sibling configuration to [Assistance](/patterns/assistance), where the human stays in the loop and the system intervenes selectively
-
-{/* ## Resources & references */}
-
-{/* - Noessel, C. (2017). *Designing Agentive Technology.* */}
+- Noessel, C. (2017). *Designing Agentive Technology.*

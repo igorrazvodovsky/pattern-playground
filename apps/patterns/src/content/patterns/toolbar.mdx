@@ -1,12 +1,26 @@
 ---
-title: "Toolbar"
+title: Toolbar
 role: pattern
-group: "coordination"
+group: coordination
 activityLevel: action
 atomic: composition
 mediation: coordination
 lifecycle: coordination
-fun: "🙂 3/5. Dependency."
+fun: 🙂 3/5. Dependency.
+relationships:
+  precedes:
+    - data-view
+    - filtering
+    - grouping
+  related:
+    - to: unavailable-actions
+      note: the pattern behind hiding toolbar items that are inaccessible in the current context
+  complements:
+    - to: command-menu
+      note: a keyboard-driven complement; exposes the full command set on demand where the toolbar exposes a persistent subset
+  enacts:
+    - to: agency
+      note: puts the relevant actions within reach, surfacing the ones that fit the actor's current intent
 ---
 
 {/* TODO: Storybook demo exists — packages/components/src/stories/Toolbar.stories.tsx */}
@@ -29,14 +43,7 @@ Features should be sorted in order of importance. Secondarily, features should b
 {/* - Start:  */}
 {/* - End: important items that need to remain available, an optional search field, and the More menu that contains additional items. It also includes a primary action when one exists. */}
 
-## Related patterns
+## Related components
 
 - <ComponentRef id="components-action-bar--docs">Action bar</ComponentRef> — the transient counterpart; summoned by selection rather than persistent, and typically composes a toolbar internally for its action group
 - <ComponentRef id="components-priority--docs">Priority+</ComponentRef> — handles overflow when toolbar items don't fit the available space
-- [Command menu](/patterns/command-menu) — a keyboard-driven complement; exposes the full command set on demand where the toolbar exposes a persistent subset
-- [Unavailable actions](/patterns/unavailable-actions) — the pattern behind hiding toolbar items that are inaccessible in the current context
-
-{/* # Resources & references */}
-
-{/* - https://developer.apple.com/design/human-interface-guidelines/toolbars */}
-{/* https://www.patternfly.org/components/toolbar/design-guidelines/ */}

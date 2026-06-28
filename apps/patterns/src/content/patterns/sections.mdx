@@ -1,10 +1,22 @@
 ---
-title: "Sections"
+title: Sections
 role: pattern
 activityLevel: operation
 atomic: component
 mediation: individual
-fun: "🙂 3/5. One of the building blocks of adaptive UI. Inspired by the [spicy sections](https://github.com/tabvengers/spicy-sections)."
+fun: 🙂 3/5. One of the building blocks of adaptive UI. Inspired by the [spicy sections](https://github.com/tabvengers/spicy-sections).
+relationships:
+  enables:
+    - to: form
+      note: splitting a long form into adaptive, separately disclosed parts.
+    - to: progressive-disclosure
+      note: adaptive container that combines details and tabs affordances
+  complements:
+    - to: grouping
+      note: organising content into named groups is a prerequisite for sectioning
+  enacts:
+    - to: adaptation
+      note: sections rearrange and reveal content based on context (collapsed by default for unfamiliar areas, expanded for the work in front of the actor) without learning from behaviour
 ---
 
 {/* TODO: Storybook demo exists — packages/components/src/stories/Sections.stories.tsx */}
@@ -17,18 +29,10 @@ Sections treats this as a single design decision rather than a choice between se
 
 The two modes — tab bar and details — are not layout options but *disclosure affordances*: different ways of managing which content is visible and how the actor navigates between parts.
 
-## Related patterns
-
-### Precursors
+## Related components
 
 - <ComponentRef id="components-tabs--docs">Tabs</ComponentRef> — the implementation is more complete when it comes to tab-related functionality: overflow scrolling, icon and subtitle slots, auto/manual activation.
 - <ComponentRef id="primitives-details--docs">Details</ComponentRef> — the standalone disclosure primitive that Sections' `details` affordance mirrors across multiple siblings
-
-### Complementary
-
-- [Progressive disclosure](/patterns/progressive-disclosure) — the pattern these affordances serve; Sections is one of its containers
-- [Adaptability](/patterns/adaptation) — sections rearrange and reveal content based on context (collapsed by default for unfamiliar areas, expanded for the work in front of the actor) without learning from behaviour
-- [Grouping](/patterns/grouping) — organising content into named groups is a prerequisite for sectioning
 
 ## Resources & references
 

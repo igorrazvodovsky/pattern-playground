@@ -1,11 +1,26 @@
 ---
-title: "View"
+title: View
 role: pattern
-group: "sense-making"
+group: sense-making
 activityLevel: action
 atomic: composition
 mediation: individual
-fun: "🙂 4/5"
+fun: 🙂 4/5
+relationships:
+  enacts:
+    - to: malleability
+      note: The capability to change the view's content, layout, and composition
+    - to: density
+      note: Information per unit of space
+    - to: adaptation
+      note: System response to context changes
+  related:
+    - to: progressive-disclosure
+      note: Sequential revelation of information
+    - to: item-view
+      note: Single-entity representations across semantic levels
+    - to: data-view
+      note: Collection representations with filtering, sorting, and grouping
 ---
 Views are purposeful framings of data that make information legible for specific needs and contexts. Rather than presenting data in a single fixed way, the system enables fluid navigation across multiple dimensions of representation.
 
@@ -70,10 +85,4 @@ Views can be persisted to reduce friction for repeated tasks:
 
 Saved views capture the complete framing: scope, granularity, filters, sort order, visible attributes, and layout.
 
-## Related patterns
 
-- [Malleability](/patterns/malleability) - The capability to change the view's content, layout, and composition
-- <ComponentRef id="actions-evaluation-semantic-zoom--docs">Semantic zoom</ComponentRef> - Density-preserving transitions between framings
-- [Progressive disclosure](/patterns/progressive-disclosure) - Sequential revelation of information
-- [Density](/patterns/density) - Information per unit of space
-- [Adaptability](/patterns/adaptation) - System response to context changes
