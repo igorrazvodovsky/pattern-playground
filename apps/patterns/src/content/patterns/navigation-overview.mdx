@@ -1,9 +1,43 @@
 ---
-title: "Overview"
+title: Overview
 role: collection
-group: "navigation"
+group: navigation
 activityLevel: action
-fun: "🗺️ 2/5. Mapping out the basics."
+fun: 🗺️ 2/5. Mapping out the basics.
+# body already links every surveyed pattern inline; skip the rendered block
+showRelated: false
+relationships:
+  surveys:
+    - to: information-architecture
+      note: structural and organizational foundation that navigation models manifest
+    - to: interaction
+      note: behavioural patterns enabled by structural choices
+    - to: agency
+      note: control distribution implications
+    - to: hub-and-spoke
+      note: central hub lists all sections, actors return to hub for cross-section navigation
+    - to: overview-detail
+      note: simultaneous display of collection and item (Split View)
+    - to: fully-connected
+      note: every page links to all others through global navigation
+    - to: multilevel-tree
+      note: hierarchical structure with global navigation for main pages, local navigation for subpages
+    - to: step-by-step
+      note: prescribed sequences with back/next controls
+    - to: pyramid
+      note: hub lists sequence, actors can navigate sequentially or jump to any item
+    - to: pan-and-zoom
+      note: continuous spatial navigation through large single spaces
+    - to: flat-navigation
+      note: minimal navigation, all functions accessible in one place
+    - to: hybrid-patterns
+      note: combinations of multiple models
+    - malleability
+    - deep-linking
+    - searching
+    - command-menu
+  precedes:
+    - workspace
 ---
 
 import { MermaidDiagram } from '@components/MermaidDiagram';
@@ -105,12 +139,6 @@ Models can be rendered in various ways:
 - Tabs, menus, sidebar trees for *fully connected* or *tree*
 - Cards, lists, grids for *hub and spoke*
 - Progress indicators, stepper components, or next/previous for *step by step*
-
-## Related patterns
-
-- [Information architecture](/patterns/information-architecture) — structural and organizational foundation that navigation models manifest
-- [Intent & interaction](/patterns/interaction) — behavioural patterns enabled by structural choices
-- [Agency](/patterns/agency) — control distribution implications
 
 ## Resources & references
 

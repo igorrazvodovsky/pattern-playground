@@ -1,11 +1,30 @@
 ---
-title: "Explanation"
+title: Explanation
 role: pattern
-group: "sense-making"
+group: sense-making
 activityLevel: action
 atomic: pattern
 mediation: individual
-fun: "💭 _calculating..._"
+fun: 💭 _calculating..._
+relationships:
+  related:
+    - assistance
+    - state-disabled
+    - progressive-disclosure
+    - to: localization
+      note: culturally appropriate explanation styles
+  complements:
+    - to: transparent-reasoning
+      note: shows step-by-step process while explanation encourages understanding through interaction
+    - to: collaboration
+      note: uses explanations to facilitate understanding through transparency about other actors' actions
+  enacts:
+    - to: learnability
+      note: explanations teach the domain the tool encodes, not just how to operate it
+    - to: agency
+      note: makes the system's reasoning legible so the actor can judge when to defer and when to override
+    - to: adaptation
+      note: explanations adjust their depth and form to the actor's level and context
 ---
 
 import { DynamicExplanationDemo } from '@pkg/demos/bubble-menu';
@@ -101,7 +120,7 @@ TODO: Example: Predicted match of an item
 
 ### Level 2. Simple explanation
 
-Users can access the explanation popover by clicking the explanation indicator. This popover offers contextual information beyond a single value and lists the factors that contributed to the result.
+Users can access the explanation <ComponentRef id="primitives-popover--docs">popover</ComponentRef> by clicking the explanation indicator. This popover offers contextual information beyond a single value and lists the factors that contributed to the result.
 
 TODO: Example: explain price through costs, margin, and discount
 
@@ -111,19 +130,7 @@ TODO: Examples: "I'm not sure. But...", "... Plese keep in mind, this informatio
 
 ### Level 3. Extended explanation
 
-TODO: Example: drawer with instructions or help text.
-
-## Related patterns
-
-- [Assistance](/patterns/assistance)
-- [Learnability](/patterns/learnability) – domain explanations support domain learnability
-- [Disabled state](/patterns/state-disabled)
-- [Progressive disclosure](/patterns/progressive-disclosure)
-- [Transparent reasoning](/patterns/transparent-reasoning) – shows step-by-step process while explanation encourages understanding through interaction
-- <ComponentRef id="primitives-popover--docs">Popover</ComponentRef>
-- <ComponentRef id="components-drawer--docs">Drawer</ComponentRef>
-- [Collaboration](/patterns/collaboration) – uses explanations to facilitate understanding through transparency about other actors' actions
-- [Localization](/patterns/localization) — culturally appropriate explanation styles
+TODO: Example: a <ComponentRef id="components-drawer--docs">drawer</ComponentRef> with instructions or help text.
 
 ## Resources
 

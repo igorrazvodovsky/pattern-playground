@@ -1,11 +1,30 @@
 ---
-title: "Assisted task completion"
+title: Assisted task completion
 role: pattern
-group: "application"
+group: application
 activityLevel: action
 atomic: pattern
 mediation: individual
-fun: "🙂 4/5. A usefull umbrella for all things where the system does part of the work"
+fun: 🙂 4/5. A usefull umbrella for all things where the system does part of the work
+relationships:
+  related:
+    - assistance
+    - to: bot
+      note: 'powers AI completion and next-best action; the [inline and ambient modes](/patterns/bot#modes-of-interaction) map directly to this group'
+    - transparent-reasoning
+    - autocomplete
+    - autofill
+    - ai-completion
+    - next-best-action
+  enacts:
+    - to: agency
+      note: mirrors this spectrum; more system initiative demands more careful preservation of actor control
+  instantiates:
+    - to: suggestion
+      note: the broader pattern of system-generated recommendations; this spectrum focuses on the specific mechanisms
+  follows:
+    - to: good-defaults
+      note: the simplest form of pre-population, before any of these patterns kick in
 ---
 Four ways the system can offer to do part of the work: predictions, stored values, generated content, or recommended actions. The actor accepts, edits, or dismisses.
 
@@ -22,14 +41,6 @@ All four share the same basic loop (system offers, actor decides) but they vary 
 **[Next-best action](/patterns/next-best-action)** recommends the next step when context changes. Whole actions or decisions, from contextual reasoning or rules.
 
 Autocomplete and autofill are operational: skilled actors barely notice them. AI completion and next-best action stay in conscious attention and require deliberate evaluation.
-
-## Related patterns
-
-- [Assistance](/patterns/assistance)
-- [Suggestion](/patterns/suggestion) — the broader pattern of system-generated recommendations; this spectrum focuses on the specific mechanisms
-- [Agency](/patterns/agency) — mirrors this spectrum; more system initiative demands more careful preservation of actor control
-- [Bot](/patterns/bot) — powers AI completion and next-best action; the [inline and ambient modes](/patterns/bot#modes-of-interaction) map directly to this group
-- [Good defaults](/patterns/good-defaults) — the simplest form of pre-population, before any of these patterns kick in
 
 ## Resources & references
 
