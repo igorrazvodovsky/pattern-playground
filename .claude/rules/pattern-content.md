@@ -91,6 +91,12 @@ Inline narrated edge (body prose):
 
 The `{rel="type"}` is stripped at build time by the `remark-rel-strip` plugin and never appears in rendered output.
 
+A `note` may contain inline markdown links (`[text](/patterns/slug#anchor)`); `RelatedPatterns.astro` renders them as real anchors. Quote the note value when it contains `[`, `:` followed by a space, or other YAML-significant characters.
+
+Per-direction notes (symmetric edges — `complements`, `tangential`, `alternative`, `related`): both endpoints may author the same edge, each with its own note. The renderer shows the *near-side* note — the one authored by the page being viewed — so the link reads in the local pattern's voice. Author the reverse note only when your side has something distinct to say; a single note still renders on both pages (the other side falls back to it). Do not duplicate the same note on both sides.
+
+Per-direction notes (directed edges — `precedes`, `enables`, `instantiates`): the forward author sets the outgoing note (`A` declares `precedes: {to: B, note}`); the target may add a reverse-reading note via the inverse alias (`B` declares `follows: {to: A, note}`, or `composed-of`/`instances` for enables/instantiates). Same rule: add the incoming note only when reading the edge in reverse needs different words. This enriches the one edge — it does not create a second edge.
+
 Valid rel values: `precedes`, `follows`, `enables`, `composed-of`, `instantiates`, `instances`, `variants`, `complements`, `tangential`, `alternative`, `enacts`, `surveys`, `related`. Direction is fixed by the rel name (see `docs/language/relationship-vocabulary.md`). `recommends` is not authorable — it comes only from decision trees.
 
 ## Document structure

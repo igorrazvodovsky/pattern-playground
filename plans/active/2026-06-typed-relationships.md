@@ -1,7 +1,9 @@
 # Typed relationships in MDX — authored, not inferred
 
-Status: design agreed, pre-implementation (2026-06-23). Supersedes heading-wording edge
-inference. Grounded in `research/umbrella-role-scale/` and
+Status: phases A–E implemented (2026-06-23). Phase D complete (2026-06-23): `RelatedPatterns.astro`
+wired into `[...slug].astro`, hand-authored `## Related patterns` sections removed from all
+MDX files, `## Enacted qualities` and `## Related foundations/qualities` variants also removed.
+Grounded in `research/umbrella-role-scale/` and
 `research/typed-relationships-authoring/2026-06-23.md`.
 
 ## Problem

@@ -39,9 +39,9 @@ The relationships defined below should be read in this register throughout.
 *A precedes B*: applying A produces a centre or condition on which B can subsequently act. The relationship is sequential — A sets up B — but the basis is generative, not merely temporal. A is a move whose result B then operates on.
 
 - Directionality: directed
-- Inverse: `follows`
+- Inverse: `follows` (authoring alias — see alias table below)
 - SKOS: no equivalent (SKOS has no temporal or generative-sequence dimension)
-- MDX headers: "Precursors", "Precursor patterns" (listed on B's page, pointing to A) → edge A `precedes` B. "Follow-ups", "Follow-up patterns" (listed on A's page, pointing to B) → edge A `precedes` B.
+- Authoring: `rel="precedes"` on the earlier move's page, or `rel="follows"` on the later move's page. Both store as `A precedes B`. In frontmatter: `relationships: { precedes: [B] }` on A's page, or `follows: [A]` on B's page.
 - Example: Progressive disclosure *precedes* Filtering — applying progressive disclosure produces a narrowed visible set that filtering can then act on.
 - Note: some chains form *generative sequences* in the strong Alexander sense (each step creates the conditions for the next). Localization's "linguistic, then cultural, then regional" ordering is an example. These are encoded as ordered chains of `precedes` edges; no separate edge type is needed.
 
@@ -53,7 +53,7 @@ The relationships defined below should be read in this register throughout.
 - Inverse: none stored. "What does A enable?" and "what enables B?" are both answered by traversing `enables` edges in either direction at query time. There is no "used by" or "composed of" stored as data.
 - Not the inverse of `instantiates`. `enables` is compositional (part/whole); `instantiates` is taxonomic (genus/species). They share a directional sense ("more specific to more general") but encode different relationships.
 - SKOS: aligns with `skos:narrower` (from B's perspective, A is a narrower/more specific mechanism) and `skos:broader` (from A's perspective, B is a broader pattern that uses A). The fit is imperfect — SKOS broader/narrower is taxonomic, while enables is compositional. But the directionality is the same: the enabling pattern is more specific, the enabled pattern more general.
-- MDX headers: "Containers and primitives", "Related primitives", "Mechanisms", "Components", "Conversational primitives", and the composition headers "Composed from", "Constituent moves", "Used by" → edge A `enables` B (where A is the part/mechanism listed, B is the page).
+- Authoring: `rel="enables"` on the part's page (A enables B), or `rel="composed-of"` on the whole's page (P is composed of target, stored as target enables P). In frontmatter: `relationships: { enables: [B] }` on A's page, or `composed-of: [A]` on B's page.
 - This is the *component–integral* (part/whole) relation, and it holds at any altitude: a mechanism enables a move (Button → Form) *and* a constituent move enables the composite move that incorporates it (Bounded choice → Form). The endpoints' roles tell the two apart; no separate `composed-of` edge is stored.
 - Example: Button *enables* Form — a form cannot function without actionable controls. Bounded choice *enables* Form — the form is composed of the constrained-field move.
 
@@ -64,7 +64,7 @@ The relationships defined below should be read in this register throughout.
 - Directionality: directed
 - Inverse: none stored. "What instantiates B?" and "what does A instantiate?" are both answered by traversing `instantiates` edges in either direction at query time. This is not the inverse of `enables`.
 - SKOS: aligns with `skos:broader` — A has broader concept B. This is the cleanest SKOS mapping in the vocabulary.
-- MDX headers: "Foundation", "Applied in", "Implements this model" → edge A `instantiates` B (where B is the foundation/model, A is the page that applies it).
+- Authoring: `rel="instantiates"` on the specialisation's page, or `rel="instances"`/`rel="variants"` on the genus's page. In frontmatter: `relationships: { instantiates: [B] }` on A's page.
 - Example: Autocomplete *instantiates* Good defaults — autocomplete is a specific mechanism that applies the principle of providing sensible defaults.
 
 ### complements
@@ -74,7 +74,7 @@ The relationships defined below should be read in this register throughout.
 - Directionality: undirected (symmetric)
 - Inverse: self-inverse
 - SKOS: aligns with `skos:related` — associative, non-hierarchical. SKOS does not distinguish complementary from tangential within `related`; this vocabulary does.
-- MDX headers: "Complementary", "Complements", "Complementary patterns"
+- Authoring: `rel="complements"` on either page. In frontmatter: `relationships: { complements: [B] }` on either page (or both — deduped on extraction).
 - Example: Filtering *complements* Sorting — both operate on the same collection and are frequently used together, but each functions independently.
 
 ### tangential
@@ -84,7 +84,7 @@ The relationships defined below should be read in this register throughout.
 - Directionality: undirected (symmetric)
 - Inverse: self-inverse
 - SKOS: a weaker form of `skos:related`. No direct SKOS equivalent for this weaker degree — SKOS treats all associative links as equally weighted.
-- MDX headers: "Tangentially related"
+- Authoring: `rel="tangential"` on either page. In frontmatter: `relationships: { tangential: [B] }`.
 - Example: Localization is *tangential* to Notification — both deal with presenting information to users, but in unrelated dimensions (language adaptation vs. attention management).
 
 ### alternative
@@ -94,7 +94,7 @@ The relationships defined below should be read in this register throughout.
 - Directionality: undirected (symmetric)
 - Inverse: self-inverse
 - SKOS: aligns with `skos:closeMatch` (concepts with similar meaning, potentially interchangeable) or `skos:exactMatch` (concepts with identical meaning). In this vocabulary, `alternative` implies similarity of purpose but not identity — closer to `closeMatch`.
-- MDX headers: "Alternatives"
+- Authoring: `rel="alternative"` on either page. In frontmatter: `relationships: { alternative: [B] }`.
 - Example: Dialog is an *alternative* to Drawer — both provide a secondary surface for focused interaction, with different trade-offs around context preservation.
 
 ### recommends
@@ -104,6 +104,7 @@ The relationships defined below should be read in this register throughout.
 - Directionality: directed
 - Inverse: none (recommendations are asymmetric and non-reciprocal)
 - SKOS: no equivalent. This is a situational, domain-specific relationship.
+- Authoring: *not an authorable rel* — comes only from decision trees. Do not write `rel="recommends"` on inline links or in frontmatter.
 - MDX source: Mermaid flowchart leaf nodes within `## Decision tree` sections
 - Situational hints: each recommendation carries the questions and branches that led to it, preserved as raw text rather than canonicalised. The library is not mature enough for a controlled vocabulary of conditions, and structured matching against situations would be brittle. The hints exist as context for an actor to consider — not as predicates to be matched.
 - Example: Deletion *recommends* Undo, with the situational hints "Is the deletion reversible? → Yes" and "How quickly can it be recreated? → Seconds". An actor reads this as "when the situation looks like a fast-recoverable reversible deletion, Undo has been a useful move" and applies its own judgement about whether the current situation actually resembles that.
@@ -116,7 +117,7 @@ The relationships defined below should be read in this register throughout.
 - Directionality: undirected (default)
 - Inverse: self-inverse
 - SKOS: `skos:related`
-- MDX source: flat "Related patterns" lists, inline prose links, custom thematic subcategories
+- Authoring: implicit fallback for an untyped `relationships:` frontmatter entry — list a slug without a `rel=` key: `relationships: { related: [B] }`. Untyped *inline links* are decorative and never produce edges.
 - Note: this is the *default* type. When a more specific type applies, it should be used instead. Over time, `related` edges are candidates for reclassification as the vocabulary or MDX structure evolves.
 
 ### surveys
@@ -126,7 +127,7 @@ The relationships defined below should be read in this register throughout.
 - Directionality: directed (collection -> member)
 - Inverse: none formal.
 - SKOS: `skos:member` — collection membership. SKOS `Collection`s group members *without* placing them in the broader/narrower hierarchy, which is exactly the semantics here: a collection never sits on an `enables`/`instantiates` path. (Earlier records said "no exact equivalent"; that was wrong.)
-- MDX source: untyped links on pages tagged `role:collection` (or the deprecated `role:umbrella` alias). On a collection page, *all* outgoing links default to `surveys`; subheadings under `## Related patterns` are editorial groupings whose text becomes the edge label.
+- Authoring: automatic for untyped body links on `role:collection` pages. Can also be declared explicitly with `relationships: { surveys: [B] }` on the collection page.
 - Example: Navigation overview *surveys* the navigation models it gathers; Operations *surveys* its constituent operation patterns.
 - Why this matters: collection pages are authored surveys. `surveys` preserves that membership altitude without forcing collection pages through `precedes`, `related`, or `enacts` semantics — and keeps member-collection grouping distinct from a composite *pattern*'s part-whole (`enables`) and genus-species (`instantiates`) relations.
 
@@ -149,7 +150,7 @@ These are different relations and are **not transitive across types**: do not tr
 - Directionality: directed (pattern → quality only — qualities don't enact patterns)
 - Inverse: none formal (the inverse "Q is enacted by A" is implicit in graph traversal)
 - SKOS: no equivalent. This is the most domain-specific relationship in the vocabulary.
-- MDX source: inline references from pattern pages to quality pages, and subcategory headers in qualities pages that group enacting patterns
+- Authoring: automatic for untyped body links from non-quality pages to quality pages. Can also be declared explicitly with `rel="enacts"` inline or `relationships: { enacts: [quality-slug] }` in frontmatter.
 - Example: Confirmation dialog *enacts* Agency — the pause-before-consequence is a move that strengthens the user's sense of intentional control.
 - *Labelling*: a label should name what the move does to the centre such that the effect is legible through Q's lens — not restate the type ("X supports Q") or define the quality. "Creates a moment of intentional pause before acting" is a label; "supports agency" is not.
 - Why this matters: under the generative-moves framing, the qualities act as a vocabulary for what a transformation should accomplish. An actor reasoning "what's weak in the current structure that I should strengthen?" needs to know which moves enhance which qualities. Promoting these from prose links to typed edges makes that reasoning possible.
@@ -220,25 +221,83 @@ Project-specific extensions:
 | `surveys` | Collection pages are authored surveys over a grouping of members, not single-move sources. `surveys` maps to `skos:member` and keeps collection pages from being flattened into generic `related` links — and keeps member-collection grouping distinct from the component-integral (`enables`) and genus-species (`instantiates`) relations a composite *pattern* uses. |
 | `tangential` | Literature has generic association, neighbouring, and "related" language, but not a stable weak-adjacency type. `tangential` preserves the current author signal where pages explicitly distinguish conceptual adjacency from complementarity, dependency, or substitution. It is intentionally provisional: if future gardening shows it is only a weak form of `related`, or better handled by tags/projections, it can be merged or replaced through the changelog. |
 
-## Inverse pair enforcement
+## Authoring model
 
-Only `precedes`/`follows` form a true inverse pair. The extraction script should treat these symmetrically:
+Edges come from three explicit sources plus three structural auto-typings:
 
-| If the MDX says... | Extract as... | And infer the inverse... |
+### Explicit authoring channels
+
+1. *Frontmatter `relationships:`* — declare typed edges for any pattern this page relates to:
+   ```yaml
+   relationships:
+     precedes: [wizard, step-by-step]
+     complements:
+       - to: bounded-choice
+         note: "the constrained-field move"
+       - sections
+     composed-of: [data-entry]
+   ```
+   Bare strings or `{to, note}` objects. The optional `note` becomes the edge label.
+
+2. *Inline `rel=` on links* — for narrated edges in body prose:
+   ```mdx
+   …each field is [bounded choice](/patterns/bounded-choice){rel="composed-of"}…
+   ```
+   The `{rel="type"}` annotation is stripped by the `remark-rel-strip` plugin before rendering.
+
+3. *`<PatternRef>` and `<ComponentRef>` component props*:
+   ```mdx
+   <PatternRef slug="wizard" rel="precedes">Wizard</PatternRef>
+   ```
+
+Untyped prose links are decorative — they never produce edges (invariant I1).
+
+### Authoring aliases and direction normalization
+
+Direction is fixed by the relation name (invariant I2), not an author field. Aliases let the author pick the word that fits their sentence:
+
+| `rel=` on page P | Stored edge | Canonical type |
 |---|---|---|
-| B lists A under "Precursors" | A `precedes` B | B `follows` A |
-| A lists B under "Follow-ups" | A `precedes` B | B `follows` A |
+| `precedes` | P → target | precedes |
+| `follows` | target → P | precedes |
+| `enables` | P → target | enables |
+| `composed-of` | target → P | enables |
+| `instantiates` | P → target | instantiates |
+| `instances` / `variants` | target → P | instantiates |
+| `complements` | P ↔ target | complements |
+| `tangential` | P ↔ target | tangential |
+| `alternative` | P ↔ target | alternative |
+| `enacts` | P → target (quality) | enacts |
+| `surveys` | P (collection) → target | surveys |
+| `related` | P ↔ target | related |
 
-`enables` and `instantiates` are *not* inverses of each other, despite the surface similarity. They are distinct directed relationships:
+`recommends` is not in this table — it is never an authored rel.
 
-- `enables` is compositional ("Button is a building block Form uses")
-- `instantiates` is taxonomic ("Autocomplete is a specific application of Good defaults")
+### Structural auto-typings (invariant I7)
 
-Each is extracted from its own set of MDX headers and stored once. Reverse traversal ("what enables Form?", "what instantiates Good defaults?") is handled by graph queries operating on the directed edges, not by storing inverse edges as data.
+Three auto-typings apply without explicit authoring:
 
-Symmetric relationships (`complements`, `tangential`, `alternative`, `related`) generate edges in both directions by definition — the extraction script should emit both A→B and B→A, or the graph component should treat them as bidirectional.
+1. Untyped body links on `role:collection` pages → `surveys`
+2. Untyped body links from non-quality pages to quality pages → `enacts`
+3. Decision-tree leaf nodes → `recommends`
+
+Only these three forms of auto-typing exist. Everything else requires an explicit `rel`.
+
+### No redundant inverses
+
+Inverse edges are *not* stored for directed types. "What does A enable?" and "what enables B?" are both answered by traversing `enables` edges in either direction at query time. `follows` is an authoring alias, not a stored edge type — if A `precedes` B is stored, no separate B `follows` A edge should exist.
+
+Symmetric relationships (`complements`, `tangential`, `alternative`, `related`) may be declared on either page; the extractor deduplicates by `(source, target, type)` key.
+
+A directed edge is a one-way *claim* (`A precedes B`) but a two-way *path*: the graph is traversed in both directions — an actor on B walks back to its precedents for context. So a directed edge carries an optional second note for the reverse reading. The forward author sets the outgoing `label` (`A` declares `precedes: {to: B, note}`); the target may add an incoming note by authoring the *inverse alias* (`B` declares `follows: {to: A, note}`, or `composed-of`/`instances` for enables/instantiates). This adds a note slot to the one edge — it does *not* create a second stored edge, so the no-redundant-inverses rule holds. The renderer shows the outgoing note when the edge is read forward and the incoming note when read in reverse, each falling back to the other when only one is authored. Author an incoming note only when the reverse reading needs different words; a single note serves both directions otherwise. (`enacts` needs none — quality pages render nothing, so there is no reverse reader.)
 
 `enacts` (pattern → quality), `recommends` (pattern → pattern, with situational hints), and `surveys` (collection → member) have no inverse — they are asymmetric and unidirectional.
+
+### When an edge resists typing, look for a mediator
+
+If a direct edge between two patterns won't take a clean type — you find yourself stamping the same gloss onto `precedes` *and* `instantiates` *and* `complements`, or arguing each in turn — that is usually a signal that the relationship is *mediated*, not direct. The patterns connect through a third pattern, and the direct edge is compressing a two-hop path into one mistyped link.
+
+The move is to decompose. Read the note: if it names several things ("the bot reveals capability, intent, and reasoning incrementally"), each clause is often a separate pattern that already sits between the two (here `onboarding`, `transparent-reasoning`). If those intermediate patterns exist and already link to both endpoints, drop the direct edge — the graph routes the relationship correctly without it. If the mediator is genuinely missing, that is a gap to author, not an edge to force a type onto. A pattern language draws the line through the named intermediate; so should the graph.
 
 ## Edge schema
 
@@ -247,7 +306,8 @@ interface Edge {
   source: string;
   target: string;
   type: EdgeType;
-  label?: string;                                            // prose annotation — extracted from MDX `— ` text or authored manually
+  label?: string;                                            // outgoing prose annotation — shown when the edge is read forward (on the source page)
+  incomingNote?: string;                                     // optional note authored from the target side (via follows/composed-of/instances) — shown when the edge is read in reverse (on the target page)
   extractedFrom?: string;                                    // provenance — header text, 'quality-target', or 'decision-tree:<id>'
   situationalHints?: Array<{ question: string; branch: string }>;  // only for 'recommends'
 }
@@ -326,6 +386,83 @@ Testable assertions derived from this vocabulary's own definitions. These can be
 A running record of why types were added, merged, renamed, or retired, what alternatives were considered, and what was lost in each decision. The vocabulary is provisional — it will keep evolving as the library grows. Making its construction visible is part of treating classification as a living artifact rather than a closed specification (compare Bowker & Star, *Sorting Things Out*: "the only good classification is a living classification").
 
 Each entry: date, change, why, what was considered, what was lost.
+
+### 2026-06-25 — Per-direction notes on directed edges (incoming note)
+
+Extends the symmetric per-direction notes (2026-06-24) to directed edges. A directed edge now carries an optional `incomingNote` alongside its outgoing `label`: the forward author sets `label` (`A precedes B`), the target sets the incoming note via an inverse alias (`B follows A`). `extractGraphData`'s `addEdge` was changed from skip-on-duplicate to *merge* — it fills an empty note slot rather than dropping the second author's note — and inverse-alias notes route to `incomingNote`. The renderer shows the outgoing note read forward, the incoming note read in reverse, each falling back to the other.
+
+Why: directionality is a claim about the relationship, not a constraint on movement. The graph is walked in both directions (an actor designing with it reads a pattern's precedents for context), so a note must serve whichever end the reader arrives from. A single note often reads correctly from only one end — e.g. `onboarding precedes mastery` stored "initial phase before the actor develops efficiency", which describes onboarding and reads as a non-sequitur on onboarding's own page.
+
+Side effect (improvement): the merge recovered 8 pre-existing edges that were authored from both ends (a forward type plus an inverse alias) where the old skip silently dropped one note. All now render both glosses, each on its proper side.
+
+What was considered: requiring the incoming note (rejected — most edges read fine both ways with one note; follow the "only when distinct" rule). What was lost: nothing.
+
+### 2026-06-25 — Multi-type pair cleanup (contradictory re-typing + redundant `related` drop)
+
+Migration to frontmatter often stamped one prose gloss onto two or three edge types between the same pair, leaving 65 pairs carrying more than one type. Resolved in two passes:
+
+- Contradictory (15 pairs carrying a symmetric *and* a directed type, or two directed types): re-typed to one per pair by meaning. Examples: `data-view enables selection` (dropped the duplicate `precedes`); `wizard instantiates step-by-step` (the stored `step-by-step instantiates wizard` contradicted its own note — corrected via the `instances` alias, which inverts); `bot ↔ progressive-disclosure` dropped entirely as mediated (see the mediator guidance above — it routes through `onboarding` and `transparent-reasoning`). Two pairs kept both glosses as per-direction symmetric notes (`activity-log ↔ collaboration`, `command-menu ↔ collaboration`).
+- Redundant `related` (38 pairs): the extractor dedup now drops `related` when a stronger type exists between the pair in *either* direction (was same-direction only). Stronger = any type except `recommends`, which is decision-tree routing rather than an association claim and so does not subsume `related`. Of the 38: 36 coexisted with an authored type; 2 were bare member-side links coexisting only with `surveys` collection membership (no notes lost). Where a dropped `related` carried a distinct gloss and the survivor was symmetric, the gloss was folded into that symmetric type as a per-direction note (11 pairs) rather than dropped; the rest were duplicates or directed-survivor glosses with no slot.
+
+Result: 65 → 12 multi-type pairs, of which 10 are benign (`surveys`/`recommends` legitimately coexisting with an authored type). Two residual symmetric-vs-symmetric mismatches remain (`annotation ↔ link-preview`, `bounded-choice ↔ autocomplete`) — a milder category, not yet resolved.
+
+Why: direction and type are claims (I2), so a pair asserting `precedes` and `complements` at once asserts two incompatible things. Side effect: dropping `learnability tangential localization` also closed one of the purist-stance quality leaks noted on 2026-06-23.
+
+What was lost: a handful of directed-survivor `related` glosses (the target-side view of a directed edge) — directed edges hold one note, which already renders on both endpoints.
+
+### 2026-06-24 — Per-direction notes on symmetric edges
+
+A symmetric edge (`complements`, `tangential`, `alternative`, `related`) is one relationship seen from two vantages. Both endpoints may now author it, each with its own note; `RelatedPatterns.astro` renders the *near-side* note — the one authored by the page being viewed — falling back to the other side when only one is authored. First use: `bot ⇄ collaboration` reads "frames the AI as a collaborator with its own modes" on collaboration's page and "bots participate as collaborative agents…" on bot's.
+
+Why: a link between two patterns is described twice in a pattern language, once in each pattern's voice (cf. *A Pattern Language*'s up/down cross-references; the annotated-backlink convention in wiki/Zettelkasten tools, where the value is the *context at the point of linking*). The graph layer was previously forcing a single voice, and the dedup kept whichever record it iterated first — not reliably the local one.
+
+No storage change: the extractor already keeps both directed records (`source|target|type` keys differ by direction); the fix is display-only. Considered and rejected as over-engineering: reifying edges / RDF-star quoted triples (the nesting-order complexity isn't worth it for one optional note), and Topic-Maps-style named roles. Constraint borrowed from the backlink literature: per-direction notes earn their place only when *authored and distinct* — never auto-filled, never duplicated across both sides.
+
+### 2026-06-24 — Re-typing migration-flattened `precedes` edges (collaboration cluster)
+
+The pre-migration `## Related patterns` lists grouped neighbours under prose headings like `### Precursors`, which the old heading-text extractor flattened to `precedes`. On `collaboration` this lumped three heterogeneous relations into one type. Re-typed by meaning:
+
+- `collaboration-foundation precedes collaboration` → `collaboration instantiates collaboration-foundation`. The pattern is a concrete application of the foundational concept (skos:broader); `precedes` mis-stated a taxonomic relation as a sequential one. First `instantiates` edge to target a `foundation` — the type's definition already names foundations as valid targets. Note reworded off "enacts" ("the foundation this activity realises") to avoid colliding with the `enacts` type name.
+- `bot precedes collaboration` → `bot complements collaboration`. Bots participating as collaborative agents is co-deployment, not precedence.
+- Mutual `collaboration ⇄ conversation` precedence (each side authored a `precedes` to the other) collapsed to a single `conversation complements collaboration`. `enables` was considered and rejected: collaboration does not *depend* on conversation (async collaboration via shared artefacts is real), and both sit at the `activity` altitude — symmetric `complements` is truer than a compositional `enables`.
+
+Why: direction and type are fixed by the relation name (I2), so a wrong type is a wrong claim. These notes survived migration via the reverse-edge author, so nothing rendered was missing — only the types were wrong and `conversation` double-rendered (Precedes + Preceded by).
+
+What was lost: `collaboration`'s own gloss on `bot` ("frames the AI as a collaborator with its own modes") — one edge holds one note, and the source-side (`bot`) gloss is canonical.
+
+Known follow-up (not done): other files likely carry the same `Precursors`-heading→`precedes` mistyping. A corpus sweep of `precedes` edges for ones that should be `instantiates`/`complements` is a separate pass.
+
+### 2026-06-23 — Quality pages carry no pattern list (purist stance)
+
+`RelatedPatterns.astro` now renders nothing on `role: quality` pages (guarded by `nodes[slug]?.role === 'quality'`). A quality is a diagnostic lens — "which property is weak here?" — not a catalogue of its instances. Enumerating every pattern legible through a quality's lens trends toward *all of them* and carries near-zero signal; the length of such a list is the symptom of a category error, not a sizing problem. The bridge from move to quality lives entirely on the pattern side via `enacts`, explored through the graph, never rendered as a quality-page section.
+
+To match the data to the stance, the quality-authored `related:` frontmatter was cut to quality→quality targets only. Of the 52 quality→pattern `related` edges removed: 28 already had a pattern→quality `enacts` counterpart (pure duplicates); 18 were migrated to `enacts` authored on the pattern/foundation side with Q-lens labels (e.g. `undo enacts temporality` — "lets the actor reverse an action after the fact"); 6 were dropped as not genuinely enacts-shaped (`progressive-disclosure→formality`, `interaction→malleability`, `data→malleability`, `collaboration-foundation→temporality`, `suggestion→temporality`, `command-menu→temporality`). The 25 quality↔quality `related` edges are kept as latent graph data — they relate properties to each other and render nowhere under the purist stance, awaiting a deliberate quality-relationship treatment (cf. Open Question #5, `tensions-with`).
+
+Why: see the *enacts* section and Open Question #6. This is the Nature-of-Order reading — properties don't reference their instances — made operational in the renderer, consistent with how `agency.mdx`'s "Appropriate reliance" already treats qualities as diagnostics ("strengthen whichever contributing quality is weakest").
+
+What was considered: a curated "characteristic moves" list per quality (rejected as still a list, and `enacts` is pattern→quality only so a quality cannot author it); capping the incoming `enacts` list (needs a curation signal that doesn't exist yet).
+
+What's lost / staged: two non-`related` quality→non-quality edges remain and still leak a quality onto a foundation page — `privacy enables collaboration-foundation` and `learnability tangential localization`. Left in place pending a decision on whether the purist cut extends past `related` to all quality-authored outbound edges.
+
+### 2026-06-23 — Purist stance is one-directional (pattern-side quality prose stays)
+
+Clarifies the entry above. The no-catalogue rule applies only to the quality→pattern direction. A pattern may still narrate a quality at length in its body — annotation's `## Temporal dimension` section being the sharpest case (the only quality used as a *linked heading*; `transparent-reasoning`, `bot`, `collaboration` carry quality-themed sections too). That prose *is* the move→quality bridge told from the pattern side, which is where it belongs.
+
+Consequence: such a pattern surfaces the quality twice — once as in-context narration, once as the generated `enacts` line in `RelatedPatterns`. This redundancy is accepted. The two serve different jobs (reading vs. graph-navigation), so the renderer does *not* suppress an outgoing `enacts` whose target is also linked from body prose.
+
+What was considered: suppressing the generated line when a body section already covers the target (rejected — adds renderer heuristics and couples the generated block to prose structure); dropping the prose sections as the same category error in reverse (rejected — loses genuinely rich content like annotation's lifecycle/rhythm/history).
+
+What's lost: nothing removed. Open follow-up — pre-existing `enacts` notes were never audited against the Q-lens label convention; some are "supports-Q"-shaped (annotation's `learnability` note, "annotations provide the context needed for learning"). A note audit is warranted but separate.
+
+### 2026-06-23 — Typed relationships: explicit authoring replaces heading-text inference
+
+Replaced `HEADER_TYPE_MAP` / `INVERSE_DIRECTION_HEADERS` heading-text inference with three explicit authoring channels: frontmatter `relationships:`, inline `{rel="type"}` on links, and `<PatternRef>`/`<ComponentRef>` component props. Direction is fixed by the relation name via an alias table (e.g. `follows` normalises to `precedes` with inverted direction). Three structural auto-typings are kept — decision-tree → `recommends`, quality-target → `enacts`, collection-page untyped links → `surveys`. All 818 existing edges were migrated to `relationships:` frontmatter via `scripts/migrate-relationships.ts`.
+
+Why: heading-text inference coupled four interacting mechanisms (header text, inverse-direction sets, role-based defaults, quality-promotion). Prose edits silently mutated the graph. Authored-not-inferred satisfies Shipman's formality trap criterion — opt-in (I1) and predictable (direction fixed by name, not author intent).
+
+What was considered: keeping heading extraction as a compatibility layer alongside explicit authoring. Rejected — dual-mode would have perpetuated the silent mutation problem. Migration script provides the transition; the old `## Related patterns` sections remain in MDX as prose pending Phase D removal.
+
+What's lost: thematic tag collection from `### ` subcategory headers (e.g. "Core collaborative components" → node tag). Acceptable: tags were a side-effect of the header model, not a first-class feature.
 
 ### 2026-06-22 — `umbrella` role split into `pattern` + `collection`; `surveys` = `skos:member`
 
