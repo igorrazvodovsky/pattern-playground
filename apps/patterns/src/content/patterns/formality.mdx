@@ -1,6 +1,14 @@
 ---
-title: "Formality"
+title: Formality
 role: quality
+relationships:
+  related:
+    - to: agency
+      note: low formality preserves user agency during exploration
+    - to: learnability
+      note: every formalism carries its own learning curve, independent of the task
+    - to: adaptation
+      note: systems that adapt formality to context avoid premature structure
 ---
 
 The degree of structure a system requires from the user at a given moment.
@@ -37,23 +45,6 @@ Let information enter informally and gain structure over time. Don't require cat
 ### Inferred structure
 
 Rather than requiring users to declare structure explicitly, recognise it from what's already there — textual, spatial, temporal, or visual patterns. Inferred structure should be treated as *transient and lightweight*: useful for interaction (e.g. expanding a visual grouping, offering a contextual action) but not committed as permanent metadata. If the inference is wrong, it costs the user nothing.
-
-## Related patterns
-
-- [Intent & interaction](/patterns/interaction) — formality parallels the interaction arc; as intent matures, so does the structure around it
-- [Suggestion](/patterns/suggestion) — the primary mechanism for gradual formalisation; offers structure without demanding it
-- [Data entry](/patterns/data-entry) — where formality demands are most directly felt
-- [Form](/patterns/form) — the high-formality end of the spectrum
-- [Tag](/patterns/tag) — lightweight formalisation through inline categorisation
-- <ComponentRef id="actions-coordination-messaging--docs">Messaging</ComponentRef> — conversational input accepts unstructured text by design
-- [Bot](/patterns/bot) — interprets intent from freeform input without requiring formal structure
-
-## Related qualities
-
-- [Agency](/patterns/agency) — low formality preserves user agency during exploration
-- [Learnability](/patterns/learnability) — every formalism carries its own learning curve, independent of the task
-- [Adaptation](/patterns/adaptation) — systems that adapt formality to context avoid premature structure
-- [Collaboration](/patterns/collaboration-foundation) — multi-actor contexts introduce social pressure toward premature formalisation; structure that aids legibility for others can close off exploration for the originating actor
 
 ## Resources
 

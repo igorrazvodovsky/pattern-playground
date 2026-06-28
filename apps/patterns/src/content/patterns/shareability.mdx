@@ -1,6 +1,16 @@
 ---
-title: "Shareability"
+title: Shareability
 role: quality
+relationships:
+  related:
+    - to: agency
+      note: makes system state explicit and controllable, so the actor can see and communicate exactly what they share
+    - to: conversation-quality
+      note: a URL is a contract for what you're looking at; state as a conversational interface
+    - to: adaptation
+      note: URL-encoded state lets actors share and reuse personalised configurations
+    - to: a11y
+      note: bookmarkable URLs let assistive settings persist and return across sessions
 ---
 The extent to which system state can be captured, transmitted, and reliably reconstructed through links, enabling users to communicate precise application contexts to others.
 
@@ -105,30 +115,6 @@ State that compromises security, performance, or user experience:
 - Unsaved input — draft content, incomplete forms
 - High-frequency transient data — mouse position, animation frames
 - Session-specific state — authentication status, temporary permissions
-
-## Related patterns
-
-- Shareability strengthens [user agency](/patterns/agency) by making system state explicit and controllable. Users can precisely communicate their view, bookmark moments for later, and verify that "what they see is what they share." URLs become user-accessible state inspectors rather than opaque technical addresses.
-- URLs function as [conversational interfaces](/patterns/conversation-quality)—they're contracts between application and user that communicate intent clearly. A well-designed URL answers "what am I looking at?" just by being read. This transparency builds trust and supports cooperative interaction.
-
-- [Collaborative work](/patterns/collaboration-foundation) benefits when participants can share precise application states through URLs.
-
-
-- [Adaptive systems](/patterns/adaptation) benefit from URL state as a mechanism for user-driven personalisation. View preferences, feature toggles, and configuration encoded in URLs let users experiment with adaptations and share successful configurations with others.
-
-- Shareable URLs improve [accessibility](/patterns/a11y) by enabling users to bookmark and return to specific configurations (high contrast, increased density, focus modes). State persistence through URLs ensures assistive preferences aren't lost between sessions.
-- [Localization](/patterns/localization) — locale-aware URLs and shared content
-
-{/* ### Collaborative patterns */}
-{/* - Share link generators — create shortened or formatted share links */}
-{/* - Link previews — show what state a shared link will restore */}
-{/* - Deep linking — direct access to specific content or configurations */}
-
-{/* ### Progressive enhancement */}
-{/* - Client-side routing — URLs work with and without JavaScript */}
-{/* - Server-side rendering — URLs produce meaningful responses server-side */}
-{/* - Bookmarkability — every significant state has a unique, stable URL */}
-
 
 ## Resources & references
 

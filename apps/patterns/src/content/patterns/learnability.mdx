@@ -1,6 +1,10 @@
 ---
-title: "Learnability"
+title: Learnability
 role: quality
+relationships:
+  instantiates:
+    - to: agency
+      note: competence facilitates agency
 ---
 The capability of a system to enable users to achieve and maintain competence with minimal training demand. It is not just about initial "ease of use", but about the structural support for transition from novice to expert.
 
@@ -66,25 +70,6 @@ Some rough correspondences between cognitive levels and patterns in this library
 {/* - **Layered interfaces** improve *initial* learnability and safety (preventing destructive errors) but may initially limit speed for tasks requiring advanced tools. */}
 {/* - **Full functionality** offers maximum efficiency for experts but creates a "wall of complexity" for novices. */}
 {/* - **Context matters:** Use progressive/layered approaches for infrequent users, novices, or high-risk tasks. Use full functionality for dedicated expert applications. */}
-
-## Related patterns
-
-### Mechanisms
-- [Annotation](/patterns/annotation) – marking content to add context and meaning
-- [Explanation](/patterns/explanation) – domain explanations support domain learnability
-- [Transparent reasoning](/patterns/transparent-reasoning) – showing *why* a system made a suggestion helps users learn the underlying logic
-- [Progressive disclosure](/patterns/progressive-disclosure) – structures the learning curve by hiding complexity
-- [Bot](/patterns/bot) — the bot lets the actor ask the system rather than decipher it; learning happens through dialogue at the actor's pace
-
-### Lifecycle
-- [Onboarding](/patterns/onboarding) – the initial spike in learning
-- [Mastery](/patterns/mastery) – the long tail of expert performance
-
-### Foundation
-- [Agency](/patterns/agency) – competence facilitates agency
-
-### Tangentially related
-- [Localization](/patterns/localization) — learning curves might differ across localised interfaces
 
 ## Resources & references
 
