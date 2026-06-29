@@ -7,9 +7,6 @@ atomic: primitive
 mediation: coordination
 fun: 😊 3/5. Looking for useful building blocks for conversational UI.
 relationships:
-  related:
-    - to: abort
-      note: if the user disengages before reaching the first activity
   enables:
     - to: conversation
       note: parent pattern for all conversational encounters
@@ -19,6 +16,8 @@ relationships:
   precedes:
     - to: open-request
       note: typical first activity after a bot-initiated opening
+    - to: abort
+      note: if the user disengages before reaching the first activity
   alternative:
     - to: extended-telling
       note: offered on user refusal as an alternative to immediate engagement

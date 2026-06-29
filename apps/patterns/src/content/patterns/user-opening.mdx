@@ -13,13 +13,13 @@ relationships:
   related:
     - to: agent-repair
       note: for disambiguating ambiguous or overlapping user openings
-    - to: abort
-      note: if the user immediately changes their mind
   precedes:
     - to: open-request
       note: the most common activity a user-initiated opening transitions into
     - to: inquiry-agent
       note: used when the opening requires clarification before proceeding
+    - to: abort
+      note: if the user immediately changes their mind
   instantiates:
     - to: inquiry-user
       note: when the opening is a simple question

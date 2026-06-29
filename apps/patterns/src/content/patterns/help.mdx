@@ -1,10 +1,28 @@
 ---
-title: "Help"
+title: Help
 role: pattern
 activityLevel: activity
 atomic: pattern
 mediation: individual
-fun: "🗺️ 2/5. Mapping out the basics."
+fun: 🗺️ 2/5. Mapping out the basics.
+relationships:
+  related:
+    - to: embedded-intelligence
+      note: The proactive sibling to Help. If Help explains how to do X, Embedded Intelligence offers to do X for you.
+    - to: explanation
+      note: The core content unit of high-quality help.
+    - to: status-feedback
+      note: Communicates system state; the "Recover" purpose often begins with status feedback.
+    - command-menu
+    - bot
+  enacts:
+    - to: learnability
+      note: help meets the actor at the moment of friction, both on first use and later when memory fades; learning happens in context rather than ahead of time
+    - to: conversation-quality
+      note: 'help is a dialogue: the actor asks at the point of friction and the system answers in context'
+  enables:
+    - to: annotation
+      note: A mechanism for attaching help to specific elements.
 ---
 
 import { MermaidDiagram } from '@components/MermaidDiagram';
@@ -64,13 +82,6 @@ flowchart TD
   D -->|No| JIT[Just-in-time]
 `} />
 
-## Related patterns
+## To-do
 
-- [Localization](/patterns/localization) — localised documentation and support content
-- [Embedded intelligence](/patterns/embedded-intelligence) – The proactive sibling to Help. If Help explains how to do X, Embedded Intelligence offers to do X for you.
-- [Learnability](/patterns/learnability) — help meets the actor at the moment of friction, both on first use and later when memory fades; learning happens in context rather than ahead of time
-- [Explanation](/patterns/explanation) – The core content unit of high-quality help.
-- [Annotation](/patterns/annotation) – A mechanism for attaching help to specific elements.
-- [Conversation](/patterns/conversation-quality) – The broader context for help as a dialogic process.
-- [Status feedback](/patterns/status-feedback) – Communicates system state; the "Recover" purpose often begins with status feedback.
-- TODO: Guided tours and overlays
+Guided tours and overlays

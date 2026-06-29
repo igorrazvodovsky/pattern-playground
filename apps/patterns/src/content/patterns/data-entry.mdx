@@ -1,10 +1,32 @@
 ---
-title: "Data entry"
+title: Data entry
 role: pattern
-group: "application"
+group: application
 activityLevel: action
 atomic: pattern
 mediation: individual
+relationships:
+  precedes:
+    - to: ai-completion
+      note: AI completion as the AI-driven end of the input strategy spectrum
+  related:
+    - conversation
+    - inline-interface
+    - to: status-feedback
+      note: confirming the interpretation of forgiving input.
+    - to: bot
+      note: the agent often responsible for interpreting forgiving input.
+    - to: transparent-reasoning
+      note: explaining *why* a specific interpretation was made.
+  complements:
+    - to: form
+      note: 'a container for data entry: structured, multi-field, committed up front. [Conversation](/patterns/conversation) and the [inline interface](/patterns/inline-interface) are others.'
+  alternative:
+    - to: good-defaults
+      note: use when you can make a good guess to avoid data entry entirely.
+  enacts:
+    - to: formality
+      note: every data entry field is a choice about how formal the input has to be
 ---
 
 A person has something to give the system — a date, a name, a measurement — held in their own loose, human form. Data entry is the move of getting that expression *in*, across whatever surface hosts it: a [form](/patterns/form) field, a [conversational](/patterns/conversation) turn, a control rendered in the [inline interface](/patterns/inline-interface), a value typed into a command menu bar. It resolves the tension between the messiness of human expression and the system's need for structure, capturing intent with minimal effort — frictionless by default.
@@ -66,17 +88,10 @@ Prefill a field with an example input or instructional text that helps the user 
 - **No good default**: When you can't guess a reasonable default value but need to explain the field.
 - **Clarification**: When the purpose or format of a control isn't immediately clear from the label alone.
 
-## Related patterns
+## Related components
 
-- [Localization](/patterns/localization) — locale-aware input parsing and format tolerance
 - <ComponentRef id="primitives-input--docs">Input</ComponentRef> - the basic component used.
 - <ComponentRef id="primitives-select--docs">Select</ComponentRef> - picking one value from a short, bounded set when the actor already knows the answer.
-- [Form](/patterns/form) — a container for data entry: structured, multi-field, committed up front. [Conversation](/patterns/conversation) and the [inline interface](/patterns/inline-interface) are others.
-- [Good defaults](/patterns/good-defaults) - use when you can make a good guess to avoid data entry entirely.
-- [Status feedback](/patterns/status-feedback) - confirming the interpretation of forgiving input.
-- [Bot](/patterns/bot) - the agent often responsible for interpreting forgiving input.
-- [Transparent reasoning](/patterns/transparent-reasoning) - explaining *why* a specific interpretation was made.
-- [Formality](/patterns/formality) — every data entry field is a choice about how formal the input has to be
 
 ## Resources & references
 
