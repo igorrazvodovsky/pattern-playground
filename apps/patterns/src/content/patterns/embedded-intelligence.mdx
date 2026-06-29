@@ -1,10 +1,23 @@
 ---
-title: "Embedded intelligence"
+title: Embedded intelligence
 role: pattern
 activityLevel: activity
 atomic: pattern
 mediation: individual
-fun: "🙂 5/5. A part of a bigger attempt to map LLM-related patterns."
+fun: 🙂 5/5. A part of a bigger attempt to map LLM-related patterns.
+relationships:
+  enacts:
+    - to: adaptation
+      note: the system mixes rule-driven and inferred responses, so behaviour shifts with context rather than staying fixed
+    - to: agency
+      note: the system decides and acts on its own behalf rather than only responding to the actor's explicit moves
+  precedes:
+    - to: filtering
+      note: natural language queries translated into structured filters
+    - to: focus-and-context
+      note: infers what contextual information is most relevant to the actor's current focus
+    - to: suggestion
+      note: the output is often a suggestion the actor can accept, reject, or modify
 ---
 The weaving of machine intelligence into familiar workflows, transforming standalone AI tools into extensions of the actor’s existing ways of thinking and acting.
 
@@ -33,20 +46,9 @@ The system identifies signals that indicate a user's goal. These signals can be:
 {/* - **Interpretation:** The LLM parses this query, understands the concepts of "high priority" and "next week," and translates them into structured filter criteria (e.g., `Priority = High` AND `DueDate < now() + 7d`). */}
 {/* - **Result:** The system applies the corresponding filter, fulfilling the user's intent without forcing them to manually construct the query. */}
 
-## Related patterns
+## To-do
 
-### Precursors
-
-- [Adaptability](/patterns/adaptation) — the system mixes rule-driven and inferred responses, so behaviour shifts with context rather than staying fixed
-- [Agency](/patterns/agency) — the system decides and acts on its own behalf rather than only responding to the actor's explicit moves
-
-### Follow-ups & Complements
-
-- [Command menu](/patterns/command-menu): A natural home for embedded intelligence, turning a simple command line into an intent-driven interface.
-- [Filtering](/patterns/filtering): A prime example of embedded intelligence, where natural language queries are translated into structured filters.
-- [Focus and context](/patterns/focus-and-context): Can use embedded intelligence to infer what contextual information is most relevant to a user's current focus.
-- [Suggestion](/patterns/suggestion): The output of embedded intelligence is often a suggestion that the user can accept, reject, or modify.
-- Continuous feedback loop: The user's reaction to the embedded intelligence (e.g., accepting or rejecting a suggestion) provides valuable feedback for improving the underlying model.
+- Continuous feedback loop — the actor's reaction to the embedded intelligence (accepting or rejecting a suggestion) provides feedback for improving the underlying model.
 
 ## Resources & references
 

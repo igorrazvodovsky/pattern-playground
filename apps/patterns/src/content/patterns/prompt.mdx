@@ -1,10 +1,23 @@
 ---
-title: "Prompt"
+title: Prompt
 role: pattern
 activityLevel: activity
 atomic: pattern
 mediation: individual
-fun: "🙂 5/5. A part of a bigger attempt to map LLM-related patterns."
+fun: 🙂 5/5. A part of a bigger attempt to map LLM-related patterns.
+relationships:
+  precedes:
+    - to: collaboration
+      note: how humans address an AI participant
+    - to: conversation
+      note: translates user needs into structured AI behaviour within a conversation
+    - to: generated-content
+      note: the input that leads to generated content.
+    - to: ai-tuning
+      note: lets the actor refine how the model gets prompted
+  enacts:
+    - to: agency
+      note: the actor directs the system in their own words; initiative stays with whoever frames the request
 ---
 
 import { PromptBasicDemo, PromptWithMaterialReferencesDemo, PromptQualityFeedbackDemo, PromptTemplateDemo } from '@pkg/demos/prompt';
@@ -67,26 +80,16 @@ Bridging the gap between fuzzy idea inside a human's head and what makes an effe
 {/* TODO: Here or in suggestions+link */}
 Real-time, context-aware prompt completions derived dynamically from users’ immediate and historical interactions.
 
-## Related patterns
+{/* TODO: relations set aside, kept for review (not active edges):
+Complementary patterns:
+- LLM model selection
+- [Messaging](/patterns/actions-coordination-messaging)
+- [Suggestion](/patterns/suggestion)
+*/}
 
-### Precursor patterns
+## To-do
 
-- [Agency](/patterns/agency) – enables proactive prompt assistance and scaffolding.
-- [Bot](/patterns/bot) – a thing that gets prompted.
-- [Suggestion](/patterns/suggestion) can provide an initial prompt.
-- session, thread, etc.
-
-### Follow-up patterns
-
-- [Settings](/patterns/ai-tuning) let users refine the way LLM gets prompted.
-- [Generated content](/patterns/generated-content) – what (and how) user gets from the model.
-- [Collaboration](/patterns/collaboration) – LLM prompts enable effective human-to-AI communication in collaborative contexts
-
-{/* ### Complementary patterns */}
-
-{/* - LLM model selection */}
-{/* - [Messaging](/patterns/actions-coordination-messaging) */}
-{/* - [Suggestion](/patterns/suggestion) */}
+Precursors to capture: *session*, *thread*, and the other conversational containers a prompt sits within.
 
 ## Resources & references
 

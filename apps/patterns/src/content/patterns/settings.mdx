@@ -1,11 +1,44 @@
 ---
-title: "Settings"
+title: Settings
 role: pattern
-group: "application"
+group: application
 activityLevel: action
 atomic: pattern
 mediation: individual
-fun: "🗺️ 2/5. Mapping out the basics."
+fun: 🗺️ 2/5. Mapping out the basics.
+relationships:
+  precedes:
+    - to: localization
+      note: language, timezone, and format preferences
+    - to: undo
+      note: enables reversal of settings changes, particularly valuable for exploratory configuration
+    - to: status-feedback
+      note: confirms settings changes and communicates their application
+    - to: notification
+      note: alerts actors to settings-related changes, particularly in shared configuration contexts
+  enacts:
+    - to: agency
+      note: settings implement actor control over system behaviour
+    - to: privacy
+      note: settings include visibility and access preferences
+    - to: adaptation
+      note: the actor adapts the system to their context by hand, rather than leaving it to inference
+  complements:
+    - to: progressive-disclosure
+      note: manages complexity in extensive settings through hierarchical revelation
+    - to: form
+      note: settings are essentially configuration forms requiring similar patterns (validation, feedback, submission)
+    - to: wizard
+      note: may guide actors through initial settings configuration during setup
+    - to: onboarding
+      note: settings can be introduced gradually during first-time experience
+    - to: ai-tuning
+      note: specialized settings for configuring AI behaviour
+  tangential:
+    - to: workspace
+      note: settings affect workspace behaviour and may be scoped to workspace contexts
+    - to: collaboration
+      note: settings include collaboration preferences and affect shared work
 ---
 Centralized configuration space where actors define system behaviour, establish preferences, and exercise control over their environment. Settings mediate the tension between sensible defaults that serve most users and the diversity of individual needs that those defaults cannot accommodate.
 
@@ -107,30 +140,6 @@ The question isn't "Should this have settings?" but "Is this genuinely preferent
 - Overwhelming choice: Exposing every internal parameter creates analysis paralysis rather than empowerment
 
 The "convention over configuration" principle suggests systems should make good decisions on behalf of actors, requiring settings only where genuine preference diversity exists.
-
-## Related patterns
-
-### Precursors
-- [Agency](/patterns/agency) – settings implement actor control over system behaviour
-- [Privacy](/patterns/privacy) – settings include visibility and access preferences
-- [Adaptability](/patterns/adaptation) – settings enable system customization to context
-
-### Complementary
-- [Progressive disclosure](/patterns/progressive-disclosure) – manages complexity in extensive settings through hierarchical revelation
-- [Form](/patterns/form) – settings are essentially configuration forms requiring similar patterns (validation, feedback, submission)
-- [Wizard](/patterns/wizard) – may guide actors through initial settings configuration during setup
-- [Onboarding](/patterns/onboarding) – settings can be introduced gradually during first-time experience
-- [AI tuning](/patterns/ai-tuning) – specialized settings for configuring AI behaviour
-
-### Follow-ups
-- [Undo](/patterns/undo) – enables reversal of settings changes, particularly valuable for exploratory configuration
-- [Status feedback](/patterns/status-feedback) – confirms settings changes and communicates their application
-- [Notification](/patterns/notification) – alerts actors to settings-related changes, particularly in shared configuration contexts
-- [Localization](/patterns/localization) — language, timezone, and format preferences feed locale configuration
-
-### Tangentially related
-- [Workspace](/patterns/workspace) – settings affect workspace behaviour and may be scoped to workspace contexts
-- [Collaboration](/patterns/collaboration) – settings include collaboration preferences and affect shared work
 
 ## Resources & references
 

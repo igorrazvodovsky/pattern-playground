@@ -1,12 +1,28 @@
 ---
-title: "Command menu"
+title: Command menu
 role: pattern
-group: "seeking"
+group: seeking
 activityLevel: action
 atomic: pattern
 mediation: individual
 lifecycle: seeking
-fun: "🙂 4/5."
+fun: 🙂 4/5.
+relationships:
+  complements:
+    - to: autocomplete
+      note: supports command menu functionality by reducing typing effort and increasing discoverability of commands.
+    - to: embedded-intelligence
+      note: helps the actor find relevant commands when exact matches aren't available
+    - to: toolbar
+      note: exposes a persistent subset of commands; a command menu offers the full set on demand
+    - to: collaboration
+      note: Command menus provide quick access to collaborative actions and workflows
+  precedes:
+    - to: unavailable-actions
+      note: context menus show only relevant commands, hiding those inaccessible in the current context
+  enables:
+    - to: filtering
+      note: provides the local search through attributes and values
 ---
 
 {/* TODO: Storybook demo exists — packages/components/src/stories/CommandMenu.stories.tsx */}
@@ -22,29 +38,14 @@ Pop up in the middle of the screen...
 
 Can also be used to support local functions, e.g. in [filters](/patterns/filtering) or TODO:local search.
 
-## Related patterns
-
-### Precursors
+## Related components
 
 - <ComponentRef id="operations-combobox--docs">Combobox</ComponentRef> — the mechanism this pattern builds on; `src/components/combobox/` drives the text input, filtered list, and keyboard model
-- [Search](/patterns/searching) — broader seeking move
 - <ComponentRef id="primitives-keyboard-key--docs">Keyboard key</ComponentRef>
-- TODO: *Navigation* menu establishes the baseline structure that a command menu can later streamline or augment.
-- TODO: A command palette often extends or consolidates *keyboard shortcut* functionality, making them easier to discover and use.
-
-### Complementary
-
-- [Autocomplete](/patterns/autocomplete) — supports command menu functionality by reducing typing effort and increasing discoverability of commands.
-- [Embedded intelligence](/patterns/embedded-intelligence) can help users find relevant commands when exact matches aren't available.
-- [Toolbar](/patterns/toolbar) — exposes a persistent subset of commands; a command menu offers the full set on demand
-
-### Follow-ups
-
-{/* - *Action history* may streamline repetitive workflows */}
-- *Bookmarks*
-- [Collaboration](/patterns/collaboration) - Command menus provide quick access to collaborative actions and workflows
-- [Unavailable actions](/patterns/unavailable-actions) — context menus show only relevant commands, hiding those inaccessible in the current context
-
-### Tangentially related
-
 - <ComponentRef id="components-context-menu--docs">Context menu</ComponentRef> — pointer-driven and target-aware; command menu is keyboard-driven and name-based
+
+## To-do
+
+Related patterns to capture. As precursors, a *navigation* menu establishes the baseline structure a command menu can later streamline or augment, and a command palette often extends or consolidates *keyboard shortcut* functionality, making it easier to discover. As a follow-up, *bookmarks* could pin frequently used commands for reuse.
+
+{/* Follow-up: *action history* may streamline repetitive workflows */}

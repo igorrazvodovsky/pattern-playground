@@ -1,12 +1,29 @@
 ---
-title: "Searching"
+title: Searching
 role: pattern
-group: "seeking"
+group: seeking
 activityLevel: action
 atomic: composition
 mediation: individual
 lifecycle: seeking
-fun: "🗺️ 2/5. Mapping out the basics."
+fun: 🗺️ 2/5. Mapping out the basics.
+relationships:
+  precedes:
+    - to: command-menu
+      note: broader seeking move
+    - to: data-view
+      note: the standard container for displaying search results
+    - to: navigation-overview
+      note: often used as a fallback if search fails ("browse by category instead")
+  complements:
+    - to: filtering
+      note: often used after a search to refine results; in AI-search, filters are the output of the search query
+    - to: prompt
+      note: modern search inputs are evolving into prompt interfaces, accepting instructions alongside keywords
+    - to: autocomplete
+      note: real-time narrowing of query suggestions as the actor types
+    - to: suggestion
+      note: '"did you mean?" and related patterns that guide query formulation'
 ---
 A transactional method for retrieving specific information by matching actor intent (query) with system content. Unlike [Navigating](/patterns/interaction#navigating) (where actors move through structure) or [Browsing](/patterns/interaction#browsing) (where actors scan for patterns), Search relies on the system to do the heavy lifting of evaluation and discrimination.
 
@@ -49,22 +66,9 @@ Search shouldn't destroy context. It should be easily reversible, returning the 
 - **Prompt**: Can be retrieval, but often implies generation or execution of complex tasks.
 - **Convergence**: Modern search bars are becoming "Command Bars" that accept both search queries and commands (e.g., "Create a new file"). */}
 
-## Related patterns
+## Related components
 
-### Precursors
-- [Information architecture](/patterns/information-architecture): The underlying structure and labeling system that search indexes. Without good IA, search is brittle.
-- [Navigation / Transactional search](/patterns/interaction#transactional-search): Defines the search as navigation *behaviour* and how it fits into the broader user movement through the system.
-
-### Complementary
-- [Filtering](/patterns/filtering): Often used *after* a search to refine results. In AI-search, filters are the *output* of the search query.
-- [Prompt](/patterns/prompt): Modern search inputs are evolving into Prompt interfaces, accepting instructions alongside keywords.
-- [Autocomplete](/patterns/autocomplete): real-time narrowing of query suggestions as the actor types.
-- <ComponentRef id="operations-combobox--docs">Combobox</ComponentRef> — the entry-phase mechanism for instant-results variants (popover/dropdown); the search input binding follows the combobox contract.
-- [Suggestion](/patterns/suggestion): "Did you mean?" and related patterns that guide query formulation.
-
-### Follow-ups
-- [Data view](/patterns/data-view): The standard container for displaying search results.
-- [Navigation](/patterns/navigation-overview): Often used as a fallback if search fails ("Browse by category instead").
+- <ComponentRef id="operations-combobox--docs">Combobox</ComponentRef> — the entry-phase mechanism for instant-results
 
 ## Resources
 - [Luke Wroblewski / Tackling Common UX Hurdles with AI](https://www.lukew.com/ff/entry.asp?2132) — On using *world knowledge* to rethink search inputs

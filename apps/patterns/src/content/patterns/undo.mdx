@@ -1,9 +1,20 @@
 ---
-title: "Undo"
+title: Undo
 role: pattern
 activityLevel: operation
 atomic: pattern
 mediation: individual
+relationships:
+  related:
+    - to: status-feedback
+      note: provides immediate feedback on the undo action
+    - to: command-menu
+      note: can be used to access undo options
+    - to: activity-log
+      note: displays a history of actions that can be undone
+  enacts:
+    - to: temporality
+      note: lets the actor reverse an action after the fact, loosening commitment over time
 ---
 Reverse a prior action, absorbing the anxiety of mistakes and encouraging confident exploration.
 
@@ -32,12 +43,9 @@ TODO:
 {/* Redo */}
 {/* Causal dependence: Redo requires an undo to have been performed. */}
 
-## Related patterns
+## To-do
 
-- Version history
-- [Status feedback](/patterns/status-feedback): Provides immediate feedback on the undo action.
-- [Command menu](/patterns/command-menu): Can be used to access undo options.
-- [Activity log](/patterns/activity-log): Displays a history of actions that can be undone.
+Related pattern to capture: *version history*, a more durable counterpart to undo's transient reversal, navigating named past states rather than stepping back through recent actions.
 
 ## Resources & references
 

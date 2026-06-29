@@ -1,11 +1,19 @@
 ---
-title: "Grouping"
+title: Grouping
 role: pattern
-group: "sense-making"
+group: sense-making
 activityLevel: action
 atomic: composition
 mediation: individual
-fun: "🙂 3/5. Dependency."
+fun: 🙂 3/5. Dependency.
+relationships:
+  precedes:
+    - data-view
+  complements:
+    - to: filtering
+      note: narrows what groups show up
+    - to: sorting
+      note: organises groups
 ---
 
 {/* TODO: Storybook demo exists — packages/components/src/stories/actions/sense-making/Grouping.stories.tsx */}
@@ -33,18 +41,3 @@ The clustering of items by shared attributes, balancing meaningful structure aga
 
 `TODO:` Well, maybe not just yet.
 
-## Related patterns
-
-### Precursors
-
-- [Toolbar](/patterns/toolbar)
-- <ComponentRef id="primitives-details--docs">Details</ComponentRef>
-
-### Complementary
-
-- [Filtering](/patterns/filtering) helps narrow what groups show up
-- [Sorting](/patterns/sorting) helps organise groups
-
-### Follow-ups
-
-- [Data view](/patterns/data-view)

@@ -1,12 +1,21 @@
 ---
-title: "Text lens"
+title: Text lens
 role: pattern
-group: "evaluation"
+group: evaluation
 activityLevel: action
 atomic: pattern
 mediation: individual
 lifecycle: evaluation
-fun: "🙂 5/5. A part of a bigger attempt to map LLM-related patterns."
+fun: 🙂 5/5. A part of a bigger attempt to map LLM-related patterns.
+relationships:
+  precedes:
+    - to: conversation
+      note: filter lenses adapt conversational tone and style based on context and relationship
+  related:
+    - to: progressive-disclosure
+      note: lenses reveal or conceal information based on the actor's needs
+    - to: localization
+      note: tone adjustment with cultural bounds
 ---
 
 import { TextLensDemo } from '@pkg/demos/bubble-menu';
@@ -41,14 +50,13 @@ Users can select text and apply different lenses using AI-powered tools to modif
   <TextLensDemo client:only="react" />
 </Demo>
 
-## Related patterns
-- [Conversation](/patterns/conversation): Filter lenses implement the conversational maxims of manner and politeness by adapting tone and clarity for different contexts
-- Combined with *citations*, summaries let you capture key takeaways from a long document and then go deeper into the content that are relevant to you
-- Combined with *synthesis*, summaries can take multiple inputs such as an email thread and capture the main ideas
-- Combined with *workflow*, summaries can be added automatically to specific objects
-- [Progressive disclosure](/patterns/progressive-disclosure): Lenses support revealing or concealing information based on user needs
-- [Localization](/patterns/localization) — tone adjustment with cultural bounds
-{/* - Contextual assistance: AI-powered suggestions for appropriate lens selection based on content and situation */}
+## To-do
+
+- Combined with *citations*, summaries let you capture key takeaways from a long document and then go deeper into the relevant content.
+- Combined with *synthesis*, summaries can take multiple inputs such as an email thread and capture the main ideas.
+- Combined with *workflow*, summaries can be added automatically to specific objects.
+
+{/* Contextual assistance: AI-powered suggestions for appropriate lens selection based on content and situation */}
 
 ## Resources & references
 

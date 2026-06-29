@@ -1,10 +1,33 @@
 ---
-title: "Workspace"
+title: Workspace
 role: pattern
 activityLevel: activity
 atomic: pattern
 mediation: individual
-fun: "😊 4/5"
+fun: 😊 4/5
+relationships:
+  enacts:
+    - to: privacy
+      note: workspaces implement privacy through scope separation and spatial arrangement
+    - to: agency
+      note: the actor decides what work belongs together and what stays apart
+  complements:
+    - to: focus-and-context
+      note: focus and context manages detail and overview within a single context; workspaces manage switching between distinct contexts
+    - to: command-menu
+      note: provides rapid access to workspaces and contexts without navigating the interface hierarchy
+  follows:
+    - to: hub-and-spoke
+      note: 'Workspaces often implement hub and spoke navigation, where a workspace switcher or dashboard (hub) provides access to individual workspaces (spokes). See [Information Architecture foundation](/patterns/information-architecture) for the broader structural pattern.'
+    - to: navigation-overview
+      note: navigation enables movement through the application structure; workspaces extend it with parallel access to multiple destinations
+  precedes:
+    - to: activity-log
+      note: shows history within a workspace
+    - to: notification
+      note: alerts actors to changes in non-visible workspaces
+  related:
+    - collaboration-foundation
 ---
 The ongoing organisation of work into meaningful contexts, transforming a single undifferentiated space into coherent zones that match how attention and responsibility are actually distributed.
 
@@ -54,27 +77,10 @@ While detailed TODO:permission managment is separate concern, access control str
 Personal workspaces are implicitly private. Team workspaces require membership verification.
 Organisational workspaces may have role-based editing rights.
 
-## Related patterns
-
-### Enacted qualities
-- [Privacy](/patterns/privacy#privacy-gradient) — workspaces implement privacy through scope separation and spatial arrangement
-- [Agency](/patterns/agency) — the actor decides what work belongs together and what stays apart
-
-### Precursors
-- [Navigation](/patterns/navigation-overview) enables movement through application structure; workspaces extend navigation by supporting parallel access to multiple destinations.
-- [Hub and Spoke](/patterns/hub-and-spoke) - Workspaces often implement hub and spoke navigation, where a workspace switcher or dashboard (hub) provides access to individual workspaces (spokes). See [Information Architecture foundation](/patterns/information-architecture) for the broader structural pattern.
-
-### Complementary
-- [Focus and Context](/patterns/focus-and-context) manages detail and overview within a single context; workspaces manage switching between distinct contexts.
-- [Command menu](/patterns/command-menu) provides rapid access to workspaces and contexts without navigating interface hierarchy.
-
-### Follow-ups
-- [Activity log](/patterns/activity-log) shows history within a workspace.
-- [Notification](/patterns/notification) alerts users to changes in non-visible workspaces.
-
-### Tangentially related
-{/* - Canvas — offers infinite spatial workspace for single domain */}
-{/* - Stream — presents chronological single-context view */}
+{/* Dropped related references, kept for later:
+- Canvas — offers infinite spatial workspace for single domain
+- Stream — presents chronological single-context view
+*/}
 
 ## Resources
 
