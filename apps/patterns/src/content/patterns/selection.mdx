@@ -1,12 +1,29 @@
 ---
-title: "Selection"
+title: Selection
 role: pattern
-group: "coordination"
+group: coordination
 activityLevel: action
 atomic: pattern
 mediation: individual
 lifecycle: coordination
-fun: "😣 *3/5*. Selection looks trivial until you ask what it means for a selection to survive a filter."
+fun: 😣 *3/5*. Selection looks trivial until you ask what it means for a selection to survive a filter.
+relationships:
+  enables:
+    - to: deletion
+      note: the most common operation routed through selection; confirmation strategy should scale with the selection count
+    - to: tag
+      note: common payload of bulk action
+    - to: grouping
+      note: common payload of bulk action
+  related:
+    - to: searching
+      note: Search shrinks the population from which selections are drawn
+  complements:
+    - to: filtering
+      note: Filtering and selection cover the same job from opposite ends — filter narrows by predicate, selection narrows by enumeration
+  alternative:
+    - to: sorting
+      note: Sorting changes what a range selection refers to mid-flight — range selections have to either survive the sort or re-resolve to the new order
 ---
 
 {/* TODO: Storybook demo exists — packages/components/src/stories/actions/coordination/Selection.stories.tsx */}
@@ -108,31 +125,17 @@ Filter is declarative selection ("everything matching X"); selection is imperati
 
 >The question for any view that supports both: can a filter be *narrowed by* a selection (act on these specific items within the filter)? Can a selection be *converted into* a filter (show only what I selected)?
 
-## Related patterns
-
-### Used by
-
-- <ComponentRef id="components-action-bar--docs">Action bar</ComponentRef> — the primary consumer of multi-item selection; its existence is conditional on a selection existing
-- <ComponentRef id="components-bubble-menu--docs">Bubble menu</ComponentRef> — the primary consumer of content-range selection; spatially anchored to the selection
-- <ComponentRef id="components-context-menu--docs">Context menu</ComponentRef> — degenerate-case consumer; pointer-invoked on a single target
-- [Deletion](/patterns/deletion) — the most common operation routed through selection; confirmation strategy should scale with the selection count
-- [Tag](/patterns/tag), [Grouping](/patterns/grouping) — common payloads of bulk action
-
-### Adjacent to
-
-- [Filtering](/patterns/filtering) — Filtering and selection cover the same job from opposite ends — filter narrows by predicate, selection narrows by enumeration
-- [Sorting](/patterns/sorting) — Sorting changes what a range selection refers to mid-flight — range selections have to either survive the sort or re-resolve to the new order
-- [Searching](/patterns/searching) — Search shrinks the population from which selections are drawn
-
-### Composed from
-
-- <ComponentRef id="primitives-checkbox--docs">Checkbox</ComponentRef> — the most explicit selection affordance
-
-### Containers
-
-- [Data view](/patterns/data-view), <ComponentRef id="actions-sense-making-card--docs">Card</ComponentRef> — the views in which item selection happens
-- [Block-based editor](/patterns/block-based-editor) — the surface in which content selection happens
-
 ## To-do
 
 Collaborative selection – co-presence cursors, shared selection state, "see what others have selected". The mechanics differ enough (conflict, decay, identity) that they deserve their own treatment.
+
+## Related components
+
+### Used by
+- <ComponentRef id="components-action-bar--docs">Action bar</ComponentRef> — the primary consumer of multi-item selection; its existence is conditional on a selection existing
+- <ComponentRef id="components-bubble-menu--docs">Bubble menu</ComponentRef> — the primary consumer of content-range selection; spatially anchored to the selection
+- <ComponentRef id="components-context-menu--docs">Context menu</ComponentRef> — degenerate-case consumer; pointer-invoked on a single target
+### Composed from
+- <ComponentRef id="primitives-checkbox--docs">Checkbox</ComponentRef> — the most explicit selection affordance
+### Containers
+- [Data view](/patterns/data-view), <ComponentRef id="actions-sense-making-card--docs">Card</ComponentRef> — the views in which item selection happens

@@ -1,7 +1,24 @@
 ---
-title: "Modality"
+title: Modality
 role: foundation
-fun: "🙂 3/5. The tension between Tesler's \"no modes\" ideal and the pragmatic reality is an interesting design problem."
+fun: 🙂 3/5. The tension between Tesler's "no modes" ideal and the pragmatic reality is an interesting design problem.
+relationships:
+  complements:
+    - to: notification
+      note: chooses where on the gradient a signal lands
+  tangential:
+    - to: command-menu
+      note: overlay invocation that intersects modality without being defined by it
+  related:
+    - bot
+    - dynamic-hyperlinks
+    - undo
+    - settings
+  enacts:
+    - to: agency
+      note: the actor picks whichever channel fits the moment rather than being locked to one
+    - to: temporality
+      note: each channel carries its own rhythm; modality sets how fast or slow the exchange runs
 ---
 
 import { MermaidDiagram } from '@components/MermaidDiagram';
@@ -63,20 +80,15 @@ flowchart TD
     style I fill:#e8f5e9
 `} />
 
-## Related patterns
+## Related components
 
 ### Complementary
-Patterns positioned along the modality gradient, from strict-modal to non-modal:
-
 - <ComponentRef id="components-dialog--docs">Dialog</ComponentRef> – the strict-modal anchor of the gradient
 - <ComponentRef id="components-drawer--docs">Drawer</ComponentRef> – the gradient's hinge, where modal and non-modal behaviour meet
 - <ComponentRef id="operations-callout--docs">Callout</ComponentRef> – sits beside toast on the non-modal end, anchored rather than ambient
 - <ComponentRef id="primitives-popover--docs">Popover</ComponentRef> – the loosest transient mode, yielding to any other interaction
 - <ComponentRef id="primitives-toast--docs">Toast</ComponentRef> – the non-modal floor of the gradient
-- [Notification](/patterns/notification) – chooses where on the gradient a signal lands
-
 ### Tangentially related
-- [Command menu](/patterns/command-menu) – overlay invocation that intersects modality without being defined by it
 - <ComponentRef id="components-dropdown--docs">Dropdown</ComponentRef> – an option reveal that demonstrates non-modal selection
 - <ComponentRef id="components-context-menu--docs">Context menu</ComponentRef> – contextual overlay whose modality depends on platform conventions
 

@@ -1,12 +1,24 @@
 ---
-title: "Notification"
+title: Notification
 role: pattern
-group: "coordination"
+group: coordination
 activityLevel: action
 atomic: pattern
 mediation: coordination
 lifecycle: coordination
-fun: "🙂 3/5. Included as a prerequisite for more interesting things."
+fun: 🙂 3/5. Included as a prerequisite for more interesting things.
+relationships:
+  related:
+    - to: delegation
+      note: the primary communication channel for a background agent
+    - to: status-feedback
+      note: status feedback for events the actor didn't trigger and isn't watching; pushed, not pulled
+  complements:
+    - to: collaboration
+      note: Notifications keep collaborators informed of changes and events in shared environments
+  enacts:
+    - to: temporality
+      note: when information arrives, and how disruptive the timing of its arrival is
 ---
 
 import { MermaidDiagram } from '@components/MermaidDiagram';
@@ -79,13 +91,6 @@ flowchart TD
 
     H -->|No| L[Dialog]
 `} />
-
-## Related patterns
-
-- [Delegation](/patterns/delegation) — the primary communication channel for a background agent
-- Part of the [status feedback](/patterns/status-feedback) pattern system
-- Complementary to validation and indication approaches
-- [Collaboration](/patterns/collaboration) – Notifications keep collaborators informed of changes and events in shared environments
 
 ## Resources & references
 
