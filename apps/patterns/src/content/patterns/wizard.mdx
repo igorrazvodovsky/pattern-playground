@@ -1,11 +1,31 @@
 ---
-title: "Wizard"
+title: Wizard
 role: pattern
-group: "application"
+group: application
 activityLevel: action
 atomic: composition
 mediation: individual
-fun: "😐 2/5. Necessary infrastructure."
+fun: 😐 2/5. Necessary infrastructure.
+relationships:
+  precedes:
+    - to: next-best-action
+      note: prescribed sequences; next-best action is the adaptive, context-aware alternative
+    - template
+  alternative:
+    - to: form
+      note: the single-page structure that wizards fragment across steps
+    - to: bot
+      note: can guide through complex processes with conversational flexibility wizards lack
+  complements:
+    - to: status-feedback
+      note: communicates progress and validation state throughout the wizard
+    - to: undo
+      note: mitigates the high commitment level by allowing reversal of completed steps
+  related:
+    - conversation
+  enacts:
+    - to: temporality
+      note: paces a task into an ordered sequence of steps, one commitment at a time
 ---
 Sequential task structure that enforces progression through dependent steps. Wizards transform complex processes into linear corridors—for good or bad.
 
@@ -88,21 +108,9 @@ This rigidity can be appropriate when the system genuinely knows the optimal pat
 {/* She specifically critiqued rigid workflow systems for failing to accommodate the "ad hoc practices and contingent operations" characteristic of actual work. Wizards presume tasks follow predictable sequences, but situated action reveals that flexibility and responsiveness to context matter more than predetermined paths. */}
 {/* Wizards privilege the system's understanding of task structure over actors' situated knowledge—precisely the design stance Suchman challenged. */}
 
-## Related patterns
+## Related components
 
-### Precursors
-- [Form](/patterns/form) - the single-page structure that wizards fragment across steps
-- [Progressive disclosure](/patterns/progressive-disclosure) - the conceptual foundation for revealing complexity gradually
-- [Onboarding](/patterns/onboarding) - often employs wizards for initial setup and configuration
-- [Step by step](/patterns/step-by-step) - Wizard is a specific implementation of the step by step navigation model, applying it to form-based tasks with validation and branching logic.
-
-### Alternatives
 - [Conversational form](/patterns/form#forms-and-conversation): Embeds form inputs within <ComponentRef id="actions-coordination-messaging--docs">messaging</ComponentRef> interface, allowing flexible dialogue whilst collecting structured data. Better for actors who benefit from clarifying questions.
-- [Bot](/patterns/bot) - can guide through complex processes with conversational flexibility wizards lack
-
-### Complementary
-- [Status feedback](/patterns/status-feedback) - communicates progress and validation state throughout the wizard
-- [Undo](/patterns/undo) - mitigates the high commitment level by allowing reversal of completed steps
 
 ## Resources & references
 
