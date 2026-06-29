@@ -1,12 +1,26 @@
 ---
-title: "Fully connected"
+title: Fully connected
 role: pattern
-group: "navigation"
+group: navigation
 activityLevel: action
 atomic: composition
 mediation: individual
 lifecycle: seeking
-fun: "🗺️ 2/5. Mapping out the basics."
+fun: 🗺️ 2/5. Mapping out the basics.
+relationships:
+  complements:
+    - to: command-menu
+      note: keyboard-driven alternative for power users
+    - to: searching
+      note: alternative navigation path
+    - to: deep-linking
+      note: enables direct access to any page
+    - nav-bar
+    - hybrid-patterns
+  alternative:
+    - hub-and-spoke
+    - multilevel-tree
+    - step-by-step
 ---
 The provision of direct access from any location to every other, balancing navigational freedom against the cognitive cost of persistent global menus. Global navigation appears consistently across all pages — typically as a [nav bar](/patterns/nav-bar) or a sidebar.
 
@@ -26,20 +40,11 @@ The presence of full global navigation everywhere is not without cost: it takes 
 - Multi-level: Top navigation with secondary menus, or sidebars revealing subsections. Consider a hybrid with a [tree](/patterns/hybrid-patterns#multilevel-tree--fully-connected)
 - <ComponentRef id="components-priority--docs">Priority+</ComponentRef>: Shows most important items, hides rest behind "more" menu.
 
-## Related patterns
+## Related components
 
 ### Complements
-- [Command menu](/patterns/command-menu) — keyboard-driven alternative for power users
 - <ComponentRef id="primitives-breadcrumbs--docs">Breadcrumbs</ComponentRef> — supplements with location context
-- [Searching](/patterns/searching) — alternative navigation path
-- [Deep linking](/patterns/deep-linking) — enables direct access to any page
 - [Navbar](/patterns/nav-bar), TODO: sidebar, TODO: mega menus, <ComponentRef id="components-tabs--docs">tabs</ComponentRef> — implement this model
-- Can be combined with [tree](/patterns/hybrid-patterns#multilevel-tree--fully-connected) as content grows
-
-### Alternatives
-- [Hub and spoke](/patterns/hub-and-spoke) for mobile or simpler structures
-- [Multilevel tree](/patterns/multilevel-tree) for deep hierarchies
-- [Step by step](/patterns/step-by-step) for focused processes
 
 ## Resources & references
 

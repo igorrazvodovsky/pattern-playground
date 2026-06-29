@@ -1,12 +1,24 @@
 ---
-title: "Pan and zoom"
+title: Pan and zoom
 role: pattern
-group: "navigation"
+group: navigation
 activityLevel: action
 atomic: composition
 mediation: individual
 lifecycle: evaluation
-fun: "🗺️ 2/5. Mapping out the basics."
+fun: 🗺️ 2/5. Mapping out the basics.
+relationships:
+  complements:
+    - to: searching
+      note: enables jumping to locations
+    - to: deep-linking
+      note: encode position and zoom in URLs for sharing
+    - to: hybrid-patterns
+      note: global nav for sections, spatial within sections
+  alternative:
+    - pyramid
+    - fully-connected
+    - multilevel-tree
 ---
 Single large continuous spaces rather than discrete pages. Actors navigate by panning (horizontal/vertical movement) and zooming (scale changes).
 Everything exists in a single coordinate system, eliminating page transitions but introducing orientation and wayfinding challenges.
@@ -54,20 +66,12 @@ Everything exists in a single coordinate system, eliminating page transitions bu
 - Orientation aids: TODO: minimap, landmarks, coordinates, reset button
 - Performance optimisation: viewport culling (rendering only visible area), level of detail, tile loading, debounced updates
 
-## Related patterns
+## To-do
 
-### Complements
-- [Searching](/patterns/searching) — enables jumping to locations
-- [Deep linking](/patterns/deep-linking) — encode position and zoom in URLs for sharing
+Complementary patterns to capture:
 - Bookmarks or saved views
-- Minimap or overview + detail patterns
-- Layers or filtering for complex spaces
-- [Fully Connected + Pan and Zoom](/patterns/hybrid-patterns#fully-connected--pan-and-zoom) — global nav for sections, spatial within sections
-
-### Alternatives
-- [Pyramid](/patterns/pyramid) for sequences that could be spatial
-- [Fully connected](/patterns/fully-connected) + pan/zoom hybrid for maps with discrete sections
-- [Multilevel tree](/patterns/multilevel-tree) for hierarchical spatial data
+- Minimap, or overview-detail patterns
+- Layers, or filtering for complex spaces
 
 ## Resources & references
 

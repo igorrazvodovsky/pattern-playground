@@ -50,7 +50,6 @@ The selection of a connective topology that shapes how actors move between desti
 - [Hub and spoke](/patterns/hub-and-spoke) — central hub lists all sections, actors return to hub for cross-section navigation
 - [Overview and detail](/patterns/overview-detail) — simultaneous display of collection and item (Split View)
 - [Fully connected](/patterns/fully-connected) — every page links to all others through global navigation
-- [Fully connected](/patterns/fully-connected) — every page links to all others through global navigation
 - [Multilevel tree](/patterns/multilevel-tree) — hierarchical structure with global navigation for main pages, local navigation for subpages
 - [Step by step](/patterns/step-by-step) — prescribed sequences with back/next controls
 - [Pyramid](/patterns/pyramid) — hub lists sequence, actors can navigate sequentially or jump to any item
@@ -111,6 +110,7 @@ When single models don't fit:
 - Fully connected + pan and zoom — mix discrete and spatial content
 - Hub + flat — multiple independent workspaces, each feature-rich
 - Pyramid + tree — many sequences requiring category organisation
+- Pyramid + filtering — large collections that need both sequence and narrowing
 
 ## Malleable Routing
 
@@ -139,6 +139,10 @@ Models can be rendered in various ways:
 - Tabs, menus, sidebar trees for *fully connected* or *tree*
 - Cards, lists, grids for *hub and spoke*
 - Progress indicators, stepper components, or next/previous for *step by step*
+
+## To-do
+
+- Recapture model ↔ navigation-behaviour relationships as typed edges. Each model supports or constrains specific behaviours — uncovering, browsing, exploring, navigating, re-finding, monitoring, transactional search — currently held only as prose in each model's behavioural-position section. The coarse `related: interaction` links were dropped because they pointed at the whole interaction foundation rather than the navigation-behaviour subset; the relation worth capturing is model ↔ behaviour. Likely needs the behaviours to become graph-addressable (their own nodes or targetable anchors) first.
 
 ## Resources & references
 

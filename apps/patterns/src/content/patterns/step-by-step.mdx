@@ -1,11 +1,22 @@
 ---
-title: "Step by step"
+title: Step by step
 role: pattern
-group: "navigation"
+group: navigation
 activityLevel: action
 atomic: composition
 mediation: individual
-fun: "🗺️ 2/5. Mapping out the basics."
+fun: 🗺️ 2/5. Mapping out the basics.
+relationships:
+  enables:
+    - to: form
+      note: a form split into one-question-per-page steps (the question-pages pattern)
+  instances:
+    - to: wizard
+      note: Wizard is the canonical instantiation of step-by-step navigation
+  alternative:
+    - pyramid
+    - hybrid-patterns
+    - multilevel-tree
 ---
 The guided progression through a prescribed sequence, balancing task-completion focus against freedom to deviate. Flows range from simple two-step processes to complex multi-stage journeys, with supplementary options like skip, save and continue later, or jump to step.
 
@@ -34,21 +45,10 @@ Deliberately constrains
 {/* - **Deferred validation** — gather all information, validate at end */}
 {/* - **Inline validation** — real-time feedback as actor completes fields */}
 
-## Related patterns
-
-### Implements this model
-- [Wizard](/patterns/wizard) — Wizard is the canonical instantiation of step-by-step navigation
-- Multi-step [forms](/patterns/form) — Form might use step-by-step navigation as a building block
+## Related components
 
 ### Complements
-- [Deep linking](/patterns/deep-linking) — enables returning to specific steps via URL
 - <ComponentRef id="primitives-progress-indicator--docs">Progress indicators</ComponentRef> — visualise progression through steps
-- TODO: Form validation
-
-### Alternatives
-- [Pyramid](/patterns/pyramid) for sequences with flexible navigation
-- [Step by step + pyramid](/patterns/hybrid-patterns#step-by-step--pyramid) for guided but flexible processes
-- [Multilevel tree](/patterns/multilevel-tree) for structured but non-linear content
 
 ## Resources & references
 

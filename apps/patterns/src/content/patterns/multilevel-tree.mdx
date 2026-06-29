@@ -1,12 +1,25 @@
 ---
-title: "Multilevel tree"
+title: Multilevel tree
 role: pattern
-group: "navigation"
+group: navigation
 activityLevel: action
 atomic: composition
 mediation: individual
 lifecycle: seeking
-fun: "🗺️ 2/5. Mapping out the basics."
+fun: 🗺️ 2/5. Mapping out the basics.
+relationships:
+  complements:
+    - to: searching
+      note: escape hatch when hierarchy fails
+    - to: command-menu
+      note: quick access bypassing hierarchy
+    - to: deep-linking
+      note: enables direct access to any node
+  alternative:
+    - fully-connected
+    - hub-and-spoke
+  related:
+    - hybrid-patterns
 ---
 Global navigation connects main pages. Each main page contains subpages visible only after entering that section—typically through sidebars, subtabs, or expanded menus. Subpages connect only among themselves and to their parent page, creating a tree structure.
 
@@ -29,7 +42,7 @@ The model assumes actors can predict or learn where content lives in the hierarc
 ## Variants
 
 - Two-level tree. Global navigation for top level, single level of subnavigation.
-- Deep tree. Multiple levels of nested categories.
+- Deep tree. Multiple levels of nested categories; past a few levels, prefer multiple shallow trees or [search](/patterns/searching)-first navigation.
 - Expandable tree. Sidebar or menu shows/hides nested levels.
 - Faceted tree. Multiple independent hierarchies.
 
@@ -39,21 +52,11 @@ The model assumes actors can predict or learn where content lives in the hierarc
 - Section indicator — visual cue of current main section
 - Depth indicator — how deep in hierarchy
 
-## Related patterns
+## Related components
 
 Sidebar, <ComponentRef id="components-dropdown--docs">dropdown</ComponentRef>, <ComponentRef id="components-tabs--docs">tabs</ComponentRef>, <ComponentRef id="primitives-breadcrumbs--docs">breadcrumbs</ComponentRef> - implementations of multilevel trees.
-
 ### Complements
 - <ComponentRef id="primitives-breadcrumbs--docs">Breadcrumbs</ComponentRef> — for wayfinding
-- [Searching](/patterns/searching) — escape hatch when hierarchy fails
-- [Command menu](/patterns/command-menu) — quick access bypassing hierarchy
-- [Deep linking](/patterns/deep-linking) — enables direct access to any node
-
-## Alternatives
-- [Fully connected](/patterns/fully-connected) for shallow structures
-- [Hub and spoke](/patterns/hub-and-spoke) for independent sections
-- [Tree + fully connected](/patterns/hybrid-patterns#multilevel-tree--fully-connected) when cross-section links become common
-- Deep tree → multiple shallow trees or [searching](/patterns/searching)-first navigation
 
 ## Resources & references
 

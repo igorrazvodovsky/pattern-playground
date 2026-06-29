@@ -1,12 +1,20 @@
 ---
-title: "Pyramid"
+title: Pyramid
 role: pattern
-group: "navigation"
+group: navigation
 activityLevel: action
 atomic: composition
 mediation: individual
 lifecycle: seeking
-fun: "🗺️ 2/5. Mapping out the basics."
+fun: 🗺️ 2/5. Mapping out the basics.
+relationships:
+  complements:
+    - to: deep-linking
+      note: sharing and bookmarking items
+  alternative:
+    - step-by-step
+    - multilevel-tree
+    - hub-and-spoke
 ---
 The combination of direct hub access with sequential item-to-item movement, balancing random access against linear consumption. A hub at the top lists the full sequence; actors can pick any item or step through them one by one, returning to the hub whenever they want to jump elsewhere.
 
@@ -23,20 +31,14 @@ The combination of direct hub access with sequential item-to-item movement, bala
 - Card pyramid: Hub shows rich cards with images, titles, descriptions.
 - Numbered pyramid: Hub explicitly numbers items, progress indication emphasised.
 
-## Related patterns
+## To-do
 
-### Complements
-- [Deep linking](/patterns/deep-linking) — sharing and bookmarking items
+Complementary patterns to capture:
 - Progress tracking and resume features
 - Image loading optimisation (lazy loading)
 - Breadcrumbs showing hub context
 
-### Alternatives
-- [Hybrid with filtering](/patterns/filtering) for large collections
-- [Step by step](/patterns/step-by-step) for strict sequences
-- [Multilevel tree](/patterns/multilevel-tree) for hierarchical content
-- [Hub and spoke](/patterns/hub-and-spoke) when items don't form sequences
-- TODO: Infinite scroll with anchors for very long sequences
+An alternative for very long sequences: infinite scroll with anchors.
 
 ## Resources & references
 

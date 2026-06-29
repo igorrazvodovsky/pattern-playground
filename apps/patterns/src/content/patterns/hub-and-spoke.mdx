@@ -1,12 +1,27 @@
 ---
-title: "Hub and spoke"
+title: Hub and spoke
 role: pattern
-group: "navigation"
+group: navigation
 activityLevel: action
 atomic: composition
 mediation: individual
 lifecycle: seeking
-fun: "🗺️ 2/5. Mapping out the basics."
+fun: 🗺️ 2/5. Mapping out the basics.
+relationships:
+  complements:
+    - to: command-menu
+      note: provides escape hatch for quick navigation without hub return
+    - to: deep-linking
+      note: enables direct spoke access from external sources
+    - to: searching
+      note: alternative to hub browsing for known destinations
+  precedes:
+    - to: workspace
+      note: organisational containers often use hub and spoke
+  alternative:
+    - fully-connected
+    - multilevel-tree
+    - hybrid-patterns
 ---
 Hub lists major sections. Actors navigate to spokes, complete tasks, then return to hub for other sections. Spokes link only to hub, not to each other.
 
@@ -45,24 +60,9 @@ The constraint on navigating can frustrate actors who know their destination but
 - Restricted — greyed out or hidden based on permissions or prerequisites
 - Notifying — has updates or requires attention (shown on hub)
 
-## Related patterns
+## To-do
 
-### Precursors
-- [Flat navigation](/patterns/flat-navigation) → hub and spoke when items exceed screen capacity
-
-### Complements
-- [Command menu](/patterns/command-menu) — provides escape hatch for quick navigation without hub return
-- [Deep linking](/patterns/deep-linking) — enables direct spoke access from external sources
-- [Searching](/patterns/searching) — alternative to hub browsing for known destinations
-
-### Follow-ups
-- [Workspace](/patterns/workspace) — organisational containers often use hub and spoke
-- Mobile app architectures with tab bars
-
-### Alternatives
-- [Fully connected](/patterns/fully-connected) for frequent cross-section movement
-- [Multilevel tree](/patterns/multilevel-tree) for hierarchical relationships
-- [Hub and spoke + fully connected](/patterns/hybrid-patterns#hub-and-spoke--fully-connected) to add cross-spoke navigation
+Follow-up to capture: mobile app architectures with tab bars, a common realisation where the tab bar acts as the persistent hub.
 
 ## Resources & references
 

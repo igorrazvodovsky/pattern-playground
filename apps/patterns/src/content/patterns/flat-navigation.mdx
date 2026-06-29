@@ -1,12 +1,19 @@
 ---
-title: "Flat navigation"
+title: Flat navigation
 role: pattern
-group: "navigation"
+group: navigation
 activityLevel: action
 atomic: composition
 mediation: individual
 lifecycle: seeking
-fun: "🗺️ 2/5. Mapping out the basics."
+fun: 🗺️ 2/5. Mapping out the basics.
+relationships:
+  related:
+    - to: command-menu
+      note: efficient tool access
+    - fully-connected
+    - hub-and-spoke
+    - hybrid-patterns
 ---
 Everything is accessible in one place. Tools and functions appear via menus, toolbars, and palettes. Navigation happens within the work, not between locations.
 
@@ -32,10 +39,3 @@ The cognitive load comes from tool complexity rather than navigation complexity.
 {/* - *Menu-driven flat*. Primary tool access through menu bar. Most traditional (File, Edit, View, etc.) */}
 {/* - *Palette-driven flat*. Floating or docked panels with tool groups. */}
 {/* - *Command-first flat*.Keyboard command palette as primary access. Extremely efficient for experts. Learning curve. */}
-
-## Related patterns
-
-- [Command menu](/patterns/command-menu) — efficient tool access
-- [Hub and spoke](/patterns/hub-and-spoke) for multiple workspaces
-- [Fully connected](/patterns/fully-connected) for content-focused applications
-- [Hub + Flat](/patterns/hybrid-patterns#hub-and-spoke--flat-navigation) for multiple flat spaces
