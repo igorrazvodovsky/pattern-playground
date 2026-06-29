@@ -1,11 +1,36 @@
 ---
-title: "Annotation"
+title: Annotation
 role: pattern
-group: "sense-making"
+group: sense-making
 activityLevel: action
 atomic: pattern
 mediation: individual
-fun: "🙂 4/5. Connecting the dots…"
+fun: 🙂 4/5. Connecting the dots…
+relationships:
+  enacts:
+    - to: temporality
+      note: annotations are markers of time and wear.
+    - to: learnability
+      note: the actor learns from the interpretive marks others leave in place
+  precedes:
+    - to: collaboration
+      note: shared annotations enable collaborative sense-making.
+    - to: conversation
+      note: annotations often initiate critical dialogue.
+    - to: commenting
+      note: extends static annotation into dynamic discussion.
+  complements:
+    - to: explanation
+      note: clarifies complex concepts, often via description.
+    - to: transparent-reasoning
+      note: system annotations that reveal decision logic.
+    - to: generated-content
+      note: system marks confidence and origin.
+    - to: tag
+      note: semantic tagging for organisation.
+  tangential:
+    - to: link-preview
+      note: previews can surface annotation layers attached to a linked destination
 ---
 Enables actors to add layers of meaning to existing content through marking, highlighting, and contextual enrichment. Annotation creates a meta-layer that preserves the original while enabling interpretation, collaboration, and knowledge construction without disrupting the primary experience.
 
@@ -83,29 +108,12 @@ Automated markup showing confidence levels, data sources, or algorithmic decisio
 - Filtering and layering controls become important
 - Risk of obscuring original content
 
-## Related patterns
+## Related components
 
-### Precursors
-- [Temporality](/patterns/temporality) – annotations are markers of time and wear.
-- [Learnability](/patterns/learnability) – annotations provide the context needed for learning.
-
-### Follow-ups
-- [Collaboration](/patterns/collaboration) – shared annotations enable collaborative sense-making.
-- [Conversation](/patterns/conversation) – annotations often initiate critical dialogue.
-- [Commenting](/patterns/commenting) – extends static annotation into dynamic discussion.
-
-### Complementary
-- [Explanation](/patterns/explanation) – clarifies complex concepts, often via description.
-- [Transparent reasoning](/patterns/transparent-reasoning) – system annotations that reveal decision logic.
-- [Generated content](/patterns/generated-content) – system marks confidence and origin.
 - <ComponentRef id="primitives-reference--docs">Reference</ComponentRef> – citation and source tracking.
-- [Tag](/patterns/tag) – semantic tagging for organisation.
-
-### Tangentially related
-- [Link preview](/patterns/link-preview) – previews can surface annotation layers attached to a linked destination
 - <ComponentRef id="primitives-badge--docs">Badge</ComponentRef> – visual indicators used as status annotations.
 
-{/*
+{/* TODO: relations set aside, kept for review (not active edges):
 ### Content enhancement
 - [Explanation](/patterns/actions-sensemaking-explanation) – annotations that clarify complex concepts
 - [Generated content](/patterns/generated-content) – system annotations showing confidence and reasoning

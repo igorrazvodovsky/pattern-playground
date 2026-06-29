@@ -1,11 +1,37 @@
 ---
-title: "AI completion"
+title: AI completion
 role: pattern
-group: "application"
+group: application
 activityLevel: action
 atomic: pattern
 mediation: individual
-fun: "🙂 4/5. The interesting lens is seeing this as a continuation of *autocomplete* rather than an AI-specific thing."
+fun: 🙂 4/5. The interesting lens is seeing this as a continuation of *autocomplete* rather than an AI-specific thing.
+relationships:
+  enacts:
+    - to: agency
+      note: the actor remains in creative lead; the system only proposes
+    - to: adaptation
+      note: completion that improves from actor corrections over time
+  complements:
+    - to: assistance
+      note: completion might assists user in *performing* and *knowing* stuff
+    - to: assisted-task-completion
+      note: the spectrum this pattern belongs to
+    - to: suggestion
+      note: AI completion is a suggestion mechanism; fixation risk and dismissal apply directly
+    - to: bot
+      note: 'powers AI completion via the [inline mode](/patterns/bot#modes-of-interaction) of interaction'
+    - to: generated-content
+      note: block generation is closer to this pattern than to inline completion
+    - to: transparent-reasoning
+      note: explaining *why* a completion was suggested, especially for derived values
+  precedes:
+    - to: block-based-editor
+      note: a natural container for AI completion
+    - to: cognitive-forcing-functions
+      note: inline generation prone to over-reliance because accepting is cheaper than evaluating
+  related:
+    - autofill
 ---
 Proposing [generated content](/patterns/generated-content) — phrases, sentences, paragraphs, or derived values — as the actor composes, to anticipate what comes next.
 
@@ -36,28 +62,6 @@ The system proposes what it *thinks* the actor wants to say, which raises [trust
 - Watch for [fixation risk](/patterns/suggestion#fixation-risk): a concrete AI suggestion can narrow creative exploration. For generative tasks, question-driven scaffolding may preserve more diversity.
 - Latency tolerance is higher than for [autocomplete](/patterns/autocomplete) because the actor is composing, not selecting — a delay before ghost text appears is less disruptive than a delayed dropdown.
 - Suppress suggestions when the model's uncertainty is high. Low-quality completions erode trust faster than silence does.
-
-## Related patterns
-
-### Precursors
-
-- [Agency](/patterns/agency) — the actor remains in creative lead; the system only proposes
-- [Data entry](/patterns/data-entry) — AI completion as the AI-driven end of the input strategy spectrum
-- [Autocomplete](/patterns/autocomplete) — the deterministic precursor; AI completion extends the same interaction to generated content
-
-### Complementary
-
-- [Assistance](/patterns/assistance) — completion might assists user in *performing* and *knowing* stuff
-- [Assisted task completion](/patterns/assisted-task-completion) — the spectrum this pattern belongs to
-- [Suggestion](/patterns/suggestion) — AI completion is a suggestion mechanism; fixation risk and dismissal apply directly
-- [Bot](/patterns/bot) — powers AI completion via the [inline mode](/patterns/bot#modes-of-interaction) of interaction
-- [Generated content](/patterns/generated-content) — block generation is closer to this pattern than to inline completion
-- [Transparent reasoning](/patterns/transparent-reasoning) — explaining *why* a completion was suggested, especially for derived values
-
-### Follow-ups
-
-- [Block-based editor](/patterns/block-based-editor) — a natural container for AI completion
-- [Adaptability](/patterns/adaptation) — completion that improves from actor corrections over time
 
 ## Resources & references
 

@@ -1,12 +1,22 @@
 ---
-title: "Filtering"
+title: Filtering
 role: pattern
-group: "seeking"
+group: seeking
 activityLevel: action
 atomic: composition
 mediation: individual
 lifecycle: seeking
-fun: "🙂 3/5. Dependency."
+fun: 🙂 3/5. Dependency.
+relationships:
+  complements:
+    - grouping
+    - sorting
+    - to: selection
+      note: the imperative dual; filter narrows by predicate, selection narrows by enumeration
+  precedes:
+    - data-view
+  related:
+    - bot
 ---
 
 {/* TODO: Storybook demo exists — packages/components/src/stories/actions/seeking/Filtering.stories.tsx */}
@@ -41,26 +51,15 @@ If that fails, users can delegate filtering to a [bot](/patterns/bot) via a task
 1. Create a task outside filtering whose result can be used to filter the collection.
 2. Follow steps 3-4 from Flow 1.
 
-## Related patterns
+## Related components
 
-### Precursors
-
-- Typically placed in a [toolbar](/patterns/toolbar)
-- Depends on [command menu](/patterns/command-menu) for the local search through attributes and values.
 - <ComponentRef id="operations-combobox--docs">Combobox</ComponentRef> — the value-picker inside each active filter chip uses a combobox to narrow available values
 
-### Complementary
+## To-do
 
-- [Grouping](/patterns/grouping)
-- [Sorting](/patterns/sorting)
-- [Selection](/patterns/selection) — the imperative dual; filter narrows by predicate, selection narrows by enumeration
+Complementary patterns to capture:
 - Constrained natural language builder
 - Rules
-- Search
-
-### Follow-ups
-
-- [Data view](/patterns/data-view)
 
 ## Resources & references
 

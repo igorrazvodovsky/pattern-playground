@@ -1,10 +1,38 @@
 ---
-title: "Bot"
+title: Bot
 role: pattern
 activityLevel: activity
 atomic: pattern
 mediation: individual
-fun: "🙂 4/5. A part of a bigger attempt to map LLM-related patterns."
+fun: 🙂 4/5. A part of a bigger attempt to map LLM-related patterns.
+relationships:
+  precedes:
+    - to: activity-log
+      note: actions and reasoning are tracked and displayed in the activity log.
+    - to: conversation
+      note: messaging is the primary interface for conducting bot conversations
+    - prompt
+    - ai-tuning
+    - to: generated-content
+      note: presentation and manipulation of AI's output.
+    - transparent-reasoning
+    - to: live-presentation
+      note: generates the stream that this surface presents in flight
+  complements:
+    - to: collaboration
+      note: Bots participate as collaborative agents with adaptable mediation capabilities
+  enacts:
+    - to: agency
+      note: how much freedom the bot has to act on its own.
+    - to: formality
+      note: bots accept unstructured input by design; structure can be inferred or gradually formalised from interaction.
+    - to: learnability
+      note: the bot lets the actor ask the system rather than decipher it; learning happens through dialogue at the actor's pace
+    - to: adaptation
+      note: the bot modulates its behaviour and output to context and inferred intent rather than following fixed rules
+  related:
+    - ai-completion
+    - next-best-action
 ---
 
 <div class="callout info">
@@ -110,33 +138,13 @@ Treating bot outputs as authoritative without verification mechanisms. Bots can 
 
 Failing to communicate bot capabilities and limitations, leading to misuse and frustration. Users need clear understanding of what bots can and cannot do to set appropriate expectations.
 
-## Related patterns
-
-### Precursors
-{/* Primarily establish clear expectations, prepare mental models, and facilitate effective input to enhance subsequent bot interactions. */}
-
-- [Assistance](/patterns/assistance) — chatbot and inline bot modes
-- [Delegation](/patterns/delegation) — ambient and workflow automation bot modes
-- [Agency](/patterns/agency) - how much freedom the bot has to act on its own.
-- [Onboarding](/patterns/onboarding), priming, and [suggestions](/patterns/suggestion) are the first steps that help people get to know the bot—what it can and can't do, and how to get the most out of it.
-- [Progressive disclosure](/patterns/progressive-disclosure) – bots often operate well with incremental complexity. Progressive disclosure keeps things simple at first and helps actors build confidence.
-
-### Follow-ups
+## Related components
 
 - Bot can use <ComponentRef id="actions-coordination-messaging--docs">messaging</ComponentRef> to [converse](/patterns/conversation) with actors.
-- [Prompt](/patterns/prompt) describes ways of providing input to the bot.
-- [Formality](/patterns/formality) – bots accept unstructured input by design; structure can be inferred or gradually formalised from interaction.
-- LLM [settings](/patterns/ai-tuning) help keep users in control while the bot does its thing.
-- [Generated content](/patterns/generated-content) - presentation and manipulation of AI's output.
-- [Transparent reasoning](/patterns/transparent-reasoning) makes bot's decision-making process visible and inspectable.
-- [Activity log](/patterns/activity-log) tracks bot actions and reasoning for transparency and review.
-- [Collaboration](/patterns/collaboration) - Bots participate as collaborative agents with adaptable mediation capabilities
 
-{/* ### Concepts */}
-{/* - [Task](/patterns/concepts-task) - Bots interpret task specifications and execute work using available tools and capabilities */}
-
-{/* Input assistance - predictive text, autocomplete, and smart suggestions that aid actor input. */}
-{/* TODO: alt. for inline and ambient modes */}
+{/* TODO: relations set aside, kept for review (not active edges):
+- [Task](/patterns/concepts-task) - Bots interpret task specifications and execute work using available tools and capabilities
+*/}
 
 ## Resources & references
 

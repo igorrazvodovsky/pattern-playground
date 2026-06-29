@@ -1,10 +1,33 @@
 ---
-title: "Onboarding"
+title: Onboarding
 role: pattern
 activityLevel: activity
 atomic: pattern
 mediation: individual
-fun: "🙂 2/5. Included as a prerequisite for more interesting things."
+fun: 🙂 2/5. Included as a prerequisite for more interesting things.
+relationships:
+  precedes:
+    - bot
+    - to: mastery
+      note: building proficiency after initial learning
+    - template
+  composed-of:
+    - to: wizard
+      note: often employs wizards for initial setup and configuration
+  enacts:
+    - to: learnability
+      note: the actor's first climb up the learning curve, deliberately shaped
+    - to: adaptation
+      note: scaffolding that adapts to the newcomer, heavier at first and fading as competence grows
+    - to: temporality
+      note: the early, high-slope phase of the actor's arc with the tool
+  complements:
+    - to: help
+      note: provides just-in-time assistance.
+    - to: localization
+      note: first-run locale detection and selection
+  related:
+    - activity-log
 ---
 The initial experience that establishes mental models and demonstrates value, transforming a person into an active participant.
 
@@ -54,19 +77,6 @@ Configurations, workflows, data structures, and naming conventions created by pr
 
 This is [domain learnability](/patterns/learnability) applied to accumulated context.
 The system holds knowledge not just about the domain in general, but about *this organisation's* relationship to the domain.
-
-## Related patterns
-
-### Precursors
-- [Learnability](/patterns/learnability) – the foundation supporting value demonstration.
-- [Empty state](/patterns/state-empty) — often the canvas for onboarding and as such an enabler for it
-
-### Follow-ups
-- [Mastery](/patterns/mastery) – building proficiency after initial learning.
-
-### Complementary
-- [Help](/patterns/help) – provides just-in-time assistance.
-- [Localization](/patterns/localization) — first-run locale detection and selection
 
 ## Resources and references
 

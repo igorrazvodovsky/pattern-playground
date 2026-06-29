@@ -1,9 +1,21 @@
 ---
-title: "Activity log"
+title: Activity log
 role: pattern
 activityLevel: activity
 atomic: pattern
-fun: "🙂 3/5. Dependency."
+fun: 🙂 3/5. Dependency.
+relationships:
+  complements:
+    - to: collaboration
+      note: Uses activity logs to provide transparency and accountability in shared workspaces
+    - to: activity-feed
+      note: distinct from activity logs; feeds aggregate content _of interest to_ users from diverse sources, whilst logs are histories of _actions taken by_ a specific entity
+  composed-of:
+    - to: progressive-disclosure
+      note: individual log entries expand on demand, managing detail depth without losing the timeline flow
+  enacts:
+    - to: temporality
+      note: a chronological record that makes the passage of actions over time legible
 ---
 
 import { ActivityLogBasicDemo, ActivityLogLLMReasoningDemo } from '@pkg/demos/activity-log';
@@ -28,7 +40,8 @@ An event entry can expand from a record into an interactive surface. Closer insp
 
 ### Decision context
 
-The factors that contributed to the event: inputs, rules, model confidence, actor permissions, or prior state. For deterministic system actions, this might be a rule trace. For AI-driven decisions, it could be a reasoning chain, feature attributions, or a natural-language summary. [Explanation](/patterns/explanation) and [transparent reasoning](/patterns/transparent-reasoning) provide the content; the log provides the anchor.
+The factors that contributed to the event: inputs, rules, model confidence, actor permissions, or prior state. For deterministic system actions, this might be a rule trace. For AI-driven decisions, it could be a reasoning chain, feature attributions, or a natural-language summary. 
+[Explanation](/patterns/explanation){rel="complements"} and [transparent reasoning](/patterns/transparent-reasoning){rel="composed-of"} provide the content; the log provides the anchor.
 
 ### Actions from inspection
 
@@ -56,29 +69,13 @@ What an actor might do after inspecting an event depends on the domain and what 
   <ActivityLogLLMReasoningDemo client:only="react" />
 </Demo>
 
-## Related patterns
-
-{/* ### Concepts */}
-{/* - [Task](/patterns/concepts-task) - Records task actions, progress, and outcomes for review and accountability */}
-{/* - [Event](/patterns/concepts-event) - underlying data structure for each activity log entry */}
-{/* - [Event log](/patterns/concepts-event-log) - chronological collection that ActivityLog pattern visualises */}
-
-### Precursors
-
-- [Delegation](/patterns/delegation) — serves as the supervisory record for the *monitoring* and *hood to look under* touchpoints during execution
-- [Bot](/patterns/bot) - actions and reasoning are tracked and displayed in the activity log.
-- [Transparent reasoning](/patterns/transparent-reasoning) - provides the detailed reasoning steps that get recorded in the activity log.
-
-### Components
+## Related components
 
 - Uses a <ComponentRef id="components-timeline--docs">timeline</ComponentRef> with embedded <ComponentRef id="primitives-progress-indicator--docs">progress indicator</ComponentRef>.
 - Depends on <ComponentRef id="primitives-details--docs">details</ComponentRef> for [progressive disclosure](/patterns/progressive-disclosure) of the event details.
 
-### Follow-ups
-
-- [Collaboration](/patterns/collaboration) - Uses activity logs to provide transparency and accountability in shared workspaces
-
-### Complementary patterns
-
-- Feed — distinct from activity logs; feeds aggregate content _of interest to_ users from diverse sources, whilst logs are histories of _actions taken by_ a specific entity
-
+{/* TODO: relations set aside, kept for review (not active edges):
+- [Task](/patterns/concepts-task) - Records task actions, progress, and outcomes for review and accountability
+- [Event](/patterns/concepts-event) - underlying data structure for each activity log entry
+- [Event log](/patterns/concepts-event-log) - chronological collection that ActivityLog pattern visualises
+*/}

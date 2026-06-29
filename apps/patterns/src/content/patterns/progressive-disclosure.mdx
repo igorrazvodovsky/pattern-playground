@@ -1,12 +1,44 @@
 ---
-title: "Progressive disclosure"
+title: Progressive disclosure
 role: pattern
-group: "seeking"
+group: seeking
 activityLevel: action
 atomic: pattern
 mediation: individual
 lifecycle: seeking
-fun: "🙄 boring but important groundwork."
+fun: 🙄 boring but important groundwork.
+relationships:
+  enables:
+    - to: activity-log
+      note: event summaries can expand into detailed histories and proofs
+    - to: form
+      note: revealing depth only as it becomes relevant.
+    - to: bot
+      note: bots reveal capability, intent, and reasoning incrementally, keeping early interactions simple while building actor confidence
+  precedes:
+    - to: wizard
+      note: the conceptual foundation for revealing complexity gradually
+  complements:
+    - to: explanation
+      note: provides the content revealed at each disclosure level
+    - to: help
+      note: the pull-based channel actors use when they shift from doing to understanding
+    - to: good-defaults
+      note: what is visible by default is the first disclosure decision
+    - to: transparent-reasoning
+      note: a specialized high-detail form of disclosure for AI systems
+    - to: focus-and-context
+      note: helps preserve orientation while moving between shallow and deep views
+  enacts:
+    - to: density
+      note: progressive disclosure manages information density by deferring secondary content
+    - to: learnability
+      note: staged exposure helps actors build mental models without immediate overload
+  tangential:
+    - to: link-preview
+      note: hover-to-peek at a linked destination; the lightest disclosure tier for cross-references
+    - to: onboarding
+      note: stretches disclosure across an initial learning journey rather than a single view
 ---
 Progressive disclosure reduces initial cognitive load by showing the minimum needed for the current task while keeping deeper detail available when it becomes relevant.
 
@@ -77,34 +109,11 @@ Movement between levels should usually be actor-driven and reversible. The point
 - *Nested tunnels* — too many levels of expansion create navigation overhead and make people lose context
 - *Noise masquerading as transparency* — showing low-signal detail is not the same as explaining what materially drove the outcome
 
-## Related patterns
-
-### Containers and primitives
+## Related components
 
 - <ComponentRef id="primitives-details--docs">Details</ComponentRef> — a mechanism for triggered expansion
-- [Sections](/patterns/sections) — adaptive container that combines details and tabs affordances
 - <ComponentRef id="components-dialog--docs">Dialog</ComponentRef> — a container for disclosed content that needs more space or focus
-
-### Complementary
-
-- [Explanation](/patterns/explanation) — provides the content revealed at each disclosure level
-- [Help](/patterns/help) — the pull-based channel actors use when they shift from doing to understanding
-- [Good defaults](/patterns/good-defaults) — what is visible by default is the first disclosure decision
-- [Transparent reasoning](/patterns/transparent-reasoning) — a specialized high-detail form of disclosure for AI systems
-- [Density](/patterns/density) — progressive disclosure manages information density by deferring secondary content
-- [Focus and context](/patterns/focus-and-context) — helps preserve orientation while moving between shallow and deep views
-
-### Applied in
-
-- [Activity log](/patterns/activity-log) — event summaries can expand into detailed histories and proofs
-- [Bot](/patterns/bot) — bots often need to reveal capability, intent, and reasoning incrementally
-
-### Tangentially related
-
-- [Link preview](/patterns/link-preview) — hover-to-peek at a linked destination; the lightest disclosure tier for cross-references
-- <ComponentRef id="primitives-popover--docs">Popover</ComponentRef> — the tooltip mode reveals supplementary information on hover/focus without an explicit expansion
-- [Learnability](/patterns/learnability) — staged exposure helps actors build mental models without immediate overload
-- [Onboarding](/patterns/onboarding) — stretches disclosure across an initial learning journey rather than a single view
+- <ComponentRef id="primitives-popover--docs">Popover</ComponentRef> — reveals supplementary information without an explicit expansion
 
 ## Resources & references
 

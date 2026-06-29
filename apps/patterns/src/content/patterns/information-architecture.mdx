@@ -1,7 +1,26 @@
 ---
-title: "Information architecture"
+title: Information architecture
 role: foundation
-fun: "🗺️ 5/5. IA is my personal favourite design domain."
+fun: 🗺️ 5/5. IA is my personal favourite design domain.
+relationships:
+  related:
+    - interaction
+    - navigation-overview
+    - multilevel-tree
+    - dynamic-hyperlinks
+    - prose
+  enacts:
+    - to: agency
+      note: the structure of information shapes who can do what with it; strict hierarchies concentrate authorship in the system, while multiple paths and tags distribute it to the actor
+    - to: shareability
+      note: "the structure determines what travels: a deeply nested item is hard to point at, while a flat, URL-addressable one is easy"
+    - to: malleability
+      note: user-created hierarchies and tags let the actor reshape the structure to their own model
+  precedes:
+    - to: localization
+      note: controlled vocabularies and label strategies that localization must adapt
+    - searching
+    - workspace
 ---
 How information is organised, structured, and labelled to enable discovery, navigation, and use. Information architecture establishes the structural foundation that determines what can be found, how it connects, and which [navigation behaviours](/patterns/interaction#navigation) are possible.
 
@@ -96,27 +115,23 @@ The central tension is control versus flexibility.
 Labels must match actor mental models shaped by domain expertise, cultural context, and prior systems.
 Multilingual contexts complicate this—direct translation often fails when concepts don't map cleanly across languages.
 
-## Enacted qualities
+{/* ## Practical application
+Information architecture thinking bridges UX and technical architecture:
 
-- [Agency](/patterns/agency) — the structure of information shapes who can do what with it; strict hierarchies concentrate authorship in the system, while multiple paths and tags distribute it to the actor
-- [Shareability](/patterns/shareability) — the structure determines what travels: a deeply nested item is hard to point at, while a flat, URL-addressable one is easy
+**Structure decisions that affect both:**
+- Taxonomy drives both navigation UI and database schema
+- Entity relationships inform both backend models and interface connections
+- Metadata requirements affect both storage and search interfaces
+- Access control hierarchies shape both permissions systems and UI visibility
 
-{/* ## Practical application */}
-{/* Information architecture thinking bridges UX and technical architecture: */}
-
-{/* **Structure decisions that affect both:** */}
-{/* - Taxonomy drives both navigation UI and database schema */}
-{/* - Entity relationships inform both backend models and interface connections */}
-{/* - Metadata requirements affect both storage and search interfaces */}
-{/* - Access control hierarchies shape both permissions systems and UI visibility */}
-
-{/* **Starting with structure:** */}
-{/* 1. Understand content and data (what exists, how it relates) */}
-{/* 2. Understand actor needs (what they seek, how they think about it) */}
-{/* 3. Design organization schemes (how to group and label) */}
-{/* 4. Define relationships (how things connect) */}
-{/* 5. Choose navigation patterns that manifest structure */}
-{/* 6. Implement search that leverages structure */}
+**Starting with structure:**
+1. Understand content and data (what exists, how it relates)
+2. Understand actor needs (what they seek, how they think about it)
+3. Design organization schemes (how to group and label)
+4. Define relationships (how things connect)
+5. Choose navigation patterns that manifest structure
+6. Implement search that leverages structure
+*/}
 
 ## Resources & references
 
