@@ -1,12 +1,34 @@
 ---
-title: "Inline interface"
+title: Inline interface
 role: pattern
-group: "coordination"
+group: coordination
 activityLevel: action
 atomic: pattern
 mediation: individual
-fun: "🤩 5/5. Part of mapping the LLM-era patterns."
-description: "Reading or acting on a piece of live interface that appears inside the message stream itself, so dialogue and application share a single surface."
+fun: 🤩 5/5. Part of mapping the LLM-era patterns.
+description: Reading or acting on a piece of live interface that appears inside the message stream itself, so dialogue and application share a single surface.
+relationships:
+  related:
+    - to: conversation
+      note: the exchange this move renders into; the <ComponentRef id="actions-coordination-messaging--docs">Messaging</ComponentRef> component is its mechanism.
+    - to: form
+      note: fields distributed across an exchange; the form↔conversation move.
+    - to: bounded-choice
+      note: selections offered inline as chips or cards.
+    - to: suggestion
+      note: recommendations the actor can accept, modify, or reject in the flow.
+    - to: human-goes-first
+      note: inline confirmation and correction checkpoints
+    - to: agent-repair
+      note: inline confirmation and correction checkpoints
+  enacts:
+    - to: conversation-quality
+      note: "the foundational claim this concretises: the inline interface is where the conversation metaphor becomes a literal rendering."
+  complements:
+    - to: generated-content
+      note: produced output the actor negotiates; interlocks with, but distinct from, this move.
+    - to: status-feedback
+      note: system and progress signals during inline work.
 ---
 
 import { ConversationalFormDemo } from '@pkg/demos/conversational-form';
@@ -26,21 +48,9 @@ The most familiar instance is a [form](/patterns/form) conducted as a conversati
 
 [Generated content](/patterns/generated-content) is about the actor negotiating produced *output* — judging it, trusting it, refining and appropriating it; the artifact is the thing under evaluation. Inline interface is about the *surface hosting interface* the actor reads or acts through in place. The two interlock — a generated chart the actor then filters, a draft they edit inline — but the moves are distinct: one asks "do I trust this output?", the other "how does the conversation hand me something to do?".
 
-## Related patterns
+## Related components
 
-### Surface
 - [Conversation](/patterns/conversation) — the exchange this move renders into; the <ComponentRef id="actions-coordination-messaging--docs">Messaging</ComponentRef> component is its mechanism.
-- [Conversation — the quality](/patterns/conversation-quality) — the foundational claim this concretises: the inline interface is where the conversation metaphor becomes a literal rendering.
-
-### Instances
-- [Form](/patterns/form) — fields distributed across an exchange; the form↔conversation move.
-- [Bounded choice](/patterns/bounded-choice) — selections offered inline as chips or cards.
-- [Suggestion](/patterns/suggestion) — recommendations the actor can accept, modify, or reject in the flow.
-- [Human goes first](/patterns/human-goes-first), [Agent repair](/patterns/agent-repair) — inline confirmation and correction checkpoints.
-
-### Complementary
-- [Generated content](/patterns/generated-content) — produced output the actor negotiates; interlocks with, but distinct from, this move.
-- [Status feedback](/patterns/status-feedback) — system and progress signals during inline work.
 
 ## Resources & references
 - CopilotKit / [Generative UI overview](https://docs.copilotkit.ai/concepts/generative-ui-overview) — agent-driven rendering

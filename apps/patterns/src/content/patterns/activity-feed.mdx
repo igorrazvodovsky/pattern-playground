@@ -1,9 +1,23 @@
 ---
-title: "Activity feed"
+title: Activity feed
 role: pattern
 activityLevel: activity
 atomic: pattern
-fun: "🗺️ 2/5. Mapping out the basics."
+fun: 🗺️ 2/5. Mapping out the basics.
+relationships:
+  complements:
+    - to: assistance
+      note: keeping recent events visible so the actor can notice what matters
+    - to: delegation
+      note: feed gives the user awareness of background agent activity
+    - to: activity-log
+      note: distinct from feeds; logs are histories of _actions taken by_ an entity, whilst feeds aggregate content _of interest to_ users from diverse sources
+    - to: collaboration
+      note: uses feeds to surface updates and changes in shared workspaces
+    - to: notification
+      note: alerts users to new feed activity requiring attention
+    - to: conversation
+      note: comment threads enable conversations around feed items
 ---
 The continuous aggregation of diverse content into a single scannable flow, transforming scattered updates from multiple sources into an ongoing stream that sustains engagement over time. Unlike [activity logs](/patterns/activity-log) that record system events, feeds aggregate content types — posts, updates, articles, media — for consumption and quick engagement, prioritising recency.
 
@@ -27,24 +41,17 @@ Each feed item typically includes:
 - Timestamp: relative time for recent items ("2 hours ago"), switching to absolute timestamps as content ages
 - Actions: lightweight engagement options (like, star, bookmark) alongside deeper responses (comment, share)
 
-## Related patterns
-
-### Precursors
+## Related components
 
 - <ComponentRef id="actions-sense-making-card--docs">Cards</ComponentRef> – common container format for feed items
-- TODO:Infinite scrolling – loads additional content as user reaches end of current items
-
-### Complementary patterns
-
-- [Assistance](/patterns/assistance) — keeping recent events visible so the actor can notice what matters
-- [Delegation](/patterns/delegation) — feed gives the user awareness of background agent activity
-- [Activity log](/patterns/activity-log) – distinct from feeds; logs are histories of _actions taken by_ an entity, whilst feeds aggregate content _of interest to_ users from diverse sources
-- [Collaboration](/patterns/collaboration) – uses feeds to surface updates and changes in shared workspaces
-- [Notification](/patterns/notification) – alerts users to new feed activity requiring attention
-- <ComponentRef id="actions-coordination-messaging--docs">Messaging / Comment thread</ComponentRef> – enable [conversations](/patterns/conversation) around feed items
+- <ComponentRef id="actions-coordination-messaging--docs">Messaging / Comment thread</ComponentRef>
 
 ## Resources & references
 
-- https://www.w3.org/wiki/Activity_Streams
-- https://ui-patterns.com/patterns/ActivityStream
-- https://www.w3.org/WAI/ARIA/apg/patterns/feed/
+- [W3C wiki / Activity streams](https://www.w3.org/wiki/Activity_Streams)
+- [UI patterns / Activity stream](https://ui-patterns.com/patterns/ActivityStream)
+- [ARIA APG / Feed](https://www.w3.org/WAI/ARIA/apg/patterns/feed/)
+
+## To-do
+
+- Infinite scrolling — loads additional content as the user reaches the end of current items.

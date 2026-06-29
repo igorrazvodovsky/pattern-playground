@@ -1,11 +1,24 @@
 ---
-title: "Saving"
+title: Saving
 role: pattern
-group: "application"
+group: application
 activityLevel: action
 atomic: pattern
 mediation: individual
-fun: "😀 4/5."
+fun: 😀 4/5.
+relationships:
+  related:
+    - to: deletion
+      note: Save/cancel workflows as confirmation for destructive operations
+    - to: action-consequences
+      note: Evaluating when save/cancel is appropriate
+    - to: undo
+      note: Reversibility in saved states
+    - to: collaboration
+      note: Saving patterns handle conflict resolution and multi-user editing scenarios in shared workspaces
+  enacts:
+    - to: temporality
+      note: when state is persisted, and how often, across the session
 ---
 Modern UX expectations generally favour reduced friction (e.g., **autosave**), but there are still scenarios where **manual** saving or a **hybrid** model is beneficial.
 
@@ -120,14 +133,3 @@ The save/cancel paradigm can serve as a confirmation mechanism for destructive o
 - Ability to restore individual items before saving
 
 This approach is particularly effective when deletion is part of a larger editing session. See [Deletion](/patterns/deletion) for detailed implementation examples.
-
-## Related patterns
-
-<div>
-- [Deletion](/patterns/deletion) – Save/cancel workflows as confirmation for destructive operations
-- [Action consequences](/patterns/action-consequences) – Evaluating when save/cancel is appropriate
-- Draft vs. publish workflow
-- [Undo](/patterns/undo) – Reversibility in saved states
-- Multiplayer
-- [Collaboration](/patterns/collaboration) – Saving patterns handle conflict resolution and multi-user editing scenarios in shared workspaces
-</div>

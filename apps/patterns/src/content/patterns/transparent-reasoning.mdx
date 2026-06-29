@@ -1,10 +1,33 @@
 ---
-title: "Transparent reasoning"
+title: Transparent reasoning
 role: pattern
 activityLevel: activity
 atomic: pattern
 mediation: individual
-fun: "🙂 5/5. A part of a bigger attempt to map LLM-related patterns."
+fun: 🙂 5/5. A part of a bigger attempt to map LLM-related patterns.
+relationships:
+  follows:
+    - to: bot
+      note: generates the reasoning that transparent reasoning makes visible and inspectable.
+  precedes:
+    - to: activity-log
+      note: provides the detailed reasoning steps that get recorded in the activity log.
+  enacts:
+    - to: learnability
+      note: by observing *why* the system made a decision, the actor implicitly learns its logic and capabilities
+    - to: agency
+      note: visible reasoning is one of the levers for reliance calibration, helping the actor judge when to trust and when to override
+  complements:
+    - assistance
+    - delegation
+    - to: explanation
+      note: encourages understanding through interaction, while transparent reasoning shows the step-by-step process.
+    - to: suggestion
+      note: can emerge from the visible reasoning process.
+    - to: collaboration
+      note: Transparent reasoning makes AI decision-making processes inspectable for human collaborators
+    - to: cognitive-forcing-functions
+      note: counterbalancing interventions when transparent reasoning slides into over-reliance
 ---
 
 import { ActivityLogLLMReasoningDemo } from '@pkg/demos/activity-log';
@@ -58,32 +81,14 @@ Beyond temporal positioning, reasoning can be structured as linear sequences or 
 
 {/* ### Correcting the bot */}
 
-## Related patterns
+## Related components
 
-### Enacted qualities
-
-- [Learnability](/patterns/learnability) — by observing *why* the system made a decision, the actor implicitly learns its logic and capabilities
-- [Agency](/patterns/agency) — visible reasoning is one of the levers for reliance calibration, helping the actor judge when to trust and when to override
-
-### Precursors
-
-- [Bot](/patterns/bot) - generates the reasoning that transparent reasoning makes visible and inspectable.
-
-### Follow-ups
-
-- [Activity log](/patterns/activity-log) - records the reasoning steps for review and audit.
-
-### Complementary
-
-- [Assistance](/patterns/assistance)
-- [Delegation](/patterns/delegation)
-- [Explanation](/patterns/explanation) - encourages understanding through interaction, while transparent reasoning shows the step-by-step process.
 - <ComponentRef id="actions-coordination-messaging--docs">Messaging</ComponentRef> - provides the conversational interface where transparent reasoning can be displayed.
-- [Suggestions](/patterns/suggestion) - can emerge from the visible reasoning process.
-- [Collaboration](/patterns/collaboration) - Transparent reasoning makes AI decision-making processes inspectable for human collaborators
-- Transparent reasoning can be seen as "TODO:workflow unpacking": in an LLM-driven system, reasoning processes can be viewed as dynamically generated workflows that emerge during runtime rather than being predefined.
-- [Cognitive forcing functions](/patterns/cognitive-forcing-functions) — counterbalancing interventions when transparent reasoning slides into over-reliance
 
 ## Resources & references
 
 Rock Yuren Pang, K. J. Kevin Feng, Shangbin Feng, Chu Li, Weijia Shi, Yulia Tsvetkov, Jeffrey Heer, Katharina Reinecke. 2025. [Interactive Reasoning: Visualizing and Controlling Chain-of-Thought Reasoning in Large Language Models](https://arxiv.org/pdf/2506.23678)
+
+## To-do
+
+- Workflow unpacking — in an LLM-driven system, reasoning processes can be viewed as dynamically generated workflows that emerge at runtime rather than being predefined.

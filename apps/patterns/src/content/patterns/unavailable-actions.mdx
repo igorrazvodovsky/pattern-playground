@@ -1,10 +1,23 @@
 ---
-title: "Unavailable actions"
+title: Unavailable actions
 role: pattern
 activityLevel: operation
 atomic: pattern
 mediation: individual
-fun: "🙄 boring but important groundwork."
+fun: 🙄 boring but important groundwork.
+relationships:
+  alternative:
+    - to: state-disabled
+      note: hiding options is an alternative to showing them disabled
+  related:
+    - to: morphing-controls
+      note: keeps the control visible but transforms it
+    - to: progressive-disclosure
+      note: "a softer form: deferring rather than removing"
+    - to: toolbar
+      note: primary context where actions are hidden based on selection or state
+    - to: command-menu
+      note: context menus apply the same principle, surfacing only relevant commands
 ---
 Hide actions that are currently inaccessible or irrelevant to the actor.
 
@@ -21,11 +34,3 @@ Situation when actors need to understand the full range of potential actions to 
 ## Accessibility concerns
 
 Removing UI elements entirely (e.g., changing layout structure) might negatively impact assistive technology.
-
-## Related patterns
-
-- Hiding options is an alternative to [disabled state](/patterns/state-disabled)
-- [Morphing controls](/patterns/morphing-controls) — keeps the control visible but transforms it
-- [Progressive disclosure](/patterns/progressive-disclosure) — a softer form: deferring rather than removing
-- [Toolbar](/patterns/toolbar) — primary context where actions are hidden based on selection or state
-- [Command menu](/patterns/command-menu) — context menus apply the same principle, surfacing only relevant commands

@@ -1,11 +1,29 @@
 ---
-title: "Bounded choice"
+title: Bounded choice
 role: pattern
 activityLevel: operation
 atomic: pattern
 mediation: individual
-description: "Committing a value from a set the actor didn't author and can't fully survey."
-fun: "🙂 2/5. Dependency."
+description: Committing a value from a set the actor didn't author and can't fully survey.
+fun: 🙂 2/5. Dependency.
+relationships:
+  enacts:
+    - to: formality
+      note: "the quality lens on the trade-off: bounded choice sits at the high-formality end"
+  complements:
+    - to: good-defaults
+      note: pre-selecting the likely value can resolve the choice before the actor engages with it
+    - to: searching
+      note: where the move escalates when the set outgrows narrowing
+  precedes:
+    - to: filtering
+      note: each filter condition is a bounded choice over a facet's values
+  enables:
+    - to: form
+      note: committing a value from a set the actor didn't author; the move behind selects, radios, and checkboxes.
+  instantiates:
+    - to: selection
+      note: "the general move: designating from an exposed option set"
 ---
 
 Committing a value from a bounded set the actor didn't author and may not be able to survey.
@@ -38,29 +56,12 @@ Control choice scales with set size and cardinality; [Selection](/patterns/selec
 | Lots — type to narrow | <ComponentRef id="operations-combobox--docs">Combobox</ComponentRef> | <ComponentRef id="operations-combobox--docs">Combobox</ComponentRef>, <ComponentRef id="actions-coordination-dual-listbox--docs">dual listbox</ComponentRef> |
 </pp-table>
 
-## Related patterns
-
-### Controls
+## Related components
 
 - <ComponentRef id="primitives-radio-button--docs">Radio button</ComponentRef>, <ComponentRef id="primitives-checkbox--docs">Checkbox</ComponentRef>, <ComponentRef id="primitives-select--docs">Select</ComponentRef> — small to medium scale, scanned whole
 - <ComponentRef id="operations-combobox--docs">Combobox</ComponentRef> — large scale, typed to narrow (single or `multiple`)
 - <ComponentRef id="actions-coordination-dual-listbox--docs">Dual listbox</ComponentRef> — bulk multi-select with side-by-side review
 
-### Prerequisites
+## To-do
 
-- [Formality](/patterns/formality) — the quality lens on the trade-off: bounded choice sits at the high-formality end
-- [Selection](/patterns/selection) — the general move: designating from an exposed option set
-
-### Complementary
-
-- [Good defaults](/patterns/good-defaults) — pre-selecting the likely value can resolve the choice before the actor engages with it
-- [Searching](/patterns/searching) — where the move escalates when the set outgrows narrowing
-
-### Alternatives
-
-- Free entry with advisory suggestions — the opposite stance: the field commits the actor's own text, and [autocomplete](/patterns/autocomplete) candidates can replace it but don't constrain it
-
-### Follow-ups
-
-- [Form](/patterns/form) — where bounded fields most commonly live
-- [Filtering](/patterns/filtering) — each filter condition is a bounded choice over a facet's values
+- Free entry with advisory suggestions — the opposite stance: the field commits the actor's own text, and [autocomplete](/patterns/autocomplete) candidates can replace it but don't constrain it.
