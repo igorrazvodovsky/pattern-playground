@@ -106,7 +106,11 @@ export function StackManager({ slug, title, children }: StackManagerProps) {
     const h1 = last.querySelector<HTMLElement>('h1');
     if (h1) {
       h1.tabIndex = -1;
-      setTimeout(() => h1.focus(), 0);
+      // Skip focus when the pane has a hash target: the hash-scroll effect will
+      // scroll to the anchor, and h1.focus() would cancel that smooth scroll.
+      if (!panes[panes.length - 1]?.hash) {
+        setTimeout(() => h1.focus(), 0);
+      }
     }
   }, [panes.length]);
 
@@ -139,7 +143,15 @@ export function StackManager({ slug, title, children }: StackManagerProps) {
       if (!pane.hash || pane.status !== 'ready') return;
       if (prevPanesRef.current[i + 1]?.status === 'ready') return;
       const paneEl = stackRef.current?.querySelector<HTMLElement>(`[data-pane-index="${i + 1}"]`);
-      paneEl?.querySelector(pane.hash)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const paneBody = paneEl?.querySelector<HTMLElement>('.pane-body');
+      const target = paneEl?.querySelector<HTMLElement>(pane.hash);
+      if (!paneBody || !target) return;
+      // scrollIntoView also scrolls .stack horizontally, fighting the concurrent
+      // horizontal scroll from scrollToPane and ending up back at 0. Direct
+      // .pane-body scroll avoids .stack entirely; 'instant' avoids competing
+      // with the horizontal smooth animation already in progress.
+      const top = target.getBoundingClientRect().top - paneBody.getBoundingClientRect().top + paneBody.scrollTop;
+      paneBody.scrollTo({ top, behavior: 'instant' });
     });
     prevPanesRef.current = panes;
   }, [panes]);
