@@ -446,6 +446,13 @@
       "role": "pattern"
     },
     {
+      "id": "keyboard-shortcuts",
+      "title": "Keyboard shortcuts",
+      "category": "Actions",
+      "path": "/patterns/keyboard-shortcuts",
+      "role": "pattern"
+    },
+    {
       "id": "learnability",
       "title": "Learnability",
       "category": "Qualities",
@@ -1802,6 +1809,13 @@
     },
     {
       "source": "command-menu",
+      "target": "keyboard-shortcuts",
+      "type": "complements",
+      "label": "surfaces shortcuts alongside each command name, making the invisible visible — the command menu is often the primary discovery mechanism for a shortcut system",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "command-menu",
       "target": "unavailable-actions",
       "type": "precedes",
       "label": "context menus show only relevant commands, hiding those inaccessible in the current context",
@@ -3028,6 +3042,34 @@
       "target": "progressive-disclosure",
       "type": "related",
       "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "keyboard-shortcuts",
+      "target": "command-menu",
+      "type": "complements",
+      "label": "the command menu surfaces shortcuts alongside each command name, making the invisible visible; together they span the full spectrum from exploration to direct execution",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "keyboard-shortcuts",
+      "target": "toolbar",
+      "type": "complements",
+      "label": "both expose the same commands by different means — toolbar as persistent visual affordance, shortcuts as invisible motor memory",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "keyboard-shortcuts",
+      "target": "agency",
+      "type": "enacts",
+      "label": "an actor who has internalised the shortcut vocabulary can execute intent without navigating the interface at all",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "keyboard-shortcuts",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "the arc from menu reliance to muscle memory is a concrete learnability trajectory; tooltip hints and the ? dialog scaffold each stage",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "learnability",

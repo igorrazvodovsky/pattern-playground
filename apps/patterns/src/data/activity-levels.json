@@ -361,6 +361,12 @@
       "atomic-category": "composition",
       "mediation": "individual"
     },
+    "keyboard-shortcuts": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": "individual"
+    },
     "learnability": {
       "activity-level": "cross-cutting",
       "lifecycle-stage": null,
