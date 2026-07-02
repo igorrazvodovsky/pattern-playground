@@ -1,8 +1,8 @@
 # Settled specifications
 
 Settled specifications describe what the project treats as true now. They sit
-between the long-range vision in `docs/language/vision.md` and the executable
-work packets in `plans/`.
+between the long-range vision (`docs/project/vision.md` and
+`docs/language/vision.md`) and the executable work packets in `plans/`.
 
 - [Agent harness](agent-harness.md) — repository knowledge, agent-facing entry
   points, and plan/spec boundaries.

@@ -3,13 +3,34 @@
 Agent-facing knowledge base for the project. `AGENTS.md` stays the thin entry
 map; this file routes people and agents into the sectioned docs.
 
-## Pattern Language Loop
+## Vision → operative image → specification
 
-- *Vision*: [language/vision.md](language/vision.md) names the desired direction
-  for the pattern language.
-- *Operative image*: [language/operative-image.md](language/operative-image.md)
-  describes the current working picture that can be compared with the vision.
-- *Specification*: [plans/](../plans/) is where a chunk of current understanding becomes an implementation plan. Selected specs in [specs/](specs/) hold promoted commitments that govern the process.
+Two vantage points run the dialectic between desired direction and current
+state — one on the project artifact, one on the pattern language. They are
+distinct at the abstract end and converge at the concrete: a single plan or
+settled spec usually cashes out both at once (wiring the related-patterns block
+was an artifact change and a language-layer move in one stroke). The
+specification layer is therefore shared, not split. An individual spec still
+answers to whichever vision named it — `workspace-layout` to the project, the
+role model to the language, the pattern-site schema to both.
+
+*Project loop* — where the artifact as a whole is heading and where it stands:
+
+- *Vision*: [project/vision.md](project/vision.md) — the garden constraint,
+  bilingual substrate, and agent-consumable repertoire.
+- *Operative image*: [project/operative-image.md](project/operative-image.md) —
+  the surfaces, substrate, and tooling as they exist today.
+
+*Pattern language loop* — where the conceptual layer is heading and where it stands:
+
+- *Vision*: [language/vision.md](language/vision.md) — the Nature of Order and
+  agent-usable tracks past the typed-edge layer's first build (not yet operational).
+- *Operative image*: [language/operative-image.md](language/operative-image.md) —
+  the built language layer, role model, and graph as they exist today.
+
+*Specification* (shared): [plans/](../plans/) is where a chunk of current
+understanding becomes an implementation plan. Selected specs in [specs/](specs/)
+hold promoted commitments that govern the process.
 
 ## Settled Specs
 
@@ -25,11 +46,12 @@ map; this file routes people and agents into the sectioned docs.
   collection, quality, foundation, and concept roles; boundary stance and the
   move/mechanism decomposition rule
 
-No separate whole-project operative-image layer exists yet. Add one only if the
-broader product state starts needing its own current-state artifact.
-
 ## Project
 
+- [Vision](project/vision.md) — where the artifact as a whole is heading,
+  distinct from the pattern-language theory
+- [Operative image](project/operative-image.md) — current working picture of the
+  surfaces, substrate, and tooling
 - [Core beliefs](project/core-beliefs.md) — project philosophy, voice, scope
 
 ## Language
@@ -39,8 +61,8 @@ broader product state starts needing its own current-state artifact.
 - [Pattern and form languages](language/pattern-and-form.md) — the two
   languages, their different jobs, and the move/mechanism boundary as
   projection
-- [Vision](language/vision.md) — direction for role semantics, graph
-  structure, and a future language layer
+- [Vision](language/vision.md) — the Nature of Order and agent-usable tracks
+  past the typed-edge layer's first build (not yet operational)
 - [Operative image](language/operative-image.md) — current working picture of
   the pattern language as it exists today
 - [Relationship vocabulary](language/relationship-vocabulary.md) — typed edge
@@ -50,7 +72,7 @@ broader product state starts needing its own current-state artifact.
 - [Conceptual glossary](language/conceptual-glossary.md) — working vocabulary
 - [Design theory](language/design-theory.md) — Alexander, centres, qualities,
   and the theoretical arc
-- [Levels of scale](language/levels-of-scale.md) — structural legibility across
+- [Levels of scale](levels-of-scale.md) — structural legibility across
   repository altitudes
 
 ## Quality

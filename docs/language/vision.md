@@ -1,56 +1,72 @@
-# Vision
+# Pattern language vision
 
-Long-term orientation for the project as it moves from a documented pattern catalog toward a usable pattern language. It names the organizing direction and
-includes a few concrete sketches to make that direction discussable. It is not an implementation plan or schema contract.
+Long-term orientation for the pattern *language* — the conceptual layer of
+moves, qualities, and the relationships between them. It names where the language
+is heading; for where the project *artifact* is heading, see
+[../project/vision.md](../project/vision.md).
 
-Compare this vision with [operative-image.md](./operative-image.md), which
-describes the current working picture.
+Compare this with [operative-image.md](./operative-image.md), the current working
+picture of the language. It is not an implementation plan or schema contract.
 
-## Possible language layer
+## A first language layer exists — but it is not operational
 
-It is a long-term shape to keep in mind when new tooling, schemas, or extraction
-scripts start straining against MDX as the only source of truth.
+An earlier version of this vision sketched a "possible language layer" — a set of
+typed graphs (generative, quality, implementation, taxonomic, collection) over
+the pattern MDX. A first iteration of that layer now exists: the typed-edge
+vocabulary in [relationship-vocabulary.md](./relationship-vocabulary.md) gives it
+concrete form, the role model in
+[../specs/pattern-role-model.md](../specs/pattern-role-model.md) settles the node
+types, and [operative-image.md](./operative-image.md) describes what is built.
 
-### Generative graph
+That is a different thing from an operational language. You cannot yet use the
+graph to generate design: coverage is partial, structural gaps remain, and the
+data model itself — relationship types, profile shape, what is even worth
+encoding — is expected to keep changing through several more iterations before it
+earns real use in design work. So the sketch has graduated into a first build,
+not into a usable language. The vision still points past that build, along two
+tracks: one deep and theoretical, one nearer and practical.
 
-`move -> move`
+## Track 1 — Nature of Order register
 
-Uses relationships such as `precedes`, `recommends`, `alternative`, and
-`complements`. This is the actual pattern-language layer: it describes how moves
-unfold, combine, or substitute for one another.
+The language currently lives in Alexander's *Pattern Language* register: patterns
+are moves, typed edges describe how moves combine, and the data is
+suggestion-grade. The aspiration is the *Nature of Order* register — structural
+*properties* that act as recursive production rules, giving design a genuine
+grammar rather than a vocabulary of hints. [design-theory.md](./design-theory.md)
+holds the full trajectory; [levels-of-scale.md](../levels-of-scale.md) is the
+first worked translation of one property into software.
 
-### Quality graph
+Getting there means discovering interaction-design analogues of Alexander's
+structural properties — configurations that reliably produce certain experiential
+effects across diverse users and contexts. This is the long horizon, and it is not close.
 
-`move -> quality`
+## Track 2 — Agent-usable language
 
-Uses `enacts`. This records which experiential dimensions a move makes legible.
-Quality-to-quality tension may eventually need its own relationship, but only
-after concrete examples justify it.
+The nearer frontier is making the language something an actor — human or AI —
+reasons over rather than reads. Three concrete moves:
 
-### Implementation graph
+- *Generative profiles across the corpus.* The `operatesOn` / `produces` /
+  `enacts` profile sidecar exists and is populated for a small starting set. The
+  open question is whether the fields pull their weight before retrofitting them
+  across the library (see [relationship-vocabulary.md](./relationship-vocabulary.md),
+  Open Questions).
+- *A query layer over the graph.* Edge axes, transitive enablement, co-grounding
+  through shared foundations, and alternative-conflict detection are all derivable
+  from the graph and could be exposed to a reasoning actor on demand rather than
+  pre-computed.
+- *Situation-shaped reasoning.* `recommends` edges carry decision-tree branches
+  as raw situational text. The frontier is using them as context for judgement,
+  not as predicates to be matched against a query.
 
-`mechanism -> move`
-
-Uses `enables`. This records which primitives, components, controls, or
-mechanisms make a move possible. It should not be confused with taxonomy.
-
-### Taxonomic graph
-
-`move -> foundation` or `move -> concept`
-
-Uses `instantiates`. This records when a move is a concrete application of a
-more abstract principle, model, or concept.
-
-### Umbrella graph
-
-`collection -> member`
-
-Uses `surveys`. Umbrella pages such as "Bot" or "Assisted task completion"
-should not be forced to behave like single moves if they gather a territory.
+This track is the language-level face of the project's
+[agent-consumable repertoire](../project/vision.md) direction.
 
 ## Mature move record
 
-A mature `move` record might eventually include:
+A mature `move` record splits across the two operative levels and this vision.
+The profile sidecar already carries `operatesOn`, `produces`, and `enacts`. The
+fields that remain aspirational are the ones that make the object generative
+rather than catalogue-like:
 
 ```ts
 interface PatternMove {
@@ -74,10 +90,11 @@ interface PatternMove {
 }
 ```
 
-The important fields are `situation`, `problem`, `forces`, `move`, `produces`,
-`consequences`, `evidence`, and relationship fields. Those are what make the
-object generative rather than catalog-like. The `status` field is the confidence
-signal: a seed can be useful, but it should not masquerade as a settled invariant.
+The still-unrealised fields are `situation`, `problem`, `forces`, `consequences`,
+`evidence`, and `status`. They are what would let a reasoning actor treat a
+pattern as a move rather than a page, so they belong to Track 2. The `status`
+field is the confidence signal: a seed can be useful, but it should not
+masquerade as a settled invariant.
 
 ## Guidance
 
