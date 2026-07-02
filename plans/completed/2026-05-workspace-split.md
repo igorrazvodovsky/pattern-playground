@@ -1,6 +1,6 @@
 ---
 title: "Workspace split: components package and pattern site"
-status: "in progress"
+status: "completed"
 kind: "exec-spec"
 created: "2026-05"
 last_reviewed: "2026-05-15"
@@ -360,3 +360,7 @@ Phase F (cleanup, doc updates, promotion)
 Phase A is the only true gate. Phases B and C can interleave if the workspace restructure exposes a need for the pattern site sooner (e.g. to validate frontmatter shape). Phases D and E are sequential: the extractor can only point at the new source once content is there.
 
 This plan has three prerequisites before Phase D begins (per the Prerequisites and coordination section): role coverage complete, move/mechanism split audit complete with proposed move names, and combobox territory landed (done — commit b0f7052 split Combobox into the Bounded choice move plus the retained Combobox component). The plan does not block any current pattern work — patterns continue to be authored in `src/stories/` until Phase D moves them, and the extractor continues to operate against the existing tree until Phase E.
+
+---
+
+_Completed 2026-07-02._ The split is executed in substance: workspaces exist, the Astro site carries the language, the extractor reads pattern content only, typed relationships are migrated. The residue — stale Storybook duplicates, per-territory dedup, the stage-2 → language-only graph departure, and the still-cosmetic dependency boundary — is owned by [2026-07-workspace-split-closure.md](../active/2026-07-workspace-split-closure.md). The "Decomposition: worked examples and learnings" section stays here; promotion of its rules into `pattern-role-model.md` waits for a third worked example.

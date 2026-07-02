@@ -4,7 +4,7 @@ status: "active"
 kind: "exec-spec"
 created: "2026-05-17"
 area: "pattern-site"
-depends_on: "plans/active/2026-05-embed-components.md"
+depends_on: "plans/archive/2026-05-embed-components.md"
 ---
 
 # Migrate pattern demos from Storybook to pattern site
@@ -24,7 +24,7 @@ depends_on: "plans/active/2026-05-embed-components.md"
 
 ## Context
 
-Many pattern MDX files in `packages/components/src/stories/` reference `.stories.tsx` siblings via `<Story of={...} />`. These are the primary demo surface for patterns today. With the pattern site live and the embed substrate in place (see `plans/active/2026-05-embed-components.md`), those demos need new homes.
+Many pattern MDX files in `packages/components/src/stories/` reference `.stories.tsx` siblings via `<Story of={...} />`. These are the primary demo surface for patterns today. With the pattern site live and the embed substrate in place (see `plans/archive/2026-05-embed-components.md`), those demos need new homes.
 
 The guiding policy: Storybook stories keep only the parts that benefit from Storybook's specific affordances — controls panel, accessibility checker, canvas isolation, args-based variant generation. Everything else migrates to the pattern site.
 
