@@ -2312,6 +2312,13 @@
     },
     {
       "source": "flat-navigation",
+      "target": "hub-and-spoke",
+      "type": "precedes",
+      "label": "hub and spoke takes over when items exceed screen capacity",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "flat-navigation",
       "target": "command-menu",
       "type": "related",
       "label": "efficient tool access",
@@ -2320,12 +2327,6 @@
     {
       "source": "flat-navigation",
       "target": "fully-connected",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "flat-navigation",
-      "target": "hub-and-spoke",
       "type": "related",
       "extractedFrom": "frontmatter:related"
     },

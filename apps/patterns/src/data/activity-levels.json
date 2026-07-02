@@ -579,7 +579,7 @@
     },
     "step-by-step": {
       "activity-level": "action",
-      "lifecycle-stage": null,
+      "lifecycle-stage": "application",
       "atomic-category": "composition",
       "mediation": "individual"
     },

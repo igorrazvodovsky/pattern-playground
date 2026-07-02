@@ -51,7 +51,7 @@ Class D (APG-split entries) is inherited from the workspace-split audit: demos f
 
 ## Gap registry
 
-A standing file at `apps/patterns/src/data/component-gaps.md`. One row per missing component, populated as a side effect of the audit:
+A standing file at [`plans/component-gaps.md`](../component-gaps.md), sibling to the tech debt tracker. One row per missing component, populated as a side effect of the audit:
 
 ```md
 | Component | Pattern(s) needing it | Story context | Notes |

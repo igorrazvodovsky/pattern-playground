@@ -114,6 +114,30 @@ All six items done in one sitting:
 - `apps/patterns/src/data/pattern-graph.baseline.json` deleted (was untracked/gitignored; no references anywhere).
 - Five foundations pages (`Color`, `Iconography`, `Layout`, `Motion`, `Typography`) tagged `'role:component'`, prepended to their `<Meta>` tags arrays.
 
-Not committed — awaiting go-ahead. No build run: changes are docs/plan moves plus Storybook `<Meta>` tag additions and a deleted verification artifact; none touch the language-only graph or site source.
+No build run: changes are docs/plan moves plus Storybook `<Meta>` tag additions and a deleted verification artifact; none touch the language-only graph or site source. Committed as 36e37a4.
 
-Next up: T1 Navigation is the recommended warm-up (workstream 3), or Workstream 4 step 1 (dep-ownership pass) which is independent and can run before/between territories.
+### 2026-07-02 — T1 Navigation closed
+
+The cheapest possible territory, as predicted — and the extreme case: ten pages, *zero* `.stories.tsx`, zero inbound `path=/docs/actions-navigation-*` links from anywhere. Steps against the definition of done:
+
+1. *Verdicts*: nothing to classify — no story references exist in the territory. The navigation corpus never used a single Storybook affordance; it was pure language content on the wrong surface.
+2. *Demos/gap registry*: no demos to move. Gap registry created at [`plans/component-gaps.md`](../component-gaps.md) (moved out of `apps/patterns/src/data/` — it is a backlog, not site data; the demos plan's path reference updated). Seeded with two prose-derived entries (mega menu, minimap) plus six judgment-derived ones from reviewing the territory: tree view, stepper, pagination (styles exist, no component), split view, zoom controls, workspace switcher.
+3. *Inbound links*: none existed; verified no-op.
+4. *Duplicates deleted*: all ten `.mdx` twins removed; `stories/actions/navigation/` is gone.
+5. *Verified*: Storybook build green; site build green (116 pages indexed); no residual `actions-navigation` references; graph regenerated — the only diff is the two parity repairs listed next (one new `precedes` edge, one restored lifecycle facet).
+
+Parity drops repaired before deletion (site was equal-or-richer everywhere else):
+
+- `step-by-step`: restored `lifecycle: application` (present in the Storybook Meta tags, dropped in migration) and the progress-indicator `ComponentRef`.
+- `flat-navigation`: the precursor relation from Storybook hub-and-spoke ("flat navigation → hub and spoke when items exceed screen capacity") had been flattened to an untyped `related`; promoted to a typed `precedes` edge with the note.
+- Stale prose: "TODO: sidebar" in fully-connected (and a bare "Sidebar" in multilevel-tree) predated the Sidebar component, which now exists with a story — both now `ComponentRef`-linked to `components-sidebar--docs`.
+
+Reflections (the watch-outs):
+
+- *What the move says about the split*: T1 confirms the thesis cleanly. These pages' only Storybook function was outbound linking to components (nav bar, tabs, breadcrumbs, dropdown, priority+, sidebar, progress indicator). Navigation patterns are the heaviest `ComponentRef` consumers in the language — the model↔implementation seam here is exactly the cross-surface reference the stage-3 manifest must validate, so this corpus is a good test bed for workstream 2. The stale "TODO: sidebar" that survived after Sidebar shipped is a small argument for manifest-validated refs over prose TODOs.
+- *Do navigation patterns fit the pattern definition?* Imperfectly. They are connective topologies chosen among mutual alternatives, not interface moves — hence the unusually dense `alternative` edges among them, rare elsewhere in the graph. Two fit issues worth a future verdict: `hybrid-patterns` is a catalogue of six combinations under one slug (the plural title betrays it) — closer to a collection than a pattern; and every page's behavioural-position section links `/patterns/interaction#…` anchors that are not graph-addressable, so the model↔behaviour relationships stay invisible to the graph. The latter was already noted in navigation-overview's To-do; T1 confirms it is territory-wide, not page-local.
+
+Inputs recorded for later work (not solved in this plan):
+
+- *Edge types can be context-conditional.* The flat-navigation → hub-and-spoke edge reads as `precedes` when the item count is dynamic (growth forces the transition — something triggers the reconsideration) but as plain `alternative` when the count is small and fixed (the actor acknowledges both models; nothing prompts a move between them). The vocabulary forces one label per edge; the note field is where the condition lives today ("when items exceed screen capacity" *is* the condition). This feeds a stated longer-term direction: decision trees merge into the knowledge graph, and patterns gain *consequence / resulting-context* properties plus a way for the actor to *accumulate situation awareness* while traversing. Read through that frame, a conditional `precedes` decomposes: the condition is the join between A's resulting context ("item inventory grows") and B's initiating situation ("items exceed screen capacity") — the same material [decision-dimensions.md](../../docs/language/decision-dimensions.md) calls *situational hints* on `recommends` edges. The convergence point is the graph itself: tree branches, edge conditions, and consequence properties are one construct seen from three ends, and accumulated situation awareness is what lets an actor walk it by situation-matching rather than link-following. Belongs to relationship-vocabulary work.
+- *Hybrid patterns want splitting without losing the shared page.* Each of the six combinations is arguably its own pattern (own alternatives, own trigger conditions) but the comparative narrative is the page's value. Needs setup-side work: either multiple graph entries sourced from one file, or anchor-level nodes — the filename-stem = slug = graph-ID identity is the blocker. Same substrate as the behaviour-anchor item in the [tech debt tracker](../tech-debt-tracker.md): both need sub-page graph addressability.
