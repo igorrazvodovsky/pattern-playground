@@ -1,8 +1,8 @@
 import React from "react";
 import { ProductFilterType, ProductFilterOperator } from "./ProductFilterTypes";
-import '../../../../components/dropdown/dropdown.ts';
-import '../../../../components/list/list.ts';
-import '../../../../components/list-item/list-item.ts';
+import '../../components/dropdown/dropdown.ts';
+import '../../components/list/list.ts';
+import '../../components/list-item/list-item.ts';
 
 export interface ProductFilterOperatorDropdownProps {
   filterType: ProductFilterType;

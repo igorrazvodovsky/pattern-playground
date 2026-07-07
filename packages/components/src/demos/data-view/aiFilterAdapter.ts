@@ -1,5 +1,5 @@
 import { ProductFilterType, ProductFilterOperator } from './FilterTypes';
-import type { AICommandResult, AICommandItem } from '../../../../components/command-menu';
+import type { AICommandResult, AICommandItem } from '../../components/command-menu';
 
 // Simplified AI adapter for product filters
 export const generateProductFilterSuggestions = async (

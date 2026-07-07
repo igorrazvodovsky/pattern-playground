@@ -6,13 +6,12 @@ import {
   ComboboxInput,
   ComboboxItem,
   ComboboxList,
-} from '../../../../components/combobox';
-import { AnimateChangeInHeight } from '../../../../components/filter/animate-change-in-height';
-import { useDropdownState } from '../../../../components/filter/hooks/use-dropdown-state';
+} from '../../components/combobox';
+import { AnimateChangeInHeight } from '../../components/filter/animate-change-in-height';
+import { useDropdownState } from '../../components/filter/hooks/use-dropdown-state';
 import { ProductFilterType, ProductFilterCategory } from './ProductFilterTypes';
 import 'iconify-icon';
-import '../../../../components/dropdown/dropdown.ts';
-import '../../../../components/avatar/avatar.ts';
+import '../../components/dropdown/dropdown.ts';
 
 export interface ProductFilterValueDropdownProps {
   filterType: ProductFilterType;

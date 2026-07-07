@@ -7,19 +7,19 @@ import {
   ComboboxInput,
   ComboboxItem,
   ComboboxList,
-} from "../../../../components/combobox";
+} from "../../components/combobox";
 import {
   AIFallbackHandler,
   useAICommand,
   type AICommandResult,
   type AIComboboxItem
-} from "../../../../components/command-menu";
-import { AnimateChangeInHeight } from "../../../../components/filter/animate-change-in-height";
-import { useHierarchicalNavigation } from '../../../../hooks/useHierarchicalNavigation';
+} from "../../components/command-menu";
+import { AnimateChangeInHeight } from "../../components/filter/animate-change-in-height";
+import { useHierarchicalNavigation } from '../../hooks/useHierarchicalNavigation';
 import {
   createSortedSearchFunction,
   sortByRelevance
-} from '../../../../utility/hierarchical-search';
+} from '../../utility/hierarchical-search';
 import {
   ProductFilterType,
   ProductFilterOperator,
@@ -32,9 +32,9 @@ import { generateProductFilterSuggestions } from './aiFilterAdapter';
 import { DROPDOWN_CLOSE_DELAY, MIN_AI_TRIGGER_LENGTH } from './constants';
 
 // Import required web components
-import '../../../../components/dropdown/dropdown.ts';
+import '../../components/dropdown/dropdown.ts';
 import 'iconify-icon';
-import '../../../../jsx-types';
+import '../../jsx-types';
 
 export interface FilterControlsProps {
   filters: ProductFilter[];

@@ -1,7 +1,16 @@
 // Main components
+export { DataView } from './DataView';
 export { DataViewRenderer } from './DataViewRenderer';
 export { EmptyState } from './EmptyState';
 export { AttributeBadge } from './AttributeBadge';
+
+// Configured slices for pattern-page embeds
+export {
+  DataViewDemo,
+  DataViewGroupingSlice,
+  DataViewFilteringSlice,
+  DataViewSortingSlice,
+} from './slices';
 
 // View components
 export { CardView } from './CardView';
@@ -12,6 +21,7 @@ export { TableView } from './TableView';
 export { ViewSwitcher } from './ViewSwitcher';
 export { AttributeSelector } from './AttributeSelector';
 export { SortingControls } from './SortingControls';
+export { GroupingControls } from './GroupingControls';
 export { SearchControls } from './SearchControls';
 export { FilterControls } from './FilterControls';
 export { default as ProductFilters } from './ProductFilters';

@@ -13,6 +13,21 @@ export interface DataViewProps {
   defaultFilters?: ProductFilter[];
 }
 
+export interface DataViewControls {
+  viewSwitcher?: boolean;
+  search?: boolean;
+  filter?: boolean;
+  attributes?: boolean;
+  sort?: boolean;
+  group?: boolean;
+}
+
+export interface GroupingControlsProps {
+  availableAttributes: string[];
+  currentGrouping: string | null;
+  onGroupingChange: (attribute: string | null) => void;
+}
+
 export interface CardViewProps {
   products: Product[];
   selectedAttributes: AttributeSelection;

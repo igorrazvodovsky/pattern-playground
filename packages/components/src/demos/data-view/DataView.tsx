@@ -1,28 +1,51 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo } from 'react';
 import productsData from '@shared/data/products.json' with { type: 'json' };
 import { Product } from '@shared/data/types';
-import { DataViewProps, ViewMode, AttributeSelection, SortField, SortOrder } from './types';
+import { ViewMode, AttributeSelection, SortField, SortOrder, DataViewControls } from './types';
 import { getAvailableAttributes } from './AttributeUtils';
 import { sortProducts } from './SortingUtils';
 import { ViewSwitcher } from './ViewSwitcher';
 import { AttributeSelector } from './AttributeSelector';
 import { SortingControls } from './SortingControls';
+import { GroupingControls } from './GroupingControls';
 import { SearchControls } from './SearchControls';
 import { FilterControls } from './FilterControls';
 import ProductFilters from './ProductFilters';
 import { useProductSearch } from './useProductSearch';
 import { useProductFiltering } from './useProductFiltering';
-import { ProductFilter, ProductFilterType, ProductFilterOperator } from './FilterTypes';
+import { ProductFilter } from './FilterTypes';
 import { EmptyState } from './EmptyState';
 import { DataViewRenderer } from './DataViewRenderer';
+import { GROUPABLE_ATTRIBUTES } from './constants';
 
-const DataViewComponent: React.FC<DataViewProps> = ({
-  products,
+const ALL_CONTROLS: Required<DataViewControls> = {
+  viewSwitcher: true,
+  search: true,
+  filter: true,
+  attributes: true,
+  sort: true,
+  group: true,
+};
+
+export interface DataViewDemoProps {
+  products?: Product[];
+  defaultView?: ViewMode;
+  defaultAttributes?: string[];
+  defaultFilters?: ProductFilter[];
+  defaultGrouping?: string | null;
+  /** Which toolbar controls to render; omitted keys default to visible. */
+  controls?: DataViewControls;
+}
+
+export const DataView: React.FC<DataViewDemoProps> = ({
+  products = productsData as unknown as Product[],
   defaultView = 'card',
-  defaultAttributes = ['category', 'pricing.msrp', 'availability.status'],
-  defaultFilters = []
+  defaultAttributes = ['name', 'description', 'category', 'pricing.msrp', 'availability.status'],
+  defaultFilters = [],
+  defaultGrouping = null,
+  controls = {}
 }) => {
+  const show = { ...ALL_CONTROLS, ...controls };
   const [viewMode, setViewMode] = useState<ViewMode>(defaultView);
   const [selectedAttributes, setSelectedAttributes] = useState<AttributeSelection>(
     new Set(defaultAttributes)
@@ -31,6 +54,7 @@ const DataViewComponent: React.FC<DataViewProps> = ({
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [filters, setFilters] = useState<ProductFilter[]>(defaultFilters);
+  const [grouping, setGrouping] = useState<string | null>(defaultGrouping);
 
   const availableAttributes = useMemo(() => getAvailableAttributes(products), [products]);
 
@@ -92,30 +116,47 @@ const DataViewComponent: React.FC<DataViewProps> = ({
   return (
     <div className="flow">
       <div className="flex">
-        <ViewSwitcher currentView={viewMode} onViewChange={setViewMode} />
-        <SearchControls
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-        />
-        <FilterControls
-          filters={filters}
-          setFilters={setFilters}
-          filterCategories={filterCategories}
-        />
-        <AttributeSelector
-          availableAttributes={availableAttributes}
-          selectedAttributes={selectedAttributes}
-          onAttributeToggle={handleAttributeToggle}
-        />
-        <SortingControls
-          availableFields={availableAttributes}
-          currentField={sortField}
-          currentOrder={sortOrder}
-          onSortChange={handleSortChange}
-        />
+        {show.viewSwitcher && (
+          <ViewSwitcher currentView={viewMode} onViewChange={setViewMode} />
+        )}
+        {show.search && (
+          <SearchControls
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+          />
+        )}
+        {show.filter && (
+          <FilterControls
+            filters={filters}
+            setFilters={setFilters}
+            filterCategories={filterCategories}
+          />
+        )}
+        {show.attributes && (
+          <AttributeSelector
+            availableAttributes={availableAttributes}
+            selectedAttributes={selectedAttributes}
+            onAttributeToggle={handleAttributeToggle}
+          />
+        )}
+        {show.sort && (
+          <SortingControls
+            availableFields={availableAttributes}
+            currentField={sortField}
+            currentOrder={sortOrder}
+            onSortChange={handleSortChange}
+          />
+        )}
+        {show.group && (
+          <GroupingControls
+            availableAttributes={GROUPABLE_ATTRIBUTES}
+            currentGrouping={grouping}
+            onGroupingChange={setGrouping}
+          />
+        )}
       </div>
 
-      {filters.length > 0 && (
+      {show.filter && filters.length > 0 && (
         <ProductFilters
           filters={filters}
           setFilters={setFilters}
@@ -142,53 +183,9 @@ const DataViewComponent: React.FC<DataViewProps> = ({
           viewMode={viewMode}
           products={sortedProducts}
           selectedAttributes={selectedAttributes}
+          groupBy={grouping}
         />
       )}
     </div>
   );
-};
-
-const meta = {
-  title: "Actions/Seeking/Data view",
-  component: DataViewComponent,
-  argTypes: {
-    defaultView: {
-      control: { type: 'select' },
-      options: ['card', 'list', 'table'],
-    },
-    defaultAttributes: {
-      control: { type: 'object' },
-    },
-    defaultFilters: {
-      control: { type: 'object' },
-    },
-  },
-} satisfies Meta<typeof DataViewComponent>;
-
-export default meta;
-type Story = StoryObj<typeof DataViewComponent>;
-
-export const DataView: Story = {
-  args: {
-    products: productsData as unknown as Product[],
-    defaultView: 'card',
-    defaultAttributes: ['name', 'description', 'category', 'pricing.msrp', 'availability.status'],
-    defaultFilters: [],
-  },
-};
-
-export const DataViewWithFilters: Story = {
-  args: {
-    products: productsData as unknown as Product[],
-    defaultView: 'list',
-    defaultAttributes: ['name', 'category', 'pricing.msrp', 'availability.status', 'lifecycle.repairability'],
-    defaultFilters: [
-      {
-        id: 'filter-1',
-        type: ProductFilterType.CATEGORY,
-        operator: ProductFilterOperator.IS,
-        value: ['transportation']
-      }
-    ],
-  },
 };

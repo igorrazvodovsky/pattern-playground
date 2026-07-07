@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react";
 import { Dispatch, SetStateAction } from "react";
-import { FilterIcon } from "../../../../components/filter/filter-options-icons";
+import { FilterIcon } from "../../components/filter/filter-options-icons";
 import { ProductFilter, ProductFilterCategory, ProductFilterOperator } from "./ProductFilterTypes";
 import { ProductFilterValueDropdown } from "./ProductFilterValueDropdown";
 import { ProductFilterOperatorDropdown } from "./ProductFilterOperatorDropdown";
