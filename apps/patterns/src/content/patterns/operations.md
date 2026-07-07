@@ -46,15 +46,15 @@ Communicating interactive possibilities and triggering actions.
 
 - <ComponentRef id="primitives-button--docs">Button</ComponentRef> — primary action trigger
 - <ComponentRef id="primitives-keyboard-key--docs">Keyboard key</ComponentRef> — documenting keyboard interactions
-- <ComponentRef id="operations-morphing-controls--docs">Morphing controls</ComponentRef> — controls that adapt their form to context
-- <ComponentRef id="operations-inline-confirmation--docs">Inline confirmation</ComponentRef> — lightweight commitment before destructive actions
+- <ComponentRef id="components-morphing-controls--docs">Morphing controls</ComponentRef> — controls that adapt their form to context
+- [Inline confirmation](/patterns/inline-confirmation) — lightweight commitment before destructive actions
 
 ## Display & feedback
 
 Conveying system state and contextual information.
 
 - <ComponentRef id="primitives-popover--docs">Popover</ComponentRef> — temporary contextual information
-- <ComponentRef id="primitives-toast--docs">Toast</ComponentRef> — transient status messages
+- [Transient feedback](/patterns/transient-feedback) — brief self-dismissing status messages, typically delivered as a <ComponentRef id="primitives-toast--docs">toast</ComponentRef>
 - <ComponentRef id="operations-callout--docs">Callout</ComponentRef> — contextual alerts and guidance
 - <ComponentRef id="primitives-progress-indicator--docs">Progress indicator</ComponentRef> — visualising ongoing processes
 - [Status feedback](/patterns/status-feedback) — communicating system state
