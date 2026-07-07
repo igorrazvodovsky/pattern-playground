@@ -8,35 +8,38 @@ import {
   ComboboxInput,
   ComboboxItem,
   ComboboxList,
-} from "../../../components/combobox";
+} from "../components/combobox";
 import {
   AIFallbackHandler,
   useAICommand,
   type AICommandResult,
   type AIComboboxItem
-} from "../../../components/command-menu";
-import { AnimateChangeInHeight } from "../../../components/filter/animate-change-in-height";
-import Filters from "../../../components/filter/filters";
+} from "../components/command-menu";
+import { AnimateChangeInHeight } from "../components/filter/animate-change-in-height";
+import Filters from "../components/filter/filters";
 
 import {
+  Assignee,
   DueDate,
   FilterOperator,
   FilterType,
-} from "../../../components/filter/filter-types";
-import type { Filter } from "../../../components/filter/filter-types";
-import { useHierarchicalNavigation } from '../../../hooks/useHierarchicalNavigation';
+  Priority,
+  Status,
+} from "../components/filter/filter-types";
+import type { Filter } from "../components/filter/filter-types";
+import { useHierarchicalNavigation } from '../hooks/useHierarchicalNavigation';
 import {
   createSortedSearchFunction,
   sortByRelevance
-} from '../../../utility/hierarchical-search';
+} from '../utility/hierarchical-search';
 
-import { generateFilterSuggestions } from "../../../components/filter/adapters/ai-filter-adapter";
+import { generateFilterSuggestions } from "../components/filter/adapters/ai-filter-adapter";
 
 import { filterCategories } from "@shared/data";
 
-import '../../../components/dropdown/dropdown.ts';
+import '../components/dropdown/dropdown.ts';
 import 'iconify-icon';
-import '../../../jsx-types';
+import '../jsx-types';
 
 const DROPDOWN_CLOSE_DELAY = 200;
 const MIN_AI_TRIGGER_LENGTH = 3;
@@ -82,8 +85,29 @@ const useDropdownState = (dropdownRef: React.RefObject<{ hide: () => void }>) =>
 };
 
 
+const defaultFilters: Filter[] = [
+  {
+    id: 'default-status',
+    type: FilterType.STATUS,
+    operator: FilterOperator.IS,
+    value: [Status.TODO],
+  },
+  {
+    id: 'default-priority',
+    type: FilterType.PRIORITY,
+    operator: FilterOperator.IS_ANY_OF,
+    value: [Priority.HIGH, Priority.URGENT],
+  },
+  {
+    id: 'default-assignee',
+    type: FilterType.ASSIGNEE,
+    operator: FilterOperator.IS_ANY_OF,
+    value: [Assignee.SARAH_CHEN, Assignee.DAVID_KIM],
+  },
+];
+
 export function FilteringDemo({
-  initialFilters = [],
+  initialFilters = defaultFilters,
   onFilterChange,
 }: {
   initialFilters?: Filter[];

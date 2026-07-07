@@ -1,6 +1,6 @@
 import { Canvas, Story, Meta, Subtitle } from '@storybook/addon-docs/blocks';
 import * as CommandMenuStories from './CommandMenu.stories.tsx';
-import { Filtering as FilteringStory }  from './actions/seeking/Filtering.stories.tsx';
+import { FilteringDemo } from '../demos/filtering';
 
 <Meta of={ CommandMenuStories } tags={['activity-level:action', 'atomic:pattern', 'role:pattern', 'lifecycle:seeking', 'mediation:individual']} />
 
@@ -20,9 +20,9 @@ Pop up in the middle of the screen...
 
 ## Local
 
-Can also be used to support local functions, e.g. in [filters](/patterns/filtering) or TODO:local search.
+Can also be used to support local functions, e.g. in <PatternRef slug="filtering">filters</PatternRef> or TODO:local search.
 
-<Story of={ FilteringStory } />
+<FilteringDemo />
 
 ## Related patterns
 
