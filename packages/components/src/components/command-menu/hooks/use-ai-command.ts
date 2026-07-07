@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 import { AIState, AICommandResult } from '../ai-command-types';
 
 export interface UseAICommandOptions {

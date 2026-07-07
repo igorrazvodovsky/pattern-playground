@@ -16,7 +16,6 @@ import 'iconify-icon';
 import '../dropdown/dropdown.ts';
 import '../list/list.ts';
 import '../list-item/list-item.ts';
-import '../avatar/avatar.ts'
 
 export const FilterOperatorDropdown = ({
   filterType,

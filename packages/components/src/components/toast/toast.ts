@@ -1,4 +1,9 @@
-export class PpToast extends HTMLElement {
+// HTMLElement doesn't exist server-side; the stub base keeps this module
+// importable under SSR — the class is only registered/instantiated in the
+// browser (register-all).
+const HTMLElementBase = (globalThis.HTMLElement ?? class {}) as typeof HTMLElement;
+
+export class PpToast extends HTMLElementBase {
   private toastGroup: HTMLElement | null = null;
 
   constructor() {

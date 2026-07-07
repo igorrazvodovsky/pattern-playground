@@ -1,4 +1,5 @@
 import { animateTo, stopAnimations } from '../../utility/animate.ts';
+import { announce } from '../../utility/announce.ts';
 import { classMap } from 'lit/directives/class-map.js';
 import { getAnimation, setDefaultAnimation } from '../../utility/animation-registry.ts';
 import { getTabbableBoundary } from '../../utility/tabbable.ts';
@@ -395,7 +396,7 @@ export class PpDropdown extends LitElement {
       // Announce dropdown opening to screen readers
       const list = this.getList();
       const itemCount = list ? list.getAllItems().length : 0;
-      this.announce(`Dropdown opened with ${itemCount} ${itemCount === 1 ? 'option' : 'options'}`);
+      announce(`Dropdown opened with ${itemCount} ${itemCount === 1 ? 'option' : 'options'}`);
 
       await stopAnimations(this);
       this.panel.hidden = false;
@@ -419,7 +420,7 @@ export class PpDropdown extends LitElement {
       this.removeOpenListeners();
 
       // Announce dropdown closing to screen readers
-      this.announce('Dropdown closed');
+      announce('Dropdown closed');
 
       await stopAnimations(this);
       const { keyframes, options } = getAnimation(this, 'dropdown.hide');
