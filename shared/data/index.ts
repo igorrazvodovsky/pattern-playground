@@ -580,27 +580,33 @@ export const basicReferenceCategories = [
 ];
 
 // Filter data using unified SearchableParent format (same as commands)
+// Children are stamped with the owning category's filterType at assembly:
+// the date lists share one JSON across three categories, so the JSON itself
+// cannot know which filter type it belongs to.
+const withFilterType = <T extends object>(children: T[], filterType: string) =>
+  children.map(child => ({ ...child, filterType }));
+
 export const filterCategories = [
   {
     id: 'Status',
     name: 'Status',
     icon: 'ph:flag',
     searchableText: 'status state condition',
-    children: filterStatusesData
+    children: withFilterType(filterStatusesData, 'Status')
   },
   {
     id: 'Priority',
     name: 'Priority',
     icon: 'ph:cell-signal-high',
     searchableText: 'priority importance urgency',
-    children: filterPrioritiesData
+    children: withFilterType(filterPrioritiesData, 'Priority')
   },
   {
     id: 'Labels',
     name: 'Labels',
     icon: 'ph:tag',
     searchableText: 'labels tags categories',
-    children: filterLabelsData
+    children: withFilterType(filterLabelsData, 'Labels')
   },
   {
     id: 'Assignee',
@@ -632,20 +638,20 @@ export const filterCategories = [
     name: 'Due date',
     icon: 'ph:calendar',
     searchableText: 'due date deadline schedule',
-    children: filterDatesData
+    children: withFilterType(filterDatesData, 'Due date')
   },
   {
     id: 'Created date',
     name: 'Created date',
     icon: 'ph:calendar-plus',
     searchableText: 'created date when made',
-    children: filterDatesData
+    children: withFilterType(filterDatesData, 'Created date')
   },
   {
     id: 'Updated date',
     name: 'Updated date',
     icon: 'ph:calendar-check',
     searchableText: 'updated date last modified',
-    children: filterDatesData
+    children: withFilterType(filterDatesData, 'Updated date')
   },
 ];
