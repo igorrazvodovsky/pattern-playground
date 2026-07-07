@@ -27,13 +27,9 @@ relationships:
 ---
 
 import { MermaidDiagram } from '@components/MermaidDiagram';
-import {
-  ToastWithUndoDemo,
-  InlineConfirmationDemo,
-  DialogDeletionDemo,
-  TypedConfirmationDemo,
-  StagedDeletionDemo,
-} from '@pkg/demos/deletion';
+import { DialogDeletionDemo, TypedConfirmationDemo, StagedDeletionDemo } from '@pkg/demos/deletion';
+import { InlineConfirmationDemo } from '@pkg/demos/inline-confirmation';
+import { ToastWithUndoDemo } from '@pkg/demos/transient-feedback';
 
 
 The controlled removal of data from a system, balancing user confidence with protection against accidental loss. Deletion exists in tension with creation and modification, requiring careful consideration of consequences, reversibility, and user intent.
@@ -46,24 +42,24 @@ The controlled removal of data from a system, balancing user confidence with pro
 - Feedback: Communication of result
 - Recovery: Mechanism for reversal when available
 
-## Variants by confirmation method
+## Confirmation
 
-### No confirmation with/-out undo
-For low-consequence actions that can be easily reversed. The deletion happens immediately, followed by a toast notification with an undo option.
+Which safeguard a deletion deserves is the [action consequences](/patterns/action-consequences) framework applied to one action; the decision tree below walks it. The two lightest rungs are moves with pages of their own — [undo](/patterns/undo) riding on [transient feedback](/patterns/transient-feedback), and [inline confirmation](/patterns/inline-confirmation) — while the heavier rungs live here.
+
+### No confirmation, with/-out undo
+For low-consequence actions that can be easily reversed.
 
 <Demo label="Delete with toast + undo">
   <ToastWithUndoDemo client:only="react" />
 </Demo>
 
 ### Inline
-The delete button transforms into a confirmation state, requiring a second click to complete the action.
 
 <Demo label="Inline confirmation">
   <InlineConfirmationDemo client:only="react" />
 </Demo>
 
 ### Modal
-A dialog presents the consequences and requires explicit confirmation.
 
 <Demo label="Modal confirmation">
   <DialogDeletionDemo client:only="react" />

@@ -1,14 +1,11 @@
 import { Meta, Story } from '@storybook/addon-docs/blocks';
 import * as ToastStories from './Toast.stories.tsx';
-import { profile } from './Toast.profile.ts';
 
 <Meta of={ToastStories} tags={['activity-level:operation', 'atomic:primitive', 'role:component', 'mediation:individual']} />
 
-{/* > 🥱 **Fun meter: 2/5**. Dependency. */}
-
 # Toast
 
-Deliver a brief, non-disruptive message confirming an action's outcome, auto-dismissing after a short interval.
+A brief, non-disruptive message that appears in a fixed corner of the viewport and auto-dismisses after a short interval. The interaction move it delivers lives in the pattern language as <PatternRef slug="transient-feedback">transient feedback</PatternRef>.
 
 <Story of={ ToastStories.Default } />
 
@@ -23,8 +20,6 @@ Deliver a brief, non-disruptive message confirming an action's outcome, auto-dis
 
 Short confirmations — file saved, item deleted — typically dismiss after 4–5 seconds. Toasts with an action need longer: the actor must notice the message, decide to act, and click. 8–10 seconds is a reasonable minimum when Undo is offered.
 
-Avoid very long durations. If the information needs to persist, use a [callout](../?path=/docs/operations-callout--docs) instead.
-
 ## Stacking
 
 When multiple toasts appear in quick succession, they stack rather than replace each other. New toasts push existing ones upward, preserving spatial continuity.
@@ -35,19 +30,8 @@ When multiple toasts appear in quick succession, they stack rather than replace 
 
 Toasts must be announced to assistive technology without stealing focus. Use `role="alert"` or `aria-live="assertive"` for urgent messages, and `role="status"` or `aria-live="polite"` for low-priority confirmations. The `<output>` element is semantically appropriate as a container.
 
-## Related patterns
-
-### Precursors
-- [Notification](/patterns/notification) — the coordination pattern that selects delivery type and disruption level
-- <PatternRef slug="status-feedback">Status feedback</PatternRef> — the framework toast belongs to
-
-### Complementary
-- [Callout](../?path=/docs/operations-callout--docs) — persistent inline alternative when the message must not be missed
-- <PatternRef slug="undo">Undo</PatternRef> — toast is the primary delivery vehicle for undo affordances
-- [Dialog](../?path=/docs/components-dialog--docs) — when the message requires a decision before the actor can continue
-
 ## Resources & references
 
 - [W3C ARIA / alert role](https://www.w3.org/WAI/ARIA/apg/patterns/alert/)
-- [Carbon Design System / Notifications](https://carbondesignsystem.com/patterns/notification-pattern/)
-- [Material Design / Snackbars](https://m3.material.io/components/snackbar/overview)
+- [Open UI](https://open-ui.org/components/toast.research/)
+- [Material Design](https://m3.material.io/components/snackbar/overview)

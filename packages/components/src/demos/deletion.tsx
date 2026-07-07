@@ -1,140 +1,18 @@
 import { useState } from 'react';
 import '../jsx-types';
-
-const showToast = async (text: string, onClick?: () => void) => {
-  const { PpToast } = await import('../components/toast/toast');
-  return PpToast.show(text, onClick);
-};
-
-const getModalService = async () => (await import('../services/modal-service')).modalService;
-
-const SAMPLE_ITEMS = [
-  'Coral Apron',
-  'Vintage Bicycle Bell',
-  'Ceramic Pour-Over',
-  'Linen Hand Towel',
-  'Walnut Cutting Board',
-];
-
-function DeleteIconButton({ onClick, label = 'Delete' }: { onClick: () => void; label?: string }) {
-  return (
-    <button slot="suffix" className="button button--plain button--small" onClick={onClick}>
-      <iconify-icon className="icon" icon="ph:trash-simple" />
-      <span className="inclusively-hidden">{label}</span>
-    </button>
-  );
-}
-
-export function ToastWithUndoDemo() {
-  const [items, setItems] = useState(SAMPLE_ITEMS);
-
-  const handleDelete = (index: number) => {
-    const removed = items[index];
-    const next = items.filter((_, i) => i !== index);
-    setItems(next);
-    void showToast(`${removed} deleted`, () => setItems(items));
-  };
-
-  return (
-    <>
-      <pp-list className="borderless">
-        {items.map((item, index) => (
-          <pp-list-item key={`${item}-${index}`}>
-            {item}
-            <DeleteIconButton onClick={() => handleDelete(index)} />
-          </pp-list-item>
-        ))}
-      </pp-list>
-      {items.length === 0 && (
-        <p className="muted">
-          No items left.{' '}
-          <button className="button button--plain" onClick={() => setItems(SAMPLE_ITEMS)}>
-            Reset
-          </button>
-        </p>
-      )}
-    </>
-  );
-}
-
-function InlineConfirmButton({ onConfirm, timeout = 4000 }: { onConfirm: () => void; timeout?: number }) {
-  const [confirming, setConfirming] = useState(false);
-  const [timeoutId, setTimeoutId] = useState<ReturnType<typeof setTimeout> | null>(null);
-
-  const start = () => {
-    setConfirming(true);
-    const id = setTimeout(() => setConfirming(false), timeout);
-    setTimeoutId(id);
-  };
-
-  const cancel = () => {
-    if (timeoutId) clearTimeout(timeoutId);
-    setConfirming(false);
-  };
-
-  const confirm = () => {
-    if (timeoutId) clearTimeout(timeoutId);
-    setConfirming(false);
-    onConfirm();
-  };
-
-  if (confirming) {
-    return (
-      <div slot="suffix" className="inline-flow">
-        <button className="button button--plain" onClick={cancel}>
-          <iconify-icon className="icon" icon="ph:x" />
-          <span className="inclusively-hidden">Cancel</span>
-        </button>
-        <button className="button button--plain" onClick={confirm}>
-          <iconify-icon className="icon" icon="ph:trash-simple-fill" />
-          <span className="inclusively-hidden">Confirm</span>
-        </button>
-      </div>
-    );
-  }
-
-  return (
-    <button slot="suffix" className="button button--plain" onClick={start}>
-      <iconify-icon className="icon" icon="ph:trash-simple" />
-      <span className="inclusively-hidden">Delete</span>
-    </button>
-  );
-}
-
-export function InlineConfirmationDemo() {
-  const [items, setItems] = useState(SAMPLE_ITEMS);
-
-  return (
-    <>
-      <pp-list className="borderless">
-        {items.map((item, index) => (
-          <pp-list-item key={`${item}-${index}`}>
-            {item}
-            <InlineConfirmButton onConfirm={() => setItems(items.filter((_, i) => i !== index))} />
-          </pp-list-item>
-        ))}
-      </pp-list>
-      {items.length === 0 && (
-        <p className="muted">
-          No items left.{' '}
-          <button className="button button--plain" onClick={() => setItems(SAMPLE_ITEMS)}>
-            Reset
-          </button>
-        </p>
-      )}
-    </>
-  );
-}
+import { reuseListings, type ReuseListing } from '@shared/data';
+import { showToast, getModalService } from './demo-runtime';
+import { DeleteIconButton } from './delete-icon-button';
 
 export function DialogDeletionDemo() {
-  const [items, setItems] = useState(SAMPLE_ITEMS);
+  const [items, setItems] = useState(reuseListings);
 
-  const handleDelete = async (item: string, index: number) => {
+  const handleDelete = async (item: ReuseListing, index: number) => {
     const modalService = await getModalService();
     const dialogId = modalService.openDialog(
       <div className="flow">
         <p>
-          Are you sure you want to delete <strong>{item}</strong>? This action cannot be undone.
+          Are you sure you want to delete <strong>{item.name}</strong>? This action cannot be undone.
         </p>
         <footer>
           <div className="inline-flow">
@@ -159,11 +37,11 @@ export function DialogDeletionDemo() {
   };
 
   return (
-    <div className="stack">
+    <div>
       <pp-list className="borderless">
         {items.map((item, index) => (
-          <pp-list-item key={`${item}-${index}`}>
-            {item}
+          <pp-list-item key={item.id}>
+            {item.name}
             <DeleteIconButton onClick={() => handleDelete(item, index)} />
           </pp-list-item>
         ))}
@@ -171,7 +49,7 @@ export function DialogDeletionDemo() {
       {items.length === 0 && (
         <p className="muted">
           No items left.{' '}
-          <button className="button button--plain" onClick={() => setItems(SAMPLE_ITEMS)}>
+          <button className="button button--plain" onClick={() => setItems(reuseListings)}>
             Reset
           </button>
         </p>
@@ -240,17 +118,17 @@ export function TypedConfirmationDemo() {
 }
 
 interface StagedItem {
-  id: number;
+  id: string;
   name: string;
   deleted: boolean;
 }
 
 export function StagedDeletionDemo() {
   const [items, setItems] = useState<StagedItem[]>(() =>
-    SAMPLE_ITEMS.map((name, id) => ({ id, name, deleted: false }))
+    reuseListings.map(({ id, name }) => ({ id, name, deleted: false }))
   );
 
-  const toggle = (id: number) =>
+  const toggle = (id: string) =>
     setItems(items.map((item) => (item.id === id ? { ...item, deleted: !item.deleted } : item)));
 
   const handleSave = () => {

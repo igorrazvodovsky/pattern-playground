@@ -8,10 +8,18 @@ mediation: individual
 fun: 🤔 3/5. Dependency.
 relationships:
   related:
-    - deletion
-    - saving
-    - undo
+    - to: deletion
+      note: "its decision tree is this framework projected onto one action — the tree's first question is the time-to-recover dimension"
+    - to: saving
+      note: "staging and drafts are severity reducers: they buy a review step before consequences commit"
+    - to: undo
+      note: "the strongest severity reducer — recovery after the act removes the need for confirmation before it"
+    - to: inline-confirmation
+      note: "the mid-ladder rung: enough friction to interrupt autopilot without breaking context"
 ---
+
+import { ConsequenceLadderDemo } from '@pkg/demos/action-consequences';
+
 A framework for evaluating the severity and reversibility of user actions to determine appropriate safeguards and confirmation methods. This pattern helps balance friction with protection, ensuring dangerous actions are adequately guarded while keeping routine tasks fluid.
 
 ## Consequence dimensions
@@ -51,7 +59,7 @@ Secondary consequences triggered by the action:
 - Minor inconvenience if accidental
 - Low-frequency mistakes expected
 
-### Inline confirmation
+### [Inline confirmation](/patterns/inline-confirmation)
 - Moderate effort to recover
 - Clear user intent likely
 - Context should be maintained
@@ -65,6 +73,10 @@ Secondary consequences triggered by the action:
 - Critical or irreversible
 - Wide-reaching impact
 - Accidental activation catastrophic
+
+<Demo label="Four actions, guarded in proportion to their consequences.">
+  <ConsequenceLadderDemo client:only="react" />
+</Demo>
 
 ## Factors that reduce severity
 

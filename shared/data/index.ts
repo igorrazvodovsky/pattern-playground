@@ -6,6 +6,7 @@ import editorContentData from './editor-content.json' with { type: 'json' };
 import commentThreadsData from './comment-threads.json' with { type: 'json' };
 import commandsData from './commands.json' with { type: 'json' };
 import recentItemsData from './recent-items.json' with { type: 'json' };
+import reuseListingsData from './reuse-listings.json' with { type: 'json' };
 import tasksData from './tasks.json' with { type: 'json' };
 import { transformTasksData } from './transformations/tasks';
 import { createFinder, createMultiFieldSearcher } from './finders';
@@ -30,6 +31,7 @@ export const editorContent = editorContentData;
 export const commentThreads = commentThreadsData;
 export const commands = commandsData;
 export const recentItems = recentItemsData;
+export const reuseListings = reuseListingsData;
 export const transactions = transactionsData;
 export const comments = commentsData;
 export const quotes = quotesData;
@@ -285,6 +287,7 @@ export type EditorContent = typeof editorContent[0];
 export type CommentThreadSetup = typeof commentThreads[0];
 export type Command = typeof commands[0];
 export type RecentItem = typeof recentItems[0];
+export type ReuseListing = typeof reuseListings[0];
 // Import unified Task types
 export type {
   Task,

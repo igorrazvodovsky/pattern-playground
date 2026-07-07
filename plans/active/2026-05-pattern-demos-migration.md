@@ -13,14 +13,21 @@ depends_on: "plans/archive/2026-05-embed-components.md"
 > not `packages/components/src/demos/` — see
 > [workspace-layout](../../docs/specs/workspace-layout.md) (Shared demos). Path
 > references below have been corrected. Two model assumptions also predate the
-> realised tree and should be revisited before executing the remaining phases:
-> (a) demos are keyed by the _component_ they wire and shared across pattern
-> pages, not one file per pattern×story, so the `<PatternName><StoryName>Demo.tsx`
-> naming in Phases 3–4 no longer fits; (b) a demo that several pattern pages share
-> belongs in the components package by the spec's shared-consumption rule, which
-> blurs the A/B/C-per-story framing. The classification still holds as a _verdict
-> shape_ (Storybook-native vs migrate, and the gap-registry byproduct); the file
-> destinations and naming need reconciling with the component-keyed tree.
+> realised tree: (a) the `<PatternName><StoryName>Demo.tsx` naming in Phases 3–4
+> no longer fits; (b) a demo that several pattern pages share belongs in the
+> components package by the spec's shared-consumption rule, which blurs the
+> A/B/C-per-story framing. The classification still holds as a _verdict shape_
+> (Storybook-native vs migrate, and the gap-registry byproduct).
+>
+> _Ownership rule (settled 2026-07-02, during T5 of the workspace-split
+> closure)._ Demo files are keyed by the *move* they demonstrate: the pattern
+> page that names the move owns `demos/<slug>.tsx`, and pages that reference the
+> move import from it (deletion.mdx borrows from `demos/inline-confirmation` and
+> `demos/transient-feedback`, not the other way round). Cross-page scaffolding
+> that no move owns (sample data, the toast helper, generic delete buttons)
+> lives in small shared files (`demos/shared.ts`,
+> `demos/delete-icon-button.tsx`). The tree is two-way shared substrate: Storybook
+> stories may import from `demos/` too, rather than keeping private copies.
 
 ## Context
 

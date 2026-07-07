@@ -510,7 +510,7 @@ const DECISION_TREES: Record<string, TreeConfig[]> = {
       treeId: 'deletion',
       leaves: {
         'No confirmation (with undo)': 'undo',
-        'Inline confirmation': 'operations-inline-confirmation',
+        'Inline confirmation': 'inline-confirmation',
         'Modal confirmation': 'actions-application-dialog',
       },
     },
@@ -521,7 +521,7 @@ const DECISION_TREES: Record<string, TreeConfig[]> = {
       leaves: {
         'Dialog': 'actions-application-dialog',
         'Callout': 'operations-callout',
-        'Toast': 'primitives-toast',
+        'Toast': 'transient-feedback',
       },
     },
   ],
