@@ -62,7 +62,7 @@ imports them through the package surface (`@pkg/demos/*`) wrapped in
 
 This supersedes the `apps/patterns/src/components/demos/` location named in the
 earlier [pattern-demos-migration](../../plans/active/2026-05-pattern-demos-migration.md)
-and [collection-move-demos](../../plans/active/2026-05-collection-move-demos.md)
+and [collection-move-demos](../../plans/completed/2026-05-collection-move-demos.md)
 plans. Those plans assumed each demo was pattern-site-only; the shared-consumption
 case moved the home into the components package.
 

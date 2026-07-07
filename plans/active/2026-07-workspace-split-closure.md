@@ -3,11 +3,11 @@ title: "Workspace split: closure"
 status: "active"
 kind: "exec-spec"
 created: "2026-07-02"
-last_reviewed: "2026-07-02"
+last_reviewed: "2026-07-07"
 area: "architecture, pattern-site, storybook"
 promoted_to: ""
 superseded_by: ""
-depends_on: "plans/active/2026-05-workspace-split.md (closes it), plans/active/2026-05-pattern-demos-migration.md, plans/active/2026-05-collection-move-demos.md"
+depends_on: "plans/active/2026-05-workspace-split.md (closes it), plans/active/2026-05-pattern-demos-migration.md, plans/completed/2026-05-collection-move-demos.md"
 ---
 # Workspace split: closure
 
@@ -17,7 +17,7 @@ The [workspace-split plan](2026-05-workspace-split.md) is executed in substance:
 
 1. *Closure is territory-shaped, not file-shaped.* The stalled per-file dedup (4 of ~44 pages closed in May, then nothing) shows the wrong unit. The unit of closure is a territory: a coherent cluster of pattern pages whose Storybook duplicates, demos, and inbound links get resolved together, ending in a verified deletion. Each territory is one completable session with a definition of done.
 
-2. *The graph goes to stage 3 deliberately.* The split plan's landing point was stage 2 — component nodes in the data, filtered from view. What actually shipped is a language-only graph (111 nodes: 90 pattern, 11 quality, 9 foundation, 1 collection; zero components) while [docs/specs/graph-relationship-model.md](../../docs/specs/graph-relationship-model.md) still claims components "contribute nodes to the combined dataset". Rather than restore stage 2, promote the accident into the named end state: language-only graph plus a *component manifest* as the catalogue dataset, with cross-references between the two replacing within-graph component edges.
+2. *The graph goes to stage 3 deliberately.* The split plan's landing point was stage 2 — component nodes in the data, filtered from view. What actually shipped is a language-only graph (111 nodes: 90 pattern, 11 quality, 9 foundation, 1 collection; zero components) while [docs/specs/graph-relationship-model.md](../../docs/specs/graph-relationship-model.md) still claims components "contribute nodes to the combined dataset". Rather than restore stage 2, promote the accident into the named end state: language-only graph plus a *component manifest* as the catalogue dataset, with cross-references between the two replacing within-graph component edges. The workstream-2 research gate settled what that manifest is: Storybook's own `index.json`, not a new artifact.
 
 ## Current residue (inventory)
 
@@ -38,22 +38,24 @@ The [workspace-split plan](2026-05-workspace-split.md) is executed in substance:
 - Delete `apps/patterns/src/data/pattern-graph.baseline.json`.
 - Tag the five foundations-material pages explicitly (`role:component` fits their "describes UI substrate" reading; revisit only if one earns a site-side language entry).
 
-## Workstream 2 — Stage 3: component manifest
+## Workstream 2 — Stage 3: catalogue resolution via Storybook's index.json
 
-Strawman (research gate before commit, below):
+The original strawman here — generate `custom-elements.json` with `@custom-elements-manifest/analyzer`, add a thin project wrapper, resolve `<ComponentRef>` against it — failed its research gate (run 2026-07-07; full findings in [2026-07-component-manifest-research.md](2026-07-component-manifest-research.md)). Three findings sank it: the analyzer produces *zero* tag-name associations against this codebase (registration is central-registry only — no `@customElement`, no static `define`); only ~14 of the catalogue's 40 component docs entries are custom-element-backed, so the "thin" wrapper would have carried about three-quarters of the resolution surface; and `setCustomElementsManifest` is web-components-framework machinery that never loads in this react-vite Storybook. Meanwhile Storybook's own `index.json` already covers every addressable docs entry — CSS-only, native-HTML, React, and pattern-roled alike — and carries titles plus the full tag taxonomy. The manifest the plan was reaching for already ships with every Storybook build.
 
-- Generate a `custom-elements.json` for the `pp-*` Lit elements with `@custom-elements-manifest/analyzer` — the web-components-standard manifest format, not a bespoke schema. Props, slots, events, CSS custom properties come from source, not hand-maintained JSON.
-- A thin project-level wrapper (`component-manifest.json` or a build step) adds what CEM doesn't know: Storybook docs URL per component, role/tag metadata, the demos index (`packages/components/src/demos/`), and the handful of React components (PatternGraph etc.) if patterns reference them.
-- `<ComponentRef>` resolves against the manifest at build time; a broken component reference fails the site build (today it is unvalidated string interpolation).
-- The typed-edges question this unlocks (split `enables` from `realised_by`) becomes a cross-dataset reference, per the original plan's stage-3 sketch. Not executed here — the manifest is the carrier; the vocabulary change is its own decision.
+Revised deliverable:
 
-*Research gate* ("what would I be wrong about?"): CEM analyzer coverage for this codebase's Lit idioms and the Lit/React mixture; whether Storybook 10 can consume the same manifest (`setCustomElementsManifest`) so one artifact feeds both surfaces; whether Storybook's own `index.json` is the simpler source for URL resolution than hand-mapping; what adjacent design systems (Shoelace/Web Awesome, Carbon web components) actually ship in their manifests. Run after this strawman, before implementation.
+- A build-time validator: every `<ComponentRef id>` in site content must resolve against `index.json`, or the site build fails (today it is unvalidated string interpolation). Read `packages/components/storybook-static/index.json` — fresh by root-build order — falling back to the `public/storybook` copy with a staleness warning for standalone site builds.
+- Symmetric and cheap: validate `PatternRef` slugs in Storybook MDX against the site's content collection.
+- Two live broken ids the gate found belong to T4, not this workstream: `actions-application-button--docs` (Button's real id is `primitives-button--docs`) and `actions-evaluation-semantic-zoom--docs` ×4 (stories-only with `!autodocs`; the docs id never existed — the site entry is owed with T4 anyway).
+- When the validator lands, re-point graph-relationship-model.md's "component manifest" phrase at `index.json` as the named resolution dataset.
+- CEM generation is parked, contingent on a concrete external consumer appearing (IDE custom-data, generated wrappers). Reviving it means budgeting for a tag-mapping analyzer plugin and the customised-built-in blind spot (`pp-button`).
+- The typed-edges question this unlocks (split `enables` from `realised_by`) becomes a cross-dataset reference, per the original plan's stage-3 sketch. Not executed here — the resolution dataset is the carrier; the vocabulary change is its own decision.
 
 ## Workstream 3 — Per-territory closure (the bulk)
 
 For each territory below, one pass with this definition of done:
 
-1. *Demo verdicts.* Every `.stories.tsx` in the territory gets a verdict using the demos plan's classes — Storybook-native / A (pure markup) / B (thin shell) / C (gap island) / host-composition ([collection-move plan](2026-05-collection-move-demos.md)) / retire — reconciled to the realised component-keyed `demos/` tree (demos are keyed by the component they wire, shared across pages; not one file per pattern×story).
+1. *Demo verdicts.* Every `.stories.tsx` in the territory gets a verdict using the demos plan's classes — Storybook-native / A (pure markup) / B (thin shell) / C (gap island) / host-composition ([collection-move plan](../completed/2026-05-collection-move-demos.md)) / retire — reconciled to the realised component-keyed `demos/` tree (demos are keyed by the component they wire, shared across pages; not one file per pattern×story).
 2. *Demos moved or kept* per verdict; gap registry updated.
 3. *Inbound links rewritten.* Every Storybook `path=/docs/...` link into the territory's pattern pages becomes a `PatternRef`.
 4. *Duplicates deleted.* The territory's migrated `.mdx` twins removed from `packages/components/src/stories/`; stories files kept only where a verdict keeps them.
@@ -62,7 +64,7 @@ For each territory below, one pass with this definition of done:
 Territories, in proposed order:
 
 - *T1 Navigation* (10 pages: flat-navigation, fully-connected, hub-and-spoke, hybrid-patterns, multilevel-tree, navigation-overview, overview-detail, pan-and-zoom, pyramid, step-by-step). Mostly prose and diagrams, few or no stories — the cheap warm-up that proves the batch mechanics.
-- *T2 Collection moves / DataView* (Filtering, Sorting, Grouping, ItemView, DataView, View, Dashboard). Executes [2026-05-collection-move-demos.md](2026-05-collection-move-demos.md): lift `DataViewRenderer` into package source, implement grouping/filtering/sorting there, author slices, then close the pages. The heaviest territory, and the one with its own exec-spec.
+- *T2 Collection moves / DataView* (Filtering, Sorting, Grouping, ItemView, DataView, View, Dashboard). Executes [2026-05-collection-move-demos.md](../completed/2026-05-collection-move-demos.md): lift `DataViewRenderer` into package source, implement grouping/filtering/sorting there, author slices, then close the pages. The heaviest territory, and the one with its own exec-spec.
 - *T3 Activities* (AITuning, Conversation, EmbeddedIntelligence, GeneratedContent, LivePresentation, LivingDocument, Onboarding, Prompt, Workspace).
 - *T4 Coordination + evaluation* (Commenting, Notification, Selection, FocusAndContext) — plus authoring the missing *Semantic zoom* site entry (stories-only today).
 - *T5 Operations* (Autofill, MorphingControls, StateDisabled, StateEmpty) — plus the two settled-but-unexecuted migrations: Toast → `transient-feedback.mdx` and the stories-only *Inline confirmation*.
@@ -81,12 +83,12 @@ The split moved files, not dependencies. The boundary the plan promised ("deps s
 
 The fix is layered — ownership first, enforcement later:
 
-1. *Dep ownership pass (mechanical, one sitting).* Move component-only deps into `packages/components` (tldraw, Tiptap, d3, motion, cmdk, base-ui, react-to-webcomponent, floating-ui, iconify, lit, react, zustand, plus Storybook and its addons — components owns that surface). Patterns-only deps are already right. Root keeps only genuinely shared tooling: TypeScript, ESLint, Stylelint, Vite/Vitest, Playwright. Declare the real edges: `apps/patterns` gets `"@pattern-plgrnd/components": "*"` and `"@pattern-plgrnd/shared": "*"` as workspace deps (documenting the edge even while aliases do resolution). Align drifted versions; rename the server package `@pattern-plgrnd/server`. Verify with a clean `npm install` + both builds + `npm ls` sanity.
-2. *Enforcement stance (decide, don't drift).* Two coherent options: keep the alias-to-raw-source convention (the repo's established pattern; boundary by convention, cheap) or move to a real `exports`-based API on the components package. Recommendation: keep aliases *now*, and fold the public-API verdict into workstream 2's research gate — the component manifest makes the de-facto public surface legible, which is the input an honest `exports` field needs. Deciding `exports` before the manifest exists would be guessing.
+1. *Dep ownership pass (mechanical, one sitting).* Move component-only deps into `packages/components` (tldraw, Tiptap, d3, motion, cmdk, base-ui, floating-ui, iconify, lit, react, zustand, plus Storybook and its addons — components owns that surface). `react-to-webcomponent` has zero usages in any workspace source (workstream-2 gate finding) — drop it rather than move it. Patterns-only deps are already right. Root keeps only genuinely shared tooling: TypeScript, ESLint, Stylelint, Vite/Vitest, Playwright. Declare the real edges: `apps/patterns` gets `"@pattern-plgrnd/components": "*"` and `"@pattern-plgrnd/shared": "*"` as workspace deps (documenting the edge even while aliases do resolution). Align drifted versions; rename the server package `@pattern-plgrnd/server`. Verify with a clean `npm install` + both builds + `npm ls` sanity.
+2. *Enforcement stance (decide, don't drift).* Two coherent options: keep the alias-to-raw-source convention (the repo's established pattern; boundary by convention, cheap) or move to a real `exports`-based API on the components package. Recommendation: keep aliases *now*. The public-API input the verdict needed arrived with workstream 2's research gate, which recorded the de-facto public surface directly (see open question 5) — an honest `exports` field can now be written whenever enforcement is wanted, without guessing.
 3. *pnpm as the enforcement mechanism (optional, later).* The original plan's open question 6 defaulted to npm. Phantom-dep isolation is pnpm's native behaviour; step 1 is exactly the prerequisite that makes a pnpm switch safe. Revisit after step 1 lands — if the dep graph is honest, switching is mostly mechanical; if npm causes no pain, staying is fine.
 4. *tsconfig hygiene (small).* Rename or re-scope the root `tsconfig.json` so it stops masquerading as the workspace config while actually covering `apps/server` + `utils`. Project references remain not-adopted — with `noEmit`, bundler resolution, and alias-to-source imports they buy little; note the decision rather than leaving it open.
 
-Step 1 is independent of everything else in this plan and can run before or between territories. Steps 2–3 wait on workstream 2's research gate.
+Step 1 is independent of everything else in this plan and can run before or between territories. Steps 2–3 were gated on workstream 2's research gate, which ran 2026-07-07 — both are unblocked, and the gate's surface findings confirm step 2's keep-aliases recommendation.
 
 ## Process note
 
@@ -94,11 +96,11 @@ What the branch's history teaches (126 commits, 2026-05-15 → 07-02): the seria
 
 ## Open questions
 
-1. *Manifest scope for React components.* CEM is custom-elements-shaped; PatternGraph and the demo islands are React. Wrapper entries, a second small manifest, or out of scope for now? Decide at the workstream-2 research gate.
+1. *Manifest scope for React components.* Resolved 2026-07-07, by dissolution: under `index.json` authority, React-backed catalogue entries are docs entries like any other — no wrapper entries, no second manifest.
 2. *Data-viz corpus membership.* `Elements.mdx` carries `role:umbrella` inside the deliberately parallel data-viz corpus. Either the corpus stays parallel and the page loses the language-role tag, or data-viz umbrellas join the graph. Decide before T-territory work touches data-viz links.
 3. *Promoting decomposition rules.* The split plan's nine transferable rules rest on two worked examples. Promote into `pattern-role-model.md` after the next decomposition (T6 is the likely source), keeping narratives in the completed plan.
 4. *Storybook's long-term role* is assumed: the component catalogue and substrate surface. Not reopened here.
-5. *Components-package `exports` field* (original plan's question 7). Deferred to the workstream-2 research gate; the manifest reveals the real public surface first. Until then the alias-to-raw-source convention stands.
+5. *Components-package `exports` field* (original plan's question 7). The gate delivered the input without a manifest: the observed public surface is `@components/register-all.ts` (side-effect registration), `@components/{MermaidDiagram,PatternGraph,sidebar}`, and `@pkg/demos/*`; nothing outside the package imports `main.ts`'s classes. The alias-to-raw-source convention stands until enforcement is wanted; when an `exports` field gets written, that observed surface is its content.
 6. *npm vs pnpm* (original plan's question 6). Revisit after the dep-ownership pass; pnpm is the enforcement mechanism if convention proves insufficient.
 
 ## Progress log
@@ -195,3 +197,47 @@ Inputs recorded, deliberately not acted on:
 *status-feedback is the second prose decision tree*, beside action-consequences: its dimensions are a selector over feedback moves and could emit `recommends` edges (→ indication, validation, notification's routing) when the graph-situation work lands. The symmetry is worth keeping visible: action-consequences calibrates friction *before* the act, status-feedback calibrates attention *after* it, and undo is the hinge between them.
 
 *Validation is a registered candidate move* — the persistent, correction-demanding shape (user-input initiated, arrives at the field, must not evaporate). Written as a stub (2026-07-07): `validation.mdx` carries the contract (at the field, fix named, persists until corrected), the reward-early-punish-late timing rule, and edges (`instantiates` status-feedback; form, data-entry, state-disabled). A TODO comment lists what the full page still owes — message voice, error summary, prevention vs correction, a demo, progressive help.
+
+### 2026-07-07 — T2 Collection moves / DataView closed
+
+Seven entries: five with stories (DataView, Filtering, Sorting, Grouping, ItemView) and two prose-only twins (View, Needs-based view — the `dashboard` slug). This territory executed [2026-05-collection-move-demos.md](../completed/2026-05-collection-move-demos.md), now completed and moved to `plans/completed/` with two departures recorded in its tail note. Steps against the definition of done:
+
+1. *Verdicts* — the host-composition class got its first genuine exercise, and held exactly where predicted:
+   - `Grouping.stories.tsx` (*Cards*): *host-composition*, as the exec spec called it. Grouping is now a real feature of the substrate (group-by partition rendered as `<details>` sections with count badges, the retired story's shape); the pattern page embeds a grouping-foregrounded slice.
+   - `Sorting.stories.tsx`: *host-composition*; sorting already existed in the substrate, so the consolidation was slice-only. The standalone story was control chrome with no data behind it — retired.
+   - `Filtering.stories.tsx` (*Filtering*): *not* host-composition — the departure. The story demonstrates the real `components/filter` mechanism (combobox, hierarchical navigation, AI fallback), not a stripped-down DataView. Class B → `demos/filtering.tsx`; filtering.mdx embeds it *and* a filtering-foregrounded slice, per the exec spec's both-demos provision. *LLMFilter*: Class A, migrated as inline markup.
+   - `DataView.stories.tsx` (*DataView*, *DataViewWithFilters*): the composition *is* the host substrate. Lifted whole to `demos/data-view/` — a reframe against the exec spec's `src/components/data-view/` default, which predates the settled demos-tree convention; the composition is Product-sample-coupled demo substrate, not package API. Site page embeds the full demo; the Storybook entry is retired (the page was all move-level content — no mechanism residue).
+   - `ItemView.stories.tsx` (*Page*, *TaskCompact*, *TaskMini*): the residue test found a mechanism twin — the adapter-registry renderer (ContentAdapterProvider, `micro/mini/mid/maxi` scopes, interaction modes, `onEscalate`). Re-homed as *Components/Item view*: slim contract doc plus three stories importing `demos/item-view.tsx` shells — the Toast shape again, with the two-way substrate exercised in both directions (site page and Storybook stories consume the same demos).
+   - `View.mdx`, `Dashboard.mdx`: zero stories, site copies equal-or-richer; deleted clean.
+2. *Demos/gap registry*: new `demos/data-view/` (substrate plus `slices.tsx`, the host-side slice registry the exec spec defaulted to), `demos/filtering.tsx`, `demos/item-view.tsx`. Gap registry +1: *schema-driven filter* — `components/filter` hardwires one enum set while `demos/data-view` carries a second, product-shaped filter implementation; the duplication is the gap signal, surfaced by the host-composition test's own question 3 cutting both ways (DataView's filter chrome is itself a parallel implementation of a mechanism that exists).
+3. *Inbound links*: only two from outside the territory, both to Grouping (Selection.mdx, Sections.mdx) — now `PatternRef`. CommandMenu.mdx embedded the Filtering *story*; it now renders `FilteringDemo` imported from `demos/` directly. In passing: four `actions-sensemaking-card--docs` links (missing hyphen; Card's real id is `actions-sense-making-card--docs`) repaired in surviving pages.
+4. *Deletions*: ten Storybook files; `stories/actions/seeking/` and `stories/actions/sense-making/` are gone entirely (Card was never in the latter — it lives at `stories/Card/` with its own Meta title).
+5. *Verified*: site build green (118 pages), Storybook build green, no residual `path=/docs/` references to territory pages; graph regenerated — zero node/edge delta (113 nodes / 633 edges), correct because all seven entries already had site nodes and closure added only prose links and ComponentRefs, no typed edges. (Baseline note: 113/633 = the logged 112/629 plus the validation stub's node and four edges.)
+
+Parity repairs landed with the closure: data-view gained the toolbar reference and a To-do naming the dropped Storybook follow-ups (inline editing, search, pagination); filtering's To-do gained search; grouping gained the Details ComponentRef; item-view's empty example sections now hold the three scope demos.
+
+Findings:
+
+- *An inert demo can stay silently wrong.* `DataViewWithFilters` shipped a default filter value `'transportation'` against the data value `'Transportation'` — the case-sensitive match meant the pre-set chip had filtered nothing since it was authored. The slice uses the correct case. Same lesson as T1's stale sidebar TODO, one level deeper: demos embedded on pages people read get corrected; demos in an unlinked Storybook corner do not.
+- *DataView's `✗ filtering` TODO was stale* — filtering had been implemented long before; only grouping was genuinely missing. The ✓/✗ ledger in an MDX comment is another unread-surface casualty.
+- *Dashboard naming parked*: `dashboard.mdx` is titled "Needs-based view" — slug and title disagree (the Storybook twin had the same title, so nothing was lost in deletion). Wants a verdict whenever the sense-making cluster is reviewed.
+- *Parked for T3/T4*: annotation.mdx and commenting.mdx still carry old multi-segment `/patterns/actions-sensemaking-*` slugs; Selection's consolidation question (exec spec Phase E) rides with T4, where its Storybook page lives. Search stays uncommitted.
+- *Sample-data thinness*: five products limit slice legibility; grouping is demonstrated on `lifecycle.repairability` (3/1/1 split), the only attribute that clusters. The exec spec's open question 3 ("sample data that obviously benefits from grouping") remains half-answered — richer sample data would serve all three slices; noted, not blocking.
+
+*Post-review repair (same day): build green ≠ dev green for `client:only` islands.* Review found the four collection pages 500ing in `astro dev` with `ReferenceError: HTMLElement is not defined`. The new demo imports pulled browser-only modules into the dev server's SSR module graph — `astro build` had passed because Rollup tree-shakes the unused server-side reference of a `client:only` island, while the dev module-runner evaluates the whole MDX import graph eagerly. Three offenders in the chain, none T2-authored, and the resolutions place the coupling where it lives rather than teaching consumers to import lazily:
+
+- The vanilla custom elements `toast.ts` and `avatar.ts` crashed at module scope (`class … extends HTMLElement`). Fixed in the modules themselves with an SSR-tolerant stub base (`globalThis.HTMLElement ?? class {}`) — the class is only registered/instantiated in the browser via register-all. This makes explicit the guarantee the Lit-based elements already had implicitly through lit's node exports; the uniform rule is now statable: *anything under `src/components` must be importable in Node; browser APIs live in methods and lifecycle, never module scope.* Consumers keep ordinary static imports (`ai-fallback-handler.tsx` unchanged in the end; `modal-service` needed nothing — its constructor only builds Maps).
+- `use-ai-command.ts` used a named import from CJS lodash, which Vite's strict SSR runner rejects — now `lodash/debounce` default import.
+- `filter-components.tsx` and `ProductFilterValueDropdown.tsx` side-effect-imported `avatar.ts` redundantly (registration is central-registry only); imports removed.
+
+Verified: all 114 pattern pages return 200 under `astro dev`; both builds re-run green. Territory-closure checklist amendment this implies: step 5's "site build green" should include a dev-server page sweep whenever a closure adds demo imports to site MDX.
+
+Review also surfaced a dormant component bug: `dropdown.ts` called `this.announce(…)` on open/close — no such method exists; the calls arrived in a September 2025 WIP commit without the import, so every `pp-dropdown` open had been throwing an uncaught rejection since (silently, on a surface nobody exercised interactively). Fixed to the standalone `announce()` utility, matching `list.ts`; verified in-browser — the Group dropdown opens, the live region announces "Dropdown opened with 4 options", and regrouping by category renders. Same species as the inert-filter finding: demos embedded on read pages get their bugs found.
+
+The gate ran as specified; findings in [2026-07-component-manifest-research.md](2026-07-component-manifest-research.md) (the sole repo change of the gate itself). Verdict against the three claims:
+
+- *CEM coverage*: scratch analyzer runs (`--litelement`, nothing committed) parse the Lit idioms well — `@property` attributes, emitted `pp-*` events, JSDoc summaries — but yield *zero* `tagName` associations, because registration is central-registry only; the customised built-in `pp-button` (79 `is=` usages) falls outside CEM's model entirely. ~14 of the catalogue's 40 component docs entries are custom-element-backed, so the "thin wrapper" would have carried about three-quarters of the resolution surface.
+- *One artifact, two surfaces*: fails — `setCustomElementsManifest` belongs to the web-components framework; this Storybook is react-vite 10.4 with `reactDocgen` disabled and hand-authored MDX docs, so no consumer exists on either side.
+- *URL resolution*: Storybook's `index.json` is the authority — it covers all 68 docs entries including CSS-only/native/React/pattern-roled ones and already carries titles plus the full tag taxonomy. Cross-validating all 165 `ComponentRef` usages caught two live breakages (`actions-application-button--docs` ×1, `actions-evaluation-semantic-zoom--docs` ×4 — T1's stale-prose and T2's rename classes; both left for T4) plus a freshness lesson: the site's `public/storybook` copy was five days stale.
+
+Plan consequences, applied the same day: workstream 2 rewritten to the index.json validator; framing 2 updated (the manifest is `index.json`, not a new artifact); open question 1 resolved by dissolution; open question 5 grounded with the observed public surface; workstream 4 steps 2–3 unblocked and `react-to-webcomponent` marked droppable. Implementation not started — the validator is workstream 2's build step.

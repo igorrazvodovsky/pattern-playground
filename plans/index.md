@@ -23,6 +23,8 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Completed
 
+- [Typed relationships](completed/2026-06-typed-relationships.md) — frontmatter `relationships:` edges, RelatedPatterns rendering, migration-repair pass (phases A–E)
+- [Consolidate collection-move demos into DataView](completed/2026-05-collection-move-demos.md) — host-composition demos: DataView substrate lifted to `demos/data-view/`, grouping implemented, move pages embed configured slices (T2 of workspace-split closure)
 - [Workspace split](completed/2026-05-workspace-split.md) — split into components package and pattern-site app (npm workspaces, Astro); Phase D tail documented
 - [Role metadata](completed/2026-05-role-metadata.md) — introduce role tags for component/pattern/umbrella distinctions
 - [Codebase review recommendations](completed/2025-codebase-review-recommendations.md) — reference review and technical debt inventory

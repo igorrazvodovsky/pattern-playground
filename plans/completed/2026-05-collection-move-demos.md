@@ -1,14 +1,41 @@
 ---
 title: "Consolidate collection-move demos into DataView"
-status: "active"
+status: "completed"
 kind: "exec-spec"
 created: "2026-05-22"
+completed: "2026-07-07"
 area: "pattern-site"
 depends_on: "plans/active/2026-05-pattern-demos-migration.md, plans/completed/2026-05-workspace-split.md"
 ---
 # Consolidate collection-move demos into DataView
 
-A refinement on top of [2026-05-pattern-demos-migration.md](2026-05-pattern-demos-migration.md). For a specific cluster of patterns — the *collection-level moves* (Filtering, Sorting, Grouping, and likely Selection and Search) — the right migration is not "lift the bespoke story into a Class C island" but "implement the move as a real feature of DataView, then embed a configured slice of DataView wherever the move's pattern page wants to demonstrate it." Each pattern keeps its own page on the pattern site; the demonstration is parameterised from one real composition rather than re-implemented per page.
+> _Completed 2026-07-07, executed as territory T2 of
+> [2026-07-workspace-split-closure.md](../active/2026-07-workspace-split-closure.md);
+> verdicts and outcomes are recorded in that plan's progress log. Two departures
+> from the phases below, both deliberate:
+>
+> - _Lift target._ The DataView substrate landed in
+>   `packages/components/src/demos/data-view/`, not `src/components/data-view/`.
+>   Phase B's default predates the settled demos-tree convention
+>   ([workspace-layout](../../docs/specs/workspace-layout.md), Shared demos): the
+>   composition is Product-sample-data-coupled demo substrate, not package API.
+>   Slices live beside it in `demos/data-view/slices.tsx` (host-side registry,
+>   option 2 as defaulted).
+> - _Filtering's standard story_ was not host-composition: it demonstrates the
+>   real `components/filter` mechanism, not a stripped-down DataView. It moved
+>   as `demos/filtering.tsx` (Class B); the filtering pattern page embeds it
+>   alongside a filtering-foregrounded DataView slice, per Phase D's
+>   both-demos provision. The LLMFilter story migrated as inline markup
+>   (Class A).
+>
+> Grouping and sorting consolidated as planned (grouping implemented in the
+> substrate, closing DataView's `✗ grouping`; filtering already existed — the
+> `✗ filtering` TODO was stale). Phase E residue: Selection's verdict rides with
+> territory T4, where its Storybook page lives; Search stays uncommitted. No
+> spec promotion yet — host-composition has one worked cluster; watch Item view
+> and Form per open question 8._
+
+A refinement on top of [2026-05-pattern-demos-migration.md](../active/2026-05-pattern-demos-migration.md). For a specific cluster of patterns — the *collection-level moves* (Filtering, Sorting, Grouping, and likely Selection and Search) — the right migration is not "lift the bespoke story into a Class C island" but "implement the move as a real feature of DataView, then embed a configured slice of DataView wherever the move's pattern page wants to demonstrate it." Each pattern keeps its own page on the pattern site; the demonstration is parameterised from one real composition rather than re-implemented per page.
 
 ## Context
 

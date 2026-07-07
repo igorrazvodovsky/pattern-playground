@@ -20,3 +20,4 @@ inferred while reviewing a territory, beyond what the prose asks for.
 | Split view | Overview and detail | — (judgment, T1) | No master–detail layout container; the pattern's "split view" variant has nothing to point at |
 | Zoom controls | Pan and zoom | — (judgment, T1) | Zoom in/out/fit control cluster; tldraw exists as a dep but there is no reusable control-level piece |
 | Workspace switcher | Hub and spoke, hybrid patterns | — (judgment, T1, speculative) | The hub + flat hybrid's "launch screen or app switcher"; DataView's ViewSwitcher is the nearest existing shape but switches views, not workspaces |
+| Schema-driven filter | Filtering, Data view | DataView.stories.tsx (judgment, T2) | `components/filter` hardwires one enum set (Status/Priority/Assignee); `demos/data-view` carries a second, product-shaped implementation (ProductFilters + FilterControls). The duplication is the gap signal: a filter generic over an attribute schema would collapse both |

@@ -43,10 +43,12 @@ would mint a public API for a single demo caller — speculative generality. So
 the substrate stays put until a trigger arrives, and this plan records _where_ it
 goes so the intent survives.
 
-This is a sibling of the "lift `DataViewRenderer` into proper component source"
-move in [2026-05-collection-move-demos](2026-05-collection-move-demos.md) Phase B
-— the same act of pulling reusable substrate out of a demonstration surface into
-the component library and exposing it through the package's public API.
+This is a sibling of the `DataViewRenderer` lift in
+[2026-05-collection-move-demos](../completed/2026-05-collection-move-demos.md) Phase B.
+That lift resolved the same question the other way in execution: with only
+demo-surface consumers, the substrate landed in the shared `demos/` tree rather
+than minting component-package API — the precedent this plan's wait-for-a-trigger
+stance follows.
 
 ## Trigger
 
