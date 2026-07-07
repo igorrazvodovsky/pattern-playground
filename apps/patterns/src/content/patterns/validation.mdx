@@ -1,0 +1,38 @@
+---
+title: Validation
+role: pattern
+activityLevel: operation
+atomic: pattern
+mediation: individual
+fun: 🥱 boring but important groundwork.
+description: "Responding to input that doesn't fit — at the field where it happened, saying what is wrong and how to fix it, persisting until corrected."
+relationships:
+  instantiates:
+    - to: status-feedback
+      note: "the persistent, correction-demanding delivery shape of status feedback"
+  related:
+    - to: form
+      note: "the container that hosts fieldwise validation and wires it to submission"
+  complements:
+    - to: data-entry
+      note: "the entry the message responds to; a forgiving format prevents errors this move would otherwise have to report"
+  tangential:
+    - to: state-disabled
+      note: "disabling submit until the form is valid hides the problem this move exists to explain"
+---
+
+The actor has given the system something it cannot accept, and is about to find out on the system's terms. Validation arrives at the field where the input happened, says what is wrong and how to fix it, and stays until the correction. 
+
+Persistence is the defining property — a message demanding action must outlive the glance, which makes validation the counterpart of [transient feedback](/patterns/transient-feedback) within [status feedback](/patterns/status-feedback)'s three delivery shapes.
+
+## Timing
+
+Reward early, punish late. A first-time entry should not be judged while the actor is still typing — flag it when they leave the field, or on submit. Once a field has been flagged, reverse the rule: re-validate on every keystroke, so the fix is confirmed the moment it lands rather than at the next blur.
+
+{/* TODO — stub. The full page owes: message voice (explicit, human, precise, constructive — say the fix, not just the failure); error summary for long forms, each entry linking to its field; prevention vs correction (constraints and data entry's forgiving format remove errors this move would otherwise report); a demo; progressive help when the same field fails repeatedly. */}
+
+## Resources & references
+
+- [NN/g / How to Report Errors in Forms](https://www.nngroup.com/articles/errors-forms-design-guidelines/)
+- [Smashing Magazine / A Complete Guide To Live Validation UX](https://www.smashingmagazine.com/2022/09/inline-validation-web-forms-ux/)
+- GOV.UK / [Help users to recover from validation errors](https://design-system.service.gov.uk/patterns/validation/)

@@ -411,6 +411,13 @@
       "role": "foundation"
     },
     {
+      "id": "inline-confirmation",
+      "title": "Inline confirmation",
+      "category": "Operations",
+      "path": "/patterns/inline-confirmation",
+      "role": "pattern"
+    },
+    {
       "id": "inline-interface",
       "title": "Inline interface",
       "category": "Actions",
@@ -507,13 +514,6 @@
       "category": "Foundations",
       "path": "/patterns/modality",
       "role": "foundation"
-    },
-    {
-      "id": "morphing-controls",
-      "title": "Morphing controls",
-      "category": "Operations",
-      "path": "/patterns/morphing-controls",
-      "role": "pattern"
     },
     {
       "id": "multilevel-tree",
@@ -767,6 +767,18 @@
       "role": "pattern"
     },
     {
+      "id": "transient-feedback",
+      "title": "Transient feedback",
+      "category": "Operations",
+      "path": "/patterns/transient-feedback",
+      "role": "pattern",
+      "generativeProfile": {
+        "operatesOn": "a recent action whose outcome the actor would benefit from confirming, without needing acknowledgement before continuing",
+        "produces": "a brief peripheral message that auto-dismisses after a short window, optionally carrying a single trailing affordance such as undo",
+        "enacts": "acknowledgement of the action's completion, lightness of touch, recoverability within the dismissal window"
+      }
+    },
+    {
       "id": "transparent-reasoning",
       "title": "Transparent reasoning",
       "category": "Activities",
@@ -804,6 +816,13 @@
       "title": "User repair",
       "category": "Operations",
       "path": "/patterns/user-repair",
+      "role": "pattern"
+    },
+    {
+      "id": "validation",
+      "title": "Validation",
+      "category": "Operations",
+      "path": "/patterns/validation",
       "role": "pattern"
     },
     {
@@ -870,18 +889,28 @@
       "source": "action-consequences",
       "target": "deletion",
       "type": "related",
+      "label": "its decision tree is this framework projected onto one action — the tree's first question is the time-to-recover dimension",
       "extractedFrom": "frontmatter:related"
     },
     {
       "source": "action-consequences",
       "target": "saving",
       "type": "related",
+      "label": "staging and drafts are severity reducers: they buy a review step before consequences commit",
       "extractedFrom": "frontmatter:related"
     },
     {
       "source": "action-consequences",
       "target": "undo",
       "type": "related",
+      "label": "the strongest severity reducer — recovery after the act removes the need for confirmation before it",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "action-consequences",
+      "target": "inline-confirmation",
+      "type": "related",
+      "label": "the mid-ladder rung: enough friction to interrupt autopilot without breaking context",
       "extractedFrom": "frontmatter:related"
     },
     {
@@ -2830,6 +2859,27 @@
       "extractedFrom": "frontmatter:precedes"
     },
     {
+      "source": "inline-confirmation",
+      "target": "deletion",
+      "type": "related",
+      "label": "the action it most commonly guards; deletion's decision tree recommends it for items that take minutes, not seconds, to recreate",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "inline-confirmation",
+      "target": "action-consequences",
+      "type": "related",
+      "label": "the framework that places this move — moderate recovery effort, clear intent, context worth keeping; one rung above undo-only, one below modal",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "inline-confirmation",
+      "target": "undo",
+      "type": "alternative",
+      "label": "moves the safety net after the act instead of before it; prefer undo when the action reverses cleanly",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
       "source": "inline-interface",
       "target": "conversation",
       "type": "related",
@@ -3436,34 +3486,6 @@
       "type": "enacts",
       "label": "each channel carries its own rhythm; modality sets how fast or slow the exchange runs",
       "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "morphing-controls",
-      "target": "status-feedback",
-      "type": "related",
-      "label": "the control's transformation is itself a form of status feedback",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "morphing-controls",
-      "target": "unavailable-actions",
-      "type": "related",
-      "label": "removes controls entirely; morphing keeps them present but transformed",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "morphing-controls",
-      "target": "state-disabled",
-      "type": "related",
-      "label": "greys out controls without indicating the new state; morphing transforms instead",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "morphing-controls",
-      "target": "progressive-disclosure",
-      "type": "instantiates",
-      "label": "a broader pattern",
-      "extractedFrom": "frontmatter:instantiates"
     },
     {
       "source": "multilevel-tree",
@@ -4529,6 +4551,13 @@
       "extractedFrom": "frontmatter:precedes"
     },
     {
+      "source": "state-empty",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "the educational and guiding variants teach the system from inside the gap they announce",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
       "source": "status-feedback",
       "target": "activity-log",
       "type": "related",
@@ -4764,6 +4793,27 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
+      "source": "transient-feedback",
+      "target": "status-feedback",
+      "type": "instantiates",
+      "label": "the pushed, self-dismissing delivery shape of status feedback",
+      "extractedFrom": "frontmatter:instantiates"
+    },
+    {
+      "source": "transient-feedback",
+      "target": "notification",
+      "type": "related",
+      "label": "the coordination pattern that selects delivery type and disruption level; its decision tree routes dismissible, non-actionable messages here",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "transient-feedback",
+      "target": "undo",
+      "type": "complements",
+      "label": "the dismissal window doubles as the recovery window — transient feedback is the primary carrier for undo affordances",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
       "source": "transparent-reasoning",
       "target": "activity-log",
       "type": "precedes",
@@ -4830,13 +4880,6 @@
       "type": "alternative",
       "label": "hiding options is an alternative to showing them disabled",
       "extractedFrom": "frontmatter:alternative"
-    },
-    {
-      "source": "unavailable-actions",
-      "target": "morphing-controls",
-      "type": "related",
-      "label": "keeps the control visible but transforms it",
-      "extractedFrom": "frontmatter:related"
     },
     {
       "source": "unavailable-actions",
@@ -4907,6 +4950,34 @@
       "type": "instantiates",
       "label": "parent pattern",
       "extractedFrom": "frontmatter:instantiates"
+    },
+    {
+      "source": "validation",
+      "target": "status-feedback",
+      "type": "instantiates",
+      "label": "the persistent, correction-demanding delivery shape of status feedback",
+      "extractedFrom": "frontmatter:instantiates"
+    },
+    {
+      "source": "validation",
+      "target": "form",
+      "type": "related",
+      "label": "the container that hosts fieldwise validation and wires it to submission",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "validation",
+      "target": "data-entry",
+      "type": "complements",
+      "label": "the entry the message responds to; a forgiving format prevents errors this move would otherwise have to report",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "validation",
+      "target": "state-disabled",
+      "type": "tangential",
+      "label": "disabling submit until the form is valid hides the problem this move exists to explain",
+      "extractedFrom": "frontmatter:tangential"
     },
     {
       "source": "view",
@@ -5069,6 +5140,22 @@
       ]
     },
     {
+      "source": "deletion",
+      "target": "inline-confirmation",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:deletion",
+      "situationalHints": [
+        {
+          "question": "Is the deletion reversible?",
+          "branch": "Yes"
+        },
+        {
+          "question": "How quickly can it be recreated?",
+          "branch": "Minutes"
+        }
+      ]
+    },
+    {
       "source": "navigation-overview",
       "target": "pan-and-zoom",
       "type": "recommends",
@@ -5225,6 +5312,54 @@
         {
           "question": "Cross-section workflows common?",
           "branch": "Simultaneous"
+        }
+      ]
+    },
+    {
+      "source": "notification",
+      "target": "transient-feedback",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:notification",
+      "situationalHints": [
+        {
+          "question": "What notification should I use?",
+          "branch": ""
+        },
+        {
+          "question": "Is action required?",
+          "branch": "No"
+        },
+        {
+          "question": "Does the notification communicate status?",
+          "branch": "Yes"
+        }
+      ]
+    },
+    {
+      "source": "notification",
+      "target": "transient-feedback",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:notification",
+      "situationalHints": [
+        {
+          "question": "What notification should I use?",
+          "branch": ""
+        },
+        {
+          "question": "Is action required?",
+          "branch": "No"
+        },
+        {
+          "question": "Does the notification communicate status?",
+          "branch": "No"
+        },
+        {
+          "question": "Is the notification an alert?",
+          "branch": "Yes"
+        },
+        {
+          "question": "Can the alert be easily dismissed?",
+          "branch": "Yes"
         }
       ]
     }

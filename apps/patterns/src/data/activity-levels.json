@@ -331,6 +331,12 @@
       "atomic-category": "foundations",
       "mediation": null
     },
+    "inline-confirmation": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": "individual"
+    },
     "inline-interface": {
       "activity-level": "action",
       "lifecycle-stage": null,
@@ -414,12 +420,6 @@
       "lifecycle-stage": null,
       "atomic-category": "foundations",
       "mediation": null
-    },
-    "morphing-controls": {
-      "activity-level": "operation",
-      "lifecycle-stage": null,
-      "atomic-category": "pattern",
-      "mediation": "individual"
     },
     "multilevel-tree": {
       "activity-level": "action",
@@ -619,6 +619,12 @@
       "atomic-category": "composition",
       "mediation": "coordination"
     },
+    "transient-feedback": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": "individual"
+    },
     "transparent-reasoning": {
       "activity-level": "activity",
       "lifecycle-stage": null,
@@ -648,6 +654,12 @@
       "lifecycle-stage": null,
       "atomic-category": "primitive",
       "mediation": "coordination"
+    },
+    "validation": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": "individual"
     },
     "view": {
       "activity-level": "action",
