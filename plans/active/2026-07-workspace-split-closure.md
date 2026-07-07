@@ -22,7 +22,7 @@ The [workspace-split plan](2026-05-workspace-split.md) is executed in substance:
 ## Current residue (inventory)
 
 - *~40 stale Storybook duplicates.* Migrated pattern pages whose Storybook `.mdx` twins still exist with `role:pattern` Meta tags. Site copies are equal-or-richer in every sampled pair; the duplicates are inert but keep two sources of truth and hold inbound Storybook links.
-- *Three unmigrated pattern-roled entries*: `SemanticZoom.stories.tsx` and `InlineConfirmation.stories.tsx` (stories-only, no MDX on either surface) and Toast → `transient-feedback` (settled in [pattern-role-model.md](../../docs/specs/pattern-role-model.md), not executed).
+- *Unmigrated pattern-roled entries*: `SemanticZoom.stories.tsx` (stories-only; site entry owed with T4). The other two originally listed here are done — Toast → `transient-feedback` landed with T5, and the stories-only Inline confirmation became a site page with the morphing seam resolution (progress log, 2026-07-07).
 - *Spec drift*: the graph-relationship-model claim above; the split plan still `in progress` in `plans/active/` while other frontmatter already cites it under `plans/completed/`.
 - *Dangling references*: [2026-05-pattern-demos-migration.md](2026-05-pattern-demos-migration.md) `depends_on` a `2026-05-embed-components.md` that does not exist; `apps/patterns/src/data/pattern-graph.baseline.json` is a leftover verification artifact.
 - *Foundations material* (`packages/components/src/stories/foundations/` — Color, Iconography, Layout, Motion, Typography): untagged, Storybook-only. Resolved: they describe the UI substrate and *stay in Storybook*; they need explicit role tags, not migration.
