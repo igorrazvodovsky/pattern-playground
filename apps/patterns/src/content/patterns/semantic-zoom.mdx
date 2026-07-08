@@ -1,0 +1,73 @@
+---
+title: Semantic zoom
+role: pattern
+group: evaluation
+activityLevel: action
+atomic: pattern
+mediation: individual
+lifecycle: evaluation
+description: "Changing what things are as the actor changes viewing scale — coarser abstractions zoomed out, richer detail zoomed in — so a large space stays readable at every distance."
+relationships:
+  alternative:
+    - to: focus-and-context
+      note: "resolves the same force — detail without losing context — by varying detail with global scale, uniformly and one level at a time; focus-and-context varies it with attention, non-uniformly, inside one simultaneous view"
+  complements:
+    - to: item-view
+      note: "item view supplies the representation ladder and its per-item transitions; semantic zoom binds that ladder to a scale control and drives every item's rung at once, keeping spatial arrangement legible"
+  related:
+    - to: pan-and-zoom
+      note: "the navigation surface this move layers onto — pan and zoom move the viewport; semantic zoom decides what the things in it look like at each scale"
+---
+
+import { SemanticZoomDemo } from '@pkg/demos/semantic-zoom';
+
+The actor is surveying a space of content too large to read at once — a map, a canvas of notes, a graph of records. Zooming out with plain magnification shrinks everything into unreadable specks; zooming in loses the shape of the whole. 
+
+Semantic zoom changes the *representation* instead of the size: each item swaps to a coarser abstraction as the actor pulls back and a richer one as they move close. Zooming here means "tell me more".
+
+<Demo label="🚧 Semantic zoom over content cards.">
+  <SemanticZoomDemo client:only="react" />
+</Demo>
+
+## Forces
+
+- *Overview against detail* — the actor needs both the shape of the whole and the content of the parts
+- *Recognition at a distance* — the pattern works only if each item has a small representation that remains recognisable
+- *Wayfinding against transition comprehension* — predictable representation-per-tier gives the actor a vocabulary of distances ("this zoom level means streets"), while fluid morphing reads as one continuous surface
+- *Would an outline do?* — zooming as the organising principle has repeatedly failed outside inherently spatial data; the humble alternative to a zoomable interface is often a tree widget
+
+## The representation ladder
+
+What semantic zoom traverses is a ladder of discrete representations per item — the demo's circle → label chip → summary card → reading panel; a map's continent → city → street. Representations don't interpolate: a dot, a title and a paragraph are different artifacts, so *thresholds are unavoidable* — the design choices are where they sit and how the crossing is presented.
+
+- *Snap or morph* — a hard switch at the threshold keeps tiers legible as tiers; crossfade or morph dissolves the crossing into continuity. This is a presentation axis over the same discrete ladder, trading wayfinding-by-tier against transition comprehension
+- *Make crossings legible in transit* — animated transitions help the actor build a spatial model of the space; transition times of 0.3–1.0 s are repeatedly supported
+- *Footprint stability* — a swapped-in representation must fit the box of its neighbour rungs, or items overlap on zoom-out
+- *Uniformity* — the whole population changes level together, under one scale control; the moment one region shows more detail because the actor is attending to it, the move has become [focus and context](/patterns/focus-and-context)
+
+The ladder itself is [item view](/patterns/item-view)'s vocabulary (reference / summary / detail / full). Item view owns the rungs and their per-item, navigation-driven transitions; semantic zoom is the coordination move that drives the same ladder for all items at once from a single scale control — with the two obligations item view doesn't carry: uniformity across the population, and continuity of spatial arrangement.
+
+{/* 
+## Boundary with focus and context 
+Both patterns descend from Furnas's degree-of-interest work — an item's display priority as a function of its importance and its distance from the actor's focus — and both answer the same question of how to show detail without losing context. The split is *simultaneity*: semantic zoom separates focus and context in time (one scale at a time, the whole viewport transforms uniformly), focus and context eliminates the separation (detail varies with distance from the focal point, inside one continuous view). Good semantic zoom partially substitutes for simultaneous context — adding an overview panel to an interface with semantic zoom has been shown to slow actors down, the overview made redundant by the semantic detail — which is why the two moves feel so adjacent in practice.
+*/}
+
+## To-do
+
+- Connected cards: the demo shows free-standing cards; the mechanism spec also calls for directed connectors that re-anchor smoothly as node bounds change across thresholds
+- Focus mode: an optional deepest-zoom behaviour where the focused node dominates and non-focused nodes shed detail first, then de-emphasise — sits on this pattern's boundary with focus and context
+- Map example
+
+## Resources & references
+
+- Perlin & Fox (1993) [Pad: an alternative approach to the computer interface](https://dl.acm.org/doi/10.1145/166117.166125) — semantic zooming named
+- Furnas (1986) [Generalized fisheye views](https://dl.acm.org/doi/10.1145/22627.22342) — the degree-of-interest root shared with focus and context
+- Cockburn, Karlson & Bederson (2009) [A review of overview+detail, zooming, and focus+context interfaces](https://dl.acm.org/doi/10.1145/1456650.1456652) — the taxonomy that settles the category boundaries
+- Bederson (2011) [The promise of zoomable user interfaces](https://www.tandfonline.com/doi/abs/10.1080/0144929X.2011.586724) — retrospective verdict and design guidelines
+- Hornbæk, Bederson & Plaisant (2002) [Navigation patterns and usability of zoomable user interfaces with and without an overview](https://dl.acm.org/doi/10.1145/586081.586086)
+- Jul & Furnas (1998) [Critical zones in desert fog: aids to multiscale navigation](https://dl.acm.org/doi/10.1145/288392.288578)
+- van Wijk & Nuij (2004) [Smooth and efficient zooming and panning](https://ieeexplore.ieee.org/document/1249004)
+- Microsoft — [Semantic zoom](https://learn.microsoft.com/en-us/windows/apps/design/controls/semantic-zoom) design guidance and control
+- prathyvsh — [semantic-zoom](https://github.com/prathyvsh/semantic-zoom) — from Pad and StretchText to the AI-era text-zoom wave
+- Obenauer — [lab note 038, semantic zoom as an OS primitive](https://alexanderobenauer.com/labnotes/038/)
+- Wattenberger (2024) [Fish-eye lens for text](https://wattenberger.com/thoughts/fish-eye)

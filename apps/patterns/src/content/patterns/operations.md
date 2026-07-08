@@ -44,7 +44,7 @@ Structural elements that enable movement through information.
 
 Communicating interactive possibilities and triggering actions.
 
-- <ComponentRef id="primitives-button--docs">Button</ComponentRef> — primary action trigger
+- <ComponentRef id="components-button--docs">Button</ComponentRef> — primary action trigger
 - <ComponentRef id="primitives-keyboard-key--docs">Keyboard key</ComponentRef> — documenting keyboard interactions
 - <ComponentRef id="components-morphing-controls--docs">Morphing controls</ComponentRef> — controls that adapt their form to context
 - [Inline confirmation](/patterns/inline-confirmation) — lightweight commitment before destructive actions

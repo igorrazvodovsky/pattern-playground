@@ -12,6 +12,9 @@ relationships:
     - to: item-view
       note: Single-entity counterpart
     - view
+  complements:
+    - to: semantic-zoom
+      note: scale-bound traversal between collection and item granularities, uniform across the population
   enables:
     - to: selection
       note: staking a subset of items as the target of subsequent action
@@ -43,7 +46,6 @@ Saved views persist particular framings to reduce friction for repeat tasks, sup
 ## Related components
 
 - Representation: <ComponentRef id="components-table--docs">Table</ComponentRef>, <ComponentRef id="actions-sense-making-card--docs">cards</ComponentRef>, list, <ComponentRef id="components-timeline--docs">timeline</ComponentRef>, canvas, grid, calendar, gallery, kanban, gantt, the list goes on
-- <ComponentRef id="actions-evaluation-semantic-zoom--docs">Semantic zoom</ComponentRef> - Density-preserving transitions between collection and items
 - <ComponentRef id="components-action-bar--docs">Action bar</ComponentRef> — the container for batch actions once a selection has been made
 
 ## To-do

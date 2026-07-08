@@ -12,6 +12,9 @@ relationships:
     - to: data-view
       note: Collection-scope counterpart
     - progressive-disclosure
+  complements:
+    - to: semantic-zoom
+      note: drives this ladder for all items at once from a single scale control
 ---
 
 import { ItemViewFullDemo, ItemViewRowDemo } from '@pkg/demos/item-view';
@@ -90,7 +93,6 @@ These transitions preserve context and maintain recognition of the entity across
 ## Related components
 
 - <ComponentRef id="components-item-view--docs">Item view</ComponentRef> — the adapter-based mechanism rendering an entity at each scope
-- <ComponentRef id="actions-evaluation-semantic-zoom--docs">Semantic zoom</ComponentRef> - Density-preserving transitions between granularities
 - <ComponentRef id="primitives-reference--docs">Reference</ComponentRef>
 - <ComponentRef id="components-dialog--docs">Dialog</ComponentRef> & <ComponentRef id="components-drawer--docs">drawer</ComponentRef>
 - <ComponentRef id="actions-sense-making-card--docs">Card</ComponentRef> – summary-level item representations

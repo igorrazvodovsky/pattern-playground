@@ -4,6 +4,16 @@ import { reuseListings } from '@shared/data';
 import { showToast } from './demo-runtime';
 import { DeleteIconButton } from './delete-icon-button';
 
+export function ToastDemo() {
+  return (
+    <div className="inline-flow">
+      <button className="button" onClick={() => void showToast('Something happened')}>
+        Show toast
+      </button>
+    </div>
+  );
+}
+
 export function ToastWithUndoDemo() {
   const [items, setItems] = useState(reuseListings);
 

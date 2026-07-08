@@ -48,7 +48,7 @@
     "id": "PRJ-6",
     "name": "Renewable Energy Integration",
     "type": "project",
-    "icon": "ph:wind-turbine-fill",
+    "icon": "ph:windmill-fill",
     "description": "Transitioning facilities to solar and wind power",
     "searchableText": "renewable energy integration solar wind power",
     "metadata": { "status": "active", "phase": "installation", "updatedAt": "2024-01-16T08:30:00Z", "updatedBy": "user-10" }

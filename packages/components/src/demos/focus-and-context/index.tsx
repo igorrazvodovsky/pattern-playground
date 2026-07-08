@@ -1,23 +1,16 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import React, { useState, useEffect } from "react";
-import { DataService, getRandomItem } from './services/data-service';
-import { ModelItem } from '../../../../schemas/index';
+import React, { useState, useEffect } from 'react';
+import { DataService, getRandomItem } from './data-service';
+import { ModelItem } from '../../schemas/index';
+import '../../jsx-types';
 
-// Define meta information for the story
-const meta = {
-  title: "Actions/Evaluation/Focus and context",
-  parameters: {
-    controls: { disable: true }
-  }
-} satisfies Meta;
+// Shared focus-and-context demo: contextual navigation over an industrial
+// process model (Product sample data). The focused item renders in full
+// detail while its context — path, structure, related objects (including
+// AI-inferred ones, streamed when the API is available) — stays abstracted
+// around it. Consumed by the focus-and-context pattern page.
 
-export default meta;
-type Story = StoryObj;
-
-// Data service instance
 const dataService = new DataService();
 
-// React components that mirror the original Lit functionality
 const Breadcrumbs: React.FC<{ item: ModelItem }> = ({ item }) => {
   const breadcrumbPath = item.path || [];
 
@@ -47,7 +40,7 @@ const Breadcrumbs: React.FC<{ item: ModelItem }> = ({ item }) => {
   );
 };
 
-const AttributesSection: React.FC<{ attributes?: Array<{name: string, value: string, unit?: string | null}> }> = ({ attributes }) => {
+const AttributesSection: React.FC<{ attributes?: Array<{ name: string, value: string, unit?: string | null }> }> = ({ attributes }) => {
   if (!attributes || attributes.length === 0) return null;
 
   return (
@@ -110,7 +103,7 @@ const StructureSection: React.FC<{
 };
 
 const RelatedObjectsSection: React.FC<{
-  relatedObjects: Array<{id: string, label: string, description: string, relationship: string, isAIInferred?: boolean}>,
+  relatedObjects: Array<{ id: string, label: string, description: string, relationship: string, isAIInferred?: boolean }>,
   onItemClick: (id: string) => void,
   aiLoading?: boolean
 }> = ({ relatedObjects, onItemClick, aiLoading = false }) => {
@@ -187,65 +180,28 @@ const MainItemCard: React.FC<{
   );
 };
 
-/**
- * The main story component for Contextual Navigation using real data
- */
-export const ContextualNavigation: Story = {
-  render: () => {
-    const [selectedItem, setSelectedItem] = useState<ModelItem | null>(null);
-    const [relatedObjects, setRelatedObjects] = useState<Array<{id: string, label: string, description: string, relationship: string, isAIInferred?: boolean}>>([]);
-    const [loading, setLoading] = useState(true);
-    const [aiLoading, setAiLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+export function ContextualNavigationDemo() {
+  const [selectedItem, setSelectedItem] = useState<ModelItem | null>(null);
+  const [relatedObjects, setRelatedObjects] = useState<Array<{ id: string, label: string, description: string, relationship: string, isAIInferred?: boolean }>>([]);
+  const [loading, setLoading] = useState(true);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-      // Initialize with a random item from JuiceProduction data
-      const initializeData = async () => {
-        try {
-          setLoading(true);
-          await dataService.initialize();
-          const allItems = dataService.getAllItems();
-          const initialItem = getRandomItem(allItems);
-          if (initialItem) {
-            setSelectedItem(initialItem);
-
-            // Load related objects with real AI streaming
-            setAiLoading(true);
-            const baseRelated = await dataService.getRelatedObjects(
-              initialItem.id,
-              (aiComponents) => {
-                // Real-time AI updates as they stream in
-                setRelatedObjects(prev => {
-                  // Filter out existing AI components and add new ones
-                  const nonAI = prev.filter(item => !item.isAIInferred);
-                  return [...nonAI, ...aiComponents];
-                });
-              }
-            );
-            setRelatedObjects(baseRelated);
-            setAiLoading(false);
-          }
-        } catch (err) {
-          setError(err instanceof Error ? err.message : 'Failed to load data');
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      initializeData();
-    }, []);
-
-    const handleItemClick = async (itemId: string) => {
+  useEffect(() => {
+    // Initialize with a random item from JuiceProduction data
+    const initializeData = async () => {
       try {
-        const item = dataService.getItem(itemId);
-        if (item) {
-          setSelectedItem(item);
+        setLoading(true);
+        await dataService.initialize();
+        const allItems = dataService.getAllItems();
+        const initialItem = getRandomItem(allItems);
+        if (initialItem) {
+          setSelectedItem(initialItem);
 
-          // Load related objects for the new item with real AI streaming
+          // Load related objects with real AI streaming
           setAiLoading(true);
-          setRelatedObjects([]); // Clear previous results
           const baseRelated = await dataService.getRelatedObjects(
-            itemId,
+            initialItem.id,
             (aiComponents) => {
               // Real-time AI updates as they stream in
               setRelatedObjects(prev => {
@@ -259,64 +215,96 @@ export const ContextualNavigation: Story = {
           setAiLoading(false);
         }
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load item');
+        setError(err instanceof Error ? err.message : 'Failed to load data');
+      } finally {
+        setLoading(false);
       }
     };
 
-    const getChildItem = (childId: string) => dataService.getItem(childId);
+    initializeData();
+  }, []);
 
-    if (loading) {
-      return (
-        <div className="product-model-navigation layer gray">
-          <div className="loading-state">
-            <pp-spinner></pp-spinner>
-            <p>Loading industrial process data...</p>
-          </div>
-        </div>
-      );
+  const handleItemClick = async (itemId: string) => {
+    try {
+      const item = dataService.getItem(itemId);
+      if (item) {
+        setSelectedItem(item);
+
+        // Load related objects for the new item with real AI streaming
+        setAiLoading(true);
+        setRelatedObjects([]); // Clear previous results
+        const baseRelated = await dataService.getRelatedObjects(
+          itemId,
+          (aiComponents) => {
+            // Real-time AI updates as they stream in
+            setRelatedObjects(prev => {
+              // Filter out existing AI components and add new ones
+              const nonAI = prev.filter(item => !item.isAIInferred);
+              return [...nonAI, ...aiComponents];
+            });
+          }
+        );
+        setRelatedObjects(baseRelated);
+        setAiLoading(false);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load item');
     }
+  };
 
-    if (error) {
-      return (
-        <div className="product-model-navigation layer gray">
-          <div className="error">
-            <iconify-icon icon="ph:warning-circle"></iconify-icon>
-            <span>Error: {error}</span>
-          </div>
-        </div>
-      );
-    }
+  const getChildItem = (childId: string) => dataService.getItem(childId);
 
-    if (!selectedItem) {
-      return (
-        <div className="product-model-navigation layer gray">
-          <p>No item selected</p>
-        </div>
-      );
-    }
-
+  if (loading) {
     return (
-      <div className="product-model-navigation layer gray">
-        <section className="flow">
-          <Breadcrumbs item={selectedItem} />
-
-          <div className="cards">
-            <div>
-              <MainItemCard
-                item={selectedItem}
-                onItemClick={handleItemClick}
-                getChildItem={getChildItem}
-              />
-            </div>
-          </div>
-
-          <RelatedObjectsSection
-            relatedObjects={relatedObjects}
-            onItemClick={handleItemClick}
-            aiLoading={aiLoading}
-          />
-        </section>
+      <div className="layer gray">
+        <div className="loading-state">
+          <pp-spinner></pp-spinner>
+          <p>Loading industrial process data...</p>
+        </div>
       </div>
     );
-  },
-};
+  }
+
+  if (error) {
+    return (
+      <div className="layer gray">
+        <div className="error">
+          <iconify-icon icon="ph:warning-circle"></iconify-icon>
+          <span>Error: {error}</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (!selectedItem) {
+    return (
+      <div className="layer gray">
+        <p>No item selected</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="layer gray">
+      <section className="flow">
+        <Breadcrumbs item={selectedItem} />
+
+        <div className="cards">
+          <div>
+            <MainItemCard
+              item={selectedItem}
+              onItemClick={handleItemClick}
+              getChildItem={getChildItem}
+            />
+          </div>
+        </div>
+
+        <RelatedObjectsSection
+          relatedObjects={relatedObjects}
+          onItemClick={handleItemClick}
+          aiLoading={aiLoading}
+        />
+      </section>
+    </div>
+  );
+}

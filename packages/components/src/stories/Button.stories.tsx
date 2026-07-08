@@ -9,7 +9,7 @@ interface ButtonArgs {
 }
 
 const meta = {
-  title: "Primitives/Button",
+  title: "Components/Button",
   argTypes: {
     label: {
       control: { type: 'text' },

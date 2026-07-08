@@ -62,9 +62,9 @@ Node output becomes:
 Create `src/stories/data/quality-tag-overrides.json`:
 ```json
 {
-  "primitives-button": ["a11y", "density"],
-  "primitives-input": ["a11y", "formality"],
-  "primitives-checkbox": ["a11y"]
+  "components-button": ["a11y", "density"],
+  "components-input": ["a11y", "formality"],
+  "components-checkbox": ["a11y"]
 }
 ```
 

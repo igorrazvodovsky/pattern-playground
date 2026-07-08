@@ -535,6 +535,12 @@
       "atomic-category": "pattern",
       "mediation": "individual"
     },
+    "semantic-zoom": {
+      "activity-level": "action",
+      "lifecycle-stage": "evaluation",
+      "atomic-category": "pattern",
+      "mediation": "individual"
+    },
     "sequence-completion": {
       "activity-level": "operation",
       "lifecycle-stage": null,

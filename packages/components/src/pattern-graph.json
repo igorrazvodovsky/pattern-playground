@@ -669,6 +669,13 @@
       }
     },
     {
+      "id": "semantic-zoom",
+      "title": "Semantic zoom",
+      "category": "Actions",
+      "path": "/patterns/semantic-zoom",
+      "role": "pattern"
+    },
+    {
       "id": "sequence-completion",
       "title": "Sequence completion",
       "category": "Operations",
@@ -1624,7 +1631,7 @@
       "source": "cognitive-forcing-functions",
       "target": "agency",
       "type": "enacts",
-      "label": "the outcome this family is trying to produce",
+      "label": "the outcome the forcing-function family is trying to produce",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -1805,7 +1812,7 @@
       "source": "collaboration",
       "target": "collaboration-foundation",
       "type": "instantiates",
-      "label": "the foundation this activity realises",
+      "label": "the foundation the collaboration activity realises",
       "extractedFrom": "frontmatter:instantiates"
     },
     {
@@ -1970,7 +1977,7 @@
       "source": "conversation",
       "target": "conversation-quality",
       "type": "enacts",
-      "label": "names the foundational stance this activity makes its primary mode: dialogue as the substrate of meaning, not one option among many",
+      "label": "the quality names the stance conversation makes its primary mode: dialogue as the substrate of meaning, not one option among many",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -2070,10 +2077,18 @@
     },
     {
       "source": "data-view",
+      "target": "semantic-zoom",
+      "type": "complements",
+      "label": "scale-bound traversal between collection and item granularities, uniform across the population",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "data-view",
       "target": "selection",
       "type": "enables",
       "label": "staking a subset of items as the target of subsequent action",
-      "extractedFrom": "frontmatter:enables"
+      "extractedFrom": "frontmatter:enables",
+      "incomingNote": "the view in which item selection happens — it supplies the visible set the pick is drawn from"
     },
     {
       "source": "data",
@@ -2422,7 +2437,7 @@
       "source": "focus-and-context",
       "target": "agency",
       "type": "enacts",
-      "label": "agency here belongs to the system as well as the user;",
+      "label": "agency here belongs to the system as well as the user",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -2445,6 +2460,13 @@
       "type": "complements",
       "label": "staged exposure pairs naturally with focus-and-context, revealing detail as the actor moves toward it",
       "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "focus-and-context",
+      "target": "semantic-zoom",
+      "type": "alternative",
+      "label": "keeps focus and context simultaneous — detail follows the actor's attention, non-uniformly, inside one continuous view; semantic zoom shows one uniform level at a time under a global scale control",
+      "extractedFrom": "frontmatter:alternative"
     },
     {
       "source": "form",
@@ -2756,7 +2778,7 @@
       "source": "help",
       "target": "annotation",
       "type": "enables",
-      "label": "A mechanism for attaching help to specific elements.",
+      "label": "annotation supplies the mechanism for attaching help to specific elements",
       "extractedFrom": "frontmatter:enables"
     },
     {
@@ -3132,6 +3154,13 @@
       "target": "progressive-disclosure",
       "type": "related",
       "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "item-view",
+      "target": "semantic-zoom",
+      "type": "complements",
+      "label": "drives this ladder for all items at once from a single scale control",
+      "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "keyboard-shortcuts",
@@ -4409,6 +4438,27 @@
       "extractedFrom": "frontmatter:alternative"
     },
     {
+      "source": "semantic-zoom",
+      "target": "focus-and-context",
+      "type": "alternative",
+      "label": "resolves the same force — detail without losing context — by varying detail with global scale, uniformly and one level at a time; focus-and-context varies it with attention, non-uniformly, inside one simultaneous view",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "semantic-zoom",
+      "target": "item-view",
+      "type": "complements",
+      "label": "item view supplies the representation ladder and its per-item transitions; semantic zoom binds that ladder to a scale control and drives every item's rung at once, keeping spatial arrangement legible",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "semantic-zoom",
+      "target": "pan-and-zoom",
+      "type": "related",
+      "label": "the navigation surface this move layers onto — pan and zoom move the viewport; semantic zoom decides what the things in it look like at each scale",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
       "source": "user-repair",
       "target": "sequence-completion",
       "type": "precedes",
@@ -4791,28 +4841,28 @@
       "source": "toolbar",
       "target": "data-view",
       "type": "precedes",
-      "label": "provides the persistent surface where the view's collection controls live",
+      "label": "the toolbar provides the persistent surface where the view's collection controls live",
       "extractedFrom": "frontmatter:precedes"
     },
     {
       "source": "toolbar",
       "target": "filtering",
       "type": "precedes",
-      "label": "hosts the filter control the move launches from",
+      "label": "the toolbar hosts the filter control the move launches from",
       "extractedFrom": "frontmatter:precedes"
     },
     {
       "source": "toolbar",
       "target": "grouping",
       "type": "precedes",
-      "label": "hosts the group-by control the move launches from",
+      "label": "the toolbar hosts the group-by control the move launches from",
       "extractedFrom": "frontmatter:precedes"
     },
     {
       "source": "toolbar",
       "target": "sorting",
       "type": "precedes",
-      "label": "hosts the sort control the move launches from",
+      "label": "the toolbar hosts the sort control the move launches from",
       "extractedFrom": "frontmatter:precedes"
     },
     {
