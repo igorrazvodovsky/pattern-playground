@@ -10,13 +10,33 @@ fun: 🙂 2/5. Dependency.
 relationships:
   precedes:
     - data-view
-  related:
-    - toolbar
-    - grouping
-    - filtering
+  complements:
+    - to: grouping
+      note: orders the members within each group
+    - to: filtering
+      note: orders what filtering lets through
 ---
 
-{/* TODO: Storybook demo exists — packages/components/src/stories/actions/seeking/Sorting.stories.tsx */}
+import { DataViewSortingSlice } from '@pkg/demos/data-view';
 
+Sorting allows actors to re-organize collection of items when the default order may be insufficient to scan.
 
-The reordering of a collection to surface what matters most, balancing the actor's immediate priority against the dataset's inherent structure.
+<Demo label="Sorting inside a data view">
+  <DataViewSortingSlice client:only="react" />
+</Demo>
+
+## Behavior
+
+- The dropdown allows users to choose their sorting criteria.
+- Sort selections are meant to be persisted. When actor returns to the page, their previous sort selections will be preserved.
+- As soon as an item in the dropdown is selected, the list content re-sorts automatically.
+- The default sort order is determined on a page-by-page basis.
+
+## To-do
+
+- Table column sorting
+- Sorting using multiple attributes 
+
+## Resources & references
+
+- [Baymard Institute](https://baymard.com/ecommerce-design-examples/40-sorting-tool)

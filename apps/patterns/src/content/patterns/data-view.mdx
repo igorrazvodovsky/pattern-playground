@@ -17,19 +17,13 @@ relationships:
       note: staking a subset of items as the target of subsequent action
 ---
 
-{/* TODO: Storybook demo exists — packages/components/src/stories/actions/seeking/DataView/DataView.stories.tsx */}
-
+import { DataViewDemo } from '@pkg/demos/data-view';
 
 The framing of a collection for a specific purpose, balancing comprehensiveness with the actor's immediate focus. Data view combines varied representations with filtering, sorting, and grouping to let actors scan, explore, and interact with items within the [view system](/patterns/view).
 
-{/* TODO: */}
-{/* ✓ cards */}
-{/* ✓ table */}
-{/* ✓ representation switching */}
-{/* ✓ attribute selection */}
-{/* ✓ sorting */}
-{/* ✗ filtering */}
-{/* ✗ grouping */}
+<Demo label="Data view">
+  <DataViewDemo client:only="react" />
+</Demo>
 
 ## Saved views
 
@@ -51,3 +45,7 @@ Saved views persist particular framings to reduce friction for repeat tasks, sup
 - Representation: <ComponentRef id="components-table--docs">Table</ComponentRef>, <ComponentRef id="actions-sense-making-card--docs">cards</ComponentRef>, list, <ComponentRef id="components-timeline--docs">timeline</ComponentRef>, canvas, grid, calendar, gallery, kanban, gantt, the list goes on
 - <ComponentRef id="actions-evaluation-semantic-zoom--docs">Semantic zoom</ComponentRef> - Density-preserving transitions between collection and items
 - <ComponentRef id="components-action-bar--docs">Action bar</ComponentRef> — the container for batch actions once a selection has been made
+
+## To-do
+
+Follow-up patterns to capture: inline editing (direct manipulation of displayed data), search, pagination.

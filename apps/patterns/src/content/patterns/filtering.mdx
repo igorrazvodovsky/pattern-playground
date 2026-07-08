@@ -19,10 +19,14 @@ relationships:
     - bot
 ---
 
-{/* TODO: Storybook demo exists — packages/components/src/stories/actions/seeking/Filtering.stories.tsx */}
-
+import { FilteringDemo } from '@pkg/demos/filtering';
+import { DataViewFilteringSlice } from '@pkg/demos/data-view';
 
 The narrowing of a collection to items that match the actor's criteria, balancing precision with the risk of hiding relevant results.
+
+<Demo label="Building a filter">
+  <FilteringDemo client:only="react" />
+</Demo>
 
 ## Placement
 
@@ -51,15 +55,25 @@ If that fails, users can delegate filtering to a [bot](/patterns/bot) via a task
 1. Create a task outside filtering whose result can be used to filter the collection.
 2. Follow steps 3-4 from Flow 1.
 
+<Demo label="LLM-assisted filter">
+  <div className="flex">
+    <button className="tag"><iconify-icon icon="ph:sparkle"></iconify-icon><span className="shimmer">Thinking...</span></button>
+    <div className="tag-group">
+      <button className="tag"><iconify-icon icon="ph:sparkle"></iconify-icon> Things that are good for me</button>
+      <button className="tag tag-group__remove">
+        <iconify-icon icon="ph:x"></iconify-icon><span className="inclusively-hidden">Clear filter</span>
+      </button>
+    </div>
+  </div>
+</Demo>
+
 ## Related components
 
 - <ComponentRef id="operations-combobox--docs">Combobox</ComponentRef> — the value-picker inside each active filter chip uses a combobox to narrow available values
 
 ## To-do
 
-Complementary patterns to capture:
-- Constrained natural language builder
-- Rules
+Complementary patterns to capture: constrained natural language builder, rules, search.
 
 ## Resources & references
 

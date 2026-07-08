@@ -4525,9 +4525,17 @@
     },
     {
       "source": "sorting",
-      "target": "toolbar",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
+      "target": "grouping",
+      "type": "complements",
+      "label": "orders the members within each group",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "sorting",
+      "target": "filtering",
+      "type": "complements",
+      "label": "orders what filtering lets through",
+      "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "state-disabled",
@@ -4757,18 +4765,28 @@
       "source": "toolbar",
       "target": "data-view",
       "type": "precedes",
+      "label": "provides the persistent surface where the view's collection controls live",
       "extractedFrom": "frontmatter:precedes"
     },
     {
       "source": "toolbar",
       "target": "filtering",
       "type": "precedes",
+      "label": "hosts the filter control the move launches from",
       "extractedFrom": "frontmatter:precedes"
     },
     {
       "source": "toolbar",
       "target": "grouping",
       "type": "precedes",
+      "label": "hosts the group-by control the move launches from",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "toolbar",
+      "target": "sorting",
+      "type": "precedes",
+      "label": "hosts the sort control the move launches from",
       "extractedFrom": "frontmatter:precedes"
     },
     {

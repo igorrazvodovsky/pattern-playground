@@ -16,14 +16,15 @@ relationships:
       note: organises groups
 ---
 
-{/* TODO: Storybook demo exists — packages/components/src/stories/actions/sense-making/Grouping.stories.tsx */}
-
+import { DataViewGroupingSlice } from '@pkg/demos/data-view';
 
 The clustering of items by shared attributes, balancing meaningful structure against the fragmentation of a flat list. Grouping helps actors detect patterns, draw comparisons, and focus on the subsets that matter most to their current goal.
 
-## Examples
+<Demo label="Grouping inside a data view">
+  <DataViewGroupingSlice client:only="react" />
+</Demo>
 
-### Cards
+## Examples
 
 ### Table
 
@@ -41,3 +42,6 @@ The clustering of items by shared attributes, balancing meaningful structure aga
 
 `TODO:` Well, maybe not just yet.
 
+## Related components
+
+- <ComponentRef id="primitives-details--docs">Details</ComponentRef> — native expand/collapse for group sections
