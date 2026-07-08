@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config';
 import lit from '@astrojs/lit';
 import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
+import { unified } from '@astrojs/markdown-remark';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import remarkRelStrip from '../../shared/remark-rel-strip.ts';
@@ -9,8 +10,16 @@ import remarkRelStrip from '../../shared/remark-rel-strip.ts';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  integrations: [lit(), mdx({ remarkPlugins: [remarkRelStrip] }), react()],
+  integrations: [lit(), mdx(), react()],
   publicDir: path.resolve(__dirname, '../../public'),
+  // Astro 7 defaults Markdown/MDX to the native Sätteri pipeline, which does
+  // not run remark plugins. Switch both .md and .mdx back to the unified
+  // remark/rehype processor so `remarkRelStrip` keeps stripping the
+  // `{rel="..."}` link annotations the typed-relationship graph authors in.
+  // MDX inherits the remark plugins configured here.
+  markdown: {
+    processor: unified({ remarkPlugins: [remarkRelStrip] }),
+  },
   vite: {
     resolve: {
       alias: {

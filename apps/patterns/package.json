@@ -11,9 +11,10 @@
   },
   "dependencies": {
     "@astrojs/lit": "^4.3.0",
-    "@astrojs/mdx": "^6.0.1",
-    "@astrojs/react": "^5.0.6",
-    "astro": "^6.4.8",
+    "@astrojs/markdown-remark": "^7.2.1",
+    "@astrojs/mdx": "^7.0.2",
+    "@astrojs/react": "^6.0.1",
+    "astro": "^7.0.7",
     "lit": "^3.3.1",
     "zustand": "^5.0.13"
   },
