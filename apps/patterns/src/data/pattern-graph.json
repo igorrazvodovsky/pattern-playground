@@ -859,8 +859,8 @@
       "source": "abort",
       "target": "conversation",
       "type": "instantiates",
-      "label": "parent pattern",
-      "extractedFrom": "frontmatter:instantiates"
+      "extractedFrom": "frontmatter:instantiates",
+      "incomingNote": "the actor stops an unwanted or failing sequence mid-exchange — the conversational stop, not a process kill"
     },
     {
       "source": "abort",
@@ -1014,8 +1014,8 @@
       "source": "agent-opening",
       "target": "conversation",
       "type": "enables",
-      "label": "parent pattern for all conversational encounters",
-      "extractedFrom": "frontmatter:enables"
+      "extractedFrom": "frontmatter:enables",
+      "incomingNote": "the bot speaks first — establishing footing and proposing the first topic"
     },
     {
       "source": "capability-and-scope",
@@ -1052,8 +1052,8 @@
       "source": "agent-repair",
       "target": "conversation",
       "type": "enables",
-      "label": "parent pattern",
-      "extractedFrom": "frontmatter:enables"
+      "extractedFrom": "frontmatter:enables",
+      "incomingNote": "the bot repairs its own misunderstanding — ambiguity, low confidence, missing detail"
     },
     {
       "source": "agent-repair",
@@ -1595,15 +1595,15 @@
       "source": "capability-and-scope",
       "target": "conversation",
       "type": "enables",
-      "label": "parent pattern",
-      "extractedFrom": "frontmatter:enables"
+      "extractedFrom": "frontmatter:enables",
+      "incomingNote": "an explicit statement of what this exchange can and cannot do"
     },
     {
       "source": "closing",
       "target": "conversation",
       "type": "enables",
-      "label": "parent pattern",
-      "extractedFrom": "frontmatter:enables"
+      "extractedFrom": "frontmatter:enables",
+      "incomingNote": "ending the encounter cleanly, with room for last topics — closing the exchange, not a window"
     },
     {
       "source": "sequence-completion",
@@ -1907,6 +1907,66 @@
       "extractedFrom": "frontmatter:complements"
     },
     {
+      "source": "user-opening",
+      "target": "conversation",
+      "type": "enables",
+      "incomingNote": "the actor speaks first and the bot aligns to their topic",
+      "extractedFrom": "frontmatter:composed-of"
+    },
+    {
+      "source": "inquiry-agent",
+      "target": "conversation",
+      "type": "enables",
+      "incomingNote": "the bot asks for information it lacks; the move that drives question-driven dialogue",
+      "extractedFrom": "frontmatter:composed-of",
+      "label": "bot inquiry drives question-driven dialogue"
+    },
+    {
+      "source": "open-request",
+      "target": "conversation",
+      "type": "enables",
+      "incomingNote": "the actor makes a complex request needing clarification and multiple steps; where instruction-based dialogue begins",
+      "extractedFrom": "frontmatter:composed-of",
+      "label": "the primary primitive for instruction-based dialogue"
+    },
+    {
+      "source": "sequence-completion",
+      "target": "conversation",
+      "type": "enables",
+      "incomingNote": "the actor marks a sequence as successfully done",
+      "extractedFrom": "frontmatter:composed-of"
+    },
+    {
+      "source": "disengage-without-closing",
+      "target": "conversation",
+      "type": "enables",
+      "incomingNote": "either party steps away without a formal close, leaving the exchange ready to resume",
+      "extractedFrom": "frontmatter:composed-of"
+    },
+    {
+      "source": "inquiry-user",
+      "target": "conversation",
+      "type": "instantiates",
+      "incomingNote": "the actor asks and the bot answers directly — the minimal exchange, present in every dialogue form",
+      "extractedFrom": "frontmatter:instances",
+      "label": "user inquiry appears across all dialogue forms"
+    },
+    {
+      "source": "extended-telling",
+      "target": "conversation",
+      "type": "instantiates",
+      "incomingNote": "the bot holds the floor across several turns to instruct, narrate, or explain",
+      "extractedFrom": "frontmatter:instances",
+      "label": "a primitive for instruction-based dialogue"
+    },
+    {
+      "source": "user-repair",
+      "target": "conversation",
+      "type": "instantiates",
+      "incomingNote": "the actor signals the bot's last utterance didn't land",
+      "extractedFrom": "frontmatter:instances"
+    },
+    {
       "source": "conversation",
       "target": "conversation-quality",
       "type": "enacts",
@@ -2163,13 +2223,6 @@
     },
     {
       "source": "disengage-without-closing",
-      "target": "conversation",
-      "type": "enables",
-      "label": "parent pattern",
-      "extractedFrom": "frontmatter:enables"
-    },
-    {
-      "source": "disengage-without-closing",
       "target": "closing",
       "type": "alternative",
       "label": "the preferred alternative when a formal close is possible",
@@ -2223,6 +2276,13 @@
       "type": "enacts",
       "label": "the system decides and acts on its own behalf rather than only responding to the actor's explicit moves",
       "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "embedded-intelligence",
+      "target": "command-menu",
+      "type": "complements",
+      "label": "a natural home for embedded intelligence, turning a command line into an intent-driven interface",
+      "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "embedded-intelligence",
@@ -2285,13 +2345,6 @@
       "type": "enacts",
       "label": "explanations adjust their depth and form to the actor's level and context",
       "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "extended-telling",
-      "target": "conversation",
-      "type": "instantiates",
-      "label": "parent pattern; extended telling is a primitive for instruction-based dialogue",
-      "extractedFrom": "frontmatter:instantiates"
     },
     {
       "source": "extended-telling",
@@ -2944,13 +2997,6 @@
     },
     {
       "source": "inquiry-agent",
-      "target": "conversation",
-      "type": "enables",
-      "label": "parent pattern; bot inquiry drives question-driven dialogue",
-      "extractedFrom": "frontmatter:enables"
-    },
-    {
-      "source": "inquiry-agent",
       "target": "open-request",
       "type": "enables",
       "label": "bot inquiry is embedded within open request to gather missing constraints",
@@ -2971,13 +3017,6 @@
       "type": "related",
       "label": "for multi-part answers that exceed the scope of a single inquiry response",
       "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "inquiry-user",
-      "target": "conversation",
-      "type": "instantiates",
-      "label": "parent pattern; user inquiry appears across all dialogue forms",
-      "extractedFrom": "frontmatter:instantiates"
     },
     {
       "source": "interaction",
@@ -3841,13 +3880,6 @@
       "extractedFrom": "frontmatter:related"
     },
     {
-      "source": "open-request",
-      "target": "conversation",
-      "type": "enables",
-      "label": "parent pattern; open request is the primary primitive for instruction-based dialogue",
-      "extractedFrom": "frontmatter:enables"
-    },
-    {
       "source": "user-opening",
       "target": "open-request",
       "type": "precedes",
@@ -4377,13 +4409,6 @@
       "extractedFrom": "frontmatter:alternative"
     },
     {
-      "source": "sequence-completion",
-      "target": "conversation",
-      "type": "enables",
-      "label": "parent pattern",
-      "extractedFrom": "frontmatter:enables"
-    },
-    {
       "source": "user-repair",
       "target": "sequence-completion",
       "type": "precedes",
@@ -4648,6 +4673,7 @@
       "source": "suggestion",
       "target": "prompt",
       "type": "precedes",
+      "label": "can provide an initial prompt",
       "extractedFrom": "frontmatter:precedes"
     },
     {
@@ -4943,13 +4969,6 @@
     },
     {
       "source": "user-opening",
-      "target": "conversation",
-      "type": "enables",
-      "label": "parent pattern",
-      "extractedFrom": "frontmatter:enables"
-    },
-    {
-      "source": "user-opening",
       "target": "agent-repair",
       "type": "related",
       "label": "for disambiguating ambiguous or overlapping user openings",
@@ -4960,13 +4979,6 @@
       "target": "inquiry-user",
       "type": "instantiates",
       "label": "when the opening is a simple question",
-      "extractedFrom": "frontmatter:instantiates"
-    },
-    {
-      "source": "user-repair",
-      "target": "conversation",
-      "type": "instantiates",
-      "label": "parent pattern",
       "extractedFrom": "frontmatter:instantiates"
     },
     {

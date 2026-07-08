@@ -5,6 +5,7 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Active
 
+- [Relationship vocabulary: situations, part–whole hygiene, and the hosting gap](active/2026-07-relationship-vocabulary.md) — home for the vocabulary items the territory closures accumulated: situation constructs on edges (research-gated), part–whole audit, hosting relation, realised_by split
 - [Review practice: moves, reconciliation, drift](active/2026-07-review-practice.md) — three review loops adapting ai-pr-review mechanics to the vision/operative-image dialectic
 - [Shrink the client:load shell surface](active/2026-06-shell-island-refactor.md) — persist the sidebar island, render content statically; structural follow-up to the optimizeDeps hydration fix
 - [Combobox and adjacent surfaces](active/2026-05-combobox-territory.md) — pattern-language work for Combobox, Selection multi-select, Dual listbox placeholder

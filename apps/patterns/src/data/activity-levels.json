@@ -395,7 +395,7 @@
       "activity-level": "activity",
       "lifecycle-stage": null,
       "atomic-category": "pattern",
-      "mediation": null
+      "mediation": "networking"
     },
     "localization": {
       "activity-level": "cross-cutting",

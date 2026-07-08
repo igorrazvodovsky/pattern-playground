@@ -9,6 +9,34 @@ relationships:
   complements:
     - to: collaboration
       note: uses conversation as a core communication mechanism for collaborative work
+  composed-of:
+    - to: agent-opening
+      note: the bot speaks first — establishing footing and proposing the first topic
+    - to: user-opening
+      note: the actor speaks first and the bot aligns to their topic
+    - to: capability-and-scope
+      note: an explicit statement of what this exchange can and cannot do
+    - to: inquiry-agent
+      note: the bot asks for information it lacks; the move that drives question-driven dialogue
+    - to: open-request
+      note: the actor makes a complex request needing clarification and multiple steps; where instruction-based dialogue begins
+    - to: agent-repair
+      note: the bot repairs its own misunderstanding — ambiguity, low confidence, missing detail
+    - to: sequence-completion
+      note: the actor marks a sequence as successfully done
+    - to: disengage-without-closing
+      note: either party steps away without a formal close, leaving the exchange ready to resume
+    - to: closing
+      note: ending the encounter cleanly, with room for last topics — closing the exchange, not a window
+  instances:
+    - to: inquiry-user
+      note: the actor asks and the bot answers directly — the minimal exchange, present in every dialogue form
+    - to: extended-telling
+      note: the bot holds the floor across several turns to instruct, narrate, or explain
+    - to: abort
+      note: the actor stops an unwanted or failing sequence mid-exchange — the conversational stop, not a process kill
+    - to: user-repair
+      note: the actor signals the bot's last utterance didn't land
   enacts:
     - to: conversation-quality
       note: "names the foundational stance this activity makes its primary mode: dialogue as the substrate of meaning, not one option among many"

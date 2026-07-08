@@ -17,7 +17,7 @@ const patterns = defineCollection({
     group: z.string().optional(),
     domain: z.string().optional(),
     atomic: z.enum(['primitive', 'component', 'composition', 'pattern']).optional(),
-    mediation: z.enum(['individual', 'coordination']).optional(),
+    mediation: z.enum(['individual', 'coordination', 'networking']).optional(),
     description: z.string().optional(),
     tags: z.array(z.string()).optional(),
     // Suppress the rendered "Related patterns" block when the body already

@@ -24,7 +24,7 @@ lifecycle: seeking             # free-form lifecycle stage (Seek–Use–Share f
 group: "conversation/sequence-management"  # nav sub-grouping path within a top group
 domain: data-visualization     # domain corpus the entry belongs to
 atomic: pattern                # primitive | component | composition | pattern
-mediation: individual          # individual | coordination
+mediation: individual          # individual | coordination | networking
 description: "One sentence"    # used in graph node tooltip and site meta
 tags:
   - tag-value
