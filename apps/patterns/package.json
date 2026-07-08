@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev --port 4321",
+    "dev:clean": "rm -rf .astro node_modules/.vite && astro dev --port 4321",
     "build": "astro build && pagefind --site dist",
     "preview": "astro preview"
   },
@@ -12,7 +13,7 @@
     "@astrojs/lit": "^4.3.0",
     "@astrojs/mdx": "^6.0.1",
     "@astrojs/react": "^5.0.6",
-    "astro": "^6.4.2",
+    "astro": "^6.4.8",
     "lit": "^3.3.1",
     "zustand": "^5.0.13"
   },
