@@ -14,7 +14,7 @@ export const TableView: React.FC<TableViewProps> = ({ products, selectedAttribut
         <thead>
           <tr>
             {columns.map((column) => (
-              <th key={column}>
+              <th key={column} className={column.includes('msrp') || column.includes('leadTime') ? 'pp-table-align-right' : ''}>
                 {column.split('.').pop()?.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
               </th>
             ))}

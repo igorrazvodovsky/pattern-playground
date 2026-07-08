@@ -1,7 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { useCallback, useMemo } from 'react';
-import { ReferenceEditor } from '../components/reference';
-import { referenceCategories, basicReferenceCategories, getReferenceContentById } from '@shared/data';
+import { ReferenceDemo, BasicReferenceDemo } from "../demos/reference";
 
 const meta = {
   title: "Primitives/Reference",
@@ -10,33 +8,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const ReferenceEditorExample = () => {
-  const handleReferenceSelect = useCallback(() => {}, []);
-
-  const enhancedReferenceCategories = useMemo(() => referenceCategories, []);
-
-  return (
-    <div className="layer">
-      <ReferenceEditor
-        data={enhancedReferenceCategories}
-        onReferenceSelect={handleReferenceSelect}
-        placeholder="Type @ to open reference picker (includes users, documents, projects & quotes)..."
-        content={getReferenceContentById('sustainability-meeting-content')?.content || {
-          type: 'doc',
-          content: [
-            {
-              type: 'paragraph',
-              content: [{ type: 'text', text: 'Enhanced reference system with Quote Objects! Try @reshaping, @habitats, or @coral to reference specific quote objects across documents. Also supports @elena, @climate, @circular for traditional references.' }]
-            }
-          ]
-        }}
-      />
-    </div>
-  );
-};
-
 export const Reference: Story = {
-  render: () => <ReferenceEditorExample />,
+  render: () => <ReferenceDemo />,
   parameters: {
     docs: {
       description: {
@@ -46,31 +19,8 @@ export const Reference: Story = {
   }
 };
 
-const BasicReferenceEditor = () => {
-  const handleReferenceSelect = useCallback(() => {}, []);
-
-  return (
-    <div className="layer">
-      <ReferenceEditor
-        data={basicReferenceCategories}
-        onReferenceSelect={handleReferenceSelect}
-        placeholder="Type @ to mention a user..."
-        content={getReferenceContentById('sustainability-team-meeting-content')?.content || {
-          type: 'doc',
-          content: [
-            {
-              type: 'paragraph',
-              content: [{ type: 'text', text: 'Basic user references for team collaboration. In the full system, quote objects would also be available here for cross-document referencing and discussions.' }]
-            }
-          ]
-        }}
-      />
-    </div>
-  );
-};
-
 export const Basic: Story = {
-  render: () => <BasicReferenceEditor />,
+  render: () => <BasicReferenceDemo />,
   parameters: {
     docs: {
       description: {
@@ -79,4 +29,3 @@ export const Basic: Story = {
     }
   }
 };
-
