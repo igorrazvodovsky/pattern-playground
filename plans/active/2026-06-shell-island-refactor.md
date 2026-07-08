@@ -14,6 +14,22 @@ superseded_by:
 Status: proposed, not started (2026-06-24). Follow-up to the `optimizeDeps`
 hydration fix in `apps/patterns/astro.config.mjs`.
 
+New motivation (2026-07-08, Astro 7 / Vite 8 upgrade): this refactor is no longer
+just an optimization — it's the fix for a concrete regression the upgrade
+introduced. Under `@astrojs/react` 6 + ClientRouter, re-hydrating the whole-page
+shell on every swap now throws a structural hydration mismatch
+(`<main data-slot="sidebar-inset">` vs `<div data-slot="sidebar">`) that React
+patches mid-transition, aborting the View Transition
+(`InvalidStateError: Transition was aborted`) on every client-side nav. Cosmetic
+(nav completes; the cross-page animation snaps), absent on Astro 6.4.8. Confirmed
+empirically that `transition:persist` on the *whole* `AppShell` does not fix it
+and staled the content — exactly the failure this plan's target architecture
+(persist only the sidebar, content as a sibling) is designed to avoid; see
+"Why `transition:persist` is safe here" below. The upgrade already landed the
+`open={hydrated && isOpen(...)}` collapsible-gate fix (the discarded
+`useNavHydration()` return), which removed the *collapsible-specific* mismatch;
+this plan removes the remaining *structural* one.
+
 ## Problem
 
 `apps/patterns/src/layouts/Base.astro` mounts the entire app shell as one

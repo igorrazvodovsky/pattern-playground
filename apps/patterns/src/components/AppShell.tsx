@@ -38,16 +38,22 @@ interface NavNodeProps {
   currentPath: string;
   isOpen: (key: string) => boolean;
   setOpen: (key: string, open: boolean) => void;
+  // Whether the persisted nav store has rehydrated from localStorage. Until it
+  // has, every group renders closed so the first client render matches the
+  // always-closed server HTML — otherwise the rehydrated singleton store (which
+  // survives ClientRouter navigations) opens groups on the client before React
+  // hydrates the swapped-in page, throwing a hydration mismatch.
+  hydrated: boolean;
 }
 
 const Chevron = () =>
   React.createElement('iconify-icon', { icon: 'ph:caret-down', className: 'sidebar-collapsible-chevron' });
 
-function NavNode({ node, currentPath, isOpen, setOpen }: NavNodeProps) {
+function NavNode({ node, currentPath, isOpen, setOpen, hydrated }: NavNodeProps) {
   if (isBranch(node)) {
     return (
       <SidebarMenuItem>
-        <Collapsible.Root open={isOpen(node.label)} onOpenChange={(open) => setOpen(node.label, open)}>
+        <Collapsible.Root open={hydrated && isOpen(node.label)} onOpenChange={(open) => setOpen(node.label, open)}>
           <SidebarMenuButton
             render={<Collapsible.Trigger />}
             className="sidebar-collapsible-group-trigger"
@@ -66,6 +72,7 @@ function NavNode({ node, currentPath, isOpen, setOpen }: NavNodeProps) {
                     currentPath={currentPath}
                     isOpen={isOpen}
                     setOpen={setOpen}
+                    hydrated={hydrated}
                   />
                 ))}
               </SidebarMenu>
@@ -98,7 +105,7 @@ function openSearch() {
 
 export function AppShell({ navItems, title, currentPath, children, slug, storybookUrl }: AppShellProps) {
   const { isOpen, setOpen } = useNavStore();
-  useNavHydration();
+  const hydrated = useNavHydration();
   return (
     <SidebarProvider>
       <Sidebar collapsible="icon">
@@ -135,6 +142,7 @@ export function AppShell({ navItems, title, currentPath, children, slug, storybo
                   currentPath={currentPath}
                   isOpen={isOpen}
                   setOpen={setOpen}
+                  hydrated={hydrated}
                 />
               ))}
             </SidebarMenu>
