@@ -67,8 +67,8 @@ Acting on understanding. The actor commits to changes — entering data, configu
 
 Orchestrating shared work and managing interface structure. The actor arranges tools, communicates with others, and maintains awareness.
 
-- [Toolbar](/patterns/toolbar) — contextual actions for the current task
-- [Nav bar](/patterns/nav-bar) — primary navigation structure
+- <ComponentRef id="components-toolbar--docs">Toolbar</ComponentRef> — contextual actions for the current task
+- <ComponentRef id="components-nav-bar--docs">Nav bar</ComponentRef> — primary navigation structure
 - <ComponentRef id="components-bubble-menu--docs">Bubble menu</ComponentRef> — inline contextual editing
 - <ComponentRef id="components-dropdown--docs">Dropdown</ComponentRef> — revealing options on demand
 - <ComponentRef id="components-priority--docs">Priority+</ComponentRef> — responsive action overflow

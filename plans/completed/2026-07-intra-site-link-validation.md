@@ -1,11 +1,11 @@
 ---
 title: "Intra-site link validation"
-status: "active"
+status: "completed"
 kind: "exec-spec"
 created: "2026-07-09"
 last_reviewed: "2026-07-09"
 area: "pattern-site, tooling"
-promoted_to: ""
+promoted_to: "apps/patterns/integrations/validate-cross-references.ts (checkIntraSiteLinks — the enforcement mechanism this plan produced)"
 superseded_by: ""
 depends_on: "plans/active/2026-07-workspace-split-closure.md (workstream 2 — the cross-surface validator this extends)"
 ---
@@ -31,7 +31,7 @@ Most broken links point at moves that the split relocated to Storybook as `role:
 | `/patterns/nav-bar` | `actions.md:71`, `fully-connected.mdx:25,47` | `<ComponentRef id="components-nav-bar--docs">` |
 | `/patterns/foundations/material/layout` | `malleability.mdx:28` | `<ComponentRef id="foundations-layout--docs">` |
 | `/patterns/foundations/material/color` | `malleability.mdx:28` | `<ComponentRef id="foundations-color--docs">` |
-| `/patterns/foundations/overview` | `agency.mdx:189` | Verdict owed — no `foundations-overview` site page or docs entry exists. Either a Storybook foundations ref or a rewrite of the "Foundation" heading link. |
+| `/patterns/foundations/overview` | `agency.mdx:189` | Rewritten to a plain-text `### Foundation` heading (was a link). No single foundations page or docs entry exists — Color/Layout/Typography/… are separate `role:component` docs, so any Storybook ref would misrepresent the whole level. Its three sibling headings (Operations/Actions/Activities) stay links to their `role:collection` pages; Foundation now doesn't, an intentional asymmetry. Body copy `At the  level` → `At the foundation level`. |
 
 All four ComponentRef targets are confirmed present in Storybook's `index.json`, so once rewritten they pass the workstream-2 ComponentRef check as well — the two checks are coupled, and this triage feeds both.
 
@@ -48,7 +48,11 @@ One false positive to design against: `RelatedPatterns.astro:151` matched `/patt
 
 ## Definition of done
 
-1. The five table rows resolved (four ComponentRef rewrites + the foundations-overview verdict); tree-wide sweep re-run to zero broken intra-site links.
-2. The third check added to the integration, scan scope per the decision above, aggregated into the single build-failing report.
-3. Break-test: a deliberately-broken `/patterns/<slug>` fails the build with file:line + suggestion; restored, green.
-4. Both builds green; graph regenerated with no unexpected diff (the ComponentRef rewrites drop no edges — the stale links carried no `rel=`).
+1. The five table rows resolved (four ComponentRef rewrites + the foundations-overview verdict); tree-wide sweep re-run to zero broken intra-site links. *Done.*
+2. The third check added to the integration, scan scope per the decision above (option b — content markdown links + `href="/patterns/…"` in `src/pages`/`src/layouts`/`src/components`, block comments stripped, `//` left alone since the href-only matcher never coincides with it), aggregated into the single build-failing report. *Done.*
+3. Break-test: a deliberately-broken `/patterns/<slug>` fails the build with file:line + suggestion; restored, green. *Done — verified on both a content link and an `.astro` href.*
+4. Both builds green; graph regenerated with no unexpected diff (the ComponentRef rewrites drop no edges — the stale links carried no `rel=`). *Done — graph regen produced zero diff.*
+
+## Landed caveat
+
+`<ComponentRef>` only renders as a Storybook link in `.mdx`. In the four `.md` collection pages (`actions.md`, `activities.md`, `operations.md`, `qualities.md`) it emits an inert `<componentref>` custom element — plain text, no link. This predates the workstream (the Bubble-menu/Dropdown/Priority+/Action-bar refs already in `actions.md` render the same way), so the `actions.md` Toolbar/Nav-bar rewrites are consistent with their siblings, not a new regression. Closing the gap (render ComponentRef in `.md`, or promote the collection pages to `.mdx`) is a separate concern from link validation and is left for a follow-up.

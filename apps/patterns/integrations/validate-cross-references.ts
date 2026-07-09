@@ -3,14 +3,18 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { AstroIntegration, AstroIntegrationLogger } from 'astro';
 
-// Build-time cross-reference validator between the two surfaces of the monorepo.
+// Build-time validator that every static reference resolves to its target. Two
+// of the three seams cross the monorepo's surfaces; the third stays within the
+// site — all are cross-references in the sense that a pointer must resolve.
 //
 // Site → Storybook: <ComponentRef id="components-button--docs"> in the pattern
 // content must resolve to a `docs` entry in Storybook's build-output index.json.
 // Storybook → site: <PatternRef slug="suggestion"> in Storybook MDX must match a
 // content file in apps/patterns/src/content/patterns/ (slug = filename stem).
+// Site → site: a static `/patterns/<slug>` link (in content prose or an
+// .astro/.tsx page body) must resolve to that same content-stem route space.
 //
-// Both checks run in one place — the site build — because the ComponentRef check
+// All three checks run in one place — the site build — because the ComponentRef check
 // needs Storybook's index.json (a build artifact) and the fallback-to-public copy
 // only has meaning inside a site build. The PatternRef check rides along here
 // rather than in the Storybook build: on the canonical root `npm run build`
@@ -25,6 +29,11 @@ const storybookIndexPrimary = join(rootDir, 'packages/components/storybook-stati
 const storybookIndexFallback = join(rootDir, 'apps/patterns/public/storybook/index.json');
 const patternsContentDir = join(rootDir, 'apps/patterns/src/content');
 const storyMdxDir = join(rootDir, 'packages/components/src/stories');
+// .astro/.tsx surfaces whose template bodies carry authored `/patterns/` hrefs in
+// page prose (e.g. index.astro). Content is scanned separately, as markdown.
+const astroScanDirs = ['src/pages', 'src/layouts', 'src/components'].map((dir) =>
+  join(rootDir, 'apps/patterns', dir),
+);
 
 interface StorybookEntry {
   id: string;
@@ -55,6 +64,17 @@ interface Violation {
 const COMPONENT_REF_RE = /<ComponentRef\b([^>]*?)(?:\/?>|>[^<]*<\/ComponentRef>)/g;
 const PATTERN_REF_RE = /<PatternRef\b([^>]*?)(?:\/?>|>[^<]*<\/PatternRef>)/g;
 
+// Site → site: a static `/patterns/<slug>` link must resolve to a content stem.
+// In content prose it appears as a markdown link target `](/patterns/slug)`; in
+// .astro/.tsx bodies as an `href="/patterns/slug"` attribute. Anchors (`#…`) are
+// stripped; the char class includes `/`, so a nested legacy slug like
+// `foundations/material/layout` is captured whole and fails as one unit. The
+// astro form is matched href-only (not the markdown form) so a `[text](/patterns/
+// slug)` example inside a code comment can't false-flag, and dynamic
+// `href={`/patterns/${…}`}` uses backticks and is skipped.
+const CONTENT_LINK_RE = /\]\(\/patterns\/([A-Za-z0-9/_-]+)(?:#[A-Za-z0-9/_-]*)?\)/g;
+const ASTRO_LINK_RE = /href=(["'])\/patterns\/([A-Za-z0-9/_-]+)(?:#[A-Za-z0-9/_-]*)?\1/g;
+
 function extractTagAttr(attrs: string, name: string): string | undefined {
   const m = attrs.match(new RegExp(`\\b${name}="([^"]+)"`));
   return m?.[1];
@@ -67,6 +87,19 @@ function stripComments(content: string): string {
   return content.replace(/\{\/\*[\s\S]*?\*\/\}/g, (match) => match.replace(/[^\n]/g, ' '));
 }
 
+// Blank out comments in .astro/.tsx so an href example inside one isn't validated.
+// Block forms only ({/* */}, /* */, <!-- -->); `//` is left alone — it isn't a
+// comment in .astro template bodies, and the href-only matcher never coincides
+// with a `//` sequence, so stripping it would only risk blanking a real href.
+// Newlines are preserved so reported line numbers stay accurate.
+function stripCodeComments(content: string): string {
+  const blank = (match: string) => match.replace(/[^\n]/g, ' ');
+  return content
+    .replace(/\{\/\*[\s\S]*?\*\/\}/g, blank)
+    .replace(/\/\*[\s\S]*?\*\//g, blank)
+    .replace(/<!--[\s\S]*?-->/g, blank);
+}
+
 function fileExists(path: string): boolean {
   try {
     return statSync(path).isFile();
@@ -75,18 +108,22 @@ function fileExists(path: string): boolean {
   }
 }
 
-function walkMdx(dir: string): string[] {
+function walk(dir: string, exts: readonly string[]): string[] {
   const results: string[] = [];
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
-    if (entry.name === '.obsidian' || entry.name === 'node_modules') continue;
+    if (entry.name === '.obsidian' || entry.name === 'node_modules' || entry.name === 'dist') continue;
     const full = join(dir, entry.name);
     if (entry.isDirectory()) {
-      results.push(...walkMdx(full));
-    } else if (entry.name.endsWith('.mdx') || entry.name.endsWith('.md')) {
+      results.push(...walk(full, exts));
+    } else if (exts.some((ext) => entry.name.endsWith(ext))) {
       results.push(full);
     }
   }
   return results;
+}
+
+function walkMdx(dir: string): string[] {
+  return walk(dir, ['.mdx', '.md']);
 }
 
 function relPath(absolute: string): string {
@@ -111,6 +148,26 @@ function collectRefs(files: string[], tagRe: RegExp, attr: string): RefUse[] {
     while ((m = tagRe.exec(content)) !== null) {
       const value = extractTagAttr(m[1], attr);
       if (value) uses.push({ value, file, line: lineOf(content, m.index) });
+    }
+  }
+  return uses;
+}
+
+/** Collect capture-group `group` from every `re` match, with file + line. `strip`
+ *  blanks comments for the file kind (JSX for content, block for .astro/.tsx). */
+function collectLinks(
+  files: string[],
+  re: RegExp,
+  group: number,
+  strip: (content: string) => string,
+): RefUse[] {
+  const uses: RefUse[] = [];
+  for (const file of files) {
+    const content = strip(readFileSync(file, 'utf-8'));
+    re.lastIndex = 0;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(content)) !== null) {
+      uses.push({ value: m[group], file, line: lineOf(content, m.index) });
     }
   }
   return uses;
@@ -201,15 +258,19 @@ function checkComponentRefs(index: StorybookIndex, logger: AstroIntegrationLogge
   return violations;
 }
 
-/** Every `<PatternRef slug>` in Storybook MDX must match a content file stem. */
-function checkPatternRefs(logger: AstroIntegrationLogger): Violation[] {
-  // Route space is the content collection: both .mdx and .md files back a
-  // `/patterns/<stem>` page (e.g. qualities.md), so both are valid slug targets.
-  const stems = new Set(
+// The `/patterns/<stem>` route space: both .mdx and .md files in the content
+// collection back a page (e.g. qualities.md), so both are valid slug targets.
+function contentStems(): Set<string> {
+  return new Set(
     readdirSync(join(patternsContentDir, 'patterns'))
       .filter((name) => name.endsWith('.mdx') || name.endsWith('.md'))
       .map((name) => name.replace(/\.mdx?$/, '')),
   );
+}
+
+/** Every `<PatternRef slug>` in Storybook MDX must match a content file stem. */
+function checkPatternRefs(logger: AstroIntegrationLogger): Violation[] {
+  const stems = contentStems();
 
   const uses = collectRefs(walkMdx(storyMdxDir), PATTERN_REF_RE, 'slug');
   const violations: Violation[] = [];
@@ -230,15 +291,48 @@ function checkPatternRefs(logger: AstroIntegrationLogger): Violation[] {
   return violations;
 }
 
+/** Every static `/patterns/<slug>` link — in content prose and in .astro/.tsx
+ *  page bodies — must resolve to a content stem, or the route dangles. */
+function checkIntraSiteLinks(logger: AstroIntegrationLogger): Violation[] {
+  const stems = contentStems();
+
+  const uses = [
+    ...collectLinks(walkMdx(patternsContentDir), CONTENT_LINK_RE, 1, stripComments),
+    ...astroScanDirs.flatMap((dir) =>
+      collectLinks(walk(dir, ['.astro', '.tsx']), ASTRO_LINK_RE, 2, stripCodeComments),
+    ),
+  ];
+
+  const violations: Violation[] = [];
+  for (const use of uses) {
+    if (stems.has(use.value)) continue;
+    const suggestion = nearest(use.value, stems);
+    violations.push({
+      file: relPath(use.file),
+      line: use.line,
+      message:
+        `/patterns/${use.value} resolves to no pattern route ` +
+        `(apps/patterns/src/content/patterns/${use.value}.{md,mdx})` +
+        (suggestion ? ` — did you mean "/patterns/${suggestion}"?` : '.'),
+    });
+  }
+  logger.info(`Checked ${uses.length} intra-site /patterns/ link(s) against ${stems.size} content stems.`);
+  return violations;
+}
+
 export default function validateCrossReferences(): AstroIntegration {
   return {
     name: 'validate-cross-references',
     hooks: {
       'astro:build:start': ({ logger }) => {
         const index = loadStorybookIndex(logger);
-        // Collect both checks and report once, so a build doesn't fail on the
-        // ComponentRef pass, get fixed, then fail again on the PatternRef pass.
-        const violations = [...checkComponentRefs(index, logger), ...checkPatternRefs(logger)];
+        // Collect all three checks and report once, so a build doesn't fail on the
+        // ComponentRef pass, get fixed, then fail again on the next pass.
+        const violations = [
+          ...checkComponentRefs(index, logger),
+          ...checkPatternRefs(logger),
+          ...checkIntraSiteLinks(logger),
+        ];
 
         if (violations.length > 0) {
           const report = violations
