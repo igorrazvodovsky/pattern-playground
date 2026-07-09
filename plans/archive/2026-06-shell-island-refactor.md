@@ -1,6 +1,6 @@
 ---
 title: Shrink the client:load shell surface — persistent sidebar island, static content
-status: active
+status: completed
 kind: exec-spec
 created: 2026-06-24
 last_reviewed: 2026-06-24
