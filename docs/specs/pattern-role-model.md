@@ -58,6 +58,31 @@ accessibility), it decomposes:
 - Expect to author the move content fresh, from the situation inward. Control
   pages rarely contain the move prose the rule implies.
 
+### Decomposition signals
+
+What the normal classification process lacks when an entry straddles the
+move/mechanism seam. Signals are named, not numbered, so the list can grow. See  worked narratives in the decomposition section of
+[plans/completed/2026-05-workspace-split.md](../../plans/completed/2026-05-workspace-split.md).
+
+- *The residue test.* Before assuming a mixed page hides a move, attribute
+  every chunk of the page to an existing neighbour node. Residue has three
+  possible homes: the page's own generative core (Combobox → Bounded choice);
+  nothing — the page is a collection regardless of length; or a move at a
+  different node entirely, a sibling the page merely instances (Form's
+  conversational chunk → Inline interface). A walk that eagerly matches every
+  chunk to a neighbour misses the third case; when a chunk only loosely fits
+  its assigned neighbour, re-run the attribution. Discriminate residue by
+  breadth: craft or substrate serving one container is a *gap* — document it
+  at the altitude that already works and promote it only on concrete need;
+  residue with its own forces and instances beyond the page that surfaced it
+  is a *move* — author it. A page with no residue demotes whole to the form
+  language (Dual listbox, Morphing controls).
+- *Seam naming.* Test whether the name transfers to any valid realisation of
+  the move. A widget name renames to the move (Combobox → Bounded choice); a
+  word that names both the human act and the artifact (Form) stays the same
+  on both surfaces, bilingual like qualities and foundations. Head-noun
+  constraints under Naming below.
+
 ### Naming
 
 - Name a move by what the actor is doing, not by the component that implements

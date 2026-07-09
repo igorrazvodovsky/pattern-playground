@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const meta = {
-  title: "Operations/Sections",
+  title: "Components/Sections",
   tags: ["autodocs", "activity-level:operation", "atomic:component", "mediation:individual"],
   parameters: {
     docs: {

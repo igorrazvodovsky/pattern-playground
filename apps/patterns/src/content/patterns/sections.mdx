@@ -16,33 +16,26 @@ relationships:
       note: organising content into named groups is a prerequisite for sectioning
   enacts:
     - to: adaptation
-      note: sections rearrange and reveal content based on context (collapsed by default for unfamiliar areas, expanded for the work in front of the actor) without learning from behaviour
+      note: sections rearrange and reveal content based on context
 ---
 
-{/* TODO: Storybook demo exists — packages/components/src/stories/Sections.stories.tsx */}
+Presenting the same named parts of content through whichever disclosure affordance the context calls for.
 
-
-An adaptive container that presents the same content structure through different affordances depending on context.
+<Demo label="Sections as a tab bar">
+  <pp-sections affordance="tab-bar">
+    <h3>Overview</h3>
+    <p>A high-level summary that sets expectations and helps the reader decide whether to continue into the detail below.</p>
+    <h3>Details</h3>
+    <p>The mechanics: specifications, constraints, and the nuanced decisions that shape implementation.</p>
+    <h3>References</h3>
+    <p>Source material, prior art, and external standards that informed the design.</p>
+  </pp-sections>
+</Demo>
 
 Content often divides into a small, stable set of named parts. Whether those parts appear as horizontal tabs or collapsible disclosure regions is not a property of the content — it's a property of the *context*: available space, information density, reading mode.
-Sections treats this as a single design decision rather than a choice between separate components.
 
-The two modes — tab bar and details — are not layout options but *disclosure affordances*: different ways of managing which content is visible and how the actor navigates between parts.
+Tab bar and collapsible details — the pair the current <ComponentRef id="components-sections--docs">mechanism</ComponentRef> offers — are not layout options but *disclosure affordances*: different ways of managing which content is visible and how the actor navigates between parts. The set is open; a vertical tab rail or an exclusive accordion would answer the same contract.
 
-## Related components
+## To-do
 
-- <ComponentRef id="components-tabs--docs">Tabs</ComponentRef> — the implementation is more complete when it comes to tab-related functionality: overflow scrolling, icon and subtitle slots, auto/manual activation.
-- <ComponentRef id="primitives-details--docs">Details</ComponentRef> — the standalone disclosure primitive that Sections' `details` affordance mirrors across multiple siblings
-
-## Resources & references
-
-- Kardell, B. (2021). [Spicy Sections](https://bkardell.com/blog/SpicySections.html)
-- de Vries, H. (2021). [Trying out Spicy Sections on here](https://hidde.blog/trying-out-spicy-sections-on-here/)
-- Coyier, C. (2021). [Spicy Sections](https://css-tricks.com/spicy-sections/) — CSS-Tricks
-- [Tabvengers / spicy-sections](https://github.com/tabvengers/spicy-sections) — GitHub repository (CC0)
-- [Open UI — Tabs research](https://open-ui.org/components/tabs.research/)
-
-## TODO:
-
-- *Focus rescue* — when focus is on a tab button and the affordance switches to `details`, the tab button disappears. Focus is not currently redirected to the corresponding heading trigger.
-- *Vertical tab bar* — not currently supported (horizontal only).
+- *Affordance follows context* — the general move this pattern makes over named content parts and <ComponentRef id="components-priority--docs">Priority+</ComponentRef> makes over inline groups of stuff.

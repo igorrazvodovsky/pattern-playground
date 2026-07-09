@@ -523,13 +523,6 @@
       "role": "pattern"
     },
     {
-      "id": "nav-bar",
-      "title": "Nav bar",
-      "category": "Actions",
-      "path": "/patterns/nav-bar",
-      "role": "pattern"
-    },
-    {
       "id": "navigation-overview",
       "title": "Overview",
       "category": "Actions",
@@ -764,13 +757,6 @@
       "title": "Text lens",
       "category": "Actions",
       "path": "/patterns/text-lense",
-      "role": "pattern"
-    },
-    {
-      "id": "toolbar",
-      "title": "Toolbar",
-      "category": "Actions",
-      "path": "/patterns/toolbar",
       "role": "pattern"
     },
     {
@@ -1460,6 +1446,19 @@
       "extractedFrom": "frontmatter:enables"
     },
     {
+      "source": "command-menu",
+      "target": "block-based-editor",
+      "type": "enables",
+      "incomingNote": "picking a block and placing it; summoned at the current position",
+      "extractedFrom": "frontmatter:composed-of"
+    },
+    {
+      "source": "block-based-editor",
+      "target": "formality",
+      "type": "enacts",
+      "extractedFrom": "auto:quality-target"
+    },
+    {
       "source": "bot",
       "target": "activity-log",
       "type": "precedes",
@@ -1831,13 +1830,6 @@
     },
     {
       "source": "command-menu",
-      "target": "toolbar",
-      "type": "complements",
-      "label": "exposes a persistent subset of commands; a command menu offers the full set on demand",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "command-menu",
       "target": "collaboration",
       "type": "complements",
       "label": "Command menus provide quick access to collaborative actions and workflows",
@@ -1856,13 +1848,6 @@
       "type": "precedes",
       "label": "context menus show only relevant commands, hiding those inaccessible in the current context",
       "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "command-menu",
-      "target": "filtering",
-      "type": "enables",
-      "label": "provides the local search through attributes and values",
-      "extractedFrom": "frontmatter:enables"
     },
     {
       "source": "commenting",
@@ -2574,12 +2559,6 @@
     },
     {
       "source": "fully-connected",
-      "target": "nav-bar",
-      "type": "complements",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "fully-connected",
       "target": "hybrid-patterns",
       "type": "complements",
       "extractedFrom": "frontmatter:complements"
@@ -3171,13 +3150,6 @@
     },
     {
       "source": "keyboard-shortcuts",
-      "target": "toolbar",
-      "type": "complements",
-      "label": "both expose the same commands by different means — toolbar as persistent visual affordance, shortcuts as invisible motor memory",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "keyboard-shortcuts",
       "target": "agency",
       "type": "enacts",
       "label": "an actor who has internalised the shortcut vocabulary can execute intent without navigating the interface at all",
@@ -3593,33 +3565,6 @@
       "target": "hybrid-patterns",
       "type": "related",
       "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "nav-bar",
-      "target": "navigation-overview",
-      "type": "related",
-      "label": "full suite of navigation patterns",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "nav-bar",
-      "target": "information-architecture",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "nav-bar",
-      "target": "multilevel-tree",
-      "type": "related",
-      "label": "when using dropdowns or expandable menus for hierarchical navigation",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "nav-bar",
-      "target": "command-menu",
-      "type": "alternative",
-      "label": "alternative navigation for power users",
-      "extractedFrom": "frontmatter:alternative"
     },
     {
       "source": "navigation-overview",
@@ -4399,7 +4344,7 @@
       "source": "sections",
       "target": "adaptation",
       "type": "enacts",
-      "label": "sections rearrange and reveal content based on context (collapsed by default for unfamiliar areas, expanded for the work in front of the actor) without learning from behaviour",
+      "label": "sections rearrange and reveal content based on context",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -4838,55 +4783,6 @@
       "extractedFrom": "frontmatter:related"
     },
     {
-      "source": "toolbar",
-      "target": "data-view",
-      "type": "precedes",
-      "label": "the toolbar provides the persistent surface where the view's collection controls live",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "toolbar",
-      "target": "filtering",
-      "type": "precedes",
-      "label": "the toolbar hosts the filter control the move launches from",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "toolbar",
-      "target": "grouping",
-      "type": "precedes",
-      "label": "the toolbar hosts the group-by control the move launches from",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "toolbar",
-      "target": "sorting",
-      "type": "precedes",
-      "label": "the toolbar hosts the sort control the move launches from",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "toolbar",
-      "target": "unavailable-actions",
-      "type": "related",
-      "label": "the pattern behind hiding toolbar items that are inaccessible in the current context",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "toolbar",
-      "target": "command-menu",
-      "type": "complements",
-      "label": "a keyboard-driven complement; exposes the full command set on demand where the toolbar exposes a persistent subset",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "toolbar",
-      "target": "agency",
-      "type": "enacts",
-      "label": "puts the relevant actions within reach, surfacing the ones that fit the actor's current intent",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
       "source": "transient-feedback",
       "target": "status-feedback",
       "type": "instantiates",
@@ -4980,13 +4876,6 @@
       "target": "progressive-disclosure",
       "type": "related",
       "label": "a softer form: deferring rather than removing",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "unavailable-actions",
-      "target": "toolbar",
-      "type": "related",
-      "label": "primary context where actions are hidden based on selection or state",
       "extractedFrom": "frontmatter:related"
     },
     {

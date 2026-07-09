@@ -1,7 +1,7 @@
 import { Meta, Story } from '@storybook/addon-docs/blocks';
 import * as ToolbarStories from './Toolbar.stories.tsx';
 
-<Meta of={ToolbarStories} tags={['activity-level:action', 'atomic:composition', 'role:pattern', 'lifecycle:coordination', 'mediation:coordination']} />
+<Meta of={ToolbarStories} tags={['activity-level:action', 'atomic:composition', 'role:component', 'lifecycle:coordination', 'mediation:coordination']} />
 
 {/* > 🙂 **Fun meter: 3/5**. Dependency. */}
 
@@ -9,7 +9,7 @@ import * as ToolbarStories from './Toolbar.stories.tsx';
 
 The persistent exposure of frequently used commands, balancing quick access with visual economy.
 
-<Story of={ ToolbarStories.Toolbar } />
+<Story of={ToolbarStories.Toolbar} />
 
 ## Context
 
@@ -26,12 +26,11 @@ Features should be sorted in order of importance. Secondarily, features should b
 {/* - Start:  */}
 {/* - End: important items that need to remain available, an optional search field, and the More menu that contains additional items. It also includes a primary action when one exists. */}
 
-## Related patterns
+## Related components
 
 - [Action bar](../?path=/docs/components-action-bar--docs) — the transient counterpart; summoned by selection rather than persistent, and typically composes a toolbar internally for its action group
 - [Priority+](../?path=/docs/components-priority--docs) — handles overflow when toolbar items don't fit the available space
 - [Command menu](../?path=/docs/components-command-menu--docs) — a keyboard-driven complement; exposes the full command set on demand where the toolbar exposes a persistent subset
-- <PatternRef slug="unavailable-actions">Unavailable actions</PatternRef> — the pattern behind hiding toolbar items that are inaccessible in the current context
 
 {/* # Resources & references */}
 

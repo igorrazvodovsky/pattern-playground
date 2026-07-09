@@ -427,12 +427,6 @@
       "atomic-category": "composition",
       "mediation": "individual"
     },
-    "nav-bar": {
-      "activity-level": "action",
-      "lifecycle-stage": "coordination",
-      "atomic-category": "composition",
-      "mediation": "coordination"
-    },
     "navigation-overview": {
       "activity-level": "action",
       "lifecycle-stage": null,
@@ -618,12 +612,6 @@
       "lifecycle-stage": "evaluation",
       "atomic-category": "pattern",
       "mediation": "individual"
-    },
-    "toolbar": {
-      "activity-level": "action",
-      "lifecycle-stage": "coordination",
-      "atomic-category": "composition",
-      "mediation": "coordination"
     },
     "transient-feedback": {
       "activity-level": "operation",

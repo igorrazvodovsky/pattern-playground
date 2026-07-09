@@ -1,7 +1,7 @@
 import { Canvas, Story, Meta, Subtitle } from '@storybook/addon-docs/blocks';
 import * as BlockBasedEditorStories from './BlockBasedEditor.stories.tsx';
 
-<Meta of={BlockBasedEditorStories} tags={['activity-level:action', 'atomic:composition', 'role:umbrella', 'lifecycle:sense-making', 'mediation:individual']} />
+<Meta of={BlockBasedEditorStories} tags={['activity-level:action', 'atomic:composition', 'role:component', 'lifecycle:sense-making', 'mediation:individual']} />
 
 {/* > 🙂 **Fun meter: 5/5** Foundation for a block-based fun. */}
 
@@ -11,34 +11,16 @@ The composition of structured content from modular blocks, balancing the fluidit
 
 <Story of={BlockBasedEditorStories.Basic} />
 
-## Adding blocks
+This is the reusable substrate (`@pkg/demos/block-based-editor`) shared between this story and the pattern site; the [bubble menu](../?path=/docs/components-bubble-menu--docs) is currently realised within it. Select text to raise the bubble menu, or type `@` to trigger a reference.
 
-{/* Natural language or slash-command invocation for inserting blocks or triggering AI assistance. */}
+The move it realises — composing content from modular blocks, balancing the fluidity of prose with the precision of structured data — lives in the pattern language as <PatternRef slug="block-based-editor">Block-based editor</PatternRef>.
 
-### Floating menu
+## Related components
 
-...
+- [Bubble menu](../?path=/docs/components-bubble-menu--docs) — the contextual text-selection actions surfaced inside the editor
+- [Reference](../?path=/docs/primitives-reference--docs) — the @-mention primitive the editor embeds
 
-### Slash commands
+## To-do
 
-...
-
-### Passing to LLM
-
-...
-
-## References
-{/* TODO: Embed reference example */}
-...
-
-## Contextual actions
-
-Select block(s) or text spans and invoke LLM from contextual menu.
-
-{/* TODO: Embed bubble menu story */}
-{/* See [Bubble menu](../../components/bubble-menu--docs) for contextual text-selection patterns. */}
-
-## Co-editing & attribution
-{/* Parallel human/AI editing with attribution chips or overlays. */}
-...
-
+- 
+- Co-editing & attribution: Parallel human/AI editing with attribution chips or overlays.
