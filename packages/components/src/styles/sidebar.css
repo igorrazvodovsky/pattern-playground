@@ -4,6 +4,11 @@
    * ------------------------------------------------------------------------- */
 
   [data-slot="sidebar-wrapper"] {
+    /* Icon-collapsed rail width. Also set inline by SidebarProvider when it
+     * renders the wrapper; declared here too so a static Astro wrapper
+     * (renderWrapper={false}) still resolves it and ⌘B icon-collapse works.
+     * --sidebar-width itself is set in the app's app.css. */
+    --sidebar-width-icon: 3rem;
     --sidebar: var(--c-neutral-0);
     --sidebar-foreground: var(--c-neutral-800);
     --sidebar-primary: var(--c-accent-500);

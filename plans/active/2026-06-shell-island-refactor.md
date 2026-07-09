@@ -11,24 +11,41 @@ superseded_by:
 
 # Shrink the `client:load` shell surface
 
-Status: proposed, not started (2026-06-24). Follow-up to the `optimizeDeps`
-hydration fix in `apps/patterns/astro.config.mjs`.
+Status: implemented (2026-07-08), dev + prod-build verified. Follow-up to the
+`optimizeDeps` hydration fix in `apps/patterns/astro.config.mjs`. Two items still
+need a manual pass: mobile `Dialog` + persist (harness couldn't reach the mobile
+viewport) and a real-device check of the ⌘B-only drawer. The View-Transition
+abort this plan hoped to fix is not fixed — see the correction under "New
+motivation" below.
 
-New motivation (2026-07-08, Astro 7 / Vite 8 upgrade): this refactor is no longer
-just an optimization — it's the fix for a concrete regression the upgrade
-introduced. Under `@astrojs/react` 6 + ClientRouter, re-hydrating the whole-page
-shell on every swap now throws a structural hydration mismatch
-(`<main data-slot="sidebar-inset">` vs `<div data-slot="sidebar">`) that React
-patches mid-transition, aborting the View Transition
+New motivation (2026-07-08, Astro 7 / Vite 8 upgrade) — DISPROVEN, see below.
+The hypothesis was that this refactor also fixes a concrete regression the
+upgrade introduced: under `@astrojs/react` 6 + ClientRouter, re-hydrating the
+whole-page shell on every swap was thought to throw a structural hydration
+mismatch (`<main data-slot="sidebar-inset">` vs `<div data-slot="sidebar">`) that
+React patches mid-transition, aborting the View Transition
 (`InvalidStateError: Transition was aborted`) on every client-side nav. Cosmetic
-(nav completes; the cross-page animation snaps), absent on Astro 6.4.8. Confirmed
-empirically that `transition:persist` on the *whole* `AppShell` does not fix it
-and staled the content — exactly the failure this plan's target architecture
-(persist only the sidebar, content as a sibling) is designed to avoid; see
-"Why `transition:persist` is safe here" below. The upgrade already landed the
-`open={hydrated && isOpen(...)}` collapsible-gate fix (the discarded
-`useNavHydration()` return), which removed the *collapsible-specific* mismatch;
-this plan removes the remaining *structural* one.
+(nav completes; the cross-page animation snaps), absent on Astro 6.4.8.
+
+Correction (2026-07-08, verified during implementation): the abort is NOT caused
+by shell re-hydration, and this refactor does NOT fix it. A/B test — stash the
+implemented branch back to the pre-refactor `AppShell`, run the same A→B→A
+navigation — shows the abort fires identically in both states: once per
+client-side nav, on `transition.ready` (not `updateCallbackDone` — the DOM swap
+itself succeeds), thrown from inside Astro's own `transitions-router.js`.
+Confirmed in a production `build` + `preview` too (swap completes, content + title
+correct; only the animation snaps). So the abort is an Astro 7
+ClientRouter / View-Transitions issue independent of the shell, tracked with the
+Astro-7 upgrade's "open cosmetic view-transition-abort regression", not fixable
+here. The upgrade already landed the `open={hydrated && isOpen(...)}`
+collapsible-gate fix (the discarded `useNavHydration()` return), which removed the
+*collapsible-specific* mismatch.
+
+What survives: this plan's ORIGINAL 2026-06 motivation — stop re-hydrating the
+whole shell on every navigation — stands on its own (delivered and verified: the
+`Nav` island hydrates once and is never re-created across navigations). It remains
+optional per "This is optional" below; ship it for the re-hydration saving, not
+for an abort fix.
 
 ## Problem
 

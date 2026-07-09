@@ -49,12 +49,18 @@ export interface SidebarProviderProps extends React.ComponentProps<'div'> {
   defaultOpen?: boolean;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  // When false, provide context (and the tooltip provider) without rendering
+  // the `.sidebar-wrapper` flex host. Used when the host lives in static Astro
+  // markup so the page content can be a sibling of the sidebar rather than a
+  // child of this island. Defaults to true — the standalone/Storybook behaviour.
+  renderWrapper?: boolean;
 }
 
 export function SidebarProvider({
   defaultOpen = true,
   open: openProp,
   onOpenChange,
+  renderWrapper = true,
   className,
   style,
   children,
@@ -104,20 +110,24 @@ export function SidebarProvider({
   return (
     <SidebarContext.Provider value={value}>
       <Tooltip.Provider delay={0}>
-        <div
-          data-slot="sidebar-wrapper"
-          style={
-            {
-              '--sidebar-width': SIDEBAR_WIDTH,
-              '--sidebar-width-icon': SIDEBAR_WIDTH_ICON,
-              ...style,
-            } as React.CSSProperties
-          }
-          className={clsx('sidebar-wrapper', className)}
-          {...props}
-        >
-          {children}
-        </div>
+        {renderWrapper ? (
+          <div
+            data-slot="sidebar-wrapper"
+            style={
+              {
+                '--sidebar-width': SIDEBAR_WIDTH,
+                '--sidebar-width-icon': SIDEBAR_WIDTH_ICON,
+                ...style,
+              } as React.CSSProperties
+            }
+            className={clsx('sidebar-wrapper', className)}
+            {...props}
+          >
+            {children}
+          </div>
+        ) : (
+          children
+        )}
       </Tooltip.Provider>
     </SidebarContext.Provider>
   );

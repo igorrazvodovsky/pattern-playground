@@ -5,14 +5,14 @@ import '@styles/main.css';
 import '../styles/app.css';
 import '../styles/stack.css';
 import '../styles/link-preview.css';
-import { AppShell } from '../components/AppShell';
+import { Nav } from '../components/Nav';
+import { StackManager } from '../components/StackManager';
 
 interface Props {
   title: string;
   slug?: string;
 }
 const { title, slug } = Astro.props;
-const currentPath = Astro.url.pathname;
 const storybookUrl = import.meta.env.PUBLIC_STORYBOOK_URL ?? 'http://localhost:6006';
 
 type NavLeaf = { label: string; href: string };
@@ -126,9 +126,20 @@ const navItems: NavGroup[] = [
     </style>
   </head>
   <body>
-    <AppShell client:load navItems={navItems} title={title} currentPath={currentPath} slug={slug} storybookUrl={storybookUrl}>
-      <slot />
-    </AppShell>
+    <div class="sidebar-wrapper" data-slot="sidebar-wrapper">
+      <Nav client:load transition:persist="app-nav" navItems={navItems} storybookUrl={storybookUrl} />
+      <main class="sidebar-inset" data-slot="sidebar-inset">
+        {slug ? (
+          <StackManager client:load slug={slug} title={title}>
+            <slot />
+          </StackManager>
+        ) : (
+          <div class="content-inset">
+            <slot />
+          </div>
+        )}
+      </main>
+    </div>
     <!-- Search. We drive the modal's open() method ourselves rather than using
          <pagefind-modal-trigger>: the bundled trigger's coordination with the
          modal is established once at script load and goes stale across

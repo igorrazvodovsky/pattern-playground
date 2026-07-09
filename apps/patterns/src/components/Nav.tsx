@@ -10,22 +10,17 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarInset,
 } from '@components/sidebar';
-import { StackManager } from './StackManager';
 import { useNavStore, useNavHydration } from '../lib/nav-store';
+import { useActivePath, isActivePath } from '../lib/active-path';
 
 type NavLeaf = { label: string; href: string };
 type NavBranch = { label: string; children: NavTreeNode[] };
 type NavTreeNode = NavLeaf | NavBranch;
 type NavGroup = NavBranch;
 
-interface AppShellProps {
+interface NavProps {
   navItems: NavGroup[];
-  title: string;
-  currentPath: string;
-  children: React.ReactNode;
-  slug?: string;
   storybookUrl: string;
 }
 
@@ -86,7 +81,7 @@ function NavNode({ node, currentPath, isOpen, setOpen, hydrated }: NavNodeProps)
     <SidebarMenuItem>
       <SidebarMenuButton
         render={<a href={node.href} />}
-        isActive={currentPath === node.href}
+        isActive={isActivePath(node.href, currentPath)}
         tooltip={node.label}
       >
         {node.label}
@@ -103,11 +98,17 @@ function openSearch() {
   modal?.open?.();
 }
 
-export function AppShell({ navItems, title, currentPath, children, slug, storybookUrl }: AppShellProps) {
+// The persistent sidebar island. `transition:persist`ed in Base.astro, so it
+// hydrates once and survives ClientRouter swaps instead of re-hydrating per
+// navigation. The page content is a static sibling (not a child) of this
+// island; active-link state comes from the runtime URL via useActivePath, not a
+// prop, since a persisted island never re-renders on navigation.
+export function Nav({ navItems, storybookUrl }: NavProps) {
   const { isOpen, setOpen } = useNavStore();
   const hydrated = useNavHydration();
+  const currentPath = useActivePath();
   return (
-    <SidebarProvider>
+    <SidebarProvider renderWrapper={false}>
       <Sidebar collapsible="icon">
         <SidebarContent>
           <a href="/" className="sidebar-logo">
@@ -129,7 +130,7 @@ export function AppShell({ navItems, title, currentPath, children, slug, storybo
               <SidebarMenuItem>
                 <SidebarMenuButton
                   render={<a href="/" />}
-                  isActive={currentPath === '/'}
+                  isActive={isActivePath('/', currentPath)}
                   tooltip="Introduction"
                 >
                   Introduction
@@ -162,17 +163,6 @@ export function AppShell({ navItems, title, currentPath, children, slug, storybo
           </SidebarMenu>
         </SidebarFooter>
       </Sidebar>
-      <SidebarInset>
-        {slug ? (
-          <StackManager slug={slug} title={title}>
-            {children}
-          </StackManager>
-        ) : (
-          <div className="content-inset">
-            {children}
-          </div>
-        )}
-      </SidebarInset>
     </SidebarProvider>
   );
 }
