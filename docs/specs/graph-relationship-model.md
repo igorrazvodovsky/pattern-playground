@@ -14,10 +14,14 @@ matched mechanically against a design situation.
 
 - Source material is `apps/patterns/src/content/patterns/**/*.mdx`. The graph is
   language-only: pattern, quality, foundation, and collection nodes. Components do
-  not contribute nodes — they resolve outside the graph, against the component
-  manifest (see [2026-07-workspace-split-closure.md](../../plans/active/2026-07-workspace-split-closure.md),
-  workstream 2), with `<ComponentRef>` cross-references replacing within-graph
-  component edges.
+  not contribute nodes — they resolve outside the graph, against Storybook's build
+  output `index.json` (`packages/components/storybook-static/index.json`, copied to
+  `apps/patterns/public/storybook/index.json`), which is the resolution dataset for
+  `<ComponentRef id>`. A build-time validator (`apps/patterns/integrations/validate-cross-references.ts`)
+  checks every `<ComponentRef id>` against it, and every `<PatternRef slug>` in
+  Storybook MDX against the content stems, failing the site build on any broken
+  reference. See [2026-07-workspace-split-closure.md](../../plans/active/2026-07-workspace-split-closure.md),
+  workstream 2.
 - `scripts/extract-graph-data.ts` derives `apps/patterns/src/data/pattern-graph.json`
   and related generated data.
 - Node metadata includes title, category, path, role, tags, and extracted

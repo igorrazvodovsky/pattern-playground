@@ -6,11 +6,12 @@ import { unified } from '@astrojs/markdown-remark';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import remarkRelStrip from '../../shared/remark-rel-strip.ts';
+import validateCrossReferences from './integrations/validate-cross-references.ts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  integrations: [lit(), mdx(), react()],
+  integrations: [lit(), mdx(), react(), validateCrossReferences()],
   publicDir: path.resolve(__dirname, '../../public'),
   // Astro 7 defaults Markdown/MDX to the native Sätteri pipeline, which does
   // not run remark plugins. Switch both .md and .mdx back to the unified
