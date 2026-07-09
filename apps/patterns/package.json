@@ -14,11 +14,20 @@
     "@astrojs/markdown-remark": "^7.2.1",
     "@astrojs/mdx": "^7.0.2",
     "@astrojs/react": "^6.0.1",
+    "@base-ui/react": "^1.4.1",
+    "@floating-ui/dom": "^1.7.4",
+    "@iconify/react": "^6.0.1",
+    "@pattern-plgrnd/components": "*",
+    "@pattern-plgrnd/shared": "*",
     "astro": "^7.0.7",
     "lit": "^3.3.1",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
     "zustand": "^5.0.13"
   },
   "devDependencies": {
+    "@types/react": "^19.1.13",
+    "@types/react-dom": "^19.1.9",
     "pagefind": "^1.5.2"
   }
 }

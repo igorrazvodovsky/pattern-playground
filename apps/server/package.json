@@ -1,5 +1,5 @@
 {
-  "name": "pattern-playground-server",
+  "name": "@pattern-plgrnd/server",
   "version": "1.0.0",
   "description": "Express server for Pattern Playground",
   "main": "dist/server.js",
