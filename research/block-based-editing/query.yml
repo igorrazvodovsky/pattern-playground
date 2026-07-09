@@ -1,0 +1,51 @@
+story: apps/patterns/src/content/patterns/block-based-editor.mdx
+topic: block-based editing
+interaction: |
+  An actor composes and reworks a document out of typed, rearrangeable blocks;
+  the same content can change type (prose → list → table → board) without
+  re-entry, individual blocks can be referenced or transcluded elsewhere, and
+  the workspace itself is shaped from within the document being worked on.
+context: |
+  The block-based-editor entry is a thin composite pattern (2 graph edges);
+  the formality quality already owns the quality side (Shipman & Marshall
+  1999, gradual-formalisation and inferred-structure strategies), and
+  malleability covers user-reshaping. The suspected territory decomposes into
+  moves the library lacks: incremental formalisation as an interaction move
+  (restructure-in-place with data–view separation — Appleton's block-data
+  essay, VIKI/spatial hypertext, Notion/Coda mechanics), block reference /
+  transclusion (Nelson lineage; Roam/Obsidian/Notion synced blocks), and a
+  possible activity-level pattern for the workspace-as-document paradigm
+  (tools for thought, malleable software, end-user programming). Current
+  components and patterns around the topic are a first step; gaps expected.
+questions:
+  - Is incremental formalisation a nameable interaction move (restructure-in-
+    place, type-switching over persistent data) distinct from the formality
+    quality that already describes it as a strategy — and what does the
+    literature say its centre and failure modes are?
+  - Is block reference / transclusion one move or several (embed, sync, live
+    query), and what does the lineage since Nelson say about when it helps vs
+    when it fragments context?
+  - Does the workspace-as-document paradigm (Notion/Obsidian-class tools)
+    deserve an activity-level node with its own name, or is the experience
+    just the co-presence of the constituent moves plus the malleability and
+    formality qualities?
+  - What would I be wrong about? Candidate corrections — the block is the
+    wrong unit of analysis; the paradigm is end-user programming wearing a
+    document costume; type-switching is presentation-only in practice and the
+    data–view separation claim overstates real tools.
+keywords:
+  [
+    block-based editor,
+    structured document editing,
+    incremental formalization,
+    spatial hypertext,
+    transclusion,
+    tools for thought,
+    malleable software,
+    end-user programming,
+    knowledge management interface,
+    outliner,
+    document model,
+    schema emergence,
+    freeform structured input,
+  ]
