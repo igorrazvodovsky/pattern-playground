@@ -23,6 +23,9 @@ interface Edge {
   type: string;
   label?: string;
   incomingNote?: string;
+  /** Derived rendering of the source node's resulting-context clause — prose
+   * for judgement, never matched on (relationship-vocabulary.md §Situations). */
+  situation?: string;
 }
 
 interface PatternNode {
@@ -55,6 +58,7 @@ const OUTGOING_LABELS: Record<string, string> = {
   instantiates: 'Instantiates',
   enacts:       'Enacts',
   surveys:      'Surveys',
+  hosts:        'Hosts',
   complements:  'Complements',
   tangential:   'Tangentially related',
   alternative:  'Alternatives',
@@ -67,6 +71,7 @@ const INCOMING_LABELS: Record<string, string> = {
   instantiates: 'Instantiated by',
   enacts:       'Enacted by',
   surveys:      'Surveyed by',
+  hosts:        'Hosted by',
 };
 
 // Collect outgoing and incoming edges for this pattern.
@@ -110,22 +115,22 @@ for (const edge of edges) {
     if (!outgoing[edge.type]) outgoing[edge.type] = [];
     outgoing[edge.type].push({ node: peer, label: nearSymLabel.get(symKey) ?? farSymLabel.get(symKey) });
   } else if (isOut) {
-    // Directed edge, read forward: prefer the outgoing note, fall back to the
-    // incoming one when only the target side authored a gloss.
+    // Directed edge, read forward: prefer the outgoing note; a derived situation
+    // (the source's resulting-context clause) stands in when no note is authored.
     if (!outgoing[edge.type]) outgoing[edge.type] = [];
-    outgoing[edge.type].push({ node: peer, label: edge.label ?? edge.incomingNote });
+    outgoing[edge.type].push({ node: peer, label: edge.label ?? edge.situation ?? edge.incomingNote });
   } else {
     // Directed edge, read in reverse: prefer the target-authored incoming note.
     if (!INCOMING_LABELS[edge.type]) continue;
     if (!incoming[edge.type]) incoming[edge.type] = [];
-    incoming[edge.type].push({ node: peer, label: edge.incomingNote ?? edge.label });
+    incoming[edge.type].push({ node: peer, label: edge.incomingNote ?? edge.situation ?? edge.label });
   }
 }
 
 // Build ordered sections: directed outgoing, then symmetric, then incoming.
-const DIRECTED_OUT_ORDER = ['precedes', 'enables', 'instantiates', 'enacts', 'surveys'];
+const DIRECTED_OUT_ORDER = ['precedes', 'enables', 'instantiates', 'hosts', 'enacts', 'surveys'];
 const SYMMETRIC_ORDER = ['complements', 'tangential', 'alternative', 'related'];
-const DIRECTED_IN_ORDER = ['precedes', 'enables', 'instantiates', 'enacts'];
+const DIRECTED_IN_ORDER = ['precedes', 'enables', 'instantiates', 'hosts', 'enacts'];
 
 type Section = { heading: string; entries: GroupEntry[] };
 const sections: Section[] = [];

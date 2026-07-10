@@ -15,6 +15,8 @@ Two framings shape how the vocabulary should be read and used:
 
 These framings are compatible and reinforcing. The first is an epistemic claim about the data (incomplete, fuzzy, hint-grade). The second is an ontological claim about the operation (design is transformation, not selection). Together they push in two directions: the data should be *looser* and the use should be *transformative*.
 
+The first framing is enforced by a *consumer contract*: no pipeline step — extractor, query function, renderer, or agent tooling — may match, filter, or route on a condition or situation. Situations and hints render as prose for an actor's judgement; the moment a query filters by one, the library has minted rules. What makes a condition rule-grade is not that it is typed, structured, or stored — it is that a machine evaluates it. Structure is therefore allowed (a situation clause has a shape, a hint has a question and a branch); evaluation is the drift. Where [references/report-pattern-language-formats.md](../../references/report-pattern-language-formats.md) recommends machine-readable, queryable postconditions, this stance governs — see the 2026-07-10 situations changelog entry for the research behind that call.
+
 ## Design principles
 
 1. *Inverse pairs only where they hold*: `precedes` and `follows` are genuine inverses (the same fact viewed from either side). `enables` and `instantiates` are *not* inverses despite the surface similarity — they are distinct directed relationships (compositional vs. taxonomic). Reverse traversal of any directed relationship is handled by graph queries, not by storing inverse edges.
@@ -45,6 +47,7 @@ The relationships defined below should be read in this register throughout.
 - Example: Progressive disclosure *precedes* Filtering — applying progressive disclosure produces a narrowed visible set that filtering can then act on.
 - Note: some chains form *generative sequences* in the strong Alexander sense (each step creates the conditions for the next). Localization's "linguistic, then cultural, then regional" ordering is an example. These are encoded as ordered chains of `precedes` edges; no separate edge type is needed.
 - Note: a foundation may source `precedes` when it acts as substrate — see the foundation tiebreaker note under `instantiates`.
+- *Register*: `precedes` speaks in the *designer's* register — the traversal of moves, where a situation is the history of moves already applied (situation calculus, the pattern-form canon, and Alexander's unfolding all define it this way). The actor's runtime sequence is the *evidence* for the design-time claim, and on most edges the two coincide. Where they diverge — B *replaces* A under a condition rather than acting on A's product ("hub and spoke takes over when items exceed screen capacity") — the plain generative claim is false as stated and true only through the join: *A's resulting context under a condition is B's initiating situation*. Register divergence is a detector, not a dilemma: such an edge is a compressed conditional join, and wants decomposing through the situation constructs (see §Situations) rather than re-typing.
 
 ### enables
 
@@ -66,7 +69,7 @@ The relationships defined below should be read in this register throughout.
 - Inverse: none stored. "What instantiates B?" and "what does A instantiate?" are both answered by traversing `instantiates` edges in either direction at query time. This is not the inverse of `enables`.
 - SKOS: aligns with `skos:broader` — A has broader concept B. This is the cleanest SKOS mapping in the vocabulary.
 - Authoring: `rel="instantiates"` on the specialisation's page, or `rel="instances"`/`rel="variants"` on the genus's page. In frontmatter: `relationships: { instantiates: [B] }` on A's page.
-- Example: Autocomplete *instantiates* Good defaults — autocomplete is a specific mechanism that applies the principle of providing sensible defaults.
+- Example: Command menu *instantiates* Searching — the broader seeking move applied to a command vocabulary.
 - Note — foundations are legible from two directions, and the tiebreaker is the arrow of application. When a pattern *applies* the foundational concept, the pattern instantiates it (Bot instantiates Delegation; Collaboration instantiates Collaboration foundation). When the foundation is a *substrate* whose application produces structure that later moves act on, the foundation sources `precedes` (Information architecture precedes Searching). Ask which way application runs: concept applied by the pattern → `instantiates`; substrate produced ahead of the pattern → `precedes`.
 
 ### complements
@@ -106,9 +109,10 @@ The relationships defined below should be read in this register throughout.
 - Directionality: directed
 - Inverse: none (recommendations are asymmetric and non-reciprocal)
 - SKOS: no equivalent. This is a situational, domain-specific relationship.
-- Authoring: *not an authorable rel* — comes only from decision trees. Do not write `rel="recommends"` on inline links or in frontmatter.
+- Authoring: *not an authorable rel* — comes only from decision trees. Do not write `rel="recommends"` on inline links or in frontmatter. The tree itself is authored as a Mermaid flowchart in a `## Decision tree` section plus a `decision-trees:` frontmatter block mapping leaf labels to pattern slugs (see the authoring model).
 - MDX source: Mermaid flowchart leaf nodes within `## Decision tree` sections
-- Situational hints: each recommendation carries the questions and branches that led to it, preserved as raw text rather than canonicalised. The library is not mature enough for a controlled vocabulary of conditions, and structured matching against situations would be brittle. The hints exist as context for an actor to consider — not as predicates to be matched.
+- The decision tree is the *authorable home* of the judgement; its `recommends` edges are renderings of its rows. Two edges of the same type between the same pair (Notification emits two `recommends` to Transient feedback) are not an anomaly — they are two rows of one decision, distinguishable by their hints, and read together they are one judgement. Never author condition text on the edge to "clarify" such a pair; edit the tree.
+- Situational hints: each recommendation carries the questions and branches that led to it, preserved as raw text rather than canonicalised. The *dimension* (the question) is controlled per tree — a stable authored question local to that judgement — while the *value* (the branch) stays in the author's words. There is no corpus-wide condition vocabulary, and none should be pre-legislated: convergence between trees' dimensions is observed post hoc and normalised through the changelog. The hints exist as context for an actor to consider — not as predicates to be matched (see the consumer contract in the epistemic stance).
 - Example: Deletion *recommends* Undo, with the situational hints "Is the deletion reversible? → Yes" and "How quickly can it be recreated? → Seconds". An actor reads this as "when the situation looks like a fast-recoverable reversible deletion, Undo has been a useful move" and applies its own judgement about whether the current situation actually resembles that.
 - Note: under the generative-moves framing, a recommendation is not "given context, choose this pattern" but "in situations of this shape, this transformation has been useful." The actor uses it as a lateral suggestion, not a lookup result.
 
@@ -145,6 +149,19 @@ The relationships defined below should be read in this register throughout.
 
 These are different relations and are **not transitive across types**: do not traverse `surveys` → `enables` → `instantiates` as a single path. A composite *move* (Form) is a `pattern` that uses `enables`/`instantiates` to reach its constituents; only a `collection` page uses `surveys`. Misfiling a composite move as a collection (the retired `umbrella` conflation) collapsed component-integral parts into membership and broke this distinction.
 
+### hosts
+
+*A hosts B*: A is the surface on which B's trigger or entry point is surfaced — the group-by control lives in the toolbar, autocomplete lives in form fields, onboarding builds on the empty state's canvas. The claim is *locative*, not compositional: B is *in* A the way wine is in a cooler, not the way a handle is part of a cup. Winston, Chaffin & Herrmann (1987) — the same source the three part–whole relations stand on — explicitly exclude spatial inclusion from meronymy, which is why every attempt to absorb hosting into `enables` mis-stated the authored claim and lost part of it.
+
+- Directionality: directed (host → hosted move)
+- Inverse: none stored — reverse traversal at query time, like the other directed types.
+- SKOS: no equivalent. SKOS has no locative dimension; the nearest, `skos:related`, would discard exactly the distinction this type preserves.
+- Authoring: `rel="hosts"` on the host surface's page, or `rel="hosted-by"` on the move's page (stored inverted). In frontmatter: `relationships: { hosts: [B] }` on the host, or `hosted-by: [A]` on the hosted move.
+- Example: Form *hosts* Autocomplete — the form field is where the completion surface appears; the same pair could not carry this claim as `complements` ("where it most commonly lives" is not co-deployment) or `enables` (autocomplete is not a part the form is made of).
+- Not `enables`: hosting asserts nothing about composition or dependency. A move can be hosted by a surface it is no part of (onboarding on the empty state) and can compose into wholes that don't host it (autocomplete enables data-entry, which has no surface at all).
+- Not `precedes`: the host does not produce a centre the hosted move acts on; it merely locates the trigger. Where a note on a `precedes`/`enables` edge reads "container", "canvas", or "where it lives", the edge is usually a hosting claim wearing the wrong type — the note-verb advisory flags these.
+- Relation to the situation constructs: a hosting fact *can* be narrated inside a resulting-context clause ("the composition leaves a toolbar where the grouping trigger lives"), but the standing locative relation between two patterns belongs on this edge type. One home per fact: don't author both.
+
 ### enacts
 
 *A enacts Q*: pattern A is a move whose effect is legible in the Q dimension — applying A changes the structure in a way that shows up when you read the result through quality Q's lens. This is the bridge between patterns (as moves) and qualities. The relationship does not assert that Q is maximised or always increased; it asserts that Q is the right lens through which to read what this move does.
@@ -167,6 +184,7 @@ Each edge type carries an implicit *axis* — the dimension along which the rela
 | Horizontal | `complements`, `tangential`, `alternative` | Same altitude — moves that share a structural role or co-deploy |
 | Sequential | `precedes`, `follows`, `recommends` | Generative sequence — one move sets up another, or a tree branch routes to one |
 | Territorial | `surveys` | Collection membership — a `role:collection` page gathers its members |
+| Locative | `hosts` | Spatial inclusion — where a move's trigger or surface lives |
 | Unspecified | `related` | Default catch-all; no axis claim |
 
 The distinction matters for two consumers:
@@ -189,6 +207,7 @@ The axis classification is a sanity-check tool, not a taxonomy commitment. A pat
 | recommends | — | No equivalent (situational) |
 | related | skos:related | Direct mapping |
 | surveys | skos:member | Collection membership (member–collection) |
+| hosts | — | No equivalent (spatial inclusion — non-meronymic per Winston et al.) |
 | enacts | — | No equivalent (pattern → quality) |
 
 The alignment is useful at two levels. First, it provides a sanity check — if a proposed relationship type has no SKOS equivalent *and* no clear justification for being domain-specific, it may be an unnecessary distinction. Second, if the graph data ever needs to interoperate with external tools or linked data systems, the SKOS mappings provide a bridge without requiring a full ontological commitment.
@@ -222,10 +241,11 @@ Project-specific extensions:
 | `recommends` | Pattern-oriented design literature supports context-oriented applicability and guided pattern selection, but the decision-tree extraction shape is local. `recommends` preserves authored decision-tree branches as situational hints rather than converting them into rule-grade conditions. |
 | `surveys` | Collection pages are authored surveys over a grouping of members, not single-move sources. `surveys` maps to `skos:member` and keeps collection pages from being flattened into generic `related` links — and keeps member-collection grouping distinct from the component-integral (`enables`) and genus-species (`instantiates`) relations a composite *pattern* uses. |
 | `tangential` | Literature has generic association, neighbouring, and "related" language, but not a stable weak-adjacency type. `tangential` preserves the current author signal where pages explicitly distinguish conceptual adjacency from complementarity, dependency, or substitution. It is intentionally provisional: if future gardening shows it is only a weak form of `related`, or better handled by tags/projections, it can be merged or replaced through the changelog. |
+| `hosts` | Pattern literature rarely models where a move's *trigger* is surfaced, and the meronymy canon the part–whole relations rest on explicitly excludes spatial inclusion. The corpus kept authoring the claim anyway — "container", "canvas", "where it lives" notes riding on `enables` and `complements` edges — and each shunt lost part of it. `hosts` gives the locative family its own name. |
 
 ## Authoring model
 
-Edges come from three explicit sources plus three structural auto-typings:
+Edges come from three explicit sources, two judgement homes that emit edges, and three structural auto-typings:
 
 ### Explicit authoring channels
 
@@ -254,6 +274,32 @@ Edges come from three explicit sources plus three structural auto-typings:
 
 Untyped prose links are decorative — they never produce edges (invariant I1).
 
+### Judgement homes that emit edges
+
+Two node-side constructs hold situational judgements, and each *emits* the edges that render it — the edge is never a second place to author the judgement:
+
+4. *Resulting-context clauses* — a `situation.resulting` clause with a `sets-up:` list emits a `precedes` edge to each named pattern, carrying the clause as the edge's derived `situation` text (see §Situations):
+   ```yaml
+   situation:
+     resulting:
+       - clause: >-
+           Fields hold sensible starting values — which holds only while a
+           static guess suffices; once the actor starts typing their own value,
+           completion has to happen in flight.
+         sets-up: [autocomplete]
+   ```
+   Don't also declare the same pair under `relationships: { precedes: … }` — the extractor merges the duplicate and warns.
+
+5. *Decision trees* — a Mermaid flowchart in a `## Decision tree` section plus a `decision-trees:` frontmatter block emits `recommends` edges, carrying the tree's question/branch rows as `situationalHints`:
+   ```yaml
+   decision-trees:
+     - id: deletion
+       leaves:
+         "No confirmation (with undo)": undo
+         "Inline confirmation": inline-confirmation
+   ```
+   `chart-index` (0-based) selects among multiple `<MermaidDiagram>` blocks; leaves not in the map are skipped and reported.
+
 ### Authoring aliases and direction normalization
 
 Direction is fixed by the relation name (invariant I2), not an author field. Aliases let the author pick the word that fits their sentence:
@@ -271,6 +317,8 @@ Direction is fixed by the relation name (invariant I2), not an author field. Ali
 | `alternative` | P ↔ target | alternative |
 | `enacts` | P → target (quality) | enacts |
 | `surveys` | P (collection) → target | surveys |
+| `hosts` | P → target | hosts |
+| `hosted-by` | target → P | hosts |
 | `related` | P ↔ target | related |
 
 `recommends` is not in this table — it is never an authored rel.
@@ -312,8 +360,9 @@ interface Edge {
   type: EdgeType;
   label?: string;                                            // outgoing prose annotation — shown when the edge is read forward (on the source page)
   incomingNote?: string;                                     // optional note authored from the target side (via follows/composed-of/instances) — shown when the edge is read in reverse (on the target page)
-  extractedFrom?: string;                                    // provenance — header text, 'quality-target', or 'decision-tree:<id>'
-  situationalHints?: Array<{ question: string; branch: string }>;  // only for 'recommends'
+  extractedFrom?: string;                                    // provenance — 'frontmatter:<rel>', 'situation:resulting', 'quality-target', or 'decision-tree:<id>'
+  situation?: string;                                        // DERIVED, never authored edge-side — the resulting-context clause this edge renders (only via 'situation:resulting')
+  situationalHints?: Array<{ question: string; branch: string }>;  // only for 'recommends' — the tree rows this edge renders
 }
 
 type EdgeType =
@@ -327,9 +376,10 @@ type EdgeType =
   | 'recommends'
   | 'related'
   | 'enacts'
-  | 'surveys';
+  | 'surveys'
+  | 'hosts';
 
-type DirectedEdgeType = 'precedes' | 'follows' | 'enables' | 'instantiates' | 'recommends' | 'enacts' | 'surveys';
+type DirectedEdgeType = 'precedes' | 'follows' | 'enables' | 'instantiates' | 'recommends' | 'enacts' | 'surveys' | 'hosts';
 type UndirectedEdgeType = 'complements' | 'tangential' | 'alternative' | 'related';
 
 const inversePairs: Record<string, string> = {
@@ -341,27 +391,43 @@ const inversePairs: Record<string, string> = {
 // Reverse traversal is handled by graph queries, not by storing inverse edges.
 ```
 
-The `situationalHints` field on `recommends` edges preserves the original decision-tree question phrasings rather than canonicalising them into a controlled vocabulary. This is deliberate — see the *recommends* section above for the rationale.
+`situation` and `situationalHints` are the two derived condition renderings, and they are parallel: each is the edge-side *showing* of a judgement whose authorable home is elsewhere (a node's resulting-context clause; a decision tree's rows). Neither is ever authored on the edge, and per the consumer contract neither may be matched, filtered, or routed on. `situationalHints` preserves the original question phrasings rather than canonicalising them — see the *recommends* section above.
 
-## Generative profiles (node-level metadata)
+## Situations (node-level constructs)
 
-Beyond edges, each pattern can carry a *generative profile* — a small set of informal phrases describing what the pattern does as a move. This is the most direct way to make the Alexander framing operational: it gives an actor a vocabulary for reasoning about a move's applicability and effect, independently of the relationships it has with other patterns.
+Beyond edges, each pattern can carry its two *situations* — the design situation in which the move applies, and the one it leaves behind. This is where the pattern-form canon puts both: context "described via a 'situation'… sometimes in terms of the patterns that have already been applied" (Meszaros & Doble), a node-side `resulting-context` element with no condition slot on links anywhere in the lineage (PLML), and Alexander's unfolding, where each step's condition is the wholeness the preceding steps produced. The node is where a situation is *said*; an edge is only where the join between two situations *shows*.
 
-A generative profile has three fields:
+```yaml
+situation:
+  initiating: >-
+    Prose — the situation this move applies in, told as the history of moves
+    already applied (or ruled out).
+  resulting:
+    - Bare prose clause — something that holds after the move is applied.
+    - clause: >-
+        A clause that sets up a next move. Voice it to name its subject —
+        it renders on both endpoints' pages.
+      sets-up: [next-pattern]
+```
 
-- *Operates on*: what kind of existing structure or situation the move acts on. "A destructive action." "A partially-specified user intent." "A collection that needs narrowing."
-- *Produces*: what new centre or affordance the move creates. "A moment of intentional pause before consequence." "An expanded view of a candidate completion." "A reorderable, filterable view of items."
-- *Enacts*: which quality dimensions the move's effect is most legible in — the lenses through which you'd read what this move does to the structure. Informal references, not a controlled vocabulary. Named to match the `enacts` edge type: the field names the qualities through which the move's effect shows up, without asserting direction or magnitude.
+- *Initiating situation* (`situation.initiating`): what the design already looks like when this move is worth reaching for — including, where that is the real content, which alternatives have been ruled out (Disabled state's initiating situation is "the element can't be hidden and can't stay live with an explanation"; arriving there *is* the last-resort claim). Plain prose, no machinery.
+- *Resulting context* (`situation.resulting`): a list of clauses describing what holds after the move is applied, including the new problems it opens. A clause may carry `sets-up:` — the patterns for which this clause is the initiating situation. Each such clause *emits* a `precedes` edge and rides on it as the derived `situation` text.
 
-These are *informal phrases*, not structured fields. No controlled vocabulary, no normalisation. The point is to give an actor a richer mental model of each pattern as a move, while staying close to how the MDX prose already talks about it.
+Three rules govern the construct:
 
-A generative profile lives in a `*.profile.ts` sidecar next to the pattern's MDX (e.g. `Form.profile.ts` next to `Form.mdx`), exporting a typed `GenerativeProfile` object. The shared interface lives at `apps/patterns/src/content/pattern-profile.ts`. The MDX imports the profile to keep authoring co-located, but does not render it — the data is for tooling, not for the rendered page. Phase 1 extraction reads sidecars directly into `pattern-graph.json` as node-level metadata. Initially this is populated for a small starting set of patterns (the nine from Phase 0.B) as a proof of concept rather than retrofitted across the whole library.
+1. *One authorable home per judgement.* A situational judgement lives in exactly one place: a node's situation block, or the decision tree that owns it. Edge-side condition text is always a rendering of that home. The pre-correction state — the same judgement smeared across an edge note, a tree hint, and a `related` gloss — is what this construct exists to end (the deletion→undo bundle was the worked case).
+2. *The condition is authored on the source side.* A conditional join reads "A's resulting context, under a condition, is B's initiating situation"; the clause lives in A's `resulting`, because A's author knows what A leaves behind. B's `initiating` is plain prose that reconciles from its own end — it carries no `sets-up` mirror.
+3. *No corpus-wide condition vocabulary.* Clauses are prose; trees control their own dimensions as authored questions; values stay in the author's words. Convergence between judgements is observed post hoc and normalised through the changelog, never pre-legislated.
 
-*When to skip a profile*: minimal primitives (the move's definition exhausts the description), unbounded stances (no discrete move), and collection MDX (the page describes a grouping of members, not a move) — see the Phase 0.B probe in the changelog for the reasoning. Composite-move pages (`role: pattern`, `atomic: composition`) *do* describe a move and should carry a profile.
+A conditional `precedes` is therefore not a special edge type. "Hub and spoke takes over when items exceed screen capacity" decomposes into flat navigation's resulting clause ("holds while everything fits one surface…") setting up hub-and-spoke; the edge renders the clause. The escalation ladders read the same way: good defaults' resulting context enumerates where a static guess stops sufficing, and each rung's edge shows the clause for its handoff. When a `precedes` edge reads differently in the designer and runtime registers, that divergence is the signal to decompose it this way (see the register note under `precedes`).
+
+Extraction emits `situation` as node metadata in `pattern-graph.json`.
+
+*When to skip*: minimal primitives (the definition exhausts it), unbounded stances (no discrete move), and collection pages (a grouping, not a move). Write `resulting` clauses when the move genuinely opens onto next moves or new problems; a pattern whose edges are all associative doesn't need one.
 
 ## Open questions
 
-1. *Generative profiles as authoring burden*: do the operates-on / produces / enacts fields pull their weight, or do they add an authoring step that won't survive contact with day-to-day pattern writing? The proof-of-concept population (5–10 patterns) is meant to test this before committing to retrofitting.
+1. *Situations as authoring burden*: do `situation.initiating` / `situation.resulting` pull their weight as day-to-day authoring, or do they only get written during dedicated sittings? The construct absorbed an earlier sidecar experiment (see changelog, 2026-07-10) whose authoring channel demonstrably didn't spread past its proof-of-concept nine; frontmatter is a lighter channel, and `sets-up` gives resulting clauses a job the sidecars never had. Watch whether new pattern pages acquire situations without being prompted.
 
 2. *Should `recommends` edges participate in the force-directed layout?* They represent situational suitability, not structural affinity. Including them adds navigational connections but may distort clustering. A reasonable default: treat them as a separate overlay rather than a layout input.
 
@@ -377,13 +443,27 @@ A generative profile lives in a `*.profile.ts` sidecar next to the pattern's MDX
 
 Testable assertions derived from this vocabulary's own definitions. These can be checked against `pattern-graph.json` by a script or by an actor reviewing extraction output.
 
-1. *Valid edge types*: every `type` value on an edge must be a member of `EdgeType` (precedes, follows, enables, instantiates, complements, tangential, alternative, recommends, related, enacts, surveys).
+1. *Valid edge types*: every `type` value on an edge must be a member of `EdgeType` (precedes, follows, enables, instantiates, complements, tangential, alternative, recommends, related, enacts, surveys, hosts).
 2. *`enacts` targets qualities*: every edge with `type: 'enacts'` must target a node whose ID starts with `qualities-`.
 3. *`recommends` carries hints*: every edge with `type: 'recommends'` must have a non-empty `situationalHints` array and an `extractedFrom: 'decision-tree:<treeId>'` string.
 4. *No redundant inverses*: if A `precedes` B exists, no separate B `follows` A edge should be stored. `follows` is inferred at query time, not stored as data.
 5. *Hint-only fields are scoped*: `situationalHints` appears only on `recommends` edges.
 6. *Symmetric edges are consistent*: for undirected types (complements, tangential, alternative, related), if A→B exists then B→A must also exist (or the graph component must treat them as bidirectional).
 7. *`surveys` sources are collections*: every edge with `type: 'surveys'` must have a source node with `role: 'collection'` (or the deprecated `role: 'umbrella'` alias).
+8. *`situation` is derived*: every edge with a `situation` field has `extractedFrom: 'situation:resulting'` and `type: 'precedes'` — the field is emitted from the source node's resulting-context clause, never authored edge-side.
+9. *No consumer evaluates a condition*: no pipeline step matches, filters, or routes on `situation` or `situationalHints` (the consumer contract). Not machine-checkable from the data alone; holds by review of consumers.
+
+## Retirement (the exit path)
+
+The vocabulary has entry gates — the SKOS sanity check, the changelog's what-was-considered discipline — but a type also needs a way *out*. The risk being policed is overlap, not number: there is no type-count budget, and a rarely-used type that says something nothing else says (the enacts-shaped bridges) earns its place at any count. A type retires when its distinctions stop being ones authors reach for or readers use.
+
+Standing signals:
+
+- *Per-type counts* in the extractor's summary line, advisory register — a type whose count only ever falls, or whose uses turn out on audit to be one other type in disguise, is a retirement candidate.
+- *`related`'s share of all edges* is the health dial: `related` is where meaning goes when the vocabulary doesn't fit, so a rising share means the types aren't carrying the corpus (baseline 25% at 2026-07-10; the extractor prints the current share).
+- *A retirement question closes every gardening sweep*: "did this sweep lean on every type it touched, and is any type only ever the thing being swept away?"
+
+`tangential` is the first standing candidate, per its own entry in the extensions table. Retirements land through the changelog like everything else — with what was considered and what is lost.
 
 ## Changelog
 
@@ -391,7 +471,34 @@ A running record of why types were added, merged, renamed, or retired, what alte
 
 Each entry: date, change, why, what was considered, what was lost.
 
-### 2026-07-10 — `enables` definition aligned with usage; foundation tiebreaker; note-verb advisory
+### 2026-07-10 — Situations land: node-side constructs, `hosts` minted, judgement homes emit their edges
+
+The situation-construct decision (plans/active/2026-07-relationship-vocabulary.md, workstream B; research gate in research/situation-constructs/2026-07-10.md) and the hosting resolution (workstream C), landed together because the gate settled them together: conditions get one authorable home and hosting is not meronymic.
+
+*The construct.* Patterns gain `situation.initiating` (prose; the design situation the move applies in, told as move-history) and `situation.resulting` (clauses; what holds after, each optionally `sets-up:` the patterns it is the initiating situation for). A `sets-up` clause *emits* its `precedes` edge and rides on it as the derived `situation` field — edges never carry authorable condition text. This generalises what decision trees already did (`recommends` + `situationalHints` emitted from the tree): the library now has two judgement homes, node situations and decision trees, and two derived edge renderings. Prior art was unanimous on the node side (Meszaros & Doble, PLML's link element with no condition slot, Alexander) and documented the edge-side failure (pre-DMN BPMN's scattered gateway conditions; the in-graph proof was the deletion→undo bundle, one judgement smeared across `precedes`, `recommends`, and `related`). Per the gate: no corpus-wide condition vocabulary — trees own their dimensions as authored questions, clause values stay prose, convergence normalises post hoc through this changelog. The epistemic stance gained the construct's defence, the *consumer contract*: no pipeline step may match, filter, or route on a condition; structure is allowed, evaluation is the drift. (Contradiction noted in place: references/report-pattern-language-formats.md recommends queryable postconditions; the stance governs.)
+
+*Register.* `precedes` speaks in the designer's register; the runtime sequence is evidence; where the two registers read an edge differently, the edge is a compressed conditional join and decomposes through the situations rather than re-typing (note added under `precedes`).
+
+*Profiles merged.* The generative profile (operates-on / produces / enacts, `.profile.ts` sidecars) covered the same ground in a terser register: `operatesOn` → `situation.initiating`, `produces` → a resulting clause. The eleven sidecars migrated into frontmatter and were deleted, along with `pattern-profile.ts` and the extractor's sidecar loading. A parallel set of six sidecars in `packages/components/src/stories/` (imported by component MDX pages but never rendered) went with them, plus the components-side `pattern-profile.ts` copy. Keeping both would have re-created the two-homes problem inside the node itself.
+
+*Decomposed through the construct* (each pair's `relationships:` entry replaced by a resulting clause on the source):
+
+- deletion → undo — deletion's resulting context now says what a completed deletion leaves behind; the tree keeps the safeguard judgement; `related: action-consequences` keeps pointing at the framework. The bundle's three carriers now read as one judgement with two homes and a pointer.
+- The assistance escalation ladder — good-defaults' resulting clauses enumerate where a static guess stops sufficing (typing in flight → autocomplete; stored values → autofill; system initiative → assisted-task-completion), and autocomplete's clause hands over to ai-completion where completion must be generated rather than looked up. This also settles the Autocomplete-instantiates-Good-defaults gap held by the precedes sweep: the taxonomic reading was the compression — the pair's relation is sequence-under-condition, no `instantiates` edge is minted, and the doc's `instantiates` example (which had asserted it since 2026-04-25) is replaced with Command menu → Searching.
+- flat-navigation → hub-and-spoke ("takes over when items exceed screen capacity") and searching → navigation-overview ("fallback if search fails") — the two oldest condition-bearing notes.
+- live-presentation → generated-content and ai-completion → cognitive-forcing-functions — the remaining condition-shaped voicing holds; each note was a resulting-context judgement in edge clothing.
+
+Of the seven deliberate voicing holds, four migrated into clauses as above; three remain as deliberate relation-gloss holds (autofill→saving, localization→conversation, settings→localization). The note-verb advisory's standing finding (good-defaults→assisted-task-completion's taxonomic phrasing) is resolved by its migration.
+
+*`hosts` minted* (workstream C). *A hosts B*: A is the surface where B's trigger or entry point is surfaced. Winston, Chaffin & Herrmann exclude spatial inclusion from meronymy — the theoretical reason every shunt of a hosting note into `enables`/`complements` lost part of the authored claim, as the precedes sweep kept finding. Directed, alias `hosted-by`, no SKOS equivalent, new Locative axis row. Migrated the four evidenced pairs: form hosts autocomplete and autofill (were `complements` with "where it lives"/"container" notes), block-based-editor hosts ai-completion (was inverted `enables`, "a natural container"), state-empty hosts onboarding (was `enables`, "the canvas onboarding builds on"). The note-verb advisory's hosting tell now also checks `enables` and `complements`, so the remaining container-flavoured notes (good-defaults↔form, validation→form, form↔data-entry) surface as standing findings for a follow-up hosting sweep rather than silently keeping the wrong type.
+
+*Decision trees became fully authorable.* The curated leaf map moved from the extractor's hardcoded `DECISION_TREES` constant into each page's `decision-trees:` frontmatter (deletion, notification, navigation-overview, form). What an author writes: the Mermaid flowchart plus the leaf→slug map, both in the MDX. What the extractor emits: unchanged (`recommends` + hints). Notification's two same-typed `recommends` to transient-feedback stay as they are — two rows of one decision, the twin-edge reading now documented under `recommends`.
+
+*Also*: a Retirement section (exit path) — per-type counts and `related`'s share (25% baseline) as advisory health signals, a retirement question closing every gardening sweep, `tangential` the first standing candidate, no type-count budget. And state-disabled's `situation.initiating` was written as the negative-space specimen: the last-resort claim ("the alternatives have been ruled out") turns out to be exactly an initiating situation told as move-history, so negative-space marking needs no new vocabulary — closing that carried item.
+
+What was considered: condition fields authorable on edges (rejected by the gate — the scatter failure every discipline that tried it documented); a corpus-wide controlled dimension vocabulary (rejected — Schmidt's modellability criterion, the proliferation corpus, and the doc's own `recommends` rationale all point the same way); `sets-up` clauses that merely *annotate* an edge authored separately in `relationships:` (rejected — two authoring acts per conditional join, and the tree precedent already establishes that judgement homes emit their edges); a `hosted-by`-only authoring form without `hosts` (rejected — the host page may own the claim, as state-empty does); expressing hosting as resulting-context clauses only (rejected — the standing locative relation between two patterns is not a situational judgement, and clauses would have left the mistyped edges in place); an initiating-side `follows-from` mirror of `sets-up` (rejected — one authorable end keeps one home per judgement; B's initiating situation stays plain prose).
+
+What was lost: the profile `enacts` phrases (eleven one-line quality summaries — the `enacts` edges with Q-lens notes carry the same content); the strict claim that all edges come from `relationships:`/`rel=` authoring (two judgement homes now also emit, both explicit and both in frontmatter); the four migrated pairs' edge notes as authored artifacts (their content lives on in the clauses and hosting notes).
 
 Three repairs from the precedes sweep's reflection, each closing a gap the sweep had to bridge by judgement:
 

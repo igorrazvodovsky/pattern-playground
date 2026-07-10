@@ -30,6 +30,23 @@ const patterns = defineCollection({
       z.string(),
       z.object({ to: z.string(), note: z.string().optional() }),
     ]))).optional(),
+    // Situations: the design situation the move applies in and the one it leaves
+    // behind. A resulting clause with `sets-up` emits a `precedes` edge carrying
+    // the clause as derived situation text. See relationship-vocabulary.md §Situations.
+    situation: z.object({
+      initiating: z.string().optional(),
+      resulting: z.array(z.union([
+        z.string(),
+        z.object({ clause: z.string(), 'sets-up': z.array(z.string()).optional() }),
+      ])).optional(),
+    }).optional(),
+    // Decision trees: leaf-label → pattern-slug maps for the page's Mermaid
+    // flowcharts; each resolved path emits a `recommends` edge with hints.
+    'decision-trees': z.array(z.object({
+      id: z.string(),
+      'chart-index': z.number().int().nonnegative().optional(),
+      leaves: z.record(z.string()),
+    })).optional(),
   }),
 });
 

@@ -1,14 +1,16 @@
 # Graph relationship model specification
 
 The pattern graph is a generated knowledge surface derived from authored MDX,
-its frontmatter, decision trees, and profile sidecars. It supports reasoning
-about how interaction moves combine; it is not a rules engine.
+its frontmatter, and decision trees. It supports reasoning about how
+interaction moves combine; it is not a rules engine.
 
 ## Epistemic stance
 
-Edges, tags, and decision-tree hints are suggestion-grade. They preserve what
-has been useful or meaningful in the current corpus, not predicates that can be
-matched mechanically against a design situation.
+Edges, tags, situations, and decision-tree hints are suggestion-grade. They
+preserve what has been useful or meaningful in the current corpus, not
+predicates that can be matched mechanically against a design situation. The
+consumer contract makes this operational: no pipeline step may match, filter,
+or route on a situation or hint — they render as prose for judgement.
 
 ## Current graph data
 
@@ -24,12 +26,16 @@ matched mechanically against a design situation.
   workstream 2.
 - `scripts/extract-graph-data.ts` derives `apps/patterns/src/data/pattern-graph.json`
   and related generated data.
-- Node metadata includes title, category, path, role, tags, and extracted
-  classification fields where available.
+- Node metadata includes title, category, path, role, group, tags, the
+  `situation` construct (initiating situation and resulting-context clauses),
+  and extracted classification fields where available.
 - Edges carry `source`, `target`, `type`, and optional `label`,
-  `extractedFrom`, and situational hints.
+  `incomingNote`, `extractedFrom`, a derived `situation` string, and
+  situational hints. `situation` and `situationalHints` are never authored
+  edge-side — each renders a judgement whose authorable home is a node's
+  resulting-context clause or a decision tree respectively.
 
-## Edge sources (three channels + three auto-typings)
+## Edge sources (three channels + two judgement homes + three auto-typings)
 
 Edges come only from explicit authoring or structural auto-typing. Heading-text inference has been removed.
 
@@ -38,10 +44,13 @@ Explicit channels (any MDX file):
 2. *Inline `{rel="type"}` on links* — `[text](/patterns/slug){rel="precedes"}` in body prose.
 3. *`<PatternRef>`/`<ComponentRef>` component props* — `<PatternRef slug="…" rel="enables">`.
 
+Judgement homes that emit their edges:
+1. *Frontmatter `situation.resulting` clauses with `sets-up:`* → one `precedes` edge per named pattern, carrying the clause as derived `situation` text.
+2. *Mermaid decision trees* (flowchart + frontmatter `decision-trees:` leaf map) → `recommends` edges carrying `situationalHints`.
+
 Structural auto-typings (invariant I7 — the only non-explicit edge sources):
 1. Untyped body links on `role:collection` pages → `surveys`
 2. Untyped body links from non-quality pages to quality pages → `enacts`
-3. Mermaid decision-tree leaf nodes → `recommends`
 
 Direction is fixed by the relation name. Authoring aliases (`follows`, `composed-of`, `instances`, `variants`) normalise to canonical types with inverted direction where needed — see `docs/language/relationship-vocabulary.md` for the full alias table.
 
@@ -63,8 +72,9 @@ The settled edge vocabulary is:
 - `related`
 - `enacts`
 - `surveys`
+- `hosts` / `hosted-by`
 
-The detailed definitions, extraction rules, SKOS notes, generative-profile
+The detailed definitions, extraction rules, SKOS notes, situation-construct
 guidance, and changelog live in
 [`docs/language/relationship-vocabulary.md`](../language/relationship-vocabulary.md).
 That document is the detailed vocabulary record; this spec is the current

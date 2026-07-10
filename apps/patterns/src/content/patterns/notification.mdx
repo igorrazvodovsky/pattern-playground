@@ -7,6 +7,18 @@ atomic: pattern
 mediation: coordination
 lifecycle: coordination
 fun: 🙂 3/5. Included as a prerequisite for more interesting things.
+situation:
+  initiating: >-
+    a system event whose existence the actor needs to know about, alongside an
+    existing flow that has its own demands on attention
+  resulting:
+    - a delivery surface tuned to the event's urgency and the actor's availability
+decision-trees:
+  - id: notification
+    leaves:
+      "Dialog": actions-application-dialog
+      "Callout": operations-callout
+      "Toast": transient-feedback
 relationships:
   related:
     - to: delegation

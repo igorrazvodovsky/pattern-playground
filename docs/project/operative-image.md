@@ -41,7 +41,7 @@ Measured against the directions in [vision.md](./vision.md):
   [../specs/workspace-layout.md](../specs/workspace-layout.md).
 - *Agent-consumable repertoire*: early. The knowledge base, the agent-harness
   spec ([../specs/agent-harness.md](../specs/agent-harness.md)), and the
-  plan/spec contract exist. Generative profiles — the node-level metadata an
+  plan/spec contract exist. Pattern situations — the node-level metadata an
   actor would read — are populated for only a small starting set.
 
 The repertoire's content frontier — the intent-based coverage named in

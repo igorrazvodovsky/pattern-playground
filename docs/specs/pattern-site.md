@@ -132,12 +132,13 @@ The exact geometry is in `apps/patterns/src/styles/stack.css`; the overlap/colla
 
 A behavioural invariant to preserve: at the leftmost scroll position the first panes are fully visible and later panes are progressively clipped then spined — a partly-visible pane is _never_ overlapped by the next one.
 
-## Profile sidecars
+## Situations
 
-`.profile.ts` sidecars live co-located with their MDX file, using the same
-filename stem (e.g. `undo.profile.ts` alongside `undo.mdx`). The extractor
-reads them for structured edge data. The relationship is the same as in
-Storybook — the sidecar is an optional companion, not a requirement.
+A pattern's situations (initiating situation, resulting-context clauses) live
+in its frontmatter `situation:` block — an optional companion, not a
+requirement. The extractor emits them as node metadata, and a resulting clause
+with `sets-up:` emits a conditional `precedes` edge. See
+[relationship-vocabulary.md](../language/relationship-vocabulary.md) §Situations.
 
 ## Document structure
 

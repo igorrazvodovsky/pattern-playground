@@ -100,8 +100,8 @@ Differentiate an existing move into siblings when:
 - its Related-patterns section grows subsections with disjoint neighbourhoods
 - a decision tree appears *inside* the pattern — a tree is a territory routing
   between its own children
-- its profile fields disagree — `operatesOn` describes one situation,
-  `produces` a centre from a different one
+- its situation fields disagree — `situation.initiating` describes one
+  situation, the `resulting` clauses centres from a different one
 - its prose accumulates "in some variants…" clauses
 
 These are findings to take through the normal classification process

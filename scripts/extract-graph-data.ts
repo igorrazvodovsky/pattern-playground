@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, statSync } from 'fs';
 import { join, dirname } from 'path';
-import { fileURLToPath, pathToFileURL } from 'url';
+import { fileURLToPath } from 'url';
 import { load as yamlLoad } from 'js-yaml';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -19,7 +19,7 @@ interface Node {
   tags?: string[];
   role?: Role;
   group?: string;
-  generativeProfile?: GenerativeProfile;
+  situation?: NodeSituation;
 }
 
 // `umbrella` is retained as a deprecated alias of `collection` for back-compat during
@@ -29,10 +29,17 @@ type Role = typeof VALID_ROLES[number];
 
 type RoleSource = 'explicit' | 'inferred' | 'unset';
 
-interface GenerativeProfile {
-  operatesOn: string;
-  produces: string;
-  enacts: string;
+/** Node-side situation constructs (relationship-vocabulary.md §Situations).
+ * A resulting clause with setsUp emits a `precedes` edge to each named pattern,
+ * carrying the clause as the edge's derived `situation` text. */
+interface SituationClause {
+  clause: string;
+  setsUp?: string[];
+}
+
+interface NodeSituation {
+  initiating?: string;
+  resulting?: SituationClause[];
 }
 
 type EdgeType =
@@ -46,7 +53,8 @@ type EdgeType =
   | 'recommends'
   | 'related'
   | 'enacts'
-  | 'surveys';
+  | 'surveys'
+  | 'hosts';
 
 interface SituationalHint {
   question: string;
@@ -63,6 +71,10 @@ interface Edge {
    * reverse; the renderer shows it on the target page. */
   incomingNote?: string;
   extractedFrom?: string;
+  /** Derived, never authored edge-side: the source node's resulting-context
+   * clause this edge renders (extractedFrom 'situation:resulting'). Per the
+   * consumer contract, rendered as prose for judgement — never matched on. */
+  situation?: string;
   situationalHints?: SituationalHint[];
 }
 
@@ -102,6 +114,8 @@ const ALIAS_TABLE = {
   alternative:   { type: 'alternative'  as EdgeType, invert: false },
   enacts:        { type: 'enacts'       as EdgeType, invert: false },
   surveys:       { type: 'surveys'      as EdgeType, invert: false },
+  hosts:         { type: 'hosts'        as EdgeType, invert: false },
+  'hosted-by':   { type: 'hosts'        as EdgeType, invert: true  },  // alias: P is the hosted move
   related:       { type: 'related'      as EdgeType, invert: false },
 };
 
@@ -122,50 +136,48 @@ function globMdx(dir: string): string[] {
   return results;
 }
 
-function fileExists(filePath: string): boolean {
-  try {
-    return statSync(filePath).isFile();
-  } catch {
-    return false;
-  }
-}
-
-function profileSidecarPath(mdxPath: string): string {
-  return mdxPath.replace(/\.mdx$/, '.profile.ts');
-}
-
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
 }
 
-function isGenerativeProfile(value: unknown): value is GenerativeProfile {
-  return isRecord(value)
-    && typeof value.operatesOn === 'string'
-    && typeof value.produces === 'string'
-    && typeof value.enacts === 'string';
-}
-
-async function loadGenerativeProfile(profilePath: string): Promise<GenerativeProfile> {
-  let module: unknown;
-  try {
-    module = await import(pathToFileURL(profilePath).href);
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    throw new Error(`Failed to load generative profile sidecar ${profilePath}: ${message}`);
+/** Parse the frontmatter `situation:` block. Resulting entries are bare prose
+ * strings or `{clause, sets-up: [slugs]}` objects; both normalise to clauses. */
+function parseSituation(fm: Record<string, unknown>, sourcePath: string): NodeSituation | undefined {
+  const raw = fm.situation;
+  if (!raw) return undefined;
+  if (!isRecord(raw)) {
+    console.warn(`Situation warning: ${sourcePath}: situation must be a mapping — ignored`);
+    return undefined;
   }
-
-  const profile = isRecord(module) ? module.profile : undefined;
-  if (!isGenerativeProfile(profile)) {
-    throw new Error(
-      `Invalid generative profile sidecar ${profilePath}: expected export const profile with string operatesOn, produces, and enacts fields.`
-    );
+  const situation: NodeSituation = {};
+  if (typeof raw.initiating === 'string' && raw.initiating.trim()) {
+    situation.initiating = raw.initiating.trim();
   }
-
-  return {
-    operatesOn: profile.operatesOn,
-    produces: profile.produces,
-    enacts: profile.enacts,
-  };
+  if (raw.resulting !== undefined) {
+    if (!Array.isArray(raw.resulting)) {
+      console.warn(`Situation warning: ${sourcePath}: situation.resulting must be an array — ignored`);
+    } else {
+      const clauses: SituationClause[] = [];
+      for (const entry of raw.resulting) {
+        if (typeof entry === 'string' && entry.trim()) {
+          clauses.push({ clause: entry.trim() });
+        } else if (isRecord(entry) && typeof entry.clause === 'string' && entry.clause.trim()) {
+          const setsUpRaw = entry['sets-up'];
+          const setsUp = Array.isArray(setsUpRaw)
+            ? setsUpRaw.filter((s): s is string => typeof s === 'string' && s.length > 0)
+            : undefined;
+          clauses.push({
+            clause: entry.clause.trim(),
+            ...(setsUp && setsUp.length > 0 ? { setsUp } : {}),
+          });
+        } else {
+          console.warn(`Situation warning: ${sourcePath}: invalid resulting clause — ignored`);
+        }
+      }
+      if (clauses.length > 0) situation.resulting = clauses;
+    }
+  }
+  return situation.initiating || situation.resulting ? situation : undefined;
 }
 
 function isRole(value: string): value is Role {
@@ -496,63 +508,40 @@ interface TreeConfig {
 }
 
 /**
- * Curated decision-tree configs, keyed by source pattern id (the page that contains the tree).
- *
- * Leaf labels are matched verbatim against the parsed Mermaid node labels. Trees and leaves
- * that resolve to no current pattern page are omitted — this is the "skip leaves that don't
- * map" branch of the Phase 3 plan.
+ * Decision-tree configs are authored in each page's `decision-trees:` frontmatter
+ * (the tree is the authorable judgement home — see relationship-vocabulary.md).
+ * Leaf labels are matched verbatim against the parsed Mermaid node labels; leaves
+ * that resolve to no current pattern page are omitted from the map and reported.
+ * Component leaves (primitives-*, components-*, etc.) silently skip at edge-build
+ * time because component nodes are not in the graph.
  */
-const DECISION_TREES: Record<string, TreeConfig[]> = {
-  // Keys and pattern leaves are flat stems (the content directory is flat).
-  // Component leaves (primitives-*, components-*, dialog, callout, etc.) silently
-  // skip at edge-build time because component nodes are not in the graph.
-  'deletion': [
-    {
-      treeId: 'deletion',
-      leaves: {
-        'No confirmation (with undo)': 'undo',
-        'Inline confirmation': 'inline-confirmation',
-        'Modal confirmation': 'actions-application-dialog',
-      },
-    },
-  ],
-  'notification': [
-    {
-      treeId: 'notification',
-      leaves: {
-        'Dialog': 'actions-application-dialog',
-        'Callout': 'operations-callout',
-        'Toast': 'transient-feedback',
-      },
-    },
-  ],
-  'navigation-overview': [
-    {
-      treeId: 'navigation-overview',
-      leaves: {
-        'Pan and zoom': 'pan-and-zoom',
-        'Step by step': 'step-by-step',
-        'Pyramid': 'pyramid',
-        'Multilevel tree': 'multilevel-tree',
-        'Flat navigation': 'flat-navigation',
-        'Fully connected': 'fully-connected',
-        'Hub and spoke': 'hub-and-spoke',
-        'Overview & Detail': 'overview-detail',
-      },
-    },
-  ],
-  'form': [
-    {
-      treeId: 'form-control',
-      chartIndex: 1, // second <MermaidDiagram> — "Choosing a control"
-      leaves: {
-        'Tabs': 'components-tabs',
-        'Checkbox': 'primitives-checkbox',
-        'Dropdown': 'actions-coordination-dropdown',
-      },
-    },
-  ],
-};
+function parseDecisionTrees(fm: Record<string, unknown>, sourcePath: string): TreeConfig[] {
+  const raw = fm['decision-trees'];
+  if (!raw) return [];
+  if (!Array.isArray(raw)) {
+    console.warn(`Decision-tree warning: ${sourcePath}: decision-trees must be an array — ignored`);
+    return [];
+  }
+  const configs: TreeConfig[] = [];
+  for (const entry of raw) {
+    if (!isRecord(entry) || typeof entry.id !== 'string' || !isRecord(entry.leaves)) {
+      console.warn(`Decision-tree warning: ${sourcePath}: entry needs an id and a leaves map — ignored`);
+      continue;
+    }
+    const leaves: Record<string, string> = {};
+    for (const [label, slug] of Object.entries(entry.leaves)) {
+      if (typeof slug === 'string' && slug.length > 0) leaves[label] = slug;
+      else console.warn(`Decision-tree warning: ${sourcePath}: leaf "${label}" needs a slug — ignored`);
+    }
+    const chartIndexRaw = entry['chart-index'];
+    configs.push({
+      treeId: entry.id,
+      ...(typeof chartIndexRaw === 'number' ? { chartIndex: chartIndexRaw } : {}),
+      leaves,
+    });
+  }
+  return configs;
+}
 
 interface ResolvedPath {
   leafTargetId: string;
@@ -674,10 +663,10 @@ interface RecommendsCollection {
 function extractDecisionTreeEdges(
   sourcePatternId: string,
   content: string,
+  configs: TreeConfig[],
   collection: RecommendsCollection,
 ): void {
-  const configs = DECISION_TREES[sourcePatternId];
-  if (!configs) return;
+  if (configs.length === 0) return;
   const charts = extractMermaidCharts(content);
   if (charts.length === 0) return;
 
@@ -751,7 +740,8 @@ for (const filePath of patternMdxFiles) {
   const domainRaw = typeof fm.domain === 'string' ? fm.domain : null;
   const cat = categoryOf(role, activityLevelRaw, domainRaw);
 
-  if (title.toLowerCase() === 'overview' && !DECISION_TREES[id]) continue;
+  const treeConfigs = parseDecisionTrees(fm, filePath);
+  if (title.toLowerCase() === 'overview' && treeConfigs.length === 0) continue;
 
   const patternSitePath = `/patterns/${id}`;
 
@@ -759,10 +749,8 @@ for (const filePath of patternMdxFiles) {
   if (role) node.role = role;
   roleSourceById.set(id, role ? 'explicit' : 'unset');
 
-  const profilePath = profileSidecarPath(filePath);
-  if (fileExists(profilePath)) {
-    node.generativeProfile = await loadGenerativeProfile(profilePath);
-  }
+  const situation = parseSituation(fm, filePath);
+  if (situation) node.situation = situation;
   nodeMap.set(id, node);
 
   const atomicRaw = typeof fm.atomic === 'string' ? fm.atomic : null;
@@ -785,7 +773,7 @@ for (const filePath of patternMdxFiles) {
   const typed = extractRelationships(fm, content, role, filePath);
   if (typed.length > 0) fileLinks.set(id, typed);
 
-  extractDecisionTreeEdges(id, content, recommendsCollection);
+  extractDecisionTreeEdges(id, content, treeConfigs, recommendsCollection);
 }
 
 // --- Build edges ---
@@ -806,6 +794,10 @@ function addEdge(edge: Edge) {
     // Fill an empty note slot; never overwrite an authored one.
     if (edge.label !== undefined && existing.label === undefined) existing.label = edge.label;
     if (edge.incomingNote !== undefined && existing.incomingNote === undefined) existing.incomingNote = edge.incomingNote;
+    if (edge.situation !== undefined && existing.situation === undefined) {
+      existing.situation = edge.situation;
+      existing.extractedFrom = edge.extractedFrom;
+    }
     return;
   }
   edgeMap.set(key, edge);
@@ -850,6 +842,35 @@ for (const [sourceId, links] of fileLinks.entries()) {
       ...(link.label !== undefined ? { [noteKey]: link.label } : {}),
       ...(link.extractedFrom !== undefined ? { extractedFrom: link.extractedFrom } : {}),
     });
+  }
+}
+
+// --- Emit `precedes` edges from resulting-context clauses ---
+//
+// A judgement home emits its edges (like decision trees emit `recommends`): a
+// `situation.resulting` clause with `sets-up` emits one `precedes` edge per named
+// pattern, carrying the clause as the edge's derived `situation` text. The clause
+// is the only authorable home of the condition; the edge field is its rendering.
+for (const node of nodeMap.values()) {
+  for (const clause of node.situation?.resulting ?? []) {
+    for (const target of clause.setsUp ?? []) {
+      if (!nodeMap.has(target)) {
+        console.warn(`Situation warning: ${node.id}: sets-up "${target}" names no known pattern — no edge emitted`);
+        continue;
+      }
+      if (target === node.id) continue;
+      const key = `${node.id}|${target}|precedes`;
+      if (edgeMap.has(key)) {
+        console.warn(`Situation warning: ${node.id} precedes ${target} is declared in relationships and emitted by a sets-up clause — author the pair only in the clause`);
+      }
+      addEdge({
+        source: node.id,
+        target,
+        type: 'precedes',
+        situation: clause.clause,
+        extractedFrom: 'situation:resulting',
+      });
+    }
   }
 }
 
@@ -985,7 +1006,7 @@ const mixedClusterFindings: string[] = [];
 // both endpoints' pages, so a note naming neither endpoint binds to whichever
 // endpoint the reader is not on. `enacts` is exempt (quality pages render
 // nothing — there is no reverse reader); `recommends` carries hints, not notes.
-const VOICING_TYPES = new Set<string>(['precedes', 'enables', 'instantiates', 'surveys']);
+const VOICING_TYPES = new Set<string>(['precedes', 'enables', 'instantiates', 'surveys', 'hosts']);
 const VOICING_STOPWORDS = new Set(['and', 'the', 'for', 'with', 'from', 'into', 'over', 'not']);
 function nameTokens(id: string): string[] {
   const title = nodeMap.get(id)?.title ?? id;
@@ -1015,7 +1036,9 @@ for (const e of edges) {
 const NOTE_TELLS: Array<{ claim: string; pattern: RegExp; conflicts: Set<string> }> = [
   { claim: 'taxonomic', pattern: /\bbroader\b|\bkind of\b|\bform of\b|\bvariant of\b|\bspecialis|\bspecializ|\binstance of\b/, conflicts: new Set(['precedes', 'enables']) },
   { claim: 'substitution', pattern: /\balternative\b|\binstead of\b/, conflicts: new Set(['precedes', 'enables', 'instantiates']) },
-  { claim: 'hosting', pattern: /\bcontainer\b|\bcanvas\b|\bcommonly lives\b|\bcommonly appears\b|\bhost(s|ed|ing)?\b/, conflicts: new Set(['precedes', 'instantiates']) },
+  // Since `hosts` exists (2026-07-10), hosting phrasing on any other type is a candidate
+  // mistype — the flagged notes are the standing queue for the hosting sweep.
+  { claim: 'hosting', pattern: /\bcontainer\b|\bcanvas\b|\bcommonly lives\b|\bcommonly appears\b|\bhost(s|ed|ing)?\b/, conflicts: new Set(['precedes', 'instantiates', 'enables', 'complements', 'related']) },
   { claim: 'compositional', pattern: /\benablers?\b|\bcomposed of\b|\bconstituent\b|\bbuilding block\b/, conflicts: new Set(['precedes', 'instantiates']) },
 ];
 const noteTellFindings: string[] = [];
@@ -1059,6 +1082,10 @@ const invalidSurveyEdges = edges.filter((edge) => {
 console.log(`Nodes: ${nodes.length} (${taggedNodes} with tags)`);
 console.log(`Edges: ${edges.length}`);
 console.log(`  by type: ${Object.entries(typeCounts).sort((a, b) => b[1] - a[1]).map(([t, c]) => `${t}=${c}`).join(', ')}`);
+// `related` share is the vocabulary's retirement health dial (advisory): `related`
+// is where meaning goes when the types don't fit, so a rising share means the
+// vocabulary isn't carrying the corpus. See relationship-vocabulary.md §Retirement.
+console.log(`  related share: ${(100 * (typeCounts.related ?? 0) / edges.length).toFixed(1)}% (retirement health dial; baseline 25.3% at 2026-07-10)`);
 console.log(`Categories: ${[...new Set(nodes.map((n) => n.category))].sort().join(', ')}`);
 console.log(`Role coverage (processed sources): explicit=${sourceRoleCoverage.explicit}, inferred=${sourceRoleCoverage.inferred}, unset=${sourceRoleCoverage.unset}`);
 console.log(`Role coverage (emitted graph nodes): explicit=${graphRoleCoverage.explicit}, inferred=${graphRoleCoverage.inferred}, unset=${graphRoleCoverage.unset}`);

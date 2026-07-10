@@ -6,6 +6,24 @@ activityLevel: action
 atomic: pattern
 mediation: individual
 fun: 🙂 3/5
+situation:
+  initiating: >-
+    a stretch of activity in which the actor wants to remove data, with
+    consequences that range from trivial to permanent and far-reaching
+  resulting:
+    - >-
+      a removal path matched to the severity, reversibility, and scope of the
+      loss — confirmation, undo, soft delete, or typed challenge
+    - clause: >-
+        the data is gone; whether that holds is now a question of recovery — a
+        completed deletion is exactly the state undo acts on
+      sets-up: [undo]
+decision-trees:
+  - id: deletion
+    leaves:
+      "No confirmation (with undo)": undo
+      "Inline confirmation": inline-confirmation
+      "Modal confirmation": actions-application-dialog
 relationships:
   related:
     - to: action-consequences
@@ -21,9 +39,6 @@ relationships:
   composed-of:
     - to: selection
       note: How the scope of a deletion gets staked
-  precedes:
-    - to: undo
-      note: Undo reverses a completed deletion — the deletion produces the state the recovery move acts on
 ---
 
 import { MermaidDiagram } from '@components/MermaidDiagram';

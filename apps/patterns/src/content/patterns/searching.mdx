@@ -7,6 +7,12 @@ atomic: composition
 mediation: individual
 lifecycle: seeking
 fun: 🗺️ 2/5. Mapping out the basics.
+situation:
+  resulting:
+    - clause: >-
+        a search can fail, leaving the actor with intent but no result — browsing
+        the structure ("browse by category instead") is the fallback seeking move
+      sets-up: [navigation-overview]
 relationships:
   instances:
     - to: command-menu
@@ -14,8 +20,6 @@ relationships:
   precedes:
     - to: data-view
       note: displays the result set a search produces
-    - to: navigation-overview
-      note: often used as a fallback if search fails ("browse by category instead")
   complements:
     - to: filtering
       note: often used after a search to refine results; in AI-search, filters are the output of the search query

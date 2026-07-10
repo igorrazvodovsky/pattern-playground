@@ -5,16 +5,25 @@ activityLevel: operation
 atomic: pattern
 mediation: individual
 fun: 🙂 2/5. Dependency.
+situation:
+  initiating: >-
+    a free-form input where the set of valid answers is large or the actor is
+    still formulating the query
+  resulting:
+    - a narrowing surface of candidate completions running alongside what's been typed
+    - clause: >-
+        autocomplete's candidates are looked up, not produced — deterministic
+        completion ends where the continuation has to be generated; AI completion
+        extends the same interaction to generated content
+      sets-up: [ai-completion]
 relationships:
-  precedes:
-    - to: ai-completion
-      note: the deterministic precursor; AI completion extends the same interaction to generated content
   enables:
     - to: data-entry
       note: autocomplete as a way to reduce input friction
-  complements:
+  hosted-by:
     - to: form
-      note: where autocomplete most commonly lives
+      note: form fields are where the completion surface most commonly lives
+  complements:
     - to: autofill
       note: "the preemptive counterpart: pre-populates from stored values rather than completing what the actor types (and what the HTML `autocomplete` attribute actually controls)"
     - to: bounded-choice

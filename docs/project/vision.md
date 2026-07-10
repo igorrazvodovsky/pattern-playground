@@ -44,10 +44,10 @@ substrate split and the bilingual-entry contract.
 ### Agent-consumable repertoire
 
 The repertoire should be usable by a non-human collaborator, not only browsable
-by its author. Docs, the pattern graph, and generative profiles together form a
+by its author. Docs, the pattern graph, and pattern situations together form a
 control layer an AI design actor can reason over and author into — reading the
 graph as suggestion-grade context, proposing moves, and writing back typed
-relationships and profiles without silently mutating the language. This is the
+relationships and situations without silently mutating the language. This is the
 project-level face of the language's
 [agent-usable](../language/vision.md) track; the harness
 ([../specs/agent-harness.md](../specs/agent-harness.md)) is where it becomes

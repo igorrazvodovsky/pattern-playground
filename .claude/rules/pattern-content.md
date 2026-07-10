@@ -105,7 +105,44 @@ or gloss the relation itself; when the wording only works from one side, author
 the reverse note via the inverse alias instead. The extractor's voicing
 advisory flags single-noted directed edges that name neither endpoint.
 
-Valid rel values: `precedes`, `follows`, `enables`, `composed-of`, `instantiates`, `instances`, `variants`, `complements`, `tangential`, `alternative`, `enacts`, `surveys`, `related`. Direction is fixed by the rel name (see `docs/language/relationship-vocabulary.md`). `recommends` is not authorable — it comes only from decision trees.
+Valid rel values: `precedes`, `follows`, `enables`, `composed-of`, `instantiates`, `instances`, `variants`, `complements`, `tangential`, `alternative`, `enacts`, `surveys`, `hosts`, `hosted-by`, `related`. Direction is fixed by the rel name (see `docs/language/relationship-vocabulary.md`). `recommends` is not authorable — it comes only from decision trees.
+
+## Situations and conditional edges
+
+A pattern may carry its two situations in frontmatter — the design situation it
+applies in, and the one it leaves behind:
+
+```yaml
+situation:
+  initiating: >-
+    prose — the situation this move applies in, told as the history of moves
+    already applied (or ruled out)
+  resulting:
+    - a bare prose clause about what holds after the move
+    - clause: >-
+        a clause that sets up a next move; voice it to name its subject —
+        it renders on both endpoints' pages
+      sets-up: [next-pattern]
+```
+
+A `sets-up` clause *emits* a `precedes` edge carrying the clause as derived
+condition text. Never author condition text in an edge note ("takes over
+when…", "fallback if…") — that judgement's home is the source pattern's
+resulting clause (or a decision tree). Don't also declare the same pair under
+`relationships: precedes`; the extractor warns on the duplicate.
+
+Decision trees are authored as a Mermaid flowchart in a `## Decision tree`
+section plus a frontmatter leaf map:
+
+```yaml
+decision-trees:
+  - id: deletion
+    chart-index: 0   # optional; which <MermaidDiagram> on the page (0-based)
+    leaves:
+      "No confirmation (with undo)": undo
+```
+
+See `docs/language/relationship-vocabulary.md` §Situations for the full rules.
 
 ### Suppressing the rendered block
 

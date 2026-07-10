@@ -5,6 +5,14 @@ activityLevel: operation
 atomic: pattern
 mediation: individual
 description: "Delivering a message whose job completes in a glance — brief, peripheral, self-dismissing, never asking the actor to stop."
+situation:
+  initiating: >-
+    a recent action whose outcome the actor would benefit from confirming,
+    without needing acknowledgement before continuing
+  resulting:
+    - >-
+      a brief peripheral message that auto-dismisses after a short window,
+      optionally carrying a single trailing affordance such as undo
 relationships:
   instantiates:
     - to: status-feedback

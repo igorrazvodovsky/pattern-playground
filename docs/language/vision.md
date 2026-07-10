@@ -45,11 +45,11 @@ effects across diverse users and contexts. This is the long horizon, and it is n
 The nearer frontier is making the language something an actor — human or AI —
 reasons over rather than reads. Three concrete moves:
 
-- *Generative profiles across the corpus.* The `operatesOn` / `produces` /
-  `enacts` profile sidecar exists and is populated for a small starting set. The
-  open question is whether the fields pull their weight before retrofitting them
-  across the library (see [relationship-vocabulary.md](./relationship-vocabulary.md),
-  Open Questions).
+- *Situations across the corpus.* The `situation.initiating` /
+  `situation.resulting` frontmatter constructs exist and are populated for a
+  small starting set. The open question is whether the fields pull their weight
+  before retrofitting them across the library (see
+  [relationship-vocabulary.md](./relationship-vocabulary.md), Open Questions).
 - *A query layer over the graph.* Edge axes, transitive enablement, co-grounding
   through shared foundations, and alternative-conflict detection are all derivable
   from the graph and could be exposed to a reasoning actor on demand rather than
@@ -64,7 +64,8 @@ This track is the language-level face of the project's
 ## Mature move record
 
 A mature `move` record splits across the two operative levels and this vision.
-The profile sidecar already carries `operatesOn`, `produces`, and `enacts`. The
+The situation constructs already carry the initiating situation and the
+resulting-context clauses, and `enacts` edges carry the quality claims. The
 fields that remain aspirational are the ones that make the object generative
 rather than catalogue-like:
 
@@ -90,7 +91,7 @@ interface PatternMove {
 }
 ```
 
-The still-unrealised fields are `situation`, `problem`, `forces`, `consequences`,
+The still-unrealised fields are `problem`, `forces`, `consequences`,
 `evidence`, and `status`. They are what would let a reasoning actor treat a
 pattern as a move rather than a page, so they belong to Track 2. The `status`
 field is the confidence signal: a seed can be useful, but it should not

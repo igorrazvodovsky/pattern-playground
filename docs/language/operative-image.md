@@ -20,16 +20,16 @@ MDX pages are the source material from which the pattern graph is extracted.
 
 A first iteration of the typed-edge layer exists, but it is not yet operational.
 The graph is extracted from authored frontmatter `relationships:`, inline `rel=`
-annotations, decision trees, and three structural auto-typings (`surveys`,
-`enacts`, `recommends`), with generative-profile sidecars contributing node-level
-metadata. All existing edges have been migrated from heading-text inference to
+annotations, and three structural auto-typings (`surveys`, `enacts`,
+`recommends`), with two judgement homes — node-side situations and decision
+trees — emitting their own edges and contributing node-level metadata. All existing edges have been migrated from heading-text inference to
 explicit authoring, and the `RelatedPatterns` component renders typed edges on
 pattern pages. Its edges are suggestion-grade: they help an actor reason about
 possible moves, not match a situation against rules. See
 [relationship-vocabulary.md](./relationship-vocabulary.md).
 
 What is not yet true is that the layer can be used to generate design. Coverage is
-partial (profiles populated for a small set, edges uneven across the corpus),
+partial (situations populated for a small set, edges uneven across the corpus),
 structural gaps remain, and the relationship vocabulary is explicitly provisional
 — expected to change through several more iterations of tinkering with edge types
 and data-model features before it is useful in real design work. The build is
@@ -47,10 +47,11 @@ Decision trees are treated as authored situational hints. They expose what the
 library currently discriminates on, and what it does not yet know how to
 discriminate. See [decision-dimensions.md](./decision-dimensions.md).
 
-Generative profiles are still an early sketch of pattern-as-move semantics. The
-sidecar shape is deliberately small — `operatesOn`, `produces`, and `enacts` —
-and populated for only a small starting set. These fields are concrete enough for
-extraction, but not yet the full move record imagined in the vision.
+Situations are still an early sketch of pattern-as-move semantics. The construct
+is deliberately small — an initiating situation and resulting-context clauses,
+with `sets-up:` emitting conditional `precedes` edges — and populated for only a
+small starting set. These fields are concrete enough for extraction, but not yet
+the full move record imagined in the vision.
 
 The Nature of Order register is not yet reached. [levels-of-scale.md](../levels-of-scale.md)
 is the first worked translation of a structural property into software; the rest
@@ -79,8 +80,8 @@ strongest current image.
   authored pattern repertoire
 - [`apps/patterns/src/data/pattern-graph.json`](../../apps/patterns/src/data/pattern-graph.json) —
   generated graph view
-- [`apps/patterns/src/content/pattern-profile.ts`](../../apps/patterns/src/content/pattern-profile.ts) —
-  current generative-profile sidecar shape
+- [relationship-vocabulary.md §Situations](./relationship-vocabulary.md) —
+  the node-side situation constructs
 
 ## How to use this page
 

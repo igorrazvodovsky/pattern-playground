@@ -7,6 +7,21 @@ atomic: composition
 mediation: individual
 fun: 🥱 boring but important groundwork.
 description: The structured collection of input from the actor.
+situation:
+  initiating: >-
+    a stretch of activity in which the system needs structured information from
+    the actor that can't be inferred from prior context
+  resulting:
+    - >-
+      a guided collection surface where fields are committed one at a time and
+      the whole set can be reviewed before submission
+decision-trees:
+  - id: form-control
+    chart-index: 1 # second <MermaidDiagram> — "Choosing a control"
+    leaves:
+      "Tabs": components-tabs
+      "Checkbox": primitives-checkbox
+      "Dropdown": actions-coordination-dropdown
 relationships:
   enacts:
     - to: formality

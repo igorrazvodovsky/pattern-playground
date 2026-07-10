@@ -73,6 +73,16 @@
       "category": "Actions",
       "path": "/patterns/ai-completion",
       "role": "pattern",
+      "situation": {
+        "resulting": [
+          {
+            "clause": "inline generation makes accepting cheaper than evaluating, so over-reliance accrues by default — deliberate friction is the countermove",
+            "setsUp": [
+              "cognitive-forcing-functions"
+            ]
+          }
+        ]
+      },
       "group": "application"
     },
     {
@@ -111,10 +121,19 @@
       "category": "Operations",
       "path": "/patterns/autocomplete",
       "role": "pattern",
-      "generativeProfile": {
-        "operatesOn": "a free-form input where the set of valid answers is large or the actor is still formulating the query",
-        "produces": "a narrowing surface of candidate completions running alongside what's been typed",
-        "enacts": "assistance without taking over, discoverability of options that exist, economy of typing"
+      "situation": {
+        "initiating": "a free-form input where the set of valid answers is large or the actor is still formulating the query",
+        "resulting": [
+          {
+            "clause": "a narrowing surface of candidate completions running alongside what's been typed"
+          },
+          {
+            "clause": "autocomplete's candidates are looked up, not produced — deterministic completion ends where the continuation has to be generated; AI completion extends the same interaction to generated content",
+            "setsUp": [
+              "ai-completion"
+            ]
+          }
+        ]
       }
     },
     {
@@ -145,10 +164,13 @@
       "category": "Operations",
       "path": "/patterns/bounded-choice",
       "role": "pattern",
-      "generativeProfile": {
-        "operatesOn": "a value the actor must supply from a set they didn't author and may not be able to survey",
-        "produces": "a visible, narrowable candidate set that converges on a valid committed value",
-        "enacts": "vocabulary legibility, integrity of what gets committed"
+      "situation": {
+        "initiating": "a value the actor must supply from a set they didn't author and may not be able to survey",
+        "resulting": [
+          {
+            "clause": "a visible, narrowable candidate set that converges on a valid committed value"
+          }
+        ]
       }
     },
     {
@@ -218,10 +240,13 @@
       "category": "Activities",
       "path": "/patterns/conversation",
       "role": "pattern",
-      "generativeProfile": {
-        "operatesOn": "an evolving exchange between actors where meaning has to be built up over multiple turns rather than stated in one",
-        "produces": "a dialogue structure that carries context forward, lets either party take a turn, and accommodates repair when alignment slips",
-        "enacts": "shared understanding, mutual agency, room for the unfolding nature of meaning"
+      "situation": {
+        "initiating": "an evolving exchange between actors where meaning has to be built up over multiple turns rather than stated in one",
+        "resulting": [
+          {
+            "clause": "a dialogue structure that carries context forward, lets either party take a turn, and accommodates repair when alignment slips"
+          }
+        ]
       }
     },
     {
@@ -282,10 +307,19 @@
       "category": "Actions",
       "path": "/patterns/deletion",
       "role": "pattern",
-      "generativeProfile": {
-        "operatesOn": "a stretch of activity in which the actor wants to remove data, with consequences that range from trivial to permanent and far-reaching",
-        "produces": "a removal path matched to the severity, reversibility, and scope of the loss — confirmation, undo, soft delete, or typed challenge",
-        "enacts": "protection against accidental loss, explicit intent on consequential actions, and a recovery surface proportional to the stakes"
+      "situation": {
+        "initiating": "a stretch of activity in which the actor wants to remove data, with consequences that range from trivial to permanent and far-reaching",
+        "resulting": [
+          {
+            "clause": "a removal path matched to the severity, reversibility, and scope of the loss — confirmation, undo, soft delete, or typed challenge"
+          },
+          {
+            "clause": "the data is gone; whether that holds is now a question of recovery — a completed deletion is exactly the state undo acts on",
+            "setsUp": [
+              "undo"
+            ]
+          }
+        ]
       },
       "group": "application"
     },
@@ -349,6 +383,16 @@
       "category": "Actions",
       "path": "/patterns/flat-navigation",
       "role": "pattern",
+      "situation": {
+        "resulting": [
+          {
+            "clause": "everything is reachable in one place — which holds only while the tools and destinations fit one surface; when the item count outgrows the screen, hub and spoke takes over",
+            "setsUp": [
+              "hub-and-spoke"
+            ]
+          }
+        ]
+      },
       "group": "navigation"
     },
     {
@@ -365,10 +409,13 @@
       "category": "Actions",
       "path": "/patterns/form",
       "role": "pattern",
-      "generativeProfile": {
-        "operatesOn": "a stretch of activity in which the system needs structured information from the actor that can't be inferred from prior context",
-        "produces": "a guided collection surface where fields are committed one at a time and the whole set can be reviewed before submission",
-        "enacts": "clarity about what's being asked, agency over what's submitted, room for revision before commit"
+      "situation": {
+        "initiating": "a stretch of activity in which the system needs structured information from the actor that can't be inferred from prior context",
+        "resulting": [
+          {
+            "clause": "a guided collection surface where fields are committed one at a time and the whole set can be reviewed before submission"
+          }
+        ]
       },
       "group": "application"
     },
@@ -399,7 +446,29 @@
       "title": "Good defaults",
       "category": "Operations",
       "path": "/patterns/good-defaults",
-      "role": "pattern"
+      "role": "pattern",
+      "situation": {
+        "resulting": [
+          {
+            "clause": "fields hold the system's best static guess — which serves only until the actor starts typing a value of their own; completion then has to happen in flight rather than up front",
+            "setsUp": [
+              "autocomplete"
+            ]
+          },
+          {
+            "clause": "a good default is a guess made without the actor's stored data; where the system already holds the actual value, pre-filling from the record takes over from guessing",
+            "setsUp": [
+              "autofill"
+            ]
+          },
+          {
+            "clause": "pre-population ends where the task needs the system to participate in the work itself — the assisted-completion spectrum picks up where a static guess stops sufficing",
+            "setsUp": [
+              "assisted-task-completion"
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "grouping",
@@ -521,7 +590,17 @@
       "title": "Live presentation",
       "category": "Activities",
       "path": "/patterns/live-presentation",
-      "role": "pattern"
+      "role": "pattern",
+      "situation": {
+        "resulting": [
+          {
+            "clause": "once the stream completes, a produced artifact sits on the surface — the move shifts from holding the rendering stable to negotiating what arrived",
+            "setsUp": [
+              "generated-content"
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "living-document",
@@ -588,10 +667,13 @@
       "category": "Actions",
       "path": "/patterns/notification",
       "role": "pattern",
-      "generativeProfile": {
-        "operatesOn": "a system event whose existence the actor needs to know about, alongside an existing flow that has its own demands on attention",
-        "produces": "a delivery surface tuned to the event's urgency and the actor's availability",
-        "enacts": "awareness without disruption — or with disruption when warranted — and respect for the actor's current attention"
+      "situation": {
+        "initiating": "a system event whose existence the actor needs to know about, alongside an existing flow that has its own demands on attention",
+        "resulting": [
+          {
+            "clause": "a delivery surface tuned to the event's urgency and the actor's availability"
+          }
+        ]
       },
       "group": "coordination"
     },
@@ -601,10 +683,13 @@
       "category": "Activities",
       "path": "/patterns/onboarding",
       "role": "pattern",
-      "generativeProfile": {
-        "operatesOn": "an actor's first encounter with a system (or a changed part of one) before they have a working mental model of what's possible and what will happen",
-        "produces": "a bounded period in which the actor can build that model with low stakes, often by doing rather than reading",
-        "enacts": "learnability of the system's affordances, safety to try things, value visible early enough to motivate continued use"
+      "situation": {
+        "initiating": "an actor's first encounter with a system (or a changed part of one) before they have a working mental model of what's possible and what will happen",
+        "resulting": [
+          {
+            "clause": "a bounded period in which the actor can build that model with low stakes, often by doing rather than reading"
+          }
+        ]
       }
     },
     {
@@ -690,6 +775,16 @@
       "category": "Actions",
       "path": "/patterns/searching",
       "role": "pattern",
+      "situation": {
+        "resulting": [
+          {
+            "clause": "a search can fail, leaving the actor with intent but no result — browsing the structure (\"browse by category instead\") is the fallback seeking move",
+            "setsUp": [
+              "navigation-overview"
+            ]
+          }
+        ]
+      },
       "group": "seeking"
     },
     {
@@ -698,10 +793,13 @@
       "category": "Operations",
       "path": "/patterns/sections",
       "role": "pattern",
-      "generativeProfile": {
-        "operatesOn": "content that divides into a small, stable set of named parts where which-mode-to-show is a property of context, not of the content",
-        "produces": "a single container whose disclosure affordance (tabs vs. accordion) shifts with context without restructuring the content",
-        "enacts": "adaptability to context, continuity of structure across affordances"
+      "situation": {
+        "initiating": "content that divides into a small, stable set of named parts where which-mode-to-show is a property of context, not of the content",
+        "resulting": [
+          {
+            "clause": "a single container whose disclosure affordance (tabs vs. accordion) shifts with context without restructuring the content"
+          }
+        ]
       }
     },
     {
@@ -710,10 +808,13 @@
       "category": "Actions",
       "path": "/patterns/selection",
       "role": "pattern",
-      "generativeProfile": {
-        "operatesOn": "a moment where the actor must designate members of an exposed set of options",
-        "produces": "a designation — narrowed by scanning or typing — whose fate (committed value, staked target, spliced text) is set by the surrounding flow",
-        "enacts": "recognition over recall, legibility of what can be picked, economy of designation"
+      "situation": {
+        "initiating": "a moment where the actor must designate members of an exposed set of options",
+        "resulting": [
+          {
+            "clause": "a designation — narrowed by scanning or typing — whose fate (committed value, staked target, spliced text) is set by the surrounding flow"
+          }
+        ]
       },
       "group": "coordination"
     },
@@ -761,7 +862,10 @@
       "title": "Disabled state",
       "category": "Operations",
       "path": "/patterns/state-disabled",
-      "role": "pattern"
+      "role": "pattern",
+      "situation": {
+        "initiating": "the alternatives have been ruled out: the element can't be hidden without breaking spatial memory or concealing capability, and it can't stay interactive with an explanation of why it can't act yet — disabling is the move that remains when the element must stay visible and genuinely cannot respond"
+      }
     },
     {
       "id": "state-empty",
@@ -830,10 +934,13 @@
       "category": "Operations",
       "path": "/patterns/transient-feedback",
       "role": "pattern",
-      "generativeProfile": {
-        "operatesOn": "a recent action whose outcome the actor would benefit from confirming, without needing acknowledgement before continuing",
-        "produces": "a brief peripheral message that auto-dismisses after a short window, optionally carrying a single trailing affordance such as undo",
-        "enacts": "acknowledgement of the action's completion, lightness of touch, recoverability within the dismissal window"
+      "situation": {
+        "initiating": "a recent action whose outcome the actor would benefit from confirming, without needing acknowledgement before continuing",
+        "resulting": [
+          {
+            "clause": "a brief peripheral message that auto-dismisses after a short window, optionally carrying a single trailing affordance such as undo"
+          }
+        ]
       }
     },
     {
@@ -856,10 +963,13 @@
       "category": "Operations",
       "path": "/patterns/undo",
       "role": "pattern",
-      "generativeProfile": {
-        "operatesOn": "a recently committed action whose consequences the actor wants to retract",
-        "produces": "a reverse path that returns the structure to its prior state, with a window in which the retraction is offered",
-        "enacts": "forgiveness for mistakes, room for confident exploration"
+      "situation": {
+        "initiating": "a recently committed action whose consequences the actor wants to retract",
+        "resulting": [
+          {
+            "clause": "a reverse path that returns the structure to its prior state, with a window in which the retraction is offered"
+          }
+        ]
       }
     },
     {
@@ -1204,18 +1314,11 @@
       "extractedFrom": "frontmatter:complements"
     },
     {
-      "source": "ai-completion",
-      "target": "block-based-editor",
-      "type": "enables",
-      "label": "a natural container for AI completion",
-      "extractedFrom": "frontmatter:enables"
-    },
-    {
-      "source": "ai-completion",
-      "target": "cognitive-forcing-functions",
-      "type": "precedes",
-      "label": "inline generation prone to over-reliance because accepting is cheaper than evaluating",
-      "extractedFrom": "frontmatter:precedes"
+      "source": "block-based-editor",
+      "target": "ai-completion",
+      "type": "hosts",
+      "incomingNote": "the block editor is a natural container for AI completion",
+      "extractedFrom": "frontmatter:hosted-by"
     },
     {
       "source": "ai-completion",
@@ -1375,20 +1478,6 @@
       "incomingNote": "the completion spectrum, including [AI completion](/patterns/ai-completion) (inline generation) and [next-best action](/patterns/next-best-action) (workflow-level recommendations)"
     },
     {
-      "source": "good-defaults",
-      "target": "assisted-task-completion",
-      "type": "precedes",
-      "incomingNote": "the simplest form of pre-population, before assisted completion mechanisms kick in",
-      "extractedFrom": "frontmatter:follows"
-    },
-    {
-      "source": "autocomplete",
-      "target": "ai-completion",
-      "type": "precedes",
-      "label": "the deterministic precursor; AI completion extends the same interaction to generated content",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
       "source": "autocomplete",
       "target": "data-entry",
       "type": "enables",
@@ -1396,11 +1485,11 @@
       "extractedFrom": "frontmatter:enables"
     },
     {
-      "source": "autocomplete",
-      "target": "form",
-      "type": "complements",
-      "label": "where autocomplete most commonly lives",
-      "extractedFrom": "frontmatter:complements"
+      "source": "form",
+      "target": "autocomplete",
+      "type": "hosts",
+      "incomingNote": "form fields are where the completion surface most commonly lives",
+      "extractedFrom": "frontmatter:hosted-by"
     },
     {
       "source": "autocomplete",
@@ -1467,13 +1556,6 @@
     },
     {
       "source": "autofill",
-      "target": "form",
-      "type": "complements",
-      "label": "the container where autofill most commonly appears",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "autofill",
       "target": "assisted-task-completion",
       "type": "complements",
       "label": "the spectrum this pattern belongs to",
@@ -1506,6 +1588,13 @@
       "type": "enables",
       "label": "autofill as a strategy for frictionless input",
       "extractedFrom": "frontmatter:enables"
+    },
+    {
+      "source": "form",
+      "target": "autofill",
+      "type": "hosts",
+      "incomingNote": "form fields are the surface where autofill most commonly appears",
+      "extractedFrom": "frontmatter:hosted-by"
     },
     {
       "source": "autofill",
@@ -2285,13 +2374,6 @@
       "label": "the most common operation routed through selection; confirmation strategy should scale with the selection count"
     },
     {
-      "source": "deletion",
-      "target": "undo",
-      "type": "precedes",
-      "label": "Undo reverses a completed deletion — the deletion produces the state the recovery move acts on",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
       "source": "density",
       "target": "temporality",
       "type": "related",
@@ -2475,13 +2557,6 @@
       "target": "bot",
       "type": "related",
       "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "flat-navigation",
-      "target": "hub-and-spoke",
-      "type": "precedes",
-      "label": "hub and spoke takes over when items exceed screen capacity",
-      "extractedFrom": "frontmatter:precedes"
     },
     {
       "source": "flat-navigation",
@@ -2706,20 +2781,6 @@
       "type": "complements",
       "label": "settings that influence how content is generated and presented.",
       "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "good-defaults",
-      "target": "autocomplete",
-      "type": "precedes",
-      "label": "pre-populating values before the actor starts typing",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "good-defaults",
-      "target": "autofill",
-      "type": "precedes",
-      "label": "when the system can guess a reasonable value without stored data",
-      "extractedFrom": "frontmatter:precedes"
     },
     {
       "source": "good-defaults",
@@ -3280,13 +3341,6 @@
       "type": "enacts",
       "label": "by deferring full content to hover, preview lets dense cross-referencing exist without overwhelming the page",
       "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "live-presentation",
-      "target": "generated-content",
-      "type": "precedes",
-      "label": "once the stream completes, the move shifts from holding the surface stable to negotiating what arrived",
-      "extractedFrom": "frontmatter:precedes"
     },
     {
       "source": "live-presentation",
@@ -4357,13 +4411,6 @@
     },
     {
       "source": "searching",
-      "target": "navigation-overview",
-      "type": "precedes",
-      "label": "often used as a fallback if search fails (\"browse by category instead\")",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "searching",
       "target": "filtering",
       "type": "complements",
       "label": "often used after a search to refine results; in AI-search, filters are the output of the search query",
@@ -4645,9 +4692,9 @@
     {
       "source": "state-empty",
       "target": "onboarding",
-      "type": "enables",
+      "type": "hosts",
       "label": "the empty state is often the canvas onboarding builds on",
-      "extractedFrom": "frontmatter:enables"
+      "extractedFrom": "frontmatter:hosts"
     },
     {
       "source": "state-empty",
@@ -5198,6 +5245,69 @@
       "target": "collaboration-foundation",
       "type": "related",
       "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "ai-completion",
+      "target": "cognitive-forcing-functions",
+      "type": "precedes",
+      "situation": "inline generation makes accepting cheaper than evaluating, so over-reliance accrues by default — deliberate friction is the countermove",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "autocomplete",
+      "target": "ai-completion",
+      "type": "precedes",
+      "situation": "autocomplete's candidates are looked up, not produced — deterministic completion ends where the continuation has to be generated; AI completion extends the same interaction to generated content",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "deletion",
+      "target": "undo",
+      "type": "precedes",
+      "situation": "the data is gone; whether that holds is now a question of recovery — a completed deletion is exactly the state undo acts on",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "flat-navigation",
+      "target": "hub-and-spoke",
+      "type": "precedes",
+      "situation": "everything is reachable in one place — which holds only while the tools and destinations fit one surface; when the item count outgrows the screen, hub and spoke takes over",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "good-defaults",
+      "target": "autocomplete",
+      "type": "precedes",
+      "situation": "fields hold the system's best static guess — which serves only until the actor starts typing a value of their own; completion then has to happen in flight rather than up front",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "good-defaults",
+      "target": "autofill",
+      "type": "precedes",
+      "situation": "a good default is a guess made without the actor's stored data; where the system already holds the actual value, pre-filling from the record takes over from guessing",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "good-defaults",
+      "target": "assisted-task-completion",
+      "type": "precedes",
+      "situation": "pre-population ends where the task needs the system to participate in the work itself — the assisted-completion spectrum picks up where a static guess stops sufficing",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "live-presentation",
+      "target": "generated-content",
+      "type": "precedes",
+      "situation": "once the stream completes, a produced artifact sits on the surface — the move shifts from holding the rendering stable to negotiating what arrived",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "searching",
+      "target": "navigation-overview",
+      "type": "precedes",
+      "situation": "a search can fail, leaving the actor with intent but no result — browsing the structure (\"browse by category instead\") is the fallback seeking move",
+      "extractedFrom": "situation:resulting"
     },
     {
       "source": "deletion",

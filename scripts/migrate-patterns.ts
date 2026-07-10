@@ -6,7 +6,7 @@
  *
  * Usage: npx tsx scripts/migrate-patterns.ts [--dry-run] [--overwrite]
  */
-import { readFileSync, writeFileSync, mkdirSync, existsSync, copyFileSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
 import { join, dirname, basename, relative, extname } from 'path';
 import { fileURLToPath } from 'url';
 import { globSync } from 'glob';
@@ -130,8 +130,6 @@ function transformContent(srcPath: string, rawContent: string, fm: Frontmatter):
   c = c.replace(/^import\s+[^'"\n]+from\s+['"]@storybook\/[^'"]+['"]\s*;?\n/gm, '');
   // Remove any import whose source path ends with .stories or .stories.tsx
   c = c.replace(/^import\s+[^'"]*from\s+['"][^'"]*\.stories(?:\.tsx?)?['"]\s*;?\n/gm, '');
-  // Remove profile imports (sidecars are co-located but not imported)
-  c = c.replace(/^import\s+\{[^}]+\}\s+from\s+['"][^'"]+\.profile[^'"]*['"]\s*;?\n/gm, '');
   // Remove getRandomIcon utility import
   c = c.replace(/^import\s+\{[^}]+\}\s+from\s+['"][^'"]+\/icons['"]\s*;?\n/gm, '');
   // Update MermaidDiagram import to use workspace alias
@@ -227,31 +225,6 @@ for (const srcPath of allMdx) {
   }
 }
 
-// ─── migrate .profile.ts sidecars ─────────────────────────────────────────────
-
-const profiles = globSync('**/*.profile.ts', { cwd: storiesDir, absolute: true });
-let profilesMigrated = 0;
-
-for (const srcPath of profiles) {
-  const mdxSrc = srcPath.replace('.profile.ts', '.mdx');
-  if (!existsSync(mdxSrc)) continue;
-
-  const role = detectRole(mdxSrc, readFileSync(mdxSrc, 'utf8'));
-  if (!role || role === 'component') continue;
-
-  const mdxDest = srcToDestPath(mdxSrc);
-  const destPath = mdxDest.replace('.mdx', '.profile.ts');
-
-  if (!OVERWRITE && existsSync(destPath)) continue;
-
-  if (!DRY_RUN) {
-    mkdirSync(dirname(destPath), { recursive: true });
-    copyFileSync(srcPath, destPath);
-  }
-  profilesMigrated++;
-}
-
 console.log(`\nMigration complete:`);
 console.log(`  MDX:     ${migrated} migrated, ${skipped} skipped (already exist), ${errors} errors`);
-console.log(`  Profiles: ${profilesMigrated} migrated`);
 if (DRY_RUN) console.log(`\n(dry run — no files written)`);

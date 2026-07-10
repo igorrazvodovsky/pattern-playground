@@ -5,12 +5,25 @@ activityLevel: operation
 atomic: pattern
 mediation: individual
 fun: 🗺️ 2/5. Mapping out the basics.
+situation:
+  resulting:
+    - clause: >-
+        fields hold the system's best static guess — which serves only until the
+        actor starts typing a value of their own; completion then has to happen
+        in flight rather than up front
+      sets-up: [autocomplete]
+    - clause: >-
+        a good default is a guess made without the actor's stored data; where the
+        system already holds the actual value, pre-filling from the record takes
+        over from guessing
+      sets-up: [autofill]
+    - clause: >-
+        pre-population ends where the task needs the system to participate in the
+        work itself — the assisted-completion spectrum picks up where a static
+        guess stops sufficing
+      sets-up: [assisted-task-completion]
 relationships:
   precedes:
-    - to: autocomplete
-      note: pre-populating values before the actor starts typing
-    - to: autofill
-      note: when the system can guess a reasonable value without stored data
     - to: localization
       note: locale detection and sensible starting configuration
   related:
