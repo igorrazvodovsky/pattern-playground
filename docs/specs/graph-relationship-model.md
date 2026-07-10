@@ -24,6 +24,12 @@ or route on a situation or hint — they render as prose for judgement.
   Storybook MDX against the content stems, failing the site build on any broken
   reference. See [2026-07-workspace-split-closure.md](../../plans/completed/2026-07-workspace-split-closure.md),
   workstream 2.
+- *Component realisation* ("this move is realised by this component") is therefore
+  not an edge type: it is a cross-dataset reference authored as `<ComponentRef>`
+  body prose (an inline mention or a `## Related components` list), validated by
+  the cross-reference gate, and deliberately not rendered in the related-patterns
+  block. `enables` covers move composition within the language only. See the
+  vocabulary doc §Component realisation.
 - `scripts/extract-graph-data.ts` derives `apps/patterns/src/data/pattern-graph.json`
   and related generated data.
 - Node metadata includes title, category, path, role, group, tags, the
@@ -42,7 +48,7 @@ Edges come only from explicit authoring or structural auto-typing. Heading-text 
 Explicit channels (any MDX file):
 1. *Frontmatter `relationships:`* — keyed by rel type (or authoring alias), values are arrays of bare slugs or `{to, note}` objects.
 2. *Inline `{rel="type"}` on links* — `[text](/patterns/slug){rel="precedes"}` in body prose.
-3. *`<PatternRef>`/`<ComponentRef>` component props* — `<PatternRef slug="…" rel="enables">`.
+3. *`<PatternRef>` component props* — `<PatternRef slug="…" rel="enables">`. `<ComponentRef>` carries no rel: component realisation is a cross-dataset reference against Storybook's `index.json`, not an edge — the extractor warns if one is authored (see the vocabulary doc §Component realisation).
 
 Judgement homes that emit their edges:
 1. *Frontmatter `situation.resulting` clauses with `sets-up:`* → one `precedes` edge per named pattern, carrying the clause as derived `situation` text.

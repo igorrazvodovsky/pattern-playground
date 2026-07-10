@@ -334,25 +334,21 @@ function parseComponentRelAttrs(content: string, sourcePath: string): TypedLink[
     });
   }
 
+  // <ComponentRef> carries no rel: component realisation is a cross-dataset
+  // reference against Storybook's index.json, not a graph edge (see
+  // relationship-vocabulary.md §Component realisation). A rel here is an
+  // authoring error — components are not graph nodes, so the edge could never
+  // resolve; warn instead of silently dropping it.
   COMPONENT_REF_RE.lastIndex = 0;
   while ((m = COMPONENT_REF_RE.exec(content)) !== null) {
     const attrs = m[1];
     const id = extractTagAttr(attrs, 'id');
     const rel = extractTagAttr(attrs, 'rel');
     if (!id || !rel) continue;
-    if (!AUTHORABLE_RELS.has(rel)) {
-      console.warn(`I4 unknown rel: ${sourcePath}: rel="${rel}" on <ComponentRef id="${id}"> — ignored`);
-      continue;
-    }
-    const resolved = ALIAS_TABLE[rel as AuthoringRel];
-    const target = id.replace(/--docs$/, '').replace(/\//g, '-').replace(/-+/g, '-');
-    links.push({
-      target,
-      type: resolved.type,
-      extractedFrom: `component:ComponentRef`,
-      ...(resolved.invert ? { inverse: true } : {}),
-      channel: 'component',
-    });
+    console.warn(
+      `Realisation warning: ${sourcePath}: rel="${rel}" on <ComponentRef id="${id}"> — ` +
+      `component realisation is a cross-dataset reference, not a graph edge; remove the rel`,
+    );
   }
 
   return links;
@@ -813,7 +809,16 @@ function isPatternToQualityLink(sourceId: string, targetId: string): boolean {
 
 for (const [sourceId, links] of fileLinks.entries()) {
   for (const link of links) {
-    if (!nodeMap.has(link.target)) continue;
+    if (!nodeMap.has(link.target)) {
+      // Explicitly authored links to unknown targets are typos or claims aimed
+      // outside the graph (e.g. a component id in `relationships:` — realisation
+      // claims belong in <ComponentRef> prose). Auto-typed prose links skip
+      // silently: the intra-site link validator already gates those routes.
+      if (link.channel !== 'auto') {
+        console.warn(`Relationships warning: ${sourceId}: ${link.type} target "${link.target}" names no known pattern — no edge emitted`);
+      }
+      continue;
+    }
     if (sourceId === link.target) continue;
 
     // Auto-typed prose links (channel:'auto', type:'related'):

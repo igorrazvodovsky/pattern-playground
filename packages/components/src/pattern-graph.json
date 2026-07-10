@@ -2186,11 +2186,12 @@
       "extractedFrom": "frontmatter:related"
     },
     {
-      "source": "data-entry",
-      "target": "form",
-      "type": "complements",
-      "label": "a container for data entry: structured, multi-field, committed up front. [Conversation](/patterns/conversation) and the [inline interface](/patterns/inline-interface) are others.",
-      "extractedFrom": "frontmatter:complements"
+      "source": "form",
+      "target": "data-entry",
+      "type": "hosts",
+      "incomingNote": "one of the surfaces that host the entry move — structured, multi-field, committed up front. [Conversation](/patterns/conversation) and the [inline interface](/patterns/inline-interface) are others.",
+      "extractedFrom": "frontmatter:hosted-by",
+      "label": "each field is a site of the entry move; the form is one of its surfaces."
     },
     {
       "source": "data-entry",
@@ -2621,10 +2622,11 @@
     },
     {
       "source": "form",
-      "target": "data-entry",
-      "type": "complements",
-      "label": "the broader move each field enacts; the form is one of its containers.",
-      "extractedFrom": "frontmatter:complements"
+      "target": "good-defaults",
+      "type": "hosts",
+      "label": "fields arrive pre-filled with likely values, removing entry entirely.",
+      "extractedFrom": "frontmatter:hosts",
+      "incomingNote": "form fields are the primary surface where defaults are encountered"
     },
     {
       "source": "form",
@@ -2638,13 +2640,6 @@
       "target": "localization",
       "type": "complements",
       "label": "locale-aware parsing and format tolerance for input.",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "form",
-      "target": "good-defaults",
-      "type": "complements",
-      "label": "pre-selecting likely values to remove entry entirely.",
       "extractedFrom": "frontmatter:complements"
     },
     {
@@ -2809,13 +2804,6 @@
       "type": "related",
       "label": "A weaker form of default (\"Did you mean X?\") or a dynamic default",
       "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "good-defaults",
-      "target": "form",
-      "type": "complements",
-      "label": "The primary container where defaults are encountered",
-      "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "good-defaults",
@@ -5040,11 +5028,11 @@
       "extractedFrom": "frontmatter:instantiates"
     },
     {
-      "source": "validation",
-      "target": "form",
-      "type": "related",
-      "label": "the container that hosts fieldwise validation and wires it to submission",
-      "extractedFrom": "frontmatter:related"
+      "source": "form",
+      "target": "validation",
+      "type": "hosts",
+      "incomingNote": "the form is the surface that hosts fieldwise messages and wires them to submission",
+      "extractedFrom": "frontmatter:hosted-by"
     },
     {
       "source": "validation",

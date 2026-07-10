@@ -107,6 +107,12 @@ advisory flags single-noted directed edges that name neither endpoint.
 
 Valid rel values: `precedes`, `follows`, `enables`, `composed-of`, `instantiates`, `instances`, `variants`, `complements`, `tangential`, `alternative`, `enacts`, `surveys`, `hosts`, `hosted-by`, `related`. Direction is fixed by the rel name (see `docs/language/relationship-vocabulary.md`). `recommends` is not authorable — it comes only from decision trees.
 
+Component realisation ("this move is realised by this component") is not a
+typed edge: point at the component with `<ComponentRef>` in body prose — an
+inline mention or a `## Related components` list. Never put a `rel=` on a
+`<ComponentRef>` and never name a component id in `relationships:`. See
+`docs/language/relationship-vocabulary.md` §Component realisation.
+
 ## Situations and conditional edges
 
 A pattern may carry its two situations in frontmatter — the design situation it

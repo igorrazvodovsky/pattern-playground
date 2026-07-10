@@ -13,8 +13,6 @@ relationships:
       note: supports command menu functionality by reducing typing effort and increasing discoverability of commands.
     - to: embedded-intelligence
       note: helps the actor find relevant commands when exact matches aren't available
-    - to: toolbar
-      note: exposes a persistent subset of commands; a command menu offers the full set on demand
     - to: collaboration
       note: Command menus provide quick access to collaborative actions and workflows
     - to: keyboard-shortcuts
@@ -39,6 +37,7 @@ The move recurs wherever a capability has a command space of its own. For instan
 - <ComponentRef id="components-combobox--docs">Combobox</ComponentRef> — the mechanism this pattern builds on; `src/components/combobox/` drives the text input, filtered list, and keyboard model
 - <ComponentRef id="primitives-keyboard-key--docs">Keyboard key</ComponentRef>
 - <ComponentRef id="components-context-menu--docs">Context menu</ComponentRef> — pointer-driven and target-aware; command menu is keyboard-driven and name-based
+- <ComponentRef id="components-toolbar--docs">Toolbar</ComponentRef> — exposes a persistent subset of commands; the command menu offers the full set on demand
 
 ## To-do
 

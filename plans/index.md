@@ -5,7 +5,8 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Active
 
-- [Relationship vocabulary: situations, part–whole hygiene, and the hosting gap](active/2026-07-relationship-vocabulary.md) — home for the vocabulary items the territory closures accumulated: situation constructs on edges (research-gated), part–whole audit, hosting relation, realised_by split
+- [Enacts-note audit](active/2026-07-enacts-note-audit.md) — align pre-existing `enacts` labels with the Q-lens convention; one hygiene sitting plus a possible third extractor advisory
+- [Move-vs-artifact naming: the T6 kept twins](active/2026-07-move-vs-artifact-naming.md) — outline, needs iteration: do Sections and Command menu hold up against the move-naming rule, and what does a rename cost
 - [Review practice: moves, reconciliation, drift](active/2026-07-review-practice.md) — three review loops adapting ai-pr-review mechanics to the vision/operative-image dialectic
 - [Shrink the client:load shell surface](active/2026-06-shell-island-refactor.md) — persist the sidebar island, render content statically; structural follow-up to the optimizeDeps hydration fix
 - [Combobox and adjacent surfaces](active/2026-05-combobox-territory.md) — pattern-language work for Combobox, Selection multi-select, Dual listbox placeholder
@@ -24,6 +25,7 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Completed
 
+- [Relationship vocabulary: situations, part–whole hygiene, and the hosting gap](completed/2026-07-relationship-vocabulary.md) — situation constructs (`situation.initiating`/`resulting` emitting conditional `precedes`), `hosts` minted, part–whole and precedes hygiene sweeps, component realisation split out of `enables` as a cross-dataset ComponentRef reference
 - [Typed relationships](completed/2026-06-typed-relationships.md) — frontmatter `relationships:` edges, RelatedPatterns rendering, migration-repair pass (phases A–E)
 - [Consolidate collection-move demos into DataView](completed/2026-05-collection-move-demos.md) — host-composition demos: DataView substrate lifted to `demos/data-view/`, grouping implemented, move pages embed configured slices (T2 of workspace-split closure)
 - [Workspace split](completed/2026-05-workspace-split.md) — split into components package and pattern-site app (npm workspaces, Astro); Phase D tail documented
@@ -43,6 +45,7 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Paused
 
+- [Shared theoretical ancestry: a home for the DOI formalism](paused/2026-07-doi-ancestry-home.md) — trigger-gated outline: decide foundation vs woven vocabulary if a third degree-of-interest descendant lands
 - [Adaptation MDX enhancements](paused/2025-adaptation-mdx-enhancements.md)
 - [Agency enhancements](paused/2025-agency-enhancements.md)
 - [Agency MDX enhancements](paused/2025-agency-mdx-enhancements.md)

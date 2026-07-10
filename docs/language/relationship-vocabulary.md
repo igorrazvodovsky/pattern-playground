@@ -51,15 +51,15 @@ The relationships defined below should be read in this register throughout.
 
 ### enables
 
-*A enables B*: A provides a mechanism, surface, or building block that B incorporates or builds on. The relationship is compositional — A is a lower-level construct woven into B's realisation. B need not strictly depend on A: optional assists and interchangeable mechanisms count, so long as A is part of how B is realised where it appears (Winston et al.'s component–integral relation does not require necessity, and the corpus has never used it that way).
+*A enables B*: A provides a lower-level move, surface, or substrate that B incorporates or builds on. The relationship is compositional — A is a constituent woven into B's realisation — and it holds *within the language*: both endpoints are entries in the graph. B need not strictly depend on A: optional assists and interchangeable constituents count, so long as A is part of how B is realised where it appears (Winston et al.'s component–integral relation does not require necessity, and the corpus has never used it that way). What `enables` does *not* cover: a component implementing a move — components are not entries in the language, and the pattern→component relation is a cross-dataset reference, not an edge (see §Component realisation).
 
 - Directionality: directed
 - Inverse: none stored. "What does A enable?" and "what enables B?" are both answered by traversing `enables` edges in either direction at query time. There is no "used by" or "composed of" stored as data.
 - Not the inverse of `instantiates`. `enables` is compositional (part/whole); `instantiates` is taxonomic (genus/species). They share a directional sense ("more specific to more general") but encode different relationships.
 - SKOS: aligns with `skos:narrower` (from B's perspective, A is a narrower/more specific mechanism) and `skos:broader` (from A's perspective, B is a broader pattern that uses A). The fit is imperfect — SKOS broader/narrower is taxonomic, while enables is compositional. But the directionality is the same: the enabling pattern is more specific, the enabled pattern more general.
 - Authoring: `rel="enables"` on the part's page (A enables B), or `rel="composed-of"` on the whole's page (P is composed of target, stored as target enables P). In frontmatter: `relationships: { enables: [B] }` on A's page, or `composed-of: [A]` on B's page.
-- This is the *component–integral* (part/whole) relation, and it holds at any altitude: a mechanism enables a move (Button → Form) *and* a constituent move enables the composite move that incorporates it (Bounded choice → Form). The endpoints' roles tell the two apart; no separate `composed-of` edge is stored.
-- Example: Button *enables* Form — a form cannot function without actionable controls. Bounded choice *enables* Form — the form is composed of the constrained-field move. Autocomplete *enables* Data entry — an optional assist the move incorporates where present (the soft end of the same relation).
+- This is the *component–integral* (part/whole) relation, and it holds at any altitude within the language: a constituent move enables the composite move that incorporates it (Bounded choice → Form), and a primitive enables the exchange built from it (Open request → Conversation). No separate `composed-of` edge is stored.
+- Example: Bounded choice *enables* Form — the form is composed of the constrained-field move. Autocomplete *enables* Data entry — an optional assist the move incorporates where present (the soft end of the same relation).
 
 ### instantiates
 
@@ -267,10 +267,11 @@ Edges come from three explicit sources, two judgement homes that emit edges, and
    ```
    The `{rel="type"}` annotation is stripped by the `remark-rel-strip` plugin before rendering.
 
-3. *`<PatternRef>` and `<ComponentRef>` component props*:
+3. *`<PatternRef>` component props*:
    ```mdx
    <PatternRef slug="wizard" rel="precedes">Wizard</PatternRef>
    ```
+   `<ComponentRef>` carries no `rel` — a component reference is a cross-dataset pointer, not an edge (see §Component realisation); the extractor warns if one is authored.
 
 Untyped prose links are decorative — they never produce edges (invariant I1).
 
@@ -425,6 +426,21 @@ Extraction emits `situation` as node metadata in `pattern-graph.json`.
 
 *When to skip*: minimal primitives (the definition exhausts it), unbounded stances (no discrete move), and collection pages (a grouping, not a move). Write `resulting` clauses when the move genuinely opens onto next moves or new problems; a pattern whose edges are all associative doesn't need one.
 
+## Component realisation (cross-dataset)
+
+*A is realised by C*: pattern A names an interaction move; component C implements it. This relationship deliberately has no edge type. The pattern graph is language-only — components are not nodes (they left with the workspace split) — so a realisation claim points outside the graph, at Storybook's build-output `index.json`. It is a *cross-dataset reference*, and its authoring channel is the one the corpus already uses: `<ComponentRef>` in body prose, as an inline mention or a `## Related components` list.
+
+```mdx
+For the form *mechanism* see the <ComponentRef id="actions-application-form--docs">corresponding component</ComponentRef>.
+```
+
+- *Authoring*: `<ComponentRef id="…--docs">` in prose. No frontmatter channel, and never a `rel=` on a `<ComponentRef>` — components are not graph nodes, so such an edge could never resolve; the extractor warns on both forms (a `rel` on a ComponentRef, and a `relationships:` target that names no pattern).
+- *Validation*: the build-time cross-reference validator (`apps/patterns/integrations/validate-cross-references.ts`) resolves every `<ComponentRef id>` against `index.json` and fails the site build on a dangling reference. Realisation gets the same gate as a typed edge, in the dataset it actually points at.
+- *Rendering*: `RelatedPatterns.astro` deliberately renders nothing for realisation. The claim lives where it is authored — in prose, with the context of *how* the component realises the move. Filtering's reference to the kept command-menu mechanism doc is the worked instance: the actor building a filter is making filtering's move; what recurs is the command-menu *mechanism*, so the pattern-level edge was dropped and the relation reads as a ComponentRef.
+- *The name*: read pattern-side, *realised by* — the pattern points at its mechanisms. The correspondence is many-to-many and deliberately loose: a pattern page illustrates its move with whichever components fit, and one component serves many moves. That looseness is the second reason realisation stays prose: a typed pattern→component map would claim a tighter correspondence than the library believes in.
+
+If a future consumer needs the mapping as data, extract it from the `<ComponentRef>` occurrences — the usage is stylised enough to collect mechanically. Do not reintroduce it as a frontmatter channel: that would mint a second authorable home for a fact the prose owns, the same scatter failure the situation constructs exist to prevent.
+
 ## Open questions
 
 1. *Situations as authoring burden*: do `situation.initiating` / `situation.resulting` pull their weight as day-to-day authoring, or do they only get written during dedicated sittings? The construct absorbed an earlier sidecar experiment (see changelog, 2026-07-10) whose authoring channel demonstrably didn't spread past its proof-of-concept nine; frontmatter is a lighter channel, and `sets-up` gives resulting clauses a job the sidecars never had. Watch whether new pattern pages acquire situations without being prompted.
@@ -471,9 +487,25 @@ A running record of why types were added, merged, renamed, or retired, what alte
 
 Each entry: date, change, why, what was considered, what was lost.
 
+### 2026-07-10 — Realisation leaves the edge vocabulary; `enables` narrowed to within-graph composition; hosting sweep
+
+The `enables`/`realised_by` split (plans workstream D), gated on the cross-reference validator that landed with the workspace-split closure. `realised_by` was the working label; what landed is *component realisation* as a named non-edge — see §Component realisation.
+
+*The split.* `enables` now means move composition within the language only: both endpoints are entries in the graph. A component implementing a move is a *cross-dataset reference* resolved against Storybook's `index.json`, authored as `<ComponentRef>` prose and build-gated by the validator. No new edge type and no frontmatter channel: the corpus already authors realisation this way (50 pages, ~140 references), the pattern↔component correspondence is deliberately loose — a pattern illustrates its move with whichever components fit — and a typed channel would mint a second authorable home for a fact the prose owns, the scatter failure the situations decision just closed. Filtering's reference to the kept command-menu mechanism doc (T6, 2026-07-09) is the worked instance and stays the type specimen. Rendering: deliberately none — realisation reads in prose context, never as a Related-patterns row.
+
+*Definition repair.* The `enables` flagship example (Button → Form) was unauthorable — Button is not an entry in the language, so the edge cannot exist; the example asserted exactly the reading the split removes. Replaced with in-graph examples (Bounded choice → Form; Open request → Conversation). The audit of all 38 stored `enables` edges against the narrowed definition found zero realisation claims to migrate: the workspace split had already removed component nodes, so the carrier was gone — like the incorporation softening before it, the change aligns text with settled data rather than moving any.
+
+*Mechanical guards.* The extractor no longer parses `rel=` on `<ComponentRef>` — it silently emitted an edge that could never resolve (a channel that always drops is a trap) — and warns instead. Explicitly authored relationship targets that name no pattern also warn now instead of silently dropping. The first run surfaced four standing dangles, all component-aimed and all invisible until now: command-menu, keyboard-shortcuts, and unavailable-actions each carried a frontmatter claim on `toolbar`, fully-connected a bare `related` on `nav-bar` — all four are Storybook components, not patterns. Migrated to `<ComponentRef>` prose with their notes preserved (nav-bar was already referenced twice in fully-connected's body; the entry was simply dropped).
+
+*Hosting sweep* — the standing queue from the `hosts` minting, run here while the vocabulary was warm. All three flagged container-flavoured notes were genuine hosting claims, none a rewording case: form *hosts* good-defaults (was `complements`, "the primary container where defaults are encountered"), form *hosts* data-entry (was `complements` authored from both sides; form keeps its voice as the outgoing note, data-entry's incoming note keeps naming conversation and the inline interface as sibling surfaces), form *hosts* validation (was `related`, its note said "hosts" verbatim). `hosts` 4 → 7; note-verb hosting findings 3 → 0. Held deliberately: conversation and inline-interface as data-entry's other hosting surfaces stay bare `related` plus prose — the multi-surface fact is narrated in data-entry's body and on the new edge's note; their own edges can follow if those pages ever own the claim.
+
+Retirement question (per §Retirement): the sweep leaned on `hosts` (gained three), and the types it swept away (`complements`, `related`) shed only mistypes while remaining the corpus's two largest — no type is only ever the thing being swept away. `related` share 25.2% against the 25.3% baseline.
+
+What was considered: a `realised-by:` frontmatter channel emitting node metadata the way `situation` does (rejected — a second authorable home, a tighter correspondence claim than the library makes, and no consumer that reads it); minting component nodes so realisation could be an ordinary edge (rejected — re-imports the dataset the workspace split deliberately removed); hand-migrating the 141 existing ComponentRefs into any new channel (moot once no channel was minted). What was lost: nothing rendered — the four migrated dangles never produced edges. A future consumer wanting realisation as data must extract it from `<ComponentRef>` occurrences rather than read it off an edge type.
+
 ### 2026-07-10 — Situations land: node-side constructs, `hosts` minted, judgement homes emit their edges
 
-The situation-construct decision (plans/active/2026-07-relationship-vocabulary.md, workstream B; research gate in research/situation-constructs/2026-07-10.md) and the hosting resolution (workstream C), landed together because the gate settled them together: conditions get one authorable home and hosting is not meronymic.
+The situation-construct decision (plans/completed/2026-07-relationship-vocabulary.md, workstream B; research gate in research/situation-constructs/2026-07-10.md) and the hosting resolution (workstream C), landed together because the gate settled them together: conditions get one authorable home and hosting is not meronymic.
 
 *The construct.* Patterns gain `situation.initiating` (prose; the design situation the move applies in, told as move-history) and `situation.resulting` (clauses; what holds after, each optionally `sets-up:` the patterns it is the initiating situation for). A `sets-up` clause *emits* its `precedes` edge and rides on it as the derived `situation` field — edges never carry authorable condition text. This generalises what decision trees already did (`recommends` + `situationalHints` emitted from the tree): the library now has two judgement homes, node situations and decision trees, and two derived edge renderings. Prior art was unanimous on the node side (Meszaros & Doble, PLML's link element with no condition slot, Alexander) and documented the edge-side failure (pre-DMN BPMN's scattered gateway conditions; the in-graph proof was the deletion→undo bundle, one judgement smeared across `precedes`, `recommends`, and `related`). Per the gate: no corpus-wide condition vocabulary — trees own their dimensions as authored questions, clause values stay prose, convergence normalises post hoc through this changelog. The epistemic stance gained the construct's defence, the *consumer contract*: no pipeline step may match, filter, or route on a condition; structure is allowed, evaluation is the drift. (Contradiction noted in place: references/report-pattern-language-formats.md recommends queryable postconditions; the stance governs.)
 
@@ -582,7 +614,7 @@ A full audit of the remaining `instantiates` (8) and `enables` (31) edges agains
 Two advisories added to the extractor beside the axis check, both hints rather than errors per the epistemic stance:
 
 - *Mixed cluster*: a node targeted by both `enables` and `instantiates` from sources sharing a frontmatter `group` — the conversational-cluster signature. Currently 0.
-- *Notes voicing*: a single-noted directed edge (`precedes`, `enables`, `instantiates`, `surveys`) whose note names neither endpoint. Such a note renders on both endpoints' pages, always after the *other* endpoint's name, so it binds to whichever endpoint the reader is not on. `enacts` is exempt (quality pages render nothing — no reverse reader). The accompanying audit reworded 18 notes to subject-naming form; 7 remain flagged deliberately — five read correctly as relation glosses, two carry conditions that stay in notes until the situation-construct decision (plans/active/2026-07-relationship-vocabulary.md, workstream B) gives conditions a first-class home.
+- *Notes voicing*: a single-noted directed edge (`precedes`, `enables`, `instantiates`, `surveys`) whose note names neither endpoint. Such a note renders on both endpoints' pages, always after the *other* endpoint's name, so it binds to whichever endpoint the reader is not on. `enacts` is exempt (quality pages render nothing — no reverse reader). The accompanying audit reworded 18 notes to subject-naming form; 7 remain flagged deliberately — five read correctly as relation glosses, two carry conditions that stay in notes until the situation-construct decision (plans/completed/2026-07-relationship-vocabulary.md, workstream B) gives conditions a first-class home.
 
 What was considered: making either advisory error-grade (rejected — suggestion-grade data warrants suggestion-grade checks); stripping the two condition-bearing notes into cleaner glosses (rejected — the conditions are the payload the situation construct will absorb). What was lost: the direct progressive-disclosure → bot edge; the graph still routes that relationship through its mediators.
 
