@@ -1206,9 +1206,9 @@
     {
       "source": "ai-completion",
       "target": "block-based-editor",
-      "type": "precedes",
+      "type": "enables",
       "label": "a natural container for AI completion",
-      "extractedFrom": "frontmatter:precedes"
+      "extractedFrom": "frontmatter:enables"
     },
     {
       "source": "ai-completion",
@@ -1334,11 +1334,11 @@
       "extractedFrom": "frontmatter:related"
     },
     {
-      "source": "assistance",
-      "target": "bot",
-      "type": "precedes",
-      "label": "chatbot and inline bot modes",
-      "extractedFrom": "frontmatter:precedes"
+      "source": "bot",
+      "target": "assistance",
+      "type": "instantiates",
+      "incomingNote": "the chatbot and inline bot modes apply the assistance configuration",
+      "extractedFrom": "frontmatter:instances"
     },
     {
       "source": "assisted-task-completion",
@@ -1390,17 +1390,17 @@
     },
     {
       "source": "autocomplete",
-      "target": "form",
-      "type": "precedes",
-      "label": "where autocomplete most commonly lives",
-      "extractedFrom": "frontmatter:precedes"
+      "target": "data-entry",
+      "type": "enables",
+      "label": "autocomplete as a way to reduce input friction",
+      "extractedFrom": "frontmatter:enables"
     },
     {
       "source": "autocomplete",
-      "target": "data-entry",
-      "type": "precedes",
-      "label": "autocomplete as a way to reduce input friction",
-      "extractedFrom": "frontmatter:precedes"
+      "target": "form",
+      "type": "complements",
+      "label": "where autocomplete most commonly lives",
+      "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "autocomplete",
@@ -1467,6 +1467,13 @@
     },
     {
       "source": "autofill",
+      "target": "form",
+      "type": "complements",
+      "label": "the container where autofill most commonly appears",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "autofill",
       "target": "assisted-task-completion",
       "type": "complements",
       "label": "the spectrum this pattern belongs to",
@@ -1495,17 +1502,10 @@
     },
     {
       "source": "autofill",
-      "target": "form",
-      "type": "precedes",
-      "label": "the container where autofill most commonly appears",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "autofill",
       "target": "data-entry",
-      "type": "precedes",
+      "type": "enables",
       "label": "autofill as a strategy for frictionless input",
-      "extractedFrom": "frontmatter:precedes"
+      "extractedFrom": "frontmatter:enables"
     },
     {
       "source": "autofill",
@@ -1535,23 +1535,17 @@
       "extractedFrom": "auto:quality-target"
     },
     {
+      "source": "conversation",
+      "target": "bot",
+      "type": "enables",
+      "incomingNote": "messaging is the primary interface for conducting bot conversations",
+      "extractedFrom": "frontmatter:composed-of"
+    },
+    {
       "source": "bot",
       "target": "activity-log",
       "type": "precedes",
       "label": "actions and reasoning are tracked and displayed in the activity log.",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "bot",
-      "target": "conversation",
-      "type": "precedes",
-      "label": "messaging is the primary interface for conducting bot conversations",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "bot",
-      "target": "prompt",
-      "type": "precedes",
       "extractedFrom": "frontmatter:precedes"
     },
     {
@@ -1641,9 +1635,9 @@
     {
       "source": "bounded-choice",
       "target": "filtering",
-      "type": "precedes",
+      "type": "enables",
       "label": "each filter condition is a bounded choice over a facet's values",
-      "extractedFrom": "frontmatter:precedes"
+      "extractedFrom": "frontmatter:enables"
     },
     {
       "source": "bounded-choice",
@@ -2063,11 +2057,11 @@
       "extractedFrom": "frontmatter:related"
     },
     {
-      "source": "data-entry",
-      "target": "ai-completion",
-      "type": "precedes",
-      "label": "AI completion as the AI-driven end of the input strategy spectrum",
-      "extractedFrom": "frontmatter:precedes"
+      "source": "ai-completion",
+      "target": "data-entry",
+      "type": "enables",
+      "incomingNote": "AI completion as the AI-driven end of the input strategy spectrum",
+      "extractedFrom": "frontmatter:composed-of"
     },
     {
       "source": "data-entry",
@@ -2222,11 +2216,11 @@
       "extractedFrom": "frontmatter:precedes"
     },
     {
-      "source": "delegation",
-      "target": "bot",
-      "type": "precedes",
-      "label": "ambient and workflow automation bot modes",
-      "extractedFrom": "frontmatter:precedes"
+      "source": "bot",
+      "target": "delegation",
+      "type": "instantiates",
+      "incomingNote": "the ambient and workflow automation bot modes apply the delegation configuration",
+      "extractedFrom": "frontmatter:instances"
     },
     {
       "source": "delegation",
@@ -2874,10 +2868,10 @@
     {
       "source": "hub-and-spoke",
       "target": "workspace",
-      "type": "precedes",
+      "type": "enables",
       "label": "organisational containers often use hub and spoke",
-      "extractedFrom": "frontmatter:precedes",
-      "incomingNote": "Workspaces often implement hub and spoke navigation, where a workspace switcher or dashboard (hub) provides access to individual workspaces (spokes). See [Information Architecture foundation](/patterns/information-architecture) for the broader structural pattern."
+      "extractedFrom": "frontmatter:enables",
+      "incomingNote": "Workspaces often implement hub and spoke navigation, where a workspace switcher or dashboard (hub) provides access to individual workspaces (spokes). See [Information Architecture foundation](/patterns/information-architecture) for the structural pattern behind it."
     },
     {
       "source": "hub-and-spoke",
@@ -3179,6 +3173,12 @@
     },
     {
       "source": "interaction",
+      "target": "searching",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "interaction",
       "target": "formality",
       "type": "enacts",
       "label": "parallels the arc: as engagement matures, so does the structure around it, loose to precise",
@@ -3204,12 +3204,6 @@
       "type": "enacts",
       "label": "the rhythm and pacing of turn-taking",
       "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "interaction",
-      "target": "searching",
-      "type": "precedes",
-      "extractedFrom": "frontmatter:precedes"
     },
     {
       "source": "item-view",
@@ -3765,13 +3759,6 @@
       "extractedFrom": "frontmatter:surveys"
     },
     {
-      "source": "navigation-overview",
-      "target": "workspace",
-      "type": "precedes",
-      "extractedFrom": "frontmatter:precedes",
-      "incomingNote": "navigation enables movement through the application structure; workspaces extend it with parallel access to multiple destinations"
-    },
-    {
       "source": "next-best-action",
       "target": "cognitive-forcing-functions",
       "type": "precedes",
@@ -3890,16 +3877,17 @@
       "extractedFrom": "frontmatter:precedes"
     },
     {
-      "source": "onboarding",
-      "target": "template",
-      "type": "precedes",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
       "source": "wizard",
       "target": "onboarding",
       "type": "enables",
       "incomingNote": "often employs wizards for initial setup and configuration",
+      "extractedFrom": "frontmatter:composed-of"
+    },
+    {
+      "source": "template",
+      "target": "onboarding",
+      "type": "enables",
+      "incomingNote": "starter templates give the newcomer competent work to occupy",
       "extractedFrom": "frontmatter:composed-of"
     },
     {
@@ -4075,11 +4063,11 @@
       "extractedFrom": "frontmatter:enables"
     },
     {
-      "source": "progressive-disclosure",
-      "target": "wizard",
-      "type": "precedes",
-      "label": "disclosure is the conceptual foundation the wizard builds on for revealing complexity gradually",
-      "extractedFrom": "frontmatter:precedes"
+      "source": "wizard",
+      "target": "progressive-disclosure",
+      "type": "instantiates",
+      "incomingNote": "the wizard applies disclosure across discrete gated steps, revealing complexity gradually",
+      "extractedFrom": "frontmatter:instances"
     },
     {
       "source": "progressive-disclosure",
@@ -4146,16 +4134,9 @@
     },
     {
       "source": "prompt",
-      "target": "collaboration",
+      "target": "bot",
       "type": "precedes",
-      "label": "the prompt is how humans address an AI participant in collaborative work",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "prompt",
-      "target": "conversation",
-      "type": "precedes",
-      "label": "translates user needs into structured AI behaviour within a conversation",
+      "label": "the prompt articulates the request the bot acts on",
       "extractedFrom": "frontmatter:precedes"
     },
     {
@@ -4171,6 +4152,13 @@
       "type": "precedes",
       "label": "lets the actor refine how the model gets prompted",
       "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "prompt",
+      "target": "conversation",
+      "type": "enables",
+      "label": "the prompt is the turn-level move a conversation with an AI is built from",
+      "extractedFrom": "frontmatter:enables"
     },
     {
       "source": "prompt",
@@ -4354,17 +4342,17 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
-      "source": "searching",
-      "target": "command-menu",
-      "type": "precedes",
-      "label": "searching is the broader seeking move",
-      "extractedFrom": "frontmatter:precedes"
+      "source": "command-menu",
+      "target": "searching",
+      "type": "instantiates",
+      "incomingNote": "searching is the broader seeking move, applied to a command vocabulary",
+      "extractedFrom": "frontmatter:instances"
     },
     {
       "source": "searching",
       "target": "data-view",
       "type": "precedes",
-      "label": "the standard container for displaying search results",
+      "label": "displays the result set a search produces",
       "extractedFrom": "frontmatter:precedes"
     },
     {
@@ -4413,7 +4401,7 @@
       "source": "sections",
       "target": "progressive-disclosure",
       "type": "instantiates",
-      "label": "sections apply gradual disclosure as an adaptive container combining details and tabs affordances",
+      "label": "sections apply gradual disclosure adaptively, combining details and tabs affordances",
       "extractedFrom": "frontmatter:instantiates"
     },
     {
@@ -4657,9 +4645,9 @@
     {
       "source": "state-empty",
       "target": "onboarding",
-      "type": "precedes",
-      "label": "often the canvas for onboarding and as such an enabler for it",
-      "extractedFrom": "frontmatter:precedes"
+      "type": "enables",
+      "label": "the empty state is often the canvas onboarding builds on",
+      "extractedFrom": "frontmatter:enables"
     },
     {
       "source": "state-empty",
@@ -4729,22 +4717,9 @@
     },
     {
       "source": "suggestion",
-      "target": "bot",
-      "type": "precedes",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "suggestion",
       "target": "cognitive-forcing-functions",
       "type": "precedes",
       "label": "the primary site where forcing functions apply; see its fixation risk section",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "suggestion",
-      "target": "next-best-action",
-      "type": "precedes",
-      "label": "the broader pattern; next-best action is specifically about recommending workflow steps",
       "extractedFrom": "frontmatter:precedes"
     },
     {
@@ -4767,6 +4742,13 @@
       "type": "related",
       "label": "agent might suggest opportunities it believes will help",
       "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "next-best-action",
+      "target": "suggestion",
+      "type": "instantiates",
+      "incomingNote": "suggestion is the broader pattern; next-best action specialises it to recommending workflow steps",
+      "extractedFrom": "frontmatter:instances"
     },
     {
       "source": "suggestion",
@@ -4847,9 +4829,9 @@
     {
       "source": "text-lense",
       "target": "conversation",
-      "type": "precedes",
+      "type": "complements",
       "label": "filter lenses adapt conversational tone and style based on context and relationship",
-      "extractedFrom": "frontmatter:precedes"
+      "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "text-lense",
@@ -5076,15 +5058,9 @@
     {
       "source": "wizard",
       "target": "next-best-action",
-      "type": "precedes",
-      "label": "prescribed sequences; next-best action is the adaptive, context-aware alternative",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "wizard",
-      "target": "template",
-      "type": "precedes",
-      "extractedFrom": "frontmatter:precedes"
+      "type": "alternative",
+      "label": "the wizard prescribes the sequence; next-best action is the adaptive, context-aware alternative",
+      "extractedFrom": "frontmatter:alternative"
     },
     {
       "source": "wizard",

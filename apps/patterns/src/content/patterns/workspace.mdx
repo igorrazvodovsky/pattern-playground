@@ -16,11 +16,9 @@ relationships:
       note: focus and context manages detail and overview within a single context; workspaces manage switching between distinct contexts
     - to: command-menu
       note: provides rapid access to workspaces and contexts without navigating the interface hierarchy
-  follows:
+  composed-of:
     - to: hub-and-spoke
-      note: 'Workspaces often implement hub and spoke navigation, where a workspace switcher or dashboard (hub) provides access to individual workspaces (spokes). See [Information Architecture foundation](/patterns/information-architecture) for the broader structural pattern.'
-    - to: navigation-overview
-      note: navigation enables movement through the application structure; workspaces extend it with parallel access to multiple destinations
+      note: 'Workspaces often implement hub and spoke navigation, where a workspace switcher or dashboard (hub) provides access to individual workspaces (spokes). See [Information Architecture foundation](/patterns/information-architecture) for the structural pattern behind it.'
   precedes:
     - to: activity-log
       note: shows history within a workspace

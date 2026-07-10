@@ -7,14 +7,15 @@ mediation: individual
 fun: 🙂 5/5. A part of a bigger attempt to map LLM-related patterns.
 relationships:
   precedes:
-    - to: collaboration
-      note: the prompt is how humans address an AI participant in collaborative work
-    - to: conversation
-      note: translates user needs into structured AI behaviour within a conversation
+    - to: bot
+      note: the prompt articulates the request the bot acts on
     - to: generated-content
       note: the input that leads to generated content.
     - to: ai-tuning
       note: lets the actor refine how the model gets prompted
+  enables:
+    - to: conversation
+      note: the prompt is the turn-level move a conversation with an AI is built from
   enacts:
     - to: agency
       note: the actor directs the system in their own words; initiative stays with whoever frames the request

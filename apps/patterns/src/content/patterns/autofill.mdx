@@ -9,6 +9,8 @@ relationships:
   complements:
     - to: autocomplete
       note: "the reactive counterpart: completes what the actor is actively typing rather than pre-populating from stored values"
+    - to: form
+      note: the container where autofill most commonly appears
     - to: assisted-task-completion
       note: the spectrum this pattern belongs to
     - to: suggestion
@@ -18,11 +20,10 @@ relationships:
       note: autofill surfaces what the system knows about the actor
     - to: adaptation
       note: autofill that learns from corrections over time
-  precedes:
-    - to: form
-      note: the container where autofill most commonly appears
+  enables:
     - to: data-entry
       note: autofill as a strategy for frictionless input
+  precedes:
     - to: saving
       note: what happens after pre-filled data is accepted
 ---

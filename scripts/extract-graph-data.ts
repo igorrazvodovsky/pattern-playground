@@ -1006,6 +1006,31 @@ for (const e of edges) {
   if (!namesAnEndpoint) voicingFindings.push(`${e.source} ${e.type} ${e.target}: "${note}"`);
 }
 
+// Note-verb check: a note whose phrasing makes a different relational claim
+// than the stored type is the signature of a mistyped edge (the A′ precedes
+// sweep found taxonomic "the broader …", hosting "container for …", and
+// substitution "… is the alternative" notes riding on `precedes`). Tells are
+// precision-biased: only phrasings that reliably contradicted the type in
+// past audits, checked on the mistype-prone directed types.
+const NOTE_TELLS: Array<{ claim: string; pattern: RegExp; conflicts: Set<string> }> = [
+  { claim: 'taxonomic', pattern: /\bbroader\b|\bkind of\b|\bform of\b|\bvariant of\b|\bspecialis|\bspecializ|\binstance of\b/, conflicts: new Set(['precedes', 'enables']) },
+  { claim: 'substitution', pattern: /\balternative\b|\binstead of\b/, conflicts: new Set(['precedes', 'enables', 'instantiates']) },
+  { claim: 'hosting', pattern: /\bcontainer\b|\bcanvas\b|\bcommonly lives\b|\bcommonly appears\b|\bhost(s|ed|ing)?\b/, conflicts: new Set(['precedes', 'instantiates']) },
+  { claim: 'compositional', pattern: /\benablers?\b|\bcomposed of\b|\bconstituent\b|\bbuilding block\b/, conflicts: new Set(['precedes', 'instantiates']) },
+];
+const noteTellFindings: string[] = [];
+for (const e of edges) {
+  for (const note of [e.label, e.incomingNote]) {
+    if (note === undefined) continue;
+    const noteLower = note.toLowerCase();
+    for (const tell of NOTE_TELLS) {
+      if (tell.conflicts.has(e.type) && tell.pattern.test(noteLower)) {
+        noteTellFindings.push(`${e.source} ${e.type} ${e.target}: ${tell.claim} phrasing — "${note}"`);
+      }
+    }
+  }
+}
+
 // --- Logging ---
 const typeCounts: Record<string, number> = {};
 for (const e of edges) typeCounts[e.type] = (typeCounts[e.type] ?? 0) + 1;
@@ -1057,5 +1082,7 @@ console.log(`  mixed part–whole clusters (enables + instantiates from one grou
 for (const finding of mixedClusterFindings) console.log(`    ${finding}`);
 console.log(`  single-noted directed edges naming neither endpoint: ${voicingFindings.length}`);
 for (const finding of voicingFindings) console.log(`    ${finding}`);
+console.log(`  note phrasings contradicting the stored type: ${noteTellFindings.length}`);
+for (const finding of noteTellFindings) console.log(`    ${finding}`);
 console.log(`Output: ${outputPath}`);
 console.log(`Activity levels: ${activityLevelsPath}`);

@@ -15,10 +15,9 @@ relationships:
       note: pre-selecting the likely value can resolve the choice before the actor engages with it
     - to: searching
       note: where the move escalates when the set outgrows narrowing
-  precedes:
+  enables:
     - to: filtering
       note: each filter condition is a bounded choice over a facet's values
-  enables:
     - to: form
       note: committing a value from a set the actor didn't author; the move behind a form's selects, radios, and checkboxes.
   instantiates:

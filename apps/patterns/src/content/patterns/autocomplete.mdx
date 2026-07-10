@@ -9,11 +9,12 @@ relationships:
   precedes:
     - to: ai-completion
       note: the deterministic precursor; AI completion extends the same interaction to generated content
-    - to: form
-      note: where autocomplete most commonly lives
+  enables:
     - to: data-entry
       note: autocomplete as a way to reduce input friction
   complements:
+    - to: form
+      note: where autocomplete most commonly lives
     - to: autofill
       note: "the preemptive counterpart: pre-populates from stored values rather than completing what the actor types (and what the HTML `autocomplete` attribute actually controls)"
     - to: bounded-choice

@@ -44,10 +44,11 @@ The relationships defined below should be read in this register throughout.
 - Authoring: `rel="precedes"` on the earlier move's page, or `rel="follows"` on the later move's page. Both store as `A precedes B`. In frontmatter: `relationships: { precedes: [B] }` on A's page, or `follows: [A]` on B's page.
 - Example: Progressive disclosure *precedes* Filtering — applying progressive disclosure produces a narrowed visible set that filtering can then act on.
 - Note: some chains form *generative sequences* in the strong Alexander sense (each step creates the conditions for the next). Localization's "linguistic, then cultural, then regional" ordering is an example. These are encoded as ordered chains of `precedes` edges; no separate edge type is needed.
+- Note: a foundation may source `precedes` when it acts as substrate — see the foundation tiebreaker note under `instantiates`.
 
 ### enables
 
-*A enables B*: A provides a mechanism, surface, or building block that B depends on to function. The relationship is compositional — A is a lower-level construct that B incorporates or requires.
+*A enables B*: A provides a mechanism, surface, or building block that B incorporates or builds on. The relationship is compositional — A is a lower-level construct woven into B's realisation. B need not strictly depend on A: optional assists and interchangeable mechanisms count, so long as A is part of how B is realised where it appears (Winston et al.'s component–integral relation does not require necessity, and the corpus has never used it that way).
 
 - Directionality: directed
 - Inverse: none stored. "What does A enable?" and "what enables B?" are both answered by traversing `enables` edges in either direction at query time. There is no "used by" or "composed of" stored as data.
@@ -55,7 +56,7 @@ The relationships defined below should be read in this register throughout.
 - SKOS: aligns with `skos:narrower` (from B's perspective, A is a narrower/more specific mechanism) and `skos:broader` (from A's perspective, B is a broader pattern that uses A). The fit is imperfect — SKOS broader/narrower is taxonomic, while enables is compositional. But the directionality is the same: the enabling pattern is more specific, the enabled pattern more general.
 - Authoring: `rel="enables"` on the part's page (A enables B), or `rel="composed-of"` on the whole's page (P is composed of target, stored as target enables P). In frontmatter: `relationships: { enables: [B] }` on A's page, or `composed-of: [A]` on B's page.
 - This is the *component–integral* (part/whole) relation, and it holds at any altitude: a mechanism enables a move (Button → Form) *and* a constituent move enables the composite move that incorporates it (Bounded choice → Form). The endpoints' roles tell the two apart; no separate `composed-of` edge is stored.
-- Example: Button *enables* Form — a form cannot function without actionable controls. Bounded choice *enables* Form — the form is composed of the constrained-field move.
+- Example: Button *enables* Form — a form cannot function without actionable controls. Bounded choice *enables* Form — the form is composed of the constrained-field move. Autocomplete *enables* Data entry — an optional assist the move incorporates where present (the soft end of the same relation).
 
 ### instantiates
 
@@ -66,6 +67,7 @@ The relationships defined below should be read in this register throughout.
 - SKOS: aligns with `skos:broader` — A has broader concept B. This is the cleanest SKOS mapping in the vocabulary.
 - Authoring: `rel="instantiates"` on the specialisation's page, or `rel="instances"`/`rel="variants"` on the genus's page. In frontmatter: `relationships: { instantiates: [B] }` on A's page.
 - Example: Autocomplete *instantiates* Good defaults — autocomplete is a specific mechanism that applies the principle of providing sensible defaults.
+- Note — foundations are legible from two directions, and the tiebreaker is the arrow of application. When a pattern *applies* the foundational concept, the pattern instantiates it (Bot instantiates Delegation; Collaboration instantiates Collaboration foundation). When the foundation is a *substrate* whose application produces structure that later moves act on, the foundation sources `precedes` (Information architecture precedes Searching). Ask which way application runs: concept applied by the pattern → `instantiates`; substrate produced ahead of the pattern → `precedes`.
 
 ### complements
 
@@ -199,7 +201,7 @@ Strongly literature-supported mappings:
 
 | This vocabulary | Literature precedent | Local interpretation |
 |---|---|---|
-| `enables` | aggregation, contains, sub-ordinate, lower-level patterns used to implement/refine a design | Compositional dependency: a mechanism, surface, or building block makes a move possible. |
+| `enables` | aggregation, contains, sub-ordinate, lower-level patterns used to implement/refine a design | Compositional incorporation: a mechanism, surface, or building block the move draws on where present. |
 | `instantiates` | specialization, is-a | Taxonomic application: a concrete move applies or specialises a broader principle, foundation, or pattern. |
 | `precedes` | references to lower-level patterns used after the current one, sequence, generative traversal | Generative sequence: one move produces a condition on which another move can act. |
 | `alternative` | alternatives for the same problem, competitor relationships | Same-purpose substitution with different trade-offs. Unlike some competitor accounts, this remains suggestion-grade rather than rule-grade exclusion. |
@@ -388,6 +390,62 @@ Testable assertions derived from this vocabulary's own definitions. These can be
 A running record of why types were added, merged, renamed, or retired, what alternatives were considered, and what was lost in each decision. The vocabulary is provisional — it will keep evolving as the library grows. Making its construction visible is part of treating classification as a living artifact rather than a closed specification (compare Bowker & Star, *Sorting Things Out*: "the only good classification is a living classification").
 
 Each entry: date, change, why, what was considered, what was lost.
+
+### 2026-07-10 — `enables` definition aligned with usage; foundation tiebreaker; note-verb advisory
+
+Three repairs from the precedes sweep's reflection, each closing a gap the sweep had to bridge by judgement:
+
+- *`enables` no longer claims strict dependency.* The definition said "that B depends on to function" while the corpus — through the part–whole audit and the precedes sweep alike — used it for optional incorporation (autocomplete enables data-entry; data entry works without it). The definition now says "incorporates or builds on", with an explicit soft-end example beside the strict-end Button → Form. Winston et al.'s component–integral relation doesn't require necessity, so no theoretical ground is ceded; the change aligns text with settled practice rather than making a new decision.
+- *Foundations get a written tiebreaker.* A foundation is legible from two directions — concept applied by a pattern (`instantiates`: Bot instantiates Delegation) and substrate produced ahead of a pattern (`precedes`: Information architecture precedes Searching). The sweep used this rule implicitly; it now lives as a note in the `instantiates` section with a pointer from `precedes`.
+- *Note-verb advisory added to the extractor*, beside the voicing check: notes whose phrasing makes a different relational claim than the stored type (taxonomic "the broader…", substitution "…is the alternative", hosting "container for…", compositional "…is an enabler"), checked on the mistype-prone directed types. It retro-detects most of the precedes sweep mechanically. Tells are precision-biased; first run surfaced two false positives whose notes read better reworded anyway (workspace's hub-and-spoke note cross-referencing IA as "the broader structural pattern"; sections' "adaptive container" describing its own form) and one genuine hosting-flavoured note on a kept edge (searching → data-view, reworded to the generative gloss "displays the result set a search produces"). One finding stands deliberately: `good-defaults precedes assisted-task-completion` ("the simplest form of…") is the escalation-ladder specimen held for workstream B.
+
+What was considered: including bare "enables/enable" as a compositional tell (rejected — too common as an ordinary verb; only "enabler" survives); making the advisory skip deliberately-held edges (rejected — a standing advisory line is the record that the hold is deliberate, matching the voicing check's seven). What was lost: the strict-dependency reading of `enables` — a future consumer wanting "B cannot function without A" can no longer read it off the type alone; if that distinction earns its keep, it is a note convention or a B-construct question, not a new edge type.
+
+### 2026-07-10 — Precedes sweep: all 93 edges audited against the generative-sequence definition
+
+The corpus sweep promised by the 2026-06-24 collaboration-cluster entry ("other files likely carry the same `Precursors`-heading→`precedes` mistyping"). Every `precedes` edge was judged against *applying A produces a centre or condition on which B can subsequently act*; 24 asserted sequence where the real relation was taxonomic, compositional, associative, or mediated. Re-typed by meaning:
+
+To `instantiates` (genus–species wearing a sequential type — the `Precursors` signature):
+
+- `searching precedes command-menu` → command-menu *instantiates* searching. The live case that triggered the sweep; its note ("searching is the broader seeking move") was a taxonomic claim verbatim.
+- `suggestion precedes next-best-action` → next-best-action *instantiates* suggestion ("the broader pattern; next-best action is specifically about recommending workflow steps").
+- `progressive-disclosure precedes wizard` → wizard *instantiates* progressive-disclosure — the sections re-type's shape; wizard's own body says it "sits at the intersection of progressive disclosure and form".
+- `assistance precedes bot` and `delegation precedes bot` → bot *instantiates* both foundations. The notes were mode-listings (chatbot/inline; ambient/workflow automation) — the collaboration → collaboration-foundation shape, twice.
+
+To `enables` (component-integral wearing a sequential type):
+
+- `bounded-choice precedes filtering` — its note ("each filter condition is a bounded choice over a facet's values") is the Bounded choice → Form example verbatim.
+- `state-empty precedes onboarding` — the note said "enabler" outright; `onboarding precedes template` inverted to `composed-of: template`, joining wizard in onboarding's constituent scaffolds.
+- `ai-completion precedes block-based-editor` and `hub-and-spoke precedes workspace` — "container"/"containers often use" notes; mechanism-into-composite, not sequence.
+- `bot precedes conversation` inverted to `composed-of: conversation` — "messaging is the primary interface" names a surface the bot mode incorporates, not a downstream product.
+- `prompt precedes conversation` → enables — the prompt is a turn-level constituent of AI conversation, the conversational-primitives shape.
+- `autocomplete/autofill precedes data-entry` → enables, and `data-entry precedes ai-completion` inverted to `composed-of` — all three notes claim strategy/spectrum membership: assists the data-entry move incorporates.
+
+Horizontal:
+
+- `wizard precedes next-best-action` → `alternative` — the note said "alternative" outright.
+- `autocomplete/autofill precedes form` → `complements` ("where it most commonly lives"), matching good-defaults ↔ form.
+- `text-lense precedes conversation` → `complements` — a lens adapts conversational material in flight; neither depends on the other.
+- `interaction precedes searching` (bare) → `related`, matching the foundation's other navigation-model edges.
+
+Inverted within the type: `bot precedes prompt` (bare) reversed to *prompt precedes bot*, authored on prompt's side — prompt's own body states the generative direction ("a request precise enough for a bot to act on meaningfully").
+
+Dropped as mediated (per "look for a mediator"; the two-hop paths exist):
+
+- `suggestion precedes bot` (bare) — routes via assisted-task-completion ("powers AI completion and next-best action…") and via ai-completion.
+- `prompt precedes collaboration` — routes via bot and via conversation. Note lost: "the prompt is how humans address an AI participant in collaborative work".
+- `navigation-overview precedes workspace` — a collection standing in a generative sequence, which the 2026-05-02 entry already ruled out for umbrella pages; routes via hub-and-spoke and information-architecture. Note lost (workspace's follows side): "navigation enables movement through the application structure; workspaces extend it with parallel access to multiple destinations".
+- `wizard precedes template` (bare) — routes via onboarding, which both now enable. If the relation matters beyond onboarding scaffolding (template-driven wizards), it wants authoring with a note, not a bare edge.
+
+Kept (69): the conversational sequence cluster; bot's output chain (activity-log, ai-tuning, generated-content, transparent-reasoning, live-presentation); operation → data-view (filtering, sorting, grouping, searching); settings' downstream edges; the foundation substrate chains (information-architecture ×3, localization ×5, data → dynamic-hyperlinks) — applying the substrate produces the structure the later move acts on; onboarding → bot/mastery; annotation → collaboration/conversation/commenting; embedded-intelligence ×3; command-menu → unavailable-actions (the command inventory is the centre the availability treatment acts on).
+
+Held deliberately, with gaps noted:
+
+- The assistance escalation ladder (good-defaults → autocomplete/autofill, good-defaults → assisted-task-completion, autocomplete → ai-completion) stays `precedes`: its "B takes over when…" shape is the conditional construct workstream B owns, same class as flat-navigation → hub-and-spoke. Gap: this doc's own `instantiates` example (Autocomplete *instantiates* Good defaults) is not in the graph while the stored ladder claims sequence for the same pair — both claims can hold, but B should decide whether the ladder decomposes into conditions before the pair is re-typed taxonomically.
+- `searching precedes navigation-overview`: a collection as a `precedes` target, kept because the note is condition-bearing ("fallback if search fails") — B material; the fallback claim itself is genuinely sequential.
+- Condition-bearing notes untouched throughout, per the workstream-B gate.
+
+What was considered: re-typing the escalation ladder to `instantiates` or `alternative` (rejected — the authored notes claim sequence-under-condition, which is exactly the construct B is deciding); treating the "container" notes as a hosting relation (rejected — workstream C decides hosting inside B, and `enables` carries the composition correctly meanwhile). What was lost: the two mediated-drop notes quoted above. Advisory movement: same-altitude `instantiates` 4 → 7 — the three additions (command-menu → searching, next-best-action → suggestion, wizard → progressive-disclosure) are deliberate same-altitude genus–species claims; voicing flags unchanged at the seven deliberate holds.
 
 ### 2026-07-10 — `group` emitted as node metadata; voicing rule promoted to the authoring model
 
