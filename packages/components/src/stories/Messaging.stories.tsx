@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
 import { faker } from '@faker-js/faker';
-import { ConversationalFormDemo } from '../../../demos/conversational-form';
+import { ConversationalFormDemo } from '../demos/conversational-form';
 
 interface MessagingArgs {
   messageCount: number;
@@ -9,7 +9,7 @@ interface MessagingArgs {
 }
 
 const meta = {
-  title: "Actions/Coordination/Messaging",
+  title: "Components/Messaging",
 } satisfies Meta;
 
 export default meta;

@@ -75,7 +75,7 @@ Orchestrating shared work and managing interface structure. The actor arranges t
 - <ComponentRef id="components-action-bar--docs">Action bar</ComponentRef> — operations summoned by selection
 - [Selection](/patterns/selection) — staking a subset as the target of subsequent action
 - <ComponentRef id="actions-coordination-dual-listbox--docs">Dual listbox</ComponentRef> — staged assignment with side-by-side review
-- <ComponentRef id="actions-coordination-messaging--docs">Messages</ComponentRef> — conversational exchange
+- <ComponentRef id="components-messaging--docs">Messages</ComponentRef> — conversational exchange
 - [Commenting](/patterns/commenting) — discussion around artefacts
 - [Notification](/patterns/notification) — keeping actors appropriately informed
 

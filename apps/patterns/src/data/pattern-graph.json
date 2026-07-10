@@ -2958,7 +2958,7 @@
       "source": "inline-interface",
       "target": "conversation",
       "type": "related",
-      "label": "the exchange this move renders into; the <ComponentRef id=\"actions-coordination-messaging--docs\">Messaging</ComponentRef> component is its mechanism.",
+      "label": "the exchange this move renders into; the <ComponentRef id=\"components-messaging--docs\">Messaging</ComponentRef> component is its mechanism.",
       "extractedFrom": "frontmatter:related"
     },
     {

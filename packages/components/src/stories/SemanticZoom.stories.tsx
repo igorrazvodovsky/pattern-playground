@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
-import { SemanticZoomDemo } from '../../../demos/semantic-zoom'
+import { SemanticZoomDemo } from '../demos/semantic-zoom'
 
 const meta = {
-	title: 'Actions/Evaluation/Semantic zoom',
+	title: 'Components/Semantic zoom',
 	tags: ['!autodocs', 'activity-level:action', 'atomic:component', 'role:component', 'lifecycle:evaluation', 'mediation:individual'],
 	parameters: {
 		layout: 'fullscreen',
