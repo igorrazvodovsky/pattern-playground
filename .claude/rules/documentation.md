@@ -12,7 +12,6 @@ For pattern site content in `apps/patterns/src/content/`, see `.claude/rules/pat
 ## Documentation format
 - Use `.mdx` format for Storybook documentation with rich interactive content
 - Include Meta component for proper Storybook integration: `<Meta title="Category/Name" />`
-- *Established categories*: Operations, Actions, Activities, Foundations/Material, Concepts, Data visualisation. Qualities and non-material foundations live on the pattern site, not in Storybook.
 
 ## Document structure
 Standard section order:
@@ -51,5 +50,5 @@ When creating cross-references between documentation files:
 When organizing concepts in the pattern library:
 - *Test boundaries* - Apply frameworks to edge cases to understand scope (e.g., "Does this apply to human-human collaboration or just human-AI?")
 - *Check definitional consistency* - If a foundation is defined as "distribution of X", creating an "X distribution" section may indicate redundancy
-- *Question placement* — Each level has a role: Operations are automatic and infrastructural (the substrate); Actions are conscious and goal-directed (what users deliberately do); Activities are motive-driven and strategic (how work unfolds over time). Foundations define universal principles, Qualities describe cross-cutting attributes, Concepts describe what the system knows about. Atomic Design categories (primitive, component, composition, pattern) persist as metadata tags, not as the primary organising dimension.
+- *Question placement* — Each level has a role.
 - *Use Socratic questioning* - Ask "What happens if...?" to test framework boundaries

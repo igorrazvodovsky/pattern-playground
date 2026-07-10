@@ -89,7 +89,7 @@ export function ExplanationBubbleMenu({ options, onExplain, isExplaining }: Expl
       aria-label={isExplaining ? 'Explanation in progress' : 'Explain selected text'}
     >
       {isExplaining ? 'Explaining...' : 'Explain this'}
-      <span id="explanation-status" className="sr-only">
+      <span id="explanation-status" className="visually-hidden">
         {isExplaining ? 'Explanation in progress' : 'Click to explain selected text'}
       </span>
     </button>

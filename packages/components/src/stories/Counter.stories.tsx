@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const meta = {
-  title: "Primitives/Counter",
+  title: "Utilities/Counter",
   tags: ['activity-level:operation', 'atomic:primitive', 'role:component', 'mediation:individual'],
   parameters: {
     docs: {
