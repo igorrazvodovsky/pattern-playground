@@ -1,0 +1,91 @@
+---
+title: Workflow
+role: pattern
+activityLevel: activity
+atomic: pattern
+mediation: coordination
+fun: 🙂 4/5. The agent-workflow tools of the 2020s keep rediscovering, feature by feature, what CSCW settled about organisational workflow in the 1990s — watching the two literatures meet is the fun.
+description: "A recurring procedure made into an artifact the actor and the system can both read, edit, and act on — handed over to run, opened up to inspect and repair."
+relationships:
+  related:
+    - to: delegation
+      note: "the delegated procedure made inspectable; delegation's *tuning tools* touchpoints — at set-up and at repair — edit this artifact"
+    - to: activity-log
+      note: "the workflow is the prescription, the log is the account of what actually ran; monitoring reads them against each other"
+  complements:
+    - to: bot
+      note: "gives the workflow-automation bot mode its procedure — the bot runs it, this artifact shows and edits it"
+    - to: ai-tuning
+      note: "a workflow builder is a tuning tool: editing the procedure is one of the ways a bot's behaviour gets progressively shaped"
+  tangential:
+    - to: wizard
+      note: "a wizard scripts the actor's own path through one task; a workflow externalises a procedure for the system or for others to run"
+  enacts:
+    - to: malleability
+      note: "the system's standing behaviour becomes an artifact the actor can reshape without programming"
+---
+
+The actor keeps doing the same thing — triaging the same requests, moving records through the same stages, chaining the same steps — and wants to hand the procedure over: to an agent, to a rule engine, to the rest of the team.
+
+A workflow makes the procedure an *artifact*: steps, conditions, and transitions in a representation that the actor and the system can both read and act on. The system executes it or enforces it (the A cannot B until the rule C is satisfied); the actor inspects it, rehearses it, and repairs it. The representation may be a node graph, a trigger–action rule list, a pipeline definition — the pattern is indifferent to the notation, and the notation slides along the [formality](/patterns/formality) spectrum from natural-language instruction to executable code.
+
+## Forces
+
+- *Legibility against expressiveness* — the representation novices can read caps what it can express; the one that expresses everything reads as code
+- *Foreseeing effect* — the hardest part of authoring a rule is not writing it but estimating what it will do to live cases before it runs
+- *Map against script* — how far the procedure's interdependencies can be modelled in advance decides how strongly the artifact may bind its executors
+- *Whose account is it* — the representation renders work legible to an audience beyond its executors, and that audience's view is the one that gets enshrined
+- *The blank canvas* — authoring from nothing is the costliest entry point, and increasingly the avoidable one
+
+## One artifact, two faces
+
+The workflow is authored to delegate and read to supervise, and these are the same thing. The graph the actor wires is the graph they watch run; execution state lands on the representation itself.
+
+## First draft
+
+The draft can be generated from an instruction and rendered for repair, or induced from the system's own successful and failed runs and handed back as a reusable, guarded procedure. Workflows are also *grown* — trigger–action pairs added in situ while partial versions already run, formality entered gradually rather than specified upfront. In every direction the actor's core interaction is the same: *inspect and repair*, not construct. 
+
+## Map or script
+
+Whether the artifact merely orients its executors or genuinely binds them is set by how far the interdependencies can be precomputed. A flight-deck checklist and a kanban protocol are deliberately scripts — they exist to reduce local control, and their executors rely on them without deliberating. A sales methodology mostly maps. The same artifact shifts role with the situation: the procedure that scripts under routine conditions drops to a heuristic map in breakdown. Two consequences for the builder:
+
+- *Appropriate ambiguity is a design property.* A workflow is deliberately underspecified with respect to what execution can settle better locally; forcing full specification upfront is how the representation starts lying.
+- *Deviation is reconfiguration, not abandonment.* Competent executors who route around a step are usually modifying the procedure locally and temporarily, not rejecting it — the artifact should absorb the exception and switch back, and treat the workaround as a signal about the model, not a violation.
+
+## The repair loop
+
+Procedures fail after deployment, and the run-time affordances decide whether the pattern holds:
+
+- *Effect preview* — rehearse the rule against real or historical cases before committing authority to it; this is [delegation](/patterns/delegation)'s *test drive* touchpoint, and for rule edits it is the difference between tuning and gambling
+- *Step-level attribution* — when a run goes wrong, the actor needs the failure pinned to a step or an agent, at the representation, not in a log dump
+- *The prescription–account gap* — what ran never quite matches what was drawn; keep the [activity log](/patterns/activity-log) readable against the workflow rather than pretending the two are one
+
+## Executors and audiences
+
+The instruction genre is continuous: the same note-shaped procedure can address the author's future self, a colleague, or a computational agent — what changes is register and trust apparatus (guards, monitoring, permissions), not the representational move. The sharper boundary is *audience*. When the workflow's author and its subjects diverge — the operations manager modelling the process the sales team works inside — the accounting face dominates: the representation exists partly to make the work observable-and-reportable to management, clients, auditors. That is a legitimate job and a political one; the "cleaned-up" view of the work is somebody's view, and the details it strips were material to somebody else. At that end of the spectrum the honest design question becomes whether the system should *prescribe and enforce* the order of work or *find and reveal* the order already in it — enforcement is what breeds the workaround economy.
+
+## Related components
+
+- <ComponentRef id="components-workflow--docs">workflow builder</ComponentRef> – node-and-wire canvas is one realisation
+
+## To-do
+
+- Embed the builder demo
+- Storybook doc for the node canvas
+- Route [AI tuning](/patterns/ai-tuning)'s skeletal Workflow section and [bot](/patterns/bot)'s workflow-automation mode here instead of restating
+- The organisational face deserves its own worked treatment
+- Canvas as a broader thing?
+- Trigger–action rule lists and pipeline configurations as examples at other points of the formality spectrum
+- Connection to constrained natural language builder
+- ...
+
+## Resources & references
+
+- Dourish (2001) [Process descriptions as organisational accounting devices](https://www.dourish.com/publications/2001/group01-orgaccounts.pdf) — the dual-use argument; workflow as visualisation rather than enforcement
+- Schmidt (1999) [Of maps and scripts](https://dl.acm.org/doi/10.1145/266838.266887) — the modellability determinant; precomputation, appropriate ambiguity, reconfigure-don't-abandon
+- Suchman (1994) [Do categories have politics?](https://link.springer.com/chapter/10.1007/978-94-011-2094-4_1) — categorisation as discipline; the author≠subject force
+- Bowers, Button & Sharrock (1995) [Workflow from within and without](https://link.springer.com/chapter/10.1007/978-94-011-0349-7_4) — the print-shop fieldwork: enforcement, workarounds, and the contractually mandated account
+- Wu et al. (2022) [PromptChainer](https://arxiv.org/abs/2203.06566) — chain authoring needs: intermediate-output scaffolding, debugging at multiple granularities
+- Zhou et al. (2025) [InstructPipe](https://arxiv.org/abs/2312.09672) — the generated draft rendered in a node editor for human repair
+- Liu et al. (2026) [ReUseIt](https://arxiv.org/abs/2510.14308) — workflows induced from an agent's own runs, with execution guards as the monitoring surface
+- Perera, Aghaee & Blackwell (2015) [Natural notation for the domestic IoT](https://arxiv.org/abs/1503.01895) — one instruction genre addressed to self, others, or agents
