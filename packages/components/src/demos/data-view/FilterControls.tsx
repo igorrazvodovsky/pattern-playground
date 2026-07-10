@@ -132,13 +132,13 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
           onClick={clearFilters}
         >
           <Icon icon="ph:x" className="icon" />
-          <span className="inclusively-hidden">Clear filters</span>
+          <span className="visually-hidden">Clear filters</span>
         </button>
       )}
       <pp-dropdown ref={dropdownRef} placement="bottom-start">
         <button slot="trigger" className="button">
           <Icon icon="ph:funnel-simple" className="icon" />
-          <span className="inclusively-hidden">Filter</span>
+          <span className="visually-hidden">Filter</span>
         </button>
 
         <div>

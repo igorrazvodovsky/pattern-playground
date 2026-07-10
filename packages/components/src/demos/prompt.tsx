@@ -133,16 +133,16 @@ export const PromptBasicDemo = () => {
 
         <div className="message-composer__actions">
           <button className="button button--plain" is="pp-button" title="Add context">
-            <iconify-icon className="icon" icon="ph:globe"></iconify-icon><span className="inclusively-hidden">Add context</span>
+            <iconify-icon className="icon" icon="ph:globe"></iconify-icon><span className="visually-hidden">Add context</span>
           </button>
           <button className="button button--plain" is="pp-button" title="Get suggestions">
-            <iconify-icon className="icon" icon="ph:lightbulb"></iconify-icon><span className="inclusively-hidden">Get suggestions</span>
+            <iconify-icon className="icon" icon="ph:lightbulb"></iconify-icon><span className="visually-hidden">Get suggestions</span>
           </button>
           <button className="button button--plain" is="pp-button" title="Attach file">
-            <iconify-icon className="icon" icon="ph:paperclip"></iconify-icon><span className="inclusively-hidden">Attach file</span>
+            <iconify-icon className="icon" icon="ph:paperclip"></iconify-icon><span className="visually-hidden">Attach file</span>
           </button>
           <button className="button button--plain" is="pp-button" title="Reference materials">
-            <iconify-icon className="icon" icon="ph:at"></iconify-icon><span className="inclusively-hidden">Reference materials</span>
+            <iconify-icon className="icon" icon="ph:at"></iconify-icon><span className="visually-hidden">Reference materials</span>
           </button>
         </div>
       </div>
@@ -173,16 +173,16 @@ export const PromptQualityFeedbackDemo = () => (
       </pp-input>
       <div className="message-composer__actions">
         <button className="button button--plain" is="pp-button">
-          <iconify-icon className="icon" icon="ph:globe"></iconify-icon><span className="inclusively-hidden">Action</span>
+          <iconify-icon className="icon" icon="ph:globe"></iconify-icon><span className="visually-hidden">Action</span>
         </button>
         <button className="button button--plain" is="pp-button">
-          <iconify-icon className="icon" icon="ph:lightbulb"></iconify-icon><span className="inclusively-hidden">Action</span>
+          <iconify-icon className="icon" icon="ph:lightbulb"></iconify-icon><span className="visually-hidden">Action</span>
         </button>
         <button className="button button--plain" is="pp-button">
-          <iconify-icon className="icon" icon="ph:paperclip"></iconify-icon><span className="inclusively-hidden">Action</span>
+          <iconify-icon className="icon" icon="ph:paperclip"></iconify-icon><span className="visually-hidden">Action</span>
         </button>
         <button className="button button--plain" is="pp-button">
-          <iconify-icon className="icon" icon="ph:plus"></iconify-icon><span className="inclusively-hidden">Edit</span>
+          <iconify-icon className="icon" icon="ph:plus"></iconify-icon><span className="visually-hidden">Edit</span>
         </button>
       </div>
       <small className="message-composer__feedback">
@@ -247,16 +247,16 @@ export const PromptWithMaterialReferencesDemo = () => {
 
         <div className="message-composer__actions">
           <button className="button button--plain" is="pp-button" title="Add context">
-            <iconify-icon className="icon" icon="ph:globe"></iconify-icon><span className="inclusively-hidden">Add context</span>
+            <iconify-icon className="icon" icon="ph:globe"></iconify-icon><span className="visually-hidden">Add context</span>
           </button>
           <button className="button button--plain" is="pp-button" title="Get suggestions">
-            <iconify-icon className="icon" icon="ph:lightbulb"></iconify-icon><span className="inclusively-hidden">Get suggestions</span>
+            <iconify-icon className="icon" icon="ph:lightbulb"></iconify-icon><span className="visually-hidden">Get suggestions</span>
           </button>
           <button className="button button--plain" is="pp-button" title="Attach file">
-            <iconify-icon className="icon" icon="ph:paperclip"></iconify-icon><span className="inclusively-hidden">Attach file</span>
+            <iconify-icon className="icon" icon="ph:paperclip"></iconify-icon><span className="visually-hidden">Attach file</span>
           </button>
           <button className="button button--plain" is="pp-button" title="Reference materials">
-            <iconify-icon className="icon" icon="ph:at"></iconify-icon><span className="inclusively-hidden">Reference materials</span>
+            <iconify-icon className="icon" icon="ph:at"></iconify-icon><span className="visually-hidden">Reference materials</span>
           </button>
           <button
             className={`button ${editorState.isValid ? '' : 'button--disabled'}`}
@@ -265,7 +265,7 @@ export const PromptWithMaterialReferencesDemo = () => {
             title="Send prompt"
             disabled={!editorState.isValid}
           >
-            <iconify-icon className="icon" icon="ph:arrow-elbow-down-left"></iconify-icon><span className="inclusively-hidden">Send</span>
+            <iconify-icon className="icon" icon="ph:arrow-elbow-down-left"></iconify-icon><span className="visually-hidden">Send</span>
           </button>
         </div>
       </div>
@@ -341,7 +341,7 @@ export const PromptTemplateDemo = () => {
             title="Fill template with sample data"
             onClick={handleFillSample}
           >
-            <iconify-icon className="icon" icon="ph:text-aa"></iconify-icon><span className="inclusively-hidden">Fill template</span>
+            <iconify-icon className="icon" icon="ph:text-aa"></iconify-icon><span className="visually-hidden">Fill template</span>
           </button>
           <button
             className="button button--plain"
@@ -349,7 +349,7 @@ export const PromptTemplateDemo = () => {
             title="Clear all template fields"
             onClick={handleClearFields}
           >
-            <iconify-icon className="icon" icon="ph:eraser"></iconify-icon><span className="inclusively-hidden">Clear fields</span>
+            <iconify-icon className="icon" icon="ph:eraser"></iconify-icon><span className="visually-hidden">Clear fields</span>
           </button>
           <button
             className="button button--plain"
@@ -357,10 +357,10 @@ export const PromptTemplateDemo = () => {
             title="Validate template fields"
             onClick={handleValidate}
           >
-            <iconify-icon className="icon" icon="ph:check-square"></iconify-icon><span className="inclusively-hidden">Validate</span>
+            <iconify-icon className="icon" icon="ph:check-square"></iconify-icon><span className="visually-hidden">Validate</span>
           </button>
           <button className="button button--plain" is="pp-button" title="Reference materials">
-            <iconify-icon className="icon" icon="ph:at"></iconify-icon><span className="inclusively-hidden">Reference materials</span>
+            <iconify-icon className="icon" icon="ph:at"></iconify-icon><span className="visually-hidden">Reference materials</span>
           </button>
           <button
             className={`button ${editorState.isValid ? '' : 'button--disabled'}`}
@@ -369,7 +369,7 @@ export const PromptTemplateDemo = () => {
             title="Send prompt"
             disabled={!editorState.isValid}
           >
-            <iconify-icon className="icon" icon="ph:arrow-elbow-down-left"></iconify-icon><span className="inclusively-hidden">Send</span>
+            <iconify-icon className="icon" icon="ph:arrow-elbow-down-left"></iconify-icon><span className="visually-hidden">Send</span>
           </button>
         </div>
       </div>

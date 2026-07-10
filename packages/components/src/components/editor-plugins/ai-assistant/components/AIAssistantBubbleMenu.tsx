@@ -106,7 +106,7 @@ export function AIAssistantBubbleMenu({ options, onAction }: AIAssistantBubbleMe
           title="Expand selected text (zoom out)"
         >
           <iconify-icon icon="ph:magnifying-glass-minus"></iconify-icon>
-          <span className="inclusively-hidden">Expand</span>
+          <span className="visually-hidden">Expand</span>
         </button>
       )}
     </>

@@ -158,7 +158,7 @@ export function StagedDeletionDemo() {
                 className="icon"
                 icon={item.deleted ? 'ph:arrow-arc-left' : 'ph:trash-simple'}
               />
-              <span className="inclusively-hidden">{item.deleted ? 'Restore' : 'Delete'}</span>
+              <span className="visually-hidden">{item.deleted ? 'Restore' : 'Delete'}</span>
             </button>
           </pp-list-item>
         ))}

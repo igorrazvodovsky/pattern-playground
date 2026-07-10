@@ -77,7 +77,7 @@ export const CommentPopover: React.FC<CommentPopoverProps> = ({
             title="Open in drawer"
           >
             <iconify-icon className="icon" icon="ph:sidebar-simple"></iconify-icon>
-            <span className="inclusively-hidden">Open in drawer</span>
+            <span className="visually-hidden">Open in drawer</span>
           </button>
         </div>
         <CommentThread

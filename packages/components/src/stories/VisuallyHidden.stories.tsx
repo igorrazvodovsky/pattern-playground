@@ -7,14 +7,14 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: 'Hides content visually while keeping it available to assistive technology — icon-only button labels, announcement prefixes, off-screen context. Two equivalent classes live in the `utilities` layer of `main.css`: `.visually-hidden` (the classic clip technique, e.g. the "Error:" prefix in `pp-select`) and `.inclusively-hidden` (the clip-path form, e.g. icon-only button labels in demos).',
+        component: 'Hides content visually while keeping it available to assistive technology — icon-only button labels, announcement prefixes, off-screen context. The `.visually-hidden` class lives in the `utilities` layer of `main.css`. Shadow-DOM components carry their own copy where needed (e.g. the "Error:" prefix in `pp-select`).',
       },
     },
   },
   render: () => (
     <button className="button" type="button">
       <iconify-icon className="icon" icon="ph:bell" aria-hidden="true" />
-      <span className="inclusively-hidden">Notifications</span>
+      <span className="visually-hidden">Notifications</span>
     </button>
   ),
 } satisfies Meta;

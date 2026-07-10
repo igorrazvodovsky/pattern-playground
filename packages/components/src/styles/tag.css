@@ -223,7 +223,7 @@ high-contrast styles:
   }
 
   /* for icon-only buttons */
-  button.tag:has(.inclusively-hidden) {
+  button.tag:has(.visually-hidden) {
     padding: 0.5em;
   }
 }

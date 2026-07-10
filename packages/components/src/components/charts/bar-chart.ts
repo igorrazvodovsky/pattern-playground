@@ -493,7 +493,7 @@ export class BarChart extends ChartComponent {
       ` : ''}
 
       <!-- Screen reader accessible data summary -->
-      <div class="inclusively-hidden" role="table" aria-label="Chart data">
+      <div class="visually-hidden" role="table" aria-label="Chart data">
         <div role="rowgroup">
           ${this.data.data.map(item => html`
             <div role="row">

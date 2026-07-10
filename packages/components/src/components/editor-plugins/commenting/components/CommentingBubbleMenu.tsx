@@ -53,7 +53,7 @@ const CommentingBubbleMenu: React.FC<CommentingBubbleMenuProps> = ({ editor }) =
       title="Add comment"
     >
       <iconify-icon className="icon" icon="ph:chat-circle"></iconify-icon>
-      <span className="inclusively-hidden">Comment</span>
+      <span className="visually-hidden">Comment</span>
     </button>
   );
 };

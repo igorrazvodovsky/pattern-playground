@@ -168,8 +168,8 @@ export function Sidebar({
             className={clsx('sidebar sidebar-mobile', className)}
             {...props}
           >
-            <Dialog.Title className="inclusively-hidden">Navigation sidebar</Dialog.Title>
-            <Dialog.Description className="inclusively-hidden">
+            <Dialog.Title className="visually-hidden">Navigation sidebar</Dialog.Title>
+            <Dialog.Description className="visually-hidden">
               Site navigation
             </Dialog.Description>
             <div data-slot="sidebar-inner" className="sidebar__inner">
@@ -235,7 +235,7 @@ export function SidebarTrigger({
       {children ?? (
         <>
           <iconify-icon className="icon" icon="ph:sidebar-simple" />
-          <span className="inclusively-hidden">Toggle Sidebar</span>
+          <span className="visually-hidden">Toggle Sidebar</span>
         </>
       )}
     </button>

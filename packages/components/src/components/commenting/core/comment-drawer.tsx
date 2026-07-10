@@ -64,7 +64,7 @@ export const CommentDrawer: React.FC<CommentDrawerProps> = ({
           <h3>Comments</h3>
           <button className="button button--plain" data-close onClick={onClose}>
             <iconify-icon className="icon" icon="ph:x"></iconify-icon>
-            <span className="inclusively-hidden">Close</span>
+            <span className="visually-hidden">Close</span>
           </button>
         </header>
 

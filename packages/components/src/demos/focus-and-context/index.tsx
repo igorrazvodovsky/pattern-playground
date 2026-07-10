@@ -20,7 +20,7 @@ const Breadcrumbs: React.FC<{ item: ModelItem }> = ({ item }) => {
         <span className="crumbicon">
           <iconify-icon icon="ph:house"></iconify-icon>
         </span>
-        <span className="inclusively-hidden">Home</span>
+        <span className="visually-hidden">Home</span>
       </a>
 
       {breadcrumbPath.map((pathItem, index) => (
@@ -155,7 +155,7 @@ const MainItemCard: React.FC<{
         </h3>
         <button className="button button--plain">
           <iconify-icon className="icon" icon="ph:dots-three"></iconify-icon>
-          <span className="inclusively-hidden">Actions</span>
+          <span className="visually-hidden">Actions</span>
         </button>
       </div>
       <p className="description">{item.description}</p>

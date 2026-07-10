@@ -25,7 +25,7 @@ export const SortingControls: React.FC<SortingControlsProps> = ({
   return (
     <pp-dropdown>
       <button className="button" is="pp-button" slot="trigger">
-        <span className="muted inclusively-hidden">Sorted by {getCurrentLabel()}</span>
+        <span className="muted visually-hidden">Sorted by {getCurrentLabel()}</span>
         <iconify-icon className="icon" icon="ph:arrows-down-up" aria-hidden="true"></iconify-icon>
       </button>
       <pp-list>

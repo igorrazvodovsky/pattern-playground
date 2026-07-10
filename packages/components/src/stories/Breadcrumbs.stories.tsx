@@ -15,7 +15,7 @@ export const Basic: Story = {
         <span className="crumbicon">
           <iconify-icon icon="ph:house"></iconify-icon>
         </span>
-        <span className="inclusively-hidden home-label">Home</span>
+        <span className="visually-hidden home-label">Home</span>
       </a>
 
       <span className="crumb">
@@ -36,7 +36,7 @@ export const LongPath: Story = {
         <span className="crumbicon">
           <iconify-icon icon="ph:house"></iconify-icon>
         </span>
-        <span className="inclusively-hidden home-label">Home</span>
+        <span className="visually-hidden home-label">Home</span>
       </a>
 
       <span className="crumb">
@@ -61,7 +61,7 @@ export const Advanced: Story = {
         <span className="crumbicon">
           <iconify-icon icon="ph:house"></iconify-icon>
         </span>
-        <span className="inclusively-hidden home-label">Home</span>
+        <span className="visually-hidden home-label">Home</span>
       </a>
 
       <span className="crumb">

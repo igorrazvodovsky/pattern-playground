@@ -483,7 +483,7 @@
 
   /* Icon-collapsed: hide text, center icon */
   [data-slot="sidebar"][data-collapsible="icon"] .sidebar-menu-button {
-    & > span:not(.inclusively-hidden) {
+    & > span:not(.visually-hidden) {
       display: none;
     }
 

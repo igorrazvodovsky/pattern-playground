@@ -72,7 +72,7 @@ export const WithButton: Story = {
       </button>
       <button className="button" is="pp-button">
         <iconify-icon className="icon" icon="ph:circle-dashed"></iconify-icon>
-        <span className="inclusively-hidden">Icon button</span>
+        <span className="visually-hidden">Icon button</span>
         <sup className="badge badge--pill badge--danger"></sup>
       </button>
       <div className="avatar">
@@ -231,13 +231,13 @@ export const IconOnly: Story = {
       <span>
         <strong className="badge badge--accent badge--pill">
           <iconify-icon className="icon" icon="ph:heart-fill" slot="icon"></iconify-icon>
-          <span className="inclusively-hidden">Heart</span>
+          <span className="visually-hidden">Heart</span>
         </strong>
       </span>
       <span>
         <strong className="badge badge--success badge--pill">
           <iconify-icon className="icon" icon="ph:check-fat-fill" slot="icon"></iconify-icon>
-          <span className="inclusively-hidden">Success</span>
+          <span className="visually-hidden">Success</span>
         </strong>
       </span>
     </div>
@@ -250,7 +250,7 @@ export const IconOnlyInAGroup: Story = {
       <span className="badge">1.7"</span>
       <span className="badge">
         <iconify-icon className="icon" icon="ph:arrows-out-line-horizontal" slot="icon"></iconify-icon>
-        <span className="inclusively-hidden">Heart</span>
+        <span className="visually-hidden">Heart</span>
       </span>
       <span className="badge">4</span>
       <span className="badge">0.36°</span>

@@ -99,7 +99,7 @@ export const IconButton: Story = {
   render: (args) => (
     <button className="button" is="pp-button">
       <iconify-icon className="icon" icon="ph:circle-dashed"></iconify-icon>
-      <span className="inclusively-hidden">{args.label}</span>
+      <span className="visually-hidden">{args.label}</span>
     </button>
   ),
 };

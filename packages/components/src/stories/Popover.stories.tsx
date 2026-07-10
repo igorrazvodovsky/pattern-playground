@@ -41,7 +41,7 @@ export const TooltipOnIcon: Story = {
     <pp-tooltip content="Delete this item permanently">
       <button className="button button--plain">
         <iconify-icon className="icon" icon="ph:trash-simple" />
-        <span className="inclusively-hidden">Delete</span>
+        <span className="visually-hidden">Delete</span>
       </button>
     </pp-tooltip>
   ),

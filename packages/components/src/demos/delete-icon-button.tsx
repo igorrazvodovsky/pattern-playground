@@ -4,7 +4,7 @@ export function DeleteIconButton({ onClick, label = 'Delete' }: { onClick: () =>
   return (
     <button slot="suffix" className="button button--plain button--small" onClick={onClick}>
       <iconify-icon className="icon" icon="ph:trash-simple" />
-      <span className="inclusively-hidden">{label}</span>
+      <span className="visually-hidden">{label}</span>
     </button>
   );
 }

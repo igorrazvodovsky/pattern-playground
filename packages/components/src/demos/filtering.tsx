@@ -202,13 +202,13 @@ export function FilteringDemo({
           onClick={clearFilters}
         >
           <Icon icon="ph:x" className="icon" />
-          <span className="inclusively-hidden">Clear</span>
+          <span className="visually-hidden">Clear</span>
         </button>
       )}
       <pp-dropdown ref={dropdownRef} placement="bottom-start">
         <button slot="trigger" className="button">
           <Icon icon="ph:funnel-simple" className="icon" />
-          <span className={filters.length ? "inclusively-hidden" : ""}>Filter</span>
+          <span className={filters.length ? "visually-hidden" : ""}>Filter</span>
         </button>
 
         <div>

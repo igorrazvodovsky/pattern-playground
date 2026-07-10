@@ -156,16 +156,16 @@ export const HumanToLLM: Story = {
         </pp-input>
         <div className="message-composer__actions">
           <button className="button button--plain" is="pp-button">
-            <iconify-icon className="icon" icon="ph:globe"></iconify-icon><span className="inclusively-hidden">Action</span>
+            <iconify-icon className="icon" icon="ph:globe"></iconify-icon><span className="visually-hidden">Action</span>
           </button>
           <button className="button button--plain" is="pp-button">
-            <iconify-icon className="icon" icon="ph:lightbulb"></iconify-icon><span className="inclusively-hidden">Action</span>
+            <iconify-icon className="icon" icon="ph:lightbulb"></iconify-icon><span className="visually-hidden">Action</span>
           </button>
           <button className="button button--plain" is="pp-button">
-            <iconify-icon className="icon" icon="ph:paperclip"></iconify-icon><span className="inclusively-hidden">Action</span>
+            <iconify-icon className="icon" icon="ph:paperclip"></iconify-icon><span className="visually-hidden">Action</span>
           </button>
           <button className="button button--plain" is="pp-button">
-            <iconify-icon className="icon" icon="ph:plus"></iconify-icon><span className="inclusively-hidden">Edit</span>
+            <iconify-icon className="icon" icon="ph:plus"></iconify-icon><span className="visually-hidden">Edit</span>
           </button>
         </div>
       </div>

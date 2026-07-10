@@ -70,7 +70,7 @@ export default function ProductFilters({
               onClick={() => handleRemoveFilter(filter.id)}
               className="tag tag-group__remove"
             >
-              <Icon icon="ph:x" /><span className="inclusively-hidden">Clear filter</span>
+              <Icon icon="ph:x" /><span className="visually-hidden">Clear filter</span>
             </button>
           </div>
         ))}

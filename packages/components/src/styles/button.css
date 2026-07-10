@@ -48,7 +48,7 @@
     }
 
     /* for icon-only buttons */
-    &:has(.inclusively-hidden) {
+    &:has(.visually-hidden) {
       padding: 0.5em;
     }
 
@@ -58,7 +58,7 @@
       min-inline-size: 10ch;
     } */
 
-    &:not(:has(.inclusively-hidden)) {
+    &:not(:has(.visually-hidden)) {
       padding: var(--button-padding);
     }
 

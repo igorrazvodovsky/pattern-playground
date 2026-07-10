@@ -222,7 +222,7 @@
   }
 
   /* for icon-only badges */
-  .badge:only-child:has(.inclusively-hidden) {
+  .badge:only-child:has(.visually-hidden) {
     border-radius: 50%;
     padding: 0.5em;
   }

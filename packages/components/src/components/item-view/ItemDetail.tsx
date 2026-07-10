@@ -27,7 +27,7 @@ export const ItemDetail = <T extends BaseItem = BaseItem>({
                 title="Open full view"
               >
                 <iconify-icon className="icon" icon="ph:arrow-square-out"></iconify-icon>
-                <span className="inclusively-hidden">Open full view</span>
+                <span className="visually-hidden">Open full view</span>
               </button>
             )}
             {onInteraction && (
@@ -38,7 +38,7 @@ export const ItemDetail = <T extends BaseItem = BaseItem>({
                 title="Edit item"
               >
                 <iconify-icon className="icon" icon="ph:pencil"></iconify-icon>
-                <span className="inclusively-hidden">Edit item</span>
+                <span className="visually-hidden">Edit item</span>
               </button>
             )}
           </div>
