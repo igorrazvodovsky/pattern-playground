@@ -396,3 +396,28 @@ Verified: `packages/components` still extends cleanly (identical 386 raw-`tsc` c
 Finding: adding `scripts/` surfaced two pre-existing latent issues (editor-only, no gate): `scripts/extract-graph-data.ts` imports `js-yaml` with neither `js-yaml` nor `@types/js-yaml` declared anywhere — a third phantom dep in the same family as step 1's `classnames`/`nanoid` — and one unused variable in `migrate-patterns.ts`. Left for a scripts-hygiene follow-up, not fixed here.
 
 *Workstream 4 status after this:* steps 1 and 4 done. Step 2 (enforcement stance) is decided-not-executed — keep alias-to-raw-source now; an honest `exports` field can be written from the observed public surface (open question 5) whenever enforcement is wanted. Step 3 (pnpm) stays gated on step 2 proving insufficient — step 1 made the dep graph honest enough that a switch would now be safe, but npm causes no pain yet.
+
+### 2026-07-10 — Workstream 4 step 2 (enforcement stance) decided: keep aliases
+
+Step 2 is now a firm decision, not just the plan's recommendation: *keep alias-to-raw-source consumption.* The re-grounding that settled it corrects the plan's own framing of the choice.
+
+The framing was "convention vs. an `exports`-based API." Re-grounding the consumption model shows that is not the real fork. `apps/patterns` imports the components package through Vite `alias` and tsconfig `paths` entries that map to raw source — `@components` → `packages/components/src/components`, `@pkg` → `packages/components/src`. Those are *path mappings*: they resolve before, and instead of, Node package resolution, so they never consult the target package's `exports` field. Under alias-based consumption an `exports` map is *inert* — documentation, enforcing nothing. So "add `exports` to enforce the API" is a category error; the two positions that actually exist are:
+
+- *Keep aliases* — boundary by convention; the step-1 `@pattern-plgrnd/components` edge documents the dependency, aliases do resolution. Zero code. (Chosen.)
+- *Actually enforce* — drop the `@components`/`@pkg` deep aliases and rewire every consumer to the package name `@pattern-plgrnd/components` + subpath exports, so `exports` genuinely gates what is importable. That is a real refactor (~30 import sites across `apps/patterns` MDX/source) and it fights the source-resolution setup: components has no build step, it is consumed as `.ts` source through the Astro/Vite/Lit pipeline, which an `exports`-gated name import would have to resolve to source across SSR + the Lit integration — exactly the pipeline just stabilised on the astro-7 branch.
+
+Why keep aliases holds: the enforcement refactor's cost and risk are high against a benefit that is largely already banked. Step 1 made the *dependency* graph honest; the *public surface* is tiny and known. And if boundary enforcement ever becomes a felt need, *pnpm (step 3) is the cheaper lever* — it enforces dependency honesty (no phantom imports) natively, without touching a single import line, whereas `exports` enforces API surface but demands the full rewire. Different levers; pnpm is the one that matches the stated goal.
+
+The observed public surface, re-confirmed exactly and recorded as the content of the `exports` field for the day name-based imports are adopted: `./register-all` (side-effect registration, imported in `Base.astro`), `./MermaidDiagram`, `./PatternGraph`, `./sidebar`, and `./demos/*` (~24 demo modules). Nothing outside the package imports `main.ts`'s classes. Open question 5 stands unchanged; this entry just promotes its "until enforcement is wanted" clause into a made decision.
+
+*Workstream 4 status:* steps 1, 2, 4 resolved. Step 3 (pnpm) is the only open item, and it is a want-driven option, not owed work — revisit if the alias convention ever proves insufficient.
+
+### 2026-07-10 — Workstream 4 step 3 (pnpm) parked, with gates and a cheaper alternative
+
+Step 3 stays parked — the decision, not a deferral of one. This resolves the original plan's open question 6.
+
+pnpm's draw is phantom-dep isolation: its non-flat `node_modules` makes a package importable only from what it declares, so the `classnames`/`nanoid`/`js-yaml` class fails at install rather than resolving silently. Real, but the plan's "if the dep graph is honest, switching is mostly mechanical" understates the cost for *this* tree. Step 1 made the repo's own packages honest; pnpm's strictness also surfaces *third-party* tooling's undeclared-peer assumptions, and the heavy hitters here — the full Storybook 10 addon set, tiptap ×6, tldraw, the Vite plugins — are the ecosystem's worst offenders for loose peers. The realistic migration is a batch of missing-peer errors clawed back with `public-hoist-pattern`/`.pnpmfile.cjs`, plus a `packageManager`/corepack pin, plus updating the five `.github/workflows` that install via npm, plus getting corepack + pnpm's symlinked layout right on Render.
+
+That last point is the gate: the split has never been deployed (npm), so introducing pnpm now would stack an unproven package manager on an unproven deploy topology. Gate on *the split being deployed and proven on npm first*. (The astro-7 upgrade, the other collision risk, has landed — that gate is clear.)
+
+Cheaper alternative if phantom-dep prevention is wanted before then: a `depcheck`/`knip` check runs on npm, flags undeclared (phantom) and unused deps both, catches all three phantoms found here, and can live in an existing CI workflow — most of the enforcement value at near-zero migration risk. Reach for the pnpm switch itself only if the strict layout becomes a felt need, not a principle.

@@ -7,12 +7,12 @@ import {
   ComboboxInput,
   ComboboxItem,
   ComboboxList,
-} from "../../components/combobox";
+} from "../components/combobox";
 import 'iconify-icon';
-import '../../jsx-types';
+import '../jsx-types';
 
 const meta = {
-  title: "Operations/Combobox",
+  title: "Components/Combobox",
 } satisfies Meta;
 
 export default meta;
