@@ -381,3 +381,18 @@ Findings / inputs recorded, not acted on (out of step-1 scope):
 - *Declared-but-unimported deps.* `@iconify/json` and `@iconify/utils` (heavy icon-data packages) have zero `src` imports — moved to components with the rest of the iconify surface rather than dropped, but they are dead-dep removal candidates. `serve` (root, a static-server CLI) is referenced by no script or import — kept in root devDeps and flagged. `@tiptap/*` has nine more subpackages imported than declared (`@tiptap/core`, `extension-bold`, …), all provided transitively by `@tiptap/starter-kit`; unlike classnames/nanoid they have a declared provider, so left phantom.
 - *`shared` declares no deps* while importing `mdast` and `unist-util-visit` (in `remark-rel-strip.ts`); they resolve transitively through the astro/remark stack that consumes it. Honest declaration is a follow-up, not this pass.
 - *Steps 2–4 remain as recorded.* Enforcement stance (keep aliases), pnpm, and tsconfig re-scope are untouched — this was step 1 only. No `exports` field added to the components package.
+
+### 2026-07-09 — Workstream 4 step 4 (tsconfig hygiene) complete
+
+The root `tsconfig.json` was masquerading as *the* workspace config while doing two unrelated jobs, one of them wrong:
+
+- It is the shared compiler *base* — `packages/components/tsconfig.json` extends `../../tsconfig.json` for the bundler-mode / react-jsx / Lit-decorator options. (This rules out the plan's "rename" option: renaming the file breaks that `extends` path. Re-scope is the only safe move.)
+- Its `include` was `["apps/server", "utils"]`. But `apps/server` has its own standalone `NodeNext` tsconfig; pulling server files into this bundler-mode config typechecked them under the *wrong* module resolution. Server is (and was) typechecked correctly by `apps/server/tsconfig.json` — the root inclusion was redundant and mode-mismatched, not load-bearing.
+
+Re-scoped `include` to `["utils", "scripts"]` — the root-level loose TypeScript that genuinely has no workspace of its own and does run in bundler/ESM mode — and dropped `apps/server`. Added a header comment stating both roles, that each workspace owns its own tsconfig (server standalone NodeNext, patterns extends `astro/tsconfigs/strict`, components extends this base), and — per the workstream's instruction to record rather than leave open — that *TS project references are deliberately not adopted*: with `noEmit`, bundler resolution, and alias-to-source imports they add build-orchestration machinery for little benefit here.
+
+Verified: `packages/components` still extends cleanly (identical 386 raw-`tsc` count — compilerOptions untouched); `apps/server` typecheck passes on its own config; root config parses and now covers utils + scripts; full `npm run build` green (Storybook → site, 118 pages). No script runs `tsc -p tsconfig.json`, so the `include` change touches editor/manual typechecking only — no gate moved.
+
+Finding: adding `scripts/` surfaced two pre-existing latent issues (editor-only, no gate): `scripts/extract-graph-data.ts` imports `js-yaml` with neither `js-yaml` nor `@types/js-yaml` declared anywhere — a third phantom dep in the same family as step 1's `classnames`/`nanoid` — and one unused variable in `migrate-patterns.ts`. Left for a scripts-hygiene follow-up, not fixed here.
+
+*Workstream 4 status after this:* steps 1 and 4 done. Step 2 (enforcement stance) is decided-not-executed — keep alias-to-raw-source now; an honest `exports` field can be written from the observed public surface (open question 5) whenever enforcement is wanted. Step 3 (pnpm) stays gated on step 2 proving insufficient — step 1 made the dep graph honest enough that a switch would now be safe, but npm causes no pain yet.
