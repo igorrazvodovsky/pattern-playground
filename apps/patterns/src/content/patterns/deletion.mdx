@@ -21,9 +21,9 @@ relationships:
   composed-of:
     - to: selection
       note: How the scope of a deletion gets staked
-  enables:
+  precedes:
     - to: undo
-      note: Reversibility and recovery mechanisms
+      note: Undo reverses a completed deletion — the deletion produces the state the recovery move acts on
 ---
 
 import { MermaidDiagram } from '@components/MermaidDiagram';

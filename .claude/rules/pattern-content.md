@@ -97,6 +97,14 @@ Per-direction notes (symmetric edges — `complements`, `tangential`, `alternati
 
 Per-direction notes (directed edges — `precedes`, `enables`, `instantiates`): the forward author sets the outgoing note (`A` declares `precedes: {to: B, note}`); the target may add a reverse-reading note via the inverse alias (`B` declares `follows: {to: A, note}`, or `composed-of`/`instances` for enables/instantiates). Same rule: add the incoming note only when reading the edge in reverse needs different words. This enriches the one edge — it does not create a second edge.
 
+Voice the note for both pages: a single-noted directed edge renders its one note
+on both endpoints' pages, each time after the *other* endpoint's name, so a
+subjectless note binds to whichever endpoint the reader is not on. Make the
+note name its subject ("annotation supplies the mechanism for attaching help")
+or gloss the relation itself; when the wording only works from one side, author
+the reverse note via the inverse alias instead. The extractor's voicing
+advisory flags single-noted directed edges that name neither endpoint.
+
 Valid rel values: `precedes`, `follows`, `enables`, `composed-of`, `instantiates`, `instances`, `variants`, `complements`, `tangential`, `alternative`, `enacts`, `surveys`, `related`. Direction is fixed by the rel name (see `docs/language/relationship-vocabulary.md`). `recommends` is not authorable — it comes only from decision trees.
 
 ### Suppressing the rendered block

@@ -13,9 +13,9 @@ relationships:
     - to: agent-opening
       note: the bot speaks first — establishing footing and proposing the first topic
     - to: user-opening
-      note: the actor speaks first and the bot aligns to their topic
+      note: the conversation opens with the actor speaking first; the bot aligns to their topic
     - to: capability-and-scope
-      note: an explicit statement of what this exchange can and cannot do
+      note: an explicit statement of what the conversation can and cannot do
     - to: inquiry-agent
       note: the bot asks for information it lacks; the move that drives question-driven dialogue
     - to: open-request
@@ -28,7 +28,6 @@ relationships:
       note: either party steps away without a formal close, leaving the exchange ready to resume
     - to: closing
       note: ending the encounter cleanly, with room for last topics — closing the exchange, not a window
-  instances:
     - to: inquiry-user
       note: the actor asks and the bot answers directly — the minimal exchange, present in every dialogue form
     - to: extended-telling
@@ -36,7 +35,7 @@ relationships:
     - to: abort
       note: the actor stops an unwanted or failing sequence mid-exchange — the conversational stop, not a process kill
     - to: user-repair
-      note: the actor signals the bot's last utterance didn't land
+      note: the actor signals the bot's last utterance didn't land, repairing the exchange from the user's side
   enacts:
     - to: conversation-quality
       note: "the quality names the stance conversation makes its primary mode: dialogue as the substrate of meaning, not one option among many"

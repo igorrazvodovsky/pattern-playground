@@ -12,14 +12,16 @@
       "title": "Abort",
       "category": "Operations",
       "path": "/patterns/abort",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "conversation/sequence-management"
     },
     {
       "id": "action-consequences",
       "title": "Action consequences",
       "category": "Actions",
       "path": "/patterns/action-consequences",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "application"
     },
     {
       "id": "activity-feed",
@@ -54,21 +56,24 @@
       "title": "Opening (Bot)",
       "category": "Operations",
       "path": "/patterns/agent-opening",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "conversation/sequence-management"
     },
     {
       "id": "agent-repair",
       "title": "Bot repair",
       "category": "Operations",
       "path": "/patterns/agent-repair",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "conversation/conversation-management"
     },
     {
       "id": "ai-completion",
       "title": "AI completion",
       "category": "Actions",
       "path": "/patterns/ai-completion",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "application"
     },
     {
       "id": "ai-tuning",
@@ -82,7 +87,8 @@
       "title": "Annotation",
       "category": "Actions",
       "path": "/patterns/annotation",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "sense-making"
     },
     {
       "id": "assistance",
@@ -96,7 +102,8 @@
       "title": "Assisted task completion",
       "category": "Actions",
       "path": "/patterns/assisted-task-completion",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "application"
     },
     {
       "id": "autocomplete",
@@ -122,7 +129,8 @@
       "title": "Block-based editor",
       "category": "Actions",
       "path": "/patterns/block-based-editor",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "sense-making"
     },
     {
       "id": "bot",
@@ -148,21 +156,24 @@
       "title": "Capability & scope",
       "category": "Operations",
       "path": "/patterns/capability-and-scope",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "conversation/conversation-management"
     },
     {
       "id": "closing",
       "title": "Closing",
       "category": "Operations",
       "path": "/patterns/closing",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "conversation/sequence-management"
     },
     {
       "id": "cognitive-forcing-functions",
       "title": "Cognitive forcing functions",
       "category": "Actions",
       "path": "/patterns/cognitive-forcing-functions",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "application"
     },
     {
       "id": "collaboration-foundation",
@@ -183,14 +194,16 @@
       "title": "Command menu",
       "category": "Actions",
       "path": "/patterns/command-menu",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "seeking"
     },
     {
       "id": "commenting",
       "title": "Commenting",
       "category": "Actions",
       "path": "/patterns/commenting",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "coordination"
     },
     {
       "id": "conversation-quality",
@@ -216,26 +229,29 @@
       "title": "Needs-based view",
       "category": "Actions",
       "path": "/patterns/dashboard",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "sense-making"
     },
     {
       "id": "data-entry",
       "title": "Data entry",
       "category": "Actions",
       "path": "/patterns/data-entry",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "application"
     },
     {
       "id": "data-view",
       "title": "Data view",
       "category": "Actions",
       "path": "/patterns/data-view",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "seeking"
     },
     {
       "id": "data-visualization",
-      "title": "Data visualisation",
-      "category": "Data Visualisation",
+      "title": "Charting data",
+      "category": "Cross-cutting",
       "path": "/patterns/data-visualization",
       "role": "collection"
     },
@@ -270,7 +286,8 @@
         "operatesOn": "a stretch of activity in which the actor wants to remove data, with consequences that range from trivial to permanent and far-reaching",
         "produces": "a removal path matched to the severity, reversibility, and scope of the loss — confirmation, undo, soft delete, or typed challenge",
         "enacts": "protection against accidental loss, explicit intent on consequential actions, and a recovery surface proportional to the stakes"
-      }
+      },
+      "group": "application"
     },
     {
       "id": "density",
@@ -284,14 +301,16 @@
       "title": "Disengage without closing",
       "category": "Operations",
       "path": "/patterns/disengage-without-closing",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "conversation/conversation-management"
     },
     {
       "id": "dynamic-hyperlinks",
       "title": "Dynamic hyperlinks",
       "category": "Actions",
       "path": "/patterns/dynamic-hyperlinks",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "seeking"
     },
     {
       "id": "embedded-intelligence",
@@ -305,35 +324,40 @@
       "title": "Explanation",
       "category": "Actions",
       "path": "/patterns/explanation",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "sense-making"
     },
     {
       "id": "extended-telling",
       "title": "Extended telling",
       "category": "Operations",
       "path": "/patterns/extended-telling",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "conversation/conversational-activities"
     },
     {
       "id": "filtering",
       "title": "Filtering",
       "category": "Actions",
       "path": "/patterns/filtering",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "seeking"
     },
     {
       "id": "flat-navigation",
       "title": "Flat navigation",
       "category": "Actions",
       "path": "/patterns/flat-navigation",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "navigation"
     },
     {
       "id": "focus-and-context",
       "title": "Focus and context",
       "category": "Actions",
       "path": "/patterns/focus-and-context",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "evaluation"
     },
     {
       "id": "form",
@@ -345,7 +369,8 @@
         "operatesOn": "a stretch of activity in which the system needs structured information from the actor that can't be inferred from prior context",
         "produces": "a guided collection surface where fields are committed one at a time and the whole set can be reviewed before submission",
         "enacts": "clarity about what's being asked, agency over what's submitted, room for revision before commit"
-      }
+      },
+      "group": "application"
     },
     {
       "id": "formality",
@@ -359,7 +384,8 @@
       "title": "Fully connected",
       "category": "Actions",
       "path": "/patterns/fully-connected",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "navigation"
     },
     {
       "id": "generated-content",
@@ -380,7 +406,8 @@
       "title": "Grouping",
       "category": "Actions",
       "path": "/patterns/grouping",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "sense-making"
     },
     {
       "id": "help",
@@ -394,21 +421,24 @@
       "title": "Hub and spoke",
       "category": "Actions",
       "path": "/patterns/hub-and-spoke",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "navigation"
     },
     {
       "id": "human-goes-first",
       "title": "Human goes first",
       "category": "Actions",
       "path": "/patterns/human-goes-first",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "application/cognitive-forcing-functions"
     },
     {
       "id": "hybrid-patterns",
       "title": "Hybrid patterns",
       "category": "Actions",
       "path": "/patterns/hybrid-patterns",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "navigation"
     },
     {
       "id": "information-architecture",
@@ -429,21 +459,24 @@
       "title": "Inline interface",
       "category": "Actions",
       "path": "/patterns/inline-interface",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "coordination"
     },
     {
       "id": "inquiry-agent",
       "title": "Inquiry (Bot)",
       "category": "Operations",
       "path": "/patterns/inquiry-agent",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "conversation/conversational-activities"
     },
     {
       "id": "inquiry-user",
       "title": "Inquiry (User)",
       "category": "Operations",
       "path": "/patterns/inquiry-user",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "conversation/conversational-activities"
     },
     {
       "id": "interaction",
@@ -457,14 +490,16 @@
       "title": "Item view",
       "category": "Actions",
       "path": "/patterns/item-view",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "seeking"
     },
     {
       "id": "keyboard-shortcuts",
       "title": "Keyboard shortcuts",
       "category": "Actions",
       "path": "/patterns/keyboard-shortcuts",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "coordination"
     },
     {
       "id": "learnability",
@@ -478,7 +513,8 @@
       "title": "Link preview",
       "category": "Actions",
       "path": "/patterns/link-preview",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "seeking"
     },
     {
       "id": "live-presentation",
@@ -527,21 +563,24 @@
       "title": "Multilevel tree",
       "category": "Actions",
       "path": "/patterns/multilevel-tree",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "navigation"
     },
     {
       "id": "navigation-overview",
       "title": "Overview",
       "category": "Actions",
       "path": "/patterns/navigation-overview",
-      "role": "collection"
+      "role": "collection",
+      "group": "navigation"
     },
     {
       "id": "next-best-action",
       "title": "Next-best action",
       "category": "Actions",
       "path": "/patterns/next-best-action",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "application"
     },
     {
       "id": "notification",
@@ -553,7 +592,8 @@
         "operatesOn": "a system event whose existence the actor needs to know about, alongside an existing flow that has its own demands on attention",
         "produces": "a delivery surface tuned to the event's urgency and the actor's availability",
         "enacts": "awareness without disruption — or with disruption when warranted — and respect for the actor's current attention"
-      }
+      },
+      "group": "coordination"
     },
     {
       "id": "onboarding",
@@ -572,28 +612,32 @@
       "title": "Open request",
       "category": "Operations",
       "path": "/patterns/open-request",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "conversation/conversational-activities"
     },
     {
       "id": "overreliance-checklist",
       "title": "Checklist",
       "category": "Actions",
       "path": "/patterns/overreliance-checklist",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "application/cognitive-forcing-functions"
     },
     {
       "id": "overview-detail",
       "title": "Overview and detail",
       "category": "Actions",
       "path": "/patterns/overview-detail",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "navigation"
     },
     {
       "id": "pan-and-zoom",
       "title": "Pan and zoom",
       "category": "Actions",
       "path": "/patterns/pan-and-zoom",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "navigation"
     },
     {
       "id": "privacy",
@@ -607,7 +651,8 @@
       "title": "Progressive disclosure",
       "category": "Actions",
       "path": "/patterns/progressive-disclosure",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "seeking"
     },
     {
       "id": "prompt",
@@ -628,21 +673,24 @@
       "title": "Pyramid",
       "category": "Actions",
       "path": "/patterns/pyramid",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "navigation"
     },
     {
       "id": "saving",
       "title": "Saving",
       "category": "Actions",
       "path": "/patterns/saving",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "application"
     },
     {
       "id": "searching",
       "title": "Searching",
       "category": "Actions",
       "path": "/patterns/searching",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "seeking"
     },
     {
       "id": "sections",
@@ -666,28 +714,32 @@
         "operatesOn": "a moment where the actor must designate members of an exposed set of options",
         "produces": "a designation — narrowed by scanning or typing — whose fate (committed value, staked target, spliced text) is set by the surrounding flow",
         "enacts": "recognition over recall, legibility of what can be picked, economy of designation"
-      }
+      },
+      "group": "coordination"
     },
     {
       "id": "semantic-zoom",
       "title": "Semantic zoom",
       "category": "Actions",
       "path": "/patterns/semantic-zoom",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "evaluation"
     },
     {
       "id": "sequence-completion",
       "title": "Sequence completion",
       "category": "Operations",
       "path": "/patterns/sequence-completion",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "conversation/sequence-management"
     },
     {
       "id": "settings",
       "title": "Settings",
       "category": "Actions",
       "path": "/patterns/settings",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "application"
     },
     {
       "id": "shareability",
@@ -701,7 +753,8 @@
       "title": "Sorting",
       "category": "Actions",
       "path": "/patterns/sorting",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "seeking"
     },
     {
       "id": "state-disabled",
@@ -729,28 +782,32 @@
       "title": "Step by step",
       "category": "Actions",
       "path": "/patterns/step-by-step",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "navigation"
     },
     {
       "id": "suggestion",
       "title": "Suggestion",
       "category": "Actions",
       "path": "/patterns/suggestion",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "application"
     },
     {
       "id": "tag",
       "title": "Tag",
       "category": "Actions",
       "path": "/patterns/tag",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "sense-making"
     },
     {
       "id": "template",
       "title": "Template",
       "category": "Actions",
       "path": "/patterns/template",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "application"
     },
     {
       "id": "temporality",
@@ -764,7 +821,8 @@
       "title": "Text lens",
       "category": "Actions",
       "path": "/patterns/text-lense",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "evaluation"
     },
     {
       "id": "transient-feedback",
@@ -809,14 +867,16 @@
       "title": "Opening (User)",
       "category": "Operations",
       "path": "/patterns/user-opening",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "conversation/sequence-management"
     },
     {
       "id": "user-repair",
       "title": "User repair",
       "category": "Operations",
       "path": "/patterns/user-repair",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "conversation/conversation-management"
     },
     {
       "id": "validation",
@@ -830,13 +890,22 @@
       "title": "View",
       "category": "Actions",
       "path": "/patterns/view",
-      "role": "pattern"
+      "role": "pattern",
+      "group": "sense-making"
     },
     {
       "id": "wizard",
       "title": "Wizard",
       "category": "Actions",
       "path": "/patterns/wizard",
+      "role": "pattern",
+      "group": "application"
+    },
+    {
+      "id": "workflow",
+      "title": "Workflow",
+      "category": "Activities",
+      "path": "/patterns/workflow",
       "role": "pattern"
     },
     {
@@ -858,8 +927,8 @@
     {
       "source": "abort",
       "target": "conversation",
-      "type": "instantiates",
-      "extractedFrom": "frontmatter:instantiates",
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
       "incomingNote": "the actor stops an unwanted or failing sequence mid-exchange — the conversational stop, not a process kill"
     },
     {
@@ -991,12 +1060,6 @@
       "extractedFrom": "inline:complements"
     },
     {
-      "source": "transparent-reasoning",
-      "target": "activity-log",
-      "type": "enables",
-      "extractedFrom": "inline:composed-of"
-    },
-    {
       "source": "adaptation",
       "target": "agency",
       "type": "related",
@@ -1008,6 +1071,12 @@
       "target": "adaptation",
       "type": "related",
       "label": "adaptive behaviour shifts how much control the system takes on",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "agency",
+      "target": "learnability",
+      "type": "related",
       "extractedFrom": "frontmatter:related"
     },
     {
@@ -1309,7 +1378,7 @@
       "source": "good-defaults",
       "target": "assisted-task-completion",
       "type": "precedes",
-      "incomingNote": "the simplest form of pre-population, before any of these patterns kick in",
+      "incomingNote": "the simplest form of pre-population, before assisted completion mechanisms kick in",
       "extractedFrom": "frontmatter:follows"
     },
     {
@@ -1580,14 +1649,14 @@
       "source": "bounded-choice",
       "target": "form",
       "type": "enables",
-      "label": "committing a value from a set the actor didn't author; the move behind selects, radios, and checkboxes.",
+      "label": "committing a value from a set the actor didn't author; the move behind a form's selects, radios, and checkboxes.",
       "extractedFrom": "frontmatter:enables"
     },
     {
       "source": "bounded-choice",
       "target": "selection",
       "type": "instantiates",
-      "label": "the general move: designating from an exposed option set",
+      "label": "selection is the general move — designating from an exposed option set",
       "extractedFrom": "frontmatter:instantiates"
     },
     {
@@ -1609,7 +1678,7 @@
       "target": "conversation",
       "type": "enables",
       "extractedFrom": "frontmatter:enables",
-      "incomingNote": "an explicit statement of what this exchange can and cannot do"
+      "incomingNote": "an explicit statement of what the conversation can and cannot do"
     },
     {
       "source": "closing",
@@ -1732,11 +1801,11 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
-      "source": "privacy",
-      "target": "collaboration-foundation",
-      "type": "enables",
-      "incomingNote": "requires balancing individual privacy needs with group transparency requirements",
-      "extractedFrom": "frontmatter:composed-of"
+      "source": "collaboration-foundation",
+      "target": "privacy",
+      "type": "enacts",
+      "label": "collaboration balances individual privacy needs against group transparency requirements",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "collaboration-foundation",
@@ -1909,7 +1978,7 @@
       "source": "user-opening",
       "target": "conversation",
       "type": "enables",
-      "incomingNote": "the actor speaks first and the bot aligns to their topic",
+      "incomingNote": "the conversation opens with the actor speaking first; the bot aligns to their topic",
       "extractedFrom": "frontmatter:composed-of"
     },
     {
@@ -1945,25 +2014,25 @@
     {
       "source": "inquiry-user",
       "target": "conversation",
-      "type": "instantiates",
+      "type": "enables",
       "incomingNote": "the actor asks and the bot answers directly — the minimal exchange, present in every dialogue form",
-      "extractedFrom": "frontmatter:instances",
+      "extractedFrom": "frontmatter:composed-of",
       "label": "user inquiry appears across all dialogue forms"
     },
     {
       "source": "extended-telling",
       "target": "conversation",
-      "type": "instantiates",
+      "type": "enables",
       "incomingNote": "the bot holds the floor across several turns to instruct, narrate, or explain",
-      "extractedFrom": "frontmatter:instances",
+      "extractedFrom": "frontmatter:composed-of",
       "label": "a primitive for instruction-based dialogue"
     },
     {
       "source": "user-repair",
       "target": "conversation",
-      "type": "instantiates",
-      "incomingNote": "the actor signals the bot's last utterance didn't land",
-      "extractedFrom": "frontmatter:instances"
+      "type": "enables",
+      "incomingNote": "the actor signals the bot's last utterance didn't land, repairing the exchange from the user's side",
+      "extractedFrom": "frontmatter:composed-of"
     },
     {
       "source": "conversation",
@@ -2149,7 +2218,7 @@
       "source": "delegation",
       "target": "activity-log",
       "type": "precedes",
-      "label": "serves as the supervisory record for the *monitoring* and *hood to look under* touchpoints during execution",
+      "label": "the log serves as the supervisory record for delegation's *monitoring* and *hood to look under* touchpoints during execution",
       "extractedFrom": "frontmatter:precedes"
     },
     {
@@ -2224,9 +2293,9 @@
     {
       "source": "deletion",
       "target": "undo",
-      "type": "enables",
-      "label": "Reversibility and recovery mechanisms",
-      "extractedFrom": "frontmatter:enables"
+      "type": "precedes",
+      "label": "Undo reverses a completed deletion — the deletion produces the state the recovery move acts on",
+      "extractedFrom": "frontmatter:precedes"
     },
     {
       "source": "density",
@@ -2775,11 +2844,11 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
-      "source": "help",
-      "target": "annotation",
+      "source": "annotation",
+      "target": "help",
       "type": "enables",
-      "label": "annotation supplies the mechanism for attaching help to specific elements",
-      "extractedFrom": "frontmatter:enables"
+      "incomingNote": "annotation supplies the mechanism for attaching help to specific elements",
+      "extractedFrom": "frontmatter:composed-of"
     },
     {
       "source": "hub-and-spoke",
@@ -2958,7 +3027,7 @@
       "source": "inline-interface",
       "target": "conversation",
       "type": "related",
-      "label": "the exchange this move renders into; the <ComponentRef id=\"actions-coordination-messaging--docs\">Messaging</ComponentRef> component is its mechanism.",
+      "label": "the exchange this move renders into; the <ComponentRef id=\"components-messaging--docs\">Messaging</ComponentRef> component is its mechanism.",
       "extractedFrom": "frontmatter:related"
     },
     {
@@ -3186,9 +3255,9 @@
     {
       "source": "learnability",
       "target": "agency",
-      "type": "instantiates",
+      "type": "related",
       "label": "competence facilitates agency",
-      "extractedFrom": "frontmatter:instantiates"
+      "extractedFrom": "frontmatter:related"
     },
     {
       "source": "link-preview",
@@ -3598,14 +3667,14 @@
       "source": "navigation-overview",
       "target": "interaction",
       "type": "surveys",
-      "label": "behavioural patterns enabled by structural choices",
+      "label": "how structural choices shape interaction behaviour",
       "extractedFrom": "frontmatter:surveys"
     },
     {
       "source": "navigation-overview",
       "target": "agency",
       "type": "surveys",
-      "label": "control distribution implications",
+      "label": "what navigation structure implies for the actor's agency and control",
       "extractedFrom": "frontmatter:surveys"
     },
     {
@@ -3619,7 +3688,7 @@
       "source": "navigation-overview",
       "target": "overview-detail",
       "type": "surveys",
-      "label": "simultaneous display of collection and item (Split View)",
+      "label": "overview and detail displayed simultaneously (split view)",
       "extractedFrom": "frontmatter:surveys"
     },
     {
@@ -3640,7 +3709,7 @@
       "source": "navigation-overview",
       "target": "step-by-step",
       "type": "surveys",
-      "label": "prescribed sequences with back/next controls",
+      "label": "prescribed step sequences with back/next controls",
       "extractedFrom": "frontmatter:surveys"
     },
     {
@@ -3668,7 +3737,7 @@
       "source": "navigation-overview",
       "target": "hybrid-patterns",
       "type": "surveys",
-      "label": "combinations of multiple models",
+      "label": "hybrids combining multiple navigation models",
       "extractedFrom": "frontmatter:surveys"
     },
     {
@@ -4002,21 +4071,14 @@
       "source": "progressive-disclosure",
       "target": "form",
       "type": "enables",
-      "label": "revealing depth only as it becomes relevant.",
-      "extractedFrom": "frontmatter:enables"
-    },
-    {
-      "source": "progressive-disclosure",
-      "target": "bot",
-      "type": "enables",
-      "label": "bots reveal capability, intent, and reasoning incrementally, keeping early interactions simple while building actor confidence",
+      "label": "a form revealing depth only as it becomes relevant.",
       "extractedFrom": "frontmatter:enables"
     },
     {
       "source": "progressive-disclosure",
       "target": "wizard",
       "type": "precedes",
-      "label": "the conceptual foundation for revealing complexity gradually",
+      "label": "disclosure is the conceptual foundation the wizard builds on for revealing complexity gradually",
       "extractedFrom": "frontmatter:precedes"
     },
     {
@@ -4086,7 +4148,7 @@
       "source": "prompt",
       "target": "collaboration",
       "type": "precedes",
-      "label": "how humans address an AI participant",
+      "label": "the prompt is how humans address an AI participant in collaborative work",
       "extractedFrom": "frontmatter:precedes"
     },
     {
@@ -4295,7 +4357,7 @@
       "source": "searching",
       "target": "command-menu",
       "type": "precedes",
-      "label": "broader seeking move",
+      "label": "searching is the broader seeking move",
       "extractedFrom": "frontmatter:precedes"
     },
     {
@@ -4350,9 +4412,9 @@
     {
       "source": "sections",
       "target": "progressive-disclosure",
-      "type": "enables",
-      "label": "adaptive container that combines details and tabs affordances",
-      "extractedFrom": "frontmatter:enables"
+      "type": "instantiates",
+      "label": "sections apply gradual disclosure as an adaptive container combining details and tabs affordances",
+      "extractedFrom": "frontmatter:instantiates"
     },
     {
       "source": "sections",
@@ -4372,14 +4434,14 @@
       "source": "selection",
       "target": "tag",
       "type": "enables",
-      "label": "common payload of bulk action",
+      "label": "a selection is the common payload of bulk tagging",
       "extractedFrom": "frontmatter:enables"
     },
     {
       "source": "selection",
       "target": "grouping",
       "type": "enables",
-      "label": "common payload of bulk action",
+      "label": "a selection is the common payload of bulk grouping",
       "extractedFrom": "frontmatter:enables"
     },
     {
@@ -4399,9 +4461,9 @@
     {
       "source": "selection",
       "target": "sorting",
-      "type": "alternative",
+      "type": "tangential",
       "label": "Sorting changes what a range selection refers to mid-flight — range selections have to either survive the sort or re-resolve to the new order",
-      "extractedFrom": "frontmatter:alternative"
+      "extractedFrom": "frontmatter:tangential"
     },
     {
       "source": "semantic-zoom",
@@ -4937,9 +4999,9 @@
     {
       "source": "user-opening",
       "target": "inquiry-user",
-      "type": "instantiates",
-      "label": "when the opening is a simple question",
-      "extractedFrom": "frontmatter:instantiates"
+      "type": "precedes",
+      "label": "when the opening is a simple question, the encounter passes straight into user inquiry",
+      "extractedFrom": "frontmatter:precedes"
     },
     {
       "source": "validation",
@@ -5064,6 +5126,54 @@
       "type": "enacts",
       "label": "paces a task into an ordered sequence of steps, one commitment at a time",
       "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "workflow",
+      "target": "delegation",
+      "type": "related",
+      "label": "the delegated procedure made inspectable; delegation's *tuning tools* touchpoints — at set-up and at repair — edit this artifact",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "workflow",
+      "target": "activity-log",
+      "type": "related",
+      "label": "the workflow is the prescription, the log is the account of what actually ran; monitoring reads them against each other",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "workflow",
+      "target": "bot",
+      "type": "complements",
+      "label": "gives the workflow-automation bot mode its procedure — the bot runs it, this artifact shows and edits it",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "workflow",
+      "target": "ai-tuning",
+      "type": "complements",
+      "label": "a workflow builder is a tuning tool: editing the procedure is one of the ways a bot's behaviour gets progressively shaped",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "workflow",
+      "target": "wizard",
+      "type": "tangential",
+      "label": "a wizard scripts the actor's own path through one task; a workflow externalises a procedure for the system or for others to run",
+      "extractedFrom": "frontmatter:tangential"
+    },
+    {
+      "source": "workflow",
+      "target": "malleability",
+      "type": "enacts",
+      "label": "the system's standing behaviour becomes an artifact the actor can reshape without programming",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "workflow",
+      "target": "formality",
+      "type": "enacts",
+      "extractedFrom": "auto:quality-target"
     },
     {
       "source": "workspace",

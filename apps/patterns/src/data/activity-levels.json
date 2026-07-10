@@ -190,7 +190,7 @@
     "data-visualization": {
       "activity-level": "cross-cutting",
       "lifecycle-stage": null,
-      "atomic-category": "data visualisation",
+      "atomic-category": "cross-cutting",
       "mediation": null
     },
     "data": {
@@ -672,6 +672,12 @@
       "lifecycle-stage": null,
       "atomic-category": "composition",
       "mediation": "individual"
+    },
+    "workflow": {
+      "activity-level": "activity",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": "coordination"
     },
     "workspace": {
       "activity-level": "activity",

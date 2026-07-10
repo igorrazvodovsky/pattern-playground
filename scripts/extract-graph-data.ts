@@ -18,6 +18,7 @@ interface Node {
   path: string;
   tags?: string[];
   role?: Role;
+  group?: string;
   generativeProfile?: GenerativeProfile;
 }
 
@@ -727,6 +728,7 @@ const recommendsCollection: RecommendsCollection = {
 //
 // Runs first so patterns-content nodes win over any duplicate ID from the components stories.
 const patternMdxFiles = globMdx(patternsContentDir);
+const groupById = new Map<string, string>();
 
 for (const filePath of patternMdxFiles) {
   const content = readFileSync(filePath, 'utf-8');
@@ -766,6 +768,10 @@ for (const filePath of patternMdxFiles) {
   const atomicRaw = typeof fm.atomic === 'string' ? fm.atomic : null;
   const lifecycleRaw = typeof fm.lifecycle === 'string' ? fm.lifecycle : null;
   const mediationRaw = typeof fm.mediation === 'string' ? fm.mediation : null;
+  if (typeof fm.group === 'string') {
+    groupById.set(id, fm.group);
+    node.group = fm.group;
+  }
 
   activityData.set(id, {
     // Frontmatter is authoritative. Foundations, qualities, and section collections
@@ -943,6 +949,63 @@ for (const e of edges) {
   }
 }
 
+// Mixed-cluster check: a node targeted by both `enables` and `instantiates`
+// from sources sharing a frontmatter `group` is the signature of a cluster
+// whose part–whole relations were typed two ways with no principle behind
+// the split (component–integral vs genus–species; see relationship-vocabulary.md).
+const mixedClusterFindings: string[] = [];
+{
+  type PerGroup = Map<string, string[]>; // group -> source ids
+  const byTarget = new Map<string, { enables: PerGroup; instantiates: PerGroup }>();
+  for (const e of edges) {
+    if (e.type !== 'enables' && e.type !== 'instantiates') continue;
+    const group = groupById.get(e.source);
+    if (!group) continue;
+    let entry = byTarget.get(e.target);
+    if (!entry) {
+      entry = { enables: new Map(), instantiates: new Map() };
+      byTarget.set(e.target, entry);
+    }
+    const perGroup = entry[e.type];
+    perGroup.set(group, [...(perGroup.get(group) ?? []), e.source]);
+  }
+  for (const [target, entry] of byTarget) {
+    for (const [group, enablesSources] of entry.enables) {
+      const instantiatesSources = entry.instantiates.get(group);
+      if (instantiatesSources) {
+        mixedClusterFindings.push(
+          `${target} ← enables(${enablesSources.join(', ')}) + instantiates(${instantiatesSources.join(', ')}), group "${group}"`,
+        );
+      }
+    }
+  }
+}
+
+// Notes-voicing check: a single-noted directed edge renders its one note on
+// both endpoints' pages, so a note naming neither endpoint binds to whichever
+// endpoint the reader is not on. `enacts` is exempt (quality pages render
+// nothing — there is no reverse reader); `recommends` carries hints, not notes.
+const VOICING_TYPES = new Set<string>(['precedes', 'enables', 'instantiates', 'surveys']);
+const VOICING_STOPWORDS = new Set(['and', 'the', 'for', 'with', 'from', 'into', 'over', 'not']);
+function nameTokens(id: string): string[] {
+  const title = nodeMap.get(id)?.title ?? id;
+  const words = `${title} ${id.replace(/-/g, ' ')}`.toLowerCase().split(/[^a-z]+/);
+  return [...new Set(words.filter((w) => w.length >= 3 && !VOICING_STOPWORDS.has(w)))];
+}
+const voicingFindings: string[] = [];
+for (const e of edges) {
+  if (!VOICING_TYPES.has(e.type)) continue;
+  const hasLabel = e.label !== undefined;
+  const hasIncoming = e.incomingNote !== undefined;
+  if (hasLabel === hasIncoming) continue; // unnoted, or voiced from both sides
+  const note = (e.label ?? e.incomingNote)!;
+  const noteLower = note.toLowerCase();
+  // Prefix match absorbs inflection (searching/search, localization/localised).
+  const namesAnEndpoint = [...nameTokens(e.source), ...nameTokens(e.target)]
+    .some((w) => noteLower.includes(w.length > 5 ? w.slice(0, 5) : w));
+  if (!namesAnEndpoint) voicingFindings.push(`${e.source} ${e.type} ${e.target}: "${note}"`);
+}
+
 // --- Logging ---
 const typeCounts: Record<string, number> = {};
 for (const e of edges) typeCounts[e.type] = (typeCounts[e.type] ?? 0) + 1;
@@ -990,5 +1053,9 @@ if (recommendsCollection.resolvedByTree.size > 0) {
 console.log(`Axis sanity check (advisory):`);
 console.log(`  same-altitude instantiates: ${sameAltitudeInstantiates}`);
 console.log(`  complements crossing 2 altitude bands: ${crossTwoBandsComplements}`);
+console.log(`  mixed part–whole clusters (enables + instantiates from one group): ${mixedClusterFindings.length}`);
+for (const finding of mixedClusterFindings) console.log(`    ${finding}`);
+console.log(`  single-noted directed edges naming neither endpoint: ${voicingFindings.length}`);
+for (const finding of voicingFindings) console.log(`    ${finding}`);
 console.log(`Output: ${outputPath}`);
 console.log(`Activity levels: ${activityLevelsPath}`);

@@ -293,6 +293,8 @@ A directed edge is a one-way *claim* (`A precedes B`) but a two-way *path*: the 
 
 `enacts` (pattern → quality), `recommends` (pattern → pattern, with situational hints), and `surveys` (collection → member) have no inverse — they are asymmetric and unidirectional.
 
+*Voice the note for both pages.* A single-noted directed edge renders its one note on both endpoints' pages, in each case after the *other* endpoint's name — so a subjectless note binds to whichever endpoint the reader is not on. Write notes that either name their subject ("annotation supplies the mechanism for attaching help") or gloss the relation itself; when only one side's wording can work, author the reverse note via the inverse alias instead. The extractor's voicing advisory flags single-noted directed edges that name neither endpoint.
+
 ### When an edge resists typing, look for a mediator
 
 If a direct edge between two patterns won't take a clean type — you find yourself stamping the same gloss onto `precedes` *and* `instantiates` *and* `complements`, or arguing each in turn — that is usually a signal that the relationship is *mediated*, not direct. The patterns connect through a third pattern, and the direct edge is compressing a two-hop path into one mistyped link.
@@ -365,7 +367,7 @@ A generative profile lives in a `*.profile.ts` sidecar next to the pattern's MDX
 
 4. *How much should the actor infer vs. read*: transitive enablement (Form → Combobox → Autocomplete → AI completion), co-grounding (patterns sharing a foundation), and alternative-conflict detection are all derivable from the graph. They could be computed on demand by query functions, or pre-computed and stored. The lighter approach is to compute on demand and let inference stay implicit.
 
-5. *A `tensions-with` edge type between qualities?* Patterns can `enacts` multiple qualities, and a composition can pull in patterns whose enacted qualities are in tension (Agency vs. Speed, Consistency vs. Novelty). The graph currently has no way to express that tension. A quality → quality `tensions-with` edge would let a query surface "these moves enhance qualities the library has noted as in tension — worth a look" without crossing into rule-grade conflict detection. Defer until two or three concrete examples exist; introduce through the changelog rather than speculatively. Until then, `alternative` co-presence in a proposed composition is the available tension signal.
+5. *A `tensions-with` edge type between qualities?* Patterns can `enacts` multiple qualities, and a composition can pull in patterns whose enacted qualities are in tension (Agency vs. Speed, Consistency vs. Novelty). The graph currently has no way to express that tension. A quality → quality `tensions-with` edge would let a query surface "these moves enhance qualities the library has noted as in tension — worth a look" without crossing into rule-grade conflict detection. Defer until two or three concrete examples exist; introduce through the changelog rather than speculatively. Until then, `alternative` co-presence in a proposed composition is the available tension signal. Whatever treatment lands should decide *support* alongside tension: `learnability related agency` ("competence facilitates agency", re-typed 2026-07-10 from a mis-authored `instantiates`) is a first supports-shaped specimen in the latent quality↔quality `related` set, and minting `tensions-with` alone would leave its mirror untypeable.
 
 6. *A structural-property layer underneath qualities?* The use qualities are experiential dimensions, not structural properties — but there may eventually be a vocabulary for *structural* properties of interaction  that sits underneath them, in the same way that "the building feels welcoming" sits above "the entrance has levels of scale, strong centres, and thick boundaries."
 
@@ -386,6 +388,38 @@ Testable assertions derived from this vocabulary's own definitions. These can be
 A running record of why types were added, merged, renamed, or retired, what alternatives were considered, and what was lost in each decision. The vocabulary is provisional — it will keep evolving as the library grows. Making its construction visible is part of treating classification as a living artifact rather than a closed specification (compare Bowker & Star, *Sorting Things Out*: "the only good classification is a living classification").
 
 Each entry: date, change, why, what was considered, what was lost.
+
+### 2026-07-10 — `group` emitted as node metadata; voicing rule promoted to the authoring model
+
+Two follow-ups from a traversal review of the part–whole hygiene pass (below):
+
+- The frontmatter `group` facet (nav sub-grouping, e.g. `conversation/sequence-management`) now lands on graph nodes. Conversation's thirteen constituent moves read as a flat list to a graph consumer — the cluster's internal structure existed only in frontmatter, invisible to an agent traversing `pattern-graph.json`. This is the lightweight form of open question 3's direction (surface groupings as set memberships, not edge types): no new vocabulary, an existing authored facet passed through.
+- The notes-voicing rule moved from changelog prose into the authoring model section and `.claude/rules/pattern-content.md`, where an author writing an edge note will actually meet it.
+
+What was considered: emitting `group` as `tags` (rejected — tags were retired as a heading side-effect in the 2026-06-23 migration, and `group` is a distinct authored facet; conflating them would pre-empt open question 3). What was lost: nothing.
+
+### 2026-07-10 — Part–whole hygiene: conversational cluster re-typed, audit fixes, two extractor advisories
+
+The 13 conversational primitives reached `conversation` through a 9/4 split of `enables`/`instantiates` with no principle behind the split. By this doc's own definitions the four `instantiates` (abort, extended-telling, inquiry-user, user-repair) were wrong — an abort is a constituent move *within* a conversation, not a *kind of* conversation. Re-typed to `enables`; conversation.mdx's reverse notes moved from `instances:` to `composed-of:`.
+
+A full audit of the remaining `instantiates` (8) and `enables` (31) edges against the definitions produced:
+
+- `user-opening instantiates inquiry-user` → `precedes`. The page's body models the opening as *transitioning into* user inquiry, parallel to its existing `precedes` edges to open-request and inquiry-agent; the stored type asserted genus–species where none holds. The conditional note ("when the opening is a simple question…") is kept as a condition.
+- `learnability instantiates agency` → `related`. "Competence facilitates agency" is a quality→quality support relation the vocabulary doesn't type; the edge joins the latent quality↔quality `related` set (2026-06-23).
+- `help enables annotation` inverted to `composed-of: annotation` on help's page. The note — "annotation supplies the mechanism for attaching help" — contradicted the stored direction.
+- `deletion enables undo` → `precedes`. "Reversibility and recovery mechanisms" was migration-header residue; undo doesn't incorporate deletion — deletion produces the state undo acts on. The decision-tree `recommends` beside it is unaffected.
+- `progressive-disclosure enables bot` dropped as mediated. Its note is this doc's own worked example under "When an edge resists typing, look for a mediator", and both two-hop paths exist (via onboarding, via transparent-reasoning). The 2026-06-25 cleanup dropped the pair's `related` twin but left this edge behind.
+- `collaboration-foundation composed-of privacy` → `enacts`. A quality is a lens, not a component; this closes the last purist-stance leak (2026-06-23, "what's lost / staged") the same way the 18-edge enacts migration did.
+- `transparent-reasoning → activity-log` carried both `enables` (inline rel in activity-log's body) and `precedes` (frontmatter) — a contradictory directed pair. Activity logs function without transparent reasoning, so the dependency claim was false; the inline `rel="composed-of"` was removed and `precedes` stands.
+- `sections enables progressive-disclosure` → `instantiates`. Sections applies the disclosure principle (the Autocomplete → Good defaults shape); it is not a part disclosure incorporates.
+- Carried fix: `selection alternative sorting` → `tangential`. The note glosses an interaction (sorting invalidates range selections), not same-role substitution.
+
+Two advisories added to the extractor beside the axis check, both hints rather than errors per the epistemic stance:
+
+- *Mixed cluster*: a node targeted by both `enables` and `instantiates` from sources sharing a frontmatter `group` — the conversational-cluster signature. Currently 0.
+- *Notes voicing*: a single-noted directed edge (`precedes`, `enables`, `instantiates`, `surveys`) whose note names neither endpoint. Such a note renders on both endpoints' pages, always after the *other* endpoint's name, so it binds to whichever endpoint the reader is not on. `enacts` is exempt (quality pages render nothing — no reverse reader). The accompanying audit reworded 18 notes to subject-naming form; 7 remain flagged deliberately — five read correctly as relation glosses, two carry conditions that stay in notes until the situation-construct decision (plans/active/2026-07-relationship-vocabulary.md, workstream B) gives conditions a first-class home.
+
+What was considered: making either advisory error-grade (rejected — suggestion-grade data warrants suggestion-grade checks); stripping the two condition-bearing notes into cleaner glosses (rejected — the conditions are the payload the situation construct will absorb). What was lost: the direct progressive-disclosure → bot edge; the graph still routes that relationship through its mediators.
 
 ### 2026-06-25 — Per-direction notes on directed edges (incoming note)
 

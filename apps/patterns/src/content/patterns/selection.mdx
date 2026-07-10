@@ -12,16 +12,16 @@ relationships:
     - to: deletion
       note: the most common operation routed through selection; confirmation strategy should scale with the selection count
     - to: tag
-      note: common payload of bulk action
+      note: a selection is the common payload of bulk tagging
     - to: grouping
-      note: common payload of bulk action
+      note: a selection is the common payload of bulk grouping
   related:
     - to: searching
       note: Search shrinks the population from which selections are drawn
   complements:
     - to: filtering
       note: Filtering and selection cover the same job from opposite ends — filter narrows by predicate, selection narrows by enumeration
-  alternative:
+  tangential:
     - to: sorting
       note: Sorting changes what a range selection refers to mid-flight — range selections have to either survive the sort or re-resolve to the new order
   # reverse-reading note on data-view's `enables` edge, not a new edge
