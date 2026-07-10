@@ -233,6 +233,13 @@
       "role": "pattern"
     },
     {
+      "id": "data-visualization",
+      "title": "Data visualisation",
+      "category": "Data Visualisation",
+      "path": "/patterns/data-visualization",
+      "role": "collection"
+    },
+    {
       "id": "data",
       "title": "Data & Information",
       "category": "Foundations",
@@ -2074,6 +2081,20 @@
       "label": "staking a subset of items as the target of subsequent action",
       "extractedFrom": "frontmatter:enables",
       "incomingNote": "the view in which item selection happens — it supplies the visible set the pick is drawn from"
+    },
+    {
+      "source": "data-visualization",
+      "target": "dashboard",
+      "type": "related",
+      "label": "the monitoring variant is largely composed of charts; the needs-based framing decides which comparisons each chart must support",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "data-visualization",
+      "target": "data-view",
+      "type": "related",
+      "label": "a chart is one of the representations a collection framing can take — the analytic sibling of table and cards",
+      "extractedFrom": "frontmatter:related"
     },
     {
       "source": "data",

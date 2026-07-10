@@ -7,7 +7,7 @@ last_reviewed: "2026-07-08"
 area: "language, graph, pattern-site"
 promoted_to: ""
 superseded_by: ""
-depends_on: "plans/completed/2026-06-typed-relationships.md, plans/active/2026-07-workspace-split-closure.md (workstream 2 gates the realised_by item)"
+depends_on: "plans/completed/2026-06-typed-relationships.md, plans/completed/2026-07-workspace-split-closure.md (workstream 2 gates the realised_by item)"
 ---
 # Relationship vocabulary: situations, part–whole hygiene, and the hosting gap
 

@@ -7,7 +7,7 @@ last_reviewed: "2026-07-09"
 area: "pattern-site, tooling"
 promoted_to: "apps/patterns/integrations/validate-cross-references.ts (checkIntraSiteLinks — the enforcement mechanism this plan produced)"
 superseded_by: ""
-depends_on: "plans/active/2026-07-workspace-split-closure.md (workstream 2 — the cross-surface validator this extends)"
+depends_on: "plans/completed/2026-07-workspace-split-closure.md (workstream 2 — the cross-surface validator this extends)"
 ---
 # Intra-site link validation
 

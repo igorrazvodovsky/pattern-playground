@@ -7,7 +7,7 @@ last_reviewed: "2026-07-07"
 area: "architecture, pattern-site, storybook"
 promoted_to: ""
 superseded_by: ""
-depends_on: "plans/active/2026-07-workspace-split-closure.md (workstream 2 gate; informs open questions 1 and 5 and workstream 4 step 2)"
+depends_on: "plans/completed/2026-07-workspace-split-closure.md (workstream 2 gate; informs open questions 1 and 5 and workstream 4 step 2)"
 ---
 # Component manifest: research gate findings
 

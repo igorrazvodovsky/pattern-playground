@@ -20,7 +20,7 @@ matched mechanically against a design situation.
   `<ComponentRef id>`. A build-time validator (`apps/patterns/integrations/validate-cross-references.ts`)
   checks every `<ComponentRef id>` against it, and every `<PatternRef slug>` in
   Storybook MDX against the content stems, failing the site build on any broken
-  reference. See [2026-07-workspace-split-closure.md](../../plans/active/2026-07-workspace-split-closure.md),
+  reference. See [2026-07-workspace-split-closure.md](../../plans/completed/2026-07-workspace-split-closure.md),
   workstream 2.
 - `scripts/extract-graph-data.ts` derives `apps/patterns/src/data/pattern-graph.json`
   and related generated data.

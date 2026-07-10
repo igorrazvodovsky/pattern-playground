@@ -10,7 +10,7 @@ depends_on: "plans/active/2026-05-pattern-demos-migration.md, plans/completed/20
 # Consolidate collection-move demos into DataView
 
 > _Completed 2026-07-07, executed as territory T2 of
-> [2026-07-workspace-split-closure.md](../active/2026-07-workspace-split-closure.md);
+> [2026-07-workspace-split-closure.md](2026-07-workspace-split-closure.md);
 > verdicts and outcomes are recorded in that plan's progress log. Two departures
 > from the phases below, both deliberate:
 >

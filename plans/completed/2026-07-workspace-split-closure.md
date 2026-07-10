@@ -1,13 +1,13 @@
 ---
 title: "Workspace split: closure"
-status: "active"
+status: "completed"
 kind: "exec-spec"
 created: "2026-07-02"
-last_reviewed: "2026-07-08"
+last_reviewed: "2026-07-10"
 area: "architecture, pattern-site, storybook"
 promoted_to: ""
 superseded_by: ""
-depends_on: "plans/active/2026-05-workspace-split.md (closes it), plans/active/2026-05-pattern-demos-migration.md, plans/completed/2026-05-collection-move-demos.md"
+depends_on: "plans/completed/2026-05-workspace-split.md (closes it), plans/active/2026-05-pattern-demos-migration.md, plans/completed/2026-05-collection-move-demos.md"
 ---
 # Workspace split: closure
 
@@ -97,8 +97,8 @@ What the branch's history teaches (126 commits, 2026-05-15 → 07-02): the seria
 ## Open questions
 
 1. *Manifest scope for React components.* Resolved 2026-07-07, by dissolution: under `index.json` authority, React-backed catalogue entries are docs entries like any other — no wrapper entries, no second manifest.
-2. *Data-viz corpus membership.* `Elements.mdx` carries `role:umbrella` inside the deliberately parallel data-viz corpus. Either the corpus stays parallel and the page loses the language-role tag, or data-viz umbrellas join the graph. Decide before T-territory work touches data-viz links.
-3. *Promoting decomposition rules.* The split plan's nine transferable rules rest on two worked examples. Promoted into `pattern-role-model.md` after the T6 while keeping narratives in the completed plan.
+2. *Data-viz corpus membership.* `Elements.mdx` carries `role:umbrella` inside the deliberately parallel data-viz corpus. Either the corpus stays parallel and the page loses the language-role tag, or data-viz umbrellas join the graph. Decide before T-territory work touches data-viz links. *(Resolved 2026-07-10 — split verdict, executed same day; see progress log. Long term, data visualisation may need its own home.)*
+3. *Promoting decomposition rules.* The split plan's nine transferable rules rest on two worked examples. Resolved 2026-07-09 – Promoted into `pattern-role-model.md` after the T6 while keeping narratives in the completed plan.
 4. *Storybook's long-term role* is assumed: the component catalogue and substrate surface. Not reopened here.
 5. *Components-package `exports` field* (original plan's question 7). The gate delivered the input without a manifest: the observed public surface is `@components/register-all.ts` (side-effect registration), `@components/{MermaidDiagram,PatternGraph,sidebar}`, and `@pkg/demos/*`; nothing outside the package imports `main.ts`'s classes. The alias-to-raw-source convention stands until enforcement is wanted; when an `exports` field gets written, that observed surface is its content.
 6. *npm vs pnpm* (original plan's question 6). Revisit after the dep-ownership pass; pnpm is the enforcement mechanism if convention proves insufficient.
@@ -421,3 +421,19 @@ pnpm's draw is phantom-dep isolation: its non-flat `node_modules` makes a packag
 That last point is the gate: the split has never been deployed (npm), so introducing pnpm now would stack an unproven package manager on an unproven deploy topology. Gate on *the split being deployed and proven on npm first*. (The astro-7 upgrade, the other collision risk, has landed — that gate is clear.)
 
 Cheaper alternative if phantom-dep prevention is wanted before then: a `depcheck`/`knip` check runs on npm, flags undeclared (phantom) and unused deps both, catches all three phantoms found here, and can live in an existing CI workflow — most of the enforcement value at near-zero migration risk. Reach for the pnpm switch itself only if the strict layout becomes a felt need, not a principle.
+
+### 2026-07-10 — Data-viz verdict executed (open question 2); plan closed
+
+The verdict: split the corpus rather than merge or evict it. In the long term data visualisation may need its own home; for now the mechanism side stays in Storybook and the selection framework joins the language:
+
+- *Bar chart* stays as the component doc it already was (`role:component` — no change needed).
+- *Elements* stays in Storybook mirroring the visual-foundations treatment: retagged from `role:umbrella` (plus action/lifecycle/mediation facets) to the foundations shape — `role:component`, `activity-level:cross-cutting`, keeping `atomic:data-visualization` as the corpus marker. Like Color/Typography it describes rendering substrate (categorical colour, formatting, symbology), not a move.
+- *Charts* (`Data visualisation/Overview.mdx`, titled "Charts") reframed in pattern-language terms as `apps/patterns/src/content/patterns/charts.mdx`. The survey voice ("chart selection is multi-dimensional") became framework voice, the same species as action-consequences and status-feedback: the situation is a reader with a comparative question, choosing a chart is choosing which comparisons become effortless and which impossible, and the four independent axes are the schema — reordered to lead with the reader's question rather than the dataset. All four axes' routing tables and the references migrated by hand; a Materials-and-mechanisms section carries the pattern→mechanism references (Bar chart, Elements) in the transient-feedback→toast shape. The page is the first user of the `domain: data-visualization` facet — the dormant Base.astro nav group now populates, keeping the corpus visibly parallel rather than merged into the AT groups (the overlapping-vocabulary stance, held).
+- *Twin deleted*: `Overview.mdx`; zero inbound links to `data-visualisation-charts--docs` existed on either surface.
+- *Verified*: graph +1 node / +2 edges exactly (charts, its two `related` edges to dashboard and data-view); root build green (Storybook → validator → site, 119 pages); no dev sweep owed — the page adds no client islands.
+
+Input recorded, not acted on: *"Charts" is an artifact-plural title* — the same signal T1 flagged on hybrid-patterns (a catalogue betrayed by its plural). The framework body earns the pattern role the way action-consequences does, but the name doesn't transfer to "what the actor is doing"; if the data-viz home ever materialises, the naming question rides with it.
+
+*Correction (same day): the naming question didn't ride — `charts.mdx` → `data-visualization.mdx`, role `collection`.* The plural-catalogue signal was acted on immediately: the page is a survey routing among mutual alternatives — the navigation-overview shape — not a move. Reworked as the seeded home the verdict's long-term clause anticipated: title "Data visualisation", `role: collection`, slug matching the machine token (`GROUP_ORDER`, the `domain` facet value, and the Storybook directory are all `data-visualization`), which gives the page the section-umbrella nav treatment ("Overview" leaf, like `actions.md`); chart families join as `surveys` members when they earn entries — until then the routing knowledge lives on the collection, an acknowledged strain on "a collection is never the authoritative source for any move". Bundled edits: Elements gained its charter line (rendering-conventions substrate; the choice itself stays with the language — marks/channels are decision payload, so those tables stay on the collection page); Bar chart's "Decision tree" section, which restated the framework one level down, became a "When to use" paragraph handing cross-family routing to the collection via PatternRef — the deletion/action-consequences dedup shape from T5. Also recorded: this is the *third prose decision selector*, beside action-consequences (friction before the act) and status-feedback (attention after it) — this one calibrates perception against a question; it cannot emit `recommends` edges until chart families are graph nodes.
+
+With open questions 2 and 3 resolved (3 was already promoted into [pattern-role-model.md](../../docs/specs/pattern-role-model.md) §Decomposition), all workstreams are settled: 1 done, 2 shipped, 3's six territories closed, 4 steps 1/2/4 resolved and step 3 parked with gates. Nothing owed remains; residue flagged along the way (scripts hygiene, `shared`'s undeclared deps, dead-dep candidates, the optional `depcheck` CI guard) is recorded in the workstream-4 entries for whoever wants it, not carried as obligations. Plan moved to `plans/completed/`.

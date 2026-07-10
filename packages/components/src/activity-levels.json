@@ -187,6 +187,12 @@
       "atomic-category": "composition",
       "mediation": "individual"
     },
+    "data-visualization": {
+      "activity-level": "cross-cutting",
+      "lifecycle-stage": null,
+      "atomic-category": "data visualisation",
+      "mediation": null
+    },
     "data": {
       "activity-level": "cross-cutting",
       "lifecycle-stage": null,
