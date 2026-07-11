@@ -17,7 +17,7 @@ export default [
       "**/.astro/**",
       "**/node_modules/**",
       "apps/patterns/public/storybook/**",
-      "**/src/stories/.obsidian/**",
+      "**/.obsidian/**",
     ],
   },
   lit.configs['flat/recommended'],

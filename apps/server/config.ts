@@ -49,7 +49,7 @@ const config: ServerConfig = {
       'http://localhost:3000', // Development
       process.env.FRONTEND_URL || '', // Frontend URL from environment variable
       // Render.com domains
-      'https://pattern-playground.onrender.com/',
+      'https://pattern-playground.onrender.com',
       // Add other production domains here
     ].filter(Boolean),
     credentials: true,
