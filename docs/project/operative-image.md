@@ -11,10 +11,13 @@ architecture, see [../specs/workspace-layout.md](../specs/workspace-layout.md).
 
 ## Current picture
 
-The project is a single npm workspace with one library package and two runnable
-apps: the component library (`packages/components/`, Lit + React, Storybook on
-:6006), the pattern site (`apps/patterns/`, Astro on :4321), and an Express
-backend (`apps/server/`). [../specs/workspace-layout.md](../specs/workspace-layout.md).
+The project is a single npm workspace with one library package, two runnable
+apps, and a fixtures workspace: the component library (`packages/components/`,
+Lit + React, Storybook on :6006), the pattern site (`apps/patterns/`, Astro on
+:4321), an Express backend (`apps/server/`, currently parked — no root script
+drives it), and `shared/` (fixture data feeding both surfaces).
+[../specs/workspace-layout.md](../specs/workspace-layout.md). Root `concepts/`
+and `todo/` are pre-collection strata no build path reads.
 
 Two surfaces carry the work. The pattern site is the product — pattern MDX
 rendered by Astro, with the extracted graph as a navigational surface. Storybook
@@ -33,11 +36,12 @@ Measured against the directions in [vision.md](./vision.md):
 
 - *Garden, not a product*: holds. The project is personal and structured for the
   author's own thinking; nothing currently pulls toward audience features.
-- *Bilingual substrate maturity*: partly realised. Shared demos already feed both
-  surfaces from one source. The cross-surface reference scheme is not yet
-  established — Storybook quality and foundation pages still link to Storybook
-  URLs rather than pattern-site routes, so bilingual entries read as two pages
-  rather than one. See the bilingual-entries section of
+- *Bilingual substrate maturity*: realised by allocation. Shared demos feed both
+  surfaces from one source, cross-surface references are typed elements
+  (PatternRef/ComponentRef) validated at build, and the one-entry question
+  resolved by giving each concept exactly one descriptive home — a language
+  entry for interaction-design material, substrate-only for visual material —
+  so no two-page state remains. See the bilingual-entries section of
   [../specs/workspace-layout.md](../specs/workspace-layout.md).
 - *Agent-consumable repertoire*: early. The knowledge base, the agent-harness
   spec ([../specs/agent-harness.md](../specs/agent-harness.md)), and the
@@ -53,7 +57,13 @@ see-think-do) are active plans, thin in landed patterns so far.
 
 The pattern site's reading surface — stacked-notes panes that collapse into
 spines on both rails, and the force-directed graph view — is current
-infrastructure serving the garden.
+infrastructure serving the garden. Content organisation is projection, not
+position: the corpus is a flat directory whose filename stems are the
+identities (slugs, routes, graph node IDs), and every navigation surface —
+sidebar groups, graph categories — is computed from classification facets, one
+site-wide projection mode at a time (see the classification-facets section of
+[../specs/pattern-site.md](../specs/pattern-site.md)); the handwritten
+collection overviews are gone in favour of projections.
 
 ## Detail sources
 

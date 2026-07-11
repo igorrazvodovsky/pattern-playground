@@ -5,19 +5,23 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Active
 
+- [Post-split automation residue](active/2026-07-post-split-residue.md) — broken taxonomy-sync gate, inert review workflow, the `/storybook` copy that never deploys; spawned by the 2026-07-11 reconciliation
 - [Enacts-note audit](active/2026-07-enacts-note-audit.md) — align pre-existing `enacts` labels with the Q-lens convention; one hygiene sitting plus a possible third extractor advisory
 - [Move-vs-artifact naming: the T6 kept twins](active/2026-07-move-vs-artifact-naming.md) — outline, needs iteration: do Sections and Command menu hold up against the move-naming rule, and what does a rename cost
 - [Review practice: moves, reconciliation, drift](active/2026-07-review-practice.md) — three review loops adapting ai-pr-review mechanics to the vision/operative-image dialectic
-- [Shrink the client:load shell surface](active/2026-06-shell-island-refactor.md) — persist the sidebar island, render content statically; structural follow-up to the optimizeDeps hydration fix
-- [Combobox and adjacent surfaces](active/2026-05-combobox-territory.md) — pattern-language work for Combobox, Selection multi-select, Dual listbox placeholder
-- [Combobox primitives extraction](active/2026-05-combobox-primitives-extraction.md) — rename Command* React primitives to Combobox* under src/components/combobox/
+- [realised_by backfill](active/2026-07-realised-by-backfill.md) — claim or citation, page by page: write `realised_by:` where prose ComponentRefs carry a realisation claim
+- [Related-link residue audit](active/2026-07-related-residue-audit.md) — restore, or deliberately release, what the relationships migration dropped
+- [Situation backfill](active/2026-07-situation-backfill.md) — outline, needs iteration: fill the two situations across the pattern corpus; owns the `consequences`-vs-`situation.resulting` comparison
+- [Storybook re-bucketing](active/2026-07-storybook-rebucketing.md) — finish the catalogue re-bucketing; retitle sweeps own every id-bearing channel, `realised_by` included
+- [Pane-island hydration](active/2026-07-pane-island-hydration.md) — hydrate islands in fetched panes so interactive demos run beyond position 0
+- [Block-editing follow-ups](active/2026-07-block-editing-followups.md) — outline: carried work from the block-editing research sitting
+- [Heatmap + n-gram promotion](active/2026-05-heatmap-ngram-promotion.md) — deferred: promote the heatmap extension and n-gram engine out of the dynamic-hyperlinks demo
+- [Link preview component extraction](active/2026-05-link-preview-component-extraction.md) — extract the link preview surface into a reusable component; shares the article-extraction seam with pane-island hydration
+- [Pattern demos migration](active/2026-05-pattern-demos-migration.md) — migrate pattern demos from Storybook to the pattern site
 - [Live presentation research synthesis](active/2026-05-live-presentation-research.md) — broaden evidence base for Activities/Live presentation seed
-- [Harness refactor](active/2026-04-harness.md) — control layer repair, enforcement, and drift detection
-- [Assistance foundation](active/2026-04-assistance-foundation.md) — ground assistance in agency theory
-- [Delegation foundation](active/2026-04-delegation-foundation.md) — ground delegation in agency theory
+- [Stacked notes](active/2026-04-stacked-notes) — stacked-notes presentation for the pattern site: panes, spines, URL-recorded stacks (long-running; several sub-plans already closed)
 - [Interaction See-Think-Do reframe](active/2026-04-interaction-see-think-do-reframe.md) — reframe the interaction model
 - [Agency attentional coupling](active/2026-04-agency-attentional-coupling.md) — add attentional coupling and appropriate reliance
-- [Cognitive forcing functions](active/2026-04-cognitive-forcing-functions.md) — define the CFF pattern family
 - [Agentive touchpoint patterns](active/2026-04-agentive-touchpoint-patterns.md) — document AI touchpoints in workflows
 - [Action bar story](active/2026-04-action-bar-story.md) — add action bar Storybook examples
 - [Transient layers split](active/2026-04-transient-layers-split.md) — split Popover and Toast documentation
@@ -25,16 +29,26 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Completed
 
+- [Workspace split: closure](completed/2026-07-workspace-split-closure.md) — territories, validator, dependency boundary; the split's tail closed
+- [Intra-site link validation](completed/2026-07-intra-site-link-validation.md) — static `/patterns/<slug>` links validated inside the site build
 - [Relationship vocabulary: situations, part–whole hygiene, and the hosting gap](completed/2026-07-relationship-vocabulary.md) — situation constructs (`situation.initiating`/`resulting` emitting conditional `precedes`), `hosts` minted, part–whole and precedes hygiene sweeps, component realisation split out of `enables` as a cross-dataset ComponentRef reference
 - [Typed relationships](completed/2026-06-typed-relationships.md) — frontmatter `relationships:` edges, RelatedPatterns rendering, migration-repair pass (phases A–E)
+- [Flatten pattern content: facets over folders](completed/2026-06-flatten-pattern-content.md) — flat content directory, classification facets carry the organisation
 - [Consolidate collection-move demos into DataView](completed/2026-05-collection-move-demos.md) — host-composition demos: DataView substrate lifted to `demos/data-view/`, grouping implemented, move pages embed configured slices (T2 of workspace-split closure)
+- [Combobox and adjacent surfaces](completed/2026-05-combobox-territory.md) — pattern-language work for Combobox, Selection multi-select, Dual listbox placeholder
+- [Combobox primitives extraction](completed/2026-05-combobox-primitives-extraction.md) — rename Command* React primitives to Combobox* under `src/components/combobox/`
+- [Combobox autocomplete demo](completed/2026-05-combobox-autocomplete.md) — demo story for Autocomplete
+- [Cross-surface nav links](completed/2026-05-cross-surface-nav.md) — nav links between Storybook and the pattern site
+- [Pane spine](completed/2026-05-pane-spine.md) — spine rendering for collapsed stacked-notes panes
+- [Sidebar (shadcn base-ui port)](completed/2026-05-sidebar-react.md) — re-implement the shadcn base-ui sidebar
+- [Switch component](completed/2026-05-switch-component.md) — add and document Switch
+- [Workspace split: phase A audit](completed/2026-05-workspace-split-audit.md) — pre-flight audit for the split
 - [Workspace split](completed/2026-05-workspace-split.md) — split into components package and pattern-site app (npm workspaces, Astro); Phase D tail documented
 - [Role metadata](completed/2026-05-role-metadata.md) — introduce role tags for component/pattern/umbrella distinctions
-- [Codebase review recommendations](completed/2025-codebase-review-recommendations.md) — reference review and technical debt inventory
-- [Vite plugin Storybook overview](completed/2025-vite-plugin-storybook-overview.md) — reference overview
-- [Activity Theory reorg](completed/2026-03-activity-theory-reorg.md) — completed Storybook taxonomy migration history
-- [AT framing audit](completed/2026-03-at-framing-audit.md) — completed audit of AT-level framing
-- [Interactive pattern graph](completed/2026-03-cuddly-seeking-planet.md) — force-directed pattern graph implementation plan
+- [Harness refactor](completed/2026-04-harness.md) — control layer repair, enforcement, and drift detection
+- [Assistance foundation](completed/2026-04-assistance-foundation.md) — ground assistance in agency theory
+- [Delegation foundation](completed/2026-04-delegation-foundation.md) — ground delegation in agency theory
+- [Cognitive forcing functions](completed/2026-04-cognitive-forcing-functions.md) — define the CFF pattern family
 - [Typed edges](completed/2026-04-typed-edges.md) — typed relationship edges and graph extraction
 - [Umbrella role](completed/2026-04-umbrella-role.md) — role-aware surveys edges for umbrella pages
 - [Typed-edge phase 0 gates](completed/2026-04-typed-edges-phase-0-gates.md) — research notes for the typed-edge gates
@@ -42,6 +56,11 @@ the plan contract and `docs/specs/` for settled specifications.
 - [Label task: axis-flagged edges](completed/2026-04-label-axis-flagged.md) — closed edge judgement task
 - [Label task: enacts edges](completed/2026-04-label-enacts.md) — closed enacts-label authoring task
 - [Label task: thematic edges](completed/2026-04-label-thematic.md) — closed thematic-label authoring task
+- [Activity Theory reorg](completed/2026-03-activity-theory-reorg.md) — completed Storybook taxonomy migration history
+- [AT framing audit](completed/2026-03-at-framing-audit.md) — completed audit of AT-level framing
+- [Interactive pattern graph](completed/2026-03-cuddly-seeking-planet.md) — force-directed pattern graph implementation plan
+- [Codebase review recommendations](completed/2025-codebase-review-recommendations.md) — reference review and technical debt inventory
+- [Vite plugin Storybook overview](completed/2025-vite-plugin-storybook-overview.md) — reference overview
 
 ## Paused
 
@@ -82,6 +101,14 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Archived
 
+- [Component manifest: research gate findings](archive/2026-07-component-manifest-research.md)
+- [Shrink the client:load shell surface](archive/2026-06-shell-island-refactor.md) — persistent sidebar island, static content; landed, follow-up work continues in pane-island hydration
+- [Cross-surface link cleanup](archive/2026-05-cross-surface-links.md) — ComponentRef rewrite + stacked-notes guard
+- [Embed live components in apps/patterns](archive/2026-05-embed-components.md)
+- [Hash anchor navigation in stacked-notes panes](archive/2026-05-hash-anchor-stacked-notes.md)
+- [Radix to base-ui migration](archive/2026-05-radix-to-base-ui-migration.md)
+- [Role survey](archive/2026-05-role-survey.md)
+- [Update tldraw](archive/2026-05-update-tldraw.md)
 - [Cognitive load implementation](archive/cognitive-load-implementation.md)
 - [Conviviality distribution](archive/conviviality-distribution.md)
 - [DataView story implementation](archive/dataview-story-implementation.md)

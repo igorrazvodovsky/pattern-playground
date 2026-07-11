@@ -41,6 +41,26 @@ that mix the two decompose. The earlier `umbrella` role has been split into
 `pattern` (composite moves, authoritative for their own move) and `collection`
 (authored surveys over a territory).
 
+The language carries no curated hierarchy of its own: nodes, typed edges, and
+classification facets are the whole organisational material; how they render
+into navigation is the artifact's concern
+([../project/operative-image.md](../project/operative-image.md)). Language-side,
+the handwritten activity-theory collection pages are gone — their job passed to
+facet projections — leaving two authored collections (navigation-overview,
+data-visualization), with `surveys` on the retirement watch: if the last
+collection dissolves, the edge type and role retire with it (see the retirement
+section of [relationship-vocabulary.md](./relationship-vocabulary.md)).
+
+Component realisation lives in frontmatter `realised_by` — Storybook docs ids
+as node metadata, validated cross-dataset, never an edge; ComponentRef mentions
+in prose are citations (see the component-realisation section of
+[relationship-vocabulary.md](./relationship-vocabulary.md)). Parts of the
+declared apparatus are dormant: the `domain` and `tags` facets and the
+`component` role have no instances, `umbrella` survives only as a deprecated
+alias, `lifecycle` flows into generated data with no consumer, and the inline
+`rel=` channel has one use in the corpus — frontmatter won as the authoring
+surface in practice.
+
 Decision trees are treated as authored situational hints. They expose what the
 library currently discriminates on, and what it does not yet know how to
 discriminate. See [decision-dimensions.md](./decision-dimensions.md).

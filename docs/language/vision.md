@@ -97,6 +97,14 @@ pattern as a move rather than a page, so they belong to Track 2. The `status`
 field is the confidence signal: a seed can be useful, but it should not
 masquerade as a settled invariant.
 
+Of these, `status` is the nearest: the corpus already generates the need —
+stubs present with finished-page authority, and maturity has to be legible as
+more than editorial confidence. Whether `consequences` remains a distinct field
+is an open comparison against `situation.resulting`, which already covers what
+holds after the move is applied, including the new problems it opens; that is
+settled on a filled corpus by the situation-backfill pass
+([../../plans/active/2026-07-situation-backfill.md](../../plans/active/2026-07-situation-backfill.md)).
+
 ## Guidance
 
 When adding or revising material, ask these questions before choosing tags,

@@ -27,7 +27,9 @@ Two directions extend the garden without productising it. (The content frontier 
 which design problems the repertoire covers — lives in
 [core-beliefs.md](./core-beliefs.md) as the project's current focus, not here:
 coverage themes drift, while these directions are about the artifact's durable
-form.)
+form.) The far horizon for the reading surface itself — documents receding into
+projection targets, where the distinction between an address and an identity
+dissolves — is sketched in [../levels-of-scale.md](../levels-of-scale.md).
 
 ### Bilingual substrate maturity
 
@@ -35,9 +37,11 @@ The component library and the pattern language are two languages with different
 jobs (see [../language/pattern-and-form.md](../language/pattern-and-form.md)):
 mechanisms converge in the form language, moves diverge in the pattern language.
 The direction is to let each do its job cleanly while the coupling between them
-tightens — shared demos feeding both surfaces from one source, and the
-cross-surface reference scheme resolving so a quality or foundation reads as one
-bilingual entry rather than two linked pages.
+tightens — shared demos feeding both surfaces from one source. The one-entry
+question resolved by allocation rather than fusion: each concept has exactly one
+descriptive home (a language entry for interaction-design material, a substrate
+foot only for visual material), bound by validated cross-surface references.
+The remaining direction is keeping that coupling tight as both surfaces grow.
 [../specs/workspace-layout.md](../specs/workspace-layout.md) holds the current
 substrate split and the bilingual-entry contract.
 
