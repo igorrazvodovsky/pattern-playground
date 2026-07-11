@@ -133,7 +133,7 @@ The relationships defined below should be read in this register throughout.
 - Directionality: directed (collection -> member)
 - Inverse: none formal.
 - SKOS: `skos:member` — collection membership. SKOS `Collection`s group members *without* placing them in the broader/narrower hierarchy, which is exactly the semantics here: a collection never sits on an `enables`/`instantiates` path. (Earlier records said "no exact equivalent"; that was wrong.)
-- Authoring: automatic for untyped body links on `role:collection` pages. Can also be declared explicitly with `relationships: { surveys: [B] }` on the collection page.
+- Authoring: `relationships: { surveys: [B] }` on the collection page.
 - Example: Navigation overview *surveys* the navigation models it gathers; Operations *surveys* its constituent operation patterns.
 - Why this matters: collection pages are authored surveys. `surveys` preserves that membership altitude without forcing collection pages through `precedes`, `related`, or `enacts` semantics — and keeps member-collection grouping distinct from a composite *pattern*'s part-whole (`enables`) and genus-species (`instantiates`) relations.
 
@@ -169,7 +169,7 @@ These are different relations and are **not transitive across types**: do not tr
 - Directionality: directed (pattern → quality only — qualities don't enact patterns)
 - Inverse: none formal (the inverse "Q is enacted by A" is implicit in graph traversal)
 - SKOS: no equivalent. This is the most domain-specific relationship in the vocabulary.
-- Authoring: automatic for untyped body links from non-quality pages to quality pages. Can also be declared explicitly with `rel="enacts"` inline or `relationships: { enacts: [quality-slug] }` in frontmatter.
+- Authoring: `rel="enacts"` inline or `relationships: { enacts: [quality-slug] }` in frontmatter. 
 - Example: Confirmation dialog *enacts* Agency — the pause-before-consequence is a move that strengthens the user's sense of intentional control.
 - *Labelling*: a label should name what the move does to the centre such that the effect is legible through Q's lens — not restate the type ("X supports Q") or define the quality. "Creates a moment of intentional pause before acting" is a label; "supports agency" is not.
 - Why this matters: under the generative-moves framing, the qualities act as a vocabulary for what a transformation should accomplish. An actor reasoning "what's weak in the current structure that I should strengthen?" needs to know which moves enhance which qualities. Promoting these from prose links to typed edges makes that reasoning possible.
@@ -245,7 +245,7 @@ Project-specific extensions:
 
 ## Authoring model
 
-Edges come from three explicit sources, two judgement homes that emit edges, and three structural auto-typings:
+Edges come from three explicit sources and two judgement homes that emit edges — nothing else; untyped body links are citations and produce no edge:
 
 ### Explicit authoring channels
 
@@ -303,7 +303,7 @@ Two node-side constructs hold situational judgements, and each *emits* the edges
 
 ### Authoring aliases and direction normalization
 
-Direction is fixed by the relation name (invariant I2), not an author field. Aliases let the author pick the word that fits their sentence:
+Direction is fixed by the relation name (invariant I2), not an author field. Aliases let the author pick the word that fits their sentence — which means the *authoring side* and the *claim's direction* are independent by design: a page authoring `composed-of: [X]` stores an edge whose source is X, not itself. The declaring page is not necessarily the claim's subject; aliases exist to decouple the two, so either endpoint can own the authoring of one stored claim:
 
 | `rel=` on page P | Stored edge | Canonical type |
 |---|---|---|
@@ -324,15 +324,13 @@ Direction is fixed by the relation name (invariant I2), not an author field. Ali
 
 `recommends` is not in this table — it is never an authored rel.
 
-### Structural auto-typings (invariant I7)
+### No structural auto-typing (invariant I7)
 
-Three auto-typings apply without explicit authoring:
-
-1. Untyped body links on `role:collection` pages → `surveys`
-2. Untyped body links from non-quality pages to quality pages → `enacts`
-3. Decision-tree leaf nodes → `recommends`
-
-Only these three forms of auto-typing exist. Everything else requires an explicit `rel`.
+No edge is minted from an untyped body link. A prose link is a citation; every edge is either explicitly
+authored (`relationships:`, inline `rel=`, `<PatternRef rel>`) or emitted by
+a judgement home (a resulting-context clause with `sets-up:` → `precedes`; a
+decision tree → `recommends`). `surveys` and `enacts` are ordinary authored
+types like any other.
 
 ### No redundant inverses
 
@@ -422,24 +420,27 @@ Three rules govern the construct:
 
 A conditional `precedes` is therefore not a special edge type. "Hub and spoke takes over when items exceed screen capacity" decomposes into flat navigation's resulting clause ("holds while everything fits one surface…") setting up hub-and-spoke; the edge renders the clause. The escalation ladders read the same way: good defaults' resulting context enumerates where a static guess stops sufficing, and each rung's edge shows the clause for its handoff. When a `precedes` edge reads differently in the designer and runtime registers, that divergence is the signal to decompose it this way (see the register note under `precedes`).
 
+That `sets-up` emits only `precedes` is current scope, not a claim that resulting-context joins are inherently sequential: the corpus's clause-shaped judgements have so far all been sequential, and conditional *choice* already has a home — a decision tree leaf is "in this situation, reach for A rather than B". If a resulting clause ever genuinely opens a choice rather than a sequence, that is a vocabulary change to take through the changelog, not a stretch of `sets-up`.
+
 Extraction emits `situation` as node metadata in `pattern-graph.json`.
 
 *When to skip*: minimal primitives (the definition exhausts it), unbounded stances (no discrete move), and collection pages (a grouping, not a move). Write `resulting` clauses when the move genuinely opens onto next moves or new problems; a pattern whose edges are all associative doesn't need one.
 
 ## Component realisation (cross-dataset)
 
-*A is realised by C*: pattern A names an interaction move; component C implements it. This relationship deliberately has no edge type. The pattern graph is language-only — components are not nodes (they left with the workspace split) — so a realisation claim points outside the graph, at Storybook's build-output `index.json`. It is a *cross-dataset reference*, and its authoring channel is the one the corpus already uses: `<ComponentRef>` in body prose, as an inline mention or a `## Related components` list.
+*A is realised by C*: pattern A names an interaction move; component C implements it. This relationship deliberately has no edge type. The pattern graph is language-only — components are not nodes (they left with the workspace split) — so a realisation claim points outside the graph, at Storybook's build-output `index.json`. It is a *cross-dataset reference* with one authorable home: frontmatter `realised_by`, a list of Storybook docs ids.
 
-```mdx
-For the form *mechanism* see the <ComponentRef id="actions-application-form--docs">corresponding component</ComponentRef>.
+```yaml
+realised_by: [actions-application-form--docs]
 ```
 
-- *Authoring*: `<ComponentRef id="…--docs">` in prose. No frontmatter channel, and never a `rel=` on a `<ComponentRef>` — components are not graph nodes, so such an edge could never resolve; the extractor warns on both forms (a `rel` on a ComponentRef, and a `relationships:` target that names no pattern).
-- *Validation*: the build-time cross-reference validator (`apps/patterns/integrations/validate-cross-references.ts`) resolves every `<ComponentRef id>` against `index.json` and fails the site build on a dangling reference. Realisation gets the same gate as a typed edge, in the dataset it actually points at.
-- *Rendering*: `RelatedPatterns.astro` deliberately renders nothing for realisation. The claim lives where it is authored — in prose, with the context of *how* the component realises the move. Filtering's reference to the kept command-menu mechanism doc is the worked instance: the actor building a filter is making filtering's move; what recurs is the command-menu *mechanism*, so the pattern-level edge was dropped and the relation reads as a ComponentRef.
-- *The name*: read pattern-side, *realised by* — the pattern points at its mechanisms. The correspondence is many-to-many and deliberately loose: a pattern page illustrates its move with whichever components fit, and one component serves many moves. That looseness is the second reason realisation stays prose: a typed pattern→component map would claim a tighter correspondence than the library believes in.
+- *Claim vs citation*: `realised_by` is the claim; `<ComponentRef>` in body prose is a citation, claim-free. A page may cite components it is not realised by (form cites messaging as an embedding context), and a mention's presence implies nothing — which is why the mapping is authored, never scraped from prose. Never a `rel=` on a `<ComponentRef>` and never a component id in `relationships:` — components are not graph nodes, so such an edge could never resolve; the extractor warns on both forms.
+- *Validation*: the build-time cross-reference validator (`apps/patterns/integrations/validate-cross-references.ts`) resolves every `realised_by` id and every `<ComponentRef id>` against `index.json` and fails the site build on a dangling reference. Realisation gets the same gate as a typed edge, in the dataset it actually points at.
+- *Projection*: the extractor emits `realised_by` as node metadata (`realisedBy`) in `pattern-graph.json` — machine-legible for graph consumers, still not an edge. This is the reachability pattern-and-form.md promises: the form language stays reachable from the language data without components re-entering the graph.
+- *Rendering*: `RelatedPatterns.astro` deliberately renders nothing for realisation. On the page the relation reads in prose, where the context of *how* the component realises the move lives. Filtering's reference to the kept command-menu mechanism doc is the worked citation instance: the actor building a filter is making filtering's move; what recurs is the command-menu *mechanism* — a reference, not a realisation claim.
+- *The name*: read pattern-side, *realised by* — the pattern points at its mechanisms. The correspondence is many-to-many and stays loose: a pattern page illustrates its move with whichever components fit, and one component serves many moves. `realised_by` marks the crisp subset the pattern actually claims as its material; everything looser stays citation.
 
-If a future consumer needs the mapping as data, extract it from the `<ComponentRef>` occurrences — the usage is stylised enough to collect mechanically. Do not reintroduce it as a frontmatter channel: that would mint a second authorable home for a fact the prose owns, the same scatter failure the situation constructs exist to prevent.
+Coverage is deliberately partial until the backfill sitting runs (plans/active/2026-07-realised-by-backfill.md): form is the type specimen; the ~50 pages with ComponentRef mentions each owe a judgement call — realisation or citation — not a mechanical sweep.
 
 ## Open questions
 
@@ -454,6 +455,9 @@ If a future consumer needs the mapping as data, extract it from the `<ComponentR
 5. *A `tensions-with` edge type between qualities?* Patterns can `enacts` multiple qualities, and a composition can pull in patterns whose enacted qualities are in tension (Agency vs. Speed, Consistency vs. Novelty). The graph currently has no way to express that tension. A quality → quality `tensions-with` edge would let a query surface "these moves enhance qualities the library has noted as in tension — worth a look" without crossing into rule-grade conflict detection. Defer until two or three concrete examples exist; introduce through the changelog rather than speculatively. Until then, `alternative` co-presence in a proposed composition is the available tension signal. Whatever treatment lands should decide *support* alongside tension: `learnability related agency` ("competence facilitates agency", re-typed 2026-07-10 from a mis-authored `instantiates`) is a first supports-shaped specimen in the latent quality↔quality `related` set, and minting `tensions-with` alone would leave its mirror untypeable.
 
 6. *A structural-property layer underneath qualities?* The use qualities are experiential dimensions, not structural properties — but there may eventually be a vocabulary for *structural* properties of interaction  that sits underneath them, in the same way that "the building feels welcoming" sits above "the entrance has levels of scale, strong centres, and thick boundaries."
+
+7. An open boundary question rides with the future query layer: the consumer contract forbids matching, filtering, or routing on conditions and situations, but does not yet say where traversal ends and evaluation begins. The intended consumption is generative — a user-needs statement given to an agent that reads situations as prose context and proposes a chain of moves — which stays on the judgement side of the contract. The line should be drawn in the vocabulary doc's epistemic stance
+before the first query function is written.
 
 ## Structural invariants
 
@@ -476,8 +480,9 @@ The vocabulary has entry gates — the SKOS sanity check, the changelog's what-w
 Standing signals:
 
 - *Per-type counts* in the extractor's summary line, advisory register — a type whose count only ever falls, or whose uses turn out on audit to be one other type in disguise, is a retirement candidate.
-- *`related`'s share of all edges* is the health dial: `related` is where meaning goes when the vocabulary doesn't fit, so a rising share means the types aren't carrying the corpus (baseline 25% at 2026-07-10; the extractor prints the current share).
+- *`related`'s share of all edges* is the health dial, read as a prompt rather than a failure metric: `related` is the honest home for unclaimed adjacency and stays legitimate at any share; the dial marks where to hunt for conversion opportunities (baseline 25% at 2026-07-10; the extractor prints the current share). The tell is sweep yield, not level — if sweeps into `related` keep converting edges to types, meaning is hiding there; if they keep coming back empty, the residue is honest.
 - *A retirement question closes every gardening sweep*: "did this sweep lean on every type it touched, and is any type only ever the thing being swept away?"
+- *Named overlap watch — `enables`/`complements`*: the incorporation softening (changelog 2026-07-10) left `enables`' soft end one author-judgement away from `complements` — "woven into how B is realised" versus "co-deployed beside B". If sweeps keep re-typing across that line in both directions, or optional assists turn up authored interchangeably under either type, the boundary is the retirement question to ask.
 
 `tangential` is the first standing candidate, per its own entry in the extensions table. Retirements land through the changelog like everything else — with what was considered and what is lost.
 
@@ -486,6 +491,20 @@ Standing signals:
 A running record of why types were added, merged, renamed, or retired, what alternatives were considered, and what was lost in each decision. The vocabulary is provisional — it will keep evolving as the library grows. Making its construction visible is part of treating classification as a living artifact rather than a closed specification (compare Bowker & Star, *Sorting Things Out*: "the only good classification is a living classification").
 
 Each entry: date, change, why, what was considered, what was lost.
+
+### 2026-07-11 — Structural auto-typing retired: untyped body links are citations
+
+From the branch move-review's fix verdict on the typed-relationships episode: the kept auto-typings contradicted the episode's own principle that editing prose must not silently mutate the graph. The corpus had already voted — of 116 `enacts` edges only 2 came from the quality-target channel (both on the branch's newest pages, exactly the fresh-page trap the channel creates), and the collection channel had *zero* uses. Both retired; the two live edges re-authored as explicit `enacts: formality` with Q-lens notes (workflow, block-based-editor). `recommends` is untouched — it comes from the decision-tree judgement home, which is authored, not inferred. I7 now reads: no edge from an untyped body link; explicit channels and judgement homes are the only sources.
+
+What was considered: keeping the quality-target channel as "predictable from the target" (rejected — predictability doesn't make the minting deliberate, and a passing or negative mention of a quality would still mint a claim; same claims-vs-citations line as `realised_by`, below). What was lost: quality coverage no longer accrues for free from prose — a new page must declare its `enacts`, or the quality goes unclaimed until a sweep notices.
+
+### 2026-07-11 — `realised_by` minted as the realisation claim's frontmatter home; prose ComponentRefs demote to citations
+
+Reverses one clause of workstream D (below), out of the branch move-review's reframe verdict: D solved authoring and human reading, but never weighed the machine consumer, and pattern-and-form.md's reachability promise ("the materials stay available in the graph data") was load-bearing for the agent-consumable direction. Realisation stays a named non-edge and a cross-dataset reference — what changes is the authorable home.
+
+*The change.* Frontmatter `realised_by:` (list of Storybook docs ids) is now the single authorable home for the realisation claim; the extractor emits it as node metadata (`realisedBy`) in `pattern-graph.json`; the cross-reference validator resolves every id against `index.json`. `<ComponentRef>` prose demotes to citation — claim-free, exactly like an incidental mention. This dissolves D's two objections rather than overruling them: there is no second home because prose stops carrying the claim (the same move situations made — judgement into a structured home, prose keeps the telling), and the loose correspondence is *why* the crisp subset needs a marked channel — D's own type specimen (filtering citing command-menu's mechanism) is a citation, not a realisation, and only an authored field can tell them apart, which is also why scraping the mapping from ComponentRef occurrences (D's suggested future path) would over-claim.
+
+What was considered: deriving `realisedBy` mechanically from `<ComponentRef>` occurrences (rejected — mentions include non-realisations; the claim/citation distinction is a judgement, so the channel must be authored); keeping D's status quo (rejected — the relation was invisible to every graph consumer, and the boundary doc's promise had silently changed truth-value). What was lost: the claim no longer lives beside the prose context of *how* the component realises the move — the field carries the fact, the body keeps the telling. Coverage: form is the type specimen; the ~50 ComponentRef pages get a judgement-pass backfill (plans/active/2026-07-realised-by-backfill.md).
 
 ### 2026-07-10 — Realisation leaves the edge vocabulary; `enables` narrowed to within-graph composition; hosting sweep
 
