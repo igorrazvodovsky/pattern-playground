@@ -27,11 +27,14 @@ apart, per item.
 ## Gate: pattern–foundation link treatment
 
 Links between patterns and foundations are currently in limbo: no settled
-edge treatment exists for them. Candidate direction: mirror what was done for
-pattern–quality links (patterns carry the edge toward the quality). Decide
-this — in `docs/language/relationship-vocabulary.md` terms — before judging
-foundation-target rows, or those judgements will be made against a moving
-target.
+edge treatment exists for them beyond the foundation tiebreaker under
+`instantiates` in `docs/language/relationship-vocabulary.md` (concept applied
+by the pattern → `instantiates`; substrate produced ahead → `precedes`),
+which types the clear cases but names no default home for the rest. Candidate
+direction: mirror what was done for pattern–quality links (patterns carry the
+edge toward the quality). The question is on the vocabulary doc's standing
+register as open question 8; decide it there before judging foundation-target
+rows, or those judgements will be made against a moving target.
 
 ## Work
 

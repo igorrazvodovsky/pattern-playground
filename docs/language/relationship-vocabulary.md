@@ -459,6 +459,8 @@ Coverage is deliberately partial until the backfill sitting runs (plans/active/2
 7. An open boundary question rides with the future query layer: the consumer contract forbids matching, filtering, or routing on conditions and situations, but does not yet say where traversal ends and evaluation begins. The intended consumption is generative — a user-needs statement given to an agent that reads situations as prose context and proposes a chain of moves — which stays on the judgement side of the contract. The line should be drawn in the vocabulary doc's epistemic stance
 before the first query function is written.
 
+8. *Pattern–foundation edge treatment*: links between patterns and foundations have no settled home beyond the foundation tiebreaker under `instantiates` (concept applied by the pattern → `instantiates`; substrate produced ahead of the pattern → `precedes`). The tiebreaker types the clear cases; it names no default for the residual pattern–foundation adjacency still sitting in bare `related` lists. Candidate direction: mirror the qualities approach — the pattern side carries the edge. The related-residue audit (`plans/active/2026-07-related-residue-audit.md`) is gated on this decision for its foundation-target rows.
+
 ## Structural invariants
 
 Testable assertions derived from this vocabulary's own definitions. These can be checked against `pattern-graph.json` by a script or by an actor reviewing extraction output.
@@ -484,7 +486,7 @@ Standing signals:
 - *A retirement question closes every gardening sweep*: "did this sweep lean on every type it touched, and is any type only ever the thing being swept away?"
 - *Named overlap watch — `enables`/`complements`*: the incorporation softening (changelog 2026-07-10) left `enables`' soft end one author-judgement away from `complements` — "woven into how B is realised" versus "co-deployed beside B". If sweeps keep re-typing across that line in both directions, or optional assists turn up authored interchangeably under either type, the boundary is the retirement question to ask.
 
-`tangential` is the first standing candidate, per its own entry in the extensions table. Retirements land through the changelog like everything else — with what was considered and what is lost.
+`tangential` is the first standing candidate, per its own entry in the extensions table. `surveys` carries a retirement *ambition* rather than a signal: the four AT collection pages were deleted in favour of facet projections (2026-07-11), leaving two collections — data-visualization (the domain-corpus home) and navigation-overview — and the direction is to dissolve those too. If the last collection page dissolves, `surveys` retires with the `collection` role. Retirements land through the changelog like everything else — with what was considered and what is lost.
 
 ## Changelog
 

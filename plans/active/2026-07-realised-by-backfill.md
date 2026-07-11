@@ -25,6 +25,11 @@ judgement a mechanical sweep would flatten (filtering's reference to the
 command-menu mechanism doc is a citation; form's "corresponding component"
 is a claim — same tag, different standing).
 
+Sequencing: `2026-07-storybook-rebucketing.md` retitles Storybook pages,
+which changes docs ids. Whichever plan runs second must know the ids moved —
+the rebucketing sweep (its step 3) names `realised_by` as a swept channel,
+and the validator catches any miss at build.
+
 ## Procedure
 
 One sitting, or two if fatigue sets in mid-list — stakes are uniform, so

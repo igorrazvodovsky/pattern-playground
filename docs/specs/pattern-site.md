@@ -84,6 +84,16 @@ An entry is classified by independent frontmatter _facets_, none of which is
 privileged by the filesystem (the content directory is flat). Each facet is a
 lens; navigation and the graph are _projections_ over them.
 
+A projection is a _site-wide mode_: exactly one grouping active at a time,
+switched client-side inside the persistent nav island (all groupings are passed
+at first hydration; see the projection comment in `Base.astro`). Navigation
+surfaces are projections over facets, not curated overview pages — the four
+Activity-Theory collection pages were retired in favour of this direction
+(2026-07-11), and the remaining `role:collection` entries are slated for
+dissolution the same way (see
+[relationship-vocabulary.md](../language/relationship-vocabulary.md)
+§Retirement).
+
 - `activityLevel` (`operation | action | activity`) — Activity Theory altitude:
   the altitude of the human activity the entry addresses. A
   _pattern-site-only_ classification.

@@ -72,7 +72,12 @@ review, episode 06 moves 2 and 4).
 ### 3. Sweep the cross-surface references
 
 Every retitle changes the docs id. Update `ComponentRef` ids in
-`apps/patterns/src/content/patterns/` and inter-page Storybook links. Current
+`apps/patterns/src/content/patterns/` and inter-page Storybook links.
+`realised_by:` frontmatter values are docs ids on the same seam — the
+realised-by backfill (`2026-07-realised-by-backfill.md`) populates them on
+~50 pages, so if it has landed, grep and sweep `realised_by` alongside
+`ComponentRef`. The validator resolves both channels against `index.json`,
+so a missed id fails the build loudly rather than silently. Current
 referers of old-style ids (verify the list fresh with a grep for
 `actions-…--docs` / `operations-…--docs` before sweeping):
 

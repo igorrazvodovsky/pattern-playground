@@ -19,6 +19,16 @@ The naming rule says a pattern is named by the interaction move, not the compone
 
 Form is the comparison point that makes the twins look off: "form" reads as the activity of structured collection as much as the widget, so the same-name rule costs nothing there. "Sections" mostly doesn't.
 
+## Settled constraints
+
+Three rulings from the split-project move review (2026-07-11) are settled inputs — build on them, don't re-open:
+
+- *The Locative axis (`hosts`) speaks the artifact register legitimately.* Spatial containment is not artifact-specific; activities can be "spatial" too and contain each other (review 01 M4). A relationship type may address the artifact register when the relation itself is register-neutral.
+- *Keyboard shortcuts keeps its thing-like name.* The fix was stripping the artifact-grade content (implementation specifics), not renaming; the name is the industry's, and the entry's remaining content carries the move (review 07 M3).
+- *Block-based editor keeps the industry name.* An industry-standard artifact name stands when the community of practice that owns the term elsewhere is distant enough that no practical collision arises (review 07 M5; decision log in `2026-07-block-editing-followups.md`).
+
+Together: a name or type legible in the artifact register can still speak the pattern language honestly — renaming is not owed for register alone. Precedents 2 and 3 are the standing evidence for the industry-standard-name exception clause contemplated in the iteration notes below, and bear directly on the Command menu question.
+
 ## Work outline
 
 1. Restate the test: does the name apply to any valid implementation of the move? Collect the evidence per twin (how each page's own body names its move).
