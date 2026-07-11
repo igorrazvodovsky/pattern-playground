@@ -1,6 +1,7 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { load as yamlLoad } from 'js-yaml';
 import type { AstroIntegration, AstroIntegrationLogger } from 'astro';
 
 // Build-time validator that every static reference resolves to its target. Two
@@ -8,7 +9,9 @@ import type { AstroIntegration, AstroIntegrationLogger } from 'astro';
 // site — all are cross-references in the sense that a pointer must resolve.
 //
 // Site → Storybook: <ComponentRef id="components-button--docs"> in the pattern
-// content must resolve to a `docs` entry in Storybook's build-output index.json.
+// content must resolve to a `docs` entry in Storybook's build-output index.json,
+// and so must every frontmatter `realised_by` id (the realisation claim's
+// authorable home — see relationship-vocabulary.md §Component realisation).
 // Storybook → site: <PatternRef slug="suggestion"> in Storybook MDX must match a
 // content file in apps/patterns/src/content/patterns/ (slug = filename stem).
 // Site → site: a static `/patterns/<slug>` link (in content prose or an
@@ -258,6 +261,46 @@ function checkComponentRefs(index: StorybookIndex, logger: AstroIntegrationLogge
   return violations;
 }
 
+/** Every frontmatter `realised_by` id must resolve to a Storybook `docs` entry —
+ *  the same gate ComponentRef prose gets, in the dataset the claim points at. */
+function checkRealisedBy(index: StorybookIndex, logger: AstroIntegrationLogger): Violation[] {
+  const docsIds = new Set(
+    Object.values(index.entries)
+      .filter((entry) => entry.type === 'docs')
+      .map((entry) => entry.id),
+  );
+
+  const violations: Violation[] = [];
+  let checked = 0;
+  for (const file of walkMdx(patternsContentDir)) {
+    const content = readFileSync(file, 'utf-8');
+    const fmMatch = content.match(/^---\n([\s\S]*?)\n---/);
+    if (!fmMatch) continue;
+    let fm: Record<string, unknown>;
+    try {
+      fm = (yamlLoad(fmMatch[1]) ?? {}) as Record<string, unknown>;
+    } catch {
+      continue; // malformed frontmatter fails the content build on its own
+    }
+    if (!Array.isArray(fm.realised_by)) continue;
+    for (const id of fm.realised_by) {
+      if (typeof id !== 'string') continue;
+      checked++;
+      if (docsIds.has(id)) continue;
+      const suggestion = nearest(id, docsIds);
+      violations.push({
+        file: relPath(file),
+        line: 1,
+        message:
+          `realised_by: "${id}" does not resolve to a Storybook docs entry` +
+          (suggestion ? ` — did you mean "${suggestion}"?` : '.'),
+      });
+    }
+  }
+  logger.info(`Checked ${checked} realised_by id(s) against ${docsIds.size} docs entries.`);
+  return violations;
+}
+
 // The `/patterns/<stem>` route space: both .mdx and .md files in the content
 // collection back a page (e.g. qualities.md), so both are valid slug targets.
 function contentStems(): Set<string> {
@@ -330,6 +373,7 @@ export default function validateCrossReferences(): AstroIntegration {
         // ComponentRef pass, get fixed, then fail again on the next pass.
         const violations = [
           ...checkComponentRefs(index, logger),
+          ...checkRealisedBy(index, logger),
           ...checkPatternRefs(logger),
           ...checkIntraSiteLinks(logger),
         ];

@@ -30,13 +30,16 @@ material, however thoroughly it is documented.
 
 "Mechanisms are not patterns" is a statement about naming and default
 rendering, not about where pattern-grade content can live. The rendered
-language shows moves; the materials stay available in the graph data, reachable
-through `enables` edges (Button *enables* Form — see
-[relationship-vocabulary.md](./relationship-vocabulary.md)), and a mechanism
-whose contract carries genuine force-resolution may earn a bilingual language
-entry named by the move. The settled commitments are the "Boundary stance"
-section of [pattern-role-model.md](../specs/pattern-role-model.md); the
-rendering stance is in [workspace-layout.md](../specs/workspace-layout.md).
+language shows moves; the materials stay reachable from the graph data through
+*component realisation* — frontmatter `realised_by` ids emitted as node
+metadata and resolved against Storybook's catalogue, a cross-dataset reference
+rather than an edge, since components are not nodes (see
+[relationship-vocabulary.md](./relationship-vocabulary.md) §Component
+realisation). A mechanism whose contract carries genuine force-resolution may
+earn a bilingual language entry named by the move. The settled commitments are
+the "Boundary stance" section of
+[pattern-role-model.md](../specs/pattern-role-model.md); the rendering stance
+is in [workspace-layout.md](../specs/workspace-layout.md).
 
 ## A control is not the unit of pattern-hood
 
@@ -52,14 +55,16 @@ territory contains: one move, several related moves, a composite pattern plus it
 ## Doors to the workshop
 
 An unfolding design exits the language into materials: decision trees may land
-on a mechanism, and pattern prose references components through cross-surface
-links.
-
-TODO: when pattern pages start needing to say "this move, realised
-here, requires adapting the material thus" and have no typed place to put it,
-that is the signal for a realisation vocabulary (the linked-datasets stage in
-[workspace-layout.md](../specs/workspace-layout.md)), not for moving the
-boundary.
+on a mechanism, and pattern prose cites components through cross-surface
+links. The realisation vocabulary this section once anticipated exists —
+frontmatter `realised_by` names the components that realise a move, while
+prose `<ComponentRef>` mentions stay claim-free citations
+([relationship-vocabulary.md](./relationship-vocabulary.md) §Component
+realisation). It arrived as a cross-dataset reference, not a boundary move:
+components remain outside the graph. Prose around the citation still carries
+the "requires adapting the material thus" telling; if that adaptation content
+ever needs structure of its own, that is a new decision, taken through the
+vocabulary changelog.
 
 ## The aspirational fusion
 

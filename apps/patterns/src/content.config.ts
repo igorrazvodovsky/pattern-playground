@@ -30,6 +30,12 @@ const patterns = defineCollection({
       z.string(),
       z.object({ to: z.string(), note: z.string().optional() }),
     ]))).optional(),
+    // Component realisation: Storybook docs ids of the components that realise
+    // this move. The single authorable home for the claim — <ComponentRef> prose
+    // mentions are citations, not claims. Cross-dataset: validated against
+    // Storybook's index.json, emitted as node metadata, never an edge. See
+    // docs/language/relationship-vocabulary.md §Component realisation.
+    realised_by: z.array(z.string()).optional(),
     // Situations: the design situation the move applies in and the one it leaves
     // behind. A resulting clause with `sets-up` emits a `precedes` edge carrying
     // the clause as derived situation text. See relationship-vocabulary.md §Situations.

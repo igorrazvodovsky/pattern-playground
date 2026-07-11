@@ -20,6 +20,10 @@ interface Node {
   role?: Role;
   group?: string;
   situation?: NodeSituation;
+  /** Component realisation: Storybook docs ids, authored in frontmatter
+   * `realised_by`. Cross-dataset metadata, not edges — components are not
+   * nodes (relationship-vocabulary.md §Component realisation). */
+  realisedBy?: string[];
 }
 
 // `umbrella` is retained as a deprecated alias of `collection` for back-compat during
@@ -334,11 +338,12 @@ function parseComponentRelAttrs(content: string, sourcePath: string): TypedLink[
     });
   }
 
-  // <ComponentRef> carries no rel: component realisation is a cross-dataset
-  // reference against Storybook's index.json, not a graph edge (see
-  // relationship-vocabulary.md §Component realisation). A rel here is an
-  // authoring error — components are not graph nodes, so the edge could never
-  // resolve; warn instead of silently dropping it.
+  // <ComponentRef> carries no rel: prose mentions are citations, not claims.
+  // The realisation claim's single authorable home is frontmatter `realised_by`
+  // (cross-dataset node metadata against Storybook's index.json, never a graph
+  // edge — see relationship-vocabulary.md §Component realisation). A rel here
+  // is an authoring error — components are not graph nodes, so the edge could
+  // never resolve; warn instead of silently dropping it.
   COMPONENT_REF_RE.lastIndex = 0;
   while ((m = COMPONENT_REF_RE.exec(content)) !== null) {
     const attrs = m[1];
@@ -347,7 +352,7 @@ function parseComponentRelAttrs(content: string, sourcePath: string): TypedLink[
     if (!id || !rel) continue;
     console.warn(
       `Realisation warning: ${sourcePath}: rel="${rel}" on <ComponentRef id="${id}"> — ` +
-      `component realisation is a cross-dataset reference, not a graph edge; remove the rel`,
+      `prose ComponentRefs are citations; author the realisation claim in frontmatter realised_by`,
     );
   }
 
@@ -755,6 +760,14 @@ for (const filePath of patternMdxFiles) {
   if (typeof fm.group === 'string') {
     groupById.set(id, fm.group);
     node.group = fm.group;
+  }
+
+  if (Array.isArray(fm.realised_by)) {
+    const realisedBy = fm.realised_by.filter((v): v is string => typeof v === 'string');
+    if (realisedBy.length !== fm.realised_by.length) {
+      console.warn(`Realisation warning: ${filePath}: realised_by entries must be Storybook docs-id strings — non-strings ignored`);
+    }
+    if (realisedBy.length > 0) node.realisedBy = realisedBy;
   }
 
   activityData.set(id, {

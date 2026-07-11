@@ -417,7 +417,10 @@
           }
         ]
       },
-      "group": "application"
+      "group": "application",
+      "realisedBy": [
+        "actions-application-form--docs"
+      ]
     },
     {
       "id": "formality",
