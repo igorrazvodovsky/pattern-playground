@@ -133,6 +133,15 @@ Replace the manual DOM creation and positioning with `pp-preview`:
 
 The refactored module becomes a thin adapter: resolve slug → fetch excerpt → set `pp-preview` content and anchor → call `show()`.
 
+While in here, *unify the fetch contract* (split-project move review, episode
+05): `fetchContent` in `link-preview.ts` re-implements `fetchPane`'s
+template/article extraction from `stack-store.ts` almost line for line, so the
+reading surface carries two definitions of "what a pattern page's body is",
+coupled only through the shared cache. Extract one shared fetch-and-extract
+function both consumers call. Coordinate with
+[2026-07-pane-island-hydration](./2026-07-pane-island-hydration.md), which
+touches the same seam and expects previews to stay inert.
+
 ### 5. Update graph
 
 Run `extract-graph-data.ts`. The new `pp-preview` component node should appear with:
