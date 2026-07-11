@@ -48,6 +48,27 @@ function updateStackClasses(stackEl: HTMLElement) {
   });
 }
 
+// Re-run Astro's hydration bootstrap scripts inside a freshly injected pane.
+// Panes 1+ arrive as an innerHTML string (see stack-store fetchPane), and
+// <script> tags inserted via innerHTML never execute. That leaves Astro's own
+// client-directive registration inert: a demo island (client:only="react")
+// upgrades on injection and calls start(), but Astro.only is undefined, so it
+// parks on an `astro:only` event that never fires and the frame stays empty.
+// Re-executing the directive script registers the directive and dispatches the
+// event, letting the island finish hydrating through Astro's own start path.
+// We only revive Astro's bootstrap scripts (they assign to self.Astro), never
+// author scripts, and mark each so re-renders don't run it twice.
+function reviveAstroScripts(root: HTMLElement) {
+  const scripts = root.querySelectorAll<HTMLScriptElement>('script:not([data-pp-revived])');
+  for (const old of scripts) {
+    if (old.src || !old.textContent?.includes('self.Astro')) continue;
+    const fresh = document.createElement('script');
+    fresh.textContent = old.textContent;
+    fresh.dataset.ppRevived = '';
+    old.replaceWith(fresh);
+  }
+}
+
 // Natural (un-stuck) left offset of a pane, summed from preceding pane widths.
 // offsetLeft can't be used: for a sticky pane it reports the *shifted* position.
 function naturalLeft(sections: HTMLElement[], paneIndex: number): number {
@@ -136,6 +157,20 @@ export function StackManager({ slug, title, children }: StackManagerProps) {
       stackEl.removeEventListener('scroll', schedule);
       window.removeEventListener('resize', schedule);
     };
+  }, [panes]);
+
+  // Hydrate demo islands in injected panes: revive their inert Astro bootstrap
+  // scripts once the pane's html has been committed to the DOM. Runs for each
+  // pane that just turned ready; reviveAstroScripts self-guards against reruns.
+  useEffect(() => {
+    panes.slice(1).forEach((pane, i) => {
+      if (pane.status !== 'ready') return;
+      if (prevPanesRef.current[i + 1]?.status === 'ready') return;
+      const article = stackRef.current?.querySelector<HTMLElement>(
+        `[data-pane-index="${i + 1}"] .pane-body > article`,
+      );
+      if (article) reviveAstroScripts(article);
+    });
   }, [panes]);
 
   useEffect(() => {

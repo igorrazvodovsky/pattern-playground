@@ -48,6 +48,11 @@ function extractContent(html: string, title: string): string {
   const heading = h1?.textContent?.trim() ?? title;
   h1?.remove();
 
+  // A hover preview is ephemeral, so it deliberately does not hydrate demos
+  // (unlike stacked panes, see StackManager reviveAstroScripts). Drop the demo
+  // blocks entirely rather than leave an empty, inert island frame in view.
+  wrapper.querySelectorAll('.demo-block').forEach((el) => el.remove());
+
   return `<strong class="link-preview__title">${heading}</strong><div class="link-preview__body">${wrapper.innerHTML}</div>`;
 }
 

@@ -43,3 +43,34 @@ render around an empty `<astro-island>`.
 A demo-carrying pattern (e.g. autocomplete) pushed as pane 1+ shows a
 running demo, not an empty frame; behaviour at pane 0 unchanged; the
 choice for link previews recorded; site build green.
+
+## Resolution
+
+The gate: a `client:only="react"` demo is emitted as an empty
+`<astro-island>` plus two inert Astro bootstrap scripts (the
+`astro-island` definition and the `only` client-directive registration)
+that Astro places _inside_ `<article>`. On injection the island upgrades
+(the element is defined globally by pane 0's `client:load` islands),
+runs `start()`, finds `Astro.only` undefined, and parks on an
+`astro:only` event — but the script that would register the directive
+and fire that event is inert, because `<script>` tags inserted via
+`innerHTML` never execute. Lit components and prose survive because Lit
+elements self-upgrade with no Astro-directive dependency.
+
+The fix (`StackManager.tsx` `reviveAstroScripts`, run in an effect when a
+pane turns ready): recreate those inert bootstrap `<script>` nodes in
+place so the browser runs them. This registers `Astro.only` and
+dispatches `astro:only`, and the parked island finishes hydrating
+through Astro's own start path — no manual mounting, no duplication of
+Astro's props format. The filter matches only Astro's own scripts (they
+assign `self.Astro`), never author scripts, and marks each so re-renders
+don't rerun it.
+
+Link previews stay inert: a hover popover is ephemeral and should not
+run demos. `link-preview.ts` `extractContent` now drops `.demo-block`
+elements so a preview shows no empty island frame rather than a hole.
+
+Verified live 2026-07-11: `/patterns/a11y?stackedNotes=autocomplete`
+(pane 0 has no demo, so `Astro.only` starts undefined) hydrates a live,
+interactive autocomplete in pane 1; pane 0 unchanged; build green; no
+console errors.
