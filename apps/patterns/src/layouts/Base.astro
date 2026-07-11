@@ -38,7 +38,10 @@ const GROUP_ORDER = ['foundations', 'qualities', 'activities', 'actions', 'opera
 // is chosen from role / domain / activityLevel; within a group, the optional `group`
 // facet (a slash-delimited path) reconstructs the sub-branches. Other projections
 // (by domain, by design phase, …) can be added as alternative grouping functions
-// over the same entries without moving files.
+// over the same entries without moving files. A projection is a site-wide mode —
+// exactly one active at a time. Since the Nav island persists and reads its props
+// once, projection switching is island *state*: all groupings computed here and
+// passed at first hydration, the active one chosen client-side.
 function groupKeyOf(entry: CollectionEntry<'patterns'>): string {
   const { role, activityLevel, domain } = entry.data;
   if (GROUP_ORDER.includes(entry.id)) return entry.id; // section overview umbrella
