@@ -568,10 +568,9 @@
     {
       "id": "keyboard-shortcuts",
       "title": "Keyboard shortcuts",
-      "category": "Actions",
+      "category": "Operations",
       "path": "/patterns/keyboard-shortcuts",
-      "role": "pattern",
-      "group": "coordination"
+      "role": "pattern"
     },
     {
       "id": "learnability",

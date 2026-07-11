@@ -374,7 +374,7 @@
       "mediation": "individual"
     },
     "keyboard-shortcuts": {
-      "activity-level": "action",
+      "activity-level": "operation",
       "lifecycle-stage": null,
       "atomic-category": "pattern",
       "mediation": "individual"

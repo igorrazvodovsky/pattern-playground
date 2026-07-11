@@ -1,10 +1,9 @@
 ---
 title: Keyboard shortcuts
 role: pattern
-activityLevel: action
+activityLevel: operation
 atomic: pattern
 mediation: individual
-group: coordination
 fun: 🤔 3/5. The adoption gap is the interesting part — knowing shortcuts exist and actually using them are separate events, and the strongest predictor of crossing that gap is working next to someone who already has.
 relationships:
   complements:
@@ -60,15 +59,9 @@ Strategic knowledge matters as much as shortcut knowledge. Expert users are not 
 
 ## Platform and internationalisation
 
-Keyboard layout is a property of the physical device. A shortcut that feels natural on QWERTY may be awkward or inaccessible on AZERTY, Dvorak, or any of the thousands of other layouts in wide use.
+Keyboard layout is a property of the physical device. A shortcut that feels natural on QWERTY may be awkward or inaccessible on AZERTY, Dvorak, or any of the thousands of other layouts in wide use — and character-based shortcuts rely on key labels, not physical positions, so the same combination resolves differently from one layout to the next. Modifier-key combinations travel better than bare character keys.
 
-The failure modes are deeper than they appear. Character-based shortcuts rely on key labels, not physical positions, which means the same combination resolves differently across layouts. Specific documented problems include: `ß`.toUpperCase() producing `SS` in German (two characters, breaking shortcut resolution); dead keys on French AZERTY producing composition events that behave inconsistently across browsers; numpad Shift overriding numlock in ways that break number-based shortcuts.
-
-Practical guidance:
-- Store shortcut remapping preferences per device (localStorage), not per user — keyboards are physical objects tied to specific machines
-- Allow users to remap shortcuts; provide a mechanism to restore defaults
-- Prefer modifier-key combinations (Ctrl, ⌘, Alt) over bare character keys for cross-layout safety
-- Test on at least one non-Latin QWERTY layout before shipping
+Let actors remap shortcuts, with a way back to the defaults. A remapping belongs with the device and its keyboard, not with the actor's account — the same person on a different machine faces a different keyboard.
 
 ## Accessibility
 
