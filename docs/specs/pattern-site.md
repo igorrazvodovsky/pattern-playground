@@ -100,7 +100,7 @@ lens; navigation and the graph are _projections_ over them.
 
 Following a pattern link does not replace the page — it pushes the target into a horizontal stack of panes.
 As the stack grows wider than the viewport, panes collapse into thin vertical _spines_ on both rails: earlier panes tuck under the left edge as you scroll right, later panes stay pinned at the right edge until you scroll back to them.
-Nothing ever scrolls off into nowhere — the deck is bounded by the viewport, like a hand of laid-out cards. State lives in the URL via `stackedNotes` query params, so a stacked view is shareable and survives reload.
+Nothing ever scrolls off into nowhere — the deck is bounded by the viewport, like a hand of laid-out cards. State lives in the URL via `stackedNotes` query params — including a pane's section anchor (`slug#fragment`, percent-encoded) — so a stacked view is shareable and survives reload down to anchor positions. The section is part of the address, not just wayfinding.
 
 The _geometry_ is mostly CSS `position: sticky`. A
 small rAF-throttled scroll handler in `StackManager.tsx` only reflects what is already painted onto two cosmetic state attributes which marks a note when it overlays another:

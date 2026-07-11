@@ -39,7 +39,10 @@ export function buildURL(panes: Pane[]): string {
   const base = `/patterns/${first.slug}`;
   if (rest.length === 0) return base;
   const params = new URLSearchParams();
-  for (const pane of rest) params.append('stackedNotes', pane.slug);
+  // A pane's section anchor is part of its address: encode it into the param
+  // ('#' is percent-encoded by URLSearchParams) so a shared or reloaded stack
+  // restores anchor positions, not just panes.
+  for (const pane of rest) params.append('stackedNotes', pane.hash ? pane.slug + pane.hash : pane.slug);
   return `${base}?${params.toString()}`;
 }
 
@@ -95,21 +98,29 @@ export const useStackStore = create<StackState>()((set, get) => ({
       return;
     }
 
+    // Param values may carry a section anchor ('slug#fragment', see buildURL).
+    const entries = stacked.map(s => {
+      const i = s.indexOf('#');
+      return i === -1
+        ? { slug: s, hash: undefined as string | undefined }
+        : { slug: s.slice(0, i), hash: s.slice(i) };
+    });
+
     const { cache } = get();
-    const placeholders: Pane[] = stacked.map(s => ({ slug: s, title: s, html: '', status: 'loading' }));
-    set({ panes: [pane0, ...placeholders], activeIndex: stacked.length });
+    const placeholders: Pane[] = entries.map(e => ({ slug: e.slug, title: e.slug, html: '', status: 'loading', hash: e.hash }));
+    set({ panes: [pane0, ...placeholders], activeIndex: entries.length });
 
     const results = await Promise.allSettled(
-      stacked.map(s => {
-        const hit = cache.get(s);
-        return hit ? Promise.resolve(hit) : fetchPane(s);
+      entries.map(e => {
+        const hit = cache.get(e.slug);
+        return hit ? Promise.resolve(hit) : fetchPane(e.slug);
       })
     );
 
     const fetched = results.map((r, i): Pane =>
       r.status === 'fulfilled'
-        ? r.value
-        : { slug: stacked[i], title: stacked[i], html: '', status: 'error' }
+        ? { ...r.value, hash: entries[i].hash }
+        : { slug: entries[i].slug, title: entries[i].slug, html: '', status: 'error' }
     );
 
     for (const p of fetched) if (p.status === 'ready') cache.set(p.slug, p);
@@ -118,13 +129,14 @@ export const useStackStore = create<StackState>()((set, get) => ({
 }));
 
 // Build-time-resolved set of valid pattern slugs from the content directory.
-// Keys match entry.id from getCollection('patterns'): e.g. 'actions/sense-making/tag'.
-// Mistyped or unmigrated slugs fall through to normal navigation instead of
-// landing in a broken stacked-notes pane.
+// The filename stem is the slug (matches entry.id via generateId in
+// content.config.ts, independent of any folder nesting): e.g. 'tag'.
+// Mistyped slugs fall through to normal navigation instead of landing in a
+// broken stacked-notes pane.
 const patternFiles = import.meta.glob('/src/content/patterns/**/*.mdx');
 export const validSlugs = new Set(
   Object.keys(patternFiles).map(p =>
-    p.replace('/src/content/patterns/', '').replace(/\.mdx$/, '')
+    p.split('/').pop()!.replace(/\.mdx$/, '')
   )
 );
 
