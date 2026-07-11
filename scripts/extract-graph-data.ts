@@ -97,7 +97,7 @@ interface TypedLink {
   /** When true, the listed pattern is the source and the page is the target. */
   inverse?: boolean;
   /** Which authoring channel produced this link — for I6 cross-channel duplicate detection. */
-  channel?: 'frontmatter' | 'inline' | 'component' | 'auto';
+  channel?: 'frontmatter' | 'inline' | 'component';
 }
 
 // --- Authoring vocabulary: alias → { canonical stored type, invert direction } ---
@@ -212,32 +212,16 @@ function categoryOf(role: string | undefined, activityLevel: string | null, doma
 }
 
 
-// Matches both Storybook-style links (components stories) and pattern-site /patterns/ links.
-// Group 1: Storybook id  Group 2: pattern-site path (may contain slashes)
-const LINK_PATTERN = /(?:\.\.\/\?path=\/docs\/([a-z0-9][a-z0-9-]*)--docs|\/patterns\/([\w][\w/-]*)(?:#[^\s)]*)?)/g;
-
-function linkCaptureToId(m: RegExpExecArray): string {
-  if (m[1]) return m[1];
-  return (m[2] ?? '').replace(/\//g, '-').replace(/-+/g, '-');
-}
-
 function stripComments(content: string): string {
   return content.replace(/\{\/\*[\s\S]*?\*\/\}/g, '');
 }
 
-function findLinksInText(text: string): string[] {
-  const ids: string[] = [];
-  let m: RegExpExecArray | null;
-  LINK_PATTERN.lastIndex = 0;
-  while ((m = LINK_PATTERN.exec(text)) !== null) ids.push(linkCaptureToId(m));
-  return ids;
-}
-
 // --- Relationship extraction: Phase B ---
 //
-// Three explicit channels (frontmatter, inline rel=, component props) + three
-// structural auto-typings (collection → surveys, quality-target → enacts,
-// decision-tree → recommends). Heading-text inference is removed.
+// Three explicit channels (frontmatter, inline rel=, component props); the two
+// judgement homes (situations, decision trees) emit their own edges elsewhere.
+// Heading-text inference is removed; structural auto-typing retired 2026-07-11
+// — untyped body links are citations and produce no edge.
 
 // `[text](/patterns/slug){rel="type"}` — {rel} must follow closing ) immediately.
 const INLINE_REL_RE = /\[[^\]]*\]\(\/patterns\/([\w][\w/-]*)(?:#[^\s)]*)?(?:[^)]*)\)\{rel="([^"]+)"\}/g;
@@ -373,27 +357,9 @@ function extractRelationships(
   typed.push(...parseInlineRelLinks(content, sourcePath));
   typed.push(...parseComponentRelAttrs(content, sourcePath));
 
-  // Auto-typing (structural, role-based — I7):
-  // 1. Untyped body links on collection pages → surveys.
-  const isCollectionSource = sourceRole === 'collection' || sourceRole === 'umbrella';
-  if (isCollectionSource) {
-    const typedTargets = new Set(typed.map((l) => l.target));
-    for (const id of findLinksInText(content)) {
-      if (typedTargets.has(id)) continue;
-      typed.push({ target: id, type: 'surveys', extractedFrom: 'auto:collection', channel: 'auto' });
-    }
-  }
-  // 2. Untyped body links to quality pages → enacts.
-  //    Applied in the edge-building loop (requires nodeMap to test target role).
-  //    Body links not already in `typed` are emitted as channel:'auto' type:'related'
-  //    so the loop can identify and promote them without creating non-quality prose edges.
-  if (!isCollectionSource) {
-    const typedTargets = new Set(typed.map((l) => l.target));
-    for (const id of findLinksInText(content)) {
-      if (typedTargets.has(id)) continue;
-      typed.push({ target: id, type: 'related', extractedFrom: 'auto:prose', channel: 'auto' });
-    }
-  }
+  // No structural auto-typing: untyped body links are citations and produce no
+  // edge (I7, retired auto-typings — changelog 2026-07-11). `recommends` comes
+  // from the decision-tree judgement home; `surveys` and `enacts` are authored.
 
   // Phase E — I6: warn on cross-channel duplicates (same target + type from different channels).
   const seen = new Map<string, string>(); // `target|type` → channel
@@ -812,42 +778,16 @@ function addEdge(edge: Edge) {
   edgeMap.set(key, edge);
 }
 
-function isPatternToQualityLink(sourceId: string, targetId: string): boolean {
-  const sourceNode = nodeMap.get(sourceId);
-  const targetNode = nodeMap.get(targetId);
-  return sourceNode !== undefined
-    && sourceNode.role !== 'quality'
-    && targetNode?.role === 'quality';
-}
-
 for (const [sourceId, links] of fileLinks.entries()) {
   for (const link of links) {
     if (!nodeMap.has(link.target)) {
-      // Explicitly authored links to unknown targets are typos or claims aimed
-      // outside the graph (e.g. a component id in `relationships:` — realisation
-      // claims belong in <ComponentRef> prose). Auto-typed prose links skip
-      // silently: the intra-site link validator already gates those routes.
-      if (link.channel !== 'auto') {
-        console.warn(`Relationships warning: ${sourceId}: ${link.type} target "${link.target}" names no known pattern — no edge emitted`);
-      }
+      // Authored links to unknown targets are typos or claims aimed outside
+      // the graph (e.g. a component id in `relationships:` — realisation
+      // claims belong in frontmatter `realised_by`).
+      console.warn(`Relationships warning: ${sourceId}: ${link.type} target "${link.target}" names no known pattern — no edge emitted`);
       continue;
     }
     if (sourceId === link.target) continue;
-
-    // Auto-typed prose links (channel:'auto', type:'related'):
-    // promote quality targets → enacts; everything else is decorative.
-    if (link.channel === 'auto' && link.type === 'related') {
-      if (isPatternToQualityLink(sourceId, link.target)) {
-        addEdge({
-          source: sourceId,
-          target: link.target,
-          type: 'enacts',
-          extractedFrom: 'auto:quality-target',
-        });
-      }
-      // Non-quality auto links are decorative under the new model — skip.
-      continue;
-    }
 
     const [src, tgt] = link.inverse ? [link.target, sourceId] : [sourceId, link.target];
     // An inverting alias (follows / composed-of / instances) authors from the

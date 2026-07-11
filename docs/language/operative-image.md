@@ -19,12 +19,10 @@ Storybook (`packages/components/src/stories/`) is the component workshop. The
 MDX pages are the source material from which the pattern graph is extracted.
 
 A first iteration of the typed-edge layer exists, but it is not yet operational.
-The graph is extracted from authored frontmatter `relationships:`, inline `rel=`
-annotations, and three structural auto-typings (`surveys`, `enacts`,
-`recommends`), with two judgement homes — node-side situations and decision
-trees — emitting their own edges and contributing node-level metadata. All existing edges have been migrated from heading-text inference to
-explicit authoring, and the `RelatedPatterns` component renders typed edges on
-pattern pages. Its edges are suggestion-grade: they help an actor reason about
+The graph is extracted from authored frontmatter `relationships:` and inline
+`rel=` annotations, with two judgement homes — node-side situations and
+decision trees — emitting their own edges and contributing node-level
+metadata. Its edges are suggestion-grade: they help an actor reason about
 possible moves, not match a situation against rules. See
 [relationship-vocabulary.md](./relationship-vocabulary.md).
 

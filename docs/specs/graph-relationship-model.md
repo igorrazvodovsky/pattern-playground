@@ -43,9 +43,7 @@ or route on a situation or hint — they render as prose for judgement.
   edge-side — each renders a judgement whose authorable home is a node's
   resulting-context clause or a decision tree respectively.
 
-## Edge sources (three channels + two judgement homes + three auto-typings)
-
-Edges come only from explicit authoring or structural auto-typing. Heading-text inference has been removed.
+## Edge sources
 
 Explicit channels (any MDX file):
 1. *Frontmatter `relationships:`* — keyed by rel type (or authoring alias), values are arrays of bare slugs or `{to, note}` objects.
@@ -55,10 +53,6 @@ Explicit channels (any MDX file):
 Judgement homes that emit their edges:
 1. *Frontmatter `situation.resulting` clauses with `sets-up:`* → one `precedes` edge per named pattern, carrying the clause as derived `situation` text.
 2. *Mermaid decision trees* (flowchart + frontmatter `decision-trees:` leaf map) → `recommends` edges carrying `situationalHints`.
-
-Structural auto-typings (invariant I7 — the only non-explicit edge sources):
-1. Untyped body links on `role:collection` pages → `surveys`
-2. Untyped body links from non-quality pages to quality pages → `enacts`
 
 Direction is fixed by the relation name. Authoring aliases (`follows`, `composed-of`, `instances`, `variants`) normalise to canonical types with inverted direction where needed — see `docs/language/relationship-vocabulary.md` for the full alias table.
 
