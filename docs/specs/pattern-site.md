@@ -91,7 +91,9 @@ lens; navigation and the graph are _projections_ over them.
   `coordination`, `evaluation`). Free-form; not derived from `activityLevel`.
 - `group` — a slash-delimited path used only to reconstruct the navigation
   sub-tree within a top group (e.g. `conversation/sequence-management`). It
-  records a structural grouping verbatim; it makes no semantic claim.
+  records a structural grouping verbatim; it makes no semantic claim. It is a
+  transitional scaffold carried over from the pre-flatten folder tree, slated
+  for retirement.
 - `domain` — the domain corpus an entry belongs to (e.g. `data-visualization`).
 
 ## Stacked-notes navigation

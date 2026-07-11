@@ -1624,7 +1624,8 @@
       "source": "block-based-editor",
       "target": "formality",
       "type": "enacts",
-      "extractedFrom": "auto:quality-target"
+      "label": "incremental formalisation — content carries only as much structure as currently serves, gained or shed in place, optional and reversible",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "conversation",
@@ -5187,7 +5188,8 @@
       "source": "workflow",
       "target": "formality",
       "type": "enacts",
-      "extractedFrom": "auto:quality-target"
+      "label": "the procedure-as-artifact sits on the formality spectrum — from natural-language instruction to executable code, entered gradually rather than specified upfront",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "workspace",
