@@ -1,0 +1,147 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Concepts/Task" />
+
+# Task
+
+## Purpose
+
+To provide a standardized execution container that enables an actor (human or artificial) to receive
+work specifications, execute activities, coordinate with related tasks, and provide feedback
+while maintaining accountability within hierarchical work structures.
+
+## Operational principle
+
+When an actor receives a task specification with defined objectives, constraints, and context,
+they execute the required activities within the specified scope, coordinate with peer and parent tasks
+as needed, utilise available resources and capabilities, provide progress feedback to the coordinating
+system, and complete execution when all criteria are satisfied and specified outputs are produced.
+
+## State
+
+- specification: the formal or informal description of what needs to be accomplished
+- status: submitted, planning, executing, clarifying, completed, failed
+- requester: the actor who initiated the task
+- fulfiller: the actor responsible for execution
+- resources: available tools, information, and capabilities accessible to the actor
+- constraints: temporal, resource, quality, or scope limitations
+- outputs: artifacts or results produced during execution
+- deadline
+- startedAt
+- progress: measurable indicators of completion degree
+- dependencies: explicit predecessor and successor task relationships
+- context: reference to originating planning context
+- feedback: progress and outcome information for planning system
+{/* - adaptability: indicators of which aspects can be modified during execution */}
+
+
+## Actions
+
+- create: establish a new task with initial specification and constraints
+- assign: allocate the task to a specific actor based on capability matching
+- start: begin active execution, transitioning from assigned to in-progress
+- coordinate: communicate with peer tasks and parent context as needed
+- update: modify task specification, constraints, or progress indicators
+- report: provide structured progress and status feedback
+- block: suspend execution due to dependencies or resource unavailability
+- request: ask for clarification, additional resources, or assistance
+- resume: continue execution after resolving blocking conditions
+- complete: finalize execution when all completion criteria are satisfied
+- fail: terminate execution when completion becomes impossible within constraints
+- addDependency: establish ordering relationships with other tasks
+- removeDependency: eliminate dependency relationships when no longer relevant
+- adapt: modify task parameters in response to planning updates
+
+
+{/*
+- `submit(request)`: User provides a task description
+- `plan()`: System analyzes request and creates execution strategy
+- `execute_step()`: System performs individual work components
+- `ask_user(question)`: System requests clarification
+- `provide_input(response)`: User supplies requested information
+- `complete(results)`: System delivers final outputs
+- `fail(reason)`: System terminates task due to inability to proceed
+*/}
+
+ {/* ## State transitions */}
+
+{/* Uninitialized → Submitted → Planning → Executing → (potentially Asking → Executing cycles) → Completed/Failed. */}
+
+## Synchronisations
+
+- Conversation
+- Planning
+- Delegation
+- Commitment
+- Domain
+- Intervention
+- Trigger
+- Interpretation
+
+{/*
+### Task-Conversation
+- Task.create → Conversation.start: Creating a task opens a conversation with acceptance criteria and authority
+- Task.complete → Conversation.declareSatisfied: Task completion prompts the authority to declare satisfaction
+- Conversation.declareSatisfied → Task (accepted): Conversation satisfaction accepts and closes the task
+- Conversation.close → Task.fail: Conversations closed without satisfaction mark tasks as failed
+
+### Task-Planning
+- Planning.decompose → Task.create: Objective decomposition automatically generates corresponding task hierarchies
+- Planning.structure → Task.addDependency: Temporal ordering establishes dependencies between tasks
+- Task.report → Planning.monitor: Task progress feeds back to planning for adaptive restructuring
+- Planning.revise → Task.update: Plan modifications trigger updates to task specifications and dependencies
+- Task.fail → Planning.analyse: Task failures initiate replanning to address obstacles
+- Planning.approve → Task.assign: Approved plans enable task assignment to capable actors
+
+### Task-Delegation
+- Delegation.transfer → Task.assign: Delegated authority enables direct task assignment within granted scope
+- Task.block → Delegation.escalate: Blocked tasks trigger escalation when exceeding delegated authority
+- Task.complete → Delegation.evaluate: Task completion provides performance data for capability assessment
+- Delegation.adjust → Task.update: Changes in delegated scope require task specification updates
+- Task.fail → Delegation.takeback: Task failures may trigger authority reclamation
+
+### Task-Commitment
+- Task.assign → Commitment.commit: Task assignment creates corresponding commitments from fulfilers
+- Commitment.reschedule → Task.retime: Commitment rescheduling updates task deadlines
+- Task.complete → Commitment (review): Task completion prompts commitment review rather than auto-fulfillment
+- Task.cancel → Commitment.clear: Task cancellation voids associated commitments
+
+### Task-Domain
+- Task.create → Domain.assign: New tasks are assigned to appropriate domains for context
+- Domain.criteria → Task.validate: Domain-specific criteria inform task validation and success conditions
+- Domain boundaries → Task.coordinate: Tasks coordinate across domain boundaries when necessary
+
+### Task-Intervention
+- Task.block → Intervention.raise: Blocked tasks trigger interventions for resolution
+- Task overdue → Intervention: Tasks past deadline without completion trigger interventions
+- Task.request → Intervention.raise: Fulfiler requests for clarification raise interventions
+- Intervention.resolve → Task.resume: Intervention resolutions enable blocked tasks to resume
+
+### Task-Trigger
+- Task.complete → Trigger: Task completion can trigger follow-on tasks or conversations
+- Task patterns → Trigger: Recurring task patterns can trigger automated task creation
+- Task.fail → Trigger: Task failures can trigger retry or escalation rules
+
+### Task-Interpretation
+- Task.create → Interpretation.record: New tasks record interpretive acts connecting intent with execution
+- Interpretation.refine → Task.update: Interpretation refinements update task specifications
+- Task.complete → Interpretation.validate: Task completion validates the interpretation accuracy
+*/}
+
+## Related patterns
+
+### Precursors
+
+- [Planning](../?path=/docs/concepts-planning--docs): before execution, tasks undergo planning to determine optimal approaches and resource requirements.
+- [Agency](../?path=/docs/qualities-agency--docs): defines the system's capability to act independently and make decisions during task execution.
+
+### Follow-ups
+
+- <PatternRef slug="activities/bot">Bot</PatternRef>: interprets task specifications and executes work using available tools and capabilities.
+- <PatternRef slug="activities/transparent-reasoning">Transparent reasoning</PatternRef>: makes the task execution process visible through step-by-step reasoning.
+- <PatternRef slug="activities/activity-log">Activity log</PatternRef>: records task actions, progress, and outcomes for review and accountability.
+- <PatternRef slug="activities/collaboration">Collaboration</PatternRef>: tasks serve as coordination scaffolding that structures collaborative work into manageable units.
+
+{/* ### Concepts */}
+{/* - [Item](../?path=/docs/concepts-item--docs): individual work artifacts or outputs produced during task execution. */}
+{/* - [Collection](../?path=/docs/concepts-collection--docs): organises multiple related tasks for batch management and coordination. */}

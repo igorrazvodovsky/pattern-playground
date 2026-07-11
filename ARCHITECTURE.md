@@ -7,65 +7,85 @@
 - *Lit* (Web Components) — primary component architecture, `pp-` prefix, Light DOM preferred
 - *React* — Storybook stories and complex compositions
 - *Storybook* — component documentation and development (port 6006)
+- *Astro* — pattern language site (port 4321); MDX, content collections, islands
 - *Tiptap* — rich text editing
 - *Tldraw* — spatial canvas experiments
 
 ### Backend
 - *Express* (Node.js) with *OpenAI* API integration
 - TypeScript with ES modules
-- Separate `server/` directory with its own `package.json`
+- `apps/server/` with its own `package.json`
 
 ## Directory map
 
 ```
-src/
-├── components/                 Web Components (Lit). Organised by composition, not AT level.
-│   ├── register-all.ts         Central registration point for all custom elements.
-│   ├── component-registry.ts   Dependency-aware registration ordering.
-│   └── PatternGraph.tsx        Force-directed graph of pattern relationships (React).
-│
-├── stories/                    Storybook documentation. Organised by Activity Theory levels.
-│   ├── operations/             Automatic, infrastructural patterns
-│   ├── actions/                Conscious, goal-directed patterns (lifecycle sub-groups)
-│   ├── activities/             Motive-driven, strategic patterns
-│   ├── foundations/            Theoretical grounding + material (colour, typography, etc.)
-│   ├── qualities/              Cross-cutting attributes (agency, conversation, etc.)
-│   ├── concepts/               Concept design vocabulary (Jackson)
-│   ├── data-visualization/     Charts and data encoding (placeholder)
-│   ├── data/                   Shared mock data (JSON files)
-│   └── utils/                  Storybook utility components
-│
-├── services/                   Framework-agnostic core services and API utilities
-├── styles/                     Global CSS (layers, tokens). No inline styles.
-├── schemas/                    JSON schemas
-├── tldraw/                     Tldraw canvas experiments
-├── tokens/                     Design tokens
-├── types/                      Shared TypeScript types
-├── utility/                    Shared utility functions
-├── hooks/                      React hooks
-├── activity-levels.json        Generated AT classification data
-└── pattern-graph.json          Generated graph data (nodes + edges)
+packages/
+└── components/             Component library — Lit + React, Storybook (:6006)
+    ├── src/
+    │   ├── components/         Web Components (Lit). Organised by composition.
+    │   │   ├── register-all.ts     Central registration for all custom elements.
+    │   │   ├── component-registry.ts
+    │   │   └── PatternGraph.tsx    Force-directed graph (React).
+    │   ├── stories/            Storybook documentation. AT-level projection for component stories.
+    │   │   ├── operations/         Automatic/infrastructural components
+    │   │   ├── actions/            Conscious/goal-directed components
+    │   │   ├── activities/         Motive-driven compositions
+    │   │   ├── foundations/        Material substrate docs + unmigrated language entries
+    │   │   ├── qualities/          Substrate docs + serves as link target (pending cross-ref migration)
+    │   │   ├── concepts/           Concept design vocabulary
+    │   │   ├── data-visualization/ Charts and data encoding
+    │   │   ├── data/               Shared mock data (JSON)
+    │   │   └── utils/              Storybook utility components
+    │   ├── services/           Framework-agnostic services and API utilities
+    │   ├── styles/             Global CSS (layers, tokens). No inline styles.
+    │   ├── tokens/             Design tokens
+    │   ├── types/              Shared TypeScript types
+    │   ├── utility/            Shared utility functions
+    │   └── hooks/              React hooks
+    └── .storybook/             Storybook config
 
-server/                         Express backend (separate package)
-plans/                          Executable specifications
-references/                     Research inputs — papers, notes, academic sources
-docs/                           Agent-facing knowledge base
-├── index.md                    Sectioned docs map
-├── specs/                      Settled specifications
-├── project/                    Project framing and Storybook taxonomy
-├── language/                   Pattern definition, graph vocabulary, theory
-├── quality/                    Testing, review, commenting
-└── research/                   References index for top-level research notes
-.claude/rules/                  Path-activated coding rules
+apps/
+├── patterns/               Pattern language site — Astro (:4321)
+│   └── src/
+│       ├── content/patterns/   Pattern MDX/MD (role:pattern, role:umbrella, role:quality, role:foundation)
+│       │                       slug = filename stem; classification is frontmatter
+│       │                       facets (activityLevel, lifecycle, group, domain), not folders
+│       ├── content.config.ts   Zod-validated content collection schema
+│       ├── pages/              Astro page routes
+│       ├── layouts/            Astro layouts
+│       ├── components/         Site-specific React/Astro components
+│       └── data/               Generated graph data (pattern-graph.json, activity-levels.json)
+│
+└── server/                 Express backend (:3000)
+    ├── handlers/
+    ├── services/
+    └── server.ts
+
+scripts/                    Workspace-level scripts
+├── extract-graph-data.ts   Graph extractor (reads both workspaces; outputs to apps/patterns/src/data/)
+plans/                      Executable specifications (workspace-level)
+references/                 Research inputs — papers, notes, academic sources
+docs/                       Agent-facing knowledge base (workspace-level)
+├── index.md                Sectioned docs map
+├── specs/                  Settled specifications
+├── project/                Project framing and Storybook taxonomy
+├── language/               Pattern definition, graph vocabulary, theory
+├── quality/                Testing, review, commenting
+└── research/               References index for top-level research notes
+.claude/rules/              Path-activated coding rules
 ```
 
-## The dual-projection tension
+## Two surfaces
 
-`src/components/` is organised *compositionally* — by what things are made of (following Atomic Design principles). `src/stories/` is organised *experientially* — by Activity Theory levels (what role a pattern plays in human activity). These two organisations coexist deliberately: components don't need to match the story tree, and the story tree doesn't dictate component structure.
+The project runs two documentation surfaces:
 
-The settled taxonomy specification is in [docs/specs/storybook-taxonomy.md](docs/specs/storybook-taxonomy.md), with detailed placement guidance in [docs/project/storybook-taxonomy.md](docs/project/storybook-taxonomy.md).
+- *Storybook* (`packages/components/`) — GUI component development and demonstration.
 
-## Key patterns
+- *Pattern site* (`apps/patterns/`) — the pattern language documentation & structure.
+
+Workspace boundary specification: [docs/specs/workspace-layout.md](docs/specs/workspace-layout.md).
+
+## Some design details
 
 - *Progressive enhancement* — CSS-only baselines, JavaScript enhancement layered on top
 - *Centralised registration* — all `customElements.define()` calls go through `register-all.ts`

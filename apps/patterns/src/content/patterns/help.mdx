@@ -1,0 +1,87 @@
+---
+title: Help
+role: pattern
+activityLevel: activity
+atomic: pattern
+mediation: individual
+fun: 🗺️ 2/5. Mapping out the basics.
+relationships:
+  related:
+    - to: embedded-intelligence
+      note: The proactive sibling to Help. If Help explains how to do X, Embedded Intelligence offers to do X for you.
+    - to: explanation
+      note: The core content unit of high-quality help.
+    - to: status-feedback
+      note: Communicates system state; the "Recover" purpose often begins with status feedback.
+    - command-menu
+    - bot
+  enacts:
+    - to: learnability
+      note: help meets the actor at the moment of friction, both on first use and later when memory fades; learning happens in context rather than ahead of time
+    - to: conversation-quality
+      note: 'help is a dialogue: the actor asks at the point of friction and the system answers in context'
+  composed-of:
+    - to: annotation
+      note: annotation supplies the mechanism for attaching help to specific elements
+---
+
+import { MermaidDiagram } from '@components/MermaidDiagram';
+
+
+A [conversation](/patterns/conversation-quality) channel for sensemaking. It allows users to recover context ("Where am I?"), acquire domain knowledge ("What does this mean?"), and bridge the gulf of execution ("How do I do this?").
+
+> 💭 Help is primarily *pull-based* (user seeks understanding). When the system proactively offers to *do* things, that is [embedded intelligence](/patterns/embedded-intelligence).
+
+## Why users seek help
+
+### Do: How do I execute this task?
+
+Users need to act but face interface friction. Help here is operational—tooltips, input hints, empty states, wizards. The goal is immediate unblocking, not deep understanding.
+
+### Study: Why does this work this way?"
+
+Users want to build mental models of the underlying system or domain logic. Help here is conceptual—[explanations](/patterns/explanation), documentation, "learn more" sidebars. Example: "Why is this option disabled? Because the fiscal year is closed."
+
+### Locate: Where is X?
+
+Users know something exists but can't find it. This cuts across depth levels—locating a button is operational, locating a policy definition is conceptual. Mechanisms include search, index, [command menu](/patterns/command-menu), and glossary.
+
+### Recover: Something went wrong—now what?
+
+Users encounter errors or get stuck. Recovery may require quick interface correction (operational) or deeper diagnostic understanding (conceptual). Often begins with [status feedback](/patterns/status-feedback) that signals the problem.
+{/* Mechanisms include error messages, troubleshooting guides, and contextual suggestions.  */}
+When recovery needs exceed what static content can provide, help shifts to *conversation*—[bots](/patterns/bot) or chat interfaces that can reason about the specific context.
+
+## Subject matter
+
+Each help request concerns either:
+
+- *Interface*: How to operate the UI—where to click, what fields to fill, how to navigate. Help here addresses execution mechanics.
+- *Domain*: Why the system works this way—business rules, data relationships, regulatory constraints. Help here builds mental models of the underlying logic.
+
+The same purpose can require either. A user seeking to "Do" might need interface help ("Where's the export button?") or domain help ("What format meets compliance requirements?"). "Locate" cuts across both—finding a button is interface; finding a policy definition is domain.
+
+## Contextual availability
+
+Help effectiveness depends on *proximity to point of need*. The closer help is to where users encounter friction, the less cognitive overhead required to find and apply it.
+
+- *Inline*: Guidance embedded directly in the flow—input hints, empty states, field-level validation messages.
+- *Just-in-time*: Revealed on specific interaction—tooltips on hover, contextual panels on focus.
+
+### What belongs where
+
+<MermaidDiagram client:only="react" chart={`
+flowchart TD
+  A[Placing help content]
+  A --> B{Error prevention or warning?}
+  B -->|Yes| INLINE[Inline]
+  B -->|No| C{Requires sustained attention?}
+  C -->|Yes| STANDALONE[Standalone]
+  C -->|No| D{User mid-task?}
+  D -->|Yes| INLINE
+  D -->|No| JIT[Just-in-time]
+`} />
+
+## To-do
+
+Guided tours and overlays

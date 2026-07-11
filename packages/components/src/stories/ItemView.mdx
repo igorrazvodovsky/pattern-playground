@@ -1,0 +1,23 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import * as ItemViewStories from './ItemView.stories';
+
+<Meta of={ItemViewStories} tags={['activity-level:action', 'atomic:component', 'role:component', 'mediation:individual']} />
+
+# Item view
+
+An adapter-based renderer that presents a single entity at a chosen scope, from a minimal reference to a full working surface. The move it mechanises — choosing the right level of detail for the actor's current task — is <PatternRef slug="item-view">item view</PatternRef>.
+
+<Story of={ItemViewStories.FullView} />
+
+## Behaviours
+
+- *Adapter registry.* A `ContentAdapterProvider` maps `contentType` to a rendering adapter; unknown types fall back to a default renderer, so the component never renders nothing.
+- *Scopes.* `micro`, `mini`, `mid`, `maxi` — one component, one entity, four densities. The scope names are size-shaped; the semantic reading (reference, summary, detail, full) lives with the pattern.
+- *Interaction modes.* `preview`, `inspect`, `edit`, `transform` — orthogonal to scope; an adapter decides what each mode affords at each scope.
+- *Escalation.* `onEscalate(targetScope)` lets an embedded view request a richer scope from its host rather than navigating away itself.
+
+## Related patterns
+
+- [Reference](../?path=/docs/primitives-reference--docs) — inline @mention-style references build on the same adapter registry
+- [Card](../?path=/docs/actions-sense-making-card--docs) — a common host for the *summary* scope
+- [Dialog](../?path=/docs/components-dialog--docs) & [Drawer](../?path=/docs/components-drawer--docs) — transient containers for the *detail* scope

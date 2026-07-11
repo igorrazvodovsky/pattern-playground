@@ -1,0 +1,47 @@
+---
+title: Grouping
+role: pattern
+group: sense-making
+activityLevel: action
+atomic: composition
+mediation: individual
+fun: 🙂 3/5. Dependency.
+relationships:
+  precedes:
+    - data-view
+  complements:
+    - to: filtering
+      note: narrows what groups show up
+    - to: sorting
+      note: organises groups
+---
+
+import { DataViewGroupingSlice } from '@pkg/demos/data-view';
+
+The clustering of items by shared attributes, balancing meaningful structure against the fragmentation of a flat list. Grouping helps actors detect patterns, draw comparisons, and focus on the subsets that matter most to their current goal.
+
+<Demo label="Grouping inside a data view">
+  <DataViewGroupingSlice client:only="react" />
+</Demo>
+
+## Examples
+
+### Table
+
+`TODO:`
+
+### Canvas
+
+...
+
+## Orientation
+
+`TODO:`
+
+## Nesting
+
+`TODO:` Well, maybe not just yet.
+
+## Related components
+
+- <ComponentRef id="primitives-details--docs">Details</ComponentRef> — native expand/collapse for group sections

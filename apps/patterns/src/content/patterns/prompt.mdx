@@ -1,0 +1,95 @@
+---
+title: Prompt
+role: pattern
+activityLevel: activity
+atomic: pattern
+mediation: individual
+fun: 🙂 5/5. A part of a bigger attempt to map LLM-related patterns.
+relationships:
+  precedes:
+    - to: bot
+      note: the prompt articulates the request the bot acts on
+    - to: generated-content
+      note: the input that leads to generated content.
+    - to: ai-tuning
+      note: lets the actor refine how the model gets prompted
+  enables:
+    - to: conversation
+      note: the prompt is the turn-level move a conversation with an AI is built from
+  enacts:
+    - to: agency
+      note: the actor directs the system in their own words; initiative stays with whoever frames the request
+---
+
+import { PromptBasicDemo, PromptWithMaterialReferencesDemo, PromptQualityFeedbackDemo, PromptTemplateDemo } from '@pkg/demos/prompt';
+
+The articulation of intent to a machine, transforming a vague need into a request precise enough for a [bot](/patterns/bot) to act on meaningfully.
+
+<Demo label="Structured prompt composer">
+  <PromptBasicDemo client:only="react" />
+</Demo>
+
+## Intent
+
+explicit and implicit...
+
+## Input mechanisms
+
+### Structured prompt
+
+<Demo>
+  <PromptTemplateDemo client:only="react" />
+</Demo>
+
+## Reference materials with @mentions
+
+Using @mentions to reference documents, images, code, and other materials provides context for better LLM responses.
+
+<Demo label="Prompt with @-referenced materials">
+  <PromptWithMaterialReferencesDemo client:only="react" />
+</Demo>
+
+## Prompt guidance and scaffolding
+
+Bridging the gap between fuzzy idea inside a human's head and what makes an effective prompt for LLMs.
+
+### Quality feedback
+
+<Demo label="Prompt quality feedback">
+  <PromptQualityFeedbackDemo client:only="react" />
+</Demo>
+
+### Editing assistance
+
+### Templates
+
+...
+
+### Suggestions
+
+...
+
+### Prompt evaluation
+
+...
+
+### Reflective prompting
+
+{/* TODO: Here or in suggestions+link */}
+Real-time, context-aware prompt completions derived dynamically from users’ immediate and historical interactions.
+
+{/* TODO: relations set aside, kept for review (not active edges):
+Complementary patterns:
+- LLM model selection
+- [Messaging](/patterns/components-messaging)
+- [Suggestion](/patterns/suggestion)
+*/}
+
+## To-do
+
+Precursors to capture: *session*, *thread*, and the other conversational containers a prompt sits within.
+
+## Resources & references
+
+- [shapeof.ai](https://www.shapeof.ai/)
+- [aiuxpatterns.com](https://aiuxpatterns.com/)

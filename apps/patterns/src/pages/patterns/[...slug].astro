@@ -1,0 +1,33 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { Demo } from '../../components/Demo';
+import { ComponentRef } from '../../components/ComponentRef';
+import RelatedPatterns from '../../components/RelatedPatterns.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('patterns');
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+<Base title={entry.data.title} slug={entry.id}>
+  <article class="flow" data-pagefind-body data-pagefind-meta={`title:${entry.data.title}`}>
+    <header>
+      <div class="meta">
+        <!-- <span class="badge role">{entry.data.role}</span> -->
+        <!-- {entry.data.activityLevel && <span class="badge">{entry.data.activityLevel}</span>} -->
+        <!-- {entry.data.mediation && <span class="badge">{entry.data.mediation}</span>} -->
+        <h1>{entry.data.title}</h1>
+      </div>
+    </header>
+    <pp-toc heading="On this page" data-pagefind-ignore></pp-toc>
+    <Content components={{ Demo, ComponentRef }} />
+    {entry.data.showRelated !== false && <RelatedPatterns slug={entry.id} />}
+  </article>
+</Base>

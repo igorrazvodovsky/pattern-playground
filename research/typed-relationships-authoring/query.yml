@@ -1,0 +1,32 @@
+story: docs/specs/graph-relationship-model.md
+topic: authoring typed relationships in MDX (frontmatter + inline rel + decision trees) with a generated cross-reference index
+interaction: |
+  An author writes a pattern page. Relationships to other patterns are declared explicitly —
+  in a frontmatter `relationships:` block, and/or inline on body links via a `rel` attribute
+  (`[Promenade](/patterns/promenade){rel="precedes"}`), drawn from a controlled vocabulary.
+  Decision-tree (Mermaid) routing supplies conditional `recommends` edges. The build generates
+  a "completes / completed-by" cross-reference index from the union of edges; untyped links are
+  decorative. Nothing is inferred from prose wording.
+context: |
+  A two-language pattern/component library whose graph was previously derived by matching
+  Related-patterns heading wording to edge types — brittle and hard to predict. The move is
+  toward explicit, declared edges. The project's stance is that edges are suggestion-grade
+  hints, authored loosely, and that relationships should read naturally in prose (Alexander's
+  woven references plus a structured completes/completed-by index).
+questions:
+  - Does requiring authors to type links explicitly cause under-typing or abandonment, the way
+    early hypertext systems found? What keeps the authoring burden sustainable?
+  - Do projects that generate cross-reference sections from metadata regret it — on prose
+    quality, staleness, or loss of woven narrative?
+  - Two declaration channels (frontmatter + inline rel) — does redundancy/ambiguity ("where is
+    this edge declared?") outweigh the flexibility?
+  - Does making suggestion-grade edges declarative quietly ossify a graph meant to stay loose
+    (controlled-vocabulary lock-in, premature type commitment, link-type proliferation)?
+  - How do bidirectional-link systems handle a relationship's annotation when rendering it from
+    the endpoint that did not author it (the directional-note problem)?
+keywords:
+  - hypertext typed links authoring cost
+  - link taxonomy Trigg Conklin Halasz DeRose
+  - frontmatter graph generated cross-references
+  - Obsidian Dataview Dendron Foam maps of content
+  - Diátaxis cross-reference links drift

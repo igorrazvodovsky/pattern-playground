@@ -1,0 +1,37 @@
+---
+title: "Inline confirmation"
+role: pattern
+activityLevel: operation
+atomic: pattern
+mediation: individual
+description: "Gathering a second, in-place commitment before a destructive act, without pulling the actor out of context."
+relationships:
+  related:
+    - to: deletion
+      note: "the action it most commonly guards; deletion's decision tree recommends it for items that take minutes, not seconds, to recreate"
+    - to: action-consequences
+      note: "the framework that places this move — moderate recovery effort, clear intent, context worth keeping; one rung above undo-only, one below modal"
+  alternative:
+    - to: undo
+      note: "moves the safety net after the act instead of before it; prefer undo when the action reverses cleanly"
+---
+
+import { InlineConfirmationDemo } from '@pkg/demos/inline-confirmation';
+
+The actor triggers something and the system needs to be sure they mean it.
+Inline confirmation keeps the question where the intent was expressed: the triggering control transforms in place into a confirm/cancel pair, and only a second, deliberate activation completes the act.
+Because the confirm affordance appears where the actor is already looking and clicking, the friction added is one decision, not a context switch — enough to interrupt autopilot, not enough to interrupt work.
+
+<Demo label="Inline confirmation">
+  <InlineConfirmationDemo client:only="react" />
+</Demo>
+
+## Behaviours
+
+- *Timeout reversion.* If the actor doesn't confirm within a few seconds, the control reverts to its resting state — an abandoned near-miss should leave no armed control behind.
+- *Explicit cancel.* Offer a cancel affordance alongside confirm rather than relying on the timeout alone; changing your mind should not require waiting.
+- *Distinct confirm state.* The confirming control must look visibly armed (colour, icon fill) so the actor can tell a loaded control from an idle one.
+
+## Choosing against the alternatives
+
+Inline confirmation sits between two cheaper and one heavier option. When the act reverses cleanly, skip confirmation entirely and offer [undo](/patterns/undo) with [transient feedback](/patterns/transient-feedback) — recovery after beats interrogation before. When consequences are severe or affect others, escalate to a <ComponentRef id="components-dialog--docs">dialog</ComponentRef> that can spell them out. Inline confirmation covers the middle ground.

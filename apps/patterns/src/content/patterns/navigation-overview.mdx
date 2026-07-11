@@ -1,0 +1,158 @@
+---
+title: Overview
+role: collection
+group: navigation
+activityLevel: action
+fun: 🗺️ 2/5. Mapping out the basics.
+# body already links every surveyed pattern inline; skip the rendered block
+showRelated: false
+decision-trees:
+  - id: navigation-overview
+    leaves:
+      "Pan and zoom": pan-and-zoom
+      "Step by step": step-by-step
+      "Pyramid": pyramid
+      "Multilevel tree": multilevel-tree
+      "Flat navigation": flat-navigation
+      "Fully connected": fully-connected
+      "Hub and spoke": hub-and-spoke
+      "Overview & Detail": overview-detail
+relationships:
+  surveys:
+    - to: information-architecture
+      note: structural and organizational foundation that navigation models manifest
+    - to: interaction
+      note: how structural choices shape interaction behaviour
+    - to: agency
+      note: what navigation structure implies for the actor's agency and control
+    - to: hub-and-spoke
+      note: central hub lists all sections, actors return to hub for cross-section navigation
+    - to: overview-detail
+      note: overview and detail displayed simultaneously (split view)
+    - to: fully-connected
+      note: every page links to all others through global navigation
+    - to: multilevel-tree
+      note: hierarchical structure with global navigation for main pages, local navigation for subpages
+    - to: step-by-step
+      note: prescribed step sequences with back/next controls
+    - to: pyramid
+      note: hub lists sequence, actors can navigate sequentially or jump to any item
+    - to: pan-and-zoom
+      note: continuous spatial navigation through large single spaces
+    - to: flat-navigation
+      note: minimal navigation, all functions accessible in one place
+    - to: hybrid-patterns
+      note: hybrids combining multiple navigation models
+    - malleability
+    - deep-linking
+    - searching
+    - command-menu
+---
+
+import { MermaidDiagram } from '@components/MermaidDiagram';
+
+
+The selection of a connective topology that shapes how actors move between destinations, balancing freedom of movement against orientation cost. Each model determines which [navigation behaviours](/patterns/interaction#navigation) are possible and how [agency](/patterns/agency) is distributed.
+
+## Models
+
+- [Hub and spoke](/patterns/hub-and-spoke) — central hub lists all sections, actors return to hub for cross-section navigation
+- [Overview and detail](/patterns/overview-detail) — simultaneous display of collection and item (Split View)
+- [Fully connected](/patterns/fully-connected) — every page links to all others through global navigation
+- [Multilevel tree](/patterns/multilevel-tree) — hierarchical structure with global navigation for main pages, local navigation for subpages
+- [Step by step](/patterns/step-by-step) — prescribed sequences with back/next controls
+- [Pyramid](/patterns/pyramid) — hub lists sequence, actors can navigate sequentially or jump to any item
+- [Pan and zoom](/patterns/pan-and-zoom) — continuous spatial navigation through large single spaces
+- [Flat navigation](/patterns/flat-navigation) — minimal navigation, all functions accessible in one place
+- [Hybrid patterns](/patterns/hybrid-patterns) — combinations of multiple models
+
+## Decision tree
+
+<MermaidDiagram client:only="react" chart={`
+flowchart TD
+    A[Single continuous space (map, canvas, timeline)?]
+    A -->|Yes| PZ[Pan and zoom]
+    A -->|No| B[Prescribed sequence with dependencies?]
+
+    B -->|Yes| C[Strict ordering required?]
+    C -->|Yes| SBS[Step by step]
+    C -->|No, flexible| PYR[Pyramid]
+
+    B -->|No| D[Deep hierarchy? (3+ levels, 50+ pages)]
+    D -->|Yes| TREE[Multilevel tree]
+    D -->|No| E[Single workspace with rich toolset?]
+
+    E -->|Yes| FLAT[Flat navigation]
+    E -->|No| F[Cross-section workflows common?]
+
+    F -->|Yes| FC[Fully connected]
+    F -->|Rare| HUB[Hub and spoke]
+    F -->|Simultaneous| SPLIT[Overview & Detail]
+`} />
+
+### Refining by behaviour
+
+- Navigate to known locations → [Fully connected](/patterns/fully-connected), [tree](/patterns/multilevel-tree)
+- Browse and discover → [Pyramid](/patterns/pyramid), [pan and zoom](/patterns/pan-and-zoom)
+- Complete focused tasks → [Step by step](/patterns/step-by-step), [flat](/patterns/flat-navigation)
+- Monitor multiple areas → [Hub and spoke](/patterns/hub-and-spoke)
+
+### Refining by agency
+
+- Maximum control → [Fully connected](/patterns/fully-connected), [pan and zoom](/patterns/pan-and-zoom), [flat](/patterns/flat-navigation)
+- Balanced guidance → [Pyramid](/patterns/pyramid), [tree](/patterns/multilevel-tree)
+- System-guided → [Hub and spoke](/patterns/hub-and-spoke), [step by step](/patterns/step-by-step)
+
+### Refining by scale
+
+- Small (< 10) → [Fully connected](/patterns/fully-connected)
+- Medium (10-50) → [Hub](/patterns/hub-and-spoke) (mobile), [tree](/patterns/multilevel-tree) (desktop), [pyramid](/patterns/pyramid) (sequences)
+- Large (50+) → [Hybrid patterns](/patterns/hybrid-patterns)
+
+### Hybrid combinations
+
+When single models don't fit:
+
+- Hub + fully connected — hub feels constraining, cross-section workflows frequent
+- Tree + fully connected — large volume with clear sections, cross-section relationships
+- Step by step + pyramid — logical sequence but flexible ordering, varying expertise
+- Fully connected + pan and zoom — mix discrete and spatial content
+- Hub + flat — multiple independent workspaces, each feature-rich
+- Pyramid + tree — many sequences requiring category organisation
+- Pyramid + filtering — large collections that need both sequence and narrowing
+
+## Malleable Routing
+
+In a [malleable system](/patterns/malleability), the target of a link is not a fixed location. Users can choose *how* they want to open a resource, affecting the [composition](/patterns/malleability#3-composition-topology) of their workspace:
+
+*   **Standard**: Navigate to new page (Replace current context).
+*   **Split**: Open side-by-side (Compare contexts).
+*   **Peek**: Open in overlay/modal (Temporary reference).
+*   **Background**: Open in background tab (Queue for later).
+
+Navigation becomes a tool for composition.
+
+## Implementation considerations
+
+### Universal navigation features
+
+All models benefit from:
+- [Deep linking](/patterns/deep-linking) for addressability
+- [Searching](/patterns/searching) for direct access
+- <ComponentRef id="primitives-breadcrumbs--docs">Breadcrumbs</ComponentRef> for context
+- [Command menu](/patterns/command-menu) for power users
+
+### UI design independence
+
+Models can be rendered in various ways:
+- Tabs, menus, sidebar trees for *fully connected* or *tree*
+- Cards, lists, grids for *hub and spoke*
+- Progress indicators, stepper components, or next/previous for *step by step*
+
+## To-do
+
+- Capture [navigation model](/patterns/interaction#navigation) ↔ navigation-behaviour relationships. Each model supports or constrains specific behaviours. Likely needs the behaviours to become graph-addressable first.
+
+## Resources & references
+
+Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed.

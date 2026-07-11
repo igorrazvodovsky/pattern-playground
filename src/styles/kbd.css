@@ -1,9 +1,0 @@
-@layer components {
-  kbd {
-    border: var(--border);
-    padding: var(--space-2xs) var(--space-xs);
-    border-radius: var(--radius-s);
-
-    font-size: var(--text-xs);
-  }
-}

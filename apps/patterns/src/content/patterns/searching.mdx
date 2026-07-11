@@ -1,0 +1,83 @@
+---
+title: Searching
+role: pattern
+group: seeking
+activityLevel: action
+atomic: composition
+mediation: individual
+lifecycle: seeking
+fun: 🗺️ 2/5. Mapping out the basics.
+situation:
+  resulting:
+    - clause: >-
+        a search can fail, leaving the actor with intent but no result — browsing
+        the structure ("browse by category instead") is the fallback seeking move
+      sets-up: [navigation-overview]
+relationships:
+  instances:
+    - to: command-menu
+      note: searching is the broader seeking move, applied to a command vocabulary
+  precedes:
+    - to: data-view
+      note: displays the result set a search produces
+  complements:
+    - to: filtering
+      note: often used after a search to refine results; in AI-search, filters are the output of the search query
+    - to: prompt
+      note: modern search inputs are evolving into prompt interfaces, accepting instructions alongside keywords
+    - to: autocomplete
+      note: real-time narrowing of query suggestions as the actor types
+    - to: suggestion
+      note: '"did you mean?" and related patterns that guide query formulation'
+---
+A transactional method for retrieving specific information by matching actor intent (query) with system content. Unlike [Navigating](/patterns/interaction#navigating) (where actors move through structure) or [Browsing](/patterns/interaction#browsing) (where actors scan for patterns), Search relies on the system to do the heavy lifting of evaluation and discrimination.
+
+## Anatomy
+
+The search experience spans three distinct phases, often distributed across different UI components:
+
+### 1. Entry & query formulation
+The point where the actor expresses intent.
+- Keyword search: Matches exact strings or tags. Best for specific items (names, IDs).
+- Natural language prompt: Describes the desired outcome or characteristics. Best for complex queries that would otherwise require heavy filtering.
+- Scope:
+    - Global: Searches the entire system.
+    - Local: Searches only within the current context.
+
+### 2. Processing & translation
+- Lexical and statistical retrieval: explicit algorithms relying on patterns in the text.
+- AI intent translation: The system bridges the gap between the actor's language and the system's taxonomy.
+
+### 3. Results & refinement
+- Instant results: Popover or dropdown.
+- Search results view: A dedicated [data view](/patterns/data-view).
+
+### Stability & undo
+Search shouldn't destroy context. It should be easily reversible, returning the actor to their previous state (e.g., scroll position) without friction.
+
+{/* ## Decision tree */}
+{/* ### Search vs. Browsing */}
+{/* - **Do I know where it is?** → Navigation. */}
+{/* - **Do I know what it is called?** → Search. */}
+{/* - **Recall vs. recognition**: Search relies on *recall* (knowing the name), while browsing relies on *recognition*. */}
+{/* - **Mental model**: Navigation teaches the structure and vocabulary of the system. Valid search requires the user to already possess this knowledge. */}
+{/* ### Search vs. Filter */}
+{/* - **Do I want to refine the current set?** → Filter. */}
+{/* - **Do I want to find a specific item?** → Search. */}
+{/* *Note: AI blurs this line. A search query can be "translated" into a set of applied filters.*
+
+### Search vs. Prompt
+- **Search**: Typically retrieval of *existing* items.
+- **Prompt**: Can be retrieval, but often implies generation or execution of complex tasks.
+- **Convergence**: Modern search bars are becoming "Command Bars" that accept both search queries and commands (e.g., "Create a new file"). */}
+
+## Related components
+
+- <ComponentRef id="components-combobox--docs">Combobox</ComponentRef> — the entry-phase mechanism for instant-results
+
+## Resources
+- [Luke Wroblewski / Tackling Common UX Hurdles with AI](https://www.lukew.com/ff/entry.asp?2132) — On using *world knowledge* to rethink search inputs
+- [NN/g / Search: Visible and Simple](https://www.nngroup.com/articles/search-visible-and-simple/)
+- [NN/g / Search Is Not Enough](https://www.nngroup.com/articles/search-not-enough/) — Why navigation remains essential for teaching users the "Search Space" and reducing cognitive load
+- [Apple HIG: Search](https://developer.apple.com/design/human-interface-guidelines/searching)
+- [Bruce Tognazzini / Browse vs. Search](https://www.asktog.com/columns/085BrowseVsSearch.html) — Argument for why search dominates efficiency but browse (navigation) remains essential for context

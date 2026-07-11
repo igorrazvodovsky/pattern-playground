@@ -1,0 +1,80 @@
+---
+title: Good defaults
+role: pattern
+activityLevel: operation
+atomic: pattern
+mediation: individual
+fun: 🗺️ 2/5. Mapping out the basics.
+situation:
+  resulting:
+    - clause: >-
+        fields hold the system's best static guess — which serves only until the
+        actor starts typing a value of their own; completion then has to happen
+        in flight rather than up front
+      sets-up: [autocomplete]
+    - clause: >-
+        a good default is a guess made without the actor's stored data; where the
+        system already holds the actual value, pre-filling from the record takes
+        over from guessing
+      sets-up: [autofill]
+    - clause: >-
+        pre-population ends where the task needs the system to participate in the
+        work itself — the assisted-completion spectrum picks up where a static
+        guess stops sufficing
+      sets-up: [assisted-task-completion]
+relationships:
+  precedes:
+    - to: localization
+      note: locale detection and sensible starting configuration
+  related:
+    - to: onboarding
+      note: Often sets the initial state and defaults for the application
+    - to: settings
+      note: Where global defaults are managed and overridden
+    - to: suggestion
+      note: A weaker form of default ("Did you mean X?") or a dynamic default
+  hosted-by:
+    - to: form
+      note: form fields are the primary surface where defaults are encountered
+  enacts:
+    - to: agency
+      note: a default is the system making the small decision so the actor doesn't have to; the actor still has the final say but doesn't have to spend it on this field
+  alternative:
+    - to: data-entry
+      note: The alternative when a default cannot be guessed
+---
+Pre-fill fields and pre-select options with intelligent guesses to save user effort and reduce errors.
+Defaults also serve as *examples*, showing users the expected answer format.
+
+## Types of defaults
+
+### Mass defaults
+Apply to all users universally.
+- Benign defaults: The "best guess" for the majority (e.g., standard shipping).
+- Occasional-use interfaces: In installers or setup wizards, users often prefer "whatever the system decides" to save effort.
+- Smart defaults: Optimization based on general data (e.g., current location, time, or session metadata).
+- Random defaults: Arbitrary assignment when no preference exists.
+
+### Personalized defaults
+Tailored to the individual actor.
+- Persistent defaults: Based on the user's past choices (e.g., "Use my last address").
+- Adaptive defaults: Updated in real-time based on immediate context or behavior.
+
+## Risks & ethical considerations
+
+- *Dark patterns*: "Hidden options" or pre-checking consent boxes (e.g., for marketing) exploits the default effect to the user's detriment.
+- *Social signaling*: In some contexts, the default changes the meaning of the choice (e.g., opting out feels like a stronger rejection than not opting in).
+- *Sensitive data risks*: Avoid defaults for identity (gender, citizenship) or sensitive choices. Pre-filling these can make users uncomfortable or imply assumptions.
+- *Status quo bias*: Users rarely change defaults.
+- *Invisibility*: Users might not notice a default value and submit incorrect data.
+- *Blindness*: If a user can skip a field, the question might not "register" mentally, reducing their understanding of the system settings.
+
+{/* TODO: relations set aside, kept for review (not active edges):
+- [Profile](/patterns/compositions-profile) - Source of truth for personalized defaults.
+*/}
+
+## Resources
+- [UI Patterns - Good Defaults](https://ui-patterns.com/patterns/GoodDefaults)
+- [NN/g - The Power of Defaults](https://www.nngroup.com/articles/the-power-of-defaults/)
+- [Wikipedia - Default effect](https://en.wikipedia.org/wiki/Default_effect)
+- Tidwell, Brewer, Valencia (2020) Designing Interfaces, 3rd ed.

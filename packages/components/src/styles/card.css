@@ -1,0 +1,324 @@
+@layer layout {
+  .cards > * {
+    container: var(--grid-item-container, grid-item) / inline-size;
+    display: grid;
+  }
+
+  .cards .card:not(.flow) {
+    /* Spacing in default/grid cards; .flow cards govern their own spacing */
+    & > *:not(img, hr) {
+      margin-block-start: var(--space-s);
+      margin-inline: var(--space-s);
+
+      &:last-child {
+        margin-block-end: var(--space-s);
+      }
+    }
+  }
+
+  .cards.cards--list > * {
+    &:not(:last-of-type) .card {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    &:not(:first-of-type) .card {
+      border-top-right-radius: 0;
+      border-top-left-radius: 0;
+    }
+
+    &:not(:first-of-type) .card {
+      margin-block-start: -1px;
+    }
+
+    .card {
+      grid-template-columns: auto 1fr;
+      grid-template-rows: auto auto auto auto;
+    }
+  }
+
+  .cards.layout-grid .card {
+    & > *:not(img, video, figure, hr) {
+      /* works for stuff located inline */
+      margin-inline: var(--space-s);
+    }
+
+    .card__attributes {
+      display: flex;
+    }
+  }
+
+  .cards--list .card img,
+  .cards--list .card figure {
+    grid-row: 1 / -1;
+    aspect-ratio: 1/1;
+    /* height: 100%; */
+    /* TODO: sizing variable */
+    width: 80px;
+    padding: 0;
+    margin: var(--space-s);
+    margin-inline-end: 0;
+    border-radius: var(--radius-s);
+  }
+}
+
+@layer components {
+  .card {
+    /* TODO: */
+    --card-bg: white;
+
+    background-color: var(--card-bg);
+    border: var(--border);
+    border-radius: var(--radius-m);
+    position: relative;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    align-content: baseline;
+
+    &.card--plain {
+      border: none;
+    }
+  }
+
+  .card > a,
+  .card .label a,
+  .card .card__header a {
+    text-decoration: none !important;
+    font-weight: 500;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+    }
+  }
+
+  .card :is(h2, h3) {
+    font-size: 1.25rem;
+  }
+
+  .card:has(a):focus-within {
+    outline: 3px solid var(--c-accent);
+    outline-offset: 2px;
+  }
+
+  .card a:is(:focus, :focus-visible) {
+    outline: 1px solid transparent;
+  }
+
+  .card:has(> a, .label a, .card__header a):hover {
+    border-color: var(--c-accent);
+  }
+
+  .description {
+    font-size: smaller;
+    line-height: 150%;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    overflow: hidden;
+    border-radius: var(--radius-s);
+    max-width: 70ch;
+    flex-basis: 100%;
+    text-wrap: pretty;
+  }
+
+  .card__attributes {
+    overflow: hidden;
+  }
+
+  .card__header:has(> *:nth-child(2)),
+  .card__footer:has(> *:nth-child(2)) {
+    display: flex;
+    gap: 0 var(--space-m);
+
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .card .card__header,
+  .card > form {
+    /* TODO: */
+    padding: var(--space-s) var(--space-m) !important;
+    margin: 0 !important;
+  }
+
+  .card__header {
+    flex-wrap: wrap;
+  }
+
+  .card__footer {
+    padding: var(--space-m);
+  }
+
+  .card:has(:where(.card__footer, footer)) {
+    align-content: space-between;
+  }
+
+  /* .card > form > div > * {
+    padding-inline: var(--space-xs);
+  } */
+
+  .card figure {
+    /* width: 100%; */
+    margin: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .card > img {
+    width: 100%;
+
+    &:only-child {
+      height: 100%;
+    }
+  }
+  .card:has(img:only-child) {
+    grid-template: 1fr / 1fr;
+  }
+
+  .card figure,
+  .card img,
+  .card video {
+    /* TODO */
+    max-height: 200px;
+    object-fit: cover;
+
+    &:only-child {
+      padding: 0;
+      max-height: none;
+
+      inset: 0;
+      border-radius: inherit;
+    }
+  }
+
+  .card figure:has(> *:nth-child(2)) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    gap: var(--space-xs);
+    padding: var(--space-xs);
+    overflow: hidden; /* Prevent overflow */
+
+    img,
+    video {
+      border-radius: var(--radius-s);
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      min-height: 0; /* Allow images to shrink */
+
+      &:first-child {
+        grid-column: span 2;
+      }
+    }
+  }
+
+  .card figure:has(> *:nth-child(4)) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xs);
+    overflow: hidden; /* Prevent overflow */
+
+    img,
+    video {
+      border-radius: var(--radius-s);
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      min-height: 0; /* Allow images to shrink */
+
+      &:first-child {
+        grid-column: initial;
+      }
+    }
+  }
+
+  .card > figure {
+    flex-shrink: 0; /* Prevent the figure from shrinking too much */
+    align-self: stretch; /* Make sure the figure stretches across the card */
+  }
+
+  .card details {
+    overflow: visible;
+  }
+
+  .card pp-table {
+    margin-inline: calc(var(--space-m) * -1 - 1px);
+    width: calc(100% + var(--space-s) * 2);
+  }
+}
+
+video {
+  width: 100%;
+  object-fit: cover;
+}
+
+.card:has(:is(.description--full, textarea)) .description {
+  cursor: pointer;
+
+  &:hover {
+    background: oklch(0% 0 0 / 5%);
+  }
+}
+
+.description--full {
+  font-size: var(--text-s);
+  max-width: 70ch;
+}
+
+.card
+  > *:not(img, video, article, details, figure, pp-dropdown, div:not([class])),
+.card .description,
+.card .card__attributes,
+.card .label,
+.card > .attribute,
+.card h4,
+.card h3,
+.card .subheading {
+  /* Everything has a padding because +/- everything can be interactive/hoverable*/
+  padding: var(--space-2xs) var(--space-xs);
+}
+
+.card.card--overlay {
+  background-image: var(--card-img);
+  /* background-size: cover; */
+  background-position: center;
+  box-shadow: inset 0 0 0 1000px oklch(0% 0 0 / 15%);
+}
+
+/* .card__actions {
+  &:has(*:only-child) {
+    text-align: right;
+  }
+} */
+
+.card__actions--secondary {
+  position: absolute;
+  top: var(--space-s);
+  right: var(--space-s);
+  margin: 0;
+}
+
+/* Add a rule about touch-devices */
+.hover-only-actions button {
+  opacity: 0;
+  transition: 120ms opacity ease-in-out;
+}
+
+.hover-only-actions:hover button {
+  opacity: 1;
+}
+
+/* TODO: review */
+
+.cards .card > .attribute {
+  font-size: var(--text-xs);
+  line-height: 130%;
+  text-wrap: balance;
+
+  + .label {
+    margin-block-start: 0;
+  }
+}

@@ -1,0 +1,72 @@
+---
+title: "Block-based editor"
+role: pattern
+group: "sense-making"
+activityLevel: action
+atomic: composition
+mediation: individual
+fun: "🙂 5/5 Foundation for a block-based fun."
+relationships:
+  enables:
+    - to: selection
+      note: the surface in which content selection happens
+  composed-of:
+    - to: command-menu
+      note: "picking a block and placing it; summoned at the current position"
+  enacts:
+    - to: formality
+      note: "incremental formalisation — content carries only as much structure as currently serves, gained or shed in place, optional and reversible"
+---
+
+import { BlockBasedEditorDemo } from '@pkg/demos/block-based-editor';
+
+{/* Storybook component doc: packages/components/src/stories/BlockBasedEditor.mdx (the editor-demo home; same substrate as the inline demo above) */}
+
+
+The composition of structured content from modular blocks, balancing the fluidity of prose with the precision of structured data.
+
+<Demo label="Block editor with bubble menu and @-references">
+  <BlockBasedEditorDemo client:only="react" />
+</Demo>
+
+## Adding blocks
+
+{/* Natural language or slash-command invocation for inserting blocks or triggering AI assistance. */}
+
+Whichever way it's triggered, the [menu](/patterns/command-menu) opens right where the current actor's focus is. There's no need to say where, so picking a block and placing it are one gesture.
+
+### Floating menu
+
+...
+
+### Slash commands
+
+...
+
+### Passing to LLM
+
+...
+
+## References
+{/* TODO: Embed reference example */}
+...
+
+## Contextual actions
+
+Select block(s) or text spans and invoke LLM from contextual menu.
+
+## Co-editing & attribution
+{/* Parallel human/AI editing with attribution chips or overlays. */}
+...
+
+## To-do
+{/* Evidence base: research/block-based-editing/2026-07-09.md */}
+This page currently compresses a broader territory. A possible split:
+
+- What stays here, the page's own core: composition from uniform, freely recombinable units. The block's sameness is what makes juxtaposition, nesting, and rearrangement cheap — anything can sit beside, inside, or above anything, and rearranging commits to nothing. This fluidity is the move; name the pattern from it.
+- *Incremental formalisation* — the move enacting [formality](/patterns/formality): content carries only as much structure as currently serves, gaining or shedding it in place without re-entry. The system recognises implicit structure and offers it; the actor accepts, defers, or ignores — structure stays optional and reversible, not a ladder to climb. Type-switching over persistent data (prose ↔ table ↔ board) is its block-editor instance.
+- *Block reference / transclusion* — the seed behind the References section above. Its centre is knowable multiplicity — visible provenance and ripple scope — not syncing mechanics.
+- A *substrate / computational medium* foundation — the workspace-as-document design material that this page's move instantiates.
+- Rename this page by its move when decomposing: "block-based" is occupied by the visual-programming corpus, so the head term should change; the component doc keeps the name.
+- Scope boundary: this page is flow-scoped (blocks in sequence, caret as anchor). Canvas composition (units in space, pointer as anchor) shares the genus — free recombination, position-as-operand, structure recognised from arrangement (spatial hypertext's home turf) — but carries implicit structure differently (metric adjacency vs ordinal) and neighbours pan-and-zoom / semantic-zoom / focus-and-context. Decide sibling-vs-variant at decomposition time.
+

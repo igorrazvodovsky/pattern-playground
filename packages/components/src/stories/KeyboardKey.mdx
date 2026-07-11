@@ -1,0 +1,22 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks';
+import * as KeyboardKeyStories from './KeyboardKey.stories.tsx';
+
+<Meta of={KeyboardKeyStories} tags={['activity-level:operation', 'atomic:primitive', 'role:component', 'mediation:individual']} />
+
+{/* On differences between badges and lozenges. Same look, similar semantics */}
+
+{/* > 🥱 **Fun meter: boring**. Included as a prerequisite for more interesting things. */}
+
+# Keyboard Key
+
+Represent a physical key visually, helping the actor recognise keyboard shortcuts at a glance.
+
+<Canvas>
+  <Story of={ KeyboardKeyStories.KeyboardKey } />
+</Canvas>
+
+## In a list
+
+<Story of={ KeyboardKeyStories.InAList } />
+
+OS-specific symbols (⌘, ⌃, ⌥, ⊞) and internationalisation — including how key labels vary across layouts and how to store shortcut preferences per device — are covered in the <PatternRef slug="keyboard-shortcuts">Keyboard shortcuts</PatternRef> pattern.

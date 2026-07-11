@@ -1,0 +1,84 @@
+---
+title: Filtering
+role: pattern
+group: seeking
+activityLevel: action
+atomic: composition
+mediation: individual
+lifecycle: seeking
+fun: 🙂 3/5. Dependency.
+relationships:
+  complements:
+    - grouping
+    - sorting
+    - to: selection
+      note: the imperative dual; filter narrows by predicate, selection narrows by enumeration
+  precedes:
+    - data-view
+  related:
+    - bot
+---
+
+import { FilteringDemo } from '@pkg/demos/filtering';
+import { DataViewFilteringSlice } from '@pkg/demos/data-view';
+
+The narrowing of a collection to items that match the actor's criteria, balancing precision with the risk of hiding relevant results.
+
+<Demo label="Building a filter">
+  <FilteringDemo client:only="react" />
+</Demo>
+
+## Placement
+
+- inline, popover, drawer...
+- pairing with table header
+
+## Navigation as filtering
+
+...
+
+## LLM-powered attribute search
+
+When simple filter fails, the attribute search query is passed to LLM to find a match in the available attributes.
+
+If that fails, users can delegate filtering to a [bot](/patterns/bot) via a task. Bot can have access to data beyond the attributes and values visible to the user.
+
+### Flow 1
+
+1. Enter a query that does not have a match in the available attributes
+2. Create a task to handle it
+3. Show "thinking..." placeholder
+4. Replace it with a task result reference.
+
+### Flow 2
+
+1. Create a task outside filtering whose result can be used to filter the collection.
+2. Follow steps 3-4 from Flow 1.
+
+<Demo label="LLM-assisted filter">
+  <div className="flex">
+    <button className="tag"><iconify-icon icon="ph:sparkle"></iconify-icon><span className="shimmer">Thinking...</span></button>
+    <div className="tag-group">
+      <button className="tag"><iconify-icon icon="ph:sparkle"></iconify-icon> Things that are good for me</button>
+      <button className="tag tag-group__remove">
+        <iconify-icon icon="ph:x"></iconify-icon><span className="visually-hidden">Clear filter</span>
+      </button>
+    </div>
+  </div>
+</Demo>
+
+## Related components
+
+- <ComponentRef id="components-command-menu--docs">Command menu</ComponentRef> — a palette over attributes and values, with hierarchical drill-in and AI fallback
+- <ComponentRef id="components-combobox--docs">Combobox</ComponentRef> — the value-picker inside each active filter chip uses a combobox to narrow available values
+
+## To-do
+
+Complementary patterns to capture: constrained natural language builder, rules, search.
+
+## Resources & references
+
+- Patternfly / [Filters](https://www.patternfly.org/patterns/filters/design-guidelines)
+- Gitlab Pajamas / [Filtering](https://design.gitlab.com/patterns/filtering/)
+- IBM Carbon / [Filtering](https://carbondesignsystem.com/patterns/filtering/)
+- Salesforce Lightning / [Rules, filters, and logic](https://www.lightningdesignsystem.com/2e1ef8501/p/58ff5f-rules-filters-and-logic/)

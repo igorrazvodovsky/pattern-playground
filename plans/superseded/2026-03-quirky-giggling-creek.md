@@ -38,7 +38,7 @@ Output: a JSON file at `src/stories/data/story-tags.json` structured as:
 ```json
 {
   "patterns-conversation": ["agency", "conversation", "adaptability"],
-  "primitives-button": ["a11y", "density"],
+  "components-button": ["a11y", "density"],
   ...
 }
 ```

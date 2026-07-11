@@ -1,0 +1,29 @@
+story: null
+topic: keyboard shortcuts
+interaction: |
+  A user invokes a command by pressing a key combination rather than finding and clicking a UI control.
+  The system executes immediately (no pointer movement, no menu traversal).
+context: |
+  Desktop and web applications with a significant power-user segment.
+  The pattern sits at the intersection of learnability, agency, and efficiency.
+  Related concerns: discoverability (? dialog / cheat sheet / tooltip hints), OS/platform
+  convention conflicts, internationalisation (layout-dependent keys), the novice-to-expert
+  transition, and the command-menu as a discoverable alternative.
+questions:
+  - How do users discover shortcuts they didn't know existed, and what designs support that transition?
+  - What is the optimal approach for surfacing shortcut hints without cluttering the interface?
+  - How should shortcut systems handle OS-level conflicts and international keyboard layouts?
+  - What differentiates a well-designed shortcut vocabulary from one that is hard to learn?
+  - How does the availability of keyboard shortcuts affect task performance and user satisfaction over time?
+keywords:
+  [
+    keyboard shortcuts,
+    hotkeys,
+    keybindings,
+    command accelerators,
+    shortcut discoverability,
+    cheat sheet,
+    novice-to-expert,
+    expert users,
+    input efficiency,
+  ]

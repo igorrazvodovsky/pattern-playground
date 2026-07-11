@@ -1,0 +1,5545 @@
+{
+  "nodes": [
+    {
+      "id": "a11y",
+      "title": "Accessibility",
+      "category": "Qualities",
+      "path": "/patterns/a11y",
+      "role": "quality"
+    },
+    {
+      "id": "abort",
+      "title": "Abort",
+      "category": "Operations",
+      "path": "/patterns/abort",
+      "role": "pattern",
+      "group": "conversation/sequence-management"
+    },
+    {
+      "id": "action-consequences",
+      "title": "Action consequences",
+      "category": "Actions",
+      "path": "/patterns/action-consequences",
+      "role": "pattern",
+      "group": "application"
+    },
+    {
+      "id": "activity-feed",
+      "title": "Activity feed",
+      "category": "Activities",
+      "path": "/patterns/activity-feed",
+      "role": "pattern"
+    },
+    {
+      "id": "activity-log",
+      "title": "Activity log",
+      "category": "Activities",
+      "path": "/patterns/activity-log",
+      "role": "pattern"
+    },
+    {
+      "id": "adaptation",
+      "title": "Adaptability",
+      "category": "Qualities",
+      "path": "/patterns/adaptation",
+      "role": "quality"
+    },
+    {
+      "id": "agency",
+      "title": "Agency",
+      "category": "Qualities",
+      "path": "/patterns/agency",
+      "role": "quality"
+    },
+    {
+      "id": "agent-opening",
+      "title": "Opening (Bot)",
+      "category": "Operations",
+      "path": "/patterns/agent-opening",
+      "role": "pattern",
+      "group": "conversation/sequence-management"
+    },
+    {
+      "id": "agent-repair",
+      "title": "Bot repair",
+      "category": "Operations",
+      "path": "/patterns/agent-repair",
+      "role": "pattern",
+      "group": "conversation/conversation-management"
+    },
+    {
+      "id": "ai-completion",
+      "title": "AI completion",
+      "category": "Actions",
+      "path": "/patterns/ai-completion",
+      "role": "pattern",
+      "situation": {
+        "resulting": [
+          {
+            "clause": "inline generation makes accepting cheaper than evaluating, so over-reliance accrues by default — deliberate friction is the countermove",
+            "setsUp": [
+              "cognitive-forcing-functions"
+            ]
+          }
+        ]
+      },
+      "group": "application"
+    },
+    {
+      "id": "ai-tuning",
+      "title": "AI tuning",
+      "category": "Activities",
+      "path": "/patterns/ai-tuning",
+      "role": "pattern"
+    },
+    {
+      "id": "annotation",
+      "title": "Annotation",
+      "category": "Actions",
+      "path": "/patterns/annotation",
+      "role": "pattern",
+      "group": "sense-making"
+    },
+    {
+      "id": "assistance",
+      "title": "Assistance",
+      "category": "Foundations",
+      "path": "/patterns/assistance",
+      "role": "foundation"
+    },
+    {
+      "id": "assisted-task-completion",
+      "title": "Assisted task completion",
+      "category": "Actions",
+      "path": "/patterns/assisted-task-completion",
+      "role": "pattern",
+      "group": "application"
+    },
+    {
+      "id": "autocomplete",
+      "title": "Autocomplete",
+      "category": "Operations",
+      "path": "/patterns/autocomplete",
+      "role": "pattern",
+      "situation": {
+        "initiating": "a free-form input where the set of valid answers is large or the actor is still formulating the query",
+        "resulting": [
+          {
+            "clause": "a narrowing surface of candidate completions running alongside what's been typed"
+          },
+          {
+            "clause": "autocomplete's candidates are looked up, not produced — deterministic completion ends where the continuation has to be generated; AI completion extends the same interaction to generated content",
+            "setsUp": [
+              "ai-completion"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "autofill",
+      "title": "Autofill",
+      "category": "Operations",
+      "path": "/patterns/autofill",
+      "role": "pattern"
+    },
+    {
+      "id": "block-based-editor",
+      "title": "Block-based editor",
+      "category": "Actions",
+      "path": "/patterns/block-based-editor",
+      "role": "pattern",
+      "group": "sense-making"
+    },
+    {
+      "id": "bot",
+      "title": "Bot",
+      "category": "Activities",
+      "path": "/patterns/bot",
+      "role": "pattern"
+    },
+    {
+      "id": "bounded-choice",
+      "title": "Bounded choice",
+      "category": "Operations",
+      "path": "/patterns/bounded-choice",
+      "role": "pattern",
+      "situation": {
+        "initiating": "a value the actor must supply from a set they didn't author and may not be able to survey",
+        "resulting": [
+          {
+            "clause": "a visible, narrowable candidate set that converges on a valid committed value"
+          }
+        ]
+      }
+    },
+    {
+      "id": "capability-and-scope",
+      "title": "Capability & scope",
+      "category": "Operations",
+      "path": "/patterns/capability-and-scope",
+      "role": "pattern",
+      "group": "conversation/conversation-management"
+    },
+    {
+      "id": "closing",
+      "title": "Closing",
+      "category": "Operations",
+      "path": "/patterns/closing",
+      "role": "pattern",
+      "group": "conversation/sequence-management"
+    },
+    {
+      "id": "cognitive-forcing-functions",
+      "title": "Cognitive forcing functions",
+      "category": "Actions",
+      "path": "/patterns/cognitive-forcing-functions",
+      "role": "pattern",
+      "group": "application"
+    },
+    {
+      "id": "collaboration-foundation",
+      "title": "Collaboration",
+      "category": "Foundations",
+      "path": "/patterns/collaboration-foundation",
+      "role": "foundation"
+    },
+    {
+      "id": "collaboration",
+      "title": "Collaboration",
+      "category": "Activities",
+      "path": "/patterns/collaboration",
+      "role": "pattern"
+    },
+    {
+      "id": "command-menu",
+      "title": "Command menu",
+      "category": "Actions",
+      "path": "/patterns/command-menu",
+      "role": "pattern",
+      "group": "seeking"
+    },
+    {
+      "id": "commenting",
+      "title": "Commenting",
+      "category": "Actions",
+      "path": "/patterns/commenting",
+      "role": "pattern",
+      "group": "coordination"
+    },
+    {
+      "id": "conversation-quality",
+      "title": "Conversation",
+      "category": "Qualities",
+      "path": "/patterns/conversation-quality",
+      "role": "quality"
+    },
+    {
+      "id": "conversation",
+      "title": "Conversation",
+      "category": "Activities",
+      "path": "/patterns/conversation",
+      "role": "pattern",
+      "situation": {
+        "initiating": "an evolving exchange between actors where meaning has to be built up over multiple turns rather than stated in one",
+        "resulting": [
+          {
+            "clause": "a dialogue structure that carries context forward, lets either party take a turn, and accommodates repair when alignment slips"
+          }
+        ]
+      }
+    },
+    {
+      "id": "dashboard",
+      "title": "Needs-based view",
+      "category": "Actions",
+      "path": "/patterns/dashboard",
+      "role": "pattern",
+      "group": "sense-making"
+    },
+    {
+      "id": "data-entry",
+      "title": "Data entry",
+      "category": "Actions",
+      "path": "/patterns/data-entry",
+      "role": "pattern",
+      "group": "application"
+    },
+    {
+      "id": "data-view",
+      "title": "Data view",
+      "category": "Actions",
+      "path": "/patterns/data-view",
+      "role": "pattern",
+      "group": "seeking"
+    },
+    {
+      "id": "data-visualization",
+      "title": "Charting data",
+      "category": "Cross-cutting",
+      "path": "/patterns/data-visualization",
+      "role": "collection"
+    },
+    {
+      "id": "data",
+      "title": "Data & Information",
+      "category": "Foundations",
+      "path": "/patterns/data",
+      "role": "foundation"
+    },
+    {
+      "id": "deep-linking",
+      "title": "Deep linking",
+      "category": "Operations",
+      "path": "/patterns/deep-linking",
+      "role": "pattern"
+    },
+    {
+      "id": "delegation",
+      "title": "Delegation",
+      "category": "Foundations",
+      "path": "/patterns/delegation",
+      "role": "foundation"
+    },
+    {
+      "id": "deletion",
+      "title": "Deletion",
+      "category": "Actions",
+      "path": "/patterns/deletion",
+      "role": "pattern",
+      "situation": {
+        "initiating": "a stretch of activity in which the actor wants to remove data, with consequences that range from trivial to permanent and far-reaching",
+        "resulting": [
+          {
+            "clause": "a removal path matched to the severity, reversibility, and scope of the loss — confirmation, undo, soft delete, or typed challenge"
+          },
+          {
+            "clause": "the data is gone; whether that holds is now a question of recovery — a completed deletion is exactly the state undo acts on",
+            "setsUp": [
+              "undo"
+            ]
+          }
+        ]
+      },
+      "group": "application"
+    },
+    {
+      "id": "density",
+      "title": "Density",
+      "category": "Qualities",
+      "path": "/patterns/density",
+      "role": "quality"
+    },
+    {
+      "id": "disengage-without-closing",
+      "title": "Disengage without closing",
+      "category": "Operations",
+      "path": "/patterns/disengage-without-closing",
+      "role": "pattern",
+      "group": "conversation/conversation-management"
+    },
+    {
+      "id": "dynamic-hyperlinks",
+      "title": "Dynamic hyperlinks",
+      "category": "Actions",
+      "path": "/patterns/dynamic-hyperlinks",
+      "role": "pattern",
+      "group": "seeking"
+    },
+    {
+      "id": "embedded-intelligence",
+      "title": "Embedded intelligence",
+      "category": "Activities",
+      "path": "/patterns/embedded-intelligence",
+      "role": "pattern"
+    },
+    {
+      "id": "explanation",
+      "title": "Explanation",
+      "category": "Actions",
+      "path": "/patterns/explanation",
+      "role": "pattern",
+      "group": "sense-making"
+    },
+    {
+      "id": "extended-telling",
+      "title": "Extended telling",
+      "category": "Operations",
+      "path": "/patterns/extended-telling",
+      "role": "pattern",
+      "group": "conversation/conversational-activities"
+    },
+    {
+      "id": "filtering",
+      "title": "Filtering",
+      "category": "Actions",
+      "path": "/patterns/filtering",
+      "role": "pattern",
+      "group": "seeking"
+    },
+    {
+      "id": "flat-navigation",
+      "title": "Flat navigation",
+      "category": "Actions",
+      "path": "/patterns/flat-navigation",
+      "role": "pattern",
+      "situation": {
+        "resulting": [
+          {
+            "clause": "everything is reachable in one place — which holds only while the tools and destinations fit one surface; when the item count outgrows the screen, hub and spoke takes over",
+            "setsUp": [
+              "hub-and-spoke"
+            ]
+          }
+        ]
+      },
+      "group": "navigation"
+    },
+    {
+      "id": "focus-and-context",
+      "title": "Focus and context",
+      "category": "Actions",
+      "path": "/patterns/focus-and-context",
+      "role": "pattern",
+      "group": "evaluation"
+    },
+    {
+      "id": "form",
+      "title": "Form",
+      "category": "Actions",
+      "path": "/patterns/form",
+      "role": "pattern",
+      "situation": {
+        "initiating": "a stretch of activity in which the system needs structured information from the actor that can't be inferred from prior context",
+        "resulting": [
+          {
+            "clause": "a guided collection surface where fields are committed one at a time and the whole set can be reviewed before submission"
+          }
+        ]
+      },
+      "group": "application",
+      "realisedBy": [
+        "actions-application-form--docs"
+      ]
+    },
+    {
+      "id": "formality",
+      "title": "Formality",
+      "category": "Qualities",
+      "path": "/patterns/formality",
+      "role": "quality"
+    },
+    {
+      "id": "fully-connected",
+      "title": "Fully connected",
+      "category": "Actions",
+      "path": "/patterns/fully-connected",
+      "role": "pattern",
+      "group": "navigation"
+    },
+    {
+      "id": "generated-content",
+      "title": "Generated content",
+      "category": "Activities",
+      "path": "/patterns/generated-content",
+      "role": "pattern"
+    },
+    {
+      "id": "good-defaults",
+      "title": "Good defaults",
+      "category": "Operations",
+      "path": "/patterns/good-defaults",
+      "role": "pattern",
+      "situation": {
+        "resulting": [
+          {
+            "clause": "fields hold the system's best static guess — which serves only until the actor starts typing a value of their own; completion then has to happen in flight rather than up front",
+            "setsUp": [
+              "autocomplete"
+            ]
+          },
+          {
+            "clause": "a good default is a guess made without the actor's stored data; where the system already holds the actual value, pre-filling from the record takes over from guessing",
+            "setsUp": [
+              "autofill"
+            ]
+          },
+          {
+            "clause": "pre-population ends where the task needs the system to participate in the work itself — the assisted-completion spectrum picks up where a static guess stops sufficing",
+            "setsUp": [
+              "assisted-task-completion"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "grouping",
+      "title": "Grouping",
+      "category": "Actions",
+      "path": "/patterns/grouping",
+      "role": "pattern",
+      "group": "sense-making"
+    },
+    {
+      "id": "help",
+      "title": "Help",
+      "category": "Activities",
+      "path": "/patterns/help",
+      "role": "pattern"
+    },
+    {
+      "id": "hub-and-spoke",
+      "title": "Hub and spoke",
+      "category": "Actions",
+      "path": "/patterns/hub-and-spoke",
+      "role": "pattern",
+      "group": "navigation"
+    },
+    {
+      "id": "human-goes-first",
+      "title": "Human goes first",
+      "category": "Actions",
+      "path": "/patterns/human-goes-first",
+      "role": "pattern",
+      "group": "application/cognitive-forcing-functions"
+    },
+    {
+      "id": "hybrid-patterns",
+      "title": "Hybrid patterns",
+      "category": "Actions",
+      "path": "/patterns/hybrid-patterns",
+      "role": "pattern",
+      "group": "navigation"
+    },
+    {
+      "id": "information-architecture",
+      "title": "Information architecture",
+      "category": "Foundations",
+      "path": "/patterns/information-architecture",
+      "role": "foundation"
+    },
+    {
+      "id": "inline-confirmation",
+      "title": "Inline confirmation",
+      "category": "Operations",
+      "path": "/patterns/inline-confirmation",
+      "role": "pattern"
+    },
+    {
+      "id": "inline-interface",
+      "title": "Inline interface",
+      "category": "Actions",
+      "path": "/patterns/inline-interface",
+      "role": "pattern",
+      "group": "coordination"
+    },
+    {
+      "id": "inquiry-agent",
+      "title": "Inquiry (Bot)",
+      "category": "Operations",
+      "path": "/patterns/inquiry-agent",
+      "role": "pattern",
+      "group": "conversation/conversational-activities"
+    },
+    {
+      "id": "inquiry-user",
+      "title": "Inquiry (User)",
+      "category": "Operations",
+      "path": "/patterns/inquiry-user",
+      "role": "pattern",
+      "group": "conversation/conversational-activities"
+    },
+    {
+      "id": "interaction",
+      "title": "Intent & Interaction",
+      "category": "Foundations",
+      "path": "/patterns/interaction",
+      "role": "foundation"
+    },
+    {
+      "id": "item-view",
+      "title": "Item view",
+      "category": "Actions",
+      "path": "/patterns/item-view",
+      "role": "pattern",
+      "group": "seeking"
+    },
+    {
+      "id": "keyboard-shortcuts",
+      "title": "Keyboard shortcuts",
+      "category": "Operations",
+      "path": "/patterns/keyboard-shortcuts",
+      "role": "pattern"
+    },
+    {
+      "id": "learnability",
+      "title": "Learnability",
+      "category": "Qualities",
+      "path": "/patterns/learnability",
+      "role": "quality"
+    },
+    {
+      "id": "link-preview",
+      "title": "Link preview",
+      "category": "Actions",
+      "path": "/patterns/link-preview",
+      "role": "pattern",
+      "group": "seeking"
+    },
+    {
+      "id": "live-presentation",
+      "title": "Live presentation",
+      "category": "Activities",
+      "path": "/patterns/live-presentation",
+      "role": "pattern",
+      "situation": {
+        "resulting": [
+          {
+            "clause": "once the stream completes, a produced artifact sits on the surface — the move shifts from holding the rendering stable to negotiating what arrived",
+            "setsUp": [
+              "generated-content"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "living-document",
+      "title": "Living document",
+      "category": "Activities",
+      "path": "/patterns/living-document",
+      "role": "pattern"
+    },
+    {
+      "id": "localization",
+      "title": "Localization",
+      "category": "Foundations",
+      "path": "/patterns/localization",
+      "role": "foundation"
+    },
+    {
+      "id": "malleability",
+      "title": "Malleability",
+      "category": "Qualities",
+      "path": "/patterns/malleability",
+      "role": "quality"
+    },
+    {
+      "id": "mastery",
+      "title": "Mastery",
+      "category": "Activities",
+      "path": "/patterns/mastery",
+      "role": "pattern"
+    },
+    {
+      "id": "modality",
+      "title": "Modality",
+      "category": "Foundations",
+      "path": "/patterns/modality",
+      "role": "foundation"
+    },
+    {
+      "id": "multilevel-tree",
+      "title": "Multilevel tree",
+      "category": "Actions",
+      "path": "/patterns/multilevel-tree",
+      "role": "pattern",
+      "group": "navigation"
+    },
+    {
+      "id": "navigation-overview",
+      "title": "Overview",
+      "category": "Actions",
+      "path": "/patterns/navigation-overview",
+      "role": "collection",
+      "group": "navigation"
+    },
+    {
+      "id": "next-best-action",
+      "title": "Next-best action",
+      "category": "Actions",
+      "path": "/patterns/next-best-action",
+      "role": "pattern",
+      "group": "application"
+    },
+    {
+      "id": "notification",
+      "title": "Notification",
+      "category": "Actions",
+      "path": "/patterns/notification",
+      "role": "pattern",
+      "situation": {
+        "initiating": "a system event whose existence the actor needs to know about, alongside an existing flow that has its own demands on attention",
+        "resulting": [
+          {
+            "clause": "a delivery surface tuned to the event's urgency and the actor's availability"
+          }
+        ]
+      },
+      "group": "coordination"
+    },
+    {
+      "id": "onboarding",
+      "title": "Onboarding",
+      "category": "Activities",
+      "path": "/patterns/onboarding",
+      "role": "pattern",
+      "situation": {
+        "initiating": "an actor's first encounter with a system (or a changed part of one) before they have a working mental model of what's possible and what will happen",
+        "resulting": [
+          {
+            "clause": "a bounded period in which the actor can build that model with low stakes, often by doing rather than reading"
+          }
+        ]
+      }
+    },
+    {
+      "id": "open-request",
+      "title": "Open request",
+      "category": "Operations",
+      "path": "/patterns/open-request",
+      "role": "pattern",
+      "group": "conversation/conversational-activities"
+    },
+    {
+      "id": "overreliance-checklist",
+      "title": "Checklist",
+      "category": "Actions",
+      "path": "/patterns/overreliance-checklist",
+      "role": "pattern",
+      "group": "application/cognitive-forcing-functions"
+    },
+    {
+      "id": "overview-detail",
+      "title": "Overview and detail",
+      "category": "Actions",
+      "path": "/patterns/overview-detail",
+      "role": "pattern",
+      "group": "navigation"
+    },
+    {
+      "id": "pan-and-zoom",
+      "title": "Pan and zoom",
+      "category": "Actions",
+      "path": "/patterns/pan-and-zoom",
+      "role": "pattern",
+      "group": "navigation"
+    },
+    {
+      "id": "privacy",
+      "title": "Privacy",
+      "category": "Qualities",
+      "path": "/patterns/privacy",
+      "role": "quality"
+    },
+    {
+      "id": "progressive-disclosure",
+      "title": "Progressive disclosure",
+      "category": "Actions",
+      "path": "/patterns/progressive-disclosure",
+      "role": "pattern",
+      "group": "seeking"
+    },
+    {
+      "id": "prompt",
+      "title": "Prompt",
+      "category": "Activities",
+      "path": "/patterns/prompt",
+      "role": "pattern"
+    },
+    {
+      "id": "prose",
+      "title": "Prose",
+      "category": "Foundations",
+      "path": "/patterns/prose",
+      "role": "foundation"
+    },
+    {
+      "id": "pyramid",
+      "title": "Pyramid",
+      "category": "Actions",
+      "path": "/patterns/pyramid",
+      "role": "pattern",
+      "group": "navigation"
+    },
+    {
+      "id": "saving",
+      "title": "Saving",
+      "category": "Actions",
+      "path": "/patterns/saving",
+      "role": "pattern",
+      "group": "application"
+    },
+    {
+      "id": "searching",
+      "title": "Searching",
+      "category": "Actions",
+      "path": "/patterns/searching",
+      "role": "pattern",
+      "situation": {
+        "resulting": [
+          {
+            "clause": "a search can fail, leaving the actor with intent but no result — browsing the structure (\"browse by category instead\") is the fallback seeking move",
+            "setsUp": [
+              "navigation-overview"
+            ]
+          }
+        ]
+      },
+      "group": "seeking"
+    },
+    {
+      "id": "sections",
+      "title": "Sections",
+      "category": "Operations",
+      "path": "/patterns/sections",
+      "role": "pattern",
+      "situation": {
+        "initiating": "content that divides into a small, stable set of named parts where which-mode-to-show is a property of context, not of the content",
+        "resulting": [
+          {
+            "clause": "a single container whose disclosure affordance (tabs vs. accordion) shifts with context without restructuring the content"
+          }
+        ]
+      }
+    },
+    {
+      "id": "selection",
+      "title": "Selection",
+      "category": "Actions",
+      "path": "/patterns/selection",
+      "role": "pattern",
+      "situation": {
+        "initiating": "a moment where the actor must designate members of an exposed set of options",
+        "resulting": [
+          {
+            "clause": "a designation — narrowed by scanning or typing — whose fate (committed value, staked target, spliced text) is set by the surrounding flow"
+          }
+        ]
+      },
+      "group": "coordination"
+    },
+    {
+      "id": "semantic-zoom",
+      "title": "Semantic zoom",
+      "category": "Actions",
+      "path": "/patterns/semantic-zoom",
+      "role": "pattern",
+      "group": "evaluation"
+    },
+    {
+      "id": "sequence-completion",
+      "title": "Sequence completion",
+      "category": "Operations",
+      "path": "/patterns/sequence-completion",
+      "role": "pattern",
+      "group": "conversation/sequence-management"
+    },
+    {
+      "id": "settings",
+      "title": "Settings",
+      "category": "Actions",
+      "path": "/patterns/settings",
+      "role": "pattern",
+      "group": "application"
+    },
+    {
+      "id": "shareability",
+      "title": "Shareability",
+      "category": "Qualities",
+      "path": "/patterns/shareability",
+      "role": "quality"
+    },
+    {
+      "id": "sorting",
+      "title": "Sorting",
+      "category": "Actions",
+      "path": "/patterns/sorting",
+      "role": "pattern",
+      "group": "seeking"
+    },
+    {
+      "id": "state-disabled",
+      "title": "Disabled state",
+      "category": "Operations",
+      "path": "/patterns/state-disabled",
+      "role": "pattern",
+      "situation": {
+        "initiating": "the alternatives have been ruled out: the element can't be hidden without breaking spatial memory or concealing capability, and it can't stay interactive with an explanation of why it can't act yet — disabling is the move that remains when the element must stay visible and genuinely cannot respond"
+      }
+    },
+    {
+      "id": "state-empty",
+      "title": "Empty state",
+      "category": "Operations",
+      "path": "/patterns/state-empty",
+      "role": "pattern"
+    },
+    {
+      "id": "status-feedback",
+      "title": "Status feedback",
+      "category": "Operations",
+      "path": "/patterns/status-feedback",
+      "role": "pattern"
+    },
+    {
+      "id": "step-by-step",
+      "title": "Step by step",
+      "category": "Actions",
+      "path": "/patterns/step-by-step",
+      "role": "pattern",
+      "group": "navigation"
+    },
+    {
+      "id": "suggestion",
+      "title": "Suggestion",
+      "category": "Actions",
+      "path": "/patterns/suggestion",
+      "role": "pattern",
+      "group": "application"
+    },
+    {
+      "id": "tag",
+      "title": "Tag",
+      "category": "Actions",
+      "path": "/patterns/tag",
+      "role": "pattern",
+      "group": "sense-making"
+    },
+    {
+      "id": "template",
+      "title": "Template",
+      "category": "Actions",
+      "path": "/patterns/template",
+      "role": "pattern",
+      "group": "application"
+    },
+    {
+      "id": "temporality",
+      "title": "Temporality",
+      "category": "Qualities",
+      "path": "/patterns/temporality",
+      "role": "quality"
+    },
+    {
+      "id": "text-lense",
+      "title": "Text lens",
+      "category": "Actions",
+      "path": "/patterns/text-lense",
+      "role": "pattern",
+      "group": "evaluation"
+    },
+    {
+      "id": "transient-feedback",
+      "title": "Transient feedback",
+      "category": "Operations",
+      "path": "/patterns/transient-feedback",
+      "role": "pattern",
+      "situation": {
+        "initiating": "a recent action whose outcome the actor would benefit from confirming, without needing acknowledgement before continuing",
+        "resulting": [
+          {
+            "clause": "a brief peripheral message that auto-dismisses after a short window, optionally carrying a single trailing affordance such as undo"
+          }
+        ]
+      }
+    },
+    {
+      "id": "transparent-reasoning",
+      "title": "Transparent reasoning",
+      "category": "Activities",
+      "path": "/patterns/transparent-reasoning",
+      "role": "pattern"
+    },
+    {
+      "id": "unavailable-actions",
+      "title": "Unavailable actions",
+      "category": "Operations",
+      "path": "/patterns/unavailable-actions",
+      "role": "pattern"
+    },
+    {
+      "id": "undo",
+      "title": "Undo",
+      "category": "Operations",
+      "path": "/patterns/undo",
+      "role": "pattern",
+      "situation": {
+        "initiating": "a recently committed action whose consequences the actor wants to retract",
+        "resulting": [
+          {
+            "clause": "a reverse path that returns the structure to its prior state, with a window in which the retraction is offered"
+          }
+        ]
+      }
+    },
+    {
+      "id": "user-opening",
+      "title": "Opening (User)",
+      "category": "Operations",
+      "path": "/patterns/user-opening",
+      "role": "pattern",
+      "group": "conversation/sequence-management"
+    },
+    {
+      "id": "user-repair",
+      "title": "User repair",
+      "category": "Operations",
+      "path": "/patterns/user-repair",
+      "role": "pattern",
+      "group": "conversation/conversation-management"
+    },
+    {
+      "id": "validation",
+      "title": "Validation",
+      "category": "Operations",
+      "path": "/patterns/validation",
+      "role": "pattern"
+    },
+    {
+      "id": "view",
+      "title": "View",
+      "category": "Actions",
+      "path": "/patterns/view",
+      "role": "pattern",
+      "group": "sense-making"
+    },
+    {
+      "id": "wizard",
+      "title": "Wizard",
+      "category": "Actions",
+      "path": "/patterns/wizard",
+      "role": "pattern",
+      "group": "application"
+    },
+    {
+      "id": "workflow",
+      "title": "Workflow",
+      "category": "Activities",
+      "path": "/patterns/workflow",
+      "role": "pattern"
+    },
+    {
+      "id": "workspace",
+      "title": "Workspace",
+      "category": "Activities",
+      "path": "/patterns/workspace",
+      "role": "pattern"
+    }
+  ],
+  "edges": [
+    {
+      "source": "abort",
+      "target": "undo",
+      "type": "related",
+      "label": "related non-destructive exit; offer undo and restore affordances when state has been modified",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "abort",
+      "target": "conversation",
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "incomingNote": "the actor stops an unwanted or failing sequence mid-exchange — the conversational stop, not a process kill"
+    },
+    {
+      "source": "abort",
+      "target": "closing",
+      "type": "alternative",
+      "label": "the clean alternative when a session ends intentionally rather than by abandonment",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "agent-opening",
+      "target": "abort",
+      "type": "precedes",
+      "incomingNote": "abort can occur immediately after a bot-initiated opening",
+      "extractedFrom": "frontmatter:follows",
+      "label": "if the user disengages before reaching the first activity"
+    },
+    {
+      "source": "user-opening",
+      "target": "abort",
+      "type": "precedes",
+      "incomingNote": "abort can occur immediately after a user-initiated opening",
+      "extractedFrom": "frontmatter:follows",
+      "label": "if the user immediately changes their mind"
+    },
+    {
+      "source": "action-consequences",
+      "target": "deletion",
+      "type": "related",
+      "label": "its decision tree is this framework projected onto one action — the tree's first question is the time-to-recover dimension",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "action-consequences",
+      "target": "saving",
+      "type": "related",
+      "label": "staging and drafts are severity reducers: they buy a review step before consequences commit",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "action-consequences",
+      "target": "undo",
+      "type": "related",
+      "label": "the strongest severity reducer — recovery after the act removes the need for confirmation before it",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "action-consequences",
+      "target": "inline-confirmation",
+      "type": "related",
+      "label": "the mid-ladder rung: enough friction to interrupt autopilot without breaking context",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "activity-feed",
+      "target": "assistance",
+      "type": "complements",
+      "label": "keeping recent events visible so the actor can notice what matters",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "activity-feed",
+      "target": "delegation",
+      "type": "complements",
+      "label": "feed gives the user awareness of background agent activity",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "activity-feed",
+      "target": "activity-log",
+      "type": "complements",
+      "label": "distinct from feeds; logs are histories of _actions taken by_ an entity, whilst feeds aggregate content _of interest to_ users from diverse sources",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "activity-feed",
+      "target": "collaboration",
+      "type": "complements",
+      "label": "uses feeds to surface updates and changes in shared workspaces",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "activity-feed",
+      "target": "notification",
+      "type": "complements",
+      "label": "alerts users to new feed activity requiring attention",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "activity-feed",
+      "target": "conversation",
+      "type": "complements",
+      "label": "comment threads enable conversations around feed items",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "activity-log",
+      "target": "collaboration",
+      "type": "complements",
+      "label": "Uses activity logs to provide transparency and accountability in shared workspaces",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "activity-log",
+      "target": "activity-feed",
+      "type": "complements",
+      "label": "distinct from activity logs; feeds aggregate content _of interest to_ users from diverse sources, whilst logs are histories of _actions taken by_ a specific entity",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "progressive-disclosure",
+      "target": "activity-log",
+      "type": "enables",
+      "incomingNote": "individual log entries expand on demand, managing detail depth without losing the timeline flow",
+      "extractedFrom": "frontmatter:composed-of",
+      "label": "event summaries can expand into detailed histories and proofs"
+    },
+    {
+      "source": "activity-log",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "a chronological record that makes the passage of actions over time legible",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "activity-log",
+      "target": "explanation",
+      "type": "complements",
+      "extractedFrom": "inline:complements"
+    },
+    {
+      "source": "adaptation",
+      "target": "agency",
+      "type": "related",
+      "label": "dynamic control allocation distributes agency between system and user",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "agency",
+      "target": "adaptation",
+      "type": "related",
+      "label": "adaptive behaviour shifts how much control the system takes on",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "agency",
+      "target": "learnability",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "agent-opening",
+      "target": "conversation",
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "incomingNote": "the bot speaks first — establishing footing and proposing the first topic"
+    },
+    {
+      "source": "capability-and-scope",
+      "target": "agent-opening",
+      "type": "enables",
+      "incomingNote": "capability giving is often embedded within the opening",
+      "extractedFrom": "frontmatter:composed-of",
+      "label": "capability giving is often embedded within a bot-initiated opening"
+    },
+    {
+      "source": "agent-opening",
+      "target": "open-request",
+      "type": "precedes",
+      "label": "typical first activity after a bot-initiated opening",
+      "extractedFrom": "frontmatter:precedes",
+      "incomingNote": "bot-initiated openings typically transition into an open request"
+    },
+    {
+      "source": "agent-opening",
+      "target": "extended-telling",
+      "type": "alternative",
+      "label": "offered on user refusal as an alternative to immediate engagement",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "disengage-without-closing",
+      "target": "agent-opening",
+      "type": "precedes",
+      "incomingNote": "if the bot re-opens after a prior session was abandoned",
+      "extractedFrom": "frontmatter:follows",
+      "label": "re-entry point when the bot resumes after a disengagement"
+    },
+    {
+      "source": "agent-repair",
+      "target": "conversation",
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "incomingNote": "the bot repairs its own misunderstanding — ambiguity, low confidence, missing detail"
+    },
+    {
+      "source": "agent-repair",
+      "target": "inquiry-user",
+      "type": "precedes",
+      "label": "transitions into information capture when a specific required value is missing",
+      "extractedFrom": "frontmatter:precedes",
+      "incomingNote": "information capture via this primitive is used to resolve bot-side ambiguity"
+    },
+    {
+      "source": "agent-repair",
+      "target": "sequence-completion",
+      "type": "precedes",
+      "label": "the primary activity resumes once repair is resolved",
+      "extractedFrom": "frontmatter:precedes",
+      "incomingNote": "resumes the primary activity at sequence completion once a bot-side breakdown is resolved"
+    },
+    {
+      "source": "agent-repair",
+      "target": "capability-and-scope",
+      "type": "complements",
+      "label": "out-of-scope requests are a form of scope repair",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "ai-completion",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the actor remains in creative lead; the system only proposes",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "ai-completion",
+      "target": "adaptation",
+      "type": "enacts",
+      "label": "completion that improves from actor corrections over time",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "ai-completion",
+      "target": "assistance",
+      "type": "complements",
+      "label": "completion might assists user in *performing* and *knowing* stuff",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "ai-completion",
+      "target": "assisted-task-completion",
+      "type": "complements",
+      "label": "the spectrum this pattern belongs to",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "ai-completion",
+      "target": "suggestion",
+      "type": "complements",
+      "label": "AI completion is a suggestion mechanism; fixation risk and dismissal apply directly",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "ai-completion",
+      "target": "bot",
+      "type": "complements",
+      "label": "powers AI completion via the [inline mode](/patterns/bot#modes-of-interaction) of interaction",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "ai-completion",
+      "target": "generated-content",
+      "type": "complements",
+      "label": "block generation is closer to this pattern than to inline completion",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "ai-completion",
+      "target": "transparent-reasoning",
+      "type": "complements",
+      "label": "explaining *why* a completion was suggested, especially for derived values",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "block-based-editor",
+      "target": "ai-completion",
+      "type": "hosts",
+      "incomingNote": "the block editor is a natural container for AI completion",
+      "extractedFrom": "frontmatter:hosted-by"
+    },
+    {
+      "source": "ai-completion",
+      "target": "autofill",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "ai-tuning",
+      "target": "delegation",
+      "type": "related",
+      "label": "shaping initial behaviours at set-up, and repairing misfires during exception handling",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "ai-tuning",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the actor sets how far the system can act on its own, then lets it run",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "ai-tuning",
+      "target": "localization",
+      "type": "complements",
+      "label": "locale as a generation parameter",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "annotation",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "annotations are markers of time and wear.",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "annotation",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "the actor learns from the interpretive marks others leave in place",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "annotation",
+      "target": "collaboration",
+      "type": "precedes",
+      "label": "shared annotations enable collaborative sense-making.",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "annotation",
+      "target": "conversation",
+      "type": "precedes",
+      "label": "annotations often initiate critical dialogue.",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "annotation",
+      "target": "commenting",
+      "type": "precedes",
+      "label": "extends static annotation into dynamic discussion.",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "annotation",
+      "target": "explanation",
+      "type": "complements",
+      "label": "clarifies complex concepts, often via description.",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "annotation",
+      "target": "transparent-reasoning",
+      "type": "complements",
+      "label": "system annotations that reveal decision logic.",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "annotation",
+      "target": "generated-content",
+      "type": "complements",
+      "label": "system marks confidence and origin.",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "annotation",
+      "target": "tag",
+      "type": "complements",
+      "label": "semantic tagging for organisation.",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "annotation",
+      "target": "link-preview",
+      "type": "tangential",
+      "label": "previews can surface annotation layers attached to a linked destination",
+      "extractedFrom": "frontmatter:tangential"
+    },
+    {
+      "source": "assistance",
+      "target": "agency",
+      "type": "enacts",
+      "label": "assistance keeps the locus human-centric: the actor stays in the loop and the system intervenes selectively, raising signals or narrowing options at each cognitive step rather than taking over",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "assistance",
+      "target": "interaction",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "assistance",
+      "target": "delegation",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "bot",
+      "target": "assistance",
+      "type": "instantiates",
+      "incomingNote": "the chatbot and inline bot modes apply the assistance configuration",
+      "extractedFrom": "frontmatter:instances"
+    },
+    {
+      "source": "assisted-task-completion",
+      "target": "assistance",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "assisted-task-completion",
+      "target": "bot",
+      "type": "related",
+      "label": "powers AI completion and next-best action; the [inline and ambient modes](/patterns/bot#modes-of-interaction) map directly to this group",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "assisted-task-completion",
+      "target": "transparent-reasoning",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "assisted-task-completion",
+      "target": "agency",
+      "type": "enacts",
+      "label": "mirrors this spectrum; more system initiative demands more careful preservation of actor control",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "assisted-task-completion",
+      "target": "suggestion",
+      "type": "instantiates",
+      "label": "the broader pattern of system-generated recommendations; this spectrum focuses on the specific mechanisms",
+      "extractedFrom": "frontmatter:instantiates",
+      "incomingNote": "the completion spectrum, including [AI completion](/patterns/ai-completion) (inline generation) and [next-best action](/patterns/next-best-action) (workflow-level recommendations)"
+    },
+    {
+      "source": "autocomplete",
+      "target": "data-entry",
+      "type": "enables",
+      "label": "autocomplete as a way to reduce input friction",
+      "extractedFrom": "frontmatter:enables"
+    },
+    {
+      "source": "form",
+      "target": "autocomplete",
+      "type": "hosts",
+      "incomingNote": "form fields are where the completion surface most commonly lives",
+      "extractedFrom": "frontmatter:hosted-by"
+    },
+    {
+      "source": "autocomplete",
+      "target": "autofill",
+      "type": "complements",
+      "label": "the preemptive counterpart: pre-populates from stored values rather than completing what the actor types (and what the HTML `autocomplete` attribute actually controls)",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "autocomplete",
+      "target": "bounded-choice",
+      "type": "complements",
+      "label": "the selection autocomplete often serves",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "autocomplete",
+      "target": "assisted-task-completion",
+      "type": "complements",
+      "label": "the spectrum autocomplete sits within",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "autocomplete",
+      "target": "suggestion",
+      "type": "complements",
+      "label": "system-generated recommendations more broadly",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "autocomplete",
+      "target": "searching",
+      "type": "complements",
+      "label": "autocomplete in search fields is really a seeking pattern",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "autocomplete",
+      "target": "command-menu",
+      "type": "complements",
+      "label": "autocomplete applied to actions and navigation",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "autocomplete",
+      "target": "filtering",
+      "type": "complements",
+      "label": "autocomplete within filter value selection",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "autocomplete",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "suggestions teach people what options exist",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "autofill",
+      "target": "autocomplete",
+      "type": "complements",
+      "label": "the reactive counterpart: completes what the actor is actively typing rather than pre-populating from stored values",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "autofill",
+      "target": "assisted-task-completion",
+      "type": "complements",
+      "label": "the spectrum this pattern belongs to",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "autofill",
+      "target": "suggestion",
+      "type": "complements",
+      "label": "autofill as a form of implicit recommendation",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "autofill",
+      "target": "privacy",
+      "type": "enacts",
+      "label": "autofill surfaces what the system knows about the actor",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "autofill",
+      "target": "adaptation",
+      "type": "enacts",
+      "label": "autofill that learns from corrections over time",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "autofill",
+      "target": "data-entry",
+      "type": "enables",
+      "label": "autofill as a strategy for frictionless input",
+      "extractedFrom": "frontmatter:enables"
+    },
+    {
+      "source": "form",
+      "target": "autofill",
+      "type": "hosts",
+      "incomingNote": "form fields are the surface where autofill most commonly appears",
+      "extractedFrom": "frontmatter:hosted-by"
+    },
+    {
+      "source": "autofill",
+      "target": "saving",
+      "type": "precedes",
+      "label": "what happens after pre-filled data is accepted",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "block-based-editor",
+      "target": "selection",
+      "type": "enables",
+      "label": "the surface in which content selection happens",
+      "extractedFrom": "frontmatter:enables"
+    },
+    {
+      "source": "command-menu",
+      "target": "block-based-editor",
+      "type": "enables",
+      "incomingNote": "picking a block and placing it; summoned at the current position",
+      "extractedFrom": "frontmatter:composed-of"
+    },
+    {
+      "source": "block-based-editor",
+      "target": "formality",
+      "type": "enacts",
+      "label": "incremental formalisation — content carries only as much structure as currently serves, gained or shed in place, optional and reversible",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "conversation",
+      "target": "bot",
+      "type": "enables",
+      "incomingNote": "messaging is the primary interface for conducting bot conversations",
+      "extractedFrom": "frontmatter:composed-of"
+    },
+    {
+      "source": "bot",
+      "target": "activity-log",
+      "type": "precedes",
+      "label": "actions and reasoning are tracked and displayed in the activity log.",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "bot",
+      "target": "ai-tuning",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "bot",
+      "target": "generated-content",
+      "type": "precedes",
+      "label": "presentation and manipulation of AI's output.",
+      "extractedFrom": "frontmatter:precedes",
+      "incomingNote": "generates the output being presented."
+    },
+    {
+      "source": "bot",
+      "target": "transparent-reasoning",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "incomingNote": "generates the reasoning that transparent reasoning makes visible and inspectable."
+    },
+    {
+      "source": "bot",
+      "target": "live-presentation",
+      "type": "precedes",
+      "label": "generates the stream that this surface presents in flight",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "bot",
+      "target": "collaboration",
+      "type": "complements",
+      "label": "Bots participate as collaborative agents with adaptable mediation capabilities",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "bot",
+      "target": "agency",
+      "type": "enacts",
+      "label": "how much freedom the bot has to act on its own.",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "bot",
+      "target": "formality",
+      "type": "enacts",
+      "label": "bots accept unstructured input by design; structure can be inferred or gradually formalised from interaction.",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "bot",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "the bot lets the actor ask the system rather than decipher it; learning happens through dialogue at the actor's pace",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "bot",
+      "target": "adaptation",
+      "type": "enacts",
+      "label": "the bot modulates its behaviour and output to context and inferred intent rather than following fixed rules",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "bounded-choice",
+      "target": "formality",
+      "type": "enacts",
+      "label": "the quality lens on the trade-off: bounded choice sits at the high-formality end",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "bounded-choice",
+      "target": "good-defaults",
+      "type": "complements",
+      "label": "pre-selecting the likely value can resolve the choice before the actor engages with it",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "bounded-choice",
+      "target": "searching",
+      "type": "complements",
+      "label": "where the move escalates when the set outgrows narrowing",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "bounded-choice",
+      "target": "filtering",
+      "type": "enables",
+      "label": "each filter condition is a bounded choice over a facet's values",
+      "extractedFrom": "frontmatter:enables"
+    },
+    {
+      "source": "bounded-choice",
+      "target": "form",
+      "type": "enables",
+      "label": "committing a value from a set the actor didn't author; the move behind a form's selects, radios, and checkboxes.",
+      "extractedFrom": "frontmatter:enables"
+    },
+    {
+      "source": "bounded-choice",
+      "target": "selection",
+      "type": "instantiates",
+      "label": "selection is the general move — designating from an exposed option set",
+      "extractedFrom": "frontmatter:instantiates"
+    },
+    {
+      "source": "capability-and-scope",
+      "target": "bot",
+      "type": "related",
+      "label": "the conversational partner whose capabilities are being stated",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "capability-and-scope",
+      "target": "agent-repair",
+      "type": "complements",
+      "label": "out-of-scope or ambiguous requests are handled via bot repair",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "capability-and-scope",
+      "target": "conversation",
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "incomingNote": "an explicit statement of what the conversation can and cannot do"
+    },
+    {
+      "source": "closing",
+      "target": "conversation",
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "incomingNote": "ending the encounter cleanly, with room for last topics — closing the exchange, not a window"
+    },
+    {
+      "source": "sequence-completion",
+      "target": "closing",
+      "type": "precedes",
+      "incomingNote": "the user's minimal receipt that signals a sequence is done; closing follows when the overall goal is achieved",
+      "extractedFrom": "frontmatter:follows",
+      "label": "natural follow-up when sequence completion signals the overall goal is achieved"
+    },
+    {
+      "source": "closing",
+      "target": "disengage-without-closing",
+      "type": "alternative",
+      "label": "alternative when the user steps away without a formal close",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "cognitive-forcing-functions",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the outcome the forcing-function family is trying to produce",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "cognitive-forcing-functions",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "forcing functions only work when users have the competence to evaluate; learnability builds that competence",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "cognitive-forcing-functions",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "timing-based forcing functions (wait, human goes first) depend on temporal design",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "cognitive-forcing-functions",
+      "target": "explanation",
+      "type": "complements",
+      "label": "full explanations can *increase* over-reliance by giving users a plausible justification they don't need to think through; partial explanations counteract this",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "cognitive-forcing-functions",
+      "target": "transparent-reasoning",
+      "type": "complements",
+      "label": "visible reasoning is valuable but can also anchor; the trade-off is central to this family",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "cognitive-forcing-functions",
+      "target": "generated-content",
+      "type": "complements",
+      "label": "long-form output especially prone to over-reliance because verification cost is high",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "cognitive-forcing-functions",
+      "target": "activity-log",
+      "type": "precedes",
+      "label": "rationale logging produces an audit trail that the activity log can surface",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "cognitive-forcing-functions",
+      "target": "overreliance-checklist",
+      "type": "related",
+      "label": "structured review of considerations before accepting.",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "cognitive-forcing-functions",
+      "target": "human-goes-first",
+      "type": "related",
+      "label": "user performs the task unaided; system compares and teaches.",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "collaboration-foundation",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the distribution of control and initiative between collaborative actors",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "collaboration-foundation",
+      "target": "adaptation",
+      "type": "enacts",
+      "label": "collaboration only works when each actor adjusts to the other's contributions in flight",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "collaboration-foundation",
+      "target": "conversation-quality",
+      "type": "enacts",
+      "label": "joint work is negotiated turn by turn; collaboration is dialogue put to a shared task",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "collaboration-foundation",
+      "target": "shareability",
+      "type": "enacts",
+      "label": "each actor can see what the others are doing; shared work is visible work",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "collaboration-foundation",
+      "target": "formality",
+      "type": "enacts",
+      "label": "shared artefacts raise formality demands beyond what any single actor needs; the fidelity vs exploration tension is a formality tension",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "collaboration-foundation",
+      "target": "privacy",
+      "type": "enacts",
+      "label": "collaboration balances individual privacy needs against group transparency requirements",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "collaboration-foundation",
+      "target": "bot",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "collaboration",
+      "target": "agency",
+      "type": "enacts",
+      "label": "agency is distributed, traded, and renegotiated turn by turn; human-centric locus tends to deepen elaboration, system-centric locus tends to surface acceptance",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "collaboration",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "joint work runs in synchronous or asynchronous time; the rhythm of coordination is itself a design choice",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "collaboration",
+      "target": "activity-log",
+      "type": "complements",
+      "label": "the shared record that lets participants reconstruct what happened",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "collaboration",
+      "target": "notification",
+      "type": "complements",
+      "label": "signals what changed, by whom, and whether actor should look",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "collaboration",
+      "target": "explanation",
+      "type": "complements",
+      "label": "how participants understand each other's reasoning, not just each other's actions",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "collaboration",
+      "target": "suggestion",
+      "type": "complements",
+      "label": "co-creation in tentative form: options participants can converge on or reject without commitment",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "collaboration",
+      "target": "transparent-reasoning",
+      "type": "complements",
+      "label": "makes the basis of decisions auditable",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "collaboration",
+      "target": "command-menu",
+      "type": "complements",
+      "label": "keeps collaboration commands accessible without crowding the surface",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "collaboration",
+      "target": "bot",
+      "type": "complements",
+      "label": "frames the AI as a collaborator with its own modes",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "collaboration",
+      "target": "conversation",
+      "type": "complements",
+      "label": "how collaborators reach understanding and commitment",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "collaboration",
+      "target": "collaboration-foundation",
+      "type": "instantiates",
+      "label": "the foundation the collaboration activity realises",
+      "extractedFrom": "frontmatter:instantiates"
+    },
+    {
+      "source": "command-menu",
+      "target": "autocomplete",
+      "type": "complements",
+      "label": "supports command menu functionality by reducing typing effort and increasing discoverability of commands.",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "command-menu",
+      "target": "embedded-intelligence",
+      "type": "complements",
+      "label": "helps the actor find relevant commands when exact matches aren't available",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "command-menu",
+      "target": "collaboration",
+      "type": "complements",
+      "label": "Command menus provide quick access to collaborative actions and workflows",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "command-menu",
+      "target": "keyboard-shortcuts",
+      "type": "complements",
+      "label": "surfaces shortcuts alongside each command name, making the invisible visible — the command menu is often the primary discovery mechanism for a shortcut system",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "command-menu",
+      "target": "unavailable-actions",
+      "type": "precedes",
+      "label": "context menus show only relevant commands, hiding those inaccessible in the current context",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "commenting",
+      "target": "collaboration",
+      "type": "complements",
+      "label": "provides broader collaborative context",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "commenting",
+      "target": "activity-log",
+      "type": "complements",
+      "label": "tracks commenting activity over time",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "commenting",
+      "target": "notification",
+      "type": "complements",
+      "label": "alerts users to comment activity",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "commenting",
+      "target": "conversation",
+      "type": "tangential",
+      "label": "provides dialogue interaction principles",
+      "extractedFrom": "frontmatter:tangential"
+    },
+    {
+      "source": "commenting",
+      "target": "status-feedback",
+      "type": "tangential",
+      "label": "indicates comment and resolution states",
+      "extractedFrom": "frontmatter:tangential"
+    },
+    {
+      "source": "conversation-quality",
+      "target": "temporality",
+      "type": "related",
+      "label": "an event-based process that unfolds over time",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "conversation",
+      "target": "collaboration",
+      "type": "complements",
+      "label": "uses conversation as a core communication mechanism for collaborative work",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "user-opening",
+      "target": "conversation",
+      "type": "enables",
+      "incomingNote": "the conversation opens with the actor speaking first; the bot aligns to their topic",
+      "extractedFrom": "frontmatter:composed-of"
+    },
+    {
+      "source": "inquiry-agent",
+      "target": "conversation",
+      "type": "enables",
+      "incomingNote": "the bot asks for information it lacks; the move that drives question-driven dialogue",
+      "extractedFrom": "frontmatter:composed-of",
+      "label": "bot inquiry drives question-driven dialogue"
+    },
+    {
+      "source": "open-request",
+      "target": "conversation",
+      "type": "enables",
+      "incomingNote": "the actor makes a complex request needing clarification and multiple steps; where instruction-based dialogue begins",
+      "extractedFrom": "frontmatter:composed-of",
+      "label": "the primary primitive for instruction-based dialogue"
+    },
+    {
+      "source": "sequence-completion",
+      "target": "conversation",
+      "type": "enables",
+      "incomingNote": "the actor marks a sequence as successfully done",
+      "extractedFrom": "frontmatter:composed-of"
+    },
+    {
+      "source": "disengage-without-closing",
+      "target": "conversation",
+      "type": "enables",
+      "incomingNote": "either party steps away without a formal close, leaving the exchange ready to resume",
+      "extractedFrom": "frontmatter:composed-of"
+    },
+    {
+      "source": "inquiry-user",
+      "target": "conversation",
+      "type": "enables",
+      "incomingNote": "the actor asks and the bot answers directly — the minimal exchange, present in every dialogue form",
+      "extractedFrom": "frontmatter:composed-of",
+      "label": "user inquiry appears across all dialogue forms"
+    },
+    {
+      "source": "extended-telling",
+      "target": "conversation",
+      "type": "enables",
+      "incomingNote": "the bot holds the floor across several turns to instruct, narrate, or explain",
+      "extractedFrom": "frontmatter:composed-of",
+      "label": "a primitive for instruction-based dialogue"
+    },
+    {
+      "source": "user-repair",
+      "target": "conversation",
+      "type": "enables",
+      "incomingNote": "the actor signals the bot's last utterance didn't land, repairing the exchange from the user's side",
+      "extractedFrom": "frontmatter:composed-of"
+    },
+    {
+      "source": "conversation",
+      "target": "conversation-quality",
+      "type": "enacts",
+      "label": "the quality names the stance conversation makes its primary mode: dialogue as the substrate of meaning, not one option among many",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "conversation",
+      "target": "agency",
+      "type": "enacts",
+      "label": "turn-taking distributes control across the exchange; each turn is an opening to redirect",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "dashboard",
+      "target": "data-view",
+      "type": "related",
+      "label": "Collection representations with framing intents",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "dashboard",
+      "target": "item-view",
+      "type": "related",
+      "label": "Single-entity representations at different granularities",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "ai-completion",
+      "target": "data-entry",
+      "type": "enables",
+      "incomingNote": "AI completion as the AI-driven end of the input strategy spectrum",
+      "extractedFrom": "frontmatter:composed-of"
+    },
+    {
+      "source": "data-entry",
+      "target": "conversation",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "data-entry",
+      "target": "inline-interface",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "data-entry",
+      "target": "status-feedback",
+      "type": "related",
+      "label": "confirming the interpretation of forgiving input.",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "data-entry",
+      "target": "bot",
+      "type": "related",
+      "label": "the agent often responsible for interpreting forgiving input.",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "data-entry",
+      "target": "transparent-reasoning",
+      "type": "related",
+      "label": "explaining *why* a specific interpretation was made.",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "form",
+      "target": "data-entry",
+      "type": "hosts",
+      "incomingNote": "one of the surfaces that host the entry move — structured, multi-field, committed up front. [Conversation](/patterns/conversation) and the [inline interface](/patterns/inline-interface) are others.",
+      "extractedFrom": "frontmatter:hosted-by",
+      "label": "each field is a site of the entry move; the form is one of its surfaces."
+    },
+    {
+      "source": "data-entry",
+      "target": "good-defaults",
+      "type": "alternative",
+      "label": "use when you can make a good guess to avoid data entry entirely.",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "data-entry",
+      "target": "formality",
+      "type": "enacts",
+      "label": "every data entry field is a choice about how formal the input has to be",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "data-view",
+      "target": "item-view",
+      "type": "related",
+      "label": "Single-entity counterpart",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "data-view",
+      "target": "view",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "data-view",
+      "target": "semantic-zoom",
+      "type": "complements",
+      "label": "scale-bound traversal between collection and item granularities, uniform across the population",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "data-view",
+      "target": "selection",
+      "type": "enables",
+      "label": "staking a subset of items as the target of subsequent action",
+      "extractedFrom": "frontmatter:enables",
+      "incomingNote": "the view in which item selection happens — it supplies the visible set the pick is drawn from"
+    },
+    {
+      "source": "data-visualization",
+      "target": "dashboard",
+      "type": "related",
+      "label": "the monitoring variant is largely composed of charts; the needs-based framing decides which comparisons each chart must support",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "data-visualization",
+      "target": "data-view",
+      "type": "related",
+      "label": "a chart is one of the representations a collection framing can take — the analytic sibling of table and cards",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "data",
+      "target": "agency",
+      "type": "enacts",
+      "label": "User control over data layer configuration",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "data",
+      "target": "adaptation",
+      "type": "enacts",
+      "label": "hard facts stay fixed while the soft, inferred layers flex to context",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "data",
+      "target": "conversation-quality",
+      "type": "enacts",
+      "label": "Turn-taking between user input and system responses",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "data",
+      "target": "privacy",
+      "type": "enacts",
+      "label": "the data layer governs what information can be perceived, and by whom",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "data",
+      "target": "dynamic-hyperlinks",
+      "type": "precedes",
+      "label": "hard and soft data layering",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "deep-linking",
+      "target": "commenting",
+      "type": "related",
+      "label": "Comments get unique URLs",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "deep-linking",
+      "target": "progressive-disclosure",
+      "type": "related",
+      "label": "URL state tracks what's expanded/revealed",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "delegation",
+      "target": "activity-log",
+      "type": "precedes",
+      "label": "the log serves as the supervisory record for delegation's *monitoring* and *hood to look under* touchpoints during execution",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "bot",
+      "target": "delegation",
+      "type": "instantiates",
+      "incomingNote": "the ambient and workflow automation bot modes apply the delegation configuration",
+      "extractedFrom": "frontmatter:instances"
+    },
+    {
+      "source": "delegation",
+      "target": "agency",
+      "type": "enacts",
+      "label": "delegation moves the locus toward the system: the actor offloads sustained work and re-enters at handoff, takeback, and exception boundaries rather than attending continuously",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "delegation",
+      "target": "interaction",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "delegation",
+      "target": "assistance",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "deletion",
+      "target": "action-consequences",
+      "type": "related",
+      "label": "Framework for evaluating appropriate confirmation methods",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "deletion",
+      "target": "saving",
+      "type": "related",
+      "label": "Staged deletions within save/cancel workflows",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "deletion",
+      "target": "status-feedback",
+      "type": "related",
+      "label": "Communicating deletion results",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "deletion",
+      "target": "activity-log",
+      "type": "related",
+      "label": "Historical record of deletions",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "deletion",
+      "target": "notification",
+      "type": "related",
+      "label": "Alerting about deletion events",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "selection",
+      "target": "deletion",
+      "type": "enables",
+      "incomingNote": "How the scope of a deletion gets staked",
+      "extractedFrom": "frontmatter:composed-of",
+      "label": "the most common operation routed through selection; confirmation strategy should scale with the selection count"
+    },
+    {
+      "source": "density",
+      "target": "temporality",
+      "type": "related",
+      "label": "rhythm, pacing, and duration directly affect temporal density",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "density",
+      "target": "learnability",
+      "type": "related",
+      "label": "expertise expands effective cognitive capacity through chunking and automation",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "disengage-without-closing",
+      "target": "closing",
+      "type": "alternative",
+      "label": "the preferred alternative when a formal close is possible",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "disengage-without-closing",
+      "target": "user-opening",
+      "type": "precedes",
+      "label": "users can also re-open on their own initiative after stepping away",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "dynamic-hyperlinks",
+      "target": "link-preview",
+      "type": "complements",
+      "label": "inferred links benefit from preview since actors have less prior expectation of the destination",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "dynamic-hyperlinks",
+      "target": "suggestion",
+      "type": "complements",
+      "label": "suggested actions and connections",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "dynamic-hyperlinks",
+      "target": "annotation",
+      "type": "complements",
+      "label": "user-created markers (hard) and system-generated insights (soft)",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "dynamic-hyperlinks",
+      "target": "deep-linking",
+      "type": "complements",
+      "label": "URL-based addressability",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "embedded-intelligence",
+      "target": "adaptation",
+      "type": "enacts",
+      "label": "the system mixes rule-driven and inferred responses, so behaviour shifts with context rather than staying fixed",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "embedded-intelligence",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the system decides and acts on its own behalf rather than only responding to the actor's explicit moves",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "embedded-intelligence",
+      "target": "command-menu",
+      "type": "complements",
+      "label": "a natural home for embedded intelligence, turning a command line into an intent-driven interface",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "embedded-intelligence",
+      "target": "filtering",
+      "type": "precedes",
+      "label": "natural language queries translated into structured filters",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "embedded-intelligence",
+      "target": "focus-and-context",
+      "type": "precedes",
+      "label": "infers what contextual information is most relevant to the actor's current focus",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "embedded-intelligence",
+      "target": "suggestion",
+      "type": "precedes",
+      "label": "the output is often a suggestion the actor can accept, reject, or modify",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "explanation",
+      "target": "assistance",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "explanation",
+      "target": "transparent-reasoning",
+      "type": "complements",
+      "label": "shows step-by-step process while explanation encourages understanding through interaction",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "explanation",
+      "target": "collaboration",
+      "type": "complements",
+      "label": "uses explanations to facilitate understanding through transparency about other actors' actions",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "explanation",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "explanations teach the domain the tool encodes, not just how to operate it",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "explanation",
+      "target": "agency",
+      "type": "enacts",
+      "label": "makes the system's reasoning legible so the actor can judge when to defer and when to override",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "explanation",
+      "target": "adaptation",
+      "type": "enacts",
+      "label": "explanations adjust their depth and form to the actor's level and context",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "extended-telling",
+      "target": "agent-opening",
+      "type": "alternative",
+      "label": "offered as an alternative to immediate engagement on user refusal",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "user-repair",
+      "target": "extended-telling",
+      "type": "precedes",
+      "incomingNote": "extended telling is the fallback when simple paraphrase or definition fails to resolve confusion",
+      "extractedFrom": "frontmatter:follows",
+      "label": "fallback when a simple paraphrase or definition is insufficient"
+    },
+    {
+      "source": "filtering",
+      "target": "grouping",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "filtering",
+      "target": "sorting",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "filtering",
+      "target": "selection",
+      "type": "complements",
+      "label": "the imperative dual; filter narrows by predicate, selection narrows by enumeration",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "filtering",
+      "target": "data-view",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "filtering",
+      "target": "bot",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "flat-navigation",
+      "target": "command-menu",
+      "type": "related",
+      "label": "efficient tool access",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "flat-navigation",
+      "target": "fully-connected",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "flat-navigation",
+      "target": "hybrid-patterns",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "focus-and-context",
+      "target": "agency",
+      "type": "enacts",
+      "label": "agency here belongs to the system as well as the user",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "focus-and-context",
+      "target": "adaptation",
+      "type": "enacts",
+      "label": "the focused frame and its surrounding context recalibrate as the actor's task shifts",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "focus-and-context",
+      "target": "density",
+      "type": "enacts",
+      "label": "balanced against the actor's cognitive load as focus shifts",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "focus-and-context",
+      "target": "progressive-disclosure",
+      "type": "complements",
+      "label": "staged exposure pairs naturally with focus-and-context, revealing detail as the actor moves toward it",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "focus-and-context",
+      "target": "semantic-zoom",
+      "type": "alternative",
+      "label": "keeps focus and context simultaneous — detail follows the actor's attention, non-uniformly, inside one continuous view; semantic zoom shows one uniform level at a time under a global scale control",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "form",
+      "target": "formality",
+      "type": "enacts",
+      "label": "how much structure the system demands of the actor, and when.",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "form",
+      "target": "good-defaults",
+      "type": "hosts",
+      "label": "fields arrive pre-filled with likely values, removing entry entirely.",
+      "extractedFrom": "frontmatter:hosts",
+      "incomingNote": "form fields are the primary surface where defaults are encountered"
+    },
+    {
+      "source": "form",
+      "target": "conversation",
+      "type": "complements",
+      "label": "may resolve into a form when a dialogue stabilises around structured data collection.",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "form",
+      "target": "localization",
+      "type": "complements",
+      "label": "locale-aware parsing and format tolerance for input.",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "form",
+      "target": "status-feedback",
+      "type": "complements",
+      "label": "validation and system status during and after entry.",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "form",
+      "target": "saving",
+      "type": "complements",
+      "label": "autosave and manual save strategies for in-progress and committed input.",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "form",
+      "target": "state-disabled",
+      "type": "tangential",
+      "label": "alternatives to disabling form elements.",
+      "extractedFrom": "frontmatter:tangential"
+    },
+    {
+      "source": "form",
+      "target": "inline-interface",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "formality",
+      "target": "agency",
+      "type": "related",
+      "label": "low formality preserves user agency during exploration",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "formality",
+      "target": "learnability",
+      "type": "related",
+      "label": "every formalism carries its own learning curve, independent of the task",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "formality",
+      "target": "adaptation",
+      "type": "related",
+      "label": "systems that adapt formality to context avoid premature structure",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "fully-connected",
+      "target": "command-menu",
+      "type": "complements",
+      "label": "keyboard-driven alternative for power users",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "fully-connected",
+      "target": "searching",
+      "type": "complements",
+      "label": "alternative navigation path",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "fully-connected",
+      "target": "deep-linking",
+      "type": "complements",
+      "label": "enables direct access to any page",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "fully-connected",
+      "target": "hybrid-patterns",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "fully-connected",
+      "target": "hub-and-spoke",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "fully-connected",
+      "target": "multilevel-tree",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "fully-connected",
+      "target": "step-by-step",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "generated-content",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the actor steers, edits, and improves the output rather than receiving a finished artefact",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "generated-content",
+      "target": "conversation",
+      "type": "precedes",
+      "label": "generated content can become part of ongoing dialogue.",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "generated-content",
+      "target": "suggestion",
+      "type": "precedes",
+      "label": "output can inform subsequent suggestions or recommendations.",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "generated-content",
+      "target": "transparent-reasoning",
+      "type": "complements",
+      "label": "shows the step-by-step process behind the generated content.",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "generated-content",
+      "target": "explanation",
+      "type": "complements",
+      "label": "provides contextual information to clarify AI-driven decisions within the output.",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "generated-content",
+      "target": "ai-tuning",
+      "type": "complements",
+      "label": "settings that influence how content is generated and presented.",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "good-defaults",
+      "target": "localization",
+      "type": "precedes",
+      "label": "locale detection and sensible starting configuration",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "good-defaults",
+      "target": "onboarding",
+      "type": "related",
+      "label": "Often sets the initial state and defaults for the application",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "good-defaults",
+      "target": "settings",
+      "type": "related",
+      "label": "Where global defaults are managed and overridden",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "good-defaults",
+      "target": "suggestion",
+      "type": "related",
+      "label": "A weaker form of default (\"Did you mean X?\") or a dynamic default",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "good-defaults",
+      "target": "agency",
+      "type": "enacts",
+      "label": "a default is the system making the small decision so the actor doesn't have to; the actor still has the final say but doesn't have to spend it on this field",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "good-defaults",
+      "target": "data-entry",
+      "type": "alternative",
+      "label": "The alternative when a default cannot be guessed",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "grouping",
+      "target": "data-view",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "grouping",
+      "target": "filtering",
+      "type": "complements",
+      "label": "narrows what groups show up",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "grouping",
+      "target": "sorting",
+      "type": "complements",
+      "label": "organises groups",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "help",
+      "target": "embedded-intelligence",
+      "type": "related",
+      "label": "The proactive sibling to Help. If Help explains how to do X, Embedded Intelligence offers to do X for you.",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "help",
+      "target": "explanation",
+      "type": "related",
+      "label": "The core content unit of high-quality help.",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "help",
+      "target": "status-feedback",
+      "type": "related",
+      "label": "Communicates system state; the \"Recover\" purpose often begins with status feedback.",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "help",
+      "target": "command-menu",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "help",
+      "target": "bot",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "help",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "help meets the actor at the moment of friction, both on first use and later when memory fades; learning happens in context rather than ahead of time",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "help",
+      "target": "conversation-quality",
+      "type": "enacts",
+      "label": "help is a dialogue: the actor asks at the point of friction and the system answers in context",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "annotation",
+      "target": "help",
+      "type": "enables",
+      "incomingNote": "annotation supplies the mechanism for attaching help to specific elements",
+      "extractedFrom": "frontmatter:composed-of"
+    },
+    {
+      "source": "hub-and-spoke",
+      "target": "command-menu",
+      "type": "complements",
+      "label": "provides escape hatch for quick navigation without hub return",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "hub-and-spoke",
+      "target": "deep-linking",
+      "type": "complements",
+      "label": "enables direct spoke access from external sources",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "hub-and-spoke",
+      "target": "searching",
+      "type": "complements",
+      "label": "alternative to hub browsing for known destinations",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "hub-and-spoke",
+      "target": "workspace",
+      "type": "enables",
+      "label": "organisational containers often use hub and spoke",
+      "extractedFrom": "frontmatter:enables",
+      "incomingNote": "Workspaces often implement hub and spoke navigation, where a workspace switcher or dashboard (hub) provides access to individual workspaces (spokes). See [Information Architecture foundation](/patterns/information-architecture) for the structural pattern behind it."
+    },
+    {
+      "source": "hub-and-spoke",
+      "target": "fully-connected",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "hub-and-spoke",
+      "target": "multilevel-tree",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "hub-and-spoke",
+      "target": "hybrid-patterns",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "human-goes-first",
+      "target": "cognitive-forcing-functions",
+      "type": "related",
+      "label": "the family this pattern belongs to",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "human-goes-first",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "domain learnability scaffolding that deepens rather than fades",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "human-goes-first",
+      "target": "agency",
+      "type": "enacts",
+      "label": "directly prevents the skill atrophy side of over-reliance",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "hybrid-patterns",
+      "target": "information-architecture",
+      "type": "related",
+      "label": "conceptual framework",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "hybrid-patterns",
+      "target": "wizard",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "hybrid-patterns",
+      "target": "agency",
+      "type": "enacts",
+      "label": "control implications of combinations",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "information-architecture",
+      "target": "interaction",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "information-architecture",
+      "target": "multilevel-tree",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "information-architecture",
+      "target": "dynamic-hyperlinks",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "information-architecture",
+      "target": "prose",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "information-architecture",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the structure of information shapes who can do what with it; strict hierarchies concentrate authorship in the system, while multiple paths and tags distribute it to the actor",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "information-architecture",
+      "target": "shareability",
+      "type": "enacts",
+      "label": "the structure determines what travels: a deeply nested item is hard to point at, while a flat, URL-addressable one is easy",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "information-architecture",
+      "target": "malleability",
+      "type": "enacts",
+      "label": "user-created hierarchies and tags let the actor reshape the structure to their own model",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "information-architecture",
+      "target": "localization",
+      "type": "precedes",
+      "label": "controlled vocabularies and label strategies that localization must adapt",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "information-architecture",
+      "target": "searching",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "information-architecture",
+      "target": "workspace",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "inline-confirmation",
+      "target": "deletion",
+      "type": "related",
+      "label": "the action it most commonly guards; deletion's decision tree recommends it for items that take minutes, not seconds, to recreate",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "inline-confirmation",
+      "target": "action-consequences",
+      "type": "related",
+      "label": "the framework that places this move — moderate recovery effort, clear intent, context worth keeping; one rung above undo-only, one below modal",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "inline-confirmation",
+      "target": "undo",
+      "type": "alternative",
+      "label": "moves the safety net after the act instead of before it; prefer undo when the action reverses cleanly",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "inline-interface",
+      "target": "conversation",
+      "type": "related",
+      "label": "the exchange this move renders into; the <ComponentRef id=\"components-messaging--docs\">Messaging</ComponentRef> component is its mechanism.",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "inline-interface",
+      "target": "form",
+      "type": "related",
+      "label": "fields distributed across an exchange; the form↔conversation move.",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "inline-interface",
+      "target": "bounded-choice",
+      "type": "related",
+      "label": "selections offered inline as chips or cards.",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "inline-interface",
+      "target": "suggestion",
+      "type": "related",
+      "label": "recommendations the actor can accept, modify, or reject in the flow.",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "inline-interface",
+      "target": "human-goes-first",
+      "type": "related",
+      "label": "inline confirmation and correction checkpoints",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "inline-interface",
+      "target": "agent-repair",
+      "type": "related",
+      "label": "inline confirmation and correction checkpoints",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "inline-interface",
+      "target": "conversation-quality",
+      "type": "enacts",
+      "label": "the foundational claim this concretises: the inline interface is where the conversation metaphor becomes a literal rendering.",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "inline-interface",
+      "target": "generated-content",
+      "type": "complements",
+      "label": "produced output the actor negotiates; interlocks with, but distinct from, this move.",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "inline-interface",
+      "target": "status-feedback",
+      "type": "complements",
+      "label": "system and progress signals during inline work.",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "inquiry-agent",
+      "target": "open-request",
+      "type": "enables",
+      "label": "bot inquiry is embedded within open request to gather missing constraints",
+      "extractedFrom": "frontmatter:enables",
+      "incomingNote": "used within open request to gather missing or ambiguous constraints"
+    },
+    {
+      "source": "user-opening",
+      "target": "inquiry-agent",
+      "type": "precedes",
+      "incomingNote": "bot inquiry is used when a user opening requires clarification before the bot can proceed",
+      "extractedFrom": "frontmatter:follows",
+      "label": "used when the opening requires clarification before proceeding"
+    },
+    {
+      "source": "inquiry-user",
+      "target": "extended-telling",
+      "type": "related",
+      "label": "for multi-part answers that exceed the scope of a single inquiry response",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "interaction",
+      "target": "assistance",
+      "type": "related",
+      "label": "the kinds of support a system can offer at each stage of the actor's cognitive cycle (perceiving, knowing, planning, performing, reflecting).",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "interaction",
+      "target": "delegation",
+      "type": "related",
+      "label": "the lifecycle and touchpoints of agentive systems.",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "interaction",
+      "target": "information-architecture",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "interaction",
+      "target": "fully-connected",
+      "type": "related",
+      "label": "maximum efficiency for precise movement",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "interaction",
+      "target": "multilevel-tree",
+      "type": "related",
+      "label": "efficient when mental model matches structure",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "interaction",
+      "target": "pyramid",
+      "type": "related",
+      "label": "hub enables direct targeting",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "interaction",
+      "target": "step-by-step",
+      "type": "related",
+      "label": "guided completion without distraction",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "interaction",
+      "target": "flat-navigation",
+      "type": "related",
+      "label": "sustained focus on work",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "interaction",
+      "target": "pan-and-zoom",
+      "type": "related",
+      "label": "spatial exploration feels natural",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "interaction",
+      "target": "hub-and-spoke",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "interaction",
+      "target": "searching",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "interaction",
+      "target": "formality",
+      "type": "enacts",
+      "label": "parallels the arc: as engagement matures, so does the structure around it, loose to precise",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "interaction",
+      "target": "adaptation",
+      "type": "enacts",
+      "label": "the engagement arc reshapes itself as intent sharpens; what the system offers shifts stage by stage",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "interaction",
+      "target": "agency",
+      "type": "enacts",
+      "label": "who is driving at any given moment, and what the system contributes at each stage",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "interaction",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "the rhythm and pacing of turn-taking",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "item-view",
+      "target": "data-view",
+      "type": "related",
+      "label": "Collection-scope counterpart",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "item-view",
+      "target": "progressive-disclosure",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "item-view",
+      "target": "semantic-zoom",
+      "type": "complements",
+      "label": "drives this ladder for all items at once from a single scale control",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "keyboard-shortcuts",
+      "target": "command-menu",
+      "type": "complements",
+      "label": "the command menu surfaces shortcuts alongside each command name, making the invisible visible; together they span the full spectrum from exploration to direct execution",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "keyboard-shortcuts",
+      "target": "agency",
+      "type": "enacts",
+      "label": "an actor who has internalised the shortcut vocabulary can execute intent without navigating the interface at all",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "keyboard-shortcuts",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "the arc from menu reliance to muscle memory is a concrete learnability trajectory; tooltip hints and the ? dialog scaffold each stage",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "learnability",
+      "target": "agency",
+      "type": "related",
+      "label": "competence facilitates agency",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "link-preview",
+      "target": "dynamic-hyperlinks",
+      "type": "complements",
+      "label": "inferred links benefit even more from preview, since actors have less prior expectation of where they lead",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "link-preview",
+      "target": "deep-linking",
+      "type": "complements",
+      "label": "when a link targets a specific section, the preview can scroll to and highlight the anchored fragment",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "link-preview",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "previews help actors build a mental map of the knowledge base without navigating away from their current reading",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "link-preview",
+      "target": "density",
+      "type": "enacts",
+      "label": "by deferring full content to hover, preview lets dense cross-referencing exist without overwhelming the page",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "live-presentation",
+      "target": "transparent-reasoning",
+      "type": "complements",
+      "label": "its \"stream of thought\" mode rides on the same rendering substrate",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "live-presentation",
+      "target": "conversation",
+      "type": "complements",
+      "label": "live presentation is one of the rhythms a conversational turn can take",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "live-presentation",
+      "target": "abort",
+      "type": "complements",
+      "label": "the user-side stop depends on the surface having a quiet resting state to land in",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "live-presentation",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the actor can steer or interrupt the unfolding stream as it plays",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "live-presentation",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "content arrives as it's produced; the actor watches the work unfold live",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "living-document",
+      "target": "generated-content",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "localization",
+      "target": "conversation",
+      "type": "precedes",
+      "label": "dialogue structure adapted to cultural communication norms",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "localization",
+      "target": "generated-content",
+      "type": "precedes",
+      "label": "locale-aware generation",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "localization",
+      "target": "data-entry",
+      "type": "precedes",
+      "label": "locale-aware input parsing and format tolerance",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "localization",
+      "target": "notification",
+      "type": "precedes",
+      "label": "localised message content, timing conventions",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "localization",
+      "target": "help",
+      "type": "precedes",
+      "label": "localised documentation and support content",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "localization",
+      "target": "adaptation",
+      "type": "enacts",
+      "label": "the capacity that localization exercises",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "localization",
+      "target": "shareability",
+      "type": "enacts",
+      "label": "locale-aware URLs and shared content",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "localization",
+      "target": "privacy",
+      "type": "enacts",
+      "label": "data residency, GDPR, locale-specific regulation",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "localization",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "timezone handling, date format conventions",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "localization",
+      "target": "density",
+      "type": "enacts",
+      "label": "text expansion affecting information density",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "localization",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "learning curves differ across localised interfaces",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "localization",
+      "target": "ai-tuning",
+      "type": "complements",
+      "label": "locale as a generation parameter",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "localization",
+      "target": "onboarding",
+      "type": "complements",
+      "label": "first-run locale detection and selection",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "localization",
+      "target": "collaboration",
+      "type": "tangential",
+      "label": "multilingual team dynamics",
+      "extractedFrom": "frontmatter:tangential"
+    },
+    {
+      "source": "localization",
+      "target": "workspace",
+      "type": "tangential",
+      "label": "per-actor locale in shared spaces",
+      "extractedFrom": "frontmatter:tangential"
+    },
+    {
+      "source": "localization",
+      "target": "suggestion",
+      "type": "tangential",
+      "label": "locale mismatch prompts",
+      "extractedFrom": "frontmatter:tangential"
+    },
+    {
+      "source": "localization",
+      "target": "bot",
+      "type": "tangential",
+      "label": "multilingual interaction",
+      "extractedFrom": "frontmatter:tangential"
+    },
+    {
+      "source": "localization",
+      "target": "explanation",
+      "type": "tangential",
+      "label": "culturally appropriate explanation styles",
+      "extractedFrom": "frontmatter:tangential"
+    },
+    {
+      "source": "malleability",
+      "target": "agency",
+      "type": "related",
+      "label": "prerequisite for user control",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "malleability",
+      "target": "adaptation",
+      "type": "related",
+      "label": "system-driven complement",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "malleability",
+      "target": "learnability",
+      "type": "related",
+      "label": "gentle slope supports skill development",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "malleability",
+      "target": "shareability",
+      "type": "related",
+      "label": "customizations as shareable state",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "malleability",
+      "target": "temporality",
+      "type": "related",
+      "label": "versioning and undo history",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "malleability",
+      "target": "density",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "malleability",
+      "target": "a11y",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "onboarding",
+      "target": "mastery",
+      "type": "precedes",
+      "incomingNote": "initial phase before the actor develops efficiency",
+      "extractedFrom": "frontmatter:follows",
+      "label": "building proficiency after initial learning"
+    },
+    {
+      "source": "mastery",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "extended learnability: the long curve after onboarding",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "mastery",
+      "target": "malleability",
+      "type": "enacts",
+      "label": "the experienced actor reshapes the tool around their own workflow",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "mastery",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "mastery is the long-arc shape of one actor's relationship with the tool",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "mastery",
+      "target": "density",
+      "type": "enacts",
+      "label": "experts tolerate and benefit from higher density",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "mastery",
+      "target": "adaptation",
+      "type": "enacts",
+      "label": "the system grants more autonomy and lighter scaffolding as expertise grows",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "mastery",
+      "target": "command-menu",
+      "type": "complements",
+      "label": "key enabler of mastery, accessible to intermediates",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "mastery",
+      "target": "settings",
+      "type": "complements",
+      "label": "where customisation lives",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "modality",
+      "target": "notification",
+      "type": "complements",
+      "label": "chooses where on the gradient a signal lands",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "modality",
+      "target": "command-menu",
+      "type": "tangential",
+      "label": "overlay invocation that intersects modality without being defined by it",
+      "extractedFrom": "frontmatter:tangential"
+    },
+    {
+      "source": "modality",
+      "target": "bot",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "modality",
+      "target": "dynamic-hyperlinks",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "modality",
+      "target": "undo",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "modality",
+      "target": "settings",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "modality",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the actor picks whichever channel fits the moment rather than being locked to one",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "modality",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "each channel carries its own rhythm; modality sets how fast or slow the exchange runs",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "multilevel-tree",
+      "target": "searching",
+      "type": "complements",
+      "label": "escape hatch when hierarchy fails",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "multilevel-tree",
+      "target": "command-menu",
+      "type": "complements",
+      "label": "quick access bypassing hierarchy",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "multilevel-tree",
+      "target": "deep-linking",
+      "type": "complements",
+      "label": "enables direct access to any node",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "multilevel-tree",
+      "target": "fully-connected",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "multilevel-tree",
+      "target": "hub-and-spoke",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "multilevel-tree",
+      "target": "hybrid-patterns",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "navigation-overview",
+      "target": "information-architecture",
+      "type": "surveys",
+      "label": "structural and organizational foundation that navigation models manifest",
+      "extractedFrom": "frontmatter:surveys"
+    },
+    {
+      "source": "navigation-overview",
+      "target": "interaction",
+      "type": "surveys",
+      "label": "how structural choices shape interaction behaviour",
+      "extractedFrom": "frontmatter:surveys"
+    },
+    {
+      "source": "navigation-overview",
+      "target": "agency",
+      "type": "surveys",
+      "label": "what navigation structure implies for the actor's agency and control",
+      "extractedFrom": "frontmatter:surveys"
+    },
+    {
+      "source": "navigation-overview",
+      "target": "hub-and-spoke",
+      "type": "surveys",
+      "label": "central hub lists all sections, actors return to hub for cross-section navigation",
+      "extractedFrom": "frontmatter:surveys"
+    },
+    {
+      "source": "navigation-overview",
+      "target": "overview-detail",
+      "type": "surveys",
+      "label": "overview and detail displayed simultaneously (split view)",
+      "extractedFrom": "frontmatter:surveys"
+    },
+    {
+      "source": "navigation-overview",
+      "target": "fully-connected",
+      "type": "surveys",
+      "label": "every page links to all others through global navigation",
+      "extractedFrom": "frontmatter:surveys"
+    },
+    {
+      "source": "navigation-overview",
+      "target": "multilevel-tree",
+      "type": "surveys",
+      "label": "hierarchical structure with global navigation for main pages, local navigation for subpages",
+      "extractedFrom": "frontmatter:surveys"
+    },
+    {
+      "source": "navigation-overview",
+      "target": "step-by-step",
+      "type": "surveys",
+      "label": "prescribed step sequences with back/next controls",
+      "extractedFrom": "frontmatter:surveys"
+    },
+    {
+      "source": "navigation-overview",
+      "target": "pyramid",
+      "type": "surveys",
+      "label": "hub lists sequence, actors can navigate sequentially or jump to any item",
+      "extractedFrom": "frontmatter:surveys"
+    },
+    {
+      "source": "navigation-overview",
+      "target": "pan-and-zoom",
+      "type": "surveys",
+      "label": "continuous spatial navigation through large single spaces",
+      "extractedFrom": "frontmatter:surveys"
+    },
+    {
+      "source": "navigation-overview",
+      "target": "flat-navigation",
+      "type": "surveys",
+      "label": "minimal navigation, all functions accessible in one place",
+      "extractedFrom": "frontmatter:surveys"
+    },
+    {
+      "source": "navigation-overview",
+      "target": "hybrid-patterns",
+      "type": "surveys",
+      "label": "hybrids combining multiple navigation models",
+      "extractedFrom": "frontmatter:surveys"
+    },
+    {
+      "source": "navigation-overview",
+      "target": "malleability",
+      "type": "surveys",
+      "extractedFrom": "frontmatter:surveys"
+    },
+    {
+      "source": "navigation-overview",
+      "target": "deep-linking",
+      "type": "surveys",
+      "extractedFrom": "frontmatter:surveys"
+    },
+    {
+      "source": "navigation-overview",
+      "target": "searching",
+      "type": "surveys",
+      "extractedFrom": "frontmatter:surveys"
+    },
+    {
+      "source": "navigation-overview",
+      "target": "command-menu",
+      "type": "surveys",
+      "extractedFrom": "frontmatter:surveys"
+    },
+    {
+      "source": "next-best-action",
+      "target": "cognitive-forcing-functions",
+      "type": "precedes",
+      "label": "workflow-level recommendations that benefit from forcing functions when stakes are high",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "next-best-action",
+      "target": "action-consequences",
+      "type": "precedes",
+      "label": "when accepting a recommendation leads to consequential decisions",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "next-best-action",
+      "target": "assistance",
+      "type": "related",
+      "label": "Next-best action draws on assistance to decide *what* to suggest at workflow transitions",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "next-best-action",
+      "target": "delegation",
+      "type": "related",
+      "label": "Next-best action straddles the suggestion/delegation line — the same recommendation can be presented for the actor to accept or for the agent to perform.",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "next-best-action",
+      "target": "agency",
+      "type": "enacts",
+      "label": "proactive recommendations must preserve actor control",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "next-best-action",
+      "target": "adaptation",
+      "type": "enacts",
+      "label": "recommendations that improve from accepted/rejected signal over time",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "next-best-action",
+      "target": "assisted-task-completion",
+      "type": "complements",
+      "label": "the spectrum this pattern belongs to",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "next-best-action",
+      "target": "bot",
+      "type": "complements",
+      "label": "powers next-best action via the [ambient mode](/patterns/bot#modes-of-interaction) of interaction",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "next-best-action",
+      "target": "embedded-intelligence",
+      "type": "complements",
+      "label": "next-best action as intelligence woven into the workflow",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "next-best-action",
+      "target": "transparent-reasoning",
+      "type": "complements",
+      "label": "explaining the rationale behind recommendations",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "next-best-action",
+      "target": "notification",
+      "type": "complements",
+      "label": "a common delivery mechanism for next-best action prompts",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "next-best-action",
+      "target": "onboarding",
+      "type": "complements",
+      "label": "next-best action as guided first-use experience",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "notification",
+      "target": "delegation",
+      "type": "related",
+      "label": "the primary communication channel for a background agent",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "notification",
+      "target": "status-feedback",
+      "type": "related",
+      "label": "status feedback for events the actor didn't trigger and isn't watching; pushed, not pulled",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "notification",
+      "target": "collaboration",
+      "type": "complements",
+      "label": "Notifications keep collaborators informed of changes and events in shared environments",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "notification",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "when information arrives, and how disruptive the timing of its arrival is",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "onboarding",
+      "target": "bot",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "wizard",
+      "target": "onboarding",
+      "type": "enables",
+      "incomingNote": "often employs wizards for initial setup and configuration",
+      "extractedFrom": "frontmatter:composed-of"
+    },
+    {
+      "source": "template",
+      "target": "onboarding",
+      "type": "enables",
+      "incomingNote": "starter templates give the newcomer competent work to occupy",
+      "extractedFrom": "frontmatter:composed-of"
+    },
+    {
+      "source": "onboarding",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "the actor's first climb up the learning curve, deliberately shaped",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "onboarding",
+      "target": "adaptation",
+      "type": "enacts",
+      "label": "scaffolding that adapts to the newcomer, heavier at first and fading as competence grows",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "onboarding",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "the early, high-slope phase of the actor's arc with the tool",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "onboarding",
+      "target": "help",
+      "type": "complements",
+      "label": "provides just-in-time assistance.",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "onboarding",
+      "target": "localization",
+      "type": "complements",
+      "label": "first-run locale detection and selection",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "onboarding",
+      "target": "activity-log",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "user-opening",
+      "target": "open-request",
+      "type": "precedes",
+      "incomingNote": "user-initiated openings with a complex request map directly to this primitive",
+      "extractedFrom": "frontmatter:follows",
+      "label": "the most common activity a user-initiated opening transitions into"
+    },
+    {
+      "source": "overreliance-checklist",
+      "target": "cognitive-forcing-functions",
+      "type": "related",
+      "label": "the family this pattern belongs to",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "overreliance-checklist",
+      "target": "action-consequences",
+      "type": "related",
+      "label": "consequences preview before commitment; checklists add structured review",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "overreliance-checklist",
+      "target": "form",
+      "type": "related",
+      "label": "the checklist interaction resembles a form with verification items",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "overview-detail",
+      "target": "data-view",
+      "type": "related",
+      "label": "The \"Overview\" component.",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "overview-detail",
+      "target": "item-view",
+      "type": "related",
+      "label": "The \"Detail\" component.",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "overview-detail",
+      "target": "interaction",
+      "type": "related",
+      "label": "actors can scan list and verify details without back-and-forth navigation.",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "overview-detail",
+      "target": "malleability",
+      "type": "enacts",
+      "label": "The capability to switch between topologies.",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "overview-detail",
+      "target": "hub-and-spoke",
+      "type": "alternative",
+      "label": "The sequential alternative.",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "pan-and-zoom",
+      "target": "searching",
+      "type": "complements",
+      "label": "enables jumping to locations",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "pan-and-zoom",
+      "target": "deep-linking",
+      "type": "complements",
+      "label": "encode position and zoom in URLs for sharing",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "pan-and-zoom",
+      "target": "hybrid-patterns",
+      "type": "complements",
+      "label": "global nav for sections, spatial within sections",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "pan-and-zoom",
+      "target": "pyramid",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "pan-and-zoom",
+      "target": "fully-connected",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "pan-and-zoom",
+      "target": "multilevel-tree",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "privacy",
+      "target": "agency",
+      "type": "related",
+      "label": "determines who controls visibility decisions and how control is distributed",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "privacy",
+      "target": "conversation-quality",
+      "type": "related",
+      "label": "privacy affects audience awareness and appropriate disclosure in dialogue",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "privacy",
+      "target": "shareability",
+      "type": "related",
+      "label": "describes how state becomes public through sharing; privacy governs when that transition should occur",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "progressive-disclosure",
+      "target": "form",
+      "type": "enables",
+      "label": "a form revealing depth only as it becomes relevant.",
+      "extractedFrom": "frontmatter:enables"
+    },
+    {
+      "source": "wizard",
+      "target": "progressive-disclosure",
+      "type": "instantiates",
+      "incomingNote": "the wizard applies disclosure across discrete gated steps, revealing complexity gradually",
+      "extractedFrom": "frontmatter:instances"
+    },
+    {
+      "source": "progressive-disclosure",
+      "target": "explanation",
+      "type": "complements",
+      "label": "provides the content revealed at each disclosure level",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "progressive-disclosure",
+      "target": "help",
+      "type": "complements",
+      "label": "the pull-based channel actors use when they shift from doing to understanding",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "progressive-disclosure",
+      "target": "good-defaults",
+      "type": "complements",
+      "label": "what is visible by default is the first disclosure decision",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "progressive-disclosure",
+      "target": "transparent-reasoning",
+      "type": "complements",
+      "label": "a specialized high-detail form of disclosure for AI systems",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "progressive-disclosure",
+      "target": "focus-and-context",
+      "type": "complements",
+      "label": "helps preserve orientation while moving between shallow and deep views",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "progressive-disclosure",
+      "target": "density",
+      "type": "enacts",
+      "label": "progressive disclosure manages information density by deferring secondary content",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "progressive-disclosure",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "staged exposure helps actors build mental models without immediate overload",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "progressive-disclosure",
+      "target": "link-preview",
+      "type": "tangential",
+      "label": "hover-to-peek at a linked destination; the lightest disclosure tier for cross-references",
+      "extractedFrom": "frontmatter:tangential"
+    },
+    {
+      "source": "progressive-disclosure",
+      "target": "onboarding",
+      "type": "tangential",
+      "label": "stretches disclosure across an initial learning journey rather than a single view",
+      "extractedFrom": "frontmatter:tangential"
+    },
+    {
+      "source": "prompt",
+      "target": "bot",
+      "type": "precedes",
+      "label": "the prompt articulates the request the bot acts on",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "prompt",
+      "target": "generated-content",
+      "type": "precedes",
+      "label": "the input that leads to generated content.",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "prompt",
+      "target": "ai-tuning",
+      "type": "precedes",
+      "label": "lets the actor refine how the model gets prompted",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "prompt",
+      "target": "conversation",
+      "type": "enables",
+      "label": "the prompt is the turn-level move a conversation with an AI is built from",
+      "extractedFrom": "frontmatter:enables"
+    },
+    {
+      "source": "prompt",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the actor directs the system in their own words; initiative stays with whoever frames the request",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "prose",
+      "target": "agency",
+      "type": "enacts",
+      "label": "yielding the stage as locus shift",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "prose",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "prose carries domain scaffolding",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "prose",
+      "target": "formality",
+      "type": "enacts",
+      "label": "structural demand on user input (disambiguation)",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "prose",
+      "target": "conversation-quality",
+      "type": "enacts",
+      "label": "turn-taking as substrate",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "prose",
+      "target": "transparent-reasoning",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "prose",
+      "target": "ai-tuning",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "prose",
+      "target": "dynamic-hyperlinks",
+      "type": "related",
+      "label": "Dynamic hyperlinks are prose-as-affordance: the link text is the prose, and the move from authored phrase to actionable target is itself the prose move.",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "prose",
+      "target": "deep-linking",
+      "type": "related",
+      "label": "Deep linking surfaces a piece of system state as a shareable address; the prose around the link does the work of telling the recipient what they will land in.",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "prose",
+      "target": "information-architecture",
+      "type": "related",
+      "label": "IA owns the labelling vocabulary; prose owns how those labels get phrased and where they tolerate ambiguity.",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "prose",
+      "target": "data-entry",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "prose",
+      "target": "status-feedback",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "prose",
+      "target": "notification",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "prose",
+      "target": "data",
+      "type": "related",
+      "label": "generated prose as a probabilistic/inferred layer",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "prose",
+      "target": "interaction",
+      "type": "related",
+      "label": "Intent & Interaction frames interaction as a sequence of turns; prose is what those turns are made of when they are text.",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "prose",
+      "target": "assistance",
+      "type": "related",
+      "label": "Assistance lives largely as microcopy; each helper line is a small assistive turn made of prose.",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "prose",
+      "target": "delegation",
+      "type": "related",
+      "label": "Delegation surfaces are increasingly written rather than chosen; the prose decides what the agent sounds like and what authority it claims.",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "prose",
+      "target": "collaboration-foundation",
+      "type": "enables",
+      "label": "Collaboration depends on shared interpretive ground; prose is the most flexible carrier of that ground between participants.",
+      "extractedFrom": "frontmatter:enables"
+    },
+    {
+      "source": "pyramid",
+      "target": "deep-linking",
+      "type": "complements",
+      "label": "sharing and bookmarking items",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "pyramid",
+      "target": "step-by-step",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "pyramid",
+      "target": "multilevel-tree",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "pyramid",
+      "target": "hub-and-spoke",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "saving",
+      "target": "deletion",
+      "type": "related",
+      "label": "Save/cancel workflows as confirmation for destructive operations",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "saving",
+      "target": "action-consequences",
+      "type": "related",
+      "label": "Evaluating when save/cancel is appropriate",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "saving",
+      "target": "undo",
+      "type": "related",
+      "label": "Reversibility in saved states",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "saving",
+      "target": "collaboration",
+      "type": "related",
+      "label": "Saving patterns handle conflict resolution and multi-user editing scenarios in shared workspaces",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "saving",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "when state is persisted, and how often, across the session",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "command-menu",
+      "target": "searching",
+      "type": "instantiates",
+      "incomingNote": "searching is the broader seeking move, applied to a command vocabulary",
+      "extractedFrom": "frontmatter:instances"
+    },
+    {
+      "source": "searching",
+      "target": "data-view",
+      "type": "precedes",
+      "label": "displays the result set a search produces",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "searching",
+      "target": "filtering",
+      "type": "complements",
+      "label": "often used after a search to refine results; in AI-search, filters are the output of the search query",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "searching",
+      "target": "prompt",
+      "type": "complements",
+      "label": "modern search inputs are evolving into prompt interfaces, accepting instructions alongside keywords",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "searching",
+      "target": "autocomplete",
+      "type": "complements",
+      "label": "real-time narrowing of query suggestions as the actor types",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "searching",
+      "target": "suggestion",
+      "type": "complements",
+      "label": "\"did you mean?\" and related patterns that guide query formulation",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "sections",
+      "target": "form",
+      "type": "enables",
+      "label": "splitting a long form into adaptive, separately disclosed parts.",
+      "extractedFrom": "frontmatter:enables"
+    },
+    {
+      "source": "sections",
+      "target": "progressive-disclosure",
+      "type": "instantiates",
+      "label": "sections apply gradual disclosure adaptively, combining details and tabs affordances",
+      "extractedFrom": "frontmatter:instantiates"
+    },
+    {
+      "source": "sections",
+      "target": "grouping",
+      "type": "complements",
+      "label": "organising content into named groups is a prerequisite for sectioning",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "sections",
+      "target": "adaptation",
+      "type": "enacts",
+      "label": "sections rearrange and reveal content based on context",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "selection",
+      "target": "tag",
+      "type": "enables",
+      "label": "a selection is the common payload of bulk tagging",
+      "extractedFrom": "frontmatter:enables"
+    },
+    {
+      "source": "selection",
+      "target": "grouping",
+      "type": "enables",
+      "label": "a selection is the common payload of bulk grouping",
+      "extractedFrom": "frontmatter:enables"
+    },
+    {
+      "source": "selection",
+      "target": "searching",
+      "type": "related",
+      "label": "Search shrinks the population from which selections are drawn",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "selection",
+      "target": "filtering",
+      "type": "complements",
+      "label": "Filtering and selection cover the same job from opposite ends — filter narrows by predicate, selection narrows by enumeration",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "selection",
+      "target": "sorting",
+      "type": "tangential",
+      "label": "Sorting changes what a range selection refers to mid-flight — range selections have to either survive the sort or re-resolve to the new order",
+      "extractedFrom": "frontmatter:tangential"
+    },
+    {
+      "source": "semantic-zoom",
+      "target": "focus-and-context",
+      "type": "alternative",
+      "label": "resolves the same force — detail without losing context — by varying detail with global scale, uniformly and one level at a time; focus-and-context varies it with attention, non-uniformly, inside one simultaneous view",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "semantic-zoom",
+      "target": "item-view",
+      "type": "complements",
+      "label": "item view supplies the representation ladder and its per-item transitions; semantic zoom binds that ladder to a scale control and drives every item's rung at once, keeping spatial arrangement legible",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "semantic-zoom",
+      "target": "pan-and-zoom",
+      "type": "related",
+      "label": "the navigation surface this move layers onto — pan and zoom move the viewport; semantic zoom decides what the things in it look like at each scale",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "user-repair",
+      "target": "sequence-completion",
+      "type": "precedes",
+      "incomingNote": "resumes at sequence completion once the user's comprehension is restored",
+      "extractedFrom": "frontmatter:follows",
+      "label": "the activity resumes from the same step once the repair is resolved"
+    },
+    {
+      "source": "settings",
+      "target": "localization",
+      "type": "precedes",
+      "label": "language, timezone, and format preferences",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "settings",
+      "target": "undo",
+      "type": "precedes",
+      "label": "enables reversal of settings changes, particularly valuable for exploratory configuration",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "settings",
+      "target": "status-feedback",
+      "type": "precedes",
+      "label": "confirms settings changes and communicates their application",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "settings",
+      "target": "notification",
+      "type": "precedes",
+      "label": "alerts actors to settings-related changes, particularly in shared configuration contexts",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "settings",
+      "target": "agency",
+      "type": "enacts",
+      "label": "settings implement actor control over system behaviour",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "settings",
+      "target": "privacy",
+      "type": "enacts",
+      "label": "settings include visibility and access preferences",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "settings",
+      "target": "adaptation",
+      "type": "enacts",
+      "label": "the actor adapts the system to their context by hand, rather than leaving it to inference",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "settings",
+      "target": "progressive-disclosure",
+      "type": "complements",
+      "label": "manages complexity in extensive settings through hierarchical revelation",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "settings",
+      "target": "form",
+      "type": "complements",
+      "label": "settings are essentially configuration forms requiring similar patterns (validation, feedback, submission)",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "settings",
+      "target": "wizard",
+      "type": "complements",
+      "label": "may guide actors through initial settings configuration during setup",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "settings",
+      "target": "onboarding",
+      "type": "complements",
+      "label": "settings can be introduced gradually during first-time experience",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "settings",
+      "target": "ai-tuning",
+      "type": "complements",
+      "label": "specialized settings for configuring AI behaviour",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "settings",
+      "target": "workspace",
+      "type": "tangential",
+      "label": "settings affect workspace behaviour and may be scoped to workspace contexts",
+      "extractedFrom": "frontmatter:tangential"
+    },
+    {
+      "source": "settings",
+      "target": "collaboration",
+      "type": "tangential",
+      "label": "settings include collaboration preferences and affect shared work",
+      "extractedFrom": "frontmatter:tangential"
+    },
+    {
+      "source": "shareability",
+      "target": "agency",
+      "type": "related",
+      "label": "makes system state explicit and controllable, so the actor can see and communicate exactly what they share",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "shareability",
+      "target": "conversation-quality",
+      "type": "related",
+      "label": "a URL is a contract for what you're looking at; state as a conversational interface",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "shareability",
+      "target": "adaptation",
+      "type": "related",
+      "label": "URL-encoded state lets actors share and reuse personalised configurations",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "shareability",
+      "target": "a11y",
+      "type": "related",
+      "label": "bookmarkable URLs let assistive settings persist and return across sessions",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "sorting",
+      "target": "data-view",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "sorting",
+      "target": "grouping",
+      "type": "complements",
+      "label": "orders the members within each group",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "sorting",
+      "target": "filtering",
+      "type": "complements",
+      "label": "orders what filtering lets through",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "state-disabled",
+      "target": "explanation",
+      "type": "alternative",
+      "label": "enable and explain: keep the element interactive, then explain on interaction why it can't act yet",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "state-disabled",
+      "target": "unavailable-actions",
+      "type": "alternative",
+      "label": "hide what's irrelevant to the current context rather than showing it disabled",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "state-empty",
+      "target": "onboarding",
+      "type": "hosts",
+      "label": "the empty state is often the canvas onboarding builds on",
+      "extractedFrom": "frontmatter:hosts"
+    },
+    {
+      "source": "state-empty",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "the educational and guiding variants teach the system from inside the gap they announce",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "status-feedback",
+      "target": "activity-log",
+      "type": "related",
+      "label": "Records status changes as Events for chronological review",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "status-feedback",
+      "target": "notification",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "status-feedback",
+      "target": "collaboration",
+      "type": "enables",
+      "label": "Status feedback provides awareness of system state and action effects in collaborative environments",
+      "extractedFrom": "frontmatter:enables"
+    },
+    {
+      "source": "status-feedback",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "the timing and latency with which the system reports a change back to the actor",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "step-by-step",
+      "target": "form",
+      "type": "enables",
+      "label": "a form split into one-question-per-page steps (the question-pages pattern)",
+      "extractedFrom": "frontmatter:enables"
+    },
+    {
+      "source": "wizard",
+      "target": "step-by-step",
+      "type": "instantiates",
+      "incomingNote": "Wizard is the canonical instantiation of step-by-step navigation",
+      "extractedFrom": "frontmatter:instances"
+    },
+    {
+      "source": "step-by-step",
+      "target": "pyramid",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "step-by-step",
+      "target": "hybrid-patterns",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "step-by-step",
+      "target": "multilevel-tree",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "suggestion",
+      "target": "cognitive-forcing-functions",
+      "type": "precedes",
+      "label": "the primary site where forcing functions apply; see its fixation risk section",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "suggestion",
+      "target": "prompt",
+      "type": "precedes",
+      "label": "can provide an initial prompt",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "suggestion",
+      "target": "assistance",
+      "type": "related",
+      "label": "providing likely next actions and narrowing the option space",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "suggestion",
+      "target": "delegation",
+      "type": "related",
+      "label": "agent might suggest opportunities it believes will help",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "next-best-action",
+      "target": "suggestion",
+      "type": "instantiates",
+      "incomingNote": "suggestion is the broader pattern; next-best action specialises it to recommending workflow steps",
+      "extractedFrom": "frontmatter:instances"
+    },
+    {
+      "source": "suggestion",
+      "target": "collaboration",
+      "type": "complements",
+      "label": "Suggestions support collaborative decision-making through AI-assisted discovery",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "suggestion",
+      "target": "adaptation",
+      "type": "enacts",
+      "label": "suggestions might sharpen on the actor's accepted-or-rejected signal, fitting their patterns over time",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "suggestion",
+      "target": "formality",
+      "type": "enacts",
+      "label": "suggestions ease the step from informal intent to formal expression, formalising by recognition rather than recall",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "suggestion",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the system proposes and the actor disposes; accept, modify, or reject keeps the final say with the user",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "suggestion",
+      "target": "conversation",
+      "type": "alternative",
+      "label": "dialogue forms that provide alternatives to suggestion-based interaction",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "tag",
+      "target": "annotation",
+      "type": "complements",
+      "label": "tags as structured semantic annotation enabling systematic organisation",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "tag",
+      "target": "formality",
+      "type": "enacts",
+      "label": "lightweight formalisation through inline categorisation, structure added without demanding it",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "template",
+      "target": "suggestion",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "template",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "templates carry the shape of competent work, letting the actor learn the form by occupying it",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "temporality",
+      "target": "density",
+      "type": "related",
+      "label": "temporal density measures value delivered per unit of time",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "temporality",
+      "target": "conversation-quality",
+      "type": "related",
+      "label": "rhythm applied to dialogue",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "text-lense",
+      "target": "conversation",
+      "type": "complements",
+      "label": "filter lenses adapt conversational tone and style based on context and relationship",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "text-lense",
+      "target": "progressive-disclosure",
+      "type": "related",
+      "label": "lenses reveal or conceal information based on the actor's needs",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "text-lense",
+      "target": "localization",
+      "type": "related",
+      "label": "tone adjustment with cultural bounds",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "transient-feedback",
+      "target": "status-feedback",
+      "type": "instantiates",
+      "label": "the pushed, self-dismissing delivery shape of status feedback",
+      "extractedFrom": "frontmatter:instantiates"
+    },
+    {
+      "source": "transient-feedback",
+      "target": "notification",
+      "type": "related",
+      "label": "the coordination pattern that selects delivery type and disruption level; its decision tree routes dismissible, non-actionable messages here",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "transient-feedback",
+      "target": "undo",
+      "type": "complements",
+      "label": "the dismissal window doubles as the recovery window — transient feedback is the primary carrier for undo affordances",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "transparent-reasoning",
+      "target": "activity-log",
+      "type": "precedes",
+      "label": "provides the detailed reasoning steps that get recorded in the activity log.",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "transparent-reasoning",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "by observing *why* the system made a decision, the actor implicitly learns its logic and capabilities",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "transparent-reasoning",
+      "target": "agency",
+      "type": "enacts",
+      "label": "visible reasoning is one of the levers for reliance calibration, helping the actor judge when to trust and when to override",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "transparent-reasoning",
+      "target": "assistance",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "transparent-reasoning",
+      "target": "delegation",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "transparent-reasoning",
+      "target": "explanation",
+      "type": "complements",
+      "label": "encourages understanding through interaction, while transparent reasoning shows the step-by-step process.",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "transparent-reasoning",
+      "target": "suggestion",
+      "type": "complements",
+      "label": "can emerge from the visible reasoning process.",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "transparent-reasoning",
+      "target": "collaboration",
+      "type": "complements",
+      "label": "Transparent reasoning makes AI decision-making processes inspectable for human collaborators",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "transparent-reasoning",
+      "target": "cognitive-forcing-functions",
+      "type": "complements",
+      "label": "counterbalancing interventions when transparent reasoning slides into over-reliance",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "unavailable-actions",
+      "target": "state-disabled",
+      "type": "alternative",
+      "label": "hiding options is an alternative to showing them disabled",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "unavailable-actions",
+      "target": "progressive-disclosure",
+      "type": "related",
+      "label": "a softer form: deferring rather than removing",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "undo",
+      "target": "status-feedback",
+      "type": "related",
+      "label": "provides immediate feedback on the undo action",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "undo",
+      "target": "command-menu",
+      "type": "related",
+      "label": "can be used to access undo options",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "undo",
+      "target": "activity-log",
+      "type": "related",
+      "label": "displays a history of actions that can be undone",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "undo",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "lets the actor reverse an action after the fact, loosening commitment over time",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "user-opening",
+      "target": "agent-repair",
+      "type": "related",
+      "label": "for disambiguating ambiguous or overlapping user openings",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "user-opening",
+      "target": "inquiry-user",
+      "type": "precedes",
+      "label": "when the opening is a simple question, the encounter passes straight into user inquiry",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "validation",
+      "target": "status-feedback",
+      "type": "instantiates",
+      "label": "the persistent, correction-demanding delivery shape of status feedback",
+      "extractedFrom": "frontmatter:instantiates"
+    },
+    {
+      "source": "form",
+      "target": "validation",
+      "type": "hosts",
+      "incomingNote": "the form is the surface that hosts fieldwise messages and wires them to submission",
+      "extractedFrom": "frontmatter:hosted-by"
+    },
+    {
+      "source": "validation",
+      "target": "data-entry",
+      "type": "complements",
+      "label": "the entry the message responds to; a forgiving format prevents errors this move would otherwise have to report",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "validation",
+      "target": "state-disabled",
+      "type": "tangential",
+      "label": "disabling submit until the form is valid hides the problem this move exists to explain",
+      "extractedFrom": "frontmatter:tangential"
+    },
+    {
+      "source": "view",
+      "target": "malleability",
+      "type": "enacts",
+      "label": "The capability to change the view's content, layout, and composition",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "view",
+      "target": "density",
+      "type": "enacts",
+      "label": "Information per unit of space",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "view",
+      "target": "adaptation",
+      "type": "enacts",
+      "label": "System response to context changes",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "view",
+      "target": "progressive-disclosure",
+      "type": "related",
+      "label": "Sequential revelation of information",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "view",
+      "target": "item-view",
+      "type": "related",
+      "label": "Single-entity representations across semantic levels",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "view",
+      "target": "data-view",
+      "type": "related",
+      "label": "Collection representations with filtering, sorting, and grouping",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "wizard",
+      "target": "next-best-action",
+      "type": "alternative",
+      "label": "the wizard prescribes the sequence; next-best action is the adaptive, context-aware alternative",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "wizard",
+      "target": "form",
+      "type": "alternative",
+      "label": "the single-page structure that wizards fragment across steps",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "wizard",
+      "target": "bot",
+      "type": "alternative",
+      "label": "can guide through complex processes with conversational flexibility wizards lack",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "wizard",
+      "target": "status-feedback",
+      "type": "complements",
+      "label": "communicates progress and validation state throughout the wizard",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "wizard",
+      "target": "undo",
+      "type": "complements",
+      "label": "mitigates the high commitment level by allowing reversal of completed steps",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "wizard",
+      "target": "conversation",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "wizard",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "paces a task into an ordered sequence of steps, one commitment at a time",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "workflow",
+      "target": "delegation",
+      "type": "related",
+      "label": "the delegated procedure made inspectable; delegation's *tuning tools* touchpoints — at set-up and at repair — edit this artifact",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "workflow",
+      "target": "activity-log",
+      "type": "related",
+      "label": "the workflow is the prescription, the log is the account of what actually ran; monitoring reads them against each other",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "workflow",
+      "target": "bot",
+      "type": "complements",
+      "label": "gives the workflow-automation bot mode its procedure — the bot runs it, this artifact shows and edits it",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "workflow",
+      "target": "ai-tuning",
+      "type": "complements",
+      "label": "a workflow builder is a tuning tool: editing the procedure is one of the ways a bot's behaviour gets progressively shaped",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "workflow",
+      "target": "wizard",
+      "type": "tangential",
+      "label": "a wizard scripts the actor's own path through one task; a workflow externalises a procedure for the system or for others to run",
+      "extractedFrom": "frontmatter:tangential"
+    },
+    {
+      "source": "workflow",
+      "target": "malleability",
+      "type": "enacts",
+      "label": "the system's standing behaviour becomes an artifact the actor can reshape without programming",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "workflow",
+      "target": "formality",
+      "type": "enacts",
+      "label": "the procedure-as-artifact sits on the formality spectrum — from natural-language instruction to executable code, entered gradually rather than specified upfront",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "workspace",
+      "target": "privacy",
+      "type": "enacts",
+      "label": "workspaces implement privacy through scope separation and spatial arrangement",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "workspace",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the actor decides what work belongs together and what stays apart",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "workspace",
+      "target": "focus-and-context",
+      "type": "complements",
+      "label": "focus and context manages detail and overview within a single context; workspaces manage switching between distinct contexts",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "workspace",
+      "target": "command-menu",
+      "type": "complements",
+      "label": "provides rapid access to workspaces and contexts without navigating the interface hierarchy",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "workspace",
+      "target": "activity-log",
+      "type": "precedes",
+      "label": "shows history within a workspace",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "workspace",
+      "target": "notification",
+      "type": "precedes",
+      "label": "alerts actors to changes in non-visible workspaces",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "workspace",
+      "target": "collaboration-foundation",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "ai-completion",
+      "target": "cognitive-forcing-functions",
+      "type": "precedes",
+      "situation": "inline generation makes accepting cheaper than evaluating, so over-reliance accrues by default — deliberate friction is the countermove",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "autocomplete",
+      "target": "ai-completion",
+      "type": "precedes",
+      "situation": "autocomplete's candidates are looked up, not produced — deterministic completion ends where the continuation has to be generated; AI completion extends the same interaction to generated content",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "deletion",
+      "target": "undo",
+      "type": "precedes",
+      "situation": "the data is gone; whether that holds is now a question of recovery — a completed deletion is exactly the state undo acts on",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "flat-navigation",
+      "target": "hub-and-spoke",
+      "type": "precedes",
+      "situation": "everything is reachable in one place — which holds only while the tools and destinations fit one surface; when the item count outgrows the screen, hub and spoke takes over",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "good-defaults",
+      "target": "autocomplete",
+      "type": "precedes",
+      "situation": "fields hold the system's best static guess — which serves only until the actor starts typing a value of their own; completion then has to happen in flight rather than up front",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "good-defaults",
+      "target": "autofill",
+      "type": "precedes",
+      "situation": "a good default is a guess made without the actor's stored data; where the system already holds the actual value, pre-filling from the record takes over from guessing",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "good-defaults",
+      "target": "assisted-task-completion",
+      "type": "precedes",
+      "situation": "pre-population ends where the task needs the system to participate in the work itself — the assisted-completion spectrum picks up where a static guess stops sufficing",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "live-presentation",
+      "target": "generated-content",
+      "type": "precedes",
+      "situation": "once the stream completes, a produced artifact sits on the surface — the move shifts from holding the rendering stable to negotiating what arrived",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "searching",
+      "target": "navigation-overview",
+      "type": "precedes",
+      "situation": "a search can fail, leaving the actor with intent but no result — browsing the structure (\"browse by category instead\") is the fallback seeking move",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "deletion",
+      "target": "undo",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:deletion",
+      "situationalHints": [
+        {
+          "question": "Is the deletion reversible?",
+          "branch": "Yes"
+        },
+        {
+          "question": "How quickly can it be recreated?",
+          "branch": "Seconds"
+        }
+      ]
+    },
+    {
+      "source": "deletion",
+      "target": "inline-confirmation",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:deletion",
+      "situationalHints": [
+        {
+          "question": "Is the deletion reversible?",
+          "branch": "Yes"
+        },
+        {
+          "question": "How quickly can it be recreated?",
+          "branch": "Minutes"
+        }
+      ]
+    },
+    {
+      "source": "navigation-overview",
+      "target": "pan-and-zoom",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:navigation-overview",
+      "situationalHints": [
+        {
+          "question": "Single continuous space (map, canvas, timeline)?",
+          "branch": "Yes"
+        }
+      ]
+    },
+    {
+      "source": "navigation-overview",
+      "target": "step-by-step",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:navigation-overview",
+      "situationalHints": [
+        {
+          "question": "Single continuous space (map, canvas, timeline)?",
+          "branch": "No"
+        },
+        {
+          "question": "Prescribed sequence with dependencies?",
+          "branch": "Yes"
+        },
+        {
+          "question": "Strict ordering required?",
+          "branch": "Yes"
+        }
+      ]
+    },
+    {
+      "source": "navigation-overview",
+      "target": "pyramid",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:navigation-overview",
+      "situationalHints": [
+        {
+          "question": "Single continuous space (map, canvas, timeline)?",
+          "branch": "No"
+        },
+        {
+          "question": "Prescribed sequence with dependencies?",
+          "branch": "Yes"
+        },
+        {
+          "question": "Strict ordering required?",
+          "branch": "No, flexible"
+        }
+      ]
+    },
+    {
+      "source": "navigation-overview",
+      "target": "multilevel-tree",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:navigation-overview",
+      "situationalHints": [
+        {
+          "question": "Single continuous space (map, canvas, timeline)?",
+          "branch": "No"
+        },
+        {
+          "question": "Prescribed sequence with dependencies?",
+          "branch": "No"
+        }
+      ]
+    },
+    {
+      "source": "navigation-overview",
+      "target": "flat-navigation",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:navigation-overview",
+      "situationalHints": [
+        {
+          "question": "Single continuous space (map, canvas, timeline)?",
+          "branch": "No"
+        },
+        {
+          "question": "Prescribed sequence with dependencies?",
+          "branch": "No"
+        },
+        {
+          "question": "Single workspace with rich toolset?",
+          "branch": "Yes"
+        }
+      ]
+    },
+    {
+      "source": "navigation-overview",
+      "target": "fully-connected",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:navigation-overview",
+      "situationalHints": [
+        {
+          "question": "Single continuous space (map, canvas, timeline)?",
+          "branch": "No"
+        },
+        {
+          "question": "Prescribed sequence with dependencies?",
+          "branch": "No"
+        },
+        {
+          "question": "Single workspace with rich toolset?",
+          "branch": "No"
+        },
+        {
+          "question": "Cross-section workflows common?",
+          "branch": "Yes"
+        }
+      ]
+    },
+    {
+      "source": "navigation-overview",
+      "target": "hub-and-spoke",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:navigation-overview",
+      "situationalHints": [
+        {
+          "question": "Single continuous space (map, canvas, timeline)?",
+          "branch": "No"
+        },
+        {
+          "question": "Prescribed sequence with dependencies?",
+          "branch": "No"
+        },
+        {
+          "question": "Single workspace with rich toolset?",
+          "branch": "No"
+        },
+        {
+          "question": "Cross-section workflows common?",
+          "branch": "Rare"
+        }
+      ]
+    },
+    {
+      "source": "navigation-overview",
+      "target": "overview-detail",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:navigation-overview",
+      "situationalHints": [
+        {
+          "question": "Single continuous space (map, canvas, timeline)?",
+          "branch": "No"
+        },
+        {
+          "question": "Prescribed sequence with dependencies?",
+          "branch": "No"
+        },
+        {
+          "question": "Single workspace with rich toolset?",
+          "branch": "No"
+        },
+        {
+          "question": "Cross-section workflows common?",
+          "branch": "Simultaneous"
+        }
+      ]
+    },
+    {
+      "source": "notification",
+      "target": "transient-feedback",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:notification",
+      "situationalHints": [
+        {
+          "question": "What notification should I use?",
+          "branch": ""
+        },
+        {
+          "question": "Is action required?",
+          "branch": "No"
+        },
+        {
+          "question": "Does the notification communicate status?",
+          "branch": "Yes"
+        }
+      ]
+    },
+    {
+      "source": "notification",
+      "target": "transient-feedback",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:notification",
+      "situationalHints": [
+        {
+          "question": "What notification should I use?",
+          "branch": ""
+        },
+        {
+          "question": "Is action required?",
+          "branch": "No"
+        },
+        {
+          "question": "Does the notification communicate status?",
+          "branch": "No"
+        },
+        {
+          "question": "Is the notification an alert?",
+          "branch": "Yes"
+        },
+        {
+          "question": "Can the alert be easily dismissed?",
+          "branch": "Yes"
+        }
+      ]
+    }
+  ]
+}

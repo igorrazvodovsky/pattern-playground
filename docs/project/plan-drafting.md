@@ -23,3 +23,19 @@ The trigger is the *shape of the problem*, not the size of the change. Apply whe
 - the work is in a domain the project hasn't engaged with before, even if the change is small
 
 Skip for: pure feature work with a clear target, bug fixes, refactors with a known destination, mechanical follow-ups to an already-researched plan. The [`/research`](../../.claude/skills/research/SKILL.md) skill and [`references/`](../../references/) directory are the standing infrastructure for this checkpoint.
+
+## Migration-shaped arcs: territory closure
+
+For work that sweeps many existing pages or files (dedups, migrations,
+re-homings), segment by *territory* — a cluster of related pages checked where
+its edges are — not by file. Per-file closure stalls; the workspace-split
+dedup closed 4 of ~44 pages in a month per-file, then all six territories in
+days once re-unitised. Per territory, one sitting against a written definition
+of done (for the split closure: verdicts on every story, demos moved per
+verdict, inbound links rewritten, twins deleted, builds + grep + graph-diff
+verified). Run *reflective verdicts first and unhurried; batch the mechanical
+steps* in the same pass. Expect the verdict vocabulary to grow under load —
+new verdict classes mid-arc are the method working, not scope creep; record
+them in the plan's log. The worked instance, with the full definition of done
+and the verdict classes it grew, is
+[`plans/completed/2026-07-workspace-split-closure.md`](../../plans/completed/2026-07-workspace-split-closure.md).

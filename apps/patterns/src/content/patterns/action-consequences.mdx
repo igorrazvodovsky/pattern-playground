@@ -1,0 +1,103 @@
+---
+title: Action consequences
+role: pattern
+group: application
+activityLevel: action
+atomic: pattern
+mediation: individual
+fun: 🤔 3/5. Dependency.
+relationships:
+  related:
+    - to: deletion
+      note: "its decision tree is this framework projected onto one action — the tree's first question is the time-to-recover dimension"
+    - to: saving
+      note: "staging and drafts are severity reducers: they buy a review step before consequences commit"
+    - to: undo
+      note: "the strongest severity reducer — recovery after the act removes the need for confirmation before it"
+    - to: inline-confirmation
+      note: "the mid-ladder rung: enough friction to interrupt autopilot without breaking context"
+---
+
+import { ConsequenceLadderDemo } from '@pkg/demos/action-consequences';
+
+A framework for evaluating the severity and reversibility of user actions to determine appropriate safeguards and confirmation methods. This pattern helps balance friction with protection, ensuring dangerous actions are adequately guarded while keeping routine tasks fluid.
+
+## Consequence dimensions
+
+### Time to recover
+The primary metric for evaluating consequence severity:
+- Seconds: Trivial to recreate (typing a word, selecting an option)
+- Minutes: Minor effort required (filling a form, configuring settings)
+- Hours: Significant work to restore (complex document, detailed configuration)
+- Days: Major reconstruction needed (project data, accumulated content)
+- Irreversible: Cannot be recovered
+
+### Scope of impact
+Who is affected by the action:
+- Self only: Affects only the actor
+- Team: Impacts immediate collaborators
+- Organisation: Affects broader groups
+- External users: Impacts customers or third parties
+- System-wide: Affects all users and operations
+
+### Cascade effects
+Secondary consequences triggered by the action:
+- Isolated: No dependencies or related effects
+- Limited cascade: Few predictable dependencies
+- Complex cascade: Multiple interrelated effects
+- Unpredictable: Consequences difficult to foresee
+
+## Confirmation methods by severity
+
+### No confirmation
+- Instantly reversible (undo available)
+- No meaningful data loss
+- Part of normal workflow
+
+### Passive confirmation
+- Easily reversible
+- Minor inconvenience if accidental
+- Low-frequency mistakes expected
+
+### [Inline confirmation](/patterns/inline-confirmation)
+- Moderate effort to recover
+- Clear user intent likely
+- Context should be maintained
+
+### Modal interruption
+- Significant consequences
+- Side effects need explanation
+- User should pause to consider
+
+### Friction confirmation
+- Critical or irreversible
+- Wide-reaching impact
+- Accidental activation catastrophic
+
+<Demo label="Four actions, guarded in proportion to their consequences.">
+  <ConsequenceLadderDemo client:only="react" />
+</Demo>
+
+## Factors that reduce severity
+
+- Undo (or trash/archive, version history) availability
+- Staging/draft mechanisms
+- Review before committing
+- Scheduled execution
+
+{/* ### Hidden dependencies */}
+{/* - Cascading deletions */}
+{/* - Orphaned references */}
+{/* - Broken workflows */}
+
+## Context-specific adjustments
+- User expertise: Adjust confirmation based on user familiarity
+- Frequency of action: More common actions may need less friction
+
+{/* ## Measurement */}
+{/* Metrics to track */}
+{/* - Confirmation abandonment rate */}
+{/* - Accidental action frequency */}
+{/* - Recovery/undo usage */}
+{/* - Support tickets for mistakes */}
+{/* - Time to complete tasks */}

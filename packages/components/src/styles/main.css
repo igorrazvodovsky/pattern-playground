@@ -1,0 +1,112 @@
+@import url(reset.css);
+@import url(variables-palette.css);
+@import url(variables.css);
+@import url(purpose.css);
+@import url(animation.css);
+@import url(typography.css);
+@import url(kbd.css);
+@import url(layout.css);
+@import url(button.css);
+@import url(popover.css);
+@import url(card.css);
+@import url(dialog.css);
+@import url(drawer.css);
+@import url(navigation.css);
+@import url(pagination.css);
+@import url(table.css);
+@import url(charts.css);
+@import url(checkbox.css);
+@import url(radio.css);
+@import url(counter.css);
+@import url(callout.css);
+@import url(badge.css);
+@import url(tag.css);
+@import url(avatar.css);
+@import url(p-plus.css);
+@import url(breadcrumbs.css);
+@import url(textarea.css);
+@import url(details.css);
+@import url(messages.css);
+@import url(input.css);
+@import url(reference.css);
+@import url(hover-card.css);
+@import url(sidebar.css);
+/* @import url(tiptap.css); */
+@import url(list-item-shared.css);
+@import url(cmdk.css);
+@import url(progress-indicator.css);
+@import url(toast.css);
+@import url(bubble-menu.css);
+@import url(explanation.css);
+@import url(tldraw.css);
+@import url(sections.css);
+@import url(toc.css);
+@import url(pattern-graph.css);
+@import url(dynamic-hyperlinks.css);
+@import url(form.css);
+
+@layer reset, theme, global, layout, components, utilities, states;
+
+@layer utilities {
+  .visually-hidden {
+    clip-path: inset(50%);
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+  }
+}
+
+:root,
+body {
+  color-scheme: light only;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* TODO: move */
+
+.layer {
+  background: var(--c-neutral-0);
+  --c-background: var(--c-neutral-0);
+
+  .layer {
+    background: var(--c-neutral-50);
+    --c-background: var(--c-neutral-50);
+
+    .layer {
+      background: var(--c-neutral-0);
+      --c-background: var(--c-neutral-0);
+    }
+  }
+}
+
+.layer.gray {
+  background: var(--c-neutral-50);
+  /* --c-background: var(--c-neutral-50); */
+
+  .layer {
+    background: var(--c-neutral-0);
+    /* --c-background: var(--c-neutral-0); */
+
+    .layer {
+      background: var(--c-neutral-50);
+      /* --c-background: var(--c-neutral-50); */
+    }
+  }
+}
+
+.dashed {
+  border-style: dashed;
+}
+
+pp-comment-thread {
+  display: block;
+}
+
+pp-comment-item {
+  display: contents;
+}

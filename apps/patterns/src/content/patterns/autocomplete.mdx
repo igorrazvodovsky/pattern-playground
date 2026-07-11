@@ -1,0 +1,70 @@
+---
+title: Autocomplete
+role: pattern
+activityLevel: operation
+atomic: pattern
+mediation: individual
+fun: 🙂 2/5. Dependency.
+situation:
+  initiating: >-
+    a free-form input where the set of valid answers is large or the actor is
+    still formulating the query
+  resulting:
+    - a narrowing surface of candidate completions running alongside what's been typed
+    - clause: >-
+        autocomplete's candidates are looked up, not produced — deterministic
+        completion ends where the continuation has to be generated; AI completion
+        extends the same interaction to generated content
+      sets-up: [ai-completion]
+relationships:
+  enables:
+    - to: data-entry
+      note: autocomplete as a way to reduce input friction
+  hosted-by:
+    - to: form
+      note: form fields are where the completion surface most commonly lives
+  complements:
+    - to: autofill
+      note: "the preemptive counterpart: pre-populates from stored values rather than completing what the actor types (and what the HTML `autocomplete` attribute actually controls)"
+    - to: bounded-choice
+      note: the selection autocomplete often serves
+    - to: assisted-task-completion
+      note: the spectrum autocomplete sits within
+    - to: suggestion
+      note: system-generated recommendations more broadly
+    - to: searching
+      note: autocomplete in search fields is really a seeking pattern
+    - to: command-menu
+      note: autocomplete applied to actions and navigation
+    - to: filtering
+      note: autocomplete within filter value selection
+  enacts:
+    - to: learnability
+      note: suggestions teach people what options exist
+---
+
+import { AutocompleteDemo } from '@pkg/demos/autocomplete';
+
+Predicting and suggesting completions for a value the actor is actively typing, so they can pick from a narrowing set of options instead of finishing the thought themselves.
+
+<Demo label="Autocomplete">
+  <AutocompleteDemo client:only="react" />
+</Demo>
+
+Part of the [assisted task completion](/patterns/assisted-task-completion) spectrum, at the most reactive end — the system takes almost no initiative here.
+
+## Design considerations
+
+- Recent and frequent items often beat algorithmic suggestions, or at least deserve a spot alongside them
+- Worth distinguishing *narrowing* (filtering a known list) from *expanding* (proposing related or trending terms the actor hasn't thought of)
+
+## Related components
+
+- <ComponentRef id="primitives-input--docs">Input</ComponentRef> — the primitive that autocomplete builds on
+- <ComponentRef id="components-combobox--docs">Combobox</ComponentRef> — component this pattern builds on
+- <ComponentRef id="components-combobox--docs">Combobox</ComponentRef> — that stance's large-scale control: autocomplete mechanics with a candidate-channel commit
+
+## Resources & references
+
+- Baymard Institute [9 UX best practice design patterns for autocomplete suggestions](https://baymard.com/blog/autocomplete-design)
+- Friedman [Five simple steps for better autocomplete UX](https://smart-interface-design-patterns.com/articles/autocomplete-ux/). Smart Interface Design Patterns

@@ -1,0 +1,23 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import * as NavBarStories from './NavBar.stories.tsx';
+
+<Meta of={NavBarStories} tags={['activity-level:action', 'atomic:composition', 'role:component', 'lifecycle:coordination', 'mediation:coordination']} />
+
+# Nav bar
+
+A horizontal composition that combines a product's identity, its primary destinations, and account actions across the top of the viewport.
+
+<Story of={NavBarStories.NavBar} />
+
+Nav bars are the primary UI implementation of the [fully connected](/patterns/fully-connected) navigation model, where every page links to all major sections through global navigation. See [information architecture](/patterns/information-architecture) foundation for the broader structural pattern.
+
+Nav bars can also implement:
+- [Multilevel tree](/patterns/multilevel-tree) - when using dropdowns or expandable menus for hierarchical navigation
+- Hybrid models - combining global access with contextual navigation
+
+## Related components
+
+- [Priority+](../?path=/docs/components-priority--docs) — handles overflow when the destination list outgrows the bar
+- [Toolbar](../?path=/docs/components-toolbar--docs) — the capability-scoped sibling; persistent controls for one view rather than global destinations
+- [Command menu](../?path=/docs/components-command-menu--docs) — alternative way to navigate
+- [Breadcrumbs](../?path=/docs/primitives-breadcrumbs--docs) — complements the nav bar by showing current location within a section

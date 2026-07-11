@@ -1,0 +1,149 @@
+@layer layout {
+  .flow > * + * {
+    margin-block-start: var(--flow-space, var(--space-m)) !important;
+  }
+
+  .inline-flow > * + * {
+    margin-inline-start: var(--flow-space, var(--space-xs));
+  }
+
+  .layout-grid {
+    --layout-grid-min: 24ch;
+    --layout-grid-gap: var(--space-m);
+
+    display: grid;
+    grid-template-columns: repeat(
+      /* auto-fit, */ auto-fill,
+      minmax(min(100%, var(--layout-grid-min)), 1fr)
+    );
+    gap: var(--layout-grid-gap);
+
+    /* When used with a list */
+    padding: 0;
+  }
+
+  .flex-layout-grid {
+    --flex-grid-min: 24ch;
+    --flex-grid-gap: var(--space-m);
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--flex-grid-gap);
+
+    > * {
+      /* TODO: */
+      flex: 1 1 var(--flex-grid-min);
+    }
+  }
+
+  :is(.layout-grid, .flex-layout-grid) > * {
+    container: var(--grid-item-container, grid-item) / inline-size;
+  }
+
+  hr {
+    border: 0;
+    height: 0;
+    border-top: 1px solid oklch(0% 0 0 / 10%);
+    width: 100%;
+    margin: 0;
+  }
+
+  .flex {
+    display: flex;
+    gap: 0.5ch;
+    align-items: center;
+  }
+
+  .wrap {
+    flex-wrap: wrap;
+  }
+
+  .block {
+    display: block;
+  }
+
+  /* side-by-side content */
+  [class*="sidecar"] > * {
+    margin: 0;
+  }
+
+  [class*="sidecar"] {
+    --_gap: var(--space-m);
+    --_main-size: initial;
+    --_secondary-size: initial;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--_gap);
+  }
+
+  .sidecar > :first-child,
+  .sidecar-end > :last-child {
+    flex-basis: var(--_secondary-size, auto);
+    flex-grow: 1;
+  }
+
+  .sidecar > :last-child,
+  .sidecar-end > :first-child {
+    flex-basis: 0;
+    flex-grow: 999;
+    min-inline-size: var(--_main-size, 50%);
+  }
+}
+
+@layer components {
+  .border {
+    border: var(--border);
+  }
+
+  .border-b {
+    border-bottom: var(--border);
+  }
+
+  .borderless {
+    border: none !important;
+    /* padding-inline: 0 !important; */
+  }
+}
+
+/* TODO: */
+/* .flex-layout-grid > *:has(.card > *:nth-child(2)) {
+  --flex-grid-min: calc(24ch * 2 + var(--space-m));
+} */
+
+.attribute-list {
+  display: flex;
+  flex-direction: column;
+
+  [role="row"] {
+    display: flex;
+    width: 100%;
+    position: relative;
+    opacity: 1;
+
+    [role="cell"]:first-child {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      align-self: flex-start;
+
+      /* TODO: Remove/move */
+      div {
+          display: flex;
+          align-items: center;
+          height: 34px;
+          width: 160px;
+          max-width: 160px;
+          min-width: 0px;
+      }
+    }
+
+    [role="cell"]:last-child {
+      display: flex;
+      height: 100%;
+      flex: 1 1 auto;
+      flex-direction: column;
+      min-width: 0px;
+      margin-inline-start: 4px;
+    }
+  }
+}

@@ -1,0 +1,58 @@
+import { Canvas, Story, Meta } from '@storybook/addon-docs/blocks';
+import * as ComboboxStories from './Combobox.stories.tsx';
+
+<Meta of={ ComboboxStories } tags={['activity-level:operation', 'atomic:pattern', 'role:component', 'mediation:individual']} />
+
+{/* > 🔧 **Fun meter: 2/5**. Dependency. */}
+
+# Combobox
+
+A text input paired with a popup listbox: the actor types to narrow candidates, then activates one to commit.
+
+<Canvas>
+  <Story of={ ComboboxStories.Default } />
+</Canvas>
+
+## Multiple selection
+
+`TODO:` Use `multiple` with [tags](../?path=/docs/primitives-tag--docs) for multi-select behavior.
+
+## Validation
+
+`TODO:` Use the `aria-invalid` prop to make the combobox invalid.
+
+## Disabled
+
+`TODO:` Use the `disabled` prop to disable the combobox.
+
+## Grouped
+
+`ComboboxGroup` divides the listbox into labelled sections without adding interaction cost. Useful when the option set spans multiple categories.
+
+<Story of={ ComboboxStories.Grouped } />
+
+## Related patterns
+
+### Containers and primitives
+
+- [Input](../?path=/docs/primitives-input--docs) — the text field half of the contract, without the popup
+- [Select](../?path=/docs/primitives-select--docs) — the simpler counterpart for short, bounded sets already known to the actor
+
+### Used by
+
+- [Bounded choice](/patterns/bounded-choice) — this control's job
+- [Command menu](/patterns/command-menu) — the combobox contract drives hierarchical navigation and command activation
+- [Filtering](/patterns/filtering) — each filter chip's value-picker uses a combobox to narrow available values
+- [Autocomplete](/patterns/autocomplete) — narrowing-as-you-type is the combobox contract applied to query suggestion
+- <PatternRef slug="searching">Searching</PatternRef> — the entry phase of instant-results search (popover or dropdown variant) follows the combobox model
+
+### Follow-ups
+
+- A searchable Select built on this module, for option sets too long for native `<select>`
+
+## Resources & references
+
+- [WAI-ARIA APG pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/)
+- [`cmdk`](https://github.com/dip/cmdk) — React component library which this component wraps
+- Open UI / [Research](https://open-ui.org/components/combobox.research/) & [Explainer](https://open-ui.org/components/combobox.explainer/)
+- Smashing Magazine — [Combobox vs Multiselect vs Listbox](https://www.smashingmagazine.com/2026/02/combobox-vs-multiselect-vs-listbox/)

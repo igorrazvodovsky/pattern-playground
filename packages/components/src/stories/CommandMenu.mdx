@@ -1,0 +1,20 @@
+import { Canvas, Story, Meta, Subtitle } from '@storybook/addon-docs/blocks';
+import * as CommandMenuStories from './CommandMenu.stories.tsx';
+
+<Meta of={ CommandMenuStories } tags={['activity-level:action', 'atomic:pattern', 'role:component', 'lifecycle:seeking', 'mediation:individual']} />
+
+# Command menu
+
+The invocation of commands by name, navigating the tension between discoverability and speed.
+
+<Story of={ CommandMenuStories.Basic } />
+
+It has two presentations: inline (above) and inside a modal dialog opened by a keyboard shortcut.
+
+<Story of={ CommandMenuStories.Dialog } />
+
+## Related components
+
+- [Combobox](../?path=/docs/operations-combobox--docs) — the mechanism this composition builds on
+- [Keyboard key](../?path=/docs/primitives-keyboard-key--docs) — renders the shortcut hints
+- [Context menu](../?path=/docs/components-context-menu--docs) — pointer-driven and target-aware, where the command menu is keyboard-driven and name-based

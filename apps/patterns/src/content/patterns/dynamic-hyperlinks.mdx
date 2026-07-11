@@ -1,0 +1,46 @@
+---
+title: Dynamic hyperlinks
+role: pattern
+group: seeking
+activityLevel: action
+atomic: pattern
+lifecycle: seeking
+fun: 🤩 5/5.
+relationships:
+  complements:
+    - to: link-preview
+      note: inferred links benefit from preview since actors have less prior expectation of the destination
+    - to: suggestion
+      note: suggested actions and connections
+    - to: annotation
+      note: user-created markers (hard) and system-generated insights (soft)
+    - to: deep-linking
+      note: URL-based addressability
+---
+
+import { DynamicHyperlinksDemo } from '@pkg/demos/dynamic-hyperlinks/DynamicHyperlinksDemo';
+
+The algorithmic discovery of latent connections within a corpus, presenting them as *suggestions* rather than claims about semantic structure.
+
+## Hard and soft links
+
+Where explicit hyperlinks and <ComponentRef id="primitives-reference--docs">references</ComponentRef> are author-curated (hard [data](/patterns/data#hard-and-soft-data)),
+dynamic hyperlinks are inferred (soft). A heatmap layer shows connection density across the corpus — varying intensity signals how many related mentions exist elsewhere. Selecting text surfaces those mentions ranked by similarity.
+
+The implicit network is irreducibly dense — any sufficiently rich corpus contains countless valid relationships.
+Dynamic hyperlinks acknowledge this by treating discoveries as exploration aids, not as "true" structure.
+This humility distinguishes them from explicit links, where actors commit to meaningful connections.
+
+<Demo label="Heatmap and selection-driven mentions">
+  <DynamicHyperlinksDemo client:only="react" />
+</Demo>
+
+## Related components
+
+- <ComponentRef id="primitives-reference--docs">Reference</ComponentRef> — explicit, typed entity linking (the hard counterpart)
+- <ComponentRef id="components-bubble-menu--docs">Bubble menu</ComponentRef> — selection-anchored interaction surface
+
+## Resources & references
+
+- Inspired by Linus Lee's [Hyperlink Maximalism](https://thesephist.com/posts/hyperlink/) and the [Notation](https://notation.app) app.
+- Rao (2009) [The rhetoric of the hyperlink](https://www.ribbonfarm.com/2009/07/01/the-rhetoric-of-the-hyperlink/) — the reader-side complement to the "irreducibly dense network" claim: each reader's click-trail produces a unique text from the same hypertext.

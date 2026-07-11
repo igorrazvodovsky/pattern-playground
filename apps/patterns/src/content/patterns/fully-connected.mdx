@@ -1,0 +1,50 @@
+---
+title: Fully connected
+role: pattern
+group: navigation
+activityLevel: action
+atomic: composition
+mediation: individual
+lifecycle: seeking
+fun: 🗺️ 2/5. Mapping out the basics.
+relationships:
+  complements:
+    - to: command-menu
+      note: keyboard-driven alternative for power users
+    - to: searching
+      note: alternative navigation path
+    - to: deep-linking
+      note: enables direct access to any page
+    - hybrid-patterns
+  alternative:
+    - hub-and-spoke
+    - multilevel-tree
+    - step-by-step
+---
+The provision of direct access from any location to every other, balancing navigational freedom against the cognitive cost of persistent global menus. Global navigation appears consistently across all pages — typically as a <ComponentRef id="components-nav-bar--docs">nav bar</ComponentRef> or/and a <ComponentRef id="components-sidebar--docs">sidebar</ComponentRef>.
+
+## Behavioural position
+
+### Supports
+- [Navigating](/patterns/interaction#navigating) — maximum efficiency for precise movement
+- [Exploring](/patterns/interaction#exploring) — freedom to follow curiosity without constraint
+- [Browsing](/patterns/interaction#browsing) — can move laterally across sections whilst scanning
+
+### Challenges
+The presence of full global navigation everywhere is not without cost: it takes up space, clutters the screen, and incurs cognitive load.
+
+## Variants
+
+- Single-level: All navigation options at one level.
+- Multi-level: Top navigation with secondary menus, or sidebars revealing subsections. Consider a hybrid with a [tree](/patterns/hybrid-patterns#multilevel-tree--fully-connected)
+- <ComponentRef id="components-priority--docs">Priority+</ComponentRef>: Shows most important items, hides rest behind "more" menu.
+
+## Related components
+
+### Complements
+- <ComponentRef id="primitives-breadcrumbs--docs">Breadcrumbs</ComponentRef> — supplements with location context
+- <ComponentRef id="components-nav-bar--docs">Navbar</ComponentRef>, <ComponentRef id="components-sidebar--docs">sidebar</ComponentRef>, TODO: mega menus, <ComponentRef id="components-tabs--docs">tabs</ComponentRef> — implement this model
+
+## Resources & references
+
+- Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed.

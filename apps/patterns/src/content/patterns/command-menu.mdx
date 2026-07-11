@@ -1,0 +1,46 @@
+---
+title: Command menu
+role: pattern
+group: seeking
+activityLevel: action
+atomic: pattern
+mediation: individual
+lifecycle: seeking
+fun: 🙂 4/5.
+relationships:
+  complements:
+    - to: autocomplete
+      note: supports command menu functionality by reducing typing effort and increasing discoverability of commands.
+    - to: embedded-intelligence
+      note: helps the actor find relevant commands when exact matches aren't available
+    - to: collaboration
+      note: Command menus provide quick access to collaborative actions and workflows
+    - to: keyboard-shortcuts
+      note: "surfaces shortcuts alongside each command name, making the invisible visible — the command menu is often the primary discovery mechanism for a shortcut system"
+  precedes:
+    - to: unavailable-actions
+      note: context menus show only relevant commands, hiding those inaccessible in the current context
+---
+
+The invocation of commands by name, navigating the tension between discoverability and speed.
+
+## Global
+
+Pop up in the middle of the screen...
+
+## Local
+
+The move recurs wherever a capability has a command space of its own. For instance choosing a block in a [block-based editor](/patterns/block-based-editor) TODO: Add demo.
+
+## Related components
+- <ComponentRef id="components-command-menu--docs">Command menu</ComponentRef> — the mechanism: the combobox composition with hierarchical drill-in and AI fallback
+- <ComponentRef id="components-combobox--docs">Combobox</ComponentRef> — the mechanism this pattern builds on; `src/components/combobox/` drives the text input, filtered list, and keyboard model
+- <ComponentRef id="primitives-keyboard-key--docs">Keyboard key</ComponentRef>
+- <ComponentRef id="components-context-menu--docs">Context menu</ComponentRef> — pointer-driven and target-aware; command menu is keyboard-driven and name-based
+- <ComponentRef id="components-toolbar--docs">Toolbar</ComponentRef> — exposes a persistent subset of commands; the command menu offers the full set on demand
+
+## To-do
+
+Related patterns to capture: search (including local search), bookmarks, recent stuff, ...
+
+{/* Follow-up: *action history* may streamline repetitive workflows */}

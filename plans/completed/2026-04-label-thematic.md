@@ -23,7 +23,7 @@ The 14 thematic categories are all single-source — each appears under exactly 
 | Patterns that manifest prose moves | 10 | foundations-prose |
 | Neighbouring foundations | 5 | foundations-prose |
 | Activities where prose is central | 5 | foundations-prose |
-| Assisted input | 4 | operations-input |
+| Assisted input | 4 | primitives-input |
 | Adjacent to | 3 | actions-coordination-selection |
 | Transient-mode patterns | 3 | foundations-modality |
 | Notification as modality gradient | 3 | foundations-modality |
@@ -66,7 +66,7 @@ Group edges by source page and read the source MDX once per page. For each edge 
 | 1 | foundations-prose | 20 (10 + 5 + 5) |
 | 2 | activities-collaboration | 8 (2 + 2 + 2 + 1 + 1) |
 | 3 | foundations-modality | 6 |
-| 4 | operations-input | 4 |
+| 4 | primitives-input | 4 |
 | 5 | actions-coordination-selection | 3 |
 | 6 | actions-application-nextbest-action + qualities-learnability | 4 |
 

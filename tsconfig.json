@@ -1,3 +1,14 @@
+// Two roles, neither of which is "the workspace config":
+//  1. Shared compiler base — packages/components/tsconfig.json extends this.
+//  2. The tsconfig for root-level loose TypeScript that has no workspace of
+//     its own (utils/, scripts/), which run in bundler/ESM mode.
+// Each workspace owns its own tsconfig: apps/server is standalone NodeNext
+// (typechecked by apps/server/tsconfig.json — do not add it here, the bundler
+// settings below are the wrong mode for it), apps/patterns extends
+// astro/tsconfigs/strict, packages/components extends this base.
+// TS project references are deliberately not adopted: with noEmit, bundler
+// resolution, and alias-to-source imports they add build-orchestration
+// machinery for little benefit here.
 {
   "compilerOptions": {
     "target": "ES2022",
@@ -26,5 +37,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "server", "utils", "src/types/*.d.ts"]
+  "include": ["utils", "scripts"]
 }

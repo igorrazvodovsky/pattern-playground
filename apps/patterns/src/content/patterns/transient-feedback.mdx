@@ -1,0 +1,55 @@
+---
+title: "Transient feedback"
+role: pattern
+activityLevel: operation
+atomic: pattern
+mediation: individual
+description: "Delivering a message whose job completes in a glance — brief, peripheral, self-dismissing, never asking the actor to stop."
+situation:
+  initiating: >-
+    a recent action whose outcome the actor would benefit from confirming,
+    without needing acknowledgement before continuing
+  resulting:
+    - >-
+      a brief peripheral message that auto-dismisses after a short window,
+      optionally carrying a single trailing affordance such as undo
+relationships:
+  instantiates:
+    - to: status-feedback
+      note: "the pushed, self-dismissing delivery shape of status feedback"
+  related:
+    - to: notification
+      note: "the coordination pattern that selects delivery type and disruption level; its decision tree routes dismissible, non-actionable messages here"
+  complements:
+    - to: undo
+      note: "the dismissal window doubles as the recovery window — transient feedback is the primary carrier for undo affordances"
+---
+
+import { ToastWithUndoDemo } from '@pkg/demos/transient-feedback';
+
+Transient feedback shows a message briefly, then removes it without asking the actor to do anything. The usual delivery vehicle is a <ComponentRef id="primitives-toast--docs">toast</ComponentRef>.
+
+## Two situations
+
+*Acknowledgement.* The actor triggered the change and is watching for the confirmation.
+
+*Events from elsewhere.* The same delivery also carries events the actor didn't trigger — a collaborator joining, a background export finishing. Here, the actor might genuinely miss the message. That's accepted as the tradeoff for not interrupting them. That only works if the actor doesn't strictly need to know. If they do, the event also needs a durable home — e.g. an [activity log](/patterns/activity-log) entry — even when a toast announces it too. See [notification](/patterns/notification) pattern.
+
+## Timing
+
+The dismissal interval resolves a tension between reassurance and intrusion. Short confirmations — file saved, item deleted — typically dismiss after 4–5 seconds. A message carrying an action needs longer: the actor must notice it, decide, and act. 8–10 seconds is a reasonable minimum when [undo](/patterns/undo) is offered.
+
+Avoid very long durations. If the information needs to persist, the move is no longer transient — use a <ComponentRef id="operations-callout--docs">callout</ComponentRef> instead.
+
+## Carrying an action
+
+A single inline action can ride along before the message dismisses. Undo is the canonical passenger: the act completes immediately, and the dismissal window is the recovery window. Anything more complex than one action belongs in a callout, or in a <ComponentRef id="components-dialog--docs">dialog</ComponentRef> if the actor must decide before continuing.
+
+<Demo label="Delete with undo in the dismissal window">
+  <ToastWithUndoDemo client:only="react" />
+</Demo>
+
+## Resources & references
+
+- [Carbon Design System / Notifications](https://carbondesignsystem.com/patterns/notification-pattern/)
+- [Material Design / Snackbars](https://m3.material.io/components/snackbar/overview)

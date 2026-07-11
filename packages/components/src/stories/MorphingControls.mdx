@@ -1,0 +1,30 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import * as MorphingControlsStories from './MorphingControls.stories';
+
+<Meta of={MorphingControlsStories} tags={['activity-level:operation', 'atomic:component', 'role:component', 'mediation:individual']} />
+
+# Morphing controls
+
+A control that transforms in place when its state changes, replacing the spent trigger with the affordance for the most logical next step. The commitment-gathering move built on this mechanism is <PatternRef slug="inline-confirmation">inline confirmation</PatternRef>.
+
+<Story of={MorphingControlsStories.FollowUnfollow} />
+
+## Behaviours
+
+- *In-place swap.* The control transforms where it stands — position and footprint hold steady so the actor's pointer and gaze stay anchored.
+- *Distinct states.* Each state must be visually distinct (icon, label, colour) so an armed or completed control cannot be mistaken for an idle one.
+- *Meaningful transitions.* Morph when completing the action makes the original trigger meaningless (Follow → Following); avoid it when the actor needs the full range of options in view to build a mental model, or when the transition is ambiguous enough to need explanation.
+
+## Carrying commitment
+
+The swap can carry commitment semantics: a destructive trigger morphs into its own confirmation instead of opening a dialog. <PatternRef slug="inline-confirmation">Inline confirmation</PatternRef> builds the full move on this mechanism — timeout reversion, explicit cancel, armed styling.
+
+<Story of={MorphingControlsStories.MultiStateClose} />
+
+## Accessibility
+
+The control's accessible name — sometimes its role — changes under the actor. Keep focus on the swapped control so the new name is announced, and when one control becomes a pair, move focus deliberately to one of the two rather than letting it fall to the document. A morph the actor did not trigger should be announced via a live region.
+
+## Related patterns
+
+- [Switch](../?path=/docs/primitives-switch--docs) & [Checkbox](../?path=/docs/primitives-checkbox--docs) — use when on/off state is enough

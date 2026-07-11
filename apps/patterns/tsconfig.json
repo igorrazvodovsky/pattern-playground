@@ -1,0 +1,16 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": ["../../packages/components/src/components/*"],
+      "@styles/*": ["../../packages/components/src/styles/*"],
+      "@pkg/*": ["../../packages/components/src/*"],
+      "@shared/*": ["../../shared/*"]
+    },
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}

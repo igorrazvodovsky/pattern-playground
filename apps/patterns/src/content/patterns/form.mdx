@@ -1,0 +1,81 @@
+---
+title: Form
+role: pattern
+group: application
+activityLevel: action
+atomic: composition
+mediation: individual
+fun: 🥱 boring but important groundwork.
+description: The structured collection of input from the actor.
+realised_by: [actions-application-form--docs]
+situation:
+  initiating: >-
+    a stretch of activity in which the system needs structured information from
+    the actor that can't be inferred from prior context
+  resulting:
+    - >-
+      a guided collection surface where fields are committed one at a time and
+      the whole set can be reviewed before submission
+decision-trees:
+  - id: form-control
+    chart-index: 1 # second <MermaidDiagram> — "Choosing a control"
+    leaves:
+      "Tabs": components-tabs
+      "Checkbox": primitives-checkbox
+      "Dropdown": actions-coordination-dropdown
+relationships:
+  enacts:
+    - to: formality
+      note: how much structure the system demands of the actor, and when.
+  hosts:
+    - to: data-entry
+      note: each field is a site of the entry move; the form is one of its surfaces.
+    - to: good-defaults
+      note: fields arrive pre-filled with likely values, removing entry entirely.
+  complements:
+    - to: conversation
+      note: may resolve into a form when a dialogue stabilises around structured data collection.
+    - to: localization
+      note: locale-aware parsing and format tolerance for input.
+    - to: status-feedback
+      note: validation and system status during and after entry.
+    - to: saving
+      note: autosave and manual save strategies for in-progress and committed input.
+  tangential:
+    - to: state-disabled
+      note: alternatives to disabling form elements.
+  related:
+    - inline-interface
+---
+
+import { FormDemo } from '@pkg/demos/form';
+import { ConversationalFormDemo } from '@pkg/demos/conversational-form';
+
+The structured collection of input from the actor, balancing guidance with the freedom to express complex or messy information. Each field is an act of [data entry](/patterns/data-entry), each constrained field a [bounded choice](/patterns/bounded-choice). The whole commits the actor to the system's shape up front: a question of [formality](/patterns/formality). For the form *mechanism* see <ComponentRef id="actions-application-form--docs">corresponding component</ComponentRef>.
+
+<Demo label="A standard form">
+  <FormDemo client:only="react" />
+</Demo>
+
+## Forms and conversation
+
+Forms can be embedded in a <ComponentRef id="components-messaging--docs">messaging</ComponentRef> interface for a more [conversational](/patterns/conversation) interaction; a [conversation](/patterns/conversation) may in turn resolve into a form once a dialogue stabilises around well-structured data collection. The two are endpoints of one continuum — how much of the structure the actor supplies, and how much the system does.
+
+Distributed across the exchange, the form's fields are asked and answered turn by turn, each control rendered inline in a message — the form instance of the [inline interface](/patterns/inline-interface).
+
+<Demo label="A form conducted as a conversation">
+  <ConversationalFormDemo client:only="react" />
+</Demo>
+
+## Forms and AI
+
+A form makes the actor translate their situation into the system's fields. When the system can parse raw input — an image, a PDF, pasted text, a voice dump — against the form's schema, that labour inverts: the actor's job shifts from *entry* to *verification*, reviewing pre-filled answers rather than supplying them. That shift, and the trust loop it requires, belong to [data entry](/patterns/data-entry#ai--verification).
+
+{/* TODO (Fieldset gap): binding several controls into one labelled question — radio group, address block, day/month/year — has no mechanism yet, and is distinct from Sections (disclosure) and Grouping (comparison). Build it as the Form component's sub-mechanism; keep "composite field" as a named force until it earns a node. See plans/active/2026-05-workspace-split.md, "Decomposition: worked examples and learnings". */}
+
+{/* Decision trees relocated (the originals routed between mechanisms, not this umbrella's child moves): control-cardinality tree → bounded-choice.mdx; input-selection tree → Form component page (Storybook). A move-routing tree for the umbrella itself (one field or many? linear or single-page? rigid or forgiving?) could be authored here later. */}
+
+## Resources & references
+
+- [Luke Wroblewski / Unstructured Input in AI Apps](https://lukew.com/ff/entry.asp?2120)
+- [The Question Protocol: How to Make Sure Every Form Field Is Necessary](https://www.uxmatters.com/mt/archives/2010/06/the-question-protocol-how-to-make-sure-every-form-field-is-necessary.php)

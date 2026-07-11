@@ -1,0 +1,177 @@
+@layer layout {
+  main.sidebar-inset:has(.stack) {
+    overflow: hidden;
+    height: 100svh;
+  }
+
+  .stack {
+    --pane-spine-w: 1.75rem;
+    --pane-max-w: 36rem;
+    display: flex;
+    overflow-x: auto;
+    height: 100%;
+    align-items: stretch;
+    position: relative;
+  }
+
+  .pane {
+    flex: 0 0 min(var(--pane-max-w), 100%);
+    display: flex;
+    flex-direction: row;
+    overflow-y: hidden;
+    position: sticky;
+
+    /* Both rails, one deck of cards (à la notes.andymatuschak.org). The left
+       inset stacks earlier panes on the left as you scroll right. The right
+       inset is NEGATIVE — spine-width minus pane-width, plus a per-pane step —
+       so a pane flows normally (and is simply clipped at the viewport edge)
+       until only its spine would remain, and only THEN pins as a spine on the
+       right. That keeps a partly-visible pane fully in flow instead of sliding
+       it on top of the previous one. --pane-n (pane count) is set on .stack. */
+    left: calc(var(--pane-i, 0) * var(--pane-spine-w));
+    right: calc(
+      (var(--pane-n, 1) - var(--pane-i, 0)) * var(--pane-spine-w) - var(--pane-max-w)
+    );
+
+    /* Later panes always on top: earlier panes tuck UNDER on the left (left spine
+       peeks), later panes lay OVER on the right (spine on top, with the divider/
+       shadow below facing the content). */
+    z-index: calc(var(--pane-i, 0) + 1);
+    background-color: var(--c-background);
+
+    &:not(:first-child) {
+      /* Divider between adjacent panes — always present, even side by side. */
+      border-inline-start: var(--border);
+    }
+
+    /* A raised pane casts a shadow onto the pane it overlaps, so the deck reads
+       front-to-back. data-overlapping is toggled by StackManager only while this
+       pane actually overlays its predecessor — never when panes merely sit side
+       by side. The shadow falls on the leading (left) edge, onto the pane below. */
+    &[data-overlapping] {
+      box-shadow: -4px 0 12px -6px oklch(0% 0 0deg / 18%);
+    }
+  }
+
+  .pane-body {
+    flex: 1 1 0;
+    min-width: 0;
+    overflow-y: auto;
+  }
+
+  /* The spine is the pane's leading edge: a vertical title that doubles as the
+     left-rail spine (when the pane is pushed off the left and covered by the
+     next) and the right-rail spine (when the pane is pushed off the right and
+     only its leading edge remains). It is hidden while the pane is expanded and
+     revealed only once the pane collapses to a rail — see data-collapsed below. */
+  .pane-spine {
+    flex-shrink: 0;
+    width: var(--pane-spine-w);
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    border-inline-end: var(--border);
+    cursor: pointer;
+    padding-block: var(--space-m);
+    color: var(--c-neutral-400);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    writing-mode: vertical-rl;
+    text-transform: uppercase;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .pane-spine:hover {
+    color: var(--c-neutral-700);
+  }
+
+  .pane-spine:focus-visible {
+    outline: 2px solid var(--c-accent-500);
+    outline-offset: -2px;
+  }
+
+  /* Non-active panes dim slightly */
+  .pane {
+    filter: saturate(0.8);
+  }
+
+  .pane.pane--active,
+  .pane:only-child {
+    opacity: 1;
+    filter: none;
+  }
+
+  /* Single pane fills available space */
+  .stack:has(.pane:only-child) .pane {
+    flex: 1 1 auto;
+  }
+
+  /* astro-slot is a layout no-op */
+  .pane astro-slot {
+    display: contents;
+  }
+
+  /* Article padding inside a pane */
+  /* TODO: cleaner rule */
+  .pane .pane-body > astro-slot > article, .pane .pane-body > article {
+    margin: var(--space-xl);
+
+    & > * + * {
+      margin-block-start: var(--flow-space, 1em);
+    }
+  }
+
+  /* Loading / error states */
+  .pane-loading,
+  .pane-error {
+    padding: 2rem 3rem;
+    color: var(--c-neutral-500, #6b7280);
+  }
+}
+
+/* Spine visibility lives OUTSIDE @layer on purpose: the spine is a <button>, and
+   the components-layer button reset (display: inline-flex) outranks any layered
+   rule regardless of specificity. Unlayered rules beat every layer, so these
+   win. The label is shown only while its pane is collapsed to a rail —
+   data-collapsed is toggled by StackManager from the live overlap geometry. */
+.pane:not([data-collapsed]) .pane-spine {
+  display: none;
+}
+
+.pane[data-collapsed] .pane-spine {
+  display: flex;
+}
+
+/* Mobile: single-pane view — only active pane visible */
+@media (max-width: 768px) {
+  .stack {
+    overflow: hidden;
+  }
+
+  .pane {
+    display: none;
+    flex: 0 0 100%;
+    opacity: 1;
+    filter: none;
+    position: static;
+  }
+
+  .pane.pane--active {
+    display: flex;
+  }
+
+  /* Single-pane view: no rails, no spines. */
+  .pane-spine {
+    display: none;
+  }
+}
+
+/* Honour reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .stack {
+    scroll-behavior: auto;
+  }
+}

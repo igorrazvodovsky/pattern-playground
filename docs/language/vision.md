@@ -1,171 +1,73 @@
-# Vision
+# Pattern language vision
 
-Long-term orientation for the project as it moves from a documented pattern
-catalog toward a usable pattern language. It names the organizing direction and
-includes a few concrete sketches to make that direction discussable. It is not
-an implementation plan or schema contract.
+Long-term orientation for the pattern *language* — the conceptual layer of
+moves, qualities, and the relationships between them. It names where the language
+is heading; for where the project *artifact* is heading, see
+[../project/vision.md](../project/vision.md).
 
-Compare this vision with [operative-image.md](./operative-image.md), which
-describes the current working picture.
+Compare this with [operative-image.md](./operative-image.md), the current working
+picture of the language. It is not an implementation plan or schema contract.
 
-## Why this exists
+## A first language layer exists — but it is not operational
 
-The project currently uses `src/stories/` as both documentation surface and
-source of truth for the pattern graph. That has worked well enough for a garden,
-but it creates a semantic pressure. The vision is to separate three concerns:
+An earlier version of this vision sketched a "possible language layer" — a set of
+typed graphs (generative, quality, implementation, taxonomic, collection) over
+the pattern MDX. A first iteration of that layer now exists: the typed-edge
+vocabulary in [relationship-vocabulary.md](./relationship-vocabulary.md) gives it
+concrete form, the role model in
+[../specs/pattern-role-model.md](../specs/pattern-role-model.md) settles the node
+types, and [operative-image.md](./operative-image.md) describes what is built.
 
-- what exists in the pattern language
-- how it is rendered or demonstrated
-- how it is projected for navigation and sensemaking
+That is a different thing from an operational language. You cannot yet use the
+graph to generate design: coverage is partial, structural gaps remain, and the
+data model itself — relationship types, profile shape, what is even worth
+encoding — is expected to keep changing through several more iterations before it
+earns real use in design work. So the sketch has graduated into a first build,
+not into a usable language. The vision still points past that build, along two
+tracks: one deep and theoretical, one nearer and practical.
 
-## Current pin
+## Track 1 — Nature of Order register
 
-The near-term distinction to preserve is:
+The language currently lives in Alexander's *Pattern Language* register: patterns
+are moves, typed edges describe how moves combine, and the data is
+suggestion-grade. The aspiration is the *Nature of Order* register — structural
+*properties* that act as recursive production rules, giving design a genuine
+grammar rather than a vocabulary of hints. [design-theory.md](./design-theory.md)
+holds the full trajectory; [levels-of-scale.md](../levels-of-scale.md) is the
+first worked translation of one property into software.
 
-- A `component` is a reusable implementation or UI part. Its center of gravity
-  is API, rendering, slots, props, states, styling, and examples.
-- A `pattern` is a reusable interaction move. Its center of gravity is a
-  recurring human situation, forces, invariant behavior, consequences, and
-  relations to other moves.
+Getting there means discovering interaction-design analogues of Alexander's
+structural properties — configurations that reliably produce certain experiential
+effects across diverse users and contexts. This is the long horizon, and it is not close.
 
-Do not treat `atomic:*` as the answer to "is this a pattern?" The `atomic:*`
-tag is a compositional projection: primitive, component, composition, pattern.
-It says what something is made like, not whether it is a generative move.
+## Track 2 — Agent-usable language
 
-The missing axis is role. A possible future role vocabulary is:
+The nearer frontier is making the language something an actor — human or AI —
+reasons over rather than reads. Three concrete moves:
 
-- `move`: a true pattern, understood as a generative interaction move
-- `mechanism`: component, primitive, control, visual element, or implementation
-  substrate
-- `contract`: a complete behavior, semantics, and accessibility agreement,
-  often attached to controls
-- `quality`: an experiential dimension such as Agency or Learnability
-- `foundation`: theory, model, principle, or material substrate
-- `concept`: a Jackson-style software concept
-- `umbrella`: a sensemaking page that gathers a territory of related moves but
-  is not the authoritative source for any single one.
-- `example`: a concrete instantiation, story variant, screenshot, prototype, or
-  product case
+- *Situations across the corpus.* The `situation.initiating` /
+  `situation.resulting` frontmatter constructs exist and are populated for a
+  small starting set. The open question is whether the fields pull their weight
+  before retrofitting them across the library (see
+  [relationship-vocabulary.md](./relationship-vocabulary.md), Open Questions).
+- *A query layer over the graph.* Edge axes, transitive enablement, co-grounding
+  through shared foundations, and alternative-conflict detection are all derivable
+  from the graph and could be exposed to a reasoning actor on demand rather than
+  pre-computed.
+- *Situation-shaped reasoning.* `recommends` edges carry decision-tree branches
+  as raw situational text. The frontier is using them as context for judgement,
+  not as predicates to be matched against a query.
 
-This is not yet a required metadata schema. Treat it as the
-direction of travel when classifying or refactoring pattern material.
-
-## Definition source
-
-Use [pattern-definition.md](./pattern-definition.md) as the operational test for
-what counts as a pattern. This document assumes that definition and focuses on
-the repository shape needed to support it: role distinctions, graph semantics,
-Storybook's future position, and a possible deeper language layer.
-
-## The shift
-
-The durable distinction is not:
-
-```text
-component vs pattern
-```
-
-It is:
-
-```text
-mechanism vs move vs umbrella
-```
-
-A component can implement a mechanism.
-
-A mechanism can enable a move.
-
-A control can become a move when it carries a complete interaction contract.
-
-A Storybook page can be an umbrella over many moves.
-
-This keeps the project compatible with its semilattice commitment: no single
-tree is the truth, and no single documentation surface should have to carry all
-ontological distinctions.
-
-## Storybook's future role
-
-Long term, `src/stories/` should become one projection of a deeper language
-layer, not the ontology itself.
-
-Current state:
-
-```text
-src/stories/*.mdx -> extracted graph nodes and edges
-```
-
-Long-term direction:
-
-```text
-language objects -> graph data
-language objects -> Storybook pages
-language objects -> decision support / agent context
-```
-
-Storybook remains important because it makes the material explorable and
-demonstrable. It should not be forced to answer every ontology question. Some
-pages will be authored as pattern sources; some will be umbrellas over a
-territory; some will be implementation examples.
-
-## Possible language layer
-
-A future repository shape might look like:
-
-```text
-src/language/
-  moves/
-  mechanisms/
-  qualities/
-  foundations/
-  concepts/
-  umbrellas/
-  examples/
-  graph/
-```
-
-It is a long-term shape to keep in mind when new tooling, schemas, or extraction
-scripts start straining against MDX as the only source of truth.
-
-### Generative graph
-
-`move -> move`
-
-Uses relationships such as `precedes`, `recommends`, `alternative`, and
-`complements`. This is the actual pattern-language layer: it describes how moves
-unfold, combine, or substitute for one another.
-
-### Quality graph
-
-`move -> quality`
-
-Uses `enacts`. This records which experiential dimensions a move makes legible.
-Quality-to-quality tension may eventually need its own relationship, but only
-after concrete examples justify it.
-
-### Implementation graph
-
-`mechanism -> move`
-
-Uses `enables`. This records which primitives, components, controls, or
-mechanisms make a move possible. It should not be confused with taxonomy.
-
-### Taxonomic graph
-
-`move -> foundation` or `move -> concept`
-
-Uses `instantiates`. This records when a move is a concrete application of a
-more abstract principle, model, or concept.
-
-### Umbrella graph
-
-`umbrella -> move`
-
-Uses `surveys`. Umbrella pages such as "Bot" or "Assisted task completion"
-should not be forced to behave like single moves if they gather a territory.
+This track is the language-level face of the project's
+[agent-consumable repertoire](../project/vision.md) direction.
 
 ## Mature move record
 
-A mature `move` record might eventually include:
+A mature `move` record splits across the two operative levels and this vision.
+The situation constructs already carry the initiating situation and the
+resulting-context clauses, and `enacts` edges carry the quality claims. The
+fields that remain aspirational are the ones that make the object generative
+rather than catalogue-like:
 
 ```ts
 interface PatternMove {
@@ -189,17 +91,26 @@ interface PatternMove {
 }
 ```
 
-The important fields are `situation`, `problem`, `forces`, `move`, `produces`,
-`consequences`, `evidence`, and relationship fields. Those are what make the
-object generative rather than catalog-like. The `status` field is the confidence
-signal: a seed can be useful, but it should not masquerade as a settled invariant.
+The still-unrealised fields are `problem`, `forces`, `consequences`,
+`evidence`, and `status`. They are what would let a reasoning actor treat a
+pattern as a move rather than a page, so they belong to Track 2. The `status`
+field is the confidence signal: a seed can be useful, but it should not
+masquerade as a settled invariant.
+
+Of these, `status` is the nearest: the corpus already generates the need —
+stubs present with finished-page authority, and maturity has to be legible as
+more than editorial confidence. Whether `consequences` remains a distinct field
+is an open comparison against `situation.resulting`, which already covers what
+holds after the move is applied, including the new problems it opens; that is
+settled on a filled corpus by the situation-backfill pass
+([../../plans/active/2026-07-situation-backfill.md](../../plans/active/2026-07-situation-backfill.md)).
 
 ## Guidance
 
 When adding or revising material, ask these questions before choosing tags,
 edges, or file locations:
 
-1. Is this page an authoritative source for one move, or an umbrella over a
+1. Is this page an authoritative source for one move, or a collection over a
    territory?
 2. Does the thing act on a recurring human situation, or is it mainly an
    implementation mechanism?
@@ -214,28 +125,3 @@ edges, or file locations:
 Prefer making role and relationship distinctions explicit in docs or source
 metadata over relying on path names. Path names are projections. They are useful,
 but they are not the ontology.
-
-## Research grounding
-
-The operational definition in
-[pattern-definition.md](./pattern-definition.md) is grounded in
-[`references/hci-pattern-languages.md`](../../references/hci-pattern-languages.md).
-This vision document applies that research grounding to repository structure,
-graph roles, and future harness-facing language objects.
-
-## Non-goals
-
-Do not mechanically retrofit the whole library just because this document
-exists. The vision is useful only if it clarifies real pressure points.
-
-Do not add new edge types speculatively. Add them when repeated authored
-material shows that the current vocabulary is flattening a meaningful
-distinction.
-
-Do not demote component documentation. Components, primitives, and controls are
-part of the language substrate. The goal is to stop pretending they are all the
-same kind of pattern, not to remove them from the graph.
-
-Do not turn the pattern language into a strict rules engine. Existing graph data
-is suggestion-grade. The long-term system should help an actor reason, not
-replace judgement.

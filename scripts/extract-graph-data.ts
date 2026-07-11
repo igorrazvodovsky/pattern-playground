@@ -1,12 +1,15 @@
-import { readFileSync, writeFileSync, readdirSync, statSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, statSync } from 'fs';
 import { join, dirname } from 'path';
-import { fileURLToPath, pathToFileURL } from 'url';
+import { fileURLToPath } from 'url';
+import { load as yamlLoad } from 'js-yaml';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = join(__dirname, '..');
-const storiesDir = join(rootDir, 'src/stories');
-const outputPath = join(rootDir, 'src/pattern-graph.json');
-const activityLevelsPath = join(rootDir, 'src/activity-levels.json');
+const patternsContentDir = join(rootDir, 'apps/patterns/src/content/patterns');
+const outputPath = join(rootDir, 'apps/patterns/src/data/pattern-graph.json');
+const outputPathLegacy = join(rootDir, 'packages/components/src/pattern-graph.json');
+const activityLevelsPath = join(rootDir, 'apps/patterns/src/data/activity-levels.json');
+const activityLevelsPathLegacy = join(rootDir, 'packages/components/src/activity-levels.json');
 
 interface Node {
   id: string;
@@ -15,23 +18,32 @@ interface Node {
   path: string;
   tags?: string[];
   role?: Role;
-  generativeProfile?: GenerativeProfile;
+  group?: string;
+  situation?: NodeSituation;
+  /** Component realisation: Storybook docs ids, authored in frontmatter
+   * `realised_by`. Cross-dataset metadata, not edges — components are not
+   * nodes (relationship-vocabulary.md §Component realisation). */
+  realisedBy?: string[];
 }
 
-const VALID_ROLES = ['component', 'pattern', 'umbrella', 'quality', 'foundation'] as const;
+// `umbrella` is retained as a deprecated alias of `collection` for back-compat during
+// migration; both trigger the same `surveys` (member-collection) edge behaviour.
+const VALID_ROLES = ['component', 'pattern', 'collection', 'umbrella', 'quality', 'foundation'] as const;
 type Role = typeof VALID_ROLES[number];
 
 type RoleSource = 'explicit' | 'inferred' | 'unset';
 
-interface RoleResolution {
-  role?: Role;
-  source: RoleSource;
+/** Node-side situation constructs (relationship-vocabulary.md §Situations).
+ * A resulting clause with setsUp emits a `precedes` edge to each named pattern,
+ * carrying the clause as the edge's derived `situation` text. */
+interface SituationClause {
+  clause: string;
+  setsUp?: string[];
 }
 
-interface GenerativeProfile {
-  operatesOn: string;
-  produces: string;
-  enacts: string;
+interface NodeSituation {
+  initiating?: string;
+  resulting?: SituationClause[];
 }
 
 type EdgeType =
@@ -45,7 +57,8 @@ type EdgeType =
   | 'recommends'
   | 'related'
   | 'enacts'
-  | 'surveys';
+  | 'surveys'
+  | 'hosts';
 
 interface SituationalHint {
   question: string;
@@ -57,7 +70,15 @@ interface Edge {
   target: string;
   type: EdgeType;
   label?: string;
+  /** Note authored from the target side (via an inverting alias: follows /
+   * composed-of / instances). Serves the reader who walks the directed edge in
+   * reverse; the renderer shows it on the target page. */
+  incomingNote?: string;
   extractedFrom?: string;
+  /** Derived, never authored edge-side: the source node's resulting-context
+   * clause this edge renders (extractedFrom 'situation:resulting'). Per the
+   * consumer contract, rendered as prose for judgement — never matched on. */
+  situation?: string;
   situationalHints?: SituationalHint[];
 }
 
@@ -75,54 +96,35 @@ interface TypedLink {
   extractedFrom?: string;
   /** When true, the listed pattern is the source and the page is the target. */
   inverse?: boolean;
-  /** Raw header text when the link sat under a thematic (non-typed) `### ` header. */
-  thematicHeader?: string;
+  /** Which authoring channel produced this link — for I6 cross-channel duplicate detection. */
+  channel?: 'frontmatter' | 'inline' | 'component';
 }
 
-const HEADER_TYPE_MAP: Record<string, EdgeType> = {
-  'Precursors': 'precedes',
-  'Precursor patterns': 'precedes',
-  'Follow-ups': 'precedes',
-  'Follow-up patterns': 'precedes',
-  'Follow-ups & Complements': 'precedes',
-  'Complementary': 'complements',
-  'Complements': 'complements',
-  'Complementary patterns': 'complements',
-  'Tangentially related': 'tangential',
-  'Alternatives': 'alternative',
-  'Containers and primitives': 'enables',
-  'Containers': 'enables',
-  'Related primitives': 'enables',
-  'Mechanisms': 'enables',
-  'Components': 'enables',
-  'Conversational primitives': 'enables',
-  'Composed from': 'enables',
-  'Used by': 'enables',
-  'Foundation': 'instantiates',
-  'Applied in': 'instantiates',
-  'Implements this model': 'instantiates',
+// --- Authoring vocabulary: alias → { canonical stored type, invert direction } ---
+//
+// Direction is fixed by the relation name (I2). Aliases let an author pick the
+// word that fits the sentence; the extractor normalises both to one stored edge.
+// `recommends` is intentionally absent — it is not an authorable rel.
+const ALIAS_TABLE = {
+  precedes:      { type: 'precedes'     as EdgeType, invert: false },
+  follows:       { type: 'precedes'     as EdgeType, invert: true  },  // alias: inverse reading
+  enables:       { type: 'enables'      as EdgeType, invert: false },
+  'composed-of': { type: 'enables'      as EdgeType, invert: true  },  // alias: P is the whole
+  instantiates:  { type: 'instantiates' as EdgeType, invert: false },
+  instances:     { type: 'instantiates' as EdgeType, invert: true  },  // alias: P is the genus
+  variants:      { type: 'instantiates' as EdgeType, invert: true  },  // alias: same as instances
+  complements:   { type: 'complements'  as EdgeType, invert: false },
+  tangential:    { type: 'tangential'   as EdgeType, invert: false },
+  alternative:   { type: 'alternative'  as EdgeType, invert: false },
+  enacts:        { type: 'enacts'       as EdgeType, invert: false },
+  surveys:       { type: 'surveys'      as EdgeType, invert: false },
+  hosts:         { type: 'hosts'        as EdgeType, invert: false },
+  'hosted-by':   { type: 'hosts'        as EdgeType, invert: true  },  // alias: P is the hosted move
+  related:       { type: 'related'      as EdgeType, invert: false },
 };
 
-/**
- * Headers where the listed pattern is the *source* of the edge, not the page.
- * For `precedes`, precursor headers list the earlier move on the later page.
- * For `enables`, component/container headers list the building block on the
- * composite page.
- *
- * "Used by" is the exception: the page is the building block; the listed pattern
- * is the composite that uses it. Default direction is correct.
- */
-const INVERSE_DIRECTION_HEADERS = new Set<string>([
-  'Precursors',
-  'Precursor patterns',
-  'Containers and primitives',
-  'Containers',
-  'Related primitives',
-  'Mechanisms',
-  'Components',
-  'Conversational primitives',
-  'Composed from',
-]);
+type AuthoringRel = keyof typeof ALIAS_TABLE;
+const AUTHORABLE_RELS = new Set(Object.keys(ALIAS_TABLE));
 
 function globMdx(dir: string): string[] {
   const results: string[] = [];
@@ -138,341 +140,241 @@ function globMdx(dir: string): string[] {
   return results;
 }
 
-function globStoriesTsx(dir: string): string[] {
-  const results: string[] = [];
-  for (const entry of readdirSync(dir)) {
-    const full = join(dir, entry);
-    if (statSync(full).isDirectory()) {
-      results.push(...globStoriesTsx(full));
-    } else if (entry.endsWith('.stories.tsx')) {
-      results.push(full);
-    }
-  }
-  return results;
-}
-
-function fileExists(filePath: string): boolean {
-  try {
-    return statSync(filePath).isFile();
-  } catch {
-    return false;
-  }
-}
-
-function profileSidecarPath(mdxPath: string): string {
-  return mdxPath.replace(/\.mdx$/, '.profile.ts');
-}
-
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
 }
 
-function isGenerativeProfile(value: unknown): value is GenerativeProfile {
-  return isRecord(value)
-    && typeof value.operatesOn === 'string'
-    && typeof value.produces === 'string'
-    && typeof value.enacts === 'string';
-}
-
-async function loadGenerativeProfile(profilePath: string): Promise<GenerativeProfile> {
-  let module: unknown;
-  try {
-    module = await import(pathToFileURL(profilePath).href);
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    throw new Error(`Failed to load generative profile sidecar ${profilePath}: ${message}`);
+/** Parse the frontmatter `situation:` block. Resulting entries are bare prose
+ * strings or `{clause, sets-up: [slugs]}` objects; both normalise to clauses. */
+function parseSituation(fm: Record<string, unknown>, sourcePath: string): NodeSituation | undefined {
+  const raw = fm.situation;
+  if (!raw) return undefined;
+  if (!isRecord(raw)) {
+    console.warn(`Situation warning: ${sourcePath}: situation must be a mapping — ignored`);
+    return undefined;
   }
-
-  const profile = isRecord(module) ? module.profile : undefined;
-  if (!isGenerativeProfile(profile)) {
-    throw new Error(
-      `Invalid generative profile sidecar ${profilePath}: expected export const profile with string operatesOn, produces, and enacts fields.`
-    );
+  const situation: NodeSituation = {};
+  if (typeof raw.initiating === 'string' && raw.initiating.trim()) {
+    situation.initiating = raw.initiating.trim();
   }
-
-  return {
-    operatesOn: profile.operatesOn,
-    produces: profile.produces,
-    enacts: profile.enacts,
-  };
-}
-
-function titleToId(title: string): string {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9/ ]+/g, '')
-    .replace(/[/ ]+/g, '-')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '');
-}
-
-function titleToCategory(title: string): string {
-  const first = title.split('/')[0].replace(/\*/g, '').trim();
-  const map: Record<string, string> = {
-    'Operations':   'Operations',
-    'Actions':      'Actions',
-    'Activities':   'Activities',
-    'Foundations':  'Foundations',
-    'Qualities':    'Qualities',
-    'Primitives':   'Primitives',
-    'Components':   'Components',
-    'Compositions': 'Compositions',
-    'Patterns':     'Patterns',
-    'Data visualization': 'Data Visualisation',
-    'Visual elements':    'Visual Elements',
-  };
-  return map[first] ?? first;
-}
-
-function extractMetaTitle(content: string): string | null {
-  const m = content.match(/<Meta\b[^>]*title=['"]([^'"]+)['"]/);
-  return m ? m[1] : null;
-}
-
-function extractMetaTags(content: string): string[] {
-  const m = content.match(/<Meta\b[^>]*tags=\{(\[[^\]]*\])\}/);
-  if (!m) return [];
-  return [...m[1].matchAll(/['"]([^'"]+)['"]/g)].map((r) => r[1]);
-}
-
-function extractStoriesTitle(content: string): string | null {
-  const m = content.match(/^\s*title:\s*['"]([^'"]+)['"]/m);
-  return m ? m[1] : null;
-}
-
-function extractStoriesTags(content: string): string[] {
-  const m = content.match(/^\s*tags:\s*(\[[^\]]*\])/m);
-  if (!m) return [];
-  return [...m[1].matchAll(/['"]([^'"]+)['"]/g)].map((r) => r[1]);
+  if (raw.resulting !== undefined) {
+    if (!Array.isArray(raw.resulting)) {
+      console.warn(`Situation warning: ${sourcePath}: situation.resulting must be an array — ignored`);
+    } else {
+      const clauses: SituationClause[] = [];
+      for (const entry of raw.resulting) {
+        if (typeof entry === 'string' && entry.trim()) {
+          clauses.push({ clause: entry.trim() });
+        } else if (isRecord(entry) && typeof entry.clause === 'string' && entry.clause.trim()) {
+          const setsUpRaw = entry['sets-up'];
+          const setsUp = Array.isArray(setsUpRaw)
+            ? setsUpRaw.filter((s): s is string => typeof s === 'string' && s.length > 0)
+            : undefined;
+          clauses.push({
+            clause: entry.clause.trim(),
+            ...(setsUp && setsUp.length > 0 ? { setsUp } : {}),
+          });
+        } else {
+          console.warn(`Situation warning: ${sourcePath}: invalid resulting clause — ignored`);
+        }
+      }
+      if (clauses.length > 0) situation.resulting = clauses;
+    }
+  }
+  return situation.initiating || situation.resulting ? situation : undefined;
 }
 
 function isRole(value: string): value is Role {
   return (VALID_ROLES as readonly string[]).includes(value);
 }
 
-function explicitRoleFromTags(tags: string[], sourcePath: string): Role | undefined {
-  const roleTags = tags.filter((tag) => tag.startsWith('role:'));
-  if (roleTags.length === 0) return undefined;
-
-  const validRoles: Role[] = [];
-  const invalidRoleTags: string[] = [];
-  for (const tag of roleTags) {
-    const value = tag.slice('role:'.length);
-    if (isRole(value)) {
-      validRoles.push(value);
-    } else {
-      invalidRoleTags.push(tag);
-    }
+function extractFrontmatter(content: string): Record<string, unknown> {
+  const m = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  if (!m) return {};
+  try {
+    return (yamlLoad(m[1]) as Record<string, unknown>) ?? {};
+  } catch {
+    return {};
   }
-
-  if (invalidRoleTags.length > 0) {
-    console.warn(`Role metadata warning: ${sourcePath} has invalid role tag(s): ${invalidRoleTags.join(', ')}`);
-  }
-  if (validRoles.length > 1) {
-    console.warn(`Role metadata warning: ${sourcePath} has multiple valid role tags; using role:${validRoles[0]}`);
-  }
-
-  return validRoles[0];
 }
 
-function inferredRoleFromPath(filePath: string): Role | undefined {
-  const relative = filePath.slice(storiesDir.length + 1);
-  const topFolder = relative.split('/')[0];
-  if (topFolder === 'qualities') return 'quality';
-  if (topFolder === 'foundations') return 'foundation';
-  return undefined;
+/** Display category, composed from frontmatter facets rather than folders.
+ *  role wins for qualities/foundations; domain names a domain corpus; otherwise
+ *  the AT activity level. Section collections (no facets) read as cross-cutting. */
+function categoryOf(role: string | undefined, activityLevel: string | null, domain: string | null): string {
+  if (role === 'quality') return 'Qualities';
+  if (role === 'foundation') return 'Foundations';
+  if (domain === 'data-visualization') return 'Data Visualisation';
+  if (activityLevel === 'operation') return 'Operations';
+  if (activityLevel === 'action') return 'Actions';
+  if (activityLevel === 'activity') return 'Activities';
+  return 'Cross-cutting';
 }
 
-function resolveRole(tags: string[], filePath: string): RoleResolution {
-  const explicit = explicitRoleFromTags(tags, filePath);
-  if (explicit) return { role: explicit, source: 'explicit' };
-  const inferred = inferredRoleFromPath(filePath);
-  if (inferred) return { role: inferred, source: 'inferred' };
-  return { source: 'unset' };
-}
-
-const LINK_PATTERN = /\.\.\/\?path=\/docs\/([a-z0-9][a-z0-9-]*)--docs/g;
 
 function stripComments(content: string): string {
   return content.replace(/\{\/\*[\s\S]*?\*\/\}/g, '');
 }
 
-/**
- * Find the `## Related patterns` section body — everything between that header and
- * the next `## ` (or EOF). Returns null when the section isn't present.
- */
-function extractRelatedSection(content: string): string | null {
-  const start = content.search(/^## Related patterns\s*$/m);
-  if (start === -1) return null;
-  const after = content.slice(start);
-  const nextH2 = after.slice(1).search(/\n## /);
-  return nextH2 === -1 ? after : after.slice(0, nextH2 + 1);
+// --- Relationship extraction: Phase B ---
+//
+// Three explicit channels (frontmatter, inline rel=, component props); the two
+// judgement homes (situations, decision trees) emit their own edges elsewhere.
+// Heading-text inference is removed; structural auto-typing retired 2026-07-11
+// — untyped body links are citations and produce no edge.
+
+// `[text](/patterns/slug){rel="type"}` — {rel} must follow closing ) immediately.
+const INLINE_REL_RE = /\[[^\]]*\]\(\/patterns\/([\w][\w/-]*)(?:#[^\s)]*)?(?:[^)]*)\)\{rel="([^"]+)"\}/g;
+// <PatternRef slug="..." rel="..."> (attrs in any order)
+const PATTERN_REF_RE = /<PatternRef\b([^>]*?)(?:\/?>|>[^<]*<\/PatternRef>)/g;
+// <ComponentRef id="..." rel="..."> (attrs in any order)
+const COMPONENT_REF_RE = /<ComponentRef\b([^>]*?)(?:\/?>|>[^<]*<\/ComponentRef>)/g;
+
+function extractTagAttr(attrs: string, name: string): string | undefined {
+  const m = attrs.match(new RegExp(`\\b${name}="([^"]+)"`));
+  return m?.[1];
 }
 
-/** Strip `[text](url)` markdown links to plain text for header normalisation. */
-function stripMarkdownLinks(text: string): string {
-  return text.replace(/\[([^\]]+)\]\([^)]*\)/g, '$1');
+function isRelEntry(v: unknown): v is string | { to: string; note?: string } {
+  if (typeof v === 'string') return v.length > 0;
+  return isRecord(v) && typeof v.to === 'string';
 }
 
-function normaliseHeaderToTag(header: string): string {
-  return stripMarkdownLinks(header)
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]+/g, '')
-    .trim()
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-');
+function parseRelFrontmatter(fm: Record<string, unknown>, sourcePath: string): TypedLink[] {
+  const rels = fm.relationships;
+  if (!rels || !isRecord(rels)) return [];
+  const links: TypedLink[] = [];
+  for (const [rel, entries] of Object.entries(rels)) {
+    if (!AUTHORABLE_RELS.has(rel)) {
+      console.warn(`I4 unknown rel: ${sourcePath}: "${rel}" in frontmatter relationships — ignored`);
+      continue;
+    }
+    if (!Array.isArray(entries)) {
+      console.warn(`Relationships warning: ${sourcePath}: rel "${rel}" must be an array — ignored`);
+      continue;
+    }
+    const resolved = ALIAS_TABLE[rel as AuthoringRel];
+    for (const entry of entries) {
+      if (!isRelEntry(entry)) {
+        console.warn(`Relationships warning: ${sourcePath}: invalid entry in rel "${rel}" — ignored`);
+        continue;
+      }
+      const target = typeof entry === 'string' ? entry : entry.to;
+      const note = typeof entry === 'object' ? entry.note : undefined;
+      links.push({
+        target,
+        type: resolved.type,
+        ...(note ? { label: note } : {}),
+        extractedFrom: `frontmatter:${rel}`,
+        ...(resolved.invert ? { inverse: true } : {}),
+        channel: 'frontmatter',
+      });
+    }
+  }
+  return links;
 }
 
-/**
- * Extract a per-line link annotation: text after ` — `, ` – `, or ` - ` following
- * the link. Em dash is the canonical form, but hyphens turn up in normal authoring;
- * accepting them stops a stylistic choice from silently dropping the annotation.
- * Only returned when the line contains exactly one link (otherwise the annotation
- * is ambiguous).
- */
-function extractAnnotation(line: string): string | undefined {
-  const linkCount = (line.match(LINK_PATTERN) || []).length;
-  if (linkCount !== 1) return undefined;
-  const m = line.match(/\)\s+[—–-]\s+(.+?)$/);
-  return m ? m[1].trim() : undefined;
-}
-
-function findLinksInText(text: string): string[] {
-  const ids: string[] = [];
+function parseInlineRelLinks(content: string, sourcePath: string): TypedLink[] {
+  const links: TypedLink[] = [];
+  INLINE_REL_RE.lastIndex = 0;
   let m: RegExpExecArray | null;
-  LINK_PATTERN.lastIndex = 0;
-  while ((m = LINK_PATTERN.exec(text)) !== null) ids.push(m[1]);
-  return ids;
+  while ((m = INLINE_REL_RE.exec(content)) !== null) {
+    const rawSlug = m[1].replace(/\//g, '-').replace(/-+/g, '-');
+    const rel = m[2];
+    if (!AUTHORABLE_RELS.has(rel)) {
+      console.warn(`I4 unknown rel: ${sourcePath}: rel="${rel}" on inline link to "${rawSlug}" — ignored`);
+      continue;
+    }
+    const resolved = ALIAS_TABLE[rel as AuthoringRel];
+    links.push({
+      target: rawSlug,
+      type: resolved.type,
+      extractedFrom: `inline:${rel}`,
+      ...(resolved.invert ? { inverse: true } : {}),
+      channel: 'inline',
+    });
+  }
+  return links;
 }
 
-interface ParsedLinks {
-  typed: TypedLink[];
-  /** Tags collected per linked target from thematic-header subsections. */
-  tagsByTarget: Map<string, Set<string>>;
+function parseComponentRelAttrs(content: string, sourcePath: string): TypedLink[] {
+  const links: TypedLink[] = [];
+
+  PATTERN_REF_RE.lastIndex = 0;
+  let m: RegExpExecArray | null;
+  while ((m = PATTERN_REF_RE.exec(content)) !== null) {
+    const attrs = m[1];
+    const slug = extractTagAttr(attrs, 'slug');
+    const rel = extractTagAttr(attrs, 'rel');
+    if (!slug || !rel) continue;
+    if (!AUTHORABLE_RELS.has(rel)) {
+      console.warn(`I4 unknown rel: ${sourcePath}: rel="${rel}" on <PatternRef slug="${slug}"> — ignored`);
+      continue;
+    }
+    const resolved = ALIAS_TABLE[rel as AuthoringRel];
+    const target = slug.replace(/\//g, '-').replace(/-+/g, '-');
+    links.push({
+      target,
+      type: resolved.type,
+      extractedFrom: `component:PatternRef`,
+      ...(resolved.invert ? { inverse: true } : {}),
+      channel: 'component',
+    });
+  }
+
+  // <ComponentRef> carries no rel: prose mentions are citations, not claims.
+  // The realisation claim's single authorable home is frontmatter `realised_by`
+  // (cross-dataset node metadata against Storybook's index.json, never a graph
+  // edge — see relationship-vocabulary.md §Component realisation). A rel here
+  // is an authoring error — components are not graph nodes, so the edge could
+  // never resolve; warn instead of silently dropping it.
+  COMPONENT_REF_RE.lastIndex = 0;
+  while ((m = COMPONENT_REF_RE.exec(content)) !== null) {
+    const attrs = m[1];
+    const id = extractTagAttr(attrs, 'id');
+    const rel = extractTagAttr(attrs, 'rel');
+    if (!id || !rel) continue;
+    console.warn(
+      `Realisation warning: ${sourcePath}: rel="${rel}" on <ComponentRef id="${id}"> — ` +
+      `prose ComponentRefs are citations; author the realisation claim in frontmatter realised_by`,
+    );
+  }
+
+  return links;
 }
 
-function extractTypedLinks(rawContent: string, sourceRole?: Role): ParsedLinks {
+function extractRelationships(
+  fm: Record<string, unknown>,
+  rawContent: string,
+  sourceRole: Role | undefined,
+  sourcePath: string,
+): TypedLink[] {
   const content = stripComments(rawContent);
   const typed: TypedLink[] = [];
-  const tagsByTarget = new Map<string, Set<string>>();
-  const defaultUntypedLinkType: EdgeType = sourceRole === 'umbrella' ? 'surveys' : 'related';
 
-  const related = extractRelatedSection(content);
-  const seenInRelated = new Set<string>();
+  // Explicit channels: frontmatter, inline rel=, component props.
+  typed.push(...parseRelFrontmatter(fm, sourcePath));
+  typed.push(...parseInlineRelLinks(content, sourcePath));
+  typed.push(...parseComponentRelAttrs(content, sourcePath));
 
-  if (related) {
-    // Split on `### ` headers. The first chunk is text before any subsection.
-    const parts = related.split(/^### /m);
-    const preface = parts[0];
+  // No structural auto-typing: untyped body links are citations and produce no
+  // edge (I7, retired auto-typings — changelog 2026-07-11). `recommends` comes
+  // from the decision-tree judgement home; `surveys` and `enacts` are authored.
 
-    // Links in the section body but outside any `### ` subsection use the page's
-    // default untyped link type. Umbrellas survey their territory here.
-    for (const id of findLinksInText(preface)) {
-      const key = `${id}|${defaultUntypedLinkType}`;
-      if (seenInRelated.has(key)) continue;
-      seenInRelated.add(key);
-      typed.push({ target: id, type: defaultUntypedLinkType });
-    }
-
-    for (let i = 1; i < parts.length; i++) {
-      const chunk = parts[i];
-      const headerEnd = chunk.indexOf('\n');
-      const headerLine = headerEnd === -1 ? chunk : chunk.slice(0, headerEnd);
-      const body = headerEnd === -1 ? '' : chunk.slice(headerEnd + 1);
-      const headerText = headerLine.trim();
-      const headerKey = stripMarkdownLinks(headerText).trim();
-      const mappedType = HEADER_TYPE_MAP[headerKey];
-
-      const lines = body.split('\n');
-      for (const line of lines) {
-        const ids = findLinksInText(line);
-        if (ids.length === 0) continue;
-        const annotation = extractAnnotation(line);
-        for (const id of ids) {
-          if (sourceRole === 'umbrella') {
-            const key = `${id}|surveys`;
-            if (seenInRelated.has(key)) continue;
-            seenInRelated.add(key);
-            typed.push({
-              target: id,
-              type: 'surveys',
-              label: annotation ?? headerText,
-              extractedFrom: `header:"${headerText}"`,
-              thematicHeader: headerText,
-            });
-          } else if (mappedType) {
-            const key = `${id}|${mappedType}`;
-            if (seenInRelated.has(key)) continue;
-            seenInRelated.add(key);
-            typed.push({
-              target: id,
-              type: mappedType,
-              label: annotation,
-              extractedFrom: `header:"${headerText}"`,
-              ...(INVERSE_DIRECTION_HEADERS.has(headerKey) ? { inverse: true } : {}),
-            });
-          } else {
-            // Thematic subcategory — emit `related`. Prefer the per-line annotation
-            // (more specific) over the header text (fallback).
-            const key = `${id}|related`;
-            if (!seenInRelated.has(key)) {
-              seenInRelated.add(key);
-              typed.push({
-                target: id,
-                type: 'related',
-                label: annotation ?? headerText,
-                thematicHeader: headerText,
-              });
-            }
-            const tag = normaliseHeaderToTag(headerText);
-            if (tag) {
-              if (!tagsByTarget.has(id)) tagsByTarget.set(id, new Set());
-              tagsByTarget.get(id)!.add(tag);
-            }
-          }
-        }
-      }
+  // Phase E — I6: warn on cross-channel duplicates (same target + type from different channels).
+  const seen = new Map<string, string>(); // `target|type` → channel
+  for (const link of typed) {
+    const key = `${link.target}|${link.type}`;
+    const ch = link.channel ?? 'unknown';
+    const prev = seen.get(key);
+    if (prev !== undefined && prev !== ch) {
+      console.warn(`I6 duplicate: ${sourcePath}: "${link.type}" to "${link.target}" declared via '${prev}' and '${ch}'`);
+    } else {
+      seen.set(key, ch);
     }
   }
 
-  // Links anywhere else in the document (prose, anatomy, variants) use the
-  // default untyped link type. For umbrella pages, these are part of the authored
-  // survey territory rather than generic related edges.
-  const seenAnywhere = new Set(typed.map((t) => `${t.target}|${t.type}`));
-  for (const id of findLinksInText(content)) {
-    const key = `${id}|${defaultUntypedLinkType}`;
-    if (seenAnywhere.has(key)) continue;
-    // Only emit a prose/default edge if the target hasn't already been typed any way.
-    const alreadyTyped = typed.some((t) => t.target === id);
-    if (alreadyTyped) continue;
-    seenAnywhere.add(key);
-    typed.push({ target: id, type: defaultUntypedLinkType });
-  }
-
-  // Document-wide annotation pass: any bullet line anywhere in the doc that links to
-  // a known target with a `— ` annotation overrides the existing label. Lets the
-  // author put a labelled bullet wherever it editorially fits (e.g. under a topical
-  // H3 within a `## Foo` section), not only inside `## Related patterns`.
-  const allLines = content.split('\n');
-  for (let i = 0; i < allLines.length; i++) {
-    const line = allLines[i];
-    if (!/^\s*[-*]\s/.test(line)) continue;
-    const ids = findLinksInText(line);
-    if (ids.length !== 1) continue;
-    const annotation = extractAnnotation(line);
-    if (!annotation) continue;
-    const id = ids[0];
-    for (const link of typed) {
-      if (link.target !== id) continue;
-      // Only override when the existing label is missing or is a header-text fallback
-      // (i.e. the link sat under a thematic header without a per-line annotation).
-      if (!link.label || (link.thematicHeader && link.label === link.thematicHeader)) {
-        link.label = annotation;
-      }
-    }
-  }
-
-  return { typed, tagsByTarget };
+  return typed;
 }
 
 // --- Mermaid decision-tree extraction (Phase 3 — `recommends` edges) ---
@@ -553,7 +455,7 @@ function parseMermaid(chart: string): MermaidGraph {
   return { nodes, edges };
 }
 
-const MERMAID_BLOCK_RE = /<MermaidDiagram\s+chart=\{`([\s\S]*?)`\}\s*\/>/g;
+const MERMAID_BLOCK_RE = /<MermaidDiagram\b[^>]*?\bchart=\{`([\s\S]*?)`\}/g;
 
 function extractMermaidCharts(content: string): string[] {
   const charts: string[] = [];
@@ -573,60 +475,40 @@ interface TreeConfig {
 }
 
 /**
- * Curated decision-tree configs, keyed by source pattern id (the page that contains the tree).
- *
- * Leaf labels are matched verbatim against the parsed Mermaid node labels. Trees and leaves
- * that resolve to no current pattern page are omitted — this is the "skip leaves that don't
- * map" branch of the Phase 3 plan.
+ * Decision-tree configs are authored in each page's `decision-trees:` frontmatter
+ * (the tree is the authorable judgement home — see relationship-vocabulary.md).
+ * Leaf labels are matched verbatim against the parsed Mermaid node labels; leaves
+ * that resolve to no current pattern page are omitted from the map and reported.
+ * Component leaves (primitives-*, components-*, etc.) silently skip at edge-build
+ * time because component nodes are not in the graph.
  */
-const DECISION_TREES: Record<string, TreeConfig[]> = {
-  'actions-application-deletion': [
-    {
-      treeId: 'deletion',
-      leaves: {
-        'No confirmation (with undo)': 'operations-undo',
-        'Inline confirmation': 'operations-inline-confirmation',
-        'Modal confirmation': 'actions-application-dialog',
-      },
-    },
-  ],
-  'actions-coordination-notification': [
-    {
-      treeId: 'notification',
-      leaves: {
-        'Dialog': 'actions-application-dialog',
-        'Callout': 'operations-callout',
-        'Toast': 'operations-toast',
-      },
-    },
-  ],
-  'actions-navigation-overview': [
-    {
-      treeId: 'navigation-overview',
-      leaves: {
-        'Pan and zoom': 'actions-navigation-pan-and-zoom',
-        'Step by step': 'actions-navigation-step-by-step',
-        'Pyramid': 'actions-navigation-pyramid',
-        'Multilevel tree': 'actions-navigation-multilevel-tree',
-        'Flat navigation': 'actions-navigation-flat-navigation',
-        'Fully connected': 'actions-navigation-fully-connected',
-        'Hub and spoke': 'actions-navigation-hub-and-spoke',
-        'Overview & Detail': 'actions-navigation-overview-and-detail',
-      },
-    },
-  ],
-  'actions-application-form': [
-    {
-      treeId: 'form-control',
-      chartIndex: 1, // second <MermaidDiagram> — "Choosing a control"
-      leaves: {
-        'Tabs': 'operations-tabs',
-        'Checkbox': 'operations-checkbox',
-        'Dropdown': 'actions-coordination-dropdown',
-      },
-    },
-  ],
-};
+function parseDecisionTrees(fm: Record<string, unknown>, sourcePath: string): TreeConfig[] {
+  const raw = fm['decision-trees'];
+  if (!raw) return [];
+  if (!Array.isArray(raw)) {
+    console.warn(`Decision-tree warning: ${sourcePath}: decision-trees must be an array — ignored`);
+    return [];
+  }
+  const configs: TreeConfig[] = [];
+  for (const entry of raw) {
+    if (!isRecord(entry) || typeof entry.id !== 'string' || !isRecord(entry.leaves)) {
+      console.warn(`Decision-tree warning: ${sourcePath}: entry needs an id and a leaves map — ignored`);
+      continue;
+    }
+    const leaves: Record<string, string> = {};
+    for (const [label, slug] of Object.entries(entry.leaves)) {
+      if (typeof slug === 'string' && slug.length > 0) leaves[label] = slug;
+      else console.warn(`Decision-tree warning: ${sourcePath}: leaf "${label}" needs a slug — ignored`);
+    }
+    const chartIndexRaw = entry['chart-index'];
+    configs.push({
+      treeId: entry.id,
+      ...(typeof chartIndexRaw === 'number' ? { chartIndex: chartIndexRaw } : {}),
+      leaves,
+    });
+  }
+  return configs;
+}
 
 interface ResolvedPath {
   leafTargetId: string;
@@ -748,10 +630,10 @@ interface RecommendsCollection {
 function extractDecisionTreeEdges(
   sourcePatternId: string,
   content: string,
+  configs: TreeConfig[],
   collection: RecommendsCollection,
 ): void {
-  const configs = DECISION_TREES[sourcePatternId];
-  if (!configs) return;
+  if (configs.length === 0) return;
   const charts = extractMermaidCharts(content);
   if (charts.length === 0) return;
 
@@ -787,22 +669,6 @@ function extractDecisionTreeEdges(
   }
 }
 
-function deriveActivityLevel(title: string): Pick<ActivityLevel, 'activity-level' | 'lifecycle-stage'> {
-  const parts = title.split('/');
-  const top = parts[0];
-  if (top === 'Operations') return { 'activity-level': 'operation', 'lifecycle-stage': null };
-  if (top === 'Actions') {
-    const stage = parts[1]?.toLowerCase().replace(/\s+/g, '-') ?? null;
-    const validStages = ['seeking', 'evaluation', 'sense-making', 'application', 'coordination', 'conversation'];
-    return {
-      'activity-level': 'action',
-      'lifecycle-stage': validStages.includes(stage ?? '') ? stage : null,
-    };
-  }
-  if (top === 'Activities') return { 'activity-level': 'activity', 'lifecycle-stage': null };
-  return { 'activity-level': 'cross-cutting', 'lifecycle-stage': null };
-}
-
 const nodeMap = new Map<string, Node>();
 const nodeTags = new Map<string, Set<string>>();
 const roleSourceById = new Map<string, RoleSource>();
@@ -814,131 +680,75 @@ const recommendsCollection: RecommendsCollection = {
   unresolvedLeaves: new Map(),
 };
 
-const mdxFiles = globMdx(storiesDir).filter((f) => !f.endsWith('Intro.mdx'));
+// --- Process pattern-site content (frontmatter-based) ---
+//
+// Runs first so patterns-content nodes win over any duplicate ID from the components stories.
+const patternMdxFiles = globMdx(patternsContentDir);
+const groupById = new Map<string, string>();
 
-for (const filePath of mdxFiles) {
+for (const filePath of patternMdxFiles) {
   const content = readFileSync(filePath, 'utf-8');
-  let title = extractMetaTitle(content);
-  let storiesTags: string[] = [];
+  const fm = extractFrontmatter(content);
 
-  if (!title) {
-    const base = filePath.replace(/\.mdx$/, '.stories.tsx');
-    try {
-      const storiesContent = readFileSync(base, 'utf-8');
-      title = extractStoriesTitle(storiesContent);
-      storiesTags = extractStoriesTags(storiesContent);
-    } catch {
-      // no co-located stories file
-    }
-  }
-
+  const title = typeof fm.title === 'string' ? fm.title : null;
   if (!title) continue;
 
-  const category = title.split('/')[0].replace(/\*/g, '').trim();
-  const shortTitle = title.split('/').pop()!.replace(/\*/g, '').trim();
-  if (category === 'Concepts' || category === 'Introduction') continue;
-  const provisionalId = titleToId(title);
-  if (shortTitle === 'Overview' && !DECISION_TREES[provisionalId]) continue;
+  // Identity is the filename stem: the content directory is flat, so the stem is
+  // the canonical slug, route, graph node ID, and inter-page link target all at once.
+  // Classification (activity level, lifecycle, domain, …) lives in frontmatter facets,
+  // not in folders — see docs/specs/pattern-site.md.
+  const id = filePath.slice(patternsContentDir.length + 1).replace(/\.mdx$/, '').split('/').pop()!;
 
-  const id = provisionalId;
-  const cat = titleToCategory(title);
-  const path = `../?path=/docs/${id}--docs`;
+  const roleValue = typeof fm.role === 'string' ? fm.role : undefined;
+  const role: Role | undefined = roleValue && isRole(roleValue) ? roleValue : undefined;
+  if (!role) console.warn(`Role metadata warning: ${filePath} has no valid role field`);
 
-  const mdxTags = extractMetaTags(content);
-  const tags = mdxTags.length > 0 ? mdxTags : storiesTags;
-  if (tags.includes('!autodocs')) continue;
-  const roleResolution = resolveRole(tags, filePath);
-  if (roleResolution.source === 'unset') {
-    console.warn(`Role metadata warning: ${filePath} has no role:* tag and no folder-inferred role`);
-  }
+  const activityLevelRaw = typeof fm.activityLevel === 'string' ? fm.activityLevel : null;
+  const domainRaw = typeof fm.domain === 'string' ? fm.domain : null;
+  const cat = categoryOf(role, activityLevelRaw, domainRaw);
 
-  const node: Node = nodeMap.get(id) ?? { id, title: shortTitle, category: cat, path };
-  if (roleResolution.role) {
-    node.role = roleResolution.role;
-  }
-  roleSourceById.set(id, roleResolution.source);
+  const treeConfigs = parseDecisionTrees(fm, filePath);
+  if (title.toLowerCase() === 'overview' && treeConfigs.length === 0) continue;
 
-  const profilePath = profileSidecarPath(filePath);
-  if (fileExists(profilePath)) {
-    node.generativeProfile = await loadGenerativeProfile(profilePath);
-  }
+  const patternSitePath = `/patterns/${id}`;
+
+  const node: Node = nodeMap.get(id) ?? { id, title, category: cat, path: patternSitePath };
+  if (role) node.role = role;
+  roleSourceById.set(id, role ? 'explicit' : 'unset');
+
+  const situation = parseSituation(fm, filePath);
+  if (situation) node.situation = situation;
   nodeMap.set(id, node);
 
-  const atLevelTag = tags.find((t) => t.startsWith('activity-level:'));
-  const atomicTag = tags.find((t) => t.startsWith('atomic:'));
-  const lifecycleTag = tags.find((t) => t.startsWith('lifecycle:'));
-  const mediationTag = tags.find((t) => t.startsWith('mediation:'));
+  const atomicRaw = typeof fm.atomic === 'string' ? fm.atomic : null;
+  const lifecycleRaw = typeof fm.lifecycle === 'string' ? fm.lifecycle : null;
+  const mediationRaw = typeof fm.mediation === 'string' ? fm.mediation : null;
+  if (typeof fm.group === 'string') {
+    groupById.set(id, fm.group);
+    node.group = fm.group;
+  }
 
-  const derived = deriveActivityLevel(title);
-  const atomicCategory = atomicTag ? atomicTag.split(':')[1] : category.toLowerCase();
+  if (Array.isArray(fm.realised_by)) {
+    const realisedBy = fm.realised_by.filter((v): v is string => typeof v === 'string');
+    if (realisedBy.length !== fm.realised_by.length) {
+      console.warn(`Realisation warning: ${filePath}: realised_by entries must be Storybook docs-id strings — non-strings ignored`);
+    }
+    if (realisedBy.length > 0) node.realisedBy = realisedBy;
+  }
 
   activityData.set(id, {
-    'activity-level': atLevelTag ? atLevelTag.split(':')[1] : derived['activity-level'],
-    'lifecycle-stage': lifecycleTag ? lifecycleTag.split(':')[1] : derived['lifecycle-stage'],
-    'atomic-category': atomicCategory,
-    'mediation': mediationTag ? mediationTag.split(':')[1] : null,
+    // Frontmatter is authoritative. Foundations, qualities, and section collections
+    // carry no AT altitude — they read as cross-cutting.
+    'activity-level': activityLevelRaw ?? 'cross-cutting',
+    'lifecycle-stage': lifecycleRaw ?? null,
+    'atomic-category': atomicRaw ?? cat.toLowerCase(),
+    'mediation': mediationRaw,
   });
 
-  const { typed, tagsByTarget } = extractTypedLinks(content, roleResolution.role);
+  const typed = extractRelationships(fm, content, role, filePath);
   if (typed.length > 0) fileLinks.set(id, typed);
-  for (const [targetId, tagSet] of tagsByTarget) {
-    if (!nodeTags.has(targetId)) nodeTags.set(targetId, new Set());
-    for (const t of tagSet) nodeTags.get(targetId)!.add(t);
-  }
 
-  extractDecisionTreeEdges(id, content, recommendsCollection);
-}
-
-for (const filePath of globStoriesTsx(storiesDir)) {
-  const mdxPath = filePath.replace(/\.stories\.tsx$/, '.mdx');
-  try {
-    statSync(mdxPath);
-    continue;
-  } catch {
-    // no MDX — process this stories file
-  }
-
-  const content = readFileSync(filePath, 'utf-8');
-  const title = extractStoriesTitle(content);
-  if (!title) continue;
-
-  const category = title.split('/')[0].replace(/\*/g, '').trim();
-  const shortTitle = title.split('/').pop()!.replace(/\*/g, '').trim();
-  if (category === 'Concepts' || category === 'Introduction') continue;
-  if (shortTitle === 'Overview') continue;
-
-  const id = titleToId(title);
-  const cat = titleToCategory(title);
-  const path = `../?path=/docs/${id}--docs`;
-  const tags = extractStoriesTags(content);
-  if (tags.includes('!autodocs')) continue;
-  const roleResolution = resolveRole(tags, filePath);
-
-  if (!nodeMap.has(id)) {
-    if (roleResolution.source === 'unset') {
-      console.warn(`Role metadata warning: ${filePath} has no role:* tag and no folder-inferred role`);
-    }
-    const node: Node = { id, title: shortTitle, category: cat, path };
-    if (roleResolution.role) {
-      node.role = roleResolution.role;
-    }
-    nodeMap.set(id, node);
-    roleSourceById.set(id, roleResolution.source);
-  }
-
-  if (!activityData.has(id)) {
-    const atLevelTag = tags.find((t) => t.startsWith('activity-level:'));
-    const atomicTag = tags.find((t) => t.startsWith('atomic:'));
-    const lifecycleTag = tags.find((t) => t.startsWith('lifecycle:'));
-    const mediationTag = tags.find((t) => t.startsWith('mediation:'));
-    const derived = deriveActivityLevel(title);
-    activityData.set(id, {
-      'activity-level': atLevelTag ? atLevelTag.split(':')[1] : derived['activity-level'],
-      'lifecycle-stage': lifecycleTag ? lifecycleTag.split(':')[1] : derived['lifecycle-stage'],
-      'atomic-category': atomicTag ? atomicTag.split(':')[1] : cat.toLowerCase(),
-      'mediation': mediationTag ? mediationTag.split(':')[1] : null,
-    });
-  }
+  extractDecisionTreeEdges(id, content, treeConfigs, recommendsCollection);
 }
 
 // --- Build edges ---
@@ -952,77 +762,93 @@ const edgeMap = new Map<EdgeKey, Edge>();
 
 function addEdge(edge: Edge) {
   const key = `${edge.source}|${edge.target}|${edge.type}`;
-  if (edgeMap.has(key)) return;
+  const existing = edgeMap.get(key);
+  if (existing) {
+    // A directed edge may be glossed from both ends (e.g. `A precedes B` and
+    // `B follows A`), each note serving the reader arriving from that side.
+    // Fill an empty note slot; never overwrite an authored one.
+    if (edge.label !== undefined && existing.label === undefined) existing.label = edge.label;
+    if (edge.incomingNote !== undefined && existing.incomingNote === undefined) existing.incomingNote = edge.incomingNote;
+    if (edge.situation !== undefined && existing.situation === undefined) {
+      existing.situation = edge.situation;
+      existing.extractedFrom = edge.extractedFrom;
+    }
+    return;
+  }
   edgeMap.set(key, edge);
-}
-
-function isPatternToQualityLink(sourceId: string, targetId: string): boolean {
-  const sourceNode = nodeMap.get(sourceId);
-  return sourceNode !== undefined
-    && sourceNode.category !== 'Qualities'
-    && targetId.startsWith('qualities-');
 }
 
 for (const [sourceId, links] of fileLinks.entries()) {
   for (const link of links) {
-    if (!nodeMap.has(link.target)) continue;
-    if (sourceId === link.target) continue;
-    if (link.type !== 'surveys' && isPatternToQualityLink(sourceId, link.target)) {
-      addEdge({
-        source: sourceId,
-        target: link.target,
-        type: 'enacts',
-        ...(link.label !== undefined ? { label: link.label } : {}),
-        extractedFrom: 'quality-target',
-      });
+    if (!nodeMap.has(link.target)) {
+      // Authored links to unknown targets are typos or claims aimed outside
+      // the graph (e.g. a component id in `relationships:` — realisation
+      // claims belong in frontmatter `realised_by`).
+      console.warn(`Relationships warning: ${sourceId}: ${link.type} target "${link.target}" names no known pattern — no edge emitted`);
       continue;
     }
+    if (sourceId === link.target) continue;
+
     const [src, tgt] = link.inverse ? [link.target, sourceId] : [sourceId, link.target];
+    // An inverting alias (follows / composed-of / instances) authors from the
+    // target side, so its note is the edge's incoming note; otherwise outgoing.
+    const noteKey = link.inverse ? 'incomingNote' : 'label';
     addEdge({
       source: src,
       target: tgt,
       type: link.type,
-      ...(link.label !== undefined ? { label: link.label } : {}),
+      ...(link.label !== undefined ? { [noteKey]: link.label } : {}),
       ...(link.extractedFrom !== undefined ? { extractedFrom: link.extractedFrom } : {}),
     });
   }
 }
 
-// --- Promote pattern → quality edges to `enacts` ---
+// --- Emit `precedes` edges from resulting-context clauses ---
 //
-// An edge is `enacts` when the source is a non-quality pattern and the target is a
-// `qualities-*` page. Header-derived typing (e.g. "Foundation") is overridden — the
-// quality-target signal is stronger than any header. Umbrella `surveys` links and
-// quality → quality edges keep their original type.
-{
-  const promoted: Edge[] = [];
-  for (const [key, edge] of edgeMap) {
-    const sourceNode = nodeMap.get(edge.source);
-    if (!sourceNode) continue;
-    if (sourceNode.category === 'Qualities') continue;
-    if (!edge.target.startsWith('qualities-')) continue;
-    if (edge.type === 'enacts' || edge.type === 'surveys') continue;
-    edgeMap.delete(key);
-    promoted.push({
-      ...edge,
-      type: 'enacts',
-      extractedFrom: 'quality-target',
-    });
+// A judgement home emits its edges (like decision trees emit `recommends`): a
+// `situation.resulting` clause with `sets-up` emits one `precedes` edge per named
+// pattern, carrying the clause as the edge's derived `situation` text. The clause
+// is the only authorable home of the condition; the edge field is its rendering.
+for (const node of nodeMap.values()) {
+  for (const clause of node.situation?.resulting ?? []) {
+    for (const target of clause.setsUp ?? []) {
+      if (!nodeMap.has(target)) {
+        console.warn(`Situation warning: ${node.id}: sets-up "${target}" names no known pattern — no edge emitted`);
+        continue;
+      }
+      if (target === node.id) continue;
+      const key = `${node.id}|${target}|precedes`;
+      if (edgeMap.has(key)) {
+        console.warn(`Situation warning: ${node.id} precedes ${target} is declared in relationships and emitted by a sets-up clause — author the pair only in the clause`);
+      }
+      addEdge({
+        source: node.id,
+        target,
+        type: 'precedes',
+        situation: clause.clause,
+        extractedFrom: 'situation:resulting',
+      });
+    }
   }
-  for (const e of promoted) addEdge(e);
 }
 
-// --- Dedup pass: where the same (source, target) has both a typed edge and a `related`
-// edge, drop the `related`. Multiple typed edges between the same pair are kept. ---
+// --- Dedup pass: where a pair carries both a stronger typed edge and a `related`
+// edge, drop the `related`. `related` is the weakest associative type; any stronger
+// type already implies association, so the `related` is redundant. Keyed by the
+// *unordered* pair, so a `related` in one direction is dropped when a stronger type
+// exists in either direction. Multiple non-`related` typed edges are kept. ---
 {
   const byPair = new Map<string, Edge[]>();
   for (const e of edgeMap.values()) {
-    const k = `${e.source}|${e.target}`;
+    const k = [e.source, e.target].sort().join('|');
     if (!byPair.has(k)) byPair.set(k, []);
     byPair.get(k)!.push(e);
   }
   for (const [, list] of byPair) {
-    const hasTyped = list.some((e) => e.type !== 'related');
+    // `recommends` is decision-tree routing, not an association claim, so it does
+    // not subsume `related`. Every other type — including `surveys` membership —
+    // already implies association, making a co-present `related` redundant.
+    const hasTyped = list.some((e) => e.type !== 'related' && e.type !== 'recommends');
     if (!hasTyped) continue;
     for (const e of list) {
       if (e.type === 'related') {
@@ -1057,7 +883,9 @@ const connected = new Set(edges.flatMap((e) => [e.source, e.target]));
 const nodes = [...nodeMap.values()].filter((n) => connected.has(n.id));
 const output = { nodes, edges };
 
+mkdirSync(dirname(outputPath), { recursive: true });
 writeFileSync(outputPath, JSON.stringify(output, null, 2));
+writeFileSync(outputPathLegacy, JSON.stringify(output, null, 2));
 
 const activityLevelsNodes: Record<string, ActivityLevel> = {};
 for (const node of nodes) {
@@ -1065,10 +893,12 @@ for (const node of nodes) {
   if (data) activityLevelsNodes[node.id] = data;
 }
 const activityLevelsOutput = {
-  _note: 'Generated by scripts/extract-graph-data.ts — do not edit by hand. Source of truth is each story file\'s Meta tags.',
+  _note: 'Generated by scripts/extract-graph-data.ts — do not edit by hand.',
   nodes: activityLevelsNodes,
 };
+mkdirSync(dirname(activityLevelsPath), { recursive: true });
 writeFileSync(activityLevelsPath, JSON.stringify(activityLevelsOutput, null, 2));
+writeFileSync(activityLevelsPathLegacy, JSON.stringify(activityLevelsOutput, null, 2));
 
 // --- Axis sanity check (advisory) ---
 //
@@ -1098,6 +928,90 @@ for (const e of edges) {
   }
 }
 
+// Mixed-cluster check: a node targeted by both `enables` and `instantiates`
+// from sources sharing a frontmatter `group` is the signature of a cluster
+// whose part–whole relations were typed two ways with no principle behind
+// the split (component–integral vs genus–species; see relationship-vocabulary.md).
+const mixedClusterFindings: string[] = [];
+{
+  type PerGroup = Map<string, string[]>; // group -> source ids
+  const byTarget = new Map<string, { enables: PerGroup; instantiates: PerGroup }>();
+  for (const e of edges) {
+    if (e.type !== 'enables' && e.type !== 'instantiates') continue;
+    const group = groupById.get(e.source);
+    if (!group) continue;
+    let entry = byTarget.get(e.target);
+    if (!entry) {
+      entry = { enables: new Map(), instantiates: new Map() };
+      byTarget.set(e.target, entry);
+    }
+    const perGroup = entry[e.type];
+    perGroup.set(group, [...(perGroup.get(group) ?? []), e.source]);
+  }
+  for (const [target, entry] of byTarget) {
+    for (const [group, enablesSources] of entry.enables) {
+      const instantiatesSources = entry.instantiates.get(group);
+      if (instantiatesSources) {
+        mixedClusterFindings.push(
+          `${target} ← enables(${enablesSources.join(', ')}) + instantiates(${instantiatesSources.join(', ')}), group "${group}"`,
+        );
+      }
+    }
+  }
+}
+
+// Notes-voicing check: a single-noted directed edge renders its one note on
+// both endpoints' pages, so a note naming neither endpoint binds to whichever
+// endpoint the reader is not on. `enacts` is exempt (quality pages render
+// nothing — there is no reverse reader); `recommends` carries hints, not notes.
+const VOICING_TYPES = new Set<string>(['precedes', 'enables', 'instantiates', 'surveys', 'hosts']);
+const VOICING_STOPWORDS = new Set(['and', 'the', 'for', 'with', 'from', 'into', 'over', 'not']);
+function nameTokens(id: string): string[] {
+  const title = nodeMap.get(id)?.title ?? id;
+  const words = `${title} ${id.replace(/-/g, ' ')}`.toLowerCase().split(/[^a-z]+/);
+  return [...new Set(words.filter((w) => w.length >= 3 && !VOICING_STOPWORDS.has(w)))];
+}
+const voicingFindings: string[] = [];
+for (const e of edges) {
+  if (!VOICING_TYPES.has(e.type)) continue;
+  const hasLabel = e.label !== undefined;
+  const hasIncoming = e.incomingNote !== undefined;
+  if (hasLabel === hasIncoming) continue; // unnoted, or voiced from both sides
+  const note = (e.label ?? e.incomingNote)!;
+  const noteLower = note.toLowerCase();
+  // Prefix match absorbs inflection (searching/search, localization/localised).
+  const namesAnEndpoint = [...nameTokens(e.source), ...nameTokens(e.target)]
+    .some((w) => noteLower.includes(w.length > 5 ? w.slice(0, 5) : w));
+  if (!namesAnEndpoint) voicingFindings.push(`${e.source} ${e.type} ${e.target}: "${note}"`);
+}
+
+// Note-verb check: a note whose phrasing makes a different relational claim
+// than the stored type is the signature of a mistyped edge (the A′ precedes
+// sweep found taxonomic "the broader …", hosting "container for …", and
+// substitution "… is the alternative" notes riding on `precedes`). Tells are
+// precision-biased: only phrasings that reliably contradicted the type in
+// past audits, checked on the mistype-prone directed types.
+const NOTE_TELLS: Array<{ claim: string; pattern: RegExp; conflicts: Set<string> }> = [
+  { claim: 'taxonomic', pattern: /\bbroader\b|\bkind of\b|\bform of\b|\bvariant of\b|\bspecialis|\bspecializ|\binstance of\b/, conflicts: new Set(['precedes', 'enables']) },
+  { claim: 'substitution', pattern: /\balternative\b|\binstead of\b/, conflicts: new Set(['precedes', 'enables', 'instantiates']) },
+  // Since `hosts` exists (2026-07-10), hosting phrasing on any other type is a candidate
+  // mistype — the flagged notes are the standing queue for the hosting sweep.
+  { claim: 'hosting', pattern: /\bcontainer\b|\bcanvas\b|\bcommonly lives\b|\bcommonly appears\b|\bhost(s|ed|ing)?\b/, conflicts: new Set(['precedes', 'instantiates', 'enables', 'complements', 'related']) },
+  { claim: 'compositional', pattern: /\benablers?\b|\bcomposed of\b|\bconstituent\b|\bbuilding block\b/, conflicts: new Set(['precedes', 'instantiates']) },
+];
+const noteTellFindings: string[] = [];
+for (const e of edges) {
+  for (const note of [e.label, e.incomingNote]) {
+    if (note === undefined) continue;
+    const noteLower = note.toLowerCase();
+    for (const tell of NOTE_TELLS) {
+      if (tell.conflicts.has(e.type) && tell.pattern.test(noteLower)) {
+        noteTellFindings.push(`${e.source} ${e.type} ${e.target}: ${tell.claim} phrasing — "${note}"`);
+      }
+    }
+  }
+}
+
 // --- Logging ---
 const typeCounts: Record<string, number> = {};
 for (const e of edges) typeCounts[e.type] = (typeCounts[e.type] ?? 0) + 1;
@@ -1118,18 +1032,23 @@ function roleCoverage(ids: string[]): Record<RoleSource, number> {
 
 const sourceRoleCoverage = roleCoverage([...nodeMap.keys()]);
 const graphRoleCoverage = roleCoverage(nodes.map((node) => node.id));
-const invalidSurveyEdges = edges.filter((edge) => (
-  edge.type === 'surveys' && nodeMap.get(edge.source)?.role !== 'umbrella'
-));
+const invalidSurveyEdges = edges.filter((edge) => {
+  const role = nodeMap.get(edge.source)?.role;
+  return edge.type === 'surveys' && role !== 'collection' && role !== 'umbrella';
+});
 
 console.log(`Nodes: ${nodes.length} (${taggedNodes} with tags)`);
 console.log(`Edges: ${edges.length}`);
 console.log(`  by type: ${Object.entries(typeCounts).sort((a, b) => b[1] - a[1]).map(([t, c]) => `${t}=${c}`).join(', ')}`);
+// `related` share is the vocabulary's retirement health dial (advisory): `related`
+// is where meaning goes when the types don't fit, so a rising share means the
+// vocabulary isn't carrying the corpus. See relationship-vocabulary.md §Retirement.
+console.log(`  related share: ${(100 * (typeCounts.related ?? 0) / edges.length).toFixed(1)}% (retirement health dial; baseline 25.3% at 2026-07-10)`);
 console.log(`Categories: ${[...new Set(nodes.map((n) => n.category))].sort().join(', ')}`);
 console.log(`Role coverage (processed sources): explicit=${sourceRoleCoverage.explicit}, inferred=${sourceRoleCoverage.inferred}, unset=${sourceRoleCoverage.unset}`);
 console.log(`Role coverage (emitted graph nodes): explicit=${graphRoleCoverage.explicit}, inferred=${graphRoleCoverage.inferred}, unset=${graphRoleCoverage.unset}`);
 if (invalidSurveyEdges.length > 0) {
-  console.warn(`Umbrella role warning: ${invalidSurveyEdges.length} surveys edge(s) have a non-umbrella source`);
+  console.warn(`Collection role warning: ${invalidSurveyEdges.length} surveys edge(s) have a non-collection source`);
 }
 if (recommendsCollection.resolvedByTree.size > 0) {
   console.log(`Decision-tree extraction:`);
@@ -1144,5 +1063,11 @@ if (recommendsCollection.resolvedByTree.size > 0) {
 console.log(`Axis sanity check (advisory):`);
 console.log(`  same-altitude instantiates: ${sameAltitudeInstantiates}`);
 console.log(`  complements crossing 2 altitude bands: ${crossTwoBandsComplements}`);
+console.log(`  mixed part–whole clusters (enables + instantiates from one group): ${mixedClusterFindings.length}`);
+for (const finding of mixedClusterFindings) console.log(`    ${finding}`);
+console.log(`  single-noted directed edges naming neither endpoint: ${voicingFindings.length}`);
+for (const finding of voicingFindings) console.log(`    ${finding}`);
+console.log(`  note phrasings contradicting the stored type: ${noteTellFindings.length}`);
+for (const finding of noteTellFindings) console.log(`    ${finding}`);
 console.log(`Output: ${outputPath}`);
 console.log(`Activity levels: ${activityLevelsPath}`);

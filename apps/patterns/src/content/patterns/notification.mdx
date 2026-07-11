@@ -1,0 +1,132 @@
+---
+title: Notification
+role: pattern
+group: coordination
+activityLevel: action
+atomic: pattern
+mediation: coordination
+lifecycle: coordination
+fun: 🙂 3/5. Included as a prerequisite for more interesting things.
+situation:
+  initiating: >-
+    a system event whose existence the actor needs to know about, alongside an
+    existing flow that has its own demands on attention
+  resulting:
+    - a delivery surface tuned to the event's urgency and the actor's availability
+decision-trees:
+  - id: notification
+    leaves:
+      "Dialog": actions-application-dialog
+      "Callout": operations-callout
+      "Toast": transient-feedback
+relationships:
+  related:
+    - to: delegation
+      note: the primary communication channel for a background agent
+    - to: status-feedback
+      note: status feedback for events the actor didn't trigger and isn't watching; pushed, not pulled
+  complements:
+    - to: collaboration
+      note: Notifications keep collaborators informed of changes and events in shared environments
+  enacts:
+    - to: temporality
+      note: when information arrives, and how disruptive the timing of its arrival is
+---
+
+import { MermaidDiagram } from '@components/MermaidDiagram';
+import { ToastDemo } from '@pkg/demos/transient-feedback';
+import { DisruptiveNotificationDemo } from '@pkg/demos/notification';
+
+
+The delivery of system events to the actor's attention, balancing awareness against interruption. As one of three ways to give [status feedback](/patterns/status-feedback), every notification has three parts: *purpose*, *type*, and *scope*.
+
+## Purpose
+
+Signifies the intention and the emotional tone of the information being communicated. Each status is associated with a specific color and icon, ensuring a consistent and universal user experience.
+
+- Information
+- Success
+- Warning
+- Error
+
+## Type
+
+Allows to tailor the disruptiveness of the notification.
+
+### Inline
+
+<Demo label="Inline">
+  <strong className="success flex"><iconify-icon className="icon" icon="ph:check-circle-fill"></iconify-icon>Success</strong>
+</Demo>
+
+### <ComponentRef id="primitives-toast--docs">Toast</ComponentRef>
+
+Toasts provide quick, at-a-glance [feedback](/patterns/transient-feedback) on the outcome of an action.
+
+<Demo label="Toast">
+  <ToastDemo client:only="react" />
+</Demo>
+
+### <ComponentRef id="operations-callout--docs">Callout</ComponentRef>
+
+Callouts are used to highlight important information contextually.
+
+<Demo label="Callout">
+  <div className="callout info flex">
+    <iconify-icon className="icon" icon="ph:info"></iconify-icon>
+    <span>This is a callout.</span>
+  </div>
+</Demo>
+
+### <ComponentRef id="components-dialog--docs">Dialog</ComponentRef>
+
+Used only when the message is critical and needs the user’s immediate attention or action. Modals persist until users engage with them and only disappear when dismissed by the user.
+
+<Demo label="Disruptive notification">
+  <DisruptiveNotificationDemo client:only="react" />
+</Demo>
+
+### Notification panel
+
+...
+
+## Scope
+
+### Contextual
+
+Localised messages tied to a specific place, providing timely feedback or updates relevant to the user’s immediate context.
+
+...
+
+### Global
+
+System-wide alerts that inform the user about events or statuses affecting the entire application, regardless of their current location within it.
+
+## Decision tree
+
+<MermaidDiagram client:only="react" chart={`
+flowchart TD
+    A[What notification should I use?] --> B{Is action required?}
+
+    B -->|Yes| C{Is immediate attention required?}
+    C -->|Yes| D[Dialog]
+    C -->|No| E[Callout]
+
+    B -->|No| F{Does the notification communicate status?}
+    F -->|Yes| G[Toast]
+
+    F -->|No| H{Is the notification an alert?}
+    H -->|Yes| I{Can the alert be easily dismissed?}
+    I -->|Yes| J[Toast]
+    I -->|No| K[Callout]
+
+    H -->|No| L[Dialog]
+`} />
+
+## Resources & references
+
+- W3C WAI-ARIA — [Alert pattern](https://www.w3.org/WAI/ARIA/apg/patterns/alert/)
+- [Carbon Design System](https://carbondesignsystem.com/patterns/notification-pattern/)
+- [Lightning Design System](https://www.lightningdesignsystem.com/2e1ef8501/p/56c792-notifications)
+- [Material Design](https://m3.material.io/foundations/content-design/notifications)
+- [Apple Developer Documentation](https://developer.apple.com/design/human-interface-guidelines/notifications)

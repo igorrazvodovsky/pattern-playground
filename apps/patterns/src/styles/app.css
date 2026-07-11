@@ -1,0 +1,184 @@
+@layer reset, theme, global, layout, components, utilities, states;
+
+@layer layout {
+  /* Styling for non-stack pages lives in stack.css (.content-inset) */
+
+  main.sidebar-inset {
+    background: var(--c-neutral-0);
+  }
+}
+
+@layer theme {
+  :is(.content-inset, .pane article) {
+    --font: 'Alegreya Sans', system-ui, sans-serif;
+    --flow-space: 1em;
+  }
+
+  :is(.content-inset, .pane article) blockquote, cite {
+    --font: 'Alegreya', Georgia, serif;
+    font-style: italic;
+    color: var(--c-bodyDimmed);
+  }
+
+  blockquote + p {
+    --font: 'Alegreya', Georgia, serif;
+    margin-block-start: 0 !important;
+    color: var(--c-bodyDimmed);
+    font-size: 16px !important;
+  }
+
+  :is(.content-inset, .pane article) .demo-block {
+    --font: system-ui, sans-serif;
+  }
+
+  h1 i {
+    font-style: normal;
+  }
+}
+
+@layer components {
+  .sidebar-wrapper {
+    /* Align sidebar width with Storybook's sidebar */
+    --sidebar-width: 300px !important;
+    --font: 'Alegreya Sans', system-ui, sans-serif;
+    --text-s: 1rem;
+  }
+
+  .sidebar-logo {
+    display: block;
+    padding: var(--space-xs, 0.25rem);
+  }
+
+  .sidebar-search .sidebar-search-kbd {
+    margin-inline-start: auto;
+  }
+
+  .sidebar-logo img {
+    display: block;
+    width: 100%;
+    max-width: 8rem !important;
+    height: auto;
+  }
+
+  .demo-block {
+    --_baseTextSize: 16px;
+    background: var(--c-surface);
+  }
+
+  .demo-block__content {
+    padding: var(--space-m, 1rem);
+    border-radius: var(--radius, 0.5rem);
+  }
+
+  .demo-block__footer {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s, 0.5rem);
+    margin-block-start: var(--space-s, 0.5rem);
+    font-size: 0.875em;
+    opacity: 0.75;
+  }
+
+  .demo-block__label {
+    --font: 'Alegreya', Georgia, serif;
+    flex: 1;
+    font-size: smaller;
+    color: var(--c-bodyDimmed);
+  }
+
+  :is(.content-inset, .pane article) a:not([class]) {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: oklch(from var(--c-body) l c h / 0.35);
+    text-decoration-thickness: max(0.05em, 1px);
+    text-underline-offset: 0.15em;
+
+    &:hover {
+      text-decoration-color: oklch(from var(--c-body) l c h / 0.75);
+    }
+  }
+}
+
+.pattern-graph {
+  max-width: 50vmax;
+}
+
+.content-inset {
+  margin: var(--space-2xl) var(--space-3xl);
+
+  p, blockquote, ul, ol {
+    max-width: 60ch;
+  }
+
+  p {
+    font-size: 1.25em;
+    line-height: 1.5;
+  }
+
+  .lead {
+    font-size: 1.25em;
+    line-height: 1.5;
+    text-wrap: balance;
+  }
+}
+
+/* TODO: */
+.pane .pane-body > astro-slot > article, .pane .pane-body > article {
+    /* Leaks into demos */
+    /* font-size: 1.25em; */
+    line-height: 1.5;
+    max-width: 70ch;
+  }
+
+/* Prose lists get the dash marker; the table of contents opts out. */
+.pane ul:not(pp-toc ul), .content-inset ul:not(pp-toc ul) {
+  list-style: "- ";
+  list-style-position: outside;
+  }
+
+.pane ol, .content-inset ol {
+  margin-inline-start: 0;
+  padding-inline-start: 0;
+  list-style: decimal;
+}
+
+.pane li + li:not(pp-toc li), .content-inset li + li:not(pp-toc li) {
+  margin-top: var(--space-xs);
+}
+
+.content-inset h1 {
+  font-size: 3em;
+  line-height: 1.2;
+}
+
+.content-inset header {
+  position: absolute;
+  right: var(--space-2xl);
+
+  h1, .lead {
+    text-align: right;
+    }
+}
+
+/* Content (non-stack) pages scroll on the document, but the inset's default
+   overflow:auto (set in the components layer) makes it a scroll container that
+   never actually scrolls — which traps a sticky child (the right-rail TOC) and
+   stops it pinning. Hand scrolling back to the document so sticky anchors to the
+   viewport. Unlayered so it beats the components-layer rule. Stack pages use
+   StackManager (no .content-inset), so they keep the default overflow. */
+main.sidebar-inset:has(> .content-inset) {
+  overflow: visible;
+}
+
+.content-inset pp-toc.toc-corner {
+  position: fixed;
+  right: var(--space-2xl);
+  bottom: var(--space-xl);
+  z-index: 10;
+  max-inline-size: min(20rem, calc(100vw - 2rem));
+
+  ul {
+    align-items: end;
+    text-align: right;
+  }
+}

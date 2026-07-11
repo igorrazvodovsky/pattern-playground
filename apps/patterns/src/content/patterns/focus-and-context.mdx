@@ -1,0 +1,63 @@
+---
+title: Focus and context
+role: pattern
+group: evaluation
+activityLevel: action
+atomic: pattern
+mediation: individual
+lifecycle: evaluation
+fun: 🧪 5/5. Not sure yet if this stands on its own or is just a special case of something broader.
+relationships:
+  enacts:
+    - to: agency
+      note: agency here belongs to the system as well as the user
+    - to: adaptation
+      note: the focused frame and its surrounding context recalibrate as the actor's task shifts
+    - to: density
+      note: balanced against the actor's cognitive load as focus shifts
+  complements:
+    - to: progressive-disclosure
+      note: staged exposure pairs naturally with focus-and-context, revealing detail as the actor moves toward it
+  alternative:
+    - to: semantic-zoom
+      note: keeps focus and context simultaneous — detail follows the actor's attention, non-uniformly, inside one continuous view; semantic zoom shows one uniform level at a time under a global scale control
+---
+
+import { ContextualNavigationDemo } from '@pkg/demos/focus-and-context';
+
+Displaying detailed information alongside a simplified or abstracted view of its context,
+enabling users to maintain situational awareness while completing focused tasks.
+
+## Examples
+
+### 🚧 Contextual navigation
+
+Contextual navigation helps users understand the industrial pasteuriser's structure&nbsp;– where each component fits
+within the pasteuriser itself, the production line, and the broader orange juice process.
+Navigation maps out three types of relationships:
+1. **Explicit** connections are clearly defined in the data—like parent-child structures or functional groupings.
+2. **Inferred** connections aren't directly stated but can be identified using domain knowledge—such as parts that consistently appear together in certain setups.
+3. **Deduced** connections suggest components that aren't yet modeled but are likely needed based on what's already present. If there's a "Heating Assembly," for example, a "Recirculation Pump" might reasonably be expected.
+
+TODO: Fix demo
+{/* 
+<Demo label="Contextual navigation over an industrial process model">
+  <ContextualNavigationDemo client:only="react" />
+</Demo>
+*/}
+
+{/* ### Defining an industrial machine's structure */}
+
+### Timeline
+
+Significant events are highlighted with detailed information, while routine activities are summarized concisely.
+
+TODO: Demo
+
+{/* TODO: relation set aside, kept for review (not an active edge): can be paired with [text lens](/patterns/text-lense), with the latter playing the role of a starting point. */}
+
+## Resources & references
+
+- Furnas (1986) [Generalized fisheye views](https://dl.acm.org/doi/10.1145/22627.22342) — the degree-of-interest formalism (an item's display priority as a function of its importance and its distance from the actor's focus) that this pattern descend from
+- Cockburn, Karlson & Bederson (2009) [A review of overview+detail, zooming, and focus+context interfaces](https://dl.acm.org/doi/10.1145/1456650.1456652)
+- Wattenberger (2024) [Fish-eye lens for text](https://wattenberger.com/thoughts/fish-eye)

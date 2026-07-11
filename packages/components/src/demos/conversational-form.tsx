@@ -1,0 +1,93 @@
+import '../jsx-types';
+
+/**
+ * A form conducted as a conversation: its fields are asked and answered
+ * turn by turn, each control rendered inline inside a message rather than
+ * laid out on a single form surface. The form instance of an inline interface.
+ */
+export function ConversationalFormDemo() {
+  return (
+    <div className="messages layer">
+      <div className="message message--outbound">
+        <div className="message__content">
+          <div className="message__body layer">Standard message input handles everything that would be handled by `input` and `textarea` elements. E.g.: What's your name?</div>
+        </div>
+      </div>
+      <div className="message message--inbound">
+        <div className="message__content">
+          <div className="message__body layer">Igors</div>
+        </div>
+      </div>
+      <div className="message message--outbound">
+        <div className="message__content">
+          <div className="message__body layer">Single and multiple selections can be handled using the appropriate controls. E.g.: What do you want to do today? </div>
+        </div>
+      </div>
+      <div className="message message--inbound">
+        <div className="message__content">
+          <div className="message__body">
+            <div className="inline-flow">
+              <label className="form-control tag"><input type="checkbox" />Option A</label>
+              <label className="form-control tag"><input type="checkbox" />Option B</label>
+              <label className="form-control tag"><input type="checkbox" defaultChecked />Option C</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="message message--outbound">
+        <div className="message__content">
+          <div className="message__body layer">How much? Select from a range.</div>
+        </div>
+      </div>
+      <div className="message message--inbound">
+        <div className="message__content">
+          <div className="message__body layer">
+            <div className="flex">
+              <pp-range label="Amount" name="range" min={0} max={100} value={50}>
+                <span slot="prefix">0</span>
+                <span slot="suffix">100</span>
+              </pp-range>
+              <button className="button button--plain" is="pp-button">
+                <iconify-icon className="icon" icon="ph:check"></iconify-icon><span className="visually-hidden">Submit</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="message message--outbound">
+        <div className="message__content">
+          <div className="message__body layer">What about dates? This is also an example of (successful) validation.</div>
+        </div>
+      </div>
+      <div className="message message--inbound">
+        <div className="message__content">
+          <div className="message__body layer">December 16 two years ago.</div>
+        </div>
+      </div>
+      <div className="message message--outbound">
+        <div className="message__content">
+          <div className="message__body layer">Got it! Saturday, 16 December 2023.
+          </div>
+        </div>
+      </div>
+      <div className="message-composer layer">
+        <pp-input label="Message" placeholder="Write a message...">
+        </pp-input>
+        <div className="message-composer__actions">
+          <button className="button button--plain" is="pp-button">
+            <iconify-icon className="icon" icon="ph:globe"></iconify-icon><span className="visually-hidden">Action</span>
+          </button>
+          <button className="button button--plain" is="pp-button">
+            <iconify-icon className="icon" icon="ph:lightbulb"></iconify-icon><span className="visually-hidden">Action</span>
+          </button>
+          <button className="button button--plain" is="pp-button">
+            <iconify-icon className="icon" icon="ph:paperclip"></iconify-icon><span className="visually-hidden">Action</span>
+          </button>
+          <button className="button button--plain" is="pp-button">
+            <iconify-icon className="icon" icon="ph:plus"></iconify-icon><span className="visually-hidden">Edit</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,64 @@
+import { Canvas, Controls, Description, Meta, Story } from '@storybook/addon-docs/blocks';
+import * as InputStories from './Input.stories.tsx';
+
+{/* > 🥱 **Fun meter: boring**. This is more or less the standard way of doing things. Included as a prerequisite for more interesting things. */}
+
+# Input
+
+<Meta title="Primitives/Input" of = { InputStories } tags={['activity-level:operation', 'atomic:primitive', 'role:component', 'mediation:individual']} />
+
+Accept free-form text, giving the actor a place to supply information the system cannot infer.
+
+<Canvas>
+  <Story of={ InputStories.Default } />
+</Canvas>
+
+## Label
+
+<Story of={ InputStories.WithLabel } />
+
+## Help text
+
+<Story of={ InputStories.WithHelpText } />
+
+## Size
+TODO: small, medium, large
+
+## Disabled
+<Story of={ InputStories.Disabled } />
+
+## Prefix and suffix
+*Prefix* and *suffix* slots are used to add icons, supporting text or buttons.
+
+<Story of={ InputStories.Addons } />
+
+## Autocomplete
+
+The `autocomplete` attribute is one way of helping users complete forms more quickly.
+For more complex cases an [autocomplete](/patterns/autocomplete) pattern can be used.
+
+## Field sizing
+
+When the expected value has a known, expected length, the width of the field is itself a signifier: a box sized for four digits says "year", a box sized for two says "day". An input wider than its content misleads — it invites more than the field can use and leaves the actor unsure how much is wanted.
+
+## Related patterns
+
+### Complementary
+- [Autocomplete](/patterns/autocomplete) — narrows the option space as the actor types, when a known set exists
+- [Autofill](/patterns/autofill) — supplies the value the input would otherwise have to ask for
+- <PatternRef slug="good-defaults">Good defaults</PatternRef> — pre-populates the field so the actor only intervenes when the guess is wrong
+- <PatternRef slug="suggestion">Suggestion</PatternRef> — offers candidate values the input can adopt, modify, or reject
+
+### Follow-ups
+- [Form](/patterns/form) — the container that groups inputs into a coherent ask
+- <PatternRef slug="data-entry">Data entry</PatternRef> — the broader activity input contributes to, alongside format and friction choices
+- <PatternRef slug="searching">Searching</PatternRef> — where the input becomes the entry point for query formulation
+
+### Tangentially related
+- [Textarea](../?path=/docs/primitives-textarea--docs) — chosen instead when the answer doesn't fit a single line
+- [Range](../?path=/docs/primitives-range--docs) — chosen instead when the value is bounded and better committed by direct manipulation than by typing
+
+## Resources & references
+
+- [GOV.UK design system / text input](https://design-system.service.gov.uk/components/text-input/)
+- [GOV.UK design system / date input](https://design-system.service.gov.uk/components/date-input/)

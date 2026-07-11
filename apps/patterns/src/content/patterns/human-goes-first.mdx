@@ -1,0 +1,58 @@
+---
+title: Human goes first
+role: pattern
+group: application/cognitive-forcing-functions
+activityLevel: action
+atomic: pattern
+mediation: individual
+fun: 🙂 3/5. Skill-building forcing function.
+relationships:
+  related:
+    - to: cognitive-forcing-functions
+      note: the family this pattern belongs to
+  enacts:
+    - to: learnability
+      note: domain learnability scaffolding that deepens rather than fades
+    - to: agency
+      note: directly prevents the skill atrophy side of over-reliance
+---
+Periodically withholding the system's recommendation so the user performs the task unaided, then comparing human and machine results and using mismatches as feedback.
+
+## Mechanism
+
+The system occasionally hides its output entirely, presenting the task as if no AI is involved. The user works through the problem, commits an answer, and only then sees what the system would have recommended. The comparison produces three possible outcomes:
+- *Agreement* — reinforces the user's confidence and calibration
+- *System caught something the human missed* — a teachable moment; the system explains what it saw
+- *Human caught something the system missed* — validates the user's expertise and may improve the model
+
+The pattern preserves an unaided first judgement and, used consistently, can maintain skill.
+
+## When it works
+
+- High-risk domains where retained human competence matters (medicine, law, safety-critical systems)
+- The domain knowledge is stable enough that practice transfers — skills that change weekly aren't worth practising
+- The system can compare and explain the mismatch, not just reveal its answer
+- Applied selectively (e.g. periodically, or when the system detects declining user engagement) rather than on every decision
+
+## When it doesn't
+
+- Low-stakes decisions where the time cost of unaided work can't be justified
+- The user genuinely lacks the competence to do the task alone: forcing them to try produces frustration, not learning
+- Rapidly changing information where yesterday's practice doesn't build tomorrow's skill
+- When used too often, it undermines the point of having the system at all
+
+## Design considerations
+
+- *Frequency tuning.* "Human goes first" is not an every-time intervention. Consider making it periodic (every Nth decision), triggered by signals of declining engagement, or user-configurable.
+- *Mismatch as feedback.* The value of this pattern depends on what happens after the comparison. A bare "you said X, system said Y" is less useful than an explanation of what the system noticed that the user didn't.
+- *Relationship to [learnability](/patterns/learnability).* This is the only forcing function with a genuine skill-building dimension. It connects to [domain learnability](/patterns/learnability) — the kind that builds competence over time rather than just supporting it temporarily.
+- *Opt-out with justification.* Let users skip the exercise, but consider rationale logging for the skip — "why are you bypassing the check?" creates a lighter forcing effect even on the escape hatch.
+
+## Resources & references
+
+- Noessel, C. (2026). [*Designing Assistant Technology*](https://rosenfeldmedia.com/books/designing-assistant-technology/)
+- Buçinca, Z., Malaya, M. B., & Gajos, K. Z. (2021). [To trust or to think](https://dl.acm.org/doi/10.1145/3449287)
+
+## To-do
+
+- Update after initial judgement — shares the "user judges first" structure but without the full skill-building arc

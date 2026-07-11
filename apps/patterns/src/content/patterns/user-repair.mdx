@@ -1,0 +1,31 @@
+---
+title: User repair
+role: pattern
+group: conversation/conversation-management
+activityLevel: operation
+atomic: primitive
+mediation: coordination
+fun: 😊 3/5. Looking for useful building blocks for conversational UI.
+relationships:
+  enables:
+    - conversation
+  precedes:
+    - to: extended-telling
+      note: fallback when a simple paraphrase or definition is insufficient
+    - to: sequence-completion
+      note: the activity resumes from the same step once the repair is resolved
+---
+The user signals they didn’t understand the bot's utterance.
+
+1. U → A: “What do you mean by X?” / “Can you give an example?”
+2. A: Provide paraphrase, definition, or example as appropriate.
+3. A: Resume the activity at the same step; offer to continue.
+4. U (Optional): Sequence closer.
+
+If confusion persists, degrade gracefully to *extended telling* or a visual aid.
+
+## Repair affordances
+Paraphrase, definition, example
+
+## Metrics
+Understanding repair resolution rate; repeats per concept; time-to-understand; fallbacks to *extended telling*.

@@ -76,6 +76,20 @@ S2's unauthenticated shared bucket is heavily rate-limited and regularly returns
 
 Venue filter (applied post-retrieval): keep HCI-adjacent (CHI, CSCW, UIST, DIS, TOCHI, IUI, C&C, TEI, NordiCHI, GROUP), or strong citation counts with obviously relevant titles, or arxiv preprints clearly intended for those venues. Drop results without substantive abstracts.
 
+### 2b. Targeted canon reads (when retrieval structurally misses)
+
+Some literatures never reach arxiv: pre-2000s CSCW/HCI (the Suchman–Winograd workflow debate, Schmidt, Dourish, Star), BPM/IS venues, print-era classics. A `questions` entry that draws *zero usable candidates* is a retrieval-shape signal before it is a no-literature signal — ask which venue the answer would live in before concluding the gap is conceptual.
+
+When a question points at venue-locked canon, switch method for that question:
+
+- *Name the papers first.* Canonical works are nameable from the debate's shape; don't keyword-fish for them.
+- *Ground each named paper via WebSearch* (publisher page, university repository, author site) — confirm venue, year, and abstract before citing. Do not cite from memory alone.
+- *Fetch open PDFs where they exist* (author sites are the usual source — e.g. dourish.com) and read them directly; a full read of one well-chosen paper that *contains* the others' accounts (a review, a response, a paper built on the earlier fieldwork) is the highest-leverage move.
+- *Record with distinct provenance*: direct reads are a different evidence class from API retrieval. Say which papers were full-text reads, which abstract-grounded, and which resisted access (a located-but-unextractable PDF gets cited without quotes, flagged as such).
+- *Same extraction discipline*: implications with quoted spans where full text was read; abstract-only flags where it wasn't.
+
+Output shape: either fold the canon read into the day's note as an *Addendum* section with its own provenance block and continued cluster numbering, or — if it happens in a later session — a new dated note in the same slug folder. Both keep the retrieval run and the canon read distinguishable.
+
 ### 3. Rerank against structured context
 
 Take the ~25 candidates, read abstracts + TLDRs, and rerank against the `query.yml` — specifically the `questions` field, which should drive relevance more than `topic`. A paper that directly engages one of the questions outranks a paper that merely shares vocabulary.
@@ -188,6 +202,7 @@ Summarise to the user in the chat: slug, paper count, cluster count, strongest c
 
 - *Never promote silently*. `references/` and `docs/references.md` are off-limits to this skill. Only suggest.
 - *Do not invent sources*. If retrieval returns nothing useful, say so. Offer to broaden the query.
+- *A zero-result question is a method signal*. Before recording a gap as conceptual, check whether the literature is venue-locked (pre-arxiv CSCW, BPM/IS, print-era HCI) and run a step-2b canon read for that question instead of concluding from absence.
 - *Transfer honesty*. When a paper's context doesn't map to the project's, mark transfer weak. Weak-transfer papers with strong lineage can still be useful — as ancestors or as framing — but they should not be dressed up as directly applicable.
 - *Abstract-only by default*. Retrieval produces abstracts + TLDRs, not full text. Implications grounded only in abstract text are provisional. Flag them; do not hallucinate what the paper "must" say beyond the abstract.
 - *Retrieval-provenance honesty*. Always record which sources were hit and which produced results. A run that used only arxiv is useful but partial; the note must say so, and the user must be able to decide whether to `refresh` for lineage later.
@@ -198,6 +213,4 @@ Summarise to the user in the chat: slug, paper count, cluster count, strongest c
 ## What this skill is not
 
 - Not a canon editor — never writes to `references/` or `docs/references.md`.
-- Not a replacement for deep reading — it orients, doesn't substitute.
-- Not a full-text extractor — it works from abstracts + TLDRs. Full PDFs are the user's job to fetch and read when a result proves worth it.
 - Not a classifier — once a finding is promoted, use `pattern-classifier` to decide how it integrates.

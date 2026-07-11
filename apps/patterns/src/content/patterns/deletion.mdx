@@ -1,0 +1,148 @@
+---
+title: Deletion
+role: pattern
+group: application
+activityLevel: action
+atomic: pattern
+mediation: individual
+fun: 🙂 3/5
+situation:
+  initiating: >-
+    a stretch of activity in which the actor wants to remove data, with
+    consequences that range from trivial to permanent and far-reaching
+  resulting:
+    - >-
+      a removal path matched to the severity, reversibility, and scope of the
+      loss — confirmation, undo, soft delete, or typed challenge
+    - clause: >-
+        the data is gone; whether that holds is now a question of recovery — a
+        completed deletion is exactly the state undo acts on
+      sets-up: [undo]
+decision-trees:
+  - id: deletion
+    leaves:
+      "No confirmation (with undo)": undo
+      "Inline confirmation": inline-confirmation
+      "Modal confirmation": actions-application-dialog
+relationships:
+  related:
+    - to: action-consequences
+      note: Framework for evaluating appropriate confirmation methods
+    - to: saving
+      note: Staged deletions within save/cancel workflows
+    - to: status-feedback
+      note: Communicating deletion results
+    - to: activity-log
+      note: Historical record of deletions
+    - to: notification
+      note: Alerting about deletion events
+  composed-of:
+    - to: selection
+      note: How the scope of a deletion gets staked
+---
+
+import { MermaidDiagram } from '@components/MermaidDiagram';
+import { DialogDeletionDemo, TypedConfirmationDemo, StagedDeletionDemo } from '@pkg/demos/deletion';
+import { InlineConfirmationDemo } from '@pkg/demos/inline-confirmation';
+import { ToastWithUndoDemo } from '@pkg/demos/transient-feedback';
+
+
+The controlled removal of data from a system, balancing user confidence with protection against accidental loss. Deletion exists in tension with creation and modification, requiring careful consideration of consequences, reversibility, and user intent.
+
+## Anatomy
+
+- Trigger: The initiating action
+- Confirmation: Verification of intent (varies by consequence severity)
+- Execution: The actual deletion operation
+- Feedback: Communication of result
+- Recovery: Mechanism for reversal when available
+
+## Confirmation
+
+Which safeguard a deletion deserves is the [action consequences](/patterns/action-consequences) framework applied to one action; the decision tree below walks it. The two lightest rungs are moves with pages of their own — [undo](/patterns/undo) riding on [transient feedback](/patterns/transient-feedback), and [inline confirmation](/patterns/inline-confirmation) — while the heavier rungs live here.
+
+### No confirmation, with/-out undo
+For low-consequence actions that can be easily reversed.
+
+<Demo label="Delete with toast + undo">
+  <ToastWithUndoDemo client:only="react" />
+</Demo>
+
+### Inline
+
+<Demo label="Inline confirmation">
+  <InlineConfirmationDemo client:only="react" />
+</Demo>
+
+### Modal
+
+<Demo label="Modal confirmation">
+  <DialogDeletionDemo client:only="react" />
+</Demo>
+
+### Typed
+For critical, irreversible actions, users must type a specific phrase to proceed.
+
+<Demo label="Type-to-confirm">
+  <TypedConfirmationDemo client:only="react" />
+</Demo>
+
+## Integration with save/cancel workflow
+
+Deletion can be part of a broader editing session where changes are staged until explicitly saved. This approach treats the save button as the confirmation mechanism for all changes, including deletions.
+
+Benefits
+- Implicit confirmation: The save action confirms all changes, reducing confirmation fatigue
+- Batch review: Users can see all pending changes before committing
+- Safe experimentation: Users can try different configurations without immediate consequences
+- Unified mental model: All changes follow the same commit pattern
+
+<Demo label="Staged deletions with save/cancel">
+  <StagedDeletionDemo client:only="react" />
+</Demo>
+
+This approach aligns with the [Saving](/patterns/saving#save-cancel-as-confirmation-mechanism) pattern's hybrid model, providing a safety net while maintaining user control. It's particularly effective for:
+- Form-based interfaces with multiple fields
+- Configuration screens with interconnected settings
+- Bulk editing sessions
+- Scenarios where deletions affect calculated values or totals
+
+## States
+
+### Deletion states
+- Available: Delete action is accessible
+- Confirming: Awaiting user confirmation
+- Deleting: Operation in progress
+- Deleted: Successfully removed
+- Failed: Deletion unsuccessful
+- Recovering: Undo in progress
+
+### Visual states
+- Pending deletion: Marked for deletion but not yet committed
+- Soft deleted: Logically deleted but recoverable
+- Hard deleted: Permanently removed
+
+## Recovery mechanisms
+
+- [Undo](/patterns/undo)
+- Soft delete: Items moved to archive; configurable retention period
+- Version history
+
+## Decision tree
+
+<MermaidDiagram client:only="react" chart={`
+flowchart TD
+    A[Is the deletion reversible?] --> B[Yes]
+    A --> C[No]
+    B --> D[How quickly can it be recreated?]
+    D --> E[Seconds] --> F[No confirmation (with undo)]
+    D --> G[Minutes] --> H[Inline confirmation]
+    C --> I[What is the impact scope?]
+    I --> J[Single user] --> K[Modal confirmation]
+    I --> L[Multiple users] --> M[Modal with details]
+    I --> N[System-wide] --> O[Typed confirmation]
+`} />
+
+## Related components
+
+- <ComponentRef id="components-action-bar--docs">Action bar</ComponentRef> – Common surface for bulk deletion

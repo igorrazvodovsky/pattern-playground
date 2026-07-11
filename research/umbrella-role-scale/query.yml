@@ -1,0 +1,32 @@
+story: docs/specs/pattern-role-model.md
+topic: how pattern languages encode scale, altitude, and composition
+interaction: |
+  An author classifies a node in the pattern library. The current schema offers a
+  `role: umbrella` — "an authored survey over a territory of related moves, not the
+  authoritative source for one move." The graph renders the umbrella→children link as
+  a `surveys` edge. The question is whether scale/compositeness should be a node-level
+  *role* at all, or a *relation* between nodes (narrower/wider, composed-of/completes).
+context: |
+  A two-language pattern/component library (interaction "moves" vs form "mechanisms"),
+  organised by Activity-Theory altitude. `umbrella` currently bundles two unlike things:
+  genuine index/strata pages (actions, operations, activities, elements) that are
+  surveys-not-sources, and composite moves (form, block-based-editor) that ARE the
+  authoritative source for a higher-altitude move. Christopher Alexander's promenade
+  pattern is the provoking case: a composite pattern with its own emergent identity,
+  not "merely where smaller patterns coincide."
+questions:
+  - Do mature pattern languages encode scale as a node *type/role*, or as a *relation*
+    between patterns (e.g. Alexander's "is completed by" larger/smaller links)?
+  - Is there established prior art for separating "a concept with narrower concepts"
+    from "a labelled grouping that is not itself a concept" (the index/strata case)?
+  - When composition is universal (every pattern is composed of smaller ones and a part
+    of larger ones), does a special "composite/umbrella" marker still earn its keep, or
+    does it freeze a relative position into an absolute type?
+  - What would I be wrong about in proposing to deprecate `umbrella` for composite moves
+    and replace it with composed-of / narrower-wider relations?
+keywords:
+  - pattern language structure
+  - meronymy part-whole ontology
+  - SKOS broader narrower collection
+  - atomic design composition levels
+  - design pattern relationships compound pattern

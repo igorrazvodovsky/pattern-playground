@@ -1,0 +1,53 @@
+---
+title: Next-best action
+role: pattern
+group: application
+activityLevel: action
+atomic: pattern
+mediation: individual
+fun: 🙂 4/5. Connects workflow guidance with agentic AI.
+relationships:
+  precedes:
+    - to: cognitive-forcing-functions
+      note: workflow-level recommendations that benefit from forcing functions when stakes are high
+    - to: action-consequences
+      note: when accepting a recommendation leads to consequential decisions
+  related:
+    - to: assistance
+      note: Next-best action draws on assistance to decide *what* to suggest at workflow transitions
+    - to: delegation
+      note: Next-best action straddles the suggestion/delegation line — the same recommendation can be presented for the actor to accept or for the agent to perform.
+  enacts:
+    - to: agency
+      note: proactive recommendations must preserve actor control
+    - to: adaptation
+      note: recommendations that improve from accepted/rejected signal over time
+  complements:
+    - to: assisted-task-completion
+      note: the spectrum this pattern belongs to
+    - to: bot
+      note: 'powers next-best action via the [ambient mode](/patterns/bot#modes-of-interaction) of interaction'
+    - to: embedded-intelligence
+      note: next-best action as intelligence woven into the workflow
+    - to: transparent-reasoning
+      note: explaining the rationale behind recommendations
+    - to: notification
+      note: a common delivery mechanism for next-best action prompts
+    - to: onboarding
+      note: next-best action as guided first-use experience
+---
+The system analyses what the actor is doing and recommends the most useful next step.
+
+The most forward-leaning pattern on the [assisted task completion](/patterns/assisted-task-completion) spectrum, right at the edge of autonomous action. It works at the *workflow level*, not at the field or content level, and suggests *actions* — schedule a call, run tests, send a follow-up — rather than data values or text.
+
+{/* ## When it works */}
+
+{/* - The workflow has clear sequential steps and the system has strong contextual signals: CRM after logging a call, IDE after editing code, onboarding flows */}
+{/* - Recommendations appear at natural *transition points* between workflow steps, not mid-task */}
+{/* - The suggestion includes a brief rationale. Actors need to understand *why* this action is recommended, or they won't act on it */}
+
+{/* ## When it fails */}
+
+{/* - Recommendations feel presumptuous or interruptive. This is the "annoying assistant" trap, and it's easy to fall into */}
+{/* - The system doesn't have enough context to suggest anything useful */}
+{/* - Suggestions pile up without resolution, and actors start ignoring all of them */}

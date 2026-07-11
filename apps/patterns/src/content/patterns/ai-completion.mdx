@@ -1,0 +1,76 @@
+---
+title: AI completion
+role: pattern
+group: application
+activityLevel: action
+atomic: pattern
+mediation: individual
+fun: 🙂 4/5. The interesting lens is seeing this as a continuation of *autocomplete* rather than an AI-specific thing.
+situation:
+  resulting:
+    - clause: >-
+        inline generation makes accepting cheaper than evaluating, so
+        over-reliance accrues by default — deliberate friction is the countermove
+      sets-up: [cognitive-forcing-functions]
+relationships:
+  enacts:
+    - to: agency
+      note: the actor remains in creative lead; the system only proposes
+    - to: adaptation
+      note: completion that improves from actor corrections over time
+  complements:
+    - to: assistance
+      note: completion might assists user in *performing* and *knowing* stuff
+    - to: assisted-task-completion
+      note: the spectrum this pattern belongs to
+    - to: suggestion
+      note: AI completion is a suggestion mechanism; fixation risk and dismissal apply directly
+    - to: bot
+      note: 'powers AI completion via the [inline mode](/patterns/bot#modes-of-interaction) of interaction'
+    - to: generated-content
+      note: block generation is closer to this pattern than to inline completion
+    - to: transparent-reasoning
+      note: explaining *why* a completion was suggested, especially for derived values
+  hosted-by:
+    - to: block-based-editor
+      note: the block editor is a natural container for AI completion
+  related:
+    - autofill
+---
+Proposing [generated content](/patterns/generated-content) — phrases, sentences, paragraphs, or derived values — as the actor composes, to anticipate what comes next.
+
+Part of the [assisted task completion](/patterns/assisted-task-completion) spectrum — the co-creative middle, where the system generates alongside the actor.
+The system proposes what it *thinks* the actor wants to say, which raises [trust](/patterns/agency) and agency questions that don't come up with deterministic patterns like [autocomplete](/patterns/autocomplete) or [autofill](/patterns/autofill).
+
+{/* ## When it works */}
+
+{/* - Reducing repetitive or formulaic writing (email replies, boilerplate code, standard phrases) */}
+{/* - The suggestion can be accepted with a single keystroke (Tab) and dismissed by simply continuing to type */}
+{/* - Gmail Smart Compose reduces writing time by 30–40%; GitHub Copilot users completed tasks 55.8% faster — but acceptance rates sit at only 21–33%, meaning most suggestions get rejected */}
+
+{/* ## When it fails */}
+
+{/* - Suggestions are wrong but plausible enough to slip past uncritical review ([automation bias](/patterns/bot#algorithmic-loafing)) */}
+{/* - Output homogenises — AI suggestions can flatten cultural nuances and push writing toward dominant styles (Dhillon et al. 2024) */}
+{/* - Calibration takes time: ~11 weeks for developers to fully realise productivity gains from AI code completion (Microsoft research) */}
+
+## Inline completion vs. block generation
+
+*Inline completion* continues the actor's current thought — ghost text extending the cursor position. The actor evaluates character by character whether the suggestion matches their intent. Good predictions get accepted almost automatically; divergence is instant (keep typing). Gmail Smart Compose and GitHub Copilot single-line suggestions work this way.
+
+*Block generation* produces a discrete chunk the actor reviews as a whole — a paragraph, a code function, a reply draft. Evaluation here is more conscious: read, judge, accept or edit. This sits closer to [generated content](/patterns/generated-content) than to completion, and the design shifts toward review and editing affordances.
+
+## Design considerations
+
+- Suggestions should feel *lighter* than the actor's own input — ghost text, reduced opacity, vanishing the moment the actor types something different. The suggestion should not compete with the actor's flow.
+- Watch for [fixation risk](/patterns/suggestion#fixation-risk): a concrete AI suggestion can narrow creative exploration. For generative tasks, question-driven scaffolding may preserve more diversity.
+- Latency tolerance is higher than for [autocomplete](/patterns/autocomplete) because the actor is composing, not selecting — a delay before ghost text appears is less disruptive than a delayed dropdown.
+- Suppress suggestions when the model's uncertainty is high. Low-quality completions erode trust faster than silence does.
+
+## Resources & references
+
+- Chen et al. (2019) [Gmail Smart Compose: real-time assisted writing](https://arxiv.org/abs/1906.00080). KDD '19
+- Peng et al. (2023) [The impact of AI on developer productivity: evidence from GitHub Copilot](https://arxiv.org/abs/2302.06590)
+- Dhillon et al. (2024) [AI suggestions homogenize writing toward Western styles and diminish cultural nuances](https://arxiv.org/abs/2409.11360)
+- Maier, Schneider, Feuerriegel (2025) [Partnering with Generative AI: experimental evaluation of human-led and model-led interaction in human-AI co-creation](https://arxiv.org/abs/2510.23324)
+- Shape of AI – [Auto-fill pattern](https://www.shapeof.ai/patterns/auto-fill)

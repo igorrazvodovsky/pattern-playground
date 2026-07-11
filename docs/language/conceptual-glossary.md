@@ -4,7 +4,7 @@ Theoretical terms the project uses as working vocabulary. Each entry gives the t
 
 ## Activity / action / operation
 
-Three levels of human activity (Leontiev, via Bødker 1991; Kaptelinin & Nardi 2006). *Activities* are motive-driven and sustained (e.g., onboarding a new user). *Actions* are goal-directed and conscious (e.g., choosing a filter). *Operations* are automatic and infrastructural (e.g., scrolling). The project uses these as the primary organising axis for `src/stories/` — see [storybook-taxonomy.md](../project/storybook-taxonomy.md).
+Three levels of human activity (Leontiev, via Bødker 1991; Kaptelinin & Nardi 2006). *Activities* are motive-driven and sustained (e.g., onboarding a new user). *Actions* are goal-directed and conscious (e.g., choosing a filter). *Operations* are automatic and infrastructural (e.g., scrolling). The project currently (Jun '26) uses these as the primary organising axis for the pattern catalogue (`apps/patterns/src/content/patterns/`) — see [pattern-site.md](../specs/pattern-site.md).
 
 ## Centre
 
@@ -12,7 +12,7 @@ A coherent differentiation that can be noticed, pointed at, and acted on (Alexan
 
 ## Concept
 
-A fundamental unit of software design defined by structure, behaviour, and purpose (Jackson, *The Essence of Software*). Concepts are functional building blocks that survive the journey from UX to engineering — more abstract than components, more concrete than principles. The project's `src/stories/concepts/` directory houses concept-level patterns. See [`references/Concept design.md`](../../references/Concept%20design.md).
+A fundamental unit of software design defined by structure, behaviour, and purpose (Jackson, *The Essence of Software*). Concepts are functional building blocks that survive the journey from UX to engineering — more abstract than components, more concrete than principles. `concepts/` lists some of the concepts the project might need in future. See [`references/Concept design.md`](../../references/Concept%20design.md).
 
 ## Generative move
 
@@ -24,7 +24,15 @@ A named, evidence-seeking interaction move that resolves a recurring human situa
 
 ## Pattern language
 
-A connected structure of patterns organised by an explicit principle so an actor can generate, sequence, and adapt design moves. A catalogue makes entries retrievable; a language makes their relationships operational. In this project, the typed graph is the primary claim that the material forms a language rather than only a library.
+Rules for how humans interact with form. A connected structure of patterns organised by an explicit principle so an actor can generate, sequence, and adapt design moves. A catalogue makes entries retrievable; a language makes their relationships operational. In this project, the typed graph is the primary claim that the material forms a language rather than only a library. See [pattern-and-form.md](./pattern-and-form.md) for its relationship to the form language.
+
+## Form language
+
+`packages/components/` – rules for putting matter together: the vocabulary of components, the rules for composing them, and the levels of scale (e.g. primitive → component → composition). See [pattern-and-form.md](./pattern-and-form.md).
+
+## Mechanism
+
+A form-language unit — component, primitive, control, or visual or behavioural element. Mechanisms converge: a mechanism behaves identically wherever it is deployed, and its documentation (including a complete interaction contract) is normative rather than generative. A mechanism `enables` the moves it makes possible. See [pattern-and-form.md](./pattern-and-form.md) and the decomposition rule in [pattern-role-model.md](../specs/pattern-role-model.md).
 
 ## Levels of scale
 
@@ -32,7 +40,7 @@ A structural property whereby a software system is legible at several connected 
 
 ## Quality
 
-An experiential dimension along which the effect of a design move can be read — Agency, Conversation, Privacy, Learnability, etc. Qualities are the project's evaluative vocabulary. The `enacts` edge type bridges the two: a pattern *enacts* a quality when its effect is legible in that dimension. See [`src/stories/qualities/`](../../src/stories/qualities/) and [design-theory.md](./design-theory.md) §"The role of qualities".
+An experiential dimension along which the effect of a design move can be read — Agency, Conversation, Privacy, Learnability, etc. Qualities are the project's evaluative vocabulary. The `enacts` edge type bridges the two: a pattern *enacts* a quality when its effect is legible in that dimension. See [`apps/patterns/src/content/patterns/qualities/`](../../apps/patterns/src/content/patterns/qualities/) and [design-theory.md](./design-theory.md) §"The role of qualities".
 
 ## Semilattice
 

@@ -1,0 +1,33 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import * as SectionsStories from './Sections.stories.tsx';
+
+<Meta of={SectionsStories} tags={['autodocs', 'activity-level:operation', 'atomic:component', 'role:component', 'mediation:individual']} />
+
+# Sections
+
+An adaptive container that renders one content structure as either a horizontal tab bar or a stack of collapsible disclosure regions.
+
+<Story of={SectionsStories.Responsive} />
+
+Content often divides into a small, stable set of named parts. Whether those parts appear as horizontal tabs or collapsible disclosure regions is not a property of the content — it's a property of the *context*: available space, information density, reading mode.
+Sections treats this as a single design decision rather than a choice between separate components.
+
+The two modes — tab bar and details — are not layout options but *disclosure affordances*: different ways of managing which content is visible and how the actor navigates between parts.
+
+## Related components
+
+- [Tabs](../?path=/docs/components-tabs--docs) — the more complete tab implementation: overflow scrolling, icon and subtitle slots, auto/manual activation
+- [Details](../?path=/docs/primitives-details--docs) — the standalone disclosure primitive that Sections' `details` affordance mirrors across multiple siblings
+
+## Resources & references
+
+- Brian Kardell (2021). [Spicy Sections](https://bkardell.com/blog/SpicySections.html)
+- Hidde de Vries (2021). [Trying out Spicy Sections on here](https://hidde.blog/trying-out-spicy-sections-on-here/)
+- Chris Coyier (2021). [Spicy Sections](https://css-tricks.com/spicy-sections/) — CSS-Tricks
+- [Tabvengers / spicy-sections](https://github.com/tabvengers/spicy-sections) — GitHub repository (CC0)
+- [Open UI — Tabs research](https://open-ui.org/components/tabs.research/)
+
+## To-do
+
+- *Focus rescue* — when focus is on a tab button and the affordance switches to `details`, the tab button disappears. Focus is not currently redirected to the corresponding heading trigger.
+- *Vertical tab bar* — not currently supported (horizontal only).

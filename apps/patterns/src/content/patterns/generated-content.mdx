@@ -1,0 +1,209 @@
+---
+title: Generated content
+role: pattern
+activityLevel: activity
+atomic: pattern
+mediation: individual
+fun: 🙂 5/5. A part of a bigger attempt to map LLM-related patterns.
+relationships:
+  follows:
+    - to: bot
+      note: generates the output being presented.
+  enacts:
+    - to: agency
+      note: the actor steers, edits, and improves the output rather than receiving a finished artefact
+  precedes:
+    - to: conversation
+      note: generated content can become part of ongoing dialogue.
+    - to: suggestion
+      note: output can inform subsequent suggestions or recommendations.
+  complements:
+    - to: transparent-reasoning
+      note: shows the step-by-step process behind the generated content.
+    - to: explanation
+      note: provides contextual information to clarify AI-driven decisions within the output.
+    - to: ai-tuning
+      note: settings that influence how content is generated and presented.
+---
+
+The ongoing negotiation of machine-produced output, transforming raw [bot](/patterns/bot) generation into trusted material through evaluation, refinement, and appropriation over time.
+
+## Actions
+
+Rate, copy, regenerate, expand, more....
+
+## Variations
+
+...
+
+## Follow up
+
+...
+
+## Communicating uncertainty
+
+1. Intentionally uncertain language
+2. Explainable factors for predictions
+3. Confidence ratings
+4. Categorising accuracy
+5. Few-shot prompting with inconsistent results
+
+<Demo label="Uncertain language and confidence marking">
+  <div className="messages layer">
+    <div className="messages__exchange">
+      <div className="messages__turn">
+        <div className="message message--outbound">
+          <div className="message__content">
+            <div className="message__body layer">
+              do you know if da Vinci completed that sculpture?
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="messages__turn">
+        <div className="message message--inbound">
+          <div className="message__content">
+            <div className="message__body">
+              I'm not sure. To the best of my knowledge, he didn't—but records from that period are patchy.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="messages__turn">
+        <div className="message message--outbound">
+          <div className="message__content">
+            <div className="message__body layer">
+              2×2=?
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="messages__turn">
+        <div className="message message--inbound">
+          <div className="message__content">
+            <div className="message__body">
+              2×2=5. However, this information is uncertain.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="messages__turn">
+        <div className="message message--outbound">
+          <div className="message__content">
+            <div className="message__body layer">
+              how many people in the world
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="messages__turn">
+        <div className="message message--inbound">
+          <div className="message__content">
+            <div className="message__body">
+              <pp-tooltip content="Confidence: 80%"><mark data-confidence="80%">About 8 billion</mark></pp-tooltip>. According to the UN, the world's population stands at just over 8 billion. However, a recent study suggests the figure could be hundreds of millions or even billions higher.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="messages__turn">
+        <div className="message message--outbound">
+          <div className="message__content">
+            <div className="message__body layer">
+              what will be the price of milk in Stockholm in 10 years?
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="messages__turn">
+        <div className="message message--inbound">
+          <div className="message__content">
+            <div className="message__body">
+              So, a plausible range is <pp-tooltip content="Low confidence"><mark data-confidence="80%">19.5–21.5 SEK</mark></pp-tooltip> per litre by June 2035. Ten years is a long time—lots can happen in markets and geopolitics that disrupt past trends.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Demo>
+
+## Transparency
+
+...
+
+### Citations
+
+...
+
+## Input-output mapping
+
+Visualises the influence of input on output.
+
+<Demo label="Hover a highlight to trace it across input and output">
+  <div className="messages layer">
+    <div className="messages__turn">
+      <div className="message message--outbound">
+        <div className="message__content">
+          <div className="message__body layer">
+            Summarise this text: <br />
+            "<mark data-group="polymath">Leonardo da Vinci was an Italian polymath of the Renaissance</mark> whose <mark data-group="talents">areas of interest
+            included invention, painting, sculpting, architecture, science, music, mathematics,
+            engineering, literature, anatomy, geology, astronomy, botany, writing, history, and
+            cartography</mark>. He is widely considered one of the most diversely talented individuals
+            ever to have lived."
+          </div>
+        </div>
+      </div>
+    </div>
+    <div className="messages__exchange">
+      <div className="messages__turn">
+        <div className="message message--inbound">
+          <div className="message__content">
+            <div className="message__body">
+              Leonardo da Vinci was a <mark data-group="polymath">Renaissance polymath</mark> known for his <mark data-group="talents">wide-ranging talents</mark> in <mark data-group="talents">science and the arts</mark>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <style>{`
+      .messages:has(mark[data-group]:hover) mark[data-group]:not(:hover) {
+        background: none
+      }
+      mark[data-group]:hover,
+      .messages:has(mark[data-group="polymath"]:hover) mark[data-group="polymath"],
+      .messages:has(mark[data-group="talents"]:hover) mark[data-group="talents"] {
+        background: var(--c-accent-100) !important;
+      }
+      mark[data-group] {
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+    `}</style>
+  </div>
+</Demo>
+
+## Section regeneration
+
+Engages users in iterative dialogue (clarifying questions, multiple "regenerate" buttons) to refine outputs collaboratively.
+
+...
+
+## Showing the work
+
+...
+
+## Footprints
+
+...
+
+## Caveats
+
+...
+
+## Resources & references
+
+- [shapeof.ai](https://www.shapeof.ai/)
+- [aiuxpatterns.com](https://aiuxpatterns.com/)
+- [NN/g / AI hallucinations](https://www.nngroup.com/articles/ai-hallucinations/)
+- [NN/g / AI chatbots discourage error checking](https://www.nngroup.com/articles/ai-chatbots-discourage-error-checking/)

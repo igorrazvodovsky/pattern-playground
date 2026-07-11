@@ -1,0 +1,168 @@
+# Stacked notes for `apps/patterns`
+
+## Context
+
+Pattern descriptions in `apps/patterns/` currently render one-at-a-time on `/patterns/[...slug]`. Patterns reference each other heavily through plain MDX links, so reading a description usually means following a chain and losing the original context to a full page swap. We want a *stacked notes* presentation (Andy Matuschak's working notes, Maggie Appleton's garden) where clicking an internal pattern link slides a new pane in to the right of the source pane, the source remains visible, and the URL records the full stack so it stays shareable.
+
+Goal: keep the existing static-Astro pipeline intact, layer stacking on top as a thin client behaviour, and degrade gracefully on small screens.
+
+## Decisions (already confirmed)
+
+- URL encoding: repeated `?stackedNotes=<slug>` query params (Andy-style). Example: `/patterns/operations/undo?stackedNotes=activities/foo&stackedNotes=qualities/bar`.
+- Sidebar clicks reset the stack to a single pane (the chosen pattern). Sidebar is a *jump*, not a *push*.
+- Mobile (<768px) collapses to a single pane; `history.back()` walks the stack back.
+- Truncate-and-append on link clicks: clicking a link inside pane *N* drops everything to the right of *N* and appends the target as pane *N+1* (Andy/Matuschak convention).
+
+## Architecture
+
+We keep the current static build. Each `/patterns/<slug>` page still server-renders the full page with one pane (the leftmost). A small React island, `StackManager`, mounts inside the `AppShell` slot and is responsible for:
+
+1. Parsing `?stackedNotes=…` on mount and asynchronously fetching the static HTML of each additional pane.
+2. Intercepting clicks on internal pattern links (`<a href="/patterns/…">`) inside any pane, fetching the target, and pushing it as a new pane (truncate-and-append).
+3. Maintaining stack state in a Zustand store and syncing it to `history.pushState` / `popstate`.
+4. Managing focus, scroll-into-view, and pane visual depth (dim non-active panes).
+5. Collapsing to single-pane on mobile via a CSS media query.
+
+### Three integration constraints to handle up front
+
+These come out of a design review and would derail a naive implementation:
+
+1. *`<ClientRouter />` is enabled in `Base.astro`.* That means Astro owns `<a href="/patterns/…">` clicks via a bubble-phase listener and a `navigate` event. A plain click delegate won't beat it. We integrate by registering a listener for `astro:before-preparation` — Astro's pre-navigation hook — and calling `e.preventDefault()` when the destination is an internal pattern URL and the click originated from inside a `[data-pane-index]` element. This is the idiomatic escape hatch and runs before ClientRouter swaps anything.
+
+2. *ClientRouter performs soft navigations.* So when the user clicks a sidebar link, the page swaps without a real reload — a module-level Zustand store would *persist* and the stack wouldn't reset. Fix: listen for `astro:page-load` (fires after every soft navigation and on first load) and run `store.syncFromURL()` there. If the new URL has no `stackedNotes` params, the store resets to a single pane equal to the path slug.
+
+3. *`AppShell` is `client:only="react"`.* Astro renders the slot content during SSR for first paint, but the React island wipes that DOM when it hydrates. We therefore can't rely on the SSR'd `<article>` surviving as "pane 0". Instead we embed the initial pane as an inert JSON blob that lives *outside* the island, and `StackManager` reads it on mount:
+
+   ```astro
+   <!-- Base.astro -->
+   <AppShell client:only="react" ...><slot /></AppShell>
+   {initialPane && (
+     <script type="application/json" id="initial-pane" set:html={JSON.stringify(initialPane)} />
+   )}
+   ```
+
+   `[...slug].astro` produces `initialPane = { slug, title, html }` by rendering `<Content />` to a string with Astro's experimental Container API (`experimental_AstroContainer.create()` + `renderToString(Content)`). The page also keeps `<Content />` inside the AppShell slot, so first paint still shows the real article — it just gets replaced by the React-rendered pane 0 on hydration. Tradeoff: a brief swap on hydration. Acceptable. If the Container API turns out to be impractical, the fallback is to render the article into a `<template id="initial-pane-html">` element outside AppShell and read its `.content` on mount — same effect, no API risk.
+
+Sidebar links stay plain anchors. ClientRouter handles the navigation; `astro:page-load` reconciles the store.
+
+### Pane fetching strategy
+
+We do not need a separate partial endpoint. Each pattern URL already statically renders a self-contained article. The client fetches `'/patterns/<slug>/'` with `fetch()`, parses with `DOMParser`, and extracts the first `<article>` element. This avoids duplicating any rendering pipeline and reuses the MDX output Astro already builds. Responses are cached in the Zustand store keyed by slug so revisits within a session are instant.
+
+### State shape (Zustand)
+
+```ts
+type Pane = {
+  slug: string;            // e.g. "operations/undo"
+  title: string;           // pulled from the fetched <h1>
+  html: string;            // the <article>…</article> inner HTML
+  status: 'loading' | 'ready' | 'error';
+};
+
+type StackState = {
+  panes: Pane[];                          // ordered left-to-right
+  activeSlug: string | null;              // rightmost-visible on desktop, current on mobile
+  cache: Map<string, Pane>;               // O(1) lookup; Map per state-management rule
+  push(slug: string, fromIndex: number): Promise<void>;
+  pop(toIndex: number): void;
+  reset(slug: string): Promise<void>;
+  syncFromURL(): Promise<void>;
+};
+```
+
+Uses `Map` for the cache (per `.claude/rules/state-management.md`). No `persist` middleware — stack state is URL-derived, not user-preference.
+
+### URL <-> state sync
+
+- On `astro:page-load` (also fires on first load): run `syncFromURL`. Path slug → pane 0 (hydrated from the `#initial-pane` JSON blob when the path matches it, otherwise fetched); `searchParams.getAll('stackedNotes')` → panes 1..N, fetched in parallel.
+- On `push`: `history.pushState({}, '', buildURL(panes))`.
+- On `popstate`: re-run `syncFromURL`.
+- Sidebar nav: ClientRouter swaps the page → `astro:page-load` fires → store reconciles to the new URL (which has no `stackedNotes`) → stack is a single pane. No special-casing needed.
+
+`buildURL` keeps the path component as the *first* pane's slug and emits one `stackedNotes` param per subsequent pane.
+
+### Click interception (via ClientRouter hook)
+
+Register on `document` for `astro:before-preparation`. The handler:
+
+- Reads `event.from`, `event.to`, and `event.sourceElement` (an `<a>`).
+- Bails if `event.sourceElement` has no enclosing `[data-pane-index]` (i.e., the click came from the sidebar or elsewhere) — let ClientRouter do its full navigation.
+- Bails if modifier keys/middle-click are encoded in the event, or if the link carries `data-no-stack`.
+- Bails if the target URL is not under `/patterns/`.
+- Otherwise calls `event.preventDefault()` (cancels the soft nav) and `stack.push(targetSlug, fromIndex)`.
+
+Result: in-pane links stack, sidebar/external links do their normal navigation.
+
+### Layout & styling
+
+- New stylesheet `apps/patterns/src/styles/stack.css` (loaded from `Base.astro`).
+- `<main>` becomes the stack container: `display: flex; overflow-x: auto; scroll-snap-type: x proximity`.
+- Each `.pane`: `flex: 0 0 var(--pane-width)` (default `min(48rem, 100%)`), `scroll-snap-align: start`, padding consistent with current 60ch article width.
+- Non-active panes get `opacity: .55; filter: saturate(.8)` and a slight scale-down to convey depth; transition on opacity (avoid `filter` on the scroll path — use `will-change: opacity`).
+- Optional sticky "spine": rotated title on the right edge of each pane, `position: sticky; right: 0`, surfaces when panes are scrolled past. Nice-to-have; ship without if it complicates the layout.
+- Below `@media (max-width: 768px)`: container becomes single-column, only the active pane is `display: block`; others are `display: none`. Back button (browser native) pops the stack via `popstate`.
+
+The existing `app.css` rule `main { margin: 2rem 3rem; max-width: 60ch }` must be scoped to non-stack pages or removed — patterns now want the full inset width. Easiest: move the margin/max-width onto `.pane > article` instead of `main`.
+
+### Accessibility
+
+- Each pane is `<section role="region" aria-label="Pattern: {title}" aria-current={isActive ? 'true' : undefined}>`.
+- On pane push: `setTimeout(() => paneEl.querySelector('h1').focus(), 0)` after scroll. Make `h1` programmatically focusable with `tabindex="-1"`.
+- `prefers-reduced-motion`: disable scroll smoothing and opacity transitions.
+- Skip-link in the AppShell stays pointing at `<main>`; once focus enters, normal tab order flows through panes left-to-right.
+- Scroll restoration on deep-link load: after all panes are fetched, `scrollIntoView({ inline: 'end', behavior: 'instant' })` on the rightmost pane.
+
+### Caveats on fetched-pane content
+
+Fetched pane HTML is injected via React's `dangerouslySetInnerHTML` (we trust our own static output). Implications:
+
+- *Lit web components* (registered globally in `register-all.ts`) auto-upgrade on insertion via the customElements registry — fine, they'll work in any pane.
+- *React/Astro islands inside MDX*, if any pattern uses them, will NOT rehydrate when injected as HTML. They render as static markup. Before implementation, grep `apps/patterns/src/content/patterns/**/*.mdx` for `client:` directives or React component imports; if there are any, the affected patterns either need to stay as the leftmost (SSR'd) pane only, or we accept the static-only degradation as a documented behaviour.
+- *Article-internal styles* (`.description`, `.badge`, `.meta` on the pattern page) must live in global CSS, not scoped to `[...slug].astro`. Astro-scoped styles get a per-component hash class that the fetched HTML won't carry. Pre-implementation check: confirm those rules are in `apps/patterns/src/styles/app.css` or `packages/components/src/styles/*`, not in a `<style>` block in `[...slug].astro`. If they are scoped, move them to `stack.css` or `app.css`.
+
+### Files
+
+Modify:
+
+- `apps/patterns/src/pages/patterns/[...slug].astro` — render `<Content />` to a string via Astro Container API; pass `{slug, title, html}` to `Base` as `initialPane`.
+- `apps/patterns/src/layouts/Base.astro` — accept optional `initialPane` prop; render it as `<script type="application/json" id="initial-pane">`; import the new `stack.css`; mount `<StackManager client:load />` as a sibling of `<AppShell>` (or inside its slot if we keep it within the inset — either way, mounted somewhere it can render panes; the `script` blob lives outside AppShell to survive its `client:only` hydration).
+- `apps/patterns/src/styles/app.css` — move the `main { margin … max-width … }` rule onto `.pane > article` (or new `.pane-body`).
+- `apps/patterns/src/components/AppShell.tsx` — no API change needed; the stack mounts inside the slot.
+
+Create:
+
+- `apps/patterns/src/components/StackManager.tsx` — the React island, `client:load`. Reads `#initial-pane` JSON, subscribes to `astro:page-load` and `astro:before-preparation`, renders the stack container with one `<section>` per pane.
+- `apps/patterns/src/lib/stack-store.ts` — Zustand store, click delegation, URL helpers, pane fetcher (`fetch('/patterns/<slug>/')` + `DOMParser` to extract `<article>`).
+- `apps/patterns/src/styles/stack.css` — pane layout, scroll snap, mobile collapse, reduced-motion handling.
+
+Add `zustand` to `apps/patterns/package.json` (already an allowed dependency per the state-management rule).
+
+### Pre-implementation probes (do these in commit 1)
+
+Before building the full stack manager, two short empirical checks resolve the architectural assumptions:
+
+1. *SSR slot survival under `client:only`.* Add `data-probe="ssr"` to the `<article>` in `[...slug].astro`. Add a 10-line `client:load` React component mounted inside Base that logs `document.querySelector('[data-probe="ssr"]')` after a microtask. If it logs `null`, AppShell's hydration wiped the slot — the JSON blob path is mandatory. If it logs the element, we have the option to skip the Container API and lift HTML from the live DOM instead (cheaper and simpler).
+2. *Container API availability in Astro 6.3.* Confirm `experimental_AstroContainer` exists and renders MDX correctly. If not, fall back to the `<template>` element strategy noted earlier.
+
+Both probes are throwaway and inform whether commit 2 (the real implementation) uses the JSON blob or the live-DOM path.
+
+### Verification
+
+1. `pnpm --filter @pattern-plgrnd/patterns dev` then open `http://localhost:4321/patterns/operations/undo`. Confirm the page renders identically to today (single pane, no horizontal scroll).
+2. Click an internal pattern link inside the article. Expect: a second pane slides in to the right; URL gains `?stackedNotes=…`; the original article stays visible; focus moves to the new pane's heading.
+3. Click a link inside the *second* pane. Expect: a third pane appears to its right; no fourth, no growth past the click source.
+4. Click a link inside the *first* pane while two follow it. Expect: panes 2 and 3 are dropped and replaced with the new target as pane 2 (truncate-and-append).
+5. Press browser back. Expect: stack pops one pane; URL updates accordingly.
+6. Copy a deep stack URL, paste it in a fresh tab. Expect: all panes render in order; viewport is scrolled to the rightmost; focus is in the rightmost.
+7. Click a sidebar link mid-exploration. Expect: full navigation; new page loads with a single pane.
+8. Resize the window below 768px. Expect: only the active pane visible; back button navigates pane history.
+9. Set OS to reduced-motion. Expect: no opacity/scroll transitions.
+10. Lighthouse a11y on a stacked URL. Expect score ≥ today's baseline.
+11. `pnpm --filter @pattern-plgrnd/patterns build`. Expect: build succeeds; static output for every `/patterns/<slug>` page unchanged.
+
+### Out of scope
+
+- Persisting stack history across sessions (URL is the source of truth).
+- Visual "spine" rotation on sticky pinned panes — ship as a follow-up if the basic stack feels solid.
+- Stack-aware preloading of likely next panes — premature; cache on click is enough.
+- Cross-pane search / linking back to the same slug already in the stack — Andy lets duplicates exist; we will too.

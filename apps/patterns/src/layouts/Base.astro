@@ -1,0 +1,173 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import ClientRouter from 'astro/components/ClientRouter.astro';
+import '@styles/main.css';
+import '../styles/app.css';
+import '../styles/stack.css';
+import '../styles/link-preview.css';
+import { Nav } from '../components/Nav';
+import { StackManager } from '../components/StackManager';
+
+interface Props {
+  title: string;
+  slug?: string;
+}
+const { title, slug } = Astro.props;
+const storybookUrl = import.meta.env.PUBLIC_STORYBOOK_URL ?? 'http://localhost:6006';
+
+type NavLeaf = { label: string; href: string };
+type NavBranch = { label: string; children: NavTreeNode[] };
+type NavTreeNode = NavLeaf | NavBranch;
+type NavGroup = NavBranch;
+
+const DIR_LABELS: Record<string, string> = {
+  'data-visualization': 'Data visualisation',
+  'conversational-activities': 'Conversational activities',
+  'sequence-management': 'Sequence management',
+  'conversation-management': 'Conversation management',
+};
+
+function toLabel(slug: string): string {
+  return DIR_LABELS[slug] ?? slug.charAt(0).toUpperCase() + slug.slice(1).replace(/-/g, ' ');
+}
+
+const GROUP_ORDER = ['foundations', 'qualities', 'activities', 'actions', 'operations', 'data-visualization'];
+
+// The sidebar is one *projection* of the corpus — the Activity Theory lens —
+// computed from frontmatter facets, not from the (flat) file layout. The top group
+// is chosen from role / domain / activityLevel; within a group, the optional `group`
+// facet (a slash-delimited path) reconstructs the sub-branches. Other projections
+// (by domain, by design phase, …) can be added as alternative grouping functions
+// over the same entries without moving files. A projection is a site-wide mode —
+// exactly one active at a time. Since the Nav island persists and reads its props
+// once, projection switching is island *state*: all groupings computed here and
+// passed at first hydration, the active one chosen client-side.
+function groupKeyOf(entry: CollectionEntry<'patterns'>): string {
+  const { role, activityLevel, domain } = entry.data;
+  if (GROUP_ORDER.includes(entry.id)) return entry.id; // section overview umbrella
+  if (role === 'quality') return 'qualities';
+  if (role === 'foundation') return 'foundations';
+  if (domain === 'data-visualization') return 'data-visualization';
+  if (activityLevel === 'activity') return 'activities';
+  if (activityLevel === 'action') return 'actions';
+  return 'operations';
+}
+
+const patterns = await getCollection('patterns');
+const tree: Record<string, NavTreeNode[]> = {};
+for (const p of patterns as CollectionEntry<'patterns'>[]) {
+  const key = groupKeyOf(p);
+  tree[key] ??= [];
+  if (p.id === key) {
+    tree[key].push({ label: 'Overview', href: `/patterns/${p.id}` });
+    continue;
+  }
+  const leaf: NavLeaf = { label: p.data.title, href: `/patterns/${p.id}` };
+  const segments = (p.data.group ?? '').split('/').filter(Boolean);
+  let level = tree[key];
+  for (const seg of segments) {
+    let branch = (level as NavBranch[]).find(
+      (n): n is NavBranch => 'children' in n && n.label === toLabel(seg)
+    );
+    if (!branch) {
+      branch = { label: toLabel(seg), children: [] };
+      level.push(branch);
+    }
+    level = branch.children;
+  }
+  level.push(leaf);
+}
+
+for (const group of Object.values(tree)) {
+  for (const node of group) {
+    if (!('children' in node)) continue;
+    const subgroups = node.children.filter((n): n is NavBranch => 'children' in n);
+    const leaves = node.children.filter((n): n is NavLeaf => !('children' in n));
+    for (const subgroup of subgroups) {
+      const matchingLeaf = leaves.find((l) => l.label === subgroup.label);
+      if (matchingLeaf) {
+        node.children = node.children.filter((n) => n !== matchingLeaf);
+        subgroup.children.unshift(matchingLeaf);
+      }
+    }
+  }
+}
+
+const navItems: NavGroup[] = [
+  ...GROUP_ORDER,
+  ...Object.keys(tree).filter((k) => !GROUP_ORDER.includes(k)),
+]
+  .filter((k) => tree[k])
+  .map((key) => {
+    const isOverview = (n: NavTreeNode): n is NavLeaf =>
+      !('children' in n) && n.href === `/patterns/${key}`;
+    const overview = tree[key].find(isOverview);
+    const rest = tree[key]
+      .filter((n) => !isOverview(n))
+      .sort((a, b) => a.label.localeCompare(b.label));
+    return {
+      label: toLabel(key),
+      children: overview ? [overview, ...rest] : rest,
+    };
+  });
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} — Pattern Playground</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <ClientRouter />
+    <link rel="stylesheet" href="/pagefind/pagefind-component-ui.css" is:inline />
+    <script src="/pagefind/pagefind-component-ui.js" type="module" is:inline></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Alegreya:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
+    <style is:global>
+      html, body { height: 100%; margin: 0; }
+    </style>
+  </head>
+  <body>
+    <div class="sidebar-wrapper" data-slot="sidebar-wrapper">
+      <Nav client:load transition:persist="app-nav" navItems={navItems} storybookUrl={storybookUrl} />
+      <main class="sidebar-inset" data-slot="sidebar-inset">
+        {slug ? (
+          <StackManager client:load slug={slug} title={title}>
+            <slot />
+          </StackManager>
+        ) : (
+          <div class="content-inset">
+            <slot />
+          </div>
+        )}
+      </main>
+    </div>
+    <!-- Search. We drive the modal's open() method ourselves rather than using
+         <pagefind-modal-trigger>: the bundled trigger's coordination with the
+         modal is established once at script load and goes stale across
+         ClientRouter / View Transitions swaps (the recreated trigger opens a
+         detached modal). The modal itself — engine, UI, open() — survives swaps,
+         so a document-level hotkey (the document persists across swaps) and the
+         sidebar button both just call open() on the current modal. -->
+    <pagefind-modal reset-on-close></pagefind-modal>
+    <script is:inline>
+      if (!window.__pagefindHotkey) {
+        window.__pagefindHotkey = true;
+        document.addEventListener('keydown', (e) => {
+          if ((e.metaKey || e.ctrlKey) && !e.altKey && e.key.toLowerCase() === 'k') {
+            const modal = document.querySelector('pagefind-modal');
+            if (modal && typeof modal.open === 'function') {
+              e.preventDefault();
+              modal.open();
+            }
+          }
+        });
+      }
+    </script>
+    <script>
+      import '@components/register-all.ts';
+      import '../lib/link-preview.ts';
+    </script>
+  </body>
+</html>

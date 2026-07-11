@@ -3,7 +3,7 @@
 Operational definition for what counts as a pattern in this project. Use this
 when deciding whether material should be treated as a generative interaction
 move, an implementation mechanism, an activity observation, an anti-pattern, or
-an umbrella over a larger territory.
+a collection over a larger territory.
 
 This is not yet a metadata schema. It is a test for authoring judgement.
 
@@ -15,12 +15,18 @@ practice at a reusable level, producing a centre or affordance, carrying
 rationale and consequences, and linking to other moves so a designer can
 continue the sequence.
 
-On this definition, most components are not patterns. A control can still
-qualify as a pattern when its documentation captures a complete interaction
-contract, not only a visual part. WAI-ARIA Authoring Practices is the useful
-reference point here: controls such as comboboxes and tabs are treated as
-patterns because the pattern includes semantics, keyboard behavior, focus model,
-state behavior, and use context.
+On this definition, most components are not patterns: their documentation
+answers "how does this render and behave", not "what recurring situation does
+this resolve". A complete interaction contract — semantics, keyboard behaviour,
+focus model, state behaviour, use context — is pattern-grade *content*, because
+a contract is a worked force-resolution. But the contract does not make the
+control a pattern node. The moves it carries enter the language under their own
+names — and a contract usually compresses *several* moves, not one — while the
+control keeps its name in the form language. See
+[pattern-and-form.md](./pattern-and-form.md) for the two-language framing and
+the decomposition rule in
+[docs/specs/pattern-role-model.md](../specs/pattern-role-model.md) for how
+mixed pages are taken apart.
 
 The definition deliberately says *evidence-seeking*, not evidence-proven. The
 library contains seeds and hypotheses. That is fine as long as the maturity is
@@ -64,12 +70,15 @@ HCI literature distinguishes useful neighbouring forms:
   recommending it. It is research material.
 - A `design pattern` recommends a value-bearing move that has worked across
   situations. It is guidance.
-- An `anti-pattern` names recurring harmful practice and the repair that moves
-  away from it.
+- An `anti-pattern` names a recurring harmful practice.
 
 The project can use all three, but they should not be collapsed. The graph
 should only treat something as a generative move when it carries the
 design-pattern burden: context, forces, rationale, consequences, and relations.
+Antipatterns are a further case: a collection of antipatterns is not a language —
+it lacks the connective, generative structure that lets one move set up the next
+— so an antipattern belongs as an annotation on the moves it warns against, not
+as a node with generative edges of its own.
 
 ## Pattern language versus catalogue
 

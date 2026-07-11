@@ -1,0 +1,36 @@
+story: null # entry not yet authored — lands with T4 of plans/active/2026-07-workspace-split-closure.md
+topic: semantic zoom
+interaction: |
+  An actor changes viewing scale over a space of content; instead of geometric
+  magnification, the representation itself changes — coarser abstractions when
+  zoomed out, richer detail when zoomed in — while spatial relationships stay
+  legible.
+context: |
+  Pattern-site entry precedes authoring. Existing local material: a paused exec
+  spec (plans/paused/2026-semantic-zoom-1.md — discrete LOD thresholds,
+  snap-with-animation between circle/label/card/reading-panel) implemented in
+  SemanticZoom.stories.tsx on tldraw ContentCards; item-view's semantic-level
+  ladder (reference/summary/detail/full); focus-and-context and pan-and-zoom
+  entries share the territory. Surfaces where the move appears: maps, infinite
+  canvases, node graphs, documents and outliners.
+questions:
+  - Where does semantic zoom end and focus-and-context begin? Shared Furnas
+    ancestry, same closure territory — the boundary shapes both entries' edges.
+  - Is semantic zoom the transition move over item-view's level-of-detail
+    ladder (reference/summary/detail/full), or a distinct construct?
+  - Is the discrete-threshold "snap" between representations essential to the
+    pattern, or one mechanism choice among continuous alternatives?
+keywords:
+  [
+    semantic zoom,
+    zoomable user interface,
+    ZUI,
+    multiscale interface,
+    level of detail,
+    space-scale diagram,
+    fisheye view,
+    overview plus detail,
+    focus plus context,
+    speed-dependent automatic zooming,
+    smooth zooming and panning,
+  ]

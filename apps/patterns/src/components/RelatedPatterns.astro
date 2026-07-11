@@ -1,0 +1,192 @@
+---
+/**
+ * Renders typed edges for the current pattern as a "Related patterns" section.
+ * Reads from pattern-graph.json; renders declared edges only, in declaration order.
+ *
+ * Outgoing directed edges are shown with the canonical label. Incoming directed
+ * edges are shown as their computed inverse ("preceded by", "enabled by", etc.).
+ * Symmetric edges (complements, tangential, alternative, related) are shown once
+ * per page in the direction they are declared (either outgoing or incoming).
+ */
+
+import graphData from '../data/pattern-graph.json';
+
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+
+interface Edge {
+  source: string;
+  target: string;
+  type: string;
+  label?: string;
+  incomingNote?: string;
+  /** Derived rendering of the source node's resulting-context clause — prose
+   * for judgement, never matched on (relationship-vocabulary.md §Situations). */
+  situation?: string;
+}
+
+interface PatternNode {
+  id: string;
+  title: string;
+  path: string;
+  role?: string;
+}
+
+const nodes: Record<string, PatternNode> = {};
+for (const n of graphData.nodes as PatternNode[]) {
+  nodes[n.id] = n;
+}
+
+// quality pages carry no pattern list. A quality is a diagnostic
+// lens, not a catalogue of its instances — the bridge to patterns lives on the
+// pattern side via `enacts` and is explored through the graph, never rendered
+// here. See docs/language/relationship-vocabulary.md.
+const isQuality = nodes[slug]?.role === 'quality';
+
+const edges = graphData.edges as Edge[];
+
+// Symmetric edge types: shown once per pair regardless of stored direction.
+const SYMMETRIC = new Set(['complements', 'tangential', 'alternative', 'related']);
+
+// Human-readable section labels for outgoing and incoming edges.
+const OUTGOING_LABELS: Record<string, string> = {
+  precedes:     'Precedes',
+  enables:      'Enables',
+  instantiates: 'Instantiates',
+  enacts:       'Enacts',
+  surveys:      'Surveys',
+  hosts:        'Hosts',
+  complements:  'Complements',
+  tangential:   'Tangentially related',
+  alternative:  'Alternatives',
+  related:      'Related',
+};
+
+const INCOMING_LABELS: Record<string, string> = {
+  precedes:     'Preceded by',
+  enables:      'Enabled by',
+  instantiates: 'Instantiated by',
+  enacts:       'Enacted by',
+  surveys:      'Surveyed by',
+  hosts:        'Hosted by',
+};
+
+// Collect outgoing and incoming edges for this pattern.
+interface GroupEntry { node: PatternNode; label?: string }
+const outgoing: Record<string, GroupEntry[]> = {};
+const incoming: Record<string, GroupEntry[]> = {};
+const seenSymmetric = new Set<string>(); // `targetId|type` to deduplicate symmetric
+
+// Per-direction notes: a symmetric edge may be authored from both endpoints, each
+// with its own note. Show the *near-side* note — the one authored by the page being
+// viewed — so the link reads in the local pattern's voice (as cross-references do in
+// a pattern language). Falls back to the other side's note when only one is authored.
+// Both maps are built up front so label selection is independent of edge iteration
+// order: near = authored by this page, far = authored by the other endpoint.
+const nearSymLabel = new Map<string, string>();
+const farSymLabel = new Map<string, string>();
+for (const edge of edges) {
+  if (!SYMMETRIC.has(edge.type) || !edge.label) continue;
+  if (edge.source === slug) {
+    nearSymLabel.set([slug, edge.target].sort().join('|') + '|' + edge.type, edge.label);
+  } else if (edge.target === slug) {
+    farSymLabel.set([slug, edge.source].sort().join('|') + '|' + edge.type, edge.label);
+  }
+}
+
+for (const edge of edges) {
+  const isOut = edge.source === slug;
+  const isIn = edge.target === slug;
+  if (!isOut && !isIn) continue;
+
+  const peerId = isOut ? edge.target : edge.source;
+  const peer = nodes[peerId];
+  if (!peer) continue;
+
+  if (SYMMETRIC.has(edge.type)) {
+    // For symmetric: show once, keyed by the alphabetically-first of the two IDs.
+    const symKey = [slug, peerId].sort().join('|') + '|' + edge.type;
+    if (seenSymmetric.has(symKey)) continue;
+    seenSymmetric.add(symKey);
+
+    if (!outgoing[edge.type]) outgoing[edge.type] = [];
+    outgoing[edge.type].push({ node: peer, label: nearSymLabel.get(symKey) ?? farSymLabel.get(symKey) });
+  } else if (isOut) {
+    // Directed edge, read forward: prefer the outgoing note; a derived situation
+    // (the source's resulting-context clause) stands in when no note is authored.
+    if (!outgoing[edge.type]) outgoing[edge.type] = [];
+    outgoing[edge.type].push({ node: peer, label: edge.label ?? edge.situation ?? edge.incomingNote });
+  } else {
+    // Directed edge, read in reverse: prefer the target-authored incoming note.
+    if (!INCOMING_LABELS[edge.type]) continue;
+    if (!incoming[edge.type]) incoming[edge.type] = [];
+    incoming[edge.type].push({ node: peer, label: edge.incomingNote ?? edge.situation ?? edge.label });
+  }
+}
+
+// Build ordered sections: directed outgoing, then symmetric, then incoming.
+const DIRECTED_OUT_ORDER = ['precedes', 'enables', 'instantiates', 'hosts', 'enacts', 'surveys'];
+const SYMMETRIC_ORDER = ['complements', 'tangential', 'alternative', 'related'];
+const DIRECTED_IN_ORDER = ['precedes', 'enables', 'instantiates', 'hosts', 'enacts'];
+
+type Section = { heading: string; entries: GroupEntry[] };
+const sections: Section[] = [];
+
+for (const type of DIRECTED_OUT_ORDER) {
+  if (outgoing[type]?.length) {
+    sections.push({ heading: OUTGOING_LABELS[type], entries: outgoing[type] });
+  }
+}
+for (const type of SYMMETRIC_ORDER) {
+  if (outgoing[type]?.length) {
+    sections.push({ heading: OUTGOING_LABELS[type], entries: outgoing[type] });
+  }
+}
+for (const type of DIRECTED_IN_ORDER) {
+  if (incoming[type]?.length) {
+    sections.push({ heading: INCOMING_LABELS[type], entries: incoming[type] });
+  }
+}
+
+const hasRelated = !isQuality && sections.length > 0;
+
+// Notes may carry inline markdown links (`[text](/patterns/slug#anchor)`).
+// Split a note into plain-text and anchor segments so links render as real
+// anchors rather than literal `[…](…)` text. Authored content only — no escaping.
+const MD_LINK = /\[([^\]]+)\]\(([^)]+)\)/g;
+type LabelPart = { text: string; href?: string };
+function parseLabel(label: string): LabelPart[] {
+  const parts: LabelPart[] = [];
+  let last = 0;
+  for (const m of label.matchAll(MD_LINK)) {
+    const idx = m.index ?? 0;
+    if (idx > last) parts.push({ text: label.slice(last, idx) });
+    parts.push({ text: m[1], href: m[2] });
+    last = idx + m[0].length;
+  }
+  if (last < label.length) parts.push({ text: label.slice(last) });
+  return parts;
+}
+---
+
+{hasRelated && (
+  <section class="flow" aria-label="Related patterns">
+    <h2>Related patterns</h2>
+    {sections.map(({ heading, entries }) => (
+      <div class="flow">
+        <h3>{heading}</h3>
+        <ul>
+          {entries.map(({ node, label }) => (
+            <li>
+              <a href={node.path}>{node.title}</a>
+              {label && <> — {parseLabel(label).map((p) => (p.href ? <a href={p.href}>{p.text}</a> : p.text))}</>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </section>
+)}

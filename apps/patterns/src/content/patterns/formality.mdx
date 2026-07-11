@@ -1,0 +1,52 @@
+---
+title: Formality
+role: quality
+relationships:
+  related:
+    - to: agency
+      note: low formality preserves user agency during exploration
+    - to: learnability
+      note: every formalism carries its own learning curve, independent of the task
+    - to: adaptation
+      note: systems that adapt formality to context avoid premature structure
+---
+
+The degree of structure a system requires from the user at a given moment.
+The same system might accept freeform text in one context and demand structured input in another.
+The question for any interaction point is: *how much structure does the system need here, and how much can the user comfortably provide?*
+
+More structure enables more computational power (retrieval, automation, validation). But structure demanded too early — before the user's understanding has matured — creates friction.
+The cost of formalisation includes learning the system's language, committing to categories that might not fit, and articulating knowledge that may still be tacit.
+
+## The formality-maturity principle
+
+Match required formality to the maturity of the user's understanding.
+
+### Low maturity: exploration & emergence
+- Accept unstructured text, sketches, loose collections
+- System captures with minimal friction — getting things *in* without demanding categorisation or relationships.
+- Patterns: free-text input, spatial canvas, <ComponentRef id="primitives-reference--docs">references</ComponentRef> without type requirements, <ComponentRef id="components-messaging--docs">messaging</ComponentRef>, [bot](/patterns/bot) interactions
+
+### Medium maturity: structuring & sense-making
+- System *suggests* structure without demanding it — incremental, system-assisted formalisation
+- Recognise potential patterns ("This looks like a list," "These two items seem related") and offer to formalise
+- Patterns: [suggestion](/patterns/suggestion), inline [tagging](/patterns/tag), [progressive disclosure](/patterns/progressive-disclosure)
+
+### High maturity: execution & automation
+- Structure is stable and understood — formal input enables automation, validation, computation
+- Patterns: structured [forms](/patterns/form), validation, workflow, query builders
+
+## Two strategies for reducing formality demands
+
+### Gradual formalisation
+
+Let information enter informally and gain structure over time. Don't require categorisation at capture — allow the user to add it when ready. Systems can suggest possible formalisations based on recognised patterns in content, presenting them for acceptance, modification, or rejection. This keeps the door open for computational benefit without imposing premature structure.
+
+### Inferred structure
+
+Rather than requiring users to declare structure explicitly, recognise it from what's already there — textual, spatial, temporal, or visual patterns. Inferred structure should be treated as *transient and lightweight*: useful for interaction (e.g. expanding a visual grouping, offering a contextual action) but not committed as permanent metadata. If the inference is wrong, it costs the user nothing.
+
+## Resources
+
+- Shipman, F. M. & Marshall, C. C. (1999). [Formality Considered Harmful: Experiences, Emerging Themes, and Directions on the Use of Formal Representations in Interactive Systems](https://andymatuschak.org/files/papers/Shipman%20and%20Marshall%20-%201999%20-%20Formality%20Considered%20Harmful%20Experiences,%20Emergin.pdf). *Computer-Supported Cooperative Work*, 8(4), 333–352.
+- Ink & Switch. [Formality on demand](https://www.inkandswitch.com/ink/notes/formality-on-demand/).

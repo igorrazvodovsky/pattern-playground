@@ -1,0 +1,26 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks';
+import * as ReferenceStories from './Reference.stories';
+
+<Meta of={ ReferenceStories } tags={['activity-level:operation', 'atomic:primitive', 'role:component', 'mediation:individual']} />
+
+{/* > 🙂 **Fun meter: 5/5**. References are surprisingly useful and powerful. */}
+
+# Reference
+
+Surface a linked entity inline, letting the actor verify a connection without navigating away.
+
+## User mentions
+
+<Story of={ReferenceStories.Basic} />
+
+## Multiple reference types
+
+<Story of={ReferenceStories.Reference} />
+
+## Related patterns
+
+- [Prose](/patterns/prose) — link rhetoric and the authored-link counterpart of inline reference
+- <PatternRef slug="dynamic-hyperlinks">Dynamic hyperlinks</PatternRef> — the algorithmic (soft) counterpart to author-placed references
+- <PatternRef slug="link-preview">Link preview</PatternRef> — the transient peek move; Reference's hover escalation is one application of link preview within the broader reference pattern
+- [Item view](/patterns/item-view)
+- [Command menu](../?path=/docs/components-command-menu--docs) for browsing available references

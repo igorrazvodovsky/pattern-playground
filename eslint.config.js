@@ -11,7 +11,14 @@ import react from 'eslint-plugin-react'
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   {
-    ignores: ["dist/**", "storybook-static/**", "node_modules/**", "src/stories/.obsidian/**"],
+    ignores: [
+      "**/dist/**",
+      "**/storybook-static/**",
+      "**/.astro/**",
+      "**/node_modules/**",
+      "apps/patterns/public/storybook/**",
+      "**/.obsidian/**",
+    ],
   },
   lit.configs['flat/recommended'],
   {
@@ -39,10 +46,15 @@ export default [
         allowDefinitionFiles: true
       }],
       '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-unused-vars': ['error', {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_',
+      }],
     },
   },
   {
-    files: ["src/**/*.tsx"],
+    files: ["**/src/**/*.tsx"],
     plugins: {
       react,
     },
@@ -56,8 +68,8 @@ export default [
     },
   },
   {
-    files: ["src/components/**/*.ts"],
-    ignores: ["src/components/register-all.ts", "src/components/component-registry.ts"],
+    files: ["**/src/components/**/*.ts"],
+    ignores: ["**/src/components/register-all.ts", "**/src/components/component-registry.ts"],
     rules: {
       'no-restricted-syntax': ['error', {
         selector: "CallExpression[callee.object.name='customElements'][callee.property.name='define']",
@@ -66,7 +78,7 @@ export default [
     },
   },
   {
-    files: ["src/**/*.{ts,tsx}"],
+    files: ["**/src/**/*.{ts,tsx}"],
     rules: {
       'no-restricted-syntax': ['error', {
         selector: "CallExpression[callee.property.name=/^(querySelector|querySelectorAll|closest|matches)$/] > Literal[value=/^\\[(role|aria-)/]",
@@ -75,13 +87,13 @@ export default [
     },
   },
   {
-    files: ["server/**/*.{ts,js}", "scripts/**/*.{ts,js,mjs}", "utils/**/*.ts"],
+    files: ["**/server/**/*.{ts,js}", "scripts/**/*.{ts,js,mjs}", "utils/**/*.ts"],
     rules: {
       'no-console': 'off',
     },
   },
   {
-    files: ["src/stories/**/*.{ts,tsx}", "src/tldraw/**/*.{ts,tsx}"],
+    files: ["**/src/stories/**/*.{ts,tsx}", "**/src/tldraw/**/*.{ts,tsx}"],
     rules: {
       'no-console': ['warn', { allow: ['warn', 'error'] }],
     },

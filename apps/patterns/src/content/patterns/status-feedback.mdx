@@ -1,0 +1,61 @@
+---
+title: Status feedback
+role: pattern
+activityLevel: operation
+atomic: pattern
+mediation: individual
+fun: 🥱 boring but important groundwork.
+description: "Matching the delivery of a state change to what the information is, how urgent it is, and whether the actor must act."
+relationships:
+  related:
+    - to: activity-log
+      note: Records status changes as Events for chronological review
+    - notification
+  enables:
+    - to: collaboration
+      note: Status feedback provides awareness of system state and action effects in collaborative environments
+  enacts:
+    - to: temporality
+      note: the timing and latency with which the system reports a change back to the actor
+---
+
+import { IndicatorsDemo } from '@pkg/demos/status-feedback';
+
+Something in the system has changed — because of what the actor just did, what they typed, or an event elsewhere — and the change has to reach them without costing more attention than it is worth. Status feedback is that calibration: not one move but a framework for choosing among them.
+
+Three dimensions place any status message:
+
+- *Initiation.* Whether the change came from the actor's action, from their input, or from the system on its own. This determines where the actor is already looking — and so how far the message must travel to reach them.
+- *Action required.* Whether the actor must respond or only know. This determines persistence: feedback that demands a response must outlive a glance, while feedback that only confirms may evaporate.
+- *Urgency.* How soon the actor must know. This determines how far toward interruption the delivery is allowed to escalate.
+
+The dimensions route to three delivery shapes.
+
+## Indication
+
+State worn by the element itself: typographic emphasis, colour, an icon, a badge, an animation — placed on or beside the thing whose state changed, readable in passing.
+
+<Demo>
+  <IndicatorsDemo client:only="react" />
+</Demo>
+
+## [Validation](/patterns/validation)
+
+The system's response to the actor's own input: it arrives at the field where the input happened, says what is wrong and how to fix it, and persists until corrected. The [validation](/patterns/validation) pattern owns the move — its timing contract, message shape, and persistence rule.
+
+## [Notification](/patterns/notification)
+
+Events pushed to the actor, including ones they didn't cause and aren't watching for. The [notification](/patterns/notification) pattern owns the routing: its decision tree sends glance-sized messages to [transient feedback](/patterns/transient-feedback) and escalates action-carrying ones to <ComponentRef id="operations-callout--docs">callouts</ComponentRef> and <ComponentRef id="components-dialog--docs">dialogs</ComponentRef>.
+
+## Related components
+
+- <ComponentRef id="operations-callout--docs">Callout</ComponentRef> — inline delivery mechanism for status feedback
+- <ComponentRef id="primitives-toast--docs">Toast</ComponentRef> — delivery mechanism for transient feedback
+- <ComponentRef id="primitives-badge--docs">Badge</ComponentRef> — indication mechanism worn by the element itself
+- …
+
+## Resources & references
+
+- [NN/g / Indicators, Validations, and Notifications](https://www.nngroup.com/articles/indicators-validations-notifications/)
+- [Apple HIG / Feedback](https://developer.apple.com/design/human-interface-guidelines/feedback)
+{/* https://designlibrary.sebgroup.com/patterns/pattern-feedback */}

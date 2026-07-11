@@ -1,0 +1,34 @@
+story: null
+topic: workflow — the actor externalises a procedure the system executes
+interaction: |
+  The actor composes, inspects, and repairs a procedure (steps, connections,
+  triggers) that an agent or system then runs — via a builder canvas, a rules
+  list, or another editable representation. The system executes and surfaces
+  the procedure back for monitoring and repair.
+context: |
+  Pattern-language entry scoping, delegation's neighbourhood. Three existing
+  pages circle the concept without naming it: delegation's "tuning tools"
+  touchpoint, bot's workflow-automation mode, ai-tuning's skeletal Workflow
+  section. A tldraw node-canvas builder exists as substrate. The formality
+  spectrum (natural language ↔ visual graph ↔ code) is settled vocabulary.
+questions:
+  - Does "workflow" name one move or several? User workflow (the human's own
+    process) vs agent workflow (a procedure delegated to a system) — is the
+    externalise-and-execute strawman quietly conflating them?
+  - Building vs reading — is a workflow *builder* (editable artifact) the same
+    pattern as a workflow *display* (diagram/canvas as monitoring or
+    explanation surface), or two patterns that share a representation?
+  - Where does orchestration sit — is multi-agent/step orchestration a
+    distinct altitude above single-procedure automation?
+  - What does the end-user-programming / visual-programming literature say the
+    representation costs — legibility vs expressiveness, and who authors
+    (actor-built vs system-proposed-then-repaired)?
+  - Where does BPM/workflow-management-systems territory begin, and does the
+    project's scope end before it (Suchman's situated-action critique already
+    lives on wizard.mdx)?
+  - Is "workflow" the honest name for the move, or an artifact-noun (the
+    Charts/hybrid-patterns signal) hiding a better move name?
+keywords: [end-user programming, visual programming, node-based editor,
+  automation rules, trigger-action programming, if-this-then-that,
+  agent orchestration, human-agent delegation, workflow authoring,
+  process visualisation]

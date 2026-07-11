@@ -1,0 +1,16 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks';
+import * as TextareaStories from './Textarea.stories.tsx';
+
+<Meta of={TextareaStories} tags={['activity-level:operation', 'atomic:primitive', 'role:component', 'mediation:individual']} />
+
+{/* On differences between badges and lozenges. Same look, similar semantics */}
+
+{/* > 🥱 **Fun meter: boring**. Included as a prerequisite for more interesting things. */}
+
+# Textarea
+
+Accept multi-line text, expanding to fit the actor's input so the container never obscures what they've written.
+
+<Canvas>
+  <Story of={ TextareaStories.Basic } />
+</Canvas>

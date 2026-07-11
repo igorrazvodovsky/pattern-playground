@@ -1,0 +1,28 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks';
+import * as DialogStories from './Dialog.stories.tsx';
+
+<Meta
+  of={DialogStories}
+  tags={['activity-level:action', 'atomic:component', 'role:component', 'lifecycle:application', 'mediation:individual']} />
+
+{/* > 🥱 **Fun meter: boring**. This is more or less the standard way of doing things. Included as a prerequisite for more interesting things. */}
+
+# Dialog
+
+The interruption of a workflow to demand a focused decision, balancing urgency against disruption.
+
+<Story of={ DialogStories.Default } />
+
+## Scrolling
+By design, a dialog’s height will never exceed that of the viewport. As such, dialogs will not scroll with the page ensuring the header and footer are always accessible to the user.
+
+<Story of={ DialogStories.Scrolling } />
+
+
+## Related patterns
+
+Dialog is the canonical [transient mode](/patterns/modality) — it suspends the primary workflow to force a focused decision. See the [modality decision tree](/patterns/modality#overlay-vs-page) for when to use dialog vs. [drawer](../?path=/docs/components-drawer--docs) vs. a separate page.
+
+- [Drawer](../?path=/docs/components-drawer--docs) — when the actor needs to maintain awareness of the primary context rather than being forced to resolve before returning
+- [Popover](../?path=/docs/primitives-popover--docs) — lighter, non-modal alternative for contextual content that doesn't require a decision
+- [Notification](/patterns/notification) — dialog is the most disruptive notification type, reserved for critical alerts that require action

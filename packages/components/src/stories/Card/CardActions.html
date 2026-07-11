@@ -1,0 +1,76 @@
+<div class="flow">
+  <ul class="cards layout-grid">
+    <li>
+      <article class="card">
+        <div>
+          <h3 class="label">This card has actions</h3>
+        </div>
+
+        <p class="description">
+          The footer is an ideal location for task-level actions that users are
+          highly likely to perform.
+        </p>
+        <div class="card__actions">
+          <button class="button" is="pp-button">
+            <iconify-icon
+              class="icon"
+              icon="ph:shopping-cart-simple"
+            ></iconify-icon
+            >Add
+          </button>
+          <button class="button" is="pp-button">
+            <iconify-icon class="icon" icon="ph:info"></iconify-icon
+            ><span class="visually-hidden">Info</span>
+          </button>
+          <button class="button" is="pp-button">
+            <iconify-icon class="icon" icon="ph:dots-three"></iconify-icon
+            ><span class="visually-hidden">Third action</span>
+          </button>
+        </div>
+      </article>
+    </li>
+    <li>
+      <article class="card">
+        <div>
+          <h3 class="label">So does this one</h3>
+        </div>
+        <div class="card__actions card__actions--secondary">
+          <button class="button button--plain" is="pp-button">
+            <iconify-icon class="icon" icon="ph:dots-three"></iconify-icon
+            ><span class="visually-hidden">Another action</span>
+          </button>
+        </div>
+        <p class="description">
+          Several different actions related to the card’s content can be grouped
+          under ellipsis.
+        </p>
+      </article>
+    </li>
+    <li>
+      <article class="card hover-only-actions">
+        <div>
+          <h3 class="label">Same here</h3>
+        </div>
+        <div class="card__actions card__actions--secondary">
+          <div class="button-group">
+            <button class="button" is="pp-button">
+              <iconify-icon
+                class="icon"
+                icon="ph:pencil-simple-line"
+              ></iconify-icon
+              ><span class="visually-hidden">Action</span>
+            </button>
+            <button class="button" is="pp-button">
+              <iconify-icon class="icon" icon="ph:dots-three"></iconify-icon
+              ><span class="visually-hidden">Another action</span>
+            </button>
+          </div>
+        </div>
+        <p class="description">
+          Hover-only actions for situations when their availability is obvious
+          in context.
+        </p>
+      </article>
+    </li>
+  </ul>
+</div>

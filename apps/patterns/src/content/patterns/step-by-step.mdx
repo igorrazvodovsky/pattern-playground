@@ -1,0 +1,55 @@
+---
+title: Step by step
+role: pattern
+group: navigation
+activityLevel: action
+atomic: composition
+mediation: individual
+lifecycle: application
+fun: 🗺️ 2/5. Mapping out the basics.
+relationships:
+  enables:
+    - to: form
+      note: a form split into one-question-per-page steps (the question-pages pattern)
+  instances:
+    - to: wizard
+      note: Wizard is the canonical instantiation of step-by-step navigation
+  alternative:
+    - pyramid
+    - hybrid-patterns
+    - multilevel-tree
+---
+The guided progression through a prescribed sequence, balancing task-completion focus against freedom to deviate. Flows range from simple two-step processes to complex multi-stage journeys, with supplementary options like skip, save and continue later, or jump to step.
+
+## Behavioural position
+
+This model optimises for task completion over exploration, reducing cognitive load from navigation decisions whilst constraining freedom to deviate.
+
+Primarily supports
+- [Transactional search](/patterns/interaction#transactional-search) — optimised for getting the job done
+- TODO: Goal-oriented task completion with clear endpoints
+
+Deliberately constrains
+- [Exploring](/patterns/interaction#exploring) — intentionally limited to maintain focus
+- [Browsing](/patterns/interaction#browsing) — lateral movement discouraged or impossible
+- [Navigating](/patterns/interaction#navigating) — constrained to sequence, even when destination is known
+
+## Variants
+
+- Linear: strict sequence, must complete steps in order.
+- Flexible: steps shown in overview, some skippable or reorderable. Approaches [pyramid model](/patterns/pyramid)
+- Branching: different paths based on choices or conditions.
+- Progressive disclosure sequence: simple initial steps, complexity revealed gradually.
+
+{/* ## Validation approaches */}
+{/* - **Step validation** — must complete current step to proceed */}
+{/* - **Deferred validation** — gather all information, validate at end */}
+{/* - **Inline validation** — real-time feedback as actor completes fields */}
+
+## Related components
+
+- <ComponentRef id="primitives-progress-indicator--docs">Progress indicators</ComponentRef> — visualise progression through steps
+
+## Resources & references
+
+- Tidwell, Brewer, Valencia (2020) Designing Interfaces, 3rd ed.

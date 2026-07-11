@@ -1,0 +1,36 @@
+---
+title: Opening (User)
+role: pattern
+group: conversation/sequence-management
+activityLevel: operation
+atomic: primitive
+mediation: coordination
+fun: 😊 3/5. Looking for useful building blocks for conversational UI.
+relationships:
+  enables:
+    - conversation
+  related:
+    - to: agent-repair
+      note: for disambiguating ambiguous or overlapping user openings
+  precedes:
+    - to: open-request
+      note: the most common activity a user-initiated opening transitions into
+    - to: inquiry-agent
+      note: used when the opening requires clarification before proceeding
+    - to: abort
+      note: if the user immediately changes their mind
+    - to: inquiry-user
+      note: when the opening is a simple question, the encounter passes straight into user inquiry
+---
+The user initiates the encounter; the bot recognizes the open and aligns quickly to a topic.
+
+1. U → A: Greeting or first move (“Hi”, “I need a quote”).
+2. A: Receipt + capability/role (brief), and *topic alignment* (accept the stated topic or offer nearby options).
+3. A: Transition into the selected activity (*user inquiry, open request, or bot inquiry*), or request clarification via *bot repair*.
+
+## Support & transitions
+- Use *bot inquiry* for missing parameters; *bot repair* for disambiguation.
+- If the user changes their mind immediately, allow *abort*.
+
+## Metrics
+Time-to-topic; unnecessary clarification rate after user openings; drop-offs before first action.

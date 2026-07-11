@@ -1,0 +1,54 @@
+* {
+  font-family: var(--font);
+}
+
+/* :where(:root, :root *), .neutral */
+:root,
+body {
+  line-height: var(--globalLineHeight);
+  font-weight: var(--font-weight-normal);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  /* -webkit-font-smoothing: antialiased; */
+  /* -moz-osx-font-smoothing: grayscale; */
+}
+
+body {
+  color: var(--c-body);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  line-height: var(--line-height-heading);
+}
+
+h4 {
+  font-weight: 500;
+}
+
+strong {
+  font-weight: var(--font-weight-bold);
+}
+
+.dimmed,
+.muted {
+  opacity: 0.6;
+}
+
+.empty-state {
+  text-align: center;
+  padding: var(--space-2xl);
+  border-radius: var(--radius-m);
+  p {
+    max-width: none;
+  }
+}
+
+mark {
+  background: var(--c-accent-100);
+}
+

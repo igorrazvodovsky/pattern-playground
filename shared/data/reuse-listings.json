@@ -1,0 +1,42 @@
+[
+  {
+    "id": "listing-enamel-mug",
+    "name": "Enamel Camp Mug",
+    "type": "listing",
+    "icon": "ph:coffee",
+    "description": "Second-hand enamel mug offered for reuse",
+    "searchableText": "enamel camp mug reuse listing kitchenware"
+  },
+  {
+    "id": "listing-cast-iron-skillet",
+    "name": "Cast-Iron Skillet",
+    "type": "listing",
+    "icon": "ph:cooking-pot",
+    "description": "Well-seasoned skillet available for pickup",
+    "searchableText": "cast iron skillet pan reuse listing cookware"
+  },
+  {
+    "id": "listing-rattan-plant-stand",
+    "name": "Rattan Plant Stand",
+    "type": "listing",
+    "icon": "ph:plant",
+    "description": "Gently used plant stand looking for a new home",
+    "searchableText": "rattan plant stand furniture reuse listing"
+  },
+  {
+    "id": "listing-wool-blanket",
+    "name": "Wool Picnic Blanket",
+    "type": "listing",
+    "icon": "ph:basket",
+    "description": "Warm wool blanket offered for reuse",
+    "searchableText": "wool picnic blanket textile reuse listing"
+  },
+  {
+    "id": "listing-cork-yoga-block",
+    "name": "Cork Yoga Block",
+    "type": "listing",
+    "icon": "ph:barbell",
+    "description": "Spare cork yoga block available for pickup",
+    "searchableText": "cork yoga block fitness reuse listing"
+  }
+]

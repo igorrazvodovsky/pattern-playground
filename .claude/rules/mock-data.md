@@ -1,8 +1,8 @@
 ---
 paths:
-  - "src/stories/**/*.tsx"
-  - "src/stories/**/*.jsx"
-  - "src/stories/data/**/*.json"
+  - "packages/components/src/stories/**/*.tsx"
+  - "packages/components/src/stories/**/*.jsx"
+  - "packages/components/src/stories/data/**/*.json"
 ---
 
 # Mock data

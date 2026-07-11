@@ -1,15 +1,17 @@
 ---
 paths:
-  - "src/stories/**/*.mdx"
-  - "src/stories/**/*.stories.tsx"
+  - "packages/components/src/stories/**/*.mdx"
+  - "packages/components/src/stories/**/*.stories.tsx"
 ---
 
-# Documentation standards
+# Documentation standards (components — Storybook)
+
+These rules apply to component documentation in `packages/components/src/stories/`.
+For pattern site content in `apps/patterns/src/content/`, see `.claude/rules/pattern-content.md`.
 
 ## Documentation format
 - Use `.mdx` format for Storybook documentation with rich interactive content
 - Include Meta component for proper Storybook integration: `<Meta title="Category/Name" />`
-- *Established categories*: Operations, Actions, Activities, Foundations, Qualities, Concepts, Data visualisation
 
 ## Document structure
 Standard section order:
@@ -36,13 +38,8 @@ Use the Intent & Interaction framework (`src/stories/foundations/Interaction.mdx
 
 ## Documentation linking
 When creating cross-references between documentation files:
-- *Storybook URLs*: Generated from Meta title - `<Meta title="Category/Name" />` becomes `../?path=/docs/category-name--docs`
-- *URL transformation*:
-  - Category/Name → category-name
-  - Spaces become hyphens
-  - Case is lowercased
-- *Link format*: Use relative paths like `[Agency](../?path=/docs/foundations-agency--docs)` for internal Storybook links
-- *Cross-pattern links*: Reference related patterns in "Related patterns" sections using proper Storybook URLs
+- *Internal Storybook links* (component → component, component → material foundation): keep `../?path=/docs/category-name--docs` format. URL transformation: Category/Name → category-name, spaces become hyphens, case is lowercased.
+- *Outbound to the pattern site* (qualities, non-material foundations, material foundation concept pages, patterns moved out of Storybook): use the `<PatternRef slug="...">` component. It's registered globally in `.storybook/preview.ts`, so no import is needed in MDX. It reads `STORYBOOK_PATTERN_SITE_URL` (default `http://localhost:4321`) so the link resolves in dev (separate origins) and prod (merged origin). Examples: `<PatternRef slug="qualities/agency">Agency</PatternRef>`, `<PatternRef slug="foundations/assistance">Assistance</PatternRef>`, `<PatternRef slug="foundations/material/color">Colour</PatternRef>`. Plain root-relative `[Agency](/patterns/qualities/agency)` links also work, but only in the merged prod build.
 
 ## Writing style
 - Use British spelling throughout (behaviour, organisation, colour, etc.)
@@ -53,5 +50,5 @@ When creating cross-references between documentation files:
 When organizing concepts in the pattern library:
 - *Test boundaries* - Apply frameworks to edge cases to understand scope (e.g., "Does this apply to human-human collaboration or just human-AI?")
 - *Check definitional consistency* - If a foundation is defined as "distribution of X", creating an "X distribution" section may indicate redundancy
-- *Question placement* — Each level has a role: Operations are automatic and infrastructural (the substrate); Actions are conscious and goal-directed (what users deliberately do); Activities are motive-driven and strategic (how work unfolds over time). Foundations define universal principles, Qualities describe cross-cutting attributes, Concepts describe what the system knows about. Atomic Design categories (primitive, component, composition, pattern) persist as metadata tags, not as the primary organising dimension.
+- *Question placement* — Each level has a role.
 - *Use Socratic questioning* - Ask "What happens if...?" to test framework boundaries

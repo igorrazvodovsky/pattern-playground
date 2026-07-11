@@ -1,0 +1,77 @@
+import { Canvas, Story, Meta } from '@storybook/addon-docs/blocks';
+import * as FormStories from './Form.stories.tsx';
+import * as RadioButtonStories from './RadioButton.stories.tsx';
+
+<Meta
+  of={FormStories}
+  tags={['activity-level:action', 'atomic:composition', 'role:component', 'mediation:individual']} />
+
+{/* > 🥱 **Fun meter: boring** but important groundwork. */}
+
+# Form
+
+The mechanism that hosts a set of fields, governs how they are laid out, grouped, and submitted, and wires their validation. For the design moves a form coordinates — data entry, bounded choice, multi-step sequencing — see <PatternRef slug="form">pattern</PatternRef>.
+
+<Story of={FormStories.Default} />
+
+## Labels
+
+- Every control has a visible, persistent label
+- Mark the rarer case. If most fields are required, mark the optional ones; if most are optional, mark the required ones — don't decorate every field.
+
+## Grouping with fieldset
+
+When several controls answer one logical question — a radio group, an address block, a day/month/year date — bind them in a `<fieldset>` with a `<legend>`. 
+
+<Story of={RadioButtonStories.Group} />
+
+A composite field is the other case — one value split across several inputs that must be read together (a date, an address, a name). The legend names the whole; each [input](../?path=/docs/primitives-input--docs) keeps a short label:
+
+<Story of={FormStories.FieldsetComposite} />
+
+## Validation and feedback
+
+TODO: <PatternRef slug="validation">validation</PatternRef>; what remains here is the wiring.
+
+- Timing. Validate on submit by default; reserve inline (on-blur) validation for fields where early correction clearly helps. Never validate while the actor is still typing.
+- Error summary. For longer forms, list errors at the top, each linking to its field, in addition to the inline message.
+- Styling invalid controls. Use `aria-invalid` and a non-colour-only indicator; pair the field with its message via `aria-describedby`.
+
+## Choosing an input
+
+Control choice follows the shape of the data. When the valid values form a bounded set, use <PatternRef slug="bounded-choice">Bounded choice</PatternRef>'s set-size spectrum (radio → select → combobox → dual listbox). When the value is fully open — the user supplies it rather than picks it — reach for a free-text [Input](../?path=/docs/primitives-input--docs) or [Textarea](../?path=/docs/primitives-textarea--docs). When both are true — there's a set, but a value outside it is also acceptable — a combobox covers that middle ground, letting the user narrow existing options or type a new one.
+The useful question is therefore "does the value come from a set, and is that set the only thing allowed?" rather than "free text or selection?".
+
+## Related patterns
+
+### Containers and primitives
+
+- [Input](../?path=/docs/primitives-input--docs) — free-form text entry with label and helper text
+- [Textarea](../?path=/docs/primitives-textarea--docs) — multi-line counterpart for longer text
+- [Select](../?path=/docs/primitives-select--docs) — choosing one value from a short, bounded set
+- [Checkbox](../?path=/docs/primitives-checkbox--docs) — binary choice input
+- [Button](../?path=/docs/components-button--docs) — form submission and action triggers
+- [Details](../?path=/docs/primitives-details--docs) — collapsible form sections
+
+### Used by
+
+- <PatternRef slug="form">Form</PatternRef> — the territory this mechanism serves
+- <PatternRef slug="bounded-choice">Bounded choice</PatternRef> — the move behind every constrained field
+- <PatternRef slug="data-entry">Data entry</PatternRef> — the per-field move, forgiving or structured
+
+### Complementary
+
+- [Callout](../?path=/docs/operations-callout--docs) — inline validation and instructional feedback within forms
+- <PatternRef slug="good-defaults">Good defaults</PatternRef> — reduce friction by pre-selecting likely options
+- <PatternRef slug="status-feedback">Status feedback</PatternRef> — validation and system status communication
+- <PatternRef slug="saving">Saving</PatternRef> — autosave and manual save strategies
+
+## Resources & references
+- [Web Form Design](https://www.lukew.com/resources/web_form_design.asp) by Luke Wroblewski 
+- [Adam Silver / Form design: from zero to hero](https://adamsilver.io/blog/form-design-from-zero-to-hero-all-in-one-blog-post/)
+- [GOV.UK / Fieldset](https://design-system.service.gov.uk/components/fieldset/)
+- [Carbon](https://carbondesignsystem.com/components/form/usage/)
+- [USWDS / Form](https://designsystem.digital.gov/components/form/)
+- [Patternfly](https://www.patternfly.org/components/forms/form/)
+- [Bootstrap](https://getbootstrap.com/docs/5.3/forms/overview/)
+- [Atlassian](https://atlassian.design/components/form/)

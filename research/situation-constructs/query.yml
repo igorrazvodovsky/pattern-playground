@@ -1,0 +1,39 @@
+story: plans/active/2026-07-relationship-vocabulary.md
+topic: situation constructs on pattern-graph edges — conditions, resulting context, and register
+interaction: |
+  An author writes a pattern page whose relationships sometimes hold only in a situation
+  ("hub and spoke takes over when items exceed screen capacity"). The strawman: edges gain an
+  optional typed *condition*; patterns gain *resulting-context* (maybe *initiating-situation*)
+  properties; `situationalHints` on decision-tree `recommends` edges becomes the general
+  condition mechanism; prose decision trees become authorable sources of conditioned edges.
+context: |
+  A pattern library whose graph edges are explicitly suggestion-grade ("what has been useful
+  in similar situations", never predicates to match) and read in Alexander's generative-moves
+  register (applying move A produces a centre move B acts on). Conditions currently hide in
+  free-text notes and unauthorable decision-tree hints. Specimens the construct must survive:
+  a deletion→undo judgement smeared across three edge types; an assistance escalation ladder
+  whose edges read "B takes over when…"; two condition-bearing notes deliberately held; two
+  same-typed recommends edges distinguished only by hints.
+questions:
+  - Do suggestion-grade conditions on edges inevitably drift rule-grade once they are typed
+    and structured? The doc's epistemic stance (hints, not predicates) is the constraint to
+    defend — what does prior art say about keeping formalised conditions advisory?
+  - What does condition-bearing-edge prior art teach — DMN decision modelling, situation
+    calculus, statechart guard conditions, Alexander's unfolding sequences — about where
+    conditions live and what happens to systems that attach them to links?
+  - Does resulting-context belong on the node or on the edge? The same fact is authorable in
+    both places (pattern form's Resulting Context section vs a conditional edge's annotation);
+    pick one authorable home before two authors pick differently.
+  - Should the condition dimension vocabulary be controlled (the action-consequences tree's
+    time-to-recover / scope / cascade dimensions as a type system), given the doc's own warning
+    against premature tag normalisation?
+  - Which register is primary — the designer's traversal (generative moves) or the actor's
+    runtime sequence — and what happens on the edges where they diverge (escalation "B takes
+    over when…" claims)?
+keywords:
+  - pattern language formalization context resulting context
+  - adaptive hypermedia condition rules link adaptation
+  - typed links conditions hypertext
+  - design rationale IBIS QOC criteria context
+  - decision model notation business rules maintenance
+  - statechart guard conditions modelling

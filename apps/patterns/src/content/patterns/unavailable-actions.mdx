@@ -1,0 +1,29 @@
+---
+title: Unavailable actions
+role: pattern
+activityLevel: operation
+atomic: pattern
+mediation: individual
+fun: 🙄 boring but important groundwork.
+relationships:
+  alternative:
+    - to: state-disabled
+      note: hiding options is an alternative to showing them disabled
+  related:
+    - to: progressive-disclosure
+      note: "a softer form: deferring rather than removing"
+---
+
+Hide actions that are currently inaccessible or irrelevant to the actor.
+
+## Related components
+
+Context menus & <ComponentRef id="components-toolbar--docs">toolbars</ComponentRef>: only displaying actions relevant to the current selection or state rather than disabling irrelevant items.
+
+## Edge cases
+
+Situation when actors need to understand the full range of potential actions to establish a clear mental model.
+
+## Accessibility concerns
+
+Removing UI elements entirely (e.g., changing layout structure) might negatively impact assistive technology.

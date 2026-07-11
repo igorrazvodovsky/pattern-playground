@@ -1,0 +1,88 @@
+---
+title: Collaboration
+role: foundation
+fun: 🤯 4/5. Even before AI, collaboration features had become ubiquitous enough to warrant foundation-layer status. Agents just make the case stronger.
+relationships:
+  enacts:
+    - to: agency
+      note: the distribution of control and initiative between collaborative actors
+    - to: adaptation
+      note: collaboration only works when each actor adjusts to the other's contributions in flight
+    - to: conversation-quality
+      note: joint work is negotiated turn by turn; collaboration is dialogue put to a shared task
+    - to: shareability
+      note: each actor can see what the others are doing; shared work is visible work
+    - to: formality
+      note: shared artefacts raise formality demands beyond what any single actor needs; the fidelity vs exploration tension is a formality tension
+    - to: privacy
+      note: collaboration balances individual privacy needs against group transparency requirements
+  related:
+    - bot
+---
+The distribution of work and decision-making across multiple actors who jointly pursue shared goals through mutual influence and negotiated coordination.
+
+Collaboration requires distributed [agency](/patterns/agency) and reciprocal [adaptability](/patterns/adaptation).
+Actors continuously align their understanding of goals and coordinate their means.
+
+Effective collaboration depends on [conversation](/patterns/conversation-quality) to build shared understanding and enable actors to surface goals, verify comprehension, and tune complexity through agreed protocols.
+
+Quality collaboration often follows a hybrid rhythm: individuals ideate privately, then groups filter and synthesise, iterating between these modes multiple times.
+This alternation preserves the benefits of solo thinking while leveraging collective intelligence for refinement.
+
+## Core tensions
+
+Effective collaboration must balance competing forces:
+
+- Visibility vs noise: participants need awareness of others' activities without being overwhelmed, including clarity about audience—who can see shared content
+- Flexibility vs consistency: individuals need autonomy to experiment while maintaining coherent group outcomes
+- Individual agency vs group alignment: actors want ownership of their contributions while converging on shared results
+- Fidelity vs exploration: low-fidelity spaces invite collaborative ideation; high-fidelity tools enforce structure that inhibits exploratory markup
+- Permanence vs ephemerality: balancing durable intellectual corpus building with temporary workgroup spaces
+- Synchronicity: choosing between real-time simultaneous work and asynchronous threaded collaboration
+
+Managing these tensions requires deliberate design of conversational protocols and [agency](/patterns/agency) distribution.
+
+## Collaboration modes
+
+Collaborative work manifests across four distinct archetypes, each serving different needs:
+
+- Private sanctuary — individual ideation space where actors develop ideas without group influence, supports diversity of thought
+- Lightweight broadcasting — selective sharing of sketches or early ideas with chosen colleagues for feedback without full group coordination
+- Ad hoc workgroups — temporary cross-functional teams assembled for specific problems, often spanning organisational boundaries
+- Durable teams — persistent collaborative spaces where groups build shared intellectual corpus over time
+
+Effective collaboration systems support fluid movement between these modes rather than forcing a single interaction pattern.
+
+## Collective intelligence
+
+The emergent ability of groups, whether composed of humans, or networks of humans and [bots](/patterns/bot), to solve problems, make decisions, or generate knowledge more effectively than individual actors alone.
+Conditions for this emergence include:
+
+- Diversity: Broad participation increases the information base and reduces blind spots. Design should invite perspectives from different roles, backgrounds, and expertise levels rather than defaulting to homogeneous input.
+- Independence: Contributions made without correlated influence avoid groupthink and preserve signal diversity. When actors see others' contributions before forming their own views, anchoring effects reduce collective accuracy.
+- Aggregation: Principled mechanisms synthesise many inputs into collective outputs. Without aggregation, diverse independent contributions remain fragmented. {/* Voting, rating, weighted synthesis, and editorial curation are all aggregation mechanisms with different properties. */}
+- Holopticism: Shared visibility of contributions and evolving state enables participants to see how their input relates to the whole.
+
+> *Independence* and *holopticism* create tension: full visibility can undermine independence through social influence, yet without visibility actors can't calibrate their contributions to group needs. Effective CI design sequences these—independence during contribution, holopticism during synthesis.
+
+{/* Design choices that support one CI condition may undermine another. Showing others' annotations (holopticism) can anchor subsequent annotators (reducing independence). The hybrid rhythm—solo ideation → group synthesis—manages this by sequencing conditions appropriately. */}
+
+### Parallel vs serial aggregation
+
+Serial aggregation introduces noise: early contributions disproportionately influence later ones. Where possible, collect contributions in parallel before revealing aggregate state.
+
+### CI across interaction stages
+
+CI conditions map to [collaboration stages](/patterns/collaboration#interaction-stages):
+
+- *Perceive/Think*: independence matters most—blind contribution phases prevent anchoring
+- *Express*: diversity surfaces through varied articulation modes and formats
+- *Collaborate*: holopticism enables calibration; turn-taking supports equal contribution
+- *Test*: aggregation synthesises evaluation into collective judgment
+
+## Resources & references
+
+- [Collective intelligence](https://en.wikipedia.org/wiki/Collective_intelligence)
+- Dubberly, Pangaro (2015) [Distinguishing between control and collaboration; and between communication and conversation](https://www.dubberly.com/articles/distinguishing-between-control-and-collaboration-and-communication-and-conversation.html)
+- [Metamuse / Multiplayer](https://museapp.com/podcast/68-multiplayer/) — discussion of collaboration modes, hybrid ideation models, and design tensions in multiplayer tools
+- Brenda Laurel (2013) *Computers as Theatre*, 2nd ed.

@@ -1,0 +1,143 @@
+---
+title: Charting data
+role: collection
+fun: "🗺️ 2/5"
+relationships:
+  related:
+    - to: dashboard
+      note: "the monitoring variant is largely composed of charts; the needs-based framing decides which comparisons each chart must support"
+    - to: data-view
+      note: "a chart is one of the representations a collection framing can take — the analytic sibling of table and cards"
+---
+
+Charts provide efficient ways to communicate complex information. A chart earns its place when the reader's question is comparative — bigger than what, changing how, clustered where. Choosing a chart is choosing which comparisons become effortless and which become impossible.
+
+No single rule picks the chart. Four things matter: what the reader needs to do, what the data looks like, how much of it there is, and how it is drawn. They are independent — start from whichever is clearest.
+
+## What the reader needs to do
+
+Two ways to name the goal. The first breaks it down into what the reader is looking for and what they will do with it; the second just names what the chart is about. Use whichever comes to mind first.
+
+### Looking for what, to do what
+
+<pp-table>
+  <table>
+    <thead><tr><th>Target</th><th>Aim</th><th>Query</th></tr></thead>
+    <tbody>
+      <tr><td>Trends — overall shape or direction</td><td>Explain — communicate a finding</td><td>Compare — magnitudes, ranks, change</td></tr>
+      <tr><td>Features — specific patterns or peaks</td><td>Discover — explore for unknowns</td><td>Identify — locate a specific value or outlier</td></tr>
+      <tr><td>Outliers — anomalies and exceptions</td><td>Discover and explain — both</td><td>Summarise — aggregate, describe distribution</td></tr>
+    </tbody>
+  </table>
+</pp-table>
+
+### What the chart is about
+
+<pp-table>
+  <table>
+    <thead><tr><th>Subject</th><th>What it shows</th></tr></thead>
+    <tbody>
+      <tr><td>Time</td><td>Change across a sequence; temporal order on the x-axis</td></tr>
+      <tr><td>Distribution</td><td>How values spread; shape, spread, skew, outliers</td></tr>
+      <tr><td>Association</td><td>Relationship between two or more continuous variables</td></tr>
+      <tr><td>Comparison</td><td>Relative magnitude across discrete categories</td></tr>
+      <tr><td>Flow</td><td>Volume moving between states or nodes</td></tr>
+      <tr><td>Hierarchy</td><td>Containment and parent–child structure</td></tr>
+      <tr><td>Network</td><td>Connections with no implicit hierarchy</td></tr>
+      <tr><td>Spatial</td><td>Values tied to geographic or positional coordinates</td></tr>
+    </tbody>
+  </table>
+</pp-table>
+
+## What the data looks like
+
+Structure rules out whole chart families before anything else gets a say.
+
+### Dataset type
+
+<pp-table>
+  <table>
+    <thead><tr><th>Type</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>Tables</td><td>Rows and columns; the most common case</td></tr>
+      <tr><td>Tree</td><td>Parent–child hierarchy with a single root</td></tr>
+      <tr><td>Network</td><td>Nodes and edges; no single root</td></tr>
+      <tr><td>Spatial data</td><td>Geographic or positional coordinates</td></tr>
+    </tbody>
+  </table>
+</pp-table>
+
+### Value types
+
+The mix of categorical, ordinal, and quantitative variables decides how many chart types remain.
+
+- *Cat* — pure categories, no inherent order
+- *Quant* — continuous numeric values
+- *Cat, Quant* — the most common combination; unlocks bar, scatter, line families
+- *Cat, Ord, Quant* — adds ranked categories; enables parallel coordinates and heatmaps
+- *Quant, Quant* — two numeric dimensions; scatter and bubble territory
+
+## How much data
+
+Scale knocks out candidates on its own, whatever the data type or goal.
+
+<pp-table>
+  <table>
+    <thead><tr><th>Dimension</th><th>Values</th></tr></thead>
+    <tbody>
+      <tr><td>Variables</td><td>1 / 2 / 3 / 4 or more</td></tr>
+      <tr><td>Categories</td><td>under 10 / 10–99 / 100–999 / 1,000+</td></tr>
+      <tr><td>Data values</td><td>under 20 / dozens / hundreds / thousands / effectively infinite</td></tr>
+    </tbody>
+  </table>
+</pp-table>
+
+A bar chart works under 10 categories; beyond that it degrades. A choropleth needs a fixed region set. A scatter plot tolerates thousands of points; a pie chart does not tolerate more than five.
+
+## Marks and channels
+
+What a chart is made of. Some families are defined by their mark; within a family, which channel carries which variable is the real design decision. Position is the strongest channel — if a value matters, put it on an axis.
+
+### Marks
+
+<pp-table>
+  <table>
+    <thead><tr><th>Mark</th><th>Typical chart families</th></tr></thead>
+    <tbody>
+      <tr><td>Points</td><td>Scatter, bubble, dot plot, strip plot</td></tr>
+      <tr><td>Lines</td><td>Line chart, area, parallel coordinates, step chart</td></tr>
+      <tr><td>Areas</td><td>Area chart, treemap, choropleth, streamgraph</td></tr>
+      <tr><td>Connection</td><td>Network, chord, arc, Sankey</td></tr>
+      <tr><td>Containment</td><td>Treemap, circle packing, Euler/Venn</td></tr>
+    </tbody>
+  </table>
+</pp-table>
+
+### Channels
+
+<pp-table>
+  <table>
+    <thead><tr><th>Channel</th><th>What it encodes well</th></tr></thead>
+    <tbody>
+      <tr><td>Position</td><td>Quantitative values; highest accuracy for readers</td></tr>
+      <tr><td>Colour</td><td>Category membership or magnitude (use sparingly for magnitude)</td></tr>
+      <tr><td>Size</td><td>Quantitative values; works for magnitude, not fine differences</td></tr>
+      <tr><td>Shape</td><td>Category membership; limited to ~5–6 distinguishable shapes</td></tr>
+    </tbody>
+  </table>
+</pp-table>
+
+## In the catalogue
+
+- <ComponentRef id="data-visualisation-bar-chart--docs">Bar chart</ComponentRef> — the one built chart mechanism; it owns the comparison branch
+- <ComponentRef id="data-visualisation-elements--docs">Elements</ComponentRef> — the rendering conventions every chart family shares: categorical colour, time and number formatting, symbology
+- TODO: the rest...
+
+## Resources & references
+
+- Tamara Munzner, [Visualization Analysis and Design](https://www.cs.ubc.ca/~tmm/vadbook/) — the source of the target/aim/query breakdown and the marks-and-channels vocabulary
+- [IBM Carbon](https://carbondesignsystem.com/data-visualization/getting-started/)
+- [WHO Data Design Language](https://data.who.int/products/data-design-language)
+- [Apple HIG](https://developer.apple.com/design/human-interface-guidelines/charting-data)
+- [Salesforce Lightning](https://www.lightningdesignsystem.com/guidelines/data-visualization/charts/)
+- [Tree of charts](https://www.datamake.io/project/tree-of-charts) by Lars Verspohl

@@ -1,0 +1,98 @@
+---
+title: Item view
+role: pattern
+group: seeking
+activityLevel: action
+atomic: composition
+mediation: individual
+lifecycle: seeking
+fun: 🙂 4/5. Flexibility in displaying an entity enables a lot of emergent behaviour and contextual adaptation.
+relationships:
+  related:
+    - to: data-view
+      note: Collection-scope counterpart
+    - progressive-disclosure
+  complements:
+    - to: semantic-zoom
+      note: drives this ladder for all items at once from a single scale control
+---
+
+import { ItemViewFullDemo, ItemViewRowDemo } from '@pkg/demos/item-view';
+import { ReferenceDemo } from '@pkg/demos/reference';
+
+The representation of a single entity at the right level of detail for the actor's current task, balancing recognition with depth. Within the view system, items can appear in progressively richer forms — from a minimal reference to a full working surface — enabling fluid navigation between granularities without losing orientation.
+
+## User needs
+
+- People need to *recognise* an entity wherever it appears, but they don’t always need all of its details.
+- They want to stay in the *flow of their current task*, but sometimes they must shift into deep focus.
+- Entities must sometimes act as *links to other places*, and sometimes as *self-sufficient centres of work*.
+
+## Semantic level
+Item representation is the combination of semantic level and UI element. The two co-vary: choosing a level of detail is also choosing how much surrounding context remains — a reference sits inside running text, a row keeps the collection in view, a full view gives the item the whole frame.
+
+### Reference
+- Purpose: identify and link to items
+- Data: name, type
+- Interaction: navigation
+
+An inline @mention that opens to richer detail on demand, rendered as a <ComponentRef id="primitives-reference--docs">reference</ComponentRef>:
+
+<Demo label="Reference as @mention">
+  <ReferenceDemo client:only="react" />
+</Demo>
+
+### Summary
+- Purpose: quick assessment and comparison without leaving current task
+- Data: key attributes, status, recent activity
+- Interaction: navigation, actions for common operations
+
+As a row in a <ComponentRef id="components-table--docs">table</ComponentRef>, the item's peers staying in view; a card is the standalone form:
+
+<Demo label="Summary as table row">
+  <ItemViewRowDemo client:only="react" />
+</Demo>
+
+### Detail
+- Purpose: inspection of most important information while maintaining context
+- Data: relevant details for current task
+- Interaction: editing, navigate to full page
+
+### Full
+- Purpose: Complete focus on single item
+- Data: All data, history, relationships
+- Interaction: editing, analysis, management
+
+<Demo label="Full view">
+  <ItemViewFullDemo client:only="react" />
+</Demo>
+
+## UI element
+- Inline: within text or structured UI.
+- Contextual overlay: popover, hovercard.
+- Transient container: modal, drawer, side panel.
+- Dedicated view: section, panel, page, workspace, tab.
+{/* TODO: Children of inline? */}
+{/* - List: Sequential items in feeds or search results */}
+{/* - Grid: Card-based layouts for visual browsing */}
+{/* - Table: Data-dense views with sortable columns */}
+{/* - Canvas: Spatial arrangements with relationships */}
+{/* - Text: Inline references within documents */}
+
+## Transitions
+
+Item views support fluid navigation through semantic levels:
+
+**Reference → summary:** Hover over inline reference reveals summary in popover
+**Summary → detail:** Click table row to expand detail panel or open modal
+**Detail → full:** Navigate from modal to dedicated page view
+**Full → collection:** Return to parent collection view ([data view](/patterns/data-view))
+
+These transitions preserve context and maintain recognition of the entity across representations.
+
+## Related components
+
+- <ComponentRef id="components-item-view--docs">Item view</ComponentRef> — the adapter-based mechanism rendering an entity at each scope
+- <ComponentRef id="primitives-reference--docs">Reference</ComponentRef>
+- <ComponentRef id="components-dialog--docs">Dialog</ComponentRef> & <ComponentRef id="components-drawer--docs">drawer</ComponentRef>
+- <ComponentRef id="actions-sense-making-card--docs">Card</ComponentRef> – summary-level item representations

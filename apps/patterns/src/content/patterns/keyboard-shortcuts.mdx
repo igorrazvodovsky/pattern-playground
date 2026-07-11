@@ -1,0 +1,86 @@
+---
+title: Keyboard shortcuts
+role: pattern
+activityLevel: operation
+atomic: pattern
+mediation: individual
+fun: 🤔 3/5. The adoption gap is the interesting part — knowing shortcuts exist and actually using them are separate events, and the strongest predictor of crossing that gap is working next to someone who already has.
+relationships:
+  complements:
+    - to: command-menu
+      note: "the command menu surfaces shortcuts alongside each command name, making the invisible visible; together they span the full spectrum from exploration to direct execution"
+  enacts:
+    - to: agency
+      note: "an actor who has internalised the shortcut vocabulary can execute intent without navigating the interface at all"
+    - to: learnability
+      note: "the arc from menu reliance to muscle memory is a concrete learnability trajectory; tooltip hints and the ? dialog scaffold each stage"
+---
+
+An actor who already knows what they want to do — and has done it enough times to commit it to motor memory — can invoke it directly without traversing menus or reaching for the mouse.
+
+## Forces
+
+- *Speed vs. discoverability* — a shortcut that is hard to find will never be used, no matter how fast it is once learned
+- *Convention vs. specificity* — familiar shortcuts build on muscle memory (⌘S, ⌘Z); application-specific combinations risk conflict and a steeper learning curve
+- *Economy vs. coverage* — not every command deserves a shortcut; too many options dilutes the set and prevents internalisation
+- *Directness vs. accessibility* — single-character shortcuts are the fastest to press but the most hazardous for speech-input users
+
+## Shortcut vocabulary
+
+A coherent shortcut system needs a consistent rationale. Two approaches, often mixed:
+
+*Mnemonics* link the key to the command name: B for Bold, O for Open. They support initial learning but break under localisation — "Bold" is not the same word in every language, and the letter associations stop working across keyboard layouts.
+
+*Proximity* groups related keys by physical position regardless of letter meaning: C for Copy and V for Paste sit adjacent on QWERTY. Faster once internalised, but harder to learn from scratch.
+
+*Platform conventions* take precedence over both. ⌘C, ⌘X, ⌘V, ⌘Z are muscle memory for most users; violating them is always a mistake. Application-specific shortcuts should avoid OS-level and browser-level reservations, then complement rather than duplicate them.
+
+## Making shortcuts discoverable
+
+The fundamental tension in shortcut design is that the people who most need to learn shortcuts are the least likely to go looking for them. Research suggests that in-context exposure — encountering a hint at the moment of doing the slower thing — is considerably more effective than reference documentation.
+
+*Tooltip hints* appear when an actor is already hovering over a toolbar button or menu item, showing the shortcut (e.g. `⌘K`) alongside the label. Discovery happens within the flow of work rather than requiring a detour to a help page.
+
+*Menu annotations* follow the macOS convention of listing shortcut glyphs at the right edge of each menu item. Even actors who never use the shortcuts absorb the vocabulary passively over time.
+
+*The ? dialog* — pressing `?` to surface a searchable list of all available shortcuts — has become a de facto standard across productivity applications (Gmail, Trello, Figma, Linear, Dropbox, Notion). It gives the curious actor a complete reference without adding anything to the primary UI. The `?` key is itself a single-character shortcut, which creates a mild bootstrapping problem; it is usually resolved by also exposing the dialog through the Help menu or command palette.
+
+*Command palette integration* — surfacing shortcut annotations alongside each command in a [command menu](/patterns/command-menu) — is particularly effective because actors in the palette are already in deliberate command-selection mode; seeing the shortcut is useful rather than distracting.
+
+## The novice-to-expert arc
+
+Research on shortcut adoption reveals a consistent pattern: knowing a shortcut exists and actually using it are separate events, often separated by a long lag. Users satisfice — once they find a method that works well enough (toolbar click, menu navigation), they stop optimising, even when the efficiency gain from switching would be significant.
+
+Two findings have design implications:
+
+Social transmission is the strongest predictor of adoption. Actors who work alongside shortcut users adopt shortcuts; those who do not, rarely do regardless of experience. Pair working, screen recordings that show real shortcut usage, and "tip of the day" nudges that surface what colleagues do can be more effective than a well-designed cheat sheet.
+
+Strategic knowledge matters as much as shortcut knowledge. Expert users are not simply actors who know more combinations — they know *when* it is worth using the shortcut rather than the slower alternative. In-context hints provide this framing more effectively than static references, because they appear at the moment the slower alternative is being used.
+
+## Platform and internationalisation
+
+Keyboard layout is a property of the physical device. A shortcut that feels natural on QWERTY may be awkward or inaccessible on AZERTY, Dvorak, or any of the thousands of other layouts in wide use — and character-based shortcuts rely on key labels, not physical positions, so the same combination resolves differently from one layout to the next. Modifier-key combinations travel better than bare character keys.
+
+Let actors remap shortcuts, with a way back to the defaults. A remapping belongs with the device and its keyboard, not with the actor's account — the same person on a different machine faces a different keyboard.
+
+## Accessibility
+
+Single-character shortcuts are a hazard for speech-input users: any spoken word can accidentally trigger a command. [WCAG 2.2 Success Criterion 2.1.4](https://www.w3.org/WAI/WCAG22/Understanding/character-key-shortcuts.html) requires that single-character keyboard shortcuts be either (a) disableable, (b) remappable to require a modifier key, or (c) active only when a specific component has focus.
+
+This does not prohibit single-character shortcuts — it requires giving users control over whether they apply. The `?` dialog entry point is typically exempt if it closes when it loses focus (focus-scoped activation).
+
+## Related components
+
+- <ComponentRef id="primitives-keyboard-key--docs">Keyboard key</ComponentRef> — renders individual keys and combinations
+- <ComponentRef id="components-toolbar--docs">Toolbar</ComponentRef> — exposes the same commands by a different means
+
+## Resources & references
+
+- Bhavnani, S. K., & John, B. E. (2000). [The strategic use of complex computer systems](https://doi.org/10.1207/S15327051HCI1523_3). *Human–Computer Interaction*, 15(2–3), 107–137
+- Bhavnani, S. K., et al. (2001). [Identifying and teaching strategic knowledge for using complex computer applications](https://skbhavnani.com/DIVA/papers/Bhavnani_et_al-CHI-2001.pdf). CHI 2001
+- Peres, S. C., et al. (2004). [Keyboard shortcut usage: The roles of social factors and computer experience](https://journals.sagepub.com/doi/abs/10.1177/154193120404800513). HFES 2004
+- Grossman, T., & Fitzmaurice, G. (2010). ToolClips: An investigation of contextual video assistance for functionality understanding. CHI 2010
+- Figma. (2021). [Behind the scenes: international keyboard shortcuts](https://www.figma.com/blog/behind-the-scenes-international-keyboard-shortcuts/)
+- NN/g. [UI accelerators: Maximize efficiency for expert users](https://www.nngroup.com/articles/ui-accelerators/)
+- W3C. [Understanding SC 2.1.4: Character key shortcuts](https://www.w3.org/WAI/WCAG22/Understanding/character-key-shortcuts.html) — WCAG 2.2 (criterion unchanged from 2.1)
+- Golsteyn, Q. [Keyboard shortcuts on the web](https://golsteyn.com/writing/designing-keyboard-shortcuts/)

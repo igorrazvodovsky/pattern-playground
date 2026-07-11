@@ -1,0 +1,71 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import * as PopoverStories from './Popover.stories.tsx';
+
+<Meta of={PopoverStories} tags={['activity-level:operation', 'atomic:primitive', 'role:component', 'mediation:individual']} />
+
+{/* > 🧪 **Fun meter: trying new stuff**. The Popover API and CSS anchor positioning. */}
+
+# Popover
+
+Present contextual content in a transient layer anchored to a trigger.
+
+<Story of={ PopoverStories.Popover } />
+
+## Variants
+
+A popover's trigger model and dismiss behaviour follow from one variable: *is the content interactive?*
+Interactive content forces click trigger, focus management, and explicit dismiss. Non-interactive content permits the lighter hover/focus model.
+
+### Popover
+
+- *Light-dismiss.* Clicking outside the popover closes it and returns focus to the trigger.
+- *Focus management.* Opening the popover moves focus to the first interactive element inside it.
+- *Keyboard.* Escape closes the popover and returns focus.
+- *Anchor binding.* The popover is semantically connected to its trigger via `popoverTarget`.
+
+### Tooltip
+
+When the content is non-interactive, the popover operates as a tooltip — supplementary text revealed on hover or focus.
+
+<Story of={ PopoverStories.Tooltip } />
+
+- *Hover intent.* A short delay filters accidental hover — the layer appears only when the cursor lingers.
+- *Focus trigger.* Keyboard actors reach the same information via focus, without requiring hover.
+- *Non-interactive.* Tooltips contain only text. If the content needs to be acted on, use a click-triggered popover.
+
+Avoid putting essential information only in a tooltip. Tooltips are hidden by default; actors who miss them must not lose access to critical functionality.
+
+## Accessibility
+
+Tooltip content must be reachable without a pointing device. Every tooltipped element needs a focus trigger so keyboard actors can access the same information.
+
+Bind non-interactive popovers to their trigger using `aria-describedby` — this lets screen readers announce the content when the trigger is focused, without replacing the element's own label.
+
+Interactive popovers use focus management instead: focus moves into the popover on open and returns to the trigger on close.
+
+## Design considerations
+
+Use popover when the contextual content is brief and self-contained. When the content requires a decision before the actor can continue, prefer [dialog](../?path=/docs/components-dialog--docs). When the actor needs to work alongside the secondary content, prefer [drawer](../?path=/docs/components-drawer--docs). See the [modality decision tree](/patterns/modality#overlay-vs-page) for guidance.
+
+## Related patterns
+
+### Precursors
+- [Modality](/patterns/modality) — the framework for overlay and mode behaviour
+
+### Complementary
+- [Dialog](../?path=/docs/components-dialog--docs) — for content that demands resolution before return
+- [Drawer](../?path=/docs/components-drawer--docs) — for content that needs the primary surface visible alongside
+- [Dropdown](../?path=/docs/components-dropdown--docs) — option list triggered from a button, shares the overlay mechanism
+- [Context menu](../?path=/docs/components-context-menu--docs) — shares positioning and light-dismiss behaviour
+- <PatternRef slug="progressive-disclosure">Progressive disclosure</PatternRef> — the tooltip mode is the lightest tier of disclosure; deeper tiers need explicit triggers
+
+### Tangentially related
+- [Learnability](/patterns/learnability) — tooltips help actors build familiarity with controls without cluttering the primary interface
+
+## Resources & references
+
+- [MDN / Popover API](https://developer.mozilla.org/en-US/docs/Web/API/Popover_API)
+- [MDN / CSS anchor positioning](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_anchor_positioning)
+- [Floating UI](https://floating-ui.com/)
+- [W3C ARIA / tooltip role](https://www.w3.org/TR/wai-aria-1.2/#tooltip)
+- [WCAG 2.1 / 1.4.13 Content on Hover or Focus](https://www.w3.org/WAI/WCAG21/Understanding/content-on-hover-or-focus.html)

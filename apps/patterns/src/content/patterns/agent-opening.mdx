@@ -1,0 +1,42 @@
+---
+title: Opening (Bot)
+role: pattern
+group: conversation/sequence-management
+activityLevel: operation
+atomic: primitive
+mediation: coordination
+fun: 😊 3/5. Looking for useful building blocks for conversational UI.
+relationships:
+  enables:
+    - conversation
+  composed-of:
+    - to: capability-and-scope
+      note: capability giving is often embedded within the opening
+  precedes:
+    - to: open-request
+      note: typical first activity after a bot-initiated opening
+    - to: abort
+      note: if the user disengages before reaching the first activity
+  alternative:
+    - to: extended-telling
+      note: offered on user refusal as an alternative to immediate engagement
+  follows:
+    - to: disengage-without-closing
+      note: if the bot re-opens after a prior session was abandoned
+---
+The bot opens the encounter, establishes footing, and proposes the first topic.
+
+1. A → U: Greeting + brief capability/role statement.
+2. A: Offer or propose a *topic* and optionally preview next/alt. topics.
+3. U: Accept topic or propose a different one.
+4. A: Transition into the chosen activity (e.g., *open request*, *information capture*).
+
+- Include optional *welfare check/name request* and *capability giving* where appropriate.
+- Ensure accessibility: text + voice greetings, clear affordances.
+
+## Support & transitions
+- If user response is ambiguous, use *bot repair*.
+- On user refusal, allow *abort* or offer help in a shape of *extended telling*.
+
+## Metrics
+First-topic acceptance rate; time-to-first-action; bounce rate after opening.

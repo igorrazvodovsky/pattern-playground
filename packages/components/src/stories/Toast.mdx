@@ -1,0 +1,37 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import * as ToastStories from './Toast.stories.tsx';
+
+<Meta of={ToastStories} tags={['activity-level:operation', 'atomic:primitive', 'role:component', 'mediation:individual']} />
+
+# Toast
+
+A brief, non-disruptive message that appears in a fixed corner of the viewport and auto-dismisses after a short interval. The interaction move it delivers lives in the pattern language as <PatternRef slug="transient-feedback">transient feedback</PatternRef>.
+
+<Story of={ ToastStories.Default } />
+
+## Behaviours
+
+- *Auto-dismiss.* Toasts disappear after a short interval without requiring action from the actor.
+- *Close button.* An explicit close control lets actors dismiss early — important for actors with varying reading speeds.
+- *Optional action.* A single inline action (typically Undo) can be offered before the toast dismisses. Keep it to one action; anything more complex belongs in a [callout](../?path=/docs/operations-callout--docs).
+- *Non-blocking.* Toasts appear in a fixed corner of the viewport and never interrupt the primary workflow.
+
+## Timing
+
+Short confirmations — file saved, item deleted — typically dismiss after 4–5 seconds. Toasts with an action need longer: the actor must notice the message, decide to act, and click. 8–10 seconds is a reasonable minimum when Undo is offered.
+
+## Stacking
+
+When multiple toasts appear in quick succession, they stack rather than replace each other. New toasts push existing ones upward, preserving spatial continuity.
+
+<Story of={ ToastStories.Multiple } />
+
+## Accessibility
+
+Toasts must be announced to assistive technology without stealing focus. Use `role="alert"` or `aria-live="assertive"` for urgent messages, and `role="status"` or `aria-live="polite"` for low-priority confirmations. The `<output>` element is semantically appropriate as a container.
+
+## Resources & references
+
+- [W3C ARIA / alert role](https://www.w3.org/WAI/ARIA/apg/patterns/alert/)
+- [Open UI](https://open-ui.org/components/toast.research/)
+- [Material Design](https://m3.material.io/components/snackbar/overview)

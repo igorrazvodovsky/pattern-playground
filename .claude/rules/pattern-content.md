@@ -1,0 +1,198 @@
+---
+paths:
+  - "apps/patterns/src/content/**/*.md"
+  - "apps/patterns/src/content/**/*.mdx"
+---
+
+# Pattern site content (apps/patterns)
+
+These rules apply to pattern language content in `apps/patterns/src/content/`.
+For component Storybook documentation, see `.claude/rules/documentation.md`.
+
+## Frontmatter (replaces `<Meta>` tags)
+
+Files are flat under `apps/patterns/src/content/patterns/`; the filename stem is
+the slug, route, and graph ID. Classification lives in frontmatter facets, not
+folders. Every file needs at least `title` and `role`:
+
+```yaml
+---
+title: "Pattern name"
+role: pattern
+activityLevel: operation       # AT altitude (operation | action | activity)
+lifecycle: seeking             # optional Seek–Use–Share stage
+domain: data-visualization     # optional domain corpus
+group: "conversation/sequence-management"  # optional nav sub-grouping path
+atomic: pattern
+mediation: individual
+description: "One sentence framed from the human situation."
+---
+```
+
+Do not use `<Meta title="..." />` or `<Meta of={...} />` in pattern site content.
+
+## Inter-page link format
+
+Use plain relative routes rooted at `/patterns/`, with the flat slug (filename
+stem) — never an Activity-Theory path:
+
+```md
+[Undo](/patterns/undo)
+[Agency](/patterns/agency)
+```
+
+Do not use Storybook URL format (`../?path=/docs/...--docs`) for patterns, nor
+old multi-segment routes (`/patterns/operations/undo`). Both are tech debt;
+rewrite them when editing the file for other reasons. (Storybook URLs stay
+correct for links to component pages.)
+
+## Component embeds
+
+Custom elements registered via `register-all.ts` are available on every page.
+Write tags directly in MDX for short inline illustrations:
+
+    <pp-button>Undo</pp-button>
+
+Use `<Demo>` for a framed demo sandbox (no import needed):
+
+    <Demo label="Undo trigger">
+      <pp-button>Undo</pp-button>
+    </Demo>
+
+Use `<ComponentRef>` for inline prose references to Storybook component pages
+(no import needed):
+
+    the <ComponentRef id="actions-application-button--docs">Button</ComponentRef> component
+
+Do not hardcode localhost:6006 URLs in content — use `<ComponentRef>`, which reads `PUBLIC_STORYBOOK_URL`.
+
+## Declaring relationships
+
+Typed edges live in frontmatter `relationships:` or inline `{rel="type"}` on links — never inferred from heading text.
+
+Frontmatter declaration (one or many per rel type):
+
+```yaml
+relationships:
+  precedes: [wizard, step-by-step]
+  complements:
+    - to: bounded-choice
+      note: "the constrained-field move"
+    - sections
+  composed-of: [data-entry]    # alias for enables (P composed of target)
+  instantiates: [good-defaults]
+```
+
+Inline narrated edge (body prose):
+
+```mdx
+…each field is an act of [bounded choice](/patterns/bounded-choice){rel="composed-of"}…
+```
+
+The `{rel="type"}` is stripped at build time by the `remark-rel-strip` plugin and never appears in rendered output.
+
+A `note` may contain inline markdown links (`[text](/patterns/slug#anchor)`); `RelatedPatterns.astro` renders them as real anchors. Quote the note value when it contains `[`, `:` followed by a space, or other YAML-significant characters.
+
+Per-direction notes (symmetric edges — `complements`, `tangential`, `alternative`, `related`): both endpoints may author the same edge, each with its own note. The renderer shows the *near-side* note — the one authored by the page being viewed — so the link reads in the local pattern's voice. Author the reverse note only when your side has something distinct to say; a single note still renders on both pages (the other side falls back to it). Do not duplicate the same note on both sides.
+
+Per-direction notes (directed edges — `precedes`, `enables`, `instantiates`): the forward author sets the outgoing note (`A` declares `precedes: {to: B, note}`); the target may add a reverse-reading note via the inverse alias (`B` declares `follows: {to: A, note}`, or `composed-of`/`instances` for enables/instantiates). Same rule: add the incoming note only when reading the edge in reverse needs different words. This enriches the one edge — it does not create a second edge.
+
+Voice the note for both pages: a single-noted directed edge renders its one note
+on both endpoints' pages, each time after the *other* endpoint's name, so a
+subjectless note binds to whichever endpoint the reader is not on. Make the
+note name its subject ("annotation supplies the mechanism for attaching help")
+or gloss the relation itself; when the wording only works from one side, author
+the reverse note via the inverse alias instead. The extractor's voicing
+advisory flags single-noted directed edges that name neither endpoint.
+
+Valid rel values: `precedes`, `follows`, `enables`, `composed-of`, `instantiates`, `instances`, `variants`, `complements`, `tangential`, `alternative`, `enacts`, `surveys`, `hosts`, `hosted-by`, `related`. Direction is fixed by the rel name (see `docs/language/relationship-vocabulary.md`). `recommends` is not authorable — it comes only from decision trees.
+
+Component realisation ("this move is realised by this component") is not a
+typed edge: author the claim in frontmatter `realised_by` — a list of
+Storybook docs ids, validated at build time:
+
+```yaml
+realised_by: [actions-application-form--docs]
+```
+
+`<ComponentRef>` in body prose is a citation, not a claim — cite freely,
+including components the page is not realised by. Never put a `rel=` on a
+`<ComponentRef>` and never name a component id in `relationships:`. See
+`docs/language/relationship-vocabulary.md` §Component realisation.
+
+## Situations and conditional edges
+
+A pattern may carry its two situations in frontmatter — the design situation it
+applies in, and the one it leaves behind:
+
+```yaml
+situation:
+  initiating: >-
+    prose — the situation this move applies in, told as the history of moves
+    already applied (or ruled out)
+  resulting:
+    - a bare prose clause about what holds after the move
+    - clause: >-
+        a clause that sets up a next move; voice it to name its subject —
+        it renders on both endpoints' pages
+      sets-up: [next-pattern]
+```
+
+A `sets-up` clause *emits* a `precedes` edge carrying the clause as derived
+condition text. Never author condition text in an edge note ("takes over
+when…", "fallback if…") — that judgement's home is the source pattern's
+resulting clause (or a decision tree). Don't also declare the same pair under
+`relationships: precedes`; the extractor warns on the duplicate.
+
+Decision trees are authored as a Mermaid flowchart in a `## Decision tree`
+section plus a frontmatter leaf map:
+
+```yaml
+decision-trees:
+  - id: deletion
+    chart-index: 0   # optional; which <MermaidDiagram> on the page (0-based)
+    leaves:
+      "No confirmation (with undo)": undo
+```
+
+See `docs/language/relationship-vocabulary.md` §Situations for the full rules.
+
+### Suppressing the rendered block
+
+`RelatedPatterns.astro` renders a "Related patterns" section at the foot of each
+page. Two ways it is skipped:
+
+- `role: quality` — never rendered. A quality is a diagnostic lens, not a
+  catalogue; the bridge to patterns lives on the pattern side via `enacts`.
+- `showRelated: false` in frontmatter — opt out per page when the body already
+  narrates every relationship inline (e.g. a `collection` whose prose links each
+  member). The edges still feed the graph; only the redundant on-page list is
+  skipped.
+
+## Document structure
+
+Standard section order:
+
+1. YAML frontmatter
+2. Fun meter (optional): a short reflection on intellectual engagement —
+   inversely proportional to how established and documented the area is
+3. `# Title` (sentence case) with a one-sentence definition framed from the
+   *human situation inward*, not from the component outward
+4. Core content (varies by role: pattern, quality, foundation, collection)
+5. `## Resources & references` (optional, generated)
+
+## Writing style
+
+- Frame descriptions from the *human situation inward*, not from the
+  implementation outward. Start with what the actor is doing or experiencing.
+- British spelling (behaviour, organisation, colour).
+- Sentence case for headings and titles.
+- Prefer conciseness; each sentence should add new information.
+
+## Move naming
+
+Name a pattern by the interaction move, not the component that implements it:
+"Transient feedback", not "Toast". The name must apply to any valid
+implementation of the move, and must not share its head noun with an unrelated
+existing entry (see the decomposition rule in
+`docs/specs/pattern-role-model.md`).
