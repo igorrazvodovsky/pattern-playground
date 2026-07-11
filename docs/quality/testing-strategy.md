@@ -9,11 +9,11 @@
 - `npm run test-storybook` — run Storybook's Vitest project for CSF stories
 - `npm run build-storybook` — build static Storybook
 
-### Backend (server directory)
-- `cd server && npm run dev` — start Express server with hot reload
-- `cd server && npm run build` — compile TypeScript
-- `cd server && npm run start` — run production server
-- `cd server && npm run typecheck` — TypeScript type checking
+### Backend (`apps/server`)
+- `npm run dev -w apps/server` — start Express server with hot reload
+- `npm run build -w apps/server` — compile TypeScript
+- `npm run start -w apps/server` — run production server
+- `npm run typecheck -w apps/server` — TypeScript type checking
 
 ## Visual verification
 
@@ -21,7 +21,7 @@ When writing or modifying Storybook stories, use `/example-skills:webapp-testing
 
 ## Storybook accessibility tests
 
-Storybook uses `@storybook/addon-a11y` with `@storybook/addon-vitest`. The global accessibility test behavior lives in `.storybook/preview.ts`.
+Storybook uses `@storybook/addon-a11y` with `@storybook/addon-vitest`. The global accessibility test behavior lives in `packages/components/.storybook/preview.ts`.
 
 Default to `error` for all stories — violations should fail Storybook Vitest tests. Deviations require explicit justification:
 

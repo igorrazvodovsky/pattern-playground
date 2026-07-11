@@ -142,6 +142,21 @@ requirement. The extractor emits them as node metadata, and a resulting clause
 with `sets-up:` emits a conditional `precedes` edge. See
 [relationship-vocabulary.md](../language/relationship-vocabulary.md) §Situations.
 
+## Toolchain posture
+
+The site deliberately sits off two Astro defaults:
+
+- *Unified processor, not the native Markdown pipeline.* Typed-edge authoring
+  uses `{rel="…"}` annotations stripped at build time by the `remark-rel-strip`
+  plugin, so `astro.config.ts` pins `markdown.processor` to
+  `unified({ remarkPlugins: [remarkRelStrip] })` (MDX inherits it).
+- *Monorepo-external imports.* Islands and demos import from
+  `packages/components/` — outside the app root. This is off Astro/Vite's
+  happy path: it is why the dev server needs the `optimizeDeps` pre-bundling
+  arrangement in `astro.config.ts`, and it is the shape historically implicated
+  in dev-loop staleness bugs (HMR invalidation, SSR module caching). When the
+  dev loop misbehaves after an upgrade, suspect this seam first.
+
 ## Document structure
 
 Section order, headings, component embeds, and writing style for pattern MDX are
