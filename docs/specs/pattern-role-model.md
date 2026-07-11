@@ -81,7 +81,12 @@ move/mechanism seam. Signals are named, not numbered, so the list can grow. See 
   the move. A widget name renames to the move (Combobox → Bounded choice); a
   word that names both the human act and the artifact (Form) stays the same
   on both surfaces, bilingual like qualities and foundations. Head-noun
-  constraints under Naming below.
+  constraints under Naming below. A bilingual pair is bound by one validated
+  reference per direction: `realised_by` in the move page's frontmatter
+  pointing at the Storybook docs id, and a first-paragraph `PatternRef`
+  deferral on the mechanism page pointing back at the move. Each page opens by
+  saying what it is not the source for — the move page owns why and when, the
+  mechanism page owns how it's built.
 
 ### Naming
 
@@ -102,6 +107,10 @@ Differentiate an existing move into siblings when:
   between its own children
 - its situation fields disagree — `situation.initiating` describes one
   situation, the `resulting` clauses centres from a different one
+- inbound link pressure — another entry needs to make a claim about a section,
+  not the page: edges can only land on nodes, so a sub-move that other entries
+  relate to specifically has outgrown being a named force (Selection →
+  Bounded choice)
 - its prose accumulates "in some variants…" clauses
 
 These are findings to take through the normal classification process
