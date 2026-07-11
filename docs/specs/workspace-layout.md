@@ -13,6 +13,9 @@ apps/
 ├── patterns/               Pattern language site — Astro (:4321)
 └── server/                 Express backend — Node.js + OpenAI (:3000)
 
+shared/                     Fixture-data workspace (@pattern-plgrnd/shared) — sample
+                            entities both surfaces render; belongs to neither language
+
 scripts/                    Workspace-level scripts (extract-graph-data.ts)
 docs/                       Agent-facing knowledge base (workspace-level)
 plans/                      Executable specifications (workspace-level)
@@ -20,6 +23,8 @@ references/                 Research inputs and bibliography
 ```
 
 `packages/` holds libraries you import from. `apps/` holds runtimes you run.
+`shared/` is a third workspace for fixture data both surfaces consume — placed
+at root because homing it in either package would invert a boundary.
 `scripts/`, `docs/`, `plans/`, and `references/` are workspace-level: they
 serve all packages and are not co-located with a single workspace.
 
@@ -55,6 +60,12 @@ serve all packages and are not co-located with a single workspace.
 ## Shared demos (`packages/components/src/demos/`)
 
 Runnable demonstration components live in `packages/components/src/demos/`. A single demo is frequently consumed by _both_ surfaces and by more than one pattern page — the bubble-menu demo, for instance, is shared by the text-lens, explanation, and commenting pattern pages and by Storybook.
+
+The tenancy is deliberate: demos are named for pattern-language moves but
+import component source directly, and co-location with what they wire is the
+load-bearing reason they live here rather than in a third place like
+`shared/`. If demos ever stop importing components directly, that reason
+lapses and the placement question reopens.
 Co-locating demos with the components they wire lets one source feed both
 surfaces: Storybook stories import them by relative path, and pattern-site MDX
 imports them through the package surface (`@pkg/demos/*`) wrapped in
@@ -98,21 +109,41 @@ trigger eventually arrives. Current entries:
 ## Workspace dependency direction
 
 `apps/patterns` → `packages/components` (workspace dep: `@pattern-plgrnd/components`)
+`apps/patterns` → `shared` (workspace dep: `@pattern-plgrnd/shared`)
 `apps/server` → (no workspace dep; standalone Express app)
 
-The components package exports a public API via its `package.json` `exports`
-field. Pattern pages that embed live component examples import only what the
-components package exports. The boundary is workspace-internal; the package is
-not published to npm.
+The boundary is *documented edge plus convention*: consumers import raw
+source through path aliases, and the workspace deps document the edge while
+aliases do the resolution. There is no `exports` field — under path aliases
+one would be inert, so it enforces nothing (workspace-split closure,
+workstream 4 step 2). The observed public surface, recorded when an honest
+`exports` field could be written if enforcement is ever wanted:
+`@components/register-all.ts` (side-effect registration),
+`@components/{MermaidDiagram,PatternGraph,sidebar}`, and `@pkg/demos/*`.
+pnpm's phantom-dep isolation is the future enforcement lever if convention
+proves insufficient; the package is not published to npm.
+
+## Cross-surface integrity
+
+The build-time cross-reference validator
+(`apps/patterns/integrations/validate-cross-references.ts`) gates all
+reference seams — site→Storybook (`<ComponentRef id>` and frontmatter
+`realised_by` against `index.json`), Storybook→site (`<PatternRef slug>`
+against content stems), and site→site (`/patterns/` links) — and it runs in
+the *site* build by design, not by accident: the pattern site is the
+synthesis surface, so its build vouches for both languages. A bare
+`build-storybook` is unchecked and may drift; the canonical root build
+(Storybook first, then site) is the single gate that closes the loop.
 
 ## Scripts directory
 
-`scripts/extract-graph-data.ts` stays at the workspace root because it reads
-from both workspaces: pattern content from `apps/patterns/src/content/` and (in
-the stage-2 combined data model) component metadata from `packages/components/`.
-Moving it into `apps/patterns/` would be correct under stage 3 (linked
-datasets), when component data separates into its own manifest. That migration
-is out of scope for this spec.
+`scripts/extract-graph-data.ts` stays at the workspace root as workspace-level
+tooling: under the settled language-only graph (stage 3) it reads only
+`apps/patterns/src/content/`, but its outputs feed both surfaces — the site's
+graph data (`apps/patterns/src/data/`) and the copies consumed by Storybook's
+`PatternGraph` component (`packages/components/src/pattern-graph.json`,
+`activity-levels.json`). `scripts/` also hosts the other workspace-level
+checks, so root residency is the pattern, not an exception.
 
 ## Bilingual entries
 
@@ -124,9 +155,11 @@ foot in the pattern language and one foot in the component substrate.
   that enact it.
 - The _substrate_ (CSS tokens, type scale, modality CSS, design-token JSON)
   lives in `packages/components/`.
-- Component Storybook pages that reference qualities or foundations currently
-  link to Storybook URLs. When the cross-surface reference scheme is
-  established, those links will point to pattern-site routes. Until then,
-  the `qualities/` and `foundations/` folders in `packages/components/src/stories/`
-  retain their MDX pages as Storybook documentation for the substrate side;
-  they are not removed until those inbound links are rewritten.
+
+A foundation earns its language foot by carrying an _interaction-design
+concept_ — material that shapes how activity unfolds (assistance, delegation,
+modality, prose). Visual material (colour, iconography, layout, motion,
+typography) is substrate-only: its Storybook pages carry `role:component` and
+no language entry exists or is owed. The workspace-split closure settled this
+(workstream 1); the five material pages' former "Concept:" links to
+never-built language entries were removed 2026-07-11.
