@@ -213,6 +213,4 @@ Summarise to the user in the chat: slug, paper count, cluster count, strongest c
 ## What this skill is not
 
 - Not a canon editor — never writes to `references/` or `docs/references.md`.
-- Not a replacement for deep reading — it orients, doesn't substitute.
-- Not a full-text extractor — it works from abstracts + TLDRs. Full PDFs are the user's job to fetch and read when a result proves worth it.
 - Not a classifier — once a finding is promoted, use `pattern-classifier` to decide how it integrates.
