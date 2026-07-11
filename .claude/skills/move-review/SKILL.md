@@ -130,10 +130,16 @@ quote. If nothing: "Answers to nothing on record" — that is a finding.>
 structure, surprises, things that got easier or harder downstream. Cite
 the diff or a grounding document for every claim.>
 
-*Question.* <One question the author must answer — about coherence with
-the language, not about correctness. Never a summary.>
+*Question.* <Questions the author must answer — about coherence with
+the language, not about correctness. Never a summary. Not 1:1 with
+moves: a trivial move's question may be skipped entirely (write "No
+question — <why it is trivial>"), and a loaded move may carry several.
+A deviation from a recorded decision is never merely narrated: either
+resolve it in backtalk with the reasoning shown, or raise it as a
+question — an unadjudicated deviation is the failure mode.>
 
-*Verdict:* ☐ accept / fix / reframe — <author writes a sentence here>
+*Verdict:* ☐ accept / fix / reframe — <author writes a sentence here;
+one verdict per move, covering all its questions>
 ```
 
 ## Verdict checklist (paste at the top of every walkthrough, verbatim)
