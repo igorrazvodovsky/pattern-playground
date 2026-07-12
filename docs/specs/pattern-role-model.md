@@ -93,6 +93,16 @@ move/mechanism seam. Signals are named, not numbered, so the list can grow. See 
 - Name a move by what the actor is doing, not by the component that implements
   it: "Transient feedback", not "Toast". The name must transfer to any valid
   implementation of the move.
+- An industry-standard name stands even when it is thing-like, provided the
+  entry's content carries the move: either the name is the practice
+  community's own term for the move (Keyboard shortcuts, Command menu), or the
+  community that owns the term elsewhere is distant enough that no practical
+  collision arises (Block-based editor). Renaming is not owed for register
+  alone.
+- A name that denotes the invariant content structure rather than a widget
+  also transfers: "Sections" survives every disclosure affordance the way
+  "Form" survives every layout. Such a name under-specifies the move, so the
+  page's body must name the move explicitly.
 - Avoid head-noun collisions with existing entries: a new move must not share
   its head noun with an unrelated entry (a value-commitment move cannot be
   called "… selection" while *Selection* names staking items in a collection).

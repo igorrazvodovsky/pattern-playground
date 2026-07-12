@@ -217,7 +217,10 @@
       "category": "Actions",
       "path": "/patterns/command-menu",
       "role": "pattern",
-      "group": "seeking"
+      "group": "seeking",
+      "realisedBy": [
+        "components-command-menu--docs"
+      ]
     },
     {
       "id": "commenting",
@@ -802,7 +805,10 @@
             "clause": "a single container whose disclosure affordance (tabs vs. accordion) shifts with context without restructuring the content"
           }
         ]
-      }
+      },
+      "realisedBy": [
+        "components-sections--docs"
+      ]
     },
     {
       "id": "selection",
