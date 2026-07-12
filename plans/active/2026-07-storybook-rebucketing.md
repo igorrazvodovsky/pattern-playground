@@ -47,6 +47,11 @@ category line lived ("Each level has a role." currently stands in its place,
 naming no levels). The record should say what the buckets are and what decides
 placement, so future entries land by rule rather than by feel.
 
+The old `scripts/check-taxonomy-sync.mjs` (directories ↔ retired taxonomy doc)
+was deleted with the post-split residue sweep; if the recorded category set
+wants automated enforcement, a successor check — story title prefixes against
+the recorded set — attaches here.
+
 ### 2. Retitle the stragglers
 
 Pages still under old activity-level titles:
