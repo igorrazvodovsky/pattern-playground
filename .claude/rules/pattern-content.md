@@ -105,7 +105,7 @@ or gloss the relation itself; when the wording only works from one side, author
 the reverse note via the inverse alias instead. The extractor's voicing
 advisory flags single-noted directed edges that name neither endpoint.
 
-Valid rel values: `precedes`, `follows`, `enables`, `composed-of`, `instantiates`, `instances`, `variants`, `complements`, `tangential`, `alternative`, `enacts`, `surveys`, `hosts`, `hosted-by`, `related`. Direction is fixed by the rel name (see `docs/language/relationship-vocabulary.md`). `recommends` is not authorable — it comes only from decision trees.
+Valid rel values: `precedes`, `follows`, `enables`, `composed-of`, `instantiates`, `instances`, `variants`, `complements`, `tangential`, `alternative`, `enacts`, `serves`, `surveys`, `hosts`, `hosted-by`, `related`. Direction is fixed by the rel name (see `docs/language/relationship-vocabulary.md`). `recommends` is not authorable — it comes only from decision trees. `serves` is authored on the pattern's page only and targets a foundation; its note names the station of the foundation's frame the move covers.
 
 Component realisation ("this move is realised by this component") is not a
 typed edge: author the claim in frontmatter `realised_by` — a list of

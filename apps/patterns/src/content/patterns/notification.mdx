@@ -21,9 +21,12 @@ decision-trees:
       "Callout": operations-callout
       "Toast": transient-feedback
 relationships:
-  related:
+  serves:
     - to: delegation
-      note: the primary communication channel for a background agent
+      note: delegation's primary communication channel — how a background agent reaches the actor
+    - to: modality
+      note: chooses where on modality's gradient a signal lands
+  related:
     - to: status-feedback
       note: status feedback for events the actor didn't trigger and isn't watching; pushed, not pulled
   complements:

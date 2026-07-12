@@ -24,17 +24,18 @@ Some residue may be genuinely lost nuance; some may have been removed
 deliberately during the repairs or since. Only the author can tell the two
 apart, per item.
 
-## Gate: pattern–foundation link treatment
+## Gate: pattern–foundation link treatment — RESOLVED 2026-07-12
 
-Links between patterns and foundations are currently in limbo: no settled
-edge treatment exists for them beyond the foundation tiebreaker under
-`instantiates` in `docs/language/relationship-vocabulary.md` (concept applied
-by the pattern → `instantiates`; substrate produced ahead → `precedes`),
-which types the clear cases but names no default home for the rest. Candidate
-direction: mirror what was done for pattern–quality links (patterns carry the
-edge toward the quality). The question is on the vocabulary doc's standing
-register as open question 8; decide it there before judging foundation-target
-rows, or those judgements will be made against a moving target.
+`serves` (pattern → foundation, participation/station-in-frame) landed through
+the research gate (`research/pattern-foundation-serves/`) and the vocabulary
+changelog. The rule for foundation-target rows is the four-arm reading guide
+(tiebreaker note under `instantiates` in the vocabulary doc): concept applied
+wholesale → `instantiates`; substrate produced ahead → `precedes`; material
+the move's surface is made of → `enables` foundation-side; named station of
+the foundation's frame → `serves` pattern-side. A row whose note claims none
+of the four arms stays `related` — honest unclaimed adjacency. The noted
+foundation-target edges were already swept in the minting pass; the rows left
+for this audit are the *bare* ones, judged origin-note by origin-note.
 
 ## Work
 

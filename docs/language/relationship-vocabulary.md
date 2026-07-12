@@ -59,6 +59,7 @@ The relationships defined below should be read in this register throughout.
 - SKOS: aligns with `skos:narrower` (from B's perspective, A is a narrower/more specific mechanism) and `skos:broader` (from A's perspective, B is a broader pattern that uses A). The fit is imperfect — SKOS broader/narrower is taxonomic, while enables is compositional. But the directionality is the same: the enabling pattern is more specific, the enabled pattern more general.
 - Authoring: `rel="enables"` on the part's page (A enables B), or `rel="composed-of"` on the whole's page (P is composed of target, stored as target enables P). In frontmatter: `relationships: { enables: [B] }` on A's page, or `composed-of: [A]` on B's page.
 - This is the *component–integral* (part/whole) relation, and it holds at any altitude within the language: a constituent move enables the composite move that incorporates it (Bounded choice → Form), and a primitive enables the exchange built from it (Open request → Conversation). No separate `composed-of` edge is stored.
+- A foundation can source `enables` as *material* — the stuff a move's surface is made of (Prose enables Dynamic hyperlinks: the link text *is* the prose). This is the constitution/stuff-of end of the definition's "surface, or substrate" wording, and it is one arm of the foundation reading guide (see the tiebreaker note under `instantiates`). Not to be confused with `serves`, which runs the other way — pattern toward foundation-as-frame.
 - Example: Bounded choice *enables* Form — the form is composed of the constrained-field move. Autocomplete *enables* Data entry — an optional assist the move incorporates where present (the soft end of the same relation).
 
 ### instantiates
@@ -70,7 +71,7 @@ The relationships defined below should be read in this register throughout.
 - SKOS: aligns with `skos:broader` — A has broader concept B. This is the cleanest SKOS mapping in the vocabulary.
 - Authoring: `rel="instantiates"` on the specialisation's page, or `rel="instances"`/`rel="variants"` on the genus's page. In frontmatter: `relationships: { instantiates: [B] }` on A's page.
 - Example: Command menu *instantiates* Searching — the broader seeking move applied to a command vocabulary.
-- Note — foundations are legible from two directions, and the tiebreaker is the arrow of application. When a pattern *applies* the foundational concept, the pattern instantiates it (Bot instantiates Delegation; Collaboration instantiates Collaboration foundation). When the foundation is a *substrate* whose application produces structure that later moves act on, the foundation sources `precedes` (Information architecture precedes Searching). Ask which way application runs: concept applied by the pattern → `instantiates`; substrate produced ahead of the pattern → `precedes`.
+- Note — foundations are legible from four directions, and the tiebreaker is what the foundation is doing in the claim. Concept applied wholesale by the pattern → the pattern `instantiates` it (Bot instantiates Delegation; Collaboration instantiates Collaboration foundation). Substrate whose application produces structure later moves act on → the foundation sources `precedes` (Information architecture precedes Searching). Material a move's surface is made of → the foundation sources `enables` (Prose enables Dynamic hyperlinks — the definition's "surface, or substrate" wording). Frame with a named station the move covers → the pattern `serves` it (Activity log serves Delegation). Anything a note can't place on one of the four arms stays `related` — honest unclaimed adjacency, not a failure.
 
 ### complements
 
@@ -162,6 +163,21 @@ These are different relations and are **not transitive across types**: do not tr
 - Not `precedes`: the host does not produce a centre the hosted move acts on; it merely locates the trigger. Where a note on a `precedes`/`enables` edge reads "container", "canvas", or "where it lives", the edge is usually a hosting claim wearing the wrong type — the note-verb advisory flags these.
 - Relation to the situation constructs: a hosting fact *can* be narrated inside a resulting-context clause ("the composition leaves a toolbar where the grouping trigger lives"), but the standing locative relation between two patterns belongs on this edge type. One home per fact: don't author both.
 
+### serves
+
+*A serves B*: pattern A is a move whose role is articulated within foundation B's frame — A covers a named station of B's anatomy (a touchpoint of delegation's lifecycle, a step of assistance's cognitive cycle, a position on modality's gradient). The claim is *participation*, not parthood: A is not a part B is made of (`enables`), not a kind or application of B (`instantiates`), and B produces nothing A acts on (`precedes`). B's frame is where A's job is located.
+
+- Directionality: directed (pattern → foundation only)
+- Inverse: none stored — and no inverse authoring alias: the pattern side carries the edge. A foundation cannot enumerate its dependents (the set is open-ended, and foundation-side lists trend toward catalogues — the accretion the qualities decision already corrected on that layer); the pattern's author is the one who knows which frame articulates the move. If foundation-side voicing ever proves necessary, an alias is a changelog decision.
+- SKOS: no equivalent. Nearest formal kin: the *participation* relation — in the part–whole family but not parthood (Keet & Artale 2008, extending the same Winston et al. taxonomy the part–whole relations here stand on; `participates_in` is a core relation in the OBO Relation Ontology) — and role-playing in Descriptions & Situations (Gangemi & Mika 2003), where a description defines roles that entities play. Research gate: `research/pattern-foundation-serves/`.
+- Authoring: `rel="serves"` inline or `relationships: { serves: [foundation-slug] }` in frontmatter, on the pattern's page.
+- Example: Activity log *serves* Delegation — the supervisory record for delegation's monitoring touchpoints. Notification *serves* Delegation — the communication channel for a background agent.
+- *Labelling*: a note should name the station the move covers, in the author's words ("the supervisory record for delegation's *monitoring* touchpoints"), not restate the type ("relates to delegation"). Anatomy is controlled per foundation — the foundation's own authored structure (lifecycle, gradient, cycle), referenced from the note. There is no corpus-wide station vocabulary and none should be pre-legislated (the decision-tree dimension rule, applied to foundations); stations stay prose, rendered for judgement and never matched on, per the consumer contract.
+- Claims-vs-citations line (the ambient media): claim `serves` only when the foundation's frame does articulatory work for the pattern's role. Every page has text, so touching prose in the trivial sense is a citation, not a claim — the same line `realised_by` draws.
+- Not `instantiates`: Bot applies delegation wholesale (a delegated agent is what a bot *is*); Activity log covers one station of delegation's frame. Application vs. participation is the boundary to police — on the overlap watch under §Retirement.
+- Not `enables`: material claims — a foundation as the stuff a move's surface is made of (Prose → Dynamic hyperlinks) — are *constitution*, a different Winston/Keet relation, and stay on `enables`' substrate arm, foundation-side. One type for both would re-merge what the pattern canon never unpicked (Alexander's "helps to complete", Noble's *uses*, and van Welie's aggregation all fold station-serving and composition into one upward link).
+- Why this matters: with stations named pattern-side, a foundation acts as a *completion frame* — entering it from one move shows which stations are claimed and which have no move yet — and co-grounding (moves sharing a foundation) becomes a typed lateral-suggestion channel instead of fishing in `related`. These are the generative services the residual `related` pile could not provide.
+
 ### enacts
 
 *A enacts Q*: pattern A is a move whose effect is legible in the Q dimension — applying A changes the structure in a way that shows up when you read the result through quality Q's lens. This is the bridge between patterns (as moves) and qualities. The relationship does not assert that Q is maximised or always increased; it asserts that Q is the right lens through which to read what this move does.
@@ -180,7 +196,7 @@ Each edge type carries an implicit *axis* — the dimension along which the rela
 
 | Axis | Edge types | What it means |
 |---|---|---|
-| Vertical | `instantiates`, `enables`, `enacts` | Crosses altitudes — taxonomic (genus/species), compositional (part/whole), or pattern → quality |
+| Vertical | `instantiates`, `enables`, `enacts`, `serves` | Crosses altitudes — taxonomic (genus/species), compositional (part/whole), pattern → quality, or pattern → foundation |
 | Horizontal | `complements`, `tangential`, `alternative` | Same altitude — moves that share a structural role or co-deploy |
 | Sequential | `precedes`, `follows`, `recommends` | Generative sequence — one move sets up another, or a tree branch routes to one |
 | Territorial | `surveys` | Collection membership — a `role:collection` page gathers its members |
@@ -209,8 +225,11 @@ The axis classification is a sanity-check tool, not a taxonomy commitment. A pat
 | surveys | skos:member | Collection membership (member–collection) |
 | hosts | — | No equivalent (spatial inclusion — non-meronymic per Winston et al.) |
 | enacts | — | No equivalent (pattern → quality) |
+| serves | — | No equivalent (participation/role-in-frame; nearest formal kin: RO `participates_in`, D&S role-playing) |
 
 The alignment is useful at two levels. First, it provides a sanity check — if a proposed relationship type has no SKOS equivalent *and* no clear justification for being domain-specific, it may be an unnecessary distinction. Second, if the graph data ever needs to interoperate with external tools or linked data systems, the SKOS mappings provide a bridge without requiring a full ontological commitment.
+
+A third reading: the specialised types behave as *subproperties* of `skos:related` in the `rdfs:subPropertyOf` sense — every specific claim entails generic relatedness, which is why the extractor's dedup drops a `related` edge when a stronger type exists between the pair (hand-rolled subsumption). The entailment runs specific → generic only. A generic edge plus endpoint roles never reconstructs the specific claim — the type records that an author asserted something, the endpoint roles only record what kinds of things exist — which is why the quality-target auto-typing channel was retired (2026-07-11) and why no future channel should mint a type from a target's role.
 
 ## Literature support and local extensions
 
@@ -242,6 +261,7 @@ Project-specific extensions:
 | `surveys` | Collection pages are authored surveys over a grouping of members, not single-move sources. `surveys` maps to `skos:member` and keeps collection pages from being flattened into generic `related` links — and keeps member-collection grouping distinct from the component-integral (`enables`) and genus-species (`instantiates`) relations a composite *pattern* uses. |
 | `tangential` | Literature has generic association, neighbouring, and "related" language, but not a stable weak-adjacency type. `tangential` preserves the current author signal where pages explicitly distinguish conceptual adjacency from complementarity, dependency, or substitution. It is intentionally provisional: if future gardening shows it is only a weak form of `related`, or better handled by tags/projections, it can be merged or replaced through the changelog. |
 | `hosts` | Pattern literature rarely models where a move's *trigger* is surfaced, and the meronymy canon the part–whole relations rest on explicitly excludes spatial inclusion. The corpus kept authoring the claim anyway — "container", "canvas", "where it lives" notes riding on `enables` and `complements` edges — and each shunt lost part of it. `hosts` gives the locative family its own name. |
+| `serves` | The pattern canon never decomposes its generic upward link — Alexander's "helps to complete", Noble's *uses*, van Welie's aggregation all merge station-serving with composition. The ontology canon splits exactly here: participation (Keet & Artale 2008; RO `participates_in`) and description-defined roles (Gangemi & Mika's D&S) sit in the part–whole family but outside parthood. `serves` names that relation at the pattern–foundation boundary; the corpus was already authoring it as station-naming notes on `related` and `complements` edges (the delegation cluster). Research gate: `research/pattern-foundation-serves/`. |
 
 ## Authoring model
 
@@ -317,6 +337,7 @@ Direction is fixed by the relation name (invariant I2), not an author field. Ali
 | `tangential` | P ↔ target | tangential |
 | `alternative` | P ↔ target | alternative |
 | `enacts` | P → target (quality) | enacts |
+| `serves` | P → target (foundation) | serves |
 | `surveys` | P (collection) → target | surveys |
 | `hosts` | P → target | hosts |
 | `hosted-by` | target → P | hosts |
@@ -340,7 +361,7 @@ Symmetric relationships (`complements`, `tangential`, `alternative`, `related`) 
 
 A directed edge is a one-way *claim* (`A precedes B`) but a two-way *path*: the graph is traversed in both directions — an actor on B walks back to its precedents for context. So a directed edge carries an optional second note for the reverse reading. The forward author sets the outgoing `label` (`A` declares `precedes: {to: B, note}`); the target may add an incoming note by authoring the *inverse alias* (`B` declares `follows: {to: A, note}`, or `composed-of`/`instances` for enables/instantiates). This adds a note slot to the one edge — it does *not* create a second stored edge, so the no-redundant-inverses rule holds. The renderer shows the outgoing note when the edge is read forward and the incoming note when read in reverse, each falling back to the other when only one is authored. Author an incoming note only when the reverse reading needs different words; a single note serves both directions otherwise. (`enacts` needs none — quality pages render nothing, so there is no reverse reader.)
 
-`enacts` (pattern → quality), `recommends` (pattern → pattern, with situational hints), and `surveys` (collection → member) have no inverse — they are asymmetric and unidirectional.
+`enacts` (pattern → quality), `serves` (pattern → foundation), `recommends` (pattern → pattern, with situational hints), and `surveys` (collection → member) have no inverse — they are asymmetric and unidirectional.
 
 *Voice the note for both pages.* A single-noted directed edge renders its one note on both endpoints' pages, in each case after the *other* endpoint's name — so a subjectless note binds to whichever endpoint the reader is not on. Write notes that either name their subject ("annotation supplies the mechanism for attaching help") or gloss the relation itself; when only one side's wording can work, author the reverse note via the inverse alias instead. The extractor's voicing advisory flags single-noted directed edges that name neither endpoint.
 
@@ -376,9 +397,10 @@ type EdgeType =
   | 'related'
   | 'enacts'
   | 'surveys'
-  | 'hosts';
+  | 'hosts'
+  | 'serves';
 
-type DirectedEdgeType = 'precedes' | 'follows' | 'enables' | 'instantiates' | 'recommends' | 'enacts' | 'surveys' | 'hosts';
+type DirectedEdgeType = 'precedes' | 'follows' | 'enables' | 'instantiates' | 'recommends' | 'enacts' | 'surveys' | 'hosts' | 'serves';
 type UndirectedEdgeType = 'complements' | 'tangential' | 'alternative' | 'related';
 
 const inversePairs: Record<string, string> = {
@@ -452,20 +474,20 @@ Coverage is deliberately partial until the backfill sitting runs (plans/active/2
 
 4. *How much should the actor infer vs. read*: transitive enablement (Form → Combobox → Autocomplete → AI completion), co-grounding (patterns sharing a foundation), and alternative-conflict detection are all derivable from the graph. They could be computed on demand by query functions, or pre-computed and stored. The lighter approach is to compute on demand and let inference stay implicit.
 
-5. *A `tensions-with` edge type between qualities?* Patterns can `enacts` multiple qualities, and a composition can pull in patterns whose enacted qualities are in tension (Agency vs. Speed, Consistency vs. Novelty). The graph currently has no way to express that tension. A quality → quality `tensions-with` edge would let a query surface "these moves enhance qualities the library has noted as in tension — worth a look" without crossing into rule-grade conflict detection. Defer until two or three concrete examples exist; introduce through the changelog rather than speculatively. Until then, `alternative` co-presence in a proposed composition is the available tension signal. Whatever treatment lands should decide *support* alongside tension: `learnability related agency` ("competence facilitates agency", re-typed 2026-07-10 from a mis-authored `instantiates`) is a first supports-shaped specimen in the latent quality↔quality `related` set, and minting `tensions-with` alone would leave its mirror untypeable.
+5. *A `tensions-with` edge type between qualities?* Patterns can `enacts` multiple qualities, and a composition can pull in patterns whose enacted qualities are in tension (Agency vs. Speed, Consistency vs. Novelty). The graph currently has no way to express that tension. A quality → quality `tensions-with` edge would let a query surface "these moves enhance qualities the library has noted as in tension — worth a look" without crossing into rule-grade conflict detection. Defer until two or three concrete examples exist; introduce through the changelog rather than speculatively. Until then, `alternative` co-presence in a proposed composition is the available tension signal. Whatever treatment lands should decide *support* alongside tension: `learnability related agency` ("competence facilitates agency", re-typed 2026-07-10 from a mis-authored `instantiates`) is a first supports-shaped specimen in the latent quality↔quality `related` set, and minting `tensions-with` alone would leave its mirror untypeable. Prior art filed for this treatment: the interdependence matrix of Alexander's fifteen properties (*The Phenomenon of Life*, p. 238) types exactly one relation between same-layer lenses — directed dependence-for-understanding, no tension relation at all — and reads dense interdependence as signal of a deeper layer rather than a modelling failure (see the addendum in `research/pattern-foundation-serves/2026-07-12.md`; the properties map to this project's qualities, not its foundations).
 
 6. *A structural-property layer underneath qualities?* The use qualities are experiential dimensions, not structural properties — but there may eventually be a vocabulary for *structural* properties of interaction  that sits underneath them, in the same way that "the building feels welcoming" sits above "the entrance has levels of scale, strong centres, and thick boundaries."
 
 7. An open boundary question rides with the future query layer: the consumer contract forbids matching, filtering, or routing on conditions and situations, but does not yet say where traversal ends and evaluation begins. The intended consumption is generative — a user-needs statement given to an agent that reads situations as prose context and proposes a chain of moves — which stays on the judgement side of the contract. The line should be drawn in the vocabulary doc's epistemic stance
 before the first query function is written.
 
-8. *Pattern–foundation edge treatment*: links between patterns and foundations have no settled home beyond the foundation tiebreaker under `instantiates` (concept applied by the pattern → `instantiates`; substrate produced ahead of the pattern → `precedes`). The tiebreaker types the clear cases; it names no default for the residual pattern–foundation adjacency still sitting in bare `related` lists. Candidate direction: mirror the qualities approach — the pattern side carries the edge. The related-residue audit (`plans/active/2026-07-related-residue-audit.md`) is gated on this decision for its foundation-target rows.
+8. ~~*Pattern–foundation edge treatment*~~ — resolved 2026-07-12: `serves` minted as the pattern → foundation participation edge, and the foundation tiebreaker grew to four arms (see the `serves` section and the changelog entry). The related-residue audit's foundation-target rows are unblocked with the four-arm guide as their rule.
 
 ## Structural invariants
 
 Testable assertions derived from this vocabulary's own definitions. These can be checked against `pattern-graph.json` by a script or by an actor reviewing extraction output.
 
-1. *Valid edge types*: every `type` value on an edge must be a member of `EdgeType` (precedes, follows, enables, instantiates, complements, tangential, alternative, recommends, related, enacts, surveys, hosts).
+1. *Valid edge types*: every `type` value on an edge must be a member of `EdgeType` (precedes, follows, enables, instantiates, complements, tangential, alternative, recommends, related, enacts, surveys, hosts, serves).
 2. *`enacts` targets qualities*: every edge with `type: 'enacts'` must target a node whose ID starts with `qualities-`.
 3. *`recommends` carries hints*: every edge with `type: 'recommends'` must have a non-empty `situationalHints` array and an `extractedFrom: 'decision-tree:<treeId>'` string.
 4. *No redundant inverses*: if A `precedes` B exists, no separate B `follows` A edge should be stored. `follows` is inferred at query time, not stored as data.
@@ -474,6 +496,7 @@ Testable assertions derived from this vocabulary's own definitions. These can be
 7. *`surveys` sources are collections*: every edge with `type: 'surveys'` must have a source node with `role: 'collection'` (or the deprecated `role: 'umbrella'` alias).
 8. *`situation` is derived*: every edge with a `situation` field has `extractedFrom: 'situation:resulting'` and `type: 'precedes'` — the field is emitted from the source node's resulting-context clause, never authored edge-side.
 9. *No consumer evaluates a condition*: no pipeline step matches, filters, or routes on `situation` or `situationalHints` (the consumer contract). Not machine-checkable from the data alone; holds by review of consumers.
+10. *`serves` targets foundations*: every edge with `type: 'serves'` must target a node with `role: 'foundation'` and source a non-foundation, non-quality node.
 
 ## Retirement (the exit path)
 
@@ -485,6 +508,7 @@ Standing signals:
 - *`related`'s share of all edges* is the health dial, read as a prompt rather than a failure metric: `related` is the honest home for unclaimed adjacency and stays legitimate at any share; the dial marks where to hunt for conversion opportunities (baseline 25% at 2026-07-10; the extractor prints the current share). The tell is sweep yield, not level — if sweeps into `related` keep converting edges to types, meaning is hiding there; if they keep coming back empty, the residue is honest.
 - *A retirement question closes every gardening sweep*: "did this sweep lean on every type it touched, and is any type only ever the thing being swept away?"
 - *Named overlap watch — `enables`/`complements`*: the incorporation softening (changelog 2026-07-10) left `enables`' soft end one author-judgement away from `complements` — "woven into how B is realised" versus "co-deployed beside B". If sweeps keep re-typing across that line in both directions, or optional assists turn up authored interchangeably under either type, the boundary is the retirement question to ask.
+- *Named overlap watch — `instantiates`/`serves`*: application vs. participation (Bot *applies* delegation wholesale; Activity log *covers one station* of it). If foundation-target edges keep migrating across that line in both directions, or authors reach for the two interchangeably, the four-arm reading guide isn't cutting where authors cut.
 
 `tangential` is the first standing candidate, per its own entry in the extensions table. `surveys` carries a retirement *ambition* rather than a signal: the four AT collection pages were deleted in favour of facet projections (2026-07-11), leaving two collections — data-visualization (the domain-corpus home) and navigation-overview — and the direction is to dissolve those too. If the last collection page dissolves, `surveys` retires with the `collection` role. Retirements land through the changelog like everything else — with what was considered and what is lost.
 
@@ -493,6 +517,30 @@ Standing signals:
 A running record of why types were added, merged, renamed, or retired, what alternatives were considered, and what was lost in each decision. The vocabulary is provisional — it will keep evolving as the library grows. Making its construction visible is part of treating classification as a living artifact rather than a closed specification (compare Bowker & Star, *Sorting Things Out*: "the only good classification is a living classification").
 
 Each entry: date, change, why, what was considered, what was lost.
+
+### 2026-07-12 — `serves` minted: pattern → foundation participation; the foundation reading guide grows to four arms
+
+Resolves open question 8 through the research gate (`research/pattern-foundation-serves/`, run same-day). The residual pattern–foundation adjacency in `related`/`complements` turned out to be one recurring authored shape: notes placing a pattern at a named *station* of a foundation's internal anatomy (delegation's touchpoints, assistance's cognitive steps, modality's gradient). Neither existing home fit — not parthood (`enables`), not application (`instantiates`), not sequence (`precedes`), not co-deployment (`complements`).
+
+*The type.* *A serves B*: pattern A covers a named station of foundation B's frame. Directed, pattern → foundation only (invariant 10), no inverse alias — the pattern side carries the edge, because a foundation cannot enumerate its dependents and foundation-side lists trend toward catalogues (the accretion the qualities purist stance corrected on that layer). Notes name the station in the author's words; anatomy is controlled per foundation like tree dimensions, never a corpus-wide station vocabulary; stations stay prose per the consumer contract. Formal grounding: the *participation* relation — in the part–whole family but not parthood (Keet & Artale 2008; `participates_in` is core in the OBO Relation Ontology's deliberately compact suite) — and D&S role-playing (Gangemi & Mika 2003: a description defines roles entities play). The pattern canon has no competing name: Alexander's "helps to complete", Noble's *uses*, and van Welie's aggregation all merge station-serving with composition, so the mint decomposes the canon's broadest relation the way `hosts` and `enacts` did.
+
+*The reading guide.* The foundation tiebreaker under `instantiates` grew from two arms to four: concept applied wholesale → `instantiates` (Bot → Delegation); substrate produced ahead → `precedes` (IA → Searching); material the move's surface is made of → `enables` foundation-side (Prose → Dynamic hyperlinks — constitution, a different Winston/Keet relation, kept deliberately out of `serves`); station of the frame → `serves` (Activity log → Delegation). Notes claiming none of the four arms stay `related`.
+
+*The sweep* (all noted foundation-target residue judged; 11 `serves` + 2 `enables` authored):
+
+- From `related` (6): workflow → delegation (tuning-tools touchpoints — the type specimen), ai-tuning → delegation (set-up + exception handling), notification → delegation (communication channel), suggestion → assistance (option-narrowing step), next-best-action → assistance (workflow transitions) and → delegation (accept-or-perform boundary).
+- From `complements` (4): activity-feed → assistance (perceiving step) and → delegation (execution-stage awareness), ai-completion → assistance (performing + knowing steps), and modality ↔ notification inverted to notification *serves* modality ("chooses where on modality's gradient a signal lands") — the claim was always notification's, authored on the wrong side.
+- From `precedes` (1): delegation → activity-log re-typed and re-sided to activity-log *serves* delegation — its note said "the log serves as the supervisory record for delegation's monitoring touchpoints" verbatim, the hosting-sweep signature repeated.
+- Material arm (2): prose → dynamic-hyperlinks and prose → deep-linking moved from `related` to `enables` (the link text *is* the prose).
+- Calls most open to author override: next-best-action → delegation (the "straddles the line" note reads as gradient placement; `related` was the fallback) and ai-completion → assistance (the note was reworded to name the steps it already implied).
+
+*Held deliberately*: interaction's nine navigation-model `related` rows — their notes are suitability conditions ("efficient when mental model matches structure"), tree or situations material, not edge claims; filed as a decision-tree candidate on interaction's page. Foundation↔foundation pairs (assistance↔delegation, prose↔data/IA/interaction, and prose→assistance/delegation's material-shaped notes) join the latent quality↔quality set awaiting their own treatment — the prose pairs are `enables`-material candidates when that treatment comes. Bare foundation-target `related` entries stay for the residue audit's row-by-row pass (its gate is now open; plans/active/2026-07-related-residue-audit.md).
+
+*Also*: the SKOS alignment gained the subproperty reading — specialised types behave as `rdfs:subPropertyOf skos:related`, which the dedup already implements; entailment runs specific → generic only, which is the standing argument against ever minting a type from a target's role (the retired quality-target channel). New overlap watch: `instantiates`/`serves` (application vs. participation). Renderer: foundations render incoming `serves` as "Served by" — no purist exemption; the incoming set is bounded by the claims-vs-citations line, not universal like a lens.
+
+Retirement question (per §Retirement): the sweep leaned on `serves` (11) and `enables` (+2); it swept from `related` (−8), `complements` (−4), and `precedes` (−1), all of which remain the corpus's largest types — no type is only ever the thing being swept away. `related` share 24.0% against the 25.3% baseline.
+
+What was considered: no mint — declare the residue honest `related` (rejected: the notes kept making the same claim, the sweep-yield tell; and the completion-frame/co-grounding traversals need the shape as data); stretching `enables` to cover participation in both directions across the boundary (rejected: an arrangement is not a composite move, participation is not parthood in the very taxonomy the part–whole relations stand on, and the `hosts` history shows shunts into existing types lose part of the claim); neutral names `draws-on`/`grounded-in` (rejected: they fail the strip-the-range test — remove the foundation-only restriction and nothing remains, the signature of a pseudo-type); reifying stations as first-class anchors, D&S-style (rejected: pre-legislates an anchor vocabulary; the situations gate settled that structure is allowed but evaluation is the drift — recorded as the road not taken in the research note in case a future query layer needs it); a foundation-side inverse alias `served-by` (deferred: no current claim needs foundation-side voicing; a changelog decision if one appears). What was lost: station-level queries read prose — grouping a foundation's incoming `serves` by station is an actor's judgement, never a machine match; and the foundation has no authoring channel toward its dependents, so a foundation-side insight about a pattern must be authored on the pattern's page or wait.
 
 ### 2026-07-11 — Structural auto-typing retired: untyped body links are citations
 

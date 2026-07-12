@@ -59,6 +59,7 @@ const OUTGOING_LABELS: Record<string, string> = {
   enacts:       'Enacts',
   surveys:      'Surveys',
   hosts:        'Hosts',
+  serves:       'Serves',
   complements:  'Complements',
   tangential:   'Tangentially related',
   alternative:  'Alternatives',
@@ -72,6 +73,7 @@ const INCOMING_LABELS: Record<string, string> = {
   enacts:       'Enacted by',
   surveys:      'Surveyed by',
   hosts:        'Hosted by',
+  serves:       'Served by',
 };
 
 // Collect outgoing and incoming edges for this pattern.
@@ -128,9 +130,9 @@ for (const edge of edges) {
 }
 
 // Build ordered sections: directed outgoing, then symmetric, then incoming.
-const DIRECTED_OUT_ORDER = ['precedes', 'enables', 'instantiates', 'hosts', 'enacts', 'surveys'];
+const DIRECTED_OUT_ORDER = ['precedes', 'enables', 'instantiates', 'hosts', 'serves', 'enacts', 'surveys'];
 const SYMMETRIC_ORDER = ['complements', 'tangential', 'alternative', 'related'];
-const DIRECTED_IN_ORDER = ['precedes', 'enables', 'instantiates', 'hosts', 'enacts'];
+const DIRECTED_IN_ORDER = ['precedes', 'enables', 'instantiates', 'hosts', 'serves', 'enacts'];
 
 type Section = { heading: string; entries: GroupEntry[] };
 const sections: Section[] = [];

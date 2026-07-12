@@ -58,7 +58,8 @@ type EdgeType =
   | 'related'
   | 'enacts'
   | 'surveys'
-  | 'hosts';
+  | 'hosts'
+  | 'serves';
 
 interface SituationalHint {
   question: string;
@@ -120,6 +121,7 @@ const ALIAS_TABLE = {
   surveys:       { type: 'surveys'      as EdgeType, invert: false },
   hosts:         { type: 'hosts'        as EdgeType, invert: false },
   'hosted-by':   { type: 'hosts'        as EdgeType, invert: true  },  // alias: P is the hosted move
+  serves:        { type: 'serves'       as EdgeType, invert: false },  // pattern → foundation; no inverse alias — the pattern side carries the edge
   related:       { type: 'related'      as EdgeType, invert: false },
 };
 
@@ -964,7 +966,7 @@ const mixedClusterFindings: string[] = [];
 // both endpoints' pages, so a note naming neither endpoint binds to whichever
 // endpoint the reader is not on. `enacts` is exempt (quality pages render
 // nothing — there is no reverse reader); `recommends` carries hints, not notes.
-const VOICING_TYPES = new Set<string>(['precedes', 'enables', 'instantiates', 'surveys', 'hosts']);
+const VOICING_TYPES = new Set<string>(['precedes', 'enables', 'instantiates', 'surveys', 'hosts', 'serves']);
 const VOICING_STOPWORDS = new Set(['and', 'the', 'for', 'with', 'from', 'into', 'over', 'not']);
 function nameTokens(id: string): string[] {
   const title = nodeMap.get(id)?.title ?? id;
@@ -1036,6 +1038,13 @@ const invalidSurveyEdges = edges.filter((edge) => {
   const role = nodeMap.get(edge.source)?.role;
   return edge.type === 'surveys' && role !== 'collection' && role !== 'umbrella';
 });
+// Invariant 10: `serves` runs pattern → foundation only.
+const invalidServesEdges = edges.filter((edge) => {
+  if (edge.type !== 'serves') return false;
+  const sourceRole = nodeMap.get(edge.source)?.role;
+  const targetRole = nodeMap.get(edge.target)?.role;
+  return targetRole !== 'foundation' || sourceRole === 'foundation' || sourceRole === 'quality';
+});
 
 console.log(`Nodes: ${nodes.length} (${taggedNodes} with tags)`);
 console.log(`Edges: ${edges.length}`);
@@ -1049,6 +1058,10 @@ console.log(`Role coverage (processed sources): explicit=${sourceRoleCoverage.ex
 console.log(`Role coverage (emitted graph nodes): explicit=${graphRoleCoverage.explicit}, inferred=${graphRoleCoverage.inferred}, unset=${graphRoleCoverage.unset}`);
 if (invalidSurveyEdges.length > 0) {
   console.warn(`Collection role warning: ${invalidSurveyEdges.length} surveys edge(s) have a non-collection source`);
+}
+if (invalidServesEdges.length > 0) {
+  console.warn(`Serves role warning: ${invalidServesEdges.length} serves edge(s) violate pattern → foundation (I10)`);
+  for (const e of invalidServesEdges) console.warn(`  ${e.source} serves ${e.target}`);
 }
 if (recommendsCollection.resolvedByTree.size > 0) {
   console.log(`Decision-tree extraction:`);

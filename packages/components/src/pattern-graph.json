@@ -149,7 +149,10 @@
       "category": "Actions",
       "path": "/patterns/block-based-editor",
       "role": "pattern",
-      "group": "sense-making"
+      "group": "sense-making",
+      "realisedBy": [
+        "components-block-based-editor--docs"
+      ]
     },
     {
       "id": "bot",
@@ -171,7 +174,14 @@
             "clause": "a visible, narrowable candidate set that converges on a valid committed value"
           }
         ]
-      }
+      },
+      "realisedBy": [
+        "components-radio-button--docs",
+        "components-checkbox--docs",
+        "components-select--docs",
+        "components-combobox--docs",
+        "components-dual-listbox--docs"
+      ]
     },
     {
       "id": "capability-and-scope",
@@ -250,7 +260,10 @@
             "clause": "a dialogue structure that carries context forward, lets either party take a turn, and accommodates repair when alignment slips"
           }
         ]
-      }
+      },
+      "realisedBy": [
+        "components-messaging--docs"
+      ]
     },
     {
       "id": "dashboard",
@@ -422,7 +435,7 @@
       },
       "group": "application",
       "realisedBy": [
-        "actions-application-form--docs"
+        "components-form--docs"
       ]
     },
     {
@@ -438,7 +451,11 @@
       "category": "Actions",
       "path": "/patterns/fully-connected",
       "role": "pattern",
-      "group": "navigation"
+      "group": "navigation",
+      "realisedBy": [
+        "components-nav-bar--docs",
+        "components-sidebar--docs"
+      ]
     },
     {
       "id": "generated-content",
@@ -527,7 +544,10 @@
       "title": "Inline confirmation",
       "category": "Operations",
       "path": "/patterns/inline-confirmation",
-      "role": "pattern"
+      "role": "pattern",
+      "realisedBy": [
+        "components-morphing-controls--docs"
+      ]
     },
     {
       "id": "inline-interface",
@@ -566,7 +586,10 @@
       "category": "Actions",
       "path": "/patterns/item-view",
       "role": "pattern",
-      "group": "seeking"
+      "group": "seeking",
+      "realisedBy": [
+        "components-item-view--docs"
+      ]
     },
     {
       "id": "keyboard-shortcuts",
@@ -648,7 +671,11 @@
       "category": "Actions",
       "path": "/patterns/multilevel-tree",
       "role": "pattern",
-      "group": "navigation"
+      "group": "navigation",
+      "realisedBy": [
+        "components-sidebar--docs",
+        "components-dropdown--docs"
+      ]
     },
     {
       "id": "navigation-overview",
@@ -680,7 +707,12 @@
           }
         ]
       },
-      "group": "coordination"
+      "group": "coordination",
+      "realisedBy": [
+        "components-toast--docs",
+        "components-callout--docs",
+        "components-dialog--docs"
+      ]
     },
     {
       "id": "onboarding",
@@ -887,7 +919,11 @@
       "title": "Status feedback",
       "category": "Operations",
       "path": "/patterns/status-feedback",
-      "role": "pattern"
+      "role": "pattern",
+      "realisedBy": [
+        "components-callout--docs",
+        "components-badge--docs"
+      ]
     },
     {
       "id": "step-by-step",
@@ -911,7 +947,10 @@
       "category": "Actions",
       "path": "/patterns/tag",
       "role": "pattern",
-      "group": "sense-making"
+      "group": "sense-making",
+      "realisedBy": [
+        "components-tag--docs"
+      ]
     },
     {
       "id": "template",
@@ -949,7 +988,10 @@
             "clause": "a brief peripheral message that auto-dismisses after a short window, optionally carrying a single trailing affordance such as undo"
           }
         ]
-      }
+      },
+      "realisedBy": [
+        "components-toast--docs"
+      ]
     },
     {
       "id": "transparent-reasoning",
@@ -1024,7 +1066,10 @@
       "title": "Workflow",
       "category": "Activities",
       "path": "/patterns/workflow",
-      "role": "pattern"
+      "role": "pattern",
+      "realisedBy": [
+        "components-workflow--docs"
+      ]
     },
     {
       "id": "workspace",
@@ -1103,16 +1148,16 @@
     {
       "source": "activity-feed",
       "target": "assistance",
-      "type": "complements",
-      "label": "keeping recent events visible so the actor can notice what matters",
-      "extractedFrom": "frontmatter:complements"
+      "type": "serves",
+      "label": "assistance's perceiving step — keeping recent events visible so the actor can notice what matters",
+      "extractedFrom": "frontmatter:serves"
     },
     {
       "source": "activity-feed",
       "target": "delegation",
-      "type": "complements",
-      "label": "feed gives the user awareness of background agent activity",
-      "extractedFrom": "frontmatter:complements"
+      "type": "serves",
+      "label": "the feed gives the user awareness of background agent activity during delegation's execution stage",
+      "extractedFrom": "frontmatter:serves"
     },
     {
       "source": "activity-feed",
@@ -1141,6 +1186,13 @@
       "type": "complements",
       "label": "comment threads enable conversations around feed items",
       "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "activity-log",
+      "target": "delegation",
+      "type": "serves",
+      "label": "the log serves as the supervisory record for delegation's *monitoring* and *hood to look under* touchpoints during execution",
+      "extractedFrom": "frontmatter:serves"
     },
     {
       "source": "activity-log",
@@ -1282,9 +1334,9 @@
     {
       "source": "ai-completion",
       "target": "assistance",
-      "type": "complements",
-      "label": "completion might assists user in *performing* and *knowing* stuff",
-      "extractedFrom": "frontmatter:complements"
+      "type": "serves",
+      "label": "assistance's *performing* and *knowing* steps — completion assists the user at both",
+      "extractedFrom": "frontmatter:serves"
     },
     {
       "source": "ai-completion",
@@ -1337,9 +1389,9 @@
     {
       "source": "ai-tuning",
       "target": "delegation",
-      "type": "related",
-      "label": "shaping initial behaviours at set-up, and repairing misfires during exception handling",
-      "extractedFrom": "frontmatter:related"
+      "type": "serves",
+      "label": "shaping initial behaviours at delegation's set-up, and repairing misfires during exception handling",
+      "extractedFrom": "frontmatter:serves"
     },
     {
       "source": "ai-tuning",
@@ -2306,13 +2358,6 @@
       "type": "related",
       "label": "URL state tracks what's expanded/revealed",
       "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "delegation",
-      "target": "activity-log",
-      "type": "precedes",
-      "label": "the log serves as the supervisory record for delegation's *monitoring* and *hood to look under* touchpoints during execution",
-      "extractedFrom": "frontmatter:precedes"
     },
     {
       "source": "bot",
@@ -3612,13 +3657,6 @@
     },
     {
       "source": "modality",
-      "target": "notification",
-      "type": "complements",
-      "label": "chooses where on the gradient a signal lands",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "modality",
       "target": "command-menu",
       "type": "tangential",
       "label": "overlay invocation that intersects modality without being defined by it",
@@ -3826,16 +3864,16 @@
     {
       "source": "next-best-action",
       "target": "assistance",
-      "type": "related",
+      "type": "serves",
       "label": "Next-best action draws on assistance to decide *what* to suggest at workflow transitions",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:serves"
     },
     {
       "source": "next-best-action",
       "target": "delegation",
-      "type": "related",
-      "label": "Next-best action straddles the suggestion/delegation line — the same recommendation can be presented for the actor to accept or for the agent to perform.",
-      "extractedFrom": "frontmatter:related"
+      "type": "serves",
+      "label": "Next-best action sits at delegation's accept-or-perform boundary — the same recommendation can be presented for the actor to accept or for the agent to perform.",
+      "extractedFrom": "frontmatter:serves"
     },
     {
       "source": "next-best-action",
@@ -3896,9 +3934,16 @@
     {
       "source": "notification",
       "target": "delegation",
-      "type": "related",
-      "label": "the primary communication channel for a background agent",
-      "extractedFrom": "frontmatter:related"
+      "type": "serves",
+      "label": "delegation's primary communication channel — how a background agent reaches the actor",
+      "extractedFrom": "frontmatter:serves"
+    },
+    {
+      "source": "notification",
+      "target": "modality",
+      "type": "serves",
+      "label": "chooses where on modality's gradient a signal lands",
+      "extractedFrom": "frontmatter:serves"
     },
     {
       "source": "notification",
@@ -4260,20 +4305,6 @@
     },
     {
       "source": "prose",
-      "target": "dynamic-hyperlinks",
-      "type": "related",
-      "label": "Dynamic hyperlinks are prose-as-affordance: the link text is the prose, and the move from authored phrase to actionable target is itself the prose move.",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "prose",
-      "target": "deep-linking",
-      "type": "related",
-      "label": "Deep linking surfaces a piece of system state as a shareable address; the prose around the link does the work of telling the recipient what they will land in.",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "prose",
       "target": "information-architecture",
       "type": "related",
       "label": "IA owns the labelling vocabulary; prose owns how those labels get phrased and where they tolerate ambiguity.",
@@ -4330,6 +4361,20 @@
       "target": "collaboration-foundation",
       "type": "enables",
       "label": "Collaboration depends on shared interpretive ground; prose is the most flexible carrier of that ground between participants.",
+      "extractedFrom": "frontmatter:enables"
+    },
+    {
+      "source": "prose",
+      "target": "dynamic-hyperlinks",
+      "type": "enables",
+      "label": "Dynamic hyperlinks are prose-as-affordance: the link text is the prose, and the move from authored phrase to actionable target is itself the prose move.",
+      "extractedFrom": "frontmatter:enables"
+    },
+    {
+      "source": "prose",
+      "target": "deep-linking",
+      "type": "enables",
+      "label": "Deep linking surfaces a piece of system state as a shareable address; the prose around the link does the work of telling the recipient what they will land in.",
       "extractedFrom": "frontmatter:enables"
     },
     {
@@ -4776,9 +4821,9 @@
     {
       "source": "suggestion",
       "target": "assistance",
-      "type": "related",
-      "label": "providing likely next actions and narrowing the option space",
-      "extractedFrom": "frontmatter:related"
+      "type": "serves",
+      "label": "assistance's option-narrowing step — providing likely next actions and narrowing the option space",
+      "extractedFrom": "frontmatter:serves"
     },
     {
       "source": "suggestion",
@@ -5150,9 +5195,9 @@
     {
       "source": "workflow",
       "target": "delegation",
-      "type": "related",
+      "type": "serves",
       "label": "the delegated procedure made inspectable; delegation's *tuning tools* touchpoints — at set-up and at repair — edit this artifact",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:serves"
     },
     {
       "source": "workflow",

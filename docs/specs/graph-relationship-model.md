@@ -76,6 +76,7 @@ The settled edge vocabulary is:
 - `enacts`
 - `surveys`
 - `hosts` / `hosted-by`
+- `serves` (pattern → foundation; no inverse alias — the pattern side carries the edge)
 
 The detailed definitions, extraction rules, SKOS notes, situation-construct
 guidance, and changelog live in
