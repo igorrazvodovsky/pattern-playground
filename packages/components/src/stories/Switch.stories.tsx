@@ -10,7 +10,7 @@ interface SwitchArgs {
 }
 
 const meta = {
-  title: "Primitives/Switch",
+  title: "Components/Switch",
   tags: ['autodocs', 'activity-level:operation', 'atomic:primitive', 'mediation:individual'],
   argTypes: {
     label: {

@@ -10,7 +10,7 @@ interface SelectArgs {
 }
 
 const meta = {
-  title: "Primitives/Select",
+  title: "Components/Select",
   argTypes: {
     label: {
       control: { type: 'text' },

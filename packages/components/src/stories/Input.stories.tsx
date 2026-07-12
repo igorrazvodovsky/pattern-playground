@@ -9,7 +9,7 @@ interface InputArgs {
 }
 
 const meta = {
-  title: "Primitives/Input",
+  title: "Components/Input",
   argTypes: {
     label: {
       control: { type: 'text' },

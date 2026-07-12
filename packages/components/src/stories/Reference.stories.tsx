@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ReferenceDemo, BasicReferenceDemo } from "../demos/reference";
 
 const meta = {
-  title: "Primitives/Reference",
+  title: "Components/Reference",
 } satisfies Meta;
 
 export default meta;

@@ -12,7 +12,7 @@ interface BadgeArgs {
 }
 
 const meta = {
-  title: "Primitives/Badge",
+  title: "Components/Badge",
   argTypes: {
     label: {
       control: { type: 'text' },

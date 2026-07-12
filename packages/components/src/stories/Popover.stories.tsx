@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 import { userEvent, within } from '@storybook/testing-library';
 
 const meta = {
-  title: "Primitives/Popover",
+  title: "Components/Popover",
   tags: ["activity-level:operation", "atomic:primitive", "mediation:individual"],
 } satisfies Meta;
 

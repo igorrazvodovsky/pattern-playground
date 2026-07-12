@@ -12,7 +12,7 @@ interface TagArgs {
 }
 
 const meta = {
-  title: "Primitives/Tag",
+  title: "Components/Tag",
   argTypes: {
     label: {
       control: { type: 'text' },

@@ -9,6 +9,35 @@ paths:
 These rules apply to component documentation in `packages/components/src/stories/`.
 For pattern site content in `apps/patterns/src/content/`, see `.claude/rules/pattern-content.md`.
 
+## Catalogue categories
+
+Top-level Storybook buckets — the first segment of every `<Meta title="…">` and
+story `title`:
+
+- *Components* — reusable interface components, at any composition scale. A
+  standalone `pp-input` and a composed `pp-item-view` both live here; the
+  atomic-composition scale is not a placement axis. (`atomic:*` tags are
+  compositional metadata, per `docs/specs/pattern-role-model.md`, not a folder.)
+- *Utilities* — cross-cutting mechanisms that aren't components in their own
+  right (Overflow, Counter, Visually hidden).
+- *Foundations* — design material and substrate (colour, spacing, interaction
+  framework) rather than assembled UI.
+- *Data visualisation* — chart and graph components, kept as a parallel corpus.
+
+Placement decides by *what the entry is*, not how atomic it is: an interface
+component → Components; a mechanism → Utilities; design material → Foundations;
+a chart → Data visualisation. There is deliberately no Primitives/Components
+split — composition scale is captured by tags, not by the bucket.
+
+Titles are load-bearing across surfaces: the docs id derived from a title
+(`Components/Radio button` → `components-radio-button--docs`) is referenced by
+`ComponentRef` ids and `realised_by:` values on pattern pages, and resolved
+against Storybook's `index.json` by the cross-reference validator. Retitling an
+entry means sweeping its referers (see `.claude/rules/pattern-content.md`).
+
+`scripts/check-story-buckets.mjs` enforces this closed set — every title's
+first segment must be one of the buckets above.
+
 ## Documentation format
 - Use `.mdx` format for Storybook documentation with rich interactive content
 - Include Meta component for proper Storybook integration: `<Meta title="Category/Name" />`
@@ -50,5 +79,5 @@ When creating cross-references between documentation files:
 When organizing concepts in the pattern library:
 - *Test boundaries* - Apply frameworks to edge cases to understand scope (e.g., "Does this apply to human-human collaboration or just human-AI?")
 - *Check definitional consistency* - If a foundation is defined as "distribution of X", creating an "X distribution" section may indicate redundancy
-- *Question placement* — Each level has a role.
+- *Question placement* — see *Catalogue categories* above for what decides a story's top-level bucket.
 - *Use Socratic questioning* - Ask "What happens if...?" to test framework boundaries

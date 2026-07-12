@@ -30,7 +30,7 @@ function CheckboxStory({ label, checked, disabled, indeterminate }: CheckboxArgs
 }
 
 const meta = {
-  title: "Primitives/Checkbox",
+  title: "Components/Checkbox",
   argTypes: {
     label: {
       control: { type: 'text' },

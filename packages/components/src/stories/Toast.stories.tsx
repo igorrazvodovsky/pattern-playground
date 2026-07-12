@@ -8,7 +8,7 @@ interface ToastArgs {
 }
 
 const meta = {
-  title: "Primitives/Toast",
+  title: "Components/Toast",
   tags: ["activity-level:operation", "atomic:primitive", 'mediation:individual'],
   argTypes: {
     message: {

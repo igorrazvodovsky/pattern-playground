@@ -34,7 +34,7 @@ function RadioButtonStory({ label, checked, disabled }: RadioButtonArgs) {
 }
 
 const meta = {
-  title: "Primitives/Radio button",
+  title: "Components/Radio button",
   argTypes: {
     label: {
       control: { type: 'text' },

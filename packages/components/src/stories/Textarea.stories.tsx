@@ -3,7 +3,7 @@ import React from "react";
 import { action } from 'storybook/actions';
 
 const meta = {
-  title: "Primitives/Textarea",
+  title: "Components/Textarea",
 } satisfies Meta;
 
 export default meta;

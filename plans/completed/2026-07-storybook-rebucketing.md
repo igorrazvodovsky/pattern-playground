@@ -1,14 +1,27 @@
 ---
 title: "Finish the Storybook catalogue re-bucketing"
-status: "active"
+status: "completed"
 kind: "exec-spec"
 created: "2026-07"
-last_reviewed: "2026-07-11"
+last_reviewed: "2026-07-12"
 area: "components"
 promoted_to: ""
 superseded_by: ""
 ---
 # Finish the Storybook catalogue re-bucketing
+
+Completed 2026-07-12. The open decision resolved by collapsing
+Primitives → Components: the catalogue is now a flat *Components* bucket plus
+*Utilities*, *Foundations*, and *Data visualisation*, with composition scale
+carried by `atomic:*` tags rather than a folder. The category set is recorded in
+the *Catalogue categories* section of `.claude/rules/documentation.md`;
+`scripts/check-story-buckets.mjs` enforces the closed set of title prefixes.
+Eighteen Primitives titles and the four activity-level stragglers (Form, Card,
+List, Callout, plus the Dual listbox / Messaging MDX metas) were retitled;
+`ComponentRef`, `realised_by`, and inter-page Storybook links were swept across
+both surfaces (including the already-stale `operations-combobox--docs` and
+`actions-evaluation-list--docs`). Build and cross-reference validator green;
+`index.json` carries no retired-prefix docs entries.
 
 ## Context
 

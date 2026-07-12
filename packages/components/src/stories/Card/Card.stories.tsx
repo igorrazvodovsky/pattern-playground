@@ -32,7 +32,7 @@ const attributes = faker.helpers.multiple(createAttribute, { count: 5 })
 const description = faker.word.words(50);
 
 const meta = {
-  title: "Actions/Sense-making/Card",
+  title: "Components/Card",
   argTypes: {
     loading: {
       control: { type: 'boolean' },

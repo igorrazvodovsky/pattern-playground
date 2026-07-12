@@ -25,7 +25,7 @@ When several controls answer one logical question — a radio group, an address 
 
 <Story of={RadioButtonStories.Group} />
 
-A composite field is the other case — one value split across several inputs that must be read together (a date, an address, a name). The legend names the whole; each [input](../?path=/docs/primitives-input--docs) keeps a short label:
+A composite field is the other case — one value split across several inputs that must be read together (a date, an address, a name). The legend names the whole; each [input](../?path=/docs/components-input--docs) keeps a short label:
 
 <Story of={FormStories.FieldsetComposite} />
 
@@ -39,19 +39,19 @@ TODO: <PatternRef slug="validation">validation</PatternRef>; what remains here i
 
 ## Choosing an input
 
-Control choice follows the shape of the data. When the valid values form a bounded set, use <PatternRef slug="bounded-choice">Bounded choice</PatternRef>'s set-size spectrum (radio → select → combobox → dual listbox). When the value is fully open — the user supplies it rather than picks it — reach for a free-text [Input](../?path=/docs/primitives-input--docs) or [Textarea](../?path=/docs/primitives-textarea--docs). When both are true — there's a set, but a value outside it is also acceptable — a combobox covers that middle ground, letting the user narrow existing options or type a new one.
+Control choice follows the shape of the data. When the valid values form a bounded set, use <PatternRef slug="bounded-choice">Bounded choice</PatternRef>'s set-size spectrum (radio → select → combobox → dual listbox). When the value is fully open — the user supplies it rather than picks it — reach for a free-text [Input](../?path=/docs/components-input--docs) or [Textarea](../?path=/docs/components-textarea--docs). When both are true — there's a set, but a value outside it is also acceptable — a combobox covers that middle ground, letting the user narrow existing options or type a new one.
 The useful question is therefore "does the value come from a set, and is that set the only thing allowed?" rather than "free text or selection?".
 
 ## Related patterns
 
 ### Containers and primitives
 
-- [Input](../?path=/docs/primitives-input--docs) — free-form text entry with label and helper text
-- [Textarea](../?path=/docs/primitives-textarea--docs) — multi-line counterpart for longer text
-- [Select](../?path=/docs/primitives-select--docs) — choosing one value from a short, bounded set
-- [Checkbox](../?path=/docs/primitives-checkbox--docs) — binary choice input
+- [Input](../?path=/docs/components-input--docs) — free-form text entry with label and helper text
+- [Textarea](../?path=/docs/components-textarea--docs) — multi-line counterpart for longer text
+- [Select](../?path=/docs/components-select--docs) — choosing one value from a short, bounded set
+- [Checkbox](../?path=/docs/components-checkbox--docs) — binary choice input
 - [Button](../?path=/docs/components-button--docs) — form submission and action triggers
-- [Details](../?path=/docs/primitives-details--docs) — collapsible form sections
+- [Details](../?path=/docs/components-details--docs) — collapsible form sections
 
 ### Used by
 
@@ -61,7 +61,7 @@ The useful question is therefore "does the value come from a set, and is that se
 
 ### Complementary
 
-- [Callout](../?path=/docs/operations-callout--docs) — inline validation and instructional feedback within forms
+- [Callout](../?path=/docs/components-callout--docs) — inline validation and instructional feedback within forms
 - <PatternRef slug="good-defaults">Good defaults</PatternRef> — reduce friction by pre-selecting likely options
 - <PatternRef slug="status-feedback">Status feedback</PatternRef> — validation and system status communication
 - <PatternRef slug="saving">Saving</PatternRef> — autosave and manual save strategies

@@ -27,7 +27,7 @@ relationships:
 
 import { ToastWithUndoDemo } from '@pkg/demos/transient-feedback';
 
-Transient feedback shows a message briefly, then removes it without asking the actor to do anything. The usual delivery vehicle is a <ComponentRef id="primitives-toast--docs">toast</ComponentRef>.
+Transient feedback shows a message briefly, then removes it without asking the actor to do anything. The usual delivery vehicle is a <ComponentRef id="components-toast--docs">toast</ComponentRef>.
 
 ## Two situations
 
@@ -39,7 +39,7 @@ Transient feedback shows a message briefly, then removes it without asking the a
 
 The dismissal interval resolves a tension between reassurance and intrusion. Short confirmations — file saved, item deleted — typically dismiss after 4–5 seconds. A message carrying an action needs longer: the actor must notice it, decide, and act. 8–10 seconds is a reasonable minimum when [undo](/patterns/undo) is offered.
 
-Avoid very long durations. If the information needs to persist, the move is no longer transient — use a <ComponentRef id="operations-callout--docs">callout</ComponentRef> instead.
+Avoid very long durations. If the information needs to persist, the move is no longer transient — use a <ComponentRef id="components-callout--docs">callout</ComponentRef> instead.
 
 ## Carrying an action
 

@@ -3,7 +3,7 @@ import { action } from 'storybook/actions';
 import { FormDemo } from '../demos/form';
 
 const meta = {
-  title: "Actions/Application/Form",
+  title: "Components/Form",
 } satisfies Meta;
 
 export default meta;

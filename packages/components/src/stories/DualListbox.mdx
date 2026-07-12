@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 
-<Meta title="Actions/Coordination/Dual listbox" tags={['activity-level:action', 'atomic:pattern', 'role:component', 'lifecycle:coordination', 'mediation:coordination']} />
+<Meta title="Components/Dual listbox" tags={['activity-level:action', 'atomic:pattern', 'role:component', 'lifecycle:coordination', 'mediation:coordination']} />
 
 {/* > 🤔 **Fun meter: 2/5**. Dependency.  */}
 
@@ -12,7 +12,7 @@ The control realises the staged-commit end of [Selection](/patterns/selection)'s
 
 ## When to reach for it
 
-Compared with a [multiselect](../?path=/docs/operations-combobox--docs) (combobox with checked items), which commits items one at a time and never shows the full selected set beside the remaining pool, the dual listbox keeps both sides on screen. It earns its larger surface when the assignment is bulk, the cost of getting it wrong is high, or the actor needs to cross-reference ("am I leaving the right items behind?"). For lighter selection, prefer the combobox.
+Compared with a [multiselect](../?path=/docs/components-combobox--docs) (combobox with checked items), which commits items one at a time and never shows the full selected set beside the remaining pool, the dual listbox keeps both sides on screen. It earns its larger surface when the assignment is bulk, the cost of getting it wrong is high, or the actor needs to cross-reference ("am I leaving the right items behind?"). For lighter selection, prefer the combobox.
 
 {/* TODO: no implementation yet. Add a DualListbox.stories.tsx with a motivating
     example — e.g. "assign labels to tasks" bulk dialog or "grant roles to users" — and switch
@@ -21,7 +21,7 @@ Compared with a [multiselect](../?path=/docs/operations-combobox--docs) (combobo
 ## Related
 
 - [Selection](/patterns/selection) — the pattern this component serves; the staged-commit variant
-- [Combobox](../?path=/docs/operations-combobox--docs) — the lighter-weight control when side-by-side review isn't needed
+- [Combobox](../?path=/docs/components-combobox--docs) — the lighter-weight control when side-by-side review isn't needed
 - [Action bar](../?path=/docs/components-action-bar--docs) — the immediate-action alternative, when "assign these to that" needs no review step
 - [Form](/patterns/form) — the typical container; its confirm button commits the assignment
 

@@ -17,7 +17,7 @@ const purposeIcons: Record<CalloutPurpose, string> = {
 };
 
 const meta = {
-  title: "Operations/Callout",
+  title: "Components/Callout",
   argTypes: {
     message: {
       control: { type: 'text' },

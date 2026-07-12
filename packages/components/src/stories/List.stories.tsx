@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
 
 const meta = {
-  title: "Actions/Evaluation/List",
+  title: "Components/List",
   tags: ['activity-level:action', 'atomic:component', 'role:component', 'lifecycle:evaluation', 'mediation:individual'],
   parameters: {
     docs: {

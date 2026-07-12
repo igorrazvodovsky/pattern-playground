@@ -42,7 +42,7 @@ Transient modes split further by whether they block the underlying interface:
 
 *Modal* surfaces disable interaction with the background. The actor must resolve the presented task before returning. Typically paired with a scrim (lightbox overlay) that signals the blocked state. <ComponentRef id="components-dialog--docs">Dialog</ComponentRef> is always modal; <ComponentRef id="components-drawer--docs">drawer</ComponentRef> can be either.
 
-*Non-modal* surfaces coexist with the primary interface. The actor can interact with both. <ComponentRef id="primitives-popover--docs">Popover</ComponentRef>, <ComponentRef id="primitives-toast--docs">toast</ComponentRef>, and <ComponentRef id="operations-callout--docs">callout</ComponentRef> are non-modal — they add information or options without demanding resolution.
+*Non-modal* surfaces coexist with the primary interface. The actor can interact with both. <ComponentRef id="components-popover--docs">Popover</ComponentRef>, <ComponentRef id="components-toast--docs">toast</ComponentRef>, and <ComponentRef id="components-callout--docs">callout</ComponentRef> are non-modal — they add information or options without demanding resolution.
 
 Some patterns shift between modal and non-modal depending on context. A <ComponentRef id="components-drawer--docs">drawer</ComponentRef> may be non-modal on a wide viewport (side peek alongside the main content) and modal on a narrow one (covering the primary surface). Mobile platforms often call this a *sheet*.
 
@@ -85,9 +85,9 @@ flowchart TD
 ### Complementary
 - <ComponentRef id="components-dialog--docs">Dialog</ComponentRef> – the strict-modal anchor of the gradient
 - <ComponentRef id="components-drawer--docs">Drawer</ComponentRef> – the gradient's hinge, where modal and non-modal behaviour meet
-- <ComponentRef id="operations-callout--docs">Callout</ComponentRef> – sits beside toast on the non-modal end, anchored rather than ambient
-- <ComponentRef id="primitives-popover--docs">Popover</ComponentRef> – the loosest transient mode, yielding to any other interaction
-- <ComponentRef id="primitives-toast--docs">Toast</ComponentRef> – the non-modal floor of the gradient
+- <ComponentRef id="components-callout--docs">Callout</ComponentRef> – sits beside toast on the non-modal end, anchored rather than ambient
+- <ComponentRef id="components-popover--docs">Popover</ComponentRef> – the loosest transient mode, yielding to any other interaction
+- <ComponentRef id="components-toast--docs">Toast</ComponentRef> – the non-modal floor of the gradient
 ### Tangentially related
 - <ComponentRef id="components-dropdown--docs">Dropdown</ComponentRef> – an option reveal that demonstrates non-modal selection
 - <ComponentRef id="components-context-menu--docs">Context menu</ComponentRef> – contextual overlay whose modality depends on platform conventions

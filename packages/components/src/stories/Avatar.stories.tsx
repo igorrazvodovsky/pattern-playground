@@ -15,7 +15,7 @@ interface AvatarProps {
 }
 
 const meta = {
-  title: 'Primitives/Avatar',
+  title: 'Components/Avatar',
   tags: ['autodocs', 'activity-level:operation', 'atomic:component', 'role:component', 'mediation:individual'],
   parameters: {
     docs: {
