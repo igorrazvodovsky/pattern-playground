@@ -12,8 +12,8 @@ jobs:
       - name: Check AGENTS.md stub and links
         run: node scripts/check-agents-stub.mjs
 
-      - name: Check taxonomy sync
-        run: node scripts/check-taxonomy-sync.mjs
+      - name: Check graph mirror sync
+        run: node scripts/check-graph-mirror.mjs
 
       - name: Check internal link integrity
         uses: lycheeverse/lychee-action@v2

@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-// Scans src/pattern-graph.json for classification drift signals.
+// Scans the canonical pattern graph for classification drift signals.
 // Emits a markdown report to stdout. Never proposes vocabulary changes.
 // Degrades gracefully when typed-edge metadata (type, label, tags) is absent.
 
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-const GRAPH_PATH = resolve(process.cwd(), 'src/pattern-graph.json');
+const GRAPH_PATH = resolve(process.cwd(), 'apps/patterns/src/data/pattern-graph.json');
 const UNDERUSED_THRESHOLD = 3;         // edge type flagged if it has fewer edges than this
 const THEMATIC_LABEL_THRESHOLD = 3;    // label repeating in >= N files → promotion candidate
 const TAG_NOISE_MAX = 1;               // tag used only this many times → noise candidate
@@ -25,7 +25,7 @@ const lines = [];
 const today = new Date().toISOString().slice(0, 10);
 lines.push(`### Observed drift — ${today}`);
 lines.push('');
-lines.push(`Automated scan of \`src/pattern-graph.json\` (${nodes.length} nodes, ${edges.length} edges). Signals only; the vocabulary is unchanged until a human decides.`);
+lines.push(`Automated scan of \`apps/patterns/src/data/pattern-graph.json\` (${nodes.length} nodes, ${edges.length} edges). Signals only; the vocabulary is unchanged until a human decides.`);
 lines.push('');
 
 if (typed.length === 0 && labeled.length === 0 && taggedNodes.length === 0) {
