@@ -17,8 +17,9 @@ or route on a situation or hint — they render as prose for judgement.
 - Source material is `apps/patterns/src/content/patterns/**/*.mdx`. The graph is
   language-only: pattern, quality, foundation, and collection nodes. Components do
   not contribute nodes — they resolve outside the graph, against Storybook's build
-  output `index.json` (`packages/components/storybook-static/index.json`, copied to
-  `apps/patterns/public/storybook/index.json`), which is the resolution dataset for
+  output `index.json` (`packages/components/storybook-static/index.json`, with a
+  cached fallback at `apps/patterns/storybook-index/index.json`), which is the
+  resolution dataset for
   `<ComponentRef id>`. A build-time validator (`apps/patterns/integrations/validate-cross-references.ts`)
   checks every `<ComponentRef id>` against it, and every `<PatternRef slug>` in
   Storybook MDX against the content stems, failing the site build on any broken

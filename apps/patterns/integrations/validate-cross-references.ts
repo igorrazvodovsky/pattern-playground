@@ -18,10 +18,12 @@ import type { AstroIntegration, AstroIntegrationLogger } from 'astro';
 // .astro/.tsx page body) must resolve to that same content-stem route space.
 //
 // All three checks run in one place — the site build — because the ComponentRef check
-// needs Storybook's index.json (a build artifact) and the fallback-to-public copy
-// only has meaning inside a site build. The PatternRef check rides along here
-// rather than in the Storybook build: on the canonical root `npm run build`
-// (Storybook builds first, then the site) both surfaces are gated in one pass.
+// needs Storybook's index.json (a build artifact). When the Storybook build output
+// is absent, a cached copy of index.json under apps/patterns/storybook-index/
+// (refreshed by the root build, never deployed) stands in so a standalone site
+// build can still validate. The PatternRef check rides along here rather than in
+// the Storybook build: on the canonical root `npm run build` (Storybook builds
+// first, then the site) both surfaces are gated in one pass.
 // The documented coupling: a PatternRef slug typo in Storybook MDX fails the site
 // build. That is deliberate — the unified build is the single gate.
 
@@ -29,7 +31,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = join(__dirname, '../../..');
 
 const storybookIndexPrimary = join(rootDir, 'packages/components/storybook-static/index.json');
-const storybookIndexFallback = join(rootDir, 'apps/patterns/public/storybook/index.json');
+const storybookIndexFallback = join(rootDir, 'apps/patterns/storybook-index/index.json');
 const patternsContentDir = join(rootDir, 'apps/patterns/src/content');
 const storyMdxDir = join(rootDir, 'packages/components/src/stories');
 // .astro/.tsx surfaces whose template bodies carry authored `/patterns/` hrefs in
@@ -217,7 +219,7 @@ function loadStorybookIndex(logger: AstroIntegrationLogger): StorybookIndex {
     logger.warn(
       `Storybook build output not found at ${relPath(storybookIndexPrimary)}; ` +
         `falling back to ${relPath(storybookIndexFallback)}. That copy is only ` +
-        'refreshed by `npm run build:storybook-into-patterns` and may be stale — ' +
+        'refreshed by `npm run build:storybook-index` and may be stale — ' +
         'ComponentRef ids are validated against a possibly-outdated catalogue.',
     );
   } else {
