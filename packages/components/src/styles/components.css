@@ -1,0 +1,100 @@
+/* Components — every component skin demos and site chrome need in light DOM.
+   Files that already declare their own internal `@layer` are imported plainly
+   (nested assignment composes); the formerly-unlayered ones are pinned to
+   `layer(components)` at the import site so no rule escapes the cascade order. */
+
+@import url(kbd.css);
+@import url(button.css);
+@import url(popover.css);
+@import url(card.css);
+@import url(dialog.css);
+@import url(drawer.css);
+@import url(navigation.css) layer(components);
+@import url(pagination.css);
+@import url(table.css);
+@import url(charts.css) layer(components);
+@import url(checkbox.css);
+@import url(radio.css);
+@import url(counter.css);
+@import url(callout.css);
+@import url(badge.css);
+@import url(tag.css);
+@import url(avatar.css);
+@import url(p-plus.css);
+@import url(breadcrumbs.css) layer(components);
+@import url(textarea.css) layer(components);
+@import url(details.css);
+@import url(messages.css) layer(components);
+@import url(input.css) layer(components);
+@import url(reference.css) layer(components);
+@import url(hover-card.css) layer(components);
+@import url(sidebar.css);
+/* @import url(tiptap.css); */
+@import url(list-item-shared.css) layer(components);
+@import url(cmdk.css) layer(components);
+@import url(progress-indicator.css) layer(components);
+@import url(toast.css) layer(components);
+@import url(bubble-menu.css) layer(components);
+@import url(explanation.css) layer(components);
+@import url(tldraw.css) layer(components);
+@import url(sections.css);
+@import url(toc.css);
+@import url(pattern-graph.css);
+@import url(dynamic-hyperlinks.css);
+@import url(form.css);
+
+/* Grab-bag relocated from main.css so the site (which imports the three entries,
+   not main.css) still receives them. Each placed in the layer matching intent. */
+
+@layer utilities {
+  .visually-hidden {
+    clip-path: inset(50%);
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+  }
+
+  .dashed {
+    border-style: dashed;
+  }
+}
+
+@layer components {
+  /* TODO: move */
+  .layer {
+    background: var(--c-neutral-0);
+    --c-background: var(--c-neutral-0);
+
+    .layer {
+      background: var(--c-neutral-50);
+      --c-background: var(--c-neutral-50);
+
+      .layer {
+        background: var(--c-neutral-0);
+        --c-background: var(--c-neutral-0);
+      }
+    }
+  }
+
+  .layer.gray {
+    background: var(--c-neutral-50);
+
+    .layer {
+      background: var(--c-neutral-0);
+
+      .layer {
+        background: var(--c-neutral-50);
+      }
+    }
+  }
+
+  pp-comment-thread {
+    display: block;
+  }
+
+  pp-comment-item {
+    display: contents;
+  }
+}

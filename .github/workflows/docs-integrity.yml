@@ -15,6 +15,9 @@ jobs:
       - name: Check graph mirror sync
         run: node scripts/check-graph-mirror.mjs
 
+      - name: Check style boundary
+        run: node scripts/check-style-boundary.mjs
+
       - name: Check internal link integrity
         uses: lycheeverse/lychee-action@v2
         with:
