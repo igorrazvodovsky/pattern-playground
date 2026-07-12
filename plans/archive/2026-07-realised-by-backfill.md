@@ -1,6 +1,6 @@
 ---
 title: "realised_by backfill: claim or citation, page by page"
-status: "active"
+status: "completed"
 kind: "exec-spec"
 created: "2026-07"
 last_reviewed: "2026-07-11"
@@ -32,8 +32,7 @@ and the validator catches any miss at build.
 
 ## Procedure
 
-One sitting, or two if fatigue sets in mid-list — stakes are uniform, so
-order is alphabetical.
+Stakes are uniform, so order is alphabetical.
 
 1. Inventory: `grep -rn "ComponentRef" apps/patterns/src/content/patterns/`
    grouped by file.
