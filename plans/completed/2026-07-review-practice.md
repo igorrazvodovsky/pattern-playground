@@ -1,9 +1,9 @@
 ---
 title: "Review practice: moves, reconciliation, drift"
-status: "active"
+status: "completed"
 kind: "exec-spec"
 created: "2026-07"
-last_reviewed: "2026-07-10"
+last_reviewed: "2026-07-12"
 area: "process"
 promoted_to: ""
 superseded_by: ""
@@ -262,12 +262,15 @@ markdown document, that is the signal to revisit — not before.
 
 ## Implementation steps
 
-Steps 1–3 are built: the three skills exist under `.claude/skills/`
+All four steps are done. The three skills live under `.claude/skills/`
 (`move-review`, `reconcile-image`, `drift-review`) and
-`docs/quality/code-review.md` routes the two axes. Step 4 is in progress:
-the episode map and all eight walkthroughs sit in
-`plans/reviews/split-project/`; verdicts, the composition pass
-(`/move-review compose split-project`), Loop 2, and the merge remain.
+`docs/quality/code-review.md` routes the two axes. The first application
+ran on `split-project` in full recursive form: episode map, eight
+walkthroughs, written verdicts, composition pass, then Loop 2 — the
+reconciliation record is `plans/reviews/reconciliation-2026-07-11.md`,
+and its decisions were applied before the branch merged (PR #24). The
+review directory is archived at `plans/archive/split-project/`. Loop 3
+awaits its first monthly cadence.
 
 1. Write `.claude/skills/move-review/` (Loop 1) as an orchestrator: it pins
    the merge-base and validates the diff itself, then spawns review

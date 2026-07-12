@@ -1,7 +1,7 @@
 # Composition pass — split-project
 
 Capstone of the Loop 1 recursive run (`/move-review compose split-project`),
-per `plans/active/2026-07-review-practice.md`. Object: the eight episode
+per `plans/completed/2026-07-review-practice.md`. Object: the eight episode
 walkthroughs and their verdicts (all written 2026-07-11), read together.
 Findings live *between* episodes; no episode-level verdict is re-adjudicated.
 
@@ -197,7 +197,7 @@ doc fixes throughout. Two plans were explicitly coordinated with each other
 (05 M5's verdict names the shared article-extraction seam with
 pane-island-hydration).
 
-*Answers to.* The review practice itself (plans/active/2026-07-review-practice.md);
+*Answers to.* The review practice itself (plans/completed/2026-07-review-practice.md);
 the registries convention (carried work becomes plan files).
 
 *Backtalk.* The mesh mostly composes, with two seams the sittings could not

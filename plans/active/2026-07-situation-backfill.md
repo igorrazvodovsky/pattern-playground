@@ -12,7 +12,7 @@ superseded_by: ""
 
 *Thin outline — iterate before executing.* Follow-up from the split-project
 move review's composition pass (move 5 of
-`plans/reviews/split-project/composition.md`).
+`plans/archive/split-project/composition.md`).
 
 ## Context
 

@@ -2,7 +2,7 @@
 
 Make interactive demos run in stacked panes beyond position 0.
 Follow-up from the split-project move review (episode 05, move 1 of
-`plans/reviews/split-project/05-site-surfaces.md`).
+`plans/archive/split-project/05-site-surfaces.md`).
 
 ## Context
 

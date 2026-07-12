@@ -13,8 +13,7 @@ is *re-derived from the repository fresh*, then compared against the
 recorded documents. An agent that reads the recorded image first anchors
 on it — so the deriving context never sees those documents at all.
 
-Defined by `plans/active/2026-07-review-practice.md` (or its completed
-successor). This loop exercises *framing* judgment: were the boundaries and
+Defined by `plans/completed/2026-07-review-practice.md`. This loop exercises *framing* judgment: were the boundaries and
 problem statements right?
 
 ## Blinding is structural, not an instruction

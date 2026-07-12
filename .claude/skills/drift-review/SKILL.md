@@ -13,8 +13,7 @@ the practitioner to delegate the reflecting, and for a thinking tool that
 delegation is fatal. Hence the hard rule: *observations and questions only,
 no verdicts, no recommendations phrased as conclusions*.
 
-Defined by `plans/active/2026-07-review-practice.md` (or its completed
-successor).
+Defined by `plans/completed/2026-07-review-practice.md`.
 
 ## Evidence gathering
 

@@ -13,8 +13,7 @@ situation answered — not "what changed and why". Verdicts have three outcomes,
 not two: *accept*, *fix*, and *reframe* (the change violated the plan because
 the plan's problem statement was wrong, and the violation is a discovery).
 
-Defined by `plans/active/2026-07-review-practice.md` (or its completed
-successor). This loop exercises *navigational* judgment per episode and
+Defined by `plans/completed/2026-07-review-practice.md`. This loop exercises *navigational* judgment per episode and
 *compositional* judgment in the composition pass; framing judgment belongs to
 `/reconcile-image`.
 

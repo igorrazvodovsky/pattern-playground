@@ -21,4 +21,4 @@ verdicts written by the author. Companion loops: `/reconcile-image` per plan
 completion or large merge, `/drift-review` monthly.
 
 The practice is specified in
-[plans/active/2026-07-review-practice.md](../../plans/active/2026-07-review-practice.md).
+[plans/completed/2026-07-review-practice.md](../../plans/completed/2026-07-review-practice.md).

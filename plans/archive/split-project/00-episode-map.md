@@ -1,7 +1,7 @@
 # Episode map — split-project
 
 First review artifact for the Loop 1 recursive run (`/move-review`), per
-`plans/active/2026-07-review-practice.md`.
+`plans/completed/2026-07-review-practice.md`.
 
 - Branch: `split-project` (168 commits, 983 files, +46 871 / −28 449)
 - Merge-base with `main`, pinned: `ef66e6a852ff04cc9de2f64b8734fa4fe97c1d7c`
