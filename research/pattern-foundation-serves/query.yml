@@ -1,0 +1,34 @@
+story: null
+topic: pattern–foundation "serves" edge — a typed relation from a pattern to a foundational concept whose frame it serves a named station of
+interaction: |
+  An author declares that a pattern's role is articulated within a foundation's
+  internal anatomy (delegation's monitoring touchpoint, assistance's cognitive
+  cycle, modality's gradient). A graph consumer traverses these edges to find
+  the unclaimed stations of a foundation (completion frame), moves sharing a
+  material (co-grounding), and entry points from a material-shaped brief.
+context: |
+  A pattern library whose graph has a controlled edge vocabulary (precedes,
+  enables, instantiates, complements, hosts, enacts, surveys, recommends,
+  related), grounded in Winston/Chaffin/Herrmann meronymy and SKOS alignment.
+  Foundations are design material/substrate entries (prose, delegation,
+  information architecture, modality...), distinct from patterns (moves) and
+  qualities (lenses). The residual pattern–foundation adjacency sits in
+  `related`; the strawman mints `serves` (pattern → foundation), with notes
+  naming the station in the author's words and anatomy controlled per
+  foundation. Framed as "what would I be wrong about?" before the changelog
+  entry lands.
+questions:
+  - Does pattern-language literature already name the pattern→frame relation
+    ("uses", "refines", roles within a larger pattern)? Is `serves` colliding
+    with or duplicating an established term?
+  - Is the completion-frame reading (a larger structure calling for smaller
+    moves to complete its stations) an established construct — Alexander's
+    larger-pattern completion, role-filling in pattern composition?
+  - Does the ontology literature treat "serves a station in an arrangement" as
+    a documented relation — functional parthood, participation (Keet & Artale
+    extend Winston with involvement/participation)? If serves is really
+    functional parthood, the right home might be `enables`, not a new type.
+  - Do pattern languages with a foundation/material layer (distinct from
+    patterns) exist, and how do they type links into it? Known failure modes
+    of layer-specific relation types?
+keywords: [design pattern relationships, pattern language ontology, part-whole relations, functional parthood, participation relation, PLML, pattern composition roles]
