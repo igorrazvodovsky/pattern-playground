@@ -3,7 +3,10 @@
    * Sidebar tokens (scoped under the wrapper so they don't pollute :root)
    * ------------------------------------------------------------------------- */
 
-  [data-slot="sidebar-wrapper"] {
+  /* Also on .sidebar-mobile: the mobile drawer is portaled to <body>, outside
+     the wrapper, so it must carry the tokens itself. */
+  [data-slot="sidebar-wrapper"],
+  .sidebar-mobile {
     /* Icon-collapsed rail width. Also set inline by SidebarProvider when it
      * renders the wrapper; declared here too so a static Astro wrapper
      * (renderWrapper={false}) still resolves it and ⌘B icon-collapse works.

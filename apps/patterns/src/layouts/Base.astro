@@ -2,6 +2,7 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import ClientRouter from 'astro/components/ClientRouter.astro';
 import '@styles/main.css';
+import '../styles/fonts.css';
 import '../styles/app.css';
 import '../styles/stack.css';
 import '../styles/link-preview.css';
@@ -121,9 +122,6 @@ const navItems: NavGroup[] = [
     <ClientRouter />
     <link rel="stylesheet" href="/pagefind/pagefind-component-ui.css" is:inline />
     <script src="/pagefind/pagefind-component-ui.js" type="module" is:inline></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Alegreya:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
     <style is:global>
       html, body { height: 100%; margin: 0; }
     </style>
