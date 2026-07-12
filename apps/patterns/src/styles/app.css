@@ -14,32 +14,16 @@
     --flow-space: 1em;
   }
 
-  :is(.content-inset, .pane article) blockquote, cite {
-    --font: 'Alegreya', Georgia, serif;
-    font-style: italic;
-    color: var(--c-bodyDimmed);
-  }
-
-  blockquote + p {
-    --font: 'Alegreya', Georgia, serif;
-    margin-block-start: 0 !important;
-    color: var(--c-bodyDimmed);
-    font-size: 16px !important;
-  }
-
-  :is(.content-inset, .pane article) .demo-block {
-    --font: system-ui, sans-serif;
-  }
-
   h1 i {
-    font-style: normal;
+    font-style: inherit;
+    display: block;
   }
 }
 
 @layer components {
   .sidebar-wrapper {
     /* Align sidebar width with Storybook's sidebar */
-    --sidebar-width: 300px !important;
+    --sidebar-width: 300px;
     --font: 'Alegreya Sans', system-ui, sans-serif;
     --text-s: 1rem;
   }
@@ -51,18 +35,26 @@
 
   .sidebar-search .sidebar-search-kbd {
     margin-inline-start: auto;
+    border: none
   }
 
   .sidebar-logo img {
     display: block;
     width: 100%;
-    max-width: 8rem !important;
+    max-width: 8rem;
     height: auto;
   }
 
   .demo-block {
+    /* Inheritance crosses the @scope prose limit below, so the demo re-asserts
+       neutral type here — system font, base size, normal line-height. Without
+       this guard, prose --font / line-height / measure would bleed into a
+       demo even though the prose *selectors* can't reach into it. */
+    --font: system-ui, sans-serif;
     --_baseTextSize: 16px;
     background: var(--c-surface);
+    line-height: normal;
+    font-size: var(--_baseTextSize);
   }
 
   .demo-block__content {
@@ -85,8 +77,33 @@
     font-size: smaller;
     color: var(--c-bodyDimmed);
   }
+}
 
-  :is(.content-inset, .pane article) a:not([class]) {
+/* Prose voice, authored inside a donut scope. The scope limit (.demo-block,
+   pp-toc) means these selectors structurally cannot reach a demo or a table of
+   contents nested in prose — it replaces the old `:not(pp-toc …)` chains and
+   resolves nesting they couldn't express (a list inside a demo inside a pane is
+   excluded). Unlayered, so it wins by layer order over the library, never by
+   scope proximity (which ranks below specificity and would be an unreliable
+   lever). Inheritance still crosses the limit — the `.demo-block` guard above
+   handles that. */
+@scope (.content-inset, .pane article) to (.demo-block, pp-toc) {
+  ul {
+    list-style: "- ";
+    list-style-position: outside;
+  }
+
+  ol {
+    margin-inline-start: 0;
+    padding-inline-start: 0;
+    list-style: decimal;
+  }
+
+  li + li {
+    margin-top: var(--space-xs);
+  }
+
+  a:not([class]) {
     color: inherit;
     text-decoration: underline;
     text-decoration-color: oklch(from var(--c-body) l c h / 0.35);
@@ -97,15 +114,26 @@
       text-decoration-color: oklch(from var(--c-body) l c h / 0.75);
     }
   }
+
+  blockquote,
+  cite {
+    --font: 'Alegreya', Georgia, serif;
+    font-style: italic;
+    color: var(--c-bodyDimmed);
+  }
+
+  blockquote + p {
+    --font: 'Alegreya', Georgia, serif;
+    margin-block-start: 0;
+    color: var(--c-bodyDimmed);
+    font-size: 16px;
+  }
 }
 
-.pattern-graph {
-  max-width: 50vmax;
-}
-
-.content-inset {
-  margin: var(--space-2xl) var(--space-3xl);
-
+/* Content (non-stack) prose measure — also a donut so a future demo on a
+   content page stays unaffected. The structural rules for .content-inset (its
+   margins, the home grid/rail) live outside the scope, below. */
+@scope (.content-inset) to (.demo-block, pp-toc) {
   p, blockquote, ul, ol {
     max-width: 60ch;
   }
@@ -122,42 +150,19 @@
   }
 }
 
-/* TODO: */
-.pane .pane-body > astro-slot > article, .pane .pane-body > article {
-    /* Leaks into demos */
-    /* font-size: 1.25em; */
-    line-height: 1.5;
-    max-width: 70ch;
-  }
-
-/* Prose lists get the dash marker; the table of contents opts out. */
-.pane ul:not(pp-toc ul), .content-inset ul:not(pp-toc ul) {
-  list-style: "- ";
-  list-style-position: outside;
-  }
-
-.pane ol, .content-inset ol {
-  margin-inline-start: 0;
-  padding-inline-start: 0;
-  list-style: decimal;
+.content-inset {
+  margin: var(--space-2xl) var(--space-3xl);
 }
 
-.pane li + li:not(pp-toc li), .content-inset li + li:not(pp-toc li) {
-  margin-top: var(--space-xs);
+.pane .pane-body > astro-slot > article,
+.pane .pane-body > article {
+  line-height: 1.5;
+  max-width: 70ch;
 }
 
 .content-inset h1 {
-  font-size: 3em;
-  line-height: 1.2;
-}
-
-.content-inset header {
-  position: absolute;
-  right: var(--space-2xl);
-
-  h1, .lead {
-    text-align: right;
-    }
+  font-size: clamp(2em, 1.2em + 3vw, 3em);
+  line-height: 1;
 }
 
 /* Content (non-stack) pages scroll on the document, but the inset's default
@@ -170,15 +175,105 @@ main.sidebar-inset:has(> .content-inset) {
   overflow: visible;
 }
 
-.content-inset pp-toc.toc-corner {
-  position: fixed;
-  right: var(--space-2xl);
-  bottom: var(--space-xl);
-  z-index: 10;
-  max-inline-size: min(20rem, calc(100vw - 2rem));
+/* Home layout: a grid with a right rail. The content column (graph + prose)
+   owns the left; the title (top) and the TOC (bottom) share the rail, so all
+   three reserve real space instead of overlaying each other and swallowing
+   pointer events. The rail shrink-wraps its content — title and TOC are
+   narrow, so the content column keeps the width. */
+@media (width >= 60rem) {
+  .content-inset:has(> .toc-rail) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) fit-content(20rem);
+    grid-template-rows: auto 1fr;
+    column-gap: var(--space-2xl);
+  }
 
-  ul {
+  .content-inset:has(> .toc-rail) > header {
+    grid-area: 1 / 2;
+
+    h1 {
+      text-align: right;
+    }
+  }
+
+  .content-inset:has(> .toc-rail) > div.flow {
+    grid-column: 1;
+    grid-row: 1 / 3;
+  }
+
+  /* The rail starts below the header row and reaches the bottom of the page;
+     it exists so the sticky TOC has it (not the whole grid) as containing
+     block — a sticky grid item clamps against the grid container, which would
+     let it ride up over the header. */
+  .content-inset > .toc-rail {
+    grid-column: 2;
+    grid-row: 2 / 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
     align-items: end;
-    text-align: right;
+    padding-block-start: var(--space-l);
+  }
+
+  .content-inset .toc-rail pp-toc.toc-corner {
+    /* Pinned to the viewport bottom like the old fixed positioning, but a
+       layout citizen: it can never cover the header, and on short viewports
+       it clamps at the rail top and the oldest (bottom) entries clip at the
+       viewport edge — the recent ones at the top stay visible. */
+    position: sticky;
+    bottom: var(--space-xl);
+    max-inline-size: 20rem;
+
+    ul {
+      align-items: end;
+      text-align: right;
+    }
+  }
+}
+
+/* Below the rail breakpoint everything stacks in flow; the TOC is secondary
+   and there is no room for it beside the text, so it goes. */
+@media (width < 60rem) {
+  .content-inset {
+    margin: var(--space-xl) var(--space-l);
+  }
+
+  .content-inset .toc-rail {
+    display: none;
+  }
+}
+
+/* Mobile nav trigger: below 48rem the sidebar is a closed drawer dialog and
+   ⌘B is its only other toggle, so a visible way in is required. */
+.sidebar-mobile-trigger {
+  display: none;
+}
+
+@media (width < 48rem) {
+  /* Clear the fixed nav trigger. */
+  .content-inset {
+    margin-block-start: var(--space-3xl);
+  }
+
+  .pane .pane-body > astro-slot > article,
+  .pane .pane-body > article {
+    margin-block-start: var(--space-3xl);
+  }
+
+  /* The desktop sidebar is server-rendered and only unmounts after hydration
+     flips useIsMobile; keep it from painting in the meantime. */
+  [data-slot="sidebar"]:not(.sidebar-mobile) {
+    display: none;
+  }
+
+  .sidebar-mobile-trigger {
+    display: inline-flex;
+    position: fixed;
+    inset-block-start: var(--space-l);
+    inset-inline-start: var(--space-l);
+    z-index: var(--layer-drawer);
+    background: var(--c-neutral-0);
+    border: var(--border);
+    box-shadow: var(--shadow-s);
   }
 }

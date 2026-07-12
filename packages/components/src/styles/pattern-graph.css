@@ -9,13 +9,7 @@
     display: block;
     width: 100%;
     height: auto;
-    cursor: grab;
     user-select: none;
-    touch-action: none;
-  }
-
-  .pattern-graph__svg:active {
-    cursor: grabbing;
   }
 
   /* Edges */

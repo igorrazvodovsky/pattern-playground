@@ -13,8 +13,8 @@
     "extract-graph": "npx tsx scripts/extract-graph-data.ts",
     "storybook": "npm run storybook -w @pattern-plgrnd/components",
     "build-storybook": "npm run build-storybook -w @pattern-plgrnd/components",
-    "build:storybook-into-patterns": "npm run build-storybook && rm -rf apps/patterns/public/storybook && cp -r packages/components/storybook-static apps/patterns/public/storybook",
-    "build": "npm run build:storybook-into-patterns && npm run build -w @pattern-plgrnd/patterns",
+    "build:storybook-index": "npm run build-storybook && mkdir -p apps/patterns/storybook-index && cp packages/components/storybook-static/index.json apps/patterns/storybook-index/index.json",
+    "build": "npm run build:storybook-index && npm run build -w @pattern-plgrnd/patterns",
     "test-storybook": "vitest --project=storybook",
     "test": "eslint .",
     "test styles": "stylelint **/*.css"

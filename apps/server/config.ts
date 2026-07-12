@@ -44,9 +44,8 @@ const config: ServerConfig = {
   },
   cors: {
     allowedOrigins: [
-      'http://localhost:6006', // Storybook
-      'http://localhost:7007', // React Storybook
-      'http://localhost:3000', // Development
+      'http://localhost:6006', // Storybook (packages/components)
+      'http://localhost:4321', // Patterns site dev (apps/patterns)
       process.env.FRONTEND_URL || '', // Frontend URL from environment variable
       // Render.com domains
       'https://pattern-playground.onrender.com',

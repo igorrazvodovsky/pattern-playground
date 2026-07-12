@@ -19,26 +19,16 @@ import "@styles/pattern-graph.css";
       >
     </p> -->
   <header class="flow">
-    <h1><i class="muted">Pattern</i> playground</h1>
-
-    <p class="lead">
-      This is meant as an exploration of interaction design patterns. Through
-      both experimental and practical approaches, <a
-        rel="author"
-        href="https://razvodovskis.com/">I</a
-      > try different ways to organise and compose some of the elements of my design practice.
-    </p>
-
-    <p class="lead">
-      Everything here is exploratory and evolving. The focus is on mapping relationships between things and understanding how they connect. This means things are described and implemented <em>only</em> to a degree needed to make the <em>next</em> connection possible.  
-    </p>
+    <h1><i class="muted">pattern</i> playground</h1>
   </header>
 
-  <pp-toc
-    class="toc-corner"
-    orientation="vertical"
-    level="h2, h3"
-    data-pagefind-ignore></pp-toc>
+  <div class="toc-rail">
+    <pp-toc
+      class="toc-corner"
+      orientation="vertical"
+      level="h2, h3"
+      data-pagefind-ignore></pp-toc>
+  </div>
 
   <!-- <blockquote>
       Animals are divided into (a) those that belong to the Emperor, (b)
@@ -55,9 +45,19 @@ import "@styles/pattern-graph.css";
       >
     </p> -->
 
-  <PatternGraph client:only="react" />
-
   <div class="flow">
+
+    <PatternGraph client:only="react" />
+
+    <p>
+      This site is meant as an exploration of interaction design patterns. Through
+      both experimental and practical approaches, I try different ways to organise and compose some of the elements of my <a rel="me" href="https://razvodovskis.com/">design practice</a>.
+    </p>
+
+    <p>
+      Everything here is exploratory and evolving. The focus is on mapping relationships between things and understanding how they connect. This means things are described and implemented <em>only</em> to a degree needed to make the <em>next</em> connection possible.  
+    </p>
+
     <h2>Objective and approach</h2>
 
     <p>

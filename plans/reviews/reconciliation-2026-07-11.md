@@ -1,12 +1,12 @@
 # Reconciliation — 2026-07-11 (post split-project composition pass)
 
-Loop 2 per `plans/active/2026-07-review-practice.md`. Two blinded subagents
+Loop 2 per `plans/completed/2026-07-review-practice.md`. Two blinded subagents
 re-derived the operative image from the repository (working artifacts:
 `reconciliation-2026-07-11-derived-project.md`, `-derived-language.md`, deleted
 once this lands); the orchestrator diffed them against
 `docs/project/operative-image.md`, `docs/language/operative-image.md`, and the
 two visions, and consolidated the Loop 1 reframe residue
-(`plans/reviews/split-project/`, composition moves 1, 3, 5).
+(`plans/archive/split-project/`, composition moves 1, 3, 5).
 
 ## What holds (checked, no action)
 
@@ -105,7 +105,7 @@ does not reach `dist/`. Adjacent: the hand-synced legacy graph-JSON mirror in
 `packages/components/src/`, and `apps/server` CORS naming pre-split ports.
 
 *Decision: gap becomes a plan.* Stub at
-`plans/active/2026-07-post-split-residue.md`: problem statement as above;
+`plans/completed/2026-07-post-split-residue.md`: problem statement as above;
 first step is the taxonomy-sync root fix (coordinated with
 storybook-rebucketing, which is reshaping the buckets the script checks) and
 the review-workflow filter; then adjudicate whether `/storybook` is meant to
@@ -161,7 +161,7 @@ applied 2026-07-11:
 4. Applied — `realised_by` placement and dormant-apparatus paragraph added to
    `docs/language/operative-image.md`.
 5. Applied — plan stub written:
-   `plans/active/2026-07-post-split-residue.md`.
+   `plans/completed/2026-07-post-split-residue.md`.
 6. Applied — `plans/index.md` regenerated from the lifecycle directories
    (post-split-residue added; seven stale Active entries moved to their real
    sections; fifteen missing Completed and eight missing Archived entries

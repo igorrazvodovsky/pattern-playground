@@ -1,0 +1,14 @@
+/* Tokens — custom properties only. The one library layer meant to cross every
+   boundary: a consumer can take tokens without opting into base or component
+   skins. Loading this alone paints nothing; it only defines variables.
+
+   The layer order is declared here, in the first entry both consumers import,
+   so it is established before any rule lands. When this file is imported into a
+   `lib` layer (the site side), these become `lib.reset … lib.states` sublayers;
+   at top level (Storybook's main.css) they are the top-level order. */
+@layer reset, theme, global, layout, components, utilities, states;
+
+@import url(variables-palette.css); /* declares @layer theme internally */
+@import url(variables.css) layer(theme);
+@import url(purpose.css); /* declares @layer utilities internally */
+@import url(animation.css) layer(theme);

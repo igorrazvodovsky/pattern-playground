@@ -5,10 +5,8 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Active
 
-- [Post-split automation residue](active/2026-07-post-split-residue.md) — broken taxonomy-sync gate, inert review workflow, the `/storybook` copy that never deploys; spawned by the 2026-07-11 reconciliation
 - [Enacts-note audit](active/2026-07-enacts-note-audit.md) — align pre-existing `enacts` labels with the Q-lens convention; one hygiene sitting plus a possible third extractor advisory
 - [Move-vs-artifact naming: the T6 kept twins](active/2026-07-move-vs-artifact-naming.md) — outline, needs iteration: do Sections and Command menu hold up against the move-naming rule, and what does a rename cost
-- [Review practice: moves, reconciliation, drift](active/2026-07-review-practice.md) — three review loops adapting ai-pr-review mechanics to the vision/operative-image dialectic
 - [realised_by backfill](active/2026-07-realised-by-backfill.md) — claim or citation, page by page: write `realised_by:` where prose ComponentRefs carry a realisation claim
 - [Related-link residue audit](active/2026-07-related-residue-audit.md) — restore, or deliberately release, what the relationships migration dropped
 - [Situation backfill](active/2026-07-situation-backfill.md) — outline, needs iteration: fill the two situations across the pattern corpus; owns the `consequences`-vs-`situation.resulting` comparison
@@ -29,6 +27,9 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Completed
 
+- [Review practice: moves, reconciliation, drift](completed/2026-07-review-practice.md) — three review loops (move review, reconciliation, drift) as skills; first full run on `split-project`, archived review directory at `archive/split-project/`
+- [Style boundary between the patterns site and the component library](completed/2026-07-style-boundary.md) — the one shared cascade split: intent-revealing library entries, cascade layers throughout, donut-scoped site prose, enforced boundary
+- [Post-split automation residue](completed/2026-07-post-split-residue.md) — broken taxonomy-sync gate, inert review workflow, the `/storybook` copy that never deploys; spawned by the 2026-07-11 reconciliation
 - [Workspace split: closure](completed/2026-07-workspace-split-closure.md) — territories, validator, dependency boundary; the split's tail closed
 - [Intra-site link validation](completed/2026-07-intra-site-link-validation.md) — static `/patterns/<slug>` links validated inside the site build
 - [Relationship vocabulary: situations, part–whole hygiene, and the hosting gap](completed/2026-07-relationship-vocabulary.md) — situation constructs (`situation.initiating`/`resulting` emitting conditional `precedes`), `hosts` minted, part–whole and precedes hygiene sweeps, component realisation split out of `enables` as a cross-dataset ComponentRef reference

@@ -10,6 +10,7 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
+  SidebarTrigger,
 } from '@components/sidebar';
 import { useNavStore, useNavHydration } from '../lib/nav-store';
 import { useActivePath, isActivePath } from '../lib/active-path';
@@ -163,6 +164,9 @@ export function Nav({ navItems, storybookUrl }: NavProps) {
           </SidebarMenu>
         </SidebarFooter>
       </Sidebar>
+      {/* Shown only below the mobile breakpoint (app.css), where the sidebar
+          is a drawer dialog with no other visible way to open it. */}
+      <SidebarTrigger className="sidebar-mobile-trigger" aria-label="Open navigation" />
     </SidebarProvider>
   );
 }

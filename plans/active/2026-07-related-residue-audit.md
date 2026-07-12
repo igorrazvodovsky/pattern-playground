@@ -2,7 +2,7 @@
 
 Restore, or deliberately release, what the relationships migration dropped.
 Follow-up from the split-project move review (episode 04, move 3 of
-`plans/reviews/split-project/04-content-migration.md`).
+`plans/archive/split-project/04-content-migration.md`).
 
 ## Context
 

@@ -1,0 +1,16 @@
+/* The component library, pulled UNDER everything the site writes. Wrapping the
+   three library entries in a `lib` layer turns their internal layers into
+   `lib.reset … lib.states` sublayers, so every site rule — layered or not —
+   beats the library without `!important`.
+
+   The master order statement is declared here, first, so `lib` is registered
+   ahead of the site's own top-level layers (`reset, theme, … states` in app.css
+   / stack.css) regardless of the order Astro emits the bundled stylesheets in.
+   Tokens still cross freely — they are custom properties, defined inside lib but
+   inherited everywhere. This file is imported first in Base.astro. */
+
+@layer lib, reset, theme, global, layout, components, utilities, states;
+
+@import url('@styles/tokens.css') layer(lib);
+@import url('@styles/base.css') layer(lib);
+@import url('@styles/components.css') layer(lib);

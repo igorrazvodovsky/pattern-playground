@@ -1,6 +1,9 @@
 @layer layout {
   .flow > * + * {
-    margin-block-start: var(--flow-space, var(--space-m)) !important;
+    /* Normal (not !important): the site pulls the whole library under a `lib`
+       cascade layer, so any site rule — e.g. the prose donut's `blockquote + p`
+       gap removal — outranks this without an !important arms race. */
+    margin-block-start: var(--flow-space, var(--space-m));
   }
 
   .inline-flow > * + * {
