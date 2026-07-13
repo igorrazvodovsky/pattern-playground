@@ -11,6 +11,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarTrigger,
+  useSidebar,
 } from '@components/sidebar';
 import { useNavStore, useNavHydration } from '../lib/nav-store';
 import { useActivePath, isActivePath } from '../lib/active-path';
@@ -55,8 +56,8 @@ function NavNode({ node, currentPath, isOpen, setOpen, hydrated }: NavNodeProps)
             className="sidebar-collapsible-group-trigger"
             tooltip={node.label}
           >
-            <span>{node.label}</span>
             <Chevron />
+            <span>{node.label}</span>
           </SidebarMenuButton>
           <Collapsible.Panel>
             <SidebarGroupContent className="sidebar-collapsible-group-content">
@@ -99,6 +100,33 @@ function openSearch() {
   modal?.open?.();
 }
 
+// Toggles the sidebar's own visibility. A child of SidebarProvider (unlike
+// Nav itself) so it can reach useSidebar().
+function SidebarHideTrigger() {
+  const { toggleSidebar } = useSidebar();
+  return (
+    <SidebarMenuButton
+      render={<button type="button" onClick={toggleSidebar} />}
+      className="sidebar-search"
+      tooltip="Hide navigation"
+    >
+      {React.createElement('iconify-icon', { icon: 'ph:sidebar-simple' })}
+      <span><kbd className="sidebar-search-kbd muted">⌘</kbd><kbd className="sidebar-search-kbd muted">/</kbd></span>
+    </SidebarMenuButton>
+  );
+}
+
+// Reopens the sidebar once collapsible="offcanvas" has taken it fully
+// off-screen — SidebarHideTrigger disappears along with the panel, so this
+// lives outside it. Desktop-only: the mobile drawer already has its own
+// always-rendered, CSS-media-gated trigger (.sidebar-mobile-trigger) that
+// paints correctly server-side, which a state-gated one couldn't.
+function SidebarShowTrigger() {
+  const { state, isMobile } = useSidebar();
+  if (isMobile || state !== 'collapsed') return null;
+  return <SidebarTrigger className="sidebar-desktop-trigger" aria-label="Show navigation" />;
+}
+
 // The persistent sidebar island. `transition:persist`ed in Base.astro, so it
 // hydrates once and survives ClientRouter swaps instead of re-hydrating per
 // navigation. The page content is a static sibling (not a child) of this
@@ -110,11 +138,23 @@ export function Nav({ navItems, storybookUrl }: NavProps) {
   const currentPath = useActivePath();
   return (
     <SidebarProvider renderWrapper={false}>
-      <Sidebar collapsible="icon">
+      <Sidebar collapsible="offcanvas">
         <SidebarContent>
-          <a href="/" className="sidebar-logo">
-            <img src="/playground.png" alt="Playground" />
-          </a>
+          <SidebarGroup>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarHideTrigger />
+              </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroup>
+            <SidebarGroup>
+              <h1 className="sidebar-logo">
+                <a href="/">        
+                  <i className="muted">
+                    pattern</i> playground
+                </a>
+              </h1>
+            </SidebarGroup>
           <SidebarGroup>
             <SidebarMenu>
               <SidebarMenuItem>
@@ -124,8 +164,7 @@ export function Nav({ navItems, storybookUrl }: NavProps) {
                   tooltip="Search"
                 >
                   {React.createElement('iconify-icon', { icon: 'ph:magnifying-glass' })}
-                  <span>Search</span>
-                  <kbd className="sidebar-search-kbd">⌘K</kbd>
+                  <span>Search <kbd className="sidebar-search-kbd muted">⌘</kbd><kbd className="sidebar-search-kbd muted">K</kbd></span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
@@ -134,6 +173,7 @@ export function Nav({ navItems, storybookUrl }: NavProps) {
                   isActive={isActivePath('/', currentPath)}
                   tooltip="Introduction"
                 >
+                  <iconify-icon className="icon" icon="ph:house" />
                   Introduction
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -167,6 +207,7 @@ export function Nav({ navItems, storybookUrl }: NavProps) {
       {/* Shown only below the mobile breakpoint (app.css), where the sidebar
           is a drawer dialog with no other visible way to open it. */}
       <SidebarTrigger className="sidebar-mobile-trigger" aria-label="Open navigation" />
+      <SidebarShowTrigger />
     </SidebarProvider>
   );
 }

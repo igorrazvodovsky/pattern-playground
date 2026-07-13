@@ -38,11 +38,7 @@
        shadow below facing the content). */
     z-index: calc(var(--pane-i, 0) + 1);
     background-color: var(--c-background);
-
-    &:not(:first-child) {
-      /* Divider between adjacent panes — always present, even side by side. */
-      border-inline-start: var(--border);
-    }
+    border-inline-start: var(--border);
 
     /* A raised pane casts a shadow onto the pane it overlaps, so the deck reads
        front-to-back. data-overlapping is toggled by StackManager only while this

@@ -5,7 +5,9 @@ import "@styles/pattern-graph.css";
 ---
 
 <Base title="Introduction">
-  <!-- <div class="flow">
+  <header class="flow">
+
+    <!-- <div class="flow">
     <blockquote>
       For it is not merely true that the relationships are attached to the
       elements: the fact is that the elements themselves are patterns of
@@ -18,8 +20,23 @@ import "@styles/pattern-graph.css";
         ></cite
       >
     </p> -->
-  <header class="flow">
-    <h1><i class="muted">pattern</i> playground</h1>
+
+    <figure class="quote">
+    <blockquote>
+      Animals are divided into (a) those that belong to the Emperor, (b)&#32; 
+      <a href="https://en.wikipedia.org/wiki/Embalming">embalmed ones</a>, (c) <a href="https://en.wikipedia.org/wiki/Animal_training">those that are trained</a>, (d) <a href="https://en.wikipedia.org/wiki/Suckling_pig">suckling pigs</a>, (e)
+      <a href="https://en.wikipedia.org/wiki/Mermaid">mermaids</a>, (f) <a href="https://www.imdb.com/title/tt32512945/">fabulous ones</a>, (g) <a href="https://en.wikipedia.org/wiki/Free-ranging_dog">stray dogs</a>, (h) <a href="https://en.wikipedia.org/wiki/Celestial_Emporium_of_Benevolent_Knowledge">those that are included
+      in this&nbsp;classification.</a>
+    </blockquote>
+    <figcaption>
+      &mdash; Jorge Luis Borges, <cite
+        ><a
+          href="https://en.wikipedia.org/wiki/The_Analytical_Language_of_John_Wilkins"
+          >The Analytical Language of John&nbsp;Wilkins</a
+        ></cite
+      >
+    </figcaption>
+    </figure>
   </header>
 
   <div class="toc-rail">
@@ -30,24 +47,11 @@ import "@styles/pattern-graph.css";
       data-pagefind-ignore></pp-toc>
   </div>
 
-  <!-- <blockquote>
-      Animals are divided into (a) those that belong to the Emperor, (b)
-      embalmed ones, (c) those that are trained, (d) suckling pigs, (e)
-      mermaids, (f) fabulous ones, (g) stray dogs, (h) those that are included
-      in this classification.
-    </blockquote>
-    <p>
-      Jorge Luis Borges, <cite
-        ><a
-          href="https://en.wikipedia.org/wiki/The_Analytical_Language_of_John_Wilkins"
-          >The Analytical Language of John Wilkins</a
-        ></cite
-      >
-    </p> -->
-
   <div class="flow">
 
     <PatternGraph client:only="react" />
+
+    <h2>Overview</h2>
 
     <p>
       This site is meant as an exploration of interaction design patterns. Through
@@ -90,7 +94,7 @@ import "@styles/pattern-graph.css";
       What started as an implementation-agnostic exploration of interaction
       patterns pivoted twice. In 2025 it became a playground for weaving LLMs
       into component-based structures, using design systems as a lens to explore
-      what was emerging. By 2026 the focus shifted toward <a
+      what was emerging. By 2026 the ambition shifted toward <a
         href="https://github.com/igorrazvodovsky/gen-ui-playground"
         >generative UI</a
       > specification — exploring how this repertoire might serve as a knowledge base

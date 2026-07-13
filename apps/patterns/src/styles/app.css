@@ -18,6 +18,14 @@
     font-style: inherit;
     display: block;
   }
+
+  .h1-icon {
+    width: 1ex;
+    height: 1ex;
+    fill: currentColor;
+    vertical-align: middle;
+    margin-inline-end: 0.15em;
+  }
 }
 
 @layer components {
@@ -28,21 +36,22 @@
     --text-s: 1rem;
   }
 
-  .sidebar-logo {
-    display: block;
-    padding: var(--space-xs, 0.25rem);
+  h1.sidebar-logo {
+    margin-inline: var(--space-s);
+    line-height: 1;
+    text-box-trim: trim-both;
+    text-box-edge: ex alphabetic;
   }
 
-  .sidebar-search .sidebar-search-kbd {
-    margin-inline-start: auto;
-    border: none
+  .sidebar kbd {
+    width: 1em;
+    border: none;
+    padding: 0 0.25em;
+    vertical-align: middle;
   }
 
-  .sidebar-logo img {
-    display: block;
-    width: 100%;
-    max-width: 8rem;
-    height: auto;
+  [data-slot="sidebar-container"][data-side="left"] {
+    border-inline-end: none;
   }
 
   .demo-block {
@@ -116,6 +125,7 @@
   }
 
   blockquote,
+  figcaption,
   cite {
     --font: 'Alegreya', Georgia, serif;
     font-style: italic;
@@ -191,7 +201,7 @@ main.sidebar-inset:has(> .content-inset) {
   .content-inset:has(> .toc-rail) > header {
     grid-area: 1 / 2;
 
-    h1 {
+    figure {
       text-align: right;
     }
   }
@@ -244,9 +254,20 @@ main.sidebar-inset:has(> .content-inset) {
 }
 
 /* Mobile nav trigger: below 48rem the sidebar is a closed drawer dialog and
-   ⌘B is its only other toggle, so a visible way in is required. */
+   ⌘/ is its only other toggle, so a visible way in is required. */
 .sidebar-mobile-trigger {
   display: none;
+}
+
+/* Desktop nav trigger: offcanvas collapse takes the whole sidebar (and its
+   own hide-trigger) off-screen, so this sits outside it, in the same corner,
+   whenever the sidebar is collapsed. Nav.tsx only renders it in that state. */
+.sidebar-desktop-trigger {
+  position: fixed;
+  inset-block-start: var(--space-s);
+  inset-inline-start: var(--space-s);
+  z-index: var(--layer-drawer);
+  background: var(--c-neutral-0);
 }
 
 @media (width < 48rem) {

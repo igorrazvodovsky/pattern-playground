@@ -9,7 +9,7 @@
   .sidebar-mobile {
     /* Icon-collapsed rail width. Also set inline by SidebarProvider when it
      * renders the wrapper; declared here too so a static Astro wrapper
-     * (renderWrapper={false}) still resolves it and ⌘B icon-collapse works.
+     * (renderWrapper={false}) still resolves it and ⌘/ icon-collapse works.
      * --sidebar-width itself is set in the app's app.css. */
     --sidebar-width-icon: 3rem;
     --sidebar: var(--c-neutral-0);
@@ -625,7 +625,7 @@
     padding: 0;
     padding-inline-start: calc(var(--space-m) + 2px);
     border-inline-start: 1px solid var(--sidebar-border);
-    margin-inline-start: calc(var(--space-m) / 2 + 2px);
+    margin-inline-start: calc(var(--space-m) / 2 + var(--space-s));
     margin-block: var(--space-2xs);
   }
 
@@ -697,7 +697,6 @@
    * ------------------------------------------------------------------------- */
 
   .sidebar-collapsible-chevron {
-    margin-inline-start: auto;
     flex-shrink: 0;
     transition: transform 200ms;
   }
@@ -715,7 +714,7 @@
   .sidebar-collapsible-group-content {
     padding-inline-start: var(--space-xs);
     border-inline-start: 1px solid var(--sidebar-border);
-    margin-inline-start: calc(var(--space-m) / 2 + 2px);
+    margin-inline-start: calc(var(--space-m) / 2 + var(--space-s));
     margin-block: var(--space-2xs);
   }
 
