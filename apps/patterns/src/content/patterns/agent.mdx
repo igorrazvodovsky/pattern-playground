@@ -1,5 +1,5 @@
 ---
-title: Bot
+title: Agent
 role: pattern
 activityLevel: activity
 atomic: pattern
@@ -8,7 +8,7 @@ fun: 🙂 4/5. A part of a bigger attempt to map LLM-related patterns.
 relationships:
   composed-of:
     - to: conversation
-      note: messaging is the primary interface for conducting bot conversations
+      note: messaging is the primary interface for conducting agent conversations
   precedes:
     - to: activity-log
       note: actions and reasoning are tracked and displayed in the activity log.
@@ -20,31 +20,27 @@ relationships:
       note: generates the stream that this surface presents in flight
   complements:
     - to: collaboration
-      note: Bots participate as collaborative agents with adaptable mediation capabilities
+      note: Agents participate as collaborators with adaptable mediation capabilities
   enacts:
     - to: agency
-      note: how much freedom the bot has to act on its own.
+      note: how much freedom the agent has to act on its own.
     - to: formality
-      note: bots accept unstructured input by design; structure can be inferred or gradually formalised from interaction.
+      note: agents accept unstructured input by design; structure can be inferred or gradually formalised from interaction.
     - to: learnability
-      note: the bot lets the actor ask the system rather than decipher it; learning happens through dialogue at the actor's pace
+      note: the agent lets the actor ask the system rather than decipher it; learning happens through dialogue at the actor's pace
     - to: adaptation
-      note: the bot modulates its behaviour and output to context and inferred intent rather than following fixed rules
+      note: the agent modulates its behaviour and output to context and inferred intent rather than following fixed rules
   related:
     - ai-completion
     - next-best-action
 ---
 
-<div class="callout info">
-  For now I stick with ‘bot’ over ‘agent’ or ‘assistant’ because those tend to carry baggage about capabilities and autonomy.
-</div>
 
-
-The sustained mediation between actor intent and system capability, transforming fuzzy goals into concrete outcomes through an adaptable intermediary that evolves with use. This umbrella term encompasses all user-facing AI interactions — from chatbots to agentic systems and beyond.
+The sustained mediation between actor intent and system capability, transforming fuzzy goals into concrete outcomes through an adaptable intermediary that evolves with use. This umbrella term encompasses all user-facing AI interactions — from the strict sense of a model running tools in a loop to achieve a goal, to chat interfaces where tool use is incidental or absent.
 
 ## Agency
 
-Bot patterns embody different levels of system agency from the agency [spectrum](/patterns/agency#spectrum):
+Agent patterns embody different levels of system agency from the agency [spectrum](/patterns/agency#spectrum):
 
 1. Chatbot: User-driven interaction requiring explicit prompts
 2. Inline: Assistance mode providing contextual help and smart suggestions
@@ -55,7 +51,7 @@ Higher agency modes require more careful preservation of [user agency](/patterns
 
 ## Modes of interaction
 
-- Focused: Bot as a primary interface, typically via <ComponentRef id="components-messaging--docs">messaging</ComponentRef>.
+- Focused: Agent as a primary interface, typically via <ComponentRef id="components-messaging--docs">messaging</ComponentRef>.
 - Inline: Contextual interactions embedded directly in the UI, such as [AI completion](/patterns/ai-completion), rewrite suggestions, or smart defaults.
 - Ambient: Behind-the-scenes monitoring or support, offering proactive help or taking actions without direct prompting. [Next-best action](/patterns/next-best-action) is the primary pattern here.
 
@@ -63,15 +59,15 @@ Higher agency modes require more careful preservation of [user agency](/patterns
 
 ### Single-turn interactions
 
-Simple query-response patterns without state persistence or tool use. Classic chatbots often operate in this mode.
+Simple query-response patterns without state persistence or tool use.
 
 ### Multi-turn conversations
 
 Maintaining context across exchanges, allowing for clarification, follow-ups, and evolving understanding.
 
-### Tool-augmented agents
+### Tool augmentation
 
-Bots that can invoke external capabilities—from simple calculations to complex API calls. This includes the *bounded loop execution* pattern where agents run tools iteratively until reaching objectives.
+Agents that can invoke external capabilities—from simple calculations to complex API calls. This includes the *bounded loop execution* pattern where agents run tools iteratively until reaching objectives.
 
 {/* ### Autonomous workflows */}
 {/* Self-directed execution following predefined or learned patterns, with varying degrees of human oversight. */}
@@ -80,7 +76,7 @@ Bots that can invoke external capabilities—from simple calculations to complex
 
 ### Short-term
 
-Conversation context provides implicit short-term memory, allowing bots to maintain state across interactions within a session.
+Conversation context provides implicit short-term memory, allowing agents to maintain state across interactions within a session.
 
 ### Long-term
 
@@ -91,7 +87,7 @@ Persistent memory requires explicit implementation through:
 
 {/* ## Functional flexibility */}
 
-{/* Bots adapt their behaviour across a spectrum of capabilities: */}
+{/* Agents adapt their behaviour across a spectrum of capabilities: */}
 
 {/* ### Response generation */}
 
@@ -109,13 +105,13 @@ Persistent memory requires explicit implementation through:
 
 {/* ### Confidence mapping */}
 
-{/* Integrated with *input-output mapping*, it's aimed to increase transparency by indicating the bot/model's confidence in different parts of its response. */}
+{/* Integrated with *input-output mapping*, it's aimed to increase transparency by indicating the agent/model's confidence in different parts of its response. */}
 
 ## Anti-patterns
 
 ### Algorithmic loafing
 
-When bots take creative or cognitive lead, humans reduce effort and disengage—accepting bot output with minimal reflection. This manifests as:
+When agents take creative or cognitive lead, humans reduce effort and disengage—accepting agent output with minimal reflection. This manifests as:
 
 - Reduced cognitive engagement despite task importance
 - Loss of skill development and expertise over time
@@ -124,26 +120,26 @@ When bots take creative or cognitive lead, humans reduce effort and disengage—
 
 The effect parallels [social loafing](https://en.wikipedia.org/wiki/Social_loafing), where individuals reduce contribution when responsibility diffuses.
 
-*Mitigation*: Design interactions where humans remain in creative or cognitive lead whilst bot provides scaffolding through questions, analogies, or contextual knowledge rather than complete solutions. See [Conversation](/patterns/conversation) dialogue forms for question-driven approaches that maintain engagement.
+*Mitigation*: Design interactions where humans remain in creative or cognitive lead whilst agent provides scaffolding through questions, analogies, or contextual knowledge rather than complete solutions. See [Conversation](/patterns/conversation) dialogue forms for question-driven approaches that maintain engagement.
 
 ### Mismatched scope
 
-Applying bots to tasks requiring genuine accountability, sustained comprehension, or human empathy. Bots cannot take responsibility for actions or form independent intentions, and their understanding operates within learned patterns without true comprehension.
+Applying agents to tasks requiring genuine accountability, sustained comprehension, or human empathy. Agents cannot take responsibility for actions or form independent intentions, and their understanding operates within learned patterns without true comprehension.
 
 ### Uncalibrated trust
 
-Treating bot outputs as authoritative without verification mechanisms. Bots can generate plausible but incorrect information, and performance degrades with extended interactions or complex state.
+Treating agent outputs as authoritative without verification mechanisms. Agents can generate plausible but incorrect information, and performance degrades with extended interactions or complex state.
 
 ### Undefined boundaries
 
-Failing to communicate bot capabilities and limitations, leading to misuse and frustration. Users need clear understanding of what bots can and cannot do to set appropriate expectations.
+Failing to communicate agent capabilities and limitations, leading to misuse and frustration. Users need clear understanding of what agents can and cannot do to set appropriate expectations.
 
 ## Related components
 
-- Bot can use <ComponentRef id="components-messaging--docs">messaging</ComponentRef> to [converse](/patterns/conversation) with actors.
+- Agent can use <ComponentRef id="components-messaging--docs">messaging</ComponentRef> to [converse](/patterns/conversation) with actors.
 
 {/* TODO: relations set aside, kept for review (not active edges):
-- [Task](/patterns/concepts-task) - Bots interpret task specifications and execute work using available tools and capabilities
+- [Task](/patterns/concepts-task) - Agents interpret task specifications and execute work using available tools and capabilities
 */}
 
 ## Resources & references

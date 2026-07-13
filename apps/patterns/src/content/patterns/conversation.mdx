@@ -20,17 +20,17 @@ relationships:
       note: uses conversation as a core communication mechanism for collaborative work
   composed-of:
     - to: agent-opening
-      note: the bot speaks first — establishing footing and proposing the first topic
+      note: the agent speaks first — establishing footing and proposing the first topic
     - to: user-opening
-      note: the conversation opens with the actor speaking first; the bot aligns to their topic
+      note: the conversation opens with the actor speaking first; the agent aligns to their topic
     - to: capability-and-scope
       note: an explicit statement of what the conversation can and cannot do
     - to: inquiry-agent
-      note: the bot asks for information it lacks; the move that drives question-driven dialogue
+      note: the agent asks for information it lacks; the move that drives question-driven dialogue
     - to: open-request
       note: the actor makes a complex request needing clarification and multiple steps; where instruction-based dialogue begins
     - to: agent-repair
-      note: the bot repairs its own misunderstanding — ambiguity, low confidence, missing detail
+      note: the agent repairs its own misunderstanding — ambiguity, low confidence, missing detail
     - to: sequence-completion
       note: the actor marks a sequence as successfully done
     - to: disengage-without-closing
@@ -38,13 +38,13 @@ relationships:
     - to: closing
       note: ending the encounter cleanly, with room for last topics — closing the exchange, not a window
     - to: inquiry-user
-      note: the actor asks and the bot answers directly — the minimal exchange, present in every dialogue form
+      note: the actor asks and the agent answers directly — the minimal exchange, present in every dialogue form
     - to: extended-telling
-      note: the bot holds the floor across several turns to instruct, narrate, or explain
+      note: the agent holds the floor across several turns to instruct, narrate, or explain
     - to: abort
       note: the actor stops an unwanted or failing sequence mid-exchange — the conversational stop, not a process kill
     - to: user-repair
-      note: the actor signals the bot's last utterance didn't land, repairing the exchange from the user's side
+      note: the actor signals the agent's last utterance didn't land, repairing the exchange from the user's side
   enacts:
     - to: conversation-quality
       note: "the quality names the stance conversation makes its primary mode: dialogue as the substrate of meaning, not one option among many"
@@ -67,7 +67,7 @@ Conversations take different structural forms that shape collaboration dynamics,
 
 ### Question-driven dialogue
 
-Bot asks reflective, open-ended questions that prompt human thinking and elaboration rather than providing direct solutions.
+Agent asks reflective, open-ended questions that prompt human thinking and elaboration rather than providing direct solutions.
 
 **Characteristics**
 
@@ -87,9 +87,9 @@ Bot asks reflective, open-ended questions that prompt human thinking and elabora
 **Example**
 
 1. Human shares initial idea
-2. Bot asks knowledge or analogy question to generate alternatives
+2. Agent asks knowledge or analogy question to generate alternatives
 3. Human selects direction and elaborates
-4. Bot asks clarifying questions to increase specificity and usefulness
+4. Agent asks clarifying questions to increase specificity and usefulness
 5. Iterative refinement through continued questioning
 
 **When to use:** Creative ideation, exploratory problem-solving, skill development, complex decision-making, learning contexts where depth matters more than speed
@@ -98,7 +98,7 @@ Bot asks reflective, open-ended questions that prompt human thinking and elabora
 
 ### Suggestion-based dialogue
 
-Bot provides explicit recommendations, examples, or alternative approaches for human consideration.
+Agent provides explicit recommendations, examples, or alternative approaches for human consideration.
 
 **Characteristics**
 - Reduces cognitive load through concrete options
@@ -113,7 +113,7 @@ Bot provides explicit recommendations, examples, or alternative approaches for h
 
 ### Instruction-based dialogue
 
-Bot executes direct commands or requests with minimal back-and-forth.
+Agent executes direct commands or requests with minimal back-and-forth.
 
 **Characteristics**
 - System-led agency during execution
@@ -128,7 +128,7 @@ Bot executes direct commands or requests with minimal back-and-forth.
 
 ### Critique and debate
 
-Bot challenges assumptions, questions reasoning, or presents opposing viewpoints to strengthen thinking.
+Agent challenges assumptions, questions reasoning, or presents opposing viewpoints to strengthen thinking.
 
 **Characteristics**
 - Adversarial stance that tests robustness
@@ -152,10 +152,10 @@ Effective [collaboration](/patterns/collaboration) often sequences dialogue form
 
 Dialogue forms are composed from tactical turn-taking primitives that structure individual conversational moves.
 
-- Question-driven dialogue chains [bot inquiry](/patterns/inquiry-agent) moves, where the bot asks questions to elicit human thinking.
+- Question-driven dialogue chains [agent inquiry](/patterns/inquiry-agent) moves, where the agent asks questions to elicit human thinking.
 - Instruction-based dialogue typically begins with an [open request](/patterns/open-request), where users make complex requests requiring clarification and multi-step execution.
 - All dialogue forms leverage [repair affordances](/patterns/agent-repair) and [sequence management](/patterns/sequence-completion) to handle breakdowns and closures.
-- Encounters are framed by conversation management primitives that structure their start, end, and interruption: [opening (bot)](/patterns/agent-opening), [opening (user)](/patterns/user-opening), [capability & scope](/patterns/capability-and-scope), [closing](/patterns/closing), and [disengage without closing](/patterns/disengage-without-closing).
+- Encounters are framed by conversation management primitives that structure their start, end, and interruption: [opening (agent)](/patterns/agent-opening), [opening (user)](/patterns/user-opening), [capability & scope](/patterns/capability-and-scope), [closing](/patterns/closing), and [disengage without closing](/patterns/disengage-without-closing).
 
 ## [Behaviour](/patterns/interaction)-oriented patterns
 

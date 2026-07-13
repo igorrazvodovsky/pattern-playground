@@ -44,6 +44,15 @@ for this audit are the *bare* ones, judged origin-note by origin-note.
    A script is fine here — this is verification, not migration. Output one row
    per origin link: origin entry, target, original note text, endpoint state
    (edge present with note / edge present bare / edge absent).
+   Done — generator at `scripts/audit-related-residue.mjs`, worksheet at
+   `plans/active/2026-07-related-residue-worksheet.md` (891 rows; judgment
+   sections §1–§7, plus an endpoint bare-edge inventory in §4 covering the
+   definition-of-done sweep, and informational appendices). The comparison
+   reads `relationships:`, `situation` `sets-up` clauses, and decision-tree
+   leaves, in both directions; component-target links are split out because
+   component realisation is ComponentRef prose, never an edge. Origin files
+   that never became entries (components, concepts, data-viz) keep their prose
+   in place — verified — and are listed in appendix A1 only.
 2. _Judge each row._ By hand, author only: *truly lost* (restore the note or
    edge, choosing the right edge type under current vocabulary), *removed
    deliberately* (nothing to do), or *release now* (accept the removal on

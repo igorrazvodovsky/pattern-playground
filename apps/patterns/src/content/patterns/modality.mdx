@@ -7,7 +7,7 @@ relationships:
     - to: command-menu
       note: overlay invocation that intersects modality without being defined by it
   related:
-    - bot
+    - agent
     - dynamic-hyperlinks
     - undo
     - settings
@@ -27,7 +27,7 @@ All interfaces exist on a spectrum from fully modeless (any action available at 
 
 ## Mode types
 
-*Persistent modes* remain active until explicitly dismissed — highest mode-error risk. Edit vs. view, or [focused vs. inline vs. ambient](/patterns/bot) bot interaction. The actor must remember which mode they're in; nothing in the physical world reminds them.
+*Persistent modes* remain active until explicitly dismissed — highest mode-error risk. Edit vs. view, or [focused vs. inline vs. ambient](/patterns/agent) agent interaction. The actor must remember which mode they're in; nothing in the physical world reminds them.
 
 *Quasimodes* last only while a physical action is maintained (holding a modifier key, long-pressing). The body is the reminder — release the key, exit the mode. [Toggle mode in dynamic hyperlinks](/patterns/dynamic-hyperlinks) is an example. Preferred for temporary mode shifts because they're self-terminating.
 

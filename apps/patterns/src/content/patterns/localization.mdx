@@ -39,7 +39,7 @@ relationships:
       note: per-actor locale in shared spaces
     - to: suggestion
       note: locale mismatch prompts
-    - to: bot
+    - to: agent
       note: multilingual interaction
     - to: explanation
       note: culturally appropriate explanation styles
@@ -91,7 +91,7 @@ Actor-contributed translations. Requires review workflows, quality thresholds, a
 
 ### Machine-assisted localisation
 
-Bot-generated translations (with human review). Quality varies by language pair and domain. See also [generated content](/patterns/generated-content).
+Agent-generated translations (with human review). Quality varies by language pair and domain. See also [generated content](/patterns/generated-content).
 
 ## Accessibility
 
@@ -107,7 +107,7 @@ flowchart TD
     B --> C{Same cultural context?}
     C -->|"Yes (e.g., en-GB vs en-US)"| D[Regional layer only]
     C -->|No| E[Cultural + regional layers]
-    E --> F{AI/bot present?}
+    E --> F{AI/agent present?}
     F -->|Yes| G[Contextual layer too]
     F -->|No| H[Linguistic + cultural + regional]
 

@@ -14,7 +14,7 @@ relationships:
     - to: status-feedback
       note: Communicates system state; the "Recover" purpose often begins with status feedback.
     - command-menu
-    - bot
+    - agent
   enacts:
     - to: learnability
       note: help meets the actor at the moment of friction, both on first use and later when memory fades; learning happens in context rather than ahead of time
@@ -50,7 +50,7 @@ Users know something exists but can't find it. This cuts across depth levels—l
 
 Users encounter errors or get stuck. Recovery may require quick interface correction (operational) or deeper diagnostic understanding (conceptual). Often begins with [status feedback](/patterns/status-feedback) that signals the problem.
 {/* Mechanisms include error messages, troubleshooting guides, and contextual suggestions.  */}
-When recovery needs exceed what static content can provide, help shifts to *conversation*—[bots](/patterns/bot) or chat interfaces that can reason about the specific context.
+When recovery needs exceed what static content can provide, help shifts to *conversation*—[agents](/patterns/agent) or chat interfaces that can reason about the specific context.
 
 ## Subject matter
 

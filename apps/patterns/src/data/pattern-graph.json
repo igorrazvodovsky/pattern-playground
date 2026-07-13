@@ -53,7 +53,7 @@
     },
     {
       "id": "agent-opening",
-      "title": "Opening (Bot)",
+      "title": "Opening (Agent)",
       "category": "Operations",
       "path": "/patterns/agent-opening",
       "role": "pattern",
@@ -61,11 +61,18 @@
     },
     {
       "id": "agent-repair",
-      "title": "Bot repair",
+      "title": "Agent repair",
       "category": "Operations",
       "path": "/patterns/agent-repair",
       "role": "pattern",
       "group": "conversation/conversation-management"
+    },
+    {
+      "id": "agent",
+      "title": "Agent",
+      "category": "Activities",
+      "path": "/patterns/agent",
+      "role": "pattern"
     },
     {
       "id": "ai-completion",
@@ -153,13 +160,6 @@
       "realisedBy": [
         "components-block-based-editor--docs"
       ]
-    },
-    {
-      "id": "bot",
-      "title": "Bot",
-      "category": "Activities",
-      "path": "/patterns/bot",
-      "role": "pattern"
     },
     {
       "id": "bounded-choice",
@@ -559,7 +559,7 @@
     },
     {
       "id": "inquiry-agent",
-      "title": "Inquiry (Bot)",
+      "title": "Inquiry (Agent)",
       "category": "Operations",
       "path": "/patterns/inquiry-agent",
       "role": "pattern",
@@ -1105,7 +1105,7 @@
       "source": "agent-opening",
       "target": "abort",
       "type": "precedes",
-      "incomingNote": "abort can occur immediately after a bot-initiated opening",
+      "incomingNote": "abort can occur immediately after an agent-initiated opening",
       "extractedFrom": "frontmatter:follows",
       "label": "if the user disengages before reaching the first activity"
     },
@@ -1254,7 +1254,7 @@
       "target": "conversation",
       "type": "enables",
       "extractedFrom": "frontmatter:enables",
-      "incomingNote": "the bot speaks first — establishing footing and proposing the first topic"
+      "incomingNote": "the agent speaks first — establishing footing and proposing the first topic"
     },
     {
       "source": "capability-and-scope",
@@ -1262,15 +1262,15 @@
       "type": "enables",
       "incomingNote": "capability giving is often embedded within the opening",
       "extractedFrom": "frontmatter:composed-of",
-      "label": "capability giving is often embedded within a bot-initiated opening"
+      "label": "capability giving is often embedded within an agent-initiated opening"
     },
     {
       "source": "agent-opening",
       "target": "open-request",
       "type": "precedes",
-      "label": "typical first activity after a bot-initiated opening",
+      "label": "typical first activity after an agent-initiated opening",
       "extractedFrom": "frontmatter:precedes",
-      "incomingNote": "bot-initiated openings typically transition into an open request"
+      "incomingNote": "agent-initiated openings typically transition into an open request"
     },
     {
       "source": "agent-opening",
@@ -1283,16 +1283,16 @@
       "source": "disengage-without-closing",
       "target": "agent-opening",
       "type": "precedes",
-      "incomingNote": "if the bot re-opens after a prior session was abandoned",
+      "incomingNote": "if the agent re-opens after a prior session was abandoned",
       "extractedFrom": "frontmatter:follows",
-      "label": "re-entry point when the bot resumes after a disengagement"
+      "label": "re-entry point when the agent resumes after a disengagement"
     },
     {
       "source": "agent-repair",
       "target": "conversation",
       "type": "enables",
       "extractedFrom": "frontmatter:enables",
-      "incomingNote": "the bot repairs its own misunderstanding — ambiguity, low confidence, missing detail"
+      "incomingNote": "the agent repairs its own misunderstanding — ambiguity, low confidence, missing detail"
     },
     {
       "source": "agent-repair",
@@ -1300,7 +1300,7 @@
       "type": "precedes",
       "label": "transitions into information capture when a specific required value is missing",
       "extractedFrom": "frontmatter:precedes",
-      "incomingNote": "information capture via this primitive is used to resolve bot-side ambiguity"
+      "incomingNote": "information capture via this primitive is used to resolve agent-side ambiguity"
     },
     {
       "source": "agent-repair",
@@ -1308,7 +1308,7 @@
       "type": "precedes",
       "label": "the primary activity resumes once repair is resolved",
       "extractedFrom": "frontmatter:precedes",
-      "incomingNote": "resumes the primary activity at sequence completion once a bot-side breakdown is resolved"
+      "incomingNote": "resumes the primary activity at sequence completion once an agent-side breakdown is resolved"
     },
     {
       "source": "agent-repair",
@@ -1316,6 +1316,83 @@
       "type": "complements",
       "label": "out-of-scope requests are a form of scope repair",
       "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "conversation",
+      "target": "agent",
+      "type": "enables",
+      "incomingNote": "messaging is the primary interface for conducting agent conversations",
+      "extractedFrom": "frontmatter:composed-of"
+    },
+    {
+      "source": "agent",
+      "target": "activity-log",
+      "type": "precedes",
+      "label": "actions and reasoning are tracked and displayed in the activity log.",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "agent",
+      "target": "ai-tuning",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "agent",
+      "target": "generated-content",
+      "type": "precedes",
+      "label": "presentation and manipulation of AI's output.",
+      "extractedFrom": "frontmatter:precedes",
+      "incomingNote": "generates the output being presented."
+    },
+    {
+      "source": "agent",
+      "target": "transparent-reasoning",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "incomingNote": "generates the reasoning that transparent reasoning makes visible and inspectable."
+    },
+    {
+      "source": "agent",
+      "target": "live-presentation",
+      "type": "precedes",
+      "label": "generates the stream that this surface presents in flight",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "agent",
+      "target": "collaboration",
+      "type": "complements",
+      "label": "Agents participate as collaborators with adaptable mediation capabilities",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "agent",
+      "target": "agency",
+      "type": "enacts",
+      "label": "how much freedom the agent has to act on its own.",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "agent",
+      "target": "formality",
+      "type": "enacts",
+      "label": "agents accept unstructured input by design; structure can be inferred or gradually formalised from interaction.",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "agent",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "the agent lets the actor ask the system rather than decipher it; learning happens through dialogue at the actor's pace",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "agent",
+      "target": "adaptation",
+      "type": "enacts",
+      "label": "the agent modulates its behaviour and output to context and inferred intent rather than following fixed rules",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "ai-completion",
@@ -1354,9 +1431,9 @@
     },
     {
       "source": "ai-completion",
-      "target": "bot",
+      "target": "agent",
       "type": "complements",
-      "label": "powers AI completion via the [inline mode](/patterns/bot#modes-of-interaction) of interaction",
+      "label": "powers AI completion via the [inline mode](/patterns/agent#modes-of-interaction) of interaction",
       "extractedFrom": "frontmatter:complements"
     },
     {
@@ -1497,10 +1574,10 @@
       "extractedFrom": "frontmatter:related"
     },
     {
-      "source": "bot",
+      "source": "agent",
       "target": "assistance",
       "type": "instantiates",
-      "incomingNote": "the chatbot and inline bot modes apply the assistance configuration",
+      "incomingNote": "the chatbot and inline agent modes apply the assistance configuration",
       "extractedFrom": "frontmatter:instances"
     },
     {
@@ -1511,9 +1588,9 @@
     },
     {
       "source": "assisted-task-completion",
-      "target": "bot",
+      "target": "agent",
       "type": "related",
-      "label": "powers AI completion and next-best action; the [inline and ambient modes](/patterns/bot#modes-of-interaction) map directly to this group",
+      "label": "powers AI completion and next-best action; the [inline and ambient modes](/patterns/agent#modes-of-interaction) map directly to this group",
       "extractedFrom": "frontmatter:related"
     },
     {
@@ -1685,83 +1762,6 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
-      "source": "conversation",
-      "target": "bot",
-      "type": "enables",
-      "incomingNote": "messaging is the primary interface for conducting bot conversations",
-      "extractedFrom": "frontmatter:composed-of"
-    },
-    {
-      "source": "bot",
-      "target": "activity-log",
-      "type": "precedes",
-      "label": "actions and reasoning are tracked and displayed in the activity log.",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "bot",
-      "target": "ai-tuning",
-      "type": "precedes",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "bot",
-      "target": "generated-content",
-      "type": "precedes",
-      "label": "presentation and manipulation of AI's output.",
-      "extractedFrom": "frontmatter:precedes",
-      "incomingNote": "generates the output being presented."
-    },
-    {
-      "source": "bot",
-      "target": "transparent-reasoning",
-      "type": "precedes",
-      "extractedFrom": "frontmatter:precedes",
-      "incomingNote": "generates the reasoning that transparent reasoning makes visible and inspectable."
-    },
-    {
-      "source": "bot",
-      "target": "live-presentation",
-      "type": "precedes",
-      "label": "generates the stream that this surface presents in flight",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "bot",
-      "target": "collaboration",
-      "type": "complements",
-      "label": "Bots participate as collaborative agents with adaptable mediation capabilities",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "bot",
-      "target": "agency",
-      "type": "enacts",
-      "label": "how much freedom the bot has to act on its own.",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "bot",
-      "target": "formality",
-      "type": "enacts",
-      "label": "bots accept unstructured input by design; structure can be inferred or gradually formalised from interaction.",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "bot",
-      "target": "learnability",
-      "type": "enacts",
-      "label": "the bot lets the actor ask the system rather than decipher it; learning happens through dialogue at the actor's pace",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "bot",
-      "target": "adaptation",
-      "type": "enacts",
-      "label": "the bot modulates its behaviour and output to context and inferred intent rather than following fixed rules",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
       "source": "bounded-choice",
       "target": "formality",
       "type": "enacts",
@@ -1805,7 +1805,7 @@
     },
     {
       "source": "capability-and-scope",
-      "target": "bot",
+      "target": "agent",
       "type": "related",
       "label": "the conversational partner whose capabilities are being stated",
       "extractedFrom": "frontmatter:related"
@@ -1814,7 +1814,7 @@
       "source": "capability-and-scope",
       "target": "agent-repair",
       "type": "complements",
-      "label": "out-of-scope or ambiguous requests are handled via bot repair",
+      "label": "out-of-scope or ambiguous requests are handled via agent repair",
       "extractedFrom": "frontmatter:complements"
     },
     {
@@ -1953,7 +1953,7 @@
     },
     {
       "source": "collaboration-foundation",
-      "target": "bot",
+      "target": "agent",
       "type": "related",
       "extractedFrom": "frontmatter:related"
     },
@@ -2015,7 +2015,7 @@
     },
     {
       "source": "collaboration",
-      "target": "bot",
+      "target": "agent",
       "type": "complements",
       "label": "frames the AI as a collaborator with its own modes",
       "extractedFrom": "frontmatter:complements"
@@ -2122,16 +2122,16 @@
       "source": "user-opening",
       "target": "conversation",
       "type": "enables",
-      "incomingNote": "the conversation opens with the actor speaking first; the bot aligns to their topic",
+      "incomingNote": "the conversation opens with the actor speaking first; the agent aligns to their topic",
       "extractedFrom": "frontmatter:composed-of"
     },
     {
       "source": "inquiry-agent",
       "target": "conversation",
       "type": "enables",
-      "incomingNote": "the bot asks for information it lacks; the move that drives question-driven dialogue",
+      "incomingNote": "the agent asks for information it lacks; the move that drives question-driven dialogue",
       "extractedFrom": "frontmatter:composed-of",
-      "label": "bot inquiry drives question-driven dialogue"
+      "label": "agent inquiry drives question-driven dialogue"
     },
     {
       "source": "open-request",
@@ -2159,7 +2159,7 @@
       "source": "inquiry-user",
       "target": "conversation",
       "type": "enables",
-      "incomingNote": "the actor asks and the bot answers directly — the minimal exchange, present in every dialogue form",
+      "incomingNote": "the actor asks and the agent answers directly — the minimal exchange, present in every dialogue form",
       "extractedFrom": "frontmatter:composed-of",
       "label": "user inquiry appears across all dialogue forms"
     },
@@ -2167,7 +2167,7 @@
       "source": "extended-telling",
       "target": "conversation",
       "type": "enables",
-      "incomingNote": "the bot holds the floor across several turns to instruct, narrate, or explain",
+      "incomingNote": "the agent holds the floor across several turns to instruct, narrate, or explain",
       "extractedFrom": "frontmatter:composed-of",
       "label": "a primitive for instruction-based dialogue"
     },
@@ -2175,7 +2175,7 @@
       "source": "user-repair",
       "target": "conversation",
       "type": "enables",
-      "incomingNote": "the actor signals the bot's last utterance didn't land, repairing the exchange from the user's side",
+      "incomingNote": "the actor signals the agent's last utterance didn't land, repairing the exchange from the user's side",
       "extractedFrom": "frontmatter:composed-of"
     },
     {
@@ -2234,7 +2234,7 @@
     },
     {
       "source": "data-entry",
-      "target": "bot",
+      "target": "agent",
       "type": "related",
       "label": "the agent often responsible for interpreting forgiving input.",
       "extractedFrom": "frontmatter:related"
@@ -2360,10 +2360,10 @@
       "extractedFrom": "frontmatter:related"
     },
     {
-      "source": "bot",
+      "source": "agent",
       "target": "delegation",
       "type": "instantiates",
-      "incomingNote": "the ambient and workflow automation bot modes apply the delegation configuration",
+      "incomingNote": "the ambient and workflow automation agent modes apply the delegation configuration",
       "extractedFrom": "frontmatter:instances"
     },
     {
@@ -2609,7 +2609,7 @@
     },
     {
       "source": "filtering",
-      "target": "bot",
+      "target": "agent",
       "type": "related",
       "extractedFrom": "frontmatter:related"
     },
@@ -2922,7 +2922,7 @@
     },
     {
       "source": "help",
-      "target": "bot",
+      "target": "agent",
       "type": "related",
       "extractedFrom": "frontmatter:related"
     },
@@ -3187,7 +3187,7 @@
       "source": "inquiry-agent",
       "target": "open-request",
       "type": "enables",
-      "label": "bot inquiry is embedded within open request to gather missing constraints",
+      "label": "agent inquiry is embedded within open request to gather missing constraints",
       "extractedFrom": "frontmatter:enables",
       "incomingNote": "used within open request to gather missing or ambiguous constraints"
     },
@@ -3195,7 +3195,7 @@
       "source": "user-opening",
       "target": "inquiry-agent",
       "type": "precedes",
-      "incomingNote": "bot inquiry is used when a user opening requires clarification before the bot can proceed",
+      "incomingNote": "agent inquiry is used when a user opening requires clarification before the agent can proceed",
       "extractedFrom": "frontmatter:follows",
       "label": "used when the opening requires clarification before proceeding"
     },
@@ -3539,7 +3539,7 @@
     },
     {
       "source": "localization",
-      "target": "bot",
+      "target": "agent",
       "type": "tangential",
       "label": "multilingual interaction",
       "extractedFrom": "frontmatter:tangential"
@@ -3664,7 +3664,7 @@
     },
     {
       "source": "modality",
-      "target": "bot",
+      "target": "agent",
       "type": "related",
       "extractedFrom": "frontmatter:related"
     },
@@ -3898,9 +3898,9 @@
     },
     {
       "source": "next-best-action",
-      "target": "bot",
+      "target": "agent",
       "type": "complements",
-      "label": "powers next-best action via the [ambient mode](/patterns/bot#modes-of-interaction) of interaction",
+      "label": "powers next-best action via the [ambient mode](/patterns/agent#modes-of-interaction) of interaction",
       "extractedFrom": "frontmatter:complements"
     },
     {
@@ -3968,7 +3968,7 @@
     },
     {
       "source": "onboarding",
-      "target": "bot",
+      "target": "agent",
       "type": "precedes",
       "extractedFrom": "frontmatter:precedes"
     },
@@ -4230,9 +4230,9 @@
     },
     {
       "source": "prompt",
-      "target": "bot",
+      "target": "agent",
       "type": "precedes",
-      "label": "the prompt articulates the request the bot acts on",
+      "label": "the prompt articulates the request the agent acts on",
       "extractedFrom": "frontmatter:precedes"
     },
     {
@@ -5160,7 +5160,7 @@
     },
     {
       "source": "wizard",
-      "target": "bot",
+      "target": "agent",
       "type": "alternative",
       "label": "can guide through complex processes with conversational flexibility wizards lack",
       "extractedFrom": "frontmatter:alternative"
@@ -5208,16 +5208,16 @@
     },
     {
       "source": "workflow",
-      "target": "bot",
+      "target": "agent",
       "type": "complements",
-      "label": "gives the workflow-automation bot mode its procedure — the bot runs it, this artifact shows and edits it",
+      "label": "gives the workflow-automation agent mode its procedure — the agent runs it, this artifact shows and edits it",
       "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "workflow",
       "target": "ai-tuning",
       "type": "complements",
-      "label": "a workflow builder is a tuning tool: editing the procedure is one of the ways a bot's behaviour gets progressively shaped",
+      "label": "a workflow builder is a tuning tool: editing the procedure is one of the ways an agent's behaviour gets progressively shaped",
       "extractedFrom": "frontmatter:complements"
     },
     {

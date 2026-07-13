@@ -16,7 +16,7 @@ relationships:
   precedes:
     - data-view
   related:
-    - bot
+    - agent
 ---
 
 import { FilteringDemo } from '@pkg/demos/filtering';
@@ -41,7 +41,7 @@ The narrowing of a collection to items that match the actor's criteria, balancin
 
 When simple filter fails, the attribute search query is passed to LLM to find a match in the available attributes.
 
-If that fails, users can delegate filtering to a [bot](/patterns/bot) via a task. Bot can have access to data beyond the attributes and values visible to the user.
+If that fails, users can delegate filtering to an [agent](/patterns/agent) via a task. Agent can have access to data beyond the attributes and values visible to the user.
 
 ### Flow 1
 

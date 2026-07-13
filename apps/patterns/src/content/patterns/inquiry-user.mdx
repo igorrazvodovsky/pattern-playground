@@ -12,12 +12,12 @@ relationships:
       note: for multi-part answers that exceed the scope of a single inquiry response
   follows:
     - to: agent-repair
-      note: information capture via this primitive is used to resolve bot-side ambiguity
+      note: information capture via this primitive is used to resolve agent-side ambiguity
   enables:
     - to: conversation
       note: user inquiry appears across all dialogue forms
 ---
-A user asks a simple question or makes a simple request; the bot provides a direct response.
+A user asks a simple question or makes a simple request; the agent provides a direct response.
 
 1. U → A: Inquiry → Fulfillment
 2. U (Optional): Sequence closer ("Thanks", "Got it").

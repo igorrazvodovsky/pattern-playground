@@ -7,7 +7,7 @@ mediation: individual
 fun: 🙂 5/5. A part of a bigger attempt to map LLM-related patterns.
 relationships:
   follows:
-    - to: bot
+    - to: agent
       note: generates the reasoning that transparent reasoning makes visible and inspectable.
   precedes:
     - to: activity-log
@@ -32,7 +32,7 @@ relationships:
 
 import { ActivityLogLLMReasoningDemo } from '@pkg/demos/activity-log';
 
-The exposure of a [bot's](/patterns/bot) reasoning process as a legible trail of steps and decisions, transforming opaque computation into something the actor can inspect, trust, and challenge over time.
+The exposure of an [agent's](/patterns/agent) reasoning process as a legible trail of steps and decisions, transforming opaque computation into something the actor can inspect, trust, and challenge over time.
 
 Steps are arranged sequentially — like a conversation or narrative — with separation between user inputs, model responses, and intermediate reasoning. Actors can scroll, expand, comment on, or revisit earlier steps, and if needed, branch the thread to explore alternatives.
 
@@ -79,7 +79,7 @@ Beyond temporal positioning, reasoning can be structured as linear sequences or 
 
 ...
 
-{/* ### Correcting the bot */}
+{/* ### Correcting the agent */}
 
 ## Related components
 

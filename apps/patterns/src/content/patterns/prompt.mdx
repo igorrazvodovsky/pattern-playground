@@ -7,8 +7,8 @@ mediation: individual
 fun: 🙂 5/5. A part of a bigger attempt to map LLM-related patterns.
 relationships:
   precedes:
-    - to: bot
-      note: the prompt articulates the request the bot acts on
+    - to: agent
+      note: the prompt articulates the request the agent acts on
     - to: generated-content
       note: the input that leads to generated content.
     - to: ai-tuning
@@ -23,7 +23,7 @@ relationships:
 
 import { PromptBasicDemo, PromptWithMaterialReferencesDemo, PromptQualityFeedbackDemo, PromptTemplateDemo } from '@pkg/demos/prompt';
 
-The articulation of intent to a machine, transforming a vague need into a request precise enough for a [bot](/patterns/bot) to act on meaningfully.
+The articulation of intent to a machine, transforming a vague need into a request precise enough for an [agent](/patterns/agent) to act on meaningfully.
 
 <Demo label="Structured prompt composer">
   <PromptBasicDemo client:only="react" />

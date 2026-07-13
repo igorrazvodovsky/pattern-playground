@@ -55,6 +55,12 @@
       "atomic-category": "primitive",
       "mediation": "coordination"
     },
+    "agent": {
+      "activity-level": "activity",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": "individual"
+    },
     "ai-completion": {
       "activity-level": "action",
       "lifecycle-stage": null,
@@ -101,12 +107,6 @@
       "activity-level": "action",
       "lifecycle-stage": null,
       "atomic-category": "composition",
-      "mediation": "individual"
-    },
-    "bot": {
-      "activity-level": "activity",
-      "lifecycle-stage": null,
-      "atomic-category": "pattern",
       "mediation": "individual"
     },
     "bounded-choice": {

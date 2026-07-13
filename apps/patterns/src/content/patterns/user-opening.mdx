@@ -22,14 +22,14 @@ relationships:
     - to: inquiry-user
       note: when the opening is a simple question, the encounter passes straight into user inquiry
 ---
-The user initiates the encounter; the bot recognizes the open and aligns quickly to a topic.
+The user initiates the encounter; the agent recognizes the open and aligns quickly to a topic.
 
 1. U → A: Greeting or first move (“Hi”, “I need a quote”).
 2. A: Receipt + capability/role (brief), and *topic alignment* (accept the stated topic or offer nearby options).
-3. A: Transition into the selected activity (*user inquiry, open request, or bot inquiry*), or request clarification via *bot repair*.
+3. A: Transition into the selected activity (*user inquiry, open request, or agent inquiry*), or request clarification via *agent repair*.
 
 ## Support & transitions
-- Use *bot inquiry* for missing parameters; *bot repair* for disambiguation.
+- Use *agent inquiry* for missing parameters; *agent repair* for disambiguation.
 - If the user changes their mind immediately, allow *abort*.
 
 ## Metrics

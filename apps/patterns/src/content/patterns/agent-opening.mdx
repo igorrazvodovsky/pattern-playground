@@ -1,5 +1,5 @@
 ---
-title: Opening (Bot)
+title: Opening (Agent)
 role: pattern
 group: conversation/sequence-management
 activityLevel: operation
@@ -14,7 +14,7 @@ relationships:
       note: capability giving is often embedded within the opening
   precedes:
     - to: open-request
-      note: typical first activity after a bot-initiated opening
+      note: typical first activity after an agent-initiated opening
     - to: abort
       note: if the user disengages before reaching the first activity
   alternative:
@@ -22,9 +22,9 @@ relationships:
       note: offered on user refusal as an alternative to immediate engagement
   follows:
     - to: disengage-without-closing
-      note: if the bot re-opens after a prior session was abandoned
+      note: if the agent re-opens after a prior session was abandoned
 ---
-The bot opens the encounter, establishes footing, and proposes the first topic.
+The agent opens the encounter, establishes footing, and proposes the first topic.
 
 1. A → U: Greeting + brief capability/role statement.
 2. A: Offer or propose a *topic* and optionally preview next/alt. topics.
@@ -35,7 +35,7 @@ The bot opens the encounter, establishes footing, and proposes the first topic.
 - Ensure accessibility: text + voice greetings, clear affordances.
 
 ## Support & transitions
-- If user response is ambiguous, use *bot repair*.
+- If user response is ambiguous, use *agent repair*.
 - On user refusal, allow *abort* or offer help in a shape of *extended telling*.
 
 ## Metrics
