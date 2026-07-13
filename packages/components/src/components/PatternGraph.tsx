@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import {
   forceSimulation,
   forceLink,
@@ -68,6 +68,17 @@ interface GraphEdgeData {
 
 const SVG_WIDTH = 900;
 const SVG_HEIGHT = 600;
+const EDGE_CURVATURE = 0.15;
+
+function curvedEdgePath(x1: number, y1: number, x2: number, y2: number): string {
+  const mx = (x1 + x2) / 2;
+  const my = (y1 + y2) / 2;
+  const cx = mx - (y2 - y1) * EDGE_CURVATURE;
+  const cy = my + (x2 - x1) * EDGE_CURVATURE;
+  return `M${x1},${y1} Q${cx},${cy} ${x2},${y2}`;
+}
+
+const DEFAULT_TRAIL_LENGTH = 8;
 
 const CATEGORY_TARGETS: Record<string, [number, number]> = {
   Operations:   [450, 120],
@@ -190,24 +201,70 @@ function buildGraph() {
   return { nodes, edges, viewBox, adjacency };
 }
 
-export function PatternGraph() {
+interface PatternGraphProps {
+  trailLength?: number;
+}
+
+export function PatternGraph({ trailLength = DEFAULT_TRAIL_LENGTH }: PatternGraphProps = {}) {
   const [graph] = useState(buildGraph);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [trail, setTrail] = useState<string[]>([]);
   const [colorMode] = useState<ColorMode>('at-level');
 
   const neighbors = hoveredId ? (graph.adjacency.get(hoveredId) ?? new Set<string>()) : null;
+  const trailSet = useMemo(() => new Set(trail), [trail]);
+
+  // Trail nodes reachable from the hovered node by hopping only through other visited nodes.
+  const reachableTrailSet = useMemo(() => {
+    const reachable = new Set<string>();
+    if (!hoveredId) return reachable;
+    const queue = [hoveredId];
+    while (queue.length > 0) {
+      const current = queue.shift()!;
+      for (const neighborId of graph.adjacency.get(current) ?? []) {
+        if (trailSet.has(neighborId) && neighborId !== hoveredId && !reachable.has(neighborId)) {
+          reachable.add(neighborId);
+          queue.push(neighborId);
+        }
+      }
+    }
+    return reachable;
+  }, [hoveredId, trailSet, graph.adjacency]);
+
+  const handleNodeEnter = useCallback((id: string) => {
+    setHoveredId(id);
+    setTrail((prev) => {
+      if (prev[prev.length - 1] === id) return prev;
+      const next = prev.filter((existingId) => existingId !== id);
+      next.push(id);
+      return next.length > trailLength ? next.slice(next.length - trailLength) : next;
+    });
+  }, [trailLength]);
 
   const nodeClass = (id: string) => {
-    if (!hoveredId) return 'pattern-graph__node';
-    if (id === hoveredId) return 'pattern-graph__node pattern-graph__node--active';
-    if (neighbors?.has(id)) return 'pattern-graph__node pattern-graph__node--neighbor';
-    return 'pattern-graph__node pattern-graph__node--dimmed';
+    const classes = ['pattern-graph__node'];
+    if (id === hoveredId) {
+      classes.push('pattern-graph__node--active');
+    } else if (neighbors?.has(id)) {
+      classes.push('pattern-graph__node--neighbor');
+    } else if (reachableTrailSet.has(id)) {
+      classes.push('pattern-graph__node--trail');
+    } else if (hoveredId) {
+      classes.push('pattern-graph__node--dimmed');
+    }
+    return classes.join(' ');
   };
 
   const edgeClass = (edge: RenderedEdge) => {
-    if (!hoveredId) return 'pattern-graph__edge';
-    if (edge.source === hoveredId || edge.target === hoveredId) return 'pattern-graph__edge pattern-graph__edge--active';
-    return 'pattern-graph__edge pattern-graph__edge--dimmed';
+    const classes = ['pattern-graph__edge'];
+    if (edge.source === hoveredId || edge.target === hoveredId) {
+      classes.push('pattern-graph__edge--active');
+    } else if (reachableTrailSet.has(edge.source) && reachableTrailSet.has(edge.target)) {
+      classes.push('pattern-graph__edge--trail');
+    } else if (hoveredId) {
+      classes.push('pattern-graph__edge--dimmed');
+    }
+    return classes.join(' ');
   };
 
   const svgClass = [
@@ -230,14 +287,11 @@ export function PatternGraph() {
       >
         <g>
           {graph.edges.map((edge) => (
-            <line
+            <path
               key={edge.id}
               className={edgeClass(edge)}
               data-edge-type={edge.type}
-              x1={edge.x1}
-              y1={edge.y1}
-              x2={edge.x2}
-              y2={edge.y2}
+              d={curvedEdgePath(edge.x1, edge.y1, edge.x2, edge.y2)}
             />
           ))}
           {graph.nodes.map((node) => (
@@ -253,7 +307,7 @@ export function PatternGraph() {
               data-lifecycle-stage={node.lifecycleStage ?? undefined}
               data-atomic-category={node.atomicCategory}
               data-mediation={node.mediation ?? undefined}
-              onMouseEnter={() => setHoveredId(node.id)}
+              onMouseEnter={() => handleNodeEnter(node.id)}
               onMouseLeave={() => setHoveredId(null)}
               onClick={() => handleNodeActivate(node.path)}
               onKeyDown={(e) => {

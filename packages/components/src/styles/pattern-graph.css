@@ -17,6 +17,7 @@
   /* Edges */
 
   .pattern-graph__edge {
+    fill: none;
     stroke: var(--c-neutral-400, #aaa);
     stroke-width: 0.75;
     stroke-opacity: 0.3;
@@ -31,6 +32,13 @@
   .pattern-graph__svg--hovering .pattern-graph__edge--active {
     stroke-opacity: 0.6;
     stroke: var(--c-neutral-600, #666);
+  }
+
+  /* Trail — while hovering, visited nodes connected to the hovered node (through other visited nodes) stay visible */
+
+  .pattern-graph__edge--trail {
+    stroke: var(--c-neutral-600, #666);
+    stroke-opacity: 0.5;
   }
 
   /* Edge type differentiation — only on active/hovered edges to keep default view clean */
@@ -81,6 +89,11 @@
 
   .pattern-graph__svg--hovering .pattern-graph__node--dimmed .pattern-graph__circle {
     opacity: 0.08;
+  }
+
+  .pattern-graph__node--trail .pattern-graph__circle {
+    stroke: var(--c-neutral-700, #333);
+    stroke-width: 1.5;
   }
 
   /* Activity Theory level colours */
@@ -178,6 +191,10 @@
   .pattern-graph__svg--hovering .pattern-graph__node--active .pattern-graph__label,
   .pattern-graph__svg--hovering .pattern-graph__node--neighbor .pattern-graph__label {
     opacity: 0.9;
+  }
+
+  .pattern-graph__node--trail .pattern-graph__label {
+    opacity: 0.6;
   }
 
   .pattern-graph__svg--show-labels .pattern-graph__label {
