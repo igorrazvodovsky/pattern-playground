@@ -32,26 +32,47 @@
   .sidebar-wrapper {
     /* Align sidebar width with Storybook's sidebar */
     --sidebar-width: 300px;
+    --header-height: 3rem;
     --font: 'Alegreya Sans', system-ui, sans-serif;
     --text-s: 1rem;
   }
 
   h1.sidebar-logo {
     margin-inline: var(--space-s);
+    margin-block-start: calc(var(--header-height) - var(--space-xs));
     line-height: 1;
     text-box-trim: trim-both;
     text-box-edge: ex alphabetic;
   }
 
-  .sidebar kbd {
+  .sidebar kbd,
+  .site-header kbd {
     width: 1em;
-    border: none;
+    border: none !important;
     padding: 0 0.25em;
     vertical-align: middle;
   }
 
   [data-slot="sidebar-container"][data-side="left"] {
     border-inline-end: none;
+  }
+
+  .site-header {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline: 0;
+    height: var(--header-height);
+    z-index: calc(var(--layer-drawer) + 1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: var(--space-s);
+    pointer-events: none;
+  }
+
+  .site-header-toggle,
+  .site-header-search {
+    pointer-events: auto;
   }
 
   .demo-block {
@@ -161,7 +182,8 @@
 }
 
 .content-inset {
-  margin: var(--space-2xl) var(--space-3xl);
+  margin: 0 var(--space-xl) var(--space-2xl) var(--space-3xl);
+  padding-block-start: var(--header-height);
 }
 
 .pane .pane-body > astro-slot > article,
@@ -253,48 +275,10 @@ main.sidebar-inset:has(> .content-inset) {
   }
 }
 
-/* Mobile nav trigger: below 48rem the sidebar is a closed drawer dialog and
-   ⌘/ is its only other toggle, so a visible way in is required. */
-.sidebar-mobile-trigger {
-  display: none;
-}
-
-/* Desktop nav trigger: offcanvas collapse takes the whole sidebar (and its
-   own hide-trigger) off-screen, so this sits outside it, in the same corner,
-   whenever the sidebar is collapsed. Nav.tsx only renders it in that state. */
-.sidebar-desktop-trigger {
-  position: fixed;
-  inset-block-start: var(--space-s);
-  inset-inline-start: var(--space-s);
-  z-index: var(--layer-drawer);
-  background: var(--c-neutral-0);
-}
-
 @media (width < 48rem) {
-  /* Clear the fixed nav trigger. */
-  .content-inset {
-    margin-block-start: var(--space-3xl);
-  }
-
-  .pane .pane-body > astro-slot > article,
-  .pane .pane-body > article {
-    margin-block-start: var(--space-3xl);
-  }
-
   /* The desktop sidebar is server-rendered and only unmounts after hydration
      flips useIsMobile; keep it from painting in the meantime. */
   [data-slot="sidebar"]:not(.sidebar-mobile) {
     display: none;
-  }
-
-  .sidebar-mobile-trigger {
-    display: inline-flex;
-    position: fixed;
-    inset-block-start: var(--space-l);
-    inset-inline-start: var(--space-l);
-    z-index: var(--layer-drawer);
-    background: var(--c-neutral-0);
-    border: var(--border);
-    box-shadow: var(--shadow-s);
   }
 }

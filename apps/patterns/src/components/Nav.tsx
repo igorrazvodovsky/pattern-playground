@@ -11,7 +11,6 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarTrigger,
-  useSidebar,
 } from '@components/sidebar';
 import { useNavStore, useNavHydration } from '../lib/nav-store';
 import { useActivePath, isActivePath } from '../lib/active-path';
@@ -100,31 +99,25 @@ function openSearch() {
   modal?.open?.();
 }
 
-// Toggles the sidebar's own visibility. A child of SidebarProvider (unlike
-// Nav itself) so it can reach useSidebar().
-function SidebarHideTrigger() {
-  const { toggleSidebar } = useSidebar();
+function SiteHeader() {
   return (
-    <SidebarMenuButton
-      render={<button type="button" onClick={toggleSidebar} />}
-      className="sidebar-search"
-      tooltip="Hide navigation"
-    >
-      {React.createElement('iconify-icon', { icon: 'ph:sidebar-simple' })}
-      <span><kbd className="sidebar-search-kbd muted">⌘</kbd><kbd className="sidebar-search-kbd muted">/</kbd></span>
-    </SidebarMenuButton>
+    <header className="site-header">
+      <pp-tooltip content="Toggle sidebar (⌘/)" placement="right">
+        <SidebarTrigger className="site-header-toggle" />
+      </pp-tooltip>
+      <pp-tooltip content="Search (⌘K)" placement="left">
+        <button
+          is="pp-button"
+          type="button"
+          onClick={openSearch}
+          className="button button--plain site-header-search"
+        >
+          {React.createElement('iconify-icon', { icon: 'ph:magnifying-glass', className: 'icon' })}
+          <span className="visually-hidden">Search</span>
+        </button>
+      </pp-tooltip>
+    </header>
   );
-}
-
-// Reopens the sidebar once collapsible="offcanvas" has taken it fully
-// off-screen — SidebarHideTrigger disappears along with the panel, so this
-// lives outside it. Desktop-only: the mobile drawer already has its own
-// always-rendered, CSS-media-gated trigger (.sidebar-mobile-trigger) that
-// paints correctly server-side, which a state-gated one couldn't.
-function SidebarShowTrigger() {
-  const { state, isMobile } = useSidebar();
-  if (isMobile || state !== 'collapsed') return null;
-  return <SidebarTrigger className="sidebar-desktop-trigger" aria-label="Show navigation" />;
 }
 
 // The persistent sidebar island. `transition:persist`ed in Base.astro, so it
@@ -138,35 +131,19 @@ export function Nav({ navItems, storybookUrl }: NavProps) {
   const currentPath = useActivePath();
   return (
     <SidebarProvider renderWrapper={false}>
+      <SiteHeader />
       <Sidebar collapsible="offcanvas">
         <SidebarContent>
           <SidebarGroup>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarHideTrigger />
-              </SidebarMenuItem>
-              </SidebarMenu>
-            </SidebarGroup>
-            <SidebarGroup>
-              <h1 className="sidebar-logo">
-                <a href="/">        
-                  <i className="muted">
-                    pattern</i> playground
-                </a>
-              </h1>
-            </SidebarGroup>
+            <h1 className="sidebar-logo">
+              <a href="/">
+                <i className="muted">
+                  pattern</i> playground
+              </a>
+            </h1>
+          </SidebarGroup>
           <SidebarGroup>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  render={<button type="button" onClick={openSearch} />}
-                  className="sidebar-search"
-                  tooltip="Search"
-                >
-                  {React.createElement('iconify-icon', { icon: 'ph:magnifying-glass' })}
-                  <span>Search <kbd className="sidebar-search-kbd muted">⌘</kbd><kbd className="sidebar-search-kbd muted">K</kbd></span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton
                   render={<a href="/" />}
@@ -204,10 +181,6 @@ export function Nav({ navItems, storybookUrl }: NavProps) {
           </SidebarMenu>
         </SidebarFooter>
       </Sidebar>
-      {/* Shown only below the mobile breakpoint (app.css), where the sidebar
-          is a drawer dialog with no other visible way to open it. */}
-      <SidebarTrigger className="sidebar-mobile-trigger" aria-label="Open navigation" />
-      <SidebarShowTrigger />
     </SidebarProvider>
   );
 }

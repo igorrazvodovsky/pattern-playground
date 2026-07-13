@@ -53,6 +53,7 @@
     flex: 1 1 0;
     min-width: 0;
     overflow-y: auto;
+    padding-block-start: var(--header-height);
   }
 
   /* The spine is the pane's leading edge: a vertical title that doubles as the

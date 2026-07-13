@@ -14,7 +14,7 @@
     --sidebar-width-icon: 3rem;
     --sidebar: var(--c-neutral-0);
     --sidebar-foreground: var(--c-neutral-800);
-    --sidebar-primary: var(--c-accent-500);
+    --sidebar-primary: var(--c-neutral-900);
     --sidebar-primary-foreground: var(--c-neutral-0);
     --sidebar-accent: var(--c-neutral-50);
     --sidebar-accent-foreground: var(--c-neutral-800);
@@ -421,7 +421,8 @@
     display: flex;
     align-items: center;
     gap: var(--space-xs);
-    width: 100%;
+    width: fit-content;
+    max-width: 100%;
     min-width: 0;
     overflow: hidden;
     text-align: start;
@@ -490,6 +491,7 @@
       display: none;
     }
 
+    width: 100%;
     justify-content: center;
     padding-inline: 0;
   }
@@ -642,7 +644,8 @@
     display: flex;
     align-items: center;
     gap: var(--space-xs);
-    width: 100%;
+    width: fit-content;
+    max-width: 100%;
     min-width: 0;
     overflow: hidden;
     text-align: start;
