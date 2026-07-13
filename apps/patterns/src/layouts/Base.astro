@@ -116,6 +116,12 @@ const navItems: NavGroup[] = [
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <!-- Locks the cascade layer order before any other CSS can — in prod,
+         Astro sometimes inlines a route-only island's stylesheet (e.g.
+         PatternGraph's) ahead of the main bundle, unwrapped from "lib",
+         which would fix "components" before "lib" and invert precedence.
+         is:inline keeps this tag first. Must match the statement in lib.css. -->
+    <style is:inline>@layer lib, reset, theme, global, layout, components, utilities, states;</style>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} — Pattern Playground</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

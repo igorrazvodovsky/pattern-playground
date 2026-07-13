@@ -5,7 +5,10 @@
 
    The master order statement is declared here, first, so `lib` is registered
    ahead of the site's own top-level layers (`reset, theme, … states` in app.css
-   / stack.css) regardless of the order Astro emits the bundled stylesheets in.
+   / stack.css). Astro can still inline a route-only island's CSS chunk ahead of
+   this file in prod, unwrapped from `lib` — Base.astro repeats this exact
+   statement in an `is:inline` <head> tag as a backstop against that. Keep the
+   two in sync.
    Tokens still cross freely — they are custom properties, defined inside lib but
    inherited everywhere. This file is imported first in Base.astro. */
 
