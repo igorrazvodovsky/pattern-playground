@@ -14,7 +14,8 @@
     "storybook": "npm run storybook -w @pattern-plgrnd/components",
     "build-storybook": "npm run build-storybook -w @pattern-plgrnd/components",
     "build:storybook-index": "npm run build-storybook && mkdir -p apps/patterns/storybook-index && cp packages/components/storybook-static/index.json apps/patterns/storybook-index/index.json",
-    "build": "npm run build:storybook-index && npm run build -w @pattern-plgrnd/patterns",
+    "build:storybook-into-site": "npm run build:storybook-index && rm -rf public/storybook && cp -r packages/components/storybook-static public/storybook",
+    "build": "npm run build:storybook-into-site && npm run build -w @pattern-plgrnd/patterns",
     "test-storybook": "vitest --project=storybook",
     "test": "eslint .",
     "test styles": "stylelint **/*.css"
