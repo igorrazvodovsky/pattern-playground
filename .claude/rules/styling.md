@@ -8,7 +8,7 @@ paths:
 ## Core principles
 - Never use inline styles - All styling must be handled through CSS classes
 - Add styles to `src/styles/` directory for global styles and shared components
-- For Web Components using Shadow DOM, use component-specific CSS files
+- Component CSS is a layered file in `src/styles/` (`layer(components)`), scoped with `@scope (pp-tag-name)` where selector leakage is plausible. Shadow-DOM `?inline` imports are legacy under migration (`plans/active/2026-07-light-dom-refactor.md`)
 - Use shared tokens (CSS custom properties) consistently
 - Ask before adding new styles
 

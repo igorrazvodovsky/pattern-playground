@@ -5,6 +5,20 @@ paths:
 
 # Web components
 
+## Decision ladder (take the first rung that suffices)
+1. *Native HTML + CSS* — no custom element. A button is a `<button>` with a class; a switch is `<input type="checkbox" role="switch">` styled. Check `src/styles/` for an existing CSS-only treatment before writing any TS.
+2. *Composite enhancement* — a light-DOM custom element that renders nothing and enhances the children it's given (roles, listeners, attributes).
+3. *Light-DOM render* — the element owns and renders its subtree (`createRenderRoot() { return this }` in Lit). Document that author-provided children will be clobbered.
+4. *Shadow DOM* — only with a written justification in the component file (genuine style isolation or third-party embedding). Existing shadow components are legacy under migration: see `plans/active/2026-07-light-dom-refactor.md`.
+
+Slots exist only on rung 4. Compose through real children; where named regions are needed, use `data-slot="…"` attributes on children.
+
+## Light-DOM discipline
+- *Subtree ownership*: rung-2 components must never re-render children they didn't create — reactive updates mutate attributes/classes on existing elements.
+- *Styles live in the cascade*: component CSS goes in `src/styles/` as a layered file (`layer(components)`), scoped with `@scope (pp-tag-name)` where selector leakage is plausible. No `?inline` imports into `static styles` for new components.
+- *Pre-upgrade content*: author HTML that is acceptable before the element upgrades; add a `:not(:defined)` rule only when that's not achievable.
+- *No customised built-ins* (`extends HTMLButtonElement`, `is="…"`): WebKit doesn't implement them. Use rung 1 instead.
+
 ## Event handling & lifecycle
 - *Event binding*: Bind all event handlers in constructor using `.bind(this)`
 - *Custom events*: Define typed event interfaces and use `this.$emit('event-name', detail)`
@@ -54,6 +68,7 @@ Reference: Based on [bulletproof web component loading patterns](https://gomaket
 - Don't create components without checking existing solutions - Leverage existing dependencies first
 - Don't define components individually - Use centralized registration in `register-all.ts`
 - Don't mix concerns - Keep services framework-agnostic, separate from UI integrations
-- Don't use Shadow DOM by default - Prefer Light DOM for accessibility and styling inheritance
+- Don't use Shadow DOM by default - Take the lowest rung of the decision ladder that suffices; rung 4 requires a written justification
+- Don't add `<slot>` or `::slotted`/`part=` styling outside rung-4 components
 - Don't forget event cleanup - Remove all listeners in `disconnectedCallback()`
 - Don't use semantic attributes as JS hooks - Avoid using `role`, `aria-*` for event handling
