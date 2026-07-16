@@ -12,7 +12,7 @@ import {
   SidebarMenuButton,
   SidebarTrigger,
 } from '@components/sidebar';
-import { useNavStore, useNavHydration } from '../lib/nav-store';
+import { useNavStore, useNavHydration, DEFAULT_PROJECTION } from '../lib/nav-store';
 import { useActivePath, isActivePath } from '../lib/active-path';
 
 type NavLeaf = { label: string; href: string };
@@ -21,7 +21,8 @@ type NavTreeNode = NavLeaf | NavBranch;
 type NavGroup = NavBranch;
 
 interface NavProps {
-  navItems: NavGroup[];
+  projections: Record<string, NavGroup[]>;
+  projectionLabels: Record<string, string>;
   storybookUrl: string;
 }
 
@@ -120,15 +121,95 @@ function SiteHeader() {
   );
 }
 
+// A standard sidebar footer item that opens the house `pp-dropdown` of
+// projections — the corpus organisation is one lens among several, so the
+// *current* lens is always named on the trigger, not left implicit.
+//
+// The dropdown is gated on `hydrated`: pp-dropdown/pp-list/pp-list-item are web
+// components that upgrade and mutate their own light DOM (adding role, tabindex,
+// aria-*, generated ids) — if they were SSR'd, that mutation would race React's
+// hydration and throw a mismatch. So the server and the first client render show
+// only the static trigger button (identical markup, clean hydration); the
+// dropdown mounts client-side afterwards, a normal mount rather than hydration.
+// The trigger label and items' checked state read the same hydration-gated
+// `active` the tree renders from. `hoist` lets the panel escape the sidebar's
+// fixed/overflow container.
+function ProjectionMenu({
+  projectionLabels,
+  active,
+  onSelect,
+  hydrated,
+}: {
+  projectionLabels: Record<string, string>;
+  active: string;
+  onSelect: (id: string) => void;
+  hydrated: boolean;
+}) {
+  // Selection runs through React's onClick (updating the store), so pp-dropdown's
+  // own pp-select-driven close doesn't fire — close it imperatively on select.
+  const dropdownRef = React.useRef<(HTMLElement & { open?: boolean }) | null>(null);
+  const trigger = (
+    <SidebarMenuButton
+      slot={hydrated ? 'trigger' : undefined}
+      tooltip="Organise patterns"
+      className="sidebar-projection-trigger"
+    >
+      <iconify-icon icon="ph:funnel-simple" />
+      <span>{projectionLabels[active]}</span>
+      <iconify-icon icon="ph:caret-up-down" className="sidebar-projection-caret" aria-hidden="true" />
+    </SidebarMenuButton>
+  );
+  return (
+    <SidebarMenuItem>
+      {hydrated ? (
+        <pp-dropdown ref={dropdownRef} placement="top-start" hoist>
+          {trigger}
+          <pp-list>
+            {Object.entries(projectionLabels).map(([id, label]) => (
+              <pp-list-item
+                key={id}
+                type="radio"
+                checked={id === active}
+                onClick={() => {
+                  onSelect(id);
+                  if (dropdownRef.current) dropdownRef.current.open = false;
+                }}
+              >
+                {label}
+              </pp-list-item>
+            ))}
+          </pp-list>
+        </pp-dropdown>
+      ) : (
+        trigger
+      )}
+    </SidebarMenuItem>
+  );
+}
+
 // The persistent sidebar island. `transition:persist`ed in Base.astro, so it
 // hydrates once and survives ClientRouter swaps instead of re-hydrating per
 // navigation. The page content is a static sibling (not a child) of this
 // island; active-link state comes from the runtime URL via useActivePath, not a
 // prop, since a persisted island never re-renders on navigation.
-export function Nav({ navItems, storybookUrl }: NavProps) {
-  const { isOpen, setOpen } = useNavStore();
+export function Nav({ projections, projectionLabels, storybookUrl }: NavProps) {
+  const { isOpen, setOpen, projection, setProjection } = useNavStore();
   const hydrated = useNavHydration();
   const currentPath = useActivePath();
+
+  // Until rehydration, render the *default* projection so the first client
+  // render matches the server HTML (see the `hydrated` note on NavNodeProps);
+  // then switch to the persisted one. Guard against a persisted id that points
+  // at a since-removed projection by falling back to the default.
+  const active =
+    hydrated && projections[projection] ? projection : DEFAULT_PROJECTION;
+  const activeItems = projections[active] ?? [];
+
+  // Scope collapse state per projection so same-named groups in different
+  // projections (e.g. Foundations) don't share open/closed state.
+  const scopedIsOpen = (label: string) => isOpen(`${active}:${label}`);
+  const scopedSetOpen = (label: string, open: boolean) => setOpen(`${active}:${label}`, open);
+
   return (
     <SidebarProvider renderWrapper={false}>
       <SiteHeader />
@@ -154,13 +235,13 @@ export function Nav({ navItems, storybookUrl }: NavProps) {
                   Introduction
                 </SidebarMenuButton>
               </SidebarMenuItem>
-              {navItems.map((group) => (
+              {activeItems.map((group) => (
                 <NavNode
                   key={group.label}
                   node={group}
                   currentPath={currentPath}
-                  isOpen={isOpen}
-                  setOpen={setOpen}
+                  isOpen={scopedIsOpen}
+                  setOpen={scopedSetOpen}
                   hydrated={hydrated}
                 />
               ))}
@@ -169,6 +250,12 @@ export function Nav({ navItems, storybookUrl }: NavProps) {
         </SidebarContent>
         <SidebarFooter>
           <SidebarMenu>
+            <ProjectionMenu
+              projectionLabels={projectionLabels}
+              active={active}
+              onSelect={setProjection}
+              hydrated={hydrated}
+            />
             <SidebarMenuItem>
               <SidebarMenuButton
                 render={<a href={storybookUrl} />}

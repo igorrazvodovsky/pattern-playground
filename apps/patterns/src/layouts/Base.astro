@@ -94,7 +94,7 @@ for (const group of Object.values(tree)) {
   }
 }
 
-const navItems: NavGroup[] = [
+const byActivity: NavGroup[] = [
   ...GROUP_ORDER,
   ...Object.keys(tree).filter((k) => !GROUP_ORDER.includes(k)),
 ]
@@ -111,6 +111,39 @@ const navItems: NavGroup[] = [
       children: overview ? [overview, ...rest] : rest,
     };
   });
+
+// The A–Z projection: a lens-free view. Foundations and qualities are *roles*,
+// orthogonal to any lens, so those two groups are the by-activity groups
+// verbatim. Everything else — activities, actions, operations, data-visualisation
+// and their umbrella/overview pages (which appear under their own titles as
+// ordinary entries) — flattens into one alphabetical list, built directly from
+// the entries so umbrellas keep their real titles instead of the "Overview" leaf.
+const foundationsGroup = byActivity.find((g) => g.label === toLabel('foundations'));
+const qualitiesGroup = byActivity.find((g) => g.label === toLabel('qualities'));
+
+const flatLeaves: NavLeaf[] = (patterns as CollectionEntry<'patterns'>[])
+  .filter((p) => {
+    const key = groupKeyOf(p);
+    return key !== 'foundations' && key !== 'qualities';
+  })
+  .map((p) => ({ label: p.data.title, href: `/patterns/${p.id}` }))
+  .sort((a, b) => a.label.localeCompare(b.label));
+
+const alphabetical: NavGroup[] = [
+  ...(foundationsGroup ? [foundationsGroup] : []),
+  ...(qualitiesGroup ? [qualitiesGroup] : []),
+  { label: 'Patterns', children: flatLeaves },
+];
+
+type ProjectionId = 'by-activity' | 'a-z';
+const projections: Record<ProjectionId, NavGroup[]> = {
+  'by-activity': byActivity,
+  'a-z': alphabetical,
+};
+const projectionLabels: Record<ProjectionId, string> = {
+  'by-activity': 'By activity level',
+  'a-z': 'A–Z',
+};
 ---
 <!doctype html>
 <html lang="en">
@@ -134,7 +167,7 @@ const navItems: NavGroup[] = [
   </head>
   <body>
     <div class="sidebar-wrapper" data-slot="sidebar-wrapper">
-      <Nav client:load transition:persist="app-nav" navItems={navItems} storybookUrl={storybookUrl} />
+      <Nav client:load transition:persist="app-nav" projections={projections} projectionLabels={projectionLabels} storybookUrl={storybookUrl} />
       <main class="sidebar-inset" data-slot="sidebar-inset">
         {slug ? (
           <StackManager client:load slug={slug} title={title}>
