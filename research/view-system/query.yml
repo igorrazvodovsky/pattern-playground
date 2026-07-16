@@ -1,0 +1,48 @@
+story: null # gate for plans/active/2026-07-view-system.md — runs before the reshape commits
+topic: view system
+interaction: |
+  One underlying model is given many coexisting projections — a view is a
+  named projection of a model (query + representation + arrangement), and the
+  family boundary is the shared model, not the shared screen. The reshape
+  commits to a family algebra: data-view (many item-views at one uniform
+  rung), overview-detail (two rungs held open, coupled by the current item
+  propagating), semantic zoom (whole population moves one rung under a scale
+  control), focus-and-context (rung varies per item with attention).
+context: |
+  Pre-commit gate framed "what would I be wrong about?". The plan retires the
+  view.mdx hub, renames dashboard to needs-based-view, reframes
+  overview-detail from "simultaneous split panes" to coupled projections at
+  different abstraction rungs (one node, layout demoted to a dimension), and
+  mints coordinated-views. Primary reads done: Min et al. 2025 (malleable
+  ODI; content/composition/layout), Meridian (UIST 2025). Canon already
+  absorbed: Baldonado, Sarikaya, Cockburn, Shneiderman, Get To The Point,
+  DaaS.
+questions:
+  - The one-node overview-detail carving knowingly disagrees with Tidwell,
+    who splits Two-Panel Selector / One-Window Drilldown / Alternative Views
+    into separate patterns. Check NN/g master-detail and welie.com. Is there
+    a stronger counter-argument to the one-node shape than Tidwell's split?
+  - Name check "needs-based view" — does the phrase exist in the wild with a
+    conflicting meaning, or is it free to claim?
+  - Name check "coordinated views" against the CMV community's "coordinated
+    multiple views" — does claiming the shorter name collide with or
+    misrepresent the established term?
+  - Writable views — does any pattern language or UI literature name
+    editing-through-a-projection (writes executed through a view, refused or
+    ambiguous writes surfacing), or does the naming live only in the database
+    view-update / bidirectional-lens literature?
+keywords:
+  [
+    master-detail,
+    overview-detail,
+    two-panel selector,
+    one-window drilldown,
+    alternative views,
+    coordinated multiple views,
+    linked views,
+    brushing and linking,
+    needs-based view,
+    view-update problem,
+    bidirectional lenses,
+    direct manipulation of projections,
+  ]
