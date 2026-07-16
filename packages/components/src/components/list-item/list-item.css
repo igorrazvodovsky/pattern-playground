@@ -89,16 +89,22 @@
   margin-inline-start: var(--space-xs);
 }
 
-:host(:focus-visible) {
-  outline: none;
+/* Items are focused programmatically on hover/keyboard nav; the "current item"
+   is indicated by the background highlight below, not a focus ring. The global
+   `:focus-visible` reset paints the host outline from the outer (document)
+   scope, which beats a normal `:host` declaration — so `!important` is required
+   to suppress it. */
+:host(:focus) {
+  outline: none !important;
 }
 
-:host(:hover:not([aria-disabled="true"])) .list-item {
+:host(:hover:not([aria-disabled="true"])) .list-item,
+:host(:focus:not([aria-disabled="true"])) .list-item {
   background-color: var(--c-neutral-50);
   color: var(--c-neutral-1000);
 }
 
-:host(:focus-visible) .list-item {
+:host(:focus) .list-item {
   outline: none;
   opacity: 1;
 }
