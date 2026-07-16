@@ -272,7 +272,7 @@
       "path": "/patterns/coordinated-views",
       "role": "pattern",
       "situation": {
-        "initiating": "several projections of one model already coexist — each earning its place by showing a different aspect — but relating them is the actor's job: find the item here, re-find it there, carry the correspondence in working memory",
+        "initiating": "several views of one model already coexist — each earning its place by showing a different aspect — but relating them is the actor's job: find the item here, re-find it there, carry the correspondence in working memory",
         "resulting": [
           {
             "clause": "designating something in one view marks it in every view where it appears; cross-view relationships arrive perceptually instead of being reconstructed"
@@ -793,7 +793,7 @@
       "path": "/patterns/overview-detail",
       "role": "pattern",
       "situation": {
-        "initiating": "a collection framing exists and the actor works item by item — scanning many candidates, verifying one — but no single projection is both compact enough to scan and rich enough to verify",
+        "initiating": "a collection framing exists and the actor works item by item — scanning many candidates, verifying one — but no single view is both compact enough to scan and rich enough to verify",
         "resulting": [
           {
             "clause": "two rungs of the representation ladder stay open over one collection, the current item propagating between them"
@@ -871,13 +871,13 @@
       "path": "/patterns/purpose-keyed-view",
       "role": "pattern",
       "situation": {
-        "initiating": "a model is already well projected — a collection framing renders the state legibly, nothing is hidden — yet the actor's recurring question (is anything wrong? what is happening? what changed?) still takes inference to answer, and different moments bring the question with radically different attention budgets",
+        "initiating": "the data is already well presented — a collection framing renders it legibly, nothing is hidden — yet the actor's recurring question (is anything wrong? what is happening? what changed?) still takes inference to answer, and different moments bring the question with radically different attention budgets",
         "resulting": [
           {
-            "clause": "each recurring purpose has a projection designed for its own question and attention budget, instead of one general view compromising across all of them"
+            "clause": "each recurring purpose has a view designed for its own question and attention budget, instead of one general view compromising across all of them"
           },
           {
-            "clause": "the general exploratory projection stays reachable from every purposed one — curation prunes it, never replaces it"
+            "clause": "the general exploratory view stays reachable from every purpose-keyed one — curation prunes it, never replaces it"
           }
         ]
       },
@@ -2386,7 +2386,7 @@
       "source": "data-view",
       "target": "malleability",
       "type": "enacts",
-      "label": "the framing controls hand the actor the projection itself — what to show, how to render it, how to arrange it — the customisation most products still withhold",
+      "label": "the framing controls hand the actor the view itself — what to show, how to render it, how to arrange it — the customisation most products still withhold",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -3864,7 +3864,7 @@
       "source": "navigation-overview",
       "target": "overview-detail",
       "type": "surveys",
-      "label": "the collection regime's handoff: when the space navigated is one collection, the topology question dissolves into a projection question — overview-detail couples two projections through the current item propagating, and the coupling survives a page break",
+      "label": "the collection regime's handoff: when the space navigated is one collection, the topology question dissolves — overview-detail couples two views of it through the current item propagating, and the coupling survives a page break",
       "extractedFrom": "frontmatter:surveys"
     },
     {
@@ -4276,7 +4276,7 @@
       "source": "problem-curated-view",
       "target": "adaptation",
       "type": "enacts",
-      "label": "the projection, not the content, responds — the framing shifts with what the detection rules find, before the actor selects anything",
+      "label": "the view, not the content, responds — the framing shifts with what the detection rules find, before the actor selects anything",
       "extractedFrom": "frontmatter:enacts"
     },
     {

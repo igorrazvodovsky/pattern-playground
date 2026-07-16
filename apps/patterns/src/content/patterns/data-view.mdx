@@ -7,7 +7,7 @@ atomic: composition
 mediation: individual
 lifecycle: seeking
 fun: 🙂 3/5. Dependency.
-description: "Framing a collection for the actor's purpose — a named projection built from a query, a representation, and an arrangement — with the framing itself open to change."
+description: "Framing a collection for the actor's purpose — a named view built from a query, a representation, and an arrangement — with the framing itself open to change."
 situation:
   initiating: >-
     a collection too large or varied to absorb whole, and an actor whose
@@ -28,20 +28,20 @@ relationships:
       note: scale-bound traversal between collection and item granularities, uniform across the population
   enacts:
     - to: malleability
-      note: "the framing controls hand the actor the projection itself — what to show, how to render it, how to arrange it — the customisation most products still withhold"
+      note: "the framing controls hand the actor the view itself — what to show, how to render it, how to arrange it — the customisation most products still withhold"
     - to: density
       note: "each representation is a density commitment: a table row, a card, and a map pin spend the same screen budget very differently"
 ---
 
 import { DataViewDemo } from '@pkg/demos/data-view';
 
-The actor faces a collection too large to absorb whole, with a purpose that fixes what matters in it right now. A data view is a named projection of the collection — a *query* (which items), a *representation* (rendered how), and an *arrangement* (ordered and grouped by what). The familiar toolbar is that anatomy made visible: filter is the query, the view switcher is the representation, sort and group are the arrangement, and the attribute selector is the projection's ceiling put in the actor's hands.
+The actor faces a collection too large to absorb whole, with a purpose that fixes what matters in it right now. A data view is a named projection of the collection — the same items shown from one angle, nothing copied and nothing altered — built from a *query* (which items), a *representation* (rendered how), and an *arrangement* (ordered and grouped by what). The familiar toolbar is that anatomy made visible: filter is the query, the view switcher is the representation, sort and group are the arrangement, and the attribute selector is the projection's ceiling put in the actor's hands.
 
 <Demo label="Data view">
   <DataViewDemo client:only="react" />
 </Demo>
 
-The demo's `controls` prop is the designer-side switch over each piece of that anatomy: disabling a control enforces that part of the framing. Enforced framing is degenerate framing — still a framing, just one the actor no longer negotiates.
+The demo's `controls` prop is the designer-side switch over each piece of that anatomy: disabling a control enforces that part of the framing. An enforced framing is still a framing — just one the actor no longer negotiates.
 
 ## Representation switching
 
@@ -49,7 +49,7 @@ One collection as list, board, table, calendar — the move Notion, Airtable, an
 
 ## Attribute selection
 
-Which attributes the compressed rung carries decides what the actor can scan, compare, sort, and filter by — and in the wild this ceiling is almost always fixed: of 156 sites sampled by Min et al., 8.33% offered any customisation at all. Given the choice, actors split into recognisable temperaments — *hoarders* who surface attributes and never hide any, *minimalists* who prune the overview down to exactly their criteria — which is an argument for making the selection malleable rather than guessing a middle.
+Which attributes the compressed rung carries decides what the actor can scan, compare, sort, and filter by — and in the wild this ceiling is almost always fixed: in a sample of 156 sites, fewer than one in ten offered any customisation at all. Given the choice, actors split into recognisable temperaments — *hoarders* who surface attributes and never hide any, *minimalists* who prune the overview down to exactly their criteria — which is an argument for making the selection malleable rather than guessing a middle.
 
 ## Saved views
 
@@ -57,7 +57,7 @@ A framing worth constructing is worth keeping. Saved views persist the whole fra
 
 ## Writable views
 
-The collection's product core is edited *through* its projections: dragging a card between board columns is a write executed through the framing — the column move is an attribute change wearing spatial clothes. Two design decisions follow. Which edits are legal through which representation: the calendar accepts a date drag, the board a status drag, the table almost anything cell-by-cell. And how refused or ambiguous writes surface: an edit the projection cannot translate back to the model (dragging a card into a column the query would immediately exclude it from) needs an honest refusal or a visible consequence, not a silent success. The database literature has owned this problem for decades as the view-update problem; product UI mostly ships it unnamed.
+The collection's product core is edited *through* its projections: dragging a card between board columns is a write executed through the framing — the column move is an attribute change wearing spatial clothes. Two design decisions follow. Which edits are legal through which representation: the calendar accepts a date drag, the board a status drag, the table almost anything cell-by-cell. And how refused or ambiguous writes surface: an edit the view cannot translate back to the model (dragging a card into a column the query would immediately exclude it from) needs an honest refusal or a visible consequence, not a silent success. The database literature has owned this problem for decades as the view-update problem; product UI mostly ships it unnamed.
 
 ## Time
 
