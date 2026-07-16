@@ -266,9 +266,28 @@
       ]
     },
     {
-      "id": "dashboard",
-      "title": "Needs-based view",
+      "id": "coordinated-views",
+      "title": "Coordinated views",
       "category": "Actions",
+      "path": "/patterns/coordinated-views",
+      "role": "pattern",
+      "situation": {
+        "initiating": "several projections of one model already coexist — each earning its place by showing a different aspect — but relating them is the actor's job: find the item here, re-find it there, carry the correspondence in working memory",
+        "resulting": [
+          {
+            "clause": "designating something in one view marks it in every view where it appears; cross-view relationships arrive perceptually instead of being reconstructed"
+          },
+          {
+            "clause": "each coupling is now a correctness surface — its cues can lie, and its upkeep must be paid"
+          }
+        ]
+      },
+      "group": "coordination"
+    },
+    {
+      "id": "dashboard",
+      "title": "Dashboard",
+      "category": "Data Visualisation",
       "path": "/patterns/dashboard",
       "role": "pattern",
       "group": "sense-making"
@@ -287,6 +306,17 @@
       "category": "Actions",
       "path": "/patterns/data-view",
       "role": "pattern",
+      "situation": {
+        "initiating": "a collection too large or varied to absorb whole, and an actor whose purpose fixes what matters in it right now — which items, rendered how, ordered by what",
+        "resulting": [
+          {
+            "clause": "the collection reaches the actor already framed — queried, represented, arranged — and the framing is inspectable and adjustable rather than baked in"
+          },
+          {
+            "clause": "a framed population of items makes designating some of them for action cheap; what the framing exposes is what selection can operate on"
+          }
+        ]
+      },
       "group": "seeking"
     },
     {
@@ -586,6 +616,17 @@
       "category": "Actions",
       "path": "/patterns/item-view",
       "role": "pattern",
+      "situation": {
+        "initiating": "an entity must appear somewhere — inside running text, among its peers, on its own — and the moment fixes how much of it the actor needs: bare recognition, quick comparison, or a full working surface",
+        "resulting": [
+          {
+            "clause": "the entity renders at a rung fitted to its moment and remains recognisable as the same entity across every rung"
+          },
+          {
+            "clause": "moving between rungs is a designed transition, not a page reload — context survives the shift in depth"
+          }
+        ]
+      },
       "group": "seeking",
       "realisedBy": [
         "components-item-view--docs"
@@ -679,7 +720,7 @@
     },
     {
       "id": "navigation-overview",
-      "title": "Overview",
+      "title": "Navigation",
       "category": "Actions",
       "path": "/patterns/navigation-overview",
       "role": "collection",
@@ -751,6 +792,17 @@
       "category": "Actions",
       "path": "/patterns/overview-detail",
       "role": "pattern",
+      "situation": {
+        "initiating": "a collection framing exists and the actor works item by item — scanning many candidates, verifying one — but no single projection is both compact enough to scan and rich enough to verify",
+        "resulting": [
+          {
+            "clause": "two rungs of the representation ladder stay open over one collection, the current item propagating between them"
+          },
+          {
+            "clause": "the overview's attribute subset now silently fixes what the actor can compare, sort, and filter by — a ceiling only malleability lifts"
+          }
+        ]
+      },
       "group": "navigation"
     },
     {
@@ -767,6 +819,28 @@
       "category": "Qualities",
       "path": "/patterns/privacy",
       "role": "quality"
+    },
+    {
+      "id": "problem-curated-view",
+      "title": "Problem-curated view",
+      "category": "Actions",
+      "path": "/patterns/problem-curated-view",
+      "role": "pattern",
+      "situation": {
+        "initiating": "a purpose recurs so predictably that the domain can state, by consensus and in advance, what counts as a problem — yet on every visit the actor still triages a general view by inference, re-deriving the same judgements the rules could carry",
+        "resulting": [
+          {
+            "clause": "what needs attention arrives as a rule-backed checklist — index, navigation, status display and audit trail at once — and every flag can say why it fired"
+          },
+          {
+            "clause": "the rule set is a standing maintenance duty — flags need a feedback channel and a noise budget, or fatigue and then suppression follow"
+          },
+          {
+            "clause": "whatever the rules don't encode sails past; the general exploratory view remains the place to notice it"
+          }
+        ]
+      },
+      "group": "sense-making"
     },
     {
       "id": "progressive-disclosure",
@@ -789,6 +863,25 @@
       "category": "Foundations",
       "path": "/patterns/prose",
       "role": "foundation"
+    },
+    {
+      "id": "purpose-keyed-view",
+      "title": "Purpose-keyed view",
+      "category": "Actions",
+      "path": "/patterns/purpose-keyed-view",
+      "role": "pattern",
+      "situation": {
+        "initiating": "a model is already well projected — a collection framing renders the state legibly, nothing is hidden — yet the actor's recurring question (is anything wrong? what is happening? what changed?) still takes inference to answer, and different moments bring the question with radically different attention budgets",
+        "resulting": [
+          {
+            "clause": "each recurring purpose has a projection designed for its own question and attention budget, instead of one general view compromising across all of them"
+          },
+          {
+            "clause": "the general exploratory projection stays reachable from every purposed one — curation prunes it, never replaces it"
+          }
+        ]
+      },
+      "group": "sense-making"
     },
     {
       "id": "pyramid",
@@ -1044,14 +1137,6 @@
       "category": "Operations",
       "path": "/patterns/validation",
       "role": "pattern"
-    },
-    {
-      "id": "view",
-      "title": "View",
-      "category": "Actions",
-      "path": "/patterns/view",
-      "role": "pattern",
-      "group": "sense-making"
     },
     {
       "id": "wizard",
@@ -2193,17 +2278,24 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
+      "source": "selection",
+      "target": "coordinated-views",
+      "type": "enables",
+      "incomingNote": "the coupling payload is a propagated designation — sometimes a staked selection (acted on as a target), sometimes mere focus (navigated to as a position); which one decides what the coupled views may do with it",
+      "extractedFrom": "frontmatter:composed-of"
+    },
+    {
       "source": "dashboard",
-      "target": "data-view",
+      "target": "purpose-keyed-view",
       "type": "related",
-      "label": "Collection representations with framing intents",
+      "label": "the functional twin: purpose-keyed view owns the purpose (monitoring at a glance, whatever the look); this entry owns the artefact (tiled charts, whatever the function). The genres share a word, and design principles do not transfer between them",
       "extractedFrom": "frontmatter:related"
     },
     {
       "source": "dashboard",
-      "target": "item-view",
+      "target": "data-visualization",
       "type": "related",
-      "label": "Single-entity representations at different granularities",
+      "label": "the corpus this entry belongs to — a dashboard is a composition of charts, and each tile's chart choice is charting-data's problem",
       "extractedFrom": "frontmatter:related"
     },
     {
@@ -2270,16 +2362,18 @@
     },
     {
       "source": "data-view",
-      "target": "item-view",
-      "type": "related",
-      "label": "Single-entity counterpart",
-      "extractedFrom": "frontmatter:related"
+      "target": "selection",
+      "type": "enables",
+      "label": "staking a subset of items as the target of subsequent action",
+      "extractedFrom": "frontmatter:enables",
+      "incomingNote": "the view in which item selection happens — it supplies the visible set the pick is drawn from"
     },
     {
-      "source": "data-view",
-      "target": "view",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
+      "source": "item-view",
+      "target": "data-view",
+      "type": "enables",
+      "incomingNote": "a data view is many item views held at one uniform, compressed rung; which rung — row, card, pin — is the representation choice",
+      "extractedFrom": "frontmatter:composed-of"
     },
     {
       "source": "data-view",
@@ -2290,17 +2384,23 @@
     },
     {
       "source": "data-view",
-      "target": "selection",
-      "type": "enables",
-      "label": "staking a subset of items as the target of subsequent action",
-      "extractedFrom": "frontmatter:enables",
-      "incomingNote": "the view in which item selection happens — it supplies the visible set the pick is drawn from"
+      "target": "malleability",
+      "type": "enacts",
+      "label": "the framing controls hand the actor the projection itself — what to show, how to render it, how to arrange it — the customisation most products still withhold",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "data-view",
+      "target": "density",
+      "type": "enacts",
+      "label": "each representation is a density commitment: a table row, a card, and a map pin spend the same screen budget very differently",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "data-visualization",
-      "target": "dashboard",
+      "target": "purpose-keyed-view",
       "type": "related",
-      "label": "the monitoring variant is largely composed of charts; the needs-based framing decides which comparisons each chart must support",
+      "label": "the monitoring variant is largely composed of charts; the purpose-keyed framing decides which comparisons each chart must support",
       "extractedFrom": "frontmatter:related"
     },
     {
@@ -3310,13 +3410,6 @@
     },
     {
       "source": "item-view",
-      "target": "data-view",
-      "type": "related",
-      "label": "Collection-scope counterpart",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "item-view",
       "target": "progressive-disclosure",
       "type": "related",
       "extractedFrom": "frontmatter:related"
@@ -3325,7 +3418,7 @@
       "source": "item-view",
       "target": "semantic-zoom",
       "type": "complements",
-      "label": "drives this ladder for all items at once from a single scale control",
+      "label": "semantic zoom drives this ladder for every item at once from a single scale control; item view owns the rungs and their per-item, navigation-driven transitions",
       "extractedFrom": "frontmatter:complements"
     },
     {
@@ -3771,7 +3864,7 @@
       "source": "navigation-overview",
       "target": "overview-detail",
       "type": "surveys",
-      "label": "overview and detail displayed simultaneously (split view)",
+      "label": "the collection regime's handoff: when the space navigated is one collection, the topology question dissolves into a projection question — overview-detail couples two projections through the current item propagating, and the coupling survives a page break",
       "extractedFrom": "frontmatter:surveys"
     },
     {
@@ -4057,38 +4150,52 @@
       "extractedFrom": "frontmatter:related"
     },
     {
-      "source": "overview-detail",
-      "target": "data-view",
-      "type": "related",
-      "label": "The \"Overview\" component.",
-      "extractedFrom": "frontmatter:related"
+      "source": "data-view",
+      "target": "overview-detail",
+      "type": "enables",
+      "incomingNote": "the overview side: the whole population at one compressed, uniform rung",
+      "extractedFrom": "frontmatter:composed-of"
+    },
+    {
+      "source": "item-view",
+      "target": "overview-detail",
+      "type": "enables",
+      "incomingNote": "the detail side: the focused item promoted to a rich rung — as pane, popover, or its own page",
+      "extractedFrom": "frontmatter:composed-of"
     },
     {
       "source": "overview-detail",
-      "target": "item-view",
-      "type": "related",
-      "label": "The \"Detail\" component.",
-      "extractedFrom": "frontmatter:related"
+      "target": "coordinated-views",
+      "type": "instantiates",
+      "label": "overview-detail is the two-view coupled system with an abstraction asymmetry between its views; the designation it propagates is focus, not a staked selection",
+      "extractedFrom": "frontmatter:instantiates"
+    },
+    {
+      "source": "overview-detail",
+      "target": "semantic-zoom",
+      "type": "complements",
+      "label": "combining techniques beats any single one — an overview pane alongside semantic zoom, or zoom inside the detail pane; the two distribute the same ladder across space and time respectively",
+      "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "overview-detail",
       "target": "interaction",
       "type": "related",
-      "label": "actors can scan list and verify details without back-and-forth navigation.",
+      "label": "actors can scan the list and verify details without back-and-forth navigation, and switch quickly between items to [compare](/patterns/interaction#evaluation--relevance-construction) them",
       "extractedFrom": "frontmatter:related"
     },
     {
       "source": "overview-detail",
       "target": "malleability",
       "type": "enacts",
-      "label": "The capability to switch between topologies.",
+      "label": "the developer's overview-attribute choice is everyone's ceiling; the malleable form lets the actor surface, hide, and re-filter attributes across both views",
       "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "overview-detail",
       "target": "hub-and-spoke",
       "type": "alternative",
-      "label": "The sequential alternative.",
+      "label": "the boundary is what sits beneath: overview-detail projects one collection at two rungs; hub-and-spoke routes between heterogeneous sections with no shared model",
       "extractedFrom": "frontmatter:alternative"
     },
     {
@@ -4150,6 +4257,27 @@
       "type": "related",
       "label": "describes how state becomes public through sharing; privacy governs when that transition should occur",
       "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "problem-curated-view",
+      "target": "purpose-keyed-view",
+      "type": "instantiates",
+      "label": "problem-curated view takes the design-time keying to its limit: the advance decision about what matters made explicit as detection rules, spanning the watch and the chase",
+      "extractedFrom": "frontmatter:instantiates"
+    },
+    {
+      "source": "problem-curated-view",
+      "target": "assistance",
+      "type": "serves",
+      "label": "perceiving — problem-curated view's detection rules do the noticing and carry their reasons; judgement and action stay with the actor, which is where next-best-action systems would pick up",
+      "extractedFrom": "frontmatter:serves"
+    },
+    {
+      "source": "problem-curated-view",
+      "target": "adaptation",
+      "type": "enacts",
+      "label": "the projection, not the content, responds — the framing shifts with what the detection rules find, before the actor selects anything",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "progressive-disclosure",
@@ -4378,6 +4506,34 @@
       "extractedFrom": "frontmatter:enables"
     },
     {
+      "source": "purpose-keyed-view",
+      "target": "assistance",
+      "type": "serves",
+      "label": "perceiving — compresses system state into a glanceable monitoring overview the actor can absorb between tasks",
+      "extractedFrom": "frontmatter:serves"
+    },
+    {
+      "source": "purpose-keyed-view",
+      "target": "data-view",
+      "type": "related",
+      "label": "data view supplies the framing machinery — query, representation, arrangement — that a purpose-keyed view fixes around one recurring purpose",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "purpose-keyed-view",
+      "target": "item-view",
+      "type": "related",
+      "label": "each tier picks the rung entities are rendered at; the investigation variant bottoms out in a full item view",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "purpose-keyed-view",
+      "target": "dashboard",
+      "type": "related",
+      "label": "the visual-genre twin: dashboard owns the artefact (tiled charts, whatever the function); this page owns the purpose (monitoring at a glance, whatever the look)",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
       "source": "pyramid",
       "target": "deep-linking",
       "type": "complements",
@@ -4562,6 +4718,13 @@
       "type": "related",
       "label": "the navigation surface this move layers onto — pan and zoom move the viewport; semantic zoom decides what the things in it look like at each scale",
       "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "semantic-zoom",
+      "target": "density",
+      "type": "enacts",
+      "label": "each rung is a density commitment, and the transitions between framings preserve legible density — zooming re-spends the screen budget instead of diluting it",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "user-repair",
@@ -5103,48 +5266,6 @@
       "extractedFrom": "frontmatter:tangential"
     },
     {
-      "source": "view",
-      "target": "malleability",
-      "type": "enacts",
-      "label": "The capability to change the view's content, layout, and composition",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "view",
-      "target": "density",
-      "type": "enacts",
-      "label": "Information per unit of space",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "view",
-      "target": "adaptation",
-      "type": "enacts",
-      "label": "System response to context changes",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "view",
-      "target": "progressive-disclosure",
-      "type": "related",
-      "label": "Sequential revelation of information",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "view",
-      "target": "item-view",
-      "type": "related",
-      "label": "Single-entity representations across semantic levels",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "view",
-      "target": "data-view",
-      "type": "related",
-      "label": "Collection representations with filtering, sorting, and grouping",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
       "source": "wizard",
       "target": "next-best-action",
       "type": "alternative",
@@ -5438,6 +5559,26 @@
     },
     {
       "source": "navigation-overview",
+      "target": "overview-detail",
+      "type": "recommends",
+      "extractedFrom": "decision-tree:navigation-overview",
+      "situationalHints": [
+        {
+          "question": "Single continuous space (map, canvas, timeline)?",
+          "branch": "No"
+        },
+        {
+          "question": "Prescribed sequence with dependencies?",
+          "branch": "No"
+        },
+        {
+          "question": "Browsing one collection, item by item?",
+          "branch": "Yes, even when each item opens its own page"
+        }
+      ]
+    },
+    {
+      "source": "navigation-overview",
       "target": "multilevel-tree",
       "type": "recommends",
       "extractedFrom": "decision-tree:navigation-overview",
@@ -5448,6 +5589,10 @@
         },
         {
           "question": "Prescribed sequence with dependencies?",
+          "branch": "No"
+        },
+        {
+          "question": "Browsing one collection, item by item?",
           "branch": "No"
         }
       ]
@@ -5464,6 +5609,10 @@
         },
         {
           "question": "Prescribed sequence with dependencies?",
+          "branch": "No"
+        },
+        {
+          "question": "Browsing one collection, item by item?",
           "branch": "No"
         },
         {
@@ -5484,6 +5633,10 @@
         },
         {
           "question": "Prescribed sequence with dependencies?",
+          "branch": "No"
+        },
+        {
+          "question": "Browsing one collection, item by item?",
           "branch": "No"
         },
         {
@@ -5511,36 +5664,16 @@
           "branch": "No"
         },
         {
+          "question": "Browsing one collection, item by item?",
+          "branch": "No"
+        },
+        {
           "question": "Single workspace with rich toolset?",
           "branch": "No"
         },
         {
           "question": "Cross-section workflows common?",
           "branch": "Rare"
-        }
-      ]
-    },
-    {
-      "source": "navigation-overview",
-      "target": "overview-detail",
-      "type": "recommends",
-      "extractedFrom": "decision-tree:navigation-overview",
-      "situationalHints": [
-        {
-          "question": "Single continuous space (map, canvas, timeline)?",
-          "branch": "No"
-        },
-        {
-          "question": "Prescribed sequence with dependencies?",
-          "branch": "No"
-        },
-        {
-          "question": "Single workspace with rich toolset?",
-          "branch": "No"
-        },
-        {
-          "question": "Cross-section workflows common?",
-          "branch": "Simultaneous"
         }
       ]
     },

@@ -1,0 +1,79 @@
+---
+title: Purpose-keyed view
+role: pattern
+group: sense-making
+activityLevel: action
+atomic: composition
+mediation: individual
+description: "Shaping a projection around the actor's recurring purpose — keeping watch, exploring, chasing one concern — because the bottleneck is characterising what matters, not accessing the data."
+situation:
+  initiating: >-
+    a model is already well projected — a collection framing renders the state
+    legibly, nothing is hidden — yet the actor's recurring question (is
+    anything wrong? what is happening? what changed?) still takes
+    inference to answer, and different moments bring the question with
+    radically different attention budgets
+  resulting:
+    - each recurring purpose has a projection designed for its own question and attention budget, instead of one general view compromising across all of them
+    - the general exploratory projection stays reachable from every purposed one — curation prunes it, never replaces it
+relationships:
+  serves:
+    - to: assistance
+      note: "perceiving — compresses system state into a glanceable monitoring overview the actor can absorb between tasks"
+  related:
+    - to: data-view
+      note: "data view supplies the framing machinery — query, representation, arrangement — that a purpose-keyed view fixes around one recurring purpose"
+    - to: item-view
+      note: "each tier picks the rung entities are rendered at; the investigation variant bottoms out in a full item view"
+    - to: dashboard
+      note: "the visual-genre twin: dashboard owns the artefact (tiled charts, whatever the function); this page owns the purpose (monitoring at a glance, whatever the look)"
+---
+
+The actor returns to the same underlying data with different purposes at different moments: a passing glance between tasks, a scheduled review, a deep dive into one concern. The data is already well presented — nothing is hidden — yet the recurring questions (is anything wrong? what is happening? what changed?) still take work to answer, and each moment brings a different amount of attention to spend on them.
+
+## Forces
+
+- *Generality vs. relevance* — one general view can show everything, organised and visualised well, but deciding which of everything matters right now is left to the actor, and that inference is itself expert work.
+- *Density vs. attention* — a view dense enough for the deep dive is too dense for the passing glance; one projection cannot be honest to attention budgets that differ by orders of magnitude.
+- *Fit vs. upkeep* — a hand-built view per question fits perfectly on day one and drifts from then on; the pre-built report is an expensive intermediary that lags behind the questions asked of it.
+
+## Solution
+
+Shape the projection around the purpose — what to show, at what rung, demanding how much attention — rather than presenting the data one fixed way. Keep the general exploratory view reachable from every purpose-keyed one.
+
+## Variants
+
+The variants differ by purpose, not by data — each serves one of the recurring [information behaviours](/patterns/interaction#navigation) the actor brings back to the same data. 
+
+### Analytical exploration
+
+Draw conclusions through structured investigation. Medium granularity with comparison, filtering, and grouping; the actor explores, tests hypotheses, generates insights. Typically a [collection framing](/patterns/data-view) with flexible refinement and several representations to switch between. This is the least keyed of the three — little more than the general view with sensible presets — because exploring is the one purpose that pre-curation harms rather than helps. It is also the projection the other two must keep reachable.
+
+### Monitoring
+
+Maintain operational awareness without deep investigation — answer "is anything wrong?" in passing. Keyed at design time: someone decided in advance which signals answer that question. Aggregate metrics, trends, and status indicators at summary rung; typically a zoomed-out [collection framing](/patterns/data-view) with auto-refresh and status indicators.
+
+### Drilldown investigation
+
+Chase one concern to its bottom, ending at an individual [item's full view](/patterns/item-view). Keyed at use time: the concern being chased decides what survives the narrowing, so the projection cannot be built in advance — only the path can.
+
+## From watch to chase
+
+Monitoring exists to hand off: something changes or catches attention, and the watch becomes a chase. When the purpose recurs on a rhythm — standup, the on-call shift, the weekly review — the projections along that path can be staged: an *ambient* tier readable from across the room, an *at-a-glance* tier for the scheduled check, a *focused* tier for the dive. Each tier is designed for the attention budget of its own moment instead of compromising across all of them. Deeper tiers never push themselves forward; the actor moves inward deliberately, and the framing is preserved on the way back out. That makes the outer tier's selection consequential: whatever it omits, the actor must know to ask for. The outer tier is often shared across the team, with room for personalisation increasing inward.
+
+The sharpest hinge between watch and chase is rule-made: when the domain can state its detection rules explicitly, the watch becomes a checklist of detected problems and selecting one starts the chase with the reason attached, see [problem-curated view](/patterns/problem-curated-view).
+
+## Consequences
+
+- Each recurring purpose has a projection designed for its own question and attention budget, instead of one general view compromising across all of them.
+- Every purpose-keyed view is a curation decision someone must maintain: whatever it omits, the actor must know to ask for.
+- The general exploratory projection stays reachable from every purposed one — curation prunes it, never replaces it — because the purposes only anticipate the questions they encode, and cases outside them need somewhere to be noticed.
+
+## Resources & references
+
+- Zhang, Ehrmann, Mazwi, Eytan, Ghassemi & Chevalier (2022) [Get to the point! Problem-based curated data views to augment care for critically ill patients](https://dl.acm.org/doi/10.1145/3491102.3501887) — In-Sight: the ICU study behind the graduated tiers; the problem-curated form it introduced lives at [problem-curated view](/patterns/problem-curated-view)
+- Sarikaya, Correll, Bartram, Tory & Fisher (2018) [What do we talk about when we talk about dashboards?](https://ieeexplore.ieee.org/document/8443395) — splits the visual genre from the functional one; design principles do not transfer between them
+- Pauwels et al. (2009) [Dashboards as a service](https://journals.sagepub.com/doi/10.1177/1094670509344213) — metrics must be interconnected, not merely co-located
+- Bunin — [Dashboard is dead. Long live dashboard!](https://revealthedata.com/blog/all/the-dashboard-is-dead-long-live-the-dashboard/) — separate operational reporting from exploratory analytics
+- Bunin — [Dashboard layout templates](https://revealthedata.com/blog/all/dashboard-templates/) — task-keyed templates
+- Barakov — [Dashboard — how long do you have left?](https://datanature.ru/dashboardsdead) — the stagnation diagnosis and the successor forms: pinboards, role presets, generated views

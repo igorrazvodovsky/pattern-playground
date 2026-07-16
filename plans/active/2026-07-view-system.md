@@ -34,6 +34,11 @@ Corpus decisions taken 2026-07-12 against that research:
    "Needs-based view") and becomes the family's largest move — the top the
    composition patterns help complete. Written as a move (situation,
    forces, consequences), never as a survey; edges do the surveying.
+   Renamed again 2026-07-16 to `purpose-keyed-view.mdx` ("Purpose-keyed
+   view"): the page's own prose keys on *purpose*, not need; "-keyed"
+   names the mechanism; "task" was rejected for narrowing past the
+   monitoring variant and colliding with vis task-taxonomy vocabulary.
+   The new name was name-checked by the author.
 3. `overview-detail.mdx` reframes from "simultaneous split panes" (one
    layout value) to the full pattern: two coexisting projections of one
    collection at different abstraction rungs, coupled by the current item
@@ -146,6 +151,13 @@ Content:
   topology-relevant variant); optionally add a second tree leaf landing on
   overview-detail with a roundtrip hint — two recommends rows of one
   decision is sanctioned by the vocabulary.
+  Went further 2026-07-16: the survey restratified by the shape of what is
+  navigated — continuous space (pan-and-zoom), prescribed sequence
+  (step-by-step, pyramid), one collection (overview-detail, voiced as the
+  handoff to the view family), heterogeneous sections (the topologies
+  proper). The old `Simultaneous` tree leaf (split-pane residue) was
+  removed — the two-sections-at-once case is workspace territory, noted in
+  prose; the monitoring behaviour line now points at purpose-keyed view.
 - Situation block.
 
 `coordinated-views.mdx` (new; `role: pattern`, `group: coordination`):
@@ -227,7 +239,7 @@ Precondition: Phases 1–3 landed, so every receiving home exists.
 
 - Verify the distribution before deleting: scope dimension → the
   item-view / data-view split itself; granularity → item-view; intent →
-  needs-based-view; time → data-view; navigation mechanisms → item-view
+  purpose-keyed-view; time → data-view; navigation mechanisms → item-view
   §Transitions + overview-detail layout + navigation-overview; saved
   views → data-view; unit definition → data-view opening, theory lineage
   (MVC, database views, Points of View) → references; boundary → edge
@@ -235,10 +247,10 @@ Precondition: Phases 1–3 landed, so every receiving home exists.
   it); enacts → migrated in Phases 1 and 3.
 - Delete the file. Inbound sweep: malleability.mdx body link
   `[views](/patterns/view)`; "within the view system" phrases in
-  item-view.mdx and needs-based-view.mdx bodies.
+  item-view.mdx and purpose-keyed-view.mdx bodies.
 - Redirects: none configured today. Add astro config `redirects` entries
-  `/patterns/dashboard` → `/patterns/needs-based-view` and
-  `/patterns/view` → `/patterns/needs-based-view`, or accept stale URLs.
+  `/patterns/dashboard` → `/patterns/purpose-keyed-view` and
+  `/patterns/view` → `/patterns/purpose-keyed-view`, or accept stale URLs.
   The config entries are cheap; prefer them.
 - Regenerate the pattern graph; run the extractor/validator; check
   RelatedPatterns rendering on every touched page; confirm the
@@ -263,7 +275,11 @@ Precondition: Phases 1–3 landed, so every receiving home exists.
   saved views.
 - `group:` decision: the family pages scatter across sense-making /
   seeking / evaluation / navigation. Decide one shared nav group or keep
-  the scatter deliberately; apply in one pass.
+  the scatter deliberately; apply in one pass. Decided 2026-07-16: keep
+  the scatter — each page sits in the activity group its move serves,
+  the family is carried by its typed edges, and a shared nav group would
+  rebuild the retired hub in navigation clothing (coordinated-views
+  minted into `coordination`).
 
 ## Worksheet coordination
 
@@ -286,6 +302,11 @@ Untouched rows proceed independently.
 
 ## Deferred, with triggers
 
+- _Workspace boundary_: the reshape carved the screen-composition seam
+  (coupled projections → coordinated-views; heterogeneous contexts →
+  workspace) in prose only, and workspace's pre-reshape edge notes collide
+  with the new vocabulary. Spun out to `2026-07-workspace-boundary.md`.
+
 - _Saved view node_: decide after the Meridian read; mint when another
   page needs to point at it, or when preset / pinboard / personal-lens
   material earns nodes and wants a genus.
@@ -294,17 +315,32 @@ Untouched rows proceed independently.
   and the tiers outer-tier line carry it.
 - _Problem-curated view fission_: when the assistance / AI-patterns side
   needs an inbound edge (kin to next-best-action; the perceiving
-  station).
+  station). Done 2026-07-16, ahead of that trigger — the purpose-keyed
+  restructure exposed that the section cuts across the page's own
+  variant carving. Gated on a research pass first
+  (`research/problem-curated-view/`), which found an independent
+  second lineage (Tricorder / static-analysis actionability) and
+  corrected the annotation-asymmetry commitment to "annotate the
+  judgement moment". Node minted as `problem-curated-view.mdx`
+  (instantiates purpose-keyed-view; serves assistance at perceiving;
+  the parent's `enacts: adaptation` moved with it).
 - _Graduated tiers fission_: when composition pages need the
-  workflow-staged variant addressable.
+  workflow-staged variant addressable. (The tiers material lives under
+  purpose-keyed view's "From watch to chase" section since the
+  2026-07-16 restructure: variants ordered by when the keying happens,
+  tiers narrated as the monitoring→drilldown escalation.)
 - _Coordinated-views deepening_: Roberts 2007.
 - _Writable views deepening_: Bancilhon & Spyratos and bidirectional
   lenses; a drag-between-groups interaction in the data-view demo.
 - _Pinboard / role preset / generated view / personal lens_: authorship
   prose only; the research project keeps feeding them.
-- _The `dashboard` slug_: freed by the rename; reserved for a possible
-  data-viz-domain entry (Sarikaya's visual genre) in the charting corpus.
-  Create only on concrete need, per the parallel-corpora rule.
+- _The `dashboard` slug_: freed by the rename; re-minted 2026-07-16 as a
+  placeholder data-viz-domain entry (Sarikaya's visual genre) cross-linked
+  with purpose-keyed-view — its presence makes the artefact/purpose boundary
+  visible from both sides. The placeholder houses the PatternFly/Carbon
+  links displaced from the old dashboard page; its To-do carries the
+  fill-in work (design factors, tile layout, cross-tile consistency). The
+  `/patterns/dashboard` redirect was dropped in its favour.
 - _ItemView component scope vocabulary_ (`micro/mini/mid/maxi` vs the
   ladder's names): a component-side seam, separate workstream. The
   Haystack/Fresnel lens lineage independently supports the adapter

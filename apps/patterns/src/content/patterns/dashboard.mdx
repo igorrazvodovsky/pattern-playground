@@ -1,39 +1,33 @@
 ---
-title: Needs-based view
+title: Dashboard
 role: pattern
+domain: data-visualization
 group: sense-making
 activityLevel: action
 atomic: composition
 mediation: individual
+fun: "🗺️ 1/5. A placeholder holding a boundary."
+description: "The visual genre — tiled charts composed on one screen — as a charting-corpus artefact, distinct from the monitoring purpose that now lives at purpose-keyed view."
 relationships:
   related:
-    - to: data-view
-      note: Collection representations with framing intents
-    - to: item-view
-      note: Single-entity representations at different granularities
+    - to: purpose-keyed-view
+      note: "the functional twin: purpose-keyed view owns the purpose (monitoring at a glance, whatever the look); this entry owns the artefact (tiled charts, whatever the function). The genres share a word, and design principles do not transfer between them"
+    - to: data-visualization
+      note: "the corpus this entry belongs to — a dashboard is a composition of charts, and each tile's chart choice is charting-data's problem"
 ---
-Views shaped by the user's immediate purpose rather than fixed interface conventions. The same underlying data presents itself differently depending on whether the user needs to monitor, analyse, or investigate—configuring granularity, metrics, and navigation mechanisms to match the task at hand.
 
-Within the view system, needs-based views demonstrate how framing determines representation.
+The word "dashboard" bundles three things: an *artefact* (tiled charts on one screen), a *use* (monitoring at a glance), and an *authorship stance* (composed at design-time, fixed for everyone). The corpus keeps them apart. The use lives at [purpose-keyed view](/patterns/purpose-keyed-view); the authorship stance is [malleability](/patterns/malleability)'s territory; this entry holds the artefact — Sarikaya et al.'s *visual* genre, in the charting corpus where its problems (tile layout, chart choice per tile, cross-tile consistency) actually live.
 
-## Variants
+This is a placeholder: it exists so the boundary is visible from both sides. A tiled screen over unconnected numbers is composition on glass — it earns family membership with [coordinated views](/patterns/coordinated-views) only when the tiles are coupled and the metrics beneath them interconnect.
 
-### Monitoring and situational awareness
-Maintain operational awareness without deep investigation. Emphasises aggregate metrics, trends, and status indicators in high-level overview format. Users track state changes and identify anomalies requiring attention.
+## To-do
 
-**Typical configuration:** Zoomed-out [collection view](/patterns/data-view) with summary-level items, auto-refresh, visual indicators for status changes.
-
-### Analytical exploration
-Draw conclusions through structured investigation. Provides medium granularity with comparison tools, filtering, and grouping capabilities. Users explore patterns, test hypotheses, generate insights.
-
-**Typical configuration:** [Collection view](/patterns/data-view) with flexible filtering/sorting, multiple representation options (table, cards, charts), attribute selection.
-
-### Drilldown investigation
-Investigate specific entities by progressively narrowing focus. Users navigate from collection overview through filtering to individual [item detail](/patterns/item-view).
-
-**Typical configuration:** Linked views enabling collection → item transitions, preserved filter state, breadcrumb navigation for context.
+- Sarikaya et al.'s design factors for the visual genre (15 factors, 7 clusters)
+- Tile layout and composition guidance; Bunin's four layout templates
+- Cross-tile consistency: shared scales, aligned time axes, one categorical palette
 
 ## Resources & references
 
-- [PatternFly Dashboard](https://www.patternfly.org/patterns/dashboard/design-guidelines/)
-- [Carbon Dashboards](https://carbondesignsystem.com/data-visualization/dashboards/)
+- Sarikaya, Correll, Bartram, Tory & Fisher (2018) [What do we talk about when we talk about dashboards?](https://ieeexplore.ieee.org/document/8443395) — the visual/functional genre split this entry is one half of
+- [PatternFly — Dashboard](https://www.patternfly.org/patterns/dashboard/design-guidelines/) — design-system guidance for the artefact
+- [Carbon — Dashboards](https://carbondesignsystem.com/data-visualization/dashboards/) — likewise, in a charting context

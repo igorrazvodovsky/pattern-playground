@@ -1,0 +1,22 @@
+story: apps/patterns/src/content/patterns/purpose-keyed-view.mdx
+topic: problem-curated views — organising a projection around detected problems rather than data types
+interaction: |
+  an actor returns to a body of state with the question "what needs my
+  attention, and why"; the system runs explicit detection rules and presents
+  a checklist of candidate problems that doubles as index and navigation;
+  selecting one prunes the general view to an annotated slice carrying the
+  rule that fired
+context: |
+  pattern-language entry about to be split out of purpose-keyed view;
+  currently grounded in one system (Zhang et al. 2022, In-Sight) plus a
+  scoping review that decomposes the same system into agency control
+  mechanisms (arXiv 2507.06000). Commitments claimed: annotate only when
+  solicited, structural escape hatch to the exploratory view,
+  scaffolding-vs-fossilisation framing, alarm/lint fatigue as failure mode
+questions:
+  - Does the checklist/triage anatomy recur outside clinical UI (developer tools, ops, content moderation, guided analytics), and does anyone name it as a pattern?
+  - Is the annotation-asymmetry commitment (flags only on solicitation) supported or contradicted elsewhere — lint/static-analysis UX keeps flags ambient and seems to work?
+  - What does the alarm-fatigue / false-positive literature say about rule-set upkeep — who tends the rules, and what happens when they drift?
+  - Is codifiability as the scoping condition studied — domains where consensus detection rules fail to form?
+  - Same move or different: next-best-action, management-by-exception dashboards, triage queues/worklists?
+keywords: [problem-based curated views, guided analytics, alarm fatigue, static analysis warnings, triage queue, management by exception, clinical decision support display]

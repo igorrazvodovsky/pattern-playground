@@ -1,0 +1,45 @@
+---
+title: Coordinated views
+role: pattern
+group: coordination
+activityLevel: action
+atomic: composition
+mediation: individual
+lifecycle: evaluation
+description: "Coupling several projections of one model so selection, navigation, and highlighting propagate between them — relationships become something the actor sees rather than remembers and infers."
+situation:
+  initiating: >-
+    several projections of one model already coexist — each earning its place
+    by showing a different aspect — but relating them is the actor's job:
+    find the item here, re-find it there, carry the correspondence in working
+    memory
+  resulting:
+    - designating something in one view marks it in every view where it appears; cross-view relationships arrive perceptually instead of being reconstructed
+    - each coupling is now a correctness surface — its cues can lie, and its upkeep must be paid
+relationships:
+  composed-of:
+    - to: selection
+      note: "the coupling payload is a propagated designation — sometimes a staked selection (acted on as a target), sometimes mere focus (navigated to as a position); which one decides what the coupled views may do with it"
+---
+
+The actor has several projections of one model open — each showing a different aspect — and relating them is manual labour: find the item in one view, re-find it in the other, hold the correspondence in mind. Coordinated views wires the projections together so that selection, navigation, and highlighting propagate — what is designated here lights up there, and relationships between aspects become something the actor *sees* rather than remembers and infers. The visualization community calls the move coordinated multiple views (CMV).
+
+## Solution
+
+Coupling functions map objects and navigational state in one view onto the others, propagating transitively across chains; brushing and linking are the canonical mechanics. Baldonado's eight guidelines are the trade-off machinery — four for *when* views are worth having (diversity of users and tasks, complementarity of aspects, decomposition of complex data, all tempered by parsimony), four for *how* to run them (optimise space and time costs; make the coupling self-evident — propagation under ~100 ms, or visibly decouple, greying out the stale view; keep affordances and state consistent across views; manage attention so priority events pull the actor to the right view).
+
+## Consequences
+
+- Visual comparison replaces remember-and-infer — correlations invisible in any single view become visible in the coupling. This is the pattern's cognitive purchase, and every added view charges for it in learning time, working memory, screen space, and upkeep.
+- Cue accuracy is a correctness property of its own: a false positive implies a relationship that doesn't hold; propagation slower than ~100 ms reads as no relationship at all — a false negative. The cues, not just the data, can lie.
+- Parsimony is easy to violate and expensive to ignore: merge views with near-identical semantics; couple only where coupling demonstrably helps.
+
+## In practice
+
+Obsidian's editor, graph, and backlinks panes over one vault; an email client's triage list and reading pane; a booking site's list + map + detail trio; BI dashboards cross-filtering, where clicking a slice in one chart filters the rest. The chart-heavy cases are the community's home turf, but the move owes nothing to charts — any projections of one model can be coupled.
+
+## Resources & references
+
+- Wang Baldonado, Woodruff & Kuchinsky (2000) [Guidelines for using multiple views in information visualization](https://dl.acm.org/doi/10.1145/345513.345271) — the eight guidelines; "two or more distinct views of a single conceptual entity"
+- Roberts (2007) [State of the art: coordinated & multiple views in exploratory visualization](https://ieeexplore.ieee.org/document/4269946) — the survey of what grew from the guidelines; queued as the deepening read
+- Oh, Lee, Kim et al. (2022) [An empirical study on the relationship between the number of coordinated views and visual analysis](https://arxiv.org/abs/2204.09524) — evidence on the parsimony trade-off as view count grows

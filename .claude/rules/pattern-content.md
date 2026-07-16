@@ -171,15 +171,61 @@ page. Two ways it is skipped:
 
 ## Document structure
 
-Standard section order:
+Every file: YAML frontmatter → lead prose → body sections → `## Resources &
+references` last. No `# Title` in the body — the layout renders the title from
+frontmatter. The "Related patterns" block at the page foot is rendered from
+frontmatter edges, never authored as a section.
 
-1. YAML frontmatter
-2. Fun meter (optional): a short reflection on intellectual engagement —
-   inversely proportional to how established and documented the area is
-3. `# Title` (sentence case) with a one-sentence definition framed from the
-   *human situation inward*, not from the component outward
-4. Core content (varies by role: pattern, quality, foundation, collection)
-5. `## Resources & references` (optional, generated)
+### Standard shape for `role: pattern`
+
+Canonical for new patterns. Existing files converge when edited for other
+reasons (same policy as link formats) — no mass rewrite.
+
+1. *Lead* — unlabelled paragraph(s) telling the situation the move applies in
+   and the problem it resolves, from the human situation inward. This narrates
+   `situation.initiating`; the frontmatter stays the machine-readable truth,
+   the lead retells it in prose rather than copying it.
+2. `## Forces` — optional; only when real tensions make the problem hard.
+   Short *X vs. Y* items with a clause on why they pull against each other.
+3. `## Solution` — the move itself, stated once. A short pattern whose lead
+   already carries the solution may skip the heading.
+4. *Concretisation sections* — how the move takes shape: `## Variants`,
+   `## States`, or headings named after the pattern's own dimensions. This is
+   where each pattern's idiosyncratic content lives; heading names here are
+   free.
+5. `## Consequences` — what holds after the move, gains and costs together.
+   Narrates `situation.resulting`; optional when the resulting clauses already
+   say everything worth saying.
+6. `## Resources & references` — always this exact heading (not `Resources`,
+   `References`, or `Resources and references`; rename stragglers on edit).
+7. `## To-do` — authoring residue, one section at most, always the final
+   section of the file.
+
+There is no `## Problem` section: the problem statement is the lead's job, and
+prose analysing why the obvious answers fail is `## Forces` material.
+
+`coordinated-views.mdx` and `purpose-keyed-view.mdx` are reference examples of
+the shape.
+
+Family templates converge onto the same slots: the conversation family's
+`## Metrics` content belongs under `## Consequences`; the navigation family's
+`## Behavioural position` splits between the lead (context) and `## Forces`.
+Converge on edit, as above.
+
+Existing `## Related components` sections stay as they are for now; whether
+the section survives `realised_by` + `<ComponentRef>` + typed edges is an open
+question tracked separately — don't migrate or remove them under this rule.
+
+### Other roles
+
+- `role: quality` — a lens, not a move: lead defines the quality, body
+  decomposes it into named dimensions with headings of its own.
+- `role: foundation` — a framework essay organised by its frame's stations
+  (stages, layers, touchpoints).
+- `role: collection` — chooser logic: routing prose and/or a decision tree
+  over the members it surveys.
+
+All roles keep `## Resources & references` last (before any `## To-do`).
 
 ## Writing style
 

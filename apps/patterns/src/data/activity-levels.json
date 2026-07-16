@@ -169,6 +169,12 @@
       "atomic-category": "pattern",
       "mediation": "coordination"
     },
+    "coordinated-views": {
+      "activity-level": "action",
+      "lifecycle-stage": "evaluation",
+      "atomic-category": "composition",
+      "mediation": "individual"
+    },
     "dashboard": {
       "activity-level": "action",
       "lifecycle-stage": null,
@@ -487,6 +493,12 @@
       "atomic-category": "qualities",
       "mediation": null
     },
+    "problem-curated-view": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "atomic-category": "composition",
+      "mediation": "individual"
+    },
     "progressive-disclosure": {
       "activity-level": "action",
       "lifecycle-stage": "seeking",
@@ -504,6 +516,12 @@
       "lifecycle-stage": null,
       "atomic-category": "foundations",
       "mediation": null
+    },
+    "purpose-keyed-view": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "atomic-category": "composition",
+      "mediation": "individual"
     },
     "pyramid": {
       "activity-level": "action",
@@ -659,12 +677,6 @@
       "activity-level": "operation",
       "lifecycle-stage": null,
       "atomic-category": "pattern",
-      "mediation": "individual"
-    },
-    "view": {
-      "activity-level": "action",
-      "lifecycle-stage": null,
-      "atomic-category": "composition",
       "mediation": "individual"
     },
     "wizard": {

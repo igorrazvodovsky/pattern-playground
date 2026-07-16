@@ -13,6 +13,13 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export default defineConfig({
   integrations: [lit(), mdx(), react(), validateCrossReferences()],
   publicDir: path.resolve(__dirname, '../../public'),
+  // Slug retired by the 2026-07 view-system reshape (plans/active/2026-07-view-system.md).
+  // /patterns/dashboard is NOT redirected: the slug was re-minted as the
+  // data-viz-domain entry (visual genre); the monitoring purpose lives at
+  // /patterns/purpose-keyed-view.
+  redirects: {
+    '/patterns/view': '/patterns/purpose-keyed-view',
+  },
   // Astro 7 defaults Markdown/MDX to the native Sätteri pipeline, which does
   // not run remark plugins. Switch both .md and .mdx back to the unified
   // remark/rehype processor so `remarkRelStrip` keeps stripping the

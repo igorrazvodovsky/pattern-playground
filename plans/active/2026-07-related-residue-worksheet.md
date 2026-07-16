@@ -21,10 +21,10 @@ No edge between the two entries in either direction.
 | step-by-step | deep-linking | enables returning to specific steps via URL | — |  |  |
 | filtering | command-menu | Depends on [command menu](../?path=/docs/actions-seeking-command-menu--docs) for the local search through attributes and values. | — |  |  |
 | progressive-disclosure | bot | bots often need to reveal capability, intent, and reasoning incrementally | — |  |  |
-| dashboard | semantic-zoom | Density-preserving transitions between views | — |  |  |
+| dashboard | semantic-zoom | Density-preserving transitions between views | — | superseded 2026-07-16: view-system plan Phase 5 — judgement re-homed as an `enacts: density` note on semantic-zoom |  |
 | tag | searching | Search - tags enable faceted search and filtering | — |  |  |
 | tag | interaction | — | — |  |  |
-| view | semantic-zoom | Density-preserving transitions between framings | — | linked in origin body |  |
+| view | semantic-zoom | Density-preserving transitions between framings | — | linked in origin body; superseded 2026-07-16: view retired (view-system plan Phase 4), judgement re-homed on semantic-zoom |  |
 | bot | suggestion | [Onboarding](../?path=/docs/activities-onboarding--docs), priming, and [suggestions](../?path=/docs/actions-application-suggestion--docs) are the first steps that help people get to know the bot—what it can and can't do,… | — |  |  |
 | bot | progressive-disclosure | bots often operate well with incremental complexity. Progressive disclosure keeps things simple at first and helps actors build confidence. | — |  |  |
 | bot | settings | LLM [settings](../?path=/docs/activities-ai-tuning--docs) help keep users in control while the bot does its thing. | — |  |  |
@@ -116,7 +116,7 @@ Per the definition of done, each one left standing must be a deliberate seed.
 | collaboration-foundation | related → bot | — |  |
 | data-entry | related → conversation | — |  |
 | data-entry | related → inline-interface | — |  |
-| data-view | related → view | §A2 (noted edge exists between the pair) |  |
+| data-view | related → view | §A2 (noted edge exists between the pair); superseded 2026-07-16: edge dropped and view retired (view-system plan Phases 3–4) |  |
 | delegation | related → interaction | — |  |
 | delegation | related → assistance | — |  |
 | disengage-without-closing | enables → conversation | §A2 (noted edge exists between the pair) |  |
@@ -551,8 +551,8 @@ reference so note fidelity can be spot-checked.
 | text-lense | progressive-disclosure | Lenses support revealing or concealing information based on user needs | → related: “lenses reveal or conceal information based on the actor's needs” |  |
 | text-lense | localization | tone adjustment with cultural bounds | → related: “tone adjustment with cultural bounds” |  |
 | overview-detail | hub-and-spoke | The sequential alternative. | → alternative: “The sequential alternative.” |  |
-| overview-detail | data-view | The "Overview" component. | → related: “The "Overview" component.” |  |
-| overview-detail | item-view | The "Detail" component. | → related: “The "Detail" component.” |  |
+| overview-detail | data-view | The "Overview" component. | → related: “The "Overview" component.” — superseded 2026-07-16: upgraded to composed-of (view-system plan Phase 2) |  |
+| overview-detail | item-view | The "Detail" component. | → related: “The "Detail" component.” — superseded 2026-07-16: upgraded to composed-of (view-system plan Phase 2) |  |
 | overview-detail | malleability | The capability to switch between topologies. | → enacts: “The capability to switch between topologies.” |  |
 | flat-navigation | command-menu | efficient tool access | → related: “efficient tool access” |  |
 | flat-navigation | hub-and-spoke | for multiple workspaces | → precedes (sets-up): “everything is reachable in one place — which holds only while the tools and destinations fit one surface; when the item count outgrows the screen, hub and spoke takes over” |  |

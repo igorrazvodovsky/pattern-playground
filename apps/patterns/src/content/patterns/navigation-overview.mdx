@@ -1,5 +1,5 @@
 ---
-title: Overview
+title: Navigation
 role: collection
 group: navigation
 activityLevel: action
@@ -28,7 +28,7 @@ relationships:
     - to: hub-and-spoke
       note: central hub lists all sections, actors return to hub for cross-section navigation
     - to: overview-detail
-      note: overview and detail displayed simultaneously (split view)
+      note: "the collection regime's handoff: when the space navigated is one collection, the topology question dissolves into a projection question — overview-detail couples two projections through the current item propagating, and the coupling survives a page break"
     - to: fully-connected
       note: every page links to all others through global navigation
     - to: multilevel-tree
@@ -52,19 +52,32 @@ relationships:
 import { MermaidDiagram } from '@components/MermaidDiagram';
 
 
-The selection of a connective topology that shapes how actors move between destinations, balancing freedom of movement against orientation cost. Each model determines which [navigation behaviours](/patterns/interaction#navigation) are possible and how [agency](/patterns/agency) is distributed.
+The selection of a connective topology that shapes how actors move between destinations, balancing freedom of movement against orientation cost. Each model determines which [navigation behaviours](/patterns/interaction#navigation) are possible and how [agency](/patterns/agency) is distributed. The choice starts one step before topology: the shape of what is being navigated decides whether there is a topology to choose at all.
 
 ## Models
 
-- [Hub and spoke](/patterns/hub-and-spoke) — central hub lists all sections, actors return to hub for cross-section navigation
-- [Overview and detail](/patterns/overview-detail) — simultaneous display of collection and item (Split View)
-- [Fully connected](/patterns/fully-connected) — every page links to all others through global navigation
-- [Multilevel tree](/patterns/multilevel-tree) — hierarchical structure with global navigation for main pages, local navigation for subpages
+*One continuous space* — movement is viewport control, not link-following:
+
+- [Pan and zoom](/patterns/pan-and-zoom) — continuous spatial navigation through large single spaces
+
+*A prescribed sequence* — movement is ordered progression:
+
 - [Step by step](/patterns/step-by-step) — prescribed sequences with back/next controls
 - [Pyramid](/patterns/pyramid) — hub lists sequence, actors can navigate sequentially or jump to any item
-- [Pan and zoom](/patterns/pan-and-zoom) — continuous spatial navigation through large single spaces
+
+*One collection, browsed item by item* — movement collapses into focus propagation between projections, and the question hands off to the view family:
+
+- [Overview and detail](/patterns/overview-detail) — collection and current item coupled across two views; the coupling survives a page break, so the list-page → item-page roundtrip that structures most of the web is this handoff, not a topology
+
+*Heterogeneous sections* — destinations differ in kind, and connecting them is the topology decision proper:
+
+- [Hub and spoke](/patterns/hub-and-spoke) — central hub lists all sections, actors return to hub for cross-section navigation
+- [Fully connected](/patterns/fully-connected) — every page links to all others through global navigation
+- [Multilevel tree](/patterns/multilevel-tree) — hierarchical structure with global navigation for main pages, local navigation for subpages
 - [Flat navigation](/patterns/flat-navigation) — minimal navigation, all functions accessible in one place
 - [Hybrid patterns](/patterns/hybrid-patterns) — combinations of multiple models
+
+Holding two heterogeneous sections open at once is not a topology choice either — that is screen composition, [workspace](/patterns/workspace) territory.
 
 ## Decision tree
 
@@ -78,7 +91,9 @@ flowchart TD
     C -->|Yes| SBS[Step by step]
     C -->|No, flexible| PYR[Pyramid]
 
-    B -->|No| D[Deep hierarchy? (3+ levels, 50+ pages)]
+    B -->|No| G[Browsing one collection, item by item?]
+    G -->|Yes, even when each item opens its own page| OD[Overview & Detail]
+    G -->|No| D[Deep hierarchy? (3+ levels, 50+ pages)]
     D -->|Yes| TREE[Multilevel tree]
     D -->|No| E[Single workspace with rich toolset?]
 
@@ -87,7 +102,6 @@ flowchart TD
 
     F -->|Yes| FC[Fully connected]
     F -->|Rare| HUB[Hub and spoke]
-    F -->|Simultaneous| SPLIT[Overview & Detail]
 `} />
 
 ### Refining by behaviour
@@ -95,7 +109,7 @@ flowchart TD
 - Navigate to known locations → [Fully connected](/patterns/fully-connected), [tree](/patterns/multilevel-tree)
 - Browse and discover → [Pyramid](/patterns/pyramid), [pan and zoom](/patterns/pan-and-zoom)
 - Complete focused tasks → [Step by step](/patterns/step-by-step), [flat](/patterns/flat-navigation)
-- Monitor multiple areas → [Hub and spoke](/patterns/hub-and-spoke)
+- Monitor multiple areas → [Hub and spoke](/patterns/hub-and-spoke) structures the sections; the monitoring projection itself is [purpose-keyed view](/patterns/purpose-keyed-view)
 
 ### Refining by agency
 

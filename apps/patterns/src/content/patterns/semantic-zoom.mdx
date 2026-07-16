@@ -17,6 +17,9 @@ relationships:
   related:
     - to: pan-and-zoom
       note: "the navigation surface this move layers onto — pan and zoom move the viewport; semantic zoom decides what the things in it look like at each scale"
+  enacts:
+    - to: density
+      note: "each rung is a density commitment, and the transitions between framings preserve legible density — zooming re-spends the screen budget instead of diluting it"
 ---
 
 import { SemanticZoomDemo } from '@pkg/demos/semantic-zoom';
@@ -44,8 +47,9 @@ What semantic zoom traverses is a ladder of discrete representations per item �
 - *Make crossings legible in transit* — animated transitions help the actor build a spatial model of the space; transition times of 0.3–1.0 s are repeatedly supported
 - *Footprint stability* — a swapped-in representation must fit the box of its neighbour rungs, or items overlap on zoom-out
 - *Uniformity* — the whole population changes level together, under one scale control; the moment one region shows more detail because the actor is attending to it, the move has become [focus and context](/patterns/focus-and-context)
+- *Semantic resize* — the variant where container geometry, not zoom, drives the representation switch: an item grows into a richer rung when its pane widens and collapses to a coarser one when cramped (Masonview). The level index is allotted space rather than viewing scale
 
-The ladder itself is [item view](/patterns/item-view)'s vocabulary (reference / summary / detail / full). Item view owns the rungs and their per-item, navigation-driven transitions; semantic zoom is the coordination move that drives the same ladder for all items at once from a single scale control — with the two obligations item view doesn't carry: uniformity across the population, and continuity of spatial arrangement.
+The ladder itself is [item view](/patterns/item-view)'s vocabulary (glyph / reference / summary / detail / full). Item view owns the rungs and their per-item, navigation-driven transitions; semantic zoom is the coordination move that drives the same ladder for all items at once from a single scale control — with the two obligations item view doesn't carry: uniformity across the population, and continuity of spatial arrangement. Mechanically the move reduces to per-level attribute selection: Meridian implements it by binding scroll and pinch to adding or removing entries in a view's `shownAttributes`, each zoom level just a different attribute subset — and letting the actor choose which attributes survive zooming out.
 
 {/* 
 ## Boundary with focus and context 

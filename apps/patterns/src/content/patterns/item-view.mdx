@@ -8,20 +8,27 @@ mediation: individual
 lifecycle: seeking
 fun: 🙂 4/5. Flexibility in displaying an entity enables a lot of emergent behaviour and contextual adaptation.
 realised_by: [components-item-view--docs]
+description: "Rendering a single entity at the rung its moment needs — glyph, reference, summary, detail, or full working surface — while keeping it recognisable as itself across every rung."
+situation:
+  initiating: >-
+    an entity must appear somewhere — inside running text, among its peers,
+    on its own — and the moment fixes how much of it the actor needs:
+    bare recognition, quick comparison, or a full working surface
+  resulting:
+    - the entity renders at a rung fitted to its moment and remains recognisable as the same entity across every rung
+    - moving between rungs is a designed transition, not a page reload — context survives the shift in depth
 relationships:
   related:
-    - to: data-view
-      note: Collection-scope counterpart
     - progressive-disclosure
   complements:
     - to: semantic-zoom
-      note: drives this ladder for all items at once from a single scale control
+      note: "semantic zoom drives this ladder for every item at once from a single scale control; item view owns the rungs and their per-item, navigation-driven transitions"
 ---
 
 import { ItemViewFullDemo, ItemViewRowDemo } from '@pkg/demos/item-view';
 import { ReferenceDemo } from '@pkg/demos/reference';
 
-The representation of a single entity at the right level of detail for the actor's current task, balancing recognition with depth. Within the view system, items can appear in progressively richer forms — from a minimal reference to a full working surface — enabling fluid navigation between granularities without losing orientation.
+The representation of a single entity at the right level of detail for the actor's current task, balancing recognition with depth. An item can appear in progressively richer forms — from a glyph on a map to a full working surface — and the actor moves between them without losing hold of which entity it is.
 
 ## User needs
 
@@ -29,10 +36,20 @@ The representation of a single entity at the right level of detail for the actor
 - They want to stay in the *flow of their current task*, but sometimes they must shift into deep focus.
 - Entities must sometimes act as *links to other places*, and sometimes as *self-sufficient centres of work*.
 
-## Semantic level
-Item representation is the combination of semantic level and UI element. The two co-vary: choosing a level of detail is also choosing how much surrounding context remains — a reference sits inside running text, a row keeps the collection in view, a full view gives the item the whole frame.
+## The representation ladder
+
+Item representation is the combination of a ladder rung and a UI element. The two co-vary: choosing a level of detail is also choosing how much surrounding context remains — a reference sits inside running text, a row keeps the collection in view, a full view gives the item the whole frame.
+
+### Glyph
+
+- Purpose: locate and encode within a population
+- Data: position plus one or two attributes, rendered visually — a map pin's price, a seat's colour-shaded availability, a dot on a plot
+- Interaction: navigation only — the glyph exists to be opened
+
+The rung below reference: it doesn't even identify the entity by name, and it is only legible inside a population — a glyph on its own means nothing.
 
 ### Reference
+
 - Purpose: identify and link to items
 - Data: name, type
 - Interaction: navigation
@@ -44,6 +61,7 @@ An inline @mention that opens to richer detail on demand, rendered as a <Compone
 </Demo>
 
 ### Summary
+
 - Purpose: quick assessment and comparison without leaving current task
 - Data: key attributes, status, recent activity
 - Interaction: navigation, actions for common operations
@@ -55,41 +73,41 @@ As a row in a <ComponentRef id="components-table--docs">table</ComponentRef>, th
 </Demo>
 
 ### Detail
+
 - Purpose: inspection of most important information while maintaining context
 - Data: relevant details for current task
 - Interaction: editing, navigate to full page
 
 ### Full
-- Purpose: Complete focus on single item
-- Data: All data, history, relationships
+
+- Purpose: complete focus on a single item
+- Data: all data, history, relationships
 - Interaction: editing, analysis, management
+
+At the dedicated scope this rung is the *entity page* — the detail side promoted to a destination with its own address, the form most products build their permalinks around.
 
 <Demo label="Full view">
   <ItemViewFullDemo client:only="react" />
 </Demo>
 
 ## UI element
+
 - Inline: within text or structured UI.
 - Contextual overlay: popover, hovercard.
 - Transient container: modal, drawer, side panel.
 - Dedicated view: section, panel, page, workspace, tab.
-{/* TODO: Children of inline? */}
-{/* - List: Sequential items in feeds or search results */}
-{/* - Grid: Card-based layouts for visual browsing */}
-{/* - Table: Data-dense views with sortable columns */}
-{/* - Canvas: Spatial arrangements with relationships */}
-{/* - Text: Inline references within documents */}
 
 ## Transitions
 
-Item views support fluid navigation through semantic levels:
+Item views support fluid navigation up and down the ladder:
 
-**Reference → summary:** Hover over inline reference reveals summary in popover
-**Summary → detail:** Click table row to expand detail panel or open modal
-**Detail → full:** Navigate from modal to dedicated page view
-**Full → collection:** Return to parent collection view ([data view](/patterns/data-view))
+- *Glyph → summary:* click a map pin to open its card
+- *Reference → summary:* hover over an inline reference to reveal a popover
+- *Summary → detail:* click a table row to expand a detail panel or open a modal
+- *Detail → full:* navigate from the modal to the entity page
+- *Full → collection:* return to the parent [data view](/patterns/data-view), its framing preserved
 
-These transitions preserve context and maintain recognition of the entity across representations.
+The choice of mechanism depends on the relationship between the two representations and how much spatial context the shift must preserve: an overlay keeps the origin visible, a page break trades it for room. Whatever the mechanism, the entity must stay recognisable as itself across the crossing.
 
 ## Related components
 
