@@ -21,3 +21,43 @@ inferred while reviewing a territory, beyond what the prose asks for.
 | Zoom controls | Pan and zoom | — (judgment, T1) | Zoom in/out/fit control cluster; tldraw exists as a dep but there is no reusable control-level piece |
 | Workspace switcher | Hub and spoke, hybrid patterns | — (judgment, T1, speculative) | The hub + flat hybrid's "launch screen or app switcher"; DataView's ViewSwitcher is the nearest existing shape but switches views, not workspaces |
 | Schema-driven filter | Filtering, Data view | DataView.stories.tsx (judgment, T2) | `components/filter` hardwires one enum set (Status/Priority/Assignee); `demos/data-view` carries a second, product-shaped implementation (ProductFilters + FilterControls). The duplication is the gap signal: a filter generic over an attribute schema would collapse both |
+
+## Considered, not gaps
+
+Candidates examined and deliberately left out. An entry here means the question
+came up, the boundary was worked out, and absence is the decision — not an
+oversight to fill.
+
+### Segmented control (2026-07)
+
+Not a component identity — a visual form that either Tabs or a single-select
+input can wear. The family (tabs, segmented control, toggle-button group,
+button group) looks identical on screen and splits only on what activation
+does:
+
+1. *reveals co-present content* → Tabs (`tablist`/`tab`/`tabpanel`; already
+   shipped as `pp-tab-group`)
+2. *sets a value* → a toggle-group input (`radiogroup` or `aria-pressed`
+   buttons; not yet needed)
+3. *fires an action* → plain adjacency; `.button-group` in `styles/button.css`
+   already covers this as layout, not a component
+
+Survey ground (component.gallery, designsystems.surf): systems that document
+"segmented control" as one component end up hosting both roles 1 and 2 under
+one skin, or ship two components with the same skin. Apple's HIG spans all
+three roles under the single control, guards them only with a purity rule
+(never mix selection and action segments in one instance), and draws its
+tabs-vs-segmented boundary on a different axis entirely — scope and placement
+(tab bar for app sections → tab view for window areas → segmented control for
+subviews and inspectors). That scope axis maps to `activity-level` tags, not to
+component identity; the web has to pick semantics per use, which is why the
+role axis decides here.
+
+Boundary test: if a candidate use survives re-rendering through Sections'
+disclosure affordance, it's content organisation (Tabs territory); if the
+result is nonsense ("Sort by: Date" as a collapsible region), it was a value
+input all along.
+
+If demand arrives, the answer is a Tabs visual variant (role 1) or a new
+toggle-group input under Components (role 2) — never one merged entry under
+the shared label.
