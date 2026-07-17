@@ -1,0 +1,93 @@
+import { Canvas, Story, Meta } from '@storybook/addon-docs/blocks';
+import * as MapStories from './Map.stories.tsx';
+
+<Meta title="Data visualisation/Map" of={MapStories} tags={['activity-level:operation', 'atomic:data-visualization', 'role:component', 'mediation:individual']} />
+
+> 🗺️ **Fun meter: 3/5**. The choropleth is old and settled, but the thing worth thinking about is that space is the one channel a reader already knows how to read. A bar chart teaches you its axis; a map you just recognise. What you spend that head-start on — and what the projection quietly distorts while you do — is the real design question.
+
+# Map
+
+When the reader's question is *where*, a map answers before any legend is read: a region carries its value on ground the reader already recognises.
+
+A choropleth shades regions by a quantity. It owns the spatial branch of the <PatternRef slug="data-visualization">chart territory</PatternRef> — the case where position is not a channel you assign but one the data already fixes. That is its strength and its trap: geography is legible for free, so the map is only honest when the pattern being read is genuinely geographic, not an artefact of which regions happen to be large.
+
+## Variants
+
+### Sequential choropleth
+
+<Story of={MapStories.Default} />
+
+Regions are binned into discrete colour steps rather than a continuous ramp. Bins read more reliably — a reader can match a region to a legend swatch, which a smooth gradient makes guesswork. Regions with no data stay neutral, so absence is visible rather than implied.
+
+### Finer bins
+
+<Story of={MapStories.FineGrainedBins} />
+
+More steps resolve more difference but ask more of the eye. Past roughly seven bins the swatches stop being distinguishable; the control exists so the choice is deliberate.
+
+### Sparse data
+
+<Story of={MapStories.Sparse} />
+
+Only a handful of regions carry values; the rest read as no-data. A choropleth degrades gracefully here — the neutral fill is a legitimate state, not a gap to apologise for.
+
+## Projections
+
+<Story of={MapStories.Mercator} />
+
+Every flat map lies about something. `naturalEarth` (the default) keeps area roughly honest, which matters most when area is the very channel doing the encoding. `mercator` preserves local shape but inflates the poles — Greenland swells to rival Africa — so it flatters high-latitude regions in a way a choropleth reader will misread. `equalEarth` and `equirectangular` round out the set. The component is geometry-agnostic: give it any GeoJSON and it fits the projection to the frame.
+
+## Data
+
+The component joins geometry to values by key, so the two are supplied separately:
+
+- `geometry` — a GeoJSON `FeatureCollection`. Each feature's `id` (or a property named by `featureKey`) is its join key.
+- `values` — one `{ id, value, label? }` per region. The `id` must match a feature's key; `label` falls back to the feature's `name`.
+
+Nothing about the component assumes a world map. Swap in states, districts, or sales territories and the same element renders them.
+
+## States
+
+### Loading
+
+While data is in flight the regions clear; the accessible summary announces the update through an ARIA live region.
+
+### Empty
+
+With no values every region falls to the neutral no-data fill — the map still draws, showing the reader the shape of the space they are about to fill.
+
+## Accessibility
+
+A map is a picture, and a picture excludes anyone who cannot see it. The component pairs the visual with a text equivalent.
+
+### Screen reader support
+- SVG `role="img"` with a descriptive `aria-label` naming the quantity and region count.
+- A visually hidden data table lists every region and its value.
+- Each region carries a native `<title>`, so hovering shows the value with no custom tooltip layer.
+- Keyboard navigation announces the focused region through an ARIA live region.
+
+### Keyboard navigation
+- Tab: focus the map.
+- Arrow keys: move between regions that carry data.
+- Home / End: jump to the first / last region.
+- Enter / Space: activate the focused region (emits `pp-map-click`).
+
+## Related patterns
+
+### Precursors
+- [Bar chart](../?path=/docs/data-visualisation-bar-chart--docs) — the comparison branch; a map is the comparison a reader can locate as well as rank.
+- [Elements](../?path=/docs/data-visualisation-elements--docs) — the categorical-colour, formatting, and symbology conventions the map inherits.
+
+### Complementary
+- Tooltip — the per-region hover readout.
+- [Cards](../?path=/docs/components-card--docs) — a common frame for a map placed in a dashboard.
+
+### Tangentially related
+- [Filtering](/patterns/filtering) — choosing which regions or value range to show.
+- <PatternRef slug="dashboard">Dashboard</PatternRef> — where a choropleth most often earns its place.
+
+## Resources & references
+
+- Tamara Munzner, [Visualization Analysis and Design](https://www.cs.ubc.ca/~tmm/vadbook/) — marks and channels; why position outranks colour.
+- Mike Bostock, [Command-Line Cartography](https://medium.com/@mbostock/command-line-cartography-part-1-897aa8f8ca2c) — the d3-geo projection and TopoJSON pipeline this component draws on.
+- [world-atlas](https://github.com/topojson/world-atlas) — the source of the bundled country geometry.

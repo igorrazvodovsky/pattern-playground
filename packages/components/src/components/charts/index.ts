@@ -38,6 +38,7 @@ export * from './renderers/index.js';
 
 // Chart components (Phase 2+)
 export * from './bar-chart.js';
+export * from './map-chart.js';
 // export * from './line-chart.js';
 // export * from './area-chart.js';
 // export * from './tree-diagram.js';
@@ -54,6 +55,7 @@ export function initializeCharts() {
 
   // Register chart components (Phase 2+)
   import('./bar-chart.js');
+  import('./map-chart.js');
   // import('./line-chart.js');
   // import('./area-chart.js');
   // import('./tree-diagram.js');

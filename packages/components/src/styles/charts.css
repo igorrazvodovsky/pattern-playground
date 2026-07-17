@@ -428,6 +428,36 @@ pp-chart-grid[hidden] {
 }
 
 /* =============================================================================
+   Map (Choropleth) Component Styles
+   ============================================================================= */
+
+pp-map {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+pp-map .map-region {
+  transition: opacity var(--chart-transition-fast);
+  cursor: pointer;
+}
+
+pp-map .map-region:hover {
+  opacity: var(--chart-hover-opacity);
+}
+
+pp-map .map-legend-label {
+  fill: var(--chart-text-secondary);
+  font-family: var(--chart-font-family);
+  font-size: var(--chart-font-size-xs);
+}
+
+pp-map:focus-visible {
+  outline: var(--chart-focus-width) solid var(--chart-focus-color);
+  outline-offset: var(--chart-focus-offset);
+}
+
+/* =============================================================================
    Interactive States
    ============================================================================= */
 

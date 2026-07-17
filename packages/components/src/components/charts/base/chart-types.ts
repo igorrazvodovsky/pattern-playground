@@ -93,6 +93,37 @@ export interface TreeData {
 }
 
 /**
+ * Map (choropleth) data structure
+ *
+ * Geometry-agnostic: the component draws whatever GeoJSON regions it is given
+ * and joins them to values by a shared key. Supply `geometry` (a GeoJSON
+ * FeatureCollection) and `values` (one datum per region). The join key is read
+ * from each feature's `id` by default, or from a properties path via `featureKey`.
+ */
+export interface MapChartDataPoint extends ChartDataPoint {
+  /** Region key; must match a feature's id (or the `featureKey` property). */
+  id: string | number;
+  /** Quantity that colours the region. */
+  value: number;
+  /** Human-readable region name; falls back to the feature name or the id. */
+  label?: string;
+}
+
+export interface MapChartData {
+  /** GeoJSON FeatureCollection describing the region boundaries. */
+  geometry: GeoJSON.FeatureCollection;
+  /** One value per region, joined to geometry by key. */
+  values: MapChartDataPoint[];
+  /**
+   * Where to read a region's join key from each feature. `'id'` (default) uses
+   * `feature.id`; any other string reads `feature.properties[featureKey]`.
+   */
+  featureKey?: string;
+  /** Label for the quantity, shown in the legend and tooltip. */
+  valueLabel?: string;
+}
+
+/**
  * Common chart configuration options
  */
 export interface ChartMargin {
@@ -178,6 +209,18 @@ export function isAreaChartData(data: unknown): data is AreaChartData {
     data !== null &&
     'series' in data &&
     Array.isArray((data as AreaChartData).series)
+  );
+}
+
+export function isMapChartData(data: unknown): data is MapChartData {
+  return (
+    typeof data === 'object' &&
+    data !== null &&
+    'geometry' in data &&
+    'values' in data &&
+    Array.isArray((data as MapChartData).values) &&
+    typeof (data as MapChartData).geometry === 'object' &&
+    Array.isArray((data as MapChartData).geometry?.features)
   );
 }
 
