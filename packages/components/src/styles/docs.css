@@ -239,6 +239,60 @@ aside[class*="sbdocs-toc"] {
   max-width: 400px;
 }
 
+/* Scaffolding for the Shell and Sidebar stories. Not a library surface. */
+
+.story-shell-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+  padding: var(--space-s) var(--space-m);
+  border-block-end: var(--border);
+}
+
+.story-shell-header--split {
+  justify-content: space-between;
+}
+
+.story-shell-title {
+  font-weight: var(--font-weight-semibold);
+}
+
+.story-shell-body {
+  padding: var(--space-l);
+  flex: 1;
+}
+
+.story-shell-note {
+  color: var(--c-neutral-600);
+  max-width: 40ch;
+}
+
+.story-shell-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-2xs) var(--space-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+.story-shell-brand .icon {
+  font-size: 1.25rem;
+}
+
+.story-shell-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+  padding: var(--space-s);
+  border-block-end: var(--border);
+  background: var(--c-neutral-50);
+  font-size: var(--text-s);
+}
+
+.story-shell-filler {
+  min-height: 150svh;
+}
+
 .product-model-navigation {
   margin: -1.5rem;
   padding: 1rem 1.5rem;

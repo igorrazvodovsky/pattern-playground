@@ -28,6 +28,7 @@
 @import url(input.css) layer(components);
 @import url(reference.css) layer(components);
 @import url(hover-card.css) layer(components);
+@import url(shell.css);
 @import url(sidebar.css);
 /* @import url(tiptap.css); */
 @import url(list-item-shared.css) layer(components);

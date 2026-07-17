@@ -1,16 +1,13 @@
 @layer components {
-  /* -------------------------------------------------------------------------
-   * Sidebar tokens (scoped under the wrapper so they don't pollute :root)
-   * ------------------------------------------------------------------------- */
+  /* Scoped to the shell rather than :root so they don't pollute the page — the
+     sidebar depends on the frame, never the reverse. The mobile drawer is
+     portaled to <body>, outside the shell, so it carries the tokens itself.
 
-  /* Also on .sidebar-mobile: the mobile drawer is portaled to <body>, outside
-     the wrapper, so it must carry the tokens itself. */
-  [data-slot="sidebar-wrapper"],
+     Override from `.shell` or inside it, not from :root: these sit closer to the
+     sidebar, and proximity beats layer order. */
+  .shell,
   .sidebar-mobile {
-    /* Icon-collapsed rail width. Also set inline by SidebarProvider when it
-     * renders the wrapper; declared here too so a static Astro wrapper
-     * (renderWrapper={false}) still resolves it and ⌘/ icon-collapse works.
-     * --sidebar-width itself is set in the app's app.css. */
+    --sidebar-width: 16rem;
     --sidebar-width-icon: 3rem;
     --sidebar: var(--c-neutral-0);
     --sidebar-foreground: var(--c-neutral-800);
@@ -20,16 +17,6 @@
     --sidebar-accent-foreground: var(--c-neutral-800);
     --sidebar-border: var(--c-border);
     --sidebar-ring: var(--c-accent-600);
-  }
-
-  /* -------------------------------------------------------------------------
-   * SidebarProvider wrapper — full-height flex host
-   * ------------------------------------------------------------------------- */
-
-  .sidebar-wrapper {
-    display: flex;
-    min-height: 100svh;
-    width: 100%;
   }
 
   /* -------------------------------------------------------------------------
@@ -211,21 +198,14 @@
   }
 
   /* -------------------------------------------------------------------------
-   * SidebarInset — the main content area next to the sidebar
+   * Reach into the frame
+   * -------------------------------------------------------------------------
+   * The `inset` variant rounds the main column to match the floating panel, so
+   * the sidebar has to style a shell element. It lives here, not in shell.css:
+   * the sidebar's variant drives it, and the frame stays sidebar-agnostic.
    * ------------------------------------------------------------------------- */
 
-  .sidebar-inset {
-    position: relative;
-    flex: 1;
-    min-height: 100svh;
-    display: flex;
-    flex-direction: column;
-    background: var(--c-background);
-    overflow: auto;
-  }
-
-  /* Inset variant: round the main area to match floating panel look */
-  [data-slot="sidebar"][data-variant="inset"] ~ .sidebar-inset {
+  [data-slot="sidebar"][data-variant="inset"] ~ .shell__main {
     border-radius: var(--radius-m);
     box-shadow: var(--shadow-l);
     margin: var(--space-xs);
@@ -768,6 +748,10 @@
   }
 
   .sidebar-mobile {
+    /* The drawer is its own rail: wider than the docked one, and independent of
+       whatever the app sized that to. */
+    --sidebar-width: 18rem;
+
     position: fixed;
     inset-block: 0;
     z-index: var(--layer-drawer);

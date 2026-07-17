@@ -166,9 +166,9 @@ const projectionLabels: Record<ProjectionId, string> = {
     </style>
   </head>
   <body>
-    <div class="sidebar-wrapper" data-slot="sidebar-wrapper">
+    <div class="shell" data-slot="shell">
       <Nav client:load transition:persist="app-nav" projections={projections} projectionLabels={projectionLabels} storybookUrl={storybookUrl} />
-      <main class="sidebar-inset" data-slot="sidebar-inset">
+      <main class="shell__main" data-slot="shell-main">
         {slug ? (
           <StackManager client:load slug={slug} title={title}>
             <slot />

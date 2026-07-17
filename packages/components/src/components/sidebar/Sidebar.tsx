@@ -14,10 +14,10 @@ import { useIsMobile } from '../../hooks/use-is-mobile';
 
 export const SIDEBAR_COOKIE_NAME = 'sidebar_state';
 export const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
-export const SIDEBAR_WIDTH = '16rem';
-export const SIDEBAR_WIDTH_MOBILE = '18rem';
-export const SIDEBAR_WIDTH_ICON = '3rem';
 export const SIDEBAR_KEYBOARD_SHORTCUT = '/';
+
+// Rail widths live in sidebar.css. Mirroring them here would give the same
+// measurement two sources of truth, and CSS is the one that wins.
 
 // ---------------------------------------------------------------------------
 // Context
@@ -49,10 +49,9 @@ export interface SidebarProviderProps extends React.ComponentProps<'div'> {
   defaultOpen?: boolean;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
-  // When false, provide context (and the tooltip provider) without rendering
-  // the `.sidebar-wrapper` flex host. Used when the host lives in static Astro
-  // markup so the page content can be a sibling of the sidebar rather than a
-  // child of this island. Defaults to true — the standalone/Storybook behaviour.
+  // When false, contribute context without rendering the `.shell` frame, so a
+  // static frame can hold page content as a sibling of this island rather than
+  // a child of it. See Base.astro in the patterns site, which writes the frame.
   renderWrapper?: boolean;
 }
 
@@ -112,15 +111,11 @@ export function SidebarProvider({
       <Tooltip.Provider delay={0}>
         {renderWrapper ? (
           <div
-            data-slot="sidebar-wrapper"
-            style={
-              {
-                '--sidebar-width': SIDEBAR_WIDTH,
-                '--sidebar-width-icon': SIDEBAR_WIDTH_ICON,
-                ...style,
-              } as React.CSSProperties
-            }
-            className={clsx('sidebar-wrapper', className)}
+            data-slot="shell"
+            // No rail widths here: an inline style outranks every layer, which
+            // would make this the one frame an app couldn't resize in CSS.
+            style={style}
+            className={clsx('shell', className)}
             {...props}
           >
             {children}
@@ -163,8 +158,6 @@ export function Sidebar({
             data-sidebar="sidebar"
             data-mobile="true"
             data-side={side}
-            // eslint-disable-next-line react/forbid-component-props -- CSS variable scoping for mobile width, see plans/tech-debt-tracker.md
-            style={{ '--sidebar-width': SIDEBAR_WIDTH_MOBILE } as React.CSSProperties}
             className={clsx('sidebar sidebar-mobile', className)}
             {...props}
           >
@@ -266,11 +259,13 @@ export function SidebarRail({ className, ...props }: React.ComponentProps<'butto
 // SidebarInset
 // ---------------------------------------------------------------------------
 
+// Nothing sidebar-specific, and nothing React needs to do. Static markup should
+// write the class rather than mount an island for one element.
 export function SidebarInset({ className, ...props }: React.ComponentProps<'main'>) {
   return (
     <main
-      data-slot="sidebar-inset"
-      className={clsx('sidebar-inset', className)}
+      data-slot="shell-main"
+      className={clsx('shell__main', className)}
       {...props}
     />
   );
