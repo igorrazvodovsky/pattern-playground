@@ -19,7 +19,7 @@ relationships:
       note: "the navigation surface this move layers onto — pan and zoom move the viewport; semantic zoom decides what the things in it look like at each scale"
   enacts:
     - to: density
-      note: "each rung is a density commitment, and the transitions between framings preserve legible density — zooming re-spends the screen budget instead of diluting it"
+      note: "each zoom level is a density commitment, and the transitions between levels preserve legible density — zooming re-spends the screen budget instead of diluting it"
 ---
 
 import { SemanticZoomDemo } from '@pkg/demos/semantic-zoom';
@@ -41,7 +41,7 @@ Semantic zoom changes the *representation* instead of the size: each item swaps 
 
 ## The representation ladder
 
-What semantic zoom traverses is a ladder of discrete representations per item — the demo's circle → label chip → summary card → reading panel; a map's continent → city → street. Representations don't interpolate: a dot, a title and a paragraph are different artifacts, so *thresholds are unavoidable* — the design choices are where they sit and how the crossing is presented.
+What semantic zoom traverses is a ladder of discrete representations per item — the demo's circle → label chip → summary card → reading panel; a map's continent → city → street. Representations don't interpolate: a dot, a title and a paragraph are different artefacts, so *thresholds are unavoidable* — the design choices are where they sit and how the crossing is presented.
 
 - *Snap or morph* — a hard switch at the threshold keeps tiers legible as tiers; crossfade or morph dissolves the crossing into continuity. This is a presentation axis over the same discrete ladder, trading wayfinding-by-tier against transition comprehension
 - *Make crossings legible in transit* — animated transitions help the actor build a spatial model of the space; transition times of 0.3–1.0 s are repeatedly supported

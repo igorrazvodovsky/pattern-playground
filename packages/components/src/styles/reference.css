@@ -91,7 +91,7 @@
 
 /* Reference mention styles - extending existing reference styles */
 .reference-mention {
-  /* background-color: var(--c-neutral-50); */
+  background-color: var(--c-accent-50);
   color: var(--c-accent);
   padding: 0 var(--space-xs);
   border-radius: var(--radius-s);

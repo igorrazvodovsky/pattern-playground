@@ -175,12 +175,6 @@
       "atomic-category": "composition",
       "mediation": "individual"
     },
-    "dashboard": {
-      "activity-level": "action",
-      "lifecycle-stage": null,
-      "atomic-category": "composition",
-      "mediation": "individual"
-    },
     "data-entry": {
       "activity-level": "action",
       "lifecycle-stage": null,

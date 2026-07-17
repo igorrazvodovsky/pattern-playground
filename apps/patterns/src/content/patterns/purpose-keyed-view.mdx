@@ -24,12 +24,14 @@ relationships:
     - to: data-view
       note: "data view supplies the framing machinery — query, representation, arrangement — that a purpose-keyed view fixes around one recurring purpose"
     - to: item-view
-      note: "each tier picks the rung entities are rendered at; the investigation variant bottoms out in a full item view"
-    - to: dashboard
-      note: "the visual-genre twin: dashboard owns the artefact (tiled charts, whatever the function); this page owns the purpose (monitoring at a glance, whatever the look)"
+      note: "each tier picks the level of detail entities are rendered at; the investigation variant bottoms out in a full item view"
+    - to: data-visualization
+      note: "the monitoring variant is largely composed of charts; how many tiles, drawn how, reading consistently against each other is a charting problem, not this page's"
 ---
 
 The actor returns to the same underlying data with different purposes at different moments: a passing glance between tasks, a scheduled review, a deep dive into one concern. The data is already well presented — nothing is hidden — yet the recurring questions (is anything wrong? what is happening? what changed?) still take work to answer, and each moment brings a different amount of attention to spend on them.
+
+This is what the word *dashboard* usually means, and the word is worth unbundling. It names three separable things at once: an *artefact* (tiled charts on one screen), a *use* (monitoring at a glance), and an *authorship stance* (composed at design-time, fixed for everyone). This page holds the use — the purpose, whatever the look. The authorship stance is [malleability](/patterns/malleability)'s. The artefact belongs to [charting data](/patterns/data-visualization), and holds less than its ubiquity suggests: Sarikaya et al. coded 83 dashboards in the wild and found seven kinds so unalike that design principles do not transfer between them — the layout that makes an operational status wall readable at a glance defeats a dashboard built to narrate a finding. There is no set of dashboard principles to write down, which is why the purpose, not the artefact, is the thing worth naming.
 
 ## Forces
 
@@ -39,7 +41,7 @@ The actor returns to the same underlying data with different purposes at differe
 
 ## Solution
 
-Shape what the view shows around the purpose — which data, at what rung, demanding how much attention — rather than presenting the data one fixed way. Keep the general exploratory view reachable from every purpose-keyed one.
+Shape what the view shows around the purpose — which data, at what level of detail, demanding how much attention — rather than presenting the data one fixed way. Keep the general exploratory view reachable from every purpose-keyed one.
 
 ## Variants
 
@@ -51,7 +53,7 @@ Draw conclusions through structured investigation. Medium granularity with compa
 
 ### Monitoring
 
-Maintain operational awareness without deep investigation — answer "is anything wrong?" in passing. Keyed at design time: someone decided in advance which signals answer that question. Aggregate metrics, trends, and status indicators at the summary rung; typically a zoomed-out [collection framing](/patterns/data-view) with auto-refresh.
+Maintain operational awareness without deep investigation — answer "is anything wrong?" in passing. Keyed at design time: someone decided in advance which signals answer that question. Aggregate metrics, trends, and status indicators rendered as compact summaries; typically a zoomed-out [collection framing](/patterns/data-view) with auto-refresh.
 
 ### Drilldown investigation
 
@@ -75,5 +77,5 @@ The hinge between watch and chase is sharpest when it is rule-made: where the do
 - Sarikaya, Correll, Bartram, Tory & Fisher (2018) [What do we talk about when we talk about dashboards?](https://ieeexplore.ieee.org/document/8443395) — splits the visual genre from the functional one; design principles do not transfer between them
 - Pauwels et al. (2009) [Dashboards as a service](https://journals.sagepub.com/doi/10.1177/1094670509344213) — metrics must be interconnected, not merely co-located
 - Bunin — [Dashboard is dead. Long live dashboard!](https://revealthedata.com/blog/all/the-dashboard-is-dead-long-live-the-dashboard/) — separate operational reporting from exploratory analytics
-- Bunin — [Dashboard layout templates](https://revealthedata.com/blog/all/dashboard-templates/) — task-keyed templates
+- Bunin — [Dashboard layout templates](https://revealthedata.com/blog/all/dashboard-templates/) — despite the title, keyed by task, not geometry ("I divide dashboards by the task they solve"); the three templates — entity page, analytical tool, приборная панель — corroborate this carving from practice, and it is the monitoring one that keeps the name
 - Barakov — [Dashboard — how long do you have left?](https://datanature.ru/dashboardsdead) — the stagnation diagnosis and the successor forms: pinboards, role presets, generated views

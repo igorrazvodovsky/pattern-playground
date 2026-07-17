@@ -22,7 +22,7 @@ relationships:
       note: staking a subset of items as the target of subsequent action
   composed-of:
     - to: item-view
-      note: "a data view is many item views held at one uniform, compressed rung; which rung — row, card, pin — is the representation choice"
+      note: "a data view is many item views rendered in the same compressed form; which form — row, card, pin — is the representation choice"
   complements:
     - to: semantic-zoom
       note: scale-bound traversal between collection and item granularities, uniform across the population
@@ -35,48 +35,51 @@ relationships:
 
 import { DataViewDemo } from '@pkg/demos/data-view';
 
-The actor faces a collection too large to absorb whole, with a purpose that fixes what matters in it right now. A data view is a named projection of the collection — the same items shown from one angle, nothing copied and nothing altered — built from a *query* (which items), a *representation* (rendered how), and an *arrangement* (ordered and grouped by what). The familiar toolbar is that anatomy made visible: filter is the query, the view switcher is the representation, sort and group are the arrangement, and the attribute selector is the projection's ceiling put in the actor's hands.
+The actor is working with a collection too large or varied to take in whole, and what they are doing right now decides what matters in it — which items, in what form, in what order. A collection shown one fixed way answers someone else's guess at that question, and the actor is left doing the framing work in their head, every visit.
+
+## Forces
+
+- *One collection vs. many purposes* — the same items serve scanning, comparing, and planning, and each purpose wants different items in a different form and order
+- *Designer control vs. actor control* — every part of the framing fixed at design time is a comparison the actor can no longer make; every part handed over is a decision the actor must now make and maintain
+
+## Solution
+
+Give the collection a named projection — the same items shown from one angle — built from a *query* (which items), a *representation* (rendered how), and an *arrangement* (ordered and grouped by what), with the framing itself open to inspection and change.
 
 <Demo label="Data view">
   <DataViewDemo client:only="react" />
 </Demo>
 
-The demo's `controls` prop is the designer-side switch over each piece of that anatomy: disabling a control enforces that part of the framing. An enforced framing is still a framing — just one the actor no longer negotiates.
-
 ## Representation switching
 
-One collection as list, board, table, calendar — the move Notion, Airtable, and Obsidian Bases ship as their core product. The items don't change; the rung and geometry they are rendered at does, and each representation makes different comparisons effortless (a board makes status visible, a calendar makes time visible, a table makes attributes comparable). Representation switching keyed to container geometry rather than an explicit control — wide hosts get tabs, small ones a pile — is [semantic zoom](/patterns/semantic-zoom)'s resize-driven cousin.
+One collection as list, board, table, calendar, map, etc. The items don't change; the form they are rendered in do, and each representation makes different comparisons effortless (a board makes status visible, a calendar makes time visible, a table makes attributes comparable).
 
 ## Attribute selection
 
-Which attributes the compressed rung carries decides what the actor can scan, compare, sort, and filter by — and in the wild this ceiling is almost always fixed: in a sample of 156 sites, fewer than one in ten offered any customisation at all. Given the choice, actors split into recognisable temperaments — *hoarders* who surface attributes and never hide any, *minimalists* who prune the overview down to exactly their criteria — which is an argument for making the selection malleable rather than guessing a middle.
+Which attributes the compressed rendering carries decides what the actor can scan, compare, sort, and filter by. Given the choice, actors split into recognisable temperaments — *hoarders* who surface attributes and never hide any, *minimalists* who prune the overview down to exactly their criteria — which is an argument for making the selection configurable rather than guessing a middle.
 
 ## Saved views
 
-A framing worth constructing is worth keeping. Saved views persist the whole framing — query, representation, arrangement, visible attributes — as a named, shareable object, with three authorship poles: developer-defined defaults, role views an administrator curates for a team, and personal views the actor tunes for their own workflow. The lineage is old — Shneiderman's forgotten *extract* task, saving the sub-collection or the widget settings themselves — and the consequence is a lifecycle: saved framings go stale and accumulate, so pruning is part of the pattern, not an afterthought.
+Saved views persist the whole framing — query, representation, arrangement, visible attributes — as a named, shareable object, with three authorship poles: developer-defined defaults, role views an administrator curates for a team, and personal views the actor tunes for their own workflow.
 
-## Writable views
+## Consequences
 
-The collection's product core is edited *through* its projections: dragging a card between board columns is a write executed through the framing — the column move is an attribute change wearing spatial clothes. Two design decisions follow. Which edits are legal through which representation: the calendar accepts a date drag, the board a status drag, the table almost anything cell-by-cell. And how refused or ambiguous writes surface: an edit the view cannot translate back to the model (dragging a card into a column the query would immediately exclude it from) needs an honest refusal or a visible consequence, not a silent success. The database literature has owned this problem for decades as the view-update problem; product UI mostly ships it unnamed.
-
-## Time
-
-Time is a framing axis like any other: the same collection as current snapshot, trend, or full history — [temporality](/patterns/temporality) decides which the task needs.
+- The collection reaches the actor already framed — queried, represented, arranged — and the framing is inspectable and adjustable rather than baked into the page.
+- A framed population makes designating items for action cheap: what the framing exposes is what [selection](/patterns/selection) can operate on.
 
 ## Related components
 
 - Representation: <ComponentRef id="components-table--docs">Table</ComponentRef>, <ComponentRef id="components-card--docs">cards</ComponentRef>, list, <ComponentRef id="components-timeline--docs">timeline</ComponentRef>, canvas, grid, calendar, gallery, kanban, gantt, the list goes on
 - <ComponentRef id="components-action-bar--docs">Action bar</ComponentRef> — the container for batch actions once a selection has been made
 
+## Resources & references
+
+- Min, Chen, Cao & Xia (2025) [Malleable overview-detail interfaces](https://dl.acm.org/doi/10.1145/3706598.3714164) — fluid attributes
+- Min & Xia (2025) [Meridian](https://dl.acm.org/doi/10.1145/3746059.3747654) — the saved framing generalised into a portable, declarative specification
+- Shneiderman (1996) [The eyes have it](https://ieeexplore.ieee.org/document/545307) — the *extract* task: saving the sub-collection, or the settings of the control widgets themselves
+- Bancilhon & Spyratos (1981) [Update semantics of relational views](https://dl.acm.org/doi/10.1145/319628.319634) — the view-update problem; with bidirectional lenses
+- Fowler — [Projectional editing](https://www.martinfowler.com/bliki/ProjectionalEditing.html) — the same write-through-a-projection move, scoped to code editors
+
 ## To-do
 
 - Follow-up patterns to capture: inline editing (direct manipulation of displayed data), search, pagination
-- A drag-between-groups interaction in the demo, to ground the writable-views section
-
-## Resources & references
-
-- Min, Chen, Cao & Xia (2025) [Malleable overview-detail interfaces](https://dl.acm.org/doi/10.1145/3706598.3714164) — Fluid Attributes; the 8.33% customisation figure; hoarders and minimalists
-- Min & Xia (2025) [Meridian](https://dl.acm.org/doi/10.1145/3746059.3747654) — the saved framing generalised into a portable, declarative specification
-- Shneiderman (1996) [The eyes have it](https://ieeexplore.ieee.org/document/545307) — the *extract* task: saving the sub-collection, or the settings of the control widgets themselves
-- Bancilhon & Spyratos (1981) [Update semantics of relational views](https://dl.acm.org/doi/10.1145/319628.319634) — the view-update problem; with bidirectional lenses, the theory writable views borrow
-- Fowler — [Projectional editing](https://www.martinfowler.com/bliki/ProjectionalEditing.html) — the same write-through-a-projection move, named for code editors

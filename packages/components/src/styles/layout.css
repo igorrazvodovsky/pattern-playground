@@ -116,6 +116,7 @@
 .attribute-list {
   display: flex;
   flex-direction: column;
+  gap: 0.5ch;
 
   [role="row"] {
     display: flex;

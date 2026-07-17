@@ -7,18 +7,16 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import remarkRelStrip from '../../shared/remark-rel-strip.ts';
 import validateCrossReferences from './integrations/validate-cross-references.ts';
+import watchDepRegistry from './integrations/watch-dep-registry.ts';
+import forceMdxInvalidation from './integrations/force-mdx-invalidation.ts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   integrations: [lit(), mdx(), react(), validateCrossReferences()],
   publicDir: path.resolve(__dirname, '../../public'),
-  // Slug retired by the 2026-07 view-system reshape (plans/active/2026-07-view-system.md).
-  // /patterns/dashboard is NOT redirected: the slug was re-minted as the
-  // data-viz-domain entry (visual genre); the monitoring purpose lives at
-  // /patterns/purpose-keyed-view.
   redirects: {
-    '/patterns/view': '/patterns/purpose-keyed-view',
+    '/patterns/dashboard': '/patterns/purpose-keyed-view',
   },
   // Astro 7 defaults Markdown/MDX to the native Sätteri pipeline, which does
   // not run remark plugins. Switch both .md and .mdx back to the unified
@@ -29,6 +27,11 @@ export default defineConfig({
     processor: unified({ remarkPlugins: [remarkRelStrip] }),
   },
   vite: {
+    // Dev-only watchdog that reports when the optimizeDeps registry configured
+    // below collapses mid-session — the failure mode the comment there describes.
+    // Dev-only: force SSR invalidation of MDX renders, which Astro stops doing
+    // after some minutes of uptime (see the plugin's comment for the evidence).
+    plugins: [watchDepRegistry(), forceMdxInvalidation()],
     resolve: {
       alias: {
         '@components': path.resolve(__dirname, '../../packages/components/src/components'),

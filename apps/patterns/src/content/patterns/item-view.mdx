@@ -8,15 +8,15 @@ mediation: individual
 lifecycle: seeking
 fun: 🙂 4/5. Flexibility in displaying an entity enables a lot of emergent behaviour and contextual adaptation.
 realised_by: [components-item-view--docs]
-description: "Rendering a single entity at the rung its moment needs — glyph, reference, summary, detail, or full working surface — while keeping it recognisable as itself across every rung."
+description: "Rendering a single entity at the level of detail its moment needs — glyph, reference, summary, detail, or full working surface — while keeping it recognisable as itself at every level."
 situation:
   initiating: >-
     an entity must appear somewhere — inside running text, among its peers,
     on its own — and the moment fixes how much of it the actor needs:
     bare recognition, quick comparison, or a full working surface
   resulting:
-    - the entity renders at a rung fitted to its moment and remains recognisable as the same entity across every rung
-    - moving between rungs is a designed transition, not a page reload — context survives the shift in depth
+    - the entity renders at the level of detail its moment needs and remains recognisable as the same entity at every level
+    - moving between levels is a designed transition, not a page reload — context survives the shift in depth
 relationships:
   related:
     - progressive-disclosure
@@ -28,13 +28,17 @@ relationships:
 import { ItemViewFullDemo, ItemViewRowDemo } from '@pkg/demos/item-view';
 import { ReferenceDemo } from '@pkg/demos/reference';
 
-The representation of a single entity at the right level of detail for the actor's current task, balancing recognition with depth. An item can appear in progressively richer forms — from a glyph on a map to a full working surface — and the actor moves between them without losing hold of which entity it is.
+An entity — a person, a task, a document — must appear somewhere: inside running text, among its peers in a list, on its own page. Each moment fixes how much of it the actor needs — bare recognition in passing, quick comparison, a full working surface — and no single rendering serves them all.
 
-## User needs
+## Forces
 
-- People need to *recognise* an entity wherever it appears, but they don’t always need all of its details.
-- They want to stay in the *flow of their current task*, but sometimes they must shift into deep focus.
-- Entities must sometimes act as *links to other places*, and sometimes as *self-sufficient centres of work*.
+- *Recognition vs. depth* — the entity must be recognisable wherever it appears, yet most appearances need only a fraction of its detail
+- *Flow vs. focus* — the actor wants to stay in the current task, but sometimes must shift into deep work on the entity itself
+- *Link vs. workplace* — the same entity is sometimes a pointer to somewhere else, sometimes a self-sufficient centre of work
+
+## Solution
+
+Render the entity at the level of detail its moment needs, chosen from a ladder of representations — glyph, reference, summary, detail — and keep it recognisable as the same entity at every level.
 
 ## The representation ladder
 
@@ -84,8 +88,6 @@ As a row in a <ComponentRef id="components-table--docs">table</ComponentRef>, th
 - Data: all data, history, relationships
 - Interaction: editing, analysis, management
 
-At the dedicated scope this rung is the *entity page* — the detail side promoted to a destination with its own address, the form most products build their permalinks around.
-
 <Demo label="Full view">
   <ItemViewFullDemo client:only="react" />
 </Demo>
@@ -115,3 +117,8 @@ The choice of mechanism depends on the relationship between the two representati
 - <ComponentRef id="components-reference--docs">Reference</ComponentRef>
 - <ComponentRef id="components-dialog--docs">Dialog</ComponentRef> & <ComponentRef id="components-drawer--docs">drawer</ComponentRef>
 - <ComponentRef id="components-card--docs">Card</ComponentRef> – summary-level item representations
+
+## Resources & references
+
+- Shneiderman (1996) [The eyes have it](https://ieeexplore.ieee.org/document/545307) — details-on-demand: the ladder makes the "more" steps explicit design decisions instead of one undifferentiated drill-down
+- Obenauer — [Lab notes](https://alexanderobenauer.com/labnotes/) — the itemized-OS programme: the item as the primitive that renders across many contexts and levels of detail

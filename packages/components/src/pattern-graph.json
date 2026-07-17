@@ -285,14 +285,6 @@
       "group": "coordination"
     },
     {
-      "id": "dashboard",
-      "title": "Dashboard",
-      "category": "Data Visualisation",
-      "path": "/patterns/dashboard",
-      "role": "pattern",
-      "group": "sense-making"
-    },
-    {
       "id": "data-entry",
       "title": "Data entry",
       "category": "Actions",
@@ -620,10 +612,10 @@
         "initiating": "an entity must appear somewhere — inside running text, among its peers, on its own — and the moment fixes how much of it the actor needs: bare recognition, quick comparison, or a full working surface",
         "resulting": [
           {
-            "clause": "the entity renders at a rung fitted to its moment and remains recognisable as the same entity across every rung"
+            "clause": "the entity renders at the level of detail its moment needs and remains recognisable as the same entity at every level"
           },
           {
-            "clause": "moving between rungs is a designed transition, not a page reload — context survives the shift in depth"
+            "clause": "moving between levels is a designed transition, not a page reload — context survives the shift in depth"
           }
         ]
       },
@@ -796,7 +788,7 @@
         "initiating": "a collection framing exists and the actor works item by item — scanning many candidates, verifying one — but no single view is both compact enough to scan and rich enough to verify",
         "resulting": [
           {
-            "clause": "two rungs of the representation ladder stay open over one collection, the current item propagating between them"
+            "clause": "two linked views cover one collection — one compressed, one in full — and the actor moves between them without losing their place"
           },
           {
             "clause": "the overview's attribute subset now silently fixes what the actor can compare, sort, and filter by — a ceiling only malleability lifts"
@@ -2285,20 +2277,6 @@
       "extractedFrom": "frontmatter:composed-of"
     },
     {
-      "source": "dashboard",
-      "target": "purpose-keyed-view",
-      "type": "related",
-      "label": "the functional twin: purpose-keyed view owns the purpose (monitoring at a glance, whatever the look); this entry owns the artefact (tiled charts, whatever the function). The genres share a word, and design principles do not transfer between them",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "dashboard",
-      "target": "data-visualization",
-      "type": "related",
-      "label": "the corpus this entry belongs to — a dashboard is a composition of charts, and each tile's chart choice is charting-data's problem",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
       "source": "ai-completion",
       "target": "data-entry",
       "type": "enables",
@@ -2372,7 +2350,7 @@
       "source": "item-view",
       "target": "data-view",
       "type": "enables",
-      "incomingNote": "a data view is many item views held at one uniform, compressed rung; which rung — row, card, pin — is the representation choice",
+      "incomingNote": "a data view is many item views rendered in the same compressed form; which form — row, card, pin — is the representation choice",
       "extractedFrom": "frontmatter:composed-of"
     },
     {
@@ -4153,50 +4131,57 @@
       "source": "data-view",
       "target": "overview-detail",
       "type": "enables",
-      "incomingNote": "the overview side: the whole population at one compressed, uniform rung",
+      "incomingNote": "the overview side: every item rendered in the same compressed form",
       "extractedFrom": "frontmatter:composed-of"
     },
     {
       "source": "item-view",
       "target": "overview-detail",
       "type": "enables",
-      "incomingNote": "the detail side: the focused item promoted to a rich rung — as pane, popover, or its own page",
+      "incomingNote": "the detail side: the focused item shown in full — as pane, popover, or its own page",
       "extractedFrom": "frontmatter:composed-of"
     },
     {
       "source": "overview-detail",
       "target": "coordinated-views",
       "type": "instantiates",
-      "label": "overview-detail is the two-view coupled system with an abstraction asymmetry between its views; the designation it propagates is focus, not a staked selection",
+      "label": "overview-detail is the two-view coupled system where one view is compressed and the other full; what travels between them is focus — the current item — not a selection",
       "extractedFrom": "frontmatter:instantiates"
     },
     {
       "source": "overview-detail",
       "target": "semantic-zoom",
       "type": "complements",
-      "label": "combining techniques beats any single one — an overview pane alongside semantic zoom, or zoom inside the detail pane; the two distribute the same ladder across space and time respectively",
+      "label": "combining techniques beats any single one — an overview pane alongside semantic zoom, or zoom inside the detail pane; in its split layout overview-detail spends screen space to show two levels at once, semantic zoom spends time, one level after another",
       "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "overview-detail",
       "target": "interaction",
       "type": "related",
-      "label": "actors can scan the list and verify details without back-and-forth navigation, and switch quickly between items to [compare](/patterns/interaction#evaluation--relevance-construction) them",
+      "label": "actors move between scanning the list and verifying an item without losing their place, and switch quickly between items to [compare](/patterns/interaction#evaluation--relevance-construction) them",
       "extractedFrom": "frontmatter:related"
     },
     {
       "source": "overview-detail",
       "target": "malleability",
       "type": "enacts",
-      "label": "the developer's overview-attribute choice is everyone's ceiling; the malleable form lets the actor surface, hide, and re-filter attributes across both views",
+      "label": "the attributes the developer chose for the overview are everyone's ceiling; the malleable form lets the actor surface, hide, and re-filter attributes across both views",
       "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "overview-detail",
       "target": "hub-and-spoke",
       "type": "alternative",
-      "label": "the boundary is what sits beneath: overview-detail projects one collection at two rungs; hub-and-spoke routes between heterogeneous sections with no shared model",
+      "label": "the boundary is what sits beneath: overview-detail shows one collection at two levels of detail; hub-and-spoke routes between sections that share no underlying model",
       "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "overview-detail",
+      "target": "pan-and-zoom",
+      "type": "tangential",
+      "label": "continuous-space overview+detail — the minimap, the overview map with a field-of-view box — shares the name but couples two viewports over one space rather than compressing items; that is pan and zoom's territory, with [coordinated views](/patterns/coordinated-views) keeping the viewports in step",
+      "extractedFrom": "frontmatter:tangential"
     },
     {
       "source": "pan-and-zoom",
@@ -4523,14 +4508,14 @@
       "source": "purpose-keyed-view",
       "target": "item-view",
       "type": "related",
-      "label": "each tier picks the rung entities are rendered at; the investigation variant bottoms out in a full item view",
+      "label": "each tier picks the level of detail entities are rendered at; the investigation variant bottoms out in a full item view",
       "extractedFrom": "frontmatter:related"
     },
     {
       "source": "purpose-keyed-view",
-      "target": "dashboard",
+      "target": "data-visualization",
       "type": "related",
-      "label": "the visual-genre twin: dashboard owns the artefact (tiled charts, whatever the function); this page owns the purpose (monitoring at a glance, whatever the look)",
+      "label": "the monitoring variant is largely composed of charts; how many tiles, drawn how, reading consistently against each other is a charting problem, not this page's",
       "extractedFrom": "frontmatter:related"
     },
     {
@@ -4723,7 +4708,7 @@
       "source": "semantic-zoom",
       "target": "density",
       "type": "enacts",
-      "label": "each rung is a density commitment, and the transitions between framings preserve legible density — zooming re-spends the screen budget instead of diluting it",
+      "label": "each zoom level is a density commitment, and the transitions between levels preserve legible density — zooming re-spends the screen budget instead of diluting it",
       "extractedFrom": "frontmatter:enacts"
     },
     {

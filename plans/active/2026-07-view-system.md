@@ -334,13 +334,6 @@ Untouched rows proceed independently.
   lenses; a drag-between-groups interaction in the data-view demo.
 - _Pinboard / role preset / generated view / personal lens_: authorship
   prose only; the research project keeps feeding them.
-- _The `dashboard` slug_: freed by the rename; re-minted 2026-07-16 as a
-  placeholder data-viz-domain entry (Sarikaya's visual genre) cross-linked
-  with purpose-keyed-view — its presence makes the artefact/purpose boundary
-  visible from both sides. The placeholder houses the PatternFly/Carbon
-  links displaced from the old dashboard page; its To-do carries the
-  fill-in work (design factors, tile layout, cross-tile consistency). The
-  `/patterns/dashboard` redirect was dropped in its favour.
 - _ItemView component scope vocabulary_ (`micro/mini/mid/maxi` vs the
   ladder's names): a component-side seam, separate workstream. The
   Haystack/Fresnel lens lineage independently supports the adapter
