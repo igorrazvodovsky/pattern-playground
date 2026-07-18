@@ -1,93 +1,98 @@
 import { Canvas, Story, Meta } from '@storybook/addon-docs/blocks';
 import * as MapStories from './Map.stories.tsx';
 
-<Meta title="Data visualisation/Map" of={MapStories} tags={['activity-level:operation', 'atomic:data-visualization', 'role:component', 'mediation:individual']} />
+<Meta title="Components/Map" of={MapStories} tags={['activity-level:operation', 'atomic:component', 'role:component', 'mediation:individual']} />
 
-> 🗺️ **Fun meter: 3/5**. The choropleth is old and settled, but the thing worth thinking about is that space is the one channel a reader already knows how to read. A bar chart teaches you its axis; a map you just recognise. What you spend that head-start on — and what the projection quietly distorts while you do — is the real design question.
+> 🗺️ *Fun meter: 3/5*. Tiles and pins are settled technology, so the engineering isn't the interesting part. The tension is: a map is the one picture a reader understands with no legend, and also the one that shuts out anyone who can't see it. The companion list resolves both at once — it's the navigation feature and the accessibility story in the same object. That double duty is what's worth thinking about.
 
 # Map
 
-When the reader's question is *where*, a map answers before any legend is read: a region carries its value on ground the reader already recognises.
+When the question is *where is it*, a map answers on ground the reader already knows: named places sit on a base they can pan and zoom until the arrangement makes sense.
 
-A choropleth shades regions by a quantity. It owns the spatial branch of the <PatternRef slug="data-visualization">chart territory</PatternRef> — the case where position is not a channel you assign but one the data already fixes. That is its strength and its trap: geography is legible for free, so the map is only honest when the pattern being read is genuinely geographic, not an artefact of which regions happen to be large.
+This is the located-point sibling of the <PatternRef slug="data-visualization">chart territory</PatternRef>. Where a [choropleth](../?path=/docs/data-visualisation-choropleth--docs) shades whole regions by a quantity, the map plots discrete things — offices, incidents, stops, stores — each at its own coordinate. Position here is not a channel you assign; it is the datum. The base tiles exist only to make that position legible: a coastline or a road tells the reader *near what*, which a bare scatter of dots never could.
 
 ## Variants
 
-### Sequential choropleth
+### Map with a companion list
 
 <Story of={MapStories.Default} />
 
-Regions are binned into discrete colour steps rather than a continuous ramp. Bins read more reliably — a reader can match a region to a legend swatch, which a smooth gradient makes guesswork. Regions with no data stay neutral, so absence is visible rather than implied.
+Every place is both a pin on the map and a row in the list. The two are one selection: choosing a row frames and opens that pin, clicking a pin marks its row. This is the default because it is the honest one — the map alone is unreadable to a screen reader, and the list alone loses the geography.
 
-### Finer bins
+### A place already in focus
 
-<Story of={MapStories.FineGrainedBins} />
+<Story of={MapStories.Preselected} />
 
-More steps resolve more difference but ask more of the eye. Past roughly seven bins the swatches stop being distinguishable; the control exists so the choice is deliberate.
+Setting `selected-id` opens the view on a specific place. Use it when the map arrives already answering a question — a search result, a row the reader clicked through from a table.
 
-### Sparse data
+### Map only
 
-<Story of={MapStories.Sparse} />
+<Story of={MapStories.MapOnly} />
 
-Only a handful of regions carry values; the rest read as no-data. A choropleth degrades gracefully here — the neutral fill is a legitimate state, not a gap to apologise for.
+Dropping the list suits a display already surrounded by context — a dashboard tile, a card whose caption names the places. Reach for it deliberately: without the list, the accessible route to the data goes with it, so this variant needs its equivalent supplied elsewhere on the page.
 
-## Projections
+### A single point
 
-<Story of={MapStories.Mercator} />
+<Story of={MapStories.SingleLocation} />
 
-Every flat map lies about something. `naturalEarth` (the default) keeps area roughly honest, which matters most when area is the very channel doing the encoding. `mercator` preserves local shape but inflates the poles — Greenland swells to rival Africa — so it flatters high-latitude regions in a way a choropleth reader will misread. `equalEarth` and `equirectangular` round out the set. The component is geometry-agnostic: give it any GeoJSON and it fits the projection to the frame.
+Given a centre and zoom, the map settles on one place rather than fitting them all — the detail view of an address, the *you are here* of a venue.
 
 ## Data
 
-The component joins geometry to values by key, so the two are supplied separately:
+The component takes one flat list; there is no separate geometry to join:
 
-- `geometry` — a GeoJSON `FeatureCollection`. Each feature's `id` (or a property named by `featureKey`) is its join key.
-- `values` — one `{ id, value, label? }` per region. The `id` must match a feature's key; `label` falls back to the feature's `name`.
+- `locations` — one `{ id, name, lat, lng, description? }` per place. `lat`/`lng` are decimal degrees; `name` and `description` show in the pin's popup and the list row.
 
-Nothing about the component assumes a world map. Swap in states, districts, or sales territories and the same element renders them.
+With no `center`, the view fits every marker. With one, it holds that point at `zoom`. Nothing assumes these are offices — swap in sensor readings, delivery stops, or property listings and the same element plots them.
+
+## Tiles & attribution
+
+The base layer is raster tiles, OpenStreetMap by default, fetched over the network — so a story with no connection shows the pins over blank tiles, and most providers *require* the attribution the map carries in its corner. Point `tile-url` and `attribution` at another provider to change the base; everything above the tiles stays the same. Vector tiles, clustered pins, and drawn regions are the obvious next layers, and Leaflet supports them, but they are out of scope here.
 
 ## States
 
 ### Loading
 
-While data is in flight the regions clear; the accessible summary announces the update through an ARIA live region.
+Tiles fade in as they arrive; pins are placed immediately from coordinates, so the reader sees the answer before the basemap finishes painting.
 
 ### Empty
 
-With no values every region falls to the neutral no-data fill — the map still draws, showing the reader the shape of the space they are about to fill.
+With no locations the map still draws, centred on the world — the frame the reader is about to fill, rather than an error.
+
+### Resized
+
+The map recovers from a late layout — revealed in a tab, dropped into a flex row — by re-measuring its container, so tiles stay aligned instead of smearing.
 
 ## Accessibility
 
-A map is a picture, and a picture excludes anyone who cannot see it. The component pairs the visual with a text equivalent.
+A map is a picture, and a picture excludes anyone who cannot see it. The companion list is the equivalent, not an add-on: it carries every place as real text, in the reading order of the data.
 
 ### Screen reader support
-- SVG `role="img"` with a descriptive `aria-label` naming the quantity and region count.
-- A visually hidden data table lists every region and its value.
-- Each region carries a native `<title>`, so hovering shows the value with no custom tooltip layer.
-- Keyboard navigation announces the focused region through an ARIA live region.
+- The list is a `listbox`; each place is an `option` whose selected state tracks the map.
+- Pins are decorative to assistive technology — the list is the source of truth, so nothing is announced twice.
+- Each pin still carries a native popup, so a sighted pointer user gets the name and detail on click.
 
 ### Keyboard navigation
-- Tab: focus the map.
-- Arrow keys: move between regions that carry data.
-- Home / End: jump to the first / last region.
-- Enter / Space: activate the focused region (emits `pp-map-click`).
+- Tab: reach the list, then the map (the base map's own arrow-pan and zoom take over once it is focused).
+- Arrow keys / Home / End within the list: move between places.
+- Enter / Space: select the focused place — framing its pin and opening its popup (emits `pp-map-select`).
 
 ## Related patterns
 
-### Precursors
-- [Bar chart](../?path=/docs/data-visualisation-bar-chart--docs) — the comparison branch; a map is the comparison a reader can locate as well as rank.
-- [Elements](../?path=/docs/data-visualisation-elements--docs) — the categorical-colour, formatting, and symbology conventions the map inherits.
+### Siblings
+- [Choropleth](../?path=/docs/data-visualisation-choropleth--docs) — the region-shading branch of the same territory; reach for it when the quantity belongs to an area, not a point.
+- [Elements](../?path=/docs/data-visualisation-elements--docs) — the categorical-colour and formatting conventions the map's pins and labels inherit.
 
 ### Complementary
-- Tooltip — the per-region hover readout.
+- Tooltip — the per-pin popup readout.
 - [Cards](../?path=/docs/components-card--docs) — a common frame for a map placed in a dashboard.
 
 ### Tangentially related
-- [Filtering](/patterns/filtering) — choosing which regions or value range to show.
-- <PatternRef slug="dashboard">Dashboard</PatternRef> — where a choropleth most often earns its place.
+- [Filtering](/patterns/filtering) — narrowing which places, or which value range, the map shows.
+- <PatternRef slug="dashboard">Dashboard</PatternRef> — where a located map most often earns its place.
 
 ## Resources & references
 
-- Tamara Munzner, [Visualization Analysis and Design](https://www.cs.ubc.ca/~tmm/vadbook/) — marks and channels; why position outranks colour.
-- Mike Bostock, [Command-Line Cartography](https://medium.com/@mbostock/command-line-cartography-part-1-897aa8f8ca2c) — the d3-geo projection and TopoJSON pipeline this component draws on.
-- [world-atlas](https://github.com/topojson/world-atlas) — the source of the bundled country geometry.
+- Leaflet, [documentation](https://leafletjs.com/reference.html) — the mapping library this component wraps: tile layers, markers, and view control.
+- [OpenStreetMap](https://www.openstreetmap.org/copyright) — the default tile source and its attribution terms.
+- Sarah Higley, [Grids Part 2: Semantics](https://sarahmhigley.com/writing/grids-part2/) — on making spatial widgets navigable to assistive technology, the reasoning behind pairing the map with a list.

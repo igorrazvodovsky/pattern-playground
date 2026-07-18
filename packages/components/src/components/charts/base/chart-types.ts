@@ -100,7 +100,7 @@ export interface TreeData {
  * FeatureCollection) and `values` (one datum per region). The join key is read
  * from each feature's `id` by default, or from a properties path via `featureKey`.
  */
-export interface MapChartDataPoint extends ChartDataPoint {
+export interface ChoroplethDataPoint extends ChartDataPoint {
   /** Region key; must match a feature's id (or the `featureKey` property). */
   id: string | number;
   /** Quantity that colours the region. */
@@ -109,11 +109,11 @@ export interface MapChartDataPoint extends ChartDataPoint {
   label?: string;
 }
 
-export interface MapChartData {
+export interface ChoroplethData {
   /** GeoJSON FeatureCollection describing the region boundaries. */
   geometry: GeoJSON.FeatureCollection;
   /** One value per region, joined to geometry by key. */
-  values: MapChartDataPoint[];
+  values: ChoroplethDataPoint[];
   /**
    * Where to read a region's join key from each feature. `'id'` (default) uses
    * `feature.id`; any other string reads `feature.properties[featureKey]`.
@@ -212,15 +212,15 @@ export function isAreaChartData(data: unknown): data is AreaChartData {
   );
 }
 
-export function isMapChartData(data: unknown): data is MapChartData {
+export function isChoroplethData(data: unknown): data is ChoroplethData {
   return (
     typeof data === 'object' &&
     data !== null &&
     'geometry' in data &&
     'values' in data &&
-    Array.isArray((data as MapChartData).values) &&
-    typeof (data as MapChartData).geometry === 'object' &&
-    Array.isArray((data as MapChartData).geometry?.features)
+    Array.isArray((data as ChoroplethData).values) &&
+    typeof (data as ChoroplethData).geometry === 'object' &&
+    Array.isArray((data as ChoroplethData).geometry?.features)
   );
 }
 

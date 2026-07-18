@@ -37,7 +37,8 @@ import { PpChartGrid } from './charts/primitives/chart-grid.js';
 import { PpChartLegend } from './charts/primitives/chart-legend.js';
 import { PpChartAxis } from './charts/primitives/chart-axis.js';
 import { BarChart } from './charts/bar-chart.js';
-import { MapChart } from './charts/map-chart.js';
+import { Choropleth } from './charts/choropleth.js';
+import { MapComponent } from './map/map.js';
 
 /**
  * Register all components in proper dependency order
@@ -62,7 +63,8 @@ export function registerAllComponents(): void {
     { tagName: 'pp-chart-legend', constructor: PpChartLegend },
     { tagName: 'pp-chart-axis', constructor: PpChartAxis },
     { tagName: 'pp-bar-chart', constructor: BarChart },
-    { tagName: 'pp-map', constructor: MapChart },
+    { tagName: 'pp-choropleth', constructor: Choropleth },
+    { tagName: 'pp-map', constructor: MapComponent },
 
     // Components with popup dependency
     { tagName: 'pp-popup', constructor: PpPopup },

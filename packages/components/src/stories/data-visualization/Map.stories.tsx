@@ -3,18 +3,18 @@ import { useEffect, useRef } from "react";
 import { action } from 'storybook/actions';
 
 // Import the map component (this registers the custom element via register-all).
-import "../../components/charts/map-chart.js";
-import type { MapChartData, MapChartDataPoint } from "../../components/charts/base/chart-types.js";
+import "../../components/map/map.js";
+import type { MapLocation } from "../../components/map/map.js";
 
-import worldGeometry from '@shared/data/world-countries.geo.json' with { type: 'json' };
-import worldPopulation from '@shared/data/world-population.json' with { type: 'json' };
+import locationData from '../data/map-locations.json' with { type: 'json' };
 
 interface MapElement extends HTMLElement {
-  data: MapChartData;
-  projection: 'naturalEarth' | 'equalEarth' | 'equirectangular' | 'mercator';
-  colorSteps: number;
-  showLegend: boolean;
-  title: string;
+  locations: MapLocation[];
+  center?: [number, number];
+  zoom: number;
+  showList: boolean;
+  selectedId?: string | number;
+  label: string;
 }
 
 declare global {
@@ -25,30 +25,26 @@ declare global {
   }
 }
 
-const geometry = worldGeometry as unknown as MapChartData['geometry'];
-const population = worldPopulation as MapChartDataPoint[];
-
-// A handful of countries only, to show the no-data (unshaded) state.
-const sparseValues: MapChartDataPoint[] = population.filter((d) =>
-  ['840', '156', '356', '076', '036'].includes(String(d.id)),
-);
+const locations = locationData as MapLocation[];
 
 interface MapWrapperProps {
-  data: MapChartData;
-  projection?: MapElement['projection'];
-  colorSteps?: number;
-  showLegend?: boolean;
-  title?: string;
+  locations: MapLocation[];
+  center?: [number, number];
+  zoom?: number;
+  showList?: boolean;
+  selectedId?: string;
+  label?: string;
   height?: number;
 }
 
 function MapWrapper({
-  data,
-  projection = 'naturalEarth',
-  colorSteps = 5,
-  showLegend = true,
-  title = '',
-  height = 380,
+  locations,
+  center,
+  zoom = 5,
+  showList = true,
+  selectedId,
+  label = 'Location map',
+  height = 460,
 }: MapWrapperProps) {
   const mapRef = useRef<MapElement | null>(null);
 
@@ -56,21 +52,17 @@ function MapWrapper({
     const el = mapRef.current;
     if (!el) return;
 
-    el.data = data;
-    el.projection = projection;
-    el.colorSteps = colorSteps;
-    el.showLegend = showLegend;
-    el.title = title;
+    el.locations = locations;
+    el.center = center;
+    el.zoom = zoom;
+    el.showList = showList;
+    el.label = label;
+    if (selectedId !== undefined) el.selectedId = selectedId;
 
-    const onHover = (e: Event) => action('pp-map-hover')((e as CustomEvent).detail.data);
-    const onClick = (e: Event) => action('pp-map-click')((e as CustomEvent).detail.data);
-    el.addEventListener('pp-map-hover', onHover);
-    el.addEventListener('pp-map-click', onClick);
-    return () => {
-      el.removeEventListener('pp-map-hover', onHover);
-      el.removeEventListener('pp-map-click', onClick);
-    };
-  }, [data, projection, colorSteps, showLegend, title]);
+    const onSelect = (e: Event) => action('pp-map-select')((e as CustomEvent).detail);
+    el.addEventListener('pp-map-select', onSelect);
+    return () => el.removeEventListener('pp-map-select', onSelect);
+  }, [locations, center, zoom, showList, selectedId, label]);
 
   return (
     <div style={{ width: '100%', height }}>
@@ -80,24 +72,24 @@ function MapWrapper({
 }
 
 const meta = {
-  title: "Data visualisation/Map",
+  title: "Components/Map",
   component: MapWrapper,
   argTypes: {
-    projection: {
-      control: { type: 'select' },
-      options: ['naturalEarth', 'equalEarth', 'equirectangular', 'mercator'],
-      description: 'Geographic projection',
-    },
-    colorSteps: {
-      control: { type: 'range', min: 2, max: 9, step: 1 },
-      description: 'Number of discrete colour bins',
-    },
-    showLegend: {
+    showList: {
       control: { type: 'boolean' },
-      description: 'Show the colour-scale legend',
+      description: 'Show the companion location list beside the map',
+    },
+    selectedId: {
+      control: { type: 'select' },
+      options: [undefined, ...locations.map((l) => l.id)],
+      description: 'The active location',
+    },
+    zoom: {
+      control: { type: 'range', min: 1, max: 18, step: 1 },
+      description: 'Initial zoom (used when a centre is given)',
     },
     height: {
-      control: { type: 'range', min: 200, max: 640, step: 20 },
+      control: { type: 'range', min: 240, max: 720, step: 20 },
       description: 'Container height (px)',
     },
   },
@@ -106,48 +98,37 @@ const meta = {
 export default meta;
 type Story = StoryObj<MapWrapperProps>;
 
-const worldData: MapChartData = {
-  geometry,
-  values: population,
-  valueLabel: 'M people',
-};
-
 export const Default: Story = {
   args: {
-    data: worldData,
-    projection: 'naturalEarth',
-    colorSteps: 5,
-    showLegend: true,
-    title: 'Population by country (millions, 2023)',
+    locations,
+    showList: true,
+    label: 'European offices',
   },
 };
 
-export const Mercator: Story = {
+export const Preselected: Story = {
   args: {
-    data: worldData,
-    projection: 'mercator',
-    colorSteps: 5,
-    showLegend: true,
-    title: 'Population — Mercator projection',
+    locations,
+    showList: true,
+    selectedId: 'berlin',
+    label: 'European offices',
   },
 };
 
-export const FineGrainedBins: Story = {
+export const MapOnly: Story = {
   args: {
-    data: worldData,
-    projection: 'naturalEarth',
-    colorSteps: 9,
-    showLegend: true,
-    title: 'Population — nine colour bins',
+    locations,
+    showList: false,
+    label: 'European offices',
   },
 };
 
-export const Sparse: Story = {
+export const SingleLocation: Story = {
   args: {
-    data: { geometry, values: sparseValues, valueLabel: 'M people' },
-    projection: 'naturalEarth',
-    colorSteps: 5,
-    showLegend: true,
-    title: 'A few countries — the rest read as no-data',
+    locations: locations.filter((l) => l.id === 'amsterdam'),
+    center: [52.3676, 4.9041],
+    zoom: 13,
+    showList: false,
+    label: 'Amsterdam office',
   },
 };
