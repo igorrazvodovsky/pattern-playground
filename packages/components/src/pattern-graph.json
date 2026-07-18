@@ -3042,6 +3042,12 @@
     },
     {
       "source": "information-architecture",
+      "target": "navigation-overview",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "information-architecture",
       "target": "multilevel-tree",
       "type": "related",
       "extractedFrom": "frontmatter:related"
@@ -3720,23 +3726,23 @@
     {
       "source": "navigation-overview",
       "target": "information-architecture",
-      "type": "surveys",
+      "type": "related",
       "label": "structural and organizational foundation that navigation models manifest",
-      "extractedFrom": "frontmatter:surveys"
+      "extractedFrom": "frontmatter:related"
     },
     {
       "source": "navigation-overview",
       "target": "interaction",
-      "type": "surveys",
+      "type": "related",
       "label": "how structural choices shape interaction behaviour",
-      "extractedFrom": "frontmatter:surveys"
+      "extractedFrom": "frontmatter:related"
     },
     {
       "source": "navigation-overview",
       "target": "agency",
-      "type": "surveys",
+      "type": "related",
       "label": "what navigation structure implies for the actor's agency and control",
-      "extractedFrom": "frontmatter:surveys"
+      "extractedFrom": "frontmatter:related"
     },
     {
       "source": "navigation-overview",
@@ -3799,30 +3805,6 @@
       "target": "hybrid-patterns",
       "type": "surveys",
       "label": "hybrids combining multiple navigation models",
-      "extractedFrom": "frontmatter:surveys"
-    },
-    {
-      "source": "navigation-overview",
-      "target": "malleability",
-      "type": "surveys",
-      "extractedFrom": "frontmatter:surveys"
-    },
-    {
-      "source": "navigation-overview",
-      "target": "deep-linking",
-      "type": "surveys",
-      "extractedFrom": "frontmatter:surveys"
-    },
-    {
-      "source": "navigation-overview",
-      "target": "searching",
-      "type": "surveys",
-      "extractedFrom": "frontmatter:surveys"
-    },
-    {
-      "source": "navigation-overview",
-      "target": "command-menu",
-      "type": "surveys",
       "extractedFrom": "frontmatter:surveys"
     },
     {
@@ -4678,6 +4660,20 @@
     },
     {
       "source": "shareability",
+      "target": "conversation",
+      "type": "related",
+      "label": "the exchange can cross the application boundary — a copied link carries the state out through external channels and back",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "shareability",
+      "target": "collaboration",
+      "type": "related",
+      "label": "participants hand each other precise application states through URLs, whatever channel the link travels by",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "shareability",
       "target": "adaptation",
       "type": "related",
       "label": "URL-encoded state lets actors share and reuse personalised configurations",
@@ -4896,6 +4892,13 @@
       "target": "searching",
       "type": "precedes",
       "label": "tags enable faceted search and filtering",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "tag",
+      "target": "filtering",
+      "type": "precedes",
+      "label": "tags become the criteria the filter narrows by",
       "extractedFrom": "frontmatter:precedes"
     },
     {

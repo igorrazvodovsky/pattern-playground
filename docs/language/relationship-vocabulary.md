@@ -518,6 +518,16 @@ A running record of why types were added, merged, renamed, or retired, what alte
 
 Each entry: date, change, why, what was considered, what was lost.
 
+### 2026-07-18 — `surveys` narrowed to members only; the collection's conceptual neighbourhood rides on `related`
+
+Surfaced by the related-residue audit's bare-edge pass. Navigation overview — the only page sourcing `surveys` — held seven edges to non-members alongside its nine navigation models: three noted (information-architecture, interaction, agency — orientation commentary about what the models manifest and imply) and four bare (malleability, deep-linking, searching, command-menu). The question: may a collection survey its conceptual neighbourhood, or only its members?
+
+Decision: members only. `surveys` is the member–collection relation (`skos:member`), and its value is preserving membership altitude as a distinct claim; stretching it to neighbourhood commentary drifts it back toward the generic upward link the type was minted to escape. Fuzziness is welcome *within* the member axis (hybrid-patterns is a fuzzy navigation model) but not across kinds — a quality or a seeking move is not a fuzzy member of a collection of navigation models.
+
+The sweep: the three noted edges re-typed to `related`, notes kept verbatim. The four bare edges removed — searching's connection survives as its noted `precedes` (sets-up clause) toward the collection; deep-linking and command-menu are already noted `complements` on the individual models; malleability's topology-switching claim lives on overview-detail's `enacts`.
+
+What was considered: allowing noted non-member surveys as "orientation edges" (rejected: the notes are real claims, but the type would then carry two relations — membership and commentary — undoing the Winston et al. separation the three part–whole relations rest on); minting a separate orientation type (rejected: three edges on one page is no basis for a type; `related` holds them without loss). What was lost: nothing structural — the commentary keeps its notes on `related`; only the implication that the collection page is *authoritative* about those three neighbours, which `surveys` never actually granted.
+
 ### 2026-07-12 — `serves` minted: pattern → foundation participation; the foundation reading guide grows to four arms
 
 Resolves open question 8 through the research gate (`research/pattern-foundation-serves/`, run same-day). The residual pattern–foundation adjacency in `related`/`complements` turned out to be one recurring authored shape: notes placing a pattern at a named *station* of a foundation's internal anatomy (delegation's touchpoints, assistance's cognitive steps, modality's gradient). Neither existing home fit — not parthood (`enables`), not application (`instantiates`), not sequence (`precedes`), not co-deployment (`complements`).

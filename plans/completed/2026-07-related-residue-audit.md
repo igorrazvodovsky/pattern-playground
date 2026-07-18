@@ -45,7 +45,7 @@ for this audit are the *bare* ones, judged origin-note by origin-note.
    per origin link: origin entry, target, original note text, endpoint state
    (edge present with note / edge present bare / edge absent).
    Done — generator at `scripts/audit-related-residue.mjs`, worksheet at
-   `plans/active/2026-07-related-residue-worksheet.md` (891 rows; judgment
+   `plans/completed/2026-07-related-residue-worksheet.md` (891 rows; judgment
    sections §1–§7, plus an endpoint bare-edge inventory in §4 covering the
    definition-of-done sweep, and informational appendices). The comparison
    reads `relationships:`, `situation` `sets-up` clauses, and decision-tree
@@ -57,19 +57,22 @@ for this audit are the *bare* ones, judged origin-note by origin-note.
    edge, choosing the right edge type under current vocabulary), *removed
    deliberately* (nothing to do), or *release now* (accept the removal on
    inspection). Foundation-target rows wait for the gate above.
-   First pass recorded 2026-07-18 (branch `related-residue-verdicts`): all 204
-   judgment rows carry a verdict in the worksheet; restorations and removals
-   are committed alongside. Note the worksheet predates the Bot → Agent
-   rename — its `bot` rows resolve to `agent.mdx`. Seven rows are marked
-   *skip* and await the author:
-   - dashboard → semantic-zoom and view → semantic-zoom (§1) — gated on the
-     view-system reshape (`plans/active/2026-07-view-system.md`).
-   - shareability → conversation and shareability → collaboration (§1) —
-     unclear whether the claims are edge-grade, and which collaboration entry
-     the second one targets.
-   - navigation-overview `surveys` → malleability, deep-linking, command-menu
-     (§4) — whether a collection may survey non-members is undecided (noted
-     surveys to agency/interaction/IA exist as precedent).
-3. _Definition of done._ Every row judged; restorations committed; any
-   bare-slug edge still standing afterwards is a deliberate seed, not
-   unexamined residue. Outstanding: the seven skips above.
+   Done 2026-07-18 (branch `related-residue-verdicts`), in two passes. First
+   pass: all 204 judgment rows verdicted; restorations and removals committed
+   alongside. Note the worksheet predates the Bot → Agent rename — its `bot`
+   rows resolve to `agent.mdx`. Second pass resolved the open judgements:
+   - `surveys` narrowed to members-only (vocabulary changelog 2026-07-18):
+     navigation-overview's three noted non-member surveys (IA, interaction,
+     agency) re-typed to `related` with notes kept; its four bare non-member
+     surveys removed.
+   - shareability → conversation and → collaboration (activity) restored as
+     `related` — the claim is the capability of crossing the application
+     boundary (a copied link travelling by external channels).
+   - tag `precedes` filtering promoted from a §5 plain-text item; saving's
+     "draft vs. publish" item is already covered by the body's hybrid-approach
+     section.
+3. _Definition of done._ Met: every row judged; restorations committed; every
+   bare-slug edge still standing is a marked deliberate seed. Two rows
+   (dashboard → semantic-zoom, view → semantic-zoom) are delegated to the
+   view-system reshape, which lists them explicitly
+   (`plans/active/2026-07-view-system.md` §related-residue rows).

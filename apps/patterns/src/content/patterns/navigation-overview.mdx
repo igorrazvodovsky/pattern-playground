@@ -18,13 +18,15 @@ decision-trees:
       "Hub and spoke": hub-and-spoke
       "Overview & Detail": overview-detail
 relationships:
-  surveys:
+  # surveys is member–collection only; the conceptual neighbourhood rides on related
+  related:
     - to: information-architecture
       note: structural and organizational foundation that navigation models manifest
     - to: interaction
       note: how structural choices shape interaction behaviour
     - to: agency
       note: what navigation structure implies for the actor's agency and control
+  surveys:
     - to: hub-and-spoke
       note: central hub lists all sections, actors return to hub for cross-section navigation
     - to: overview-detail
@@ -43,10 +45,6 @@ relationships:
       note: minimal navigation, all functions accessible in one place
     - to: hybrid-patterns
       note: hybrids combining multiple navigation models
-    - malleability
-    - deep-linking
-    - searching
-    - command-menu
 ---
 
 import { MermaidDiagram } from '@components/MermaidDiagram';

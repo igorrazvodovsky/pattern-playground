@@ -21,10 +21,10 @@ No edge between the two entries in either direction.
 | step-by-step | deep-linking | enables returning to specific steps via URL | — |  | lost — restored: complements |
 | filtering | command-menu | Depends on [command menu](../?path=/docs/actions-seeking-command-menu--docs) for the local search through attributes and values. | — |  | release — superseded by combobox ComponentRef |
 | progressive-disclosure | bot | bots often need to reveal capability, intent, and reasoning incrementally | — |  | deliberate — mediator doctrine (onboarding, transparent-reasoning) |
-| dashboard | semantic-zoom | Density-preserving transitions between views | — |  | skip — view-system reshape pending |
+| dashboard | semantic-zoom | Density-preserving transitions between views | — |  | delegated — judged in the view-system reshape (plans/active/2026-07-view-system.md) |
 | tag | searching | Search - tags enable faceted search and filtering | — |  | lost — restored: tag precedes searching |
 | tag | interaction | — | — |  | release — origin bare |
-| view | semantic-zoom | Density-preserving transitions between framings | — | linked in origin body | skip — view retirement pending |
+| view | semantic-zoom | Density-preserving transitions between framings | — | linked in origin body | delegated — judged in the view-system reshape (plans/active/2026-07-view-system.md) |
 | bot | suggestion | [Onboarding](../?path=/docs/activities-onboarding--docs), priming, and [suggestions](../?path=/docs/actions-application-suggestion--docs) are the first steps that help people get to know the bot—what it can and can't do,… | — |  | release — covered by onboarding note + completion-family edges |
 | bot | progressive-disclosure | bots often operate well with incremental complexity. Progressive disclosure keeps things simple at first and helps actors build confidence. | — |  | deliberate — mediator doctrine |
 | bot | settings | LLM [settings](../?path=/docs/activities-ai-tuning--docs) help keep users in control while the bot does its thing. | — |  | release — superseded by ai-tuning; note restored on agent precedes ai-tuning |
@@ -32,8 +32,8 @@ No edge between the two entries in either direction.
 | prompt | settings | let users refine the way LLM gets prompted. | — |  | release — superseded by ai-tuning |
 | prompt | collaboration | LLM prompts enable effective human-to-AI communication in collaborative contexts | — |  | release — mediated via conversation |
 | workspace | navigation-overview | enables movement through application structure; workspaces extend navigation by supporting parallel access to multiple destinations. | — |  | release — collection links are surveys-only |
-| shareability | conversation | URLs function as [conversational interfaces](../?path=/docs/qualities-conversation--docs)—they're contracts between application and user that communicate intent clearly. A well-designed URL answers "what am I looking at?… | — |  | skip |
-| shareability | collaboration | benefits when participants can share precise application states through URLs. | — |  | skip — target ambiguous (activity vs foundation) |
+| shareability | conversation | URLs function as [conversational interfaces](../?path=/docs/qualities-conversation--docs)—they're contracts between application and user that communicate intent clearly. A well-designed URL answers "what am I looking at?… | — |  | lost — restored: shareability related conversation (boundary-crossing note) |
+| shareability | collaboration | benefits when participants can share precise application states through URLs. | — |  | lost — restored: shareability related collaboration (activity; the foundation pair already carries enacts) |
 | temporality | collaboration-foundation | Synchronous vs asynchronous temporal modes | — | linked in origin body | lost — restored: collaboration-foundation enacts temporality |
 | temporality | suggestion | Visualising the future | — |  | lost — restored: suggestion enacts temporality |
 
@@ -163,10 +163,10 @@ Per the definition of done, each one left standing must be a deliberate seed.
 | multilevel-tree | alternative → fully-connected | §2 | deliberate — seed (noted from the other side) |
 | multilevel-tree | alternative → hub-and-spoke | §2 | deliberate — seed (noted from the other side) |
 | multilevel-tree | related → hybrid-patterns | — | deliberate — seed |
-| navigation-overview | surveys → malleability | — | skip — surveys-to-non-member unclear |
-| navigation-overview | surveys → deep-linking | — | skip — surveys-to-non-member unclear |
-| navigation-overview | surveys → searching | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
-| navigation-overview | surveys → command-menu | — | skip — surveys-to-non-member unclear |
+| navigation-overview | surveys → malleability | — | release — edge removed (surveys is members-only, see vocabulary changelog 2026-07-18) |
+| navigation-overview | surveys → deep-linking | — | release — edge removed (members-only) |
+| navigation-overview | surveys → searching | §A2 (noted edge exists between the pair) | release — edge removed (members-only; noted precedes from searching remains) |
+| navigation-overview | surveys → command-menu | — | release — edge removed (members-only) |
 | onboarding | precedes → bot | §2 | lost — note restored |
 | onboarding | related → activity-log | — | release — edge removed |
 | pan-and-zoom | alternative → pyramid | §2 | lost — note restored |
@@ -201,7 +201,7 @@ Related-section items that never linked anywhere; candidates were never graph ed
 
 | origin | target | original note | endpoint | annotations | verdict |
 |---|---|---|---|---|---|
-| saving | Draft vs. publish workflow | Draft vs. publish workflow | — |  | release |
+| saving | Draft vs. publish workflow | Draft vs. publish workflow | — |  | deliberate — covered by body §Hybrid approach (autosave draft → manual commit) |
 | saving | Multiplayer | Multiplayer | — |  | release |
 | notification | Complementary to validation and indication approaches | Complementary to validation and indication approaches | — |  | release |
 | text-lense | Combined with *citations*, summaries let you capture key tak | Combined with *citations*, summaries let you capture key takeaways from a long document and then go deeper into the content that are relevant to you | — |  | release |
@@ -221,7 +221,7 @@ Related-section items that never linked anywhere; candidates were never graph ed
 | data-view | Inline editing: supports direct manipulation or updating of | Inline editing: supports direct manipulation or updating of displayed data | — |  | release |
 | filtering | Constrained natural language builder | Constrained natural language builder | — |  | release |
 | filtering | Rules | Rules | — |  | release |
-| tag | Filters | Filters - tags as user-selected filter criteria | — |  | release |
+| tag | Filters | Filters - tags as user-selected filter criteria | — |  | lost — promoted: tag precedes filtering |
 | tag | Supports *organising & structuring* phase through flexible c | Supports *organising & structuring* phase through flexible classification | — |  | release |
 | tag | Enables *exploration & discovery* through tag-based browsing | Enables *exploration & discovery* through tag-based browsing and filtering | — |  | release |
 | tag | Facilitates *sharing & collaboration* via hashtag-based soci | Facilitates *sharing & collaboration* via hashtag-based social distribution in user-generated systems | — |  | release |
