@@ -51,6 +51,28 @@ export interface BarChartData {
 }
 
 /**
+ * Scatter plot data structure
+ *
+ * Two numeric dimensions carried on position — the strongest channel. Optional
+ * `size` promotes a point to a bubble (a third quantitative variable on area),
+ * and `category` groups points into series that share a colour.
+ */
+export interface ScatterPlotDataPoint extends ChartDataPoint {
+  x: number;
+  y: number;
+  label?: string;
+  category?: string;
+  size?: number;
+  color?: string;
+}
+
+export interface ScatterPlotData {
+  data: ScatterPlotDataPoint[];
+  xAxisLabel?: string;
+  yAxisLabel?: string;
+}
+
+/**
  * Area chart data structure
  */
 export interface AreaChartDataPoint extends ChartDataPoint {
@@ -201,6 +223,21 @@ export function isBarChartData(data: unknown): data is BarChartData {
     'data' in data &&
     Array.isArray((data as BarChartData).data)
   );
+}
+
+export function isScatterPlotData(data: unknown): data is ScatterPlotData {
+  if (
+    typeof data !== 'object' ||
+    data === null ||
+    !('data' in data) ||
+    !Array.isArray((data as ScatterPlotData).data)
+  ) {
+    return false;
+  }
+  // Distinguish from bar chart data (also keyed on `data`) by point shape:
+  // scatter points carry numeric x/y, bar points carry category/value.
+  const points = (data as ScatterPlotData).data;
+  return points.length === 0 || (typeof points[0].x === 'number' && typeof points[0].y === 'number');
 }
 
 export function isAreaChartData(data: unknown): data is AreaChartData {

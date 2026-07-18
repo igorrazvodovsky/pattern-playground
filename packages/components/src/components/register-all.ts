@@ -38,6 +38,7 @@ import { PpChartLegend } from './charts/primitives/chart-legend.js';
 import { PpChartAxis } from './charts/primitives/chart-axis.js';
 import { BarChart } from './charts/bar-chart.js';
 import { MapChart } from './charts/map-chart.js';
+import { ScatterPlot } from './charts/scatter-plot.js';
 
 /**
  * Register all components in proper dependency order
@@ -63,6 +64,7 @@ export function registerAllComponents(): void {
     { tagName: 'pp-chart-axis', constructor: PpChartAxis },
     { tagName: 'pp-bar-chart', constructor: BarChart },
     { tagName: 'pp-map', constructor: MapChart },
+    { tagName: 'pp-scatter-plot', constructor: ScatterPlot },
 
     // Components with popup dependency
     { tagName: 'pp-popup', constructor: PpPopup },
