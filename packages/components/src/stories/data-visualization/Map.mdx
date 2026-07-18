@@ -3,7 +3,7 @@ import * as MapStories from './Map.stories.tsx';
 
 <Meta title="Components/Map" of={MapStories} tags={['activity-level:operation', 'atomic:component', 'role:component', 'mediation:individual']} />
 
-> 🗺️ *Fun meter: 3/5*. Tiles and pins are settled technology, so the engineering isn't the interesting part. The tension is: a map is the one picture a reader understands with no legend, and also the one that shuts out anyone who can't see it. The companion list resolves both at once — it's the navigation feature and the accessibility story in the same object. That double duty is what's worth thinking about.
+> 🗺️ *Fun meter: 3/5*. Tiles and pins are settled technology, so the engineering isn't the interesting part. The tension is: a map is the one picture a reader understands with no legend, and also the one that shuts out anyone who can't see it. Making the pins themselves reachable — focusable, named, selectable from the keyboard — is the quieter answer: the geography and its accessible route become the same object, rather than a picture bolted to a list.
 
 # Map
 
@@ -13,23 +13,17 @@ This is the located-point sibling of the <PatternRef slug="data-visualization">c
 
 ## Variants
 
-### Map with a companion list
+### Located points
 
 <Story of={MapStories.Default} />
 
-Every place is both a pin on the map and a row in the list. The two are one selection: choosing a row frames and opens that pin, clicking a pin marks its row. This is the default because it is the honest one — the map alone is unreadable to a screen reader, and the list alone loses the geography.
+Each place is a pin the reader can click or tab to. Selecting one frames it, opens its popup, and emits `pp-map-select` — the map's single output, whichever route drove the choice.
 
 ### A place already in focus
 
 <Story of={MapStories.Preselected} />
 
 Setting `selected-id` opens the view on a specific place. Use it when the map arrives already answering a question — a search result, a row the reader clicked through from a table.
-
-### Map only
-
-<Story of={MapStories.MapOnly} />
-
-Dropping the list suits a display already surrounded by context — a dashboard tile, a card whose caption names the places. Reach for it deliberately: without the list, the accessible route to the data goes with it, so this variant needs its equivalent supplied elsewhere on the page.
 
 ### A single point
 
@@ -41,7 +35,7 @@ Given a centre and zoom, the map settles on one place rather than fitting them a
 
 The component takes one flat list; there is no separate geometry to join:
 
-- `locations` — one `{ id, name, lat, lng, description? }` per place. `lat`/`lng` are decimal degrees; `name` and `description` show in the pin's popup and the list row.
+- `locations` — one `{ id, name, lat, lng, description? }` per place. `lat`/`lng` are decimal degrees; `name` and `description` show in the pin's popup and form its accessible name.
 
 With no `center`, the view fits every marker. With one, it holds that point at `zoom`. Nothing assumes these are offices — swap in sensor readings, delivery stops, or property listings and the same element plots them.
 
@@ -65,17 +59,18 @@ The map recovers from a late layout — revealed in a tab, dropped into a flex r
 
 ## Accessibility
 
-A map is a picture, and a picture excludes anyone who cannot see it. The companion list is the equivalent, not an add-on: it carries every place as real text, in the reading order of the data.
+A map is a picture, and a picture excludes anyone who cannot see it. Here the pins carry the data as text: each is a real, focusable control named for its place, so the geography is reachable without the base image.
 
 ### Screen reader support
-- The list is a `listbox`; each place is an `option` whose selected state tracks the map.
-- Pins are decorative to assistive technology — the list is the source of truth, so nothing is announced twice.
-- Each pin still carries a native popup, so a sighted pointer user gets the name and detail on click.
+- Each pin is a `button` (Leaflet's keyboard markers) with an `aria-label` of its name and detail line.
+- The selected pin carries `aria-current`, so its state is announced, not only shown.
+- Each pin also opens a native popup on activation, giving a pointer user the same name and detail.
 
 ### Keyboard navigation
-- Tab: reach the list, then the map (the base map's own arrow-pan and zoom take over once it is focused).
-- Arrow keys / Home / End within the list: move between places.
-- Enter / Space: select the focused place — framing its pin and opening its popup (emits `pp-map-select`).
+- Tab: move between the pins; once the base map itself is focused, its own arrow-pan and zoom take over.
+- Enter / Space: select the focused pin — framing it and opening its popup (emits `pp-map-select`).
+
+Given without a caption, the map still needs a text equivalent nearby — a table or list of the same places — for a reader who wants the data in reading order rather than by position.
 
 ## Related patterns
 
@@ -95,4 +90,4 @@ A map is a picture, and a picture excludes anyone who cannot see it. The compani
 
 - Leaflet, [documentation](https://leafletjs.com/reference.html) — the mapping library this component wraps: tile layers, markers, and view control.
 - [OpenStreetMap](https://www.openstreetmap.org/copyright) — the default tile source and its attribution terms.
-- Sarah Higley, [Grids Part 2: Semantics](https://sarahmhigley.com/writing/grids-part2/) — on making spatial widgets navigable to assistive technology, the reasoning behind pairing the map with a list.
+- Sarah Higley, [Grids Part 2: Semantics](https://sarahmhigley.com/writing/grids-part2/) — on making spatial widgets navigable to assistive technology, the reasoning behind treating each pin as a named, focusable control.

@@ -4,16 +4,14 @@
  * A Lit component that plots located points on a pannable, zoomable base map.
  * Where the {@link Choropleth} shades whole regions by a quantity, this map
  * answers the *where is it* question — it places named things on tiles the
- * reader can scroll and zoom, and pairs the picture with a list so the same
- * geography is reachable without sight.
+ * reader can scroll and zoom.
  *
  * It wraps Leaflet. Leaflet reads `document`, injects its own control DOM, and
  * ships a stylesheet that targets `.leaflet-*` in the light tree, so this
  * element renders in the light DOM (decision-ladder rung 3): it owns and
  * renders its own subtree, and author-provided children are clobbered. The map
  * canvas is a static node in the template — Lit never re-touches it, leaving
- * Leaflet free to own everything inside it; only the companion list updates
- * reactively.
+ * Leaflet free to own everything inside it.
  *
  * @example
  * ```html
@@ -22,11 +20,11 @@
  */
 
 import { LitElement, html, type PropertyValues } from 'lit';
-import { property, state } from 'lit/decorators.js';
+import { property } from 'lit/decorators.js';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-/** One plotted place. `id` joins a marker to its list entry. */
+/** One plotted place. `id` identifies its marker for selection. */
 export interface MapLocation {
   id: string | number;
   name: string;
@@ -34,7 +32,7 @@ export interface MapLocation {
   lat: number;
   /** Longitude in decimal degrees. */
   lng: number;
-  /** Optional second line, shown in the popup and the list. */
+  /** Optional second line, shown in the popup and the pin's accessible name. */
   description?: string;
 }
 
@@ -42,7 +40,7 @@ export interface MapLocation {
 export interface MapSelectDetail {
   location: MapLocation;
   /** What drove the selection. */
-  source: 'marker' | 'list' | 'api';
+  source: 'marker' | 'api';
 }
 
 /** OpenStreetMap raster tiles — free, attribution required, network-dependent. */
@@ -62,7 +60,7 @@ function pinIcon(selected: boolean): L.DivIcon {
 }
 
 export class MapComponent extends LitElement {
-  /** The places to plot; each becomes a marker and a list entry. */
+  /** The places to plot; each becomes a focusable marker. */
   @property({ type: Array })
   locations: MapLocation[] = [];
 
@@ -82,10 +80,6 @@ export class MapComponent extends LitElement {
   @property({ type: String })
   attribution = OSM_ATTRIBUTION;
 
-  /** Show the companion location list beside the map. */
-  @property({ type: Boolean, reflect: true, attribute: 'show-list' })
-  showList = true;
-
   /** The active location's id. Reflected so it can be set from markup. */
   @property({ type: String, reflect: true, attribute: 'selected-id' })
   selectedId?: string | number;
@@ -93,10 +87,6 @@ export class MapComponent extends LitElement {
   /** Accessible name for the map region. */
   @property({ type: String })
   label = 'Location map';
-
-  /** Roving-tabindex cursor into `locations` for the listbox. */
-  @state()
-  private activeIndex = 0;
 
   private map?: L.Map;
   private tileLayer?: L.TileLayer;
@@ -179,16 +169,34 @@ export class MapComponent extends LitElement {
       const marker = L.marker([loc.lat, loc.lng], {
         icon: pinIcon(selected),
         title: loc.name,
-        keyboard: false, // the companion list carries keyboard selection
       });
       marker.bindPopup(this.popupHtml(loc));
       marker.on('click', () => this.select(loc, 'marker'));
       marker.addTo(this.map);
       this.markersById.set(String(loc.id), marker);
-    }
 
-    const index = this.locations.findIndex((l) => this.isSelected(l));
-    if (index >= 0) this.activeIndex = index;
+      // Leaflet's keyboard option (on by default) makes each pin a focusable
+      // role="button". Give it an accessible name, reflect the selected state,
+      // and wire Enter/Space to selection ourselves — Leaflet doesn't activate
+      // divIcon markers from the keyboard — so a keyboard or screen-reader user
+      // can reach and choose places without a pointer.
+      const el = marker.getElement();
+      if (el) {
+        el.setAttribute('aria-label', this.markerLabel(loc));
+        if (selected) el.setAttribute('aria-current', 'true');
+        el.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            this.select(loc, 'marker');
+          }
+        });
+      }
+    }
+  }
+
+  /** Accessible name for a pin: the place name, plus its detail line if any. */
+  private markerLabel(loc: MapLocation): string {
+    return loc.description ? `${loc.name} — ${loc.description}` : loc.name;
   }
 
   private popupHtml(loc: MapLocation): string {
@@ -234,14 +242,18 @@ export class MapComponent extends LitElement {
     );
   }
 
-  /** Reflect the current `selectedId` onto markers, the map view, and the list. */
+  /** Reflect the current `selectedId` onto the markers and the map view. */
   private syncSelection(source: MapSelectDetail['source']): void {
     const loc = this.locations.find((l) => this.isSelected(l));
 
     // Repaint pin states.
     for (const [id, marker] of this.markersById) {
       const el = marker.getElement();
-      if (el) el.classList.toggle('pp-map__pin--selected', id === String(this.selectedId));
+      if (!el) continue;
+      const isSelected = id === String(this.selectedId);
+      el.classList.toggle('pp-map__pin--selected', isSelected);
+      if (isSelected) el.setAttribute('aria-current', 'true');
+      else el.removeAttribute('aria-current');
     }
 
     if (loc && this.map) {
@@ -249,75 +261,11 @@ export class MapComponent extends LitElement {
       // Don't wrench the view when the user clicked a marker already in frame.
       if (source !== 'marker') this.map.panTo([loc.lat, loc.lng]);
       marker?.openPopup();
-      const index = this.locations.indexOf(loc);
-      if (index >= 0) this.activeIndex = index;
     }
   }
-
-  // ---- Companion listbox --------------------------------------------------
-
-  private onListKeydown = (event: KeyboardEvent): void => {
-    const count = this.locations.length;
-    if (count === 0) return;
-    let next = this.activeIndex;
-    switch (event.key) {
-      case 'ArrowDown': next = Math.min(this.activeIndex + 1, count - 1); break;
-      case 'ArrowUp': next = Math.max(this.activeIndex - 1, 0); break;
-      case 'Home': next = 0; break;
-      case 'End': next = count - 1; break;
-      case 'Enter':
-      case ' ': {
-        event.preventDefault();
-        const loc = this.locations[this.activeIndex];
-        if (loc) this.select(loc, 'list');
-        return;
-      }
-      default: return;
-    }
-    event.preventDefault();
-    this.activeIndex = next;
-    this.updateComplete.then(() => {
-      this.querySelector<HTMLElement>(`[data-option-index="${next}"]`)?.focus();
-    });
-  };
 
   render() {
-    return html`
-      <div class="pp-map__canvas" data-map-canvas></div>
-      ${this.showList ? this.renderList() : null}
-    `;
-  }
-
-  private renderList() {
-    return html`
-      <ul
-        class="pp-map__list"
-        role="listbox"
-        aria-label=${`${this.label}: ${this.locations.length} location${this.locations.length === 1 ? '' : 's'}`}
-        @keydown=${this.onListKeydown}
-      >
-        ${this.locations.map((loc, index) => {
-          const selected = this.isSelected(loc);
-          return html`
-            <li
-              role="option"
-              class="pp-map__option"
-              data-option-index=${index}
-              data-selected=${selected}
-              aria-selected=${selected}
-              tabindex=${index === this.activeIndex ? 0 : -1}
-              @click=${() => this.select(loc, 'list')}
-              @focus=${() => { this.activeIndex = index; }}
-            >
-              <span class="pp-map__option-name">${loc.name}</span>
-              ${loc.description
-                ? html`<span class="pp-map__option-desc">${loc.description}</span>`
-                : null}
-            </li>
-          `;
-        })}
-      </ul>
-    `;
+    return html`<div class="pp-map__canvas" data-map-canvas></div>`;
   }
 }
 
