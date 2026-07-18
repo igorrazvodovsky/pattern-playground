@@ -1,0 +1,61 @@
+import { Canvas, Story, Meta, Subtitle } from '@storybook/addon-docs/blocks';
+import * as ScatterPlotStories from './ScatterPlot.stories.tsx';
+
+<Meta title="Data visualisation/Scatter plot" of = { ScatterPlotStories } tags={['activity-level:operation', 'atomic:data-visualization', 'role:component', 'mediation:individual']} />
+
+{/* > 🙂 *Fun meter: 2/5*.  */}
+
+# Scatter plot
+
+A scatter plot answers whether two measured quantities move together, and where the exceptions sit. It owns the association branch of the <PatternRef slug="data-visualization">chart territory</PatternRef>: two quantitative variables, each on its own axis, one point per observation.
+
+Position is the strongest perceptual channel, and the scatter plot spends all of it — x and y both carry a number, so the reader reads correlation, clusters, and outliers straight off the coordinates. That is also its limit: a third variable has nowhere strong left to go.
+
+## Variants
+
+### Association
+
+Two numeric variables on position. The shape of the cloud is the finding — direction, tightness, and the points that refuse to join it.
+
+<Story of={ ScatterPlotStories.Default } />
+
+### Categories
+
+A categorical variable colours the points into series, drawn from the shared [categorical palette](../?path=/docs/data-visualisation-elements--docs). Clusters that separate by colour say the groups differ on the two measured axes. Because any two points can sit side by side, a scatter plot carries at most four series before the colours stop being reliably distinguishable — past that, facet into small multiples or fold the tail into "other".
+
+<Story of={ ScatterPlotStories.Categories } />
+
+### Bubble
+
+A third quantitative variable rides on bubble area — the scatter plot's neighbour rather than a separate chart. Area, not radius, is proportional to the value (via a square-root scale), so a value four times larger draws a bubble twice as wide, matching how area is perceived.
+
+<Story of={ ScatterPlotStories.Bubble } />
+
+## Ooverplotting
+
+Past a few hundred points the marks overlap and the cloud reads as a solid mass. Mitigations — lower point opacity, smaller radii, sampling, or switching to a density representation — belong to the reading, not the data.
+
+## Accessibility
+
+### Screen reader support
+- SVG role: `role="img"` with a descriptive `aria-label`
+- Data table: a visually hidden table exposes label, x, y, and category for every point
+- Live regions: keyboard navigation announces the focused point
+- Focus management: the chart is a single tab stop; arrow keys move within it
+
+### Keyboard navigation
+- Tab: focus the chart
+- Arrow keys: move between points (position is tracked, not reset)
+- Home/End: jump to the first/last point
+- Enter/Space: activate the focused point (fires the click event)
+
+## Related components
+
+- [Bar chart](../?path=/docs/data-visualisation-bar-chart--docs) — the comparison branch, when one axis is categorical rather than numeric
+- Tooltip — reveals the identity behind a point on hover and keyboard focus
+- [Cards](../?path=/docs/components-card--docs) — chart containers
+- [Data visualisation elements](../?path=/docs/data-visualisation-elements--docs) — the categorical colour and formatting conventions shared across chart families
+
+## Resources & references
+
+- Tamara Munzner, [Visualization Analysis and Design](https://www.cs.ubc.ca/~tmm/vadbook/) — marks and channels, and why position outranks area and colour

@@ -13,6 +13,7 @@
 @import url(pagination.css);
 @import url(table.css);
 @import url(charts.css) layer(components);
+@import url(map.css) layer(components);
 @import url(checkbox.css);
 @import url(radio.css);
 @import url(counter.css);
@@ -28,6 +29,7 @@
 @import url(input.css) layer(components);
 @import url(reference.css) layer(components);
 @import url(hover-card.css) layer(components);
+@import url(shell.css);
 @import url(sidebar.css);
 /* @import url(tiptap.css); */
 @import url(list-item-shared.css) layer(components);

@@ -16,6 +16,8 @@ export type {
   LineChartSeries,
   BarChartData,
   BarChartDataPoint,
+  ScatterPlotData,
+  ScatterPlotDataPoint,
   AreaChartData,
   AreaChartDataPoint,
   AreaChartSeries,
@@ -33,6 +35,7 @@ export type {
 export {
   isLineChartData,
   isBarChartData,
+  isScatterPlotData,
   isAreaChartData,
   isTreeData
 } from './chart-types.js';
@@ -43,6 +46,7 @@ export {
   parseChartData,
   convertToLineChartData,
   convertToBarChartData,
+  convertToScatterPlotData,
   convertToAreaChartData,
   convertToTreeData,
   validateChartData,

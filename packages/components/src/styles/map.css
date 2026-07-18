@@ -1,0 +1,62 @@
+/* =============================================================================
+   Map (interactive location map) — pp-map
+
+   Styles only this component's own classes (canvas frame, pins).
+   Leaflet ships its own stylesheet unlayered so tiles and controls keep their
+   built-in positioning; nothing here overrides `.leaflet-*` internals.
+   ============================================================================= */
+
+pp-map {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  min-block-size: 20rem;
+}
+
+/* The Leaflet mount point. Needs an explicit size — Leaflet gives the container
+   none, and a zero-height container renders blank. */
+pp-map .pp-map__canvas {
+  inline-size: 100%;
+  block-size: 100%;
+  min-block-size: 18rem;
+  border-radius: var(--radius-m);
+  overflow: hidden;
+  border: 1px solid var(--c-border);
+}
+
+/* -----------------------------------------------------------------------------
+   Pins — a CSS dot drawn from a divIcon, so no bundled marker PNG is needed and
+   the selected state is a class toggle, not a second image. The dot is a block
+   element (a span defaults to inline, which ignores width/height) filling the
+   icon box Leaflet sizes.
+   ----------------------------------------------------------------------------- */
+pp-map .pp-map__pin {
+  background: transparent;
+  border: 0;
+}
+
+pp-map .pp-map__pin-dot {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  box-sizing: border-box;
+  border-radius: 50%;
+  background: var(--c-accent);
+  border: 3px solid var(--c-background);
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.45);
+  transition: scale var(--transition-fast, 120ms) ease;
+}
+
+pp-map .pp-map__pin--selected {
+  z-index: 1000 !important; /* lift the active pin above its neighbours */
+}
+
+pp-map .pp-map__pin--selected .pp-map__pin-dot {
+  background: var(--c-accent-700);
+  scale: 1.4;
+}
+
+pp-map .pp-map__popup-desc {
+  color: var(--c-neutral-700);
+  font-size: var(--text-xs);
+}

@@ -3,7 +3,7 @@
 @layer layout {
   /* Styling for non-stack pages lives in stack.css (.content-inset) */
 
-  main.sidebar-inset {
+  main.shell__main {
     background: var(--c-neutral-0);
   }
 }
@@ -29,7 +29,7 @@
 }
 
 @layer components {
-  .sidebar-wrapper {
+  .shell {
     /* Align sidebar width with Storybook's sidebar */
     --sidebar-width: 300px;
     --header-height: 3rem;
@@ -214,7 +214,7 @@
    stops it pinning. Hand scrolling back to the document so sticky anchors to the
    viewport. Unlayered so it beats the components-layer rule. Stack pages use
    StackManager (no .content-inset), so they keep the default overflow. */
-main.sidebar-inset:has(> .content-inset) {
+main.shell__main:has(> .content-inset) {
   overflow: visible;
 }
 

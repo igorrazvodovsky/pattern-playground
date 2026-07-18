@@ -1,0 +1,29 @@
+@layer components {
+  /* ---------------------------------------------------------------------------
+   * Shell — the application frame
+   * ---------------------------------------------------------------------------
+   * Nothing here knows what sits in the rail, which is what lets the frame be
+   * written as static HTML with only the rail hydrated. sidebar.css reaches the
+   * other way (scoping tokens to .shell, coupling its `inset` variant to
+   * .shell__main); keep the dependency one-directional.
+   * ------------------------------------------------------------------------- */
+
+  .shell {
+    display: flex;
+    min-height: 100svh;
+    width: 100%;
+  }
+
+  /* The app's scroll owner. Pages that would rather scroll the document opt out
+     by overriding overflow (the patterns site does this for prose pages, so a
+     sticky right-rail TOC can anchor to the viewport). */
+  .shell__main {
+    position: relative;
+    flex: 1;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    background: var(--c-background);
+    overflow: auto;
+  }
+}

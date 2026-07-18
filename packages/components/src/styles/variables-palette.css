@@ -174,6 +174,25 @@
     var(--l700) var(--c700boosted) var(--hWarning)
   );
 
+  /* Categorical palette — eight distinct hues for series identity (nominal
+     categories: which team, which region, which series). Unlike the semantic
+     ramps above, categorical slots vary lightness per hue on purpose: holding a
+     single lightness collapses the colour-vision-deficiency separation between
+     hues. The slot ORDER is the CVD-safety mechanism — assign 1→N in sequence and
+     never reorder or cycle. Validated (Machado-Oliveira-Fernandes protan/deutan,
+     OKLab ΔE) on the adjacent pairlist (bars, lines, stacks) in both modes; for
+     all-pairs forms (scatter, bubble) only the first four slots are safe — see
+     Foundations/Elements. Hues seeded from a known-good set; retune per brand and
+     re-validate. */
+  --c-cat-1: oklch(57.5% 0.163 255.5deg); /* blue */
+  --c-cat-2: oklch(52.9% 0.18 142.5deg);  /* green */
+  --c-cat-3: oklch(71.6% 0.141 357.4deg); /* magenta */
+  --c-cat-4: oklch(76.4% 0.161 75.1deg);  /* yellow */
+  --c-cat-5: oklch(66.9% 0.141 162.1deg); /* aqua */
+  --c-cat-6: oklch(67.1% 0.175 40.6deg);  /* orange */
+  --c-cat-7: oklch(43.3% 0.167 283.6deg); /* violet */
+  --c-cat-8: oklch(62.3% 0.191 24.9deg);  /* red */
+
   --c-border: oklch(var(--l800) var(--c800-neutral) var(--h) / 0.2);
   --c-background: var(--c-neutral-0);
   --c-body: var(--c-neutral-800);
@@ -209,5 +228,17 @@
     --c-body: oklch(100% 0 0 / 90%);
     /* TODO: */
     color: var(--c-body);
+
+    /* Categorical palette — the same eight hues re-stepped for the dark surface
+       (lighter, so each clears 3:1 against a dark background). Validated as a set
+       on the adjacent pairlist; first four for all-pairs. */
+    --c-cat-1: oklch(62.2% 0.161 255.1deg); /* blue */
+    --c-cat-2: oklch(52.9% 0.18 142.5deg);  /* green */
+    --c-cat-3: oklch(62.2% 0.171 0.8deg);   /* magenta */
+    --c-cat-4: oklch(67% 0.143 73.2deg);    /* yellow */
+    --c-cat-5: oklch(62.1% 0.128 163.1deg); /* aqua */
+    --c-cat-6: oklch(62.2% 0.173 40.1deg);  /* orange */
+    --c-cat-7: oklch(67% 0.145 286.8deg);   /* violet */
+    --c-cat-8: oklch(66.9% 0.159 22.3deg);  /* red */
   }
 }

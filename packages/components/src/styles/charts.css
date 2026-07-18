@@ -18,17 +18,21 @@
   --chart-text-secondary: var(--c-bodyDimmed);
   --chart-text-muted: var(--c-placeholder);
 
-  /* Data Visualization Color Schemes */
-  --chart-color-1: var(--c-accent-600);
-  --chart-color-2: var(--c-accent-500);
-  --chart-color-3: var(--c-accent-600);
-  --chart-color-4: var(--c-accent-500);
-  --chart-color-5: var(--c-accent-600);
-  --chart-color-6: var(--c-accent-600);
-  --chart-color-7: var(--c-accent-700);
-  --chart-color-8: var(--c-accent-400);
-  --chart-color-9: var(--c-accent-600);
-  --chart-color-10: var(--c-accent-500);
+  /* Data visualisation categorical scheme — aliases onto the design system's
+     categorical palette (--c-cat-*, defined in variables-palette.css, mode-aware).
+     Slots 9–10 wrap the eight-hue set; the fixed order is the CVD-safety
+     mechanism, so a ninth series should fold to "Other" rather than lean on a
+     wrapped colour. */
+  --chart-color-1: var(--c-cat-1);
+  --chart-color-2: var(--c-cat-2);
+  --chart-color-3: var(--c-cat-3);
+  --chart-color-4: var(--c-cat-4);
+  --chart-color-5: var(--c-cat-5);
+  --chart-color-6: var(--c-cat-6);
+  --chart-color-7: var(--c-cat-7);
+  --chart-color-8: var(--c-cat-8);
+  --chart-color-9: var(--c-cat-1);
+  --chart-color-10: var(--c-cat-2);
 
   /* Typography */
   --chart-font-family: var(--font);
@@ -97,23 +101,9 @@
   /* Note: Tooltip styles are handled by the existing pp-tooltip component */
 }
 
-/* =============================================================================
-   Dark Theme Support
-   ============================================================================= */
-
-.dark {
-  /* Data Visualization Color Schemes - Dark Mode */
-  --chart-color-1: var(--c-accent-400);
-  --chart-color-2: var(--c-danger-400);
-  --chart-color-3: var(--c-success-400);
-  --chart-color-4: var(--c-warning-400);
-  --chart-color-5: var(--c-danger-500);
-  --chart-color-6: var(--c-info-400);
-  --chart-color-7: var(--c-accent-500);
-  --chart-color-8: var(--c-danger-300);
-  --chart-color-9: var(--c-warning-500);
-  --chart-color-10: var(--c-success-400);
-}
+/* Dark-mode categorical colours are handled by the mode-aware --c-cat-* tokens
+   in variables-palette.css, which --chart-color-* aliases above; no per-mode
+   override is needed here. */
 
 /* =============================================================================
    Responsive Design Utilities
@@ -425,6 +415,36 @@ pp-chart-grid .grid-line[data-style="dotted"] {
 
 pp-chart-grid[hidden] {
   display: none;
+}
+
+/* =============================================================================
+   Map (Choropleth) Component Styles
+   ============================================================================= */
+
+pp-choropleth {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+pp-choropleth .map-region {
+  transition: opacity var(--chart-transition-fast);
+  cursor: pointer;
+}
+
+pp-choropleth .map-region:hover {
+  opacity: var(--chart-hover-opacity);
+}
+
+pp-choropleth .map-legend-label {
+  fill: var(--chart-text-secondary);
+  font-family: var(--chart-font-family);
+  font-size: var(--chart-font-size-xs);
+}
+
+pp-choropleth:focus-visible {
+  outline: var(--chart-focus-width) solid var(--chart-focus-color);
+  outline-offset: var(--chart-focus-offset);
 }
 
 /* =============================================================================

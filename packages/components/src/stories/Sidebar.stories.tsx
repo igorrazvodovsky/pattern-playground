@@ -28,23 +28,20 @@ import {
 
 faker.seed(42);
 
-interface SidebarArgs {
+export interface SidebarArgs {
   collapsible: 'offcanvas' | 'icon' | 'none';
   variant: 'sidebar' | 'floating' | 'inset';
   side: 'left' | 'right';
 }
 
-function DemoSidebar({
-  collapsible,
-  variant,
-  side,
-}: SidebarArgs) {
+// Exported for Shell's stories to borrow — see excludeStories below.
+export function DemoSidebar({ collapsible, variant, side }: SidebarArgs) {
   return (
     <Sidebar collapsible={collapsible} variant={variant} side={side}>
       <SidebarHeader>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', padding: 'var(--space-2xs) var(--space-xs)' }}>
-          <iconify-icon className="icon" icon="ph:hexagon" style={{ fontSize: '1.25rem' }} />
-          <span style={{ fontWeight: 'var(--font-weight-semibold)' }}>Acme Corp</span>
+        <div className="story-shell-brand">
+          <iconify-icon className="icon" icon="ph:hexagon" />
+          <span>Acme Corp</span>
         </div>
       </SidebarHeader>
 
@@ -135,6 +132,33 @@ function DemoSidebar({
   );
 }
 
+interface DemoMainProps {
+  title: string;
+  children?: React.ReactNode;
+  triggerAtEnd?: boolean;
+}
+
+export function DemoMain({ title, children, triggerAtEnd = false }: DemoMainProps) {
+  return (
+    <SidebarInset>
+      <header className={`story-shell-header${triggerAtEnd ? ' story-shell-header--split' : ''}`}>
+        {triggerAtEnd ? (
+          <>
+            <span className="story-shell-title">{title}</span>
+            <SidebarTrigger />
+          </>
+        ) : (
+          <>
+            <SidebarTrigger />
+            <span className="story-shell-title">{title}</span>
+          </>
+        )}
+      </header>
+      <div className="story-shell-body">{children}</div>
+    </SidebarInset>
+  );
+}
+
 const meta = {
   title: "Components/Sidebar",
   tags: [
@@ -146,6 +170,9 @@ const meta = {
   parameters: {
     layout: 'fullscreen',
   },
+  // Every other export from a story file is indexed as a story.
+  excludeStories: ['DemoSidebar', 'DemoMain'],
+  args: { collapsible: 'offcanvas', variant: 'sidebar', side: 'left' },
   argTypes: {
     collapsible: {
       control: { type: 'radio' },
@@ -163,120 +190,101 @@ const meta = {
       description: 'Which side the sidebar sits on',
     },
   },
+  // The frame is Shell's subject, not Sidebar's, so stories assume one rather
+  // than compose it. Those that vary the arrangement itself opt out below.
+  decorators: [
+    (Story) => (
+      <SidebarProvider>
+        <Story />
+      </SidebarProvider>
+    ),
+  ],
 } satisfies Meta<SidebarArgs>;
 
 export default meta;
 type Story = StoryObj<SidebarArgs>;
 
 export const Default: Story = {
-  args: { collapsible: 'offcanvas', variant: 'sidebar', side: 'left' },
   render: (args) => (
-    <SidebarProvider>
+    <>
       <DemoSidebar {...args} />
-      <SidebarInset>
-        <header style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-s)', padding: 'var(--space-s) var(--space-m)', borderBottom: 'var(--border)' }}>
-          <SidebarTrigger />
-          <span style={{ fontWeight: 'var(--font-weight-semibold)' }}>Dashboard</span>
-        </header>
-        <main style={{ padding: 'var(--space-l)', flex: 1 }}>
-          <p style={{ color: 'var(--c-neutral-600)', maxWidth: '40ch' }}>
-            {faker.hacker.phrase()} {faker.hacker.phrase()}
-          </p>
-        </main>
-      </SidebarInset>
-    </SidebarProvider>
+      <DemoMain title="Dashboard">
+        <p className="story-shell-note">
+          {faker.hacker.phrase()} {faker.hacker.phrase()}
+        </p>
+      </DemoMain>
+    </>
   ),
 };
 
 export const IconCollapsible: Story = {
-  args: { collapsible: 'icon', variant: 'sidebar', side: 'left' },
+  args: { collapsible: 'icon' },
   render: (args) => (
-    <SidebarProvider>
+    <>
       <DemoSidebar {...args} />
-      <SidebarInset>
-        <header style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-s)', padding: 'var(--space-s) var(--space-m)', borderBottom: 'var(--border)' }}>
-          <SidebarTrigger />
-          <span style={{ fontWeight: 'var(--font-weight-semibold)' }}>Icon collapsible — hover menu buttons when collapsed to see tooltips</span>
-        </header>
-        <main style={{ padding: 'var(--space-l)', flex: 1 }}>
-          <p style={{ color: 'var(--c-neutral-600)', maxWidth: '40ch' }}>
-            Collapse the sidebar with the trigger or Cmd/Ctrl+B. Hovering menu items shows their label as a tooltip.
-          </p>
-        </main>
-      </SidebarInset>
-    </SidebarProvider>
+      <DemoMain title="Icon collapsible">
+        <p className="story-shell-note">
+          Collapse the sidebar with the trigger or Cmd/Ctrl+/. Once collapsed to
+          icons, hovering a menu item shows its label as a tooltip.
+        </p>
+      </DemoMain>
+    </>
   ),
 };
 
 export const Floating: Story = {
-  args: { collapsible: 'offcanvas', variant: 'floating', side: 'left' },
+  args: { variant: 'floating' },
   render: (args) => (
-    <SidebarProvider>
+    <>
       <DemoSidebar {...args} />
-      <SidebarInset>
-        <header style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-s)', padding: 'var(--space-s) var(--space-m)', borderBottom: 'var(--border)' }}>
-          <SidebarTrigger />
-          <span style={{ fontWeight: 'var(--font-weight-semibold)' }}>Floating variant</span>
-        </header>
-        <main style={{ padding: 'var(--space-l)', flex: 1 }} />
-      </SidebarInset>
-    </SidebarProvider>
+      <DemoMain title="Floating variant" />
+    </>
   ),
 };
 
 export const Inset: Story = {
-  args: { collapsible: 'offcanvas', variant: 'inset', side: 'left' },
+  args: { variant: 'inset' },
   render: (args) => (
-    <SidebarProvider>
+    <>
       <DemoSidebar {...args} />
-      <SidebarInset>
-        <header style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-s)', padding: 'var(--space-s) var(--space-m)', borderBottom: 'var(--border)' }}>
-          <SidebarTrigger />
-          <span style={{ fontWeight: 'var(--font-weight-semibold)' }}>Inset variant</span>
-        </header>
-        <main style={{ padding: 'var(--space-l)', flex: 1 }} />
-      </SidebarInset>
-    </SidebarProvider>
+      <DemoMain title="Inset variant">
+        <p className="story-shell-note">
+          The inset variant is the one case where the rail reaches into the
+          frame: it rounds and insets the main column to match its own floating
+          edge.
+        </p>
+      </DemoMain>
+    </>
   ),
 };
 
 export const RightSide: Story = {
-  args: { collapsible: 'offcanvas', variant: 'sidebar', side: 'right' },
+  args: { side: 'right' },
+  decorators: [], // ordering is the point here, so the frame is written by hand
+
   render: (args) => (
     <SidebarProvider>
-      <SidebarInset>
-        <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--space-s)', padding: 'var(--space-s) var(--space-m)', borderBottom: 'var(--border)' }}>
-          <span style={{ fontWeight: 'var(--font-weight-semibold)' }}>Right-side sidebar</span>
-          <SidebarTrigger />
-        </header>
-        <main style={{ padding: 'var(--space-l)', flex: 1 }} />
-      </SidebarInset>
+      <DemoMain title="Right-side sidebar" triggerAtEnd />
       <DemoSidebar {...args} />
     </SidebarProvider>
   ),
 };
 
 export const Controlled: Story = {
-  args: { collapsible: 'offcanvas', variant: 'sidebar', side: 'left' },
+  decorators: [],
   render: function ControlledSidebar(args) {
     const [open, setOpen] = useState(true);
     return (
       <div>
-        <div style={{ padding: 'var(--space-s)', borderBottom: 'var(--border)', display: 'flex', gap: 'var(--space-s)', alignItems: 'center', background: 'var(--c-neutral-50)' }}>
-          <span style={{ fontSize: 'var(--text-s)' }}>Controlled: open = <strong>{String(open)}</strong></span>
+        <div className="story-shell-controls">
+          <span>Controlled: open = <i>{String(open)}</i></span>
           <button className="button button--plain" onClick={() => setOpen((v) => !v)}>
             Toggle from outside
           </button>
         </div>
         <SidebarProvider open={open} onOpenChange={setOpen}>
           <DemoSidebar {...args} />
-          <SidebarInset>
-            <header style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-s)', padding: 'var(--space-s) var(--space-m)', borderBottom: 'var(--border)' }}>
-              <SidebarTrigger />
-              <span style={{ fontWeight: 'var(--font-weight-semibold)' }}>Controlled open state</span>
-            </header>
-            <main style={{ padding: 'var(--space-l)', flex: 1 }} />
-          </SidebarInset>
+          <DemoMain title="Controlled open state" />
         </SidebarProvider>
       </div>
     );
@@ -284,24 +292,18 @@ export const Controlled: Story = {
 };
 
 export const Mobile: Story = {
-  args: { collapsible: 'offcanvas', variant: 'sidebar', side: 'left' },
   parameters: {
     viewport: { defaultViewport: 'mobile1' },
   },
   render: (args) => (
-    <SidebarProvider>
+    <>
       <DemoSidebar {...args} />
-      <SidebarInset>
-        <header style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-s)', padding: 'var(--space-s) var(--space-m)', borderBottom: 'var(--border)' }}>
-          <SidebarTrigger />
-          <span style={{ fontWeight: 'var(--font-weight-semibold)' }}>Mobile — tap the trigger</span>
-        </header>
-        <main style={{ padding: 'var(--space-l)', flex: 1 }}>
-          <p style={{ color: 'var(--c-neutral-600)', maxWidth: '40ch' }}>
-            On narrow viewports the sidebar renders as a Dialog sheet rather than a fixed panel.
-          </p>
-        </main>
-      </SidebarInset>
-    </SidebarProvider>
+      <DemoMain title="Mobile">
+        <p className="story-shell-note">
+          On narrow viewports the sidebar leaves the frame entirely and renders
+          as a Dialog sheet over it — the shell reverts to a single column.
+        </p>
+      </DemoMain>
+    </>
   ),
 };

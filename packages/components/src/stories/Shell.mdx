@@ -1,0 +1,18 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import * as ShellStories from './Shell.stories.tsx';
+
+<Meta of={ShellStories} />
+
+{/* > 🙂 **Fun meter: 1/5**. Dependency */}
+
+# Shell
+
+A layout component that provides the basic skeleton for an application.
+
+<Story of={ShellStories.ProviderRendered} />
+
+## Related components
+
+- [Sidebar](../?path=/docs/components-sidebar--docs) — the usual occupant of the rail, and the only component that reaches into the frame
+- [Nav bar](../?path=/docs/components-nav-bar--docs) — the horizontal alternative to sidebar; a shell can frame one instead of, or alongside, a rail
+- [Layout](../?path=/docs/foundations-layout--docs) — the spacing and container-query material the frame is built from

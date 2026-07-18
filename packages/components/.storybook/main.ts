@@ -55,6 +55,13 @@ const config: StorybookConfig = {
       config.esbuild.target = 'es2020';
     }
 
+    // Deps only reached from story files are invisible to Vite's initial scan;
+    // declaring them up front avoids a mid-session re-optimize + full reload.
+    config.optimizeDeps = {
+      ...config.optimizeDeps,
+      include: [...(config.optimizeDeps?.include ?? []), 'leaflet'],
+    };
+
     config.define = {
       ...config.define,
       __DEV__: JSON.stringify(configType === 'DEVELOPMENT'),

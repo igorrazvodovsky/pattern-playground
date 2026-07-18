@@ -51,6 +51,28 @@ export interface BarChartData {
 }
 
 /**
+ * Scatter plot data structure
+ *
+ * Two numeric dimensions carried on position — the strongest channel. Optional
+ * `size` promotes a point to a bubble (a third quantitative variable on area),
+ * and `category` groups points into series that share a colour.
+ */
+export interface ScatterPlotDataPoint extends ChartDataPoint {
+  x: number;
+  y: number;
+  label?: string;
+  category?: string;
+  size?: number;
+  color?: string;
+}
+
+export interface ScatterPlotData {
+  data: ScatterPlotDataPoint[];
+  xAxisLabel?: string;
+  yAxisLabel?: string;
+}
+
+/**
  * Area chart data structure
  */
 export interface AreaChartDataPoint extends ChartDataPoint {
@@ -90,6 +112,37 @@ export interface TreeData {
   root: TreeNode;
   layout?: 'tree' | 'cluster';
   orientation?: 'horizontal' | 'vertical';
+}
+
+/**
+ * Map (choropleth) data structure
+ *
+ * Geometry-agnostic: the component draws whatever GeoJSON regions it is given
+ * and joins them to values by a shared key. Supply `geometry` (a GeoJSON
+ * FeatureCollection) and `values` (one datum per region). The join key is read
+ * from each feature's `id` by default, or from a properties path via `featureKey`.
+ */
+export interface ChoroplethDataPoint extends ChartDataPoint {
+  /** Region key; must match a feature's id (or the `featureKey` property). */
+  id: string | number;
+  /** Quantity that colours the region. */
+  value: number;
+  /** Human-readable region name; falls back to the feature name or the id. */
+  label?: string;
+}
+
+export interface ChoroplethData {
+  /** GeoJSON FeatureCollection describing the region boundaries. */
+  geometry: GeoJSON.FeatureCollection;
+  /** One value per region, joined to geometry by key. */
+  values: ChoroplethDataPoint[];
+  /**
+   * Where to read a region's join key from each feature. `'id'` (default) uses
+   * `feature.id`; any other string reads `feature.properties[featureKey]`.
+   */
+  featureKey?: string;
+  /** Label for the quantity, shown in the legend and tooltip. */
+  valueLabel?: string;
 }
 
 /**
@@ -172,12 +225,39 @@ export function isBarChartData(data: unknown): data is BarChartData {
   );
 }
 
+export function isScatterPlotData(data: unknown): data is ScatterPlotData {
+  if (
+    typeof data !== 'object' ||
+    data === null ||
+    !('data' in data) ||
+    !Array.isArray((data as ScatterPlotData).data)
+  ) {
+    return false;
+  }
+  // Distinguish from bar chart data (also keyed on `data`) by point shape:
+  // scatter points carry numeric x/y, bar points carry category/value.
+  const points = (data as ScatterPlotData).data;
+  return points.length === 0 || (typeof points[0].x === 'number' && typeof points[0].y === 'number');
+}
+
 export function isAreaChartData(data: unknown): data is AreaChartData {
   return (
     typeof data === 'object' &&
     data !== null &&
     'series' in data &&
     Array.isArray((data as AreaChartData).series)
+  );
+}
+
+export function isChoroplethData(data: unknown): data is ChoroplethData {
+  return (
+    typeof data === 'object' &&
+    data !== null &&
+    'geometry' in data &&
+    'values' in data &&
+    Array.isArray((data as ChoroplethData).values) &&
+    typeof (data as ChoroplethData).geometry === 'object' &&
+    Array.isArray((data as ChoroplethData).geometry?.features)
   );
 }
 

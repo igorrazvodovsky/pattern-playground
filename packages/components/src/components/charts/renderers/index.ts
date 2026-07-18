@@ -6,6 +6,7 @@
  */
 
 export * from './bar-chart-renderer.js';
+export * from './scatter-plot-renderer.js';
 
 // Future exports for additional chart types
 // export * from './line-chart-renderer.js';

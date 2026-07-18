@@ -1,5 +1,5 @@
 @layer layout {
-  main.sidebar-inset:has(.stack) {
+  main.shell__main:has(.stack) {
     overflow: hidden;
     height: 100svh;
   }
