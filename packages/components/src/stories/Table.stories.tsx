@@ -1,31 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { faker } from '@faker-js/faker';
 import { transactions } from '@shared/data';
+// The pp-bar-chart JSX typing lives in src/jsx-types.ts.
 import "../components/charts/bar-chart.js";
+import type { BarChart } from "../components/charts/bar-chart.js";
 import type { BarChartData } from "../components/charts/base/chart-types.js";
-
-// Type definition for the pp-bar-chart custom element
-interface BarChartElement extends HTMLElement {
-  data: BarChartData;
-  orientation: 'vertical' | 'horizontal';
-  showAxes: boolean;
-  showGrid: boolean;
-  showLegend: boolean;
-  animate: boolean;
-  title: string;
-  sort: 'asc' | 'desc' | 'none';
-  margin: { top: number; right: number; bottom: number; left: number };
-}
-
-// Extend the JSX IntrinsicElements to include our custom element
-declare module 'react' {
-  namespace JSX {
-    interface IntrinsicElements {
-      'pp-bar-chart': React.DetailedHTMLProps<React.HTMLAttributes<BarChartElement>, BarChartElement>;
-    }
-  }
-}
 
 const meta = {
   title: "Components/Table",
@@ -183,7 +163,7 @@ interface MiniBarChartProps {
 }
 
 function MiniBarChart({ data }: MiniBarChartProps) {
-  const chartRef = useRef<BarChartElement | null>(null);
+  const chartRef = useRef<BarChart | null>(null);
 
   useEffect(() => {
     const chartElement = chartRef.current;
@@ -193,7 +173,7 @@ function MiniBarChart({ data }: MiniBarChartProps) {
       chartElement.showAxes = false;
       chartElement.showGrid = false;
       chartElement.showLegend = false;
-      chartElement.animate = true;
+      chartElement.animateChart = true;
       chartElement.sort = 'none';
     }
   }, [data]);

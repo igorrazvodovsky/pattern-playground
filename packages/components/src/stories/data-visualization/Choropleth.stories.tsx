@@ -3,27 +3,13 @@ import { useEffect, useRef } from "react";
 import { action } from 'storybook/actions';
 
 // Import the map component (this registers the custom element via register-all).
+// The pp-choropleth JSX typing lives in src/jsx-types.ts.
 import "../../components/charts/choropleth.js";
+import type { Choropleth } from "../../components/charts/choropleth.js";
 import type { ChoroplethData, ChoroplethDataPoint } from "../../components/charts/base/chart-types.js";
 
 import worldGeometry from '@shared/data/world-countries.geo.json' with { type: 'json' };
 import worldPopulation from '@shared/data/world-population.json' with { type: 'json' };
-
-interface ChoroplethElement extends HTMLElement {
-  data: ChoroplethData;
-  projection: 'naturalEarth' | 'equalEarth' | 'equirectangular' | 'mercator';
-  colorSteps: number;
-  showLegend: boolean;
-  title: string;
-}
-
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      'pp-choropleth': React.DetailedHTMLProps<React.HTMLAttributes<ChoroplethElement>, ChoroplethElement>;
-    }
-  }
-}
 
 const geometry = worldGeometry as unknown as ChoroplethData['geometry'];
 const population = worldPopulation as ChoroplethDataPoint[];
@@ -35,7 +21,7 @@ const sparseValues: ChoroplethDataPoint[] = population.filter((d) =>
 
 interface ChoroplethWrapperProps {
   data: ChoroplethData;
-  projection?: ChoroplethElement['projection'];
+  projection?: Choropleth['projection'];
   colorSteps?: number;
   showLegend?: boolean;
   title?: string;
@@ -50,7 +36,7 @@ function ChoroplethWrapper({
   title = '',
   height = 380,
 }: ChoroplethWrapperProps) {
-  const mapRef = useRef<ChoroplethElement | null>(null);
+  const mapRef = useRef<Choropleth | null>(null);
 
   useEffect(() => {
     const el = mapRef.current;

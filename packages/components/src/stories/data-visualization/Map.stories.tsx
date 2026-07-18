@@ -3,27 +3,11 @@ import { useEffect, useRef } from "react";
 import { action } from 'storybook/actions';
 
 // Import the map component (this registers the custom element via register-all).
+// The pp-map JSX typing lives in src/jsx-types.ts.
 import "../../components/map/map.js";
-import type { MapLocation } from "../../components/map/map.js";
+import type { MapComponent, MapLocation } from "../../components/map/map.js";
 
 import locationData from '../data/map-locations.json' with { type: 'json' };
-
-interface MapElement extends HTMLElement {
-  locations: MapLocation[];
-  center?: [number, number];
-  zoom: number;
-  showList: boolean;
-  selectedId?: string | number;
-  label: string;
-}
-
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      'pp-map': React.DetailedHTMLProps<React.HTMLAttributes<MapElement>, MapElement>;
-    }
-  }
-}
 
 const locations = locationData as MapLocation[];
 
@@ -46,7 +30,7 @@ function MapWrapper({
   label = 'Location map',
   height = 460,
 }: MapWrapperProps) {
-  const mapRef = useRef<MapElement | null>(null);
+  const mapRef = useRef<MapComponent | null>(null);
 
   useEffect(() => {
     const el = mapRef.current;

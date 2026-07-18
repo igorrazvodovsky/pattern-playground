@@ -1,5 +1,11 @@
-// JSX type definitions for web components
-// Import this file in any component that uses web components
+// JSX type definitions for web components.
+// The only home for React JSX augmentation: React 19 resolves JSX from the
+// react module, so `declare global { namespace JSX }` blocks are ignored —
+// augment here via `declare module 'react'` instead.
+
+import type { MapComponent } from './components/map/map.js';
+import type { Choropleth } from './components/charts/choropleth.js';
+import type { BarChart } from './components/charts/bar-chart.js';
 
 declare module 'react' {
   namespace JSX {
@@ -121,6 +127,13 @@ declare module 'react' {
         height?: string | number;
         slot?: string;
       };
+      'pp-h': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
+      'pp-sections': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+        affordance?: 'tab-bar' | 'details';
+      };
+      'pp-map': React.DetailedHTMLProps<React.HTMLAttributes<MapComponent>, MapComponent>;
+      'pp-choropleth': React.DetailedHTMLProps<React.HTMLAttributes<Choropleth>, Choropleth>;
+      'pp-bar-chart': React.DetailedHTMLProps<React.HTMLAttributes<BarChart>, BarChart>;
     }
   }
 }

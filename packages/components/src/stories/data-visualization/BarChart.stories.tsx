@@ -3,30 +3,10 @@ import { useEffect, useRef } from "react";
 import { action } from 'storybook/actions';
 
 // Import the bar chart component (this will register the custom element)
+// The pp-bar-chart JSX typing lives in src/jsx-types.ts.
 import "../../components/charts/bar-chart.js";
+import type { BarChart } from "../../components/charts/bar-chart.js";
 import type { BarChartData } from "../../components/charts/base/chart-types.js";
-
-interface BarChartElement extends HTMLElement {
-  data: BarChartData;
-  orientation: 'vertical' | 'horizontal';
-  showAxes: boolean;
-  showGrid: boolean;
-  showLegend: boolean;
-  animate: boolean;
-  title: string;
-  sort: 'asc' | 'desc' | 'none';
-  showValueLabels: boolean;
-  showCategoryLabels: boolean;
-}
-
-// Extend the JSX IntrinsicElements to include our custom element
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      'pp-bar-chart': React.DetailedHTMLProps<React.HTMLAttributes<BarChartElement>, BarChartElement>;
-    }
-  }
-}
 
 // Sample data for testing
 const sampleProductData: BarChartData = {
@@ -93,7 +73,7 @@ function BarChartWrapper({
   showValueLabels = false,
   showCategoryLabels = false
 }: BarChartWrapperProps) {
-  const chartRef = useRef<BarChartElement | null>(null);
+  const chartRef = useRef<BarChart | null>(null);
 
   useEffect(() => {
     const chartElement = chartRef.current;
@@ -104,7 +84,7 @@ function BarChartWrapper({
       chartElement.showAxes = showAxes;
       chartElement.showGrid = showGrid;
       chartElement.showLegend = showLegend;
-      chartElement.animate = animate;
+      chartElement.animateChart = animate;
       chartElement.title = title;
       chartElement.sort = sort;
       chartElement.showValueLabels = showValueLabels;
