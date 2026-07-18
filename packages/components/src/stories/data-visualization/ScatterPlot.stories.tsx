@@ -3,25 +3,10 @@ import { useEffect, useRef } from "react";
 import { action } from 'storybook/actions';
 
 // Import the scatter plot component (this registers the custom element)
+// The pp-scatter-plot JSX typing lives in src/jsx-types.ts.
 import "../../components/charts/scatter-plot.js";
+import type { ScatterPlot } from "../../components/charts/scatter-plot.js";
 import type { ScatterPlotData } from "../../components/charts/base/chart-types.js";
-
-interface ScatterPlotElement extends HTMLElement {
-  data: ScatterPlotData;
-  showAxes: boolean;
-  showGrid: boolean;
-  showSize: boolean;
-  pointRadius: number;
-  title: string;
-}
-
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      'pp-scatter-plot': React.DetailedHTMLProps<React.HTMLAttributes<ScatterPlotElement>, ScatterPlotElement>;
-    }
-  }
-}
 
 // A cloud with a clear positive association plus scatter — the archetypal case.
 const correlationData: ScatterPlotData = {
@@ -82,7 +67,7 @@ function ScatterPlotWrapper({
   pointRadius = 5,
   title = ''
 }: ScatterPlotWrapperProps) {
-  const chartRef = useRef<ScatterPlotElement | null>(null);
+  const chartRef = useRef<ScatterPlot | null>(null);
 
   useEffect(() => {
     const chartElement = chartRef.current;

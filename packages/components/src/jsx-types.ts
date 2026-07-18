@@ -6,6 +6,7 @@
 import type { MapComponent } from './components/map/map.js';
 import type { Choropleth } from './components/charts/choropleth.js';
 import type { BarChart } from './components/charts/bar-chart.js';
+import type { ScatterPlot } from './components/charts/scatter-plot.js';
 
 declare module 'react' {
   namespace JSX {
@@ -134,6 +135,7 @@ declare module 'react' {
       'pp-map': React.DetailedHTMLProps<React.HTMLAttributes<MapComponent>, MapComponent>;
       'pp-choropleth': React.DetailedHTMLProps<React.HTMLAttributes<Choropleth>, Choropleth>;
       'pp-bar-chart': React.DetailedHTMLProps<React.HTMLAttributes<BarChart>, BarChart>;
+      'pp-scatter-plot': React.DetailedHTMLProps<React.HTMLAttributes<ScatterPlot>, ScatterPlot>;
     }
   }
 }
