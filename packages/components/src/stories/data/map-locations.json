@@ -1,0 +1,9 @@
+[
+  { "id": "london", "name": "London", "lat": 51.5074, "lng": -0.1278, "description": "Headquarters · 240 staff" },
+  { "id": "paris", "name": "Paris", "lat": 48.8566, "lng": 2.3522, "description": "Sales & support · 55 staff" },
+  { "id": "amsterdam", "name": "Amsterdam", "lat": 52.3676, "lng": 4.9041, "description": "Engineering · 80 staff" },
+  { "id": "berlin", "name": "Berlin", "lat": 52.52, "lng": 13.405, "description": "Engineering · 120 staff" },
+  { "id": "copenhagen", "name": "Copenhagen", "lat": 55.6761, "lng": 12.5683, "description": "Design studio · 30 staff" },
+  { "id": "warsaw", "name": "Warsaw", "lat": 52.2297, "lng": 21.0122, "description": "Operations · 65 staff" },
+  { "id": "madrid", "name": "Madrid", "lat": 40.4168, "lng": -3.7038, "description": "Sales · 40 staff" }
+]

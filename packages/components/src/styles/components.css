@@ -13,6 +13,7 @@
 @import url(pagination.css);
 @import url(table.css);
 @import url(charts.css) layer(components);
+@import url(map.css) layer(components);
 @import url(checkbox.css);
 @import url(radio.css);
 @import url(counter.css);

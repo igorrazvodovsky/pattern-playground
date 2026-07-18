@@ -1,5 +1,5 @@
 /**
- * Map (choropleth) Web Component
+ * Choropleth Web Component
  *
  * A Lit component that shades geographic regions by a quantity — the spatial
  * branch of the chart territory, the geographic sibling of the bar chart. It is
@@ -12,7 +12,7 @@
  *
  * @example
  * ```html
- * <pp-map .data="${{ geometry, values }}" projection="naturalEarth" show-legend></pp-map>
+ * <pp-choropleth .data="${{ geometry, values }}" projection="naturalEarth" show-legend></pp-choropleth>
  * ```
  */
 
@@ -30,8 +30,8 @@ import {
   type GeoProjection,
 } from 'd3-geo';
 import { ChartComponent } from './base/chart-component.js';
-import type { MapChartData, MapChartDataPoint } from './base/chart-types.js';
-import { isMapChartData } from './base/chart-types.js';
+import type { ChoroplethData, ChoroplethDataPoint } from './base/chart-types.js';
+import { isChoroplethData } from './base/chart-types.js';
 
 /** Named projections, mapped to their d3-geo constructors. */
 const PROJECTIONS = {
@@ -67,9 +67,9 @@ const NO_DATA_FILL = 'var(--c-neutral-100)';
 const VIEWBOX_WIDTH = 600;
 const VIEWBOX_HEIGHT = 300;
 
-export class MapChart extends ChartComponent {
+export class Choropleth extends ChartComponent {
   @property({ type: Object })
-  data: MapChartData = { geometry: { type: 'FeatureCollection', features: [] }, values: [] };
+  data: ChoroplethData = { geometry: { type: 'FeatureCollection', features: [] }, values: [] };
 
   @property({ type: String, reflect: true })
   projection: MapProjectionName = 'naturalEarth';
@@ -100,7 +100,7 @@ export class MapChart extends ChartComponent {
     this.setAttribute('tabindex', '0');
     this.setAttribute('role', 'img');
     if (!this.hasAttribute('aria-label')) {
-      this.setAttribute('aria-label', this.title || 'Map');
+      this.setAttribute('aria-label', this.title || 'Choropleth');
     }
     this.addEventListener('keydown', this.handleKeydown);
   }
@@ -111,7 +111,7 @@ export class MapChart extends ChartComponent {
   }
 
   protected validateData(): boolean {
-    return isMapChartData(this.data) && this.data.geometry.features.length > 0;
+    return isChoroplethData(this.data) && this.data.geometry.features.length > 0;
   }
 
   protected shouldRerender(changedProperties: Map<string | number | symbol, unknown>): boolean {
@@ -146,7 +146,7 @@ export class MapChart extends ChartComponent {
     const { geometry, values } = this.data;
 
     // Join values to regions by key.
-    const valueByKey = new Map<string, MapChartDataPoint>();
+    const valueByKey = new Map<string, ChoroplethDataPoint>();
     for (const v of values) valueByKey.set(String(v.id), v);
 
     // Fit the projection to the viewBox, not to pixel size — the content group
@@ -189,29 +189,29 @@ export class MapChart extends ChartComponent {
 
     // Interactions dispatch typed events for consumers.
     regions
-      .on('mouseenter', (event: MouseEvent, f) => this.emitForFeature('pp-map-hover', f, event))
+      .on('mouseenter', (event: MouseEvent, f) => this.emitForFeature('pp-choropleth-hover', f, event))
       .on('mouseleave', () => this.dispatchEvent(
-        new CustomEvent('pp-map-hover-end', { bubbles: true, composed: true }),
+        new CustomEvent('pp-choropleth-hover-end', { bubbles: true, composed: true }),
       ))
-      .on('click', (event: MouseEvent, f) => this.emitForFeature('pp-map-click', f, event));
+      .on('click', (event: MouseEvent, f) => this.emitForFeature('pp-choropleth-click', f, event));
 
     if (this.showLegend) this.renderLegend(container, range, min, max);
 
     // Accessibility: title + aria summary.
     const regionCount = values.length;
-    const label = this.title || `Map with ${regionCount} region${regionCount === 1 ? '' : 's'}`;
+    const label = this.title || `Choropleth with ${regionCount} region${regionCount === 1 ? '' : 's'}`;
     const titleElement = this.querySelector('#chart-title');
     if (titleElement) titleElement.textContent = label;
     this.setAttribute('aria-label', label);
   }
 
-  private datumForFeature(feature: GeoJSON.Feature): MapChartDataPoint | undefined {
+  private datumForFeature(feature: GeoJSON.Feature): ChoroplethDataPoint | undefined {
     const key = this.featureKeyOf(feature);
     if (key == null) return undefined;
     return this.data.values.find((v) => String(v.id) === key);
   }
 
-  private regionLabel(datum: MapChartDataPoint): string {
+  private regionLabel(datum: ChoroplethDataPoint): string {
     if (datum.label) return datum.label;
     const feature = this.data.geometry.features.find(
       (f) => this.featureKeyOf(f) === String(datum.id),
@@ -236,7 +236,7 @@ export class MapChart extends ChartComponent {
     if (datum) this.emitRegionEvent(name, datum, originalEvent);
   }
 
-  private emitRegionEvent(name: string, data: MapChartDataPoint, originalEvent: Event): void {
+  private emitRegionEvent(name: string, data: ChoroplethDataPoint, originalEvent: Event): void {
     this.dispatchEvent(new CustomEvent(name, {
       detail: { data, originalEvent },
       bubbles: true,
@@ -272,7 +272,7 @@ export class MapChart extends ChartComponent {
       case ' ': {
         event.preventDefault();
         const datum = values[this.focusIndex];
-        if (datum) this.emitRegionEvent('pp-map-click', datum, event);
+        if (datum) this.emitRegionEvent('pp-choropleth-click', datum, event);
         break;
       }
     }
@@ -287,7 +287,7 @@ export class MapChart extends ChartComponent {
     const summary = `${this.regionLabel(datum)}: ${datum.value}${unit}`;
     this.setAttribute('aria-live', 'polite');
     this.setAttribute('aria-label', `Map. Current: ${summary}. Use arrow keys to navigate.`);
-    this.emitRegionEvent('pp-map-focus', datum, new Event('focus'));
+    this.emitRegionEvent('pp-choropleth-focus', datum, new Event('focus'));
   }
 
   private renderLegend(
@@ -352,6 +352,6 @@ export class MapChart extends ChartComponent {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'pp-map': MapChart;
+    'pp-choropleth': Choropleth;
   }
 }
