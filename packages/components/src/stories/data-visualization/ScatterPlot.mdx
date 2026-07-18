@@ -3,7 +3,7 @@ import * as ScatterPlotStories from './ScatterPlot.stories.tsx';
 
 <Meta title="Data visualisation/Scatter plot" of = { ScatterPlotStories } tags={['activity-level:operation', 'atomic:data-visualization', 'role:component', 'mediation:individual']} />
 
-> 🙂 *Fun meter: 2/5*. A settled chart with one live tension worth turning over: the point is the simplest mark, yet the scatter plot fails in the most interesting way — overplotting. Once the cloud is dense enough, adding data subtracts information. What earns a second look is the channel economy: position is spent on two variables before you start, so a third variable has to squeeze onto the weaker channels of area or colour, and the *bubble* is where that trade-off becomes visible.
+{/* > 🙂 *Fun meter: 2/5*.  */}
 
 # Scatter plot
 
@@ -31,13 +31,7 @@ A third quantitative variable rides on bubble area — the scatter plot's neighb
 
 <Story of={ ScatterPlotStories.Bubble } />
 
-## States
-
-### Empty
-
-With no data the chart clears to nothing — no axes, no marks, no error.
-
-### Dense (overplotting)
+## Ooverplotting
 
 Past a few hundred points the marks overlap and the cloud reads as a solid mass. Mitigations — lower point opacity, smaller radii, sampling, or switching to a density representation — belong to the reading, not the data.
 
@@ -55,18 +49,12 @@ Past a few hundred points the marks overlap and the cloud reads as a solid mass.
 - Home/End: jump to the first/last point
 - Enter/Space: activate the focused point (fires the click event)
 
-## Related patterns
+## Related components
 
-### Sibling charts
 - [Bar chart](../?path=/docs/data-visualisation-bar-chart--docs) — the comparison branch, when one axis is categorical rather than numeric
-
-### Complementary
 - Tooltip — reveals the identity behind a point on hover and keyboard focus
 - [Cards](../?path=/docs/components-card--docs) — chart containers
-
-### Tangentially related
-- [Elements](../?path=/docs/data-visualisation-elements--docs) — the categorical colour and formatting conventions shared across chart families
-- [Filtering](/patterns/filtering) — thinning a dense cloud to a readable subset
+- [Data visualisation elements](../?path=/docs/data-visualisation-elements--docs) — the categorical colour and formatting conventions shared across chart families
 
 ## Resources & references
 

@@ -3,7 +3,7 @@ import * as ChoroplethStories from './Choropleth.stories.tsx';
 
 <Meta title="Data visualisation/Choropleth" of={ChoroplethStories} tags={['activity-level:operation', 'atomic:data-visualization', 'role:component', 'mediation:individual']} />
 
-> 🗺️ **Fun meter: 3/5**. The choropleth is old and settled, but the thing worth thinking about is that space is the one channel a reader already knows how to read. A bar chart teaches you its axis; a map you just recognise. What you spend that head-start on — and what the projection quietly distorts while you do — is the real design question.
+{/* > 🗺️ **Fun meter: 3/5**.  */}
 
 # Choropleth
 
@@ -35,7 +35,7 @@ Only a handful of regions carry values; the rest read as no-data. A choropleth d
 
 <Story of={ChoroplethStories.Mercator} />
 
-Every flat map lies about something. `naturalEarth` (the default) keeps area roughly honest, which matters most when area is the very channel doing the encoding. `mercator` preserves local shape but inflates the poles — Greenland swells to rival Africa — so it flatters high-latitude regions in a way a choropleth reader will misread. `equalEarth` and `equirectangular` round out the set. The component is geometry-agnostic: give it any GeoJSON and it fits the projection to the frame.
+Every flat map lies about something. `naturalEarth` (the default) keeps area roughly honest, which matters most when area is the very channel doing the encoding. `mercator` preserves local shape but inflates the poles — Greenland swells to rival Africa — so it flatters high-latitude regions in a way a choropleth reader will misread. `equalEarth` and `equirectangular` round out the set.
 
 ## Data
 
@@ -72,22 +72,13 @@ A map is a picture, and a picture excludes anyone who cannot see it. The compone
 - Home / End: jump to the first / last region.
 - Enter / Space: activate the focused region (emits `pp-choropleth-click`).
 
-## Related patterns
+## Related components 
 
-### Siblings
 - [Map](../?path=/docs/components-map--docs) — the located-point branch of the same territory; reach for it when the value belongs to a place, not an area.
-
-### Precursors
 - [Bar chart](../?path=/docs/data-visualisation-bar-chart--docs) — the comparison branch; a choropleth is the comparison a reader can locate as well as rank.
 - [Elements](../?path=/docs/data-visualisation-elements--docs) — the categorical-colour, formatting, and symbology conventions the choropleth inherits.
-
-### Complementary
 - Tooltip — the per-region hover readout.
 - [Cards](../?path=/docs/components-card--docs) — a common frame for a map placed in a dashboard.
-
-### Tangentially related
-- [Filtering](/patterns/filtering) — choosing which regions or value range to show.
-- <PatternRef slug="dashboard">Dashboard</PatternRef> — where a choropleth most often earns its place.
 
 ## Resources & references
 

@@ -3,7 +3,7 @@ import * as MapStories from './Map.stories.tsx';
 
 <Meta title="Components/Map" of={MapStories} tags={['activity-level:operation', 'atomic:component', 'role:component', 'mediation:individual']} />
 
-> 🗺️ *Fun meter: 3/5*. Tiles and pins are settled technology, so the engineering isn't the interesting part. The tension is: a map is the one picture a reader understands with no legend, and also the one that shuts out anyone who can't see it. Making the pins themselves reachable — focusable, named, selectable from the keyboard — is the quieter answer: the geography and its accessible route become the same object, rather than a picture bolted to a list.
+{/* > 🗺️ *Fun meter: 3/5*.  */}
 
 # Map
 
@@ -31,14 +31,6 @@ Setting `selected-id` opens the view on a specific place. Use it when the map ar
 
 Given a centre and zoom, the map settles on one place rather than fitting them all — the detail view of an address, the *you are here* of a venue.
 
-## Data
-
-The component takes one flat list; there is no separate geometry to join:
-
-- `locations` — one `{ id, name, lat, lng, description? }` per place. `lat`/`lng` are decimal degrees; `name` and `description` show in the pin's popup and form its accessible name.
-
-With no `center`, the view fits every marker. With one, it holds that point at `zoom`. Nothing assumes these are offices — swap in sensor readings, delivery stops, or property listings and the same element plots them.
-
 ## Tiles & attribution
 
 The base layer is raster tiles, OpenStreetMap by default, fetched over the network — so a story with no connection shows the pins over blank tiles, and most providers *require* the attribution the map carries in its corner. Point `tile-url` and `attribution` at another provider to change the base; everything above the tiles stays the same. Vector tiles, clustered pins, and drawn regions are the obvious next layers, and Leaflet supports them, but they are out of scope here.
@@ -51,11 +43,11 @@ Tiles fade in as they arrive; pins are placed immediately from coordinates, so t
 
 ### Empty
 
-With no locations the map still draws, centred on the world — the frame the reader is about to fill, rather than an error.
+With no locations the map still draws, centred on the world.
 
 ### Resized
 
-The map recovers from a late layout — revealed in a tab, dropped into a flex row — by re-measuring its container, so tiles stay aligned instead of smearing.
+The map recovers from a late layout by re-measuring its container, so tiles stay aligned instead of smearing.
 
 ## Accessibility
 
@@ -72,22 +64,15 @@ A map is a picture, and a picture excludes anyone who cannot see it. Here the pi
 
 Given without a caption, the map still needs a text equivalent nearby — a table or list of the same places — for a reader who wants the data in reading order rather than by position.
 
-## Related patterns
+## Related components 
 
-### Siblings
-- [Choropleth](../?path=/docs/data-visualisation-choropleth--docs) — the region-shading branch of the same territory; reach for it when the quantity belongs to an area, not a point.
-- [Elements](../?path=/docs/data-visualisation-elements--docs) — the categorical-colour and formatting conventions the map's pins and labels inherit.
-
-### Complementary
-- Tooltip — the per-pin popup readout.
-- [Cards](../?path=/docs/components-card--docs) — a common frame for a map placed in a dashboard.
-
-### Tangentially related
-- [Filtering](/patterns/filtering) — narrowing which places, or which value range, the map shows.
-- <PatternRef slug="dashboard">Dashboard</PatternRef> — where a located map most often earns its place.
+- [Choropleth](../?path=/docs/data-visualisation-choropleth--docs) — the region-shading branch of the same territory; reach for it when the quantity belongs to an area, not a point
+- [Data visualisation elements](../?path=/docs/data-visualisation-elements--docs) — the categorical-colour and formatting conventions the map's pins and labels inherit
+- Tooltip — the per-pin popup readout
+- [Cards](../?path=/docs/components-card--docs) — a common frame for a map placed in a dashboard
 
 ## Resources & references
 
-- Leaflet, [documentation](https://leafletjs.com/reference.html) — the mapping library this component wraps: tile layers, markers, and view control.
-- [OpenStreetMap](https://www.openstreetmap.org/copyright) — the default tile source and its attribution terms.
-- Sarah Higley, [Grids Part 2: Semantics](https://sarahmhigley.com/writing/grids-part2/) — on making spatial widgets navigable to assistive technology, the reasoning behind treating each pin as a named, focusable control.
+- Leaflet, [documentation](https://leafletjs.com/reference.html) — the mapping library this component wraps: tile layers, markers, and view control
+- [OpenStreetMap](https://www.openstreetmap.org/copyright) — the default tile source and its attribution terms
+- Sarah Higley, [Grids Part 2: Semantics](https://sarahmhigley.com/writing/grids-part2/) — on making spatial widgets navigable to assistive technology
