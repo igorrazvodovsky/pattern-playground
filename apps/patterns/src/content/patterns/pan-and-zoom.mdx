@@ -16,9 +16,12 @@ relationships:
     - to: hybrid-patterns
       note: global nav for sections, spatial within sections
   alternative:
-    - pyramid
-    - fully-connected
-    - multilevel-tree
+    - to: pyramid
+      note: for sequences that could be spatial
+    - to: fully-connected
+      note: pan/zoom hybrid for maps with discrete sections
+    - to: multilevel-tree
+      note: for hierarchical spatial data
 ---
 Single large continuous spaces rather than discrete pages. Actors navigate by panning (horizontal/vertical movement) and zooming (scale changes).
 Everything exists in a single coordinate system, eliminating page transitions but introducing orientation and wayfinding challenges.

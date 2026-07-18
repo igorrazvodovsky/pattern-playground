@@ -14,10 +14,16 @@ relationships:
   instances:
     - to: wizard
       note: Wizard is the canonical instantiation of step-by-step navigation
+  complements:
+    - to: deep-linking
+      note: enables returning to specific steps via URL
   alternative:
-    - pyramid
-    - hybrid-patterns
-    - multilevel-tree
+    - to: pyramid
+      note: for sequences with flexible navigation
+    - to: hybrid-patterns
+      note: for guided but flexible processes
+    - to: multilevel-tree
+      note: for structured but non-linear content
 ---
 The guided progression through a prescribed sequence, balancing task-completion focus against freedom to deviate. Flows range from simple two-step processes to complex multi-stage journeys, with supplementary options like skip, save and continue later, or jump to step.
 

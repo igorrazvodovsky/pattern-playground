@@ -1335,6 +1335,7 @@
       "source": "agent",
       "target": "ai-tuning",
       "type": "precedes",
+      "label": "tuning keeps the actor in control while the agent does its thing",
       "extractedFrom": "frontmatter:precedes"
     },
     {
@@ -1953,9 +1954,10 @@
     },
     {
       "source": "collaboration-foundation",
-      "target": "agent",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
+      "target": "temporality",
+      "type": "enacts",
+      "label": "whether the actors share time — synchronous and asynchronous modes give joint work different rhythms",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "collaboration",
@@ -2608,12 +2610,6 @@
       "extractedFrom": "frontmatter:precedes"
     },
     {
-      "source": "filtering",
-      "target": "agent",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
       "source": "flat-navigation",
       "target": "command-menu",
       "type": "related",
@@ -2624,12 +2620,14 @@
       "source": "flat-navigation",
       "target": "fully-connected",
       "type": "related",
+      "label": "for content-focused applications",
       "extractedFrom": "frontmatter:related"
     },
     {
       "source": "flat-navigation",
       "target": "hybrid-patterns",
       "type": "related",
+      "label": "for multiple flat spaces",
       "extractedFrom": "frontmatter:related"
     },
     {
@@ -2769,24 +2767,28 @@
       "source": "fully-connected",
       "target": "hybrid-patterns",
       "type": "complements",
+      "label": "can be combined with a multilevel tree as content grows",
       "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "fully-connected",
       "target": "hub-and-spoke",
       "type": "alternative",
+      "label": "for mobile or simpler structures",
       "extractedFrom": "frontmatter:alternative"
     },
     {
       "source": "fully-connected",
       "target": "multilevel-tree",
       "type": "alternative",
+      "label": "for deep hierarchies",
       "extractedFrom": "frontmatter:alternative"
     },
     {
       "source": "fully-connected",
       "target": "step-by-step",
       "type": "alternative",
+      "label": "for focused processes",
       "extractedFrom": "frontmatter:alternative"
     },
     {
@@ -2980,18 +2982,21 @@
       "source": "hub-and-spoke",
       "target": "fully-connected",
       "type": "alternative",
+      "label": "for frequent cross-section movement",
       "extractedFrom": "frontmatter:alternative"
     },
     {
       "source": "hub-and-spoke",
       "target": "multilevel-tree",
       "type": "alternative",
+      "label": "for hierarchical relationships",
       "extractedFrom": "frontmatter:alternative"
     },
     {
       "source": "hub-and-spoke",
       "target": "hybrid-patterns",
       "type": "alternative",
+      "label": "to add cross-spoke navigation",
       "extractedFrom": "frontmatter:alternative"
     },
     {
@@ -3020,12 +3025,6 @@
       "target": "information-architecture",
       "type": "related",
       "label": "conceptual framework",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "hybrid-patterns",
-      "target": "wizard",
-      "type": "related",
       "extractedFrom": "frontmatter:related"
     },
     {
@@ -3091,6 +3090,7 @@
       "source": "information-architecture",
       "target": "searching",
       "type": "precedes",
+      "label": "the underlying structure and labelling system that search indexes — without good IA, search is brittle",
       "extractedFrom": "frontmatter:precedes"
     },
     {
@@ -3272,12 +3272,14 @@
       "source": "interaction",
       "target": "hub-and-spoke",
       "type": "related",
+      "label": "avoid opaque hub-and-spoke implementations",
       "extractedFrom": "frontmatter:related"
     },
     {
       "source": "interaction",
       "target": "searching",
       "type": "related",
+      "label": "search read as a navigation behaviour — how the seeking move fits the actor's broader movement through the system",
       "extractedFrom": "frontmatter:related"
     },
     {
@@ -3664,30 +3666,6 @@
     },
     {
       "source": "modality",
-      "target": "agent",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "modality",
-      "target": "dynamic-hyperlinks",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "modality",
-      "target": "undo",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "modality",
-      "target": "settings",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "modality",
       "target": "agency",
       "type": "enacts",
       "label": "the actor picks whichever channel fits the moment rather than being locked to one",
@@ -3970,6 +3948,7 @@
       "source": "onboarding",
       "target": "agent",
       "type": "precedes",
+      "label": "the first steps that help people get to know the agent — what it can and can't do",
       "extractedFrom": "frontmatter:precedes"
     },
     {
@@ -4020,12 +3999,6 @@
       "type": "complements",
       "label": "first-run locale detection and selection",
       "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "onboarding",
-      "target": "activity-log",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
     },
     {
       "source": "user-opening",
@@ -4116,18 +4089,21 @@
       "source": "pan-and-zoom",
       "target": "pyramid",
       "type": "alternative",
+      "label": "for sequences that could be spatial",
       "extractedFrom": "frontmatter:alternative"
     },
     {
       "source": "pan-and-zoom",
       "target": "fully-connected",
       "type": "alternative",
+      "label": "pan/zoom hybrid for maps with discrete sections",
       "extractedFrom": "frontmatter:alternative"
     },
     {
       "source": "pan-and-zoom",
       "target": "multilevel-tree",
       "type": "alternative",
+      "label": "for hierarchical spatial data",
       "extractedFrom": "frontmatter:alternative"
     },
     {
@@ -4386,20 +4362,30 @@
     },
     {
       "source": "pyramid",
+      "target": "filtering",
+      "type": "complements",
+      "label": "for large collections",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "pyramid",
       "target": "step-by-step",
       "type": "alternative",
+      "label": "for strict sequences",
       "extractedFrom": "frontmatter:alternative"
     },
     {
       "source": "pyramid",
       "target": "multilevel-tree",
       "type": "alternative",
+      "label": "for hierarchical content",
       "extractedFrom": "frontmatter:alternative"
     },
     {
       "source": "pyramid",
       "target": "hub-and-spoke",
       "type": "alternative",
+      "label": "when items don't form sequences",
       "extractedFrom": "frontmatter:alternative"
     },
     {
@@ -4540,6 +4526,13 @@
       "target": "sorting",
       "type": "tangential",
       "label": "Sorting changes what a range selection refers to mid-flight — range selections have to either survive the sort or re-resolve to the new order",
+      "extractedFrom": "frontmatter:tangential"
+    },
+    {
+      "source": "selection",
+      "target": "interaction",
+      "type": "tangential",
+      "label": "distinct but adjacent — the gesture grammar usually has to coexist with focus",
       "extractedFrom": "frontmatter:tangential"
     },
     {
@@ -4788,20 +4781,30 @@
     },
     {
       "source": "step-by-step",
+      "target": "deep-linking",
+      "type": "complements",
+      "label": "enables returning to specific steps via URL",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "step-by-step",
       "target": "pyramid",
       "type": "alternative",
+      "label": "for sequences with flexible navigation",
       "extractedFrom": "frontmatter:alternative"
     },
     {
       "source": "step-by-step",
       "target": "hybrid-patterns",
       "type": "alternative",
+      "label": "for guided but flexible processes",
       "extractedFrom": "frontmatter:alternative"
     },
     {
       "source": "step-by-step",
       "target": "multilevel-tree",
       "type": "alternative",
+      "label": "for structured but non-linear content",
       "extractedFrom": "frontmatter:alternative"
     },
     {
@@ -4869,6 +4872,13 @@
     },
     {
       "source": "suggestion",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "visualising the future — a suggestion puts a possible next state in front of the actor before they act",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "suggestion",
       "target": "conversation",
       "type": "alternative",
       "label": "dialogue forms that provide alternatives to suggestion-based interaction",
@@ -4883,6 +4893,13 @@
     },
     {
       "source": "tag",
+      "target": "searching",
+      "type": "precedes",
+      "label": "tags enable faceted search and filtering",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "tag",
       "target": "formality",
       "type": "enacts",
       "label": "lightweight formalisation through inline categorisation, structure added without demanding it",
@@ -4892,6 +4909,13 @@
       "source": "template",
       "target": "suggestion",
       "type": "complements",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "template",
+      "target": "wizard",
+      "type": "complements",
+      "label": "when templates are generated through step-by-step choices",
       "extractedFrom": "frontmatter:complements"
     },
     {
@@ -5178,12 +5202,6 @@
       "type": "complements",
       "label": "mitigates the high commitment level by allowing reversal of completed steps",
       "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "wizard",
-      "target": "conversation",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
     },
     {
       "source": "wizard",

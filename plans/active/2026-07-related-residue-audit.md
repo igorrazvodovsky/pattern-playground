@@ -57,6 +57,19 @@ for this audit are the *bare* ones, judged origin-note by origin-note.
    edge, choosing the right edge type under current vocabulary), *removed
    deliberately* (nothing to do), or *release now* (accept the removal on
    inspection). Foundation-target rows wait for the gate above.
+   First pass recorded 2026-07-18 (branch `related-residue-verdicts`): all 204
+   judgment rows carry a verdict in the worksheet; restorations and removals
+   are committed alongside. Note the worksheet predates the Bot → Agent
+   rename — its `bot` rows resolve to `agent.mdx`. Seven rows are marked
+   *skip* and await the author:
+   - dashboard → semantic-zoom and view → semantic-zoom (§1) — gated on the
+     view-system reshape (`plans/active/2026-07-view-system.md`).
+   - shareability → conversation and shareability → collaboration (§1) —
+     unclear whether the claims are edge-grade, and which collaboration entry
+     the second one targets.
+   - navigation-overview `surveys` → malleability, deep-linking, command-menu
+     (§4) — whether a collection may survey non-members is undecided (noted
+     surveys to agency/interaction/IA exist as precedent).
 3. _Definition of done._ Every row judged; restorations committed; any
    bare-slug edge still standing afterwards is a deliberate seed, not
-   unexamined residue.
+   unexamined residue. Outstanding: the seven skips above.

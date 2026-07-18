@@ -13,29 +13,29 @@ No edge between the two entries in either direction.
 
 | origin | target | original note | endpoint | annotations | verdict |
 |---|---|---|---|---|---|
-| form | command-menu | quick access to form actions | — |  |  |
-| suggestion | bot | — | — |  |  |
-| template | wizard | and step-by-step builders: When templates are generated through choices | — |  |  |
-| selection | interaction | distinct but adjacent; the gesture grammar usually has to coexist with focus | — |  |  |
-| pyramid | filtering | for large collections | — |  |  |
-| step-by-step | deep-linking | enables returning to specific steps via URL | — |  |  |
-| filtering | command-menu | Depends on [command menu](../?path=/docs/actions-seeking-command-menu--docs) for the local search through attributes and values. | — |  |  |
-| progressive-disclosure | bot | bots often need to reveal capability, intent, and reasoning incrementally | — |  |  |
-| dashboard | semantic-zoom | Density-preserving transitions between views | — |  |  |
-| tag | searching | Search - tags enable faceted search and filtering | — |  |  |
-| tag | interaction | — | — |  |  |
-| view | semantic-zoom | Density-preserving transitions between framings | — | linked in origin body |  |
-| bot | suggestion | [Onboarding](../?path=/docs/activities-onboarding--docs), priming, and [suggestions](../?path=/docs/actions-application-suggestion--docs) are the first steps that help people get to know the bot—what it can and can't do,… | — |  |  |
-| bot | progressive-disclosure | bots often operate well with incremental complexity. Progressive disclosure keeps things simple at first and helps actors build confidence. | — |  |  |
-| bot | settings | LLM [settings](../?path=/docs/activities-ai-tuning--docs) help keep users in control while the bot does its thing. | — |  |  |
-| collaboration | prompt | how humans address an AI participant | — |  |  |
-| prompt | settings | let users refine the way LLM gets prompted. | — |  |  |
-| prompt | collaboration | LLM prompts enable effective human-to-AI communication in collaborative contexts | — |  |  |
-| workspace | navigation-overview | enables movement through application structure; workspaces extend navigation by supporting parallel access to multiple destinations. | — |  |  |
-| shareability | conversation | URLs function as [conversational interfaces](../?path=/docs/qualities-conversation--docs)—they're contracts between application and user that communicate intent clearly. A well-designed URL answers "what am I looking at?… | — |  |  |
-| shareability | collaboration | benefits when participants can share precise application states through URLs. | — |  |  |
-| temporality | collaboration-foundation | Synchronous vs asynchronous temporal modes | — | linked in origin body |  |
-| temporality | suggestion | Visualising the future | — |  |  |
+| form | command-menu | quick access to form actions | — |  | release — thin adjacency |
+| suggestion | bot | — | — |  | release — origin bare; mediated via completion family |
+| template | wizard | and step-by-step builders: When templates are generated through choices | — |  | lost — restored: template complements wizard |
+| selection | interaction | distinct but adjacent; the gesture grammar usually has to coexist with focus | — |  | lost — restored: selection tangential interaction |
+| pyramid | filtering | for large collections | — |  | lost — restored: pyramid complements filtering |
+| step-by-step | deep-linking | enables returning to specific steps via URL | — |  | lost — restored: complements |
+| filtering | command-menu | Depends on [command menu](../?path=/docs/actions-seeking-command-menu--docs) for the local search through attributes and values. | — |  | release — superseded by combobox ComponentRef |
+| progressive-disclosure | bot | bots often need to reveal capability, intent, and reasoning incrementally | — |  | deliberate — mediator doctrine (onboarding, transparent-reasoning) |
+| dashboard | semantic-zoom | Density-preserving transitions between views | — |  | skip — view-system reshape pending |
+| tag | searching | Search - tags enable faceted search and filtering | — |  | lost — restored: tag precedes searching |
+| tag | interaction | — | — |  | release — origin bare |
+| view | semantic-zoom | Density-preserving transitions between framings | — | linked in origin body | skip — view retirement pending |
+| bot | suggestion | [Onboarding](../?path=/docs/activities-onboarding--docs), priming, and [suggestions](../?path=/docs/actions-application-suggestion--docs) are the first steps that help people get to know the bot—what it can and can't do,… | — |  | release — covered by onboarding note + completion-family edges |
+| bot | progressive-disclosure | bots often operate well with incremental complexity. Progressive disclosure keeps things simple at first and helps actors build confidence. | — |  | deliberate — mediator doctrine |
+| bot | settings | LLM [settings](../?path=/docs/activities-ai-tuning--docs) help keep users in control while the bot does its thing. | — |  | release — superseded by ai-tuning; note restored on agent precedes ai-tuning |
+| collaboration | prompt | how humans address an AI participant | — |  | release — mediated via conversation |
+| prompt | settings | let users refine the way LLM gets prompted. | — |  | release — superseded by ai-tuning |
+| prompt | collaboration | LLM prompts enable effective human-to-AI communication in collaborative contexts | — |  | release — mediated via conversation |
+| workspace | navigation-overview | enables movement through application structure; workspaces extend navigation by supporting parallel access to multiple destinations. | — |  | release — collection links are surveys-only |
+| shareability | conversation | URLs function as [conversational interfaces](../?path=/docs/qualities-conversation--docs)—they're contracts between application and user that communicate intent clearly. A well-designed URL answers "what am I looking at?… | — |  | skip |
+| shareability | collaboration | benefits when participants can share precise application states through URLs. | — |  | skip — target ambiguous (activity vs foundation) |
+| temporality | collaboration-foundation | Synchronous vs asynchronous temporal modes | — | linked in origin body | lost — restored: collaboration-foundation enacts temporality |
+| temporality | suggestion | Visualising the future | — |  | lost — restored: suggestion enacts temporality |
 
 ## 2 · Edge present bare, origin note dropped (24)
 
@@ -43,30 +43,30 @@ The classic failure mode: the edge survived as a bare slug, the prose note did n
 
 | origin | target | original note | endpoint | annotations | verdict |
 |---|---|---|---|---|---|
-| flat-navigation | fully-connected | for content-focused applications | → related (bare) |  |  |
-| flat-navigation | hybrid-patterns | for multiple flat spaces | → related (bare) |  |  |
-| fully-connected | hybrid-patterns | Can be combined with [tree](../?path=/docs/actions-navigation-hybrid-patterns--docs#multilevel-tree--fully-connected) as content grows | → complements (bare) | linked in origin body |  |
-| fully-connected | hub-and-spoke | for mobile or simpler structures | → alternative (bare)<br>← alternative (bare) |  |  |
-| fully-connected | multilevel-tree | for deep hierarchies | → alternative (bare)<br>← alternative (bare) | linked in target body |  |
-| fully-connected | step-by-step | for focused processes | → alternative (bare) |  |  |
-| hub-and-spoke | fully-connected | for frequent cross-section movement | → alternative (bare)<br>← alternative (bare) |  |  |
-| hub-and-spoke | multilevel-tree | for hierarchical relationships | → alternative (bare)<br>← alternative (bare) |  |  |
-| hub-and-spoke | hybrid-patterns | to add cross-spoke navigation | → alternative (bare) | linked in origin body |  |
-| pan-and-zoom | pyramid | for sequences that could be spatial | → alternative (bare) |  |  |
-| pan-and-zoom | fully-connected | + pan/zoom hybrid for maps with discrete sections | → alternative (bare) |  |  |
-| pan-and-zoom | multilevel-tree | for hierarchical spatial data | → alternative (bare) |  |  |
-| pyramid | step-by-step | for strict sequences | → alternative (bare)<br>← alternative (bare) | linked in target body |  |
-| pyramid | multilevel-tree | for hierarchical content | → alternative (bare) |  |  |
-| pyramid | hub-and-spoke | when items don't form sequences | → alternative (bare) |  |  |
-| step-by-step | pyramid | for sequences with flexible navigation | → alternative (bare)<br>← alternative (bare) | linked in origin body |  |
-| step-by-step | hybrid-patterns | for guided but flexible processes | → alternative (bare) |  |  |
-| step-by-step | multilevel-tree | for structured but non-linear content | → alternative (bare) |  |  |
-| data-view | filtering | Filtering | ← precedes (bare) |  |  |
-| searching | information-architecture | The underlying structure and labeling system that search indexes. Without good IA, search is brittle. | ← precedes (bare) |  |  |
-| searching | interaction | Defines the search as navigation *behaviour* and how it fits into the broader user movement through the system. | ← related (bare) | linked in origin body |  |
-| bot | onboarding | [Onboarding](../?path=/docs/activities-onboarding--docs), priming, and [suggestions](../?path=/docs/actions-application-suggestion--docs) are the first steps that help people get to know the bot—what it can and can't do,… | ← precedes (bare) |  |  |
-| workspace | information-architecture | [Hub and Spoke](../?path=/docs/actions-navigation-hub-and-spoke--docs) - Workspaces often implement hub and spoke navigation, where a workspace switcher or dashboard (hub) provides access to individual workspaces (spokes… | ← precedes (bare) |  |  |
-| interaction | hub-and-spoke | Avoid opaque [hub and spoke](../?path=/docs/actions-navigation-hub-and-spoke--docs) implementations | → related (bare) | linked in origin body; linked in target body |  |
+| flat-navigation | fully-connected | for content-focused applications | → related (bare) |  | lost — note restored |
+| flat-navigation | hybrid-patterns | for multiple flat spaces | → related (bare) |  | lost — note restored |
+| fully-connected | hybrid-patterns | Can be combined with [tree](../?path=/docs/actions-navigation-hybrid-patterns--docs#multilevel-tree--fully-connected) as content grows | → complements (bare) | linked in origin body | lost — note restored |
+| fully-connected | hub-and-spoke | for mobile or simpler structures | → alternative (bare)<br>← alternative (bare) |  | lost — note restored |
+| fully-connected | multilevel-tree | for deep hierarchies | → alternative (bare)<br>← alternative (bare) | linked in target body | lost — note restored |
+| fully-connected | step-by-step | for focused processes | → alternative (bare) |  | lost — note restored |
+| hub-and-spoke | fully-connected | for frequent cross-section movement | → alternative (bare)<br>← alternative (bare) |  | lost — note restored |
+| hub-and-spoke | multilevel-tree | for hierarchical relationships | → alternative (bare)<br>← alternative (bare) |  | lost — note restored |
+| hub-and-spoke | hybrid-patterns | to add cross-spoke navigation | → alternative (bare) | linked in origin body | lost — note restored |
+| pan-and-zoom | pyramid | for sequences that could be spatial | → alternative (bare) |  | lost — note restored |
+| pan-and-zoom | fully-connected | + pan/zoom hybrid for maps with discrete sections | → alternative (bare) |  | lost — note restored |
+| pan-and-zoom | multilevel-tree | for hierarchical spatial data | → alternative (bare) |  | lost — note restored |
+| pyramid | step-by-step | for strict sequences | → alternative (bare)<br>← alternative (bare) | linked in target body | lost — note restored |
+| pyramid | multilevel-tree | for hierarchical content | → alternative (bare) |  | lost — note restored |
+| pyramid | hub-and-spoke | when items don't form sequences | → alternative (bare) |  | lost — note restored |
+| step-by-step | pyramid | for sequences with flexible navigation | → alternative (bare)<br>← alternative (bare) | linked in origin body | lost — note restored |
+| step-by-step | hybrid-patterns | for guided but flexible processes | → alternative (bare) |  | lost — note restored |
+| step-by-step | multilevel-tree | for structured but non-linear content | → alternative (bare) |  | lost — note restored |
+| data-view | filtering | Filtering | ← precedes (bare) |  | release — note was bare link text |
+| searching | information-architecture | The underlying structure and labeling system that search indexes. Without good IA, search is brittle. | ← precedes (bare) |  | lost — note restored on IA precedes searching |
+| searching | interaction | Defines the search as navigation *behaviour* and how it fits into the broader user movement through the system. | ← related (bare) | linked in origin body | lost — note restored on interaction related searching |
+| bot | onboarding | [Onboarding](../?path=/docs/activities-onboarding--docs), priming, and [suggestions](../?path=/docs/actions-application-suggestion--docs) are the first steps that help people get to know the bot—what it can and can't do,… | ← precedes (bare) |  | lost — note restored on onboarding precedes agent |
+| workspace | information-architecture | [Hub and Spoke](../?path=/docs/actions-navigation-hub-and-spoke--docs) - Workspaces often implement hub and spoke navigation, where a workspace switcher or dashboard (hub) provides access to individual workspaces (spokes… | ← precedes (bare) |  | release — note lives on workspace↔hub-and-spoke edge |
+| interaction | hub-and-spoke | Avoid opaque [hub and spoke](../?path=/docs/actions-navigation-hub-and-spoke--docs) implementations | → related (bare) | linked in origin body; linked in target body | lost — note restored |
 
 ## 3 · Edge present bare, origin was bare too (10)
 
@@ -74,16 +74,16 @@ Nothing was dropped; listed so the bare edge is confirmed as a deliberate seed.
 
 | origin | target | original note | endpoint | annotations | verdict |
 |---|---|---|---|---|---|
-| assisted-task-completion | assistance | — | → related (bare) | linked in target body |  |
-| data-view | sorting | — | ← precedes (bare) |  |  |
-| data-view | grouping | — | ← precedes (bare) |  |  |
-| filtering | data-view | — | → precedes (bare) |  |  |
-| item-view | progressive-disclosure | — | → related (bare) |  |  |
-| sorting | data-view | — | → precedes (bare) |  |  |
-| explanation | assistance | — | → related (bare) | linked in target body |  |
-| grouping | data-view | — | → precedes (bare) |  |  |
-| transparent-reasoning | assistance | — | → complements (bare) | linked in target body |  |
-| transparent-reasoning | delegation | — | → complements (bare) |  |  |
+| assisted-task-completion | assistance | — | → related (bare) | linked in target body | deliberate — seed confirmed |
+| data-view | sorting | — | ← precedes (bare) |  | deliberate — seed confirmed |
+| data-view | grouping | — | ← precedes (bare) |  | deliberate — seed confirmed |
+| filtering | data-view | — | → precedes (bare) |  | deliberate — seed confirmed |
+| item-view | progressive-disclosure | — | → related (bare) |  | deliberate — seed confirmed |
+| sorting | data-view | — | → precedes (bare) |  | deliberate — seed confirmed |
+| explanation | assistance | — | → related (bare) | linked in target body | deliberate — seed confirmed |
+| grouping | data-view | — | → precedes (bare) |  | deliberate — seed confirmed |
+| transparent-reasoning | assistance | — | → complements (bare) | linked in target body | deliberate — seed confirmed |
+| transparent-reasoning | delegation | — | → complements (bare) |  | deliberate — seed confirmed |
 
 ## 4 · Endpoint bare-edge inventory (101)
 
@@ -93,107 +93,107 @@ Per the definition of done, each one left standing must be a deliberate seed.
 
 | entry | edge | covered above | verdict |
 |---|---|---|---|
-| abort | enables → conversation | §A2 (noted edge exists between the pair) |  |
-| agency | related → learnability | §A2 (noted edge exists between the pair) |  |
-| agent-opening | enables → conversation | §A2 (noted edge exists between the pair) |  |
-| agent-repair | enables → conversation | §A2 (noted edge exists between the pair) |  |
-| ai-completion | related → autofill | — |  |
-| ai-tuning | related → bot | — |  |
-| assistance | related → interaction | — |  |
-| assistance | related → delegation | — |  |
-| assisted-task-completion | related → assistance | §3 |  |
-| assisted-task-completion | related → transparent-reasoning | — |  |
-| assisted-task-completion | related → autocomplete | §A2 (noted edge exists between the pair) |  |
-| assisted-task-completion | related → autofill | §A2 (noted edge exists between the pair) |  |
-| assisted-task-completion | related → ai-completion | §A2 (noted edge exists between the pair) |  |
-| assisted-task-completion | related → next-best-action | §A2 (noted edge exists between the pair) |  |
-| bot | precedes → ai-tuning | — |  |
-| bot | precedes → transparent-reasoning | §A2 (noted edge exists between the pair) |  |
-| bot | related → ai-completion | §A2 (noted edge exists between the pair) |  |
-| bot | related → next-best-action | §A2 (noted edge exists between the pair) |  |
-| capability-and-scope | enables → conversation | §A2 (noted edge exists between the pair) |  |
-| closing | enables → conversation | §A2 (noted edge exists between the pair) |  |
-| collaboration-foundation | related → bot | — |  |
-| data-entry | related → conversation | — |  |
-| data-entry | related → inline-interface | — |  |
-| data-view | related → view | §A2 (noted edge exists between the pair) |  |
-| delegation | related → interaction | — |  |
-| delegation | related → assistance | — |  |
-| disengage-without-closing | enables → conversation | §A2 (noted edge exists between the pair) |  |
-| explanation | related → assistance | §3 |  |
-| explanation | related → state-disabled | §A2 (noted edge exists between the pair) |  |
-| explanation | related → progressive-disclosure | §A2 (noted edge exists between the pair) |  |
-| filtering | complements → grouping | §A2 (noted edge exists between the pair) |  |
-| filtering | complements → sorting | §A2 (noted edge exists between the pair) |  |
-| filtering | precedes → data-view | §2, §3 |  |
-| filtering | related → bot | — |  |
-| flat-navigation | related → fully-connected | §2 |  |
-| flat-navigation | related → hybrid-patterns | §2 |  |
-| form | related → inline-interface | — |  |
-| fully-connected | complements → hybrid-patterns | §2 |  |
-| fully-connected | alternative → hub-and-spoke | §2 |  |
-| fully-connected | alternative → multilevel-tree | §2 |  |
-| fully-connected | alternative → step-by-step | §2 |  |
-| grouping | precedes → data-view | §3 |  |
-| help | related → command-menu | — |  |
-| help | related → bot | — |  |
-| hub-and-spoke | alternative → fully-connected | §2 |  |
-| hub-and-spoke | alternative → multilevel-tree | §2 |  |
-| hub-and-spoke | alternative → hybrid-patterns | §2 |  |
-| hybrid-patterns | related → navigation-overview | §A2 (noted edge exists between the pair) |  |
-| hybrid-patterns | related → wizard | — |  |
-| information-architecture | related → interaction | — |  |
-| information-architecture | related → navigation-overview | §A2 (noted edge exists between the pair) |  |
-| information-architecture | related → multilevel-tree | — |  |
-| information-architecture | related → dynamic-hyperlinks | — |  |
-| information-architecture | related → prose | §A2 (noted edge exists between the pair) |  |
-| information-architecture | precedes → searching | §2 |  |
-| information-architecture | precedes → workspace | §2 |  |
-| interaction | related → information-architecture | — |  |
-| interaction | related → hub-and-spoke | §2 |  |
-| interaction | related → searching | §2 |  |
-| item-view | related → progressive-disclosure | §3 |  |
-| living-document | related → generated-content | — |  |
-| malleability | related → density | — |  |
-| malleability | related → a11y | — |  |
-| modality | related → bot | — |  |
-| modality | related → dynamic-hyperlinks | — |  |
-| modality | related → undo | — |  |
-| modality | related → settings | — |  |
-| multilevel-tree | alternative → fully-connected | §2 |  |
-| multilevel-tree | alternative → hub-and-spoke | §2 |  |
-| multilevel-tree | related → hybrid-patterns | — |  |
-| navigation-overview | surveys → malleability | — |  |
-| navigation-overview | surveys → deep-linking | — |  |
-| navigation-overview | surveys → searching | §A2 (noted edge exists between the pair) |  |
-| navigation-overview | surveys → command-menu | — |  |
-| onboarding | precedes → bot | §2 |  |
-| onboarding | related → activity-log | — |  |
-| pan-and-zoom | alternative → pyramid | §2 |  |
-| pan-and-zoom | alternative → fully-connected | §2 |  |
-| pan-and-zoom | alternative → multilevel-tree | §2 |  |
-| prose | related → transparent-reasoning | — |  |
-| prose | related → ai-tuning | — |  |
-| prose | related → data-entry | — |  |
-| prose | related → status-feedback | — |  |
-| prose | related → notification | — |  |
-| pyramid | alternative → step-by-step | §2 |  |
-| pyramid | alternative → multilevel-tree | §2 |  |
-| pyramid | alternative → hub-and-spoke | §2 |  |
-| sequence-completion | enables → conversation | §A2 (noted edge exists between the pair) |  |
-| sorting | precedes → data-view | §3 |  |
-| status-feedback | related → notification | §A2 (noted edge exists between the pair) |  |
-| step-by-step | alternative → pyramid | §2 |  |
-| step-by-step | alternative → hybrid-patterns | §2 |  |
-| step-by-step | alternative → multilevel-tree | §2 |  |
-| suggestion | related → ai-completion | §A2 (noted edge exists between the pair) |  |
-| template | complements → suggestion | — |  |
-| transparent-reasoning | complements → assistance | §3 |  |
-| transparent-reasoning | complements → delegation | §3 |  |
-| user-opening | enables → conversation | §A2 (noted edge exists between the pair) |  |
-| user-repair | enables → conversation | §A2 (noted edge exists between the pair) |  |
-| wizard | related → conversation | — |  |
-| workspace | related → collaboration-foundation | — |  |
+| abort | enables → conversation | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
+| agency | related → learnability | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
+| agent-opening | enables → conversation | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
+| agent-repair | enables → conversation | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
+| ai-completion | related → autofill | — | deliberate — seed |
+| ai-tuning | related → bot | — | deliberate — seed |
+| assistance | related → interaction | — | deliberate — seed |
+| assistance | related → delegation | — | deliberate — seed |
+| assisted-task-completion | related → assistance | §3 | deliberate — seed |
+| assisted-task-completion | related → transparent-reasoning | — | deliberate — seed |
+| assisted-task-completion | related → autocomplete | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
+| assisted-task-completion | related → autofill | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
+| assisted-task-completion | related → ai-completion | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
+| assisted-task-completion | related → next-best-action | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
+| bot | precedes → ai-tuning | — | lost — note restored |
+| bot | precedes → transparent-reasoning | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
+| bot | related → ai-completion | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
+| bot | related → next-best-action | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
+| capability-and-scope | enables → conversation | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
+| closing | enables → conversation | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
+| collaboration-foundation | related → bot | — | release — edge removed (mediated via collaboration activity) |
+| data-entry | related → conversation | — | deliberate — seed |
+| data-entry | related → inline-interface | — | deliberate — seed |
+| data-view | related → view | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
+| delegation | related → interaction | — | deliberate — seed |
+| delegation | related → assistance | — | deliberate — seed |
+| disengage-without-closing | enables → conversation | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
+| explanation | related → assistance | §3 | deliberate — seed |
+| explanation | related → state-disabled | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
+| explanation | related → progressive-disclosure | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
+| filtering | complements → grouping | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
+| filtering | complements → sorting | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
+| filtering | precedes → data-view | §2, §3 | deliberate — seed |
+| filtering | related → bot | — | release — edge removed (mediated via embedded-intelligence) |
+| flat-navigation | related → fully-connected | §2 | lost — note restored |
+| flat-navigation | related → hybrid-patterns | §2 | lost — note restored |
+| form | related → inline-interface | — | deliberate — seed |
+| fully-connected | complements → hybrid-patterns | §2 | lost — note restored |
+| fully-connected | alternative → hub-and-spoke | §2 | lost — note restored |
+| fully-connected | alternative → multilevel-tree | §2 | lost — note restored |
+| fully-connected | alternative → step-by-step | §2 | lost — note restored |
+| grouping | precedes → data-view | §3 | deliberate — seed |
+| help | related → command-menu | — | deliberate — seed |
+| help | related → bot | — | deliberate — seed |
+| hub-and-spoke | alternative → fully-connected | §2 | lost — note restored |
+| hub-and-spoke | alternative → multilevel-tree | §2 | lost — note restored |
+| hub-and-spoke | alternative → hybrid-patterns | §2 | lost — note restored |
+| hybrid-patterns | related → navigation-overview | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
+| hybrid-patterns | related → wizard | — | release — edge removed (mediated via step-by-step) |
+| information-architecture | related → interaction | — | deliberate — seed |
+| information-architecture | related → navigation-overview | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
+| information-architecture | related → multilevel-tree | — | deliberate — seed |
+| information-architecture | related → dynamic-hyperlinks | — | deliberate — seed |
+| information-architecture | related → prose | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
+| information-architecture | precedes → searching | §2 | lost — note restored |
+| information-architecture | precedes → workspace | §2 | deliberate — seed |
+| interaction | related → information-architecture | — | deliberate — seed |
+| interaction | related → hub-and-spoke | §2 | lost — note restored |
+| interaction | related → searching | §2 | lost — note restored |
+| item-view | related → progressive-disclosure | §3 | deliberate — seed |
+| living-document | related → generated-content | — | deliberate — seed |
+| malleability | related → density | — | deliberate — seed |
+| malleability | related → a11y | — | deliberate — seed |
+| modality | related → bot | — | release — edge removed |
+| modality | related → dynamic-hyperlinks | — | release — edge removed |
+| modality | related → undo | — | release — edge removed |
+| modality | related → settings | — | release — edge removed |
+| multilevel-tree | alternative → fully-connected | §2 | deliberate — seed (noted from the other side) |
+| multilevel-tree | alternative → hub-and-spoke | §2 | deliberate — seed (noted from the other side) |
+| multilevel-tree | related → hybrid-patterns | — | deliberate — seed |
+| navigation-overview | surveys → malleability | — | skip — surveys-to-non-member unclear |
+| navigation-overview | surveys → deep-linking | — | skip — surveys-to-non-member unclear |
+| navigation-overview | surveys → searching | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
+| navigation-overview | surveys → command-menu | — | skip — surveys-to-non-member unclear |
+| onboarding | precedes → bot | §2 | lost — note restored |
+| onboarding | related → activity-log | — | release — edge removed |
+| pan-and-zoom | alternative → pyramid | §2 | lost — note restored |
+| pan-and-zoom | alternative → fully-connected | §2 | lost — note restored |
+| pan-and-zoom | alternative → multilevel-tree | §2 | lost — note restored |
+| prose | related → transparent-reasoning | — | deliberate — seed |
+| prose | related → ai-tuning | — | deliberate — seed |
+| prose | related → data-entry | — | deliberate — seed |
+| prose | related → status-feedback | — | deliberate — seed |
+| prose | related → notification | — | deliberate — seed |
+| pyramid | alternative → step-by-step | §2 | lost — note restored |
+| pyramid | alternative → multilevel-tree | §2 | lost — note restored |
+| pyramid | alternative → hub-and-spoke | §2 | lost — note restored |
+| sequence-completion | enables → conversation | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
+| sorting | precedes → data-view | §3 | deliberate — seed |
+| status-feedback | related → notification | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
+| step-by-step | alternative → pyramid | §2 | lost — note restored |
+| step-by-step | alternative → hybrid-patterns | §2 | lost — note restored |
+| step-by-step | alternative → multilevel-tree | §2 | lost — note restored |
+| suggestion | related → ai-completion | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
+| template | complements → suggestion | — | deliberate — seed (from the §6 TODO) |
+| transparent-reasoning | complements → assistance | §3 | deliberate — seed |
+| transparent-reasoning | complements → delegation | §3 | deliberate — seed |
+| user-opening | enables → conversation | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
+| user-repair | enables → conversation | §A2 (noted edge exists between the pair) | deliberate — pair carries a note |
+| wizard | related → conversation | — | release — edge removed (mediated via form and agent) |
+| workspace | related → collaboration-foundation | — | deliberate — seed |
 
 ## 5 · Plain-text items, no link (30)
 
@@ -201,52 +201,52 @@ Related-section items that never linked anywhere; candidates were never graph ed
 
 | origin | target | original note | endpoint | annotations | verdict |
 |---|---|---|---|---|---|
-| saving | Draft vs. publish workflow | Draft vs. publish workflow | — |  |  |
-| saving | Multiplayer | Multiplayer | — |  |  |
-| notification | Complementary to validation and indication approaches | Complementary to validation and indication approaches | — |  |  |
-| text-lense | Combined with *citations*, summaries let you capture key tak | Combined with *citations*, summaries let you capture key takeaways from a long document and then go deeper into the content that are relevant to you | — |  |  |
-| text-lense | Combined with *synthesis*, summaries can take multiple input | Combined with *synthesis*, summaries can take multiple inputs such as an email thread and capture the main ideas | — |  |  |
-| text-lense | Combined with *workflow*, summaries can be added automatical | Combined with *workflow*, summaries can be added automatically to specific objects | — |  |  |
-| hub-and-spoke | Mobile app architectures with tab bars | Mobile app architectures with tab bars | — |  |  |
-| pan-and-zoom | Bookmarks or saved views | Bookmarks or saved views | — |  |  |
-| pan-and-zoom | Minimap or overview + detail patterns | Minimap or overview + detail patterns | — |  |  |
-| pan-and-zoom | Layers or filtering for complex spaces | Layers or filtering for complex spaces | — |  |  |
-| pyramid | Progress tracking and resume features | Progress tracking and resume features | — |  |  |
-| pyramid | Image loading optimisation (lazy loading) | Image loading optimisation (lazy loading) | — |  |  |
-| pyramid | Breadcrumbs showing hub context | Breadcrumbs showing hub context | — |  |  |
-| command-menu | A command palette often extends or consolidates *keyboard sh | A command palette often extends or consolidates *keyboard shortcut* functionality, making them easier to discover and use. | — |  |  |
-| command-menu | Navigation | *Navigation* menu establishes the baseline structure that a command menu can later streamline or augment. | — |  |  |
-| command-menu | Bookmarks | *Bookmarks* | — |  |  |
-| data-view | Pagination | Pagination | — |  |  |
-| data-view | Inline editing: supports direct manipulation or updating of | Inline editing: supports direct manipulation or updating of displayed data | — |  |  |
-| filtering | Constrained natural language builder | Constrained natural language builder | — |  |  |
-| filtering | Rules | Rules | — |  |  |
-| tag | Filters | Filters - tags as user-selected filter criteria | — |  |  |
-| tag | Supports *organising & structuring* phase through flexible c | Supports *organising & structuring* phase through flexible classification | — |  |  |
-| tag | Enables *exploration & discovery* through tag-based browsing | Enables *exploration & discovery* through tag-based browsing and filtering | — |  |  |
-| tag | Facilitates *sharing & collaboration* via hashtag-based soci | Facilitates *sharing & collaboration* via hashtag-based social distribution in user-generated systems | — |  |  |
-| activity-log | Feed | Feed — distinct from activity logs; feeds aggregate content _of interest to_ users from diverse sources, whilst logs are histories of _actions taken by_ a specific entity | — |  |  |
-| conversation | Conversation history | *Conversation history* facilitates continuity, knowledge retention, and revisiting prior interactions | — |  |  |
-| embedded-intelligence | Continuous feedback loop: The user's reaction to the embedde | Continuous feedback loop: The user's reaction to the embedded intelligence (e.g., accepting or rejecting a suggestion) provides valuable feedback for improving the underlying model. | — |  |  |
-| prompt | session, thread, etc. | session, thread, etc. | — |  |  |
-| interaction | Any model with clear structure and good wayfinding helps | Any model with clear structure and good wayfinding helps | — |  |  |
-| undo | Version history | Version history | — |  |  |
+| saving | Draft vs. publish workflow | Draft vs. publish workflow | — |  | release |
+| saving | Multiplayer | Multiplayer | — |  | release |
+| notification | Complementary to validation and indication approaches | Complementary to validation and indication approaches | — |  | release |
+| text-lense | Combined with *citations*, summaries let you capture key tak | Combined with *citations*, summaries let you capture key takeaways from a long document and then go deeper into the content that are relevant to you | — |  | release |
+| text-lense | Combined with *synthesis*, summaries can take multiple input | Combined with *synthesis*, summaries can take multiple inputs such as an email thread and capture the main ideas | — |  | release |
+| text-lense | Combined with *workflow*, summaries can be added automatical | Combined with *workflow*, summaries can be added automatically to specific objects | — |  | release |
+| hub-and-spoke | Mobile app architectures with tab bars | Mobile app architectures with tab bars | — |  | release |
+| pan-and-zoom | Bookmarks or saved views | Bookmarks or saved views | — |  | release |
+| pan-and-zoom | Minimap or overview + detail patterns | Minimap or overview + detail patterns | — |  | release |
+| pan-and-zoom | Layers or filtering for complex spaces | Layers or filtering for complex spaces | — |  | release |
+| pyramid | Progress tracking and resume features | Progress tracking and resume features | — |  | release |
+| pyramid | Image loading optimisation (lazy loading) | Image loading optimisation (lazy loading) | — |  | release |
+| pyramid | Breadcrumbs showing hub context | Breadcrumbs showing hub context | — |  | release |
+| command-menu | A command palette often extends or consolidates *keyboard sh | A command palette often extends or consolidates *keyboard shortcut* functionality, making them easier to discover and use. | — |  | release |
+| command-menu | Navigation | *Navigation* menu establishes the baseline structure that a command menu can later streamline or augment. | — |  | release |
+| command-menu | Bookmarks | *Bookmarks* | — |  | release |
+| data-view | Pagination | Pagination | — |  | release |
+| data-view | Inline editing: supports direct manipulation or updating of | Inline editing: supports direct manipulation or updating of displayed data | — |  | release |
+| filtering | Constrained natural language builder | Constrained natural language builder | — |  | release |
+| filtering | Rules | Rules | — |  | release |
+| tag | Filters | Filters - tags as user-selected filter criteria | — |  | release |
+| tag | Supports *organising & structuring* phase through flexible c | Supports *organising & structuring* phase through flexible classification | — |  | release |
+| tag | Enables *exploration & discovery* through tag-based browsing | Enables *exploration & discovery* through tag-based browsing and filtering | — |  | release |
+| tag | Facilitates *sharing & collaboration* via hashtag-based soci | Facilitates *sharing & collaboration* via hashtag-based social distribution in user-generated systems | — |  | release |
+| activity-log | Feed | Feed — distinct from activity logs; feeds aggregate content _of interest to_ users from diverse sources, whilst logs are histories of _actions taken by_ a specific entity | — |  | release |
+| conversation | Conversation history | *Conversation history* facilitates continuity, knowledge retention, and revisiting prior interactions | — |  | release |
+| embedded-intelligence | Continuous feedback loop: The user's reaction to the embedde | Continuous feedback loop: The user's reaction to the embedded intelligence (e.g., accepting or rejecting a suggestion) provides valuable feedback for improving the underlying model. | — |  | release |
+| prompt | session, thread, etc. | session, thread, etc. | — |  | release |
+| interaction | Any model with clear structure and good wayfinding helps | Any model with clear structure and good wayfinding helps | — |  | release |
+| undo | Version history | Version history | — |  | release |
 
 ## 6 · TODO/TBD items (11)
 
 | origin | target | original note | endpoint | annotations | verdict |
 |---|---|---|---|---|---|
-| template | `TODO:` History and versioning | `TODO:` History and versioning | — |  |  |
-| template | `TODO:` Comments and annotations | `TODO:` Comments and annotations | — |  |  |
-| template | `TODO:` Sharing | `TODO:` Sharing | — |  |  |
-| template | `TODO:` Suggestion | `TODO:` Suggestion | — |  |  |
-| pyramid | TODO: Infinite scroll with anchors for very long sequences | TODO: Infinite scroll with anchors for very long sequences | — |  |  |
-| step-by-step | TODO: Form validation | TODO: Form validation | — |  |  |
-| activity-feed | TODO:Infinite scrolling – loads additional content as user r | TODO:Infinite scrolling – loads additional content as user reaches end of current items | — |  |  |
-| help | TODO: Guided tours and overlays | TODO: Guided tours and overlays | — |  |  |
-| transparent-reasoning | Transparent reasoning can be seen as "TODO:workflow unpackin | Transparent reasoning can be seen as "TODO:workflow unpacking": in an LLM-driven system, reasoning processes can be viewed as dynamically generated workflows that emerge during runtime rather than being predefined. | — |  |  |
-| interaction | TODO: Search | TODO: Search | — |  |  |
-| agency | `TBD:` agent experience | `TBD:` agent experience | — |  |  |
+| template | `TODO:` History and versioning | `TODO:` History and versioning | — |  | release |
+| template | `TODO:` Comments and annotations | `TODO:` Comments and annotations | — |  | release |
+| template | `TODO:` Sharing | `TODO:` Sharing | — |  | release |
+| template | `TODO:` Suggestion | `TODO:` Suggestion | — |  | release |
+| pyramid | TODO: Infinite scroll with anchors for very long sequences | TODO: Infinite scroll with anchors for very long sequences | — |  | release |
+| step-by-step | TODO: Form validation | TODO: Form validation | — |  | release |
+| activity-feed | TODO:Infinite scrolling – loads additional content as user r | TODO:Infinite scrolling – loads additional content as user reaches end of current items | — |  | release |
+| help | TODO: Guided tours and overlays | TODO: Guided tours and overlays | — |  | release |
+| transparent-reasoning | Transparent reasoning can be seen as "TODO:workflow unpackin | Transparent reasoning can be seen as "TODO:workflow unpacking": in an LLM-driven system, reasoning processes can be viewed as dynamically generated workflows that emerge during runtime rather than being predefined. | — |  | release |
+| interaction | TODO: Search | TODO: Search | — |  | release |
+| agency | `TBD:` agent experience | `TBD:` agent experience | — |  | release |
 
 ## 7 · Unresolved targets (5)
 
@@ -254,11 +254,11 @@ Named things that are neither an endpoint entry nor a catalogued component.
 
 | origin | target | original note | endpoint | annotations | verdict |
 |---|---|---|---|---|---|
-| human-goes-first | Update after initial judgement | shares the "user judges first" structure but without the full skill-building arc | — |  |  |
-| dashboard | View system | Conceptual framework for need-driven framings | — |  |  |
-| density | Spacing | Controls visual density through sizing and spacing increments | — |  |  |
-| shareability | Adaptive systems | benefit from URL state as a mechanism for user-driven personalisation. View preferences, feature toggles, and configuration encoded in URLs let users experiment with adaptations and share successful configurations with o… | — |  |  |
-| temporality | Motion | Visual manifestation of micro-temporality | — |  |  |
+| human-goes-first | Update after initial judgement | shares the "user judges first" structure but without the full skill-building arc | — |  | release |
+| dashboard | View system | Conceptual framework for need-driven framings | — |  | release |
+| density | Spacing | Controls visual density through sizing and spacing increments | — |  | release |
+| shareability | Adaptive systems | benefit from URL state as a mechanism for user-driven personalisation. View preferences, feature toggles, and configuration encoded in URLs let users experiment with adaptations and share successful configurations with o… | — |  | release |
+| temporality | Motion | Visual manifestation of micro-temporality | — |  | release |
 
 ## 8 · Component targets (92)
 
