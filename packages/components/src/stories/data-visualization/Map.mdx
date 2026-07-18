@@ -33,7 +33,7 @@ Given a centre and zoom, the map settles on one place rather than fitting them a
 
 ## Tiles & attribution
 
-The base layer is raster tiles, OpenStreetMap by default, fetched over the network — so a story with no connection shows the pins over blank tiles, and most providers *require* the attribution the map carries in its corner. Point `tile-url` and `attribution` at another provider to change the base; everything above the tiles stays the same. Vector tiles, clustered pins, and drawn regions are the obvious next layers, and Leaflet supports them, but they are out of scope here.
+The base layer is raster tiles — CARTO Positron by default, a muted grey basemap chosen so the base recedes and the pins carry the data, rather than competing with a full-colour street map. Tiles are fetched over the network, so a story with no connection shows the pins over blank tiles, and most providers *require* the attribution the map carries in its corner. Point `tile-url` and `attribution` at another provider to change the base — OpenStreetMap's standard tiles for a fuller map, a satellite source for imagery — and everything above the tiles stays the same. Vector tiles, clustered pins, and drawn regions are the obvious next layers, and Leaflet supports them, but they are out of scope here.
 
 ## States
 
@@ -74,5 +74,6 @@ Given without a caption, the map still needs a text equivalent nearby — a tabl
 ## Resources & references
 
 - Leaflet, [documentation](https://leafletjs.com/reference.html) — the mapping library this component wraps: tile layers, markers, and view control
-- [OpenStreetMap](https://www.openstreetmap.org/copyright) — the default tile source and its attribution terms
+- CARTO, [basemaps](https://carto.com/basemaps) — the current tile source, a neutral grey base built for data overlays
+- [OpenStreetMap](https://www.openstreetmap.org) — the underlying map data
 - Sarah Higley, [Grids Part 2: Semantics](https://sarahmhigley.com/writing/grids-part2/) — on making spatial widgets navigable to assistive technology
