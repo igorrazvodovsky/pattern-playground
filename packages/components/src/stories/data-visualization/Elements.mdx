@@ -6,9 +6,67 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 Rendering conventions shared by every chart family — the visual-foundations substrate of the <PatternRef slug="data-visualization">data visualisation</PatternRef>. 
 
-## Colors
+## Colours
 
-TODO: categorical color scheme
+### Categorical palette
+
+For encoding *identity* — which series, which category — charts draw from a fixed
+palette of eight hues. Reach for it when the distinction between marks is nominal
+(team, region, endpoint); for magnitude or order, a single-hue ramp is the right
+tool instead, so the reader sees the quantity in the lightness.
+
+<div className="docs-palette">
+  <div style={{'--palette-bg': 'var(--c-cat-1)'}}>1</div>
+  <div style={{'--palette-bg': 'var(--c-cat-2)'}}>2</div>
+  <div style={{'--palette-bg': 'var(--c-cat-3)'}}>3</div>
+  <div style={{'--palette-bg': 'var(--c-cat-4)'}}>4</div>
+  <div style={{'--palette-bg': 'var(--c-cat-5)'}}>5</div>
+  <div style={{'--palette-bg': 'var(--c-cat-6)'}}>6</div>
+  <div style={{'--palette-bg': 'var(--c-cat-7)'}}>7</div>
+  <div style={{'--palette-bg': 'var(--c-cat-8)'}}>8</div>
+</div>
+
+Two rules make the palette safe rather than merely pretty, and both are load-bearing:
+
+- *The order is the accessibility mechanism, not decoration.* Slots are assigned
+  `1 → N` in sequence and never reordered or cycled. The ordering was chosen so
+  that neighbours stay distinct under red–green colour-vision deficiency
+  (simulated protanopia and deuteranopia, measured as OKLab colour distance).
+  Reordering breaks the guarantee. Colour also follows the entity, not its rank —
+  filtering a series out must not repaint the survivors.
+- *Colour never carries meaning alone.* Every chart pairs the palette with a
+  second channel that names the series — a legend, direct labels, or the
+  accessible data table and hover (a scatter leans on the last two). This matters
+  most on the light surface, where three of the hues (magenta, yellow, aqua) fall
+  below the 3:1 contrast bar by design and depend on that backup to stay legible.
+
+### How many series the palette carries
+
+The safe count depends on the chart, because it depends on which marks can end up
+side by side.
+
+<pp-table>
+  <table>
+    <thead><tr><th>Form</th><th>Which marks touch</th><th>Safe series</th></tr></thead>
+    <tbody>
+      <tr><td>Bar, line, stacked area</td><td>only neighbours in the stack or legend order</td><td>up to 8</td></tr>
+      <tr><td>Scatter, bubble, small multiples</td><td>any two, anywhere in the cloud</td><td>up to 4</td></tr>
+    </tbody>
+  </table>
+</pp-table>
+
+A scatter plot can place any two points next to each other, so every pair must be
+distinguishable — a stricter test that the full eight cannot pass. Past four
+series in an all-pairs form, the answer is fewer series (fold the tail into
+"Other"), small multiples, or direct labels — never a ninth colour. On a dark
+surface even the fourth series sits at the edge of the CVD margin, so the
+second-channel rule above (a label or the table) does the real work there.
+
+The eight hues are an OKLCH set seeded from a known-good CVD-safe palette and
+validated for this system; they are a sensible default, not a brand commitment —
+retune the hues and re-validate to taste. Tokens live in
+`styles/variables-palette.css` as `--c-cat-1 … --c-cat-8` (mode-aware; the dark
+steps are the same hues re-stepped for a dark surface).
 
 ## Typography
 

@@ -5,6 +5,7 @@
 import type {
   LineChartData,
   BarChartData,
+  ScatterPlotData,
   AreaChartData,
   TreeData,
   ChartDataPoint
@@ -13,6 +14,7 @@ import type {
 import {
   isLineChartData,
   isBarChartData,
+  isScatterPlotData,
   isAreaChartData,
   isTreeData
 } from './chart-types.js';
@@ -103,6 +105,36 @@ export function convertToBarChartData(input: unknown): BarChartData | null {
           }))
         };
       }
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Convert various input formats to ScatterPlotData
+ */
+export function convertToScatterPlotData(input: unknown): ScatterPlotData | null {
+  const data = parseChartData(input);
+
+  if (isScatterPlotData(data)) {
+    return data;
+  }
+
+  // Try to convert a bare array of {x, y} points to scatter plot format
+  if (Array.isArray(data) && data.length > 0) {
+    const firstItem = data[0];
+    if (isChartDataPoint(firstItem) && 'x' in firstItem && 'y' in firstItem) {
+      return {
+        data: data.map(item => ({
+          x: Number(item.x),
+          y: Number(item.y),
+          label: item.label as string | undefined,
+          category: item.category as string | undefined,
+          size: item.size as number | undefined,
+          color: item.color as string | undefined
+        }))
+      };
     }
   }
 
