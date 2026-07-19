@@ -12,6 +12,7 @@
 @import url(navigation.css) layer(components);
 @import url(pagination.css);
 @import url(table.css);
+@import url(description-list.css);
 @import url(charts.css) layer(components);
 @import url(map.css) layer(components);
 @import url(checkbox.css);
