@@ -155,21 +155,38 @@ for (const type of DIRECTED_IN_ORDER) {
 
 const hasRelated = !isQuality && sections.length > 0;
 
-// Notes may carry inline markdown links (`[text](/patterns/slug#anchor)`).
-// Split a note into plain-text and anchor segments so links render as real
-// anchors rather than literal `[…](…)` text. Authored content only — no escaping.
+// Notes may carry inline markdown: links (`[text](/patterns/slug#anchor)`) and
+// emphasis (`_italic_` or `*italic*`). Split a note into plain-text, anchor and
+// emphasis segments so each renders as a real element rather than literal
+// `[…](…)` / `_…_` text. Authored content only — no escaping.
 const MD_LINK = /\[([^\]]+)\]\(([^)]+)\)/g;
-type LabelPart = { text: string; href?: string };
+// Emphasis wrapping non-space-flanked content: `_underscore_` (only at word
+// boundaries, so `needs_based_view` stays literal, per CommonMark) or
+// `*star*` (allowed intraword). Group 1 is underscore content, group 2 star.
+const MD_EMPHASIS = /(?<![A-Za-z0-9])_(\S(?:[^_]*\S)?)_(?![A-Za-z0-9])|\*(\S(?:[^*]*\S)?)\*/g;
+type LabelPart = { text: string; href?: string; em?: boolean };
+function parseEmphasis(text: string): LabelPart[] {
+  const parts: LabelPart[] = [];
+  let last = 0;
+  for (const m of text.matchAll(MD_EMPHASIS)) {
+    const idx = m.index ?? 0;
+    if (idx > last) parts.push({ text: text.slice(last, idx) });
+    parts.push({ text: m[1] ?? m[2], em: true });
+    last = idx + m[0].length;
+  }
+  if (last < text.length) parts.push({ text: text.slice(last) });
+  return parts;
+}
 function parseLabel(label: string): LabelPart[] {
   const parts: LabelPart[] = [];
   let last = 0;
   for (const m of label.matchAll(MD_LINK)) {
     const idx = m.index ?? 0;
-    if (idx > last) parts.push({ text: label.slice(last, idx) });
+    if (idx > last) parts.push(...parseEmphasis(label.slice(last, idx)));
     parts.push({ text: m[1], href: m[2] });
     last = idx + m[0].length;
   }
-  if (last < label.length) parts.push({ text: label.slice(last) });
+  if (last < label.length) parts.push(...parseEmphasis(label.slice(last)));
   return parts;
 }
 ---
@@ -184,7 +201,7 @@ function parseLabel(label: string): LabelPart[] {
           {entries.map(({ node, label }) => (
             <li>
               <a href={node.path}>{node.title}</a>
-              {label && <> — {parseLabel(label).map((p) => (p.href ? <a href={p.href}>{p.text}</a> : p.text))}</>}
+              {label && <> — {parseLabel(label).map((p) => (p.href ? <a href={p.href}>{p.text}</a> : p.em ? <em>{p.text}</em> : p.text))}</>}
             </li>
           ))}
         </ul>
