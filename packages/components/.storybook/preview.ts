@@ -19,6 +19,16 @@ const preview: Preview = {
       },
     },
 
+    /* The widths that matter for this library: the pattern site's pane cap
+       (36rem) and a phone. #storybook-root is a `demo` query container (see
+       docs.css), so these exercise the narrow-container adaptations. */
+    viewport: {
+      options: {
+        pane: { name: 'Site pane (36rem)', styles: { width: '576px', height: '860px' } },
+        phone: { name: 'Phone', styles: { width: '390px', height: '844px' } },
+      },
+    },
+
     options: {
       storySort: {
         method: 'alphabetical',

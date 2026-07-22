@@ -1,0 +1,61 @@
+---
+title: Attribute visibility
+role: pattern
+group: seeking
+activityLevel: action
+atomic: composition
+mediation: individual
+lifecycle: seeking
+description: "Letting the actor decide which attributes a view carries — surfacing what their comparison needs, hiding what it doesn't — instead of living with a designer's guess."
+situation:
+  initiating: >-
+    a compressed rendering — rows, cards, pins — carries a fixed subset of
+    each entity's attributes, chosen once for everyone; the comparison the
+    actor came to make is in the data, visible in the detail view, but
+    absent from the view where comparing happens
+  resulting:
+    - each view's attribute set is the actor's decision, made per view, and whatever they surface becomes operable — a key to sort by, a predicate to filter by, an axis to plot on
+    - the curation moves to the actor — surfaced sets drift and diverge, so the designed defaults still matter, now as a starting point rather than a ceiling
+relationships:
+  enables:
+    - to: data-view
+      note: "attribute visibility is the representation leg of the framing — the query picks the items, the arrangement orders them, the attribute set decides what each item shows"
+    - to: overview-detail
+      note: "overview-detail's content dimension — which attributes live in which view — is attribute visibility applied per view; surfacing is what lifts the overview's ceiling"
+  complements:
+    - to: sorting
+      note: "surface then operate: an attribute made visible becomes a key to sort by"
+    - to: filtering
+      note: "surface then operate: an attribute made visible becomes a predicate to filter by"
+  enacts:
+    - to: malleability
+      note: "the attribute set is the smallest piece of a view an actor can own; products that hand over nothing else can hand over this"
+---
+
+import { FluidAttributesDemo } from '@pkg/demos/attribute-visibility';
+
+The actor is scanning a compressed rendering — rows in a table, cards in a grid, pins on a map — and the question they brought concerns an attribute the rendering doesn't carry. The data has it; the detail view shows it; but the subset chosen for the compressed form was someone else's guess at what everyone compares.
+
+## Forces
+
+- *Ceiling vs. clutter* — every attribute a view carries is scan cost paid on every item, and every attribute it omits is a comparison nobody can make; there is no subset that resolves this for all actors at once
+- *One default vs. divergent criteria* — given the same task and the same starting view, actors immediately diverge in what they surface; a fixed middle serves the average actor, who does not exist
+
+## Solution
+
+Make each view's attribute set a live control: the actor surfaces attributes into the compressed rendering and hides them from it, per view, with the entity staying recognisable throughout. The strongest form is direct manipulation — grab the attribute where it already appears, in one item's detail, and surface it across every item — rather than a settings screen away from the data.
+
+<Demo label="Drag an attribute row from the detail into the overview, then sort by what you added, or click a value to filter by it.">
+  <FluidAttributesDemo client:only="react" />
+</Demo>
+
+## Consequences
+
+- The view's attribute subset stops being everyone's ceiling: what can be scanned, compared, sorted, and filtered becomes a per-actor decision rather than a design-time one.
+- Surfaced attributes become operable — sort keys, filter predicates, plot axes — so the control compounds: changing what a view shows changes what the actor can do with it.
+- The curation is now the actor's to maintain: surfaced sets drift, and the defaults each view starts from remain a design responsibility. Few products grant the control at all — the ceiling is the norm, not the exception.
+
+## Resources & references
+
+- Min, Chen, Cao & Xia (2025) [Malleable overview-detail interfaces](https://dl.acm.org/doi/10.1145/3706598.3714164) — Fluid Attributes: the direct-manipulation form, the surface-then-operate workflows, the hoarder/minimalist temperaments, and the finding that 8.33% of surveyed sites offered any content customisation at all
+- Min & Xia (2025) [Meridian: a design framework for malleable overview-detail interfaces](https://dl.acm.org/doi/10.1145/3746059.3747654) — `shownAttributes` as the spec's most load-bearing field: per-view attribute lists that semantic zoom, roles, and most customisation reduce to

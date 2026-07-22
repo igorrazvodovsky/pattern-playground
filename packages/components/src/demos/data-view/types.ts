@@ -1,10 +1,10 @@
 import { Product } from '@shared/data/types';
 import { ProductFilter } from './ProductFilterTypes';
+import type { SortField, SortOrder } from '../../templates/collection-view/SortingUtils';
 
 export type ViewMode = 'card' | 'list' | 'table';
 export type AttributeSelection = Set<string>;
-export type SortOrder = 'asc' | 'desc';
-export type SortField = string;
+export type { SortField, SortOrder } from '../../templates/collection-view/SortingUtils';
 
 export interface DataViewProps {
   products: Product[];

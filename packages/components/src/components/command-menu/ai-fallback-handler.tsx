@@ -27,7 +27,7 @@ export const AIFallbackHandler: React.FC<AIFallbackHandlerProps> = ({
   // Handle create new item with clickable toast
   const handleCreateNewItem = React.useCallback(() => {
     const task = createTask(searchInput.trim());
-    PpToast.show(`Task created: ${task.title}`, () => {
+    PpToast.show(`Task created: ${task.title} — open`, () => {
       modalService.openDrawer(
         <ContentAdapterProvider adapters={[taskAdapter]}>
           <ItemView

@@ -1,0 +1,25 @@
+@layer components {
+  /* Indented to where item text starts, which is three things deep: the item's
+     own inline padding, the 1.5em check gutter, and the prefix box — rendered
+     empty when an item has no prefix, but still spending its end margin. The
+     gutter is `em` on the item, so it is spelled out here in terms of the item
+     font size: the heading sets a smaller size of its own, and `em` would
+     shrink the indent along with it. */
+  pp-list-label {
+    display: block;
+    font-size: smaller;
+    font-weight: var(--font-weight-semibold);
+    color: var(--c-bodyDimmed);
+    padding-block: var(--space-2xs);
+    padding-inline: calc(var(--space-2xs) + 1.5 * var(--text-m) + var(--space-xs))
+      var(--space-m);
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* A heading that follows items opens a new section, so it needs air above it;
+     the first one sits under the list's own padding and needs none. */
+  :is(pp-list-item, hr) + pp-list-label {
+    padding-block-start: var(--space-xs);
+  }
+}

@@ -27,7 +27,7 @@ relationships:
       note: "overview-detail is the two-view coupled system where one view is compressed and the other full; what travels between them is focus — the current item — not a selection"
   complements:
     - to: semantic-zoom
-      note: "combining techniques beats any single one — an overview pane alongside semantic zoom, or zoom inside the detail pane; in its split layout overview-detail spends screen space to show two levels at once, semantic zoom spends time, one level after another"
+      note: "combining techniques usually beats any single one — an overview pane alongside semantic zoom, or zoom inside the detail pane. In its split layout overview-detail spends screen space to show two levels at once; semantic zoom spends time, one level after another"
   related:
     - to: interaction
       note: "actors move between scanning the list and verifying an item without losing their place, and switch quickly between items to [compare](/patterns/interaction#evaluation--relevance-construction) them"
@@ -42,6 +42,9 @@ relationships:
       note: "continuous-space overview+detail — the minimap, the overview map with a field-of-view box — shares the name but couples two viewports over one space rather than compressing items; that is pan and zoom's territory, with [coordinated views](/patterns/coordinated-views) keeping the viewports in step"
 ---
 
+import { OverviewDetailDemo, NestedPairsDemo } from '@pkg/demos/overview-detail';
+import { FluidAttributesDemo } from '@pkg/demos/attribute-visibility';
+
 The actor is working through a collection item by item — scanning many candidates, checking ones of interest — and no single view serves both motions: none is at once compact enough to scan and rich enough to verify.
 
 ## Forces
@@ -54,30 +57,47 @@ The actor is working through a collection item by item — scanning many candida
 
 Give the collection two linked views: an *overview* rendering every item in the same compressed form, and a *detail* view rendering the current item in full. The link is the current item: opening an item from the overview fills the detail view, and returning to the overview finds the actor's place kept. Whether the two views share the screen, swap in place, or sit on separate pages is a layout decision inside the pattern, not the pattern itself.
 
+<Demo label="One spec pair through four layout values, re-chosen from the detail's own corner. Side by side reports itself unavailable at this width — the layout dimension is the one with a space cost.">
+  <OverviewDetailDemo client:only="react" />
+</Demo>
+
 ## Dimensions
 
 ### Content
 
-Which *attributes* live in which view: overview only, detail only, or both — and interactive elements count as attributes too (a save button can live in both views or only one). Overview attributes are often *abstractions* of their detail counterparts: visual (`badge` for status), semantic (a generated title standing for a conversation), or computational (a calendar of cheapest prices). When the abstraction is computed or generated, the overview stops being a subset of the detail view and becomes a summary in its own right.
+Which *attributes* live in which view: overview only, detail only, or both — and interactive elements count as attributes too (a save button can live in both views or only one). Held open to the actor rather than fixed per view, this dimension is [attribute visibility](/patterns/attribute-visibility) applied twice over. Overview attributes are often *abstractions* of their detail counterparts: visual (`badge` for status), semantic (a generated title standing for a conversation), or computational (a calendar of cheapest prices). When the abstraction is computed or generated, the overview stops being a subset of the detail view and becomes a summary in its own right.
+
+<Demo label="The content dimension held open: surface attributes from the detail view into the overview, then operate on them.">
+  <FluidAttributesDemo client:only="react" />
+</Demo>
 
 ### Composition
 
 How many of each, and how they nest: several overviews sharing one detail (list + map over the same geographical locations), one overview opening several details, recursion — the pattern nests inside detail views (suggested articles inside an article) — and intermediate detail tiers that soften the jump (tooltip card → full profile). The composition can even invert: a thesaurus entry opens on the detail view, with overviews of synonyms nested inside it — detail-first, the overview arriving second.
 
+<Demo label="The recursive case: a product's detail carries an overview of its components, whose detail carries overviews of its sub-assemblies and its materials. Three collections, one shape, repeated — and each rung keeps its own current item, so a path stays open through several levels at once.">
+  <NestedPairsDemo client:only="react" />
+</Demo>
+
 ### Layout
 
-Where the detail opens: side by side, in place, in a popover, or on a new page. Simultaneous split panes — what this pattern is usually reduced to — is just one of these. 
+Where the detail opens: side by side, in place, in a popover, or on a new page. Simultaneous split panes — what this pattern is usually reduced to — is just one of these, and the only one that costs width: below roughly 40rem it has nowhere to go, and the detail falls back to opening in place, inside the row it was picked from.
+
+Layout and content are not independent. Opening in place puts the detail directly beneath attributes the overview is still showing, so what reads as orientation when the two views sit apart reads as noise once they touch: the in-place detail is the content dimension minus the overview's own set, not the same readout relocated.
+
+The control that chooses among them belongs on the detail rather than in a toolbar outside both views — the layout is re-chosen from the thing being laid out, which is also why some detail is always showing.
 
 ## Consequences
 
 - The collection carries two linked views — one for scanning, one for verifying — and the current item survives the move between them: the actor switches between list and item, and between items to compare them, without losing their place. When both views share the screen, the switch is a glance rather than a navigation.
-- The overview's attribute subset now silently fixes what the actor can compare, sort, and filter by (Airbnb's map shows only price) — a ceiling only [malleability](/patterns/malleability) lifts, by letting the actor surface, hide, and re-filter attributes across both views.
+- The overview's attribute subset now silently fixes what the actor can compare, sort, and filter by (Airbnb's map shows only price) — a ceiling only [attribute visibility](/patterns/attribute-visibility) lifts, by letting the actor surface, hide, and re-filter attributes across both views.
 
 ## Resources & references
 
 - Min, Chen, Cao & Xia (2025) [Malleable overview-detail interfaces](https://dl.acm.org/doi/10.1145/3706598.3714164) — the content analysis behind the three dimensions, and the malleable form
 - Min & Xia (2025) [Meridian: a design framework for malleable overview-detail interfaces](https://dl.acm.org/doi/10.1145/3746059.3747654) — the pattern as a declarative specification: data binding, views, malleability
 - Cockburn, Karlson & Bederson (2009) [A review of overview+detail, zooming, and focus+context interfaces](https://dl.acm.org/doi/10.1145/1456650.1456652) — the spatial-separation branch of the wider taxonomy; combination and preference evidence
+- Hornbæk, Bederson & Plaisant (2002) [Navigation patterns and usability of zoomable user interfaces with and without an overview](https://dl.acm.org/doi/10.1145/586081.586086) — the overview-redundancy finding: a semantic-zoom interface lost time to an added overview, though users still preferred having it
 - Shneiderman (1996) [The eyes have it](https://ieeexplore.ieee.org/document/545307) — overview first, zoom and filter, then details-on-demand
 - NN/g — [The anatomy of a list entry](https://www.nngroup.com/articles/list-entries/) — the new-page form's practitioner treatment; pogo-sticking as the impoverished-overview failure mode
 - Tidwell, Brewer & Valencia (2020) *Designing Interfaces*, 3rd ed. — splits the territory into Two-Panel Selector and One-Window Drilldown by display constraint; prior art for the layout dimension

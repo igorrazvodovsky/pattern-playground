@@ -28,17 +28,19 @@ relationships:
       note: "the view, not the content, responds — the framing shifts with what the detection rules find, before the actor selects anything"
 ---
 
-The actor keeps returning to the same data with one question: what needs my attention, and why? The domain can answer half of it in advance — there is consensus about what counts as a problem (a lint rule, a vital-sign threshold, a policy violation) — yet a general view leaves the actor to re-derive those judgements by inference on every visit. A problem-curated view organises what is shown around the detected problems instead of the data types: a checklist of candidate problems, each backed by an explicit rule. It is the design-time keying of a [purpose-keyed view](/patterns/purpose-keyed-view) taken to its limit.
+import { ProblemChecklistDemo } from '@pkg/demos/problem-curated-view';
+
+The actor keeps returning to the same data with one question: what needs my attention, and why? The domain can answer some of it in advance — there is consensus about what counts as a problem (e.g. a rule/policy violation) — yet a [general view](/patterns/data-view) leaves the actor to re-derive those judgements by inference on every visit. A problem-curated view organises what is shown around the detected problems instead of the data types: a checklist of candidate problems, each backed by an explicit rule. It is case of a [purpose-keyed view](/patterns/purpose-keyed-view) taken to its limit.
 
 ## Anatomy
 
-The checklist is the interface. Each entry is a detected problem; the list doubles as index, navigation, status display, and audit trail. Selecting a problem prunes the general view to the relevant slice, magnified and annotated with why it was flagged — the provenance is explicit, so the view can always say why it looks the way it does, and the reason travels with the actor from noticing into investigating.
+The checklist is the interface. Each entry is a detected problem; the list doubles as index, navigation, status display, and audit trail. Selecting a problem filters the collection to the relevant slice, magnified and annotated with why it was flagged — the provenance is explicit, so the view can always say why it looks the way it does, and the reason moves with the actor from noticing into investigating.
 
-The IDE problems panel is the everyday example: rule-detected problems as a list, a click showing the offending lines annotated with the rule that fired (`eslint: no-unused-vars`). Google's code-review tooling is the same anatomy at industrial scale: analyzer findings surfaced as annotations inside the review, each carrying its check and a feedback control. The anatomy works anywhere the domain can agree on detection rules.
+<Demo label="Detection rules over the collection as a checklist. Selecting a flag prunes the view to its slice with the reason attached; the full catalogue stays one action away, and every flag carries a not-useful control.">
+  <ProblemChecklistDemo client:only="react" />
+</Demo>
 
 ## Commitments
-
-Three commitments keep the form honest:
 
 - *Annotate the judgement moment.* Flags belong where judgement is already being exercised — the review, the rounds, the scheduled check — and stay out of exploration, where they pre-empt the very judgement they are meant to support. The lesson is empirical: the same detection rules failed as ambient dashboards and succeeded attached to code review. Showing flags only when guidance is solicited is one honest implementation; the rule is the moment, not the request.
 - *Keep the escape hatch structural.* The general exploratory view stays reachable alongside the curated one — required, not optional. Rules never capture the whole judgement: even where they are possible, the ground truth behind them is partly heuristic, so there is always a remainder they don't encode. The escape hatch is where the remainder gets noticed — and where the next rule is usually discovered.
@@ -49,10 +51,6 @@ Three commitments keep the form honest:
 - The recurring triage is answered by the checklist rather than re-derived on every visit, and provenance keeps the curation accountable.
 - The rule set is a running cost. To its reader, a false positive is any flag they did not want to see — so flags need a feedback channel and a noise budget. Without them the curve is alarm fatigue, then suppression: the checklist still renders after trust has left it.
 - Cases outside the rules sail past silently; the escape hatch carries them, which is why it is a commitment and not a courtesy.
-
-## In practice
-
-The IDE problems panel is the everyday case, lint fatigue included. Tricorder, inside Google's code-review tool: findings shown at review time, a noise budget of at most 10% "effective false positives", a not-useful button on every flag, and noisy checks removed — the upkeep consequence institutionalised. In-Sight carried the anatomy into ICU rounds, curating patient data around clinically detected problems, with the exploratory view kept structurally reachable. Triage worklists — moderation queues, fact-checking prioritisation — are the same anatomy where the detected problems are work items to allocate.
 
 ## Resources & references
 

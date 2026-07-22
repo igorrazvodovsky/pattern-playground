@@ -9,12 +9,12 @@ import {
 } from '../../components/combobox';
 import { AnimateChangeInHeight } from '../../components/filter/animate-change-in-height';
 import { useDropdownState } from '../../components/filter/hooks/use-dropdown-state';
-import { ProductFilterType, ProductFilterCategory } from './ProductFilterTypes';
+import { ProductFilterField, ProductFilterCategory } from './ProductFilterTypes';
 import 'iconify-icon';
 import '../../components/dropdown/dropdown.ts';
 
 export interface ProductFilterValueDropdownProps {
-  filterType: ProductFilterType;
+  filterType: ProductFilterField;
   filterValues: string[];
   setFilterValues: (filterValues: string[]) => void;
   filterCategories: ProductFilterCategory[];
@@ -53,10 +53,12 @@ export const ProductFilterValueDropdown: React.FC<ProductFilterValueDropdownProp
     clearInputAndHide();
   };
 
-  const getIconForValue = (value: string) => {
-    const valueOption = availableValues.find(option => option.value === value);
-    return valueOption?.icon || 'ph:dot';
-  };
+  const getIconForValue = (value: string): string | undefined =>
+    availableValues.find(option => option.value === value)?.icon;
+
+  // Values only get avatars when the data behind them carries icons; otherwise
+  // the trigger is the value text alone.
+  const hasValueIcons = filterValues.some((value) => getIconForValue(value));
 
   const getDisplayName = (value: string) => {
     const valueOption = availableValues.find(option => option.value === value);
@@ -74,13 +76,18 @@ export const ProductFilterValueDropdown: React.FC<ProductFilterValueDropdownProp
         slot="trigger"
         className="tag"
       >
-        <span className="avatar-group">
-          {filterValues?.slice(0, 3).map((value) => (
-            <pp-avatar key={value} size="xsmall">
-              <iconify-icon icon={getIconForValue(value)} />
-            </pp-avatar>
-          ))}
-        </span>
+        {hasValueIcons && (
+          <span className="avatar-group">
+            {filterValues?.slice(0, 3).map((value) => {
+              const icon = getIconForValue(value);
+              return icon ? (
+                <pp-avatar key={value} size="xsmall">
+                  <iconify-icon icon={icon} />
+                </pp-avatar>
+              ) : null;
+            })}
+          </span>
+        )}
         {filterValues?.length === 1
           ? getDisplayName(filterValues[0])
           : `${filterValues?.length} selected`}
@@ -90,7 +97,7 @@ export const ProductFilterValueDropdown: React.FC<ProductFilterValueDropdownProp
         <AnimateChangeInHeight>
           <Combobox>
             <ComboboxInput
-              placeholder={filterType}
+              placeholder={currentCategory?.name ?? filterType}
               className="h-9"
               value={commandInput}
               onInputCapture={(e) => {
@@ -107,7 +114,9 @@ export const ProductFilterValueDropdown: React.FC<ProductFilterValueDropdownProp
                     checked={true}
                     onSelect={() => handleValueRemove(value)}
                   >
-                    <iconify-icon icon={getIconForValue(value)} slot="prefix" />
+                    {getIconForValue(value) && (
+                      <iconify-icon icon={getIconForValue(value)} slot="prefix" />
+                    )}
                     {getDisplayName(value)}
                   </ComboboxItem>
                 ))}
@@ -122,7 +131,7 @@ export const ProductFilterValueDropdown: React.FC<ProductFilterValueDropdownProp
                         checked={false}
                         onSelect={() => handleValueAdd(option.value)}
                       >
-                        <iconify-icon icon={option.icon} slot="prefix" />
+                        {option.icon && <iconify-icon icon={option.icon} slot="prefix" />}
                         <span>
                           {option.name}
                         </span>

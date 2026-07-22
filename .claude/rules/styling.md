@@ -40,6 +40,7 @@ Use the existing layer structure defined in `src/styles/main.css`:
   - Use `@container (min-width: 40ch)` for size-based queries
   - Leverage style queries: `@container style(--show-menu: true)`
   - Implement quantity queries with `:has()` for dynamic content adaptation
+  - *The `demo` container*: every demo host declares `container: demo / inline-size` (site: `.demo-block__content`; Storybook: `#storybook-root`/`.docs-story`; also `.view-family__pane` and `.resize-box`). Narrow-container adaptations for demo-scale assemblies query it by name — `@container demo (inline-size < 36rem)` — so they respond to the pane, not the viewport
 - *Progressive enhancement*: Build resilient components that gracefully degrade
   - Use `:has()` for conditional styling with fallbacks
   - Implement feature detection for advanced CSS properties

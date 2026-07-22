@@ -158,5 +158,229 @@
       "timezone": "America/New_York",
       "preferredLanguage": "en-US"
     }
+  },
+  {
+    "id": "user-11",
+    "name": "Priya Nair",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "Circular Economy Lead",
+    "searchableText": "priya nair circular economy lead strategy",
+    "metadata": {
+      "role": "Circular Economy Lead",
+      "email": "priya@acme.com",
+      "photoUrl": "https://i.pravatar.cc/150?img=11",
+      "lastActiveAt": "2024-01-17T08:15:00Z",
+      "timezone": "Asia/Kolkata",
+      "preferredLanguage": "en-IN"
+    }
+  },
+  {
+    "id": "user-12",
+    "name": "Lukas Meyer",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "Lifecycle Analyst",
+    "searchableText": "lukas meyer lifecycle analyst assessment lca",
+    "metadata": {
+      "role": "Lifecycle Analyst",
+      "email": "lukas@acme.com",
+      "photoUrl": "https://i.pravatar.cc/150?img=12",
+      "lastActiveAt": "2024-01-17T13:40:00Z",
+      "timezone": "Europe/Berlin",
+      "preferredLanguage": "de-DE"
+    }
+  },
+  {
+    "id": "user-13",
+    "name": "Amara Okafor",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "Repair Network Coordinator",
+    "searchableText": "amara okafor repair network coordinator service",
+    "metadata": {
+      "role": "Repair Network Coordinator",
+      "email": "amara@acme.com",
+      "photoUrl": "https://i.pravatar.cc/150?img=13",
+      "lastActiveAt": "2024-01-17T15:05:00Z",
+      "timezone": "Africa/Lagos",
+      "preferredLanguage": "en-NG"
+    }
+  },
+  {
+    "id": "user-14",
+    "name": "Sofia Rossi",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "Packaging Designer",
+    "searchableText": "sofia rossi packaging designer materials",
+    "metadata": {
+      "role": "Packaging Designer",
+      "email": "sofia@acme.com",
+      "photoUrl": "https://i.pravatar.cc/150?img=14",
+      "lastActiveAt": "2024-01-17T11:50:00Z",
+      "timezone": "Europe/Rome",
+      "preferredLanguage": "it-IT"
+    }
+  },
+  {
+    "id": "user-15",
+    "name": "Noah Andersson",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "Logistics Engineer",
+    "searchableText": "noah andersson logistics engineer transport routing",
+    "metadata": {
+      "role": "Logistics Engineer",
+      "email": "noah@acme.com",
+      "photoUrl": "https://i.pravatar.cc/150?img=15",
+      "lastActiveAt": "2024-01-17T09:30:00Z",
+      "timezone": "Europe/Stockholm",
+      "preferredLanguage": "sv-SE"
+    }
+  },
+  {
+    "id": "user-16",
+    "name": "Yuki Sato",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "UX Researcher",
+    "searchableText": "yuki sato ux researcher design usability",
+    "metadata": {
+      "role": "UX Researcher",
+      "email": "yuki@acme.com",
+      "photoUrl": "https://i.pravatar.cc/150?img=16",
+      "lastActiveAt": "2024-01-17T10:20:00Z",
+      "timezone": "Asia/Tokyo",
+      "preferredLanguage": "ja-JP"
+    }
+  },
+  {
+    "id": "user-17",
+    "name": "Omar Haddad",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "Procurement Specialist",
+    "searchableText": "omar haddad procurement specialist sourcing suppliers",
+    "metadata": {
+      "role": "Procurement Specialist",
+      "email": "omar@acme.com",
+      "photoUrl": "https://i.pravatar.cc/150?img=17",
+      "lastActiveAt": "2024-01-17T14:55:00Z",
+      "timezone": "Asia/Dubai",
+      "preferredLanguage": "ar-AE"
+    }
+  },
+  {
+    "id": "user-18",
+    "name": "Grace Mbeki",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "Impact Analyst",
+    "searchableText": "grace mbeki impact analyst metrics reporting",
+    "metadata": {
+      "role": "Impact Analyst",
+      "email": "grace@acme.com",
+      "photoUrl": "https://i.pravatar.cc/150?img=18",
+      "lastActiveAt": "2024-01-17T16:35:00Z",
+      "timezone": "Africa/Nairobi",
+      "preferredLanguage": "sw-KE"
+    }
+  },
+  {
+    "id": "user-19",
+    "name": "Tomás Silva",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "Operations Manager",
+    "searchableText": "tomas silva operations manager production",
+    "metadata": {
+      "role": "Operations Manager",
+      "email": "tomas@acme.com",
+      "photoUrl": "https://i.pravatar.cc/150?img=19",
+      "lastActiveAt": "2024-01-17T12:10:00Z",
+      "timezone": "America/Sao_Paulo",
+      "preferredLanguage": "pt-BR"
+    }
+  },
+  {
+    "id": "user-20",
+    "name": "Hannah Schmidt",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "Compliance Officer",
+    "searchableText": "hannah schmidt compliance officer regulation standards",
+    "metadata": {
+      "role": "Compliance Officer",
+      "email": "hannah@acme.com",
+      "photoUrl": "https://i.pravatar.cc/150?img=21",
+      "lastActiveAt": "2024-01-17T13:05:00Z",
+      "timezone": "Europe/Berlin",
+      "preferredLanguage": "de-DE"
+    }
+  },
+  {
+    "id": "user-21",
+    "name": "Wei Zhang",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "Software Engineer",
+    "searchableText": "wei zhang software engineer platform tooling",
+    "metadata": {
+      "role": "Software Engineer",
+      "email": "wei@acme.com",
+      "photoUrl": "https://i.pravatar.cc/150?img=22",
+      "lastActiveAt": "2024-01-17T09:55:00Z",
+      "timezone": "Asia/Shanghai",
+      "preferredLanguage": "zh-CN"
+    }
+  },
+  {
+    "id": "user-22",
+    "name": "Isabelle Dubois",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "Marketing Lead",
+    "searchableText": "isabelle dubois marketing lead brand communications",
+    "metadata": {
+      "role": "Marketing Lead",
+      "email": "isabelle@acme.com",
+      "photoUrl": "https://i.pravatar.cc/150?img=23",
+      "lastActiveAt": "2024-01-17T17:00:00Z",
+      "timezone": "Europe/Paris",
+      "preferredLanguage": "fr-FR"
+    }
+  },
+  {
+    "id": "user-23",
+    "name": "Daniel Okoro",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "Field Technician",
+    "searchableText": "daniel okoro field technician maintenance repair",
+    "metadata": {
+      "role": "Field Technician",
+      "email": "daniel@acme.com",
+      "photoUrl": "https://i.pravatar.cc/150?img=24",
+      "lastActiveAt": "2024-01-17T15:45:00Z",
+      "timezone": "Africa/Lagos",
+      "preferredLanguage": "en-NG"
+    }
+  },
+  {
+    "id": "user-24",
+    "name": "Ana Morales",
+    "type": "user",
+    "icon": "ph:user-fill",
+    "description": "Customer Success",
+    "searchableText": "ana morales customer success support accounts",
+    "metadata": {
+      "role": "Customer Success",
+      "email": "ana@acme.com",
+      "photoUrl": "https://i.pravatar.cc/150?img=25",
+      "lastActiveAt": "2024-01-17T16:20:00Z",
+      "timezone": "America/Bogota",
+      "preferredLanguage": "es-CO"
+    }
   }
 ]

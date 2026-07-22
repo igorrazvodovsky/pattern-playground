@@ -16,25 +16,9 @@
     }
   }
 
-  .cards.cards--list > * {
-    &:not(:last-of-type) .card {
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-
-    &:not(:first-of-type) .card {
-      border-top-right-radius: 0;
-      border-top-left-radius: 0;
-    }
-
-    &:not(:first-of-type) .card {
-      margin-block-start: -1px;
-    }
-
-    .card {
-      grid-template-columns: auto 1fr;
-      grid-template-rows: auto auto auto auto;
-    }
+  .cards.cards--list > * .card {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto auto auto;
   }
 
   .cards.layout-grid .card {
@@ -78,6 +62,26 @@
 
     &.card--plain {
       border: none;
+    }
+  }
+
+  /* Flush stack: cards abut with no gap between them, so interior radii
+     collapse and adjacent borders overlap into a single shared line. Keyed on
+     an explicit modifier because a gap can be imposed by context (board lanes,
+     for one, set their own on `.cards`) and so can't be read off the container.
+     `.cards--list` is the canonical flush stack; add `.cards--flush` to any
+     other gapless run of cards. Lives in this layer, not `layout`, so its `0`
+     radii outrank the `.card` `border-radius` above. */
+  :is(.cards--flush, .cards--list) > *, :is(.cards--flush, .cards--list) {
+    &:not(:last-of-type) .card {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    &:not(:first-of-type) .card {
+      border-top-right-radius: 0;
+      border-top-left-radius: 0;
+      margin-block-start: -1px;
     }
   }
 

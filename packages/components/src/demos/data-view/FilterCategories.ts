@@ -1,50 +1,31 @@
 import { Product } from '@shared/data/types';
-import { ProductFilterType, ProductFilterCategory } from './FilterTypes';
-import { getUniqueFilterValues } from './FilterOperations';
+import {
+  ProductFilterType,
+  ProductFilterCategory,
+  PRODUCT_FILTER_TYPE_ICONS,
+} from '../../templates/collection-view/FilterTypes';
+import { getUniqueFilterValues, getUniqueAttributeValues } from '../../templates/collection-view/FilterOperations';
+import { attributeLabel } from '../../templates/collection-view/renderers';
 
-function getIconForFilterType(type: ProductFilterType): string {
-  switch (type) {
-    case ProductFilterType.CATEGORY:
-      return "ph:tag";
-    case ProductFilterType.AVAILABILITY_STATUS:
-      return "ph:circle";
-    case ProductFilterType.REPAIRABILITY:
-      return "ph:wrench";
-    case ProductFilterType.UPGRADEABILITY:
-      return "ph:arrow-up";
-    case ProductFilterType.PRICE_RANGE:
-      return "ph:currency-dollar";
-    case ProductFilterType.CERTIFICATIONS:
-      return "ph:certificate";
-    case ProductFilterType.REGIONS:
-      return "ph:globe";
-    case ProductFilterType.CHANNELS:
-      return "ph:storefront";
-    default:
-      return "ph:funnel";
-  }
-}
-
-function getIconForValue(type: ProductFilterType, value: string): string {
-  switch (type) {
-    case ProductFilterType.CATEGORY:
-      return value === "transportation" ? "ph:car" :
-             value === "electronics" ? "ph:device-mobile" :
-             value === "furniture" ? "ph:chair" :
-             value === "packaging" ? "ph:package" :
-             value === "apparel" ? "ph:t-shirt" : "ph:tag";
-    case ProductFilterType.AVAILABILITY_STATUS:
-      return value === "in_production" ? "ph:check-circle" :
-             value === "pre_order" ? "ph:clock" :
-             value === "discontinued" ? "ph:x-circle" : "ph:circle";
-    case ProductFilterType.REPAIRABILITY:
-    case ProductFilterType.UPGRADEABILITY:
-      return value === "high" ? "ph:arrow-up" :
-             value === "medium" ? "ph:minus" :
-             value === "low" ? "ph:arrow-down" : "ph:question";
-    default:
-      return "ph:dot";
-  }
+/**
+ * The same category shape for bare attribute paths: a view that lets the actor
+ * surface arbitrary attributes can filter on any of them, so each surfaced path
+ * becomes a category whose values are the ones the collection actually shows.
+ */
+export function generateAttributeFilterCategories(
+  products: Product[],
+  paths: string[]
+): ProductFilterCategory[] {
+  return paths.map((path) => ({
+    id: path,
+    name: attributeLabel(path),
+    children: getUniqueAttributeValues(products, path).map((value) => ({
+      id: `${path}_${value}`,
+      name: value,
+      value,
+      filterType: path,
+    })),
+  }));
 }
 
 export function generateProductFilterCategories(products: Product[]): ProductFilterCategory[] {
@@ -54,12 +35,11 @@ export function generateProductFilterCategories(products: Product[]): ProductFil
     return {
       id: type,
       name: type,
-      icon: getIconForFilterType(type),
+      icon: PRODUCT_FILTER_TYPE_ICONS[type],
       children: uniqueValues.map(value => ({
         id: `${type}_${value}`,
         name: value.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
         value: value,
-        icon: getIconForValue(type, value),
         filterType: type
       }))
     };

@@ -15,6 +15,8 @@ if (missingEnvVars.length > 0) {
 interface OpenAIConfig {
   apiKey: string;
   model: string;
+  /** For calls a reader is waiting on, where latency beats depth. */
+  fastModel: string;
 }
 
 interface CorsConfig {
@@ -41,6 +43,7 @@ const config: ServerConfig = {
   openai: {
     apiKey: process.env.OPENAI_API_KEY!,
     model: process.env.OPENAI_MODEL || 'gpt-4-turbo',
+    fastModel: process.env.OPENAI_FAST_MODEL || 'gpt-4o',
   },
   cors: {
     allowedOrigins: [

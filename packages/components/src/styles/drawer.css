@@ -87,7 +87,8 @@
     opacity: 0;
   }
 
-  html:has(.drawer[open]) {
+  /* Only a modal drawer locks the page; a non-modal side peek leaves it scrollable. */
+  html:has(dialog.drawer:modal) {
     overflow: hidden;
   }
 

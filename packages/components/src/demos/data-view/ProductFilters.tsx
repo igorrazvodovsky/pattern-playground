@@ -1,7 +1,8 @@
 import { Icon } from "@iconify/react";
 import { Dispatch, SetStateAction } from "react";
 import { FilterIcon } from "../../components/filter/filter-options-icons";
-import { ProductFilter, ProductFilterCategory, ProductFilterOperator } from "./ProductFilterTypes";
+import { ProductFilter, ProductFilterCategory, ProductFilterOperator, isProductFilterType } from "./ProductFilterTypes";
+import { attributeLabel } from "../../templates/collection-view/renderers";
 import { ProductFilterValueDropdown } from "./ProductFilterValueDropdown";
 import { ProductFilterOperatorDropdown } from "./ProductFilterOperatorDropdown";
 
@@ -24,8 +25,17 @@ export default function ProductFilters({
 
   const updateFilterValue = (filters: ProductFilter[], filterId: string, value: string[]): ProductFilter[] => {
     return filters.map(filter =>
-      filter.id === filterId ? { ...filter, value } : filter
+      filter.id === filterId ? { ...filter, value, operator: operatorForValues(filter, value) } : filter
     );
+  };
+
+  // An attribute-path clause states equality until it holds alternatives, so
+  // the chip keeps reading as what it matches. Category clauses carry their own
+  // operator vocabulary and are left alone.
+  const operatorForValues = (filter: ProductFilter, value: string[]): ProductFilterOperator => {
+    if (isProductFilterType(filter.type)) return filter.operator;
+    if (filter.operator === ProductFilterOperator.IS_NOT) return filter.operator;
+    return value.length > 1 ? ProductFilterOperator.IS_ANY_OF : ProductFilterOperator.EQUALS;
   };
 
   const removeFilterById = (filters: ProductFilter[], filterId: string): ProductFilter[] => {
@@ -40,6 +50,9 @@ export default function ProductFilters({
     setFilters((prev) => updateFilterValue(prev, filterId, value));
   };
 
+  const categoryFor = (field: ProductFilter['type']) =>
+    filterCategories.find((category) => category.id === field);
+
   const handleRemoveFilter = (filterId: string) => {
     setFilters((prev) => removeFilterById(prev, filterId));
   };
@@ -50,9 +63,22 @@ export default function ProductFilters({
         .filter((filter) => filter.value?.length > 0)
         .map((filter) => (
           <div key={filter.id} className="tag-group">
+            {/* Categories have an icon declared with the facet; an attribute
+                path has one only if its data does, so the chip may be text. */}
             <div className="tag">
-              <FilterIcon type={filter.type} />
-              {filter.type}
+              {isProductFilterType(filter.type) ? (
+                <>
+                  <FilterIcon type={filter.type} />
+                  {filter.type}
+                </>
+              ) : (
+                <>
+                  {categoryFor(filter.type)?.icon && (
+                    <Icon icon={categoryFor(filter.type)!.icon!} className="icon" />
+                  )}
+                  {categoryFor(filter.type)?.name ?? attributeLabel(filter.type)}
+                </>
+              )}
             </div>
             <ProductFilterOperatorDropdown
               filterType={filter.type}

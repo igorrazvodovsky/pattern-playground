@@ -172,23 +172,24 @@ export const Indicators: Story = {
 
 export const LayoutList: Story = {
   render: () => (
-    <ul className="articles articles--list layout-grid">
+    <section className="cards cards--list">
       {cardsData.map((card, index) => (
-        <li key={index}>
+        <div key={index}>
           <article className="card">
-            <img
-              src="https://images.unsplash.com/photo-1583524505974-6facd53f4597?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
-              alt="A kitten sits patiently between a terracotta pot and decorative grasses."
-            />
-            <a href="#">{card.title}</a>
-            <p>{card.description}</p>
-            <footer>
-              <small>{card.date}</small>
-            </footer>
+            <span className="label">{card.title}</span>
+            <span className="description">{card.description}</span>
+            <span className="card__attributes badges">
+              {attributes.slice(0, 3).map((attribute, badgeIndex) => (
+                <span key={badgeIndex} className="badge">
+                  <span className="badge__label">{attribute.name}</span>
+                  {attribute.value}
+                </span>
+              ))}
+            </span>
           </article>
-        </li>
+        </div>
       ))}
-    </ul>
+    </section>
   ),
 };
 

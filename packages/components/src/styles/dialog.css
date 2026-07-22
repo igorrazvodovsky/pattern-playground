@@ -43,6 +43,19 @@
     & .modal__close:only-child {
       margin-inline-start: auto;
     }
+
+    /* The title takes the free space so any header actions group with the
+       close button on the trailing edge rather than being spread apart. */
+    & .modal__title {
+      margin-inline-end: auto;
+    }
+
+    & .modal__header-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2xs);
+      flex-shrink: 0;
+    }
   }
 
   dialog > article {

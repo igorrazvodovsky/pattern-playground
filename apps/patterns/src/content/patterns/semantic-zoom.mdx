@@ -22,9 +22,9 @@ relationships:
       note: "each zoom level is a density commitment, and the transitions between levels preserve legible density — zooming re-spends the screen budget instead of diluting it"
 ---
 
-import { SemanticZoomDemo } from '@pkg/demos/semantic-zoom';
+import { SemanticZoomDemo, PopulationRungDemo, SemanticZoomTimelineDemo } from '@pkg/demos/semantic-zoom';
 
-The actor is surveying a space of content too large to read at once — a map, a canvas of notes, a graph of records. Zooming out with plain magnification shrinks everything into unreadable specks; zooming in loses the shape of the whole. 
+The actor is surveying a space of content too large to read at once — a map, a canvas of notes, a graph of records, a long document. Zooming out with plain magnification shrinks everything into unreadable specks; zooming in loses the shape of the whole.
 
 Semantic zoom changes the *representation* instead of the size: each item swaps to a coarser abstraction as the actor pulls back and a richer one as they move close. Zooming here means "tell me more".
 
@@ -37,7 +37,6 @@ Semantic zoom changes the *representation* instead of the size: each item swaps 
 - *Overview against detail* — the actor needs both the shape of the whole and the content of the parts
 - *Recognition at a distance* — the pattern works only if each item has a small representation that remains recognisable
 - *Wayfinding against transition comprehension* — predictable representation-per-tier gives the actor a vocabulary of distances ("this zoom level means streets"), while fluid morphing reads as one continuous surface
-- *Would an outline do?* — zooming as the organising principle has repeatedly failed outside inherently spatial data; the humble alternative to a zoomable interface is often a tree widget
 
 ## The representation ladder
 
@@ -49,12 +48,22 @@ What semantic zoom traverses is a ladder of discrete representations per item �
 - *Uniformity* — the whole population changes level together, under one scale control; the moment one region shows more detail because the actor is attending to it, the move has become [focus and context](/patterns/focus-and-context)
 - *Semantic resize* — the variant where container geometry, not zoom, drives the representation switch: an item grows into a richer rung when its pane widens and collapses to a coarser one when cramped (Masonview). The level index is allotted space rather than viewing scale
 
-The ladder itself is [item view](/patterns/item-view)'s vocabulary (glyph / reference / summary / detail / full). Item view owns the rungs and their per-item, navigation-driven transitions; semantic zoom is the coordination move that drives the same ladder for all items at once from a single scale control — with the two obligations item view doesn't carry: uniformity across the population, and continuity of spatial arrangement. Mechanically the move reduces to per-level attribute selection: Meridian implements it by binding scroll and pinch to adding or removing entries in a view's `shownAttributes`, each zoom level just a different attribute subset — and letting the actor choose which attributes survive zooming out.
+The ladder itself is [item view](/patterns/item-view)'s vocabulary. Item view owns the rungs and their per-item, navigation-driven transitions; semantic zoom is the coordination move that drives the same ladder for all items at once from a single scale control.
 
-{/* 
-## Boundary with focus and context 
-Both patterns descend from Furnas's degree-of-interest work — an item's display priority as a function of its importance and its distance from the actor's focus — and both answer the same question of how to show detail without losing context. The split is *simultaneity*: semantic zoom separates focus and context in time (one scale at a time, the whole viewport transforms uniformly), focus and context eliminates the separation (detail varies with distance from the focal point, inside one continuous view). Good semantic zoom partially substitutes for simultaneous context — adding an overview panel to an interface with semantic zoom has been shown to slow actors down, the overview made redundant by the semantic detail — which is why the two moves feel so adjacent in practice.
-*/}
+<Demo label="The lifecycle assessment data: from stage totals to each flow to its full telling.">
+  <SemanticZoomTimelineDemo client:only="react" />
+</Demo>
+
+## What the rungs are made of
+
+The pattern needs a representation that stays recognisable at every level. So the coarse rungs come from two places, by material:
+
+- *Records* — a zoom level is a different [attribute subset](/patterns/attribute-visibility){rel="composed-of"}: the population sheds fields as the actor pulls back and regains them moving in, each level the same items shown through fewer attributes.
+- *Text* — a zoom level is a [generated telling](/patterns/text-lense){rel="composed-of"} at a granularity: heading, then abstract, then full prose, the coarser rungs produced rather than authored in advance.
+
+<Demo label="The record realisation: a directory of people at three rungs — avatars you recognise by face, then name and role, then the full card. Auto drives the ladder from container width instead, the semantic-resize variant.">
+  <PopulationRungDemo client:only="react" />
+</Demo>
 
 ## To-do
 

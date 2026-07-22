@@ -1,6 +1,8 @@
 import { Product } from '@shared/data/types';
-import { SortField, SortOrder } from './types';
 import { getAttributeValue } from './AttributeUtils';
+
+export type SortField = string;
+export type SortOrder = 'asc' | 'desc';
 
 export const sortProducts = (
   products: Product[],

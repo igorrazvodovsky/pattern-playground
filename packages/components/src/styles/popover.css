@@ -55,4 +55,20 @@
     top: var(--space-s);
     right: var(--space-s);
   }
+
+  /* A summary popover that carries its level-of-detail control: the summary's
+     own heading rides the leading edge, the rung actions the trailing one.
+     `flex-start` keeps the actions level with the heading while the badges
+     below flow under the title. Unlike `.popover__toolbar`, the control is
+     part of the header rather than a floating corner, so it stays legible. */
+  .popover__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-m);
+  }
+
+  .popover__header > :first-child {
+    min-width: 0;
+  }
 }

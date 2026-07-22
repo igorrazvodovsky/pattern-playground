@@ -137,7 +137,8 @@ export class PPModal extends HTMLElement {
         this.closeModal();
         break;
       case 'Tab':
-        this.trapFocus(event);
+        // A non-modal side peek leaves the page reachable — don't trap.
+        if (this.isModal) this.trapFocus(event);
         break;
     }
   }
@@ -159,11 +160,24 @@ export class PPModal extends HTMLElement {
     }
   }
 
+  /**
+   * A drawer opened with `data-modal="false"` is a non-blocking side peek:
+   * `show()` instead of `showModal()`, no focus trap, no scroll lock.
+   */
+  private get isModal(): boolean {
+    return !this.modal || this.modal.dataset.modal !== 'false';
+  }
+
   private openModal() {
     if (!this.modal) return;
 
     if (this.isDialogElement) {
-      (this.modal as HTMLDialogElement).showModal();
+      const dialog = this.modal as HTMLDialogElement;
+      if (this.isModal) {
+        dialog.showModal();
+      } else {
+        dialog.show();
+      }
     } else {
       this.modal.style.display = 'block';
       this.modal.setAttribute('aria-hidden', 'false');

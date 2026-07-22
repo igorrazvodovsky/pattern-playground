@@ -6,6 +6,7 @@ the plan contract and `docs/specs/` for settled specifications.
 ## Active
 
 - [Workspace boundary after the view-system reshape](active/2026-07-workspace-boundary.md) — give the screen-composition seam a typed edge (workspace ↔ coordinated-views), reinstate the panelled/tabbed variants the survey now routes to, clear pre-reshape word residue
+- [View-system demos: one model, many framings](active/2026-07-view-system-demos.md) — demo collection for the reshaped family: one canonical collection, one Meridian-shaped ViewSpec, per-pattern demos plus the borrow map
 - [Light-DOM refactor: platform-first components](active/2026-07-light-dom-refactor.md) — convert the shadow-DOM Lit components to light DOM up a native-first decision ladder; retire the `is="pp-button"` built-in; library choice deferred to the residue
 - [Enacts-note audit](active/2026-07-enacts-note-audit.md) — align pre-existing `enacts` labels with the Q-lens convention; one hygiene sitting plus a possible third extractor advisory
 - [Move-vs-artifact naming: the T6 kept twins](active/2026-07-move-vs-artifact-naming.md) — outline, needs iteration: do Sections and Command menu hold up against the move-naming rule, and what does a rename cost
@@ -13,7 +14,7 @@ the plan contract and `docs/specs/` for settled specifications.
 - [Related-link residue audit](active/2026-07-related-residue-audit.md) — restore, or deliberately release, what the relationships migration dropped
 - [Situation backfill](active/2026-07-situation-backfill.md) — outline, needs iteration: fill the two situations across the pattern corpus; owns the `consequences`-vs-`situation.resulting` comparison
 - [Storybook re-bucketing](active/2026-07-storybook-rebucketing.md) — finish the catalogue re-bucketing; retitle sweeps own every id-bearing channel, `realised_by` included
-- [Pane-island hydration](active/2026-07-pane-island-hydration.md) — hydrate islands in fetched panes so interactive demos run beyond position 0
+- [Pane stack: refit to Astro's grain](active/2026-07-pane-stack-astro-fit.md) — demo registry + pane partials + static pane 0 so no pane machinery depends on Astro internals; gated phase 4 retires ClientRouter
 - [Block-editing follow-ups](active/2026-07-block-editing-followups.md) — outline: carried work from the block-editing research sitting
 - [Heatmap + n-gram promotion](active/2026-05-heatmap-ngram-promotion.md) — deferred: promote the heatmap extension and n-gram engine out of the dynamic-hyperlinks demo
 - [Link preview component extraction](active/2026-05-link-preview-component-extraction.md) — extract the link preview surface into a reusable component; shares the article-extraction seam with pane-island hydration
@@ -105,6 +106,7 @@ the plan contract and `docs/specs/` for settled specifications.
 ## Archived
 
 - [Component manifest: research gate findings](archive/2026-07-component-manifest-research.md)
+- [Pane-island hydration](archive/2026-07-pane-island-hydration.md) — script-revival fix for demos in fetched panes; mechanism superseded by the pane-stack refit plan
 - [Shrink the client:load shell surface](archive/2026-06-shell-island-refactor.md) — persistent sidebar island, static content; landed, follow-up work continues in pane-island hydration
 - [Cross-surface link cleanup](archive/2026-05-cross-surface-links.md) — ComponentRef rewrite + stacked-notes guard
 - [Embed live components in apps/patterns](archive/2026-05-embed-components.md)

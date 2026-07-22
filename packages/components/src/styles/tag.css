@@ -2,7 +2,7 @@
   .tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 1ch;
+    gap: 0.5ch;
   }
 
   /* :not(.token) is needed only because of the leaking of styles outside the story to Storybook */

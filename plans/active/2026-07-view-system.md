@@ -201,7 +201,15 @@ Content:
   and Obsidian Bases ship as core product.
 - Attribute selection = Fluid Attributes; evidence from the malleable-ODI
   read (8.33% of sites offered any customisation; hoarders vs
-  minimalists).
+  minimalists). Fissioned 2026-07-18 as `attribute-visibility.mdx` — the
+  representation-leg constituent of the framing, sibling to
+  filtering/sorting/grouping; the temperaments and customisation evidence
+  moved with it, data-view keeps a pointer plus the defaults line. Named
+  to avoid `selection`'s head noun (selection stakes items; this picks
+  fields). Edges at mint: `enables` → data-view and overview-detail,
+  `complements` → sorting and filtering (surface-then-operate),
+  `enacts` → malleability; semantic-zoom's ladder paragraph carries an
+  inline `composed-of` (a zoom level is an attribute subset).
 - Saved views gets its single home here (view.mdx's duplicate dies):
   default / role / personal authorship; the saved spec captures the whole
   framing; lifecycle consequence — saved framings go stale and accumulate,

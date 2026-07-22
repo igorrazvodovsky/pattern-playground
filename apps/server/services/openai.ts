@@ -1,7 +1,14 @@
 import { OpenAI } from 'openai';
 import config from '../config.js';
 import logger from '../logger.js';
-import { JuiceProductionModel, TextLensRequest, ExplanationRequest, jsonSchema } from '../schemas.js';
+import {
+  JuiceProductionModel,
+  TextLensRequest,
+  ExplanationRequest,
+  TimelineGrouping,
+  TimelineGroupingRequest,
+  jsonSchema
+} from '../schemas.js';
 import { PromptTemplateBuilder, PROMPT_CONFIGS } from './promptTemplates.js';
 
 type JsonPrimitive = string | number | boolean | null;
@@ -173,6 +180,89 @@ export class OpenAIService {
     }
 
     return this.parseAndTransformResponse(content, type, availableOptions);
+  }
+
+  /**
+   * Group a run of dated records into named episodes, and those into phases.
+   * The point of asking a model rather than the calendar is that the chunks
+   * follow what happened — a fire and its aftermath, a scale-up — and each one
+   * gets a sentence that explains it instead of counting it.
+   */
+  async groupTimeline(
+    request: TimelineGroupingRequest,
+    signal?: AbortSignal
+  ): Promise<TimelineGrouping> {
+    const { records, subject } = request;
+
+    /* Episodes are named by where they *start*, not by listing their members:
+       the records are contiguous and in order, so a boundary is enough, and
+       the reply stays short enough that a long timeline can't run the response
+       into the token ceiling and lose its tail. */
+    const systemPrompt = [
+      'You segment a chronological record into a three-level hierarchy for a',
+      'zoomable timeline. Return JSON of the shape',
+      '{"phases":[{"title","summary",',
+      '"episodes":[{"title","summary","startId"}]}]}.',
+      'Every level is the same kind of thing at a different grain: a stretch',
+      'of the record, named, and said in one sentence. A phase covers a',
+      'chapter of the run; an episode covers a handful of records. Do not',
+      'summarise the whole run: the reader can see its whole extent already,',
+      'and a sentence that covers everything says nothing.',
+      'Rules:',
+      '- An episode runs from its startId until the next episode begins, so',
+      '  give boundaries only; never list the records an episode contains.',
+      '- The first episode of the first phase must start at the first record.',
+      '- startIds must increase strictly down the whole reply, across phases',
+      '  as well as within them: a later episode never starts at an earlier',
+      '  record than the one before it.',
+      '- Give 6 to 10 episodes in all, grouped into 3 or 4 phases, and spread',
+      '  them evenly. An episode covers between 2 and 5 records: it is opened',
+      '  into its records as rows, so a longer one overruns the frame and a',
+      '  one-record episode is a name for something that already has one.',
+      '- Segment by what happened, not by the calendar: a run of related',
+      '  events belongs together even if it straddles a month boundary.',
+      '- A title is at most five words and names the episode, not its dates.',
+      '- A summary is one sentence saying what happened and why it mattered.',
+      '  Never restate the count or the total — the interface shows those.',
+      '- A coarser summary is a synthesis, not a repetition: a phase must say',
+      '  something its episodes do not already say one by one. The reader sees',
+      '  a stretch at exactly one grain at a time, so a sentence that only',
+      '  echoes the grain below it tells them nothing.',
+      '- Use plain past-tense prose. No markdown, no bullet points.'
+    ].join('\n');
+
+    const lines = records
+      .map((record) => {
+        const amount = record.amount === undefined ? '' : ` (${record.amount})`;
+        const category = record.category ? ` [${record.category}]` : '';
+        return `${record.id} ${record.date}${category} ${record.label}${amount}`;
+      })
+      .join('\n');
+
+    const response = await this.client.chat.completions.create({
+      /* The fast model, not the configured default: this call sits in front of
+         a view the reader is waiting on, and segmenting a list they can
+         already see is not work the larger model does better. */
+      model: config.openai.fastModel,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        {
+          role: 'user',
+          content: `${subject ? `${subject}\n\n` : ''}${lines}`
+        }
+      ],
+      temperature: 0.2,
+      max_tokens: 1200,
+      response_format: { type: 'json_object' }
+    }, { signal });
+
+    const content = response.choices?.[0]?.message?.content;
+    if (!content) {
+      throw new Error('Empty response from OpenAI');
+    }
+
+    logger.info(`OpenAI timeline grouping received for ${records.length} records`);
+    return JSON.parse(content) as TimelineGrouping;
   }
 
   async *generateTextLensStream(request: TextLensRequest, signal?: AbortSignal): AsyncGenerator<StreamChunk> {

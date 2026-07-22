@@ -1,7 +1,7 @@
 import React from 'react';
 import { CardViewProps } from './types';
 import { AttributeBadge } from './AttributeBadge';
-import { isIdentityAttribute } from './AttributeUtils';
+import { isIdentityAttribute } from '../../templates/collection-view/AttributeUtils';
 
 export const CardView: React.FC<CardViewProps> = ({ products, selectedAttributes }) => {
   // Filter out identity attributes from badges - they have dedicated UI slots

@@ -25,7 +25,7 @@ import {
   ProductFilterOperator,
   ProductFilter,
   ProductFilterCategory
-} from './FilterTypes';
+} from '../../templates/collection-view/FilterTypes';
 import { useFilterState } from './hooks/useFilterState';
 import { useDropdownState } from './hooks/useDropdownState';
 import { generateProductFilterSuggestions } from './aiFilterAdapter';
@@ -167,7 +167,7 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
                   <ComboboxGroup>
                     {results.contextualItems?.map((filterValue) => (
                       <ComboboxItem key={filterValue.id} onSelect={() => actions.selectChild(filterValue)}>
-                        <iconify-icon icon={filterValue.icon} slot="prefix" />
+                        {filterValue.icon && <iconify-icon icon={filterValue.icon} slot="prefix" />}
                         <span>{filterValue.name}</span>
                       </ComboboxItem>
                     ))}
@@ -178,7 +178,7 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
                       <ComboboxGroup>
                         {results.parents.map((filterType) => (
                           <ComboboxItem key={filterType.id} onSelect={() => actions.selectContext(filterType)}>
-                            <iconify-icon icon={filterType.icon} slot="prefix" />
+                            {filterType.icon && <iconify-icon icon={filterType.icon} slot="prefix" />}
                             {filterType.name}
                           </ComboboxItem>
                         ))}
@@ -189,7 +189,7 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
                       <ComboboxGroup>
                         {results.children.map(({ parent, child }) => (
                           <ComboboxItem key={`${parent.id}-${child.id}`} onSelect={() => actions.selectChild(child, parent)}>
-                            <iconify-icon icon={child.icon} slot="prefix" />
+                            {child.icon && <iconify-icon icon={child.icon} slot="prefix" />}
                             <span>{child.name}</span>
                           </ComboboxItem>
                         ))}

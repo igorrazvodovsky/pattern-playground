@@ -7,6 +7,7 @@ import { userEvent, within } from '@storybook/testing-library';
 interface DrawerArgs {
   title: string;
   position: 'left' | 'right';
+  modal: boolean;
 }
 
 const meta = {
@@ -30,6 +31,10 @@ const meta = {
       options: ['left', 'right'] as DrawerArgs['position'][],
       description: 'Which side the drawer slides in from',
     },
+    modal: {
+      control: { type: 'boolean' },
+      description: 'Modal blocks the page behind a scrim; non-modal is a side peek the page stays interactive beneath',
+    },
   },
 } satisfies Meta<DrawerArgs>;
 
@@ -37,12 +42,12 @@ export default meta;
 type Story = StoryObj<DrawerArgs>;
 
 export const Default: Story = {
-  args: { title: 'Drawer', position: 'right' },
-  render: ({ title, position }) => (
+  args: { title: 'Drawer', position: 'right', modal: true },
+  render: ({ title, position, modal }) => (
     <button
       className="button"
       onClick={() => {
-        action('drawer-opened')({ title, position });
+        action('drawer-opened')({ title, position, modal });
         modalService.openDrawer(
           <div>
             <p>Drawer content. Drawers are great for forms, details, and secondary content.</p>
@@ -50,7 +55,7 @@ export const Default: Story = {
               <button className="button" autoFocus>Close</button>
             </footer>
           </div>,
-          { title, position }
+          { title, position, modal }
         )
       }}
     >
@@ -129,6 +134,44 @@ export const LeftDrawer: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const trigger = canvas.getByRole('button', { name: 'Open left drawer' });
+    await userEvent.click(trigger);
+  },
+};
+
+export const NonModal: Story = {
+  render: () => {
+    const NonModalExample = () => {
+      const { openDrawer } = useModalService();
+
+      const openPeek = () => {
+        openDrawer(
+          <div>
+            <p>A non-modal side peek: no scrim, and the page behind stays live.</p>
+            <p>Because nothing is made inert, you can keep clicking, scrolling, and dragging in the underlying view while this stays open.</p>
+            <footer style={{ marginTop: '20px' }}>
+              <button className="button" autoFocus>Close</button>
+            </footer>
+          </div>,
+          {
+            title: 'Side peek',
+            position: 'right',
+            modal: false
+          }
+        );
+      };
+
+      return (
+        <button className="button" onClick={openPeek}>
+          Open side peek
+        </button>
+      );
+    };
+
+    return <NonModalExample />;
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: 'Open side peek' });
     await userEvent.click(trigger);
   },
 };

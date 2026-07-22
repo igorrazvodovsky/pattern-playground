@@ -1,7 +1,25 @@
 import { Product } from '@shared/data/types';
-import { ProductFilter, ProductFilterType, ProductFilterOperator } from './FilterTypes';
+import { ProductFilter, ProductFilterType, ProductFilterOperator, isProductFilterType } from './FilterTypes';
+import { getAttributeValue, formatAttributeValue } from './AttributeUtils';
+
+/**
+ * A filter keyed on a bare attribute path matches on the value as displayed —
+ * the same string the actor clicked to make the filter. Several values on one
+ * path read as alternatives.
+ */
+function productMatchesAttributeFilter(product: Product, filter: ProductFilter): boolean {
+  const path = filter.type;
+  const shown = formatAttributeValue(getAttributeValue(product, path), path);
+  const matches = filter.value.includes(shown);
+  return filter.operator === ProductFilterOperator.IS_NOT ? !matches : matches;
+}
 
 export function productMatchesFilter(product: Product, filter: ProductFilter): boolean {
+  if (!isProductFilterType(filter.type)) {
+    return productMatchesAttributeFilter(product, filter);
+  }
+  const filterType = filter.type;
+
   const getValue = (filterType: ProductFilterType): string | string[] => {
     switch (filterType) {
       case ProductFilterType.CATEGORY:
@@ -25,7 +43,7 @@ export function productMatchesFilter(product: Product, filter: ProductFilter): b
     }
   };
 
-  const productValue = getValue(filter.type);
+  const productValue = getValue(filterType);
   const filterValues = filter.value;
 
   if (Array.isArray(productValue)) {
@@ -67,6 +85,20 @@ export function applyFiltersToProducts(products: Product[], filters: ProductFilt
       filter.value.length === 0 || productMatchesFilter(product, filter)
     )
   );
+}
+
+/**
+ * The values a bare attribute path takes across the collection, as displayed —
+ * what a filter on that path can be widened to.
+ */
+export function getUniqueAttributeValues(products: Product[], path: string): string[] {
+  const values = new Set<string>();
+  for (const product of products) {
+    const value = getAttributeValue(product, path);
+    if (value === undefined || value === null) continue;
+    values.add(formatAttributeValue(value, path));
+  }
+  return Array.from(values).sort();
 }
 
 export function getUniqueFilterValues(products: Product[], filterType: ProductFilterType): string[] {

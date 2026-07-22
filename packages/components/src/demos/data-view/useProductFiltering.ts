@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Product } from '@shared/data/types';
-import { ProductFilter, ProductFilterCategory } from './FilterTypes';
-import { applyFiltersToProducts } from './FilterOperations';
+import { ProductFilter, ProductFilterCategory } from '../../templates/collection-view/FilterTypes';
+import { applyFiltersToProducts } from '../../templates/collection-view/FilterOperations';
 import { generateProductFilterCategories } from './FilterCategories';
 
 export interface UseProductFilteringResult {

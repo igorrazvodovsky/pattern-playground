@@ -57,6 +57,16 @@
     align-items: center;
   }
 
+  /* In a narrow demo host, an inline row yields by wrapping instead of
+     clipping; the row gap keeps wrapped lines from touching. `.toolbar` carries
+     the same rule for the control rows that used to borrow it from here. */
+  @container demo (inline-size < 40rem) {
+    .flex {
+      flex-wrap: wrap;
+      row-gap: var(--space-2xs);
+    }
+  }
+
   .wrap {
     flex-wrap: wrap;
   }

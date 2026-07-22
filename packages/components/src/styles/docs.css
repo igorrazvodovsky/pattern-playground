@@ -171,14 +171,13 @@ resize-asaurus > .resize-asaurus-container {
   list-style: initial !important;
 }
 
-.sbdocs .toolbar {
+/* The palette hue control in Color.mdx: a shrink-to-fit toolbar that shows the
+   hue it is setting. Layout otherwise comes from the `.toolbar` block itself,
+   so the selector stays narrow — a demo's toolbar inside the docs page is not
+   this. */
+.sbdocs .toolbar:has(.hue-value) {
   display: inline-flex;
-  align-items: center;
-  gap: 1ch;
-  /* background: var(--c-neutral-50); */
-  /* padding: var(--space-s) var(--space-l); */
   margin-block: var(--space-m);
-  border-radius: 999px;
 
   & .hue-value::before {
     content: var(--h);
@@ -347,4 +346,13 @@ aside[class*="sbdocs-toc"] {
     inset: 0;
     z-index: 1;
   }
+}
+
+/* Demo hosts declare the `demo` query container (the pattern site does this on
+   .demo-block__content). In Storybook the canvas root and inline docs frames
+   play that role, so narrowing the viewport exercises the same
+   narrow-container adaptations as the site's panes. */
+#storybook-root,
+.docs-story {
+  container: demo / inline-size;
 }

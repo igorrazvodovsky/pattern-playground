@@ -6,7 +6,8 @@ activityLevel: action
 atomic: pattern
 mediation: individual
 lifecycle: evaluation
-fun: 🧪 5/5. Long unsure whether this stands on its own; Cockburn's taxonomy answers yes — the seamless-integration branch, beside overview-detail's spatial separation and semantic zoom's temporal.
+fun: 🧪 5/5
+description: "Grading detail with distance from the actor's attention inside one continuous view — the focused item told in full, the rest of the space coarser the further out it stands."
 relationships:
   enacts:
     - to: agency
@@ -23,43 +24,46 @@ relationships:
       note: keeps focus and context simultaneous — detail follows the actor's attention, non-uniformly, inside one continuous view; semantic zoom shows one uniform level at a time under a global scale control
 ---
 
-import { ContextualNavigationDemo } from '@pkg/demos/focus-and-context';
+import { ContextualNavigationDemo, FisheyeTimelineDemo } from '@pkg/demos/focus-and-context';
 
-Displaying detailed information alongside a simplified or abstracted view of its context,
-enabling users to maintain situational awareness while completing focused tasks.
+The actor is attending to one point in something large — one event in a long record, one part of a deep structure — and needs its full detail without losing the whole. Focus and context grades detail with distance from attention inside one continuous view: the focused item told in full, its near context summarised, the far context reduced to its coarsest telling. Where [overview and detail](/patterns/overview-detail) spends a second view to keep the whole present and [semantic zoom](/patterns/semantic-zoom) spends time, showing one level after another, this pattern spends fidelity — everything stays on screen, told unevenly.
 
-Cue-based techniques — highlighting, blurring, markers pointing at off-screen items — are their own branch of the same territory, composable rather than competing: rendering-level modifications that can ride on this pattern, on overview-detail, or on semantic zoom.
+What counts as distance is the move's free variable: position along a sequence, steps through a structure — or, where a model can judge relatedness, how certain a connection is. The examples below take one each.
+
+{/* Cue-based techniques — highlighting, blurring, markers pointing at off-screen items — are their own branch of the same territory, composable rather than competing: rendering-level modifications that can ride on this pattern, on overview-detail, or on semantic zoom. */}
 
 ## Examples
 
+### Timeline
+
+On a timeline, detail follows the reader's attention: the event being read is shown in full, the stretch around it as a summary, and the rest of the record at increasingly coarse levels. 
+
+<Demo label="A fisheye over the lifecycle assessment of one e-bike, smelter to shredder. The pointer is the lens: the flow under it is told in full, its episode in a sentence, the chapters around in theirs — and nothing ever moves.">
+  <FisheyeTimelineDemo client:only="react" />
+</Demo>
+
 ### 🚧 Contextual navigation
 
-Contextual navigation helps users understand the industrial pasteuriser's structure&nbsp;– where each component fits
-within the pasteuriser itself, the production line, and the broader orange juice process.
-Navigation maps out three types of relationships:
-1. **Explicit** connections are clearly defined in the data—like parent-child structures or functional groupings.
-2. **Inferred** connections aren't directly stated but can be identified using domain knowledge—such as parts that consistently appear together in certain setups.
-3. **Deduced** connections suggest components that aren't yet modeled but are likely needed based on what's already present. If there's a "Heating Assembly," for example, a "Recirculation Pump" might reasonably be expected.
+The classic fisheye measures distance in space or sequence. Here the metric is pivoted: distance is certainty. The actor is inspecting one component of an industrial pasteuriser, and its context is everything connected to it — where connections come in degrees:
 
-TODO: Fix demo
-{/* 
-<Demo label="Contextual navigation over an industrial process model">
+1. *Explicit* connections are authored in the model — parent assemblies, subcomponents, functional groupings.
+2. *Inferred* connections are derived from the knowledge base — parts that consistently appear together in configurations, though no edge says so.
+3. *Deduced* connections are proposed by a language model — components that aren't modelled at all but likely belong, given what is. If there's a Heating Assembly, a Recirculation Pump might reasonably be expected.
+
+The lens renders each band one rung coarser than the last: the focused component in full working detail — attributes, structure, rules; explicit connections as summary cards; inferred ones as compact references carrying the basis of the inference; deduced ones as bare, hedged names, visually provisional. Certainty is read off fidelity, not off a badge. Attention moves along the same axis: dwelling on a speculative item sharpens it in place — the model says why it proposed it — and focusing it walks the lens past the model's boundary, onto a centre that is itself provisional, whose entire context is conjecture.
+
+Where the timeline puts generation to work on the representation side — its coarse rungs are generated tellings — this example puts inference to work on the distance side: the model computes nearness where no edge is authored, and extends the context past what is modelled.
+
+{/* Demo embed returns with the rebuild — plans/active/2026-07-contextual-navigation-rebuild.md
+<Demo label="A certainty fisheye over an industrial process model. Distance from the focused component is measured in confidence: modelled connections nearest, told as cards; knowledge-base inferences a band out, told as references with their basis; language-model deductions at the rim, told as provisional names. The gradient, not a badge, says how much to trust.">
   <ContextualNavigationDemo client:only="react" />
 </Demo>
 */}
-
-{/* ### Defining an industrial machine's structure */}
-
-### Timeline
-
-Significant events are highlighted with detailed information, while routine activities are summarized concisely.
-
-TODO: Demo
 
 {/* TODO: relation set aside, kept for review (not an active edge): can be paired with [text lens](/patterns/text-lense), with the latter playing the role of a starting point. */}
 
 ## Resources & references
 
-- Furnas (1986) [Generalized fisheye views](https://dl.acm.org/doi/10.1145/22627.22342) — the degree-of-interest formalism (an item's display priority as a function of its importance and its distance from the actor's focus) that this pattern descend from
+- Furnas (1986) [Generalized fisheye views](https://dl.acm.org/doi/10.1145/22627.22342) — the degree-of-interest formalism (an item's display priority as a function of its importance and its distance from the actor's focus) that this pattern descends from
 - Cockburn, Karlson & Bederson (2009) [A review of overview+detail, zooming, and focus+context interfaces](https://dl.acm.org/doi/10.1145/1456650.1456652)
-- Wattenberger (2024) [Fish-eye lens for text](https://wattenberger.com/thoughts/fish-eye)
+- Wattenberger (2024) [Fish-eye](https://wattenberger.com/thoughts/fish-eye) — the immediate ancestor of both examples: coarse rungs as generated tellings, the lens following attention

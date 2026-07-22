@@ -9,8 +9,15 @@
     "metadata": {
       "category": "Transportation",
       "subcategory": "E-Mobility",
-      "assemblyComponents": ["CMP-BAT-003", "CMP-MOT-001"],
-      "keyMaterials": ["MAT-ALU-001", "MAT-STL-002", "MAT-PET-004"],
+      "assemblyComponents": [
+        "CMP-BAT-003",
+        "CMP-MOT-001"
+      ],
+      "keyMaterials": [
+        "MAT-ALU-001",
+        "MAT-STL-002",
+        "MAT-PET-004"
+      ],
       "specifications": {
         "range": "80km",
         "maxSpeed": "25km/h",
@@ -29,7 +36,11 @@
         "maintenanceInterval": 1000,
         "repairability": "High",
         "upgradeability": "Medium",
-        "endOfLifeOptions": ["Refurbishment", "Component Reuse", "Material Recovery"]
+        "endOfLifeOptions": [
+          "Refurbishment",
+          "Component Reuse",
+          "Material Recovery"
+        ]
       },
       "sustainability": {
         "carbonFootprint": 280.5,
@@ -39,7 +50,10 @@
         "carbonPayback": 2500,
         "carbonPaybackUnit": "km",
         "lca": "PRD-EBK-001-lca.pdf",
-        "certifications": ["EU Ecolabel", "Cradle to Cradle Bronze"]
+        "certifications": [
+          "EU Ecolabel",
+          "Cradle to Cradle Bronze"
+        ]
       },
       "circular": {
         "designForDisassembly": true,
@@ -50,19 +64,33 @@
         "refurbishmentPartner": "BikeCircular Ltd"
       },
       "pricing": {
-        "msrp": 2499.00,
+        "msrp": 2499.0,
         "currency": "USD",
         "leaseOptions": true,
         "subscriptionModel": true,
-        "tradeInValue": 1200.00
+        "tradeInValue": 1200.0
       },
       "availability": {
         "status": "In Production",
         "leadTime": 28,
         "leadTimeUnit": "days",
-        "regions": ["EU", "North America"],
-        "channels": ["Direct", "Retail", "Subscription"]
-      }
+        "regions": [
+          "EU",
+          "North America"
+        ],
+        "channels": [
+          "Direct",
+          "Retail",
+          "Subscription"
+        ]
+      },
+      "condition": "New",
+      "location": {
+        "site": "Rotterdam Assembly Works",
+        "lat": 51.9244,
+        "lng": 4.4777
+      },
+      "listedAt": "2026-05-14"
     }
   },
   {
@@ -75,8 +103,14 @@
     "metadata": {
       "category": "Electronics",
       "subcategory": "Energy Storage",
-      "assemblyComponents": ["CMP-BAT-001"],
-      "keyMaterials": ["MAT-PLA-003", "MAT-LIT-009", "MAT-ALU-001"],
+      "assemblyComponents": [
+        "CMP-BAT-001"
+      ],
+      "keyMaterials": [
+        "MAT-PLA-003",
+        "MAT-LIT-009",
+        "MAT-ALU-001"
+      ],
       "specifications": {
         "capacity": "20000mAh",
         "solarPanel": "10W monocrystalline",
@@ -94,7 +128,11 @@
         "maintenanceInterval": "Annual",
         "repairability": "Medium",
         "upgradeability": "Low",
-        "endOfLifeOptions": ["Component Reuse", "Material Recovery", "Battery Recycling"]
+        "endOfLifeOptions": [
+          "Component Reuse",
+          "Material Recovery",
+          "Battery Recycling"
+        ]
       },
       "sustainability": {
         "carbonFootprint": 45.2,
@@ -104,7 +142,10 @@
         "carbonPayback": 150,
         "carbonPaybackUnit": "charging cycles",
         "lca": "PRD-PWR-001-lca.pdf",
-        "certifications": ["EPEAT Gold", "Energy Star"]
+        "certifications": [
+          "EPEAT Gold",
+          "Energy Star"
+        ]
       },
       "circular": {
         "designForDisassembly": true,
@@ -119,15 +160,27 @@
         "currency": "USD",
         "leaseOptions": false,
         "subscriptionModel": false,
-        "tradeInValue": 25.00
+        "tradeInValue": 25.0
       },
       "availability": {
         "status": "In Production",
         "leadTime": 14,
         "leadTimeUnit": "days",
-        "regions": ["Global"],
-        "channels": ["Online", "Retail"]
-      }
+        "regions": [
+          "Global"
+        ],
+        "channels": [
+          "Online",
+          "Retail"
+        ]
+      },
+      "condition": "New",
+      "location": {
+        "site": "Tallinn Electronics Hub",
+        "lat": 59.437,
+        "lng": 24.7536
+      },
+      "listedAt": "2026-06-02"
     }
   },
   {
@@ -141,7 +194,11 @@
       "category": "Furniture",
       "subcategory": "Office",
       "assemblyComponents": [],
-      "keyMaterials": ["MAT-BAM-006", "MAT-ALU-001", "MAT-PET-004"],
+      "keyMaterials": [
+        "MAT-BAM-006",
+        "MAT-ALU-001",
+        "MAT-PET-004"
+      ],
       "specifications": {
         "dimensions": "120x60x75cm",
         "weight": "18kg",
@@ -159,7 +216,11 @@
         "maintenanceInterval": "Annual",
         "repairability": "High",
         "upgradeability": "High",
-        "endOfLifeOptions": ["Reuse", "Material Recovery", "Composting"]
+        "endOfLifeOptions": [
+          "Reuse",
+          "Material Recovery",
+          "Composting"
+        ]
       },
       "sustainability": {
         "carbonFootprint": -12.8,
@@ -168,7 +229,11 @@
         "recyclabilityScore": 95,
         "carbonSequestration": 25.6,
         "lca": "PRD-FUR-001-lca.pdf",
-        "certifications": ["FSC Certified", "Cradle to Cradle Silver", "GREENGUARD Gold"]
+        "certifications": [
+          "FSC Certified",
+          "Cradle to Cradle Silver",
+          "GREENGUARD Gold"
+        ]
       },
       "circular": {
         "designForDisassembly": true,
@@ -179,19 +244,34 @@
         "refurbishmentPartner": "FurnitureCircle"
       },
       "pricing": {
-        "msrp": 399.00,
+        "msrp": 399.0,
         "currency": "USD",
         "leaseOptions": true,
         "subscriptionModel": true,
-        "tradeInValue": 180.00
+        "tradeInValue": 180.0
       },
       "availability": {
         "status": "In Production",
         "leadTime": 21,
         "leadTimeUnit": "days",
-        "regions": ["EU", "North America", "Asia Pacific"],
-        "channels": ["Direct", "Retail", "B2B"]
-      }
+        "regions": [
+          "EU",
+          "North America",
+          "Asia Pacific"
+        ],
+        "channels": [
+          "Direct",
+          "Retail",
+          "B2B"
+        ]
+      },
+      "condition": "New",
+      "location": {
+        "site": "Aarhus Furniture Studio",
+        "lat": 56.1629,
+        "lng": 10.2039
+      },
+      "listedAt": "2026-04-21"
     }
   },
   {
@@ -205,7 +285,10 @@
       "category": "Packaging",
       "subcategory": "Food Service",
       "assemblyComponents": [],
-      "keyMaterials": ["MAT-MYC-007", "MAT-PLA-003"],
+      "keyMaterials": [
+        "MAT-MYC-007",
+        "MAT-PLA-003"
+      ],
       "specifications": {
         "capacity": "750ml",
         "weight": "15g",
@@ -223,7 +306,10 @@
         "maintenanceInterval": "None",
         "repairability": "Not Applicable",
         "upgradeability": "Not Applicable",
-        "endOfLifeOptions": ["Home Composting", "Industrial Composting"]
+        "endOfLifeOptions": [
+          "Home Composting",
+          "Industrial Composting"
+        ]
       },
       "sustainability": {
         "carbonFootprint": 0.08,
@@ -233,7 +319,11 @@
         "compostTime": 90,
         "compostTimeUnit": "days",
         "lca": "PRD-PKG-001-lca.pdf",
-        "certifications": ["OK compost HOME", "ASTM D6400", "BPI Certified"]
+        "certifications": [
+          "OK compost HOME",
+          "ASTM D6400",
+          "BPI Certified"
+        ]
       },
       "circular": {
         "designForDisassembly": false,
@@ -248,29 +338,44 @@
         "currency": "USD",
         "leaseOptions": false,
         "subscriptionModel": false,
-        "tradeInValue": 0.00
+        "tradeInValue": 0.0
       },
       "availability": {
         "status": "In Production",
         "leadTime": 7,
         "leadTimeUnit": "days",
-        "regions": ["North America", "EU"],
-        "channels": ["B2B", "Food Service"]
-      }
+        "regions": [
+          "North America",
+          "EU"
+        ],
+        "channels": [
+          "B2B",
+          "Food Service"
+        ]
+      },
+      "condition": "New",
+      "location": {
+        "site": "Lyon Biofab Plant",
+        "lat": 45.764,
+        "lng": 4.8357
+      },
+      "listedAt": "2026-06-20"
     }
   },
   {
     "id": "PRD-TEX-001",
     "name": "Circular Fashion T-Shirt",
     "type": "product",
-    "icon": "ph:tshirt",
+    "icon": "ph:t-shirt",
     "description": "Organic cotton t-shirt designed for circularity with take-back program",
     "searchableText": "organic cotton t-shirt circular fashion sustainable clothing apparel",
     "metadata": {
       "category": "Apparel",
       "subcategory": "Basics",
       "assemblyComponents": [],
-      "keyMaterials": ["MAT-TEX-010"],
+      "keyMaterials": [
+        "MAT-TEX-010"
+      ],
       "specifications": {
         "fabric": "100% Organic Cotton",
         "weight": "180gsm",
@@ -288,7 +393,12 @@
         "maintenanceInterval": "As Needed",
         "repairability": "High",
         "upgradeability": "Low",
-        "endOfLifeOptions": ["Repair", "Upcycling", "Fiber Recovery", "Composting"]
+        "endOfLifeOptions": [
+          "Repair",
+          "Upcycling",
+          "Fiber Recovery",
+          "Composting"
+        ]
       },
       "sustainability": {
         "carbonFootprint": 8.5,
@@ -298,7 +408,11 @@
         "waterFootprint": 495,
         "waterFootprintUnit": "liters",
         "lca": "PRD-TEX-001-lca.pdf",
-        "certifications": ["GOTS", "Cradle to Cradle Certified", "Fair Trade"]
+        "certifications": [
+          "GOTS",
+          "Cradle to Cradle Certified",
+          "Fair Trade"
+        ]
       },
       "circular": {
         "designForDisassembly": true,
@@ -313,15 +427,714 @@
         "currency": "USD",
         "leaseOptions": false,
         "subscriptionModel": true,
-        "tradeInValue": 8.00
+        "tradeInValue": 8.0
       },
       "availability": {
         "status": "In Production",
         "leadTime": 14,
         "leadTimeUnit": "days",
-        "regions": ["Global"],
-        "channels": ["Online", "Retail"]
-      }
+        "regions": [
+          "Global"
+        ],
+        "channels": [
+          "Online",
+          "Retail"
+        ]
+      },
+      "condition": "New",
+      "location": {
+        "site": "Porto Textile Mill",
+        "lat": 41.1579,
+        "lng": -8.6291
+      },
+      "listedAt": "2026-05-27"
+    }
+  },
+  {
+    "id": "PRD-TRK-001",
+    "name": "Cargo Delivery Trike",
+    "type": "product",
+    "icon": "ph:truck",
+    "description": "Electric cargo trike for last-mile delivery with swappable battery and modular cargo box",
+    "searchableText": "cargo trike delivery electric last-mile logistics sustainable transport",
+    "metadata": {
+      "category": "Transportation",
+      "subcategory": "E-Mobility",
+      "assemblyComponents": [
+        "CMP-BAT-003",
+        "CMP-MOT-002"
+      ],
+      "keyMaterials": [
+        "MAT-ALU-001",
+        "MAT-STL-002"
+      ],
+      "specifications": {
+        "range": "60km",
+        "maxSpeed": "25km/h",
+        "loadCapacity": "150kg",
+        "weight": "48kg",
+        "battery": "36V 28Ah swappable",
+        "motor": "500W mid-drive",
+        "cargoVolume": "400L"
+      },
+      "lifecycle": {
+        "designLife": 12,
+        "designLifeUnit": "years",
+        "warrantyPeriod": 3,
+        "expectedMileage": 80000,
+        "mileageUnit": "km",
+        "maintenanceInterval": 800,
+        "repairability": "High",
+        "upgradeability": "High",
+        "endOfLifeOptions": [
+          "Refurbishment",
+          "Component Reuse",
+          "Material Recovery"
+        ]
+      },
+      "sustainability": {
+        "carbonFootprint": 410.2,
+        "unit": "kg CO2e",
+        "recycledContentOverall": 62,
+        "recyclabilityScore": 90,
+        "carbonPayback": 3200,
+        "carbonPaybackUnit": "km",
+        "lca": "PRD-TRK-001-lca.pdf",
+        "certifications": [
+          "EU Ecolabel"
+        ]
+      },
+      "circular": {
+        "designForDisassembly": true,
+        "modularDesign": true,
+        "standardFasteners": true,
+        "materialPassport": "PRD-TRK-001-passport.json",
+        "takeBackProgram": true,
+        "refurbishmentPartner": "BikeCircular Ltd"
+      },
+      "pricing": {
+        "msrp": 3899.0,
+        "currency": "USD",
+        "leaseOptions": true,
+        "subscriptionModel": true,
+        "tradeInValue": 1800.0
+      },
+      "availability": {
+        "status": "Pilot",
+        "leadTime": 45,
+        "leadTimeUnit": "days",
+        "regions": [
+          "EU"
+        ],
+        "channels": [
+          "Direct",
+          "B2B"
+        ]
+      },
+      "condition": "New",
+      "location": {
+        "site": "Copenhagen Cargo Lab",
+        "lat": 55.6761,
+        "lng": 12.5683
+      },
+      "listedAt": "2026-06-28"
+    }
+  },
+  {
+    "id": "PRD-EBK-002",
+    "name": "Refurbished City E-Bike",
+    "type": "product",
+    "icon": "ph:bicycle",
+    "description": "Factory-refurbished commuter e-bike with renewed battery and full service history",
+    "searchableText": "refurbished ebike city commuter second life renewed battery",
+    "metadata": {
+      "category": "Transportation",
+      "subcategory": "E-Mobility",
+      "assemblyComponents": [
+        "CMP-BAT-003",
+        "CMP-MOT-001"
+      ],
+      "keyMaterials": [
+        "MAT-ALU-001",
+        "MAT-STL-002"
+      ],
+      "specifications": {
+        "range": "65km",
+        "maxSpeed": "25km/h",
+        "weight": "24kg",
+        "frameSize": "M/L",
+        "battery": "36V 28Ah renewed",
+        "motor": "500W BLDC",
+        "chargingTime": "5 hours"
+      },
+      "lifecycle": {
+        "designLife": 8,
+        "designLifeUnit": "years",
+        "warrantyPeriod": 2,
+        "expectedMileage": 25000,
+        "mileageUnit": "km",
+        "maintenanceInterval": 1000,
+        "repairability": "High",
+        "upgradeability": "Medium",
+        "endOfLifeOptions": [
+          "Component Reuse",
+          "Material Recovery"
+        ]
+      },
+      "sustainability": {
+        "carbonFootprint": 38.4,
+        "unit": "kg CO2e",
+        "recycledContentOverall": 91,
+        "recyclabilityScore": 92,
+        "carbonPayback": 400,
+        "carbonPaybackUnit": "km",
+        "lca": "PRD-EBK-002-lca.pdf",
+        "certifications": [
+          "EU Ecolabel"
+        ]
+      },
+      "circular": {
+        "designForDisassembly": true,
+        "modularDesign": true,
+        "standardFasteners": true,
+        "materialPassport": "PRD-EBK-002-passport.json",
+        "takeBackProgram": true,
+        "refurbishmentPartner": "BikeCircular Ltd"
+      },
+      "pricing": {
+        "msrp": 899.0,
+        "currency": "USD",
+        "leaseOptions": true,
+        "subscriptionModel": true,
+        "tradeInValue": 350.0
+      },
+      "availability": {
+        "status": "In Production",
+        "leadTime": 10,
+        "leadTimeUnit": "days",
+        "regions": [
+          "EU"
+        ],
+        "channels": [
+          "Direct",
+          "Online"
+        ]
+      },
+      "condition": "Refurbished",
+      "location": {
+        "site": "Berlin Refurbishment Centre",
+        "lat": 52.52,
+        "lng": 13.405
+      },
+      "listedAt": "2026-03-05"
+    }
+  },
+  {
+    "id": "PRD-PHN-001",
+    "name": "Modular Smartphone",
+    "type": "product",
+    "icon": "ph:device-mobile",
+    "description": "Repairable smartphone with user-swappable camera, battery, and port modules",
+    "searchableText": "modular smartphone repairable swappable modules fairphone sustainable electronics",
+    "metadata": {
+      "category": "Electronics",
+      "subcategory": "Mobile Devices",
+      "assemblyComponents": [
+        "CMP-BAT-002",
+        "CMP-CAM-001"
+      ],
+      "keyMaterials": [
+        "MAT-ALU-001",
+        "MAT-PLA-003",
+        "MAT-LIT-009"
+      ],
+      "specifications": {
+        "display": "6.3in OLED",
+        "storage": "256GB expandable",
+        "battery": "4200mAh swappable",
+        "camera": "50MP module",
+        "dimensions": "158x75x9mm",
+        "weight": "193g",
+        "ipRating": "IP54"
+      },
+      "lifecycle": {
+        "designLife": 10,
+        "designLifeUnit": "years",
+        "warrantyPeriod": 5,
+        "expectedCycles": 1200,
+        "maintenanceInterval": "As Needed",
+        "repairability": "High",
+        "upgradeability": "High",
+        "endOfLifeOptions": [
+          "Module Reuse",
+          "Component Reuse",
+          "Material Recovery"
+        ]
+      },
+      "sustainability": {
+        "carbonFootprint": 42.1,
+        "unit": "kg CO2e",
+        "recycledContentOverall": 70,
+        "recyclabilityScore": 87,
+        "lca": "PRD-PHN-001-lca.pdf",
+        "certifications": [
+          "EPEAT Gold",
+          "TCO Certified"
+        ]
+      },
+      "circular": {
+        "designForDisassembly": true,
+        "modularDesign": true,
+        "standardFasteners": true,
+        "materialPassport": "PRD-PHN-001-passport.json",
+        "takeBackProgram": true,
+        "refurbishmentPartner": "TechCircular Inc"
+      },
+      "pricing": {
+        "msrp": 649.0,
+        "currency": "USD",
+        "leaseOptions": true,
+        "subscriptionModel": true,
+        "tradeInValue": 280.0
+      },
+      "availability": {
+        "status": "In Production",
+        "leadTime": 12,
+        "leadTimeUnit": "days",
+        "regions": [
+          "EU",
+          "North America"
+        ],
+        "channels": [
+          "Direct",
+          "Online",
+          "Retail"
+        ]
+      },
+      "condition": "New",
+      "location": {
+        "site": "Eindhoven Device Works",
+        "lat": 51.4416,
+        "lng": 5.4697
+      },
+      "listedAt": "2026-05-30"
+    }
+  },
+  {
+    "id": "PRD-LAP-001",
+    "name": "Remanufactured Laptop",
+    "type": "product",
+    "icon": "ph:laptop",
+    "description": "Enterprise laptop remanufactured to as-new spec with renewed battery and keyboard",
+    "searchableText": "remanufactured laptop refurbished enterprise second life computing",
+    "metadata": {
+      "category": "Electronics",
+      "subcategory": "Computing",
+      "assemblyComponents": [
+        "CMP-BAT-004"
+      ],
+      "keyMaterials": [
+        "MAT-ALU-001",
+        "MAT-PLA-003",
+        "MAT-LIT-009"
+      ],
+      "specifications": {
+        "display": "14in IPS",
+        "processor": "8-core",
+        "memory": "32GB",
+        "storage": "1TB NVMe",
+        "battery": "72Wh renewed",
+        "dimensions": "313x221x17mm",
+        "weight": "1.4kg"
+      },
+      "lifecycle": {
+        "designLife": 6,
+        "designLifeUnit": "years",
+        "warrantyPeriod": 3,
+        "expectedCycles": 1000,
+        "maintenanceInterval": "Annual",
+        "repairability": "Medium",
+        "upgradeability": "Medium",
+        "endOfLifeOptions": [
+          "Component Reuse",
+          "Material Recovery"
+        ]
+      },
+      "sustainability": {
+        "carbonFootprint": 55.0,
+        "unit": "kg CO2e",
+        "recycledContentOverall": 85,
+        "recyclabilityScore": 84,
+        "lca": "PRD-LAP-001-lca.pdf",
+        "certifications": [
+          "EPEAT Silver"
+        ]
+      },
+      "circular": {
+        "designForDisassembly": true,
+        "modularDesign": false,
+        "standardFasteners": true,
+        "materialPassport": "PRD-LAP-001-passport.json",
+        "takeBackProgram": true,
+        "refurbishmentPartner": "TechCircular Inc"
+      },
+      "pricing": {
+        "msrp": 799.0,
+        "currency": "USD",
+        "leaseOptions": true,
+        "subscriptionModel": false,
+        "tradeInValue": 320.0
+      },
+      "availability": {
+        "status": "Discontinued",
+        "leadTime": 5,
+        "leadTimeUnit": "days",
+        "regions": [
+          "EU"
+        ],
+        "channels": [
+          "Online"
+        ]
+      },
+      "condition": "Remanufactured",
+      "location": {
+        "site": "Gdansk Remanufacture Line",
+        "lat": 54.352,
+        "lng": 18.6466
+      },
+      "listedAt": "2025-09-30"
+    }
+  },
+  {
+    "id": "PRD-FUR-002",
+    "name": "Circular Task Chair",
+    "type": "product",
+    "icon": "ph:chair",
+    "description": "Ergonomic task chair with single-material mesh and snap-fit joints for full disassembly",
+    "searchableText": "task chair ergonomic office circular disassembly mesh seating",
+    "metadata": {
+      "category": "Furniture",
+      "subcategory": "Office",
+      "assemblyComponents": [],
+      "keyMaterials": [
+        "MAT-PET-004",
+        "MAT-ALU-001"
+      ],
+      "specifications": {
+        "loadCapacity": "120kg",
+        "adjustment": "Height, tilt, lumbar",
+        "mesh": "Single-polymer PET",
+        "assembly": "Snap-fit, tool-free",
+        "weight": "12kg"
+      },
+      "lifecycle": {
+        "designLife": 15,
+        "designLifeUnit": "years",
+        "warrantyPeriod": 10,
+        "expectedUsage": "Normal Office Use",
+        "maintenanceInterval": "None",
+        "repairability": "High",
+        "upgradeability": "Medium",
+        "endOfLifeOptions": [
+          "Reuse",
+          "Component Reuse",
+          "Material Recovery"
+        ]
+      },
+      "sustainability": {
+        "carbonFootprint": 34.7,
+        "unit": "kg CO2e",
+        "recycledContentOverall": 72,
+        "recyclabilityScore": 96,
+        "lca": "PRD-FUR-002-lca.pdf",
+        "certifications": [
+          "GREENGUARD Gold"
+        ]
+      },
+      "circular": {
+        "designForDisassembly": true,
+        "modularDesign": true,
+        "standardFasteners": true,
+        "materialPassport": null,
+        "takeBackProgram": true,
+        "refurbishmentPartner": "FurnitureCircle"
+      },
+      "pricing": {
+        "msrp": 549.0,
+        "currency": "USD",
+        "leaseOptions": true,
+        "subscriptionModel": true,
+        "tradeInValue": 200.0
+      },
+      "availability": {
+        "status": "In Production",
+        "leadTime": 18,
+        "leadTimeUnit": "days",
+        "regions": [
+          "EU",
+          "North America"
+        ],
+        "channels": [
+          "Direct",
+          "Retail",
+          "B2B"
+        ]
+      },
+      "condition": "New",
+      "location": {
+        "site": "Turin Seating Works",
+        "lat": 45.0703,
+        "lng": 7.6869
+      },
+      "listedAt": "2026-06-11"
+    }
+  },
+  {
+    "id": "PRD-PKG-002",
+    "name": "Returnable Shipping Crate",
+    "type": "product",
+    "icon": "ph:package",
+    "description": "Foldable shipping crate for pooled logistics, tracked across an average of 60 rotations",
+    "searchableText": "returnable shipping crate reusable pooled logistics foldable transport packaging",
+    "metadata": {
+      "category": "Packaging",
+      "subcategory": "Logistics",
+      "assemblyComponents": [],
+      "keyMaterials": [
+        "MAT-PLA-005"
+      ],
+      "specifications": {
+        "capacity": "45L",
+        "dimensions": "600x400x320mm",
+        "weight": "1.9kg",
+        "loadCapacity": "25kg",
+        "foldedHeight": "45mm",
+        "stackable": true,
+        "tracking": "QR + RFID"
+      },
+      "lifecycle": {
+        "designLife": 10,
+        "designLifeUnit": "years",
+        "warrantyPeriod": 2,
+        "expectedRotations": 60,
+        "maintenanceInterval": "Per rotation",
+        "repairability": "Medium",
+        "upgradeability": "Low",
+        "endOfLifeOptions": [
+          "Regranulation",
+          "Closed-loop Recycling"
+        ]
+      },
+      "sustainability": {
+        "carbonFootprint": 12.3,
+        "unit": "kg CO2e",
+        "recycledContentOverall": 95,
+        "recyclabilityScore": 100,
+        "lca": "PRD-PKG-002-lca.pdf",
+        "certifications": [
+          "ISO 14021"
+        ]
+      },
+      "circular": {
+        "designForDisassembly": false,
+        "modularDesign": false,
+        "standardFasteners": false,
+        "materialPassport": "PRD-PKG-002-passport.json",
+        "takeBackProgram": true,
+        "refurbishmentPartner": "PoolLogix"
+      },
+      "pricing": {
+        "msrp": 65.0,
+        "currency": "USD",
+        "leaseOptions": true,
+        "subscriptionModel": true,
+        "tradeInValue": 15.0
+      },
+      "availability": {
+        "status": "In Production",
+        "leadTime": 14,
+        "leadTimeUnit": "days",
+        "regions": [
+          "EU"
+        ],
+        "channels": [
+          "B2B"
+        ]
+      },
+      "condition": "New",
+      "location": {
+        "site": "Valencia Pool Depot",
+        "lat": 39.4699,
+        "lng": -0.3763
+      },
+      "listedAt": "2026-02-17"
+    }
+  },
+  {
+    "id": "PRD-TEX-002",
+    "name": "Recycled Wool Jacket",
+    "type": "product",
+    "icon": "ph:coat-hanger",
+    "description": "Tailored jacket from post-consumer recycled wool with repair service included",
+    "searchableText": "recycled wool jacket tailored outerwear circular fashion repair service",
+    "metadata": {
+      "category": "Apparel",
+      "subcategory": "Outerwear",
+      "assemblyComponents": [],
+      "keyMaterials": [
+        "MAT-TEX-011"
+      ],
+      "specifications": {
+        "fabric": "80% recycled wool, 20% recycled PET",
+        "weight": "620gsm",
+        "fit": "Tailored",
+        "sizes": "XS-XL",
+        "colors": 3,
+        "care": "Professional clean only"
+      },
+      "lifecycle": {
+        "designLife": 15,
+        "designLifeUnit": "years",
+        "warrantyPeriod": 5,
+        "maintenanceInterval": "Seasonal",
+        "repairability": "High",
+        "upgradeability": "Low",
+        "endOfLifeOptions": [
+          "Repair",
+          "Resale",
+          "Fiber Recovery"
+        ]
+      },
+      "sustainability": {
+        "carbonFootprint": 19.2,
+        "unit": "kg CO2e",
+        "recycledContentOverall": 98,
+        "recyclabilityScore": 90,
+        "waterFootprint": 120,
+        "waterFootprintUnit": "liters",
+        "lca": "PRD-TEX-002-lca.pdf",
+        "certifications": [
+          "GRS",
+          "Cradle to Cradle Certified"
+        ]
+      },
+      "circular": {
+        "designForDisassembly": false,
+        "modularDesign": false,
+        "standardFasteners": false,
+        "materialPassport": "PRD-TEX-002-passport.json",
+        "takeBackProgram": true,
+        "refurbishmentPartner": "TextileReborn"
+      },
+      "pricing": {
+        "msrp": 389.0,
+        "currency": "USD",
+        "leaseOptions": false,
+        "subscriptionModel": true,
+        "tradeInValue": 90.0
+      },
+      "availability": {
+        "status": "In Production",
+        "leadTime": 21,
+        "leadTimeUnit": "days",
+        "regions": [
+          "EU",
+          "North America"
+        ],
+        "channels": [
+          "Direct",
+          "Online"
+        ]
+      },
+      "condition": "New",
+      "location": {
+        "site": "Ljubljana Wool Atelier",
+        "lat": 46.0569,
+        "lng": 14.5058
+      },
+      "listedAt": "2026-04-02"
+    }
+  },
+  {
+    "id": "PRD-TEX-003",
+    "name": "Recycled Fleece Hoodie",
+    "type": "product",
+    "icon": "ph:hoodie",
+    "description": "Fleece hoodie spun from ocean-bound plastic bottles with mono-material construction",
+    "searchableText": "recycled fleece hoodie ocean plastic bottles mono material apparel",
+    "metadata": {
+      "category": "Apparel",
+      "subcategory": "Basics",
+      "assemblyComponents": [],
+      "keyMaterials": [
+        "MAT-PET-004"
+      ],
+      "specifications": {
+        "fabric": "100% recycled PET fleece",
+        "weight": "300gsm",
+        "fit": "Relaxed",
+        "sizes": "XS-XXL",
+        "colors": 5,
+        "care": "Machine wash 30C, microfibre bag"
+      },
+      "lifecycle": {
+        "designLife": 6,
+        "designLifeUnit": "years",
+        "warrantyPeriod": 2,
+        "expectedWashes": 150,
+        "maintenanceInterval": "As Needed",
+        "repairability": "Medium",
+        "upgradeability": "Low",
+        "endOfLifeOptions": [
+          "Upcycling",
+          "Closed-loop Recycling"
+        ]
+      },
+      "sustainability": {
+        "carbonFootprint": 6.8,
+        "unit": "kg CO2e",
+        "recycledContentOverall": 100,
+        "recyclabilityScore": 93,
+        "waterFootprint": 40,
+        "waterFootprintUnit": "liters",
+        "certifications": [
+          "GRS",
+          "Ocean Bound Plastic"
+        ]
+      },
+      "circular": {
+        "designForDisassembly": false,
+        "modularDesign": false,
+        "standardFasteners": false,
+        "materialPassport": "PRD-TEX-003-passport.json",
+        "takeBackProgram": true,
+        "refurbishmentPartner": "TextileReborn"
+      },
+      "pricing": {
+        "msrp": 59.99,
+        "currency": "USD",
+        "leaseOptions": false,
+        "subscriptionModel": false,
+        "tradeInValue": 12.0
+      },
+      "availability": {
+        "status": "In Development",
+        "leadTime": 30,
+        "leadTimeUnit": "days",
+        "regions": [
+          "EU"
+        ],
+        "channels": [
+          "Online"
+        ]
+      },
+      "condition": "New",
+      "location": {
+        "site": "Bilbao Fleece Works",
+        "lat": 43.263,
+        "lng": -2.935
+      },
+      "listedAt": "2026-07-01"
     }
   }
 ]

@@ -1,0 +1,14 @@
+/* Toolbar — the persistent row of commands a view carries above itself
+   (Components/Toolbar). A group class rather than a utility: control rows say
+   what they are, and the block owns the layout they used to borrow from
+   `.flex`. */
+
+@layer components {
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-xs);
+    row-gap: var(--space-xs);
+  }
+}

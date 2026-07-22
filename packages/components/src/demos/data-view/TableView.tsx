@@ -1,6 +1,6 @@
 import React from 'react';
 import { TableViewProps } from './types';
-import { getAttributeValue, formatAttributeValue, isIdentityAttribute } from './AttributeUtils';
+import { getAttributeValue, formatAttributeValue, isIdentityAttribute } from '../../templates/collection-view/AttributeUtils';
 
 export const TableView: React.FC<TableViewProps> = ({ products, selectedAttributes }) => {
   // Separate identity and metadata attributes, maintaining order

@@ -1,5 +1,5 @@
 import { DataView } from './DataView';
-import { ProductFilterType, ProductFilterOperator } from './FilterTypes';
+import { ProductFilterType, ProductFilterOperator } from '../../templates/collection-view/FilterTypes';
 
 /**
  * Configured slices of the DataView composition. Collection-level moves
@@ -9,7 +9,7 @@ import { ProductFilterType, ProductFilterOperator } from './FilterTypes';
  */
 
 export function DataViewDemo() {
-  return <DataView />;
+  return <DataView defaultView="table" />;
 }
 
 export function DataViewGroupingSlice() {

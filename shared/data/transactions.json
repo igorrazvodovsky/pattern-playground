@@ -3,6 +3,7 @@
     "id": "txn-001",
     "amount": 2500.00,
     "description": "Sale of 10 tons of recycled PET plastic pellets",
+    "summary": "PET pellets sold",
     "status": "completed",
     "date": "2024-01-15",
     "category": "Recycled Materials"
@@ -11,6 +12,7 @@
     "id": "txn-002",
     "amount": 50000.00,
     "description": "Investment in new optical sorting technology for recycling plant",
+    "summary": "Optical sorter bought",
     "status": "completed",
     "date": "2024-01-18",
     "category": "Capital Expenditure"
@@ -19,6 +21,7 @@
     "id": "txn-003",
     "amount": 150.00,
     "description": "Revenue from refurbished electronics sales",
+    "summary": "Refurb sales",
     "status": "pending",
     "date": "2024-01-22",
     "category": "Product Sales"
@@ -27,6 +30,7 @@
     "id": "txn-004",
     "amount": 3000.00,
     "description": "Consulting fees for circular design workshop",
+    "summary": "Design workshop fee",
     "status": "completed",
     "date": "2024-01-25",
     "category": "Services"
@@ -35,6 +39,7 @@
     "id": "txn-005",
     "amount": 200.00,
     "description": "Payment for transportation of collected e-waste",
+    "summary": "E-waste haulage",
     "status": "failed",
     "date": "2024-02-01",
     "category": "Logistics"
@@ -43,6 +48,7 @@
     "id": "txn-006",
     "amount": 800.00,
     "description": "Purchase of biodegradable packaging materials",
+    "summary": "Packaging bought",
     "status": "completed",
     "date": "2024-02-05",
     "category": "Procurement"
@@ -51,6 +57,7 @@
     "id": "txn-007",
     "amount": 500.00,
     "description": "Grant funding for urban composting project",
+    "summary": "Composting grant",
     "status": "pending",
     "date": "2024-02-08",
     "category": "Funding"
@@ -59,6 +66,7 @@
     "id": "txn-008",
     "amount": 1200.00,
     "description": "Lease payment for warehouse space for material sorting",
+    "summary": "Warehouse lease",
     "status": "completed",
     "date": "2024-02-12",
     "category": "Operations"
@@ -67,6 +75,7 @@
     "id": "txn-009",
     "amount": 150.00,
     "description": "Subscription to material traceability software",
+    "summary": "Traceability subscription",
     "status": "pending",
     "date": "2024-02-15",
     "category": "Software"
@@ -75,8 +84,351 @@
     "id": "txn-010",
     "amount": 4000.00,
     "description": "Revenue from selling compost to local farms",
+    "summary": "Compost sold",
     "status": "completed",
     "date": "2024-02-20",
     "category": "Product Sales"
+  },
+  {
+    "id": "txn-011",
+    "amount": 95.00,
+    "description": "Courier fees for returned material samples",
+    "summary": "Sample courier",
+    "status": "completed",
+    "date": "2024-02-22",
+    "category": "Logistics"
+  },
+  {
+    "id": "txn-012",
+    "amount": 18500.00,
+    "description": "Purchase of a second baler for the sorting line",
+    "summary": "Second baler bought",
+    "status": "completed",
+    "date": "2024-02-27",
+    "category": "Capital Expenditure"
+  },
+  {
+    "id": "txn-013",
+    "amount": 150.00,
+    "description": "Subscription to material traceability software",
+    "summary": "Traceability subscription",
+    "status": "completed",
+    "date": "2024-03-04",
+    "category": "Software"
+  },
+  {
+    "id": "txn-014",
+    "amount": 240.00,
+    "description": "Payment for e-waste collection round",
+    "summary": "E-waste round",
+    "status": "completed",
+    "date": "2024-03-08",
+    "category": "Logistics"
+  },
+  {
+    "id": "txn-015",
+    "amount": 62000.00,
+    "description": "Municipal contract for kerbside textile collection",
+    "summary": "Municipal textile contract",
+    "status": "completed",
+    "date": "2024-03-14",
+    "category": "Services"
+  },
+  {
+    "id": "txn-016",
+    "amount": 320.00,
+    "description": "Repair of the conveyor belt motor",
+    "summary": "Conveyor repair",
+    "status": "completed",
+    "date": "2024-03-19",
+    "category": "Operations"
+  },
+  {
+    "id": "txn-017",
+    "amount": 1200.00,
+    "description": "Lease payment for warehouse space for material sorting",
+    "summary": "Warehouse lease",
+    "status": "completed",
+    "date": "2024-03-26",
+    "category": "Operations"
+  },
+  {
+    "id": "txn-018",
+    "amount": 150.00,
+    "description": "Subscription to material traceability software",
+    "summary": "Traceability subscription",
+    "status": "pending",
+    "date": "2024-04-02",
+    "category": "Software"
+  },
+  {
+    "id": "txn-019",
+    "amount": 780.00,
+    "description": "Revenue from refurbished electronics sales",
+    "summary": "Refurb sales",
+    "status": "completed",
+    "date": "2024-04-11",
+    "category": "Product Sales"
+  },
+  {
+    "id": "txn-020",
+    "amount": 27500.00,
+    "description": "Insurance settlement after the sorting-line fire",
+    "summary": "Fire settlement",
+    "status": "completed",
+    "date": "2024-04-18",
+    "category": "Insurance"
+  },
+  {
+    "id": "txn-021",
+    "amount": 410.00,
+    "description": "Purchase of biodegradable packaging materials",
+    "summary": "Packaging bought",
+    "status": "completed",
+    "date": "2024-04-25",
+    "category": "Procurement"
+  },
+  {
+    "id": "txn-022",
+    "amount": 150.00,
+    "description": "Subscription to material traceability software",
+    "summary": "Traceability subscription",
+    "status": "completed",
+    "date": "2024-05-06",
+    "category": "Software"
+  },
+  {
+    "id": "txn-023",
+    "amount": 9800.00,
+    "description": "Certification audit for recycled-content claims",
+    "summary": "Certification audit",
+    "status": "completed",
+    "date": "2024-05-15",
+    "category": "Compliance"
+  },
+  {
+    "id": "txn-024",
+    "amount": 260.00,
+    "description": "Transport of compost to local farms",
+    "summary": "Compost haulage",
+    "status": "failed",
+    "date": "2024-06-03",
+    "category": "Logistics"
+  },
+  {
+    "id": "txn-025",
+    "amount": 45000.00,
+    "description": "Sale of recovered aluminium to a regional foundry",
+    "summary": "Aluminium sold",
+    "status": "pending",
+    "date": "2024-06-28",
+    "category": "Product Sales"
+  },
+  {
+    "id": "txn-026",
+    "amount": 150.00,
+    "description": "Subscription to material traceability software",
+    "summary": "Traceability subscription",
+    "status": "completed",
+    "date": "2024-07-01",
+    "category": "Software"
+  },
+  {
+    "id": "txn-027",
+    "amount": 1200.00,
+    "description": "Lease payment for warehouse space for material sorting",
+    "summary": "Warehouse lease",
+    "status": "completed",
+    "date": "2024-07-02",
+    "category": "Operations"
+  },
+  {
+    "id": "txn-028",
+    "amount": 340.00,
+    "description": "Replacement blades for the shredder",
+    "summary": "Shredder blades",
+    "status": "completed",
+    "date": "2024-07-09",
+    "category": "Operations"
+  },
+  {
+    "id": "txn-029",
+    "amount": 6400.00,
+    "description": "Revenue from baled cardboard sold to a paper mill",
+    "summary": "Cardboard sold",
+    "status": "completed",
+    "date": "2024-07-16",
+    "category": "Product Sales"
+  },
+  {
+    "id": "txn-030",
+    "amount": 180.00,
+    "description": "Waste levy for non-recoverable residue",
+    "summary": "Residue levy",
+    "status": "completed",
+    "date": "2024-07-23",
+    "category": "Compliance"
+  },
+  {
+    "id": "txn-031",
+    "amount": 120000.00,
+    "description": "Series A investment in the sorting facility",
+    "summary": "Series A closed",
+    "status": "completed",
+    "date": "2024-07-31",
+    "category": "Funding"
+  },
+  {
+    "id": "txn-032",
+    "amount": 150.00,
+    "description": "Subscription to material traceability software",
+    "summary": "Traceability subscription",
+    "status": "completed",
+    "date": "2024-08-05",
+    "category": "Software"
+  },
+  {
+    "id": "txn-033",
+    "amount": 2750.00,
+    "description": "Recruitment fee for a sorting-line supervisor",
+    "summary": "Supervisor hired",
+    "status": "completed",
+    "date": "2024-08-12",
+    "category": "Services"
+  },
+  {
+    "id": "txn-034",
+    "amount": 95.00,
+    "description": "Courier fees for returned material samples",
+    "summary": "Sample courier",
+    "status": "completed",
+    "date": "2024-08-19",
+    "category": "Logistics"
+  },
+  {
+    "id": "txn-035",
+    "amount": 33000.00,
+    "description": "Purchase of a near-infrared polymer scanner",
+    "summary": "Polymer scanner bought",
+    "status": "completed",
+    "date": "2024-08-27",
+    "category": "Capital Expenditure"
+  },
+  {
+    "id": "txn-036",
+    "amount": 150.00,
+    "description": "Subscription to material traceability software",
+    "summary": "Traceability subscription",
+    "status": "completed",
+    "date": "2024-09-02",
+    "category": "Software"
+  },
+  {
+    "id": "txn-037",
+    "amount": 1200.00,
+    "description": "Lease payment for warehouse space for material sorting",
+    "summary": "Warehouse lease",
+    "status": "completed",
+    "date": "2024-09-03",
+    "category": "Operations"
+  },
+  {
+    "id": "txn-038",
+    "amount": 480.00,
+    "description": "Repair of the loading bay door",
+    "summary": "Bay door repair",
+    "status": "completed",
+    "date": "2024-09-10",
+    "category": "Operations"
+  },
+  {
+    "id": "txn-039",
+    "amount": 8900.00,
+    "description": "Revenue from the refurbished laptop programme",
+    "summary": "Refurb laptops sold",
+    "status": "completed",
+    "date": "2024-09-18",
+    "category": "Product Sales"
+  },
+  {
+    "id": "txn-040",
+    "amount": 210.00,
+    "description": "Payment for e-waste collection round",
+    "summary": "E-waste round",
+    "status": "completed",
+    "date": "2024-09-25",
+    "category": "Logistics"
+  },
+  {
+    "id": "txn-041",
+    "amount": 150.00,
+    "description": "Subscription to material traceability software",
+    "summary": "Traceability subscription",
+    "status": "completed",
+    "date": "2024-10-07",
+    "category": "Software"
+  },
+  {
+    "id": "txn-042",
+    "amount": 15600.00,
+    "description": "Fine for a missed recycled-content declaration",
+    "summary": "Declaration fine",
+    "status": "completed",
+    "date": "2024-10-15",
+    "category": "Compliance"
+  },
+  {
+    "id": "txn-043",
+    "amount": 640.00,
+    "description": "Purchase of biodegradable packaging materials",
+    "summary": "Packaging bought",
+    "status": "completed",
+    "date": "2024-10-22",
+    "category": "Procurement"
+  },
+  {
+    "id": "txn-044",
+    "amount": 150.00,
+    "description": "Subscription to material traceability software",
+    "summary": "Traceability subscription",
+    "status": "completed",
+    "date": "2024-11-04",
+    "category": "Software"
+  },
+  {
+    "id": "txn-045",
+    "amount": 1200.00,
+    "description": "Lease payment for warehouse space for material sorting",
+    "summary": "Warehouse lease",
+    "status": "completed",
+    "date": "2024-11-05",
+    "category": "Operations"
+  },
+  {
+    "id": "txn-046",
+    "amount": 78000.00,
+    "description": "Framework agreement with a regional retailer for take-back",
+    "summary": "Retailer take-back deal",
+    "status": "pending",
+    "date": "2024-11-19",
+    "category": "Services"
+  },
+  {
+    "id": "txn-047",
+    "amount": 290.00,
+    "description": "Transport of compost to local farms",
+    "summary": "Compost haulage",
+    "status": "completed",
+    "date": "2024-12-03",
+    "category": "Logistics"
+  },
+  {
+    "id": "txn-048",
+    "amount": 5200.00,
+    "description": "Year-end audit fees",
+    "summary": "Year-end audit",
+    "status": "pending",
+    "date": "2024-12-18",
+    "category": "Services"
   }
 ]

@@ -59,5 +59,12 @@ export interface Product {
       regions: string[];
       channels: string[];
     };
+    condition: string;
+    location: {
+      site: string;
+      lat: number;
+      lng: number;
+    };
+    listedAt: string;
   };
 }

@@ -1,0 +1,86 @@
+@layer components {
+  /* `.details-list` is the item-view adapters' name for the same block — the
+     label/value readout a detail view is mostly made of. Same rule, both names. */
+  .description-list,
+  .details-list {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    row-gap: var(--space-2xs);
+  }
+
+  :is(.description-list, .details-list) dt, :is(.description-list, .details-list) dd {
+    padding-block: var(--space-xs);
+  }
+
+  :is(.description-list, .details-list) dt:not(:last-of-type),
+  :is(.description-list, .details-list) dd:not(:last-of-type) {
+    border-block-end: var(--border);
+  }
+
+  :is(.description-list, .details-list) dt {
+    grid-column: 1;
+    font-weight: var(--font-weight-semibold);
+    color: var(--c-bodyDimmed);
+  }
+
+  :is(.description-list, .details-list) dd {
+    grid-column: 2;
+    padding-inline: var(--space-m);
+  }
+
+  /* In a pane-width host the label column would eat the value column; below
+     the demo breakpoint the pair stacks instead. */
+  @container demo (inline-size < 24rem) {
+    :is(.description-list, .details-list) {
+      grid-template-columns: 1fr;
+    }
+
+    :is(.description-list, .details-list) :is(dt, dd) {
+      grid-column: 1;
+    }
+  }
+
+  /* `.details-list-group` wraps several lists shown together in one view
+     (spec sections on an entity page, say) so their label columns line up
+     instead of each list sizing `max-content` independently. Rather than
+     nesting a nested grid per list, the group is the *only* grid: wrappers
+     between it and each `dt`/`dd` — a `.flow` section with its own heading,
+     the list itself — go `display: contents` and drop out of the box tree,
+     so every label and value is a direct item of one shared
+     `grid-template-columns`. Non-list content (the section heading) still
+     needs to span both tracks explicitly, since it's now unplaced in the
+     same grid. */
+  .details-list-group {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    row-gap: var(--space-2xs);
+  }
+
+  .details-list-group > * {
+    grid-column: 1 / -1;
+  }
+
+  .details-list-group > *:has(:is(.description-list, .details-list)) {
+    display: contents;
+  }
+
+  /* Row-gap is uniform across the whole grid, so it can only give the tight
+     rhythm dt/dd rows want. A section heading needs the roomier gap `.flow`
+     would otherwise have given it, made up here with margin instead. */
+  .details-list-group
+    > *:has(:is(.description-list, .details-list))
+    > :not(:is(.description-list, .details-list)) {
+    grid-column: 1 / -1;
+    margin-block-start: var(--space-m);
+  }
+
+  .details-list-group :is(.description-list, .details-list) {
+    display: contents;
+  }
+
+  @container demo (inline-size < 24rem) {
+    .details-list-group {
+      grid-template-columns: 1fr;
+    }
+  }
+}

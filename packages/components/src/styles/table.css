@@ -119,6 +119,50 @@
     margin-block: -10px;
   }
 
+  /* Narrow hosts (a site pane, a phone) — the table stays a table: the
+     identity column pins so rows remain comparable while the rest scrolls.
+     `demo` is the query container every demo host declares. */
+  @container demo (inline-size < 36rem) {
+    pp-table {
+      scrollbar-width: thin;
+    }
+
+    pp-table :is(th, td):first-child {
+      position: sticky;
+      inset-inline-start: 0;
+      z-index: 1;
+      background: var(--c-surface, var(--c-background));
+    }
+
+    /* Pinned cells are opaque, so translucent row states re-mix onto them */
+    pp-table tbody tr:hover td:first-child {
+      background: color-mix(in oklch, var(--c-surface, var(--c-background)) 95%, var(--c-body) 5%);
+    }
+
+    pp-table tbody tr[data-focused="true"] > td:first-child {
+      background: color-mix(in oklch, var(--c-surface, var(--c-background)) 94%, var(--c-accent) 6%);
+    }
+
+    pp-table tbody tr[data-selected="true"] > td:first-child {
+      background: color-mix(in oklch, var(--c-surface, var(--c-background)) 88%, var(--c-accent) 12%);
+    }
+  }
+
+  /* Phone-width hosts trade density for reach */
+  @container demo (inline-size < 30rem) {
+    pp-table {
+      --_td-padding: var(--space-xs) var(--space-s);
+    }
+
+    pp-table :is(td, th):first-child {
+      padding-inline-start: var(--space-s);
+    }
+
+    pp-table :is(td, th):last-child {
+      padding-inline-end: var(--space-s);
+    }
+  }
+
   pp-table table .resizer {
     position: absolute;
     top: 0;

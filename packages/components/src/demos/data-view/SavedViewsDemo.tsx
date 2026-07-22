@@ -1,0 +1,114 @@
+import { useMemo, useState } from 'react';
+import { DataView } from './DataView';
+import { ProductFilterType, ProductFilterOperator } from '../../templates/collection-view/FilterTypes';
+import { ViewSpec, makeSpec } from '../../templates/collection-view/spec';
+
+/**
+ * Saved views are named specs, switched whole — query, representation and
+ * arrangement travel together as one portable artefact. One view is
+ * deliberately stale: its query names a status label the data model no longer
+ * uses, so it matches nothing. Saved framings accumulate and go stale;
+ * pruning is part of the pattern.
+ */
+
+const SAVED_VIEWS: ViewSpec[] = [
+  makeSpec({
+    id: 'saved-default',
+    label: 'All products',
+    representation: {
+      type: 'card',
+      shownAttributes: ['name', 'description', 'category', 'pricing.msrp', 'availability.status'],
+    },
+    arrangement: { sortBy: { field: 'name', order: 'asc' } },
+  }),
+  makeSpec({
+    id: 'saved-sustainability',
+    label: 'Sustainability review',
+    representation: {
+      type: 'table',
+      shownAttributes: [
+        'name',
+        'category',
+        'sustainability.carbonFootprint',
+        'sustainability.recyclabilityScore',
+        'lifecycle.repairability',
+      ],
+    },
+    arrangement: { sortBy: { field: 'sustainability.carbonFootprint', order: 'desc' } },
+  }),
+  makeSpec({
+    id: 'saved-shortlist',
+    label: 'Affordable picks',
+    query: [
+      {
+        id: 'saved-shortlist-price',
+        type: ProductFilterType.PRICE_RANGE,
+        operator: ProductFilterOperator.LESS_THAN,
+        value: ['500'],
+      },
+    ],
+    representation: {
+      type: 'list',
+      shownAttributes: ['name', 'condition', 'pricing.msrp', 'location.site'],
+    },
+    arrangement: { sortBy: { field: 'pricing.msrp', order: 'asc' } },
+  }),
+  makeSpec({
+    id: 'saved-pilot-2025',
+    label: 'Pilot fleet (2025)',
+    query: [
+      {
+        id: 'saved-pilot-status',
+        type: ProductFilterType.AVAILABILITY_STATUS,
+        operator: ProductFilterOperator.IS,
+        value: ['Pilot Phase'],
+      },
+    ],
+    representation: {
+      type: 'card',
+      shownAttributes: ['name', 'description', 'availability.status', 'availability.leadTime'],
+    },
+    arrangement: { sortBy: { field: 'availability.leadTime', order: 'asc' } },
+  }),
+];
+
+export function SavedViewsDemo() {
+  const [activeId, setActiveId] = useState(SAVED_VIEWS[0].id);
+  const [workingSpec, setWorkingSpec] = useState<ViewSpec>(SAVED_VIEWS[0]);
+
+  const savedSpec = useMemo(
+    () => SAVED_VIEWS.find((candidate) => candidate.id === activeId) ?? SAVED_VIEWS[0],
+    [activeId]
+  );
+  const edited = JSON.stringify(workingSpec) !== JSON.stringify(savedSpec);
+
+  const selectView = (spec: ViewSpec) => {
+    setActiveId(spec.id);
+    setWorkingSpec(spec);
+  };
+
+  const viewPicker = (
+    <>
+      <pp-dropdown>
+        <button className="button" is="pp-button" slot="trigger">
+          {savedSpec.label} {/* {edited && <span className="badge">edited</span>} */}
+          <iconify-icon className="icon" icon="ph:caret-down" aria-hidden="true"></iconify-icon>
+        </button>
+        <pp-list>
+          {SAVED_VIEWS.map((view) => (
+            <pp-list-item
+              key={view.id}
+              type="checkbox"
+              checked={view.id === activeId}
+              onClick={() => selectView(view)}
+            >
+              {view.label}
+            </pp-list-item>
+          ))}
+        </pp-list>
+      </pp-dropdown>
+    </>
+  );
+
+  return <DataView spec={workingSpec} onSpecChange={setWorkingSpec} toolbarLeading={viewPicker} />;
+}

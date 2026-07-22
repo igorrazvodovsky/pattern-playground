@@ -7,7 +7,7 @@ import {
 import { centeredLayout, centeredLayoutNarrow } from "./utils/decorators";
 
 const meta = {
-  title: "Components/Item view",
+  title: "Templates/Item view",
   parameters: {
     layout: 'fullscreen',
   },

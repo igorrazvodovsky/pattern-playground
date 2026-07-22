@@ -25,7 +25,7 @@ relationships:
       note: "semantic zoom drives this ladder for every item at once from a single scale control; item view owns the rungs and their per-item, navigation-driven transitions"
 ---
 
-import { ItemViewFullDemo, ItemViewRowDemo } from '@pkg/demos/item-view';
+import { ItemViewFullDemo, ItemViewRowDemo, ItemViewGlyphDemo, ItemViewTransitionsDemo } from '@pkg/demos/item-view';
 import { ReferenceDemo } from '@pkg/demos/reference';
 
 An entity — a person, a task, a document — must appear somewhere: inside running text, among its peers in a list, on its own page. Each moment fixes how much of it the actor needs — bare recognition in passing, quick comparison, a full working surface — and no single rendering serves them all.
@@ -50,7 +50,11 @@ Item representation is the combination of a ladder rung and a UI element. The tw
 - Data: position plus one or two attributes, rendered visually — a map pin's price, a seat's colour-shaded availability, a dot on a plot
 - Interaction: navigation only — the glyph exists to be opened
 
-The rung below reference: it doesn't even identify the entity by name, and it is only legible inside a population — a glyph on its own means nothing.
+The lowest level: it doesn't even identify the entity by name, and it is only legible in relation to others — a glyph on its own means little.
+
+<Demo label="Glyph as map pin: the same entity the other rungs render, located among its population.">
+  <ItemViewGlyphDemo client:only="react" />
+</Demo>
 
 ### Reference
 
@@ -70,7 +74,7 @@ An inline @mention that opens to richer detail on demand, rendered as a <Compone
 - Data: key attributes, status, recent activity
 - Interaction: navigation, actions for common operations
 
-As a row in a <ComponentRef id="components-table--docs">table</ComponentRef>, the item's peers staying in view; a card is the standalone form:
+As a row in a <ComponentRef id="components-table--docs">table</ComponentRef>:
 
 <Demo label="Summary as table row">
   <ItemViewRowDemo client:only="react" />
@@ -109,7 +113,9 @@ Item views support fluid navigation up and down the ladder:
 - *Detail → full:* navigate from the modal to the entity page
 - *Full → collection:* return to the parent [data view](/patterns/data-view), its framing preserved
 
-The choice of mechanism depends on the relationship between the two representations and how much spatial context the shift must preserve: an overlay keeps the origin visible, a page break trades it for room. Whatever the mechanism, the entity must stay recognisable as itself across the crossing.
+<Demo label="Fluid navigation up and down the ladder: hover the reference for its summary, then use the view-settings menu on any rung to move between summary (popover), detail (drawer) and full (dialog), in either direction.">
+  <ItemViewTransitionsDemo client:only="react" />
+</Demo>
 
 ## Related components
 

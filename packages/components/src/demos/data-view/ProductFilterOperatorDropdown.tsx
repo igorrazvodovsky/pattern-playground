@@ -1,19 +1,27 @@
 import React from "react";
-import { ProductFilterType, ProductFilterOperator } from "./ProductFilterTypes";
+import { ProductFilterType, ProductFilterOperator, ProductFilterField, isProductFilterType } from "./ProductFilterTypes";
 import '../../components/dropdown/dropdown.ts';
 import '../../components/list/list.ts';
 import '../../components/list-item/list-item.ts';
 
 export interface ProductFilterOperatorDropdownProps {
-  filterType: ProductFilterType;
+  filterType: ProductFilterField;
   operator: ProductFilterOperator;
   filterValues: string[];
   setOperator: (operator: ProductFilterOperator) => void;
 }
 
 // Define which operators are available for each product filter type
-const getProductFilterOperators = (filterType: ProductFilterType, filterValues: string[]): ProductFilterOperator[] => {
+const getProductFilterOperators = (filterType: ProductFilterField, filterValues: string[]): ProductFilterOperator[] => {
   const hasMultipleValues = Array.isArray(filterValues) && filterValues.length > 1;
+
+  // A bare attribute path is matched on the value as displayed: equality, or
+  // any of several once the actor has widened it.
+  if (!isProductFilterType(filterType)) {
+    return hasMultipleValues
+      ? [ProductFilterOperator.IS_ANY_OF, ProductFilterOperator.IS_NOT]
+      : [ProductFilterOperator.EQUALS, ProductFilterOperator.IS_NOT];
+  }
 
   switch (filterType) {
     case ProductFilterType.CATEGORY:

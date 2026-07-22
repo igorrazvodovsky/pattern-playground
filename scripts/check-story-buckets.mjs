@@ -15,6 +15,7 @@ import { fileURLToPath } from 'node:url';
 const ALLOWED_BUCKETS = new Set([
   'Components',
   'Utilities',
+  'Templates',
   'Foundations',
   'Data visualisation',
   'Introduction', // Storybook's default landing page

@@ -101,6 +101,10 @@
   .demo-block__content {
     padding: var(--space-m, 1rem);
     border-radius: var(--radius, 0.5rem);
+    /* Every demo host declares the `demo` query container — the library's
+       narrow-container adaptations (sticky table columns, lane peek, control
+       wrapping) key off it. In a pane this is ~32rem, phone territory. */
+    container: demo / inline-size;
   }
 
   .demo-block__footer {

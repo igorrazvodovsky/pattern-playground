@@ -1,64 +1,139 @@
+import { useState } from 'react';
 import { ItemView } from '../components/item-view/ItemView';
+import { ItemInteraction } from '../components/item-view/ItemInteraction';
 import { ContentAdapterProvider } from '../components/item-view/ContentAdapterRegistry';
-import { taskAdapter } from '../components/item-view/adapters';
+import { productAdapter, productToItemObject } from '../components/item-view/adapters';
 import type { ViewScope } from '../components/item-view/types';
-import { tasks, taskToItemObject } from '@shared/data';
+import type { Product } from '@shared/data/types';
+import { products } from '../templates/collection-view/data';
+import { ViewSpecRenderer } from '../templates/collection-view/renderers';
+import { makeSpec } from '../templates/collection-view/spec';
 import '../jsx-types';
 
-const sampleTask = () => taskToItemObject(tasks[0]);
+/**
+ * The same entity — the first product of the canonical collection — at every
+ * rung of the representation ladder. Each demo's secondary job is the
+ * context trade-off: what the rung gains in detail it gives up in
+ * surrounding population, and the other way round.
+ */
 
-function TaskItemView({ scope }: { scope: ViewScope }) {
+const canonicalProduct = products[0];
+
+function ProductItemView({ scope, product = canonicalProduct }: { scope: ViewScope; product?: Product }) {
   return (
-    <ContentAdapterProvider adapters={[taskAdapter]}>
-      <ItemView item={sampleTask()} contentType="task" scope={scope} mode="preview" />
+    <ContentAdapterProvider adapters={[productAdapter]}>
+      <ItemView
+        item={productToItemObject(product)}
+        contentType="product"
+        scope={scope}
+        mode="preview"
+      />
     </ContentAdapterProvider>
   );
 }
 
-/** Full working surface: all data, history, relationships. */
+/** Full working surface: the entity page, every attribute group open. */
 export function ItemViewFullDemo() {
-  return <TaskItemView scope="maxi" />;
+  return <ProductItemView scope="maxi" />;
 }
 
-/** Summary scope: quick assessment without leaving the current task. */
+/** Summary scope: quick assessment without leaving the current context. */
 export function ItemViewSummaryDemo() {
-  return <TaskItemView scope="mid" />;
+  return <ProductItemView scope="mini" />;
 }
 
-/** Minimal scope: recognition and linking only. */
+/** Reference rung: recognition and linking only, inline in running prose. */
 export function ItemViewReferenceDemo() {
-  return <TaskItemView scope="mini" />;
+  return (
+    <p>
+      The refurbishment line report flags the <ProductItemView scope="micro" /> for a
+      battery-module swap before the autumn fleet handover.
+    </p>
+  );
 }
 
-const formatDue = (date?: Date) =>
-  date?.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) ?? '—';
-
-/** Summary scope in context: the task as a row among its peers — more of the item than a mention, with the collection still in view. */
+/** Summary rung in context: the item as a row among its peers. */
 export function ItemViewRowDemo() {
   return (
     <pp-table>
       <table>
         <thead>
           <tr>
-            <th>Task</th>
+            <th>Product</th>
+            <th>Category</th>
+            <th>Condition</th>
+            <th className="pp-table-align-right">Price</th>
             <th>Status</th>
-            <th>Priority</th>
-            <th>Assignee</th>
-            <th>Due</th>
           </tr>
         </thead>
         <tbody>
-          {tasks.map(task => (
-            <tr key={task.id}>
-              <td>{task.title}</td>
-              <td><span className="badge">{task.status.label}</span></td>
-              <td>{task.priority?.label ?? '—'}</td>
-              <td>{task.assignee?.name ?? '—'}</td>
-              <td>{formatDue(task.dueDate)}</td>
+          {products.map((product) => (
+            <tr key={product.id}>
+              <td>{product.name}</td>
+              <td>{product.metadata.category}</td>
+              <td>{product.metadata.condition}</td>
+              <td className="pp-table-align-right">
+                ${product.metadata.pricing.msrp.toFixed(2)}
+              </td>
+              <td>
+                <span className="badge">{product.metadata.availability.status}</span>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
     </pp-table>
+  );
+}
+
+const glyphSpec = makeSpec({
+  id: 'item-view-glyph',
+  representation: { type: 'map', rung: 'glyph', shownAttributes: ['name'] },
+});
+
+/**
+ * Glyph rung: the entity as a located dot among the population. A glyph is
+ * only legible inside a population, so the population renderer draws it —
+ * not the item view.
+ */
+export function ItemViewGlyphDemo() {
+  const [selectedId, setSelectedId] = useState<string | null>(canonicalProduct.id);
+  return (
+    <ViewSpecRenderer
+      items={products}
+      spec={glyphSpec}
+      selectedId={selectedId}
+      onItemSelect={(item) => setSelectedId(item.id)}
+    />
+  );
+}
+
+/**
+ * One entity walked up and down the ladder from a single inline reference,
+ * driven by `ItemInteraction`. The trigger is styled as a reference — the same
+ * inline chrome the reference component renders (`.reference-mention`), rather
+ * than a `micro` item view, whose product form is a `.tag`. Hovering it opens
+ * the summary in a popover; from there the view-settings control on every rung
+ * moves the reader to the detail drawer or the full record and back down again.
+ *
+ * The escalation mechanism itself lives in `ItemInteraction`, shared with the
+ * reference component: this demo is only the entity, the prose it sits in, and
+ * the reference chrome.
+ */
+export function ItemViewTransitionsDemo() {
+  return (
+    <ContentAdapterProvider adapters={[productAdapter]}>
+      <p>
+        The refurbishment log flags the{' '}
+        <ItemInteraction
+          item={productToItemObject(canonicalProduct)}
+          contentType="product"
+          className="reference-mention reference"
+        >
+          {canonicalProduct.name}
+        </ItemInteraction>{' '}
+        for a battery-module swap before the autumn fleet handover.
+      </p>
+    </ContentAdapterProvider>
   );
 }

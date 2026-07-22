@@ -10,6 +10,7 @@
     "prestorybook": "npm run extract-graph"
   },
   "dependencies": {
+    "@atlaskit/pragmatic-drag-and-drop": "^2.0.1",
     "@base-ui/react": "^1.4.1",
     "@floating-ui/dom": "^1.7.4",
     "@iconify-json/ph": "^1.2.2",

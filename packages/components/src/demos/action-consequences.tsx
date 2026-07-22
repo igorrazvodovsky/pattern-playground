@@ -17,12 +17,12 @@ export function ConsequenceLadderDemo() {
 
   const handleArchive = () => {
     setArchived(true);
-    void showToast(`${PROJECT} archived`, () => setArchived(false));
+    void showToast(`${PROJECT} archived — undo`, () => setArchived(false));
   };
 
   const handleRemove = () => {
     setRemoved(true);
-    void showToast(`${MEMBER} removed`, () => setRemoved(false));
+    void showToast(`${MEMBER} removed — undo`, () => setRemoved(false));
   };
 
   const removeConfirm = useInlineConfirm(handleRemove);

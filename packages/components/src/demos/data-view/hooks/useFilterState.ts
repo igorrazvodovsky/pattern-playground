@@ -1,6 +1,6 @@
 import React from 'react';
 import { nanoid } from 'nanoid';
-import { ProductFilter, ProductFilterType, ProductFilterOperator } from '../FilterTypes';
+import { ProductFilter, ProductFilterType, ProductFilterOperator } from '../../../templates/collection-view/FilterTypes';
 
 const getFilterOperator = (): ProductFilterOperator => {
   return ProductFilterOperator.IS;

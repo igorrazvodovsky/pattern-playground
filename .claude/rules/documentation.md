@@ -20,16 +20,13 @@ story `title`:
   compositional metadata, per `docs/specs/pattern-role-model.md`, not a folder.)
 - *Utilities* — cross-cutting mechanisms that aren't components in their own
   right (Overflow, Counter, Visually hidden).
+- *Templates* — page- and flow-scale compositions meant to be reused whole. Admission test: would you
+  ship it into a product as-is and expect it to come out the same everywhere?
 - *Foundations* — design material and substrate (colour, spacing, interaction
   framework) rather than assembled UI.
 - *Data visualisation* — chart and graph components, kept as a parallel corpus.
 
-Placement decides by *what the entry is*, not how atomic it is: an interface
-component → Components; a mechanism → Utilities; design material → Foundations;
-a chart → Data visualisation. There is deliberately no Primitives/Components
-split — composition scale is captured by tags, not by the bucket.
-
-Titles are load-bearing across surfaces: the docs id derived from a title
+Titles are important: the docs id derived from a title
 (`Components/Radio button` → `components-radio-button--docs`) is referenced by
 `ComponentRef` ids and `realised_by:` values on pattern pages, and resolved
 against Storybook's `index.json` by the cross-reference validator. Retitling an

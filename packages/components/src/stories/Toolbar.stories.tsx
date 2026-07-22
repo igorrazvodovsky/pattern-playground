@@ -40,7 +40,7 @@ export const Toolbar: Story = {
     searchPlaceholder: 'Search',
   },
   render: ({ showFilter, showGrouping, showSort, searchPlaceholder }) => (
-    <div className="toolbar flex">
+    <div className="toolbar">
       <pp-input label="Search" placeholder={searchPlaceholder}>
         <iconify-icon className="icon" icon="ph:magnifying-glass" slot="suffix"></iconify-icon>
       </pp-input>

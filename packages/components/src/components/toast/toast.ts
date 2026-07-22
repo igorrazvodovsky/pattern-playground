@@ -43,9 +43,12 @@ export class PpToast extends HTMLElementBase {
     closeButton.addEventListener('click', () => this.removeToast(toast));
 
     if (onClick) {
+      // No aria-label: the message is the button's accessible name, so the
+      // caller's wording is what gets announced. A toast with an action has
+      // to say what the action is in `text` — the component can't know
+      // whether the click undoes, opens, or retries.
       const openButton = document.createElement('button');
       openButton.className = 'toast-button';
-      openButton.setAttribute('aria-label', `Open details for: ${text}`);
       openButton.appendChild(body);
       openButton.addEventListener('click', () => {
         onClick();

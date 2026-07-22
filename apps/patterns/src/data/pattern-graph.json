@@ -123,6 +123,25 @@
       "group": "application"
     },
     {
+      "id": "attribute-visibility",
+      "title": "Attribute visibility",
+      "category": "Actions",
+      "path": "/patterns/attribute-visibility",
+      "role": "pattern",
+      "situation": {
+        "initiating": "a compressed rendering — rows, cards, pins — carries a fixed subset of each entity's attributes, chosen once for everyone; the comparison the actor came to make is in the data, visible in the detail view, but absent from the view where comparing happens",
+        "resulting": [
+          {
+            "clause": "each view's attribute set is the actor's decision, made per view, and whatever they surface becomes operable — a key to sort by, a predicate to filter by, an axis to plot on"
+          },
+          {
+            "clause": "the curation moves to the actor — surfaced sets drift and diverge, so the designed defaults still matter, now as a starting point rather than a ceiling"
+          }
+        ]
+      },
+      "group": "seeking"
+    },
+    {
       "id": "autocomplete",
       "title": "Autocomplete",
       "category": "Operations",
@@ -1690,6 +1709,41 @@
       "label": "the broader pattern of system-generated recommendations; this spectrum focuses on the specific mechanisms",
       "extractedFrom": "frontmatter:instantiates",
       "incomingNote": "the completion spectrum, including [AI completion](/patterns/ai-completion) (inline generation) and [next-best action](/patterns/next-best-action) (workflow-level recommendations)"
+    },
+    {
+      "source": "attribute-visibility",
+      "target": "data-view",
+      "type": "enables",
+      "label": "attribute visibility is the representation leg of the framing — the query picks the items, the arrangement orders them, the attribute set decides what each item shows",
+      "extractedFrom": "frontmatter:enables"
+    },
+    {
+      "source": "attribute-visibility",
+      "target": "overview-detail",
+      "type": "enables",
+      "label": "overview-detail's content dimension — which attributes live in which view — is attribute visibility applied per view; surfacing is what lifts the overview's ceiling",
+      "extractedFrom": "frontmatter:enables"
+    },
+    {
+      "source": "attribute-visibility",
+      "target": "sorting",
+      "type": "complements",
+      "label": "surface then operate: an attribute made visible becomes a key to sort by",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "attribute-visibility",
+      "target": "filtering",
+      "type": "complements",
+      "label": "surface then operate: an attribute made visible becomes a predicate to filter by",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "attribute-visibility",
+      "target": "malleability",
+      "type": "enacts",
+      "label": "the attribute set is the smallest piece of a view an actor can own; products that hand over nothing else can hand over this",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "autocomplete",
@@ -4152,7 +4206,7 @@
       "source": "overview-detail",
       "target": "semantic-zoom",
       "type": "complements",
-      "label": "combining techniques beats any single one — an overview pane alongside semantic zoom, or zoom inside the detail pane; in its split layout overview-detail spends screen space to show two levels at once, semantic zoom spends time, one level after another",
+      "label": "combining techniques usually beats any single one — an overview pane alongside semantic zoom, or zoom inside the detail pane — but not always additively: adding an overview to a semantic-zoom interface has slowed actors down, the semantic detail making the overview redundant even as they still preferred having it. In its split layout overview-detail spends screen space to show two levels at once; semantic zoom spends time, one level after another",
       "extractedFrom": "frontmatter:complements"
     },
     {
@@ -4710,6 +4764,18 @@
       "type": "enacts",
       "label": "each zoom level is a density commitment, and the transitions between levels preserve legible density — zooming re-spends the screen budget instead of diluting it",
       "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "attribute-visibility",
+      "target": "semantic-zoom",
+      "type": "enables",
+      "extractedFrom": "inline:composed-of"
+    },
+    {
+      "source": "text-lense",
+      "target": "semantic-zoom",
+      "type": "enables",
+      "extractedFrom": "inline:composed-of"
     },
     {
       "source": "user-repair",

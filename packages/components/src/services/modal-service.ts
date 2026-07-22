@@ -13,12 +13,36 @@ export interface ModalOptions {
   title?: string;
   className?: string;
   closable?: boolean;
+  /**
+   * Whether the surface blocks the page behind it. `true` (default) opens with
+   * `showModal()` — top layer, backdrop, focus trap, the rest of the page inert.
+   * `false` opens with `show()` — a side peek the actor can drag from and drop
+   * onto the page beneath, with no scrim and no scroll lock. Drawers honour this;
+   * dialogs are always modal.
+   */
+  modal?: boolean;
+  /**
+   * Called when the surface is dismissed by the user (close button, backdrop,
+   * or Escape) — i.e. when `pp-modal` dispatches `modal:close`. A programmatic
+   * {@link ModalService.closeModal} tears the surface down without dispatching,
+   * so this does not fire then, which lets a caller driving the modal from its
+   * own state tell a user-close apart from one it initiated itself.
+   */
+  onClose?: () => void;
+  /**
+   * React content rendered into the header, just before the close button, so
+   * view controls group with it rather than floating over the body. Rendered
+   * in its own root and torn down with the modal.
+   */
+  headerActions?: React.ReactElement;
 }
 
 interface ReactModalState {
   root: Root;
   container: HTMLElement;
   ppModal: PPModal;
+  /** A second root for the header actions slot, when one was supplied. */
+  headerRoot?: Root;
 }
 
 export class ModalService {
@@ -31,11 +55,12 @@ export class ModalService {
   openDrawer(content: React.ReactElement, options: ModalOptions = {}): string {
     const modalId = this.generateModalId();
     const reactContainerId = `${modalId}-react-content`;
-    const { position = 'right', title, className = '', closable = true } = options;
+    const { position = 'right', title, className = '', closable = true, modal = true, onClose, headerActions } = options;
+    const actionsContainerId = headerActions ? `${modalId}-header-actions` : '';
 
     // Create PPModal with safe DOM methods
     const ppModal = document.createElement('pp-modal');
-    const dialog = createDrawerDOM(modalId, position, className, title, closable, reactContainerId);
+    const dialog = createDrawerDOM(modalId, position, className, title, closable, reactContainerId, modal, actionsContainerId);
     ppModal.appendChild(dialog);
 
     document.body.appendChild(ppModal);
@@ -47,11 +72,14 @@ export class ModalService {
       const wrappedContent = this.wrapReactContent(content);
       root.render(wrappedContent);
 
+      const headerRoot = this.renderHeaderActions(actionsContainerId, headerActions);
+
       // Store React modal state for cleanup
-      this.reactModals.set(modalId, { root, container, ppModal });
+      this.reactModals.set(modalId, { root, container, ppModal, headerRoot });
 
       // Set up cleanup listener
       ppModal.addEventListener('modal:close', () => {
+        onClose?.();
         this.cleanupReactModal(modalId);
       });
     }
@@ -75,10 +103,11 @@ export class ModalService {
   openDialog(content: React.ReactElement, options: ModalOptions = {}): string {
     const modalId = this.generateModalId();
     const reactContainerId = `${modalId}-react-content`;
-    const { size = 'medium', title, className = '', closable = true } = options;
+    const { size = 'medium', title, className = '', closable = true, onClose, headerActions } = options;
+    const actionsContainerId = headerActions ? `${modalId}-header-actions` : '';
 
     const ppModal = document.createElement('pp-modal');
-    const dialog = createDialogDOM(modalId, size, className, title, closable, reactContainerId);
+    const dialog = createDialogDOM(modalId, size, className, title, closable, reactContainerId, actionsContainerId);
     ppModal.appendChild(dialog);
 
     document.body.appendChild(ppModal);
@@ -89,9 +118,12 @@ export class ModalService {
       const wrappedContent = this.wrapReactContent(content);
       root.render(wrappedContent);
 
-      this.reactModals.set(modalId, { root, container, ppModal });
+      const headerRoot = this.renderHeaderActions(actionsContainerId, headerActions);
+
+      this.reactModals.set(modalId, { root, container, ppModal, headerRoot });
 
       ppModal.addEventListener('modal:close', () => {
+        onClose?.();
         this.cleanupReactModal(modalId);
       });
     }
@@ -133,10 +165,24 @@ export class ModalService {
   }
 
 
+  /** Render the header actions slot into its container, if one was built. */
+  private renderHeaderActions(
+    actionsContainerId: string,
+    headerActions?: React.ReactElement
+  ): Root | undefined {
+    if (!headerActions || !actionsContainerId) return undefined;
+    const actionsContainer = document.getElementById(actionsContainerId);
+    if (!actionsContainer) return undefined;
+    const headerRoot = createRoot(actionsContainer);
+    headerRoot.render(this.wrapReactContent(headerActions));
+    return headerRoot;
+  }
+
   private cleanupReactModal(modalId: string): void {
     const reactModal = this.reactModals.get(modalId);
     if (reactModal) {
       reactModal.root.unmount();
+      reactModal.headerRoot?.unmount();
       reactModal.ppModal.remove();
       this.reactModals.delete(modalId);
     }

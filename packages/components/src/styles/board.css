@@ -1,0 +1,168 @@
+/* Board — columns side by side, one per value of a grouping attribute, with
+   item cards stacked in each lane. Arrangement only: the cards inside are the
+   same .card block used everywhere else; the board contributes no skin of its
+   own beyond the lane.
+
+   A lane is a `<details>`, the same disclosure the block axis uses for its
+   group sections, so collapsing a group is native on either axis. The axis is
+   stated by a modifier — `.board--lanes` or `.board--sections` — rather than
+   inferred from the space: two elements deep in a container query is a rule
+   that fires where nobody asked for it, and the choice reads better named. */
+
+@layer layout {
+  /* Flex rather than grid because a collapsed lane is narrower than an open
+     one, and grid's implicit tracks are all one width. */
+  .board {
+    --board-column-size: 18rem;
+
+    display: flex;
+    align-items: start;
+    gap: var(--space-s);
+    overflow-x: auto;
+    padding-block-end: var(--space-s);
+    scroll-snap-type: inline proximity;
+    scroll-padding-inline-start: var(--space-2xs);
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+  }
+
+  /* Lanes cap at ~88% of the demo host, so in a narrow container the next
+     lane peeks in from the edge — the peek is the scroll affordance. */
+  .board > .board__column {
+    flex: 0 0 min(var(--board-column-size), 88cqi);
+  }
+
+  /* The same grouping rotated onto the block axis: lanes become sections,
+     stacked in reading order. The markup is untouched — a lane is still a
+     lane, so a writable grouping keeps its drop targets across the rotation. */
+  .board--sections {
+    flex-direction: column;
+    align-items: stretch;
+    overflow-x: visible;
+    scroll-snap-type: none;
+  }
+
+  .board--sections > .board__column {
+    flex: 0 0 auto;
+  }
+
+  /* A section spans the host, so its cards spread across it instead of
+     stacking one per row — a populous group would otherwise run the whole
+     view several screens long. */
+  .board--sections > .board__column > .cards {
+    grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  }
+
+  .board--lanes {
+    flex-direction: row;
+    align-items: start;
+    overflow-x: auto;
+    scroll-snap-type: inline proximity;
+  }
+
+  .board--lanes > .board__column > .cards {
+    grid-template-columns: none;
+  }
+
+  /* A collapsed lane turns on its side. The block axis collapses a group to a
+     row and the inline axis to a spine — the same disclosure, folded along
+     whichever axis the groups run — so a lane's closed state costs a strip of
+     width rather than the whole column. It stretches to the board's height,
+     which makes the closed lane a *taller* drop target than the open one it
+     replaced, not a sliver to aim at. */
+  .board:not(.board--sections) > .board__column:not([open]) {
+    flex-basis: auto;
+    align-self: stretch;
+  }
+
+  .board__column {
+    display: grid;
+    align-content: start;
+    gap: var(--space-xs);
+    scroll-snap-align: start;
+  }
+
+  .board__column > .cards {
+    display: grid;
+    gap: var(--space-xs);
+  }
+}
+
+@layer components {
+  /* The lane brings its own skin, so the standalone `details` frame from
+     details.css is cancelled rather than nested inside this one. */
+  .board__column {
+    background: var(--c-neutral-50);
+    border: none;
+    border-radius: var(--radius-m);
+    padding: var(--space-xs);
+  }
+
+  .board__column[open] {
+    padding-block: var(--space-xs);
+  }
+
+  /* The lane header doubles as the disclosure control. */
+  .board__column > summary {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    margin: 0;
+    padding: var(--space-2xs) var(--space-xs);
+    font-size: var(--text-s);
+    border-radius: var(--radius-s);
+  }
+
+  /* A triangle in the text flow, in place of the hanging dot details.css
+     gives a disclosure in running prose — a negative inset would put the dot
+     outside the lane. It stays a *visible* state indicator either way: with
+     the native marker suppressed project-wide, removing this would leave
+     Firefox + VoiceOver no channel for open/closed at all. */
+  .board__column > summary::before,
+  .board__column > summary:hover::before {
+    content: "";
+    position: static;
+    inline-size: 0;
+    block-size: 0;
+    background: none;
+    border-radius: 0;
+    border-inline-start: 0.4em solid var(--c-bodyDimmed);
+    border-block: 0.3em solid transparent;
+    transform: none;
+    transition: rotate var(--transition-fast);
+  }
+
+  .board__column[open] > summary::before {
+    rotate: 90deg;
+  }
+
+  .board__column > summary::after {
+    content: none;
+  }
+
+  /* The spine: the lane's own header set on its side, the way `.pane-spine`
+     carries a collapsed pane's title in the stack. The label is a data value,
+     so it stays cased as the cards case it — only the axis changes. */
+  .board:not(.board--sections) > .board__column:not([open]) > summary {
+    writing-mode: vertical-rl;
+    block-size: 100%;
+    justify-content: start;
+    padding: var(--space-xs) var(--space-2xs);
+  }
+
+  /* The marker keeps its own writing mode, so it points the way the lane
+     unfolds — rightward — instead of following the label down the spine. The
+     count keeps its own too: a turned numeral reads as a glyph, not a number. */
+  .board:not(.board--sections) > .board__column:not([open]) > summary::before,
+  .board:not(.board--sections) > .board__column:not([open]) > summary .badge {
+    writing-mode: horizontal-tb;
+  }
+
+  /* An empty lane keeps its footprint so it still reads as a destination */
+  .board__column > .cards:empty {
+    min-block-size: var(--space-2xl);
+    border: var(--border);
+    border-style: dashed;
+    border-radius: var(--radius-s);
+  }
+}

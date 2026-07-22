@@ -21,7 +21,7 @@ export function ToastWithUndoDemo() {
     const removed = items[index];
     const next = items.filter((_, i) => i !== index);
     setItems(next);
-    void showToast(`${removed.name} deleted`, () => setItems(items));
+    void showToast(`${removed.name} deleted — undo`, () => setItems(items));
   };
 
   return (

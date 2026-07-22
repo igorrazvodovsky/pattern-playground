@@ -50,8 +50,8 @@ export const Multiple: Story = {
         className="button"
         onClick={() => {
           PpToast.show("First toast message");
-          setTimeout(() => PpToast.show("Second toast message", () => {
-            alert("Clicked second toast!");
+          setTimeout(() => PpToast.show("Second toast message — open", () => {
+            action('toast-action')('second');
           }), 500);
           setTimeout(() => PpToast.show("Third toast message"), 1000);
         }}

@@ -27,6 +27,33 @@
     display: none;
   }
 
+  /* The UA sheet gives [popover] its own box: `inset: 0`, `margin: auto`,
+     a border, padding and a background, plus `display: none` until open.
+     Undo all of it — this element is a positioning shell, and Floating UI
+     drives left/top. Openness is the popover's own business, so the
+     `.popup--active` display rule above must not fight it either. */
+  .popup--top-layer {
+    inset: auto;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    color: inherit;
+    overflow: visible;
+    width: auto;
+    height: auto;
+    max-width: var(--auto-size-available-width, none);
+    max-height: var(--auto-size-available-height, none);
+  }
+
+  .popup--top-layer:not(:popover-open) {
+    display: none;
+  }
+
+  .popup--top-layer:popover-open {
+    display: block;
+  }
+
   .popup__arrow {
     position: absolute;
     width: calc(var(--arrow-size-diagonal) * 2);

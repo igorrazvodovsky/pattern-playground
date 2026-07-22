@@ -1,0 +1,242 @@
+[
+  {
+    "id": "lca-001",
+    "date": "2010-11-08",
+    "stage": "Materials",
+    "description": "Primary aluminium billet drawn for the frame tubing, 6.4 kg ex-smelter",
+    "co2e": 74.9,
+    "site": "Ålvik smelter, Norway"
+  },
+  {
+    "id": "lca-002",
+    "date": "2010-11-19",
+    "stage": "Materials",
+    "description": "Supplier audit lets recycled stock cover two fifths of the frame",
+    "co2e": -18.3,
+    "site": "Ålvik smelter, Norway"
+  },
+  {
+    "id": "lca-003",
+    "date": "2010-12-03",
+    "stage": "Materials",
+    "description": "Lithium-ion cells for the 36V pack, from the winter batch",
+    "co2e": 88.4,
+    "site": "Shenzhen cell works"
+  },
+  {
+    "id": "lca-004",
+    "date": "2010-12-15",
+    "stage": "Materials",
+    "description": "Copper wire and neodymium magnets for the hub motor",
+    "co2e": 23.9,
+    "site": "Baotou"
+  },
+  {
+    "id": "lca-005",
+    "date": "2011-01-14",
+    "stage": "Materials",
+    "description": "Magnets and controller boards flown in to hold the build slot",
+    "co2e": 11.7,
+    "site": "In transit"
+  },
+  {
+    "id": "lca-006",
+    "date": "2011-02-01",
+    "stage": "Manufacture",
+    "description": "Frame welded, anodised and powder-coated",
+    "co2e": 15.2,
+    "site": "Rotterdam Assembly Works"
+  },
+  {
+    "id": "lca-007",
+    "date": "2011-02-12",
+    "stage": "Manufacture",
+    "description": "Cells matched, welded into modules and potted",
+    "co2e": 7.8,
+    "site": "Rotterdam Assembly Works"
+  },
+  {
+    "id": "lca-008",
+    "date": "2011-03-01",
+    "stage": "Manufacture",
+    "description": "Line scrap and offcuts returned to the remelt furnace",
+    "co2e": -4.6,
+    "site": "Rotterdam Assembly Works"
+  },
+  {
+    "id": "lca-009",
+    "date": "2011-03-10",
+    "stage": "Distribution",
+    "description": "Road freight to the Copenhagen hub, then six weeks in an unheated warehouse",
+    "co2e": 3,
+    "site": "In transit"
+  },
+  {
+    "id": "lca-010",
+    "date": "2011-04-30",
+    "stage": "Use",
+    "description": "Sold and registered to its first owner",
+    "co2e": 0,
+    "site": "Nørrebro"
+  },
+  {
+    "id": "lca-011",
+    "date": "2011-12-02",
+    "stage": "Use",
+    "description": "Charging electricity, first year, 2,900 km on the Danish grid",
+    "co2e": 6.8,
+    "site": "Copenhagen"
+  },
+  {
+    "id": "lca-012",
+    "date": "2012-05-19",
+    "stage": "Maintenance",
+    "description": "Rear tyre replaced after a sidewall cut",
+    "co2e": 2.1,
+    "site": "Nørrebro"
+  },
+  {
+    "id": "lca-013",
+    "date": "2013-12-06",
+    "stage": "Use",
+    "description": "Charging electricity, second and third years, 6,500 km",
+    "co2e": 13.5,
+    "site": "Copenhagen"
+  },
+  {
+    "id": "lca-014",
+    "date": "2014-02-11",
+    "stage": "Use",
+    "description": "Owner reports the range halved and the pack running hot",
+    "co2e": 0,
+    "site": "Copenhagen"
+  },
+  {
+    "id": "lca-015",
+    "date": "2014-03-03",
+    "stage": "Maintenance",
+    "description": "Service notice issued against the winter 2010 cell batch",
+    "co2e": 0,
+    "site": "Rotterdam Assembly Works"
+  },
+  {
+    "id": "lca-016",
+    "date": "2014-03-19",
+    "stage": "Maintenance",
+    "description": "Pack returned to Rotterdam under the take-back scheme",
+    "co2e": 1.9,
+    "site": "In transit"
+  },
+  {
+    "id": "lca-017",
+    "date": "2014-04-02",
+    "stage": "Maintenance",
+    "description": "Two modules rebuilt with cells from a later batch",
+    "co2e": 19.4,
+    "site": "Rotterdam Assembly Works"
+  },
+  {
+    "id": "lca-018",
+    "date": "2014-04-09",
+    "stage": "Recovery",
+    "description": "Sound cells from the failed modules graded into stationary storage",
+    "co2e": -12.7,
+    "site": "Rotterdam Assembly Works"
+  },
+  {
+    "id": "lca-019",
+    "date": "2016-12-05",
+    "stage": "Use",
+    "description": "Charging electricity, years four to six; the grid cleans up as offshore wind lands",
+    "co2e": 13,
+    "site": "Copenhagen"
+  },
+  {
+    "id": "lca-020",
+    "date": "2018-10-09",
+    "stage": "Use",
+    "description": "Sold second-hand to a courier and moved across the bridge",
+    "co2e": 0.2,
+    "site": "Malmö"
+  },
+  {
+    "id": "lca-021",
+    "date": "2019-05-30",
+    "stage": "Maintenance",
+    "description": "Motor controller failed in the wet and was replaced",
+    "co2e": 4.8,
+    "site": "Malmö"
+  },
+  {
+    "id": "lca-022",
+    "date": "2020-08-18",
+    "stage": "Maintenance",
+    "description": "Second pack fitted; the original retires at 71 per cent capacity",
+    "co2e": 62.3,
+    "site": "Malmö"
+  },
+  {
+    "id": "lca-023",
+    "date": "2023-12-04",
+    "stage": "Use",
+    "description": "Charging electricity, years ten to thirteen, 28,000 km of courier work",
+    "co2e": 23,
+    "site": "Malmö"
+  },
+  {
+    "id": "lca-024",
+    "date": "2025-09-15",
+    "stage": "End of life",
+    "description": "Retired at 61,000 km; frame fatigue beyond economic repair",
+    "co2e": 0,
+    "site": "Malmö"
+  },
+  {
+    "id": "lca-025",
+    "date": "2025-10-06",
+    "stage": "End of life",
+    "description": "Collected under take-back and disassembled to component level",
+    "co2e": 1.2,
+    "site": "BikeCircular, Malmö"
+  },
+  {
+    "id": "lca-026",
+    "date": "2025-10-13",
+    "stage": "Recovery",
+    "description": "Motor, controller and lights graded for reuse",
+    "co2e": -21.8,
+    "site": "BikeCircular, Malmö"
+  },
+  {
+    "id": "lca-027",
+    "date": "2025-10-20",
+    "stage": "Recovery",
+    "description": "Second pack graded at 78 per cent and sent to stationary storage",
+    "co2e": -34.5,
+    "site": "BikeCircular, Malmö"
+  },
+  {
+    "id": "lca-028",
+    "date": "2025-11-04",
+    "stage": "Recovery",
+    "description": "Frame and fork shredded and remelted into secondary aluminium",
+    "co2e": -47.2,
+    "site": "Ålvik smelter, Norway"
+  },
+  {
+    "id": "lca-029",
+    "date": "2026-01-22",
+    "stage": "End of life",
+    "description": "Tyres, cabling and mixed plastics to energy recovery",
+    "co2e": 8.4,
+    "site": "Malmö incineration"
+  },
+  {
+    "id": "lca-030",
+    "date": "2026-04-08",
+    "stage": "End of life",
+    "description": "Material passport closed and the assessment signed off",
+    "co2e": 0,
+    "site": "BikeCircular, Malmö"
+  }
+]

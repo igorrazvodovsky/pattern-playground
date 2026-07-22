@@ -1,8 +1,12 @@
 // Main components
-export { DataView } from './DataView';
+export { DataView, controlsToMalleability } from './DataView';
 export { DataViewRenderer } from './DataViewRenderer';
 export { EmptyState } from './EmptyState';
 export { AttributeBadge } from './AttributeBadge';
+
+// Spec-driven demos
+export { SavedViewsDemo } from './SavedViewsDemo';
+export { WritableBoardDemo } from './WritableBoardDemo';
 
 // Configured slices for pattern-page embeds
 export {
@@ -30,13 +34,13 @@ export { default as ProductFilters } from './ProductFilters';
 export * from './types';
 
 // Filter system
-export * from './FilterTypes';
-export * from './FilterOperations';
+export * from '../../templates/collection-view/FilterTypes';
+export * from '../../templates/collection-view/FilterOperations';
 export * from './FilterCategories';
 
 // Utilities
-export * from './AttributeUtils';
-export * from './SortingUtils';
+export * from '../../templates/collection-view/AttributeUtils';
+export * from '../../templates/collection-view/SortingUtils';
 export * from './DisplayUtils';
 
 // Hooks

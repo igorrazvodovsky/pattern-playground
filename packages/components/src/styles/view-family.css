@@ -1,0 +1,736 @@
+/* View-family demos — one model, many framings. Layout scaffolding and the
+   interaction states the family demos layer onto existing blocks (.card,
+   .board, pp-table). The blocks keep their own skins; this file only adds
+   what coupling and selection need. */
+
+@layer components {
+  /* A button that makes the whole card its hit area, mirroring .card > a */
+  .card .card__hit {
+    all: unset;
+    cursor: pointer;
+    font-weight: 500;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+    }
+  }
+
+  .card:has(.card__hit):hover {
+    border-color: var(--c-accent);
+  }
+
+  /* Badge buttons and menus stay operable above the card-wide hit area */
+  .card:has(.card__hit) .card__attributes :is(button, pp-dropdown) {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Same for a corner control in the header: the hit area paints over the
+     header too, so a dismiss button or menu there needs lifting above it to
+     stay operable — the hit button itself excepted, since its ::before is the
+     overlay doing the covering. */
+  .card:has(.card__hit) .card__header :is(button, pp-dropdown):not(.card__hit) {
+    position: relative;
+    z-index: 1;
+  }
+
+  .card:has(.card__hit:focus-visible) {
+    outline: 3px solid var(--c-accent);
+    outline-offset: 2px;
+  }
+
+  /* Propagated designation: selection is staked, focus is transient */
+  .card[data-selected="true"] {
+    border-color: var(--c-accent);
+    box-shadow: 0 0 0 1px var(--c-accent);
+  }
+
+  .card[data-focused="true"] {
+    background-color: oklch(from var(--c-accent) l c h / 8%);
+  }
+
+  /* In a flush stack (.cards--list/.cards--flush) each card overlaps its
+     predecessor by 1px and paints later, so a plain neighbour would clip the
+     lower edge of an emphasised card's ring/outline. Lift the emphasised
+     card's wrapper above its siblings. The wrapper, not the card, because it
+     carries `container-type` and so is its own stacking context — a z-index on
+     the card can't escape it. */
+  :is(.cards--flush, .cards--list)
+    > *:has(> .card:is([data-selected="true"], [data-focused="true"], :hover, :focus-within)) {
+    position: relative;
+    z-index: 1;
+  }
+
+  tr[data-selected="true"] > td {
+    background-color: oklch(from var(--c-accent) l c h / 12%);
+  }
+
+  tr[data-focused="true"] > td {
+    background-color: oklch(from var(--c-accent) l c h / 6%);
+  }
+
+  /* Drag in flight, and the lane currently offering to receive it */
+  [data-dragging="true"],
+  [data-dragging] {
+    opacity: 0.5;
+  }
+
+  .board__column[data-drop-over] {
+    outline: 2px solid var(--c-accent);
+    outline-offset: 2px;
+  }
+
+  /* An inline mention sitting in running prose. `ItemView` renders a block
+     wrapper, which would otherwise break the line it sits on. */
+  .inline-mention {
+    display: inline-block;
+  }
+
+  /* The list row and the inline mention used to anchor their popovers with
+     `position: absolute` and a z-index (`.odi-anchor`, `.transition-anchor`).
+     Both are gone: inside a scrolling pane an absolute panel is clipped at the
+     pane edge, and its z-index lost to the selection rule above, so a hovered
+     later row painted over it. Both consumers now use `pp-popup top-layer`,
+     which is above all of it in the browser's top layer. */
+
+  /* A detail view that carries its own re-presentation control in the corner,
+     the way `.popover__toolbar` does for a comment popover: the layout
+     dimension is decided from inside the detail rather than from a toolbar
+     sitting outside both views. Works in every host the detail can take —
+     inside a card, in a pane, in a popover, on its own page. */
+  .detail {
+    position: relative;
+  }
+
+  /* Keep whatever the detail opens with clear of the control beside it */
+  .detail > .detail__toolbar + * {
+    padding-inline-end: var(--space-l);
+  }
+
+  .detail__toolbar {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-end: 0;
+
+    /* Above a card-wide `.card__hit` hit area, which paints over the card */
+    z-index: 1;
+  }
+
+  /* The trigger stays quiet until the detail is under the pointer or keyboard,
+     the way a Notion page control does */
+  .detail__toolbar .button {
+    opacity: 0.4;
+    transition: opacity 120ms ease-in-out;
+  }
+
+  .detail:is(:hover, :focus-within) .detail__toolbar .button {
+    opacity: 1;
+  }
+
+  /* An inline detail: the card itself grows to carry the full readout, so the
+     current item never leaves the row it was picked from. The rule separates
+     the compressed row from what it expanded into, and runs the full width of
+     the card — hence the zeroed inline margin the card otherwise imposes, and
+     the column span for `.cards--list` cards (whose grid has an icon column). */
+  .card > .detail {
+    grid-column: 1 / -1;
+    margin-inline: 0;
+    padding-inline: var(--space-s);
+    border-block-start: var(--border);
+  }
+
+  /* The name a nested overview carries inside its host detail. Deliberately
+     not a heading: the nesting is unbounded, so a heading level would run out
+     after three rungs and start lying about the hierarchy. The overview it
+     names takes the same string as its accessible name. */
+  .overview-label {
+    font-size: var(--text-s);
+    font-weight: var(--font-weight-semibold);
+    color: var(--c-bodyDimmed);
+  }
+
+  /* A stat readout inside a standard card — the monitoring tile's body: a
+     headline figure, a one-line verdict, a supporting detail. The card, its
+     header, and the trend badge are all catalogue primitives; only the figure
+     scale and the vertical rhythm are set here. */
+  .stat {
+    display: grid;
+    gap: var(--space-3xs);
+  }
+
+  .stat p {
+    margin: 0;
+  }
+
+  /* One ratio-step above the top of the type scale — the figure is the tile's
+     subject, so it outsizes the label and the reading beneath it. */
+  .stat__value {
+    font-size: calc(var(--text-xl) * 1.23);
+    line-height: 1.1;
+    letter-spacing: var(--letter-spacing-dense);
+  }
+
+  .stat__unit {
+    font-size: var(--text-s);
+    font-weight: var(--font-weight-normal);
+    color: var(--c-placeholder);
+  }
+
+  .stat__verdict {
+    margin-block-start: var(--space-2xs);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-tight);
+  }
+
+  /* The flagged tile: the figure itself reads as alert, its trend badge still
+     says which way the count moved. */
+  .card[data-alert] .stat__value {
+    color: var(--c-body-danger);
+  }
+
+  .person-card__header {
+    border-radius: var(--radius-m);
+    margin-inline: var(--space-s);
+    justify-items: center;
+    text-align: center;
+  }
+
+  .person-card__id {
+    display: grid;
+    gap: var(--space-3xs);
+  }
+
+  .person-card__id > * {
+    margin: 0;
+  }
+
+  .person-card .description-list {
+    justify-self: stretch;
+    text-align: start;
+  }
+
+  .avatar-group__more {
+    font-size: var(--text-s);
+    font-weight: var(--font-weight-semibold);
+    color: var(--c-bodyDimmed);
+  }
+
+  /* Semantic-resize: the container's own width is the scale control. It is
+     itself a `demo` container, so dragging it narrower exercises the same
+     adaptations a real narrow host would. */
+  .resize-box {
+    container: demo / inline-size;
+    resize: horizontal;
+    overflow: auto;
+    min-inline-size: 16rem;
+    max-inline-size: 100%;
+    border: var(--border);
+    border-style: dashed;
+    border-radius: var(--radius-m);
+    padding: var(--space-s);
+  }
+
+  /* Fisheye over a timeline, after Wattenberger's fisheye for text. The
+     pointer is the lens and it reaches the bottom of the tree at once: the
+     flow under it is told verbatim, the rest of its episode stands aside for
+     the episode's sentence, and every stretch beyond says itself at the grain
+     its distance allows. Two properties carry it, and both are structural
+     rather than decorative.
+
+     Nothing moves. Every flow owns the same fixed slot of the frame in every
+     state — a span's height is its record count times one slot — so the lens
+     changes what a stretch says, never where it sits. A record's line is
+     taller than its slot, so the focused flow is a card raised over the
+     terrain rather than a row in it: magnification spills over the
+     neighbours' slots instead of pushing them away, and the terrain can never
+     slide out from under the pointer, because it never changes shape at all.
+
+     The rail is the map: one dot per flow strung on a single line, the way
+     the timeline component draws its steps, at one scale in every state.
+     Accent marks the lens and fades with distance; the dots are the whole
+     life whether or not any of it is currently being said. */
+  .fisheye {
+    --_slot: 1.5rem;
+    --_rail-x: 0.5rem;
+    --_indent: 1.5rem;
+    --_rail: var(--c-neutral-200);
+    /* Redrawn per element so tint and text never cover it: the dot row for
+       the records a stretch stands for, and its piece of the through-line. */
+    --_rail-image:
+      radial-gradient(
+        circle at var(--_rail-x) 50%,
+        var(--_rail) 0.15rem,
+        transparent calc(0.15rem + 0.5px)
+      ),
+      linear-gradient(
+        to right,
+        transparent calc(var(--_rail-x) - 0.5px),
+        var(--c-neutral-100) calc(var(--_rail-x) - 0.5px) calc(var(--_rail-x) + 0.5px),
+        transparent calc(var(--_rail-x) + 0.5px)
+      );
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    block-size: calc(var(--flows) * var(--_slot));
+    user-select: none;
+  }
+
+  .fisheye:focus-visible {
+    outline: 2px solid var(--c-accent);
+    outline-offset: 2px;
+  }
+
+  /* An open span is nothing but its constituents and its extent. */
+  .fisheye__band {
+    display: flex;
+    flex: none;
+    flex-direction: column;
+    block-size: calc(var(--len) * var(--_slot));
+    border-radius: var(--radius-m);
+    transition: background-color 150ms ease;
+  }
+
+  /* The episode the lens is inside, marked once and lightly: enough to say
+     which stretch the card belongs to, not enough to compete with it. */
+  .fisheye__band[data-tip] {
+    background-color: var(--c-neutral-50);
+  }
+
+  /* Everything is sized by the records it stands for, and everything draws
+     its own stretch of the rail, so the whole run is on the edge of the view
+     at all times whatever the lens is doing. */
+  .fisheye__zone,
+  .fisheye__gap,
+  .fisheye__slot {
+    position: relative;
+    flex: none;
+    display: flex;
+    block-size: calc(var(--len) * var(--_slot));
+    padding-inline: var(--_indent) var(--space-xs);
+    background-image: var(--_rail-image);
+    background-size:
+      100% var(--_slot),
+      100% 100%;
+    background-repeat: repeat-y, no-repeat;
+  }
+
+  .fisheye__zone,
+  .fisheye__gap {
+    overflow: hidden;
+  }
+
+  /* The gaps flanking the card keep stable identities, so walking the lens
+     down an episode slides the card rather than rebuilding the band. */
+  .fisheye__gap {
+    transition: block-size 150ms ease;
+  }
+
+  /* The slot under the lens draws only its piece of the line: its dot
+     belongs to the card, accented and a size up. */
+  .fisheye__slot {
+    z-index: 2;
+    background-image: linear-gradient(
+      to right,
+      transparent calc(var(--_rail-x) - 0.5px),
+      var(--c-neutral-100) calc(var(--_rail-x) - 0.5px) calc(var(--_rail-x) + 0.5px),
+      transparent calc(var(--_rail-x) + 0.5px)
+    );
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+  }
+
+  /* The record under the lens cannot fit the slot it owns, so it rides over
+     the terrain instead of asking the neighbours for room — the one place
+     the view spends elevation. */
+  .fisheye__card {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    inset-inline: var(--_indent) 0;
+    inset-block-start: 50%;
+    padding: var(--space-2xs) var(--space-xs);
+    border-radius: var(--radius-m);
+    background-color: var(--c-background);
+    box-shadow: var(--shadow-m);
+    translate: 0 -50%;
+  }
+
+  .fisheye__card::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: calc(var(--_rail-x) - var(--_indent) - 0.25rem);
+    inset-block-start: 50%;
+    inline-size: 0.5rem;
+    block-size: 0.5rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--c-accent);
+    translate: 0 -50%;
+  }
+
+  /* Distance from the lens, carried by the dots alone: accent at the centre,
+     fading to neutral as it goes out. Nothing else is coloured. */
+  [data-ring="0"] {
+    --_rail: var(--c-accent-300);
+  }
+
+  [data-ring="1"] {
+    --_rail: var(--c-neutral-300);
+  }
+
+  [data-ring="2"],
+  [data-ring="3"] {
+    --_rail: var(--c-neutral-200);
+  }
+
+  /* A stretch says itself in the middle of the room it owns. `safe` matters:
+     a sentence with less room than it needs starts at the top and fades at
+     the bottom, rather than losing its heading off the top edge — the fade
+     says the same thing the falloff says: there is more here, and you are
+     too far away for it. */
+  .fisheye__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: safe center;
+    gap: 0.15em;
+    inline-size: 100%;
+    block-size: 100%;
+    min-inline-size: 0;
+    overflow: hidden;
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 0.6rem), transparent);
+  }
+
+  .fisheye__heading {
+    display: flex;
+    flex: none;
+    flex-wrap: wrap;
+    gap: 0 var(--space-xs);
+    align-items: baseline;
+  }
+
+  .fisheye__title {
+    font-weight: 500;
+    text-wrap: pretty;
+  }
+
+  .fisheye__range {
+    color: var(--c-neutral-500);
+    font-size: var(--text-s);
+    white-space: nowrap;
+  }
+
+  /* A sentence is a sentence, not a paragraph: two lines near the lens, one
+     further out, whatever room the stretch happens to own. The empty rest of
+     a tall band is the falloff being visible, and the reference this is
+     built after leaves far more of it than looks comfortable. */
+  .fisheye__sentence {
+    display: -webkit-box;
+    overflow: hidden;
+    color: var(--c-neutral-600);
+    font-size: var(--text-s);
+    line-height: 1.4;
+    text-wrap: pretty;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  [data-ring="1"] .fisheye__sentence {
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+  }
+
+  /* One line, on the card as much as in a lone flow's sliver of a zone. */
+  .fisheye__line {
+    display: flex;
+    gap: 0 var(--space-xs);
+    align-items: baseline;
+    align-self: center;
+    inline-size: 100%;
+    min-inline-size: 0;
+  }
+
+  /* A flow standing alone outside the lens: one dim line in one slot. */
+  .fisheye__zone > .fisheye__line {
+    color: var(--c-neutral-600);
+    font-size: var(--text-s);
+  }
+
+  /* Held to one width so the ledger reads as a column however the lens moves. */
+  .fisheye__when {
+    flex: none;
+    color: var(--c-neutral-600);
+    font-size: var(--text-s);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .fisheye__what {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Where the flow happened: detail only the lens earns. */
+  .fisheye__site {
+    flex: 0 4 auto;
+    overflow: hidden;
+    color: var(--c-neutral-500);
+    font-size: var(--text-s);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .fisheye__amount {
+    flex: none;
+    margin-inline-start: auto;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* In a narrow pane the same words cost more lines, so distance starts
+     costing words sooner: extents and sites go first. Falling off earlier is
+     the pattern working, not a concession to the width. */
+  @container demo (inline-size < 36rem) {
+    .fisheye__site {
+      display: none;
+    }
+  }
+
+  @container demo (inline-size < 26rem) {
+    .fisheye__range {
+      display: none;
+    }
+
+    [data-ring="1"] .fisheye__sentence {
+      display: none;
+    }
+  }
+
+  .fisheye__provenance {
+    display: flex;
+    gap: var(--space-xs);
+    align-items: center;
+    margin: 0;
+    color: var(--c-neutral-600);
+    font-size: var(--text-s);
+  }
+
+  .view-family__map {
+    block-size: 320px;
+
+    pp-map {
+      block-size: 100%;
+    }
+  }
+
+  /* A view that has visibly decoupled from the propagation it belongs to */
+  .view-family__pane[data-decoupled="true"] {
+    opacity: 0.45;
+    filter: grayscale(1);
+  }
+
+  /* A pane offering to receive a dragged attribute row */
+  .view-family__pane[data-drop-over] {
+    outline: 2px dashed var(--c-accent);
+    outline-offset: 2px;
+    border-radius: var(--radius-m);
+  }
+
+  /* Detail description-list rows that double as drag sources onto the overview.
+     Each label+value pair is wrapped in a div so it's a single draggable box;
+     subgrid keeps its two columns aligned with the rest of the list. */
+  .description-list--draggable > div {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+    cursor: grab;
+  }
+
+  .description-list--draggable > div[data-dragging] {
+    opacity: 0.4;
+  }
+
+  /* Detail-pane attribute rows that double as draggable chips */
+  .attribute-chips {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2xs);
+  }
+
+  .attribute-chip {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "label action"
+      "value action";
+    align-items: center;
+    column-gap: var(--space-xs);
+    padding: var(--space-2xs) var(--space-xs);
+    border: var(--border);
+    border-radius: var(--radius-s);
+    background: var(--c-background);
+    cursor: grab;
+  }
+
+  .attribute-chip__label {
+    grid-area: label;
+    font-size: var(--text-xs);
+    color: var(--c-placeholder);
+  }
+
+  .attribute-chip__value {
+    grid-area: value;
+    font-size: var(--text-s);
+  }
+
+  /* The label can itself be a button (the checklist rows) — only the
+     trailing control belongs in the action cell */
+  .attribute-chip .button:not(.attribute-chip__label) {
+    grid-area: action;
+  }
+
+  /* Semantic-zoom timeline dot alignment. The shared stepper (progress-indicator
+     .css, same layer) drops its dot 0.5em to meet taller multi-line content;
+     these rows are a single tight heading, so the dot centres on the text line
+     with (almost) no offset. Lives in this layer — not the `layout` block below
+     with the rest of .zoom-timeline — so it outranks the stepper's default by
+     specificity rather than losing to a later cascade layer. */
+  .zoom-timeline .stepper__item:not(:has(.stepper__icon))::before {
+    margin-top: 0.05rem;
+  }
+
+  /* Stage icons: neutralise the shared .stepper__icon's 0.5rem drop (tuned to
+     meet a title-plus-subtitle block) so the icon starts at the row's padding
+     edge. On the single-heading Stages rung the row below then centres it with
+     the text; on the Flows/Detail rungs the item is top-aligned, so a 0 offset
+     keeps the icon by the stage heading. Also lets the connector ::after drop
+     its offset term. */
+  .zoom-timeline > .stepper__item > .stepper__icon {
+    margin-top: 0;
+  }
+
+  /* Events are subordinate to their stage, so their markers are smaller dots.
+     The smaller circle needs its own top offset to sit on the label's first
+     line. */
+  .zoom-timeline .stepper.muted {
+    --_circle-size: 0.5rem;
+  }
+
+  .zoom-timeline .stepper.muted .stepper__item:not(:has(.stepper__icon))::before {
+    margin-top: 0.45rem;
+  }
+
+  /* Keep the connector centred in the gap between two stage markers. The shared
+     stepper's top/bottom calc bakes in the marker's default 0.5rem margin-top; our
+     stage icons start at the padding edge (margin-top: 0 above), so drop that
+     offset term and re-derive top/bottom from the icon's actual position. */
+  .zoom-timeline > .stepper__item:not(:last-child)::after {
+    top: calc(var(--_circle-size) + var(--_spacing) + 1rem);
+    bottom: calc(var(--_spacing) - 1rem);
+  }
+}
+
+@layer layout {
+  /* Overview beside detail; collapses when the demo host narrows */
+  .odi {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(16rem, 2fr);
+    gap: var(--space-s);
+    align-items: start;
+
+    @container demo (inline-size < 40rem) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .view-family__panes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    gap: var(--space-s);
+    align-items: start;
+  }
+
+  /* The stacked trio: no width for panes, so the coupled views go one above
+     the other. The map leads rather than trails — `pp-map` holds a 20rem
+     floor below which Leaflet stops being readable, so the map can't shrink
+     to make room, and the only way both populations stay on screen together
+     is for the shorter, scrollable one to sit underneath it. */
+  .view-family__trio-stack {
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  /* Each coordinated pane is a demo-scale region of its own: blocks inside
+     adapt to the pane's width, not the whole demo's. */
+  .view-family__pane {
+    container: demo / inline-size;
+  }
+
+  /* Semantic-zoom timeline — the uniform, scale-bound sibling of the fisheye
+     over the same lifecycleEvents, built on the vertical .stepper spine. One
+     control moves every flow through the same rung at once: stage totals
+     (zoomed out), each flow dated (mid), each flow in full (zoomed in). The
+     timeline runs top to bottom so every flow has the full width, and the
+     stage order is the arrangement that stays fixed while detail changes. */
+  /* Stage header — name on the left, stage total pinned right. The content grows
+     to the full pane width so the total always lands in the same right column as
+     the event footprints below it. */
+  .zoom-timeline > .stepper__item > .stepper__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .zoom-timeline__row {
+    display: flex;
+    gap: var(--space-m);
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  .zoom-timeline__row h4 {
+    margin: 0;
+  }
+
+  /* A flow event: a single label line — date, then (at the Detail rung) the
+     description and site as one flowing paragraph — with the footprint pinned
+     right. Keeping it one paragraph means long text simply wraps within its
+     column instead of the row breaking into an awkward two-column grid, and the
+     footprint stays in the same right-aligned, scannable column at every rung. */
+  .zoom-timeline__event {
+    flex: 1;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: var(--space-m);
+    align-items: baseline;
+  }
+
+  .zoom-timeline__event-label {
+    margin: 0;
+  }
+
+  /* The date stays distinct at the head of the label so the eye can still find
+     the timeline order inside the flowing prose. */
+  .zoom-timeline__date {
+    font-weight: 600;
+    color: var(--c-body);
+  }
+
+  .zoom-timeline__co2e {
+    justify-self: end;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    color: var(--c-text-muted);
+  }
+
+  /* A negative footprint is a recovery credit — the assessment giving something
+     back — so it reads as success rather than emission. */
+  .zoom-timeline__co2e[data-sign="neg"] {
+    color: var(--c-body-success);
+  }
+}

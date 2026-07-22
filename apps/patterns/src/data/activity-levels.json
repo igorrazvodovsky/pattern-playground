@@ -91,6 +91,12 @@
       "atomic-category": "pattern",
       "mediation": "individual"
     },
+    "attribute-visibility": {
+      "activity-level": "action",
+      "lifecycle-stage": "seeking",
+      "atomic-category": "composition",
+      "mediation": "individual"
+    },
     "autocomplete": {
       "activity-level": "operation",
       "lifecycle-stage": null,

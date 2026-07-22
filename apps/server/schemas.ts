@@ -212,9 +212,55 @@ const explanationRequestSchema = z.object({
   context: z.string().optional()
 });
 
+// Timeline grouping schemas: a flat run of dated records in, a two-level
+// hierarchy of named episodes out. The client sends the records rather than an
+// id, so the endpoint stays agnostic about whose timeline it is grouping.
+export type TimelineRecord = {
+  id: string;
+  date: string;
+  label: string;
+  amount?: number;
+  category?: string;
+};
+
+export type TimelineGroupingRequest = {
+  records: TimelineRecord[];
+  /** What the timeline is, in a phrase — steers the naming. */
+  subject?: string;
+};
+
+export type TimelineEpisode = {
+  title: string;
+  summary: string;
+  /** The record the episode opens on; it runs until the next episode's. */
+  startId: string;
+};
+
+export type TimelinePhase = {
+  title: string;
+  summary: string;
+  episodes: TimelineEpisode[];
+};
+
+export type TimelineGrouping = {
+  phases: TimelinePhase[];
+};
+
+const timelineGroupingRequestSchema = z.object({
+  records: z.array(z.object({
+    id: z.string(),
+    date: z.string(),
+    label: z.string(),
+    amount: z.number().optional(),
+    category: z.string().optional()
+  })).min(2).max(200),
+  subject: z.string().max(200).optional()
+});
+
 export {
   juiceProductionSchema,
   jsonSchema,
   textLensRequestSchema,
-  explanationRequestSchema
+  explanationRequestSchema,
+  timelineGroupingRequestSchema
 };

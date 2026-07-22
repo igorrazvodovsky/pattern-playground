@@ -3,6 +3,9 @@ export const FIELD_DISPLAY_NAMES: Record<string, string> = {
   'name': 'Name',
   'category': 'Category',
   'pricing.msrp': 'Price',
+  // Not a stored attribute: the band a price falls into, computed on read.
+  'pricing.band': 'Price band',
+  'condition': 'Condition',
   'availability.status': 'Availability',
   'sustainability.carbonFootprint': 'Carbon Footprint',
   'sustainability.recyclabilityScore': 'Recyclability Score',

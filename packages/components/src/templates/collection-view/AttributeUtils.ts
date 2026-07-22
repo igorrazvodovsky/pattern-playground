@@ -14,7 +14,10 @@ const METADATA_ATTRIBUTES = [
   'pricing.msrp',
   'pricing.currency',
   'availability.status',
-  'availability.leadTime'
+  'availability.leadTime',
+  'condition',
+  'location.site',
+  'listedAt'
 ].sort();
 
 export const isIdentityAttribute = (attribute: string): boolean => {
@@ -89,6 +92,10 @@ export const formatAttributeValue = (value: unknown, attributePath: string): str
 
   if (attributePath.includes('leadTime')) {
     return `${value} days`;
+  }
+
+  if (attributePath === 'listedAt' && typeof value === 'string') {
+    return new Date(value).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
   }
 
   if (Array.isArray(value)) {

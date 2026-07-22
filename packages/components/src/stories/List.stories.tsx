@@ -37,3 +37,26 @@ export const List: Story = {
     </pp-list>
   ),
 };
+
+export const Sections: Story = {
+  args: {},
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Labels head runs of items. Keyboard navigation steps over them, and assistive tech reads the items flat — so each item still has to be legible on its own.',
+      },
+    },
+  },
+  render: () => (
+    <pp-list style={{ maxWidth: '320px' }}>
+      <pp-list-label>Move to</pp-list-label>
+      <pp-list-item>In development</pp-list-item>
+      <pp-list-item>Pilot</pp-list-item>
+      <pp-list-item>In production</pp-list-item>
+      <pp-list-label>Copy to</pp-list-label>
+      <pp-list-item>Another board</pp-list-item>
+      <pp-list-item>Clipboard</pp-list-item>
+    </pp-list>
+  ),
+};

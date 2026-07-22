@@ -89,6 +89,9 @@ export interface ItemInteractionProps<T extends string = string> {
   item: ItemObject<T>;
   contentType: T;
   children: React.ReactNode;
+  /** Applied to the inline trigger span — the consumer supplies the chrome
+      (e.g. the reference-mention classes); the component supplies the behaviour. */
+  className?: string;
   initialScope?: ViewScope;
   enableEscalation?: boolean;
   scopeConfig?: Partial<Record<ViewScope, ViewScopeConfig>>;

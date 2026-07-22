@@ -4,7 +4,7 @@ import { Product } from '@shared/data/types';
 import { CardView } from './CardView';
 import { ListView } from './ListView';
 import { TableView } from './TableView';
-import { getAttributeValue, formatAttributeValue } from './AttributeUtils';
+import { getAttributeValue, formatAttributeValue } from '../../templates/collection-view/AttributeUtils';
 
 export interface DataViewRendererProps {
   viewMode: ViewMode;

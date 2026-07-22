@@ -1,4 +1,4 @@
 // Re-export utilities from focused modules
-export * from './AttributeUtils';
-export * from './SortingUtils';
+export * from '../../templates/collection-view/AttributeUtils';
+export * from '../../templates/collection-view/SortingUtils';
 export * from './DisplayUtils';

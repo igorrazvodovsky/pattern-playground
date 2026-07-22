@@ -1,5 +1,5 @@
 import React from 'react';
-import { getAttributeValue, formatAttributeValue } from './AttributeUtils';
+import { getAttributeValue, formatAttributeValue } from '../../templates/collection-view/AttributeUtils';
 import { getFieldDisplayName } from './DisplayUtils';
 import { Product } from '@shared/data/types';
 

@@ -28,7 +28,7 @@
   position: relative;
   display: flex;
   gap: 1rem;
-  padding: 1rem 1rem var(--_item-spacing) 1rem;
+  padding: 1rem 0 var(--_item-spacing) 1rem;
   border-radius: var(--radius-l);
 
   /* overflow-x: clip; */

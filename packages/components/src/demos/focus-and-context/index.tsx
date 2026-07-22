@@ -3,6 +3,8 @@ import { DataService, getRandomItem } from './data-service';
 import { ModelItem } from '../../schemas/index';
 import '../../jsx-types';
 
+export { FisheyeTimelineDemo } from './fisheye';
+
 // Shared focus-and-context demo: contextual navigation over an industrial
 // process model (Product sample data). The focused item renders in full
 // detail while its context — path, structure, related objects (including

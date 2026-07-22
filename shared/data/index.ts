@@ -11,6 +11,7 @@ import tasksData from './tasks.json' with { type: 'json' };
 import { transformTasksData } from './transformations/tasks';
 import { createFinder, createMultiFieldSearcher } from './finders';
 import transactionsData from './transactions.json' with { type: 'json' };
+import lifecycleEventsData from './lifecycle-events.json' with { type: 'json' };
 import commentsData from './comments.json' with { type: 'json' };
 import quotesData from './quotes.json' with { type: 'json' };
 import materialsData from './materials.json' with { type: 'json' };
@@ -33,6 +34,9 @@ export const commands = commandsData;
 export const recentItems = recentItemsData;
 export const reuseListings = reuseListingsData;
 export const transactions = transactionsData;
+/* One tracked e-bike, cradle to grave: every flow the assessment counted,
+   dated, with its kg CO2e — negative where recovery gave something back. */
+export const lifecycleEvents = lifecycleEventsData;
 export const comments = commentsData;
 export const quotes = quotesData;
 

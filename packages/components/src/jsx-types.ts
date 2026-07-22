@@ -85,6 +85,7 @@ declare module 'react' {
       'pp-list': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         multiselectable?: boolean;
       };
+      'pp-list-label': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
       'pp-list-item': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         type?: 'checkbox' | 'radio' | string;
         disabled?: boolean;
@@ -103,10 +104,23 @@ declare module 'react' {
         'onPp-hide'?: () => void;
       };
       'pp-popup': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+        ref?: React.Ref<HTMLElement>;
+        /** Element, element id, or Floating UI VirtualElement. */
+        anchor?: Element | string | { getBoundingClientRect: () => DOMRect };
+        active?: boolean;
         open?: boolean;
         placement?: string;
+        strategy?: 'absolute' | 'fixed';
         distance?: number;
         skidding?: number;
+        flip?: boolean;
+        shift?: boolean;
+        sync?: 'width' | 'height' | 'both';
+        'auto-size'?: 'horizontal' | 'vertical' | 'both';
+        /** Promote into the browser's top layer (native popover). */
+        'top-layer'?: string;
+        /** With `top-layer`: outside click and Escape close it, then `pp-hide` fires. */
+        'light-dismiss'?: string;
       };
       'pp-p-plus': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
       'pp-breadcrumbs': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {

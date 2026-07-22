@@ -7,6 +7,8 @@ import "../components/charts/bar-chart.js";
 import type { BarChart } from "../components/charts/bar-chart.js";
 import type { BarChartData } from "../components/charts/base/chart-types.js";
 
+const rows = transactions.slice(0, 10);
+
 const meta = {
   title: "Components/Table",
 } satisfies Meta;
@@ -93,7 +95,7 @@ const generateAmountSummary = (): BarChartData => {
 
   const rangeCounts = ranges.map(range => ({
     category: range.label,
-    value: transactions.filter(t => t.amount >= range.min && t.amount < range.max).length,
+    value: rows.filter(t => t.amount >= range.min && t.amount < range.max).length,
     color: range.label === '0-100' ? '#10b981' :
            range.label === '100-500' ? '#3b82f6' :
            range.label === '500-1000' ? '#f59e0b' : '#ef4444'
@@ -107,7 +109,7 @@ const generateAmountSummary = (): BarChartData => {
 };
 
 const generateStatusSummary = (): BarChartData => {
-  const statusCounts = transactions.reduce((acc, t) => {
+  const statusCounts = rows.reduce((acc, t) => {
     acc[t.status] = (acc[t.status] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
@@ -125,7 +127,7 @@ const generateStatusSummary = (): BarChartData => {
 };
 
 const generateCategorySummary = (): BarChartData => {
-  const categoryCounts = transactions.reduce((acc, t) => {
+  const categoryCounts = rows.reduce((acc, t) => {
     acc[t.category] = (acc[t.category] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
@@ -141,7 +143,7 @@ const generateCategorySummary = (): BarChartData => {
 };
 
 const generateDateSummary = (): BarChartData => {
-  const monthCounts = transactions.reduce((acc, t) => {
+  const monthCounts = rows.reduce((acc, t) => {
     const month = new Date(t.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
     acc[month] = (acc[month] || 0) + 1;
     return acc;
@@ -218,7 +220,7 @@ export const WithColumnSummaries: Story = {
           </tr>
         </thead>
         <tbody>
-          {transactions.map((transaction) => (
+          {rows.map((transaction) => (
             <tr key={transaction.id}>
               <td className="pp-table-align-right">
                 ${transaction.amount.toFixed(2)}
