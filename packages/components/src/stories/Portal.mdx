@@ -1,0 +1,21 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import * as PortalStories from './Portal.stories.tsx';
+
+<Meta of={PortalStories} tags={['activity-level:operation', 'atomic:primitive', 'role:component', 'mediation:individual']} />
+
+{/* > 🙂 **Fun meter: 3/5**.  */}
+
+# Portal
+
+Moves a rendered element somewhere else in the document while the code that owns it stays where it logically lives.
+
+<Story of={PortalStories.EscapeClippingContainer} />
+
+## Accessibility
+
+Moving an element in the DOM moves it in the accessibility tree too. If the portaled content is still owned by a trigger — a listbox for a combobox, say — preserve the relationship with `aria-controls` / `aria-activedescendant` and manage focus deliberately. The visual anchor no longer implies the semantic one.
+
+## To-do
+
+There is a pattern-level idea here: the recurring situation where an element's *logical ownership* and its *experiential placement* diverge — the decoupling of anchor from container. It is the concern shared across the whole overlay family, and it may be two moves rather than one: *escape the container* (spatial — popover, dropdown) versus *ascend to app level* (scope — modal, toast).
+

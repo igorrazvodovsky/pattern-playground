@@ -112,8 +112,8 @@ export class PpToc extends HTMLElement {
   private build() {
     const target = this.scope();
     const level = this.levelSelector;
-    // Skip headings tucked inside collapsible/dialog widgets
-    const selector = `:is(${level}):not(:is(details, dialog) :is(${level}))`;
+    // Skip headings tucked inside collapsible/dialog widgets or demo islands
+    const selector = `:is(${level}):not(:is(details, dialog, .demo-block) :is(${level}))`;
     const headings = [...target.querySelectorAll<HTMLElement>(selector)].filter(
       (h) => !this.contains(h)
     );

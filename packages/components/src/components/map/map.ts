@@ -43,10 +43,9 @@ export interface MapSelectDetail {
   source: 'marker' | 'api';
 }
 
-/** OpenStreetMap raster tiles — free, attribution required, network-dependent. */
-const OSM_TILE_URL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-const OSM_ATTRIBUTION =
-  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+const CARTO_TILE_URL = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+const CARTO_ATTRIBUTION =
+  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
 
 /** A design-system pin drawn from CSS rather than Leaflet's bundled PNG. */
 function pinIcon(selected: boolean): L.DivIcon {
@@ -72,15 +71,13 @@ export class MapComponent extends LitElement {
   @property({ type: Number })
   zoom = 13;
 
-  /** Raster tile template URL. Defaults to OpenStreetMap. */
   @property({ type: String, attribute: 'tile-url' })
-  tileUrl = OSM_TILE_URL;
+  tileUrl = CARTO_TILE_URL;
 
   /** Attribution HTML for the tile source. Required by most providers. */
   @property({ type: String })
-  attribution = OSM_ATTRIBUTION;
+  attribution = CARTO_ATTRIBUTION;
 
-  /** The active location's id. Reflected so it can be set from markup. */
   @property({ type: String, reflect: true, attribute: 'selected-id' })
   selectedId?: string | number;
 

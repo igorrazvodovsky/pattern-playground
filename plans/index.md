@@ -7,6 +7,7 @@ the plan contract and `docs/specs/` for settled specifications.
 
 - [Workspace boundary after the view-system reshape](active/2026-07-workspace-boundary.md) — give the screen-composition seam a typed edge (workspace ↔ coordinated-views), reinstate the panelled/tabbed variants the survey now routes to, clear pre-reshape word residue
 - [View-system demos: one model, many framings](active/2026-07-view-system-demos.md) — demo collection for the reshaped family: one canonical collection, one Meridian-shaped ViewSpec, per-pattern demos plus the borrow map
+- [Drag and drop: capture as a language entry](active/2026-07-drag-and-drop.md) — research-gated: pattern node vs mechanism verdict first, then author the page borrowing the view-system demos; scaffolding promotion trigger-gated
 - [Light-DOM refactor: platform-first components](active/2026-07-light-dom-refactor.md) — convert the shadow-DOM Lit components to light DOM up a native-first decision ladder; retire the `is="pp-button"` built-in; library choice deferred to the residue
 - [Enacts-note audit](active/2026-07-enacts-note-audit.md) — align pre-existing `enacts` labels with the Q-lens convention; one hygiene sitting plus a possible third extractor advisory
 - [Move-vs-artifact naming: the T6 kept twins](active/2026-07-move-vs-artifact-naming.md) — outline, needs iteration: do Sections and Command menu hold up against the move-naming rule, and what does a rename cost
