@@ -1,9 +1,9 @@
 ---
 title: "View-system demos: one model, many framings"
-status: "active"
+status: "completed"
 kind: "exec-spec"
 created: "2026-07"
-last_reviewed: "2026-07-18"
+last_reviewed: "2026-07-23"
 area: "demos, components"
 promoted_to: ""
 superseded_by: ""
@@ -746,6 +746,24 @@ demo reads yet. `transactions.json` stays as it was for `Table.stories.tsx`.
   reference's arrangement, where every grain stays mounted and the renderer
   computes `top` and `height` per item. That is a rewrite of the renderer and
   is not done.
+- _The flex-grow revision above is superseded by the shipped code._ The bullets
+  from "Proportion alone cannot magnify" through the "terrain does move"
+  correction describe an intermediate design that no longer exists. The
+  committed `fisheye.tsx` reached the conserved-frame arrangement outright:
+  every span owns a fixed slot (`block-size: calc(var(--len) * var(--_slot))`,
+  sized by record count and unchanged by the lens), and the focused record
+  renders as an absolutely-positioned `.fisheye__card` riding _over_ its
+  neighbours' slots rather than growing its own — magnification by overflow, not
+  by reflow. So the terrain genuinely does not move now, and "nothing moves" in
+  the file header is accurate. What stays deferred is narrower than the
+  changelog reads: smooth motion _across grain boundaries_. Heights interpolate
+  within one episode (`transition: block-size` on zones, stable gap keys), but
+  crossing a level swaps the rendered subtree (a `Zone` becomes a `Node` with
+  children; gaps mount and unmount), which CSS cannot interpolate. Closing that
+  still needs the reference's flat all-grains-mounted, computed-`top`/`height`
+  renderer — the recursive per-region template can't animate a structural swap.
+  Fidelity polish, not correctness; leave it unless the fisheye is opened for
+  another reason.
 - _One template for a record, and one mark on the rail._ Three switches went
   out together, each of them a second layout the reader had to cross on the way
   in. A record at the centre used to wrap to two lines, take the day and month

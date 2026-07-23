@@ -6,7 +6,6 @@ the plan contract and `docs/specs/` for settled specifications.
 ## Active
 
 - [Workspace boundary after the view-system reshape](active/2026-07-workspace-boundary.md) — give the screen-composition seam a typed edge (workspace ↔ coordinated-views), reinstate the panelled/tabbed variants the survey now routes to, clear pre-reshape word residue
-- [View-system demos: one model, many framings](active/2026-07-view-system-demos.md) — demo collection for the reshaped family: one canonical collection, one Meridian-shaped ViewSpec, per-pattern demos plus the borrow map
 - [Drag and drop: capture as a language entry](active/2026-07-drag-and-drop.md) — research-gated: pattern node vs mechanism verdict first, then author the page borrowing the view-system demos; scaffolding promotion trigger-gated
 - [Light-DOM refactor: platform-first components](active/2026-07-light-dom-refactor.md) — convert the shadow-DOM Lit components to light DOM up a native-first decision ladder; retire the `is="pp-button"` built-in; library choice deferred to the residue
 - [Enacts-note audit](active/2026-07-enacts-note-audit.md) — align pre-existing `enacts` labels with the Q-lens convention; one hygiene sitting plus a possible third extractor advisory
@@ -31,6 +30,8 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Completed
 
+- [View system: retire the hub, reframe the family](completed/2026-07-view-system.md) — `view.mdx` retired, `dashboard`→`purpose-keyed-view`, `overview-detail` reframed, `coordinated-views`/`attribute-visibility`/`problem-curated-view` minted; the family carried by typed edges, no hub
+- [View-system demos: one model, many framings](completed/2026-07-view-system-demos.md) — demo collection for the reshaped family: one canonical collection, one Meridian-shaped ViewSpec, per-pattern demos plus the borrow map
 - [Contextual navigation: the certainty fisheye](completed/2026-07-contextual-navigation-rebuild.md) — the focus-and-context demo rebuilt as a fisheye whose distance metric is certainty: authored edges as cards, six deterministic rules as compact references carrying their basis, language-model proposals as provisional names at the rim
 - [Review practice: moves, reconciliation, drift](completed/2026-07-review-practice.md) — three review loops (move review, reconciliation, drift) as skills; first full run on `split-project`, archived review directory at `archive/split-project/`
 - [Style boundary between the patterns site and the component library](completed/2026-07-style-boundary.md) — the one shared cascade split: intent-revealing library entries, cascade layers throughout, donut-scoped site prose, enforced boundary

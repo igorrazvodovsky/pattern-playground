@@ -1,9 +1,9 @@
 ---
 title: "View system: retire the hub, reframe the family"
-status: "active"
+status: "completed"
 kind: "exec-spec"
 created: "2026-07"
-last_reviewed: "2026-07-12"
+last_reviewed: "2026-07-23"
 area: "language, graph"
 promoted_to: ""
 superseded_by: ""
