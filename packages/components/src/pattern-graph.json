@@ -4206,7 +4206,7 @@
       "source": "overview-detail",
       "target": "semantic-zoom",
       "type": "complements",
-      "label": "combining techniques usually beats any single one — an overview pane alongside semantic zoom, or zoom inside the detail pane — but not always additively: adding an overview to a semantic-zoom interface has slowed actors down, the semantic detail making the overview redundant even as they still preferred having it. In its split layout overview-detail spends screen space to show two levels at once; semantic zoom spends time, one level after another",
+      "label": "combining techniques usually beats any single one — an overview pane alongside semantic zoom, or zoom inside the detail pane. In its split layout overview-detail spends screen space to show two levels at once; semantic zoom spends time, one level after another",
       "extractedFrom": "frontmatter:complements"
     },
     {

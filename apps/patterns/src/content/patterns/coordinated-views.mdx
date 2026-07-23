@@ -30,7 +30,7 @@ The actor has multiple views of a single model, each showing a different aspect 
 
 Couple the views so that what the actor designates in one — a selection, a focus, a highlight — carries to the others, propagating across chains of views; brushing and linking are the canonical mechanics. Baldonado's eight guidelines are the trade-off machinery — four for *when* another view earns its place (different users and tasks, complementary aspects, complex data worth decomposing, all tempered by parsimony), four for *how* to run the ensemble (spend space and time deliberately; make the coupling self-evident — propagation under ~100 ms, or visibly decouple, greying out the stale view; keep affordances and state consistent across views; manage attention so priority events pull the actor to the right view).
 
-<Demo label="List + map + detail over one collection.">
+<Demo label="List + map + detail over one collection." expandable>
   <LinkedTrioDemo client:only="react" />
 </Demo>
 
@@ -41,7 +41,7 @@ Couple the views so that what the actor designates in one — a selection, a foc
 - Parsimony is easy to violate and expensive to ignore: merge views with near-identical semantics; couple only where coupling demonstrably helps.
 
 {/* TODO: Remove or redo
-<Demo label="Cross-filtering: brush a price range over the plot (price × carbon footprint) and the list prunes; out-of-range points drop back to grey rather than vanishing.">
+<Demo label="Cross-filtering: brush a price range over the plot (price × carbon footprint) and the list prunes; out-of-range points drop back to grey rather than vanishing." expandable>
   <CrossFilteringDemo client:only="react" />
 </Demo> 
 */}
