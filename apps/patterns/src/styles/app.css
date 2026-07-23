@@ -122,11 +122,44 @@
 
   .demo-block__footer {
     display: flex;
-    align-items: center;
+    /* align-items: center; */
     gap: var(--space-s, 0.5rem);
     margin-block-start: var(--space-s, 0.5rem);
     font-size: 0.875em;
-    opacity: 0.75;
+  }
+
+  /* Reader control on expandable demos (see components/Demo.tsx). Sits in the
+     footer row, pushed to the trailing edge, so it never overlaps a demo's own
+     chrome. lib/demo-expander.ts cycles the width on click. */
+  .demo-expand {
+    flex-shrink: 0;
+    margin-inline-start: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 1.75rem;
+    block-size: 1.75rem;
+    padding: 0;
+    color: var(--c-neutral-600);
+    font-size: 1rem;
+    cursor: pointer;
+    background: var(--c-neutral-0);
+    border-radius: var(--radius-m);
+  }
+
+  .demo-expand:hover {
+    color: var(--c-neutral-900);
+    background: var(--c-neutral-50);
+  }
+
+  .demo-expand:focus-visible {
+    outline: 2px solid var(--c-accent-500);
+    outline-offset: 2px;
+  }
+
+  /* At the widest step the next click resets — tint to hint the change. */
+  .demo-expand[data-demo-full] {
+    color: var(--c-accent-600);
   }
 
   .demo-block__label {
@@ -217,6 +250,24 @@
 .pane .pane-body > astro-slot > article,
 .pane .pane-body > article {
   line-height: 1.5;
+  max-width: 70ch;
+}
+
+/* Reader-expanded demos. An expandable <Demo> renders a corner button that
+   cycles the host pane's width; lib/demo-expander.ts sets --pane-max-w inline
+   and data-demo-expanded on the .pane. --pane-max-w drives the pane's
+   flex-basis and its own sticky right-inset, so the pane still collapses to its
+   spine at any width (the pane width cancels from the pinned position — see
+   stack.css). Unlayered, to clear the unlayered 70ch article measure above. */
+.pane[data-demo-expanded] .pane-body article {
+  max-width: var(--pane-max-w);
+}
+
+/* Keep prose at a reading measure while the article is wide, so only the demo
+   spends the extra width. Direct-child prose only — .demo-block is exempt. The
+   descendant `article` matches both the > article and > astro-slot > article
+   wrappings. */
+.pane[data-demo-expanded] .pane-body article > :is(p, blockquote, ul, ol) {
   max-width: 70ch;
 }
 
