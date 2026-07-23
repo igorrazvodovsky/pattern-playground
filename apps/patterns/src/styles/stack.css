@@ -30,7 +30,7 @@
        it on top of the previous one. --pane-n (pane count) is set on .stack. */
     left: calc(var(--pane-i, 0) * var(--pane-spine-w));
     right: calc(
-      (var(--pane-n, 1) - var(--pane-i, 0)) * var(--pane-spine-w) - var(--pane-max-w)
+      (var(--pane-n, 1) - var(--pane-i, 0)) * var(--pane-spine-w) - min(var(--pane-max-w), 100%)
     );
 
     /* Later panes always on top: earlier panes tuck UNDER on the left (left spine

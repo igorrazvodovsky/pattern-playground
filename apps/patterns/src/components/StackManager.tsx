@@ -137,7 +137,10 @@ export function StackManager({ slug, title, children }: StackManagerProps) {
 
   // Reflect the painted overlap geometry into data-collapsed / data-overlapping
   // on every scroll (rAF-throttled) and resize. Re-runs when panes change so a
-  // newly pushed or removed pane is classified immediately.
+  // newly pushed or removed pane is classified immediately. A ResizeObserver on
+  // the panes catches width changes that fire no scroll/resize event — a demo
+  // expanding its host pane (lib/demo-expander.ts), or a demo island settling
+  // its size after hydration — and is bound to this instance's live elements.
   useEffect(() => {
     const stackEl = stackRef.current;
     if (!stackEl) return;
@@ -152,8 +155,11 @@ export function StackManager({ slug, title, children }: StackManagerProps) {
     updateStackClasses(stackEl);
     stackEl.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule);
+    const ro = new ResizeObserver(schedule);
+    for (const pane of stackEl.querySelectorAll('[data-pane-index]')) ro.observe(pane);
     return () => {
       if (raf) cancelAnimationFrame(raf);
+      ro.disconnect();
       stackEl.removeEventListener('scroll', schedule);
       window.removeEventListener('resize', schedule);
     };
