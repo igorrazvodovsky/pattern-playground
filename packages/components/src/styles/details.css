@@ -87,23 +87,6 @@
     opacity: 1;
   }
 
-  .card details {
-    border: none;
-    padding-inline: 0;
-    margin-inline: calc(var(--space-s) * -1);
-    /* TODO: */
-    width: calc(100cqi - var(--space-s));
-
-    summary {
-      margin-inline: 0;
-      padding-inline: var(--space-s);
-    }
-
-    > *:not(summary) {
-      padding-inline: var(--space-s);
-    }
-  }
-
   details + details {
     margin-block-start: 0 !important;
   }

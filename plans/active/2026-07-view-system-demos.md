@@ -318,8 +318,10 @@ quality page gets its first demo without owning one.
   rung as a function of distance from attention. The existing
   ContextualNavigationDemo stays; sweep borrows before touching anything.
   (Superseded 2026-07-22: the demo's rebuild — certainty as the distance
-  metric — is spun out to `2026-07-contextual-navigation-rebuild.md`; the
-  borrow sweep came back empty, nothing else imports it.)
+  metric — was spun out to `2026-07-contextual-navigation-rebuild.md` and
+  landed 2026-07-23; the borrow sweep came back empty, nothing else imports
+  it. The demo is now three certainty bands over `JuiceProduction.json`, not
+  the entity page this line described.)
 
 ## Borrow map
 
@@ -680,8 +682,9 @@ demo reads yet. `transactions.json` stays as it was for `Table.stories.tsx`.
   it can see, gathering consecutive years until a run holds eight records:
   2010–2011, 2012–2014, 2015–2019, 2020–2026. Rows that can only count. The
   structure survives and the meaning doesn't, which is the comparison worth
-  having on screen — and it means the deployed site shows a working demo rather
-  than the empty frame `ContextualNavigationDemo` currently shows.
+  having on screen. (`ContextualNavigationDemo` showed an empty frame when this
+  was written; it was rebuilt on 2026-07-23 and makes the same fallback
+  argument with its own two computed bands.)
 - _One ordering, one channel, and the ground inverted._ Distance from the lens
   used to run two ways at once: the rail from accent through `--c-accent-300`
   to `--c-neutral-300`, and the ground from the page through `--c-neutral-50`

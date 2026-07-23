@@ -7,6 +7,8 @@ import {
   ExplanationRequest,
   TimelineGrouping,
   TimelineGroupingRequest,
+  Deduction,
+  DeductionRequest,
   jsonSchema
 } from '../schemas.js';
 import { PromptTemplateBuilder, PROMPT_CONFIGS } from './promptTemplates.js';
@@ -263,6 +265,86 @@ export class OpenAIService {
 
     logger.info(`OpenAI timeline grouping received for ${records.length} records`);
     return JSON.parse(content) as TimelineGrouping;
+  }
+
+  /**
+   * Propose components a model does not contain but probably should.
+   *
+   * The rest of the certainty fisheye computes its bands from the model — an
+   * authored edge, a rule sentence, a shared membership. This is the band that
+   * cannot be computed, because the question is about what is missing: not
+   * "what is connected to this" but "what would someone who knows this kind of
+   * equipment expect to find beside it". The reply is deliberately thin — a
+   * name and one clause — because a proposal that arrived as a full card would
+   * be dressed as something the model knows.
+   */
+  async deduceConnections(
+    request: DeductionRequest,
+    signal?: AbortSignal
+  ): Promise<Deduction> {
+    const { focus, neighbourhood, subject } = request;
+
+    const systemPrompt = [
+      'You are given one component of an engineering model and the components',
+      'the model connects it to. Name components that are missing from the',
+      'model but would plausibly sit beside this one in the real installation.',
+      'Return JSON of the shape',
+      '{"proposals":[{"name","rationale","anchorId"}]}.',
+      'Rules:',
+      '- Propose only components that are NOT in the material you were given.',
+      '  Anything already listed is modelled, and naming it again says nothing.',
+      '- Give 3 or 4 proposals. Fewer is better than padding with generic',
+      '  equipment that would sit beside any machine at all.',
+      '- A name is what an equipment list would call the part: two or three',
+      '  words, no vendor names, no model numbers.',
+      '- A rationale is one sentence saying what in the material implies it —',
+      '  point at a specific attribute, rule or neighbour. It is read as the',
+      '  reason to believe the proposal, so a restatement of the name is a',
+      '  wasted sentence.',
+      '- Hedge the rationale honestly: this component may not exist. Write',
+      '  "would", "typically", "suggests" rather than asserting.',
+      '- anchorId must be the id of the focus or of one of the neighbours you',
+      '  were given, whichever the proposed component would hang under.',
+      '- Plain prose. No markdown, no bullet points.'
+    ].join('\n');
+
+    const attributes = focus.attributes
+      .map((attribute) => `  ${attribute.name}: ${attribute.value}`)
+      .join('\n');
+    const neighbours = neighbourhood
+      .map((neighbour) => `  ${neighbour.id} — ${neighbour.name} (${neighbour.relation})`)
+      .join('\n');
+
+    const userPrompt = [
+      subject ? `${subject}\n` : '',
+      `Focus: ${focus.id} — ${focus.name} (${focus.type})`,
+      focus.description,
+      attributes ? `Attributes:\n${attributes}` : '',
+      neighbours ? `Modelled neighbourhood:\n${neighbours}` : 'Modelled neighbourhood: none.'
+    ]
+      .filter(Boolean)
+      .join('\n');
+
+    const response = await this.client.chat.completions.create({
+      /* The fast model, as with timeline grouping: the reader is waiting on
+         this, and it is the band they are meant to trust least. */
+      model: config.openai.fastModel,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt }
+      ],
+      temperature: 0.4,
+      max_tokens: 600,
+      response_format: { type: 'json_object' }
+    }, { signal });
+
+    const content = response.choices?.[0]?.message?.content;
+    if (!content) {
+      throw new Error('Empty response from OpenAI');
+    }
+
+    logger.info(`OpenAI deduction received for ${focus.name}`);
+    return JSON.parse(content) as Deduction;
   }
 
   async *generateTextLensStream(request: TextLensRequest, signal?: AbortSignal): AsyncGenerator<StreamChunk> {

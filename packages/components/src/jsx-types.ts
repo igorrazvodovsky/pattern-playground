@@ -100,6 +100,7 @@ declare module 'react' {
         disabled?: boolean;
         placement?: string;
         hoist?: boolean;
+        'stay-open-on-select'?: boolean;
         'onPp-show'?: () => void;
         'onPp-hide'?: () => void;
       };

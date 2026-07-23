@@ -35,6 +35,11 @@ function resolveSlug(anchor: HTMLAnchorElement): string | null {
   if (anchor.closest('pp-toc')) return null;
   // Skip search result links so previews don't overlap the results panel.
   if (anchor.closest('.pagefind-ui, pagefind-modal, .pf-result')) return null;
+  // Skip anything inside a demo. A demo's links are its own subject matter, not
+  // routes into the site — and the ones written `href="#"` resolve to the page
+  // the demo is embedded in, so without this a reader hovering a demo gets a
+  // preview of the page they are already reading.
+  if (anchor.closest('.demo-block')) return null;
   const url = new URL(anchor.href, location.href);
   if (url.origin !== location.origin) return null;
   if (!url.pathname.startsWith('/patterns/')) return null;

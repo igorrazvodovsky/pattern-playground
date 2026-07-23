@@ -49,6 +49,8 @@ const config: ServerConfig = {
     allowedOrigins: [
       'http://localhost:6006', // Storybook (packages/components)
       'http://localhost:4321', // Patterns site dev (apps/patterns)
+      // Astro's next free port, which a second checkout or worktree lands on
+      'http://localhost:4322',
       process.env.FRONTEND_URL || '', // Frontend URL from environment variable
       // Render.com domains
       'https://pattern-playground.onrender.com',

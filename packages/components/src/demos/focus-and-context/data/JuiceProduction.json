@@ -100,7 +100,11 @@
       "name": "Washing Station",
       "label": "Washing",
       "description": "Washes fruit to remove dirt, debris and pesticide residues.",
-      "path": ["Orange Juice Production Line", "Fruit Reception", "Washing Station"],
+      "path": [
+        "Orange Juice Production Line",
+        "Fruit Reception",
+        "Washing Station"
+      ],
       "parentId": "fruitReception-001",
       "childrenIds": [],
       "actions": [
@@ -123,6 +127,13 @@
           "value": "95",
           "unit": "%",
           "dataType": "float"
+        },
+        {
+          "name": "cleaningAgent",
+          "label": "Cleaning Agent",
+          "value": "Food-safe sanitizers",
+          "unit": null,
+          "dataType": "string"
         }
       ],
       "rulesAndConstraints": [
@@ -143,7 +154,11 @@
       "name": "Grading Station",
       "label": "Grading",
       "description": "Manually or automatically grades fruit and rejects damaged fruit.",
-      "path": ["Orange Juice Production Line", "Fruit Reception", "Grading Station"],
+      "path": [
+        "Orange Juice Production Line",
+        "Fruit Reception",
+        "Grading Station"
+      ],
       "parentId": "fruitReception-001",
       "childrenIds": [],
       "actions": [
@@ -220,7 +235,11 @@
       "name": "Juice Extractor",
       "label": "Extractor",
       "description": "Machine that squeezes juice out of fruit. It transforms raw fruit into juice by mechanical pressure.",
-      "path": ["Orange Juice Production Line", "Juice Extraction", "Juice Extractor"],
+      "path": [
+        "Orange Juice Production Line",
+        "Juice Extraction",
+        "Juice Extractor"
+      ],
       "parentId": "extractionUnit-001",
       "childrenIds": ["squeezer-001", "reamer-001"],
       "actions": [],
@@ -237,6 +256,13 @@
           "label": "Capacity",
           "value": "5000",
           "unit": "kg/hour",
+          "dataType": "float"
+        },
+        {
+          "name": "maxOperatingPressure",
+          "label": "Max Operating Pressure",
+          "value": "2.5",
+          "unit": "bar",
           "dataType": "float"
         }
       ],
@@ -263,7 +289,12 @@
       "name": "Squeezer",
       "label": "Squeezer",
       "description": "A squeezer-type extraction option with moderate yield and energy consumption.",
-      "path": ["Orange Juice Production Line", "Juice Extraction", "Juice Extractor", "Squeezer"],
+      "path": [
+        "Orange Juice Production Line",
+        "Juice Extraction",
+        "Juice Extractor",
+        "Squeezer"
+      ],
       "parentId": "juiceExtractor-001",
       "childrenIds": [],
       "actions": [],
@@ -301,7 +332,12 @@
       "name": "Reamer",
       "label": "Reamer",
       "description": "A reamer-type extraction option optimized for high yield with a gentle process.",
-      "path": ["Orange Juice Production Line", "Juice Extraction", "Juice Extractor", "Reamer"],
+      "path": [
+        "Orange Juice Production Line",
+        "Juice Extraction",
+        "Juice Extractor",
+        "Reamer"
+      ],
       "parentId": "juiceExtractor-001",
       "childrenIds": [],
       "actions": [],
@@ -333,7 +369,11 @@
       "name": "Cutter Assembly",
       "label": "Cutter",
       "description": "Cuts fruit to optimize juice extraction and facilitate separation processes.",
-      "path": ["Orange Juice Production Line", "Juice Extraction", "Cutter Assembly"],
+      "path": [
+        "Orange Juice Production Line",
+        "Juice Extraction",
+        "Cutter Assembly"
+      ],
       "parentId": "extractionUnit-001",
       "childrenIds": [],
       "actions": [],
@@ -371,7 +411,11 @@
       "name": "Screen Filter",
       "label": "Screen",
       "description": "Removes pulp and seeds from juice after extraction.",
-      "path": ["Orange Juice Production Line", "Juice Extraction", "Screen Filter"],
+      "path": [
+        "Orange Juice Production Line",
+        "Juice Extraction",
+        "Screen Filter"
+      ],
       "parentId": "extractionUnit-001",
       "childrenIds": [],
       "actions": [],
@@ -387,6 +431,13 @@
           "name": "material",
           "label": "Material",
           "value": "Stainless Steel",
+          "unit": null,
+          "dataType": "string"
+        },
+        {
+          "name": "cleaningAgent",
+          "label": "Cleaning Agent",
+          "value": "Food-safe sanitizers",
           "unit": null,
           "dataType": "string"
         }
@@ -450,7 +501,11 @@
       "name": "Clarifier",
       "label": "Clarifier",
       "description": "Uses centrifugal and filtration processes to separate pulp from juice.",
-      "path": ["Orange Juice Production Line", "Clarification Unit", "Clarifier"],
+      "path": [
+        "Orange Juice Production Line",
+        "Clarification Unit",
+        "Clarifier"
+      ],
       "parentId": "clarificationUnit-001",
       "childrenIds": ["filterElement-001"],
       "actions": [],
@@ -460,6 +515,13 @@
           "label": "Throughput",
           "value": "4500",
           "unit": "L/h",
+          "dataType": "float"
+        },
+        {
+          "name": "maxOperatingPressure",
+          "label": "Max Operating Pressure",
+          "value": "2.5",
+          "unit": "bar",
           "dataType": "float"
         }
       ],
@@ -481,7 +543,12 @@
       "name": "Filter Element",
       "label": "Filter Element",
       "description": "Removable filter element for clarifier maintenance.",
-      "path": ["Orange Juice Production Line", "Clarification Unit", "Clarifier", "Filter Element"],
+      "path": [
+        "Orange Juice Production Line",
+        "Clarification Unit",
+        "Clarifier",
+        "Filter Element"
+      ],
       "parentId": "clarifier-001",
       "childrenIds": [],
       "actions": [],
@@ -537,7 +604,11 @@
       "name": "Pre-heater System",
       "label": "Pre-heater",
       "description": "Conditions and pre-heats juice upstream of the evaporator for efficient concentration.",
-      "path": ["Orange Juice Production Line", "Concentration Unit", "Pre-heater"],
+      "path": [
+        "Orange Juice Production Line",
+        "Concentration Unit",
+        "Pre-heater"
+      ],
       "parentId": "concentrationUnit-001",
       "childrenIds": [],
       "actions": [],
@@ -575,7 +646,11 @@
       "name": "Evaporator",
       "label": "Evaporator",
       "description": "Performs efficient evaporation with high thermal recovery to produce juice concentrate.",
-      "path": ["Orange Juice Production Line", "Concentration Unit", "Evaporator"],
+      "path": [
+        "Orange Juice Production Line",
+        "Concentration Unit",
+        "Evaporator"
+      ],
       "parentId": "concentrationUnit-001",
       "childrenIds": [],
       "actions": [],
@@ -654,12 +729,161 @@
       "services": []
     },
     {
+      "id": "heatingAssembly",
+      "type": "Component",
+      "name": "Heating Assembly",
+      "label": "Heating Assembly",
+      "description": "Brings juice to pasteurization temperature and holds it there before the holding section.",
+      "path": [
+        "Orange Juice Production Line",
+        "Pasteurization Unit",
+        "Heating Assembly"
+      ],
+      "parentId": "pasteurizationUnit-001",
+      "childrenIds": ["heatExchanger", "recirculationPump"],
+      "actions": [],
+      "attributes": [
+        {
+          "name": "weight",
+          "label": "Weight",
+          "value": "360",
+          "unit": "kg",
+          "dataType": "float"
+        },
+        {
+          "name": "material",
+          "label": "Material",
+          "value": "Stainless Steel",
+          "unit": null,
+          "dataType": "string"
+        }
+      ],
+      "rulesAndConstraints": [
+        "Heating must reach the profile temperature before juice enters the Holding Section (holdingSection)."
+      ],
+      "relatedObjects": [
+        {
+          "referenceId": "holdingSection",
+          "relationshipType": "Process Flow",
+          "relationshipDescription": "Delivers heated juice to the holding section."
+        }
+      ],
+      "services": []
+    },
+    {
+      "id": "heatExchanger",
+      "type": "Component",
+      "name": "Heat Exchanger",
+      "label": "Heat Exchanger",
+      "description": "Plate exchanger transferring steam heat into the juice stream on its way to the holding section.",
+      "path": [
+        "Orange Juice Production Line",
+        "Pasteurization Unit",
+        "Heating Assembly",
+        "Heat Exchanger"
+      ],
+      "parentId": "heatingAssembly",
+      "childrenIds": [],
+      "actions": [],
+      "attributes": [
+        {
+          "name": "weight",
+          "label": "Weight",
+          "value": "210",
+          "unit": "kg",
+          "dataType": "float"
+        },
+        {
+          "name": "material",
+          "label": "Material",
+          "value": "Stainless Steel",
+          "unit": null,
+          "dataType": "string"
+        },
+        {
+          "name": "maxOperatingPressure",
+          "label": "Max Operating Pressure",
+          "value": "2.5",
+          "unit": "bar",
+          "dataType": "float"
+        }
+      ],
+      "rulesAndConstraints": [
+        "Plate pack must be inspected whenever the Cooling Exchanger is serviced (coolingExchanger)."
+      ],
+      "relatedObjects": [
+        {
+          "referenceId": "holdingSection",
+          "relationshipType": "Process Flow",
+          "relationshipDescription": "Passes heated juice on to the holding section."
+        },
+        {
+          "referenceId": "maintenanceService-001",
+          "relationshipType": "Control and Monitoring",
+          "relationshipDescription": "Plate pack inspected on the maintenance schedule."
+        }
+      ],
+      "services": ["maintenanceService-001"]
+    },
+    {
+      "id": "recirculationPump",
+      "type": "Component",
+      "name": "Recirculation Pump",
+      "label": "Recirculation Pump",
+      "description": "Returns under-temperature juice to the heating assembly rather than letting it pass to packaging.",
+      "path": [
+        "Orange Juice Production Line",
+        "Pasteurization Unit",
+        "Heating Assembly",
+        "Recirculation Pump"
+      ],
+      "parentId": "heatingAssembly",
+      "childrenIds": [],
+      "actions": [],
+      "attributes": [
+        {
+          "name": "flowRate",
+          "label": "Flow Rate",
+          "value": "5000",
+          "unit": "L/h",
+          "dataType": "float"
+        },
+        {
+          "name": "maxOperatingPressure",
+          "label": "Max Operating Pressure",
+          "value": "2.5",
+          "unit": "bar",
+          "dataType": "float"
+        }
+      ],
+      "rulesAndConstraints": [
+        "Diverted flow must return upstream of the Heat Exchanger (heatExchanger) so it is re-heated in full."
+      ],
+      "relatedObjects": [
+        {
+          "referenceId": "heatingAssembly",
+          "relationshipType": "Feedback and Recirculation",
+          "relationshipDescription": "Returns diverted juice to the head of the heating assembly."
+        },
+        {
+          "referenceId": "maintenanceService-001",
+          "relationshipType": "Control and Monitoring",
+          "relationshipDescription": "Seals and impeller checked for flow loss."
+        }
+      ],
+      "services": ["maintenanceService-001"]
+    },
+    {
       "id": "cipSystem",
       "type": "Product",
       "name": "CIP System",
       "label": "CIP",
       "description": "Automated Clean-In-Place system for cleaning and sterilizing equipment during processing.",
-      "path": ["Orange Juice Production Line", "Pasteurization Unit", "CIP System"],
+      "path": [
+        "Orange Juice Production Line",
+        "Pasteurization Unit",
+        "CIP System"
+      ],
       "parentId": "pasteurizationUnit-001",
       "childrenIds": [],
       "actions": [],
@@ -697,7 +921,11 @@
       "name": "Holding Section",
       "label": "Holding Section",
       "description": "Provides the necessary residence time within the pasteurization unit.",
-      "path": ["Orange Juice Production Line", "Pasteurization Unit", "Holding Section"],
+      "path": [
+        "Orange Juice Production Line",
+        "Pasteurization Unit",
+        "Holding Section"
+      ],
       "parentId": "pasteurizationUnit-001",
       "childrenIds": [
         "holdingTube",
@@ -765,7 +993,12 @@
       "name": "Holding Tube",
       "label": "Holding Tube",
       "description": "Ensures sufficient residence time within the holding section.",
-      "path": ["Orange Juice Production Line", "Pasteurization Unit", "Holding Section", "Holding Tube"],
+      "path": [
+        "Orange Juice Production Line",
+        "Pasteurization Unit",
+        "Holding Section",
+        "Holding Tube"
+      ],
       "parentId": "holdingSection",
       "childrenIds": ["standardHoldingTube", "extendedHoldingTube"],
       "actions": [],
@@ -788,7 +1021,13 @@
       "name": "Standard Holding Tube",
       "label": "Standard",
       "description": "Standard design providing the required residence time.",
-      "path": ["Orange Juice Production Line", "Pasteurization Unit", "Holding Section", "Holding Tube", "Standard"],
+      "path": [
+        "Orange Juice Production Line",
+        "Pasteurization Unit",
+        "Holding Section",
+        "Holding Tube",
+        "Standard"
+      ],
       "parentId": "holdingTube",
       "childrenIds": [],
       "actions": [],
@@ -820,7 +1059,13 @@
       "name": "Extended Holding Tube",
       "label": "Extended",
       "description": "Extended design for longer residence time if needed for higher microbial load.",
-      "path": ["Orange Juice Production Line", "Pasteurization Unit", "Holding Section", "Holding Tube", "Extended"],
+      "path": [
+        "Orange Juice Production Line",
+        "Pasteurization Unit",
+        "Holding Section",
+        "Holding Tube",
+        "Extended"
+      ],
       "parentId": "holdingTube",
       "childrenIds": [],
       "actions": [],
@@ -852,7 +1097,11 @@
       "name": "Cooling Assembly",
       "label": "Cooling Assembly",
       "description": "Removes excess heat from pasteurized juice to bring it to the proper filling temperature.",
-      "path": ["Orange Juice Production Line", "Pasteurization Unit", "Cooling Assembly"],
+      "path": [
+        "Orange Juice Production Line",
+        "Pasteurization Unit",
+        "Cooling Assembly"
+      ],
       "parentId": "pasteurizationUnit-001",
       "childrenIds": ["coolingExchanger"],
       "actions": [],
@@ -911,7 +1160,12 @@
       "name": "Cooling Exchanger",
       "label": "Cooling Exchanger",
       "description": "Removes excess heat to bring pasteurized juice to target temperature before packaging.",
-      "path": ["Orange Juice Production Line", "Pasteurization Unit", "Cooling Assembly", "Cooling Exchanger"],
+      "path": [
+        "Orange Juice Production Line",
+        "Pasteurization Unit",
+        "Cooling Assembly",
+        "Cooling Exchanger"
+      ],
       "parentId": "coolingAssembly",
       "childrenIds": ["waterCooled", "glycolCooled"],
       "actions": [],
@@ -975,9 +1229,7 @@
           "relationshipDescription": "Regular maintenance required to check thermal performance."
         }
       ],
-      "services": [
-        "maintenanceService-001"
-      ]
+      "services": ["maintenanceService-001"]
     },
     {
       "id": "waterCooled",
@@ -985,7 +1237,13 @@
       "name": "Water Cooled",
       "label": "Water Cooled",
       "description": "Operates with water as the primary coolant for stable performance.",
-      "path": ["Orange Juice Production Line", "Pasteurization Unit", "Cooling Assembly", "Cooling Exchanger", "Water Cooled"],
+      "path": [
+        "Orange Juice Production Line",
+        "Pasteurization Unit",
+        "Cooling Assembly",
+        "Cooling Exchanger",
+        "Water Cooled"
+      ],
       "parentId": "coolingExchanger",
       "childrenIds": [],
       "actions": [],
@@ -1038,7 +1296,13 @@
       "name": "Glycol Cooled",
       "label": "Glycol Cooled",
       "description": "Uses glycol coolant for achieving lower final temperatures on the product.",
-      "path": ["Orange Juice Production Line", "Pasteurization Unit", "Cooling Assembly", "Cooling Exchanger", "Glycol Cooled"],
+      "path": [
+        "Orange Juice Production Line",
+        "Pasteurization Unit",
+        "Cooling Assembly",
+        "Cooling Exchanger",
+        "Glycol Cooled"
+      ],
       "parentId": "coolingExchanger",
       "childrenIds": [],
       "actions": [],
@@ -1093,7 +1357,11 @@
       "description": "Stage where pasteurized juice is filled into consumer packages.",
       "path": ["Orange Juice Production Line", "Packaging Unit"],
       "parentId": "ojProductionLine-001",
-      "childrenIds": ["cartonPackaging-001", "glassPackaging-001", "plasticPackaging-001"],
+      "childrenIds": [
+        "cartonPackaging-001",
+        "glassPackaging-001",
+        "plasticPackaging-001"
+      ],
       "actions": [
         {
           "actionName": "startFilling",
@@ -1127,7 +1395,11 @@
       "name": "Carton Packaging",
       "label": "Carton",
       "description": "Packages juice in laminated cartons.",
-      "path": ["Orange Juice Production Line", "Packaging Unit", "Carton Packaging"],
+      "path": [
+        "Orange Juice Production Line",
+        "Packaging Unit",
+        "Carton Packaging"
+      ],
       "parentId": "packagingUnit-001",
       "childrenIds": [],
       "actions": [],
@@ -1158,7 +1430,11 @@
       "name": "Glass Packaging",
       "label": "Glass",
       "description": "Juice is hot filled into glass bottles.",
-      "path": ["Orange Juice Production Line", "Packaging Unit", "Glass Packaging"],
+      "path": [
+        "Orange Juice Production Line",
+        "Packaging Unit",
+        "Glass Packaging"
+      ],
       "parentId": "packagingUnit-001",
       "childrenIds": [],
       "actions": [],
@@ -1189,7 +1465,11 @@
       "name": "Plastic Packaging",
       "label": "Plastic",
       "description": "Juice is aseptically filled into PET bottles.",
-      "path": ["Orange Juice Production Line", "Packaging Unit", "Plastic Packaging"],
+      "path": [
+        "Orange Juice Production Line",
+        "Packaging Unit",
+        "Plastic Packaging"
+      ],
       "parentId": "packagingUnit-001",
       "childrenIds": [],
       "actions": [],
@@ -1212,7 +1492,7 @@
           "relationshipDescription": "Regularly monitor sealing integrity."
         }
       ],
-      "services": []
+      "services": ["maintenanceService-001"]
     },
     {
       "id": "transportUnit-001",
@@ -1350,6 +1630,99 @@
         }
       ],
       "services": []
+    }
+  ],
+  "configurations": [
+    {
+      "id": "concentrateLine",
+      "name": "Concentrate",
+      "description": "The full concentrate line: juice is evaporated to 66°Brix, stored, and reconstituted in the blending house.",
+      "memberIds": [
+        "fruitReception-001",
+        "extractionUnit-001",
+        "juiceExtractor-001",
+        "screen-001",
+        "clarificationUnit-001",
+        "clarifier-001",
+        "pasteurizationUnit-001",
+        "holdingSection",
+        "holdingTube",
+        "coolingAssembly",
+        "coolingExchanger",
+        "packagingUnit-001",
+        "washingStation-001",
+        "gradingStation-001",
+        "squeezer-001",
+        "cutter-001",
+        "concentrationUnit-001",
+        "preHeater",
+        "evaporator",
+        "heatingAssembly",
+        "heatExchanger",
+        "cipSystem",
+        "cartonPackaging-001",
+        "plasticPackaging-001",
+        "transportUnit-001",
+        "blendingHouse-001"
+      ]
+    },
+    {
+      "id": "nfcLine",
+      "name": "Not-from-concentrate",
+      "description": "Straight-pressed juice: no evaporation stage, so pasteurization and cold chain carry the shelf life.",
+      "memberIds": [
+        "fruitReception-001",
+        "extractionUnit-001",
+        "juiceExtractor-001",
+        "screen-001",
+        "clarificationUnit-001",
+        "clarifier-001",
+        "pasteurizationUnit-001",
+        "holdingSection",
+        "holdingTube",
+        "coolingAssembly",
+        "coolingExchanger",
+        "packagingUnit-001",
+        "washingStation-001",
+        "gradingStation-001",
+        "squeezer-001",
+        "cutter-001",
+        "heatingAssembly",
+        "heatExchanger",
+        "recirculationPump",
+        "cipSystem",
+        "cartonPackaging-001",
+        "glassPackaging-001",
+        "transportUnit-001"
+      ]
+    },
+    {
+      "id": "pilotLine",
+      "name": "Pilot",
+      "description": "The bench-scale line used for trial runs: reduced reception and packaging, everything from extraction to cooling intact.",
+      "memberIds": [
+        "fruitReception-001",
+        "extractionUnit-001",
+        "juiceExtractor-001",
+        "screen-001",
+        "clarificationUnit-001",
+        "clarifier-001",
+        "pasteurizationUnit-001",
+        "holdingSection",
+        "holdingTube",
+        "coolingAssembly",
+        "coolingExchanger",
+        "packagingUnit-001",
+        "gradingStation-001",
+        "reamer-001",
+        "concentrationUnit-001",
+        "preHeater",
+        "evaporator",
+        "heatingAssembly",
+        "heatExchanger",
+        "glassPackaging-001",
+        "blendingHouse-001"
+      ]
     }
   ]
 }

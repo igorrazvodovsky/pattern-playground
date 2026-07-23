@@ -257,10 +257,58 @@ const timelineGroupingRequestSchema = z.object({
   subject: z.string().max(200).optional()
 });
 
+// Model deduction schemas: one component and its modelled neighbourhood in,
+// proposals for components the model does not contain out. The client sends the
+// neighbourhood rather than an id, so the endpoint stays agnostic about whose
+// model it is reasoning over — and the anchor ids it may answer with are
+// exactly the ones it was given.
+export type DeductionRequest = {
+  focus: {
+    id: string;
+    name: string;
+    type: string;
+    description: string;
+    attributes: { name: string; value: string }[];
+  };
+  neighbourhood: { id: string; name: string; relation: string }[];
+  /** What the model is, in a phrase — steers the vocabulary. */
+  subject?: string;
+};
+
+export type Proposal = {
+  name: string;
+  rationale: string;
+  /** The modelled component the proposal would hang under. */
+  anchorId: string;
+};
+
+export type Deduction = {
+  proposals: Proposal[];
+};
+
+const deductionRequestSchema = z.object({
+  focus: z.object({
+    id: z.string(),
+    name: z.string().min(1).max(200),
+    type: z.string().max(100),
+    description: z.string().max(2000),
+    attributes: z
+      .array(z.object({ name: z.string(), value: z.string() }))
+      .max(40)
+      .default([])
+  }),
+  neighbourhood: z
+    .array(z.object({ id: z.string(), name: z.string(), relation: z.string() }))
+    .max(60)
+    .default([]),
+  subject: z.string().max(300).optional()
+});
+
 export {
   juiceProductionSchema,
   jsonSchema,
   textLensRequestSchema,
   explanationRequestSchema,
-  timelineGroupingRequestSchema
+  timelineGroupingRequestSchema,
+  deductionRequestSchema
 };

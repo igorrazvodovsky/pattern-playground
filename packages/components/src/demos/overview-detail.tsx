@@ -125,15 +125,11 @@ function DetailToolbar({ layout, roomForSideBySide, onChange }: DetailToolbarPro
   );
 }
 
-// Capped so the in-place detail's full readout stays reachable without
-// scrolling the row list past what the pattern page has room for.
-const OVERVIEW_ITEMS = products.slice(0, 7);
-
 export function OverviewDetailDemo() {
   // In place is the value that needs no width, so it is the one the demo can
   // always honour. Side by side is a choice the actor makes when there's room.
   const [layout, setLayout] = useState<DetailLayout>('inline');
-  const [selectedId, setSelectedId] = useState<string>(OVERVIEW_ITEMS[0].id);
+  const [selectedId, setSelectedId] = useState<string>(products[0].id);
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [pageOpen, setPageOpen] = useState(false);
   const [roomForSideBySide, setRoomForSideBySide] = useState(true);
@@ -161,11 +157,11 @@ export function OverviewDetailDemo() {
   const effective: DetailLayout =
     layout === 'side-by-side' && !roomForSideBySide ? 'inline' : layout;
 
-  const index = OVERVIEW_ITEMS.findIndex((candidate) => candidate.id === selectedId);
-  const selected = OVERVIEW_ITEMS[index] ?? OVERVIEW_ITEMS[0];
+  const index = products.findIndex((candidate) => candidate.id === selectedId);
+  const selected = products[index] ?? products[0];
 
   const step = (delta: number) => {
-    const next = OVERVIEW_ITEMS[(index + delta + OVERVIEW_ITEMS.length) % OVERVIEW_ITEMS.length];
+    const next = products[(index + delta + products.length) % products.length];
     setSelectedId(next.id);
   };
 
@@ -231,7 +227,7 @@ export function OverviewDetailDemo() {
 
   const overview = (
     <section className="cards cards--list" aria-label="Overview">
-      {OVERVIEW_ITEMS.map((item) => {
+      {products.map((item) => {
         const current = item.id === selectedId;
         return (
           <div
@@ -572,8 +568,8 @@ function OverviewDetailPair({ tier, items, label, initialOpenId }: PairProps) {
         return (
           <div key={item.id}>
             <article className="card" data-selected={open || undefined}>
-              <h4 className="label flex">
-                <iconify-icon className="icon" icon={item.icon} aria-hidden="true"></iconify-icon>
+              <h4 className="label">
+                <iconify-icon className="icon" icon={item.icon} aria-hidden="true"></iconify-icon>{' '}
                 <button
                   type="button"
                   className="card__hit"

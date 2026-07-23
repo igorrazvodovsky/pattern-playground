@@ -249,8 +249,9 @@
   }
 
   .card pp-table {
-    margin-inline: calc(var(--space-m) * -1 - 1px);
-    width: calc(100% + var(--space-s) * 2);
+    --_bleed: var(--card-table-bleed, 0px);
+    margin-inline: calc(var(--_bleed) * -1);
+    width: calc(100% + var(--_bleed) * 2);
   }
 }
 

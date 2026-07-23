@@ -31,6 +31,7 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Completed
 
+- [Contextual navigation: the certainty fisheye](completed/2026-07-contextual-navigation-rebuild.md) — the focus-and-context demo rebuilt as a fisheye whose distance metric is certainty: authored edges as cards, six deterministic rules as compact references carrying their basis, language-model proposals as provisional names at the rim
 - [Review practice: moves, reconciliation, drift](completed/2026-07-review-practice.md) — three review loops (move review, reconciliation, drift) as skills; first full run on `split-project`, archived review directory at `archive/split-project/`
 - [Style boundary between the patterns site and the component library](completed/2026-07-style-boundary.md) — the one shared cascade split: intent-revealing library entries, cascade layers throughout, donut-scoped site prose, enforced boundary
 - [Post-split automation residue](completed/2026-07-post-split-residue.md) — broken taxonomy-sync gate, inert review workflow, the `/storybook` copy that never deploys; spawned by the 2026-07-11 reconciliation

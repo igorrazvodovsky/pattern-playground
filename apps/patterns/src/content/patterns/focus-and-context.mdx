@@ -26,11 +26,9 @@ relationships:
 
 import { ContextualNavigationDemo, FisheyeTimelineDemo } from '@pkg/demos/focus-and-context';
 
-The actor is attending to one point in something large — one event in a long record, one part of a deep structure — and needs its full detail without losing the whole. Focus and context grades detail with distance from attention inside one continuous view: the focused item told in full, its near context summarised, the far context reduced to its coarsest telling. Where [overview and detail](/patterns/overview-detail) spends a second view to keep the whole present and [semantic zoom](/patterns/semantic-zoom) spends time, showing one level after another, this pattern spends fidelity — everything stays on screen, told unevenly.
+The actor is attending to one point in something large — one event in a long record, one part of a deep structure — and needs its full detail without losing the whole. Focus and context grades detail with distance from attention inside one continuous view: the focused item told in full, its near context summarised, the far context condensed to an outline. Where [overview and detail](/patterns/overview-detail) spends a second view to keep the whole present and [semantic zoom](/patterns/semantic-zoom) spends time, showing one level after another, this pattern spends fidelity — everything stays on screen, told unevenly.
 
-What counts as distance is the move's free variable: position along a sequence, steps through a structure — or, where a model can judge relatedness, how certain a connection is. The examples below take one each.
-
-{/* Cue-based techniques — highlighting, blurring, markers pointing at off-screen items — are their own branch of the same territory, composable rather than competing: rendering-level modifications that can ride on this pattern, on overview-detail, or on semantic zoom. */}
+What counts as distance varies: position along a sequence, steps through a structure — or, where a model can judge relatedness, how certain a connection is.
 
 ## Examples
 
@@ -42,23 +40,19 @@ On a timeline, detail follows the reader's attention: the event being read is sh
   <FisheyeTimelineDemo client:only="react" />
 </Demo>
 
-### 🚧 Contextual navigation
+### Contextual navigation
 
-The classic fisheye measures distance in space or sequence. Here the metric is pivoted: distance is certainty. The actor is inspecting one component of an industrial pasteuriser, and its context is everything connected to it — where connections come in degrees:
+When working with a data structure of varying degrees of completeness, it can be useful to see relationships with varying degrees of confidence:
 
-1. *Explicit* connections are authored in the model — parent assemblies, subcomponents, functional groupings.
-2. *Inferred* connections are derived from the knowledge base — parts that consistently appear together in configurations, though no edge says so.
-3. *Deduced* connections are proposed by a language model — components that aren't modelled at all but likely belong, given what is. If there's a Heating Assembly, a Recirculation Pump might reasonably be expected.
+1. *Explicit* connections are authored in the model — parents, siblings, related entities.
+2. *Inferred* connections are based on existing data and a formal set of inference rules.
+3. *Deduced* connections are proposed by a language model — components that aren't modelled at all but likely belong, given what is.
 
-The lens renders each band one rung coarser than the last: the focused component in full working detail — attributes, structure, rules; explicit connections as summary cards; inferred ones as compact references carrying the basis of the inference; deduced ones as bare, hedged names, visually provisional. Certainty is read off fidelity, not off a badge. Attention moves along the same axis: dwelling on a speculative item sharpens it in place — the model says why it proposed it — and focusing it walks the lens past the model's boundary, onto a centre that is itself provisional, whose entire context is conjecture.
+>Where the timeline puts AI generation to work on the representation side — its coarse rungs are generated tellings — here the model computes nearness where no edge exists, and extends the context past what is modelled.
 
-Where the timeline puts generation to work on the representation side — its coarse rungs are generated tellings — this example puts inference to work on the distance side: the model computes nearness where no edge is authored, and extends the context past what is modelled.
-
-{/* Demo embed returns with the rebuild — plans/active/2026-07-contextual-navigation-rebuild.md
-<Demo label="A certainty fisheye over an industrial process model. Distance from the focused component is measured in confidence: modelled connections nearest, told as cards; knowledge-base inferences a band out, told as references with their basis; language-model deductions at the rim, told as provisional names. The gradient, not a badge, says how much to trust.">
+<Demo label="Distance is confidence: modelled connections nearest, knowledge-base inferences a band out, told as references with their basis; language-model deductions at the rim, told as provisional names." expandable>
   <ContextualNavigationDemo client:only="react" />
 </Demo>
-*/}
 
 {/* TODO: relation set aside, kept for review (not an active edge): can be paired with [text lens](/patterns/text-lense), with the latter playing the role of a starting point. */}
 

@@ -110,7 +110,6 @@
        demo even though the prose *selectors* can't reach into it. */
     --font: system-ui, sans-serif;
     --_baseTextSize: 16px;
-    background: var(--c-surface);
     line-height: normal;
     font-size: var(--_baseTextSize);
   }
