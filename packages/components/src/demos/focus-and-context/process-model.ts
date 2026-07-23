@@ -1,4 +1,4 @@
-import juiceProductionData from './data/JuiceProduction.json' with { type: 'json' };
+import juiceProductionData from '@shared/data/JuiceProduction.json' with { type: 'json' };
 
 /**
  * The industrial process model the certainty fisheye reads, and the six rules
