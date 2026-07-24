@@ -15,16 +15,14 @@ The focus is on functional needs: colour that supports guiding users, draws atte
 
 ## Approach
 
-- Colours are defined using OKLCH notation and using Oklab colour space.
-- All palettes use the same scale for relative saturation and lightness.
-- Palettes (neutral, primary, info, warning, etc.) are defined by their hues.
-- The lightness of the colour corresponds to its use.
-- Chroma for each lightness level are picked to ensure maximum visual consistency between palettes.
-- Foreground colours are calculated based on background colour to ensure the necessary contrast.
+- Colours are defined in OKLCH notation over the Oklab colour space.
+- Every palette shares one _lightness_ ramp — that shared ramp is what keeps contrast consistent between palettes, and lightness corresponds to use (light for surfaces, dark for text).
+- _Chroma_ is tuned per hue, not shared. A single chroma ramp cannot serve hues with different sRGB gamut ceilings: it clips some (blue, yellow) and leaves others (violet, red) washed out. Each palette is as saturated as its own hue allows, every step in gamut so it renders the same across displays.
+- Palettes (neutral, accent, info, warning, etc.) are distinguished by hue.
+- Foreground colours are chosen against the background to hold the necessary contrast.
+- Semantic surfaces (info, success, warning, danger, accent) are _translucent_ tints, so a tinted element adapts to whatever surface sits beneath it — white page or grey layer — rather than painting an opaque patch that only matches on white.
 
 ## Palette
-
-{/* TODO: Each colour comes with a transparent option for better blending if needed. */}
 
 <div className="toolbar">
   <label className="hue-label" htmlFor="sliderHue">Hue</label>

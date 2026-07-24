@@ -93,31 +93,31 @@
   /*  */
 
   .badge.badge--accent {
-    --badge-bg: var(--c-accent-50);
+    --badge-bg: var(--c-background-accent);
     --badge-color: var(--c-accent-700);
     border-color: var(--c-border-accent);
   }
 
   .badge.badge--info {
-    --badge-bg: var(--c-info-50);
+    --badge-bg: var(--c-background-info);
     --badge-color: var(--c-info-700);
     border-color: var(--c-border-info);
   }
 
   .badge.badge--success {
-    --badge-bg: var(--c-success-50);
+    --badge-bg: var(--c-background-success);
     --badge-color: var(--c-success-700);
     border-color: var(--c-border-success);
   }
 
   .badge.badge--warning {
-    --badge-bg: var(--c-warning-50);
+    --badge-bg: var(--c-background-warning);
     --badge-color: var(--c-warning-700);
     border-color: var(--c-border-warning);
   }
 
   .badge.badge--danger {
-    --badge-bg: var(--c-danger-50);
+    --badge-bg: var(--c-background-danger);
     --badge-color: var(--c-danger-700);
     border-color: var(--c-border-danger);
   }

@@ -21,25 +21,71 @@
   --l900: calc(var(--lInitial) - var(--lIncrement) * 9);
   --l950: calc(var(--lInitial) - var(--lIncrement) * 10);
 
-  /* Accent/brand chroma levels */
-  --c0: 0;
-  --c50: 0.015;
-  --c100: 0.0321;
-  --c200: 0.0609;
-  --c300: 0.0908;
-  --c400: 0.1398;
-  --c500: 0.1472;
-  --c600: 0.1299;
-  --c700: 0.1067;
-  --c800: 0.0898;
-  --c900: 0.0726;
-  --c950: 0.054;
+  /* Per-hue chroma ramps ----------------------------------------------------
+     One shared chroma ramp cannot serve hues with different sRGB gamut
+     ceilings. At a fixed chroma, blue (accent) and yellow (warning) clip and
+     get silently gamut-mapped by the browser — rendering duller than the token
+     says, and differently across sRGB vs P3 — while violet (info) and red
+     (danger) sit well short of their ceiling and read washed out. So chroma is
+     tuned per hue; only the lightness ramp above stays shared, since that is
+     what keeps contrast consistent between palettes.
 
-  --c300boosted: 0.15;
-  --c400boosted: 0.18;
-  --c500boosted: 0.2;
-  --c600boosted: 0.18;
-  --c700boosted: 0.15;
+     Each ramp is as vivid as its hue's own gamut allows and pulled in where it
+     doesn't, every step in-gamut with headroom so the rendered colour is stable
+     across displays. Derived by scripts/palette-chroma.mjs (culori) against the
+     sRGB boundary; retune per brand and re-run. Background is
+     plans/active/2026-07-colour-system-investigation.md. */
+
+  /* accent · hue 230 (blue) — already near its ceiling; can't go more vivid */
+  --accent-c50: 0.0102;  --accent-c100: 0.0218; --accent-c200: 0.0414;
+  --accent-c300: 0.0617; --accent-c400: 0.095;  --accent-c500: 0.1;
+  --accent-c600: 0.0862; --accent-c700: 0.0715; --accent-c800: 0.0568;
+  --accent-c900: 0.0421; --accent-c950: 0.0275;
+
+  /* info · hue 260 (violet) — wide gamut, boosted well above the old shared ramp */
+  --info-c50: 0.0163;  --info-c100: 0.0349; --info-c200: 0.0662;
+  --info-c300: 0.0987; --info-c400: 0.152;  --info-c500: 0.16;
+  --info-c600: 0.1412; --info-c700: 0.116;  --info-c800: 0.0976;
+  --info-c900: 0.0789; --info-c950: 0.0563;
+
+  /* success · hue 150 (green) — non-monotonic ceiling; held below the dark clip */
+  --success-c50: 0.0138;  --success-c100: 0.0294; --success-c200: 0.0559;
+  --success-c300: 0.0833; --success-c400: 0.1282; --success-c500: 0.135;
+  --success-c600: 0.1191; --success-c700: 0.0979; --success-c800: 0.0785;
+  --success-c900: 0.0583; --success-c950: 0.038;
+
+  /* danger · hue 25 (red) — wide gamut, boosted above the old shared ramp */
+  --danger-c50: 0.0163;  --danger-c100: 0.0349; --danger-c200: 0.0662;
+  --danger-c300: 0.0987; --danger-c400: 0.152;  --danger-c500: 0.16;
+  --danger-c600: 0.1412; --danger-c700: 0.116;  --danger-c800: 0.0976;
+  --danger-c900: 0.0789; --danger-c950: 0.0559;
+
+  /* warning · hue 86 (yellow) — reads olive at mid lightness (inherent to the
+     shared lightness ramp forcing yellow dark); as vivid as the gamut allows */
+  --warning-c50: 0.0107;  --warning-c100: 0.0229; --warning-c200: 0.0434;
+  --warning-c300: 0.0648; --warning-c400: 0.0997; --warning-c500: 0.1036;
+  --warning-c600: 0.0885; --warning-c700: 0.0734; --warning-c800: 0.0584;
+  --warning-c900: 0.0433; --warning-c950: 0.0282;
+
+  /* Boosted chroma — maximally vivid solid fills (filled badges, dots). Per hue,
+     ~95% of the in-gamut maximum, capped at 0.18 so red/violet don't go neon.
+     Replaces the old shared 0.15–0.20 ramp, which was out of gamut for yellow
+     and blue. Steps 300–700 only. */
+  --accent-c300-boosted: 0.1344; --accent-c400-boosted: 0.1193;
+  --accent-c500-boosted: 0.1041; --accent-c600-boosted: 0.089;
+  --accent-c700-boosted: 0.0738;
+  --info-c300-boosted: 0.144;  --info-c400-boosted: 0.18;
+  --info-c500-boosted: 0.18;   --info-c600-boosted: 0.18;
+  --info-c700-boosted: 0.1511;
+  --success-c300-boosted: 0.18;   --success-c400-boosted: 0.1648;
+  --success-c500-boosted: 0.1439; --success-c600-boosted: 0.1229;
+  --success-c700-boosted: 0.102;
+  --danger-c300-boosted: 0.1733; --danger-c400-boosted: 0.18;
+  --danger-c500-boosted: 0.18;   --danger-c600-boosted: 0.18;
+  --danger-c700-boosted: 0.1502;
+  --warning-c300-boosted: 0.1381; --warning-c400-boosted: 0.1225;
+  --warning-c500-boosted: 0.1069; --warning-c600-boosted: 0.0914;
+  --warning-c700-boosted: 0.0758;
 
   /* Neutral chroma levels */
   --c0-neutral: 0;
@@ -70,109 +116,95 @@
   --c-neutral-0: oklch(100% 0 0);
   --c-neutral-1000: oklch(0% 0 0);
 
-  --c-accent-50: oklch(var(--l50) var(--c50) var(--h));
-  --c-accent-100: oklch(var(--l100) var(--c100) var(--h));
-  --c-accent-200: oklch(var(--l200) var(--c200) var(--h));
-  --c-accent-300: oklch(var(--l300) var(--c300) var(--h));
-  --c-accent-400: oklch(var(--l400) var(--c400) var(--h));
-  --c-accent-500: oklch(var(--l500) var(--c500) var(--h));
-  --c-accent-600: oklch(var(--l600) var(--c600) var(--h));
-  --c-accent-700: oklch(var(--l700) var(--c700) var(--h));
-  --c-accent-800: oklch(var(--l800) var(--c800) var(--h));
-  --c-accent-900: oklch(var(--l900) var(--c900) var(--h));
-  --c-accent-950: oklch(var(--l950) var(--c950) var(--h));
+  --c-accent-50: oklch(var(--l50) var(--accent-c50) var(--h));
+  --c-accent-100: oklch(var(--l100) var(--accent-c100) var(--h));
+  --c-accent-200: oklch(var(--l200) var(--accent-c200) var(--h));
+  --c-accent-300: oklch(var(--l300) var(--accent-c300) var(--h));
+  --c-accent-400: oklch(var(--l400) var(--accent-c400) var(--h));
+  --c-accent-500: oklch(var(--l500) var(--accent-c500) var(--h));
+  --c-accent-600: oklch(var(--l600) var(--accent-c600) var(--h));
+  --c-accent-700: oklch(var(--l700) var(--accent-c700) var(--h));
+  --c-accent-800: oklch(var(--l800) var(--accent-c800) var(--h));
+  --c-accent-900: oklch(var(--l900) var(--accent-c900) var(--h));
+  --c-accent-950: oklch(var(--l950) var(--accent-c950) var(--h));
 
-  --c-info-50: oklch(var(--l50) var(--c50) var(--hInfo));
-  --c-info-100: oklch(var(--l100) var(--c100) var(--hInfo));
-  --c-info-200: oklch(var(--l200) var(--c200) var(--hInfo));
-  --c-info-300: oklch(var(--l300) var(--c300) var(--hInfo));
-  --c-info-400: oklch(var(--l400) var(--c400) var(--hInfo));
-  --c-info-500: oklch(var(--l500) var(--c500) var(--hInfo));
-  --c-info-600: oklch(var(--l600) var(--c600) var(--hInfo));
-  --c-info-700: oklch(var(--l700) var(--c700) var(--hInfo));
-  --c-info-800: oklch(var(--l800) var(--c800) var(--hInfo));
-  --c-info-900: oklch(var(--l900) var(--c900) var(--hInfo));
-  --c-info-950: oklch(var(--l950) var(--c950) var(--hInfo));
+  --c-info-50: oklch(var(--l50) var(--info-c50) var(--hInfo));
+  --c-info-100: oklch(var(--l100) var(--info-c100) var(--hInfo));
+  --c-info-200: oklch(var(--l200) var(--info-c200) var(--hInfo));
+  --c-info-300: oklch(var(--l300) var(--info-c300) var(--hInfo));
+  --c-info-400: oklch(var(--l400) var(--info-c400) var(--hInfo));
+  --c-info-500: oklch(var(--l500) var(--info-c500) var(--hInfo));
+  --c-info-600: oklch(var(--l600) var(--info-c600) var(--hInfo));
+  --c-info-700: oklch(var(--l700) var(--info-c700) var(--hInfo));
+  --c-info-800: oklch(var(--l800) var(--info-c800) var(--hInfo));
+  --c-info-900: oklch(var(--l900) var(--info-c900) var(--hInfo));
+  --c-info-950: oklch(var(--l950) var(--info-c950) var(--hInfo));
 
-  --c-success-50: oklch(var(--l50) var(--c50) var(--hSuccess));
-  --c-success-100: oklch(var(--l100) var(--c100) var(--hSuccess));
-  --c-success-200: oklch(var(--l200) var(--c200) var(--hSuccess));
-  --c-success-300: oklch(var(--l300) var(--c300) var(--hSuccess));
-  --c-success-400: oklch(var(--l400) var(--c400) var(--hSuccess));
-  --c-success-500: oklch(var(--l500) var(--c500) var(--hSuccess));
-  --c-success-600: oklch(var(--l600) var(--c600) var(--hSuccess));
-  --c-success-700: oklch(var(--l700) var(--c700) var(--hSuccess));
-  --c-success-800: oklch(var(--l800) var(--c800) var(--hSuccess));
-  --c-success-900: oklch(var(--l900) var(--c900) var(--hSuccess));
-  --c-success-950: oklch(var(--l950) var(--c950) var(--hSuccess));
+  --c-success-50: oklch(var(--l50) var(--success-c50) var(--hSuccess));
+  --c-success-100: oklch(var(--l100) var(--success-c100) var(--hSuccess));
+  --c-success-200: oklch(var(--l200) var(--success-c200) var(--hSuccess));
+  --c-success-300: oklch(var(--l300) var(--success-c300) var(--hSuccess));
+  --c-success-400: oklch(var(--l400) var(--success-c400) var(--hSuccess));
+  --c-success-500: oklch(var(--l500) var(--success-c500) var(--hSuccess));
+  --c-success-600: oklch(var(--l600) var(--success-c600) var(--hSuccess));
+  --c-success-700: oklch(var(--l700) var(--success-c700) var(--hSuccess));
+  --c-success-800: oklch(var(--l800) var(--success-c800) var(--hSuccess));
+  --c-success-900: oklch(var(--l900) var(--success-c900) var(--hSuccess));
+  --c-success-950: oklch(var(--l950) var(--success-c950) var(--hSuccess));
 
-  --c-danger-50: oklch(var(--l50) var(--c50) var(--hDanger));
-  --c-danger-100: oklch(var(--l100) var(--c100) var(--hDanger));
-  --c-danger-200: oklch(var(--l200) var(--c200) var(--hDanger));
-  --c-danger-300: oklch(var(--l300) var(--c300) var(--hDanger));
-  --c-danger-400: oklch(var(--l400) var(--c400) var(--hDanger));
-  --c-danger-500: oklch(var(--l500) var(--c500) var(--hDanger));
-  --c-danger-600: oklch(var(--l600) var(--c600) var(--hDanger));
-  --c-danger-700: oklch(var(--l700) var(--c700) var(--hDanger));
-  --c-danger-800: oklch(var(--l800) var(--c800) var(--hDanger));
-  --c-danger-900: oklch(var(--l900) var(--c900) var(--hDanger));
-  --c-danger-950: oklch(var(--l950) var(--c950) var(--hDanger));
+  --c-danger-50: oklch(var(--l50) var(--danger-c50) var(--hDanger));
+  --c-danger-100: oklch(var(--l100) var(--danger-c100) var(--hDanger));
+  --c-danger-200: oklch(var(--l200) var(--danger-c200) var(--hDanger));
+  --c-danger-300: oklch(var(--l300) var(--danger-c300) var(--hDanger));
+  --c-danger-400: oklch(var(--l400) var(--danger-c400) var(--hDanger));
+  --c-danger-500: oklch(var(--l500) var(--danger-c500) var(--hDanger));
+  --c-danger-600: oklch(var(--l600) var(--danger-c600) var(--hDanger));
+  --c-danger-700: oklch(var(--l700) var(--danger-c700) var(--hDanger));
+  --c-danger-800: oklch(var(--l800) var(--danger-c800) var(--hDanger));
+  --c-danger-900: oklch(var(--l900) var(--danger-c900) var(--hDanger));
+  --c-danger-950: oklch(var(--l950) var(--danger-c950) var(--hDanger));
 
-  --c-warning-50: oklch(var(--l50) var(--c50) var(--hWarning));
-  --c-warning-100: oklch(var(--l100) var(--c100) var(--hWarning));
-  --c-warning-200: oklch(var(--l200) var(--c200) var(--hWarning));
-  --c-warning-300: oklch(var(--l300) var(--c300) var(--hWarning));
-  --c-warning-400: oklch(var(--l400) var(--c400) var(--hWarning));
-  --c-warning-500: oklch(var(--l500) var(--c500) var(--hWarning));
-  --c-warning-600: oklch(var(--l600) var(--c600) var(--hWarning));
-  --c-warning-700: oklch(var(--l700) var(--c700) var(--hWarning));
-  --c-warning-800: oklch(var(--l800) var(--c800) var(--hWarning));
-  --c-warning-900: oklch(var(--l900) var(--c900) var(--hWarning));
-  --c-warning-950: oklch(var(--l950) var(--c950) var(--hWarning));
+  --c-warning-50: oklch(var(--l50) var(--warning-c50) var(--hWarning));
+  --c-warning-100: oklch(var(--l100) var(--warning-c100) var(--hWarning));
+  --c-warning-200: oklch(var(--l200) var(--warning-c200) var(--hWarning));
+  --c-warning-300: oklch(var(--l300) var(--warning-c300) var(--hWarning));
+  --c-warning-400: oklch(var(--l400) var(--warning-c400) var(--hWarning));
+  --c-warning-500: oklch(var(--l500) var(--warning-c500) var(--hWarning));
+  --c-warning-600: oklch(var(--l600) var(--warning-c600) var(--hWarning));
+  --c-warning-700: oklch(var(--l700) var(--warning-c700) var(--hWarning));
+  --c-warning-800: oklch(var(--l800) var(--warning-c800) var(--hWarning));
+  --c-warning-900: oklch(var(--l900) var(--warning-c900) var(--hWarning));
+  --c-warning-950: oklch(var(--l950) var(--warning-c950) var(--hWarning));
 
-  --c-info-300-boosted: oklch(var(--l300) var(--c300boosted) var(--hInfo));
-  --c-info-400-boosted: oklch(var(--l400) var(--c400boosted) var(--hInfo));
-  --c-info-500-boosted: oklch(var(--l500) var(--c500boosted) var(--hInfo));
-  --c-info-600-boosted: oklch(var(--l600) var(--c600boosted) var(--hInfo));
-  --c-info-700-boosted: oklch(var(--l700) var(--c700boosted) var(--hInfo));
+  --c-accent-300-boosted: oklch(var(--l300) var(--accent-c300-boosted) var(--h));
+  --c-accent-400-boosted: oklch(var(--l400) var(--accent-c400-boosted) var(--h));
+  --c-accent-500-boosted: oklch(var(--l500) var(--accent-c500-boosted) var(--h));
+  --c-accent-600-boosted: oklch(var(--l600) var(--accent-c600-boosted) var(--h));
+  --c-accent-700-boosted: oklch(var(--l700) var(--accent-c700-boosted) var(--h));
 
-  --c-success-300-boosted: oklch(
-    var(--l300) var(--c300boosted) var(--hSuccess)
-  );
-  --c-success-400-boosted: oklch(
-    var(--l400) var(--c400boosted) var(--hSuccess)
-  );
-  --c-success-500-boosted: oklch(
-    var(--l500) var(--c500boosted) var(--hSuccess)
-  );
-  --c-success-600-boosted: oklch(
-    var(--l600) var(--c600boosted) var(--hSuccess)
-  );
-  --c-success-700-boosted: oklch(
-    var(--l700) var(--c700boosted) var(--hSuccess)
-  );
+  --c-info-300-boosted: oklch(var(--l300) var(--info-c300-boosted) var(--hInfo));
+  --c-info-400-boosted: oklch(var(--l400) var(--info-c400-boosted) var(--hInfo));
+  --c-info-500-boosted: oklch(var(--l500) var(--info-c500-boosted) var(--hInfo));
+  --c-info-600-boosted: oklch(var(--l600) var(--info-c600-boosted) var(--hInfo));
+  --c-info-700-boosted: oklch(var(--l700) var(--info-c700-boosted) var(--hInfo));
 
-  --c-danger-300-boosted: oklch(var(--l300) var(--c300boosted) var(--hDanger));
-  --c-danger-400-boosted: oklch(var(--l400) var(--c400boosted) var(--hDanger));
-  --c-danger-500-boosted: oklch(var(--l500) var(--c500boosted) var(--hDanger));
-  --c-danger-600-boosted: oklch(var(--l600) var(--c600boosted) var(--hDanger));
-  --c-danger-700-boosted: oklch(var(--l700) var(--c700boosted) var(--hDanger));
+  --c-success-300-boosted: oklch(var(--l300) var(--success-c300-boosted) var(--hSuccess));
+  --c-success-400-boosted: oklch(var(--l400) var(--success-c400-boosted) var(--hSuccess));
+  --c-success-500-boosted: oklch(var(--l500) var(--success-c500-boosted) var(--hSuccess));
+  --c-success-600-boosted: oklch(var(--l600) var(--success-c600-boosted) var(--hSuccess));
+  --c-success-700-boosted: oklch(var(--l700) var(--success-c700-boosted) var(--hSuccess));
 
-  --c-warning-300-boosted: oklch(
-    var(--l300) var(--c300boosted) var(--hWarning)
-  );
-  --c-warning-400-boosted: oklch(
-    var(--l400) var(--c400boosted) var(--hWarning)
-  );
-  --c-warning-500-boosted: oklch(
-    var(--l500) var(--c500boosted) var(--hWarning)
-  );
-  --c-warning-600-boosted: oklch(
-    var(--l600) var(--c600boosted) var(--hWarning)
-  );
-  --c-warning-700-boosted: oklch(
-    var(--l700) var(--c700boosted) var(--hWarning)
-  );
+  --c-danger-300-boosted: oklch(var(--l300) var(--danger-c300-boosted) var(--hDanger));
+  --c-danger-400-boosted: oklch(var(--l400) var(--danger-c400-boosted) var(--hDanger));
+  --c-danger-500-boosted: oklch(var(--l500) var(--danger-c500-boosted) var(--hDanger));
+  --c-danger-600-boosted: oklch(var(--l600) var(--danger-c600-boosted) var(--hDanger));
+  --c-danger-700-boosted: oklch(var(--l700) var(--danger-c700-boosted) var(--hDanger));
+
+  --c-warning-300-boosted: oklch(var(--l300) var(--warning-c300-boosted) var(--hWarning));
+  --c-warning-400-boosted: oklch(var(--l400) var(--warning-c400-boosted) var(--hWarning));
+  --c-warning-500-boosted: oklch(var(--l500) var(--warning-c500-boosted) var(--hWarning));
+  --c-warning-600-boosted: oklch(var(--l600) var(--warning-c600-boosted) var(--hWarning));
+  --c-warning-700-boosted: oklch(var(--l700) var(--warning-c700-boosted) var(--hWarning));
 
   /* Categorical palette — eight distinct hues for series identity (nominal
      categories: which team, which region, which series). Unlike the semantic
@@ -207,17 +239,33 @@
   --c-body-warning: var(--c-warning-700);
   --c-body-danger: var(--c-danger-700);
 
-  --c-background-accent: var(--c-accent-50);
-  --c-background-info: var(--c-info-50);
-  --c-background-success: var(--c-success-50);
-  --c-background-warning: var(--c-warning-50);
-  --c-background-danger: var(--c-danger-50);
+  /* Semantic surfaces are translucent washes of the mid colour, not opaque light
+     fills. A translucent tint blends with whatever solid surface sits beneath —
+     white page or a grey `.layer` — so a badge or callout reads as the same hint
+     of colour on both, instead of an opaque patch that only matches on white.
+     Structural `.layer` surfaces stay solid (stacked alpha would compound); only
+     these semantic tints are translucent. Borders are alpha too, mirroring the
+     neutral `--c-border`. `-strong` is the hover/active step. Foreground stays a
+     solid `-700` step below — contrast over a translucent tint depends on what's
+     behind it, so it is a decision, not a constant (safe over white/light grey;
+     revisit the foreground when a dark surface is introduced). */
+  --c-background-accent: oklch(var(--l500) var(--accent-c500) var(--h) / 0.1);
+  --c-background-info: oklch(var(--l500) var(--info-c500) var(--hInfo) / 0.1);
+  --c-background-success: oklch(var(--l500) var(--success-c500) var(--hSuccess) / 0.1);
+  --c-background-warning: oklch(var(--l500) var(--warning-c500) var(--hWarning) / 0.1);
+  --c-background-danger: oklch(var(--l500) var(--danger-c500) var(--hDanger) / 0.1);
 
-  --c-border-accent: var(--c-accent-100);
-  --c-border-info: var(--c-info-100);
-  --c-border-success: var(--c-success-100);
-  --c-border-warning: var(--c-warning-100);
-  --c-border-danger: var(--c-danger-100);
+  --c-background-accent-strong: oklch(var(--l500) var(--accent-c500) var(--h) / 0.18);
+  --c-background-info-strong: oklch(var(--l500) var(--info-c500) var(--hInfo) / 0.18);
+  --c-background-success-strong: oklch(var(--l500) var(--success-c500) var(--hSuccess) / 0.18);
+  --c-background-warning-strong: oklch(var(--l500) var(--warning-c500) var(--hWarning) / 0.18);
+  --c-background-danger-strong: oklch(var(--l500) var(--danger-c500) var(--hDanger) / 0.18);
+
+  --c-border-accent: oklch(var(--l600) var(--accent-c600) var(--h) / 0.35);
+  --c-border-info: oklch(var(--l600) var(--info-c600) var(--hInfo) / 0.35);
+  --c-border-success: oklch(var(--l600) var(--success-c600) var(--hSuccess) / 0.35);
+  --c-border-warning: oklch(var(--l600) var(--warning-c600) var(--hWarning) / 0.35);
+  --c-border-danger: oklch(var(--l600) var(--danger-c600) var(--hDanger) / 0.35);
 }
 
 @layer theme {
