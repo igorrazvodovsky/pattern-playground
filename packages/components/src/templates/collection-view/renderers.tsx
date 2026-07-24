@@ -188,6 +188,54 @@ export function ProductDetail({ item, shownAttributes, children }: ProductDetail
   );
 }
 
+/** The full readout a product detail carries when it has a view to itself —
+    the `mid` rung as an attribute set. */
+const DETAIL_ATTRIBUTES: AttributePath[] = [
+  'name',
+  'description',
+  'availability.status',
+  'pricing.msrp',
+  'condition',
+  'category',
+  'location.site',
+  'sustainability.carbonFootprint',
+  'lifecycle.repairability',
+];
+
+interface InPlaceDetailProps {
+  item: Product;
+  /** What the host row is already showing — subtracted from the readout. */
+  overviewAttributes: AttributePath[];
+  /** Anything the detail carries besides the readout, e.g. a corner toolbar. */
+  children?: React.ReactNode;
+}
+
+/**
+ * The detail opened inside the row it was picked from. In place, the detail
+ * is the only thing standing between the row and itself: it opens directly
+ * beneath attributes the row is still showing, so its readout is the full set
+ * minus whatever the overview already carries. The subtraction is a set
+ * operation rather than a rule about titles because the overview's attribute
+ * set is not fixed — surface another attribute into the rows and the detail
+ * gives that one up too, without anybody editing a list of exceptions. The
+ * other layouts separate the two views spatially, the repetition reads as
+ * orientation rather than noise, and they keep the full readout.
+ *
+ * Spacing is the detail's own (`.card > .detail` in view-family.css: full
+ * width, its own inset, a top border).
+ */
+export function InPlaceDetail({ item, overviewAttributes, children }: InPlaceDetailProps) {
+  const shownAttributes = DETAIL_ATTRIBUTES.filter(
+    (attribute) => !overviewAttributes.includes(attribute)
+  );
+  return (
+    <article className="detail flow" aria-label="Detail">
+      {children}
+      <ProductDetail item={item} shownAttributes={shownAttributes} />
+    </article>
+  );
+}
+
 export function CardRenderer(props: RendererProps) {
   const { items, spec } = props;
   return (

@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import type { Product } from '@shared/data/types';
 import componentsData from '@shared/data/components.json' with { type: 'json' };
 import materialsData from '@shared/data/materials.json' with { type: 'json' };
@@ -6,8 +6,10 @@ import { ItemView } from '../components/item-view/ItemView';
 import { ContentAdapterProvider } from '../components/item-view/ContentAdapterRegistry';
 import { productAdapter, productToItemObject } from '../components/item-view/adapters';
 import { products } from '../templates/collection-view/data';
-import { ProductCard, ProductDetail } from '../templates/collection-view/renderers';
+import { ProductCard, InPlaceDetail } from '../templates/collection-view/renderers';
 import type { AttributePath } from '../templates/collection-view/spec';
+import { useFitsWidth } from '../hooks/use-fits-width';
+import { BackButton } from './scaffold';
 import '../components/dropdown/dropdown.ts';
 import '../components/list/list.ts';
 import '../components/list-item/list-item.ts';
@@ -38,35 +40,6 @@ import '../jsx-types';
  */
 
 const OVERVIEW_ATTRIBUTES: AttributePath[] = ['name', 'category', 'pricing.msrp'];
-
-/** What the detail carries when it has a view to itself — the `mid` readout. */
-const DETAIL_ATTRIBUTES: AttributePath[] = [
-  'name',
-  'description',
-  'availability.status',
-  'pricing.msrp',
-  'condition',
-  'category',
-  'location.site',
-  'sustainability.carbonFootprint',
-  'lifecycle.repairability',
-];
-
-/**
- * In place, the detail is the only thing standing between the row and itself:
- * it opens directly beneath attributes the row is still showing, so the name,
- * category and price would be printed twice a line apart. The other layouts
- * separate the two views spatially and the repetition reads as orientation
- * rather than noise, so they keep the full readout.
- *
- * The subtraction is a set operation rather than a rule about titles because
- * the overview's attribute set is not fixed — surface another attribute into
- * the rows (see attribute visibility) and the detail should give up that one
- * too, without anybody editing a list of exceptions.
- */
-const IN_PLACE_ATTRIBUTES = DETAIL_ATTRIBUTES.filter(
-  (attribute) => !OVERVIEW_ATTRIBUTES.includes(attribute)
-);
 
 type DetailLayout = 'inline' | 'side-by-side' | 'popover' | 'new-page';
 
@@ -132,25 +105,14 @@ export function OverviewDetailDemo() {
   const [selectedId, setSelectedId] = useState<string>(products[0].id);
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [pageOpen, setPageOpen] = useState(false);
-  const [roomForSideBySide, setRoomForSideBySide] = useState(true);
   const [popoverAnchor, setPopoverAnchor] = useState<HTMLDivElement | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const popupRef = useRef<HTMLElement>(null);
 
-  // A container query can restyle the pair but can't reparent it: side by side
-  // and in place are different trees (a sibling column vs. a child of the
-  // card). So the same breakpoint is measured here and drives the fallback.
-  useLayoutEffect(() => {
-    const element = rootRef.current;
-    if (!element) return;
-    const measure = (width: number) => setRoomForSideBySide(width >= SIDE_BY_SIDE_MIN);
-    measure(element.getBoundingClientRect().width);
-    const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) measure(entry.contentRect.width);
-    });
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, []);
+  // Measured rather than container-queried: a query can restyle the pair but
+  // can't reparent it, and side by side and in place are different trees (a
+  // sibling column vs. a child of the card).
+  const roomForSideBySide = useFitsWidth(rootRef, SIDE_BY_SIDE_MIN);
 
   // The chosen layout is what the actor asked for; the effective one is what
   // the host can carry. Side by side is the only value with a width cost.
@@ -204,13 +166,7 @@ export function OverviewDetailDemo() {
     return (
       <ContentAdapterProvider adapters={[productAdapter]}>
         <div className="flow" ref={rootRef}>
-          <button
-            type="button"
-            className="button button--plain"
-            onClick={() => setPageOpen(false)}
-          >
-            ← Back to the collection
-          </button>
+          <BackButton onClick={() => setPageOpen(false)}>Back to the collection</BackButton>
           <div className="detail">
             {toolbar}
             <ItemView
@@ -242,19 +198,16 @@ export function OverviewDetailDemo() {
               selectedId={selectedId}
               onItemSelect={(target) => pick(target.id)}
             >
-              {/* In place: the card grows to carry the full readout, so the
-                  current item never leaves the row it was picked from. */}
+              {/* In place: the card grows to carry the readout, so the
+                  current item never leaves the row it was picked from.
+                  Rendered from an attribute set rather than through
+                  `ItemView`, which lays out a fixed `mid` readout: only here
+                  does the detail need to be the complement of what its
+                  overview is already carrying. */}
               {effective === 'inline' && current && (
-                /* The detail governs its own spacing (`.card > .detail` in
-                   view-family.css: full width, its own inset, a top border). */
-                <article className="detail flow" aria-label="Detail">
+                <InPlaceDetail item={item} overviewAttributes={OVERVIEW_ATTRIBUTES}>
                   {toolbar}
-                  {/* Rendered from an attribute set rather than through
-                      `ItemView`, which lays out a fixed `mid` readout: only
-                      here does the detail need to be the complement of what
-                      its overview is already carrying. */}
-                  <ProductDetail item={item} shownAttributes={IN_PLACE_ATTRIBUTES} />
-                </article>
+                </InPlaceDetail>
               )}
             </ProductCard>
           </div>

@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { ItemView } from '../components/item-view/ItemView';
 import { ContentAdapterProvider } from '../components/item-view/ContentAdapterRegistry';
 import { productAdapter, productToItemObject } from '../components/item-view/adapters';
@@ -7,9 +7,10 @@ import type { Product } from '@shared/data/types';
 import { products, toPlotPoints } from '../templates/collection-view/data';
 import {
   ProductCard,
-  ProductDetail,
+  InPlaceDetail,
   MapRenderer,
 } from '../templates/collection-view/renderers';
+import { useFitsWidth } from '../hooks/use-fits-width';
 import { attributeLabel } from '../templates/collection-view/AttributeUtils';
 import type { AttributePath } from '../templates/collection-view/spec';
 import { makeSpec } from '../templates/collection-view/spec';
@@ -37,28 +38,6 @@ import '../jsx-types';
 
 const LIST_ATTRIBUTES: AttributePath[] = ['name', 'category', 'pricing.msrp'];
 
-const DETAIL_ATTRIBUTES: AttributePath[] = [
-  'name',
-  'description',
-  'availability.status',
-  'pricing.msrp',
-  'condition',
-  'category',
-  'location.site',
-  'sustainability.carbonFootprint',
-  'lifecycle.repairability',
-];
-
-/**
- * What the detail carries when it opens inside the row it was picked from.
- * Given a pane of its own the detail repeats the row's name and price and the
- * repetition reads as orientation; touching the row it reads as noise. So the
- * in-place readout is the full set minus whatever the row is already showing.
- */
-const IN_PLACE_ATTRIBUTES = DETAIL_ATTRIBUTES.filter(
-  (attribute) => !LIST_ATTRIBUTES.includes(attribute)
-);
-
 /**
  * The trio runs on a slice rather than the whole collection. Stacked, the list
  * has to stay short enough that the map above it is still on screen when the
@@ -80,23 +59,12 @@ const TRIO_PANES_MIN = 640;
 export function LinkedTrioDemo() {
   const [focusedId, setFocusedId] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(trioProducts[0].id);
-  const [roomForPanes, setRoomForPanes] = useState(true);
   const rootRef = useRef<HTMLDivElement>(null);
 
-  // A container query can restyle the trio but can't reparent it: the detail
-  // is a sibling pane in one layout and a child of the picked row in the
-  // other. So the breakpoint is measured here and drives both.
-  useLayoutEffect(() => {
-    const element = rootRef.current;
-    if (!element) return;
-    const measure = (width: number) => setRoomForPanes(width >= TRIO_PANES_MIN);
-    measure(element.getBoundingClientRect().width);
-    const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) measure(entry.contentRect.width);
-    });
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, []);
+  // Measured rather than container-queried: a query can restyle the trio but
+  // can't reparent it, and the detail is a sibling pane in one layout and a
+  // child of the picked row in the other.
+  const roomForPanes = useFitsWidth(rootRef, TRIO_PANES_MIN);
 
   const selected = trioProducts.find((candidate) => candidate.id === selectedId);
 
@@ -135,15 +103,11 @@ export function LinkedTrioDemo() {
             focusedId={focusedId}
             onItemFocus={(target) => setFocusedId(target?.id ?? null)}
           >
-            {/* The detail governs its own spacing (`.card > .detail` in
-                view-family.css: full width, its own inset, a top border). */}
+            {/* Rendered from an attribute set rather than through `ItemView`:
+                only here does the detail need to be the complement of what
+                the row is already carrying. */}
             {!roomForPanes && item.id === selectedId && (
-              <article className="detail flow" aria-label="Detail">
-                {/* Rendered from an attribute set rather than through
-                    `ItemView`: only here does the detail need to be the
-                    complement of what the row is already carrying. */}
-                <ProductDetail item={item} shownAttributes={IN_PLACE_ATTRIBUTES} />
-              </article>
+              <InPlaceDetail item={item} overviewAttributes={LIST_ATTRIBUTES} />
             )}
           </ProductCard>
         </div>

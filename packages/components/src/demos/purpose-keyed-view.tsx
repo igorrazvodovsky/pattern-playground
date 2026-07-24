@@ -6,6 +6,7 @@ import { productAdapter, productToItemObject } from '../components/item-view/ada
 import { products } from '../templates/collection-view/data';
 import { ProductCard } from '../templates/collection-view/renderers';
 import { detectProblems } from './problem-curated-view';
+import { BackButton } from './scaffold';
 import 'iconify-icon';
 import '../jsx-types';
 
@@ -191,13 +192,7 @@ function InvestigateDrilldown() {
   if (item) {
     return (
       <div className="flow">
-        <button
-          type="button"
-          className="button button--plain"
-          onClick={() => setItemId(null)}
-        >
-          ← Back to {category}
-        </button>
+        <BackButton onClick={() => setItemId(null)}>Back to {category}</BackButton>
         <ItemView
           item={productToItemObject(item)}
           contentType="product"
@@ -212,13 +207,7 @@ function InvestigateDrilldown() {
     const categoryItems = products.filter((candidate) => candidate.metadata.category === category);
     return (
       <div className="flow">
-        <button
-          type="button"
-          className="button button--plain"
-          onClick={() => setCategory(null)}
-        >
-          ← All categories
-        </button>
+        <BackButton onClick={() => setCategory(null)}>All categories</BackButton>
         <section className="cards cards--list">
           {categoryItems.map((candidate) => (
             <div key={candidate.id}>
@@ -301,13 +290,7 @@ export function WatchToChaseTiersDemo() {
 
         {tier === 'glance' && (
           <div className="flow">
-            <button
-              type="button"
-              className="button button--plain"
-              onClick={() => setTier('ambient')}
-            >
-              ← Back to the badge
-            </button>
+            <BackButton onClick={() => setTier('ambient')}>Back to the badge</BackButton>
             <ul className="cards layout-grid">
               <li>
                 <article className="card">
@@ -352,13 +335,7 @@ export function WatchToChaseTiersDemo() {
 
         {tier === 'focused' && flag && (
           <div className="flow">
-            <button
-              type="button"
-              className="button button--plain"
-              onClick={() => setTier('glance')}
-            >
-              ← Back to the tiles
-            </button>
+            <BackButton onClick={() => setTier('glance')}>Back to the tiles</BackButton>
             <div className="callout info">
               <p>
                 <strong>{flag.title}.</strong> {flag.reason}
@@ -386,13 +363,7 @@ export function WatchToChaseTiersDemo() {
 
         {tier === 'item' && item && (
           <div className="flow">
-            <button
-              type="button"
-              className="button button--plain"
-              onClick={() => setTier('focused')}
-            >
-              ← Back to the slice
-            </button>
+            <BackButton onClick={() => setTier('focused')}>Back to the slice</BackButton>
             <ItemView
               item={productToItemObject(item)}
               contentType="product"

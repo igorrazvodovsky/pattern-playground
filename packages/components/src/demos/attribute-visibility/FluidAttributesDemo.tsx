@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Product } from '@shared/data/types';
 import { loadElementAdapter } from '../../utility/dnd';
@@ -23,6 +23,7 @@ import {
   type ProductFilter,
 } from '../../templates/collection-view/FilterTypes';
 import type { AttributePath, SortClause } from '../../templates/collection-view/spec';
+import { useFitsWidth } from '../../hooks/use-fits-width';
 
 /**
  * Fluid attributes over an overview–detail pair. The opening state honours
@@ -102,11 +103,14 @@ export function FluidAttributesDemo({ exposeMalleability = false }: FluidAttribu
   const [filters, setFilters] = useState<ProductFilter[]>([]);
   const [locked, setLocked] = useState(false);
   const [dropReady, setDropReady] = useState(false);
-  const [isNarrow, setIsNarrow] = useState(false);
   const [detailOpen, setDetailOpen] = useState(false);
   const overviewRef = useRef<HTMLDivElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const detailDialogRef = useRef<HTMLDialogElement>(null);
+
+  // Mirror the `.odi` collapse breakpoint (@container demo (inline-size < 40rem)):
+  // once side-by-side no longer fits, the detail becomes a drawer instead.
+  const isNarrow = !useFitsWidth(rootRef, 640); // 40rem at a 16px root
 
   const availableAttributes = useMemo(() => getAvailableAttributes(products), []);
   const selected = CATALOGUE.find((candidate) => candidate.id === selectedId) ?? CATALOGUE[0];
@@ -194,21 +198,6 @@ export function FluidAttributesDemo({ exposeMalleability = false }: FluidAttribu
       cleanup?.();
     };
   }, [locked]);
-
-  // Mirror the `.odi` collapse breakpoint (@container demo (inline-size < 40rem)):
-  // once side-by-side no longer fits, the detail becomes a drawer instead.
-  useLayoutEffect(() => {
-    const element = rootRef.current;
-    if (!element) return;
-    const NARROW = 640; // 40rem at a 16px root
-    const measure = (width: number) => setIsNarrow(width < NARROW);
-    measure(element.getBoundingClientRect().width);
-    const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) measure(entry.contentRect.width);
-    });
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, []);
 
   // Leaving the narrow layout dismisses the drawer — the detail returns to the aside.
   useEffect(() => {
