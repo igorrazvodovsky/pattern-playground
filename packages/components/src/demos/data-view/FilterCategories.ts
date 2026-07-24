@@ -5,7 +5,7 @@ import {
   PRODUCT_FILTER_TYPE_ICONS,
 } from '../../templates/collection-view/FilterTypes';
 import { getUniqueFilterValues, getUniqueAttributeValues } from '../../templates/collection-view/FilterOperations';
-import { attributeLabel } from '../../templates/collection-view/renderers';
+import { attributeLabel } from '../../templates/collection-view/AttributeUtils';
 
 /**
  * The same category shape for bare attribute paths: a view that lets the actor

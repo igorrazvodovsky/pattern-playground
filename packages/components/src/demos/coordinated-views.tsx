@@ -9,8 +9,8 @@ import {
   ProductCard,
   ProductDetail,
   MapRenderer,
-  attributeLabel,
 } from '../templates/collection-view/renderers';
+import { attributeLabel } from '../templates/collection-view/AttributeUtils';
 import type { AttributePath } from '../templates/collection-view/spec';
 import { makeSpec } from '../templates/collection-view/spec';
 import '../jsx-types';

@@ -1,5 +1,6 @@
 import React from 'react';
 import { AttributeSelectorProps } from './types';
+import { attributeLabel } from '../../templates/collection-view/AttributeUtils';
 
 export const AttributeSelector: React.FC<AttributeSelectorProps> = ({
   availableAttributes,
@@ -21,9 +22,8 @@ export const AttributeSelector: React.FC<AttributeSelectorProps> = ({
             type="checkbox"
             checked={selectedAttributes.has(attribute)}
             onClick={() => onAttributeToggle(attribute)}
-            style={{ cursor: 'pointer' }}
           >
-            {attribute.split('.').pop()?.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+            {attributeLabel(attribute)}
           </pp-list-item>
         ))}
       </pp-list>

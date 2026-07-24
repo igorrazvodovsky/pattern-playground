@@ -16,7 +16,7 @@ export function DataViewGroupingSlice() {
   return (
     <DataView
       defaultGrouping="lifecycle.repairability"
-      defaultAttributes={['name', 'description', 'category']}
+      defaultAttributes={['name', 'category']}
       controls={{ search: false, filter: false, attributes: false, sort: false }}
     />
   );

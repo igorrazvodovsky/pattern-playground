@@ -9,7 +9,7 @@ import {
 } from '../../templates/collection-view/AttributeUtils';
 import { BoardLanes, CardRenderer, ProductCard } from '../../templates/collection-view/renderers';
 import { GroupingControls } from './GroupingControls';
-import { getFieldDisplayName } from './DisplayUtils';
+import { attributeLabel } from '../../templates/collection-view/AttributeUtils';
 import { showToast } from '../demo-runtime';
 
 /**
@@ -23,7 +23,7 @@ import { showToast } from '../demo-runtime';
  * destination and performs the same write.
  */
 
-/** The synthetic path for the computed lane; see FIELD_DISPLAY_NAMES. */
+/** The synthetic path for the computed lane; see ATTRIBUTE_LABELS in AttributeUtils. */
 const PRICE_BAND = 'pricing.band';
 
 const PRICE_LANES = ['Under $100', '$100–1,000', 'Over $1,000'];
@@ -298,7 +298,7 @@ export function WritableBoardDemo() {
     // (see the transient-feedback demos), and the reason a write through a
     // projection can be offered casually in the first place.
     void showToast(
-      `Moved “${product.name}” — its ${getFieldDisplayName(groupBy!).toLowerCase()} is now ${group}. Undo`,
+      `Moved “${product.name}” — its ${attributeLabel(groupBy!).toLowerCase()} is now ${group}. Undo`,
       () => setItems(before)
     );
   };

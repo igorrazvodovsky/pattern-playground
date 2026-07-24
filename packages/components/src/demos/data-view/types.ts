@@ -28,16 +28,6 @@ export interface GroupingControlsProps {
   onGroupingChange: (attribute: string | null) => void;
 }
 
-export interface CardViewProps {
-  products: Product[];
-  selectedAttributes: AttributeSelection;
-}
-
-export interface TableViewProps {
-  products: Product[];
-  selectedAttributes: AttributeSelection;
-}
-
 export interface ViewSwitcherProps {
   currentView: ViewMode;
   onViewChange: (view: ViewMode) => void;

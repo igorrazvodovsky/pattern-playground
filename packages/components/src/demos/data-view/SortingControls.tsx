@@ -1,6 +1,6 @@
 import React from 'react';
 import { SortingControlsProps } from './types';
-import { getFieldDisplayName } from './utils';
+import { attributeLabel } from '../../templates/collection-view/AttributeUtils';
 
 export const SortingControls: React.FC<SortingControlsProps> = ({
   availableFields,
@@ -17,7 +17,7 @@ export const SortingControls: React.FC<SortingControlsProps> = ({
   };
 
   const getCurrentLabel = () => {
-    const fieldLabel = currentField === 'name' ? 'A-Z' : getFieldDisplayName(currentField);
+    const fieldLabel = currentField === 'name' ? 'A-Z' : attributeLabel(currentField);
     const orderLabel = currentOrder === 'asc' ? 'Ascending' : 'Descending';
     return `${fieldLabel} (${orderLabel})`;
   };
@@ -43,7 +43,7 @@ export const SortingControls: React.FC<SortingControlsProps> = ({
         </pp-list-item>
         {availableFields.filter(field => field !== 'name').map(field => (
           <pp-list-item key={field} onClick={() => handleFieldChange(field)}>
-            {getFieldDisplayName(field)}
+            {attributeLabel(field)}
           </pp-list-item>
         ))}
       </pp-list>

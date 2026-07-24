@@ -1,6 +1,6 @@
 import React from 'react';
 import { GroupingControlsProps } from './types';
-import { getFieldDisplayName } from './DisplayUtils';
+import { attributeLabel } from '../../templates/collection-view/AttributeUtils';
 
 export const GroupingControls: React.FC<GroupingControlsProps> = ({
   availableAttributes,
@@ -12,7 +12,7 @@ export const GroupingControls: React.FC<GroupingControlsProps> = ({
       <button className="button" is="pp-button" slot="trigger">
         <iconify-icon className="icon" icon="ph:stack" aria-hidden="true"></iconify-icon>
         {currentGrouping ? (
-          <>Grouped by <strong>{getFieldDisplayName(currentGrouping).toLowerCase()}</strong></>
+          <>Grouped by <strong>{attributeLabel(currentGrouping).toLowerCase()}</strong></>
         ) : (
           'Group'
         )}
@@ -24,7 +24,7 @@ export const GroupingControls: React.FC<GroupingControlsProps> = ({
         <hr />
         {availableAttributes.map(attribute => (
           <pp-list-item key={attribute} onClick={() => onGroupingChange(attribute)}>
-            {getFieldDisplayName(attribute)}
+            {attributeLabel(attribute)}
           </pp-list-item>
         ))}
       </pp-list>

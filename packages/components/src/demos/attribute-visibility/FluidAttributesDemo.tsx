@@ -9,7 +9,8 @@ import {
 } from '../../templates/collection-view/AttributeUtils';
 import { sortProducts } from '../../templates/collection-view/SortingUtils';
 import { products } from '../../templates/collection-view/data';
-import { ProductCard, attributeLabel } from '../../templates/collection-view/renderers';
+import { ProductCard } from '../../templates/collection-view/renderers';
+import { attributeLabel } from '../../templates/collection-view/AttributeUtils';
 import {
   AttributeSelector,
   SortingControls,

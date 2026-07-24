@@ -1,8 +1,6 @@
 // Main components
 export { DataView, controlsToMalleability } from './DataView';
-export { DataViewRenderer } from './DataViewRenderer';
 export { EmptyState } from './EmptyState';
-export { AttributeBadge } from './AttributeBadge';
 
 // Spec-driven demos
 export { SavedViewsDemo } from './SavedViewsDemo';
@@ -15,11 +13,6 @@ export {
   DataViewFilteringSlice,
   DataViewSortingSlice,
 } from './slices';
-
-// View components
-export { CardView } from './CardView';
-export { ListView } from './ListView';
-export { TableView } from './TableView';
 
 // Control components
 export { ViewSwitcher } from './ViewSwitcher';
@@ -41,7 +34,6 @@ export * from './FilterCategories';
 // Utilities
 export * from '../../templates/collection-view/AttributeUtils';
 export * from '../../templates/collection-view/SortingUtils';
-export * from './DisplayUtils';
 
 // Hooks
 export { useProductSearch } from './useProductSearch';

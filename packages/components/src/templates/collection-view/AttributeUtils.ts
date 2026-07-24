@@ -24,6 +24,24 @@ export const isIdentityAttribute = (attribute: string): boolean => {
   return IDENTITY_ATTRIBUTES.includes(attribute);
 };
 
+// Curated display names for paths whose derived label reads wrong — the
+// fallback below spaces the camelCase leaf, which turns 'pricing.msrp' into
+// "Msrp". Only divergent entries live here.
+const ATTRIBUTE_LABELS: Record<string, string> = {
+  'pricing.msrp': 'Price',
+  // Not a stored attribute: the band a price falls into, computed on read.
+  'pricing.band': 'Price band',
+  'pricing.tradeInValue': 'Trade-in Value',
+  'availability.status': 'Availability',
+};
+
+export function attributeLabel(path: string): string {
+  const curated = ATTRIBUTE_LABELS[path];
+  if (curated) return curated;
+  const leaf = path.split('.').pop() ?? path;
+  return leaf.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase());
+}
+
 // Cache for dynamic specification attributes
 let cachedSpecificationKeys: string[] | null = null;
 let lastProductsHash: string | null = null;

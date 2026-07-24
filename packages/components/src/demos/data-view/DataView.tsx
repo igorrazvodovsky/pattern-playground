@@ -15,7 +15,7 @@ import { useProductSearch } from './useProductSearch';
 import { useProductFiltering } from './useProductFiltering';
 import { ProductFilter } from '../../templates/collection-view/FilterTypes';
 import { EmptyState } from './EmptyState';
-import { DataViewRenderer } from './DataViewRenderer';
+import { ViewSpecRenderer } from '../../templates/collection-view/renderers';
 import { GROUPABLE_ATTRIBUTES } from './constants';
 import {
   ViewSpec,
@@ -248,12 +248,7 @@ export const DataView: React.FC<DataViewDemoProps> = ({
         />
       ) : (
         <div>
-          <DataViewRenderer
-            viewMode={spec.representation.type as ViewMode}
-            products={sortedProducts}
-            selectedAttributes={selectedAttributes}
-            groupBy={spec.arrangement.groupBy ?? null}
-          />
+          <ViewSpecRenderer items={sortedProducts} spec={spec} />
         </div>
       )}
     </div>

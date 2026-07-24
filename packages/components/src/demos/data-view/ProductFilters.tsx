@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react";
 import { Dispatch, SetStateAction } from "react";
 import { FilterIcon } from "../../components/filter/filter-options-icons";
 import { ProductFilter, ProductFilterCategory, ProductFilterOperator, isProductFilterType } from "./ProductFilterTypes";
-import { attributeLabel } from "../../templates/collection-view/renderers";
+import { attributeLabel } from "../../templates/collection-view/AttributeUtils";
 import { ProductFilterValueDropdown } from "./ProductFilterValueDropdown";
 import { ProductFilterOperatorDropdown } from "./ProductFilterOperatorDropdown";
 

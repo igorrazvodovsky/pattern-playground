@@ -6,6 +6,7 @@ import {
   getAttributeValue,
   formatAttributeValue,
   isIdentityAttribute,
+  attributeLabel,
 } from './AttributeUtils';
 import type { AttributePath, ViewSpec, RepresentationType } from './spec';
 import { groupItems } from './spec';
@@ -29,11 +30,6 @@ export interface ItemCoupling {
 export interface RendererProps extends ItemCoupling {
   items: Product[];
   spec: ViewSpec;
-}
-
-export function attributeLabel(path: AttributePath): string {
-  const leaf = path.split('.').pop() ?? path;
-  return leaf.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase());
 }
 
 interface ProductCardProps extends ItemCoupling {
@@ -100,14 +96,14 @@ export function ProductCard({
               <button
                 key={attribute}
                 type="button"
-                className="badge borderless"
+                className="badge"
                 onClick={() => onAttributeClick(attribute, value, item)}
               >
                 <span className="badge__label">{attributeLabel(attribute)}</span>
                 {value}
               </button>
             ) : (
-              <span key={attribute} className="badge borderless">
+              <span key={attribute} className="badge">
                 <span className="badge__label">{attributeLabel(attribute)}</span>
                 {value}
               </span>
@@ -195,7 +191,7 @@ export function ProductDetail({ item, shownAttributes, children }: ProductDetail
 export function CardRenderer(props: RendererProps) {
   const { items, spec } = props;
   return (
-    <ul className="cards cards--grid layout-grid">
+    <ul className="cards layout-grid">
       {items.map((item) => (
         <li key={item.id}>
           <ProductCard
@@ -237,9 +233,7 @@ export function TableRenderer(props: RendererProps) {
   const shown = spec.representation.shownAttributes;
   const identityColumns = shown.filter((attribute) => isIdentityAttribute(attribute));
   const metadataColumns = shown.filter((attribute) => !isIdentityAttribute(attribute));
-  const columns = [...identityColumns, ...metadataColumns].filter(
-    (column) => column !== 'description'
-  );
+  const columns = [...identityColumns, ...metadataColumns];
   const numericClass = (column: string) =>
     column.includes('msrp') || column.includes('leadTime') ? 'pp-table-align-right' : '';
 
