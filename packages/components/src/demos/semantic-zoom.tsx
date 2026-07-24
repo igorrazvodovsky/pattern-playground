@@ -135,7 +135,7 @@ function PersonCard({ user, fields }: { user: User; fields: readonly PersonField
 				)}
 			</div>
 			{rows.length > 0 && (
-				<dl className="description-list">
+				<dl className="description-list pad">
 					{rows.map(([label, value]) => (
 						<Fragment key={label}>
 							<dt>{label}</dt>

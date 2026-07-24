@@ -189,12 +189,12 @@ function FocusCard({
   onRefocus: (id: string) => void;
 }) {
   return (
-    <article className="card">
+    <article className="card flow pad">
       {/* No header wrapper: the title carries no actions, so it is a plain card
-          heading — the canonical no-actions branch, the same shape ProductCard
-          and ProductDetail use. A `.card__header` here would pad the title on a
-          different inset from the body and split the one edge the card reads
-          down. */}
+          heading in the padded body — the canonical no-actions branch, the same
+          shape ProductCard and ProductDetail use. A `.card__header` here would
+          pad the title on a different inset from the body and split the one edge
+          the card reads down. */}
       <h3 className="label flex">
         <iconify-icon icon="ph:cube-bold" aria-hidden="true"></iconify-icon>
         {node.name}
@@ -208,7 +208,7 @@ function FocusCard({
           </summary>
           <ul className="card__attributes badges">
             {node.attributes.map((attribute) => (
-              <span className="badge" key={attribute.name}>
+              <span className="badge borderless" key={attribute.name}>
                 <span>{attribute.label}</span>
                 {attribute.value}
                 {attribute.unit ?? ''}
@@ -243,7 +243,7 @@ function FocusCard({
  */
 function ProposedCard({ proposal, anchor }: { proposal: Proposal; anchor: ProcessNode }) {
   return (
-    <article className="card dashed">
+    <article className="card dashed flow pad">
       <h3 className="label flex">
         <iconify-icon icon="ph:cube-transparent" aria-hidden="true"></iconify-icon>
         {proposal.name}
@@ -289,10 +289,10 @@ interface Row {
 function ConnectionCard({ row }: { row: Row }) {
   return (
     <li>
-      <article className="card" data-certainty={row.certainty}>
+      <article className="card flow pad" data-certainty={row.certainty}>
         <div className="attribute">{row.eyebrow}</div>
         <h4 className="label">
-          <button type="button" className="card__hit" onClick={row.activate}>
+          <button type="button" className="stretched-link" onClick={row.activate}>
             {row.name}
           </button>
         </h4>
@@ -300,7 +300,7 @@ function ConnectionCard({ row }: { row: Row }) {
         {row.attributes && row.attributes.length > 0 && (
           <ul className="card__attributes badges">
             {row.attributes.slice(0, 4).map((attribute) => (
-              <span className="badge" key={attribute.name}>
+              <span className="badge borderless" key={attribute.name}>
                 <span>{attribute.label}</span>
                 {attribute.value}
                 {attribute.unit ?? ''}
@@ -588,11 +588,9 @@ export function ContextualNavigationDemo() {
           <LevelControl shown={shown} setShown={setShown} />
         </div>
 
-        {/* The `.cards` wrapper is what a `.card` needs to compose correctly:
-            it is where every card child picks up its shared inline gutter, and
-            the `.card details` section rule is written against that gutter.
-            A bare `.card` misses it, so its header, body and sections each land
-            on a different inset. One card, but still `.cards`. */}
+        {/* Still wrapped in `.cards` so the card is a grid-item container (its
+            inner blocks size to the card, not the frame); the card carries its
+            own inset now, through `.flow`/`.pad`. One card, but still `.cards`. */}
         <div className="cards">
           <div>
             {focus.kind === 'modelled' ? (

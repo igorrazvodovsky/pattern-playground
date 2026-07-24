@@ -19,7 +19,7 @@ export const AttributeBadge: React.FC<AttributeBadgeProps> = ({
   const label = getFieldDisplayName(attribute);
 
   return (
-    <span className="badge">
+    <span className="badge borderless">
       {showLabel && <span className="badge__label">{label}</span>}
       {formattedValue}
     </span>

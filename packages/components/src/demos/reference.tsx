@@ -9,14 +9,12 @@ const fallbackDoc = (text: string) => ({
 /** Inline @mention references across users, documents, projects and quote objects, escalating to detail on demand. */
 export function ReferenceDemo() {
   return (
-    <div className="layer">
-      <ReferenceEditor
-        data={referenceCategories}
-        placeholder="Type @ to open reference picker (includes users, documents, projects & quotes)..."
-        content={getReferenceContentById('sustainability-meeting-content')?.content ||
-          fallbackDoc('Enhanced reference system with Quote Objects! Try @reshaping, @habitats, or @coral to reference specific quote objects across documents. Also supports @elena, @climate, @circular for traditional references.')}
-      />
-    </div>
+    <ReferenceEditor
+      data={referenceCategories}
+      placeholder="Type @ to open reference picker (includes users, documents, projects & quotes)..."
+      content={getReferenceContentById('sustainability-meeting-content')?.content ||
+        fallbackDoc('Enhanced reference system with Quote Objects! Try @reshaping, @habitats, or @coral to reference specific quote objects across documents. Also supports @elena, @climate, @circular for traditional references.')}
+    />
   );
 }
 

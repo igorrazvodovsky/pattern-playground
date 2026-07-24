@@ -34,7 +34,7 @@ export function ActivityLogBasicDemo() {
 
 export function ActivityLogLLMReasoningDemo() {
   return (
-    <ol className="stepper layer" style={{ '--_circle-size': '0.5rem' } as CSSProperties}>
+    <ol className="stepper" style={{ '--_circle-size': '0.5rem' } as CSSProperties}>
       <li className="stepper__item layer">
         <div className="stepper__content">
           <p>describe the importance of a notion of ontological design both for designing LLM-powered software and using LLM in the user-centred design process</p>

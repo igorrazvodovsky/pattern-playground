@@ -23,7 +23,7 @@ export const ListView: React.FC<CardViewProps> = ({ products, selectedAttributes
                   const value = getAttributeValue(product, attr);
                   const formattedValue = formatAttributeValue(value, attr);
                   return (
-                    <span key={attr} className="badge">
+                    <span key={attr} className="badge borderless">
                       <span className="badge__label">{attr.split('.').pop()}</span>
                       {formattedValue}
                     </span>

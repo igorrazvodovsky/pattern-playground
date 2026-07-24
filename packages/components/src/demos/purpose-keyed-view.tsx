@@ -238,14 +238,14 @@ function InvestigateDrilldown() {
     <ul className="cards cards--grid layout-grid">
       {categories.map(([name, count]) => (
         <li key={name}>
-          <article className="card">
+          <article className="card flow pad">
             <h4 className="label">
-              <button type="button" className="card__hit" onClick={() => setCategory(name)}>
+              <button type="button" className="stretched-link" onClick={() => setCategory(name)}>
                 {name}
               </button>
             </h4>
             <div className="card__attributes badges">
-              <span className="badge">{count} listings</span>
+              <span className="badge borderless">{count} listings</span>
             </div>
           </article>
         </li>
@@ -314,7 +314,7 @@ export function WatchToChaseTiersDemo() {
                   <div className="card__header">
                     <h4 className="label">Listings</h4>
                   </div>
-                  <div className="stat">
+                  <div className="stat pad">
                     <strong className="stat__value">{products.length}</strong>
                     <p className="muted">In the catalogue</p>
                   </div>
@@ -327,7 +327,7 @@ export function WatchToChaseTiersDemo() {
                       <h4 className="label">
                         <button
                           type="button"
-                          className="card__hit"
+                          className="stretched-link"
                           onClick={() => {
                             setFlagId(candidate.id);
                             setTier('focused');
@@ -337,7 +337,7 @@ export function WatchToChaseTiersDemo() {
                         </button>
                       </h4>
                     </div>
-                    <div className="stat">
+                    <div className="stat pad">
                       <strong className="stat__value">{candidate.itemIds.length}</strong>
                       <p className="muted">
                         flagged listing{candidate.itemIds.length === 1 ? '' : 's'}

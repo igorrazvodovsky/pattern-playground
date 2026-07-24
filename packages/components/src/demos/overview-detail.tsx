@@ -245,8 +245,8 @@ export function OverviewDetailDemo() {
               {/* In place: the card grows to carry the full readout, so the
                   current item never leaves the row it was picked from. */}
               {effective === 'inline' && current && (
-                /* An `article`, not a `div`: the card's blanket child-padding
-                   rule exempts nested articles, so the detail governs its own. */
+                /* The detail governs its own spacing (`.card > .detail` in
+                   view-family.css: full width, its own inset, a top border). */
                 <article className="detail flow" aria-label="Detail">
                   {toolbar}
                   {/* Rendered from an attribute set rather than through
@@ -572,7 +572,7 @@ function OverviewDetailPair({ tier, items, label, initialOpenId }: PairProps) {
                 <iconify-icon className="icon" icon={item.icon} aria-hidden="true"></iconify-icon>{' '}
                 <button
                   type="button"
-                  className="card__hit"
+                  className="stretched-link"
                   aria-expanded={open}
                   onClick={() => setOpenId(open ? null : item.id)}
                 >
@@ -581,15 +581,15 @@ function OverviewDetailPair({ tier, items, label, initialOpenId }: PairProps) {
               </h4>
               <div className="card__attributes badges">
                 {tier.badges(item).map(({ label, value }) => (
-                  <span key={label} className="badge">
+                  <span key={label} className="badge borderless">
                     <span className="badge__label">{label}</span>
                     {value}
                   </span>
                 ))}
               </div>
               {open && (
-                /* An `article`, not a `div`: the card's blanket child-padding
-                   rule exempts nested articles, so the detail governs its own. */
+                /* The detail governs its own spacing (`.card > .detail` in
+                   view-family.css: full width, its own inset, a top border). */
                 <article className="detail flow" aria-label={`${item.name} — detail`}>
                   <p className="description">{item.description}</p>
                   <dl className="description-list">

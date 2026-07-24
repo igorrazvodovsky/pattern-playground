@@ -61,7 +61,7 @@ export const DataViewRenderer: React.FC<DataViewRendererProps> = ({
   return (
     <div className="flow">
       {[...groups.entries()].map(([label, groupedProducts]) => (
-        <details key={label} className="layer borderless" open>
+        <details key={label} className="borderless" open>
           <summary>
             {label} <span className="badge">{groupedProducts.length}</span>
           </summary>

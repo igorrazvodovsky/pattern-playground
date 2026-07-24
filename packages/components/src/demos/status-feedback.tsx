@@ -6,7 +6,7 @@ export function IndicatorsDemo() {
     <div className="flow">
       <ul className="cards layout-grid">
         <li>
-          <article className="card flow" style={{ '--flow-space': '0em' } as CSSProperties}>
+          <article className="card flow pad" style={{ '--flow-space': '0em' } as CSSProperties}>
             <p className="muted"><small>Initial investment</small></p>
             <p style={{ fontSize: 'larger' }}>$10,000.00</p>
             <p className="muted"><small>Final value</small></p>

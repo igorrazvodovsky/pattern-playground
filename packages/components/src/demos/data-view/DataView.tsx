@@ -247,12 +247,14 @@ export const DataView: React.FC<DataViewDemoProps> = ({
           }
         />
       ) : (
-        <DataViewRenderer
-          viewMode={spec.representation.type as ViewMode}
-          products={sortedProducts}
-          selectedAttributes={selectedAttributes}
-          groupBy={spec.arrangement.groupBy ?? null}
-        />
+        <div>
+          <DataViewRenderer
+            viewMode={spec.representation.type as ViewMode}
+            products={sortedProducts}
+            selectedAttributes={selectedAttributes}
+            groupBy={spec.arrangement.groupBy ?? null}
+          />
+        </div>
       )}
     </div>
   );

@@ -11,7 +11,7 @@ export const CardView: React.FC<CardViewProps> = ({ products, selectedAttributes
     <ul className="cards cards--grid layout-grid">
       {products.map((product) => (
         <li key={product.id}>
-          <article className="card">
+          <article className="card flow pad">
             {selectedAttributes.has('name') && (
               <h4 className="label">{product.name}</h4>
             )}

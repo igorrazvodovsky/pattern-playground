@@ -101,7 +101,7 @@ export function ProblemChecklistDemo() {
   useEffect(() => {
     if (openFlagId === null) {
       if (returnFocusId.current) {
-        const selector = `[data-flag="${returnFocusId.current}"] .card__hit`;
+        const selector = `[data-flag="${returnFocusId.current}"] .stretched-link`;
         checklistRef.current?.querySelector<HTMLElement>(selector)?.focus();
         returnFocusId.current = null;
       }
@@ -157,7 +157,7 @@ export function ProblemChecklistDemo() {
                 <h4 className="label flex">
                   <button
                     type="button"
-                    className="card__hit"
+                    className="stretched-link"
                     onClick={() => setOpenFlagId(flag.id)}
                   >
                     {flag.title}
@@ -174,7 +174,7 @@ export function ProblemChecklistDemo() {
                   <iconify-icon className="icon" icon="ph:x" aria-hidden="true"></iconify-icon>
                 </button>
               </div>
-              <p>{flag.reason}</p>
+              <p className="pad">{flag.reason}</p>
             </article>
           </div>
         ))}

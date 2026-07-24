@@ -96,7 +96,7 @@ export function ConsequenceLadderDemo() {
         {/* Seconds to recover — the card disappears outright; the toast holds the undo */}
         {!archived && (
           <li>
-            <article className="card">
+            <article className="card layer">
               <div className="card__header">
                 <div className="flex">
                   <iconify-icon className="icon" icon="ph:folder-simple" />
@@ -104,7 +104,7 @@ export function ConsequenceLadderDemo() {
                 </div>
                 <span className="badge">Project</span>
               </div>
-              <p className="description">
+              <p className="description pad">
                 A side project that has gone quiet. Archiving clears it from the workspace; you can
                 restore it whenever.
               </p>
@@ -123,7 +123,7 @@ export function ConsequenceLadderDemo() {
             confirming removes the card and the toast carries the undo */}
         {!removed && (
           <li>
-            <article className="card">
+            <article className="card layer">
               <div className="card__header">
                 <div className="flex">
                   <iconify-icon className="icon" icon="ph:user" />
@@ -131,7 +131,7 @@ export function ConsequenceLadderDemo() {
                 </div>
                 <span className="badge">Editor</span>
               </div>
-              <p className="description">
+              <p className="description pad">
                 Removing a member revokes their access. Re-inviting is a round trip, so the action
                 pauses for a moment's confirmation.
               </p>
@@ -159,7 +159,7 @@ export function ConsequenceLadderDemo() {
 
         {/* Reaches 240 people — the button opens a modal that spells out the scope */}
         <li>
-          <article className="card">
+          <article className="card layer">
             <div className="card__header">
               <div className="flex">
                 <iconify-icon className="icon" icon="ph:file-text" />
@@ -167,7 +167,7 @@ export function ConsequenceLadderDemo() {
               </div>
               <span className="badge">{published ? 'Public' : 'Draft'}</span>
             </div>
-            <p className="description">
+            <p className="description pad">
               {published
                 ? `Visible to everyone at ${WORKSPACE}.`
                 : 'Publishing makes this visible to the whole company. A modal spells out who that reaches before you commit.'}
@@ -186,7 +186,7 @@ export function ConsequenceLadderDemo() {
 
         {/* Irreversible for the actor — the button opens a modal that demands typed intent */}
         <li>
-          <article className="card">
+          <article className="card layer">
             <div className="card__header">
               <div className="flex">
                 <iconify-icon className="icon" icon="ph:crown-simple" />
@@ -194,7 +194,7 @@ export function ConsequenceLadderDemo() {
               </div>
               <span className="badge">{transferred ? `Owned by ${NEW_OWNER}` : 'Owned by you'}</span>
             </div>
-            <p className="description">
+            <p className="description pad">
               {transferred
                 ? `${NEW_OWNER} controls this workspace now.`
                 : 'Handing over ownership is final for you. The modal asks you to type the workspace name first.'}

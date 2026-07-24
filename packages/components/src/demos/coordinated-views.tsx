@@ -135,8 +135,8 @@ export function LinkedTrioDemo() {
             focusedId={focusedId}
             onItemFocus={(target) => setFocusedId(target?.id ?? null)}
           >
-            {/* An `article`, not a `div`: the card's blanket child-padding
-                rule exempts nested articles, so the detail governs its own. */}
+            {/* The detail governs its own spacing (`.card > .detail` in
+                view-family.css: full width, its own inset, a top border). */}
             {!roomForPanes && item.id === selectedId && (
               <article className="detail flow" aria-label="Detail">
                 {/* Rendered from an attribute set rather than through
