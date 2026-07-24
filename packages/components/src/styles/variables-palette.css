@@ -33,8 +33,7 @@
      Each ramp is as vivid as its hue's own gamut allows and pulled in where it
      doesn't, every step in-gamut with headroom so the rendered colour is stable
      across displays. Derived by scripts/palette-chroma.mjs (culori) against the
-     sRGB boundary; retune per brand and re-run. Background is
-     plans/active/2026-07-colour-system-investigation.md. */
+     sRGB boundary; retune per brand and re-run. */
 
   /* accent · hue 230 (blue) — already near its ceiling; can't go more vivid */
   --accent-c50: 0.0102;  --accent-c100: 0.0218; --accent-c200: 0.0414;

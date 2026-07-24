@@ -544,7 +544,7 @@ function OverviewDetailPair({ tier, items, label, initialOpenId }: PairProps) {
               {open && (
                 /* The detail governs its own spacing (`.card > .detail` in
                    view-family.css: full width, its own inset, a top border). */
-                <article className="detail flow" aria-label={`${item.name} — detail`}>
+                <article className="detail flow pad" aria-label={`${item.name} — detail`}>
                   <p className="description">{item.description}</p>
                   <dl className="description-list">
                     {/* Fragments, not wrappers: `.description-list` is a

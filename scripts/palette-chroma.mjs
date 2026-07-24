@@ -3,8 +3,7 @@
 // packages/components/src/styles/variables-palette.css.
 //
 // Why this exists: one shared chroma ramp can't serve hues with different sRGB
-// gamut ceilings — it clips blue/yellow and leaves violet/red washed out (see
-// plans/active/2026-07-colour-system-investigation.md). This tool tunes chroma
+// gamut ceilings — it clips blue/yellow and leaves violet/red washed out. This tool tunes chroma
 // per hue against the sRGB gamut so every step is in gamut and as vivid as its
 // hue allows, while the shared lightness ramp is left alone.
 //
