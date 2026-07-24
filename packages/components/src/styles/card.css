@@ -1,54 +1,15 @@
-@layer layout {
-  .cards > * {
-    container: var(--grid-item-container, grid-item) / inline-size;
-    display: grid;
-  }
+/* 
 
-  .cards .card:not(.flow) {
-    /* Spacing in default/grid cards; .flow cards govern their own spacing */
-    & > *:not(img, hr) {
-      margin-block-start: var(--space-s);
-      margin-inline: var(--space-s);
+Card — a surface recipe, not a component. `.card` is a group class scoped to what makes a card a card: a bordered, backgrounded surface with a small zone vocabulary (header / footer / attributes). Interior spacing comes from composition (`.flow`, the `.pad` inset utility), not from the card guessing at its own contents.
 
-      &:last-child {
-        margin-block-end: var(--space-s);
-      }
-    }
-  }
+Related concerns live outside this file: collection arrangement (the `.cards` grid) in `layout.css`, the whole-card hit target in the `.stretched-link` utility, and `.description` line clamping in the typography utility of the same name.
 
-  .cards.cards--list > * .card {
-    grid-template-columns: auto 1fr;
-    grid-template-rows: auto auto auto auto;
-  }
-
-  .cards.layout-grid .card {
-    & > *:not(img, video, figure, hr) {
-      /* works for stuff located inline */
-      margin-inline: var(--space-s);
-    }
-
-    .card__attributes {
-      display: flex;
-    }
-  }
-
-  .cards--list .card img,
-  .cards--list .card figure {
-    grid-row: 1 / -1;
-    aspect-ratio: 1/1;
-    /* height: 100%; */
-    /* TODO: sizing variable */
-    width: 80px;
-    padding: 0;
-    margin: var(--space-s);
-    margin-inline-end: 0;
-    border-radius: var(--radius-s);
-  }
-}
+*/
 
 @layer components {
+  /* Surface — the whole of what makes a card a card. */
   .card {
-    /* TODO: */
+    /* TODO: token */
     --card-bg: white;
 
     background-color: var(--card-bg);
@@ -59,19 +20,84 @@
     display: grid;
     grid-template-columns: 1fr;
     align-content: baseline;
+  }
 
-    &.card--plain {
-      border: none;
+  .card--plain {
+    border: none;
+  }
+
+  .card:has(:where(.card__footer, footer)) {
+    align-content: space-between;
+  }
+
+  /* Overlay variant: the card is a tinted image with its content painted over. */
+  .card--overlay {
+    background-image: var(--card-img);
+    background-position: center;
+    box-shadow: inset 0 0 0 1000px oklch(0% 0 0 / 15%);
+  }
+
+  /* Zones — thin conveniences that position their contents; markup supplies the
+     spacing between them. A zone with more than one child spreads them apart. */
+  .card__header {
+    padding: var(--space-s) var(--space-m);
+    flex-wrap: wrap;
+  }
+
+  .card__footer {
+    padding: var(--space-m);
+  }
+
+  .card__header:has(> *:nth-child(2)),
+  .card__footer:has(> *:nth-child(2)) {
+    display: flex;
+    gap: 0 var(--space-m);
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .card__attributes {
+    display: flex;
+    overflow: hidden;
+  }
+
+  /* A control pinned to the card's top-right corner (a menu, a dismiss). */
+  .card__actions--secondary {
+    position: absolute;
+    top: var(--space-s);
+    right: var(--space-s);
+    margin: 0;
+  }
+
+  /* Whole-card links keep their quiet, headline-weight styling; the hit-area
+     overlay itself is the opt-in `.stretched-link` utility (see stretched-link
+     .css). The !important survives the site's `lib` layer wrapping, which would
+     otherwise underline the link as prose. */
+  .card > a,
+  .card .label a,
+  .card__header a {
+    text-decoration: none !important;
+    font-weight: 500;
+  }
+
+  .card :is(h2, h3) {
+    font-size: 1.25rem;
+  }
+
+  /* An eyebrow line above the card's title. */
+  .card > .attribute {
+    font-size: var(--text-xs);
+    line-height: 130%;
+    text-wrap: balance;
+
+    + .label {
+      margin-block-start: 0;
     }
   }
 
-  /* Flush stack: cards abut with no gap between them, so interior radii
-     collapse and adjacent borders overlap into a single shared line. Keyed on
-     an explicit modifier because a gap can be imposed by context (board lanes,
-     for one, set their own on `.cards`) and so can't be read off the container.
-     `.cards--list` is the canonical flush stack; add `.cards--flush` to any
-     other gapless run of cards. Lives in this layer, not `layout`, so its `0`
-     radii outrank the `.card` `border-radius` above. */
+  /* Flush stack: a run of cards reads as one grouped surface. Neighbours square
+     off their touching corners; the -1px overlap collapses the doubled border
+     between them to a single hairline. */
   :is(.cards--flush, .cards--list) > *, :is(.cards--flush, .cards--list) {
     &:not(:last-of-type) .card {
       border-bottom-left-radius: 0;
@@ -85,125 +111,83 @@
     }
   }
 
-  .card > a,
-  .card .label a,
-  .card .card__header a {
-    text-decoration: none !important;
-    font-weight: 500;
+  /* Row / list variant. A card inside `.cards--list` that carries media gains a
+     leading column and lays the media out as a fixed square there; a card with
+     no media stays a single stacked column. */
+  .cards--list .card:has(> :is(img, figure)) {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto auto auto;
+  }
 
-    &::before {
-      content: "";
-      position: absolute;
-      inset: 0;
+  .cards--list .card :is(img, figure) {
+    grid-row: 1 / -1;
+    aspect-ratio: 1 / 1;
+    /* TODO: sizing variable */
+    width: 80px;
+    padding: 0;
+    margin: var(--space-s);
+    margin-inline-end: 0;
+    border-radius: var(--radius-s);
+  }
+
+  /* The row variant insets its own text cells: a card with loose children (a
+     label, a description, a badge row) beside the media column gets the inset
+     from the variant. A card whose body is wrapped in its own padded element
+     (`.pad` / `.flow`) opts out — that wrapper carries the inset itself. */
+  .cards--list .card > :not(img, figure, video, .pad, .flow, .card__header, .card__footer) {
+    margin-block-start: var(--space-s);
+    margin-inline: var(--space-s);
+
+    &:last-child {
+      margin-block-end: var(--space-s);
     }
   }
 
-  .card :is(h2, h3) {
-    font-size: 1.25rem;
-  }
-
-  .card:has(a):focus-within {
-    outline: 3px solid var(--c-accent);
-    outline-offset: 2px;
-  }
-
-  .card a:is(:focus, :focus-visible) {
-    outline: 1px solid transparent;
-  }
-
-  .card:has(> a, .label a, .card__header a):hover {
-    border-color: var(--c-accent);
-  }
-
-  .description {
-    font-size: smaller;
-    line-height: 150%;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    display: -webkit-box;
-    overflow: hidden;
-    border-radius: var(--radius-s);
-    max-width: 70ch;
-    flex-basis: 100%;
-    text-wrap: pretty;
-  }
-
-  .card__attributes {
-    overflow: hidden;
-  }
-
-  .card__header:has(> *:nth-child(2)),
-  .card__footer:has(> *:nth-child(2)) {
-    display: flex;
-    gap: 0 var(--space-m);
-
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .card .card__header,
-  .card > form {
-    /* TODO: */
-    padding: var(--space-s) var(--space-m) !important;
-    margin: 0 !important;
-  }
-
-  .card__header {
-    flex-wrap: wrap;
-  }
-
-  .card__footer {
-    padding: var(--space-m);
-  }
-
-  .card:has(:where(.card__footer, footer)) {
-    align-content: space-between;
-  }
-
-  /* .card > form > div > * {
-    padding-inline: var(--space-xs);
-  } */
-
+  /* Media — a single image spans the card's width; figure and video get a cap
+     so a card doesn't become all picture unless it means to (see card--cover). */
   .card figure {
-    /* width: 100%; */
     margin: 0;
     box-sizing: border-box;
     overflow: hidden;
   }
 
+  .card > figure {
+    flex-shrink: 0;
+    align-self: stretch;
+  }
+
   .card > img {
     width: 100%;
-
-    &:only-child {
-      height: 100%;
-    }
   }
-  .card:has(img:only-child) {
+
+  .card :is(figure, img, video) {
+    max-height: 200px;
+    object-fit: cover;
+  }
+
+  /* Cover variant: the image *is* the card, filling it corner to corner. */
+  .card--cover {
     grid-template: 1fr / 1fr;
   }
 
-  .card figure,
-  .card img,
-  .card video {
-    /* TODO */
-    max-height: 200px;
-    object-fit: cover;
-
-    &:only-child {
-      padding: 0;
-      max-height: none;
-
-      inset: 0;
-      border-radius: inherit;
-    }
+  .card--cover > :is(img, figure, video) {
+    max-height: none;
+    height: 100%;
+    padding: 0;
+    inset: 0;
+    border-radius: inherit;
   }
 
-  .card figure:has(> *:nth-child(2)) {
+  /* Image mosaic: an opt-in grid of a figure's images. Two-up leads with a
+     double-width first image; four-up is an even 2×2. Applied to the figure, so
+     a card can hold both a single capped image and a mosaic without the CSS
+     guessing which from the child count alone. */
+  .mosaic:has(> *:nth-child(2)) {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
     gap: var(--space-xs);
     padding: var(--space-xs);
-    overflow: hidden; /* Prevent overflow */
+    overflow: hidden;
 
     img,
     video {
@@ -211,7 +195,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      min-height: 0; /* Allow images to shrink */
+      min-height: 0;
 
       &:first-child {
         grid-column: span 2;
@@ -219,29 +203,13 @@
     }
   }
 
-  .card figure:has(> *:nth-child(4)) {
-    display: grid;
+  .mosaic:has(> *:nth-child(4)) {
     grid-template-columns: 1fr 1fr;
-    gap: var(--space-xs);
-    overflow: hidden; /* Prevent overflow */
 
-    img,
-    video {
-      border-radius: var(--radius-s);
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      min-height: 0; /* Allow images to shrink */
-
-      &:first-child {
-        grid-column: initial;
-      }
+    img:first-child,
+    video:first-child {
+      grid-column: initial;
     }
-  }
-
-  .card > figure {
-    flex-shrink: 0; /* Prevent the figure from shrinking too much */
-    align-self: stretch; /* Make sure the figure stretches across the card */
   }
 
   .card details {
@@ -255,58 +223,9 @@
   }
 }
 
-video {
-  width: 100%;
-  object-fit: cover;
-}
-
-.card:has(:is(.description--full, textarea)) .description {
-  cursor: pointer;
-
-  &:hover {
-    background: oklch(0% 0 0 / 5%);
-  }
-}
-
-.description--full {
-  font-size: var(--text-s);
-  max-width: 70ch;
-}
-
-.card
-  > *:not(img, video, article, details, figure, pp-dropdown, div:not([class])),
-.card .description,
-.card .card__attributes,
-.card .label,
-.card > .attribute,
-.card h4,
-.card h3,
-.card .subheading {
-  /* Everything has a padding because +/- everything can be interactive/hoverable*/
-  padding: var(--space-2xs) var(--space-xs);
-}
-
-.card.card--overlay {
-  background-image: var(--card-img);
-  /* background-size: cover; */
-  background-position: center;
-  box-shadow: inset 0 0 0 1000px oklch(0% 0 0 / 15%);
-}
-
-/* .card__actions {
-  &:has(*:only-child) {
-    text-align: right;
-  }
-} */
-
-.card__actions--secondary {
-  position: absolute;
-  top: var(--space-s);
-  right: var(--space-s);
-  margin: 0;
-}
-
-/* Add a rule about touch-devices */
+/* Hover-revealed actions: a button row that stays quiet until the card is under
+   the pointer. Unlayered so it wins over the button skin without an !important.
+   TODO: a touch-device rule that keeps these always visible. */
 .hover-only-actions button {
   opacity: 0;
   transition: 120ms opacity ease-in-out;
@@ -316,14 +235,7 @@ video {
   opacity: 1;
 }
 
-/* TODO: review */
-
-.cards .card > .attribute {
-  font-size: var(--text-xs);
-  line-height: 130%;
-  text-wrap: balance;
-
-  + .label {
-    margin-block-start: 0;
-  }
+video {
+  width: 100%;
+  object-fit: cover;
 }

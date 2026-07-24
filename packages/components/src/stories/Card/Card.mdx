@@ -3,50 +3,33 @@ import * as CardStories from './Card.stories.tsx';
 
 <Meta title="Components/Card" of = { CardStories } tags={['activity-level:action', 'atomic:composition', 'role:component', 'lifecycle:sense-making', 'mediation:individual']} />
 
-> TODO: Dedicated card pattern has hit a wall. The sheer variety in card types means forcing them into a single pattern creates more problems than it solves.
+{/* > 🙂 _Fun meter: 2/5_. The interesting thing about cards is that there's almost nothing to them.  */}
 
 # Card
 
-The encapsulation of a subject into a scannable, self-contained unit, balancing information density with visual clarity.
+A card gathers everything known about one subject into a single scannable surface, so a reader can take it in at a glance and tell it apart from its neighbours.
 
 <Canvas>
   <Story of={ CardStories.Card } />
 </Canvas>
 
-## Anatomy
+The only thing every card has in common is that it looks like one grouped surface. What goes inside — a title, an image, a price, a chart, a form — varies so widely that a component trying to lay all of it out ends up guessing at content it can't see, and guessing wrong. So a card here is a _recipe_, not a component: a small `.card` group class for the surface, plus composition classes the markup reaches for when it wants them. The variance moves into the examples, where it can be seen, rather than into the CSS, where it can only be predicted.
 
-<Story of={ CardStories.Indicators } />
+## Base — the surface
 
-### Elements
-
-The container is the only required element in a card. All other elements are optional.
+`.card` is the whole of what makes a card a card: a background, a border, a radius, and a positioning context. It sets no interior spacing, because spacing depends on what a card holds, and the card cannot see that. The container is the only required part; everything below is optional.
 
 <Story of={ CardStories.Basic } />
 
-#### Attributes
+Interior spacing is composed, not assumed. Pair `.card` with `.flow` for vertical rhythm between blocks and `.pad` for an inset, exactly as any other region would. A card that bleeds an image to its edges simply doesn't ask for the inset on that edge.
 
-<Story of={ CardStories.Attributes } />
+The surface imposes nothing on what it holds. A couple of stat lines with a highlighted figure, or a list carrying selection state and a badge, group the same way — the card only draws the boundary around them.
 
-#### Description
+<Story of={ CardStories.Indicators } />
 
-<Story of={ CardStories.Description } />
+### Zones
 
-#### Media
-
-Support for cards with one, multiple images, plus image-only cards.
-
-<Story of={ CardStories.Image } />
-
-#### Actions
-
-Actions can be placed either inside the card's body or in its header. Details are covered in [dedicated section](#actions-1).
-
-<Story of={ CardStories.Actions } />
-
-### Element blocks
-
-Each card is made up of element blocks. These blocks are all related to a single topic.
-Blocks can have different levels of importance, depending on their priority.
+Three thin zone classes position recurring regions without dictating their contents. `.card__header` and `.card__footer` are padded rows that spread their children apart when there's more than one; `.card__attributes` is a row for a run of badges. They arrange; the markup fills them.
 
 #### Header
 
@@ -56,65 +39,59 @@ Blocks can have different levels of importance, depending on their priority.
 
 <Story of={ CardStories.Footer } />
 
-##### Aligned footer
+An aligned footer holds a consistent baseline across a row of cards regardless of how much body each one carries.
 
 <Story of={ CardStories.FooterAligned } />
 
+#### Attributes
+
+<Story of={ CardStories.Attributes } />
+
+#### Description
+
+The `.description` utility clamps body copy to a few lines with a legible measure — the same tool anywhere prose needs a fixed height, not a card-only trick.
+
+<Story of={ CardStories.Description } />
+
 ## Variants
 
-### Compact
+### Overlay
 
-...
-
-### Expanding
-
-...
-
-### Hover card
-
-...
-
-### Image overlay
+The content sits over a tinted background image rather than beside it.
 
 <Story of={ CardStories.ImageOverlay } />
 
-## Actions
+### Media, cover, and mosaic
 
-### Primary action
+A single image spans the card's width; a figure and a video get a height cap so a card doesn't become all picture by accident. Two opt-in classes take it further: `.card--cover` makes the image _be_ the card, filling it corner to corner, and `.mosaic` on a figure lays its images out as a grid. Both are asked for in markup rather than inferred from how many images happen to be present.
 
-...
+<Story of={ CardStories.Image } />
 
-### Secondary actions
+### Actions
 
-...
+Actions live either in the card's body or pinned to its corner with `.card__actions--secondary`; hover-only actions stay quiet until the card is under the pointer, for cases where their availability is obvious in context.
 
-### Selectable
+<Story of={ CardStories.Actions } />
 
-...
+## Compositions
 
-### Inline actions
+The recipe is most itself when combined with the rest of the system.
 
-## Layout & orientation
+### A whole-card link
 
-Cards are responsive and adaptable, but orientation can also be set explicitly.
-
-### Horizontal
-
-### Grid
+Wrap a card's link or button in the `.stretched-link` utility and the whole surface becomes its hit target — the card lifts its border on hover and takes the focus ring when the link is focused. Inner controls (a menu, a badge button) stay individually operable above the overlay. The mechanic, its accessibility costs, and its containing-block caveat live with the utility itself, under _Utilities_.
 
 <Story of={ CardStories.LayoutGrid } />
 
-### List
+### Cards in a collection
 
+Arranging many cards is the collection's job, not the card's: `.cards` inside a `.layout-grid` tiles them, and `.cards--list` stacks them flush into rows. A card in the row variant that carries media gains a leading image column; one that doesn't stays a simple stacked row.
 
 <Story of={ CardStories.LayoutList } />
 
-{/* ### Auto Layout */}
-
-{/* <Story of={ CardStories.LayoutAuto } /> */}
-
 ## Related patterns
 
-- [Data view](/patterns/data-view) — uses Card as one of its collection representations
-- [Table](../?path=/docs/components-table--docs) — alternative collection representation; prefer cards for visual scanning, table for dense comparison
-- [Item view](/patterns/item-view) — card is the canonical UI element for summary-level item representations
+- <PatternRef slug="data-view">Data view</PatternRef> — uses the card as one of its collection representations
+- [Table](../?path=/docs/components-table--docs) — the other collection representation; prefer cards for visual scanning, a table for dense comparison
+- <PatternRef slug="item-view">Item view</PatternRef> — the card is the canonical summary-level representation of an item
+- [Stretched link](../?path=/docs/utilities-stretched-link--docs) — the whole-card hit-target mechanic, on its own

@@ -1,0 +1,34 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Utilities/Stretched link" tags={['activity-level:operation', 'atomic:primitive', 'role:component', 'mediation:individual']} />
+
+{/* > 🙂 _Fun meter: 2/5_.  */}
+
+# Stretched link
+
+Makes one link or button the click target for a whole region, so a reader can activate it by pressing anywhere in the group rather than hunting for the small piece of text that is technically the link.
+
+<div className="cards layout-grid" style={{ maxWidth: '20rem' }}>
+  <div>
+    <article className="card flow pad">
+      <a className="stretched-link" href="#stretched-link">A quarterly report</a>
+      <p>The link's text is small, but the whole card responds to a click.</p>
+      <div className="card__attributes badges">
+        <button className="badge" type="button">Filed</button>
+      </div>
+    </article>
+  </div>
+</div>
+
+The badge button sits above the overlay and stays independently clickable — inner controls a reader still needs are lifted.
+
+## Issues
+
+- _Text selection breaks_ inside the covered region — the overlay intercepts the drag.
+- _A second link or button_ inside the region is easily missed by screen readers, and must be lifted above the overlay to stay operable at all.
+- _Containing block_: any `transform`, `filter`, or `will-change` on an element between the link and its intended ancestor creates a new containing block, and the stretch re-scopes to _that_ element instead.
+
+## Related patterns
+
+- [Card](../?path=/docs/components-card--docs) — the primary consumer: a whole-card link or a whole-card select button
+- [Overflow](../?path=/docs/utilities-overflow--docs) — another cross-cutting mechanism rather than a component of its own

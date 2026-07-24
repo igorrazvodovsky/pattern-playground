@@ -54,9 +54,11 @@ export const Card: Story = {
             src="https://images.unsplash.com/photo-1583524505974-6facd53f4597?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
             alt="A kitten sits patiently between a terracotta pot and decorative grasses."
           />
-          <h4 className="label">{faker.word.words()}</h4>
-          <p className="description">{faker.hacker.phrase()}</p>
-          <small>{faker.date.recent().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</small>
+          <div className="flow pad">
+            <h4 className="label">{faker.word.words()}</h4>
+            <p className="description">{faker.hacker.phrase()}</p>
+            <div><small>{faker.date.recent().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</small></div>
+          </div>
         </article>
       </div>
     </section>
@@ -85,7 +87,7 @@ export const Attributes: Story = {
       <br />
       <section className="cards layout-grid">
         <div>
-          <article className="card">
+          <article className="card flow pad">
             <h4 className="label">{faker.company.name()}</h4>
             <div className="card__attributes badges">
               {attributes.map((attribute, index) => (
@@ -107,7 +109,7 @@ export const Description: Story = {
     <>
       <section className="cards">
         <div>
-          <article className="card">
+          <article className="card flow pad">
             <h4 className="label">Basic description</h4>
             <p className="description">{faker.word.words(20)}.</p>
           </article>
@@ -116,7 +118,7 @@ export const Description: Story = {
       <br />
       <ul className="cards layout-grid">
         <li>
-          <article className="card">
+          <article className="card flow pad">
             <h4 className="label">Longer description</h4>
             <pp-dropdown hoist placement="right">
               <p slot="trigger" className="description">{description}.</p>
@@ -127,7 +129,7 @@ export const Description: Story = {
           </article>
         </li>
         <li>
-          <article className="card">
+          <article className="card flow pad">
             <h4 className="label">Editable description</h4>
             <pp-dropdown hoist placement="right">
               <p slot="trigger" className="description">{description}.</p>
@@ -198,11 +200,11 @@ export const LayoutGrid: Story = {
     <ul className="cards cards--grid layout-grid">
       {cardsData.map((card, index) => (
         <li key={index}>
-          <article className="card">
-            <div style={{ fontSize: 'var(--text-xl)', margin: 'var(--space-m)' }}>
+          <article className="card flow pad">
+            <div style={{ fontSize: 'var(--text-xl)' }}>
               <iconify-icon className="icon" icon={getRandomIcon()} slot="icon"></iconify-icon>
             </div>
-            <a href="#">{card.title}</a>
+            <a className="stretched-link" href="#">{card.title}</a>
             <p>{card.description}</p>
             <footer>
               <small>{card.date}</small>
@@ -225,9 +227,11 @@ export const LayoutAuto: Story = {
               src="https://images.unsplash.com/photo-1583524505974-6facd53f4597?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
               alt="A kitten sits patiently between a terracotta pot and decorative grasses."
             />
-            <a href="#">{card.title}</a>
-            <p>{card.description}</p>
-            <small>{card.date}</small>
+            <div className="flow pad">
+              <a className="stretched-link" href="#">{card.title}</a>
+              <p>{card.description}</p>
+              <small>{card.date}</small>
+            </div>
           </article>
         </li>
       ))}

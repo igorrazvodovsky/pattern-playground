@@ -43,6 +43,11 @@
     container: var(--grid-item-container, grid-item) / inline-size;
   }
 
+  .cards > * {
+    container: var(--grid-item-container, grid-item) / inline-size;
+    display: grid;
+  }
+
   hr {
     border: 0;
     height: 0;

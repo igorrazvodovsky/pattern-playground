@@ -1,0 +1,65 @@
+/* Stretched link — make one link or button the hit target for a whole region.
+   The element's `::before` grows to fill the nearest positioned ancestor, so a
+   click anywhere in that ancestor activates it. This is the mechanic cards use
+   for a whole-card link and the view-family demos use for a whole-card button;
+   one name, one implementation.
+
+   Known costs (see Bootstrap's stretched-link and Inclusive Components — Cards):
+   - it breaks text selection inside the covered region;
+   - a second link or button inside the region is easily missed by screen
+     readers, and must be lifted above the overlay (`position: relative; z-index`)
+     to stay clickable — see the `.card:has(.stretched-link) …` rules below;
+   - any `transform` / `filter` / `will-change` on an element between the link
+     and the intended ancestor creates a new containing block and silently
+     re-scopes the stretch — relevant with view transitions and hover animations.
+
+   The positioned ancestor is the caller's responsibility; `.card` is already
+   `position: relative`, so a `.stretched-link` inside one stretches to the card. */
+
+@layer utilities {
+  .stretched-link::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /* Positioned, so it paints over the card's static content; an inner control
+       that must stay operable lifts itself above with `z-index: 1`. */
+  }
+
+  /* When the target is a bare button rather than a link, strip the button skin
+     so it reads as the card's own affordance. */
+  button.stretched-link {
+    all: unset;
+    cursor: pointer;
+    font-weight: 500;
+  }
+}
+
+@layer components {
+  /* Card affordances for a stretched hit target: the whole card lifts its
+     border on hover and takes the focus ring when the link/button is focused.
+     Keyed on the utility (or a direct card link, which composes it), so the
+     card reacts however the hit target was declared. */
+  .card:has(:is(.stretched-link, > a, .label a, .card__header a)):hover {
+    border-color: var(--c-accent);
+  }
+
+  .card:has(.stretched-link:focus-visible),
+  .card:has(:is(> a, .label a, .card__header a)):focus-within {
+    outline: 3px solid var(--c-accent);
+    outline-offset: 2px;
+  }
+
+  /* The link's own focus ring is redundant once the card carries one. */
+  .card :is(.stretched-link, a):is(:focus, :focus-visible) {
+    outline: 1px solid transparent;
+  }
+
+  /* Controls inside the covered region stay operable above the overlay. Badge
+     menus and buttons in the attributes row, and any corner control in the
+     header (the hit target itself excepted — its own ::before is the overlay). */
+  .card:has(.stretched-link) .card__attributes :is(button, pp-dropdown),
+  .card:has(.stretched-link) .card__header :is(button, pp-dropdown):not(.stretched-link) {
+    position: relative;
+    z-index: 1;
+  }
+}

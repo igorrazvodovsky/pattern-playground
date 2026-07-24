@@ -44,6 +44,7 @@
 @import url(explanation.css) layer(components);
 @import url(tldraw.css) layer(components);
 @import url(sections.css);
+@import url(stretched-link.css);
 @import url(view-family.css);
 @import url(toc.css);
 @import url(pattern-graph.css);
@@ -65,6 +66,44 @@
 
   .dashed {
     border-style: dashed;
+  }
+
+  /* A single-inset padding utility: markup asks for the inset where it wants
+     one. Pair with `.flow` for vertical rhythm. */
+  .pad {
+    padding: var(--space-s);
+  }
+
+  /* Line-clamped body copy — the card's description, but usable anywhere prose
+     needs a fixed number of lines with a legible measure. Many card demos and
+     adapters reference `.description`. */
+  .description {
+    font-size: smaller;
+    line-height: 150%;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    overflow: hidden;
+    border-radius: var(--radius-s);
+    max-width: 70ch;
+    flex-basis: 100%;
+    text-wrap: pretty;
+  }
+
+  .description--full {
+    font-size: var(--text-s);
+    max-width: 70ch;
+  }
+}
+
+/* The clamped description as an expand affordance: when the card also holds the
+   full text (or an editable copy), the clamped version reads as clickable.
+   Unlayered so the hover tint wins over the utility above. */
+.card:has(:is(.description--full, textarea)) .description {
+  cursor: pointer;
+
+  &:hover {
+    background: oklch(0% 0 0 / 5%);
   }
 }
 
@@ -97,12 +136,15 @@
 
   .layer.gray {
     background: var(--c-neutral-50);
+    --c-background: var(--c-neutral-50);
 
     .layer {
       background: var(--c-neutral-0);
+      --c-background: var(--c-neutral-0);
 
       .layer {
         background: var(--c-neutral-50);
+        --c-background: var(--c-neutral-50);
       }
     }
   }
