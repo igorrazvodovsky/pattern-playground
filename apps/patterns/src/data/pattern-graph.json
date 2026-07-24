@@ -807,7 +807,7 @@
             "clause": "two linked views cover one collection — one compressed, one in full — and the actor moves between them without losing their place"
           },
           {
-            "clause": "the overview's attribute subset now silently fixes what the actor can compare, sort, and filter by — a ceiling only malleability lifts"
+            "clause": "the overview's attribute subset fixes what the actor can compare, sort, and filter by — a ceiling only malleability lifts"
           }
         ]
       },

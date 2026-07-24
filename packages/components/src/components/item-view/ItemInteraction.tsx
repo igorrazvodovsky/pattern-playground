@@ -1,14 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { resolveEntityTitle } from '@shared/data/bindings';
 import { ItemView } from './ItemView';
-import {
-  ContentAdapterProvider,
-  useContentAdapter,
-  useContentAdapterContext,
-} from './ContentAdapterRegistry';
+import { ItemViewProvider, useEntityBinding, useItemViewContext } from './provider';
 import { modalService } from '../../services/modal-service';
 import { useWorkingRungStore } from './working-rung-store';
-import type { ItemInteractionProps, ViewScope, BaseItem } from './types';
+import type { ItemInteractionProps, ViewScope } from './types';
 import 'iconify-icon';
 import '../../jsx-types';
 
@@ -99,7 +96,7 @@ function RungToolbar({ current, available, onSelect }: RungToolbarProps) {
 /** The rung presented right now; `null` is the bare inline trigger. */
 type ActiveScope = EscalationScope | null;
 
-export const ItemInteraction = <T extends string = string>({
+export const ItemInteraction = ({
   item,
   contentType,
   children,
@@ -109,7 +106,7 @@ export const ItemInteraction = <T extends string = string>({
   scopeConfig = {},
   onScopeChange,
   onInteraction,
-}: ItemInteractionProps<T>) => {
+}: ItemInteractionProps) => {
   const [activeScope, setActiveScope] = useState<ActiveScope>(
     initialScope === 'mini' || initialScope === 'mid' || initialScope === 'maxi'
       ? initialScope
@@ -127,21 +124,25 @@ export const ItemInteraction = <T extends string = string>({
   const activeScopeRef = useRef<ActiveScope>(activeScope);
   activeScopeRef.current = activeScope;
 
-  // Every item carried by an adapter is a `BaseItem` at heart (id + label);
-  // the generic `ItemObject<T>` hides that behind the discriminated union.
-  const itemLabel = (item as unknown as BaseItem).label;
+  const binding = useEntityBinding(contentType);
+  // The modal surfaces render in a separate React root, so the context that
+  // resolved this trigger's binding is re-provided around their content.
+  const itemViewContext = useItemViewContext();
+
+  // The entity names its own views through the binding's `title` role.
+  const itemLabel = resolveEntityTitle(item, binding);
 
   const preferredWorkingRung = useWorkingRungStore((state) => state.preferred);
   const setPreferredWorkingRung = useWorkingRungStore((state) => state.setPreferred);
 
-  const adapter = useContentAdapter(contentType);
-  const { getSupportedScopes } = useContentAdapterContext();
-  const available = useMemo(
+  // A rung is available when the binding's scope ladder gives it attributes;
+  // without a binding the fallback renderer carries all three.
+  const available = useMemo<ViewScope[]>(
     () =>
-      getSupportedScopes(contentType).filter(
-        (scope): scope is ViewScope => scope === 'mini' || scope === 'mid' || scope === 'maxi'
+      (['mini', 'mid', 'maxi'] as const).filter(
+        (scope) => !binding || binding.scopes[scope].length > 0
       ),
-    [getSupportedScopes, contentType]
+    [binding]
   );
 
   const changeScope = useCallback(
@@ -228,8 +229,24 @@ export const ItemInteraction = <T extends string = string>({
   // effect can depend on `activeScope` alone — `item` is a new object each
   // render in some callers, and threading it through the deps would reopen
   // the modal on every parent render.
-  const latest = useRef({ adapter, available, item, contentType, onInteraction, selectRung });
-  latest.current = { adapter, available, item, contentType, onInteraction, selectRung };
+  const latest = useRef({
+    itemViewContext,
+    available,
+    item,
+    itemLabel,
+    contentType,
+    onInteraction,
+    selectRung,
+  });
+  latest.current = {
+    itemViewContext,
+    available,
+    item,
+    itemLabel,
+    contentType,
+    onInteraction,
+    selectRung,
+  };
 
   // Drawer (mid) and dialog (maxi) are imperative surfaces reconciled from
   // state. Effect cleanup closes the current one via `closeModal`, which tears
@@ -238,10 +255,14 @@ export const ItemInteraction = <T extends string = string>({
   // → `onClose`, and drops the state back to the bare trigger.
   useEffect(() => {
     if (activeScope !== 'mid' && activeScope !== 'maxi') return;
-    const { adapter, available, item, contentType, onInteraction, selectRung } = latest.current;
-    const title = (item as unknown as BaseItem).label;
+    const { itemViewContext, available, item, itemLabel, contentType, onInteraction, selectRung } =
+      latest.current;
+    const title = itemLabel;
     const content = (
-      <ContentAdapterProvider adapters={adapter ? [adapter] : []}>
+      <ItemViewProvider
+        bindings={itemViewContext.bindings}
+        customComponents={itemViewContext.customComponents}
+      >
         <ItemView
           item={item}
           contentType={contentType}
@@ -249,7 +270,7 @@ export const ItemInteraction = <T extends string = string>({
           mode="inspect"
           onInteraction={onInteraction}
         />
-      </ContentAdapterProvider>
+      </ItemViewProvider>
     );
     // The rung control rides in the modal header, grouped with the close
     // button, rather than floating faintly over the content.

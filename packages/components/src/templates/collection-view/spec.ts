@@ -1,7 +1,8 @@
-import type { Product } from '@shared/data/types';
+import type { BoundEntity, EntityBinding } from '@shared/data/bindings';
+import { productBinding } from '@shared/data/bindings';
 import type { ProductFilter } from './FilterTypes';
-import { applyFiltersToProducts } from './FilterOperations';
-import { sortProducts } from './SortingUtils';
+import { applyFilters } from './FilterOperations';
+import { sortItems } from './SortingUtils';
 import { getAttributeValue, formatAttributeValue } from './AttributeUtils';
 
 /**
@@ -13,11 +14,26 @@ import { getAttributeValue, formatAttributeValue } from './AttributeUtils';
  * spec) pair; the view-family patterns differ only in what varies. Field
  * names follow Meridian
  * (Min & Xia, UIST '25) where the corpus doesn't already have a word.
+ *
+ * A spec never mentions an entity type. `shownAttributes` entries are
+ * attribute paths or roles resolved against the entity's binding
+ * (shared/data/bindings) — a spec written in roles ('title', 'badge',
+ * 'key-attribute') renders any collection whose binding supplies them.
+ * The item-view scope ladder speaks the same vocabulary; a
+ * `DetailInvocation.shownAttributes` is the same override `ItemView` takes
+ * as a prop.
  */
 
+/** An attribute path, or a role naming every attribute that carries it. */
 export type AttributePath = string;
 
-export type RepresentationType = 'list' | 'card' | 'table' | 'map' | 'plot';
+/**
+ * The block each item becomes. Two axes, after Meridian's overview-type ×
+ * item-view split: the representation names the item block, the arrangement
+ * names the population geometry. The corpus's "List view" is not a fifth
+ * block — it is cards in a single column (`arrangement.layout: 'list'`).
+ */
+export type RepresentationType = 'card' | 'table' | 'map' | 'plot';
 
 /** Item-view ladder, population side: how much of each item a view carries. */
 export type RepresentationRung = 'glyph' | 'summary' | 'detail';
@@ -40,6 +56,10 @@ export interface Arrangement {
   groupBy?: AttributePath;
   /** Groups on the block axis (sections) or the inline axis (board lanes). */
   groupLayout?: 'sections' | 'lanes';
+  /** How an item-shaped representation columns its population: a grid of
+      blocks (default) or a single-column list. Table, map and plot carry
+      their own geometry and ignore it. */
+  layout?: 'grid' | 'list';
 }
 
 export interface DetailInvocation {
@@ -123,7 +143,8 @@ export function makeSpec(options: MakeSpecOptions): ViewSpec {
     representation: {
       type: 'card',
       rung: 'summary',
-      shownAttributes: ['name', 'description', 'category', 'pricing.msrp', 'availability.status'],
+      // Role-written, so the default spec renders any binding.
+      shownAttributes: ['thumbnail', 'title', 'description', 'badge', 'key-attribute'],
       ...representation,
     },
     arrangement,
@@ -135,17 +156,25 @@ export function makeSpec(options: MakeSpecOptions): ViewSpec {
 }
 
 /** Query then arrangement: the population a spec frames, in its order. */
-export function runSpec(items: Product[], spec: ViewSpec): Product[] {
-  const queried = applyFiltersToProducts(items, spec.query);
+export function runSpec<T extends BoundEntity>(
+  items: T[],
+  spec: ViewSpec,
+  binding: EntityBinding = productBinding
+): T[] {
+  const queried = applyFilters(items, spec.query, binding);
   const { sortBy } = spec.arrangement;
-  return sortBy ? sortProducts(queried, sortBy.field, sortBy.order) : queried;
+  return sortBy ? sortItems(queried, sortBy.field, sortBy.order) : queried;
 }
 
 /** Cluster items by an attribute path; group labels are display-formatted. */
-export function groupItems(items: Product[], groupBy: AttributePath): Map<string, Product[]> {
-  const groups = new Map<string, Product[]>();
+export function groupItems<T extends BoundEntity>(
+  items: T[],
+  groupBy: AttributePath,
+  binding: EntityBinding = productBinding
+): Map<string, T[]> {
+  const groups = new Map<string, T[]>();
   for (const item of items) {
-    const label = formatAttributeValue(getAttributeValue(item, groupBy), groupBy);
+    const label = formatAttributeValue(getAttributeValue(item, groupBy), groupBy, binding);
     const group = groups.get(label);
     if (group) group.push(item);
     else groups.set(label, [item]);

@@ -1,23 +1,36 @@
 import { Product } from '@shared/data/types';
+import type { BoundEntity, EntityBinding } from '@shared/data/bindings';
+import { productBinding } from '@shared/data/bindings';
 import { ProductFilter, ProductFilterType, ProductFilterOperator, isProductFilterType } from './FilterTypes';
 import { getAttributeValue, formatAttributeValue } from './AttributeUtils';
 
 /**
  * A filter keyed on a bare attribute path matches on the value as displayed —
  * the same string the actor clicked to make the filter. Several values on one
- * path read as alternatives.
+ * path read as alternatives. Path-keyed filters work on any bound entity;
+ * the named ProductFilterType branch is product vocabulary and only fires
+ * for filters written in it.
  */
-function productMatchesAttributeFilter(product: Product, filter: ProductFilter): boolean {
+function itemMatchesAttributeFilter(
+  item: BoundEntity,
+  filter: ProductFilter,
+  binding: EntityBinding
+): boolean {
   const path = filter.type;
-  const shown = formatAttributeValue(getAttributeValue(product, path), path);
+  const shown = formatAttributeValue(getAttributeValue(item, path), path, binding);
   const matches = filter.value.includes(shown);
   return filter.operator === ProductFilterOperator.IS_NOT ? !matches : matches;
 }
 
-export function productMatchesFilter(product: Product, filter: ProductFilter): boolean {
+export function productMatchesFilter(
+  item: BoundEntity,
+  filter: ProductFilter,
+  binding: EntityBinding = productBinding
+): boolean {
   if (!isProductFilterType(filter.type)) {
-    return productMatchesAttributeFilter(product, filter);
+    return itemMatchesAttributeFilter(item, filter, binding);
   }
+  const product = item as Product;
   const filterType = filter.type;
 
   const getValue = (filterType: ProductFilterType): string | string[] => {
@@ -75,14 +88,18 @@ export function productMatchesFilter(product: Product, filter: ProductFilter): b
   }
 }
 
-export function applyFiltersToProducts(products: Product[], filters: ProductFilter[]): Product[] {
+export function applyFilters<T extends BoundEntity>(
+  items: T[],
+  filters: ProductFilter[],
+  binding: EntityBinding = productBinding
+): T[] {
   if (filters.length === 0) {
-    return products;
+    return items;
   }
 
-  return products.filter(product =>
+  return items.filter(item =>
     filters.every(filter =>
-      filter.value.length === 0 || productMatchesFilter(product, filter)
+      filter.value.length === 0 || productMatchesFilter(item, filter, binding)
     )
   );
 }
@@ -91,12 +108,16 @@ export function applyFiltersToProducts(products: Product[], filters: ProductFilt
  * The values a bare attribute path takes across the collection, as displayed —
  * what a filter on that path can be widened to.
  */
-export function getUniqueAttributeValues(products: Product[], path: string): string[] {
+export function getUniqueAttributeValues(
+  items: BoundEntity[],
+  path: string,
+  binding: EntityBinding = productBinding
+): string[] {
   const values = new Set<string>();
-  for (const product of products) {
-    const value = getAttributeValue(product, path);
+  for (const item of items) {
+    const value = getAttributeValue(item, path);
     if (value === undefined || value === null) continue;
-    values.add(formatAttributeValue(value, path));
+    values.add(formatAttributeValue(value, path, binding));
   }
   return Array.from(values).sort();
 }

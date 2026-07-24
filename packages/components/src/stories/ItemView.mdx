@@ -5,16 +5,17 @@ import * as ItemViewStories from './ItemView.stories';
 
 # Item view
 
-An adapter-based renderer that presents a single entity at a chosen scope, from a minimal reference to a full working surface. The move it mechanises — choosing the right level of detail for the actor's current task — is <PatternRef slug="item-view">item view</PatternRef>.
+A binding-driven renderer that presents a single entity at a chosen scope, from a minimal reference to a full working surface. The move it mechanises — choosing the right level of detail for the actor's current task — is <PatternRef slug="item-view">item view</PatternRef>.
 
 <Story of={ItemViewStories.FullView} />
 
 ## Behaviours
 
-- *Adapter registry.* A `ContentAdapterProvider` maps `contentType` to a rendering adapter; unknown types fall back to a default renderer, so the component never renders nothing.
-- *Scopes.* `micro`, `mini`, `mid`, `maxi` — one component, one entity, four densities. The scope names are size-shaped; the semantic reading (reference, summary, detail, full) lives with the pattern.
-- *Interaction modes.* `preview`, `inspect`, `edit`, `transform` — orthogonal to scope; an adapter decides what each mode affords at each scope.
-- *Escalation.* `ItemInteraction` wraps an inline trigger and walks the ladder from it: hover glances at the summary in a popover, click commits to a working view (drawer or dialog), and a level-of-detail control in every header moves between rungs. The view never escalates itself — the host owns the movement.
+- *Attribute bindings.* Each entity type carries a declarative binding (`shared/data/bindings`): every attribute described by what it *is* (`title`, `badge`, `spec`, …), what kind of value it holds, and what to call it. One generic renderer places attributes by role; a view never mentions a domain type. Entity types without a binding fall back to a default renderer, so the component never renders nothing.
+- *Scope ladder as data.* `micro`, `mini`, `mid`, `maxi` — one component, one entity, four densities, and the binding's `scopes` map says which attributes each shows by default (a `shownAttributes` prop overrides it per view — e.g. a detail that subtracts what its overview already carries; entries name paths or roles, so an override written in roles works for any entity type). The scope names are size-shaped; the semantic reading (reference, summary, detail, full) lives with the pattern.
+- *Custom components.* Attributes marked `custom` — a task's execution history, a quote's rich excerpt, a comment thread — render through components registered per `entityType.path`. This is the deliberate residue: everything declarative is data, only the genuinely behavioural stays code.
+- *Interaction modes.* `preview`, `inspect`, `edit`, `transform` — orthogonal to scope.
+- *Escalation.* `ItemInteraction` wraps an inline trigger and walks the ladder from it: hover glances at the summary in a popover, click commits to a working view (drawer or dialog), and a level-of-detail control in every header moves between rungs. Hosts name the deeper views from the binding's `title` role; the view never escalates itself — the host owns the movement.
 
 ## Escalation
 
@@ -22,6 +23,6 @@ An adapter-based renderer that presents a single entity at a chosen scope, from 
 
 ## Related patterns
 
-- [Reference](../?path=/docs/components-reference--docs) — inline @mention-style references build on the same adapter registry
+- [Reference](../?path=/docs/components-reference--docs) — inline @mention-style references escalate through the same bindings
 - [Card](../?path=/docs/components-card--docs) — a common host for the *summary* scope
 - [Dialog](../?path=/docs/components-dialog--docs) & [Drawer](../?path=/docs/components-drawer--docs) — transient containers for the *detail* scope

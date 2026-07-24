@@ -192,7 +192,7 @@ function FocusCard({
     <article className="card flow pad">
       {/* No header wrapper: the title carries no actions, so it is a plain card
           heading in the padded body — the canonical no-actions branch, the same
-          shape ProductCard and ProductDetail use. A `.card__header` here would
+          shape EntityCard and EntityDetail use. A `.card__header` here would
           pad the title on a different inset from the body and split the one edge
           the card reads down. */}
       <h3 className="label flex">

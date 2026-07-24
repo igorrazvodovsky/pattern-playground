@@ -3,7 +3,8 @@ import productsData from '@shared/data/products.json' with { type: 'json' };
 import { Product } from '@shared/data/types';
 import { ViewMode, DataViewControls } from './types';
 import { getAvailableAttributes } from '../../templates/collection-view/AttributeUtils';
-import { sortProducts } from '../../templates/collection-view/SortingUtils';
+import { sortItems } from '../../templates/collection-view/SortingUtils';
+import { productBinding } from '@shared/data/bindings';
 import { ViewSwitcher } from './ViewSwitcher';
 import { AttributeSelector } from './AttributeSelector';
 import { SortingControls } from './SortingControls';
@@ -73,9 +74,15 @@ export const DataView: React.FC<DataViewDemoProps> = ({
       makeSpec({
         id: 'data-view-demo',
         query: defaultFilters,
-        representation: { type: defaultView, shownAttributes: defaultAttributes },
+        // The demo's ViewMode is the corpus switcher's vocabulary; 'list' is
+        // cards in a single column, spread across the spec's two axes.
+        representation: {
+          type: defaultView === 'list' ? 'card' : defaultView,
+          shownAttributes: defaultAttributes,
+        },
         arrangement: {
           sortBy: { field: 'name', order: 'asc' },
+          ...(defaultView === 'list' ? { layout: 'list' as const } : {}),
           ...(defaultGrouping ? { groupBy: defaultGrouping, groupLayout: 'sections' } : {}),
         },
         malleability: controlsToMalleability(controls),
@@ -134,7 +141,7 @@ export const DataView: React.FC<DataViewDemoProps> = ({
 
   const sortBy = spec.arrangement.sortBy;
   const sortedProducts = useMemo(
-    () => (sortBy ? sortProducts(filteredProducts, sortBy.field, sortBy.order) : filteredProducts),
+    () => (sortBy ? sortItems(filteredProducts, sortBy.field, sortBy.order) : filteredProducts),
     [filteredProducts, sortBy]
   );
 
@@ -174,8 +181,17 @@ export const DataView: React.FC<DataViewDemoProps> = ({
         {toolbarLeading}
         {show.viewSwitcher && (
           <ViewSwitcher
-            currentView={spec.representation.type as ViewMode}
-            onViewChange={(view) => patchSpec({ representation: { type: view } })}
+            currentView={
+              spec.representation.type === 'card' && spec.arrangement.layout === 'list'
+                ? 'list'
+                : (spec.representation.type as ViewMode)
+            }
+            onViewChange={(view) =>
+              patchSpec({
+                representation: { type: view === 'list' ? 'card' : view },
+                arrangement: { layout: view === 'list' ? 'list' : 'grid' },
+              })
+            }
           />
         )}
         {show.search && (
@@ -248,7 +264,7 @@ export const DataView: React.FC<DataViewDemoProps> = ({
         />
       ) : (
         <div>
-          <ViewSpecRenderer items={sortedProducts} spec={spec} />
+          <ViewSpecRenderer items={sortedProducts} spec={spec} binding={productBinding} />
         </div>
       )}
     </div>

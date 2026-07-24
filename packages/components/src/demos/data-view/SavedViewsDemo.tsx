@@ -48,10 +48,10 @@ const SAVED_VIEWS: ViewSpec[] = [
       },
     ],
     representation: {
-      type: 'list',
+      type: 'card',
       shownAttributes: ['name', 'condition', 'pricing.msrp', 'location.site'],
     },
-    arrangement: { sortBy: { field: 'pricing.msrp', order: 'asc' } },
+    arrangement: { layout: 'list', sortBy: { field: 'pricing.msrp', order: 'asc' } },
   }),
   makeSpec({
     id: 'saved-pilot-2025',

@@ -2,15 +2,15 @@
  * Reference System - Public API
  *
  * This module provides components for creating and managing references in rich text content.
- * Internal components (ReferencePicker, adapters) are not exported to keep the API clean.
+ * Internal components (ReferencePicker) are not exported to keep the API clean.
+ * Rendering at every scope goes through the item-view bindings: entity types
+ * with a binding of their own (product, project, quote, user) escalate through
+ * it; the rest render from the generic 'reference' binding.
  */
 
 // Public components
 export { ReferenceEditor } from './ReferenceEditor';
 export { Reference, createReferenceSuggestion } from './Reference';
-export { referenceContentAdapter } from './ReferenceContentAdapter';
-
-// TipTap extensions - unified Reference Node extension
 
 // Public types
 export type {
@@ -18,10 +18,3 @@ export type {
   ReferenceItem,
   SelectedReference
 } from './types';
-
-/**
- * Internal components (not exported):
- * - ReferencePicker: Used internally by ReferencePickerPopup
- * - Adapters: ReferencePreviewAdapter, ReferenceDetailAdapter, ReferenceFullViewAdapter
- *   Used by referenceContentAdapter for progressive disclosure
- */

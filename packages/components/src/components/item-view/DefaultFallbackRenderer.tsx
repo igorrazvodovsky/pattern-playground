@@ -1,17 +1,18 @@
-import type { ItemViewProps } from './types';
-import { CommentThread } from '../commenting/core/CommentThread.js';
-import { getUserById } from '@shared/data';
+import type { BaseItem, ItemViewProps } from './types';
 
 /**
- * DefaultFallbackRenderer - Unified fallback rendering for items without adapters
- * Replaces the duplicated fallback logic from ItemPreview, ItemDetail, ItemFullView
+ * DefaultFallbackRenderer — what an entity type *without a binding* renders:
+ * description, then its metadata as generic rows.
  */
-export const DefaultFallbackRenderer = <T extends string = string>({
-  item,
+export const DefaultFallbackRenderer = ({
+  item: rawItem,
   scope,
   contentType,
   onEscalate,
-}: ItemViewProps<T>) => {
+}: ItemViewProps) => {
+  // Unbound entities carry the generic reference shape (id, label, type,
+  // metadata) — the same contract the reference fallback has always used.
+  const item = rawItem as Partial<BaseItem> & { id: string };
   const renderMetadata = () => {
     if (!item.metadata || Object.keys(item.metadata).length === 0) {
       return null;
@@ -60,22 +61,6 @@ export const DefaultFallbackRenderer = <T extends string = string>({
   // Extract description from metadata if it exists
   const description = item.metadata?.description as string | undefined;
 
-  // Special handling for quote content
-  const renderQuoteContent = () => {
-    if (contentType !== 'quote' || !item.metadata?.content) return null;
-
-    const content = item.metadata.content as { plainText: string };
-    const plainText = content.plainText;
-
-    return (
-      <section className="quote-content flow">
-        <blockquote className="callout layer">
-          "{plainText}"
-        </blockquote>
-      </section>
-    );
-  };
-
   return (
     <div className="flow" data-content-type={contentType} data-scope={scope}>
       {/* Header with title and description */}
@@ -83,27 +68,13 @@ export const DefaultFallbackRenderer = <T extends string = string>({
         {description && <p className="text-secondary">{description}</p>}
       </header>
 
-      {/* Render quote content prominently */}
-      {renderQuoteContent()}
-
       {scope === 'maxi' && (
         <main className="flow">
-          {!renderQuoteContent() && !description && (
+          {!description && (
             <section className="flow">
               <h2>Overview</h2>
               <p>This is a {item.type} item with ID {item.id}.</p>
             </section>
-          )}
-
-          {/* Universal commenting interface for quote objects */}
-          {contentType === 'quote' && (
-            <CommentThread
-              entityType="quote"
-              entityId={item.id}
-              currentUser={getUserById('user-1')!}
-              showHeader={true}
-              allowNewComments={true}
-            />
           )}
 
           {item.metadata && Object.keys(item.metadata).length > 0 && (
@@ -140,7 +111,6 @@ export const DefaultFallbackRenderer = <T extends string = string>({
         </pp-list>
       )}
 
-      {scope !== 'maxi' && !renderQuoteContent()}
       {renderEscalationButton()}
     </div>
   );

@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Product } from '@shared/data/types';
 import { ProductFilter, ProductFilterCategory } from '../../templates/collection-view/FilterTypes';
-import { applyFiltersToProducts } from '../../templates/collection-view/FilterOperations';
+import { applyFilters } from '../../templates/collection-view/FilterOperations';
 import { generateProductFilterCategories } from './FilterCategories';
 
 export interface UseProductFilteringResult {
@@ -19,7 +19,7 @@ export function useProductFiltering(
   );
 
   const filteredProducts = useMemo(() =>
-    applyFiltersToProducts(products, filters),
+    applyFilters(products, filters),
     [products, filters]
   );
 

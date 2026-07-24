@@ -6,9 +6,6 @@ import { PpToast } from '../toast/toast';
 import { modalService } from '../../services/modal-service';
 import { createTask } from '../task/task-utils';
 import { ItemView } from '../item-view/ItemView';
-import { ContentAdapterProvider } from '../item-view/ContentAdapterRegistry';
-import { taskAdapter } from '../item-view/adapters/TaskAdapter';
-import { taskToItemObject } from '@shared/data/task-types';
 
 export const AIFallbackHandler: React.FC<AIFallbackHandlerProps> = ({
   searchInput,
@@ -29,14 +26,12 @@ export const AIFallbackHandler: React.FC<AIFallbackHandlerProps> = ({
     const task = createTask(searchInput.trim());
     PpToast.show(`Task created: ${task.title} — open`, () => {
       modalService.openDrawer(
-        <ContentAdapterProvider adapters={[taskAdapter]}>
-          <ItemView
-            item={taskToItemObject(task)}
-            contentType="task"
-            scope="mid"
-            mode="preview"
-          />
-        </ContentAdapterProvider>,
+        <ItemView
+          item={task}
+          contentType="task"
+          scope="mid"
+          mode="preview"
+        />,
         { position: 'right', title: `Task: ${task.title}` }
       );
     });

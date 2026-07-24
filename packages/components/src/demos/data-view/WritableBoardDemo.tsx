@@ -7,7 +7,8 @@ import {
   getAttributeValue,
   formatAttributeValue,
 } from '../../templates/collection-view/AttributeUtils';
-import { BoardLanes, CardRenderer, ProductCard } from '../../templates/collection-view/renderers';
+import { BoardLanes, CardRenderer, EntityCard } from '../../templates/collection-view/renderers';
+import { productBinding } from '@shared/data/bindings';
 import { GroupingControls } from './GroupingControls';
 import { attributeLabel } from '../../templates/collection-view/AttributeUtils';
 import { showToast } from '../demo-runtime';
@@ -122,8 +123,9 @@ function DraggableCard({
 
   return (
     <div ref={ref} data-dragging={dragging || undefined}>
-      <ProductCard
+      <EntityCard
         item={item}
+        binding={productBinding}
         shownAttributes={shownAttributes}
         actions={
           <pp-dropdown>
@@ -346,6 +348,7 @@ export function WritableBoardDemo() {
         <BoardLanes
           groups={groups}
           spec={spec}
+          binding={productBinding}
           laneLabels={groupLabels}
           className={ORIENTATIONS[orientation].className}
           renderLane={(label, content) => (
@@ -364,7 +367,7 @@ export function WritableBoardDemo() {
           )}
         />
       ) : (
-        <CardRenderer items={items} spec={spec} />
+        <CardRenderer items={items} spec={spec} binding={productBinding} />
       )}
     </div>
   );

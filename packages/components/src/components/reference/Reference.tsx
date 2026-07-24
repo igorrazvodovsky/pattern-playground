@@ -7,15 +7,16 @@ import type { VirtualElement } from '@floating-ui/dom';
 import type { SuggestionProps } from '@tiptap/suggestion';
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { ReferencePicker } from './ReferencePicker';
-import { ItemInteraction, ContentAdapterProvider } from '../item-view';
-import type { ContentAdapter } from '../item-view';
-import { referenceContentAdapter } from './ReferenceContentAdapter';
-import { quoteAdapter, quoteToBaseItem } from '../item-view/adapters/QuoteAdapter';
-import { productAdapter, productToItemObject } from '../item-view/adapters/ProductAdapter';
+import { ItemInteraction } from '../item-view';
+import type { BoundEntity } from '../item-view';
 import type { ReferenceCategory, SelectedReference, ReferenceType } from './types';
-import type { QuoteObject } from '../../services/commenting/core/quote-pointer';
-import type { Product } from '@shared/data/types';
-import { resolveReferenceData, products } from '@shared/data';
+import {
+  resolveReferenceData,
+  getProductById,
+  getProjectById,
+  getQuoteById,
+  getUserById,
+} from '@shared/data';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -329,55 +330,47 @@ export const Reference = Mention.extend({
         metadata: node.attrs.metadata ? structuredClone(node.attrs.metadata) : undefined,
       };
 
-      // Entity-type routing: a reference to an entity whose type has a
-      // dedicated item-view adapter escalates through that adapter — a product
-      // mention opens the product's own ladder, a quote its quote view — so
-      // the entity renders the same from a mention as from any other host.
-      // Types without one (user, document, project…) fall back to the generic
-      // reference views.
-      const dedicated = ((): { adapter: ContentAdapter; contentType: string; item: unknown } | null => {
+      // Entity-type routing: a reference to an entity whose type has its own
+      // attribute binding escalates through that binding — a product mention
+      // opens the product's own ladder, a quote its quote view — so the
+      // entity renders the same from a mention as from any other host. The
+      // entity is looked up raw rather than through `resolvedData`, which
+      // flattens metadata for the picker; the binding wants the record.
+      // Types without a binding of their own (document, material, service…)
+      // fall back to the generic reference shape.
+      const dedicated = ((): { contentType: string; item: BoundEntity } | null => {
         if (!resolvedData) return null;
-        try {
-          switch (node.attrs.type) {
-            case 'quote':
-              return {
-                adapter: quoteAdapter as ContentAdapter,
-                contentType: 'quote',
-                item: quoteToBaseItem(resolvedData as unknown as QuoteObject),
-              };
-            case 'product': {
-              // Looked up raw rather than through `resolvedData`, which
-              // flattens metadata for the picker; the adapter wants the record.
-              const product = (products as unknown as Product[]).find(
-                (candidate) => candidate.id === node.attrs.id
-              );
-              return product
-                ? {
-                    adapter: productAdapter as ContentAdapter,
-                    contentType: 'product',
-                    item: productToItemObject(product),
-                  }
-                : null;
-            }
-            default:
-              return null;
+        const id = node.attrs.id as string;
+        switch (node.attrs.type) {
+          case 'product': {
+            const product = getProductById(id);
+            return product ? { contentType: 'product', item: product } : null;
           }
-        } catch {
-          // A malformed entity falls back to the generic reference views.
-          return null;
+          case 'project': {
+            const project = getProjectById(id);
+            return project ? { contentType: 'project', item: project } : null;
+          }
+          case 'quote': {
+            const quote = getQuoteById(id);
+            return quote ? { contentType: 'quote', item: quote } : null;
+          }
+          case 'user': {
+            const user = getUserById(id);
+            return user ? { contentType: 'user', item: user } : null;
+          }
+          default:
+            return null;
         }
       })();
 
       const ReferenceComponent = () => (
-        <ContentAdapterProvider adapters={[(dedicated?.adapter ?? referenceContentAdapter) as any]}>
-          <ItemInteraction
-            item={(dedicated?.item ?? referenceData) as any}
-            contentType={dedicated?.contentType ?? 'reference'}
-            enableEscalation={true}
-          >
-            {node.attrs.label ?? node.attrs.id}
-          </ItemInteraction>
-        </ContentAdapterProvider>
+        <ItemInteraction
+          item={dedicated?.item ?? referenceData}
+          contentType={dedicated?.contentType ?? 'reference'}
+          enableEscalation={true}
+        >
+          {node.attrs.label ?? node.attrs.id}
+        </ItemInteraction>
       );
 
       let renderer: ReactRenderer;

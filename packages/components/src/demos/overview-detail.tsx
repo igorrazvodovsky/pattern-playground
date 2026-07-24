@@ -3,10 +3,9 @@ import type { Product } from '@shared/data/types';
 import componentsData from '@shared/data/components.json' with { type: 'json' };
 import materialsData from '@shared/data/materials.json' with { type: 'json' };
 import { ItemView } from '../components/item-view/ItemView';
-import { ContentAdapterProvider } from '../components/item-view/ContentAdapterRegistry';
-import { productAdapter, productToItemObject } from '../components/item-view/adapters';
 import { products } from '../templates/collection-view/data';
-import { ProductCard, InPlaceDetail } from '../templates/collection-view/renderers';
+import { EntityCard, InPlaceDetail } from '../templates/collection-view/renderers';
+import { productBinding } from '@shared/data/bindings';
 import type { AttributePath } from '../templates/collection-view/spec';
 import { useFitsWidth } from '../hooks/use-fits-width';
 import { BackButton } from './scaffold';
@@ -164,22 +163,20 @@ export function OverviewDetailDemo() {
 
   if (effective === 'new-page' && pageOpen) {
     return (
-      <ContentAdapterProvider adapters={[productAdapter]}>
-        <div className="flow" ref={rootRef}>
-          <BackButton onClick={() => setPageOpen(false)}>Back to the collection</BackButton>
-          <div className="detail">
-            {toolbar}
-            {/* A page of its own, so the page carries the name. */}
-            <ItemView
-              item={productToItemObject(selected)}
-              contentType="product"
-              scope="maxi"
-              mode="preview"
-              heading={2}
-            />
-          </div>
+      <div className="flow" ref={rootRef}>
+        <BackButton onClick={() => setPageOpen(false)}>Back to the collection</BackButton>
+        <div className="detail">
+          {toolbar}
+          {/* A page of its own, so the page carries the name. */}
+          <ItemView
+            item={selected}
+            contentType="product"
+            scope="maxi"
+            mode="preview"
+            heading={2}
+          />
         </div>
-      </ContentAdapterProvider>
+      </div>
     );
   }
 
@@ -194,8 +191,9 @@ export function OverviewDetailDemo() {
                time, so a single element reference covers the whole list. */
             ref={effective === 'popover' && current ? setPopoverAnchor : undefined}
           >
-            <ProductCard
+            <EntityCard
               item={item}
+              binding={productBinding}
               shownAttributes={OVERVIEW_ATTRIBUTES}
               selectedId={selectedId}
               onItemSelect={(target) => pick(target.id)}
@@ -207,11 +205,11 @@ export function OverviewDetailDemo() {
                   does the detail need to be the complement of what its
                   overview is already carrying. */}
               {effective === 'inline' && current && (
-                <InPlaceDetail item={item} overviewAttributes={OVERVIEW_ATTRIBUTES}>
+                <InPlaceDetail item={item} binding={productBinding} overviewAttributes={OVERVIEW_ATTRIBUTES}>
                   {toolbar}
                 </InPlaceDetail>
               )}
-            </ProductCard>
+            </EntityCard>
           </div>
         );
       })}
@@ -219,75 +217,73 @@ export function OverviewDetailDemo() {
   );
 
   return (
-    <ContentAdapterProvider adapters={[productAdapter]}>
-      <div className="flow" ref={rootRef}>
-        {effective === 'side-by-side' ? (
-          <div className="odi">
-            {overview}
-            <aside className="view-family__pane layer detail flow" aria-label="Detail">
-              {toolbar}
-              <div className="flex">
-                <button
-                  type="button"
-                  className="button button--plain"
-                  aria-label="Previous item"
-                  onClick={() => step(-1)}
-                >
-                  ‹
-                </button>
-                <button
-                  type="button"
-                  className="button button--plain"
-                  aria-label="Next item"
-                  onClick={() => step(1)}
-                >
-                  ›
-                </button>
-              </div>
-              {/* The pane is spatially separate from the row that opened it
-                  and the steppers can change the item, so it names itself. */}
-              <ItemView
-                item={productToItemObject(selected)}
-                contentType="product"
-                scope="mid"
-                mode="preview"
-                heading={3}
-              />
-            </aside>
-          </div>
-        ) : (
-          overview
-        )}
-
-        {/* The popover detail. `top-layer` is what makes it work inside a pane:
-            the popup goes to the browser's top layer, so it is neither clipped
-            by the scrolling pane nor out-painted by the rows it overlaps.
-            `light-dismiss` hands outside-click and Escape to the platform. */}
-        <pp-popup
-          ref={popupRef}
-          anchor={popoverAnchor ?? undefined}
-          active={effective === 'popover' && popoverOpen}
-          placement="bottom-start"
-          distance={8}
-          flip
-          shift
-          top-layer=""
-          light-dismiss=""
-        >
-          {/* `.popover` is the catalogue's panel skin — border, shadow,
-              background, padding. `pp-popup` only positions. */}
-          <div className="popover detail flow" role="dialog" aria-label={`${selected.name} — detail`}>
+    <div className="flow" ref={rootRef}>
+      {effective === 'side-by-side' ? (
+        <div className="odi">
+          {overview}
+          <aside className="view-family__pane layer detail flow" aria-label="Detail">
             {toolbar}
+            <div className="flex">
+              <button
+                type="button"
+                className="button button--plain"
+                aria-label="Previous item"
+                onClick={() => step(-1)}
+              >
+                ‹
+              </button>
+              <button
+                type="button"
+                className="button button--plain"
+                aria-label="Next item"
+                onClick={() => step(1)}
+              >
+                ›
+              </button>
+            </div>
+            {/* The pane is spatially separate from the row that opened it
+                and the steppers can change the item, so it names itself. */}
             <ItemView
-              item={productToItemObject(selected)}
+              item={selected}
               contentType="product"
               scope="mid"
               mode="preview"
+              heading={3}
             />
-          </div>
-        </pp-popup>
-      </div>
-    </ContentAdapterProvider>
+          </aside>
+        </div>
+      ) : (
+        overview
+      )}
+
+      {/* The popover detail. `top-layer` is what makes it work inside a pane:
+          the popup goes to the browser's top layer, so it is neither clipped
+          by the scrolling pane nor out-painted by the rows it overlaps.
+          `light-dismiss` hands outside-click and Escape to the platform. */}
+      <pp-popup
+        ref={popupRef}
+        anchor={popoverAnchor ?? undefined}
+        active={effective === 'popover' && popoverOpen}
+        placement="bottom-start"
+        distance={8}
+        flip
+        shift
+        top-layer=""
+        light-dismiss=""
+      >
+        {/* `.popover` is the catalogue's panel skin — border, shadow,
+            background, padding. `pp-popup` only positions. */}
+        <div className="popover detail flow" role="dialog" aria-label={`${selected.name} — detail`}>
+          {toolbar}
+          <ItemView
+            item={selected}
+            contentType="product"
+            scope="mid"
+            mode="preview"
+          />
+        </div>
+      </pp-popup>
+    </div>
   );
 }
 

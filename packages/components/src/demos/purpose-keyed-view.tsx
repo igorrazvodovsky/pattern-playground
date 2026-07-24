@@ -1,10 +1,9 @@
 import { useMemo, useState } from 'react';
 import snapshot from '@shared/data/catalogue-snapshot.json' with { type: 'json' };
 import { ItemView } from '../components/item-view/ItemView';
-import { ContentAdapterProvider } from '../components/item-view/ContentAdapterRegistry';
-import { productAdapter, productToItemObject } from '../components/item-view/adapters';
 import { products } from '../templates/collection-view/data';
-import { ProductCard } from '../templates/collection-view/renderers';
+import { EntityCard } from '../templates/collection-view/renderers';
+import { productBinding } from '@shared/data/bindings';
 import { detectProblems } from './problem-curated-view';
 import { BackButton } from './scaffold';
 import 'iconify-icon';
@@ -168,7 +167,7 @@ export function MonitorDemo() {
  * Structurally this is overview-detail's new-page layout, chained: two
  * overview rungs (a category grid, then a list of items) ending in a detail
  * (the full item view), place kept on the way back out. It reuses that
- * pattern's vocabulary — `ProductCard` overviews, an `ItemView` detail — so
+ * pattern's vocabulary — `EntityCard` overviews, an `ItemView` detail — so
  * the two pages read as the same machinery at different depths. The first
  * rung is a card grid rather than a list: a category picker is glanceable,
  * and the change of representation between the two overviews marks them as
@@ -195,7 +194,7 @@ function InvestigateDrilldown() {
         <BackButton onClick={() => setItemId(null)}>Back to {category}</BackButton>
         {/* The drilldown bottoms out in the item's own page, which names itself. */}
         <ItemView
-          item={productToItemObject(item)}
+          item={item}
           contentType="product"
           scope="maxi"
           mode="preview"
@@ -213,8 +212,9 @@ function InvestigateDrilldown() {
         <section className="cards cards--list">
           {categoryItems.map((candidate) => (
             <div key={candidate.id}>
-              <ProductCard
+              <EntityCard
                 item={candidate}
+                binding={productBinding}
                 shownAttributes={['name', 'condition', 'pricing.msrp']}
                 onItemSelect={(target) => setItemId(target.id)}
               />
@@ -246,11 +246,7 @@ function InvestigateDrilldown() {
 }
 
 export function InvestigateDemo() {
-  return (
-    <ContentAdapterProvider adapters={[productAdapter]}>
-      <InvestigateDrilldown />
-    </ContentAdapterProvider>
-  );
+  return <InvestigateDrilldown />;
 }
 
 /**
@@ -276,106 +272,105 @@ export function WatchToChaseTiersDemo() {
   const flaggedCount = new Set(flags.flatMap((candidate) => candidate.itemIds)).size;
 
   return (
-    <ContentAdapterProvider adapters={[productAdapter]}>
-      <div className="flow">
-        {tier === 'ambient' && (
-          <div className="flow">
-            <button type="button" className="badge" onClick={() => setTier('glance')}>
-              Catalogue · {flaggedCount} flagged
-            </button>
-            <p className="muted">
-              The ambient tier deliberately shows one number. Everything else is
-              an inward step away.
-            </p>
-          </div>
-        )}
+    <div className="flow">
+      {tier === 'ambient' && (
+        <div className="flow">
+          <button type="button" className="badge" onClick={() => setTier('glance')}>
+            Catalogue · {flaggedCount} flagged
+          </button>
+          <p className="muted">
+            The ambient tier deliberately shows one number. Everything else is
+            an inward step away.
+          </p>
+        </div>
+      )}
 
-        {tier === 'glance' && (
-          <div className="flow">
-            <BackButton onClick={() => setTier('ambient')}>Back to the badge</BackButton>
-            <ul className="cards layout-grid">
-              <li>
-                <article className="card">
+      {tier === 'glance' && (
+        <div className="flow">
+          <BackButton onClick={() => setTier('ambient')}>Back to the badge</BackButton>
+          <ul className="cards layout-grid">
+            <li>
+              <article className="card">
+                <div className="card__header">
+                  <h4 className="label">Listings</h4>
+                </div>
+                <div className="stat pad">
+                  <strong className="stat__value">{products.length}</strong>
+                  <p className="muted">In the catalogue</p>
+                </div>
+              </article>
+            </li>
+            {flags.map((candidate) => (
+              <li key={candidate.id}>
+                <article className="card" data-alert>
                   <div className="card__header">
-                    <h4 className="label">Listings</h4>
+                    <h4 className="label">
+                      <button
+                        type="button"
+                        className="stretched-link"
+                        onClick={() => {
+                          setFlagId(candidate.id);
+                          setTier('focused');
+                        }}
+                      >
+                        {candidate.title}
+                      </button>
+                    </h4>
                   </div>
                   <div className="stat pad">
-                    <strong className="stat__value">{products.length}</strong>
-                    <p className="muted">In the catalogue</p>
+                    <strong className="stat__value">{candidate.itemIds.length}</strong>
+                    <p className="muted">
+                      flagged listing{candidate.itemIds.length === 1 ? '' : 's'}
+                    </p>
                   </div>
                 </article>
               </li>
-              {flags.map((candidate) => (
-                <li key={candidate.id}>
-                  <article className="card" data-alert>
-                    <div className="card__header">
-                      <h4 className="label">
-                        <button
-                          type="button"
-                          className="stretched-link"
-                          onClick={() => {
-                            setFlagId(candidate.id);
-                            setTier('focused');
-                          }}
-                        >
-                          {candidate.title}
-                        </button>
-                      </h4>
-                    </div>
-                    <div className="stat pad">
-                      <strong className="stat__value">{candidate.itemIds.length}</strong>
-                      <p className="muted">
-                        flagged listing{candidate.itemIds.length === 1 ? '' : 's'}
-                      </p>
-                    </div>
-                  </article>
-                </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {tier === 'focused' && flag && (
+        <div className="flow">
+          <BackButton onClick={() => setTier('glance')}>Back to the tiles</BackButton>
+          <div className="callout info">
+            <p>
+              <strong>{flag.title}.</strong> {flag.reason}
+            </p>
+          </div>
+          <section className="cards cards--list">
+            {products
+              .filter((candidate) => flag.itemIds.includes(candidate.id))
+              .map((candidate) => (
+                <div key={candidate.id}>
+                  <EntityCard
+                    item={candidate}
+                    binding={productBinding}
+                    shownAttributes={['name', 'category', 'pricing.msrp', 'listedAt']}
+                    selectedId={itemId}
+                    onItemSelect={(target) => {
+                      setItemId(target.id);
+                      setTier('item');
+                    }}
+                  />
+                </div>
               ))}
-            </ul>
-          </div>
-        )}
+          </section>
+        </div>
+      )}
 
-        {tier === 'focused' && flag && (
-          <div className="flow">
-            <BackButton onClick={() => setTier('glance')}>Back to the tiles</BackButton>
-            <div className="callout info">
-              <p>
-                <strong>{flag.title}.</strong> {flag.reason}
-              </p>
-            </div>
-            <section className="cards cards--list">
-              {products
-                .filter((candidate) => flag.itemIds.includes(candidate.id))
-                .map((candidate) => (
-                  <div key={candidate.id}>
-                    <ProductCard
-                      item={candidate}
-                      shownAttributes={['name', 'category', 'pricing.msrp', 'listedAt']}
-                      selectedId={itemId}
-                      onItemSelect={(target) => {
-                        setItemId(target.id);
-                        setTier('item');
-                      }}
-                    />
-                  </div>
-                ))}
-            </section>
-          </div>
-        )}
-
-        {tier === 'item' && item && (
-          <div className="flow">
-            <BackButton onClick={() => setTier('focused')}>Back to the slice</BackButton>
-            <ItemView
-              item={productToItemObject(item)}
-              contentType="product"
-              scope="maxi"
-              mode="preview"
-              heading={2}
-            />
-          </div>
-        )}
-      </div>
-    </ContentAdapterProvider>
+      {tier === 'item' && item && (
+        <div className="flow">
+          <BackButton onClick={() => setTier('focused')}>Back to the slice</BackButton>
+          <ItemView
+            item={item}
+            contentType="product"
+            scope="maxi"
+            mode="preview"
+            heading={2}
+          />
+        </div>
+      )}
+    </div>
   );
 }

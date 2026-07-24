@@ -3,32 +3,26 @@ export { ItemView } from './ItemView';
 export { ItemInteraction } from './ItemInteraction';
 export { DefaultFallbackRenderer } from './DefaultFallbackRenderer';
 
-// Legacy components - deprecated (use ItemView instead)
-export { ItemPreview } from './ItemPreview';
-export { ItemDetail } from './ItemDetail';
-export { ItemFullView } from './ItemFullView';
-
-// Content adapter system
-export { 
-  ContentAdapterProvider, 
-  useContentAdapterContext, 
-  useContentAdapter, 
-  useRegisterAdapter 
-} from './ContentAdapterRegistry';
-
-// Adapter base classes
-export { CommentAwareAdapterBase } from './adapters/CommentAwareAdapterBase';
+// Binding context: shared bindings + custom components, overridable per host
+export {
+  ItemViewProvider,
+  useItemViewContext,
+  useEntityBinding,
+  useCustomComponent,
+} from './provider';
+export { defaultCustomComponents } from './custom-components';
 
 // Types
 export type {
   ViewScope,
   InteractionMode,
+  BoundEntity,
   BaseItem,
   ViewScopeConfig,
   ItemInteractionProps,
   ItemViewProps,
-  ContentAdapter,
-  CommentAwareAdapter,
-  UniversalComment
+  CustomAttributeProps,
+  CustomComponents,
+  AttributeBinding,
+  EntityBinding,
 } from './types';
-

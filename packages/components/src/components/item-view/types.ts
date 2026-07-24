@@ -1,81 +1,25 @@
-export type ViewScope = 'micro' | 'mini' | 'mid' | 'maxi';
+import type {
+  AttributeBinding,
+  AttributeSelection,
+  BoundEntity,
+  EntityBinding,
+  ItemScope,
+} from '@shared/data/bindings';
+
+export type ViewScope = ItemScope;
 
 export type InteractionMode = 'preview' | 'inspect' | 'edit' | 'transform';
 
+export type { BoundEntity };
+
+/** The generic reference shape — the no-binding fallback contract, and what
+    inline mentions carry for entity types without a binding of their own. */
 export interface BaseItem {
   id: string;
   label: string;
   type: string;
   metadata?: Record<string, unknown>;
 }
-
-export interface QuoteObject {
-  id: string;
-  content: {
-    plainText: string;
-    html: string;
-  };
-  metadata: {
-    sourceDocument: string;
-    authorId: string;
-    createdAt: string;
-    [key: string]: unknown;
-  };
-  actions: {
-    annotate: { enabled: boolean };
-    cite: { enabled: boolean };
-    challenge: { enabled: boolean };
-    pin: { enabled: boolean };
-  };
-}
-
-export interface TaskObject {
-  id: string;
-  specification: string;
-  status: 'submitted' | 'planning' | 'executing' | 'asking' | 'completed' | 'failed';
-  history: TaskHistoryEntry[];
-  assignee?: string;
-  progress?: number;
-  createdAt: Date;
-  metadata?: {
-    priority?: 'low' | 'medium' | 'high' | 'critical';
-    tags?: string[];
-    dueDate?: Date;
-    [key: string]: unknown;
-  };
-}
-
-export interface TaskHistoryEntry {
-  id: string;
-  timestamp: Date;
-  actor: 'User' | 'System';
-  action: string;
-  details?: string;
-}
-
-export interface ProjectObject {
-  id: string;
-  name: string;
-  description: string;
-  type: 'project';
-  icon: string;
-  searchableText: string;
-  metadata?: {
-    status?: 'planning' | 'active' | 'completed' | 'archived';
-    phase?: string;
-    updatedAt?: string;
-    updatedBy?: string;
-    [key: string]: unknown;
-  };
-}
-
-// Discriminated union based on contentType
-export type ItemObject<T extends string = string> =
-  T extends 'quote' ? QuoteObject :
-  T extends 'task' ? TaskObject :
-  T extends 'project' ? ProjectObject :
-  T extends 'reference' ? BaseItem :
-  BaseItem; // fallback for unknown types
 
 export interface ViewScopeConfig {
   scope: ViewScope;
@@ -85,9 +29,10 @@ export interface ViewScopeConfig {
   mode?: InteractionMode;
 }
 
-export interface ItemInteractionProps<T extends string = string> {
-  item: ItemObject<T>;
-  contentType: T;
+export interface ItemInteractionProps {
+  item: BoundEntity;
+  /** The entity type — the key into the bindings map. */
+  contentType: string;
   children: React.ReactNode;
   /** Applied to the inline trigger span — the consumer supplies the chrome
       (e.g. the reference-mention classes); the component supplies the behaviour. */
@@ -96,42 +41,34 @@ export interface ItemInteractionProps<T extends string = string> {
   enableEscalation?: boolean;
   scopeConfig?: Partial<Record<ViewScope, ViewScopeConfig>>;
   onScopeChange?: (scope: ViewScope) => void;
-  onInteraction?: (mode: InteractionMode, item: ItemObject<T>) => void;
+  onInteraction?: (mode: InteractionMode, item: BoundEntity) => void;
 }
 
-export interface ItemViewProps<T extends string = string> {
-  item: ItemObject<T>;
-  contentType: T;
+export interface ItemViewProps {
+  item: BoundEntity;
+  /** The entity type — the key into the bindings map. */
+  contentType: string;
   scope: ViewScope;
   mode?: InteractionMode;
+  /** Overrides the binding's default attribute set for this scope — the
+      detail-subtraction move (show everything the overview doesn't). Entries
+      are paths or roles; 'all' shows the whole binding. */
+  shownAttributes?: AttributeSelection;
   onEscalate?: (targetScope: ViewScope) => void;
-  onInteraction?: (mode: InteractionMode, item: ItemObject<T>) => void;
+  onInteraction?: (mode: InteractionMode, item: BoundEntity) => void;
 }
 
-export interface ContentAdapter<T extends string = string> {
-  contentType: T;
-  render: (props: ItemViewProps<T>) => React.ReactNode;
-
-  // Enhanced adapter capabilities
-  supportedScopes?: ViewScope[];
-  supportsCommenting?: boolean;
-  supportsRichContent?: boolean;
+/** Props a registered custom component receives for a `valueType: 'custom'`
+    attribute — the behavioural residue a binding can't describe. */
+export interface CustomAttributeProps {
+  item: BoundEntity;
+  entityType: string;
+  attribute: AttributeBinding;
+  scope: ViewScope;
+  onInteraction?: (mode: InteractionMode, item: BoundEntity) => void;
 }
 
-// Comment integration support
-export interface UniversalComment {
-  id: string;
-  content: string;
-  author: string;
-  timestamp: Date;
-  parentId?: string;
-}
+/** Registry of custom components, keyed `entityType.path` ('task.history'). */
+export type CustomComponents = Record<string, React.ComponentType<CustomAttributeProps>>;
 
-export interface CommentAwareAdapter<T extends string = string>
-  extends ContentAdapter<T> {
-  supportsCommenting: true;
-  renderWithComments: (props: ItemViewProps<T> & {
-    comments: UniversalComment[];
-    onComment: (content: string) => void;
-  }) => React.ReactNode;
-}
+export type { AttributeBinding, EntityBinding };

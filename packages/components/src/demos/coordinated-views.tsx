@@ -1,15 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ItemView } from '../components/item-view/ItemView';
-import { ContentAdapterProvider } from '../components/item-view/ContentAdapterRegistry';
-import { productAdapter, productToItemObject } from '../components/item-view/adapters';
 import type { ScatterPlot } from '../components/charts/scatter-plot.js';
 import type { Product } from '@shared/data/types';
 import { products, toPlotPoints } from '../templates/collection-view/data';
 import {
-  ProductCard,
+  EntityCard,
   InPlaceDetail,
   MapRenderer,
 } from '../templates/collection-view/renderers';
+import { productBinding } from '@shared/data/bindings';
 import { useFitsWidth } from '../hooks/use-fits-width';
 import { attributeLabel } from '../templates/collection-view/AttributeUtils';
 import type { AttributePath } from '../templates/collection-view/spec';
@@ -83,7 +82,7 @@ export function LinkedTrioDemo() {
      it, it names itself. */
   const paneDetail = selected ? (
     <ItemView
-      item={productToItemObject(selected)}
+      item={selected}
       contentType="product"
       scope="mid"
       mode="preview"
@@ -97,8 +96,9 @@ export function LinkedTrioDemo() {
     <section className="cards cards--list" aria-label="List">
       {trioProducts.map((item) => (
         <div key={item.id}>
-          <ProductCard
+          <EntityCard
             item={item}
+            binding={productBinding}
             shownAttributes={LIST_ATTRIBUTES}
             selectedId={selectedId}
             onItemSelect={toggleSelect}
@@ -109,9 +109,9 @@ export function LinkedTrioDemo() {
                 only here does the detail need to be the complement of what
                 the row is already carrying. */}
             {!roomForPanes && item.id === selectedId && (
-              <InPlaceDetail item={item} overviewAttributes={LIST_ATTRIBUTES} />
+              <InPlaceDetail item={item} binding={productBinding} overviewAttributes={LIST_ATTRIBUTES} />
             )}
-          </ProductCard>
+          </EntityCard>
         </div>
       ))}
     </section>
@@ -121,37 +121,36 @@ export function LinkedTrioDemo() {
     <MapRenderer
       items={trioProducts}
       spec={trioMapSpec}
+      binding={productBinding}
       selectedId={selectedId}
       onItemSelect={toggleSelect}
     />
   );
 
   return (
-    <ContentAdapterProvider adapters={[productAdapter]}>
-      <div className="flow" ref={rootRef}>
-        {roomForPanes ? (
-          <div className="view-family__panes">
-            <div className="view-family__pane">{list}</div>
-            {/* A `section`, not a `div`: an `aria-label` only names an
-                element that has a role to name. */}
-            <section className="view-family__pane" aria-label="Map">
-              {map}
-            </section>
-            <aside className="view-family__pane layer flow" aria-label="Detail">
-              {paneDetail}
-            </aside>
-          </div>
-        ) : (
-          /* Map above list, not beside it: the strip is short enough that the
-             row and the pin it lights stay in view together. */
-          <div className="view-family__trio-stack">
-            <section aria-label="Map">{map}</section>
-            {list}
-            {!selected && emptyDetail}
-          </div>
-        )}
-      </div>
-    </ContentAdapterProvider>
+    <div className="flow" ref={rootRef}>
+      {roomForPanes ? (
+        <div className="view-family__panes">
+          <div className="view-family__pane">{list}</div>
+          {/* A `section`, not a `div`: an `aria-label` only names an
+              element that has a role to name. */}
+          <section className="view-family__pane" aria-label="Map">
+            {map}
+          </section>
+          <aside className="view-family__pane layer flow" aria-label="Detail">
+            {paneDetail}
+          </aside>
+        </div>
+      ) : (
+        /* Map above list, not beside it: the strip is short enough that the
+           row and the pin it lights stay in view together. */
+        <div className="view-family__trio-stack">
+          <section aria-label="Map">{map}</section>
+          {list}
+          {!selected && emptyDetail}
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -183,7 +182,7 @@ export function CrossFilteringDemo() {
   useEffect(() => {
     const el = chartRef.current;
     if (!el) return;
-    const points = toPlotPoints(products, X_PATH, Y_PATH).map((point) =>
+    const points = toPlotPoints(products, productBinding, X_PATH, Y_PATH).map((point) =>
       point.x >= min && point.x <= max
         ? point
         : { ...point, color: 'var(--c-neutral-300)' }
@@ -250,8 +249,9 @@ export function CrossFilteringDemo() {
           <section className="cards cards--list">
             {inRange.map((item) => (
               <div key={item.id}>
-                <ProductCard
+                <EntityCard
                   item={item}
+                  binding={productBinding}
                   shownAttributes={LIST_ATTRIBUTES}
                   selectedId={selectedId}
                   onItemSelect={(target) =>

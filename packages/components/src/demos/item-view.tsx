@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { ItemView } from '../components/item-view/ItemView';
 import { ItemInteraction } from '../components/item-view/ItemInteraction';
-import { ContentAdapterProvider } from '../components/item-view/ContentAdapterRegistry';
-import { productAdapter, productToItemObject } from '../components/item-view/adapters';
 import type { ViewScope } from '../components/item-view/types';
 import type { Product } from '@shared/data/types';
 import { products } from '../templates/collection-view/data';
 import { ViewSpecRenderer } from '../templates/collection-view/renderers';
+import { productBinding } from '@shared/data/bindings';
 import { makeSpec } from '../templates/collection-view/spec';
 import '../jsx-types';
 
@@ -29,15 +28,13 @@ function ProductItemView({
   heading?: 2 | 3;
 }) {
   return (
-    <ContentAdapterProvider adapters={[productAdapter]}>
-      <ItemView
-        item={productToItemObject(product)}
-        contentType="product"
-        scope={scope}
-        mode="preview"
-        heading={heading}
-      />
-    </ContentAdapterProvider>
+    <ItemView
+      item={product}
+      contentType="product"
+      scope={scope}
+      mode="preview"
+      heading={heading}
+    />
   );
 }
 
@@ -102,6 +99,7 @@ export function ItemViewGlyphDemo() {
     <ViewSpecRenderer
       items={products}
       spec={glyphSpec}
+      binding={productBinding}
       selectedId={selectedId}
       onItemSelect={(item) => setSelectedId(item.id)}
     />
@@ -122,18 +120,16 @@ export function ItemViewGlyphDemo() {
  */
 export function ItemViewTransitionsDemo() {
   return (
-    <ContentAdapterProvider adapters={[productAdapter]}>
-      <p>
-        The refurbishment log flags the{' '}
-        <ItemInteraction
-          item={productToItemObject(canonicalProduct)}
-          contentType="product"
-          className="reference-mention reference"
-        >
-          {canonicalProduct.name}
-        </ItemInteraction>{' '}
-        for a battery-module swap before the autumn fleet handover.
-      </p>
-    </ContentAdapterProvider>
+    <p>
+      The refurbishment log flags the{' '}
+      <ItemInteraction
+        item={canonicalProduct}
+        contentType="product"
+        className="reference-mention reference"
+      >
+        {canonicalProduct.name}
+      </ItemInteraction>{' '}
+      for a battery-module swap before the autumn fleet handover.
+    </p>
   );
 }

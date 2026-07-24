@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import type { Product } from '@shared/data/types';
 import { products } from '../templates/collection-view/data';
-import { ProductCard } from '../templates/collection-view/renderers';
+import { EntityCard } from '../templates/collection-view/renderers';
+import { productBinding } from '@shared/data/bindings';
 import 'iconify-icon';
 import '../jsx-types';
 
@@ -138,7 +139,7 @@ export function ProblemChecklistDemo() {
         <section className="cards cards--flush">
           {sliceItems.map((item) => (
             <div key={item.id}>
-              <ProductCard item={item} shownAttributes={SLICE_ATTRIBUTES} />
+              <EntityCard item={item} binding={productBinding} shownAttributes={SLICE_ATTRIBUTES} />
             </div>
           ))}
         </section>

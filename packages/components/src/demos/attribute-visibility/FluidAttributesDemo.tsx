@@ -7,9 +7,10 @@ import {
   formatAttributeValue,
   getAvailableAttributes,
 } from '../../templates/collection-view/AttributeUtils';
-import { sortProducts } from '../../templates/collection-view/SortingUtils';
+import { sortItems } from '../../templates/collection-view/SortingUtils';
 import { products } from '../../templates/collection-view/data';
-import { ProductCard } from '../../templates/collection-view/renderers';
+import { EntityCard } from '../../templates/collection-view/renderers';
+import { productBinding } from '@shared/data/bindings';
 import { attributeLabel } from '../../templates/collection-view/AttributeUtils';
 import {
   AttributeSelector,
@@ -17,7 +18,7 @@ import {
   ProductFilters,
   generateAttributeFilterCategories,
 } from '../data-view';
-import { applyFiltersToProducts } from '../../templates/collection-view/FilterOperations';
+import { applyFilters } from '../../templates/collection-view/FilterOperations';
 import {
   ProductFilterOperator,
   type ProductFilter,
@@ -231,8 +232,8 @@ export function FluidAttributesDemo({ exposeMalleability = false }: FluidAttribu
   };
 
   const visibleItems = useMemo(() => {
-    const items: Product[] = applyFiltersToProducts(CATALOGUE, filters);
-    return sortBy ? sortProducts(items, sortBy.field, sortBy.order) : items;
+    const items: Product[] = applyFilters(CATALOGUE, filters);
+    return sortBy ? sortItems(items, sortBy.field, sortBy.order) : items;
   }, [sortBy, filters]);
 
   const sortableAttributes = shownAttributes.filter((attribute) => attribute !== 'description');
@@ -300,8 +301,9 @@ export function FluidAttributesDemo({ exposeMalleability = false }: FluidAttribu
           <section className="cards cards--list">
             {visibleItems.map((item) => (
               <div key={item.id}>
-                <ProductCard
+                <EntityCard
                   item={item}
+                  binding={productBinding}
                   shownAttributes={shownAttributes}
                   selectedId={selectedId}
                   onItemSelect={selectItem}

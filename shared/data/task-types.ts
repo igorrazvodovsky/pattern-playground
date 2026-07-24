@@ -106,23 +106,3 @@ export const isTask = (obj: unknown): obj is Task => {
 export const getStatusValue = (task: Task): Task['status']['value'] => {
   return task.status.value;
 };
-
-// Convert unified Task to ItemView TaskObject
-export const taskToItemObject = (task: Task) => ({
-  id: task.id,
-  specification: task.specification,
-  status: task.status.value,
-  history: task.history,
-  assignee: task.assignee?.name,
-  progress: task.progress,
-  createdAt: task.createdAt,
-  metadata: {
-    title: task.title,
-    description: task.description,
-    priority: task.priority?.value,
-    tags: task.labels?.map(l => l.label) || [],
-    dueDate: task.dueDate,
-    project: task.project?.name,
-    ...task.metadata
-  }
-});

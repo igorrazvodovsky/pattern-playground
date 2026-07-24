@@ -301,7 +301,35 @@ export type {
   TaskLabel,
   CreateTaskInput
 } from './task-types';
-export { taskToItemObject } from './task-types';
+
+// Attribute bindings: entity types described declaratively for item views
+export type {
+  ItemScope,
+  AttributeRole,
+  AttributeValueType,
+  AttributeBinding,
+  AttributeSelection,
+  BoundEntity,
+  EntityBinding,
+} from './bindings';
+export {
+  bindings,
+  getValueAtPath,
+  deriveAttributeLabel,
+  attributeLabelFromBinding,
+  findAttribute,
+  resolveAttributeSelection,
+  IDENTITY_ROLES,
+  isNumericValueType,
+  formatBoundValue,
+  resolveEntityTitle,
+  productBinding,
+  projectBinding,
+  taskBinding,
+  quoteBinding,
+  referenceBinding,
+  userBinding,
+} from './bindings';
 
 // Re-export transformation types
 export type {

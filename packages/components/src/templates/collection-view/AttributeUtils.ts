@@ -1,45 +1,41 @@
 import { Product } from '@shared/data/types';
+import type { EntityBinding } from '@shared/data/bindings';
+import {
+  productBinding,
+  findAttribute,
+  attributeLabelFromBinding,
+  formatBoundValue,
+  getValueAtPath,
+  IDENTITY_ROLES,
+} from '@shared/data/bindings';
 
-// Identity attributes - define what the item is (have dedicated UI slots)
-const IDENTITY_ATTRIBUTES = ['name', 'description'];
+/**
+ * Binding-driven attribute access for the collection template. Every function
+ * takes the entity binding as its last parameter; it defaults to the product
+ * binding because products are the canonical demo population, so demo code
+ * over products reads unqualified while the template itself stays generic.
+ */
 
-// Metadata attributes - provide context about the item (rendered as badges/columns)
-const METADATA_ATTRIBUTES = [
-  'category',
-  'subcategory',
-  'sustainability.carbonFootprint',
-  'sustainability.recyclabilityScore',
-  'lifecycle.designLife',
-  'lifecycle.repairability',
-  'pricing.msrp',
-  'pricing.currency',
-  'availability.status',
-  'availability.leadTime',
-  'condition',
-  'location.site',
-  'listedAt'
-].sort();
-
-export const isIdentityAttribute = (attribute: string): boolean => {
-  return IDENTITY_ATTRIBUTES.includes(attribute);
+/** Identity attributes have dedicated UI slots (heading, icon, body text)
+    rather than generic badge/row/column placement — a role property, not a
+    name list. Paths outside the binding (dynamic spec keys) are never
+    identity. */
+export const isIdentityAttribute = (
+  attribute: string,
+  binding: EntityBinding = productBinding
+): boolean => {
+  const entry = findAttribute(binding, attribute);
+  return entry !== undefined && IDENTITY_ROLES.includes(entry.role);
 };
 
-// Curated display names for paths whose derived label reads wrong — the
-// fallback below spaces the camelCase leaf, which turns 'pricing.msrp' into
-// "Msrp". Only divergent entries live here.
-const ATTRIBUTE_LABELS: Record<string, string> = {
-  'pricing.msrp': 'Price',
-  // Not a stored attribute: the band a price falls into, computed on read.
-  'pricing.band': 'Price band',
-  'pricing.tradeInValue': 'Trade-in Value',
-  'availability.status': 'Availability',
-};
-
-export function attributeLabel(path: string): string {
-  const curated = ATTRIBUTE_LABELS[path];
-  if (curated) return curated;
-  const leaf = path.split('.').pop() ?? path;
-  return leaf.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase());
+// Label curation lives in each entity binding (shared/data/bindings): a
+// curated `label` where the derived one reads wrong, the camelCase-leaf
+// fallback everywhere else.
+export function attributeLabel(
+  path: string,
+  binding: EntityBinding = productBinding
+): string {
+  return attributeLabelFromBinding(binding, path);
 }
 
 // Cache for dynamic specification attributes
@@ -57,6 +53,8 @@ const getProductsSpecificationHash = (products: Product[]): string => {
   return Array.from(specKeys).sort().join('|');
 };
 
+/** Product-side data mining: the binding's paths plus the dynamic
+    specification keys present in the collection. */
 export const getAvailableAttributes = (products: Product[]): string[] => {
   const currentHash = getProductsSpecificationHash(products);
 
@@ -73,52 +71,35 @@ export const getAvailableAttributes = (products: Product[]): string[] => {
     lastProductsHash = currentHash;
   }
 
-  // Merge identity, metadata, and dynamic specification attributes
-  return [...IDENTITY_ATTRIBUTES, ...METADATA_ATTRIBUTES, ...cachedSpecificationKeys].sort();
+  const identity = productBinding.attributes
+    .filter((attribute) => IDENTITY_ROLES.includes(attribute.role) && attribute.path !== 'icon')
+    .map((attribute) => attribute.path);
+  const metadata = productBinding.attributes
+    .filter(
+      (attribute) =>
+        !IDENTITY_ROLES.includes(attribute.role) &&
+        attribute.valueType !== 'custom' &&
+        attribute.path !== 'specifications' &&
+        attribute.path !== 'pricing.band'
+    )
+    .map((attribute) => attribute.path);
+  return [...identity, ...metadata, ...cachedSpecificationKeys].sort();
 };
 
-export const getAttributeValue = (product: Product, attributePath: string): unknown => {
-  const keys = attributePath.split('.');
-  let value: unknown = product;
+// Thin wrappers over the binding-driven access module: path walking is
+// generic, and formatting switches on the binding entry's valueType (with a
+// join/String fallback for paths outside the binding, e.g. dynamic
+// specification keys).
+export const getAttributeValue = (item: unknown, attributePath: string): unknown =>
+  getValueAtPath(item, attributePath);
 
-  for (const key of keys) {
-    if (key === 'metadata') continue;
-    if (typeof value === 'object' && value !== null && 'metadata' in value && keys[0] !== 'name' && keys[0] !== 'description') {
-      value = (value as { metadata: Record<string, unknown> }).metadata;
-    }
-    if (typeof value === 'object' && value !== null && key in value) {
-      value = (value as Record<string, unknown>)[key];
-    } else {
-      value = undefined;
-      break;
-    }
-  }
-
-  return value;
-};
-
-export const formatAttributeValue = (value: unknown, attributePath: string): string => {
+export const formatAttributeValue = (
+  value: unknown,
+  attributePath: string,
+  binding: EntityBinding = productBinding
+): string => {
   if (value === undefined || value === null) return 'N/A';
-
-  if (attributePath.includes('msrp') && typeof value === 'number') {
-    return `$${value.toFixed(2)}`;
-  }
-
-  if (attributePath.includes('carbonFootprint')) {
-    return `${value} kg CO2e`;
-  }
-
-  if (attributePath.includes('leadTime')) {
-    return `${value} days`;
-  }
-
-  if (attributePath === 'listedAt' && typeof value === 'string') {
-    return new Date(value).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-  }
-
-  if (Array.isArray(value)) {
-    return value.join(', ');
-  }
-
-  return String(value);
+  const entry = findAttribute(binding, attributePath);
+  if (entry) return formatBoundValue(value, entry);
+  return Array.isArray(value) ? value.join(', ') : String(value);
 };

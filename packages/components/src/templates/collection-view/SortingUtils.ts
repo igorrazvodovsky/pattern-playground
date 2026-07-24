@@ -1,17 +1,16 @@
-import { Product } from '@shared/data/types';
 import { getAttributeValue } from './AttributeUtils';
 
 export type SortField = string;
 export type SortOrder = 'asc' | 'desc';
 
-export const sortProducts = (
-  products: Product[],
+export const sortItems = <T,>(
+  items: T[],
   sortField: SortField,
   sortOrder: SortOrder
-): Product[] => {
+): T[] => {
 
   try {
-    return [...products].sort((a, b) => {
+    return [...items].sort((a, b) => {
       try {
         const valueA = getAttributeValue(a, sortField);
         const valueB = getAttributeValue(b, sortField);
@@ -55,6 +54,6 @@ export const sortProducts = (
     });
   } catch (error) {
     console.warn('Sorting failed, returning unsorted data:', error);
-    return [...products];
+    return [...items];
   }
 };
