@@ -62,7 +62,7 @@ Draw conclusions through structured investigation. Medium granularity with compa
 
 Maintain operational awareness without deep investigation — answer "is anything wrong?" in passing. Aggregate metrics, trends, and status indicators rendered as compact summaries; typically a zoomed-out [collection framing](/patterns/data-view) with auto-refresh.
 
-<Demo label="The collection compressed to the few signals that answer 'is anything wrong?' at a glance — aggregates only, no items on screen.">
+<Demo surface="gray" label="The collection compressed to the few signals that answer 'is anything wrong?' at a glance — aggregates only, no items on screen.">
   <MonitorDemo client:only="react" />
 </Demo>
 
@@ -70,7 +70,7 @@ Maintain operational awareness without deep investigation — answer "is anythin
 
 Chase one concern to its bottom, ending at an individual [item's full view](/patterns/item-view).
 
-<Demo label="A drilldown path built as the concern narrows — categories, then items, then the item's full view.">
+<Demo surface="gray" label="A drilldown path built as the concern narrows — categories, then items, then the item's full view.">
   <InvestigateDemo client:only="react" />
 </Demo>
 
@@ -80,7 +80,7 @@ Monitoring exists to hand off: something changes or catches attention, and the w
 
 The hinge between watch and chase is clearest when it is rule-based. Where the domain can state its detection rules explicitly, the watch becomes a checklist of detected problems, and selecting one starts the chase with the reason attached — [problem-curated view](/patterns/problem-curated-view).
 
-<Demo label="Watch to chase in one flow: ambient badge → at-a-glance tiles → focused slice → the item's full view. Nothing auto-expands; the framing is preserved on the way back out. The flow is also the family tour — monitoring hands to a flag, the flag prunes an overview, the overview bottoms out in the full item view.">
+<Demo surface="gray" label="Watch to chase in one flow: ambient badge → at-a-glance tiles → focused slice → the item's full view. Nothing auto-expands; the framing is preserved on the way back out. The flow is also the family tour — monitoring hands to a flag, the flag prunes an overview, the overview bottoms out in the full item view.">
   <WatchToChaseTiersDemo client:only="react" />
 </Demo>
 

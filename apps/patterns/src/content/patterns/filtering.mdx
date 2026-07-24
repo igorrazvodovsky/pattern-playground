@@ -24,7 +24,7 @@ import { DataViewFilteringSlice } from '@pkg/demos/data-view';
 
 The narrowing of a collection to items that match the actor's criteria, balancing precision with the risk of hiding relevant results.
 
-<Demo label="Building a filter">
+<Demo surface="white" label="Building a filter" expandable>
   <FilteringDemo client:only="react" />
 </Demo>
 
@@ -55,7 +55,7 @@ If that fails, users can delegate filtering to an [agent](/patterns/agent) via a
 1. Create a task outside filtering whose result can be used to filter the collection.
 2. Follow steps 3-4 from Flow 1.
 
-<Demo label="LLM-assisted filter">
+<Demo surface="white" label="LLM-assisted filter" expandable>
   <div className="flex">
     <button className="tag"><iconify-icon icon="ph:sparkle"></iconify-icon><span className="shimmer">Thinking...</span></button>
     <div className="tag-group">

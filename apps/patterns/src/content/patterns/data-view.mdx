@@ -68,9 +68,9 @@ Saved views persist the whole framing — query, representation, arrangement, vi
 
 ## Writable views
 
-A view is not only read through — some edits are legal through the projection itself. Which edits, and through which representation, is a design decision: dragging a card between board lanes writes the grouping attribute; a lane computed from other data can only refuse the same gesture, and the refusal has to surface rather than silently fail.
+A view is not only read through — some edits are legal through the projection itself. Which edits, and through which representation, is a design decision: dragging a card between board lanes writes the grouping attribute.
 
-<Demo label="The Board preset taken apart: cards + group-by + an axis. Dragging between groups (or using the move menu) writes the grouping attribute through the projection — whichever attribute groups, along whichever axis. Grouped by a computed price band, the same write is refused.">
+<Demo label="Dragging between groups (or using the move menu) writes the grouping attribute through the projection — whichever attribute groups, along whichever axis. Grouped by a computed price band, the write is refused.">
   <WritableBoardDemo client:only="react" />
 </Demo>
 

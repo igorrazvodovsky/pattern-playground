@@ -3,17 +3,43 @@ import type { ReactNode } from 'react';
 interface DemoProps {
   children: ReactNode;
   label?: string;
-  // Desktop-scale demos (toolbars, canvases, multi-column tables) that outgrow
-  // the reading measure. Adds a control to the footer row that lets the reader
-  // cycle the host pane's width (reading → wide → full). Wiring lives in
-  // lib/demo-expander.ts; the width rules key off .pane[data-demo-expanded].
+  surface?: 'gray' | 'white' | 'border';
+  // Both features drive one width axis (--demo-w) shared through lib/demo-expander.ts:
+  // `resizable` renders a drag handle for continuous control; `expandable` renders
+  // a button that snaps to preset widths (reading / wide / full) on the same axis.
+  // Either can appear alone; together the button is the preset for the drag.
   expandable?: boolean;
+  resizable?: boolean;
 }
 
-export function Demo({ children, label, expandable }: DemoProps) {
+const surfaceClass = {
+  gray: 'layer gray',
+  white: 'layer border',
+  border: 'border',
+} as const;
+
+export function Demo({ children, label, expandable, resizable, surface = 'border' }: DemoProps) {
   return (
     <div className="demo-block">
-      <div className="demo-block__content layer gray">{children}</div>
+      <div
+        className={`demo-block__content ${surfaceClass[surface]}`.trimEnd()}
+        data-resizable={resizable || undefined}
+      >
+        {children}
+        {resizable && (
+          // Drag strip pinned to the content's trailing edge (its edge sits at
+          // --demo-w). lib/demo-expander.ts turns a drag into --demo-w on the pane.
+          <div
+            className="demo-resize-handle"
+            data-demo-resize
+            role="separator"
+            aria-orientation="vertical"
+            aria-label="Drag to resize this demo"
+            title="Drag to resize this demo"
+            tabIndex={0}
+          />
+        )}
+      </div>
       {(label || expandable) && (
         <div className="demo-block__footer">
           {label && <span className="demo-block__label">{label}</span>}

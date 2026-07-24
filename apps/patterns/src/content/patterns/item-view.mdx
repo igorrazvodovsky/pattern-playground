@@ -7,7 +7,6 @@ atomic: composition
 mediation: individual
 lifecycle: seeking
 fun: 🙂 4/5. Flexibility in displaying an entity enables a lot of emergent behaviour and contextual adaptation.
-realised_by: [components-item-view--docs]
 description: "Rendering a single entity at the level of detail its moment needs — glyph, reference, summary, detail, or full working surface — while keeping it recognisable as itself at every level."
 situation:
   initiating: >-
@@ -52,7 +51,7 @@ Item representation is the combination of a ladder rung and a UI element. The tw
 
 The lowest level: it doesn't even identify the entity by name, and it is only legible in relation to others — a glyph on its own means little.
 
-<Demo label="Glyph as map pin: the same entity the other rungs render, located among its population.">
+<Demo surface="white" label="Glyph as map pin: the same entity the other rungs render, located among its population.">
   <ItemViewGlyphDemo client:only="react" />
 </Demo>
 
@@ -64,7 +63,7 @@ The lowest level: it doesn't even identify the entity by name, and it is only le
 
 An inline @mention that opens to richer detail on demand, rendered as a <ComponentRef id="components-reference--docs">reference</ComponentRef>:
 
-<Demo label="Reference as @mention">
+<Demo surface="white" label="Reference as @mention">
   <ReferenceDemo client:only="react" />
 </Demo>
 
@@ -119,7 +118,6 @@ Item views support fluid navigation up and down the ladder:
 
 ## Related components
 
-- <ComponentRef id="components-item-view--docs">Item view</ComponentRef> — the adapter-based mechanism rendering an entity at each scope
 - <ComponentRef id="components-reference--docs">Reference</ComponentRef>
 - <ComponentRef id="components-dialog--docs">Dialog</ComponentRef> & <ComponentRef id="components-drawer--docs">drawer</ComponentRef>
 - <ComponentRef id="components-card--docs">Card</ComponentRef> – summary-level item representations

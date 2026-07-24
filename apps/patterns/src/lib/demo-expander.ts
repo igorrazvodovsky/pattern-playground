@@ -1,9 +1,27 @@
-// Reader-driven demo width. An expandable <Demo> (see components/Demo.tsx)
-// renders a corner button; clicking it cycles the width of the demo's host
-// .pane so the reader can pick a size that fits their screen, rather than the
-// author guessing one. Delegated from the document so it works identically in
-// pane 0 and in related panes injected as innerHTML (see StackManager). Nothing
-// is persisted — a reload returns every demo to its reading width.
+// Reader-driven demo width. Two <Demo> affordances (see components/Demo.tsx)
+// share one width axis, the --demo-w / --pane-max-w custom property on the host
+// .pane: `expandable` renders a button that snaps to preset widths, `resizable`
+// renders a drag handle for continuous control. Either can appear alone; together
+// the button is the preset for the drag. Delegated from the document so it works
+// identically in pane 0 and in related panes injected as innerHTML (see
+// StackManager). Nothing is persisted — a reload returns every demo to reading.
+//
+// A resizable pane derives --pane-max-w from --demo-w in CSS (clamped to reading
+// on the low end, the stack-spine `full` calc on the high end — see app.css), so
+// below the reading measure only the demo box narrows and prose holds still. So
+// for those panes we write --demo-w; a lone expandable pane writes --pane-max-w
+// directly, its historical behaviour.
+
+const READING_PX = 16 * 16; // 16rem, the resize floor
+
+function paneResizable(pane: HTMLElement): boolean {
+  return !!pane.querySelector('.demo-block__content[data-resizable]');
+}
+
+// Which custom property carries this pane's width (see the file header).
+function widthVar(pane: HTMLElement): '--demo-w' | '--pane-max-w' {
+  return paneResizable(pane) ? '--demo-w' : '--pane-max-w';
+}
 
 // Steps in cycle order. `width` is written to --pane-max-w on the pane, which
 // drives the pane's flex-basis AND its sticky right-inset (see stack.css). null
@@ -42,12 +60,13 @@ function currentStepIndex(pane: HTMLElement): number {
 
 function applyStep(pane: HTMLElement, index: number) {
   const step = STEPS[index];
+  const prop = widthVar(pane);
   if (step.width === null) {
     delete pane.dataset.demoExpanded;
-    pane.style.removeProperty('--pane-max-w');
+    pane.style.removeProperty(prop);
   } else {
     pane.dataset.demoExpanded = step.name;
-    pane.style.setProperty('--pane-max-w', step.width);
+    pane.style.setProperty(prop, step.width);
   }
 
   // Reflect the step onto every expand button in this pane (a page may hold
@@ -66,6 +85,16 @@ function applyStep(pane: HTMLElement, index: number) {
   window.dispatchEvent(new Event('resize'));
 }
 
+// Write a continuous width (px) to a resizable pane's --demo-w. The CSS clamp
+// caps the high end (stack width), so JS only needs to hold the low floor;
+// data-demo-expanded engages the article measure + prose cap for the wide half.
+function setDemoWidth(pane: HTMLElement, px: number) {
+  pane.dataset.demoExpanded = 'custom';
+  pane.style.setProperty('--demo-w', `${Math.max(READING_PX, Math.round(px))}px`);
+  // The var change resizes the article/demo, which the demo's own and
+  // StackManager's ResizeObservers catch — no manual resize dispatch needed.
+}
+
 if (typeof document !== 'undefined') {
   document.addEventListener('click', (e) => {
     const target = e.target as Element;
@@ -76,5 +105,44 @@ if (typeof document !== 'undefined') {
     e.preventDefault();
     const next = (currentStepIndex(pane) + 1) % STEPS.length;
     applyStep(pane, next);
+  });
+
+  // Pointer drag on a resize handle. Pointer capture keeps the drag alive if the
+  // cursor outruns the handle; events still bubble to this document listener.
+  let drag: { pane: HTMLElement; startX: number; startW: number } | null = null;
+
+  document.addEventListener('pointerdown', (e) => {
+    const handle = (e.target as Element).closest?.('[data-demo-resize]') as HTMLElement | null;
+    if (!handle) return;
+    const pane = handle.closest<HTMLElement>('.pane');
+    const content = handle.closest<HTMLElement>('.demo-block__content');
+    if (!pane || !content) return;
+    e.preventDefault();
+    handle.setPointerCapture(e.pointerId);
+    drag = { pane, startX: e.clientX, startW: content.getBoundingClientRect().width };
+  });
+
+  document.addEventListener('pointermove', (e) => {
+    if (!drag) return;
+    setDemoWidth(drag.pane, drag.startW + (e.clientX - drag.startX));
+  });
+
+  const endDrag = () => {
+    drag = null;
+  };
+  document.addEventListener('pointerup', endDrag);
+  document.addEventListener('pointercancel', endDrag);
+
+  // Keyboard resize: arrows nudge the focused handle by one step.
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    const handle = (e.target as Element).closest?.('[data-demo-resize]') as HTMLElement | null;
+    if (!handle) return;
+    const pane = handle.closest<HTMLElement>('.pane');
+    const content = handle.closest<HTMLElement>('.demo-block__content');
+    if (!pane || !content) return;
+    e.preventDefault();
+    const step = 32;
+    setDemoWidth(pane, content.getBoundingClientRect().width + (e.key === 'ArrowRight' ? step : -step));
   });
 }

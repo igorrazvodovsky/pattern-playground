@@ -15,7 +15,7 @@ situation:
     enough to scan and rich enough to verify
   resulting:
     - two linked views cover one collection — one compressed, one in full — and the actor moves between them without losing their place
-    - the overview's attribute subset now silently fixes what the actor can compare, sort, and filter by — a ceiling only malleability lifts
+    - the overview's attribute subset fixes what the actor can compare, sort, and filter by — a ceiling only malleability lifts
 relationships:
   composed-of:
     - to: data-view
@@ -57,7 +57,7 @@ The actor is working through a collection item by item — scanning many candida
 
 Give the collection two linked views: an *overview* rendering every item in the same compressed form, and a *detail* view rendering the current item in full. The link is the current item: opening an item from the overview fills the detail view, and returning to the overview finds the actor's place kept. Whether the two views share the screen, swap in place, or sit on separate pages is a layout decision inside the pattern, not the pattern itself.
 
-<Demo label="One spec pair through four layout values, re-chosen from the detail's own corner. Side by side reports itself unavailable at this width — the layout dimension is the one with a space cost." expandable>
+<Demo surface="gray" label="One spec pair through four layout values, re-chosen from the detail's own corner. Side by side reports itself unavailable at this width — the layout dimension is the one with a space cost." expandable>
   <OverviewDetailDemo client:only="react" />
 </Demo>
 
@@ -67,7 +67,7 @@ Give the collection two linked views: an *overview* rendering every item in the 
 
 Which *attributes* live in which view: overview only, detail only, or both — and interactive elements count as attributes too (a save button can live in both views or only one). Held open to the actor rather than fixed per view, this dimension is [attribute visibility](/patterns/attribute-visibility) applied twice over. Overview attributes are often *abstractions* of their detail counterparts: visual (`badge` for status), semantic (a generated title standing for a conversation), or computational (a calendar of cheapest prices). When the abstraction is computed or generated, the overview stops being a subset of the detail view and becomes a summary in its own right.
 
-<Demo label="The content dimension held open: surface attributes from the detail view into the overview, then operate on them." expandable>
+<Demo surface="gray" label="The content dimension held open: surface attributes from the detail view into the overview, then operate on them." expandable>
   <FluidAttributesDemo client:only="react" />
 </Demo>
 
@@ -75,7 +75,7 @@ Which *attributes* live in which view: overview only, detail only, or both — a
 
 How many of each, and how they nest: several overviews sharing one detail (list + map over the same geographical locations), one overview opening several details, recursion — the pattern nests inside detail views (suggested articles inside an article) — and intermediate detail tiers that soften the jump (tooltip card → full profile). The composition can even invert: a thesaurus entry opens on the detail view, with overviews of synonyms nested inside it — detail-first, the overview arriving second.
 
-<Demo label="The recursive case: a product's detail carries an overview of its components, whose detail carries overviews of its sub-assemblies and its materials. Three collections, one shape, repeated — and each rung keeps its own current item, so a path stays open through several levels at once." expandable>
+<Demo surface="gray" label="The recursive case: a product's detail carries an overview of its components, whose detail carries overviews of its sub-assemblies and its materials. Three collections, one shape, repeated — and each rung keeps its own current item, so a path stays open through several levels at once." expandable>
   <NestedPairsDemo client:only="react" />
 </Demo>
 
@@ -90,7 +90,7 @@ The control that chooses among them belongs on the detail rather than in a toolb
 ## Consequences
 
 - The collection carries two linked views — one for scanning, one for verifying — and the current item survives the move between them: the actor switches between list and item, and between items to compare them, without losing their place. When both views share the screen, the switch is a glance rather than a navigation.
-- The overview's attribute subset now silently fixes what the actor can compare, sort, and filter by (Airbnb's map shows only price) — a ceiling only [attribute visibility](/patterns/attribute-visibility) lifts, by letting the actor surface, hide, and re-filter attributes across both views.
+- The overview's attribute subset fixes what the actor can compare, sort, and filter by (Airbnb's map shows only price) — a ceiling only [attribute visibility](/patterns/attribute-visibility) lifts, by letting the actor surface, hide, and re-filter attributes across both views.
 
 ## Resources & references
 

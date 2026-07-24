@@ -36,7 +36,7 @@ The actor keeps returning to the same data with one question: what needs my atte
 
 The checklist is the interface. Each entry is a detected problem; the list doubles as index, navigation, status display, and audit trail. Selecting a problem filters the collection to the relevant slice, magnified and annotated with why it was flagged — the provenance is explicit, so the view can always say why it looks the way it does, and the reason moves with the actor from noticing into investigating.
 
-<Demo label="Detection rules over the collection as a checklist. Selecting a flag prunes the view to its slice with the reason attached; the full catalogue stays one action away, and every flag carries a not-useful control.">
+<Demo surface="gray" label="Detection rules over the collection as a checklist. Selecting a flag prunes the view to its slice with the reason attached; the full catalogue stays one action away, and every flag carries a not-useful control.">
   <ProblemChecklistDemo client:only="react" />
 </Demo>
 
@@ -50,7 +50,7 @@ The checklist is the interface. Each entry is a detected problem; the list doubl
 
 - The recurring triage is answered by the checklist rather than re-derived on every visit, and provenance keeps the curation accountable.
 - The rule set is a running cost. To its reader, a false positive is any flag they did not want to see — so flags need a feedback channel and a noise budget. Without them the curve is alarm fatigue, then suppression: the checklist still renders after trust has left it.
-- Cases outside the rules sail past silently; the escape hatch carries them, which is why it is a commitment and not a courtesy.
+- Cases outside the rules sail past.
 
 ## Resources & references
 

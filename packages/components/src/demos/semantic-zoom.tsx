@@ -91,8 +91,9 @@ export function SemanticZoomDemo({ height = 480 }: { height?: number | string } 
 // the records→attribute-subset material. The avatar is the single field the
 // glyph rung keeps, because a face still identifies a person where a product's
 // category icon would collapse the whole population to near-duplicates. The
-// semantic-resize mode drives the same ladder from container width instead of
-// the radios.
+// host <Demo resizable> supplies the drag handle, but only the Auto rung reads
+// it: Auto binds the ladder to container width (the semantic-resize variant),
+// while each manual rung pins itself and ignores the drag.
 
 const PERSON_RUNGS = [
 	{ rung: 'glyph', fields: ['avatar'] },
@@ -149,15 +150,18 @@ function PersonCard({ user, fields }: { user: User; fields: readonly PersonField
 }
 
 export function PopulationRungDemo() {
-	const [mode, setMode] = useState<'zoom' | 'resize'>('zoom')
+	// 'zoom' pins the rung to a manual radio; 'auto' hands it to container width.
+	const [mode, setMode] = useState<'zoom' | 'auto'>('zoom')
 	const [level, setLevel] = useState(1)
-	const resizeRef = useRef<HTMLDivElement>(null)
+	const rootRef = useRef<HTMLDivElement>(null)
 	const groupRef = useRef<HTMLDivElement>(null)
 	const [visibleAvatars, setVisibleAvatars] = useState(users.length)
 
+	// Only Auto reacts to the drag. The demo root sits inside the resizable `demo`
+	// container (see <Demo resizable>), so its own width tracks the handle.
 	useEffect(() => {
-		if (mode !== 'resize') return
-		const element = resizeRef.current
+		if (mode !== 'auto') return
+		const element = rootRef.current
 		if (!element) return
 		const observer = new ResizeObserver((entries) => {
 			const width = entries[0].contentRect.width
@@ -223,7 +227,7 @@ export function PopulationRungDemo() {
 		)
 
 	return (
-		<div className="flow">
+		<div className="flow" ref={rootRef}>
 			<div className="toolbar">
 				<div className="flex" role="radiogroup" aria-label="Scale">
 					{PERSON_RUNGS.map((rungLevel, index) => (
@@ -240,26 +244,20 @@ export function PopulationRungDemo() {
 							{rungLevel.rung[0].toUpperCase() + rungLevel.rung.slice(1)}
 						</label>
 					))}
-					{/* Auto hands the rung to container width — the semantic-resize variant. */}
+					{/* Auto hands the rung to container width — drag the demo's edge to drive it. */}
 					<label className="form-control">
 						<input
 							type="radio"
 							name="population-rung"
-							checked={mode === 'resize'}
-							onChange={() => setMode('resize')}
+							checked={mode === 'auto'}
+							onChange={() => setMode('auto')}
 						/>
 						Auto
 					</label>
 				</div>
 			</div>
 
-			{mode === 'resize' ? (
-				<div ref={resizeRef} className="resize-box">
-					{population}
-				</div>
-			) : (
-				population
-			)}
+			{population}
 		</div>
 	)
 }

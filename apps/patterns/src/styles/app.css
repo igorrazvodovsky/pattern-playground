@@ -45,6 +45,14 @@
     text-box-edge: ex alphabetic;
   }
 
+  h1.sidebar-logo a:hover .muted {
+    opacity: 1;
+  }
+
+  h1.sidebar-logo a:hover .sidebar-logo-suffix {
+    opacity: 0.6;
+  }
+
   .sidebar-projection-caret {
     margin-inline-start: auto;
     color: var(--c-neutral-500);
@@ -121,6 +129,50 @@
        narrow-container adaptations (sticky table columns, lane peek, control
        wrapping) key off it. In a pane this is ~32rem, phone territory. */
     container: demo / inline-size;
+  }
+
+  /* Reader-driven demo width (see <Demo resizable>). One axis, --demo-w, carries
+     both the drag handle and the expand-button presets (lib/demo-expander.ts).
+     The content box is the `demo` query container, so its width IS the scale a
+     narrow host would impose. --demo-w defaults to 100% (fills the article at the
+     reading measure); below the reading measure only this box narrows — the pane
+     rule below keeps the article, and thus the prose, at reading width. */
+  .demo-block__content[data-resizable] {
+    position: relative;
+    inline-size: min(var(--demo-w, 100%), 100%);
+    min-inline-size: 16rem;
+  }
+
+  /* The trailing-edge drag strip. Sits at the content's right edge (x = --demo-w),
+     full height, with a col-resize cursor and a faint grip so it reads as "drag me". */
+  .demo-resize-handle {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: 0;
+    inline-size: 0.75rem;
+    cursor: col-resize;
+    touch-action: none;
+    border-inline-start: var(--border);
+    border-inline-start-style: dashed;
+  }
+
+  .demo-resize-handle::after {
+    content: '';
+    position: absolute;
+    inset-block: calc(50% - 0.75rem);
+    inset-inline-end: 0.2rem;
+    inline-size: 2px;
+    border-inline: 2px solid var(--c-neutral-300);
+  }
+
+  .demo-resize-handle:hover::after,
+  .demo-resize-handle:focus-visible::after {
+    border-color: var(--c-neutral-500);
+  }
+
+  .demo-resize-handle:focus-visible {
+    outline: 2px solid var(--c-accent-500);
+    outline-offset: -2px;
   }
 
   .demo-block__footer {
@@ -264,6 +316,20 @@
    stack.css). Unlayered, to clear the unlayered 70ch article measure above. */
 .pane[data-demo-expanded] .pane-body article {
   max-width: var(--pane-max-w);
+}
+
+/* A resizable demo drives the SAME pane machinery, but through --demo-w: the
+   drag/preset writes --demo-w, and the pane derives --pane-max-w from it. Clamped
+   so widening never overruns the stack (the spine-reserving `full` calc, matching
+   demo-expander.ts) and the pane never narrows below the reading measure — below
+   that, only the demo box shrinks (see .demo-block__content[data-resizable]) while
+   the article, and its prose, hold at reading width. */
+.pane:has(.demo-block__content[data-resizable]) {
+  --pane-max-w: clamp(
+    36rem,
+    var(--demo-w, 36rem),
+    calc(100% - (var(--pane-n) - var(--pane-i, 0) - 1) * var(--pane-spine-w))
+  );
 }
 
 /* Keep prose at a reading measure while the article is wide, so only the demo
