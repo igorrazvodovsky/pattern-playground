@@ -278,7 +278,7 @@ Neutral palette colors are layered to create depth and show how different parts 
           <small class="muted">Create a new project to get started</small>
         </div>
       </div>
-      <form class="flow">
+      <form class="flow pad">
         <div class="flow">
           <label>Name</label>
           <pp-input type="text"></pp-input>
@@ -290,7 +290,7 @@ Neutral palette colors are layered to create depth and show how different parts 
           </div>
         </div>
       </form>
-              <div class="card__actions">
+              <div class="card__actions pad">
           <button class="button" is="pp-button">
             Create
           </button>
@@ -310,24 +310,29 @@ Neutral palette colors are layered to create depth and show how different parts 
           </button>
         </div>
       </div>
-
+      <div class="pad">
       <article class="card layer borderless">
         <div class="card__header">
             <h5>Conditions</h5>
           </div>
           <hr />
-        <p>Cooling capacity must match the juice production output to prevent product overcooling.</p>
-        <div class="flex">
-          <button class="button layer borderless" is="pp-button">
-            Yes
-          </button>
-          <button class="button layer borderless" is="pp-button">
-            No
-          </button>
-        </div>
-        <small class="muted">Cooling capacity must match the juice production output to prevent product overcooling.</small>
-      </article>
+            <div class="flow pad">
+            <p>Cooling capacity must match the juice production output to prevent product overcooling.</p>
+            <div class="flex">
+              <button class="button layer borderless" is="pp-button">
+                Yes
+              </button>
+              <button class="button layer borderless" is="pp-button">
+                No
+              </button>
+            </div>
+            <p class="description">
+              Cooling capacity must match the juice production output to prevent product overcooling.
+            </p>
+          </div>
 
+      </article>
+      </div>
     </article>
   </li>
   <li>
@@ -338,7 +343,7 @@ Neutral palette colors are layered to create depth and show how different parts 
           <strong>Two layers</strong><span class="muted">side by side</span>
         </div>
       </div>
-      <p>Neurological studies reveal that the human brain employs predictive coding mechanisms remarkably similar to Focus and Context systems.</p>
+      <p class="pad">Neurological studies reveal that the human brain employs predictive coding mechanisms remarkably similar to Focus and Context systems.</p>
     </article>
   </li>
 </ul>

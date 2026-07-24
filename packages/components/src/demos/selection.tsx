@@ -46,9 +46,9 @@ export function InlineCheckboxesDemo() {
   const { selected, listRef } = useListMultiSelect();
 
   return (
-    <div className="flow" style={{ width: '320px' }}>
+    <div className="flow">
       <p className="muted">{selected.size} selected</p>
-      <pp-list ref={listRef} multiselectable>
+      <pp-list className="layer borderless" ref={listRef} multiselectable>
         {projects.map(item => (
           <pp-list-item
             key={item.id}
@@ -75,7 +75,7 @@ export function ModeBasedRevealDemo() {
   };
 
   return (
-    <div className="flow" style={{ width: '320px' }}>
+    <div className="flow">
       <div className="inline-flow">
         {editing ? (
           <>
@@ -89,7 +89,7 @@ export function ModeBasedRevealDemo() {
           </>
         )}
       </div>
-      <pp-list ref={listRef} multiselectable={editing || undefined}>
+      <pp-list className="layer borderless" ref={listRef} multiselectable={editing || undefined}>
         {projects.map(item => (
           <pp-list-item
             key={item.id}
@@ -131,7 +131,7 @@ export function SelectAllAffordanceDemo() {
       : `Showing ${visibleCount} of ${TOTAL_MATCHING.toLocaleString()}`;
 
   return (
-    <div className="flow" style={{ width: '420px' }}>
+    <div className="flow">
       <div className="inline-flow">
         <span className="muted">{summary}</span>
         {selected.size > 0 || escalated ? (
@@ -141,7 +141,7 @@ export function SelectAllAffordanceDemo() {
         )}
       </div>
       {allVisibleSelected && !escalated && (
-        <div className="callout">
+        <div className="callout info">
           <p>
             All {visibleCount} items on this page are selected.{' '}
             <button className="button button--plain" onClick={() => setEscalated(true)}>
@@ -150,7 +150,7 @@ export function SelectAllAffordanceDemo() {
           </p>
         </div>
       )}
-      <pp-list ref={listRef} multiselectable>
+      <pp-list className="layer borderless" ref={listRef} multiselectable>
         {projects.map(item => (
           <pp-list-item
             key={item.id}

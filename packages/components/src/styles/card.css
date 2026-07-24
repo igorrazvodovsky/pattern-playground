@@ -44,6 +44,10 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
     flex-wrap: wrap;
   }
 
+  .card__body {
+    padding-inline: var(--space-m);
+  }
+
   .card__footer {
     padding: var(--space-m);
   }

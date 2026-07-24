@@ -130,7 +130,7 @@ export function ProblemChecklistDemo() {
           <iconify-icon className="icon" icon="ph:arrow-left" aria-hidden="true"></iconify-icon>
           Back to problems
         </button>
-        <div className="callout">
+        <div className="callout info">
           <p>
             <strong>{openFlag.title}.</strong> {openFlag.reason}
           </p>

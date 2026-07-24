@@ -131,20 +131,20 @@
       position: sticky;
       inset-inline-start: 0;
       z-index: 1;
-      background: var(--c-surface, var(--c-background));
+      background: var(--c-background);
     }
 
     /* Pinned cells are opaque, so translucent row states re-mix onto them */
     pp-table tbody tr:hover td:first-child {
-      background: color-mix(in oklch, var(--c-surface, var(--c-background)) 95%, var(--c-body) 5%);
+      background: color-mix(in oklch, var(var(--c-background)) 95%, var(--c-body) 5%);
     }
 
     pp-table tbody tr[data-focused="true"] > td:first-child {
-      background: color-mix(in oklch, var(--c-surface, var(--c-background)) 94%, var(--c-accent) 6%);
+      background: color-mix(in oklch, var(--c-background) 94%, var(--c-accent) 6%);
     }
 
     pp-table tbody tr[data-selected="true"] > td:first-child {
-      background: color-mix(in oklch, var(--c-surface, var(--c-background)) 88%, var(--c-accent) 12%);
+      background: color-mix(in oklch, var(--c-background) 88%, var(--c-accent) 12%);
     }
   }
 

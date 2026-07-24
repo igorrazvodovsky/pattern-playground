@@ -79,7 +79,7 @@
      adapters reference `.description`. */
   .description {
     font-size: smaller;
-    line-height: 150%;
+    line-height: var(--line-height-caption);
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     display: -webkit-box;

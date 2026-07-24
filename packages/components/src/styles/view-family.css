@@ -4,42 +4,9 @@
    what coupling and selection need. */
 
 @layer components {
-  /* A button that makes the whole card its hit area, mirroring .card > a */
-  .card .card__hit {
-    all: unset;
-    cursor: pointer;
-    font-weight: 500;
-
-    &::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-    }
-  }
-
-  .card:has(.card__hit):hover {
-    border-color: var(--c-accent);
-  }
-
-  /* Badge buttons and menus stay operable above the card-wide hit area */
-  .card:has(.card__hit) .card__attributes :is(button, pp-dropdown) {
-    position: relative;
-    z-index: 1;
-  }
-
-  /* Same for a corner control in the header: the hit area paints over the
-     header too, so a dismiss button or menu there needs lifting above it to
-     stay operable — the hit button itself excepted, since its ::before is the
-     overlay doing the covering. */
-  .card:has(.card__hit) .card__header :is(button, pp-dropdown):not(.card__hit) {
-    position: relative;
-    z-index: 1;
-  }
-
-  .card:has(.card__hit:focus-visible) {
-    outline: 3px solid var(--c-accent);
-    outline-offset: 2px;
-  }
+  /* The whole-card hit target is the `.stretched-link` utility (stretched-link
+     .css); the family demos apply it to a button. That file also lifts the
+     inner controls (badge menus, header corner controls) above the overlay. */
 
   /* Propagated designation: selection is staked, focus is transient */
   .card[data-selected="true"] {
@@ -111,10 +78,10 @@
 
   .detail__toolbar {
     position: absolute;
-    inset-block-start: 0;
-    inset-inline-end: 0;
+    inset-block-start: var(--space-xs);
+    inset-inline-end: var(--space-xs);
 
-    /* Above a card-wide `.card__hit` hit area, which paints over the card */
+    /* Above a card-wide `.stretched-link` hit area, which paints over the card */
     z-index: 1;
   }
 
@@ -131,9 +98,9 @@
 
   /* An inline detail: the card itself grows to carry the full readout, so the
      current item never leaves the row it was picked from. The rule separates
-     the compressed row from what it expanded into, and runs the full width of
-     the card — hence the zeroed inline margin the card otherwise imposes, and
-     the column span for `.cards--list` cards (whose grid has an icon column). */
+     the compressed row from what it expanded into and runs the full width of
+     the card — the column span reaches across a `.cards--list` card's media
+     grid, and its own inset (rather than the card's) governs the readout. */
   .card > .detail {
     grid-column: 1 / -1;
     margin-inline: 0;
@@ -183,7 +150,7 @@
 
   .person-card__header {
     border-radius: var(--radius-m);
-    margin-inline: var(--space-s);
+    margin: var(--space-s) var(--space-s) 0;
     justify-items: center;
     text-align: center;
   }
@@ -206,21 +173,6 @@
     font-size: var(--text-s);
     font-weight: var(--font-weight-semibold);
     color: var(--c-bodyDimmed);
-  }
-
-  /* Semantic-resize: the container's own width is the scale control. It is
-     itself a `demo` container, so dragging it narrower exercises the same
-     adaptations a real narrow host would. */
-  .resize-box {
-    container: demo / inline-size;
-    resize: horizontal;
-    overflow: auto;
-    min-inline-size: 16rem;
-    max-inline-size: 100%;
-    border: var(--border);
-    border-style: dashed;
-    border-radius: var(--radius-m);
-    padding: var(--space-s);
   }
 
   /* Fisheye over a timeline, after Wattenberger's fisheye for text. The
@@ -565,12 +517,10 @@
   }
 
   /* The block rhythm tightens with the rungs. A card the reader is meant to
-     trust less should not occupy the room of one they are meant to trust. */
-  .certainty
-    .cards
-    .card:is([data-certainty="inferred"], [data-certainty="deduced"]):not(.flow)
-    > *:not(img, hr) {
-    margin-block-start: var(--space-2xs);
+     trust less should not occupy the room of one they are meant to trust — the
+     connection cards flow, so the tightening is a smaller `--flow-space`. */
+  .certainty .card:is([data-certainty="inferred"], [data-certainty="deduced"]) {
+    --flow-space: var(--space-2xs);
   }
 
   /* The frame takes focus after a refocus so the keyboard follows the lens; it

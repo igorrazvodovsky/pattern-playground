@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import React from "react";
 import { icons as phosphorIcons } from '@iconify-json/ph';
 
 const filledIconNames = Object.keys(phosphorIcons.icons).filter(name => name.endsWith('-fill'));

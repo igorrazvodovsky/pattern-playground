@@ -280,8 +280,8 @@ export function Nav({ projections, projectionLabels, storybookUrl }: NavProps) {
           <SidebarGroup>
             <h1 className="sidebar-logo">
               <a href="/">
-                <i className="muted">
-                  pattern</i> playground
+                <i className="muted">pattern</i>
+                <span className="sidebar-logo-suffix"> playground</span>
               </a>
             </h1>
           </SidebarGroup>

@@ -20,7 +20,7 @@
 }
 
 .input {
-  background-color: var(--c-background);
+  background-color: var(--c-neutral-0);
   border: var(--input-border);
 }
 

@@ -43,7 +43,7 @@ export const BlockBasedEditorDemo = () => {
   }
 
   return (
-    <div className="layer">
+    <div>
       <EditorProvider editor={editor} plugins={[formattingPlugin()]}>
         <EditorLayout>
           <div className="editor-content-wrapper">

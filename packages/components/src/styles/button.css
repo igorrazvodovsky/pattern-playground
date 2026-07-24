@@ -2,7 +2,7 @@
   button,
   a.button {
     --button-color: oklch(from var(--button-bg) var(--l) 0 h / 90%);
-    --button-bg: var(--c-background);
+    --button-bg: var(--c-neutral-0);
     --button-box-shadow: 0 1px 3px rgba(12, 12, 12, 0.09);
 
     --button-padding: var(--space-s) var(--space-m);

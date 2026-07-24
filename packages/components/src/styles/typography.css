@@ -45,6 +45,7 @@ strong {
   border-radius: var(--radius-m);
   p {
     max-width: none;
+    text-wrap: balance;
   }
 }
 

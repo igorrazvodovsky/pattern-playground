@@ -638,10 +638,7 @@
           }
         ]
       },
-      "group": "seeking",
-      "realisedBy": [
-        "components-item-view--docs"
-      ]
+      "group": "seeking"
     },
     {
       "id": "keyboard-shortcuts",

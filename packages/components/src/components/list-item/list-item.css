@@ -100,7 +100,7 @@
 
 :host(:hover:not([aria-disabled="true"])) .list-item,
 :host(:focus:not([aria-disabled="true"])) .list-item {
-  background-color: var(--c-neutral-50);
+  background-color: oklch(from var(--c-neutral-50) calc(l - 0.05) c h);
   color: var(--c-neutral-1000);
 }
 

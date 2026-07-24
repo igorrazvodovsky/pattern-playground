@@ -74,7 +74,7 @@ export function ProductCard({
           (onItemSelect ? (
             <button
               type="button"
-              className="card__hit"
+              className="stretched-link"
               aria-pressed={selected}
               onClick={() => onItemSelect(item)}
             >
@@ -86,24 +86,9 @@ export function ProductCard({
       </h4>
     ) : null;
 
-  return (
-    <article
-      className="card"
-      data-selected={selected || undefined}
-      data-focused={focusedId === item.id || undefined}
-      onMouseEnter={onItemFocus ? () => onItemFocus(item) : undefined}
-      onMouseLeave={onItemFocus ? () => onItemFocus(null) : undefined}
-    >
-      {/* Actions ride in a header row so they sit opposite the heading; without
-          them the heading stands alone, exactly as before. */}
-      {actions ? (
-        <div className="card__header">
-          {heading}
-          {actions}
-        </div>
-      ) : (
-        heading
-      )}
+  const hasBody = shownAttributes.includes('description') || badges.length > 0;
+  const body = hasBody && (
+    <>
       {shownAttributes.includes('description') && (
         <p className="description">{item.description}</p>
       )}
@@ -115,19 +100,46 @@ export function ProductCard({
               <button
                 key={attribute}
                 type="button"
-                className="badge"
+                className="badge borderless"
                 onClick={() => onAttributeClick(attribute, value, item)}
               >
                 <span className="badge__label">{attributeLabel(attribute)}</span>
                 {value}
               </button>
             ) : (
-              <span key={attribute} className="badge">
+              <span key={attribute} className="badge borderless">
                 <span className="badge__label">{attributeLabel(attribute)}</span>
                 {value}
               </span>
             );
           })}
+        </div>
+      )}
+    </>
+  );
+
+  return (
+    <article
+      className="card"
+      data-selected={selected || undefined}
+      data-focused={focusedId === item.id || undefined}
+      onMouseEnter={onItemFocus ? () => onItemFocus(item) : undefined}
+      onMouseLeave={onItemFocus ? () => onItemFocus(null) : undefined}
+    >
+      {/* Spacing comes from composition: the header zone pads itself; loose body
+          content sits in a padded, flowed wrapper. Actions ride in a header row
+          so they sit opposite the heading; without them the heading leads the
+          body wrapper. */}
+      {actions ? (
+        <div className="card__header">
+          {heading}
+          {actions}
+        </div>
+      ) : null}
+      {(!actions || hasBody) && (
+        <div className="flow pad">
+          {!actions && heading}
+          {body}
         </div>
       )}
       {children}

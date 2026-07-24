@@ -130,37 +130,35 @@ export const CommentingDemo: React.FC = () => {
   }
 
   return (
-    <div className="layer">
-      <EditorProvider
+    <EditorProvider
+      editor={editor}
+      plugins={[
+        formattingPlugin(),
+        commentingPlugin({
+          documentId: 'doc-climate-change',
+          currentUser: 'user-1',
+          bubbleMenu: true,
+          toolbar: false,
+          enableQuoteComments: true,
+        })
+      ]}
+    >
+      <CommentingIntegration
         editor={editor}
-        plugins={[
-          formattingPlugin(),
-          commentingPlugin({
-            documentId: 'doc-climate-change',
-            currentUser: 'user-1',
-            bubbleMenu: true,
-            toolbar: false,
-            enableQuoteComments: true,
-          })
-        ]}
+        config={{
+          documentId: 'doc-climate-change',
+          currentUser: 'user-1',
+          enableQuoteComments: true,
+        }}
       >
-        <CommentingIntegration
-          editor={editor}
-          config={{
-            documentId: 'doc-climate-change',
-            currentUser: 'user-1',
-            enableQuoteComments: true,
-          }}
-        >
-          <EditorLayout>
-            <div className="rich-editor-container">
-              <PluginEditorContent />
-              <EditorBubbleMenu />
-            </div>
-          </EditorLayout>
-        </CommentingIntegration>
-      </EditorProvider>
-    </div>
+        <EditorLayout>
+          <div className="rich-editor-container">
+            <PluginEditorContent />
+            <EditorBubbleMenu />
+          </div>
+        </EditorLayout>
+      </CommentingIntegration>
+    </EditorProvider>
   );
 };
 
@@ -195,24 +193,22 @@ export const DynamicExplanationDemo: React.FC = () => {
   }
 
   return (
-    <div className="layer">
-      <EditorProvider
-        editor={editor}
-        plugins={[
-          explanationPlugin({
-            enableExplain: true,
-            streamingEnabled: true,
-            includeReferences: true,
-          })
-        ]}
-      >
-        <EditorLayout>
-          <div className="rich-editor-container">
-            <PluginEditorContent />
-            <EditorBubbleMenu />
-          </div>
-        </EditorLayout>
-      </EditorProvider>
-    </div>
+    <EditorProvider
+      editor={editor}
+      plugins={[
+        explanationPlugin({
+          enableExplain: true,
+          streamingEnabled: true,
+          includeReferences: true,
+        })
+      ]}
+    >
+      <EditorLayout>
+        <div className="rich-editor-container">
+          <PluginEditorContent />
+          <EditorBubbleMenu />
+        </div>
+      </EditorLayout>
+    </EditorProvider>
   );
 };

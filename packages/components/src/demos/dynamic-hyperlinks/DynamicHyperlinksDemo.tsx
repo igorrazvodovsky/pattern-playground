@@ -130,7 +130,7 @@ export function DynamicHyperlinksDemo() {
 
           {editor && scrollTarget && (
             <BubbleMenu editor={editor} options={bubbleMenuOptions}>
-              <div className="bubble-menu">
+              <div className="bubble-menu layer">
                 {!expanded ? (
                   <button
                     className="dynamic-hyperlinks__mentions-badge"

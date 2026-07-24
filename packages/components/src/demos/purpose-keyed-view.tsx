@@ -58,7 +58,7 @@ function MonitorTile({ tile }: { tile: StatTile }) {
             {deltaText}
           </span>
         </div>
-        <div className="stat">
+        <div className="stat pad">
           <strong className="stat__value">
             {tile.value}
             {tile.unit && <span className="stat__unit"> {tile.unit}</span>}
@@ -359,7 +359,7 @@ export function WatchToChaseTiersDemo() {
             >
               ← Back to the tiles
             </button>
-            <div className="callout">
+            <div className="callout info">
               <p>
                 <strong>{flag.title}.</strong> {flag.reason}
               </p>
