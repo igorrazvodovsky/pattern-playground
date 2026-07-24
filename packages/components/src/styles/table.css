@@ -136,7 +136,7 @@
 
     /* Pinned cells are opaque, so translucent row states re-mix onto them */
     pp-table tbody tr:hover td:first-child {
-      background: color-mix(in oklch, var(var(--c-background)) 95%, var(--c-body) 5%);
+      background: color-mix(in oklch, var(--c-background) 95%, var(--c-body) 5%);
     }
 
     pp-table tbody tr[data-focused="true"] > td:first-child {

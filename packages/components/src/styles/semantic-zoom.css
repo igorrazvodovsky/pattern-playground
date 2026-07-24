@@ -1,0 +1,133 @@
+/* Semantic-zoom demo skins: the zoom timeline — the uniform, scale-bound
+   sibling of the fisheye over the same lifecycleEvents, built on the vertical
+   .stepper spine — and the person card the demo's Detail rung renders. One
+   control moves every flow through the same rung at once: stage totals
+   (zoomed out), each flow dated (mid), each flow in full (zoomed in). */
+
+@layer components {
+  .person-card__header {
+    border-radius: var(--radius-m);
+    margin: var(--space-s) var(--space-s) 0;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .person-card__id {
+    display: grid;
+    gap: var(--space-3xs);
+  }
+
+  .person-card__id > * {
+    margin: 0;
+  }
+
+  .person-card .description-list {
+    justify-self: stretch;
+    text-align: start;
+  }
+
+  .avatar-group__more {
+    font-size: var(--text-s);
+    font-weight: var(--font-weight-semibold);
+    color: var(--c-bodyDimmed);
+  }
+
+  /* Semantic-zoom timeline dot alignment. The shared stepper (progress-indicator
+     .css, same layer) drops its dot 0.5em to meet taller multi-line content;
+     these rows are a single tight heading, so the dot centres on the text line
+     with (almost) no offset. Lives in this layer — not the `layout` block below
+     with the rest of .zoom-timeline — so it outranks the stepper's default by
+     specificity rather than losing to a later cascade layer. */
+  .zoom-timeline .stepper__item:not(:has(.stepper__icon))::before {
+    margin-top: 0.05rem;
+  }
+
+  /* Stage icons: neutralise the shared .stepper__icon's 0.5rem drop (tuned to
+     meet a title-plus-subtitle block) so the icon starts at the row's padding
+     edge. On the single-heading Stages rung the row below then centres it with
+     the text; on the Flows/Detail rungs the item is top-aligned, so a 0 offset
+     keeps the icon by the stage heading. Also lets the connector ::after drop
+     its offset term. */
+  .zoom-timeline > .stepper__item > .stepper__icon {
+    margin-top: 0;
+  }
+
+  /* Events are subordinate to their stage, so their markers are smaller dots.
+     The smaller circle needs its own top offset to sit on the label's first
+     line. */
+  .zoom-timeline .stepper.muted {
+    --_circle-size: 0.5rem;
+  }
+
+  .zoom-timeline .stepper.muted .stepper__item:not(:has(.stepper__icon))::before {
+    margin-top: 0.45rem;
+  }
+
+  /* Keep the connector centred in the gap between two stage markers. The shared
+     stepper's top/bottom calc bakes in the marker's default 0.5rem margin-top; our
+     stage icons start at the padding edge (margin-top: 0 above), so drop that
+     offset term and re-derive top/bottom from the icon's actual position. */
+  .zoom-timeline > .stepper__item:not(:last-child)::after {
+    top: calc(var(--_circle-size) + var(--_spacing) + 1rem);
+    bottom: calc(var(--_spacing) - 1rem);
+  }
+}
+
+@layer layout {
+  /* Stage header — name on the left, stage total pinned right. The content grows
+     to the full pane width so the total always lands in the same right column as
+     the event footprints below it. */
+  .zoom-timeline > .stepper__item > .stepper__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .zoom-timeline__row {
+    display: flex;
+    gap: var(--space-m);
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  .zoom-timeline__row h4 {
+    margin: 0;
+  }
+
+  /* A flow event: a single label line — date, then (at the Detail rung) the
+     description and site as one flowing paragraph — with the footprint pinned
+     right. Keeping it one paragraph means long text simply wraps within its
+     column instead of the row breaking into an awkward two-column grid, and the
+     footprint stays in the same right-aligned, scannable column at every rung. */
+  .zoom-timeline__event {
+    flex: 1;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: var(--space-m);
+    align-items: baseline;
+  }
+
+  .zoom-timeline__event-label {
+    margin: 0;
+  }
+
+  /* The date stays distinct at the head of the label so the eye can still find
+     the timeline order inside the flowing prose. */
+  .zoom-timeline__date {
+    font-weight: 600;
+    color: var(--c-body);
+  }
+
+  .zoom-timeline__co2e {
+    justify-self: end;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    color: var(--c-text-muted);
+  }
+
+  /* A negative footprint is a recovery credit — the assessment giving something
+     back — so it reads as success rather than emission. */
+  .zoom-timeline__co2e[data-sign="neg"] {
+    color: var(--c-body-success);
+  }
+}

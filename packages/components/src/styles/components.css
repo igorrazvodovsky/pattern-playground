@@ -46,6 +46,10 @@
 @import url(sections.css);
 @import url(stretched-link.css);
 @import url(view-family.css);
+@import url(stat.css);
+@import url(fisheye.css);
+@import url(certainty.css);
+@import url(semantic-zoom.css);
 @import url(toc.css);
 @import url(pattern-graph.css);
 @import url(dynamic-hyperlinks.css);

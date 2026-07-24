@@ -217,7 +217,7 @@ export function PopulationRungDemo() {
 				)}
 			</div>
 		) : (
-			<ul className="cards cards--grid layout-grid">
+			<ul className="cards layout-grid">
 				{users.map((user) => (
 					<li key={user.id}>
 						<PersonCard user={user} fields={fields} />

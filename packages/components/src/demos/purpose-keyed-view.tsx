@@ -43,7 +43,7 @@ interface StatTile {
 
 function MonitorTile({ tile }: { tile: StatTile }) {
   const delta = tile.current - tile.previous;
-  const good = delta === 0 ? 'neutral' : delta > 0 === tile.upIsGood ? 'good' : 'bad';
+  const trend = delta === 0 ? '' : delta > 0 === tile.upIsGood ? ' badge--success' : ' badge--danger';
   const icon =
     delta > 0 ? 'ph:arrow-up-right' : delta < 0 ? 'ph:arrow-down-right' : 'ph:minus';
   const deltaText = `${delta > 0 ? '+' : delta < 0 ? '−' : '±'}${Math.abs(delta)}`;
@@ -53,7 +53,7 @@ function MonitorTile({ tile }: { tile: StatTile }) {
       <article className="card" data-alert={tile.alert || undefined}>
         <div className="card__header">
           <h4 className="label">{tile.label}</h4>
-          <span className={`badge badge--pill`}>
+          <span className={`badge badge--pill${trend}`}>
             <iconify-icon className="icon" icon={icon} aria-hidden="true"></iconify-icon>
             {deltaText}
           </span>
@@ -151,7 +151,7 @@ export function MonitorDemo() {
   }, []);
 
   return (
-    <ul className="cards cards--grid layout-grid">
+    <ul className="cards layout-grid">
       {tiles.map((tile) => (
         <MonitorTile key={tile.label} tile={tile} />
       ))}
@@ -235,7 +235,7 @@ function InvestigateDrilldown() {
   }
 
   return (
-    <ul className="cards cards--grid layout-grid">
+    <ul className="cards layout-grid">
       {categories.map(([name, count]) => (
         <li key={name}>
           <article className="card flow pad">
@@ -245,7 +245,7 @@ function InvestigateDrilldown() {
               </button>
             </h4>
             <div className="card__attributes badges">
-              <span className="badge borderless">{count} listings</span>
+              <span className="badge">{count} listings</span>
             </div>
           </article>
         </li>
@@ -308,7 +308,7 @@ export function WatchToChaseTiersDemo() {
             >
               ← Back to the badge
             </button>
-            <ul className="cards cards--grid layout-grid">
+            <ul className="cards layout-grid">
               <li>
                 <article className="card">
                   <div className="card__header">

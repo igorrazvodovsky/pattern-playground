@@ -5,7 +5,7 @@
     --_border-color: var(--c-border);
 
     background-color: var(--_background-color);
-    /* border: 1px solid var(--_border-color); */
+    border: 1px solid var(--_border-color);
     border-radius: var(--radius-m);
     color: var(--_color);
     margin-block-end: var(--space-s);

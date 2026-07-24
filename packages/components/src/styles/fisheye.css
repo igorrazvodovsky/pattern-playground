@@ -1,0 +1,288 @@
+/* Fisheye over a timeline, after Wattenberger's fisheye for text. The
+   pointer is the lens and it reaches the bottom of the tree at once: the
+   flow under it is told verbatim, the rest of its episode stands aside for
+   the episode's sentence, and every stretch beyond says itself at the grain
+   its distance allows. Two properties carry it, and both are structural
+   rather than decorative.
+
+   Nothing moves. Every flow owns the same fixed slot of the frame in every
+   state — a span's height is its record count times one slot — so the lens
+   changes what a stretch says, never where it sits. A record's line is
+   taller than its slot, so the focused flow is a card raised over the
+   terrain rather than a row in it: magnification spills over the
+   neighbours' slots instead of pushing them away, and the terrain can never
+   slide out from under the pointer, because it never changes shape at all.
+
+   The rail is the map: one dot per flow strung on a single line, the way
+   the timeline component draws its steps, at one scale in every state.
+   Accent marks the lens and fades with distance; the dots are the whole
+   life whether or not any of it is currently being said. */
+
+@layer components {
+  .fisheye {
+    --_slot: 1.5rem;
+    --_rail-x: 0.5rem;
+    --_indent: 1.5rem;
+    --_rail: var(--c-neutral-200);
+    /* Redrawn per element so tint and text never cover it: the dot row for
+       the records a stretch stands for, and its piece of the through-line. */
+    --_rail-image:
+      radial-gradient(
+        circle at var(--_rail-x) 50%,
+        var(--_rail) 0.15rem,
+        transparent calc(0.15rem + 0.5px)
+      ),
+      linear-gradient(
+        to right,
+        transparent calc(var(--_rail-x) - 0.5px),
+        var(--c-neutral-100) calc(var(--_rail-x) - 0.5px) calc(var(--_rail-x) + 0.5px),
+        transparent calc(var(--_rail-x) + 0.5px)
+      );
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    block-size: calc(var(--flows) * var(--_slot));
+    user-select: none;
+  }
+
+  .fisheye:focus-visible {
+    outline: 2px solid var(--c-accent);
+    outline-offset: 2px;
+  }
+
+  /* An open span is nothing but its constituents and its extent. */
+  .fisheye__band {
+    display: flex;
+    flex: none;
+    flex-direction: column;
+    block-size: calc(var(--len) * var(--_slot));
+    border-radius: var(--radius-m);
+    transition: background-color 150ms ease;
+  }
+
+  /* The episode the lens is inside, marked once and lightly: enough to say
+     which stretch the card belongs to, not enough to compete with it. */
+  .fisheye__band[data-tip] {
+    background-color: var(--c-neutral-50);
+  }
+
+  /* Everything is sized by the records it stands for, and everything draws
+     its own stretch of the rail, so the whole run is on the edge of the view
+     at all times whatever the lens is doing. */
+  .fisheye__zone,
+  .fisheye__gap,
+  .fisheye__slot {
+    position: relative;
+    flex: none;
+    display: flex;
+    block-size: calc(var(--len) * var(--_slot));
+    padding-inline: var(--_indent) var(--space-xs);
+    background-image: var(--_rail-image);
+    background-size:
+      100% var(--_slot),
+      100% 100%;
+    background-repeat: repeat-y, no-repeat;
+  }
+
+  .fisheye__zone,
+  .fisheye__gap {
+    overflow: hidden;
+  }
+
+  /* The gaps flanking the card keep stable identities, so walking the lens
+     down an episode slides the card rather than rebuilding the band. */
+  .fisheye__gap {
+    transition: block-size 150ms ease;
+  }
+
+  /* The slot under the lens draws only its piece of the line: its dot
+     belongs to the card, accented and a size up. */
+  .fisheye__slot {
+    z-index: 2;
+    background-image: linear-gradient(
+      to right,
+      transparent calc(var(--_rail-x) - 0.5px),
+      var(--c-neutral-100) calc(var(--_rail-x) - 0.5px) calc(var(--_rail-x) + 0.5px),
+      transparent calc(var(--_rail-x) + 0.5px)
+    );
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+  }
+
+  /* The record under the lens cannot fit the slot it owns, so it rides over
+     the terrain instead of asking the neighbours for room — the one place
+     the view spends elevation. */
+  .fisheye__card {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    inset-inline: var(--_indent) 0;
+    inset-block-start: 50%;
+    padding: var(--space-2xs) var(--space-xs);
+    border-radius: var(--radius-m);
+    background-color: var(--c-background);
+    box-shadow: var(--shadow-m);
+    translate: 0 -50%;
+  }
+
+  .fisheye__card::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: calc(var(--_rail-x) - var(--_indent) - 0.25rem);
+    inset-block-start: 50%;
+    inline-size: 0.5rem;
+    block-size: 0.5rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--c-accent);
+    translate: 0 -50%;
+  }
+
+  /* Distance from the lens, carried by the dots alone: accent at the centre,
+     fading to neutral as it goes out. Nothing else is coloured. */
+  [data-ring="0"] {
+    --_rail: var(--c-accent-300);
+  }
+
+  [data-ring="1"] {
+    --_rail: var(--c-neutral-300);
+  }
+
+  [data-ring="2"],
+  [data-ring="3"] {
+    --_rail: var(--c-neutral-200);
+  }
+
+  /* A stretch says itself in the middle of the room it owns. `safe` matters:
+     a sentence with less room than it needs starts at the top and fades at
+     the bottom, rather than losing its heading off the top edge — the fade
+     says the same thing the falloff says: there is more here, and you are
+     too far away for it. */
+  .fisheye__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: safe center;
+    gap: 0.15em;
+    inline-size: 100%;
+    block-size: 100%;
+    min-inline-size: 0;
+    overflow: hidden;
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 0.6rem), transparent);
+  }
+
+  .fisheye__heading {
+    display: flex;
+    flex: none;
+    flex-wrap: wrap;
+    gap: 0 var(--space-xs);
+    align-items: baseline;
+  }
+
+  .fisheye__title {
+    font-weight: 500;
+    text-wrap: pretty;
+  }
+
+  .fisheye__range {
+    color: var(--c-neutral-500);
+    font-size: var(--text-s);
+    white-space: nowrap;
+  }
+
+  /* A sentence is a sentence, not a paragraph: two lines near the lens, one
+     further out, whatever room the stretch happens to own. The empty rest of
+     a tall band is the falloff being visible, and the reference this is
+     built after leaves far more of it than looks comfortable. */
+  .fisheye__sentence {
+    display: -webkit-box;
+    overflow: hidden;
+    color: var(--c-neutral-600);
+    font-size: var(--text-s);
+    line-height: 1.4;
+    text-wrap: pretty;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  [data-ring="1"] .fisheye__sentence {
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+  }
+
+  /* One line, on the card as much as in a lone flow's sliver of a zone. */
+  .fisheye__line {
+    display: flex;
+    gap: 0 var(--space-xs);
+    align-items: baseline;
+    align-self: center;
+    inline-size: 100%;
+    min-inline-size: 0;
+  }
+
+  /* A flow standing alone outside the lens: one dim line in one slot. */
+  .fisheye__zone > .fisheye__line {
+    color: var(--c-neutral-600);
+    font-size: var(--text-s);
+  }
+
+  /* Held to one width so the ledger reads as a column however the lens moves. */
+  .fisheye__when {
+    flex: none;
+    color: var(--c-neutral-600);
+    font-size: var(--text-s);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .fisheye__what {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Where the flow happened: detail only the lens earns. */
+  .fisheye__site {
+    flex: 0 4 auto;
+    overflow: hidden;
+    color: var(--c-neutral-500);
+    font-size: var(--text-s);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .fisheye__amount {
+    flex: none;
+    margin-inline-start: auto;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* In a narrow pane the same words cost more lines, so distance starts
+     costing words sooner: extents and sites go first. Falling off earlier is
+     the pattern working, not a concession to the width. */
+  @container demo (inline-size < 36rem) {
+    .fisheye__site {
+      display: none;
+    }
+  }
+
+  @container demo (inline-size < 26rem) {
+    .fisheye__range {
+      display: none;
+    }
+
+    [data-ring="1"] .fisheye__sentence {
+      display: none;
+    }
+  }
+
+  .fisheye__provenance {
+    display: flex;
+    gap: var(--space-xs);
+    align-items: center;
+    margin: 0;
+    color: var(--c-neutral-600);
+    font-size: var(--text-s);
+  }
+}

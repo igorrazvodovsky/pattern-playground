@@ -581,7 +581,7 @@ function OverviewDetailPair({ tier, items, label, initialOpenId }: PairProps) {
               </h4>
               <div className="card__attributes badges">
                 {tier.badges(item).map(({ label, value }) => (
-                  <span key={label} className="badge borderless">
+                  <span key={label} className="badge">
                     <span className="badge__label">{label}</span>
                     {value}
                   </span>

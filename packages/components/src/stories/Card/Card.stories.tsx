@@ -197,7 +197,7 @@ export const LayoutList: Story = {
 
 export const LayoutGrid: Story = {
   render: () => (
-    <ul className="cards cards--grid layout-grid">
+    <ul className="cards layout-grid">
       {cardsData.map((card, index) => (
         <li key={index}>
           <article className="card flow pad">

@@ -1,0 +1,41 @@
+/* Stat — a stat readout inside a standard card: a headline figure, a one-line
+   verdict, a supporting detail. The card, its header, and the trend badge are
+   all catalogue primitives; only the figure scale and the vertical rhythm are
+   set here. */
+
+@layer components {
+  .stat {
+    display: grid;
+    gap: var(--space-3xs);
+  }
+
+  .stat p {
+    margin: 0;
+  }
+
+  /* One ratio-step above the top of the type scale — the figure is the tile's
+     subject, so it outsizes the label and the reading beneath it. */
+  .stat__value {
+    font-size: calc(var(--text-xl) * 1.23);
+    line-height: 1.1;
+    letter-spacing: var(--letter-spacing-dense);
+  }
+
+  .stat__unit {
+    font-size: var(--text-s);
+    font-weight: var(--font-weight-normal);
+    color: var(--c-placeholder);
+  }
+
+  .stat__verdict {
+    margin-block-start: var(--space-2xs);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-tight);
+  }
+
+  /* The flagged tile: the figure itself reads as alert, its trend badge still
+     says which way the count moved. */
+  .card[data-alert] .stat__value {
+    color: var(--c-body-danger);
+  }
+}

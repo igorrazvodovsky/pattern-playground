@@ -8,7 +8,7 @@
   .info {
     --c-body: var(--c-body-info);
     --c-background: var(--c-background-info);
-    --c-border: var(--c-border-info);
+    --c-border: color-mix(in oklab, var(--c-border-info) 20%, transparent);
   }
 
   .success {

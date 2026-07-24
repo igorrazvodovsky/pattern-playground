@@ -1,0 +1,20 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import * as StatStories from './Stat.stories';
+
+<Meta of={StatStories} tags={['activity-level:operation', 'atomic:composite', 'role:component', 'mediation:individual']} />
+
+# Stat
+
+A reading taken in passing: a headline figure, a one-line verdict, and enough supporting detail to decide whether anything needs a closer look. The tile answers "is anything wrong?" without asking the reader to open anything.
+
+<Story of={StatStories.Stat} />
+
+## Composition
+
+Almost everything is other catalogue blocks: the [card](../?path=/docs/components-card--docs) is the surface, its header carries the label and a trend [badge](../?path=/docs/components-badge--docs) (`badge--success`/`badge--danger` say whether the movement is welcome, which is not the same as which way it points). `.stat` itself only sets the figure scale and the vertical rhythm — value with an optional `.stat__unit`, `.stat__verdict`, then muted detail. `data-alert` on the card turns the figure itself into the alarm while the badge keeps reporting direction.
+
+## Related patterns
+
+- <PatternRef slug="purpose-keyed-view">Purpose-keyed view</PatternRef> — the monitoring framing these tiles compress a collection into
+- [Card](../?path=/docs/components-card--docs) — the host surface and header
+- [Badge](../?path=/docs/components-badge--docs) — the trend indicator

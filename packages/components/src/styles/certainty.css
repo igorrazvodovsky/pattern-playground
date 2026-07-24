@@ -1,0 +1,88 @@
+/* The certainty fisheye. Same machinery as the timeline fisheye (fisheye.css),
+   with the distance metric pivoted: distance from the focused component is how
+   sure the system is that the connection is there, and — as in any fisheye —
+   distance buys abstraction and nothing else.
+
+   The connections are one list, and almost all of it is the catalogue's own
+   card: eyebrow, label, description, attribute badges. What falls with
+   distance is how many of those slots a tier can fill and how solid the card
+   looks — an authored edge is a bordered card carrying the model's words and
+   the target's readings; a rule's inference drops the border and spends its
+   description on what the rule stands on; a proposal is quieter again, its
+   name marked provisional because it may not name anything. Weight falls the
+   whole way down, so the reader never has to consult a header to know how far
+   out a row is. Nothing is revealed on hover: a card that grows under the
+   pointer moves every card below it, which is the one thing a fisheye must
+   never do. */
+
+@layer components {
+  /* The frame's header: the crumb chain, and the levels control at its end. The
+     crumbs take whatever room is left and wrap inside it; the gear never
+     shrinks, so the control stays reachable at any pane width. */
+  .certainty__head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs) var(--space-s);
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .certainty__head > pp-breadcrumbs {
+    flex: 1 1 12rem;
+    min-inline-size: 0;
+  }
+
+  /* Rung 2: the border and the ground go, so the card recedes into the layer
+     it sits on, and the name comes down a step. */
+  .certainty .card[data-certainty="inferred"] {
+    border-style: dashed;
+    background-color: transparent;
+  }
+
+  .certainty .card[data-certainty="inferred"] .label {
+    font-size: calc(var(--text-s) * 0.92);
+  }
+
+  /* Rung 3: quieter again, and the name itself carries the provisional mark —
+     the card must not regain a frame heavier than the rung above it. */
+  .certainty .card[data-certainty="deduced"] {
+    border-style: dashed;
+    background-color: transparent;
+    color: var(--c-bodyDimmed);
+  }
+
+  .certainty .card[data-certainty="deduced"] .label {
+    font-size: calc(var(--text-s) * 0.85);
+  }
+
+  /* The block rhythm tightens with the rungs. A card the reader is meant to
+     trust less should not occupy the room of one they are meant to trust — the
+     connection cards flow, so the tightening is a smaller `--flow-space`. */
+  .certainty .card:is([data-certainty="inferred"], [data-certainty="deduced"]) {
+    --flow-space: var(--space-2xs);
+  }
+
+  /* The frame takes focus after a refocus so the keyboard follows the lens; it
+     is not a tab stop, so it never draws a ring on its own account. */
+  .certainty:focus {
+    outline: none;
+  }
+
+  /* The crumb chain is the frame, and a frame that scrolls sideways is not one.
+     `pp-breadcrumbs` holds its trail on one line and elides the middle at a
+     narrow *viewport*; a demo pane can be narrow inside a wide window, where
+     that never fires, so here the trail wraps instead. */
+  .certainty pp-breadcrumbs {
+    flex-wrap: wrap;
+  }
+
+  /* Past the model's boundary the crumb chain stays real up to the anchor, and
+     only the last link is provisional. */
+  .certainty .crumb[data-proposed] a {
+    border-block-end: 1px dashed var(--c-neutral-400);
+  }
+
+  .certainty .crumb[data-proposed] .muted {
+    margin-inline-start: var(--space-2xs);
+  }
+}

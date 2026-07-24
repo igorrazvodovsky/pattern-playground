@@ -208,7 +208,7 @@ function FocusCard({
           </summary>
           <ul className="card__attributes badges">
             {node.attributes.map((attribute) => (
-              <span className="badge borderless" key={attribute.name}>
+              <span className="badge" key={attribute.name}>
                 <span>{attribute.label}</span>
                 {attribute.value}
                 {attribute.unit ?? ''}
@@ -300,7 +300,7 @@ function ConnectionCard({ row }: { row: Row }) {
         {row.attributes && row.attributes.length > 0 && (
           <ul className="card__attributes badges">
             {row.attributes.slice(0, 4).map((attribute) => (
-              <span className="badge borderless" key={attribute.name}>
+              <span className="badge" key={attribute.name}>
                 <span>{attribute.label}</span>
                 {attribute.value}
                 {attribute.unit ?? ''}
@@ -603,7 +603,7 @@ export function ContextualNavigationDemo() {
 
         <h4>Related</h4>
 
-        <ul className="cards cards--grid layout-grid">
+        <ul className="cards layout-grid">
           {rows.map((row) => (
             <ConnectionCard key={row.key} row={row} />
           ))}
