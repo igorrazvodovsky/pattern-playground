@@ -1,6 +1,4 @@
-import { FilterType, Status, Assignee, Labels, Priority, DueDate, FilterOption } from "./filter-types";
-import { FilterIcon } from "./filter-options-icons";
-import { filterOperators } from "./filter-operator-logic";
+import { attributeLabelFromBinding, findAttribute, taskBinding } from '@shared/data/bindings';
 import {
   users,
   filterStatuses,
@@ -9,279 +7,90 @@ import {
   filterDates
 } from "@shared/data";
 
+/**
+ * The task filter facets, keyed by attribute path over the task binding.
+ * The binding supplies each facet's label, icon and operators; the shared
+ * data registries supply its curated values — icons included, so nothing
+ * here re-declares presentation the data already carries.
+ */
 
-export const filterViewOptions: FilterOption[][] = [
-  [
-    {
-      name: FilterType.STATUS,
-      icon: <FilterIcon type={FilterType.STATUS} />,
-    },
-    {
-      name: FilterType.ASSIGNEE,
-      icon: <FilterIcon type={FilterType.ASSIGNEE} />,
-    },
-    {
-      name: FilterType.LABELS,
-      icon: <FilterIcon type={FilterType.LABELS} />,
-    },
-    {
-      name: FilterType.PRIORITY,
-      icon: <FilterIcon type={FilterType.PRIORITY} />,
-    },
-  ],
-  [
-    {
-      name: FilterType.DUE_DATE,
-      icon: <FilterIcon type={FilterType.DUE_DATE} />,
-    },
-    {
-      name: FilterType.CREATED_DATE,
-      icon: <FilterIcon type={FilterType.CREATED_DATE} />,
-    },
-    {
-      name: FilterType.UPDATED_DATE,
-      icon: <FilterIcon type={FilterType.UPDATED_DATE} />,
-    },
-  ],
+export type FilterOption = {
+  name: string;
+  icon?: string;
+  label?: string;
+};
+
+/** Which facets the pill UI offers — a view decision, a plain list of paths. */
+export const TASK_FILTER_PATHS: string[] = [
+  'status.label',
+  'assignee.name',
+  'tags',
+  'priority.label',
+  'dueDate',
+  'createdAt',
+  'updatedAt',
 ];
 
-export const statusFilterOptions: FilterOption[] = filterStatuses.map(item => ({
-  name: item.value as Status,
-  icon: <FilterIcon type={item.value as Status} />,
-}));
+interface ValueRecord {
+  id: string;
+  name: string;
+  value: string;
+  icon?: string;
+  searchableText?: string;
+}
 
-export const assigneeFilterOptions: FilterOption[] = [
-  ...users.map(user => ({
-    name: user.name as Assignee,
-    icon: <FilterIcon type={user.name as Assignee} />,
+const assigneeRecords: ValueRecord[] = [
+  ...users.map((user) => ({
+    id: `assignee-${user.id}`,
+    name: user.name,
+    value: user.name,
+    icon: 'ph:user',
+    searchableText: user.name.toLowerCase(),
   })),
   {
-    name: Assignee.NO_ASSIGNEE,
-    icon: <FilterIcon type={Assignee.NO_ASSIGNEE} />,
-  }
+    id: 'assignee-none',
+    name: 'No assignee',
+    value: 'No assignee',
+    icon: 'ph:user-minus',
+    searchableText: 'no assignee unassigned',
+  },
 ];
 
-export const labelFilterOptions: FilterOption[] = filterLabels.map(item => ({
-  name: item.value as Labels,
-  icon: <FilterIcon type={item.value as Labels} />,
-}));
-
-export const priorityFilterOptions: FilterOption[] = filterPriorities.map(item => ({
-  name: item.value as Priority,
-  icon: <FilterIcon type={item.value as Priority} />,
-}));
-
-export const dateFilterOptions: FilterOption[] = filterDates.map(item => ({
-  name: item.value as DueDate,
-  icon: undefined,
-}));
-
-export const filterViewToFilterOptions: Record<FilterType, FilterOption[]> = {
-  [FilterType.STATUS]: statusFilterOptions,
-  [FilterType.ASSIGNEE]: assigneeFilterOptions,
-  [FilterType.LABELS]: labelFilterOptions,
-  [FilterType.PRIORITY]: priorityFilterOptions,
-  [FilterType.DUE_DATE]: dateFilterOptions,
-  [FilterType.CREATED_DATE]: dateFilterOptions,
-  [FilterType.UPDATED_DATE]: dateFilterOptions,
+const valueRecords: Record<string, ValueRecord[]> = {
+  'status.label': filterStatuses,
+  'assignee.name': assigneeRecords,
+  'tags': filterLabels,
+  'priority.label': filterPriorities,
+  'dueDate': filterDates,
+  'createdAt': filterDates,
+  'updatedAt': filterDates,
 };
 
-export { filterOperators };
+const toOption = ({ value, icon }: ValueRecord): FilterOption => ({ name: value, icon });
 
-export type SearchableFilterItem = {
-  type: FilterType;
-  value: string;
-  icon: React.ReactNode;
-  typeIcon: React.ReactNode;
-  searchableText: string;
-};
+/** Each facet's value options, as the data records them. */
+export const filterValueOptions: Record<string, FilterOption[]> = Object.fromEntries(
+  Object.entries(valueRecords).map(([path, records]) => [path, records.map(toOption)])
+);
 
-export const createGlobalFilterItems = (): SearchableFilterItem[] => {
-  const items: SearchableFilterItem[] = [];
-
-  Object.entries(filterViewToFilterOptions).forEach(([filterType, options]) => {
-    const filterTypeOption = filterViewOptions.flat().find(option => option.name === filterType);
-    const typeIcon = filterTypeOption?.icon;
-
-    options.forEach(option => {
-      items.push({
-        type: filterType as FilterType,
-        value: option.name as string,
-        icon: option.icon,
-        typeIcon: typeIcon,
-        searchableText: `${filterType.toLowerCase()} ${option.name.toLowerCase()}`
-      });
-    });
-  });
-
-  return items;
-};
-
-export const getFilteredResults = (
-  searchTerm: string,
-  globalFilterItems: SearchableFilterItem[]
-): {
-  filterTypes: FilterOption[][];
-  filterValues: SearchableFilterItem[];
-  viewOptions?: FilterOption[];
-} => {
-  if (!searchTerm.trim()) {
-    return {
-      filterTypes: filterViewOptions,
-      filterValues: []
-    };
-  }
-
-  const lowerSearchTerm = searchTerm.toLowerCase();
-  const searchWords = lowerSearchTerm.split(/\s+/).filter(word => word.length > 0);
-
-  const findSpecificFilterType = (words: string[]): FilterType | null => {
-    const filterTypeKeywords: Record<string, FilterType> = {
-      'status': FilterType.STATUS,
-      'assignee': FilterType.ASSIGNEE,
-      'assigned': FilterType.ASSIGNEE,
-      'label': FilterType.LABELS,
-      'labels': FilterType.LABELS,
-      'tag': FilterType.LABELS,
-      'tags': FilterType.LABELS,
-      'priority': FilterType.PRIORITY,
-      'due': FilterType.DUE_DATE,
-      'deadline': FilterType.DUE_DATE,
-      'created': FilterType.CREATED_DATE,
-      'updated': FilterType.UPDATED_DATE,
-      'modified': FilterType.UPDATED_DATE,
-    };
-
-    for (const word of words) {
-      if (filterTypeKeywords[word]) {
-        return filterTypeKeywords[word];
-      }
-    }
-    return null;
-  };
-
-  const specificFilterType = findSpecificFilterType(searchWords);
-
-  const matchesSearch = (text: string, exactMatch: boolean = false): boolean => {
-    const lowerText = text.toLowerCase();
-
-    if (exactMatch) {
-      return lowerText.includes(lowerSearchTerm);
-    }
-
-    return searchWords.every(word => lowerText.includes(word));
-  };
-
-  const matchesTypeAndValue = (item: SearchableFilterItem): boolean => {
-    if (specificFilterType && item.type !== specificFilterType) {
-      return false;
-    }
-
-    const typeWords = item.type.toLowerCase().split(/\s+/);
-    const valueWords = item.value.toLowerCase().split(/\s+/);
-
-    if (specificFilterType) {
-      const nonTypeWords = searchWords.filter(word => {
-        const isTypeWord = typeWords.some(typeWord =>
-          typeWord.includes(word) || word.includes(typeWord)
-        );
-        return !isTypeWord;
-      });
-
-      if (nonTypeWords.length === 0) {
-        return true;
-      }
-
-      return nonTypeWords.every(word =>
-        valueWords.some(valueWord =>
-          valueWord.includes(word) || word.includes(valueWord)
-        )
-      );
-    }
-
-    const allItemWords = [...typeWords, ...valueWords];
-    const matchingWords = searchWords.filter(searchWord =>
-      allItemWords.some(itemWord =>
-        itemWord.includes(searchWord) || searchWord.includes(itemWord)
-      )
-    );
-
-    if (searchWords.length > 1) {
-      return matchingWords.length >= Math.ceil(searchWords.length / 2);
-    }
-
-    return matchingWords.length > 0;
-  };
-
-  const filteredFilterTypes = filterViewOptions.map(group =>
-    group.filter(filter =>
-      matchesSearch(filter.name as string, true)
-    )
-  ).filter(group => group.length > 0);
-
-  const filteredFilterValues = globalFilterItems.filter(item => {
-    if (specificFilterType) {
-      return item.type === specificFilterType && matchesTypeAndValue(item);
-    }
-
-    if (matchesSearch(item.value) || matchesSearch(item.searchableText)) {
-      return true;
-    }
-
-    return matchesTypeAndValue(item);
-  });
-
-  if (searchWords.length > 1 && filteredFilterValues.length > 0) {
-    filteredFilterValues.sort((a, b) => {
-      const aScore = getRelevanceScore(a, searchWords, specificFilterType);
-      const bScore = getRelevanceScore(b, searchWords, specificFilterType);
-      return bScore - aScore;
-    });
-  }
-
+/**
+ * The facet tree the hierarchical picker (demos/filtering.tsx) navigates:
+ * one parent per offered path, children stamped with the path they filter.
+ */
+export const taskFilterCategories = TASK_FILTER_PATHS.map((path) => {
+  const label = attributeLabelFromBinding(taskBinding, path);
   return {
-    filterTypes: filteredFilterTypes,
-    filterValues: filteredFilterValues
+    id: path,
+    name: label,
+    icon: findAttribute(taskBinding, path)?.icon,
+    searchableText: `${label} ${path}`.toLowerCase(),
+    children: (valueRecords[path] ?? []).map((record) => ({
+      id: `${path}-${record.id}`,
+      name: record.name,
+      icon: record.icon,
+      value: record.value,
+      path,
+      searchableText: record.searchableText ?? record.name.toLowerCase(),
+    })),
   };
-};
-
-const getRelevanceScore = (item: SearchableFilterItem, searchWords: string[], specificFilterType?: FilterType | null): number => {
-  let score = 0;
-  const typeWords = item.type.toLowerCase().split(/\s+/);
-  const valueWords = item.value.toLowerCase().split(/\s+/);
-
-  searchWords.forEach(searchWord => {
-    if (specificFilterType) {
-      if (valueWords.some(word => word === searchWord)) {
-        score += 15;
-      }
-      else if (valueWords.some(word => word.includes(searchWord))) {
-        score += 8;
-      }
-      else if (item.value.toLowerCase().includes(searchWord)) {
-        score += 3;
-      }
-      return;
-    }
-
-    if (typeWords.some(word => word === searchWord)) {
-      score += 10;
-    }
-    else if (typeWords.some(word => word.includes(searchWord))) {
-      score += 5;
-    }
-
-    if (valueWords.some(word => word === searchWord)) {
-      score += 8;
-    }
-    else if (valueWords.some(word => word.includes(searchWord))) {
-      score += 4;
-    }
-
-    if (item.searchableText.includes(searchWord)) {
-      score += 2;
-    }
-  });
-
-  return score;
-};
+});

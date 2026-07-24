@@ -1,7 +1,7 @@
 import React from "react";
-import { FilterType, FilterOperator, FilterOption } from "./filter-types";
-import { filterOperators, filterViewToFilterOptions } from "./filter-options";
-import { FilterIcon } from "./filter-options-icons";
+import type { EntityBinding, FilterOperator } from "@shared/data/bindings";
+import { taskBinding, findAttribute, filterOperatorsFor } from "@shared/data/bindings";
+import { filterValueOptions, FilterOption } from "./filter-options";
 import { AnimateChangeInHeight } from "./animate-change-in-height";
 import {
   Combobox,
@@ -18,17 +18,19 @@ import '../list/list.ts';
 import '../list-item/list-item.ts';
 
 export const FilterOperatorDropdown = ({
-  filterType,
+  path,
   operator,
   filterValues,
   setOperator,
+  binding = taskBinding,
 }: {
-  filterType: FilterType;
+  path: string;
   operator: FilterOperator;
   filterValues: string[];
   setOperator: (operator: FilterOperator) => void;
+  binding?: EntityBinding;
 }) => {
-  const operators = filterOperators({ filterType, filterValues });
+  const operators = filterOperatorsFor(findAttribute(binding, path), filterValues);
 
   return (
     <pp-dropdown placement="bottom-start">
@@ -52,11 +54,11 @@ export const FilterOperatorDropdown = ({
 };
 
 export const FilterValueDropdown = ({
-  filterType,
+  path,
   filterValues,
   setFilterValues,
 }: {
-  filterType: FilterType;
+  path: string;
   filterValues: string[];
   setFilterValues: (filterValues: string[]) => void;
 }) => {
@@ -70,9 +72,16 @@ export const FilterValueDropdown = ({
     clearInputAndHide,
   } = useDropdownState();
 
-  const nonSelectedFilterValues = filterViewToFilterOptions[filterType]?.filter(
-    (filter) => !filterValues.includes(filter.name)
+  const options = filterValueOptions[path] ?? [];
+  const nonSelectedFilterValues = options.filter(
+    (option) => !filterValues.includes(option.name)
   );
+
+  const iconFor = (value: string): string | undefined =>
+    options.find((option) => option.name === value)?.icon;
+
+  // Values only get avatars when the data behind them carries icons.
+  const hasValueIcons = filterValues.some((value) => iconFor(value));
 
   const handleValueRemove = (value: string) => {
     setFilterValues(filterValues.filter((v) => v !== value));
@@ -95,15 +104,18 @@ export const FilterValueDropdown = ({
         slot="trigger"
         className="tag"
       >
-        <span className="avatar-group">
-          {filterType !== FilterType.PRIORITY && (
-            filterValues?.slice(0, 3).map((value) => (
-              <pp-avatar key={value} size="xsmall">
-                <FilterIcon type={value as FilterType} />
-              </pp-avatar>
-            ))
-          )}
-        </span>
+        {hasValueIcons && (
+          <span className="avatar-group">
+            {filterValues?.slice(0, 3).map((value) => {
+              const icon = iconFor(value);
+              return icon ? (
+                <pp-avatar key={value} size="xsmall">
+                  <iconify-icon icon={icon} />
+                </pp-avatar>
+              ) : null;
+            })}
+          </span>
+        )}
         {filterValues?.length === 1
           ? filterValues?.[0]
           : `${filterValues?.length} selected`}
@@ -113,7 +125,7 @@ export const FilterValueDropdown = ({
         <AnimateChangeInHeight>
           <Combobox>
             <ComboboxInput
-              placeholder={filterType}
+              placeholder={path}
               className="h-9"
               value={commandInput}
               onInputCapture={(e) => {
@@ -130,7 +142,9 @@ export const FilterValueDropdown = ({
                     checked={true}
                     onSelect={() => handleValueRemove(value)}
                   >
-                    <FilterIcon type={value as FilterType} slot="prefix" />
+                    {iconFor(value) && (
+                      <iconify-icon icon={iconFor(value)} slot="prefix" />
+                    )}
                     {value}
                   </ComboboxItem>
                 ))}
@@ -145,9 +159,7 @@ export const FilterValueDropdown = ({
                         checked={false}
                         onSelect={(currentValue: string) => handleValueAdd(currentValue)}
                       >
-                        {React.isValidElement(filter.icon)
-                          ? React.cloneElement(filter.icon as React.ReactElement<{ slot?: string }>, { slot: 'prefix' })
-                          : null}
+                        {filter.icon && <iconify-icon icon={filter.icon} slot="prefix" />}
                         <span>
                           {filter.name}
                         </span>
@@ -170,21 +182,22 @@ export const FilterValueDropdown = ({
 };
 
 export const FilterValueDateDropdown = ({
-  filterType,
+  path,
   filterValues,
   setFilterValues,
 }: {
-  filterType: FilterType;
+  path: string;
   filterValues: string[];
   setFilterValues: (filterValues: string[]) => void;
 }) => {
+  const options = filterValueOptions[path] ?? [];
   return (
     <pp-dropdown placement="bottom-start">
       <button slot="trigger" className="tag">
         {filterValues?.[0]}
       </button>
       <pp-list>
-        {filterViewToFilterOptions[filterType].map((filter: FilterOption) => (
+        {options.map((filter: FilterOption) => (
           <pp-list-item
             key={filter.name}
             type="checkbox"
@@ -197,7 +210,7 @@ export const FilterValueDateDropdown = ({
               }
             }}
           >
-            <iconify-icon icon={filter.name} slot="prefix"></iconify-icon>
+            {filter.icon && <iconify-icon icon={filter.icon} slot="prefix"></iconify-icon>}
             {filter.name}
           </pp-list-item>
         ))}
@@ -205,4 +218,3 @@ export const FilterValueDateDropdown = ({
     </pp-dropdown>
   );
 };
-

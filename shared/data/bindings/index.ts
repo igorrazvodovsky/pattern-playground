@@ -28,6 +28,16 @@ export {
   resolveEntityTitle,
 } from './access';
 
+export type { AttributeFilter, FilterOperator } from './filtering';
+
+export {
+  filterOperatorsFor,
+  defaultFilterOperator,
+  resolveDatePhrase,
+  matchesFilter,
+  applyFilters,
+} from './filtering';
+
 export {
   productBinding,
   projectBinding,

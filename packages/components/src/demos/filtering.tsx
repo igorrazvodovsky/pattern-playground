@@ -18,15 +18,8 @@ import {
 import { AnimateChangeInHeight } from "../components/filter/animate-change-in-height";
 import Filters from "../components/filter/filters";
 
-import {
-  Assignee,
-  DueDate,
-  FilterOperator,
-  FilterType,
-  Priority,
-  Status,
-} from "../components/filter/filter-types";
-import type { Filter } from "../components/filter/filter-types";
+import type { Filter, FilterOperator } from "../components/filter/filter-types";
+import { taskFilterCategories, TASK_FILTER_PATHS } from "../components/filter/filter-options";
 import { useHierarchicalNavigation } from '../hooks/useHierarchicalNavigation';
 import {
   createSortedSearchFunction,
@@ -35,7 +28,14 @@ import {
 
 import { generateFilterSuggestions } from "../components/filter/adapters/ai-filter-adapter";
 
-import { filterCategories } from "@shared/data";
+import { tasks, users, filterPriorities } from "@shared/data";
+import {
+  taskBinding,
+  findAttribute,
+  defaultFilterOperator,
+  applyFilters,
+} from "@shared/data/bindings";
+import { EntityCard } from "../templates/collection-view/renderers";
 
 import '../components/dropdown/dropdown.ts';
 import 'iconify-icon';
@@ -45,23 +45,15 @@ const DROPDOWN_CLOSE_DELAY = 200;
 const MIN_AI_TRIGGER_LENGTH = 3;
 
 
-
-const getFilterOperator = (filterType: FilterType, value: string): FilterOperator => {
-  return filterType === FilterType.DUE_DATE && value !== DueDate.IN_THE_PAST
-    ? FilterOperator.BEFORE
-    : FilterOperator.IS;
-};
-
-
 const useFilterState = (initialFilters: Filter[] = []) => {
   const [filters, setFilters] = React.useState<Filter[]>(initialFilters);
 
-  const addFilter = React.useCallback((filterType: FilterType, value: string) => {
+  const addFilter = React.useCallback((path: string, value: string) => {
     const newFilter: Filter = {
       id: nanoid(),
-      type: filterType,
-      operator: getFilterOperator(filterType, value),
-      value: [value],
+      path,
+      operator: defaultFilterOperator(findAttribute(taskBinding, path), value),
+      values: [value],
     };
     setFilters(prev => [...prev, newFilter]);
   }, []);
@@ -69,7 +61,7 @@ const useFilterState = (initialFilters: Filter[] = []) => {
   const clearFilters = React.useCallback(() => setFilters([]), []);
 
   const hasActiveFilters = React.useMemo(
-    () => filters.some(filter => filter.value?.length > 0),
+    () => filters.some(filter => filter.values?.length > 0),
     [filters]
   );
 
@@ -85,24 +77,26 @@ const useDropdownState = (dropdownRef: React.RefObject<{ hide: () => void }>) =>
 };
 
 
+// Defaults built from the data the facets read, so the chips always name
+// values the collection actually carries.
 const defaultFilters: Filter[] = [
   {
     id: 'default-status',
-    type: FilterType.STATUS,
-    operator: FilterOperator.IS,
-    value: [Status.TODO],
+    path: 'status.label',
+    operator: 'is any of',
+    values: ['Todo', 'In Progress'],
   },
   {
     id: 'default-priority',
-    type: FilterType.PRIORITY,
-    operator: FilterOperator.IS_ANY_OF,
-    value: [Priority.HIGH, Priority.URGENT],
+    path: 'priority.label',
+    operator: 'is any of',
+    values: filterPriorities.slice(0, 2).map((priority) => priority.value),
   },
   {
     id: 'default-assignee',
-    type: FilterType.ASSIGNEE,
-    operator: FilterOperator.IS_ANY_OF,
-    value: [Assignee.SARAH_CHEN, Assignee.DAVID_KIM],
+    path: 'assignee.name',
+    operator: 'is any of',
+    values: users.slice(1, 3).map((user) => user.name),
   },
 ];
 
@@ -123,7 +117,7 @@ export function FilteringDemo({
   const { hideDropdownWithDelay } = useDropdownState(dropdownRef);
 
   const { state, actions, results, inputRef, placeholder } = useHierarchicalNavigation({
-    data: filterCategories,
+    data: taskFilterCategories,
     searchFunction: createSortedSearchFunction(
       (types, query) => sortByRelevance(types, query, {
         threshold: 0.05,
@@ -141,26 +135,33 @@ export function FilteringDemo({
         includeChildrenOnParentMatch: false
       }
     ),
-    onSelectChild: (filterValue: { filterType: FilterType; value: string }) => {
-      addFilter(filterValue.filterType, filterValue.value);
+    onSelectChild: (filterValue: { path: string; value: string }) => {
+      addFilter(filterValue.path, filterValue.value);
       hideDropdownWithDelay();
     },
     placeholder: "Filter...",
     contextPlaceholder: (type) => type.name
   });
 
+  // The clauses evaluate: the same matcher every bound entity filters with,
+  // over the task binding.
+  const visibleTasks = React.useMemo(
+    () => applyFilters(tasks, filters, taskBinding),
+    [filters]
+  );
+
   const availableValues = React.useMemo(() =>
     Object.fromEntries(
-      filterCategories.map(category => [
+      taskFilterCategories.map(category => [
         category.id,
         category.children?.map(child => child.value) || []
       ])
-    ) as Record<FilterType, string[]>,
+    ) as Record<string, string[]>,
     []
   );
 
   const handleAIRequest = React.useCallback(async (prompt: string) => {
-    return await generateFilterSuggestions(prompt, Object.values(FilterType), availableValues);
+    return await generateFilterSuggestions(prompt, TASK_FILTER_PATHS, availableValues);
   }, [availableValues]);
 
   const { aiState, handleAIRequest: handleAICommandRequest, handleApplyAIResult, handleEditPrompt, clearResultsIfInputChanged } = useAICommand({
@@ -172,9 +173,9 @@ export function FilteringDemo({
       if (!item.metadata) throw new Error('Invalid AI command item: missing metadata');
       return {
         id: nanoid(),
-        type: item.metadata.type as FilterType,
+        path: item.metadata.path as string,
         operator: item.metadata.operator as FilterOperator,
-        value: item.metadata.value as string[]
+        values: item.metadata.values as string[]
       };
     });
 
@@ -194,84 +195,100 @@ export function FilteringDemo({
   }, [state.searchInput, state.mode, hasResults, handleAICommandRequest]);
 
   return (
-    <div className="flex">
-      <Filters filters={filters} setFilters={setFilters} />
-      {hasActiveFilters && (
-        <button
-          className="button"
-          onClick={clearFilters}
-        >
-          <Icon icon="ph:x" className="icon" />
-          <span className="visually-hidden">Clear</span>
-        </button>
-      )}
-      <pp-dropdown ref={dropdownRef} placement="bottom-start">
-        <button slot="trigger" className="button">
-          <Icon icon="ph:funnel-simple" className="icon" />
-          <span className={filters.length ? "visually-hidden" : ""}>Filter</span>
-        </button>
+    <div className="flow">
+      <div className="flex">
+        <Filters filters={filters} setFilters={setFilters} />
+        {hasActiveFilters && (
+          <button
+            className="button"
+            onClick={clearFilters}
+          >
+            <Icon icon="ph:x" className="icon" />
+            <span className="visually-hidden">Clear</span>
+          </button>
+        )}
+        <pp-dropdown ref={dropdownRef} placement="bottom-start">
+          <button slot="trigger" className="button">
+            <Icon icon="ph:funnel-simple" className="icon" />
+            <span className={filters.length ? "visually-hidden" : ""}>Filter</span>
+          </button>
 
-        <div>
-          <AnimateChangeInHeight>
-            <Combobox shouldFilter={false} onEscape={actions.handleEscape}>
-              <ComboboxInput
-                placeholder={placeholder}
-                value={state.searchInput}
-                onValueChange={actions.updateSearch}
-                ref={inputRef}
+          <div>
+            <AnimateChangeInHeight>
+              <Combobox shouldFilter={false} onEscape={actions.handleEscape}>
+                <ComboboxInput
+                  placeholder={placeholder}
+                  value={state.searchInput}
+                  onValueChange={actions.updateSearch}
+                  ref={inputRef}
+                />
+                <ComboboxList>
+                  {!hasResults && state.searchInput.length >= 2 && (
+                    <AIFallbackHandler
+                      searchInput={state.searchInput}
+                      aiState={aiState}
+                      onAIRequest={handleAICommandRequest}
+                      onApplyAIResult={handleApplyAIFilters}
+                      onEditPrompt={handleEditPrompt}
+                      onInputChange={clearResultsIfInputChanged}
+                      onClose={hideDropdownWithDelay}
+                    />
+                  )}
+
+                  {state.mode === 'contextual' ? (
+                    <ComboboxGroup>
+                      {results.contextualItems?.map((filterValue) => (
+                        <ComboboxItem key={filterValue.id} onSelect={() => actions.selectChild(filterValue)}>
+                          <iconify-icon icon={filterValue.icon} slot="prefix" />
+                          <span>{filterValue.name}</span>
+                        </ComboboxItem>
+                      ))}
+                    </ComboboxGroup>
+                  ) : (
+                    <>
+                      {results.parents.length > 0 && (
+                        <ComboboxGroup>
+                          {results.parents.map((filterType) => (
+                            <ComboboxItem key={filterType.id} onSelect={() => actions.selectContext(filterType)}>
+                              <iconify-icon icon={filterType.icon} slot="prefix" />
+                              {filterType.name}
+                            </ComboboxItem>
+                          ))}
+                        </ComboboxGroup>
+                      )}
+
+                      {results.children.length > 0 && (
+                        <ComboboxGroup>
+                          {results.children.map(({ parent, child }) => (
+                            <ComboboxItem key={`${parent.id}-${child.id}`} onSelect={() => actions.selectChild(child, parent)}>
+                              <iconify-icon icon={child.icon} slot="prefix" />
+                              <span>{child.name}</span>
+                            </ComboboxItem>
+                          ))}
+                        </ComboboxGroup>
+                      )}
+                    </>
+                  )}
+                </ComboboxList>
+              </Combobox>
+            </AnimateChangeInHeight>
+          </div>
+        </pp-dropdown>
+      </div>
+
+      {visibleTasks.length > 0 && (
+        <section className="cards cards--list">
+          {visibleTasks.map((task) => (
+            <div key={task.id}>
+              <EntityCard
+                item={task}
+                binding={taskBinding}
+                shownAttributes={['title', 'status.label', 'assignee.name', 'dueDate']}
               />
-              <ComboboxList>
-                {!hasResults && state.searchInput.length >= 2 && (
-                  <AIFallbackHandler
-                    searchInput={state.searchInput}
-                    aiState={aiState}
-                    onAIRequest={handleAICommandRequest}
-                    onApplyAIResult={handleApplyAIFilters}
-                    onEditPrompt={handleEditPrompt}
-                    onInputChange={clearResultsIfInputChanged}
-                    onClose={hideDropdownWithDelay}
-                  />
-                )}
-
-                {state.mode === 'contextual' ? (
-                  <ComboboxGroup>
-                    {results.contextualItems?.map((filterValue) => (
-                      <ComboboxItem key={filterValue.id} onSelect={() => actions.selectChild(filterValue)}>
-                        <iconify-icon icon={filterValue.icon} slot="prefix" />
-                        <span>{filterValue.name}</span>
-                      </ComboboxItem>
-                    ))}
-                  </ComboboxGroup>
-                ) : (
-                  <>
-                    {results.parents.length > 0 && (
-                      <ComboboxGroup>
-                        {results.parents.map((filterType) => (
-                          <ComboboxItem key={filterType.id} onSelect={() => actions.selectContext(filterType)}>
-                            <iconify-icon icon={filterType.icon} slot="prefix" />
-                            {filterType.name}
-                          </ComboboxItem>
-                        ))}
-                      </ComboboxGroup>
-                    )}
-
-                    {results.children.length > 0 && (
-                      <ComboboxGroup>
-                        {results.children.map(({ parent, child }) => (
-                          <ComboboxItem key={`${parent.id}-${child.id}`} onSelect={() => actions.selectChild(child, parent)}>
-                            <iconify-icon icon={child.icon} slot="prefix" />
-                            <span>{child.name}</span>
-                          </ComboboxItem>
-                        ))}
-                      </ComboboxGroup>
-                    )}
-                  </>
-                )}
-              </ComboboxList>
-            </Combobox>
-          </AnimateChangeInHeight>
-        </div>
-      </pp-dropdown>
+            </div>
+          ))}
+        </section>
+      )}
     </div>
   );
 }

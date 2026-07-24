@@ -253,3 +253,35 @@ export const BoardPreset: Story = {
     />
   ),
 };
+
+/**
+ * A second entity type through the same query machinery: every clause is an
+ * attribute path resolved against the task binding — no filter vocabulary
+ * names an entity type. The due-date clause evaluates its relative phrase
+ * against real timestamps rather than comparing strings.
+ */
+const filteredTasksSpec = makeSpec({
+  id: 'filtered-tasks',
+  representation: {
+    type: 'table',
+    shownAttributes: ['title', 'status.label', 'assignee.name', 'priority.label', 'tags', 'dueDate'],
+  },
+  query: [
+    { id: 'tasks-status', path: 'status.label', operator: 'is any of', values: ['Todo', 'In Progress', 'In Review'] },
+    { id: 'tasks-assignee', path: 'assignee.name', operator: 'is not', values: ['No assignee'] },
+    { id: 'tasks-labels', path: 'tags', operator: 'include any of', values: ['Audit', 'Sourcing', 'Design'] },
+    { id: 'tasks-priority', path: 'priority.label', operator: 'is any of', values: ['High', 'Medium'] },
+    { id: 'tasks-due', path: 'dueDate', operator: 'is', values: ['in the past'] },
+  ],
+  arrangement: { sortBy: { field: 'title', order: 'asc' } },
+});
+
+export const FilteredTasks: Story = {
+  render: () => (
+    <ViewSpecRenderer
+      items={runSpec(tasks, filteredTasksSpec, taskBinding)}
+      spec={filteredTasksSpec}
+      binding={taskBinding}
+    />
+  ),
+};

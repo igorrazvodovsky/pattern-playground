@@ -1,6 +1,5 @@
-import type { BoundEntity, EntityBinding } from '@shared/data/bindings';
+import type { AttributeFilter, BoundEntity, EntityBinding } from '@shared/data/bindings';
 import { productBinding } from '@shared/data/bindings';
-import type { ProductFilter } from './FilterTypes';
 import { applyFilters } from './FilterOperations';
 import { sortItems } from './SortingUtils';
 import { getAttributeValue, formatAttributeValue } from './AttributeUtils';
@@ -38,7 +37,7 @@ export type RepresentationType = 'card' | 'table' | 'map' | 'plot';
 /** Item-view ladder, population side: how much of each item a view carries. */
 export type RepresentationRung = 'glyph' | 'summary' | 'detail';
 
-export type FilterClause = ProductFilter;
+export type FilterClause = AttributeFilter;
 
 export interface SortClause {
   field: AttributePath;

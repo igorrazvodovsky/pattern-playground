@@ -1,70 +1,29 @@
 import React from "react";
-import { ProductFilterType, ProductFilterOperator, ProductFilterField, isProductFilterType } from "./ProductFilterTypes";
+import type { EntityBinding, FilterOperator } from "@shared/data/bindings";
+import { productBinding, findAttribute, filterOperatorsFor } from "@shared/data/bindings";
 import '../../components/dropdown/dropdown.ts';
 import '../../components/list/list.ts';
 import '../../components/list-item/list-item.ts';
 
 export interface ProductFilterOperatorDropdownProps {
-  filterType: ProductFilterField;
-  operator: ProductFilterOperator;
+  path: string;
+  operator: FilterOperator;
   filterValues: string[];
-  setOperator: (operator: ProductFilterOperator) => void;
+  setOperator: (operator: FilterOperator) => void;
+  binding?: EntityBinding;
 }
 
-// Define which operators are available for each product filter type
-const getProductFilterOperators = (filterType: ProductFilterField, filterValues: string[]): ProductFilterOperator[] => {
-  const hasMultipleValues = Array.isArray(filterValues) && filterValues.length > 1;
-
-  // A bare attribute path is matched on the value as displayed: equality, or
-  // any of several once the actor has widened it.
-  if (!isProductFilterType(filterType)) {
-    return hasMultipleValues
-      ? [ProductFilterOperator.IS_ANY_OF, ProductFilterOperator.IS_NOT]
-      : [ProductFilterOperator.EQUALS, ProductFilterOperator.IS_NOT];
-  }
-
-  switch (filterType) {
-    case ProductFilterType.CATEGORY:
-    case ProductFilterType.AVAILABILITY_STATUS:
-    case ProductFilterType.REPAIRABILITY:
-    case ProductFilterType.UPGRADEABILITY:
-      // Single value filters - can be "is" or "is not", and "is any of" for multiple values
-      return hasMultipleValues
-        ? [ProductFilterOperator.IS_ANY_OF, ProductFilterOperator.IS_NOT]
-        : [ProductFilterOperator.IS, ProductFilterOperator.IS_NOT];
-
-    case ProductFilterType.CERTIFICATIONS:
-    case ProductFilterType.REGIONS:
-    case ProductFilterType.CHANNELS:
-      // Multi-value filters - can include/exclude
-      return hasMultipleValues
-        ? [
-            ProductFilterOperator.INCLUDE,
-            ProductFilterOperator.DO_NOT_INCLUDE,
-          ]
-        : [ProductFilterOperator.INCLUDE, ProductFilterOperator.DO_NOT_INCLUDE];
-
-    case ProductFilterType.PRICE_RANGE:
-      // Numeric filters - can be less than, greater than, between
-      return [
-        ProductFilterOperator.IS,
-        ProductFilterOperator.LESS_THAN,
-        ProductFilterOperator.GREATER_THAN,
-        ProductFilterOperator.BETWEEN
-      ];
-
-    default:
-      return [ProductFilterOperator.IS, ProductFilterOperator.IS_NOT];
-  }
-};
-
 export const ProductFilterOperatorDropdown: React.FC<ProductFilterOperatorDropdownProps> = ({
-  filterType,
+  path,
   operator,
   filterValues,
   setOperator,
+  binding = productBinding,
 }) => {
-  const operators = getProductFilterOperators(filterType, filterValues);
+  // One operator table for every facet, read off the binding entry's
+  // valueType and cardinality; a path outside the binding is matched on the
+  // value as displayed, so it gets the plain equality pair.
+  const operators = filterOperatorsFor(findAttribute(binding, path), filterValues);
 
   return (
     <pp-dropdown placement="bottom-start">

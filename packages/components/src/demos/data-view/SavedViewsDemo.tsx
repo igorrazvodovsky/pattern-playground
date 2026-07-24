@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 import { DataView } from './DataView';
-import { ProductFilterType, ProductFilterOperator } from '../../templates/collection-view/FilterTypes';
 import { ViewSpec, makeSpec } from '../../templates/collection-view/spec';
 
 /**
@@ -42,9 +41,9 @@ const SAVED_VIEWS: ViewSpec[] = [
     query: [
       {
         id: 'saved-shortlist-price',
-        type: ProductFilterType.PRICE_RANGE,
-        operator: ProductFilterOperator.LESS_THAN,
-        value: ['500'],
+        path: 'pricing.msrp',
+        operator: 'less than',
+        values: ['500'],
       },
     ],
     representation: {
@@ -59,9 +58,9 @@ const SAVED_VIEWS: ViewSpec[] = [
     query: [
       {
         id: 'saved-pilot-status',
-        type: ProductFilterType.AVAILABILITY_STATUS,
-        operator: ProductFilterOperator.IS,
-        value: ['Pilot Phase'],
+        path: 'availability.status',
+        operator: 'is',
+        values: ['Pilot Phase'],
       },
     ],
     representation: {

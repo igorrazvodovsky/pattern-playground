@@ -62,6 +62,12 @@ export interface AttributeBinding {
   valueType: AttributeValueType;
   /** Static unit appended to the formatted value, e.g. 'kg CO2e'. */
   unit?: string;
+  /** Facet presentation: the icon a filter UI shows for this attribute. */
+  icon?: string;
+  /** The value is a list (labels, certifications, regions); valueType
+      describes the elements. Cardinality, not valueType, is what picks the
+      include/exclude operator family. */
+  many?: true;
 }
 
 /**

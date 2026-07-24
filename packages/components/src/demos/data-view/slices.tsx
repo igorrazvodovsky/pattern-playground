@@ -1,5 +1,4 @@
 import { DataView } from './DataView';
-import { ProductFilterType, ProductFilterOperator } from '../../templates/collection-view/FilterTypes';
 
 /**
  * Configured slices of the DataView composition. Collection-level moves
@@ -30,9 +29,9 @@ export function DataViewFilteringSlice() {
       defaultFilters={[
         {
           id: 'filter-1',
-          type: ProductFilterType.CATEGORY,
-          operator: ProductFilterOperator.IS_NOT,
-          value: ['Packaging'],
+          path: 'category',
+          operator: 'is not',
+          values: ['Packaging'],
         },
       ]}
       controls={{ search: false, attributes: false, sort: false, group: false }}

@@ -1,47 +1,63 @@
-import { Product } from '@shared/data/types';
-import {
-  ProductFilterType,
-  ProductFilterCategory,
-  PRODUCT_FILTER_TYPE_ICONS,
-} from '../../templates/collection-view/FilterTypes';
-import { getUniqueFilterValues, getUniqueAttributeValues } from '../../templates/collection-view/FilterOperations';
+import type { BoundEntity, EntityBinding } from '@shared/data/bindings';
+import { productBinding, findAttribute } from '@shared/data/bindings';
+import { getUniqueAttributeValues } from '../../templates/collection-view/FilterOperations';
 import { attributeLabel } from '../../templates/collection-view/AttributeUtils';
 
 /**
- * The same category shape for bare attribute paths: a view that lets the actor
- * surface arbitrary attributes can filter on any of them, so each surfaced path
- * becomes a category whose values are the ones the collection actually shows.
+ * Icons are optional throughout: a filter facet carries one only when the
+ * binding behind it does. The UI never invents an icon for a value it
+ * happens to recognise.
  */
-export function generateAttributeFilterCategories(
-  products: Product[],
-  paths: string[]
-): ProductFilterCategory[] {
+export type FilterCategory = {
+  id: string;
+  name: string;
+  icon?: string;
+  children?: FilterValue[];
+};
+
+export type FilterValue = {
+  id: string;
+  name: string;
+  value: string;
+  icon?: string;
+  path: string;
+};
+
+/**
+ * Which facets a filter UI offers is a view decision — a plain list of
+ * paths, not a binding field. These are the facets the data-view demo
+ * curates over products.
+ */
+export const PRODUCT_FILTER_PATHS: string[] = [
+  'category',
+  'availability.status',
+  'lifecycle.repairability',
+  'lifecycle.upgradeability',
+  'pricing.msrp',
+  'sustainability.certifications',
+  'availability.regions',
+  'availability.channels',
+];
+
+/**
+ * One category per offered path — curated facet or surfaced attribute alike.
+ * The binding supplies the label and icon; the collection supplies the value
+ * list, which is what a clause on that path can be widened to.
+ */
+export function generateFilterCategories(
+  items: BoundEntity[],
+  paths: string[],
+  binding: EntityBinding = productBinding
+): FilterCategory[] {
   return paths.map((path) => ({
     id: path,
-    name: attributeLabel(path),
-    children: getUniqueAttributeValues(products, path).map((value) => ({
+    name: attributeLabel(path, binding),
+    icon: findAttribute(binding, path)?.icon,
+    children: getUniqueAttributeValues(items, path, binding).map((value) => ({
       id: `${path}_${value}`,
       name: value,
       value,
-      filterType: path,
+      path,
     })),
   }));
-}
-
-export function generateProductFilterCategories(products: Product[]): ProductFilterCategory[] {
-  return Object.values(ProductFilterType).map(type => {
-    const uniqueValues = getUniqueFilterValues(products, type);
-
-    return {
-      id: type,
-      name: type,
-      icon: PRODUCT_FILTER_TYPE_ICONS[type],
-      children: uniqueValues.map(value => ({
-        id: `${type}_${value}`,
-        name: value.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
-        value: value,
-        filterType: type
-      }))
-    };
-  });
 }

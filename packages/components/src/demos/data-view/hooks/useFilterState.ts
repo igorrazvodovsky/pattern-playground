@@ -1,26 +1,27 @@
 import React from 'react';
 import { nanoid } from 'nanoid';
-import { ProductFilter, ProductFilterType, ProductFilterOperator } from '../../../templates/collection-view/FilterTypes';
+import type { AttributeFilter, EntityBinding } from '@shared/data/bindings';
+import { productBinding, findAttribute, defaultFilterOperator } from '@shared/data/bindings';
 
-const getFilterOperator = (): ProductFilterOperator => {
-  return ProductFilterOperator.IS;
-};
-
-export const useFilterState = (filters: ProductFilter[], setFilters: React.Dispatch<React.SetStateAction<ProductFilter[]>>) => {
-  const addFilter = React.useCallback((filterType: ProductFilterType, value: string) => {
-    const newFilter: ProductFilter = {
+export const useFilterState = (
+  filters: AttributeFilter[],
+  setFilters: React.Dispatch<React.SetStateAction<AttributeFilter[]>>,
+  binding: EntityBinding = productBinding
+) => {
+  const addFilter = React.useCallback((path: string, value: string) => {
+    const newFilter: AttributeFilter = {
       id: nanoid(),
-      type: filterType,
-      operator: getFilterOperator(),
-      value: [value],
+      path,
+      operator: defaultFilterOperator(findAttribute(binding, path), value),
+      values: [value],
     };
     setFilters(prev => [...prev, newFilter]);
-  }, [setFilters]);
+  }, [setFilters, binding]);
 
   const clearFilters = React.useCallback(() => setFilters([]), [setFilters]);
 
   const hasActiveFilters = React.useMemo(
-    () => filters.some(filter => filter.value?.length > 0),
+    () => filters.some(filter => filter.values?.length > 0),
     [filters]
   );
 

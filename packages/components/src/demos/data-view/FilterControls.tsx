@@ -20,12 +20,8 @@ import {
   createSortedSearchFunction,
   sortByRelevance
 } from '../../utility/hierarchical-search';
-import {
-  ProductFilterType,
-  ProductFilterOperator,
-  ProductFilter,
-  ProductFilterCategory
-} from '../../templates/collection-view/FilterTypes';
+import type { AttributeFilter, FilterOperator } from '@shared/data/bindings';
+import { FilterCategory } from './FilterCategories';
 import { useFilterState } from './hooks/useFilterState';
 import { useDropdownState } from './hooks/useDropdownState';
 import { generateProductFilterSuggestions } from './aiFilterAdapter';
@@ -37,9 +33,9 @@ import 'iconify-icon';
 import '../../jsx-types';
 
 export interface FilterControlsProps {
-  filters: ProductFilter[];
-  setFilters: React.Dispatch<React.SetStateAction<ProductFilter[]>>;
-  filterCategories: ProductFilterCategory[];
+  filters: AttributeFilter[];
+  setFilters: React.Dispatch<React.SetStateAction<AttributeFilter[]>>;
+  filterCategories: FilterCategory[];
 }
 
 
@@ -72,8 +68,8 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
         includeChildrenOnParentMatch: false
       }
     ),
-    onSelectChild: (filterValue: { filterType: ProductFilterType; value: string }) => {
-      addFilter(filterValue.filterType, filterValue.value);
+    onSelectChild: (filterValue: { path: string; value: string }) => {
+      addFilter(filterValue.path, filterValue.value);
       hideDropdownWithDelay();
     },
     placeholder: "Filter products...",
@@ -86,13 +82,17 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
         category.id,
         category.children?.map(child => child.value) || []
       ])
-    ) as Record<ProductFilterType, string[]>,
+    ) as Record<string, string[]>,
     [filterCategories]
   );
 
   const handleAIRequest = React.useCallback(async (prompt: string) => {
-    return await generateProductFilterSuggestions(prompt, Object.values(ProductFilterType), availableValues);
-  }, [availableValues]);
+    return await generateProductFilterSuggestions(
+      prompt,
+      filterCategories.map(category => category.id),
+      availableValues
+    );
+  }, [filterCategories, availableValues]);
 
   const { aiState, handleAIRequest: handleAICommandRequest, handleApplyAIResult, handleEditPrompt, clearResultsIfInputChanged } = useAICommand({
     onAIRequest: handleAIRequest
@@ -103,9 +103,9 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
       if (!item.metadata) throw new Error('Invalid AI command item: missing metadata');
       return {
         id: nanoid(),
-        type: item.metadata.type as ProductFilterType,
-        operator: item.metadata.operator as ProductFilterOperator,
-        value: item.metadata.value as string[]
+        path: item.metadata.path as string,
+        operator: item.metadata.operator as FilterOperator,
+        values: item.metadata.values as string[]
       };
     });
 

@@ -16,13 +16,10 @@ import {
   AttributeSelector,
   SortingControls,
   ProductFilters,
-  generateAttributeFilterCategories,
+  generateFilterCategories,
 } from '../data-view';
 import { applyFilters } from '../../templates/collection-view/FilterOperations';
-import {
-  ProductFilterOperator,
-  type ProductFilter,
-} from '../../templates/collection-view/FilterTypes';
+import type { AttributeFilter } from '@shared/data/bindings';
 import type { AttributePath, SortClause } from '../../templates/collection-view/spec';
 import { useFitsWidth } from '../../hooks/use-fits-width';
 
@@ -101,7 +98,7 @@ export function FluidAttributesDemo({ exposeMalleability = false }: FluidAttribu
   const [sortBy, setSortBy] = useState<SortClause | null>(null);
   // The query the actor builds by clicking values — `spec.query`'s own type, so
   // the same clauses and the same matcher the rest of the family filters with.
-  const [filters, setFilters] = useState<ProductFilter[]>([]);
+  const [filters, setFilters] = useState<AttributeFilter[]>([]);
   const [locked, setLocked] = useState(false);
   const [dropReady, setDropReady] = useState(false);
   const [detailOpen, setDetailOpen] = useState(false);
@@ -129,7 +126,7 @@ export function FluidAttributesDemo({ exposeMalleability = false }: FluidAttribu
   // collection shows, so a clause built by clicking one value can be widened to
   // the others from the chip — the same affordance category filters have.
   const attributeCategories = useMemo(
-    () => generateAttributeFilterCategories(CATALOGUE, surfaceable),
+    () => generateFilterCategories(CATALOGUE, surfaceable, productBinding),
     [surfaceable]
   );
 
@@ -143,25 +140,25 @@ export function FluidAttributesDemo({ exposeMalleability = false }: FluidAttribu
   // replacing it — one filter per attribute, however many clicks.
   const filterByValue = (attribute: AttributePath, value: string) =>
     setFilters((current) => {
-      const existing = current.find((filter) => filter.type === attribute);
+      const existing = current.find((filter) => filter.path === attribute);
       if (!existing) {
         return [
           ...current,
           {
             id: attribute,
-            type: attribute,
-            operator: ProductFilterOperator.EQUALS,
-            value: [value],
+            path: attribute,
+            operator: 'is' as const,
+            values: [value],
           },
         ];
       }
-      if (existing.value.includes(value)) return current;
+      if (existing.values.includes(value)) return current;
       return current.map((filter) =>
         filter === existing
           ? {
               ...filter,
-              operator: ProductFilterOperator.IS_ANY_OF,
-              value: [...filter.value, value],
+              operator: 'is any of' as const,
+              values: [...filter.values, value],
             }
           : filter
       );
@@ -232,7 +229,7 @@ export function FluidAttributesDemo({ exposeMalleability = false }: FluidAttribu
   };
 
   const visibleItems = useMemo(() => {
-    const items: Product[] = applyFilters(CATALOGUE, filters);
+    const items: Product[] = applyFilters(CATALOGUE, filters, productBinding);
     return sortBy ? sortItems(items, sortBy.field, sortBy.order) : items;
   }, [sortBy, filters]);
 

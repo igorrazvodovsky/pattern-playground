@@ -25,7 +25,7 @@ export const updateFilterOperator = (
 export const updateFilterValue = (
   filters: Filter[],
   filterId: string,
-  value: string[]
+  values: string[]
 ): Filter[] => {
-  return updateFilterById(filters, filterId, { value });
+  return updateFilterById(filters, filterId, { values });
 };

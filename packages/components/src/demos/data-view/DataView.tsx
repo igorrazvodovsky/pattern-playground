@@ -5,6 +5,7 @@ import { ViewMode, DataViewControls } from './types';
 import { getAvailableAttributes } from '../../templates/collection-view/AttributeUtils';
 import { sortItems } from '../../templates/collection-view/SortingUtils';
 import { productBinding } from '@shared/data/bindings';
+import type { AttributeFilter } from '@shared/data/bindings';
 import { ViewSwitcher } from './ViewSwitcher';
 import { AttributeSelector } from './AttributeSelector';
 import { SortingControls } from './SortingControls';
@@ -14,7 +15,6 @@ import { FilterControls } from './FilterControls';
 import ProductFilters from './ProductFilters';
 import { useProductSearch } from './useProductSearch';
 import { useProductFiltering } from './useProductFiltering';
-import { ProductFilter } from '../../templates/collection-view/FilterTypes';
 import { EmptyState } from './EmptyState';
 import { ViewSpecRenderer } from '../../templates/collection-view/renderers';
 import { GROUPABLE_ATTRIBUTES } from './constants';
@@ -31,7 +31,7 @@ export interface DataViewDemoProps {
   products?: Product[];
   defaultView?: ViewMode;
   defaultAttributes?: string[];
-  defaultFilters?: ProductFilter[];
+  defaultFilters?: AttributeFilter[];
   defaultGrouping?: string | null;
   /** Which toolbar controls to render; omitted keys default to visible. */
   controls?: DataViewControls;
@@ -100,10 +100,10 @@ export const DataView: React.FC<DataViewDemoProps> = ({
   };
 
   // Filter controls speak setState; route both forms through the spec patch.
-  const setFilters: React.Dispatch<React.SetStateAction<ProductFilter[]>> = (action) => {
+  const setFilters: React.Dispatch<React.SetStateAction<AttributeFilter[]>> = (action) => {
     const next =
       typeof action === 'function'
-        ? (action as (prev: ProductFilter[]) => ProductFilter[])(spec.query)
+        ? (action as (prev: AttributeFilter[]) => AttributeFilter[])(spec.query)
         : action;
     patchSpec({ query: next });
   };

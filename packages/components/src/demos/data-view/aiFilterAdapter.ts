@@ -1,11 +1,12 @@
-import { ProductFilterType, ProductFilterOperator } from '../../templates/collection-view/FilterTypes';
+import { attributeLabelFromBinding, productBinding } from '@shared/data/bindings';
 import type { AICommandResult, AICommandItem } from '../../components/command-menu';
 
-// Simplified AI adapter for product filters
+// Simplified AI adapter for the data-view filter demo. Suggestions come out
+// in the shared clause vocabulary: { path, operator, values }.
 export const generateProductFilterSuggestions = async (
   prompt: string,
-  filterTypes: ProductFilterType[],
-  availableValues: Record<ProductFilterType, string[]>
+  paths: string[],
+  availableValues: Record<string, string[]>
 ): Promise<AICommandResult> => {
   // Simple mock implementation - in real app this would call AI service
   const suggestions: AICommandItem[] = [];
@@ -13,17 +14,18 @@ export const generateProductFilterSuggestions = async (
   // Basic keyword matching for demonstration
   const lowercasePrompt = prompt.toLowerCase();
 
-  filterTypes.forEach(type => {
-    const values = availableValues[type] || [];
+  paths.forEach(path => {
+    const label = attributeLabelFromBinding(productBinding, path);
+    const values = availableValues[path] || [];
     values.forEach(value => {
       if (value.toLowerCase().includes(lowercasePrompt) ||
-          type.toLowerCase().includes(lowercasePrompt)) {
+          label.toLowerCase().includes(lowercasePrompt)) {
         suggestions.push({
-          label: `${type}: ${value}`,
+          label: `${label}: ${value}`,
           metadata: {
-            type,
-            operator: ProductFilterOperator.IS,
-            value: [value]
+            path,
+            operator: 'is',
+            values: [value]
           }
         });
       }

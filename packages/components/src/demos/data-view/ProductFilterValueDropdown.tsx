@@ -9,19 +9,19 @@ import {
 } from '../../components/combobox';
 import { AnimateChangeInHeight } from '../../components/filter/animate-change-in-height';
 import { useDropdownState } from '../../components/filter/hooks/use-dropdown-state';
-import { ProductFilterField, ProductFilterCategory } from './ProductFilterTypes';
+import { FilterCategory } from './FilterCategories';
 import 'iconify-icon';
 import '../../components/dropdown/dropdown.ts';
 
 export interface ProductFilterValueDropdownProps {
-  filterType: ProductFilterField;
+  path: string;
   filterValues: string[];
   setFilterValues: (filterValues: string[]) => void;
-  filterCategories: ProductFilterCategory[];
+  filterCategories: FilterCategory[];
 }
 
 export const ProductFilterValueDropdown: React.FC<ProductFilterValueDropdownProps> = ({
-  filterType,
+  path,
   filterValues,
   setFilterValues,
   filterCategories,
@@ -36,7 +36,7 @@ export const ProductFilterValueDropdown: React.FC<ProductFilterValueDropdownProp
     clearInputAndHide,
   } = useDropdownState();
 
-  const currentCategory = filterCategories.find(category => category.id === filterType);
+  const currentCategory = filterCategories.find(category => category.id === path);
   const availableValues = currentCategory?.children || [];
 
   const nonSelectedFilterValues = availableValues.filter(
@@ -97,7 +97,7 @@ export const ProductFilterValueDropdown: React.FC<ProductFilterValueDropdownProp
         <AnimateChangeInHeight>
           <Combobox>
             <ComboboxInput
-              placeholder={currentCategory?.name ?? filterType}
+              placeholder={currentCategory?.name ?? path}
               className="h-9"
               value={commandInput}
               onInputCapture={(e) => {

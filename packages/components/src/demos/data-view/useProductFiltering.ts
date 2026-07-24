@@ -1,25 +1,26 @@
 import { useMemo } from 'react';
 import { Product } from '@shared/data/types';
-import { ProductFilter, ProductFilterCategory } from '../../templates/collection-view/FilterTypes';
+import type { AttributeFilter } from '@shared/data/bindings';
+import { productBinding } from '@shared/data/bindings';
 import { applyFilters } from '../../templates/collection-view/FilterOperations';
-import { generateProductFilterCategories } from './FilterCategories';
+import { generateFilterCategories, PRODUCT_FILTER_PATHS, FilterCategory } from './FilterCategories';
 
 export interface UseProductFilteringResult {
   filteredProducts: Product[];
-  filterCategories: ProductFilterCategory[];
+  filterCategories: FilterCategory[];
 }
 
 export function useProductFiltering(
   products: Product[],
-  filters: ProductFilter[]
+  filters: AttributeFilter[]
 ): UseProductFilteringResult {
   const filterCategories = useMemo(() =>
-    generateProductFilterCategories(products),
+    generateFilterCategories(products, PRODUCT_FILTER_PATHS, productBinding),
     [products]
   );
 
   const filteredProducts = useMemo(() =>
-    applyFilters(products, filters),
+    applyFilters(products, filters, productBinding),
     [products, filters]
   );
 

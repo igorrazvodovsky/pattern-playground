@@ -1,5 +1,5 @@
 import { Product } from '@shared/data/types';
-import { ProductFilter } from './ProductFilterTypes';
+import type { AttributeFilter } from '@shared/data/bindings';
 import type { SortField, SortOrder } from '../../templates/collection-view/SortingUtils';
 
 export type ViewMode = 'card' | 'list' | 'table';
@@ -10,7 +10,7 @@ export interface DataViewProps {
   products: Product[];
   defaultView?: ViewMode;
   defaultAttributes?: string[];
-  defaultFilters?: ProductFilter[];
+  defaultFilters?: AttributeFilter[];
 }
 
 export interface DataViewControls {
