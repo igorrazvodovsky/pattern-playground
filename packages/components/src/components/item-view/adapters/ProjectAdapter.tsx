@@ -39,13 +39,11 @@ const renderMiniView = (project: ProjectObject) => (
   </div>
 );
 
+// Mid and maxi render no title of their own: the host names the view — modal
+// chrome on the escalation path, a `heading` on ItemView in standalone hosts.
 const renderMidView = (project: ProjectObject) => (
   <div className="project-mid">
     <header>
-      <div className="project-header">
-        <span className="project-icon">{project.icon}</span>
-        <h3>{project.name}</h3>
-      </div>
       {project.metadata?.status && (
         <span className={getStatusBadgeClass(project.metadata.status)}>
           {project.metadata.status}
@@ -76,10 +74,6 @@ const renderMaxiView = (project: ProjectObject) => {
   return (
     <div className="project-maxi flow">
       <header className="flow">
-        <div className="project-header">
-          <span className="project-icon" style={{ fontSize: '2rem' }}>{project.icon}</span>
-          <h2>{project.name}</h2>
-        </div>
         {project.metadata?.status && (
           <span className={getStatusBadgeClass(project.metadata.status)}>
             {project.metadata.status}

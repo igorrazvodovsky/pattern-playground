@@ -169,11 +169,13 @@ export function OverviewDetailDemo() {
           <BackButton onClick={() => setPageOpen(false)}>Back to the collection</BackButton>
           <div className="detail">
             {toolbar}
+            {/* A page of its own, so the page carries the name. */}
             <ItemView
               item={productToItemObject(selected)}
               contentType="product"
               scope="maxi"
               mode="preview"
+              heading={2}
             />
           </div>
         </div>
@@ -242,11 +244,14 @@ export function OverviewDetailDemo() {
                   ›
                 </button>
               </div>
+              {/* The pane is spatially separate from the row that opened it
+                  and the steppers can change the item, so it names itself. */}
               <ItemView
                 item={productToItemObject(selected)}
                 contentType="product"
                 scope="mid"
                 mode="preview"
+                heading={3}
               />
             </aside>
           </div>

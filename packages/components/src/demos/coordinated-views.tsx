@@ -79,13 +79,15 @@ export function LinkedTrioDemo() {
   );
 
   /* The pane detail: a view of its own, so `ItemView`'s fixed `mid` readout
-     is what it wants. */
+     is what it wants — and, being spatially separate from the row that filled
+     it, it names itself. */
   const paneDetail = selected ? (
     <ItemView
       item={productToItemObject(selected)}
       contentType="product"
       scope="mid"
       mode="preview"
+      heading={3}
     />
   ) : (
     emptyDetail

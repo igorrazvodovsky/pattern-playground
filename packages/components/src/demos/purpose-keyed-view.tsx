@@ -193,11 +193,13 @@ function InvestigateDrilldown() {
     return (
       <div className="flow">
         <BackButton onClick={() => setItemId(null)}>Back to {category}</BackButton>
+        {/* The drilldown bottoms out in the item's own page, which names itself. */}
         <ItemView
           item={productToItemObject(item)}
           contentType="product"
           scope="maxi"
           mode="preview"
+          heading={2}
         />
       </div>
     );
@@ -369,6 +371,7 @@ export function WatchToChaseTiersDemo() {
               contentType="product"
               scope="maxi"
               mode="preview"
+              heading={2}
             />
           </div>
         )}

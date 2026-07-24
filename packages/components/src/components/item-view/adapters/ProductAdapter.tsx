@@ -74,11 +74,8 @@ const renderMaxiView = (product: Product) => {
   return (
     <div className="flow details-list-group">
       <header className="flow">
-        {/* TODO: Dialogue has its own title. The need to have a separate title here depends on how separate the full page view is rendered.  */}
-        {/* <h2>
-          <iconify-icon className="icon" icon={product.icon} aria-hidden="true"></iconify-icon>{' '}
-          {product.name}
-        </h2> */}
+        {/* No title here: the host names the view — modal chrome on the
+            escalation path, a `heading` on ItemView in standalone hosts. */}
         <div className="badges">
           <span className="badge">{metadata.availability.status}</span>
           <span className="badge">{metadata.condition}</span>

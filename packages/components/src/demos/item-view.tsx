@@ -19,7 +19,15 @@ import '../jsx-types';
 
 const canonicalProduct = products[0];
 
-function ProductItemView({ scope, product = canonicalProduct }: { scope: ViewScope; product?: Product }) {
+function ProductItemView({
+  scope,
+  product = canonicalProduct,
+  heading,
+}: {
+  scope: ViewScope;
+  product?: Product;
+  heading?: 2 | 3;
+}) {
   return (
     <ContentAdapterProvider adapters={[productAdapter]}>
       <ItemView
@@ -27,14 +35,16 @@ function ProductItemView({ scope, product = canonicalProduct }: { scope: ViewSco
         contentType="product"
         scope={scope}
         mode="preview"
+        heading={heading}
       />
     </ContentAdapterProvider>
   );
 }
 
-/** Full working surface: the entity page, every attribute group open. */
+/** Full working surface: the entity page, every attribute group open. The
+    demo is the page, so it asks the wrapper for the title the page owns. */
 export function ItemViewFullDemo() {
-  return <ProductItemView scope="maxi" />;
+  return <ProductItemView scope="maxi" heading={2} />;
 }
 
 /** Summary scope: quick assessment without leaving the current context. */

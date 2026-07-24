@@ -34,10 +34,11 @@ const renderMiniView = (task: Task) => (
   </div>
 );
 
+// Mid and maxi render no title of their own: the host names the view — modal
+// chrome on the escalation path, a `heading` on ItemView in standalone hosts.
 const renderMidView = (task: Task) => (
   <div className="task-mid">
     <header>
-      <h3>{task.title}</h3>
       <span className={getStatusBadgeClass(task.status.value)}>{task.status.label}</span>
     </header>
     {task.assignee && <div>Assignee: {task.assignee.name}</div>}
@@ -66,7 +67,6 @@ const renderMaxiView = (task: Task) => {
         <span className={getStatusBadgeClass(task.status.value)}>
           {task.status.label}
         </span>
-        <h2>{task.title}</h2>
       </header>
 
       {task.description && (
