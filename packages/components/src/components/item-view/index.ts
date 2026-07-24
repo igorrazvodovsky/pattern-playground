@@ -19,13 +19,6 @@ export {
 // Adapter base classes
 export { CommentAwareAdapterBase } from './adapters/CommentAwareAdapterBase';
 
-// Modal service integration
-export { 
-  createModalContent, 
-  getSizeForScope, 
-  getPlacementForScope 
-} from './services/modal-service-integration';
-
 // Types
 export type {
   ViewScope,
