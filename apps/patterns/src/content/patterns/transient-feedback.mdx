@@ -26,8 +26,6 @@ relationships:
       note: "the dismissal window doubles as the recovery window — transient feedback is the primary carrier for undo affordances"
 ---
 
-import { ToastWithUndoDemo } from '@pkg/demos/transient-feedback';
-
 Transient feedback shows a message briefly, then removes it without asking the actor to do anything. The usual delivery vehicle is a <ComponentRef id="components-toast--docs">toast</ComponentRef>.
 
 ## Two situations
@@ -46,9 +44,7 @@ Avoid very long durations. If the information needs to persist, the move is no l
 
 A single inline action can ride along before the message dismisses. Undo is the canonical passenger: the act completes immediately, and the dismissal window is the recovery window. Anything more complex than one action belongs in a callout, or in a <ComponentRef id="components-dialog--docs">dialog</ComponentRef> if the actor must decide before continuing.
 
-<Demo label="Delete with undo in the dismissal window">
-  <ToastWithUndoDemo client:only="react" />
-</Demo>
+<Demo name="toast-with-undo" label="Delete with undo in the dismissal window" />
 
 ## Resources & references
 

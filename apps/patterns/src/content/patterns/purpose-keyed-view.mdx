@@ -29,9 +29,6 @@ relationships:
       note: "the monitoring variant is largely composed of charts; how many tiles, drawn how, reading consistently against each other is a charting problem, not this page's"
 ---
 
-import { MonitorDemo, InvestigateDemo, WatchToChaseTiersDemo } from '@pkg/demos/purpose-keyed-view';
-import { DataViewDemo } from '@pkg/demos/data-view';
-
 The actor returns to the same underlying data with different purposes at different moments: a passing glance between tasks, a scheduled review, a deep dive into one concern. The data is already well presented — nothing is hidden — yet the recurring questions still take work to answer, and each moment brings a different amount of attention to spend on them.
 
 >This is what the word *dashboard* usually means. It names three separable things: an *artefact* (tiled charts on one screen), a *use* (monitoring at a glance), and an *authorship* (composed at design-time, fixed for everyone). This page holds the use — the purpose, whatever the look. The authorship stance is [malleability](/patterns/malleability)'s. The artefact belongs to [charting data](/patterns/data-visualization).
@@ -54,25 +51,19 @@ The variants differ by purpose — each serves one of the recurring [information
 
 Draw conclusions through structured investigation. Medium granularity with comparison, filtering, and grouping; the actor explores, tests hypotheses, generates insights. Typically a [collection framing](/patterns/data-view) with flexible refinement and several representations to switch between. This is the least зurposeful of the three — little more than the general view with sensible presets — because exploring is the one purpose that pre-curation harms rather than helps. It is also the view the other two must keep reachable.
 
-<Demo label="The general collection view." expandable>
-  <DataViewDemo client:only="react" />
-</Demo>
+<Demo name="data-view" label="The general collection view." expandable />
 
 ### Monitoring
 
 Maintain operational awareness without deep investigation — answer "is anything wrong?" in passing. Aggregate metrics, trends, and status indicators rendered as compact summaries; typically a zoomed-out [collection framing](/patterns/data-view) with auto-refresh.
 
-<Demo surface="gray" label="The collection compressed to the few signals that answer 'is anything wrong?' at a glance — aggregates only, no items on screen.">
-  <MonitorDemo client:only="react" />
-</Demo>
+<Demo name="monitor" surface="gray" label="The collection compressed to the few signals that answer 'is anything wrong?' at a glance — aggregates only, no items on screen." />
 
 ### Drilldown investigation
 
 Chase one concern to its bottom, ending at an individual [item's full view](/patterns/item-view).
 
-<Demo surface="gray" label="A drilldown path built as the concern narrows — categories, then items, then the item's full view.">
-  <InvestigateDemo client:only="react" />
-</Demo>
+<Demo name="investigate" surface="gray" label="A drilldown path built as the concern narrows — categories, then items, then the item's full view." />
 
 ## From watch to chase
 
@@ -80,9 +71,7 @@ Monitoring exists to hand off: something changes or catches attention, and the w
 
 The hinge between watch and chase is clearest when it is rule-based. Where the domain can state its detection rules explicitly, the watch becomes a checklist of detected problems, and selecting one starts the chase with the reason attached — [problem-curated view](/patterns/problem-curated-view).
 
-<Demo surface="gray" label="Watch to chase in one flow: ambient badge → at-a-glance tiles → focused slice → the item's full view. Nothing auto-expands; the framing is preserved on the way back out. The flow is also the family tour — monitoring hands to a flag, the flag prunes an overview, the overview bottoms out in the full item view.">
-  <WatchToChaseTiersDemo client:only="react" />
-</Demo>
+<Demo name="watch-to-chase-tiers" surface="gray" label="Watch to chase in one flow: ambient badge → at-a-glance tiles → focused slice → the item's full view. Nothing auto-expands; the framing is preserved on the way back out. The flow is also the family tour — monitoring hands to a flag, the flag prunes an overview, the overview bottoms out in the full item view." />
 
 ## Consequences
 

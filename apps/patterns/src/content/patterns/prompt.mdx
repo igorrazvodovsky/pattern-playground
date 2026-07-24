@@ -21,13 +21,9 @@ relationships:
       note: the actor directs the system in their own words; initiative stays with whoever frames the request
 ---
 
-import { PromptBasicDemo, PromptWithMaterialReferencesDemo, PromptQualityFeedbackDemo, PromptTemplateDemo } from '@pkg/demos/prompt';
-
 The articulation of intent to a machine, transforming a vague need into a request precise enough for an [agent](/patterns/agent) to act on meaningfully.
 
-<Demo label="Structured prompt composer">
-  <PromptBasicDemo client:only="react" />
-</Demo>
+<Demo name="prompt-basic" label="Structured prompt composer" />
 
 ## Intent
 
@@ -37,17 +33,13 @@ explicit and implicit...
 
 ### Structured prompt
 
-<Demo>
-  <PromptTemplateDemo client:only="react" />
-</Demo>
+<Demo name="prompt-template" />
 
 ## Reference materials with @mentions
 
 Using @mentions to reference documents, images, code, and other materials provides context for better LLM responses.
 
-<Demo label="Prompt with @-referenced materials">
-  <PromptWithMaterialReferencesDemo client:only="react" />
-</Demo>
+<Demo name="prompt-with-material-references" label="Prompt with @-referenced materials" />
 
 ## Prompt guidance and scaffolding
 
@@ -55,9 +47,7 @@ Bridging the gap between fuzzy idea inside a human's head and what makes an effe
 
 ### Quality feedback
 
-<Demo label="Prompt quality feedback">
-  <PromptQualityFeedbackDemo client:only="react" />
-</Demo>
+<Demo name="prompt-quality-feedback" label="Prompt quality feedback" />
 
 ### Editing assistance
 

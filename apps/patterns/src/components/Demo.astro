@@ -1,0 +1,71 @@
+---
+// The resize handle is a drag strip pinned to the content's trailing edge (its
+// edge sits at --demo-w); lib/demo-expander.ts turns a drag into --demo-w on the
+// pane. The widen button lives in the footer, not over the demo: a corner button
+// collides with a demo's own chrome (a canvas's tool panels), and a demo
+// captures pointer events on its own root.
+interface Props {
+  // Registry name of a client-mounted demo (lib/demo-registry.ts). When given,
+  // the frame renders a <div data-demo> mount point instead of slot children;
+  // mountDemos() resolves the name and mounts the React component client-side.
+  name?: string;
+  // Props forwarded to the mounted component, serialised as JSON in a data
+  // attribute and parsed by the registry.
+  props?: Record<string, unknown>;
+  label?: string;
+  surface?: 'gray' | 'white' | 'border';
+  // Both features drive one width axis (--demo-w) shared through lib/demo-expander.ts:
+  // `resizable` renders a drag handle for continuous control; `expandable` renders
+  // a button that snaps to preset widths (reading / wide / full) on the same axis.
+  // Either can appear alone; together the button is the preset for the drag.
+  expandable?: boolean;
+  resizable?: boolean;
+}
+
+const { name, props, label, surface = 'border', expandable, resizable } = Astro.props;
+
+const surfaceClass = {
+  gray: 'layer gray',
+  white: 'layer border',
+  border: 'border',
+} as const;
+---
+<div class="demo-block">
+  <div
+    class={`demo-block__content ${surfaceClass[surface]}`}
+    data-resizable={resizable || undefined}
+  >
+    {name ? (
+      <div data-demo={name} data-demo-props={props ? JSON.stringify(props) : undefined}></div>
+    ) : (
+      <slot />
+    )}
+    {resizable && (
+      <div
+        class="demo-resize-handle"
+        data-demo-resize
+        role="separator"
+        aria-orientation="vertical"
+        aria-label="Drag to resize this demo"
+        title="Drag to resize this demo"
+        tabindex="0"
+      ></div>
+    )}
+  </div>
+  {(label || expandable) && (
+    <div class="demo-block__footer">
+      {label && <span class="demo-block__label">{label}</span>}
+      {expandable && (
+        <button
+          type="button"
+          class="demo-expand"
+          data-demo-expand
+          aria-label="Widen this demo"
+          title="Widen this demo"
+        >
+          <iconify-icon icon="ph:arrows-horizontal" aria-hidden="true"></iconify-icon>
+        </button>
+      )}
+    </div>
+  )}
+</div>

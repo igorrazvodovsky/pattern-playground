@@ -33,8 +33,6 @@ relationships:
       note: "each representation is a density commitment: a table row, a card, and a map pin spend the same screen budget very differently"
 ---
 
-import { DataViewDemo, SavedViewsDemo, WritableBoardDemo } from '@pkg/demos/data-view';
-
 The actor is working with a collection too large or varied to take in whole, and what they are doing right now decides what matters in it — which items, in what form, in what order. A collection shown one fixed way answers someone else's guess at that question, and the actor is left doing the framing work in their head, every visit.
 
 ## Forces
@@ -46,9 +44,7 @@ The actor is working with a collection too large or varied to take in whole, and
 
 Give the collection a named projection — the same items shown from one angle — built from a *query* (which items), a *representation* (rendered how), and an *arrangement* (ordered and grouped by what), with the framing itself open to inspection and change.
 
-<Demo label="Data view. The toolbar is the framing's anatomy: filter edits the query, the switcher the representation, sort and group the arrangement." expandable>
-  <DataViewDemo client:only="react" />
-</Demo>
+<Demo name="data-view" label="Data view. The toolbar is the framing's anatomy: filter edits the query, the switcher the representation, sort and group the arrangement." expandable />
 
 ## Representation switching
 
@@ -62,17 +58,13 @@ Which attributes the compressed rendering carries decides what the actor can sca
 
 Saved views persist the whole framing — query, representation, arrangement, visible attributes — as a named, shareable object, with three authorship poles: developer-defined defaults, role views an administrator curates for a team, and personal views the actor tunes for their own workflow.
 
-<Demo label="Named specs switched whole. One view has gone stale — its query names a status label the data no longer uses. Saved framings accumulate; pruning is part of the pattern.">
-  <SavedViewsDemo client:only="react" />
-</Demo>
+<Demo name="saved-views" label="Named specs switched whole. One view has gone stale — its query names a status label the data no longer uses. Saved framings accumulate; pruning is part of the pattern." />
 
 ## Writable views
 
 A view is not only read through — some edits are legal through the projection itself. Which edits, and through which representation, is a design decision: dragging a card between board lanes writes the grouping attribute.
 
-<Demo label="Dragging between groups (or using the move menu) writes the grouping attribute through the projection — whichever attribute groups, along whichever axis. Grouped by a computed price band, the write is refused.">
-  <WritableBoardDemo client:only="react" />
-</Demo>
+<Demo name="writable-board" label="Dragging between groups (or using the move menu) writes the grouping attribute through the projection — whichever attribute groups, along whichever axis. Grouped by a computed price band, the write is refused." />
 
 ## Consequences
 

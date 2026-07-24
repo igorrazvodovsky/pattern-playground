@@ -48,14 +48,9 @@ relationships:
     - inline-interface
 ---
 
-import { FormDemo } from '@pkg/demos/form';
-import { ConversationalFormDemo } from '@pkg/demos/conversational-form';
-
 The structured collection of input from the actor, balancing guidance with the freedom to express complex or messy information. Each field is an act of [data entry](/patterns/data-entry), each constrained field a [bounded choice](/patterns/bounded-choice). The whole commits the actor to the system's shape up front: a question of [formality](/patterns/formality). For the form *mechanism* see <ComponentRef id="components-form--docs">corresponding component</ComponentRef>.
 
-<Demo surface="white" label="A standard form">
-  <FormDemo client:only="react" />
-</Demo>
+<Demo name="form" surface="white" label="A standard form" />
 
 ## Forms and conversation
 
@@ -63,9 +58,7 @@ Forms can be embedded in a <ComponentRef id="components-messaging--docs">messagi
 
 Distributed across the exchange, the form's fields are asked and answered turn by turn, each control rendered inline in a message — the form instance of the [inline interface](/patterns/inline-interface).
 
-<Demo surface="border" label="A form conducted as a conversation">
-  <ConversationalFormDemo client:only="react" />
-</Demo>
+<Demo name="conversational-form" surface="border" label="A form conducted as a conversation" />
 
 ## Forms and AI
 

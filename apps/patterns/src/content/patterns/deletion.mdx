@@ -41,12 +41,6 @@ relationships:
       note: How the scope of a deletion gets staked
 ---
 
-import { MermaidDiagram } from '@components/MermaidDiagram';
-import { DialogDeletionDemo, TypedConfirmationDemo, StagedDeletionDemo } from '@pkg/demos/deletion';
-import { InlineConfirmationDemo } from '@pkg/demos/inline-confirmation';
-import { ToastWithUndoDemo } from '@pkg/demos/transient-feedback';
-
-
 The controlled removal of data from a system, balancing user confidence with protection against accidental loss. Deletion exists in tension with creation and modification, requiring careful consideration of consequences, reversibility, and user intent.
 
 ## Anatomy
@@ -64,28 +58,20 @@ Which safeguard a deletion deserves is the [action consequences](/patterns/actio
 ### No confirmation, with/-out undo
 For low-consequence actions that can be easily reversed.
 
-<Demo label="Delete with toast + undo">
-  <ToastWithUndoDemo client:only="react" />
-</Demo>
+<Demo name="toast-with-undo" label="Delete with toast + undo" />
 
 ### Inline
 
-<Demo label="Inline confirmation">
-  <InlineConfirmationDemo client:only="react" />
-</Demo>
+<Demo name="inline-confirmation" label="Inline confirmation" />
 
 ### Modal
 
-<Demo label="Modal confirmation">
-  <DialogDeletionDemo client:only="react" />
-</Demo>
+<Demo name="dialog-deletion" label="Modal confirmation" />
 
 ### Typed
 For critical, irreversible actions, users must type a specific phrase to proceed.
 
-<Demo label="Type-to-confirm">
-  <TypedConfirmationDemo client:only="react" />
-</Demo>
+<Demo name="typed-confirmation" label="Type-to-confirm" />
 
 ## Integration with save/cancel workflow
 
@@ -97,9 +83,7 @@ Benefits
 - Safe experimentation: Users can try different configurations without immediate consequences
 - Unified mental model: All changes follow the same commit pattern
 
-<Demo label="Staged deletions with save/cancel">
-  <StagedDeletionDemo client:only="react" />
-</Demo>
+<Demo name="staged-deletion" label="Staged deletions with save/cancel" />
 
 This approach aligns with the [Saving](/patterns/saving#save-cancel-as-confirmation-mechanism) pattern's hybrid model, providing a safety net while maintaining user control. It's particularly effective for:
 - Form-based interfaces with multiple fields
@@ -130,7 +114,7 @@ This approach aligns with the [Saving](/patterns/saving#save-cancel-as-confirmat
 
 ## Decision tree
 
-<MermaidDiagram client:only="react" chart={`
+<MermaidDiagram chart={`
 flowchart TD
     A[Is the deletion reversible?] --> B[Yes]
     A --> C[No]

@@ -16,21 +16,15 @@ relationships:
       note: organises groups
 ---
 
-import { DataViewGroupingSlice, WritableBoardDemo } from '@pkg/demos/data-view';
-
 The clustering of items by shared attributes, balancing meaningful structure against the fragmentation of a flat list. Grouping helps actors detect patterns, draw comparisons, and focus on the subsets that matter most to their current goal.
 
-<Demo surface="gray" label="Grouping inside a data view">
-  <DataViewGroupingSlice client:only="react" />
-</Demo>
+<Demo name="data-view-grouping-slice" surface="gray" label="Grouping inside a data view" />
 
 ## Orientation
 
 Groups can be laid out both vertically and horizontally. TODO: canvas...
 
-<Demo label="Moving a card writes the grouping attribute.">
-  <WritableBoardDemo client:only="react" />
-</Demo>
+<Demo name="writable-board" label="Moving a card writes the grouping attribute." />
 
 ## Related components
 

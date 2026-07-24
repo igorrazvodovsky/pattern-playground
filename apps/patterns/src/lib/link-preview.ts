@@ -1,5 +1,6 @@
 import { computePosition, flip, offset, shift, size } from '@floating-ui/dom';
 import { useStackStore, validSlugs } from './stack-store';
+import { getPaneContent } from './pane-content';
 
 const SHOW_DELAY = 350;
 const HIDE_DELAY = 250;
@@ -55,34 +56,22 @@ function extractContent(html: string, title: string): string {
   const heading = h1?.textContent?.trim() ?? title;
   h1?.remove();
 
-  // A hover preview is ephemeral, so it deliberately does not hydrate demos
-  // (unlike stacked panes, see StackManager reviveAstroScripts). Drop the demo
-  // blocks entirely rather than leave an empty, inert island frame in view.
-  wrapper.querySelectorAll('.demo-block').forEach((el) => el.remove());
+  // A hover preview is ephemeral, so it deliberately does not mount demos
+  // (unlike stacked panes, see StackManager mountDemos). Drop demo blocks and
+  // bare demo mount points (Mermaid diagrams) entirely rather than leave an
+  // empty frame in view.
+  wrapper.querySelectorAll('.demo-block, [data-demo]').forEach((el) => el.remove());
 
   return `<strong class="link-preview__title">${heading}</strong><div class="link-preview__body">${wrapper.innerHTML}</div>`;
 }
 
 async function fetchContent(slug: string): Promise<string> {
-  const storeCache = useStackStore.getState().cache;
-  const cached = storeCache.get(slug);
-  if (cached?.html) return extractContent(cached.html, cached.title);
-
-  const res = await fetch(`/patterns/${slug}/`);
-  if (!res.ok) return '';
-
-  const text = await res.text();
-  const doc = new DOMParser().parseFromString(text, 'text/html');
-  const tmpl = doc.querySelector('template[data-astro-template]') as HTMLTemplateElement | null;
-  const root: ParentNode = tmpl ? tmpl.content : doc;
-  const article = root.querySelector('article');
-  if (!article) return '';
-
-  const title = article.querySelector('h1')?.textContent?.trim() ?? slug;
-  const html = article.innerHTML;
-
-  storeCache.set(slug, { slug, title, html, status: 'ready' });
-  return extractContent(html, title);
+  try {
+    const { title, html } = await getPaneContent(slug);
+    return extractContent(html, title);
+  } catch {
+    return '';
+  }
 }
 
 function prefetch(slug: string): Promise<string> {

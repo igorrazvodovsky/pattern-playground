@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { getPaneContent } from './pane-content';
 
 export type Pane = {
   slug: string;
@@ -11,27 +12,9 @@ export type Pane = {
 type StackState = {
   panes: Pane[];
   activeIndex: number;
-  cache: Map<string, Pane>;
   push: (slug: string, fromIndex: number, hash?: string) => Promise<void>;
   syncFromURL: (slug0: string, title0: string) => Promise<void>;
 };
-
-async function fetchPane(slug: string): Promise<Pane> {
-  const res = await fetch(`/patterns/${slug}/`);
-  if (!res.ok) throw new Error(`fetch failed: ${slug}`);
-  const text = await res.text();
-  const doc = new DOMParser().parseFromString(text, 'text/html');
-
-  // Astro's client:only slot content is inside <template data-astro-template>
-  // Template contents live in a DocumentFragment, not the normal DOM, so we
-  // must access .content rather than using a plain querySelector.
-  const tmpl = doc.querySelector('template[data-astro-template]') as HTMLTemplateElement | null;
-  const root: ParentNode = tmpl ? tmpl.content : doc;
-  const article = root.querySelector('article');
-
-  const title = article?.querySelector('h1')?.textContent?.trim() ?? slug;
-  return { slug, title, html: article?.innerHTML ?? '', status: 'ready' };
-}
 
 export function buildURL(panes: Pane[]): string {
   if (panes.length === 0) return '/';
@@ -58,26 +41,18 @@ function replaceLoadingPane(panes: Pane[], slug: string, next: Pane): Pane[] {
 export const useStackStore = create<StackState>()((set, get) => ({
   panes: [],
   activeIndex: 0,
-  cache: new Map(),
 
   push: async (slug, fromIndex, hash) => {
-    const { panes, cache } = get();
+    const { panes } = get();
     const truncated = panes.slice(0, fromIndex + 1);
     const placeholder: Pane = { slug, title: slug, html: '', status: 'loading', hash };
     const newPanes = [...truncated, placeholder];
     set({ panes: newPanes, activeIndex: fromIndex + 1 });
     history.pushState({}, '', buildURL(newPanes));
 
-    const cached = cache.get(slug);
-    if (cached) {
-      set(state => ({ panes: replaceLoadingPane(state.panes, slug, { ...cached, hash }) }));
-      return;
-    }
-
     try {
-      const pane = await fetchPane(slug);
-      cache.set(slug, pane); // mutate in place — cache is never subscribed to by renderers
-      set(state => ({ panes: replaceLoadingPane(state.panes, slug, { ...pane, hash }) }));
+      const content = await getPaneContent(slug);
+      set(state => ({ panes: replaceLoadingPane(state.panes, slug, { ...content, status: 'ready', hash }) }));
     } catch {
       set(state => {
         const idx = state.panes.findIndex(p => p.slug === slug && p.status === 'loading');
@@ -106,24 +81,17 @@ export const useStackStore = create<StackState>()((set, get) => ({
         : { slug: s.slice(0, i), hash: s.slice(i) };
     });
 
-    const { cache } = get();
     const placeholders: Pane[] = entries.map(e => ({ slug: e.slug, title: e.slug, html: '', status: 'loading', hash: e.hash }));
     set({ panes: [pane0, ...placeholders], activeIndex: entries.length });
 
-    const results = await Promise.allSettled(
-      entries.map(e => {
-        const hit = cache.get(e.slug);
-        return hit ? Promise.resolve(hit) : fetchPane(e.slug);
-      })
-    );
+    const results = await Promise.allSettled(entries.map(e => getPaneContent(e.slug)));
 
     const fetched = results.map((r, i): Pane =>
       r.status === 'fulfilled'
-        ? { ...r.value, hash: entries[i].hash }
+        ? { ...r.value, status: 'ready', hash: entries[i].hash }
         : { slug: entries[i].slug, title: entries[i].slug, html: '', status: 'error' }
     );
 
-    for (const p of fetched) if (p.status === 'ready') cache.set(p.slug, p);
     set({ panes: [pane0, ...fetched] });
   },
 }));

@@ -28,17 +28,13 @@ relationships:
       note: "the view, not the content, responds — the framing shifts with what the detection rules find, before the actor selects anything"
 ---
 
-import { ProblemChecklistDemo } from '@pkg/demos/problem-curated-view';
-
 The actor keeps returning to the same data with one question: what needs my attention, and why? The domain can answer some of it in advance — there is consensus about what counts as a problem (e.g. a rule/policy violation) — yet a [general view](/patterns/data-view) leaves the actor to re-derive those judgements by inference on every visit. A problem-curated view organises what is shown around the detected problems instead of the data types: a checklist of candidate problems, each backed by an explicit rule. It is case of a [purpose-keyed view](/patterns/purpose-keyed-view) taken to its limit.
 
 ## Anatomy
 
 The checklist is the interface. Each entry is a detected problem; the list doubles as index, navigation, status display, and audit trail. Selecting a problem filters the collection to the relevant slice, magnified and annotated with why it was flagged — the provenance is explicit, so the view can always say why it looks the way it does, and the reason moves with the actor from noticing into investigating.
 
-<Demo surface="gray" label="Detection rules over the collection as a checklist. Selecting a flag prunes the view to its slice with the reason attached; the full catalogue stays one action away, and every flag carries a not-useful control.">
-  <ProblemChecklistDemo client:only="react" />
-</Demo>
+<Demo name="problem-checklist" surface="gray" label="Detection rules over the collection as a checklist. Selecting a flag prunes the view to its slice with the reason attached; the full catalogue stays one action away, and every flag carries a not-useful control." />
 
 ## Commitments
 

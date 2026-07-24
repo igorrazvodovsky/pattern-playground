@@ -22,15 +22,11 @@ relationships:
       note: "each zoom level is a density commitment, and the transitions between levels preserve legible density — zooming re-spends the screen budget instead of diluting it"
 ---
 
-import { SemanticZoomDemo, PopulationRungDemo, SemanticZoomTimelineDemo } from '@pkg/demos/semantic-zoom';
-
 The actor is surveying a space of content too large to read at once — a map, a canvas of notes, a graph of records, a long document. Zooming out with plain magnification shrinks everything into unreadable specks; zooming in loses the shape of the whole.
 
 Semantic zoom changes the *representation* instead of the size: each item swaps to a coarser abstraction as the actor pulls back and a richer one as they move close. Zooming here means "tell me more".
 
-<Demo label="🚧 Semantic zoom over content cards." expandable>
-  <SemanticZoomDemo client:only="react" />
-</Demo>
+<Demo name="semantic-zoom" label="🚧 Semantic zoom over content cards." expandable />
 
 ## Forces
 
@@ -50,9 +46,7 @@ What semantic zoom traverses is a ladder of discrete representations per item �
 
 The ladder itself is [item view](/patterns/item-view)'s vocabulary. Item view owns the rungs and their per-item, navigation-driven transitions; semantic zoom is the coordination move that drives the same ladder for all items at once from a single scale control.
 
-<Demo label="The lifecycle assessment data: from stage totals to each flow to its full telling.">
-  <SemanticZoomTimelineDemo client:only="react" />
-</Demo>
+<Demo name="semantic-zoom-timeline" label="The lifecycle assessment data: from stage totals to each flow to its full telling." />
 
 ## What the rungs are made of
 
@@ -61,9 +55,7 @@ The pattern needs a representation that stays recognisable at every level. So th
 - *Records* — a zoom level is a different [attribute subset](/patterns/attribute-visibility){rel="composed-of"}: the population sheds fields as the actor pulls back and regains them moving in, each level the same items shown through fewer attributes.
 - *Text* — a zoom level is a [generated telling](/patterns/text-lense){rel="composed-of"} at a granularity: heading, then abstract, then full prose, the coarser rungs produced rather than authored in advance.
 
-<Demo label="A directory of people at three rungs — avatars actor recognises by face, then name and role, then the full card." resizable expandable>
-  <PopulationRungDemo client:only="react" />
-</Demo>
+<Demo name="population-rung" label="A directory of people at three rungs — avatars actor recognises by face, then name and role, then the full card." resizable expandable />
 
 ## To-do
 

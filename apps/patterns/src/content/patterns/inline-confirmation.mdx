@@ -17,15 +17,11 @@ relationships:
       note: "moves the safety net after the act instead of before it; prefer undo when the action reverses cleanly"
 ---
 
-import { InlineConfirmationDemo } from '@pkg/demos/inline-confirmation';
-
 The actor triggers something and the system needs to be sure they mean it.
 Inline confirmation keeps the question where the intent was expressed: the triggering control transforms in place into a confirm/cancel pair, and only a second, deliberate activation completes the act.
 Because the confirm affordance appears where the actor is already looking and clicking, the friction added is one decision, not a context switch — enough to interrupt autopilot, not enough to interrupt work.
 
-<Demo label="Inline confirmation">
-  <InlineConfirmationDemo client:only="react" />
-</Demo>
+<Demo name="inline-confirmation" label="Inline confirmation" />
 
 ## Behaviours
 

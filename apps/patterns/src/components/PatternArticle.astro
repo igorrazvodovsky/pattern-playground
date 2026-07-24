@@ -1,0 +1,40 @@
+---
+// The one rendering of a pattern's article, shared by the full page
+// (pages/patterns/[...slug].astro) and the pane partial
+// (pages/patterns/[slug]/pane.astro) so the two cannot drift. The fragment's
+// root <article> plus its <h1> is the whole contract the client-side pane
+// fetch (lib/pane-content.ts) relies on.
+import { render, type CollectionEntry } from 'astro:content';
+import Demo from './Demo.astro';
+import MermaidDiagram from './MermaidDiagram.astro';
+import { ComponentRef } from './ComponentRef';
+import RelatedPatterns from './RelatedPatterns.astro';
+
+interface Props {
+  entry: CollectionEntry<'patterns'>;
+  // The pane partial is fetched client-side, never visited as a page; omitting
+  // the pagefind attributes keeps it out of the search index (the full page
+  // carries them, so indexing stays one entry per pattern).
+  pagefind?: boolean;
+}
+
+const { entry, pagefind = true } = Astro.props;
+const { Content } = await render(entry);
+---
+<article
+  class="flow"
+  data-pagefind-body={pagefind ? '' : undefined}
+  data-pagefind-meta={pagefind ? `title:${entry.data.title}` : undefined}
+>
+  <header>
+    <div class="meta">
+      <!-- <span class="badge role">{entry.data.role}</span> -->
+      <!-- {entry.data.activityLevel && <span class="badge">{entry.data.activityLevel}</span>} -->
+      <!-- {entry.data.mediation && <span class="badge">{entry.data.mediation}</span>} -->
+      <h1>{entry.data.title}</h1>
+    </div>
+  </header>
+  <pp-toc heading="On this page" data-pagefind-ignore></pp-toc>
+  <Content components={{ Demo, ComponentRef, MermaidDiagram }} />
+  {entry.data.showRelated !== false && <RelatedPatterns slug={entry.id} />}
+</article>

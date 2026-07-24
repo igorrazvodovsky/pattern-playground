@@ -24,8 +24,6 @@ relationships:
       note: keeps focus and context simultaneous — detail follows the actor's attention, non-uniformly, inside one continuous view; semantic zoom shows one uniform level at a time under a global scale control
 ---
 
-import { ContextualNavigationDemo, FisheyeTimelineDemo } from '@pkg/demos/focus-and-context';
-
 The actor is attending to one point in something large — one event in a long record, one part of a deep structure — and needs its full detail without losing the whole. Focus and context grades detail with distance from attention inside one continuous view: the focused item told in full, its near context summarised, the far context condensed to an outline. Where [overview and detail](/patterns/overview-detail) spends a second view to keep the whole present and [semantic zoom](/patterns/semantic-zoom) spends time, showing one level after another, this pattern spends fidelity — everything stays on screen, told unevenly.
 
 What counts as distance varies: position along a sequence, steps through a structure — or, where a model can judge relatedness, how certain a connection is.
@@ -36,9 +34,7 @@ What counts as distance varies: position along a sequence, steps through a struc
 
 On a timeline, detail follows the reader's attention: the event being read is shown in full, the stretch around it as a summary, and the rest of the record at increasingly coarse levels. 
 
-<Demo label="A fisheye over the lifecycle assessment of one e-bike, smelter to shredder. The pointer is the lens: the flow under it is told in full, its episode in a sentence, the chapters around in theirs — and nothing ever moves.">
-  <FisheyeTimelineDemo client:only="react" />
-</Demo>
+<Demo name="fisheye-timeline" label="A fisheye over the lifecycle assessment of one e-bike, smelter to shredder. The pointer is the lens: the flow under it is told in full, its episode in a sentence, the chapters around in theirs — and nothing ever moves." />
 
 ### Contextual navigation
 
@@ -50,9 +46,7 @@ When working with a data structure of varying degrees of completeness, it can be
 
 >Where the timeline puts AI generation to work on the representation side — its coarse rungs are generated tellings — here the model computes nearness where no edge exists, and extends the context past what is modelled.
 
-<Demo label="Distance is confidence: modelled connections nearest, knowledge-base inferences a band out, told as references with their basis; language-model deductions at the rim, told as provisional names." expandable>
-  <ContextualNavigationDemo client:only="react" />
-</Demo>
+<Demo name="contextual-navigation" label="Distance is confidence: modelled connections nearest, knowledge-base inferences a band out, told as references with their basis; language-model deductions at the rim, told as provisional names." expandable />
 
 {/* TODO: relation set aside, kept for review (not an active edge): can be paired with [text lens](/patterns/text-lense), with the latter playing the role of a starting point. */}
 

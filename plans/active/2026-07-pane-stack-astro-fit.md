@@ -5,6 +5,27 @@ demos mount, how pane 0 is rendered — so nothing depends on Astro
 internals. The reading experience (sliding panes, spines,
 `?stackedNotes=` URLs, live demos in every pane) does not change.
 
+## Status (2026-07-25)
+
+Phases 1–3 are implemented and verified (build green; demos mount at
+pane 0, stacked, and in dev; Mermaid renders both places; link previews
+carry prose without demo holes; pagefind indexes 117 pattern pages and
+skips the pane partials; focus lands on a pushed pane's `h1` — now for
+uncached pushes too, which the old length-keyed effect missed).
+`reviveAstroScripts` and both DOMParser scraping paths are deleted; no
+`client:only` remains in pattern content. `scripts/verify-demo-registry.mjs`
+checks the content↔registry contract (its `--against` baseline defaults
+to HEAD; pass the pre-migration ref once this lands).
+
+Phase 4 is unresolved. Gate evidence gathered:
+
+- (a) Firefox stable still lacks cross-document view transitions —
+  sidebar navigation there becomes an instant full load.
+- (b) `nav-store` persists open groups and projection (localStorage),
+  but sidebar *scroll position* survives swaps only because the Nav
+  island instance persists; plain MPA navigation resets it on every
+  click unless scroll persistence is added.
+
 ## Context
 
 The stack renders pane 0 from the server slot and builds panes 1+ by

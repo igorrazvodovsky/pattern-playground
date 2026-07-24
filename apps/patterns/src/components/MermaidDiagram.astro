@@ -1,0 +1,13 @@
+---
+// Mount point for the MermaidDiagram React component (@components/MermaidDiagram),
+// mounted client-side by lib/demo-registry.ts under the name "mermaid". MDX pages
+// receive this component through the Content components mapping, so a bare
+// <MermaidDiagram chart={`…`} /> needs no import and no client directive.
+interface Props {
+  chart: string;
+  theme?: string;
+}
+
+const { chart, theme } = Astro.props;
+---
+<div data-demo="mermaid" data-demo-props={JSON.stringify(theme ? { chart, theme } : { chart })}></div>

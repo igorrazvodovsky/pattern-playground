@@ -30,8 +30,6 @@ relationships:
       note: counterbalancing interventions when transparent reasoning slides into over-reliance
 ---
 
-import { ActivityLogLLMReasoningDemo } from '@pkg/demos/activity-log';
-
 The exposure of an [agent's](/patterns/agent) reasoning process as a legible trail of steps and decisions, transforming opaque computation into something the actor can inspect, trust, and challenge over time.
 
 Steps are arranged sequentially — like a conversation or narrative — with separation between user inputs, model responses, and intermediate reasoning. Actors can scroll, expand, comment on, or revisit earlier steps, and if needed, branch the thread to explore alternatives.
@@ -48,9 +46,7 @@ TODO: Presents complete, verified information before commitment, building trust 
 
 Reveals reasoning as work unfolds, enabling monitoring and early intervention.
 
-<Demo label="Stream of thought">
-  <ActivityLogLLMReasoningDemo client:only="react" />
-</Demo>
+<Demo name="activity-log-llm-reasoning" label="Stream of thought" />
 
 ### After execution: Retrospective analysis
 

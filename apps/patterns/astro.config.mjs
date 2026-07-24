@@ -56,17 +56,19 @@ export default defineConfig({
       //
       // `entries` makes the startup scan crawl every island and demo source
       // file, so any bare import reachable from them is pre-bundled before the
-      // first request — no per-package list to maintain. MDX pages can't be
-      // scanned (esbuild doesn't parse them), which is why the globs target
-      // the .ts/.tsx sources those pages import instead.
+      // first request — no per-package list to maintain. Demos are reached at
+      // runtime through lib/demo-registry.ts dynamic imports (loaded from a
+      // .astro layout script the scanner can't parse), which is why the globs
+      // list the demo sources directly.
       //
       // If the dev server still logs "new dependencies optimized … reloading",
       // the named dep is reachable only from a file outside these globs — add
       // a glob for that location, or add the dep to `include` below.
       entries: [
-        // App islands (AppShell, StackManager, ComponentRef, …)
+        // App islands (Nav, StackManager, …) and lib modules they import,
+        // including the demo registry's dynamic imports
         path.resolve(__dirname, 'src/components/**/*.tsx'),
-        // Pattern demos imported by MDX pages via @pkg/demos/*
+        // Pattern demos, mounted client-side via lib/demo-registry.ts
         path.resolve(__dirname, '../../packages/components/src/demos/**/*.{ts,tsx}'),
         // Lit component library (register-all.ts) + shared React components
         // (MermaidDiagram, PatternGraph) imported via @components/*
@@ -85,9 +87,6 @@ export default defineConfig({
         'astro/virtual-modules/transitions-events.js',
         'astro/virtual-modules/transitions-swap-functions.js',
       ],
-    },
-    ssr: {
-      noExternal: ['beautiful-mermaid'],
     },
   },
 });

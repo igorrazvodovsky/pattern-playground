@@ -1,0 +1,21 @@
+---
+// Prerendered pane fragment: just the pattern's article, no layout. The
+// stacked-notes panes and the link-preview popover fetch this instead of
+// scraping the full page (lib/pane-content.ts). Rendered through the same
+// PatternArticle component as the full page, so the two cannot drift.
+import { getCollection } from 'astro:content';
+import PatternArticle from '../../../components/PatternArticle.astro';
+
+export const partial = true;
+
+export async function getStaticPaths() {
+  const entries = await getCollection('patterns');
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+---
+<PatternArticle entry={entry} pagefind={false} />

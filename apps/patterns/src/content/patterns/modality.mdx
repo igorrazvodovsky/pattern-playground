@@ -18,9 +18,6 @@ relationships:
       note: each channel carries its own rhythm; modality sets how fast or slow the exchange runs
 ---
 
-import { MermaidDiagram } from '@components/MermaidDiagram';
-
-
 The degree to which a system constrains available actions to focus attention on a specific task or context.
 
 All interfaces exist on a spectrum from fully modeless (any action available at any time) to fully modal (only the presented task can be addressed). Design stance following Tesler and Raskin: prefer modeless; when unavoidable, make modes visible, escapable, and scoped as narrowly as possible. The cost of a mode is cognitive — the actor must track what state they're in, and same input producing different outcomes is the root of mode error.
@@ -56,7 +53,7 @@ Some patterns shift between modal and non-modal depending on context. A <Compone
 
 When something needs more space or focus than the current page allows, the first question is whether to use an overlay or navigate to a separate page. The second is which overlay fits.
 
-<MermaidDiagram client:only="react" chart={`
+<MermaidDiagram chart={`
 flowchart TD
     A{Needs focused attention?} -->|No| B[Inline or non-modal]
     A -->|Yes| C{Complex, multi-step, or bookmarkable?}

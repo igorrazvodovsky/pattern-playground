@@ -25,9 +25,6 @@ relationships:
       note: annotation supplies the mechanism for attaching help to specific elements
 ---
 
-import { MermaidDiagram } from '@components/MermaidDiagram';
-
-
 A [conversation](/patterns/conversation-quality) channel for sensemaking. It allows users to recover context ("Where am I?"), acquire domain knowledge ("What does this mean?"), and bridge the gulf of execution ("How do I do this?").
 
 > 💭 Help is primarily *pull-based* (user seeks understanding). When the system proactively offers to *do* things, that is [embedded intelligence](/patterns/embedded-intelligence).
@@ -70,7 +67,7 @@ Help effectiveness depends on *proximity to point of need*. The closer help is t
 
 ### What belongs where
 
-<MermaidDiagram client:only="react" chart={`
+<MermaidDiagram chart={`
 flowchart TD
   A[Placing help content]
   A --> B{Error prevention or warning?}

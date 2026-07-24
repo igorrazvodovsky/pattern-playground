@@ -37,11 +37,6 @@ relationships:
       note: when information arrives, and how disruptive the timing of its arrival is
 ---
 
-import { MermaidDiagram } from '@components/MermaidDiagram';
-import { ToastDemo } from '@pkg/demos/transient-feedback';
-import { DisruptiveNotificationDemo } from '@pkg/demos/notification';
-
-
 The delivery of system events to the actor's attention, balancing awareness against interruption. As one of three ways to give [status feedback](/patterns/status-feedback), every notification has three parts: *purpose*, *type*, and *scope*.
 
 ## Purpose
@@ -67,9 +62,7 @@ Allows to tailor the disruptiveness of the notification.
 
 Toasts provide quick, at-a-glance [feedback](/patterns/transient-feedback) on the outcome of an action.
 
-<Demo label="Toast">
-  <ToastDemo client:only="react" />
-</Demo>
+<Demo name="toast" label="Toast" />
 
 ### <ComponentRef id="components-callout--docs">Callout</ComponentRef>
 
@@ -86,9 +79,7 @@ Callouts are used to highlight important information contextually.
 
 Used only when the message is critical and needs the user’s immediate attention or action. Modals persist until users engage with them and only disappear when dismissed by the user.
 
-<Demo label="Disruptive notification">
-  <DisruptiveNotificationDemo client:only="react" />
-</Demo>
+<Demo name="disruptive-notification" label="Disruptive notification" />
 
 ### Notification panel
 
@@ -108,7 +99,7 @@ System-wide alerts that inform the user about events or statuses affecting the e
 
 ## Decision tree
 
-<MermaidDiagram client:only="react" chart={`
+<MermaidDiagram chart={`
 flowchart TD
     A[What notification should I use?] --> B{Is action required?}
 

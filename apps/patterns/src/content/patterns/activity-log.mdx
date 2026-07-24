@@ -21,13 +21,9 @@ relationships:
       note: a chronological record that makes the passage of actions over time legible
 ---
 
-import { ActivityLogBasicDemo, ActivityLogLLMReasoningDemo } from '@pkg/demos/activity-log';
-
 The sustained awareness of what has happened across actors and time, transforming a stream of discrete events into an accountable, reviewable history.
 
-<Demo label="Activity log">
-  <ActivityLogBasicDemo client:only="react" />
-</Demo>
+<Demo name="activity-log-basic" label="Activity log" />
 
 ## Event anatomy
 
@@ -68,9 +64,7 @@ What an actor might do after inspecting an event depends on the domain and what 
 
 ### [Agent](/patterns/agent) actions and reasoning
 
-<Demo surface="white" label="Reasoning trace">
-  <ActivityLogLLMReasoningDemo client:only="react" />
-</Demo>
+<Demo name="activity-log-llm-reasoning" surface="white" label="Reasoning trace" />
 
 ## Related components
 

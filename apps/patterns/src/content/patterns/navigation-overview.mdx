@@ -49,9 +49,6 @@ relationships:
     - command-menu
 ---
 
-import { MermaidDiagram } from '@components/MermaidDiagram';
-
-
 The selection of a connective topology that shapes how actors move between destinations, balancing freedom of movement against orientation cost. Each model determines which [navigation behaviours](/patterns/interaction#navigation) are possible and how [agency](/patterns/agency) is distributed. The choice starts one step before topology: the shape of what is being navigated decides whether there is a topology to choose at all.
 
 ## Models
@@ -79,7 +76,7 @@ The selection of a connective topology that shapes how actors move between desti
 
 ## Decision tree
 
-<MermaidDiagram client:only="react" chart={`
+<MermaidDiagram chart={`
 flowchart TD
     A[Single continuous space (map, canvas, timeline)?]
     A -->|Yes| PZ[Pan and zoom]

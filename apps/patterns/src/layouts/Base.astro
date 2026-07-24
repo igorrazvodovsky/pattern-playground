@@ -170,9 +170,24 @@ const projectionLabels: Record<ProjectionId, string> = {
       <Nav client:load transition:persist="app-nav" projections={projections} projectionLabels={projectionLabels} storybookUrl={storybookUrl} />
       <main class="shell__main" data-slot="shell-main">
         {slug ? (
-          <StackManager client:load slug={slug} title={title}>
-            <slot />
-          </StackManager>
+          <div class="stack" style="--pane-n: 1">
+            <section
+              class="pane pane--active"
+              data-pane-index="0"
+              style="--pane-i: 0"
+              role="region"
+              aria-label={`Pattern: ${title}`}
+              aria-current="true"
+            >
+              <button class="pane-spine" aria-label={`Scroll ${title} into view`}>
+                <span aria-hidden="true">{title}</span>
+              </button>
+              <div class="pane-body">
+                <slot />
+              </div>
+            </section>
+            <StackManager client:load slug={slug} title={title} />
+          </div>
         ) : (
           <div class="content-inset">
             <slot />
@@ -206,6 +221,11 @@ const projectionLabels: Record<ProjectionId, string> = {
       import '@components/register-all.ts';
       import '../lib/link-preview.ts';
       import '../lib/demo-expander.ts';
+      import { mountDemos } from '../lib/demo-registry.ts';
+      // Mount pane-0 demos now, and again after every ClientRouter swap
+      // (astro:page-load also fires on initial load; mounting is idempotent).
+      mountDemos(document);
+      document.addEventListener('astro:page-load', () => mountDemos(document));
     </script>
   </body>
 </html>

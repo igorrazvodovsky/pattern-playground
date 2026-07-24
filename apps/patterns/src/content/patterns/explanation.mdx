@@ -25,9 +25,6 @@ relationships:
       note: explanations adjust their depth and form to the actor's level and context
 ---
 
-import { DynamicExplanationDemo } from '@pkg/demos/bubble-menu';
-
-
 The surfacing of reasoning behind system behaviour, balancing transparency with cognitive overhead. Explanations clarify deterministic logic, human actions, and AI-driven decisions to foster trust.
 
 ## Types of explanation
@@ -78,9 +75,7 @@ How the system arrived at a prediction, recommendation, or generated output.
 
 On-demand explanations for any selected content, supporting contextualised learning.
 
-<Demo surface="white" label="Dynamic explanation via bubble menu">
-  <DynamicExplanationDemo client:only="react" />
-</Demo>
+<Demo name="dynamic-explanation" surface="white" label="Dynamic explanation via bubble menu" />
 
 When users select content, explanations can address different aspects:
 - Interface mechanics: *how* to use this element

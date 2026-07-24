@@ -20,8 +20,6 @@ relationships:
       note: the timing and latency with which the system reports a change back to the actor
 ---
 
-import { IndicatorsDemo } from '@pkg/demos/status-feedback';
-
 Something in the system has changed — because of what the actor just did, what they typed, or an event elsewhere — and the change has to reach them without costing more attention than it is worth. Status feedback is that calibration: not one move but a framework for choosing among them.
 
 Three dimensions place any status message:
@@ -36,9 +34,7 @@ The dimensions route to three delivery shapes.
 
 State worn by the element itself: typographic emphasis, colour, an icon, a badge, an animation — placed on or beside the thing whose state changed, readable in passing.
 
-<Demo>
-  <IndicatorsDemo client:only="react" />
-</Demo>
+<Demo name="indicators" />
 
 ## [Validation](/patterns/validation)
 

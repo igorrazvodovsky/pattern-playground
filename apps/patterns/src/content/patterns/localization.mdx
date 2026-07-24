@@ -45,9 +45,6 @@ relationships:
       note: culturally appropriate explanation styles
 ---
 
-import { MermaidDiagram } from '@components/MermaidDiagram';
-
-
 The ongoing adaptation of an interface as it crosses linguistic, cultural, and regional boundaries, transforming locally meaningful patterns into ones that resonate in every context.
 
 ## Layers
@@ -101,7 +98,7 @@ Agent-generated translations (with human review). Quality varies by language pai
 
 ## Decision tree
 
-<MermaidDiagram client:only="react" chart={`
+<MermaidDiagram chart={`
 flowchart TD
     A{Used across language boundaries?} -->|Yes| B[Linguistic layer required]
     B --> C{Same cultural context?}

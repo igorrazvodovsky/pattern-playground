@@ -24,9 +24,6 @@ relationships:
       note: "semantic zoom drives this ladder for every item at once from a single scale control; item view owns the rungs and their per-item, navigation-driven transitions"
 ---
 
-import { ItemViewFullDemo, ItemViewRowDemo, ItemViewGlyphDemo, ItemViewTransitionsDemo } from '@pkg/demos/item-view';
-import { ReferenceDemo } from '@pkg/demos/reference';
-
 An entity — a person, a task, a document — must appear somewhere: inside running text, among its peers in a list, on its own page. Each moment fixes how much of it the actor needs — bare recognition in passing, quick comparison, a full working surface — and no single rendering serves them all.
 
 ## Forces
@@ -51,9 +48,7 @@ Item representation is the combination of a ladder rung and a UI element. The tw
 
 The lowest level: it doesn't even identify the entity by name, and it is only legible in relation to others — a glyph on its own means little.
 
-<Demo surface="white" label="Glyph as map pin: the same entity the other rungs render, located among its population.">
-  <ItemViewGlyphDemo client:only="react" />
-</Demo>
+<Demo name="item-view-glyph" surface="white" label="Glyph as map pin: the same entity the other rungs render, located among its population." />
 
 ### Reference
 
@@ -63,9 +58,7 @@ The lowest level: it doesn't even identify the entity by name, and it is only le
 
 An inline @mention that opens to richer detail on demand, rendered as a <ComponentRef id="components-reference--docs">reference</ComponentRef>:
 
-<Demo surface="white" label="Reference as @mention">
-  <ReferenceDemo client:only="react" />
-</Demo>
+<Demo name="reference" surface="white" label="Reference as @mention" />
 
 ### Summary
 
@@ -75,9 +68,7 @@ An inline @mention that opens to richer detail on demand, rendered as a <Compone
 
 As a row in a <ComponentRef id="components-table--docs">table</ComponentRef>:
 
-<Demo label="Summary as table row">
-  <ItemViewRowDemo client:only="react" />
-</Demo>
+<Demo name="item-view-row" label="Summary as table row" />
 
 ### Detail
 
@@ -91,9 +82,7 @@ As a row in a <ComponentRef id="components-table--docs">table</ComponentRef>:
 - Data: all data, history, relationships
 - Interaction: editing, analysis, management
 
-<Demo label="Full view">
-  <ItemViewFullDemo client:only="react" />
-</Demo>
+<Demo name="item-view-full" label="Full view" />
 
 ## UI element
 
@@ -112,9 +101,7 @@ Item views support fluid navigation up and down the ladder:
 - *Detail → full:* navigate from the modal to the entity page
 - *Full → collection:* return to the parent [data view](/patterns/data-view), its framing preserved
 
-<Demo label="Fluid navigation up and down the ladder: hover the reference for its summary, then use the view-settings menu on any rung to move between summary (popover), detail (drawer) and full (dialog), in either direction.">
-  <ItemViewTransitionsDemo client:only="react" />
-</Demo>
+<Demo name="item-view-transitions" label="Fluid navigation up and down the ladder: hover the reference for its summary, then use the view-settings menu on any rung to move between summary (popover), detail (drawer) and full (dialog), in either direction." />
 
 ## Related components
 
