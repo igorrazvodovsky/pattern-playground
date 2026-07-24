@@ -7,8 +7,7 @@ import { isUserReference, isQuoteReference } from '../types';
 export interface ReferencePreviewAdapterProps extends ItemViewProps<SelectedReference> {}
 
 export const ReferencePreviewAdapter: React.FC<ReferencePreviewAdapterProps> = ({
-  item: reference,
-  onEscalate
+  item: reference
 }) => {
   const { type, label, metadata } = reference;
   const safeMetadata = metadata ?? {};
@@ -32,17 +31,6 @@ export const ReferencePreviewAdapter: React.FC<ReferencePreviewAdapterProps> = (
             </div>
           </div>
         </div>
-        {onEscalate && (
-          <div className="reference-preview__actions">
-            <button
-              className="reference-preview__action"
-              onClick={() => onEscalate('mid')}
-              type="button"
-            >
-              View quote
-            </button>
-          </div>
-        )}
       </div>
     );
   }
@@ -68,17 +56,6 @@ export const ReferencePreviewAdapter: React.FC<ReferencePreviewAdapterProps> = (
             {email && <div>{email}</div>}
           </div>
         </div>
-        {onEscalate && (
-          <div className="reference-preview__actions">
-            <button
-              className="reference-preview__action"
-              onClick={() => onEscalate('mid')}
-              type="button"
-            >
-              View profile
-            </button>
-          </div>
-        )}
       </div>
     );
   }
@@ -100,18 +77,6 @@ export const ReferencePreviewAdapter: React.FC<ReferencePreviewAdapterProps> = (
               <span className="reference-preview__metadata-value">{String(value ?? 'N/A')}</span>
             </div>
           ))}
-        </div>
-      )}
-
-      {onEscalate && (
-        <div className="reference-preview__actions">
-          <button
-            className="reference-preview__action"
-            onClick={() => onEscalate('mid')}
-            type="button"
-          >
-            View details
-          </button>
         </div>
       )}
     </div>

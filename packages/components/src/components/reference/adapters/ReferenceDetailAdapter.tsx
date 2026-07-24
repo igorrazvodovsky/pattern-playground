@@ -8,7 +8,6 @@ export interface ReferenceDetailAdapterProps extends ItemViewProps<SelectedRefer
 
 export const ReferenceDetailAdapter: React.FC<ReferenceDetailAdapterProps> = ({
   item: reference,
-  onEscalate,
   onInteraction
 }) => {
   const { type, metadata, id } = reference;
@@ -29,16 +28,6 @@ export const ReferenceDetailAdapter: React.FC<ReferenceDetailAdapterProps> = ({
             </div>
           </div>
           <div className="reference-detail__actions">
-            {onEscalate && (
-              <button
-                className="reference-detail__action reference-detail__action--expand"
-                onClick={() => onEscalate('maxi')}
-                type="button"
-                title="View full profile"
-              >
-                ↗
-              </button>
-            )}
             {onInteraction && (
               <button
                 className="reference-detail__action reference-detail__action--message"
@@ -81,16 +70,6 @@ export const ReferenceDetailAdapter: React.FC<ReferenceDetailAdapterProps> = ({
           <div className="reference-detail__type">{type}</div>
         </div>
         <div className="reference-detail__actions">
-          {onEscalate && (
-            <button
-              className="reference-detail__action reference-detail__action--expand"
-              onClick={() => onEscalate('maxi')}
-              type="button"
-              title="Open full view"
-            >
-              ↗
-            </button>
-          )}
           {onInteraction && (
             <button
               className="reference-detail__action reference-detail__action--edit"

@@ -14,10 +14,7 @@ For pattern site content in `apps/patterns/src/content/`, see `.claude/rules/pat
 Top-level Storybook buckets — the first segment of every `<Meta title="…">` and
 story `title`:
 
-- *Components* — reusable interface components, at any composition scale. A
-  standalone `pp-input` and a composed `pp-item-view` both live here; the
-  atomic-composition scale is not a placement axis. (`atomic:*` tags are
-  compositional metadata, per `docs/specs/pattern-role-model.md`, not a folder.)
+- *Components* — reusable interface components, at any composition scale.
 - *Utilities* — cross-cutting mechanisms that aren't components in their own
   right (Overflow, Counter, Visually hidden).
 - *Templates* — page- and flow-scale compositions meant to be reused whole. Admission test: would you

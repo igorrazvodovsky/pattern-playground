@@ -73,6 +73,21 @@
             },
             { "type": "text", "text": "." }
           ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            { "type": "text", "text": "The refurbishment pilot keeps the " },
+            {
+              "type": "reference",
+              "attrs": {
+                "id": "PRD-EBK-001",
+                "label": "Urban Commuter E-Bike",
+                "type": "product"
+              }
+            },
+            { "type": "text", "text": " as its reference case for the take-back programme." }
+          ]
         }
       ]
     }

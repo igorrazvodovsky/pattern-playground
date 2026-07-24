@@ -14,7 +14,11 @@ An adapter-based renderer that presents a single entity at a chosen scope, from 
 - *Adapter registry.* A `ContentAdapterProvider` maps `contentType` to a rendering adapter; unknown types fall back to a default renderer, so the component never renders nothing.
 - *Scopes.* `micro`, `mini`, `mid`, `maxi` — one component, one entity, four densities. The scope names are size-shaped; the semantic reading (reference, summary, detail, full) lives with the pattern.
 - *Interaction modes.* `preview`, `inspect`, `edit`, `transform` — orthogonal to scope; an adapter decides what each mode affords at each scope.
-- *Escalation.* `onEscalate(targetScope)` lets an embedded view request a richer scope from its host rather than navigating away itself.
+- *Escalation.* `ItemInteraction` wraps an inline trigger and walks the ladder from it: hover glances at the summary in a popover, click commits to a working view (drawer or dialog), and a level-of-detail control in every header moves between rungs. The view never escalates itself — the host owns the movement.
+
+## Escalation
+
+<Story of={ItemViewStories.Escalation} />
 
 ## Related patterns
 

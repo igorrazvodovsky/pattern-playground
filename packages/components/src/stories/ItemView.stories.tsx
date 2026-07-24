@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
   ItemViewFullDemo,
   ItemViewSummaryDemo,
-  ItemViewReferenceDemo,
+  ItemViewTransitionsDemo,
 } from "../demos/item-view";
 import { centeredLayout, centeredLayoutNarrow } from "./utils/decorators";
 
@@ -25,7 +25,14 @@ export const Summary: Story = {
   render: () => <ItemViewSummaryDemo />,
 };
 
-export const Reference: Story = {
+export const Escalation: Story = {
   decorators: [centeredLayoutNarrow],
-  render: () => <ItemViewReferenceDemo />,
+  render: () => <ItemViewTransitionsDemo />,
+  parameters: {
+    docs: {
+      description: {
+        story: 'One entity walked up and down the ladder from an inline reference. Hovering the mention glances at the summary in a popover; clicking commits to a working view — the drawer or the full dialog — and the level-of-detail control in every header moves between rungs. The same `ItemInteraction` drives references in the editor.'
+      }
+    }
+  },
 };

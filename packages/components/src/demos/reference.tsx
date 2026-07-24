@@ -6,14 +6,14 @@ const fallbackDoc = (text: string) => ({
   content: [{ type: 'paragraph', content: [{ type: 'text', text }] }],
 });
 
-/** Inline @mention references across users, documents, projects and quote objects, escalating to detail on demand. */
+/** Inline @mention references across users, documents, projects, quotes and products, escalating to detail on demand. */
 export function ReferenceDemo() {
   return (
     <ReferenceEditor
       data={referenceCategories}
-      placeholder="Type @ to open reference picker (includes users, documents, projects & quotes)..."
+      placeholder="Type @ to open reference picker (users, documents, projects, quotes & products)..."
       content={getReferenceContentById('sustainability-meeting-content')?.content ||
-        fallbackDoc('Enhanced reference system with Quote Objects! Try @reshaping, @habitats, or @coral to reference specific quote objects across documents. Also supports @elena, @climate, @circular for traditional references.')}
+        fallbackDoc('Type @ to reference an entity — users, documents, projects, quotes or products.')}
     />
   );
 }

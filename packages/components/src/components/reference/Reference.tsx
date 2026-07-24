@@ -8,11 +8,14 @@ import type { SuggestionProps } from '@tiptap/suggestion';
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { ReferencePicker } from './ReferencePicker';
 import { ItemInteraction, ContentAdapterProvider } from '../item-view';
+import type { ContentAdapter } from '../item-view';
 import { referenceContentAdapter } from './ReferenceContentAdapter';
 import { quoteAdapter, quoteToBaseItem } from '../item-view/adapters/QuoteAdapter';
+import { productAdapter, productToItemObject } from '../item-view/adapters/ProductAdapter';
 import type { ReferenceCategory, SelectedReference, ReferenceType } from './types';
 import type { QuoteObject } from '../../services/commenting/core/quote-pointer';
-import { resolveReferenceData } from '@shared/data';
+import type { Product } from '@shared/data/types';
+import { resolveReferenceData, products } from '@shared/data';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -326,57 +329,53 @@ export const Reference = Mention.extend({
         metadata: node.attrs.metadata ? structuredClone(node.attrs.metadata) : undefined,
       };
 
-      // For quote references, use the quote adapter with the quote object
-      if (node.attrs.type === 'quote' && resolvedData) {
+      // Entity-type routing: a reference to an entity whose type has a
+      // dedicated item-view adapter escalates through that adapter — a product
+      // mention opens the product's own ladder, a quote its quote view — so
+      // the entity renders the same from a mention as from any other host.
+      // Types without one (user, document, project…) fall back to the generic
+      // reference views.
+      const dedicated = ((): { adapter: ContentAdapter; contentType: string; item: unknown } | null => {
+        if (!resolvedData) return null;
         try {
-          const quoteData = resolvedData as unknown as QuoteObject;
-          const quoteItem = quoteToBaseItem(quoteData);
-          const ReferenceComponent = () => (
-            <ContentAdapterProvider adapters={[quoteAdapter as any]}>
-              <ItemInteraction
-                item={quoteItem as any}
-                contentType="quote"
-                enableEscalation={true}
-              >
-                {node.attrs.label ?? node.attrs.id}
-              </ItemInteraction>
-            </ContentAdapterProvider>
-          );
-
-          let renderer: ReactRenderer;
-
-          // Defer ReactRenderer creation to avoid flushSync warnings
-          setTimeout(() => {
-            renderer = new ReactRenderer(ReferenceComponent, {
-              editor,
-            });
-            wrapper.appendChild(renderer.element);
-          }, 0);
-
-          return {
-            dom: wrapper,
-            destroy() {
-              editor.off('selectionUpdate', handleSelectionUpdate);
-              if (renderer) {
-                renderer.destroy();
-              }
-            },
-          };
+          switch (node.attrs.type) {
+            case 'quote':
+              return {
+                adapter: quoteAdapter as ContentAdapter,
+                contentType: 'quote',
+                item: quoteToBaseItem(resolvedData as unknown as QuoteObject),
+              };
+            case 'product': {
+              // Looked up raw rather than through `resolvedData`, which
+              // flattens metadata for the picker; the adapter wants the record.
+              const product = (products as unknown as Product[]).find(
+                (candidate) => candidate.id === node.attrs.id
+              );
+              return product
+                ? {
+                    adapter: productAdapter as ContentAdapter,
+                    contentType: 'product',
+                    item: productToItemObject(product),
+                  }
+                : null;
+            }
+            default:
+              return null;
+          }
         } catch {
-          // Fall through to regular reference handling
+          // A malformed entity falls back to the generic reference views.
+          return null;
         }
-      }
+      })();
 
-      // For non-quote references, use the standard reference adapter
       const ReferenceComponent = () => (
-        <ContentAdapterProvider adapters={[referenceContentAdapter as any]}>
+        <ContentAdapterProvider adapters={[(dedicated?.adapter ?? referenceContentAdapter) as any]}>
           <ItemInteraction
-            item={referenceData as any}
-            contentType="reference"
+            item={(dedicated?.item ?? referenceData) as any}
+            contentType={dedicated?.contentType ?? 'reference'}
             enableEscalation={true}
           >
-              {node.attrs.label ?? node.attrs.id}
-
+            {node.attrs.label ?? node.attrs.id}
           </ItemInteraction>
         </ContentAdapterProvider>
       );

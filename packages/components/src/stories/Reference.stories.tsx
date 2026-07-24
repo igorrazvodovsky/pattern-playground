@@ -13,7 +13,7 @@ export const Reference: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Enhanced reference system with Quote Objects integration. Now includes quote objects as referenceable entities alongside users, projects, and documents. Type @ and try @reshaping, @habitats, @coral for quote objects, or @elena, @climate, @circular for traditional references. Demonstrates cross-document quote referencing capabilities.'
+        story: 'Inline @mentions across users, documents, projects, quotes and products. Hovering a mention glances at its summary; clicking opens a working view.'
       }
     }
   }
@@ -24,7 +24,7 @@ export const Basic: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Single-category reference picker with sustainability meeting content. Shows existing user mentions from our sustainability team directory. Automatically skips category selection since there\'s only users. Type @ followed by a name to filter users directly.'
+        story: 'Single-category picker: only users are referenceable, so the category step is skipped. Type @ followed by a name to filter directly.'
       }
     }
   }

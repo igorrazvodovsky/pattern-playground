@@ -42,16 +42,6 @@ export function ItemViewSummaryDemo() {
   return <ProductItemView scope="mini" />;
 }
 
-/** Reference rung: recognition and linking only, inline in running prose. */
-export function ItemViewReferenceDemo() {
-  return (
-    <p>
-      The refurbishment line report flags the <ProductItemView scope="micro" /> for a
-      battery-module swap before the autumn fleet handover.
-    </p>
-  );
-}
-
 /** Summary rung in context: the item as a row among its peers. */
 export function ItemViewRowDemo() {
   return (
