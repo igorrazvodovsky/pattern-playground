@@ -1,0 +1,26 @@
+story: null
+topic: drag and drop as a language entry — classification gate
+interaction: |
+  An actor drags an element to a destination whose meaning performs a
+  semantic write: dropping a card in a lane writes the grouping attribute;
+  dropping an attribute chip into an overview surfaces it. Computed
+  destinations refuse the write audibly; every drag has a non-pointer twin.
+context: |
+  Pattern library deciding whether drag and drop becomes a pattern node,
+  a mechanism annotation, or both (plans/active/2026-07-drag-and-drop.md).
+  Two demos on main use @atlaskit/pragmatic-drag-and-drop behind a lazy
+  adapter loader. Strawman: one coarse operation-level pattern node.
+questions:
+  - Is it a move at all, or an input technique? Do the pattern corpora
+    (Tidwell, van Welie, NN/g, Apple HIG, Material, Atlassian) carve drag
+    and drop as one named pattern, or split reorder / transfer / upload?
+  - Does the accessibility stance hold as normative? Does WCAG 2.2 SC 2.5.7
+    (Dragging Movements) make the non-pointer twin a requirement rather
+    than craft, and what does accessible-dnd interaction research say?
+  - Does "spatial proxy for a semantic write" survive contact with
+    direct-manipulation theory (Shneiderman; Hutchins, Hollan & Norman)?
+  - Operation or action? Does the literature place dnd attention-demand
+    nearer pan/zoom (habituated operation) or deliberate commands (action)?
+  - Vocabulary overlap — canvas/data-viz "drag" (pan, marquee, brush)
+    shares the word but not the move; keep parallel or merge?
+keywords: [drag-and-drop, direct manipulation, accessibility, dragging movements, reorder, pointer gesture]
