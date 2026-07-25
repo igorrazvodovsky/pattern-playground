@@ -1,9 +1,9 @@
 ---
 title: "Enacts-note audit: align pre-existing labels with the Q-lens convention"
-status: "active"
+status: "completed"
 kind: "exec-spec"
 created: "2026-07-10"
-last_reviewed: "2026-07-10"
+last_reviewed: "2026-07-25"
 area: "language, graph"
 promoted_to: ""
 superseded_by: ""
@@ -30,3 +30,11 @@ One sitting, same character as the relationship-vocabulary plan's workstreams A/
 ## Notes for iteration
 
 The tell list above is a first guess — firm it up against the actual notes before wiring anything into the extractor (the note-verb advisory's history shows the tells need to be precision-biased or they drown in ordinary verbs, e.g. bare "enables" was rejected there for exactly this reason).
+
+## Outcome (2026-07-25)
+
+Audited in one sitting: 118 `enacts` edges, all of them noted. 29 notes reworded across 16 pages, 87 kept as written, 2 held deliberately (progressive-disclosure → density, workspace → privacy — supports-adjacent verbs whose mechanism clauses already name the move).
+
+The guessed tell list was wrong about the corpus: supports-Q verb phrasings barely existed. The actual failure shapes were topic lists (localization's six notes), dimension-namings ("how much structure the system demands of the actor, and when"), deictic residue ("mirrors this spectrum"), and meta preambles ("the quality lens on the trade-off:"). None of these is regex-detectable with the required precision bias, and the guessed tells would have fired zero times even pre-audit — so no third advisory was wired. The known specimen (annotation → learnability) had already been reworded in an earlier unrecorded pass.
+
+Full record, including what was considered and lost: relationship-vocabulary.md changelog, 2026-07-25 entry.

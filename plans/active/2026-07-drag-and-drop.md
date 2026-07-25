@@ -2,10 +2,13 @@
 
 The view-system work implemented drag and drop twice without ever making it a
 subject: dragging a card between board lanes writes the grouping attribute
-(`WritableBoardDemo`), and dragging an attribute chip from a detail pane into
-the overview surfaces it (`FluidAttributesDemo`). Both live uncommitted on the
-`view-system-reshape` worktree, on `@atlaskit/pragmatic-drag-and-drop` behind a
-lazy adapter loader (`demos/view-family/dnd.ts`). This plan decides what that
+(`packages/components/src/demos/data-view/WritableBoardDemo.tsx`), and
+dragging an attribute chip from a detail pane into the overview surfaces it
+(`packages/components/src/demos/attribute-visibility/FluidAttributesDemo.tsx`).
+Both are on main and registered in `apps/patterns/src/lib/demo-registry.ts`
+(`writable-board`, `fluid-attributes`), on
+`@atlaskit/pragmatic-drag-and-drop` behind a lazy adapter loader
+(`packages/components/src/utility/dnd.ts`). This plan decides what that
 practice becomes in the library — a pattern node, a mechanism annotation, or
 both — and authors the result. The classification is *open*: a strawman is
 recorded below, and a research gate sits between it and any authored page.
@@ -97,11 +100,55 @@ Gate output: a dated synthesis note plus a short verdict section appended to
 this plan (pattern node / mechanism only / both, and at which level). The
 verdict, not the strawman, licenses Phase 2.
 
+## Verdict (2026-07-25, from research/drag-and-drop/2026-07-25.md)
+
+*Pattern node, one coarse `drag-and-drop.mdx`, `activityLevel: operation` —
+the strawman stands, with four amendments.*
+
+1. *Coarseness confirmed, variants renamed.* No corpus splits dnd into
+   separate patterns except Scott & Neil (Designing Web Interfaces, 2009),
+   whose five — Module, List, Object, Action, Collection — become the
+   within-page variant names. Upload is nobody's variant; drop it until
+   practice demands it. Tidwell 3rd ed. files "Drag-and-Drop" beside
+   keyboard actions as an action-invocation method — direct precedent for
+   the Keyboard-shortcuts-level placement.
+2. *The accessibility clause was understated.* The twin is two independent
+   norms, not one: WCAG 2.1.1 (A) requires a keyboard path to the drag's
+   outcome; SC 2.5.7 (AA) separately requires a single-pointer non-dragging
+   path, and a keyboard twin alone fails it. A "Move to…" menu discharges
+   both. ARIA's dnd states are deprecated with no successor and the APG has
+   no dnd pattern — the page should say the ecosystem routes around the
+   gesture rather than making it AT-operable (Atlassian's stance; GitHub
+   found users across abilities preferring the move dialog).
+3. *The framing has a prior name.* "Spatial proxy for a semantic write" is
+   Hutchins/Hollan/Norman's articulatory directness, achieved for
+   non-spatial meanings by designed metaphor; Draper's inter-referential
+   I/O (output serving as input) names the drop target exactly. Refusal
+   behaviour argues from metaphor overload (one destination, one meaning
+   — the trash-eject failure), not just courtesy. Theory lands in
+   `references/` + woven vocabulary, as planned; HHN 1985 is a distil
+   candidate (currently only a citation inside Bridging Gulfs.md).
+4. *Operation, with the price owned.* Buxton's tension-phrasing chunks
+   press–move–release into one habituated unit (mode errors "virtually
+   impossible"); MacKenzie/Sellen/Buxton measure dragging at ~3× pointing's
+   error rate with lower Fitts' bandwidth. Classify as operation; the page
+   carries the counterweight — the twin is the ergonomic fast path too,
+   not only the accessible one.
+
+Vocabulary overlap (question 5) resolved as keep-parallel-and-link: d3's
+drag/brush/zoom module split, tldraw's brush/translate/hand states, and
+Figma's origin-point disambiguation all keep canvas-drag distinct from dnd;
+tangential edges to pan-and-zoom and selection, no merge.
+
+Mechanism-only is rejected: UI-Patterns, Apple HIG, NN/g, and Atlassian all
+name the practice, and the force-resolution needs an authoritative home.
+Phase 2 is licensed.
+
 ## Phases
 
 ### 1. Research gate
 
-As above. Independent of the view-system branch; can run any time.
+As above. No dependencies; can run any time.
 
 ### 2. Author the entry
 
@@ -111,10 +158,10 @@ definition phrased as the move, forces from the Context section above,
 variants as sections, typed cross-reference headers so the extractor lands
 the edges. Borrow the two demos.
 
-Dependency: both demos are uncommitted on the `view-system-reshape`
-worktree and their borrow map belongs to
-[2026-07-view-system-demos](2026-07-view-system-demos.md) — this phase rides
-with or after that work landing, on the same branch.
+Both demos are on main (view-system reshape merged 2026-07-24); their
+borrow map is recorded in
+[2026-07-view-system-demos](../completed/2026-07-view-system-demos.md).
+No branch dependency remains.
 
 ### 3. Update neighbours
 

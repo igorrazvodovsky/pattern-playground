@@ -1463,7 +1463,7 @@
       "source": "agent",
       "target": "agency",
       "type": "enacts",
-      "label": "how much freedom the agent has to act on its own.",
+      "label": "each mode hands the system a different amount of freedom to act unprompted",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -1696,7 +1696,7 @@
       "source": "assisted-task-completion",
       "target": "agency",
       "type": "enacts",
-      "label": "mirrors this spectrum; more system initiative demands more careful preservation of actor control",
+      "label": "however much the system proposes, the actor keeps the final say",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -1893,7 +1893,7 @@
       "source": "bounded-choice",
       "target": "formality",
       "type": "enacts",
-      "label": "the quality lens on the trade-off: bounded choice sits at the high-formality end",
+      "label": "swaps the actor's own words for the system's vocabulary — input valid by construction",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -1978,21 +1978,21 @@
       "source": "cognitive-forcing-functions",
       "target": "agency",
       "type": "enacts",
-      "label": "the outcome the forcing-function family is trying to produce",
+      "label": "inserts a beat of thought between output and acceptance, so the judgement is the actor's own",
       "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "cognitive-forcing-functions",
       "target": "learnability",
       "type": "enacts",
-      "label": "forcing functions only work when users have the competence to evaluate; learnability builds that competence",
+      "label": "keeps the actor's own judgement in use — and only helps those who can already evaluate the output",
       "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "cognitive-forcing-functions",
       "target": "temporality",
       "type": "enacts",
-      "label": "timing-based forcing functions (wait, human goes first) depend on temporal design",
+      "label": "the wait variants make a deliberate delay the friction, interrupting automatic deferral",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -2041,7 +2041,7 @@
       "source": "collaboration-foundation",
       "target": "agency",
       "type": "enacts",
-      "label": "the distribution of control and initiative between collaborative actors",
+      "label": "control and initiative spread across the group, renegotiated as the work proceeds",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -2310,7 +2310,7 @@
       "source": "conversation",
       "target": "conversation-quality",
       "type": "enacts",
-      "label": "the quality names the stance conversation makes its primary mode: dialogue as the substrate of meaning, not one option among many",
+      "label": "makes dialogue the primary mode, not one option among many — meaning builds turn by turn",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -2443,7 +2443,7 @@
       "source": "data",
       "target": "agency",
       "type": "enacts",
-      "label": "User control over data layer configuration",
+      "label": "the actor tunes the layering by hand rather than accepting the defaults",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -2457,7 +2457,7 @@
       "source": "data",
       "target": "conversation-quality",
       "type": "enacts",
-      "label": "Turn-taking between user input and system responses",
+      "label": "the inferred layers are offers, not facts — the record settles as the actor accepts or rejects them",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -2765,7 +2765,7 @@
       "source": "focus-and-context",
       "target": "agency",
       "type": "enacts",
-      "label": "agency here belongs to the system as well as the user",
+      "label": "the actor steers the lens, but the system decides what counts as close",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -2779,7 +2779,7 @@
       "source": "focus-and-context",
       "target": "density",
       "type": "enacts",
-      "label": "balanced against the actor's cognitive load as focus shifts",
+      "label": "grades density by distance from attention — full detail at the focus, an outline at the rim",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -2800,7 +2800,7 @@
       "source": "form",
       "target": "formality",
       "type": "enacts",
-      "label": "how much structure the system demands of the actor, and when.",
+      "label": "demands the structure of the answer up front, before the actor says anything",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -3161,7 +3161,7 @@
       "source": "hybrid-patterns",
       "target": "agency",
       "type": "enacts",
-      "label": "control implications of combinations",
+      "label": "combining models gives the actor ways to move that no single model allows",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -3295,7 +3295,7 @@
       "source": "inline-interface",
       "target": "conversation-quality",
       "type": "enacts",
-      "label": "the foundational claim this concretises: the inline interface is where the conversation metaphor becomes a literal rendering.",
+      "label": "makes the conversation metaphor literal — the message itself becomes a thing to act on",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -3427,14 +3427,14 @@
       "source": "interaction",
       "target": "agency",
       "type": "enacts",
-      "label": "who is driving at any given moment, and what the system contributes at each stage",
+      "label": "each loop has a driver — actor-led with the system assisting, or system-led with the actor returning at touchpoints",
       "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "interaction",
       "target": "temporality",
       "type": "enacts",
-      "label": "the rhythm and pacing of turn-taking",
+      "label": "each see–think–do loop sets a beat; the loops compound into the longer arc",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -3586,42 +3586,42 @@
       "source": "localization",
       "target": "adaptation",
       "type": "enacts",
-      "label": "the capacity that localization exercises",
+      "label": "the interface re-forms for each locale — language, format, and register shift while the structure holds",
       "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "localization",
       "target": "shareability",
       "type": "enacts",
-      "label": "locale-aware URLs and shared content",
+      "label": "a shared link crosses locales — sender's language or recipient's becomes a design decision",
       "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "localization",
       "target": "privacy",
       "type": "enacts",
-      "label": "data residency, GDPR, locale-specific regulation",
+      "label": "crossing a border changes what may be collected and where the data may live",
       "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "localization",
       "target": "temporality",
       "type": "enacts",
-      "label": "timezone handling, date format conventions",
+      "label": "timezones, calendars, and date formats make the same moment read differently in each locale",
       "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "localization",
       "target": "density",
       "type": "enacts",
-      "label": "text expansion affecting information density",
+      "label": "translated text expands or contracts, crowding or emptying the same layout",
       "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "localization",
       "target": "learnability",
       "type": "enacts",
-      "label": "learning curves differ across localised interfaces",
+      "label": "translation quality decides whether the interface still teaches in the new language",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -4001,7 +4001,7 @@
       "source": "next-best-action",
       "target": "agency",
       "type": "enacts",
-      "label": "proactive recommendations must preserve actor control",
+      "label": "the system proposes the step; the actor takes it or leaves it",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -4431,7 +4431,7 @@
       "source": "prose",
       "target": "agency",
       "type": "enacts",
-      "label": "yielding the stage as locus shift",
+      "label": "*Saved* versus *We've saved your draft* — the phrasing shifts who the interaction belongs to",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -4445,14 +4445,14 @@
       "source": "prose",
       "target": "formality",
       "type": "enacts",
-      "label": "structural demand on user input (disambiguation)",
+      "label": "how the system phrases its turn sets how structured the actor's answer must be",
       "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "prose",
       "target": "conversation-quality",
       "type": "enacts",
-      "label": "turn-taking as substrate",
+      "label": "every label and message is the system taking its turn in the exchange",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -4814,14 +4814,14 @@
       "source": "settings",
       "target": "agency",
       "type": "enacts",
-      "label": "settings implement actor control over system behaviour",
+      "label": "the actor overrides the defaults once and the system holds to it",
       "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "settings",
       "target": "privacy",
       "type": "enacts",
-      "label": "settings include visibility and access preferences",
+      "label": "the actor sets who sees what once, and the boundary persists",
       "extractedFrom": "frontmatter:enacts"
     },
     {
