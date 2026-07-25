@@ -12,6 +12,7 @@ import {
   SidebarMenuButton,
   SidebarTrigger,
 } from '@components/sidebar';
+import { setPatternGraphHover } from '@components/pattern-graph-hover';
 import { useNavStore, useNavHydration, DEFAULT_PROJECTION } from '../lib/nav-store';
 import { useActivePath, isActivePath } from '../lib/active-path';
 
@@ -90,6 +91,16 @@ function NavNode({ node, currentPath, isOpen, setOpen, hydrated }: NavNodeProps)
       </SidebarMenuButton>
     </SidebarMenuItem>
   );
+}
+
+// Announce which pattern the pointer is over, so the graph island on the home
+// page can light up the matching node. Delegated rather than bound per item:
+// two listeners instead of one per link, and `closest('a[href]')` naturally
+// skips the collapsible group triggers, which are buttons and name no pattern.
+// Off the home page nothing is listening, and the events are inert.
+function onNavPointerOver(event: React.MouseEvent<HTMLElement>) {
+  const link = (event.target as HTMLElement).closest('a[href]');
+  setPatternGraphHover(link ? new URL(link.getAttribute('href')!, location.href).pathname : null);
 }
 
 // Open the Pagefind search modal. We call its open() method directly rather
@@ -276,7 +287,10 @@ export function Nav({ projections, projectionLabels, storybookUrl }: NavProps) {
     <SidebarProvider renderWrapper={false}>
       <SiteHeader />
       <Sidebar collapsible="offcanvas">
-        <SidebarContent>
+        <SidebarContent
+          onMouseOver={onNavPointerOver}
+          onMouseLeave={() => setPatternGraphHover(null)}
+        >
           <SidebarGroup>
             <h1 className="sidebar-logo">
               <a href="/">

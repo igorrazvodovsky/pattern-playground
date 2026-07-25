@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import {
   forceSimulation,
   forceLink,
@@ -12,6 +12,7 @@ import type { SimulationNodeDatum, SimulationLinkDatum } from 'd3-force';
 import { scaleSqrt } from 'd3-scale';
 import graphData from '../pattern-graph.json' with { type: 'json' };
 import activityLevels from '../activity-levels.json' with { type: 'json' };
+import { normalisePatternPath, subscribePatternGraphHover } from './pattern-graph-hover';
 
 interface NodeMeta {
   'activity-level': string;
@@ -198,7 +199,10 @@ function buildGraph() {
   const maxY = Math.max(...nodes.map((n) => n.y + n.radius)) + PAD;
   const viewBox = `${minX} ${minY} ${maxX - minX} ${maxY - minY}`;
 
-  return { nodes, edges, viewBox, adjacency };
+  // Lets an outside hover (the sidebar) name a node by the link it already has.
+  const idByPath = new Map(nodes.map((n) => [normalisePatternPath(n.path), n.id]));
+
+  return { nodes, edges, viewBox, adjacency, idByPath };
 }
 
 interface PatternGraphProps {
@@ -208,28 +212,45 @@ interface PatternGraphProps {
 export function PatternGraph({ trailLength = DEFAULT_TRAIL_LENGTH }: PatternGraphProps = {}) {
   const [graph] = useState(buildGraph);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [externalId, setExternalId] = useState<string | null>(null);
   const [trail, setTrail] = useState<string[]>([]);
   const [colorMode] = useState<ColorMode>('at-level');
 
-  const neighbors = hoveredId ? (graph.adjacency.get(hoveredId) ?? new Set<string>()) : null;
+  // Hovering a sidebar link highlights its node as if the pointer were on it.
+  // Kept in its own slot so the two sources can't clear each other, and so a
+  // sweep down the (dense) sidebar list doesn't flush the trail the way
+  // handleNodeEnter would.
+  useEffect(
+    () =>
+      subscribePatternGraphHover(({ path }) => {
+        setExternalId(path ? (graph.idByPath.get(normalisePatternPath(path)) ?? null) : null);
+      }),
+    [graph.idByPath]
+  );
+
+  // The pointer can only be in one place, but a stale leave from either source
+  // shouldn't cancel the other — so own hover simply wins while it lasts.
+  const activeId = hoveredId ?? externalId;
+
+  const neighbors = activeId ? (graph.adjacency.get(activeId) ?? new Set<string>()) : null;
   const trailSet = useMemo(() => new Set(trail), [trail]);
 
   // Trail nodes reachable from the hovered node by hopping only through other visited nodes.
   const reachableTrailSet = useMemo(() => {
     const reachable = new Set<string>();
-    if (!hoveredId) return reachable;
-    const queue = [hoveredId];
+    if (!activeId) return reachable;
+    const queue = [activeId];
     while (queue.length > 0) {
       const current = queue.shift()!;
       for (const neighborId of graph.adjacency.get(current) ?? []) {
-        if (trailSet.has(neighborId) && neighborId !== hoveredId && !reachable.has(neighborId)) {
+        if (trailSet.has(neighborId) && neighborId !== activeId && !reachable.has(neighborId)) {
           reachable.add(neighborId);
           queue.push(neighborId);
         }
       }
     }
     return reachable;
-  }, [hoveredId, trailSet, graph.adjacency]);
+  }, [activeId, trailSet, graph.adjacency]);
 
   const handleNodeEnter = useCallback((id: string) => {
     setHoveredId(id);
@@ -243,13 +264,13 @@ export function PatternGraph({ trailLength = DEFAULT_TRAIL_LENGTH }: PatternGrap
 
   const nodeClass = (id: string) => {
     const classes = ['pattern-graph__node'];
-    if (id === hoveredId) {
+    if (id === activeId) {
       classes.push('pattern-graph__node--active');
     } else if (neighbors?.has(id)) {
       classes.push('pattern-graph__node--neighbor');
     } else if (reachableTrailSet.has(id)) {
       classes.push('pattern-graph__node--trail');
-    } else if (hoveredId) {
+    } else if (activeId) {
       classes.push('pattern-graph__node--dimmed');
     }
     return classes.join(' ');
@@ -257,11 +278,11 @@ export function PatternGraph({ trailLength = DEFAULT_TRAIL_LENGTH }: PatternGrap
 
   const edgeClass = (edge: RenderedEdge) => {
     const classes = ['pattern-graph__edge'];
-    if (edge.source === hoveredId || edge.target === hoveredId) {
+    if (edge.source === activeId || edge.target === activeId) {
       classes.push('pattern-graph__edge--active');
     } else if (reachableTrailSet.has(edge.source) && reachableTrailSet.has(edge.target)) {
       classes.push('pattern-graph__edge--trail');
-    } else if (hoveredId) {
+    } else if (activeId) {
       classes.push('pattern-graph__edge--dimmed');
     }
     return classes.join(' ');
@@ -269,7 +290,7 @@ export function PatternGraph({ trailLength = DEFAULT_TRAIL_LENGTH }: PatternGrap
 
   const svgClass = [
     'pattern-graph__svg',
-    hoveredId ? 'pattern-graph__svg--hovering' : '',
+    activeId ? 'pattern-graph__svg--hovering' : '',
   ].filter(Boolean).join(' ');
 
   const handleNodeActivate = useCallback((path: string) => {
