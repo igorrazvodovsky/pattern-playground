@@ -697,6 +697,27 @@
       "group": "conversation/conversation-management"
     },
     {
+      "id": "drag-and-drop",
+      "title": "Drag and drop",
+      "category": "Operations",
+      "path": "/patterns/drag-and-drop",
+      "role": "pattern",
+      "situation": {
+        "initiating": "the item to operate on and the destination that stands for the outcome are both on screen, and asking for the operation by name — a menu, a form, a command — would restate what the actor can already point at",
+        "resulting": [
+          {
+            "clause": "the operation happens where its object and outcome are visible, and the result reads off the surface afterwards — the item sits where it was put"
+          },
+          {
+            "clause": "destinations are now part of the operation's vocabulary: each must mean exactly one thing, refuse what it cannot accept, and stay legible while a drag is in flight"
+          },
+          {
+            "clause": "every dragged operation exists twice — the gesture and its drag-free twin — and the pair must perform the identical write, or the interface holds two truths"
+          }
+        ]
+      }
+    },
+    {
       "id": "dynamic-hyperlinks",
       "title": "Dynamic hyperlinks",
       "category": "Actions",
@@ -3421,6 +3442,55 @@
       "type": "alternative",
       "label": "the preferred alternative when a formal close is possible",
       "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "drag-and-drop",
+      "target": "data-view",
+      "type": "enables",
+      "label": "dragging is how a writable view takes its most direct edits — a card dropped in a lane writes the grouping attribute through the projection",
+      "extractedFrom": "frontmatter:enables"
+    },
+    {
+      "source": "drag-and-drop",
+      "target": "grouping",
+      "type": "enables",
+      "label": "moving a card between groups is grouping's write path: the drop re-files the item under the destination's value",
+      "extractedFrom": "frontmatter:enables"
+    },
+    {
+      "source": "drag-and-drop",
+      "target": "attribute-visibility",
+      "type": "enables",
+      "label": "the strongest surfacing control is a drag — grab the attribute in one item's detail and drop it into the overview",
+      "extractedFrom": "frontmatter:enables"
+    },
+    {
+      "source": "drag-and-drop",
+      "target": "sorting",
+      "type": "enables",
+      "label": "manual ordering is a drag: when the order lives in the actor's head rather than in an attribute, dragging an item into place is the write",
+      "extractedFrom": "frontmatter:enables"
+    },
+    {
+      "source": "drag-and-drop",
+      "target": "pan-and-zoom",
+      "type": "tangential",
+      "label": "drag-to-pan shares the gesture, not the move — the drag translates the viewport; nothing is picked up and no destination carries meaning",
+      "extractedFrom": "frontmatter:tangential"
+    },
+    {
+      "source": "drag-and-drop",
+      "target": "selection",
+      "type": "tangential",
+      "label": "the drag-rectangle shares the gesture, not the move — it sweeps out a region to designate items; there is no destination at all",
+      "extractedFrom": "frontmatter:tangential"
+    },
+    {
+      "source": "drag-and-drop",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the operation is performed on the thing itself, where it sits — intent expressed by acting on the object rather than by asking a control elsewhere to act on it",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "dynamic-hyperlinks",

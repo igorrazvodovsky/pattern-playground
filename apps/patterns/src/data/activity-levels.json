@@ -235,6 +235,12 @@
       "atomic-category": "primitive",
       "mediation": "coordination"
     },
+    "drag-and-drop": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": "individual"
+    },
     "dynamic-hyperlinks": {
       "activity-level": "action",
       "lifecycle-stage": "seeking",

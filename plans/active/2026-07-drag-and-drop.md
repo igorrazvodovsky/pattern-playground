@@ -144,6 +144,19 @@ Mechanism-only is rejected: UI-Patterns, Apple HIG, NN/g, and Atlassian all
 name the practice, and the force-resolution needs an authoritative home.
 Phase 2 is licensed.
 
+## Status (2026-07-25)
+
+Phases 1–3 are done. `drag-and-drop.mdx` is authored to the contract with the
+verdict's four amendments (Scott & Neil variant names, two-obligation twin,
+articulatory-directness vocabulary, operation-with-the-price-owned); it borrows
+both demos and declares the seven edges (`enables` × 4, `tangential` × 2,
+`enacts` agency). The six mention sites carry inline cross-references where
+warranted (selection and pan-and-zoom are covered by the tangential edges,
+which render on both endpoints). `extract-graph` is clean — 117 nodes, no new
+advisories — and the site builds. Phase 4 stays trigger-gated. The research
+note's promotion candidates (HHN 1985 and Buxton distils to `references/`,
+`docs/references.md` lines) remain uncurated.
+
 ## Phases
 
 ### 1. Research gate
