@@ -91,19 +91,21 @@ interface PatternMove {
 }
 ```
 
-The still-unrealised fields are `problem`, `forces`, `consequences`,
-`evidence`, and `status`. They are what would let a reasoning actor treat a
-pattern as a move rather than a page, so they belong to Track 2. The `status`
-field is the confidence signal: a seed can be useful, but it should not
-masquerade as a settled invariant.
+The still-unrealised fields are `problem`, `forces`, `evidence`, and `status`.
+They are what would let a reasoning actor treat a pattern as a move rather than
+a page, so they belong to Track 2. The `status` field is the confidence signal:
+a seed can be useful, but it should not masquerade as a settled invariant. Of
+these, `status` is the nearest: the corpus already generates the need — stubs
+present with finished-page authority, and maturity has to be legible as more
+than editorial confidence.
 
-Of these, `status` is the nearest: the corpus already generates the need —
-stubs present with finished-page authority, and maturity has to be legible as
-more than editorial confidence. Whether `consequences` remains a distinct field
-is an open comparison against `situation.resulting`, which already covers what
-holds after the move is applied, including the new problems it opens; that is
-settled on a filled corpus by the situation-backfill pass
-([../../plans/active/2026-07-situation-backfill.md](../../plans/active/2026-07-situation-backfill.md)).
+The sketch above splits `situation` and `consequences` because it predates the
+two situation constructs; both now resolve into those. `consequences` left the
+list on 2026-07-25 by *absorption* rather than implementation — the
+situation-backfill pass settled it against `situation.resulting`, which covers
+the same territory, and found the prose `## Consequences` section to be that
+judgement's reader-facing render rather than a second field
+(vocabulary changelog, 2026-07-25).
 
 ## Guidance
 

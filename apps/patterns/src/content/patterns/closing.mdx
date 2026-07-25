@@ -6,12 +6,21 @@ activityLevel: operation
 atomic: primitive
 mediation: coordination
 fun: 😊 3/5. Looking for useful building blocks for conversational UI.
+situation:
+  initiating: >-
+    the goal that brought the actor here is met, or they have signalled they're
+    done — the activity is finished but the encounter is still open, and cutting
+    it off here forfeits whatever they hadn't got around to raising
+  resulting:
+    - >-
+      the encounter is ended deliberately: last topics were invited and either
+      handled or scheduled, and both parties know it's over rather than parked
+    - >-
+      anything raised in the close and deferred is now an outstanding commitment
+      the actor is expecting to be kept, outside this exchange
 relationships:
   enables:
     - conversation
-  follows:
-    - to: sequence-completion
-      note: the user's minimal receipt that signals a sequence is done; closing follows when the overall goal is achieved
   alternative:
     - to: disengage-without-closing
       note: alternative when the user steps away without a formal close

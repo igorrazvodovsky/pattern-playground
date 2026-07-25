@@ -6,23 +6,31 @@ activityLevel: operation
 atomic: primitive
 mediation: coordination
 fun: 😊 3/5. Looking for useful building blocks for conversational UI.
+situation:
+  initiating: >-
+    no exchange is under way and the agent has a reason to start one — work to
+    propose, a change to report — so footing has to be established before any
+    activity can begin: who is speaking, what it can do, and what this is about
+  resulting:
+    - clause: >-
+        footing is set and a topic is on the table; the encounter is at its
+        first fork, and a topic the actor accepts on any scale beyond a single
+        question opens into an open request
+      sets-up: [open-request]
+    - clause: >-
+        the actor has been addressed but has committed to nothing; if they turn
+        down the proposed topic and offer nothing in its place, the encounter
+        needs an exit before it reaches any activity
+      sets-up: [abort]
 relationships:
   enables:
     - conversation
   composed-of:
     - to: capability-and-scope
       note: capability giving is often embedded within the opening
-  precedes:
-    - to: open-request
-      note: typical first activity after an agent-initiated opening
-    - to: abort
-      note: if the user disengages before reaching the first activity
   alternative:
     - to: extended-telling
       note: offered on user refusal as an alternative to immediate engagement
-  follows:
-    - to: disengage-without-closing
-      note: if the agent re-opens after a prior session was abandoned
 ---
 The agent opens the encounter, establishes footing, and proposes the first topic.
 

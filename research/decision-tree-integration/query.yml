@@ -1,0 +1,34 @@
+story: null
+topic: decision trees folded into a pattern-language graph
+interaction: |
+  An author maintains a pattern library whose knowledge graph reads patterns as
+  generative moves (suggestion-grade edges, node-side situations). Several pages
+  carry Mermaid decision trees; only trees whose leaves are pattern-moves emit
+  `recommends` edges. The author wants every tree's judgement integrated into the
+  graph and relational model, tolerating some lossiness, without harming the
+  language's generativity.
+context: |
+  Strawman sorts trees by leaf type: (a) move-leaf trees stay authored trees
+  emitting recommends edges; (b) component/technique-leaf trees (control
+  choosers, CSS techniques) are realisation guidance living beside the component
+  dataset or dissolving into dimension tables on the owning move's page — never
+  graph edges; (c) internal-anatomy trees (help placement, localization layers,
+  modality gradient) dissolve into body structure and situation constructs;
+  (d) suitability-note rows become a second tree over the same targets from a
+  different lens. Prior gate research/situation-constructs/ settled: conditions
+  live node-side, trees are judgement homes, hints are never predicates.
+questions:
+  - Does dissolving an explicit selection tree into prose/situations harm a
+    pattern language's generativity, or is selection-from-a-menu itself the
+    anti-generative form (Alexander's sequences and unfolding vs. catalogue
+    selection)?
+  - Where does prior art put component-chooser decision trees — in the pattern
+    layer, or beside the components they choose among (design systems' "when to
+    use" trees)?
+  - Is there evidence from HCI pattern-selection tools that explicit choosers
+    help novices in ways situated prose does not (the cognitive-forcing value of
+    an explicit question sequence)?
+  - When two judgement structures recommend the same target set from different
+    lenses (topology vs. behavioural intent), does prior art keep them separate
+    or merge them into one discriminating structure?
+keywords: [pattern selection, generative sequence, design system decision tree, component chooser, pattern recommendation]

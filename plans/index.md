@@ -12,7 +12,6 @@ the plan contract and `docs/specs/` for settled specifications.
 - [Move-vs-artifact naming: the T6 kept twins](active/2026-07-move-vs-artifact-naming.md) — outline, needs iteration: do Sections and Command menu hold up against the move-naming rule, and what does a rename cost
 - [realised_by backfill](active/2026-07-realised-by-backfill.md) — claim or citation, page by page: write `realised_by:` where prose ComponentRefs carry a realisation claim
 - [Related-link residue audit](active/2026-07-related-residue-audit.md) — restore, or deliberately release, what the relationships migration dropped
-- [Situation backfill](active/2026-07-situation-backfill.md) — outline, needs iteration: fill the two situations across the pattern corpus; owns the `consequences`-vs-`situation.resulting` comparison
 - [Storybook re-bucketing](active/2026-07-storybook-rebucketing.md) — finish the catalogue re-bucketing; retitle sweeps own every id-bearing channel, `realised_by` included
 - [Pane stack: refit to Astro's grain](active/2026-07-pane-stack-astro-fit.md) — demo registry + pane partials + static pane 0 so no pane machinery depends on Astro internals; gated phase 4 retires ClientRouter
 - [Block-editing follow-ups](active/2026-07-block-editing-followups.md) — outline: carried work from the block-editing research sitting
@@ -30,6 +29,7 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Completed
 
+- [Situation backfill](completed/2026-07-situation-backfill.md) — the two situations filled across the corpus (91 of 94 patterns, 3 recorded skips); `consequences` absorbed into `situation.resulting`, open question 1 answered, two skip arms added
 - [View system: retire the hub, reframe the family](completed/2026-07-view-system.md) — `view.mdx` retired, `dashboard`→`purpose-keyed-view`, `overview-detail` reframed, `coordinated-views`/`attribute-visibility`/`problem-curated-view` minted; the family carried by typed edges, no hub
 - [View-system demos: one model, many framings](completed/2026-07-view-system-demos.md) — demo collection for the reshaped family: one canonical collection, one Meridian-shaped ViewSpec, per-pattern demos plus the borrow map
 - [Contextual navigation: the certainty fisheye](completed/2026-07-contextual-navigation-rebuild.md) — the focus-and-context demo rebuilt as a fisheye whose distance metric is certainty: authored edges as cards, six deterministic rules as compact references carrying their basis, language-model proposals as provisional names at the rim

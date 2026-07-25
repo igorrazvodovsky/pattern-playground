@@ -6,12 +6,27 @@ activityLevel: action
 atomic: pattern
 mediation: individual
 fun: 🙂 4/5. Connects workflow guidance with agentic AI.
+situation:
+  initiating: >-
+    the actor is at a transition point in a workflow the system can read — it knows
+    what they just finished and holds enough signal to name a plausible next step — and
+    what's worth proposing is a whole action rather than a value, so nothing further
+    down the completion spectrum reaches it
+  resulting:
+    - clause: >-
+        the system proposes actions rather than values, so accepting one commits the
+        actor to something whose consequences they didn't work out themselves; what
+        guards the accept has to be proportional to what the action does
+      sets-up: [action-consequences]
+    - clause: >-
+        where the stakes are high, the recommendation being easy to accept is the
+        problem rather than the feature — the accept needs a beat of deliberate thought
+        built into it
+      sets-up: [cognitive-forcing-functions]
+    - >-
+      recommendations now arrive uninvited, at moments the system picked; a pile of them
+      nobody resolved teaches the actor to stop reading the channel at all
 relationships:
-  precedes:
-    - to: cognitive-forcing-functions
-      note: workflow-level recommendations that benefit from forcing functions when stakes are high
-    - to: action-consequences
-      note: when accepting a recommendation leads to consequential decisions
   serves:
     - to: assistance
       note: Next-best action draws on assistance to decide *what* to suggest at workflow transitions

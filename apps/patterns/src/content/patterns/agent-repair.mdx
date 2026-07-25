@@ -6,14 +6,26 @@ activityLevel: operation
 atomic: primitive
 mediation: coordination
 fun: 😊 3/5. Looking for useful building blocks for conversational UI.
+situation:
+  initiating: >-
+    an activity is under way and the agent's own understanding has broken —
+    ambiguity, low confidence, several candidate entities, a required value
+    absent — so acting on the current reading risks doing the wrong thing
+    confidently
+  resulting:
+    - clause: >-
+        the agent's reading of the request is on the surface where the actor can
+        correct it; where the trouble turns out to be one specific missing value
+        rather than a wrong interpretation, the exchange narrows to asking for it
+      sets-up: [inquiry-agent]
+    - clause: >-
+        understanding is restored and the primary activity resumes at the step it
+        broke on rather than from the beginning, on its way to the receipt that
+        closes the sequence
+      sets-up: [sequence-completion]
 relationships:
   enables:
     - conversation
-  precedes:
-    - to: inquiry-user
-      note: transitions into information capture when a specific required value is missing
-    - to: sequence-completion
-      note: the primary activity resumes once repair is resolved
   complements:
     - to: capability-and-scope
       note: out-of-scope requests are a form of scope repair

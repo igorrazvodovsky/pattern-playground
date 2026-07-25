@@ -5,6 +5,21 @@ activityLevel: operation
 atomic: pattern
 mediation: individual
 fun: 🙂 2/5. Dependency.
+situation:
+  initiating: >-
+    the values the fields need are ones the system already holds — from the actor's profile, a
+    prior session, the browser — so asking them to type what is already known is work with no
+    purpose; and the confidence is high enough that filling won't be wrong
+  resulting:
+    - >-
+      the fields arrive already populated from the actor's own data, and what's left for them
+      is checking rather than typing
+    - >-
+      filling a field silently shows the actor what the system knows about them, in a place
+      they hadn't asked the question
+    - >-
+      pre-filled values get submitted without being read, so a wrong stored value travels
+      further than a wrong typed one would have
 relationships:
   complements:
     - to: autocomplete

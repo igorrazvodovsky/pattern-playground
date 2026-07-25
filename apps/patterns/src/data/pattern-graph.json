@@ -13,6 +13,17 @@
       "category": "Operations",
       "path": "/patterns/abort",
       "role": "pattern",
+      "situation": {
+        "initiating": "a sequence is under way and the actor has decided not to finish it — not because they misunderstood the agent, which would be repair, and not because the goal is met, which would be closing; the sequence is unwanted or going wrong, and what's needed is a way out that isn't a failure",
+        "resulting": [
+          {
+            "clause": "the sequence is halted where it stood, the actor has been told what if anything changed, and the exchange is back at a point where they can start something else or leave"
+          },
+          {
+            "clause": "whatever the sequence collected is now a loose end — a part-filled draft, a half-applied change — and the actor has to be able to see it to decide whether it stays"
+          }
+        ]
+      },
       "group": "conversation/sequence-management"
     },
     {
@@ -28,14 +39,42 @@
       "title": "Activity feed",
       "category": "Activities",
       "path": "/patterns/activity-feed",
-      "role": "pattern"
+      "role": "pattern",
+      "situation": {
+        "initiating": "what's worth the actor's attention arrives from many sources on nobody's schedule, and checking each one costs time proportional to the number of sources rather than to how much actually happened",
+        "resulting": [
+          {
+            "clause": "updates from everywhere arrive in one scannable flow, so noticing what changed costs one look instead of several rounds"
+          },
+          {
+            "clause": "the ordering is a claim about what matters: chronological is predictable and treats everything as equal, algorithmic is relevant and unaccountable"
+          },
+          {
+            "clause": "a feed has no end, so there is no state in which the actor is finished with it — which is both why it sustains attention and why it is hard to put down"
+          }
+        ]
+      }
     },
     {
       "id": "activity-log",
       "title": "Activity log",
       "category": "Activities",
       "path": "/patterns/activity-log",
-      "role": "pattern"
+      "role": "pattern",
+      "situation": {
+        "initiating": "things happened across actors and time that somebody now has to reconstruct — who did what, when, in what order — and the current state of the system shows the outcome with none of the path to it",
+        "resulting": [
+          {
+            "clause": "the path is recoverable: discrete events read as a reviewable history, each with an actor, an action, an object and a time attached"
+          },
+          {
+            "clause": "the record is what accountability now rests on, which makes what it leaves out as consequential as what it holds"
+          },
+          {
+            "clause": "histories only grow, so the log is useful in proportion to how narrowable it is — a complete record nobody can read is the same as no record"
+          }
+        ]
+      }
     },
     {
       "id": "adaptation",
@@ -57,6 +96,23 @@
       "category": "Operations",
       "path": "/patterns/agent-opening",
       "role": "pattern",
+      "situation": {
+        "initiating": "no exchange is under way and the agent has a reason to start one — work to propose, a change to report — so footing has to be established before any activity can begin: who is speaking, what it can do, and what this is about",
+        "resulting": [
+          {
+            "clause": "footing is set and a topic is on the table; the encounter is at its first fork, and a topic the actor accepts on any scale beyond a single question opens into an open request",
+            "setsUp": [
+              "open-request"
+            ]
+          },
+          {
+            "clause": "the actor has been addressed but has committed to nothing; if they turn down the proposed topic and offer nothing in its place, the encounter needs an exit before it reaches any activity",
+            "setsUp": [
+              "abort"
+            ]
+          }
+        ]
+      },
       "group": "conversation/sequence-management"
     },
     {
@@ -65,6 +121,23 @@
       "category": "Operations",
       "path": "/patterns/agent-repair",
       "role": "pattern",
+      "situation": {
+        "initiating": "an activity is under way and the agent's own understanding has broken — ambiguity, low confidence, several candidate entities, a required value absent — so acting on the current reading risks doing the wrong thing confidently",
+        "resulting": [
+          {
+            "clause": "the agent's reading of the request is on the surface where the actor can correct it; where the trouble turns out to be one specific missing value rather than a wrong interpretation, the exchange narrows to asking for it",
+            "setsUp": [
+              "inquiry-agent"
+            ]
+          },
+          {
+            "clause": "understanding is restored and the primary activity resumes at the step it broke on rather than from the beginning, on its way to the receipt that closes the sequence",
+            "setsUp": [
+              "sequence-completion"
+            ]
+          }
+        ]
+      },
       "group": "conversation/conversation-management"
     },
     {
@@ -72,7 +145,21 @@
       "title": "Agent",
       "category": "Activities",
       "path": "/patterns/agent",
-      "role": "pattern"
+      "role": "pattern",
+      "situation": {
+        "initiating": "the actor can state a goal but not a procedure — the steps aren't known in advance, or there are too many of them to walk through by hand — and the system holds capabilities they would otherwise have to assemble themselves",
+        "resulting": [
+          {
+            "clause": "there is a standing intermediary between intent and capability: the actor says what they want and something else decides how, which is both the whole benefit and the whole exposure"
+          },
+          {
+            "clause": "how much freedom the agent has to act unprompted is a setting rather than a fixed property, so the actor's trust has to be calibrated to whatever it currently is — and they have to be able to find that out"
+          },
+          {
+            "clause": "the work happened somewhere the actor wasn't watching, so it owes an account of itself afterwards to be reviewable at all"
+          }
+        ]
+      }
     },
     {
       "id": "ai-completion",
@@ -97,7 +184,21 @@
       "title": "AI tuning",
       "category": "Activities",
       "path": "/patterns/ai-tuning",
-      "role": "pattern"
+      "role": "pattern",
+      "situation": {
+        "initiating": "the agent's default behaviour is close but not right, and the mismatch keeps recurring; correcting it turn by turn is work the actor repeats forever, so what they need is to change the standing behaviour rather than this instance of it",
+        "resulting": [
+          {
+            "clause": "the standing behaviour is the actor's to shape, so a correction made once holds across sessions instead of being re-issued each time"
+          },
+          {
+            "clause": "how far the system may act on its own is now something the actor set, which moves the responsibility for that boundary onto them"
+          },
+          {
+            "clause": "tuning accumulates and then goes quiet: behaviour configured months ago reads later as simply how the system is, including to the actor who configured it"
+          }
+        ]
+      }
     },
     {
       "id": "annotation",
@@ -105,6 +206,25 @@
       "category": "Actions",
       "path": "/patterns/annotation",
       "role": "pattern",
+      "situation": {
+        "initiating": "the content is fixed and not the actor's to change — someone else's document, a published record, a source that has to stay as it is — but their reading of it needs somewhere to live; without a layer over the top, interpretation either alters the original or stays in the actor's head",
+        "resulting": [
+          {
+            "clause": "the actor's interpretation sits over the content without touching it, and the marks accumulate as wear — traces of where attention and effort actually went, readable long after"
+          },
+          {
+            "clause": "once the marks are visible to others the layer stops being a private reading aid: other people read the actor's attention, and a mark becomes something that can be answered rather than only added to",
+            "setsUp": [
+              "collaboration",
+              "commenting",
+              "conversation"
+            ]
+          },
+          {
+            "clause": "the layer competes with what it annotates; past some density the marks are what the reader sees, and pruning them is nobody's job by default"
+          }
+        ]
+      },
       "group": "sense-making"
     },
     {
@@ -120,6 +240,23 @@
       "category": "Actions",
       "path": "/patterns/assisted-task-completion",
       "role": "pattern",
+      "situation": {
+        "initiating": "pre-population has run out: the values that could be guessed from context or pulled from what the system already stores are in place, and what's left is work the actor would otherwise do themselves — which the system could take part of, if it were allowed to offer",
+        "resulting": [
+          {
+            "clause": "the loop is the system offering and the actor deciding, which makes dismissal the load-bearing half: an offer that can't be waved away cheaply stops being an offer"
+          },
+          {
+            "clause": "the more of the work the system takes on, the more trust the actor has to extend before accepting anything — so how an offer accounts for itself stops being decoration",
+            "setsUp": [
+              "transparent-reasoning"
+            ]
+          },
+          {
+            "clause": "the four sit at opposite ends of one spectrum and can't be tuned together: the offers a skilled actor barely notices and the offers that demand a deliberate judgement are the same move at incomparable stakes"
+          }
+        ]
+      },
       "group": "application"
     },
     {
@@ -167,7 +304,21 @@
       "title": "Autofill",
       "category": "Operations",
       "path": "/patterns/autofill",
-      "role": "pattern"
+      "role": "pattern",
+      "situation": {
+        "initiating": "the values the fields need are ones the system already holds — from the actor's profile, a prior session, the browser — so asking them to type what is already known is work with no purpose; and the confidence is high enough that filling won't be wrong",
+        "resulting": [
+          {
+            "clause": "the fields arrive already populated from the actor's own data, and what's left for them is checking rather than typing"
+          },
+          {
+            "clause": "filling a field silently shows the actor what the system knows about them, in a place they hadn't asked the question"
+          },
+          {
+            "clause": "pre-filled values get submitted without being read, so a wrong stored value travels further than a wrong typed one would have"
+          }
+        ]
+      }
     },
     {
       "id": "block-based-editor",
@@ -175,6 +326,20 @@
       "category": "Actions",
       "path": "/patterns/block-based-editor",
       "role": "pattern",
+      "situation": {
+        "initiating": "the content is neither prose nor a record but both by turns — parts of it want structure and parts want to stay loose, and the actor doesn't know at the outset which parts are which; a schema would demand that decision up front, and a plain writing surface would refuse to hold it at all",
+        "resulting": [
+          {
+            "clause": "each block carries only as much structure as currently serves it, gained or shed in place, so formalising is local and reversible instead of a commitment made before the work starts"
+          },
+          {
+            "clause": "the block is now the unit of everything the surface does — selecting, referencing, moving, commenting — so anything that addresses content addresses blocks, whether or not that matches how the actor thinks of what they wrote"
+          },
+          {
+            "clause": "every position in the document is a place where anything could go next, which puts the weight on saying *what* without having to say where"
+          }
+        ]
+      },
       "group": "sense-making",
       "realisedBy": [
         "components-block-based-editor--docs"
@@ -208,6 +373,17 @@
       "category": "Operations",
       "path": "/patterns/capability-and-scope",
       "role": "pattern",
+      "situation": {
+        "initiating": "the actor is about to ask for something and has no reliable read on what this agent can do; a conversational surface looks identical whether it can act, only retrieve, or only talk, so the boundary has to be stated rather than discovered by walking into it",
+        "resulting": [
+          {
+            "clause": "the actor knows what is in and out of scope before spending a turn on it, and an out-of-scope request meets a refusal with somewhere to go rather than a dead end"
+          },
+          {
+            "clause": "the statement is now a promise the rest of the exchange is held to; capability that turns out narrower than stated reads as the agent having misled them"
+          }
+        ]
+      },
       "group": "conversation/conversation-management"
     },
     {
@@ -216,6 +392,17 @@
       "category": "Operations",
       "path": "/patterns/closing",
       "role": "pattern",
+      "situation": {
+        "initiating": "the goal that brought the actor here is met, or they have signalled they're done — the activity is finished but the encounter is still open, and cutting it off here forfeits whatever they hadn't got around to raising",
+        "resulting": [
+          {
+            "clause": "the encounter is ended deliberately: last topics were invited and either handled or scheduled, and both parties know it's over rather than parked"
+          },
+          {
+            "clause": "anything raised in the close and deferred is now an outstanding commitment the actor is expecting to be kept, outside this exchange"
+          }
+        ]
+      },
       "group": "conversation/sequence-management"
     },
     {
@@ -224,6 +411,23 @@
       "category": "Actions",
       "path": "/patterns/cognitive-forcing-functions",
       "role": "pattern",
+      "situation": {
+        "initiating": "a system recommendation is on the surface and accepting it costs less than evaluating it; the actor has the competence to judge and the stakes to warrant judging, but nothing in the interaction asks them to, so deferral accrues by default — and explanation alone won't fix it, since a plausible rationale can make rubber-stamping easier rather than harder",
+        "resulting": [
+          {
+            "clause": "the actor has had to do something — wait, commit an answer first, name a reason, finish an incomplete argument — before accepting, so the judgement on record is theirs; where that something was writing down why, the reasons accumulate into a trail somebody else can read",
+            "setsUp": [
+              "activity-log"
+            ]
+          },
+          {
+            "clause": "the friction is real and paid on every decision, so it holds only where the stakes keep justifying it; where they don't, actors learn the shortest path through it"
+          },
+          {
+            "clause": "the help lands unevenly — it works best on actors already inclined to think, and least on the ones most likely to defer, who are the reason for it"
+          }
+        ]
+      },
       "group": "application"
     },
     {
@@ -238,7 +442,21 @@
       "title": "Collaboration",
       "category": "Activities",
       "path": "/patterns/collaboration",
-      "role": "pattern"
+      "role": "pattern",
+      "situation": {
+        "initiating": "several actors are working toward one outcome and each can only see their own part; with no shared account of what is happening they duplicate work, overwrite each other, and lose track of who owes what to whom",
+        "resulting": [
+          {
+            "clause": "work that was independent becomes joint: participants can see what others did, follow the reasoning behind it, and converge without needing to meet"
+          },
+          {
+            "clause": "agency is distributed and renegotiated turn by turn rather than held by anyone, so who decides is a live question at every step rather than a settled one"
+          },
+          {
+            "clause": "coordination now runs in a rhythm — synchronous or asynchronous — and that rhythm decides what kinds of disagreement can be resolved at all"
+          }
+        ]
+      }
     },
     {
       "id": "command-menu",
@@ -246,6 +464,23 @@
       "category": "Actions",
       "path": "/patterns/command-menu",
       "role": "pattern",
+      "situation": {
+        "initiating": "the actor knows what they want to do but not where its control lives; the capability has accumulated more commands than any toolbar or menu bar can hold, so hunting for one costs more than naming it would",
+        "resulting": [
+          {
+            "clause": "commands are reachable by name, which lifts the obligation on the chrome to display everything the surface can do; discovery moves from scanning to typing a guess"
+          },
+          {
+            "clause": "the menu shows only what applies here, so commands that don't apply are absent rather than visibly out of reach — which is a kindness for the irrelevant ones and a mystery for the ones the actor expected to find",
+            "setsUp": [
+              "unavailable-actions"
+            ]
+          },
+          {
+            "clause": "naming needs the name: the move is fast for actors who already have the vocabulary and no help at all to actors who came looking for it"
+          }
+        ]
+      },
       "group": "seeking",
       "realisedBy": [
         "components-command-menu--docs"
@@ -257,6 +492,23 @@
       "category": "Actions",
       "path": "/patterns/commenting",
       "role": "pattern",
+      "situation": {
+        "initiating": "the content is under review and the discussion about it belongs to particular places inside it rather than to the whole; a separate channel loses the anchor, and editing the content to raise the point destroys the thing being discussed",
+        "resulting": [
+          {
+            "clause": "discussion is anchored where it applies and stays out of the content itself, so the primary reading survives an active review"
+          },
+          {
+            "clause": "comments acquire a lifecycle of their own — open, answered, resolved — and something has to say when a thread is finished, or the layer only ever grows",
+            "setsUp": [
+              "status-feedback"
+            ]
+          },
+          {
+            "clause": "the thread beside the content is a second place where decisions get made, and whatever was settled there is invisible to anyone reading only the content"
+          }
+        ]
+      },
       "group": "coordination"
     },
     {
@@ -309,6 +561,26 @@
       "category": "Actions",
       "path": "/patterns/data-entry",
       "role": "pattern",
+      "situation": {
+        "initiating": "the actor holds something the system needs — a date, a name, a measurement — in their own loose form, and guessing it isn't available because they are the only source; the system needs it structured and they expressed it however came naturally",
+        "resulting": [
+          {
+            "clause": "the expression is in and structured — and where the system did the structuring rather than the actor, its reading of what they meant has to be shown back before it counts as agreed",
+            "setsUp": [
+              "status-feedback"
+            ]
+          },
+          {
+            "clause": "input that arrived cleanly can still be wrong in ways the control can't catch, so accepting a value and accepting it as correct are separate steps",
+            "setsUp": [
+              "validation"
+            ]
+          },
+          {
+            "clause": "the entry move is now spread across whatever surfaces host it — a form field, a conversational turn, a control in the inline interface — and the same value can arrive by any of them, in a different shape each time"
+          }
+        ]
+      },
       "group": "application"
     },
     {
@@ -349,7 +621,21 @@
       "title": "Deep linking",
       "category": "Operations",
       "path": "/patterns/deep-linking",
-      "role": "pattern"
+      "role": "pattern",
+      "situation": {
+        "initiating": "a state worth returning to takes several moves to reconstruct — a filtered view, an open item, a position in a space — and the only record of how to get back is in the actor's head; there is nothing to bookmark, send, or come back to",
+        "resulting": [
+          {
+            "clause": "any state worth naming has a name that restores it, so returning, sharing and bookmarking cost nothing beyond keeping the link"
+          },
+          {
+            "clause": "addressable state is state that has left the actor's control: a link travels, and whoever holds it reaches what it points at"
+          },
+          {
+            "clause": "the links are now a contract — states that were named have to keep resolving — which constrains how freely what sits behind them can be reorganised"
+          }
+        ]
+      }
     },
     {
       "id": "delegation",
@@ -393,6 +679,21 @@
       "category": "Operations",
       "path": "/patterns/disengage-without-closing",
       "role": "pattern",
+      "situation": {
+        "initiating": "the exchange is mid-activity and one party has to step away — idle, interrupted, a dropped connection — with the goal still unmet; a formal close would misstate where things stand, and dropping it silently loses the work",
+        "resulting": [
+          {
+            "clause": "the exchange is parked rather than ended: state is saved, the actor can see what persists and for how long, and either side can pick it up again — the agent resuming, or the actor returning on their own initiative",
+            "setsUp": [
+              "agent-opening",
+              "user-opening"
+            ]
+          },
+          {
+            "clause": "parked state ages while nobody is watching it, so the assumptions inside it may not hold on return; confirming them is part of resuming, not an extra"
+          }
+        ]
+      },
       "group": "conversation/conversation-management"
     },
     {
@@ -401,6 +702,20 @@
       "category": "Actions",
       "path": "/patterns/dynamic-hyperlinks",
       "role": "pattern",
+      "situation": {
+        "initiating": "the corpus has grown past what anyone linked by hand; the explicit links are the connections somebody thought to make at the time of writing, and what the actor is after are the ones nobody did",
+        "resulting": [
+          {
+            "clause": "latent connections are on the surface as ranked suggestions, which lets the actor follow them without the system having claimed any of them are real structure"
+          },
+          {
+            "clause": "the suggested links are unfamiliar by construction — nobody authored them, so the actor has no prior expectation of where any one leads, and link text alone no longer tells them"
+          },
+          {
+            "clause": "the corpus holds more valid connections than anyone can read, so what the actor sees is whatever survived a ranking and a cutoff — and both are invisible to them"
+          }
+        ]
+      },
       "group": "seeking"
     },
     {
@@ -408,7 +723,21 @@
       "title": "Embedded intelligence",
       "category": "Activities",
       "path": "/patterns/embedded-intelligence",
-      "role": "pattern"
+      "role": "pattern",
+      "situation": {
+        "initiating": "the actor has a workflow they already know, and what would help sits inside it rather than beside it; a separate AI surface asks them to leave what they're doing, restate their context somewhere else, and carry the answer back by hand",
+        "resulting": [
+          {
+            "clause": "intelligence acts inside the existing workflow on context the system already holds, so the actor never restates what they're doing in order to get help with it"
+          },
+          {
+            "clause": "the system is now acting on inferred intent rather than stated intent, which means it will sometimes be confidently wrong about what the actor wanted"
+          },
+          {
+            "clause": "because the help is woven in, which part of the result was the actor's and which the system's stops being obvious — and that boundary only exists if something shows it"
+          }
+        ]
+      }
     },
     {
       "id": "explanation",
@@ -416,6 +745,23 @@
       "category": "Actions",
       "path": "/patterns/explanation",
       "role": "pattern",
+      "situation": {
+        "initiating": "the system did something the actor didn't expect or can't act on — a rule fired, an option isn't there, a recommendation arrived — and the reason for it lives inside the system rather than on the surface; left there, the actor either guesses at it or defers to the system wholesale",
+        "resulting": [
+          {
+            "clause": "the reasoning is legible, so the actor can judge when to trust the system and when to override it — which is a different capability from being able to operate it"
+          },
+          {
+            "clause": "a complete and plausible explanation can make deferring *easier* rather than harder: the actor now holds a justification they didn't have to think through, which is the state a forcing function exists to interrupt",
+            "setsUp": [
+              "cognitive-forcing-functions"
+            ]
+          },
+          {
+            "clause": "an explanation pitched at the actor's level is a guess about that level — too much depth reads as noise, too little as evasion, and the actor can't ask for the difference unless the depth is theirs to move"
+          }
+        ]
+      },
       "group": "sense-making"
     },
     {
@@ -424,6 +770,17 @@
       "category": "Operations",
       "path": "/patterns/extended-telling",
       "role": "pattern",
+      "situation": {
+        "initiating": "the actor needs content that won't fit one turn — instructions, an explanation, a narrative — and the single-turn forms have either been tried or are visibly too small for it; the agent has to hold the floor across several turns without losing them",
+        "resulting": [
+          {
+            "clause": "the telling runs as a structured sequence the actor controls: scope announced up front, each step advanced on their continuer, and skip, back and stop available throughout"
+          },
+          {
+            "clause": "holding the floor suppresses the actor's turn, so trouble that would have surfaced as an interruption now has to be invited — support moves at every step, and a visible way out of the telling into another activity"
+          }
+        ]
+      },
       "group": "conversation/conversational-activities"
     },
     {
@@ -432,6 +789,17 @@
       "category": "Actions",
       "path": "/patterns/filtering",
       "role": "pattern",
+      "situation": {
+        "initiating": "a collection framing is in place and the actor's question concerns a subset of it — too many items to scan through, and they can say what distinguishes the ones they want",
+        "resulting": [
+          {
+            "clause": "the visible set is the actor's criteria made operative, and the criteria stay on the surface as chips or clauses so the actor can read what they are not being shown"
+          },
+          {
+            "clause": "an empty result is a dead end the actor reaches still holding their intent, and an over-full one means the criteria they have aren't the criteria the attributes can express — both are where narrowing stops being enough"
+          }
+        ]
+      },
       "group": "seeking"
     },
     {
@@ -458,6 +826,20 @@
       "category": "Actions",
       "path": "/patterns/focus-and-context",
       "role": "pattern",
+      "situation": {
+        "initiating": "the actor is attending to one point inside something large — one event in a long record, one part of a deep structure — and needs it in full without losing the whole; a second view costs screen they don't have, and a scale control would take the surroundings away as it brought the point closer",
+        "resulting": [
+          {
+            "clause": "everything stays on screen, told unevenly: the focus in full, its surroundings coarser the further out they stand, and nothing moves as attention shifts"
+          },
+          {
+            "clause": "the actor steers the lens but the system decides what counts as near, so the distance metric — position along a sequence, steps through a structure, a model's confidence — is doing editorial work under the appearance of geometry"
+          },
+          {
+            "clause": "the coarse rungs are summaries something has to produce, and at the rim they may be generated; generated text then sits in a place the actor reads as structure"
+          }
+        ]
+      },
       "group": "evaluation"
     },
     {
@@ -492,6 +874,16 @@
       "category": "Actions",
       "path": "/patterns/fully-connected",
       "role": "pattern",
+      "situation": {
+        "resulting": [
+          {
+            "clause": "every destination is one move from every other, and the shape of the whole is visible from anywhere — bought with screen space on every page, spent whether or not the actor on that page needs it"
+          },
+          {
+            "clause": "the global menu is a fixed budget that content growth eats into; the set that has to fit the chrome stops fitting long before the content stops arriving, and what gives is either the depth on show or the topology"
+          }
+        ]
+      },
       "group": "navigation",
       "realisedBy": [
         "components-nav-bar--docs",
@@ -503,7 +895,21 @@
       "title": "Generated content",
       "category": "Activities",
       "path": "/patterns/generated-content",
-      "role": "pattern"
+      "role": "pattern",
+      "situation": {
+        "initiating": "the system has produced something substantial — prose, a draft, a chart, code — and the actor's job has shifted from making it to judging it; accepting it whole costs nothing and checking it costs whatever the thing is long",
+        "resulting": [
+          {
+            "clause": "the output is material the actor negotiates rather than an artefact they receive: rate it, edit it, regenerate part of it, take the half that works"
+          },
+          {
+            "clause": "the actor owns the result without having made it, so what they can find out about where it came from decides whether they can stand behind it"
+          },
+          {
+            "clause": "verification cost rises with length, and long output is exactly where accepting quietly takes the place of checking"
+          }
+        ]
+      }
     },
     {
       "id": "good-defaults",
@@ -540,6 +946,20 @@
       "category": "Actions",
       "path": "/patterns/grouping",
       "role": "pattern",
+      "situation": {
+        "initiating": "the collection is flat and the actor's question is about subsets rather than items — which cluster is largest, which is behind, how two of them compare — and a flat list gives them nothing to compare",
+        "resulting": [
+          {
+            "clause": "the collection has visible structure along a chosen attribute, so differences between subsets are readable without the actor tallying anything by hand"
+          },
+          {
+            "clause": "the grouping attribute is a claim about which of an item's attributes matters most, and an item that genuinely belongs in two groups has to be filed in one"
+          },
+          {
+            "clause": "headers cost space and carry collapse state, so a grouping that yields many small groups fragments the list it was meant to organise"
+          }
+        ]
+      },
       "group": "sense-making"
     },
     {
@@ -547,7 +967,21 @@
       "title": "Help",
       "category": "Activities",
       "path": "/patterns/help",
-      "role": "pattern"
+      "role": "pattern",
+      "situation": {
+        "initiating": "the actor has hit friction they can't resolve from the surface — they don't know where they are, what a term means, or how to do the thing — and the answer exists somewhere other than where they are looking; they came to it, which is what separates this from the system offering",
+        "resulting": [
+          {
+            "clause": "the answer arrives at the point of friction and in context, so learning happens when the actor needs it rather than ahead of time"
+          },
+          {
+            "clause": "the channel is pull-based: it reaches the actors who thought to ask, and says nothing to the ones who didn't know there was something to ask about"
+          },
+          {
+            "clause": "the content is a second telling of the system that has to be kept true as the system changes, or it goes on teaching the old one"
+          }
+        ]
+      }
     },
     {
       "id": "hub-and-spoke",
@@ -555,6 +989,22 @@
       "category": "Actions",
       "path": "/patterns/hub-and-spoke",
       "role": "pattern",
+      "situation": {
+        "resulting": [
+          {
+            "clause": "every destination is two moves from every other through a surface that always knows the way, so the actor can't get lost — and can't travel laterally either; a journey between two spokes that turns out to be routine is paid for twice on every trip"
+          },
+          {
+            "clause": "the hub is the one surface every journey passes through, which makes it the natural place to report across all the spokes — what changed, what needs attention; what to show there is its own design problem, not something the topology settles",
+            "setsUp": [
+              "purpose-keyed-view"
+            ]
+          },
+          {
+            "clause": "a spoke has little room for navigation of its own, so anything that has to be reachable from inside one competes for space with the spoke's actual work"
+          }
+        ]
+      },
       "group": "navigation"
     },
     {
@@ -563,6 +1013,20 @@
       "category": "Actions",
       "path": "/patterns/human-goes-first",
       "role": "pattern",
+      "situation": {
+        "initiating": "the actor's own competence is the thing the system was meant to support, and always seeing the recommendation first is quietly eroding it; the other forcing functions interrupt a single decision, and what's at stake here is the skill across all of them — which only survives if it is occasionally used unaided",
+        "resulting": [
+          {
+            "clause": "the actor has an unaided answer on record before they see the system's, so the comparison teaches whichever way the mismatch runs — including the way that confirms they were right"
+          },
+          {
+            "clause": "the value sits in the comparison, not the withholding: a bare \"you said X, the system said Y\" charges the actor for unaided work and returns nothing for it"
+          },
+          {
+            "clause": "withholding is expensive enough that it can only run some of the time, which makes how often a live decision rather than a settled one — and one the actor has a stake in"
+          }
+        ]
+      },
       "group": "application/cognitive-forcing-functions"
     },
     {
@@ -586,6 +1050,19 @@
       "category": "Operations",
       "path": "/patterns/inline-confirmation",
       "role": "pattern",
+      "situation": {
+        "resulting": [
+          {
+            "clause": "the second commitment happened where the first one did, so the actor was interrupted without being relocated — one decision of friction rather than a change of place"
+          },
+          {
+            "clause": "an armed control is a state the interface has to manage: it reverts on its own after a moment, and it has to look different enough from resting that the actor can tell a loaded control from an idle one"
+          },
+          {
+            "clause": "confirming is not reversing — the actor consented before the act and has nothing to undo after it, so anything that might still need taking back needs its own route"
+          }
+        ]
+      },
       "realisedBy": [
         "components-morphing-controls--docs"
       ]
@@ -596,6 +1073,20 @@
       "category": "Actions",
       "path": "/patterns/inline-interface",
       "role": "pattern",
+      "situation": {
+        "initiating": "the exchange has reached a point where words are the wrong vehicle — the actor needs to pick from a set, confirm one specific thing, nudge a value, read a chart — and putting it in prose asks them to do the rendering in their head",
+        "resulting": [
+          {
+            "clause": "the message is a thing to act on rather than words to read, so dialogue and application share one surface and the actor never leaves the conversation to do the work"
+          },
+          {
+            "clause": "interface rendered into a stream inherits the stream's properties: it scrolls away, it persists in the history, and a control the actor left untouched several turns ago is still sitting there live"
+          },
+          {
+            "clause": "what the actor did inline has to read afterwards as a decision rather than as a widget left in a state — the transcript is now a record of actions as well as words"
+          }
+        ]
+      },
       "group": "coordination"
     },
     {
@@ -604,6 +1095,17 @@
       "category": "Operations",
       "path": "/patterns/inquiry-agent",
       "role": "pattern",
+      "situation": {
+        "initiating": "an activity is under way and the agent is missing something it can't infer — a required value, a constraint, a choice between candidates it can't rank — so the work stops until the actor supplies it",
+        "resulting": [
+          {
+            "clause": "the missing value is captured and confirmed, and the activity resumes at the step that needed it"
+          },
+          {
+            "clause": "the actor has been asked directly, which sets the expectation that the agent only asks for what it genuinely lacks; anything it could have inferred or defaulted now reads as busywork when it asks again"
+          }
+        ]
+      },
       "group": "conversation/conversational-activities"
     },
     {
@@ -612,6 +1114,17 @@
       "category": "Operations",
       "path": "/patterns/inquiry-user",
       "role": "pattern",
+      "situation": {
+        "initiating": "the exchange is open and the actor has a question the agent can answer as asked — nothing to disambiguate first, no multi-step work behind it",
+        "resulting": [
+          {
+            "clause": "the question is answered and the pair is complete; the actor is between activities rather than inside one, free to follow up, check the source, or start something else"
+          },
+          {
+            "clause": "a direct answer carries no working, so for anything non-trivial the actor is taking the agent's word for it unless evidence came with the answer"
+          }
+        ]
+      },
       "group": "conversation/conversational-activities"
     },
     {
@@ -645,7 +1158,21 @@
       "title": "Keyboard shortcuts",
       "category": "Operations",
       "path": "/patterns/keyboard-shortcuts",
-      "role": "pattern"
+      "role": "pattern",
+      "situation": {
+        "initiating": "the actor already knows what they want and has done it often enough for it to be motor memory; the interface path they would otherwise take is now the slowest part of the operation",
+        "resulting": [
+          {
+            "clause": "intent goes straight to execution without traversing the interface — for the actors who have the vocabulary"
+          },
+          {
+            "clause": "the vocabulary is invisible by construction, so knowing that shortcuts exist and using them stay separate events, and the gap between them has to be closed somewhere the actor is already looking"
+          },
+          {
+            "clause": "the set is a fixed budget: every binding added dilutes what can be internalised, and the platform conventions are already spent"
+          }
+        ]
+      }
     },
     {
       "id": "learnability",
@@ -660,6 +1187,17 @@
       "category": "Actions",
       "path": "/patterns/link-preview",
       "role": "pattern",
+      "situation": {
+        "initiating": "the content is densely cross-referenced and every link is a fork in the actor's attention; finding out whether a link was worth following costs the reading position, so the actor either clicks indiscriminately or stops clicking",
+        "resulting": [
+          {
+            "clause": "the actor can sample a destination without leaving their place, so triage happens at the link rather than after the navigation — follow it, skip it, or note it for later"
+          },
+          {
+            "clause": "the page now owes the actor a ladder of commitment rather than one click: peek, open alongside, open fully — and each rung has to be reachable by keyboard as well as by hover, since hover is the one channel touch doesn't have"
+          }
+        ]
+      },
       "group": "seeking"
     },
     {
@@ -684,7 +1222,21 @@
       "title": "Living document",
       "category": "Activities",
       "path": "/patterns/living-document",
-      "role": "pattern"
+      "role": "pattern",
+      "situation": {
+        "initiating": "the artefact was accurate when it was written and its context has since moved; keeping it current by hand is work nobody schedules, so it quietly becomes wrong while still being read as current",
+        "resulting": [
+          {
+            "clause": "the artefact moves with its context, so what a reader finds reflects now rather than whenever it was last touched by a person"
+          },
+          {
+            "clause": "something is doing work on the document without being asked, and that work has a cost that has to stay visible or it runs unbudgeted"
+          },
+          {
+            "clause": "the document no longer has one author: the reader can't tell what was written, what was regenerated, and what changed since they last read it"
+          }
+        ]
+      }
     },
     {
       "id": "localization",
@@ -705,7 +1257,21 @@
       "title": "Mastery",
       "category": "Activities",
       "path": "/patterns/mastery",
-      "role": "pattern"
+      "role": "pattern",
+      "situation": {
+        "initiating": "the actor is past learning the tool and is in it daily; the scaffolding that got them started is now in the way, and what caps them is the interface rather than their understanding of the work",
+        "resulting": [
+          {
+            "clause": "there are optional routes to expertise that nobody has to take, so the perpetual intermediates stay productive while the few who want depth can find it"
+          },
+          {
+            "clause": "the expert reshapes the tool around their own way of working, which means the tool has to have parts that move"
+          },
+          {
+            "clause": "a surface tuned for mastery is denser than a beginner can read, so one product has to serve both without splitting into two"
+          }
+        ]
+      }
     },
     {
       "id": "modality",
@@ -720,6 +1286,19 @@
       "category": "Actions",
       "path": "/patterns/multilevel-tree",
       "role": "pattern",
+      "situation": {
+        "resulting": [
+          {
+            "clause": "content sits at addresses the actor can learn and re-find, and the trail from the root to here is available as orientation without spending extra chrome on it"
+          },
+          {
+            "clause": "the hierarchy is now a standing guess about how the actor categorises, and it will be wrong for some content and some actors; a thing that belongs in two places has to be filed in one"
+          },
+          {
+            "clause": "lateral movement costs a trip back up: two sections that turn out to be related have no path between them that the structure recognises"
+          }
+        ]
+      },
       "group": "navigation",
       "realisedBy": [
         "components-sidebar--docs",
@@ -740,6 +1319,26 @@
       "category": "Actions",
       "path": "/patterns/next-best-action",
       "role": "pattern",
+      "situation": {
+        "initiating": "the actor is at a transition point in a workflow the system can read — it knows what they just finished and holds enough signal to name a plausible next step — and what's worth proposing is a whole action rather than a value, so nothing further down the completion spectrum reaches it",
+        "resulting": [
+          {
+            "clause": "the system proposes actions rather than values, so accepting one commits the actor to something whose consequences they didn't work out themselves; what guards the accept has to be proportional to what the action does",
+            "setsUp": [
+              "action-consequences"
+            ]
+          },
+          {
+            "clause": "where the stakes are high, the recommendation being easy to accept is the problem rather than the feature — the accept needs a beat of deliberate thought built into it",
+            "setsUp": [
+              "cognitive-forcing-functions"
+            ]
+          },
+          {
+            "clause": "recommendations now arrive uninvited, at moments the system picked; a pile of them nobody resolved teaches the actor to stop reading the channel at all"
+          }
+        ]
+      },
       "group": "application"
     },
     {
@@ -784,6 +1383,20 @@
       "category": "Operations",
       "path": "/patterns/open-request",
       "role": "pattern",
+      "situation": {
+        "initiating": "the actor has stated a goal rather than a step — complex enough that the agent can't act on it as given, with constraints missing and several moves between the request and the outcome",
+        "resulting": [
+          {
+            "clause": "the request is framed rather than merely received: goal, constraints, assumptions and sources are explicit, and what's still missing shows up as named gaps instead of general vagueness"
+          },
+          {
+            "clause": "a plan exists and the agent is about to act on the actor's behalf; where a step can't be taken back, the actor's explicit go-ahead has to come before it, not after",
+            "setsUp": [
+              "inline-confirmation"
+            ]
+          }
+        ]
+      },
       "group": "conversation/conversational-activities"
     },
     {
@@ -792,6 +1405,20 @@
       "category": "Actions",
       "path": "/patterns/overreliance-checklist",
       "role": "pattern",
+      "situation": {
+        "initiating": "the decision has failure modes somebody can name in advance, and the actor accepting output isn't failing to think so much as failing to think about the right things; a delay would buy them time without telling them where to spend it",
+        "resulting": [
+          {
+            "clause": "the review is structured rather than gestalt — the actor has engaged with each named consideration before the accept became available to them"
+          },
+          {
+            "clause": "a required checklist creates compliance pressure, so each item either points somewhere the actor wouldn't have looked or it becomes a box to clear"
+          },
+          {
+            "clause": "the enumerated failure modes are now a standing artefact with an owner: the domain's failure modes move, and a checklist that doesn't move with them certifies the wrong things"
+          }
+        ]
+      },
       "group": "application/cognitive-forcing-functions"
     },
     {
@@ -819,6 +1446,22 @@
       "category": "Actions",
       "path": "/patterns/pan-and-zoom",
       "role": "pattern",
+      "situation": {
+        "resulting": [
+          {
+            "clause": "everything keeps its place in one coordinate system, so nothing breaks the spatial sense — and orientation becomes the actor's problem: at any zoom the view carries no evidence of where it sits in the whole, which is what a second, wider viewport kept in step is for",
+            "setsUp": [
+              "coordinated-views"
+            ]
+          },
+          {
+            "clause": "a continuous space has no addresses of its own; position and scale have to be made nameable before anything in it can be linked to, bookmarked, or returned to"
+          },
+          {
+            "clause": "what's on screen is a fraction of what exists, so the space has to decide what to load and what detail to draw at each scale — and those are visible to the actor as waiting, not as engineering"
+          }
+        ]
+      },
       "group": "navigation"
     },
     {
@@ -856,6 +1499,20 @@
       "category": "Actions",
       "path": "/patterns/progressive-disclosure",
       "role": "pattern",
+      "situation": {
+        "initiating": "the surface has more to say than the actor needs right now, and cutting the depth isn't available — the extra factors, controls and evidence are legitimate content that some actors genuinely need; showing all of it up front is what makes the common path hard to find",
+        "resulting": [
+          {
+            "clause": "the first view carries the common path and the depth stays reachable, so what detail costs the actor is proportional to their need for it"
+          },
+          {
+            "clause": "every deferred layer is a bet that this actor won't need it; a layer with no hint that it exists doesn't just cost a click when the bet is wrong — it leaves the actor with a wrong picture of what the system can do"
+          },
+          {
+            "clause": "what shows by default now carries the weight of a recommendation, because the actors who never expand read the first level as the whole answer"
+          }
+        ]
+      },
       "group": "seeking"
     },
     {
@@ -863,7 +1520,21 @@
       "title": "Prompt",
       "category": "Activities",
       "path": "/patterns/prompt",
-      "role": "pattern"
+      "role": "pattern",
+      "situation": {
+        "initiating": "the actor holds a need in the loose form they think in, and the system can act on language — so the work is turning a vague want into a request precise enough to be acted on, with no syntax standing between the two",
+        "resulting": [
+          {
+            "clause": "intent is stated in the actor's own words, and initiative stays with whoever framed the request rather than with whoever built the interface"
+          },
+          {
+            "clause": "what comes back depends on what the request happened to carry, so the actor is now responsible for context they may not know is missing"
+          },
+          {
+            "clause": "the request is a durable artefact — keepable, editable, shareable, templatable — which makes a good one worth more than any single thing it produced"
+          }
+        ]
+      }
     },
     {
       "id": "prose",
@@ -897,6 +1568,19 @@
       "category": "Actions",
       "path": "/patterns/pyramid",
       "role": "pattern",
+      "situation": {
+        "resulting": [
+          {
+            "clause": "the sequence is legible as a whole and enterable at any point, so an actor who wants the order gets it and an actor who wants item nine doesn't have to earn it through the first eight"
+          },
+          {
+            "clause": "the hub has to state the shape of the sequence — how long it is, where this item sits in it — or the offer of sequential reading is one the actor can't judge"
+          },
+          {
+            "clause": "progress is now something the actor accumulates and expects to be remembered; a sequence that forgets where they stopped is one they restart"
+          }
+        ]
+      },
       "group": "navigation"
     },
     {
@@ -905,6 +1589,20 @@
       "category": "Actions",
       "path": "/patterns/saving",
       "role": "pattern",
+      "situation": {
+        "initiating": "the actor is changing something that has to outlast the session, and when it becomes real is a decision the interface makes for them — commit continuously and the moment of intent disappears; wait for them and the work is what's at risk",
+        "resulting": [
+          {
+            "clause": "there is a defined moment when changes become real and the actor can tell which side of it they are on, which is what makes a review step before committing possible at all"
+          },
+          {
+            "clause": "the commit boundary is where conflicts surface: two actors working on the same thing find out only when one of them makes changes real"
+          },
+          {
+            "clause": "autosaved work carries no record of what the actor meant to keep, so going back becomes the only substitute for having not committed"
+          }
+        ]
+      },
       "group": "application"
     },
     {
@@ -965,6 +1663,20 @@
       "category": "Actions",
       "path": "/patterns/semantic-zoom",
       "role": "pattern",
+      "situation": {
+        "initiating": "the space is too large to take in at once and plain magnification fails in both directions — pulling back shrinks everything to unreadable specks, moving in loses the shape of the whole; the items do have small forms that stay recognisable, which is what makes swapping representation available instead of resizing",
+        "resulting": [
+          {
+            "clause": "every distance shows one uniform level of representation, so the population reads consistently at each scale and the actor learns what a given zoom level means"
+          },
+          {
+            "clause": "representations don't interpolate — a dot, a title and a paragraph are different artefacts — so thresholds are unavoidable, and where they sit and how the crossing is presented become the design rather than a detail of it"
+          },
+          {
+            "clause": "a richer rung has to fit the box its coarser neighbour occupied, or the arrangement the zoom was protecting comes apart on the way out"
+          }
+        ]
+      },
       "group": "evaluation"
     },
     {
@@ -973,6 +1685,20 @@
       "category": "Operations",
       "path": "/patterns/sequence-completion",
       "role": "pattern",
+      "situation": {
+        "initiating": "an activity has just delivered what the actor asked for, and the exchange is at the third position: the agent can see the sequence finished but not that it landed, and only the actor's receipt tells the difference",
+        "resulting": [
+          {
+            "clause": "the sequence is closed from the actor's side and the encounter is between activities; if this was the last thing they came for, the encounter itself is ready to be ended rather than left open",
+            "setsUp": [
+              "closing"
+            ]
+          },
+          {
+            "clause": "an acknowledged completion is the natural place to offer a next move and the easiest place to over-prompt — the actor may simply be finished"
+          }
+        ]
+      },
       "group": "conversation/sequence-management"
     },
     {
@@ -981,6 +1707,20 @@
       "category": "Actions",
       "path": "/patterns/settings",
       "role": "pattern",
+      "situation": {
+        "initiating": "the defaults serve most actors and this one isn't among them on some axis they care about enough to go looking; the difference is a preference rather than a pattern, so no amount of watching their behaviour would have inferred it",
+        "resulting": [
+          {
+            "clause": "the actor's overrides are recorded and the system holds to them, so an adaptation made once outlasts the session that made it"
+          },
+          {
+            "clause": "the surface accumulates: every option added is one more thing to look past, and the ones nobody ever changes still cost the actors hunting for the ones they do"
+          },
+          {
+            "clause": "a preference set once and honoured indefinitely stops being visible to the actor who set it, so behaviour that follows from it reads later as a fault rather than as their own earlier decision"
+          }
+        ]
+      },
       "group": "application"
     },
     {
@@ -996,6 +1736,17 @@
       "category": "Actions",
       "path": "/patterns/sorting",
       "role": "pattern",
+      "situation": {
+        "initiating": "the collection has already been narrowed to the right items but arrives in an order chosen once for everyone — an order that answers some question, just not the one this actor brought",
+        "resulting": [
+          {
+            "clause": "the actor holds the order, and their choice persists, so coming back to the page doesn't undo the arrangement they left it in"
+          },
+          {
+            "clause": "order is itself a claim about what matters: whatever the collection is sorted by becomes the thing read first, whether or not that was the intent"
+          }
+        ]
+      },
       "group": "seeking"
     },
     {
@@ -1013,7 +1764,21 @@
       "title": "Empty state",
       "category": "Operations",
       "path": "/patterns/state-empty",
-      "role": "pattern"
+      "role": "pattern",
+      "situation": {
+        "initiating": "the surface has nothing to show and the reason matters — the actor hasn't made anything yet, or their filter excluded everything, or they don't have access; an empty region says none of that on its own and reads as broken",
+        "resulting": [
+          {
+            "clause": "the gap explains itself and points somewhere: the actor knows why there is nothing here and what would put something here"
+          },
+          {
+            "clause": "first-run emptiness is the largest uninterrupted surface the product ever gets, and it arrives in front of an actor who has committed nothing yet"
+          },
+          {
+            "clause": "the empty states multiply — every filter, every permission boundary, every new container has one — and the ones nobody wrote say nothing"
+          }
+        ]
+      }
     },
     {
       "id": "status-feedback",
@@ -1032,6 +1797,19 @@
       "category": "Actions",
       "path": "/patterns/step-by-step",
       "role": "pattern",
+      "situation": {
+        "resulting": [
+          {
+            "clause": "one decision is in front of the actor at a time and the order is the system's responsibility rather than theirs — which is the whole benefit, and the reason an actor who already knows where they need to be can't get there"
+          },
+          {
+            "clause": "the sequence is now a commitment the actor is partway into, so it owes them a way to leave and come back: what's been entered has to survive a stop"
+          },
+          {
+            "clause": "the steps are the system's model of the task, and where the actor's task doesn't decompose that way there is nowhere to put the difference"
+          }
+        ]
+      },
       "group": "navigation"
     },
     {
@@ -1040,6 +1818,23 @@
       "category": "Actions",
       "path": "/patterns/suggestion",
       "role": "pattern",
+      "situation": {
+        "initiating": "the actor faces a blank or a wide choice the system has grounds to narrow — context, their history, or a model under which some continuations are far likelier than others — and starting from nothing is the real cost of the step",
+        "resulting": [
+          {
+            "clause": "the actor's option space now contains a concrete proposal, which is the help and also the anchor: shown before they have formed their own idea, it narrows what they go on to consider, and the alternatives they never reached aren't visible to them as a loss",
+            "setsUp": [
+              "cognitive-forcing-functions"
+            ]
+          },
+          {
+            "clause": "accepting is one gesture and declining is a judgement, so the offer only stays an offer while dismissing it is cheaper than weighing it"
+          },
+          {
+            "clause": "a suggestion arriving without its confidence reads as an assertion; the actor needs to know how firm the ground under it is to weigh it against what they already think"
+          }
+        ]
+      },
       "group": "application"
     },
     {
@@ -1048,6 +1843,23 @@
       "category": "Actions",
       "path": "/patterns/tag",
       "role": "pattern",
+      "situation": {
+        "initiating": "the items belong to more than one category at once and a hierarchy would force the choice of one; the vocabulary that describes them is still moving too, so a taxonomy settled in advance would be wrong before it was finished",
+        "resulting": [
+          {
+            "clause": "items carry as many labels as apply, so the same item is reachable from several directions without being duplicated or re-filed"
+          },
+          {
+            "clause": "an applied label is a handle: whatever has been tagged becomes a facet to narrow by, which is where the value of tagging is actually collected",
+            "setsUp": [
+              "filtering"
+            ]
+          },
+          {
+            "clause": "the labels are a shared vocabulary nobody controls — near-synonyms accumulate, and a label's meaning drifts with whoever is applying it"
+          }
+        ]
+      },
       "group": "sense-making",
       "realisedBy": [
         "components-tag--docs"
@@ -1059,6 +1871,20 @@
       "category": "Actions",
       "path": "/patterns/template",
       "role": "pattern",
+      "situation": {
+        "initiating": "the actor needs to produce something with a conventional shape they don't yet hold — a report, a plan, a prompt — and the atomic tools are all there; what's missing is the form, and a blank surface asks them to invent it before they can start",
+        "resulting": [
+          {
+            "clause": "the actor starts from a shape that already reflects competent work, and occupying it teaches the form in a way describing it wouldn't"
+          },
+          {
+            "clause": "the template is now a default the actor may not realise they can leave, so whatever it happens to prescribe gets treated as required"
+          },
+          {
+            "clause": "a set of templates is a curation with an owner: the conventions they encode drift, and the templates keep proposing last year's shape until somebody revisits them"
+          }
+        ]
+      },
       "group": "application"
     },
     {
@@ -1074,6 +1900,20 @@
       "category": "Actions",
       "path": "/patterns/text-lense",
       "role": "pattern",
+      "situation": {
+        "initiating": "the text says what it needs to say but not at the length or in the register this reader needs it; rewriting it to suit them would lose it for the others, so what's wrong is the framing rather than the content",
+        "resulting": [
+          {
+            "clause": "the reader picks the framing — shorter or longer, formal or plain, technical or accessible — and the original stays underneath as the thing being reframed"
+          },
+          {
+            "clause": "every lens is a rewrite, so what the reader ends up trusting is a generated telling; how far it may drift and whether the source stays reachable become part of the move"
+          },
+          {
+            "clause": "applied automatically the lens decides for the reader what they needed; applied by hand it asks them to know which framing helps before they have read the thing"
+          }
+        ]
+      },
       "group": "evaluation"
     },
     {
@@ -1099,14 +1939,45 @@
       "title": "Transparent reasoning",
       "category": "Activities",
       "path": "/patterns/transparent-reasoning",
-      "role": "pattern"
+      "role": "pattern",
+      "situation": {
+        "initiating": "the reasoning is where the actor's judgement would have to attach, and it isn't there — the output arrives with no account of how it was reached, which leaves trusting it and doubting it equally uninformed",
+        "resulting": [
+          {
+            "clause": "the reasoning is a legible trail the actor can scroll, expand, revisit and challenge, which is what makes selective trust possible instead of all-or-nothing"
+          },
+          {
+            "clause": "visible reasoning anchors as readily as it informs: a trail that looks thorough invites the actor to stop reading it and start relying on it, which is the state a deliberate interruption exists for",
+            "setsUp": [
+              "cognitive-forcing-functions"
+            ]
+          },
+          {
+            "clause": "the trail is itself a claim about how the answer was reached, and whether it is the actual computation or a narration produced alongside it isn't visible from the trail"
+          }
+        ]
+      }
     },
     {
       "id": "unavailable-actions",
       "title": "Unavailable actions",
       "category": "Operations",
       "path": "/patterns/unavailable-actions",
-      "role": "pattern"
+      "role": "pattern",
+      "situation": {
+        "initiating": "an action exists in the surface's vocabulary but doesn't apply to what the actor is looking at, and the alternatives have been weighed: showing it inert puts a thing they can't use in front of them, and this isn't an action they need to know about here",
+        "resulting": [
+          {
+            "clause": "the surface carries only what applies, so nothing the actor can see is unusable"
+          },
+          {
+            "clause": "an action never shown is an action the actor may not know exists, which puts the full range of what's possible somewhere other than the current context or nowhere at all"
+          },
+          {
+            "clause": "hiding changes the layout, so the same surface has a different shape in different states — which spatial memory and assistive technology both read as things moving"
+          }
+        ]
+      }
     },
     {
       "id": "undo",
@@ -1129,6 +2000,25 @@
       "category": "Operations",
       "path": "/patterns/user-opening",
       "role": "pattern",
+      "situation": {
+        "initiating": "the actor arrives with something already in mind and speaks first; the agent has no proposed topic to fall back on and has to recognise the opening and align to whatever was brought",
+        "resulting": [
+          {
+            "clause": "the actor's topic is on the table and the agent has aligned to it; the shape of what they brought decides the activity — a question answerable in one turn passes straight into user inquiry, a goal with steps behind it into an open request, and one stated too loosely to act on needs the agent to ask first",
+            "setsUp": [
+              "inquiry-user",
+              "open-request",
+              "inquiry-agent"
+            ]
+          },
+          {
+            "clause": "the actor has named a topic but nothing has been acted on yet, so an immediate change of mind costs nothing to honour",
+            "setsUp": [
+              "abort"
+            ]
+          }
+        ]
+      },
       "group": "conversation/sequence-management"
     },
     {
@@ -1137,6 +2027,23 @@
       "category": "Operations",
       "path": "/patterns/user-repair",
       "role": "pattern",
+      "situation": {
+        "initiating": "the agent has said something that didn't land — an unfamiliar term, a step stated too fast, an assumption the actor doesn't share — and the activity can't move on until it does; the trouble is in the actor's comprehension, not in the agent's reading of the request",
+        "resulting": [
+          {
+            "clause": "the utterance has been re-delivered in another form — paraphrase, definition, worked example — and where none of those are enough the agent has to stop answering in single turns and take the floor properly",
+            "setsUp": [
+              "extended-telling"
+            ]
+          },
+          {
+            "clause": "comprehension is restored and the activity resumes from the same step, on its way to the receipt that closes the sequence",
+            "setsUp": [
+              "sequence-completion"
+            ]
+          }
+        ]
+      },
       "group": "conversation/conversation-management"
     },
     {
@@ -1144,7 +2051,21 @@
       "title": "Validation",
       "category": "Operations",
       "path": "/patterns/validation",
-      "role": "pattern"
+      "role": "pattern",
+      "situation": {
+        "initiating": "the actor has given the system something it can't accept and is about to find out on the system's terms; the input is already made, so prevention is behind them and what's left is explaining it and getting it repaired",
+        "resulting": [
+          {
+            "clause": "the message sits at the field that produced it, says what is wrong and what would fix it, and stays there until the correction lands"
+          },
+          {
+            "clause": "the timing rule inverts once a field has failed: judging a first attempt mid-typing is punishment, and waiting for the next blur to confirm a fix is withholding"
+          },
+          {
+            "clause": "every message is prose somebody wrote, and a long form's worth of them is a body of writing that decides whether the actor recovers or abandons the form"
+          }
+        ]
+      }
     },
     {
       "id": "wizard",
@@ -1152,6 +2073,23 @@
       "category": "Actions",
       "path": "/patterns/wizard",
       "role": "pattern",
+      "situation": {
+        "initiating": "the task is one atomic goal made of genuinely dependent steps — what's entered early determines what's available later — and the actor does it rarely enough not to hold its structure; a single surface would have to show options that don't apply yet",
+        "resulting": [
+          {
+            "clause": "one commitment sits in front of the actor at a time, each step gated on the last, and because the branching prunes as it goes the path they walk is shorter than the whole"
+          },
+          {
+            "clause": "the corridor removes peripheral vision: the actor can't compare across steps or jump to the one they know they need, so a change of mind partway has to be able to walk backwards without discarding the sequence",
+            "setsUp": [
+              "undo"
+            ]
+          },
+          {
+            "clause": "the steps are the system's model of the task, and an expert who already holds that model experiences the guidance as compliance"
+          }
+        ]
+      },
       "group": "application"
     },
     {
@@ -1160,6 +2098,20 @@
       "category": "Activities",
       "path": "/patterns/workflow",
       "role": "pattern",
+      "situation": {
+        "initiating": "the actor keeps doing the same procedure — the same triage, the same stages, the same chain of steps — and wants to hand it over: to an agent, to a rule engine, to the rest of the team; described in prose it won't run, and written as code it leaves their reach",
+        "resulting": [
+          {
+            "clause": "the procedure is an artefact both sides can read: the system runs or enforces it, and the actor inspects it, rehearses it, and repairs it"
+          },
+          {
+            "clause": "what the artefact can express is capped by what its readers can read, so the notation stays a standing trade rather than a settled choice"
+          },
+          {
+            "clause": "a procedure running on its own drifts from what was intended, and noticing that means reading the prescription against an account of what actually ran"
+          }
+        ]
+      },
       "realisedBy": [
         "components-workflow--docs"
       ]
@@ -1169,7 +2121,24 @@
       "title": "Workspace",
       "category": "Activities",
       "path": "/patterns/workspace",
-      "role": "pattern"
+      "role": "pattern",
+      "situation": {
+        "initiating": "the actor's work spans contexts that don't belong together — different ownership, different topics, different states of activity — and one undifferentiated space makes all of them present at once, so focusing on any of it means ignoring the rest by effort",
+        "resulting": [
+          {
+            "clause": "work is partitioned into contexts that match how attention and responsibility are actually divided, so entering one puts the rest out of the way rather than out of mind"
+          },
+          {
+            "clause": "some of the actor's work is now somewhere they aren't looking, and changes there won't be seen until they switch — which is what has to reach across the boundary",
+            "setsUp": [
+              "notification"
+            ]
+          },
+          {
+            "clause": "the boundaries carry access as well as attention: what belongs to a workspace decides who can see it, so partitioning the work also partitions visibility"
+          }
+        ]
+      }
     }
   ],
   "edges": [
@@ -1193,22 +2162,6 @@
       "type": "alternative",
       "label": "the clean alternative when a session ends intentionally rather than by abandonment",
       "extractedFrom": "frontmatter:alternative"
-    },
-    {
-      "source": "agent-opening",
-      "target": "abort",
-      "type": "precedes",
-      "incomingNote": "abort can occur immediately after an agent-initiated opening",
-      "extractedFrom": "frontmatter:follows",
-      "label": "if the user disengages before reaching the first activity"
-    },
-    {
-      "source": "user-opening",
-      "target": "abort",
-      "type": "precedes",
-      "incomingNote": "abort can occur immediately after a user-initiated opening",
-      "extractedFrom": "frontmatter:follows",
-      "label": "if the user immediately changes their mind"
     },
     {
       "source": "action-consequences",
@@ -1359,26 +2312,10 @@
     },
     {
       "source": "agent-opening",
-      "target": "open-request",
-      "type": "precedes",
-      "label": "typical first activity after an agent-initiated opening",
-      "extractedFrom": "frontmatter:precedes",
-      "incomingNote": "agent-initiated openings typically transition into an open request"
-    },
-    {
-      "source": "agent-opening",
       "target": "extended-telling",
       "type": "alternative",
       "label": "offered on user refusal as an alternative to immediate engagement",
       "extractedFrom": "frontmatter:alternative"
-    },
-    {
-      "source": "disengage-without-closing",
-      "target": "agent-opening",
-      "type": "precedes",
-      "incomingNote": "if the agent re-opens after a prior session was abandoned",
-      "extractedFrom": "frontmatter:follows",
-      "label": "re-entry point when the agent resumes after a disengagement"
     },
     {
       "source": "agent-repair",
@@ -1386,22 +2323,6 @@
       "type": "enables",
       "extractedFrom": "frontmatter:enables",
       "incomingNote": "the agent repairs its own misunderstanding — ambiguity, low confidence, missing detail"
-    },
-    {
-      "source": "agent-repair",
-      "target": "inquiry-user",
-      "type": "precedes",
-      "label": "transitions into information capture when a specific required value is missing",
-      "extractedFrom": "frontmatter:precedes",
-      "incomingNote": "information capture via this primitive is used to resolve agent-side ambiguity"
-    },
-    {
-      "source": "agent-repair",
-      "target": "sequence-completion",
-      "type": "precedes",
-      "label": "the primary activity resumes once repair is resolved",
-      "extractedFrom": "frontmatter:precedes",
-      "incomingNote": "resumes the primary activity at sequence completion once an agent-side breakdown is resolved"
     },
     {
       "source": "agent-repair",
@@ -1593,27 +2514,6 @@
     },
     {
       "source": "annotation",
-      "target": "collaboration",
-      "type": "precedes",
-      "label": "shared annotations enable collaborative sense-making.",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "annotation",
-      "target": "conversation",
-      "type": "precedes",
-      "label": "annotations often initiate critical dialogue.",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "annotation",
-      "target": "commenting",
-      "type": "precedes",
-      "label": "extends static annotation into dynamic discussion.",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "annotation",
       "target": "explanation",
       "type": "complements",
       "label": "clarifies complex concepts, often via description.",
@@ -1684,12 +2584,6 @@
       "target": "agent",
       "type": "related",
       "label": "powers AI completion and next-best action; the [inline and ambient modes](/patterns/agent#modes-of-interaction) map directly to this group",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "assisted-task-completion",
-      "target": "transparent-reasoning",
-      "type": "related",
       "extractedFrom": "frontmatter:related"
     },
     {
@@ -1960,14 +2854,6 @@
       "incomingNote": "ending the encounter cleanly, with room for last topics — closing the exchange, not a window"
     },
     {
-      "source": "sequence-completion",
-      "target": "closing",
-      "type": "precedes",
-      "incomingNote": "the user's minimal receipt that signals a sequence is done; closing follows when the overall goal is achieved",
-      "extractedFrom": "frontmatter:follows",
-      "label": "natural follow-up when sequence completion signals the overall goal is achieved"
-    },
-    {
       "source": "closing",
       "target": "disengage-without-closing",
       "type": "alternative",
@@ -1997,31 +2883,10 @@
     },
     {
       "source": "cognitive-forcing-functions",
-      "target": "explanation",
-      "type": "complements",
-      "label": "full explanations can *increase* over-reliance by giving users a plausible justification they don't need to think through; partial explanations counteract this",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "cognitive-forcing-functions",
-      "target": "transparent-reasoning",
-      "type": "complements",
-      "label": "visible reasoning is valuable but can also anchor; the trade-off is central to this family",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "cognitive-forcing-functions",
       "target": "generated-content",
       "type": "complements",
       "label": "long-form output especially prone to over-reliance because verification cost is high",
       "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "cognitive-forcing-functions",
-      "target": "activity-log",
-      "type": "precedes",
-      "label": "rationale logging produces an audit trail that the activity log can surface",
-      "extractedFrom": "frontmatter:precedes"
     },
     {
       "source": "cognitive-forcing-functions",
@@ -2191,13 +3056,6 @@
       "extractedFrom": "frontmatter:complements"
     },
     {
-      "source": "command-menu",
-      "target": "unavailable-actions",
-      "type": "precedes",
-      "label": "context menus show only relevant commands, hiding those inaccessible in the current context",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
       "source": "commenting",
       "target": "collaboration",
       "type": "complements",
@@ -2223,13 +3081,6 @@
       "target": "conversation",
       "type": "tangential",
       "label": "provides dialogue interaction principles",
-      "extractedFrom": "frontmatter:tangential"
-    },
-    {
-      "source": "commenting",
-      "target": "status-feedback",
-      "type": "tangential",
-      "label": "indicates comment and resolution states",
       "extractedFrom": "frontmatter:tangential"
     },
     {
@@ -2344,13 +3195,6 @@
       "source": "data-entry",
       "target": "inline-interface",
       "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "data-entry",
-      "target": "status-feedback",
-      "type": "related",
-      "label": "confirming the interpretation of forgiving input.",
       "extractedFrom": "frontmatter:related"
     },
     {
@@ -2579,13 +3423,6 @@
       "extractedFrom": "frontmatter:alternative"
     },
     {
-      "source": "disengage-without-closing",
-      "target": "user-opening",
-      "type": "precedes",
-      "label": "users can also re-open on their own initiative after stepping away",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
       "source": "dynamic-hyperlinks",
       "target": "link-preview",
       "type": "complements",
@@ -2702,14 +3539,6 @@
       "type": "alternative",
       "label": "offered as an alternative to immediate engagement on user refusal",
       "extractedFrom": "frontmatter:alternative"
-    },
-    {
-      "source": "user-repair",
-      "target": "extended-telling",
-      "type": "precedes",
-      "incomingNote": "extended telling is the fallback when simple paraphrase or definition fails to resolve confusion",
-      "extractedFrom": "frontmatter:follows",
-      "label": "fallback when a simple paraphrase or definition is insufficient"
     },
     {
       "source": "filtering",
@@ -3319,14 +4148,6 @@
       "label": "agent inquiry is embedded within open request to gather missing constraints",
       "extractedFrom": "frontmatter:enables",
       "incomingNote": "used within open request to gather missing or ambiguous constraints"
-    },
-    {
-      "source": "user-opening",
-      "target": "inquiry-agent",
-      "type": "precedes",
-      "incomingNote": "agent inquiry is used when a user opening requires clarification before the agent can proceed",
-      "extractedFrom": "frontmatter:follows",
-      "label": "used when the opening requires clarification before proceeding"
     },
     {
       "source": "inquiry-user",
@@ -3971,20 +4792,6 @@
     },
     {
       "source": "next-best-action",
-      "target": "cognitive-forcing-functions",
-      "type": "precedes",
-      "label": "workflow-level recommendations that benefit from forcing functions when stakes are high",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "next-best-action",
-      "target": "action-consequences",
-      "type": "precedes",
-      "label": "when accepting a recommendation leads to consequential decisions",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "next-best-action",
       "target": "assistance",
       "type": "serves",
       "label": "Next-best action draws on assistance to decide *what* to suggest at workflow transitions",
@@ -4148,14 +4955,6 @@
       "target": "activity-log",
       "type": "related",
       "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "user-opening",
-      "target": "open-request",
-      "type": "precedes",
-      "incomingNote": "user-initiated openings with a complex request map directly to this primitive",
-      "extractedFrom": "frontmatter:follows",
-      "label": "the most common activity a user-initiated opening transitions into"
     },
     {
       "source": "overreliance-checklist",
@@ -4775,14 +5574,6 @@
       "extractedFrom": "inline:composed-of"
     },
     {
-      "source": "user-repair",
-      "target": "sequence-completion",
-      "type": "precedes",
-      "incomingNote": "resumes at sequence completion once the user's comprehension is restored",
-      "extractedFrom": "frontmatter:follows",
-      "label": "the activity resumes from the same step once the repair is resolved"
-    },
-    {
       "source": "settings",
       "target": "localization",
       "type": "precedes",
@@ -5017,13 +5808,6 @@
     },
     {
       "source": "suggestion",
-      "target": "cognitive-forcing-functions",
-      "type": "precedes",
-      "label": "the primary site where forcing functions apply; see its fixation risk section",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "suggestion",
       "target": "prompt",
       "type": "precedes",
       "label": "can provide an initial prompt",
@@ -5223,13 +6007,6 @@
       "extractedFrom": "frontmatter:complements"
     },
     {
-      "source": "transparent-reasoning",
-      "target": "cognitive-forcing-functions",
-      "type": "complements",
-      "label": "counterbalancing interventions when transparent reasoning slides into over-reliance",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
       "source": "unavailable-actions",
       "target": "state-disabled",
       "type": "alternative",
@@ -5279,13 +6056,6 @@
       "extractedFrom": "frontmatter:related"
     },
     {
-      "source": "user-opening",
-      "target": "inquiry-user",
-      "type": "precedes",
-      "label": "when the opening is a simple question, the encounter passes straight into user inquiry",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
       "source": "validation",
       "target": "status-feedback",
       "type": "instantiates",
@@ -5303,7 +6073,7 @@
       "source": "validation",
       "target": "data-entry",
       "type": "complements",
-      "label": "the entry the message responds to; a forgiving format prevents errors this move would otherwise have to report",
+      "label": "a forgiving format prevents errors this move would otherwise have to report",
       "extractedFrom": "frontmatter:complements"
     },
     {
@@ -5339,13 +6109,6 @@
       "target": "status-feedback",
       "type": "complements",
       "label": "communicates progress and validation state throughout the wizard",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "wizard",
-      "target": "undo",
-      "type": "complements",
-      "label": "mitigates the high commitment level by allowing reversal of completed steps",
       "extractedFrom": "frontmatter:complements"
     },
     {
@@ -5447,22 +6210,71 @@
     },
     {
       "source": "workspace",
-      "target": "notification",
-      "type": "precedes",
-      "label": "alerts actors to changes in non-visible workspaces",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "workspace",
       "target": "collaboration-foundation",
       "type": "related",
       "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "agent-opening",
+      "target": "open-request",
+      "type": "precedes",
+      "situation": "footing is set and a topic is on the table; the encounter is at its first fork, and a topic the actor accepts on any scale beyond a single question opens into an open request",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "agent-opening",
+      "target": "abort",
+      "type": "precedes",
+      "situation": "the actor has been addressed but has committed to nothing; if they turn down the proposed topic and offer nothing in its place, the encounter needs an exit before it reaches any activity",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "agent-repair",
+      "target": "inquiry-agent",
+      "type": "precedes",
+      "situation": "the agent's reading of the request is on the surface where the actor can correct it; where the trouble turns out to be one specific missing value rather than a wrong interpretation, the exchange narrows to asking for it",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "agent-repair",
+      "target": "sequence-completion",
+      "type": "precedes",
+      "situation": "understanding is restored and the primary activity resumes at the step it broke on rather than from the beginning, on its way to the receipt that closes the sequence",
+      "extractedFrom": "situation:resulting"
     },
     {
       "source": "ai-completion",
       "target": "cognitive-forcing-functions",
       "type": "precedes",
       "situation": "inline generation makes accepting cheaper than evaluating, so over-reliance accrues by default — deliberate friction is the countermove",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "annotation",
+      "target": "collaboration",
+      "type": "precedes",
+      "situation": "once the marks are visible to others the layer stops being a private reading aid: other people read the actor's attention, and a mark becomes something that can be answered rather than only added to",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "annotation",
+      "target": "commenting",
+      "type": "precedes",
+      "situation": "once the marks are visible to others the layer stops being a private reading aid: other people read the actor's attention, and a mark becomes something that can be answered rather than only added to",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "annotation",
+      "target": "conversation",
+      "type": "precedes",
+      "situation": "once the marks are visible to others the layer stops being a private reading aid: other people read the actor's attention, and a mark becomes something that can be answered rather than only added to",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "assisted-task-completion",
+      "target": "transparent-reasoning",
+      "type": "precedes",
+      "situation": "the more of the work the system takes on, the more trust the actor has to extend before accepting anything — so how an offer accounts for itself stops being decoration",
       "extractedFrom": "situation:resulting"
     },
     {
@@ -5473,10 +6285,66 @@
       "extractedFrom": "situation:resulting"
     },
     {
+      "source": "cognitive-forcing-functions",
+      "target": "activity-log",
+      "type": "precedes",
+      "situation": "the actor has had to do something — wait, commit an answer first, name a reason, finish an incomplete argument — before accepting, so the judgement on record is theirs; where that something was writing down why, the reasons accumulate into a trail somebody else can read",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "command-menu",
+      "target": "unavailable-actions",
+      "type": "precedes",
+      "situation": "the menu shows only what applies here, so commands that don't apply are absent rather than visibly out of reach — which is a kindness for the irrelevant ones and a mystery for the ones the actor expected to find",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "commenting",
+      "target": "status-feedback",
+      "type": "precedes",
+      "situation": "comments acquire a lifecycle of their own — open, answered, resolved — and something has to say when a thread is finished, or the layer only ever grows",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "data-entry",
+      "target": "status-feedback",
+      "type": "precedes",
+      "situation": "the expression is in and structured — and where the system did the structuring rather than the actor, its reading of what they meant has to be shown back before it counts as agreed",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "data-entry",
+      "target": "validation",
+      "type": "precedes",
+      "situation": "input that arrived cleanly can still be wrong in ways the control can't catch, so accepting a value and accepting it as correct are separate steps",
+      "extractedFrom": "situation:resulting"
+    },
+    {
       "source": "deletion",
       "target": "undo",
       "type": "precedes",
       "situation": "the data is gone; whether that holds is now a question of recovery — a completed deletion is exactly the state undo acts on",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "disengage-without-closing",
+      "target": "agent-opening",
+      "type": "precedes",
+      "situation": "the exchange is parked rather than ended: state is saved, the actor can see what persists and for how long, and either side can pick it up again — the agent resuming, or the actor returning on their own initiative",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "disengage-without-closing",
+      "target": "user-opening",
+      "type": "precedes",
+      "situation": "the exchange is parked rather than ended: state is saved, the actor can see what persists and for how long, and either side can pick it up again — the agent resuming, or the actor returning on their own initiative",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "explanation",
+      "target": "cognitive-forcing-functions",
+      "type": "precedes",
+      "situation": "a complete and plausible explanation can make deferring *easier* rather than harder: the actor now holds a justification they didn't have to think through, which is the state a forcing function exists to interrupt",
       "extractedFrom": "situation:resulting"
     },
     {
@@ -5508,6 +6376,13 @@
       "extractedFrom": "situation:resulting"
     },
     {
+      "source": "hub-and-spoke",
+      "target": "purpose-keyed-view",
+      "type": "precedes",
+      "situation": "the hub is the one surface every journey passes through, which makes it the natural place to report across all the spokes — what changed, what needs attention; what to show there is its own design problem, not something the topology settles",
+      "extractedFrom": "situation:resulting"
+    },
+    {
       "source": "live-presentation",
       "target": "generated-content",
       "type": "precedes",
@@ -5515,10 +6390,122 @@
       "extractedFrom": "situation:resulting"
     },
     {
+      "source": "next-best-action",
+      "target": "action-consequences",
+      "type": "precedes",
+      "situation": "the system proposes actions rather than values, so accepting one commits the actor to something whose consequences they didn't work out themselves; what guards the accept has to be proportional to what the action does",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "next-best-action",
+      "target": "cognitive-forcing-functions",
+      "type": "precedes",
+      "situation": "where the stakes are high, the recommendation being easy to accept is the problem rather than the feature — the accept needs a beat of deliberate thought built into it",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "open-request",
+      "target": "inline-confirmation",
+      "type": "precedes",
+      "situation": "a plan exists and the agent is about to act on the actor's behalf; where a step can't be taken back, the actor's explicit go-ahead has to come before it, not after",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "pan-and-zoom",
+      "target": "coordinated-views",
+      "type": "precedes",
+      "situation": "everything keeps its place in one coordinate system, so nothing breaks the spatial sense — and orientation becomes the actor's problem: at any zoom the view carries no evidence of where it sits in the whole, which is what a second, wider viewport kept in step is for",
+      "extractedFrom": "situation:resulting"
+    },
+    {
       "source": "searching",
       "target": "navigation-overview",
       "type": "precedes",
       "situation": "a search can fail, leaving the actor with intent but no result — browsing the structure (\"browse by category instead\") is the fallback seeking move",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "sequence-completion",
+      "target": "closing",
+      "type": "precedes",
+      "situation": "the sequence is closed from the actor's side and the encounter is between activities; if this was the last thing they came for, the encounter itself is ready to be ended rather than left open",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "suggestion",
+      "target": "cognitive-forcing-functions",
+      "type": "precedes",
+      "situation": "the actor's option space now contains a concrete proposal, which is the help and also the anchor: shown before they have formed their own idea, it narrows what they go on to consider, and the alternatives they never reached aren't visible to them as a loss",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "tag",
+      "target": "filtering",
+      "type": "precedes",
+      "situation": "an applied label is a handle: whatever has been tagged becomes a facet to narrow by, which is where the value of tagging is actually collected",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "transparent-reasoning",
+      "target": "cognitive-forcing-functions",
+      "type": "precedes",
+      "situation": "visible reasoning anchors as readily as it informs: a trail that looks thorough invites the actor to stop reading it and start relying on it, which is the state a deliberate interruption exists for",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "user-opening",
+      "target": "inquiry-user",
+      "type": "precedes",
+      "situation": "the actor's topic is on the table and the agent has aligned to it; the shape of what they brought decides the activity — a question answerable in one turn passes straight into user inquiry, a goal with steps behind it into an open request, and one stated too loosely to act on needs the agent to ask first",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "user-opening",
+      "target": "open-request",
+      "type": "precedes",
+      "situation": "the actor's topic is on the table and the agent has aligned to it; the shape of what they brought decides the activity — a question answerable in one turn passes straight into user inquiry, a goal with steps behind it into an open request, and one stated too loosely to act on needs the agent to ask first",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "user-opening",
+      "target": "inquiry-agent",
+      "type": "precedes",
+      "situation": "the actor's topic is on the table and the agent has aligned to it; the shape of what they brought decides the activity — a question answerable in one turn passes straight into user inquiry, a goal with steps behind it into an open request, and one stated too loosely to act on needs the agent to ask first",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "user-opening",
+      "target": "abort",
+      "type": "precedes",
+      "situation": "the actor has named a topic but nothing has been acted on yet, so an immediate change of mind costs nothing to honour",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "user-repair",
+      "target": "extended-telling",
+      "type": "precedes",
+      "situation": "the utterance has been re-delivered in another form — paraphrase, definition, worked example — and where none of those are enough the agent has to stop answering in single turns and take the floor properly",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "user-repair",
+      "target": "sequence-completion",
+      "type": "precedes",
+      "situation": "comprehension is restored and the activity resumes from the same step, on its way to the receipt that closes the sequence",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "wizard",
+      "target": "undo",
+      "type": "precedes",
+      "situation": "the corridor removes peripheral vision: the actor can't compare across steps or jump to the one they know they need, so a change of mind partway has to be able to walk backwards without discarding the sequence",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "workspace",
+      "target": "notification",
+      "type": "precedes",
+      "situation": "some of the actor's work is now somewhere they aren't looking, and changes there won't be seen until they switch — which is what has to reach across the boundary",
       "extractedFrom": "situation:resulting"
     },
     {

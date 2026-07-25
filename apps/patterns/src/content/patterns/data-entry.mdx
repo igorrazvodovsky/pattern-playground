@@ -5,6 +5,25 @@ group: application
 activityLevel: action
 atomic: pattern
 mediation: individual
+situation:
+  initiating: >-
+    the actor holds something the system needs — a date, a name, a measurement — in
+    their own loose form, and guessing it isn't available because they are the only
+    source; the system needs it structured and they expressed it however came naturally
+  resulting:
+    - clause: >-
+        the expression is in and structured — and where the system did the structuring
+        rather than the actor, its reading of what they meant has to be shown back
+        before it counts as agreed
+      sets-up: [status-feedback]
+    - clause: >-
+        input that arrived cleanly can still be wrong in ways the control can't catch,
+        so accepting a value and accepting it as correct are separate steps
+      sets-up: [validation]
+    - >-
+      the entry move is now spread across whatever surfaces host it — a form field, a
+      conversational turn, a control in the inline interface — and the same value can
+      arrive by any of them, in a different shape each time
 relationships:
   composed-of:
     - to: ai-completion
@@ -12,8 +31,6 @@ relationships:
   related:
     - conversation
     - inline-interface
-    - to: status-feedback
-      note: confirming the interpretation of forgiving input.
     - to: agent
       note: the agent often responsible for interpreting forgiving input.
     - to: transparent-reasoning

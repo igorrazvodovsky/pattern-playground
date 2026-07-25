@@ -6,14 +6,25 @@ activityLevel: operation
 atomic: primitive
 mediation: coordination
 fun: 😊 3/5. Looking for useful building blocks for conversational UI.
+situation:
+  initiating: >-
+    the agent has said something that didn't land — an unfamiliar term, a step
+    stated too fast, an assumption the actor doesn't share — and the activity
+    can't move on until it does; the trouble is in the actor's comprehension,
+    not in the agent's reading of the request
+  resulting:
+    - clause: >-
+        the utterance has been re-delivered in another form — paraphrase,
+        definition, worked example — and where none of those are enough the agent
+        has to stop answering in single turns and take the floor properly
+      sets-up: [extended-telling]
+    - clause: >-
+        comprehension is restored and the activity resumes from the same step, on
+        its way to the receipt that closes the sequence
+      sets-up: [sequence-completion]
 relationships:
   enables:
     - conversation
-  precedes:
-    - to: extended-telling
-      note: fallback when a simple paraphrase or definition is insufficient
-    - to: sequence-completion
-      note: the activity resumes from the same step once the repair is resolved
 ---
 The user signals they didn’t understand the agent's utterance.
 

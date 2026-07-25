@@ -6,6 +6,21 @@ activityLevel: operation
 atomic: primitive
 mediation: coordination
 fun: 😊 3/5. Looking for useful building blocks for conversational UI.
+situation:
+  initiating: >-
+    a sequence is under way and the actor has decided not to finish it — not
+    because they misunderstood the agent, which would be repair, and not
+    because the goal is met, which would be closing; the sequence is unwanted
+    or going wrong, and what's needed is a way out that isn't a failure
+  resulting:
+    - >-
+      the sequence is halted where it stood, the actor has been told what if
+      anything changed, and the exchange is back at a point where they can
+      start something else or leave
+    - >-
+      whatever the sequence collected is now a loose end — a part-filled draft,
+      a half-applied change — and the actor has to be able to see it to decide
+      whether it stays
 relationships:
   related:
     - to: undo
@@ -15,11 +30,6 @@ relationships:
   alternative:
     - to: closing
       note: the clean alternative when a session ends intentionally rather than by abandonment
-  follows:
-    - to: agent-opening
-      note: abort can occur immediately after an agent-initiated opening
-    - to: user-opening
-      note: abort can occur immediately after a user-initiated opening
 ---
 The user stops an unsuccessful or unwanted sequence.
 

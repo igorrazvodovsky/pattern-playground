@@ -6,21 +6,29 @@ activityLevel: operation
 atomic: primitive
 mediation: coordination
 fun: 😊 3/5. Looking for useful building blocks for conversational UI.
+situation:
+  initiating: >-
+    the actor arrives with something already in mind and speaks first; the agent
+    has no proposed topic to fall back on and has to recognise the opening and
+    align to whatever was brought
+  resulting:
+    - clause: >-
+        the actor's topic is on the table and the agent has aligned to it; the
+        shape of what they brought decides the activity — a question answerable
+        in one turn passes straight into user inquiry, a goal with steps behind
+        it into an open request, and one stated too loosely to act on needs the
+        agent to ask first
+      sets-up: [inquiry-user, open-request, inquiry-agent]
+    - clause: >-
+        the actor has named a topic but nothing has been acted on yet, so an
+        immediate change of mind costs nothing to honour
+      sets-up: [abort]
 relationships:
   enables:
     - conversation
   related:
     - to: agent-repair
       note: for disambiguating ambiguous or overlapping user openings
-  precedes:
-    - to: open-request
-      note: the most common activity a user-initiated opening transitions into
-    - to: inquiry-agent
-      note: used when the opening requires clarification before proceeding
-    - to: abort
-      note: if the user immediately changes their mind
-    - to: inquiry-user
-      note: when the opening is a simple question, the encounter passes straight into user inquiry
 ---
 The user initiates the encounter; the agent recognizes the open and aligns quickly to a topic.
 

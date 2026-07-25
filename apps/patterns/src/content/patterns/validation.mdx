@@ -6,6 +6,21 @@ atomic: pattern
 mediation: individual
 fun: 🥱 boring but important groundwork.
 description: "Responding to input that doesn't fit — at the field where it happened, saying what is wrong and how to fix it, persisting until corrected."
+situation:
+  initiating: >-
+    the actor has given the system something it can't accept and is about to find out on the
+    system's terms; the input is already made, so prevention is behind them and what's left
+    is explaining it and getting it repaired
+  resulting:
+    - >-
+      the message sits at the field that produced it, says what is wrong and what would fix
+      it, and stays there until the correction lands
+    - >-
+      the timing rule inverts once a field has failed: judging a first attempt mid-typing is
+      punishment, and waiting for the next blur to confirm a fix is withholding
+    - >-
+      every message is prose somebody wrote, and a long form's worth of them is a body of
+      writing that decides whether the actor recovers or abandons the form
 relationships:
   instantiates:
     - to: status-feedback
@@ -15,7 +30,7 @@ relationships:
       note: "the form is the surface that hosts fieldwise messages and wires them to submission"
   complements:
     - to: data-entry
-      note: "the entry the message responds to; a forgiving format prevents errors this move would otherwise have to report"
+      note: "a forgiving format prevents errors this move would otherwise have to report"
   tangential:
     - to: state-disabled
       note: "disabling submit until the form is valid hides the problem this move exists to explain"

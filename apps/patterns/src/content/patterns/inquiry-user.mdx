@@ -6,13 +6,22 @@ activityLevel: operation
 atomic: primitive
 mediation: coordination
 fun: 😊 3/5. Looking for useful building blocks for conversational UI.
+situation:
+  initiating: >-
+    the exchange is open and the actor has a question the agent can answer as
+    asked — nothing to disambiguate first, no multi-step work behind it
+  resulting:
+    - >-
+      the question is answered and the pair is complete; the actor is between
+      activities rather than inside one, free to follow up, check the source, or
+      start something else
+    - >-
+      a direct answer carries no working, so for anything non-trivial the actor
+      is taking the agent's word for it unless evidence came with the answer
 relationships:
   related:
     - to: extended-telling
       note: for multi-part answers that exceed the scope of a single inquiry response
-  follows:
-    - to: agent-repair
-      note: information capture via this primitive is used to resolve agent-side ambiguity
   enables:
     - to: conversation
       note: user inquiry appears across all dialogue forms

@@ -6,6 +6,21 @@ activityLevel: operation
 atomic: primitive
 mediation: coordination
 fun: 😊 3/5. Looking for useful building blocks for conversational UI.
+situation:
+  initiating: >-
+    the actor needs content that won't fit one turn — instructions, an
+    explanation, a narrative — and the single-turn forms have either been tried or
+    are visibly too small for it; the agent has to hold the floor across several
+    turns without losing them
+  resulting:
+    - >-
+      the telling runs as a structured sequence the actor controls: scope announced
+      up front, each step advanced on their continuer, and skip, back and stop
+      available throughout
+    - >-
+      holding the floor suppresses the actor's turn, so trouble that would have
+      surfaced as an interruption now has to be invited — support moves at every
+      step, and a visible way out of the telling into another activity
 relationships:
   enables:
     - to: conversation
@@ -13,9 +28,6 @@ relationships:
   alternative:
     - to: agent-opening
       note: offered as an alternative to immediate engagement on user refusal
-  follows:
-    - to: user-repair
-      note: extended telling is the fallback when simple paraphrase or definition fails to resolve confusion
 ---
 The agent delivers a multi-part telling (e.g., instructions, narrative, explanation).
 

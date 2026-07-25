@@ -6,15 +6,25 @@ activityLevel: operation
 atomic: primitive
 mediation: coordination
 fun: 😊 3/5. Looking for useful building blocks for conversational UI.
+situation:
+  initiating: >-
+    the actor has stated a goal rather than a step — complex enough that the
+    agent can't act on it as given, with constraints missing and several moves
+    between the request and the outcome
+  resulting:
+    - >-
+      the request is framed rather than merely received: goal, constraints,
+      assumptions and sources are explicit, and what's still missing shows up as
+      named gaps instead of general vagueness
+    - clause: >-
+        a plan exists and the agent is about to act on the actor's behalf; where
+        a step can't be taken back, the actor's explicit go-ahead has to come
+        before it, not after
+      sets-up: [inline-confirmation]
 relationships:
   enables:
     - to: conversation
       note: the primary primitive for instruction-based dialogue
-  follows:
-    - to: agent-opening
-      note: agent-initiated openings typically transition into an open request
-    - to: user-opening
-      note: user-initiated openings with a complex request map directly to this primitive
   composed-of:
     - to: inquiry-agent
       note: used within open request to gather missing or ambiguous constraints

@@ -8,6 +8,24 @@ mediation: individual
 lifecycle: seeking
 fun: 🙂 4/5.
 realised_by: [components-command-menu--docs]
+situation:
+  initiating: >-
+    the actor knows what they want to do but not where its control lives; the
+    capability has accumulated more commands than any toolbar or menu bar can
+    hold, so hunting for one costs more than naming it would
+  resulting:
+    - >-
+      commands are reachable by name, which lifts the obligation on the chrome to
+      display everything the surface can do; discovery moves from scanning to
+      typing a guess
+    - clause: >-
+        the menu shows only what applies here, so commands that don't apply are
+        absent rather than visibly out of reach — which is a kindness for the
+        irrelevant ones and a mystery for the ones the actor expected to find
+      sets-up: [unavailable-actions]
+    - >-
+      naming needs the name: the move is fast for actors who already have the
+      vocabulary and no help at all to actors who came looking for it
 relationships:
   complements:
     - to: autocomplete
@@ -18,9 +36,6 @@ relationships:
       note: Command menus provide quick access to collaborative actions and workflows
     - to: keyboard-shortcuts
       note: "surfaces shortcuts alongside each command name, making the invisible visible — the command menu is often the primary discovery mechanism for a shortcut system"
-  precedes:
-    - to: unavailable-actions
-      note: context menus show only relevant commands, hiding those inaccessible in the current context
 ---
 
 The invocation of commands by name, navigating the tension between discoverability and speed.

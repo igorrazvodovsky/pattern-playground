@@ -6,17 +6,23 @@ activityLevel: operation
 atomic: primitive
 mediation: coordination
 fun: 😊 3/5. Looking for useful building blocks for conversational UI.
+situation:
+  initiating: >-
+    an activity has just delivered what the actor asked for, and the exchange is
+    at the third position: the agent can see the sequence finished but not that it
+    landed, and only the actor's receipt tells the difference
+  resulting:
+    - clause: >-
+        the sequence is closed from the actor's side and the encounter is between
+        activities; if this was the last thing they came for, the encounter itself
+        is ready to be ended rather than left open
+      sets-up: [closing]
+    - >-
+      an acknowledged completion is the natural place to offer a next move and the
+      easiest place to over-prompt — the actor may simply be finished
 relationships:
   enables:
     - conversation
-  follows:
-    - to: agent-repair
-      note: resumes the primary activity at sequence completion once an agent-side breakdown is resolved
-    - to: user-repair
-      note: resumes at sequence completion once the user's comprehension is restored
-  precedes:
-    - to: closing
-      note: natural follow-up when sequence completion signals the overall goal is achieved
 ---
 The user signals the current sequence has **successfully completed**.
 

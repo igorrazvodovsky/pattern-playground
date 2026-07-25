@@ -7,6 +7,27 @@ atomic: pattern
 mediation: individual
 lifecycle: evaluation
 fun: 🤯 4/5. Practical tools for addressing overreliance on AI.
+situation:
+  initiating: >-
+    a system recommendation is on the surface and accepting it costs less than
+    evaluating it; the actor has the competence to judge and the stakes to warrant
+    judging, but nothing in the interaction asks them to, so deferral accrues by
+    default — and explanation alone won't fix it, since a plausible rationale can
+    make rubber-stamping easier rather than harder
+  resulting:
+    - clause: >-
+        the actor has had to do something — wait, commit an answer first, name a
+        reason, finish an incomplete argument — before accepting, so the judgement on
+        record is theirs; where that something was writing down why, the reasons
+        accumulate into a trail somebody else can read
+      sets-up: [activity-log]
+    - >-
+      the friction is real and paid on every decision, so it holds only where the
+      stakes keep justifying it; where they don't, actors learn the shortest path
+      through it
+    - >-
+      the help lands unevenly — it works best on actors already inclined to think, and
+      least on the ones most likely to defer, who are the reason for it
 relationships:
   enacts:
     - to: agency
@@ -16,15 +37,8 @@ relationships:
     - to: temporality
       note: the wait variants make a deliberate delay the friction, interrupting automatic deferral
   complements:
-    - to: explanation
-      note: full explanations can *increase* over-reliance by giving users a plausible justification they don't need to think through; partial explanations counteract this
-    - to: transparent-reasoning
-      note: visible reasoning is valuable but can also anchor; the trade-off is central to this family
     - to: generated-content
       note: long-form output especially prone to over-reliance because verification cost is high
-  precedes:
-    - to: activity-log
-      note: rationale logging produces an audit trail that the activity log can surface
   related:
     - to: overreliance-checklist
       note: structured review of considerations before accepting.

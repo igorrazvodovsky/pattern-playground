@@ -6,17 +6,26 @@ activityLevel: operation
 atomic: primitive
 mediation: coordination
 fun: 😊 3/5. Looking for useful building blocks for conversational UI.
+situation:
+  initiating: >-
+    the exchange is mid-activity and one party has to step away — idle,
+    interrupted, a dropped connection — with the goal still unmet; a formal close
+    would misstate where things stand, and dropping it silently loses the work
+  resulting:
+    - clause: >-
+        the exchange is parked rather than ended: state is saved, the actor can see
+        what persists and for how long, and either side can pick it up again — the
+        agent resuming, or the actor returning on their own initiative
+      sets-up: [agent-opening, user-opening]
+    - >-
+      parked state ages while nobody is watching it, so the assumptions inside it
+      may not hold on return; confirming them is part of resuming, not an extra
 relationships:
   enables:
     - conversation
   alternative:
     - to: closing
       note: the preferred alternative when a formal close is possible
-  precedes:
-    - to: agent-opening
-      note: re-entry point when the agent resumes after a disengagement
-    - to: user-opening
-      note: users can also re-open on their own initiative after stepping away
 ---
 Allow either party to step away without a formal close (e.g., idle, context switch), keeping state ready for later resumption.
 

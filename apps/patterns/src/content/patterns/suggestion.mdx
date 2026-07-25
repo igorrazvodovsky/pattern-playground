@@ -6,10 +6,26 @@ activityLevel: action
 atomic: pattern
 mediation: individual
 fun: 🙂 5/5. A part of a bigger attempt to map LLM-related patterns.
+situation:
+  initiating: >-
+    the actor faces a blank or a wide choice the system has grounds to narrow — context,
+    their history, or a model under which some continuations are far likelier than
+    others — and starting from nothing is the real cost of the step
+  resulting:
+    - clause: >-
+        the actor's option space now contains a concrete proposal, which is the help and
+        also the anchor: shown before they have formed their own idea, it narrows what
+        they go on to consider, and the alternatives they never reached aren't visible
+        to them as a loss
+      sets-up: [cognitive-forcing-functions]
+    - >-
+      accepting is one gesture and declining is a judgement, so the offer only stays an
+      offer while dismissing it is cheaper than weighing it
+    - >-
+      a suggestion arriving without its confidence reads as an assertion; the actor needs
+      to know how firm the ground under it is to weigh it against what they already think
 relationships:
   precedes:
-    - to: cognitive-forcing-functions
-      note: the primary site where forcing functions apply; see its fixation risk section
     - to: prompt
       note: can provide an initial prompt
   serves:
