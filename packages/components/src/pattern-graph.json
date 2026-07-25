@@ -546,10 +546,13 @@
         "initiating": "several views of one model already coexist — each earning its place by showing a different aspect — but relating them is the actor's job: find the item here, re-find it there, carry the correspondence in working memory",
         "resulting": [
           {
-            "clause": "designating something in one view marks it in every view where it appears; cross-view relationships arrive perceptually instead of being reconstructed"
+            "clause": "designating something in one view marks it in every view where it appears; cross-view relationships — correlations invisible in any single view — arrive perceptually instead of being reconstructed"
           },
           {
-            "clause": "each coupling is now a correctness surface — its cues can lie, and its upkeep must be paid"
+            "clause": "every added view charges for what the coupling buys, in learning time, working memory, screen space, and upkeep"
+          },
+          {
+            "clause": "each coupling is now a correctness surface: a false cue implies a relationship that doesn't hold, and propagation slower than ~100 ms reads as no relationship at all — the cues, not just the data, can lie"
           }
         ]
       },
@@ -706,7 +709,7 @@
         "initiating": "the item to operate on and the destination that stands for the outcome are both on screen, and asking for the operation by name — a menu, a form, a command — would restate what the actor can already point at",
         "resulting": [
           {
-            "clause": "the operation happens where its object and outcome are visible, and the result reads off the surface afterwards — the item sits where it was put"
+            "clause": "the operation happens where its object and outcome are visible, and the result reads off the surface afterwards — the item sits where it was put, and the state is its own receipt"
           },
           {
             "clause": "destinations are now part of the operation's vocabulary: each must mean exactly one thing, refuse what it cannot accept, and stay legible while a drag is in flight"
@@ -1505,7 +1508,7 @@
             "clause": "what needs attention arrives as a rule-backed checklist — index, navigation, status display and audit trail at once — and every flag can say why it fired"
           },
           {
-            "clause": "the rule set is a standing maintenance duty — flags need a feedback channel and a noise budget, or fatigue and then suppression follow"
+            "clause": "the rule set is a standing maintenance duty — to its reader a false positive is any flag they did not want to see, so flags need a feedback channel and a noise budget, or the curve is alarm fatigue, then suppression: the checklist still renders after trust has left it"
           },
           {
             "clause": "whatever the rules don't encode sails past; the general exploratory view remains the place to notice it"
@@ -1577,7 +1580,10 @@
             "clause": "each recurring purpose has a view designed for its own question and attention budget, instead of one general view compromising across all of them"
           },
           {
-            "clause": "the general exploratory view stays reachable from every purpose-keyed one — curation prunes it, never replaces it"
+            "clause": "every purpose-keyed view is a curation decision someone must maintain — whatever it omits, the actor must know to ask for"
+          },
+          {
+            "clause": "the general exploratory view stays reachable from every purpose-keyed one — curation prunes it, never replaces it, because the purposes only anticipate the questions they encode and cases outside them need somewhere to be noticed"
           }
         ]
       },

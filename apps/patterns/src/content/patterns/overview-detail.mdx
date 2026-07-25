@@ -60,7 +60,7 @@ Give the collection two linked views: an *overview* rendering every item in the 
 
 ### Content
 
-Which *attributes* live in which view: overview only, detail only, or both — and interactive elements count as attributes too (a save button can live in both views or only one). Held open to the actor rather than fixed per view, this dimension is [attribute visibility](/patterns/attribute-visibility) applied twice over. Overview attributes are often *abstractions* of their detail counterparts: visual (`badge` for status), semantic (a generated title standing for a conversation), or computational (a calendar of cheapest prices). When the abstraction is computed or generated, the overview stops being a subset of the detail view and becomes a summary in its own right.
+Which *attributes* live in which view: overview only, detail only, or both — and interactive elements count as attributes too (a save button can live in both views or only one). The overview's subset is the consequential choice: it fixes what the actor can compare, sort, and filter by. Held open to the actor rather than fixed per view, this dimension is [attribute visibility](/patterns/attribute-visibility) applied twice over. Overview attributes are often *abstractions* of their detail counterparts: visual (`badge` for status), semantic (a generated title standing for a conversation), or computational (a calendar of cheapest prices). When the abstraction is computed or generated, the overview stops being a subset of the detail view and becomes a summary in its own right.
 
 <Demo name="fluid-attributes" surface="gray" label="The content dimension held open: surface attributes from the detail view into the overview, then operate on them." expandable />
 
@@ -72,16 +72,11 @@ How many of each, and how they nest: several overviews sharing one detail (list 
 
 ### Layout
 
-Where the detail opens: side by side, in place, in a popover, or on a new page. Simultaneous split panes — what this pattern is usually reduced to — is just one of these, and the only one that costs width: below roughly 40rem it has nowhere to go, and the detail falls back to opening in place, inside the row it was picked from.
+Where the detail opens: side by side, in place, in a popover, or on a new page. Simultaneous split panes — what this pattern is usually reduced to — is just one of these — the one that makes switching a glance rather than a navigation, and the only one that costs width: below roughly 40rem it has nowhere to go, and the detail falls back to opening in place, inside the row it was picked from.
 
 Layout and content are not independent. Opening in place puts the detail directly beneath attributes the overview is still showing, so what reads as orientation when the two views sit apart reads as noise once they touch: the in-place detail is the content dimension minus the overview's own set, not the same readout relocated.
 
 The control that chooses among them belongs on the detail rather than in a toolbar outside both views — the layout is re-chosen from the thing being laid out, which is also why some detail is always showing.
-
-## Consequences
-
-- The collection carries two linked views — one for scanning, one for verifying — and the current item survives the move between them: the actor switches between list and item, and between items to compare them, without losing their place. When both views share the screen, the switch is a glance rather than a navigation.
-- The overview's attribute subset fixes what the actor can compare, sort, and filter by (Airbnb's map shows only price) — a ceiling only [attribute visibility](/patterns/attribute-visibility) lifts, by letting the actor surface, hide, and re-filter attributes across both views.
 
 ## Resources & references
 

@@ -446,6 +446,8 @@ That `sets-up` emits only `precedes` is current scope, not a claim that resultin
 
 Extraction emits `situation` as node metadata in `pattern-graph.json`.
 
+Rendering: `resulting` clauses render as the page's "Consequences" section (`Consequences.astro`), the way `RelatedPatterns.astro` renders edges — the section is never authored in the body. `initiating` does not render; the lead narrates it in prose. A clause with `sets-up` additionally shows as its derived edge's note in the Related list — the same judgement rendered for two jobs (statement, then link context), not a second home. Per the consumer contract both renders are prose for an actor's judgement; nothing matches on them.
+
 *When to skip*: minimal primitives (the definition exhausts it), unbounded stances (no discrete move), and collection pages (a grouping, not a move). Write `resulting` clauses when the move genuinely opens onto next moves or new problems; a pattern whose edges are all associative doesn't need one.
 
 A fourth arm, and the only one that skips half a block: *the judgement is already a decision tree's*. Rule 1 gives a situational judgement two possible homes, and where a tree names a pattern by suitability condition, the initiating situation is that tree — writing it node-side is the tree restated, which is the smearing the construct exists to end. The navigation models are the worked case: navigation-overview's tree picks among them by depth, item count and cross-section traffic, so all six carry `resulting` only, each with a comment saying where the other half lives. Resulting context is never tree-owned — a tree says which move to reach for, never what applying one leaves behind — so this arm removes one field, not the block.
@@ -526,6 +528,14 @@ A running record of why types were added, merged, renamed, or retired, what alte
 Each entry: date, change, why, what was considered, what was lost.
 
 Entries are condensed to what still bears on future decisions; the full records are in this file's git history.
+
+### 2026-07-25 — Resulting clauses render as the page's Consequences section; authored sections retired
+
+The absorption entry below rested on a mechanism fact — situations never render on a pattern page, so the prose `## Consequences` section was the clauses' reader-facing render. The backfill then filled 90 pages with resulting clauses while (correctly, under the provisional call) authoring no prose sections, which left the fact carrying an absurdity: on all but seven pages the "reader-facing render" didn't exist, and 182 of 219 clauses — every one without `sets-up` — reached no reader at all. The fix inverts the mechanism instead of hand-writing ~85 prose sections: `Consequences.astro` renders `situation.resulting` at the page foot before Related patterns, the same never-authored-always-rendered rule the Related list already follows. One judgement, one authored home, machine render — the hand-narration alternative was rejected as a second corpus-wide pass whose product drifts (the seven specimens had already drifted to near-verbatim restatement).
+
+The seven authored sections converted in the same sitting, and the conversion exercised the whole residue taxonomy: restatements deleted; advice moved to body prose (coordinated views' parsimony guidance into its Solution, where Baldonado's guidelines live); field observation was already sitting beside its reference (attribute visibility's 8.33% finding). Two pages carried judgements that existed only in prose — purpose-keyed view's maintenance-duty bullet, coordinated views' per-view cost — which entered the block as clauses; that the double-carrying pages held block-less judgements is the same note-reflex finding as open question 1, one surface over.
+
+What was lost: the author's freedom to place Consequences mid-page (the render slot is fixed at the foot) and to phrase the section's prose independently of the clauses — accepted, since independent phrasing is exactly the drift the one-home rule exists to prevent. A `sets-up` clause now renders twice on its source page (Consequences statement, Precedes note) — accepted as two jobs of one judgement; watch it if it reads as noise.
 
 ### 2026-07-25 — Situation backfill: `consequences` absorbed, two skip arms added, open question 1 answered
 

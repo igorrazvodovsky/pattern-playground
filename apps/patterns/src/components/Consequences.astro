@@ -1,0 +1,38 @@
+---
+/**
+ * Renders a pattern's resulting context — `situation.resulting` from
+ * frontmatter — as the page's "Consequences" section. Like Related patterns,
+ * the section is rendered from frontmatter and never authored in the body:
+ * the clauses are the judgement's one authorable home, and this is their
+ * reader-facing render (relationship-vocabulary.md §Situations). Advice and
+ * field observation that a prose Consequences section used to carry live in
+ * body sections instead.
+ *
+ * `situation.initiating` deliberately does not render — the lead narrates it.
+ * A clause with `sets-up` also shows as the note on its derived `precedes`
+ * edge below; that is the same judgement rendered for a different job
+ * (statement here, link context there), not a second home.
+ */
+import type { CollectionEntry } from 'astro:content';
+import { parseLabel } from '../lib/label-markdown';
+
+interface Props {
+  entry: CollectionEntry<'patterns'>;
+}
+
+const { entry } = Astro.props;
+
+const resulting = entry.data.situation?.resulting ?? [];
+const clauses = resulting.map((c) => (typeof c === 'string' ? c : c.clause));
+---
+
+{clauses.length > 0 && (
+  <section class="flow" aria-label="Consequences">
+    <h2>Consequences</h2>
+    <ul>
+      {clauses.map((clause) => (
+        <li>{parseLabel(clause).map((p) => (p.href ? <a href={p.href}>{p.text}</a> : p.em ? <em>{p.text}</em> : p.text))}</li>
+      ))}
+    </ul>
+  </section>
+)}

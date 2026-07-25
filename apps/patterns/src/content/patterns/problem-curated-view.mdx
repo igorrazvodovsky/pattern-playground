@@ -14,7 +14,7 @@ situation:
     judgements the rules could carry
   resulting:
     - what needs attention arrives as a rule-backed checklist — index, navigation, status display and audit trail at once — and every flag can say why it fired
-    - the rule set is a standing maintenance duty — flags need a feedback channel and a noise budget, or fatigue and then suppression follow
+    - "the rule set is a standing maintenance duty — to its reader a false positive is any flag they did not want to see, so flags need a feedback channel and a noise budget, or the curve is alarm fatigue, then suppression: the checklist still renders after trust has left it"
     - whatever the rules don't encode sails past; the general exploratory view remains the place to notice it
 relationships:
   instantiates:
@@ -41,12 +41,6 @@ The checklist is the interface. Each entry is a detected problem; the list doubl
 - *Annotate the judgement moment.* Flags belong where judgement is already being exercised — the review, the rounds, the scheduled check — and stay out of exploration, where they pre-empt the very judgement they are meant to support. The lesson is empirical: the same detection rules failed as ambient dashboards and succeeded attached to code review. Showing flags only when guidance is solicited is one honest implementation; the rule is the moment, not the request.
 - *Keep the escape hatch structural.* The general exploratory view stays reachable alongside the curated one — required, not optional. Rules never capture the whole judgement: even where they are possible, the ground truth behind them is partly heuristic, so there is always a remainder they don't encode. The escape hatch is where the remainder gets noticed — and where the next rule is usually discovered.
 - *Watch the framing.* The same checklist reads as scaffolding when it teaches what to look for, and as fossilised process when it caps what anyone looks for.
-
-## Consequences
-
-- The recurring triage is answered by the checklist rather than re-derived on every visit, and provenance keeps the curation accountable.
-- The rule set is a running cost. To its reader, a false positive is any flag they did not want to see — so flags need a feedback channel and a noise budget. Without them the curve is alarm fatigue, then suppression: the checklist still renders after trust has left it.
-- Cases outside the rules sail past.
 
 ## Resources & references
 

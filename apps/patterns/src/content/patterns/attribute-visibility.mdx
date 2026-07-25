@@ -14,8 +14,9 @@ situation:
     actor came to make is in the data, visible in the detail view, but
     absent from the view where comparing happens
   resulting:
-    - each view's attribute set is the actor's decision, made per view, and whatever they surface becomes operable — a key to sort by, a predicate to filter by, an axis to plot on
+    - each view's attribute set is the actor's decision
     - the curation moves to the actor — surfaced sets drift and diverge, so the designed defaults still matter, now as a starting point rather than a ceiling
+    - surfaced attributes become operable, changing what a view shows changes what the actor can do with it
 relationships:
   enables:
     - to: data-view
@@ -44,12 +45,6 @@ The actor is scanning a compressed rendering — rows in a table, cards in a gri
 Make each view's attribute set a live control: the actor surfaces attributes into the compressed rendering and hides them from it, per view, with the entity staying recognisable throughout.
 
 <Demo name="fluid-attributes" label="Drag an attribute row from the detail into the overview, then sort by what you added, or click a value to filter by it." expandable />
-
-## Consequences
-
-- The view's attribute subset stops being everyone's ceiling: what can be scanned, compared, sorted, and filtered becomes a per-actor decision rather than a design-time one.
-- Surfaced attributes become operable — sort keys, filter predicates, plot axes — so the control compounds: changing what a view shows changes what the actor can do with it.
-- The curation is now the actor's to maintain: surfaced sets drift, and the defaults each view starts from remain a design responsibility. Few products grant the control at all — the ceiling is the norm, not the exception.
 
 ## Resources & references
 

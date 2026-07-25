@@ -14,8 +14,9 @@ situation:
     find the item here, re-find it there, carry the correspondence in working
     memory
   resulting:
-    - designating something in one view marks it in every view where it appears; cross-view relationships arrive perceptually instead of being reconstructed
-    - each coupling is now a correctness surface — its cues can lie, and its upkeep must be paid
+    - designating something in one view marks it in every view where it appears; cross-view relationships — correlations invisible in any single view — arrive perceptually instead of being reconstructed
+    - every added view charges for what the coupling buys, in learning time, working memory, screen space, and upkeep
+    - "each coupling is now a correctness surface: a false cue implies a relationship that doesn't hold, and propagation slower than ~100 ms reads as no relationship at all — the cues, not just the data, can lie"
 relationships:
   composed-of:
     - to: selection
@@ -26,15 +27,9 @@ The actor has multiple views of a single model, each showing a different aspect 
 
 ## Solution
 
-Couple the views so that what the actor designates in one — a selection, a focus, a highlight — carries to the others, propagating across chains of views; brushing and linking are the canonical mechanics. Baldonado's eight guidelines are the trade-off machinery — four for *when* another view earns its place (different users and tasks, complementary aspects, complex data worth decomposing, all tempered by parsimony), four for *how* to run the ensemble (spend space and time deliberately; make the coupling self-evident — propagation under ~100 ms, or visibly decouple, greying out the stale view; keep affordances and state consistent across views; manage attention so priority events pull the actor to the right view).
+Couple the views so that what the actor designates in one — a selection, a focus, a highlight — carries to the others, propagating across chains of views; brushing and linking are the canonical mechanics. Baldonado's eight guidelines are the trade-off machinery — four for *when* another view earns its place (different users and tasks, complementary aspects, complex data worth decomposing, all tempered by parsimony — merge views with near-identical semantics, and couple only where coupling demonstrably helps), four for *how* to run the ensemble (spend space and time deliberately; make the coupling self-evident — propagation under ~100 ms, or visibly decouple, greying out the stale view; keep affordances and state consistent across views; manage attention so priority events pull the actor to the right view).
 
 <Demo name="linked-trio" label="List + map + detail over one collection." expandable />
-
-## Consequences
-
-- Visual comparison replaces remember-and-infer — correlations invisible in any single view become visible in the coupling. That is what the pattern buys, and every added view charges for it in learning time, working memory, screen space, and upkeep.
-- Cue accuracy is a correctness property of its own: a false positive implies a relationship that doesn't hold; propagation slower than ~100 ms reads as no relationship at all — a false negative. The cues, not just the data, can lie.
-- Parsimony is easy to violate and expensive to ignore: merge views with near-identical semantics; couple only where coupling demonstrably helps.
 
 {/* TODO: Remove or redo
 <Demo name="cross-filtering" label="Cross-filtering: brush a price range over the plot (price × carbon footprint) and the list prunes; out-of-range points drop back to grey rather than vanishing." expandable /> 

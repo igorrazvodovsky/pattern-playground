@@ -8,6 +8,7 @@ import { render, type CollectionEntry } from 'astro:content';
 import Demo from './Demo.astro';
 import MermaidDiagram from './MermaidDiagram.astro';
 import { ComponentRef } from './ComponentRef';
+import Consequences from './Consequences.astro';
 import RelatedPatterns from './RelatedPatterns.astro';
 
 interface Props {
@@ -36,5 +37,6 @@ const { Content } = await render(entry);
   </header>
   <pp-toc heading="On this page" data-pagefind-ignore></pp-toc>
   <Content components={{ Demo, ComponentRef, MermaidDiagram }} />
+  <Consequences entry={entry} />
   {entry.data.showRelated !== false && <RelatedPatterns slug={entry.id} />}
 </article>

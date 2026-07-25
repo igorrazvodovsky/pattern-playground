@@ -173,8 +173,9 @@ page. Two ways it is skipped:
 
 Every file: YAML frontmatter → lead prose → body sections → `## Resources &
 references` last. No `# Title` in the body — the layout renders the title from
-frontmatter. The "Related patterns" block at the page foot is rendered from
-frontmatter edges, never authored as a section.
+frontmatter. The page foot is a rendered layer, never authored as sections:
+"Consequences" renders from `situation.resulting`, then "Related patterns"
+from frontmatter edges.
 
 ### Standard shape for `role: pattern`
 
@@ -193,9 +194,10 @@ reasons (same policy as link formats) — no mass rewrite.
    `## States`, or headings named after the pattern's own dimensions. This is
    where each pattern's idiosyncratic content lives; heading names here are
    free.
-5. `## Consequences` — what holds after the move, gains and costs together.
-   Narrates `situation.resulting`; optional when the resulting clauses already
-   say everything worth saying.
+5. *Consequences* — rendered from `situation.resulting` at the page foot,
+   before "Related patterns"; never authored as a body section (same rule as
+   the Related patterns block). Write what holds after the move — gains and
+   costs together — as resulting clauses.
 6. `## Resources & references` — always this exact heading (not `Resources`,
    `References`, or `Resources and references`; rename stragglers on edit).
 7. `## To-do` — authoring residue, one section at most, always the final
@@ -208,7 +210,7 @@ prose analysing why the obvious answers fail is `## Forces` material.
 the shape.
 
 Family templates converge onto the same slots: the conversation family's
-`## Metrics` content belongs under `## Consequences`; the navigation family's
+`## Metrics` content belongs in `situation.resulting` clauses; the navigation family's
 `## Behavioural position` splits between the lead (context) and `## Forces`.
 Converge on edit, as above.
 
