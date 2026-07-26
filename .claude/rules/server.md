@@ -3,16 +3,10 @@ paths:
   - "apps/server/**/*.ts"
 ---
 
-# Server
+# Server (apps/server)
 
-## Development commands
-- `cd server && npm run dev` - Start Express server with hot reload
-- `cd server && npm run build` - Compile TypeScript
-- `cd server && npm run start` - Run production server
-- `cd server && npm run typecheck` - TypeScript type checking
+Express + TypeScript (ES modules) with OpenAI API integration. AI adapters per
+component-suggestion type; streaming responses via Server-Sent Events.
 
-## Architecture
-- Node.js/Express server with OpenAI API integration
-- TypeScript with ES modules
-- AI adapters for different component suggestion types
-- Streaming API responses with Server-Sent Events
+Commands: `npm run dev|build|start|typecheck -w apps/server` (full list in
+`docs/quality/testing-strategy.md`).

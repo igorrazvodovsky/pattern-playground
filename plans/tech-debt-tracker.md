@@ -1,5 +1,8 @@
 # Tech debt tracker
 
+- *Two quality→foundation edges leak past the purist quality stance* — `privacy enables collaboration-foundation`, `learnability tangential localization`; await a decision. Surfaced at the typed-relationships close (2026-06), see `plans/completed/2026-06-typed-relationships.md`.
+- *View-system reshape leftovers* (close 2026-07-25): pill-row visual once-over still owed; `RepresentationType: 'card'` naming question open ('grid' rejected — ARIA grid and Airtable grid both mean table); smooth fisheye animation across grain boundaries needs a flat all-grains-mounted renderer (fidelity, not correctness).
+
 - *117 TODO/FIXME comments across 61 files*. No ownership or dates on most. Quarterly review process recommended but not yet established.
 - *Residual Atomic Design stubs in `src/stories/patterns/`* — `.md` stub files (Autofill, Checklist, etc.) left behind after AT reorg. Not served by Storybook. Low priority. See `plans/completed/2026-03-activity-theory-reorg.md`.
 - *CSS TODO comments* — inline TODOs in CSS files noted in `plans/completed/2025-codebase-review-recommendations.md` §5.

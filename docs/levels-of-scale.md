@@ -58,7 +58,7 @@ An agent-friendly repository therefore needs more than documentation in the gene
 - intermediate documents that connect concepts to structure
 - local implementation artifacts that can be read as specific consequences of that framing
 
-In this sense, `AGENTS.md` is a map, not the scale hierarchy itself. The hierarchy lives in the documents the map points to.
+In this sense, `CLAUDE.md` is a map, not the scale hierarchy itself. The hierarchy lives in the documents the map points to.
 
 ## Authoring implications
 

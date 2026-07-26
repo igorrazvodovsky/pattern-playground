@@ -17,7 +17,7 @@
 
 ## Visual verification
 
-When writing or modifying Storybook stories, use `/example-skills:webapp-testing` (Playwright) to verify component rendering and interaction behaviour against the running Storybook instance on `:6006`.
+When writing or modifying Storybook stories, verify component rendering and interaction behaviour against the running Storybook instance on `:6006` with the available browser tooling (chrome-devtools MCP, claude-in-chrome, or Playwright).
 
 ## Storybook accessibility tests
 

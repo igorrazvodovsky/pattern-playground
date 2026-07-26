@@ -43,7 +43,7 @@ Research inputs for pattern development. Each entry summarises what the project
 ## Harness engineering
 
 - `openAI-harness.md` — OpenAI's harness engineering note (Lopopolo, 2026). Building a product with 0 manually-written code.
-  *Project takeaway*: agent-facing knowledge should be a "map, not manual." Repository-local versioned artifacts are all agents can see. Progressive disclosure, mechanical enforcement of invariants, and recurring cleanup ("garbage collection") keep agent-generated codebases coherent. Directly shaped the project's AGENTS.md and docs/ structure.
+  *Project takeaway*: agent-facing knowledge should be a "map, not manual." Repository-local versioned artifacts are all agents can see. Progressive disclosure, mechanical enforcement of invariants, and recurring cleanup ("garbage collection") keep agent-generated codebases coherent. Directly shaped the project's CLAUDE.md and docs/ structure.
 
 - `harness-eng.md` — He et al. academic paper on harness engineering: control, agency, and runtime (CAR).
-  *Project takeaway*: the harness layer decomposes into control (AGENTS.md, tests, permissions), agency (tools, APIs, delegation), and runtime (state, retries, traces). Many reported agent gains are harness-sensitive, not purely model-driven. Provides the vocabulary for reasoning about the project's own control layer.
+  *Project takeaway*: the harness layer decomposes into control (CLAUDE.md, tests, permissions), agency (tools, APIs, delegation), and runtime (state, retries, traces). Many reported agent gains are harness-sensitive, not purely model-driven. Provides the vocabulary for reasoning about the project's own control layer.

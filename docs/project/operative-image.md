@@ -27,7 +27,7 @@ components package. Runnable demos live once in
 `packages/components/src/demos/` and feed both surfaces.
 
 The agent layer exists in outline: `docs/` is the agent-facing knowledge base,
-`AGENTS.md` the thin entry map, [`plans/`](../../plans/) the executable
+`CLAUDE.md` the thin entry map, [`plans/`](../../plans/) the executable
 specifications, and [`../specs/`](../specs/) the settled commitments.
 
 ## Where the picture meets the vision

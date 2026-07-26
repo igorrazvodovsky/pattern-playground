@@ -98,7 +98,7 @@ Ensure all supporting documentation reflects the new structure:
 
 **Update Documentation Files**
 - Overview or index files that list patterns
-- AGENTS.md if it references the old directory structure
+- CLAUDE.md if it references the old directory structure
 - README files that mention the affected patterns
 - Any hierarchy or navigation documentation
 

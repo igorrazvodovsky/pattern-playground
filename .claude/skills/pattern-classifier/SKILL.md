@@ -1,6 +1,6 @@
 ---
 name: pattern-classifier
-description: Reason about how to integrate new knowledge into the pattern library — articulate what a pattern is, map it against what exists, classify it, and enrich it with research. Use when adding patterns from practice or research, reorganising existing patterns, filling gaps, or deciding whether to split, merge, or restructure. This is the reasoning process; for the mechanics of moving files, use pattern-migrator.
+description: Reason about how to integrate new knowledge into the pattern library — articulate what a pattern is, map it against what exists, classify it, and enrich it with research. Use when adding patterns from practice or research, reorganising existing patterns, filling gaps, or deciding whether to split, merge, or restructure. This is the reasoning process; file-move and reference-sweep mechanics live in the path rules (pattern-content, documentation).
 argument-hint: "[pattern name, topic, or paper reference]"
 ---
 
@@ -270,7 +270,7 @@ Adding or changing a pattern changes the topology. Check:
 
 ## What this skill is not
 
-- Not a mechanical migration tool (use `pattern-migrator`)
+- Not a mechanical migration tool — retitle/reference sweeps are covered by `.claude/rules/documentation.md` and `.claude/rules/pattern-content.md`
 - Not a documentation template (see `.claude/rules/pattern-content.md`)
 - Not a style guide (see `.claude/rules/pattern-content.md` for writing conventions)
 - Not a gate — the user makes the final call. This skill surfaces considerations and trade-offs; it doesn't enforce rules. The system is a semilattice; any tree placement is a compromise, and reasonable people can disagree about which compromise is best. Edges are suggestion-grade hints, not predicates; the same epistemic stance applies to classification decisions.

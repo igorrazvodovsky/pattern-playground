@@ -9,12 +9,12 @@ the plan contract and `docs/specs/` for settled specifications.
 - [Workspace boundary after the view-system reshape](active/2026-07-workspace-boundary.md) — give the screen-composition seam a typed edge (workspace ↔ coordinated-views), reinstate the panelled/tabbed variants the survey now routes to, clear pre-reshape word residue
 - [Drag and drop: capture as a language entry](active/2026-07-drag-and-drop.md) — research-gated: pattern node vs mechanism verdict first, then author the page borrowing the view-system demos; scaffolding promotion trigger-gated
 - [Light-DOM refactor: platform-first components](active/2026-07-light-dom-refactor.md) — convert the shadow-DOM Lit components to light DOM up a native-first decision ladder; retire the `is="pp-button"` built-in; library choice deferred to the residue
-- [Enacts-note audit](active/2026-07-enacts-note-audit.md) — align pre-existing `enacts` labels with the Q-lens convention; one hygiene sitting plus a possible third extractor advisory
-- [Move-vs-artifact naming: the T6 kept twins](active/2026-07-move-vs-artifact-naming.md) — outline, needs iteration: do Sections and Command menu hold up against the move-naming rule, and what does a rename cost
-- [realised_by backfill](active/2026-07-realised-by-backfill.md) — claim or citation, page by page: write `realised_by:` where prose ComponentRefs carry a realisation claim
-- [Related-link residue audit](active/2026-07-related-residue-audit.md) — restore, or deliberately release, what the relationships migration dropped
-- [Storybook re-bucketing](active/2026-07-storybook-rebucketing.md) — finish the catalogue re-bucketing; retitle sweeps own every id-bearing channel, `realised_by` included
-- [Pane stack: refit to Astro's grain](active/2026-07-pane-stack-astro-fit.md) — demo registry + pane partials + static pane 0 so no pane machinery depends on Astro internals; gated phase 4 retires ClientRouter
+- [Decision-tree integration](active/2026-07-decision-tree-integration.md) — every tree wired (emitting `recommends`), dissolved (judgement re-homed), or deliberately outside; questions survive dissolution, component leaves never emit
+- [Pattern dates](active/2026-07-pattern-dates.md) — two dates on every entry: when the pattern joined the library and when it last meaningfully changed
+- [Workflow scripts for the review loops](active/2026-07-review-loop-workflows.md) — outline, needs iteration: move the three review skills' subagent fan-outs (episodes, lenses, blinded derive) into scripted workflows so blinding is structural
+- [realised_by backfill](active/2026-07-realised-by-backfill.md) — claim or citation, page by page: write `realised_by:` where prose ComponentRefs carry a realisation claim *(plan file on an unmerged branch, not yet on main)*
+- [Related-link residue audit](active/2026-07-related-residue-audit.md) — restore, or deliberately release, what the relationships migration dropped *(closure commits on the `leaflet-map` worktree branch, not yet on main)*
+- [Pane stack: refit to Astro's grain](active/2026-07-pane-stack-astro-fit.md) — demo registry + pane partials + static pane 0 so no pane machinery depends on Astro internals; gated phase 4 retires ClientRouter *(plan file on an unmerged branch, not yet on main)*
 - [Block-editing follow-ups](active/2026-07-block-editing-followups.md) — outline: carried work from the block-editing research sitting
 - [Heatmap + n-gram promotion](active/2026-05-heatmap-ngram-promotion.md) — deferred: promote the heatmap extension and n-gram engine out of the dynamic-hyperlinks demo
 - [Link preview component extraction](active/2026-05-link-preview-component-extraction.md) — extract the link preview surface into a reusable component; shares the article-extraction seam with pane-island hydration
@@ -30,6 +30,12 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Completed
 
+- [Enacts-note audit](completed/2026-07-enacts-note-audit.md) — all 118 `enacts` edges audited against the Q-lens convention; 29 notes reworded across 16 pages, two deliberate holds; the planned third extractor advisory dropped — the corpus's real failure shapes aren't regex-detectable
+- [Move-vs-artifact naming: the T6 kept twins](completed/2026-07-move-vs-artifact-naming.md) — both twins keep their names; two exception clauses added to `pattern-role-model.md` §Naming; *affordance follows context* named in Sections' body as a candidate node
+- [Storybook re-bucketing](completed/2026-07-storybook-rebucketing.md) — catalogue re-bucketing finished; retitle sweeps across every id-bearing channel, `realised_by` included
+- [Card recipe](completed/2026-07-card-recipe.md) — `.card` shrunk to surface + zones + opt-in media; arrangement moved to `layout.css`, `stretched-link` utility extracted, `.pad` + `.flow` replace ambient spacing; Card.mdx reframed as a recipe
+- [Item-view Meridian binding](completed/2026-07-item-view-meridian-binding.md) — per-type item-view adapters replaced by declarative attribute bindings in `shared/data/bindings/`; collection track genericised (EntityCard/EntityDetail, representation × arrangement)
+- [Binding-driven filtering](completed/2026-07-binding-driven-filtering.md) — one `AttributeFilter` clause shape + operator table + matcher in `shared/data/bindings/filtering.ts`; per-type filter enums deleted
 - [Situation backfill](completed/2026-07-situation-backfill.md) — the two situations filled across the corpus (91 of 94 patterns, 3 recorded skips); `consequences` absorbed into `situation.resulting`, open question 1 answered, two skip arms added
 - [View system: retire the hub, reframe the family](completed/2026-07-view-system.md) — `view.mdx` retired, `dashboard`→`purpose-keyed-view`, `overview-detail` reframed, `coordinated-views`/`attribute-visibility`/`problem-curated-view` minted; the family carried by typed edges, no hub
 - [View-system demos: one model, many framings](completed/2026-07-view-system-demos.md) — demo collection for the reshaped family: one canonical collection, one Meridian-shaped ViewSpec, per-pattern demos plus the borrow map

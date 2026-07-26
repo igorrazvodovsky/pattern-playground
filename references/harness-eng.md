@@ -42,7 +42,7 @@ A flow diagram showing the progression of engineering disciplines:
  
 
 - CONTROL**:
-  - (1) AGENTS.md + repo maps
+  - (1) CLAUDE.md + repo maps
   - (2) tests + linters
   - (3) permissions + policy
 - AGENCY**:
@@ -60,7 +60,7 @@ Figure 1: Top: The engineering object widens from software engineering to harnes
 
 **Figure 1.** Top: the engineering object widens from software engineering (Naur and Randell 1969) through prompt engineering (Liu et al. 2023), context engineering (Rajasekaran et al. 2025), to harness engineering (Grace et al. 2026; Lopopolo 2026). Bottom: our decomposition of the *harness layer* into control, agency, and runtime (CAR).
 
-Recent public engineering notes make the shift unusually visible. Anthropic defines an *agent harness* (or scaffold) as the system that enables a model to act as an agent, and emphasizes that evaluating an “agent” means evaluating model and harness together rather than the model in isolation (Grace et al. 2026). OpenAI uses the broader label *harness engineering* for long-horizon systems whose reliability depends on repository maps, AGENTS.md, architectural rules, cleanup loops, and runtime controls rather than on prompt wording alone (Choi 2026; Lopopolo 2026; OpenAI 2026a,b). Anthropic’s long-running harness work and research-system notes push the same lesson beyond coding by emphasizing state externalization, progress files, orchestration, and recovery structure in multi-session or multi-agent work (Hadfield et al. 2025; Young 2025). Taken together, these materials motivate the working use in this paper: a *harness* is the extra-model system that couples durable control artifacts, mediated action interfaces, and runtime policies into a governed execution regime.
+Recent public engineering notes make the shift unusually visible. Anthropic defines an *agent harness* (or scaffold) as the system that enables a model to act as an agent, and emphasizes that evaluating an “agent” means evaluating model and harness together rather than the model in isolation (Grace et al. 2026). OpenAI uses the broader label *harness engineering* for long-horizon systems whose reliability depends on repository maps, CLAUDE.md, architectural rules, cleanup loops, and runtime controls rather than on prompt wording alone (Choi 2026; Lopopolo 2026; OpenAI 2026a,b). Anthropic’s long-running harness work and research-system notes push the same lesson beyond coding by emphasizing state externalization, progress files, orchestration, and recovery structure in multi-session or multi-agent work (Hadfield et al. 2025; Young 2025). Taken together, these materials motivate the working use in this paper: a *harness* is the extra-model system that couples durable control artifacts, mediated action interfaces, and runtime policies into a governed execution regime.
 
 The underlying design problem, however, is older than the name. Work on tool use, browser agents, software agents, orchestration frameworks, interactive evaluation, runtime protocols, and deployment notes has long studied pieces of the same layer without naming it (Jimenez et al. 2023; Li et al. 2023; Liu et al. 2023; Schick et al. 2023; Wang et al. 2024a; Xie et al. 2024; Yang et al. 2024; Yao et al. 2022; Zhou et al. 2023). Our claim is therefore not that harness-like mechanisms are new. It is that recent practice makes the layer visible enough that the field now benefits from naming, decomposing, and reporting it directly.
 
@@ -74,7 +74,7 @@ This paper is a *position paper*, not a causal ablation study. It draws on a sel
 | OpenAI harness note (Lopopolo 2026)                   | 2026 | harness engineering                | names the broader practice and ties it to project guidance, constraints, cleanup loops, and long-horizon coding work       |
 | OpenAI Codex notes (Bolin 2026; Chen 2026)            | 2026 | Codex harness                      | treats the harness as reusable runtime logic that can power multiple surfaces, not just a one-shot prompt wrapper          |
 | Anthropic long-running note (Young 2025)              | 2025 | long-running harnesses             | makes state externalization, progress tracking, and recovery first-class engineering levers                                |
-| OpenAI developer guidance (Choi 2026; OpenAI 2026a,b) | 2026 | AGENTS.md, long-horizon tasks      | shows the harness as durable instruction plus executable verification and repair loops                                     |
+| OpenAI developer guidance (Choi 2026; OpenAI 2026a,b) | 2026 | CLAUDE.md, long-horizon tasks      | shows the harness as durable instruction plus executable verification and repair loops                                     |
 | MCP specification (Model Context Protocol 2025)       | 2025 | protocol layer                     | moves tool interoperability and permission boundaries into an explicit systems interface                                   |
 
 ## 2. From Software Engineering to Prompt, Context, & Harness Engineering
@@ -112,7 +112,7 @@ We write the harness layer compactly as  $H = \langle C, A, R \rangle$ , where  
 
 ### Control.
 
-The control layer contains durable artifacts that shape behavior before a step is taken: repository maps, AGENTS.md, tool descriptions, system instructions, architecture rules, tests, linters, permission
+The control layer contains durable artifacts that shape behavior before a step is taken: repository maps, CLAUDE.md, tool descriptions, system instructions, architecture rules, tests, linters, permission
 
 policies, and success criteria (Lopopolo 2026; OpenAI 2026a,b). In other words, control is where human judgment becomes machine-readable constraint. A key harness insight is that reliable agents are rarely bounded by prompt wording; they are often bounded by specifications.
 
@@ -126,7 +126,7 @@ The runtime layer governs what happens as work unfolds over time: context assemb
 
 ### Two concrete mini-cases.
 
-Consider first a repository coding agent. Two systems may share the same frontier model and nearly the same task prompt, yet behave very differently because one harness adds a repository map, root-level AGENTS.md, required tests, a linter, bounded shell access, a progress file, and manual approval for privileged actions. The CAR lens explains why these are not minor details: the map, tests, and approval policy live in control; the shell and file-edit surface live in agency; and the progress file, retries, and escalation logic live in runtime. The reported performance is already partly a property of the harness layer, not of the model alone.
+Consider first a repository coding agent. Two systems may share the same frontier model and nearly the same task prompt, yet behave very differently because one harness adds a repository map, root-level CLAUDE.md, required tests, a linter, bounded shell access, a progress file, and manual approval for privileged actions. The CAR lens explains why these are not minor details: the map, tests, and approval policy live in control; the shell and file-edit surface live in agency; and the progress file, retries, and escalation logic live in runtime. The reported performance is already partly a property of the harness layer, not of the model alone.
 
 Now consider a browser or research agent. Two systems may share the same browsing-capable model and high-level task prompt, yet differ because one harness defines a source hierarchy, citation rules, note-taking format, uncertainty-triggered escalation, tool quotas, and replayable traces (Hadfield et al. 2025; Mialon et al. 2023; Wei et al. 2025; Zhou et al. 2023). Here, control includes source authority and citation policy; agency includes the search, browser, and delegation surface; and runtime includes scratchpads, branching traces, and recovery when evidence conflicts. Again, what looks like “agent quality” is partly a property of the harness layer around the model.
 
@@ -211,7 +211,7 @@ A fourth family concerns *transfer*. Some improvements travel with the model, so
 | Field                      | Minimum disclosure                                                                          | Priority |
 |----------------------------|---------------------------------------------------------------------------------------------|----------|
 | Base model(s)              | model name, version, and decoding or adaptation settings                                    | Required |
-| Control artifacts          | instructions, repo maps, AGENTS.md, architecture rules, tests, linters, success criteria    | Required |
+| Control artifacts          | instructions, repo maps, CLAUDE.md, architecture rules, tests, linters, success criteria    | Required |
 | Runtime policy             | memory or compaction strategy, checkpoints, retries, rollback or escalation policy, budgets | Required |
 | Action substrate           | tools, APIs, browser or GUI access, code execution, interface schemas, MCP usage            | Required |
 | Execution topology         | single-agent vs multi-agent structure, verifier or reviewer roles, routing logic            | Required |
@@ -233,7 +233,7 @@ Harness engineering should not be treated as an implementation afterthought. It 
 
 First, study control as executable specification.
 
-Repository maps, AGENTS.md, architecture rules, and cleanup loops suggest that agentic “instruction following” is partly a problem of specification design, not only of compliance (Lopopolo 2026; OpenAI 2026b). NLP can study how language, code, schemas, and tests should be composed so that guidance remains durable and authoritative.
+Repository maps, CLAUDE.md, architecture rules, and cleanup loops suggest that agentic “instruction following” is partly a problem of specification design, not only of compliance (Lopopolo 2026; OpenAI 2026b). NLP can study how language, code, schemas, and tests should be composed so that guidance remains durable and authoritative.
 
 Second, treat agency as an interface question.
 
@@ -342,7 +342,7 @@ Table A2 expands the compact main-paper inventory of public formulations that an
 | OpenAI harness note ( <a href="#">Lopopolo 2026</a> )                                    | 2026 | harness engineering                | treats the harness as reusable runtime logic and protocol support rather than a one-shot prompt surface                                                                                                                                                                                  |
 | OpenAI Codex harness note ( <a href="#">Chen 2026</a> )                                  | 2026 | Codex harness                      | makes state externalization, progress tracking, clean-state discipline, and resumability central design levers                                                                                                                                                                           |
 | Anthropic long-running note ( <a href="#">Young 2025</a> )                               | 2025 | long-running harnesses             | provides concrete examples of harness work as durable project guidance plus iterative plan-act-test-repair loops                                                                                                                                                                         |
-| OpenAI developer guidance ( <a href="#">Choi 2026</a> ; <a href="#">OpenAI 2026a,b</a> ) | 2026 | AGENTS.md, long-horizon tasks      | shows that tool interoperability and permission boundaries can themselves be harness design objects                                                                                                                                                                                      |
+| OpenAI developer guidance ( <a href="#">Choi 2026</a> ; <a href="#">OpenAI 2026a,b</a> ) | 2026 | CLAUDE.md, long-horizon tasks      | shows that tool interoperability and permission boundaries can themselves be harness design objects                                                                                                                                                                                      |
 | MCP specification ( <a href="#">Model Context Protocol 2025</a> )                        | 2025 | protocol layer                     |                                                                                                                                                                                                                                                                                          |
 
 ### *Appendix A.3. Exhaustive in-Scope Works*
@@ -410,7 +410,7 @@ The template below expands the compact main-paper version of HARNESSCARD into a 
 | Field                       | What should be disclosed                                                                                   | Priority    |
 |-----------------------------|------------------------------------------------------------------------------------------------------------|-------------|
 | Base model(s)               | model name, version, decoding settings, and any finetuning or adapters                                     | Required    |
-| Control artifacts           | system instructions, AGENTS.md, repo maps, architecture rules, schemas, tests, linters, done-when criteria | Required    |
+| Control artifacts           | system instructions, CLAUDE.md, repo maps, architecture rules, schemas, tests, linters, done-when criteria | Required    |
 | Runtime policy              | memory type, compaction or summarization policy, checkpointing, retry or rollback policy, budget limits    | Required    |
 | Action substrate            | tools, APIs, browser or GUI access, code execution, interface schemas, MCP usage                           | Required    |
 | Execution topology          | single-agent vs multi-agent structure, planner/verifier roles, reviewer loops, routing logic               | Required    |
@@ -430,7 +430,7 @@ The filled example below shows how the fields in HARNESSCARD can be instantiated
 | Field              | Illustrative disclosure                                                                                                | Why it matters                                                            |
 |--------------------|------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
 | Base model(s)      | frontier coding model configured through repo or user profiles; effort tuned for long tasks                            | keeps model choice distinct from harness choice                           |
-| Control artifacts  | root-level AGENTS.md; repository map; build/test/lint commands; architecture rules; done-when criteria                 | reveals the durable instructions and constraints the agent actually reads |
+| Control artifacts  | root-level CLAUDE.md; repository map; build/test/lint commands; architecture rules; done-when criteria                 | reveals the durable instructions and constraints the agent actually reads |
 | Runtime policy     | repository treated as system of record; thread history; progress file; compaction near context limits; bounded retries | makes long-horizon state handling explicit                                |
 | Action substrate   | file edits, shell commands, test runs, diff generation, PR review, optional MCP tools                                  | discloses what the model can actually do in the environment               |
 | Execution topology | plan → edit → run tools → observe → repair → update status → repeat; optional reviewer loop                            | captures the control structure rather than only the model                 |
@@ -460,7 +460,7 @@ Table A8. Mini-cases illustrating how the same control-agency-runtime decomposit
 
 | Task family               | Control levers                                                       | Runtime levers                                                           | Agency levers and likely risks                                                                                                   |
 |---------------------------|----------------------------------------------------------------------|--------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
-| Repository coding agent   | repo map, AGENTS.md, tests, linters, architectural constraints       | compaction, checkpoints, retries, cleanup passes, cost budgets           | shell/file edit/PR review; risks include stale docs, verifier overfitting, and hidden human repair                               |
+| Repository coding agent   | repo map, CLAUDE.md, tests, linters, architectural constraints       | compaction, checkpoints, retries, cleanup passes, cost budgets           | shell/file edit/PR review; risks include stale docs, verifier overfitting, and hidden human repair                               |
 | Browser or research agent | source hierarchy, citation rules, task decomposition, grading rubric | search history, scratchpads, branching traces, escalation on uncertainty | browse, fetch, cite, summarize; risks include source drift, unsupported synthesis, and provenance loss                           |
 | Enterprise support agent  | policy text, workflow scripts, escalation rules, approval thresholds | queue state, customer history, retry and timeout policy, audit logs      | tool/API access, human handoff, permissions; risks include privacy leakage, over-escalation, and inconsistent policy application |
 
@@ -523,7 +523,7 @@ Figure A3: Expanded framework view. A diagram showing three columns: Control, Ag
 - Model Context Protocol. 2025. Model context protocol specification. Model Context Protocol specification, version 2025-11-25.
 - Naur, Peter and Brian Randell. 1969. *Software Engineering: Report of a conference sponsored by the NATO Science Committee, Garmisch, Germany, 7-11 Oct. 1968, Brussels, Scientific Affairs Division, NATO*.
 - OpenAI. 2026a. Best practices. OpenAI Codex developer guide.
-- OpenAI. 2026b. Custom instructions with agents.md. OpenAI Codex developer guide.
+- OpenAI. 2026b. Custom instructions with CLAUDE.md. OpenAI Codex developer guide.
 - Pan, Jiayi, Xingyao Wang, Graham Neubig, Navdeep Jaitly, Heng Ji, Alane Suhr, and Yizhe Zhang. 2024. Training software engineering agents and verifiers with swe-gym. *arXiv preprint arXiv:2412.21139*.
 - Picciani, Francesco, Diletta Chiaro, Sundas Sarwar, Donato Cerciello, Pian Qi, and Valeria Mele. 2025. Agentai: A comprehensive survey on autonomous agents in distributed ai for industry 4.0. *Expert Systems with Applications* 291, 128404.
 - Qian, Chen, Wei Liu, Hongzhang Liu, Nuo Chen, Yufan Dang, Jiahao Li, Cheng Yang, Weize Chen, Yusheng Su, Xin Cong, et al. 2024. Chatdev: Communicative agents for software development. In *Proceedings of the 62nd annual meeting of the association for computational linguistics (volume 1: Long papers)*, pp. 15174–15186.

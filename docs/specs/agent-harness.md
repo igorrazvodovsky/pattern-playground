@@ -6,12 +6,13 @@ manual in one prompt.
 
 ## Current contract
 
-- `AGENTS.md` is the canonical agent entry map.
+- `CLAUDE.md` is the agent entry map.
 - `docs/index.md` is the sectioned knowledge-base map for humans and agents.
 - `ARCHITECTURE.md` names the tech stack, major directories, and structural
   tensions.
 - `.claude/rules/` holds path-activated coding guidance and should not be read
-  eagerly.
+  eagerly. Every rule file must carry `paths:` frontmatter — a rule without it
+  silently loads into every session, defeating the activation contract.
 - `docs/specs/` holds settled specifications: current truth about project
   structure, graph semantics, taxonomy, and role distinctions.
 - `plans/` holds executable specifications: living work packets for changing

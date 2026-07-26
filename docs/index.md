@@ -1,7 +1,6 @@
 # Docs index
 
-Agent-facing knowledge base for the project. `AGENTS.md` stays the thin entry
-map; this file routes people and agents into the sectioned docs.
+Agent-facing knowledge base for the project.
 
 ## Vision → operative image → specification
 
@@ -81,6 +80,9 @@ hold promoted commitments that govern the process.
 - [Code review](quality/code-review.md) — review posture and expectations
 - [Commenting style](quality/commenting-style.md) — when comments should and
   should not carry meaning
+- [Dev environment gotchas](quality/dev-environment.md) — dev-server drift
+  (MDX staleness, dep-optimizer collapse), worktree Storybook cache, deploy
+  trailing-slash trap; triage recipes
 
 ## Research
 

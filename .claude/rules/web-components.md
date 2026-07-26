@@ -48,27 +48,10 @@ private init() {
 Reference: Based on [bulletproof web component loading patterns](https://gomakethings.com/bulletproof-web-component-loading/)
 
 ## Component registration system
-- *Centralized registration*: All components are registered via `src/components/register-all.ts`
-- *Dependency management*: Components with dependencies (e.g., `pp-tab-group` depends on `pp-tab` and `pp-tab-panel`) are registered in proper order
-- *Individual `customElements.define()` calls removed*: Components rely on the centralized registry for consistent instantiation order
-
-## Component lifecycle best practices
-- *DOM readiness checks*: Always check document readiness before component initialization
-- *Dependency awareness*: Components that depend on other custom elements should be registered after their dependencies
-- *Progressive enhancement*: Components enhance existing HTML gracefully, regardless of script loading timing
+- *Centralized registration*: all components are registered via `src/components/register-all.ts` — never call `customElements.define()` individually (ESLint enforces)
+- *Dependency management*: components with dependencies (e.g., `pp-tab-group` depends on `pp-tab` and `pp-tab-panel`) are registered in proper order
 
 ## JavaScript hooks
-- Use `data-*` attributes as JavaScript hooks (e.g., `data-reference-picker`, `data-action="toggle"`) for event handling and DOM queries
-- Never rely on CSS classes for JavaScript functionality; they should remain purely for styling
-- Prefer semantic data attributes - use descriptive names like `data-component-name` or `data-action` instead of generic selectors
-- Don't use `role`, `aria-*`, or other accessibility attributes as JavaScript hooks
-
-## Anti-patterns
-- Don't skip bulletproof loading pattern - Always check `document.readyState` in `connectedCallback()`
-- Don't create components without checking existing solutions - Leverage existing dependencies first
-- Don't define components individually - Use centralized registration in `register-all.ts`
-- Don't mix concerns - Keep services framework-agnostic, separate from UI integrations
-- Don't use Shadow DOM by default - Take the lowest rung of the decision ladder that suffices; rung 4 requires a written justification
-- Don't add `<slot>` or `::slotted`/`part=` styling outside rung-4 components
-- Don't forget event cleanup - Remove all listeners in `disconnectedCallback()`
-- Don't use semantic attributes as JS hooks - Avoid using `role`, `aria-*` for event handling
+- Use `data-*` attributes as JavaScript hooks (e.g., `data-reference-picker`, `data-action="toggle"`) for event handling and DOM queries — descriptive names, not generic selectors
+- Never rely on CSS classes for JavaScript functionality; they remain purely for styling
+- Don't use `role`, `aria-*`, or other accessibility attributes as JavaScript hooks (ESLint enforces)
