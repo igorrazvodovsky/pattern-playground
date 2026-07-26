@@ -1,4 +1,6 @@
 import { T } from 'tldraw'
+import { isoDateTime } from '@shared/format'
+import '../../../jsx-types'
 import { sleep } from '../../utils/sleep'
 import { EarthquakeIcon } from '../../components/icons/EarthquakeIcon'
 import { NODE_HEADER_HEIGHT_PX, NODE_ROW_HEIGHT_PX, NODE_WIDTH_PX } from '../../constants'
@@ -23,7 +25,7 @@ export const EarthquakeNode = T.object({
 		T.object({
 			magnitude: T.number,
 			location: T.string,
-			datetime: T.string,
+			datetime: T.string, // ISO 8601 — stored for sorting and transmission, formatted at render
 			id: T.string, // Add unique ID to avoid duplicate selections
 		})
 	),
@@ -109,7 +111,7 @@ export class EarthquakeNodeDefinition extends NodeDefinition<EarthquakeNode> {
 			const earthquakeData = {
 				magnitude: earthquake.properties.mag,
 				location: earthquake.properties.place,
-				datetime: new Date(earthquake.properties.time).toLocaleString(),
+				datetime: isoDateTime(earthquake.properties.time),
 				id: earthquake.id,
 			}
 
@@ -199,7 +201,8 @@ export function EarthquakeNodeComponent({ shape, node }: NodeComponentProps<Eart
 			</NodeRow>
 			<NodeRow>
 				<div className="NodeValue" style={{ fontSize: '12px' }}>
-					<strong>Time:</strong> {isLoading ? '…' : earthquakeData!.datetime}
+					<strong>Time:</strong>{' '}
+					{isLoading ? '…' : <pp-timestamp value={earthquakeData!.datetime}></pp-timestamp>}
 				</div>
 			</NodeRow>
 		</div>

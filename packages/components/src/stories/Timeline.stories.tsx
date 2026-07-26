@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { faker } from '@faker-js/faker';
+import { formatDate } from '@shared/format';
 
 interface TimelineArgs {
   count: number;
@@ -34,7 +35,7 @@ export const Basic: Story = {
   render: ({ count, density }) => {
     const items = Array.from({ length: count }, () => ({
       title: `${faker.hacker.verb()} ${faker.hacker.noun()}`,
-      date: faker.date.recent({ days: 365 }).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
+      date: formatDate(faker.date.recent({ days: 365 }), { dateStyle: 'long' }),
     }));
     return (
       <ol className="stepper" style={densityVars[density]}>

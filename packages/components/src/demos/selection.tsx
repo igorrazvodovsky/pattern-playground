@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import projectsData from "@shared/data/projects.json" with { type: "json" };
+import { formatNumber } from "@shared/format";
 import 'iconify-icon';
 import '../jsx-types';
 
@@ -125,10 +126,10 @@ export function SelectAllAffordanceDemo() {
   };
 
   const summary = escalated
-    ? `All ${TOTAL_MATCHING.toLocaleString()} matching items selected`
+    ? `All ${formatNumber(TOTAL_MATCHING)} matching items selected`
     : selected.size > 0
       ? `${selected.size} of ${visibleCount} on this page selected`
-      : `Showing ${visibleCount} of ${TOTAL_MATCHING.toLocaleString()}`;
+      : `Showing ${visibleCount} of ${formatNumber(TOTAL_MATCHING)}`;
 
   return (
     <div className="flow">
@@ -145,7 +146,7 @@ export function SelectAllAffordanceDemo() {
           <p>
             All {visibleCount} items on this page are selected.{' '}
             <button className="button button--plain" onClick={() => setEscalated(true)}>
-              Select all {TOTAL_MATCHING.toLocaleString()} matching items
+              Select all {formatNumber(TOTAL_MATCHING)} matching items
             </button>
           </p>
         </div>

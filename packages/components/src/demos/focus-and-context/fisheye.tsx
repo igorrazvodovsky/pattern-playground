@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { lifecycleEvents } from '@shared/data';
+import { formatDate, formatNumber } from '@shared/format';
 import {
   collapseSingletons,
   groupTimeline,
@@ -45,27 +46,27 @@ import '../../jsx-types';
  * comparison worth having on screen: the shape survives, the meaning doesn't.
  */
 
-const mass = new Intl.NumberFormat('en-GB', { maximumFractionDigits: 1 });
+const mass = (value: number) => formatNumber(value, { maximumFractionDigits: 1 });
 
 /* No days at a distance: over fifteen years the day of the month is noise,
    and the reader is placing a stretch in the life, not in the week. Under the
    lens the flow is being read as a record, and the record gets its day. */
-const dayMonthYear = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-const monthYearShort = new Intl.DateTimeFormat('en-GB', { month: 'short', year: 'numeric' });
-const monthYear = new Intl.DateTimeFormat('en-GB', { month: 'long', year: 'numeric' });
-const monthShort = new Intl.DateTimeFormat('en-GB', { month: 'short' });
+const dayMonthYear = (d: Date | string) => formatDate(d, { day: 'numeric', month: 'short', year: 'numeric' });
+const monthYearShort = (d: Date | string) => formatDate(d, { month: 'short', year: 'numeric' });
+const monthYear = (d: Date | string) => formatDate(d, { month: 'long', year: 'numeric' });
+const monthShort = (d: Date | string) => formatDate(d, { month: 'short' });
 
 /** The extent of a span, said as shortly as the span allows. */
 function rangeOf(span: TimelineSpan): string {
   const first = new Date(lifecycleEvents[span.from].date);
   const last = new Date(lifecycleEvents[span.to - 1].date);
 
-  if (spanLength(span) === 1) return monthYearShort.format(first);
+  if (spanLength(span) === 1) return monthYearShort(first);
   if (first.getFullYear() !== last.getFullYear()) {
-    return `${monthShort.format(first)} ${first.getFullYear()} – ${monthShort.format(last)} ${last.getFullYear()}`;
+    return `${monthShort(first)} ${first.getFullYear()} – ${monthShort(last)} ${last.getFullYear()}`;
   }
-  if (first.getMonth() === last.getMonth()) return monthYear.format(first);
-  return `${monthShort.format(first)}–${monthShort.format(last)} ${first.getFullYear()}`;
+  if (first.getMonth() === last.getMonth()) return monthYear(first);
+  return `${monthShort(first)}–${monthShort(last)} ${first.getFullYear()}`;
 }
 
 const flows = (count: number) => `${count} ${count === 1 ? 'flow' : 'flows'}`;
@@ -167,7 +168,7 @@ function Zone({ span, ring }: { span: TimelineSpan; ring: number }) {
       {flow ? (
         <span className="fisheye__line">
           <time className="fisheye__when" dateTime={flow.date}>
-            {monthYearShort.format(new Date(flow.date))}
+            {monthYearShort(flow.date)}
           </time>
           <span className="fisheye__what">{flow.description}</span>
         </span>
@@ -221,12 +222,12 @@ function FocusFlow({ span }: { span: TimelineSpan }) {
       <div className="fisheye__card">
         <span className="fisheye__line">
           <time className="fisheye__when" dateTime={flow.date}>
-            {dayMonthYear.format(new Date(flow.date))}
+            {dayMonthYear(flow.date)}
           </time>
           <span className="fisheye__what">{flow.description}</span>
           <span className="fisheye__site">{flow.site}</span>
           {/* A recovered flow gives mass back, so the sign is the reading. */}
-          <span className="fisheye__amount">{mass.format(flow.co2e)} kg</span>
+          <span className="fisheye__amount">{mass(flow.co2e)} kg</span>
         </span>
       </div>
     </div>
@@ -405,7 +406,7 @@ export function FisheyeTimelineDemo() {
 
       <p className="visually-hidden" aria-live="polite">
         {focused &&
-          `${dayMonthYear.format(new Date(focused.date))}: ${focused.description}, ${mass.format(focused.co2e)} kilograms.`}
+          `${dayMonthYear(focused.date)}: ${focused.description}, ${mass(focused.co2e)} kilograms.`}
       </p>
 
       <p className="fisheye__provenance" aria-live="polite">

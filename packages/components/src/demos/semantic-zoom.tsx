@@ -2,6 +2,7 @@ import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { Tldraw, TLComponents } from 'tldraw'
 import 'iconify-icon'
 import { lifecycleEvents, users, type User } from '@shared/data'
+import { formatDate, formatDateTime } from '@shared/format'
 
 import { ContentCardShapeUtil } from '../tldraw/nodes/contentCard/ContentCardShapeUtil'
 
@@ -104,11 +105,11 @@ const PERSON_RUNGS = [
 type PersonField = (typeof PERSON_RUNGS)[number]['fields'][number]
 
 function lastActive(iso: string): string {
-	return new Date(iso).toLocaleString('en-GB', {
+	return formatDateTime(iso, {
 		day: 'numeric',
 		month: 'short',
-		hour: '2-digit',
-		minute: '2-digit',
+		hour: 'numeric',
+		minute: 'numeric',
 	})
 }
 
@@ -300,7 +301,7 @@ function formatCo2e(value: number): string {
 }
 
 function shortDate(date: string): string {
-	return new Date(date).toLocaleDateString('en-GB', { year: 'numeric', month: 'short' })
+	return formatDate(date, { year: 'numeric', month: 'short' })
 }
 
 export function SemanticZoomTimelineDemo() {

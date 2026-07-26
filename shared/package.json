@@ -5,6 +5,7 @@
   "type": "module",
   "exports": {
     "./data": "./data/index.ts",
-    "./data/*": "./data/*"
+    "./data/*": "./data/*",
+    "./format": "./format/index.ts"
   }
 }

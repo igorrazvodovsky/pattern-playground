@@ -62,6 +62,10 @@ export interface AttributeBinding {
   valueType: AttributeValueType;
   /** Static unit appended to the formatted value, e.g. 'kg CO2e'. */
   unit?: string;
+  /** ISO 4217 code for `valueType: 'currency'`. The currency is a fact about
+      the amount, so it belongs on the binding; how it renders belongs to the
+      reader. Defaults to GBP. See Storybook `Foundations/Figures`. */
+  currency?: string;
   /** Facet presentation: the icon a filter UI shows for this attribute. */
   icon?: string;
   /** The value is a list (labels, certifications, regions); valueType

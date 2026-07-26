@@ -30,6 +30,7 @@ import { PpTabGroup } from './tab-group/tab-group.js';
 import { PpPriorityPlus } from './priority-plus/priority-plus.js';
 import { SimpleTable } from './table/table';
 import { PpSpinner } from './spinner/spinner';
+import { PpTimestamp } from './timestamp/timestamp.js';
 import { PpH } from './h/h.js';
 import { PpSections } from './sections/sections.js';
 import { PpToc } from './toc/toc.js';
@@ -59,6 +60,7 @@ export function registerAllComponents(): void {
     { tagName: 'pp-tooltip', constructor: PpTooltip },
     { tagName: 'pp-modal', constructor: PPModal },
     { tagName: 'pp-table', constructor: SimpleTable },
+    { tagName: 'pp-timestamp', constructor: PpTimestamp },
     { tagName: 'pp-p-plus', constructor: PpPriorityPlus },
 
     { tagName: 'pp-chart-grid', constructor: PpChartGrid },

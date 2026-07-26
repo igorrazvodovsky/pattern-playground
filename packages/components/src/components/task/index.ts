@@ -1,2 +1,2 @@
-export { formatTimestamp } from '../../utility/time-utils.js';
+export { formatTimestamp } from '@shared/format';
 export type { Task, TaskHistoryEntry } from '@shared/data/task-types';

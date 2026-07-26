@@ -269,10 +269,13 @@
         "initiating": "a compressed rendering — rows, cards, pins — carries a fixed subset of each entity's attributes, chosen once for everyone; the comparison the actor came to make is in the data, visible in the detail view, but absent from the view where comparing happens",
         "resulting": [
           {
-            "clause": "each view's attribute set is the actor's decision, made per view, and whatever they surface becomes operable — a key to sort by, a predicate to filter by, an axis to plot on"
+            "clause": "each view's attribute set is the actor's decision"
           },
           {
             "clause": "the curation moves to the actor — surfaced sets drift and diverge, so the designed defaults still matter, now as a starting point rather than a ceiling"
+          },
+          {
+            "clause": "surfaced attributes become operable, changing what a view shows changes what the actor can do with it"
           }
         ]
       },

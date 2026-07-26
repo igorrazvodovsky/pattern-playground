@@ -69,6 +69,11 @@ declare module 'react' {
         size?: 'small' | 'medium' | 'large';
       };
       'pp-table': React.DetailedHTMLProps<React.TableHTMLAttributes<HTMLTableElement>, HTMLTableElement>;
+      'pp-timestamp': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+        /** ISO 8601. `isoDateTime` from `@shared/format` for a `Date`. */
+        value?: string;
+        locale?: string;
+      };
       'pp-tab': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         panel?: string | number;
         active?: boolean;

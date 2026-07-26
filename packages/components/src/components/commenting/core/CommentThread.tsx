@@ -3,7 +3,8 @@ import { CommentComposer } from './CommentComposer';
 import { CommentRenderer } from './CommentRenderer';
 import { useCommenting } from '../../../services/commenting/hooks/use-commenting';
 import { EntityPointer } from '../../../services/commenting/core/entity-pointer';
-import { formatTimestamp } from '../../../utility/time-utils';
+import { isoDateTime } from '@shared/format';
+import '../../../jsx-types';
 import { getUserById } from '@shared/data';
 import type { User } from '@shared/data';
 
@@ -85,7 +86,7 @@ export const CommentThread: React.FC<CommentThreadProps> = ({
                 />
               </div>
               <small className="message__timestamp">
-                {formatTimestamp(comment.timestamp)}
+                <pp-timestamp value={isoDateTime(comment.timestamp)}></pp-timestamp>
                 {comment.status === 'resolved' && ' • Resolved'}
               </small>
             </div>

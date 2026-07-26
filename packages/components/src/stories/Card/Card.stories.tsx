@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
 import { faker } from '@faker-js/faker';
+import { formatTime } from '@shared/format';
 import { getRandomIcon } from '../utils/icons';
 import headerHtml from "./CardHeader.html?raw";
 import basicHtml from "./CardBasic.html?raw";
@@ -16,7 +17,7 @@ const createCardData = () => {
     img: faker.image.url(),
     title: faker.word.words({ count: { min: 3, max: 5 } }),
     description: faker.hacker.phrase(),
-    date: faker.date.recent().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+    date: formatTime(faker.date.recent())
   }
 };
 
@@ -57,7 +58,7 @@ export const Card: Story = {
           <div className="flow pad">
             <h4 className="label">{faker.word.words()}</h4>
             <p className="description">{faker.hacker.phrase()}</p>
-            <div><small>{faker.date.recent().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</small></div>
+            <div><small>{formatTime(faker.date.recent())}</small></div>
           </div>
         </article>
       </div>

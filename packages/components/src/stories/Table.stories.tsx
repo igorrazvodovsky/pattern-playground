@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useEffect, useRef } from "react";
 import { faker } from '@faker-js/faker';
 import { transactions } from '@shared/data';
+import { formatCurrency, formatDate } from '@shared/format';
 // The pp-bar-chart JSX typing lives in src/jsx-types.ts.
 import "../components/charts/bar-chart.js";
 import type { BarChart } from "../components/charts/bar-chart.js";
@@ -36,7 +37,7 @@ export const SimpleTable: Story = {
               {faker.lorem.paragraph()}
             </td>
             <td><span className="badge badge--success">Completed</span></td>
-            <td className="pp-table-align-right">{faker.date.anytime().toLocaleDateString()}</td>
+            <td className="pp-table-align-right">{formatDate(faker.date.anytime())}</td>
           </tr>
           <tr>
             <td className="pp-table-align-right">{faker.commerce.price()}</td>
@@ -44,7 +45,7 @@ export const SimpleTable: Story = {
               {faker.lorem.paragraph()}
             </td>
             <td><span className="badge badge--success">Completed</span></td>
-            <td className="pp-table-align-right">{faker.date.anytime().toLocaleDateString()}</td>
+            <td className="pp-table-align-right">{formatDate(faker.date.anytime())}</td>
           </tr>
           <tr>
             <td className="pp-table-align-right">{faker.commerce.price()}</td>
@@ -52,7 +53,7 @@ export const SimpleTable: Story = {
               {faker.lorem.paragraph()}
             </td>
             <td><span className="badge badge--success">Completed</span></td>
-            <td className="pp-table-align-right">{faker.date.anytime().toLocaleDateString()}</td>
+            <td className="pp-table-align-right">{formatDate(faker.date.anytime())}</td>
           </tr>
           <tr>
             <td className="pp-table-align-right">{faker.commerce.price()}</td>
@@ -60,7 +61,7 @@ export const SimpleTable: Story = {
               {faker.lorem.paragraph()}
             </td>
             <td><span className="badge">Waiting</span></td>
-            <td className="pp-table-align-right">{faker.date.anytime().toLocaleDateString()}</td>
+            <td className="pp-table-align-right">{formatDate(faker.date.anytime())}</td>
           </tr>
           <tr>
             <td className="pp-table-align-right">{faker.commerce.price()}</td>
@@ -68,7 +69,7 @@ export const SimpleTable: Story = {
               {faker.lorem.paragraph()}
             </td>
             <td><span className="badge badge--warning">Cancelled</span></td>
-            <td className="pp-table-align-right">{faker.date.anytime().toLocaleDateString()}</td>
+            <td className="pp-table-align-right">{formatDate(faker.date.anytime())}</td>
           </tr>
           <tr>
             <td className="pp-table-align-right">{faker.commerce.price()}</td>
@@ -76,7 +77,7 @@ export const SimpleTable: Story = {
               {faker.lorem.paragraph()}
             </td>
             <td><span className="badge">Waiting</span></td>
-            <td className="pp-table-align-right">{faker.date.anytime().toLocaleDateString()}</td>
+            <td className="pp-table-align-right">{formatDate(faker.date.anytime())}</td>
           </tr>
         </tbody>
       </table>
@@ -144,7 +145,7 @@ const generateCategorySummary = (): BarChartData => {
 
 const generateDateSummary = (): BarChartData => {
   const monthCounts = rows.reduce((acc, t) => {
-    const month = new Date(t.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+    const month = formatDate(t.date, { year: 'numeric', month: 'short' });
     acc[month] = (acc[month] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
@@ -223,7 +224,7 @@ export const WithColumnSummaries: Story = {
           {rows.map((transaction) => (
             <tr key={transaction.id}>
               <td className="pp-table-align-right">
-                ${transaction.amount.toFixed(2)}
+                {formatCurrency(transaction.amount, 'GBP')}
               </td>
               <td>
                 <span className={`badge ${
@@ -235,7 +236,7 @@ export const WithColumnSummaries: Story = {
               </td>
               <td>{transaction.category}</td>
               <td className="pp-table-align-right">
-                {new Date(transaction.date).toLocaleDateString()}
+                {formatDate(transaction.date)}
               </td>
               <td className="pp-table-ellipsis">
                 {transaction.description}

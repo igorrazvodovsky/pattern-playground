@@ -1,0 +1,57 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { Currency, DateLengths, Numbers, RelativeTime } from './figures-samples';
+
+<Meta title="Foundations/Figures" tags={['role:component', 'activity-level:cross-cutting', 'atomic:visual-element']} />
+
+
+{/* > 🙂 **Fun meter: mildly interesting**. */}
+
+# Figures
+
+Dates, times, counts, percentages, and money, and the conventions that turn a stored value into a displayed one. Where <PatternRef slug="prose">prose</PatternRef> covers the words in the interface, this entry covers its figures.
+
+## Specify the format, not the locale
+
+A figure consists of two parts: *what it is* — a date, an amount in GBP, a percentage — and *how the actor expects it written*. State the first; the actor's locale dictates the second.
+
+One instant — 26 September 1952, 16:29 UTC — across locales:
+
+<DateLengths />
+
+## Precision versus scanability
+
+An exact figure supports checking, citing, and comparing; a rounded or relative one supports scanning and recall. Ask what the actor will *do* with the value: act on it directly — exact; get oriented by it — rounded, with the exact value reachable rather than absent. This is the one real design decision here; everything else resolves per locale.
+
+## Dates and times
+
+Medium size (`26 Sept 1952`) is the default in running text; full for a single prominent date the actor must not mistake; short only for tight space — it varies most between locales. Time follows the same rule: the locale decides 12/24-hour format, seconds are rarely shown outside logs.
+
+### Relative time
+
+Relative up to *7 days*, absolute beyond — roughly how far back "last Tuesday" still makes sense without counting. A judgement, not a standard: Atlassian switches at 7 days, Primer at 30. The locale phrases the text (`vor 20 Minuten`, `9か月前`); only the bucketing is ours. The obligations relative text carries — the absolute value reachable without hovering, the text kept current — are packaged in [Timestamp](../?path=/docs/components-timestamp--docs).
+
+<RelativeTime />
+
+## Numbers
+
+Separators, decimal marks, and the digits themselves come from the locale.
+
+<Numbers />
+
+## Currency
+
+<Currency />
+
+Whole amounts drop the trailing zeroes — `£75` and `£75.50`. More than one currency on a surface switches the *whole surface* to ISO codes; `$` is several currencies.
+
+## Units
+
+- *Domain-fixed* units — bytes, pixels, SI — are facts about the value and behave like currency. 
+- *Preference* units — distance, mass, temperature — must change value per region/prefernce.
+
+## Resources & references
+
+- Atlassian / [Date and time](https://atlassian.design/foundations/content/date-time) — four format lengths, the 7-day threshold, and the rule that i18n libraries own the rendering
+- Primer / [RelativeTime](https://primer.style/product/components/relative-time/) — the 30-day counter-threshold, and why `title` is not an accessible answer
+- MDN / [`Intl.NumberFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) and [`Intl.DateTimeFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat)
+- Intuit / [Numbers](https://contentdesign.intuit.com/style-and-usage/numbers/) and Salesforce Lightning / [Currency](https://www.lightningdesignsystem.com/2e1ef8501/p/5033fb-currency)

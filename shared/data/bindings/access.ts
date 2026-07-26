@@ -5,6 +5,7 @@ import type {
   AttributeValueType,
   EntityBinding,
 } from './types';
+import { formatCurrency, formatDate, formatPercent } from '../../format/index.js';
 
 /**
  * Binding-driven attribute access: path walking and value formatting that
@@ -117,14 +118,12 @@ export function isNumericValueType(valueType: AttributeValueType): boolean {
   return valueType === 'number' || valueType === 'currency' || valueType === 'progress';
 }
 
-const formatDate = (value: unknown): string => {
-  const date = value instanceof Date ? value : new Date(String(value));
-  if (Number.isNaN(date.getTime())) return String(value);
-  return date.toLocaleDateString('en-GB', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  });
+const formatDateValue = (value: unknown): string => {
+  // Pass the string through rather than a parsed Date, so a `YYYY-MM-DD` value
+  // keeps its calendar day instead of shifting by the reader's UTC offset.
+  const input = value instanceof Date || typeof value === 'number' ? value : String(value);
+  if (Number.isNaN(new Date(input).getTime())) return String(value);
+  return formatDate(input);
 };
 
 /** Format a resolved value by its binding's valueType. Nullish values are the
@@ -132,11 +131,16 @@ const formatDate = (value: unknown): string => {
 export function formatBoundValue(value: unknown, attribute: AttributeBinding): string {
   switch (attribute.valueType) {
     case 'currency':
-      return typeof value === 'number' ? `$${value.toFixed(2)}` : String(value);
+      return typeof value === 'number'
+        ? formatCurrency(value, attribute.currency ?? 'GBP')
+        : String(value);
     case 'date':
-      return formatDate(value);
+      return formatDateValue(value);
     case 'progress':
-      return `${String(value)}%`;
+      // Stored 0–100; `style: 'percent'` takes the ratio and places the symbol.
+      return typeof value === 'number'
+        ? formatPercent(value / 100, { maximumFractionDigits: 0 })
+        : String(value);
     default: {
       const text = Array.isArray(value) ? value.join(', ') : String(value);
       return attribute.unit ? `${text} ${attribute.unit}` : text;

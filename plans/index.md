@@ -5,6 +5,7 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Active
 
+- [Figures: dates, numbers, and money as design material](active/2026-07-figures.md) — the figures stratum as a Storybook `Foundations` entry, parallel to Prose; generative half distributed to Localization/Temporality/Data entry, no new pattern node
 - [Workspace boundary after the view-system reshape](active/2026-07-workspace-boundary.md) — give the screen-composition seam a typed edge (workspace ↔ coordinated-views), reinstate the panelled/tabbed variants the survey now routes to, clear pre-reshape word residue
 - [Drag and drop: capture as a language entry](active/2026-07-drag-and-drop.md) — research-gated: pattern node vs mechanism verdict first, then author the page borrowing the view-system demos; scaffolding promotion trigger-gated
 - [Light-DOM refactor: platform-first components](active/2026-07-light-dom-refactor.md) — convert the shadow-DOM Lit components to light DOM up a native-first decision ladder; retire the `is="pp-button"` built-in; library choice deferred to the residue

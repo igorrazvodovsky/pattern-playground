@@ -2,7 +2,8 @@ import React from 'react';
 import type { CustomAttributeProps, CustomComponents } from './types';
 import { getValueAtPath, getUserById } from '@shared/data';
 import type { TaskHistoryEntry } from '@shared/data/task-types';
-import { formatTimestamp } from '../../utility/time-utils.js';
+import { isoDateTime } from '@shared/format';
+import '../../jsx-types';
 import { CommentThread } from '../commenting/core/CommentThread.js';
 
 /**
@@ -22,7 +23,7 @@ const TaskHistory: React.FC<CustomAttributeProps> = ({ item, attribute, scope })
       <div className="recent-history">
         {history.slice(-3).map((entry) => (
           <div key={entry.id} className="history-entry">
-            {entry.action} • {formatTimestamp(entry.timestamp)}
+            {entry.action} • <pp-timestamp value={isoDateTime(entry.timestamp)}></pp-timestamp>
           </div>
         ))}
       </div>
@@ -38,7 +39,7 @@ const TaskHistory: React.FC<CustomAttributeProps> = ({ item, attribute, scope })
             <div className="stepper__content">
               <h4>{entry.action}</h4>
               <p>
-                {entry.actor} • {formatTimestamp(entry.timestamp)}
+                {entry.actor} • <pp-timestamp value={isoDateTime(entry.timestamp)}></pp-timestamp>
               </p>
               {entry.details && <p className="muted">{entry.details}</p>}
             </div>
