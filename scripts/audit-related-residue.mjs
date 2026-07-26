@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-// Related-link residue audit (plans/active/2026-07-related-residue-audit.md, step 1).
+// Related-link residue audit (plans/completed/2026-07-related-residue-audit.md, step 1).
 // Diffs every "Related …" prose link at the split-project merge-base against the
 // endpoint's frontmatter relationships (relationships:, situation sets-up,
 // decision-tree leaves, both directions) and emits the row worksheet to stdout:
-//   node scripts/audit-related-residue.mjs > plans/active/2026-07-related-residue-worksheet.md
+//   node scripts/audit-related-residue.mjs > plans/completed/2026-07-related-residue-worksheet.md
 // Verification only — it never writes to content files.
 import { execFileSync } from 'node:child_process';
 import { readFileSync, readdirSync } from 'node:fs';

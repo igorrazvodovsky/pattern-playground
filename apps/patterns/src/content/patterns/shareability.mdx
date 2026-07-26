@@ -7,6 +7,11 @@ relationships:
       note: makes system state explicit and controllable, so the actor can see and communicate exactly what they share
     - to: conversation-quality
       note: a URL is a contract for what you're looking at; state as a conversational interface
+    - to: conversation
+      note: the exchange can cross the application boundary — a copied link carries the state out through external channels and back
+    # not collaboration-foundation: that pair already carries enacts, and dedup drops a co-present related
+    - to: collaboration
+      note: participants hand each other precise application states through URLs, whatever channel the link travels by
     - to: adaptation
       note: URL-encoded state lets actors share and reuse personalised configurations
     - to: a11y

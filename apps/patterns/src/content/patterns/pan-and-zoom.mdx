@@ -33,9 +33,12 @@ relationships:
     - to: hybrid-patterns
       note: global nav for sections, spatial within sections
   alternative:
-    - pyramid
-    - fully-connected
-    - multilevel-tree
+    - to: pyramid
+      note: for sequences that could be spatial
+    - to: fully-connected
+      note: pan/zoom hybrid for maps with discrete sections
+    - to: multilevel-tree
+      note: for hierarchical spatial data
 ---
 The content lives in one large continuous space — a map, a canvas, a timeline — rather than discrete pages. The actor navigates by panning across it and zooming in and out; everything keeps its place in a single coordinate system, so there are no page transitions to break the spatial sense, but staying oriented becomes the actor's problem.
 

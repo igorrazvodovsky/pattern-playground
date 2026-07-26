@@ -291,7 +291,7 @@ Precondition: Phases 1–3 landed, so every receiving home exists.
 
 ## Worksheet coordination
 
-Rows in `plans/active/2026-07-related-residue-worksheet.md` this plan
+Rows in `plans/completed/2026-07-related-residue-worksheet.md` this plan
 touches — annotate as superseded when the phase lands; verdicts are not
 pre-filled from here:
 

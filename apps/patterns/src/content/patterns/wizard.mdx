@@ -34,8 +34,8 @@ relationships:
   complements:
     - to: status-feedback
       note: communicates progress and validation state throughout the wizard
-  related:
-    - conversation
+    - to: undo
+      note: mitigates the high commitment level by allowing reversal of completed steps
   enacts:
     - to: temporality
       note: paces a task into an ordered sequence of steps, one commitment at a time
