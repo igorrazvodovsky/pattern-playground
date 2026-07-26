@@ -135,34 +135,41 @@
     border-color: transparent;
   }
 
+  /* Solid fills come from 700. At 500 and 600 a filled badge lands in a band
+     where neither label colour clears 4.5:1 — white text on L 0.64 is 3.4:1,
+     and dark text needs L above ~0.68. 700 is the first step past that band. */
   strong.badge.badge--accent,
   .badge--accent:not(.counter):empty,
   .badge.badge--accent.badge--plain:before {
-    --badge-bg: var(--c-accent-600);
+    --badge-bg: var(--c-accent-700);
   }
 
   strong.badge.badge--info,
   .badge--info:not(.counter):empty,
   .badge.badge--info.badge--plain:before {
-    --badge-bg: var(--c-info-600-boosted);
+    --badge-bg: var(--c-info-700-boosted);
   }
 
   strong.badge.badge--success,
   .badge--success:not(.counter):empty,
   .badge.badge--success.badge--plain:before {
-    --badge-bg: var(--c-success-600-boosted);
+    --badge-bg: var(--c-success-700-boosted);
   }
 
+  /* Yellow has no vivid form once it is dark — at 700 it is already at its gamut
+     ceiling and still reads as mud — so warning's fill comes from 300, the
+     lightness where the hue can carry it. The label follows on its own:
+     `--l-threshold` derives it from the fill's lightness. */
   strong.badge.badge--warning,
   .badge--warning:not(.counter):empty,
   .badge.badge--warning.badge--plain:before {
-    --badge-bg: var(--c-warning-600-boosted);
+    --badge-bg: var(--c-warning-300-boosted);
   }
 
   strong.badge.badge--danger,
   .badge--danger:not(.counter):empty,
   .badge.badge--danger.badge--plain:before {
-    --badge-bg: var(--c-danger-500-boosted);
+    --badge-bg: var(--c-danger-700-boosted);
   }
 
   /*  */

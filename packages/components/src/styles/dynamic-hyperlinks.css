@@ -19,8 +19,10 @@
 
   /* Heatmap spans — purely visual indicators, not interactive */
   .heatmap-span {
+    /* The lightness ramp is a curve, so intensity interpolates between named
+       steps rather than scaling an increment. */
     background: oklch(
-      calc(var(--lInitial) - var(--lIncrement) * 2 * var(--intensity))
+      calc(var(--l50) - (var(--l50) - var(--l200)) * var(--intensity))
       calc(var(--c200-neutral) * var(--intensity))
       var(--h)
     );

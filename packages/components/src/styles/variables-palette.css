@@ -1,25 +1,35 @@
 :root {
   --h: 230;
-  --lInitial: 95%;
-  --lIncrement: 8%;
 
   --hInfo: 260;
   --hSuccess: 150;
   --hDanger: 25;
   --hWarning: 86;
 
+  /* Shared lightness ramp ---------------------------------------------------
+     Every palette rides this ladder; that is what keeps a -700 in one palette
+     as readable as a -700 in another. The steps cannot be evenly spaced: with
+     eleven steps the span is exactly ten increments, so a uniform increment
+     small enough to keep 100 near white (~0.04) leaves 950 at 0.57, and one
+     that reaches a usable dark end leaves 100 at 0.90. So the steps are fine at
+     the light end, coarse through the middle, settling again at the bottom and
+     stopping at 27%. What has to be shared is the ladder, not the spacing.
+
+     Retuning moves every palette and the neutral surfaces with it — re-run
+     scripts/palette-chroma.mjs, which reports which neutral steps still carry
+     text. */
   --l0: 100%;
-  --l50: var(--lInitial);
-  --l100: calc(var(--lInitial) - var(--lIncrement) * 1);
-  --l200: calc(var(--lInitial) - var(--lIncrement) * 2);
-  --l300: calc(var(--lInitial) - var(--lIncrement) * 3);
-  --l400: calc(var(--lInitial) - var(--lIncrement) * 4);
-  --l500: calc(var(--lInitial) - var(--lIncrement) * 5);
-  --l600: calc(var(--lInitial) - var(--lIncrement) * 6);
-  --l700: calc(var(--lInitial) - var(--lIncrement) * 7);
-  --l800: calc(var(--lInitial) - var(--lIncrement) * 8);
-  --l900: calc(var(--lInitial) - var(--lIncrement) * 9);
-  --l950: calc(var(--lInitial) - var(--lIncrement) * 10);
+  --l50: 97%;
+  --l100: 94%;
+  --l200: 89%;
+  --l300: 82%;
+  --l400: 73%;
+  --l500: 64%;
+  --l600: 56%;
+  --l700: 48%;
+  --l800: 41%;
+  --l900: 34%;
+  --l950: 27%;
 
   /* Per-hue chroma ramps ----------------------------------------------------
      One shared chroma ramp cannot serve hues with different sRGB gamut
@@ -33,58 +43,69 @@
      Each ramp is as vivid as its hue's own gamut allows and pulled in where it
      doesn't, every step in-gamut with headroom so the rendered colour is stable
      across displays. Derived by scripts/palette-chroma.mjs (culori) against the
-     sRGB boundary; retune per brand and re-run. */
+     sRGB boundary; retune per brand and re-run.
 
-  /* accent · hue 230 (blue) — already near its ceiling; can't go more vivid */
+     The light steps (50–300) are floored against their OWN ceiling rather than
+     scaled down from the mid step. A hue whose ceiling peaks away from the
+     middle — yellow peaks at 100–200 and bottoms out at 500 — otherwise has its
+     pale tints starved by a constraint that belongs to a different step, and
+     they render grey. */
+
+  /* accent · hue 230 (blue) — the brand, held deliberately quieter than its
+     ceiling allows; raising it is a branding decision, not a gamut one */
   --accent-c50: 0.0102;  --accent-c100: 0.0218; --accent-c200: 0.0414;
-  --accent-c300: 0.0617; --accent-c400: 0.095;  --accent-c500: 0.1;
-  --accent-c600: 0.0862; --accent-c700: 0.0715; --accent-c800: 0.0568;
-  --accent-c900: 0.0421; --accent-c950: 0.0275;
+  --accent-c300: 0.0676; --accent-c400: 0.095;  --accent-c500: 0.1;
+  --accent-c600: 0.0882; --accent-c700: 0.0725; --accent-c800: 0.061;
+  --accent-c900: 0.0493; --accent-c950: 0.0367;
 
-  /* info · hue 260 (violet) — wide gamut, boosted well above the old shared ramp */
-  --info-c50: 0.0163;  --info-c100: 0.0349; --info-c200: 0.0662;
-  --info-c300: 0.0987; --info-c400: 0.152;  --info-c500: 0.16;
+  /* info · hue 260 (violet) — wide gamut throughout; the light floor never bites */
+  --info-c50: 0.0086;  --info-c100: 0.0264; --info-c200: 0.0493;
+  --info-c300: 0.0829; --info-c400: 0.1288; --info-c500: 0.16;
   --info-c600: 0.1412; --info-c700: 0.116;  --info-c800: 0.0976;
-  --info-c900: 0.0789; --info-c950: 0.0563;
+  --info-c900: 0.0789; --info-c950: 0.0587;
 
-  /* success · hue 150 (green) — non-monotonic ceiling; held below the dark clip */
-  --success-c50: 0.0138;  --success-c100: 0.0294; --success-c200: 0.0559;
-  --success-c300: 0.0833; --success-c400: 0.1282; --success-c500: 0.135;
-  --success-c600: 0.1191; --success-c700: 0.0979; --success-c800: 0.0785;
-  --success-c900: 0.0583; --success-c950: 0.038;
+  /* success · hue 150 (green) — ceiling peaks light, so 200–300 ride the floor
+     up to the mid target and the ramp reads flat across its middle */
+  --success-c50: 0.0197;  --success-c100: 0.0568; --success-c200: 0.118;
+  --success-c300: 0.135;  --success-c400: 0.1282; --success-c500: 0.135;
+  --success-c600: 0.1191; --success-c700: 0.0979; --success-c800: 0.0824;
+  --success-c900: 0.0666; --success-c950: 0.0495;
 
-  /* danger · hue 25 (red) — wide gamut, boosted above the old shared ramp */
-  --danger-c50: 0.0163;  --danger-c100: 0.0349; --danger-c200: 0.0662;
-  --danger-c300: 0.0987; --danger-c400: 0.152;  --danger-c500: 0.16;
+  /* danger · hue 25 (red) — wide gamut, carries the vivid end of the range */
+  --danger-c50: 0.0089;  --danger-c100: 0.0276; --danger-c200: 0.053;
+  --danger-c300: 0.0928; --danger-c400: 0.152;  --danger-c500: 0.16;
   --danger-c600: 0.1412; --danger-c700: 0.116;  --danger-c800: 0.0976;
-  --danger-c900: 0.0789; --danger-c950: 0.0559;
+  --danger-c900: 0.0789; --danger-c950: 0.0587;
 
-  /* warning · hue 86 (yellow) — reads olive at mid lightness (inherent to the
-     shared lightness ramp forcing yellow dark); as vivid as the gamut allows */
-  --warning-c50: 0.0107;  --warning-c100: 0.0229; --warning-c200: 0.0434;
-  --warning-c300: 0.0648; --warning-c400: 0.0997; --warning-c500: 0.1036;
-  --warning-c600: 0.0885; --warning-c700: 0.0734; --warning-c800: 0.0584;
-  --warning-c900: 0.0433; --warning-c950: 0.0282;
+  /* warning · hue 86 (yellow) — the sRGB ceiling swings with lightness (0.131 at
+     L 0.64, where step 500 sits and reads as gold; 0.113 at L 0.55, where the
+     whole family is mud), so where the ramp places a step decides more than the
+     chroma does. Solid fills come from 300-boosted, since yellow is only vivid
+     while light. */
+  --warning-c50: 0.0135;  --warning-c100: 0.0369; --warning-c200: 0.0714;
+  --warning-c300: 0.1007; --warning-c400: 0.114;  --warning-c500: 0.12;
+  --warning-c600: 0.1054; --warning-c700: 0.087;  --warning-c800: 0.0732;
+  --warning-c900: 0.0592; --warning-c950: 0.044;
 
   /* Boosted chroma — maximally vivid solid fills (filled badges, dots). Per hue,
      ~95% of the in-gamut maximum, capped at 0.18 so red/violet don't go neon.
-     Replaces the old shared 0.15–0.20 ramp, which was out of gamut for yellow
-     and blue. Steps 300–700 only. */
-  --accent-c300-boosted: 0.1344; --accent-c400-boosted: 0.1193;
-  --accent-c500-boosted: 0.1041; --accent-c600-boosted: 0.089;
-  --accent-c700-boosted: 0.0738;
-  --info-c300-boosted: 0.144;  --info-c400-boosted: 0.18;
-  --info-c500-boosted: 0.18;   --info-c600-boosted: 0.18;
-  --info-c700-boosted: 0.1511;
-  --success-c300-boosted: 0.18;   --success-c400-boosted: 0.1648;
-  --success-c500-boosted: 0.1439; --success-c600-boosted: 0.1229;
-  --success-c700-boosted: 0.102;
-  --danger-c300-boosted: 0.1733; --danger-c400-boosted: 0.18;
-  --danger-c500-boosted: 0.18;   --danger-c600-boosted: 0.18;
-  --danger-c700-boosted: 0.1502;
-  --warning-c300-boosted: 0.1381; --warning-c400-boosted: 0.1225;
-  --warning-c500-boosted: 0.1069; --warning-c600-boosted: 0.0914;
-  --warning-c700-boosted: 0.0758;
+     Steps 200–700; the light rungs are there for hues that can only be vivid
+     while light, and a fill drawn from one needs dark text over it. */
+  --accent-c200-boosted: 0.0637; --accent-c300-boosted: 0.107;
+  --accent-c400-boosted: 0.1382; --accent-c500-boosted: 0.1211;
+  --accent-c600-boosted: 0.106;  --accent-c700-boosted: 0.0908;
+  --info-c200-boosted: 0.0509; --info-c300-boosted: 0.0856;
+  --info-c400-boosted: 0.133;  --info-c500-boosted: 0.18;
+  --info-c600-boosted: 0.18;   --info-c700-boosted: 0.18;
+  --success-c200-boosted: 0.18;   --success-c300-boosted: 0.18;
+  --success-c400-boosted: 0.18;   --success-c500-boosted: 0.1674;
+  --success-c600-boosted: 0.1465; --success-c700-boosted: 0.1256;
+  --danger-c200-boosted: 0.0547; --danger-c300-boosted: 0.0958;
+  --danger-c400-boosted: 0.1578; --danger-c500-boosted: 0.18;
+  --danger-c600-boosted: 0.18;   --danger-c700-boosted: 0.18;
+  --warning-c200-boosted: 0.117;  --warning-c300-boosted: 0.1594;
+  --warning-c400-boosted: 0.1419; --warning-c500-boosted: 0.1245;
+  --warning-c600-boosted: 0.1089; --warning-c700-boosted: 0.0933;
 
   /* Neutral chroma levels */
   --c0-neutral: 0;
@@ -175,30 +196,35 @@
   --c-warning-900: oklch(var(--l900) var(--warning-c900) var(--hWarning));
   --c-warning-950: oklch(var(--l950) var(--warning-c950) var(--hWarning));
 
+  --c-accent-200-boosted: oklch(var(--l200) var(--accent-c200-boosted) var(--h));
   --c-accent-300-boosted: oklch(var(--l300) var(--accent-c300-boosted) var(--h));
   --c-accent-400-boosted: oklch(var(--l400) var(--accent-c400-boosted) var(--h));
   --c-accent-500-boosted: oklch(var(--l500) var(--accent-c500-boosted) var(--h));
   --c-accent-600-boosted: oklch(var(--l600) var(--accent-c600-boosted) var(--h));
   --c-accent-700-boosted: oklch(var(--l700) var(--accent-c700-boosted) var(--h));
 
+  --c-info-200-boosted: oklch(var(--l200) var(--info-c200-boosted) var(--hInfo));
   --c-info-300-boosted: oklch(var(--l300) var(--info-c300-boosted) var(--hInfo));
   --c-info-400-boosted: oklch(var(--l400) var(--info-c400-boosted) var(--hInfo));
   --c-info-500-boosted: oklch(var(--l500) var(--info-c500-boosted) var(--hInfo));
   --c-info-600-boosted: oklch(var(--l600) var(--info-c600-boosted) var(--hInfo));
   --c-info-700-boosted: oklch(var(--l700) var(--info-c700-boosted) var(--hInfo));
 
+  --c-success-200-boosted: oklch(var(--l200) var(--success-c200-boosted) var(--hSuccess));
   --c-success-300-boosted: oklch(var(--l300) var(--success-c300-boosted) var(--hSuccess));
   --c-success-400-boosted: oklch(var(--l400) var(--success-c400-boosted) var(--hSuccess));
   --c-success-500-boosted: oklch(var(--l500) var(--success-c500-boosted) var(--hSuccess));
   --c-success-600-boosted: oklch(var(--l600) var(--success-c600-boosted) var(--hSuccess));
   --c-success-700-boosted: oklch(var(--l700) var(--success-c700-boosted) var(--hSuccess));
 
+  --c-danger-200-boosted: oklch(var(--l200) var(--danger-c200-boosted) var(--hDanger));
   --c-danger-300-boosted: oklch(var(--l300) var(--danger-c300-boosted) var(--hDanger));
   --c-danger-400-boosted: oklch(var(--l400) var(--danger-c400-boosted) var(--hDanger));
   --c-danger-500-boosted: oklch(var(--l500) var(--danger-c500-boosted) var(--hDanger));
   --c-danger-600-boosted: oklch(var(--l600) var(--danger-c600-boosted) var(--hDanger));
   --c-danger-700-boosted: oklch(var(--l700) var(--danger-c700-boosted) var(--hDanger));
 
+  --c-warning-200-boosted: oklch(var(--l200) var(--warning-c200-boosted) var(--hWarning));
   --c-warning-300-boosted: oklch(var(--l300) var(--warning-c300-boosted) var(--hWarning));
   --c-warning-400-boosted: oklch(var(--l400) var(--warning-c400-boosted) var(--hWarning));
   --c-warning-500-boosted: oklch(var(--l500) var(--warning-c500-boosted) var(--hWarning));
@@ -224,12 +250,15 @@
   --c-cat-7: oklch(43.3% 0.167 283.6deg); /* violet */
   --c-cat-8: oklch(62.3% 0.191 24.9deg);  /* red */
 
-  --c-border: oklch(var(--l800) var(--c800-neutral) var(--h) / 0.2);
+  /* Body text takes -900, not -800: the ramp stops at 27%, so -800 reaches only
+     8.8:1 on white where -900 is 11.7:1. Which rung carries text is a per-hue
+     choice; the ladder stays shared. Border and field border follow. */
+  --c-border: oklch(var(--l900) var(--c900-neutral) var(--h) / 0.2);
   --c-background: var(--c-neutral-0);
-  --c-body: var(--c-neutral-800);
-  --c-bodyDimmed: oklch(var(--l800) var(--c800-neutral) var(--h) / 0.7);
-  --c-placeholder: oklch(var(--l800) var(--c800-neutral) var(--h) / 0.5);
-  --c-fieldBorder: var(--c-neutral-200);
+  --c-body: var(--c-neutral-900);
+  --c-bodyDimmed: oklch(var(--l900) var(--c900-neutral) var(--h) / 0.7);
+  --c-placeholder: oklch(var(--l900) var(--c900-neutral) var(--h) / 0.5);
+  --c-fieldBorder: var(--c-neutral-300);
   --c-accent: var(--c-accent-500);
 
   --c-body-accent: var(--c-accent-700);
@@ -265,6 +294,69 @@
   --c-border-success: oklch(var(--l600) var(--success-c600) var(--hSuccess) / 0.35);
   --c-border-warning: oklch(var(--l600) var(--warning-c600) var(--hWarning) / 0.35);
   --c-border-danger: oklch(var(--l600) var(--danger-c600) var(--hDanger) / 0.35);
+}
+
+/* Wide-gamut chroma -----------------------------------------------------------
+   Every --c-* token above is assembled from a lightness, a chroma scalar and a
+   hue, so overriding the chroma scalars alone re-derives the whole palette. The
+   sRGB values stay the base declaration; these are what a P3 display gets.
+
+   Both sets are chosen rather than gamut-mapped at runtime. Shipping one
+   out-of-sRGB value and letting each browser map it — Tailwind's approach — hands
+   the sRGB rendering to whichever mapping the browser implements; picking both
+   ends means a narrow-gamut display shows a colour we selected.
+
+   The gain is uneven, and small where the ramp is governed by its mid target
+   rather than by the gamut: accent and info barely move, danger and warning gain
+   at the light end, and the boosted fills gain most since those sit at the
+   ceiling by definition. The boosted cap rises 0.18 → 0.21, keeping "before it
+   goes neon" at the same perceptual place rather than the same number.
+
+   Derived by scripts/palette-chroma.mjs; stylelint-gamut permits out-of-sRGB
+   values only inside this media query, which is why the rule stays on. */
+@media (color-gamut: p3) {
+  :root {
+    --accent-c50: 0.0102;  --accent-c100: 0.022;  --accent-c200: 0.0424;
+    --accent-c300: 0.0733; --accent-c400: 0.095;  --accent-c500: 0.1;
+    --accent-c600: 0.0882; --accent-c700: 0.0725; --accent-c800: 0.061;
+    --accent-c900: 0.0493; --accent-c950: 0.0367;
+
+    --info-c50: 0.0095;  --info-c100: 0.029;  --info-c200: 0.054;
+    --info-c300: 0.0905; --info-c400: 0.1397; --info-c500: 0.16;
+    --info-c600: 0.1412; --info-c700: 0.116;  --info-c800: 0.0976;
+    --info-c900: 0.0789; --info-c950: 0.0587;
+
+    --success-c50: 0.0219;  --success-c100: 0.0633; --success-c200: 0.1321;
+    --success-c300: 0.135;  --success-c400: 0.1282; --success-c500: 0.135;
+    --success-c600: 0.1191; --success-c700: 0.0979; --success-c800: 0.0824;
+    --success-c900: 0.0666; --success-c950: 0.0495;
+
+    --danger-c50: 0.0116;  --danger-c100: 0.0349; --danger-c200: 0.0662;
+    --danger-c300: 0.0987; --danger-c400: 0.152;  --danger-c500: 0.16;
+    --danger-c600: 0.1412; --danger-c700: 0.116;  --danger-c800: 0.0976;
+    --danger-c900: 0.0789; --danger-c950: 0.0587;
+
+    --warning-c50: 0.0166;  --warning-c100: 0.0455; --warning-c200: 0.0881;
+    --warning-c300: 0.1161; --warning-c400: 0.114;  --warning-c500: 0.12;
+    --warning-c600: 0.1059; --warning-c700: 0.087;  --warning-c800: 0.0732;
+    --warning-c900: 0.0592; --warning-c950: 0.044;
+
+    --accent-c200-boosted: 0.0694; --accent-c300-boosted: 0.1161;
+    --accent-c400-boosted: 0.179;  --accent-c500-boosted: 0.1596;
+    --accent-c600-boosted: 0.1396; --accent-c700-boosted: 0.1197;
+    --info-c200-boosted: 0.0558; --info-c300-boosted: 0.0934;
+    --info-c400-boosted: 0.1443; --info-c500-boosted: 0.1979;
+    --info-c600-boosted: 0.21;   --info-c700-boosted: 0.21;
+    --success-c200-boosted: 0.21;   --success-c300-boosted: 0.21;
+    --success-c400-boosted: 0.21;   --success-c500-boosted: 0.21;
+    --success-c600-boosted: 0.2044; --success-c700-boosted: 0.1752;
+    --danger-c200-boosted: 0.071;  --danger-c300-boosted: 0.1235;
+    --danger-c400-boosted: 0.2016; --danger-c500-boosted: 0.21;
+    --danger-c600-boosted: 0.21;   --danger-c700-boosted: 0.2083;
+    --warning-c200-boosted: 0.1444; --warning-c300-boosted: 0.1839;
+    --warning-c400-boosted: 0.1637; --warning-c500-boosted: 0.1435;
+    --warning-c600-boosted: 0.1256; --warning-c700-boosted: 0.1076;
+  }
 }
 
 @layer theme {
