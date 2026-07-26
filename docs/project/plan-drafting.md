@@ -22,7 +22,7 @@ The trigger is the *shape of the problem*, not the size of the change. Apply whe
 - the problem is one where "what does good look like?" isn't obvious from the requirements alone
 - the work is in a domain the project hasn't engaged with before, even if the change is small
 
-Skip for: pure feature work with a clear target, bug fixes, refactors with a known destination, mechanical follow-ups to an already-researched plan. The [`/research`](../../.claude/skills/research/SKILL.md) skill and [`references/`](../../references/) directory are the standing infrastructure for this checkpoint.
+Skip for: pure feature work with a clear target, bug fixes, refactors with a known destination, mechanical follow-ups to an already-researched plan. The [`/research-gate`](../../.claude/skills/research-gate/SKILL.md) skill and [`references/`](../../references/) directory are the standing infrastructure for this checkpoint.
 
 ## Migration-shaped arcs: territory closure
 

@@ -3,7 +3,7 @@ title: "Pattern dates"
 status: "active"
 kind: "exec-spec"
 created: "2026-07"
-last_reviewed: "2026-07-25"
+last_reviewed: "2026-07-26"
 area: "patterns-site"
 promoted_to: ""
 superseded_by: ""
@@ -28,7 +28,7 @@ history is full of mechanical sweeps that touch nearly the entire corpus:
 | `2cb8ca35` Reorganise the project | 2026-05-16 | 115 |
 | `8c8d9c28` Move fun meter to frontmatter | 2026-06-01 | 97 |
 | `80252942` Hide fun meters | 2026-05-18 | 97 |
-| `b587873c` Update links | — | 72 |
+| `b587873c` Update links | 2026-05-18 | 72 |
 | `1a32c6e9` Backfill 'situation' | 2026-07-25 | 67 |
 
 A `git log -1`-derived `updated` would stamp roughly every one of the 118
@@ -103,7 +103,7 @@ Corrections range from a month to fourteen (`unavailable-actions`:
 Basename matching is a heuristic, and the project has been bitten by
 path-based slug inference before. These 26 rows get eyeballed against the
 pre-split file's own `title` before anything is written — see the review gate
-in step 2.
+in step 1.
 
 ## What exists, what's missing
 
@@ -121,12 +121,19 @@ in step 2.
   `.astro` that takes `entry` and renders a derived block.
 - `apps/patterns/src/components/PatternArticle.astro:29-35` — the `.meta` div,
   the agreed placement. `.meta` itself carries no styling; it is a bare wrapper.
+- `shared/format`, landed in `2b6d6214`. Supplies `formatDate`, `isoDate` and
+  `formatRelativeTime`, plus the UTC-midnight guard. Used, not extended.
+- `apps/patterns/src/lib/` — the documentation site's own client modules
+  (`link-preview.ts`, `demo-expander.ts`, `active-path.ts`), imported from
+  `Base.astro`'s script block. The idiom the relative-text upgrade follows.
 
 *Missing:*
 
 - The two schema fields.
 - The backfill script.
 - The render.
+- `apps/patterns/src/lib/pattern-dates.ts`, the client module that upgrades the
+  rendered dates to relative text (step 3, caveat 2).
 
 ## Placement
 
@@ -185,29 +192,139 @@ date would assert something false.
 
 ### 3. Render
 
+`2b6d6214` ("Add 'figures' as one of the form foundations") landed the
+formatting layer this step needs, so nothing here is hand-rolled:
+
+- `shared/format` — `formatDate`, `isoDate` and `formatRelativeTime`. Reachable
+  from the patterns app as `@shared/format` (alias in
+  `apps/patterns/astro.config.mjs:40`, path in `tsconfig.json:9`).
+
+The UTC-midnight trap is already handled: `date.ts`'s `calendarSafe` detects a
+bare `YYYY-MM-DD` *string* and formats it in UTC so the calendar day survives.
+
+#### Both badges read as age, always
+
+`Added 6 months ago`. `Last updated over 2 years ago`. Relative at every
+distance, never switching to an absolute date.
+
+`relative-time.ts` sets `RELATIVE_THRESHOLD_DAYS = 7` and argues it as the span
+over which "last Tuesday" is still something a reader holds without counting —
+past that, the reader is *owed the date*. That is not contradicted here, because
+it does not apply here. Figures describes the interfaces built *with* the
+components and patterns; these badges are the documentation layer *about* the
+library, and a pattern's age is not a value a product interface renders. The
+question the badge answers is how settled a pattern is, where the figure is the
+point and the exact date is noise.
+
+So this is an exception, not a case the foundation should grow to cover today.
+Nothing in `shared/format` or `<pp-timestamp>` changes; the seven-day default
+stays right for the timestamps it was written for. If the shape proves out and
+recurs, extending the foundation is a later decision made on its own evidence.
+
+*Not `over 2 years ago`.* `Intl` produces `2 years ago`, and prepending an
+English qualifier to a formatter's output is precisely what `shared/format`
+exists to prevent. `numeric: 'auto'` already yields `2 years ago`, `last year`,
+`last month`, `yesterday` — and a floored `2 years ago` already reads as "at
+least two". The qualifier was considered and is out.
+
+#### Shape
+
 `apps/patterns/src/components/PatternDates.astro`, following the
 `Consequences.astro` shape — takes `entry`, renders nothing of its own layout:
 
 ```astro
-<span class="badge"><time datetime={iso(added)}>Added {fmt(added)}</time></span>
-{updated && <span class="badge"><time datetime={iso(updated)}>Updated {fmt(updated)}</time></span>}
+<span class="badge">
+  Added <time datetime={isoDate(added)} data-relative>
+    {formatDate(added, { dateStyle: 'medium' }, 'en-001')}
+  </time>
+</span>
+{updated && (
+  <span class="badge">
+    Last updated <time datetime={isoDate(updated)} data-relative>
+      {formatDate(updated, { dateStyle: 'medium' }, 'en-001')}
+    </time>
+  </span>
+)}
 ```
 
+What ships in the HTML is the absolute date, which is correct without JavaScript
+and stays correct indefinitely — an absolute date does not age. `data-relative`
+marks it for upgrading.
+
+When `updated` is absent the badge is omitted entirely — never filled from
+`added`.
+
 Invoked inside the `.meta` div in `PatternArticle.astro`, above the `<h1>`.
-`<time datetime>` carries the machine-readable value; the visible text is
-formatted for reading.
 
-*Formatting caveat.* Unquoted YAML dates parse as UTC midnight. Derive the
-displayed string from `toISOString().slice(0, 10)` and format from those parts,
-not from `toLocaleDateString()` on the raw Date — a viewer at a negative UTC
-offset would otherwise see the previous day.
+#### Caveat 1: the locale matters less than it looks, but must still be explicit
 
-Because `PatternArticle.astro` is shared by the full page and the pane partial
-(`pages/patterns/[slug]/pane.astro`), the dates appear in both with no extra
-work. The pane contract is safe: `lib/pane-content.ts:16-18` selects with
-`doc.querySelector('article')` and `article.querySelector('h1')` — both
-tag-based, nothing positional — so inserting spans above the `<h1>` inside
-`.meta` cannot break the fetch.
+Once both badges read as age, the visible text is locale-invariant. Verified —
+`en-001`, `en-GB`, `en-US` and bare `en` all render `6 months ago` and
+`2 years ago` identically. Nothing about the phrasing is at stake.
+
+The explicit tag survives for the fallback child and the `title`/hidden absolute
+the element carries, where an actual date is formatted. There it is needed,
+because `PatternDates.astro` is a server component and the site is static output
+(no `output` or `adapter` in `apps/patterns/astro.config.mjs`), so it runs at
+*build* time where there is no reader to ask:
+
+- `documentLocale()` opens with `if (typeof document === 'undefined') return
+  undefined` — during SSR the `lang` channel is inert, so `Base.astro`'s `lang`
+  has no effect on it whatever it says.
+- The runtime floor is then the *build machine*. Verified: Node resolves an
+  undefined locale to `en-US` and renders `Oct 17, 2025`, with `LANG`/`LC_ALL`
+  unset exactly as on CI.
+
+So passing no locale would bake the build machine's answer into static HTML.
+`en-001` — *English (World)*, CLDR's international English — gives `17 Oct 2025`
+without asserting the pages are British, and passes `locale.ts`'s own
+`CARRIES_REGION` guard.
+
+`en-001` is not a candidate default for `shared/format` — in a product
+interface, where the reader's locale is genuinely reachable, the module is right
+to defer to it. It is correct here only because build time has no reader to
+defer to, and because these badges are documentation chrome rather than an
+interface built with the library.
+
+#### Caveat 2: the relative text is a documentation-layer module
+
+Relative text cannot be computed at build time. It is correct only to within the
+deploy interval and fails silently and without bound if deploys stop — a page
+built a year ago would still claim `6 months ago` forever. So the figure has to
+be produced in the browser.
+
+`<pp-timestamp>` would do this, but using it would mean changing it: its
+`bucket()` returns `null` past seven days, and `describeTimestamp` mis-renders
+calendar dates (below). Both are foundation changes this plan has decided not to
+make. The documentation layer upgrades its own dates instead.
+
+`apps/patterns/src/lib/pattern-dates.ts`, in the established idiom of that
+directory — `link-preview.ts`, `demo-expander.ts`, `active-path.ts` are all
+small client modules imported from `Base.astro`'s script block. It walks
+`time[data-relative]`, reads the `datetime` attribute, and replaces the text
+with a relative phrase, keeping the absolute in `title`.
+
+Two things it must get right, both already solved problems in this codebase:
+
+- *Re-run after navigation and pane injection.* `Base.astro` re-runs
+  `mountDemos` on `astro:page-load`, and `StackManager` injects related panes as
+  innerHTML. Dates in those panes need upgrading too, so this follows the same
+  pattern rather than running once at load.
+- *Bucketing past seven days.* `formatRelativeTime` is exported from
+  `shared/format` and handles the phrasing; only the ladder — days, weeks,
+  months, years, flooring at each step — is local. Using the module is not
+  extending it.
+
+*The date-only bug stays recorded, not fixed.* `describeTimestamp` renders its
+absolute branch with `formatDateTime(date, undefined, locale)`, passing an
+already-constructed `Date`. `calendarSafe` only triggers on a `YYYY-MM-DD`
+*string*, so the UTC guard is skipped, and `formatDateTime` appends a time the
+value never carried. Verified: `2025-10-17` renders as `17 Oct 2025, 02:00`.
+This plan does not touch it — `PatternDates.astro` calls `formatDate` directly
+with the raw string, which keeps the guard. It is noted because `date.ts`
+already knows a calendar date is a different kind of value from an instant and
+`relative-time.ts` does not, and the next caller of `<pp-timestamp>` with a
+date-only value will hit it.
 
 ### 4. Verification
 
@@ -215,16 +332,89 @@ tag-based, nothing positional — so inserting spans above the `<h1>` inside
 - `scripts/extract-graph-data.ts` still emits its usual node/edge counts
   (110 nodes / 618 edges as of the typed-relationships work).
 - Spot-check a pane render and a full-page render.
+- *Check the built HTML's `<time>` text and `datetime` attribute.* Assert the
+  emitted markup carries `17 Oct 2025` and `datetime="2025-10-17"`, not
+  `Oct 17`. A dropped locale argument fails silently otherwise: the build
+  succeeds and ships the wrong order.
+- Build once with `LANG` and `LC_ALL` unset, to confirm the output does not move
+  with the build environment. If it does, the locale argument is not reaching
+  the formatter.
+- *View a page with JavaScript disabled.* The badges must read
+  `Added 17 Oct 2025` — the shipped absolute — rather than being empty.
+- *Open a related pane from the stack* and confirm its dates read relative too,
+  not just pane 0's. This is the re-run requirement in caveat 2, and it is the
+  thing most likely to be missed.
+
+## Backdating `updated`: attempted, and not recommended
+
+Four heuristics were tried against the real history. The finding is not that
+backdating is noisy — it is that it is *uninformative*, and for a reason no
+heuristic can fix.
+
+*Attempt 1 — ignore commits that touched many pattern files.* At a threshold of
+20 files, 70 of the 118 patterns had no qualifying commit at all: they have only
+ever been touched by sweeps. The picks that did resolve were themselves
+mechanical (`Move demos`, `Move/reorg components`, `Patter site: add
+placeholders`). Commit width does not separate mechanical from substantive.
+
+*Attempt 2 — per-file diff magnitude.* 78 of 118 landed on `1a32c6e9`
+"Backfill 'situation'", which added 15–25 lines of frontmatter per file. High
+churn, zero argument change. Churn does not separate them either.
+
+*Attempt 3 — body churn, ignoring frontmatter.* The right discriminator in
+principle: a frontmatter migration changes no prose. This resolved all 118, but
+36 landed on `9a276de4` "Refit the pane stack to Astro's grain" and 23 on
+`1109a5b8` "Bot → Agent" — structural and rename sweeps that *do* rewrite prose.
+
+*Attempt 4 — body churn with the 15 known sweep commits hand-excluded.* Still
+14 files landed on "Add resizable/surface controls to Demo", 12 on "Organise
+conversational primitives", 10 on "Move components around a bit". Every round of
+exclusion surfaces another infrastructure commit that happens to touch prose.
+
+The resulting distribution, at its best:
+
+| month | patterns |
+| --- | --- |
+| 2026-07 | 58 |
+| 2026-06 | 45 |
+| 2026-05 | 13 |
+| 2026-03 | 1 |
+| 2026-02 | 1 |
+
+116 of 118 patterns land inside a single three-month window, and the dates come
+overwhelmingly from demo plumbing, file moves, and relationship migrations
+rather than from anyone rethinking a pattern.
+
+*Why this is not a fixable heuristic problem.* The clustering is real. The
+corpus genuinely was swept end-to-end several times between May and July 2026 —
+the split, the flatten, the relationship migration, the situation backfill, the
+pane refit. A truthful "when did this file last change" answer really is "July
+2026" for most of the library. The stated interest is *recentness*, and
+recentness computed this way is flat: nearly every badge would read the same
+month, which tells a reader nothing and quietly asserts editorial attention that
+was actually infrastructure work.
+
+*Recommendation: do not backfill `updated`.* Leave it absent and let it
+accumulate honestly from here — a pattern shows an Updated badge once someone
+actually revises it, and an absent badge means "not revised since it was added",
+which is both true and useful. The corpus becomes informative within a few
+months of ordinary work.
+
+If some visible signal is wanted sooner, the one defensible version is a short
+hand-marked list — the patterns whose arguments the author knows moved recently
+(the view-system reshape, drag-and-drop, block-editing). A dozen deliberate
+judgements beat 118 inferred ones. That is a content decision, not a script.
 
 ## Open questions
 
-- *Date format.* `Added 17 Oct 2025` vs `Added 2025-10-17` vs relative
-  (`Added 9 months ago`). Relative reads well for `updated` and badly for
-  `added`; mixing the two formats in adjacent badges may look accidental.
 - *Does `updated` want a sibling index?* Once the field exists, a
   "recently updated" listing becomes cheap. Out of scope here; noted so the
   field is not designed in a way that blocks it.
-- *Backdating `updated`.* The backfill deliberately leaves it empty. An
-  alternative is a one-time pass where the author hand-marks the dozen or so
-  patterns whose arguments genuinely moved recently. Worth doing only if the
-  empty state looks wrong in practice.
+- *Both badges at once.* A pattern added and revised in the same week reads
+  `Added 3 days ago · Last updated yesterday`, which is close to saying the same
+  thing twice. Possibly the `updated` badge should be suppressed when the two
+  land in the same bucket. Worth looking at once it is on screen.
+- *Whether this eventually belongs in the foundation.* Deliberately deferred.
+  Figures covers interfaces built with the components and patterns, not the
+  documentation layer, so age-as-a-figure has no home there today. If the shape
+  recurs, that is the evidence to reopen it on.

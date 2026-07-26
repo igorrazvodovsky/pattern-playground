@@ -239,7 +239,7 @@ Before writing, gather substance:
 - Look for named implementations (how do Salesforce, Google, Apple, etc. handle this move?)
 - Identify tensions and trade-offs — these are more generative for design than best practices
 
-For larger research syntheses, the `research` skill produces a committed `research/<slug>/` folder with a persistent query and dated synthesis notes that can later be promoted into `references/` and `docs/research/references.md`.
+For larger research syntheses, the `research-gate` skill produces a committed `research/<slug>/` folder with a persistent query and dated synthesis notes. The folder is the durable citation — docs that record a decision cite it by hand.
 
 Research should inform the move's design considerations and the *forces* it balances — not just fill a references section.
 

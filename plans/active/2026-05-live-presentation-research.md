@@ -58,7 +58,7 @@ Initial seeds, not exhaustive.
 
 Use the `research` skill to scaffold `research/live-presentation/`:
 
-1. Run `/research live-presentation`. The skill creates the folder with `query.yml` and a dated synthesis note.
+1. Run `/research-gate live-presentation`. The skill creates the folder with `query.yml` and a dated synthesis note.
 2. Curate `query.yml` keywords around the five goals. Expected cluster: "streaming UI", "incremental rendering", "live region accessibility", "real-time captioning", "scroll restoration", "auto-scroll behaviour", "rendering rhythm", "perceived stability".
 3. Run the synthesis. Review and edit the draft note in repertoire voice.
 4. If a load-bearing reference emerges, distil into `references/<filename>.md` with a project takeaway and add a one-line entry to `docs/research/references.md`. Promotion is a deliberate act, not automatic.
@@ -90,7 +90,7 @@ Use the `research` skill to scaffold `research/live-presentation/`:
 
 | Phase | Action | File |
 |-------|--------|------|
-| 1 | Run | `/research live-presentation` (creates the folder) |
+| 1 | Run | `/research-gate live-presentation` (creates the folder) |
 | 1 | Author | `research/live-presentation/query.yml` |
 | 2 | Author | `research/live-presentation/2026-05-XX.md` (synthesis) |
 | 3 | Maybe modify | `src/stories/activities/LivePresentation.mdx` |
