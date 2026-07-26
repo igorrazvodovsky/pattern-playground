@@ -3,7 +3,7 @@ import 'iconify-icon';
 import '../jsx-types';
 
 const meta = {
-  title: "Components/Stat",
+  title: "Templates/Stat",
 } satisfies Meta;
 
 export default meta;
@@ -15,8 +15,8 @@ interface StatTileProps {
   unit?: string;
   verdict: string;
   detail: string;
-  delta: string;
-  deltaIcon: string;
+  delta?: string;
+  deltaIcon?: string;
   trend?: 'success' | 'danger';
   alert?: boolean;
 }
@@ -27,10 +27,12 @@ function StatTile({ label, value, unit, verdict, detail, delta, deltaIcon, trend
       <article className="card" data-alert={alert || undefined}>
         <div className="card__header">
           <h4 className="label">{label}</h4>
-          <span className={`badge badge--pill${trend ? ` badge--${trend}` : ''}`}>
-            <iconify-icon className="icon" icon={deltaIcon} aria-hidden="true"></iconify-icon>
-            {delta}
-          </span>
+          {delta && (
+            <span className={`badge badge--pill${trend ? ` badge--${trend}` : ''}`}>
+              {deltaIcon && <iconify-icon className="icon" icon={deltaIcon} aria-hidden="true"></iconify-icon>}
+              {delta}
+            </span>
+          )}
         </div>
         <div className="stat pad">
           <strong className="stat__value">
@@ -63,8 +65,6 @@ export const Stat: Story = {
         unit="days"
         verdict="Holding steady"
         detail="Across 24 in-production items"
-        delta="±0"
-        deltaIcon="ph:minus"
       />
       <StatTile
         label="Overdue reviews"

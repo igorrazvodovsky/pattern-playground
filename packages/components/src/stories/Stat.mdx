@@ -11,7 +11,7 @@ A reading taken in passing: a headline figure, a one-line verdict, and enough su
 
 ## Composition
 
-Almost everything is other catalogue blocks: the [card](../?path=/docs/components-card--docs) is the surface, its header carries the label and a trend [badge](../?path=/docs/components-badge--docs) (`badge--success`/`badge--danger` say whether the movement is welcome, which is not the same as which way it points). `.stat` itself only sets the figure scale and the vertical rhythm — value with an optional `.stat__unit`, `.stat__verdict`, then muted detail. `data-alert` on the card turns the figure itself into the alarm while the badge keeps reporting direction.
+Almost everything is other catalogue blocks: the [card](../?path=/docs/components-card--docs) is the surface, its header carries the label and, when there's a delta to report, a trend [badge](../?path=/docs/components-badge--docs) (`badge--success`/`badge--danger` say whether the movement is welcome, which is not the same as which way it points). A figure with nothing to compare against — no prior period, no baseline — just drops the badge. `.stat` itself only sets the figure scale and the vertical rhythm — value with an optional `.stat__unit`, `.stat__verdict`, then muted detail. `data-alert` on the card turns the figure itself into the alarm while the badge, where present, keeps reporting direction.
 
 ## The figure
 
