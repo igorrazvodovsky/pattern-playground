@@ -13,7 +13,6 @@ the plan contract and `docs/specs/` for settled specifications.
 - [Pattern dates](active/2026-07-pattern-dates.md) — two dates on every entry: when the pattern joined the library and when it last meaningfully changed
 - [Workflow scripts for the review loops](active/2026-07-review-loop-workflows.md) — outline, needs iteration: move the three review skills' subagent fan-outs (episodes, lenses, blinded derive) into scripted workflows so blinding is structural
 - [realised_by backfill](active/2026-07-realised-by-backfill.md) — claim or citation, page by page: write `realised_by:` where prose ComponentRefs carry a realisation claim *(plan file on an unmerged branch, not yet on main)*
-- [Related-link residue audit](active/2026-07-related-residue-audit.md) — restore, or deliberately release, what the relationships migration dropped *(closure commits on the `leaflet-map` worktree branch, not yet on main)*
 - [Pane stack: refit to Astro's grain](active/2026-07-pane-stack-astro-fit.md) — demo registry + pane partials + static pane 0 so no pane machinery depends on Astro internals; gated phase 4 retires ClientRouter *(plan file on an unmerged branch, not yet on main)*
 - [Block-editing follow-ups](active/2026-07-block-editing-followups.md) — outline: carried work from the block-editing research sitting
 - [Heatmap + n-gram promotion](active/2026-05-heatmap-ngram-promotion.md) — deferred: promote the heatmap extension and n-gram engine out of the dynamic-hyperlinks demo
@@ -30,6 +29,7 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Completed
 
+- [Related-link residue audit](completed/2026-07-related-residue-audit.md) — all 204 worksheet rows judged; lost notes restored, non-seed bare edges removed; `surveys` narrowed to members-only (vocabulary changelog 2026-07-18)
 - [Enacts-note audit](completed/2026-07-enacts-note-audit.md) — all 118 `enacts` edges audited against the Q-lens convention; 29 notes reworded across 16 pages, two deliberate holds; the planned third extractor advisory dropped — the corpus's real failure shapes aren't regex-detectable
 - [Move-vs-artifact naming: the T6 kept twins](completed/2026-07-move-vs-artifact-naming.md) — both twins keep their names; two exception clauses added to `pattern-role-model.md` §Naming; *affordance follows context* named in Sections' body as a candidate node
 - [Storybook re-bucketing](completed/2026-07-storybook-rebucketing.md) — catalogue re-bucketing finished; retitle sweeps across every id-bearing channel, `realised_by` included
