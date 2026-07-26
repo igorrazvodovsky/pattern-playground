@@ -107,41 +107,16 @@ import "@styles/pattern-graph.css";
     <h3>July '26</h3>
 
     <p>
-      The split question got answered by doing the split. The component
-      catalogue and the pattern site are now separate workspaces, each with its
-      own structure and tooling. Moving the content took two months of
-      file-by-file migration — the pages carried too many idiosyncrasies and the untangling afterwards took nearly as long:
-      retiring pages that existed on both sides, drawing a <a
-        href="https://github.com/igorrazvodovsky/pattern-playground/pull/25"
-        >style boundary</a
-      > between the site and the library, deciding where each half-and-half
-      artefact belongs.
+      The component catalogue and the pattern site are now separate workspaces, each with its own structure and tooling. Moving the content took two months of untangling "components" from "patterns". I did not enjoy the process. I was right to dread it. I also can't say I'm particularly pleased with the results. But it's done and the new structure makes more sense, so I can move on.
     </p>
 
     <p>
-      The catalogue-to-language transition, meanwhile, stopped being a question
-      and became a <a
+      The catalogue-to-language transition, meanwhile, got a <a
         href="https://github.com/igorrazvodovsky/pattern-playground/blob/main/docs/language/relationship-vocabulary.md"
         >vocabulary</a
-      >. Relationships between patterns moved out of prose "related" lists into
+      >. Relationships between patterns moved out of "related" lists into
       typed edges: one pattern <em>precedes</em> another, <em>hosts</em> it,
-      <em>serves</em> a foundation, is <em>realised by</em> a component. Each
-      edge type had to earn its place through a <a
-        href="https://github.com/igorrazvodovsky/pattern-playground/tree/main/research"
-        >literature check</a
-      > before landing — a habit that has spread to most decisions here: a
-      scoped research pass between the first sketch and the commitment, framed
-      as "what would I be wrong about?"
-    </p>
-
-    <p>
-      On the practical side, the view system got reshaped end to end —
-      coordinated views, declarative bindings in place of adapter classes,
-      filtering driven by the same bindings. Charts grew a spatial branch
-      (maps) and a colour palette that survives colour-vision checks. And the
-      site keeps absorbing ideas from the patterns it describes: stacked panes
-      refitted to Astro's grain, a nav that can be projected alphabetically or
-      by activity, a sidebar fed by the same graph that draws the map above.
+      <em>serves</em> a foundation, is <em>realised by</em> a component, etc.
     </p>
 
     <h3>May</h3>
