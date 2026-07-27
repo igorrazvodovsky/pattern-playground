@@ -1,0 +1,63 @@
+---
+/**
+ * A pattern's two dates, as badges in the article header. What they answer is
+ * how settled a pattern is, so both read as age — `Added 6 months ago` — at
+ * every distance, never switching to the date. The relative text is produced in
+ * the browser by lib/pattern-dates.ts; see that file for why it cannot be a
+ * build-time value, and why <pp-timestamp> is not the vehicle.
+ *
+ * What ships here is the absolute date, which is correct without JavaScript and
+ * does not age. `data-relative` marks it for upgrading.
+ *
+ * The locale is stated rather than left to the reader, which is the opposite of
+ * `shared/format`'s rule and right for the same reason the rule exists: this is
+ * a static build, so `documentLocale()` is inert and the floor becomes the build
+ * machine's own locale — `Oct 17, 2025` or `17 Oct 2025` depending on whose CI
+ * ran. There is no reader here to defer to. en-001 is CLDR's international
+ * English. Elsewhere, where a reader is reachable, the rule stands.
+ *
+ * Every file carries the `updated` key, almost all of them empty — the blank is
+ * there so revising a page means filling it in rather than remembering a field
+ * name. Empty is `null`, so the badge is omitted: "not revised since it was
+ * added" is what an absent value says, and it is said by showing nothing.
+ *
+ * `added` and `updated` arrive as Dates (js-yaml parses an unquoted YAML date
+ * before zod sees it), so they round-trip through `isoDate` to give `formatDate`
+ * the `YYYY-MM-DD` string its calendar-day guard keys on. Without that the UTC
+ * midnight these values carry would render as the previous day anywhere west of
+ * Greenwich — including on a build machine.
+ */
+import type { CollectionEntry } from 'astro:content';
+import { formatDate, isoDate, type Locale } from '@shared/format';
+
+interface Props {
+  entry: CollectionEntry<'patterns'>;
+}
+
+const { entry } = Astro.props;
+
+const LOCALE: Locale = 'en-001';
+const asBadge = (value: Date) => {
+  const iso = isoDate(value);
+  return { iso, text: formatDate(iso, { dateStyle: 'medium' }, LOCALE) };
+};
+
+const added = asBadge(entry.data.added);
+const updated = entry.data.updated ? asBadge(entry.data.updated) : null;
+---
+
+{/* data-pagefind-ignore: the badges sit inside the article's
+    data-pagefind-body, so without it every page carries the token "Added" and a
+    year — a search for `2025` would return most of the corpus. The dates are
+    chrome about the page, not part of what the page says. */}
+<small class="muted" data-pagefind-ignore>
+  Added <time datetime={added.iso} data-relative>{added.text}</time>
+</small> 
+{updated && (
+  <>
+    &#32;·&#32;
+    <small class="muted" data-pagefind-ignore>
+      Last updated <time datetime={updated.iso} data-relative>{updated.text}</time>
+    </small>
+  </>
+)}

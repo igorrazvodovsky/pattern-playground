@@ -13,6 +13,8 @@ Required fields:
 
 ```yaml
 title: "Pattern name"          # sentence case, short
+added: 2025-10-17              # the day the entry joined the library
+updated: 2025-11-10            # the day the argument last moved; empty if never
 role: pattern                  # pattern | collection | quality | foundation | component
 ```
 

@@ -46,7 +46,7 @@ const maxChromaP3 = maxIn('p3');
 // Contrast consistency between palettes does not depend on the increment being
 // uniform — only on every palette using the same ladder.
 const steps = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
-const lightness = [0.98, 0.94, 0.89, 0.82, 0.73, 0.64, 0.56, 0.48, 0.41, 0.34, 0.27];
+const lightness = [0.97, 0.94, 0.89, 0.82, 0.73, 0.64, 0.56, 0.48, 0.41, 0.34, 0.27];
 const Lof = (s) => lightness[steps.indexOf(s)];
 
 // the current smooth chroma *shape* (relative curve, its own peak at 500 = 1)

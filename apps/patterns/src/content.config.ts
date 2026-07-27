@@ -10,6 +10,8 @@ const patterns = defineCollection({
   }),
   schema: z.object({
     title: z.string(),
+    added: z.coerce.date(),
+    updated: z.coerce.date().nullish(),
     role: z.enum(['pattern', 'collection', 'umbrella', 'quality', 'foundation', 'component']),
     // Classification facets. Navigation is a projection over these (see Base.astro); more lenses can be added as fields without moving files.
     activityLevel: z.enum(['operation', 'action', 'activity']).optional(),

@@ -1,17 +1,23 @@
 ---
 title: "Pattern dates"
-status: "active"
+status: "completed"
 kind: "exec-spec"
 created: "2026-07"
-last_reviewed: "2026-07-26"
+last_reviewed: "2026-07-27"
 area: "patterns-site"
-promoted_to: ""
+promoted_to: "apps/patterns/src/content.config.ts, apps/patterns/src/components/PatternDates.astro, apps/patterns/src/lib/pattern-dates.ts, scripts/backfill-pattern-dates.mjs"
 superseded_by: ""
 ---
 # Pattern dates
 
 Add two dates to every entry in `apps/patterns/src/content/patterns/`: when the
 pattern was added to the library, and when it was last meaningfully changed.
+
+All 118 files carry `added:` and an `updated:` key — 13 with a hand-marked value,
+105 blank. The blank is deliberate: revising a page means filling it in rather
+than recalling a field name, and an empty `updated` renders no badge. Both badges
+read as age. The durable residue is the four files named in `promoted_to`; what
+follows is the reasoning and the execution trace.
 
 ## Design framing
 
@@ -161,14 +167,48 @@ schema demands it. Backfill first, tighten the schema second — the reverse lea
    take the first-add date of *that* path instead.
 
 *Review gate.* The script's first run writes nothing — it emits the 26-row
-mapping table with each pre-split file's `title` frontmatter field alongside the
-current file's, for a by-eye check that `Abort.mdx` really is `abort.mdx` and
-not a same-named different pattern. Only after the mapping is signed off does a
-second run insert `added:` into frontmatter.
+mapping table with the pre-split file's own name alongside the current file's,
+for a by-eye check that `Abort.mdx` really is `abort.mdx` and not a same-named
+different pattern. Only after the mapping is signed off does a second run insert
+`added:` into frontmatter.
+
+Pre-split prose was Storybook MDX and carries no YAML frontmatter, so there is
+no `title:` field to compare against: the name lives in the `<h1>` (stripped
+later by `c081655a`) and, as a slash path, in `<Meta title>`. The script reports
+both, and a row passes if either agrees with the current `title`.
+
+*Gate outcome.* All 26 rows reproduced the table above exactly — same pre-split
+paths, same dates. Twenty-three names agreed verbatim. Three differed and were
+signed off individually, and the script records them so a re-run cannot silently
+widen the exception:
+
+| slug | pre-split | current | why |
+| --- | --- | --- | --- |
+| agent-opening | Bot opening | Opening (Agent) | the Bot → Agent rename (`1109a5b8`) |
+| inquiry-agent | Inquiry (Bot) | Inquiry (Agent) | same rename |
+| navigation-overview | Navigation models | Navigation | retitle of the same file under the same basename |
+
+The script also flags any cleanly-traced file whose add commit is itself one of
+the seven corpus-wide sweeps — a rename-detection failure the two sentinels
+would not catch. None were. (The discriminator is the commit, not the date:
+`drag-and-drop` was added on 2026-07-25, the day of the `situation` backfill,
+by its own commit.)
 
 Insertion goes after the `title:` line, so the field lands in a predictable
-place across all 118 files. `updated:` is *not* written by the script — it stays
-absent until a real edit warrants one.
+place across all 118 files. `updated:` follows it, written as a bare key with no
+value — see below. Both insertions are idempotent, so a re-run after new files
+land does the right thing.
+
+*Why the key is written empty rather than left absent.* An absent field is a
+field the next author has to remember exists; a blank one is a prompt they fill
+in place, at the moment they are already editing the frontmatter. That is the
+whole benefit, and it costs nothing: an empty value asserts exactly what an
+absent one did.
+
+Copying `added` into it was the other candidate and is rejected. It would state
+a last-revision date the repository does not know, and a later "recently
+updated" index (open question 1) would silently rank the whole corpus by
+add-date while looking like it ranked by revision.
 
 ### 2. Schema
 
@@ -181,14 +221,30 @@ Only once all 118 files carry `added:`. In
 // mechanical sweeps touch ~every file, so git cannot tell an argument change
 // from an <h1> deletion. See plans/active/2026-07-pattern-dates.md.
 added: z.coerce.date(),
-updated: z.coerce.date().optional(),
+updated: z.coerce.date().nullish(),
 ```
 
 `z.coerce.date()` rather than `z.string()` so both unquoted YAML dates
 (`added: 2025-10-17`) and quoted strings parse. `added` is required, which is
-why it cannot land before step 1. `updated` is optional; when absent the badge
-is *omitted*, never filled from `added` — an "Updated" badge showing the added
-date would assert something false.
+why it cannot land before step 1. `updated` carries a value on 13 entries (see
+the hand-marked list below); when it is empty the badge is *omitted*, never
+filled from `added` — an "Updated" badge showing the added date would assert
+something false.
+
+*`.nullish()`, not `.optional()`.* An empty YAML value is `null`, and
+`z.coerce.date()` coerces `null` to `new Date(null)` — the Unix epoch. Under
+`.optional()` all 118 entries would have validated cleanly and rendered
+`Last updated 56 years ago`. `.nullish()` wraps the nullable check outside the
+coercion, so `null` short-circuits and stays `null`. Verified directly:
+`z.coerce.date().optional().parse(null)` returns `1970-01-01T00:00:00.000Z`.
+
+*What the field actually holds is a `Date`, not the source text.* Astro parses
+frontmatter with `js-yaml`'s default schema, which includes the YAML 1.1
+timestamp type, so an unquoted `added: 2025-10-17` is already a `Date` at UTC
+midnight before zod sees it — `z.coerce.date()` passes it through unchanged. A
+quoted string reaches the same value by coercion, so the two spellings stay
+interchangeable and hand-authoring `updated:` needs no quoting discipline. But
+it means step 3 cannot hand `formatDate` the raw string; see below.
 
 ### 3. Render
 
@@ -201,6 +257,11 @@ formatting layer this step needs, so nothing here is hand-rolled:
 
 The UTC-midnight trap is already handled: `date.ts`'s `calendarSafe` detects a
 bare `YYYY-MM-DD` *string* and formats it in UTC so the calendar day survives.
+Since the frontmatter value arrives as a `Date` (step 2), the guard has to be
+given something to key on: `PatternDates.astro` round-trips through
+`isoDate(value)` and formats *that*. Skipping the round-trip would render the
+previous day anywhere west of Greenwich — including on a build machine, where it
+would bake into static output.
 
 #### Both badges read as age, always
 
@@ -233,16 +294,17 @@ least two". The qualifier was considered and is out.
 `Consequences.astro` shape — takes `entry`, renders nothing of its own layout:
 
 ```astro
+const asBadge = (value: Date) => {
+  const iso = isoDate(value);
+  return { iso, text: formatDate(iso, { dateStyle: 'medium' }, 'en-001') };
+};
+---
 <span class="badge">
-  Added <time datetime={isoDate(added)} data-relative>
-    {formatDate(added, { dateStyle: 'medium' }, 'en-001')}
-  </time>
+  Added <time datetime={added.iso} data-relative>{added.text}</time>
 </span>
 {updated && (
   <span class="badge">
-    Last updated <time datetime={isoDate(updated)} data-relative>
-      {formatDate(updated, { dateStyle: 'medium' }, 'en-001')}
-    </time>
+    Last updated <time datetime={updated.iso} data-relative>{updated.text}</time>
   </span>
 )}
 ```
@@ -251,10 +313,25 @@ What ships in the HTML is the absolute date, which is correct without JavaScript
 and stays correct indefinitely — an absolute date does not age. `data-relative`
 marks it for upgrading.
 
-When `updated` is absent the badge is omitted entirely — never filled from
-`added`.
+When `updated` is empty the badge is omitted entirely — never filled from
+`added`. This is the first slice of open question 2 below: the placeholder case
+is the degenerate one, where the two dates are not merely in the same bucket but
+the same value. Suppressing a genuinely-close pair is still open, and harder,
+because the bucket is only known in the browser.
 
 Invoked inside the `.meta` div in `PatternArticle.astro`, above the `<h1>`.
+
+*The badges carry `data-pagefind-ignore`.* `.meta` sits inside the article's
+`data-pagefind-body`, so without it every one of the 118 pages contributes the
+token "Added" plus a year: measured, a search for `2025` returned 89 pages and
+`Added` returned all 118. With the attribute those fall to 19 and 50 — the
+genuine prose occurrences — and content searches are unchanged. A date badge is
+chrome *about* the page, not part of what the page says.
+
+*The `title` uses `dateStyle: 'long'` where the body text uses `medium`.* The
+body text is the compact fallback that ships in the markup and is replaced by
+the relative phrase; the `title` is the value a reader goes looking for once the
+visible text has stopped being a date, so it spells the month out.
 
 #### Caveat 1: the locale matters less than it looks, but must still be explicit
 
@@ -306,14 +383,21 @@ with a relative phrase, keeping the absolute in `title`.
 
 Two things it must get right, both already solved problems in this codebase:
 
-- *Re-run after navigation and pane injection.* `Base.astro` re-runs
-  `mountDemos` on `astro:page-load`, and `StackManager` injects related panes as
-  innerHTML. Dates in those panes need upgrading too, so this follows the same
-  pattern rather than running once at load.
+- *Re-run after navigation and injection.* An article reaches the DOM by three
+  routes, not the two the mounted-demos idiom deals with: the initial render and
+  ClientRouter swaps, panes injected as innerHTML by `StackManager`, and the
+  link-preview popover, which fetches the same pane partial through
+  `pane-content.ts` and strips only the `<h1>` — so the `.meta` badges survive
+  into it. Three call sites for an explicit hook is what tips this to a
+  `MutationObserver` on `document.body`: it covers all three, gains no hook site
+  as more are added, and is the reason this module diverges from
+  `mountDemos`'s shape. Verified against all three.
 - *Bucketing past seven days.* `formatRelativeTime` is exported from
   `shared/format` and handles the phrasing; only the ladder — days, weeks,
   months, years, flooring at each step — is local. Using the module is not
-  extending it.
+  extending it. The ladder is descending and gapless: `0 → today`,
+  `1 → yesterday`, `7 → last week`, `31 → last month`, `366 → last year`,
+  `850 → 2 years ago`.
 
 *The date-only bug stays recorded, not fixed.* `describeTimestamp` renders its
 absolute branch with `formatDateTime(date, undefined, locale)`, passing an
@@ -328,9 +412,12 @@ date-only value will hit it.
 
 ### 4. Verification
 
+All of the following ran and passed.
+
 - `npm run build` in `apps/patterns` — schema accepts all 118 files.
-- `scripts/extract-graph-data.ts` still emits its usual node/edge counts
-  (110 nodes / 618 edges as of the typed-relationships work).
+- `scripts/extract-graph-data.ts` re-emits `pattern-graph.json` byte-identical
+  (117 nodes / 650 edges at this corpus size). The count is not the check; the
+  clean `git diff` on `src/data/` is.
 - Spot-check a pane render and a full-page render.
 - *Check the built HTML's `<time>` text and `datetime` attribute.* Assert the
   emitted markup carries `17 Oct 2025` and `datetime="2025-10-17"`, not
@@ -339,13 +426,48 @@ date-only value will hit it.
 - Build once with `LANG` and `LC_ALL` unset, to confirm the output does not move
   with the build environment. If it does, the locale argument is not reaching
   the formatter.
+- *Build once under a hostile zone* — `TZ=America/Los_Angeles`. This is the
+  separate axis the locale test does not cover, and the one that catches a
+  missing `calendarSafe`: `17 Oct 2025` means the guard holds, `16 Oct 2025`
+  means it does not.
 - *View a page with JavaScript disabled.* The badges must read
   `Added 17 Oct 2025` — the shipped absolute — rather than being empty.
 - *Open a related pane from the stack* and confirm its dates read relative too,
-  not just pane 0's. This is the re-run requirement in caveat 2, and it is the
-  thing most likely to be missed.
+  not just pane 0's — and the same for a link-preview popover. This is the
+  re-run requirement in caveat 2, and it is the thing most likely to be missed.
+- The backfill's own round-trip guard: every file's `title` compared before and
+  after, and the inserted `added:` read back. 118 files, one insertion each, no
+  deletions.
+- *Search the built site for `2025`.* The badges sit inside
+  `data-pagefind-body`; see the `data-pagefind-ignore` note in step 3.
+- *Render a scratch `updated:` value* and confirm the second badge appears with
+  the right text and `datetime`. No entry carries a value, so the branch is
+  otherwise untested.
+- *Grep the built HTML for `Last updated`.* On the 105 pages with an empty
+  `updated`, zero hits — that is what confirms the empty value reaches the
+  render as `null` rather than as the epoch, which the `.optional()` trap fails
+  silently otherwise. Exactly 13 hits, matching the hand-marked list below.
+- *Assert every `updated` is strictly after its `added`.* Checked across the
+  corpus; a same-day or earlier value would mean the wrong commit was picked.
+
+Not run: `astro check`. `@astrojs/check` is not installed in this workspace, and
+the plan does not treat installing it as in scope. `npm run test` and
+`npm run test styles` were run and are uninformative here — both are saturated
+by pre-existing findings in `public/storybook`'s built assets; the files this
+plan adds were linted directly and are clean.
+
+The `added`/`updated` contract was promoted out of the plan into
+`docs/specs/pattern-site.md` (required/optional field lists) and
+`.claude/rules/pattern-content.md` (the frontmatter template, plus when to write
+an `updated`). Without that, the next entry authored would fail schema
+validation with the reason recorded only in a comment.
 
 ## Backdating `updated`: attempted, and not recommended
+
+The recommendation held for the *automated* case and still does. The
+hand-marked list at the end of this section is the exception it anticipated:
+thirteen values, each read one commit at a time, which is a different act from
+inferring 118.
 
 Four heuristics were tried against the real history. The finding is not that
 backdating is noisy — it is that it is *uninformative*, and for a reason no
@@ -394,26 +516,80 @@ recentness computed this way is flat: nearly every badge would read the same
 month, which tells a reader nothing and quietly asserts editorial attention that
 was actually infrastructure work.
 
-*Recommendation: do not backfill `updated`.* Leave it absent and let it
+*Recommendation: do not backfill `updated`.* Leave it empty and let it
 accumulate honestly from here — a pattern shows an Updated badge once someone
-actually revises it, and an absent badge means "not revised since it was added",
-which is both true and useful. The corpus becomes informative within a few
-months of ordinary work.
+actually revises it, and no badge means "not revised since it was added", which
+is both true and useful. The corpus becomes informative within a few months of
+ordinary work. (The *key* is written everywhere; it is the value that stays
+blank. See step 1.)
 
 If some visible signal is wanted sooner, the one defensible version is a short
 hand-marked list — the patterns whose arguments the author knows moved recently
 (the view-system reshape, drag-and-drop, block-editing). A dozen deliberate
 judgements beat 118 inferred ones. That is a content decision, not a script.
 
+### The hand-marked list
+
+Thirteen pages, read one commit at a time. Two rules did the discriminating,
+and both are worth keeping for the next pass:
+
+*Compare bodies, not diffs.* Frontmatter is stripped from both sides before
+comparing, so a relationship migration or a `situation` backfill registers as no
+change at all. This is the discriminator attempt 3 reached for and could not
+make stick alone.
+
+*Body churn is a filter, not the verdict.* Every candidate was read. Demo
+plumbing dominates the churn counts and is not an argument move: `sorting`
+(±18), `filtering` (±14) and `notification` (±19) all turned out to be a
+`{/* TODO: Storybook demo exists */}` becoming a real `<Demo>`, and
+`generated-content` (±120) is the same thing at scale. None are marked.
+
+*Changes inside the authoring episode that minted a page are not updates.*
+`purpose-keyed-view`, `coordinated-views` and `problem-curated-view` were minted
+on 2026-07-16 and reworked on 07-22, but that is one act of authorship still
+settling, not a later revision. `attribute-visibility` and `drag-and-drop`
+likewise carry only an `added`.
+
+Also unmarked, deliberately: `70e41f3b` *Add "Consequences" section*, which
+lifted body Consequences prose into `situation.resulting` and folded the claims
+back into the surrounding paragraphs. The page says the same things in different
+places — a re-homing pass, which is what step 1's rule about migrations covers.
+
+| slug | added | updated | the episode |
+| --- | --- | --- | --- |
+| focus-and-context | 2025-04-08 | 2026-07-23 | contextual navigation rebuilt as the certainty fisheye |
+| overview-detail | 2026-01-12 | 2026-07-22 | view-system reshape — layout/content interdependence, the width fallback |
+| data-view | 2025-04-11 | 2026-07-22 | view-system reshape |
+| item-view | 2025-07-12 | 2026-07-22 | view-system reshape |
+| semantic-zoom | 2026-07-08 | 2026-07-22 | view-system reshape — the item-view ladder relation |
+| navigation-overview | 2026-03-19 | 2026-07-16 | view-system reshape — continuous space added as a topology |
+| keyboard-shortcuts | 2026-06-30 | 2026-07-11 | honest facets, situation-level i18n prose |
+| block-based-editor | 2025-06-23 | 2026-07-09 | T6 root composites |
+| sections | 2026-04-05 | 2026-07-09 | T6 root composites — lead rewritten |
+| status-feedback | 2025-07-07 | 2026-07-07 | feedback cluster reshaped; the lead becomes a framework claim |
+| form | 2025-07-08 | 2026-06-22 | Split Form — the lead becomes a compositional claim |
+| bounded-choice | 2026-06-12 | 2026-06-22 | Split Form — "Choosing a control" added |
+| selection | 2026-04-07 | 2026-06-12 | Split Combobox — lead rewritten, Forces added |
+
 ## Open questions
 
 - *Does `updated` want a sibling index?* Once the field exists, a
   "recently updated" listing becomes cheap. Out of scope here; noted so the
   field is not designed in a way that blocks it.
-- *Both badges at once.* A pattern added and revised in the same week reads
-  `Added 3 days ago · Last updated yesterday`, which is close to saying the same
-  thing twice. Possibly the `updated` badge should be suppressed when the two
-  land in the same bucket. Worth looking at once it is on screen.
+- *Both badges at once.* Now observed rather than predicted. Of the thirteen
+  marked pages, eleven read cleanly (`Added last year · Last updated 4 days
+  ago`), one is adjacent (`keyboard-shortcuts`: `3 weeks ago` / `2 weeks ago`)
+  and one is degenerate: `bounded-choice` reads *`Added last month · Last
+  updated last month`*. Its two dates are ten days apart, so they will share a
+  bucket from here on as the pair ages together — this does not resolve itself.
+
+  Two things the instance settles. The marking is not the error: `bounded-choice`
+  was minted by *Split Combobox* and revised by *Split Form* ten days later, two
+  plans over different territories, so the within-episode rule correctly does
+  not exclude it. And suppression is cheap if wanted — the shipped HTML carries
+  absolute dates, which are never equal, so the duplicate exists only after the
+  client upgrade, where both phrases are already in hand. Whether a repeated
+  phrase is worse than a badge that vanishes on hydration is the open part.
 - *Whether this eventually belongs in the foundation.* Deliberately deferred.
   Figures covers interfaces built with the components and patterns, not the
   documentation layer, so age-as-a-figure has no home there today. If the shape

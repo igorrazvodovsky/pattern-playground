@@ -13,11 +13,13 @@ For component Storybook documentation, see `.claude/rules/documentation.md`.
 
 Files are flat under `apps/patterns/src/content/patterns/`; the filename stem is
 the slug, route, and graph ID. Classification lives in frontmatter facets, not
-folders. Every file needs at least `title` and `role`:
+folders. Every file needs at least `title`, `added` and `role`:
 
 ```yaml
 ---
 title: "Pattern name"
+added: 2025-10-17              # the day it joined the library
+updated:                       # fill in when the argument moves
 role: pattern
 activityLevel: operation       # AT altitude (operation | action | activity)
 lifecycle: seeking             # optional Seek–Use–Share stage

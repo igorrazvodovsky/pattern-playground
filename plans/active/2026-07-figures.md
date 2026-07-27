@@ -38,7 +38,7 @@ documented, which is what ships into products and meets real readers.
 
 The pattern site and Storybook are *containers for documenting that material*.
 They are not subjects of the rules. Their own chrome — the `added`/`updated`
-badges from `plans/active/2026-07-pattern-dates.md`, timestamps in prose, figures
+badges from `plans/completed/2026-07-pattern-dates.md`, timestamps in prose, figures
 in explanatory copy — is authored English documentation, and does not follow the
 reader.
 

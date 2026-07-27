@@ -10,7 +10,6 @@ the plan contract and `docs/specs/` for settled specifications.
 - [Drag and drop: capture as a language entry](active/2026-07-drag-and-drop.md) — research-gated: pattern node vs mechanism verdict first, then author the page borrowing the view-system demos; scaffolding promotion trigger-gated
 - [Light-DOM refactor: platform-first components](active/2026-07-light-dom-refactor.md) — convert the shadow-DOM Lit components to light DOM up a native-first decision ladder; retire the `is="pp-button"` built-in; library choice deferred to the residue
 - [Decision-tree integration](active/2026-07-decision-tree-integration.md) — every tree wired (emitting `recommends`), dissolved (judgement re-homed), or deliberately outside; questions survive dissolution, component leaves never emit
-- [Pattern dates](active/2026-07-pattern-dates.md) — two dates on every entry: when the pattern joined the library and when it last meaningfully changed
 - [Workflow scripts for the review loops](active/2026-07-review-loop-workflows.md) — outline, needs iteration: move the three review skills' subagent fan-outs (episodes, lenses, blinded derive) into scripted workflows so blinding is structural
 - [realised_by backfill](active/2026-07-realised-by-backfill.md) — claim or citation, page by page: write `realised_by:` where prose ComponentRefs carry a realisation claim *(plan file on an unmerged branch, not yet on main)*
 - [Pane stack: refit to Astro's grain](active/2026-07-pane-stack-astro-fit.md) — demo registry + pane partials + static pane 0 so no pane machinery depends on Astro internals; gated phase 4 retires ClientRouter *(plan file on an unmerged branch, not yet on main)*
@@ -29,8 +28,9 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Completed
 
-- [Related-link residue audit](completed/2026-07-related-residue-audit.md) — all 204 worksheet rows judged; lost notes restored, non-seed bare edges removed; `surveys` narrowed to members-only (vocabulary changelog 2026-07-18)
-- [Enacts-note audit](completed/2026-07-enacts-note-audit.md) — all 118 `enacts` edges audited against the Q-lens convention; 29 notes reworded across 16 pages, two deliberate holds; the planned third extractor advisory dropped — the corpus's real failure shapes aren't regex-detectable
+- [Pattern dates](completed/2026-07-pattern-dates.md)
+- [Related-link residue audit](completed/2026-07-related-residue-audit.md)
+- [Enacts-note audit](completed/2026-07-enacts-note-audit.md)
 - [Move-vs-artifact naming: the T6 kept twins](completed/2026-07-move-vs-artifact-naming.md) — both twins keep their names; two exception clauses added to `pattern-role-model.md` §Naming; *affordance follows context* named in Sections' body as a candidate node
 - [Storybook re-bucketing](completed/2026-07-storybook-rebucketing.md) — catalogue re-bucketing finished; retitle sweeps across every id-bearing channel, `realised_by` included
 - [Card recipe](completed/2026-07-card-recipe.md) — `.card` shrunk to surface + zones + opt-in media; arrangement moved to `layout.css`, `stretched-link` utility extracted, `.pad` + `.flow` replace ambient spacing; Card.mdx reframed as a recipe
