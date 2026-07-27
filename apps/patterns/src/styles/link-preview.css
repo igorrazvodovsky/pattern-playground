@@ -14,8 +14,7 @@
     box-shadow: var(--shadow-l);
     background: var(--c-background);
     color: var(--c-body);
-    font-size: 1rem;
-    line-height: 1.5;
+    font-size: var(--text-s);
 
     opacity: 0;
     transform: translateY(4px);

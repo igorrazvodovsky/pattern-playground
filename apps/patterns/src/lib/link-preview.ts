@@ -54,13 +54,17 @@ function extractContent(html: string, title: string): string {
 
   const h1 = wrapper.querySelector('h1');
   const heading = h1?.textContent?.trim() ?? title;
-  h1?.remove();
+  // The preview draws its own title, and the added/updated badges are chrome
+  // about the page rather than part of what it says — so the whole header goes,
+  // not just the h1.
+  (h1?.closest('header') ?? h1)?.remove();
 
-  // A hover preview is ephemeral, so it deliberately does not mount demos
-  // (unlike stacked panes, see StackManager mountDemos). Drop demo blocks and
-  // bare demo mount points (Mermaid diagrams) entirely rather than leave an
-  // empty frame in view.
-  wrapper.querySelectorAll('.demo-block, [data-demo]').forEach((el) => el.remove());
+  // A hover preview is ephemeral, so it deliberately does not mount demos.
+  //
+  // The table of contents goes too: a preview is not navigable, and pp-toc
+  // scopes to `closest('article')` — which the popover has none of, so it would
+  // fall back to scanning the whole document and list every heading on screen.
+  wrapper.querySelectorAll('.demo-block, [data-demo], pp-toc').forEach((el) => el.remove());
 
   return `<strong class="link-preview__title">${heading}</strong><div class="link-preview__body">${wrapper.innerHTML}</div>`;
 }
