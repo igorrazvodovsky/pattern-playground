@@ -7,33 +7,69 @@ foundations, and collections. Components live in Storybook; patterns live here.
 ## Content collection schema
 
 Patterns are defined in `apps/patterns/src/content.config.ts` using Astro
-content collections with zod-validated frontmatter.
+content collections with zod-validated frontmatter. The frontmatter template —
+which fields to write into a file — is in the authoring rule,
+[`.claude/rules/pattern-content.md`](../../.claude/rules/pattern-content.md);
+what follows is what the fields mean.
 
-Required fields:
-
-```yaml
-title: "Pattern name"          # sentence case, short
-added: 2025-10-17              # the day the entry joined the library
-updated: 2025-11-10            # the day the argument last moved; empty if never
-role: pattern                  # pattern | collection | quality | foundation | component
-```
-
-Optional fields — each an independent _facet_ (see "Classification facets" below):
-
-```yaml
-activityLevel: operation       # operation | action | activity (AT altitude)
-lifecycle: seeking             # free-form lifecycle stage (Seek–Use–Share family)
-group: "conversation/sequence-management"  # nav sub-grouping path within a top group
-domain: data-visualization     # domain corpus the entry belongs to
-atomic: pattern                # primitive | component | composition | pattern
-mediation: individual          # individual | coordination | networking
-description: "One sentence"    # used in graph node tooltip and site meta
-tags:
-  - tag-value
-```
+Four fields are required: `title` (sentence case, short), `added` (the day the
+entry joined the library), `updated` (the day the argument last moved; empty
+until it does), and `role` — the kind of thing the entry is, defined in
+[pattern-role-model.md](./pattern-role-model.md).
 
 `role:component` is valid in the schema but rarely used — component language
 entries are the exception, not the rule. Most components live only in Storybook.
+
+Everything else is optional and mutually independent: the classification facets
+(`activityLevel`, `lifecycle`, `group`, `domain` — see below), `atomic`
+(compositional complexity) and `mediation` (how many actors the move sits
+between), `description` (the graph node tooltip and site meta), `tags`, the
+epistemic fields below, and the `relationships`, `realised_by`, `situation`, and
+`decision-trees` constructs that feed the graph.
+
+### Epistemic status
+
+How well-supported an entry is, encoded rather than left to prose. Three
+mechanisms, deliberately separate:
+
+- `seed` (boolean, any role) — the page exists to hold a thought; do not read it
+  as a claim. One value rather than a maturity ladder: it is the only
+  distinction the corpus currently generates, and declaring rungs nothing
+  occupies is how `domain`, `tags`, and the `component` role became dormant.
+- `evidence` (array, `role: pattern` and `role: collection` only) — the *kinds*
+  of backing, not a degree. Entries are a bare kind or `{kind, ref}`, mirroring
+  the two-level shape `relationships:` already uses.
+
+  | Kind | Means |
+  |---|---|
+  | `observed` | Instances seen in real products or practice |
+  | `literature` | Published sources support it; `ref` names a `references/` entry where one exists |
+  | `built` | Realised in the component substrate — *derived* from `realised_by`, never authored |
+  | `used` | Applied in actual design work, not merely documented |
+
+  Kinds rather than degrees because the states are not ordinal:
+  literature-backed-but-never-observed and observed-but-absent-from-the-literature
+  are both real, and no single rank places them sensibly. An absent or empty
+  list is the honest state for a new page, not an error.
+- `disclosure` (string) — the prose channel: why confidence is low, what would
+  raise it. Never parsed. The structured fields are for an agent; this carries
+  what the data destroys.
+
+`evidence` is refused on `role: quality` and `role: foundation` by the schema: a
+quality is a diagnostic lens and a foundation a frame, so "what backs this"
+means something weaker there. `seed` carries no such restriction — any page can
+be a placeholder. The schema also refuses an authored `built`, and refuses `ref`
+on any kind but `literature`; a `ref` that names nothing in `references/` fails
+the build via `validate-cross-references.ts`.
+
+Both fields are *filterable* — see the carve-out in
+[graph-relationship-model.md](./graph-relationship-model.md) §Epistemic stance.
+Rendered as badges under the title (`EpistemicStatus.astro`) and as a dashed
+node outline in the graph. Border style is the channel; colour is taken by role
+and category, and size would read as importance, which a well-evidenced move is
+not.
+
+Origin: [2026-07-epistemic-disclosure.md](../../plans/completed/2026-07-epistemic-disclosure.md).
 
 ## File layout
 
@@ -66,19 +102,16 @@ A flat tree is deliberate, see "Classification facets" below and
 
 ## Inter-page link format
 
-Plain relative routes rooted at `/patterns/`, using the flat slug (the filename
-stem) — never an Activity-Theory path:
+An entry's address is `/patterns/<stem>` and nothing else: one flat slug, no
+Activity-Theory path segments, no Storybook URL format. Multi-segment routes and
+Storybook-style pattern links surviving in the corpus are tech debt to be
+cleaned up on edit. (Storybook URLs remain correct for links to _component_
+pages, which still live in Storybook.)
 
-```md
-[Undo](/patterns/undo)
-[Agency](/patterns/agency)
-[Good defaults](/patterns/good-defaults)
-```
-
-Do not use Storybook URL format (`../?path=/docs/operations-undo--docs`) for
-patterns, nor old multi-segment routes (`/patterns/operations/undo`). Both are
-tech debt to be cleaned up. (Storybook URLs remain correct for links to
-_component_ pages, which still live in Storybook.)
+The link syntax and the on-edit cleanup policy are in the authoring rule,
+[`.claude/rules/pattern-content.md`](../../.claude/rules/pattern-content.md).
+Every intra-site link is checked against the content stems at build time by
+`validate-cross-references.ts`.
 
 ## Classification facets
 

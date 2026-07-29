@@ -22,12 +22,22 @@ interface NodeMeta {
 }
 
 const nodeMeta = activityLevels.nodes as Record<string, NodeMeta>;
+interface GraphNodeData {
+  id: string;
+  title: string;
+  category: string;
+  path: string;
+  seed?: boolean;
+}
+
+const graphNodes = graphData.nodes as GraphNodeData[];
 
 interface GraphNode extends SimulationNodeDatum {
   readonly id: string;
   readonly title: string;
   readonly category: string;
   readonly path: string;
+  readonly seed?: boolean;
   radius: number;
 }
 
@@ -43,6 +53,7 @@ interface RenderedNode {
   lifecycleStage: string | null;
   atomicCategory: string;
   mediation: string | null;
+  seed?: boolean;
 }
 
 type ColorMode = 'at-level' | 'mediation';
@@ -102,7 +113,7 @@ function buildGraph() {
   const maxDegree = Math.max(...degrees.values(), 1);
   const radiusScale = scaleSqrt().domain([0, maxDegree]).range([4, 12]);
 
-  const simNodes: GraphNode[] = graphData.nodes.map((n) => ({
+  const simNodes: GraphNode[] = graphNodes.map((n) => ({
     ...n,
     radius: radiusScale(degrees.get(n.id) ?? 0),
   }));
@@ -168,6 +179,7 @@ function buildGraph() {
       lifecycleStage: meta?.['lifecycle-stage'] ?? null,
       atomicCategory: meta?.['atomic-category'] ?? n.category.toLowerCase(),
       mediation: meta?.['mediation'] ?? null,
+      seed: n.seed,
     };
   });
 
@@ -321,8 +333,9 @@ export function PatternGraph({ trailLength = DEFAULT_TRAIL_LENGTH }: PatternGrap
               className={nodeClass(node.id)}
               transform={`translate(${node.x},${node.y})`}
               role="link"
-              aria-label={`${node.title} (${node.category})`}
+              aria-label={`${node.title} (${node.category})${node.seed ? ', seed' : ''}`}
               tabIndex={0}
+              data-seed={node.seed ? '' : undefined}
               data-category={node.category}
               data-at-level={node.atLevel}
               data-lifecycle-stage={node.lifecycleStage ?? undefined}

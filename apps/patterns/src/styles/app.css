@@ -29,6 +29,7 @@
 }
 
 @layer components {
+
   .shell {
     /* Align sidebar width with Storybook's sidebar */
     --sidebar-width: 300px;
@@ -77,10 +78,6 @@
   }
 
   .site-header {
-    /* Fixed (not absolute) so it stays pinned to the viewport as content pages
-       scroll the document — the auto-hide below then slides it out of the way
-       on scroll-down and back on scroll-up. On stack pages the document doesn't
-       scroll, so this reads the same as the old absolute pin. */
     position: fixed;
     inset-block-start: 0;
     inset-inline: 0;
@@ -125,26 +122,15 @@
   .demo-block__content {
     padding: var(--space-m, 1rem);
     border-radius: var(--radius, 0.5rem);
-    /* Every demo host declares the `demo` query container — the library's
-       narrow-container adaptations (sticky table columns, lane peek, control
-       wrapping) key off it. In a pane this is ~32rem, phone territory. */
     container: demo / inline-size;
   }
 
-  /* Reader-driven demo width (see <Demo resizable>). One axis, --demo-w, carries
-     both the drag handle and the expand-button presets (lib/demo-expander.ts).
-     The content box is the `demo` query container, so its width IS the scale a
-     narrow host would impose. --demo-w defaults to 100% (fills the article at the
-     reading measure); below the reading measure only this box narrows — the pane
-     rule below keeps the article, and thus the prose, at reading width. */
   .demo-block__content[data-resizable] {
     position: relative;
     inline-size: min(var(--demo-w, 100%), 100%);
     min-inline-size: 16rem;
   }
 
-  /* The trailing-edge drag strip. Sits at the content's right edge (x = --demo-w),
-     full height, with a col-resize cursor and a faint grip so it reads as "drag me". */
   .demo-resize-handle {
     position: absolute;
     inset-block: 0;
@@ -183,9 +169,6 @@
     font-size: 0.875em;
   }
 
-  /* Reader control on expandable demos (see components/Demo.tsx). Sits in the
-     footer row, pushed to the trailing edge, so it never overlaps a demo's own
-     chrome. lib/demo-expander.ts cycles the width on click. */
   .demo-expand {
     flex-shrink: 0;
     margin-inline-start: auto;
@@ -212,7 +195,6 @@
     outline-offset: 2px;
   }
 
-  /* At the widest step the next click resets — tint to hint the change. */
   .demo-expand[data-demo-full] {
     color: var(--c-accent-600);
   }
@@ -227,12 +209,8 @@
 
 /* Prose voice, authored inside a donut scope. The scope limit (.demo-block,
    pp-toc) means these selectors structurally cannot reach a demo or a table of
-   contents nested in prose — it replaces the old `:not(pp-toc …)` chains and
-   resolves nesting they couldn't express (a list inside a demo inside a pane is
-   excluded). Unlayered, so it wins by layer order over the library, never by
-   scope proximity (which ranks below specificity and would be an unreliable
-   lever). Inheritance still crosses the limit — the `.demo-block` guard above
-   handles that. */
+   contents nested in prose. Unlayered, so it wins by layer order over the library, never by
+   scope proximity. */
 @scope (.content-inset, .pane article) to (.demo-block, pp-toc) {
   ul {
     list-style: "- ";
@@ -301,22 +279,10 @@
   max-width: 70ch;
 }
 
-/* Reader-expanded demos. An expandable <Demo> renders a corner button that
-   cycles the host pane's width; lib/demo-expander.ts sets --pane-max-w inline
-   and data-demo-expanded on the .pane. --pane-max-w drives the pane's
-   flex-basis and its own sticky right-inset, so the pane still collapses to its
-   spine at any width (the pane width cancels from the pinned position — see
-   stack.css). Unlayered, to clear the unlayered 70ch article measure above. */
 .pane[data-demo-expanded] .pane-body article {
   max-width: var(--pane-max-w);
 }
 
-/* A resizable demo drives the SAME pane machinery, but through --demo-w: the
-   drag/preset writes --demo-w, and the pane derives --pane-max-w from it. Clamped
-   so widening never overruns the stack (the spine-reserving `full` calc, matching
-   demo-expander.ts) and the pane never narrows below the reading measure — below
-   that, only the demo box shrinks (see .demo-block__content[data-resizable]) while
-   the article, and its prose, hold at reading width. */
 .pane:has(.demo-block__content[data-resizable]) {
   --pane-max-w: clamp(
     36rem,
@@ -325,10 +291,6 @@
   );
 }
 
-/* Keep prose at a reading measure while the article is wide, so only the demo
-   spends the extra width. Direct-child prose only — .demo-block is exempt. The
-   descendant `article` matches both the > article and > astro-slot > article
-   wrappings. */
 .pane[data-demo-expanded] .pane-body article > :is(p, blockquote, ul, ol) {
   max-width: 70ch;
 }
@@ -338,21 +300,10 @@
   line-height: 1;
 }
 
-/* Content (non-stack) pages scroll on the document, but the inset's default
-   overflow:auto (set in the components layer) makes it a scroll container that
-   never actually scrolls — which traps a sticky child (the right-rail TOC) and
-   stops it pinning. Hand scrolling back to the document so sticky anchors to the
-   viewport. Unlayered so it beats the components-layer rule. Stack pages use
-   StackManager (no .content-inset), so they keep the default overflow. */
 main.shell__main:has(> .content-inset) {
   overflow: visible;
 }
 
-/* Home layout: a grid with a right rail. The content column (graph + prose)
-   owns the left; the title (top) and the TOC (bottom) share the rail, so all
-   three reserve real space instead of overlaying each other and swallowing
-   pointer events. The rail shrink-wraps its content — title and TOC are
-   narrow, so the content column keeps the width. */
 @media (width >= 60rem) {
   .content-inset:has(> .toc-rail) {
     display: grid;
@@ -374,10 +325,6 @@ main.shell__main:has(> .content-inset) {
     grid-row: 1 / 3;
   }
 
-  /* The rail starts below the header row and reaches the bottom of the page;
-     it exists so the sticky TOC has it (not the whole grid) as containing
-     block — a sticky grid item clamps against the grid container, which would
-     let it ride up over the header. */
   .content-inset > .toc-rail {
     grid-column: 2;
     grid-row: 2 / 3;
@@ -389,10 +336,6 @@ main.shell__main:has(> .content-inset) {
   }
 
   .content-inset .toc-rail pp-toc.toc-corner {
-    /* Pinned to the viewport bottom like the old fixed positioning, but a
-       layout citizen: it can never cover the header, and on short viewports
-       it clamps at the rail top and the oldest (bottom) entries clip at the
-       viewport edge — the recent ones at the top stay visible. */
     position: sticky;
     bottom: var(--space-xl);
     max-inline-size: 20rem;
@@ -404,8 +347,6 @@ main.shell__main:has(> .content-inset) {
   }
 }
 
-/* Below the rail breakpoint everything stacks in flow; the TOC is secondary
-   and there is no room for it beside the text, so it goes. */
 @media (width < 60rem) {
   .content-inset {
     margin: var(--space-xl) var(--space-l);
@@ -417,8 +358,6 @@ main.shell__main:has(> .content-inset) {
 }
 
 @media (width < 48rem) {
-  /* The desktop sidebar is server-rendered and only unmounts after hydration
-     flips useIsMobile; keep it from painting in the meantime. */
   [data-slot="sidebar"]:not(.sidebar-mobile) {
     display: none;
   }

@@ -10,6 +10,7 @@ import MermaidDiagram from './MermaidDiagram.astro';
 import { ComponentRef } from './ComponentRef';
 import Consequences from './Consequences.astro';
 import PatternDates from './PatternDates.astro';
+import EpistemicStatus from './EpistemicStatus.astro';
 import RelatedPatterns from './RelatedPatterns.astro';
 
 interface Props {
@@ -35,6 +36,7 @@ const { Content } = await render(entry);
       <!-- {entry.data.mediation && <span class="badge">{entry.data.mediation}</span>} -->
       <h1>{entry.data.title}</h1>
       <PatternDates entry={entry} />
+      <EpistemicStatus entry={entry} />
     </div>
   </header>
   <pp-toc heading="On this page" data-pagefind-ignore></pp-toc>

@@ -28,6 +28,7 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Completed
 
+- [Epistemic status](completed/2026-07-epistemic-disclosure.md) — `seed`, `evidence` and `disclosure` as a notational dimension: schema-enforced role applicability, `built` derived from `realised_by`, dashed badge and dashed graph node, staleness lint, corpus backfilled (7 seeds, 54 pages with evidence); `used` left for the author
 - [Pattern dates](completed/2026-07-pattern-dates.md)
 - [Related-link residue audit](completed/2026-07-related-residue-audit.md)
 - [Enacts-note audit](completed/2026-07-enacts-note-audit.md)

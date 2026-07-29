@@ -37,8 +37,8 @@ hold promoted commitments that govern the process.
 - [Agent harness](specs/agent-harness.md) — agent-facing control layer
 - [Workspace layout](specs/workspace-layout.md) — package structure and what
   each workspace owns
-- [Pattern site](specs/pattern-site.md) — content schema, link format, AT
-  levels
+- [Pattern site](specs/pattern-site.md) — content schema semantics, file layout
+  and slugs, facets, stacked-notes navigation
 - [Graph relationship model](specs/graph-relationship-model.md) — graph edge
   model and epistemic stance
 - [Pattern role model](specs/pattern-role-model.md) — mechanism, move,

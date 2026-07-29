@@ -5,7 +5,8 @@
       "title": "Accessibility",
       "category": "Qualities",
       "path": "/patterns/a11y",
-      "role": "quality"
+      "role": "quality",
+      "seed": true
     },
     {
       "id": "abort",
@@ -159,7 +160,12 @@
             "clause": "the work happened somewhere the actor wasn't watching, so it owes an account of itself afterwards to be reviewable at all"
           }
         ]
-      }
+      },
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "ai-completion",
@@ -177,7 +183,15 @@
           }
         ]
       },
-      "group": "application"
+      "group": "application",
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "ai-tuning",
@@ -198,7 +212,8 @@
             "clause": "tuning accumulates and then goes quiet: behaviour configured months ago reads later as simply how the system is, including to the actor who configured it"
           }
         ]
-      }
+      },
+      "seed": true
     },
     {
       "id": "annotation",
@@ -225,7 +240,12 @@
           }
         ]
       },
-      "group": "sense-making"
+      "group": "sense-making",
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "assistance",
@@ -257,7 +277,12 @@
           }
         ]
       },
-      "group": "application"
+      "group": "application",
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "attribute-visibility",
@@ -279,7 +304,12 @@
           }
         ]
       },
-      "group": "seeking"
+      "group": "seeking",
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "autocomplete",
@@ -321,7 +351,12 @@
             "clause": "pre-filled values get submitted without being read, so a wrong stored value travels further than a wrong typed one would have"
           }
         ]
-      }
+      },
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "block-based-editor",
@@ -346,6 +381,12 @@
       "group": "sense-making",
       "realisedBy": [
         "components-block-based-editor--docs"
+      ],
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "built"
+        }
       ]
     },
     {
@@ -368,6 +409,11 @@
         "components-select--docs",
         "components-combobox--docs",
         "components-dual-listbox--docs"
+      ],
+      "evidence": [
+        {
+          "kind": "built"
+        }
       ]
     },
     {
@@ -431,7 +477,12 @@
           }
         ]
       },
-      "group": "application"
+      "group": "application",
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "collaboration-foundation",
@@ -459,7 +510,13 @@
             "clause": "coordination now runs in a rhythm — synchronous or asynchronous — and that rhythm decides what kinds of disagreement can be resolved at all"
           }
         ]
-      }
+      },
+      "evidence": [
+        {
+          "kind": "literature",
+          "ref": "collaboration-through-agency"
+        }
+      ]
     },
     {
       "id": "command-menu",
@@ -487,6 +544,12 @@
       "group": "seeking",
       "realisedBy": [
         "components-command-menu--docs"
+      ],
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "built"
+        }
       ]
     },
     {
@@ -512,7 +575,12 @@
           }
         ]
       },
-      "group": "coordination"
+      "group": "coordination",
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
     },
     {
       "id": "conversation-quality",
@@ -537,6 +605,14 @@
       },
       "realisedBy": [
         "components-messaging--docs"
+      ],
+      "evidence": [
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "built"
+        }
       ]
     },
     {
@@ -559,7 +635,12 @@
           }
         ]
       },
-      "group": "coordination"
+      "group": "coordination",
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "data-entry",
@@ -587,7 +668,12 @@
           }
         ]
       },
-      "group": "application"
+      "group": "application",
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "data-view",
@@ -606,14 +692,24 @@
           }
         ]
       },
-      "group": "seeking"
+      "group": "seeking",
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "data-visualization",
       "title": "Charting data",
       "category": "Cross-cutting",
       "path": "/patterns/data-visualization",
-      "role": "collection"
+      "role": "collection",
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "data",
@@ -641,7 +737,12 @@
             "clause": "the links are now a contract — states that were named have to keep resolving — which constrains how freely what sits behind them can be reorganised"
           }
         ]
-      }
+      },
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "delegation",
@@ -721,7 +822,12 @@
             "clause": "every dragged operation exists twice — the gesture and its drag-free twin — and the pair must perform the identical write, or the interface holds two truths"
           }
         ]
-      }
+      },
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "dynamic-hyperlinks",
@@ -743,7 +849,16 @@
           }
         ]
       },
-      "group": "seeking"
+      "group": "seeking",
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature",
+          "ref": "rhetoric-of-hyperlink"
+        }
+      ]
     },
     {
       "id": "embedded-intelligence",
@@ -764,7 +879,12 @@
             "clause": "because the help is woven in, which part of the result was the actor's and which the system's stops being obvious — and that boundary only exists if something shows it"
           }
         ]
-      }
+      },
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "explanation",
@@ -789,7 +909,12 @@
           }
         ]
       },
-      "group": "sense-making"
+      "group": "sense-making",
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "extended-telling",
@@ -867,7 +992,12 @@
           }
         ]
       },
-      "group": "evaluation"
+      "group": "evaluation",
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "form",
@@ -886,6 +1016,11 @@
       "group": "application",
       "realisedBy": [
         "components-form--docs"
+      ],
+      "evidence": [
+        {
+          "kind": "built"
+        }
       ]
     },
     {
@@ -915,6 +1050,14 @@
       "realisedBy": [
         "components-nav-bar--docs",
         "components-sidebar--docs"
+      ],
+      "evidence": [
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "built"
+        }
       ]
     },
     {
@@ -936,7 +1079,8 @@
             "clause": "verification cost rises with length, and long output is exactly where accepting quietly takes the place of checking"
           }
         ]
-      }
+      },
+      "seed": true
     },
     {
       "id": "good-defaults",
@@ -965,7 +1109,12 @@
             ]
           }
         ]
-      }
+      },
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "grouping",
@@ -1032,7 +1181,15 @@
           }
         ]
       },
-      "group": "navigation"
+      "group": "navigation",
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "human-goes-first",
@@ -1054,7 +1211,12 @@
           }
         ]
       },
-      "group": "application/cognitive-forcing-functions"
+      "group": "application/cognitive-forcing-functions",
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "hybrid-patterns",
@@ -1062,7 +1224,12 @@
       "category": "Actions",
       "path": "/patterns/hybrid-patterns",
       "role": "pattern",
-      "group": "navigation"
+      "group": "navigation",
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "information-architecture",
@@ -1092,6 +1259,11 @@
       },
       "realisedBy": [
         "components-morphing-controls--docs"
+      ],
+      "evidence": [
+        {
+          "kind": "built"
+        }
       ]
     },
     {
@@ -1114,7 +1286,12 @@
           }
         ]
       },
-      "group": "coordination"
+      "group": "coordination",
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
     },
     {
       "id": "inquiry-agent",
@@ -1178,7 +1355,12 @@
           }
         ]
       },
-      "group": "seeking"
+      "group": "seeking",
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "keyboard-shortcuts",
@@ -1199,7 +1381,15 @@
             "clause": "the set is a fixed budget: every binding added dilutes what can be internalised, and the platform conventions are already spent"
           }
         ]
-      }
+      },
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "learnability",
@@ -1225,7 +1415,12 @@
           }
         ]
       },
-      "group": "seeking"
+      "group": "seeking",
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
     },
     {
       "id": "live-presentation",
@@ -1263,7 +1458,8 @@
             "clause": "the document no longer has one author: the reader can't tell what was written, what was regenerated, and what changed since they last read it"
           }
         ]
-      }
+      },
+      "seed": true
     },
     {
       "id": "localization",
@@ -1298,7 +1494,12 @@
             "clause": "a surface tuned for mastery is denser than a beginner can read, so one product has to serve both without splitting into two"
           }
         ]
-      }
+      },
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "modality",
@@ -1330,6 +1531,14 @@
       "realisedBy": [
         "components-sidebar--docs",
         "components-dropdown--docs"
+      ],
+      "evidence": [
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "built"
+        }
       ]
     },
     {
@@ -1338,7 +1547,12 @@
       "category": "Actions",
       "path": "/patterns/navigation-overview",
       "role": "collection",
-      "group": "navigation"
+      "group": "navigation",
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "next-best-action",
@@ -1387,6 +1601,11 @@
         "components-toast--docs",
         "components-callout--docs",
         "components-dialog--docs"
+      ],
+      "evidence": [
+        {
+          "kind": "built"
+        }
       ]
     },
     {
@@ -1402,7 +1621,12 @@
             "clause": "a bounded period in which the actor can build that model with low stakes, often by doing rather than reading"
           }
         ]
-      }
+      },
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "open-request",
@@ -1446,7 +1670,12 @@
           }
         ]
       },
-      "group": "application/cognitive-forcing-functions"
+      "group": "application/cognitive-forcing-functions",
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "overview-detail",
@@ -1465,7 +1694,12 @@
           }
         ]
       },
-      "group": "navigation"
+      "group": "navigation",
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "pan-and-zoom",
@@ -1489,7 +1723,12 @@
           }
         ]
       },
-      "group": "navigation"
+      "group": "navigation",
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "privacy",
@@ -1518,7 +1757,16 @@
           }
         ]
       },
-      "group": "sense-making"
+      "group": "sense-making",
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature",
+          "ref": "get-to-the-point"
+        }
+      ]
     },
     {
       "id": "progressive-disclosure",
@@ -1540,7 +1788,12 @@
           }
         ]
       },
-      "group": "seeking"
+      "group": "seeking",
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "prompt",
@@ -1561,7 +1814,8 @@
             "clause": "the request is a durable artefact — keepable, editable, shareable, templatable — which makes a good one worth more than any single thing it produced"
           }
         ]
-      }
+      },
+      "seed": true
     },
     {
       "id": "prose",
@@ -1590,7 +1844,13 @@
           }
         ]
       },
-      "group": "sense-making"
+      "group": "sense-making",
+      "evidence": [
+        {
+          "kind": "literature",
+          "ref": "get-to-the-point"
+        }
+      ]
     },
     {
       "id": "pyramid",
@@ -1611,7 +1871,12 @@
           }
         ]
       },
-      "group": "navigation"
+      "group": "navigation",
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "saving",
@@ -1669,6 +1934,11 @@
       },
       "realisedBy": [
         "components-sections--docs"
+      ],
+      "evidence": [
+        {
+          "kind": "built"
+        }
       ]
     },
     {
@@ -1707,7 +1977,15 @@
           }
         ]
       },
-      "group": "evaluation"
+      "group": "evaluation",
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "sequence-completion",
@@ -1819,6 +2097,11 @@
       "realisedBy": [
         "components-callout--docs",
         "components-badge--docs"
+      ],
+      "evidence": [
+        {
+          "kind": "built"
+        }
       ]
     },
     {
@@ -1840,7 +2123,12 @@
           }
         ]
       },
-      "group": "navigation"
+      "group": "navigation",
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "suggestion",
@@ -1865,7 +2153,12 @@
           }
         ]
       },
-      "group": "application"
+      "group": "application",
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "tag",
@@ -1893,6 +2186,14 @@
       "group": "sense-making",
       "realisedBy": [
         "components-tag--docs"
+      ],
+      "evidence": [
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "built"
+        }
       ]
     },
     {
@@ -1962,6 +2263,11 @@
       },
       "realisedBy": [
         "components-toast--docs"
+      ],
+      "evidence": [
+        {
+          "kind": "built"
+        }
       ]
     },
     {
@@ -1986,7 +2292,12 @@
             "clause": "the trail is itself a claim about how the answer was reached, and whether it is the actual computation or a narration produced alongside it isn't visible from the trail"
           }
         ]
-      }
+      },
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "unavailable-actions",
@@ -2120,7 +2431,12 @@
           }
         ]
       },
-      "group": "application"
+      "group": "application",
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "workflow",
@@ -2144,6 +2460,14 @@
       },
       "realisedBy": [
         "components-workflow--docs"
+      ],
+      "evidence": [
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "built"
+        }
       ]
     },
     {
@@ -2168,7 +2492,12 @@
             "clause": "the boundaries carry access as well as attention: what belongs to a workspace decides who can see it, so partitioning the work also partitions visibility"
           }
         ]
-      }
+      },
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     }
   ],
   "edges": [

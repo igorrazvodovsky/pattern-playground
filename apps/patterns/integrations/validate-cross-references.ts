@@ -4,28 +4,15 @@ import { fileURLToPath } from 'node:url';
 import { load as yamlLoad } from 'js-yaml';
 import type { AstroIntegration, AstroIntegrationLogger } from 'astro';
 
-// Build-time validator that every static reference resolves to its target. Two
-// of the three seams cross the monorepo's surfaces; the third stays within the
-// site — all are cross-references in the sense that a pointer must resolve.
+// Build-time validator that every static reference resolves to its target.
+// The reference seams, and why they are all gated in the site build, are defined
+// in docs/specs/workspace-layout.md §Cross-surface integrity; the evidence →
+// references/ seam in docs/specs/pattern-site.md §Epistemic status.
 //
-// Site → Storybook: <ComponentRef id="components-button--docs"> in the pattern
-// content must resolve to a `docs` entry in Storybook's build-output index.json,
-// and so must every frontmatter `realised_by` id (the realisation claim's
-// authorable home — see relationship-vocabulary.md §Component realisation).
-// Storybook → site: <PatternRef slug="suggestion"> in Storybook MDX must match a
-// content file in apps/patterns/src/content/patterns/ (slug = filename stem).
-// Site → site: a static `/patterns/<slug>` link (in content prose or an
-// .astro/.tsx page body) must resolve to that same content-stem route space.
-//
-// All three checks run in one place — the site build — because the ComponentRef check
-// needs Storybook's index.json (a build artifact). When the Storybook build output
-// is absent, a cached copy of index.json under apps/patterns/storybook-index/
-// (refreshed by the root build, never deployed) stands in so a standalone site
-// build can still validate. The PatternRef check rides along here rather than in
-// the Storybook build: on the canonical root `npm run build` (Storybook builds
-// first, then the site) both surfaces are gated in one pass.
-// The documented coupling: a PatternRef slug typo in Storybook MDX fails the site
-// build. That is deliberate — the unified build is the single gate.
+// `<ComponentRef id>` and frontmatter `realised_by` resolve against Storybook's
+// build-output index.json. When that output is absent, a cached copy under
+// apps/patterns/storybook-index/ (refreshed by the root build, never deployed)
+// stands in, so a standalone site build can still validate.
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = join(__dirname, '../../..');
@@ -34,6 +21,7 @@ const storybookIndexPrimary = join(rootDir, 'packages/components/storybook-stati
 const storybookIndexFallback = join(rootDir, 'apps/patterns/storybook-index/index.json');
 const patternsContentDir = join(rootDir, 'apps/patterns/src/content');
 const storyMdxDir = join(rootDir, 'packages/components/src/stories');
+const referencesDir = join(rootDir, 'references');
 // .astro/.tsx surfaces whose template bodies carry authored `/patterns/` hrefs in
 // page prose (e.g. index.astro). Content is scanned separately, as markdown.
 const astroScanDirs = ['src/pages', 'src/layouts', 'src/components'].map((dir) =>
@@ -69,13 +57,10 @@ interface Violation {
 const COMPONENT_REF_RE = /<ComponentRef\b([^>]*?)(?:\/?>|>[^<]*<\/ComponentRef>)/g;
 const PATTERN_REF_RE = /<PatternRef\b([^>]*?)(?:\/?>|>[^<]*<\/PatternRef>)/g;
 
-// Site → site: a static `/patterns/<slug>` link must resolve to a content stem.
-// In content prose it appears as a markdown link target `](/patterns/slug)`; in
-// .astro/.tsx bodies as an `href="/patterns/slug"` attribute. Anchors (`#…`) are
-// stripped; the char class includes `/`, so a nested legacy slug like
-// `foundations/material/layout` is captured whole and fails as one unit. The
-// astro form is matched href-only (not the markdown form) so a `[text](/patterns/
-// slug)` example inside a code comment can't false-flag, and dynamic
+// Anchors (`#…`) are stripped; the char class includes `/`, so a nested legacy
+// slug like `foundations/material/layout` is captured whole and fails as one
+// unit. The .astro form matches `href="…"` only — never the markdown form — so a
+// `](/patterns/slug)` example inside a code comment can't false-flag; dynamic
 // `href={`/patterns/${…}`}` uses backticks and is skipped.
 const CONTENT_LINK_RE = /\]\(\/patterns\/([A-Za-z0-9/_-]+)(?:#[A-Za-z0-9/_-]*)?\)/g;
 const ASTRO_LINK_RE = /href=(["'])\/patterns\/([A-Za-z0-9/_-]+)(?:#[A-Za-z0-9/_-]*)?\1/g;
@@ -96,7 +81,6 @@ function stripComments(content: string): string {
 // Block forms only ({/* */}, /* */, <!-- -->); `//` is left alone — it isn't a
 // comment in .astro template bodies, and the href-only matcher never coincides
 // with a `//` sequence, so stripping it would only risk blanking a real href.
-// Newlines are preserved so reported line numbers stay accurate.
 function stripCodeComments(content: string): string {
   const blank = (match: string) => match.replace(/[^\n]/g, ' ');
   return content
@@ -143,7 +127,6 @@ function lineOf(content: string, index: number): number {
   return line;
 }
 
-/** Collect every `attr` value from `<Tag …>` occurrences, with file + line. */
 function collectRefs(files: string[], tagRe: RegExp, attr: string): RefUse[] {
   const uses: RefUse[] = [];
   for (const file of files) {
@@ -158,8 +141,7 @@ function collectRefs(files: string[], tagRe: RegExp, attr: string): RefUse[] {
   return uses;
 }
 
-/** Collect capture-group `group` from every `re` match, with file + line. `strip`
- *  blanks comments for the file kind (JSX for content, block for .astro/.tsx). */
+// `strip` blanks comments for the file kind: JSX for content, block for .astro/.tsx.
 function collectLinks(
   files: string[],
   re: RegExp,
@@ -195,7 +177,6 @@ function levenshtein(a: string, b: string): number {
   return prev[n];
 }
 
-/** Nearest valid candidate to `target`, if within a typo-scale distance. */
 function nearest(target: string, candidates: Iterable<string>): string | undefined {
   let best: string | undefined;
   let bestDistance = Infinity;
@@ -237,7 +218,6 @@ function loadStorybookIndex(logger: AstroIntegrationLogger): StorybookIndex {
   return parsed;
 }
 
-/** Every `<ComponentRef id>` in content must resolve to a Storybook `docs` entry. */
 function checkComponentRefs(index: StorybookIndex, logger: AstroIntegrationLogger): Violation[] {
   // `/docs/<id>` resolves to a docs entry; story ids are not valid ComponentRef targets.
   const docsIds = new Set(
@@ -263,8 +243,29 @@ function checkComponentRefs(index: StorybookIndex, logger: AstroIntegrationLogge
   return violations;
 }
 
-/** Every frontmatter `realised_by` id must resolve to a Storybook `docs` entry —
- *  the same gate ComponentRef prose gets, in the dataset the claim points at. */
+interface ParsedFile {
+  file: string;
+  content: string;
+  fm: Record<string, unknown>;
+}
+
+// Malformed YAML is skipped — it fails the content build on its own, with a
+// better message than this.
+function frontmatterFiles(): ParsedFile[] {
+  const parsed: ParsedFile[] = [];
+  for (const file of walkMdx(patternsContentDir)) {
+    const content = readFileSync(file, 'utf-8');
+    const fmMatch = content.match(/^---\n([\s\S]*?)\n---/);
+    if (!fmMatch) continue;
+    try {
+      parsed.push({ file, content, fm: (yamlLoad(fmMatch[1]) ?? {}) as Record<string, unknown> });
+    } catch {
+      continue;
+    }
+  }
+  return parsed;
+}
+
 function checkRealisedBy(index: StorybookIndex, logger: AstroIntegrationLogger): Violation[] {
   const docsIds = new Set(
     Object.values(index.entries)
@@ -274,16 +275,7 @@ function checkRealisedBy(index: StorybookIndex, logger: AstroIntegrationLogger):
 
   const violations: Violation[] = [];
   let checked = 0;
-  for (const file of walkMdx(patternsContentDir)) {
-    const content = readFileSync(file, 'utf-8');
-    const fmMatch = content.match(/^---\n([\s\S]*?)\n---/);
-    if (!fmMatch) continue;
-    let fm: Record<string, unknown>;
-    try {
-      fm = (yamlLoad(fmMatch[1]) ?? {}) as Record<string, unknown>;
-    } catch {
-      continue; // malformed frontmatter fails the content build on its own
-    }
+  for (const { file, fm } of frontmatterFiles()) {
     if (!Array.isArray(fm.realised_by)) continue;
     for (const id of fm.realised_by) {
       if (typeof id !== 'string') continue;
@@ -303,8 +295,55 @@ function checkRealisedBy(index: StorybookIndex, logger: AstroIntegrationLogger):
   return violations;
 }
 
-// The `/patterns/<stem>` route space: both .mdx and .md files in the content
-// collection back a page (e.g. qualities.md), so both are valid slug targets.
+// Keyed both exactly and by a slug-normalised form, so `ref: design-patterns`
+// resolves to `references/Design patterns.md` without making the author
+// reproduce the capital and the space.
+function referenceStems(): { canonical: Set<string>; byNormalised: Map<string, string> } {
+  const canonical = new Set<string>();
+  const byNormalised = new Map<string, string>();
+  const normalise = (value: string) => value.toLowerCase().replace(/[\s_]+/g, '-');
+  for (const entry of readdirSync(referencesDir, { withFileTypes: true })) {
+    if (entry.name.startsWith('.')) continue;
+    const stem = entry.isDirectory() ? entry.name : entry.name.replace(/\.[^.]+$/, '');
+    canonical.add(stem);
+    byNormalised.set(normalise(stem), stem);
+  }
+  return { canonical, byNormalised };
+}
+
+// The schema (content.config.ts) has already closed the `kind` set and confined
+// `ref` to `literature`; what it cannot see is whether the file exists.
+function checkEvidenceRefs(logger: AstroIntegrationLogger): Violation[] {
+  const { canonical, byNormalised } = referenceStems();
+  const normalise = (value: string) => value.toLowerCase().replace(/[\s_]+/g, '-');
+
+  const violations: Violation[] = [];
+  let checked = 0;
+  for (const { file, content, fm } of frontmatterFiles()) {
+    if (!Array.isArray(fm.evidence)) continue;
+    for (const entry of fm.evidence) {
+      if (typeof entry !== 'object' || entry === null) continue;
+      const ref = (entry as { ref?: unknown }).ref;
+      if (typeof ref !== 'string') continue;
+      checked++;
+      if (canonical.has(ref) || byNormalised.has(normalise(ref))) continue;
+      const suggestion = nearest(ref, canonical);
+      const index = content.indexOf(ref);
+      violations.push({
+        file: relPath(file),
+        line: index === -1 ? 1 : lineOf(content, index),
+        message:
+          `evidence ref: "${ref}" names no entry in references/` +
+          (suggestion ? ` — did you mean "${suggestion}"?` : '.'),
+      });
+    }
+  }
+  logger.info(`Checked ${checked} evidence ref(s) against ${canonical.size} references/ entries.`);
+  return violations;
+}
+
+// Both .mdx and .md files in the content collection back a page (e.g.
+// qualities.md), so both are valid slug targets.
 function contentStems(): Set<string> {
   return new Set(
     readdirSync(join(patternsContentDir, 'patterns'))
@@ -313,7 +352,6 @@ function contentStems(): Set<string> {
   );
 }
 
-/** Every `<PatternRef slug>` in Storybook MDX must match a content file stem. */
 function checkPatternRefs(logger: AstroIntegrationLogger): Violation[] {
   const stems = contentStems();
 
@@ -336,8 +374,6 @@ function checkPatternRefs(logger: AstroIntegrationLogger): Violation[] {
   return violations;
 }
 
-/** Every static `/patterns/<slug>` link — in content prose and in .astro/.tsx
- *  page bodies — must resolve to a content stem, or the route dangles. */
 function checkIntraSiteLinks(logger: AstroIntegrationLogger): Violation[] {
   const stems = contentStems();
 
@@ -371,11 +407,12 @@ export default function validateCrossReferences(): AstroIntegration {
     hooks: {
       'astro:build:start': ({ logger }) => {
         const index = loadStorybookIndex(logger);
-        // Collect all three checks and report once, so a build doesn't fail on the
+        // Report once across every check, so a build doesn't fail on the
         // ComponentRef pass, get fixed, then fail again on the next pass.
         const violations = [
           ...checkComponentRefs(index, logger),
           ...checkRealisedBy(index, logger),
+          ...checkEvidenceRefs(logger),
           ...checkPatternRefs(logger),
           ...checkIntraSiteLinks(logger),
         ];

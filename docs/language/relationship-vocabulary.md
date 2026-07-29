@@ -529,6 +529,10 @@ Each entry: date, change, why, what was considered, what was lost.
 
 Entries are condensed to what still bears on future decisions; the full records are in this file's git history.
 
+### 2026-07-27 — epistemic status: `seed` and `evidence` as node facets
+
+How well-supported a page is became a first-class dimension of the notation: `seed` (boolean, any role) marks a page as a held thought rather than a claim, `evidence` (array of kinds, `role: pattern` and `role: collection` only) names what backs a move, and an optional `disclosure` line carries the prose reason.
+
 ### 2026-07-25 — Resulting clauses render as the page's Consequences section; authored sections retired
 
 The absorption entry below rested on a mechanism fact — situations never render on a pattern page, so the prose `## Consequences` section was the clauses' reader-facing render. The backfill then filled 90 pages with resulting clauses while (correctly, under the provisional call) authoring no prose sections, which left the fact carrying an absurdity: on all but seven pages the "reader-facing render" didn't exist, and 182 of 219 clauses — every one without `sets-up` — reached no reader at all. The fix inverts the mechanism instead of hand-writing ~85 prose sections: `Consequences.astro` renders `situation.resulting` at the page foot before Related patterns, the same never-authored-always-rendered rule the Related list already follows. One judgement, one authored home, machine render — the hand-narration alternative was rejected as a second corpus-wide pass whose product drifts (the seven specimens had already drifted to near-verbatim restatement).

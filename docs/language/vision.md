@@ -86,17 +86,10 @@ interface PatternMove {
   enabledBy?: string[];
   examples?: string[];
   evidence?: string[];
-  status: 'seed' | 'observed' | 'settled' | 'deprecated';
+  seed?: boolean;
 }
 ```
 
-The still-unrealised fields are `problem`, `forces`, `evidence`, and `status`.
-They are what would let a reasoning actor treat a pattern as a move rather than
-a page, so they belong to Track 2. The `status` field is the confidence signal:
-a seed can be useful, but it should not masquerade as a settled invariant. Of
-these, `status` is the nearest: the corpus already generates the need — stubs
-present with finished-page authority, and maturity has to be legible as more
-than editorial confidence.
 
 ## Guidance
 

@@ -1,0 +1,74 @@
+---
+/**
+ * How well-supported a page is, said in the notation rather than only in prose.
+ * Sits directly under <PatternDates>, which already answers a version of the
+ * same question — the dates say how long the argument has stood, this says what
+ * it stands on.
+ *
+ * Three channels, doing three jobs. `seed` is a warning: the page exists to
+ * hold a thought, so do not read it as a claim. `evidence` names the kinds of
+ * backing, not a degree — literature-backed-but-never-observed and
+ * observed-but-absent-from-the-literature are both real states, and no single
+ * rank places them sensibly. `disclosure` is the prose channel and is never
+ * parsed; it carries what the structured data destroys — why confidence is low
+ * and what would raise it.
+ *
+ * The visual channel for seed-ness is *border style*, dashed, the same channel
+ * the graph uses for a seed node. Not colour, which role and category already
+ * saturate; not size, which reads as importance — a well-evidenced move is not
+ * a bigger one.
+ *
+ * `built` is derived here rather than authored, mirroring the derivation in
+ * scripts/extract-graph-data.ts. The page renders from the content collection
+ * and the graph from pattern-graph.json, so the entailment is stated twice; the
+ * authorable claim (`realised_by`) still lives in exactly one place, which is
+ * the property that matters.
+ */
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'patterns'>;
+}
+
+const { entry } = Astro.props;
+const { seed, evidence, disclosure, realised_by: realisedBy } = entry.data;
+
+const kinds = (evidence ?? []).map((item) =>
+  typeof item === 'string' ? { kind: item, ref: undefined } : item,
+);
+if ((realisedBy?.length ?? 0) > 0 && !kinds.some((k) => k.kind === 'built')) {
+  kinds.push({ kind: 'built', ref: undefined });
+}
+
+const GLOSS: Record<string, string> = {
+  observed: 'Instances seen in real products or practice',
+  literature: 'A reference in references/ supports this',
+  built: 'Realised in the component substrate',
+  used: 'Applied in actual design work, not merely documented',
+};
+
+const hasBadges = seed === true || kinds.length > 0;
+---
+
+{/* data-pagefind-ignore for the same reason PatternDates carries it: these are
+    chrome about the page, not part of what the page says, and without it a
+    search for "observed" would return most of the corpus. The disclosure prose
+    below stays indexed — it is authored text a reader may want to find. */}
+{hasBadges && (
+  <>
+    {seed === true && (
+      <>
+        &#32;·&#32;
+        <small class="muted" title="A place to hold a thought — not yet a claim">
+          Seed
+        </small>
+      </>
+    )}
+    {/* {kinds.map(({ kind, ref }) => (
+      <span class="badge badge--evidence" title={GLOSS[kind] ?? undefined}>
+        {ref ? `${kind}: ${ref}` : kind}
+      </span>
+    ))} */}
+  </>
+)}
+{disclosure && <p class="disclosure">{disclosure}</p>}

@@ -194,14 +194,15 @@ Facets (content is flat — these are tags, not folders):
 
 ### 6. Tags and metadata
 
-Every pattern carries YAML frontmatter fields (see [`.claude/rules/pattern-content.md`](../../.claude/rules/pattern-content.md) for the authoring contract):
+Classification lands in YAML frontmatter facets — the field list and what each
+one means are in [`docs/specs/pattern-site.md`](../../docs/specs/pattern-site.md)
+§Classification facets, and the template to write is in
+[`.claude/rules/pattern-content.md`](../../.claude/rules/pattern-content.md).
 
-- `activityLevel: operation | action | activity` — AT level
-- `atomic: primitive | component | composition | pattern` — compositional metadata; decisions in this skill rarely turn on it
-- `lifecycle: seeking | evaluation | sense-making | application | coordination` — for actions, the primary stage
-- `group` — slash-delimited nav sub-grouping path; reconstructs the sidebar sub-tree, no semantic claim
-- `domain` — domain corpus the entry belongs to (e.g. `data-visualization`)
-- `mediation: individual | coordination` — whether the pattern involves multiple actors
+Which of them this skill's decisions actually turn on: `activityLevel` and
+`lifecycle` carry the placement judgement; `group` records a navigation sub-tree
+and makes no semantic claim; `atomic` (compositional complexity) and `mediation`
+(how many actors the move sits between) rarely decide anything here.
 
 Consider domain `tags` (e.g., `ai`, `navigation-structure`, `async`) for graph clustering — but only when they emerge from existing clusters in the graph, not invented speculatively.
 
@@ -209,7 +210,7 @@ Consider domain `tags` (e.g., `ai`, `navigation-structure`, `async`) for graph c
 
 Before finalising, consider the topology:
 
-- Which typed edges does this create? (The graph is derived from cross-reference headers and Mermaid trees in MDX, so this is really asking: what will Precursors / Follow-ups / Containers / Foundation / Complementary / Tangential / Alternatives / Decision-tree / quality references look like?)
+- Which typed edges does this create? Every edge is authored (`relationships:`, inline `rel=`, `<PatternRef rel>`) or emitted by a judgement home (a `sets-up:` resulting clause, a decision tree) — untyped prose links produce nothing, so the question is what to declare, not what will be inferred.
 - Does this node clarify the graph or clutter it? A node with 2 edges might not justify its existence. A node with 20 edges might be too broad and need splitting.
 - Does this create or join a meaningful cluster? Check whether the neighbourhood forms a recognisable group or scatters across unrelated areas.
 - Sanity-check the axis of each edge against the altitude difference between its endpoints. Surface anomalies (an `instantiates` within one altitude, a `complements` across two) for the user — they're findings, not failures.

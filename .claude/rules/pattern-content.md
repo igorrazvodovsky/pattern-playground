@@ -13,20 +13,24 @@ For component Storybook documentation, see `.claude/rules/documentation.md`.
 
 Files are flat under `apps/patterns/src/content/patterns/`; the filename stem is
 the slug, route, and graph ID. Classification lives in frontmatter facets, not
-folders. Every file needs at least `title`, `added` and `role`:
+folders. Every file needs at least `title`, `added` and `role`; the rest are
+optional and independent of each other. What the fields mean, and why the tree is
+flat, is in [`docs/specs/pattern-site.md`](../../docs/specs/pattern-site.md)
+(§Content collection schema, §File layout, §Classification facets); the roles are
+defined in [`docs/specs/pattern-role-model.md`](../../docs/specs/pattern-role-model.md).
 
 ```yaml
 ---
 title: "Pattern name"
 added: 2025-10-17              # the day it joined the library
 updated:                       # fill in when the argument moves
-role: pattern
-activityLevel: operation       # AT altitude (operation | action | activity)
-lifecycle: seeking             # optional Seek–Use–Share stage
-domain: data-visualization     # optional domain corpus
-group: "conversation/sequence-management"  # optional nav sub-grouping path
-atomic: pattern
-mediation: individual
+role: pattern                  # pattern | collection | quality | foundation | component
+activityLevel: operation       # operation | action | activity
+lifecycle: seeking             # Seek–Use–Share stage, free-form
+domain: data-visualization     # domain corpus
+group: "conversation/sequence-management"  # nav sub-grouping path
+atomic: pattern                # primitive | component | composition | pattern
+mediation: individual          # individual | coordination | networking
 description: "One sentence framed from the human situation."
 ---
 ```
@@ -95,21 +99,26 @@ The `{rel="type"}` is stripped at build time by the `remark-rel-strip` plugin an
 
 A `note` may contain inline markdown links (`[text](/patterns/slug#anchor)`); `RelatedPatterns.astro` renders them as real anchors. Quote the note value when it contains `[`, `:` followed by a space, or other YAML-significant characters.
 
-Per-direction notes (symmetric edges — `complements`, `tangential`, `alternative`, `related`): both endpoints may author the same edge, each with its own note. The renderer shows the *near-side* note — the one authored by the page being viewed — so the link reads in the local pattern's voice. Author the reverse note only when your side has something distinct to say; a single note still renders on both pages (the other side falls back to it). Do not duplicate the same note on both sides.
+One edge carries up to two notes, one per reading direction. Symmetric edges
+(`complements`, `tangential`, `alternative`, `related`): each endpoint may
+author its own. Directed edges (`precedes`, `enables`, `instantiates`): the
+source authors the forward note, the target adds the reverse one through the
+inverse alias (`follows`, `composed-of`, `instances`). Either way, write the
+second note only when reading from that side needs different words — a single
+note renders on both pages — and never duplicate the same note on both sides.
 
-Per-direction notes (directed edges — `precedes`, `enables`, `instantiates`): the forward author sets the outgoing note (`A` declares `precedes: {to: B, note}`); the target may add a reverse-reading note via the inverse alias (`B` declares `follows: {to: A, note}`, or `composed-of`/`instances` for enables/instantiates). Same rule: add the incoming note only when reading the edge in reverse needs different words. This enriches the one edge — it does not create a second edge.
-
-Voice the note for both pages: a single-noted directed edge renders its one note
-on both endpoints' pages, each time after the *other* endpoint's name, so a
-subjectless note binds to whichever endpoint the reader is not on. Make the
-note name its subject ("annotation supplies the mechanism for attaching help")
-or gloss the relation itself; when the wording only works from one side, author
-the reverse note via the inverse alias instead. The extractor's voicing
-advisory flags single-noted directed edges that name neither endpoint.
+Voice a note so it works from both pages: name its subject ("annotation supplies
+the mechanism for attaching help") or gloss the relation itself. A single note
+renders after the *other* endpoint's name each time, so a subjectless one binds
+to whichever endpoint the reader is not on; when the wording only works from one
+side, author the reverse note instead. The extractor flags notes that name
+neither endpoint.
 
 The extractor's subsumption dedup silently drops a `related` edge (and its note) when the pair carries any stronger type — a `related` you author must target a pair with no stronger edge, and a note that matters belongs on the stronger edge.
 
-Valid rel values: `precedes`, `follows`, `enables`, `composed-of`, `instantiates`, `instances`, `variants`, `complements`, `tangential`, `alternative`, `enacts`, `serves`, `surveys`, `hosts`, `hosted-by`, `related`. Direction is fixed by the rel name (see `docs/language/relationship-vocabulary.md`). `recommends` is not authorable — it comes only from decision trees. `serves` is authored on the pattern's page only and targets a foundation; its note names the station of the foundation's frame the move covers.
+Valid rel values: `precedes`, `follows`, `enables`, `composed-of`, `instantiates`, `instances`, `variants`, `complements`, `tangential`, `alternative`, `enacts`, `serves`, `surveys`, `hosts`, `hosted-by`, `related`. Direction is fixed by the rel name, not by which page declares it. `recommends` is not authorable — it comes only from decision trees. `serves` is authored on the pattern's page only and targets a foundation; its note names the station of the foundation's frame the move covers.
+
+What each type claims, which alias stores which direction, and when an edge is the wrong instrument: `docs/language/relationship-vocabulary.md` (§Relationships and §Authoring model).
 
 Component realisation ("this move is realised by this component") is not a
 typed edge: author the claim in frontmatter `realised_by` — a list of
@@ -123,6 +132,32 @@ realised_by: [actions-application-form--docs]
 including components the page is not realised by. Never put a `rel=` on a
 `<ComponentRef>` and never name a component id in `relationships:`. See
 `docs/language/relationship-vocabulary.md` §Component realisation.
+
+## Epistemic status
+
+Say how well-supported the pattern is. Three optional independent frontmatter
+fields:
+
+```yaml
+seed: true                     # a place to hold a thought — not yet a claim
+evidence:
+  - observed                   # instances seen in real products or practice
+  - literature                 # sources support it
+  - kind: literature           # …with a references/ entry named
+    ref: design-patterns
+  - used                       # applied in actual design work
+disclosure: "Written from one screenshot and a hunch; two more sightings would settle it."
+```
+
+- `evidence` is valid on `role: pattern` and `role: collection` only; `ref`
+  belongs on `literature` and must name a `references/` entry, or the build fails.
+- `built` is *not* authorable: it is entailed from `realised_by`. Populate
+  `realised_by` and the extractor adds it.
+- `disclosure` is never parsed. Write the reason confidence is low and what
+  would raise it.
+
+What each kind means, and why they are kinds rather than a maturity ladder:
+[`docs/specs/pattern-site.md`](../../docs/specs/pattern-site.md) §Epistemic status.
 
 ## Situations and conditional edges
 

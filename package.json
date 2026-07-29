@@ -17,7 +17,7 @@
     "build:storybook-into-site": "npm run build:storybook-index && rm -rf public/storybook && cp -r packages/components/storybook-static public/storybook",
     "build": "npm run build:storybook-into-site && npm run build -w @pattern-plgrnd/patterns",
     "test-storybook": "vitest --project=storybook",
-    "test": "eslint .",
+    "test": "node scripts/check-seed-staleness.mjs && eslint .",
     "test styles": "stylelint **/*.css"
   },
   "devDependencies": {

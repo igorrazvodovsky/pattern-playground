@@ -20,10 +20,23 @@ interface Node {
   role?: Role;
   group?: string;
   situation?: NodeSituation;
-  /** Component realisation: Storybook docs ids, authored in frontmatter
-   * `realised_by`. Cross-dataset metadata, not edges — components are not
-   * nodes (relationship-vocabulary.md §Component realisation). */
+  /** Storybook docs ids from frontmatter `realised_by` — node metadata, never
+   * edges (relationship-vocabulary.md §Component realisation). */
   realisedBy?: string[];
+  seed?: true;
+  /** Normalised from the two-level authoring shape (bare kind or {kind, ref}) so
+   * a consumer handles one form. `built` never appears in frontmatter — it is
+   * entailed here from `realisedBy`, so the claim has exactly one home. */
+  evidence?: EvidenceEntry[];
+}
+
+const AUTHORABLE_EVIDENCE_KINDS = ['observed', 'literature', 'used'] as const;
+type EvidenceKind = typeof AUTHORABLE_EVIDENCE_KINDS[number] | 'built';
+
+interface EvidenceEntry {
+  kind: EvidenceKind;
+  /** Which `references/` entry backs a `literature` claim. */
+  ref?: string;
 }
 
 // `umbrella` is retained as a deprecated alias of `collection` for back-compat during
@@ -33,9 +46,7 @@ type Role = typeof VALID_ROLES[number];
 
 type RoleSource = 'explicit' | 'inferred' | 'unset';
 
-/** Node-side situation constructs (relationship-vocabulary.md §Situations).
- * A resulting clause with setsUp emits a `precedes` edge to each named pattern,
- * carrying the clause as the edge's derived `situation` text. */
+/** Node-side situation constructs (relationship-vocabulary.md §Situations). */
 interface SituationClause {
   clause: string;
   setsUp?: string[];
@@ -77,8 +88,9 @@ interface Edge {
   incomingNote?: string;
   extractedFrom?: string;
   /** Derived, never authored edge-side: the source node's resulting-context
-   * clause this edge renders (extractedFrom 'situation:resulting'). Per the
-   * consumer contract, rendered as prose for judgement — never matched on. */
+   * clause this edge renders (extractedFrom 'situation:resulting'). Rendered as
+   * prose for judgement, never matched on — graph-relationship-model.md
+   * §Epistemic stance. */
   situation?: string;
   situationalHints?: SituationalHint[];
 }
@@ -103,8 +115,7 @@ interface TypedLink {
 
 // --- Authoring vocabulary: alias → { canonical stored type, invert direction } ---
 //
-// Direction is fixed by the relation name (I2). Aliases let an author pick the
-// word that fits the sentence; the extractor normalises both to one stored edge.
+// See relationship-vocabulary.md §Authoring aliases and direction normalization.
 // `recommends` is intentionally absent — it is not an authorable rel.
 const ALIAS_TABLE = {
   precedes:      { type: 'precedes'     as EdgeType, invert: false },
@@ -144,6 +155,38 @@ function globMdx(dir: string): string[] {
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
+}
+
+/** The schema is the real gate (content.config.ts); this pass runs standalone via
+ *  `npm run extract-graph`, so it warns and drops rather than trusting that a
+ *  site build already rejected the file. */
+function parseEvidence(fm: Record<string, unknown>, filePath: string, realisedBy: string[]): EvidenceEntry[] {
+  const kinds: readonly string[] = AUTHORABLE_EVIDENCE_KINDS;
+  const entries: EvidenceEntry[] = [];
+  const raw = Array.isArray(fm.evidence) ? fm.evidence : [];
+
+  for (const item of raw) {
+    const kind = typeof item === 'string' ? item : isRecord(item) && typeof item.kind === 'string' ? item.kind : null;
+    if (kind === null) {
+      console.warn(`Evidence warning: ${filePath}: evidence entries must be a kind string or {kind, ref} — ignored`);
+      continue;
+    }
+    if (kind === 'built') {
+      console.warn(`Evidence warning: ${filePath}: built is derived from realised_by, not authored — ignored`);
+      continue;
+    }
+    if (!kinds.includes(kind)) {
+      console.warn(`Evidence warning: ${filePath}: unknown evidence kind "${kind}" — expected ${kinds.join(' | ')}; ignored`);
+      continue;
+    }
+    const ref = isRecord(item) && typeof item.ref === 'string' ? item.ref : undefined;
+    entries.push(ref !== undefined ? { kind: kind as EvidenceKind, ref } : { kind: kind as EvidenceKind });
+  }
+
+  if (realisedBy.length > 0 && !entries.some((e) => e.kind === 'built')) {
+    entries.push({ kind: 'built' });
+  }
+  return entries;
 }
 
 /** Parse the frontmatter `situation:` block. Resulting entries are bare prose
@@ -200,9 +243,9 @@ function extractFrontmatter(content: string): Record<string, unknown> {
   }
 }
 
-/** Display category, composed from frontmatter facets rather than folders.
- *  role wins for qualities/foundations; domain names a domain corpus; otherwise
- *  the AT activity level. Section collections (no facets) read as cross-cutting. */
+/** Composed from frontmatter facets rather than folders: role wins for
+ *  qualities/foundations; domain names a domain corpus; otherwise the AT
+ *  activity level. Section collections (no facets) read as cross-cutting. */
 function categoryOf(role: string | undefined, activityLevel: string | null, domain: string | null): string {
   if (role === 'quality') return 'Qualities';
   if (role === 'foundation') return 'Foundations';
@@ -218,12 +261,10 @@ function stripComments(content: string): string {
   return content.replace(/\{\/\*[\s\S]*?\*\/\}/g, '');
 }
 
-// --- Relationship extraction: Phase B ---
+// --- Relationship extraction ---
 //
 // Three explicit channels (frontmatter, inline rel=, component props); the two
 // judgement homes (situations, decision trees) emit their own edges elsewhere.
-// Heading-text inference is removed; structural auto-typing retired 2026-07-11
-// — untyped body links are citations and produce no edge.
 
 // `[text](/patterns/slug){rel="type"}` — {rel} must follow closing ) immediately.
 const INLINE_REL_RE = /\[[^\]]*\]\(\/patterns\/([\w][\w/-]*)(?:#[^\s)]*)?(?:[^)]*)\)\{rel="([^"]+)"\}/g;
@@ -324,12 +365,9 @@ function parseComponentRelAttrs(content: string, sourcePath: string): TypedLink[
     });
   }
 
-  // <ComponentRef> carries no rel: prose mentions are citations, not claims.
-  // The realisation claim's single authorable home is frontmatter `realised_by`
-  // (cross-dataset node metadata against Storybook's index.json, never a graph
-  // edge — see relationship-vocabulary.md §Component realisation). A rel here
-  // is an authoring error — components are not graph nodes, so the edge could
-  // never resolve; warn instead of silently dropping it.
+  // <ComponentRef> carries no rel (relationship-vocabulary.md §Component
+  // realisation). Components are not graph nodes, so such an edge could never
+  // resolve — warn rather than drop it silently.
   COMPONENT_REF_RE.lastIndex = 0;
   while ((m = COMPONENT_REF_RE.exec(content)) !== null) {
     const attrs = m[1];
@@ -477,8 +515,6 @@ interface TreeConfig {
 }
 
 /**
- * Decision-tree configs are authored in each page's `decision-trees:` frontmatter
- * (the tree is the authorable judgement home — see relationship-vocabulary.md).
  * Leaf labels are matched verbatim against the parsed Mermaid node labels; leaves
  * that resolve to no current pattern page are omitted from the map and reported.
  * Component leaves (primitives-*, components-*, etc.) silently skip at edge-build
@@ -517,13 +553,10 @@ interface ResolvedPath {
   hints: SituationalHint[];
 }
 
-/**
- * Walk the parsed Mermaid graph from each root (a node with no incoming edges) to every leaf
- * (a node with no outgoing edges). At each transition, if the *from* node is a question
- * (`{…}` shape or its label ends with `?`), record `{question, branch}` where branch is the
- * outgoing edge's label (`-->|…|`). Leaves are resolved against the curated map; unresolved
- * leaves are dropped.
- */
+function isQuestionNode(node: MermaidNode): boolean {
+  return node.isQuestion || /\?\s*$/.test(node.label);
+}
+
 /**
  * Some Mermaid trees express branches as intermediate nodes rather than as `-->|label|` edge
  * labels — e.g. Deletion's `A[Is the deletion reversible?] --> B[Yes]` followed by `B --> D`.
@@ -533,10 +566,6 @@ interface ResolvedPath {
  * A node qualifies as a branch intermediate when: it isn't itself a question, it sits on a
  * single in/out edge, the inbound edge has no label, and its predecessor is a question.
  */
-function isQuestionNode(node: MermaidNode): boolean {
-  return node.isQuestion || /\?\s*$/.test(node.label);
-}
-
 function collapseBranchNodes(graph: MermaidGraph, leafMap: Record<string, string>): MermaidGraph {
   const incoming = new Map<string, MermaidEdge[]>();
   const outgoing = new Map<string, MermaidEdge[]>();
@@ -582,6 +611,13 @@ function collapseBranchNodes(graph: MermaidGraph, leafMap: Record<string, string
   return { nodes: newNodes, edges: newEdges };
 }
 
+/**
+ * Walk the parsed Mermaid graph from each root (a node with no incoming edges) to every leaf
+ * (a node with no outgoing edges). At each transition, if the *from* node is a question
+ * (`{…}` shape or its label ends with `?`), record `{question, branch}` where branch is the
+ * outgoing edge's label (`-->|…|`). Leaves are resolved against the curated map; unresolved
+ * leaves are dropped.
+ */
 function walkPaths(rawGraph: MermaidGraph, leafMap: Record<string, string>): ResolvedPath[] {
   const graph = collapseBranchNodes(rawGraph, leafMap);
   const incoming = new Map<string, number>();
@@ -683,8 +719,6 @@ const recommendsCollection: RecommendsCollection = {
 };
 
 // --- Process pattern-site content (frontmatter-based) ---
-//
-// Runs first so patterns-content nodes win over any duplicate ID from the components stories.
 const patternMdxFiles = globMdx(patternsContentDir);
 const groupById = new Map<string, string>();
 
@@ -730,13 +764,18 @@ for (const filePath of patternMdxFiles) {
     node.group = fm.group;
   }
 
+  let realisedBy: string[] = [];
   if (Array.isArray(fm.realised_by)) {
-    const realisedBy = fm.realised_by.filter((v): v is string => typeof v === 'string');
+    realisedBy = fm.realised_by.filter((v): v is string => typeof v === 'string');
     if (realisedBy.length !== fm.realised_by.length) {
       console.warn(`Realisation warning: ${filePath}: realised_by entries must be Storybook docs-id strings — non-strings ignored`);
     }
     if (realisedBy.length > 0) node.realisedBy = realisedBy;
   }
+
+  if (fm.seed === true) node.seed = true;
+  const evidence = parseEvidence(fm, filePath, realisedBy);
+  if (evidence.length > 0) node.evidence = evidence;
 
   activityData.set(id, {
     // Frontmatter is authoritative. Foundations, qualities, and section collections
@@ -904,8 +943,8 @@ writeFileSync(activityLevelsPathLegacy, JSON.stringify(activityLevelsOutput, nul
 
 // --- Axis sanity check (advisory) ---
 //
-// Coarse altitude proxy from category folder: activities > actions > operations.
-// Foundations and Qualities are cross-cutting and skipped.
+// Coarse altitude proxy from the derived category: activities > actions >
+// operations. Foundations and Qualities are cross-cutting and skipped.
 const ALTITUDE: Record<string, number> = {
   'Activities': 3,
   'Actions': 2,
