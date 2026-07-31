@@ -5,8 +5,7 @@
       "title": "Accessibility",
       "category": "Qualities",
       "path": "/patterns/a11y",
-      "role": "quality",
-      "seed": true
+      "role": "quality"
     },
     {
       "id": "abort",
@@ -164,6 +163,12 @@
       "evidence": [
         {
           "kind": "literature"
+        },
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "used"
         }
       ]
     },
@@ -190,6 +195,9 @@
         },
         {
           "kind": "literature"
+        },
+        {
+          "kind": "used"
         }
       ]
     },
@@ -382,8 +390,13 @@
       "realisedBy": [
         "components-block-based-editor--docs"
       ],
-      "seed": true,
       "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "used"
+        },
         {
           "kind": "built"
         }
@@ -545,8 +558,13 @@
       "realisedBy": [
         "components-command-menu--docs"
       ],
-      "seed": true,
       "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "used"
+        },
         {
           "kind": "built"
         }
@@ -1079,8 +1097,7 @@
             "clause": "verification cost rises with length, and long output is exactly where accepting quietly takes the place of checking"
           }
         ]
-      },
-      "seed": true
+      }
     },
     {
       "id": "good-defaults",
@@ -1814,8 +1831,7 @@
             "clause": "the request is a durable artefact — keepable, editable, shareable, templatable — which makes a good one worth more than any single thing it produced"
           }
         ]
-      },
-      "seed": true
+      }
     },
     {
       "id": "prose",
