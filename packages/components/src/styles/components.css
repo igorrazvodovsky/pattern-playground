@@ -29,6 +29,9 @@
 @import url(spinner.css) layer(components);
 @import url(switch.css) layer(components);
 @import url(range.css) layer(components);
+@import url(tabs.css) layer(components);
+@import url(list.css) layer(components);
+@import url(list-item.css) layer(components);
 @import url(select.css) layer(components);
 @import url(textarea.css) layer(components);
 @import url(details.css);

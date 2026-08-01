@@ -57,7 +57,7 @@ export function InlineCheckboxesDemo() {
             data-value={item.id}
             checked={selected.has(item.id)}
           >
-            <iconify-icon icon={item.icon} slot="prefix" />
+            <iconify-icon icon={item.icon} data-slot="prefix" />
             {item.name}
           </pp-list-item>
         ))}
@@ -98,7 +98,7 @@ export function ModeBasedRevealDemo() {
             data-value={item.id}
             checked={editing && selected.has(item.id)}
           >
-            <iconify-icon icon={item.icon} slot="prefix" />
+            <iconify-icon icon={item.icon} data-slot="prefix" />
             {item.name}
           </pp-list-item>
         ))}
@@ -159,7 +159,7 @@ export function SelectAllAffordanceDemo() {
             data-value={item.id}
             checked={escalated || selected.has(item.id)}
           >
-            <iconify-icon icon={item.icon} slot="prefix" />
+            <iconify-icon icon={item.icon} data-slot="prefix" />
             {item.name}
           </pp-list-item>
         ))}

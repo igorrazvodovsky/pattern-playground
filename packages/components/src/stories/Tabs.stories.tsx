@@ -19,21 +19,24 @@ const meta = {
 export default meta;
 type Story = StoryObj;
 
-const tabs = Array.from({ length: 20 }, (_, i) => (
-  <React.Fragment key={i}>
-    <pp-tab slot="nav" panel={i}>{faker.commerce.productName()}</pp-tab>
-    <pp-tab-panel name={i}>
-      <p style={{ margin: '1rem' }}>{faker.hacker.phrase()}</p>
-    </pp-tab-panel>
-  </React.Fragment>
+const manyTabs = Array.from({ length: 20 }, (_, i) => (
+  <pp-tab key={i} panel={i}>{faker.commerce.productName()}</pp-tab>
+));
+
+const manyPanels = Array.from({ length: 20 }, (_, i) => (
+  <pp-tab-panel key={i} name={i}>
+    <p style={{ margin: '1rem' }}>{faker.hacker.phrase()}</p>
+  </pp-tab-panel>
 ));
 
 export const Basic: Story = {
   render: () => (
     <pp-tab-group>
-      <pp-tab slot="nav" panel="1">{faker.vehicle.bicycle()}</pp-tab>
-      <pp-tab slot="nav" panel="2">{faker.vehicle.bicycle()}</pp-tab>
-      <pp-tab slot="nav" panel="3">{faker.vehicle.bicycle()}</pp-tab>
+      <div data-slot="nav">
+        <pp-tab panel="1">{faker.vehicle.bicycle()}</pp-tab>
+        <pp-tab panel="2">{faker.vehicle.bicycle()}</pp-tab>
+        <pp-tab panel="3">{faker.vehicle.bicycle()}</pp-tab>
+      </div>
       <pp-tab-panel name="1">
         This is the tab panel.
       </pp-tab-panel>
@@ -55,14 +58,16 @@ export const Basic: Story = {
 export const WithIcons: Story = {
   render: () => (
     <pp-tab-group>
-      <pp-tab slot="nav" panel="1">
-        {faker.commerce.productName()}
-        <iconify-icon className="icon" icon={getRandomIcon()} slot="icon"></iconify-icon>
-      </pp-tab>
-      <pp-tab slot="nav" panel="2">
-        {faker.commerce.productName()}
-        <iconify-icon className="icon" icon={getRandomIcon()} slot="icon"></iconify-icon>
-      </pp-tab>
+      <div data-slot="nav">
+        <pp-tab panel="1">
+          <iconify-icon className="icon" icon={getRandomIcon()} data-slot="icon"></iconify-icon>
+          {faker.commerce.productName()}
+        </pp-tab>
+        <pp-tab panel="2">
+          <iconify-icon className="icon" icon={getRandomIcon()} data-slot="icon"></iconify-icon>
+          {faker.commerce.productName()}
+        </pp-tab>
+      </div>
       <pp-tab-panel name="1">
         <p style={{ margin: '1rem' }}>{faker.hacker.phrase()}</p>
       </pp-tab-panel>
@@ -76,16 +81,18 @@ export const WithIcons: Story = {
 export const WithIconsAndSubtitles: Story = {
   render: () => (
     <pp-tab-group>
-      <pp-tab slot="nav" panel="1">
-        {faker.commerce.productName()}
-        <iconify-icon style={{ fontSize: '1.5em' }} className="icon" icon={getRandomIcon()} slot="icon"></iconify-icon>
-        <small slot="subtitle">100</small>
-      </pp-tab>
-      <pp-tab slot="nav" panel="2">
-        {faker.commerce.productName()}
-        <iconify-icon style={{ fontSize: '1.5em' }} className="icon" icon={getRandomIcon()} slot="icon"></iconify-icon>
-        <small slot="subtitle">100</small>
-      </pp-tab>
+      <div data-slot="nav">
+        <pp-tab panel="1">
+          <iconify-icon style={{ fontSize: '1.5em' }} className="icon" icon={getRandomIcon()} data-slot="icon"></iconify-icon>
+          {faker.commerce.productName()}
+          <small data-slot="subtitle">100</small>
+        </pp-tab>
+        <pp-tab panel="2">
+          <iconify-icon style={{ fontSize: '1.5em' }} className="icon" icon={getRandomIcon()} data-slot="icon"></iconify-icon>
+          {faker.commerce.productName()}
+          <small data-slot="subtitle">100</small>
+        </pp-tab>
+      </div>
       <pp-tab-panel name="1">
         <p style={{ margin: '1rem' }}>{faker.hacker.phrase()}</p>
       </pp-tab-panel>
@@ -99,7 +106,10 @@ export const WithIconsAndSubtitles: Story = {
 export const ScrollingTabs = {
   render: () => (
     <pp-tab-group>
-      {tabs}
+      <div data-slot="nav">
+        {manyTabs}
+      </div>
+      {manyPanels}
     </pp-tab-group>
   ),
 };

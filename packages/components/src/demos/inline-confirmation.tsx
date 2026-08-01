@@ -34,7 +34,7 @@ function DeletableItem({ item, onDelete }: { item: ReuseListing; onDelete: () =>
     <pp-list-item>
       {item.name}
       {confirming ? (
-        <div slot="suffix">
+        <div data-slot="suffix">
           <button className="button button--plain" onClick={cancel}>
             <iconify-icon className="icon" icon="ph:x" />
             <span className="visually-hidden">Cancel</span>
@@ -45,7 +45,7 @@ function DeletableItem({ item, onDelete }: { item: ReuseListing; onDelete: () =>
           </button>
         </div>
       ) : (
-        <button slot="suffix" className="button button--plain" onClick={arm}>
+        <button data-slot="suffix" className="button button--plain" onClick={arm}>
           <iconify-icon className="icon" icon="ph:trash-simple" />
           <span className="visually-hidden">Delete</span>
         </button>

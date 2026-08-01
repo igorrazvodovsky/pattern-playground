@@ -1,0 +1,141 @@
+/* Light-DOM styles for the tab family (rung 2). The author composes:
+     <pp-tab-group>
+       <div data-slot="nav">  <pp-tab>…</pp-tab> …  </div>
+       <pp-tab-panel>…</pp-tab-panel> …
+     </pp-tab-group>
+   Grid places component-appended scroll buttons around the nav strip without
+   extra wrappers. The active indicator is CSS on `pp-tab[active]` (the former
+   JS-measured sliding indicator); `--track-*` and `--indicator-*` keep their
+   meanings. */
+
+pp-tab-group {
+  --indicator-color: var(--c-accent);
+  --track-color: var(--c-neutral-200);
+  --track-width: 1px;
+  --indicator-width: 4px;
+
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+
+  > [data-slot="nav"] {
+    grid-row: 1;
+    grid-column: 2;
+    display: flex;
+    overflow-x: auto;
+    position: relative;
+    border-bottom: solid var(--track-width) var(--track-color);
+
+    /* Hide scrollbar in Firefox */
+    scrollbar-width: none;
+  }
+
+  /* Hide scrollbar in Chrome/Safari */
+  > [data-slot="nav"]::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  > pp-tab-panel {
+    grid-column: 1 / -1;
+  }
+
+  > .tab-group__scroll-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-row: 1;
+    width: var(--space-xl);
+    background: none;
+    border: none;
+
+    &:hover {
+      color: var(--c-accent);
+      cursor: pointer;
+    }
+  }
+
+  > .tab-group__scroll-button--start {
+    grid-column: 1;
+  }
+
+  > .tab-group__scroll-button--end {
+    grid-column: 3;
+  }
+}
+
+pp-tab {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 1fr auto;
+  align-items: center;
+  font-family: inherit;
+  font-size: var(--text-s);
+  font-weight: var(--font-weight-semibold);
+  line-height: 120%;
+  border-radius: var(--radius-m);
+  color: var(--c-neutral-600);
+  padding: var(--space-m) var(--space-l);
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+  transition:
+    var(--transition-speed) box-shadow,
+    var(--transition-speed) color;
+
+  > [data-slot="icon"] {
+    grid-row: span 2;
+    padding-inline-end: var(--space-m);
+    padding-block-start: var(--space-xs);
+    align-self: start;
+  }
+
+  > [data-slot="subtitle"] {
+    grid-column: 2;
+    opacity: 0.6;
+  }
+}
+
+pp-tab:hover {
+  color: var(--c-accent);
+}
+
+pp-tab:focus {
+  outline: none;
+}
+
+pp-tab:focus-visible {
+  color: var(--c-accent);
+  outline: var(--focus-ring);
+  outline-offset: calc(
+    -1 * var(--focus-ring-width) - var(--focus-ring-offset)
+  );
+}
+
+pp-tab[active] {
+  color: var(--c-accent);
+}
+
+/* Active indicator, drawn over the track */
+pp-tab[active]::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: var(--indicator-width, 4px);
+  background: var(--indicator-color, var(--c-accent));
+  border-radius: var(--radius-m) var(--radius-m) 0 0;
+}
+
+pp-tab-panel {
+  --_padding: 0;
+
+  display: none;
+  padding: var(--_padding);
+}
+
+pp-tab-panel[active] {
+  display: block;
+  overflow: auto;
+}

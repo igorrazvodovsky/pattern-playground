@@ -1,8 +1,6 @@
-import { classMap } from 'lit/directives/class-map.js';
-import { LitElement, html, unsafeCSS } from 'lit';
+import { LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
-import styles from './tab-panel.css?inline';
-import { watch } from '../../utility/watch';
+import type { PropertyValues } from 'lit';
 
 let id = 0;
 
@@ -10,10 +8,16 @@ let id = 0;
  * @summary Tab panels are used inside tab groups to display tab content.
  * @status draft
  * @since 0.0.1
+ *
+ * Composite enhancement (rung 2): the element renders nothing and enhances
+ * itself with `role="tabpanel"` and visibility driven by `active`.
+ * Styles live in `src/styles/tabs.css`.
  */
 
 export class PpTabPanel extends LitElement {
-  static styles = unsafeCSS(styles);
+  protected createRenderRoot() {
+    return this;
+  }
 
   private readonly attrId = ++id;
   private readonly componentId = `pp-tab-panel-${this.attrId}`;
@@ -35,21 +39,10 @@ export class PpTabPanel extends LitElement {
     this.setAttribute('role', 'tabpanel');
   }
 
-  @watch('active')
-  handleActiveChange() {
-    this.setAttribute('aria-hidden', this.active ? 'false' : 'true');
-  }
-
-  render() {
-    return html`
-      <slot
-        part="base"
-        class=${classMap({
-      'tab-panel': true,
-      'tab-panel--active': this.active
-    })}
-      ></slot>
-    `;
+  protected updated(changed: PropertyValues<this>) {
+    if (changed.has('active')) {
+      this.setAttribute('aria-hidden', this.active ? 'false' : 'true');
+    }
   }
 }
 

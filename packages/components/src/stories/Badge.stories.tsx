@@ -67,10 +67,10 @@ export const Size: Story = {
 export const WithButton: Story = {
   render: () => (
     <div style={{display: 'flex', gap: '1rem', alignItems: 'center'}}>
-      <button className="button" is="pp-button">
+      <button className="button">
         Requests<strong className="badge badge--pill badge--info">12</strong>
       </button>
-      <button className="button" is="pp-button">
+      <button className="button">
         <iconify-icon className="icon" icon="ph:circle-dashed"></iconify-icon>
         <span className="visually-hidden">Icon button</span>
         <sup className="badge badge--pill badge--danger"></sup>
@@ -86,17 +86,17 @@ export const WithList: Story = {
   render: () => (
     <pp-list style={{maxWidth: '240px'}}>
       <pp-list-item>
-        <iconify-icon className="icon" icon={getRandomIcon()} slot="prefix"></iconify-icon>
+        <iconify-icon className="icon" icon={getRandomIcon()} data-slot="prefix"></iconify-icon>
         {faker.hacker.verb()}
       </pp-list-item>
       <pp-list-item>
-        <iconify-icon className="icon" icon={getRandomIcon()} slot="prefix"></iconify-icon>
+        <iconify-icon className="icon" icon={getRandomIcon()} data-slot="prefix"></iconify-icon>
         {faker.hacker.verb()}
       </pp-list-item>
       <pp-list-item>
-        <iconify-icon className="icon" icon={getRandomIcon()} slot="prefix"></iconify-icon>
+        <iconify-icon className="icon" icon={getRandomIcon()} data-slot="prefix"></iconify-icon>
         {faker.hacker.verb()}
-        <strong className="badge badge--accent badge--pill" slot="suffix">12</strong>
+        <strong className="badge badge--accent badge--pill" data-slot="suffix">12</strong>
       </pp-list-item>
     </pp-list>
   ),

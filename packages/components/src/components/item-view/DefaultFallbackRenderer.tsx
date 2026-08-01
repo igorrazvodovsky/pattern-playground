@@ -89,23 +89,23 @@ export const DefaultFallbackRenderer = ({
       {scope === 'mid' && (
         <pp-list className='borderless'>
           <pp-list-item>
-            <iconify-icon className="icon" slot="prefix" icon="ph:pencil"></iconify-icon>
+            <iconify-icon className="icon" data-slot="prefix" icon="ph:pencil"></iconify-icon>
             Edit
           </pp-list-item>
           <pp-list-item type="checkbox" checked>
-            <iconify-icon className="icon" slot="prefix" icon="ph:circle-dashed"></iconify-icon>
+            <iconify-icon className="icon" data-slot="prefix" icon="ph:circle-dashed"></iconify-icon>
             Selected
           </pp-list-item>
           <pp-list-item>
-            <iconify-icon className="icon" slot="prefix" icon="ph:copy"></iconify-icon>
+            <iconify-icon className="icon" data-slot="prefix" icon="ph:copy"></iconify-icon>
             Duplicate
           </pp-list-item>
           <pp-list-item>
-            <iconify-icon className="icon" slot="prefix" icon="ph:export"></iconify-icon>
+            <iconify-icon className="icon" data-slot="prefix" icon="ph:export"></iconify-icon>
             Export
           </pp-list-item>
           <pp-list-item>
-            <iconify-icon className="icon" slot="prefix" icon="ph:trash"></iconify-icon>
+            <iconify-icon className="icon" data-slot="prefix" icon="ph:trash"></iconify-icon>
             Delete
           </pp-list-item>
         </pp-list>
