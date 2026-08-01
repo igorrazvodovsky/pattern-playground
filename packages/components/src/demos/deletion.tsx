@@ -76,7 +76,7 @@ export function TypedConfirmationDemo() {
             <li>Integration settings</li>
             <li>Usage history and analytics</li>
           </ul>
-          <pp-input type="text" placeholder={`Type "${workspace}" to confirm`} />
+          <pp-input><input type="text" placeholder={`Type "${workspace}" to confirm`} /></pp-input>
         </div>
         <footer>
           <div className="inline-flow">
@@ -150,7 +150,7 @@ export function StagedDeletionDemo() {
           >
             {item.name}
             <button
-              slot="suffix"
+              data-slot="suffix"
               className="button button--plain button--small"
               onClick={() => toggle(item.id)}
             >

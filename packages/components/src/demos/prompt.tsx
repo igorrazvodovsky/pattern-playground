@@ -132,16 +132,16 @@ export const PromptBasicDemo = () => {
         </div>
 
         <div className="message-composer__actions">
-          <button className="button button--plain" is="pp-button" title="Add context">
+          <button className="button button--plain" title="Add context">
             <iconify-icon className="icon" icon="ph:globe"></iconify-icon><span className="visually-hidden">Add context</span>
           </button>
-          <button className="button button--plain" is="pp-button" title="Get suggestions">
+          <button className="button button--plain" title="Get suggestions">
             <iconify-icon className="icon" icon="ph:lightbulb"></iconify-icon><span className="visually-hidden">Get suggestions</span>
           </button>
-          <button className="button button--plain" is="pp-button" title="Attach file">
+          <button className="button button--plain" title="Attach file">
             <iconify-icon className="icon" icon="ph:paperclip"></iconify-icon><span className="visually-hidden">Attach file</span>
           </button>
-          <button className="button button--plain" is="pp-button" title="Reference materials">
+          <button className="button button--plain" title="Reference materials">
             <iconify-icon className="icon" icon="ph:at"></iconify-icon><span className="visually-hidden">Reference materials</span>
           </button>
         </div>
@@ -169,19 +169,20 @@ export const PromptQualityFeedbackDemo = () => (
   </div>
   <div className="messages layer">
     <div className="message-composer layer">
-      <pp-input autoFocus label="Prompt" value="What was that thing's name?">
+      <pp-input>
+        <input autoFocus aria-label="Prompt" defaultValue="What was that thing's name?" />
       </pp-input>
       <div className="message-composer__actions">
-        <button className="button button--plain" is="pp-button">
+        <button className="button button--plain">
           <iconify-icon className="icon" icon="ph:globe"></iconify-icon><span className="visually-hidden">Action</span>
         </button>
-        <button className="button button--plain" is="pp-button">
+        <button className="button button--plain">
           <iconify-icon className="icon" icon="ph:lightbulb"></iconify-icon><span className="visually-hidden">Action</span>
         </button>
-        <button className="button button--plain" is="pp-button">
+        <button className="button button--plain">
           <iconify-icon className="icon" icon="ph:paperclip"></iconify-icon><span className="visually-hidden">Action</span>
         </button>
-        <button className="button button--plain" is="pp-button">
+        <button className="button button--plain">
           <iconify-icon className="icon" icon="ph:plus"></iconify-icon><span className="visually-hidden">Edit</span>
         </button>
       </div>
@@ -246,21 +247,20 @@ export const PromptWithMaterialReferencesDemo = () => {
         </div>
 
         <div className="message-composer__actions">
-          <button className="button button--plain" is="pp-button" title="Add context">
+          <button className="button button--plain" title="Add context">
             <iconify-icon className="icon" icon="ph:globe"></iconify-icon><span className="visually-hidden">Add context</span>
           </button>
-          <button className="button button--plain" is="pp-button" title="Get suggestions">
+          <button className="button button--plain" title="Get suggestions">
             <iconify-icon className="icon" icon="ph:lightbulb"></iconify-icon><span className="visually-hidden">Get suggestions</span>
           </button>
-          <button className="button button--plain" is="pp-button" title="Attach file">
+          <button className="button button--plain" title="Attach file">
             <iconify-icon className="icon" icon="ph:paperclip"></iconify-icon><span className="visually-hidden">Attach file</span>
           </button>
-          <button className="button button--plain" is="pp-button" title="Reference materials">
+          <button className="button button--plain" title="Reference materials">
             <iconify-icon className="icon" icon="ph:at"></iconify-icon><span className="visually-hidden">Reference materials</span>
           </button>
           <button
             className={`button ${editorState.isValid ? '' : 'button--disabled'}`}
-            is="pp-button"
             style={{ marginLeft: 'auto' }}
             title="Send prompt"
             disabled={!editorState.isValid}
@@ -337,7 +337,6 @@ export const PromptTemplateDemo = () => {
         <div className="message-composer__actions">
           <button
             className="button button--plain"
-            is="pp-button"
             title="Fill template with sample data"
             onClick={handleFillSample}
           >
@@ -345,7 +344,6 @@ export const PromptTemplateDemo = () => {
           </button>
           <button
             className="button button--plain"
-            is="pp-button"
             title="Clear all template fields"
             onClick={handleClearFields}
           >
@@ -353,18 +351,16 @@ export const PromptTemplateDemo = () => {
           </button>
           <button
             className="button button--plain"
-            is="pp-button"
             title="Validate template fields"
             onClick={handleValidate}
           >
             <iconify-icon className="icon" icon="ph:check-square"></iconify-icon><span className="visually-hidden">Validate</span>
           </button>
-          <button className="button button--plain" is="pp-button" title="Reference materials">
+          <button className="button button--plain" title="Reference materials">
             <iconify-icon className="icon" icon="ph:at"></iconify-icon><span className="visually-hidden">Reference materials</span>
           </button>
           <button
             className={`button ${editorState.isValid ? '' : 'button--disabled'}`}
-            is="pp-button"
             style={{ marginLeft: 'auto' }}
             title="Send prompt"
             disabled={!editorState.isValid}

@@ -95,9 +95,9 @@ export const Default: Story = {
 };
 
 /**
- * Shadow DOM inputs can't be associated with a `<label for="…">` — the label can't
- * reach across the shadow boundary. Use `aria-labelledby` and `aria-describedby`
- * instead: give the label and hint elements `id`s and pass them through.
+ * Associate external label and hint elements by giving them `id`s and passing
+ * them through `labelledby` / `describedby` — they land on the internal
+ * input as `aria-labelledby` / `aria-describedby`.
  */
 export const WithLabelAndHint: Story = {
   render: () => (
@@ -138,8 +138,8 @@ export const WithPrefixAndSuffix: Story = {
       value={250}
       hide-value
     >
-      <iconify-icon icon="ph:currency-gbp" slot="prefix" />
-      <small slot="suffix">£1000</small>
+      <iconify-icon icon="ph:currency-gbp" data-slot="prefix" />
+      <small data-slot="suffix">£1000</small>
     </pp-range>
   ),
 };
@@ -178,7 +178,7 @@ export const FormattedValue: Story = {
           hide-value
           value-text={formatted}
         >
-          <span slot="suffix">{formatted}</span>
+          <span data-slot="suffix">{formatted}</span>
         </pp-range>
       );
     }

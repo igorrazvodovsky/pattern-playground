@@ -44,10 +44,10 @@ export function ConversationalFormDemo() {
           <div className="message__body layer">
             <div className="flex">
               <pp-range label="Amount" name="range" min={0} max={100} value={50}>
-                <span slot="prefix">0</span>
-                <span slot="suffix">100</span>
+                <span data-slot="prefix">0</span>
+                <span data-slot="suffix">100</span>
               </pp-range>
-              <button className="button button--plain" is="pp-button">
+              <button className="button button--plain">
                 <iconify-icon className="icon" icon="ph:check"></iconify-icon><span className="visually-hidden">Submit</span>
               </button>
             </div>
@@ -71,19 +71,20 @@ export function ConversationalFormDemo() {
         </div>
       </div>
       <div className="message-composer layer">
-        <pp-input label="Message" placeholder="Write a message...">
+        <pp-input>
+          <input aria-label="Message" placeholder="Write a message..." />
         </pp-input>
         <div className="message-composer__actions">
-          <button className="button button--plain" is="pp-button">
+          <button className="button button--plain">
             <iconify-icon className="icon" icon="ph:globe"></iconify-icon><span className="visually-hidden">Action</span>
           </button>
-          <button className="button button--plain" is="pp-button">
+          <button className="button button--plain">
             <iconify-icon className="icon" icon="ph:lightbulb"></iconify-icon><span className="visually-hidden">Action</span>
           </button>
-          <button className="button button--plain" is="pp-button">
+          <button className="button button--plain">
             <iconify-icon className="icon" icon="ph:paperclip"></iconify-icon><span className="visually-hidden">Action</span>
           </button>
-          <button className="button button--plain" is="pp-button">
+          <button className="button button--plain">
             <iconify-icon className="icon" icon="ph:plus"></iconify-icon><span className="visually-hidden">Edit</span>
           </button>
         </div>

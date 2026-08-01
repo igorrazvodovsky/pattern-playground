@@ -19,7 +19,7 @@ const meta = {
     size: {
       control: { type: 'radio' },
       options: ['small', 'medium', 'large'] as SpinnerArgs['size'][],
-      description: 'Spinner size — scales the SVG via font-size',
+      description: 'Spinner size — scales the ring via font-size',
     },
   },
 } satisfies Meta<SpinnerArgs>;
@@ -29,5 +29,7 @@ type Story = StoryObj<SpinnerArgs>;
 
 export const Spinner: Story = {
   args: { size: 'medium' },
-  render: ({ size }) => <pp-spinner style={{ fontSize: sizeMap[size] }}></pp-spinner>,
+  render: ({ size }) => (
+    <pp-spinner role="progressbar" aria-label="Loading" style={{ fontSize: sizeMap[size] }}></pp-spinner>
+  ),
 };

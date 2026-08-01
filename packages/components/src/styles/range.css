@@ -1,0 +1,197 @@
+/* Light-DOM styles for pp-range (rung 3: the element renders the track,
+   input, marks, and value readout; author children marked
+   `data-slot="prefix"` / `data-slot="suffix"` are placed around the track
+   with flex order). Ported from the former shadow sheet; the `.form-control`
+   wrapper layers were structural only and are gone. */
+
+pp-range {
+  --range-fill: var(--c-accent-600);
+  --range-track-color: var(--c-border);
+  --range-track-height: var(--space-xs);
+  --range-thumb-size: 1rem;
+  --range-mark-size: 2px;
+  --range-mark-color: var(--c-border);
+
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+  font-family: inherit;
+  font-size: var(--text-s);
+  vertical-align: middle;
+
+  > [data-slot="prefix"] {
+    order: -1;
+  }
+
+  > [data-slot="suffix"] {
+    order: 1;
+  }
+
+  > [data-slot="prefix"],
+  > [data-slot="suffix"] {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    color: var(--c-secondary);
+    white-space: nowrap;
+  }
+
+  .range__track-wrapper {
+    position: relative;
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+  }
+
+  .range__control {
+    appearance: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .range__control:focus {
+    outline: none;
+  }
+
+  /* Track — WebKit */
+  .range__control::-webkit-slider-runnable-track {
+    height: var(--range-track-height);
+    border-radius: var(--radius-pill);
+    background: linear-gradient(
+      to right,
+      var(--range-fill) 0%,
+      var(--range-fill) var(--range-percent, 0%),
+      var(--range-track-color) var(--range-percent, 0%),
+      var(--range-track-color) 100%
+    );
+    transition: var(--transition-fast) background-color;
+  }
+
+  /* Track — Firefox */
+  .range__control::-moz-range-track {
+    height: var(--range-track-height);
+    border-radius: var(--radius-pill);
+    background: var(--range-track-color);
+  }
+
+  .range__control::-moz-range-progress {
+    height: var(--range-track-height);
+    border-radius: var(--radius-pill);
+    background: var(--range-fill);
+  }
+
+  /* Thumb — WebKit */
+  .range__control::-webkit-slider-thumb {
+    appearance: none;
+    width: var(--range-thumb-size);
+    height: var(--range-thumb-size);
+    margin-top: calc((var(--range-track-height) - var(--range-thumb-size)) / 2);
+    border: none;
+    border-radius: var(--radius-circle);
+    background: var(--range-fill);
+    cursor: grab;
+    transition: var(--transition-fast) transform, var(--transition-fast) box-shadow;
+  }
+
+  .range__control:active::-webkit-slider-thumb {
+    cursor: grabbing;
+    transform: scale(1.1);
+  }
+
+  /* Thumb — Firefox */
+  .range__control::-moz-range-thumb {
+    width: var(--range-thumb-size);
+    height: var(--range-thumb-size);
+    border: none;
+    border-radius: var(--radius-circle);
+    background: var(--range-fill);
+    cursor: grab;
+    transition: var(--transition-fast) transform, var(--transition-fast) box-shadow;
+  }
+
+  .range__control:active::-moz-range-thumb {
+    cursor: grabbing;
+    transform: scale(1.1);
+  }
+
+  /* Focus ring */
+  &:focus-within .range__control::-webkit-slider-thumb {
+    box-shadow: 0 0 0 var(--focus-ring-width) var(--focus-ring-color);
+  }
+
+  &:focus-within .range__control::-moz-range-thumb {
+    box-shadow: 0 0 0 var(--focus-ring-width) var(--focus-ring-color);
+  }
+
+  /* Disabled */
+  &[disabled] {
+    --range-fill: var(--c-neutral-600);
+    --range-track-color: var(--c-neutral-300);
+
+    cursor: not-allowed;
+  }
+
+  &[disabled] .range__control,
+  &[disabled] .range__control::-webkit-slider-thumb {
+    cursor: not-allowed;
+  }
+
+  &[disabled] .range__control::-moz-range-thumb {
+    cursor: not-allowed;
+  }
+
+  /* Hover */
+  &:hover:not([disabled]) .range__control::-webkit-slider-thumb {
+    background: var(--c-active-border);
+  }
+
+  &:hover:not([disabled]) .range__control::-moz-range-thumb {
+    background: var(--c-active-border);
+  }
+
+  /* Marks */
+  .range__marks {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    margin-inline: calc(var(--range-thumb-size) / 2);
+  }
+
+  .range__mark {
+    position: absolute;
+    top: 50%;
+    width: var(--range-mark-size);
+    height: var(--range-mark-size);
+    margin-top: calc(var(--range-mark-size) / -2);
+    margin-inline-start: calc(var(--range-mark-size) / -2);
+    border-radius: var(--radius-circle);
+    background: var(--range-mark-color);
+  }
+
+  .range__value {
+    font-variant-numeric: tabular-nums;
+    color: var(--c-body);
+    min-width: 2ch;
+    text-align: end;
+  }
+
+  /* Sizes */
+  &[size="small"] {
+    --range-track-height: calc(var(--space-xs) * 0.75);
+    --range-thumb-size: 0.75rem;
+
+    font-size: var(--text-xs);
+  }
+
+  &[size="large"] {
+    --range-track-height: calc(var(--space-xs) * 1.5);
+    --range-thumb-size: 1.25rem;
+
+    font-size: var(--text-m);
+  }
+}

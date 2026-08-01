@@ -11,16 +11,10 @@ import type { ScatterPlot } from './components/charts/scatter-plot.js';
 declare module 'react' {
   namespace JSX {
     interface IntrinsicElements {
+      /* Rung-2 field box: compose a native <input> (and data-slot adornments) inside */
       'pp-input': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
-        name?: string;
-        value?: string;
-        placeholder?: string;
-        disabled?: boolean;
         size?: 'small' | 'medium' | 'large';
         clearable?: boolean;
-        autocomplete?: string;
-        autofocus?: boolean;
-        type?: 'text' | 'email' | 'password' | 'number' | 'search' | 'tel' | 'url' | 'date' | 'datetime-local' | 'time';
       };
       'pp-range': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         name?: string;
@@ -37,33 +31,14 @@ declare module 'react' {
         'hide-value'?: boolean;
         'value-text'?: string;
       };
-      'pp-switch': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
-        name?: string;
-        checked?: boolean;
-        disabled?: boolean;
-        required?: boolean;
-        size?: 'small' | 'medium' | 'large';
-        label?: string;
-        labelledby?: string;
-        describedby?: string;
-      };
+      /* Rung-2 field box: compose a native <select> (and data-slot hint/error) inside */
       'pp-select': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
-        name?: string;
-        value?: string;
-        placeholder?: string;
-        disabled?: boolean;
-        required?: boolean;
         invalid?: boolean;
         size?: 'small' | 'medium' | 'large';
-        autofocus?: boolean;
-        label?: string;
-        labelledby?: string;
-        describedby?: string;
       };
       'pp-button': React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
-      'pp-spinner': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
-        size?: 'small' | 'medium' | 'large';
-      };
+      /* CSS-only styled tag (no custom element definition) — sizes with font-size */
+      'pp-spinner': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
       'pp-modal': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
       'pp-avatar': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         size?: 'small' | 'medium' | 'large';
