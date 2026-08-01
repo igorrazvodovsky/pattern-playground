@@ -136,71 +136,73 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
         </button>
       )}
       <pp-dropdown ref={dropdownRef} placement="bottom-start">
-        <button slot="trigger" className="button">
+        <button data-slot="trigger" className="button">
           <Icon icon="ph:funnel-simple" className="icon" />
           <span className="visually-hidden">Filter</span>
         </button>
 
-        <div>
-          <AnimateChangeInHeight>
-            <Combobox shouldFilter={false} onEscape={actions.handleEscape}>
-              <ComboboxInput
-                placeholder={placeholder}
-                value={state.searchInput}
-                onValueChange={actions.updateSearch}
-                ref={inputRef}
-              />
-              <ComboboxList>
-                {!hasResults && state.searchInput.length >= 2 && (
-                  <AIFallbackHandler
-                    searchInput={state.searchInput}
-                    aiState={aiState}
-                    onAIRequest={handleAICommandRequest}
-                    onApplyAIResult={handleApplyAIFilters}
-                    onEditPrompt={handleEditPrompt}
-                    onInputChange={clearResultsIfInputChanged}
-                    onClose={hideDropdownWithDelay}
-                  />
-                )}
+        <pp-popup>
+          <div>
+            <AnimateChangeInHeight>
+              <Combobox shouldFilter={false} onEscape={actions.handleEscape}>
+                <ComboboxInput
+                  placeholder={placeholder}
+                  value={state.searchInput}
+                  onValueChange={actions.updateSearch}
+                  ref={inputRef}
+                />
+                <ComboboxList>
+                  {!hasResults && state.searchInput.length >= 2 && (
+                    <AIFallbackHandler
+                      searchInput={state.searchInput}
+                      aiState={aiState}
+                      onAIRequest={handleAICommandRequest}
+                      onApplyAIResult={handleApplyAIFilters}
+                      onEditPrompt={handleEditPrompt}
+                      onInputChange={clearResultsIfInputChanged}
+                      onClose={hideDropdownWithDelay}
+                    />
+                  )}
 
-                {state.mode === 'contextual' ? (
-                  <ComboboxGroup>
-                    {results.contextualItems?.map((filterValue) => (
-                      <ComboboxItem key={filterValue.id} onSelect={() => actions.selectChild(filterValue)}>
-                        {filterValue.icon && <iconify-icon icon={filterValue.icon} slot="prefix" />}
-                        <span>{filterValue.name}</span>
-                      </ComboboxItem>
-                    ))}
-                  </ComboboxGroup>
-                ) : (
-                  <>
-                    {results.parents.length > 0 && (
-                      <ComboboxGroup>
-                        {results.parents.map((filterType) => (
-                          <ComboboxItem key={filterType.id} onSelect={() => actions.selectContext(filterType)}>
-                            {filterType.icon && <iconify-icon icon={filterType.icon} slot="prefix" />}
-                            {filterType.name}
-                          </ComboboxItem>
-                        ))}
-                      </ComboboxGroup>
-                    )}
+                  {state.mode === 'contextual' ? (
+                    <ComboboxGroup>
+                      {results.contextualItems?.map((filterValue) => (
+                        <ComboboxItem key={filterValue.id} onSelect={() => actions.selectChild(filterValue)}>
+                          {filterValue.icon && <iconify-icon icon={filterValue.icon} slot="prefix" />}
+                          <span>{filterValue.name}</span>
+                        </ComboboxItem>
+                      ))}
+                    </ComboboxGroup>
+                  ) : (
+                    <>
+                      {results.parents.length > 0 && (
+                        <ComboboxGroup>
+                          {results.parents.map((filterType) => (
+                            <ComboboxItem key={filterType.id} onSelect={() => actions.selectContext(filterType)}>
+                              {filterType.icon && <iconify-icon icon={filterType.icon} slot="prefix" />}
+                              {filterType.name}
+                            </ComboboxItem>
+                          ))}
+                        </ComboboxGroup>
+                      )}
 
-                    {results.children.length > 0 && (
-                      <ComboboxGroup>
-                        {results.children.map(({ parent, child }) => (
-                          <ComboboxItem key={`${parent.id}-${child.id}`} onSelect={() => actions.selectChild(child, parent)}>
-                            {child.icon && <iconify-icon icon={child.icon} slot="prefix" />}
-                            <span>{child.name}</span>
-                          </ComboboxItem>
-                        ))}
-                      </ComboboxGroup>
-                    )}
-                  </>
-                )}
-              </ComboboxList>
-            </Combobox>
-          </AnimateChangeInHeight>
-        </div>
+                      {results.children.length > 0 && (
+                        <ComboboxGroup>
+                          {results.children.map(({ parent, child }) => (
+                            <ComboboxItem key={`${parent.id}-${child.id}`} onSelect={() => actions.selectChild(child, parent)}>
+                              {child.icon && <iconify-icon icon={child.icon} slot="prefix" />}
+                              <span>{child.name}</span>
+                            </ComboboxItem>
+                          ))}
+                        </ComboboxGroup>
+                      )}
+                    </>
+                  )}
+                </ComboboxList>
+              </Combobox>
+            </AnimateChangeInHeight>
+          </div>
+        </pp-popup>
       </pp-dropdown>
     </div>
   );

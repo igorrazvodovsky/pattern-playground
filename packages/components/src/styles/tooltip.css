@@ -1,0 +1,46 @@
+/* Light-DOM styles for pp-tooltip (rung 2: first author child is the target;
+   the pp-popup + body are component-owned). */
+
+pp-tooltip {
+  --max-width: 20rem;
+  --hide-delay: 0ms;
+  --show-delay: 150ms;
+
+  display: contents;
+}
+
+pp-tooltip > pp-popup {
+  z-index: var(--layer-tooltip);
+}
+
+pp-tooltip > pp-popup[placement^="top"] {
+  transform-origin: bottom;
+}
+
+pp-tooltip > pp-popup[placement^="bottom"] {
+  transform-origin: top;
+}
+
+pp-tooltip > pp-popup[placement^="left"] {
+  transform-origin: right;
+}
+
+pp-tooltip > pp-popup[placement^="right"] {
+  transform-origin: left;
+}
+
+pp-tooltip .tooltip__body {
+  display: block;
+  width: max-content;
+  max-width: var(--max-width);
+  border-radius: var(--radius-m);
+  background-color: oklch(0% 0 0deg / 90%);
+  font-size: var(--text-s);
+  text-align: start;
+  white-space: normal;
+  color: oklch(100% 0 0deg / 90%);
+  padding: 0 var(--space-s);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}

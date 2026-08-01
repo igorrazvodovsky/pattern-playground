@@ -41,17 +41,18 @@ export const Toolbar: Story = {
   },
   render: ({ showFilter, showGrouping, showSort, searchPlaceholder }) => (
     <div className="toolbar">
-      <pp-input label="Search" placeholder={searchPlaceholder}>
-        <iconify-icon className="icon" icon="ph:magnifying-glass" slot="suffix"></iconify-icon>
+      <pp-input>
+        <input aria-label="Search" placeholder={searchPlaceholder} />
+        <iconify-icon className="icon" icon="ph:magnifying-glass" data-slot="suffix"></iconify-icon>
       </pp-input>
       {showFilter && (
-        <button className="button" is="pp-button">
+        <button className="button">
           <iconify-icon className="icon" icon="ph:funnel-simple"></iconify-icon>
           Filter
         </button>
       )}
       {showGrouping && (
-        <button className="button" is="pp-button">
+        <button className="button">
           <iconify-icon className="icon" icon="ph:stack"></iconify-icon>
           Grouped by <strong>size</strong>
         </button>
@@ -59,17 +60,19 @@ export const Toolbar: Story = {
       {showSort && (
         <div className="button-group">
           <pp-dropdown>
-            <button className="button" is="pp-button" slot="trigger">
+            <button className="button" data-slot="trigger">
               A→Z
               <iconify-icon className="icon" icon="ph:caret-down" aria-hidden="true"></iconify-icon>
             </button>
-            <pp-list>
-              <pp-list-item type="checkbox" defaultChecked>Sorting criteria 1</pp-list-item>
-              <pp-list-item>Sorting criteria 2</pp-list-item>
-              <pp-list-item>Sorting criteria 3</pp-list-item>
-            </pp-list>
+            <pp-popup>
+              <pp-list>
+                <pp-list-item type="checkbox" defaultChecked>Sorting criteria 1</pp-list-item>
+                <pp-list-item>Sorting criteria 2</pp-list-item>
+                <pp-list-item>Sorting criteria 3</pp-list-item>
+              </pp-list>
+            </pp-popup>
           </pp-dropdown>
-          <button className="button" is="pp-button" aria-label="Sort ascending">
+          <button className="button" aria-label="Sort ascending">
             <iconify-icon className="icon" icon="ph:sort-ascending" aria-hidden="true"></iconify-icon>
           </button>
         </div>

@@ -68,30 +68,31 @@ function DetailToolbar({ layout, roomForSideBySide, onChange }: DetailToolbarPro
         <button
           type="button"
           className="button button--plain"
-          is="pp-button"
-          slot="trigger"
+          data-slot="trigger"
           title="View settings"
         >
           <iconify-icon className="icon" icon="ph:sliders-horizontal"></iconify-icon>
           <span className="visually-hidden">View settings</span>
         </button>
-        <pp-list>
-          {LAYOUTS.map(({ value, label, icon }) => {
-            const unavailable = value === 'side-by-side' && !roomForSideBySide;
-            return (
-              <pp-list-item
-                key={value}
-                type="checkbox"
-                checked={layout === value}
-                disabled={unavailable || undefined}
-                onClick={() => !unavailable && onChange(value)}
-              >
-                <iconify-icon slot="prefix" className="icon" icon={icon}></iconify-icon>
-                {label}
-              </pp-list-item>
-            );
-          })}
-        </pp-list>
+        <pp-popup>
+          <pp-list>
+            {LAYOUTS.map(({ value, label, icon }) => {
+              const unavailable = value === 'side-by-side' && !roomForSideBySide;
+              return (
+                <pp-list-item
+                  key={value}
+                  type="checkbox"
+                  checked={layout === value}
+                  disabled={unavailable || undefined}
+                  onClick={() => !unavailable && onChange(value)}
+                >
+                  <iconify-icon data-slot="prefix" className="icon" icon={icon}></iconify-icon>
+                  {label}
+                </pp-list-item>
+              );
+            })}
+          </pp-list>
+        </pp-popup>
       </pp-dropdown>
     </div>
   );

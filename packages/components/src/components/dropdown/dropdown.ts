@@ -1,17 +1,13 @@
 import { animateTo, stopAnimations } from '../../utility/animate.ts';
 import { announce } from '../../utility/announce.ts';
-import { classMap } from 'lit/directives/class-map.js';
-import { getAnimation, setDefaultAnimation } from '../../utility/animation-registry.ts';
 import { getTabbableBoundary } from '../../utility/tabbable.ts';
-import { LitElement, html, unsafeCSS } from 'lit';
-import { ifDefined } from 'lit/directives/if-defined.js';
-import { property, query } from 'lit/decorators.js';
+import { getAnimation, setDefaultAnimation } from '../../utility/animation-registry.ts';
+import { LitElement } from 'lit';
+import { property } from 'lit/decorators.js';
 import { waitForEvent } from '../../utility/event.ts';
 import { watch } from '../../utility/watch.ts';
 import { PpPopup } from '../popup/popup.ts';
 import { getDeepestActiveElement, computeClosestContaining, getRootContainingElement } from '../../utility/shadow-dom.ts';
-import styles from './dropdown.css?inline';
-import type { CSSResultGroup } from 'lit';
 import type { PpList } from '../list/list';
 import type { PpListItem } from '../list-item/list-item';
 
@@ -22,17 +18,16 @@ import type { PpListItem } from '../list-item/list-item';
  *
  * @dependency pp-popup
  *
- * @slot - The dropdown's main content.
- * @slot trigger - The dropdown's trigger, usually a `<button>`.
+ * Composite enhancement (rung 2): the author composes a trigger marked
+ * `data-slot="trigger"` and a `pp-popup` panel child holding the dropdown
+ * content (usually a `pp-list`). The element wires trigger interaction and
+ * aria state, configures and drives the popup, and manages submenu popups it
+ * owns. Styles: `src/styles/dropdown.css`.
  *
  * @event pp-show - Emitted when the dropdown opens.
  * @event pp-after-show - Emitted after the dropdown opens and all animations are complete.
  * @event pp-hide - Emitted when the dropdown closes.
  * @event pp-after-hide - Emitted after the dropdown closes and all animations are complete.
- *
- * @csspart base - The component's base wrapper.
- * @csspart trigger - The container that wraps the trigger.
- * @csspart panel - The panel that gets shown when the dropdown is open.
  *
  * @animation dropdown.show - The animation to use when showing the dropdown.
  * @animation dropdown.hide - The animation to use when hiding the dropdown.
@@ -53,12 +48,11 @@ declare global {
 }
 
 export class PpDropdown extends LitElement {
-  static styles: CSSResultGroup = [unsafeCSS(styles)];
   static dependencies = { 'pp-popup': PpPopup };
 
-  @query('.dropdown') popup!: PpPopup;
-  @query('.dropdown__trigger') trigger!: HTMLSlotElement;
-  @query('.dropdown__panel') panel!: HTMLSlotElement;
+  protected createRenderRoot() {
+    return this;
+  }
 
   private closeWatcher: CloseWatcher | null = null;
   private submenuPopups: Map<PpListItem, { popup: PpPopup; content: HTMLElement }> = new Map();
@@ -86,7 +80,6 @@ export class PpDropdown extends LitElement {
   @property({ type: Boolean }) hoist = false;
   @property({ reflect: true }) sync: 'width' | 'height' | 'both' | undefined = undefined;
 
-  // Missing popup properties that were being used in render but not declared
   @property({ type: Boolean, reflect: true }) flip = true;
   @property({ type: Boolean, reflect: true }) shift = true;
   @property({ attribute: 'auto-size', reflect: true }) autoSize: 'horizontal' | 'vertical' | 'both' | undefined = 'vertical';
@@ -94,8 +87,21 @@ export class PpDropdown extends LitElement {
   @property({ attribute: 'flip-padding', type: Number }) flipPadding = 0;
   @property({ attribute: 'shift-padding', type: Number }) shiftPadding = 0;
 
+  /** The author-composed panel popup. */
+  get popup(): PpPopup | null {
+    return this.querySelector<PpPopup>(':scope > pp-popup');
+  }
+
+  /** The author-composed trigger element. */
+  get triggerEl(): HTMLElement | null {
+    return this.querySelector<HTMLElement>(':scope > [data-slot="trigger"]');
+  }
+
   connectedCallback() {
     super.connectedCallback();
+    this.addEventListener('click', this.handleHostClick);
+    this.addEventListener('keydown', this.handleHostKeyDown);
+    this.addEventListener('keyup', this.handleHostKeyUp);
     if (document.readyState !== 'loading') {
       this.init();
       return;
@@ -107,19 +113,52 @@ export class PpDropdown extends LitElement {
     if (!this.containingElement) {
       this.containingElement = getRootContainingElement(this);
     }
+    this.syncPopup();
+    this.updateAccessibleTrigger();
+  }
+
+  /** Push this dropdown's positioning configuration onto the author's popup child. */
+  private syncPopup() {
+    const popup = this.popup;
+    if (!popup) return;
+
+    popup.classList.add('dropdown__panel');
+    popup.anchor = this.triggerEl ?? '';
+    popup.placement = this.placement;
+    popup.distance = this.distance;
+    popup.skidding = this.skidding;
+    popup.strategy = this.hoist ? 'fixed' : 'absolute';
+    popup.flip = this.flip;
+    popup.shift = this.shift;
+    if (this.autoSize) popup.autoSize = this.autoSize;
+    popup.autoSizePadding = this.autoSizePadding;
+    popup.flipPadding = this.flipPadding;
+    popup.shiftPadding = this.shiftPadding;
+    if (this.sync) popup.sync = this.sync;
+    popup.setAttribute('aria-hidden', this.open ? 'false' : 'true');
   }
 
   firstUpdated() {
-    this.panel.hidden = !this.open;
+    this.syncPopup();
+    this.updateAccessibleTrigger();
 
     if (this.open) {
       this.addOpenListeners();
-      this.popup.active = true;
+      const popup = this.popup;
+      if (popup) popup.active = true;
     }
+  }
+
+  protected updated(changedProps: Map<string, unknown>) {
+    super.updated(changedProps);
+    this.syncPopup();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
+    this.removeEventListener('click', this.handleHostClick);
+    this.removeEventListener('keydown', this.handleHostKeyDown);
+    this.removeEventListener('keyup', this.handleHostKeyUp);
     this.removeOpenListeners();
     this.cleanupSubmenuPopups();
 
@@ -130,17 +169,36 @@ export class PpDropdown extends LitElement {
   }
 
   focusOnTrigger() {
-    const trigger = this.trigger.assignedElements({ flatten: true })[0] as HTMLElement | undefined;
+    const trigger = this.triggerEl;
     if (typeof trigger?.focus === 'function') {
       trigger.focus();
     }
   }
 
   getList() {
-    return this.panel.assignedElements({ flatten: true }).find(el => el.tagName.toLowerCase() === 'pp-list') as
-      | PpList
-      | undefined;
+    return this.popup?.querySelector<PpList>('pp-list') ?? undefined;
   }
+
+  private isFromTrigger(event: Event) {
+    const target = event.target as Element | null;
+    const trigger = target?.closest('[data-slot="trigger"]');
+    return !!trigger && trigger === this.triggerEl;
+  }
+
+  private handleHostClick = (event: MouseEvent) => {
+    if (!this.isFromTrigger(event)) return;
+    this.handleTriggerClick();
+  };
+
+  private handleHostKeyDown = (event: KeyboardEvent) => {
+    if (!this.isFromTrigger(event)) return;
+    this.handleTriggerKeyDown(event);
+  };
+
+  private handleHostKeyUp = (event: KeyboardEvent) => {
+    if (!this.isFromTrigger(event)) return;
+    this.handleTriggerKeyUp(event);
+  };
 
   private handleKeyDown = (event: KeyboardEvent) => {
     if (this.open && event.key === 'Escape') {
@@ -166,7 +224,6 @@ export class PpDropdown extends LitElement {
         return;
       }
 
-      // Use improved Shadow DOM traversal for better active element detection
       // Use requestAnimationFrame for better performance than setTimeout
       requestAnimationFrame(() => {
         const activeElement = getDeepestActiveElement();
@@ -183,7 +240,7 @@ export class PpDropdown extends LitElement {
 
         // Check if focus is within any submenu popup
         for (const popup of this.submenuPopups.values()) {
-          if (popup.contains(activeElement)) {
+          if (popup.popup.contains(activeElement)) {
             return; // Focus is in submenu, keep open
           }
         }
@@ -203,7 +260,7 @@ export class PpDropdown extends LitElement {
     }
 
     // Check if click is within any submenu popup
-    for (const popup of this.submenuPopups.values()) {
+    for (const { popup } of this.submenuPopups.values()) {
       if (path.includes(popup)) {
         return; // Don't close if clicking in submenu
       }
@@ -278,43 +335,29 @@ export class PpDropdown extends LitElement {
     }
   }
 
-  handleTriggerSlotChange() {
-    this.updateAccessibleTrigger();
-  }
-
-  // Type guard for components with button property
-  private hasButton(element: HTMLElement): element is HTMLElement & { button: HTMLElement } {
-    return 'button' in element && element.button instanceof HTMLElement;
-  }
-
-  // Improved accessible trigger detection that handles more component types beyond just pp-button
-  // Slotted triggers can be arbitrary content, but we need to link them to the dropdown panel with `aria-haspopup` and
-  // `aria-expanded`. These must be applied to the "accessible trigger" (the tabbable portion of the trigger element
-  // that gets slotted in) so screen readers will understand them.
-
+  // The trigger can be arbitrary content, but we need to link it to the dropdown panel with `aria-haspopup` and
+  // `aria-expanded`. These must be applied to the "accessible trigger" (the tabbable portion of the trigger element)
+  // so screen readers will understand them.
   updateAccessibleTrigger() {
-    const assignedElements = this.trigger.assignedElements({ flatten: true }) as HTMLElement[];
-    const accessibleTrigger = assignedElements.find(el => getTabbableBoundary(el).start);
+    const triggerEl = this.triggerEl;
+    if (!triggerEl) return;
+
+    const accessibleTrigger = getTabbableBoundary(triggerEl).start ? triggerEl : undefined;
     let target: HTMLElement;
 
     if (accessibleTrigger) {
-      // More generic component detection with improved type safety
       switch (accessibleTrigger.tagName.toLowerCase()) {
-        case 'pp-button':
-        case 'pp-icon-button':
-          target = this.hasButton(accessibleTrigger) ? accessibleTrigger.button : accessibleTrigger;
-          break;
-
         case 'button':
         case 'a':
         case 'input':
           target = accessibleTrigger;
           break;
 
-        default:
+        default: {
           // For custom elements or other components, look for a button/link inside
           const innerButton = accessibleTrigger.querySelector('button, a, [role="button"]') as HTMLElement;
           target = innerButton || accessibleTrigger;
+        }
       }
 
       target.setAttribute('aria-haspopup', 'true');
@@ -341,13 +384,16 @@ export class PpDropdown extends LitElement {
   }
 
   reposition() {
-    this.popup.reposition();
+    this.popup?.reposition();
   }
 
   addOpenListeners() {
-    this.panel.addEventListener('pp-select', this.handlePanelSelect as EventListener);
-    this.panel.addEventListener('pp-submenu-open', this.handleSubmenuOpen as EventListener);
-    this.panel.addEventListener('pp-submenu-close', this.handleSubmenuClose as EventListener);
+    const popup = this.popup;
+    if (popup) {
+      popup.addEventListener('pp-select', this.handlePanelSelect as EventListener);
+      popup.addEventListener('pp-submenu-open', this.handleSubmenuOpen as EventListener);
+      popup.addEventListener('pp-submenu-close', this.handleSubmenuClose as EventListener);
+    }
     if ('CloseWatcher' in window) {
       this.closeWatcher?.destroy();
       this.closeWatcher = new CloseWatcher();
@@ -356,18 +402,19 @@ export class PpDropdown extends LitElement {
         this.focusOnTrigger();
       };
     } else {
-      this.panel.addEventListener('keydown', this.handleKeyDown);
+      popup?.addEventListener('keydown', this.handleKeyDown);
     }
     document.addEventListener('keydown', this.handleDocumentKeyDown);
     document.addEventListener('mousedown', this.handleDocumentMouseDown);
   }
 
   removeOpenListeners() {
-    if (this.panel) {
-      this.panel.removeEventListener('pp-select', this.handlePanelSelect as EventListener);
-      this.panel.removeEventListener('pp-submenu-open', this.handleSubmenuOpen as EventListener);
-      this.panel.removeEventListener('pp-submenu-close', this.handleSubmenuClose as EventListener);
-      this.panel.removeEventListener('keydown', this.handleKeyDown);
+    const popup = this.popup;
+    if (popup) {
+      popup.removeEventListener('pp-select', this.handlePanelSelect as EventListener);
+      popup.removeEventListener('pp-submenu-open', this.handleSubmenuOpen as EventListener);
+      popup.removeEventListener('pp-submenu-close', this.handleSubmenuClose as EventListener);
+      popup.removeEventListener('keydown', this.handleKeyDown);
     }
     document.removeEventListener('keydown', this.handleDocumentKeyDown);
     document.removeEventListener('mousedown', this.handleDocumentMouseDown);
@@ -388,6 +435,9 @@ export class PpDropdown extends LitElement {
 
     this.updateAccessibleTrigger();
 
+    const popup = this.popup;
+    if (!popup) return;
+
     if (this.open) {
 
       this.dispatchEvent(new Event('pp-show', { bubbles: true, cancelable: false, composed: true }))
@@ -399,10 +449,10 @@ export class PpDropdown extends LitElement {
       announce(`Dropdown opened with ${itemCount} ${itemCount === 1 ? 'option' : 'options'}`);
 
       await stopAnimations(this);
-      this.panel.hidden = false;
-      this.popup.active = true;
+      popup.setAttribute('aria-hidden', 'false');
+      popup.active = true;
       const { keyframes, options } = getAnimation(this, 'dropdown.show');
-      await animateTo(this.popup, keyframes, options);
+      await animateTo(popup, keyframes, options);
 
       this.dispatchEvent(new Event('pp-after-show', { bubbles: true, cancelable: false, composed: true }))
 
@@ -424,9 +474,9 @@ export class PpDropdown extends LitElement {
 
       await stopAnimations(this);
       const { keyframes, options } = getAnimation(this, 'dropdown.hide');
-      await animateTo(this.popup, keyframes, options);
-      this.panel.hidden = true;
-      this.popup.active = false;
+      await animateTo(popup, keyframes, options);
+      popup.setAttribute('aria-hidden', 'true');
+      popup.active = false;
 
       this.dispatchEvent(new Event('pp-after-hide', { bubbles: true, cancelable: false, composed: true }))
     }
@@ -447,7 +497,7 @@ export class PpDropdown extends LitElement {
   private async createSubmenuPopup(item: PpListItem) {
     if (this.submenuPopups.has(item)) return;
 
-    const submenuContent = item.querySelector('[slot="submenu"]') as HTMLElement;
+    const submenuContent = item.querySelector('[data-slot="submenu"], [slot="submenu"]') as HTMLElement;
     if (!submenuContent) return;
 
     const popup = document.createElement('pp-popup') as PpPopup;
@@ -465,6 +515,7 @@ export class PpDropdown extends LitElement {
     // Move the live element (not a clone) so reactivity and event listeners are preserved.
     // It is restored to its original slot in destroySubmenuPopup.
     submenuContent.removeAttribute('slot');
+    submenuContent.removeAttribute('data-slot');
     popup.appendChild(submenuContent);
 
     document.body.appendChild(popup);
@@ -508,7 +559,7 @@ export class PpDropdown extends LitElement {
     if (!entry) return;
     const { popup, content } = entry;
     // Restore content to its original slot before removing the popup
-    content.setAttribute('slot', 'submenu');
+    content.setAttribute('data-slot', 'submenu');
     item.appendChild(content);
     popup.remove();
     this.submenuPopups.delete(item);
@@ -516,50 +567,11 @@ export class PpDropdown extends LitElement {
 
   private cleanupSubmenuPopups() {
     this.submenuPopups.forEach(({ popup, content }, item) => {
-      content.setAttribute('slot', 'submenu');
+      content.setAttribute('data-slot', 'submenu');
       item.appendChild(content);
       popup.remove();
     });
     this.submenuPopups.clear();
-  }
-
-  render() {
-    return html`
-      <pp-popup
-        part="base"
-        id="dropdown"
-        placement=${this.placement}
-        distance=${this.distance}
-        skidding=${this.skidding}
-        strategy=${this.hoist ? 'fixed' : 'absolute'}
-        ?flip=${this.flip}
-        ?shift=${this.shift}
-        auto-size=${ifDefined(this.autoSize)}
-        auto-size-padding=${this.autoSizePadding}
-        flip-padding=${this.flipPadding}
-        shift-padding=${this.shiftPadding}
-        sync=${ifDefined(this.sync ? this.sync : undefined)}
-        class=${classMap({
-      dropdown: true,
-      'dropdown--open': this.open
-    })}
-      >
-        <slot
-          name="trigger"
-          slot="anchor"
-          part="trigger"
-          class="dropdown__trigger"
-          @click=${this.handleTriggerClick}
-          @keydown=${this.handleTriggerKeyDown}
-          @keyup=${this.handleTriggerKeyUp}
-          @slotchange=${this.handleTriggerSlotChange}
-        ></slot>
-
-        <div aria-hidden=${this.open ? 'false' : 'true'} aria-labelledby="dropdown">
-          <slot part="panel" class="dropdown__panel"></slot>
-        </div>
-      </pp-popup>
-    `;
   }
 }
 

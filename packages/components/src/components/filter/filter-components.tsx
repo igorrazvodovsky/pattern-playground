@@ -34,21 +34,23 @@ export const FilterOperatorDropdown = ({
 
   return (
     <pp-dropdown placement="bottom-start">
-      <button slot="trigger" className="tag">
+      <button data-slot="trigger" className="tag">
         {operator}
       </button>
-      <pp-list>
-        {operators.map((op) => (
-          <pp-list-item
-            key={op}
-            type="checkbox"
-            checked={op === operator}
-            onClick={() => setOperator(op)}
-          >
-            {op}
-          </pp-list-item>
-        ))}
-      </pp-list>
+      <pp-popup>
+        <pp-list>
+          {operators.map((op) => (
+            <pp-list-item
+              key={op}
+              type="checkbox"
+              checked={op === operator}
+              onClick={() => setOperator(op)}
+            >
+              {op}
+            </pp-list-item>
+          ))}
+        </pp-list>
+      </pp-popup>
     </pp-dropdown>
   );
 };
@@ -101,7 +103,7 @@ export const FilterValueDropdown = ({
       onPp-hide={handleDropdownHide}
     >
       <button
-        slot="trigger"
+        data-slot="trigger"
         className="tag"
       >
         {hasValueIcons && (
@@ -121,62 +123,64 @@ export const FilterValueDropdown = ({
           : `${filterValues?.length} selected`}
       </button>
 
-      <div>
-        <AnimateChangeInHeight>
-          <Combobox>
-            <ComboboxInput
-              placeholder={path}
-              className="h-9"
-              value={commandInput}
-              onInputCapture={(e) => {
-                setComboboxInput(e.currentTarget.value);
-              }}
-              ref={commandInputRef}
-            />
-            <ComboboxList>
-              <ComboboxEmpty>No results found.</ComboboxEmpty>
-              <ComboboxGroup>
-                {filterValues.map((value) => (
-                  <ComboboxItem
-                    key={value}
-                    checked={true}
-                    onSelect={() => handleValueRemove(value)}
-                  >
-                    {iconFor(value) && (
-                      <iconify-icon icon={iconFor(value)} slot="prefix" />
-                    )}
-                    {value}
-                  </ComboboxItem>
-                ))}
-              </ComboboxGroup>
-              {nonSelectedFilterValues?.length > 0 && (
-                <>
-                  <ComboboxGroup>
-                    {nonSelectedFilterValues.map((filter: FilterOption) => (
-                      <ComboboxItem
-                        key={filter.name}
-                        value={filter.name}
-                        checked={false}
-                        onSelect={(currentValue: string) => handleValueAdd(currentValue)}
-                      >
-                        {filter.icon && <iconify-icon icon={filter.icon} slot="prefix" />}
-                        <span>
-                          {filter.name}
-                        </span>
-                        {filter.label && (
-                          <span slot="suffix">
-                            {filter.label}
+      <pp-popup>
+        <div>
+          <AnimateChangeInHeight>
+            <Combobox>
+              <ComboboxInput
+                placeholder={path}
+                className="h-9"
+                value={commandInput}
+                onInputCapture={(e) => {
+                  setComboboxInput(e.currentTarget.value);
+                }}
+                ref={commandInputRef}
+              />
+              <ComboboxList>
+                <ComboboxEmpty>No results found.</ComboboxEmpty>
+                <ComboboxGroup>
+                  {filterValues.map((value) => (
+                    <ComboboxItem
+                      key={value}
+                      checked={true}
+                      onSelect={() => handleValueRemove(value)}
+                    >
+                      {iconFor(value) && (
+                        <iconify-icon icon={iconFor(value)} slot="prefix" />
+                      )}
+                      {value}
+                    </ComboboxItem>
+                  ))}
+                </ComboboxGroup>
+                {nonSelectedFilterValues?.length > 0 && (
+                  <>
+                    <ComboboxGroup>
+                      {nonSelectedFilterValues.map((filter: FilterOption) => (
+                        <ComboboxItem
+                          key={filter.name}
+                          value={filter.name}
+                          checked={false}
+                          onSelect={(currentValue: string) => handleValueAdd(currentValue)}
+                        >
+                          {filter.icon && <iconify-icon icon={filter.icon} slot="prefix" />}
+                          <span>
+                            {filter.name}
                           </span>
-                        )}
-                      </ComboboxItem>
-                    ))}
-                  </ComboboxGroup>
-                </>
-              )}
-            </ComboboxList>
-          </Combobox>
-        </AnimateChangeInHeight>
-      </div>
+                          {filter.label && (
+                            <span slot="suffix">
+                              {filter.label}
+                            </span>
+                          )}
+                        </ComboboxItem>
+                      ))}
+                    </ComboboxGroup>
+                  </>
+                )}
+              </ComboboxList>
+            </Combobox>
+          </AnimateChangeInHeight>
+        </div>
+      </pp-popup>
     </pp-dropdown>
   );
 };
@@ -193,28 +197,30 @@ export const FilterValueDateDropdown = ({
   const options = filterValueOptions[path] ?? [];
   return (
     <pp-dropdown placement="bottom-start">
-      <button slot="trigger" className="tag">
+      <button data-slot="trigger" className="tag">
         {filterValues?.[0]}
       </button>
-      <pp-list>
-        {options.map((filter: FilterOption) => (
-          <pp-list-item
-            key={filter.name}
-            type="checkbox"
-            checked={filterValues.includes(filter.name)}
-            onClick={() => {
-              if (filterValues.includes(filter.name)) {
-                setFilterValues(filterValues.filter((v) => v !== filter.name));
-              } else {
-                setFilterValues([...filterValues, filter.name]);
-              }
-            }}
-          >
-            {filter.icon && <iconify-icon icon={filter.icon} slot="prefix"></iconify-icon>}
-            {filter.name}
-          </pp-list-item>
-        ))}
-      </pp-list>
+      <pp-popup>
+        <pp-list>
+          {options.map((filter: FilterOption) => (
+            <pp-list-item
+              key={filter.name}
+              type="checkbox"
+              checked={filterValues.includes(filter.name)}
+              onClick={() => {
+                if (filterValues.includes(filter.name)) {
+                  setFilterValues(filterValues.filter((v) => v !== filter.name));
+                } else {
+                  setFilterValues([...filterValues, filter.name]);
+                }
+              }}
+            >
+              {filter.icon && <iconify-icon icon={filter.icon} data-slot="prefix"></iconify-icon>}
+              {filter.name}
+            </pp-list-item>
+          ))}
+        </pp-list>
+      </pp-popup>
     </pp-dropdown>
   );
 };

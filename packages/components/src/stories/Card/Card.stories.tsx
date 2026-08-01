@@ -122,10 +122,12 @@ export const Description: Story = {
           <article className="card flow pad">
             <h4 className="label">Longer description</h4>
             <pp-dropdown hoist placement="right">
-              <p slot="trigger" className="description">{description}.</p>
-              <pp-list>
-                <div className="description--full flow">{description}.</div>
-              </pp-list>
+              <p data-slot="trigger" className="description">{description}.</p>
+              <pp-popup>
+                <pp-list>
+                  <div className="description--full flow">{description}.</div>
+                </pp-list>
+              </pp-popup>
             </pp-dropdown>
           </article>
         </li>
@@ -133,10 +135,12 @@ export const Description: Story = {
           <article className="card flow pad">
             <h4 className="label">Editable description</h4>
             <pp-dropdown hoist placement="right">
-              <p slot="trigger" className="description">{description}.</p>
-              <pp-list>
-                <textarea autoFocus name="description" defaultValue={description}></textarea>
-              </pp-list>
+              <p data-slot="trigger" className="description">{description}.</p>
+              <pp-popup>
+                <pp-list>
+                  <textarea autoFocus name="description" defaultValue={description}></textarea>
+                </pp-list>
+              </pp-popup>
             </pp-dropdown>
           </article>
         </li>

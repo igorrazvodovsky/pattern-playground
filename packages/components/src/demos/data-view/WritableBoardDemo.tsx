@@ -129,20 +129,22 @@ function DraggableCard({
         shownAttributes={shownAttributes}
         actions={
           <pp-dropdown>
-            <button className="button button--plain" is="pp-button" slot="trigger">
+            <button className="button button--plain" data-slot="trigger">
               <iconify-icon className="icon" icon="ph:dots-three" aria-hidden="true"></iconify-icon>
               <span className="visually-hidden">Move {item.name} to…</span>
             </button>
-            <pp-list>
-              <pp-list-label>Move to</pp-list-label>
-              {groups
-                .filter((group) => group !== currentGroup)
-                .map((group) => (
-                  <pp-list-item key={group} onClick={() => onMove(item, group)}>
-                    {group}
-                  </pp-list-item>
-                ))}
-            </pp-list>
+            <pp-popup>
+              <pp-list>
+                <pp-list-label>Move to</pp-list-label>
+                {groups
+                  .filter((group) => group !== currentGroup)
+                  .map((group) => (
+                    <pp-list-item key={group} onClick={() => onMove(item, group)}>
+                      {group}
+                    </pp-list-item>
+                  ))}
+              </pp-list>
+            </pp-popup>
           </pp-dropdown>
         }
       />
@@ -321,7 +323,7 @@ export function WritableBoardDemo() {
           onGroupingChange={setGroupBy}
         />
         <pp-dropdown>
-          <button className="button" is="pp-button" slot="trigger" disabled={!groupBy}>
+          <button className="button" data-slot="trigger" disabled={!groupBy}>
             <iconify-icon
               className="icon"
               icon={ORIENTATIONS[orientation].icon}
@@ -329,18 +331,20 @@ export function WritableBoardDemo() {
             ></iconify-icon>
             {ORIENTATIONS[orientation].label}
           </button>
-          <pp-list>
-            {(Object.keys(ORIENTATIONS) as Orientation[]).map((value) => (
-              <pp-list-item key={value} onClick={() => setOrientation(value)}>
-                <iconify-icon
-                  slot="prefix"
-                  className="icon"
-                  icon={ORIENTATIONS[value].icon}
-                ></iconify-icon>
-                {ORIENTATIONS[value].label}
-              </pp-list-item>
-            ))}
-          </pp-list>
+          <pp-popup>
+            <pp-list>
+              {(Object.keys(ORIENTATIONS) as Orientation[]).map((value) => (
+                <pp-list-item key={value} onClick={() => setOrientation(value)}>
+                  <iconify-icon
+                    data-slot="prefix"
+                    className="icon"
+                    icon={ORIENTATIONS[value].icon}
+                  ></iconify-icon>
+                  {ORIENTATIONS[value].label}
+                </pp-list-item>
+              ))}
+            </pp-list>
+          </pp-popup>
         </pp-dropdown>
       </div>
 

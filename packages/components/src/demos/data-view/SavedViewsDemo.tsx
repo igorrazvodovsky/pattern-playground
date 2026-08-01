@@ -89,22 +89,24 @@ export function SavedViewsDemo() {
   const viewPicker = (
     <>
       <pp-dropdown>
-        <button className="button" is="pp-button" slot="trigger">
+        <button className="button" data-slot="trigger">
           {savedSpec.label} {/* {edited && <span className="badge">edited</span>} */}
           <iconify-icon className="icon" icon="ph:caret-down" aria-hidden="true"></iconify-icon>
         </button>
-        <pp-list>
-          {SAVED_VIEWS.map((view) => (
-            <pp-list-item
-              key={view.id}
-              type="checkbox"
-              checked={view.id === activeId}
-              onClick={() => selectView(view)}
-            >
-              {view.label}
-            </pp-list-item>
-          ))}
-        </pp-list>
+        <pp-popup>
+          <pp-list>
+            {SAVED_VIEWS.map((view) => (
+              <pp-list-item
+                key={view.id}
+                type="checkbox"
+                checked={view.id === activeId}
+                onClick={() => selectView(view)}
+              >
+                {view.label}
+              </pp-list-item>
+            ))}
+          </pp-list>
+        </pp-popup>
       </pp-dropdown>
     </>
   );

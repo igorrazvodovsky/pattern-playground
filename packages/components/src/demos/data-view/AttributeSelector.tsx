@@ -9,24 +9,26 @@ export const AttributeSelector: React.FC<AttributeSelectorProps> = ({
 }) => {
   return (
     <pp-dropdown>
-      <button className="button" is="pp-button" slot="trigger">
+      <button className="button" data-slot="trigger">
         <iconify-icon className="icon" icon="ph:eye"></iconify-icon>
         <span className="muted visually-hidden">Attributes</span>
         {/* {selectedAttributes.size} */}
         {/* <iconify-icon className="icon" icon="ph:caret-down" aria-hidden="true"></iconify-icon> */}
       </button>
-      <pp-list>
-        {availableAttributes.map((attribute) => (
-          <pp-list-item
-            key={attribute}
-            type="checkbox"
-            checked={selectedAttributes.has(attribute)}
-            onClick={() => onAttributeToggle(attribute)}
-          >
-            {attributeLabel(attribute)}
-          </pp-list-item>
-        ))}
-      </pp-list>
+      <pp-popup>
+        <pp-list>
+          {availableAttributes.map((attribute) => (
+            <pp-list-item
+              key={attribute}
+              type="checkbox"
+              checked={selectedAttributes.has(attribute)}
+              onClick={() => onAttributeToggle(attribute)}
+            >
+              {attributeLabel(attribute)}
+            </pp-list-item>
+          ))}
+        </pp-list>
+      </pp-popup>
     </pp-dropdown>
   );
 };
