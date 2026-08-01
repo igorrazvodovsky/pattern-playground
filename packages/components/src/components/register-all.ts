@@ -10,7 +10,6 @@ import 'iconify-icon';
 
 // Import all component classes
 import { PpAvatar } from './avatar/avatar.js';
-import { PpButton } from './button/button.js';
 import { PpInput } from './input/input.js';
 import { PpRange } from './range/range.js';
 import { PpSelect } from './select/select.js';
@@ -48,7 +47,6 @@ export function registerAllComponents(): void {
   componentRegistry.registerAll([
     // Base/primitive components first (no dependencies)
     { tagName: 'pp-avatar', constructor: PpAvatar },
-    { tagName: 'pp-button', constructor: PpButton, options: { extends: 'button' } },
     { tagName: 'pp-input', constructor: PpInput },
     { tagName: 'pp-range', constructor: PpRange },
     { tagName: 'pp-select', constructor: PpSelect },

@@ -37,7 +37,6 @@ const CommentingToolbar: React.FC<CommentingToolbarProps> = ({ editor }) => {
     <div className="commenting-toolbar inline-flow">
       <button
         className="button button--small"
-        is="pp-button"
         onClick={handleCreateComment}
         title="Add comment to selection"
         disabled={!canCreateComment()}
@@ -48,7 +47,6 @@ const CommentingToolbar: React.FC<CommentingToolbarProps> = ({ editor }) => {
       
       <button
         className="button button--small button--secondary"
-        is="pp-button"
         onClick={handleShowComments}
         title="Show all comments"
       >

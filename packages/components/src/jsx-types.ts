@@ -36,7 +36,6 @@ declare module 'react' {
         invalid?: boolean;
         size?: 'small' | 'medium' | 'large';
       };
-      'pp-button': React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
       /* CSS-only styled tag (no custom element definition) — sizes with font-size */
       'pp-spinner': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
       'pp-modal': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;

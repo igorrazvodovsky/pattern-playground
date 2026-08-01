@@ -215,7 +215,6 @@ export function SidebarTrigger({
   const { toggleSidebar } = useSidebar();
   return (
     <button
-      is="pp-button"
       data-slot="sidebar-trigger"
       data-sidebar="trigger"
       className={clsx('button button--plain sidebar-trigger', className)}
