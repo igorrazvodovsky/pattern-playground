@@ -184,7 +184,6 @@ export class PpChartLegend extends LitElement {
             item => this.renderLegendItem(item)
           )}
         </ul>
-        <slot></slot>
       </div>
     `;
   }

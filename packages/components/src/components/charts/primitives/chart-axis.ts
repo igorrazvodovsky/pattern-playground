@@ -299,7 +299,6 @@ export class PpChartAxis extends LitElement implements ScaleConsumer {
         >
           <g class="axis-group"></g>
         </svg>
-        <slot></slot>
       </div>
     `;
   }
