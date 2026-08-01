@@ -82,3 +82,16 @@ and browsers then hold Storybook's non-content-hashed shell files
 symptom is the deployed Storybook showing a long-gone taxonomy with 404ing
 stories while the origin's `/storybook/index.json` is current. The canonical
 `/storybook/` serves the shell directly and bypasses the redirect.
+
+## test-storybook: addon-vitest not resolvable from the repo root
+
+`npm run test-storybook` fails at startup with `Cannot find package
+'@storybook/addon-vitest'` when npm has nested the `@storybook/*` packages
+under `packages/components/node_modules` instead of hoisting them (the
+`@storybook/addon-mcp` peer chain causes this). Vitest bundles the root
+`vitest.config.ts` into root `node_modules/.vite-temp`, and from there the
+nested package doesn't resolve. Current bridge: a symlink at
+`node_modules/@storybook/addon-vitest` pointing into the workspace copy —
+note `npm install` may remove it. Durable fix still owed: add
+`@storybook/addon-vitest` as a root devDependency, or move the vitest
+config into the components workspace.

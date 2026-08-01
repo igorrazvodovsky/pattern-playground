@@ -130,6 +130,42 @@ boundary for free).
 
 Write the recipe's discoveries back into this plan before proceeding.
 
+#### Recipe discoveries (Phase 0, executed 2026-07-31)
+
+- *`::slotted(X)` means child, not descendant.* Rewrite as `> X` (or
+  `:scope > X`), never a descendant selector. Several shadow rules turned out
+  to be dead because they assumed direct children that never existed in real
+  markup (`::slotted(.crumbicon)`, `::slotted(.home-label)`) — audit each
+  `::slotted` rule against actual usage before porting it.
+- *The light-DOM override file already governed.* For slotted (light-DOM)
+  children, outer-tree document styles beat shadow `::slotted` styles, so
+  `styles/breadcrumbs.css` overrides were the effective values all along.
+  Reconciling means merging to the *effective* styling, not the shadow
+  sheet's text; dead custom properties (`--_crumb-color`, `--_crumb-gap`,
+  `--_separator-size`, `--_crumb-shadow-color`) were dropped.
+- *Event delegation replaces observer machinery.* A rung-2 host can listen on
+  itself (`click`, `change`) instead of MutationObserver + per-element
+  listener add/remove. The conversion deleted the observer, the `@state`
+  init flag, and both listener-management methods.
+- *Nesting under the tag selector suffices.* One `pp-breadcrumbs { … }` block
+  with nested rules prevents leakage without `@scope`; reserve `@scope` for
+  cases needing a lower boundary (donut scoping).
+- *No `:not(:defined)` rule needed* — links and crumbs are acceptable
+  unstyled; styling keys off the tag selector, not upgrade state.
+- *Enhancement*: the host now sets `role="navigation"` in `init()` when the
+  author didn't provide one.
+- *A11y bonus*: the disguised select's `opacity: 0.01` (light file) was
+  failing axe color-contrast in the Advanced story pre-conversion; the merged
+  file uses `opacity: 0` (the shadow sheet's original intent), which axe
+  treats as hidden — Breadcrumbs stories now fully green.
+- *Environment*: `npm run test-storybook` was broken at root before this work
+  — npm nests all `@storybook/*` packages under `packages/components/`
+  (the `@storybook/addon-mcp` peer chain prevents hoisting), while vitest
+  bundles the root config into root `node_modules/.vite-temp`, where
+  `@storybook/addon-vitest` doesn't resolve. Temporary bridge in place:
+  symlink at `node_modules/@storybook/addon-vitest`. Durable fix needed
+  (root devDependency, or move the vitest config into the workspace).
+
 ### Phase 1 — demotions (rung 1)
 
 - *spinner*: keep the `<pp-spinner>` tag if useful for authoring, but it can
@@ -142,6 +178,22 @@ Write the recipe's discoveries back into this plan before proceeding.
   existing stories, a thin rung-3 element is the fallback.
 - *range*: same evaluation against `input[type=range]`.
 - Sweep stories and demos for the affected markup. Docs ids unchanged.
+
+Outcomes (2026-07-31): *spinner* → rung 1, CSS-only `styles/spinner.css`
+(border-ring `::after`, three turns per `--speed` to match the SVG's sweep);
+definition deleted; standalone usages carry `role="progressbar"` +
+`aria-label` in markup, decorative-beside-text usages carry nothing.
+*switch* → rung 1, `input[type=checkbox][role=switch].switch` in
+`styles/switch.css` (`appearance: none` track, `::before` thumb,
+`switch--small`/`switch--large`); `pp-switch` deleted, stories rewritten to
+native inputs, Switch.mdx gains a Markup section. *range* → rung 3
+light-DOM render (fill percent, marks, and value readout genuinely need JS);
+structure flattened (the `.form-control` wrapper layers were unstyled),
+author prefix/suffix children stay in place as `data-slot="…"` children
+ordered by CSS `order`, so no projection layer and no React ownership
+conflict. Note: `pp-switch`'s ToggleInteraction test failure is a
+pre-existing storybook/user-event incompatibility (fails on baseline too);
+the native-input rewrite did not change it.
 
 ### Phase 2 — structural wrappers (rung 2)
 
@@ -160,6 +212,33 @@ Order: input → tab family → list family → priority-plus → select.
   children it didn't create; reactive updates mutate attributes/classes on
   existing children.
 
+Outcomes (2026-07-31): all five conversions landed, including select — its
+projection layer dissolved as predicted and it did not need to wait for
+Phase 5. New authoring contracts: *input* composes a native `<input>` (+
+`data-slot` adornments) inside the `pp-input` box, clear button
+component-appended, `data-empty` reflected for CSS; *select* composes a
+native `<select>` (+ `data-slot="hint"` / `data-slot="error"`), caret
+component-appended, placeholder is an authored disabled option; *tab family*
+composes a `data-slot="nav"` strip of tabs plus panel children — the group is
+a grid that places component-appended scroll buttons without wrappers, and
+the JS-measured sliding indicator became CSS on `pp-tab[active]` (slide
+animation dropped); *list family* keeps label content as loose children —
+discovery: an anonymous-text label can't grow in flex, so the push-right
+moved to an auto margin on the first suffix-side element, and element labels
+keep ellipsis via a `:not([data-slot])` rule; check/chevron are
+component-appended; `getTextLabel()` now reads unmarked child nodes;
+*priority-plus* had an empty shadow sheet all along — one-line conversion,
+plus the overflow-clone engine now rewrites copied `slot` attrs to
+`data-slot`. Component-appended owned nodes (buttons, carets, check marks)
+coexist with React-owned children without conflicts. `slot=` →
+`data-slot=` swept across 16 usage files (34 renames); `dropdown.ts`
+submenu detection accepts both until Phase 3 rewrites it. Full storybook
+suite: baseline 43 failures (all pre-existing: axe colour-contrast debt and
+a storybook/user-event `patchFocus` incompatibility on play-function
+stories) → 42 after conversion. Watch item: `Tabs > Scrolling Tabs` failed
+once in a full parallel run but is stable in isolation across repeated
+runs.
+
 ### Phase 3 — overlays (popup, tooltip, dropdown)
 
 Execute within `transient-layers-tech.md`'s settled strategy. Light-DOM
@@ -168,6 +247,25 @@ style-boundary plan already noted these components portal to `document.body`
 — their styles must be global regardless, which shadow DOM was actively
 fighting. Keep Floating UI; keep the `@supports (anchor-name: --a)`
 enhancement layer. `pp-popup` stays the shared positioning utility.
+
+Outcomes (2026-07-31): *popup* — the element itself is now the positioned
+box: Floating UI drives the host's `left`/`top`, the `popover` attribute
+(and `showPopover()`) live on the host, and author children are the content
+in place, so no wrapper and no re-parenting; the `popup` accessor returns
+`this` for old-API consumers. Anchor is external only (property, id, or a
+`data-slot="anchor"` child) — the anchor slot had no usages. *tooltip* —
+rung 2: the first author child is the target; the element appends the
+popup + body it owns and renders the `content` attribute into it (the
+content slot had no usages). *dropdown* — rung 2 with a contract change:
+the author composes `data-slot="trigger"` plus an explicit `<pp-popup>`
+panel child; the dropdown wires trigger interaction and aria, pushes its
+positioning config onto the popup, and keeps the submenu machinery (which
+already moved live nodes and now round-trips `data-slot="submenu"`). The
+panel skin moved onto the popup box (`.dropdown__panel` class set by the
+component), written to out-specify the top-layer popover resets. ~20 usage
+files swept (trigger rename + panel wrapper). Note: the old dropdown
+show/hide animation animated a `display: contents` host and was visually
+inert; it now actually animates the panel.
 
 ### Phase 4 — retire the customised built-in button
 
@@ -178,6 +276,13 @@ enhancement layer. `pp-popup` stays the shared positioning utility.
 - Update the `primitives-button--docs` entry prose if it mentions the `is`
   attribute.
 
+Outcomes (2026-07-31): `PpButton` deleted (component, registration,
+`main.ts` export, jsx-types entry); all 100 `is="pp-button"` occurrences
+across 29 files removed in one sitting — safe everywhere because the class
+was an empty stub, so the attribute changed nothing even in Chromium. The
+Button docs never mentioned the `is` attribute, so no prose change. The
+dropdown's legacy `pp-button` accessible-trigger branch went with it.
+
 ### Phase 5 — residue and the library decision
 
 After phases 0–4, count what still genuinely uses Lit's machinery (reactive
@@ -185,6 +290,19 @@ re-render into an owned subtree — likely charts, possibly select). Only then
 decide: minimal Lit, vanilla + small helpers, or Elena. This decision is
 deliberately last because the refactor makes it small. Record it as a
 decision-record plan.
+
+Residue count (2026-07-31, phases 0–4 complete): zero shadow roots remain
+(`static styles`, `?inline`, `<slot`, and `attachShadow` greps are all
+clean; the two chart `static styles = ChartComponent.styles` lines were
+dead — the base class defines none — and were removed along with two inert
+`<slot>` elements in chart primitives). Components that still genuinely
+re-render an owned light-DOM subtree: the chart family (bar-chart,
+scatter-plot, choropleth, map, chart-grid/legend/axis on the D3Component
+base) and `pp-range` (track + marks + value readout). `pp-tooltip` renders
+one small owned popup+body. Everything else uses Lit only for reactive
+properties and lifecycle on a rung-2 host — the machinery the library
+decision actually weighs. The decision itself is deliberately left open
+here.
 
 ## Risks and constraints
 
@@ -219,6 +337,27 @@ decision-record plan.
 - Cross-reference validator green (no docs-id drift; titles untouched).
 - Grep gates at the end: no `static styles` without a rung-4 justification
   comment; no `<slot` outside rung-4 components; no `is="pp-button"`.
+
+Results (2026-07-31): grep gates all pass. Storybook build green.
+Storybook vitest suite: 42 failures vs 43 at baseline — every failure is
+pre-existing (axe colour-contrast debt on buttons/badges/tabs/muted text,
+plus a storybook/user-event `patchFocus` "Illegal invocation" on every
+play-function story) and one was fixed (Breadcrumbs Advanced). Story
+buckets and graph-mirror checks green. Visual spot-checks on the built
+Storybook: input addons, tabs with icons/subtitles, open dropdown, select
+sizes, switches — all render correctly. Known-dirty at baseline, unchanged:
+repo-wide stylelint (config disagrees with the corpus's BEM and `--_x` /
+`--c-*` naming conventions; new files match the corpus), workspace `eslint .`
+(lints `public/storybook` build output; the only two source-file errors
+pre-date this work), `verify-demo-registry.mjs` (pane-stack-refit state),
+and `tsc --noEmit` (244 errors, down from 277 at baseline; no gate runs it).
+Environment note: `npm run test-storybook` was broken before this work —
+npm nests `@storybook/*` under `packages/components` (addon-mcp peer
+chain) while vitest bundles the root config into root
+`node_modules/.vite-temp` where `@storybook/addon-vitest` doesn't resolve.
+A symlink at `node_modules/@storybook/addon-vitest` bridges it; a durable
+fix (root devDependency or moving the vitest config into the workspace) is
+still owed.
 
 ## Open questions
 
