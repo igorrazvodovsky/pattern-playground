@@ -15,8 +15,10 @@
     display: none !important;
   }
 
-  :root,
-  body {
-    color-scheme: light only;
+  /* Follow the system scheme — no manual override. Every light-dark() token
+     resolves against this; the palette's lightness ladder flips alongside it
+     in variables-palette.css. */
+  :root {
+    color-scheme: light dark;
   }
 }

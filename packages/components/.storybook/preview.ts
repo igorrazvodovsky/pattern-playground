@@ -4,10 +4,19 @@ import '../src/styles/docs.css';
 import '../src/main.ts';
 import 'iconify-icon';
 import { PatternRef } from '../src/stories/utils/PatternRef';
+import lightTheme from './theme';
+import darkTheme from './theme-dark';
+
+// Docs pages draw their chrome from a theme object, not CSS, so the OS
+// preference is read once at load — same limitation as the manager theme.
+const prefersDark =
+  typeof window !== 'undefined' &&
+  window.matchMedia?.('(prefers-color-scheme: dark)').matches;
 
 const preview: Preview = {
   parameters: {
     docs: {
+      theme: prefersDark ? darkTheme : lightTheme,
       toc: { headingSelector: '.sbdocs-content > h2:not(.sbdocs-subtitle), .sbdocs-content > h3' },
       components: { PatternRef },
     },

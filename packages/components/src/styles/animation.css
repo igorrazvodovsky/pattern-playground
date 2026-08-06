@@ -617,32 +617,14 @@
 
 .shimmer {
   --size: 15ch;
-  --color: #222;
-  color: oklch(0 0 0 / 30%);
+  --color: var(--c-body);
+  color: oklch(from var(--c-body) l c h / 30%);
   will-change: background-position;
-  background: -webkit-gradient(
-    linear,
-    left top,
-    right top,
-    from(oklch(0 0 0 / 60%)),
-    to(oklch(0 0 0 / 60%)),
-    color-stop(0.5, #fff)
-  );
-  background: -moz-gradient(
-    linear,
-    left top,
-    right top,
-    from(oklch(0 0 0 / 60%)),
-    to(oklch(0 0 0 / 60%)),
-    color-stop(0.5, #fff)
-  );
-  background: gradient(
-    linear,
-    left top,
-    right top,
-    from(#222),
-    to(#222),
-    color-stop(0.5, #fff)
+  background: linear-gradient(
+    to right,
+    oklch(from var(--c-body) l c h / 60%),
+    var(--c-background) 50%,
+    oklch(from var(--c-body) l c h / 60%)
   );
   background-size: calc(var(--size) * 2 + 2ch) 100%;
   background-clip: text;

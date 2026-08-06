@@ -61,10 +61,10 @@
   align-items: center;
   gap: 0.75rem;
   padding: 1rem;
-  background: var(--error-surface, #fef2f2);
-  border: 1px solid var(--error-border, #fecaca);
+  background: var(--error-surface, var(--c-background-danger));
+  border: 1px solid var(--error-border, var(--c-border-danger));
   border-radius: 0.375rem;
-  color: var(--error-text, #dc2626);
+  color: var(--error-text, var(--c-body-danger));
 }
 
 .error-icon {

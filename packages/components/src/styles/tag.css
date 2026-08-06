@@ -130,7 +130,7 @@
     }
 
     &:disabled {
-      --color: #eee !important;
+      --color: var(--c-neutral-200) !important;
       border-color: var(--c-border);
     }
 
