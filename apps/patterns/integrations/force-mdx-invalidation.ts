@@ -1,5 +1,6 @@
-import type { Plugin } from 'vite';
+import type { EnvironmentModuleNode, Plugin } from 'vite';
 import { isRunnableDevEnvironment } from 'vite';
+import type { EvaluatedModuleNode } from 'vite/module-runner';
 
 // Dev-only workaround for MDX content edits going stale mid-session.
 //
@@ -45,8 +46,8 @@ export default function forceMdxInvalidation(): Plugin {
 
         // 1. Server module graph: force a fresh transform on next fetch.
         const graph = env.moduleGraph;
-        const graphSeen = new Set<unknown>();
-        const walkGraph = (mod: any, depth: number) => {
+        const graphSeen = new Set<EnvironmentModuleNode>();
+        const walkGraph = (mod: EnvironmentModuleNode, depth: number) => {
           if (!mod || graphSeen.has(mod) || depth > MAX_WALK) return;
           graphSeen.add(mod);
           graph.invalidateModule(mod);
@@ -61,7 +62,7 @@ export default function forceMdxInvalidation(): Plugin {
         if (isRunnableDevEnvironment(env)) {
           const evaluated = env.runner.evaluatedModules;
           const evalSeen = new Set<string>();
-          const walkEval = (node: any, depth: number) => {
+          const walkEval = (node: EvaluatedModuleNode, depth: number) => {
             if (!node || evalSeen.has(node.id) || depth > MAX_WALK) return;
             evalSeen.add(node.id);
             evaluated.invalidateModule(node);

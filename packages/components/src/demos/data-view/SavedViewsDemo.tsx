@@ -79,7 +79,6 @@ export function SavedViewsDemo() {
     () => SAVED_VIEWS.find((candidate) => candidate.id === activeId) ?? SAVED_VIEWS[0],
     [activeId]
   );
-  const edited = JSON.stringify(workingSpec) !== JSON.stringify(savedSpec);
 
   const selectView = (spec: ViewSpec) => {
     setActiveId(spec.id);
@@ -90,7 +89,7 @@ export function SavedViewsDemo() {
     <>
       <pp-dropdown>
         <button className="button" is="pp-button" slot="trigger">
-          {savedSpec.label} {/* {edited && <span className="badge">edited</span>} */}
+          {savedSpec.label}
           <iconify-icon className="icon" icon="ph:caret-down" aria-hidden="true"></iconify-icon>
         </button>
         <pp-list>
