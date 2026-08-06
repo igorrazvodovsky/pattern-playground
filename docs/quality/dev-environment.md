@@ -83,15 +83,13 @@ symptom is the deployed Storybook showing a long-gone taxonomy with 404ing
 stories while the origin's `/storybook/index.json` is current. The canonical
 `/storybook/` serves the shell directly and bypasses the redirect.
 
-## test-storybook: addon-vitest not resolvable from the repo root
+## test-storybook lives in the components workspace
 
-`npm run test-storybook` fails at startup with `Cannot find package
-'@storybook/addon-vitest'` when npm has nested the `@storybook/*` packages
-under `packages/components/node_modules` instead of hoisting them (the
-`@storybook/addon-mcp` peer chain causes this). Vitest bundles the root
-`vitest.config.ts` into root `node_modules/.vite-temp`, and from there the
-nested package doesn't resolve. Current bridge: a symlink at
-`node_modules/@storybook/addon-vitest` pointing into the workspace copy —
-note `npm install` may remove it. Durable fix still owed: add
-`@storybook/addon-vitest` as a root devDependency, or move the vitest
-config into the components workspace.
+The Storybook vitest project is configured by
+`packages/components/vitest.config.ts` and run from that workspace; the root
+`npm run test-storybook` just delegates with `-w @pattern-plgrnd/components`.
+Keep it that way: npm nests the `@storybook/*` packages under
+`packages/components/node_modules` instead of hoisting them (the
+`@storybook/addon-mcp` peer chain causes this), so a root-level vitest
+config cannot resolve `@storybook/addon-vitest` — vitest bundles the config
+next to root `node_modules`, where the nested package is invisible.
