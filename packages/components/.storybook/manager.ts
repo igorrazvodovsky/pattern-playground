@@ -1,8 +1,16 @@
 import { addons } from 'storybook/manager-api';
-import theme from './theme';
+import lightTheme from './theme';
+import darkTheme from './theme-dark';
+
+// The manager theme is fixed at config time, so the OS preference is read once
+// at load; a mid-session OS switch needs a reload. The preview itself follows
+// the OS live via color-scheme (base.css).
+const prefersDark =
+  typeof window !== 'undefined' &&
+  window.matchMedia?.('(prefers-color-scheme: dark)').matches;
 
 addons.setConfig({
-  theme: theme,
+  theme: prefersDark ? darkTheme : lightTheme,
   showToolbar: false,
   sidebar: {
     collapsedRoots: ['foundations', 'operations', 'data-visualization', 'concepts'],

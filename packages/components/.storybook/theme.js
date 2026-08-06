@@ -4,8 +4,9 @@ export default create({
   base: 'light',
   fontBase: 'system-ui, sans-serif',
   fontCode: 'monospace',
-  brandTitle: 'Igor\'s pattern playground',
-  brandImage: './playground.png',
+  /* Text brand, no image — inherits each theme's text colour, so it needs no
+     per-scheme asset. */
+  brandTitle: 'Component playground',
   brandTarget: '_self',
 
   colorPrimary: 'red',

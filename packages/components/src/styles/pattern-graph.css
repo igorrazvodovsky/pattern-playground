@@ -77,7 +77,7 @@
   }
 
   .pattern-graph__circle {
-    stroke: white;
+    stroke: var(--c-background);
     stroke-width: 1;
     transition: opacity 0.2s;
   }

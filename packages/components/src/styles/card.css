@@ -9,8 +9,7 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
 @layer components {
   /* Surface — the whole of what makes a card a card. */
   .card {
-    /* TODO: token */
-    --card-bg: white;
+    --card-bg: var(--c-background);
 
     background-color: var(--card-bg);
     border: var(--border);

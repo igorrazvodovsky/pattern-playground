@@ -117,7 +117,7 @@
   cursor: pointer;
 
   &:hover {
-    background: oklch(0% 0 0 / 5%);
+    background: oklch(from var(--c-neutral-1000) l c h / 5%);
   }
 }
 

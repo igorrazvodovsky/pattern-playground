@@ -31,6 +31,27 @@
   --l900: 34%;
   --l950: 27%;
 
+  /* Dark-scheme ladder — same shape (fine near the background, coarse through
+     the middle), run from the other end: rung N keeps its role as distance from
+     the background, so -0 is the page surface and -900 carries text in both
+     schemes. Values live here, once; the rewiring blocks at the end of the file
+     apply them. Chroma ramps are shared between schemes, so where a hue's sRGB
+     ceiling is lower at the mirrored lightness (yellow's light rungs, boosted
+     green) the browser gamut-maps the excess — retune with
+     scripts/palette-chroma.mjs when the dark set gets its own pass. */
+  --l0-dark: 16%;
+  --l50-dark: 20%;
+  --l100-dark: 24%;
+  --l200-dark: 30%;
+  --l300-dark: 37%;
+  --l400-dark: 46%;
+  --l500-dark: 56%;
+  --l600-dark: 64%;
+  --l700-dark: 72%;
+  --l800-dark: 79%;
+  --l900-dark: 86%;
+  --l950-dark: 92%;
+
   /* Per-hue chroma ramps ----------------------------------------------------
      One shared chroma ramp cannot serve hues with different sRGB gamut
      ceilings. At a fixed chroma, blue (accent) and yellow (warning) clip and
@@ -133,8 +154,11 @@
   --c-neutral-900: oklch(var(--l900) var(--c900-neutral) var(--h));
   --c-neutral-950: oklch(var(--l950) var(--c950-neutral) var(--h));
 
-  --c-neutral-0: oklch(100% 0 0);
-  --c-neutral-1000: oklch(0% 0 0);
+  /* The extremes ride the ladder too: -0 is the page surface (white / near-
+     black), -1000 the far end from it (black / white), so "ink washes" like
+     `oklch(from var(--c-neutral-1000) l c h / 5%)` stay legible in both schemes. */
+  --c-neutral-0: oklch(var(--l0) var(--c0-neutral) var(--h));
+  --c-neutral-1000: light-dark(oklch(0% 0 0), oklch(100% 0 0));
 
   --c-accent-50: oklch(var(--l50) var(--accent-c50) var(--h));
   --c-accent-100: oklch(var(--l100) var(--accent-c100) var(--h));
@@ -240,15 +264,17 @@
      OKLab ΔE) on the adjacent pairlist (bars, lines, stacks) in both modes; for
      all-pairs forms (scatter, bubble) only the first four slots are safe — see
      Foundations/Elements. Hues seeded from a known-good set; retune per brand and
-     re-validate. */
-  --c-cat-1: oklch(57.5% 0.163 255.5deg); /* blue */
-  --c-cat-2: oklch(52.9% 0.18 142.5deg);  /* green */
-  --c-cat-3: oklch(71.6% 0.141 357.4deg); /* magenta */
-  --c-cat-4: oklch(76.4% 0.161 75.1deg);  /* yellow */
-  --c-cat-5: oklch(66.9% 0.141 162.1deg); /* aqua */
-  --c-cat-6: oklch(67.1% 0.175 40.6deg);  /* orange */
-  --c-cat-7: oklch(43.3% 0.167 283.6deg); /* violet */
-  --c-cat-8: oklch(62.3% 0.191 24.9deg);  /* red */
+     re-validate. The dark branch is the same eight hues re-stepped for the dark
+     surface (lighter, so each clears 3:1 against a dark background); validated
+     as a set on the same pairlist. */
+  --c-cat-1: light-dark(oklch(57.5% 0.163 255.5deg), oklch(62.2% 0.161 255.1deg)); /* blue */
+  --c-cat-2: light-dark(oklch(52.9% 0.18 142.5deg), oklch(52.9% 0.18 142.5deg));   /* green */
+  --c-cat-3: light-dark(oklch(71.6% 0.141 357.4deg), oklch(62.2% 0.171 0.8deg));   /* magenta */
+  --c-cat-4: light-dark(oklch(76.4% 0.161 75.1deg), oklch(67% 0.143 73.2deg));     /* yellow */
+  --c-cat-5: light-dark(oklch(66.9% 0.141 162.1deg), oklch(62.1% 0.128 163.1deg)); /* aqua */
+  --c-cat-6: light-dark(oklch(67.1% 0.175 40.6deg), oklch(62.2% 0.173 40.1deg));   /* orange */
+  --c-cat-7: light-dark(oklch(43.3% 0.167 283.6deg), oklch(67% 0.145 286.8deg));   /* violet */
+  --c-cat-8: light-dark(oklch(62.3% 0.191 24.9deg), oklch(66.9% 0.159 22.3deg));   /* red */
 
   /* Body text takes -900, not -800: the ramp stops at 27%, so -800 reaches only
      8.8:1 on white where -900 is 11.7:1. Which rung carries text is a per-hue
@@ -275,8 +301,9 @@
      these semantic tints are translucent. Borders are alpha too, mirroring the
      neutral `--c-border`. `-strong` is the hover/active step. Foreground stays a
      solid `-700` step below — contrast over a translucent tint depends on what's
-     behind it, so it is a decision, not a constant (safe over white/light grey;
-     revisit the foreground when a dark surface is introduced). */
+     behind it, so it is a decision, not a constant. In the dark scheme the
+     ladder rewiring lifts -700 to L 72%, so the same rung carries the
+     foreground on both surfaces. */
   --c-background-accent: oklch(var(--l500) var(--accent-c500) var(--h) / 0.1);
   --c-background-info: oklch(var(--l500) var(--info-c500) var(--hInfo) / 0.1);
   --c-background-success: oklch(var(--l500) var(--success-c500) var(--hSuccess) / 0.1);
@@ -359,25 +386,26 @@
   }
 }
 
-@layer theme {
-  body .dark {
-    /* TODO: */
-    --c-background: oklch(from var(--c-neutral-900) l c h / 60%);
-    --c-background: oklch(0% 0 0 / 60%);
-    --c-body: oklch(100% 0 0 / 90%);
-    /* TODO: */
-    color: var(--c-body);
-
-    /* Categorical palette — the same eight hues re-stepped for the dark surface
-       (lighter, so each clears 3:1 against a dark background). Validated as a set
-       on the adjacent pairlist; first four for all-pairs. */
-    --c-cat-1: oklch(62.2% 0.161 255.1deg); /* blue */
-    --c-cat-2: oklch(52.9% 0.18 142.5deg);  /* green */
-    --c-cat-3: oklch(62.2% 0.171 0.8deg);   /* magenta */
-    --c-cat-4: oklch(67% 0.143 73.2deg);    /* yellow */
-    --c-cat-5: oklch(62.1% 0.128 163.1deg); /* aqua */
-    --c-cat-6: oklch(62.2% 0.173 40.1deg);  /* orange */
-    --c-cat-7: oklch(67% 0.145 286.8deg);   /* violet */
-    --c-cat-8: oklch(66.9% 0.159 22.3deg);  /* red */
+/* Dark scheme ----------------------------------------------------------------
+   Like the P3 block: every token is assembled from scalars, so dark mode is a
+   scalar override — the lightness ladder swaps ends and the whole palette,
+   semantic tokens and translucent washes included, re-derives. Whole-colour
+   tokens that don't ride the ladder (--c-cat-*, --c-neutral-1000, the shadows
+   in variables.css) switch with light-dark() instead, driven by color-scheme
+   (base.css). Both follow the system preference; there is no manual pin. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --l0: var(--l0-dark);
+    --l50: var(--l50-dark);
+    --l100: var(--l100-dark);
+    --l200: var(--l200-dark);
+    --l300: var(--l300-dark);
+    --l400: var(--l400-dark);
+    --l500: var(--l500-dark);
+    --l600: var(--l600-dark);
+    --l700: var(--l700-dark);
+    --l800: var(--l800-dark);
+    --l900: var(--l900-dark);
+    --l950: var(--l950-dark);
   }
 }

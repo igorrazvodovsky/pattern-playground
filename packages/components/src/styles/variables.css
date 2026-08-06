@@ -58,19 +58,23 @@
 
   --border: 1px solid var(--c-border);
   --input-border: var(--border);
-  --overlay-bg: oklch(0% 0 0 / 50%);
+  --overlay-bg: light-dark(oklch(0% 0 0 / 50%), oklch(0% 0 0 / 60%));
   --panel-border-width: 1px;
 
   --outline-width: 2px;
   --outline-color: var(--c-accent-600);
   --outline-style: solid;
 
+  /* Dark surfaces need darker, stronger shadows to separate from the page —
+     the mid-grey base that reads as a soft shadow on white disappears on
+     near-black, so the dark branch drops to true black and roughly doubles
+     the alpha. */
   --_shadow-c-base: 55% 0 286;
-  --shadow-xs: 0 1px 2px oklch(var(--_shadow-c-base) / 5%);
-  --shadow-s: 0 1px 2px oklch(var(--_shadow-c-base) / 10%);
-  --shadow-m: 0 2px 4px oklch(var(--_shadow-c-base) / 10%);
-  --shadow-l: 0 2px 8px oklch(var(--_shadow-c-base) / 20%);
-  --shadow-xl: 0 4px 16px oklch(var(--_shadow-c-base) / 30%);
+  --shadow-xs: 0 1px 2px light-dark(oklch(var(--_shadow-c-base) / 5%), oklch(0% 0 0 / 25%));
+  --shadow-s: 0 1px 2px light-dark(oklch(var(--_shadow-c-base) / 10%), oklch(0% 0 0 / 35%));
+  --shadow-m: 0 2px 4px light-dark(oklch(var(--_shadow-c-base) / 10%), oklch(0% 0 0 / 35%));
+  --shadow-l: 0 2px 8px light-dark(oklch(var(--_shadow-c-base) / 20%), oklch(0% 0 0 / 50%));
+  --shadow-xl: 0 4px 16px light-dark(oklch(var(--_shadow-c-base) / 30%), oklch(0% 0 0 / 60%));
 
   --transition-x-slow: 1000ms;
   --transition-slow: 500ms;

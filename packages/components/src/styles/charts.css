@@ -79,12 +79,12 @@
   --chart-focus-offset: var(--focus-ring-offset);
 
   /* Axis Styles */
-  --axis-color: #333;
+  --axis-color: var(--c-bodyDimmed);
   --axis-font-size: 12px;
   --axis-font-family: var(--chart-font-family);
-  --tick-color: #333;
+  --tick-color: var(--c-bodyDimmed);
   --tick-size: 6px;
-  --grid-color: #e0e0e0;
+  --grid-color: var(--c-neutral-200);
   --grid-opacity: 0.5;
 
   /* Legend Styles */

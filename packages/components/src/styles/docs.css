@@ -1,3 +1,10 @@
+/* The preview canvas paints the token surface rather than the UA canvas
+   colour, so stories sit on the same background in both schemes as they do
+   on the site. */
+body {
+  background: var(--c-background);
+}
+
 .sbdocs {
   max-width: unset !important;
 }
@@ -27,8 +34,8 @@
 }
 
 .sbdocs > blockquote {
-  background: oklch(0% 0 0 / 5%);
-  border-color: oklch(0% 0 0 / 10%);
+  background: oklch(from var(--c-neutral-1000) l c h / 5%);
+  border-color: oklch(from var(--c-neutral-1000) l c h / 10%);
   padding: var(--space-s) var(--space-m);
   max-width: 70ch;
 }
@@ -56,9 +63,8 @@ div.sb-story li,
 a.sbdocs,
 .sbdocs-content > :is(p, h1, h2, h3, h4) a {
   color: inherit !important;
-  /* TODO: Fix */
   text-decoration: underline !important;
-  text-decoration: underline oklch(from #2e3438 l c h / 0.3) !important;
+  text-decoration: underline oklch(from var(--c-body) l c h / 0.3) !important;
   text-decoration-thickness: max(0.05em, 1px);
   text-underline-offset: 0.15em;
 }
@@ -318,7 +324,7 @@ aside[class*="sbdocs-toc"] {
 
   a {
     color: inherit;
-    text-decoration: underline oklch(from #2e3438 l c h / 0.3);
+    text-decoration: underline oklch(from var(--c-body) l c h / 0.3);
   }
 }
 
