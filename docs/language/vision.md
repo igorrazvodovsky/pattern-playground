@@ -1,7 +1,7 @@
 # Pattern language vision
 
 Long-term orientation for the pattern *language* — the conceptual layer of
-moves, qualities, and the relationships between them. It names where the language
+patterns, qualities, and the relationships between them. It names where the language
 is heading; for where the project *artifact* is heading, see
 [../project/vision.md](../project/vision.md).
 
@@ -29,7 +29,7 @@ tracks: one deep and theoretical, one nearer and practical.
 ## Track 1 — Nature of Order register
 
 The language currently lives in Alexander's *Pattern Language* register: patterns
-are moves, typed edges describe how moves combine, and the data is
+are patterns, typed edges describe how patterns combine, and the data is
 suggestion-grade. The aspiration is the *Nature of Order* register — structural
 *properties* that act as recursive production rules, giving design a genuine
 grammar rather than a vocabulary of hints. [design-theory.md](./design-theory.md)
@@ -43,7 +43,7 @@ effects across diverse users and contexts. This is the long horizon, and it is n
 ## Track 2 — Agent-usable language
 
 The nearer frontier is making the language something an actor — human or AI —
-reasons over rather than reads. Three concrete moves:
+reasons over rather than reads. Three concrete patterns:
 
 - *Situations across the corpus.* The `situation.initiating` /
   `situation.resulting` frontmatter constructs exist and are populated for a
@@ -61,9 +61,9 @@ reasons over rather than reads. Three concrete moves:
 This track is the language-level face of the project's
 [agent-consumable repertoire](../project/vision.md) direction.
 
-## Mature move record
+## Mature pattern record
 
-A mature `move` record splits across the two operative levels and this vision.
+A mature `pattern` record splits across the two operative levels and this vision.
 The situation constructs already carry the initiating situation and the
 resulting-context clauses, and `enacts` edges carry the quality claims. The
 fields that remain aspirational are the ones that make the object generative
@@ -76,7 +76,7 @@ interface PatternMove {
   situation: string;
   problem: string;
   forces: string[];
-  move: string;
+  pattern: string;
   produces: string;
   interactionContract?: string;
   enacts: string[];
@@ -96,10 +96,10 @@ interface PatternMove {
 When adding or revising material, ask these questions before choosing tags,
 edges, or file locations:
 
-1. Is this page an authoritative source for one move, or a collection over a
+1. Is this page an authoritative source for one pattern, or a collection over a
    territory?
 2. Does the thing act on a recurring human situation, or is it mainly an
-   implementation mechanism?
+   implementation component?
 3. If it is a control, does the page document a complete interaction contract,
    or only visual/API variants?
 4. Which relationship is being asserted: generative sequence, implementation

@@ -1,6 +1,6 @@
 ---
 name: pattern-classifier
-description: Reason about how to integrate new knowledge into the pattern library — articulate what a pattern is, map it against what exists, classify it, and enrich it with research. Use when adding patterns from practice or research, reorganising existing patterns, filling gaps, or deciding whether to split, merge, or restructure. This is the reasoning process; file-move and reference-sweep mechanics live in the path rules (pattern-content, documentation).
+description: Reason about how to integrate new knowledge into the pattern library — articulate what a pattern is, map it against what exists, classify it, and enrich it with research. Use when adding patterns from practice or research, reorganising existing patterns, filling gaps, or deciding whether to split, merge, or restructure.
 argument-hint: "[pattern name, topic, or paper reference]"
 ---
 
@@ -12,11 +12,11 @@ A structured conversation for integrating patterns into the library. Three phase
 
 The reasoning is grounded in the project's `docs/` knowledge base. Read the documents below before proceeding if you haven't already in this conversation. They're the canonical source — this skill summarises but doesn't restate them.
 
-- `docs/language/pattern-definition.md` — operational test for what counts as a pattern (vs. mechanism, contract, observation, anti-pattern, collection). The minimum-pattern checklist lives here.
+- `docs/language/pattern-definition.md` — operational test for what counts as a pattern (vs. component, contract, observation, anti-pattern, collection). The minimum-pattern checklist lives here.
 - `docs/language/relationship-vocabulary.md` — describes relationships between patterns.
 - `docs/language/conceptual-glossary.md` — working definitions of pattern, centre, generative move, quality, semilattice, suggestion-grade, etc.
-- `docs/specs/pattern-role-model.md` — the settled role set (component, pattern, collection, quality, foundation, concept, the boundary stance, and the move/mechanism decomposition rule with its fission signals.
-- `docs/language/moves-and-mechanisms.md` — generative pattern language vs normative mechanism catalogue
+- `docs/specs/pattern-role-model.md` — the settled role set (component, pattern, collection, quality, foundation, concept, the boundary stance, and the pattern/component decomposition rule with its fission signals.
+- `docs/language/patterns-and-components.md` — generative pattern language vs normative component catalogue
 - `docs/specs/pattern-site.md` — the answer to "where does a new pattern go?"
 - `references/semilattice.md` — the pattern space is a semilattice, not a tree. Every tree placement is lossy; the question is which loss is least harmful. Multiple projections, not a better tree.
 
@@ -27,23 +27,23 @@ Two generated JSON files give queryable views of the library:
 
 ## Scope: what belongs in this library
 
-This library is *design repertoire* — generative interaction moves between actor and system that a designer can recognise, name, and reach for when shaping an interface. A pattern is a *move*, not a catalogue item. Before classifying, verify the incoming knowledge is repertoire rather than one of the adjacent knowledge types that inform or use patterns but live elsewhere.
+This library is *design repertoire* — generative interaction patterns between actor and system that a designer can recognise, name, and reach for when shaping an interface. A pattern is a *pattern*, not a catalogue item. Before classifying, verify the incoming knowledge is repertoire rather than one of the adjacent knowledge types that inform or use patterns but live elsewhere.
 
 ### The pattern test
 
-`pattern-definition.md` carries the operational test. In short: a pattern is a named, evidence-seeking interaction move that resolves a recurring human situation by balancing forces in a stated context, abstracting practice at a reusable level, producing a centre or affordance, carrying rationale and consequences, and linking to other moves. Most components are *not* patterns. A complete interaction contract (semantics, keyboard behaviour, focus model, state behaviour, use context) is pattern-grade content, but it enters the language as the move or moves it bundles, each named by what the actor is doing — the control stays a mechanism. A contract usually compresses several moves; see the decomposition rule in `pattern-role-model.md`.
+`pattern-definition.md` carries the operational test. In short: a pattern is a named, evidence-seeking interaction move that resolves a recurring human situation by balancing forces in a stated context, abstracting practice at a reusable level, producing a centre or affordance, carrying rationale and consequences, and linking to other patterns. Most components are *not* patterns. A complete interaction contract (semantics, keyboard behaviour, focus model, state behaviour, use context) is pattern-grade content, but it enters the language as the pattern or patterns it bundles, each named by what the actor is doing — the control stays a component. A contract usually compresses several patterns; see the decomposition rule in `pattern-role-model.md`.
 
 The definition is *evidence-seeking*, not evidence-proven. Seeds are fine as long as their maturity is legible. A seed names a suspected recurrence; a mature pattern has examples, rationale, consequences, and relationships that survive use.
 
-### Where non-moves go
+### Where non-patterns go
 
 If the candidate isn't a generative move, name what it actually is and route it accordingly:
 
-- *mechanism* — component, primitive, control, visual element, implementation substrate → Storybook (`packages/components/src/stories/`)
+- *component* — component, primitive, control, visual element, implementation substrate → Storybook (`packages/components/src/stories/`)
 - *quality* — an experiential dimension (Agency, Learnability, Conversation, …) → `apps/patterns/src/content/patterns/` with `role: quality`
 - *foundation* — theory, model, principle, or material substrate → `apps/patterns/src/content/patterns/` with `role: foundation`
 - *concept* — a Jackson-style software concept vocabulary entry → top-level `concepts/`
-- *collection* — a survey page that gathers a grouping of members for browsing but isn't the authoritative source for any move. Distinct from a *composite pattern*, which gathers constituents that **make it up** and **is** a source — that stays `role: pattern`. See step 5.
+- *collection* — a survey page that gathers a grouping of members for browsing but isn't the authoritative source for any pattern. Distinct from a *composite pattern*, which gathers constituents that **make it up** and **is** a source — that stays `role: pattern`. See step 5.
 - *variant* — a concrete instantiation, story variant, screenshot, prototype, product case → lives inside the pattern it illustrates
 
 Surface the role to the user with a recommendation for where the knowledge belongs. Don't promote to a pattern page just because there's nowhere obvious to put it.
@@ -52,8 +52,8 @@ Surface the role to the user with a recommendation for where the knowledge belon
 
 Some material genuinely straddles roles. Signals:
 
-- *If it has an observable interaction structure* (actors do something, the system responds in a recognisable way that produces a centre) → it has a *move* dimension, even if it's also a quality or foundation. Document the move; reference the other role.
-- *If it only makes sense as a modifier of other patterns* → it's a quality or foundation, not a move.
+- *If it has an observable interaction structure* (actors do something, the system responds in a recognisable way that produces a centre) → it has a *pattern* dimension, even if it's also a quality or foundation. Document the pattern; reference the other role.
+- *If it only makes sense as a modifier of other patterns* → it's a quality or foundation, not a pattern.
 - *If it's primarily a framework for organising other patterns* → it's a collection or foundation page, not a pattern page. (But if the children *make it up* or are *kinds of* it, it's a composite or general pattern — see step 5.)
 
 When genuinely uncertain, surface the ambiguity to the user rather than forcing a classification. The skill is a conversation, not a gate.
@@ -66,19 +66,19 @@ The process adapts to how the work arrives. Three common scenarios:
 
 "I designed an interaction and want to document it for future reference."
 
-Articulate the move: what recurring human situation does it act on, what forces does it balance, what centre does it produce? Then map against existing patterns — what you built may already have a name, or it may be a *combination* of existing moves rather than a new one. Only proceed to classification if mapping reveals something genuinely unrepresented.
+Articulate the pattern: what recurring human situation does it act on, what forces does it balance, what centre does it produce? Then map against existing patterns — what you built may already have a name, or it may be a *combination* of existing patterns rather than a new one. Only proceed to classification if mapping reveals something genuinely unrepresented.
 
 ### From research
 
 "I read a paper and want to integrate its findings."
 
-Extract: what are the key findings, frameworks, design implications? Map each to existing patterns it informs. The most common outcome is *enrichment* — updating existing patterns with new sections, design considerations, or references — not creating new patterns. Only create a new pattern if the research describes a move that has no home in the current library.
+Extract: what are the key findings, frameworks, design implications? Map each to existing patterns it informs. The most common outcome is *enrichment* — updating existing patterns with new sections, design considerations, or references — not creating new patterns. Only create a new pattern if the research describes a pattern that has no home in the current library.
 
 ### From a gap
 
 "There's an established pattern that's missing from the project."
 
-Verify: search broadly (names vary; the concept might be covered under a different term or absorbed into a broader pattern). Check the graph neighbourhood where you'd expect it. If the gap is confirmed, articulate the move clearly before classifying it.
+Verify: search broadly (names vary; the concept might be covered under a different term or absorbed into a broader pattern). Check the graph neighbourhood where you'd expect it. If the gap is confirmed, articulate the pattern clearly before classifying it.
 
 ---
 
@@ -86,9 +86,9 @@ Verify: search broadly (names vary; the concept might be covered under a differe
 
 ### Articulate
 
-Write a one-sentence relational definition: what does this move *do* in the relationship between actor and system? Avoid implementation descriptions ("a dropdown that…") — describe the transformation ("narrowing a set of options through…", "differentiating deliberate action from accidental through…"). The phrasing should foreground the centre the move produces.
+Write a one-sentence relational definition: what does this pattern *do* in the relationship between actor and system? Avoid implementation descriptions ("a dropdown that…") — describe the transformation ("narrowing a set of options through…", "differentiating deliberate action from accidental through…"). The phrasing should foreground the centre the pattern produces.
 
-If the move resists a clean one-sentence definition, it may be multiple moves or an aspect of an existing one.
+If the pattern resists a clean one-sentence definition, it may be multiple patterns or an aspect of an existing one.
 
 Then run the minimum-pattern test from `pattern-definition.md`: can the page answer most of the eight questions (recurring situation, problem/tension, forces, invariant core, abstraction level, centre/affordance produced, evidence, contextual variables)? If most answers are missing, the candidate is a seed — record it as such; don't dress it up.
 
@@ -104,11 +104,11 @@ Search broadly. Check:
 
 The mapping produces one of five outcomes:
 
-1. *Already exists* — the move is covered. The work is enrichment. Skip to Phase 3.
-2. *Partially covered* — aspects are spread across multiple patterns, but the unifying move isn't represented. Consider whether a new pattern, a collection, or just better cross-references would serve best.
+1. *Already exists* — the pattern is covered. The work is enrichment. Skip to Phase 3.
+2. *Partially covered* — aspects are spread across multiple patterns, but the unifying pattern isn't represented. Consider whether a new pattern, a collection, or just better cross-references would serve best.
 3. *Distinct and new* — genuinely unrepresented. Proceed to Phase 2.
-4. *Existing page is a compressed territory* — mapping reveals an existing page is too broad for one move, or mixes move and mechanism content. The outcome cardinality is decided by the territory, not assumed: several sibling moves, a composite pattern plus its constituents, a collection plus moves, a move/mechanism decomposition, or just sharper edges (see the decomposition rule in `pattern-role-model.md`). Proceed to Phase 2 with attention to what stays and what moves.
-5. *Not a move* — the candidate is theory, method, quality, foundation, concept, or implementation convention rather than a generative move (see *Where non-moves go* in Scope). The work is referencing it from the patterns it informs, or directing it to where it belongs. Surface this with a recommendation.
+4. *Existing page is a compressed territory* — mapping reveals an existing page is too broad for one pattern, or mixes pattern and component content. The outcome cardinality is decided by the territory, not assumed: several sibling patterns, a composite pattern plus its constituents, a collection plus patterns, a pattern/component decomposition, or just sharper edges (see the decomposition rule in `pattern-role-model.md`). Proceed to Phase 2 with attention to what stays and what patterns.
+5. *Not a pattern* — the candidate is theory, method, quality, foundation, concept, or implementation convention rather than a generative move (see *Where non-patterns go* in Scope). The work is referencing it from the patterns it informs, or directing it to where it belongs. Surface this with a recommendation.
 
 ## Phase 2: Classify
 
@@ -121,7 +121,7 @@ Before deciding *where* something goes, understand *what it touches*. Patterns a
 For each candidate edge, name *which type of relationship* it would be (from `relationship-vocabulary.md`):
 
 - `precedes` / `follows` — applying A produces a centre on which B can subsequently act (generative sequence, not just temporal order)
-- `enables` — A is a mechanism/primitive that B incorporates
+- `enables` — A is a component/primitive that B incorporates
 - `instantiates` — A is a specialisation of a more abstract pattern, principle, or foundation B
 - `complements` — A and B enhance compatible centres; co-deployed but independent
 - `alternative` — different transformations of the same starting structure
@@ -145,7 +145,7 @@ Keep unified when:
 - The relationships are mostly shared — other patterns link to the group, not to individual members
 - Splitting would create nodes too thin
 
-When in doubt, default to the coarsest node that doesn't lie: one well-situated move, with suspected sibling moves recorded as named forces or sections inside it. Under-differentiation self-corrects — the fission signals in `pattern-role-model.md` (disjoint related-patterns subsections, a decision tree growing inside the pattern, disagreeing profile fields, "in some variants…" prose) mark when a unified node has started straining. Over-differentiation produces stub nodes and graph noise, and corrects only by deletion.
+When in doubt, default to the coarsest node that doesn't lie: one well-situated pattern, with suspected sibling patterns recorded as named forces or sections inside it. Under-differentiation self-corrects — the fission signals in `pattern-role-model.md` (disjoint related-patterns subsections, a decision tree growing inside the pattern, disagreeing profile fields, "in some variants…" prose) mark when a unified node has started straining. Over-differentiation produces stub nodes and graph noise, and corrects only by deletion.
 
 When splitting, also decide the higher-altitude strategy (step 5).
 
@@ -159,13 +159,13 @@ Apply Leontiev's hierarchy:
 
 Watch for level ambiguity:
 
-- Some moves shift levels through habituation (autocomplete starts as conscious action, becomes operational). File where the *design challenge* lives — if the design work is about making it invisible, it's operational.
-- Some moves straddle levels (toolbar is both operational affordance and action container). The tree picks one; tags and graph edges capture the other.
+- Some patterns shift levels through habituation (autocomplete starts as conscious action, becomes operational). File where the *design challenge* lives — if the design work is about making it invisible, it's operational.
+- Some patterns straddle levels (toolbar is both operational affordance and action container). The tree picks one; tags and graph edges capture the other.
 - Cross-cutting concerns that *describe* levels rather than sitting at one belong in qualities or foundations.
 
 ### 4. Lifecycle stage (actions only): where in intent resolution?
 
-If the move is an action, determine which stage of the intent lifecycle it primarily serves:
+If the pattern is an action, determine which stage of the intent lifecycle it primarily serves:
 
 - *Seeking* — retrieving and gathering information
 - *Evaluation* — assessing relevance and value
@@ -179,8 +179,8 @@ Many actions serve multiple stages. The tree picks the *primary* stage; add `lif
 
 A page that gathers smaller pages is one of three things. The sorting instrument is Winston et al.'s (1987) part-whole test — *how do the children relate to the parent?* — which also picks the edge type:
 
-- *Do the children **make up** the thing?* (component–integral) → it is a **composite pattern**: `role: pattern`, `atomic: composition`. The children link to it by `enables` (part → whole), via a "Composed from" / "Constituent moves" header. A composite move is the authoritative source for *its own* move — it is **not** a collection. Example: Form is a single act assembled from data entry, bounded choice, sectioning; filling it is one move.
-- *Are the children **kinds of** the thing?* (genus–species) → it is a **general pattern with variants**: `role: pattern`. The variants link to it by `instantiates` (species → genus), via a "Foundation" / "Applied in" header on each variant. Example: Assisted task completion is the general move; Autocomplete, Autofill, AI completion *instantiate* it.
+- *Do the children **make up** the thing?* (component–integral) → it is a **composite pattern**: `role: pattern`, `atomic: composition`. The children link to it by `enables` (part → whole), via a "Composed from" / "Constituent patterns" header. A composite pattern is the authoritative source for *its own* pattern — it is **not** a collection. Example: Form is a single act assembled from data entry, bounded choice, sectioning; filling it is one pattern.
+- *Are the children **kinds of** the thing?* (genus–species) → it is a **general pattern with variants**: `role: pattern`. The variants link to it by `instantiates` (species → genus), via a "Foundation" / "Applied in" header on each variant. Example: Assisted task completion is the general pattern; Autocomplete, Autofill, AI completion *instantiate* it.
 - *Are the children merely **filed under** it for browsing?* (member–collection) → it is a **collection**: `role: collection`. It is a survey, not a source; its links emit `surveys` (≈ `skos:member`). Per SKOS, a collection sits *outside* the `enables`/`instantiates` hierarchy. Example: Navigation overview gathers the navigation models; Operations gathers its operation patterns.
 - *Does it need a node at all?* If membership is already computable from a facet (e.g. the AT-altitude strata are derivable from `activityLevel`) or the link lives fine in cross-references, prefer *implicit* — generated nav or edges, no authored node. Test: would anyone navigate *to* this page, or always straight to a child?
 
@@ -202,7 +202,7 @@ one means are in [`docs/specs/pattern-site.md`](../../docs/specs/pattern-site.md
 Which of them this skill's decisions actually turn on: `activityLevel` and
 `lifecycle` carry the placement judgement; `group` records a navigation sub-tree
 and makes no semantic claim; `atomic` (compositional complexity) and `mediation`
-(how many actors the move sits between) rarely decide anything here.
+(how many actors the pattern sits between) rarely decide anything here.
 
 Consider domain `tags` (e.g., `ai`, `navigation-structure`, `async`) for graph clustering — but only when they emerge from existing clusters in the graph, not invented speculatively.
 
@@ -222,7 +222,7 @@ Synthesise the answers into a concrete proposal:
 - File path(s) and frontmatter title(s)
 - Frontmatter fields and tags
 - Umbrella strategy (if applicable)
-- Key edges, *typed* — at minimum precursors (`precedes`/`follows`), mechanisms (`enables`), foundations (`instantiates`), complementary moves, alternatives, and the qualities the move enacts
+- Key edges, *typed* — at minimum precursors (`precedes`/`follows`), components (`enables`), foundations (`instantiates`), complementary patterns, alternatives, and the qualities the pattern enacts
 - Any existing patterns that need updating (new cross-references, absorbed content, redirects)
 
 Present this as a recommendation for the user to evaluate, not a fait accompli. The semilattice means there's always more than one defensible placement — name the trade-offs.
@@ -237,18 +237,18 @@ Before writing, gather substance:
 
 - Search for academic references (CHI, CSCW, DIS, UIST proceedings; HCI journals)
 - Check practitioner sources (Nielsen Norman Group, design-system documentation from major platforms)
-- Look for named implementations (how do Salesforce, Google, Apple, etc. handle this move?)
+- Look for named implementations (how do Salesforce, Google, Apple, etc. handle this pattern?)
 - Identify tensions and trade-offs — these are more generative for design than best practices
 
 For larger research syntheses, the `research-gate` skill produces a committed `research/<slug>/` folder with a persistent query and dated synthesis notes. The folder is the durable citation — docs that record a decision cite it by hand.
 
-Research should inform the move's design considerations and the *forces* it balances — not just fill a references section.
+Research should inform the pattern's design considerations and the *forces* it balances — not just fill a references section.
 
 ### Write or update
 
 For new patterns, follow the authoring contract in `.claude/rules/pattern-content.md` (frontmatter, section order, link format, writing style). Focus on:
 
-- The relational definition (one sentence after the `# Title`) — phrased as a move that produces a centre
+- The relational definition (one sentence after the `# Title`) — phrased as a pattern that produces a centre
 - Forces, consequences, and design considerations structured around tensions and trade-offs rather than prescriptive rules — these are what make patterns generative
 - Cross-references woven into prose, not just listed in Related Patterns
 - Headers that the extraction script will pick up (`Precursors`, `Follow-ups`, `Containers and primitives`, `Foundation`, `Complementary`, `Tangentially related`, `Alternatives`) so edges land in the graph with the right type

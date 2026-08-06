@@ -41,9 +41,9 @@ hold promoted commitments that govern the process.
   and slugs, facets, stacked-notes navigation
 - [Graph relationship model](specs/graph-relationship-model.md) — graph edge
   model and epistemic stance
-- [Pattern role model](specs/pattern-role-model.md) — mechanism, move,
+- [Pattern role model](specs/pattern-role-model.md) — component, pattern,
   collection, quality, foundation, and concept roles; boundary stance and the
-  move/mechanism decomposition rule
+  pattern/component decomposition rule
 
 ## Project
 
@@ -56,10 +56,10 @@ hold promoted commitments that govern the process.
 ## Language
 
 - [Pattern definition](language/pattern-definition.md) — what counts as a
-  pattern, versus a mechanism, observation, anti-pattern, or collection
-- [Pattern and form languages](language/pattern-and-form.md) — the two
-  languages, their different jobs, and the move/mechanism boundary as
-  projection
+  pattern, versus a component, observation, anti-pattern, or collection
+- [Patterns and components](language/patterns-and-components.md) — the two
+  languages, their different jobs, the pattern/component boundary as projection,
+  and why *form language* is a reserved term
 - [Vision](language/vision.md) — the Nature of Order and agent-usable tracks
   past the typed-edge layer's first build (not yet operational)
 - [Operative image](language/operative-image.md) — current working picture of

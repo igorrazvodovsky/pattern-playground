@@ -33,7 +33,7 @@ export default [
       "**/storybook-static/**",
       "**/.astro/**",
       "**/node_modules/**",
-      "apps/patterns/public/storybook/**",
+      "**/public/storybook/**",
       "**/.obsidian/**",
     ],
   },

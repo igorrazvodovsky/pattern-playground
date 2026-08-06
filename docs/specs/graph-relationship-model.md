@@ -2,7 +2,7 @@
 
 The pattern graph is a generated knowledge surface derived from authored MDX,
 its frontmatter, and decision trees. It supports reasoning about how
-interaction moves combine; it is not a rules engine.
+interaction patterns combine; it is not a rules engine.
 
 ## Epistemic stance
 
@@ -25,12 +25,12 @@ or route on a situation or hint — they render as prose for judgement.
   Storybook MDX against the content stems, failing the site build on any broken
   reference. See [2026-07-workspace-split-closure.md](../../plans/completed/2026-07-workspace-split-closure.md),
   workstream 2.
-- *Component realisation* ("this move is realised by this component") is therefore
+- *Component realisation* ("this pattern is realised by this component") is therefore
   not an edge type: it is a cross-dataset reference authored in frontmatter
   `realised_by` (a list of Storybook docs ids), validated by the cross-reference
   gate, emitted as `realisedBy` node metadata, and deliberately not rendered in
   the related-patterns block. `<ComponentRef>` body prose is citation, not claim.
-  `enables` covers move composition within the language only. See the vocabulary
+  `enables` covers pattern composition within the language only. See the vocabulary
   doc §Component realisation.
 - `scripts/extract-graph-data.ts` derives `apps/patterns/src/data/pattern-graph.json`
   and related generated data.
@@ -57,9 +57,9 @@ Judgement homes that emit their edges:
 
 Direction is fixed by the relation name. Authoring aliases (`follows`, `composed-of`, `instances`, `variants`) normalise to canonical types with inverted direction where needed — see `docs/language/relationship-vocabulary.md` for the full alias table.
 
-Rendering exemption: `role: quality` pages render no related-patterns section. A quality is a diagnostic lens, not a catalogue of its instances; the move→quality bridge is read on the pattern side via `enacts`. Edges are still extracted and stored — the exemption is in the renderer (`RelatedPatterns.astro`), not the graph. See the 2026-06-23 changelog entry in the vocabulary doc.
+Rendering exemption: `role: quality` pages render no related-patterns section. A quality is a diagnostic lens, not a catalogue of its instances; the pattern→quality bridge is read on the pattern side via `enacts`. Edges are still extracted and stored — the exemption is in the renderer (`RelatedPatterns.astro`), not the graph. See the 2026-06-23 changelog entry in the vocabulary doc.
 
-The exemption is deliberately one-directional. A pattern may still narrate a quality at length in its body (e.g. annotation's `## Temporal dimension` section) — that prose *is* the move→quality bridge told from the pattern side, which is where it belongs. Such a pattern therefore surfaces the quality twice: once as in-context narration, once as the generated `enacts` line. This redundancy is accepted — the two serve different jobs (reading vs. graph-navigation), so the renderer does not suppress an outgoing `enacts` whose target is also linked from body prose.
+The exemption is deliberately one-directional. A pattern may still narrate a quality at length in its body (e.g. annotation's `## Temporal dimension` section) — that prose *is* the pattern→quality bridge told from the pattern side, which is where it belongs. Such a pattern therefore surfaces the quality twice: once as in-context narration, once as the generated `enacts` line. This redundancy is accepted — the two serve different jobs (reading vs. graph-navigation), so the renderer does not suppress an outgoing `enacts` whose target is also linked from body prose.
 
 ## Edge vocabulary
 

@@ -23,7 +23,7 @@ The graph is extracted from authored frontmatter `relationships:` and inline
 `rel=` annotations, with two judgement homes — node-side situations and
 decision trees — emitting their own edges and contributing node-level
 metadata. Its edges are suggestion-grade: they help an actor reason about
-possible moves, not match a situation against rules. See
+possible patterns, not match a situation against rules. See
 [relationship-vocabulary.md](./relationship-vocabulary.md).
 
 What is not yet true is that the layer can be used to generate design. Coverage is
@@ -34,11 +34,12 @@ and data-model features before it is useful in real design work. The build is
 real; the operational language is still ahead of it.
 
 The role model is settled. The pattern/component distinction is defined in
-[pattern-and-form.md](./pattern-and-form.md) and the role model in
-[../specs/pattern-role-model.md](../specs/pattern-role-model.md): mechanisms
-converge in the form language, moves diverge in the pattern language, and pages
-that mix the two decompose. The earlier `umbrella` role has been split into
-`pattern` (composite moves, authoritative for their own move) and `collection`
+[patterns-and-components.md](./patterns-and-components.md) and the role model in
+[../specs/pattern-role-model.md](../specs/pattern-role-model.md): components
+are cut to their place in the component catalogue, patterns diverge in the
+pattern language, and
+pages that mix the two decompose. The earlier `umbrella` role has been split into
+`pattern` (composite patterns, authoritative for their own pattern) and `collection`
 (authored surveys over a territory).
 
 The language carries no curated hierarchy of its own: nodes, typed edges, and
@@ -70,7 +71,7 @@ Situations are still an early sketch of pattern-as-move semantics. The construct
 is deliberately small — an initiating situation and resulting-context clauses,
 with `sets-up:` emitting conditional `precedes` edges — and populated for only a
 small starting set. These fields are concrete enough for extraction, but not yet
-the full move record imagined in the vision.
+the full pattern record imagined in the vision.
 
 The Nature of Order register is not yet reached. [levels-of-scale.md](../levels-of-scale.md)
 is the first worked translation of a structural property into software; the rest
@@ -86,7 +87,7 @@ strongest current image.
 - [../specs/graph-relationship-model.md](../specs/graph-relationship-model.md) —
   settled graph relationship model
 - [../specs/pattern-role-model.md](../specs/pattern-role-model.md) — node roles
-  and the move/mechanism decomposition rule
+  and the pattern/component decomposition rule
 - [relationship-vocabulary.md](./relationship-vocabulary.md) — detailed graph
   vocabulary and changelog
 - [decision-dimensions.md](./decision-dimensions.md) — current decision-tree

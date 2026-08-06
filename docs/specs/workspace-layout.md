@@ -90,7 +90,7 @@ case moved the home into the components package.
   its structural home in the component library — `components/editor-plugins/<name>/`
   for an editor extension, a service or util for a pure engine — the moment a
   second consumer appears or the capability ships as a real component. `demos/`
-  is a parking lot for un-promoted mechanism, not its permanent address.
+  is a parking lot for un-promoted components, not its permanent address.
 
 The distinction is altitude, not reuse-in-principle: the question is not "could
 this be reused" but "does anything other than the demo depend on it today."

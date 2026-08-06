@@ -23,7 +23,7 @@ defined in [`docs/specs/pattern-role-model.md`](../../docs/specs/pattern-role-mo
 ---
 title: "Pattern name"
 added: 2025-10-17              # the day it joined the library
-updated:                       # fill in when the argument moves
+updated:                       # fill in when the argument patterns
 role: pattern                  # pattern | collection | quality | foundation | component
 activityLevel: operation       # operation | action | activity
 lifecycle: seeking             # Seek–Use–Share stage, free-form
@@ -116,11 +116,11 @@ neither endpoint.
 
 The extractor's subsumption dedup silently drops a `related` edge (and its note) when the pair carries any stronger type — a `related` you author must target a pair with no stronger edge, and a note that matters belongs on the stronger edge.
 
-Valid rel values: `precedes`, `follows`, `enables`, `composed-of`, `instantiates`, `instances`, `variants`, `complements`, `tangential`, `alternative`, `enacts`, `serves`, `surveys`, `hosts`, `hosted-by`, `related`. Direction is fixed by the rel name, not by which page declares it. `recommends` is not authorable — it comes only from decision trees. `serves` is authored on the pattern's page only and targets a foundation; its note names the station of the foundation's frame the move covers.
+Valid rel values: `precedes`, `follows`, `enables`, `composed-of`, `instantiates`, `instances`, `variants`, `complements`, `tangential`, `alternative`, `enacts`, `serves`, `surveys`, `hosts`, `hosted-by`, `related`. Direction is fixed by the rel name, not by which page declares it. `recommends` is not authorable — it comes only from decision trees. `serves` is authored on the pattern's page only and targets a foundation; its note names the station of the foundation's frame the pattern covers.
 
 What each type claims, which alias stores which direction, and when an edge is the wrong instrument: `docs/language/relationship-vocabulary.md` (§Relationships and §Authoring model).
 
-Component realisation ("this move is realised by this component") is not a
+Component realisation ("this pattern is realised by this component") is not a
 typed edge: author the claim in frontmatter `realised_by` — a list of
 Storybook docs ids, validated at build time:
 
@@ -167,12 +167,12 @@ applies in, and the one it leaves behind:
 ```yaml
 situation:
   initiating: >-
-    prose — the situation this move applies in, told as the history of moves
+    prose — the situation this pattern applies in, told as the history of steps
     already applied (or ruled out)
   resulting:
-    - a bare prose clause about what holds after the move
+    - a bare prose clause about what holds after the pattern is applied
     - clause: >-
-        a clause that sets up a next move; voice it to name its subject —
+        a clause that sets up a next pattern; voice it to name its subject —
         it renders on both endpoints' pages
       sets-up: [next-pattern]
 ```
@@ -221,7 +221,7 @@ from frontmatter edges.
 Canonical for new patterns. Existing files converge when edited for other
 reasons (same policy as link formats) — no mass rewrite.
 
-1. *Lead* — unlabelled paragraph(s) telling the situation the move applies in
+1. *Lead* — unlabelled paragraph(s) telling the situation the pattern applies in
    and the problem it resolves, from the human situation inward. This narrates
    `situation.initiating`; the frontmatter stays the machine-readable truth,
    the lead retells it in prose rather than copying it.
@@ -229,7 +229,7 @@ reasons (same policy as link formats) — no mass rewrite.
    Short *X vs. Y* items with a clause on why they pull against each other.
 3. `## Solution` — the move itself, stated once. A short pattern whose lead
    already carries the solution may skip the heading.
-4. *Concretisation sections* — how the move takes shape: `## Variants`,
+4. *Concretisation sections* — how the pattern takes shape: `## Variants`,
    `## States`, or headings named after the pattern's own dimensions. This is
    where each pattern's idiosyncratic content lives; heading names here are
    free.
@@ -259,7 +259,7 @@ question tracked separately — don't migrate or remove them under this rule.
 
 ### Other roles
 
-- `role: quality` — a lens, not a move: lead defines the quality, body
+- `role: quality` — a lens, not a pattern: lead defines the quality, body
   decomposes it into named dimensions with headings of its own.
 - `role: foundation` — a framework essay organised by its frame's stations
   (stages, layers, touchpoints).
@@ -278,10 +278,10 @@ All roles keep `## Resources & references` last (before any `## To-do`).
 - Sentence case for headings and titles.
 - Prefer conciseness; each sentence should add new information.
 
-## Move naming
+## Pattern naming
 
 Name a pattern by the interaction move, not the component that implements it:
 "Transient feedback", not "Toast". The name must apply to any valid
-implementation of the move, and must not share its head noun with an unrelated
+implementation of the pattern, and must not share its head noun with an unrelated
 existing entry (see the decomposition rule in
 `docs/specs/pattern-role-model.md`).

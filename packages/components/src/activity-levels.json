@@ -235,6 +235,12 @@
       "atomic-category": "primitive",
       "mediation": "coordination"
     },
+    "draft-and-publish": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": "coordination"
+    },
     "drag-and-drop": {
       "activity-level": "operation",
       "lifecycle-stage": null,
@@ -246,6 +252,12 @@
       "lifecycle-stage": "seeking",
       "atomic-category": "pattern",
       "mediation": null
+    },
+    "editing-in-place": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": "individual"
     },
     "embedded-intelligence": {
       "activity-level": "activity",

@@ -1,0 +1,26 @@
+story: apps/patterns/src/content/patterns/editing-in-place.mdx
+topic: editing in place
+interaction: |
+  The actor changes something where it is shown — the display is also the
+  control — instead of translating the change into a separate form, dialog,
+  or page and coming back to check whether it landed.
+context: |
+  Application surfaces that mix reading and changing: detail views, tables,
+  document canvases, dashboards. The pattern claims three affordance modes
+  (always live, on activation, on approach), a granularity dimension
+  (value / fragment / whole artefact), and a boundary where the change
+  belongs on a separate form instead.
+questions:
+  - What does the direct-manipulation literature say about the display doubling
+    as the control — the cost of translating between an input arrangement and a
+    result, and what closing that gap buys?
+  - Is there evidence on accidental edits and stray input on always-editable
+    surfaces, especially read-heavy ones — and what arrangements the literature
+    proposes for surfaces that are mostly read but occasionally written?
+  - Does editing across a collection (multiple items at once) differ enough
+    from editing a single value in place to be a separate move?
+  - What is known about affordance visibility trade-offs — controls revealed on
+    hover/approach vs always visible — for surfaces that must also be read?
+keywords: [direct manipulation, inline editing, in-place editing, editable
+  representation, output as input, WYSIWYG, hover affordance, accidental
+  activation]

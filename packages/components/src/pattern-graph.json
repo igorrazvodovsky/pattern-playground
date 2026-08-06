@@ -822,6 +822,34 @@
       "group": "conversation/conversation-management"
     },
     {
+      "id": "draft-and-publish",
+      "title": "Draft and publish",
+      "category": "Actions",
+      "path": "/patterns/draft-and-publish",
+      "role": "pattern",
+      "situation": {
+        "initiating": "storage is continuous, so the actor's work is always safe — but nothing marks the point where it is ready for others to read, and in a shared artefact that means whatever state the work is in is what everyone else sees",
+        "resulting": [
+          {
+            "clause": "the version others read stays put while the actor works, so unfinished work is never mistaken for the finished thing"
+          },
+          {
+            "clause": "publishing is a deliberate act, which gives review, versioning, and notification a natural point to attach to"
+          },
+          {
+            "clause": "the artefact now exists in two versions, and the actor has to manage the gap: forgetting to publish leaves readers on an outdated version"
+          }
+        ]
+      },
+      "group": "application",
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
+    },
+    {
       "id": "drag-and-drop",
       "title": "Drag and drop",
       "category": "Operations",
@@ -875,6 +903,45 @@
         {
           "kind": "literature",
           "ref": "rhetoric-of-hyperlink"
+        }
+      ]
+    },
+    {
+      "id": "editing-in-place",
+      "title": "Editing in place",
+      "category": "Actions",
+      "path": "/patterns/editing-in-place",
+      "role": "pattern",
+      "situation": {
+        "initiating": "the actor is looking at the thing they want to change, and the way to change it is somewhere else — a form, a dialog, another page — so making the change means translating what they see into someone else's arrangement of it and coming back to find out whether it landed",
+        "resulting": [
+          {
+            "clause": "the artefact is its own control, so the change is seen in its final context as it is made, with nothing to translate between an input arrangement and a result"
+          },
+          {
+            "clause": "the display carries an editing affordance it did not need before, and that affordance competes with the same surface's job as something to read"
+          },
+          {
+            "clause": "an affordance revealed on approach reaches whoever can hover and nobody else, unless a touch and keyboard route is built alongside it"
+          },
+          {
+            "clause": "changes commit one at a time — the short gap between act and effect is what makes the result feel caused by the gesture — so there is no assembled set to review and no pending state to cancel from; taking something back happens after the fact",
+            "setsUp": [
+              "undo"
+            ]
+          },
+          {
+            "clause": "changing is always one gesture away, so stray input reaches the record — an exposure proportional to how much the artefact is read rather than written"
+          }
+        ]
+      },
+      "group": "application",
+      "evidence": [
+        {
+          "kind": "used"
+        },
+        {
+          "kind": "literature"
         }
       ]
     },
@@ -1901,20 +1968,34 @@
       "path": "/patterns/saving",
       "role": "pattern",
       "situation": {
-        "initiating": "the actor is changing something that has to outlast the session, and when it becomes real is a decision the interface makes for them — commit continuously and the moment of intent disappears; wait for them and the work is what's at risk",
+        "initiating": "the medium does not keep work on its own — changes exist only in the running program until the system writes them to storage — and the interface has to decide whether the actor manages that necessity or never meets it",
         "resulting": [
           {
-            "clause": "there is a defined moment when changes become real and the actor can tell which side of it they are on, which is what makes a review step before committing possible at all"
+            "clause": "whatever the actor is asked to do about persistence, they are asked for a stated reason rather than because a Save button is what applications have"
           },
           {
-            "clause": "the commit boundary is where conflicts surface: two actors working on the same thing find out only when one of them makes changes real"
+            "clause": "the acts that used to travel with saving — committing a version, discarding a draft, marking work done — either have a home of their own or quietly disappear"
           },
           {
-            "clause": "autosaved work carries no record of what the actor meant to keep, so going back becomes the only substitute for having not committed"
+            "clause": "where storage happens without the actor, the system owes them a report of what it stored and when; where it waits for them, the work between saves is at risk"
+          },
+          {
+            "clause": "an explicit save creates pending state, which is what makes cancel and review before committing possible at all — and is also where conflicts between two actors surface"
+          },
+          {
+            "clause": "saving no longer says anything about whether work is ready for others, so publishing becomes a separate, deliberate act",
+            "setsUp": [
+              "draft-and-publish"
+            ]
           }
         ]
       },
-      "group": "application"
+      "group": "application",
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
     },
     {
       "id": "searching",
@@ -3875,6 +3956,55 @@
       "type": "complements",
       "label": "URL-based addressability",
       "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "editing-in-place",
+      "target": "form",
+      "type": "complements",
+      "label": "the two ends of where a change happens — form gathers input on a surface of its own, editing in place puts it on the artefact",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "editing-in-place",
+      "target": "data-view",
+      "type": "related",
+      "label": "writable views are this move applied through a projection; which edits resolve to the underlying data is data view's question",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "editing-in-place",
+      "target": "validation",
+      "type": "related",
+      "label": "when the display is the control, the message has to fit beside the value rather than under a labelled field",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "editing-in-place",
+      "target": "saving",
+      "type": "related",
+      "label": "editing in place commits piecemeal, which is the automatic arrangement's granularity question seen from the editing side",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "editing-in-place",
+      "target": "block-based-editor",
+      "type": "related",
+      "label": "the block editor assumes this move — reading and changing happen on the same blocks, with no separate state for either",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "editing-in-place",
+      "target": "malleability",
+      "type": "enacts",
+      "label": "changing the thing where it is used, without moving to a separate surface to do it",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "editing-in-place",
+      "target": "density",
+      "type": "enacts",
+      "label": "in-place editing lowers information density and raises design density: the same screen carries fewer values and more controls",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "embedded-intelligence",
@@ -6786,6 +6916,13 @@
       "extractedFrom": "situation:resulting"
     },
     {
+      "source": "editing-in-place",
+      "target": "undo",
+      "type": "precedes",
+      "situation": "changes commit one at a time — the short gap between act and effect is what makes the result feel caused by the gesture — so there is no assembled set to review and no pending state to cancel from; taking something back happens after the fact",
+      "extractedFrom": "situation:resulting"
+    },
+    {
       "source": "explanation",
       "target": "cognitive-forcing-functions",
       "type": "precedes",
@@ -6860,6 +6997,13 @@
       "target": "coordinated-views",
       "type": "precedes",
       "situation": "everything keeps its place in one coordinate system, so nothing breaks the spatial sense — and orientation becomes the actor's problem: at any zoom the view carries no evidence of where it sits in the whole, which is what a second, wider viewport kept in step is for",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "saving",
+      "target": "draft-and-publish",
+      "type": "precedes",
+      "situation": "saving no longer says anything about whether work is ready for others, so publishing becomes a separate, deliberate act",
       "extractedFrom": "situation:resulting"
     },
     {

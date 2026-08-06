@@ -16,7 +16,7 @@ between the long-range vision (`docs/project/vision.md` and
   model, edge vocabulary, and epistemic stance.
 - [Pattern role model](pattern-role-model.md) — distinction between components,
   patterns, collections, qualities, foundations, and concepts; boundary stance
-  and the move/mechanism decomposition rule.
+  and the pattern/component decomposition rule.
 
 Historical rationale and execution traces remain in `plans/`. When a completed
 plan changes what is true now, update the relevant settled spec.

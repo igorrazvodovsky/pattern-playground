@@ -2,7 +2,7 @@
 
 Operational definition for what counts as a pattern in this project. Use this
 when deciding whether material should be treated as a generative interaction
-move, an implementation mechanism, an activity observation, an anti-pattern, or
+pattern, an implementation component, an activity observation, an anti-pattern, or
 a collection over a larger territory.
 
 This is not yet a metadata schema. It is a test for authoring judgement.
@@ -12,7 +12,7 @@ This is not yet a metadata schema. It is a test for authoring judgement.
 A pattern is a named, evidence-seeking interaction move that resolves a
 recurring human situation by balancing forces in a stated context, abstracting
 practice at a reusable level, producing a centre or affordance, carrying
-rationale and consequences, and linking to other moves so a designer can
+rationale and consequences, and linking to other patterns so a designer can
 continue the sequence.
 
 On this definition, most components are not patterns: their documentation
@@ -20,10 +20,10 @@ answers "how does this render and behave", not "what recurring situation does
 this resolve". A complete interaction contract — semantics, keyboard behaviour,
 focus model, state behaviour, use context — is pattern-grade *content*, because
 a contract is a worked force-resolution. But the contract does not make the
-control a pattern node. The moves it carries enter the language under their own
-names — and a contract usually compresses *several* moves, not one — while the
-control keeps its name in the form language. See
-[pattern-and-form.md](./pattern-and-form.md) for the two-language framing and
+control a pattern node. The patterns it carries enter the language under their own
+names — and a contract usually compresses *several* patterns, not one — while the
+control keeps its name in the component catalogue. See
+[patterns-and-components.md](./patterns-and-components.md) for the two-language framing and
 the decomposition rule in
 [docs/specs/pattern-role-model.md](../specs/pattern-role-model.md) for how
 mixed pages are taken apart.
@@ -55,9 +55,9 @@ these questions:
 8. Which actor, expertise, task, device, environment, or domain variables affect
    whether it fits?
 9. What consequences and value commitments does it carry?
-10. What other moves set it up, complete it, enable it, or compete with it?
+10. What other patterns set it up, complete it, enable it, or compete with it?
 
-If the answer is mostly "it renders a UI thing", it is probably a mechanism. If
+If the answer is mostly "it renders a UI thing", it is probably a component. If
 the answer is mostly "people often do this", it may be an activity pattern or
 research observation. If the answer includes situation, forces, rationale,
 evidence, and relations, it is closer to a design pattern.
@@ -76,8 +76,8 @@ The project can use all three, but they should not be collapsed. The graph
 should only treat something as a generative move when it carries the
 design-pattern burden: context, forces, rationale, consequences, and relations.
 Antipatterns are a further case: a collection of antipatterns is not a language —
-it lacks the connective, generative structure that lets one move set up the next
-— so an antipattern belongs as an annotation on the moves it warns against, not
+it lacks the connective, generative structure that lets one pattern set up the next
+— so an antipattern belongs as an annotation on the patterns it warns against, not
 as a node with generative edges of its own.
 
 ## Pattern language versus catalogue
@@ -90,13 +90,13 @@ make a catalogue navigable without making it a pattern language. The language
 emerges from an organising principle, typed relations, altitude changes, and
 generative sequencing:
 
-- larger situations that set context for smaller moves
+- larger situations that set context for smaller patterns
 - an explicit logic for why entries sit near, above, below, before, or after one
   another
-- mechanisms that enable moves without being identical to them
+- components that enable patterns without being identical to them
 - alternatives that expose tradeoffs rather than synonyms
-- follow-up moves that act on centres produced by earlier moves
-- quality edges that state which experiential dimensions the move makes legible
+- follow-up patterns that act on centres produced by earlier patterns
+- quality edges that state which experiential dimensions the pattern makes legible
 
 This is why the graph is not an index bolted onto the side. It is the
 repository's main claim that the entries form a language rather than a bag of
@@ -106,7 +106,7 @@ principles carry the language.
 Some HCI pattern work treats pattern languages as a basis for transforming an
 interface across contexts of use: device, actor expertise, environment, task, or
 data complexity. That is useful for this project as a future adaptation layer,
-but it should stay distinct from the core definition of `move`. A transformation
+but it should stay distinct from the core definition of `pattern`. A transformation
 rule uses the language; it is not automatically the same kind of object as the
 interaction move being transformed.
 

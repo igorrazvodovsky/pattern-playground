@@ -34,8 +34,8 @@ dissolves — is sketched in [../levels-of-scale.md](../levels-of-scale.md).
 ### Bilingual substrate maturity
 
 The component library and the pattern language are two languages with different
-jobs (see [../language/pattern-and-form.md](../language/pattern-and-form.md)):
-mechanisms converge in the form language, moves diverge in the pattern language.
+jobs (see [../language/patterns-and-components.md](../language/patterns-and-components.md)):
+components are cut to their place in the component catalogue, patterns diverge in the pattern language.
 The direction is to let each do its job cleanly while the coupling between them
 tightens — shared demos feeding both surfaces from one source. The one-entry
 question resolved by allocation rather than fusion: each concept has exactly one
@@ -50,7 +50,7 @@ substrate split and the bilingual-entry contract.
 The repertoire should be usable by a non-human collaborator, not only browsable
 by its author. Docs, the pattern graph, and pattern situations together form a
 control layer an AI design actor can reason over and author into — reading the
-graph as suggestion-grade context, proposing moves, and writing back typed
+graph as suggestion-grade context, proposing patterns, and writing back typed
 relationships and situations without silently mutating the language. This is the
 project-level face of the language's
 [agent-usable](../language/vision.md) track; the harness

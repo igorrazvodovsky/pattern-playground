@@ -5,6 +5,7 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Active
 
+- [Mine the fifteen properties from the corpus](active/2026-08-property-mining.md) — research-gated: does ch. 13 §13's claim that the fifteen are already embedded in patterns hold against this corpus? Blinded two-pass derivation over 96 pattern pages, independence tested against `enacts`; arbitrates relationship-vocabulary open questions 5 and 6, which currently disagree. Three verdicts, all publishable — including that the properties don't survive the medium
 - [Figures: dates, numbers, and money as design material](active/2026-07-figures.md) — the figures stratum as a Storybook `Foundations` entry, parallel to Prose; generative half distributed to Localization/Temporality/Data entry, no new pattern node
 - [Workspace boundary after the view-system reshape](active/2026-07-workspace-boundary.md) — give the screen-composition seam a typed edge (workspace ↔ coordinated-views), reinstate the panelled/tabbed variants the survey now routes to, clear pre-reshape word residue
 - [Drag and drop: capture as a language entry](active/2026-07-drag-and-drop.md) — research-gated: pattern node vs mechanism verdict first, then author the page borrowing the view-system demos; scaffolding promotion trigger-gated

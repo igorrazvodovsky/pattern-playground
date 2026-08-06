@@ -16,27 +16,27 @@ A fundamental unit of software design defined by structure, behaviour, and purpo
 
 ## Generative move
 
-A pattern understood not as a catalogue item but as a transformation that produces centres while preserving existing structure (Alexander). Design happens through sequences of such moves, each acting on what already exists. The relationship vocabulary is written in this register — edges describe how moves combine, not how options are picked. See [design-theory.md](./design-theory.md) for the two-phase trajectory (Pattern Language → Nature of Order).
+A pattern understood not as a catalogue item but as a transformation that produces centres while preserving existing structure (Alexander). Design happens through sequences of such moves, each acting on what already exists. The relationship vocabulary is written in this register — edges describe how patterns combine, not how options are picked. See [design-theory.md](./design-theory.md) for the two-phase trajectory (Pattern Language → Nature of Order).
 
 ## Pattern
 
-A named, evidence-seeking interaction move that resolves a recurring human situation by balancing forces in a stated context, abstracting practice at a reusable level, producing a centre or affordance, carrying rationale and consequences, and linking to other moves. In this project, a pattern is not simply a common UI object or a reusable component. It can begin as a seed, but mature pattern status requires examples, rationale, consequences, and relations. See [pattern-definition.md](./pattern-definition.md) and [`references/hci-pattern-languages.md`](../../references/hci-pattern-languages.md).
+A named, evidence-seeking interaction move that resolves a recurring human situation by balancing forces in a stated context, abstracting practice at a reusable level, producing a centre or affordance, carrying rationale and consequences, and linking to other patterns. In this project, a pattern is not simply a common UI object or a reusable component. It can begin as a seed, but mature pattern status requires examples, rationale, consequences, and relations. See [pattern-definition.md](./pattern-definition.md) and [`references/hci-pattern-languages.md`](../../references/hci-pattern-languages.md).
 
 ## Pattern language
 
-Rules for how humans interact with form. A connected structure of patterns organised by an explicit principle so an actor can generate, sequence, and adapt design moves. A catalogue makes entries retrievable; a language makes their relationships operational. In this project, the typed graph is the primary claim that the material forms a language rather than only a library. See [pattern-and-form.md](./pattern-and-form.md) for its relationship to the form language.
+Rules for how humans interact with form. A connected structure of patterns organised by an explicit principle so an actor can generate, sequence, and adapt design moves. A catalogue makes entries retrievable; a language makes their relationships operational. In this project, the typed graph is the primary claim that the material forms a language rather than only a library. See [patterns-and-components.md](./patterns-and-components.md) for its relationship to the form language and the component catalogue.
 
-## Form language
+## Component catalogue
 
-`packages/components/` – rules for putting matter together: the vocabulary of components, the rules for composing them, and the levels of scale (e.g. primitive → component → composition). See [pattern-and-form.md](./pattern-and-form.md).
+`packages/components/` — the vocabulary of components, primitives and controls, the rules for composing them, and the levels of scale (e.g. primitive → component → composition). By [pattern-definition.md](./pattern-definition.md)'s own distinction it is a catalogue rather than a language: retrievable, not generative. Its goal is to support the patterns, not to maximise reuse. Alexander has no term for an identical closed unit — that is the thing his theory is against — but he is not short of building elements; ch. 16 §2's list is "the elements, rules, ways of making roofs, edges, windows, steps." See [patterns-and-components.md](./patterns-and-components.md) §"Components are not reusable units".
 
-## Mechanism
+## Component
 
-A form-language unit — component, primitive, control, or visual or behavioural element. Mechanisms converge: a mechanism behaves identically wherever it is deployed, and its documentation (including a complete interaction contract) is normative rather than generative. A mechanism `enables` the moves it makes possible. See [pattern-and-form.md](./pattern-and-form.md) and the decomposition rule in [pattern-role-model.md](../specs/pattern-role-model.md).
+A unit of the component catalogue — a component proper, a primitive, a control, or any other unit of built material. Component documentation is normative rather than generative. A component `enables` the patterns it makes possible. See [patterns-and-components.md](./patterns-and-components.md) and the decomposition rule in [pattern-role-model.md](../specs/pattern-role-model.md).
 
 ## Levels of scale
 
-A structural property whereby a software system is legible at several connected altitudes, from coarse framing to fine implementation detail. In this project's usage, Dorian Taylor's *specificity gradient* is treated as a concrete software analogue: each lower level adds specificity without severing continuity with the level above. The absence of levels of scale shows up when intent is only recoverable from local code context. See [levels-of-scale.md](./levels-of-scale.md).
+A structural property whereby a software system is legible at several connected altitudes, from coarse framing to fine implementation detail. In this project's usage, Dorian Taylor's *specificity gradient* is treated as a concrete software analogue: each lower level adds specificity without severing continuity with the level above. The absence of levels of scale shows up when intent is only recoverable from local code context. See [levels-of-scale.md](../levels-of-scale.md).
 
 ## Quality
 
