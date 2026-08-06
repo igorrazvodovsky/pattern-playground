@@ -13,6 +13,7 @@
   "dependencies": {
     "@atlaskit/pragmatic-drag-and-drop": "^2.0.1",
     "@base-ui/react": "^1.4.1",
+    "@elenajs/core": "^1.0.1",
     "@floating-ui/dom": "^1.7.4",
     "@iconify-json/ph": "^1.2.2",
     "@iconify/json": "^2.2.384",

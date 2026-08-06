@@ -180,6 +180,11 @@ pp-range {
     text-align: end;
   }
 
+  /* The readout is always rendered; the reflected attribute hides it. */
+  &[hide-value] .range__value {
+    display: none;
+  }
+
   /* Sizes */
   &[size="small"] {
     --range-track-height: calc(var(--space-xs) * 0.75);
