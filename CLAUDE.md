@@ -2,6 +2,9 @@
 
 A design research project first, code repository second. A "garden" for cultivating interaction design patterns, with a focus on human↔AI collaboration. Full framing in docs/project/core-beliefs.md.
 
+## Voice
+Plain, design-practitioner language in everything written here — pattern content, docs, plans. Ordinary words and direct statements; no dramatic staging, compressed aphorisms, or literary borrowings. "Actor", not "user" or "reader".
+
 ## Read first
 - [docs/project/core-beliefs.md](docs/project/core-beliefs.md) — project philosophy, voice, scope
 - [ARCHITECTURE.md](ARCHITECTURE.md) — domain layering and directory map
@@ -14,7 +17,7 @@ A design research project first, code repository second. A "garden" for cultivat
 
 ## Domain vocabulary (read when working on patterns, edges, or taxonomy)
 - [docs/language/pattern-definition.md](docs/language/pattern-definition.md) — what counts as a pattern, mechanism, observation, anti-pattern, or umbrella
-- [docs/language/pattern-and-form.md](docs/language/pattern-and-form.md) — pattern language vs form language; the move/mechanism boundary
+- [docs/language/moves-and-mechanisms.md](docs/language/moves-and-mechanisms.md) — pattern language vs mechanism catalogue;
 - [docs/language/conceptual-glossary.md](docs/language/conceptual-glossary.md) — terms used across the project
 - [docs/language/design-theory.md](docs/language/design-theory.md) — Alexander's two phases, centres, qualities, theoretical arc
 - [docs/project/vision.md](docs/project/vision.md) — where the artifact as a whole is heading

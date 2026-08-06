@@ -272,6 +272,8 @@ All roles keep `## Resources & references` last (before any `## To-do`).
 
 - Frame descriptions from the *human situation inward*, not from the
   implementation outward. Start with what the actor is doing or experiencing.
+- Plain practitioner voice: ordinary words and direct statements. No dramatic
+  staging, compressed aphorisms, or literary borrowings.
 - British spelling (behaviour, organisation, colour).
 - Sentence case for headings and titles.
 - Prefer conciseness; each sentence should add new information.

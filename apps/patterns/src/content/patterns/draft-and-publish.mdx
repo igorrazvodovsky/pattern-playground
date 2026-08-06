@@ -1,0 +1,55 @@
+---
+title: Draft and publish
+added: 2026-08-03
+updated:
+role: pattern
+seed: true
+group: application
+activityLevel: action
+atomic: pattern
+mediation: coordination
+description: >-
+  A working copy kept separate from the published version, with a deliberate
+  action moving one into the other.
+evidence:
+  - observed
+disclosure: >-
+  Extracted from saving's staged method; written from CMS draft workflows and
+  needs a wider survey of instances.
+situation:
+  initiating: >-
+    storage is continuous, so the actor's work is always safe — but nothing marks the
+    point where it is ready for others to read, and in a shared artefact that means
+    whatever state the work is in is what everyone else sees
+  resulting:
+    - >-
+      the version others read stays put while the actor works, so unfinished work is
+      never mistaken for the finished thing
+    - >-
+      publishing is a deliberate act, which gives review, versioning, and notification
+      a natural point to attach to
+    - >-
+      the artefact now exists in two versions, and the actor has to manage the gap:
+      forgetting to publish leaves readers on an outdated version
+---
+
+When saving is automatic, making work safe and making it public happen in the same
+silent moment — whatever state the work is in, that is what others read. Keeping a
+working copy separate from the published version, with a deliberate action moving one
+into the other, gives the actor a way to say the work is ready for others. That is a
+real decision, distinct from whether the work is stored, and it needs a step of its own.
+
+The boundary covers the whole artefact: readers see the last published version, however
+far the draft has moved on. Staging can also happen per change —
+[suggestions](/patterns/suggestion) held for review inside a live document — and
+choosing between whole-artefact and per-change staging is a granularity decision with
+its own trade-offs.
+
+## To-do
+
+- Survey instances beyond CMS workflows: app releases, environment promotion,
+  scheduled publishing, social drafts.
+- The whole-artefact vs. per-change staging axis needs working out once a
+  review-boundary pattern exists; the forces that move a design along it — trust in the
+  editor, how recoverable mistakes are, how easily the result can be checked — are
+  shared.

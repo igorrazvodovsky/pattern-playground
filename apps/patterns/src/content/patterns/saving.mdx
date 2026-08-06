@@ -1,28 +1,42 @@
 ---
 title: Saving
 added: 2025-03-12
-updated:
+updated: 2026-08-06
 role: pattern
 group: application
 activityLevel: action
 atomic: pattern
 mediation: individual
 fun: 😀 4/5.
+description: >-
+  Working out what a save is actually for in a given case — a technical
+  constraint, or a human act that landed on the same button — and arranging it
+  accordingly.
+evidence:
+  - observed
 situation:
   initiating: >-
-    the actor is changing something that has to outlast the session, and when it becomes
-    real is a decision the interface makes for them — commit continuously and the moment
-    of intent disappears; wait for them and the work is what's at risk
+    the medium does not keep work on its own — changes exist only in the running program
+    until the system writes them to storage — and the interface has to decide whether the
+    actor manages that necessity or never meets it
   resulting:
     - >-
-      there is a defined moment when changes become real and the actor can tell which side
-      of it they are on, which is what makes a review step before committing possible at all
+      whatever the actor is asked to do about persistence, they are asked for a stated
+      reason rather than because a Save button is what applications have
     - >-
-      the commit boundary is where conflicts surface: two actors working on the same thing
-      find out only when one of them makes changes real
+      the acts that used to travel with saving — committing a version, discarding a
+      draft, marking work done — either have a home of their own or quietly disappear
     - >-
-      autosaved work carries no record of what the actor meant to keep, so going back
-      becomes the only substitute for having not committed
+      where storage happens without the actor, the system owes them a report of what it
+      stored and when; where it waits for them, the work between saves is at risk
+    - >-
+      an explicit save creates pending state, which is what makes cancel and review
+      before committing possible at all — and is also where conflicts between two actors
+      surface
+    - clause: >-
+        saving no longer says anything about whether work is ready for others, so
+        publishing becomes a separate, deliberate act
+      sets-up: [draft-and-publish]
 relationships:
   related:
     - to: deletion
@@ -37,116 +51,111 @@ relationships:
     - to: temporality
       note: when state is persisted, and how often, across the session
 ---
-Modern UX expectations generally favour reduced friction (e.g., **autosave**), but there are still scenarios where **manual** saving or a **hybrid** model is beneficial.
 
-Also, different approaches to saving may be employed depending on how priorities are balanced between UX, implementation costs, and the general product considertaions.
+Nobody *needs* to save changes. Make a mark on paper and it is simply there; the work is
+real as soon as it is made. In software it is not: changes live in the running program
+until the system writes them to storage, and if that never happens the work is gone.
+Saving is where that technical necessity surfaces in the interface.
 
-## Methods
+Besides saving, the Save button takes on other jobs. Pressing it means *this version
+counts*, or *throw away what I did since last time*, or *I'm done here*.
 
-### Autosave
+## Solution
 
-The system automatically saves changes, typically triggered by keystrokes (with a brief delay), interval-based timers (e.g., every few seconds), changes in focus or blur of editable fields.
-<div>
-✓ Pros
-- Minimal effort: Users don’t have to remember to click *Save*.
-- Reduced risk of data loss: If the user closes the tab or the system crashes, changes are already stored.
-- Fluid Experience: Users can iterate quickly without pausing.
+Work out what the save is for before deciding how it behaves. Separate the technical
+necessity from the acts that ride on the same button, give each of those acts a home of
+its own, and let the arrangement follow from whichever driver is actually present — not
+from the convention that applications have Save buttons. A save step added out of
+convention is in the actor's way for no reason; one removed on principle takes the other
+acts down with it.
 
-✗ Cons
-- Lack of explicit control: users may be uncertain about precisely when or whether changes are finalised.
-- Complex error and conflict handling: more frequent saves mean more frequent chances for conflicts or errors.
-- Potential overwriting: In multi-user environments, autosave may overwrite another collaborator’s work without user awareness unless carefully managed.
-</div>
-### Manual save
+Usually the driver is one of these, and often more than one at once.
 
-The user explicitly clicks a *Save* button (or triggers a keyboard shortcut) to commit changes.
-<div>
-✓ Pros
-- User control: the user intentionally decides when changes are stored.
-- Simplicity in some workflows: less background syncing or conflict resolution is needed.
-- Clear feedback loop: The user sees the result of each save action in a predictable step.
+*Technical constraints.* Writing is expensive, unreliable, or rate-limited; the target
+system takes whole records rather than field-level changes; work happens offline and
+syncs later; several fields must land together or not at all. These are real and they
+legitimately produce a manual or batched save. The honest version says so in the
+interface rather than dressing the constraint up as a user choice.
 
-✗ Cons
-- Risk of data loss: If a user forgets to save or the system fails, all unsaved changes are lost.
-- Interrupts flow: repeatedly hitting “Save” can be tiresome and break a user’s focus.
-</div>
-### Hybrid approach: autosave draft → manual commit
+*Transaction scope.* The change only makes sense as a unit — a settings panel, a form
+whose fields depend on each other, a batch of deletions. Applying it halfway would leave
+the system in a state nobody asked for.
 
-The system autosaves a draft or staging version frequently. A *Commit* or *Publish* action finalises changes.
-<div>
-✓ Pros
-- Safety net: drafts are preserved automatically, so the user rarely loses work.
-- Clarity: the user can explicitly finalise or publish only when ready.
-- Controlled flow: combines user control (final commit) with the safety of autosave (draft).
+*Human acts.* Committing a version, discarding an attempt, marking work done. Each of
+these is a real thing the actor wants; none of them is persistence. They can stay on the
+save step or move to their own move, but they have to go somewhere.
 
-✗ Cons
-- Implementation complexity: multiple states (draft vs. published) mean more logic in the system.
-- User confusion: some may not realise their changes are in draft until they manually publish.
-- Inconsistent data: If the user forgets to publish, other users may see outdated data.
-</div>
-### Choosing a method
+*Habit.* Sometimes the answer is that the Save button is there because it has always been
+there. Where that is the whole story, it can go.
 
-Autosaving seems like a overall best default from the UX point of view with falling back to hybrid for cases when saving directly is unwanted.
+## Arrangements
 
-### Consequences of mixing saving methods in one system
+### Automatic
 
-For various reasons, the app may mix manual and automatic saving, which can be a bit confusing for users. Here are a few things to consider:
-<div>
-- Unclear mental model: Users may wonder, “Is it saved or not?” if they see autosave messaging but also a “Save” button.
-- Potential data state mismatch: draft changes might conflict with the final published state, requiring robust reconciliation.
-- UI complexity: additional indicators and instructions are needed to differentiate “draft” and “saved” states.
-</div>
-## Reversibility
+The system stores as the actor works: shortly after each keystroke, on a timer, or when
+focus leaves a field. Fits open-ended work where interrupting costs more than capturing
+unfinished states, and anywhere a crash or a closed tab must not cost work.
 
-It's always nice to have to be able to undo changes.
+The costs land elsewhere. Recovery moves onto [undo](/patterns/undo) and version history,
+since there is no pending state to abandon. In a shared artefact, unfinished work becomes
+what others see immediately. And with no visible moment, the actor can only trust storage
+if the system reports it.
+
+### Manual
+
+Changes stay pending until the actor saves them. Fits transactional edits, cases where
+the technical constraint is real, and anywhere cancel has to genuinely work — pending
+state is what makes discarding possible.
+
+The risks are the familiar ones: work since the last save can be lost, and the actor has
+to remember. Both are worth mitigating rather than accepting — warn on navigating away,
+keep a local copy of pending changes even when the committed version is manual, and make
+the unsaved state visible rather than assuming it is felt.
+
+### Staged
+
+The system stores the working copy continuously, and a separate action makes it the
+version others see. Keeps the safety of automatic storage while preserving a deliberate
+step — but that step is publication, not persistence, and has a pattern of its own:
+[draft and publish](/patterns/draft-and-publish).
+
+### Choosing
+
+Automatic is the better default for open-ended work: lost work cannot be repaired
+afterwards, while the costs of automatic storage can each be mitigated. A real technical
+constraint or a genuine transaction boundary overrides it, and neither is a design
+failure.
+
+Where an explicit step survives, name it for what it does. A control that means apply,
+confirm, or publish is better labelled that way; *Save* hides the act behind a technical
+word.
 
 ## Feedback
 
-<div>
-Users should always know whether their work is saved or if an error occurred.
-- Real-time indicators: show a subtle “Saving…” spinner or message after user input.
-- Confirmation messages: display “Draft saved” or “Changes saved” once the action is complete.
-- Timestamp or status: Provide the last saved timestamp (e.g., “Saved at 10:12 AM”).
-- Error handling: notify the user if saving fails (e.g., offline or server error) and offer next steps (retry, copy data, etc.).
-</div>
+The actor should not have to wonder what state their work is in. Where storage is
+automatic, show that it happened and when — an indicator and a timestamp outlast a
+spinner, and a failure must interrupt, because silent automatic saving that fails is
+worse than none. Where it is manual, the unsaved state is the thing to show, and a
+warning belongs on any exit that would lose it.
 
-## TODO: Conflict resolution
+Mixing arrangements is where clarity breaks down. A screen that stores automatically next
+to a screen with a *Save* button leaves the actor guessing which rule applies where. If
+both must exist, mark which is which.
 
-Conflicts can occur when multiple users or sessions edit simultaneously, or when offline changes are synced.
-{/* - Provide a clear, minimal-friction interface for resolving conflicts (e.g., highlight differences, show user attributions). */}
-{/* - Offer version logs so users can trace who changed what. */}
+## Save and cancel as confirmation
 
-## TODO: Offline support & network/device failure
+An explicit save can protect against destructive operations. Deletions are held as
+pending — struck through or faded — and applied together, so one action confirms the whole
+batch and cancel restores everything. The value here is the batch scope and the reachable
+cancel, not the storage; see [deletion](/patterns/deletion).
 
-<div>
-- Local drafts/queue: store unsynced changes locally and push them when the user reconnects.
-- Visual indicators: let users know they’re offline and that changes are queued.
-- Conflict handling: if others changed the record while the user was offline, present a merge flow upon reconnection.
-</div>
+## To-do
 
-## TODO: Redirecting upon creation of new items
-
-<div>
-When creating a new record or entity, decide whether to:
-- Stay in context: the user remains on the same form or page to continue editing.
-- Redirect to newly created item.
-- Offer a choice: e.g. “create Another” vs. “go to created Item.”
-</div>
-
-## Save/Cancel as confirmation mechanism
-
-The save/cancel paradigm can serve as a confirmation mechanism for destructive operations like deletion. Changes (including deletions) are staged but not committed until the user explicitly saves.
-
-### Benefits
-- Batch operations: Multiple deletions can be reviewed together before committing
-- Safe exploration: Users can experiment with changes knowing they can cancel
-- Clear transaction boundaries: All changes succeed or fail together
-- Reduced confirmation fatigue: One save action confirms all changes
-
-### Implementation
-- Visual indicators for pending deletions (strikethrough, fade, colour coding)
-- "Unsaved changes" warnings when navigating away
-- Clear distinction between staged and committed states
-- Ability to restore individual items before saving
-
-This approach is particularly effective when deletion is part of a larger editing session. See [Deletion](/patterns/deletion) for detailed implementation examples.
+- Conflicts at the save boundary — two actors editing the same thing find out only when
+  one of them saves; work out with [collaboration](/patterns/collaboration).
+- Offline and queued changes: local drafts pushed on reconnection, and what the actor is
+  told while the queue exists.
+- Ownership and portability — "I want my work in a file I control" is a real need that
+  gets mistaken for saving; it likely belongs with shareability or a durability pattern.
+- Redirect after creating a new item (stay in context vs. go to the created item) —
+  likely belongs to a creation-flow pattern rather than here.

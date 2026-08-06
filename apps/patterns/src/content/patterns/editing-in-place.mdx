@@ -1,0 +1,152 @@
+---
+title: Editing in place
+added: 2026-08-06
+updated:
+role: pattern
+evidence:
+  - used
+  - literature
+group: application
+activityLevel: action
+atomic: pattern
+mediation: individual
+description: >-
+  Changing something where it is shown, so the display is also the control,
+  instead of translating the change into a separate surface and coming back to
+  check.
+situation:
+  initiating: >-
+    the actor is looking at the thing they want to change, and the way to change it is
+    somewhere else — a form, a dialog, another page — so making the change means
+    translating what they see into someone else's arrangement of it and coming back to
+    find out whether it landed
+  resulting:
+    - >-
+      the artefact is its own control, so the change is seen in its final context as it
+      is made, with nothing to translate between an input arrangement and a result
+    - >-
+      the display carries an editing affordance it did not need before, and that
+      affordance competes with the same surface's job as something to read
+    - >-
+      an affordance revealed on approach reaches whoever can hover and nobody else,
+      unless a touch and keyboard route is built alongside it
+    - clause: >-
+        changes commit one at a time — the short gap between act and effect is what
+        makes the result feel caused by the gesture — so there is no assembled set to
+        review and no pending state to cancel from; taking something back happens
+        after the fact
+      sets-up: [undo]
+    - >-
+      changing is always one gesture away, so stray input reaches the record — an
+      exposure proportional to how much the artefact is read rather than written
+relationships:
+  complements:
+    - to: form
+      note: "the two ends of where a change happens — form gathers input on a surface of its own, editing in place puts it on the artefact"
+  related:
+    - to: data-view
+      note: "writable views are this move applied through a projection; which edits resolve to the underlying data is data view's question"
+    - to: validation
+      note: "when the display is the control, the message has to fit beside the value rather than under a labelled field"
+    - to: saving
+      note: "editing in place commits piecemeal, which is the automatic arrangement's granularity question seen from the editing side"
+    - to: block-based-editor
+      note: "the block editor assumes this move — reading and changing happen on the same blocks, with no separate state for either"
+  enacts:
+    - to: malleability
+      note: "changing the thing where it is used, without moving to a separate surface to do it"
+    - to: density
+      note: "in-place editing lowers information density and raises design density: the same screen carries fewer values and more controls"
+---
+
+The actor is looking at the thing they want to change, and the way to change it is
+somewhere else: a form, a dialog, another page. Getting there means translating what they
+see into someone else's arrangement of the same information, making the change without
+its surroundings in view, and coming back to find out whether it landed the way they
+meant.
+
+## Forces
+
+- *Context vs. room* — changing something where it sits keeps its surroundings visible:
+  the neighbouring values, the layout it has to fit, the comparison that prompted the
+  change. A separate surface has room for labels, help, and grouping, and no way to show
+  any of that context.
+- *Reading vs. changing* — the same surface now does two jobs. An affordance obvious
+  enough to invite editing is noise for whoever came to read; one quiet enough to stay
+  out of the way is missed by whoever came to change something.
+- *Clean surface vs. reach* — revealing controls on approach keeps the reading surface
+  uncluttered and hands the feature to pointer users. Touch has no hover, and keyboard
+  access has to be built deliberately rather than inherited.
+- *Fluency vs. stray input* — when changing is always one gesture away, so is changing by
+  accident.
+
+## Solution
+
+Let the change happen on the rendered artefact: the thing that displays a value is the
+thing that accepts a new one. Where the display cannot host the control, or the change
+only makes sense as part of a set, route it to a separate surface.
+
+## How the affordance appears
+
+*Always live.* The surface is permanently editable and nothing marks the difference
+between reading and changing. Cheapest to build and lowest friction to use, with the
+most exposure to accidental change. Fits surfaces whose main use is writing.
+
+*On activation.* The display becomes a control when the actor clicks, taps, or focuses
+it. Keeps the reading surface clean and puts one deliberate act in front of every change.
+
+*On approach.* The affordance appears on hover or focus. A workable compromise for
+pointer input that needs an explicit equivalent for touch and keyboard, or it does not
+exist for those actors at all.
+
+## Granularity
+
+What is editable in place — a single value (a cell, an attribute in a detail view), a
+fragment (a paragraph, a block), or the whole artefact — decides both what a change costs
+to make and how much of the record a stray gesture can reach. It also decides where
+feedback fits: with the display doubling as the control, there is no labelled field to
+hang a [validation](/patterns/validation) message under.
+
+## When the change belongs elsewhere
+
+- The input needs room the display has not got: help text, a legend, a picker that would
+  cover the thing it is meant to change.
+- The fields only make sense together, and applying half of them would leave the record
+  in a state nobody asked for.
+- The change applies across a set — "every row where…" — which is a description of a
+  collection, not a thing being looked at. Describing is a symbolic surface's job (a
+  query, a script, a form over the set); sets and repetition are the canonical limit of
+  direct manipulation.
+- The actor needs to review the changes as a group before committing. A review step
+  needs pending state, and editing in place does not produce any.
+- The display form cannot host a control: a map pin, a mark on a chart, a compressed row
+  with nowhere to put a date picker.
+- The change is destructive or expensive to recover, where
+  [action consequences](/patterns/action-consequences) asks for a step rather than one
+  fewer.
+
+## Resources & references
+
+- Ventura (2019) [Advancing the block interface](https://github.com/WordPress/gutenberg/issues/18667) — the Gutenberg team on the tension between making editing affordances clear and not distracting people who are writing
+- Hutchins, Hollan & Norman (1985) [Direct manipulation interfaces](https://vis.csail.mit.edu/classes/6.859/readings/pdfs/Hutchins-DirectManipulationInterfaces.pdf) — names the two arrangements this pattern contrasts: a model world acted on directly
+  versus a conversation with an intermediary about a hidden one; also the limits — sets, repetition, and precision are where description beats manipulation
+- Beaudouin-Lafon (2000) [Instrumental interaction](https://www.lri.fr/~mbl/papers/CHI2000/paper.pdf) — makes
+  the in-place/form choice measurable as spatial and temporal offset between control and
+  object: dialogs sit high on both, selection handles low, inspectors in between; the
+  short temporal offset of committing piecemeal is what produces the sense of causality
+- Sellen, Kurtenbach & Buxton (1992) [The prevention of mode errors through sensory feedback](https://www.billbuxton.com/ModeErrorsHCI.pdf) — accidental edits as mode errors; continuous kinesthetic or visual feedback about which mode a surface is in reduces them
+- Gaver (1991) [Technology affordances](https://dl.acm.org/doi/10.1145/108844.108856) — the appearance modes as an affordance taxonomy: perceptible, hidden (always-live with nothing marking editability, on-approach before the hover), and false
+- Masson et al. (2024) [DirectGPT](https://arxiv.org/abs/2310.03691) — editing an LLM's
+  output in place: participants were 50% faster with 72% shorter prompts than steering
+  the same edits through the conversation
+- [Editing with AI: How Doctors Refine LLM-Generated Answers to Patient Queries](https://arxiv.org/abs/2511.19940) (2025) — doctors refining LLM drafts: instructing changes cost less effort but introduced errors, editing directly was precise but more work
+
+## To-do
+
+- The read-heavy case needs somewhere to go: a surface actors rely on rather than write
+  to wants something other than always-live editing. The mode-error literature points at
+  a reintroduced read/edit boundary with continuous feedback about which side the actor
+  is on, rather than restriction or a saved view.
+- The inspector/property panel sits between this move and [form](/patterns/form) — it
+  stays open, acts on the current selection, and applies immediately — and currently has
+  no home in the catalogue.

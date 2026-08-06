@@ -16,7 +16,7 @@ The reasoning is grounded in the project's `docs/` knowledge base. Read the docu
 - `docs/language/relationship-vocabulary.md` — describes relationships between patterns.
 - `docs/language/conceptual-glossary.md` — working definitions of pattern, centre, generative move, quality, semilattice, suggestion-grade, etc.
 - `docs/specs/pattern-role-model.md` — the settled role set (component, pattern, collection, quality, foundation, concept, the boundary stance, and the move/mechanism decomposition rule with its fission signals.
-- `docs/language/pattern-and-form.md` — the two-language framing: generative pattern language vs normative form language, and why the boundary is a projection rather than an ontology.
+- `docs/language/moves-and-mechanisms.md` — generative pattern language vs normative mechanism catalogue
 - `docs/specs/pattern-site.md` — the answer to "where does a new pattern go?"
 - `references/semilattice.md` — the pattern space is a semilattice, not a tree. Every tree placement is lossy; the question is which loss is least harmful. Multiple projections, not a better tree.
 
