@@ -41,9 +41,9 @@ that verdict implies. Lit leaves when the last phase completes.
 
 ## Phases
 
-1. *Land the probe.* Merge `elena-probe` (range, tab-group,
-   `@elenajs/core` dependency, `optimizeDeps` priming, the
-   `hide-value` CSS rule).
+1. *Land the probe.* Done 2026-08-07: `elena-probe` merged to main
+   (range, tab-group, `@elenajs/core` dependency, `optimizeDeps`
+   priming, the `hide-value` CSS rule).
 2. *Rung-2 sweep* — batched mechanical, one territory, against the
    rung-2 recipe: breadcrumbs, dropdown, input, list, list-item,
    popup, priority-plus, select, tab, tab-panel, timestamp. Classify
