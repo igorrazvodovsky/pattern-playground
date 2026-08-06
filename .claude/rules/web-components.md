@@ -9,7 +9,7 @@ paths:
 1. *Native HTML + CSS* — no custom element. A button is a `<button>` with a class; a switch is `<input type="checkbox" role="switch">` styled. Check `src/styles/` for an existing CSS-only treatment before writing any TS.
 2. *Composite enhancement* — a light-DOM custom element that renders nothing and enhances the children it's given (roles, listeners, attributes).
 3. *Light-DOM render* — the element owns and renders its subtree (`createRenderRoot() { return this }` in Lit). Document that author-provided children will be clobbered.
-4. *Shadow DOM* — only with a written justification in the component file (genuine style isolation or third-party embedding). Existing shadow components are legacy under migration: see `plans/active/2026-07-light-dom-refactor.md`.
+4. *Shadow DOM* — only with a written justification in the component file (genuine style isolation or third-party embedding). None currently exist; the settled model is `docs/specs/component-authoring.md`.
 
 Slots exist only on rung 4. Compose through real children; where named regions are needed, use `data-slot="…"` attributes on children.
 
