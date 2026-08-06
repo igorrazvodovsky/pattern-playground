@@ -162,9 +162,11 @@ Write the recipe's discoveries back into this plan before proceeding.
   — npm nests all `@storybook/*` packages under `packages/components/`
   (the `@storybook/addon-mcp` peer chain prevents hoisting), while vitest
   bundles the root config into root `node_modules/.vite-temp`, where
-  `@storybook/addon-vitest` doesn't resolve. Temporary bridge in place:
-  symlink at `node_modules/@storybook/addon-vitest`. Durable fix needed
-  (root devDependency, or move the vitest config into the workspace).
+  `@storybook/addon-vitest` doesn't resolve. Resolved 2026-08-06: the
+  vitest config now lives only in the components workspace
+  (`packages/components/vitest.config.ts`), the root script delegates with
+  `-w`, the root config and the symlink bridge are gone. Recorded in
+  `docs/quality/dev-environment.md`.
 
 ### Phase 1 — demotions (rung 1)
 
@@ -237,7 +239,10 @@ suite: baseline 43 failures (all pre-existing: axe colour-contrast debt and
 a storybook/user-event `patchFocus` incompatibility on play-function
 stories) → 42 after conversion. Watch item: `Tabs > Scrolling Tabs` failed
 once in a full parallel run but is stable in isolation across repeated
-runs.
+runs. Re-checked 2026-08-06: did not reproduce across four isolated runs of
+the Tabs file nor a full suite run (still exactly 42 pre-existing
+failures); the story has no play function, so the one-off was render/axe
+timing under parallel contention — watch closed unless it recurs.
 
 ### Phase 3 — overlays (popup, tooltip, dropdown)
 
@@ -301,8 +306,9 @@ scatter-plot, choropleth, map, chart-grid/legend/axis on the D3Component
 base) and `pp-range` (track + marks + value readout). `pp-tooltip` renders
 one small owned popup+body. Everything else uses Lit only for reactive
 properties and lifecycle on a rung-2 host — the machinery the library
-decision actually weighs. The decision itself is deliberately left open
-here.
+decision actually weighs. The decision itself now lives in
+`active/2026-08-component-library-decision.md` (strawman: minimal Lit,
+research-gated).
 
 ## Risks and constraints
 
@@ -355,16 +361,19 @@ Environment note: `npm run test-storybook` was broken before this work —
 npm nests `@storybook/*` under `packages/components` (addon-mcp peer
 chain) while vitest bundles the root config into root
 `node_modules/.vite-temp` where `@storybook/addon-vitest` doesn't resolve.
-A symlink at `node_modules/@storybook/addon-vitest` bridges it; a durable
-fix (root devDependency or moving the vitest config into the workspace) is
-still owed.
+Fixed durably 2026-08-06: the vitest config moved into the components
+workspace, the root script delegates with `-w`, and the symlink bridge was
+removed; full suite re-verified green-at-baseline (42) under the new
+arrangement.
 
-## Open questions
+## Open questions — all resolved
 
-- Does `pp-select`'s interaction model survive rung 2, or is it the one
-  component that justifies staying a rendered island until Phase 5?
-- Pre-upgrade content policy: is `:not(:defined)` styling wanted as a shared
-  convention, or is acceptable-unstyled HTML per component enough?
-- Should the decision ladder be promoted to `docs/specs/` once two phases
-  have exercised it? (Leaning yes — it is current-truth material, and the
-  rules file should stay operational rather than doctrinal.)
+- Does `pp-select`'s interaction model survive rung 2? *Yes* — its
+  projection layer dissolved and it landed in Phase 2 (see outcomes there);
+  nothing waits for Phase 5.
+- Pre-upgrade content policy: per-component acceptable-unstyled HTML proved
+  enough across every conversion; no component needed a `:not(:defined)`
+  rule, so no shared convention exists. Recorded in the spec.
+- Decision-ladder promotion: done 2026-08-06 —
+  `docs/specs/component-authoring.md` is the settled spec; the rules file
+  stays operational and now points there.
