@@ -1,5 +1,4 @@
-import { LitElement } from 'lit';
-import { property } from 'lit/decorators.js';
+import { Elena } from '@elenajs/core';
 import { scrollIntoView } from '../../utility/scroll';
 import type { PpTab } from '../tab/tab.ts';
 import type { PpTabPanel } from '../tab-panel/tab-panel.ts';
@@ -21,10 +20,10 @@ import type { PpTabPanel } from '../tab-panel/tab-panel.ts';
  * @cssproperty --track-width - The width of the indicator's track (the line that separates tabs from panels).
  */
 
-export class PpTabGroup extends LitElement {
-  protected createRenderRoot() {
-    return this;
-  }
+export class PpTabGroup extends Elena(HTMLElement) {
+  static tagName = 'pp-tab-group';
+
+  static props = ['activation', 'no-scroll-controls'];
 
   private activeTab?: PpTab;
   private mutationObserver: MutationObserver | null = null;
@@ -38,10 +37,10 @@ export class PpTabGroup extends LitElement {
    * When set to auto, navigating tabs with the arrow keys will instantly show the corresponding tab panel. When set to
    * manual, the tab will receive focus but will not show until the user presses spacebar or enter.
    */
-  @property() activation: 'auto' | 'manual' = 'auto';
+  activation: 'auto' | 'manual' = 'auto';
 
   /** Disables the scroll arrows that appear when tabs overflow. */
-  @property({ attribute: 'no-scroll-controls', type: Boolean }) noScrollControls = false;
+  'no-scroll-controls' = false;
 
   get nav(): HTMLElement | null {
     return this.querySelector('[data-slot="nav"]');
@@ -261,7 +260,7 @@ export class PpTabGroup extends LitElement {
     // In most cases, we can compare scrollWidth to clientWidth to determine if scroll controls should show. However,
     // Safari appears to calculate this incorrectly when zoomed at 110%, causing the controls to toggle indefinitely.
     // Adding a single pixel to the comparison seems to resolve it.
-    const needsControls = !this.noScrollControls && !!nav && nav.scrollWidth > nav.clientWidth + 1;
+    const needsControls = !this['no-scroll-controls'] && !!nav && nav.scrollWidth > nav.clientWidth + 1;
 
     if (needsControls && !this.startButton) {
       this.startButton = this.makeScrollButton('start');

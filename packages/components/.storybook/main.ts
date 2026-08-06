@@ -59,7 +59,7 @@ const config: StorybookConfig = {
     // declaring them up front avoids a mid-session re-optimize + full reload.
     config.optimizeDeps = {
       ...config.optimizeDeps,
-      include: [...(config.optimizeDeps?.include ?? []), 'leaflet'],
+      include: [...(config.optimizeDeps?.include ?? []), 'leaflet', '@elenajs/core'],
     };
 
     config.define = {
