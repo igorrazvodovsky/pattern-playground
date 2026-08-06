@@ -6,7 +6,7 @@ the plan contract and `docs/specs/` for settled specifications.
 ## Active
 
 - [Mine the fifteen properties from the corpus](active/2026-08-property-mining.md) — research-gated: does ch. 13 §13's claim that the fifteen are already embedded in patterns hold against this corpus? Blinded two-pass derivation over 96 pattern pages, independence tested against `enacts`; arbitrates relationship-vocabulary open questions 5 and 6, which currently disagree. Three verdicts, all publishable — including that the properties don't survive the medium
-- [Component authoring library: the post-refactor decision](active/2026-08-component-library-decision.md) — decision record for the light-DOM refactor's deferred library question; strawman is minimal Lit, gated on external research
+- [Elena migration: the library follows the philosophy](active/2026-08-elena-migration.md) — execute the library decision: probe branch lands, rung-2 sweep batched, rung-3 sittings serial, charts restructure to D3-owns-DOM, Lit retires last
 - [Figures: dates, numbers, and money as design material](active/2026-07-figures.md) — the figures stratum as a Storybook `Foundations` entry, parallel to Prose; generative half distributed to Localization/Temporality/Data entry, no new pattern node
 - [Workspace boundary after the view-system reshape](active/2026-07-workspace-boundary.md) — give the screen-composition seam a typed edge (workspace ↔ coordinated-views), reinstate the panelled/tabbed variants the survey now routes to, clear pre-reshape word residue
 - [Drag and drop: capture as a language entry](active/2026-07-drag-and-drop.md) — research-gated: pattern node vs mechanism verdict first, then author the page borrowing the view-system demos; scaffolding promotion trigger-gated
@@ -29,6 +29,7 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Completed
 
+- [Component authoring library: the post-refactor decision](completed/2026-08-component-library-decision.md) — decided 2026-08-07: adopt Elena (option 4), on authoring grain rather than capability; reframed for the playground criterion, settled by a bounded probe (`pp-range`, `pp-tab-group` on branch `elena-probe`); migration spun out as its own exec-spec
 - [Light-DOM refactor: platform-first components](completed/2026-07-light-dom-refactor.md) — all 16 shadow-DOM Lit components converted up the decision ladder, `is="pp-button"` retired, zero shadow roots remain; ladder promoted to `docs/specs/component-authoring.md`, library decision spun out as its own record
 - [Epistemic status](completed/2026-07-epistemic-disclosure.md) — `seed`, `evidence` and `disclosure` as a notational dimension: schema-enforced role applicability, `built` derived from `realised_by`, dashed badge and dashed graph node, staleness lint, corpus backfilled (7 seeds, 54 pages with evidence); `used` left for the author
 - [realised_by backfill](completed/2026-07-realised-by-backfill.md) — claim or citation, page by page: `realised_by:` written where prose ComponentRefs carry a realisation claim

@@ -46,5 +46,8 @@ a component needs named regions, children carry `data-slot="…"` attributes.
   `.claude/rules/web-components.md`, auto-attached on component files.
 - Style layering and boundary enforcement: the style-boundary conventions in
   `src/styles/` and `scripts/check-style-boundary.mjs`.
-- The authoring-library question (what still uses Lit's machinery, and
-  whether it should) is an open decision tracked in `plans/`.
+- The authoring library is Elena (`@elenajs/core`), adopted 2026-08-07 for
+  its HTML-first grain
+  (`plans/completed/2026-08-component-library-decision.md`). The move off
+  Lit is in progress: `plans/active/2026-08-elena-migration.md` tracks
+  which components have converted and the rung-2/rung-3 migration recipes.
