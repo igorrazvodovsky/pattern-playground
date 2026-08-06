@@ -57,9 +57,7 @@ hold promoted commitments that govern the process.
 
 - [Pattern definition](language/pattern-definition.md) — what counts as a
   pattern, versus a component, observation, anti-pattern, or collection
-- [Patterns and components](language/patterns-and-components.md) — the two
-  languages, their different jobs, the pattern/component boundary as projection,
-  and why *form language* is a reserved term
+- [Patterns and components](language/patterns-and-components.md) — the pattern/component boundary
 - [Vision](language/vision.md) — the Nature of Order and agent-usable tracks
   past the typed-edge layer's first build (not yet operational)
 - [Operative image](language/operative-image.md) — current working picture of
