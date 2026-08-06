@@ -1,8 +1,4 @@
-// TODO: Fix!
-
-import { html, LitElement, unsafeCSS } from 'lit';
-import type { CSSResultGroup } from 'lit';
-import styles from './priority-plus.css?inline';
+import { LitElement } from 'lit';
 import { PpDropdown } from '../dropdown/dropdown';
 import priorityPlus from './p-plus'
 
@@ -10,22 +6,22 @@ import priorityPlus from './p-plus'
  * @summary An implementation of the priority plus navigation pattern.
  * @status draft
  * @since 0.0.1
+ *
+ * Composite enhancement (rung 2): the element renders nothing; the
+ * priority-plus engine takes the author's child `<div>` of items and manages
+ * the visible/overflow split. Styles live in `src/styles/p-plus.css`.
  */
 
 export class PpPriorityPlus extends LitElement {
-  static styles: CSSResultGroup = [unsafeCSS(styles)]
   static dependencies = { 'pp-dropdown': PpDropdown }
 
-  firstUpdated() {
-    priorityPlus(this.querySelector("div"))
+  protected createRenderRoot() {
+    return this;
   }
 
-  render() {
-    return html`
-      <div>
-        <slot></slot>
-      </div>
-    `;
+  firstUpdated() {
+    const target = this.querySelector("div");
+    if (target) priorityPlus(target);
   }
 }
 

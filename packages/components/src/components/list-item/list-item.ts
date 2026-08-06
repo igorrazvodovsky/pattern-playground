@@ -1,36 +1,24 @@
-import { classMap } from 'lit/directives/class-map.js';
-import { getTextContent } from '../../utility/slot.js';
-import { html, LitElement, unsafeCSS } from 'lit';
-import { property, query } from 'lit/decorators.js';
+import { LitElement } from 'lit';
+import { property } from 'lit/decorators.js';
 import { watch } from '../../utility/watch.js';
-import styles from './list-item.css?inline';
-import type { CSSResultGroup } from 'lit';
-
-// TODO:icon as dependency
 
 /**
  * @summary Option for the user to pick from in a list.
  * @status draft
  * @since 0.1
  *
- * @slot - The list item's label.
- * @slot prefix - Used to prepend an icon or similar element to the list item.
- * @slot suffix - Used to append an icon or similar element to the list item.
- *
- * @csspart base - The component's base wrapper.
- * @csspart checked-icon - The checked icon, which is only visible when the list item is checked.
- * @csspart prefix - The prefix container.
- * @csspart label - The list item label.
- * @csspart suffix - The suffix container.
+ * Composite enhancement (rung 2): the element is the menu item row. Compose
+ * the label as text or unmarked children; mark adornments with
+ * `data-slot="prefix"` / `data-slot="suffix"` and a nested submenu list with
+ * `data-slot="submenu"`. The element appends the check mark and submenu
+ * chevron it owns, and manages roles and aria state.
+ * Styles live in `src/styles/list-item.css`.
  */
 
 export class PpListItem extends LitElement {
-  static styles: CSSResultGroup = [unsafeCSS(styles)];
-
-  private cachedTextLabel!: string;
-
-  @query('slot:not([name])') defaultSlot!: HTMLSlotElement;
-  @query('.list-item') listItem!: HTMLElement;
+  protected createRenderRoot() {
+    return this;
+  }
 
   @property() type: 'normal' | 'checkbox' | 'radio' = 'normal';
   @property({ type: Boolean, reflect: true }) checked = false;
@@ -43,12 +31,12 @@ export class PpListItem extends LitElement {
   @property({ attribute: 'submenu-placement', reflect: true }) submenuPlacement: 'right-start' | 'left-start' = 'right-start';
 
   // Enhanced accessibility properties
-  @property({ attribute: 'aria-label', reflect: true }) ariaLabel = '';
-  @property({ attribute: 'aria-describedby', reflect: true }) ariaDescribedby = '';
   @property({ attribute: 'aria-setsize', type: Number, reflect: true }) ariaSetsize?: number;
   @property({ attribute: 'aria-posinset', type: Number, reflect: true }) ariaPosinset?: number;
 
   private initialized = false;
+  private check: HTMLElement | null = null;
+  private chevron: HTMLElement | null = null;
 
   connectedCallback() {
     super.connectedCallback();
@@ -69,32 +57,27 @@ export class PpListItem extends LitElement {
     this.addEventListener('focus', this.handleFocus);
     this.addEventListener('blur', this.handleBlur);
 
+    if (!this.check) {
+      this.check = document.createElement('span');
+      this.check.className = 'list-item__check';
+      this.check.innerHTML = '<iconify-icon class="icon" icon="ph:check" aria-hidden="true"></iconify-icon>';
+      this.prepend(this.check);
+    }
+    if (!this.chevron) {
+      this.chevron = document.createElement('span');
+      this.chevron.className = 'list-item__chevron';
+      this.chevron.innerHTML = '<iconify-icon class="icon" icon="ph:caret-right" aria-hidden="true"></iconify-icon>';
+      this.append(this.chevron);
+    }
+
     // Ensure the role is set properly on connection
     this.handleTypeChange();
     this.handleDisabledChange();
     this.handleSubmenuChange();
-    this.setupAccessibility();
-  }
 
-  private setupAccessibility() {
-    // Enhanced focus management
-    this.setAttribute('tabindex', '-1'); // Managed by parent list component
-
-    // Set up ARIA attributes
-    if (this.ariaLabel) {
-      this.setAttribute('aria-label', this.ariaLabel);
-    }
-
-    if (this.ariaDescribedby) {
-      this.setAttribute('aria-describedby', this.ariaDescribedby);
-    }
-
-    if (this.ariaSetsize) {
-      this.setAttribute('aria-setsize', this.ariaSetsize.toString());
-    }
-
-    if (this.ariaPosinset) {
-      this.setAttribute('aria-posinset', this.ariaPosinset.toString());
+    // Focus is managed by the parent list component (roving tabindex)
+    if (!this.hasAttribute('tabindex')) {
+      this.setAttribute('tabindex', '-1');
     }
   }
 
@@ -104,15 +87,6 @@ export class PpListItem extends LitElement {
     this.removeEventListener('mouseover', this.handleMouseOver);
     this.removeEventListener('focus', this.handleFocus);
     this.removeEventListener('blur', this.handleBlur);
-  }
-
-  private handleDefaultSlotChange() {
-    const textLabel = this.getTextLabel();
-
-    if (typeof this.cachedTextLabel === 'undefined') {
-      this.cachedTextLabel = textLabel;
-      return;
-    }
   }
 
   private handleHostClick = (event: MouseEvent) => {
@@ -199,36 +173,17 @@ export class PpListItem extends LitElement {
     }
   }
 
-  /** Returns a text label based on the contents of the list item's default slot. */
+  /** Returns a text label based on the item's label content (unmarked children). */
   getTextLabel() {
-    return getTextContent(this.defaultSlot);
-  }
-
-  render() {
-    return html`
-      <div
-        id="anchor"
-        part="base"
-        class=${classMap({
-      'list-item': true,
-      'list-item--checked': this.checked,
-      'list-item--disabled': this.disabled,
-      'list-item--has-submenu': this.hasSubmenu,
-      'list-item--submenu-open': this.submenuOpen,
-    })}
-      >
-        <span part="checked-icon" class="list-item__check">
-          <iconify-icon class="icon" icon="ph:check" aria-hidden="true"></iconify-icon>
-        </span>
-        <slot name="prefix" part="prefix" class="list-item__prefix"></slot>
-        <slot part="label" class="list-item__label" @slotchange=${this.handleDefaultSlotChange}></slot>
-        <slot name="suffix" part="suffix" class="list-item__suffix"></slot>
-        <span part="chevron" class="list-item__chevron">
-          <iconify-icon class="icon" icon="ph:caret-right" aria-hidden="true"></iconify-icon>
-        </span>
-      </div>
-      <slot name="submenu" part="submenu" class="list-item__submenu"></slot>
-    `;
+    return [...this.childNodes]
+      .filter(node => {
+        if (node.nodeType === Node.TEXT_NODE) return true;
+        if (!(node instanceof HTMLElement)) return false;
+        return !node.hasAttribute('data-slot') && node !== this.check && node !== this.chevron;
+      })
+      .map(node => node.textContent ?? '')
+      .join('')
+      .trim();
   }
 }
 

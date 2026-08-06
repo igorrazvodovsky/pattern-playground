@@ -20,17 +20,17 @@ export const NavBar: Story = {
 
       <pp-p-plus>
         <div>
-          <button className="button button--plain" is="pp-button">{faker.company.buzzNoun()}</button>
-          <button className="button button--plain" is="pp-button">{faker.company.buzzNoun()}</button>
-          <button className="button button--plain" is="pp-button">{faker.company.buzzNoun()}</button>
-          <button className="button button--plain" is="pp-button">{faker.company.buzzNoun()}</button>
-          <button className="button button--plain" is="pp-button">{faker.company.buzzNoun()}</button>
+          <button className="button button--plain">{faker.company.buzzNoun()}</button>
+          <button className="button button--plain">{faker.company.buzzNoun()}</button>
+          <button className="button button--plain">{faker.company.buzzNoun()}</button>
+          <button className="button button--plain">{faker.company.buzzNoun()}</button>
+          <button className="button button--plain">{faker.company.buzzNoun()}</button>
         </div>
       </pp-p-plus>
 
       <div className="navigation__actions inline-flow">
-        <button className="button" is="pp-button">Login</button>
-        <button className="button" is="pp-button">Sign up</button>
+        <button className="button">Login</button>
+        <button className="button">Sign up</button>
       </div>
     </nav>
   ),

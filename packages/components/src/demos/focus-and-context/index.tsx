@@ -363,23 +363,25 @@ function LevelControl({
 
   return (
     <pp-dropdown stay-open-on-select>
-      <button className="button button--plain" is="pp-button" slot="trigger">
+      <button className="button button--plain" data-slot="trigger">
         <iconify-icon className="icon" icon="ph:gear" aria-hidden="true"></iconify-icon>
         <span className="visually-hidden">Levels</span>
       </button>
-      <pp-list ref={list}>
-        <pp-list-label>Certainty levels</pp-list-label>
-        {TIERS.map((tier) => (
-          <pp-list-item
-            key={tier.certainty}
-            type="checkbox"
-            data-certainty={tier.certainty}
-            checked={shown[tier.certainty]}
-          >
-            {tier.label}
-          </pp-list-item>
-        ))}
-      </pp-list>
+      <pp-popup>
+        <pp-list ref={list}>
+          <pp-list-label>Certainty levels</pp-list-label>
+          {TIERS.map((tier) => (
+            <pp-list-item
+              key={tier.certainty}
+              type="checkbox"
+              data-certainty={tier.certainty}
+              checked={shown[tier.certainty]}
+            >
+              {tier.label}
+            </pp-list-item>
+          ))}
+        </pp-list>
+      </pp-popup>
     </pp-dropdown>
   );
 }

@@ -14,6 +14,9 @@ between the long-range vision (`docs/project/vision.md` and
   `.claude/rules/pattern-content.md`.
 - [Graph relationship model](graph-relationship-model.md) — current graph data
   model, edge vocabulary, and epistemic stance.
+- [Component authoring](component-authoring.md) — the light-DOM decision
+  ladder, subtree-ownership discipline, `data-slot` composition, and styling
+  through the cascade.
 - [Pattern role model](pattern-role-model.md) — distinction between components,
   patterns, collections, qualities, foundations, and concepts; boundary stance
   and the pattern/component decomposition rule.

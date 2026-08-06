@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
-import '../components/spinner/spinner.ts';
 import { getRandomFilledIcon } from './utils/icons.ts';
 
 const meta = {
@@ -57,7 +56,7 @@ export const Basic = {
       </li>
       <li className="stepper__item stepper__item--running" aria-current="step">
          <i className="stepper__icon">
-           <pp-spinner aria-label="Step in progress"></pp-spinner>
+           <pp-spinner role="progressbar" aria-label="Step in progress"></pp-spinner>
          </i>
          <div className="stepper__content">
            <h4>Step 6</h4>

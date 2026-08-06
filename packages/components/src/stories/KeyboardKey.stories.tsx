@@ -19,15 +19,15 @@ export const InAList: Story = {
     <pp-list style={{maxWidth: '320px'}}>
       <pp-list-item>
         Copy
-        <span slot="suffix"><kbd>⌘</kbd> <kbd>C</kbd></span>
+        <span data-slot="suffix"><kbd>⌘</kbd> <kbd>C</kbd></span>
       </pp-list-item>
       <pp-list-item>
         Paste
-        <span slot="suffix"><kbd>⌘</kbd> <kbd>V</kbd></span>
+        <span data-slot="suffix"><kbd>⌘</kbd> <kbd>V</kbd></span>
       </pp-list-item>
       <pp-list-item>
         Find
-        <span slot="suffix"><kbd>⌘</kbd> <kbd>F</kbd></span>
+        <span data-slot="suffix"><kbd>⌘</kbd> <kbd>F</kbd></span>
       </pp-list-item>
     </pp-list>
   ),

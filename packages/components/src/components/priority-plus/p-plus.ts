@@ -139,19 +139,21 @@ function priorityPlus(targetElem: HTMLElement) {
       <div ${dv(El.Main)} class="${cn(El.Main)}">
         <div class="${cn(El.PrimaryNavWrapper)}" ${dv(El.PrimaryNavWrapper)}></div>
         <pp-dropdown hoist>
-          <button is="pp-button"
-            slot="trigger"
+          <button
+            data-slot="trigger"
             ${dv(El.ToggleBtn)}
             class="button ${cn(El.ToggleBtn)}"
             aria-expanded="false"
             aria-label="Show more actions"
           ><iconify-icon class="icon" icon="ph:dots-three"></iconify-icon>
           </button>
-          <pp-list
-            ${dv(El.OverflowNav)}
-            aria-hidden="true"
-          >
-          </pp-list>
+          <pp-popup>
+            <pp-list
+              ${dv(El.OverflowNav)}
+              aria-hidden="true"
+            >
+            </pp-list>
+          </pp-popup>
         </pp-dropdown>
       </div>
     `;
@@ -272,6 +274,12 @@ function priorityPlus(targetElem: HTMLElement) {
             newElem.setAttribute(attr.name, attr.value);
           }
           newElem.innerHTML = elem.innerHTML;
+          // The copies carry slot attributes from the original markup; the
+          // light-DOM pp-list-item styles adornments via data-slot instead.
+          newElem.querySelectorAll('[slot]').forEach(child => {
+            child.setAttribute('data-slot', child.getAttribute('slot')!);
+            child.removeAttribute('slot');
+          });
           elem = newElem;
         }
 

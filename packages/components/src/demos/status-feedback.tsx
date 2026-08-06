@@ -19,7 +19,7 @@ export function IndicatorsDemo() {
             <pp-list-item>Tactical asset allocation</pp-list-item>
             <pp-list-item>
               High reward
-              <span slot="suffix">
+              <span data-slot="suffix">
                 <strong className="badge badge--pill badge--pulse badge--danger">2</strong>
               </span>
             </pp-list-item>

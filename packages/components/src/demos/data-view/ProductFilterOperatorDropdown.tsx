@@ -27,21 +27,23 @@ export const ProductFilterOperatorDropdown: React.FC<ProductFilterOperatorDropdo
 
   return (
     <pp-dropdown placement="bottom-start">
-      <button slot="trigger" className="tag">
+      <button data-slot="trigger" className="tag">
         {operator}
       </button>
-      <pp-list>
-        {operators.map((op) => (
-          <pp-list-item
-            key={op}
-            type="checkbox"
-            checked={op === operator}
-            onClick={() => setOperator(op)}
-          >
-            {op}
-          </pp-list-item>
-        ))}
-      </pp-list>
+      <pp-popup>
+        <pp-list>
+          {operators.map((op) => (
+            <pp-list-item
+              key={op}
+              type="checkbox"
+              checked={op === operator}
+              onClick={() => setOperator(op)}
+            >
+              {op}
+            </pp-list-item>
+          ))}
+        </pp-list>
+      </pp-popup>
     </pp-dropdown>
   );
 };

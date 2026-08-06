@@ -1,25 +1,17 @@
-import { html, LitElement, unsafeCSS } from 'lit';
-import { classMap } from 'lit/directives/class-map.js';
-import { ifDefined } from 'lit/directives/if-defined.js';
-import { live } from 'lit/directives/live.js';
-import { property, query, state } from 'lit/decorators.js';
-import type { CSSResultGroup } from 'lit';
-import styles from './input.css?inline';
-import { textFromIdRefs } from '../../utility/accessible-name.js';
+import { LitElement } from 'lit';
+import { property } from 'lit/decorators.js';
 
 /**
  * @summary Inputs collect data from the user.
  * @status draft
  * @since 0.0.1
  *
- * @slot prefix - Used to prepend a presentational icon or similar element to the input.
- * @slot suffix - Used to append a presentational icon or similar element to the input.
- *
- * @csspart base - The component's base wrapper.
- * @csspart input - The internal `<input>` control.
- * @csspart prefix - The container that wraps the prefix.
- * @csspart suffix - The container that wraps the suffix.
- * @csspart clear-button - The clear button.
+ * Composite enhancement (rung 2): the element is the bordered field box and
+ * enhances the native `<input>` (and optional `<label>`) the author composes
+ * inside it. Leading/trailing adornments are children marked
+ * `data-slot="prefix"` / `data-slot="suffix"`. Label association, validation,
+ * and form participation are the native input's own. With `clearable`, the
+ * element appends a clear button it owns. Styles: `src/styles/input.css`.
  */
 
 export interface InputProps {
@@ -27,46 +19,30 @@ export interface InputProps {
 }
 
 export class PpInput extends LitElement {
-  static styles: CSSResultGroup = [unsafeCSS(styles)];
+  protected createRenderRoot() {
+    return this;
+  }
 
-  @query('.input__control') input!: HTMLInputElement;
-
-  @state() private hasFocus = false;
-  @property() title = ''; // make reactive to pass through
-
-
-  /**
-   * The type of input. Works the same as a native `<input>` element, but only a subset of types are supported.
-   */
-  @property({ reflect: true }) type:
-    | 'date'
-    | 'datetime-local'
-    | 'email'
-    | 'number'
-    | 'password'
-    | 'search'
-    | 'tel'
-    | 'text'
-    | 'time'
-    | 'url' = 'text';
-  // @property() inputmode: 'none' | 'text' | 'decimal' | 'numeric' | 'tel' | 'search' | 'email' | 'url';
-  @property() name = '';
-  @property() value = '';
-  @property() initialValue = '';
-  @property({ reflect: true }) size: 'small' | 'medium' | 'large' = 'medium';
   @property({ type: Boolean }) clearable = false;
-  @property({ type: Boolean, reflect: true }) disabled = false;
-  @property() placeholder = '';
-  @property() autocomplete = '';
-  @property({ type: Boolean }) autofocus = false;
-  @property() autocapitalize = '';
-  @property({ type: Boolean }) spellcheck = false;
-  @property() label = '';
-  @property() labelledby = '';
-  @property() describedby = '';
+
+  private clearButton: HTMLButtonElement | null = null;
+
+  get input(): HTMLInputElement | null {
+    return this.querySelector('input');
+  }
+
+  get value(): string {
+    return this.input?.value ?? '';
+  }
+
+  set value(value: string) {
+    if (this.input) this.input.value = value;
+    this.reflectEmptiness();
+  }
 
   connectedCallback() {
     super.connectedCallback();
+    this.addEventListener('input', this.handleInput);
     if (document.readyState !== 'loading') {
       this.init();
       return;
@@ -74,120 +50,52 @@ export class PpInput extends LitElement {
     document.addEventListener('DOMContentLoaded', () => this.init());
   }
 
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.removeEventListener('input', this.handleInput);
+  }
+
   private init() {
-    this.initialValue = this.value;
+    this.reflectEmptiness();
+    if (this.clearable && !this.clearButton) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'input__clear';
+      button.setAttribute('aria-label', 'Clear');
+      button.tabIndex = -1;
+      button.innerHTML = '<iconify-icon icon="ph:x-circle-fill"></iconify-icon>';
+      button.addEventListener('click', this.handleClear);
+      this.append(button);
+      this.clearButton = button;
+    }
   }
 
-  private handleInput() {
-    this.value = this.input.value;
-    this.dispatchEvent(new CustomEvent('input', { detail: { value: this.value } }));
+  private reflectEmptiness() {
+    this.toggleAttribute('data-empty', !this.input?.value);
   }
 
-  private handleClear() {
-    this.value = '';
-    this.input.focus();
-    // Dispatch both custom event and native input event for React compatibility
-    this.dispatchEvent(new CustomEvent('input', {
-      detail: { value: this.value },
-      bubbles: true
-    }));
-    // Also dispatch a native input event that React can handle
-    this.input.dispatchEvent(new Event('input', { bubbles: true }));
-  }
+  private handleInput = () => {
+    this.reflectEmptiness();
+  };
+
+  private handleClear = () => {
+    const input = this.input;
+    if (!input) return;
+    input.value = '';
+    input.focus();
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+  };
 
   focus(options?: FocusOptions) {
-    this.input.focus(options);
+    this.input?.focus(options);
   }
 
   blur() {
-    this.input.blur();
+    this.input?.blur();
   }
 
   select() {
-    this.input.select();
-  }
-
-  render() {
-    const hasClearIcon = this.clearable && !this.disabled;
-    const isClearIconVisible = hasClearIcon && (typeof this.value === 'number' || this.value.length > 0);
-    const accessibleName = this.label || textFromIdRefs(this.labelledby, this.getRootNode() as Document | ShadowRoot);
-    const labelledby = accessibleName ? undefined : this.labelledby || undefined;
-
-    return html`
-      <div
-        part="form-control"
-        class=${classMap({
-      'form-control': true,
-      'form-control--small': this.size === 'small',
-      'form-control--medium': this.size === 'medium',
-      'form-control--large': this.size === 'large',
-    })}
-      >
-        <div part="form-control-input" class="form-control-input">
-          <div
-            part="base"
-            class=${classMap({
-      input: true,
-
-      'input--small': this.size === 'small',
-      'input--medium': this.size === 'medium',
-      'input--large': this.size === 'large',
-      'input--updated': this.value !== this.initialValue,
-      'input--disabled': this.disabled,
-      'input--focused': this.hasFocus,
-      'input--empty': !this.value,
-    })}
-          >
-            <span part="prefix" class="input__prefix">
-              <slot name="prefix"></slot>
-            </span>
-
-            <input
-              part="input"
-              id="input"
-              class="input__control"
-              type="text"
-              name=${ifDefined(this.name)}
-              title=${ifDefined(this.title || undefined)}
-              ?disabled=${this.disabled}
-              placeholder=${ifDefined(this.placeholder)}
-              .value=${live(this.value)}
-              autocapitalize=${ifDefined(this.autocapitalize || undefined)}
-              autocomplete=${ifDefined(this.autocomplete || undefined)}
-              ?autofocus=${this.autofocus}
-              spellcheck=${this.spellcheck ? 'true' : 'false'}
-              aria-label=${ifDefined(accessibleName || undefined)}
-              aria-labelledby=${ifDefined(labelledby)}
-              aria-describedby=${ifDefined(this.describedby || undefined)}
-              @input=${this.handleInput}
-            />
-            ${hasClearIcon
-        ? html`
-                  <button
-                    part="clear-button"
-                    class=${classMap({
-          input__clear: true,
-          'input__clear--visible': isClearIconVisible
-        })}
-                    type="button"
-                    aria-label="Clear"
-                    tabindex="-1"
-                    @click=${this.handleClear}
-                  >
-                    <slot name="clear-icon">
-                      <iconify-icon icon="ph:x-circle-fill"></iconify-icon>
-                    </slot>
-                  </button>
-                `
-        : ''}
-
-            <span part="suffix" class="input__suffix">
-              <slot name="suffix"></slot>
-            </span>
-          </div>
-        </div>
-      </div>
-    `;
+    this.input?.select();
   }
 }
 

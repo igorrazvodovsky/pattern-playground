@@ -1,8 +1,6 @@
 import { announce } from '../../utility/announce.js';
-import { LitElement, html, unsafeCSS } from 'lit';
-import { property, query } from 'lit/decorators.js';
-import styles from './list.css?inline';
-import type { CSSResultGroup } from 'lit';
+import { LitElement } from 'lit';
+import { property } from 'lit/decorators.js';
 import type { PpListItem } from '../list-item/list-item';
 
 export interface ListSelectEventDetail {
@@ -13,17 +11,18 @@ export interface ListSelectEventDetail {
  * @summary A list of options for the user to choose from.
  * @status draft
  * @since 0.1
+ *
+ * Composite enhancement (rung 2): the element enhances the `<pp-list-item>`
+ * children it is given — menu role, roving tabindex, keyboard navigation,
+ * type-ahead, and submenu orchestration. Styles: `src/styles/list.css`.
  */
 
 export class PpList extends LitElement {
-  static styles: CSSResultGroup = [unsafeCSS(styles)];
-
-  @query('slot') defaultSlot: HTMLSlotElement;
+  protected createRenderRoot() {
+    return this;
+  }
 
   @property({ reflect: true }) label = '';
-  @property({ attribute: 'aria-label', reflect: true }) ariaLabel = '';
-  @property({ attribute: 'aria-labelledby', reflect: true }) ariaLabelledby = '';
-  @property({ attribute: 'aria-describedby', reflect: true }) ariaDescribedby = '';
   @property({ type: Boolean, attribute: 'multiselectable', reflect: true }) multiselectable = false;
 
   private openSubmenus: Set<PpListItem> = new Set();
@@ -32,6 +31,11 @@ export class PpList extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+    this.addEventListener('click', this.handleClick);
+    this.addEventListener('keydown', this.handleKeyDown);
+    this.addEventListener('mousedown', this.handleMouseDown);
+    this.addEventListener('mouseover', this.handleMouseOver);
+    this.addEventListener('mouseleave', this.handleMouseLeave);
     if (document.readyState !== 'loading') {
       this.init();
       return;
@@ -41,6 +45,11 @@ export class PpList extends LitElement {
 
   disconnectedCallback() {
     super.disconnectedCallback();
+    this.removeEventListener('click', this.handleClick);
+    this.removeEventListener('keydown', this.handleKeyDown);
+    this.removeEventListener('mousedown', this.handleMouseDown);
+    this.removeEventListener('mouseover', this.handleMouseOver);
+    this.removeEventListener('mouseleave', this.handleMouseLeave);
 
     // Clean up submenu state
     if (this.submenuTimeout) {
@@ -54,21 +63,16 @@ export class PpList extends LitElement {
   private init() {
     this.setAttribute('role', 'menu');
     this.setupAccessibility();
+
+    const items = this.getAllItems();
+    if (items.length > 0) {
+      this.setCurrentItem(items[0]);
+    }
   }
 
   private setupAccessibility() {
-    if (this.ariaLabel) {
-      this.setAttribute('aria-label', this.ariaLabel);
-    } else if (this.label) {
+    if (this.label && !this.hasAttribute('aria-label')) {
       this.setAttribute('aria-label', this.label);
-    }
-
-    if (this.ariaLabelledby) {
-      this.setAttribute('aria-labelledby', this.ariaLabelledby);
-    }
-
-    if (this.ariaDescribedby) {
-      this.setAttribute('aria-describedby', this.ariaDescribedby);
     }
 
     if (this.multiselectable) {
@@ -81,7 +85,7 @@ export class PpList extends LitElement {
     this.setAttribute('aria-activedescendant', '');
   }
 
-  private handleClick(event: MouseEvent) {
+  private handleClick = (event: MouseEvent) => {
     const listItemTypes = ['menuitem', 'menuitemcheckbox', 'menuitemradio'];
 
     const target = event.composedPath().find((el: Element) => listItemTypes.includes(el?.getAttribute?.('role') || ''));
@@ -110,9 +114,9 @@ export class PpList extends LitElement {
     }
 
     this.dispatchEvent(new CustomEvent('pp-select', { detail: { item } }));
-  }
+  };
 
-  private handleKeyDown(event: KeyboardEvent) {
+  private handleKeyDown = (event: KeyboardEvent) => {
     const items = this.getAllItems();
     const activeItem = this.getCurrentItem();
     const currentIndex = activeItem ? items.indexOf(activeItem) : 0;
@@ -199,7 +203,7 @@ export class PpList extends LitElement {
       event.stopPropagation();
       announce('Navigation cancelled');
     }
-  }
+  };
 
   private handleTypeAhead(character: string) {
     const items = this.getAllItems();
@@ -219,15 +223,15 @@ export class PpList extends LitElement {
     }
   }
 
-  private handleMouseDown(event: MouseEvent) {
+  private handleMouseDown = (event: MouseEvent) => {
     const target = event.target as HTMLElement;
 
     if (this.isListItem(target)) {
       this.setCurrentItem(target as PpListItem);
     }
-  }
+  };
 
-  private handleMouseOver(event: MouseEvent) {
+  private handleMouseOver = (event: MouseEvent) => {
     const target = event.target as HTMLElement;
     const listItem = target.closest('pp-list-item') as PpListItem;
 
@@ -245,19 +249,11 @@ export class PpList extends LitElement {
         this.handleSubmenuMouseEnter(listItem);
       }
     }
-  }
+  };
 
-  private handleMouseLeave() {
+  private handleMouseLeave = () => {
     this.handleSubmenuMouseLeave();
-  }
-
-  private handleSlotChange() {
-    const items = this.getAllItems();
-
-    if (items.length > 0) {
-      this.setCurrentItem(items[0]);
-    }
-  }
+  };
 
   private isListItem(item: HTMLElement) {
     return (
@@ -266,9 +262,9 @@ export class PpList extends LitElement {
     );
   }
 
-  // Gets all slotted list items, ignoring dividers, headers, and other elements.
+  // Gets all child list items, ignoring dividers, headers, and other elements.
   getAllItems() {
-    return [...this.defaultSlot.assignedElements({ flatten: true })].filter((el: Element) => {
+    return [...this.children].filter((el: Element) => {
       if ((el as HTMLElement).inert || !this.isListItem(el as HTMLElement)) {
         return false;
       }
@@ -327,15 +323,12 @@ export class PpList extends LitElement {
     announce(`Opened submenu for ${itemText}`);
 
     // Find the submenu list and focus first item
-    const submenuSlot = item.querySelector('slot[name="submenu"]') as HTMLSlotElement;
-    if (submenuSlot) {
-      const submenuList = submenuSlot.assignedElements().find(el => el.tagName.toLowerCase() === 'pp-list') as PpList;
-      if (submenuList) {
-        const submenuItems = submenuList.getAllItems();
-        if (submenuItems.length > 0) {
-          submenuList.setCurrentItem(submenuItems[0]);
-          submenuItems[0].focus();
-        }
+    const submenuList = item.querySelector<PpList>(':scope > [data-slot="submenu"] pp-list, :scope > pp-list[data-slot="submenu"]');
+    if (submenuList) {
+      const submenuItems = submenuList.getAllItems();
+      if (submenuItems.length > 0) {
+        submenuList.setCurrentItem(submenuItems[0]);
+        submenuItems[0].focus();
       }
     }
   }
@@ -399,19 +392,6 @@ export class PpList extends LitElement {
 
   private handleSubmenuMouseLeave() {
     this.scheduleSubmenuClose();
-  }
-
-  render() {
-    return html`
-      <slot
-        @slotchange=${this.handleSlotChange}
-        @click=${this.handleClick}
-        @keydown=${this.handleKeyDown}
-        @mousedown=${this.handleMouseDown}
-        @mouseover=${this.handleMouseOver}
-        @mouseleave=${this.handleMouseLeave}
-      ></slot>
-    `;
   }
 }
 

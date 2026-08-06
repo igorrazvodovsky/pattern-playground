@@ -1,31 +1,20 @@
-import { html, LitElement, unsafeCSS } from 'lit';
-import { classMap } from 'lit/directives/class-map.js';
-import { ifDefined } from 'lit/directives/if-defined.js';
-import { live } from 'lit/directives/live.js';
-import { property, query, state } from 'lit/decorators.js';
-import type { CSSResultGroup } from 'lit';
-import styles from './select.css?inline';
-import { textFromIdRefs } from '../../utility/accessible-name.js';
+import { LitElement } from 'lit';
+import { property } from 'lit/decorators.js';
+import type { PropertyValues } from 'lit';
+
+let id = 0;
 
 /**
  * @summary Choose one value from a short, bounded set of pre-defined options.
  * @status draft
  * @since 0.0.1
  *
- * @slot - Default slot for `<option>` and `<optgroup>` elements.
- * @slot prefix - Used to prepend a presentational icon or similar element to the control.
- * @slot suffix - Used to append a presentational icon or similar element to the control.
- * @slot hint - Supplementary guidance rendered beneath the control.
- * @slot error - Validation message rendered beneath the control when `invalid` is true.
- *
- * @csspart form-control - The outer form-control wrapper.
- * @csspart base - The component's base wrapper around the control.
- * @csspart select - The internal native `<select>` element.
- * @csspart prefix - The container that wraps the prefix slot.
- * @csspart suffix - The container that wraps the suffix slot.
- * @csspart caret - The decorative caret indicator.
- * @csspart hint - The hint region rendered beneath the control.
- * @csspart error - The error region rendered beneath the control.
+ * Composite enhancement (rung 2): the author composes a native `<select>`
+ * (with its own options, placeholder option, label association, and form
+ * participation) inside the element; optional `data-slot="hint"` and
+ * `data-slot="error"` children render beneath the control. The element
+ * appends the caret it owns, wires `aria-describedby` to hint and error, and
+ * reflects `invalid` onto the control. Styles: `src/styles/select.css`.
  */
 
 export interface SelectProps {
@@ -33,24 +22,26 @@ export interface SelectProps {
 }
 
 export class PpSelect extends LitElement {
-  static styles: CSSResultGroup = [unsafeCSS(styles)];
+  protected createRenderRoot() {
+    return this;
+  }
 
-  @query('.select__control') select!: HTMLSelectElement;
-  @query('slot:not([name])') defaultSlot!: HTMLSlotElement;
+  private readonly attrId = ++id;
+  private caret: HTMLElement | null = null;
 
-  @state() private hasFocus = false;
-
-  @property() name = '';
-  @property() value = '';
-  @property({ reflect: true }) size: 'small' | 'medium' | 'large' = 'medium';
-  @property({ type: Boolean, reflect: true }) disabled = false;
-  @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) invalid = false;
-  @property() placeholder = '';
-  @property({ type: Boolean }) autofocus = false;
-  @property() label = '';
-  @property() labelledby = '';
-  @property() describedby = '';
+
+  get select(): HTMLSelectElement | null {
+    return this.querySelector('select');
+  }
+
+  get value(): string {
+    return this.select?.value ?? '';
+  }
+
+  set value(value: string) {
+    if (this.select) this.select.value = value;
+  }
 
   connectedCallback() {
     super.connectedCallback();
@@ -62,130 +53,58 @@ export class PpSelect extends LitElement {
   }
 
   private init() {
-    this.syncOptionsToNativeSelect();
+    if (!this.caret) {
+      this.caret = document.createElement('span');
+      this.caret.className = 'select__caret';
+      this.caret.setAttribute('aria-hidden', 'true');
+      this.caret.innerHTML = '<iconify-icon icon="ph:caret-down"></iconify-icon>';
+      this.append(this.caret);
+    }
+    this.wireDescriptions();
+    this.reflectInvalid();
   }
 
-  private syncOptionsToNativeSelect() {
-    // Light DOM <option>/<optgroup> children are projected via <slot> into the
-    // internal native <select>. When the slotted nodes change, re-apply the
-    // current value so the native control reflects it.
-    if (this.select && this.value !== undefined) {
-      this.select.value = this.value;
+  private wireDescriptions() {
+    const select = this.select;
+    if (!select) return;
+
+    const ids: string[] = [];
+    const authored = select.getAttribute('aria-describedby');
+    if (authored) ids.push(authored);
+
+    const hint = this.querySelector<HTMLElement>(':scope > [data-slot="hint"]');
+    if (hint) {
+      hint.id = hint.id || `select-hint-${this.attrId}`;
+      ids.push(hint.id);
+    }
+
+    const error = this.querySelector<HTMLElement>(':scope > [data-slot="error"]');
+    if (error) {
+      error.id = error.id || `select-error-${this.attrId}`;
+      if (this.invalid) ids.push(error.id);
+    }
+
+    if (ids.length > 0) {
+      select.setAttribute('aria-describedby', ids.join(' '));
     }
   }
 
-  private handleSlotChange = () => {
-    this.syncOptionsToNativeSelect();
-  };
+  private reflectInvalid() {
+    this.select?.setAttribute('aria-invalid', this.invalid ? 'true' : 'false');
+  }
 
-  private handleChange = () => {
-    this.value = this.select.value;
-    this.dispatchEvent(new CustomEvent('change', {
-      detail: { value: this.value },
-      bubbles: true,
-    }));
-  };
-
-  private handleFocus = () => {
-    this.hasFocus = true;
-  };
-
-  private handleBlur = () => {
-    this.hasFocus = false;
-  };
+  protected updated(changed: PropertyValues<this>) {
+    if (changed.has('invalid')) {
+      this.reflectInvalid();
+    }
+  }
 
   focus(options?: FocusOptions) {
-    this.select.focus(options);
+    this.select?.focus(options);
   }
 
   blur() {
-    this.select.blur();
-  }
-
-  render() {
-    const accessibleName = this.label || textFromIdRefs(this.labelledby, this.getRootNode() as Document | ShadowRoot);
-    const labelledby = accessibleName ? undefined : this.labelledby || undefined;
-    const describedbyIds = [
-      this.describedby || null,
-      'select-hint',
-      this.invalid ? 'select-error' : null,
-    ].filter(Boolean).join(' ') || undefined;
-
-    return html`
-      <div
-        part="form-control"
-        class=${classMap({
-      'form-control': true,
-      'form-control--small': this.size === 'small',
-      'form-control--medium': this.size === 'medium',
-      'form-control--large': this.size === 'large',
-    })}
-      >
-        <div part="form-control-input" class="form-control-input">
-          <div
-            part="base"
-            class=${classMap({
-      select: true,
-      'select--small': this.size === 'small',
-      'select--medium': this.size === 'medium',
-      'select--large': this.size === 'large',
-      'select--disabled': this.disabled,
-      'select--focused': this.hasFocus,
-      'select--invalid': this.invalid,
-      'select--empty': !this.value,
-    })}
-          >
-            <span part="prefix" class="select__prefix">
-              <slot name="prefix"></slot>
-            </span>
-
-            <select
-              part="select"
-              id="select"
-              class="select__control"
-              name=${ifDefined(this.name || undefined)}
-              ?disabled=${this.disabled}
-              ?required=${this.required}
-              ?autofocus=${this.autofocus}
-              .value=${live(this.value)}
-              aria-label=${ifDefined(accessibleName || undefined)}
-              aria-labelledby=${ifDefined(labelledby)}
-              aria-describedby=${ifDefined(describedbyIds)}
-              aria-invalid=${this.invalid ? 'true' : 'false'}
-              @change=${this.handleChange}
-              @focus=${this.handleFocus}
-              @blur=${this.handleBlur}
-            >
-              ${this.placeholder
-        ? html`<option value="" disabled ?selected=${!this.value}>${this.placeholder}</option>`
-        : ''}
-              <slot @slotchange=${this.handleSlotChange}></slot>
-            </select>
-
-            <span part="caret" class="select__caret" aria-hidden="true">
-              <iconify-icon icon="ph:caret-down"></iconify-icon>
-            </span>
-
-            <span part="suffix" class="select__suffix">
-              <slot name="suffix"></slot>
-            </span>
-          </div>
-
-          <div part="hint" id="select-hint" class="select__hint">
-            <slot name="hint"></slot>
-          </div>
-
-          ${this.invalid
-        ? html`
-                <div part="error" id="select-error" class="select__error">
-                  <span class="visually-hidden">Error:</span>
-                  <slot name="error"></slot>
-                </div>
-              `
-        : ''}
-        </div>
-      </div>
-    `;
+    this.select?.blur();
   }
 }
 

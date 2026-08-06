@@ -1,0 +1,35 @@
+/* Light-DOM styles for pp-dropdown (rung 2: author composes a
+   data-slot="trigger" and a pp-popup panel child; the dropdown wires them).
+   The panel skin lives on the popup box itself; the `dropdown__panel` class
+   is set by the component on its popup child. */
+
+pp-dropdown > [data-slot="trigger"] {
+  display: block;
+}
+
+pp-popup.dropdown__panel,
+pp-popup.dropdown__panel[top-layer] {
+  --c-background: var(--c-neutral-0);
+
+  font-size: var(--text-m);
+  font-weight: var(--font-weight-normal);
+  background: var(--c-background);
+  box-shadow: var(--shadow-l);
+  border-radius: var(--radius-m);
+}
+
+pp-popup.dropdown__panel[data-current-placement^="top"] {
+  transform-origin: bottom;
+}
+
+pp-popup.dropdown__panel[data-current-placement^="bottom"] {
+  transform-origin: top;
+}
+
+pp-popup.dropdown__panel[data-current-placement^="left"] {
+  transform-origin: right;
+}
+
+pp-popup.dropdown__panel[data-current-placement^="right"] {
+  transform-origin: left;
+}

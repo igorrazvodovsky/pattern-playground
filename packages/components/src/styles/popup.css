@@ -1,0 +1,53 @@
+/* Light-DOM styles for pp-popup: the element itself is the positioned box —
+   Floating UI drives left/top, the popover attribute (set by the component
+   when `top-layer`) promotes it to the top layer. */
+
+pp-popup {
+  position: absolute;
+  isolation: isolate;
+  max-width: var(--auto-size-available-width, none);
+  max-height: var(--auto-size-available-height, none);
+  z-index: var(--layer-dropdown);
+}
+
+pp-popup:not([active]) {
+  display: none;
+}
+
+pp-popup[strategy="fixed"],
+pp-popup[top-layer] {
+  position: fixed;
+}
+
+/* The UA sheet gives [popover] its own box: `inset: 0`, `margin: auto`,
+   a border, padding and a background, plus `display: none` until open.
+   Undo all of it — this element is a positioning shell, and Floating UI
+   drives left/top. Openness is the popover's own business, so the
+   `[active]` display rule above must not fight it either. */
+pp-popup[top-layer] {
+  inset: auto;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  overflow: visible;
+  width: auto;
+  height: auto;
+  max-width: var(--auto-size-available-width, none);
+  max-height: var(--auto-size-available-height, none);
+}
+
+pp-popup[top-layer]:not(:popover-open) {
+  display: none;
+}
+
+pp-popup[top-layer]:popover-open {
+  display: block;
+}
+
+/* When a list is the popup's content, conform it to the popup's auto-size */
+pp-popup > pp-list {
+  max-width: var(--auto-size-available-width) !important;
+  max-height: var(--auto-size-available-height) !important;
+}

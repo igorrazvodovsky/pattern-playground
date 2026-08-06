@@ -1,0 +1,23 @@
+/* Light-DOM styles for pp-list (rung 2: the element enhances its
+   pp-list-item children — menu role, roving tabindex, keyboard nav). */
+
+pp-list {
+  display: block;
+  position: relative;
+  background: var(--c-background);
+  border: var(--border);
+  border-radius: var(--radius-m);
+  padding: var(--space-xs) 0;
+  overflow: auto;
+  overscroll-behavior: none;
+
+  > hr {
+    --spacing: var(--space-xs);
+
+    margin-inline: calc(var(--space-m) * -1);
+    width: calc(100% + var(--space-m) * 2);
+    border: none;
+    border-top: var(--border);
+    margin-block: var(--space-xs);
+  }
+}

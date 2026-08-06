@@ -46,7 +46,7 @@ export const Default: Story = {
     const classes = ['button', args.variant !== 'default' ? `button--${args.variant}` : ''].filter(Boolean).join(' ');
     const icon = <iconify-icon className="icon" icon="ph:circle-dashed" />;
     return (
-      <button className={classes} is="pp-button" disabled={args.disabled} onClick={action('click')}>
+      <button className={classes} disabled={args.disabled} onClick={action('click')}>
         {(args.iconPosition === 'prefix' || args.iconPosition === 'both') && icon}
         {args.label}
         {(args.iconPosition === 'suffix' || args.iconPosition === 'both') && icon}
@@ -58,10 +58,10 @@ export const Default: Story = {
 export const Variants: Story = {
   render: () => (
     <div className="inline-flow">
-      <button className="button button--primary" is="pp-button">Primary</button>
-      <button className="button button--danger" is="pp-button">Danger</button>
-      <button className="button button--plain" is="pp-button">Plain</button>
-      <button className="button" is="pp-button" disabled>Disabled</button>
+      <button className="button button--primary">Primary</button>
+      <button className="button button--danger">Danger</button>
+      <button className="button button--plain">Plain</button>
+      <button className="button" disabled>Disabled</button>
     </div>
   ),
 };
@@ -69,16 +69,16 @@ export const Variants: Story = {
 export const Prefixes: Story = {
   render: () => (
     <div className="inline-flow">
-      <button className="button" is="pp-button">
+      <button className="button">
         <iconify-icon className="icon" icon="ph:circle-dashed"></iconify-icon> With prefix
       </button>
-      <button className="button" is="pp-button">
+      <button className="button">
         With suffix <iconify-icon className="icon" icon="ph:circle-dashed"></iconify-icon>
       </button>
-      <button className="button" is="pp-button">
+      <button className="button">
         <iconify-icon className="icon" icon="ph:circle-dashed"></iconify-icon> With both <iconify-icon className="icon" icon="ph:circle-dashed"></iconify-icon>
       </button>
-      <button className="button" is="pp-button">
+      <button className="button">
         With keyboard shortcut <kbd>ESC</kbd>
       </button>
     </div>
@@ -88,8 +88,8 @@ export const Prefixes: Story = {
 export const Toggle: Story = {
   render: () => (
     <div className="inline-flow">
-      <button className="button" is="pp-button">Simple toggle</button>
-      <button className="button" is="pp-button">Multiple state toggle</button>
+      <button className="button">Simple toggle</button>
+      <button className="button">Multiple state toggle</button>
     </div>
   ),
 };
@@ -97,7 +97,7 @@ export const Toggle: Story = {
 export const IconButton: Story = {
   args: { label: "Button" },
   render: (args) => (
-    <button className="button" is="pp-button">
+    <button className="button">
       <iconify-icon className="icon" icon="ph:circle-dashed"></iconify-icon>
       <span className="visually-hidden">{args.label}</span>
     </button>

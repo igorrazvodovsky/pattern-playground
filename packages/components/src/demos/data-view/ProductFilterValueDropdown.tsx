@@ -73,7 +73,7 @@ export const ProductFilterValueDropdown: React.FC<ProductFilterValueDropdownProp
       onPp-hide={handleDropdownHide}
     >
       <button
-        slot="trigger"
+        data-slot="trigger"
         className="tag"
       >
         {hasValueIcons && (
@@ -93,57 +93,59 @@ export const ProductFilterValueDropdown: React.FC<ProductFilterValueDropdownProp
           : `${filterValues?.length} selected`}
       </button>
 
-      <div>
-        <AnimateChangeInHeight>
-          <Combobox>
-            <ComboboxInput
-              placeholder={currentCategory?.name ?? path}
-              className="h-9"
-              value={commandInput}
-              onInputCapture={(e) => {
-                setComboboxInput(e.currentTarget.value);
-              }}
-              ref={commandInputRef}
-            />
-            <ComboboxList>
-              <ComboboxEmpty>No results found.</ComboboxEmpty>
-              <ComboboxGroup>
-                {filterValues.map((value) => (
-                  <ComboboxItem
-                    key={value}
-                    checked={true}
-                    onSelect={() => handleValueRemove(value)}
-                  >
-                    {getIconForValue(value) && (
-                      <iconify-icon icon={getIconForValue(value)} slot="prefix" />
-                    )}
-                    {getDisplayName(value)}
-                  </ComboboxItem>
-                ))}
-              </ComboboxGroup>
-              {nonSelectedFilterValues?.length > 0 && (
-                <>
-                  <ComboboxGroup>
-                    {nonSelectedFilterValues.map((option) => (
-                      <ComboboxItem
-                        key={option.value}
-                        value={option.name}
-                        checked={false}
-                        onSelect={() => handleValueAdd(option.value)}
-                      >
-                        {option.icon && <iconify-icon icon={option.icon} slot="prefix" />}
-                        <span>
-                          {option.name}
-                        </span>
-                      </ComboboxItem>
-                    ))}
-                  </ComboboxGroup>
-                </>
-              )}
-            </ComboboxList>
-          </Combobox>
-        </AnimateChangeInHeight>
-      </div>
+      <pp-popup>
+        <div>
+          <AnimateChangeInHeight>
+            <Combobox>
+              <ComboboxInput
+                placeholder={currentCategory?.name ?? path}
+                className="h-9"
+                value={commandInput}
+                onInputCapture={(e) => {
+                  setComboboxInput(e.currentTarget.value);
+                }}
+                ref={commandInputRef}
+              />
+              <ComboboxList>
+                <ComboboxEmpty>No results found.</ComboboxEmpty>
+                <ComboboxGroup>
+                  {filterValues.map((value) => (
+                    <ComboboxItem
+                      key={value}
+                      checked={true}
+                      onSelect={() => handleValueRemove(value)}
+                    >
+                      {getIconForValue(value) && (
+                        <iconify-icon icon={getIconForValue(value)} slot="prefix" />
+                      )}
+                      {getDisplayName(value)}
+                    </ComboboxItem>
+                  ))}
+                </ComboboxGroup>
+                {nonSelectedFilterValues?.length > 0 && (
+                  <>
+                    <ComboboxGroup>
+                      {nonSelectedFilterValues.map((option) => (
+                        <ComboboxItem
+                          key={option.value}
+                          value={option.name}
+                          checked={false}
+                          onSelect={() => handleValueAdd(option.value)}
+                        >
+                          {option.icon && <iconify-icon icon={option.icon} slot="prefix" />}
+                          <span>
+                            {option.name}
+                          </span>
+                        </ComboboxItem>
+                      ))}
+                    </ComboboxGroup>
+                  </>
+                )}
+              </ComboboxList>
+            </Combobox>
+          </AnimateChangeInHeight>
+        </div>
+      </pp-popup>
     </pp-dropdown>
   );
 };

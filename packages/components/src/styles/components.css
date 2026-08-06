@@ -26,6 +26,16 @@
 @import url(avatar.css);
 @import url(p-plus.css);
 @import url(breadcrumbs.css) layer(components);
+@import url(spinner.css) layer(components);
+@import url(switch.css) layer(components);
+@import url(range.css) layer(components);
+@import url(tabs.css) layer(components);
+@import url(list.css) layer(components);
+@import url(list-item.css) layer(components);
+@import url(select.css) layer(components);
+@import url(popup.css) layer(components);
+@import url(tooltip.css) layer(components);
+@import url(dropdown.css) layer(components);
 @import url(textarea.css) layer(components);
 @import url(details.css);
 @import url(messages.css) layer(components);

@@ -181,7 +181,6 @@ function SiteHeader() {
       </pp-tooltip>
       <pp-tooltip content="Search (⌘K)" placement="left">
         <button
-          is="pp-button"
           type="button"
           onClick={openSearch}
           className="button button--plain site-header-search"
@@ -223,7 +222,7 @@ function ProjectionMenu({
   const dropdownRef = React.useRef<(HTMLElement & { open?: boolean }) | null>(null);
   const trigger = (
     <SidebarMenuButton
-      slot={hydrated ? 'trigger' : undefined}
+      data-slot={hydrated ? 'trigger' : undefined}
       tooltip="Organise patterns"
       className="sidebar-projection-trigger"
     >
@@ -237,21 +236,23 @@ function ProjectionMenu({
       {hydrated ? (
         <pp-dropdown ref={dropdownRef} placement="top-start" hoist>
           {trigger}
-          <pp-list>
-            {Object.entries(projectionLabels).map(([id, label]) => (
-              <pp-list-item
-                key={id}
-                type="radio"
-                checked={id === active}
-                onClick={() => {
-                  onSelect(id);
-                  if (dropdownRef.current) dropdownRef.current.open = false;
-                }}
-              >
-                {label}
-              </pp-list-item>
-            ))}
-          </pp-list>
+          <pp-popup>
+            <pp-list>
+              {Object.entries(projectionLabels).map(([id, label]) => (
+                <pp-list-item
+                  key={id}
+                  type="radio"
+                  checked={id === active}
+                  onClick={() => {
+                    onSelect(id);
+                    if (dropdownRef.current) dropdownRef.current.open = false;
+                  }}
+                >
+                  {label}
+                </pp-list-item>
+              ))}
+            </pp-list>
+          </pp-popup>
         </pp-dropdown>
       ) : (
         trigger

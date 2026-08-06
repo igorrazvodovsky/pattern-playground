@@ -1,7 +1,6 @@
-import { classMap } from 'lit/directives/class-map.js';
-import { LitElement, html, unsafeCSS } from 'lit';
-import { property, query } from 'lit/decorators.js';
-import styles from './tab.css?inline';
+import { LitElement } from 'lit';
+import { property } from 'lit/decorators.js';
+import type { PropertyValues } from 'lit';
 
 let id = 0;
 
@@ -9,15 +8,21 @@ let id = 0;
  * @summary Tabs are used inside tab groups to represent and activate tab panels.
  * @status draft
  * @since 0.0.1
+ *
+ * Composite enhancement (rung 2): the element itself is the tab — it renders
+ * nothing and enhances itself with `role="tab"`, focusability, and
+ * `aria-selected`. Compose the label as text, with optional
+ * `data-slot="icon"` (place it first) and `data-slot="subtitle"` children.
+ * Styles live in `src/styles/tabs.css`.
  */
 
 export class PpTab extends LitElement {
-  static styles = unsafeCSS(styles);
+  protected createRenderRoot() {
+    return this;
+  }
 
   private readonly attrId = ++id;
   private readonly componentId = `tab-${this.attrId}`;
-
-  @query('.tab') tab: HTMLElement;
 
   @property({ reflect: true }) panel = '';
   @property({ type: Boolean, reflect: true }) active = false;
@@ -33,37 +38,16 @@ export class PpTab extends LitElement {
 
   private init() {
     this.setAttribute('role', 'tab');
-  }
-
-  handleActiveChange() {
-    this.setAttribute('aria-selected', this.active ? 'true' : 'false');
-  }
-
-  focus(options?: FocusOptions) {
-    this.tab.focus(options);
-  }
-
-  blur() {
-    this.tab.blur();
-  }
-
-  render() {
+    if (!this.hasAttribute('tabindex')) {
+      this.setAttribute('tabindex', '0');
+    }
     this.id = this.id.length > 0 ? this.id : this.componentId;
+  }
 
-    return html`
-      <div
-        part="base"
-        class=${classMap({
-      tab: true,
-      'tab--active': this.active,
-    })}
-        tabindex="0"
-      >
-        <slot name="icon"></slot>
-        <span part="label"><slot></slot></span>
-        <span part="subtitle"><slot name="subtitle"></slot></span>
-      </div>
-    `;
+  protected updated(changed: PropertyValues<this>) {
+    if (changed.has('active')) {
+      this.setAttribute('aria-selected', this.active ? 'true' : 'false');
+    }
   }
 }
 

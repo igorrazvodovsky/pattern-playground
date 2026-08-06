@@ -1,0 +1,32 @@
+/* CSS-only spinner (rung 1): `pp-spinner` is a styled tag with no custom
+   element definition. The one-em ring sizes with `font-size`, as the SVG
+   version did. Add `role="progressbar"` and an `aria-label` in markup when
+   the spinner stands alone rather than beside visible loading text. */
+
+pp-spinner {
+  --track-width: 2px;
+  --track-color: oklch(0% 0 0deg / 10%);
+  --indicator-color: var(--c-accent-600);
+  --speed: 2s;
+
+  display: inline-flex;
+  width: 1em;
+  height: 1em;
+  flex: none;
+}
+
+pp-spinner::after {
+  content: "";
+  flex: 1 1 auto;
+  border: var(--track-width) solid var(--track-color);
+  border-block-start-color: var(--indicator-color);
+  border-radius: var(--radius-circle);
+  animation: pp-spinner-spin var(--speed) linear infinite;
+}
+
+/* Three turns per cycle matches the old SVG's 1080° sweep per `--speed`. */
+@keyframes pp-spinner-spin {
+  to {
+    rotate: 3turn;
+  }
+}

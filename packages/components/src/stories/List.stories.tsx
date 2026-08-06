@@ -28,11 +28,11 @@ export const List: Story = {
       <pp-list-item disabled>Disabled</pp-list-item>
       <pp-list-item>
         Prefix
-        <iconify-icon className="icon" slot="prefix" icon="ph:circle-dashed"></iconify-icon>
+        <iconify-icon className="icon" data-slot="prefix" icon="ph:circle-dashed"></iconify-icon>
       </pp-list-item>
       <pp-list-item>
         Suffix
-        <iconify-icon className="icon" slot="suffix" icon="ph:circle-dashed"></iconify-icon>
+        <iconify-icon className="icon" data-slot="suffix" icon="ph:circle-dashed"></iconify-icon>
       </pp-list-item>
     </pp-list>
   ),

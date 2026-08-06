@@ -1,0 +1,116 @@
+/* Light-DOM styles for pp-list-item (rung 2: the element is the menu item
+   row). Label content is text or unmarked children; `data-slot="prefix"` /
+   `data-slot="suffix"` mark adornments; the check mark and chevron are
+   component-appended. A raw-text label is an anonymous flex item, so the
+   push-right comes from an auto margin on the first suffix-side element
+   rather than label growth; an element label still grows and truncates. */
+
+pp-list-item {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  font-size: var(--text-m);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+  color: var(--c-neutral-700);
+  padding: var(--space-xs) var(--space-m) var(--space-xs) var(--space-2xs);
+  transition: var(--transition-fast) fill;
+  user-select: none;
+  -webkit-user-select: none;
+  white-space: nowrap;
+  cursor: pointer;
+  border-radius: var(--radius-s);
+
+  /* Label: any direct child that isn't an adornment or component-owned */
+  > :not([data-slot], .list-item__check, .list-item__chevron) {
+    flex: 1 1 auto;
+    display: inline-block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    align-self: center;
+  }
+
+  > [data-slot="prefix"] {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    margin-inline-end: var(--space-xs);
+  }
+
+  > [data-slot="suffix"] {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    margin-inline-start: auto;
+    min-width: 1em;
+  }
+
+  > [data-slot="suffix"] ~ [data-slot="suffix"] {
+    margin-inline-start: var(--space-xs);
+  }
+
+  .list-item__check {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5em;
+    visibility: hidden;
+  }
+
+  .list-item__chevron {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5em;
+    visibility: hidden;
+    margin-inline-start: auto;
+    transition: transform var(--transition-fast);
+  }
+
+  > [data-slot="suffix"] ~ .list-item__chevron {
+    margin-inline-start: 0;
+  }
+
+  > [data-slot="submenu"] {
+    display: none;
+  }
+}
+
+pp-list-item[inert] {
+  display: none;
+}
+
+pp-list-item[checked] .list-item__check {
+  visibility: visible;
+}
+
+pp-list-item[has-submenu] .list-item__chevron {
+  visibility: visible;
+}
+
+pp-list-item[aria-disabled="true"] {
+  outline: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Items are focused programmatically on hover/keyboard nav; the "current item"
+   is indicated by the background highlight below, not a focus ring. */
+pp-list-item:focus {
+  outline: none !important;
+  opacity: 1;
+}
+
+pp-list-item:hover:not([aria-disabled="true"]),
+pp-list-item:focus:not([aria-disabled="true"]) {
+  background-color: oklch(from var(--c-neutral-50) calc(l - 0.05) c h);
+  color: var(--c-neutral-1000);
+}
+
+pp-list-item[has-submenu]:hover:not([aria-disabled="true"]),
+pp-list-item[submenu-open] {
+  background-color: var(--c-neutral-50);
+}

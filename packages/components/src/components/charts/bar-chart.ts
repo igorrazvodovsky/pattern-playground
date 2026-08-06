@@ -64,7 +64,6 @@ export const barChartDataConverter = {
 };
 
 export class BarChart extends ChartComponent {
-  static styles = ChartComponent.styles;
 
   // Bar chart specific properties
   @property({

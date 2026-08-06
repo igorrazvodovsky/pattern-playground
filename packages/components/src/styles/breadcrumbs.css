@@ -1,84 +1,131 @@
-@custom-media --motionOK (prefers-reduced-motion: no-preference);
+/* Light-DOM styles for pp-breadcrumbs (rung 2: the element renders nothing
+   and enhances the trail it is given). Merged from the former shadow sheet
+   (components/breadcrumbs/breadcrumbs.css) and this file's earlier overrides;
+   `::slotted(…)` rules became `> …` child rules. */
 
 pp-breadcrumbs {
+  --_separator-space: 0.5rem;
+  --_crumb-min-height: 2.5rem;
+  --_crumb-padding: 0.5rem;
   --_crumb-radius: 0.3rem;
-  --_crumb-color: rgba(125, 125, 125, 0.1);
-  --_crumb-color-interactive: rgba(125, 125, 125, 0.2);
+  --_crumb-ink: CanvasText;
 
-  &,
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  font-size: 0.9rem;
+  color: var(--c-bodyDimmed);
+
   a {
     color: var(--c-bodyDimmed);
+  }
+
+  > a,
+  > .crumb {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--_crumb-min-height);
+    padding-inline-end: var(--_crumb-padding);
+    border-radius: var(--_crumb-radius);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  > .crumb {
+    position: relative;
   }
 
   a:hover {
     color: oklch(from var(--c-bodyDimmed) l c h / 90%);
   }
-}
 
-.crumbicon {
-  position: relative;
-  --size: 3ch;
-  --icon-shadow-size: 0px;
-  display: grid;
-  grid: [stack] var(--size) / [stack] var(--size);
-  place-items: center;
-  border-radius: 50%;
-  /* box-shadow: inset 0 0 0 var(--icon-shadow-size) currentColor; */
-  margin-inline-start: 0.5ch;
-  background-color: transparent;
-  transition: background-color 0.2s ease;
-}
-
-/* .crumb::before {
-  content: "/";
-  margin: 0 1ch;
-  color: ButtonText;
-} */
-
-@media (prefers-reduced-motion: no-preference) {
-  .crumbicon {
-    transition: background-color 0.2s ease;
+  > a:focus-visible,
+  > .crumb:has(:focus-visible) {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
   }
-}
 
-.crumb:hover > .crumbicon,
-.crumb:focus-within > .crumbicon {
-  --icon-shadow-size: 1px;
-  background-color: oklch(0% 0 0 / 5%);
-}
+  /* Separator between items */
+  > a:not(:last-child)::after,
+  > .crumb:not(:last-child)::after {
+    content: "/";
+    margin-inline: var(--_separator-space);
+    color: var(--_crumb-ink);
+    opacity: 0.5;
+  }
 
-.crumbicon:hover,
-.crumbicon:focus-within {
-  --icon-shadow-size: 2px;
-  background-color: oklch(0% 0 0 / 10%);
-}
+  .crumbicon {
+    --size: 3ch;
 
-.crumbicon:hover > svg,
-.crumbicon:focus-within > svg {
-  stroke-width: 2px;
-}
+    position: relative;
+    display: grid;
+    grid: [stack] var(--size) / [stack] var(--size);
+    place-items: center;
+    border-radius: 50%;
+    margin-inline-start: 0.5ch;
+    background-color: transparent;
+  }
 
-.crumbicon > * {
-  grid-area: stack;
-}
+  @media (prefers-reduced-motion: no-preference) {
+    .crumbicon {
+      transition: background-color 0.2s ease;
+    }
+  }
 
-.crumbicon > svg {
-  max-block-size: 100%;
-  margin: calc(0.5ch);
-  stroke: currentColor;
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 1px;
-}
+  .crumbicon > * {
+    grid-area: stack;
+  }
 
-.disguised-select {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.01;
-  cursor: pointer;
-  z-index: 1;
+  .crumbicon > svg {
+    max-block-size: 100%;
+    margin: 0.5ch;
+    stroke: currentcolor;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1px;
+  }
+
+  .crumbicon:hover,
+  .crumbicon:focus-within {
+    background-color: oklch(0% 0 0deg / 10%);
+  }
+
+  .crumb:hover > .crumbicon,
+  .crumb:focus-within > .crumbicon {
+    background-color: oklch(0% 0 0deg / 5%);
+  }
+
+  .crumbicon:hover > svg,
+  .crumbicon:focus-within > svg {
+    stroke-width: 2px;
+  }
+
+  .disguised-select {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border: none;
+    font: inherit;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  /* Elide the middle of the trail on narrow viewports */
+  @media (width <= 768px) {
+    > a:not(:last-child, :first-child),
+    > .crumb:not(:last-child, :first-child) {
+      display: none;
+    }
+
+    > a:not(:last-child)::after,
+    > .crumb:not(:last-child)::after {
+      content: "...";
+      margin-inline: var(--_separator-space);
+    }
+  }
 }

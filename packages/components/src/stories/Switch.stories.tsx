@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { userEvent, within } from '@storybook/testing-library';
 
 interface SwitchArgs {
@@ -9,13 +9,16 @@ interface SwitchArgs {
   size: 'small' | 'medium' | 'large';
 }
 
+const sizeClass = (size: SwitchArgs['size']) =>
+  size === 'medium' ? 'switch' : `switch switch--${size}`;
+
 const meta = {
   title: "Components/Switch",
   tags: ['autodocs', 'activity-level:operation', 'atomic:primitive', 'mediation:individual'],
   argTypes: {
     label: {
       control: { type: 'text' },
-      description: 'Accessible label (aria-label on the internal input)',
+      description: 'Accessible label (aria-label on the input)',
     },
     checked: {
       control: { type: 'boolean' },
@@ -37,29 +40,19 @@ export default meta;
 type Story = StoryObj<SwitchArgs>;
 
 function ControlledSwitch(props: SwitchArgs) {
-  const ref = useRef<HTMLElement>(null);
   const [checked, setChecked] = useState(props.checked);
 
   useEffect(() => setChecked(props.checked), [props.checked]);
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const handler = (event: Event) => {
-      const detail = (event as CustomEvent<{ checked: boolean }>).detail;
-      if (detail !== undefined) setChecked(detail.checked);
-    };
-    el.addEventListener('change', handler);
-    return () => el.removeEventListener('change', handler);
-  }, []);
-
   return (
-    <pp-switch
-      ref={ref}
-      label={props.label}
+    <input
+      type="checkbox"
+      role="switch"
+      className={sizeClass(props.size)}
+      aria-label={props.label}
       checked={checked}
       disabled={props.disabled}
-      size={props.size}
+      onChange={(event) => setChecked(event.target.checked)}
     />
   );
 }
@@ -75,30 +68,36 @@ export const Switch: Story = {
 };
 
 export const Checked: Story = {
-  render: () => <pp-switch label="Dark mode" checked />,
+  render: () => (
+    <input type="checkbox" role="switch" className="switch" aria-label="Dark mode" defaultChecked />
+  ),
 };
 
 export const Disabled: Story = {
-  render: () => <pp-switch label="Notifications" disabled />,
+  render: () => (
+    <input type="checkbox" role="switch" className="switch" aria-label="Notifications" disabled />
+  ),
 };
 
 export const DisabledChecked: Story = {
-  render: () => <pp-switch label="Notifications" checked disabled />,
+  render: () => (
+    <input type="checkbox" role="switch" className="switch" aria-label="Notifications" defaultChecked disabled />
+  ),
 };
 
 export const Sizes: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-      <pp-switch label="Small" size="small" />
-      <pp-switch label="Medium" size="medium" />
-      <pp-switch label="Large" size="large" />
+      <input type="checkbox" role="switch" className="switch switch--small" aria-label="Small" />
+      <input type="checkbox" role="switch" className="switch" aria-label="Medium" />
+      <input type="checkbox" role="switch" className="switch switch--large" aria-label="Large" />
     </div>
   ),
 };
 
 export const ToggleInteraction: Story = {
   render: () => (
-    <pp-switch label="Toggle me" />
+    <input type="checkbox" role="switch" className="switch" aria-label="Toggle me" />
   ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

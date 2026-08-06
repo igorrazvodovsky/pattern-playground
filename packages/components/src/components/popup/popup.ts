@@ -1,11 +1,7 @@
 import { autoUpdate, computePosition, flip, offset, platform, shift, size } from '@floating-ui/dom';
-import { classMap } from 'lit/directives/class-map.js';
-import { LitElement, html, nothing, unsafeCSS } from 'lit';
+import { LitElement } from 'lit';
 import { offsetParent } from 'composed-offset-position';
-import { property, query } from 'lit/decorators.js';
-import styles from './popup.css?inline';
-
-import type { CSSResultGroup } from 'lit';
+import { property } from 'lit/decorators.js';
 
 export interface VirtualElement {
   getBoundingClientRect: () => DOMRect;
@@ -26,26 +22,31 @@ function isVirtualElement(e: unknown): e is VirtualElement {
  * @status draft
  * @since 0.1
  *
- * @slot - The popup's content.
- * @slot anchor - The element the popup will be anchored to.
- *
- * @csspart popup - The popup's container. Useful for setting a background color, box shadow, etc.
- * @csspart hover-bridge - The hover bridge element. Only available when the `hover-bridge` option is enabled.
- *
+ * Light-DOM shell (rung 3 flavour): the element itself is the positioned box —
+ * Floating UI drives its `left`/`top`, the native popover API promotes it to
+ * the top layer, and the author's children are the popup's content. The
+ * anchor is external: pass an element, id, or `VirtualElement` via the
+ * `anchor` property (or mark a sibling with `data-slot="anchor"`).
+ * Styles live in `src/styles/popup.css`.
  */
 
 export class PpPopup extends LitElement {
-  static styles: CSSResultGroup = [unsafeCSS(styles)];
+  protected createRenderRoot() {
+    return this;
+  }
 
   private anchorEl: Element | VirtualElement | null;
   private cleanup: ReturnType<typeof autoUpdate> | undefined;
 
-  @query('.popup') popup: HTMLElement;
+  /** The positioned box. The light-DOM element is its own box; kept as an accessor for consumers of the old shadow API. */
+  get popup(): HTMLElement {
+    return this;
+  }
 
   /**
-   * The element the popup will be anchored to. If the anchor lives outside of the popup, you can provide the anchor
-   * element `id`, a DOM element reference, or a `VirtualElement`. If the anchor lives inside the popup, use the
-   * `anchor` slot instead.
+   * The element the popup will be anchored to: an element `id`, a DOM element
+   * reference, or a `VirtualElement`. Alternatively, mark a child with
+   * `data-slot="anchor"`.
    */
   @property() anchor: Element | string | VirtualElement;
   @property({ type: Boolean, reflect: true }) active = false;
@@ -98,6 +99,7 @@ export class PpPopup extends LitElement {
 
   async connectedCallback() {
     super.connectedCallback();
+    this.addEventListener('beforetoggle', this.handleBeforeToggle);
     if (document.readyState !== 'loading') {
       await this.init();
       return;
@@ -107,16 +109,26 @@ export class PpPopup extends LitElement {
 
   private async init() {
     await this.updateComplete;
+    if (!this.anchorEl) this.handleAnchorChange();
     this.start();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
+    this.removeEventListener('beforetoggle', this.handleBeforeToggle);
     this.stop();
   }
 
   async updated(changedProps: Map<string, unknown>) {
     super.updated(changedProps);
+
+    // The popover attribute lives on the host itself in light DOM.
+    if (this.topLayer) {
+      const mode = this.lightDismiss ? 'auto' : 'manual';
+      if (this.getAttribute('popover') !== mode) this.setAttribute('popover', mode);
+    } else if (this.hasAttribute('popover')) {
+      this.removeAttribute('popover');
+    }
 
     if (changedProps.has('active')) {
       if (this.active) {
@@ -152,11 +164,7 @@ export class PpPopup extends LitElement {
     } else if (this.anchor instanceof Element || isVirtualElement(this.anchor)) {
       this.anchorEl = this.anchor;
     } else {
-      this.anchorEl = this.querySelector<HTMLElement>('[slot="anchor"]');
-    }
-
-    if (this.anchorEl instanceof HTMLSlotElement) {
-      this.anchorEl = this.anchorEl.assignedElements({ flatten: true })[0] as HTMLElement;
+      this.anchorEl = this.querySelector<HTMLElement>('[data-slot="anchor"]');
     }
 
     if (this.anchorEl) {
@@ -170,11 +178,11 @@ export class PpPopup extends LitElement {
    * is already in that state or detached.
    */
   private syncTopLayer() {
-    if (!this.topLayer || !this.popup || !this.isConnected) return;
-    const open = this.popup.matches(':popover-open');
+    if (!this.topLayer || !this.isConnected || !this.hasAttribute('popover')) return;
+    const open = this.matches(':popover-open');
     try {
-      if (this.active && !open) this.popup.showPopover();
-      else if (!this.active && open) this.popup.hidePopover();
+      if (this.active && !open) this.showPopover();
+      else if (!this.active && open) this.hidePopover();
     } catch {
       // Element detached mid-update; the next `updated()` re-syncs.
     }
@@ -200,11 +208,11 @@ export class PpPopup extends LitElement {
   };
 
   private start() {
-    if (!this.anchorEl) {
+    if (!this.anchorEl || this.cleanup) {
       return;
     }
 
-    this.cleanup = autoUpdate(this.anchorEl, this.popup, () => {
+    this.cleanup = autoUpdate(this.anchorEl, this, () => {
       this.reposition();
     });
   }
@@ -240,21 +248,19 @@ export class PpPopup extends LitElement {
           apply: ({ rects }) => {
             const syncWidth = this.sync === 'width' || this.sync === 'both';
             const syncHeight = this.sync === 'height' || this.sync === 'both';
-            this.popup.style.width = syncWidth ? `${rects.reference.width}px` : '';
-            this.popup.style.height = syncHeight ? `${rects.reference.height}px` : '';
+            this.style.width = syncWidth ? `${rects.reference.width}px` : '';
+            this.style.height = syncHeight ? `${rects.reference.height}px` : '';
           }
         })
       );
     } else {
-      this.popup.style.width = '';
-      this.popup.style.height = '';
+      this.style.width = '';
+      this.style.height = '';
     }
 
     if (this.flip) {
       middleware.push(
         flip({
-          // @ts-expect-error - We're converting a string attribute to an array here
-          fallbackPlacements: this.flipFallbackPlacements,
           padding: this.flipPadding
         })
       );
@@ -302,7 +308,7 @@ export class PpPopup extends LitElement {
         ? (element: Element) => platform.getOffsetParent(element, offsetParent)
         : platform.getOffsetParent;
 
-    computePosition(this.anchorEl, this.popup, {
+    computePosition(this.anchorEl, this, {
       placement: this.placement,
       middleware,
       strategy,
@@ -314,7 +320,7 @@ export class PpPopup extends LitElement {
 
       this.setAttribute('data-current-placement', placement);
 
-      Object.assign(this.popup.style, {
+      Object.assign(this.style, {
         left: `${x}px`,
         top: `${y}px`
       });
@@ -322,12 +328,12 @@ export class PpPopup extends LitElement {
       // Chrome can give a top-layer popover inside a scrolled container a
       // shifted containing block, so the offsets above land somewhere else.
       // Measure where it actually is and take the difference out.
-      if (this.topLayer && this.popup.matches(':popover-open')) {
-        const rect = this.popup.getBoundingClientRect();
+      if (this.topLayer && this.matches(':popover-open')) {
+        const rect = this.getBoundingClientRect();
         const dx = rect.left - x;
         const dy = rect.top - y;
         if (Math.abs(dx) > 1 || Math.abs(dy) > 1) {
-          Object.assign(this.popup.style, {
+          Object.assign(this.style, {
             left: `${x - dx}px`,
             top: `${y - dy}px`
           });
@@ -338,25 +344,6 @@ export class PpPopup extends LitElement {
     const repositionEvent = new Event('pp-reposition', { bubbles: true, cancelable: false, composed: true });
     this.dispatchEvent(repositionEvent);
 
-  }
-
-  render() {
-    return html`
-      <slot name="anchor" @slotchange=${this.handleAnchorChange}></slot>
-      <div
-        part="popup"
-        popover=${this.topLayer ? (this.lightDismiss ? 'auto' : 'manual') : nothing}
-        @beforetoggle=${this.topLayer ? this.handleBeforeToggle : nothing}
-        class=${classMap({
-      popup: true,
-      'popup--active': this.active,
-      'popup--fixed': this.strategy === 'fixed' || this.topLayer,
-      'popup--top-layer': this.topLayer
-    })}
-      >
-        <slot></slot>
-      </div>
-    `;
   }
 }
 

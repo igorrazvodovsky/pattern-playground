@@ -20,31 +20,33 @@ export const ViewSwitcher: React.FC<ViewSwitcherProps> = ({ currentView, onViewC
 
   return (
     <pp-dropdown>
-      <button className="button" is="pp-button" slot="trigger">
+      <button className="button" data-slot="trigger">
         <iconify-icon className="icon" icon={getViewIcon(currentView)}></iconify-icon>
         {getViewLabel(currentView)}
         <iconify-icon className="icon" icon="ph:caret-down" aria-hidden="true"></iconify-icon>
       </button>
-      <pp-list>
-        <pp-list-item
-          onClick={() => onViewChange('card')}
-        >
-          <iconify-icon slot="prefix" className="icon" icon="ph:squares-four"></iconify-icon>
-          Card view
-        </pp-list-item>
-        {/* <pp-list-item
-          onClick={() => onViewChange('list')}
-        >
-          <iconify-icon slot="prefix" className="icon" icon="ph:list"></iconify-icon>
-          List
-        </pp-list-item> */}
-        <pp-list-item
-          onClick={() => onViewChange('table')}
-        >
-          <iconify-icon slot="prefix" className="icon" icon="ph:table"></iconify-icon>
-          Table view
-        </pp-list-item>
-      </pp-list>
+      <pp-popup>
+        <pp-list>
+          <pp-list-item
+            onClick={() => onViewChange('card')}
+          >
+            <iconify-icon data-slot="prefix" className="icon" icon="ph:squares-four"></iconify-icon>
+            Card view
+          </pp-list-item>
+          {/* <pp-list-item
+            onClick={() => onViewChange('list')}
+          >
+            <iconify-icon data-slot="prefix" className="icon" icon="ph:list"></iconify-icon>
+            List
+          </pp-list-item> */}
+          <pp-list-item
+            onClick={() => onViewChange('table')}
+          >
+            <iconify-icon data-slot="prefix" className="icon" icon="ph:table"></iconify-icon>
+            Table view
+          </pp-list-item>
+        </pp-list>
+      </pp-popup>
     </pp-dropdown>
   );
 };

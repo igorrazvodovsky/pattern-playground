@@ -67,7 +67,7 @@ export function ConsequenceLadderDemo() {
             editing rights but can no longer manage members, publishing, or deletion — and only the
             new owner can transfer it back.
           </p>
-          <pp-input type="text" placeholder={`Type "${WORKSPACE}" to confirm`} />
+          <pp-input><input type="text" placeholder={`Type "${WORKSPACE}" to confirm`} /></pp-input>
         </div>
         <footer>
           <div className="inline-flow">

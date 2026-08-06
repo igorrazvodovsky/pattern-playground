@@ -62,8 +62,9 @@ export const HumanToHumanChat: Story = {
         </div>
       </div>
       <div className="message-composer">
-        <pp-input placeholder="Type a message">
-          <iconify-icon className="icon" icon="ph:arrow-elbow-down-left" slot="suffix"></iconify-icon>
+        <pp-input>
+          <input aria-label="Message" placeholder="Type a message" />
+          <iconify-icon className="icon" icon="ph:arrow-elbow-down-left" data-slot="suffix"></iconify-icon>
         </pp-input>
       </div>
     </div>
@@ -112,8 +113,9 @@ export const HumanToHumanComments: StoryObj<MessagingArgs> = {
           <pp-avatar size="small">
             <img src="https://i.pravatar.cc/150?img=16" alt="You" />
           </pp-avatar>
-          <pp-input placeholder="Type a message">
-            <iconify-icon className="icon" icon="ph:arrow-elbow-down-left" slot="suffix"></iconify-icon>
+          <pp-input>
+            <input aria-label="Message" placeholder="Type a message" />
+            <iconify-icon className="icon" icon="ph:arrow-elbow-down-left" data-slot="suffix"></iconify-icon>
           </pp-input>
         </div>
       </div>
@@ -152,19 +154,20 @@ export const HumanToLLM: Story = {
         <button className="button">Why do some cats knead with claws out?</button>
       </div>
       <div className="message-composer layer">
-        <pp-input placeholder="Reply…">
+        <pp-input>
+          <input aria-label="Reply" placeholder="Reply…" />
         </pp-input>
         <div className="message-composer__actions">
-          <button className="button button--plain" is="pp-button">
+          <button className="button button--plain">
             <iconify-icon className="icon" icon="ph:globe"></iconify-icon><span className="visually-hidden">Action</span>
           </button>
-          <button className="button button--plain" is="pp-button">
+          <button className="button button--plain">
             <iconify-icon className="icon" icon="ph:lightbulb"></iconify-icon><span className="visually-hidden">Action</span>
           </button>
-          <button className="button button--plain" is="pp-button">
+          <button className="button button--plain">
             <iconify-icon className="icon" icon="ph:paperclip"></iconify-icon><span className="visually-hidden">Action</span>
           </button>
-          <button className="button button--plain" is="pp-button">
+          <button className="button button--plain">
             <iconify-icon className="icon" icon="ph:plus"></iconify-icon><span className="visually-hidden">Edit</span>
           </button>
         </div>

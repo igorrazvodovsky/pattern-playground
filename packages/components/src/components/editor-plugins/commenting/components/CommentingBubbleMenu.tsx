@@ -48,7 +48,6 @@ const CommentingBubbleMenu: React.FC<CommentingBubbleMenuProps> = ({ editor }) =
   return (
     <button
       className="button button--small button--plain"
-      is="pp-button"
       onClick={handleCreateComment}
       title="Add comment"
     >

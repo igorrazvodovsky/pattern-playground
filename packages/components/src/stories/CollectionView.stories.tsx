@@ -137,45 +137,49 @@ function CollectionViewTemplate() {
     <div className="flow">
       <div className="toolbar">
         <pp-dropdown>
-          <button className="button" is="pp-button" slot="trigger">
+          <button className="button" data-slot="trigger">
             <iconify-icon className="icon" icon={collection.icon}></iconify-icon>
             {collection.label}
             <iconify-icon className="icon" icon="ph:caret-down" aria-hidden="true"></iconify-icon>
           </button>
-          <pp-list>
-            {(Object.keys(COLLECTIONS) as (keyof typeof COLLECTIONS)[]).map((key) => (
-              <pp-list-item key={key} onClick={() => pickCollection(key)}>
-                <iconify-icon
-                  slot="prefix"
-                  className="icon"
-                  icon={COLLECTIONS[key].icon}
-                ></iconify-icon>
-                {COLLECTIONS[key].label}
-              </pp-list-item>
-            ))}
-          </pp-list>
+          <pp-popup>
+            <pp-list>
+              {(Object.keys(COLLECTIONS) as (keyof typeof COLLECTIONS)[]).map((key) => (
+                <pp-list-item key={key} onClick={() => pickCollection(key)}>
+                  <iconify-icon
+                    data-slot="prefix"
+                    className="icon"
+                    icon={COLLECTIONS[key].icon}
+                  ></iconify-icon>
+                  {COLLECTIONS[key].label}
+                </pp-list-item>
+              ))}
+            </pp-list>
+          </pp-popup>
         </pp-dropdown>
         <pp-dropdown>
-          <button className="button" is="pp-button" slot="trigger">
+          <button className="button" data-slot="trigger">
             <iconify-icon className="icon" icon={view.icon}></iconify-icon>
             {view.label}
             <iconify-icon className="icon" icon="ph:caret-down" aria-hidden="true"></iconify-icon>
           </button>
-          <pp-list>
-            {viewOptions.map((candidate) => (
-              <pp-list-item key={candidate.key} onClick={() => setViewKey(candidate.key)}>
-                <iconify-icon
-                  slot="prefix"
-                  className="icon"
-                  icon={candidate.icon}
-                ></iconify-icon>
-                {candidate.label}
-              </pp-list-item>
-            ))}
-          </pp-list>
+          <pp-popup>
+            <pp-list>
+              {viewOptions.map((candidate) => (
+                <pp-list-item key={candidate.key} onClick={() => setViewKey(candidate.key)}>
+                  <iconify-icon
+                    data-slot="prefix"
+                    className="icon"
+                    icon={candidate.icon}
+                  ></iconify-icon>
+                  {candidate.label}
+                </pp-list-item>
+              ))}
+            </pp-list>
+          </pp-popup>
         </pp-dropdown>
         <pp-dropdown>
-          <button className="button" is="pp-button" slot="trigger">
+          <button className="button" data-slot="trigger">
             <iconify-icon className="icon" icon="ph:stack" aria-hidden="true"></iconify-icon>
             {grouping ? (
               <span>
@@ -185,15 +189,17 @@ function CollectionViewTemplate() {
               'Group'
             )}
           </button>
-          <pp-list>
-            <pp-list-item onClick={() => setGrouping(null)}>No grouping</pp-list-item>
-            <hr />
-            {collection.groupings.map((candidate) => (
-              <pp-list-item key={candidate.label} onClick={() => setGrouping(candidate)}>
-                {candidate.label}
-              </pp-list-item>
-            ))}
-          </pp-list>
+          <pp-popup>
+            <pp-list>
+              <pp-list-item onClick={() => setGrouping(null)}>No grouping</pp-list-item>
+              <hr />
+              {collection.groupings.map((candidate) => (
+                <pp-list-item key={candidate.label} onClick={() => setGrouping(candidate)}>
+                  {candidate.label}
+                </pp-list-item>
+              ))}
+            </pp-list>
+          </pp-popup>
         </pp-dropdown>
       </div>
       <ViewSpecRenderer

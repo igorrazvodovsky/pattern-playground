@@ -1,0 +1,116 @@
+/* Light-DOM styles for pp-select (rung 2: the author composes a native
+   <select> plus optional data-slot="hint" / data-slot="error" children; the
+   caret is component-appended). The native select is the bordered box; the
+   caret overlays it via grid stacking. Sizes via the `size` attribute. */
+
+pp-select {
+  --select-border-width: 1px;
+
+  display: grid;
+  grid-template-columns: 1fr;
+
+  > select {
+    grid-area: 1 / 1;
+    width: 100%;
+    min-width: 0;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    color: var(--c-body);
+    background-color: var(--c-background);
+    border: var(--input-border);
+    border-radius: var(--radius-m);
+    padding: calc(var(--space-s) - 1.5px) calc(var(--space-m) + 1.75em) calc(var(--space-s) - 1.5px) var(--space-m);
+    margin: 0;
+    cursor: pointer;
+    appearance: none;
+    transition: var(--transition-fast) color, var(--transition-fast) border,
+      var(--transition-fast) box-shadow, var(--transition-fast) background-color;
+  }
+
+  > select:focus {
+    outline: none;
+    border-color: var(--c-active-border);
+    box-shadow: 0 0 0 var(--focus-ring-width) var(--focus-ring-color);
+  }
+
+  > select:disabled {
+    background-color: var(--c-disabled-bg);
+    border-color: var(--c-disabled-border);
+    opacity: 0.5;
+    cursor: not-allowed;
+    color: var(--c-body);
+  }
+
+  > select:hover:not(:disabled) {
+    border-color: var(--c-hover-border);
+    color: var(--c-hover-primary);
+  }
+
+  /* Placeholder option (value="") selected */
+  > select:has(option[value=""]:checked) {
+    color: var(--c-tertiary);
+  }
+
+  .select__caret {
+    grid-area: 1 / 1;
+    display: inline-flex;
+    align-items: center;
+    justify-self: end;
+    align-self: center;
+    margin-inline-end: var(--space-m);
+    color: var(--c-secondary);
+    pointer-events: none;
+  }
+
+  > [data-slot="hint"] {
+    margin-block-start: var(--space-xs);
+    color: var(--c-secondary);
+    font-size: var(--text-xs);
+  }
+
+  > [data-slot="hint"]:empty {
+    display: none;
+  }
+
+  > [data-slot="error"] {
+    display: none;
+    margin-block-start: var(--space-xs);
+    color: var(--c-danger, var(--c-body));
+    font-size: var(--text-xs);
+  }
+
+  &[invalid] > [data-slot="error"] {
+    display: block;
+  }
+
+  &[invalid] > select:not(:disabled) {
+    border-color: var(--c-danger, var(--c-active-border));
+  }
+
+  &[invalid] > select:focus:not(:disabled) {
+    box-shadow: 0 0 0 var(--focus-ring-width) var(--c-danger, var(--focus-ring-color));
+  }
+
+  /* Sizes */
+  &[size="small"] {
+    > select {
+      border-radius: var(--radius-s);
+      padding: 0 calc(var(--space-s) + 1.75em) 0 var(--space-s);
+    }
+
+    .select__caret {
+      margin-inline-end: var(--space-s);
+    }
+  }
+
+  &[size="large"] {
+    > select {
+      padding: 0 calc(var(--space-l) + 1.75em) 0 var(--space-l);
+    }
+
+    .select__caret {
+      margin-inline-end: var(--space-l);
+    }
+  }
+}

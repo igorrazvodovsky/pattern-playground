@@ -9,17 +9,20 @@ export function FormDemo({ onSubmit }: { onSubmit?: (data: FormData) => void } =
       onSubmit={(e) => { e.preventDefault(); onSubmit?.(new FormData(e.currentTarget)); }}
     >
       <div className="flex">
-        <pp-input name="first-name" label="First name" placeholder="Ada" required></pp-input>
-        <pp-input name="last-name" label="Last name" placeholder="Lovelace" required></pp-input>
+        <pp-input><input name="first-name" aria-label="First name" placeholder="Ada" required /></pp-input>
+        <pp-input><input name="last-name" aria-label="Last name" placeholder="Lovelace" required /></pp-input>
       </div>
 
-      <pp-input name="email" label="Email address" placeholder="ada@example.com" type="email" required></pp-input>
+      <pp-input><input name="email" aria-label="Email address" placeholder="ada@example.com" type="email" required /></pp-input>
 
-      <pp-select name="role" label="Role" placeholder="Choose a role">
-        <option value="designer">Designer</option>
-        <option value="engineer">Engineer</option>
-        <option value="product">Product manager</option>
-        <option value="researcher">Researcher</option>
+      <pp-select>
+        <select name="role" aria-label="Role" defaultValue="">
+          <option value="" disabled>Choose a role</option>
+          <option value="designer">Designer</option>
+          <option value="engineer">Engineer</option>
+          <option value="product">Product manager</option>
+          <option value="researcher">Researcher</option>
+        </select>
       </pp-select>
 
       <fieldset className="flow">
@@ -51,7 +54,7 @@ export function FormDemo({ onSubmit }: { onSubmit?: (data: FormData) => void } =
       </label>
 
       <div className="flex">
-        <button type="submit" className="button button--primary" is="pp-button">Save profile</button>
+        <button type="submit" className="button button--primary">Save profile</button>
       </div>
     </form>
   );

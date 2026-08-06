@@ -1,10 +1,7 @@
-import { html, LitElement, unsafeCSS } from 'lit';
-import { classMap } from 'lit/directives/class-map.js';
+import { html, LitElement } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { live } from 'lit/directives/live.js';
-import { property, query, state } from 'lit/decorators.js';
-import type { CSSResultGroup } from 'lit';
-import styles from './range.css?inline';
+import { property, query } from 'lit/decorators.js';
 import { textFromIdRefs } from '../../utility/accessible-name.js';
 
 /**
@@ -12,16 +9,11 @@ import { textFromIdRefs } from '../../utility/accessible-name.js';
  * @status draft
  * @since 0.0.1
  *
- * @slot prefix - Leading unit, min label, or icon.
- * @slot suffix - Trailing unit, max label, live value readout, or icon.
- *
- * @csspart base - The component's base wrapper.
- * @csspart input - The internal `<input type="range">` control.
- * @csspart track - The track (styled via documented custom properties).
- * @csspart thumb - The thumb (styled via documented custom properties).
- * @csspart marks - The container rendered when `marks` is true.
- * @csspart prefix - The container that wraps the prefix slot.
- * @csspart suffix - The container that wraps the suffix slot.
+ * Light-DOM render (rung 3): the element owns the track, input, marks, and
+ * value readout it renders. Author-provided children survive alongside them —
+ * mark leading/trailing content with `data-slot="prefix"` / `data-slot="suffix"`
+ * (units, endpoint labels, icons); CSS places them around the track.
+ * Styles live in `src/styles/range.css`.
  *
  * @cssproperty --range-fill - Colour of the filled portion of the track. Defaults to `--c-accent-600`.
  * @cssproperty --range-track-color - Colour of the unfilled track. Defaults to `--c-border`.
@@ -36,11 +28,11 @@ export interface RangeProps {
 }
 
 export class PpRange extends LitElement {
-  static styles: CSSResultGroup = [unsafeCSS(styles)];
+  protected createRenderRoot() {
+    return this;
+  }
 
   @query('.range__control') input!: HTMLInputElement;
-
-  @state() private hasFocus = false;
 
   @property({ type: Number, reflect: true }) min = 0;
   @property({ type: Number, reflect: true }) max = 100;
@@ -80,14 +72,6 @@ export class PpRange extends LitElement {
     }));
   };
 
-  private handleFocus = () => {
-    this.hasFocus = true;
-  };
-
-  private handleBlur = () => {
-    this.hasFocus = false;
-  };
-
   async focus(options?: FocusOptions) {
     await this.updateComplete;
     this.input?.focus(options);
@@ -96,6 +80,12 @@ export class PpRange extends LitElement {
   async blur() {
     await this.updateComplete;
     this.input?.blur();
+  }
+
+  protected willUpdate() {
+    const span = this.max - this.min;
+    const percent = span > 0 ? ((this.value - this.min) / span) * 100 : 0;
+    this.style.setProperty('--range-percent', `${percent}%`);
   }
 
   private renderMarks() {
@@ -109,74 +99,33 @@ export class PpRange extends LitElement {
       const percent = (i * this.step / span) * 100;
       ticks.push(html`<span class="range__mark" style="inset-inline-start: ${percent}%"></span>`);
     }
-    return html`<div part="marks" class="range__marks" aria-hidden="true">${ticks}</div>`;
+    return html`<div class="range__marks" aria-hidden="true">${ticks}</div>`;
   }
 
   render() {
-    const span = this.max - this.min;
-    const percent = span > 0 ? ((this.value - this.min) / span) * 100 : 0;
     const accessibleName = this.label || textFromIdRefs(this.labelledby, this.getRootNode() as Document | ShadowRoot);
     const labelledby = accessibleName ? undefined : this.labelledby || undefined;
 
     return html`
-      <div
-        part="form-control"
-        class=${classMap({
-      'form-control': true,
-      'form-control--small': this.size === 'small',
-      'form-control--medium': this.size === 'medium',
-      'form-control--large': this.size === 'large',
-    })}
-      >
-        <div part="form-control-input" class="form-control-input">
-          <div
-            part="base"
-            class=${classMap({
-      range: true,
-      'range--small': this.size === 'small',
-      'range--medium': this.size === 'medium',
-      'range--large': this.size === 'large',
-      'range--disabled': this.disabled,
-      'range--focused': this.hasFocus,
-      'range--with-marks': this.marks,
-    })}
-            style="--range-percent: ${percent}%"
-          >
-            <span part="prefix" class="range__prefix">
-              <slot name="prefix"></slot>
-            </span>
-
-            <div class="range__track-wrapper">
-              <input
-                part="input"
-                id="input"
-                class="range__control"
-                type="range"
-                name=${ifDefined(this.name || undefined)}
-                min=${this.min}
-                max=${this.max}
-                step=${this.step}
-                ?disabled=${this.disabled}
-                .value=${live(String(this.value))}
-                aria-label=${ifDefined(accessibleName || undefined)}
-                aria-labelledby=${ifDefined(labelledby)}
-                aria-describedby=${ifDefined(this.describedby || undefined)}
-                aria-valuetext=${ifDefined(this.valueText || undefined)}
-                @input=${this.handleInput}
-                @focus=${this.handleFocus}
-                @blur=${this.handleBlur}
-              />
-              ${this.renderMarks()}
-            </div>
-
-            <span part="suffix" class="range__suffix">
-              <slot name="suffix">
-                ${this.hideValue ? '' : html`<span class="range__value" aria-hidden="true">${this.value}</span>`}
-              </slot>
-            </span>
-          </div>
-        </div>
+      <div class="range__track-wrapper">
+        <input
+          class="range__control"
+          type="range"
+          name=${ifDefined(this.name || undefined)}
+          min=${this.min}
+          max=${this.max}
+          step=${this.step}
+          ?disabled=${this.disabled}
+          .value=${live(String(this.value))}
+          aria-label=${ifDefined(accessibleName || undefined)}
+          aria-labelledby=${ifDefined(labelledby)}
+          aria-describedby=${ifDefined(this.describedby || undefined)}
+          aria-valuetext=${ifDefined(this.valueText || undefined)}
+          @input=${this.handleInput}
+        />
+        ${this.renderMarks()}
       </div>
+      ${this.hideValue ? '' : html`<span class="range__value" aria-hidden="true">${this.value}</span>`}
     `;
   }
 }

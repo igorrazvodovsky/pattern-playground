@@ -18,9 +18,9 @@ export const FieldsetComposite: Story = {
     <fieldset className="flow">
       <legend>Date of birth</legend>
       <div className="flex">
-        <pp-input className="field--w2" label="Day" placeholder="DD" inputmode="numeric"></pp-input>
-        <pp-input className="field--w2" label="Month" placeholder="MM" inputmode="numeric"></pp-input>
-        <pp-input className="field--w4" label="Year" placeholder="YYYY" inputmode="numeric"></pp-input>
+        <pp-input className="field--w2"><input aria-label="Day" placeholder="DD" inputMode="numeric" /></pp-input>
+        <pp-input className="field--w2"><input aria-label="Month" placeholder="MM" inputMode="numeric" /></pp-input>
+        <pp-input className="field--w4"><input aria-label="Year" placeholder="YYYY" inputMode="numeric" /></pp-input>
       </div>
     </fieldset>
   ),

@@ -17,14 +17,23 @@ Flip a setting whose effect should apply the moment the actor commits, with no i
 
 Immediate-effect settings — notifications on/off, dark mode, feature toggles — belong on switches. Deferred-commit form fields belong on checkboxes.
 
+## Markup
+
+A switch is a styled native checkbox — no custom element:
+
+```html
+<input type="checkbox" role="switch" class="switch">
+```
+
+Sizes via `switch--small` / `switch--large`; medium is the default.
+
 ## Accessibility
 
-`pp-switch` follows the [WAI-ARIA APG switch pattern](https://www.w3.org/WAI/ARIA/apg/patterns/switch/):
+The markup follows the [WAI-ARIA APG switch pattern](https://www.w3.org/WAI/ARIA/apg/patterns/switch/):
 
-- `role="switch"` so assistive tech announces "on/off" rather than "checked/unchecked".
-- `aria-checked` is strictly `"true"` or `"false"` — switches do not have a mixed state. If a third state is needed, the answer is a different control, not an extended switch.
-- Space toggles the switch (native checkbox behaviour, preserved). Enter does not toggle, by APG convention.
-- The accessible name comes from the `label` or `labelledby` properties.
+- `role="switch"` so assistive tech announces "on/off" rather than "checked/unchecked"; the native checked state supplies the on/off value, with no mixed state. If a third state is needed, the answer is a different control, not an extended switch.
+- Space toggles the switch (native checkbox behaviour). Enter does not toggle, by APG convention.
+- The accessible name comes from a real `<label>` (wrap the input, or associate with `for`/`id`) or an `aria-label`.
 
 ## Related patterns
 

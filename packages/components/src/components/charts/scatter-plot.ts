@@ -55,7 +55,6 @@ export const scatterPlotDataConverter = {
 };
 
 export class ScatterPlot extends ChartComponent {
-  static styles = ChartComponent.styles;
 
   // A little more room than the base default so numeric axis ticks have space.
   @property({ type: Object })

@@ -1,13 +1,10 @@
 import { animateTo, parseDuration, stopAnimations } from '../../utility/animate.js';
-import { classMap } from 'lit/directives/class-map.js';
 import { getAnimation, setDefaultAnimation } from '../../utility/animation-registry.js';
-import { LitElement, html, unsafeCSS } from 'lit';
+import { LitElement, html } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { waitForEvent } from '../../utility/event.js';
 import { watch } from '../../utility/watch.js';
 import { PpPopup } from '../popup/popup.js';
-import styles from './tooltip.css?inline';
-import type { CSSResultGroup } from 'lit';
 
 /**
  * @summary Tooltips display additional information based on a specific action.
@@ -16,17 +13,14 @@ import type { CSSResultGroup } from 'lit';
  *
  * @dependency pp-popup
  *
- * @slot - The tooltip's target element. Avoid slotting in more than one element, as subsequent ones will be ignored.
- * @slot content - The content to render in the tooltip. Alternatively, you can use the `content` attribute.
+ * Composite enhancement (rung 2): the author's first child is the tooltip's
+ * target; the element appends the `pp-popup` + body it owns and renders the
+ * `content` attribute into it. Styles: `src/styles/tooltip.css`.
  *
  * @event pp-show - Emitted when the tooltip begins to show.
  * @event pp-after-show - Emitted after the tooltip has shown and all animations are complete.
  * @event pp-hide - Emitted when the tooltip begins to hide.
  * @event pp-after-hide - Emitted after the tooltip has hidden and all animations are complete.
- *
- * @csspart base - The component's base wrapper, an `<pp-popup>` element.
- * @csspart base__popup - The popup's exported `popup` part. Use this to target the tooltip's popup container.
- * @csspart body - The tooltip's body where its content is rendered.
  *
  * @cssproperty --max-width - The maximum width of the tooltip before its content will wrap.
  * @cssproperty --hide-delay - The amount of time to wait before hiding the tooltip when hovering.
@@ -36,13 +30,15 @@ import type { CSSResultGroup } from 'lit';
  * @animation tooltip.hide - The animation to use when hiding the tooltip.
  */
 export class PpTooltip extends LitElement {
-  static styles: CSSResultGroup = [unsafeCSS(styles)];
   static dependencies = { 'pp-popup': PpPopup };
+
+  protected createRenderRoot() {
+    return this;
+  }
 
   private hoverTimeout: number;
   private closeWatcher: CloseWatcher | null;
 
-  @query('slot:not([name])') defaultSlot: HTMLSlotElement;
   @query('.tooltip__body') body: HTMLElement;
   @query('pp-popup') popup: PpPopup;
 
@@ -85,8 +81,14 @@ export class PpTooltip extends LitElement {
     document.removeEventListener('keydown', this.handleDocumentKeyDown);
   }
 
+  /** The author's target element: the first element child the component doesn't own. */
+  get target(): HTMLElement | null {
+    return ([...this.children] as HTMLElement[]).find(el => el.tagName.toLowerCase() !== 'pp-popup') ?? null;
+  }
+
   firstUpdated() {
     this.body.hidden = !this.open;
+    this.popup.anchor = this.target ?? undefined as unknown as Element;
 
     // If the tooltip is visible on init, update its position
     if (this.open) {
@@ -169,7 +171,7 @@ export class PpTooltip extends LitElement {
       this.body.hidden = false;
       this.popup.active = true;
       const { keyframes, options } = getAnimation(this, 'tooltip.show');
-      await animateTo(this.popup.popup, keyframes, options);
+      await animateTo(this.popup, keyframes, options);
       this.popup.reposition();
       this.dispatchEvent(new Event('pp-after-show', { bubbles: true, cancelable: false, composed: true }))
     } else {
@@ -180,7 +182,7 @@ export class PpTooltip extends LitElement {
 
       await stopAnimations(this.body);
       const { keyframes, options } = getAnimation(this, 'tooltip.hide');
-      await animateTo(this.popup.popup, keyframes, options);
+      await animateTo(this.popup, keyframes, options);
       this.popup.active = false;
       this.body.hidden = true;
       this.dispatchEvent(new Event('pp-after-hide', { bubbles: true, cancelable: false, composed: true }))
@@ -223,29 +225,18 @@ export class PpTooltip extends LitElement {
     return waitForEvent(this, 'pp-after-hide');
   }
 
-  // aria-live us used instead of aria-labelledby to trick screen readers into announcing the content.
-  // aria-describedby is added to a slot, which is required by <pp-popup> to correctly locate the first assigned element
+  // aria-live is used instead of aria-labelledby to trick screen readers into announcing the content.
   render() {
     return html`
       <pp-popup
-        part="base"
-        exportparts="popup:base__popup"
-        class=${classMap({
-      tooltip: true,
-      'tooltip--open': this.open
-    })}
         placement=${this.placement}
         distance=${this.distance}
         skidding=${this.skidding}
         strategy=${this.hoist ? 'fixed' : 'absolute'}
         flip
         shift
-        hover-bridge
       >
-        <slot slot="anchor" aria-describedby="tooltip"></slot>
-        <div part="body" id="tooltip" class="tooltip__body" role="tooltip" aria-live=${this.open ? 'polite' : 'off'}>
-          <slot name="content">${this.content}</slot>
-        </div>
+        <div class="tooltip__body" role="tooltip" aria-live=${this.open ? 'polite' : 'off'}>${this.content}</div>
       </pp-popup>
     `;
   }
