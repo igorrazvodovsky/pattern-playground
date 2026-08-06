@@ -4,7 +4,7 @@ Components are platform-first: light-DOM custom elements that enhance the
 HTML composed inside them, styled through the ordinary cascade. Shadow DOM is
 an exception that requires written justification, not a default. The library
 reached this state with the 2026-07 light-DOM refactor
-(`plans/active/2026-07-light-dom-refactor.md`); as of its completion, zero
+(`plans/completed/2026-07-light-dom-refactor.md`); as of its completion, zero
 components render into shadow roots.
 
 ## The decision ladder

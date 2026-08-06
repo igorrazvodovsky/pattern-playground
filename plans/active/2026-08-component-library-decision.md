@@ -12,7 +12,7 @@ superseded_by: ""
 
 ## Context
 
-The light-DOM refactor (`active/2026-07-light-dom-refactor.md`, phases 0–4
+The light-DOM refactor (`completed/2026-07-light-dom-refactor.md`, phases 0–4
 complete) deliberately deferred the authoring-library question until the
 refactor had made it small. It is now small: zero shadow roots remain, the
 component contract is settled in `docs/specs/component-authoring.md`, and

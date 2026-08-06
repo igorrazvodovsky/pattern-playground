@@ -1,11 +1,11 @@
 ---
 title: "Light-DOM refactor: platform-first components"
-status: "active"
+status: "completed"
 kind: "exec-spec"
 created: "2026-07-16"
-last_reviewed: "2026-07-16"
+last_reviewed: "2026-08-06"
 area: "components"
-promoted_to: ""
+promoted_to: "docs/specs/component-authoring.md"
 superseded_by: ""
 ---
 # Light-DOM refactor: platform-first components

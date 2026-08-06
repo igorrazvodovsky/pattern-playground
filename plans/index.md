@@ -9,7 +9,7 @@ the plan contract and `docs/specs/` for settled specifications.
 - [Figures: dates, numbers, and money as design material](active/2026-07-figures.md) — the figures stratum as a Storybook `Foundations` entry, parallel to Prose; generative half distributed to Localization/Temporality/Data entry, no new pattern node
 - [Workspace boundary after the view-system reshape](active/2026-07-workspace-boundary.md) — give the screen-composition seam a typed edge (workspace ↔ coordinated-views), reinstate the panelled/tabbed variants the survey now routes to, clear pre-reshape word residue
 - [Drag and drop: capture as a language entry](active/2026-07-drag-and-drop.md) — research-gated: pattern node vs mechanism verdict first, then author the page borrowing the view-system demos; scaffolding promotion trigger-gated
-- [Light-DOM refactor: platform-first components](active/2026-07-light-dom-refactor.md) — convert the shadow-DOM Lit components to light DOM up a native-first decision ladder; retire the `is="pp-button"` built-in; library choice deferred to the residue
+- [React residue onto the platform-first ladder](active/2026-08-react-to-platform.md) — hover-card deletion, MermaidDiagram and PatternGraph to rung 3, height animation to CSS; sidebar gated; the React-bound boundary recorded
 - [Decision-tree integration](active/2026-07-decision-tree-integration.md) — every tree wired (emitting `recommends`), dissolved (judgement re-homed), or deliberately outside; questions survive dissolution, component leaves never emit
 - [Workflow scripts for the review loops](active/2026-07-review-loop-workflows.md) — outline, needs iteration: move the three review skills' subagent fan-outs (episodes, lenses, blinded derive) into scripted workflows so blinding is structural
 - [realised_by backfill](active/2026-07-realised-by-backfill.md) — claim or citation, page by page: write `realised_by:` where prose ComponentRefs carry a realisation claim *(plan file on an unmerged branch, not yet on main)*
@@ -29,6 +29,7 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Completed
 
+- [Light-DOM refactor: platform-first components](completed/2026-07-light-dom-refactor.md) — all 16 shadow-DOM Lit components converted up the decision ladder, `is="pp-button"` retired, zero shadow roots remain; ladder promoted to `docs/specs/component-authoring.md`, library decision spun out as its own record
 - [Epistemic status](completed/2026-07-epistemic-disclosure.md) — `seed`, `evidence` and `disclosure` as a notational dimension: schema-enforced role applicability, `built` derived from `realised_by`, dashed badge and dashed graph node, staleness lint, corpus backfilled (7 seeds, 54 pages with evidence); `used` left for the author
 - [Pattern dates](completed/2026-07-pattern-dates.md)
 - [Related-link residue audit](completed/2026-07-related-residue-audit.md)
