@@ -13,9 +13,10 @@ architecture, see [../specs/workspace-layout.md](../specs/workspace-layout.md).
 
 The project is a single npm workspace with one library package, two runnable
 apps, and a fixtures workspace: the component library (`packages/components/`,
-Lit + React, Storybook on :6006), the pattern site (`apps/patterns/`, Astro on
-:4321), an Express backend (`apps/server/`, currently parked — no root script
-drives it), and `shared/` (fixture data feeding both surfaces).
+platform-first light-DOM components plus React subsystems, Storybook on
+:6006), the pattern site (`apps/patterns/`, Astro on :4321), an Express
+backend (`apps/server/`, currently parked — no root script drives it), and
+`shared/` (fixture data feeding both surfaces).
 [../specs/workspace-layout.md](../specs/workspace-layout.md). Root `concepts/`
 and `todo/` are pre-collection strata no build path reads.
 
@@ -25,6 +26,9 @@ is the component workshop. `role:quality` and `role:foundation` entries are
 bilingual, with a language foot in the pattern site and a substrate foot in the
 components package. Runnable demos live once in
 `packages/components/src/demos/` and feed both surfaces.
+
+The component authoring contract is settled in
+[../specs/component-authoring.md](../specs/component-authoring.md).
 
 The agent layer exists in outline: `docs/` is the agent-facing knowledge base,
 `CLAUDE.md` the thin entry map, [`plans/`](../../plans/) the executable
@@ -71,6 +75,8 @@ collection overviews are gone in favour of projections.
 - [core-beliefs.md](./core-beliefs.md) — project philosophy, voice, scope
 - [../specs/workspace-layout.md](../specs/workspace-layout.md) — package
   structure and what each workspace owns
+- [../specs/component-authoring.md](../specs/component-authoring.md) — the
+  platform-first authoring contract and decision ladder
 - [../specs/agent-harness.md](../specs/agent-harness.md) — agent-facing control
   layer
 - [../../plans/index.md](../../plans/index.md) — active product and tooling work

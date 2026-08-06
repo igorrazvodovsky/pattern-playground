@@ -1,3 +1,13 @@
+---
+title: "Pane stack: refit to Astro's grain"
+status: "active"
+kind: "exec-spec"
+created: "2026-07"
+last_reviewed: "2026-08-06"
+area: "pattern-site"
+promoted_to: ""
+superseded_by: ""
+---
 # Pane stack: refit to Astro's grain
 
 Rebuild the pane stack's supply lines — how pane content is fetched, how

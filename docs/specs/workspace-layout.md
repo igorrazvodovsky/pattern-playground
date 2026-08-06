@@ -7,7 +7,7 @@ runnable apps.
 
 ```
 packages/
-└── components/             Component library — Lit + React components, Storybook (:6006)
+└── components/             Component library — light-DOM + React components, Storybook (:6006)
 
 apps/
 ├── patterns/               Pattern language site — Astro (:4321)
@@ -32,7 +32,8 @@ serve all packages and are not co-located with a single workspace.
 
 ### `packages/components/`
 
-- Web Components (Lit, `pp-` prefix) and React compositions
+- Light-DOM Web Components (`pp-` prefix; authoring contract in
+  [component-authoring.md](./component-authoring.md)) and React compositions
 - Design tokens, global CSS, type scale
 - Storybook config and component-facing stories
 - `register-all.ts` and the custom-element registry

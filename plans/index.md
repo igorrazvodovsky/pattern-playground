@@ -13,8 +13,7 @@ the plan contract and `docs/specs/` for settled specifications.
 - [React residue onto the platform-first ladder](active/2026-08-react-to-platform.md) — hover-card deletion, MermaidDiagram and PatternGraph to rung 3, height animation to CSS; sidebar gated; the React-bound boundary recorded
 - [Decision-tree integration](active/2026-07-decision-tree-integration.md) — every tree wired (emitting `recommends`), dissolved (judgement re-homed), or deliberately outside; questions survive dissolution, component leaves never emit
 - [Workflow scripts for the review loops](active/2026-07-review-loop-workflows.md) — outline, needs iteration: move the three review skills' subagent fan-outs (episodes, lenses, blinded derive) into scripted workflows so blinding is structural
-- [realised_by backfill](active/2026-07-realised-by-backfill.md) — claim or citation, page by page: write `realised_by:` where prose ComponentRefs carry a realisation claim *(plan file on an unmerged branch, not yet on main)*
-- [Pane stack: refit to Astro's grain](active/2026-07-pane-stack-astro-fit.md) — demo registry + pane partials + static pane 0 so no pane machinery depends on Astro internals; gated phase 4 retires ClientRouter *(plan file on an unmerged branch, not yet on main)*
+- [Pane stack: refit to Astro's grain](active/2026-07-pane-stack-astro-fit.md) — demo registry + pane partials + static pane 0 so no pane machinery depends on Astro internals; gated phase 4 retires ClientRouter
 - [Block-editing follow-ups](active/2026-07-block-editing-followups.md) — outline: carried work from the block-editing research sitting
 - [Heatmap + n-gram promotion](active/2026-05-heatmap-ngram-promotion.md) — deferred: promote the heatmap extension and n-gram engine out of the dynamic-hyperlinks demo
 - [Link preview component extraction](active/2026-05-link-preview-component-extraction.md) — extract the link preview surface into a reusable component; shares the article-extraction seam with pane-island hydration
@@ -32,6 +31,7 @@ the plan contract and `docs/specs/` for settled specifications.
 
 - [Light-DOM refactor: platform-first components](completed/2026-07-light-dom-refactor.md) — all 16 shadow-DOM Lit components converted up the decision ladder, `is="pp-button"` retired, zero shadow roots remain; ladder promoted to `docs/specs/component-authoring.md`, library decision spun out as its own record
 - [Epistemic status](completed/2026-07-epistemic-disclosure.md) — `seed`, `evidence` and `disclosure` as a notational dimension: schema-enforced role applicability, `built` derived from `realised_by`, dashed badge and dashed graph node, staleness lint, corpus backfilled (7 seeds, 54 pages with evidence); `used` left for the author
+- [realised_by backfill](completed/2026-07-realised-by-backfill.md) — claim or citation, page by page: `realised_by:` written where prose ComponentRefs carry a realisation claim
 - [Pattern dates](completed/2026-07-pattern-dates.md)
 - [Related-link residue audit](completed/2026-07-related-residue-audit.md)
 - [Enacts-note audit](completed/2026-07-enacts-note-audit.md)
