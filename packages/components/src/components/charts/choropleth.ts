@@ -1,7 +1,7 @@
 /**
  * Choropleth Web Component
  *
- * A Lit component that shades geographic regions by a quantity — the spatial
+ * An Elena host that shades geographic regions by a quantity — the spatial
  * branch of the chart territory, the geographic sibling of the bar chart. It is
  * geometry-agnostic: give it any GeoJSON FeatureCollection plus one value per
  * region and it projects, colours, and makes the regions interactive.
@@ -12,12 +12,10 @@
  *
  * @example
  * ```html
- * <pp-choropleth .data="${{ geometry, values }}" projection="naturalEarth" show-legend></pp-choropleth>
+ * <pp-choropleth projection="naturalEarth" show-legend></pp-choropleth>
  * ```
  */
 
-import { html } from 'lit';
-import { property } from 'lit/decorators.js';
 import { select } from 'd3-selection';
 import { scaleQuantize } from 'd3-scale';
 import { extent } from 'd3-array';
@@ -30,6 +28,8 @@ import {
   type GeoProjection,
 } from 'd3-geo';
 import { ChartComponent } from './base/chart-component.js';
+import type { ElenaProp } from './base/d3-component.js';
+import { VIEWBOX_WIDTH, VIEWBOX_HEIGHT } from './base/d3-component.js';
 import type { ChoroplethData, ChoroplethDataPoint } from './base/chart-types.js';
 import { isChoroplethData } from './base/chart-types.js';
 
@@ -63,25 +63,22 @@ const ACCENT_RAMP = [
 
 const NO_DATA_FILL = 'var(--c-neutral-100)';
 
-/** The fixed viewBox the chart family draws into (see D3Component). */
-const VIEWBOX_WIDTH = 600;
-const VIEWBOX_HEIGHT = 300;
-
 export class Choropleth extends ChartComponent {
-  @property({ type: Object })
+  static tagName = 'pp-choropleth';
+
+  static props: ElenaProp[] = [
+    ...ChartComponent.props,
+    'projection',
+    'color-steps',
+    'show-legend',
+  ];
+
   data: ChoroplethData = { geometry: { type: 'FeatureCollection', features: [] }, values: [] };
-
-  @property({ type: String, reflect: true })
   projection: MapProjectionName = 'naturalEarth';
-
-  @property({ type: Number, attribute: 'color-steps' })
-  colorSteps = 5;
-
-  @property({ type: Boolean, reflect: true, attribute: 'show-legend' })
-  showLegend = false;
+  'color-steps' = 5;
+  'show-legend' = false;
 
   /** A choropleth has generous margins by default so coastlines aren't clipped. */
-  @property({ type: Object })
   margin = { top: 8, right: 8, bottom: 8, left: 8 };
 
   /** Index into `data.values` for keyboard navigation. */
@@ -114,13 +111,6 @@ export class Choropleth extends ChartComponent {
     return isChoroplethData(this.data) && this.data.geometry.features.length > 0;
   }
 
-  protected shouldRerender(changedProperties: Map<string | number | symbol, unknown>): boolean {
-    return super.shouldRerender(changedProperties) ||
-      changedProperties.has('projection') ||
-      changedProperties.has('colorSteps') ||
-      changedProperties.has('showLegend');
-  }
-
   /** Scales are built inline in renderChart; nothing to precompute here. */
   protected setupScales(): void {}
 
@@ -131,9 +121,9 @@ export class Choropleth extends ChartComponent {
     return raw == null ? undefined : String(raw);
   }
 
-  /** The colour range: `colorSteps` swatches sampled evenly from the accent ramp. */
+  /** The colour range: `color-steps` swatches sampled evenly from the accent ramp. */
   private colorRange(): string[] {
-    const steps = Math.max(2, Math.min(this.colorSteps, ACCENT_RAMP.length));
+    const steps = Math.max(2, Math.min(this['color-steps'], ACCENT_RAMP.length));
     return Array.from({ length: steps }, (_, i) => {
       const t = steps === 1 ? 0 : i / (steps - 1);
       return ACCENT_RAMP[Math.round(t * (ACCENT_RAMP.length - 1))];
@@ -195,14 +185,12 @@ export class Choropleth extends ChartComponent {
       ))
       .on('click', (event: MouseEvent, f) => this.emitForFeature('pp-choropleth-click', f, event));
 
-    if (this.showLegend) this.renderLegend(container, range, min, max);
+    if (this['show-legend']) this.renderLegend(container, range, min, max);
 
     // Accessibility: title + aria summary.
     const regionCount = values.length;
-    const label = this.title || `Choropleth with ${regionCount} region${regionCount === 1 ? '' : 's'}`;
-    const titleElement = this.querySelector('#chart-title');
-    if (titleElement) titleElement.textContent = label;
-    this.setAttribute('aria-label', label);
+    this.setChartLabel(this.title || `Choropleth with ${regionCount} region${regionCount === 1 ? '' : 's'}`);
+    this.syncDataTable(values.map((item) => [this.regionLabel(item), item.value]), 'Map data');
   }
 
   private datumForFeature(feature: GeoJSON.Feature): ChoroplethDataPoint | undefined {
@@ -329,24 +317,6 @@ export class Choropleth extends ChartComponent {
       .attr('y', legendHeight / 2)
       .attr('dominant-baseline', 'middle')
       .text(format(max ?? 0));
-  }
-
-  render() {
-    return html`
-      ${super.render()}
-
-      <!-- Screen reader accessible data summary -->
-      <div class="visually-hidden" role="table" aria-label="Map data">
-        <div role="rowgroup">
-          ${this.data.values.map((item) => html`
-            <div role="row">
-              <span role="cell">${this.regionLabel(item)}</span>
-              <span role="cell">${item.value}</span>
-            </div>
-          `)}
-        </div>
-      </div>
-    `;
   }
 }
 

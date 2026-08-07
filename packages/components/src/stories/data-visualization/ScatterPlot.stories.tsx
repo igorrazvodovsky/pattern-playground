@@ -73,10 +73,10 @@ function ScatterPlotWrapper({
     const chartElement = chartRef.current;
     if (chartElement) {
       chartElement.data = data;
-      chartElement.showAxes = showAxes;
-      chartElement.showGrid = showGrid;
-      chartElement.showSize = showSize;
-      chartElement.pointRadius = pointRadius;
+      chartElement['show-axes'] = showAxes;
+      chartElement['show-grid'] = showGrid;
+      chartElement['show-size'] = showSize;
+      chartElement['point-radius'] = pointRadius;
       chartElement.title = title;
 
       const handlePointHover = (e: CustomEvent) => {

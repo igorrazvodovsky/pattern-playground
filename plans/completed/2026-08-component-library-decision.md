@@ -73,7 +73,7 @@ elements either way. SSR flips from foreclosed (Lit) to experimentally
 open.
 
 The migration is its own exec-spec:
-`active/2026-08-elena-migration.md`. The chart family restructures
+`completed/2026-08-elena-migration.md`. The chart family restructures
 rather than ports — D3 owns the DOM, Elena supplies props and
 lifecycle only — ending the current two-renderers-in-one-component
 arrangement.
@@ -214,5 +214,5 @@ research-before-locking-in practice.
 - Verdict recorded above; plan moved to `completed/`;
   `docs/specs/component-authoring.md`'s closing pointer updated.
 - The dependency change is its own exec-spec:
-  `active/2026-08-elena-migration.md`. This file stays a decision
+  `completed/2026-08-elena-migration.md`. This file stays a decision
   record.

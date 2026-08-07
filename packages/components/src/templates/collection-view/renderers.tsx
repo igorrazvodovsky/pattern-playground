@@ -416,7 +416,7 @@ export function MapRenderer<T extends BoundEntity>(props: RendererProps<T>) {
     const el = ref.current;
     if (!el) return;
     el.locations = locations;
-    el.selectedId = selectedId ?? undefined;
+    el['selected-id'] = selectedId ?? '';
   }, [locations, selectedId]);
 
   useEffect(() => {
@@ -480,7 +480,7 @@ export function PlotRenderer<T extends BoundEntity>(props: RendererProps<T>) {
       xAxisLabel: attributeLabel(xPath, binding),
       yAxisLabel: attributeLabel(yPath, binding),
     };
-    el.showAxes = true;
+    el['show-axes'] = true;
   }, [points, xPath, yPath, binding]);
 
   useEffect(() => {

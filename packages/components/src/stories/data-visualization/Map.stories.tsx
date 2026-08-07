@@ -38,7 +38,7 @@ function MapWrapper({
     el.center = center;
     el.zoom = zoom;
     el.label = label;
-    if (selectedId !== undefined) el.selectedId = selectedId;
+    if (selectedId !== undefined) el['selected-id'] = selectedId;
 
     const onSelect = (e: Event) => action('pp-map-select')((e as CustomEvent).detail);
     el.addEventListener('pp-map-select', onSelect);

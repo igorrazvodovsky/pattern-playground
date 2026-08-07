@@ -81,14 +81,14 @@ function BarChartWrapper({
       // Set properties on the custom element
       chartElement.data = data;
       chartElement.orientation = orientation;
-      chartElement.showAxes = showAxes;
-      chartElement.showGrid = showGrid;
-      chartElement.showLegend = showLegend;
-      chartElement.animateChart = animate;
+      chartElement['show-axes'] = showAxes;
+      chartElement['show-grid'] = showGrid;
+      chartElement['show-legend'] = showLegend;
+      chartElement['animate-chart'] = animate;
       chartElement.title = title;
       chartElement.sort = sort;
-      chartElement.showValueLabels = showValueLabels;
-      chartElement.showCategoryLabels = showCategoryLabels;
+      chartElement['show-value-labels'] = showValueLabels;
+      chartElement['show-category-labels'] = showCategoryLabels;
 
       // Add event listeners for interaction demonstration
       const handleBarHover = (e: CustomEvent) => {

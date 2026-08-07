@@ -1,5 +1,4 @@
 import { defineConfig } from 'astro/config';
-import lit from '@astrojs/lit';
 import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
 import { unified } from '@astrojs/markdown-remark';
@@ -13,7 +12,7 @@ import forceMdxInvalidation from './integrations/force-mdx-invalidation.ts';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  integrations: [lit(), mdx(), react(), validateCrossReferences()],
+  integrations: [mdx(), react(), validateCrossReferences()],
   publicDir: path.resolve(__dirname, '../../public'),
   redirects: {
     '/patterns/dashboard': '/patterns/purpose-keyed-view',

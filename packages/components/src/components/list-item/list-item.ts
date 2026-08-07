@@ -1,13 +1,11 @@
-import { LitElement } from 'lit';
-import { property } from 'lit/decorators.js';
-import { watch } from '../../utility/watch.js';
+import { Elena } from '@elenajs/core';
 
 /**
  * @summary Option for the user to pick from in a list.
  * @status draft
  * @since 0.1
  *
- * Composite enhancement (rung 2): the element is the menu item row. Compose
+ * The element is the menu item row. Compose
  * the label as text or unmarked children; mark adornments with
  * `data-slot="prefix"` / `data-slot="suffix"` and a nested submenu list with
  * `data-slot="submenu"`. The element appends the check mark and submenu
@@ -15,28 +13,41 @@ import { watch } from '../../utility/watch.js';
  * Styles live in `src/styles/list-item.css`.
  */
 
-export class PpListItem extends LitElement {
-  protected createRenderRoot() {
-    return this;
-  }
+export class PpListItem extends Elena(HTMLElement) {
+  static tagName = 'pp-list-item';
 
-  @property() type: 'normal' | 'checkbox' | 'radio' = 'normal';
-  @property({ type: Boolean, reflect: true }) checked = false;
-  @property() value = '';
-  @property({ type: Boolean, reflect: true }) disabled = false;
+  static props = [
+    'type',
+    'checked',
+    'value',
+    'disabled',
+    'has-submenu',
+    'submenu-open',
+    'submenu-placement',
+  ];
+
+  type: 'normal' | 'checkbox' | 'radio' = 'normal';
+  checked = false;
+  value = '';
+  disabled = false;
 
   // Submenu properties
-  @property({ attribute: 'has-submenu', type: Boolean, reflect: true }) hasSubmenu = false;
-  @property({ attribute: 'submenu-open', type: Boolean, reflect: true }) submenuOpen = false;
-  @property({ attribute: 'submenu-placement', reflect: true }) submenuPlacement: 'right-start' | 'left-start' = 'right-start';
-
-  // Enhanced accessibility properties
-  @property({ attribute: 'aria-setsize', type: Number, reflect: true }) ariaSetsize?: number;
-  @property({ attribute: 'aria-posinset', type: Number, reflect: true }) ariaPosinset?: number;
+  'has-submenu' = false;
+  'submenu-open' = false;
+  'submenu-placement': 'right-start' | 'left-start' = 'right-start';
 
   private initialized = false;
   private check: HTMLElement | null = null;
   private chevron: HTMLElement | null = null;
+
+  // Elena's updated() carries no changed-props map, so each watched prop
+  // keeps its previous value here; undefined means the first update hasn't
+  // run yet and every handler fires once to establish initial state.
+  private prevChecked?: boolean;
+  private prevDisabled?: boolean;
+  private prevType?: string;
+  private prevHasSubmenu?: boolean;
+  private prevSubmenuOpen?: boolean;
 
   connectedCallback() {
     super.connectedCallback();
@@ -113,7 +124,29 @@ export class PpListItem extends LitElement {
     this.removeAttribute('data-focused');
   };
 
-  @watch('checked')
+  updated() {
+    if (this.prevChecked !== this.checked) {
+      this.prevChecked = this.checked;
+      this.handleCheckedChange();
+    }
+    if (this.prevDisabled !== this.disabled) {
+      this.prevDisabled = this.disabled;
+      this.handleDisabledChange();
+    }
+    if (this.prevType !== this.type) {
+      this.prevType = this.type;
+      this.handleTypeChange();
+    }
+    if (this.prevHasSubmenu !== this['has-submenu']) {
+      this.prevHasSubmenu = this['has-submenu'];
+      this.handleSubmenuChange();
+    }
+    if (this.prevSubmenuOpen !== this['submenu-open']) {
+      this.prevSubmenuOpen = this['submenu-open'];
+      this.handleSubmenuOpenChange();
+    }
+  }
+
   handleCheckedChange() {
     if (this.checked && this.type !== 'checkbox' && this.type !== 'radio') {
       this.checked = false;
@@ -128,12 +161,10 @@ export class PpListItem extends LitElement {
     }
   }
 
-  @watch('disabled')
   handleDisabledChange() {
     this.setAttribute('aria-disabled', this.disabled ? 'true' : 'false');
   }
 
-  @watch('type')
   handleTypeChange() {
     if (this.type === 'checkbox') {
       this.setAttribute('role', 'menuitemcheckbox');
@@ -147,24 +178,22 @@ export class PpListItem extends LitElement {
     }
   }
 
-  @watch('hasSubmenu')
   handleSubmenuChange() {
-    if (this.hasSubmenu) {
+    if (this['has-submenu']) {
       this.setAttribute('aria-haspopup', 'true');
-      this.setAttribute('aria-expanded', this.submenuOpen ? 'true' : 'false');
+      this.setAttribute('aria-expanded', this['submenu-open'] ? 'true' : 'false');
     } else {
       this.removeAttribute('aria-haspopup');
       this.removeAttribute('aria-expanded');
     }
   }
 
-  @watch('submenuOpen')
   handleSubmenuOpenChange() {
-    if (this.hasSubmenu) {
-      this.setAttribute('aria-expanded', this.submenuOpen ? 'true' : 'false');
+    if (this['has-submenu']) {
+      this.setAttribute('aria-expanded', this['submenu-open'] ? 'true' : 'false');
 
       // Emit custom events for submenu state changes
-      const eventType = this.submenuOpen ? 'pp-submenu-open' : 'pp-submenu-close';
+      const eventType = this['submenu-open'] ? 'pp-submenu-open' : 'pp-submenu-close';
       this.dispatchEvent(new CustomEvent(eventType, {
         bubbles: true,
         composed: true,

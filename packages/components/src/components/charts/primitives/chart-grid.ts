@@ -1,7 +1,6 @@
-import { LitElement, html } from 'lit';
-import { property, query } from 'lit/decorators.js';
-import type { TemplateResult } from 'lit';
+import { Elena } from '@elenajs/core';
 import type { ScaleBand, ScaleLinear } from 'd3-scale';
+import type { ElenaProp } from '../base/d3-component.js';
 import type { ScaleConsumer, TickInfo, ChartScale, ScaleCoordinator } from '../services/scale-coordinator.js';
 
 /**
@@ -20,6 +19,9 @@ export interface GridConfig {
  * @status draft
  * @since 0.1
  *
+ * Elena supplies props and lifecycle only; the SVG scaffold is built
+ * imperatively once and grid lines are drawn directly into it.
+ *
  * @event pp-grid-render - Emitted when the grid has been rendered
  *
  * @csspart base - The component's base wrapper
@@ -33,42 +35,68 @@ export interface GridConfig {
  * @cssproperty --grid-x-color - Color of the X-axis grid lines
  * @cssproperty --grid-y-color - Color of the Y-axis grid lines
  */
-export class PpChartGrid extends LitElement implements ScaleConsumer {
+export class PpChartGrid extends Elena(HTMLElement) implements ScaleConsumer {
+  static tagName = 'pp-chart-grid';
 
-  protected createRenderRoot() {
-    return this;
-  }
+  static props: ElenaProp[] = [
+    { name: 'config', reflect: false },
+    'width',
+    'height',
+    'tick-count',
+    { name: 'xScale', reflect: false },
+    { name: 'yScale', reflect: false },
+    { name: 'coordinator', reflect: false },
+  ];
 
-  @query('.grid-group') gridGroup!: SVGGElement;
-  @query('.grid-svg') svg!: SVGElement;
+  config: GridConfig = { showX: true, showY: true };
+  width = 0;
+  height = 0;
+  'tick-count' = 5;
+  xScale: ScaleBand<string> | ScaleLinear<number, number> | null = null;
+  yScale: ScaleBand<string> | ScaleLinear<number, number> | null = null;
+  coordinator: ScaleCoordinator | null = null;
 
-  @property({ type: Object }) config: GridConfig = { showX: true, showY: true };
-  @property({ type: Number }) width = 0;
-  @property({ type: Number }) height = 0;
-  @property({ type: Object }) xScale: ScaleBand<string> | ScaleLinear<number, number> | null = null;
-  @property({ type: Object }) yScale: ScaleBand<string> | ScaleLinear<number, number> | null = null;
-  @property({ type: Object }) coordinator: ScaleCoordinator | null = null;
-  
   // Tick information for scale-aware grid positioning
   private xTicks: TickInfo[] = [];
   private yTicks: TickInfo[] = [];
-  @property({ type: Number }) tickCount = 5;
 
-  constructor() {
-    super();
+  /** The owned scaffold, built once on first connect. */
+  private svg!: SVGSVGElement;
+  private gridGroup!: SVGGElement;
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.ensureScaffold();
   }
 
-  updated(changedProperties: Map<string | number | symbol, unknown>) {
-    super.updated(changedProperties);
+  private ensureScaffold() {
+    if (this.svg) return;
+    const NS = 'http://www.w3.org/2000/svg';
 
-    if (changedProperties.has('config') ||
-        changedProperties.has('width') ||
-        changedProperties.has('height') ||
-        changedProperties.has('xScale') ||
-        changedProperties.has('yScale') ||
-        changedProperties.has('tickCount')) {
-      this.renderGrid();
-    }
+    const container = document.createElement('div');
+    container.className = 'grid-container';
+
+    const svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('class', 'grid-svg');
+    svg.setAttribute('role', 'presentation');
+    svg.setAttribute('aria-hidden', 'true');
+
+    const group = document.createElementNS(NS, 'g');
+    group.setAttribute('class', 'grid-group');
+
+    svg.append(group);
+    container.append(svg);
+    this.append(container);
+
+    this.svg = svg;
+    this.gridGroup = group;
+  }
+
+  updated() {
+    if (!this.svg) return;
+    this.svg.setAttribute('width', String(this.width));
+    this.svg.setAttribute('height', String(this.height));
+    this.renderGrid();
   }
 
   private renderGrid() {
@@ -99,7 +127,7 @@ export class PpChartGrid extends LitElement implements ScaleConsumer {
       bubbles: true,
       composed: true
     }));
-    
+
     } catch (error) {
       console.error('Chart grid: Error rendering grid:', error);
       // Clear the grid group on error
@@ -194,7 +222,6 @@ export class PpChartGrid extends LitElement implements ScaleConsumer {
 
   /**
    * Set the scales for more intelligent grid positioning
-   * Note: This would be used with actual D3 scales in a real implementation
    */
   setScales(xScale: ScaleBand<string> | ScaleLinear<number, number> | null, yScale: ScaleBand<string> | ScaleLinear<number, number> | null) {
     this.xScale = xScale;
@@ -226,7 +253,7 @@ export class PpChartGrid extends LitElement implements ScaleConsumer {
         console.warn(`Chart grid: Invalid ticks data for ${axis} axis`);
         return;
       }
-      
+
       if (axis === 'x') {
         this.xTicks = ticks;
       } else {
@@ -297,22 +324,6 @@ export class PpChartGrid extends LitElement implements ScaleConsumer {
    */
   hideGrid() {
     this.updateConfig({ showX: false, showY: false });
-  }
-
-  render(): TemplateResult {
-    return html`
-      <div class="grid-container">
-        <svg
-          class="grid-svg"
-          width="${this.width}"
-          height="${this.height}"
-          role="presentation"
-          aria-hidden="true"
-        >
-          <g class="grid-group"></g>
-        </svg>
-      </div>
-    `;
   }
 }
 

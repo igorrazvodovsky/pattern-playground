@@ -6,7 +6,7 @@ import { textFromIdRefs } from '../../utility/accessible-name.js';
  * @status draft
  * @since 0.0.1
  *
- * Light-DOM render (rung 3): the element owns the track, input, marks, and
+ * The element owns the track, input, marks, and
  * value readout it renders. Author-provided children are re-adopted into the
  * render — mark leading/trailing content with `data-slot="prefix"` /
  * `data-slot="suffix"` (units, endpoint labels, icons); they are captured

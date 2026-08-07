@@ -1,17 +1,17 @@
 /**
  * Map (interactive location map) Web Component
  *
- * A Lit component that plots located points on a pannable, zoomable base map.
+ * An Elena host that plots located points on a pannable, zoomable base map.
  * Where the {@link Choropleth} shades whole regions by a quantity, this map
  * answers the *where is it* question — it places named things on tiles the
  * reader can scroll and zoom.
  *
  * It wraps Leaflet. Leaflet reads `document`, injects its own control DOM, and
  * ships a stylesheet that targets `.leaflet-*` in the light tree, so this
- * element renders in the light DOM (decision-ladder rung 3): it owns and
- * renders its own subtree, and author-provided children are clobbered. The map
- * canvas is a static node in the template — Lit never re-touches it, leaving
- * Leaflet free to own everything inside it.
+ * element lives in the light DOM. Elena supplies props and lifecycle only —
+ * there is no template. The map canvas is created imperatively once on first
+ * connect, and Leaflet owns everything inside it. Author-provided children are
+ * not part of the contract.
  *
  * @example
  * ```html
@@ -19,10 +19,11 @@
  * ```
  */
 
-import { LitElement, html, type PropertyValues } from 'lit';
-import { property } from 'lit/decorators.js';
+import { Elena } from '@elenajs/core';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+
+type ElenaProp = string | { name: string; reflect?: boolean };
 
 /** One plotted place. `id` identifies its marker for selection. */
 export interface MapLocation {
@@ -58,31 +59,37 @@ function pinIcon(selected: boolean): L.DivIcon {
   });
 }
 
-export class MapComponent extends LitElement {
+export class MapComponent extends Elena(HTMLElement) {
+  static tagName = 'pp-map';
+
+  static props: ElenaProp[] = [
+    { name: 'locations', reflect: false },
+    { name: 'center', reflect: false },
+    'zoom',
+    'tile-url',
+    'attribution',
+    'selected-id',
+    'label',
+  ];
+
   /** The places to plot; each becomes a focusable marker. */
-  @property({ type: Array })
   locations: MapLocation[] = [];
 
   /** Initial centre `[lat, lng]`. When omitted, the view fits all markers. */
-  @property({ type: Array })
-  center?: [number, number];
+  center: [number, number] | undefined = undefined;
 
   /** Initial zoom level. Ignored when the view is fit to markers. */
-  @property({ type: Number })
   zoom = 13;
 
-  @property({ type: String, attribute: 'tile-url' })
-  tileUrl = CARTO_TILE_URL;
+  'tile-url' = CARTO_TILE_URL;
 
   /** Attribution HTML for the tile source. Required by most providers. */
-  @property({ type: String })
   attribution = CARTO_ATTRIBUTION;
 
-  @property({ type: String, reflect: true, attribute: 'selected-id' })
-  selectedId?: string | number;
+  /** The active location's id; empty string means no selection. */
+  'selected-id': string | number = '';
 
   /** Accessible name for the map region. */
-  @property({ type: String })
   label = 'Location map';
 
   private map?: L.Map;
@@ -90,13 +97,24 @@ export class MapComponent extends LitElement {
   private markersById = new Map<string, L.Marker>();
   private resizeObserver?: ResizeObserver;
   private rafHandle = 0;
+  private canvas?: HTMLElement;
 
-  /** Light DOM: Leaflet needs a real container in the document tree. */
-  protected createRenderRoot() {
-    return this;
-  }
+  // Elena's updated() carries no changed-props map; previous values live here,
+  // seeded in firstUpdated() so handlers only run on later changes.
+  private prevLocations?: MapLocation[];
+  private prevTileUrl?: string;
+  private prevAttribution?: string;
+  private prevSelectedId?: string | number;
 
   connectedCallback() {
+    // Leaflet needs a real container in the document tree before the first
+    // render lifecycle runs (firstUpdated fires inside super.connectedCallback).
+    if (!this.canvas) {
+      this.canvas = document.createElement('div');
+      this.canvas.className = 'pp-map__canvas';
+      this.canvas.setAttribute('data-map-canvas', '');
+      this.append(this.canvas);
+    }
     super.connectedCallback();
     if (document.readyState !== 'loading') {
       this.init();
@@ -119,15 +137,19 @@ export class MapComponent extends LitElement {
   }
 
   /** Build the Leaflet map once the canvas node exists. */
-  protected firstUpdated(): void {
-    const canvas = this.querySelector<HTMLElement>('[data-map-canvas]');
-    if (!canvas) return;
+  firstUpdated(): void {
+    if (!this.canvas) return;
 
-    this.map = L.map(canvas, { zoomControl: true, attributionControl: true });
-    this.tileLayer = L.tileLayer(this.tileUrl, {
+    this.map = L.map(this.canvas, { zoomControl: true, attributionControl: true });
+    this.tileLayer = L.tileLayer(this['tile-url'], {
       attribution: this.attribution,
       maxZoom: 19,
     }).addTo(this.map);
+
+    this.prevLocations = this.locations;
+    this.prevTileUrl = this['tile-url'];
+    this.prevAttribution = this.attribution;
+    this.prevSelectedId = this['selected-id'];
 
     this.renderMarkers();
     this.fitView();
@@ -136,21 +158,25 @@ export class MapComponent extends LitElement {
     // panel, a tab, or a flex parent. Leaflet must be told, or tiles misalign.
     this.rafHandle = requestAnimationFrame(() => this.map?.invalidateSize());
     this.resizeObserver = new ResizeObserver(() => this.map?.invalidateSize());
-    this.resizeObserver.observe(canvas);
+    this.resizeObserver.observe(this.canvas);
   }
 
-  protected updated(changed: PropertyValues<this>): void {
+  updated(): void {
     if (!this.map) return;
-    if (changed.has('locations')) {
+    if (this.locations !== this.prevLocations) {
+      this.prevLocations = this.locations;
       this.renderMarkers();
       this.fitView();
     }
-    if (changed.has('tileUrl') || changed.has('attribution')) {
+    if (this['tile-url'] !== this.prevTileUrl || this.attribution !== this.prevAttribution) {
+      this.prevTileUrl = this['tile-url'];
+      this.prevAttribution = this.attribution;
       this.tileLayer?.remove();
-      this.tileLayer = L.tileLayer(this.tileUrl, { attribution: this.attribution, maxZoom: 19 })
+      this.tileLayer = L.tileLayer(this['tile-url'], { attribution: this.attribution, maxZoom: 19 })
         .addTo(this.map);
     }
-    if (changed.has('selectedId')) {
+    if (this['selected-id'] !== this.prevSelectedId) {
+      this.prevSelectedId = this['selected-id'];
       this.syncSelection('api');
     }
   }
@@ -222,13 +248,16 @@ export class MapComponent extends LitElement {
   }
 
   private isSelected(loc: MapLocation): boolean {
-    return this.selectedId != null && String(loc.id) === String(this.selectedId);
+    return this['selected-id'] !== '' && String(loc.id) === String(this['selected-id']);
   }
 
-  /** Select a location and let the change flow out through `selectedId`. */
+  /** Select a location and let the change flow out through `selected-id`. */
   private select(loc: MapLocation, source: MapSelectDetail['source']): void {
     if (this.isSelected(loc)) return;
-    this.selectedId = loc.id;
+    this['selected-id'] = loc.id;
+    // Selection is applied inline; the prev field is caught up so the microtask
+    // update cycle does not re-apply it as an 'api' change (which would pan).
+    this.prevSelectedId = loc.id;
     this.syncSelection(source);
     this.dispatchEvent(
       new CustomEvent<MapSelectDetail>('pp-map-select', {
@@ -239,7 +268,7 @@ export class MapComponent extends LitElement {
     );
   }
 
-  /** Reflect the current `selectedId` onto the markers and the map view. */
+  /** Reflect the current `selected-id` onto the markers and the map view. */
   private syncSelection(source: MapSelectDetail['source']): void {
     const loc = this.locations.find((l) => this.isSelected(l));
 
@@ -247,7 +276,7 @@ export class MapComponent extends LitElement {
     for (const [id, marker] of this.markersById) {
       const el = marker.getElement();
       if (!el) continue;
-      const isSelected = id === String(this.selectedId);
+      const isSelected = this['selected-id'] !== '' && id === String(this['selected-id']);
       el.classList.toggle('pp-map__pin--selected', isSelected);
       if (isSelected) el.setAttribute('aria-current', 'true');
       else el.removeAttribute('aria-current');
@@ -259,10 +288,6 @@ export class MapComponent extends LitElement {
       if (source !== 'marker') this.map.panTo([loc.lat, loc.lng]);
       marker?.openPopup();
     }
-  }
-
-  render() {
-    return html`<div class="pp-map__canvas" data-map-canvas></div>`;
   }
 }
 

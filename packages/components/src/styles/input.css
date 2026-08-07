@@ -1,10 +1,4 @@
-/* Light-DOM styles for pp-input (rung 2: the element is the bordered field
-   box; the author composes a native <input> and optional data-slot="prefix" /
-   data-slot="suffix" adornments inside it). Ported from the former shadow
-   sheet; the `.form-control` wrapper layers were structural only. Sizes via
-   the `size` attribute; medium is the default. */
 
-/* Pre-existing global reset — raw text inputs across demos rely on it */
 input[type="text"] {
   border: none;
   outline: none;

@@ -3,7 +3,6 @@ import storybook from "eslint-plugin-storybook";
 
 import globals from "globals";
 import tseslint from "typescript-eslint";
-import lit from 'eslint-plugin-lit';
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import react from 'eslint-plugin-react'
@@ -37,7 +36,6 @@ export default [
       "**/.obsidian/**",
     ],
   },
-  lit.configs['flat/recommended'],
   {
     files: ["**/*.{js,mjs,cjs,ts,jsx,jsx,tsx}"],
     plugins: {

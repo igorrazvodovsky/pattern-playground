@@ -1,4 +1,4 @@
-import { LitElement } from 'lit';
+import { Elena } from '@elenajs/core';
 import { PpDropdown } from '../dropdown/dropdown';
 import priorityPlus from './p-plus'
 
@@ -7,17 +7,18 @@ import priorityPlus from './p-plus'
  * @status draft
  * @since 0.0.1
  *
- * Composite enhancement (rung 2): the element renders nothing; the
+ * The element renders nothing; the
  * priority-plus engine takes the author's child `<div>` of items and manages
- * the visible/overflow split. Styles live in `src/styles/p-plus.css`.
+ * the visible/overflow split. Overflowed items are copied into `pp-list-item`s
+ * inside a dropdown, so adornments marked `data-slot="prefix"` /
+ * `data-slot="suffix"` on an item's children carry their meaning into the
+ * overflow menu. Styles live in `src/styles/p-plus.css`.
  */
 
-export class PpPriorityPlus extends LitElement {
-  static dependencies = { 'pp-dropdown': PpDropdown }
+export class PpPriorityPlus extends Elena(HTMLElement) {
+  static tagName = 'pp-p-plus';
 
-  protected createRenderRoot() {
-    return this;
-  }
+  static dependencies = { 'pp-dropdown': PpDropdown }
 
   firstUpdated() {
     const target = this.querySelector("div");

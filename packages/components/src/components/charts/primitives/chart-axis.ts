@@ -1,10 +1,10 @@
-import { LitElement, html } from 'lit';
-import { property, query } from 'lit/decorators.js';
-import type { TemplateResult } from 'lit';
+import { Elena } from '@elenajs/core';
 import { select } from 'd3-selection';
 import { axisBottom, axisTop, axisLeft, axisRight } from 'd3-axis';
 import type { Axis, AxisDomain, AxisScale } from 'd3-axis';
+import { format } from 'd3-format';
 import type { ScaleBand, ScaleLinear } from 'd3-scale';
+import type { ElenaProp } from '../base/d3-component.js';
 import type { ScaleConsumer, TickInfo, ChartScale, ScaleCoordinator } from '../services/scale-coordinator.js';
 
 /**
@@ -12,7 +12,8 @@ import type { ScaleConsumer, TickInfo, ChartScale, ScaleCoordinator } from '../s
  * @status draft
  * @since 0.1
  *
- * @slot - Default slot for custom axis content
+ * Elena supplies props and lifecycle only; the SVG scaffold is built
+ * imperatively once and d3-axis owns everything inside it.
  *
  * @event pp-axis-render - Emitted when the axis has been rendered
  *
@@ -27,41 +28,68 @@ import type { ScaleConsumer, TickInfo, ChartScale, ScaleCoordinator } from '../s
  * @cssproperty --grid-color - Color of the grid lines (if enabled)
  * @cssproperty --grid-opacity - Opacity of the grid lines
  */
-export class PpChartAxis extends LitElement implements ScaleConsumer {
-  protected createRenderRoot() {
-    return this;
+export class PpChartAxis extends Elena(HTMLElement) implements ScaleConsumer {
+  static tagName = 'pp-chart-axis';
+
+  static props: ElenaProp[] = [
+    'orientation',
+    'label',
+    'tick-count',
+    { name: 'tickFormat', reflect: false },
+    'grid',
+    'width',
+    'height',
+    { name: 'scale', reflect: false },
+    { name: 'coordinator', reflect: false },
+  ];
+
+  orientation: 'top' | 'bottom' | 'left' | 'right' = 'bottom';
+  label = '';
+  'tick-count' = 5;
+  tickFormat: ((d: AxisDomain) => string) | string = '';
+  grid = false;
+  width = 0;
+  height = 0;
+  scale: ScaleBand<string> | ScaleLinear<number, number> | null = null;
+  coordinator: ScaleCoordinator | null = null;
+
+  /** The owned scaffold, built once on first connect. */
+  private svg!: SVGSVGElement;
+  private axisGroup!: SVGGElement;
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.ensureScaffold();
   }
 
-  @query('.axis-group') axisGroup!: SVGGElement;
-  @query('.axis-svg') svg!: SVGElement;
+  private ensureScaffold() {
+    if (this.svg) return;
+    const NS = 'http://www.w3.org/2000/svg';
 
-  @property() orientation: 'top' | 'bottom' | 'left' | 'right' = 'bottom';
-  @property() label = '';
-  @property({ type: Number }) tickCount = 5;
-  @property() tickFormat: ((d: AxisDomain) => string) | string = '';
-  @property({ type: Boolean }) grid = false;
-  @property({ type: Number }) width = 0;
-  @property({ type: Number }) height = 0;
-  @property({ type: Object }) scale: ScaleBand<string> | ScaleLinear<number, number> | null = null;
-  @property({ type: Object }) coordinator: ScaleCoordinator | null = null;
+    const container = document.createElement('div');
+    container.className = 'axis-container';
 
-  // Internal properties for axis configuration
+    const svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('class', 'axis-svg');
+    svg.setAttribute('role', 'img');
 
-  constructor() {
-    super();
+    const group = document.createElementNS(NS, 'g');
+    group.setAttribute('class', 'axis-group');
+
+    svg.append(group);
+    container.append(svg);
+    this.append(container);
+
+    this.svg = svg;
+    this.axisGroup = group;
   }
 
-  updated(changedProperties: Map<string | number | symbol, unknown>) {
-    super.updated(changedProperties);
-
-    if (changedProperties.has('scale') ||
-        changedProperties.has('orientation') ||
-        changedProperties.has('tickCount') ||
-        changedProperties.has('tickFormat') ||
-        changedProperties.has('width') ||
-        changedProperties.has('height')) {
-      this.renderAxis();
-    }
+  updated() {
+    if (!this.svg) return;
+    this.svg.setAttribute('width', String(this.width));
+    this.svg.setAttribute('height', String(this.height));
+    this.svg.setAttribute('aria-label', `Chart axis: ${this.label || this.orientation}`);
+    this.renderAxis();
   }
 
   /**
@@ -99,33 +127,22 @@ export class PpChartAxis extends LitElement implements ScaleConsumer {
     }
 
     // Configure axis
-    if ('ticks' in this.scale && this.tickCount) {
-      axis.ticks(this.tickCount);
+    if ('ticks' in this.scale && this['tick-count']) {
+      axis.ticks(this['tick-count']);
     }
 
     if (this.tickFormat) {
-      // Type-safe tick formatter handling
       if (typeof this.tickFormat === 'function') {
         axis.tickFormat(this.tickFormat);
       } else if (typeof this.tickFormat === 'string' && this.tickFormat.trim()) {
-        // Handle common string format patterns
         try {
-          // Import d3-format for number formatting
-          import('d3-format').then(({ format }) => {
-            const formatter = format(this.tickFormat as string);
-            // Create a wrapper that handles both string and number domains
-            const domainFormatter = (domainValue: AxisDomain) => {
-              if (typeof domainValue === 'number') {
-                return formatter(domainValue);
-              }
-              return String(domainValue);
-            };
-            axis.tickFormat(domainFormatter);
-            // Re-render with the new formatter
-            select(this.axisGroup).call(axis);
-            this.styleAxis();
-          }).catch(() => {
-            console.warn('d3-format not available for string tick formatting');
+          const formatter = format(this.tickFormat);
+          // Wrapper that handles both string and number domains
+          axis.tickFormat((domainValue: AxisDomain) => {
+            if (typeof domainValue === 'number') {
+              return formatter(domainValue);
+            }
+            return String(domainValue);
           });
         } catch {
           console.warn('Unable to parse tick format string:', this.tickFormat);
@@ -210,7 +227,6 @@ export class PpChartAxis extends LitElement implements ScaleConsumer {
    */
   setScale(scale: ScaleBand<string> | ScaleLinear<number, number>) {
     this.scale = scale;
-    this.renderAxis();
   }
 
   /**
@@ -257,7 +273,7 @@ export class PpChartAxis extends LitElement implements ScaleConsumer {
     } else {
       // Linear scale
       const linearScale = this.scale as ScaleLinear<number, number>;
-      const tickValues = linearScale.ticks(this.tickCount);
+      const tickValues = linearScale.ticks(this['tick-count']);
       tickValues.forEach(value => {
         const position = linearScale(value);
         if (position !== undefined) {
@@ -285,22 +301,6 @@ export class PpChartAxis extends LitElement implements ScaleConsumer {
       this.coordinator.unregisterConsumer(this);
       this.coordinator = null;
     }
-  }
-
-  render(): TemplateResult {
-    return html`
-      <div class="axis-container">
-        <svg
-          class="axis-svg"
-          width="${this.width}"
-          height="${this.height}"
-          role="img"
-          aria-label="Chart axis: ${this.label || this.orientation}"
-        >
-          <g class="axis-group"></g>
-        </svg>
-      </div>
-    `;
   }
 }
 

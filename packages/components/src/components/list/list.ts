@@ -1,6 +1,5 @@
 import { announce } from '../../utility/announce.js';
-import { LitElement } from 'lit';
-import { property } from 'lit/decorators.js';
+import { Elena } from '@elenajs/core';
 import type { PpListItem } from '../list-item/list-item';
 
 export interface ListSelectEventDetail {
@@ -12,18 +11,18 @@ export interface ListSelectEventDetail {
  * @status draft
  * @since 0.1
  *
- * Composite enhancement (rung 2): the element enhances the `<pp-list-item>`
+ * The element enhances the `<pp-list-item>`
  * children it is given — menu role, roving tabindex, keyboard navigation,
  * type-ahead, and submenu orchestration. Styles: `src/styles/list.css`.
  */
 
-export class PpList extends LitElement {
-  protected createRenderRoot() {
-    return this;
-  }
+export class PpList extends Elena(HTMLElement) {
+  static tagName = 'pp-list';
 
-  @property({ reflect: true }) label = '';
-  @property({ type: Boolean, attribute: 'multiselectable', reflect: true }) multiselectable = false;
+  static props = ['label', 'multiselectable'];
+
+  label = '';
+  multiselectable = false;
 
   private openSubmenus: Set<PpListItem> = new Set();
   private currentSubmenu: PpListItem | null = null;
@@ -96,11 +95,11 @@ export class PpList extends LitElement {
     const item = target as PpListItem;
 
     // Handle submenu items - toggle open/close instead of selecting
-    if (item.hasSubmenu) {
+    if (item['has-submenu']) {
       event.preventDefault();
       event.stopPropagation();
 
-      if (item.submenuOpen) {
+      if (item['submenu-open']) {
         this.closeCurrentSubmenu();
       } else {
         this.openSubmenu(item);
@@ -139,7 +138,7 @@ export class PpList extends LitElement {
     // Submenu navigation with ArrowRight and ArrowLeft
     else if (event.key === 'ArrowRight') {
       const item = this.getCurrentItem();
-      if (item?.hasSubmenu) {
+      if (item?.['has-submenu']) {
         event.preventDefault();
         event.stopPropagation();
         this.openSubmenu(item);
@@ -239,13 +238,13 @@ export class PpList extends LitElement {
       this.setCurrentItem(listItem);
 
       // Close any existing submenus when moving to a different item
-      const currentlyOpenSubmenu = this.getAllItems().find(item => item.submenuOpen);
+      const currentlyOpenSubmenu = this.getAllItems().find(item => item['submenu-open']);
       if (currentlyOpenSubmenu && currentlyOpenSubmenu !== listItem) {
         this.closeSubmenu(currentlyOpenSubmenu);
       }
 
       // Open submenu for the current item if it has one
-      if (listItem.hasSubmenu) {
+      if (listItem['has-submenu']) {
         this.handleSubmenuMouseEnter(listItem);
       }
     }
@@ -308,13 +307,13 @@ export class PpList extends LitElement {
 
   // Submenu management methods
   openSubmenu(item: PpListItem) {
-    if (!item.hasSubmenu) return;
+    if (!item['has-submenu']) return;
 
     // Close other submenus first
     this.closeAllSubmenus();
 
     // Open the new submenu
-    item.submenuOpen = true;
+    item['submenu-open'] = true;
     this.openSubmenus.add(item);
     this.currentSubmenu = item;
 
@@ -335,7 +334,7 @@ export class PpList extends LitElement {
 
   closeCurrentSubmenu() {
     if (this.currentSubmenu) {
-      this.currentSubmenu.submenuOpen = false;
+      this.currentSubmenu['submenu-open'] = false;
       this.openSubmenus.delete(this.currentSubmenu);
       this.currentSubmenu = null;
       announce('Closed submenu');
@@ -343,8 +342,8 @@ export class PpList extends LitElement {
   }
 
   closeSubmenu(item: PpListItem) {
-    if (item.submenuOpen) {
-      item.submenuOpen = false;
+    if (item['submenu-open']) {
+      item['submenu-open'] = false;
       this.openSubmenus.delete(item);
       if (this.currentSubmenu === item) {
         this.currentSubmenu = null;
@@ -354,7 +353,7 @@ export class PpList extends LitElement {
 
   closeAllSubmenus() {
     this.openSubmenus.forEach(item => {
-      item.submenuOpen = false;
+      item['submenu-open'] = false;
     });
     this.openSubmenus.clear();
     this.currentSubmenu = null;
@@ -384,7 +383,7 @@ export class PpList extends LitElement {
   private handleSubmenuMouseEnter(item: PpListItem) {
     this.cancelSubmenuClose();
     this.submenuTimeout = window.setTimeout(() => {
-      if (item.hasSubmenu && !item.submenuOpen) {
+      if (item['has-submenu'] && !item['submenu-open']) {
         this.openSubmenu(item);
       }
     }, 150);

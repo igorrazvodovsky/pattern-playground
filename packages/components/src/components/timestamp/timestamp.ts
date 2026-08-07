@@ -1,5 +1,4 @@
-import { LitElement, html, nothing } from 'lit';
-import { property } from 'lit/decorators.js';
+import { Elena } from '@elenajs/core';
 import { describeTimestamp, type DateInput, type Locale } from '@shared/format';
 
 /**
@@ -16,8 +15,12 @@ import { describeTimestamp, type DateInput, type Locale } from '@shared/format';
  * visually hidden, where it is announced rather than inferred; `title` is a
  * convenience for sighted actors with a mouse, not the mechanism.
  *
- * Renders into the light DOM, so the `<time>` is a real element of the
- * document and the page's own `.visually-hidden` applies to it.
+ * The element enhances a `<time>` child,
+ * mutating `datetime`, `title`, and text in place. An author or server can
+ * write the `<time>` with the absolute value as content — meaningful before
+ * upgrade — or omit it and the element creates one. Without a `value` the
+ * child is left untouched. The `<time>` is a real element of the document, so
+ * the page's own `.visually-hidden` applies to it.
  *
  * See Storybook `Components/Timestamp` and `Foundations/Figures`.
  */
@@ -48,52 +51,93 @@ const stopTicking = (element: PpTimestamp): void => {
   }
 };
 
-export class PpTimestamp extends LitElement {
-  /** Light DOM: the `<time>` belongs to the document, not to a shadow root. */
-  protected createRenderRoot() {
-    return this;
-  }
+export class PpTimestamp extends Elena(HTMLElement) {
+  static tagName = 'pp-timestamp';
+
+  // `value` may hold a `Date` or epoch number as a property, and objects
+  // cannot survive attribute reflection (Elena serialises them as JSON), so
+  // both props stay property-only; the attributes are still observed.
+  static props = [
+    { name: 'value', reflect: false },
+    { name: 'locale', reflect: false },
+  ];
 
   /** The instant. An ISO 8601 string as an attribute; any `DateInput` as a property. */
-  @property() value: DateInput = '';
+  value: DateInput = '';
 
   /** Only for a caller holding an actor's stated preference; otherwise resolved. */
-  @property() locale?: Locale;
+  locale: Locale = '';
 
   #relative = false;
+  #written = '';
 
-  connectedCallback(): void {
-    super.connectedCallback();
-    // Moving an element in the DOM disconnects it without recreating it, and
-    // Lit doesn't re-render on reconnect — so rejoin explicitly or the text
-    // stays frozen at whatever it said before the move.
-    if (this.#relative) startTicking(this);
+  // Elena coerces an incoming attribute by the type the prop currently holds;
+  // after `value` has held a `Date` or epoch number, an ISO attribute string
+  // would go through JSON.parse / Number and be lost. The attribute is always
+  // the ISO string, so hand it straight to the property.
+  attributeChangedCallback(prop: string, oldValue: string | null, newValue: string | null): void {
+    if (prop === 'value') {
+      this.value = newValue ?? '';
+      return;
+    }
+    super.attributeChangedCallback(prop, oldValue, newValue);
   }
 
+  // Elena's connectedCallback ends in updated(), so a `<time>` moved in the
+  // DOM (disconnect + reconnect without recreation) refreshes and rejoins the
+  // ticking set on its own; only teardown needs handling.
   disconnectedCallback(): void {
     super.disconnectedCallback();
     stopTicking(this);
   }
 
-  protected updated(): void {
-    if (this.#relative) startTicking(this);
-    else stopTicking(this);
+  private get timeEl(): HTMLTimeElement | null {
+    return this.querySelector<HTMLTimeElement>(':scope > time');
   }
 
-  render() {
+  updated(): void {
     if (this.value === '' || this.value == null) {
+      // No value: leave whatever the author wrote alone.
       this.#relative = false;
-      return nothing;
+      stopTicking(this);
+      return;
     }
 
-    const { text, datetime, absolute, isRelative } = describeTimestamp(this.value, this.locale);
+    const { text, datetime, absolute, isRelative } = describeTimestamp(
+      this.value,
+      this.locale || undefined
+    );
     this.#relative = isRelative;
 
-    return html`<time datetime=${datetime} title=${isRelative ? absolute : nothing}
-      >${text}${isRelative
-        ? html`<span class="visually-hidden"> (${absolute})</span>`
-        : nothing}</time
-    >`;
+    let time = this.timeEl;
+    if (!time) {
+      time = document.createElement('time');
+      this.append(time);
+    }
+
+    if (time.dateTime !== datetime) time.dateTime = datetime;
+    if (isRelative) {
+      if (time.title !== absolute) time.title = absolute;
+    } else {
+      time.removeAttribute('title');
+    }
+
+    // Rewrite the leaf content only when it changed — a tick that lands in
+    // the same bucket ("now" staying "now") should not churn the DOM.
+    const content = isRelative ? `${text} (${absolute})` : text;
+    if (this.#written !== content) {
+      this.#written = content;
+      time.textContent = text;
+      if (isRelative) {
+        const hidden = document.createElement('span');
+        hidden.className = 'visually-hidden';
+        hidden.textContent = ` (${absolute})`;
+        time.append(hidden);
+      }
+    }
+
+    if (this.#relative) startTicking(this);
+    else stopTicking(this);
   }
 }
 

@@ -1,5 +1,3 @@
-/* Light-DOM styles for pp-tooltip (rung 2: first author child is the target;
-   the pp-popup + body are component-owned). */
 
 pp-tooltip {
   --max-width: 20rem;

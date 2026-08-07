@@ -1,14 +1,12 @@
-import { LitElement } from 'lit';
+import { Elena } from '@elenajs/core';
 
 /**
- * Composite enhancement (rung 2): renders nothing and enhances the trail it
- * is given — navigation role, link and disguised-select interception.
+ * Renders nothing and enhances the trail it is given — navigation role,
+ * link and disguised-select interception.
  * Styles live in `src/styles/breadcrumbs.css`.
  */
-export class PpBreadcrumbs extends LitElement {
-  protected createRenderRoot() {
-    return this;
-  }
+export class PpBreadcrumbs extends Elena(HTMLElement) {
+  static tagName = 'pp-breadcrumbs';
 
   connectedCallback() {
     super.connectedCallback();

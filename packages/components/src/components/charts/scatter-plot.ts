@@ -1,33 +1,31 @@
 /**
  * Scatter Plot Web Component
  *
- * A Lit component that orchestrates scatter plot rendering using the pure
+ * An Elena host that orchestrates scatter plot rendering using the pure
  * scatter plot renderer. Two numeric variables ride on position; an optional
  * `size` field turns points into bubbles, and `category` colours them into
- * series.
+ * series. Elena supplies props and lifecycle; D3 owns the DOM outright.
  *
  * @example
  * ```html
  * <pp-scatter-plot
- *   .data="${scatterData}"
  *   show-axes
  *   show-grid>
  * </pp-scatter-plot>
  * ```
  */
 
-import { html } from 'lit';
-import { property, state } from 'lit/decorators.js';
 import { select, type Selection } from 'd3-selection';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { ChartComponent } from './base/chart-component.js';
+import type { ElenaProp } from './base/d3-component.js';
+import { VIEWBOX_WIDTH, VIEWBOX_HEIGHT } from './base/d3-component.js';
 import type {
   ScatterPlotData,
   ScatterPlotDataPoint,
   ChartDimensions
 } from './base/chart-types.js';
 import { isScatterPlotData } from './base/chart-types.js';
-import { convertToScatterPlotData } from './base/data-converters.js';
 import {
   renderScatterPlot,
   addScatterPlotInteractions,
@@ -41,54 +39,29 @@ import type {
   ScatterPlotRenderResult
 } from './renderers/scatter-plot-renderer.js';
 
-/**
- * Custom value converter for ScatterPlotData
- */
-export const scatterPlotDataConverter = {
-  fromAttribute: (value: string | null): ScatterPlotData | null => {
-    if (!value) return null;
-    return convertToScatterPlotData(value);
-  },
-  toAttribute: (value: ScatterPlotData | null): string | null => {
-    return value ? JSON.stringify(value) : null;
-  }
-};
-
 export class ScatterPlot extends ChartComponent {
+  static tagName = 'pp-scatter-plot';
+
+  static props: ElenaProp[] = [
+    ...ChartComponent.props,
+    'show-axes',
+    'show-grid',
+    'show-size',
+    'point-radius',
+  ];
 
   // A little more room than the base default so numeric axis ticks have space.
-  @property({ type: Object })
   margin = { top: 16, right: 24, bottom: 32, left: 48 };
 
-  @property({
-    type: Object,
-    converter: scatterPlotDataConverter
-  })
   data: ScatterPlotData = { data: [] };
+  'show-axes' = true;
+  'show-grid' = false;
+  'show-size' = false;
+  'point-radius' = 5;
 
-  @property({ type: Boolean, reflect: true, attribute: 'show-axes' })
-  showAxes = true;
-
-  @property({ type: Boolean, reflect: true, attribute: 'show-grid' })
-  showGrid = false;
-
-  @property({ type: Boolean, reflect: true, attribute: 'show-size' })
-  showSize = false;
-
-  @property({ type: Number, attribute: 'point-radius' })
-  pointRadius = 5;
-
-  // Internal bookkeeping — not reactive; assigned during render, never read in
-  // the template. Keeping it off @state avoids scheduling a redundant update
-  // cycle each render (the "update after update completed" warning).
+  // Internal bookkeeping — plain fields; never trigger a render cycle.
   private renderResult?: ScatterPlotRenderResult;
-
-  // Internal reactive state (drives the tooltip in render())
-  @state() private tooltipVisible = false;
-  @state() private tooltipContent = '';
-  @state() private tooltipX = 0;
-  @state() private tooltipY = 0;
-  @state() private focusedIndex = 0;
+  private focusedIndex = 0;
 
   connectedCallback() {
     super.connectedCallback();
@@ -120,14 +93,6 @@ export class ScatterPlot extends ChartComponent {
     return isScatterPlotData(this.data) && this.data.data.length > 0;
   }
 
-  protected shouldRerender(changedProperties: Map<string | number | symbol, unknown>): boolean {
-    return super.shouldRerender(changedProperties) ||
-      changedProperties.has('showAxes') ||
-      changedProperties.has('showGrid') ||
-      changedProperties.has('showSize') ||
-      changedProperties.has('pointRadius');
-  }
-
   /**
    * Required by ChartComponent; scales are created in the renderer per-render.
    */
@@ -138,8 +103,8 @@ export class ScatterPlot extends ChartComponent {
   private buildConfig(): Partial<ScatterPlotConfig> {
     return {
       ...defaultScatterPlotConfig,
-      showSize: this.showSize,
-      pointRadius: this.pointRadius
+      showSize: this['show-size'],
+      pointRadius: this['point-radius']
     };
   }
 
@@ -169,26 +134,22 @@ export class ScatterPlot extends ChartComponent {
     });
 
     const viewBoxDimensions = {
-      width: 600 - this.margin.left - this.margin.right,
-      height: 300 - this.margin.top - this.margin.bottom
+      width: VIEWBOX_WIDTH - this.margin.left - this.margin.right,
+      height: VIEWBOX_HEIGHT - this.margin.top - this.margin.bottom
     };
 
-    if (this.showGrid) {
+    if (this['show-grid']) {
       this.renderGrid(scales, viewBoxDimensions);
     }
-    if (this.showAxes) {
+    if (this['show-axes']) {
       this.renderAxes(scales, viewBoxDimensions);
     }
 
     this.renderResult = renderScatterPlot(container, this.data, dimensions, config);
     this.addInteractions();
 
-    const label = this.title || `Scatter plot with ${this.data.data.length} data points`;
-    const titleElement = this.querySelector('#chart-title');
-    if (titleElement) {
-      titleElement.textContent = label;
-    }
-    this.setAttribute('aria-label', label);
+    this.setChartLabel(this.title || `Scatter plot with ${this.data.data.length} data points`);
+    this.syncDataTable(this.data.data.map(item => [item.label ?? '', item.x, item.y, item.category ?? '']));
   }
 
   private addInteractions(): void {
@@ -209,11 +170,6 @@ export class ScatterPlot extends ChartComponent {
   }
 
   private handlePointHover(data: ScatterPlotDataPoint, event: MouseEvent): void {
-    this.tooltipContent = this.describePoint(data);
-    this.tooltipX = event.clientX;
-    this.tooltipY = event.clientY;
-    this.tooltipVisible = true;
-
     this.dispatchEvent(new CustomEvent('pp-point-hover', {
       detail: { data, originalEvent: event },
       bubbles: true,
@@ -222,7 +178,6 @@ export class ScatterPlot extends ChartComponent {
   }
 
   private handlePointLeave(): void {
-    this.tooltipVisible = false;
     this.dispatchEvent(new CustomEvent('pp-point-hover-end', {
       bubbles: true,
       composed: true
@@ -279,15 +234,9 @@ export class ScatterPlot extends ChartComponent {
     if (index < 0 || index > points.length - 1) return;
 
     this.focusedIndex = index;
-    const current = points[index];
-    this.tooltipContent = this.describePoint(current);
-    const rect = this.getBoundingClientRect();
-    this.tooltipX = rect.left + rect.width / 2;
-    this.tooltipY = rect.top + rect.height / 2;
-    this.tooltipVisible = true;
 
     this.setAttribute('aria-live', 'polite');
-    this.setAttribute('aria-label', `Scatter plot. Current: ${this.tooltipContent}. Use arrow keys to navigate.`);
+    this.setAttribute('aria-label', `Scatter plot. Current: ${this.describePoint(points[index])}. Use arrow keys to navigate.`);
   }
 
   private renderAxes(scales: ScatterPlotScales, dimensions: { width: number; height: number }): void {
@@ -367,33 +316,6 @@ export class ScatterPlot extends ChartComponent {
       .attr('stroke', 'var(--c-border)')
       .attr('stroke-opacity', 0.2)
       .attr('stroke-dasharray', '2,2');
-  }
-
-  render() {
-    return html`
-      ${super.render()}
-      ${this.tooltipVisible ? html`
-        <pp-tooltip
-          .content="${this.tooltipContent}"
-          .position="{ x: ${this.tooltipX}, y: ${this.tooltipY} }"
-          .visible="${this.tooltipVisible}"
-        ></pp-tooltip>
-      ` : ''}
-
-      <!-- Screen reader accessible data summary -->
-      <div class="visually-hidden" role="table" aria-label="Chart data">
-        <div role="rowgroup">
-          ${this.data.data.map(item => html`
-            <div role="row">
-              <span role="cell">${item.label ?? ''}</span>
-              <span role="cell">${item.x}</span>
-              <span role="cell">${item.y}</span>
-              <span role="cell">${item.category ?? ''}</span>
-            </div>
-          `)}
-        </div>
-      </div>
-    `;
   }
 }
 

@@ -1,7 +1,3 @@
-/* CSS-only spinner (rung 1): `pp-spinner` is a styled tag with no custom
-   element definition. The one-em ring sizes with `font-size`, as the SVG
-   version did. Add `role="progressbar"` and an `aria-label` in markup when
-   the spinner stands alone rather than beside visible loading text. */
 
 pp-spinner {
   --track-width: 2px;

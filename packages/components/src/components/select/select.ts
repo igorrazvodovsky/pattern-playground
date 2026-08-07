@@ -1,6 +1,4 @@
-import { LitElement } from 'lit';
-import { property } from 'lit/decorators.js';
-import type { PropertyValues } from 'lit';
+import { Elena } from '@elenajs/core';
 
 let id = 0;
 
@@ -9,7 +7,7 @@ let id = 0;
  * @status draft
  * @since 0.0.1
  *
- * Composite enhancement (rung 2): the author composes a native `<select>`
+ * The author composes a native `<select>`
  * (with its own options, placeholder option, label association, and form
  * participation) inside the element; optional `data-slot="hint"` and
  * `data-slot="error"` children render beneath the control. The element
@@ -21,15 +19,15 @@ export interface SelectProps {
   value: string;
 }
 
-export class PpSelect extends LitElement {
-  protected createRenderRoot() {
-    return this;
-  }
+export class PpSelect extends Elena(HTMLElement) {
+  static tagName = 'pp-select';
+
+  static props = ['invalid'];
 
   private readonly attrId = ++id;
   private caret: HTMLElement | null = null;
 
-  @property({ type: Boolean, reflect: true }) invalid = false;
+  invalid = false;
 
   get select(): HTMLSelectElement | null {
     return this.querySelector('select');
@@ -93,10 +91,8 @@ export class PpSelect extends LitElement {
     this.select?.setAttribute('aria-invalid', this.invalid ? 'true' : 'false');
   }
 
-  protected updated(changed: PropertyValues<this>) {
-    if (changed.has('invalid')) {
-      this.reflectInvalid();
-    }
+  updated() {
+    this.reflectInvalid();
   }
 
   focus(options?: FocusOptions) {

@@ -173,10 +173,10 @@ function MiniBarChart({ data }: MiniBarChartProps) {
     if (chartElement) {
       chartElement.data = data;
       chartElement.orientation = 'vertical';
-      chartElement.showAxes = false;
-      chartElement.showGrid = false;
-      chartElement.showLegend = false;
-      chartElement.animateChart = true;
+      chartElement['show-axes'] = false;
+      chartElement['show-grid'] = false;
+      chartElement['show-legend'] = false;
+      chartElement['animate-chart'] = true;
       chartElement.sort = 'none';
     }
   }, [data]);

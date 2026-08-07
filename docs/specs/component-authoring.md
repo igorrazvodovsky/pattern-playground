@@ -33,8 +33,7 @@ a component needs named regions, children carry `data-slot="…"` attributes.
   with author- or framework-owned children.
 - Component CSS lives in `src/styles/` as layered files
   (`layer(components)`), selectors keyed to the tag name, `@scope` where
-  leakage is plausible. `static styles` is silently inert in light DOM;
-  a component and its stylesheet convert together or not at all.
+  leakage is plausible. Components never carry their own stylesheets.
 - Author pre-upgrade HTML that is acceptable unstyled. A shared
   `:not(:defined)` convention proved unnecessary — no converted component
   needed one.
@@ -46,8 +45,3 @@ a component needs named regions, children carry `data-slot="…"` attributes.
   `.claude/rules/web-components.md`, auto-attached on component files.
 - Style layering and boundary enforcement: the style-boundary conventions in
   `src/styles/` and `scripts/check-style-boundary.mjs`.
-- The authoring library is Elena (`@elenajs/core`), adopted 2026-08-07 for
-  its HTML-first grain
-  (`plans/completed/2026-08-component-library-decision.md`). The move off
-  Lit is in progress: `plans/active/2026-08-elena-migration.md` tracks
-  which components have converted and the rung-2/rung-3 migration recipes.

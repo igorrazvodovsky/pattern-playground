@@ -2,10 +2,8 @@ import { animateTo, stopAnimations } from '../../utility/animate.ts';
 import { announce } from '../../utility/announce.ts';
 import { getTabbableBoundary } from '../../utility/tabbable.ts';
 import { getAnimation, setDefaultAnimation } from '../../utility/animation-registry.ts';
-import { LitElement } from 'lit';
-import { property } from 'lit/decorators.js';
+import { Elena } from '@elenajs/core';
 import { waitForEvent } from '../../utility/event.ts';
-import { watch } from '../../utility/watch.ts';
 import { PpPopup } from '../popup/popup.ts';
 import { getDeepestActiveElement, computeClosestContaining, getRootContainingElement } from '../../utility/shadow-dom.ts';
 import type { PpList } from '../list/list';
@@ -18,7 +16,7 @@ import type { PpListItem } from '../list-item/list-item';
  *
  * @dependency pp-popup
  *
- * Composite enhancement (rung 2): the author composes a trigger marked
+ * The author composes a trigger marked
  * `data-slot="trigger"` and a `pp-popup` panel child holding the dropdown
  * content (usually a `pp-list`). The element wires trigger interaction and
  * aria state, configures and drives the popup, and manages submenu popups it
@@ -47,18 +45,37 @@ declare global {
   }
 }
 
-export class PpDropdown extends LitElement {
+export class PpDropdown extends Elena(HTMLElement) {
+  static tagName = 'pp-dropdown';
+
   static dependencies = { 'pp-popup': PpPopup };
 
-  protected createRenderRoot() {
-    return this;
-  }
+  static props = [
+    'open',
+    'placement',
+    'disabled',
+    'stay-open-on-select',
+    'distance',
+    'skidding',
+    'hoist',
+    'sync',
+    'flip',
+    'shift',
+    'auto-size',
+    'auto-size-padding',
+    'flip-padding',
+    'shift-padding',
+  ];
 
   private closeWatcher: CloseWatcher | null = null;
   private submenuPopups: Map<PpListItem, { popup: PpPopup; content: HTMLElement }> = new Map();
 
-  @property({ type: Boolean, reflect: true }) open = false;
-  @property({ reflect: true }) placement:
+  // Elena's updated() carries no changed-props map; seeded in firstUpdated()
+  // so open-state animations only run on changes after the first update.
+  private prevOpen?: boolean;
+
+  open = false;
+  placement:
     | 'top'
     | 'top-start'
     | 'top-end'
@@ -72,20 +89,21 @@ export class PpDropdown extends LitElement {
     | 'left-start'
     | 'left-end' = 'bottom-start';
 
-  @property({ type: Boolean, reflect: true }) disabled = false;
-  @property({ attribute: 'stay-open-on-select', type: Boolean, reflect: true }) stayOpenOnSelect = false;
-  @property({ attribute: false }) containingElement?: HTMLElement;
-  @property({ type: Number }) distance = 4;
-  @property({ type: Number }) skidding = 0;
-  @property({ type: Boolean }) hoist = false;
-  @property({ reflect: true }) sync: 'width' | 'height' | 'both' | undefined = undefined;
+  disabled = false;
+  'stay-open-on-select' = false;
+  /** Property-only (holds a live element); not reactive, read when the dropdown opens or closes. */
+  containingElement?: HTMLElement;
+  distance = 4;
+  skidding = 0;
+  hoist = false;
+  sync: 'width' | 'height' | 'both' | '' = '';
 
-  @property({ type: Boolean, reflect: true }) flip = true;
-  @property({ type: Boolean, reflect: true }) shift = true;
-  @property({ attribute: 'auto-size', reflect: true }) autoSize: 'horizontal' | 'vertical' | 'both' | undefined = 'vertical';
-  @property({ attribute: 'auto-size-padding', type: Number }) autoSizePadding = 10;
-  @property({ attribute: 'flip-padding', type: Number }) flipPadding = 0;
-  @property({ attribute: 'shift-padding', type: Number }) shiftPadding = 0;
+  flip = true;
+  shift = true;
+  'auto-size': 'horizontal' | 'vertical' | 'both' | '' = 'vertical';
+  'auto-size-padding' = 10;
+  'flip-padding' = 0;
+  'shift-padding' = 0;
 
   /** The author-composed panel popup. */
   get popup(): PpPopup | null {
@@ -130,10 +148,10 @@ export class PpDropdown extends LitElement {
     popup.strategy = this.hoist ? 'fixed' : 'absolute';
     popup.flip = this.flip;
     popup.shift = this.shift;
-    if (this.autoSize) popup.autoSize = this.autoSize;
-    popup.autoSizePadding = this.autoSizePadding;
-    popup.flipPadding = this.flipPadding;
-    popup.shiftPadding = this.shiftPadding;
+    if (this['auto-size']) popup['auto-size'] = this['auto-size'];
+    popup['auto-size-padding'] = this['auto-size-padding'];
+    popup['flip-padding'] = this['flip-padding'];
+    popup['shift-padding'] = this['shift-padding'];
     if (this.sync) popup.sync = this.sync;
     popup.setAttribute('aria-hidden', this.open ? 'false' : 'true');
   }
@@ -141,6 +159,7 @@ export class PpDropdown extends LitElement {
   firstUpdated() {
     this.syncPopup();
     this.updateAccessibleTrigger();
+    this.prevOpen = this.open;
 
     if (this.open) {
       this.addOpenListeners();
@@ -149,9 +168,12 @@ export class PpDropdown extends LitElement {
     }
   }
 
-  protected updated(changedProps: Map<string, unknown>) {
-    super.updated(changedProps);
+  updated() {
     this.syncPopup();
+    if (this.prevOpen !== undefined && this.prevOpen !== this.open) {
+      this.prevOpen = this.open;
+      this.handleOpenChange();
+    }
   }
 
   disconnectedCallback() {
@@ -273,7 +295,7 @@ export class PpDropdown extends LitElement {
   private handlePanelSelect = (event: PpSelectEvent) => {
     const target = event.target as HTMLElement;
 
-    if (!this.stayOpenOnSelect && target.tagName.toLowerCase() === 'pp-list') {
+    if (!this['stay-open-on-select'] && target.tagName.toLowerCase() === 'pp-list') {
       this.hide();
       this.focusOnTrigger();
     }
@@ -426,7 +448,6 @@ export class PpDropdown extends LitElement {
     }
   }
 
-  @watch('open', { waitUntilFirstUpdate: true })
   async handleOpenChange() {
     if (this.disabled) {
       this.open = false;
@@ -469,6 +490,11 @@ export class PpDropdown extends LitElement {
       this.dispatchEvent(new Event('pp-hide', { bubbles: true, cancelable: false, composed: true }))
       this.removeOpenListeners();
 
+      // Open submenus are torn down directly: their pp-submenu-close events
+      // arrive on a microtask, after the listeners above are already gone.
+      this.getList()?.closeAllSubmenus();
+      this.cleanupSubmenuPopups();
+
       // Announce dropdown closing to screen readers
       announce('Dropdown closed');
 
@@ -502,15 +528,15 @@ export class PpDropdown extends LitElement {
 
     const popup = document.createElement('pp-popup') as PpPopup;
     popup.anchor = item;
-    popup.placement = item.submenuPlacement || 'right-start';
+    popup.placement = item['submenu-placement'] || 'right-start';
     popup.distance = 4;
     popup.strategy = this.hoist ? 'fixed' : 'absolute';
     popup.flip = this.flip;
     popup.shift = this.shift;
-    popup.autoSize = 'vertical';
-    popup.autoSizePadding = this.autoSizePadding;
-    popup.flipPadding = this.flipPadding;
-    popup.shiftPadding = this.shiftPadding;
+    popup['auto-size'] = 'vertical';
+    popup['auto-size-padding'] = this['auto-size-padding'];
+    popup['flip-padding'] = this['flip-padding'];
+    popup['shift-padding'] = this['shift-padding'];
 
     // Move the live element (not a clone) so reactivity and event listeners are preserved.
     // It is restored to its original slot in destroySubmenuPopup.
@@ -533,7 +559,7 @@ export class PpDropdown extends LitElement {
         bubbles: true,
         composed: true
       }));
-      if (!this.stayOpenOnSelect) {
+      if (!this['stay-open-on-select']) {
         this.hide();
       }
     });

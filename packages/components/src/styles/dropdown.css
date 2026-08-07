@@ -1,7 +1,3 @@
-/* Light-DOM styles for pp-dropdown (rung 2: author composes a
-   data-slot="trigger" and a pp-popup panel child; the dropdown wires them).
-   The panel skin lives on the popup box itself; the `dropdown__panel` class
-   is set by the component on its popup child. */
 
 pp-dropdown > [data-slot="trigger"] {
   display: block;

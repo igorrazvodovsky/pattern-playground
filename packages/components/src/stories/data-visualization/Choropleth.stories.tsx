@@ -44,8 +44,8 @@ function ChoroplethWrapper({
 
     el.data = data;
     el.projection = projection;
-    el.colorSteps = colorSteps;
-    el.showLegend = showLegend;
+    el['color-steps'] = colorSteps;
+    el['show-legend'] = showLegend;
     el.title = title;
 
     const onHover = (e: Event) => action('pp-choropleth-hover')((e as CustomEvent).detail.data);

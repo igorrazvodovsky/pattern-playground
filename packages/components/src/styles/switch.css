@@ -1,7 +1,3 @@
-/* Switch (rung 1): a styled native checkbox, no custom element.
-   Markup: <input type="checkbox" role="switch" class="switch">
-   Sizes via `switch--small` / `switch--large`; medium is the default.
-   Label association is native — wrap in a <label> or use `for`/`id`. */
 
 .switch {
   --switch-track-color: var(--c-border);

@@ -1,38 +1,39 @@
-import { LitElement, html } from 'lit';
-import { property, query } from 'lit/decorators.js';
-import type { TemplateResult } from 'lit';
+import { Elena } from '@elenajs/core';
+
+/** The shape Elena accepts in `static props`. */
+export type ElenaProp = string | { name: string; reflect?: boolean };
+
+/** The fixed viewBox every chart in the family draws into. */
+export const VIEWBOX_WIDTH = 600;
+export const VIEWBOX_HEIGHT = 300;
 
 /**
- * Base D3 component that provides common D3 SVG container management
- * and responsive sizing for all chart components.
+ * Base D3 host that provides the shared SVG container and responsive sizing
+ * for all chart components.
  *
- * - SVG container management
- * - Responsive sizing and viewport management
- * - Base data binding with @property decorators
- * - Reactive controllers for lifecycle management
+ * Elena supplies props and lifecycle only — there is no template. The SVG
+ * scaffold is built imperatively once on connect, and from then on D3 owns
+ * everything inside it outright. Reactive prop changes land in `updated()`,
+ * which redraws by calling `renderD3Content()` (clear + redraw, idempotent).
  */
-export abstract class D3Component extends LitElement {
+export abstract class D3Component extends Elena(HTMLElement) {
+  static props: ElenaProp[] = [
+    'width',
+    'height',
+    { name: 'margin', reflect: false },
+  ];
 
-  protected createRenderRoot() {
-    return this;
-  }
+  width = 0;
+  height = 0;
+  margin = { top: 20, right: 20, bottom: 20, left: 40 };
 
-  @query('.d3-svg') protected svg!: SVGElement;
-  @query('.d3-content') protected contentGroup!: SVGGElement;
-
-  @property({ type: Number, reflect: true }) width = 0;
-  @property({ type: Number, reflect: true }) height = 0;
-  @property({ type: Object }) margin = { top: 20, right: 20, bottom: 20, left: 40 };
-
+  protected svg!: SVGSVGElement;
+  protected contentGroup!: SVGGElement;
   protected resizeObserver?: ResizeObserver;
-
-  constructor() {
-    super();
-    this.setupResizeObserver();
-  }
 
   connectedCallback() {
     super.connectedCallback();
+    this.ensureScaffold();
     if (document.readyState !== 'loading') {
       this.init();
       return;
@@ -41,7 +42,11 @@ export abstract class D3Component extends LitElement {
   }
 
   private init() {
+    if (typeof ResizeObserver !== 'undefined' && !this.resizeObserver) {
+      this.resizeObserver = new ResizeObserver(() => this.updateDimensions());
+    }
     this.resizeObserver?.observe(this);
+    this.updateDimensions();
   }
 
   disconnectedCallback() {
@@ -49,33 +54,42 @@ export abstract class D3Component extends LitElement {
     this.resizeObserver?.disconnect();
   }
 
-  protected firstUpdated() {
-    // Update dimensions immediately
-    this.updateDimensions();
+  /** Build the SVG container once; survives reconnects. */
+  private ensureScaffold() {
+    if (this.svg) return;
+    const NS = 'http://www.w3.org/2000/svg';
 
-    // Also update after a small delay to ensure layout is complete
-    setTimeout(() => {
-      this.updateDimensions();
-    }, 0);
-  }
+    const container = document.createElement('div');
+    container.className = 'pp-d3-component d3-container';
 
-  private setupResizeObserver() {
-    if (typeof ResizeObserver !== 'undefined') {
-      this.resizeObserver = new ResizeObserver(() => {
-        this.updateDimensions();
-      });
-    }
+    const svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('class', 'd3-svg');
+    svg.setAttribute('role', 'img');
+    svg.setAttribute('aria-labelledby', 'chart-title');
+    svg.setAttribute('viewBox', `0 0 ${VIEWBOX_WIDTH} ${VIEWBOX_HEIGHT}`);
+
+    const title = document.createElementNS(NS, 'title');
+    title.id = 'chart-title';
+    title.textContent = 'Data visualization chart';
+
+    const content = document.createElementNS(NS, 'g');
+    content.setAttribute('class', 'd3-content');
+
+    svg.append(title, content);
+    container.append(svg);
+    this.append(container);
+
+    this.svg = svg;
+    this.contentGroup = content;
   }
 
   protected updateDimensions() {
     const rect = this.getBoundingClientRect();
 
-    // Use container dimensions if available
     if (rect.width > 0 && rect.height > 0) {
       this.width = rect.width;
       this.height = rect.height;
     } else {
-      // Fallback to computed styles or defaults
       const computedStyle = getComputedStyle(this);
       const cssWidth = parseInt(computedStyle.width, 10);
       const cssHeight = parseInt(computedStyle.height, 10);
@@ -85,61 +99,33 @@ export abstract class D3Component extends LitElement {
     }
   }
 
-  /**
-   * Get the inner dimensions accounting for margins
-   */
+  /** Inner dimensions accounting for margins. */
   protected getInnerDimensions() {
     return {
       width: Math.max(0, this.width - this.margin.left - this.margin.right),
-      height: Math.max(0, this.height - this.margin.top - this.margin.bottom)
+      height: Math.max(0, this.height - this.margin.top - this.margin.bottom),
     };
   }
 
-  /**
-   * Abstract method that subclasses must implement to render their D3 content
-   */
+  /** Update the accessible name: the SVG `<title>` and the host's aria-label. */
+  protected setChartLabel(label: string) {
+    const title = this.svg?.querySelector('title');
+    if (title) title.textContent = label;
+    this.setAttribute('aria-label', label);
+  }
+
+  /** Subclasses draw their D3 content into `contentGroup` here. */
   protected abstract renderD3Content(): void;
 
-  protected updated(changedProperties: Map<string | number | symbol, unknown>) {
-    super.updated(changedProperties);
-
-    // Ensure dimensions are set (fallback if firstUpdated didn't work)
+  updated() {
+    if (!this.contentGroup) return;
     if (this.width === 0 || this.height === 0) {
       this.updateDimensions();
     }
-
-    // Re-render D3 content when dimensions or data change
-    if (changedProperties.has('width') ||
-        changedProperties.has('height') ||
-        this.shouldRerender(changedProperties)) {
-      this.renderD3Content();
-    }
-  }
-
-  // Override this method to specify additional properties that should trigger re-rendering
-  protected shouldRerender(_changedProperties: Map<string | number | symbol, unknown>): boolean {
-    return false;
-  }
-
-  render(): TemplateResult {
-    const viewBoxWidth = 600;
-    const viewBoxHeight = 300;
-
-    return html`
-      <div class="pp-d3-component d3-container">
-        <svg
-          class="d3-svg"
-          role="img"
-          aria-labelledby="chart-title"
-          viewBox="0 0 ${viewBoxWidth} ${viewBoxHeight}"
-        >
-          <title id="chart-title">Data visualization chart</title>
-          <g
-            class="d3-content"
-            transform="translate(${this.margin.left}, ${this.margin.top})"
-          ></g>
-        </svg>
-      </div>
-    `;
+    this.contentGroup.setAttribute(
+      'transform',
+      `translate(${this.margin.left}, ${this.margin.top})`,
+    );
+    this.renderD3Content();
   }
 }

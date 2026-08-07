@@ -1,6 +1,4 @@
-import { LitElement } from 'lit';
-import { property } from 'lit/decorators.js';
-import type { PropertyValues } from 'lit';
+import { Elena } from '@elenajs/core';
 
 let id = 0;
 
@@ -9,21 +7,21 @@ let id = 0;
  * @status draft
  * @since 0.0.1
  *
- * Composite enhancement (rung 2): the element renders nothing and enhances
+ * The element renders nothing and enhances
  * itself with `role="tabpanel"` and visibility driven by `active`.
  * Styles live in `src/styles/tabs.css`.
  */
 
-export class PpTabPanel extends LitElement {
-  protected createRenderRoot() {
-    return this;
-  }
+export class PpTabPanel extends Elena(HTMLElement) {
+  static tagName = 'pp-tab-panel';
+
+  static props = ['name', 'active'];
 
   private readonly attrId = ++id;
   private readonly componentId = `pp-tab-panel-${this.attrId}`;
 
-  @property({ reflect: true }) name = '';
-  @property({ type: Boolean, reflect: true }) active = false;
+  name = '';
+  active = false;
 
   connectedCallback() {
     super.connectedCallback();
@@ -39,10 +37,8 @@ export class PpTabPanel extends LitElement {
     this.setAttribute('role', 'tabpanel');
   }
 
-  protected updated(changed: PropertyValues<this>) {
-    if (changed.has('active')) {
-      this.setAttribute('aria-hidden', this.active ? 'false' : 'true');
-    }
+  updated() {
+    this.setAttribute('aria-hidden', this.active ? 'false' : 'true');
   }
 }
 

@@ -1,12 +1,3 @@
-/* Light-DOM styles for the tab family (rung 2). The author composes:
-     <pp-tab-group>
-       <div data-slot="nav">  <pp-tab>…</pp-tab> …  </div>
-       <pp-tab-panel>…</pp-tab-panel> …
-     </pp-tab-group>
-   Grid places component-appended scroll buttons around the nav strip without
-   extra wrappers. The active indicator is CSS on `pp-tab[active]` (the former
-   JS-measured sliding indicator); `--track-*` and `--indicator-*` keep their
-   meanings. */
 
 pp-tab-group {
   --indicator-color: var(--c-accent);

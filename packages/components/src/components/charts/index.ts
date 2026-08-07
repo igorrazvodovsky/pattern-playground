@@ -1,8 +1,9 @@
 /**
  * D3.js Chart Components
  *
- * A comprehensive chart library built on D3.js and Lit Web Components
+ * A comprehensive chart library built on D3.js and Elena Web Components
  * following the design system patterns and progressive enhancement principles.
+ * Elena supplies props and lifecycle; D3 owns the DOM outright.
  *
  * Phase 1 Implementation includes:
  * - Base D3 component abstractions

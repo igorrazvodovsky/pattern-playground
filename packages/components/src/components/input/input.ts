@@ -1,12 +1,11 @@
-import { LitElement } from 'lit';
-import { property } from 'lit/decorators.js';
+import { Elena } from '@elenajs/core';
 
 /**
  * @summary Inputs collect data from the user.
  * @status draft
  * @since 0.0.1
  *
- * Composite enhancement (rung 2): the element is the bordered field box and
+ * The element is the bordered field box and
  * enhances the native `<input>` (and optional `<label>`) the author composes
  * inside it. Leading/trailing adornments are children marked
  * `data-slot="prefix"` / `data-slot="suffix"`. Label association, validation,
@@ -18,12 +17,12 @@ export interface InputProps {
   value: string;
 }
 
-export class PpInput extends LitElement {
-  protected createRenderRoot() {
-    return this;
-  }
+export class PpInput extends Elena(HTMLElement) {
+  static tagName = 'pp-input';
 
-  @property({ type: Boolean }) clearable = false;
+  static props = ['clearable'];
+
+  clearable = false;
 
   private clearButton: HTMLButtonElement | null = null;
 

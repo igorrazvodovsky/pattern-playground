@@ -1,8 +1,3 @@
-/* Light-DOM styles for pp-range (rung 3: the element renders the track,
-   input, marks, and value readout; author children marked
-   `data-slot="prefix"` / `data-slot="suffix"` are placed around the track
-   with flex order). Ported from the former shadow sheet; the `.form-control`
-   wrapper layers were structural only and are gone. */
 
 pp-range {
   --range-fill: var(--c-accent-600);

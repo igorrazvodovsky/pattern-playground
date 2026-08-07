@@ -1,7 +1,6 @@
 import { autoUpdate, computePosition, flip, offset, platform, shift, size } from '@floating-ui/dom';
-import { LitElement } from 'lit';
+import { Elena } from '@elenajs/core';
 import { offsetParent } from 'composed-offset-position';
-import { property } from 'lit/decorators.js';
 
 export interface VirtualElement {
   getBoundingClientRect: () => DOMRect;
@@ -22,7 +21,7 @@ function isVirtualElement(e: unknown): e is VirtualElement {
  * @status draft
  * @since 0.1
  *
- * Light-DOM shell (rung 3 flavour): the element itself is the positioned box —
+ * The element itself is the positioned box —
  * Floating UI drives its `left`/`top`, the native popover API promotes it to
  * the top layer, and the author's children are the popup's content. The
  * anchor is external: pass an element, id, or `VirtualElement` via the
@@ -30,13 +29,38 @@ function isVirtualElement(e: unknown): e is VirtualElement {
  * Styles live in `src/styles/popup.css`.
  */
 
-export class PpPopup extends LitElement {
-  protected createRenderRoot() {
-    return this;
-  }
+export class PpPopup extends Elena(HTMLElement) {
+  static tagName = 'pp-popup';
+
+  // `anchor` and the boundary props can hold live elements, which cannot
+  // reflect to an attribute (Elena serialises object props as JSON), so they
+  // are property-only. `anchor` still accepts an element id as an attribute.
+  static props = [
+    { name: 'anchor', reflect: false },
+    'active',
+    'placement',
+    'strategy',
+    'distance',
+    'skidding',
+    'flip',
+    'flip-padding',
+    'shift',
+    { name: 'shiftBoundary', reflect: false },
+    'shift-padding',
+    'auto-size',
+    'sync',
+    { name: 'autoSizeBoundary', reflect: false },
+    'auto-size-padding',
+    'top-layer',
+    'light-dismiss',
+  ];
 
   private anchorEl: Element | VirtualElement | null;
   private cleanup: ReturnType<typeof autoUpdate> | undefined;
+
+  // Elena's updated() carries no changed-props map; previous values live here.
+  private prevActive?: boolean;
+  private prevAnchor?: Element | string | VirtualElement;
 
   /** The positioned box. The light-DOM element is its own box; kept as an accessor for consumers of the old shadow API. */
   get popup(): HTMLElement {
@@ -48,9 +72,9 @@ export class PpPopup extends LitElement {
    * reference, or a `VirtualElement`. Alternatively, mark a child with
    * `data-slot="anchor"`.
    */
-  @property() anchor: Element | string | VirtualElement;
-  @property({ type: Boolean, reflect: true }) active = false;
-  @property({ reflect: true }) placement:
+  anchor: Element | string | VirtualElement = '';
+  active = false;
+  placement:
     | 'top'
     | 'top-start'
     | 'top-end'
@@ -65,18 +89,18 @@ export class PpPopup extends LitElement {
     | 'left-end' = 'top';
 
 
-  @property({ reflect: true }) strategy: 'absolute' | 'fixed' = 'absolute';
-  @property({ type: Number }) distance = 0;
-  @property({ type: Number }) skidding = 0;
-  @property({ type: Boolean }) flip = false;
-  @property({ attribute: 'flip-padding', type: Number }) flipPadding = 0;
-  @property({ type: Boolean }) shift = false;
-  @property({ type: Object }) shiftBoundary: Element | Element[];
-  @property({ attribute: 'shift-padding', type: Number }) shiftPadding = 0;
-  @property({ attribute: 'auto-size' }) autoSize: 'horizontal' | 'vertical' | 'both';
-  @property() sync: 'width' | 'height' | 'both';
-  @property({ type: Object }) autoSizeBoundary: Element | Element[];
-  @property({ attribute: 'auto-size-padding', type: Number }) autoSizePadding = 0;
+  strategy: 'absolute' | 'fixed' = 'absolute';
+  distance = 0;
+  skidding = 0;
+  flip = false;
+  'flip-padding' = 0;
+  shift = false;
+  shiftBoundary?: Element | Element[];
+  'shift-padding' = 0;
+  'auto-size': 'horizontal' | 'vertical' | 'both' | '' = '';
+  sync: 'width' | 'height' | 'both' | '' = '';
+  autoSizeBoundary?: Element | Element[];
+  'auto-size-padding' = 0;
 
   /**
    * Promote the popup into the browser's top layer via the native popover API.
@@ -88,23 +112,23 @@ export class PpPopup extends LitElement {
    * Off by default: it changes where the popup paints, and existing consumers
    * (dropdown, tooltip) are positioned to be fine without it.
    */
-  @property({ attribute: 'top-layer', type: Boolean, reflect: true }) topLayer = false;
+  'top-layer' = false;
 
   /**
    * With `top-layer`, let the platform close the popup on an outside click or
    * Escape (a `popover=auto` rather than `popover=manual`). The popup clears
    * its own `active` and fires `pp-hide` so the owner can follow.
    */
-  @property({ attribute: 'light-dismiss', type: Boolean }) lightDismiss = false;
+  'light-dismiss' = false;
 
-  async connectedCallback() {
+  connectedCallback() {
     super.connectedCallback();
     this.addEventListener('beforetoggle', this.handleBeforeToggle);
     if (document.readyState !== 'loading') {
-      await this.init();
+      this.init();
       return;
     }
-    document.addEventListener('DOMContentLoaded', async () => await this.init());
+    document.addEventListener('DOMContentLoaded', () => this.init());
   }
 
   private async init() {
@@ -119,18 +143,17 @@ export class PpPopup extends LitElement {
     this.stop();
   }
 
-  async updated(changedProps: Map<string, unknown>) {
-    super.updated(changedProps);
-
+  async updated() {
     // The popover attribute lives on the host itself in light DOM.
-    if (this.topLayer) {
-      const mode = this.lightDismiss ? 'auto' : 'manual';
+    if (this['top-layer']) {
+      const mode = this['light-dismiss'] ? 'auto' : 'manual';
       if (this.getAttribute('popover') !== mode) this.setAttribute('popover', mode);
     } else if (this.hasAttribute('popover')) {
       this.removeAttribute('popover');
     }
 
-    if (changedProps.has('active')) {
+    if (this.prevActive !== this.active) {
+      this.prevActive = this.active;
       if (this.active) {
         this.start();
       } else {
@@ -145,7 +168,8 @@ export class PpPopup extends LitElement {
     // `matches()` check when there is nothing to do.
     this.syncTopLayer();
 
-    if (changedProps.has('anchor')) {
+    if (this.prevAnchor !== this.anchor) {
+      this.prevAnchor = this.anchor;
       this.handleAnchorChange();
     }
 
@@ -178,7 +202,7 @@ export class PpPopup extends LitElement {
    * is already in that state or detached.
    */
   private syncTopLayer() {
-    if (!this.topLayer || !this.isConnected || !this.hasAttribute('popover')) return;
+    if (!this['top-layer'] || !this.isConnected || !this.hasAttribute('popover')) return;
     const open = this.matches(':popover-open');
     try {
       if (this.active && !open) this.showPopover();
@@ -261,7 +285,7 @@ export class PpPopup extends LitElement {
     if (this.flip) {
       middleware.push(
         flip({
-          padding: this.flipPadding
+          padding: this['flip-padding']
         })
       );
     }
@@ -270,24 +294,24 @@ export class PpPopup extends LitElement {
       middleware.push(
         shift({
           boundary: this.shiftBoundary,
-          padding: this.shiftPadding
+          padding: this['shift-padding']
         })
       );
     }
 
-    if (this.autoSize) {
+    if (this['auto-size']) {
       middleware.push(
         size({
           boundary: this.autoSizeBoundary,
-          padding: this.autoSizePadding,
+          padding: this['auto-size-padding'],
           apply: ({ availableWidth, availableHeight }) => {
-            if (this.autoSize === 'vertical' || this.autoSize === 'both') {
+            if (this['auto-size'] === 'vertical' || this['auto-size'] === 'both') {
               this.style.setProperty('--auto-size-available-height', `${availableHeight}px`);
             } else {
               this.style.removeProperty('--auto-size-available-height');
             }
 
-            if (this.autoSize === 'horizontal' || this.autoSize === 'both') {
+            if (this['auto-size'] === 'horizontal' || this['auto-size'] === 'both') {
               this.style.setProperty('--auto-size-available-width', `${availableWidth}px`);
             } else {
               this.style.removeProperty('--auto-size-available-width');
@@ -301,7 +325,7 @@ export class PpPopup extends LitElement {
     }
 
     // A top-layer popup is laid out against the viewport, never an offset parent.
-    const strategy = this.topLayer ? 'fixed' : this.strategy;
+    const strategy = this['top-layer'] ? 'fixed' : this.strategy;
 
     const getOffsetParent =
       strategy === 'absolute'
@@ -328,7 +352,7 @@ export class PpPopup extends LitElement {
       // Chrome can give a top-layer popover inside a scrolled container a
       // shifted containing block, so the offsets above land somewhere else.
       // Measure where it actually is and take the difference out.
-      if (this.topLayer && this.matches(':popover-open')) {
+      if (this['top-layer'] && this.matches(':popover-open')) {
         const rect = this.getBoundingClientRect();
         const dx = rect.left - x;
         const dy = rect.top - y;

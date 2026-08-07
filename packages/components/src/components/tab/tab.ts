@@ -1,6 +1,4 @@
-import { LitElement } from 'lit';
-import { property } from 'lit/decorators.js';
-import type { PropertyValues } from 'lit';
+import { Elena } from '@elenajs/core';
 
 let id = 0;
 
@@ -9,23 +7,23 @@ let id = 0;
  * @status draft
  * @since 0.0.1
  *
- * Composite enhancement (rung 2): the element itself is the tab — it renders
+ * The element itself is the tab — it renders
  * nothing and enhances itself with `role="tab"`, focusability, and
  * `aria-selected`. Compose the label as text, with optional
  * `data-slot="icon"` (place it first) and `data-slot="subtitle"` children.
  * Styles live in `src/styles/tabs.css`.
  */
 
-export class PpTab extends LitElement {
-  protected createRenderRoot() {
-    return this;
-  }
+export class PpTab extends Elena(HTMLElement) {
+  static tagName = 'pp-tab';
+
+  static props = ['panel', 'active'];
 
   private readonly attrId = ++id;
   private readonly componentId = `tab-${this.attrId}`;
 
-  @property({ reflect: true }) panel = '';
-  @property({ type: Boolean, reflect: true }) active = false;
+  panel = '';
+  active = false;
 
   connectedCallback() {
     super.connectedCallback();
@@ -44,10 +42,8 @@ export class PpTab extends LitElement {
     this.id = this.id.length > 0 ? this.id : this.componentId;
   }
 
-  protected updated(changed: PropertyValues<this>) {
-    if (changed.has('active')) {
-      this.setAttribute('aria-selected', this.active ? 'true' : 'false');
-    }
+  updated() {
+    this.setAttribute('aria-selected', this.active ? 'true' : 'false');
   }
 }
 

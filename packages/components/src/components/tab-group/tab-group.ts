@@ -8,7 +8,7 @@ import type { PpTabPanel } from '../tab-panel/tab-panel.ts';
  * @status draft
  * @since 0.0.1
  *
- * Composite enhancement (rung 2): the author composes a `data-slot="nav"`
+ * The author composes a `data-slot="nav"`
  * strip of `<pp-tab>` elements followed by `<pp-tab-panel>` children; the
  * element wires roles and aria relationships, keyboard navigation, and
  * active-state sync, and appends scroll buttons it owns when the strip

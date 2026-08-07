@@ -1,9 +1,7 @@
 import { animateTo, parseDuration, stopAnimations } from '../../utility/animate.js';
 import { getAnimation, setDefaultAnimation } from '../../utility/animation-registry.js';
-import { LitElement, html } from 'lit';
-import { property, query } from 'lit/decorators.js';
+import { Elena } from '@elenajs/core';
 import { waitForEvent } from '../../utility/event.js';
-import { watch } from '../../utility/watch.js';
 import { PpPopup } from '../popup/popup.js';
 
 /**
@@ -13,9 +11,11 @@ import { PpPopup } from '../popup/popup.js';
  *
  * @dependency pp-popup
  *
- * Composite enhancement (rung 2): the author's first child is the tooltip's
- * target; the element appends the `pp-popup` + body it owns and renders the
- * `content` attribute into it. Styles: `src/styles/tooltip.css`.
+ * The author's first child is the tooltip's
+ * target; the element builds the `pp-popup` + body it owns imperatively once
+ * and writes the `content` attribute into the body as text. No template —
+ * reactive updates push configuration onto the owned popup in `updated()`.
+ * Styles: `src/styles/tooltip.css`.
  *
  * @event pp-show - Emitted when the tooltip begins to show.
  * @event pp-after-show - Emitted after the tooltip has shown and all animations are complete.
@@ -29,22 +29,25 @@ import { PpPopup } from '../popup/popup.js';
  * @animation tooltip.show - The animation to use when showing the tooltip.
  * @animation tooltip.hide - The animation to use when hiding the tooltip.
  */
-export class PpTooltip extends LitElement {
+export class PpTooltip extends Elena(HTMLElement) {
+  static tagName = 'pp-tooltip';
+
   static dependencies = { 'pp-popup': PpPopup };
 
-  protected createRenderRoot() {
-    return this;
-  }
+  static props = [
+    'content',
+    'placement',
+    'disabled',
+    'distance',
+    'open',
+    'skidding',
+    'trigger',
+    'hoist',
+  ];
 
-  private hoverTimeout: number;
-  private closeWatcher: CloseWatcher | null;
+  content = '';
 
-  @query('.tooltip__body') body: HTMLElement;
-  @query('pp-popup') popup: PpPopup;
-
-  @property() content = '';
-
-  @property() placement:
+  placement:
     | 'top'
     | 'top-start'
     | 'top-end'
@@ -58,15 +61,34 @@ export class PpTooltip extends LitElement {
     | 'left-start'
     | 'left-end' = 'top';
 
-  @property({ type: Boolean, reflect: true }) disabled = false;
-  @property({ type: Number }) distance = 8;
-  @property({ type: Boolean, reflect: true }) open = false;
-  @property({ type: Number }) skidding = 0;
-  @property() trigger = 'hover focus';
-  @property({ type: Boolean }) hoist = false;
+  disabled = false;
+  distance = 8;
+  open = false;
+  skidding = 0;
+  trigger = 'hover focus';
+  hoist = false;
 
-  constructor() {
-    super();
+  private hoverTimeout!: number;
+  private closeWatcher: CloseWatcher | null = null;
+
+  /** The owned subtree, built once on first connect. */
+  private popup!: PpPopup;
+  private body!: HTMLElement;
+
+  // Elena's updated() carries no changed-props map; previous values live here,
+  // seeded in firstUpdated() so handlers only run on later changes.
+  private prevOpen?: boolean;
+  private prevDisabled?: boolean;
+  private prevPlacementKey?: string;
+
+  /** The author's target element: the first element child the component doesn't own. */
+  get target(): HTMLElement | null {
+    return ([...this.children] as HTMLElement[]).find(el => el.tagName.toLowerCase() !== 'pp-popup') ?? null;
+  }
+
+  connectedCallback() {
+    this.buildOwnedSubtree();
+    super.connectedCallback();
     this.addEventListener('blur', this.handleBlur, true);
     this.addEventListener('focus', this.handleFocus, true);
     this.addEventListener('click', this.handleClick);
@@ -76,25 +98,73 @@ export class PpTooltip extends LitElement {
 
   disconnectedCallback() {
     super.disconnectedCallback();
+    this.removeEventListener('blur', this.handleBlur, true);
+    this.removeEventListener('focus', this.handleFocus, true);
+    this.removeEventListener('click', this.handleClick);
+    this.removeEventListener('mouseover', this.handleMouseOver);
+    this.removeEventListener('mouseout', this.handleMouseOut);
     // Cleanup this event in case the tooltip is removed while open
     this.closeWatcher?.destroy();
     document.removeEventListener('keydown', this.handleDocumentKeyDown);
   }
 
-  /** The author's target element: the first element child the component doesn't own. */
-  get target(): HTMLElement | null {
-    return ([...this.children] as HTMLElement[]).find(el => el.tagName.toLowerCase() !== 'pp-popup') ?? null;
+  private buildOwnedSubtree() {
+    if (this.popup) return;
+    // aria-live is used instead of aria-labelledby to trick screen readers into announcing the content.
+    this.body = document.createElement('div');
+    this.body.className = 'tooltip__body';
+    this.body.setAttribute('role', 'tooltip');
+    this.body.setAttribute('aria-live', 'off');
+    this.body.hidden = true;
+    this.popup = document.createElement('pp-popup') as PpPopup;
+    this.popup.append(this.body);
+    this.append(this.popup);
   }
 
   firstUpdated() {
     this.body.hidden = !this.open;
-    this.popup.anchor = this.target ?? undefined as unknown as Element;
+    this.popup.anchor = this.target ?? '';
+    this.prevOpen = this.open;
+    this.prevDisabled = this.disabled;
 
     // If the tooltip is visible on init, update its position
     if (this.open) {
       this.popup.active = true;
       this.popup.reposition();
     }
+  }
+
+  updated() {
+    const popup = this.popup;
+    if (!popup) return;
+
+    popup.placement = this.placement;
+    popup.distance = this.distance;
+    popup.skidding = this.skidding;
+    popup.strategy = this.hoist ? 'fixed' : 'absolute';
+    popup.flip = true;
+    popup.shift = true;
+
+    this.body.setAttribute('aria-live', this.open ? 'polite' : 'off');
+    if (this.body.textContent !== this.content) this.body.textContent = this.content;
+
+    if (this.prevDisabled !== undefined && this.prevDisabled !== this.disabled) {
+      this.prevDisabled = this.disabled;
+      if (this.disabled && this.open) {
+        this.hide();
+      }
+    }
+
+    if (this.prevOpen !== undefined && this.prevOpen !== this.open) {
+      this.prevOpen = this.open;
+      this.handleOpenChange();
+    }
+
+    const placementKey = `${this.content}|${this.distance}|${this.hoist}|${this.placement}|${this.skidding}`;
+    if (this.prevPlacementKey !== undefined && this.prevPlacementKey !== placementKey) {
+      popup.reposition();
+    }
+    this.prevPlacementKey = placementKey;
   }
 
   private handleBlur = () => {
@@ -148,8 +218,7 @@ export class PpTooltip extends LitElement {
     return triggers.includes(triggerType);
   }
 
-  @watch('open', { waitUntilFirstUpdate: true })
-  async handleOpenChange() {
+  private async handleOpenChange() {
     if (this.open) {
       if (this.disabled) {
         return;
@@ -190,21 +259,6 @@ export class PpTooltip extends LitElement {
     }
   }
 
-  @watch(['content', 'distance', 'hoist', 'placement', 'skidding'])
-  async handleOptionsChange() {
-    if (this.hasUpdated) {
-      await this.updateComplete;
-      this.popup.reposition();
-    }
-  }
-
-  @watch('disabled')
-  handleDisabledChange() {
-    if (this.disabled && this.open) {
-      this.hide();
-    }
-  }
-
   /** Shows the tooltip. */
   async show() {
     if (this.open) {
@@ -223,22 +277,6 @@ export class PpTooltip extends LitElement {
 
     this.open = false;
     return waitForEvent(this, 'pp-after-hide');
-  }
-
-  // aria-live is used instead of aria-labelledby to trick screen readers into announcing the content.
-  render() {
-    return html`
-      <pp-popup
-        placement=${this.placement}
-        distance=${this.distance}
-        skidding=${this.skidding}
-        strategy=${this.hoist ? 'fixed' : 'absolute'}
-        flip
-        shift
-      >
-        <div class="tooltip__body" role="tooltip" aria-live=${this.open ? 'polite' : 'off'}>${this.content}</div>
-      </pp-popup>
-    `;
   }
 }
 
