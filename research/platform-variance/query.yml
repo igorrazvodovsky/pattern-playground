@@ -1,0 +1,27 @@
+story: null
+topic: platform and device variance — where it lives in the schema
+interaction: |
+  The same move needs a different realisation depending on the surface it
+  runs on. A link preview has nothing to open on a surface with no hover
+  channel. A drawer sits beside the content on a wide window and covers it
+  on a narrow one. A hub beats a tree when there is no room for a tree.
+context: |
+  136 pattern pages with no vocabulary for platform variance. Device and
+  input concerns appear as ad-hoc prose in ~12; nothing in the schema
+  carries them — not the relationship vocabulary, not situation.initiating
+  / .resulting, not the decision trees. Strawman: the real axis is input
+  capability (hover-available, pointer-precision, keyboard-present,
+  reach-constrained), not screen size, and it lands on situation.initiating.
+questions:
+  - Where does platform variance live in shipping design systems — a facet,
+    a variant, a condition, a separate page, a parallel corpus? What broke?
+  - Is input capability actually the axis, or does it under-model screen
+    real estate (density, overview+detail, multi-pane) and context of use
+    (walking, one-handed, glanceable, interruption-prone)?
+  - Do accessibility standards model this as capability, as the strawman
+    assumes, or as something else?
+  - Is a three-axis model (capability / viewport / context-of-use)
+    necessary, and does it make the schema unusable?
+  - Did any pattern language that added mobile fragment into per-platform
+    corpora, and what did that cost?
+keywords: [platform variance, input modality, window size class, adaptive design, interaction media features, ability-based design, situational impairment, content parity]
