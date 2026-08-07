@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { PpToast } from "../main.ts";
 import { action } from 'storybook/actions';
-import { userEvent, within } from '@storybook/testing-library';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
 
 interface ToastArgs {
   message: string;
@@ -36,10 +36,19 @@ export const Default: Story = {
       </button>
     </div>
   ),
-  play: async ({ canvasElement }) => {
+  play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByRole('button', { name: 'Show toast' }));
-    await within(document.body).findByRole('alert');
+    // Toasts live in a singleton group on document.body, so match on the
+    // message this story passed rather than on the first alert found. The
+    // toast enters on a fade-in, so it sits in the document at opacity 0
+    // before it is visible — hence the wait rather than a bare assertion.
+    await waitFor(() => {
+      const toast = within(document.body)
+        .getAllByRole('alert')
+        .find((el) => el.textContent?.includes(args.message));
+      expect(toast).toBeVisible();
+    });
   },
 };
 

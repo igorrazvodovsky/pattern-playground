@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { action } from 'storybook/actions';
-import { userEvent, within } from '@storybook/testing-library';
+import { expect, userEvent, within } from 'storybook/test';
 
 interface RadioButtonArgs {
   label: string;
@@ -82,8 +82,59 @@ export const SelectInteraction: Story = {
   ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const [, optionB] = canvas.getAllByRole('radio') as HTMLInputElement[];
+    const [optionA, optionB] = canvas.getAllByRole('radio') as HTMLInputElement[];
     await userEvent.click(optionB);
+    expect(optionB).toBeChecked();
+    expect(optionA).not.toBeChecked();
+  },
+};
+
+/**
+ * A radio group is one tab stop, not three: Tab lands on the current choice
+ * and arrow keys move between the alternatives, selecting as they go. That is
+ * the platform's behaviour for same-named radios, and it is why a group of
+ * choices should be radios rather than a row of buttons — the actor gets past
+ * it in one key when they don't want to change anything.
+ */
+export const KeyboardOperation: Story = {
+  name: 'Keyboard operation',
+  render: () => (
+    <fieldset className="flow">
+      <legend>Choose an option</legend>
+      <label className="form-control">
+        <input type="radio" name="keyboard-operation" defaultChecked />
+        Option A
+      </label>
+      <label className="form-control">
+        <input type="radio" name="keyboard-operation" />
+        Option B
+      </label>
+      <label className="form-control">
+        <input type="radio" name="keyboard-operation" />
+        Option C
+      </label>
+    </fieldset>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const [optionA, optionB, optionC] = canvas.getAllByRole('radio') as HTMLInputElement[];
+
+    await userEvent.tab();
+    expect(optionA).toHaveFocus();
+
+    await userEvent.keyboard('{ArrowDown}');
+    expect(optionB).toHaveFocus();
+    expect(optionB).toBeChecked();
+    expect(optionA).not.toBeChecked();
+
+    // The walk wraps, so no option is out of reach in either direction.
+    await userEvent.keyboard('{ArrowUp}{ArrowUp}');
+    expect(optionC).toHaveFocus();
+    expect(optionC).toBeChecked();
+
+    // One more Tab leaves the whole group, not just this option.
+    await userEvent.tab();
+    expect(optionC).not.toHaveFocus();
   },
 };
 

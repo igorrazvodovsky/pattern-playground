@@ -107,6 +107,15 @@ export const Selectable: Story = {
 };
 
 export const Disabled: Story = {
+  // Disabled controls are exempt from WCAG 1.4.3, but the dimmed tag is a span
+  // wrapping a disabled button, so axe cannot tell and flags its text.
+  parameters: {
+    a11y: {
+      config: {
+        rules: [{id: 'color-contrast', enabled: false}],
+      },
+    },
+  },
   render: () => (
     <div className="inline-flow">
       <span className="tag">

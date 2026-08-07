@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useEffect, useRef } from "react";
 import { action } from 'storybook/actions';
-import { userEvent, within } from '@storybook/testing-library';
+import { expect, userEvent, within } from 'storybook/test';
 
 interface CheckboxArgs {
   label: string;
@@ -75,7 +75,50 @@ export const ToggleInteraction: Story = {
     const canvas = within(canvasElement);
     const checkbox = canvas.getByRole('checkbox') as HTMLInputElement;
     await userEvent.click(checkbox);
+    expect(checkbox).toBeChecked();
     await userEvent.click(checkbox);
+    expect(checkbox).not.toBeChecked();
+  },
+};
+
+/**
+ * Space toggles, Tab moves on, and a disabled checkbox is skipped rather than
+ * focused — the actor tabbing through a form never lands somewhere they
+ * cannot act.
+ */
+export const KeyboardOperation: Story = {
+  name: 'Keyboard operation',
+  render: () => (
+    <div className="flow">
+      <label className="form-control">
+        <input type="checkbox" />
+        First
+      </label>
+      <label className="form-control">
+        <input type="checkbox" disabled />
+        Disabled
+      </label>
+      <label className="form-control">
+        <input type="checkbox" />
+        Last
+      </label>
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const [first, , last] = canvas.getAllByRole('checkbox') as HTMLInputElement[];
+
+    await userEvent.tab();
+    expect(first).toHaveFocus();
+
+    await userEvent.keyboard(' ');
+    expect(first).toBeChecked();
+    await userEvent.keyboard(' ');
+    expect(first).not.toBeChecked();
+
+    // The disabled one is not a tab stop.
+    await userEvent.tab();
+    expect(last).toHaveFocus();
   },
 };
 

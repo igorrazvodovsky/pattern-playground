@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { action } from 'storybook/actions';
 import { useModalService } from '../hooks/useModalService';
 import { modalService } from '../services/modal-service';
-import { userEvent, within } from '@storybook/testing-library';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
 
 interface DrawerArgs {
   title: string;
@@ -64,6 +64,18 @@ export const Default: Story = {
   ),
 };
 
+/**
+ * The modal service mounts drawers on `document.body`, outside the story
+ * canvas, and opens them a frame later. The title is what tells one story's
+ * surface from another's, since the dialogs carry no accessible name.
+ */
+async function findOpenDrawer(title: string): Promise<HTMLDialogElement> {
+  const heading = await within(document.body).findByRole('heading', { name: title });
+  const drawer = heading.closest('dialog') as HTMLDialogElement;
+  await waitFor(() => expect(drawer).toHaveAttribute('open'));
+  return drawer;
+}
+
 export const RightDrawer: Story = {
   render: () => {
     const DrawerExample = () => {
@@ -98,6 +110,9 @@ export const RightDrawer: Story = {
     const canvas = within(canvasElement);
     const trigger = canvas.getByRole('button', { name: 'Open right drawer' });
     await userEvent.click(trigger);
+    const drawer = await findOpenDrawer('Right Drawer');
+    expect(drawer).toHaveClass('drawer--right');
+    expect(within(drawer).getByRole('button', { name: 'Save' })).toBeVisible();
   },
 };
 
@@ -135,6 +150,8 @@ export const LeftDrawer: Story = {
     const canvas = within(canvasElement);
     const trigger = canvas.getByRole('button', { name: 'Open left drawer' });
     await userEvent.click(trigger);
+    const drawer = await findOpenDrawer('Left Drawer');
+    expect(drawer).toHaveClass('drawer--left');
   },
 };
 
@@ -173,5 +190,97 @@ export const NonModal: Story = {
     const canvas = within(canvasElement);
     const trigger = canvas.getByRole('button', { name: 'Open side peek' });
     await userEvent.click(trigger);
+    const drawer = await findOpenDrawer('Side peek');
+    // The whole point of this story: opened with show(), not showModal(), so
+    // the page behind stays live and the trigger is still reachable.
+    expect(drawer).toHaveAttribute('data-modal', 'false');
+    expect(trigger).toBeVisible();
+  },
+};
+
+/**
+ * The keyboard difference between the two kinds of drawer. A modal drawer
+ * takes focus and keeps it: nothing behind it is reachable until it closes. A
+ * side peek takes focus too — it is the thing the actor just asked for — but
+ * lets them tab back out to the page it sits beside, because that page is
+ * still live. Both close on Escape and hand focus back to what opened them.
+ */
+export const KeyboardOperation: Story = {
+  name: 'Keyboard operation',
+  args: { title: 'Keyboard drawer', position: 'right', modal: true },
+  render: (args) => {
+    const KeyboardDrawerExample = () => {
+      const { openDrawer } = useModalService();
+
+      return (
+        <button
+          className="button"
+          onClick={() => openDrawer(
+            <div className="flow">
+              <p>Escape closes this.</p>
+              <footer>
+                <button className="button">Confirm</button>
+              </footer>
+            </div>,
+            { title: args.title, position: args.position, modal: args.modal }
+          )}
+        >
+          Open drawer
+        </button>
+      );
+    };
+
+    return <KeyboardDrawerExample />;
+  },
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: 'Open drawer' });
+
+    trigger.focus();
+    await userEvent.keyboard('{Enter}');
+
+    const drawer = await findOpenDrawer(args.title);
+    await waitFor(() => expect(drawer).toContainElement(document.activeElement as HTMLElement));
+
+    // Modal: the page behind is inert, so tabbing cannot leave the drawer.
+    await userEvent.tab();
+    expect(drawer).toContainElement(document.activeElement as HTMLElement);
+    await userEvent.tab();
+    expect(drawer).toContainElement(document.activeElement as HTMLElement);
+
+    await userEvent.keyboard('{Escape}');
+    await waitFor(() => expect(drawer).not.toHaveAttribute('open'));
+    await waitFor(() => expect(trigger).toHaveFocus());
+  },
+};
+
+/**
+ * The side peek's keyboard contract, which is not the modal one: focus starts
+ * inside, but the actor can tab out to the page beside it and keep working —
+ * that is the whole reason for opening non-modally.
+ */
+export const NonModalKeyboardOperation: Story = {
+  ...KeyboardOperation,
+  name: 'Keyboard operation, side peek',
+  args: { title: 'Keyboard side peek', position: 'right', modal: false },
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: 'Open drawer' });
+
+    trigger.focus();
+    await userEvent.keyboard('{Enter}');
+
+    const drawer = await findOpenDrawer(args.title);
+    await waitFor(() => expect(drawer).toContainElement(document.activeElement as HTMLElement));
+
+    // No trap: enough tabs walk off the end of the peek and back into the page.
+    const focusable = drawer.querySelectorAll('button, [href], input, select, textarea');
+    for (let i = 0; i <= focusable.length; i++) {
+      await userEvent.tab();
+    }
+    expect(drawer).not.toContainElement(document.activeElement as HTMLElement);
+
+    await userEvent.keyboard('{Escape}');
+    await waitFor(() => expect(drawer).not.toHaveAttribute('open'));
   },
 };

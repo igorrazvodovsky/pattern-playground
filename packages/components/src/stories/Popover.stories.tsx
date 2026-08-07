@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { faker } from '@faker-js/faker';
-import { userEvent, within } from '@storybook/testing-library';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
 import { useEffect, useRef, useState } from 'react';
 import '../jsx-types';
 
@@ -26,6 +26,9 @@ export const Popover: Story = {
     const canvas = within(canvasElement);
     const trigger = canvas.getByRole('button', { name: 'Click me' });
     await userEvent.click(trigger);
+    const popover = canvasElement.querySelector('#popover-1') as HTMLElement;
+    expect(popover).toBeVisible();
+    expect(popover.matches(':popover-open')).toBe(true);
   },
 };
 
@@ -88,6 +91,44 @@ export const AnchoredPanel: Story = {
         </pp-popup>
       </div>
     );
+  },
+};
+
+/**
+ * Operating the popover without a pointer. The invoker is a button, so Enter
+ * opens it and Enter closes it again, and focus stays on the invoker
+ * throughout — the actor never has to find their way back.
+ *
+ * Escape and outside-click dismissal are the platform's, not this markup's,
+ * and they are the reason to use `popover="auto"` rather than build a panel.
+ * Neither is asserted here: the browser drives both from trusted input, and
+ * the synthetic events a play function dispatches do not reach the close
+ * watcher. They are verified by hand against running Storybook.
+ */
+export const KeyboardOperation: Story = {
+  name: 'Keyboard operation',
+  render: () => (
+    <>
+      <button className="button" popoverTarget="popover-keyboard">Click me</button>
+      <div id="popover-keyboard" popover="auto">
+        <strong>Popover header</strong>
+        <p>Enter on the button opens and closes this.</p>
+      </div>
+    </>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: 'Click me' });
+    const popover = canvasElement.querySelector('#popover-keyboard') as HTMLElement;
+
+    trigger.focus();
+    await userEvent.keyboard('{Enter}');
+    await waitFor(() => expect(popover.matches(':popover-open')).toBe(true));
+    expect(trigger).toHaveFocus();
+
+    await userEvent.keyboard('{Enter}');
+    await waitFor(() => expect(popover.matches(':popover-open')).toBe(false));
+    expect(trigger).toHaveFocus();
   },
 };
 
