@@ -153,9 +153,12 @@ both demos and declares the seven edges (`enables` × 4, `tangential` × 2,
 `enacts` agency). The six mention sites carry inline cross-references where
 warranted (selection and pan-and-zoom are covered by the tangential edges,
 which render on both endpoints). `extract-graph` is clean — 117 nodes, no new
-advisories — and the site builds. Phase 4 stays trigger-gated. The research
-note's promotion candidates (HHN 1985 and Buxton distils to `references/`,
-`docs/references.md` lines) remain uncurated.
+advisories — and the site builds.
+
+Closed 2026-08-07 with phase 4 unfired: its trigger — a second consumer
+needing the shared dnd scaffolding, or a reusable block emerging — survives
+here. The research note's promotion candidates (HHN 1985 and Buxton distils
+to `references/`, `docs/references.md` lines) remain uncurated.
 
 ## Phases
 
@@ -173,7 +176,7 @@ the edges. Borrow the two demos.
 
 Both demos are on main (view-system reshape merged 2026-07-24); their
 borrow map is recorded in
-[2026-07-view-system-demos](../completed/2026-07-view-system-demos.md).
+[2026-07-view-system-demos](2026-07-view-system-demos.md).
 No branch dependency remains.
 
 ### 3. Update neighbours
