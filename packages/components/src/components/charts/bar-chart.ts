@@ -1,7 +1,7 @@
 /**
  * Bar Chart Web Component
  *
- * An Elena host that orchestrates bar chart rendering using the pure bar chart
+ * A component that orchestrates bar chart rendering using the pure bar chart
  * renderer. Elena supplies props and lifecycle; D3 owns the DOM outright.
  *
  * @example
@@ -120,16 +120,9 @@ export class BarChart extends ChartComponent {
     });
   }
 
-  /**
-   * Setup scales based on data - required by ChartComponent
-   */
-  protected setupScales(): void {
-    // Scales are created in the renderer, not stored as instance variables
-  }
+  /** Scales are created in the renderer; nothing to precompute here. */
+  protected setupScales(): void {}
 
-  /**
-   * Create scales for rendering primitives before bars
-   */
   private createScalesForPrimitives(data: BarChartData, dimensions: ChartDimensions, config: Partial<BarChartConfig>) {
     const mergedConfig = { ...defaultBarChartConfig, ...config };
     return createBarChartScales(data, dimensions, mergedConfig);
@@ -157,22 +150,19 @@ export class BarChart extends ChartComponent {
       showCategoryLabels: this['show-category-labels']
     };
 
-    // Clean up previous render result
     if (this.renderResult) {
       cleanupBarChart(this.renderResult);
     }
 
     const container = select(this.contentGroup);
 
-    // Create scales first so we can render axes before bars
+    // Create scales first so axes and grid can render behind the bars.
     const scales = this.createScalesForPrimitives(transformedData, dimensions, config);
 
-    // Update scale coordinator with the new scales
     this.scaleCoordinator.updateScale('x', scales.x);
     this.scaleCoordinator.updateScale('y', scales.y);
 
-    // Render chart primitives first (axes, grid) so they appear behind bars
-    // Use the same coordinate system as the scales (viewBox-based)
+    // Primitives share the scales' coordinate system (viewBox-based).
     const viewBoxDimensions = {
       width: VIEWBOX_WIDTH - this.margin.left - this.margin.right,
       height: VIEWBOX_HEIGHT - this.margin.top - this.margin.bottom
@@ -185,10 +175,7 @@ export class BarChart extends ChartComponent {
       this.renderGrid(scales, viewBoxDimensions);
     }
 
-    // Now render the bar chart on top
     this.renderResult = renderBarChart(container, transformedData, dimensions, config);
-
-    // Add interactions
     this.addInteractions();
 
     this.setChartLabel(this.title || `Bar chart with ${transformedData.data.length} data points`);
@@ -259,7 +246,6 @@ export class BarChart extends ChartComponent {
         event.preventDefault();
         if (this.renderResult) {
           const currentData = data.data[this.focusedIndex];
-          // Create a synthetic mouse event for click handling
           const syntheticEvent = new MouseEvent('click', {
             bubbles: true,
             cancelable: true,
@@ -279,7 +265,6 @@ export class BarChart extends ChartComponent {
       this.focusedIndex = index;
       const currentData = data.data[index];
 
-      // Announce to screen readers
       this.setAttribute('aria-live', 'polite');
       this.setAttribute('aria-label', `Bar chart. Current: ${currentData.category}: ${currentData.value}. Use arrow keys to navigate.`);
     }
@@ -287,8 +272,6 @@ export class BarChart extends ChartComponent {
 
   private renderAxes(scales: BarChartScales, dimensions: { width: number; height: number }): void {
     const container = select(this.contentGroup);
-
-    // Remove existing axes
     container.selectAll('.axis-group').remove();
 
     const xAxisGroup = container
@@ -308,7 +291,6 @@ export class BarChart extends ChartComponent {
     let axis: Axis<AxisDomain>;
 
     if (axisType === 'x') {
-      // X-axis configuration based on orientation
       if (this.orientation === 'vertical') {
         // Categories on X-axis for vertical bars
         axis = axisBottom(scales.x as AxisScale<AxisDomain>).tickSize(6);
@@ -317,7 +299,6 @@ export class BarChart extends ChartComponent {
         axis = axisBottom(scales.y as AxisScale<AxisDomain>).ticks(5).tickSize(6);
       }
     } else {
-      // Y-axis configuration based on orientation
       if (this.orientation === 'vertical') {
         // Values on Y-axis for vertical bars
         axis = axisLeft(scales.y as AxisScale<AxisDomain>).ticks(5).tickSize(6);
@@ -332,24 +313,21 @@ export class BarChart extends ChartComponent {
   }
 
   private applyAxisStyling(container: Selection<SVGGElement, unknown, null, undefined>, axisType: 'x' | 'y'): void {
-    // Style domain line
     container.select('.domain')
       .attr('stroke', 'var(--c-border)')
       .attr('stroke-width', 0)
       .attr('fill', 'none');
 
-    // Style tick lines
     container.selectAll('.tick line')
       .attr('stroke', 'var(--c-border)')
       .attr('stroke-width', 1);
 
-    // Style tick text
     container.selectAll('.tick text')
       .attr('fill', 'var(--c-bodyDimmed)')
       .attr('font-size', 'var(--text-s)')
       .attr('font-family', 'var(--font)');
 
-    // Position text based on orientation (using same values as chart-axis component)
+    // Text offsets match the chart-axis primitive so the two stay aligned.
     if (axisType === 'y') {
       container.selectAll('.tick text')
         .attr('text-anchor', 'end')
@@ -365,8 +343,6 @@ export class BarChart extends ChartComponent {
 
   private renderGrid(scales: BarChartScales, dimensions: { width: number; height: number }): void {
     const container = select(this.contentGroup);
-
-    // Remove existing grid
     container.selectAll('.grid').remove();
 
     const gridGroup = container

@@ -1,49 +1,32 @@
 /**
- * Core interaction contract and basic implementations for chart interactions
- * - Core interaction contract (registerGesture, destroy) designed in Phase 1
- * - Basic gesture implementations (hover, click) in Phase 2
- * - Plugin architecture that works with any renderer
- * - Event delegation and cleanup management
- * - Future-proof interactivity without per-chart duplication
+ * Pluggable chart interactions: a small contract (register/destroy) with
+ * hover and click implementations, managed per element by InteractionLayer
+ * so any renderer gets interactivity without per-chart duplication.
  */
 
-/**
- * Base interface for all chart interactions
- */
 export interface ChartInteraction {
   readonly type: string;
   register(element: SVGElement | HTMLElement, config?: InteractionConfig): void;
   destroy(): void;
 }
 
-/**
- * Configuration for interactions
- */
 export interface InteractionConfig {
   [key: string]: unknown;
 }
 
-/**
- * Hover interaction configuration
- */
 export interface HoverConfig extends InteractionConfig {
   delay?: number;
   cursor?: string;
   highlightClass?: string;
 }
 
-/**
- * Click interaction configuration
- */
 export interface ClickConfig extends InteractionConfig {
   preventDefault?: boolean;
   stopPropagation?: boolean;
   doubleClickDelay?: number;
 }
 
-/**
- * Zoom interaction configuration (for future implementation)
- */
+/** Declared ahead of an implementation. */
 export interface ZoomConfig extends InteractionConfig {
   minZoom?: number;
   maxZoom?: number;
@@ -51,18 +34,13 @@ export interface ZoomConfig extends InteractionConfig {
   wheelDelta?: number;
 }
 
-/**
- * Brush selection configuration (for future implementation)
- */
+/** Declared ahead of an implementation. */
 export interface BrushConfig extends InteractionConfig {
   direction?: 'x' | 'y' | 'xy';
   handles?: boolean;
   extent?: [[number, number], [number, number]];
 }
 
-/**
- * Event detail for chart interaction events
- */
 export interface ChartInteractionEvent {
   type: string;
   target: Element;
@@ -71,9 +49,6 @@ export interface ChartInteractionEvent {
   originalEvent?: Event;
 }
 
-/**
- * Basic hover interaction implementation
- */
 export class HoverInteraction implements ChartInteraction {
   readonly type = 'hover';
   private element?: SVGElement | HTMLElement;
@@ -162,9 +137,6 @@ export class HoverInteraction implements ChartInteraction {
   }
 }
 
-/**
- * Basic click interaction implementation
- */
 export class ClickInteraction implements ChartInteraction {
   readonly type = 'click';
   private element?: SVGElement | HTMLElement;
@@ -245,9 +217,6 @@ export class ClickInteraction implements ChartInteraction {
   }
 }
 
-/**
- * Interaction layer manager that handles multiple interactions on chart elements
- */
 export class InteractionLayer {
   private interactions = new Map<string, ChartInteraction>();
   private element?: SVGElement | HTMLElement;
@@ -256,25 +225,17 @@ export class InteractionLayer {
     this.element = element;
   }
 
-  /**
-   * Register a new interaction
-   */
+  /** Registering a type that already exists replaces the old interaction. */
   registerGesture(interaction: ChartInteraction, config?: InteractionConfig): void {
     if (!this.element) {
       throw new Error('No element provided to register interactions on');
     }
 
-    // Remove existing interaction of the same type
     this.removeGesture(interaction.type);
-
-    // Register new interaction
     interaction.register(this.element, config);
     this.interactions.set(interaction.type, interaction);
   }
 
-  /**
-   * Remove a specific interaction by type
-   */
   removeGesture(type: string): void {
     const interaction = this.interactions.get(type);
     if (interaction) {
@@ -283,23 +244,14 @@ export class InteractionLayer {
     }
   }
 
-  /**
-   * Check if an interaction type is registered
-   */
   hasGesture(type: string): boolean {
     return this.interactions.has(type);
   }
 
-  /**
-   * Get all registered interaction types
-   */
   getGestureTypes(): string[] {
     return Array.from(this.interactions.keys());
   }
 
-  /**
-   * Destroy all interactions and clean up
-   */
   destroy(): void {
     for (const interaction of this.interactions.values()) {
       interaction.destroy();
@@ -308,41 +260,25 @@ export class InteractionLayer {
     this.element = undefined;
   }
 
-  /**
-   * Update the target element for all interactions
-   */
+  /** Move all interactions to a new target element. */
   setElement(element: SVGElement | HTMLElement): void {
+    // destroy() clears the registry, so snapshot it before re-registering.
     const currentInteractions = new Map(this.interactions);
-
-    // Destroy all current interactions
     this.destroy();
-
-    // Set new element
     this.element = element;
-
-    // Re-register all interactions with new element
     for (const [, interaction] of currentInteractions) {
       this.registerGesture(interaction);
     }
   }
 }
 
-/**
- * Factory function to create common interaction combinations
- */
 export function createStandardInteractions(): InteractionLayer {
   const layer = new InteractionLayer();
-
-  // Add basic hover and click interactions by default
   layer.registerGesture(new HoverInteraction());
   layer.registerGesture(new ClickInteraction());
-
   return layer;
 }
 
-/**
- * Helper function to create chart-specific interaction layer
- */
 export function createChartInteractionLayer(
   element: SVGElement | HTMLElement,
   interactions: Array<{ type: ChartInteraction; config?: InteractionConfig }> = []

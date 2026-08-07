@@ -5,6 +5,7 @@ import {
   isScatterPlotData,
   isAreaChartData,
   isChoroplethData,
+  isNetworkGraphData,
   isTreeData,
 } from './chart-types.js';
 
@@ -129,6 +130,40 @@ describe('isChoroplethData', () => {
 
   it('rejects non-objects', () => {
     for (const value of nonObjects) expect(isChoroplethData(value)).toBe(false);
+  });
+});
+
+describe('isNetworkGraphData', () => {
+  const node = (id: string) => ({ id, label: id.toUpperCase() });
+
+  it('accepts nodes and edges together', () => {
+    expect(
+      isNetworkGraphData({ nodes: [node('a'), node('b')], edges: [{ source: 'a', target: 'b' }] })
+    ).toBe(true);
+  });
+
+  it('accepts an empty graph, which has no node to inspect', () => {
+    expect(isNetworkGraphData({ nodes: [], edges: [] })).toBe(true);
+  });
+
+  it('rejects either half arriving without the other', () => {
+    expect(isNetworkGraphData({ nodes: [node('a')] })).toBe(false);
+    expect(isNetworkGraphData({ edges: [] })).toBe(false);
+  });
+
+  it('rejects nodes that carry no id and label, the pair every node is drawn by', () => {
+    expect(isNetworkGraphData({ nodes: [{ id: 'a' }], edges: [] })).toBe(false);
+    expect(isNetworkGraphData({ nodes: [{ label: 'A' }], edges: [] })).toBe(false);
+    expect(isNetworkGraphData({ nodes: [{ id: 1, label: 'A' }], edges: [] })).toBe(false);
+  });
+
+  it('rejects non-array nodes or edges', () => {
+    expect(isNetworkGraphData({ nodes: {}, edges: [] })).toBe(false);
+    expect(isNetworkGraphData({ nodes: [], edges: 'none' })).toBe(false);
+  });
+
+  it('rejects non-objects', () => {
+    for (const value of nonObjects) expect(isNetworkGraphData(value)).toBe(false);
   });
 });
 

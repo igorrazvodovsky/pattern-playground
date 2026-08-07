@@ -1,14 +1,4 @@
-/**
- * Chart renderers - Pure rendering modules for D3.js charts
- * 
- * These modules provide rendering functions without component lifecycle,
- * focusing on efficient shape drawing and data visualization.
- */
+/** Pure rendering modules for D3.js charts, free of component lifecycle. */
 
 export * from './bar-chart-renderer.js';
 export * from './scatter-plot-renderer.js';
-
-// Future exports for additional chart types
-// export * from './line-chart-renderer.js';
-// export * from './area-chart-renderer.js';
-// export * from './tree-diagram-renderer.js';

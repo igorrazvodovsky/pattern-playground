@@ -36,6 +36,7 @@ import { PpChartAxis } from './charts/primitives/chart-axis.js';
 import { BarChart } from './charts/bar-chart.js';
 import { Choropleth } from './charts/choropleth.js';
 import { ScatterPlot } from './charts/scatter-plot.js';
+import { NetworkGraph } from './charts/network-graph.js';
 import { MapComponent } from './map/map.js';
 
 /**
@@ -60,6 +61,7 @@ export function registerAllComponents(): void {
     { tagName: 'pp-bar-chart', constructor: BarChart },
     { tagName: 'pp-choropleth', constructor: Choropleth },
     { tagName: 'pp-scatter-plot', constructor: ScatterPlot },
+    { tagName: 'pp-network-graph', constructor: NetworkGraph },
     { tagName: 'pp-map', constructor: MapComponent },
 
     // Components with popup dependency

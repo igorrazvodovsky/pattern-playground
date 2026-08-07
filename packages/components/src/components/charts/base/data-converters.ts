@@ -1,6 +1,4 @@
-/**
- * Provides JSON array validation, transformation utilities, and real-time data update helpers.
- */
+/** Coerce loose input (JSON strings, bare point arrays) into typed chart data. */
 
 import type {
   LineChartData,
@@ -19,9 +17,6 @@ import {
   isTreeData
 } from './chart-types.js';
 
-/**
- * Type guard to check if a value is a valid chart data point
- */
 export function isChartDataPoint(value: unknown): value is ChartDataPoint {
   return typeof value === 'object' && value !== null;
 }
@@ -40,9 +35,6 @@ export function parseChartData<T>(data: string | T): T | null {
   return data;
 }
 
-/**
- * Convert various input formats to LineChartData
- */
 export function convertToLineChartData(input: unknown): LineChartData | null {
   const data = parseChartData(input);
 
@@ -69,9 +61,6 @@ export function convertToLineChartData(input: unknown): LineChartData | null {
   return null;
 }
 
-/**
- * Convert various input formats to BarChartData
- */
 export function convertToBarChartData(input: unknown): BarChartData | null {
   const data = parseChartData(input);
 
@@ -111,9 +100,6 @@ export function convertToBarChartData(input: unknown): BarChartData | null {
   return null;
 }
 
-/**
- * Convert various input formats to ScatterPlotData
- */
 export function convertToScatterPlotData(input: unknown): ScatterPlotData | null {
   const data = parseChartData(input);
 
@@ -141,9 +127,6 @@ export function convertToScatterPlotData(input: unknown): ScatterPlotData | null
   return null;
 }
 
-/**
- * Convert various input formats to AreaChartData
- */
 export function convertToAreaChartData(input: unknown): AreaChartData | null {
   const data = parseChartData(input);
 
@@ -171,9 +154,6 @@ export function convertToAreaChartData(input: unknown): AreaChartData | null {
   return null;
 }
 
-/**
- * Convert various input formats to TreeData
- */
 export function convertToTreeData(input: unknown): TreeData | null {
   const data = parseChartData(input);
 
@@ -191,9 +171,6 @@ export function convertToTreeData(input: unknown): TreeData | null {
   return null;
 }
 
-/**
- * Validate that data contains required fields for chart type
- */
 export function validateChartData(data: unknown, type: 'line' | 'bar' | 'area' | 'tree'): boolean {
   switch (type) {
     case 'line':
@@ -209,9 +186,6 @@ export function validateChartData(data: unknown, type: 'line' | 'bar' | 'area' |
   }
 }
 
-/**
- * Helper for real-time data updates - merges new data with existing
- */
 export function mergeChartData<T extends LineChartData | BarChartData | AreaChartData>(
   existing: T,
   newData: Partial<T>
@@ -222,9 +196,6 @@ export function mergeChartData<T extends LineChartData | BarChartData | AreaChar
   };
 }
 
-/**
- * Transform data for different chart orientations or groupings
- */
 export function transformBarChartData(
   data: BarChartData,
   options: {
@@ -234,7 +205,6 @@ export function transformBarChartData(
 ): BarChartData {
   const transformedData = { ...data };
 
-  // Sort data if requested
   if (options.sort && options.sort !== 'none') {
     const sortedData = [...data.data].sort((a, b) => {
       const comparison = a.value - b.value;
@@ -243,7 +213,6 @@ export function transformBarChartData(
     transformedData.data = sortedData;
   }
 
-  // Set orientation
   if (options.orientation) {
     transformedData.orientation = options.orientation;
   }
@@ -251,9 +220,6 @@ export function transformBarChartData(
   return transformedData;
 }
 
-/**
- * Extract data extent (min/max) for scaling
- */
 export function getDataExtent(data: ChartDataPoint[], key: string): [number, number] {
   const values = data
     .map(d => d[key])
@@ -266,9 +232,6 @@ export function getDataExtent(data: ChartDataPoint[], key: string): [number, num
   return [Math.min(...values), Math.max(...values)];
 }
 
-/**
- * Get unique categories from categorical data
- */
 export function getCategories(data: ChartDataPoint[], key: string): string[] {
   const categories = data
     .map(d => String(d[key]))

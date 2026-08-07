@@ -3,9 +3,6 @@ import type { ScaleBand, ScaleLinear } from 'd3-scale';
 import type { ElenaProp } from '../base/d3-component.js';
 import type { ScaleConsumer, TickInfo, ChartScale, ScaleCoordinator } from '../services/scale-coordinator.js';
 
-/**
- * Grid line configuration
- */
 export interface GridConfig {
   showX?: boolean;
   showY?: boolean;
@@ -106,7 +103,6 @@ export class PpChartGrid extends Elena(HTMLElement) implements ScaleConsumer {
 
     try {
 
-    // Clear previous grid content
     while (this.gridGroup.firstChild) {
       this.gridGroup.removeChild(this.gridGroup.firstChild);
     }
@@ -121,7 +117,6 @@ export class PpChartGrid extends Elena(HTMLElement) implements ScaleConsumer {
       this.renderYGrid(style);
     }
 
-    // Emit render event
     this.dispatchEvent(new CustomEvent('pp-grid-render', {
       detail: { config: this.config },
       bubbles: true,
@@ -140,14 +135,14 @@ export class PpChartGrid extends Elena(HTMLElement) implements ScaleConsumer {
   }
 
   private renderXGrid(style: string) {
-    // Use scale ticks for intelligent positioning if available
+    // Align to the axis's tick positions when available.
     if (this.xTicks.length > 0) {
       this.xTicks.forEach(tick => {
         const line = this.createGridLine(tick.position, 0, tick.position, this.height, 'x-grid', style);
         this.gridGroup.appendChild(line);
       });
     } else {
-      // Fallback to uniform spacing
+      // Fall back to uniform spacing.
       const density = this.getDensity();
       const xStep = this.width / density;
 
@@ -160,14 +155,12 @@ export class PpChartGrid extends Elena(HTMLElement) implements ScaleConsumer {
   }
 
   private renderYGrid(style: string) {
-    // Use scale ticks for intelligent positioning if available
     if (this.yTicks.length > 0) {
       this.yTicks.forEach(tick => {
         const line = this.createGridLine(0, tick.position, this.width, tick.position, 'y-grid', style);
         this.gridGroup.appendChild(line);
       });
     } else {
-      // Fallback to uniform spacing
       const density = this.getDensity();
       const yStep = this.height / density;
 
@@ -220,17 +213,11 @@ export class PpChartGrid extends Elena(HTMLElement) implements ScaleConsumer {
     this.config = { ...this.config, ...config };
   }
 
-  /**
-   * Set the scales for more intelligent grid positioning
-   */
   setScales(xScale: ScaleBand<string> | ScaleLinear<number, number> | null, yScale: ScaleBand<string> | ScaleLinear<number, number> | null) {
     this.xScale = xScale;
     this.yScale = yScale;
   }
 
-  /**
-   * ScaleConsumer implementation - update scale from coordinator
-   */
   updateScale(axis: 'x' | 'y', scale: ChartScale): void {
     try {
       if (axis === 'x') {
@@ -244,9 +231,6 @@ export class PpChartGrid extends Elena(HTMLElement) implements ScaleConsumer {
     }
   }
 
-  /**
-   * ScaleConsumer implementation - update ticks for grid positioning
-   */
   updateTicks(axis: 'x' | 'y', ticks: TickInfo[]): void {
     try {
       if (!Array.isArray(ticks)) {
@@ -265,17 +249,11 @@ export class PpChartGrid extends Elena(HTMLElement) implements ScaleConsumer {
     }
   }
 
-  /**
-   * Set the scale coordinator for this grid
-   */
   setCoordinator(coordinator: ScaleCoordinator): void {
     this.coordinator = coordinator;
     coordinator.registerConsumer(this);
   }
 
-  /**
-   * Remove the scale coordinator
-   */
   removeCoordinator(): void {
     if (this.coordinator) {
       this.coordinator.unregisterConsumer(this);
@@ -283,45 +261,27 @@ export class PpChartGrid extends Elena(HTMLElement) implements ScaleConsumer {
     }
   }
 
-  /**
-   * Update grid dimensions
-   */
   updateDimensions(width: number, height: number) {
     this.width = width;
     this.height = height;
   }
 
-  /**
-   * Show or hide the grid
-   */
   setVisible(visible: boolean) {
     this.hidden = !visible;
   }
 
-  /**
-   * Show only X grid lines
-   */
   showXGrid() {
     this.updateConfig({ showX: true, showY: false });
   }
 
-  /**
-   * Show only Y grid lines
-   */
   showYGrid() {
     this.updateConfig({ showX: false, showY: true });
   }
 
-  /**
-   * Show both X and Y grid lines
-   */
   showAllGrid() {
     this.updateConfig({ showX: true, showY: true });
   }
 
-  /**
-   * Hide all grid lines
-   */
   hideGrid() {
     this.updateConfig({ showX: false, showY: false });
   }

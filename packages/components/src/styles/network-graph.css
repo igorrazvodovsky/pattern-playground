@@ -1,0 +1,123 @@
+/* pp-network-graph — force-directed node-link chart.
+   Domain-specific colouring (e.g. the pattern site's activity-level scheme)
+   overrides these defaults by keying on the data-* attributes the consumer
+   stamps through node `attrs`. */
+@layer components {
+  .network-graph {
+    width: 100%;
+    overflow: visible;
+  }
+
+  .network-graph__svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    user-select: none;
+    max-height: calc(100vh - var(--space-2xl) * 2);
+    overflow: visible;
+  }
+
+  /* Edges */
+
+  .network-graph__edge {
+    fill: none;
+    stroke: var(--c-neutral-400);
+    stroke-width: 0.75;
+    stroke-opacity: 0.3;
+    pointer-events: none;
+    transition: stroke-opacity 0.2s;
+  }
+
+  .network-graph__svg--hovering .network-graph__edge--dimmed {
+    stroke-opacity: 0.03;
+  }
+
+  .network-graph__svg--hovering .network-graph__edge--active {
+    stroke-opacity: 0.6;
+    stroke: var(--c-neutral-600);
+  }
+
+  /* Trail — while hovering, visited nodes connected to the hovered node (through other visited nodes) stay visible */
+
+  .network-graph__edge--trail {
+    stroke: var(--c-neutral-600);
+    stroke-opacity: 0.5;
+  }
+
+  /* Nodes */
+
+  .network-graph__node {
+    cursor: pointer;
+  }
+
+  .network-graph__node:focus-visible {
+    outline: none;
+  }
+
+  .network-graph__node:focus-visible .network-graph__circle {
+    outline: 2px solid currentcolor;
+    outline-offset: 2px;
+  }
+
+  .network-graph__circle {
+    fill: var(--c-neutral-400);
+    stroke: var(--c-background);
+    stroke-width: 1;
+    transition: opacity 0.2s;
+  }
+
+  .network-graph__node:hover .network-graph__circle,
+  .network-graph__node--active .network-graph__circle {
+    stroke-width: 2;
+  }
+
+  .network-graph__svg--hovering .network-graph__node--dimmed .network-graph__circle {
+    opacity: 0.08;
+  }
+
+  .network-graph__node--trail .network-graph__circle {
+    stroke: var(--c-neutral-700);
+    stroke-width: 1.5;
+  }
+
+  /* Default node colouring — the shared categorical palette, by category order */
+
+  .network-graph__node[data-category-index="1"] .network-graph__circle { fill: var(--chart-color-1); }
+  .network-graph__node[data-category-index="2"] .network-graph__circle { fill: var(--chart-color-2); }
+  .network-graph__node[data-category-index="3"] .network-graph__circle { fill: var(--chart-color-3); }
+  .network-graph__node[data-category-index="4"] .network-graph__circle { fill: var(--chart-color-4); }
+  .network-graph__node[data-category-index="5"] .network-graph__circle { fill: var(--chart-color-5); }
+  .network-graph__node[data-category-index="6"] .network-graph__circle { fill: var(--chart-color-6); }
+  .network-graph__node[data-category-index="7"] .network-graph__circle { fill: var(--chart-color-7); }
+  .network-graph__node[data-category-index="8"] .network-graph__circle { fill: var(--chart-color-8); }
+
+  /* Labels */
+
+  .network-graph__label {
+    font-size: 9px;
+    font-family: var(--font-sans, system-ui, sans-serif);
+    fill: var(--c-neutral-900);
+    paint-order: stroke fill;
+    stroke: var(--c-neutral-0);
+    stroke-width: 3px;
+    stroke-linejoin: round;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  .network-graph__node:hover .network-graph__label,
+  .network-graph__node:focus-visible .network-graph__label,
+  .network-graph__svg--hovering .network-graph__node--active .network-graph__label,
+  .network-graph__svg--hovering .network-graph__node--neighbor .network-graph__label {
+    opacity: 0.9;
+  }
+
+  .network-graph__node--trail .network-graph__label {
+    opacity: 0.6;
+  }
+
+  .network-graph__svg--show-labels .network-graph__label {
+    opacity: 0.9;
+  }
+}

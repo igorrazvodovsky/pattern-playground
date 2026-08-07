@@ -1,7 +1,7 @@
 /**
  * Choropleth Web Component
  *
- * An Elena host that shades geographic regions by a quantity — the spatial
+ * A component that shades geographic regions by a quantity — the spatial
  * branch of the chart territory, the geographic sibling of the bar chart. It is
  * geometry-agnostic: give it any GeoJSON FeatureCollection plus one value per
  * region and it projects, colours, and makes the regions interactive.

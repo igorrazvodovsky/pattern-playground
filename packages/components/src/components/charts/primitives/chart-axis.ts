@@ -92,9 +92,6 @@ export class PpChartAxis extends Elena(HTMLElement) implements ScaleConsumer {
     this.renderAxis();
   }
 
-  /**
-   * Render the axis using the provided scale with d3-axis
-   */
   private renderAxis() {
     if (!this.scale || !this.axisGroup) {
       return;
@@ -102,11 +99,9 @@ export class PpChartAxis extends Elena(HTMLElement) implements ScaleConsumer {
 
     try {
 
-    // Clear previous axis content
     select(this.axisGroup).selectAll('*').remove();
 
-    // Create the appropriate axis based on orientation
-    // D3 axis types are generic, so we handle the scale as AxisScale
+    // D3 axis types are generic, so the scale is handled as AxisScale.
     const axisScale = this.scale as AxisScale<AxisDomain>;
     let axis: Axis<AxisDomain>;
     switch (this.orientation) {
@@ -126,7 +121,6 @@ export class PpChartAxis extends Elena(HTMLElement) implements ScaleConsumer {
         axis = axisBottom(axisScale);
     }
 
-    // Configure axis
     if ('ticks' in this.scale && this['tick-count']) {
       axis.ticks(this['tick-count']);
     }
@@ -150,16 +144,10 @@ export class PpChartAxis extends Elena(HTMLElement) implements ScaleConsumer {
       }
     }
 
-    // Render the axis
     select(this.axisGroup).call(axis);
-
-    // Style the axis elements
     this.styleAxis();
-
-    // Generate tick information for coordinator
     this.generateTickInfo();
 
-    // Emit render event
     this.dispatchEvent(new CustomEvent('pp-axis-render', {
       detail: { orientation: this.orientation },
       bubbles: true,
@@ -175,30 +163,23 @@ export class PpChartAxis extends Elena(HTMLElement) implements ScaleConsumer {
     }
   }
 
-  /**
-   * Apply styling to the rendered axis
-   */
   private styleAxis() {
     const axisSelection = select(this.axisGroup);
 
-    // Style domain line
     axisSelection.select('.domain')
       .attr('stroke', 'var(--c-border)')
       .attr('stroke-width', 1)
       .attr('fill', 'none');
 
-    // Style tick lines
     axisSelection.selectAll('.tick line')
       .attr('stroke', 'var(--c-border)')
       .attr('stroke-width', 1);
 
-    // Style tick text
     axisSelection.selectAll('.tick text')
       .attr('fill', 'var(--c-bodyDimmed)')
       .attr('font-size', 'var(--text-s)')
       .attr('font-family', 'var(--font)');
 
-    // Position text based on orientation
     if (this.orientation === 'left') {
       axisSelection.selectAll('.tick text')
         .attr('text-anchor', 'end')
@@ -222,16 +203,10 @@ export class PpChartAxis extends Elena(HTMLElement) implements ScaleConsumer {
     }
   }
 
-  /**
-   * Update the scale for this axis
-   */
   setScale(scale: ScaleBand<string> | ScaleLinear<number, number>) {
     this.scale = scale;
   }
 
-  /**
-   * Get the current axis dimensions
-   */
   getDimensions() {
     return {
       width: this.width,
@@ -239,11 +214,8 @@ export class PpChartAxis extends Elena(HTMLElement) implements ScaleConsumer {
     };
   }
 
-  /**
-   * ScaleConsumer implementation - update scale from coordinator
-   */
   updateScale(axis: 'x' | 'y', scale: ChartScale): void {
-    // Only update if this axis matches the coordinator axis
+    // Only react to the coordinator axis this orientation belongs to.
     const axisType = this.orientation === 'bottom' || this.orientation === 'top' ? 'x' : 'y';
     if (axis === axisType) {
       this.scale = scale;
@@ -251,9 +223,7 @@ export class PpChartAxis extends Elena(HTMLElement) implements ScaleConsumer {
     }
   }
 
-  /**
-   * Generate tick information for the scale coordinator
-   */
+  /** Publish tick positions to the coordinator so the grid can align to them. */
   private generateTickInfo(): void {
     if (!this.scale || !this.coordinator) return;
 
@@ -261,7 +231,7 @@ export class PpChartAxis extends Elena(HTMLElement) implements ScaleConsumer {
     const ticks: TickInfo[] = [];
 
     if ('bandwidth' in this.scale) {
-      // Band scale
+      // Band scale: ticks at band centres.
       const bandScale = this.scale as ScaleBand<string>;
       const domain = bandScale.domain();
       domain.forEach(value => {
@@ -271,7 +241,6 @@ export class PpChartAxis extends Elena(HTMLElement) implements ScaleConsumer {
         }
       });
     } else {
-      // Linear scale
       const linearScale = this.scale as ScaleLinear<number, number>;
       const tickValues = linearScale.ticks(this['tick-count']);
       tickValues.forEach(value => {
@@ -285,17 +254,11 @@ export class PpChartAxis extends Elena(HTMLElement) implements ScaleConsumer {
     this.coordinator.updateTicks(axisType, ticks);
   }
 
-  /**
-   * Set the scale coordinator for this axis
-   */
   setCoordinator(coordinator: ScaleCoordinator): void {
     this.coordinator = coordinator;
     coordinator.registerConsumer(this);
   }
 
-  /**
-   * Remove the scale coordinator
-   */
   removeCoordinator(): void {
     if (this.coordinator) {
       this.coordinator.unregisterConsumer(this);

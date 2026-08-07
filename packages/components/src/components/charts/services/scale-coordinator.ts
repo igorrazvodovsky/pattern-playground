@@ -7,14 +7,8 @@
 import type { ScaleBand, ScaleLinear } from 'd3-scale';
 import type { AxisDomain } from 'd3-axis';
 
-/**
- * Types of scales supported by the coordination system
- */
 export type ChartScale = ScaleBand<string> | ScaleLinear<number, number>;
 
-/**
- * Scale information with metadata for coordination
- */
 export interface ScaleInfo {
   scale: ChartScale;
   type: 'band' | 'linear';
@@ -23,48 +17,32 @@ export interface ScaleInfo {
   axis: 'x' | 'y';
 }
 
-/**
- * Scale update event data
- */
 export interface ScaleUpdateEvent {
   axis: 'x' | 'y';
   scale: ChartScale;
   ticks?: AxisDomain[];
 }
 
-/**
- * Tick information for grid coordination
- */
 export interface TickInfo {
   value: AxisDomain;
   position: number;
 }
 
-/**
- * Interface for components that consume coordinated scales
- */
 export interface ScaleConsumer {
   updateScale(axis: 'x' | 'y', scale: ChartScale): void;
   updateTicks?(axis: 'x' | 'y', ticks: TickInfo[]): void;
 }
 
-/**
- * Scale Coordinator class
- * Manages scale distribution and coordination between chart components
- */
 export class ScaleCoordinator {
   private xScale: ChartScale | null = null;
   private yScale: ChartScale | null = null;
   private consumers: Set<ScaleConsumer> = new Set();
   private tickCache: Map<'x' | 'y', TickInfo[]> = new Map();
 
-  /**
-   * Register a component to receive scale updates
-   */
+  /** New consumers are immediately replayed the current scales and ticks. */
   registerConsumer(consumer: ScaleConsumer): void {
     this.consumers.add(consumer);
 
-    // Immediately update with current scales if available
     if (this.xScale) {
       consumer.updateScale('x', this.xScale);
       const xTicks = this.tickCache.get('x');
@@ -82,16 +60,11 @@ export class ScaleCoordinator {
     }
   }
 
-  /**
-   * Unregister a component from scale updates
-   */
   unregisterConsumer(consumer: ScaleConsumer): void {
     this.consumers.delete(consumer);
   }
 
-  /**
-   * Update a scale and notify all consumers
-   */
+  /** Store a scale and notify every consumer, then regenerate its ticks. */
   updateScale(axis: 'x' | 'y', scale: ChartScale): void {
     try {
       if (!scale) {
@@ -105,7 +78,6 @@ export class ScaleCoordinator {
         this.yScale = scale;
       }
 
-      // Notify all consumers of the scale update
       this.consumers.forEach(consumer => {
         try {
           consumer.updateScale(axis, scale);
@@ -114,27 +86,19 @@ export class ScaleCoordinator {
         }
       });
 
-      // Generate and cache tick information
       this.updateTickInfo(axis, scale);
     } catch (error) {
       console.error(`Scale coordinator: Error updating ${axis} scale:`, error);
     }
   }
 
-  /**
-   * Get the current scale for an axis
-   */
   getScale(axis: 'x' | 'y'): ChartScale | null {
     return axis === 'x' ? this.xScale : this.yScale;
   }
 
-  /**
-   * Update tick information for grid coordination
-   */
   updateTicks(axis: 'x' | 'y', ticks: TickInfo[]): void {
     this.tickCache.set(axis, ticks);
 
-    // Notify consumers that support tick updates
     this.consumers.forEach(consumer => {
       if (consumer.updateTicks) {
         consumer.updateTicks(axis, ticks);
@@ -142,9 +106,6 @@ export class ScaleCoordinator {
     });
   }
 
-  /**
-   * Generate tick information from a scale
-   */
   private updateTickInfo(axis: 'x' | 'y', scale: ChartScale): void {
     try {
       const ticks: TickInfo[] = [];
@@ -192,9 +153,6 @@ export class ScaleCoordinator {
     }
   }
 
-  /**
-   * Get scale information with metadata
-   */
   getScaleInfo(axis: 'x' | 'y'): ScaleInfo | null {
     const scale = this.getScale(axis);
     if (!scale) return null;
@@ -212,16 +170,10 @@ export class ScaleCoordinator {
     };
   }
 
-  /**
-   * Get cached tick information
-   */
   getTicks(axis: 'x' | 'y'): TickInfo[] {
     return this.tickCache.get(axis) || [];
   }
 
-  /**
-   * Clear all scales and consumers
-   */
   destroy(): void {
     this.consumers.clear();
     this.tickCache.clear();
@@ -229,24 +181,15 @@ export class ScaleCoordinator {
     this.yScale = null;
   }
 
-  /**
-   * Utility to check if a scale is a band scale
-   */
   static isBandScale(scale: ChartScale): scale is ScaleBand<string> {
     return 'bandwidth' in scale;
   }
 
-  /**
-   * Utility to check if a scale is a linear scale
-   */
   static isLinearScale(scale: ChartScale): scale is ScaleLinear<number, number> {
     return 'ticks' in scale && !('bandwidth' in scale);
   }
 }
 
-/**
- * Factory function to create a scale coordinator
- */
 export function createScaleCoordinator(): ScaleCoordinator {
   return new ScaleCoordinator();
 }

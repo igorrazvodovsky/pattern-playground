@@ -64,16 +64,37 @@ auto natively; unsupported browsers get an instant snap, which is an
 acceptable degradation. Delete the component; drop the `motion/react`
 import from the filter family if this was its last use.
 
-### 4. Convert PatternGraph (rung 3)
+### 4. Swap PatternGraph for pp-network-graph (rung 3)
 
-364 lines, site-only (`Base.astro`, `pages/index.astro`, `Nav.tsx`):
-d3-force + `scaleSqrt` rendering SVG through JSX, five `useState`. Exactly
-the chart-family shape — convert onto the `D3Component` base (or a sibling
-light-DOM element if the base's assumptions don't fit force simulation).
-The cross-island hover channel (`pattern-graph-hover.ts`) is already a
-plain `CustomEvent` module and carries over untouched. Payoff: one React
-island fewer on every site page. Verification leans on the site build and
-visual spot-checks — the graph has no stories.
+The generic mechanism is already extracted: `pp-network-graph` lives in the
+chart family (`charts/network-graph.ts`, `styles/network-graph.css`, a
+Data visualisation story on mock data). It extends `ChartComponent`, with
+one recorded deviation from the family: the viewBox is fitted to the
+settled layout extent rather than the fixed 600×300, because a force
+layout's aspect is data-driven. It carries the whole reading layer —
+deterministic settled layout, degree-sized nodes, hover neighbourhood,
+trail, `setExternalHighlight`, `pp-node-click` — and stays domain-blind:
+node `attrs` pass through as `data-*` attributes for consumer CSS, edges
+can opt out of pulling the layout (`layout: false`), `anchors` maps
+categories to home regions.
+
+What remains is the site swap:
+
+- `pages/index.astro`: replace the React island with `<pp-network-graph>`
+  plus a small script that builds `data` from `pattern-graph.json` +
+  `activity-levels.json` (meta → `attrs`: at-level, lifecycle-stage,
+  atomic-category, mediation, seed; `layout: false` on recommends edges;
+  `anchors` from the category targets), feeds the hover channel into
+  `setExternalHighlight` (path → id via its own map and
+  `normalisePatternPath`), and navigates on `pp-node-click`.
+- `pattern-graph.css` shrinks to the site-semantic overrides on the
+  network-graph classes (at-level/mediation colours, edge-type dashes,
+  seed ring, background); the colour-toggle block is dead — nothing
+  renders it — and goes.
+- Delete `PatternGraph.tsx`; `pattern-graph-hover.ts` carries over
+  untouched. Payoff: one React island fewer on every site page.
+  Verification: site build, index page and stacked panes render the graph,
+  sidebar hover cross-highlights.
 
 ### 5. Sidebar (gated — decide before starting)
 

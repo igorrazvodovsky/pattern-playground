@@ -1,18 +1,9 @@
-/**
- * These interfaces define the public API contracts for each chart type,
- * ensuring type safety across renderers and components.
- */
+/** Data contracts for each chart type, shared by components and renderers. */
 
-/**
- * Base interface for all chart data points
- */
 export interface ChartDataPoint {
   [key: string]: unknown;
 }
 
-/**
- * Line chart data structure
- */
 export interface LineChartDataPoint extends ChartDataPoint {
   x: number | string | Date;
   y: number;
@@ -32,9 +23,6 @@ export interface LineChartData {
   yAxisLabel?: string;
 }
 
-/**
- * Bar chart data structure
- */
 export interface BarChartDataPoint extends ChartDataPoint {
   category: string;
   value: number;
@@ -72,9 +60,6 @@ export interface ScatterPlotData {
   yAxisLabel?: string;
 }
 
-/**
- * Area chart data structure
- */
 export interface AreaChartDataPoint extends ChartDataPoint {
   x: number | string | Date;
   y: number;
@@ -95,9 +80,6 @@ export interface AreaChartData {
   yAxisLabel?: string;
 }
 
-/**
- * Tree diagram data structure
- */
 export interface TreeNode extends ChartDataPoint {
   id: string;
   name: string;
@@ -146,8 +128,41 @@ export interface ChoroplethData {
 }
 
 /**
- * Common chart configuration options
+ * Network graph data structure
+ *
+ * A node-link view of an interlinked collection. Nodes are identified by `id`
+ * and drawn as circles sized by how connected they are; edges connect nodes by
+ * id. Everything domain-specific rides along declaratively: `category` groups
+ * nodes into coloured families, `attrs` stamps extra `data-*` attributes on a
+ * node's group for consumer CSS to key off, and `href` marks a node as leading
+ * somewhere (the component fires an event; navigation stays with the consumer).
  */
+export interface NetworkGraphNode extends ChartDataPoint {
+  id: string;
+  label: string;
+  /** Groups nodes into colour families (categorical palette by default). */
+  category?: string;
+  /** Where the node leads; presence makes the node announce as a link. */
+  href?: string;
+  /** Extra `data-*` attributes for the node's group, keyed without the prefix. */
+  attrs?: Record<string, string>;
+}
+
+export interface NetworkGraphEdge extends ChartDataPoint {
+  source: string;
+  target: string;
+  /** Stamped as `data-edge-type` for consumer CSS. */
+  type?: string;
+  label?: string;
+  /** Set false to draw the edge without letting it pull the layout. */
+  layout?: boolean;
+}
+
+export interface NetworkGraphData {
+  nodes: NetworkGraphNode[];
+  edges: NetworkGraphEdge[];
+}
+
 export interface ChartMargin {
   top: number;
   right: number;
@@ -161,9 +176,6 @@ export interface ChartDimensions {
   margin: ChartMargin;
 }
 
-/**
- * Axis configuration
- */
 export interface AxisConfig {
   show?: boolean;
   label?: string;
@@ -172,27 +184,18 @@ export interface AxisConfig {
   grid?: boolean;
 }
 
-/**
- * Legend configuration
- */
 export interface LegendConfig {
   show?: boolean;
   position?: 'top' | 'right' | 'bottom' | 'left';
   align?: 'start' | 'center' | 'end';
 }
 
-/**
- * Tooltip configuration
- */
 export interface TooltipConfig {
   show?: boolean;
   format?: (data: ChartDataPoint) => string;
   template?: string;
 }
 
-/**
- * Common chart configuration
- */
 export interface ChartConfig {
   dimensions?: Partial<ChartDimensions>;
   xAxis?: AxisConfig;
@@ -204,9 +207,6 @@ export interface ChartConfig {
   responsive?: boolean;
 }
 
-/**
- * Type guards for runtime type checking
- */
 export function isLineChartData(data: unknown): data is LineChartData {
   return (
     typeof data === 'object' &&
@@ -268,4 +268,17 @@ export function isTreeData(data: unknown): data is TreeData {
     'root' in data &&
     typeof (data as TreeData).root === 'object'
   );
+}
+
+export function isNetworkGraphData(data: unknown): data is NetworkGraphData {
+  if (
+    typeof data !== 'object' ||
+    data === null ||
+    !Array.isArray((data as NetworkGraphData).nodes) ||
+    !Array.isArray((data as NetworkGraphData).edges)
+  ) {
+    return false;
+  }
+  const nodes = (data as NetworkGraphData).nodes;
+  return nodes.length === 0 || (typeof nodes[0]?.id === 'string' && typeof nodes[0]?.label === 'string');
 }
