@@ -131,6 +131,15 @@
     min-inline-size: 16rem;
   }
 
+  /* Lazily-loaded demo widgets fade in when their chunk lands. */
+  [data-demo] > * {
+    transition: opacity 150ms var(--ease-out-3);
+
+    @starting-style {
+      opacity: 0;
+    }
+  }
+
   .demo-resize-handle {
     position: absolute;
     inset-block: 0;

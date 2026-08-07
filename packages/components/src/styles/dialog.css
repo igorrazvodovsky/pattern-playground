@@ -13,10 +13,29 @@
     position: fixed;
     inset: 0;
     z-index: var(--layer-dialog);
+    opacity: 0;
+    translate: 0 2rem;
+    transition:
+      opacity 0.15s var(--ease-2),
+      translate 0.15s var(--ease-2),
+      display 0.15s allow-discrete,
+      overlay 0.15s allow-discrete;
   }
 
   dialog[open] {
     display: grid;
+    opacity: 1;
+    translate: 0 0;
+    transition:
+      opacity 0.2s var(--ease-2),
+      translate 0.2s var(--ease-2),
+      display 0.2s allow-discrete,
+      overlay 0.2s allow-discrete;
+
+    @starting-style {
+      opacity: 0;
+      translate: 0 2rem;
+    }
   }
 
   @media (width <= 768px) {
@@ -84,43 +103,45 @@
   }
 
   dialog::backdrop {
-    animation: blur-in 0.2s forwards;
+    backdrop-filter: blur(0) opacity(0);
+    transition:
+      backdrop-filter 0.2s ease,
+      display 0.2s allow-discrete,
+      overlay 0.2s allow-discrete;
+  }
+
+  dialog[open]::backdrop {
+    backdrop-filter: blur(2px) opacity(1);
+
+    @starting-style {
+      backdrop-filter: blur(0) opacity(0);
+    }
   }
 
   dialog:not([open]) {
     pointer-events: none;
-    opacity: 0;
-  }
-
-  @keyframes blur-in {
-    from {
-      backdrop-filter: blur(0) opacity(0);
-    }
-
-    to {
-      backdrop-filter: blur(2px) opacity(1);
-    }
   }
 
   html:has(dialog[open]) {
     overflow: hidden;
   }
 
-  @media (prefers-reduced-motion: no-preference) {
-    dialog {
-      animation: var(--animation-scale-down) forwards;
-      animation-timing-function: var(--ease-squish-3);
-    }
-
+  @media (prefers-reduced-motion: reduce) {
+    dialog,
     dialog[open] {
-      animation: var(--animation-slide-in-up) forwards;
+      translate: none;
+      transition-duration: 0.1s;
     }
-  }
 
-  @media (prefers-reduced-motion: no-preference) and (width <= 768px) {
-    dialog {
-      animation: var(--animation-slide-out-down) forwards;
-      animation-timing-function: var(--ease-squish-2);
+    dialog::backdrop,
+    dialog[open]::backdrop {
+      transition-duration: 0.1s;
+    }
+
+    @starting-style {
+      dialog[open] {
+        translate: none;
+      }
     }
   }
 }

@@ -40,7 +40,7 @@ export class PpToast extends HTMLElementBase {
     closeButton.className = 'toast-close';
     closeButton.setAttribute('aria-label', 'Close');
     closeButton.appendChild(closeIcon);
-    closeButton.addEventListener('click', () => this.removeToast(toast));
+    closeButton.addEventListener('click', () => { void this.dismissToast(toast); });
 
     if (onClick) {
       // No aria-label: the message is the button's accessible name, so the
@@ -52,7 +52,7 @@ export class PpToast extends HTMLElementBase {
       openButton.appendChild(body);
       openButton.addEventListener('click', () => {
         onClick();
-        this.removeToast(toast);
+        void this.dismissToast(toast);
       });
       toast.appendChild(openButton);
     } else {
@@ -107,6 +107,17 @@ export class PpToast extends HTMLElementBase {
     }
   }
 
+  // Every dismissal path — close button, action button, timeout — exits
+  // through the same fade; the contains guard makes the later timeout a no-op
+  // after a pointer dismissal.
+  private async dismissToast(toast: HTMLOutputElement): Promise<void> {
+    if (!this.toastGroup?.contains(toast)) return;
+    toast.classList.add('fade-out');
+    await Promise.allSettled(
+      toast.getAnimations().map(a => a.finished)
+    );
+    this.removeToast(toast);
+  }
 
   public show(text: string, onClick?: () => void, duration = onClick ? 8000 : 4000): Promise<void> {
     const toast = this.createToast(text, onClick);
@@ -114,11 +125,7 @@ export class PpToast extends HTMLElementBase {
 
     return new Promise<void>((resolve) => {
       setTimeout(async () => {
-        toast.classList.add('fade-out');
-        await Promise.allSettled(
-          toast.getAnimations().map(a => a.finished)
-        );
-        this.removeToast(toast);
+        await this.dismissToast(toast);
         resolve();
       }, duration);
     });

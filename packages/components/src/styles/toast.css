@@ -18,7 +18,7 @@
 .toast {
   --_duration: 10s;
   --_bg-lightness: 100%;
-  --_travel-distance: 0;
+  --_travel-distance: 0.5rem;
 
   display: flex;
   align-items: center;
@@ -48,6 +48,7 @@
 @keyframes fade-out {
   to {
     opacity: 0;
+    transform: translateY(var(--_travel-distance, 10px));
   }
 }
 
@@ -69,6 +70,12 @@
   &:focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast {
+    --_travel-distance: 0;
   }
 }
 

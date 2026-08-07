@@ -160,6 +160,7 @@ dialog:has(> [cmdk-root]) {
 
   &::backdrop {
     animation: none;
+    transition: none;
     background-color: transparent;
   }
 }

@@ -19,16 +19,20 @@
     z-index: var(--layer-drawer);
   }
 
+  /* Closed drawers sit off their edge; timing comes from the base
+     dialog/dialog[open] transitions in dialog.css. */
   dialog.drawer--left {
     inset-inline-start: 0;
     border-inline-start: none;
     border-inline-end: var(--border);
+    translate: -100% 0;
   }
 
   dialog.drawer--right {
     inset-inline: auto 0;
     border-inline-start: var(--border);
     border-inline-end: none;
+    translate: 100% 0;
   }
 
   dialog.drawer[open] {
@@ -74,13 +78,8 @@
     }
   }
 
-  dialog.drawer::backdrop {
-    animation: blur-in 0.2s forwards;
-  }
-
   dialog.drawer:not([open]) {
     pointer-events: none;
-    opacity: 0;
   }
 
   /* Only a modal drawer locks the page; a non-modal side peek leaves it scrollable. */
@@ -88,24 +87,37 @@
     overflow: hidden;
   }
 
-  /* Animations */
-  @media (prefers-reduced-motion: no-preference) {
-    dialog.drawer--left {
-      animation: var(--animation-slide-out-left) forwards;
-      animation-timing-function: var(--ease-squish-3);
-    }
+  /* Animations — the closed-state travel lives on the base --left/--right
+     rules above. */
+  dialog.drawer--left[open] {
+    translate: 0 0;
 
-    dialog.drawer--left[open] {
-      animation: var(--animation-slide-in-right) forwards;
+    @starting-style {
+      translate: -100% 0;
     }
+  }
 
-    dialog.drawer--right {
-      animation: var(--animation-slide-out-right) forwards;
-      animation-timing-function: var(--ease-squish-3);
+  dialog.drawer--right[open] {
+    translate: 0 0;
+
+    @starting-style {
+      translate: 100% 0;
     }
+  }
 
+  @media (prefers-reduced-motion: reduce) {
+    dialog.drawer--left,
+    dialog.drawer--right,
+    dialog.drawer--left[open],
     dialog.drawer--right[open] {
-      animation: var(--animation-slide-in-left) forwards;
+      translate: none;
+    }
+
+    @starting-style {
+      dialog.drawer--left[open],
+      dialog.drawer--right[open] {
+        translate: none;
+      }
     }
   }
 

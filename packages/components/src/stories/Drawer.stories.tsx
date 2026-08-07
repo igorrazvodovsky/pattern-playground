@@ -112,7 +112,8 @@ export const RightDrawer: Story = {
     await userEvent.click(trigger);
     const drawer = await findOpenDrawer('Right Drawer');
     expect(drawer).toHaveClass('drawer--right');
-    expect(within(drawer).getByRole('button', { name: 'Save' })).toBeVisible();
+    // Visibility settles only after the enter transition fades the drawer in.
+    await waitFor(() => expect(within(drawer).getByRole('button', { name: 'Save' })).toBeVisible());
   },
 };
 

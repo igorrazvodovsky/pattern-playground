@@ -60,7 +60,7 @@ function NavNode({ node, currentPath, isOpen, setOpen, hydrated }: NavNodeProps)
             <Chevron />
             <span>{node.label}</span>
           </SidebarMenuButton>
-          <Collapsible.Panel>
+          <Collapsible.Panel className="sidebar-collapsible-panel">
             <SidebarGroupContent className="sidebar-collapsible-group-content">
               <SidebarMenu>
                 {node.children.map((child) => (

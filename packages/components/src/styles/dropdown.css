@@ -1,5 +1,7 @@
 
-pp-dropdown > [data-slot="trigger"] {
+/* Weak default, like the shadow slot wrapper it replaced: any author rule on
+   the trigger element (e.g. a flex button) must win. */
+pp-dropdown > :where([data-slot="trigger"]) {
   display: block;
 }
 

@@ -25,8 +25,8 @@
     color: var(--c-neutral-600);
     white-space: nowrap;
     transition:
-      color var(--transition-speed),
-      border-color var(--transition-speed);
+      color var(--transition-fast),
+      border-color var(--transition-fast);
 
     &:hover {
       color: var(--c-body-accent);
@@ -102,8 +102,35 @@
     }
   }
 
-  /* Details: show only open panels */
-  pp-sections[data-pp-mode="details"] [data-pp-panel]:not([data-pp-open]) {
-    display: none;
+  /* Details: show only open panels. Where interpolate-size is supported the
+     panel height animates in step with the trigger chevron;
+     content-visibility: hidden keeps the closed panel out of the
+     accessibility tree and find-in-page, matching display: none semantics. */
+  @supports not (interpolate-size: allow-keywords) {
+    pp-sections[data-pp-mode="details"] [data-pp-panel]:not([data-pp-open]) {
+      display: none;
+    }
+  }
+
+  @supports (interpolate-size: allow-keywords) {
+    pp-sections[data-pp-mode="details"] [data-pp-panel] {
+      interpolate-size: allow-keywords;
+      block-size: auto;
+      overflow: clip;
+      transition:
+        block-size 200ms var(--ease-2),
+        content-visibility 200ms allow-discrete;
+    }
+
+    pp-sections[data-pp-mode="details"] [data-pp-panel]:not([data-pp-open]) {
+      block-size: 0;
+      content-visibility: hidden;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      pp-sections[data-pp-mode="details"] [data-pp-panel] {
+        transition: none;
+      }
+    }
   }
 }

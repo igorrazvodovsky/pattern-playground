@@ -1,0 +1,7 @@
+# Build output. These are minified/vendored CSS and are gitignored, but the
+# `**/*.css` glob in `lint:styles` still finds them whenever a build has run
+# locally, burying source findings under tens of thousands of errors.
+**/dist/**
+**/storybook-static/**
+**/.astro/**
+**/public/storybook/**

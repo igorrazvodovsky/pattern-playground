@@ -692,6 +692,26 @@
     transform: rotate(180deg);
   }
 
+  /* Panel height animates in step with the chevron (Base UI's documented
+     pattern; the panels are short menu lists, so the layout animation is
+     cheap). */
+  .sidebar-collapsible-panel {
+    height: var(--collapsible-panel-height);
+    overflow: hidden;
+    transition: height 200ms var(--ease-2);
+  }
+
+  .sidebar-collapsible-panel[data-starting-style],
+  .sidebar-collapsible-panel[data-ending-style] {
+    height: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sidebar-collapsible-panel {
+      transition: none;
+    }
+  }
+
   [data-slot="sidebar"][data-collapsible="icon"] .sidebar-collapsible-group-trigger {
     margin-block-start: calc(-2rem);
     opacity: 0;

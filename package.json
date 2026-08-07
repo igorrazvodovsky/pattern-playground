@@ -18,7 +18,7 @@
     "build": "npm run build:storybook-into-site && npm run build -w @pattern-plgrnd/patterns",
     "test-storybook": "npm run test-storybook -w @pattern-plgrnd/components",
     "lint": "node scripts/check-seed-staleness.mjs && eslint .",
-    "lint:styles": "stylelint **/*.css",
+    "lint:styles": "stylelint \"**/*.css\"",
     "test-unit": "npm run test-unit -w @pattern-plgrnd/components",
     "test": "npm run lint && npm run lint:styles && npm run test -w @pattern-plgrnd/components"
   },

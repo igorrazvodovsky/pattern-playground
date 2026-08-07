@@ -76,7 +76,8 @@ export const Default: Story = {
     const heading = await within(document.body).findByRole('heading', { name: args.title });
     const dialog = heading.closest('dialog') as HTMLDialogElement;
     await waitFor(() => expect(dialog).toHaveAttribute('open'));
-    expect(within(dialog).getByRole('button', { name: 'Close' })).toBeVisible();
+    // Visibility settles only after the enter transition fades the dialog in.
+    await waitFor(() => expect(within(dialog).getByRole('button', { name: 'Close' })).toBeVisible());
   },
 };
 

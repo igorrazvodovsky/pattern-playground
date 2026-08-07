@@ -64,7 +64,9 @@
     top: calc(var(--_details-padding) + 0.5rem);
     transform-origin: center;
     transform: translateX(100%);
-    transition: var(--transition-fast) transform opacity;
+    transition:
+      transform var(--transition-fast),
+      opacity var(--transition-fast);
   }
 
   /* Timeline events */

@@ -246,7 +246,7 @@ export function StackManager({ slug, title }: StackManagerProps) {
                 </article>
               )}
               {pane.status === 'ready' && (
-                <article dangerouslySetInnerHTML={{ __html: pane.html }} />
+                <article className="pane-article" dangerouslySetInnerHTML={{ __html: pane.html }} />
               )}
             </div>
           </section>

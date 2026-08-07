@@ -2,7 +2,10 @@
 pp-list-item {
   position: relative;
   display: flex;
-  align-items: stretch;
+
+  /* Center, not stretch: the label may be a bare text node, which no child
+     selector can reach to align individually. */
+  align-items: center;
   font-size: var(--text-m);
   font-weight: var(--font-weight-normal);
   line-height: var(--line-height-normal);
@@ -21,13 +24,14 @@ pp-list-item {
     display: inline-block;
     text-overflow: ellipsis;
     overflow: hidden;
-    align-self: center;
   }
 
+  /* Adornments — flex order places them regardless of authored position */
   > [data-slot="prefix"] {
     flex: 0 0 auto;
     display: flex;
     align-items: center;
+    order: -1;
     margin-inline-end: var(--space-xs);
   }
 
@@ -48,6 +52,7 @@ pp-list-item {
     display: flex;
     align-items: center;
     justify-content: center;
+    order: -2;
     width: 1.5em;
     visibility: hidden;
   }

@@ -71,8 +71,8 @@ pp-tab {
   user-select: none;
   cursor: pointer;
   transition:
-    var(--transition-speed) box-shadow,
-    var(--transition-speed) color;
+    box-shadow var(--transition-fast),
+    color var(--transition-fast);
 
   > [data-slot="icon"] {
     grid-row: span 2;
