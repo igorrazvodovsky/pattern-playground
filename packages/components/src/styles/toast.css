@@ -6,7 +6,6 @@
   inset-block-end: 0;
   inset-inline-end: var(--space-m);
   padding-block-end: var(--space-m);
-
   display: grid;
   justify-items: end;
   justify-content: center;
@@ -25,16 +24,14 @@
   align-items: center;
   justify-content: space-between;
   font-family: system-ui, sans-serif;
-  background: hsl(0 0% var(--_bg-lightness) / 90%);
+  background: oklch(var(--_bg-lightness) 0 0deg / 90%);
 
   /* inline-size: 320px; */
   padding-block: 1ch;
   padding-inline: 1.5ch;
-
   border: var(--border);
-  box-shadow: 0 0.5rem 1rem hsl(0 0% 0% / 15%);
+  box-shadow: 0 0.5rem 1rem oklch(0% 0 0deg / 15%);
   border-radius: var(--radius-m);
-
   will-change: transform;
   animation: fade-in 0.2s ease, slide-in 0.2s ease;
 
@@ -65,9 +62,8 @@
 }
 
 .toast-button {
-
   &:hover {
-    background: hsl(0deg 0% 0% / 5%);
+    background: oklch(0% 0 0deg / 5%);
   }
 
   &:focus-visible {
@@ -91,7 +87,7 @@
   padding: 0.25ch;
 
   &:hover {
-    background: hsl(0deg 0% 0% / 10%);
+    background: oklch(0% 0 0deg / 10%);
   }
 
   &:focus-visible {

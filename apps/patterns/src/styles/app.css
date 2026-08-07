@@ -22,14 +22,13 @@
   .h1-icon {
     width: 1ex;
     height: 1ex;
-    fill: currentColor;
+    fill: currentcolor;
     vertical-align: middle;
     margin-inline-end: 0.15em;
   }
 }
 
 @layer components {
-
   .shell {
     /* Align sidebar width with Storybook's sidebar */
     --sidebar-width: 300px;
@@ -115,6 +114,7 @@
        demo even though the prose *selectors* can't reach into it. */
     --font: system-ui, sans-serif;
     --_baseTextSize: 16px;
+
     line-height: normal;
     font-size: var(--_baseTextSize);
   }
@@ -163,6 +163,7 @@
 
   .demo-block__footer {
     display: flex;
+
     /* align-items: center; */
     gap: var(--space-s, 0.5rem);
     margin-block-start: var(--space-s, 0.5rem);
@@ -200,7 +201,8 @@
   }
 
   .demo-block__label {
-    --font: 'Alegreya', Georgia, serif;
+    --font: 'Alegreya', georgia, serif;
+
     flex: 1;
     font-size: smaller;
     color: var(--c-bodyDimmed);
@@ -230,25 +232,27 @@
   a:not([class]) {
     color: inherit;
     text-decoration: underline;
-    text-decoration-color: oklch(from var(--c-body) l c h / 0.35);
+    text-decoration-color: oklch(from var(--c-body) l c h / 35%);
     text-decoration-thickness: max(0.05em, 1px);
     text-underline-offset: 0.15em;
 
     &:hover {
-      text-decoration-color: oklch(from var(--c-body) l c h / 0.75);
+      text-decoration-color: oklch(from var(--c-body) l c h / 75%);
     }
   }
 
   blockquote,
   figcaption,
   cite {
-    --font: 'Alegreya', Georgia, serif;
+    --font: 'Alegreya', georgia, serif;
+
     font-style: italic;
     color: var(--c-bodyDimmed);
   }
 
   blockquote + p {
-    --font: 'Alegreya', Georgia, serif;
+    --font: 'Alegreya', georgia, serif;
+
     margin-block-start: 0;
     color: var(--c-bodyDimmed);
     font-size: 16px;

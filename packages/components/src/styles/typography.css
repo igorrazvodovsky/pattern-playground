@@ -7,10 +7,11 @@
 body {
   line-height: var(--globalLineHeight);
   font-weight: var(--font-weight-normal);
-
   font-synthesis: none;
-  text-rendering: optimizeLegibility;
+  text-rendering: optimizelegibility;
+
   /* -webkit-font-smoothing: antialiased; */
+
   /* -moz-osx-font-smoothing: grayscale; */
 }
 
@@ -34,15 +35,19 @@ strong {
   font-weight: var(--font-weight-bold);
 }
 
+/* Colour, not opacity: opacity 0.6 lands body text at 3.6:1, and it compounds
+   on anything the subtree draws. The token keeps 4.5:1 on every surface up to
+   neutral-200. */
 .dimmed,
 .muted {
-  opacity: 0.6;
+  color: var(--c-bodyDimmed);
 }
 
 .empty-state {
   text-align: center;
   padding: var(--space-2xl);
   border-radius: var(--radius-m);
+
   p {
     max-width: none;
     text-wrap: balance;

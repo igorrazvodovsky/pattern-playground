@@ -12,13 +12,12 @@
   padding: var(--space-xs) var(--space-l) var(--space-xs) var(--space-2xs);
   transition: var(--transition-fast) fill;
   user-select: none;
-  -webkit-user-select: none;
   white-space: nowrap;
   cursor: pointer;
   border-radius: var(--radius-s);
 }
 
-.list-item-base:hover:not([aria-disabled="true"]):not(.list-item--disabled) {
+.list-item-base:hover:not([aria-disabled="true"], .list-item--disabled) {
   background-color: var(--c-neutral-50);
   color: var(--c-neutral-1000);
 }
@@ -68,8 +67,8 @@
 
 .list-item__prefix .icon,
 .list-item__prefix iconify-icon {
-  color: oklch(from var(--c-body) l c h / 0.6);
-  fill: oklch(from var(--c-body) l c h / 0.6);
+  color: oklch(from var(--c-body) l c h / 60%);
+  fill: oklch(from var(--c-body) l c h / 60%);
 }
 
 .list-item__label {
@@ -79,7 +78,7 @@
   overflow: hidden;
 }
 
-.list-item__label:first-letter {
+.list-item__label::first-letter {
   text-transform: capitalize;
 }
 
@@ -100,8 +99,9 @@
 }
 
 .list-item--loading pp-spinner {
-  --indicator-color: currentColor;
+  --indicator-color: currentcolor;
   --track-width: 1px;
+
   position: absolute;
   font-size: 0.75em;
   top: calc(50% - 0.5em);

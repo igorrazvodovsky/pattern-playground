@@ -3,17 +3,14 @@
     grid-template-rows: auto 1fr auto;
     align-items: start;
     gap: var(--space-m);
-
     min-inline-size: 20rem;
     max-inline-size: 24rem;
     max-block-size: 100vh;
     min-block-size: 100vh;
     overflow: hidden;
-
     border-radius: 0;
     border: none;
     box-shadow: var(--shadow-xl);
-
     margin: 0;
     padding: var(--space-l);
     position: fixed;
@@ -29,8 +26,7 @@
   }
 
   dialog.drawer--right {
-    inset-inline-start: auto;
-    inset-inline-end: 0;
+    inset-inline: auto 0;
     border-inline-start: var(--border);
     border-inline-end: none;
   }
@@ -114,17 +110,17 @@
   }
 
   /* Mobile responsive */
-  @media (max-width: 768px) {
+  @media (width <= 768px) {
     dialog.drawer {
       max-inline-size: calc(100vw - var(--space-xl));
     }
 
     dialog.drawer--left {
-      box-shadow: var(--shadow-xl), 2px 0 8px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--shadow-xl), 2px 0 8px oklch(0% 0 0deg / 10%);
     }
 
     dialog.drawer--right {
-      box-shadow: var(--shadow-xl), -2px 0 8px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--shadow-xl), -2px 0 8px oklch(0% 0 0deg / 10%);
     }
   }
 

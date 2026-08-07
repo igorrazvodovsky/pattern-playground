@@ -1,21 +1,58 @@
 {
   "extends": ["stylelint-config-standard"],
-  "plugins": [
-    "stylelint-gamut",
-    "stylelint-selector-bem-pattern"
-  ],
+  "plugins": ["stylelint-gamut"],
   "rules": {
     "gamut/color-no-out-gamut-range": true,
     "function-disallowed-list": ["rgba", "hsla", "rgb", "hsl"],
     "color-function-notation": "modern",
     "color-no-hex": true,
-    "plugin/selector-bem-pattern": {
-      "componentName": "[A-Z]+",
-      "componentSelectors": {
-        "initial": "^\\.{componentName}(?:-[a-z]+)?$",
-        "combined": "^\\.combined-{componentName}-[a-z]+$"
-      },
-      "utilitySelectors": "^\\.util-[a-z]+$"
+
+    "selector-class-pattern": [
+      "^[a-z][a-z0-9]*(-[a-z0-9]+)*(__[a-z0-9]+(-[a-z0-9]+)*)?(--[a-z0-9]+(-[a-z0-9]+)*)?$",
+      {
+        "message": "Class names are BEM in kebab-case: block, block__element, block--modifier (e.g. .pattern-graph__node--active)"
+      }
+    ],
+
+    "custom-property-pattern": [
+      "^_?[a-z][a-zA-Z0-9]*(-{1,2}[a-zA-Z0-9]+)*$",
+      {
+        "message": "Custom property names are kebab-case with camelCase segments allowed, optionally prefixed with _ when local to one component (e.g. --c-bodyDimmed, --_crumb-padding)"
+      }
+    ],
+
+    "no-descending-specificity": null,
+
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["target-current"]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "packages/components/src/styles/tldraw.css",
+        "packages/components/src/styles/tiptap.css",
+        "packages/components/src/styles/reference.css",
+        "packages/components/src/styles/messages.css",
+        "packages/components/src/styles/dynamic-hyperlinks.css"
+      ],
+      "rules": {
+        "selector-class-pattern": [
+          "^([a-z][a-z0-9]*(-[a-z0-9]+)*(__[a-z0-9]+(-[a-z0-9]+)*)?(--[a-z0-9]+(-[a-z0-9]+)*)?|[A-Z][A-Za-z0-9]*([-_][A-Za-z0-9]+)*)$",
+          {
+            "message": "These files style tldraw and ProseMirror, whose class names this project does not own; project-owned classes here are still BEM in kebab-case"
+          }
+        ],
+        "keyframes-name-pattern": [
+          "^([a-z][a-z0-9]*(-[a-z0-9]+)*|[A-Z][A-Za-z0-9]*(-[A-Za-z0-9]+)*)$",
+          {
+            "message": "Keyframe names are kebab-case, or follow the vendor class they animate"
+          }
+        ]
+      }
     }
-  }
+  ]
 }

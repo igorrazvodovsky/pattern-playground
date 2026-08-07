@@ -82,14 +82,13 @@ pp-input {
     color: var(--c-tertiary);
     opacity: 0.5;
     user-select: none;
-    -webkit-user-select: none;
   }
 
   > input::-webkit-search-decoration,
   > input::-webkit-search-cancel-button,
   > input::-webkit-search-results-button,
   > input::-webkit-search-results-decoration {
-    -webkit-appearance: none;
+    appearance: none;
   }
 
   /* Adornments — flex order places them regardless of authored position */

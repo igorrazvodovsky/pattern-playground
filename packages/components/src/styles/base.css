@@ -3,9 +3,9 @@
    and the layout primitives (`.flow`, …). A consumer that wants the library's
    bare-element voice imports this; one that only wants component skins does not. */
 
-@import url(reset.css); /* declares @layer reset internally */
-@import url(typography.css) layer(global);
-@import url(layout.css); /* declares @layer components + layout internally */
+@import url("reset.css"); /* declares @layer reset internally */
+@import url("typography.css") layer(global);
+@import url("layout.css"); /* declares @layer components + layout internally */
 
 @layer reset {
   /* Relocated from main.css so they reach the site, which now imports the

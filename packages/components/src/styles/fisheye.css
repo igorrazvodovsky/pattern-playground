@@ -24,6 +24,7 @@
     --_rail-x: 0.5rem;
     --_indent: 1.5rem;
     --_rail: var(--c-neutral-200);
+
     /* Redrawn per element so tint and text never cover it: the dot row for
        the records a stretch stands for, and its piece of the through-line. */
     --_rail-image:
@@ -167,7 +168,7 @@
     block-size: 100%;
     min-inline-size: 0;
     overflow: hidden;
-    mask-image: linear-gradient(to bottom, #000 calc(100% - 0.6rem), transparent);
+    mask-image: linear-gradient(to bottom, oklch(0% 0 0deg) calc(100% - 0.6rem), transparent);
   }
 
   .fisheye__heading {

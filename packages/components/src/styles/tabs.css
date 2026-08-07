@@ -40,7 +40,7 @@ pp-tab-group {
     border: none;
 
     &:hover {
-      color: var(--c-accent);
+      color: var(--c-body-accent);
       cursor: pointer;
     }
   }
@@ -69,7 +69,6 @@ pp-tab {
   padding: var(--space-m) var(--space-l);
   white-space: nowrap;
   user-select: none;
-  -webkit-user-select: none;
   cursor: pointer;
   transition:
     var(--transition-speed) box-shadow,
@@ -84,12 +83,11 @@ pp-tab {
 
   > [data-slot="subtitle"] {
     grid-column: 2;
-    opacity: 0.6;
   }
 }
 
 pp-tab:hover {
-  color: var(--c-accent);
+  color: var(--c-body-accent);
 }
 
 pp-tab:focus {
@@ -97,7 +95,7 @@ pp-tab:focus {
 }
 
 pp-tab:focus-visible {
-  color: var(--c-accent);
+  color: var(--c-body-accent);
   outline: var(--focus-ring);
   outline-offset: calc(
     -1 * var(--focus-ring-width) - var(--focus-ring-offset)
@@ -105,7 +103,7 @@ pp-tab:focus-visible {
 }
 
 pp-tab[active] {
-  color: var(--c-accent);
+  color: var(--c-body-accent);
 }
 
 /* Active indicator, drawn over the track */

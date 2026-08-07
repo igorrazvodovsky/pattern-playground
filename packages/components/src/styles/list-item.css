@@ -11,7 +11,6 @@ pp-list-item {
   padding: var(--space-xs) var(--space-m) var(--space-xs) var(--space-2xs);
   transition: var(--transition-fast) fill;
   user-select: none;
-  -webkit-user-select: none;
   white-space: nowrap;
   cursor: pointer;
   border-radius: var(--radius-s);

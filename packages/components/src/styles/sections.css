@@ -29,7 +29,7 @@
       border-color var(--transition-speed);
 
     &:hover {
-      color: var(--c-accent);
+      color: var(--c-body-accent);
     }
 
     &:focus-visible {
@@ -38,7 +38,7 @@
     }
 
     &[aria-selected="true"] {
-      color: var(--c-accent);
+      color: var(--c-body-accent);
       border-bottom-color: var(--c-accent);
     }
   }
@@ -77,7 +77,7 @@
     text-align: left;
 
     &:hover {
-      color: var(--c-accent);
+      color: var(--c-body-accent);
     }
 
     &:focus-visible {
@@ -90,8 +90,8 @@
       display: block;
       width: 0.5em;
       height: 0.5em;
-      border-right: 2px solid currentColor;
-      border-bottom: 2px solid currentColor;
+      border-right: 2px solid currentcolor;
+      border-bottom: 2px solid currentcolor;
       transform: rotate(45deg);
       flex-shrink: 0;
       transition: transform var(--transition-fast);

@@ -15,7 +15,6 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
     border: var(--border);
     border-radius: var(--radius-m);
     position: relative;
-
     display: grid;
     grid-template-columns: 1fr;
     align-content: baseline;
@@ -33,7 +32,7 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
   .card--overlay {
     background-image: var(--card-img);
     background-position: center;
-    box-shadow: inset 0 0 0 1000px oklch(0% 0 0 / 15%);
+    box-shadow: inset 0 0 0 1000px oklch(0% 0 0deg / 15%);
   }
 
   /* Zones — thin conveniences that position their contents; markup supplies the
@@ -125,6 +124,7 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
   .cards--list .card :is(img, figure) {
     grid-row: 1 / -1;
     aspect-ratio: 1 / 1;
+
     /* TODO: sizing variable */
     width: 80px;
     padding: 0;
@@ -221,6 +221,7 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
 
   .card pp-table {
     --_bleed: var(--card-table-bleed, 0px);
+
     margin-inline: calc(var(--_bleed) * -1);
     width: calc(100% + var(--_bleed) * 2);
   }

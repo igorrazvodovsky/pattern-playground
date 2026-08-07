@@ -1,6 +1,7 @@
 @layer components {
   pp-toc {
-    --font: 'Alegreya', Georgia, serif;
+    --font: 'Alegreya', georgia, serif;
+
     display: block;
   }
 
@@ -60,7 +61,7 @@
   }
 
   @supports (scroll-target-group: auto) {
-    @media (min-width: 800px) {
+    @media (width >= 800px) {
       pp-toc[orientation="vertical"] .toc-link::after {
         content: '–';
         position: absolute;
@@ -70,6 +71,7 @@
         transform: translateX(0);
         visibility: hidden;
       }
+
       pp-toc[orientation="vertical"] .toc-link:target-current::after {
         opacity: 1;
         visibility: visible;

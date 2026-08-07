@@ -3,7 +3,6 @@
 @layer components {
   pp-table {
     all: unset;
-    -webkit-user-select: inherit;
     user-select: inherit;
     display: block;
     max-inline-size: 100%;
@@ -21,6 +20,7 @@
     line-height: var(--line-height-tight);
     text-align: start;
     border-spacing: 0;
+
     /* border-collapse: separate; */
     border-collapse: collapse;
     color: var(--c-body);
@@ -32,6 +32,7 @@
 
   pp-table th {
     border-block-end: 1px solid var(--c-border);
+
     /* border: 1px solid var(--c-border); */
     font-weight: var(--font-weight-semibold);
     font-size: var(--text-s);
@@ -42,6 +43,7 @@
 
   pp-table td {
     border-block-end: 1px solid var(--c-border);
+
     /* border: 1px solid var(--c-border); */
     white-space: nowrap;
   }
@@ -59,7 +61,7 @@
   }
 
   pp-table tbody tr:hover {
-    background: oklch(0% 0 0 / 5%);
+    background: oklch(0% 0 0deg / 5%);
   }
 
   pp-table tbody :is(.row-selected, .row-selected:hover) {

@@ -1,4 +1,4 @@
-@import "./list-item-shared.css";
+@import url("./list-item-shared.css");
 
 pp-dialog [cmdk-root] {
   --_cmdk-spacing: var(--space-m);
@@ -84,9 +84,9 @@ pp-dialog [cmdk-root] {
   padding: var(--space-xs) var(--_check-size) var(--space-xs) var(--space-2xs);
   transition: var(--transition-fast) fill;
   user-select: none;
-  -webkit-user-select: none;
   white-space: nowrap;
   cursor: pointer;
+
   /* border-radius: var(--radius-s); */
 }
 
@@ -111,8 +111,8 @@ pp-dialog [cmdk-root] {
 
 [cmdk-item] .combobox-item__prefix .icon,
 [cmdk-item] .combobox-item__prefix iconify-icon {
-  color: oklch(from var(--c-body) l c h / 0.6);
-  fill: oklch(from var(--c-body) l c h / 0.6);
+  color: oklch(from var(--c-body) l c h / 60%);
+  fill: oklch(from var(--c-body) l c h / 60%);
 }
 
 [cmdk-item] .combobox-item__label {

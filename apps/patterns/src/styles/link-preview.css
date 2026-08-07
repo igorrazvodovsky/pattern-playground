@@ -1,6 +1,7 @@
 @layer components {
   .link-preview {
     --font: 'Alegreya Sans', system-ui, sans-serif;
+
     position: fixed;
     inset: unset;
     margin: 0;
@@ -15,7 +16,6 @@
     background: var(--c-background);
     color: var(--c-body);
     font-size: var(--text-s);
-
     opacity: 0;
     transform: translateY(4px);
     transition:
@@ -82,12 +82,12 @@
   .link-preview a {
     color: inherit;
     text-decoration: underline;
-    text-decoration-color: oklch(from var(--c-body) l c h / 0.35);
+    text-decoration-color: oklch(from var(--c-body) l c h / 35%);
     text-underline-offset: 0.15em;
   }
 
   .link-preview a:hover {
-    text-decoration-color: oklch(from var(--c-body) l c h / 0.75);
+    text-decoration-color: oklch(from var(--c-body) l c h / 75%);
   }
 
 }

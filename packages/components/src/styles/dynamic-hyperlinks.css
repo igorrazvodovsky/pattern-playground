@@ -37,7 +37,7 @@
     padding: var(--space-2xs) var(--space-s);
     cursor: pointer;
     white-space: nowrap;
-    color: var(--c-text-muted);
+    color: var(--c-bodyDimmed);
   }
 
   .dynamic-hyperlinks__mentions-badge:not(:disabled):hover {
@@ -62,7 +62,7 @@
     align-items: center;
     justify-content: space-between;
     padding: var(--space-2xs) var(--space-s);
-    color: var(--c-text-muted);
+    color: var(--c-bodyDimmed);
     font-size: var(--step--1);
   }
 
@@ -72,7 +72,7 @@
     padding: 0 var(--space-2xs);
     font-size: var(--step-1);
     line-height: 1;
-    color: var(--c-text-muted);
+    color: var(--c-bodyDimmed);
   }
 
   .dynamic-hyperlinks__mentions-collapse:hover {
@@ -82,7 +82,6 @@
   /* Shared mention list styles */
   .dynamic-hyperlinks__popup-list {
     list-style: none;
-    padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -119,7 +118,7 @@
 
   .dynamic-hyperlinks__mention-context {
     font-size: var(--step--2);
-    color: var(--c-text-muted);
+    color: var(--c-bodyDimmed);
     line-height: 1.4;
     display: -webkit-box;
     -webkit-line-clamp: 3;

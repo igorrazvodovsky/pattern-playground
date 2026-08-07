@@ -8,7 +8,7 @@
    at top level (Storybook's main.css) they are the top-level order. */
 @layer reset, theme, global, layout, components, utilities, states;
 
-@import url(variables-palette.css);
-@import url(variables.css) layer(theme);
-@import url(purpose.css); /* declares @layer utilities internally */
-@import url(animation.css) layer(theme);
+@import url("variables-palette.css");
+@import url("variables.css") layer(theme);
+@import url("purpose.css"); /* declares @layer utilities internally */
+@import url("animation.css") layer(theme);

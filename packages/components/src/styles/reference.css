@@ -18,12 +18,13 @@
   border-radius: var(--radius-s);
   cursor: pointer;
   transition: all 0.2s ease;
-  color: var(--c-placeholder);
+  color: var(--c-bodyDimmed);
   line-height: 150%;
 }
 
 .template-field:hover {
   /* background-color: oklch(from var(--c-background) calc(l - 0.05) c h); */
+
   /* color: oklch(from var(--c-placeholder) l c h / max(0, calc(a - 0.05))); */
   border-color: var(--c-neutral-400);
 }
@@ -63,11 +64,14 @@
   outline: none;
   padding: var(--space-s);
   border-radius: var(--radius-m);
+
   /* border: 1px solid var(--c-neutral-300); */
+
   /* background: var(--c-neutral-50); */
   font-family: inherit;
   line-height: 1.5;
   resize: vertical;
+
   /* min-height: 80px; */
 }
 
@@ -92,7 +96,7 @@
 /* Reference mention styles - extending existing reference styles */
 .reference-mention {
   background-color: var(--c-accent-50);
-  color: var(--c-accent);
+  color: var(--c-body-accent);
   padding: 0 var(--space-xs);
   border-radius: var(--radius-s);
   display: inline;
@@ -110,6 +114,7 @@
 
 .reference-mention.reference-mention--selected {
   background-color: var(--c-accent-100);
+
   /* color: color-mix(in oklab, currentColor 10%, black); */
 }
 

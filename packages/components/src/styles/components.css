@@ -3,67 +3,68 @@
    (nested assignment composes); the formerly-unlayered ones are pinned to
    `layer(components)` at the import site so no rule escapes the cascade order. */
 
-@import url(kbd.css);
-@import url(button.css);
-@import url(toolbar.css);
-@import url(popover.css);
-@import url(card.css);
-@import url(board.css);
-@import url(dialog.css);
-@import url(drawer.css);
-@import url(navigation.css) layer(components);
-@import url(pagination.css);
-@import url(table.css);
-@import url(description-list.css);
-@import url(charts.css) layer(components);
-@import url(map.css) layer(components);
-@import url(checkbox.css);
-@import url(radio.css);
-@import url(counter.css);
-@import url(callout.css);
-@import url(badge.css);
-@import url(tag.css);
-@import url(avatar.css);
-@import url(p-plus.css);
-@import url(breadcrumbs.css) layer(components);
-@import url(spinner.css) layer(components);
-@import url(switch.css) layer(components);
-@import url(range.css) layer(components);
-@import url(tabs.css) layer(components);
-@import url(list.css) layer(components);
-@import url(list-item.css) layer(components);
-@import url(select.css) layer(components);
-@import url(popup.css) layer(components);
-@import url(tooltip.css) layer(components);
-@import url(dropdown.css) layer(components);
-@import url(textarea.css) layer(components);
-@import url(details.css);
-@import url(messages.css) layer(components);
-@import url(input.css) layer(components);
-@import url(reference.css) layer(components);
-@import url(hover-card.css) layer(components);
-@import url(shell.css);
-@import url(sidebar.css);
+@import url("kbd.css");
+@import url("button.css");
+@import url("toolbar.css");
+@import url("popover.css");
+@import url("card.css");
+@import url("board.css");
+@import url("dialog.css");
+@import url("drawer.css");
+@import url("navigation.css") layer(components);
+@import url("pagination.css");
+@import url("table.css");
+@import url("description-list.css");
+@import url("charts.css") layer(components);
+@import url("map.css") layer(components);
+@import url("checkbox.css");
+@import url("radio.css");
+@import url("counter.css");
+@import url("callout.css");
+@import url("badge.css");
+@import url("tag.css");
+@import url("avatar.css");
+@import url("p-plus.css");
+@import url("breadcrumbs.css") layer(components);
+@import url("spinner.css") layer(components);
+@import url("switch.css") layer(components);
+@import url("range.css") layer(components);
+@import url("tabs.css") layer(components);
+@import url("list.css") layer(components);
+@import url("list-item.css") layer(components);
+@import url("select.css") layer(components);
+@import url("popup.css") layer(components);
+@import url("tooltip.css") layer(components);
+@import url("dropdown.css") layer(components);
+@import url("textarea.css") layer(components);
+@import url("details.css");
+@import url("messages.css") layer(components);
+@import url("input.css") layer(components);
+@import url("reference.css") layer(components);
+@import url("hover-card.css") layer(components);
+@import url("shell.css");
+@import url("sidebar.css");
+
 /* @import url(tiptap.css); */
-@import url(list-item-shared.css) layer(components);
-@import url(list-label.css);
-@import url(cmdk.css) layer(components);
-@import url(progress-indicator.css) layer(components);
-@import url(toast.css) layer(components);
-@import url(bubble-menu.css) layer(components);
-@import url(explanation.css) layer(components);
-@import url(tldraw.css) layer(components);
-@import url(sections.css);
-@import url(stretched-link.css);
-@import url(view-family.css);
-@import url(stat.css);
-@import url(fisheye.css);
-@import url(certainty.css);
-@import url(semantic-zoom.css);
-@import url(toc.css);
-@import url(pattern-graph.css);
-@import url(dynamic-hyperlinks.css);
-@import url(form.css);
+@import url("list-item-shared.css") layer(components);
+@import url("list-label.css");
+@import url("cmdk.css") layer(components);
+@import url("progress-indicator.css") layer(components);
+@import url("toast.css") layer(components);
+@import url("bubble-menu.css") layer(components);
+@import url("explanation.css") layer(components);
+@import url("tldraw.css") layer(components);
+@import url("sections.css");
+@import url("stretched-link.css");
+@import url("view-family.css");
+@import url("stat.css");
+@import url("fisheye.css");
+@import url("certainty.css");
+@import url("semantic-zoom.css");
+@import url("toc.css");
+@import url("pattern-graph.css");
+@import url("dynamic-hyperlinks.css");
+@import url("form.css");
 
 /* Grab-bag relocated from main.css so the site (which imports the three entries,
    not main.css) still receives them. Each placed in the layer matching intent. */
@@ -135,14 +136,17 @@
   /* TODO: move */
   .layer {
     background: var(--c-neutral-0);
+
     --c-background: var(--c-neutral-0);
 
     .layer {
       background: var(--c-neutral-50);
+
       --c-background: var(--c-neutral-50);
 
       .layer {
         background: var(--c-neutral-0);
+
         --c-background: var(--c-neutral-0);
       }
     }
@@ -150,14 +154,17 @@
 
   .layer.gray {
     background: var(--c-neutral-50);
+
     --c-background: var(--c-neutral-50);
 
     .layer {
       background: var(--c-neutral-0);
+
       --c-background: var(--c-neutral-0);
 
       .layer {
         background: var(--c-neutral-50);
+
         --c-background: var(--c-neutral-50);
       }
     }

@@ -1,6 +1,5 @@
 :root {
   --h: 230;
-
   --hInfo: 260;
   --hSuccess: 150;
   --hDanger: 25;
@@ -141,7 +140,6 @@
   --c800-neutral: 0.027;
   --c900-neutral: 0.021;
   --c950-neutral: 0.015;
-
   --c-neutral-50: oklch(var(--l50) var(--c50-neutral) var(--h));
   --c-neutral-100: oklch(var(--l100) var(--c100-neutral) var(--h));
   --c-neutral-200: oklch(var(--l200) var(--c200-neutral) var(--h));
@@ -158,8 +156,7 @@
      black), -1000 the far end from it (black / white), so "ink washes" like
      `oklch(from var(--c-neutral-1000) l c h / 5%)` stay legible in both schemes. */
   --c-neutral-0: oklch(var(--l0) var(--c0-neutral) var(--h));
-  --c-neutral-1000: light-dark(oklch(0% 0 0), oklch(100% 0 0));
-
+  --c-neutral-1000: light-dark(oklch(0% 0 0deg), oklch(100% 0 0deg));
   --c-accent-50: oklch(var(--l50) var(--accent-c50) var(--h));
   --c-accent-100: oklch(var(--l100) var(--accent-c100) var(--h));
   --c-accent-200: oklch(var(--l200) var(--accent-c200) var(--h));
@@ -171,7 +168,6 @@
   --c-accent-800: oklch(var(--l800) var(--accent-c800) var(--h));
   --c-accent-900: oklch(var(--l900) var(--accent-c900) var(--h));
   --c-accent-950: oklch(var(--l950) var(--accent-c950) var(--h));
-
   --c-info-50: oklch(var(--l50) var(--info-c50) var(--hInfo));
   --c-info-100: oklch(var(--l100) var(--info-c100) var(--hInfo));
   --c-info-200: oklch(var(--l200) var(--info-c200) var(--hInfo));
@@ -183,7 +179,6 @@
   --c-info-800: oklch(var(--l800) var(--info-c800) var(--hInfo));
   --c-info-900: oklch(var(--l900) var(--info-c900) var(--hInfo));
   --c-info-950: oklch(var(--l950) var(--info-c950) var(--hInfo));
-
   --c-success-50: oklch(var(--l50) var(--success-c50) var(--hSuccess));
   --c-success-100: oklch(var(--l100) var(--success-c100) var(--hSuccess));
   --c-success-200: oklch(var(--l200) var(--success-c200) var(--hSuccess));
@@ -195,7 +190,6 @@
   --c-success-800: oklch(var(--l800) var(--success-c800) var(--hSuccess));
   --c-success-900: oklch(var(--l900) var(--success-c900) var(--hSuccess));
   --c-success-950: oklch(var(--l950) var(--success-c950) var(--hSuccess));
-
   --c-danger-50: oklch(var(--l50) var(--danger-c50) var(--hDanger));
   --c-danger-100: oklch(var(--l100) var(--danger-c100) var(--hDanger));
   --c-danger-200: oklch(var(--l200) var(--danger-c200) var(--hDanger));
@@ -207,7 +201,6 @@
   --c-danger-800: oklch(var(--l800) var(--danger-c800) var(--hDanger));
   --c-danger-900: oklch(var(--l900) var(--danger-c900) var(--hDanger));
   --c-danger-950: oklch(var(--l950) var(--danger-c950) var(--hDanger));
-
   --c-warning-50: oklch(var(--l50) var(--warning-c50) var(--hWarning));
   --c-warning-100: oklch(var(--l100) var(--warning-c100) var(--hWarning));
   --c-warning-200: oklch(var(--l200) var(--warning-c200) var(--hWarning));
@@ -219,35 +212,30 @@
   --c-warning-800: oklch(var(--l800) var(--warning-c800) var(--hWarning));
   --c-warning-900: oklch(var(--l900) var(--warning-c900) var(--hWarning));
   --c-warning-950: oklch(var(--l950) var(--warning-c950) var(--hWarning));
-
   --c-accent-200-boosted: oklch(var(--l200) var(--accent-c200-boosted) var(--h));
   --c-accent-300-boosted: oklch(var(--l300) var(--accent-c300-boosted) var(--h));
   --c-accent-400-boosted: oklch(var(--l400) var(--accent-c400-boosted) var(--h));
   --c-accent-500-boosted: oklch(var(--l500) var(--accent-c500-boosted) var(--h));
   --c-accent-600-boosted: oklch(var(--l600) var(--accent-c600-boosted) var(--h));
   --c-accent-700-boosted: oklch(var(--l700) var(--accent-c700-boosted) var(--h));
-
   --c-info-200-boosted: oklch(var(--l200) var(--info-c200-boosted) var(--hInfo));
   --c-info-300-boosted: oklch(var(--l300) var(--info-c300-boosted) var(--hInfo));
   --c-info-400-boosted: oklch(var(--l400) var(--info-c400-boosted) var(--hInfo));
   --c-info-500-boosted: oklch(var(--l500) var(--info-c500-boosted) var(--hInfo));
   --c-info-600-boosted: oklch(var(--l600) var(--info-c600-boosted) var(--hInfo));
   --c-info-700-boosted: oklch(var(--l700) var(--info-c700-boosted) var(--hInfo));
-
   --c-success-200-boosted: oklch(var(--l200) var(--success-c200-boosted) var(--hSuccess));
   --c-success-300-boosted: oklch(var(--l300) var(--success-c300-boosted) var(--hSuccess));
   --c-success-400-boosted: oklch(var(--l400) var(--success-c400-boosted) var(--hSuccess));
   --c-success-500-boosted: oklch(var(--l500) var(--success-c500-boosted) var(--hSuccess));
   --c-success-600-boosted: oklch(var(--l600) var(--success-c600-boosted) var(--hSuccess));
   --c-success-700-boosted: oklch(var(--l700) var(--success-c700-boosted) var(--hSuccess));
-
   --c-danger-200-boosted: oklch(var(--l200) var(--danger-c200-boosted) var(--hDanger));
   --c-danger-300-boosted: oklch(var(--l300) var(--danger-c300-boosted) var(--hDanger));
   --c-danger-400-boosted: oklch(var(--l400) var(--danger-c400-boosted) var(--hDanger));
   --c-danger-500-boosted: oklch(var(--l500) var(--danger-c500-boosted) var(--hDanger));
   --c-danger-600-boosted: oklch(var(--l600) var(--danger-c600-boosted) var(--hDanger));
   --c-danger-700-boosted: oklch(var(--l700) var(--danger-c700-boosted) var(--hDanger));
-
   --c-warning-200-boosted: oklch(var(--l200) var(--warning-c200-boosted) var(--hWarning));
   --c-warning-300-boosted: oklch(var(--l300) var(--warning-c300-boosted) var(--hWarning));
   --c-warning-400-boosted: oklch(var(--l400) var(--warning-c400-boosted) var(--hWarning));
@@ -278,15 +266,20 @@
 
   /* Body text takes -900, not -800: the ramp stops at 27%, so -800 reaches only
      8.8:1 on white where -900 is 11.7:1. Which rung carries text is a per-hue
-     choice; the ladder stays shared. Border and field border follow. */
-  --c-border: oklch(var(--l900) var(--c900-neutral) var(--h) / 0.2);
+     choice; the ladder stays shared. Border and field border follow.
+
+     Dimmed rides alpha 0.78, not lower: an alpha wash loses contrast on every
+     tinted surface beneath it, and 0.78 is where dimmed text still clears
+     4.5:1 on -200 (4.8:1; 5.9:1 on white). Placeholder sits below that floor
+     on purpose and is only for prompt text inside empty fields — visible text
+     takes dimmed or darker. */
+  --c-border: oklch(var(--l900) var(--c900-neutral) var(--h) / 20%);
   --c-background: var(--c-neutral-0);
   --c-body: var(--c-neutral-900);
-  --c-bodyDimmed: oklch(var(--l900) var(--c900-neutral) var(--h) / 0.7);
-  --c-placeholder: oklch(var(--l900) var(--c900-neutral) var(--h) / 0.5);
+  --c-bodyDimmed: oklch(var(--l900) var(--c900-neutral) var(--h) / 78%);
+  --c-placeholder: oklch(var(--l900) var(--c900-neutral) var(--h) / 50%);
   --c-fieldBorder: var(--c-neutral-300);
   --c-accent: var(--c-accent-500);
-
   --c-body-accent: var(--c-accent-700);
   --c-body-info: var(--c-info-700);
   --c-body-success: var(--c-success-700);
@@ -304,23 +297,21 @@
      behind it, so it is a decision, not a constant. In the dark scheme the
      ladder rewiring lifts -700 to L 72%, so the same rung carries the
      foreground on both surfaces. */
-  --c-background-accent: oklch(var(--l500) var(--accent-c500) var(--h) / 0.1);
-  --c-background-info: oklch(var(--l500) var(--info-c500) var(--hInfo) / 0.1);
-  --c-background-success: oklch(var(--l500) var(--success-c500) var(--hSuccess) / 0.1);
-  --c-background-warning: oklch(var(--l500) var(--warning-c500) var(--hWarning) / 0.1);
-  --c-background-danger: oklch(var(--l500) var(--danger-c500) var(--hDanger) / 0.1);
-
-  --c-background-accent-strong: oklch(var(--l500) var(--accent-c500) var(--h) / 0.18);
-  --c-background-info-strong: oklch(var(--l500) var(--info-c500) var(--hInfo) / 0.18);
-  --c-background-success-strong: oklch(var(--l500) var(--success-c500) var(--hSuccess) / 0.18);
-  --c-background-warning-strong: oklch(var(--l500) var(--warning-c500) var(--hWarning) / 0.18);
-  --c-background-danger-strong: oklch(var(--l500) var(--danger-c500) var(--hDanger) / 0.18);
-
-  --c-border-accent: oklch(var(--l600) var(--accent-c600) var(--h) / 0.35);
-  --c-border-info: oklch(var(--l600) var(--info-c600) var(--hInfo) / 0.35);
-  --c-border-success: oklch(var(--l600) var(--success-c600) var(--hSuccess) / 0.35);
-  --c-border-warning: oklch(var(--l600) var(--warning-c600) var(--hWarning) / 0.35);
-  --c-border-danger: oklch(var(--l600) var(--danger-c600) var(--hDanger) / 0.35);
+  --c-background-accent: oklch(var(--l500) var(--accent-c500) var(--h) / 10%);
+  --c-background-info: oklch(var(--l500) var(--info-c500) var(--hInfo) / 10%);
+  --c-background-success: oklch(var(--l500) var(--success-c500) var(--hSuccess) / 10%);
+  --c-background-warning: oklch(var(--l500) var(--warning-c500) var(--hWarning) / 10%);
+  --c-background-danger: oklch(var(--l500) var(--danger-c500) var(--hDanger) / 10%);
+  --c-background-accent-strong: oklch(var(--l500) var(--accent-c500) var(--h) / 18%);
+  --c-background-info-strong: oklch(var(--l500) var(--info-c500) var(--hInfo) / 18%);
+  --c-background-success-strong: oklch(var(--l500) var(--success-c500) var(--hSuccess) / 18%);
+  --c-background-warning-strong: oklch(var(--l500) var(--warning-c500) var(--hWarning) / 18%);
+  --c-background-danger-strong: oklch(var(--l500) var(--danger-c500) var(--hDanger) / 18%);
+  --c-border-accent: oklch(var(--l600) var(--accent-c600) var(--h) / 35%);
+  --c-border-info: oklch(var(--l600) var(--info-c600) var(--hInfo) / 35%);
+  --c-border-success: oklch(var(--l600) var(--success-c600) var(--hSuccess) / 35%);
+  --c-border-warning: oklch(var(--l600) var(--warning-c600) var(--hWarning) / 35%);
+  --c-border-danger: oklch(var(--l600) var(--danger-c600) var(--hDanger) / 35%);
 }
 
 /* Wide-gamut chroma -----------------------------------------------------------
@@ -347,27 +338,22 @@
     --accent-c300: 0.0733; --accent-c400: 0.095;  --accent-c500: 0.1;
     --accent-c600: 0.0882; --accent-c700: 0.0725; --accent-c800: 0.061;
     --accent-c900: 0.0493; --accent-c950: 0.0367;
-
     --info-c50: 0.0095;  --info-c100: 0.029;  --info-c200: 0.054;
     --info-c300: 0.0905; --info-c400: 0.1397; --info-c500: 0.16;
     --info-c600: 0.1412; --info-c700: 0.116;  --info-c800: 0.0976;
     --info-c900: 0.0789; --info-c950: 0.0587;
-
     --success-c50: 0.0219;  --success-c100: 0.0633; --success-c200: 0.1321;
     --success-c300: 0.135;  --success-c400: 0.1282; --success-c500: 0.135;
     --success-c600: 0.1191; --success-c700: 0.0979; --success-c800: 0.0824;
     --success-c900: 0.0666; --success-c950: 0.0495;
-
     --danger-c50: 0.0116;  --danger-c100: 0.0349; --danger-c200: 0.0662;
     --danger-c300: 0.0987; --danger-c400: 0.152;  --danger-c500: 0.16;
     --danger-c600: 0.1412; --danger-c700: 0.116;  --danger-c800: 0.0976;
     --danger-c900: 0.0789; --danger-c950: 0.0587;
-
     --warning-c50: 0.0166;  --warning-c100: 0.0455; --warning-c200: 0.0881;
     --warning-c300: 0.1161; --warning-c400: 0.114;  --warning-c500: 0.12;
     --warning-c600: 0.1059; --warning-c700: 0.087;  --warning-c800: 0.0732;
     --warning-c900: 0.0592; --warning-c950: 0.044;
-
     --accent-c200-boosted: 0.0694; --accent-c300-boosted: 0.1161;
     --accent-c400-boosted: 0.179;  --accent-c500-boosted: 0.1596;
     --accent-c600-boosted: 0.1396; --accent-c700-boosted: 0.1197;

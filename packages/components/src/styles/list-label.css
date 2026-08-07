@@ -8,7 +8,6 @@
     padding-inline: calc(var(--space-2xs) + 1.5 * var(--text-m))
       var(--space-m);
     user-select: none;
-    -webkit-user-select: none;
   }
 
   /* A heading that follows items opens a new section, so it needs air above it;

@@ -14,13 +14,13 @@
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: subgrid;
-  grid-template-areas: subgrid;
 }
 
 .messages__turn .message:not(:last-child) {
   .avatar {
     display: none;
   }
+
   .message__timestamp {
     display: none;
   }
@@ -92,7 +92,7 @@
     text-align: center;
     height: 1.5em;
 
-    &:before {
+    &::before {
       content: "";
       background: var(--c-neutral-100);
       position: absolute;
@@ -102,7 +102,7 @@
       height: 1px;
     }
 
-    &:after {
+    &::after {
       content: attr(data-content);
       position: relative;
       display: inline-block;
@@ -124,13 +124,16 @@
 
 .message-composer {
   grid-column: 1 / -1;
+
   /* border: var(--border); */
   border-radius: var(--radius-l);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--space-s) var(--space-m);
+
   /* Doesn't look good with follow-ups present */
+
   /* margin-block-start: var(--space-m); */
 }
 
@@ -167,7 +170,8 @@
 
   pp-spinner {
     /* --track-width: 3px; */
-    --track-color: oklch(0% 0 0 / 20%);
+    --track-color: oklch(0% 0 0deg / 20%);
+
     font-size: var(--text-xs);
   }
 }

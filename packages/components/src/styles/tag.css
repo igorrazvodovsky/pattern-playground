@@ -8,22 +8,21 @@
   /* :not(.token) is needed only because of the leaking of styles outside the story to Storybook */
   .tag:not(.token) {
     --tag-bg: var(--c-background);
+
     /* TODO: */
     --c-background: var(--c-neutral-50);
     --tag-color: oklch(from var(--badge-bg) var(--l) 0 h / 90%);
     --tag-space-block: var(--space-s);
     --tag-space-inline: var(--space-m);
-
     --l-threshold: 0.7;
     --l: clamp(0, (l / var(--l-threshold) - 1) * -infinity, 1);
 
     color: var(--tag-color);
-
     background: var(--tag-bg);
+
     /* border: var(--border); */
     padding: var(--tag-space-block) var(--tag-space-inline);
     border-radius: var(--radius-m);
-
     line-height: 100%;
     display: inline-flex;
     align-items: center;
@@ -33,12 +32,14 @@
     white-space: nowrap;
     max-width: 100%;
     transition: var(--transition-fast) background;
+
     /* TODO: */
     height: 2rem;
   }
 
   .tag:has(input:checked) {
     /* --c-background: var(--c-accent); */
+
     /* --tag-color: white; */
     --c-background: var(--c-neutral-100);
   }
@@ -58,6 +59,7 @@
 
   .tag button {
     padding: var(--space-s);
+
     &:not(:disabled):hover {
       background: oklch(from var(--c-background) calc(l - 0.05) c h);
     }
@@ -72,11 +74,10 @@
     --tag-bg: oklch(from var(--c-background) calc(l - 0.05) c h);
   }
 
-  /*  */
-
   input:where(.chip[type="checkbox"]) {
     --color: oklch(from var(--c-accent) l c h / 60%);
-    color: oklch(0 0 110 / 90%);
+
+    color: oklch(0% 0 110deg / 90%);
     appearance: none;
     position: relative;
     border: var(--border);
@@ -94,12 +95,13 @@
       position: relative;
       padding: 0.5em 1em 0.5em 2em;
       display: block;
+
       /* text-box-trim: trim-both;
     text-box-edge: cap alphabetic; */
     }
 
     &::before {
-      color: oklch(0 0 110 / 60%);
+      color: oklch(0% 0 110deg / 60%);
       content: "";
       display: inline-block;
       width: 0.75em;
@@ -131,6 +133,7 @@
 
     &:disabled {
       --color: var(--c-neutral-200) !important;
+
       border-color: var(--c-border);
     }
 
@@ -175,7 +178,7 @@ high-contrast styles:
       }
 
       &:disabled {
-        border-color: gray-text;
+        border-color: graytext;
 
         &::before {
           background: graytext;
@@ -203,10 +206,6 @@ high-contrast styles:
     pp-dropdown:not(:first-child) .tag {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
-    }
-
-    .tag:not(:first-child),
-    pp-dropdown:not(:first-child) .tag {
       margin-inline-start: 1px;
     }
   }
@@ -219,6 +218,7 @@ high-contrast styles:
 
   .tag-group:has(.tag-group__remove:hover) .tag {
     /* TODO: Fix */
+
     /* --tag-bg: oklch(from var(--c-background) calc(l - 0.05) c h); */
   }
 

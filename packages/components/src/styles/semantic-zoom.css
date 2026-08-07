@@ -122,7 +122,7 @@
     justify-self: end;
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
-    color: var(--c-text-muted);
+    color: var(--c-bodyDimmed);
   }
 
   /* A negative footprint is a recovery credit — the assessment giving something

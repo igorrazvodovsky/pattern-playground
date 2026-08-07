@@ -6,6 +6,7 @@
     flex-wrap: wrap;
     gap: var(--space-xs);
     max-width: min(100%, 80ch);
+
     /* container-type: inline-size; */
     line-height: 175%;
   }
@@ -16,12 +17,10 @@
     --badge-space-block: 0.35em;
     --badge-space-inline: 0.65em;
     --badge-text: 0.75em;
-
     --l-threshold: 0.7;
     --l: clamp(0, (l / var(--l-threshold) - 1) * -infinity, 1);
 
     color: var(--badge-color);
-
     background: var(--badge-bg);
     border: var(--border);
     border-color: var(--c-border);
@@ -34,6 +33,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 0.5ch;
+
     /* overflow: hidden; */
     white-space: nowrap;
     max-width: 100%;
@@ -54,6 +54,7 @@
     from {
       --counter: 0;
     }
+
     to {
       --counter: 9;
     }
@@ -63,15 +64,14 @@
     border-radius: var(--radius-pill);
   }
 
-  a.badge {
-    color: inherit;
-  }
 
+  /* 0.8, not lower: on a solid -700 fill the label is white, and white below
+     0.75 alpha drops under 4.5:1 against the fill. */
   .badge__label,
 /* .badge .icon, */
 .badge__label svg {
-    color: oklch(from var(--badge-color) l c h / 0.6);
-    fill: oklch(from var(--badge-color) l c h / 0.6);
+    color: oklch(from var(--badge-color) l c h / 80%);
+    fill: oklch(from var(--badge-color) l c h / 80%);
   }
 
   .badge span {
@@ -82,7 +82,7 @@
   }
 
   .badge span:first-child {
-    color: oklch(from var(--badge-color) l c h / 0.6);
+    color: oklch(from var(--badge-color) l c h / 80%);
   }
 
   /* TODO: ? */
@@ -90,35 +90,38 @@
     display: flex;
   }
 
-  /*  */
-
   .badge.badge--accent {
     --badge-bg: var(--c-background-accent);
     --badge-color: var(--c-accent-700);
+
     border-color: var(--c-border-accent);
   }
 
   .badge.badge--info {
     --badge-bg: var(--c-background-info);
     --badge-color: var(--c-info-700);
+
     border-color: var(--c-border-info);
   }
 
   .badge.badge--success {
     --badge-bg: var(--c-background-success);
     --badge-color: var(--c-success-700);
+
     border-color: var(--c-border-success);
   }
 
   .badge.badge--warning {
     --badge-bg: var(--c-background-warning);
     --badge-color: var(--c-warning-700);
+
     border-color: var(--c-border-warning);
   }
 
   .badge.badge--danger {
     --badge-bg: var(--c-background-danger);
     --badge-color: var(--c-danger-700);
+
     border-color: var(--c-border-danger);
   }
 
@@ -132,6 +135,7 @@
   strong.badge.badge--warning,
   strong.badge.badge--danger {
     --badge-color: oklch(from var(--badge-bg) var(--l) 0 h / 90%);
+
     border-color: transparent;
   }
 
@@ -140,19 +144,19 @@
      and dark text needs L above ~0.68. 700 is the first step past that band. */
   strong.badge.badge--accent,
   .badge--accent:not(.counter):empty,
-  .badge.badge--accent.badge--plain:before {
+  .badge.badge--accent.badge--plain::before {
     --badge-bg: var(--c-accent-700);
   }
 
   strong.badge.badge--info,
   .badge--info:not(.counter):empty,
-  .badge.badge--info.badge--plain:before {
+  .badge.badge--info.badge--plain::before {
     --badge-bg: var(--c-info-700-boosted);
   }
 
   strong.badge.badge--success,
   .badge--success:not(.counter):empty,
-  .badge.badge--success.badge--plain:before {
+  .badge.badge--success.badge--plain::before {
     --badge-bg: var(--c-success-700-boosted);
   }
 
@@ -162,25 +166,22 @@
      `--l-threshold` derives it from the fill's lightness. */
   strong.badge.badge--warning,
   .badge--warning:not(.counter):empty,
-  .badge.badge--warning.badge--plain:before {
+  .badge.badge--warning.badge--plain::before {
     --badge-bg: var(--c-warning-300-boosted);
   }
 
   strong.badge.badge--danger,
   .badge--danger:not(.counter):empty,
-  .badge.badge--danger.badge--plain:before {
+  .badge.badge--danger.badge--plain::before {
     --badge-bg: var(--c-danger-700-boosted);
   }
-
-  /*  */
 
   .badge--pulse {
     position: relative;
     z-index: 1;
   }
 
-  .badge--pulse:before {
-    content: "";
+  .badge--pulse::before {
     display: inline-flex;
     position: absolute;
     top: 0;
@@ -217,7 +218,7 @@
     position: relative;
   }
 
-  .badge.badge--plain:before {
+  .badge.badge--plain::before {
     content: "";
     position: absolute;
     border-radius: var(--radius-circle);
@@ -236,6 +237,7 @@
 
   /* TODO: */
   a.badge {
+    color: inherit;
     text-decoration: none;
 
     &:hover {

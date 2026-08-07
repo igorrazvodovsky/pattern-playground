@@ -33,6 +33,7 @@
   summary::before {
     z-index: 1;
     background: var(--c-neutral-100);
+
     /* border: var(--border); */
     content: "";
     width: 1rem;
@@ -47,6 +48,7 @@
 
   summary:hover::before {
     transform: translate(50%, 25%) scale(1.25);
+
     /* background: var(--c-neutral-200); */
   }
 
@@ -66,6 +68,7 @@
   }
 
   /* Timeline events */
+
   /* details:not([open]) summary {
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
@@ -96,6 +99,7 @@
     border: none;
     border-bottom: var(--border);
     border-radius: 0;
+
     &:last-child {
       border: none;
     }

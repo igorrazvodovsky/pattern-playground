@@ -21,6 +21,7 @@
     content: "";
     position: absolute;
     inset: 0;
+
     /* Positioned, so it paints over the card's static content; an inner control
        that must stay operable lifts itself above with `z-index: 1`. */
   }

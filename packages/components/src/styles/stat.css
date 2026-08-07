@@ -24,7 +24,7 @@
   .stat__unit {
     font-size: var(--text-s);
     font-weight: var(--font-weight-normal);
-    color: var(--c-placeholder);
+    color: var(--c-bodyDimmed);
   }
 
   .stat__verdict {

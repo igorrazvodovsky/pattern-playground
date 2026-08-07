@@ -7,6 +7,7 @@
   .stack {
     --pane-spine-w: 1.75rem;
     --pane-max-w: 36rem;
+
     display: flex;
     overflow-x: auto;
     height: 100%;
@@ -20,6 +21,9 @@
     flex-direction: row;
     overflow-y: hidden;
     position: sticky;
+
+    /* Non-active panes dim slightly; .pane--active and :only-child undo it. */
+    filter: saturate(0.8);
 
     /* Both rails, one deck of cards (à la notes.andymatuschak.org). The left
        inset stacks earlier panes on the left as you scroll right. The right
@@ -90,11 +94,6 @@
     outline-offset: -2px;
   }
 
-  /* Non-active panes dim slightly */
-  .pane {
-    filter: saturate(0.8);
-  }
-
   .pane.pane--active,
   .pane:only-child {
     opacity: 1;
@@ -112,6 +111,7 @@
   }
 
   /* Article padding inside a pane */
+
   /* TODO: cleaner rule */
   .pane .pane-body > astro-slot > article, .pane .pane-body > article {
     margin: 0 var(--space-xl) var(--space-xl) var(--space-xl);
@@ -125,7 +125,7 @@
   .pane-loading,
   .pane-error {
     padding: 2rem 3rem;
-    color: var(--c-neutral-500, #6b7280);
+    color: var(--c-neutral-500);
   }
 }
 
@@ -143,7 +143,7 @@
 }
 
 /* Mobile: single-pane view — only active pane visible */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .stack {
     overflow: hidden;
   }

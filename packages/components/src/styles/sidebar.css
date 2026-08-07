@@ -231,6 +231,7 @@
     gap: var(--space-xs);
     padding: var(--space-s);
     flex-shrink: 0;
+
     /* border-block-start: var(--border); */
   }
 
@@ -309,7 +310,9 @@
     letter-spacing: var(--letter-spacing-loose);
     text-transform: uppercase;
     font-weight: var(--font-weight-semibold);
-    color: color-mix(in oklch, var(--sidebar-foreground) 70%, transparent);
+
+    /* 80%, not 70%: at 70% the -800 foreground drops to 3.9:1 on white */
+    color: color-mix(in oklch, var(--sidebar-foreground) 80%, transparent);
     transition: margin 200ms linear, opacity 200ms linear;
 
     &:focus-visible {
@@ -370,6 +373,7 @@
 
   .sidebar-group-content {
     /* Breaks nested items' width */
+
     /* width: 100%; */
   }
 

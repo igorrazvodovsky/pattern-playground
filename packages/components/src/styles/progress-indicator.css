@@ -41,7 +41,7 @@
     font-weight: 500;
   }
 
-  &:not(:has(.stepper__icon)):before {
+  &:not(:has(.stepper__icon))::before {
     content: "";
     flex: 0 0 var(--_circle-size);
     height: var(--_circle-size);
@@ -50,30 +50,31 @@
     margin-top: 0.5em;
   }
 
-  &.stepper__item--done:not(:has(.stepper__icon)):before {
+  &.stepper__item--done:not(:has(.stepper__icon))::before {
     background-color: var(--c-success-500);
   }
 
-  &.stepper__item--current:not(:has(.stepper__icon)):before {
+  &.stepper__item--current:not(:has(.stepper__icon))::before {
     background-color: var(--c-accent);
   }
 
-  &.stepper__item--running:not(:has(.stepper__icon)):before {
+  &.stepper__item--running:not(:has(.stepper__icon))::before {
     background-color: transparent;
   }
 
-  &.stepper__item--next:not(:has(.stepper__icon)):before {
+  &.stepper__item--next:not(:has(.stepper__icon))::before {
     background-color: transparent;
     border: 2px solid var(--c-neutral-200);
   }
 
   &:not(:last-child) {
-    &:after {
+    &::after {
       content: "";
       position: absolute;
       left: 1rem;
       top: calc(var(--_circle-size) + var(--_spacing) + 1rem + 0.5rem);
       bottom: calc(var(--_spacing) - 1rem - 0.5rem);
+
       /* z-index: -1; */
       transform: translateX(calc(var(--_circle-size) / 2));
       width: var(--_line-width);
@@ -100,6 +101,7 @@
 
 .stepper__item--current .stepper__icon {
   background-color: var(--c-accent);
+
   /* TODO: calculate color based on accent color */
   color: white;
 }
@@ -125,6 +127,7 @@
 
 .stepper details {
   --_state-indicator-spacing: 1.5rem;
+
   border: none;
   padding: 0;
 }

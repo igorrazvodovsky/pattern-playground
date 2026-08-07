@@ -16,7 +16,7 @@
   /* Text Colors */
   --chart-text-primary: var(--c-body);
   --chart-text-secondary: var(--c-bodyDimmed);
-  --chart-text-muted: var(--c-placeholder);
+  --chart-text-muted: var(--c-bodyDimmed);
 
   /* Data visualisation categorical scheme — aliases onto the design system's
      categorical palette (--c-cat-*, defined in variables-palette.css, mode-aware).
@@ -327,8 +327,8 @@ pp-chart-legend .legend-symbol[data-symbol="dash"] {
   border-radius: 1px;
   background-image: repeating-linear-gradient(
     to right,
-    currentColor 0px,
-    currentColor 4px,
+    currentcolor 0,
+    currentcolor 4px,
     transparent 4px,
     transparent 8px
   );
@@ -348,7 +348,7 @@ pp-chart-legend[interactive] .legend-item {
 }
 
 pp-chart-legend[interactive] .legend-item:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: oklch(0% 0 0deg / 5%);
 }
 
 pp-chart-legend[interactive] .legend-item:focus {
@@ -513,7 +513,7 @@ pp-choropleth:focus-visible {
    ============================================================================= */
 
 /* High contrast mode support */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: more) {
   :root {
     --chart-border-width: 2px;
     --chart-focus-width: 3px;

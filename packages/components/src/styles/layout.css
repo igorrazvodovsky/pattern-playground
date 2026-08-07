@@ -51,7 +51,7 @@
   hr {
     border: 0;
     height: 0;
-    border-top: 1px solid oklch(0% 0 0 / 10%);
+    border-top: 1px solid oklch(0% 0 0deg / 10%);
     width: 100%;
     margin: 0;
   }
@@ -89,6 +89,7 @@
     --_gap: var(--space-m);
     --_main-size: initial;
     --_secondary-size: initial;
+
     display: flex;
     flex-wrap: wrap;
     gap: var(--_gap);
@@ -119,11 +120,13 @@
 
   .borderless {
     border: none !important;
+
     /* padding-inline: 0 !important; */
   }
 }
 
 /* TODO: */
+
 /* .flex-layout-grid > *:has(.card > *:nth-child(2)) {
   --flex-grid-min: calc(24ch * 2 + var(--space-m));
 } */
@@ -152,7 +155,7 @@
           height: 34px;
           width: 160px;
           max-width: 160px;
-          min-width: 0px;
+          min-width: 0;
       }
     }
 
@@ -161,7 +164,7 @@
       height: 100%;
       flex: 1 1 auto;
       flex-direction: column;
-      min-width: 0px;
+      min-width: 0;
       margin-inline-start: 4px;
     }
   }

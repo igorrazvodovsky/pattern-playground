@@ -9,6 +9,7 @@
   font-display: swap;
   src: url('../fonts/AlegreyaSans-Light.woff2') format('woff2');
 }
+
 @font-face {
   font-family: 'Alegreya Sans';
   font-style: italic;
@@ -16,6 +17,7 @@
   font-display: swap;
   src: url('../fonts/AlegreyaSans-LightItalic.woff2') format('woff2');
 }
+
 @font-face {
   font-family: 'Alegreya Sans';
   font-style: normal;
@@ -23,6 +25,7 @@
   font-display: swap;
   src: url('../fonts/AlegreyaSans-Regular.woff2') format('woff2');
 }
+
 @font-face {
   font-family: 'Alegreya Sans';
   font-style: italic;
@@ -30,6 +33,7 @@
   font-display: swap;
   src: url('../fonts/AlegreyaSans-Italic.woff2') format('woff2');
 }
+
 @font-face {
   font-family: 'Alegreya Sans';
   font-style: normal;
@@ -37,6 +41,7 @@
   font-display: swap;
   src: url('../fonts/AlegreyaSans-Medium.woff2') format('woff2');
 }
+
 @font-face {
   font-family: 'Alegreya Sans';
   font-style: italic;
@@ -44,6 +49,7 @@
   font-display: swap;
   src: url('../fonts/AlegreyaSans-MediumItalic.woff2') format('woff2');
 }
+
 @font-face {
   font-family: 'Alegreya Sans';
   font-style: normal;
@@ -51,6 +57,7 @@
   font-display: swap;
   src: url('../fonts/AlegreyaSans-Bold.woff2') format('woff2');
 }
+
 @font-face {
   font-family: 'Alegreya Sans';
   font-style: italic;
@@ -61,28 +68,31 @@
 
 /* Alegreya */
 @font-face {
-  font-family: 'Alegreya';
+  font-family: Alegreya;
   font-style: normal;
   font-weight: 400;
   font-display: swap;
   src: url('../fonts/Alegreya-Regular.woff2') format('woff2');
 }
+
 @font-face {
-  font-family: 'Alegreya';
+  font-family: Alegreya;
   font-style: italic;
   font-weight: 400;
   font-display: swap;
   src: url('../fonts/Alegreya-Italic.woff2') format('woff2');
 }
+
 @font-face {
-  font-family: 'Alegreya';
+  font-family: Alegreya;
   font-style: normal;
   font-weight: 700;
   font-display: swap;
   src: url('../fonts/Alegreya-Bold.woff2') format('woff2');
 }
+
 @font-face {
-  font-family: 'Alegreya';
+  font-family: Alegreya;
   font-style: italic;
   font-weight: 700;
   font-display: swap;

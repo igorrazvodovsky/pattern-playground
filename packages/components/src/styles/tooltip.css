@@ -40,5 +40,4 @@ pp-tooltip .tooltip__body {
   padding: 0 var(--space-s);
   pointer-events: none;
   user-select: none;
-  -webkit-user-select: none;
 }

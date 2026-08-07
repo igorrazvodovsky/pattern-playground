@@ -18,7 +18,7 @@
 
   .pattern-graph__edge {
     fill: none;
-    stroke: var(--c-neutral-400, #aaa);
+    stroke: var(--c-neutral-400);
     stroke-width: 0.75;
     stroke-opacity: 0.3;
     pointer-events: none;
@@ -31,13 +31,13 @@
 
   .pattern-graph__svg--hovering .pattern-graph__edge--active {
     stroke-opacity: 0.6;
-    stroke: var(--c-neutral-600, #666);
+    stroke: var(--c-neutral-600);
   }
 
   /* Trail — while hovering, visited nodes connected to the hovered node (through other visited nodes) stay visible */
 
   .pattern-graph__edge--trail {
-    stroke: var(--c-neutral-600, #666);
+    stroke: var(--c-neutral-600);
     stroke-opacity: 0.5;
   }
 
@@ -46,16 +46,20 @@
   .pattern-graph__edge--active[data-edge-type="complements"] {
     stroke-dasharray: 4 2;
   }
+
   .pattern-graph__edge--active[data-edge-type="tangential"] {
     stroke-dasharray: 2 3;
   }
+
   .pattern-graph__edge--active[data-edge-type="alternative"] {
     stroke-dasharray: 6 2 1 2;
   }
+
   .pattern-graph__edge--active[data-edge-type="enables"],
   .pattern-graph__edge--active[data-edge-type="instantiates"] {
     stroke-dasharray: 8 3;
   }
+
   .pattern-graph__edge--active[data-edge-type="enacts"] {
     stroke-dasharray: 1 2;
   }
@@ -72,7 +76,7 @@
   }
 
   .pattern-graph__node:focus-visible .pattern-graph__circle {
-    outline: 2px solid currentColor;
+    outline: 2px solid currentcolor;
     outline-offset: 2px;
   }
 
@@ -92,7 +96,7 @@
   }
 
   .pattern-graph__node--trail .pattern-graph__circle {
-    stroke: var(--c-neutral-700, #333);
+    stroke: var(--c-neutral-700);
     stroke-width: 1.5;
   }
 
@@ -106,43 +110,43 @@
 
   [data-color-mode="at-level"] [data-at-level="operation"] .pattern-graph__circle,
   .pattern-graph__legend-dot[data-at-level="operation"] {
-    fill: oklch(55% 0.13 155);
+    fill: oklch(55% 0.13 155deg);
   }
 
   [data-color-mode="at-level"] [data-at-level="action"] .pattern-graph__circle,
   .pattern-graph__legend-dot[data-at-level="action"] {
-    fill: oklch(58% 0.17 235);
+    fill: oklch(58% 0.123 235deg);
   }
 
   [data-color-mode="at-level"] [data-at-level="activity"] .pattern-graph__circle,
   .pattern-graph__legend-dot[data-at-level="activity"] {
-    fill: oklch(62% 0.18 55);
+    fill: oklch(62% 0.15 55deg);
   }
 
   [data-color-mode="at-level"] [data-at-level="cross-cutting"] .pattern-graph__circle,
   .pattern-graph__legend-dot[data-at-level="cross-cutting"] {
-    fill: oklch(55% 0.10 300);
+    fill: oklch(55% 0.10 300deg);
   }
 
   /* Mediation type colours */
 
   [data-color-mode="mediation"] [data-mediation="individual"] .pattern-graph__circle,
   .pattern-graph__legend-dot[data-mediation="individual"] {
-    fill: oklch(55% 0.10 240);
+    fill: oklch(55% 0.10 240deg);
   }
 
   [data-color-mode="mediation"] [data-mediation="coordination"] .pattern-graph__circle,
   .pattern-graph__legend-dot[data-mediation="coordination"] {
-    fill: oklch(62% 0.16 65);
+    fill: oklch(62% 0.139 65deg);
   }
 
   [data-color-mode="mediation"] [data-mediation="networking"] .pattern-graph__circle,
   .pattern-graph__legend-dot[data-mediation="networking"] {
-    fill: oklch(58% 0.14 180);
+    fill: oklch(58% 0.105 180deg);
   }
 
   [data-color-mode="mediation"] .pattern-graph__node:not([data-mediation]) .pattern-graph__circle {
-    fill: oklch(55% 0.05 300);
+    fill: oklch(55% 0.05 300deg);
   }
 
   /* Colour mode toggle */
@@ -156,7 +160,7 @@
     margin: 0;
     font-size: 12px;
     font-family: var(--font-sans, system-ui, sans-serif);
-    color: var(--c-neutral-600, #666);
+    color: var(--c-neutral-600);
   }
 
   .pattern-graph__color-toggle-legend {
@@ -174,7 +178,7 @@
 
   .pattern-graph__color-toggle-option input[type="radio"] {
     margin: 0;
-    accent-color: var(--c-neutral-700, #333);
+    accent-color: var(--c-neutral-700);
   }
 
   /* Labels */
@@ -182,7 +186,7 @@
   .pattern-graph__label {
     font-size: 9px;
     font-family: var(--font-sans, system-ui, sans-serif);
-    fill: var(--c-neutral-900, #1a1a2e);
+    fill: var(--c-neutral-900);
     paint-order: stroke fill;
     stroke: var(--c-neutral-0);
     stroke-width: 3px;

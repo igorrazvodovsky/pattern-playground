@@ -52,8 +52,7 @@ pp-select {
     grid-area: 1 / 1;
     display: inline-flex;
     align-items: center;
-    justify-self: end;
-    align-self: center;
+    place-self: center end;
     margin-inline-end: var(--space-m);
     color: var(--c-secondary);
     pointer-events: none;

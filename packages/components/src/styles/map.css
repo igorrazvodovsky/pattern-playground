@@ -43,7 +43,7 @@ pp-map .pp-map__pin-dot {
   border-radius: 50%;
   background: var(--c-accent);
   border: 3px solid var(--c-background);
-  box-shadow: 0 1px 4px rgb(0 0 0 / 0.45);
+  box-shadow: 0 1px 4px oklch(0% 0 0deg / 45%);
   transition: scale var(--transition-fast, 120ms) ease;
 }
 

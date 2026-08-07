@@ -20,6 +20,7 @@ textarea {
   /* easy way to plop the elements on top of each other and have them both sized based on the tallest one's height */
   display: grid;
 }
+
 .grow-wrap::after {
   /* Note the weird space! Needed to preventy jumpy behavior */
   content: attr(data-replicated-value) " ";
@@ -30,6 +31,7 @@ textarea {
   /* Hidden from view, clicks, and screen readers */
   visibility: hidden;
 }
+
 .grow-wrap > textarea {
   /* You could leave this, but after a user resizes, then it ruins the auto sizing */
   resize: none;
@@ -37,6 +39,7 @@ textarea {
   /* Firefox shows scrollbar on growth, you can hide like this. */
   overflow: hidden;
 }
+
 .grow-wrap > textarea,
 .grow-wrap::after {
   /* Identical styling required!! */

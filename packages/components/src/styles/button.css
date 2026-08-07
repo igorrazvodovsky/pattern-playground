@@ -3,21 +3,17 @@
   a.button {
     --button-color: oklch(from var(--button-bg) var(--l) 0 h / 90%);
     --button-bg: var(--c-neutral-0);
-    --button-box-shadow: 0 1px 3px rgba(12, 12, 12, 0.09);
-
+    --button-box-shadow: 0 1px 3px oklch(15.4% 0 0deg / 9%);
     --button-padding: var(--space-s) var(--space-m);
-
     --l-threshold: 0.7;
     --l: clamp(0, (l / var(--l-threshold) - 1) * -infinity, 1);
 
     color: var(--button-color);
     background-color: var(--button-bg);
-
     padding: 0;
     border: none;
     display: inline-flex;
     cursor: pointer;
-    leading-trim: both;
   }
 
   /* TODO: Find a normal solution */
@@ -30,9 +26,9 @@
     border: 1px solid var(--button-border);
     box-shadow: var(--button-box-shadow);
     border-radius: var(--radius-m);
-
     white-space: nowrap;
     line-height: 100%;
+
     --button-border: var(--c-border);
 
     &:not(:disabled):hover {
@@ -53,6 +49,7 @@
     }
 
     /* TODO: for buttons without icons, setting a minimum inline size, and centering the text */
+
     /* &:not(:has(.icon)) {
       text-align: center;
       min-inline-size: 10ch;
@@ -68,23 +65,27 @@
       transition: none 0s ease 0s;
     }
 
+    /* Solid fills come from 700, as with badges: at 500 and 600 neither label
+       colour clears 4.5:1. */
     &.button--danger {
-      --button-bg: var(--c-danger-500);
+      --button-bg: var(--c-danger-700-boosted);
       --button-border: transparent;
+
       font-weight: 500;
 
       &:not(:disabled):hover {
-        --button-bg: oklch(from var(--c-danger-500) calc(l - 0.1) c h);
+        --button-bg: oklch(from var(--c-danger-700-boosted) calc(l - 0.1) c h);
       }
     }
 
     &.button--primary {
-      --button-bg: var(--c-accent);
+      --button-bg: var(--c-accent-700);
       --button-border: transparent;
+
       font-weight: 500;
 
       &:not(:disabled):hover {
-        --button-bg: oklch(from var(--c-accent) calc(l - 0.1) c h);
+        --button-bg: oklch(from var(--c-accent-700) calc(l - 0.1) c h);
       }
     }
 
@@ -119,9 +120,7 @@
     button:not(:first-child) {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
-    }
 
-    button:not(:first-child) {
       /* TODO: --input-border-width */
       margin-inline-start: -1px;
     }

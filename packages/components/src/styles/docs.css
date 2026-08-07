@@ -64,13 +64,14 @@ a.sbdocs,
 .sbdocs-content > :is(p, h1, h2, h3, h4) a {
   color: inherit !important;
   text-decoration: underline !important;
-  text-decoration: underline oklch(from var(--c-body) l c h / 0.3) !important;
+  text-decoration: underline oklch(from var(--c-body) l c h / 30%) !important;
   text-decoration-thickness: max(0.05em, 1px);
   text-underline-offset: 0.15em;
 }
 
 .sbdocs.sbdocs-content > :is(ul, ol) li :is(ul, ol) li :is(ul, ol) li {
   /* color: var(--c-bodyDimmed); */
+
   /* font-size: smaller !important; */
 }
 
@@ -173,6 +174,7 @@ resize-asaurus > .resize-asaurus-container {
 .sbdocs > ol {
   list-style: auto !important;
 }
+
 .sbdocs > ul {
   list-style: initial !important;
 }
@@ -324,7 +326,7 @@ aside[class*="sbdocs-toc"] {
 
   a {
     color: inherit;
-    text-decoration: underline oklch(from var(--c-body) l c h / 0.3);
+    text-decoration: underline oklch(from var(--c-body) l c h / 30%);
   }
 }
 
@@ -337,13 +339,13 @@ aside[class*="sbdocs-toc"] {
 
   .docs-intro-img {
     /* border: 1px solid oklch(0% 0 0 / 30%); */
-    background: oklch(0% 0 0 / 5%);
+    background: oklch(0% 0 0deg / 5%);
     transition: var(--transition-fast) all;
   }
 
   &:has(*:hover) img {
     /* border-color: oklch(0% 0 0 / 50%); */
-    background: oklch(0% 0 0 / 8%);
+    background: oklch(0% 0 0deg / 8%);
   }
 
   a::before {

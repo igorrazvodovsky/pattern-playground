@@ -81,7 +81,7 @@
 }
 
 .explanation-drawer__content p {
-  margin: 0 0 1rem 0;
+  margin: 0 0 1rem;
 }
 
 .explanation-drawer__streaming-indicator {
@@ -97,6 +97,7 @@
   0%, 100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.5;
   }
