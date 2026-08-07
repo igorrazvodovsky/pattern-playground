@@ -256,6 +256,33 @@
       ]
     },
     {
+      "id": "approval-gate",
+      "title": "Approval gate",
+      "category": "Actions",
+      "path": "/patterns/approval-gate",
+      "role": "pattern",
+      "situation": {
+        "initiating": "the system is about to commit something consequential that it, not the actor, initiated — an edit, a purchase, a message sent in the actor's name — and once committed it is hard to call back",
+        "resulting": [
+          {
+            "clause": "nothing consequential happens without a human yes, which buys safety at the price of throughput: the agent now works at the speed of the actor's attention"
+          },
+          {
+            "clause": "each gate is an interruption, and past some frequency approving stops being a judgement and becomes the habit the gate was meant to prevent"
+          },
+          {
+            "clause": "the approval concentrates accountability: whoever clicked yes now owns an outcome they may have reviewed only glancingly"
+          }
+        ]
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
+    },
+    {
       "id": "assistance",
       "title": "Assistance",
       "category": "Foundations",
@@ -403,6 +430,37 @@
       ]
     },
     {
+      "id": "bounded-autonomy",
+      "title": "Bounded autonomy",
+      "category": "Actions",
+      "path": "/patterns/bounded-autonomy",
+      "role": "pattern",
+      "situation": {
+        "initiating": "the actor wants work to proceed without them but not without limits — full supervision defeats the point of delegating, and open-ended authority asks for more trust than the agent has earned",
+        "resulting": [
+          {
+            "clause": "granted authority now has explicit edges — scope, spend, time, risk class — so trust can be extended in increments instead of all at once"
+          },
+          {
+            "clause": "crossing a bound is a designed event rather than a failure: the work pauses and control returns to the actor for renewal, escalation, or takeback",
+            "setsUp": [
+              "handoff",
+              "approval-gate"
+            ]
+          },
+          {
+            "clause": "the bounds only bind if the actor understood them at grant time; authority granted through an unread scope screen is consent in name only"
+          }
+        ]
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
+    },
+    {
       "id": "bounded-choice",
       "title": "Bounded choice",
       "category": "Operations",
@@ -447,6 +505,63 @@
         ]
       },
       "group": "conversation/conversation-management"
+    },
+    {
+      "id": "change-review",
+      "title": "Change review",
+      "category": "Actions",
+      "path": "/patterns/change-review",
+      "role": "pattern",
+      "situation": {
+        "initiating": "the system proposes changes to something that already exists and matters; without the change itself made legible, the actor's only moves are accepting blind or rejecting whole",
+        "resulting": [
+          {
+            "clause": "the delta is a reviewable object — what was, what would be, side by side or in place — so judgement lands on the change rather than on re-reading the whole, and an approval has something concrete to act on",
+            "setsUp": [
+              "approval-gate"
+            ]
+          },
+          {
+            "clause": "the diff's granularity becomes the decision's granularity: whatever the review can show separately is what can be accepted or rejected separately"
+          },
+          {
+            "clause": "reviewing deltas narrows attention to what changed, so consequences in the unchanged surroundings are exactly what the review doesn't show"
+          }
+        ]
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
+    },
+    {
+      "id": "citation",
+      "title": "Citation",
+      "category": "Operations",
+      "path": "/patterns/citation",
+      "role": "pattern",
+      "situation": {
+        "initiating": "the actor owns output they didn't make, and standing behind it means knowing where it came from — but checking everything costs what the output is long, so unverifiable output gets accepted, not checked",
+        "resulting": [
+          {
+            "clause": "claims carry pointers to their sources, so verification collapses from re-research to spot-checking the load-bearing points"
+          },
+          {
+            "clause": "a citation lends authority whether or not anyone follows it: the mark of checkability gets read as the fact of having been checked"
+          },
+          {
+            "clause": "citing constrains generation to the retrievable — what can be said leans toward what can be pointed at"
+          }
+        ]
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
     },
     {
       "id": "closing",
@@ -661,6 +776,33 @@
       ]
     },
     {
+      "id": "cost-transparency",
+      "title": "Cost transparency",
+      "category": "Operations",
+      "path": "/patterns/cost-transparency",
+      "role": "pattern",
+      "situation": {
+        "initiating": "machine work costs compute, money, and time that are invisible at the point of asking; unseen, the cost surfaces later as an exhausted quota, a bill, or work quietly throttled",
+        "resulting": [
+          {
+            "clause": "the cost of asking is visible before and during the work — estimates up front, meters while it runs, quotas in view — so spending becomes a decision instead of a discovery"
+          },
+          {
+            "clause": "visible meters change behaviour: actors ration exploration, and the counter's presence taxes exactly the open-ended use the system is best at"
+          },
+          {
+            "clause": "cost talk imports the provider's economics into the interaction; the unit shown (tokens, credits, currency) frames what the actor thinks they are buying"
+          }
+        ]
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
+    },
+    {
       "id": "data-entry",
       "title": "Data entry",
       "category": "Actions",
@@ -797,6 +939,33 @@
       "category": "Qualities",
       "path": "/patterns/density",
       "role": "quality"
+    },
+    {
+      "id": "detached-artefact",
+      "title": "Detached artefact",
+      "category": "Actions",
+      "path": "/patterns/detached-artefact",
+      "role": "pattern",
+      "situation": {
+        "initiating": "the conversation has produced a thing that now matters more than the talk that made it — a document, code, a diagram — and in the reply stream it scrolls away, unversioned and editable only by asking again",
+        "resulting": [
+          {
+            "clause": "the work-product holds still on its own surface while the conversation continues alongside as the way of steering it — talk and thing stop competing for the same column"
+          },
+          {
+            "clause": "two surfaces now claim the truth: the artefact and the transcript can disagree about what was decided, and edits made directly don't narrate themselves back into the talk"
+          },
+          {
+            "clause": "the artefact outlives the exchange — versionable, exportable, shareable — which is where the conversation's value ends up living"
+          }
+        ]
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
     },
     {
       "id": "disengage-without-closing",
@@ -998,6 +1167,36 @@
       "evidence": [
         {
           "kind": "literature"
+        }
+      ]
+    },
+    {
+      "id": "expressed-uncertainty",
+      "title": "Expressed uncertainty",
+      "category": "Operations",
+      "path": "/patterns/expressed-uncertainty",
+      "role": "pattern",
+      "situation": {
+        "initiating": "the system is not equally sure of everything it says, but fluent output reads uniformly confident — so the actor calibrates trust on tone, which the system produces equally well when wrong",
+        "resulting": [
+          {
+            "clause": "confidence is part of the output's surface — hedged phrasing, ranges, marks on the doubtful spans — so the actor's scrutiny can land where it is actually needed",
+            "setsUp": [
+              "cognitive-forcing-functions"
+            ]
+          },
+          {
+            "clause": "a number implies calibration that may not exist: \"80% confident\" is itself a generated claim, and precision in the mark overstates precision in the ground"
+          },
+          {
+            "clause": "hedging everything is as useless as asserting everything; the value is in the difference between the marked and the unmarked"
+          }
+        ]
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
         }
       ]
     },
@@ -1223,6 +1422,33 @@
       "group": "sense-making"
     },
     {
+      "id": "handoff",
+      "title": "Handoff",
+      "category": "Actions",
+      "path": "/patterns/handoff",
+      "role": "pattern",
+      "situation": {
+        "initiating": "whoever currently holds the work — agent or actor — cannot or should not continue: a bound was crossed, confidence ran out, a judgement call arrived, or the actor simply wants it back",
+        "resulting": [
+          {
+            "clause": "control moves with its context attached — what was done, what remains, why the transfer — so the receiver continues the work instead of restarting it"
+          },
+          {
+            "clause": "the seam is where accountability changes hands, and where it is most easily lost: after a transfer, each side can believe the other is watching"
+          },
+          {
+            "clause": "transfers have a rate above which delegation stops paying for itself; a system that hands back constantly was never really delegated to"
+          }
+        ]
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
+    },
+    {
       "id": "help",
       "title": "Help",
       "category": "Activities",
@@ -1414,6 +1640,33 @@
         ]
       },
       "group": "conversation/conversational-activities"
+    },
+    {
+      "id": "instructed-revision",
+      "title": "Instructed revision",
+      "category": "Actions",
+      "path": "/patterns/instructed-revision",
+      "role": "pattern",
+      "situation": {
+        "initiating": "the output is close but not right, and the actor can name what's wrong — re-rolling gambles away what already works, and fixing it by hand costs more than saying what to change",
+        "resulting": [
+          {
+            "clause": "iteration proceeds by deltas: the actor directs the change in their own words without remaking the output or rearticulating the request"
+          },
+          {
+            "clause": "the instruction acts on the whole unless scoped, so an untargeted revision churns the parts that were already right"
+          },
+          {
+            "clause": "the actor shaped the result without ever touching it, which leaves authorship — and responsibility for the details — ambiguous"
+          }
+        ]
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
     },
     {
       "id": "interaction",
@@ -1815,6 +2068,36 @@
       ]
     },
     {
+      "id": "plan-preview",
+      "title": "Plan preview",
+      "category": "Actions",
+      "path": "/patterns/plan-preview",
+      "role": "pattern",
+      "situation": {
+        "initiating": "the actor has asked for something consequential and the agent is about to act on its reading of the request; acting straight away would spend real work — and possibly real consequences — on a misreading nobody has checked",
+        "resulting": [
+          {
+            "clause": "the agent's intention is now a reviewable object — steps, targets, expected effects — so misreadings surface while they are still cheap, and the preview becomes the thing an approval can act on",
+            "setsUp": [
+              "approval-gate"
+            ]
+          },
+          {
+            "clause": "the plan and the execution can drift apart, so the preview only means something while the system is held to what it showed"
+          },
+          {
+            "clause": "every preview spends actor attention; asked to review too often, the actor stops reading plans and the preview becomes ritual"
+          }
+        ]
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
+    },
+    {
       "id": "privacy",
       "title": "Privacy",
       "category": "Qualities",
@@ -1880,6 +2163,33 @@
       ]
     },
     {
+      "id": "prompt-scaffolding",
+      "title": "Prompt scaffolding",
+      "category": "Actions",
+      "path": "/patterns/prompt-scaffolding",
+      "role": "pattern",
+      "situation": {
+        "initiating": "open prompting assumes the actor knows what a good request contains; most don't, and the blank box hides its own requirements — so requests go out underspecified and the failures come back looking like the system's fault",
+        "resulting": [
+          {
+            "clause": "the request's expected shape is externalised — labelled fields, fillable slots, controls — so completeness is inspectable before anything runs"
+          },
+          {
+            "clause": "structure narrows expression: what the scaffold doesn't ask for tends not to get said, and the actor's stranger intents stop fitting the form"
+          },
+          {
+            "clause": "a scaffold encodes somebody's yesterday's idea of a good request, and keeps proposing it until the encoding is revisited"
+          }
+        ]
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
+    },
+    {
       "id": "prompt",
       "title": "Prompt",
       "category": "Activities",
@@ -1906,6 +2216,33 @@
       "category": "Foundations",
       "path": "/patterns/prose",
       "role": "foundation"
+    },
+    {
+      "id": "provenance-marking",
+      "title": "Provenance marking",
+      "category": "Operations",
+      "path": "/patterns/provenance-marking",
+      "role": "pattern",
+      "situation": {
+        "initiating": "machine-made and human-made content now move through the same documents, feeds, and conversations, and readers calibrate trust by an origin they can no longer see",
+        "resulting": [
+          {
+            "clause": "origin is legible at the point of reading — labels, badges, marks, embedded metadata — so the reader's calibration has something to work from"
+          },
+          {
+            "clause": "a mark only works while it survives the content's travels; copy, paste, export, and screenshot strip exactly the layer the mark lives in"
+          },
+          {
+            "clause": "labelling the machine's output makes the unlabelled a claim of human origin — the default stops being neutral the moment anything is marked"
+          }
+        ]
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
     },
     {
       "id": "purpose-keyed-view",
@@ -1958,6 +2295,63 @@
       "evidence": [
         {
           "kind": "literature"
+        }
+      ]
+    },
+    {
+      "id": "reference-material",
+      "title": "Reference material",
+      "category": "Operations",
+      "path": "/patterns/reference-material",
+      "role": "pattern",
+      "situation": {
+        "initiating": "the request needs grounding the system does not have — this document, that image, the actual dataset — and without it the system answers from generalities while sounding specific",
+        "resulting": [
+          {
+            "clause": "the output is anchored in named material, and can point back to it — the attachment that went in is what a citation can later point out",
+            "setsUp": [
+              "citation"
+            ]
+          },
+          {
+            "clause": "the attached material scopes the answer, so wrong, stale, or partial material scopes it wrong with the same confidence"
+          },
+          {
+            "clause": "supplying context grows into its own task: what began as attaching a file becomes curating a corpus the system works from"
+          }
+        ]
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
+    },
+    {
+      "id": "regeneration",
+      "title": "Regeneration",
+      "category": "Actions",
+      "path": "/patterns/regeneration",
+      "role": "pattern",
+      "situation": {
+        "initiating": "the output isn't right, correcting it by hand costs more than asking again, and the intent hasn't changed — the actor wants another answer to the same question, not a new question",
+        "resulting": [
+          {
+            "clause": "the same intent yields another draw, so iteration happens without rearticulating the request — judgement cycles replace composition cycles"
+          },
+          {
+            "clause": "drawing again discards silently: without branches or history the replaced result is simply gone, and the actor gambles what they have on getting something better"
+          },
+          {
+            "clause": "parallel variants turn judgement into comparison, which is easier than absolute assessment and quietly caps how many drafts anyone will weigh"
+          }
+        ]
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
         }
       ]
     },
@@ -2053,6 +2447,33 @@
         ]
       },
       "group": "coordination"
+    },
+    {
+      "id": "selective-memory",
+      "title": "Selective memory",
+      "category": "Actions",
+      "path": "/patterns/selective-memory",
+      "role": "pattern",
+      "situation": {
+        "initiating": "the system carries things forward from one encounter to the next, and the actor cannot see what — so continuity reads as either magic or surveillance, and a wrong remembered fact keeps resurfacing with no handle to correct it",
+        "resulting": [
+          {
+            "clause": "what the system holds about the actor is inspectable and editable: continuity becomes a visible, revocable grant rather than an ambient accumulation"
+          },
+          {
+            "clause": "forgetting is now a feature — per item, per session, or per mode — and it has an interface cost the invisible version never paid"
+          },
+          {
+            "clause": "curating memory is work most actors will not do until something goes wrong, so the defaults of what gets kept do most of the governing"
+          }
+        ]
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
     },
     {
       "id": "semantic-zoom",
@@ -2224,6 +2645,36 @@
       "evidence": [
         {
           "kind": "literature"
+        }
+      ]
+    },
+    {
+      "id": "streaming-output",
+      "title": "Streaming output",
+      "category": "Operations",
+      "path": "/patterns/streaming-output",
+      "role": "pattern",
+      "situation": {
+        "initiating": "generation takes seconds to minutes, and a silent wait reads as failure; the actor can neither judge nor act on the answer until something of it shows",
+        "resulting": [
+          {
+            "clause": "the output is legible as it forms, so the actor can skim ahead of the machine, judge early — and stop early, which is what makes interruption meaningful mid-generation",
+            "setsUp": [
+              "abort"
+            ]
+          },
+          {
+            "clause": "reading begins before the whole exists: early text anchors the actor's take even when later text qualifies or contradicts it"
+          },
+          {
+            "clause": "the arrival rhythm is now part of the interface — pace, pauses, and re-layout as content lands are designed properties, not transport details"
+          }
+        ]
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
         }
       ]
     },
@@ -3005,6 +3456,55 @@
       "extractedFrom": "frontmatter:tangential"
     },
     {
+      "source": "approval-gate",
+      "target": "undo",
+      "type": "alternative",
+      "label": "consent before the act and recovery after it are the two ends of one safeguard ladder",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "approval-gate",
+      "target": "cognitive-forcing-functions",
+      "type": "complements",
+      "label": "deliberate friction that keeps approving a judgement rather than a reflex",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "approval-gate",
+      "target": "delegation",
+      "type": "serves",
+      "label": "the execution-boundary checkpoint of delegation's lifecycle",
+      "extractedFrom": "frontmatter:serves"
+    },
+    {
+      "source": "approval-gate",
+      "target": "inline-confirmation",
+      "type": "related",
+      "label": "the single-action rung of the same ladder; an approval gate reviews delegated work, often in batches",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "approval-gate",
+      "target": "action-consequences",
+      "type": "related",
+      "label": "supplies the severity reasoning for where a gate belongs",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "approval-gate",
+      "target": "suggestion",
+      "type": "related",
+      "label": "accepting proposed content versus authorising an act — the same accept/reject core at different stakes",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "approval-gate",
+      "target": "agency",
+      "type": "enacts",
+      "label": "keeps initiation and consent in different hands",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
       "source": "assistance",
       "target": "agency",
       "type": "enacts",
@@ -3241,6 +3741,41 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
+      "source": "bounded-autonomy",
+      "target": "delegation",
+      "type": "serves",
+      "label": "bounded autonomy covers delegation's set-up station — the shape of the authority granted before the agent runs",
+      "extractedFrom": "frontmatter:serves"
+    },
+    {
+      "source": "bounded-autonomy",
+      "target": "cost-transparency",
+      "type": "complements",
+      "label": "a budget only binds when spend is visible against it",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "bounded-autonomy",
+      "target": "capability-and-scope",
+      "type": "complements",
+      "label": "what the system can do versus what it may do on this occasion",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "bounded-autonomy",
+      "target": "settings",
+      "type": "related",
+      "label": "where standing bounds tend to live between grants",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "bounded-autonomy",
+      "target": "agency",
+      "type": "enacts",
+      "label": "autonomy becomes something the actor meters out rather than switches on",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
       "source": "bounded-choice",
       "target": "formality",
       "type": "enacts",
@@ -3302,6 +3837,76 @@
       "type": "enables",
       "extractedFrom": "frontmatter:enables",
       "incomingNote": "an explicit statement of what the conversation can and cannot do"
+    },
+    {
+      "source": "generated-content",
+      "target": "change-review",
+      "type": "precedes",
+      "incomingNote": "the proposed change is generated output aimed at existing material",
+      "extractedFrom": "frontmatter:follows"
+    },
+    {
+      "source": "change-review",
+      "target": "undo",
+      "type": "complements",
+      "label": "rejecting a proposed change is recovery moved before the commit",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "change-review",
+      "target": "draft-and-publish",
+      "type": "complements",
+      "label": "the proposal holds in a draft state while the review decides what publishes",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "change-review",
+      "target": "commenting",
+      "type": "complements",
+      "label": "review talk anchors to the delta rather than to the document at large",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "change-review",
+      "target": "plan-preview",
+      "type": "related",
+      "label": "the plan is the intention before the work; the change review is the delta after it",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "change-review",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the actor disposes over each change instead of inheriting the batch",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "link-preview",
+      "target": "citation",
+      "type": "enables",
+      "incomingNote": "hover previews let a source be weighed without leaving the claim",
+      "extractedFrom": "frontmatter:composed-of"
+    },
+    {
+      "source": "citation",
+      "target": "transparent-reasoning",
+      "type": "complements",
+      "label": "the evidence for a claim versus the path that produced it",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "citation",
+      "target": "explanation",
+      "type": "complements",
+      "label": "where it came from versus why the system said it",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "citation",
+      "target": "annotation",
+      "type": "instantiates",
+      "label": "machine-authored annotations anchored to the claims they support",
+      "extractedFrom": "frontmatter:instantiates"
     },
     {
       "source": "closing",
@@ -3637,6 +4242,34 @@
       "extractedFrom": "frontmatter:composed-of"
     },
     {
+      "source": "cost-transparency",
+      "target": "living-document",
+      "type": "related",
+      "label": "standing automated work is where unbudgeted cost quietly accrues",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "cost-transparency",
+      "target": "status-feedback",
+      "type": "related",
+      "label": "a running meter is state change delivered at the cadence it matters",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "cost-transparency",
+      "target": "delegation",
+      "type": "serves",
+      "label": "the run-cost leg of monitoring — what the delegated work is consuming while it runs",
+      "extractedFrom": "frontmatter:serves"
+    },
+    {
+      "source": "cost-transparency",
+      "target": "agency",
+      "type": "enacts",
+      "label": "spending the actor can see is spending they actually consented to",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
       "source": "ai-completion",
       "target": "data-entry",
       "type": "enables",
@@ -3874,6 +4507,55 @@
       "extractedFrom": "frontmatter:related"
     },
     {
+      "source": "conversation",
+      "target": "detached-artefact",
+      "type": "hosts",
+      "incomingNote": "born in the exchange and promoted out of it; the chat remains the artefact's control surface",
+      "extractedFrom": "frontmatter:hosted-by"
+    },
+    {
+      "source": "generated-content",
+      "target": "detached-artefact",
+      "type": "precedes",
+      "incomingNote": "the promotion acts on output the generation produced in-stream",
+      "extractedFrom": "frontmatter:follows"
+    },
+    {
+      "source": "detached-artefact",
+      "target": "editing-in-place",
+      "type": "complements",
+      "label": "once detached, the artefact is edited directly rather than re-asked for",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "detached-artefact",
+      "target": "draft-and-publish",
+      "type": "complements",
+      "label": "the detached artefact is the surface draft and published states attach to",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "detached-artefact",
+      "target": "workspace",
+      "type": "related",
+      "label": "a minimal workspace grown out of a chat — one context, two surfaces",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "detached-artefact",
+      "target": "living-document",
+      "type": "related",
+      "label": "a detached artefact that keeps being regenerated shades into a living document",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "detached-artefact",
+      "target": "malleability",
+      "type": "enacts",
+      "label": "gives the output a surface where direct manipulation applies at all",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
       "source": "disengage-without-closing",
       "target": "closing",
       "type": "alternative",
@@ -4087,6 +4769,41 @@
       "target": "adaptation",
       "type": "enacts",
       "label": "explanations adjust their depth and form to the actor's level and context",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "expressed-uncertainty",
+      "target": "suggestion",
+      "type": "complements",
+      "label": "a proposal's weight depends on how firm the ground under it is",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "expressed-uncertainty",
+      "target": "citation",
+      "type": "complements",
+      "label": "how sure it is versus where it came from",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "expressed-uncertainty",
+      "target": "assistance",
+      "type": "serves",
+      "label": "expressed uncertainty covers assistance's signal-raising step — qualifying output so attention goes where confidence is thin",
+      "extractedFrom": "frontmatter:serves"
+    },
+    {
+      "source": "expressed-uncertainty",
+      "target": "explanation",
+      "type": "related",
+      "label": "the factors behind a prediction are one way of saying how much to trust it",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "expressed-uncertainty",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the actor keeps the judgement that uniform fluency would otherwise take",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -4408,6 +5125,48 @@
       "extractedFrom": "frontmatter:complements"
     },
     {
+      "source": "handoff",
+      "target": "delegation",
+      "type": "serves",
+      "label": "covers the handoff-and-takeback station of delegation's lifecycle",
+      "extractedFrom": "frontmatter:serves"
+    },
+    {
+      "source": "handoff",
+      "target": "agent-repair",
+      "type": "related",
+      "label": "repair keeps the current holder going; handoff gives up on the current holder without giving up on the work",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "handoff",
+      "target": "abort",
+      "type": "related",
+      "label": "abort ends the work; handoff continues it in other hands",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "handoff",
+      "target": "collaboration",
+      "type": "related",
+      "label": "in sustained co-work the transfer becomes routine turn-passing rather than an exception",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "handoff",
+      "target": "notification",
+      "type": "related",
+      "label": "a handoff to an actor who isn't watching arrives as a notification",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "handoff",
+      "target": "agency",
+      "type": "enacts",
+      "label": "control is explicitly held, passed, and reclaimable rather than ambient",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
       "source": "help",
       "target": "embedded-intelligence",
       "type": "related",
@@ -4715,6 +5474,48 @@
       "type": "related",
       "label": "for multi-part answers that exceed the scope of a single inquiry response",
       "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "generated-content",
+      "target": "instructed-revision",
+      "type": "precedes",
+      "incomingNote": "acts on output the generation activity produced",
+      "extractedFrom": "frontmatter:follows"
+    },
+    {
+      "source": "instructed-revision",
+      "target": "regeneration",
+      "type": "alternative",
+      "label": "naming the change versus drawing again on the same intent",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "instructed-revision",
+      "target": "editing-in-place",
+      "type": "alternative",
+      "label": "saying what to change versus changing it by hand",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "instructed-revision",
+      "target": "selection",
+      "type": "complements",
+      "label": "a selected span scopes the revision to the part that needs it",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "instructed-revision",
+      "target": "text-lense",
+      "type": "related",
+      "label": "a lens changes how the content reads; a revision changes what it is",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "instructed-revision",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the actor steers the output with judgement the system executes",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "interaction",
@@ -5585,6 +6386,48 @@
       "extractedFrom": "frontmatter:alternative"
     },
     {
+      "source": "open-request",
+      "target": "plan-preview",
+      "type": "precedes",
+      "incomingNote": "a complex request is the situation a plan makes reviewable before work starts",
+      "extractedFrom": "frontmatter:follows"
+    },
+    {
+      "source": "plan-preview",
+      "target": "transparent-reasoning",
+      "type": "complements",
+      "label": "the plan before execution; the reasoning trail during and after it",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "plan-preview",
+      "target": "cost-transparency",
+      "type": "complements",
+      "label": "cost estimates are the spend half of a previewed plan — what it will do and what it will cost",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "plan-preview",
+      "target": "delegation",
+      "type": "serves",
+      "label": "plan preview covers delegation's set-up station — surfacing what the agent intends before authority transfers",
+      "extractedFrom": "frontmatter:serves"
+    },
+    {
+      "source": "plan-preview",
+      "target": "action-consequences",
+      "type": "related",
+      "label": "the severity framework that decides when intended work warrants a preview at all",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "plan-preview",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the actor judges the intention rather than the fait accompli",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
       "source": "privacy",
       "target": "agency",
       "type": "related",
@@ -5702,6 +6545,62 @@
       "type": "tangential",
       "label": "stretches disclosure across an initial learning journey rather than a single view",
       "extractedFrom": "frontmatter:tangential"
+    },
+    {
+      "source": "prompt-scaffolding",
+      "target": "prompt",
+      "type": "instantiates",
+      "label": "a structured way of composing the request — one end of the open-to-scaffolded spectrum",
+      "extractedFrom": "frontmatter:instantiates"
+    },
+    {
+      "source": "prompt-scaffolding",
+      "target": "template",
+      "type": "instantiates",
+      "label": "the template pattern applied to requests",
+      "extractedFrom": "frontmatter:instantiates"
+    },
+    {
+      "source": "bounded-choice",
+      "target": "prompt-scaffolding",
+      "type": "enables",
+      "incomingNote": "each slot of the scaffold is an act of bounded choice over one part of the request",
+      "extractedFrom": "frontmatter:composed-of"
+    },
+    {
+      "source": "prompt-scaffolding",
+      "target": "suggestion",
+      "type": "complements",
+      "label": "starters and example prompts seed the scaffold's slots",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "prompt-scaffolding",
+      "target": "wizard",
+      "type": "related",
+      "label": "paginated scaffolds are the wizard applied to prompting",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "prompt-scaffolding",
+      "target": "form",
+      "type": "related",
+      "label": "at full structure the scaffold simply is a form whose output is a request",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "prompt-scaffolding",
+      "target": "validation",
+      "type": "related",
+      "label": "prompt-quality feedback is validation applied before the request runs",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "prompt-scaffolding",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "occupying the scaffold teaches what a good request contains",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "prompt",
@@ -5853,6 +6752,34 @@
       "extractedFrom": "frontmatter:enables"
     },
     {
+      "source": "provenance-marking",
+      "target": "citation",
+      "type": "complements",
+      "label": "who made it versus where it came from",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "provenance-marking",
+      "target": "living-document",
+      "type": "related",
+      "label": "a document that keeps being regenerated blurs what was written and what was made",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "provenance-marking",
+      "target": "collaboration",
+      "type": "related",
+      "label": "mixed human-machine authorship is where per-contribution origin matters most",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "provenance-marking",
+      "target": "annotation",
+      "type": "related",
+      "label": "the mark is an annotation about origin rather than content",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
       "source": "purpose-keyed-view",
       "target": "assistance",
       "type": "serves",
@@ -5914,6 +6841,69 @@
       "type": "alternative",
       "label": "when items don't form sequences",
       "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "reference-material",
+      "target": "prompt",
+      "type": "enables",
+      "label": "grounding material is a constituent of the articulated request",
+      "extractedFrom": "frontmatter:enables"
+    },
+    {
+      "source": "reference-material",
+      "target": "data",
+      "type": "related",
+      "label": "standing connections to sources sit at the material layer the data foundation describes",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "reference-material",
+      "target": "searching",
+      "type": "related",
+      "label": "retrieval does implicitly what attachment does by hand — choosing what the system works from",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "generated-content",
+      "target": "regeneration",
+      "type": "precedes",
+      "incomingNote": "acts on the output the generation activity produced",
+      "extractedFrom": "frontmatter:follows"
+    },
+    {
+      "source": "regeneration",
+      "target": "editing-in-place",
+      "type": "alternative",
+      "label": "re-rolling versus hand-correcting the same output",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "regeneration",
+      "target": "draft-and-publish",
+      "type": "complements",
+      "label": "cheap draft modes make re-rolls affordable before committing to the full run",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "regeneration",
+      "target": "undo",
+      "type": "complements",
+      "label": "restores what a regeneration replaced",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "regeneration",
+      "target": "coordinated-views",
+      "type": "related",
+      "label": "parallel variants are judged side by side",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "regeneration",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the actor disposes of output by re-asking rather than accepting what arrived",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "saving",
@@ -6061,6 +7051,41 @@
       "type": "tangential",
       "label": "distinct but adjacent — the gesture grammar usually has to coexist with focus",
       "extractedFrom": "frontmatter:tangential"
+    },
+    {
+      "source": "selective-memory",
+      "target": "ai-tuning",
+      "type": "complements",
+      "label": "remembered facts and shaped behaviour are two channels of the same persistence",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "selective-memory",
+      "target": "settings",
+      "type": "related",
+      "label": "where memory controls conventionally live",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "selective-memory",
+      "target": "activity-log",
+      "type": "related",
+      "label": "what the system did versus what it keeps",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "selective-memory",
+      "target": "privacy",
+      "type": "enacts",
+      "label": "turns held-forward data into something the actor can see, scope, and revoke",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "selective-memory",
+      "target": "adaptation",
+      "type": "enacts",
+      "label": "memory is the raw material the system adapts from",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "semantic-zoom",
@@ -6358,6 +7383,27 @@
       "type": "alternative",
       "label": "for structured but non-linear content",
       "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "streaming-output",
+      "target": "status-feedback",
+      "type": "related",
+      "label": "the partial product is itself the progress signal — no separate indicator needed while it flows",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "streaming-output",
+      "target": "transparent-reasoning",
+      "type": "related",
+      "label": "reasoning traces stream the same way the answer does",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "streaming-output",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "makes generation's duration a legible, interruptible unfolding rather than a wait",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "suggestion",
@@ -6860,6 +7906,27 @@
       "extractedFrom": "situation:resulting"
     },
     {
+      "source": "bounded-autonomy",
+      "target": "handoff",
+      "type": "precedes",
+      "situation": "crossing a bound is a designed event rather than a failure: the work pauses and control returns to the actor for renewal, escalation, or takeback",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "bounded-autonomy",
+      "target": "approval-gate",
+      "type": "precedes",
+      "situation": "crossing a bound is a designed event rather than a failure: the work pauses and control returns to the actor for renewal, escalation, or takeback",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "change-review",
+      "target": "approval-gate",
+      "type": "precedes",
+      "situation": "the delta is a reviewable object — what was, what would be, side by side or in place — so judgement lands on the change rather than on re-reading the whole, and an approval has something concrete to act on",
+      "extractedFrom": "situation:resulting"
+    },
+    {
       "source": "cognitive-forcing-functions",
       "target": "activity-log",
       "type": "precedes",
@@ -6927,6 +7994,13 @@
       "target": "cognitive-forcing-functions",
       "type": "precedes",
       "situation": "a complete and plausible explanation can make deferring *easier* rather than harder: the actor now holds a justification they didn't have to think through, which is the state a forcing function exists to interrupt",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "expressed-uncertainty",
+      "target": "cognitive-forcing-functions",
+      "type": "precedes",
+      "situation": "confidence is part of the output's surface — hedged phrasing, ranges, marks on the doubtful spans — so the actor's scrutiny can land where it is actually needed",
       "extractedFrom": "situation:resulting"
     },
     {
@@ -7000,6 +8074,20 @@
       "extractedFrom": "situation:resulting"
     },
     {
+      "source": "plan-preview",
+      "target": "approval-gate",
+      "type": "precedes",
+      "situation": "the agent's intention is now a reviewable object — steps, targets, expected effects — so misreadings surface while they are still cheap, and the preview becomes the thing an approval can act on",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "reference-material",
+      "target": "citation",
+      "type": "precedes",
+      "situation": "the output is anchored in named material, and can point back to it — the attachment that went in is what a citation can later point out",
+      "extractedFrom": "situation:resulting"
+    },
+    {
       "source": "saving",
       "target": "draft-and-publish",
       "type": "precedes",
@@ -7018,6 +8106,13 @@
       "target": "closing",
       "type": "precedes",
       "situation": "the sequence is closed from the actor's side and the encounter is between activities; if this was the last thing they came for, the encounter itself is ready to be ended rather than left open",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "streaming-output",
+      "target": "abort",
+      "type": "precedes",
+      "situation": "the output is legible as it forms, so the actor can skim ahead of the machine, judge early — and stop early, which is what makes interruption meaningful mid-generation",
       "extractedFrom": "situation:resulting"
     },
     {

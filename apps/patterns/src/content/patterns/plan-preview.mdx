@@ -1,0 +1,62 @@
+---
+title: Plan preview
+added: 2026-08-07
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+disclosure: "Seeded from a cross-catalogue triage of six AI pattern libraries (references/ai-pattern-catalogues.md); attested in all of them, but not yet written from close product study."
+activityLevel: action
+atomic: pattern
+situation:
+  initiating: >-
+    the actor has asked for something consequential and the agent is about to act on its
+    reading of the request; acting straight away would spend real work — and possibly real
+    consequences — on a misreading nobody has checked
+  resulting:
+    - clause: >-
+        the agent's intention is now a reviewable object — steps, targets, expected effects —
+        so misreadings surface while they are still cheap, and the preview becomes the thing
+        an approval can act on
+      sets-up: [approval-gate]
+    - >-
+      the plan and the execution can drift apart, so the preview only means something while
+      the system is held to what it showed
+    - >-
+      every preview spends actor attention; asked to review too often, the actor stops
+      reading plans and the preview becomes ritual
+relationships:
+  follows:
+    - to: open-request
+      note: a complex request is the situation a plan makes reviewable before work starts
+  complements:
+    - to: transparent-reasoning
+      note: the plan before execution; the reasoning trail during and after it
+    - to: cost-transparency
+      note: cost estimates are the spend half of a previewed plan — what it will do and what it will cost
+  serves:
+    - to: delegation
+      note: plan preview covers delegation's set-up station — surfacing what the agent intends before authority transfers
+  related:
+    - to: action-consequences
+      note: the severity framework that decides when intended work warrants a preview at all
+  enacts:
+    - to: agency
+      note: the actor judges the intention rather than the fait accompli
+---
+Before the system does substantial work on the actor's behalf, it states what it intends to do — the steps, what they touch, and what they will cost — as something the actor can read, correct, or refuse.
+
+## Forms
+
+Recurring forms across the catalogues: a step list before execution, a sample of the output before the full run, a scope statement ("this will modify 14 files"), and a dry-run preview of side effects.
+
+## Resources & references
+
+- [Shape of AI — Action plan, Sample response](https://www.shapeof.ai)
+- [AI UX Playground — Plan & Execute](https://www.aiuxplayground.com/pattern/plan-execute), [Sandbox Preview](https://www.aiuxplayground.com/pattern/sandbox-preview), [Blast Radius Visualization](https://www.aiuxplayground.com/pattern/blast-radius-visualization)
+- [aiuxdesign.guide — Intent Preview, Plan Summary](https://aiuxdesign.guide)
+
+## To-do
+
+Named product studies (agentic coding tools' plan modes are the richest current material). The plan-drift force needs its own treatment: what binds execution to the previewed plan.

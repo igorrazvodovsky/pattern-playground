@@ -1,0 +1,64 @@
+---
+title: Prompt scaffolding
+added: 2026-08-07
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+disclosure: "Seeded from a cross-catalogue triage of six AI pattern libraries (references/ai-pattern-catalogues.md); the most heavily attested territory across them. Prompt's scaffolding sections sketch it; the move had no page of its own."
+activityLevel: action
+atomic: pattern
+situation:
+  initiating: >-
+    open prompting assumes the actor knows what a good request contains; most don't, and
+    the blank box hides its own requirements — so requests go out underspecified and the
+    failures come back looking like the system's fault
+  resulting:
+    - >-
+      the request's expected shape is externalised — labelled fields, fillable slots,
+      controls — so completeness is inspectable before anything runs
+    - >-
+      structure narrows expression: what the scaffold doesn't ask for tends not to get said,
+      and the actor's stranger intents stop fitting the form
+    - >-
+      a scaffold encodes somebody's yesterday's idea of a good request, and keeps proposing
+      it until the encoding is revisited
+relationships:
+  instantiates:
+    - to: prompt
+      note: a structured way of composing the request — one end of the open-to-scaffolded spectrum
+    - to: template
+      note: the template pattern applied to requests
+  composed-of:
+    - to: bounded-choice
+      note: each slot of the scaffold is an act of bounded choice over one part of the request
+  complements:
+    - to: suggestion
+      note: starters and example prompts seed the scaffold's slots
+  related:
+    - to: wizard
+      note: paginated scaffolds are the wizard applied to prompting
+    - to: form
+      note: at full structure the scaffold simply is a form whose output is a request
+    - to: validation
+      note: prompt-quality feedback is validation applied before the request runs
+  enacts:
+    - to: learnability
+      note: occupying the scaffold teaches what a good request contains
+---
+The open request is given structure — fields, slots, controls, quality feedback — so the actor composes a complete request without having to already know what completeness looks like.
+
+## Forms
+
+Recurring forms along an abstraction ladder: example prompts and fill-in-the-blank passages, structured prompts with labelled fields, paginated composition, configured controls (tone, persona, parameters) replacing free text, and pre-submission quality feedback or enhancement.
+
+## Resources & references
+
+- [aiuxpatterns.com — Structured Prompt, Paginated Prompt, Cloze Passage, Configurable Controls, Prompt Quality Feedback](https://www.aiuxpatterns.com)
+- [Shape of AI — Templates, Madlibs, Prompt enhancer](https://www.shapeof.ai)
+- [AI UX Playground — Prompt Templates](https://www.aiuxplayground.com/pattern/prompt-templates), [Tone Sliders](https://www.aiuxplayground.com/pattern/tone-sliders), [Persona Selector](https://www.aiuxplayground.com/pattern/persona-selector)
+
+## To-do
+
+[Prompt](/patterns/prompt) hosts stubs of this territory (structured prompt, quality feedback, templates); migrate them here as this matures. The novice↔expert fit that aiuxpatterns.com tracks per pattern is a contextual variable worth keeping.

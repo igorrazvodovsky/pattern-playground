@@ -1,0 +1,62 @@
+---
+title: Approval gate
+added: 2026-08-07
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+disclosure: "Seeded from a cross-catalogue triage of six AI pattern libraries (references/ai-pattern-catalogues.md); attested in all of them, but not yet written from close product study."
+activityLevel: action
+atomic: pattern
+situation:
+  initiating: >-
+    the system is about to commit something consequential that it, not the actor, initiated —
+    an edit, a purchase, a message sent in the actor's name — and once committed it is hard
+    to call back
+  resulting:
+    - >-
+      nothing consequential happens without a human yes, which buys safety at the price of
+      throughput: the agent now works at the speed of the actor's attention
+    - >-
+      each gate is an interruption, and past some frequency approving stops being a judgement
+      and becomes the habit the gate was meant to prevent
+    - >-
+      the approval concentrates accountability: whoever clicked yes now owns an outcome they
+      may have reviewed only glancingly
+relationships:
+  alternative:
+    - to: undo
+      note: consent before the act and recovery after it are the two ends of one safeguard ladder
+  complements:
+    - to: cognitive-forcing-functions
+      note: deliberate friction that keeps approving a judgement rather than a reflex
+  serves:
+    - to: delegation
+      note: the execution-boundary checkpoint of delegation's lifecycle
+  related:
+    - to: inline-confirmation
+      note: the single-action rung of the same ladder; an approval gate reviews delegated work, often in batches
+    - to: action-consequences
+      note: supplies the severity reasoning for where a gate belongs
+    - to: suggestion
+      note: accepting proposed content versus authorising an act — the same accept/reject core at different stakes
+  enacts:
+    - to: agency
+      note: keeps initiation and consent in different hands
+---
+Machine-initiated work pauses at a gate until the actor consents — per action, per batch, or per diff — so autonomy never outruns the actor's willingness to answer for the result.
+
+## Forms
+
+Recurring forms: approve/reject on a single proposed action, batch review of queued actions, diff review of proposed changes, and graduated modes (suggest, confirm, execute) that move the gate rather than remove it.
+
+## Resources & references
+
+- [AI UX Playground — Approval Workflows](https://www.aiuxplayground.com/pattern/approval-workflows), [Human in the Loop](https://www.aiuxplayground.com/pattern/human-in-the-loop), [Suggest / Confirm / Execute](https://www.aiuxplayground.com/pattern/suggest-confirm-execute)
+- [Shape of AI — Verification](https://www.shapeof.ai)
+- [aiuxdesign.guide — Human-in-the-Loop](https://aiuxdesign.guide)
+
+## To-do
+
+The rubber-stamping force deserves evidence (overlaps the overreliance literature already cited on [cognitive forcing functions](/patterns/cognitive-forcing-functions)). Where batching turns review into [problem-curated view](/patterns/problem-curated-view) territory is worth mapping.

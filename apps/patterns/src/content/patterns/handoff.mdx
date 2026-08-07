@@ -1,0 +1,57 @@
+---
+title: Handoff
+added: 2026-08-07
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+disclosure: "Seeded from a cross-catalogue triage of six AI pattern libraries (references/ai-pattern-catalogues.md). The delegation foundation already names the handoff/takeback station this pattern covers; the move itself had no page."
+activityLevel: action
+atomic: pattern
+situation:
+  initiating: >-
+    whoever currently holds the work — agent or actor — cannot or should not continue: a
+    bound was crossed, confidence ran out, a judgement call arrived, or the actor simply
+    wants it back
+  resulting:
+    - >-
+      control moves with its context attached — what was done, what remains, why the
+      transfer — so the receiver continues the work instead of restarting it
+    - >-
+      the seam is where accountability changes hands, and where it is most easily lost:
+      after a transfer, each side can believe the other is watching
+    - >-
+      transfers have a rate above which delegation stops paying for itself; a system that
+      hands back constantly was never really delegated to
+relationships:
+  serves:
+    - to: delegation
+      note: covers the handoff-and-takeback station of delegation's lifecycle
+  related:
+    - to: agent-repair
+      note: repair keeps the current holder going; handoff gives up on the current holder without giving up on the work
+    - to: abort
+      note: abort ends the work; handoff continues it in other hands
+    - to: collaboration
+      note: in sustained co-work the transfer becomes routine turn-passing rather than an exception
+    - to: notification
+      note: a handoff to an actor who isn't watching arrives as a notification
+  enacts:
+    - to: agency
+      note: control is explicitly held, passed, and reclaimable rather than ambient
+---
+Control of in-progress work passes between system and actor — in either direction — with enough context that the receiver can carry on where the giver stopped.
+
+## Forms
+
+Recurring forms: escalation to the actor when the agent's confidence or authority runs out, actor takeback mid-run, escalation from an automated channel to a human one, and the scheduled return of finished-but-unreviewed work.
+
+## Resources & references
+
+- [AI UX Playground — Human Handoff](https://www.aiuxplayground.com/pattern/human-handoff), [Escalation Thresholds](https://www.aiuxplayground.com/pattern/escalation-thresholds)
+- [aiuxdesign.guide — Graceful Handoff, Escalation Pathways](https://aiuxdesign.guide)
+
+## To-do
+
+The context-transfer half (what travels with the work) is thinner in the catalogues than the trigger half; ground it in support-desk escalation practice, which predates AI.

@@ -1,0 +1,53 @@
+---
+title: Cost transparency
+added: 2026-08-07
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+disclosure: "Seeded from a cross-catalogue triage of six AI pattern libraries (references/ai-pattern-catalogues.md); not yet written from close product study."
+activityLevel: operation
+atomic: pattern
+situation:
+  initiating: >-
+    machine work costs compute, money, and time that are invisible at the point of asking;
+    unseen, the cost surfaces later as an exhausted quota, a bill, or work quietly throttled
+  resulting:
+    - >-
+      the cost of asking is visible before and during the work — estimates up front, meters
+      while it runs, quotas in view — so spending becomes a decision instead of a discovery
+    - >-
+      visible meters change behaviour: actors ration exploration, and the counter's presence
+      taxes exactly the open-ended use the system is best at
+    - >-
+      cost talk imports the provider's economics into the interaction; the unit shown
+      (tokens, credits, currency) frames what the actor thinks they are buying
+relationships:
+  related:
+    - to: living-document
+      note: standing automated work is where unbudgeted cost quietly accrues
+    - to: status-feedback
+      note: a running meter is state change delivered at the cadence it matters
+  serves:
+    - to: delegation
+      note: the run-cost leg of monitoring — what the delegated work is consuming while it runs
+  enacts:
+    - to: agency
+      note: spending the actor can see is spending they actually consented to
+---
+What the machine's work costs is visible when it matters — estimated before the run, metered during it, and bounded by quotas the actor can see against their remaining allowance.
+
+## Forms
+
+Recurring forms: pre-run estimates of time and money, live token or cost meters, remaining-quota displays, cheap draft modes offered before the expensive run, and hard ceilings that stop work at the limit.
+
+## Resources & references
+
+- [Shape of AI — Cost estimates, Draft mode](https://www.shapeof.ai)
+- [aiuxpatterns.com — Generation Tokens](https://www.aiuxpatterns.com)
+- [AI UX Playground — Pre-Task Cost Estimate](https://www.aiuxplayground.com/pattern/pre-task-cost-estimate), [Running Meters](https://www.aiuxplayground.com/pattern/running-meters), [Hard Budget Ceilings](https://www.aiuxplayground.com/pattern/hard-budget-ceilings)
+
+## To-do
+
+The boundary with [bounded autonomy](/patterns/bounded-autonomy) (visibility here, authority there) is drawn but untested. The rationing force could borrow from metered-utility research well older than AI.

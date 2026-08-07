@@ -79,6 +79,12 @@
       "atomic-category": "pattern",
       "mediation": "individual"
     },
+    "approval-gate": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": null
+    },
     "assistance": {
       "activity-level": "cross-cutting",
       "lifecycle-stage": null,
@@ -115,6 +121,12 @@
       "atomic-category": "composition",
       "mediation": "individual"
     },
+    "bounded-autonomy": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": null
+    },
     "bounded-choice": {
       "activity-level": "operation",
       "lifecycle-stage": null,
@@ -126,6 +138,18 @@
       "lifecycle-stage": null,
       "atomic-category": "primitive",
       "mediation": "coordination"
+    },
+    "change-review": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": null
+    },
+    "citation": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": null
     },
     "closing": {
       "activity-level": "operation",
@@ -181,6 +205,12 @@
       "atomic-category": "composition",
       "mediation": "individual"
     },
+    "cost-transparency": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": null
+    },
     "data-entry": {
       "activity-level": "action",
       "lifecycle-stage": null,
@@ -229,6 +259,12 @@
       "atomic-category": "qualities",
       "mediation": null
     },
+    "detached-artefact": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": null
+    },
     "disengage-without-closing": {
       "activity-level": "operation",
       "lifecycle-stage": null,
@@ -270,6 +306,12 @@
       "lifecycle-stage": null,
       "atomic-category": "pattern",
       "mediation": "individual"
+    },
+    "expressed-uncertainty": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": null
     },
     "extended-telling": {
       "activity-level": "operation",
@@ -331,6 +373,12 @@
       "atomic-category": "composition",
       "mediation": "individual"
     },
+    "handoff": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": null
+    },
     "help": {
       "activity-level": "activity",
       "lifecycle-stage": null,
@@ -384,6 +432,12 @@
       "lifecycle-stage": null,
       "atomic-category": "primitive",
       "mediation": "coordination"
+    },
+    "instructed-revision": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": null
     },
     "interaction": {
       "activity-level": "cross-cutting",
@@ -505,6 +559,12 @@
       "atomic-category": "composition",
       "mediation": "individual"
     },
+    "plan-preview": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": null
+    },
     "privacy": {
       "activity-level": "cross-cutting",
       "lifecycle-stage": null,
@@ -523,6 +583,12 @@
       "atomic-category": "pattern",
       "mediation": "individual"
     },
+    "prompt-scaffolding": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": null
+    },
     "prompt": {
       "activity-level": "activity",
       "lifecycle-stage": null,
@@ -533,6 +599,12 @@
       "activity-level": "cross-cutting",
       "lifecycle-stage": null,
       "atomic-category": "foundations",
+      "mediation": null
+    },
+    "provenance-marking": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
       "mediation": null
     },
     "purpose-keyed-view": {
@@ -546,6 +618,18 @@
       "lifecycle-stage": "seeking",
       "atomic-category": "composition",
       "mediation": "individual"
+    },
+    "reference-material": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": null
+    },
+    "regeneration": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": null
     },
     "saving": {
       "activity-level": "action",
@@ -570,6 +654,12 @@
       "lifecycle-stage": "coordination",
       "atomic-category": "pattern",
       "mediation": "individual"
+    },
+    "selective-memory": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": null
     },
     "semantic-zoom": {
       "activity-level": "action",
@@ -624,6 +714,12 @@
       "lifecycle-stage": "application",
       "atomic-category": "composition",
       "mediation": "individual"
+    },
+    "streaming-output": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "atomic-category": "pattern",
+      "mediation": null
     },
     "suggestion": {
       "activity-level": "action",

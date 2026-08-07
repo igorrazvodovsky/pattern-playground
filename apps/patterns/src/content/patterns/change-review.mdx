@@ -1,0 +1,60 @@
+---
+title: Change review
+added: 2026-08-07
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+disclosure: "Seeded from the cross-catalogue triage (references/ai-pattern-catalogues.md). Thin in the catalogues — one entry names it — but saturating practice, with a long pre-AI lineage in code review and track changes."
+activityLevel: action
+atomic: pattern
+situation:
+  initiating: >-
+    the system proposes changes to something that already exists and matters; without the
+    change itself made legible, the actor's only moves are accepting blind or rejecting
+    whole
+  resulting:
+    - clause: >-
+        the delta is a reviewable object — what was, what would be, side by side or in
+        place — so judgement lands on the change rather than on re-reading the whole, and
+        an approval has something concrete to act on
+      sets-up: [approval-gate]
+    - >-
+      the diff's granularity becomes the decision's granularity: whatever the review can
+      show separately is what can be accepted or rejected separately
+    - >-
+      reviewing deltas narrows attention to what changed, so consequences in the unchanged
+      surroundings are exactly what the review doesn't show
+relationships:
+  follows:
+    - to: generated-content
+      note: the proposed change is generated output aimed at existing material
+  complements:
+    - to: undo
+      note: rejecting a proposed change is recovery moved before the commit
+    - to: draft-and-publish
+      note: the proposal holds in a draft state while the review decides what publishes
+    - to: commenting
+      note: review talk anchors to the delta rather than to the document at large
+  related:
+    - to: plan-preview
+      note: the plan is the intention before the work; the change review is the delta after it
+  enacts:
+    - to: agency
+      note: the actor disposes over each change instead of inheriting the batch
+---
+A proposed change to existing material is shown as a change — what was, what would be — so the actor can judge and accept it in parts rather than take or leave the whole.
+
+## Forms
+
+Recurring forms: side-by-side and inline diffs, per-change accept/reject, track-changes marking in prose, and review queues where accumulated proposals wait for a pass.
+
+## Resources & references
+
+- [AI UX Playground — Smart Diff](https://www.aiuxplayground.com/pattern/smart-diff)
+- Long pre-AI lineage: version-control code review and word-processor track changes are this pattern without the machine author.
+
+## To-do
+
+The attention-narrowing force (unchanged context escapes review) has code-review literature behind it worth importing. Whether per-hunk acceptance granularity deserves its own force treatment is open.

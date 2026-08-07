@@ -1,0 +1,54 @@
+---
+title: Citation
+added: 2026-08-07
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+disclosure: "Seeded from a cross-catalogue triage of six AI pattern libraries (references/ai-pattern-catalogues.md). Generated content's citations stub sketches this; the move had no page of its own."
+activityLevel: operation
+atomic: pattern
+situation:
+  initiating: >-
+    the actor owns output they didn't make, and standing behind it means knowing where it
+    came from — but checking everything costs what the output is long, so unverifiable
+    output gets accepted, not checked
+  resulting:
+    - >-
+      claims carry pointers to their sources, so verification collapses from re-research to
+      spot-checking the load-bearing points
+    - >-
+      a citation lends authority whether or not anyone follows it: the mark of checkability
+      gets read as the fact of having been checked
+    - >-
+      citing constrains generation to the retrievable — what can be said leans toward what
+      can be pointed at
+relationships:
+  composed-of:
+    - to: link-preview
+      note: hover previews let a source be weighed without leaving the claim
+  complements:
+    - to: transparent-reasoning
+      note: the evidence for a claim versus the path that produced it
+    - to: explanation
+      note: where it came from versus why the system said it
+  instantiates:
+    - to: annotation
+      note: machine-authored annotations anchored to the claims they support
+---
+Generated claims arrive with pointers to the sources behind them — inline marks, chips, footnotes, a source panel — so the actor can verify by following rather than by re-researching.
+
+## Forms
+
+Recurring forms: inline markers resolving to a source list, hoverable citation chips, a source browser beside the answer, and previews of the retrieved context an answer was grounded in.
+
+## Resources & references
+
+- [Shape of AI — Citations, References](https://www.shapeof.ai)
+- [aiuxpatterns.com — Show Citations](https://www.aiuxpatterns.com)
+- [AI UX Playground — Citations](https://www.aiuxplayground.com/pattern/citations), [Source Browser](https://www.aiuxplayground.com/pattern/source-browser), [Retrieval Context Preview](https://www.aiuxplayground.com/pattern/retrieval-context-preview)
+
+## To-do
+
+[Generated content](/patterns/generated-content) hosts the citations stub; migrate as this matures. The authority-without-verification force ties to the overreliance cluster — worth a shared evidence base with [cognitive forcing functions](/patterns/cognitive-forcing-functions).

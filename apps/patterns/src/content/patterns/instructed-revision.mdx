@@ -1,0 +1,60 @@
+---
+title: Instructed revision
+added: 2026-08-07
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+disclosure: "Seeded from a cross-catalogue triage of six AI pattern libraries (references/ai-pattern-catalogues.md); heavily attested there, not yet written from close product study."
+activityLevel: action
+atomic: pattern
+situation:
+  initiating: >-
+    the output is close but not right, and the actor can name what's wrong — re-rolling
+    gambles away what already works, and fixing it by hand costs more than saying what to
+    change
+  resulting:
+    - >-
+      iteration proceeds by deltas: the actor directs the change in their own words without
+      remaking the output or rearticulating the request
+    - >-
+      the instruction acts on the whole unless scoped, so an untargeted revision churns the
+      parts that were already right
+    - >-
+      the actor shaped the result without ever touching it, which leaves authorship — and
+      responsibility for the details — ambiguous
+relationships:
+  follows:
+    - to: generated-content
+      note: acts on output the generation activity produced
+  alternative:
+    - to: regeneration
+      note: naming the change versus drawing again on the same intent
+    - to: editing-in-place
+      note: saying what to change versus changing it by hand
+  complements:
+    - to: selection
+      note: a selected span scopes the revision to the part that needs it
+  related:
+    - to: text-lense
+      note: a lens changes how the content reads; a revision changes what it is
+  enacts:
+    - to: agency
+      note: the actor steers the output with judgement the system executes
+---
+The actor tells the system what to change about its output — shorter, warmer, restructured, this part only — and gets a revised version rather than a fresh draw or a manual edit.
+
+## Forms
+
+Recurring forms: quick-action verbs on the output (expand, shorten, restyle, transform, summarise), free-form refinement commands in the conversation, and scoped revision where a selection plus an instruction rewrites just that span.
+
+## Resources & references
+
+- [Shape of AI — Expand, Restyle, Restructure, Transform, Summary](https://www.shapeof.ai)
+- [AI UX Playground — Response Refinement](https://www.aiuxplayground.com/pattern/response-refinement), [Magic Edit](https://www.aiuxplayground.com/pattern/magic-edit)
+- [aiuxpatterns.com — Result Actions](https://www.aiuxpatterns.com)
+
+## To-do
+
+[Generated content](/patterns/generated-content) hosts the "Actions" stub this decomposes; migrate as this matures. The boundary with [prompt](/patterns/prompt) needs drawing: a revision is a delta on standing intent, not a rearticulation of it.

@@ -1,0 +1,54 @@
+---
+title: Expressed uncertainty
+added: 2026-08-07
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+disclosure: "Seeded from a cross-catalogue triage of six AI pattern libraries (references/ai-pattern-catalogues.md). Generated content's communicating-uncertainty stub sketches this; the move had no page of its own."
+activityLevel: operation
+atomic: pattern
+situation:
+  initiating: >-
+    the system is not equally sure of everything it says, but fluent output reads uniformly
+    confident — so the actor calibrates trust on tone, which the system produces equally
+    well when wrong
+  resulting:
+    - clause: >-
+        confidence is part of the output's surface — hedged phrasing, ranges, marks on the
+        doubtful spans — so the actor's scrutiny can land where it is actually needed
+      sets-up: [cognitive-forcing-functions]
+    - >-
+      a number implies calibration that may not exist: "80% confident" is itself a generated
+      claim, and precision in the mark overstates precision in the ground
+    - >-
+      hedging everything is as useless as asserting everything; the value is in the
+      difference between the marked and the unmarked
+relationships:
+  complements:
+    - to: suggestion
+      note: a proposal's weight depends on how firm the ground under it is
+    - to: citation
+      note: how sure it is versus where it came from
+  serves:
+    - to: assistance
+      note: expressed uncertainty covers assistance's signal-raising step — qualifying output so attention goes where confidence is thin
+  related:
+    - to: explanation
+      note: the factors behind a prediction are one way of saying how much to trust it
+  enacts:
+    - to: agency
+      note: the actor keeps the judgement that uniform fluency would otherwise take
+---
+The system lets its confidence show — in wording, ranges, or marks on specific spans — so the actor knows which parts of the output stand on firm ground and which are guesses.
+
+## Resources & references
+
+- [aiuxdesign.guide — Confidence Visualization](https://aiuxdesign.guide)
+- [AI UX Playground — Confidence Score](https://www.aiuxplayground.com/pattern/confidence-score), [Confidence Indicators](https://www.aiuxplayground.com/pattern/confidence-indicators)
+- [Shape of AI — Caveat](https://www.shapeof.ai)
+
+## To-do
+
+[Generated content](/patterns/generated-content) hosts the communicating-uncertainty stub and its demo; migrate as this matures. The calibration literature (whether displayed confidence tracks accuracy) should ground the false-precision force.
