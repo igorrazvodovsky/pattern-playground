@@ -2,6 +2,7 @@ import React from 'react';
 import {
   formatCurrency,
   formatDate,
+  formatDateTime,
   formatNumber,
   formatTime,
   formatUnit,
@@ -105,7 +106,9 @@ export const RelativeTime: React.FC = () => {
       columns={['elapsed', 'rendered — hover or read it out', 'datetime attribute']}
       rows={samples.map(([label, date]) => [
         label,
-        <pp-timestamp key="t" value={isoDateTime(date)}></pp-timestamp>,
+        <pp-timestamp key="t" value={isoDateTime(date)}>
+          <time dateTime={isoDateTime(date)}>{formatDateTime(date)}</time>
+        </pp-timestamp>,
         <code key="d">{date.toISOString()}</code>,
       ])}
     />

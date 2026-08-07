@@ -24,9 +24,11 @@ Relative up to 7 days, absolute beyond. The rendering follows the actor's locale
 A `title` attribute alone doesn't reach everyone: it has no keyboard trigger, and screen readers announce the visible text and skip it. So the absolute value sits in the element's own content, visually hidden, where it is announced rather than inferred — `title` is layered on top as a convenience.
 
 ```html
-<pp-timestamp value="1952-09-26T16:29:00Z"></pp-timestamp>
+<pp-timestamp value="1952-09-26T16:29:00Z">
+  <time datetime="1952-09-26T16:29:00Z">26 Sept 1952, 16:29</time>
+</pp-timestamp>
 
-<!-- renders -->
+<!-- the element maintains the child -->
 <time datetime="1952-09-26T16:29:00Z" title="26 Sept 1952, 16:29">
   9 months ago
   <span class="visually-hidden"> (26 Sept 1952, 16:29)</span>

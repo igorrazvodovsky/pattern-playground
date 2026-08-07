@@ -16,31 +16,31 @@ export const PriorityPlus: Story = {
     <pp-p-plus>
       <div style={{ display: 'flex', gap: '1ch', alignItems: 'center' }}>
         <button className="button">
-          <iconify-icon className="icon" icon={getRandomIcon()} slot="prefix"></iconify-icon>
+          <iconify-icon className="icon" icon={getRandomIcon()} data-slot="prefix"></iconify-icon>
           {faker.word.verb() + ' ' + faker.word.noun()}
         </button>
         <button className="button">
-          <iconify-icon className="icon" icon={getRandomIcon()} slot="prefix"></iconify-icon>
+          <iconify-icon className="icon" icon={getRandomIcon()} data-slot="prefix"></iconify-icon>
           {faker.word.verb() + ' ' + faker.word.noun()}
         </button>
         <button className="button">
-          <iconify-icon className="icon" icon={getRandomIcon()} slot="prefix"></iconify-icon>
+          <iconify-icon className="icon" icon={getRandomIcon()} data-slot="prefix"></iconify-icon>
           {faker.word.verb() + ' ' + faker.word.noun()}
         </button>
         <button className="button">
-          <iconify-icon className="icon" icon={getRandomIcon()} slot="prefix"></iconify-icon>
+          <iconify-icon className="icon" icon={getRandomIcon()} data-slot="prefix"></iconify-icon>
           {faker.word.verb() + ' ' + faker.word.noun()}
         </button>
         <button className="button">
-          <iconify-icon className="icon" icon={getRandomIcon()} slot="prefix"></iconify-icon>
+          <iconify-icon className="icon" icon={getRandomIcon()} data-slot="prefix"></iconify-icon>
           {faker.word.verb() + ' ' + faker.word.noun()}
         </button>
         <button className="button">
-          <iconify-icon className="icon" icon={getRandomIcon()} slot="prefix"></iconify-icon>
+          <iconify-icon className="icon" icon={getRandomIcon()} data-slot="prefix"></iconify-icon>
           {faker.word.verb() + ' ' + faker.word.noun()}
         </button>
         <button className="button">
-          <iconify-icon className="icon" icon={getRandomIcon()} slot="prefix"></iconify-icon>
+          <iconify-icon className="icon" icon={getRandomIcon()} data-slot="prefix"></iconify-icon>
           {faker.word.verb() + ' ' + faker.word.noun()}
         </button>
       </div>
