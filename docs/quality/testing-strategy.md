@@ -3,8 +3,9 @@
 ## Development commands
 
 ### Frontend (root directory)
-- `npm run test` — run ESLint
-- `npm run test styles` — run Stylelint
+- `npm run lint` — run ESLint (plus the seed-staleness check)
+- `npm run lint:styles` — run Stylelint
+- `npm run test` — full gate: lint, Stylelint, and a one-shot Storybook Vitest run (needs Chromium)
 - `npm run storybook` — start Storybook on port 6006
 - `npm run test-storybook` — run Storybook's Vitest project for CSF stories
 - `npm run build-storybook` — build static Storybook
@@ -32,9 +33,32 @@ A passing axe run is a regression floor, not accessibility sign-off — interact
 
 Use `npm run test-storybook -- --run` for a one-shot local run. If Chromium is missing after installing or updating Playwright, run `npx playwright install chromium`.
 
+## What a play function owes
+
+Every `play` function ends in at least one assertion. An interaction that
+asserts nothing passes even when the component swallows it.
+
+- *Assert structure, never rendered text.* Stories are faker-seeded, so the
+  strings change per run. Roles, counts, `aria-*` and `checked` are stable;
+  the one exception is text the play function itself supplies.
+- *Wait for anything a render or an animation produces.* Elena's `updated()`
+  and CSS entry animations both land after the event that caused them — use
+  `waitFor` for state changes and `findBy*` for things that appear.
+- *Keyboard and focus behaviour gets its own story*, named for what it pins
+  (`Keyboard operation`, `Keyboard navigation`), so the coverage is visible in
+  the sidebar rather than only in code.
+- *The browser's own dismissal cannot be tested here.* Escape and light
+  dismiss for `popover` and native `<dialog>` run off the close watcher, which
+  only trusted input reaches; synthetic events do not. Say so in the story
+  rather than leaving the gap looking accidental.
+- *Modal surfaces are cleared between stories.* They mount on `document.body`
+  and outlive the story that opened them, and an open one makes every later
+  canvas inert. `preview.ts` calls `modalService.closeAll()` in `beforeEach`
+  so play functions need not tidy up after themselves.
+
 ## Quality baseline
 
 - TypeScript strict mode enabled
 - Components should extend native HTML elements when possible
 - ESLint enforces: no `any`, no `console.log` (warn/error allowed), no inline `style` props, centralised `customElements.define()`, no ARIA selectors as JS hooks
-- Stylelint enforces CSS conventions (see `.claude/rules/styling.md`)
+- Stylelint enforces CSS conventions (see `.claude/rules/styling.md`). `.stylelintrc.json` encodes the naming conventions rather than the stock defaults: classes are BEM in kebab-case, custom properties are kebab-case with camelCase segments and an optional `_` prefix for component-local tokens, colours come from OKLCH inside the sRGB gamut. The files that style tldraw and ProseMirror take an override, because those class names are not this project's to rename.

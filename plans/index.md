@@ -5,6 +5,7 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Active
 
+- [Component testing depth](active/2026-08-testing-depth.md) — the story-based Vitest architecture was current but shallow. Suite green, play functions asserting, keyboard and focus sittings done for all six components, Stylelint tuned to the corpus and joined to the gate: `npm run test` now passes end to end at 200 tests. Remaining: a unit project for services and the graph script, and a decision on where CI lives; visual regression deliberately declined with revisit triggers
 - [Mine the fifteen properties from the corpus](active/2026-08-property-mining.md) — research-gated: does ch. 13 §13's claim that the fifteen are already embedded in patterns hold against this corpus? Blinded two-pass derivation over 96 pattern pages, independence tested against `enacts`; arbitrates relationship-vocabulary open questions 5 and 6, which currently disagree. Three verdicts, all publishable — including that the properties don't survive the medium
 - [Figures: dates, numbers, and money as design material](active/2026-07-figures.md) — the figures stratum as a Storybook `Foundations` entry, parallel to Prose; generative half distributed to Localization/Temporality/Data entry, no new pattern node
 - [Workspace boundary after the view-system reshape](active/2026-07-workspace-boundary.md) — give the screen-composition seam a typed edge (workspace ↔ coordinated-views), reinstate the panelled/tabbed variants the survey now routes to, clear pre-reshape word residue

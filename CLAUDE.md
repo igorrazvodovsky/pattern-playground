@@ -39,8 +39,10 @@ Plain, design-practitioner language in everything written here — pattern conte
 
 ## Common commands
 ```bash
-npm run test               # ESLint (workspace root)
-npm run test styles        # Stylelint
+npm run lint               # ESLint (workspace root)
+npm run lint:styles        # Stylelint
+npm run test               # lint + Stylelint + one-shot Storybook Vitest run
+npm run test-storybook     # Storybook Vitest project only
 npm run storybook          # Storybook on :6006
 npm run dev                # Pattern site on :4321
 npm run dev -w apps/server # Express backend on :3000
