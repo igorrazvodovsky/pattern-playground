@@ -1,0 +1,17 @@
+story: null
+topic: Translations of Alexander's fifteen properties / structure-preserving transformations to software and interaction design
+interaction: |
+  A designer (or agent) applies the fifteen properties as moves on existing
+  interface or repository structure; the project is documenting them as
+  substrate-agnostic operators in docs/language/properties/.
+context: |
+  Pattern-language research project. The fifteen are being documented one file
+  per property, dual reading (move while working, symptom while reviewing),
+  with per-substrate translations that must state presence and absence
+  conditions. Dorian Taylor's The Nature of Software is already known and
+  covered in the author's notes — not a discovery target.
+questions:
+  - What prior academic work applies the fifteen properties or structure-preserving transformations to screens, interfaces, code structure, or software process?
+  - Have the properties been tested empirically outside architecture (preference studies, computational measures, generative experiments)?
+  - What critiques exist of the properties' transferability to non-geometric or temporal media?
+keywords: [fifteen properties, living structure, structure-preserving transformation, Christopher Alexander, wholeness, centers, pattern language, interface aesthetics]
