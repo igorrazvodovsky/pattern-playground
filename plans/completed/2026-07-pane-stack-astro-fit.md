@@ -1,9 +1,9 @@
 ---
 title: "Pane stack: refit to Astro's grain"
-status: "active"
+status: "completed"
 kind: "exec-spec"
 created: "2026-07"
-last_reviewed: "2026-08-06"
+last_reviewed: "2026-08-07"
 area: "pattern-site"
 promoted_to: ""
 superseded_by: ""
@@ -15,9 +15,17 @@ demos mount, how pane 0 is rendered — so nothing depends on Astro
 internals. The reading experience (sliding panes, spines,
 `?stackedNotes=` URLs, live demos in every pane) does not change.
 
-## Status (2026-07-25)
+## Status
 
-Phases 1–3 are implemented and verified (build green; demos mount at
+Closed at phase 3 (2026-08-07). Phase 4's gate failed on criterion (a):
+stable Firefox still lacks cross-document view transitions, and
+degrading sidebar navigation there to an instant full load is not
+acceptable. Criterion (b) also weighed in — sidebar scroll position
+survives swaps only because the Nav island instance persists, and plain
+MPA navigation would reset it on every click. ClientRouter stays.
+Revisit trigger: stable Firefox ships cross-document view transitions.
+
+Phases 1–3 were implemented and verified 2026-07-25 (build green; demos mount at
 pane 0, stacked, and in dev; Mermaid renders both places; link previews
 carry prose without demo holes; pagefind indexes 117 pattern pages and
 skips the pane partials; focus lands on a pushed pane's `h1` — now for
@@ -26,15 +34,6 @@ uncached pushes too, which the old length-keyed effect missed).
 `client:only` remains in pattern content. `scripts/verify-demo-registry.mjs`
 checks the content↔registry contract (its `--against` baseline defaults
 to HEAD; pass the pre-migration ref once this lands).
-
-Phase 4 is unresolved. Gate evidence gathered:
-
-- (a) Firefox stable still lacks cross-document view transitions —
-  sidebar navigation there becomes an instant full load.
-- (b) `nav-store` persists open groups and projection (localStorage),
-  but sidebar *scroll position* survives swaps only because the Nav
-  island instance persists; plain MPA navigation resets it on every
-  click unless scroll persistence is added.
 
 ## Context
 

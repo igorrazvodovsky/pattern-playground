@@ -18,6 +18,7 @@ import { ConnectionCenterHandleOverlayUtil } from '../tldraw/connection/Connecti
 import { ConnectionShapeUtil } from '../tldraw/connection/ConnectionShapeUtil'
 import { keepConnectionsAtBottom } from '../tldraw/connection/keepConnectionsAtBottom'
 import { disableTransparency } from '../tldraw/disableTransparency.tsx'
+import { tldrawLicenseKey } from '../tldraw/licenseKey'
 import { ContentCardShapeUtil } from '../tldraw/nodes/contentCard/ContentCardShapeUtil'
 import { NodeShapeUtil } from '../tldraw/nodes/NodeShapeUtil'
 import { PointingPort } from '../tldraw/ports/PointingPort'
@@ -79,7 +80,7 @@ export function WorkflowDemo() {
 	return (
 		<div style={{ position: 'fixed', inset: 0 }}>
 			<Tldraw
-				licenseKey="tldraw-2030-10-02/WyJhU2o4TlRIdCIsWyIqLnBhdHRlcm4tcGxheWdyb3VuZC5vbnJlbmRlci5jb20iXSw5LCIyMDMwLTEwLTAyIl0.jPYfftBSCICOdDXZwxj+tWGLQgbITA9SJ0tHGUGBYmo8oJT8ZaY1j+8vkkzLbWx8KNs6EnjZJMnNlCqads8xVA"
+				licenseKey={tldrawLicenseKey}
 				persistenceKey="workflow"
 				options={options}
 				overrides={overrides}

@@ -1,13 +1,11 @@
 # The fifteen properties
 
 Fifteen recurring structural features that Christopher Alexander identified in
-living structure, each of which is also a transformation that produces it. This
-folder holds one file per property. Most are placeholders: a file fills out only
-when its move has been worked in a real substrate.
+living structure, each of which is also a transformation that produces it. Most are placeholders: a file fills out only when its move has been worked in a real substrate.
 
 ## How to read them
 
-Each property runs in two directions, and the direction matters:
+Each property runs in two directions:
 
 - *As a move*, while working: an operation an actor applies to what already
   exists. Each file states the operand (what the move acts on) and the
@@ -38,7 +36,7 @@ Substrates in play so far:
 - *Interface composition* — screens, flows, conversations. Centres here are
   meaning-carrying differentiations in behaviour and attention; see
   [design-theory.md](../design-theory.md).
-- *The repository* — code and its strata of description.
+- *The code*.
 - *The pattern language itself*, as an artifact.
 
 Translations accrete per property as separate documents, linked from the

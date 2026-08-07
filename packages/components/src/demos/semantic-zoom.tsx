@@ -4,6 +4,7 @@ import 'iconify-icon'
 import { lifecycleEvents, users, type User } from '@shared/data'
 import { formatDate, formatDateTime } from '@shared/format'
 
+import { tldrawLicenseKey } from '../tldraw/licenseKey'
 import { ContentCardShapeUtil } from '../tldraw/nodes/contentCard/ContentCardShapeUtil'
 
 // Shared semantic-zoom demo: content cards on a canvas whose representation
@@ -57,6 +58,7 @@ export function SemanticZoomDemo({ height = 480 }: { height?: number | string } 
 	return (
 		<div style={{ height, position: 'relative' }}>
 			<Tldraw
+				licenseKey={tldrawLicenseKey}
 				persistenceKey="semantic-zoom-demo"
 				shapeUtils={shapeUtils}
 				components={components}

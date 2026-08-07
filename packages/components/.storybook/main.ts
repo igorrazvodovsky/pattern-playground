@@ -67,6 +67,17 @@ const config: StorybookConfig = {
       __DEV__: JSON.stringify(configType === 'DEVELOPMENT'),
     };
 
+    // Astro exposes `PUBLIC_`-prefixed env vars to the client natively; Vite on
+    // its own only exposes `VITE_`. Adding the prefix here lets shared code
+    // under packages/components read one name in both builds — currently
+    // PUBLIC_TLDRAW_LICENSE_KEY (see src/tldraw/licenseKey.ts).
+    config.envPrefix = [
+      ...(typeof config.envPrefix === 'string'
+        ? [config.envPrefix]
+        : (config.envPrefix ?? ['VITE_'])),
+      'PUBLIC_',
+    ];
+
     if (config.build) {
       config.build.copyPublicDir = true;
     }

@@ -83,6 +83,31 @@ symptom is the deployed Storybook showing a long-gone taxonomy with 404ing
 stories while the origin's `/storybook/index.json` is current. The canonical
 `/storybook/` serves the shell directly and bypasses the redirect.
 
+## tldraw licence key reaches two bundles
+
+`PUBLIC_TLDRAW_LICENSE_KEY` is read once, in
+`packages/components/src/tldraw/licenseKey.ts`, and consumed by both `<Tldraw>`
+call sites (`demos/semantic-zoom.tsx`, on the pattern site; `demos/workflow.tsx`,
+Storybook only). `npm run build` produces two client bundles, so the key has to
+be inlined into both: Astro exposes `PUBLIC_`-prefixed vars natively, and
+`.storybook/main.ts` `viteFinal` appends `PUBLIC_` to Vite's `envPrefix` for the
+Storybook build that gets copied into `public/storybook`.
+
+`PUBLIC_TLDRAW_LICENSE_KEY` is one of the names tldraw's own
+`LicenseProvider` probes on `import.meta.env`, so the name is not arbitrary —
+keep it if the explicit prop is ever dropped.
+
+Unlicensed is not a cosmetic state in tldraw 5. `LicenseProvider` treats
+`unlicensed-production` (no key, unparseable key, or a key whose hosts miss the
+current one) the same as an expired licence: it renders the editor for five
+seconds, then replaces it with a hidden div — a canvas that appears and then
+goes blank, with the reason logged to the console. Only `localhost`, `127.x`
+and `::1` are exempt, which is why the demos run fine in dev with nothing set.
+
+Verify a change by building with the var set and grepping `apps/patterns/dist`
+*and* `public/storybook` for a fragment of it; a dev-server render passes either
+way.
+
 ## test-storybook lives in the components workspace
 
 The Storybook vitest project is configured by
