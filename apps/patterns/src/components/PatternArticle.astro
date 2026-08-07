@@ -6,7 +6,7 @@
 // fetch (lib/pane-content.ts) relies on.
 import { render, type CollectionEntry } from 'astro:content';
 import Demo from './Demo.astro';
-import MermaidDiagram from './MermaidDiagram.astro';
+import Diagram from './Diagram.astro';
 import { ComponentRef } from './ComponentRef';
 import Consequences from './Consequences.astro';
 import PatternDates from './PatternDates.astro';
@@ -40,7 +40,7 @@ const { Content } = await render(entry);
     </div>
   </header>
   <pp-toc heading="On this page" data-pagefind-ignore></pp-toc>
-  <Content components={{ Demo, ComponentRef, MermaidDiagram }} />
+  <Content components={{ Demo, ComponentRef, Diagram }} />
   <Consequences entry={entry} />
   {entry.data.showRelated !== false && <RelatedPatterns slug={entry.id} />}
 </article>

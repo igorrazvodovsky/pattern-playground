@@ -319,7 +319,7 @@ Two node-side constructs hold situational judgements, and each *emits* the edges
          "No confirmation (with undo)": undo
          "Inline confirmation": inline-confirmation
    ```
-   `chart-index` (0-based) selects among multiple `<MermaidDiagram>` blocks; leaves not in the map are skipped and reported.
+   `chart-index` (0-based) selects among multiple `<Diagram>` blocks; leaves not in the map are skipped and reported.
 
 ### Authoring aliases and direction normalization
 

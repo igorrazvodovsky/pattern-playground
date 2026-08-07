@@ -41,7 +41,6 @@
 @import url("messages.css") layer(components);
 @import url("input.css") layer(components);
 @import url("reference.css") layer(components);
-@import url("hover-card.css") layer(components);
 @import url("shell.css");
 @import url("sidebar.css");
 
@@ -62,6 +61,7 @@
 @import url("certainty.css");
 @import url("semantic-zoom.css");
 @import url("toc.css");
+@import url("diagram.css");
 @import url("pattern-graph.css");
 @import url("network-graph.css");
 @import url("dynamic-hyperlinks.css");

@@ -1,0 +1,17 @@
+---
+// MDX pages receive this component through the Content components mapping
+// (components/PatternArticle.astro), so a bare <Diagram source={`…`} /> needs
+// no import. It renders <pp-diagram>, which registers with every other element
+// in the layout and loads the renderer itself on first use.
+//
+// scripts/extract-graph-data.ts reads these blocks out of the MDX source to
+// pull decision trees into the pattern graph, matching the tag and the
+// `source` prop by name — renaming either means updating that regex too.
+interface Props {
+  source: string;
+  theme?: string;
+}
+
+const { source, theme } = Astro.props;
+---
+<pp-diagram source={source} theme={theme}></pp-diagram>

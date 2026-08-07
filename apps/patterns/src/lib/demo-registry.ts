@@ -1,7 +1,6 @@
 // Registry of client-mounted demo widgets. <Demo name="…"> (components/Demo.astro)
-// and <MermaidDiagram> (components/MermaidDiagram.astro) render a
-// <div data-demo="…"> mount point; mountDemos() resolves the name here and mounts
-// the React component with createRoot. Dynamic imports keep per-demo
+// renders a <div data-demo="…"> mount point; mountDemos() resolves the name here
+// and mounts the React component with createRoot. Dynamic imports keep per-demo
 // code-splitting. Runs on initial page load (layout script) and on each stacked
 // pane that turns ready (StackManager) — the same code path everywhere, so
 // injected panes need no island revival and demo modules stay out of the
@@ -63,7 +62,6 @@ const demos: Record<string, Loader> = {
   'indicators': () => import('@pkg/demos/status-feedback').then(m => m.IndicatorsDemo),
   'toast': () => import('@pkg/demos/transient-feedback').then(m => m.ToastDemo),
   'toast-with-undo': () => import('@pkg/demos/transient-feedback').then(m => m.ToastWithUndoDemo),
-  'mermaid': () => import('@components/MermaidDiagram').then(m => m.MermaidDiagram as DemoComponent),
 };
 
 // Names the verification script checks MDX content against.

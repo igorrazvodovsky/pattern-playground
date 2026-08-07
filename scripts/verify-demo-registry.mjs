@@ -1,8 +1,9 @@
 // Verifies the demo-registry contract between pattern content and
 // apps/patterns/src/lib/demo-registry.ts:
 //   1. no client:only remains in pattern content (demos mount via the registry);
-//   2. every demo name used in MDX (<Demo name="…">, <MermaidDiagram …>)
-//      resolves to a registry entry;
+//   2. every demo name used in MDX (<Demo name="…">) resolves to a registry
+//      entry. <Diagram> is not one of them — it renders <pp-diagram>,
+//      a custom element that registers with the rest of the library;
 //   3. per-page demo-mount count matches the client:only count at the given
 //      git ref (default HEAD) — pass --against <ref>, or --no-baseline to skip
 //      once the migration commit is in history;
@@ -45,7 +46,6 @@ for (const file of readdirSync(contentDir).filter((f) => f.endsWith('.mdx')).sor
   }
 
   const names = [...text.matchAll(/<Demo\s[^>]*?name="([a-z0-9-]+)"/gs)].map((m) => m[1]);
-  const mermaids = [...text.matchAll(/<MermaidDiagram[\s>]/g)].length;
   for (const name of names) {
     usedNames.add(name);
     if (!registryNames.has(name)) {
@@ -53,9 +53,8 @@ for (const file of readdirSync(contentDir).filter((f) => f.endsWith('.mdx')).sor
       failures++;
     }
   }
-  if (mermaids > 0) usedNames.add('mermaid');
 
-  const mountCount = names.length + mermaids;
+  const mountCount = names.length;
   if (mountCount > 0) demoPages.push({ slug: file.replace(/\.mdx$/, ''), mountCount });
 
   if (baseline) {

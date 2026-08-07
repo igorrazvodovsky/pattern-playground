@@ -189,7 +189,7 @@ section plus a frontmatter leaf map:
 ```yaml
 decision-trees:
   - id: deletion
-    chart-index: 0   # optional; which <MermaidDiagram> on the page (0-based)
+    chart-index: 0   # optional; which <Diagram> on the page (0-based)
     leaves:
       "No confirmation (with undo)": undo
 ```

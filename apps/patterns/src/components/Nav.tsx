@@ -12,7 +12,7 @@ import {
   SidebarMenuButton,
   SidebarTrigger,
 } from '@components/sidebar';
-import { setPatternGraphHover } from '@components/pattern-graph-hover';
+import { setPatternGraphHover } from '../lib/pattern-graph-hover';
 import { useNavStore, useNavHydration, DEFAULT_PROJECTION } from '../lib/nav-store';
 import { useActivePath, isActivePath } from '../lib/active-path';
 

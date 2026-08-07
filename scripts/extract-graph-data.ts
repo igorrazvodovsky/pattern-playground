@@ -7,9 +7,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = join(__dirname, '..');
 const patternsContentDir = join(rootDir, 'apps/patterns/src/content/patterns');
 const outputPath = join(rootDir, 'apps/patterns/src/data/pattern-graph.json');
-const outputPathLegacy = join(rootDir, 'packages/components/src/pattern-graph.json');
 const activityLevelsPath = join(rootDir, 'apps/patterns/src/data/activity-levels.json');
-const activityLevelsPathLegacy = join(rootDir, 'packages/components/src/activity-levels.json');
 
 interface Node {
   id: string;
@@ -495,20 +493,20 @@ function parseMermaid(chart: string): MermaidGraph {
   return { nodes, edges };
 }
 
-const MERMAID_BLOCK_RE = /<MermaidDiagram\b[^>]*?\bchart=\{`([\s\S]*?)`\}/g;
+const DIAGRAM_BLOCK_RE = /<Diagram\b[^>]*?\bsource=\{`([\s\S]*?)`\}/g;
 
-function extractMermaidCharts(content: string): string[] {
+function extractDiagramSources(content: string): string[] {
   const charts: string[] = [];
   let m: RegExpExecArray | null;
-  MERMAID_BLOCK_RE.lastIndex = 0;
-  while ((m = MERMAID_BLOCK_RE.exec(content)) !== null) charts.push(m[1]);
+  DIAGRAM_BLOCK_RE.lastIndex = 0;
+  while ((m = DIAGRAM_BLOCK_RE.exec(content)) !== null) charts.push(m[1]);
   return charts;
 }
 
 interface TreeConfig {
   /** Stable identifier used in `extractedFrom: 'decision-tree:<treeId>'`. */
   treeId: string;
-  /** Index of the `<MermaidDiagram>` block in the source MDX (0 = first). */
+  /** Index of the `<Diagram>` block in the source MDX (0 = first). */
   chartIndex?: number;
   /** Map of leaf-node label text to target pattern id. Leaves not listed here are skipped. */
   leaves: Record<string, string>;
@@ -672,7 +670,7 @@ function extractDecisionTreeEdges(
   collection: RecommendsCollection,
 ): void {
   if (configs.length === 0) return;
-  const charts = extractMermaidCharts(content);
+  const charts = extractDiagramSources(content);
   if (charts.length === 0) return;
 
   for (const config of configs) {
@@ -926,7 +924,6 @@ const output = { nodes, edges };
 
 mkdirSync(dirname(outputPath), { recursive: true });
 writeFileSync(outputPath, JSON.stringify(output, null, 2));
-writeFileSync(outputPathLegacy, JSON.stringify(output, null, 2));
 
 const activityLevelsNodes: Record<string, ActivityLevel> = {};
 for (const node of nodes) {
@@ -939,7 +936,6 @@ const activityLevelsOutput = {
 };
 mkdirSync(dirname(activityLevelsPath), { recursive: true });
 writeFileSync(activityLevelsPath, JSON.stringify(activityLevelsOutput, null, 2));
-writeFileSync(activityLevelsPathLegacy, JSON.stringify(activityLevelsOutput, null, 2));
 
 // --- Axis sanity check (advisory) ---
 //

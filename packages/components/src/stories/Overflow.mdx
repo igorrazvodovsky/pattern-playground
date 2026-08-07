@@ -1,5 +1,4 @@
 import { Meta } from '@storybook/addon-docs/blocks';
-import { MermaidDiagram } from '../components/MermaidDiagram';
 
 <Meta title="Utilities/Overflow" tags={['activity-level:operation', 'atomic:primitive', 'role:component', 'mediation:individual']} />
 
@@ -11,7 +10,7 @@ Governs how text and continuous content respond when they exceed their container
 
 ## Decision tree
 
-<MermaidDiagram chart={`
+<pp-diagram source={`
 flowchart TD
     A[Content exceeds container?] --> B{Is content critical?}
     B -->|Yes| C{Can container expand?}
@@ -22,7 +21,7 @@ flowchart TD
     F -->|No| H{Can content be truncated?}
     H -->|Yes| I[Use text overflow ellipsis]
     H -->|No| J[Consider redesign/priority]
-`} />
+`}></pp-diagram>
 
 ## Accessibility
 
