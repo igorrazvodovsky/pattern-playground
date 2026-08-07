@@ -4,6 +4,7 @@ import '../src/styles/docs.css';
 import '../src/main.ts';
 import 'iconify-icon';
 import { PatternRef } from '../src/stories/utils/PatternRef';
+import { modalService } from '../src/services/modal-service';
 import lightTheme from './theme';
 import darkTheme from './theme-dark';
 
@@ -14,6 +15,16 @@ const prefersDark =
   window.matchMedia?.('(prefers-color-scheme: dark)').matches;
 
 const preview: Preview = {
+  /* Modal surfaces mount on document.body, outside the story canvas, and the
+     service only tears one down when it is dismissed. A story that opens a
+     dialog and never closes it leaves it in the top layer, which makes every
+     later story's canvas inert — clicks and focus stop landing. Clear the
+     board before each story rather than asking each play function to tidy up
+     after itself. */
+  beforeEach: () => {
+    modalService.closeAll();
+  },
+
   parameters: {
     docs: {
       theme: prefersDark ? darkTheme : lightTheme,

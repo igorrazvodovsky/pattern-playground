@@ -171,6 +171,18 @@ export class PPModal extends HTMLElement {
   private openModal() {
     if (!this.modal) return;
 
+    // Remember where focus was so closing can put it back. A trigger inside
+    // this element has already been recorded by handleTriggerClick; an
+    // `open()` driven from outside (the modal service, opening from a button
+    // that lives in the page rather than in the surface) has no trigger, so
+    // fall back to whatever held focus at the moment of opening.
+    if (!this.lastFocusedElement) {
+      const active = document.activeElement;
+      if (active instanceof HTMLElement && active !== document.body) {
+        this.lastFocusedElement = active;
+      }
+    }
+
     if (this.isDialogElement) {
       const dialog = this.modal as HTMLDialogElement;
       if (this.isModal) {
@@ -219,10 +231,13 @@ export class PPModal extends HTMLElement {
       trigger.setAttribute('aria-expanded', 'false');
     });
 
-    // Restore focus
-    if (this.lastFocusedElement) {
+    // Restore focus, then forget: a surface reopened later should return to
+    // wherever focus is then, not to a trigger from a previous session that
+    // may no longer be in the document.
+    if (this.lastFocusedElement?.isConnected) {
       this.lastFocusedElement.focus();
     }
+    this.lastFocusedElement = null;
   }
 
   private isOpen(): boolean {

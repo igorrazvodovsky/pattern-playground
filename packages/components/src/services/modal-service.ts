@@ -45,6 +45,12 @@ interface ReactModalState {
   headerRoot?: Root;
 }
 
+/**
+ * Surfaces mount on `document.body` and are torn down only when dismissed — a
+ * caller that opens one and walks away leaves it in the top layer, where it
+ * makes the rest of the page inert. Storybook calls {@link ModalService.closeAll}
+ * in its `beforeEach` (`.storybook/preview.ts`) for exactly that reason.
+ */
 export class ModalService {
   private reactModals = new Map<string, ReactModalState>();
   private modalCounter = 0;
