@@ -3,8 +3,17 @@
    overrides these defaults by keying on the data-* attributes the consumer
    stamps through node `attrs`. */
 @layer components {
-  .network-graph {
+  /* The chart scaffold's container is `height: 100%`, for charts that fill a
+     box the page has sized. This one doesn't — its SVG takes its height from
+     the viewBox fitted to the settled layout — so the container's height comes
+     from the drawing instead. */
+  pp-network-graph {
+    display: block;
+  }
+
+  pp-network-graph .network-graph {
     width: 100%;
+    height: auto;
     overflow: visible;
   }
 

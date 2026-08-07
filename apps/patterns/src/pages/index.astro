@@ -1,6 +1,5 @@
 ---
 import Base from "../layouts/Base.astro";
-import { PatternGraph } from "@components/PatternGraph";
 import "@styles/pattern-graph.css";
 ---
 
@@ -49,7 +48,9 @@ import "@styles/pattern-graph.css";
 
   <div class="flow">
 
-    <PatternGraph client:only="react" />
+    <pp-network-graph
+      data-pattern-graph
+      data-color-mode="at-level"></pp-network-graph>
 
     <h2>Overview</h2>
 
@@ -330,3 +331,13 @@ import "@styles/pattern-graph.css";
     <p>First commit.</p>
   </div>
 </Base>
+
+<script>
+  // ClientRouter discards and rebuilds the page on navigation, so the graph
+  // has to be wired on every arrival, not once per document. mountPatternGraph
+  // marks the element it took, so a duplicate event costs nothing.
+  import { mountPatternGraph } from "../lib/pattern-graph";
+
+  void mountPatternGraph();
+  document.addEventListener("astro:page-load", () => void mountPatternGraph());
+</script>

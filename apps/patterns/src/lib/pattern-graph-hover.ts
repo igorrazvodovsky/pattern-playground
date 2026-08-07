@@ -1,10 +1,11 @@
 // Cross-island channel for "this pattern is under the pointer".
 //
-// The sidebar and the graph are separate React roots in separate island
-// chunks, so they can't share a store module instance — they talk over a
-// document-level CustomEvent instead. The payload is a *path* rather than a
-// node id: the sidebar knows hrefs, the graph owns the path → node mapping,
-// and neither has to know whether a given href has a node at all.
+// The sidebar is a React island and the graph is a custom element wired from
+// the page's own script; they load as separate chunks and can't share a store
+// module instance, so they talk over a document-level CustomEvent instead. The
+// payload is a *path* rather than a node id: the sidebar knows hrefs, the
+// graph's page owns the path → node mapping, and neither has to know whether a
+// given href has a node at all.
 //
 // The graph only exists on the home page; everywhere else these events simply
 // have no listener.
@@ -29,12 +30,11 @@ export function normalisePatternPath(path: string): string {
 }
 
 // One document listener for the page's lifetime, one live subscriber slot.
-// The graph island can't clean up after itself: a client-side navigation
-// discards its DOM without unmounting the React root, so effect cleanup never
-// runs and a plain addEventListener would accumulate a dead closure over the
-// whole graph on every return to the home page. A fresh island simply takes the
-// slot; unsubscribing is identity-checked so a late cleanup from the discarded
-// island can't silence the live one.
+// A client-side navigation discards the graph's DOM and nothing tears the
+// subscription down with it, so a plain addEventListener would accumulate a
+// dead closure over a whole discarded graph on every return to the home page.
+// A fresh graph simply takes the slot; unsubscribing is identity-checked so a
+// late cleanup from a discarded one can't silence the live one.
 let subscriber: ((detail: PatternGraphHoverDetail) => void) | null = null;
 let bound = false;
 

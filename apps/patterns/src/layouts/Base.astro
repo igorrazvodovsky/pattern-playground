@@ -150,8 +150,8 @@ const projectionLabels: Record<ProjectionId, string> = {
   <head>
     <meta charset="UTF-8" />
     <!-- Locks the cascade layer order before any other CSS can — in prod,
-         Astro sometimes inlines a route-only island's stylesheet (e.g.
-         PatternGraph's) ahead of the main bundle, unwrapped from "lib",
+         Astro sometimes inlines a route-only stylesheet (e.g. the home page's
+         pattern-graph.css) ahead of the main bundle, unwrapped from "lib",
          which would fix "components" before "lib" and invert precedence.
          is:inline keeps this tag first. Must match the statement in lib.css. -->
     <style is:inline>@layer lib, reset, theme, global, layout, components, utilities, states;</style>

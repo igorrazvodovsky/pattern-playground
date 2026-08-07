@@ -7,9 +7,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = join(__dirname, '..');
 const patternsContentDir = join(rootDir, 'apps/patterns/src/content/patterns');
 const outputPath = join(rootDir, 'apps/patterns/src/data/pattern-graph.json');
-const outputPathLegacy = join(rootDir, 'packages/components/src/pattern-graph.json');
 const activityLevelsPath = join(rootDir, 'apps/patterns/src/data/activity-levels.json');
-const activityLevelsPathLegacy = join(rootDir, 'packages/components/src/activity-levels.json');
 
 interface Node {
   id: string;
@@ -926,7 +924,6 @@ const output = { nodes, edges };
 
 mkdirSync(dirname(outputPath), { recursive: true });
 writeFileSync(outputPath, JSON.stringify(output, null, 2));
-writeFileSync(outputPathLegacy, JSON.stringify(output, null, 2));
 
 const activityLevelsNodes: Record<string, ActivityLevel> = {};
 for (const node of nodes) {
@@ -939,7 +936,6 @@ const activityLevelsOutput = {
 };
 mkdirSync(dirname(activityLevelsPath), { recursive: true });
 writeFileSync(activityLevelsPath, JSON.stringify(activityLevelsOutput, null, 2));
-writeFileSync(activityLevelsPathLegacy, JSON.stringify(activityLevelsOutput, null, 2));
 
 // --- Axis sanity check (advisory) ---
 //

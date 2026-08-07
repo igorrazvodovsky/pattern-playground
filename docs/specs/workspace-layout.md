@@ -120,7 +120,11 @@ one would be inert, so it enforces nothing (workspace-split closure,
 workstream 4 step 2). The observed public surface, recorded when an honest
 `exports` field could be written if enforcement is ever wanted:
 `@components/register-all.ts` (side-effect registration),
-`@components/{MermaidDiagram,PatternGraph,sidebar}`, and `@pkg/demos/*`.
+`@components/sidebar`, `@styles/*` (stylesheet entries), and `@pkg/demos/*`
+(dynamic, through the demo registry). The site also imports
+`@components/charts/network-graph` and `@components/charts/base/chart-types`
+for typing only — erased at build, so they are a source-level coupling rather
+than part of the runtime surface.
 pnpm's phantom-dep isolation is the future enforcement lever if convention
 proves insufficient; the package is not published to npm.
 
@@ -140,11 +144,12 @@ synthesis surface, so its build vouches for both languages. A bare
 
 `scripts/extract-graph-data.ts` stays at the workspace root as workspace-level
 tooling: under the settled language-only graph (stage 3) it reads only
-`apps/patterns/src/content/`, but its outputs feed both surfaces — the site's
-graph data (`apps/patterns/src/data/`) and the copies consumed by Storybook's
-`PatternGraph` component (`packages/components/src/pattern-graph.json`,
-`activity-levels.json`). `scripts/` also hosts the other workspace-level
-checks, so root residency is the pattern, not an exception.
+`apps/patterns/src/content/` and writes only `apps/patterns/src/data/`. It once
+wrote a second copy into `packages/components/src/` for a Storybook component
+that read the graph; that component is gone, nothing in the package reads the
+data, and the copies and their sync check were removed with it. `scripts/`
+hosts the other workspace-level checks, so root residency is the pattern, not
+an exception.
 
 ## Bilingual entries
 
