@@ -1,0 +1,47 @@
+---
+title: Streaming output
+added: 2026-08-07
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+disclosure: "Seeded from a cross-catalogue triage of six AI pattern libraries (references/ai-pattern-catalogues.md); ubiquitous in practice, but not yet written from close product study."
+activityLevel: operation
+atomic: pattern
+situation:
+  initiating: >-
+    generation takes seconds to minutes, and a silent wait reads as failure; the actor can
+    neither judge nor act on the answer until something of it shows
+  resulting:
+    - clause: >-
+        the output is legible as it forms, so the actor can skim ahead of the machine, judge
+        early — and stop early, which is what makes interruption meaningful mid-generation
+      sets-up: [abort]
+    - >-
+      reading begins before the whole exists: early text anchors the actor's take even when
+      later text qualifies or contradicts it
+    - >-
+      the arrival rhythm is now part of the interface — pace, pauses, and re-layout as
+      content lands are designed properties, not transport details
+relationships:
+  related:
+    - to: status-feedback
+      note: the partial product is itself the progress signal — no separate indicator needed while it flows
+    - to: transparent-reasoning
+      note: reasoning traces stream the same way the answer does
+  enacts:
+    - to: temporality
+      note: makes generation's duration a legible, interruptible unfolding rather than a wait
+---
+Output appears as it is produced rather than when it is finished, turning a wait into something the actor can read, judge, and interrupt while it forms.
+
+## Resources & references
+
+- [AI UX Playground — Streaming](https://www.aiuxplayground.com/pattern/streaming), [Interrupt and Resume](https://www.aiuxplayground.com/pattern/interrupt-and-resume)
+- [Shape of AI — Controls](https://www.shapeof.ai) (pausing mid-stream)
+- [aiuxdesign.guide — Progressive Enhancement](https://aiuxdesign.guide)
+
+## To-do
+
+The anchoring-on-early-text force overlaps the fixation risks documented on [suggestion](/patterns/suggestion); check the literature there. Layout shift during arrival is a component-level concern to route to Storybook when a realisation lands.

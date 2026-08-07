@@ -1,0 +1,60 @@
+---
+title: Regeneration
+added: 2026-08-07
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+disclosure: "Seeded from a cross-catalogue triage of six AI pattern libraries (references/ai-pattern-catalogues.md). Generated content's section-regeneration and variations stubs sketch this; the move had no page of its own."
+activityLevel: action
+atomic: pattern
+situation:
+  initiating: >-
+    the output isn't right, correcting it by hand costs more than asking again, and the
+    intent hasn't changed — the actor wants another answer to the same question, not a new
+    question
+  resulting:
+    - >-
+      the same intent yields another draw, so iteration happens without rearticulating the
+      request — judgement cycles replace composition cycles
+    - >-
+      drawing again discards silently: without branches or history the replaced result is
+      simply gone, and the actor gambles what they have on getting something better
+    - >-
+      parallel variants turn judgement into comparison, which is easier than absolute
+      assessment and quietly caps how many drafts anyone will weigh
+relationships:
+  follows:
+    - to: generated-content
+      note: acts on the output the generation activity produced
+  alternative:
+    - to: editing-in-place
+      note: re-rolling versus hand-correcting the same output
+  complements:
+    - to: draft-and-publish
+      note: cheap draft modes make re-rolls affordable before committing to the full run
+    - to: undo
+      note: restores what a regeneration replaced
+  related:
+    - to: coordinated-views
+      note: parallel variants are judged side by side
+  enacts:
+    - to: agency
+      note: the actor disposes of output by re-asking rather than accepting what arrived
+---
+The actor re-runs generation on an unchanged intent — the whole output, a selected part, or several variants at once — trading another draw for the work of fixing what came back.
+
+## Forms
+
+Recurring forms: whole-output regenerate, partial regeneration of a selection (inpainting is the visual case), variant sets generated in parallel for comparison, and branches that keep the replaced result reachable.
+
+## Resources & references
+
+- [Shape of AI — Regenerate, Variations, Branches, Inpainting](https://www.shapeof.ai)
+- [aiuxpatterns.com — Full Result Regeneration, Partial Regeneration, Result Variations](https://www.aiuxpatterns.com)
+- [AI UX Playground — Regeneration Carousel](https://www.aiuxplayground.com/pattern/regen-carousel), [Variation Picker](https://www.aiuxplayground.com/pattern/variation-grid), [Output Comparison View](https://www.aiuxplayground.com/pattern/output-comparison-view)
+
+## To-do
+
+[Generated content](/patterns/generated-content) hosts the section-regeneration and variations stubs; migrate as this matures. Whether parallel variants deserve their own node is a fission question to revisit once examples accumulate.

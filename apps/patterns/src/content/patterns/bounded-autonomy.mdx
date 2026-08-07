@@ -1,0 +1,58 @@
+---
+title: Bounded autonomy
+added: 2026-08-07
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+disclosure: "Seeded from a cross-catalogue triage of six AI pattern libraries (references/ai-pattern-catalogues.md); the agentic wave's most attested new move, not yet written from close product study."
+activityLevel: action
+atomic: pattern
+situation:
+  initiating: >-
+    the actor wants work to proceed without them but not without limits — full supervision
+    defeats the point of delegating, and open-ended authority asks for more trust than the
+    agent has earned
+  resulting:
+    - >-
+      granted authority now has explicit edges — scope, spend, time, risk class — so trust
+      can be extended in increments instead of all at once
+    - clause: >-
+        crossing a bound is a designed event rather than a failure: the work pauses and
+        control returns to the actor for renewal, escalation, or takeback
+      sets-up: [handoff, approval-gate]
+    - >-
+      the bounds only bind if the actor understood them at grant time; authority granted
+      through an unread scope screen is consent in name only
+relationships:
+  serves:
+    - to: delegation
+      note: bounded autonomy covers delegation's set-up station — the shape of the authority granted before the agent runs
+  complements:
+    - to: cost-transparency
+      note: a budget only binds when spend is visible against it
+    - to: capability-and-scope
+      note: what the system can do versus what it may do on this occasion
+  related:
+    - to: settings
+      note: where standing bounds tend to live between grants
+  enacts:
+    - to: agency
+      note: autonomy becomes something the actor meters out rather than switches on
+---
+The actor grants the system authority with explicit edges — how much it may spend, touch, or decide, and for how long — so delegation can start small and grow with demonstrated competence.
+
+## Forms
+
+Recurring forms: autonomy levels per task (suggest / confirm / execute), budgets in time, actions, or money, per-capability rather than per-application grants, and thresholds that automatically demote autonomy when risk rises.
+
+## Resources & references
+
+- [AI UX Playground — Autonomy Budgets](https://www.aiuxplayground.com/pattern/autonomy-budgets), [Per-Action Autonomy](https://www.aiuxplayground.com/pattern/per-action-autonomy), [Escalation Thresholds](https://www.aiuxplayground.com/pattern/escalation-thresholds)
+- [aiuxdesign.guide — Autonomy Spectrum, Mixed-Initiative Control](https://aiuxdesign.guide)
+- [AI Interaction Atlas — Delegate Authority](https://ai-interaction.com)
+
+## To-do
+
+The relationship between bounds and earned trust (widening limits over a history of good runs) touches [ai-tuning](/patterns/ai-tuning) and delegation's trust arc; map it when the delegation foundation's trust prose lands.

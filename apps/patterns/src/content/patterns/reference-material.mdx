@@ -1,0 +1,52 @@
+---
+title: Reference material
+added: 2026-08-07
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+disclosure: "Seeded from a cross-catalogue triage of six AI pattern libraries (references/ai-pattern-catalogues.md). Prompt's @-mentions section sketches this territory; the move had no page of its own."
+activityLevel: operation
+atomic: pattern
+situation:
+  initiating: >-
+    the request needs grounding the system does not have — this document, that image, the
+    actual dataset — and without it the system answers from generalities while sounding
+    specific
+  resulting:
+    - clause: >-
+        the output is anchored in named material, and can point back to it — the attachment
+        that went in is what a citation can later point out
+      sets-up: [citation]
+    - >-
+      the attached material scopes the answer, so wrong, stale, or partial material scopes
+      it wrong with the same confidence
+    - >-
+      supplying context grows into its own task: what began as attaching a file becomes
+      curating a corpus the system works from
+relationships:
+  enables:
+    - to: prompt
+      note: grounding material is a constituent of the articulated request
+  related:
+    - to: data
+      note: standing connections to sources sit at the material layer the data foundation describes
+    - to: searching
+      note: retrieval does implicitly what attachment does by hand — choosing what the system works from
+---
+The actor anchors a request in specific material — a file, a selection, a source, a live connection — so the system works from the actor's ground rather than its generalities.
+
+## Forms
+
+Recurring forms: file and image attachment, @-mentions that pull a named thing into the request, removable context chips showing what is in scope, and standing connectors to external sources.
+
+## Resources & references
+
+- [Shape of AI — Attachments, Connectors](https://www.shapeof.ai)
+- [aiuxpatterns.com — Reference Material](https://www.aiuxpatterns.com)
+- [AI UX Playground — Context Chip Management](https://www.aiuxplayground.com/pattern/context-chip-management), [Context Mentions](https://www.aiuxplayground.com/pattern/context-mentions), [Multimodal Input](https://www.aiuxplayground.com/pattern/multimodal-input)
+
+## To-do
+
+[Prompt](/patterns/prompt) hosts an @-mentions stub of this territory; migrate it here as this matures. The hand-attached / auto-retrieved boundary deserves a forces treatment.

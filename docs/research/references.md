@@ -35,6 +35,9 @@ Research inputs for pattern development. Each entry summarises what the project
 - `DIRA.md` — Bergström & Hornbæk's DIRA model of the user interface (Devices, Interaction Techniques, Representations, Assemblies).
   *Project takeaway*: a structural decomposition of what a UI *is*, independent of paradigm. Useful as an analytical frame when the project's patterns need positioning relative to the UI as a whole — which element of the interface does a given pattern primarily act on?
 
+- `ai-pattern-catalogues.md` — cross-source triage of six public AI UX pattern libraries (shapeof.ai, aiuxpatterns.com, aiuxdesign.guide, AI Interaction Atlas, AI Interface Layout Library, AI UX Playground), run 2026-08-07.
+  *Project takeaway*: no source uses "pattern" in this project's sense (they span feature motifs, widget mechanisms, value principles, capability verbs, and layout archetypes), and their category schemes cut on axes this project already carries as facets, qualities, and foundations. The commonality table routed each recurring candidate to an existing entry, a new `seed: true` page, or a decline; the seeds concentrate in the output-negotiation territory around generated content and the delegation checkpoints (plan → approve → bounds → handoff).
+
 ## Prose and rhetoric
 
 - `rhetoric-of-hyperlink.md` — Venkatesh Rao's 2009 *Ribbonfarm* essay on the hyperlink as rhetorical technology.

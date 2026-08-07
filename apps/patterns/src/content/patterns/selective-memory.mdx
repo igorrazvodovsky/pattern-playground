@@ -1,0 +1,57 @@
+---
+title: Selective memory
+added: 2026-08-07
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+disclosure: "Seeded from a cross-catalogue triage of six AI pattern libraries (references/ai-pattern-catalogues.md); not yet written from close product study."
+activityLevel: action
+atomic: pattern
+situation:
+  initiating: >-
+    the system carries things forward from one encounter to the next, and the actor cannot
+    see what — so continuity reads as either magic or surveillance, and a wrong remembered
+    fact keeps resurfacing with no handle to correct it
+  resulting:
+    - >-
+      what the system holds about the actor is inspectable and editable: continuity becomes
+      a visible, revocable grant rather than an ambient accumulation
+    - >-
+      forgetting is now a feature — per item, per session, or per mode — and it has an
+      interface cost the invisible version never paid
+    - >-
+      curating memory is work most actors will not do until something goes wrong, so the
+      defaults of what gets kept do most of the governing
+relationships:
+  complements:
+    - to: ai-tuning
+      note: remembered facts and shaped behaviour are two channels of the same persistence
+  related:
+    - to: settings
+      note: where memory controls conventionally live
+    - to: activity-log
+      note: what the system did versus what it keeps
+  enacts:
+    - to: privacy
+      note: turns held-forward data into something the actor can see, scope, and revoke
+    - to: adaptation
+      note: memory is the raw material the system adapts from
+---
+What the system remembers about the actor is theirs to inspect, correct, scope, and erase — per fact, per conversation, or by stepping outside memory altogether.
+
+## Forms
+
+Recurring forms: a reviewable memory list with per-item deletion, memory scope set per message or per thread, incognito sessions that leave no trace, and graph views of what has accumulated.
+
+## Resources & references
+
+- [Shape of AI — Memory, Incognito Mode, Data ownership](https://www.shapeof.ai)
+- [AI UX Playground — Memory Scope Toggle](https://www.aiuxplayground.com/pattern/memory-scope-toggle), [Memory Management](https://www.aiuxplayground.com/pattern/memory-manage)
+- [aiuxdesign.guide — Selective Memory](https://aiuxdesign.guide)
+- [AI Interface Layout Library — AI Memory Graph](https://ai.designdhaval.com/pattern/memory-graph)
+
+## To-do
+
+The defaults-govern force wants grounding in consent-design literature. Whether "memory" here and the delegation foundation's context handling are one territory or two is unresolved.

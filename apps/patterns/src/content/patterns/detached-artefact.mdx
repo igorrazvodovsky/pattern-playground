@@ -1,0 +1,58 @@
+---
+title: Detached artefact
+added: 2026-08-07
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+disclosure: "Seeded from a cross-catalogue triage of six AI pattern libraries (references/ai-pattern-catalogues.md). Ubiquitous in current products (canvases, artifacts, side panels); the name is unsettled — see To-do."
+activityLevel: action
+atomic: pattern
+situation:
+  initiating: >-
+    the conversation has produced a thing that now matters more than the talk that made it —
+    a document, code, a diagram — and in the reply stream it scrolls away, unversioned and
+    editable only by asking again
+  resulting:
+    - >-
+      the work-product holds still on its own surface while the conversation continues
+      alongside as the way of steering it — talk and thing stop competing for the same column
+    - >-
+      two surfaces now claim the truth: the artefact and the transcript can disagree about
+      what was decided, and edits made directly don't narrate themselves back into the talk
+    - >-
+      the artefact outlives the exchange — versionable, exportable, shareable — which is
+      where the conversation's value ends up living
+relationships:
+  hosted-by:
+    - to: conversation
+      note: born in the exchange and promoted out of it; the chat remains the artefact's control surface
+  follows:
+    - to: generated-content
+      note: the promotion acts on output the generation produced in-stream
+  complements:
+    - to: editing-in-place
+      note: once detached, the artefact is edited directly rather than re-asked for
+    - to: draft-and-publish
+      note: the detached artefact is the surface draft and published states attach to
+  related:
+    - to: workspace
+      note: a minimal workspace grown out of a chat — one context, two surfaces
+    - to: living-document
+      note: a detached artefact that keeps being regenerated shades into a living document
+  enacts:
+    - to: malleability
+      note: gives the output a surface where direct manipulation applies at all
+---
+A piece of generated output is promoted out of the reply stream onto its own persistent surface — beside the conversation, directly editable, iterated in place while the dialogue steers it.
+
+## Resources & references
+
+- [AI UX Playground — Chat Artifacts](https://www.aiuxplayground.com/pattern/chat-artifact)
+- [AI Interface Layout Library — Prompt + Canvas](https://ai.designdhaval.com/pattern/prompt-canvas), [AI Workspace](https://ai.designdhaval.com/pattern/workspace)
+- [aiuxpatterns.com — Result Rendered Preview](https://www.aiuxpatterns.com)
+
+## To-do
+
+The name is a placeholder — candidates: detached artefact, output canvas, promoted output. The transcript-vs-artefact divergence force is the interesting one and has no literature attached yet.
