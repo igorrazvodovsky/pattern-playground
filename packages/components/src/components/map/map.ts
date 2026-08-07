@@ -234,16 +234,18 @@ export class MapComponent extends Elena(HTMLElement) {
     return el.innerHTML;
   }
 
-  /** Frame the view: all markers if any, else the given centre, else the world. */
+  /** Frame the view: all markers if any, else the given centre, else the world.
+      Never animated: a zoom transition left in flight when the host unmounts
+      makes Leaflet's transitionend handler read the removed pane and throw. */
   private fitView(): void {
     if (!this.map) return;
     if (this.center) {
-      this.map.setView(this.center, this.zoom);
+      this.map.setView(this.center, this.zoom, { animate: false });
     } else if (this.locations.length > 0) {
       const bounds = L.latLngBounds(this.locations.map((l) => [l.lat, l.lng] as [number, number]));
-      this.map.fitBounds(bounds, { padding: [32, 32], maxZoom: 16 });
+      this.map.fitBounds(bounds, { padding: [32, 32], maxZoom: 16, animate: false });
     } else {
-      this.map.setView([20, 0], 2);
+      this.map.setView([20, 0], 2, { animate: false });
     }
   }
 

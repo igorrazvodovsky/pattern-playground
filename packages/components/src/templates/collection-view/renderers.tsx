@@ -93,8 +93,7 @@ export function EntityCard<T extends BoundEntity>({
       <iconify-icon
         className="icon"
         icon={thumbnailValue}
-        title={name ?? undefined}
-        aria-label={name ?? undefined}
+        aria-hidden="true"
       ></iconify-icon>
     ) : null;
 
