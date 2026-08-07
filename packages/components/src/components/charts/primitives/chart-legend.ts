@@ -1,9 +1,6 @@
 import { Elena } from '@elenajs/core';
 import type { ElenaProp } from '../base/d3-component.js';
 
-/**
- * Legend data item interface
- */
 export interface LegendItem {
   id: string;
   label: string;
@@ -148,28 +145,20 @@ export class PpChartLegend extends Elena(HTMLElement) {
     return li;
   }
 
-  /**
-   * Handle legend item click
-   */
   private handleItemClick(item: LegendItem, event: Event) {
     event.preventDefault();
 
-    // Emit click event
     this.dispatchEvent(new CustomEvent('pp-legend-item-click', {
       detail: { item, originalEvent: event },
       bubbles: true,
       composed: true
     }));
 
-    // If interactive, toggle visibility
     if (this.interactive) {
       this.toggleItem(item.id);
     }
   }
 
-  /**
-   * Handle keyboard navigation
-   */
   private handleItemKeyDown(item: LegendItem, event: KeyboardEvent) {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
@@ -177,9 +166,6 @@ export class PpChartLegend extends Elena(HTMLElement) {
     }
   }
 
-  /**
-   * Toggle the visibility of a legend item
-   */
   toggleItem(id: string) {
     const itemIndex = this.items.findIndex(item => item.id === id);
     if (itemIndex === -1) return;
@@ -192,7 +178,6 @@ export class PpChartLegend extends Elena(HTMLElement) {
 
     this.items = updatedItems;
 
-    // Emit toggle event
     this.dispatchEvent(new CustomEvent('pp-legend-item-toggle', {
       detail: {
         item: updatedItems[itemIndex],
@@ -203,9 +188,6 @@ export class PpChartLegend extends Elena(HTMLElement) {
     }));
   }
 
-  /**
-   * Set the visibility of a specific item
-   */
   setItemVisibility(id: string, visible: boolean) {
     const itemIndex = this.items.findIndex(item => item.id === id);
     if (itemIndex === -1) return;
@@ -219,9 +201,6 @@ export class PpChartLegend extends Elena(HTMLElement) {
     this.items = updatedItems;
   }
 
-  /**
-   * Get the visibility state of all items
-   */
   getVisibilityState(): Record<string, boolean> {
     return this.items.reduce((state, item) => {
       state[item.id] = item.visible ?? true;
@@ -229,9 +208,6 @@ export class PpChartLegend extends Elena(HTMLElement) {
     }, {} as Record<string, boolean>);
   }
 
-  /**
-   * Update legend items
-   */
   updateItems(items: LegendItem[]) {
     this.items = items;
   }

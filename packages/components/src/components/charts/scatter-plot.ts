@@ -1,7 +1,7 @@
 /**
  * Scatter Plot Web Component
  *
- * An Elena host that orchestrates scatter plot rendering using the pure
+ * A component that orchestrates scatter plot rendering using the pure
  * scatter plot renderer. Two numeric variables ride on position; an optional
  * `size` field turns points into bubbles, and `category` colours them into
  * series. Elena supplies props and lifecycle; D3 owns the DOM outright.
@@ -93,12 +93,8 @@ export class ScatterPlot extends ChartComponent {
     return isScatterPlotData(this.data) && this.data.data.length > 0;
   }
 
-  /**
-   * Required by ChartComponent; scales are created in the renderer per-render.
-   */
-  protected setupScales(): void {
-    // no-op — scales live with the renderer
-  }
+  /** Scales are created in the renderer; nothing to precompute here. */
+  protected setupScales(): void {}
 
   private buildConfig(): Partial<ScatterPlotConfig> {
     return {

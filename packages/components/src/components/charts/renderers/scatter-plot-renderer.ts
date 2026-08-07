@@ -25,9 +25,6 @@ import { ScatterPlotData, ScatterPlotDataPoint, ChartDimensions } from '../base/
 const VIEWBOX_WIDTH = 600;
 const VIEWBOX_HEIGHT = 300;
 
-/**
- * Scatter plot renderer configuration
- */
 export interface ScatterPlotConfig {
   /** Radius (viewBox units) for points when size encoding is off. */
   pointRadius: number;
@@ -163,9 +160,6 @@ function radiusFor(
   return config.pointRadius;
 }
 
-/**
- * Renders the scatter plot into an SVG container group.
- */
 export function renderScatterPlot(
   container: Selection<SVGGElement, unknown, null, undefined>,
   data: ScatterPlotData,
@@ -215,9 +209,6 @@ export function renderScatterPlot(
   return { scales, points: allPoints, container };
 }
 
-/**
- * Updates an existing scatter plot with new data.
- */
 export function updateScatterPlot(
   renderResult: ScatterPlotRenderResult,
   data: ScatterPlotData,
@@ -227,9 +218,6 @@ export function updateScatterPlot(
   return renderScatterPlot(renderResult.container, data, dimensions, config);
 }
 
-/**
- * Adds hover/click interactions to scatter plot points.
- */
 export function addScatterPlotInteractions(
   renderResult: ScatterPlotRenderResult,
   onHover?: (data: ScatterPlotDataPoint, event: MouseEvent) => void,
@@ -257,9 +245,6 @@ export function addScatterPlotInteractions(
   }
 }
 
-/**
- * Cleans up scatter plot event listeners.
- */
 export function cleanupScatterPlot(renderResult: ScatterPlotRenderResult): void {
   renderResult.points.on('mouseenter', null);
   renderResult.points.on('mouseleave', null);

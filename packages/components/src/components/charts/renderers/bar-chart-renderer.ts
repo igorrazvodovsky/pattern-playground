@@ -14,14 +14,10 @@ import { scaleBand, scaleLinear, ScaleBand, ScaleLinear } from 'd3-scale';
 import { max, min } from 'd3-array';
 import { BarChartData, BarChartDataPoint, ChartDimensions } from '../base/chart-types.js';
 
-// Import d3-transition to extend Selection prototype with .transition() and .interrupt() methods
-// This must be imported to add transition capabilities to D3 selections
+// Side-effect import: extends the Selection prototype with .transition() and .interrupt().
 import 'd3-transition';
 
 
-/**
- * Bar chart renderer configuration
- */
 export interface BarChartConfig {
   orientation: 'vertical' | 'horizontal';
   grouped: boolean;
@@ -34,9 +30,6 @@ export interface BarChartConfig {
   showCategoryLabels: boolean;
 }
 
-/**
- * Default configuration for bar charts
- */
 export const defaultBarChartConfig: BarChartConfig = {
   orientation: 'vertical',
   grouped: false,
@@ -49,32 +42,23 @@ export const defaultBarChartConfig: BarChartConfig = {
   showCategoryLabels: false
 };
 
-/**
- * Scales used for bar chart rendering
- */
 export interface BarChartScales {
   x: ScaleBand<string>;
   y: ScaleLinear<number, number>;
 }
 
-/**
- * Result returned by bar chart renderer
- */
 export interface BarChartRenderResult {
   scales: BarChartScales;
   bars: Selection<SVGRectElement, BarChartDataPoint, SVGGElement, unknown>;
   container: Selection<SVGGElement, unknown, null, undefined>;
 }
 
-/**
- * Creates scales for bar chart based on data and dimensions
- */
 export function createBarChartScales(
   data: BarChartData,
   dimensions: ChartDimensions,
   config: BarChartConfig
 ): BarChartScales {
-  // Use fixed dimensions that match the viewBox (600x300)
+  // Scales map into the fixed 600×300 viewBox, not pixel dimensions.
   const viewBoxWidth = 600;
   const viewBoxHeight = 300;
   const { margin } = dimensions;
@@ -82,15 +66,15 @@ export function createBarChartScales(
   const chartWidth = viewBoxWidth - margin.left - margin.right;
   const chartHeight = viewBoxHeight - margin.top - margin.bottom;
 
-  // Create band scale for categories (x-axis for vertical, y-axis for horizontal)
+  // Band scale for categories (x-axis for vertical bars, y-axis for horizontal).
   const categories = data.data.map(d => d.category);
-  const padding = 4; // Add padding from chart edges
+  const padding = 4; // keep bars off the chart edges
   const xScale = scaleBand<string>()
     .domain(categories)
     .range(config.orientation === 'vertical' ? [padding, chartWidth - padding] : [chartHeight - padding, padding])
     .padding(config.barPadding);
 
-  // Create linear scale for values (y-axis for vertical, x-axis for horizontal)
+  // Linear scale for values (y-axis for vertical bars, x-axis for horizontal).
   const values = data.data.map(d => d.value);
   const yDomain = [
     Math.min(0, min(values) || 0),
@@ -105,41 +89,32 @@ export function createBarChartScales(
   return { x: xScale, y: yScale };
 }
 
-/**
- * Renders value labels for bar chart
- */
 function renderValueLabels(
   container: Selection<SVGGElement, unknown, null, undefined>,
   data: BarChartData,
   scales: BarChartScales,
   config: BarChartConfig
 ): void {
-  // Create or select labels group
   const labelsGroup = container
     .selectAll<SVGGElement, unknown>('.value-labels-group')
     .data([null])
     .join('g')
     .attr('class', 'value-labels-group');
 
-  // Bind data to text elements
   const labels = labelsGroup
     .selectAll<SVGTextElement, BarChartDataPoint>('text')
     .data(data.data, d => d.category);
 
-  // Remove exiting labels
   labels.exit().remove();
 
-  // Add entering labels
   const enteringLabels = labels
     .enter()
     .append('text')
     .attr('class', 'value-label')
     .attr('opacity', 0);
 
-  // Merge entering and updating labels
   const allLabels = enteringLabels.merge(labels);
 
-  // Position and style labels based on orientation
   if (config.orientation === 'vertical') {
     allLabels
       .attr('x', d => (scales.x(d.category) || 0) + scales.x.bandwidth() / 2)
@@ -152,7 +127,6 @@ function renderValueLabels(
       .attr('font-family', 'var(--font)')
       .attr('opacity', 1);
   } else {
-    // Horizontal orientation
     allLabels
       .attr('x', d => scales.y(d.value) + 8)
       .attr('y', d => (scales.x(d.category) || 0) + scales.x.bandwidth() / 2)
@@ -166,43 +140,34 @@ function renderValueLabels(
   }
 }
 
-/**
- * Renders category labels on bar chart
- */
 function renderCategoryLabels(
   container: Selection<SVGGElement, unknown, null, undefined>,
   data: BarChartData,
   scales: BarChartScales,
   config: BarChartConfig
 ): void {
-  // Create or select category labels group
   const categoryLabelsGroup = container
     .selectAll<SVGGElement, unknown>('.category-labels-group')
     .data([null])
     .join('g')
     .attr('class', 'category-labels-group');
 
-  // Bind data to text elements
   const categoryLabels = categoryLabelsGroup
     .selectAll<SVGTextElement, BarChartDataPoint>('text')
     .data(data.data, d => d.category);
 
-  // Remove exiting labels
   categoryLabels.exit().remove();
 
-  // Add entering labels
   const enteringLabels = categoryLabels
     .enter()
     .append('text')
     .attr('class', 'category-label')
     .attr('opacity', 0);
 
-  // Merge entering and updating labels
   const allLabels = enteringLabels.merge(categoryLabels);
 
-  // Position and style labels based on orientation
   if (config.orientation === 'vertical') {
-    // For vertical bars, place category labels at the bottom of bars
+    // Vertical bars carry their category label at the bottom of the bar.
     allLabels
       .attr('x', d => (scales.x(d.category) || 0) + scales.x.bandwidth() / 2)
       .attr('y', d => scales.y(Math.min(0, d.value)) + 20)
@@ -215,7 +180,7 @@ function renderCategoryLabels(
       .attr('font-weight', '500')
       .attr('opacity', 1);
   } else {
-    // For horizontal bars, place category labels inside bars on the left
+    // Horizontal bars carry their category label inside the bar, on the left.
     allLabels
       .attr('x', scales.y(0) + 12)
       .attr('y', d => (scales.x(d.category) || 0) + scales.x.bandwidth() / 2)
@@ -230,9 +195,6 @@ function renderCategoryLabels(
   }
 }
 
-/**
- * Renders bar chart into SVG container
- */
 export function renderBarChart(
   container: Selection<SVGGElement, unknown, null, undefined>,
   data: BarChartData,
@@ -242,19 +204,16 @@ export function renderBarChart(
   const mergedConfig = { ...defaultBarChartConfig, ...config };
   const scales = createBarChartScales(data, dimensions, mergedConfig);
 
-  // Create or select bars group
   const barsGroup = container
     .selectAll<SVGGElement, unknown>('.bars-group')
     .data([null])
     .join('g')
     .attr('class', 'bars-group');
 
-  // Bind data to rectangles
   const bars = barsGroup
     .selectAll<SVGRectElement, BarChartDataPoint>('rect')
     .data(data.data, d => d.category);
 
-  // Remove exiting bars
   const exitingBars = bars.exit();
   if (mergedConfig.animate && exitingBars.transition) {
     exitingBars
@@ -266,17 +225,14 @@ export function renderBarChart(
     exitingBars.remove();
   }
 
-  // Add entering bars
   const enteringBars = bars
     .enter()
     .append('rect')
     .attr('class', 'bar')
     .attr('opacity', 0);
 
-  // Merge entering and updating bars
   const allBars = enteringBars.merge(bars);
 
-  // Position and size bars based on orientation
   if (mergedConfig.orientation === 'vertical') {
     allBars
       .attr('x', d => scales.x(d.category) || 0)
@@ -285,7 +241,6 @@ export function renderBarChart(
       .attr('rx', 4)
       .attr('ry', 4)
 
-    // Animate bars if enabled
     if (mergedConfig.animate && allBars.transition) {
       allBars
         .transition()
@@ -300,7 +255,6 @@ export function renderBarChart(
         .attr('opacity', 1);
     }
   } else {
-    // Horizontal orientation
     allBars
       .attr('y', d => scales.x(d.category) || 0)
       .attr('height', scales.x.bandwidth())
@@ -308,7 +262,6 @@ export function renderBarChart(
       .attr('rx', 4)
       .attr('ry', 4);
 
-    // Animate bars if enabled
     if (mergedConfig.animate && allBars.transition) {
       allBars
         .transition()
@@ -324,12 +277,10 @@ export function renderBarChart(
     }
   }
 
-  // Add value labels if enabled
   if (mergedConfig.showValueLabels) {
     renderValueLabels(container, data, scales, mergedConfig);
   }
 
-  // Add category labels if enabled
   if (mergedConfig.showCategoryLabels) {
     renderCategoryLabels(container, data, scales, mergedConfig);
   }
@@ -341,9 +292,6 @@ export function renderBarChart(
   };
 }
 
-/**
- * Updates existing bar chart with new data
- */
 export function updateBarChart(
   renderResult: BarChartRenderResult,
   data: BarChartData,
@@ -353,9 +301,6 @@ export function updateBarChart(
   return renderBarChart(renderResult.container, data, dimensions, config);
 }
 
-/**
- * Adds hover interactions to bar chart
- */
 export function addBarChartInteractions(
   renderResult: BarChartRenderResult,
   onHover?: (data: BarChartDataPoint, event: MouseEvent) => void,
@@ -383,15 +328,11 @@ export function addBarChartInteractions(
   }
 }
 
-/**
- * Cleans up bar chart event listeners and transitions
- */
 export function cleanupBarChart(renderResult: BarChartRenderResult): void {
   renderResult.bars.on('mouseenter', null);
   renderResult.bars.on('mouseleave', null);
   renderResult.bars.on('click', null);
 
-  // Interrupt any running transitions
   const allElements = renderResult.container.selectAll('*');
   if (allElements.interrupt) {
     allElements.interrupt();

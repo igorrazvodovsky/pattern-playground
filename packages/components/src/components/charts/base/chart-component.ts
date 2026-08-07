@@ -2,13 +2,9 @@ import { D3Component, type ElenaProp } from './d3-component.js';
 import type { ScaleLinear, ScaleBand, ScaleTime } from 'd3-scale';
 
 /**
- * Chart-specific base component that extends D3Component
- *
- * Provides:
- * - Scale management utilities
- * - Common chart interactions (hover, click)
- * - Data validation and transformation
- * - Core chart functionality without feature composition
+ * Base class for chart components: shared props (data, title, loading,
+ * disabled), host-level hover/click events, the screen-reader data summary,
+ * and the render pipeline (validate → set up scales → render).
  */
 export abstract class ChartComponent extends D3Component {
   static props: ElenaProp[] = [
@@ -24,9 +20,6 @@ export abstract class ChartComponent extends D3Component {
   loading = false;
   disabled = false;
 
-  /**
-   * Common scale types used across charts
-   */
   protected xScale?: ScaleLinear<number, number> | ScaleBand<string> | ScaleTime<number, number>;
   protected yScale?: ScaleLinear<number, number> | ScaleBand<string>;
 
@@ -55,9 +48,6 @@ export abstract class ChartComponent extends D3Component {
     this.removeEventListener('click', this.handleClick);
   }
 
-  /**
-   * Handle mouse over events for chart interactions
-   */
   protected handleMouseOver = (event: MouseEvent) => {
     if (this.disabled) return;
 
@@ -68,9 +58,6 @@ export abstract class ChartComponent extends D3Component {
     }));
   };
 
-  /**
-   * Handle mouse out events for chart interactions
-   */
   protected handleMouseOut = (event: MouseEvent) => {
     if (this.disabled) return;
 
@@ -81,9 +68,6 @@ export abstract class ChartComponent extends D3Component {
     }));
   };
 
-  /**
-   * Handle click events for chart interactions
-   */
   protected handleClick = (event: MouseEvent) => {
     if (this.disabled) return;
 
@@ -94,28 +78,16 @@ export abstract class ChartComponent extends D3Component {
     }));
   };
 
-  /**
-   * Validate data structure - override in subclasses
-   */
   protected validateData(): boolean {
     return Array.isArray(this.data);
   }
 
-  /**
-   * Transform raw data into chart-ready format - override in subclasses
-   */
   protected transformData(): unknown {
     return this.data;
   }
 
-  /**
-   * Setup scales based on data - override in subclasses
-   */
   protected abstract setupScales(): void;
 
-  /**
-   * Clear previous chart content
-   */
   protected clearChart() {
     if (this.contentGroup) {
       while (this.contentGroup.firstChild) {
@@ -164,8 +136,5 @@ export abstract class ChartComponent extends D3Component {
     this.renderChart();
   }
 
-  /**
-   * Abstract method for rendering the actual chart - implement in subclasses
-   */
   protected abstract renderChart(): void;
 }

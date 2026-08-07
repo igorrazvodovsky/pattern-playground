@@ -1,18 +1,9 @@
-/**
- * These interfaces define the public API contracts for each chart type,
- * ensuring type safety across renderers and components.
- */
+/** Data contracts for each chart type, shared by components and renderers. */
 
-/**
- * Base interface for all chart data points
- */
 export interface ChartDataPoint {
   [key: string]: unknown;
 }
 
-/**
- * Line chart data structure
- */
 export interface LineChartDataPoint extends ChartDataPoint {
   x: number | string | Date;
   y: number;
@@ -32,9 +23,6 @@ export interface LineChartData {
   yAxisLabel?: string;
 }
 
-/**
- * Bar chart data structure
- */
 export interface BarChartDataPoint extends ChartDataPoint {
   category: string;
   value: number;
@@ -72,9 +60,6 @@ export interface ScatterPlotData {
   yAxisLabel?: string;
 }
 
-/**
- * Area chart data structure
- */
 export interface AreaChartDataPoint extends ChartDataPoint {
   x: number | string | Date;
   y: number;
@@ -95,9 +80,6 @@ export interface AreaChartData {
   yAxisLabel?: string;
 }
 
-/**
- * Tree diagram data structure
- */
 export interface TreeNode extends ChartDataPoint {
   id: string;
   name: string;
@@ -181,9 +163,6 @@ export interface NetworkGraphData {
   edges: NetworkGraphEdge[];
 }
 
-/**
- * Common chart configuration options
- */
 export interface ChartMargin {
   top: number;
   right: number;
@@ -197,9 +176,6 @@ export interface ChartDimensions {
   margin: ChartMargin;
 }
 
-/**
- * Axis configuration
- */
 export interface AxisConfig {
   show?: boolean;
   label?: string;
@@ -208,27 +184,18 @@ export interface AxisConfig {
   grid?: boolean;
 }
 
-/**
- * Legend configuration
- */
 export interface LegendConfig {
   show?: boolean;
   position?: 'top' | 'right' | 'bottom' | 'left';
   align?: 'start' | 'center' | 'end';
 }
 
-/**
- * Tooltip configuration
- */
 export interface TooltipConfig {
   show?: boolean;
   format?: (data: ChartDataPoint) => string;
   template?: string;
 }
 
-/**
- * Common chart configuration
- */
 export interface ChartConfig {
   dimensions?: Partial<ChartDimensions>;
   xAxis?: AxisConfig;
@@ -240,9 +207,6 @@ export interface ChartConfig {
   responsive?: boolean;
 }
 
-/**
- * Type guards for runtime type checking
- */
 export function isLineChartData(data: unknown): data is LineChartData {
   return (
     typeof data === 'object' &&

@@ -1,8 +1,4 @@
-/**
- * Chart Base Components and Utilities
- * This module exports all the foundational components and utilities
- * needed to build D3.js chart components within the design system.
- */
+/** Foundations for the chart family: base classes, data contracts, converters, interactions. */
 
 // Base component classes
 export { D3Component } from './d3-component.js';

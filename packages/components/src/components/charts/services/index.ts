@@ -1,8 +1,4 @@
-/**
- * Chart Services
- * 
- * Utility services and coordination systems for chart components
- */
+/** Coordination services shared by chart components and primitives. */
 
 export {
   ScaleCoordinator,

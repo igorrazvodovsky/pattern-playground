@@ -1,8 +1,8 @@
 /**
  * Network Graph Web Component
  *
- * An Elena host for a force-directed node-link view — the relational branch of
- * the chart territory. Nodes are sized by connectedness; hovering a node lifts
+ * A component drawing a force-directed node-link view — the relational branch
+ * of the chart territory. Nodes are sized by connectedness; hovering a node lifts
  * its neighbourhood out of the whole, and a trail of recently visited nodes
  * stays legible while it connects back to the one under the pointer.
  *
