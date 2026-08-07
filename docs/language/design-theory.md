@@ -22,6 +22,7 @@ Qualities are scaffolding for the later discovery. The `enacts` edges that conne
 
 ## Further reading
 
-- [levels-of-scale.md](./levels-of-scale.md) — the first worked translation of a Nature of Order property to software
+- [properties/index.md](./properties/index.md) — the fifteen properties as moves, one file per property, with substrate translations accreting per file
+- [levels-of-scale.md](../levels-of-scale.md) — the first worked translation of a Nature of Order property to software, applied to the repository substrate
 - [relationship-vocabulary.md](./relationship-vocabulary.md) — the Pattern Language layer: edge types and their generative interpretation
 - [conceptual-glossary.md](./conceptual-glossary.md) — definitions of Centre, Generative Move, Quality, and related terms
