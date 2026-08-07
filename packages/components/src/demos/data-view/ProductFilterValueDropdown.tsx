@@ -81,9 +81,9 @@ export const ProductFilterValueDropdown: React.FC<ProductFilterValueDropdownProp
             {filterValues?.slice(0, 3).map((value) => {
               const icon = getIconForValue(value);
               return icon ? (
-                <pp-avatar key={value} size="xsmall">
+                <span key={value} className="avatar" data-size="xsmall">
                   <iconify-icon icon={icon} />
-                </pp-avatar>
+                </span>
               ) : null;
             })}
           </span>

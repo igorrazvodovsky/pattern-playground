@@ -95,12 +95,12 @@ export const CommentComposer: React.FC<CommentComposerProps> = ({
 
   return (
     <div className="message-composer" onKeyDown={handleKeyDown}>
-      <pp-avatar size="small">
-        <img
-          src={getUserById(currentUser)?.metadata?.photoUrl || `https://i.pravatar.cc/150?seed=${currentUser}`}
-          alt={getUserById(currentUser)?.name || currentUser}
-        />
-      </pp-avatar>
+      <img
+        className="avatar"
+        data-size="small"
+        src={getUserById(currentUser)?.metadata?.photoUrl || `https://i.pravatar.cc/150?seed=${currentUser}`}
+        alt={getUserById(currentUser)?.name || currentUser}
+      />
       <div className="message-composer__input comment__input" style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
         <EditorContent
           editor={editor}

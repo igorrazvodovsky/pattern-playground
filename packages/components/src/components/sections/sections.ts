@@ -1,6 +1,8 @@
 type Affordance = 'tab-bar' | 'details';
 
-const HEADING_SELECTOR = 'h1,h2,h3,h4,h5,h6,pp-h';
+// [data-heading] marks a block the sections mechanism treats as a section
+// label without it contributing to the document outline.
+const HEADING_SELECTOR = 'h1,h2,h3,h4,h5,h6,[data-heading]';
 
 let uid = 0;
 const nextId = () => `pp-s-${++uid}`;

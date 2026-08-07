@@ -70,12 +70,12 @@ export const CommentThread: React.FC<CommentThreadProps> = ({
 
         return (
           <div key={comment.id} className="message">
-            <pp-avatar size="small">
-              <img
-                src={photoUrl}
-                alt={displayName}
-              />
-            </pp-avatar>
+            <img
+              className="avatar"
+              data-size="small"
+              src={photoUrl}
+              alt={displayName}
+            />
             <div className="message__content">
               <div className="message__body">
                 <div className="message__author">{displayName}</div>

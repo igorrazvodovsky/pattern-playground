@@ -19,7 +19,7 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: 'Visual representation of a user or entity. Supports image, initials, and icon fallbacks at four sizes.',
+        component: 'Visual representation of a user or entity.',
       },
     },
   },
@@ -40,32 +40,24 @@ export const WithImage: Story = {
     size: 'medium',
   },
   render: (args) => (
-    <pp-avatar size={args.size}>
-      <img src="https://i.pravatar.cc/150?img=5" alt="John Doe" />
-    </pp-avatar>
+    <img className="avatar" data-size={args.size} src="https://i.pravatar.cc/150?img=5" alt="John Doe" />
   ),
 };
 
 export const WithIcon: Story = {
   render: () => (
-    <pp-avatar>
+    <span className="avatar">
       <iconify-icon className="icon" icon={getRandomFilledIcon()}></iconify-icon>
-    </pp-avatar>
+    </span>
   ),
 };
 
 export const Sizes: Story = {
   render: () => (
     <>
-      <pp-avatar size="small">
-        <img src="https://i.pravatar.cc/150?img=1" alt="Small Avatar" />
-      </pp-avatar>
-      <pp-avatar size="medium">
-        <img src="https://i.pravatar.cc/150?img=2" alt="Medium Avatar" />
-      </pp-avatar>
-      <pp-avatar size="large">
-        <img src="https://i.pravatar.cc/150?img=4" alt="Large Avatar" />
-      </pp-avatar>
+      <img className="avatar" data-size="small" src="https://i.pravatar.cc/150?img=1" alt="Small Avatar" />
+      <img className="avatar" src="https://i.pravatar.cc/150?img=2" alt="Medium Avatar" />
+      <img className="avatar" data-size="large" src="https://i.pravatar.cc/150?img=4" alt="Large Avatar" />
     </>
   ),
 };
@@ -73,15 +65,9 @@ export const Sizes: Story = {
 export const AvatarGroup: Story = {
   render: () => (
     <div className="avatar-group">
-      <pp-avatar>
-        <img src="https://i.pravatar.cc/150?img=13" alt="Small Avatar" />
-      </pp-avatar>
-      <pp-avatar>
-        <img src="https://i.pravatar.cc/150?img=16" alt="Medium Avatar" />
-      </pp-avatar>
-      <pp-avatar>
-        <img src="https://i.pravatar.cc/150?img=17" alt="Large Avatar" />
-      </pp-avatar>
+      <img className="avatar" src="https://i.pravatar.cc/150?img=13" alt="First member" />
+      <img className="avatar" src="https://i.pravatar.cc/150?img=16" alt="Second member" />
+      <img className="avatar" src="https://i.pravatar.cc/150?img=17" alt="Third member" />
     </div>
   ),
 };

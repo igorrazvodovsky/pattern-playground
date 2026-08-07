@@ -39,9 +39,6 @@ declare module 'react' {
       /* CSS-only styled tag (no custom element definition) — sizes with font-size */
       'pp-spinner': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
       'pp-modal': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
-      'pp-avatar': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
-        size?: 'small' | 'medium' | 'large';
-      };
       'pp-table': React.DetailedHTMLProps<React.TableHTMLAttributes<HTMLTableElement>, HTMLTableElement>;
       'pp-timestamp': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         /** ISO 8601. `isoDateTime` from `@shared/format` for a `Date`. */
@@ -122,7 +119,6 @@ declare module 'react' {
         height?: string | number;
         slot?: string;
       };
-      'pp-h': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
       'pp-sections': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         affordance?: 'tab-bar' | 'details';
       };

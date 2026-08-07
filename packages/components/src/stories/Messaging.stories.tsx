@@ -34,18 +34,14 @@ export const HumanToHumanChat: Story = {
       <div className="messages__exchange">
         <div className="messages__turn">
           <div className="message message--inbound">
-            <pp-avatar size="small">
-              <img src="https://i.pravatar.cc/150?img=12" alt="John Doe" />
-            </pp-avatar>
+            <img className="avatar" data-size="small" src="https://i.pravatar.cc/150?img=12" alt="John Doe" />
             <div className="message__content">
               <div className="message__body layer">No problem at all—appreciate the heads-up. Looking forward to hearing from you once your team's had a chance to take a look.</div>
               <small className="message__timestamp">12:00</small>
             </div>
           </div>
           <div className="message message--inbound">
-            <pp-avatar size="small">
-              <img src="https://i.pravatar.cc/150?img=12" alt="John Doe" />
-            </pp-avatar>
+            <img className="avatar" data-size="small" src="https://i.pravatar.cc/150?img=12" alt="John Doe" />
             <div className="message__content">
               <div className="message__body layer">I'm excited to see what you've got.</div>
               <small className="message__timestamp">12:01</small>
@@ -97,9 +93,7 @@ export const HumanToHumanComments: StoryObj<MessagingArgs> = {
       <div className="messages layer">
         {messages.map((msg, i) => (
           <div key={i} className="message">
-            <pp-avatar size="small">
-              <img src={`https://i.pravatar.cc/150?img=${msg.participant.avatarSeed}`} alt={msg.participant.name} />
-            </pp-avatar>
+            <img className="avatar" data-size="small" src={`https://i.pravatar.cc/150?img=${msg.participant.avatarSeed}`} alt={msg.participant.name} />
             <div className="message__content">
               <div className="message__body layer">
                 <div className="message__author">{msg.participant.name}</div>
@@ -110,9 +104,7 @@ export const HumanToHumanComments: StoryObj<MessagingArgs> = {
           </div>
         ))}
         <div className="message-composer">
-          <pp-avatar size="small">
-            <img src="https://i.pravatar.cc/150?img=16" alt="You" />
-          </pp-avatar>
+          <img className="avatar" data-size="small" src="https://i.pravatar.cc/150?img=16" alt="You" />
           <pp-input>
             <input aria-label="Message" placeholder="Type a message" />
             <iconify-icon className="icon" icon="ph:arrow-elbow-down-left" data-slot="suffix"></iconify-icon>

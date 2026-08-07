@@ -18,7 +18,7 @@
 }
 
 .messages__turn .message:not(:last-child) {
-  pp-avatar {
+  .avatar {
     display: none;
   }
   .message__timestamp {
@@ -31,7 +31,7 @@
   text-align: right;
 }
 
-.message pp-avatar {
+.message .avatar {
   grid-area: avatar;
   margin-top: var(--space-s);
 }

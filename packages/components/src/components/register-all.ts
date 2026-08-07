@@ -9,7 +9,6 @@ import { componentRegistry } from './component-registry.js';
 import 'iconify-icon';
 
 // Import all component classes
-import { PpAvatar } from './avatar/avatar.js';
 import { PpInput } from './input/input.js';
 import { PpRange } from './range/range.js';
 import { PpSelect } from './select/select.js';
@@ -28,7 +27,6 @@ import { PpTabGroup } from './tab-group/tab-group.js';
 import { PpPriorityPlus } from './priority-plus/priority-plus.js';
 import { SimpleTable } from './table/table';
 import { PpTimestamp } from './timestamp/timestamp.js';
-import { PpH } from './h/h.js';
 import { PpSections } from './sections/sections.js';
 import { PpToc } from './toc/toc.js';
 
@@ -46,7 +44,6 @@ import { MapComponent } from './map/map.js';
 export function registerAllComponents(): void {
   componentRegistry.registerAll([
     // Base/primitive components first (no dependencies)
-    { tagName: 'pp-avatar', constructor: PpAvatar },
     { tagName: 'pp-input', constructor: PpInput },
     { tagName: 'pp-range', constructor: PpRange },
     { tagName: 'pp-select', constructor: PpSelect },
@@ -81,7 +78,6 @@ export function registerAllComponents(): void {
     { tagName: 'pp-tab-group', constructor: PpTabGroup, dependencies: ['pp-tab', 'pp-tab-panel'] },
 
     // Sections
-    { tagName: 'pp-h', constructor: PpH },
     { tagName: 'pp-sections', constructor: PpSections },
     { tagName: 'pp-toc', constructor: PpToc },
   ]);

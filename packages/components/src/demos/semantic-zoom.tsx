@@ -125,9 +125,7 @@ function PersonCard({ user, fields }: { user: User; fields: readonly PersonField
 		<article className="card person-card layer">
 			<div className={`person-card__header${rows.length > 0 ? ' layer' : ''}`}>
 				{has('avatar') && (
-					<pp-avatar size="medium">
-						<img src={meta.photoUrl} alt={user.name} />
-					</pp-avatar>
+					<img className="avatar" src={meta.photoUrl} alt={user.name} />
 				)}
 				{(has('name') || has('role')) && (
 					<div className="person-card__id">
@@ -207,14 +205,12 @@ export function PopulationRungDemo() {
 		level === 0 ? (
 			<div className="avatar-group" ref={groupRef}>
 				{users.slice(0, visibleAvatars).map((user) => (
-					<pp-avatar key={user.id} size="medium">
-						<img src={user.metadata.photoUrl} alt={user.name} />
-					</pp-avatar>
+					<img key={user.id} className="avatar" src={user.metadata.photoUrl} alt={user.name} />
 				))}
 				{overflow > 0 && (
-					<pp-avatar size="medium" className="avatar-group__more" title={`${overflow} more`}>
+					<span className="avatar avatar-group__more" title={`${overflow} more`}>
 						+{overflow}
-					</pp-avatar>
+					</span>
 				)}
 			</div>
 		) : (

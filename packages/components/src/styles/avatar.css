@@ -1,68 +1,32 @@
 @layer components {
+
   .avatar {
     --_size: 48px;
 
-    width: var(--_size);
-    height: var(--_size);
-    border-radius: var(--radius-l);
-    background: var(--c-neutral-50);
-  }
-
-  pp-avatar {
-    --_size: 48px;
-
-    display: inline-block;
-    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    overflow: hidden;
     width: var(--_size);
     height: var(--_size);
+    border-radius: 50%;
+    overflow: hidden;
     background: var(--c-neutral-50);
-  }
-
-  pp-avatar:has(iconify-icon) {
-    background: var(--c-background);
-  }
-
-  pp-avatar svg,
-  pp-avatar iconify-icon {
-    /* color: var(--c-neutral-0); */
-    /* fill: var(--c-neutral-0); */
-    /* font-size: var(--text-xl); */
-  }
-
-  pp-avatar[size="xsmall"] {
-    --_size: 16px;
-    /* background: none; */
-  }
-
-  pp-avatar[size="small"] {
-    --_size: 32px;
-  }
-
-  pp-avatar[size="medium"] {
-    --_size: 48px;
-  }
-
-  pp-avatar[size="large"] {
-    --_size: 64px;
-  }
-
-  pp-avatar > img,
-  pp-avatar > div {
-    width: 100%;
-    height: 100%;
     object-fit: cover;
   }
 
-  .avatar-group pp-avatar:not(:first-of-type) {
-    margin-left: calc(-8px - (var(--_size) * 0.25));
+  .avatar[data-size="xsmall"] {
+    --_size: 16px;
   }
 
-  .avatar-group pp-avatar {
+  .avatar[data-size="small"] {
+    --_size: 32px;
+  }
+
+  .avatar[data-size="large"] {
+    --_size: 64px;
+  }
+
+  .avatar-group > .avatar {
     border: solid 2px var(--c-background);
 
     /* The avatars flow inline; align them by their middle so a text-bearing
@@ -70,8 +34,12 @@
        than dropping to the text baseline. */
     vertical-align: middle;
 
-    &[size="xsmall"] {
+    &[data-size="xsmall"] {
       border-width: 1px;
     }
+  }
+
+  .avatar-group > .avatar:not(:first-child) {
+    margin-left: calc(-8px - (var(--_size) * 0.25));
   }
 }

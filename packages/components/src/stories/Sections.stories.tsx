@@ -80,22 +80,22 @@ export const Responsive: Story = {
   ),
 };
 
-export const WithPpH: Story = {
-  name: 'With pp-h shim',
+export const WithDataHeading: Story = {
+  name: 'With data-heading labels',
   parameters: {
     docs: {
       description: {
-        story: '`pp-h` renders as a heading-shaped block without contributing to the document outline — useful when `h2` would create unwanted hierarchy.',
+        story: '`data-heading` marks a block as a section label without contributing to the document outline — useful when `h2` would create unwanted hierarchy.',
       },
     },
   },
   render: () => (
     <pp-sections affordance="tab-bar">
-      <pp-h>Overview</pp-h>
+      <p data-heading>Overview</p>
       <p>The overview gives a high-level summary of the subject. It sets expectations and helps the reader decide whether to continue into the detail sections below.</p>
-      <pp-h>Details</pp-h>
+      <p data-heading>Details</p>
       <p>Details go deeper into the mechanics. Here you would find specifications, constraints, and the nuanced decisions that shape implementation.</p>
-      <pp-h>References</pp-h>
+      <p data-heading>References</p>
       <p>References list the source material, prior art, and external standards that informed the design. Cite liberally; attribution is free.</p>
     </pp-sections>
   ),

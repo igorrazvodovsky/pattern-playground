@@ -3,10 +3,6 @@
     display: block;
   }
 
-  pp-h {
-    display: block;
-  }
-
   /* ---- Tab-bar nav ---- */
 
   [data-pp-nav] {
@@ -48,7 +44,7 @@
   }
 
   /* Hide headings when tab-bar nav takes over labelling */
-  :is(h1, h2, h3, h4, h5, h6, pp-h)[data-pp-affordance="tab-bar"] {
+  :is(h1, h2, h3, h4, h5, h6, [data-heading])[data-pp-affordance="tab-bar"] {
     display: none;
   }
 
@@ -59,7 +55,7 @@
 
   /* ---- Details triggers ---- */
 
-  :is(h1, h2, h3, h4, h5, h6, pp-h):has(> [data-pp-trigger]) {
+  :is(h1, h2, h3, h4, h5, h6, [data-heading]):has(> [data-pp-trigger]) {
     margin: 0;
   }
 
