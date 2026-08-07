@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "storybook": "storybook dev -p 6006",
+    "test": "vitest --run",
     "test-storybook": "vitest --project=storybook",
+    "test-unit": "vitest --project=unit",
     "build-storybook": "storybook build",
     "extract-graph": "npx tsx ../../scripts/extract-graph-data.ts",
     "prestorybook": "npm run extract-graph"

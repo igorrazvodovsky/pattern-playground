@@ -8,6 +8,15 @@ const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(file
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
+  // Storybook gets these from `.storybook/main.ts`; the unit project has no
+  // such config to inherit from, so the aliases are declared where both
+  // projects reach them via `extends: true`.
+  resolve: {
+    alias: {
+      '@shared': path.join(dirname, '../../shared'),
+      '@utils': path.join(dirname, '../../utils'),
+    }
+  },
   test: {
     projects: [{
       extends: true,
@@ -27,6 +36,15 @@ export default defineConfig({
             browser: 'chromium'
           }]
         }
+      }
+    }, {
+      // Framework-agnostic logic that needs no DOM: type guards, pure services,
+      // parsers. Stories are `*.stories.tsx`, so the two projects never overlap.
+      extends: true,
+      test: {
+        name: 'unit',
+        environment: 'node',
+        include: ['src/**/*.test.ts']
       }
     }]
   }

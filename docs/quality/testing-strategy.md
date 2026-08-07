@@ -5,9 +5,10 @@
 ### Frontend (root directory)
 - `npm run lint` — run ESLint (plus the seed-staleness check)
 - `npm run lint:styles` — run Stylelint
-- `npm run test` — full gate: lint, Stylelint, and a one-shot Storybook Vitest run (needs Chromium)
+- `npm run test` — full gate: lint, Stylelint, and a one-shot run of every Vitest project (needs Chromium)
 - `npm run storybook` — start Storybook on port 6006
-- `npm run test-storybook` — run Storybook's Vitest project for CSF stories
+- `npm run test-storybook` — the `storybook` project alone: CSF stories in headless Chromium
+- `npm run test-unit` — the `unit` project alone: framework-agnostic logic in node
 - `npm run build-storybook` — build static Storybook
 
 ### Backend (`apps/server`)
@@ -31,7 +32,22 @@ Default to `error` for all stories — violations should fail Storybook Vitest t
 
 A passing axe run is a regression floor, not accessibility sign-off — interaction behaviour, contrast in hover/focus/dark-mode states, and focus management still need whatever verification the implementation plan specifies.
 
-Use `npm run test-storybook -- --run` for a one-shot local run. If Chromium is missing after installing or updating Playwright, run `npx playwright install chromium`.
+If Chromium is missing after installing or updating Playwright, run `npx playwright install chromium`.
+
+## The two Vitest projects
+
+`packages/components/vitest.config.ts` declares both.
+
+- `storybook` — every CSF story, in headless Chromium, with the a11y addon at
+  `error`. This is where anything touching the DOM belongs.
+- `unit` — node environment, `src/**/*.test.ts`. For logic that needs no
+  browser: type guards, pure services, parsers. Import `describe`/`it`/`expect`
+  from `vitest` rather than relying on globals.
+
+Aliases (`@shared`, `@utils`) are declared at the top of `vitest.config.ts` so
+both projects resolve them; Storybook additionally sets them in
+`.storybook/main.ts` for the dev server. A target that imports `@shared/*` and
+fails to resolve is a sign the two have drifted apart.
 
 ## What a play function owes
 
