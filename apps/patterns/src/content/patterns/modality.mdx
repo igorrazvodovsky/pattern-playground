@@ -50,7 +50,7 @@ Some patterns shift between modal and non-modal depending on context. A <Compone
 
 When something needs more space or focus than the current page allows, the first question is whether to use an overlay or navigate to a separate page. The second is which overlay fits.
 
-<MermaidDiagram chart={`
+<Diagram source={`
 flowchart TD
     A{Needs focused attention?} -->|No| B[Inline or non-modal]
     A -->|Yes| C{Complex, multi-step, or bookmarkable?}

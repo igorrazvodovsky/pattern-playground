@@ -1,5 +1,4 @@
 import { Meta, Story } from '@storybook/addon-docs/blocks';
-import { MermaidDiagram } from '../components/MermaidDiagram.tsx';
 import * as ButtonStories from './Button.stories.tsx';
 
 <Meta of={ButtonStories} tags={['activity-level:operation', 'atomic:primitive', 'role:component', 'mediation:individual']} />
@@ -28,7 +27,7 @@ Translate a tap or click into a command, giving the actor a visible, unambiguous
 
 ## Choosing a variant
 
-<MermaidDiagram chart={`
+<pp-diagram source={`
 flowchart TD
   A[Is this the main call to action?]
 
@@ -52,7 +51,7 @@ flowchart TD
   G -->|No| H[Metaphor unambiguous without a label?]
   H -->|No| TertiaryText
   H -->|Yes| TertiaryIcon[Tertiary icon]
-`} />
+`}></pp-diagram>
 
 ## Related patterns
 

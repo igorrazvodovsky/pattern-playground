@@ -29,6 +29,7 @@ import { SimpleTable } from './table/table';
 import { PpTimestamp } from './timestamp/timestamp.js';
 import { PpSections } from './sections/sections.js';
 import { PpToc } from './toc/toc.js';
+import { PpDiagram } from './diagram/diagram.js';
 
 import { PpChartGrid } from './charts/primitives/chart-grid.js';
 import { PpChartLegend } from './charts/primitives/chart-legend.js';
@@ -54,6 +55,7 @@ export function registerAllComponents(): void {
     { tagName: 'pp-table', constructor: SimpleTable },
     { tagName: 'pp-timestamp', constructor: PpTimestamp },
     { tagName: 'pp-p-plus', constructor: PpPriorityPlus },
+    { tagName: 'pp-diagram', constructor: PpDiagram },
 
     { tagName: 'pp-chart-grid', constructor: PpChartGrid },
     { tagName: 'pp-chart-legend', constructor: PpChartLegend },

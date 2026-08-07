@@ -32,7 +32,7 @@ Eleven trees plus one filed candidate plus one dead config. Settled machinery th
 ## Workstream 1 — mechanical repairs and extractor advisories
 
 - [ ] Delete form.mdx's `decision-trees:` block. Both charts left the page long ago — "Choosing a control" became bounded-choice's set-size table, "Choosing an input" became the Form story's prose ("the useful question is therefore…"). The config references chart-index 1 of zero charts and emits nothing. Record in the vocabulary changelog as the corpus's first tree dissolution — it is the precedent rules 1–2 generalise.
-- [ ] Extractor advisory (suggestion-grade, matching the existing advisory register): a `decision-trees:` entry whose `chart-index` resolves to no `<MermaidDiagram>` on the page. Form's dead block sat silent for months; a channel that always drops is a trap (the ComponentRef-rel precedent).
+- [ ] Extractor advisory (suggestion-grade, matching the existing advisory register): a `decision-trees:` entry whose `chart-index` resolves to no `<Diagram>` on the page. Form's dead block sat silent for months; a channel that always drops is a trap (the ComponentRef-rel precedent).
 - [ ] Extractor advisory: a leaf-map *target* that resolves to no graph node. Unmapped leaves are already reported; mapped-but-dangling targets (form's three, notification's two) skip silently today.
 - [ ] Re-run extraction; confirm advisory output lists exactly the known dangles before repairs, none after.
 

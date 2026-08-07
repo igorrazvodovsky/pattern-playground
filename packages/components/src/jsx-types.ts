@@ -8,6 +8,7 @@ import type { Choropleth } from './components/charts/choropleth.js';
 import type { BarChart } from './components/charts/bar-chart.js';
 import type { ScatterPlot } from './components/charts/scatter-plot.js';
 import type { NetworkGraph } from './components/charts/network-graph.js';
+import type { PpDiagram } from './components/diagram/diagram.js';
 
 declare module 'react' {
   namespace JSX {
@@ -128,6 +129,11 @@ declare module 'react' {
       'pp-bar-chart': React.DetailedHTMLProps<React.HTMLAttributes<BarChart>, BarChart>;
       'pp-scatter-plot': React.DetailedHTMLProps<React.HTMLAttributes<ScatterPlot>, ScatterPlot>;
       'pp-network-graph': React.DetailedHTMLProps<React.HTMLAttributes<NetworkGraph>, NetworkGraph>;
+      /* Authored rather than computed: `source` is Mermaid text, not a dataset */
+      'pp-diagram': React.DetailedHTMLProps<React.HTMLAttributes<PpDiagram>, PpDiagram> & {
+        source?: string;
+        theme?: string;
+      };
     }
   }
 }
