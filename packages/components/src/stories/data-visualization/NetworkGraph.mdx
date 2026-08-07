@@ -1,0 +1,51 @@
+import { Canvas, Story, Meta, Subtitle } from '@storybook/addon-docs/blocks';
+import * as NetworkGraphStories from './NetworkGraph.stories.tsx';
+
+<Meta title="Data visualisation/Network graph" of = { NetworkGraphStories } tags={['activity-level:operation', 'atomic:data-visualization', 'role:component', 'mediation:individual']} />
+
+{/* > 🙂 *Fun meter: 3/5*. */}
+
+# Network graph
+
+A network graph answers what a collection of interlinked things looks like as a whole — where the hubs are, which clusters hold together, what sits at the edge. It owns the relational branch of the chart territory: no axes, no measured quantities, just items and the connections between them, settled into position by the connections themselves.
+
+The layout runs to completion before anything is drawn, and it is deterministic — the same data always settles into the same picture, so the shape becomes a stable place the actor can learn their way around rather than a fresh scramble on every visit.
+
+<Story of={ NetworkGraphStories.Default } />
+
+## Reading it
+
+Node size carries connectedness (area via a square-root scale), so hubs read at a glance. Everything else is revealed on demand, because a full network drawn all at once is mostly noise:
+
+- *Hover* lifts a node's neighbourhood out of the whole — its edges brighten, its neighbours keep their labels, the rest dims.
+- *The trail* keeps recently visited nodes visible while the actor moves on, but only those still connected to the node under the pointer through other visited nodes — so what stays lit is the path of the current exploration, not an arbitrary history. `trail-length` sets how much it remembers; 0 turns it off.
+- *External highlight* — `setExternalHighlight(id)` lets an adjacent view of the same items (a list, a table of contents) light up its node as if the pointer were on it. The graph's own hover wins while it lasts, and outside sweeps never flush the trail.
+
+## Category neighbourhoods
+
+Nodes with a `category` are coloured from the shared [categorical palette](../?path=/docs/data-visualisation-elements--docs). An optional `anchors` map gives each category a home region in layout space, gently pulling its nodes together so a mixed graph settles into recognisable neighbourhoods without hard partitions — connections still cross freely.
+
+<Story of={ NetworkGraphStories.Anchored } />
+
+## Data notes
+
+Nodes carry `id`, `label`, and optionally `category`, `href`, and `attrs` — a map stamped onto the node's group as `data-*` attributes, which is how domain-specific colouring or marking overrides the defaults from CSS without the component knowing the domain. Edges carry `source`, `target`, and optionally a `type` (stamped as `data-edge-type`) and `layout: false`, which draws a connection without letting it pull the layout — useful for soft relationships that would otherwise drag unrelated clusters together.
+
+Activating a node (click, Enter, Space) fires `pp-node-click` with the node in the detail; navigation stays with the consumer.
+
+## Accessibility
+
+- SVG role: `role="group"` with a descriptive label — not `img`, because each node is a real focusable `link` (when it has an `href`) or `button`
+- Data table: a visually hidden table exposes label, category, and degree for every node
+- Keyboard: Tab moves between nodes; Enter/Space activates the focused node
+- Hover states are additive — the default view is complete without them
+
+## Related components
+
+- [Scatter plot](../?path=/docs/data-visualisation-scatter-plot--docs) — when the items have measured positions rather than relational ones
+- [Data visualisation elements](../?path=/docs/data-visualisation-elements--docs) — the categorical colour conventions shared across chart families
+
+## Resources & references
+
+- Tamara Munzner, [Visualization Analysis and Design](https://www.cs.ubc.ca/~tmm/vadbook/) — arranging networks, and when node-link beats matrix views
+- [d3-force](https://d3js.org/d3-force) — the simulation underneath

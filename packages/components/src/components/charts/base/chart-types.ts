@@ -146,6 +146,42 @@ export interface ChoroplethData {
 }
 
 /**
+ * Network graph data structure
+ *
+ * A node-link view of an interlinked collection. Nodes are identified by `id`
+ * and drawn as circles sized by how connected they are; edges connect nodes by
+ * id. Everything domain-specific rides along declaratively: `category` groups
+ * nodes into coloured families, `attrs` stamps extra `data-*` attributes on a
+ * node's group for consumer CSS to key off, and `href` marks a node as leading
+ * somewhere (the component fires an event; navigation stays with the consumer).
+ */
+export interface NetworkGraphNode extends ChartDataPoint {
+  id: string;
+  label: string;
+  /** Groups nodes into colour families (categorical palette by default). */
+  category?: string;
+  /** Where the node leads; presence makes the node announce as a link. */
+  href?: string;
+  /** Extra `data-*` attributes for the node's group, keyed without the prefix. */
+  attrs?: Record<string, string>;
+}
+
+export interface NetworkGraphEdge extends ChartDataPoint {
+  source: string;
+  target: string;
+  /** Stamped as `data-edge-type` for consumer CSS. */
+  type?: string;
+  label?: string;
+  /** Set false to draw the edge without letting it pull the layout. */
+  layout?: boolean;
+}
+
+export interface NetworkGraphData {
+  nodes: NetworkGraphNode[];
+  edges: NetworkGraphEdge[];
+}
+
+/**
  * Common chart configuration options
  */
 export interface ChartMargin {
@@ -268,4 +304,17 @@ export function isTreeData(data: unknown): data is TreeData {
     'root' in data &&
     typeof (data as TreeData).root === 'object'
   );
+}
+
+export function isNetworkGraphData(data: unknown): data is NetworkGraphData {
+  if (
+    typeof data !== 'object' ||
+    data === null ||
+    !Array.isArray((data as NetworkGraphData).nodes) ||
+    !Array.isArray((data as NetworkGraphData).edges)
+  ) {
+    return false;
+  }
+  const nodes = (data as NetworkGraphData).nodes;
+  return nodes.length === 0 || (typeof nodes[0]?.id === 'string' && typeof nodes[0]?.label === 'string');
 }

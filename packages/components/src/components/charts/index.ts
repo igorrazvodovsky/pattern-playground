@@ -41,6 +41,7 @@ export * from './renderers/index.js';
 export * from './bar-chart.js';
 export * from './choropleth.js';
 export * from './scatter-plot.js';
+export * from './network-graph.js';
 // export * from './line-chart.js';
 // export * from './area-chart.js';
 // export * from './tree-diagram.js';
@@ -59,6 +60,7 @@ export function initializeCharts() {
   import('./bar-chart.js');
   import('./choropleth.js');
   import('./scatter-plot.js');
+  import('./network-graph.js');
   // import('./line-chart.js');
   // import('./area-chart.js');
   // import('./tree-diagram.js');
