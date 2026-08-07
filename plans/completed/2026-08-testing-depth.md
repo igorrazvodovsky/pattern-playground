@@ -1,10 +1,12 @@
 ---
-title: Component testing depth
-status: active
-kind: exec-spec
-created: 2026-08-07
-last_reviewed: 2026-08-07
-area: quality
+title: "Component testing depth"
+status: "completed"
+kind: "exec-spec"
+created: "2026-08-07"
+last_reviewed: "2026-08-07"
+area: "quality"
+promoted_to: "docs/quality/testing-strategy.md, plans/tech-debt-tracker.md"
+superseded_by: ""
 ---
 
 # Component testing depth
@@ -179,19 +181,98 @@ not a test's.
 
 ## Phase 3 — unit project for framework-agnostic logic
 
-Add a second project to `packages/components/vitest.config.ts` (name `unit`,
-node environment, `src/**/*.test.ts`) beside the `storybook` browser project.
-First targets, in value order:
+Done 2026-08-07 for the first three targets. `packages/components/vitest.config.ts`
+now carries a `unit` project (node environment, `src/**/*.test.ts`) beside the
+`storybook` browser one, and the gate runs both: 58 files, 251 tests.
 
-- Type guards and option contracts (`is*` functions).
-- Services holding business logic (comment service, selection/state services).
-- `scripts/extract-graph-data.ts` — the pattern graph feeds the site; a
-  malformed edge should fail a test, not surface as a rendering oddity.
+Two pieces of plumbing had to be fixed before a test could run at all.
 
-Root `npm run test` already chains lint → Stylelint → the Vitest run, so new
-projects join the gate automatically via `vitest --run` picking up all
-projects. Keep `test-storybook` scoped with `--project=storybook`; add a
-`test-unit` sibling if the split proves useful.
+*The gate was scoped to one project.* The claim that new projects would join
+automatically was wrong: root `test` called `test-storybook`, which is
+`vitest --project=storybook`, so a `unit` project would have been invisible.
+The scripts now separate the two jobs — components gets `test` (`vitest --run`,
+every project) alongside the scoped `test-storybook` and a new `test-unit`, and
+root `test` calls the workspace's `test`.
+
+While there: `npm run test-storybook -- --run` never delivered `--run` to
+Vitest. The flag crossed two `npm run` layers and npm consumed it as its own
+config — `npm run test-storybook -- --help` prints npm's help, not Vitest's.
+One-shot behaviour was coming from Vitest's non-TTY default, not the flag. The
+`--run` now sits in the leaf script where it reaches the binary.
+
+*`@shared` resolved only inside Storybook.* The alias lives in
+`.storybook/main.ts`, which the unit project has no reason to load, so anything
+importing `@shared/*` — a large share of the interesting targets — failed to
+resolve. Both aliases (`@shared`, `@utils`) moved to `resolve.alias` at the top
+of `vitest.config.ts`, where `extends: true` hands them to both projects.
+`@utils` points at the repository's `utils/`, not `src/utility`; the alias
+mirrors Storybook's resolution rather than guessing at it.
+
+Three targets covered, chosen where the code makes a judgement rather than a
+calculation:
+
+- `charts/base/chart-types.ts` — the six data guards. Each is the acceptance
+  check its own chart component runs before deciding it has something to draw,
+  so what is pinned is the shape it takes and the shape it refuses. They are
+  deliberately not a discriminated union: line and area both key on `series`,
+  bar and scatter both on `data`, and only scatter inspects point shape.
+- `services/timeline-grouping-service.ts` — `resolveGrouping` is where a
+  model's answer meets the records it claims to describe, so the tests are one
+  per repair: a boundary naming no record, a boundary running backwards or
+  repeating, a first episode pulled back to the start, two adjacent phases
+  given the same name, and the refusal to return a grouping of fewer than two
+  levels.
+- `templates/collection-view/spec.ts` — `applySpecPatch`, where three
+  behaviours look alike in the type and are not: representation and arrangement
+  merge, query replaces whole, detail and malleability are cleared by an
+  explicit `null`. Plus `makeSpec`'s role-written defaults and
+  `isAxisMalleable`'s absent-means-malleable reading.
+
+Writing the timeline tests turned up behaviour worth stating: an episode
+covering a single record disappears into that record's leaf, which carries no
+title, because a stretch made of one thing is that thing. That is
+`collapseSingletons` working as documented, and it now has a test that says so
+by name.
+
+Two targets the original list named are deliberately not covered.
+
+*`scripts/extract-graph-data.ts` is dropped from this phase.* It is not
+testable as it stands: nothing is exported, everything from line 710 down runs
+at module scope, and importing it writes `pattern-graph.json` into the working
+tree. Covering its parsers would mean extracting them into importable modules
+and leaving the script a thin driver — a restructuring of the graph pipeline,
+not an addition of tests. The script runs on every `extract-graph`, and a
+malformed edge surfaces in the site build, so the cost of leaving it is
+visible rather than silent.
+
+*The unit project stays scoped to `packages/components/src`.* `shared/format`
+is the strongest target outside it — `calendarSafe`'s date-only guard is what
+stops a stored `1952-09-26` reading as the 25th for a reader west of UTC — but
+reaching it means pointing the project's root at the repository, and the
+config stays narrow instead. Where `shared/` gets tested is a question for
+whenever it is asked, not a gap this plan carries.
+
+In-scope targets left, no decision needed: the comment service and its pointer
+types, `utility/hierarchical-search.ts`, and `collection-view`'s
+`runSpec`/`groupItems` once the binding fixtures are worth building.
+
+Two things the sitting exposed that are not test work:
+
+- *Nothing in the gate typechecks.* It is lint → Stylelint → Vitest, and
+  esbuild strips annotations without checking them, so a test fixture can
+  declare a type it does not match and still pass. The first `spec.test.ts`
+  fixture did exactly that — `{ field, operator, value }` where
+  `AttributeFilter` is `{ id, path, operator, values }` — and was caught by
+  reading the type, not by the run. Fixed, and `tsc --noEmit` over the package
+  now reports nothing in the test files. Whether `tsc --noEmit` should join the
+  gate is a separate decision; it would surface pre-existing noise elsewhere
+  in the package first.
+- *`applySpecPatch` clears its optional keys two different ways.* `detail` and
+  `malleability` are removed with `delete`, so `'detail' in spec` is false
+  after clearing; `label` is assigned `undefined`, so `'label' in spec` stays
+  true. `makeSpec` uses the `in` check as its absence test, so the two
+  disagree about what "absent" means. The tests document what the code does
+  today rather than papering over it.
 
 ## Phase 3.5 — Stylelint joins the gate
 
@@ -252,20 +333,26 @@ Seven were genuine bugs the rule set had been unable to report:
   global and toast.css already defines a `fade-in`; the two were one rename
   away from colliding.
 
-## Phase 4 — make the gate automatic
+## Phase 4 — where the gate runs
 
-`npm run test` is the full gate (lint, Stylelint, one-shot Storybook Vitest
-run) and passes end to end as of 2026-08-07. Wire it to run without a human
-remembering:
+`npm run test` is the full gate — lint, Stylelint, and a one-shot run of both
+Vitest projects — and passes end to end as of 2026-08-07.
 
-- If the repository has a CI host, a workflow on push/PR that installs,
-  runs `npx playwright install chromium`, and runs `npm run test`.
-- If not, a local pre-merge habit is the fallback: run the gate before
-  merging any branch into main. The move-review skill's pre-merge moment is
-  the natural anchor.
+Decided 2026-08-07: no CI. `origin` is
+`github.com/igorrazvodovsky/pattern-playground` and a workflow was available,
+but the gate stays a local pre-merge habit: run `npm run test` before merging
+any branch into main, anchored to the move-review skill's pre-merge moment.
 
-Decision needed: where this repository's CI should live (or that it
-deliberately has none). Record the outcome here.
+A single-author garden merges on the author's own machine, where the gate is
+one command and the result is read immediately. CI would mostly re-run, minutes
+later and in another window, a thing already known — and a red build nobody is
+waiting on decays into a badge. Revisit if the library gains a second regular
+contributor, which is the same trigger the visual-regression decision below
+carries.
+
+If it is revisited, the shape is a workflow on push/PR that runs `npm ci`,
+`npx playwright install chromium`, then `npm run test`. The Chromium install is
+the only step beyond a plain install.
 
 ## Visual regression — decision, default no
 
@@ -284,6 +371,9 @@ plus Vitest snapshot support before any external service.
 ## Validation
 
 - `npm run test` passes end to end from a clean install. Met 2026-08-07.
+- `npm run test` runs *both* Vitest projects, not just `storybook` — the
+  failure the plan originally got wrong. The file and test counts include the
+  `unit` project's files; 58 files and 251 tests as of 2026-08-07.
 - Every `play` function contains at least one assertion. Grep on
   `play: async`, not `play:` — the loose pattern matches inline `display:`
   styles and reports four story files that have no play function at all:
