@@ -69,8 +69,11 @@ hold promoted commitments that govern the process.
 - [Conceptual glossary](language/conceptual-glossary.md) — working vocabulary
 - [Design theory](language/design-theory.md) — Alexander, centres, qualities,
   and the theoretical arc
+- [The fifteen properties](language/properties/index.md) — each property as a
+  move and a symptom, one file per property; substrate translations accrete
+  per file
 - [Levels of scale](levels-of-scale.md) — structural legibility across
-  repository altitudes
+  repository altitudes; the repository-substrate translation of property 1
 
 ## Quality
 
