@@ -66,12 +66,11 @@ export const Default: Story = {
 
 /**
  * The modal service mounts drawers on `document.body`, outside the story
- * canvas, and opens them a frame later. The title is what tells one story's
- * surface from another's, since the dialogs carry no accessible name.
+ * canvas, and opens them a frame later. The title is the drawer's accessible
+ * name, so the role query only resolves once the surface is open and named.
  */
 async function findOpenDrawer(title: string): Promise<HTMLDialogElement> {
-  const heading = await within(document.body).findByRole('heading', { name: title });
-  const drawer = heading.closest('dialog') as HTMLDialogElement;
+  const drawer = await within(document.body).findByRole('dialog', { name: title }) as HTMLDialogElement;
   await waitFor(() => expect(drawer).toHaveAttribute('open'));
   return drawer;
 }

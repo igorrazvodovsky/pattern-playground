@@ -31,10 +31,14 @@ export function createDrawerDOM(
 
   // Build header if needed
   if (title || closable) {
-    const header = buildModalHeaderDOM(title, closable, actionsContainerId);
+    const titleId = title ? `${modalId}-title` : '';
+    const header = buildModalHeaderDOM(title, closable, actionsContainerId, titleId);
     dialog.appendChild(header);
+    if (titleId) {
+      dialog.setAttribute('aria-labelledby', titleId);
+    }
   }
-  
+
   // Build content container
   const contentDiv = document.createElement('div');
   contentDiv.className = 'drawer__content';
@@ -69,10 +73,14 @@ export function createDialogDOM(
 
   // Build header if needed
   if (title || closable) {
-    const header = buildModalHeaderDOM(title, closable, actionsContainerId);
+    const titleId = title ? `${modalId}-title` : '';
+    const header = buildModalHeaderDOM(title, closable, actionsContainerId, titleId);
     dialog.appendChild(header);
+    if (titleId) {
+      dialog.setAttribute('aria-labelledby', titleId);
+    }
   }
-  
+
   // Build content container
   const contentDiv = document.createElement('div');
   contentDiv.className = 'dialog__content';
@@ -91,7 +99,8 @@ export function createDialogDOM(
 export function buildModalHeaderDOM(
   title?: string,
   closable: boolean = true,
-  actionsContainerId: string = ''
+  actionsContainerId: string = '',
+  titleId: string = ''
 ): HTMLElement {
   const header = document.createElement('header');
   header.className = 'modal__header';
@@ -100,6 +109,11 @@ export function buildModalHeaderDOM(
     const titleElement = document.createElement('h2');
     titleElement.className = 'modal__title';
     titleElement.textContent = title; // Safe text assignment
+    // A native <dialog> has no default accessible name; the caller points its
+    // aria-labelledby here.
+    if (titleId) {
+      titleElement.id = titleId;
+    }
     header.appendChild(titleElement);
   }
 

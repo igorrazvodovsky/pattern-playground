@@ -71,10 +71,9 @@ export const Default: Story = {
     const trigger = canvas.getByRole('button', { name: 'Open dialog' });
     await userEvent.click(trigger);
     // The modal service mounts the dialog on document.body, a frame after the
-    // click; the title is what identifies it, since it carries no accessible
-    // name.
-    const heading = await within(document.body).findByRole('heading', { name: args.title });
-    const dialog = heading.closest('dialog') as HTMLDialogElement;
+    // click; the title is its accessible name, so the role query resolves only
+    // once the surface is open and named.
+    const dialog = await within(document.body).findByRole('dialog', { name: args.title }) as HTMLDialogElement;
     await waitFor(() => expect(dialog).toHaveAttribute('open'));
     // Visibility settles only after the enter transition fades the dialog in.
     await waitFor(() => expect(within(dialog).getByRole('button', { name: 'Close' })).toBeVisible());
@@ -154,8 +153,7 @@ export const KeyboardOperation: Story = {
     expect(trigger).toHaveFocus();
     await userEvent.keyboard('{Enter}');
 
-    const heading = await within(document.body).findByRole('heading', { name: args.title });
-    const dialog = heading.closest('dialog') as HTMLDialogElement;
+    const dialog = await within(document.body).findByRole('dialog', { name: args.title }) as HTMLDialogElement;
     await waitFor(() => expect(dialog).toHaveAttribute('open'));
 
     // Focus follows the dialog rather than staying behind it.
