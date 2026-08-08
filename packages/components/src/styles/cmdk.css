@@ -1,5 +1,3 @@
-@import url("./list-item-shared.css");
-
 pp-dialog [cmdk-root] {
   --_cmdk-spacing: var(--space-m);
 }

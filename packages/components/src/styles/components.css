@@ -45,7 +45,6 @@
 @import url("sidebar.css");
 
 /* @import url(tiptap.css); */
-@import url("list-item-shared.css") layer(components);
 @import url("list-label.css");
 @import url("cmdk.css") layer(components);
 @import url("progress-indicator.css") layer(components);

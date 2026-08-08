@@ -8,8 +8,10 @@ let id = 0;
  * @since 0.0.1
  *
  * The element itself is the tab — it renders
- * nothing and enhances itself with `role="tab"`, focusability, and
- * `aria-selected`. Compose the label as text, with optional
+ * nothing and enhances itself with `role="tab"` and `aria-selected`. It
+ * starts focusable (`tabindex="0"`); inside a `pp-tab-group` the group roves
+ * `tabindex` across its tabs so the tablist is a single tab stop.
+ * Compose the label as text, with optional
  * `data-slot="icon"` (place it first) and `data-slot="subtitle"` children.
  * Styles live in `src/styles/tabs.css`.
  */

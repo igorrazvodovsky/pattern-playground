@@ -132,6 +132,12 @@ export const KeyboardNavigation: Story = {
     const canvas = within(canvasElement);
     const [first, second, third] = canvas.getAllByRole('tab');
 
+    // The tablist is a single tab stop: only the active tab is in the tab
+    // order, the arrow keys reach the rest.
+    await waitFor(() => expect(first).toHaveAttribute('tabindex', '0'));
+    expect(second).toHaveAttribute('tabindex', '-1');
+    expect(third).toHaveAttribute('tabindex', '-1');
+
     first.focus();
     await waitFor(() => expect(first).toHaveFocus());
 
@@ -145,6 +151,9 @@ export const KeyboardNavigation: Story = {
     await userEvent.keyboard('{End}');
     await waitFor(() => expect(third).toHaveFocus());
     await waitFor(() => expect(third).toHaveAttribute('aria-selected', 'true'));
+    // The tab stop moved with the selection.
+    expect(third).toHaveAttribute('tabindex', '0');
+    expect(first).toHaveAttribute('tabindex', '-1');
 
     // Past the last tab, the walk wraps rather than dead-ending.
     await userEvent.keyboard('{ArrowRight}');
@@ -187,6 +196,9 @@ export const ManualActivation: Story = {
     // Focus has moved; selection has not.
     expect(second).toHaveAttribute('aria-selected', 'false');
     expect(canvas.getByRole('tabpanel')).toHaveAttribute('name', 'first');
+    // The tab stop follows focus, so tabbing away and back returns here.
+    expect(second).toHaveAttribute('tabindex', '0');
+    expect(first).toHaveAttribute('tabindex', '-1');
 
     await userEvent.keyboard('{Enter}');
     await waitFor(() => expect(second).toHaveAttribute('aria-selected', 'true'));

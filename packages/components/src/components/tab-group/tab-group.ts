@@ -68,8 +68,10 @@ export class PpTabGroup extends Elena(HTMLElement) {
     });
 
     this.mutationObserver = new MutationObserver(mutations => {
-      // Update caches and aria labels when the DOM changes
-      if (mutations.some(m => !['aria-labelledby', 'aria-controls'].includes(m.attributeName!))) {
+      // Update caches and aria labels when the DOM changes; ignore the
+      // attributes this group writes itself, so activation and roving
+      // tabindex don't trigger a resync.
+      if (mutations.some(m => !['aria-labelledby', 'aria-controls', 'aria-selected', 'tabindex'].includes(m.attributeName!))) {
         setTimeout(() => {
           this.syncTabsAndPanels();
           this.setAriaLabels();
@@ -180,6 +182,9 @@ export class PpTabGroup extends Elena(HTMLElement) {
         }
 
         this.tabs[index].focus({ preventScroll: true });
+        // The tab stop follows focus, so with manual activation a tab away
+        // and back returns to the tab the actor was on, not the active one.
+        this.setRovingTabIndex(this.tabs[index]);
 
         if (this.activation === 'auto') {
           this.setActiveTab(this.tabs[index], { scrollBehavior: 'smooth' });
@@ -222,6 +227,7 @@ export class PpTabGroup extends Elena(HTMLElement) {
       // Sync active tab and panel
       this.tabs.forEach(el => (el.active = el === this.activeTab));
       this.panels.forEach(el => (el.active = el.name === this.activeTab?.panel));
+      this.setRovingTabIndex(tab);
 
       if (this.nav) scrollIntoView(this.activeTab, this.nav, 'horizontal', options.scrollBehavior);
     }
@@ -238,10 +244,20 @@ export class PpTabGroup extends Elena(HTMLElement) {
     });
   }
 
+  // The tablist is a single tab stop: only one tab is in the tab order at a
+  // time, and the arrow keys reach the rest.
+  private setRovingTabIndex(target: PpTab) {
+    this.tabs.forEach(el => (el.tabIndex = el === target ? 0 : -1));
+  }
+
   // This stores tabs and panels so we can refer to a cache instead of calling querySelectorAll() multiple times.
   private syncTabsAndPanels() {
     this.tabs = this.getAllTabs();
     this.panels = this.getAllPanels();
+    // Tabs make themselves focusable on connect, so a newly added tab would
+    // be a second tab stop until the roving tabindex is re-applied.
+    const stop = this.getActiveTab() ?? this.tabs[0];
+    if (stop) this.setRovingTabIndex(stop);
     this.updateComplete.then(() => this.updateScrollControls());
   }
 
