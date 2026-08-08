@@ -240,7 +240,11 @@ export function FilteringDemo({
                       <ComboboxGroup>
                         {results.contextualItems?.map((filterValue) => (
                           <ComboboxItem key={filterValue.id} onSelect={() => actions.selectChild(filterValue)}>
-                            <iconify-icon icon={filterValue.icon} slot="prefix" />
+                            {typeof filterValue.avatar === 'string' ? (
+                              <img className="avatar" data-size="xsmall" slot="prefix" src={filterValue.avatar} alt="" />
+                            ) : (
+                              <iconify-icon icon={filterValue.icon} slot="prefix" />
+                            )}
                             <span>{filterValue.name}</span>
                           </ComboboxItem>
                         ))}
@@ -262,7 +266,11 @@ export function FilteringDemo({
                           <ComboboxGroup>
                             {results.children.map(({ parent, child }) => (
                               <ComboboxItem key={`${parent.id}-${child.id}`} onSelect={() => actions.selectChild(child, parent)}>
-                                <iconify-icon icon={child.icon} slot="prefix" />
+                                {typeof child.avatar === 'string' ? (
+                                  <img className="avatar" data-size="xsmall" slot="prefix" src={child.avatar} alt="" />
+                                ) : (
+                                  <iconify-icon icon={child.icon} slot="prefix" />
+                                )}
                                 <span>{child.name}</span>
                               </ComboboxItem>
                             ))}

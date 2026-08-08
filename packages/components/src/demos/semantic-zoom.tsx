@@ -181,9 +181,10 @@ export function PopulationRungDemo() {
 		const element = groupRef.current
 		if (!element) return
 		// One avatar is AVATAR wide; each subsequent one advances by ADVANCE
-		// (its width minus the group's negative margin). Matches size="medium".
+		// (its width minus the group's negative margin, --_size / 3). Matches
+		// size="medium".
 		const AVATAR = 52
-		const ADVANCE = 32
+		const ADVANCE = 36
 		const measure = () => {
 			const width = element.clientWidth
 			const fit = Math.max(1, Math.floor((width - AVATAR) / ADVANCE) + 1)

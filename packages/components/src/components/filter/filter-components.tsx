@@ -79,11 +79,14 @@ export const FilterValueDropdown = ({
     (option) => !filterValues.includes(option.name)
   );
 
-  const iconFor = (value: string): string | undefined =>
-    options.find((option) => option.name === value)?.icon;
+  const optionFor = (value: string): FilterOption | undefined =>
+    options.find((option) => option.name === value);
 
-  // Values only get avatars when the data behind them carries icons.
-  const hasValueIcons = filterValues.some((value) => iconFor(value));
+  const iconFor = (value: string): string | undefined => optionFor(value)?.icon;
+  const avatarFor = (value: string): string | undefined => optionFor(value)?.avatar;
+
+  // Values only get avatars when the data behind them carries photos or icons.
+  const hasValueVisuals = filterValues.some((value) => avatarFor(value) || iconFor(value));
 
   const handleValueRemove = (value: string) => {
     setFilterValues(filterValues.filter((v) => v !== value));
@@ -106,9 +109,15 @@ export const FilterValueDropdown = ({
         data-slot="trigger"
         className="tag"
       >
-        {hasValueIcons && (
+        {hasValueVisuals && (
           <span className="avatar-group">
             {filterValues?.slice(0, 3).map((value) => {
+              const avatar = avatarFor(value);
+              if (avatar) {
+                return (
+                  <img key={value} className="avatar" data-size="xsmall" src={avatar} alt="" />
+                );
+              }
               const icon = iconFor(value);
               return icon ? (
                 <span key={value} className="avatar" data-size="xsmall">
@@ -145,8 +154,12 @@ export const FilterValueDropdown = ({
                       checked={true}
                       onSelect={() => handleValueRemove(value)}
                     >
-                      {iconFor(value) && (
-                        <iconify-icon icon={iconFor(value)} slot="prefix" />
+                      {avatarFor(value) ? (
+                        <img className="avatar" data-size="xsmall" slot="prefix" src={avatarFor(value)} alt="" />
+                      ) : (
+                        iconFor(value) && (
+                          <iconify-icon icon={iconFor(value)} slot="prefix" />
+                        )
                       )}
                       {value}
                     </ComboboxItem>
@@ -162,7 +175,11 @@ export const FilterValueDropdown = ({
                           checked={false}
                           onSelect={(currentValue: string) => handleValueAdd(currentValue)}
                         >
-                          {filter.icon && <iconify-icon icon={filter.icon} slot="prefix" />}
+                          {filter.avatar ? (
+                            <img className="avatar" data-size="xsmall" slot="prefix" src={filter.avatar} alt="" />
+                          ) : (
+                            filter.icon && <iconify-icon icon={filter.icon} slot="prefix" />
+                          )}
                           <span>
                             {filter.name}
                           </span>

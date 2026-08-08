@@ -17,6 +17,7 @@ import {
 export type FilterOption = {
   name: string;
   icon?: string;
+  avatar?: string;
   label?: string;
 };
 
@@ -36,6 +37,7 @@ interface ValueRecord {
   name: string;
   value: string;
   icon?: string;
+  avatar?: string;
   searchableText?: string;
 }
 
@@ -45,6 +47,7 @@ const assigneeRecords: ValueRecord[] = [
     name: user.name,
     value: user.name,
     icon: 'ph:user',
+    avatar: user.metadata.photoUrl,
     searchableText: user.name.toLowerCase(),
   })),
   {
@@ -66,7 +69,7 @@ const valueRecords: Record<string, ValueRecord[]> = {
   'updatedAt': filterDates,
 };
 
-const toOption = ({ value, icon }: ValueRecord): FilterOption => ({ name: value, icon });
+const toOption = ({ value, icon, avatar }: ValueRecord): FilterOption => ({ name: value, icon, avatar });
 
 /** Each facet's value options, as the data records them. */
 export const filterValueOptions: Record<string, FilterOption[]> = Object.fromEntries(
@@ -88,6 +91,7 @@ export const taskFilterCategories = TASK_FILTER_PATHS.map((path) => {
       id: `${path}-${record.id}`,
       name: record.name,
       icon: record.icon,
+      avatar: record.avatar,
       value: record.value,
       path,
       searchableText: record.searchableText ?? record.name.toLowerCase(),

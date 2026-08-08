@@ -39,6 +39,7 @@
   }
 
   .avatar-group > .avatar:not(:first-child) {
-    margin-left: calc(-8px - (var(--_size) * 0.25));
+    /* Proportional to size, so small avatars overlap as lightly as large ones. */
+    margin-left: calc(var(--_size) / -3);
   }
 }
