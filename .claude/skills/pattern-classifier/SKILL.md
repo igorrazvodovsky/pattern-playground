@@ -23,7 +23,7 @@ The reasoning is grounded in the project's `docs/` knowledge base. Read the docu
 Two generated JSON files give queryable views of the library:
 
 - `apps/patterns/src/data/pattern-graph.json` — nodes (id, title, category, path, role) and *typed* edges (source, target, type, optional label, provenance, situational hints). Edge types follow the relationship vocabulary above. Use for neighbourhood scanning and to see what a candidate pattern would connect to.
-- `apps/patterns/src/data/activity-levels.json` — per-node metadata: `activity-level`, `lifecycle-stage`, `atomic-category`, `mediation` (the generated file keeps these hyphenated keys, distinct from the camelCase authoring frontmatter). Use for classification checks: see how neighbours are classified, spot level mismatches, find patterns in the same lifecycle stage.
+- `apps/patterns/src/data/activity-levels.json` — per-node metadata: `activity-level`, `lifecycle-stage`, `mediation` (the generated file keeps these hyphenated keys, distinct from the camelCase authoring frontmatter). Use for classification checks: see how neighbours are classified, spot level mismatches, find patterns in the same lifecycle stage.
 
 ## Scope: what belongs in this library
 
@@ -179,7 +179,7 @@ Many actions serve multiple stages. The tree picks the *primary* stage; add `lif
 
 A page that gathers smaller pages is one of three things. The sorting instrument is Winston et al.'s (1987) part-whole test — *how do the children relate to the parent?* — which also picks the edge type:
 
-- *Do the children **make up** the thing?* (component–integral) → it is a **composite pattern**: `role: pattern`, `atomic: composition`. The children link to it by `enables` (part → whole), via a "Composed from" / "Constituent patterns" header. A composite pattern is the authoritative source for *its own* pattern — it is **not** a collection. Example: Form is a single act assembled from data entry, bounded choice, sectioning; filling it is one pattern.
+- *Do the children **make up** the thing?* (component–integral) → it is a **composite pattern**: `role: pattern`. The children link to it by `enables` (part → whole), via a "Composed from" / "Constituent patterns" header. A composite pattern is the authoritative source for *its own* pattern — it is **not** a collection. Example: Form is a single act assembled from data entry, bounded choice, sectioning; filling it is one pattern.
 - *Are the children **kinds of** the thing?* (genus–species) → it is a **general pattern with variants**: `role: pattern`. The variants link to it by `instantiates` (species → genus), via a "Foundation" / "Applied in" header on each variant. Example: Assisted task completion is the general pattern; Autocomplete, Autofill, AI completion *instantiate* it.
 - *Are the children merely **filed under** it for browsing?* (member–collection) → it is a **collection**: `role: collection`. It is a survey, not a source; its links emit `surveys` (≈ `skos:member`). Per SKOS, a collection sits *outside* the `enables`/`instantiates` hierarchy. Example: Navigation overview gathers the navigation models; Operations gathers its operation patterns.
 - *Does it need a node at all?* If membership is already computable from a facet (e.g. the AT-altitude strata are derivable from `activityLevel`) or the link lives fine in cross-references, prefer *implicit* — generated nav or edges, no authored node. Test: would anyone navigate *to* this page, or always straight to a child?
@@ -201,8 +201,8 @@ one means are in [`docs/specs/pattern-site.md`](../../docs/specs/pattern-site.md
 
 Which of them this skill's decisions actually turn on: `activityLevel` and
 `lifecycle` carry the placement judgement; `group` records a navigation sub-tree
-and makes no semantic claim; `atomic` (compositional complexity) and `mediation`
-(how many actors the pattern sits between) rarely decide anything here.
+and makes no semantic claim; `mediation` (how many actors the pattern sits
+between) rarely decides anything here.
 
 Consider domain `tags` (e.g., `ai`, `navigation-structure`, `async`) for graph clustering — but only when they emerge from existing clusters in the graph, not invented speculatively.
 

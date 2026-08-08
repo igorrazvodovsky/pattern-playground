@@ -21,9 +21,9 @@ until it does), and `role` — the kind of thing the entry is, defined in
 entries are the exception, not the rule. Most components live only in Storybook.
 
 Everything else is optional and mutually independent: the classification facets
-(`activityLevel`, `lifecycle`, `group`, `domain` — see below), `atomic`
-(compositional complexity) and `mediation` (how many actors the move sits
-between), `description` (the graph node tooltip and site meta), `tags`, the
+(`activityLevel`, `lifecycle`, `group`, `domain` — see below), `mediation` (how
+many actors the move sits between), `description` (the graph node tooltip and
+site meta), `tags`, the
 epistemic fields below, and the `relationships`, `realised_by`, `situation`, and
 `decision-trees` constructs that feed the graph.
 

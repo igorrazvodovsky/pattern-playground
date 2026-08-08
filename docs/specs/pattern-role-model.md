@@ -23,8 +23,9 @@ and graph metadata. The two-language framing behind it is
   are bilingual in the same way as qualities.
 - A `concept` is a software concept vocabulary entry.
 
-`atomic:*` tags are compositional metadata. They do not decide whether a page
-is a pattern source, a component source, or a collection.
+Compositional complexity is component-catalogue metadata: `atomic:*` story tags
+in Storybook, with no counterpart in pattern frontmatter. It does not decide
+whether a page is a pattern source, a component source, or a collection.
 
 ## Boundary stance
 

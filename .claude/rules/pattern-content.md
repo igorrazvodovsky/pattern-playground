@@ -29,7 +29,6 @@ activityLevel: operation       # operation | action | activity
 lifecycle: seeking             # Seek–Use–Share stage, free-form
 domain: data-visualization     # domain corpus
 group: "conversation/sequence-management"  # nav sub-grouping path
-atomic: pattern                # primitive | component | composition | pattern
 mediation: individual          # individual | coordination | networking
 description: "One sentence framed from the human situation."
 ---

@@ -15,7 +15,6 @@ import type { NetworkGraphData, NetworkGraphNode } from '@components/charts/base
 interface NodeMeta {
   'activity-level': string;
   'lifecycle-stage': string | null;
-  'atomic-category': string;
   mediation: string | null;
 }
 
@@ -56,7 +55,6 @@ function buildData(): NetworkGraphData {
     // and `[data-seed]`, so a null must leave no attribute behind.
     const attrs: Record<string, string> = {
       'at-level': meta?.['activity-level'] ?? 'cross-cutting',
-      'atomic-category': meta?.['atomic-category'] ?? n.category.toLowerCase(),
     };
     if (meta?.['lifecycle-stage']) attrs['lifecycle-stage'] = meta['lifecycle-stage'];
     if (meta?.mediation) attrs['mediation'] = meta.mediation;

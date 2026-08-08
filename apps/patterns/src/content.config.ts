@@ -19,7 +19,6 @@ const patterns = defineCollection({
     lifecycle: z.string().optional(),
     group: z.string().optional(),
     domain: z.string().optional(),
-    atomic: z.enum(['primitive', 'component', 'composition', 'pattern']).optional(),
     mediation: z.enum(['individual', 'coordination', 'networking']).optional(),
     description: z.string().optional(),
     tags: z.array(z.string()).optional(),

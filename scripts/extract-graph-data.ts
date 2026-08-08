@@ -96,7 +96,6 @@ interface Edge {
 interface ActivityLevel {
   'activity-level': string;
   'lifecycle-stage': string | null;
-  'atomic-category': string;
   'mediation': string | null;
 }
 
@@ -754,7 +753,6 @@ for (const filePath of patternMdxFiles) {
   if (situation) node.situation = situation;
   nodeMap.set(id, node);
 
-  const atomicRaw = typeof fm.atomic === 'string' ? fm.atomic : null;
   const lifecycleRaw = typeof fm.lifecycle === 'string' ? fm.lifecycle : null;
   const mediationRaw = typeof fm.mediation === 'string' ? fm.mediation : null;
   if (typeof fm.group === 'string') {
@@ -780,7 +778,6 @@ for (const filePath of patternMdxFiles) {
     // carry no AT altitude — they read as cross-cutting.
     'activity-level': activityLevelRaw ?? 'cross-cutting',
     'lifecycle-stage': lifecycleRaw ?? null,
-    'atomic-category': atomicRaw ?? cat.toLowerCase(),
     'mediation': mediationRaw,
   });
 

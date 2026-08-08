@@ -455,7 +455,7 @@ A fourth arm, and the only one that skips half a block: *the judgement is alread
 Two authoring notes from the backfill sitting:
 
 - *`alternative` on a pair blocks `sets-up`.* Two patterns typed `alternative` are different transformations of the same starting structure; `precedes` says one produces what the other acts on. Both at once is a contradiction, so a resulting clause that wants to escalate to an `alternative` sibling states the condition in its own words and emits no edge. This is why the navigation models set up nothing in their own family — escalation among alternatives is the tree's judgement. `complements` and `related` do not block: there the clause is the authorable home and the edge note was only ever a rendering, so the note comes off the entry when the clause takes the judgement over.
-- *Minimal primitives are not skips in a sequential family.* Every conversation-family page is `atomic: primitive`, and all thirteen carry blocks: where patterns compose into an encounter, the initiating situation is which stage the encounter has reached, which is pattern-history rather than a restatement of the definition.
+- *Minimal primitives are not skips in a sequential family.* Every conversation-family page names a single minimal move, and all thirteen carry blocks: where patterns compose into an encounter, the initiating situation is which stage the encounter has reached, which is pattern-history rather than a restatement of the definition.
 
 ## Component realisation (cross-dataset)
 
