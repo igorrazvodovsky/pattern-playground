@@ -83,6 +83,7 @@ pp-tab {
 
   > [data-slot="subtitle"] {
     grid-column: 2;
+    color: var(--c-bodyDimmed);
   }
 }
 
