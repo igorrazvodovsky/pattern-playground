@@ -33,15 +33,6 @@
     stroke-dasharray: 1 2;
   }
 
-  /* A seed page is a stub someone still owes prose to — the dashed ring says so
-     without spending a colour on it. */
-
-  pp-network-graph .network-graph__node[data-seed] .network-graph__circle {
-    stroke: var(--c-neutral-700);
-    stroke-width: 1.25;
-    stroke-dasharray: 2 2;
-  }
-
   /* Activity theory levels — the scheme the page currently reads by */
 
   pp-network-graph[data-color-mode="at-level"] [data-at-level="operation"] .network-graph__circle {
@@ -77,5 +68,12 @@
 
   pp-network-graph[data-color-mode="mediation"] .network-graph__node:not([data-mediation]) .network-graph__circle {
     fill: oklch(55% 0.05 300deg);
+  }
+
+  pp-network-graph .network-graph__node[data-seed] .network-graph__circle {
+    fill: var(--c-neutral-0);
+    stroke: var(--c-neutral-700);
+    stroke-width: 1.25;
+    stroke-dasharray: 2 2;
   }
 }

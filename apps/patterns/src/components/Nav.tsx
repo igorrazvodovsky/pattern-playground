@@ -171,15 +171,40 @@ function useAutoHideOnScroll(ref: React.RefObject<HTMLElement | null>) {
   }, [ref]);
 }
 
-function SiteHeader() {
+// Same gate as ProjectionMenu, for the same reason: on connect pp-tooltip
+// appends the pp-popup it owns and reflects its props as attributes, all in its
+// own light DOM. register-all.ts upgrades it before the island hydrates, so an
+// SSR'd tooltip hands React a subtree that no longer matches the server HTML.
+// Server and first client render show the bare trigger; the tooltip wrapper
+// mounts after hydration, where the mutation is nobody's business but its own.
+function HeaderTip({
+  hydrated,
+  content,
+  placement,
+  children,
+}: {
+  hydrated: boolean;
+  content: string;
+  placement: 'left' | 'right';
+  children: React.ReactElement;
+}) {
+  if (!hydrated) return children;
+  return (
+    <pp-tooltip content={content} placement={placement}>
+      {children}
+    </pp-tooltip>
+  );
+}
+
+function SiteHeader({ hydrated }: { hydrated: boolean }) {
   const ref = React.useRef<HTMLElement>(null);
   useAutoHideOnScroll(ref);
   return (
     <header className="site-header" ref={ref}>
-      <pp-tooltip content="Toggle sidebar (⌘/)" placement="right">
+      <HeaderTip hydrated={hydrated} content="Toggle sidebar (⌘/)" placement="right">
         <SidebarTrigger className="site-header-toggle" />
-      </pp-tooltip>
-      <pp-tooltip content="Search (⌘K)" placement="left">
+      </HeaderTip>
+      <HeaderTip hydrated={hydrated} content="Search (⌘K)" placement="left">
         <button
           type="button"
           onClick={openSearch}
@@ -188,7 +213,7 @@ function SiteHeader() {
           {React.createElement('iconify-icon', { icon: 'ph:magnifying-glass', className: 'icon' })}
           <span className="visually-hidden">Search</span>
         </button>
-      </pp-tooltip>
+      </HeaderTip>
     </header>
   );
 }
@@ -286,7 +311,7 @@ export function Nav({ projections, projectionLabels, storybookUrl }: NavProps) {
 
   return (
     <SidebarProvider renderWrapper={false}>
-      <SiteHeader />
+      <SiteHeader hydrated={hydrated} />
       <Sidebar collapsible="offcanvas">
         <SidebarContent
           onMouseOver={onNavPointerOver}

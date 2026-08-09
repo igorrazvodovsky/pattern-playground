@@ -65,17 +65,16 @@ export abstract class D3Component extends Elena(HTMLElement) {
     const svg = document.createElementNS(NS, 'svg');
     svg.setAttribute('class', 'd3-svg');
     svg.setAttribute('role', 'img');
-    svg.setAttribute('aria-labelledby', 'chart-title');
+    // The name goes on aria-label, not an SVG <title>: a <title> is the
+    // browser's own tooltip, so it pops over the chart on hover and competes
+    // with the chart's interaction.
+    svg.setAttribute('aria-label', 'Data visualization chart');
     svg.setAttribute('viewBox', `0 0 ${VIEWBOX_WIDTH} ${VIEWBOX_HEIGHT}`);
-
-    const title = document.createElementNS(NS, 'title');
-    title.id = 'chart-title';
-    title.textContent = 'Data visualization chart';
 
     const content = document.createElementNS(NS, 'g');
     content.setAttribute('class', 'd3-content');
 
-    svg.append(title, content);
+    svg.append(content);
     container.append(svg);
     this.append(container);
 
@@ -109,8 +108,7 @@ export abstract class D3Component extends Elena(HTMLElement) {
 
   /** Update the accessible name: the SVG `<title>` and the host's aria-label. */
   protected setChartLabel(label: string) {
-    const title = this.svg?.querySelector('title');
-    if (title) title.textContent = label;
+    this.svg?.setAttribute('aria-label', label);
     this.setAttribute('aria-label', label);
   }
 
