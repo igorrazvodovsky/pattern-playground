@@ -320,9 +320,9 @@ main.shell__main:has(> .content-inset) {
 @media (width >= 60rem) {
   .content-inset:has(> .toc-rail) {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) fit-content(20rem);
+    grid-template-columns: minmax(0, 1fr) fit-content(40ch);
     grid-template-rows: auto 1fr;
-    column-gap: var(--space-2xl);
+    column-gap: var(--space-xl);
   }
 
   .content-inset:has(> .toc-rail) > header {
