@@ -1,7 +1,7 @@
 ---
 title: Shareability
 added: 2025-11-12
-updated:
+updated: 2026-08-10
 role: quality
 relationships:
   related:
@@ -19,109 +19,60 @@ relationships:
     - to: a11y
       note: bookmarkable URLs let assistive settings persist and return across sessions
 ---
-The extent to which system state can be captured, transmitted, and reliably reconstructed through links, enabling users to communicate precise application contexts to others.
+How much of a situation a link carries: whether opening it puts someone else in front of the same view, arranged the same way, with the same thing in focus — and whether it still does so a year later.
 
-## Principle
+[Deep linking](/patterns/deep-linking) is the move that supplies the addresses and covers what goes into them. This is the lens applied to the result: whether what arrives is what was sent.
 
-A shareable link preserves the complete user experience—returning any user to the same view, configuration, and content. This honours the basic web architecture where URLs serve as both addresses and state descriptors, ensuring that refreshing, bookmarking, or sharing a link maintains context rather than losing it.
+## What the link carries
 
-Shareability transforms applications from ephemeral, session-bound experiences into persistent, communicable states. When users can share exactly what they see, interfaces become more transparent, collaborative, and trustworthy.
+Worth carrying is state that another person, or the same person later, would otherwise have to rebuild by hand:
 
-## URL as state container
+- The search and filters that produced the current set
+- How the view is arranged — layout, density, grouping
+- Sort order and position within a long collection
+- Where the actor is inside a space — zoom, pan, what is selected
+- What is highlighted: a passage, a range, an annotation
+- The route taken, where the surroundings are part of what is being shown
 
-URLs provide native, universal state management through three mechanisms:
+Left out is state that isn't the sender's to give away, or isn't anything yet:
 
-### Path segments
+- Credentials and personal identifiers
+- Passing interface state — an open menu, a hovered row, a modal mid-flight
+- Unsaved work: a half-typed message, a form nobody has submitted
+- Continuously changing values — a pointer position, an animation frame
+- Whatever holds only for this session, such as being signed in or temporarily permitted
 
-Hierarchical navigation and resource identification:
-```
-/projects/42/tasks/18
-/users/alice/settings
-```
+Fragments are not a way round the first of these. The value never reaches the server, but it stays in the address bar, in browser history, in the copied link, and in the screenshot.
 
-Best for: entity relationships, navigational structure, semantic hierarchy.
+## Destination or route
 
-### Query parameters
+When the same thing can be reached more than one way — a document that sits in a project and also on a team's shelf, a card that appears on a board and in a search result — a link has a choice: name the thing, or name the way in.
 
-Configuration, filters, and non-hierarchical state:
-```
-?view=grid&sort=date&status=active&page=3
-?theme=dark&density=comfortable
-```
+Naming the thing gives it one address that everyone converges on, whatever path they took:
 
-Best for: view preferences, filters, sorting, pagination, search queries, feature flags.
-
-### Fragments
-
-Client-side navigation, scroll positions, and element targeting:
-```
-#section-3
-#L42-L58
-#canvas-x=1240&y=680&zoom=2.5
-```
-
-Best for: in-page positions, highlighted ranges, canvas coordinates, selected elements.
-
-## Navigation context vs destination
-
-When content exists in multiple locations or is reachable through multiple paths, shareability faces a key choice: should URLs encode the destination alone, or preserve the navigation context that led there?
-
-### Destination-only addressing
-URLs identify content regardless of how users arrived:
 ```
 /documents/42
 ```
 
-Advantages: Clean URLs, unambiguous addressing, stable references
-Limitations: Loses spatial context, navigation history, and relationship to surrounding content
+The recipient arrives at the document itself, with no sense of where it sits or what surrounds it.
 
-### Path-preserving addressing
-URLs capture the route taken to reach content:
+Naming the way in preserves the surroundings:
+
 ```
 /projects/alpha/documents/42
 /teams/design/documents/42
 ```
 
-When the same content appears in multiple contexts (linked cards, symmetric references, spatial canvases), the path becomes meaningful state. Users may need to know not just *what* they're viewing, but *how they got there*.
+The recipient lands where the sender was standing, sees the neighbours, and can move outward the way the sender could. The cost is visible in those two lines: the same document now has addresses that read differently and point at the same place, and neither party can tell they are holding the same thing. Carrying the whole route rather than one step of it — `/projects/alpha/teams/design/documents/42` — restores more of where the sender had been, and asks the recipient to read a lot before they know what they are opening.
 
-### Navigation stack restoration
-Complex applications may need to restore entire navigation histories:
-```
-/projects/alpha/teams/design/documents/42
-```
+Decide by whether the surroundings change what the thing means. A document read on its own reads the same whichever shelf it was taken from. A node among its neighbours, a card in its column, a point on a canvas do not: separated from what is around them, they say something different, or nothing.
 
-This enables "back" navigation and preserves hierarchical context, but creates longer URLs and couples shareability to navigation implementation.
+## Arriving from a link
 
-### Trade-offs
-- *Addressability simplicity* vs *context preservation*
-- *URL stability* vs *relationship visibility*
-- *Unique references* vs *multiple valid paths*
+A link is written by someone who already has the state and opened by someone who has none of it. Two failures follow from that asymmetry, and both look fine from the sender's side:
 
-Choose based on whether spatial or temporal context materially affects content meaning.
-Document viewers benefit from destination-only addressing; spatial canvases and relationship-rich environments often require path preservation.
-
-## What to share
-
-### Appropriate candidates
-
-State that enhances collaboration, reference, and reproducibility:
-- Search and filters — preserve query context for shared discovery
-- View configuration — layout mode (grid/list), density, grouping
-- Sort and pagination — maintain position within large datasets
-- Feature toggles — experimental or accessibility settings
-- Canvas state — zoom, pan, selected elements (design tools, maps)
-- Highlighting and selection — specific content ranges or annotations
-- Navigation history — preserve spatial/temporal context when path to content is meaningful
-- Reference paths — capture route through relationship graphs or linked structures
-
-### Poor candidates
-
-State that compromises security, performance, or user experience:
-- Sensitive data — passwords, tokens, personal identifiers
-- Temporary UI states — modal visibility, dropdown expansion, hover states
-- Unsaved input — draft content, incomplete forms
-- High-frequency transient data — mouse position, animation frames
-- Session-specific state — authentication status, temporary permissions
+- *State that never travelled.* The view is rebuilt partly from the link and partly from what the recipient's browser already held — a cached selection, an earlier filter, a preference set at some point in the session. It restores correctly for the sender every time and puts the recipient somewhere else.
+- *Links that resolve to nothing.* An application that answers every address with its own shell has no way to say "this is gone". A deleted item, a revoked permission, or a link from two versions ago comes back as an empty view. Either reconstruct what the link names or say plainly that it can't be reconstructed — a blank view is the one response that tells the recipient nothing.
 
 ## Resources & references
 

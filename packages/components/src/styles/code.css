@@ -1,0 +1,63 @@
+/* Literal text — attribute names, URLs, filter expressions — set apart from the
+   prose around it. Sibling to kbd.css: same restraint, different promise (kbd
+   is a key you press, code is a string you read).
+
+   The tint is the surface-independent idiom from variables-palette.css:157, so
+   these read the same on a card, a pane, or a layered demo, in either scheme.
+   `* { font-family: var(--font) }` in typography.css matches directly and so
+   beats inheritance — anything nested inside code has to be named too. */
+
+@layer components {
+  pre,
+  code,
+  code *,
+  samp,
+  samp * {
+    font-family: var(--font-code);
+  }
+
+  /* Mono runs optically larger at the same px; `em` keeps it tracking whatever
+     prose size it sits in. Kept off the descendants above — `em` compounds, so
+     a highlighted token inside `pre > code` would shrink twice over. */
+  pre,
+  code,
+  samp {
+    font-size: 0.85em;
+  }
+
+  code,
+  samp {
+    background: oklch(from var(--c-neutral-1000) l c h / 5%);
+    border-radius: var(--radius-s);
+    padding-inline: 0.25em;
+
+    /* A span stays in one piece. Default line breaking opens after `?`, `&`
+       and the like, so `?page=2` would otherwise split into two chips mid-
+       sentence. The corpus' longest span measures well inside the narrow-pane
+       measure; a much longer one would push it out, and belongs in a block. */
+    white-space: nowrap;
+  }
+
+  pre {
+    background: oklch(from var(--c-neutral-1000) l c h / 5%);
+    border-radius: var(--radius-m);
+    padding: var(--space-m) var(--space-l);
+    line-height: var(--line-height);
+    tab-size: 2;
+
+    /* A block example holds its lines: wrapping a URL mid-path would read as
+       two addresses. Scroll instead. */
+    overflow-x: auto;
+  }
+
+  /* The slab already carries the tint, the inset, and the size — and its own
+     `white-space: pre`, which the inline rule above would otherwise flatten
+     into a single scrolling line. */
+  pre :is(code, samp) {
+    background: none;
+    border-radius: 0;
+    padding: 0;
+    font-size: inherit;
+    white-space: inherit;
+  }
+}

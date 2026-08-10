@@ -23,6 +23,11 @@ export default defineConfig({
   // `{rel="..."}` link annotations the typed-relationship graph authors in.
   // MDX inherits the remark plugins configured here.
   markdown: {
+    // No syntax highlighting: the corpus' fenced blocks are URL and expression
+    // examples, never listings in a language. Shiki writes its theme as an
+    // inline style on <pre>, which no layer can beat and which is wrong in one
+    // of the two schemes the `light-dark()` palette serves.
+    syntaxHighlight: false,
     processor: unified({ remarkPlugins: [remarkRelStrip] }),
   },
   vite: {

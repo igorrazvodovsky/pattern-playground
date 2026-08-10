@@ -1,7 +1,7 @@
 ---
 title: Deep linking
 added: 2025-10-16
-updated:
+updated: 2026-08-10
 role: pattern
 evidence:
   - literature
@@ -23,95 +23,100 @@ situation:
       the links are now a contract — states that were named have to keep resolving — which
       constrains how freely what sits behind them can be reorganised
 relationships:
+  enacts:
+    - to: shareability
+      note: a link can only carry state that has a name, and deep linking is where the name comes from
   related:
     - to: commenting
       note: Comments get unique URLs
     - to: progressive-disclosure
       note: URL state tracks what's expanded/revealed
 ---
-Make any state addressable through a URL, so the actor can return to it, share it, or bookmark it without reconstructing it.
+Getting to a particular state takes a few moves: narrow the list this way, open that item, scroll to the part that matters. Once the actor is standing there, the only record of how they got there is in their head. There is nothing to bookmark, nothing to send to a colleague, and coming back tomorrow means walking the same path again.
 
-## Description
+## Forces
 
-Deep linking treats URLs as pointers to specific application states. Rather than linking only to top-level pages, every meaningful state — a filtered view, a selected item, an open modal, a specific comment — gets its own URL. When loaded, these links restore the exact state the user was seeing, allowing them to jump directly to desired content without traversing multiple navigation levels.
+- *Legible names vs. stable names* — a name made from what something is called tells whoever holds the link what they are about to open, and breaks the day it gets renamed. A name made from an identifier never breaks and says nothing.
+- *Restoring the view vs. handing over the sender's settings* — the more of the state a link carries, the closer the recipient's screen is to the sender's, and the more of the sender's private arrangement arrives uninvited.
+- *Naming states vs. rearranging freely* — a state with an address is a promise to keep answering it. Reorganising later breaks links held by people who aren't there to say so.
 
-This enables users to save their position within complex applications, share specific states with others, and resume incomplete processes exactly where they left off. Deep links can capture both content location (what you're viewing) and application state (how you're viewing it).
+## Solution
 
-{/* ## When to use */}
-{/* - Content is specific and interactive (map locations with zoom levels, book pages, video timestamps, data visualisations) */}
-{/* - Users need to share particular states that would be difficult to find otherwise */}
-{/* - Getting to a specific view requires multiple navigation steps from typical entry points */}
-{/* - Applications have many user-settable parameters (viewing modes, scales, data layers, filters) */}
-{/* - States might become "socially mediated objects" — URLs that are discussed, shared virally, or referenced in conversations across platforms */}
+Give every state worth returning to an address of its own, and keep that address current as the actor works, so the state can be bookmarked, sent, or resumed without being rebuilt. The address has to work in both directions: opening it reconstructs the state, otherwise it only looks addressable.
 
-## Core characteristics
+## Choosing where state goes
 
-- Addressability: Every distinct state has a unique URL
-- Shareability: URLs can be emailed, tweeted, posted to social networks, discussed in forums, and shared across any platform
-- Bookmarkability: URLs can be saved for later return using browser bookmarks or external services
-- Navigability: Browser back/forward buttons work as expected
-- Persistence: URLs remain stable over time
-- Time-saving: Users jump directly to desired states rather than recreating them through multiple steps
+An address has three jobs to hand out. Which one a value takes follows from what the value means to the actor, not from how much state there is.
 
-## Implementation patterns
+### What identifies the thing
 
-**Query parameters** for transient state:
+Change it and the actor is looking at something else; take it away and there is nothing left to look at.
+
+```
+/products/4815-modern-wristwatch
+/users/alice/settings
+```
+
+### What narrows the view
+
+Which items are filtered in, how they are sorted, the page reached, the layout chosen. Drop these and the link still lands somewhere sensible — the same collection, unnarrowed.
+
 ```
 /tasks?filter=completed&sort=date&view=list
 ```
 
-**Path segments** for resource hierarchy:
-```
-/projects/abc123/tasks/def456/comments/ghi789
-```
+Narrowing that changes what comes back is still narrowing. Page two and page one show different items and describe the same collection; two products are two things.
 
-**Hash fragments** for view state within a resource:
+### What points inside the view
+
+A section of a document, a highlighted range, where a canvas is parked. It means nothing until what surrounds it is on screen, and it is usually the thing the actor was actually looking at.
+
 ```
 /document/123#section-4
-/workspace/456#comment-thread-789
+#canvas-x=1240&y=680&zoom=2.5
 ```
 
-**Combined approach** for complex states:
+Most states worth sending use all three at once — the board, how it is currently narrowed, and the card in front of the actor:
+
 ```
 /board/sprint-3?filter=assigned-to-me#card-1234
 ```
 
-**Parameter selection**
-- Capture navigation-critical state (position, filters, selections)
-- Avoid capturing user preferences that shouldn't change when loading shared links
-- Consider which parameters are necessary for recreating the intended view
-- Balance completeness with URL length and readability
+What the actor set once for themselves — theme, density, a collapsed sidebar — is the class of state to leave out. It belongs to the person rather than to the view, and having someone else's arrangement imposed on arrival is a surprise, not context.
 
-**URL visibility and sharing features**
-- Update the browser's URL field immediately as users navigate and change parameters
-- Provide explicit "Share link" or "Copy link" buttons to make the feature discoverable
-- Consider offering embed code that captures both position and state for external sites
-- Show shortened URLs or QR codes for mobile sharing
+## Names that survive renaming
 
-## States
+A readable address tells whoever holds it what it points at before they open it: `/products/modern-wristwatch` is legible in a chat message in a way `/products/4815` is not. But a name taken from a title breaks when the title changes, and titles change.
 
-- Valid: URL resolves to accessible content
-- Invalid: Resource doesn't exist or user lacks permission (show appropriate error)
-- Stale: URL format changed but can be migrated to new structure
+Carrying both settles most of it:
 
-## State encoding approaches
-- Full state encoding: Entire application state in URL (enables exact reproduction)
-- Partial state encoding: Only meaningful navigation state in URL (cleaner, more stable)
-- Opaque identifiers: Short codes that resolve to complex state server-side
+```
+/products/4815-modern-wristwatch
+```
 
+The number is what resolves; the wording is there for whoever reads the link. A renamed item keeps its address, and a link sent last year arrives at the current wording rather than at a dead end.
 
-## Accessibility
+Where the state has no natural name — a filter combination, a canvas position — a short code standing in for the whole arrangement keeps the address manageable, at two costs: the recipient can no longer read what they are about to open, and the link dies with whatever record the code stands for.
 
-- URLs should be human-readable when possible
-- Screen readers should announce navigation changes
-- Keyboard navigation should update URLs appropriately
-- URL changes shouldn't interrupt screen reader flow
+## Which changes deserve a Back step
+
+Keeping the address current as the actor works is what makes any moment sendable. Not every change is a step in a journey, though. Filters adjusted one after another, a slider dragged, a default filled in on arrival — if each becomes a step, Back stops meaning "the view I was just in" and starts meaning "the keystroke before this one", and leaving the page takes a dozen presses.
+
+Count it as a step when it is somewhere the actor would expect Back to return them from: opening an item, running a search, moving to the next page of results. Let corrections, defaults, and rapid intermediate adjustments overwrite the current step instead of adding one.
+
+Whichever way it goes, going back has to put the actor back — the view rebuilt from the address rather than from whatever happened to be left in memory. And a change the actor would call navigation should read as navigation to someone who isn't watching the screen: when the view is replaced in place, arriving needs announcing, the way a fresh page announces itself.
+
+## Exposing the link
+
+The address bar is the sharing control most of the time, and copying from it is what people already do — which is why it has to keep up with the view rather than lag a step behind.
+
+An explicit *Copy link* earns its place where the visible address isn't the one worth sending: an embedded view, a state reached inside something with no address bar of its own, or a moment where the actor is unlikely to think of the address as the thing to hand over. Where the link crosses devices rather than people, a code to scan does the same job. Where the destination is someone else's page, offer the embeddable form alongside it.
 
 ## Related components
 
 - <ComponentRef id="components-messaging--docs">Messaging</ComponentRef> — Each message/thread is addressable
 
-## Resources
+## Resources & references
 
 - [Cool URIs don't change](https://www.w3.org/Provider/Style/URI) — Tim Berners-Lee on URL stability
 - _Designing Interfaces_ (3rd ed.) by Jenifer Tidwell, Charles Brewer, Aynne Valencia

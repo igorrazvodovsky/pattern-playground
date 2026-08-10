@@ -4,6 +4,7 @@
    `layer(components)` at the import site so no rule escapes the cascade order. */
 
 @import url("kbd.css");
+@import url("code.css");
 @import url("button.css");
 @import url("toolbar.css");
 @import url("popover.css");

@@ -4411,6 +4411,13 @@
     },
     {
       "source": "deep-linking",
+      "target": "shareability",
+      "type": "enacts",
+      "label": "a link can only carry state that has a name, and deep linking is where the name comes from",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "deep-linking",
       "target": "commenting",
       "type": "related",
       "label": "Comments get unique URLs",
