@@ -5,7 +5,7 @@ kind: "exec-spec"
 created: "2026-07"
 last_reviewed: "2026-07-25"
 area: "components"
-promoted_to: ""
+promoted_to: "shared/data/bindings/filtering.ts (filter shape, operator table, matcher), shared/data/bindings/types.ts (AttributeBinding gains icon/many)"
 superseded_by: ""
 ---
 # Binding-driven filtering

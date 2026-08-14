@@ -5,7 +5,7 @@ kind: exec-spec
 created: "2026-05"
 last_reviewed: "2026-05-15"
 area: "src/components/sidebar"
-promoted_to: ""
+promoted_to: "none — content is the residue (the Sidebar component, stories, and styles)"
 superseded_by: ""
 ---
 

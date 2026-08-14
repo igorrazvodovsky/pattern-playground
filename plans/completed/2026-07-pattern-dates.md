@@ -5,7 +5,7 @@ kind: "exec-spec"
 created: "2026-07"
 last_reviewed: "2026-07-27"
 area: "patterns-site"
-promoted_to: "apps/patterns/src/content.config.ts, apps/patterns/src/components/PatternDates.astro, apps/patterns/src/lib/pattern-dates.ts, scripts/backfill-pattern-dates.mjs"
+promoted_to: "apps/patterns/src/content.config.ts, apps/patterns/src/components/PatternDates.astro, apps/patterns/src/lib/pattern-dates.ts (the backfill script was a one-shot, since deleted)"
 superseded_by: ""
 ---
 # Pattern dates

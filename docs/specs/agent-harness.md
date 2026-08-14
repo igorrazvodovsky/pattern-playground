@@ -25,11 +25,14 @@ manual in one prompt.
 When a plan lands, promote stable commitments into `docs/specs/`, another
 durable doc, code, generated data, a schema, a script, or a lint rule. Leave the
 plan as the execution trace: what was attempted, what changed, what surprised
-the implementer, and where the current truth now lives.
+the implementer, and where the current truth now lives. The residue kinds and
+the completion question live in `plans/README.md` (§Residue); the plan
+promotion check verifies that every completed plan declares its residue.
 
 ## Enforcement
 
 The harness prefers small, inspectable checks over broad autonomy. Existing
-checks include the agent stub check, taxonomy sync check, classification health
-scan, ESLint, and Stylelint. New enforcement should be added only when a rule is
+checks include the `scripts/check-*.mjs` suite (agent stub, story buckets,
+style boundary, seed staleness, classification health, plan promotions),
+ESLint, and Stylelint. New enforcement should be added only when a rule is
 stable enough to keep applying without human reinterpretation.

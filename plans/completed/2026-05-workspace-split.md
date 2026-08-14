@@ -5,7 +5,7 @@ kind: "exec-spec"
 created: "2026-05"
 last_reviewed: "2026-05-15"
 area: "architecture"
-promoted_to: "docs/specs/workspace-layout.md, docs/specs/pattern-site.md, docs/specs/pattern-role-model.md, docs/specs/storybook-taxonomy.md"
+promoted_to: "docs/specs/workspace-layout.md, docs/specs/pattern-site.md, docs/specs/pattern-role-model.md, .claude/rules/documentation.md (§Catalogue categories)"
 superseded_by: ""
 ---
 # Workspace split: components package and pattern site

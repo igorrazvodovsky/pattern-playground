@@ -1,3 +1,13 @@
+---
+title: "Add a demo story to Autocomplete"
+status: "completed"
+kind: "exec-spec"
+created: "2026-05"
+last_reviewed: "2026-08-13"
+area: "demos"
+promoted_to: "none — content is the residue (the autocomplete demo and its page wiring)"
+superseded_by: ""
+---
 # Add a demo story to Autocomplete
 
 ## Context

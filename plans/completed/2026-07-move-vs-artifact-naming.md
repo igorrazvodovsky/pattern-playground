@@ -5,7 +5,7 @@ kind: "exec-spec"
 created: "2026-07-10"
 last_reviewed: "2026-07-12"
 area: "language, pattern-site"
-promoted_to: ""
+promoted_to: "docs/specs/pattern-role-model.md (§Naming — the two clauses on why the twins keep their names)"
 superseded_by: ""
 depends_on: "plans/completed/2026-07-relationship-vocabulary.md (re-homed from its carried list); docs/specs/pattern-role-model.md (bilingual-same-name rule)"
 ---

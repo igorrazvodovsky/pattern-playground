@@ -1,11 +1,12 @@
 ---
 title: "Phase A audit — workspace split pre-flight"
-status: "active"
+status: "completed"
 kind: "audit"
 created: "2026-05-15"
-last_reviewed: "2026-05-15"
+last_reviewed: "2026-08-13"
 area: "architecture"
 parent_plan: "2026-05-workspace-split.md"
+promoted_to: "docs/specs/workspace-layout.md (layout and role-home verdicts, executed via the parent split plan)"
 ---
 # Phase A audit — workspace split pre-flight
 

@@ -5,7 +5,7 @@ kind: "exec-spec"
 created: "2026-07"
 last_reviewed: "2026-07-12"
 area: "components"
-promoted_to: ""
+promoted_to: ".claude/rules/documentation.md (§Catalogue categories), scripts/check-story-buckets.mjs (enforces the closed bucket set)"
 superseded_by: ""
 ---
 # Finish the Storybook catalogue re-bucketing

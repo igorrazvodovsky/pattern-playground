@@ -5,7 +5,7 @@ kind: "exec-spec"
 created: "2026-07-08"
 last_reviewed: "2026-07-10"
 area: "language, graph, pattern-site"
-promoted_to: ""
+promoted_to: "docs/language/relationship-vocabulary.md, .claude/rules/pattern-content.md (authoring contract incl. hosts and realised_by), scripts/extract-graph-data.ts (voicing and hosting advisories), docs/specs/graph-relationship-model.md"
 superseded_by: ""
 depends_on: "plans/completed/2026-06-typed-relationships.md, plans/completed/2026-07-workspace-split-closure.md (workstream 2 gates the realised_by item)"
 ---

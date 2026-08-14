@@ -5,7 +5,7 @@ kind: "exec-spec"
 created: "2026-07"
 last_reviewed: "2026-08-06"
 area: "language"
-promoted_to: ""
+promoted_to: "none — content is the residue (realised_by frontmatter across the backfilled pages; the rule it applied predates the plan)"
 superseded_by: ""
 ---
 # `realised_by` backfill: claim or citation, page by page

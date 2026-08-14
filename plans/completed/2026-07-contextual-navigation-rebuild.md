@@ -5,7 +5,7 @@ kind: "exec-spec"
 created: "2026-07"
 last_reviewed: "2026-07-23"
 area: "demos, components, server"
-promoted_to: ""
+promoted_to: "none — content is the residue (the demo, its fixture, endpoint, and gradient CSS)"
 superseded_by: ""
 ---
 # Contextual navigation: the certainty fisheye

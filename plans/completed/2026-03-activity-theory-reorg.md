@@ -5,7 +5,7 @@ kind: "retrospective"
 created: "2026-03"
 last_reviewed: "2026-05-01"
 area: "storybook"
-promoted_to: "docs/specs/storybook-taxonomy.md"
+promoted_to: ".claude/rules/documentation.md (§Catalogue categories — the taxonomy this plan introduced, since rebucketed), scripts/check-story-buckets.mjs"
 superseded_by: ""
 ---
 # Reorganise the story tree around Activity Theory

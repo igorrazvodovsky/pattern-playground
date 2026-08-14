@@ -5,7 +5,7 @@ kind: "exec-spec"
 created: "2026-07"
 last_reviewed: "2026-07-24"
 area: "components"
-promoted_to: ""
+promoted_to: "shared/data/bindings/types.ts (the binding vocabulary), packages/components/src/stories/ItemView.mdx (the written binding contract)"
 superseded_by: ""
 ---
 # Item view on Meridian bindings

@@ -5,7 +5,7 @@ kind: "exec-spec"
 created: "2026-07"
 last_reviewed: "2026-07-12"
 area: "process"
-promoted_to: ""
+promoted_to: ".claude/skills/move-review (loop 1), .claude/skills/reconcile-image (loop 2), .claude/skills/drift-review (loop 3), docs/quality/code-review.md (correctness vs design routing)"
 superseded_by: ""
 ---
 # Review practice: moves, reconciliation, drift

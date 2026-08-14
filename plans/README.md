@@ -11,6 +11,18 @@ residue into `docs/specs/`, another durable doc, a schema, a script, generated
 data, a lint rule, or source code. The completed plan remains useful as an
 execution trace and rationale.
 
+## Residue
+
+A closing plan leaves residue of four kinds, each with its own home:
+
+1. *Rules* — conventions, vocabulary, schema fields, ownership rules that future instances must follow. Promote into a settled spec, a language doc, a `.claude/rules/` file, a check script, or code. Usually a sentence or two in an existing spec, not a new document.
+2. *State* — changes to what is true about the artifact now. Land in the operative-image docs via the reconciliation loop.
+3. *Content* — pages, edges, components, stories the plan produced. The artifact is its own residue; nothing to promote.
+4. *Judgment* — one-off decisions that don't generalise. They stay in the plan as the execution trace.
+
+The closing question for every plan: did it
+create any rules, and did they land where the next instance will find them?
+
 ## Lifecycle folders
 
 - `active/` — work that is in flight or still expected to guide implementation.
@@ -41,8 +53,11 @@ superseded_by:
 ---
 ```
 
-Use `promoted_to` when a completed plan has durable residue elsewhere. Use
-`superseded_by` when a plan is no longer the right frame.
+`promoted_to` is required on completed plans: the paths where rule and state
+residue now live (a parenthetical note may name the section or mechanism), or
+`none — <reason>` when the plan left only content or judgment residue.
+`scripts/check-plan-promotions.mjs` verifies the field is filled and its paths
+exist. Use `superseded_by` when a plan is no longer the right frame.
 
 ## Authority rule
 

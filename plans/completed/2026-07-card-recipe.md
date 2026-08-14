@@ -1,3 +1,13 @@
+---
+title: "Card: from pseudo-component to recipe"
+status: "completed"
+kind: "exec-spec"
+created: "2026-07"
+last_reviewed: "2026-08-13"
+area: "components"
+promoted_to: "none — content is the residue (the card.css/layout.css refactor, the stretched-link utility and its Utilities doc, the reframed Card.mdx)"
+superseded_by: ""
+---
 # Card: from pseudo-component to recipe
 
 _Completed 2026-07-23._ All five workstreams landed. `card.css` shrank to

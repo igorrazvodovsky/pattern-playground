@@ -1,3 +1,13 @@
+---
+title: "Pane spine for stacked notes"
+status: "completed"
+kind: "exec-spec"
+created: "2026-05"
+last_reviewed: "2026-08-13"
+area: "pattern-site"
+promoted_to: "none — content is the residue (the spine feature in StackManager.tsx and stack.css)"
+superseded_by: ""
+---
 # Pane spine for stacked notes
 
 ## Context

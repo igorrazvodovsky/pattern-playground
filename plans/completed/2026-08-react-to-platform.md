@@ -5,7 +5,7 @@ kind: "exec-spec"
 created: "2026-08-06"
 last_reviewed: "2026-08-07"
 area: "components"
-promoted_to: ""
+promoted_to: "none — one-off conversion trace; applied the component-authoring ladder unchanged"
 superseded_by: ""
 ---
 # React residue onto the platform-first ladder

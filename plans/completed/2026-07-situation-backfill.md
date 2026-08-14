@@ -6,7 +6,7 @@ created: "2026-07"
 last_reviewed: "2026-07-25"
 completed: "2026-07-25"
 area: "language"
-promoted_to: ""
+promoted_to: "docs/language/relationship-vocabulary.md (situations authoring rules + 2026-07-25 changelog), docs/language/vision.md (mature pattern record: consequences absorbed into situation.resulting)"
 superseded_by: ""
 ---
 # Situation backfill: fill the two situations across the pattern corpus

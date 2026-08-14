@@ -5,7 +5,7 @@ kind: "exec-spec"
 created: "2026-07-02"
 last_reviewed: "2026-07-10"
 area: "architecture, pattern-site, storybook"
-promoted_to: ""
+promoted_to: "docs/specs/graph-relationship-model.md (language-only graph; index.json as ComponentRef resolution), docs/specs/pattern-role-model.md (§Decomposition rule), apps/patterns/integrations/validate-cross-references.ts (ComponentRef validator)"
 superseded_by: ""
 depends_on: "plans/completed/2026-05-workspace-split.md (closes it), plans/active/2026-05-pattern-demos-migration.md, plans/completed/2026-05-collection-move-demos.md"
 ---

@@ -5,7 +5,7 @@ kind: "exec-spec"
 created: "2026-04"
 last_reviewed: "2026-05-01"
 area: "language"
-promoted_to: ""
+promoted_to: "none — content is the residue (the delegation foundation page)"
 superseded_by: ""
 ---
 # Create Delegation.mdx as a foundation

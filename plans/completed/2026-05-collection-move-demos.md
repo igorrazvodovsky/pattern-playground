@@ -6,6 +6,7 @@ created: "2026-05-22"
 completed: "2026-07-07"
 area: "pattern-site"
 depends_on: "plans/active/2026-05-pattern-demos-migration.md, plans/completed/2026-05-workspace-split.md"
+promoted_to: "none — content is the residue (DataView grouping + migrated pages); host-composition deliberately unpromoted with one worked cluster"
 ---
 # Consolidate collection-move demos into DataView
 

@@ -5,7 +5,7 @@ kind: "exec-spec"
 created: "2026-03"
 last_reviewed: "2026-05-01"
 area: "graph"
-promoted_to: "src/components/PatternGraph.tsx"
+promoted_to: "apps/patterns/src/lib/pattern-graph.ts (successor of the PatternGraph React component after the platform conversion)"
 superseded_by: ""
 ---
 # Plan: Interactive force-directed pattern graph

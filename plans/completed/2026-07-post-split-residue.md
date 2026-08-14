@@ -5,7 +5,7 @@ kind: "exec-spec"
 created: "2026-07-11"
 last_reviewed: "2026-07-12"
 area: "automation, ci, server"
-promoted_to: ""
+promoted_to: "none — one-off automation repairs; the drift check it added was later removed"
 superseded_by: ""
 depends_on: "plans/reviews/reconciliation-2026-07-11.md (divergence 5)"
 ---

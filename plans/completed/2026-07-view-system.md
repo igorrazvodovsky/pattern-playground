@@ -5,7 +5,7 @@ kind: "exec-spec"
 created: "2026-07"
 last_reviewed: "2026-07-23"
 area: "language, graph"
-promoted_to: ""
+promoted_to: "none — content is the residue (the reshaped view-family pages; research/view-system/ and research/problem-curated-view/ are the citation trace)"
 superseded_by: ""
 ---
 # View system: retire the hub, reframe the family

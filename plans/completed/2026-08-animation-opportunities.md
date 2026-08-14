@@ -5,7 +5,7 @@ kind: "exec-spec"
 created: "2026-08-07"
 last_reviewed: "2026-08-07"
 area: "components, pattern-site"
-promoted_to: ""
+promoted_to: "none — content is the residue (motion edits in existing component and site CSS; rejected candidates stay in the plan)"
 superseded_by: ""
 ---
 

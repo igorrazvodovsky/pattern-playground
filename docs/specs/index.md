@@ -21,5 +21,8 @@ between the long-range vision (`docs/project/vision.md` and
   patterns, collections, qualities, foundations, and concepts; boundary stance
   and the pattern/component decomposition rule.
 
+A commitment is settled enough for this layer when violating it in a new instance would be an error rather than a disagreement. If a new instance could
+reasonably diverge, the call is still judgment and belongs in a plan. Specs govern classes of instances — every pattern page, every edge, every component; a spec that describes a single artifact is usually an operative-image entry instead.
+
 Historical rationale and execution traces remain in `plans/`. When a completed
 plan changes what is true now, update the relevant settled spec.

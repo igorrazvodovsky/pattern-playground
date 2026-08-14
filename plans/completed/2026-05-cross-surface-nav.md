@@ -1,9 +1,10 @@
 ---
 title: "Cross-surface nav links between Storybook and the Pattern site"
-status: "active"
+status: "completed"
 kind: "exec-spec"
 created: "2026-05-17"
 area: "nav"
+promoted_to: "none — content is the residue (nav wiring in packages/components/.storybook/manager.ts)"
 ---
 
 # Cross-surface nav links between Storybook and the Pattern site

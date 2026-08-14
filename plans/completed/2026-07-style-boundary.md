@@ -5,7 +5,7 @@ kind: "exec-spec"
 created: "2026-07"
 last_reviewed: "2026-07-12"
 area: "patterns-site, components"
-promoted_to: ""
+promoted_to: "scripts/check-style-boundary.mjs (layer and @scope boundary enforcement)"
 superseded_by: ""
 ---
 # Style boundary between the patterns site and the component library

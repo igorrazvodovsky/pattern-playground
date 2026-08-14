@@ -1,10 +1,11 @@
 ---
 title: Add and document Switch component
-status: done
+status: completed
 kind: exec-spec
 created: 2026-05-14
-last_reviewed: 2026-05-14
+last_reviewed: 2026-08-13
 area: operations
+promoted_to: "none — content is the residue (the Switch component, page, and stories)"
 ---
 
 # Add and document Switch component

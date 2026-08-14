@@ -5,7 +5,7 @@ kind: "exec-spec"
 created: "2026-07-10"
 last_reviewed: "2026-07-25"
 area: "language, graph"
-promoted_to: ""
+promoted_to: "docs/language/relationship-vocabulary.md (changelog 2026-07-25: audit outcome and the no-advisory decision)"
 superseded_by: ""
 depends_on: "plans/completed/2026-07-relationship-vocabulary.md (re-homed from its carried list)"
 ---

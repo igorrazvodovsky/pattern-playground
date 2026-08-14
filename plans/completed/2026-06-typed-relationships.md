@@ -1,3 +1,13 @@
+---
+title: "Typed relationships in MDX — authored, not inferred"
+status: "completed"
+kind: "exec-spec"
+created: "2026-06"
+last_reviewed: "2026-08-13"
+area: "language"
+promoted_to: "docs/language/relationship-vocabulary.md (the rel model and direction-alias table), docs/specs/graph-relationship-model.md (edge sources), .claude/rules/pattern-content.md (authoring contract; Related patterns is generated)"
+superseded_by: ""
+---
 # Typed relationships in MDX — authored, not inferred
 
 Status: phases A–E implemented (2026-06-23). Phase D complete (2026-06-23): `RelatedPatterns.astro`

@@ -5,7 +5,7 @@ kind: "exec-spec"
 created: "2026-05"
 last_reviewed: "2026-05-07"
 area: "patterns"
-promoted_to: ""
+promoted_to: "none — content is the residue (Combobox page, Selection edits); the no-role:control finding fed 2026-05-role-metadata.md"
 superseded_by: ""
 ---
 # Combobox and adjacent surfaces

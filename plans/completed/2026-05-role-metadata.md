@@ -5,7 +5,7 @@ kind: "exec-spec"
 created: "2026-05"
 last_reviewed: "2026-05-01"
 area: "language"
-promoted_to: ""
+promoted_to: "docs/specs/pattern-role-model.md (the role vocabulary this plan introduced), scripts/extract-graph-data.ts (role extraction into node.role)"
 superseded_by: ""
 ---
 # Role metadata

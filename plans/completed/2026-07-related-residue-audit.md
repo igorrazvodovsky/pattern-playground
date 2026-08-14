@@ -1,3 +1,13 @@
+---
+title: "Related-link residue audit"
+status: "completed"
+kind: "audit"
+created: "2026-07"
+last_reviewed: "2026-08-13"
+area: "language"
+promoted_to: "scripts/audit-related-residue.mjs (the regenerable audit tool), docs/language/relationship-vocabulary.md (surveys narrowed to members-only, 2026-07-18 changelog)"
+superseded_by: ""
+---
 # Related-link residue audit
 
 Restore, or deliberately release, what the relationships migration dropped.

@@ -5,7 +5,7 @@ kind: "exec-spec"
 created: "2026-07"
 last_reviewed: "2026-08-07"
 area: "pattern-site"
-promoted_to: ""
+promoted_to: "scripts/verify-demo-registry.mjs (content↔registry contract), docs/specs/workspace-layout.md (demo registry as the runtime surface)"
 superseded_by: ""
 ---
 # Pane stack: refit to Astro's grain

@@ -5,7 +5,7 @@ kind: "exec-spec"
 created: "2026-07"
 last_reviewed: "2026-07-23"
 area: "demos, components"
-promoted_to: ""
+promoted_to: "none — content is the residue (ViewSpec substrate, family demos, Templates/Collection view skeleton, timeline/group endpoint)"
 superseded_by: ""
 ---
 # View-system demos: one model, many framings

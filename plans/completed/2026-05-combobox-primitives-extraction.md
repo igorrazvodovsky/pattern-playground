@@ -5,7 +5,7 @@ kind: "exec-spec"
 created: "2026-05"
 last_reviewed: "2026-05-07"
 area: "components"
-promoted_to: ""
+promoted_to: "none — mechanical rename; the combobox/ module is the residue"
 superseded_by: ""
 ---
 # Combobox primitives extraction

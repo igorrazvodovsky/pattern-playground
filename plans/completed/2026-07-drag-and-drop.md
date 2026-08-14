@@ -1,3 +1,13 @@
+---
+title: "Drag and drop: capture as a language entry"
+status: "completed"
+kind: "research-gate"
+created: "2026-07"
+last_reviewed: "2026-08-13"
+area: "language"
+promoted_to: "none — content is the residue (drag-and-drop.mdx; research/drag-and-drop/ is the citation trace)"
+superseded_by: ""
+---
 # Drag and drop: capture as a language entry
 
 The view-system work implemented drag and drop twice without ever making it a
