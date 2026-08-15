@@ -23,7 +23,7 @@ const patterns = defineCollection({
     description: z.string().optional(),
     tags: z.array(z.string()).optional(),
     showRelated: z.boolean().optional(),
-    relationships: z.record(z.array(z.union([
+    relationships: z.record(z.string(), z.array(z.union([
       z.string(),
       z.object({ to: z.string(), note: z.string().optional() }),
     ]))).optional(),
@@ -38,7 +38,7 @@ const patterns = defineCollection({
     'decision-trees': z.array(z.object({
       id: z.string(),
       'chart-index': z.number().int().nonnegative().optional(),
-      leaves: z.record(z.string()),
+      leaves: z.record(z.string(), z.string()),
     })).optional(),
     seed: z.boolean().optional(),
     evidence: z.array(z.union([

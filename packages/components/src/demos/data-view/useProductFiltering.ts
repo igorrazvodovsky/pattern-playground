@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
-import { Product } from '@shared/data/types';
+import type { Product } from '@shared/data/types';
 import type { AttributeFilter } from '@shared/data/bindings';
 import { productBinding } from '@shared/data/bindings';
 import { applyFilters } from '../../templates/collection-view/FilterOperations';
-import { generateFilterCategories, PRODUCT_FILTER_PATHS, FilterCategory } from './FilterCategories';
+import { generateFilterCategories, PRODUCT_FILTER_PATHS, type FilterCategory } from './FilterCategories';
 
 export interface UseProductFilteringResult {
   filteredProducts: Product[];

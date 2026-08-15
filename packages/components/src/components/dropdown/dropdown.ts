@@ -92,7 +92,7 @@ export class PpDropdown extends Elena(HTMLElement) {
   disabled = false;
   'stay-open-on-select' = false;
   /** Property-only (holds a live element); not reactive, read when the dropdown opens or closes. */
-  containingElement?: HTMLElement;
+  containingElement?: Element;
   distance = 4;
   skidding = 0;
   hoist = false;

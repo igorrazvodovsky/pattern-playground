@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { DataView } from './DataView';
-import { ViewSpec, makeSpec } from '../../templates/collection-view/spec';
+import { type ViewSpec, makeSpec } from '../../templates/collection-view/spec';
 
 /**
  * Saved views are named specs, switched whole — query, representation and

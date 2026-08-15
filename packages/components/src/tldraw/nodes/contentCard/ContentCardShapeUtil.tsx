@@ -8,13 +8,13 @@ import {
 	useValue,
 } from 'tldraw'
 import {
-	ContentCardProps,
-	ContentCardShape,
+	type ContentCardProps,
+	type ContentCardShape,
 	CONTENT_CARD_DIMENSIONS,
 	CONTENT_CARD_PORT_RADIUS_PX,
 	contentCardPropsValidator,
 	getLODFromZoom,
-	LODLevel,
+	type LODLevel,
 } from './types'
 
 interface ShapePort {

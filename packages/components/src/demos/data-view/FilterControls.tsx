@@ -12,7 +12,7 @@ import {
   AIFallbackHandler,
   useAICommand,
   type AICommandResult,
-  type AIComboboxItem
+  type AICommandItem
 } from "../../components/command-menu";
 import { AnimateChangeInHeight } from "../../components/filter/animate-change-in-height";
 import { useHierarchicalNavigation } from '../../hooks/useHierarchicalNavigation';
@@ -21,7 +21,7 @@ import {
   sortByRelevance
 } from '../../utility/hierarchical-search';
 import type { AttributeFilter, FilterOperator } from '@shared/data/bindings';
-import { FilterCategory } from './FilterCategories';
+import type { FilterCategory } from './FilterCategories';
 import { useFilterState } from './hooks/useFilterState';
 import { useDropdownState } from './hooks/useDropdownState';
 import { generateProductFilterSuggestions } from './aiFilterAdapter';
@@ -44,7 +44,7 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
   setFilters,
   filterCategories
 }) => {
-  const dropdownRef = React.useRef<{ hide: () => void } | null>(null);
+  const dropdownRef = React.useRef<HTMLElement & { hide: () => void }>(null);
 
   const { addFilter, clearFilters, hasActiveFilters } = useFilterState(filters, setFilters);
   const { hideDropdownWithDelay } = useDropdownState(dropdownRef, DROPDOWN_CLOSE_DELAY);
@@ -99,7 +99,7 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
   });
 
   const handleApplyAIFilters = React.useCallback((result: AICommandResult) => {
-    const newFilters = result.suggestedItems.map((item: AIComboboxItem) => {
+    const newFilters = result.suggestedItems.map((item: AICommandItem) => {
       if (!item.metadata) throw new Error('Invalid AI command item: missing metadata');
       return {
         id: nanoid(),

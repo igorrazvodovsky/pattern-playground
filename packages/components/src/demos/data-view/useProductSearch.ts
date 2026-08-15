@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 import Fuse from 'fuse.js';
-import { Product } from '@shared/data/types';
-
+import type { Product } from '@shared/data/types';
 export interface UseProductSearchOptions {
   threshold?: number;
   keys?: Array<string | { name: string; weight: number }>;

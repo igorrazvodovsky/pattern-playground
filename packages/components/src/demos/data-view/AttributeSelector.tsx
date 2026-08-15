@@ -1,5 +1,5 @@
 import React from 'react';
-import { AttributeSelectorProps } from './types';
+import type { AttributeSelectorProps } from './types';
 import { attributeLabel } from '../../templates/collection-view/AttributeUtils';
 
 export const AttributeSelector: React.FC<AttributeSelectorProps> = ({

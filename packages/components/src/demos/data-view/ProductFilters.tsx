@@ -1,9 +1,9 @@
 import { Icon } from "@iconify/react";
-import { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import type { AttributeFilter, EntityBinding, FilterOperator } from "@shared/data/bindings";
 import { productBinding, findAttribute, filterOperatorsFor } from "@shared/data/bindings";
 import { attributeLabel } from "../../templates/collection-view/AttributeUtils";
-import { FilterCategory } from "./FilterCategories";
+import type { FilterCategory } from "./FilterCategories";
 import { ProductFilterValueDropdown } from "./ProductFilterValueDropdown";
 import { ProductFilterOperatorDropdown } from "./ProductFilterOperatorDropdown";
 

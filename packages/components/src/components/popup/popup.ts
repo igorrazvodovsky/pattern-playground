@@ -55,7 +55,7 @@ export class PpPopup extends Elena(HTMLElement) {
     'light-dismiss',
   ];
 
-  private anchorEl: Element | VirtualElement | null;
+  private anchorEl: Element | VirtualElement | null = null;
   private cleanup: ReturnType<typeof autoUpdate> | undefined;
 
   // Elena's updated() carries no changed-props map; previous values live here.

@@ -12,13 +12,6 @@ interface RegisteredComponent extends SlotComponent {
 export class SlotRegistry implements ISlotRegistry {
   // Private fields - ES2020 compatible
   #slots = new Map<SlotId, RegisteredComponent[]>();
-  
-  // Performance tracking with WeakMap
-  private componentMetrics = new WeakMap<SlotComponent, { 
-    renderCount: number; 
-    lastRender: number;
-    averageRenderTime: number;
-  }>();
 
   // Static constants with const assertion
   static readonly DEFAULT_OPTIONS = {
@@ -86,7 +79,7 @@ export class SlotRegistry implements ISlotRegistry {
       .filter(({ options: { condition } }) => condition())
       .map(({ pluginId, render, cleanup }) => ({ 
         pluginId, 
-        render: this.#wrapRenderWithMetrics(render, pluginId), 
+        render: this.#wrapRenderWithMetrics(render),
         cleanup 
       }));
   }
@@ -199,8 +192,8 @@ export class SlotRegistry implements ISlotRegistry {
 
   // Performance monitoring wrapper
   #wrapRenderWithMetrics(
-    originalRender: () => React.ReactNode | HTMLElement
-  ): () => React.ReactNode | HTMLElement {
+    originalRender: () => React.ReactNode
+  ): () => React.ReactNode {
     return () => {
       const startTime = performance.now();
       const result = originalRender();

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Product } from '@shared/data/types';
+import type { Product } from '@shared/data/types';
 import { loadElementAdapter } from '../../utility/dnd';
 import { products as canonicalProducts } from '../../templates/collection-view/data';
 import { makeSpec } from '../../templates/collection-view/spec';

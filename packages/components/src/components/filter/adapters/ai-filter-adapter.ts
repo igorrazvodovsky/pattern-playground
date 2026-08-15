@@ -1,5 +1,5 @@
-import { AICommandResult } from '../../command-menu/ai-command-types';
-import { AISuggestionResult, createFilterSuggestionRequest, createAISuggestionService } from '../../../services/ai-suggestion-service';
+import type { AICommandResult } from '../../command-menu/ai-command-types';
+import { type AISuggestionResult, createFilterSuggestionRequest, createAISuggestionService } from '../../../services/ai-suggestion-service';
 import { findAttribute, taskBinding } from '@shared/data/bindings';
 
 function getFilterIcon(path: string): string {

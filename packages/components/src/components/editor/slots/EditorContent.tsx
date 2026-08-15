@@ -1,4 +1,3 @@
-import React from 'react';
 import { EditorContent as TiptapEditorContent } from '@tiptap/react';
 import { useEditorContext } from '../EditorProvider';
 

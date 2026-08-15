@@ -50,6 +50,6 @@ export const createDocumentReference = (docId: string) => {
 // Pure data export - no TipTap dependency
 export const materialCategory = {
   id: 'documents',
-  label: 'Documents',
-  items: referenceCategories.find(cat => cat.id === 'documents')?.items || []
+  name: 'Documents',
+  children: referenceCategories.find(cat => cat.id === 'documents')?.children || []
 };

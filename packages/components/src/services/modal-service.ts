@@ -235,9 +235,9 @@ export class ModalService {
         onError: (error) => {
           console.error('Modal content error:', error);
           // Could send to error reporting service
-        }
-      },
-      content
+        },
+        children: content
+      }
     );
   }
 

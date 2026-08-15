@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComboboxEmpty, ComboboxGroup, ComboboxItem } from '../combobox';
 import { Icon } from '@iconify/react';
-import { AIFallbackHandlerProps } from './ai-command-types';
+import type { AIFallbackHandlerProps } from './ai-command-types';
 import { PpToast } from '../toast/toast';
 import { modalService } from '../../services/modal-service';
 import { createTask } from '../task/task-utils';

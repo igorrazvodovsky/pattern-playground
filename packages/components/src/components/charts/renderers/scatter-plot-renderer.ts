@@ -16,11 +16,10 @@
  * @see https://d3js.org/d3-selection - D3 selection API
  */
 
-import { select, Selection } from 'd3-selection';
-import { scaleLinear, scaleSqrt, ScaleLinear, ScalePower } from 'd3-scale';
+import { select, type Selection } from 'd3-selection';
+import { scaleLinear, scaleSqrt, type ScaleLinear, type ScalePower } from 'd3-scale';
 import { extent } from 'd3-array';
-import { ScatterPlotData, ScatterPlotDataPoint, ChartDimensions } from '../base/chart-types.js';
-
+import type { ScatterPlotData, ScatterPlotDataPoint, ChartDimensions } from '../base/chart-types.js';
 /** viewBox the parent D3Component draws into; scales are authored in this space. */
 const VIEWBOX_WIDTH = 600;
 const VIEWBOX_HEIGHT = 300;

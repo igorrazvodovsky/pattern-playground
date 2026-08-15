@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { faker } from '@faker-js/faker';
 
-function capitalizeFirstLetter(v) {
+function capitalizeFirstLetter(v: unknown) {
   return String(v).charAt(0).toUpperCase() + String(v).slice(1);
 }
 

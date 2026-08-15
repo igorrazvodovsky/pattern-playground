@@ -66,7 +66,7 @@ export function DynamicHyperlinksDemo() {
   const [editorText, setEditorText] = useState(mainDoc.plainText);
   const threshold = 0.3;
   const readerRef = useRef<HTMLDivElement>(null);
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>();
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   const spans = useHeatmap(editorText, corpus, threshold, true);
   const { mentions, selectedText, expanded, expand, collapse } = useSelectionMentions(readerRef, corpus);

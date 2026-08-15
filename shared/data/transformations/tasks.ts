@@ -13,9 +13,10 @@ interface RawTaskData {
   projectId?: string;
   progress?: number;
   history: Array<{
+    id: string;
     timestamp: string;
+    actor: string;
     action: string;
-    user: string;
     details?: string;
   }>;
   createdDate: string;
@@ -43,30 +44,30 @@ interface FilterLabel {
 }
 
 // Transformed task interfaces
+// Statuses, priorities and labels carry no colour in the source JSON — the
+// transform resolves display names only.
 export interface TaskStatus {
   id: string;
   label: string;
   value: string;
-  color: string;
 }
 
 export interface TaskPriority {
   id: string;
   label: string;
   value: string;
-  color: string;
 }
 
 export interface TaskLabel {
   id: string;
   label: string;
-  color: string;
 }
 
 export interface TaskHistoryEntry {
+  id: string;
   timestamp: Date;
+  actor: string;
   action: string;
-  user: string;
   details?: string;
 }
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import { BubbleMenu } from '@tiptap/react/menus'
 import { useEditorContext } from '../EditorProvider';
 import type { SlotComponent } from '../types';

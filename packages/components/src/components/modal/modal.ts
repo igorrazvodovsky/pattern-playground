@@ -6,7 +6,7 @@ import { createRoot, type Root } from 'react-dom/client';
  * Enhances existing dialog or div elements with modal behavior
  */
 export class PPModal extends HTMLElement {
-  private modal: HTMLDialogElement | HTMLElement | null = null;
+  private modal: HTMLElement | null = null;
   private triggers: HTMLElement[] = [];
   private closeButtons: HTMLElement[] = [];
   private lastFocusedElement: HTMLElement | null = null;
@@ -57,21 +57,21 @@ export class PPModal extends HTMLElement {
 
   private findTriggerElements() {
     // Find buttons that should open the modal
-    this.triggers = Array.from(this.querySelectorAll('button:not([data-close])'));
+    this.triggers = Array.from(this.querySelectorAll<HTMLElement>('button:not([data-close])'));
     
     // Also look for elements with data-trigger attribute
-    const dataTriggers = Array.from(this.querySelectorAll('[data-trigger]'));
+    const dataTriggers = Array.from(this.querySelectorAll<HTMLElement>('[data-trigger]'));
     this.triggers.push(...dataTriggers);
   }
 
   private findCloseElements() {
     // Find close buttons within the modal
     if (this.modal) {
-      this.closeButtons = Array.from(this.modal.querySelectorAll('button[data-close], .close-button'));
+      this.closeButtons = Array.from(this.modal.querySelectorAll<HTMLElement>('button[data-close], .close-button'));
       
       // If no explicit close buttons found, look for buttons in header
       if (this.closeButtons.length === 0) {
-        const headerButtons = Array.from(this.modal.querySelectorAll('header button'));
+        const headerButtons = Array.from(this.modal.querySelectorAll<HTMLElement>('header button'));
         this.closeButtons.push(...headerButtons);
       }
     }

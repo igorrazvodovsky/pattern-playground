@@ -1,4 +1,3 @@
-import React from 'react';
 import { BasePlugin } from '../core/Plugin';
 import type { PluginCapabilities, EditorContext, SlotRegistry } from '../../editor/types';
 import type { SelectedReference } from '../../reference/types';
@@ -37,8 +36,8 @@ export class ExplanationPlugin extends BasePlugin {
     };
   }
 
-  onInstall(context: EditorContext): void {
-    super.onInstall(context);
+  async onInstall(context: EditorContext): Promise<void> {
+    await super.onInstall(context);
 
     // Subscribe to selection events to update UI state
     context.eventBus.on('selection:change', (payload) => {

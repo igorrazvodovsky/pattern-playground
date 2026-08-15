@@ -18,7 +18,7 @@ export function serializeComments(commentsByEntity: Map<string, EntityComment[]>
     commentsByEntity: Array.from(commentsByEntity.entries())
   };
 
-  return JSON.stringify(storage, (key, value) => {
+  return JSON.stringify(storage, (_key, value) => {
     // Convert Date objects to ISO strings for serialization
     if (value instanceof Date) {
       return value.toISOString();

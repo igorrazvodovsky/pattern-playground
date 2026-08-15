@@ -13,7 +13,7 @@ import {
   AIFallbackHandler,
   useAICommand,
   type AICommandResult,
-  type AIComboboxItem
+  type AICommandItem
 } from "../components/command-menu";
 import { AnimateChangeInHeight } from "../components/filter/animate-change-in-height";
 import Filters from "../components/filter/filters";
@@ -68,7 +68,7 @@ const useFilterState = (initialFilters: Filter[] = []) => {
   return { filters, setFilters, addFilter, clearFilters, hasActiveFilters };
 };
 
-const useDropdownState = (dropdownRef: React.RefObject<{ hide: () => void }>) => {
+const useDropdownState = (dropdownRef: React.RefObject<{ hide: () => void } | null>) => {
   const hideDropdownWithDelay = React.useCallback(() => {
     setTimeout(() => dropdownRef.current?.hide(), DROPDOWN_CLOSE_DELAY);
   }, [dropdownRef]);
@@ -107,7 +107,7 @@ export function FilteringDemo({
   initialFilters?: Filter[];
   onFilterChange?: (filters: Filter[]) => void;
 } = {}) {
-  const dropdownRef = React.useRef<{ hide: () => void } | null>(null);
+  const dropdownRef = React.useRef<HTMLElement & { hide: () => void }>(null);
 
   const { filters, setFilters, addFilter, clearFilters, hasActiveFilters } = useFilterState(initialFilters);
 
@@ -169,7 +169,7 @@ export function FilteringDemo({
   });
 
   const handleApplyAIFilters = React.useCallback((result: AICommandResult) => {
-    const newFilters = result.suggestedItems.map((item: AIComboboxItem) => {
+    const newFilters = result.suggestedItems.map((item: AICommandItem) => {
       if (!item.metadata) throw new Error('Invalid AI command item: missing metadata');
       return {
         id: nanoid(),

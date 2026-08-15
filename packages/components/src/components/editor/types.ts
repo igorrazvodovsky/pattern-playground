@@ -1,4 +1,4 @@
-import type { Editor, Extension } from '@tiptap/core';
+import type { Editor, Extensions } from '@tiptap/core';
 import type { ReactNode } from 'react';
 import type { Transaction } from '@tiptap/pm/state';
 import type { Quote } from '@shared/data';
@@ -27,7 +27,7 @@ export interface Plugin {
 
   registerUI?(slots: SlotRegistry): void;
   subscribeToEvents?(eventBus: EventBus): void;
-  getExtensions?(): Extension[];
+  getExtensions?(): Extensions;
   configure?(config: unknown): void;
 }
 
@@ -62,7 +62,7 @@ export type SlotId = StandardSlotId | 'toolbar' | 'bubble-menu' | 'floating-menu
 
 export interface SlotComponent {
   pluginId: string;
-  render: () => ReactNode | HTMLElement;
+  render: () => ReactNode;
   cleanup?: () => void;
 }
 
@@ -86,7 +86,9 @@ export interface SlotRegistry {
   update(slotId: SlotId, pluginId: string, component: SlotComponent): void;
 }
 
-export type EventPayload = {
+// An interface, not a type alias, so plugins can merge their own events in via
+// `declare module '../../editor/types'`.
+export interface EventPayload {
   'selection:change': { from: number; to: number; content: string };
   'content:change': { transaction: Transaction };
   'plugin:activate': { pluginId: string };
@@ -107,7 +109,7 @@ export type EventPayload = {
   'ai-assistant:action-complete': { action: string };
   'ai-assistant:action-error': { action: string; error: string };
   [key: string]: unknown;
-};
+}
 
 // Event name validation with template literal types
 type EventCategory = 'selection' | 'content' | 'plugin' | 'command' | 'ui' | 'commenting' | 'references' | 'ai-assistant';
@@ -146,6 +148,15 @@ export interface EventBus {
   // New methods for modern event handling
   clear(): void;
   getListenerCount(event?: string): number;
+}
+
+// The plugin system parks its context and plugin map on the editor so slot
+// components can reach them without prop drilling.
+declare module '@tiptap/core' {
+  interface Storage {
+    editorContext?: EditorContext;
+    plugins?: Map<string, Plugin>;
+  }
 }
 
 export interface PluginRegistry {

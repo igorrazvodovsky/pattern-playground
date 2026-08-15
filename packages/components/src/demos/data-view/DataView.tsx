@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import productsData from '@shared/data/products.json' with { type: 'json' };
-import { Product } from '@shared/data/types';
-import { ViewMode, DataViewControls } from './types';
+import type { Product } from '@shared/data/types';
+import type { ViewMode, DataViewControls } from './types';
 import { getAvailableAttributes } from '../../templates/collection-view/AttributeUtils';
 import { sortItems } from '../../templates/collection-view/SortingUtils';
 import { productBinding } from '@shared/data/bindings';
@@ -19,9 +19,9 @@ import { EmptyState } from './EmptyState';
 import { ViewSpecRenderer } from '../../templates/collection-view/renderers';
 import { GROUPABLE_ATTRIBUTES } from './constants';
 import {
-  ViewSpec,
-  ViewSpecPatch,
-  MalleabilityBlock,
+  type ViewSpec,
+  type ViewSpecPatch,
+  type MalleabilityBlock,
   applySpecPatch,
   isAxisMalleable,
   makeSpec,

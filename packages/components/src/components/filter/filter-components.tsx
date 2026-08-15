@@ -1,7 +1,7 @@
 import React from "react";
 import type { EntityBinding, FilterOperator } from "@shared/data/bindings";
 import { taskBinding, findAttribute, filterOperatorsFor } from "@shared/data/bindings";
-import { filterValueOptions, FilterOption } from "./filter-options";
+import { filterValueOptions, type FilterOption } from "./filter-options";
 import { AnimateChangeInHeight } from "./animate-change-in-height";
 import {
   Combobox,
@@ -66,7 +66,7 @@ export const FilterValueDropdown = ({
 }) => {
   const {
     commandInput,
-    setComboboxInput,
+    setCommandInput,
     commandInputRef,
     dropdownRef,
     handleDropdownShow,
@@ -141,7 +141,7 @@ export const FilterValueDropdown = ({
                 className="h-9"
                 value={commandInput}
                 onInputCapture={(e) => {
-                  setComboboxInput(e.currentTarget.value);
+                  setCommandInput(e.currentTarget.value);
                 }}
                 ref={commandInputRef}
               />

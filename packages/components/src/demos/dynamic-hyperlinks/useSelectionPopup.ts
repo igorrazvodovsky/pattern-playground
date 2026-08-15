@@ -49,7 +49,7 @@ export function useSelectionMentions(
         }
 
         const range = selection.getRangeAt(0);
-        if (!container.contains(range.commonAncestorContainer)) return;
+        if (!container?.contains(range.commonAncestorContainer)) return;
 
         const results = findRelatedMentions(text, corpus, maxResults);
         setMentions(results);

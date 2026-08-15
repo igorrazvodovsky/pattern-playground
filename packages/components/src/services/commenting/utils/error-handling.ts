@@ -211,7 +211,7 @@ export const validatePointer = (pointer: unknown): void => {
     );
   }
   
-  if (!pointer.type) {
+  if (typeof pointer !== 'object' || !('type' in pointer) || !pointer.type) {
     throw createCommentError(
       CommentErrorType.INVALID_POINTER,
       'Pointer must have a type',

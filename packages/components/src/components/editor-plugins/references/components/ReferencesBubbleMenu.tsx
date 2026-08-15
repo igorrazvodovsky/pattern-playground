@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { useEditorContext } from '../../../editor/EditorProvider';
 import type { ReferencesPlugin } from '../ReferencesPlugin';
 import type { ReferenceCategory, SelectedReference } from '../../../reference/types';

@@ -1,4 +1,4 @@
-import { BaseCommentPointer, type PointerContext } from './comment-pointer';
+import { BaseCommentPointer, type CommentPointer, type PointerContext } from './comment-pointer';
 
 export class EntityPointer extends BaseCommentPointer {
   readonly type = 'entity';

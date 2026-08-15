@@ -1,14 +1,18 @@
-type EventHandler = (data: unknown) => void;
+// The emitter is untyped on the wire: each caller declares the payload shape it
+// expects for the event name it subscribes to.
+export type EventHandler<T = unknown> = (data: T) => void;
+
+type StoredHandler = EventHandler<never>;
 
 export class EventEmitter {
-  private events: Map<string, Set<EventHandler>> = new Map();
+  private events: Map<string, Set<StoredHandler>> = new Map();
   
-  on(event: string, handler: EventHandler): () => void {
+  on<T = unknown>(event: string, handler: EventHandler<T>): () => void {
     if (!this.events.has(event)) {
       this.events.set(event, new Set());
     }
     
-    this.events.get(event)!.add(handler);
+    this.events.get(event)!.add(handler as StoredHandler);
     
     // Return unsubscribe function
     return () => {
@@ -16,10 +20,10 @@ export class EventEmitter {
     };
   }
   
-  off(event: string, handler: EventHandler): void {
+  off<T = unknown>(event: string, handler: EventHandler<T>): void {
     const handlers = this.events.get(event);
     if (handlers) {
-      handlers.delete(handler);
+      handlers.delete(handler as StoredHandler);
       if (handlers.size === 0) {
         this.events.delete(event);
       }
@@ -31,7 +35,7 @@ export class EventEmitter {
     if (handlers) {
       handlers.forEach(handler => {
         try {
-          handler(data);
+          (handler as EventHandler<unknown>)(data);
         } catch (error) {
           console.error(`Error in event handler for ${event}:`, error);
         }
@@ -39,8 +43,8 @@ export class EventEmitter {
     }
   }
   
-  once(event: string, handler: EventHandler): () => void {
-    const wrappedHandler = (data: unknown) => {
+  once<T = unknown>(event: string, handler: EventHandler<T>): () => void {
+    const wrappedHandler = (data: T) => {
       handler(data);
       this.off(event, wrappedHandler);
     };

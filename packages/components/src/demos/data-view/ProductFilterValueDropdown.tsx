@@ -9,7 +9,7 @@ import {
 } from '../../components/combobox';
 import { AnimateChangeInHeight } from '../../components/filter/animate-change-in-height';
 import { useDropdownState } from '../../components/filter/hooks/use-dropdown-state';
-import { FilterCategory } from './FilterCategories';
+import type { FilterCategory } from './FilterCategories';
 import 'iconify-icon';
 import '../../components/dropdown/dropdown.ts';
 
@@ -28,7 +28,7 @@ export const ProductFilterValueDropdown: React.FC<ProductFilterValueDropdownProp
 }) => {
   const {
     commandInput,
-    setComboboxInput,
+    setCommandInput,
     commandInputRef,
     dropdownRef,
     handleDropdownShow,
@@ -102,7 +102,7 @@ export const ProductFilterValueDropdown: React.FC<ProductFilterValueDropdownProp
                 className="h-9"
                 value={commandInput}
                 onInputCapture={(e) => {
-                  setComboboxInput(e.currentTarget.value);
+                  setCommandInput(e.currentTarget.value);
                 }}
                 ref={commandInputRef}
               />

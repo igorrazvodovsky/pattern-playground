@@ -1,7 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import debounce from 'lodash/debounce';
-import { AIState, AICommandResult } from '../ai-command-types';
-
+import type { AIState, AICommandResult } from '../ai-command-types';
 export interface UseAICommandOptions {
   onAIRequest?: (prompt: string) => Promise<AICommandResult>;
   debounceMs?: number;

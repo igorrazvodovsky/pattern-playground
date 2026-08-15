@@ -122,5 +122,13 @@ export default [
       'no-console': ['warn', { allow: ['warn', 'error'] }],
     },
   },
+  {
+    // Ambient declaration files reach generated types (Astro's .astro/types.d.ts)
+    // by path reference; there is no module to import.
+    files: ["**/*.d.ts"],
+    rules: {
+      '@typescript-eslint/triple-slash-reference': 'off',
+    },
+  },
   ...storybook.configs["flat/recommended"]
 ];

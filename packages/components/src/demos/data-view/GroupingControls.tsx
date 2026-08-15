@@ -1,5 +1,5 @@
 import React from 'react';
-import { GroupingControlsProps } from './types';
+import type { GroupingControlsProps } from './types';
 import { attributeLabel } from '../../templates/collection-view/AttributeUtils';
 
 export const GroupingControls: React.FC<GroupingControlsProps> = ({

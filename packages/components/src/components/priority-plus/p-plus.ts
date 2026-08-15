@@ -116,9 +116,9 @@ function priorityPlus(targetElem: HTMLElement) {
 
   // References to DOM elements so we can easily retrieve them. Force a cast as we know we will initialise these.
   const el: ElementRefs = {
-    clone: {} as Record<string, never>,
-    primary: {} as Record<string, never>,
-  } as ElementRefs;
+    clone: {},
+    primary: {},
+  } as unknown as ElementRefs;
 
   // Gets an element's 'mirror' Map for the clone/primary navigation - e.g. if you pass a clone Map, you get the original Map and vice-versa.
   const getElemMirror = createMirror();
@@ -333,7 +333,8 @@ function priorityPlus(targetElem: HTMLElement) {
   }
 
   // Callback for when either nav is updated.
-  function onItemsChanged({ detail: { overflowCount } = {} as Record<string, unknown> }: CustomEvent<Record<string, unknown>>) {
+  function onItemsChanged(event: CustomEvent<unknown>) {
+    const { overflowCount = 0 } = (event.detail ?? {}) as { overflowCount?: number };
     updateBtnDisplay(overflowCount > 0);
 
     if (overflowCount === 0) {

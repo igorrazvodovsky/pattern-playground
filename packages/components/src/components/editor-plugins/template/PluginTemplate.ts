@@ -1,6 +1,6 @@
 import { BasePlugin } from '../core/Plugin';
-import type { PluginCapabilities, EditorContext } from '../../editor/types';
-import type { Extension } from '@tiptap/core';
+import type { PluginCapabilities, EditorContext, SlotRegistry } from '../../editor/types';
+import type { Extensions } from '@tiptap/core';
 
 /**
  * PLUGIN TEMPLATE
@@ -78,8 +78,8 @@ export class TemplatePlugin extends BasePlugin {
    * Called when the plugin is installed
    * Use this for one-time setup
    */
-  onInstall(context: EditorContext): void {
-    super.onInstall(context);
+  async onInstall(context: EditorContext): Promise<void> {
+    await super.onInstall(context);
     
     // Example: Set up initial state
     // this.initializeState();
@@ -122,7 +122,8 @@ export class TemplatePlugin extends BasePlugin {
   }
 
   // Step 7: Register UI components
-  registerUI(): void {
+  registerUI(slots: SlotRegistry): void {
+    void slots;
     // Example: Register a bubble menu item
     /*
     slots.register('bubble-menu', {
@@ -193,8 +194,8 @@ export class TemplatePlugin extends BasePlugin {
   }
 
   // Step 9: Provide Tiptap extensions (if needed)
-  getExtensions(): Extension[] {
-    const extensions: Extension[] = [];
+  getExtensions(): Extensions {
+    const extensions: Extensions = [];
 
     // Example: Add a custom node or mark
     /*
@@ -253,7 +254,7 @@ export class TemplatePlugin extends BasePlugin {
   /**
    * Example getter for plugin state
    */
-  public getState(): TemplatePluginState {
+  public getPluginState(): TemplatePluginState {
     return {
       enabled: this.options.enabled,
       customOption: this.options.customOption,

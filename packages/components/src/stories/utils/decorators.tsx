@@ -1,4 +1,3 @@
-import React from 'react';
 import type { Decorator } from '@storybook/react-vite';
 
 export const centeredLayout: Decorator = (Story) => (

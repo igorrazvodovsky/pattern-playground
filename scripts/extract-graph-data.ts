@@ -383,7 +383,6 @@ function parseComponentRelAttrs(content: string, sourcePath: string): TypedLink[
 function extractRelationships(
   fm: Record<string, unknown>,
   rawContent: string,
-  sourceRole: Role | undefined,
   sourcePath: string,
 ): TypedLink[] {
   const content = stripComments(rawContent);
@@ -781,7 +780,7 @@ for (const filePath of patternMdxFiles) {
     'mediation': mediationRaw,
   });
 
-  const typed = extractRelationships(fm, content, role, filePath);
+  const typed = extractRelationships(fm, content, filePath);
   if (typed.length > 0) fileLinks.set(id, typed);
 
   extractDecisionTreeEdges(id, content, treeConfigs, recommendsCollection);

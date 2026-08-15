@@ -1,6 +1,8 @@
 import { BasePlugin } from '../core/Plugin';
 import type { SlotRegistry, EventBus } from '../../editor/types';
-import type { Extension } from '@tiptap/core';
+import { createElement } from 'react';
+import type { Extensions } from '@tiptap/core';
+import type { Level } from '@tiptap/extension-heading';
 import Bold from '@tiptap/extension-bold';
 import Italic from '@tiptap/extension-italic';
 import Strike from '@tiptap/extension-strike';
@@ -41,7 +43,7 @@ export class FormattingPlugin extends BasePlugin {
     }
   }
 
-  getExtensions(): Extension[] {
+  getExtensions(): Extensions {
     return [
       Bold,
       Italic,
@@ -61,14 +63,15 @@ export class FormattingPlugin extends BasePlugin {
     if (this.config.toolbar) {
       slots.register('toolbar', {
         pluginId: this.id,
-        render: () => FormattingToolbar({ editor: this.context?.editor }),
+        render: () => createElement(FormattingToolbar, { editor: this.context?.editor }),
       });
     }
 
     if (this.config.bubbleMenu) {
       slots.register('bubble-menu', {
         pluginId: this.id,
-        render: () => FormattingBubbleMenu({ editor: this.context?.editor }),
+        render: () => createElement(FormattingBubbleMenu, { editor: this.context?.editor }),
+      }, {
         condition: () => {
           if (!this.context?.editor) return false;
           const { selection } = this.context.editor.state;
@@ -97,7 +100,7 @@ export class FormattingPlugin extends BasePlugin {
           break;
         case 'formatting:heading':
           if (typeof params === 'object' && params && 'level' in params) {
-            const level = (params as { level: number }).level;
+            const level = (params as { level: Level }).level;
             this.context.editor.chain().focus().toggleHeading({ level }).run();
           }
           break;

@@ -1,11 +1,10 @@
-import React from 'react';
 import { BasePlugin } from '../core/Plugin';
 import type { PluginCapabilities, EditorContext, SlotRegistry } from '../../editor/types';
 import { Reference, createReferenceSuggestion } from '../../reference';
 import type { ReferenceCategory, SelectedReference } from '../../reference/types';
 import { ReferencesBubbleMenu } from './components/ReferencesBubbleMenu';
 import { ReferencesToolbar } from './components/ReferencesToolbar';
-import type { Extension } from '@tiptap/core';
+import type { Extensions } from '@tiptap/core';
 
 export interface ReferencesPluginOptions {
   data: ReferenceCategory[];
@@ -37,8 +36,8 @@ export class ReferencesPlugin extends BasePlugin {
     };
   }
 
-  onInstall(context: EditorContext): void {
-    super.onInstall(context);
+  async onInstall(context: EditorContext): Promise<void> {
+    await super.onInstall(context);
     
     // Subscribe to selection events for quote references
     if (this.options.enableQuoteReferences) {
@@ -69,6 +68,7 @@ export class ReferencesPlugin extends BasePlugin {
           enableQuoteReferences={this.options.enableQuoteReferences}
         />
       ),
+    }, {
       priority: 70,
       condition: () => this.isActive,
     });
@@ -83,14 +83,15 @@ export class ReferencesPlugin extends BasePlugin {
             onReferenceSelect={this.options.onReferenceSelect}
           />
         ),
+      }, {
         priority: 60,
         condition: () => this.isActive,
       });
     }
   }
 
-  getExtensions(): Extension[] {
-    const extensions: Extension[] = [];
+  getExtensions(): Extensions {
+    const extensions: Extensions = [];
 
     if (this.options.enableAtMentions) {
       extensions.push(

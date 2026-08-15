@@ -1,6 +1,5 @@
 import React from 'react';
-import { ViewSwitcherProps, ViewMode } from './types';
-
+import type { ViewSwitcherProps, ViewMode } from './types';
 export const ViewSwitcher: React.FC<ViewSwitcherProps> = ({ currentView, onViewChange }) => {
   const getViewIcon = (view: ViewMode) => {
     switch (view) {

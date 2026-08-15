@@ -1,6 +1,5 @@
 import React from 'react';
-import { SearchControlsProps } from './types';
-
+import type { SearchControlsProps } from './types';
 export const SearchControls: React.FC<SearchControlsProps> = ({
   searchQuery,
   onSearchChange

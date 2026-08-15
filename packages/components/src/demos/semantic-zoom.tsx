@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
-import { Tldraw, TLComponents } from 'tldraw'
+import { Tldraw, type TLComponents } from 'tldraw'
 import 'iconify-icon'
 import { lifecycleEvents, users, type User } from '@shared/data'
 import { formatDate, formatDateTime } from '@shared/format'

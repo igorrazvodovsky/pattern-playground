@@ -1,5 +1,4 @@
-import { Filter, FilterOperator } from './filter-types';
-
+import type { Filter, FilterOperator } from './filter-types';
 export const updateFilterById = (
   filters: Filter[],
   filterId: string,

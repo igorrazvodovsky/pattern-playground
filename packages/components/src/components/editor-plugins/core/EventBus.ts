@@ -60,7 +60,6 @@ export class EventBus implements IEventBus {
   private listeners = new Map<string, Set<EventListener>>();
   private interceptors = new Map<string, Interceptor[]>();
   private eventHistory = new CircularBuffer<QueuedEvent>(100); // Bounded history
-  private processing = false;
   
   // WeakMap for automatic cleanup of plugin references
   private pluginListeners = new WeakMap<object, Set<() => void>>();

@@ -7,7 +7,7 @@ import { useEffect, useRef, useCallback } from 'react';
 /**
  * Debounce utility for reducing API calls
  */
-export const debounce = <T extends (...args: unknown[]) => unknown>(
+export const debounce = <T extends (...args: never[]) => unknown>(
   func: T,
   delay: number
 ): ((...args: Parameters<T>) => void) => {
@@ -123,7 +123,7 @@ export const useBatchOperations = <T>(
   delay: number = 100
 ) => {
   const batchRef = useRef<T[]>([]);
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
   const processBatch = useCallback(async () => {
     if (batchRef.current.length === 0) return;
@@ -203,7 +203,7 @@ export class MemoryManager {
   checkMemoryUsage(): void {
     if ('memory' in performance) {
       const memInfo = (performance as { memory?: { usedJSHeapSize: number } }).memory;
-      if (memInfo.usedJSHeapSize > this.memoryThreshold) {
+      if (memInfo && memInfo.usedJSHeapSize > this.memoryThreshold) {
         console.warn('High memory usage detected, running cleanup...');
         this.runCleanup();
       }

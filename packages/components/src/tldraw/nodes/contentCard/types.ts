@@ -1,4 +1,4 @@
-import { T, TLShape } from 'tldraw'
+import { T, type TLShape } from 'tldraw'
 
 // Level of Detail types
 export type LODLevel = 'A' | 'B' | 'C' | 'D'

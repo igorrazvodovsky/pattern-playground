@@ -32,8 +32,6 @@ function createEventHandler() {
     // Store it so we can remove it later
     eventListeners.set(cb, { eventType, wrappedCallback });
     eventChannel.addEventListener(eventType, wrappedCallback as EventListener);
-
-    return this;
   }
 
   /**
@@ -42,8 +40,6 @@ function createEventHandler() {
   function off(eventType: string, cb: EventCallback) {
     const { wrappedCallback } = eventListeners.get(cb) as CallbackRef;
     eventChannel.removeEventListener(eventType, wrappedCallback as EventListener);
-
-    return this;
   }
 
   /**

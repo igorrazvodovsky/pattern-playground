@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Product } from '@shared/data/types';
+import type { Product } from '@shared/data/types';
 import { loadElementAdapter } from '../../utility/dnd';
 import {
   getAttributeValue,

@@ -9,11 +9,10 @@
  * @see https://d3js.org/d3-selection - D3 selection API
  */
 
-import { select, Selection } from 'd3-selection';
-import { scaleBand, scaleLinear, ScaleBand, ScaleLinear } from 'd3-scale';
+import { select, type Selection } from 'd3-selection';
+import { scaleBand, scaleLinear, type ScaleBand, type ScaleLinear } from 'd3-scale';
 import { max, min } from 'd3-array';
-import { BarChartData, BarChartDataPoint, ChartDimensions } from '../base/chart-types.js';
-
+import type { BarChartData, BarChartDataPoint, ChartDimensions } from '../base/chart-types.js';
 // Side-effect import: extends the Selection prototype with .transition() and .interrupt().
 import 'd3-transition';
 

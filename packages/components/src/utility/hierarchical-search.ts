@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import Fuse from 'fuse.js';
 
 export interface SearchableItem {

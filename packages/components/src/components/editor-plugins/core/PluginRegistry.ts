@@ -102,12 +102,6 @@ export class PluginRegistry implements IPluginRegistry {
     return this.pluginStates.get(pluginId);
   }
 
-  // Private method 
-  private getMissingDependencies(plugin: Plugin): string[] {
-    // Use optional chaining and nullish coalescing
-    return plugin.dependencies?.filter(dep => !this.plugins.has(dep)) ?? [];
-  }
-
   private detectConflicts(plugin: Plugin): string[] {
     const conflicts: string[] = [];
 

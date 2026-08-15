@@ -1,5 +1,5 @@
 import React from 'react';
-import { SortingControlsProps } from './types';
+import type { SortingControlsProps } from './types';
 import { attributeLabel } from '../../templates/collection-view/AttributeUtils';
 
 export const SortingControls: React.FC<SortingControlsProps> = ({

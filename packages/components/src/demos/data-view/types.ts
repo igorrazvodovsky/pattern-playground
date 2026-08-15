@@ -1,4 +1,4 @@
-import { Product } from '@shared/data/types';
+import type { Product } from '@shared/data/types';
 import type { AttributeFilter } from '@shared/data/bindings';
 import type { SortField, SortOrder } from '../../templates/collection-view/SortingUtils';
 

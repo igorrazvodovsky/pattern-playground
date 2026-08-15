@@ -65,6 +65,9 @@ interface StreamChunk {
 /**
  * Custom error class for API-related errors
  */
+const errorMessage = (error: unknown) =>
+  error instanceof Error ? error.message : String(error);
+
 export class APIError extends Error {
   status?: number;
 
@@ -153,7 +156,7 @@ export async function callOpenAI(prompt: string, options: OpenAIOptions = {}): P
     } catch (error) {
       clearTimeout(timeoutId);
 
-      if (error.name === 'AbortError') {
+      if (error instanceof Error && error.name === 'AbortError') {
         throw new APIError(`Request timed out after ${timeout}ms`);
       }
 
@@ -165,7 +168,7 @@ export async function callOpenAI(prompt: string, options: OpenAIOptions = {}): P
     }
 
     logError('Network or parsing error', error);
-    throw new APIError(`Failed to fetch API: ${error.message}`);
+    throw new APIError(`Failed to fetch API: ${errorMessage(error)}`);
   }
 }
 
@@ -302,7 +305,7 @@ async function handleJsonResponse(
     return JSON.stringify(data.data || data);
   } catch (error) {
     logError('Error parsing JSON response', error);
-    throw new APIError(`Failed to parse JSON response: ${error.message}`);
+    throw new APIError(`Failed to parse JSON response: ${errorMessage(error)}`);
   }
 }
 /**

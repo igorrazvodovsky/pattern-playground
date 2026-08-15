@@ -1,9 +1,9 @@
 import { Icon } from "@iconify/react"
-import { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import type { EntityBinding } from "@shared/data/bindings";
 import { taskBinding, findAttribute, attributeLabelFromBinding } from "@shared/data/bindings";
 import { FilterValueDropdown, FilterOperatorDropdown, FilterValueDateDropdown } from "./filter-components";
-import { Filter } from "./filter-types";
+import type { Filter } from "./filter-types";
 import { updateFilterOperator, updateFilterValue, removeFilterById } from "./filter-utils";
 
 export default function Filters({

@@ -1,4 +1,4 @@
-import { Product } from '@shared/data/types';
+import type { Product } from '@shared/data/types';
 import type { EntityBinding } from '@shared/data/bindings';
 import {
   productBinding,

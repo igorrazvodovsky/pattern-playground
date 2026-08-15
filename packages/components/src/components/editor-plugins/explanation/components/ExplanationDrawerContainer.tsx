@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { ExplanationDrawer } from './ExplanationDrawer';
 import type { SelectedReference } from '../../../reference/types';
 import type { EventBus } from '../../../editor/types';

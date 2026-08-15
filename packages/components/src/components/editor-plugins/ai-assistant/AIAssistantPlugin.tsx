@@ -1,23 +1,9 @@
-import React from 'react';
 import { BasePlugin } from '../core/Plugin';
-import type { PluginCapabilities, EditorContext } from '../../editor/types';
+import type { PluginCapabilities, EditorContext, SlotRegistry, EventBus } from '../../editor/types';
 import { textTransformService, type TextLensCallbacks } from '../../../services/text-transform-service';
 import { AIAssistantBubbleMenu } from './components/AIAssistantBubbleMenu';
 import { AIAssistantToolbar } from './components/AIAssistantToolbar';
 import type { Extension } from '@tiptap/core';
-
-interface UISlots {
-  register: (slotName: string, config: {
-    pluginId: string;
-    render: () => React.ReactNode;
-    condition?: () => boolean;
-  }) => void;
-}
-
-interface EventBus {
-  on: (event: string, handler: (...args: unknown[]) => void) => () => void;
-  emit: (event: string, ...args: unknown[]) => void;
-}
 
 export interface AIAssistantPluginOptions {
   enableExplain?: boolean;
@@ -58,8 +44,8 @@ export class AIAssistantPlugin extends BasePlugin {
     };
   }
 
-  onInstall(context: EditorContext): void {
-    super.onInstall(context);
+  async onInstall(context: EditorContext): Promise<void> {
+    await super.onInstall(context);
 
     // Subscribe to selection events
     context.eventBus.on('selection:change', (payload) => {
@@ -77,7 +63,7 @@ export class AIAssistantPlugin extends BasePlugin {
     this.registerUI(context.slots);
   }
 
-  registerUI(slots: UISlots): void {
+  registerUI(slots: SlotRegistry): void {
     // Register bubble menu component
     slots.register('bubble-menu', {
       pluginId: this.id,
@@ -87,6 +73,7 @@ export class AIAssistantPlugin extends BasePlugin {
           onAction={this.handleAIAction.bind(this)}
         />
       ),
+    }, {
       priority: 80,
       condition: () => this.isActive,
     });
@@ -100,6 +87,7 @@ export class AIAssistantPlugin extends BasePlugin {
           onAction={this.handleAIAction.bind(this)}
         />
       ),
+    }, {
       priority: 50,
       condition: () => this.isActive,
     });

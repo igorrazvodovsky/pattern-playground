@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { useEditorContext } from '../../../editor/EditorProvider';
 import { useModalService } from '../../../../hooks/useModalService';
 import { ExplanationDrawerContainer } from './ExplanationDrawerContainer';

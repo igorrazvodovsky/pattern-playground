@@ -123,6 +123,7 @@ export class EditorCommentingPlugin extends BasePlugin {
           editor: this.context?.editor,
           config: this.config,
         }),
+      }, {
         condition: () => {
           const selection = this.context?.editor?.state?.selection;
           return selection ? !selection.empty : false;
@@ -138,6 +139,7 @@ export class EditorCommentingPlugin extends BasePlugin {
           editor: this.context?.editor,
           config: this.config,
         }),
+      }, {
         priority: 20,
       });
     }

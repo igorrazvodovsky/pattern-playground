@@ -62,7 +62,7 @@ export function useHierarchicalNavigation<TParent extends SearchableParent, TChi
   state: HierarchicalNavigationState<TParent>;
   actions: HierarchicalNavigationActions<TParent, TChild>;
   results: HierarchicalSearchResults<TParent, TChild>;
-  inputRef: React.RefObject<HTMLInputElement>;
+  inputRef: React.RefObject<HTMLInputElement | null>;
   placeholder: string;
 } {
   const [selectedContext, setSelectedContext] = useState<TParent | null>(null);

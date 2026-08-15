@@ -7,7 +7,7 @@ import type {
   EventPayload,
   PluginState
 } from '../../editor/types';
-import type { Extension } from '@tiptap/core';
+import type { Extensions } from '@tiptap/core';
 
 export abstract class BasePlugin implements IPlugin {
   abstract readonly id: string;
@@ -17,8 +17,8 @@ export abstract class BasePlugin implements IPlugin {
   dependencies?: string[];
   capabilities?: PluginCapabilities;
   
-  // Private fields - ES2020 compatible
-  private context?: EditorContext;
+  // Subclasses read the context directly; the rest stays private to the base.
+  protected context?: EditorContext;
   private state: PluginState = 'pending';
   private abortController = new AbortController();
   private eventCleanupFunctions = new Set<() => void>();
@@ -99,12 +99,13 @@ export abstract class BasePlugin implements IPlugin {
   registerUI?(slots: SlotRegistry): void;
   subscribeToEvents?(eventBus: EventBus): void;
   
-  getExtensions?(): Extension[] {
+  getExtensions?(): Extensions {
     return [];
   }
 
-  configure?(): void {
+  configure?(config?: unknown): void {
     // Base implementation - can be overridden
+    void config;
   }
 
   // Modern utility methods with optional chaining and nullish coalescing
