@@ -3,19 +3,28 @@
 A design research project first, code repository second. A "garden" for cultivating interaction design patterns, with a focus on human↔AI collaboration. Full framing in docs/project/core-beliefs.md.
 
 ## Voice
+
 Plain, design-practitioner language in everything written here — pattern content, docs, plans. Ordinary words and direct statements; no dramatic staging, compressed aphorisms, or literary borrowings. "Actor", not "user" or "reader".
 
+- Banned phrases: "load-bearing", "worth stating plainly", "full stop",
+  "carry the argument", "the trap", "isn't just X — it's Y".
+- No punchy fragments for drama. Write complete sentences.
+- Do not build to a turn of phrase. State the claim directly.
+
 ## Read first
+
 - [docs/project/core-beliefs.md](docs/project/core-beliefs.md) — project philosophy, voice, scope
 - [ARCHITECTURE.md](ARCHITECTURE.md) — domain layering and directory map
 - [docs/index.md](docs/index.md) — sectioned docs map; route into it on demand
 
 ## Read by task
+
 - Structural or cross-workspace changes → [docs/specs/workspace-layout.md](docs/specs/workspace-layout.md) (package boundaries) and [docs/specs/index.md](docs/specs/index.md) (settled specs)
 - Pattern-site content → [docs/specs/pattern-site.md](docs/specs/pattern-site.md); the authoring contract attaches automatically from `.claude/rules/pattern-content.md`
 - Questions about repository altitude/legibility → [docs/levels-of-scale.md](docs/levels-of-scale.md)
 
 ## Domain vocabulary (read when working on patterns, edges, or taxonomy)
+
 - [docs/language/pattern-definition.md](docs/language/pattern-definition.md) — what counts as a pattern, component, observation, anti-pattern, or umbrella
 - [docs/language/patterns-and-components.md](docs/language/patterns-and-components.md) — pattern language vs component catalogue;
 - [docs/language/conceptual-glossary.md](docs/language/conceptual-glossary.md) — terms used across the project
@@ -27,6 +36,7 @@ Plain, design-practitioner language in everything written here — pattern conte
 - [docs/language/relationship-vocabulary.md](docs/language/relationship-vocabulary.md) — edge types, generative-moves framing, epistemic stance
 
 ## Rules that auto-activate by file path
+
 `.claude/rules/` — do not read eagerly; each attaches via path match:
 - web-components.md   → packages/components/src/components/**/*.ts
 - styling.md          → packages/components/src/styles/**/*.css
@@ -38,6 +48,7 @@ Plain, design-practitioner language in everything written here — pattern conte
 - state-management.md → all *.ts, *.tsx
 
 ## Common commands
+
 ```bash
 npm run lint               # ESLint (workspace root)
 npm run lint:styles        # Stylelint
@@ -52,18 +63,22 @@ npm run extract-graph      # Regenerate pattern-graph.json
 Full list and conventions: [docs/quality/testing-strategy.md](docs/quality/testing-strategy.md)
 
 ## Executable specs and tech debt
+
 - [plans/README.md](plans/README.md) — how executable specifications work
 - [plans/index.md](plans/index.md) — active, completed, paused, superseded, and archived plans
 - [plans/tech-debt-tracker.md](plans/tech-debt-tracker.md) — known rough edges
 
 ## Research inputs (read on demand, not eagerly)
+
 - [docs/research/references.md](docs/research/references.md) — index of references/
 
 ## Quality gates
+
 - [docs/quality/testing-strategy.md](docs/quality/testing-strategy.md)
 - [docs/quality/code-review.md](docs/quality/code-review.md)
 - [docs/quality/commenting-style.md](docs/quality/commenting-style.md)
 - [docs/quality/dev-environment.md](docs/quality/dev-environment.md) — read when the dev server, Storybook, or a deploy misbehaves
 
 ## When in doubt
+
 Ask the user. This project is research-driven; many decisions are aesthetic or philosophical and do not have a "correct" technical answer.

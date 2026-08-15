@@ -24,6 +24,24 @@ The trigger is the *shape of the problem*, not the size of the change. Apply whe
 
 Skip for: pure feature work with a clear target, bug fixes, refactors with a known destination, mechanical follow-ups to an already-researched plan. The [`/research-gate`](../../.claude/skills/research-gate/SKILL.md) skill and [`references/`](../../references/) directory are the standing infrastructure for this checkpoint.
 
+## Rule residue is drafted as a spec delta
+
+When a plan's intended outcome includes a rule — new vocabulary, a schema
+field, a naming clause, an ownership convention — in an area a settled spec or
+rules file already covers, draft that rule as the proposed edit to the covering
+document, inside the plan, before implementing. The plan's job is then to make
+that edit true; at close the delta is applied and the plan stays behind as the
+execution trace. This keeps the spec the iterated artifact and the plan
+disposable, instead of the rule living only in the plan that invented it.
+
+Most plans owe no delta: content, demos, and refactors are their own residue
+(the residue kinds are in [`plans/README.md`](../../plans/README.md)
+§Residue). When the rule's area has no covering document yet, don't mint a
+spec up front — note the candidate rule in the plan and let the closing
+question decide where it lands; a spec is earned when violating the rule in a
+new instance would be an error rather than a disagreement
+([`docs/specs/index.md`](../specs/index.md)).
+
 ## Migration-shaped arcs: territory closure
 
 For work that sweeps many existing pages or files (dedups, migrations,
