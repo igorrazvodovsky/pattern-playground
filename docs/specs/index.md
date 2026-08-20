@@ -17,6 +17,10 @@ between the long-range vision (`docs/project/vision.md` and
 - [Component authoring](component-authoring.md) — the light-DOM decision
   ladder, subtree-ownership discipline, `data-slot` composition, and styling
   through the cascade.
+- [World ontology](world-ontology.md) — the four phenomena the fixture world is
+  built from, the log-as-truth discipline, the relation and action-type
+  registries, what counts as a fact versus a derivation, and the
+  world/data boundary.
 - [Pattern role model](pattern-role-model.md) — distinction between components,
   patterns, collections, qualities, foundations, and concepts; boundary stance
   and the pattern/component decomposition rule.

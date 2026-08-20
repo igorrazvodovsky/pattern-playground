@@ -1,7 +1,6 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
 import type { Product } from '@shared/data/types';
-import componentsData from '@shared/data/components.json' with { type: 'json' };
-import materialsData from '@shared/data/materials.json' with { type: 'json' };
+import { components as componentsData, materials as materialsData } from '@shared/data';
 import { ItemView } from '../components/item-view/ItemView';
 import { products } from '../templates/collection-view/data';
 import { EntityCard, InPlaceDetail } from '../templates/collection-view/renderers';

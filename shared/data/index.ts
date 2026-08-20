@@ -1,49 +1,42 @@
-import usersData from './users.json' with { type: 'json' };
-import projectsData from './projects.json' with { type: 'json' };
-import documentsData from './documents.json' with { type: 'json' };
+import {
+  userViews, projectViews, rawTaskViews, documentViews, commentViews, quoteViews,
+  materialViews, componentViews, productViews, serviceViews,
+  transactionViews, lifecycleEventViews,
+} from './world-views';
 import referenceContentData from './reference-content.json' with { type: 'json' };
 import editorContentData from './editor-content.json' with { type: 'json' };
 import commentThreadsData from './comment-threads.json' with { type: 'json' };
 import commandsData from './commands.json' with { type: 'json' };
 import recentItemsData from './recent-items.json' with { type: 'json' };
 import reuseListingsData from './reuse-listings.json' with { type: 'json' };
-import tasksData from './tasks.json' with { type: 'json' };
 import { transformTasksData } from './transformations/tasks';
 import { createFinder, createMultiFieldSearcher } from './finders';
-import transactionsData from './transactions.json' with { type: 'json' };
-import lifecycleEventsData from './lifecycle-events.json' with { type: 'json' };
-import commentsData from './comments.json' with { type: 'json' };
-import quotesData from './quotes.json' with { type: 'json' };
-import materialsData from './materials.json' with { type: 'json' };
-import componentsData from './components.json' with { type: 'json' };
-import productsData from './products.json' with { type: 'json' };
-import servicesData from './services.json' with { type: 'json' };
 
 import filterStatusesData from './statuses.json' with { type: 'json' };
 import filterLabelsData from './labels.json' with { type: 'json' };
 import filterPrioritiesData from './priorities.json' with { type: 'json' };
 import filterDatesData from './filter-dates.json' with { type: 'json' };
 
-export const users = usersData;
-export const projects = projectsData;
-export const documents = documentsData;
+export const users = userViews;
+export const projects = projectViews;
+export const documents = documentViews;
 export const referenceContent = referenceContentData;
 export const editorContent = editorContentData;
 export const commentThreads = commentThreadsData;
 export const commands = commandsData;
 export const recentItems = recentItemsData;
 export const reuseListings = reuseListingsData;
-export const transactions = transactionsData;
+export const transactions = transactionViews;
 /* One tracked e-bike, cradle to grave: every flow the assessment counted,
    dated, with its kg CO2e — negative where recovery gave something back. */
-export const lifecycleEvents = lifecycleEventsData;
-export const comments = commentsData;
-export const quotes = quotesData;
+export const lifecycleEvents = lifecycleEventViews;
+export const comments = commentViews;
+export const quotes = quoteViews;
 
-export const materials = materialsData;
-export const components = componentsData;
-export const products = productsData;
-export const services = servicesData;
+export const materials = materialViews;
+export const components = componentViews;
+export const products = productViews;
+export const services = serviceViews;
 
 // Re-export for external use
 export { default as filterStatuses } from './statuses.json' with { type: 'json' };
@@ -52,7 +45,7 @@ export { default as filterPriorities } from './priorities.json' with { type: 'js
 export { default as filterDates } from './filter-dates.json' with { type: 'json' };
 
 export const tasks = transformTasksData(
-  tasksData,
+  rawTaskViews,
   users,
   projects,
   filterStatusesData,
@@ -282,6 +275,26 @@ export const searchQuotes = (searchText: string) => {
   );
 };
 
+// The world: individuals, facts, and the action log (shared/world/), plus
+// plain-language rendering of actions
+export {
+  actions,
+  feedActions,
+  getActionById,
+  getActionsByActor,
+  getActionsAbout,
+  getConsequencesOf,
+  getCausesOf,
+  rules,
+  getRuleById,
+  provenanceOf,
+  nameOf,
+  describeAction,
+} from './actions';
+export { individuals, facts, actionsTouching } from './world-views';
+export type { ActionDescription, ActionProvenance } from './actions';
+export type { ActionRecord, Fact, ParticipantValue, Rule } from './action-types';
+
 // Type exports for better type safety
 export type User = typeof users[0];
 export type Project = typeof projects[0];
@@ -352,10 +365,8 @@ export interface RichContent {
 }
 
 // Circular economy types
-export type Material = typeof materials[0];
-export type Component = typeof components[0];
-export type Product = typeof products[0];
-export type Service = typeof services[0];
+export type { MaterialView as Material, ComponentView as Component,
+  ProductView as Product, ServiceView as Service } from './world-views';
 
 // Circular economy utility functions
 export const getMaterialById = createFinder(materials);
@@ -375,11 +386,8 @@ export const getComponentsByParent = (parentId: string) => {
   return components.filter(component => component.metadata.parentComponent === parentId);
 };
 
-export const getChildComponents = (componentId: string) => {
-  const component = getComponentById(componentId);
-  if (!component) return [];
-  return component.metadata.childComponents.map(childId => getComponentById(childId)).filter(Boolean);
-};
+export const getChildComponents = (componentId: string) =>
+  getComponentsByParent(componentId);
 
 export const getProductsByCategory = (category: string) => {
   return products.filter(product => product.metadata.category === category);
@@ -389,18 +397,18 @@ export const getServicesByType = (serviceType: string) => {
   return services.filter(service => service.metadata.serviceType === serviceType);
 };
 
+// A service applies to a catalogue entry by name, or to everything at once —
+// the world holds the latter as one unary fact, which the view renders as the
+// "all" the source data used.
+const appliesTo = (list: readonly string[], id: string) =>
+  list.includes(id) || list.includes('all');
+
 export const getServicesForProduct = (productId: string) => {
-  return services.filter(service =>
-    service.metadata.applicableProducts.includes(productId) ||
-    service.metadata.applicableProducts.includes('all')
-  );
+  return services.filter(service => appliesTo(service.metadata.applicableProducts, productId));
 };
 
 export const getServicesForComponent = (componentId: string) => {
-  return services.filter(service =>
-    service.metadata.applicableComponents.includes(componentId) ||
-    service.metadata.applicableComponents.includes('all')
-  );
+  return services.filter(service => appliesTo(service.metadata.applicableComponents, componentId));
 };
 
 export const getMaterialsUsedInComponent = (componentId: string) => {

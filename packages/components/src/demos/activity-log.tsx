@@ -1,33 +1,50 @@
 import type { CSSProperties } from 'react';
 import '../jsx-types';
+import { feedActions, describeAction, provenanceOf } from '@shared/data';
+import { formatDateTime } from '@shared/format';
+
+// A stretch of the world's action log, minus presence noise, most recent first.
+// The window ends at the log's latest system reaction rather than at the log's
+// end: an entry the system produced can say why it happened, and the most
+// recent day holds none.
+const latestReaction = feedActions.findLastIndex(action => action.viaRule !== undefined) + 1;
+const feed = feedActions.slice(Math.max(0, latestReaction - 6), latestReaction).reverse();
 
 export function ActivityLogBasicDemo() {
   return (
     <ol className="stepper">
-      <li className="stepper__item">
-        <div className="stepper__content">
-          <p><a href="">Alex</a> Signed into the shared workspace.</p>
-          <small className="muted">10:11</small>
-        </div>
-      </li>
-      <li className="stepper__item">
-        <div className="stepper__content">
-          <p><a href="">Lina</a> joined shared workspace in view-only mode.</p>
-          <small className="muted">10:16</small>
-        </div>
-      </li>
-      <li className="stepper__item">
-        <div className="stepper__content">
-          <p><a href="">Alex</a> created <a href="">Prototype v3</a>.</p>
-          <small className="muted">18:51 · Yesterday</small>
-        </div>
-      </li>
-      <li className="stepper__item">
-        <div className="stepper__content">
-          <p><a href="">Bot</a> suggested structural scaffold based on naming context.</p>
-          <small className="muted">14:21 · 10/06/2025</small>
-        </div>
-      </li>
+      {feed.map(action => {
+        const { actorName, phrase } = describeAction(action);
+        // Decision context for the entries that have any: the rule that
+        // licensed the action and the earlier actions that triggered it.
+        const provenance = provenanceOf(action);
+        const trigger = provenance?.causes
+          .map(cause => {
+            const cned = describeAction(cause);
+            return `${cned.actorName} ${cned.phrase}`;
+          })
+          .join(', and ');
+        return (
+          <li key={action.id} className="stepper__item">
+            <div className="stepper__content">
+              {/* An entry with a trace expands into it; the rest are records. */}
+              {provenance ? (
+                <details>
+                  {/* summary lays its children out as a row, so the sentence stays one child */}
+                  <summary><span><a>{actorName}</a> {phrase}.</span></summary>
+                  <div className="flow">
+                    <p>{provenance.rule.description}</p>
+                    <p className="muted">Triggered by {trigger}.</p>
+                  </div>
+                </details>
+              ) : (
+                <p><a href="">{actorName}</a> {phrase}.</p>
+              )}
+              <small className="muted">{formatDateTime(action.timestamp)}</small>
+            </div>
+          </li>
+        );
+      })}
     </ol>
   );
 }

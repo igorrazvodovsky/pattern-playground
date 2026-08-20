@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import productsData from '@shared/data/products.json' with { type: 'json' };
+import { products as productsData } from '@shared/data';
 import type { Product } from '@shared/data/types';
 import type { ViewMode, DataViewControls } from './types';
 import { getAvailableAttributes } from '../../templates/collection-view/AttributeUtils';

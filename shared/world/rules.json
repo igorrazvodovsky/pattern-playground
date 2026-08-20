@@ -1,0 +1,29 @@
+[
+  {
+    "id": "rule-auto-triage",
+    "when": "createTask => [ task ]",
+    "where": "status(task) is \"status-backlog\" and priority(task) is \"priority-high\"",
+    "then": "changeStatus [ task ; status: \"status-todo\" ]",
+    "description": "A high-priority task left in the backlog at creation is moved to todo automatically once reviewed."
+  },
+  {
+    "id": "rule-notify-completion",
+    "when": "completeTask [ task ]",
+    "where": "createdBy(task, u) and u is not the actor",
+    "then": "notify [ user: u ; item: task ]",
+    "description": "Whoever asked for a task hears when someone else finishes it."
+  },
+  {
+    "id": "rule-notify-comment",
+    "when": "addComment [ target ] => [ comment ]",
+    "where": "target is a document and createdBy(target, u) and u is not the actor",
+    "then": "notify [ user: u ; item: comment ]",
+    "description": "Whoever wrote a document hears about new comments on it. Replies notify nobody — the thread is already in view."
+  },
+  {
+    "id": "rule-suggest-outline",
+    "when": "createDocument => [ document ]",
+    "then": "suggestOutline [ document ]",
+    "description": "The system proposes a structure for every document a member writes. Uploaded files arrive finished, so they get none."
+  }
+]

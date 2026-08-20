@@ -18,6 +18,9 @@ Research inputs for pattern development. Each entry summarises what the project
 - `Concept design.md` — Jackson's concept design (*The Essence of Software*).
   *Project takeaway*: software is a network of interacting concepts, not a collection of features. Concepts are defined by purpose, not by UI surface.  `concepts/` directory houses some concept-shaped drafts the project might benefit from at some tuture date.
 
+- `Making software meaningful.md` — Meng, Namazov, Schare, Cunha & Jackson (arXiv:2606.11051, 2026). A four-phenomena ontology — individuals, values, actions, facts — as the shared vocabulary between users, designers and engineers.
+  *Project takeaway*: an entity object conflates identity, state, and history; separating them makes provenance and history readable from one source. Grounds [`world-ontology.md`](../specs/world-ontology.md), which the fixture world in `shared/world/` implements. The parts that read as design material rather than architecture: *folk theories* (users build their own account of what the software is doing, and cannot report the failure when it breaks), *dark concepts* (naming which concept is being implemented under the guise of another locates a dark pattern at the level of meaning), and *enshittification as reinterpretation* (platforms degrade by substituting one concept for another behind an unchanged interface).
+
 - `Relational design.md` — A relational design framework for human-AI-software interactions.
   *Project takeaway*: relationships between actors (human, AI, software) are characterised by what they require, enable, risk, embody, and how they evolve. Design for autonomy, expect drift, surface breakdowns. Informs the project's treatment of human↔AI collaboration patterns.
 

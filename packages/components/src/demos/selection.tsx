@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import projectsData from "@shared/data/projects.json" with { type: "json" };
+import { projects as projectsData } from "@shared/data";
 import { formatNumber } from "@shared/format";
 import 'iconify-icon';
 import '../jsx-types';

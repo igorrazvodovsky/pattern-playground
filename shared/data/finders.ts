@@ -29,7 +29,7 @@ export const createSearcher = <T extends { searchableText: string }>(
   );
 };
 
-export const createMultiFieldSearcher = <T extends Record<string, unknown>>(
+export const createMultiFieldSearcher = <T,>(
   collection: readonly T[],
   searchFields: (keyof T)[]
 ) => (searchText: string): T[] => {

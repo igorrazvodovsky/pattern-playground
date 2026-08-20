@@ -1,0 +1,132 @@
+{
+  "joinWorkspace": {
+    "description": "A person joins the Acme workspace, introducing their profile.",
+    "adds": ["name", "role", "email", "photo", "timezone", "language", "search"],
+    "removes": []
+  },
+  "signIn": {
+    "description": "A member starts a session.",
+    "adds": ["signedIn"],
+    "removes": []
+  },
+  "createProject": {
+    "description": "A member starts a project.",
+    "adds": ["name", "blurb", "search", "icon", "status", "phase", "createdBy"],
+    "removes": []
+  },
+  "setPhase": {
+    "description": "A member moves a project into a new phase.",
+    "adds": ["phase"],
+    "removes": ["phase"]
+  },
+  "setPartners": {
+    "description": "A member records the number of partner organisations on a project.",
+    "adds": ["partners"],
+    "removes": []
+  },
+  "completeProject": {
+    "description": "A member closes a project, recording its outcome.",
+    "adds": ["status", "completedAt", "recycledKg"],
+    "removes": ["status", "phase"]
+  },
+  "joinProject": {
+    "description": "A member joins a project.",
+    "adds": ["member", "accessLevel"],
+    "removes": []
+  },
+  "createTask": {
+    "description": "A member creates a task, assigning it within a project.",
+    "adds": ["title", "specification", "blurb", "status", "priority", "assignee", "label", "project", "dueDate", "createdBy"],
+    "removes": []
+  },
+  "changeStatus": {
+    "description": "An actor moves a task to another status.",
+    "adds": ["status", "progress"],
+    "removes": ["status"]
+  },
+  "updateProgress": {
+    "description": "A member records progress on a task.",
+    "adds": ["progress"],
+    "removes": ["progress"]
+  },
+  "completeTask": {
+    "description": "A member finishes a task.",
+    "adds": ["status", "progress"],
+    "removes": ["status", "progress"]
+  },
+  "createDocument": {
+    "description": "A member writes a document.",
+    "adds": ["name", "blurb", "search", "documentType", "content", "sections", "wordCount", "version", "quarter", "recurring", "author", "createdBy"],
+    "removes": []
+  },
+  "uploadFile": {
+    "description": "A member uploads a file into the workspace.",
+    "adds": ["name", "blurb", "search", "documentType", "content", "path", "size", "createdBy"],
+    "removes": []
+  },
+  "editDocument": {
+    "description": "A member revises a document. The world holds one snapshot of a body, so a revision records that it happened without restating the text.",
+    "adds": [],
+    "removes": []
+  },
+  "suggestOutline": {
+    "description": "The system proposes an outline for a new document.",
+    "adds": [],
+    "removes": []
+  },
+  "createQuote": {
+    "description": "A member saves an excerpt of a document.",
+    "adds": ["source", "createdBy", "text", "range", "search"],
+    "removes": []
+  },
+  "addComment": {
+    "description": "A member comments on something.",
+    "adds": ["author", "about", "text", "thread", "anchor", "commentType", "commentPriority"],
+    "removes": []
+  },
+  "replyToComment": {
+    "description": "A member replies to a comment.",
+    "adds": ["author", "replyTo", "about", "text", "thread"],
+    "removes": []
+  },
+  "resolveThread": {
+    "description": "A member marks a comment thread settled.",
+    "adds": ["resolvedBy"],
+    "removes": []
+  },
+  "notify": {
+    "description": "The system tells a member about something that happened.",
+    "adds": ["notified"],
+    "removes": []
+  },
+  "catalogueMaterial": {
+    "description": "The system records a material in the circular-economy catalogue.",
+    "adds": ["name", "blurb", "search", "icon", "category", "subcategory", "recycledContent", "carbonFootprint", "unit", "recyclability", "certification", "supplier", "cost", "costUnit", "availability", "leadTime", "leadTimeUnit"],
+    "removes": []
+  },
+  "catalogueComponent": {
+    "description": "The system records a component, its place in an assembly, and the materials it is made of.",
+    "adds": ["name", "blurb", "search", "icon", "category", "hierarchy", "partOf", "madeOf", "specifications", "lifecycle", "sustainability", "supplier", "cost", "leadTime"],
+    "removes": []
+  },
+  "listProduct": {
+    "description": "The system lists a product, with the components it is assembled from and the materials that matter to it.",
+    "adds": ["name", "blurb", "search", "icon", "category", "subcategory", "assembledFrom", "keyMaterial", "specifications", "lifecycle", "sustainability", "circular", "pricing", "availability", "condition", "location"],
+    "removes": []
+  },
+  "catalogueService": {
+    "description": "The system records a service and what it applies to.",
+    "adds": ["name", "blurb", "search", "icon", "category", "serviceType", "appliesTo", "appliesToAll", "serviceProvider", "location", "duration", "durationUnit", "frequency", "checklist", "tools", "sustainability", "pricing", "warranty", "process", "upgradeOptions", "usesMaterial", "recoversMaterial", "certification", "features", "dataTracked", "technology", "privacy", "offerings", "expertise", "deliverables"],
+    "removes": []
+  },
+  "recordTransaction": {
+    "description": "The ledger records money moving, in or out. The record states no facts: the world holds no accounts for a balance to be a fact about.",
+    "adds": [],
+    "removes": []
+  },
+  "recordFlow": {
+    "description": "A lifecycle assessment counts one flow in a tracked item's life — a stage, a site, and the kilograms of CO2e it carried.",
+    "adds": [],
+    "removes": []
+  }
+}

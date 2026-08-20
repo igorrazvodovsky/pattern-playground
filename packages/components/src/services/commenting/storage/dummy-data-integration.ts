@@ -1,11 +1,12 @@
 import type { EntityComment } from '../state/comment-store.js';
-import commentsData from '@shared/data/comments.json' with { type: 'json' };
+import { comments as commentViews } from '@shared/data';
 
-// Load existing comments from data - data is already in EntityComment format
+// The assembled view already has the EntityComment shape, so only the
+// timestamp needs converting.
 export function loadSharedDataComments(): EntityComment[] {
   try {
     // Transform timestamp strings to Date objects
-    return commentsData.map(comment => ({
+    return commentViews.map(comment => ({
       ...comment,
       timestamp: new Date(comment.timestamp)
     }));

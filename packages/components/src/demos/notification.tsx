@@ -1,8 +1,11 @@
 import { getModalService } from './demo-runtime';
+import { nameOf } from '@shared/data';
 
 // Shared notification demos: the disruptive end of the delivery-mechanism
 // spectrum — a dialog that persists until the actor engages with it.
 // Consumed by the notification pattern page.
+
+const DOCUMENT = nameOf('doc-1');
 
 export function DisruptiveNotificationDemo() {
   const openConfirmationDialog = async () => {
@@ -10,12 +13,12 @@ export function DisruptiveNotificationDemo() {
     modalService.openDialog(
       <div className="flow">
         <p>
-          Doing this will make some permanent changes. Are you sure you want to proceed?
+          Deleting “{DOCUMENT}” removes it for everyone and cannot be undone. Delete it anyway?
         </p>
         <footer>
           <div className="inline-flow">
             <button className="button button--danger" autoFocus>
-              Do it!
+              Delete
             </button>
             <button className="button button--secondary">
               Cancel
@@ -24,7 +27,7 @@ export function DisruptiveNotificationDemo() {
         </footer>
       </div>,
       {
-        title: 'Confirmation',
+        title: 'Delete document',
         size: 'small'
       }
     );
@@ -32,7 +35,7 @@ export function DisruptiveNotificationDemo() {
 
   return (
     <button className="button" onClick={() => void openConfirmationDialog()}>
-      Do something
+      Delete document…
     </button>
   );
 }

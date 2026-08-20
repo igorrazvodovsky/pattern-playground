@@ -1,5 +1,14 @@
-// Unified Task Types for Data Layer
-// This replaces both the component task types and data task types
+// Task types for tasks created during a session — the command menu's AI
+// fallback makes one and an agent works it — with their own status vocabulary
+// (submitted, planning, executing, asking, completed, failed) and Date-valued
+// timestamps.
+//
+// Not the fixture world's tasks. Those are individuals in `shared/world`,
+// assembled by `transformations/tasks.ts`, and their statuses come from
+// `statuses.json`. The two shapes look alike and model different things; the
+// header here used to claim it replaced both. Whether they should converge is
+// open, and tied to the world becoming executable — see
+// `plans/tech-debt-tracker.md`.
 
 export interface TaskHistoryEntry {
   id: string;

@@ -1,6 +1,6 @@
 import type { EntityBinding } from './types';
 
-/** Users (the users.json shape): a person as an entity in their own right. */
+/** Users (the assembled user view): a person as an entity in their own right. */
 export const userBinding: EntityBinding = {
   entityType: 'user',
   attributes: [

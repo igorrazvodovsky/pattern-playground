@@ -1,7 +1,7 @@
 import type { EntityBinding } from './types';
 
 /**
- * Quotes (the quotes.json shape). The rich excerpt is behavioural — a
+ * Quotes (the assembled quote view). The rich excerpt is behavioural — a
  * registered custom component renders the blockquote and source line —
  * while source and dates stay declarative. The quote action flags
  * (annotate/cite/challenge/pin) are host chrome, not attributes; they never

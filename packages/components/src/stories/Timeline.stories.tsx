@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { faker } from '@faker-js/faker';
+import { feedActions, describeAction } from '@shared/data';
 import { formatDate } from '@shared/format';
 
 interface TimelineArgs {
@@ -33,10 +33,14 @@ type Story = StoryObj<TimelineArgs>;
 export const Basic: Story = {
   args: { count: 4, density: 'normal' },
   render: ({ count, density }) => {
-    const items = Array.from({ length: count }, () => ({
-      title: `${faker.hacker.verb()} ${faker.hacker.noun()}`,
-      date: formatDate(faker.date.recent({ days: 365 }), { dateStyle: 'long' }),
-    }));
+    // The most recent entries of the world's action log, newest first.
+    const items = feedActions.slice(-count).reverse().map(action => {
+      const { actorName, phrase } = describeAction(action);
+      return {
+        title: `${actorName} ${phrase}`,
+        date: formatDate(action.timestamp, { dateStyle: 'long' }),
+      };
+    });
     return (
       <ol className="stepper" style={densityVars[density]}>
         {items.map((item, i) => (

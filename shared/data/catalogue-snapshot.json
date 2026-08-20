@@ -1,7 +1,7 @@
 {
   "period": "Previous cycle",
   "capturedAt": "2026-03-31",
-  "note": "Aggregate readings from the prior monitoring cycle. The monitor demo computes current values from products.json and reads deltas against this recorded baseline, so the trend arrows are a genuine difference rather than an invented one. Update alongside products.json when the collection changes.",
+  "note": "Aggregate readings from the prior monitoring cycle. The monitor demo computes current values from the assembled product views and reads deltas against this recorded baseline, so the trend arrows are a genuine difference rather than an invented one. Update when a listProduct action changes the collection.",
   "metrics": {
     "listings": 11,
     "inProduction": 8,

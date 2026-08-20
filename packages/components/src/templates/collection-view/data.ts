@@ -1,5 +1,5 @@
-import productsData from '@shared/data/products.json' with { type: 'json' };
-import type { Product } from '@shared/data/types';
+import { products as productViews } from '@shared/data';
+import type { Product } from '@shared/data';
 import type { BoundEntity, EntityBinding } from '@shared/data/bindings';
 import { getValueAtPath, resolveEntityTitle } from '@shared/data/bindings';
 import type { MapLocation } from '../../components/map/map.js';
@@ -12,7 +12,7 @@ import type { AttributePath } from './spec';
  * from: one model, many framings. The reader should recognise the same
  * products reframed as they move between pattern pages.
  */
-export const products = productsData as unknown as Product[];
+export const products: Product[] = productViews;
 
 export function findProduct(id: string): Product | undefined {
   return products.find((product) => product.id === id);

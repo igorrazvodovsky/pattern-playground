@@ -1,4 +1,4 @@
-import type { User, Project } from '../types';
+import type { UserView as User, ProjectView as Project } from '../world-views';
 
 // Raw task data interface (from JSON)
 interface RawTaskData {

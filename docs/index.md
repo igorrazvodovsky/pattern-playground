@@ -44,6 +44,9 @@ hold promoted commitments that govern the process.
 - [Pattern role model](specs/pattern-role-model.md) — component, pattern,
   collection, quality, foundation, and concept roles; boundary stance and the
   pattern/component decomposition rule
+- [World ontology](specs/world-ontology.md) — individuals, values, actions and
+  facts as the form of the fixture world; log-as-truth, the registries, and
+  what is derived rather than stored
 
 ## Project
 

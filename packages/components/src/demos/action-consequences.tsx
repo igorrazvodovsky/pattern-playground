@@ -2,12 +2,15 @@ import { useState } from 'react';
 import '../jsx-types';
 import { showToast, getModalService } from './demo-runtime';
 import { useInlineConfirm } from './inline-confirmation';
+import { nameOf, users } from '@shared/data';
 
-const PROJECT = 'Atlas';
-const MEMBER = 'Priya Sharma';
-const DRAFT = 'Q3 roadmap';
+// Identities come from the shared world rather than invented names.
+const PROJECT = nameOf('PRJ-4');
+const MEMBER = nameOf('user-11');
+const DRAFT = nameOf('doc-3');
 const WORKSPACE = 'Acme';
-const NEW_OWNER = 'Jordan Lee';
+const NEW_OWNER = nameOf('user-19');
+const WORKSPACE_SIZE = users.length;
 
 export function ConsequenceLadderDemo() {
   const [archived, setArchived] = useState(false);
@@ -32,7 +35,7 @@ export function ConsequenceLadderDemo() {
     const dialogId = modalService.openDialog(
       <div className="flow">
         <p>
-          Everyone at {WORKSPACE} — 240 people — will be able to view <strong>{DRAFT}</strong>. You
+          Everyone at {WORKSPACE} — {WORKSPACE_SIZE} people — will be able to view <strong>{DRAFT}</strong>. You
           can unpublish later, but anyone may have read or copied it by then.
         </p>
         <footer>
