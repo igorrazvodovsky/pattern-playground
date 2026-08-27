@@ -23,8 +23,9 @@ situation:
       headers cost space and carry collapse state, so a grouping that yields many small
       groups fragments the list it was meant to organise
 relationships:
-  precedes:
-    - data-view
+  follows:
+    - to: data-view
+      note: acts on the framed collection the view already holds
   complements:
     - to: filtering
       note: narrows what groups show up

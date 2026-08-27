@@ -23,16 +23,19 @@ situation:
       a preference set once and honoured indefinitely stops being visible to the actor who
       set it, so behaviour that follows from it reads later as a fault rather than as their
       own earlier decision
+    - clause: >-
+        in shared configuration, one actor's change alters what others see without their
+        doing anything — something has to carry the change across to them
+      sets-up: [notification]
 relationships:
-  precedes:
+  hosts:
     - to: localization
-      note: language, timezone, and format preferences
+      note: locale controls live among the preferences
+  precedes:
     - to: undo
-      note: enables reversal of settings changes, particularly valuable for exploratory configuration
+      note: a recorded override is state undo can walk back, which is what makes exploratory configuration safe
     - to: status-feedback
-      note: confirms settings changes and communicates their application
-    - to: notification
-      note: alerts actors to settings-related changes, particularly in shared configuration contexts
+      note: a changed preference is the material feedback confirms back to the actor
   enacts:
     - to: agency
       note: the actor overrides the defaults once and the system holds to it

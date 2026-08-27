@@ -1,15 +1,31 @@
 ---
 title: Live presentation
 added: 2026-05-10
-updated:
+updated: 2026-08-25
 role: pattern
 activityLevel: activity
 mediation: individual
+evidence:
+  - observed
+  - used
 fun: "🌊 4/5. The tactics are mechanical but the underlying problem is conversational: two paces sharing one surface."
 situation:
+  initiating: >-
+    generation takes seconds to minutes, and a silent wait reads as failure; the actor can
+    neither judge nor act on the answer until something of it shows
   resulting:
     - clause: >-
-        once the stream completes, a produced artifact sits on the surface — the
+        the output is legible as it forms, so the actor can skim ahead of the machine, judge
+        early — and stop early, which is what makes interruption meaningful mid-generation
+      sets-up: [abort]
+    - >-
+      reading begins before the whole exists: early text anchors the actor's take even when
+      later text qualifies or contradicts it
+    - >-
+      the arrival rhythm is now part of the interface — pace, pauses, and re-layout as
+      content lands are designed properties, not transport details
+    - clause: >-
+        once the stream completes, a produced artefact sits on the surface — the
         move shifts from holding the rendering stable to negotiating what arrived
       sets-up: [generated-content]
 relationships:
@@ -18,15 +34,18 @@ relationships:
       note: its "stream of thought" mode rides on the same rendering substrate
     - to: conversation
       note: live presentation is one of the rhythms a conversational turn can take
-    - to: abort
-      note: the user-side stop depends on the surface having a quiet resting state to land in
+  related:
+    - to: status-feedback
+      note: the partial product is itself the progress signal — no separate indicator is needed while it flows
   enacts:
     - to: agency
       note: the actor can steer or interrupt the unfolding stream as it plays
     - to: temporality
       note: content arrives as it's produced; the actor watches the work unfold live
 ---
-The co-presence of reading and writing on a single surface, with the rendering held steady enough that a human can follow what's already there while new content keeps arriving.
+Generation takes seconds to minutes, and a silent wait reads as failure. The actor can neither judge the answer nor act on it until some of it shows.
+
+Live presentation puts reading and writing on the same surface at the same time, holding the rendering steady enough that a human can follow what's already there while new content keeps arriving.
 
 This is the *during-generation* phase that precedes [generated content](/patterns/generated-content)'s post-generation negotiation. While the system is still emitting, the design problem isn't yet trust or refinement. It's whether the surface lets the actor read at all.
 
@@ -65,3 +84,6 @@ Live-region semantics (`aria-live="polite"` with `aria-atomic="false"`) let addi
 ## Resources & references
 
 - [Designing stable interfaces for streaming content](https://www.smashingmagazine.com/2026/05/designing-stable-interfaces-streaming-content/) — Smashing Magazine
+- [AI UX Playground — Streaming](https://www.aiuxplayground.com/pattern/streaming), [Interrupt and Resume](https://www.aiuxplayground.com/pattern/interrupt-and-resume)
+- [Shape of AI — Controls](https://www.shapeof.ai) (pausing mid-stream)
+- [aiuxdesign.guide — Progressive Enhancement](https://aiuxdesign.guide)

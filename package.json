@@ -19,10 +19,12 @@
     "test-storybook": "npm run test-storybook -w @pattern-plgrnd/components",
     "lint": "node scripts/check-seed-staleness.mjs && node scripts/check-plan-promotions.mjs && npx tsx scripts/world/replay.ts --check && eslint .",
     "lint:styles": "stylelint \"**/*.css\"",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p packages/components/tsconfig.json && npm run typecheck -w @pattern-plgrnd/patterns && tsc --noEmit -p apps/patterns/tsconfig.json && npm run typecheck -w @pattern-plgrnd/server",
     "test-unit": "npm run test-unit -w @pattern-plgrnd/components",
     "test": "npm run lint && npm run lint:styles && npm run test -w @pattern-plgrnd/components"
   },
   "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^22.16.0",
     "@vitest/browser-playwright": "^4.0.18",
     "@vitest/coverage-v8": "^4.0.18",

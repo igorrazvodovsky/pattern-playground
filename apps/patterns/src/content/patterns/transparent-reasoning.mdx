@@ -29,15 +29,14 @@ relationships:
   follows:
     - to: agent
       note: generates the reasoning that transparent reasoning makes visible and inspectable.
-  precedes:
-    - to: activity-log
-      note: provides the detailed reasoning steps that get recorded in the activity log.
   enacts:
     - to: learnability
       note: by observing *why* the system made a decision, the actor implicitly learns its logic and capabilities
     - to: agency
       note: visible reasoning is one of the levers for reliance calibration, helping the actor judge when to trust and when to override
   complements:
+    - to: activity-log
+      note: the live reasoning trail and the durable record of the same work
     - assistance
     - delegation
     - to: explanation

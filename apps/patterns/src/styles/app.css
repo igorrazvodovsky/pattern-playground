@@ -375,3 +375,7 @@ main.shell__main:has(> .content-inset) {
     display: none;
   }
 }
+
+.disclosure {
+  font-style: italic;
+}

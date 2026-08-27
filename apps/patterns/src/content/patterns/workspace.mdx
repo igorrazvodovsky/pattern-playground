@@ -38,9 +38,9 @@ relationships:
   composed-of:
     - to: hub-and-spoke
       note: 'Workspaces often implement hub and spoke navigation, where a workspace switcher or dashboard (hub) provides access to individual workspaces (spokes). See [Information Architecture foundation](/patterns/information-architecture) for the structural pattern behind it.'
-  precedes:
+  hosts:
     - to: activity-log
-      note: shows history within a workspace
+      note: the log surface lives inside the workspace, scoped to its work
   related:
     - collaboration-foundation
 ---

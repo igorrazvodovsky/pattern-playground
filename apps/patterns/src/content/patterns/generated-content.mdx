@@ -21,6 +21,10 @@ situation:
     - >-
       verification cost rises with length, and long output is exactly where accepting
       quietly takes the place of checking
+    - clause: >-
+        the output is a transition point the system can read — knowing what just arrived,
+        it can propose what to do with it next
+      sets-up: [next-best-action]
 relationships:
   follows:
     - to: agent
@@ -28,11 +32,9 @@ relationships:
   enacts:
     - to: agency
       note: the actor steers, edits, and improves the output rather than receiving a finished artefact
-  precedes:
+  hosted-by:
     - to: conversation
-      note: generated content can become part of ongoing dialogue.
-    - to: suggestion
-      note: output can inform subsequent suggestions or recommendations.
+      note: the reply stream is where generated output first appears
   complements:
     - to: transparent-reasoning
       note: shows the step-by-step process behind the generated content.
@@ -144,10 +146,6 @@ Rate, copy, regenerate, expand, more....
 </Demo>
 
 ## Transparency
-
-...
-
-### Citations
 
 ...
 

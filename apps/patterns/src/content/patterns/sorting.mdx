@@ -21,8 +21,9 @@ situation:
       order is itself a claim about what matters: whatever the collection is sorted
       by becomes the thing read first, whether or not that was the intent
 relationships:
-  precedes:
-    - data-view
+  follows:
+    - to: data-view
+      note: acts on the framed collection the view already holds
   complements:
     - to: grouping
       note: orders the members within each group
