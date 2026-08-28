@@ -215,10 +215,6 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
     }
   }
 
-  .card details {
-    overflow: visible;
-  }
-
   .card pp-table {
     --_bleed: var(--card-table-bleed, 0px);
 

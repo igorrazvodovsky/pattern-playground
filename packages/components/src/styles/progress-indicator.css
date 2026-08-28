@@ -126,8 +126,6 @@
 }
 
 .stepper details {
-  --_state-indicator-spacing: 1.5rem;
-
   border: none;
   padding: 0;
 }

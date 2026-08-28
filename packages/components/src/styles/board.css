@@ -113,33 +113,6 @@
     border-radius: var(--radius-s);
   }
 
-  /* A triangle in the text flow, in place of the hanging dot details.css
-     gives a disclosure in running prose — a negative inset would put the dot
-     outside the lane. It stays a *visible* state indicator either way: with
-     the native marker suppressed project-wide, removing this would leave
-     Firefox + VoiceOver no channel for open/closed at all. */
-  .board__column > summary::before,
-  .board__column > summary:hover::before {
-    content: "";
-    position: static;
-    inline-size: 0;
-    block-size: 0;
-    background: none;
-    border-radius: 0;
-    border-inline-start: 0.4em solid var(--c-bodyDimmed);
-    border-block: 0.3em solid transparent;
-    transform: none;
-    transition: rotate var(--transition-fast);
-  }
-
-  .board__column[open] > summary::before {
-    rotate: 90deg;
-  }
-
-  .board__column > summary::after {
-    content: none;
-  }
-
   /* The spine: the lane's own header set on its side, the way `.pane-spine`
      carries a collapsed pane's title in the stack. The label is a data value,
      so it stays cased as the cards case it — only the axis changes. */
@@ -156,6 +129,14 @@
   .board:not(.board--sections) > .board__column:not([open]) > summary::before,
   .board:not(.board--sections) > .board__column:not([open]) > summary .badge {
     writing-mode: horizontal-tb;
+  }
+
+  /* Turned on its side, the summary's cross axis is the spine's width, so the
+     first-line pin details.css uses for multi-line prose would shove the marker
+     against one edge. A spine label is one line by construction — centre it. */
+  .board:not(.board--sections) > .board__column:not([open]) > summary::before {
+    align-self: center;
+    margin-block-start: 0;
   }
 
   /* An empty lane keeps its footprint so it still reads as a destination */

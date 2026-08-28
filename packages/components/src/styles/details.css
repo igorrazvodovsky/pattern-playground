@@ -1,7 +1,25 @@
+/* Details — the native disclosure, restyled around a triangle marker.
+
+   The native marker is suppressed and rebuilt as a border triangle on
+   `summary::before`, because `::marker` accepts only font, colour, and content:
+   a native glyph can be swapped but not rotated or transitioned, and the turn
+   is what carries open/closed. A border triangle also survives forced-colors
+   mode, where a `background` or `clip-path` shape would disappear.
+
+   The marker sits at the summary's inline start by default. Two modifiers move
+   it: `.marker-end` to the far inline end with the label pushed away from it,
+   and `.marker-hanging` out into the gutter, for a list where only some rows
+   expand. Both set inherited custom properties, so either can go on one
+   `details` or on a wrapper holding several. */
+
 @layer components {
   details {
     --_details-padding: var(--space-m);
-    --_state-indicator-spacing: 1.5rem;
+
+    /* The marker's own metrics, named because layouts outside this file
+       position against them — see `--_marker-push` below. */
+    --_marker-size: 0.4em;
+    --_marker-gap: 0.5ch;
 
     border: var(--border);
     border-radius: var(--radius-m);
@@ -13,83 +31,69 @@
   }
 
   summary {
-    position: relative;
     margin: calc(var(--space-m) * -1) calc(var(--space-m) * -1) 0;
     padding: var(--_details-padding);
     display: flex;
-    gap: 0.5ch;
+    gap: var(--_marker-gap);
     align-items: center;
     font-weight: 400;
-  }
+    cursor: pointer;
 
-  summary:hover {
-    /* background: oklch(0% 0 0 / 5%); */
-  }
-
-  summary::marker {
-    content: none;
+    /* `display: flex` already takes `summary` off `list-item`, which drops the
+       native marker everywhere. Declared anyway, so the file says what it
+       means rather than leaving it to a side effect of the display type. */
+    list-style: none;
   }
 
   summary::before {
-    z-index: 1;
-    background: var(--c-neutral-100);
-
-    /* border: var(--border); */
     content: "";
-    width: 1rem;
-    height: 1rem;
-    position: absolute;
-    left: calc(var(--_state-indicator-spacing) * -1);
-    top: var(--_details-padding);
-    border-radius: var(--radius-circle);
-    transform: translate(50%, 25%);
-    transition: var(--transition-fast) transform;
+    flex: none;
+    order: var(--_marker-order, 0);
+    margin-inline-start: var(--_marker-push, 0);
+    inline-size: 0;
+    block-size: 0;
+    border-inline-start: var(--_marker-size) solid var(--c-bodyDimmed);
+    border-block: calc(var(--_marker-size) * 0.75) solid transparent;
+    transition:
+      rotate var(--transition-fast),
+      border-color var(--transition-fast);
+
+    /* Pinned to the first line rather than centred on the whole summary: a
+       summary can run several lines (a log entry, a model's reasoning), and a
+       marker floating at its vertical middle stops reading as a control on the
+       heading. On a one-line summary this lands exactly where centring would. */
+    align-self: start;
+    margin-block-start: calc(0.5lh - var(--_marker-size) * 0.75);
+  }
+
+  details[open] > summary::before {
+    rotate: 90deg;
   }
 
   summary:hover::before {
-    transform: translate(50%, 25%) scale(1.25);
-
-    /* background: var(--c-neutral-200); */
+    border-inline-start-color: var(--c-body);
   }
 
-  summary::after {
-    z-index: 2;
-    content: "";
-    background: var(--c-neutral-500);
-    border-radius: var(--radius-circle);
-    width: 0.5rem;
-    height: 0.5rem;
-    position: absolute;
-    left: calc(var(--_state-indicator-spacing) * -1 + 0.25rem);
-    top: calc(var(--_details-padding) + 0.5rem);
-    transform-origin: center;
-    transform: translateX(100%);
-    transition:
-      transform var(--transition-fast),
-      opacity var(--transition-fast);
+  /* The marker at the far inline end, with the free space between it and the
+     label rather than around it: `margin-inline-start: auto` absorbs whatever
+     is left over, which `justify-content: space-between` could not do without
+     stranding a second summary child (a count badge) in the middle. */
+  .marker-end {
+    --_marker-order: 1;
+    --_marker-push: auto;
   }
 
-  /* Timeline events */
+  /* The third arrangement, for a list where only some rows expand — a log, a
+     trace. The rows that don't are plain paragraphs with no marker at all, so
+     an in-flow triangle would step its own row's text sideways from theirs.
+     Hung in the gutter instead, every row starts on the same line.
 
-  /* details:not([open]) summary {
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    display: -webkit-box;
-    white-space: nowrap;
-  } */
-
-  details[open] summary::after {
-    background: none;
-  }
-
-  details[open] summary::after,
-  details[open] summary::before {
-    /* opacity: 0; */
-  }
-
-  details[open]:hover summary::after,
-  details[open]:hover summary::before {
-    opacity: 1;
+     Set on the marker rather than through `--_marker-push`, because the width
+     being cancelled is in `em` and `ch`: declared on a wrapper, those would
+     resolve against the wrapper's font rather than the summary's, and stop
+     cancelling as soon as the two differ. */
+  .marker-hanging summary::before {
+    margin-inline-start: calc((var(--_marker-size) + var(--_marker-gap)) * -1);
   }
 
   details + details {
@@ -112,10 +116,5 @@
     color: var(--c-bodyDimmed);
     text-transform: uppercase;
     letter-spacing: 0.1em;
-  }
-
-  /* TODO: */
-  .stepper details summary::after {
-    top: 1.25rem;
   }
 }

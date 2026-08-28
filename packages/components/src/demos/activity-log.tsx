@@ -27,9 +27,12 @@ export function ActivityLogBasicDemo() {
         return (
           <li key={action.id} className="stepper__item">
             <div className="stepper__content">
-              {/* An entry with a trace expands into it; the rest are records. */}
+              {/* An entry with a trace expands into it; the rest are records.
+                  `marker-hanging` because those records are plain paragraphs
+                  carrying no marker: an in-flow triangle would step the
+                  expandable rows' text sideways from theirs. */}
               {provenance ? (
-                <details>
+                <details className="marker-hanging">
                   {/* summary lays its children out as a row, so the sentence stays one child */}
                   <summary><span><a>{actorName}</a> {phrase}.</span></summary>
                   <div className="flow">
@@ -59,7 +62,7 @@ export function ActivityLogLLMReasoningDemo() {
       </li>
       <li className="stepper__item">
         <div className="stepper__content">
-          <details>
+          <details className="marker-hanging">
             <summary>
               I want to explore how ontologies are used in design, focusing on methodologies and practical approaches to ontological design. This will help me understand the principles and applications of designing with ontologies.
             </summary>
@@ -90,7 +93,7 @@ export function ActivityLogLLMReasoningDemo() {
       </li>
       <li className="stepper__item">
         <div className="stepper__content">
-          <details open>
+          <details className="marker-hanging" open>
             <summary>I want to explore how technology and design influence each other, focusing on the concept that we are shaped by the things we create. This search will help me understand the ontological implications and the mutual relationship between humans and their designs.</summary>
             <ol className="stepper" style={{ '--_circle-size': '0.5rem'} as CSSProperties}>
               <li className="stepper__item">
