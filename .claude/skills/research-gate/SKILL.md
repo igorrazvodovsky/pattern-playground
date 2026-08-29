@@ -1,26 +1,39 @@
 ---
 name: research-gate
-description: Search HCI literature on arxiv, Google Scholar, and Semantic Scholar for a specific story or topic, extract design implications with quoted grounding, and trace 1-hop citation lineage. Use when a design decision needs a literature check before it lands — e.g. working on "dashboard", "notification timing", "onboarding". Produces a committed `research/<slug>/` folder: a persistent query.yml and dated synthesis notes. The folder is the durable citation; docs that record the decision cite it as a research gate. Not for practice evidence — for what shipping products do, use a general web-research skill.
+description: Search HCI literature via arxiv and OpenAlex (plus named canon through publisher and author pages) for a specific story or topic, extract design implications with quoted grounding, and trace 1-hop citation lineage. Use when a design decision needs a literature check before it lands. Produces a committed `research/<slug>/` folder: a persistent query.yml and dated synthesis notes. The folder is the durable citation; docs that record the decision cite it as a research gate. Not for practice evidence — for what shipping products do, use a general web-research skill.
 argument-hint: "[story path, topic, or 'refresh <slug>']"
 ---
 
 # Research gate
 
-Retrieval + synthesis over open HCI literature, shaped to this project's voice. Inspired by ReFinE (Park et al., CHI 2026) — structured context → retrieval → clustering → compare-and-contrast — with one addition: *1-hop citation lineage* (the move Connected Papers is good at, which ReFinE lacks).
+Retrieval + synthesis over open HCI literature, shaped to this project's voice. Inspired by ReFinE (Park et al., CHI 2026) — structured context → retrieval → clustering → compare-and-contrast — with one addition: *1-hop citation lineage* (the move Connected Papers is good at, which ReFinE lacks). Lineage runs on OpenAlex, which needs no key.
 
 ## Scope
 
-This skill covers *peer-reviewed literature only* — arxiv, Semantic Scholar, and named canon reachable through publisher and author pages. It is not the instrument for practice evidence. When the question is what shipping products actually do, run a general web-research skill instead; its output belongs in the same `research/<slug>/` folder under its own filename and provenance block, beside the literature note rather than folded into it.
+This skill covers *peer-reviewed literature only* — arxiv, OpenAlex, and named canon reachable through publisher and author pages. It is not the instrument for practice evidence. When the question is what shipping products actually do, run a general web-research skill instead; its output belongs in the same `research/<slug>/` folder as a `-practice.md` sibling with its own provenance block, beside the literature note rather than folded into it.
 
 `references/` is canon — foundational, hand-curated, takeaway-distilled. This skill does *not* write there, and does not write to any index.
 
 The run folder is the durable artifact. When a finding gates a decision, the doc recording that decision cites the folder or the dated note directly — `docs/language/relationship-vocabulary.md` is the worked example, citing `research/pattern-foundation-serves/` and `research/situation-constructs/2026-07-10.md` inline at the point of decision. Writing that citation is a human act, and the only promotion path this project uses. Distilling a run into a new `references/*.md` canon file remains possible but is rare; do not plan for it.
 
+Other pipelines (deep-research workflows, quarry reads of a named source) may write into a slug folder under their own filenames. Every note in `research/` names its generator on the first line ("Generated via …") and carries its own provenance block, so a reader knows which evidence contract applies.
+
 ## Invocation shapes
 
 - `/research-gate <story-path>` — new run. Derive slug from story Meta title or path. Scaffold `query.yml` from story MDX.
-- `/research-gate <free-text topic>` — new run with no story. Derive slug from topic (kebab-case). Scaffold a minimal `query.yml` and ask the user to fill the gaps.
-- `/research-gate refresh <slug>` — re-run against the existing `query.yml`. Use when literature may have moved, or after editing the yml.
+- `/research-gate <free-text topic>` — new run with no story. Derive slug from topic (kebab-case).
+- `/research-gate refresh <slug>` — revisit an existing folder. Not a full re-run; see *Refresh modes* below.
+
+## Two retrieval branches
+
+Decide per question, up front, which branch answers it:
+
+- *API retrieval* (step 3) works when the literature is arxiv-era — roughly post-2010 HCI/ML, or anything OpenAlex indexes with abstracts.
+- *Named-canon reads* (step 4) work when the literature is venue-locked: pre-arxiv CSCW/HCI (the Suchman–Winograd workflow debate, Schmidt, Dourish, Star), PLoP/EuroPLoP, BPM/IS venues, print-era classics, design-system grey literature.
+
+Either way, the local library sweep (step 2) runs first — papers already on disk skip both branches.
+
+The branches are co-equal, and most runs mix them. Across the first ten weeks of runs, the named-canon branch produced most of the decisive evidence; treat API retrieval as the sweep and canon reads as the spine whenever the questions point at older or ACM-only work.
 
 ## Pipeline
 
@@ -43,71 +56,95 @@ questions:
 keywords: [<optional extra query terms>]
 ```
 
-When scaffolding from a story, pre-fill `topic`, `interaction`, and `context` from the MDX description and Meta title. Leave `questions` for the user — uncertainty is the most load-bearing field and should not be guessed. Present the draft yml and pause for the user to edit before continuing.
+When scaffolding from a story, pre-fill `topic`, `interaction`, and `context` from the MDX description and Meta title. `questions` is the field that steers everything downstream, so it needs the user's judgment. Three modes:
 
-### 2. Retrieve
+- *Questions settled in conversation before invocation* — the user framed or approved them in this session. Proceed; no pause.
+- *Cold scaffold, user present* — present the draft yml and pause for the user to edit `questions` before continuing.
+- *Autonomous run* (goal loop, nobody to ask) — proceed with drafted questions, and record in the note's provenance that the questions were not user-reviewed.
 
-Use *both* Semantic Scholar and arxiv. They fail independently and cover the space unevenly.
+Never attribute self-drafted questions to the user.
 
-*arxiv* (primary — reliable, no rate limit, broad HCI+ML preprint coverage):
+### 2. Sweep the local library
 
-```bash
-curl -sL "https://export.arxiv.org/api/query?search_query=<encoded>&max_results=25&sortBy=relevance"
-```
-
-Run 3–5 variant queries driven by `topic` + salient nouns from different `questions`. Dedupe by arxiv id. Filter to `cs.HC`, `cs.AI`, `cs.CY`, `cs.LG`, `cs.CL` categories. Atom XML; parse with Python's `xml.etree`.
-
-*Semantic Scholar Graph API* (secondary — catches purely-ACM work arxiv misses, and is the only lineage source):
+The user keeps ~1,200 papers locally, with paired reading notes, at the folder named by the `PAPERS_LIBRARY` env var (`pdfs/` and `notes/` inside it). Many filenames are opaque ids, so search content, not names. Spotlight indexes the folder, PDF text included:
 
 ```bash
-curl -sLG "https://api.semanticscholar.org/graph/v1/paper/search" \
-  --data-urlencode "query=<query>" \
-  --data-urlencode "limit=25" \
-  --data-urlencode "fields=title,abstract,year,venue,authors,tldr,externalIds,citationCount,referenceCount,paperId"
+mdfind -onlyin "$PAPERS_LIBRARY" "<topic term>"
+grep -ril "<topic term>" "$PAPERS_LIBRARY/notes"
 ```
 
-S2's unauthenticated shared bucket is heavily rate-limited and regularly returns 429 for extended periods (observed 2026-04-14). Behaviour:
+Run 2–4 salient terms from `topic` and `questions`. Anything found arrives as a *full-text read* without touching the access ladder; record "local library" as its access route in provenance. Later, when a named paper resists access (step 4's ladder), check here again by author or title before listing it as unreachable.
 
-- If the `S2_API_KEY` env var is set, include `-H "x-api-key: $S2_API_KEY"`. Pace at ~1 req/sec regardless.
-- On 429, do *not* retry-loop. Record the failure in the output note under *Retrieval provenance* and proceed arxiv-only. Skip the *Lineage* section (step 6) — it requires S2 — and suggest the user run `/research-gate refresh <slug>` later.
-- Never silently pretend S2 worked. The note must say which source produced which paper.
+If `PAPERS_LIBRARY` is unset or the folder is missing, skip the sweep, say so in provenance, and — in interactive runs — ask the user where the library lives now so the variable can be fixed.
 
-Venue filter (applied post-retrieval): keep HCI-adjacent (CHI, CSCW, UIST, DIS, TOCHI, IUI, C&C, TEI, NordiCHI, GROUP), or strong citation counts with obviously relevant titles, or arxiv preprints clearly intended for those venues. Drop results without substantive abstracts.
+### 3. API retrieval
 
-### 2b. Targeted canon reads (when retrieval structurally misses)
+Use the bundled script — pacing, backoff, and the retry budget live in it, so runs don't improvise them. Both subcommands emit JSON with a `status` field and per-query failures.
 
-Some literatures never reach arxiv: pre-2000s CSCW/HCI (the Suchman–Winograd workflow debate, Schmidt, Dourish, Star), BPM/IS venues, print-era classics. A `questions` entry that draws *zero usable candidates* is a retrieval-shape signal before it is a no-literature signal — ask which venue the answer would live in before concluding the gap is conceptual.
+```bash
+python3 .claude/skills/research-gate/scripts/retrieve.py arxiv "<q1>" "<q2>" ...
+python3 .claude/skills/research-gate/scripts/retrieve.py openalex-search "<q1>" "<q2>" ...
+```
 
-When a question points at venue-locked canon, switch method for that question:
+Run 3–6 variant queries per source, driven by `topic` + salient nouns from different `questions`. The script dedupes across queries and applies the arxiv category filter (`cs.HC,cs.AI,cs.CY,cs.LG,cs.CL` by default; widen with `--categories` when the questions live in SE/DB/PL territory, and record the widening as a deliberate deviation in the note). OpenAlex covers ACM-only work arxiv misses and returns abstracts for most of it. When keyword collisions drown a query (generic terms like "sequence" or "links" pulling in other fields), tighten at retrieval time instead of pruning by hand: `--hci` restricts to the HCI subfield, `--from-date` bounds recency, `--filter` passes any raw OpenAlex clause (e.g. `type:article`).
+
+Failure behaviour — both sources rate-limit, arxiv included (its "reliable, no rate limit" reputation was falsified 2026-08-28):
+
+- The script already does one paced retry per request. If a source's `status` comes back `down`, it is down for the session: record it under *Retrieval provenance* and pivot to the other source or to step 4. Do not hand-roll retry loops on top — one such loop cost eight minutes for zero papers.
+- If the query list is long, run the script in the background and do other work (scaffolding, canon naming) while it runs.
+
+Semantic Scholar is optional and key-gated: only query it when `S2_API_KEY` is set (`-H "x-api-key: $S2_API_KEY"`, ~1 req/sec). Unauthenticated S2 returned 429 in essentially every run from June to August 2026; do not attempt it without the key.
+
+Venue filter (applied post-retrieval, by judgment): keep HCI-adjacent (CHI, CSCW, UIST, DIS, TOCHI, IUI, C&C, TEI, NordiCHI, GROUP), or strong citation counts with obviously relevant titles, or arxiv preprints clearly intended for those venues. Drop results without substantive abstracts.
+
+### 4. Named-canon reads
+
+A `questions` entry that draws *zero usable candidates* is a retrieval-shape signal before it is a no-literature signal — ask which venue the answer would live in before concluding the gap is conceptual.
+
+Method:
 
 - *Name the papers first.* Canonical works are nameable from the debate's shape; don't keyword-fish for them.
 - *Ground each named paper via WebSearch* (publisher page, university repository, author site) — confirm venue, year, and abstract before citing. Do not cite from memory alone.
-- *Fetch open PDFs where they exist* (author sites are the usual source — e.g. dourish.com) and read them directly; a full read of one well-chosen paper that *contains* the others' accounts (a review, a response, a paper built on the earlier fieldwork) is the highest-leverage move.
-- *Record with distinct provenance*: direct reads are a different evidence class from API retrieval. Say which papers were full-text reads, which abstract-grounded, and which resisted access (a located-but-unextractable PDF gets cited without quotes, flagged as such).
-- *Same extraction discipline*: implications with quoted spans where full text was read; abstract-only flags where it wasn't.
+- *Fetch and read full texts where they exist.* A full read of one well-chosen paper that *contains* the others' accounts (a review, a response, a paper built on the earlier fieldwork) is the highest-leverage move.
+- *Sweep the whole primary source.* When the gate has a named primary source (a book, a corpus, chapters a plan cites), run a topic-term density map across the entire source (`grep -c` per file or chapter) before choosing what to read. Reading only the chapter the plan cites has missed the densest chapter before.
 
-Output shape: either fold the canon read into the day's note as an *Addendum* section with its own provenance block and continued cluster numbering, or — if it happens in a later session — a new dated note in the same slug folder. Both keep the retrieval run and the canon read distinguishable.
+Getting at the text — the access ladder, cheapest first:
 
-### 3. Rerank against structured context
+1. *Open copies*: author sites, university repositories, NSF PAR (`par.nsf.gov` — the standard workaround for ACM DL 403s), arxiv versions of published papers.
+2. *Unpaywall* to locate an open copy by DOI: `curl -s "https://api.unpaywall.org/v2/<doi>?email=$UNPAYWALL_EMAIL"` → `best_oa_location`.
+3. *PDFs*: never WebFetch a `.pdf` URL — it can't parse them. `curl` to the scratchpad and run `pdftotext`; if WebFetch already cached the bytes, Read the `tool-results/webfetch-*.pdf` file with page ranges. Check downloads with `file` first — "PDFs" are sometimes HTML in disguise, and some author-site scans are unextractable images.
+4. *Chrome* (claude-in-chrome tools, interactive runs only): when a page 403s or bot-checks the fetch path — dl.acm.org, ScienceDirect, Taylor & Francis, OpenReview — try it in the user's browser, which carries their cookies and passes the checks fetch fails. Read-only: navigate and `get_page_text`; never log in to anything on the run's behalf. Chrome is also the only route to Google Scholar — use it sparingly, for grounding a named paper or checking citation counts, not for bulk retrieval.
+5. *The user's library, again.* Step 2 swept it by topic; now search it by the specific author or title (`mdfind -onlyin "$PAPERS_LIBRARY" "<author or title>"`) — twice a paywalled PDF a run gave up on was sitting in that folder. Only after that, list the paper as located-but-unextractable and, before closing the run, ask whether the user holds a copy elsewhere. In autonomous runs, put the list in the report instead.
 
-Take the ~25 candidates, read abstracts + TLDRs, and rerank against the `query.yml` — specifically the `questions` field, which should drive relevance more than `topic`. A paper that directly engages one of the questions outranks a paper that merely shares vocabulary.
+Evidence classes — every cited source carries exactly one:
 
-Keep the top 8. Note for each: why it was kept, which question(s) it speaks to.
+- *full-text read* — fetched and read; implications may quote body text.
+- *partial read* — state the page range and what the unread part contains ("the awareness-elements tables sit in the unread back half, so the element list stops at what the read pages state").
+- *abstract-grounded* — venue, year, and abstract confirmed via publisher/author page or API; implications quote only the abstract.
+- *located-but-unextractable* — found but not readable; cited without quotes, flagged as such.
 
-### 4. Extract implications (per paper)
+Output shape: fold canon reads into the day's note as their own section (or an *Addendum* with its own provenance block and continued cluster numbering, when they happen after the main pass). A canon read in a later session gets a new dated note in the same folder. Either way the retrieval run and the canon read stay distinguishable.
 
-For each of the 8, extract 1–4 design implications. For each implication record:
+### 5. Rerank against structured context
+
+Take the candidates, read abstracts, and rerank against the `query.yml` — specifically the `questions` field, which should drive relevance more than `topic`. A paper that directly engages one of the questions outranks a paper that merely shares vocabulary.
+
+Keep the top ~8. Note for each: why it was kept, which question(s) it speaks to.
+
+### 6. Extract implications (per paper)
+
+For each kept paper, extract 1–4 design implications. For each implication record:
 
 - *text*: the implication itself, one sentence
-- *source*: a quoted span from the abstract/TLDR that grounds it (not paraphrased)
+- *source*: a quoted span that grounds it (not paraphrased) — from the body for full-text reads, from the abstract otherwise
 - *rationale*: why the paper's authors argue this
-- *transfer note*: how the source context maps (or doesn't) to the `query.yml` context — the ReFinE compare-and-contrast move. This is where analogical reasoning happens. Be honest when transfer is weak.
+- *transfer note*: how the source context maps (or doesn't) to the `query.yml` context — the ReFinE compare-and-contrast move. Be honest when transfer is weak.
 
-If the abstract is too thin to extract grounded implications, say so — do not hallucinate. Flag the paper as "abstract-only, full text needed" and move on.
+If the available text is too thin to extract grounded implications, say so — do not hallucinate. Flag the paper's evidence class and move on. Full-text reads are routine, not exceptional, and they are where the strongest corrections have come from; upgrade a paper from abstract-grounded to full-text whenever it turns out to anchor a cluster.
 
-### 5. Cluster across papers
+### 7. Cluster across papers
 
-Group implications by convergence. When three abstracts converge on the same design move, that convergence is the real editorial signal — stronger than any single paper. Each cluster gets:
+Group implications by convergence. When three sources converge on the same design move, that convergence is the real editorial signal — stronger than any single paper. Each cluster gets:
 
 - A one-line *convergent claim*
 - The source papers
@@ -115,29 +152,24 @@ Group implications by convergence. When three abstracts converge on the same des
 
 Single-paper "clusters" are fine; don't force merging.
 
-### 6. 1-hop lineage (S2-only)
-
-Requires Semantic Scholar. If step 2 fell back to arxiv-only, *skip this step* — write a placeholder in the output note explaining that lineage awaits a refresh with S2 access.
-
-For each of the 8 retrieved papers, fetch references + citations (paceable — one call per paper, ~1/sec):
+### 8. 1-hop lineage (OpenAlex)
 
 ```bash
-curl -sL "https://api.semanticscholar.org/graph/v1/paper/arXiv:<arxivId>?fields=references.title,references.year,references.paperId,references.citationCount,citations.title,citations.year,citations.paperId,citations.citationCount"
+python3 .claude/skills/research-gate/scripts/retrieve.py openalex-lineage <id> <id> ...
 ```
 
-(S2 accepts `arXiv:<id>` prefix when arxiv is the identifier in hand, avoiding a separate lookup round-trip.)
+IDs may be OpenAlex W-ids, DOIs, or arxiv ids — the script resolves them. Feed it the kept papers (needs ≥2). It returns:
 
-Build a small lineage view:
+- *Convergent ancestors*: works referenced by ≥2 of the kept papers. Candidates for canon — read them.
+- *Influential descendants*: highly-cited works citing ≥2 of the kept papers (approximate — computed from each paper's top citing works). Where did this line of work go?
 
-- *Convergent ancestors*: papers that appear as references for ≥2 of the retrieved 8. These are candidates for canon — read them.
-- *Influential descendants*: highly-cited papers that cite ≥2 of the retrieved 8. Where did this line of work go?
-- Render as a Mermaid graph in the output note.
+Render as a Mermaid graph when it is small enough to read; past a dozen nodes, the two lists carry the section on their own.
 
-Keep to 1 hop. More gets noisy fast; revisit only if results warrant.
+If OpenAlex is down too, don't leave a bare placeholder — write the *named expected ancestors*: the works a refresh should confirm, named from the papers' own bibliographies and the debate's shape. Lineage assembled by inspection from full-text bibliographies also counts, marked as such. And sometimes the lineage finding is negative — two literatures that never cite each other is itself a result.
 
-### 7. Write the output note
+### 9. Write the output note
 
-Path: `research/<slug>/<YYYY-MM-DD>.md`.
+Path: `research/<slug>/<YYYY-MM-DD>.md`. One pass, one dated file — a second pass on a later date is a new file, never appended to the old one.
 
 Structure:
 
@@ -146,23 +178,28 @@ Structure:
 
 Query: <one-line description>. Generated via `/research-gate`.
 
-> *Retrieval provenance*. Which sources were hit and which worked. E.g. "arxiv primary, 72 unique candidates across 5 queries; Semantic Scholar rate-limited throughout, lineage omitted." Be explicit — future rereads depend on knowing whether the gap is conceptual or infrastructural.
+> *Retrieval provenance*. Which sources were hit and which worked; which papers
+> were full-text reads, partial (page range), abstract-grounded, or resisted
+> access; any deliberate deviations from skill defaults (widened categories,
+> inverted branch order), named as such; whether the questions were
+> user-reviewed. Be explicit — future rereads depend on knowing whether a gap
+> is conceptual or infrastructural.
 
 ## Context
 <reproduce the query.yml context + questions, so the note is self-contained>
 
+## Canon reads
+<when step 4 carried the run, this section leads; same per-paper shape as below>
+
 ## Retrieved papers
-- *<title>* (<venue> <year>) — <tldr>. [<doi/arxiv/s2 link>]
+- *<title>* (<venue> <year>) — <one line>. [<doi/arxiv/openalex link>] — <evidence class>
   - Speaks to: <which question(s)>
   - Transfer: <strong|partial|weak> — <note>
-<... ×8>
 
 ## Convergent findings
 ### <cluster claim>
-<short synthesis>
+<short synthesis, quoted spans inline>
 Papers: <titles>
-
-<... per cluster>
 
 ## Lineage
 ### Convergent ancestors (cited by ≥2)
@@ -170,36 +207,86 @@ Papers: <titles>
 ### Influential descendants (citing ≥2, high citation count)
 - <title> (<year>) — cites <which>
 
-```mermaid
-graph LR
-  <retrieved paper nodes> --> <ancestor nodes>
-  <retrieved paper nodes> --> <descendant nodes>
-\```
-
 ## What this challenges
-<claims in the source story or in existing docs that the literature contradicts, stated plainly. Omit the section if there are none — do not pad it.>
+<claims in the source story, plan, or existing docs that the literature
+contradicts — quote the exact clause being corrected. Omit the section only
+when there is genuinely nothing; do not pad it.>
+
+## Do not carry forward
+<claims, figures, or sources the run examined and killed — an uncited
+statistic, a misattributed taxonomy, a "finding" that dissolved on tracing.
+Recorded so later runs don't re-derive them. Omit when empty.>
 ```
 
-(Replace the `\``` above with real triple backticks when writing the file.)
+Section-name discipline: *What this challenges* is always that heading — surrogates ("what I would be wrong about", refutation registries under other names) made the highest-value section unfindable across the corpus. Transfer ratings are always the `Transfer:` bullet, not a table column or prose.
 
-### 8. Report
+Companion notes in the same folder, each with its own generator line and provenance block:
 
-Summarise to the user in the chat: slug, paper count, cluster count, strongest convergent claim, and anything under *What this challenges*. Do not modify `references/` or any docs outside `research/<slug>/`.
+- `<date>-practice.md` — the practice survey (a general web-research pass, often delegated; see Delegation).
+- `<date>-canon.md` — a verbatim-quote canon grounding pass, when it is big enough to deserve its own file.
+- `<date>-<source>.md` — a close read of one named source (a book, a quarry, a bibliography).
+
+After the note lands, append a status block to `query.yml` recording which questions the run answered and which stay open:
+
+```yaml
+# --- Status after the <date> run
+# answered: <question numbers / short tags>
+# open: <what remains, and what would answer it>
+```
+
+### 10. Report
+
+Summarise to the user in the chat: slug, paper count, cluster count, strongest convergent claim, anything under *What this challenges* — and the list of located-but-unextractable papers, with the question of whether the user holds copies. Suggest `refresh` only if lineage was actually omitted.
+
+## Refresh modes
+
+`refresh <slug>` is not a full re-run. Start by reading the folder's latest note and the `query.yml` status block, then pick the mode — or let the user name it:
+
+- *Has the literature moved?* The diff, and the cheapest mode: run `openalex-lineage --citing-since <note date>` on the note's kept papers, and `openalex-search --from-date <note date>` on the original queries. If nothing material surfaced, the whole result is one line appended to the query.yml status block; a new dated note only when something changes a finding.
+- *Questions changed.* The situation shifted or a decision sharpened: edit `questions` in query.yml, then run the pipeline for the new or rewritten questions only. New dated note; earlier answers stand unless contradicted.
+- *Missing thread.* A literature, debate, or author line the original run never saw — usually spotted while writing or from later reading. Run a targeted pass for that thread (often the step-4 branch); new dated note naming what was missed and why the original retrieval shape missed it.
+- *Lineage backfill.* An older note whose lineage was omitted: run step 8 on its kept papers and write `<date>-lineage.md`, adding a one-line pointer under the old note's placeholder.
+
+All modes share the rules: never rewrite an old note beyond a pointer line, every pass is a new dated file, and the query.yml status block records what the refresh answered or reopened.
+
+## Delegation
+
+The gate parallelises well; the pattern that has kept wall-clock near ten minutes even with APIs down:
+
+- *Practice survey as a subagent*, run alongside the literature pass. Hand it the most recent `-practice.md` in `research/` as the exemplar for shape and provenance discipline.
+- *Canon reads or a named-source quarry as a second subagent* when the main thread is synthesising.
+- *Retrieval script in the background* while the main thread names canon.
+
+The main thread keeps synthesis, clustering, and the note itself — the judgment work stays in one place.
 
 ## Behaviour rules
 
-- *Write only to the run folder*. `references/` and everything in `docs/` are off-limits. The citation that connects a run to a decision is written by hand, in the doc that records the decision.
-- *Do not invent sources*. If retrieval returns nothing useful, say so. Offer to broaden the query.
-- *A zero-result question is a method signal*. Before recording a gap as conceptual, check whether the literature is venue-locked (pre-arxiv CSCW, BPM/IS, print-era HCI) and run a step-2b canon read for that question instead of concluding from absence.
-- *Transfer honesty*. When a paper's context doesn't map to the project's, mark transfer weak. Weak-transfer papers with strong lineage can still be useful — as ancestors or as framing — but they should not be dressed up as directly applicable.
-- *Abstract-only by default*. Retrieval produces abstracts + TLDRs, not full text. Implications grounded only in abstract text are provisional. Flag them; do not hallucinate what the paper "must" say beyond the abstract.
-- *Retrieval-provenance honesty*. Always record which sources were hit and which produced results. A run that used only arxiv is useful but partial; the note must say so, and the user must be able to decide whether to `refresh` for lineage later.
-- *No theory imposition*. The `query.yml` schema is deliberately neutral. Do not push the user toward Alexander/AT/DIRA vocabulary in the yml; the project's theoretical foundations are still settling (per user, 2026-04).
-- *Expect the story to be partly wrong*. Good retrieval will occasionally contradict claims already in the story. Surface contradictions plainly under *What this challenges*; do not soft-pedal them. A run whose strongest finding is a correction to the source story has done its job.
-- *Commit the output*. `research/` is committed. Failed runs are data — keep them.
+- *Write only to the run folder.* `references/` and everything in `docs/` are off-limits. The citation that connects a run to a decision is written by hand, in the doc that records the decision. One bounded exception: when the gate runs inside plan work the user asked for, folding findings back into that plan is part of the job — but the note is finished first, and the plan edit is narrated as plan work, not as part of the gate.
+- *No hand-rolled retry loops, for any source.* The script's one-retry budget is the policy. A source that fails twice is down for the session; record it and pivot.
+- *Do not invent sources.* If retrieval returns nothing useful, say so. Offer to broaden the query.
+- *A zero-result question is a method signal.* Before recording a gap as conceptual, check whether the literature is venue-locked and run the step-4 branch for that question instead of concluding from absence.
+- *Transfer honesty.* When a paper's context doesn't map to the project's, mark transfer weak. Weak-transfer papers with strong lineage can still be useful — as ancestors or as framing — but they should not be dressed up as directly applicable.
+- *Evidence-class honesty.* Every source carries its class; implications quote only what was actually read. Do not hallucinate what a paper "must" say beyond the text in hand.
+- *Retrieval-provenance honesty.* Always record which sources were hit, which produced results, and every deliberate deviation from skill defaults. A partial run is useful; an unlabelled partial run misleads the rereader.
+- *No theory imposition.* The `query.yml` schema is deliberately neutral. Do not push the user toward Alexander/AT/DIRA vocabulary in the yml; the project's theoretical foundations are still settling (per user, 2026-04).
+- *Expect the story to be partly wrong.* Good retrieval will occasionally contradict claims already in the story or plan. Surface contradictions plainly under *What this challenges*, quoting the clause being corrected; do not soft-pedal them. A run whose strongest finding is a correction to the source has done its job.
+- *Commit the output.* `research/` is committed. Failed runs are data — keep them.
+
+## Setup (optional, once)
+
+Machine-specific values live in `.claude/settings.local.json` under `env` (git-ignored; every session's Bash calls see them):
+
+- `PAPERS_LIBRARY` — absolute path to the local paper library (a folder with `pdfs/` and `notes/` inside). Set on this machine; update it here if the library moves.
+
+The rest are optional — OpenAlex works unauthenticated — but each removes friction:
+
+- `OPENALEX_MAILTO` — any contact address; joins OpenAlex's polite pool (faster, more reliable).
+- `UNPAYWALL_EMAIL` — required by the Unpaywall API; any address works.
+- `S2_API_KEY` — free on request from Semantic Scholar; re-enables S2 as a supplementary source.
 
 ## What this skill is not
 
 - Not a canon editor — never writes to `references/` or to any doc outside the run folder.
-- Not a practice survey — it reads papers, not products. Pair it with a general web-research skill when the decision needs both; keep the two notes separate in the folder.
+- Not a practice survey — it reads papers, not products. The `-practice.md` sibling comes from a general web-research pass; keep the two notes separate in the folder.
+- Not the deep-research workflow — heavier adversarially-verified runs may share a slug folder, under their own generator line and evidence contract.
 - Not a classifier — once a finding is in hand, use `pattern-classifier` to decide how it integrates.
