@@ -84,7 +84,10 @@ Use the bundled script — pacing, backoff, and the retry budget live in it, so 
 ```bash
 python3 .claude/skills/research-gate/scripts/retrieve.py arxiv "<q1>" "<q2>" ...
 python3 .claude/skills/research-gate/scripts/retrieve.py openalex-search "<q1>" "<q2>" ...
+python3 .claude/skills/research-gate/scripts/retrieve.py openalex-resolve "<title>" ...
 ```
+
+`openalex-resolve` turns named papers into ids, with each candidate's reference count, and is the bridge from step 4 to step 8 — canon papers are named rather than retrieved, so they arrive without identifiers, and lineage needs identifiers.
 
 Run 3–6 variant queries per source, driven by `topic` + salient nouns from different `questions`. The script dedupes across queries and applies the arxiv category filter (`cs.HC,cs.AI,cs.CY,cs.LG,cs.CL` by default; widen with `--categories` when the questions live in SE/DB/PL territory, and record the widening as a deliberate deviation in the note). OpenAlex covers ACM-only work arxiv misses and returns abstracts for most of it. When keyword collisions drown a query (generic terms like "sequence" or "links" pulling in other fields), tighten at retrieval time instead of pruning by hand: `--hci` restricts to the HCI subfield, `--from-date` bounds recency, `--filter` passes any raw OpenAlex clause (e.g. `type:article`).
 
@@ -92,6 +95,8 @@ Failure behaviour — both sources rate-limit, arxiv included (its "reliable, no
 
 - The script already does one paced retry per request. If a source's `status` comes back `down`, it is down for the session: record it under *Retrieval provenance* and pivot to the other source or to step 4. Do not hand-roll retry loops on top — one such loop cost eight minutes for zero papers.
 - If the query list is long, run the script in the background and do other work (scaffolding, canon naming) while it runs.
+
+*OpenAlex meters requests against a daily budget* — every account gets $1 of free usage per day, and a long multi-slug sweep will spend it. When it runs out, filtered list queries (`openalex-search`, `openalex-resolve`, and the citing-works half of `openalex-lineage`) return HTTP 429 with `Insufficient budget … Resets at midnight UTC`, while single-work lookups by W-id or DOI keep working. That asymmetry is the diagnosis: if ancestors come back but every descendant query 429s, the budget is spent rather than the rate limit hit. Set `OPENALEX_API_KEY` to bill past the free tier; without it, nothing recovers within the day — record the partial result and say which half is missing.
 
 Semantic Scholar is optional and key-gated: only query it when `S2_API_KEY` is set (`-H "x-api-key: $S2_API_KEY"`, ~1 req/sec). Unauthenticated S2 returned 429 in essentially every run from June to August 2026; do not attempt it without the key.
 
@@ -105,6 +110,7 @@ Method:
 
 - *Name the papers first.* Canonical works are nameable from the debate's shape; don't keyword-fish for them.
 - *Ground each named paper via WebSearch* (publisher page, university repository, author site) — confirm venue, year, and abstract before citing. Do not cite from memory alone.
+- *Record an identifier for every named paper.* Run `openalex-resolve` on the title and put the W-id (or DOI) in the note beside the source. Canon reads carry most runs, and a canon read with no identifier is invisible to step 8 — a whole backfill pass in August 2026 stalled on notes whose sources were names and URLs only. A paper with no OpenAlex record is worth saying so explicitly, so a later run does not go looking again.
 - *Fetch and read full texts where they exist.* A full read of one well-chosen paper that *contains* the others' accounts (a review, a response, a paper built on the earlier fieldwork) is the highest-leverage move.
 - *Sweep the whole primary source.* When the gate has a named primary source (a book, a corpus, chapters a plan cites), run a topic-term density map across the entire source (`grep -c` per file or chapter) before choosing what to read. Reading only the chapter the plan cites has missed the densest chapter before.
 
@@ -158,10 +164,20 @@ Single-paper "clusters" are fine; don't force merging.
 python3 .claude/skills/research-gate/scripts/retrieve.py openalex-lineage <id> <id> ...
 ```
 
-IDs may be OpenAlex W-ids, DOIs, or arxiv ids — the script resolves them. Feed it the kept papers (needs ≥2). It returns:
+IDs may be OpenAlex W-ids, DOIs, or arxiv ids — the script resolves them. Feed it the kept papers (needs ≥2). *A bare arxiv id resolves to a preprint record, and OpenAlex preprint records carry no reference list*, so the script looks for the venue version by title and uses that instead when the titles match. When a paper has no venue version — most 2024–26 arxiv work — it contributes nothing to the convergence test. A run whose corpus is recent arxiv-only work cannot be given lineage this way; name the pre-arxiv ancestors and resolve those by title instead. It returns:
 
 - *Convergent ancestors*: works referenced by ≥2 of the kept papers. Candidates for canon — read them.
 - *Influential descendants*: highly-cited works citing ≥2 of the kept papers (approximate — computed from each paper's top citing works). Where did this line of work go?
+
+The ancestor and descendant lists are capped at twenty-five each, ranked by how many kept papers share them. That is fine for reading the shape of a literature and wrong for arguing from absence: a claim that two literatures share *no* ancestor has to be checked against the full reference sets, not the ranked list, because a single cross-cutting source would sit at the bottom of it. Fetching `referenced_works` for each paper and intersecting by hand is a handful of single-work lookups.
+
+Two things distort the convergence count, and the script handles the first but not the second.
+OpenAlex keeps several records for one paper — an arxiv preprint beside its venue version, a book
+split across chapters — and the script collapses those, so a lineage note should not have to. It
+cannot tell an intellectual ancestor from a methods citation: papers by the same group share a
+statistics and tooling apparatus (SciPy, the System Usability Scale, bootstrap methods), and those
+turn up as convergent ancestors of everything that group wrote. Discount them by hand and say in the
+note that they were discounted.
 
 Render as a Mermaid graph when it is small enough to read; past a dozen nodes, the two lists carry the section on their own.
 
@@ -189,10 +205,11 @@ Query: <one-line description>. Generated via `/research-gate`.
 <reproduce the query.yml context + questions, so the note is self-contained>
 
 ## Canon reads
-<when step 4 carried the run, this section leads; same per-paper shape as below>
+<when step 4 carried the run, this section leads; same per-paper shape as below,
+identifier included — a named paper with no identifier cannot be used later>
 
 ## Retrieved papers
-- *<title>* (<venue> <year>) — <one line>. [<doi/arxiv/openalex link>] — <evidence class>
+- *<title>* (<venue> <year>) — <one line>. [<doi/arxiv/openalex W-id>] — <evidence class>
   - Speaks to: <which question(s)>
   - Transfer: <strong|partial|weak> — <note>
 
@@ -224,6 +241,7 @@ Companion notes in the same folder, each with its own generator line and provena
 
 - `<date>-practice.md` — the practice survey (a general web-research pass, often delegated; see Delegation).
 - `<date>-canon.md` — a verbatim-quote canon grounding pass, when it is big enough to deserve its own file.
+- `<date>-lineage.md` — a lineage backfill or a later lineage pass (see *Refresh modes*).
 - `<date>-<source>.md` — a close read of one named source (a book, a quarry, a bibliography).
 
 After the note lands, append a status block to `query.yml` recording which questions the run answered and which stay open:
@@ -233,6 +251,14 @@ After the note lands, append a status block to `query.yml` recording which quest
 # answered: <question numbers / short tags>
 # open: <what remains, and what would answer it>
 ```
+
+### 9b. Cross-slug recurrence (multi-slug passes only)
+
+When a pass covers several slugs at once, count how many slugs each work appears in — as input,
+ancestor, or descendant — before writing the report. A work that recurs across three or more slugs
+from different territories is the strongest canon-promotion signal this skill produces, and it is
+invisible from inside any single note. Name the role it recurs in: an ancestor of three runs is a
+shared source, while an input to three runs only means the corpus keeps citing the same paper.
 
 ### 10. Report
 
@@ -245,7 +271,7 @@ Summarise to the user in the chat: slug, paper count, cluster count, strongest c
 - *Has the literature moved?* The diff, and the cheapest mode: run `openalex-lineage --citing-since <note date>` on the note's kept papers, and `openalex-search --from-date <note date>` on the original queries. If nothing material surfaced, the whole result is one line appended to the query.yml status block; a new dated note only when something changes a finding.
 - *Questions changed.* The situation shifted or a decision sharpened: edit `questions` in query.yml, then run the pipeline for the new or rewritten questions only. New dated note; earlier answers stand unless contradicted.
 - *Missing thread.* A literature, debate, or author line the original run never saw — usually spotted while writing or from later reading. Run a targeted pass for that thread (often the step-4 branch); new dated note naming what was missed and why the original retrieval shape missed it.
-- *Lineage backfill.* An older note whose lineage was omitted: run step 8 on its kept papers and write `<date>-lineage.md`, adding a one-line pointer under the old note's placeholder.
+- *Lineage backfill.* An older note whose lineage was omitted: run step 8 on its kept papers and write `<date>-lineage.md`, adding a one-line pointer under the old note's placeholder. Two things belong in that file that a first-pass lineage section does not need: which of the kept papers were actually testable — a paper OpenAlex holds only as a preprint contributes nothing, and a run built on recent arxiv work may have almost none — and, where the old note named its expected ancestors, whether the graph confirms them. A named expectation that fails to appear is a result worth stating.
 
 All modes share the rules: never rewrite an old note beyond a pointer line, every pass is a new dated file, and the query.yml status block records what the refresh answered or reopened.
 
@@ -263,6 +289,7 @@ The main thread keeps synthesis, clustering, and the note itself — the judgmen
 
 - *Write only to the run folder.* `references/` and everything in `docs/` are off-limits. The citation that connects a run to a decision is written by hand, in the doc that records the decision. One bounded exception: when the gate runs inside plan work the user asked for, folding findings back into that plan is part of the job — but the note is finished first, and the plan edit is narrated as plan work, not as part of the gate.
 - *No hand-rolled retry loops, for any source.* The script's one-retry budget is the policy. A source that fails twice is down for the session; record it and pivot.
+- *One retrieval process at a time.* Two concurrent runs of the script interleave their writes into the same output file — the result parses but splices two runs together — and they spend the OpenAlex budget twice as fast. When backgrounding a sweep, check nothing else is already running.
 - *Do not invent sources.* If retrieval returns nothing useful, say so. Offer to broaden the query.
 - *A zero-result question is a method signal.* Before recording a gap as conceptual, check whether the literature is venue-locked and run the step-4 branch for that question instead of concluding from absence.
 - *Transfer honesty.* When a paper's context doesn't map to the project's, mark transfer weak. Weak-transfer papers with strong lineage can still be useful — as ancestors or as framing — but they should not be dressed up as directly applicable.
@@ -280,7 +307,9 @@ Machine-specific values live in `.claude/settings.local.json` under `env` (git-i
 
 The rest are optional — OpenAlex works unauthenticated — but each removes friction:
 
-- `OPENALEX_MAILTO` — any contact address; joins OpenAlex's polite pool (faster, more reliable).
+- `OPENALEX_API_KEY` — bills past the $1/day free budget. Set on this machine. Without it a long sweep stops mid-run at midnight-UTC-reset.
+- `OPENALEX_MAILTO` — any contact address; joins OpenAlex's polite pool (faster, more reliable). Set on this machine. It does not raise the daily budget.
+- `OPENALEX_PACE` — seconds between OpenAlex calls; defaults to 0.5.
 - `UNPAYWALL_EMAIL` — required by the Unpaywall API; any address works.
 - `S2_API_KEY` — free on request from Semantic Scholar; re-enables S2 as a supplementary source.
 
