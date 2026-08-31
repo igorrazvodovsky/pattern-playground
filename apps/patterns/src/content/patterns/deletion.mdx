@@ -1,7 +1,7 @@
 ---
 title: Deletion
 added: 2025-09-11
-updated:
+updated: 2026-08-31
 role: pattern
 group: application
 activityLevel: action
@@ -51,6 +51,16 @@ The controlled removal of data from a system, balancing user confidence with pro
 - Execution: The actual deletion operation
 - Feedback: Communication of result
 - Recovery: Mechanism for reversal when available
+
+## Discarding without removing
+
+The ladder below assumes the act is removal and asks how much ceremony it deserves. Often the actor wants something short of that — the thing out of the way, out of circulation, or harder to find, without it being gone.
+
+- *Demote* — moved somewhere less prominent, still reachable
+- *Withdraw* — taken out of circulation, retained for its owner
+- *Obscure* — still present, deliberately harder to find
+- *Expire* — removed on a schedule set in advance, not by an act
+- *Lock* — marked so no discarding action can reach it
 
 ## Confirmation
 
@@ -131,3 +141,12 @@ flowchart TD
 ## Related components
 
 - <ComponentRef id="components-action-bar--docs">Action bar</ComponentRef> – Common surface for bulk deletion
+
+## Resources & references
+
+- Vitale, Odom & McGrenere (2019) [Keeping and Discarding Personal Data: Exploring a Design Space](https://doi.org/10.1145/3322276.3322300), DIS '19 — the design space behind the discarding vocabulary above
+- Ankenbauer & Brewer (2025) [Time's Sublimest Target: Practices of Forgetting in HCI and CSCW](https://doi.org/10.1145/3701211) — six practices of forgetting
+
+## To-do
+
+- Where the discarding acts above belong is unsettled: additions here, or moves of their own. *Expire* in particular is a retention decision made once for a system rather than an act taken on an item.
