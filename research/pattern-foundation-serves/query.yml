@@ -32,3 +32,9 @@ questions:
     patterns) exist, and how do they type links into it? Known failure modes
     of layer-specific relation types?
 keywords: [design pattern relationships, pattern language ontology, part-whole relations, functional parthood, participation relation, PLML, pattern composition roles]
+
+# --- Status after the 2026-08-29 lineage backfill
+# answered: lineage (OpenAlex) — one shared ancestor, and it is a venue rather
+#   than a source; the patterns and mereology literatures share nothing
+# open: nothing lineage can add here; the join is the run's own
+

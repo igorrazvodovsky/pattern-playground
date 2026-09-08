@@ -32,3 +32,9 @@ questions:
     lenses (topology vs. behavioural intent), does prior art keep them separate
     or merge them into one discriminating structure?
 keywords: [pattern selection, generative sequence, design system decision tree, component chooser, pattern recommendation]
+
+# --- Status after the 2026-08-29 lineage backfill
+# answered: the design-rationale line (QOC) and the pattern-language line meet
+#   only in Dearden & Finlay's critique, not earlier
+# open: three of the five named ancestors have no indexed bibliography
+

@@ -18,3 +18,10 @@ questions:
   - Is there precedent for fixture/mock data modeled as event logs rather
     than entity snapshots?
 keywords: [event sourcing, EAV, triple store, concept design, conceptual model, action log, provenance, replay]
+
+# --- Status after the 2026-08-29 lineage backfill
+# answered: lineage (OpenAlex) — no shared ancestors across 142 references;
+#   the three literatures have not been joined before
+# open: lineage is the wrong instrument here; a targeted pass into the
+#   event-sourcing literature would do more
+

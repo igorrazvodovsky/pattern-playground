@@ -46,3 +46,10 @@ keywords:
     bidirectional lenses,
     direct manipulation of projections,
   ]
+
+# --- Status after the 2026-08-29 lineage backfill
+# answered: coordinated views descend from brushing, not master-detail, which
+#   supports routing them away from the overview-detail node
+# open: two descendants to read before the coordinated-views entry is written
+#   (composite-visualization patterns; multiple-view consistency constraints)
+

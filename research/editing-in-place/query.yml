@@ -24,3 +24,9 @@ questions:
 keywords: [direct manipulation, inline editing, in-place editing, editable
   representation, output as input, WYSIWYG, hover affordance, accidental
   activation]
+
+# --- Status after the 2026-08-29 lineage backfill
+# answered: lineage (OpenAlex) — 9 ancestors, 1 descendant
+# open: whether the generative-handles line (TaleBrush, PromptPaint) is a
+#   separate move from direct manipulation or an extension of it
+
