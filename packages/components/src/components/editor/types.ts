@@ -83,6 +83,9 @@ export interface SlotRegistry {
     options?: SlotRegistrationOptions
   ): void;
   getComponents(slotId: SlotId): SlotComponent[];
+  // Unfiltered count, for callers that need to know a slot is populated
+  // without evaluating each registration's condition.
+  getSlotComponentCount(slotId: SlotId): number;
   update(slotId: SlotId, pluginId: string, component: SlotComponent): void;
 }
 
