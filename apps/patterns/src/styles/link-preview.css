@@ -25,6 +25,19 @@
       overlay 0.15s ease-out allow-discrete;
   }
 
+  /* The shared `[popover]:popover-open` rule lifts every popover by its own
+     height (`translate: 0 calc(-100% - var(--space-xs))`), which suits a
+     tooltip sitting on its trigger but not a box Floating UI has already
+     placed. The lift also applies only while `:popover-open` matches, so
+     leaving it in place drops the box a full height the moment it closes and
+     fades it out down there — read as the preview reopening on mouse-leave.
+     The selector stays deliberately over-specific and alone in its rule: a
+     `translate: none` sitting beside a `transform` gets folded into it at
+     build time, which would silently hand the lift back. */
+  .link-preview[popover]:popover-open {
+    translate: none;
+  }
+
   .link-preview:popover-open {
     opacity: 1;
     transform: translateY(0);

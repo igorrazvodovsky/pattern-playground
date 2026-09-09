@@ -109,17 +109,6 @@ async function position(anchor: HTMLAnchorElement) {
   });
   preview.style.left = `${x}px`;
   preview.style.top = `${y}px`;
-
-  // Chrome can render top-layer popovers inside a scrolled .pane-body with a
-  // shifted containing block, so style.top is interpreted with an offset from
-  // the viewport. Measure and correct.
-  const rect = preview.getBoundingClientRect();
-  const dy = rect.top - y;
-  const dx = rect.left - x;
-  if (Math.abs(dy) > 1 || Math.abs(dx) > 1) {
-    preview.style.top = `${y - dy}px`;
-    preview.style.left = `${x - dx}px`;
-  }
 }
 
 function watchScroll(anchor: HTMLAnchorElement) {
@@ -140,6 +129,9 @@ async function show(anchor: HTMLAnchorElement, gen: number) {
   if (!content) return;
 
   pendingAnchor = null;
+  // Swapping straight from one anchor to another: the old one is no longer
+  // described by the popover.
+  if (currentAnchor && currentAnchor !== anchor) currentAnchor.removeAttribute('aria-describedby');
   currentAnchor = anchor;
   const preview = getPreviewEl();
   preview.innerHTML = content;
@@ -147,6 +139,9 @@ async function show(anchor: HTMLAnchorElement, gen: number) {
   preview.style.visibility = 'hidden';
   preview.showPopover();
   await position(anchor);
+  // A hide (or a newer show) can land inside that await. Restoring visibility
+  // regardless would put the dying popover back on screen for its fade-out.
+  if (gen !== showGeneration) return;
   preview.style.visibility = '';
   anchor.setAttribute('aria-describedby', 'lp-popover');
   watchScroll(anchor);
@@ -171,21 +166,32 @@ function cancelHide() {
   clearTimeout(hideTimer);
 }
 
+function cancelPendingShow() {
+  clearTimeout(showTimer);
+  ++showGeneration;
+  pendingAnchor = null;
+}
+
 function scheduleHide() {
   clearTimeout(hideTimer);
-  if (pendingAnchor && !currentAnchor) {
-    clearTimeout(showTimer);
-    ++showGeneration;
-    pendingAnchor = null;
-    return;
+  // Leaving abandons a queued show whether or not a preview is already up.
+  // Otherwise the show timer keeps running and can beat the hide timer by a
+  // few milliseconds, re-rendering the preview only for the hide to tear it
+  // straight down again.
+  if (pendingAnchor) {
+    cancelPendingShow();
+    if (!currentAnchor) return;
   }
   hideTimer = window.setTimeout(hide, HIDE_DELAY);
 }
 
 function scheduleShow(anchor: HTMLAnchorElement) {
-  if (currentAnchor === anchor || pendingAnchor === anchor) { cancelHide(); return; }
-  clearTimeout(showTimer);
   cancelHide();
+  // Two anchors on a page can share a slug, so the open preview does not mean
+  // a queued one for a different element is stale-free — drop it.
+  if (pendingAnchor && pendingAnchor !== anchor) cancelPendingShow();
+  if (currentAnchor === anchor || pendingAnchor === anchor) return;
+  clearTimeout(showTimer);
   const slug = resolveSlug(anchor);
   if (slug) prefetch(slug);
   pendingAnchor = anchor;
