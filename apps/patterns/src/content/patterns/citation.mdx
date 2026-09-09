@@ -54,53 +54,79 @@ relationships:
     - to: agency
       note: gives the actor a place to check each claim, so trust can be selective rather than all-or-nothing
 ---
-An answer, a summary, or a draft arrives and the actor is going to use it — send it, file it, act on it. They did not write it, and they cannot see where it came from. Checking it properly means re-researching it, which costs about as much as the output is long, so the realistic choices are to accept it unchecked or not to use it. Fluent wrong output is accepted exactly as readily as fluent right output, because the surface gives nothing to tell them apart.
 
-Citation attaches a pointer to each claim — a marker, a chip, a footnote — that resolves to the material the claim rests on. The actor who wants to stand behind one claim follows the pointer instead of starting a search.
+There is a piece of information the actor needs to use. They did not write it, and they cannot see where it came from. Checking it properly means re-researching it, cost of which might be too big. Also, fluent wrong output is accepted exactly as readily as right output, because the surface gives nothing to tell them apart.
 
 ## Forces
 
-- *Mark vs. follow.* The mark works on trust whether or not it is followed. In controlled experiments, citations raised trust in generated answers even when they were random or fabricated, and checking them is what brought trust back down. In the field, one in a hundred visits to a Google AI summary clicks a link inside it; in a CHI 2025 study, 61% of participants never opened a source at all, though those who did were more accurate. The verification benefit reaches the few who follow; the trust effect reaches everyone.
-- *Document vs. passage.* A pointer to a whole document is cheap to produce and expensive to use: the actor has to find the supporting sentence themselves, and citation links "offer little guidance about what evidence they contain". A pointer to the passage is what makes the check short — but it also commits the output to one reading of one source.
-- *Staying vs. leaving.* Professional fact-checkers verify by leaving the page and reading laterally; hover cards and in-place excerpts keep the actor inside the answer. In-place evidence deepens what actors take from sources in a lab study, and suppresses the departure that lateral reading depends on. The same trade-off shows up in the library's own account of the hyperlink: a link opened without leaving returns to pure citation.
-- *Coverage vs. correctness.* Citing during generation buys precision and loses coverage; attaching citations afterwards covers more and supports less. Either way the output leans toward what retrieval found. Answer engines audited in 2023–24 fully supported between half and three-quarters of their sentences, and a 2026 audit of ten models found 30% of citations distorting a real, accessible source.
-- *Every claim vs. the claims that need it.* Marking everything makes the marks noise; marking nothing leaves the contentious claim indistinguishable from the banal one. Wikipedia's editors have a working taxonomy of which statements need an inline citation (quotations, figures, scientific and historical claims, anything surprising or contested); generated-answer products mostly have not made that policy explicit.
+- *Mark vs. follow.* The mark works on trust whether or not it is followed.
+- *Document vs. passage.* A pointer to a whole document is cheap to produce and expensive to use: the actor has to find the supporting sentence themselves, and citation links "offer little guidance about what evidence they contain". A pointer to the passage is what makes the check short.
+- *Staying vs. leaving.* Professional fact-checkers verify by leaving the page and reading laterally; hover cards and in-place excerpts keep the actor inside the answer.
+- *Coverage vs. correctness.* Citing during generation buys precision and loses coverage; attaching citations afterwards covers more and supports less.
+- *Every claim vs. the claims that need it.* Marking everything makes the marks noise; marking nothing leaves the contentious claim indistinguishable from the banal one.
 
 ## Solution
 
-Attach to each claim that needs one a pointer that resolves, at the claim, to the passage it rests on — and make the document the second hop, not the first. Render the marker so it can be read at a glance, previewed without leaving the answer, and opened into the source at the cited span. Place the sources where the actor meets them before any explanation of the answer, since a convincing explanation lowers the chance they look. Where a claim has nothing to point at, say so rather than decorate it.
+Citation attaches a pointer to each claim — a marker, a chip, a footnote — that resolves to the material the claim rests on. Render the marker so it can be read at a glance, previewed without leaving the answer, and opened into the source at the cited span. Place the sources where the actor meets them before any explanation of the answer, since a convincing explanation lowers the chance they look. Where a claim has nothing to point at, say so.
 
 ## Variants
 
 Ordered by how far the pointer sits from the evidence.
 
-- *Passage at the claim.* The marker resolves to the exact span, highlighted in the source, with the quoted text previewed on hover. NotebookLM's numbered markers open the document scrolled to the highlighted paragraph; Anthropic's Citations API makes the span the unit of the contract — each claim carries the cited text and its character range in a named document. Adobe Acrobat's inline highlights and Granola's transcript quotations are the same form on PDFs and recordings. The cost of following is lowest here; the risk is premature convergence on one source.
-- *Chip with popover.* A domain chip at the end of the claim ("northjersey +3"), opening an anchored card with title, snippet, favicon, and 1/N paging where several sources back one claim. Perplexity and ChatGPT both use it. The "+N" collapses multiplicity without cluttering the prose; the snippet is scent, not the evidence.
-- *Source panel.* A favicon stack in the answer bar ("10 sources") opening a sidebar that lists every source as a card while the answer stays in view. This is the overview of the evidence base, complementary to the inline marks; on its own it gives the actor nothing to follow *from*.
-- *Source list.* Full URLs listed after the answer, unanchored to any claim. Cheapest to produce and the weakest form: it reads as a mark of checkability without making any claim checkable.
+### Passage at the claim
 
-Two smaller moves belong with the pattern: letting the actor select a passage and ask for its sources to be re-checked without re-running the request (Perplexity's "Check sources"), and a feedback channel that separates "wrong source" from "wrong answer", so citation failures can be routed to retrieval rather than to the model.
+The marker resolves to the exact span, highlighted in the source, with the quoted text previewed on hover. NotebookLM's numbered markers open the document scrolled to the highlighted paragraph; Anthropic's Citations API makes the span the unit of the contract — each claim carries the cited text and its character range in a named document. Adobe Acrobat's inline highlights and Granola's transcript quotations are the same form on PDFs and recordings. The cost of following is lowest here; the risk is premature convergence on one source.
+
+{/* TODO: Demo */}
+
+### Chip with popover
+
+A domain chip at the end of the claim ("northjersey +3"), opening an anchored card with title, snippet, favicon, and 1/N paging where several sources back one claim. Perplexity and ChatGPT both use it. The "+N" collapses multiplicity without cluttering the prose; the snippet is scent, not the evidence.
+
+{/* TODO: Demo */}
+
+### Source panel
+
+A favicon stack in the answer bar opening a sidebar that lists every source as a card while the answer stays in view. This is the overview of the evidence base, complementary to the inline marks; on its own it gives the actor nothing to follow *from*.
+
+{/* TODO: Demo */}
+
+### Source list
+
+Full URLs listed after the answer, unanchored to any claim.
+
+{/* TODO: Demo */}
+
+### Letting the user select a passage and ask for its sources to be re-checked without re-running the request
+
+{/* TODO: Demo. Uses bubble menu */}
 
 The <ComponentRef id="components-reference--docs">Reference</ComponentRef> component carries a source document and a character range per reference, which is the data shape the passage-at-the-claim variant needs.
 
-## Which claims get a mark
+## Research on this pattern
 
-Not every sentence needs a pointer, and a product that marks every sentence has made the marks unreadable. The policy question — which statements earn a citation — precedes the rendering question. Wikipedia's editor-derived taxonomy is a usable starting point: direct quotations, statistics and figures, scientific, medical, and historical claims, statements likely to be challenged, and statements about living people. Claims of the form "there is no evidence that…" need a pointer as much as positive claims do, and are the ones generated answers most often leave bare.
+- Citation marks raise trust in generated answers even when the citations are [random](https://arxiv.org/abs/2501.01303) or [hallucinated](https://arxiv.org/abs/2504.06435), and trust falls when participants check them — an example of the [authority heuristic](https://www.issuelab.org/resources/875/875.pdf). 
+- Following is rare: [most participants never open a source](https://arxiv.org/abs/2502.08554), [answer engines draw a fraction of the source engagement search engines do](https://arxiv.org/abs/2410.22349), [links inside Google's AI summaries are clicked on 1% of visits](https://www.pewresearch.org/short-reads/2025/07/22/google-users-are-less-likely-to-click-on-links-when-an-ai-summary-appears-in-the-results/), and [whether an actor verifies at all is set more by prior disposition than by the answer](https://arxiv.org/abs/2605.28498).
+- [Unfolding evidence in place deepened what readers took from sources](https://arxiv.org/abs/2510.00361), though it measured reading depth, not reliance. Separately, [sources reduced overreliance where explanations increased it](https://arxiv.org/abs/2502.08554) — the basis for placing sources before explanations in the solution.
+
 
 ## Resources & references
 
-- Liu, Zhang & Liang (2023) [Evaluating verifiability in generative search engines](https://arxiv.org/abs/2304.09848) — citation recall and precision as the two failure axes; 51.5% of sentences fully supported, 74.5% of citations supporting their sentence
-- Narayanan Venkit et al. (2024) [Search engines in an AI era: the false promise of factual and verifiable source-cited responses](https://arxiv.org/abs/2410.22349) — 21-participant study (2 sources hovered vs 12 with a search engine), 16 design recommendations, citation accuracy 49–68% across three engines
-- Kim, Vaughan, Liao & Lombrozo (CHI 2025) [Fostering appropriate reliance on large language models: the role of explanations, sources, and inconsistencies](https://arxiv.org/abs/2502.08554) — sources reduce reliance on wrong answers, explanations raise reliance on both, and explanations reduce source-checking; 189 of 308 never clicked
+- Liu, Zhang & Liang (2023) [Evaluating verifiability in generative search engines](https://arxiv.org/abs/2304.09848) — citation recall and precision
+- Narayanan Venkit et al. (2024) [Search engines in an AI era: the false promise of factual and verifiable source-cited responses](https://arxiv.org/abs/2410.22349) — participant study, design recommendations, citation accuracy
+- Kim, Vaughan, Liao & Lombrozo (CHI 2025) [Fostering appropriate reliance on large language models: the role of explanations, sources, and inconsistencies](https://arxiv.org/abs/2502.08554) — sources reduce reliance on wrong answers, explanations raise reliance on both, and explanations reduce source-checking
 - Li & Aral (2025) [Human trust in AI search: a large-scale experiment](https://arxiv.org/abs/2504.06435) — citations raise trust even when hallucinated; uncertainty highlighting lowers it
-- Ding et al. (AAAI 2025) [Citations and trust in LLM generated responses](https://arxiv.org/abs/2501.01303) — random citations raise trust as much as relevant ones; checking lowers it
-- Kambhamettu, Hwang, Laban & Head (2025) [Attribution gradients: incrementally unfolding citations for critical examination of attributed AI answers](https://arxiv.org/abs/2510.00361) — excerpts, evidence amounts, and second-degree citations in place; deeper reading than a standard citation design
-- Seo et al. (2026) [Verified misguidance: measuring structural citation failures in search-augmented LLMs](https://arxiv.org/abs/2605.28565) — real, accessible sources that still fail on fidelity or suitability; 30.6% of citations distort their source
-- Magesh et al. (2024) [Hallucination-free? Assessing the reliability of leading AI legal research tools](https://arxiv.org/abs/2405.20362) — 17–33% hallucination in RAG legal tools; the "misgrounded" category
+- Ding et al. (AAAI 2025) [Citations and trust in LLM generated responses](https://arxiv.org/abs/2501.01303) — random citations raise trust as much as relevant ones
+- Kambhamettu, Hwang, Laban & Head (2025) [Attribution gradients: incrementally unfolding citations for critical examination of attributed AI answers](https://arxiv.org/abs/2510.00361) — excerpts, evidence amounts, and second-degree citations in place
+- Seo et al. (2026) [Verified misguidance: measuring structural citation failures in search-augmented LLMs](https://arxiv.org/abs/2605.28565)
+- Onweller et al. (2026) [Cited but not verified: parsing and evaluating source attribution in LLM deep research agents](https://arxiv.org/abs/2605.06635) — link validity against factual accuracy
+- Yazan, Situmeang & Verberne (2026) [The decision to verify](https://arxiv.org/abs/2605.28498) — verification driven by prior disposition, not answer properties
+- Magesh et al. (2024) [Hallucination-free? Assessing the reliability of leading AI legal research tools](https://arxiv.org/abs/2405.20362)
 - Saxena et al. (2025) [Generation-time vs. post-hoc citation](https://arxiv.org/abs/2509.21557) — the coverage–correctness trade-off
-- Redi, Fetahu, Morgan & Taraborelli (2019) [Citation needed: a taxonomy and algorithmic assessment of Wikipedia's verifiability](https://arxiv.org/abs/1902.11116) — why a statement needs an inline citation
+- Redi, Fetahu, Morgan & Taraborelli (2019) [Citation needed: a taxonomy and algorithmic assessment of Wikipedia's verifiability](https://arxiv.org/abs/1902.11116)
 - Wineburg & McGrew (2019) [Lateral reading and the nature of expertise](https://journals.sagepub.com/doi/10.1177/016146811912101102) — fact-checkers verify by leaving the page
-- Sundar (2008) [The MAIN model: a heuristic approach to understanding technology effects on credibility](https://www.issuelab.org/resources/875/875.pdf) — the authority heuristic; why the mark works without the follow
+- Sundar (2008) [The MAIN model: a heuristic approach to understanding technology effects on credibility](https://www.issuelab.org/resources/875/875.pdf) — the authority heuristic; why the mark works without the checking
+- Wathen & Burkell (2001) [Believe it or not: factors influencing credibility on the web](https://doi.org/10.1002/asi.10016)
 - Anthropic (2025) [Citations on the Claude Platform](https://platform.claude.com/docs/en/build-with-claude/citations) — the span as the unit of the contract
 - [Shape of AI — Citations](https://www.shapeof.ai/patterns/citations), [AI UX Playground — Perplexity citations teardown](https://aiuxplayground.com/teardowns/perplexity/citations/), [aiuxpatterns.com — Show Citations](https://www.aiuxpatterns.com)
 
