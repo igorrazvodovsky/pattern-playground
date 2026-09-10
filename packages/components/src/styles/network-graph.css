@@ -38,7 +38,7 @@
   }
 
   .network-graph__svg--hovering .network-graph__edge--dimmed {
-    stroke-opacity: 0.03;
+    stroke-opacity: 0.12;
   }
 
   .network-graph__svg--hovering .network-graph__edge--active {
@@ -81,7 +81,7 @@
   }
 
   .network-graph__svg--hovering .network-graph__node--dimmed .network-graph__circle {
-    opacity: 0.08;
+    opacity: 0.25;
   }
 
   .network-graph__node--trail .network-graph__circle {
