@@ -122,7 +122,10 @@
     pointer-events: none;
   }
 
-  html:has(dialog[open]) {
+  /* `:modal`, not `[open]`: a dialog opened with `show()` rather than
+     `showModal()` is a non-blocking side peek, and locking the page behind it
+     takes away the very thing it was opened to sit beside. */
+  html:has(dialog:modal) {
     overflow: hidden;
   }
 
