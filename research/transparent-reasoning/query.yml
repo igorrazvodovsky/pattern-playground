@@ -1,0 +1,54 @@
+story: apps/patterns/src/content/patterns/transparent-reasoning.mdx
+topic: exposing a model's intermediate reasoning so the actor can inspect and steer the path
+interaction: |
+  While or after an agent works, its intermediate steps are on the surface as a
+  legible trail — a stream of thought, a collapsed summary, a branching trace —
+  and the actor can read it, expand it, challenge a step, or redirect the path
+  before the answer lands.
+context: |
+  Reasoning models and agentic tools (extended-thinking chat assistants,
+  coding agents, research agents) where the answer arrives with an account of
+  how it was reached. Existing pattern in the library, entered 2025-06-26 from
+  literature. Neighbours: plan-preview owns the before-execution station,
+  activity-log the durable record, explanation the actor-level why,
+  cognitive-forcing-functions the interruption of the trust a plausible trail
+  invites, expressed-uncertainty and citation the other two calibration cues.
+  This gate is prompted by an external note treating "chain of thought" as its
+  own pattern; whether it is one is part of what the gate has to answer.
+questions:
+  - Does the displayed trail correspond to the computation that produced the
+    answer, and what is known about the gap — unfaithful reasoning, post-hoc
+    rationalisation, summarised versus raw traces?
+  - Does visible reasoning make actors verify more, or mainly make them trust
+    more — and does a longer or more thorough-looking trail raise reliance
+    independently of whether it is correct?
+  - What does making steps interrogable or editable actually buy: do actors
+    intervene mid-stream, at what granularity, and does correcting a step
+    improve the outcome or shift the work onto the actor?
+  - What does visible thinking communicate besides derivation — stance, effort,
+    persona, competence — and what follows from actors reading it as thinking?
+  - Where is the boundary with neighbouring moves — previewing a plan before
+    execution, logging what happened, explaining a decision, marking confidence?
+keywords:
+  [
+    chain-of-thought,
+    reasoning trace,
+    extended thinking,
+    faithfulness,
+    unfaithful reasoning,
+    post-hoc rationalisation,
+    interpretability,
+    process supervision,
+    thinking tokens,
+    reasoning model,
+    interactive reasoning,
+    steerability,
+    mixed-initiative,
+    intervention,
+    appropriate reliance,
+    overreliance,
+    trust calibration,
+    explainable AI,
+    anthropomorphism,
+    transparency,
+  ]

@@ -1,0 +1,127 @@
+story: null
+topic: persistence as a cross-cutting design dimension — what state is attached to (session, actor, object, record) and how long it survives (ephemeral, session-scoped, durable)
+interaction: |
+  An actor works, leaves, and comes back. Between those moments some state
+  survives and some does not: the half-typed message, the parked exchange, the
+  committed document, the remembered preference, the log entry. Designers decide,
+  per surface, what is kept, what it is attached to, how long it lasts, and
+  whether the actor meets that decision at all.
+context: |
+  A pattern language for interaction design, with a focus on human-AI
+  collaboration. Persistence currently has no node: its forces are distributed
+  across `saving` (the storage necessity and the human acts riding on it),
+  `draft-and-publish` (the ready-for-others boundary), `disengage-without-closing`
+  (parking an exchange), `selective-memory` and `ai-tuning` (two channels of
+  actor-scoped memory), `undo` and `deletion` (removal and its remains),
+  `provenance-marking` (write-time capture), `activity-log` (the record),
+  `shareability` (what a link carries, and what deliberately does not), and the
+  `memory-and-continuity` sequence that walks all of it. The `temporality`
+  quality mentions persistence once, filed under Duration. The project's own
+  decision-dimension inventory names the absence: "no branch reasons about
+  whether state is ephemeral, session-scoped, or durable."
+  NOTE ON SCOPE: this run is about persistence as a cross-cutting axis. The
+  actor-scoped AI-memory channel was already gated at research/selective-memory/
+  (2026-08-25) and is deliberately not re-run here; findings there are inputs.
+questions:
+  - Is persistence one design territory or several? Does the thing state is
+    attached to — a session, an actor, an object, a record — determine how the
+    move is designed, or do the four share forces that would justify treating
+    them as one?
+  - Does the lifetime axis (ephemeral, session-scoped, durable) branch design
+    decisions in the literature, or is it an implementation fact the actor never
+    meets? Where lifetime is designed deliberately, what drives the choice?
+  - What is known about resumption specifically — returning to interrupted or
+    parked work, across a break or across devices? Is resuming a distinct move
+    from remembering, with its own forces, or the reading half of the same one?
+  - What do actors believe survives? Is there evidence on folk models of storage
+    — what people expect to still be there, where those expectations break, and
+    what the interface owes them when it stores silently or waits for them?
+  - Does the save/commit boundary carry human meaning beyond storage? What
+    evidence bears on autosave versus manual save versus staged draft-and-publish,
+    and on what is lost when the explicit step is removed?
+  - Which disciplines already own a taxonomy of this word — session management
+    and state scope in systems and web architecture, task resumption in HCI,
+    archival appraisal and retention in records management — and where do their
+    vocabularies collide with an interaction-design reading?
+keywords:
+  [
+    task resumption,
+    interruption and resumption,
+    suspend and resume,
+    task continuity,
+    cross-device continuity,
+    session state,
+    state scope,
+    ephemeral interaction,
+    ephemerality,
+    transient data,
+    data lifetime,
+    retention policy,
+    digital possessions,
+    personal archiving,
+    curation and divestment,
+    autosave,
+    document versioning,
+    revision history,
+    provenance capture,
+    undo model,
+    folk theories of storage,
+    mental models of cloud storage,
+    forgetting by design,
+    designing for disposal,
+    slow technology,
+  ]
+
+# --- Status after the 2026-08-31 run
+# NOTE: questions were drafted from session analysis and presented to the author,
+# but the run proceeded before an answer arrived. Not user-reviewed.
+# answered:
+#   Q1 (partly) — the attachment point is itself the design decision; Bardram's
+#     activity construct and Card & Henderson's Rooms are a fifth candidate that
+#     dissolves session/object/actor rather than joining them. The four-way scope
+#     split in this file's context is an unexamined assumption, not a finding.
+#   Q3 — resumption carries obligations storage does not (awareness cues over
+#     distributed state; adaptation to the resuming device). What is restored is
+#     not required to be what was stored.
+#   Q4 — benign neglect is the folk model and it fails for digital things
+#     (Marshall 2008); distribution across stores and forgotten locations are two
+#     of the four named challenges.
+#   Q5 — practice sets the default in the opposite direction from saving.mdx for
+#     forms (Primer); the surviving explicit step names a version, not storage.
+# open:
+#   Q2 — lifetime-as-a-feature is under-evidenced. Only the ephemeral-messaging
+#     case was found, single study, affective outcomes. Would be answered by the
+#     disappearing-content and retention-UX literature, and by a direct survey of
+#     incognito/ephemeral modes that this run did not do.
+#   Q6 — barely touched. Archival appraisal (Cook W1592250567) resolved but
+#     carries no abstract or references in OpenAlex and was not read. Would be
+#     answered by a named-canon read of appraisal theory and of session
+#     management in systems architecture.
+#   Cloud-era folk models — Marshall & Tang "That syncing feeling" and Odom
+#     "Lost in translation" failed to resolve on reconstructed titles. A refresh
+#     should chase both; they are the evidence Q4 wants and this run lacks.
+
+# --- Addendum after the 2026-08-31 local-library re-search
+# METHOD NOTE: step 2 swept the library by topic; the access ladder's last rung
+# (re-search by author/title for papers that resisted resolution) was skipped and
+# had to be prompted by the author. Two directly relevant papers were held
+# locally, one of them already named in this run's own lineage section.
+# now answered:
+#   Q2 — designed lifetime is a developed territory with a canon (Bannon;
+#     Mayer-Schoenberger's Delete; Geambasu's Vanish) and a six-practice taxonomy
+#     (Ankenbauer & Brewer 2025: pure, performative, temporal, spatial,
+#     visualized, unintentional). The field is sceptical of pure forgetting;
+#     built practices are graded — salience reduction, lifecycle demotion,
+#     obfuscation, visible decay.
+#   Q6 (partly) — information lifecycle management is the neighbouring
+#     discipline, reached from the HCI side and explicitly likened to records
+#     retention. Archival appraisal theory still unread.
+# newly open:
+#   Lifetime is per-party, not per-object (WeChat Moments' "ephemerality for
+#     them, persistence for me"). Neither the scope axis nor the lifetime axis as
+#     drafted can express this. Needs a third pass or a reframing.
+#   Bannon, "Forgetting as a Feature, Not a Bug" — the named wellspring, not
+#     read. Mayer-Schoenberger, Delete — not read. The library WAS searched for
+#     both (and for Vanish, Sas & Whittaker, Lindley, Gulotta): every hit was a
+#     citation inside forgetting.pdf or vitale2019.pdf, not the work itself.
+#     Neither is held locally; a refresh must go to retrieval for them.

@@ -1,0 +1,32 @@
+story: null
+topic: rule composition — composing a single conditional rule as an editable object
+interaction: |
+  An actor composes a standing condition — clauses over fields, operators and values,
+  combined and negated, added and deleted — and the system applies it to cases the actor
+  is not present for. Filters and saved searches, spam and mail rules, smart playlists,
+  IFTTT-style automations, agent tuning rules, autonomy bounds.
+context: |
+  Design-pattern library for human-AI interaction. The candidate node sits below
+  `workflow` (the multi-step procedure as artifact) and above `bounded-choice` (one
+  clause's value pick). Deciding whether the territory is its own pattern, a section on
+  `workflow`, or only edges between existing nodes.
+questions:
+  - Is composing the condition one move, or does end-user programming literature split
+    trigger authoring from action authoring so decisively that a single node lies?
+  - Is the rule unit genuinely separable from the multi-step procedure — do EUP/TAP
+    studies treat a rule as its own object or as a degenerate program?
+  - Boolean composition (and/or/not, precedence) is known to be error-prone — is the real
+    pattern about avoiding explicit boolean composition rather than supporting it?
+  - Is previewing a rule by its edge cases (what newly matches, barely matches, barely
+    fails) an attested move, or is the attested move something else — simulation,
+    debugging, example-based specification?
+keywords: [trigger-action programming, IFTTT, end-user programming, end-user debugging,
+  query builder, faceted search, programming by example, boolean query formulation,
+  automation authoring, rule debugging]
+
+# --- Status after the 2026-08-29 lineage backfill
+# answered: the lineage-by-inspection claim is confirmed on eight of nine papers
+#   — no shared ancestor, no work citing both sides, both sides internally dense
+# open: neither line produced a study of rule composition as a general authoring
+#   move; the note's own territory
+

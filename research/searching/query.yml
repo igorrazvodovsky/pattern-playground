@@ -1,0 +1,129 @@
+story: apps/patterns/src/content/patterns/searching.mdx
+topic: searching as a seeking move — query formulation, result sets, and the
+  shift from retrieval to generated answers
+interaction: |
+  An actor wants something out of a collection they cannot or will not walk
+  through by hand. They express intent as a query — keywords, a natural-language
+  request, a command — and the system does the evaluation and discrimination,
+  returning an ordered set (or, increasingly, a composed answer) rather than the
+  collection's own structure.
+context: |
+  Any surface holding more content than an actor can browse: applications with
+  global and in-context search, document and file systems, catalogues, and
+  now generative search and assistant surfaces where the query is answered
+  rather than matched. Thin pattern in the library — descriptive anatomy, no
+  forces, no solution statement, a commented-out decision tree. Neighbours are
+  navigation-overview, filtering, autocomplete, suggestion, command-menu,
+  prompt, data-view.
+questions:
+  - Does the one-shot "query in, result set out" model survive the evidence, or
+    is seeking iterative and evolving (berrypicking, orienteering, foraging) —
+    and if so what is the invariant move the pattern should state?
+  - When does search beat browsing and when does it lose? What does the evidence
+    say about search-dominant vs browse-dominant behaviour, about search
+    requiring vocabulary the actor may not have, and about navigation's role in
+    teaching the search space?
+  - What is the real cost of query formulation, and does support for it
+    (autocomplete, query suggestion, scaffolds, examples) help or anchor the
+    actor onto worse queries?
+  - What happens at failure — zero results, wrong results, the actor not
+    recognising a good result? What recovery moves are evidenced?
+  - What changes when the system answers instead of retrieving (conversational
+    and generative search)? Effects on query behaviour, exploration, trust,
+    verification, and on the result set as an object at all.
+  - Where is the boundary between searching and its neighbours — filtering
+    (refine a set) and prompting (instruct or generate) — given that AI search
+    translates a query into filters and command bars accept both?
+  - Does scope (global vs local, search-within-results) belong to this pattern
+    or is it a separate move?
+keywords:
+  [
+    information seeking behaviour,
+    exploratory search,
+    berrypicking,
+    orienteering,
+    information foraging,
+    information scent,
+    query formulation,
+    query reformulation,
+    zero results,
+    search failure,
+    known-item search,
+    lookup learn investigate,
+    search versus browse,
+    faceted search,
+    faceted navigation,
+    autocomplete,
+    query suggestion,
+    search as learning,
+    conversational search,
+    generative search,
+    retrieval-augmented generation,
+    search user interface,
+    relevance ranking,
+    result presentation,
+    vocabulary problem,
+  ]
+
+# --- Status after the 2026-08-27 run (two passes; see the dated notes) ---
+
+answered:
+  - >-
+    The one-shot model is partial, not wrong. It holds at the lookup pole and
+    fails for exploratory search; Palagi et al. reject the dichotomy for a
+    continuum and Athukorala et al. measure the blur (85% classifier accuracy on
+    core tasks, 60.3% once borderline tasks are included).
+  - >-
+    The classic anchors (Bates, Kuhlthau, Marchionini, Furnas) are still live in
+    current HCI/IR work rather than superseded. Teevan's orienteering and
+    Pirolli & Card's information scent produced no claim either way here.
+  - >-
+    The search/browse hybrid is the best-evidenced design response for
+    exploratory tasks, with one specific citable rule (Flamenco: never render a
+    zero-result link; preview counts on every result-selecting link) — but
+    faceted overviews bias what gets seen toward what the taxonomy covers, by
+    structural availability rather than by labelling.
+  - >-
+    Query-formulation support steers. Position bias in the suggestion list is
+    well replicated; the latent-persuasion studies are about writing assistants,
+    not search boxes, and no study bridges the gap between five sentences of
+    argument and a five-word query.
+  - >-
+    The practitioner design corpus is verified. Apple HIG and Material Design 3
+    converge on a single identified search location and visible scope, and both
+    treat suggestion timing as a choice. Morville & Callender's ten patterns and
+    Russell-Rose/Lamantia/Makri's nine modes are usable with their provenance
+    attached; Tunkelang stays paywalled, so use Hearst §8.6 for a definition of
+    faceted search.
+  - >-
+    Uptake is not effect. Exactly one recovery move in the pre-AI corpus has a
+    measured outcome against a control (Anick's Prisma bucket test) and it was
+    null on result clicks; every other figure — 6%, 8.4%, 18.5%, 35.7% — is a
+    usage rate.
+
+open:
+  - >-
+    No source in either pass reports a query-level zero-result rate, in any
+    setting. Baymard's ~50% scores sites, not queries; NN/g's 35%/62% is
+    zero-click, not zero-result. Nothing measures behaviour conditional on
+    landing on a zero-result page.
+  - >-
+    The searching / filtering / prompting boundary is dissolved by the theory
+    rather than drawn: Radlinski & Craswell file fielded search under critique
+    and put the plain search box inside their conversational grid, and their
+    item-valued model does not extend to generated answers. The one empirical
+    source (Mayerhofer et al., CHIIR '25) ran a two-box interface, so it cannot
+    say how actors behave with a single input surface.
+  - >-
+    Generative search and human behaviour. Citation quality is measured once, in
+    early 2023, on four products since renamed. Exploration narrowing is
+    measured in one lab study on contested political topics over a closed
+    corpus, and does not transfer to product, code, docs or file search.
+  - >-
+    Whether query autocomplete helps or harms on balance. White & Marchionini
+    point one way on 2007-era term expansion, Liu & Bagrow the other on speed,
+    Smith et al. suggest the benefit concentrates at session entry, and Niu &
+    Hemminger's catalogue logs are confounded by a year of other change. No
+    systematic search of the QAC literature has been done — Cai & de Rijke's
+    survey chapter on presentation and interaction was not consulted, so the
+    defensible statement is "not searched", not "no study exists".

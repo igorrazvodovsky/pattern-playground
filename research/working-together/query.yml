@@ -1,0 +1,45 @@
+story: null
+topic: working together — awareness, contribution, and reconciliation among people in shared material
+interaction: |
+  Several people work in the same material (a document, a board, a codebase, a
+  plan); the design decides who can see and touch what, what each person knows
+  of the others' activity, how contributions are made and attributed, and what
+  happens when contributions collide.
+context: |
+  Authoring a generative sequence over the corpus's human↔human patterns
+  (annotation → commenting → status-feedback is the only existing chain;
+  shareability, saving, activity-log, notification, draft-and-publish attach).
+  The sequence orders design decisions, not construction. Named missing:
+  presence, concurrent conflict, shared views, human-to-human handoff.
+  Six authored arrivals from other sequences await landing stations.
+questions:
+  - Is presence one pattern or several graded mechanisms — what awareness
+    information do collaborators actually need, and does the literature give a
+    structure (workspace awareness elements) the corpus should mirror?
+  - Does visibility → awareness → accountability (social translucence) hold up
+    as an ordering over collaboration capabilities, or is it an analytic
+    decomposition with no sequence claim?
+  - Is synchrony (real-time / near-sync / async) a split into separate
+    sequences, a choice point taken once, or a rate at which one spine is
+    walked?
+  - What does the merge-model choice (locking, operational transformation,
+    CRDT) surface to actors — when does a person see a conflict at all, and
+    what are the evidenced presentation options (block, merge silently,
+    present both)?
+  - Does the sharing grant (who can see and touch what) precede the other
+    capabilities, the way a permission model precedes the surfaces built on
+    it — or is sharing evidenced as growing incrementally from private work
+    (private-to-public transition)?
+  - Which collaboration features fail in practice from the work/benefit
+    disparity (Grudin), and does that failure mode mark optional steps?
+keywords: [workspace awareness, groupware, presence indicators, collaborative
+  editing, conflict resolution, social translucence, private to public,
+  relaxed WYSIWIS]
+
+# --- Status after the 2026-08-29 lineage backfill
+# answered: lineage (OpenAlex) — three distinct ancestries (groupware systems,
+#   awareness, Clark's language-and-grounding line), 6 descendants
+# open: *The Problem with 'Awareness'* (2002) argues against the construct the
+#   note leans on and is unread; *Social Coding in GitHub* is the descendant
+#   closest to this project's asynchronous, artefact-mediated case
+

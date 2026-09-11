@@ -1,0 +1,54 @@
+story: apps/patterns/src/content/patterns/selective-memory.mdx
+topic: actor-governable memory in AI systems — inspecting, correcting, scoping, and erasing what a system holds forward
+interaction: |
+  A system carries facts, preferences, and context forward from one encounter to
+  the next. The actor can see what is held, correct or delete an individual item,
+  set how far a given exchange reaches into that store, or step outside memory
+  altogether for a session.
+context: |
+  Conversational assistants and agentic products with persistent user memory
+  (ChatGPT memory, Claude projects, Gemini personal context, agent scratchpads),
+  plus the older personalisation and profile-management surfaces they inherit
+  from. Seed pattern in the library, triaged from six AI pattern catalogues, not
+  yet written from close product study. Neighbours: ai-tuning (shaped behaviour),
+  privacy and adaptation (qualities it enacts), settings and activity-log
+  (conventional homes), and the delegation foundation's context handling.
+  NOTE ON SCOPE: "memory" here means system-side persistence of user data — NOT
+  human working memory, recognition-over-recall, or memorability.
+questions:
+  - Does anyone actually curate memory? What share of actors ever open memory
+    controls, and what do the defaults of what-gets-kept govern when they do not?
+  - What do actors believe a system remembers versus what it does — and what
+    breaks when the two diverge (continuity read as surveillance, or as magic)?
+  - Does correction and erasure work as an interface promise? What does "delete
+    this memory" deliver, what does it cost per item, and where do deletion
+    affordances fail the actor's expectation?
+  - Is scoping ahead of time (per-message, per-thread, incognito) the same move
+    as correcting after the fact (reviewable list, per-item edit and delete), or
+    do the actor populations, triggers, and failure modes diverge?
+  - Where is the boundary between this move and neighbouring ones — behaviour
+    tuning and instruction, activity logs of what the system did, generic privacy
+    and consent settings, and an agent's working context window?
+keywords:
+  [
+    LLM memory,
+    persistent memory,
+    conversational agent memory,
+    personalisation state,
+    user model transparency,
+    scrutable user model,
+    editable user profile,
+    contextual integrity,
+    personalisation privacy paradox,
+    privacy nudge,
+    consent dark patterns,
+    default effect,
+    right to erasure,
+    GDPR Article 17,
+    data deletion interface,
+    machine unlearning,
+    incognito mode,
+    ephemeral messaging,
+    forgetting by design,
+    memory management interface,
+  ]

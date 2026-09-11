@@ -1,0 +1,48 @@
+story: apps/patterns/src/content/patterns/prompt-scaffolding.mdx
+topic: giving an open prompt structure so a request can be composed completely
+interaction: |
+  An actor faces a request they can't yet specify. Instead of an empty box the
+  surface offers structure — labelled fields, fillable slots, a cloze passage,
+  paginated composition, tone and persona controls, or feedback on the request
+  before it runs — so completeness is inspectable before anything executes.
+context: |
+  Conversational and generative surfaces (assistants, image and video tools,
+  enterprise copilots, agentic coding tools) where the request is the whole
+  interface. Seed pattern in the library, carried over from a cross-catalogue
+  triage of six AI pattern libraries. The neighbours are template, form,
+  wizard, suggestion, bounded-choice, validation, and — the seam the evidence
+  keeps crossing — inquiry-agent and open-request.
+questions:
+  - Does structuring the request measurably help, or is the warrant theoretical?
+    Which sub-form has ever been put on a bench?
+  - Does structure narrow what gets expressed, and is the narrowing within one
+    actor or across a population?
+  - Has the need moved as models improved — do few-shot, role prompting,
+    chain-of-thought scaffolds and elaborate templates still pay on reasoning
+    models, and what did shipping products add or remove between 2023 and 2026?
+  - Where is the boundary against the system detecting what's missing and
+    asking for it, against a template, and against a persistent specification
+    artefact the actor reviews?
+  - Which forms survive in 2025-26 and which have visibly declined, separating
+    consumer chat from creative generation from enterprise and agentic tooling?
+keywords:
+  [
+    prompt scaffolding,
+    structured prompting,
+    prompt template,
+    prompt engineering,
+    gulf of envisioning,
+    metacognitive demands,
+    end-user prompting,
+    clarifying questions,
+    mixed-initiative,
+    underspecification,
+    prompt enhancer,
+    prompt rewriting,
+    persona prompting,
+    chain-of-thought,
+    design fixation,
+    homogenization,
+    creativity support,
+    spec-driven development,
+  ]

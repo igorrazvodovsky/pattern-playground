@@ -1,0 +1,33 @@
+story: null
+topic: attention and tempo — interruption, notification timing, and resumption
+interaction: |
+  A system (increasingly, background agents and collaborators) generates events
+  while the actor works on something else; the design decides which events may
+  interrupt, when they arrive, in what shape, and how the actor gets back to
+  what they were doing.
+context: |
+  Authoring a generative sequence over the corpus's attention patterns
+  (notification, transient feedback, activity feed, do-not-disturb, reminders,
+  resumption). The sequence orders design decisions, not construction. Its
+  presupposition: a judgement about what may interrupt whom, and when.
+questions:
+  - Is deferring interruption delivery to task boundaries/breakpoints (rather
+    than delivering immediately) actually supported, and does batching help or
+    hurt awareness?
+  - Is push-what-cannot-wait vs keep-the-rest-for-a-pulled-catch-up the right
+    split, or does deferral itself carry costs (anticipation, checking habits)?
+  - Do actor-tuned controls (channels, quiet hours, focus modes) calibrate
+    interruption effectively, or do people misconfigure and abandon them?
+  - Does an interruption owe a return path — is resumption support at delivery
+    time (resumption lag, cues, state restoration) evidenced as a design
+    obligation?
+  - Is McFarlane's coordination taxonomy (immediate / negotiated / mediated /
+    scheduled) the right shape for the timing decision, and which method wins?
+keywords: [interruptibility, breakpoint, notification deferral, resumption lag,
+  attention management, do-not-disturb, batching notifications]
+
+# --- Status after the 2026-08-29 lineage backfill
+# answered: lineage (OpenAlex) — 11 ancestors at >=3 kept papers, 6 descendants
+# open: the interface-side descendant branch is thin; the heavy descendants are
+#   workload measurement, clinical safety, and multitasking theory
+

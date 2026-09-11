@@ -1,0 +1,54 @@
+story: apps/patterns/src/content/patterns/change-review.mdx
+topic: making sense of work an actor neither observed nor produced, when a machine proposes changes to material that already exists
+interaction: |
+  A system proposes changes to something that already exists and matters. The
+  change is shown as a change — what was, what would be — so the actor can judge
+  and accept it in parts rather than take or leave the whole. The actor was not
+  present while the work was done and did not author what is being changed into.
+context: |
+  Coding agents proposing edits, writing tools proposing revisions, data tools
+  proposing transformations, agents that ran unattended and now present a result.
+  Seed pattern in the library. Neighbours already in the corpus: approval-gate
+  (what the review feeds), plan-preview (the intention before the work),
+  transparent-reasoning (the account of how), activity-log (the record of what
+  happened), instructed-revision, regeneration, undo, draft-and-publish,
+  commenting. Pre-AI lineage: version-control code review, word-processor track
+  changes, refactoring previews.
+questions:
+  - Does the literature treat "review a proposed delta" and "reconstruct what an
+    agent already did" as one problem or two? This decides whether the seed is one
+    pattern, splits, or widens its situation beyond proposals.
+  - What changes when the reviewer did not author the surrounding material and did
+    not watch the work happen — comprehension cost, review effort, rubber-stamping,
+    the reviewer's model of intent?
+  - What does delta-shaped review systematically miss? The unchanged context, the
+    consequences outside the hunk, the defect the diff frames away.
+  - Does presentation granularity actually become decision granularity? What
+    happens to per-hunk accept/reject as changesets grow, and when partial
+    acceptance produces a state neither party proposed.
+  - Where does this move end and its neighbours begin — approving an action,
+    previewing a plan, showing reasoning, logging what happened?
+keywords:
+  [
+    code review,
+    modern code review,
+    diff,
+    change-based review,
+    review effort,
+    reviewer comprehension,
+    rubber-stamping,
+    AI-generated code review,
+    trust in generated code,
+    human oversight,
+    post-hoc review,
+    verification cost,
+    track changes,
+    suggestion mode,
+    partial acceptance,
+    hunk granularity,
+    changeset size,
+    program comprehension,
+    automation bias,
+    agent trace review,
+    accountability sink,
+  ]

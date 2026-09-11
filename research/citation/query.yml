@@ -1,0 +1,46 @@
+story: apps/patterns/src/content/patterns/citation.mdx
+topic: citation of sources in generated output
+interaction: |
+  An actor receives generated claims that carry pointers to the sources behind
+  them — inline markers, chips, footnotes, a source panel — and can verify a
+  claim by following the pointer rather than re-researching it.
+context: |
+  Conversational and retrieval-augmented AI surfaces (generative search,
+  assistants, document Q&A) where the actor ends up owning output they did not
+  write. Seed pattern in the library; the overreliance cluster
+  (cognitive-forcing-functions, expressed-uncertainty) is the neighbour.
+questions:
+  - Do citations actually change whether actors verify, or mainly change how
+    much they trust — and does the presence of a citation raise trust even when
+    it is wrong or never followed?
+  - What makes a citation verifiable in practice — granularity (claim-level vs
+    answer-level), quoted span vs whole document, cost of following — and how
+    often do generated citations fail to support the claim they sit on?
+  - Does citing constrain what the system can say (generation leans toward the
+    retrievable), and what does that do to the answer?
+  - Where is the boundary between citation and neighbouring moves — showing
+    reasoning, expressing uncertainty, marking provenance of who wrote what?
+keywords:
+  [
+    citation,
+    attribution,
+    attributed question answering,
+    verifiability,
+    generative search engine,
+    retrieval-augmented generation,
+    source attribution,
+    appropriate reliance,
+    overreliance,
+    trust calibration,
+    grounding,
+    hallucination,
+    fact-checking,
+    provenance,
+  ]
+
+# --- Status after the 2026-08-29 lineage backfill
+# answered: the NLP half and the HCI half share no ancestor; the one bridge is
+#   'Believe It or Not' (2001), joining AI reliance to media literacy
+# open: no descendant is an interface study — the design question has no
+#   citation record of its own
+

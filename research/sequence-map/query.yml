@@ -1,0 +1,33 @@
+story: plans/active/2026-08-sequence-map.md
+topic: organising a pattern language as a system of generative sequences
+interaction: |
+  A design-pattern corpus (human↔AI interaction) is reorganised as named, ordered
+  walks ("sequences") over its patterns: each step acts on what previous steps
+  produced; sequences hand off to one another and converge at shared stations.
+context: |
+  Pattern site with a typed edge graph; `precedes` is make-time-only and acyclic,
+  so precedes-chains are candidate sequence spines. Precedents cited: Alexander's
+  generative sequences (Nature of Order Book 2 ch. 11), the generative codes, and
+  Working Through Screens' band structure. Sequences are artifact-register only;
+  process-register work enters as presuppositions at sequence heads.
+questions:
+  - Do pattern-language communities that adopted sequences (PLoP, organisational
+    patterns, Iba's pattern languages) confirm that authoring sequences forces
+    pattern splits/merges/inventions, and what representation did they settle on?
+  - Is a fixed authored order defensible, or does the literature say order must be
+    context-dependent / regenerated per project (Alexander's own claim in ch. 11)?
+  - What do HCI and design-methods staging models (staged guidance, process
+    grammars, task-ordering) say about ordering design guidance at all — and do
+    they contradict a scale-based default order?
+  - Does anything in the literature separate process-register steps from
+    artifact-register steps the way this plan does, or is that split novel/wrong?
+  - What failure modes are reported for sequence systems (rigidity, waterfall
+    regression, unusable global orders)?
+keywords: [generative sequence, pattern sequence, generative code, pattern language structure, design process order, unfolding, staged guidance]
+
+# --- Status after the 2026-08-29 lineage backfill
+# answered: both flanks confirmed — urban design and software patterns share
+#   only Alexander himself; The Nature of Order is already cited by two
+# open: three descendants worth reading — the invariant-patterns analysis, the
+#   donor-patterns modular unit, and the critical-response survey
+

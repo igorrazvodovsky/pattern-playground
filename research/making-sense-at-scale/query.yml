@@ -1,0 +1,35 @@
+story: null
+topic: making sense of accumulated material at scale
+interaction: |
+  An actor faces material that has accumulated past any single framing — items,
+  documents, threads, records. They view it at different levels, externalise
+  judgements onto it (tags, annotations, notes), and curate views that carry a
+  framing for later work or other people.
+context: |
+  Deciding the spine of a generative design sequence ("making sense at scale")
+  before authoring it. The corpus fragments: a lens group with no ordering edges
+  (focus-and-context, semantic-zoom, text-lense), an externalising fragment
+  (annotation → commenting, tag → grouping), and a curation chain
+  (data-view → purpose-keyed-view → problem-curated-view). Generic mechanisms
+  shared by most tools, not specialised analyst tooling — findings from
+  intelligence-analysis or visual-analytics suites transfer only if the
+  mechanism is tool-agnostic.
+questions:
+  - Are foraging (collect, scan, extract) and sensemaking (schematise, build the
+    frame) separable activities with an order between them, or one interleaved
+    loop? This decides whether the territory is one sequence or two.
+  - Is the lens choice (overview+detail, zooming, focus+context, generated
+    summary) a chain of steps taken in order, or alternatives at one choice
+    point taken per surface?
+  - Does externalising (tagging, annotating) precede or follow viewing at scale
+    — do actors code first and view second, or scan first and mark second?
+  - Do generated summaries/overviews (LLM-era) add a step to the walk or merely
+    compress the foraging loop into a delegated pass?
+keywords: [sensemaking, information foraging, overview, annotation, tagging, incremental formalization, focus+context, personal information management]
+
+# --- Status after the 2026-08-29 lineage backfill
+# answered: Russell 1993 confirmed as the densest ancestor; Furnas 1986 is not;
+#   the recent tools inherit from personal-information-management systems rather
+#   than from sensemaking theory
+# open: Mesh (2020) and Selenite (2024) are unread and central to the recent line
+

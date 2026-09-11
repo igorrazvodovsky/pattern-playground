@@ -1,0 +1,57 @@
+story: apps/patterns/src/content/patterns/plan-preview.mdx
+topic: previewing an agent's intended actions before it executes them
+interaction: |
+  An actor asks for something consequential; before the system does the work
+  it states what it intends to do — steps, targets, expected effects, cost — as
+  an object the actor can read, correct, or refuse. Execution follows only
+  after that, and is held to what was shown.
+context: |
+  Delegated and agentic work (coding agents, research agents, automation
+  tools, data-transformation tools) where acting straight away would spend
+  real work on a misread request. Seed pattern in the library; approval-gate,
+  change-review, bounded-autonomy, cost-transparency, and transparent-reasoning
+  are the neighbours. Pre-AI lineage: dry runs, refactoring previews,
+  feedforward, flight-plan programming.
+questions:
+  - Does showing a plan before execution change outcomes — fewer misreadings
+    caught early, better final results — or mainly change how the actor feels
+    about the agent?
+  - What makes a plan reviewable: granularity of steps, effects versus
+    intentions, a sample of output versus a description of it, cost alongside
+    scope?
+  - What binds execution to the previewed plan, and what happens to trust and
+    oversight when the two drift apart?
+  - When does reviewing plans become ritual — how fast do actors stop reading,
+    and what keeps a plan review a judgement rather than a click?
+  - Where is the boundary with neighbouring moves — approving an action,
+    reviewing a diff, showing reasoning during execution, bounding authority
+    in advance?
+keywords:
+  [
+    plan preview,
+    co-planning,
+    human-in-the-loop planning,
+    mixed-initiative,
+    LLM agent,
+    agentic systems,
+    intent communication,
+    feedforward,
+    dry run,
+    explainable planning,
+    plan legibility,
+    automation surprise,
+    levels of automation,
+    management by consent,
+    approval fatigue,
+    habituation,
+    programming by example,
+    transformation preview,
+  ]
+
+# --- Status after the 2026-08-29 lineage backfill
+# answered: the corpus splits into an AI-planning half and an LLM-oversight half
+#   that share only MAPGEN 2004; To Trust or to Think confirms the
+#   cognitive-forcing placement
+# open: the thirty-year pre-AI lineage is the note's own reconstruction — none of
+#   the testable bibliographies cites Billings, Sheridan, Vermeulen or Wrangler
+
