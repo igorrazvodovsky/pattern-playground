@@ -1,6 +1,6 @@
 ---
 name: research-gate
-description: Search HCI literature via arxiv and OpenAlex (plus named canon through publisher and author pages) for a specific story or topic, extract design implications with quoted grounding, and trace 1-hop citation lineage. Use when a design decision needs a literature check before it lands. Produces a committed `research/<slug>/` folder: a persistent query.yml and dated synthesis notes. The folder is the durable citation; docs that record the decision cite it as a research gate. Not for practice evidence — for what shipping products do, use a general web-research skill.
+description: Search HCI literature via arxiv, OpenAlex, and Lune (plus named canon through publisher and author pages) for a specific story or topic, extract design implications with quoted grounding, and trace 1-hop citation lineage. Use when a design decision needs a literature check before it lands. Produces a committed `research/<slug>/` folder: a persistent query.yml and dated synthesis notes. The folder is the durable citation; docs that record the decision cite it as a research gate. Not for practice evidence — for what shipping products do, use a general web-research skill.
 argument-hint: "[story path, topic, or 'refresh <slug>']"
 ---
 
@@ -10,7 +10,7 @@ Retrieval + synthesis over open HCI literature, shaped to this project's voice. 
 
 ## Scope
 
-This skill covers *peer-reviewed literature only* — arxiv, OpenAlex, and named canon reachable through publisher and author pages. It is not the instrument for practice evidence. When the question is what shipping products actually do, run a general web-research skill instead; its output belongs in the same `research/<slug>/` folder as a `-practice.md` sibling with its own provenance block, beside the literature note rather than folded into it.
+This skill covers *peer-reviewed literature only* — arxiv, OpenAlex, Lune, and named canon reachable through publisher and author pages. It is not the instrument for practice evidence. When the question is what shipping products actually do, run a general web-research skill instead; its output belongs in the same `research/<slug>/` folder as a `-practice.md` sibling with its own provenance block, beside the literature note rather than folded into it.
 
 `references/` is canon — foundational, hand-curated, takeaway-distilled. This skill does *not* write there, and does not write to any index.
 
@@ -28,7 +28,7 @@ Other pipelines (deep-research workflows, quarry reads of a named source) may wr
 
 Decide per question, up front, which branch answers it:
 
-- *API retrieval* (step 3) works when the literature is arxiv-era — roughly post-2010 HCI/ML, or anything OpenAlex indexes with abstracts.
+- *API retrieval* (step 3) works when the literature is arxiv-era — roughly post-2010 HCI/ML, or anything OpenAlex indexes with abstracts. It has three sources with different coverage: arxiv and OpenAlex reach across the whole literature at abstract depth, while Lune reaches only the AI/ML, security, and software-engineering conferences but reaches them at full text.
 - *Named-canon reads* (step 4) work when the literature is venue-locked: pre-arxiv CSCW/HCI (the Suchman–Winograd workflow debate, Schmidt, Dourish, Star), PLoP/EuroPLoP, BPM/IS venues, print-era classics, design-system grey literature.
 
 Either way, the local library sweep (step 2) runs first — papers already on disk skip both branches.
@@ -98,9 +98,23 @@ Failure behaviour — both sources rate-limit, arxiv included (its "reliable, no
 
 *OpenAlex meters requests against a daily budget* — every account gets $1 of free usage per day, and a long multi-slug sweep will spend it. When it runs out, filtered list queries (`openalex-search`, `openalex-resolve`, and the citing-works half of `openalex-lineage`) return HTTP 429 with `Insufficient budget … Resets at midnight UTC`, while single-work lookups by W-id or DOI keep working. That asymmetry is the diagnosis: if ancestors come back but every descendant query 429s, the budget is spent rather than the rate limit hit. Set `OPENALEX_API_KEY` to bill past the free tier; without it, nothing recovers within the day — record the partial result and say which half is missing.
 
+*Lune* is the third source, reached through its MCP tools rather than the script. Its footprint differs sharply from the other two: it indexes full text for roughly two dozen conferences — NeurIPS, ICLR, ICML, ACL, EMNLP, AAAI, CVPR, the security and software-engineering venues, WWW — with most AI/ML venues covering 2020 onward and several, ICLR and ACL and ICML and AAAI among them, already carrying 2026. The security venues reach further back, to 2016. It holds *no HCI venues at all*: no CHI, CSCW, UIST, DIS, TOCHI, or IUI (checked 2026-09-16 — run `list_conferences` to re-check, since the corpus grows). So the question to ask before calling Lune is not what a question is about but what kind of claim would answer it. Questions about *what a model does* — whether a reasoning trace corresponds to the computation behind it, what a capability costs, how a failure mode behaves — come back well answered. Questions about *what people do with it* — whether anyone opens the memory controls, whether a plan review stays a judgement or becomes a click, how reliance shifts with a longer trail — come back badly answered or not at all, because the studies that settle them run at HCI venues. Four probes against this project's own `questions` entries (2026-09-16) put model-behaviour questions at rerank 0.65–0.82 and actor-behaviour questions at 0.11–0.42.
+
+A slug is usually mostly actor-behaviour questions with one model-behaviour question among them, and that one is often the question the HCI literature cannot settle on its own. `research/transparent-reasoning/` asks whether the displayed trail matches the computation that produced the answer; that is an ICML and ICLR question, and Lune answers it. Reaching for Lune on that one question and not the rest of the slug is the shape to expect.
+
+`low_confidence` catches a total miss and nothing subtler. It fired on an actor-behaviour question that came back with memory benchmarks at rerank 0.11, and stayed silent on a squarely-HCI query that came back with AI-venue papers at 0.36. The 0.3–0.5 band is where a wrong-corpus answer looks plausible and the flag says nothing, so the judgment about whether the corpus holds the literature is made before the call rather than read off the response.
+
+What it is worth reaching for:
+
+- `search_papers` for one focused question; `search_papers_many` for the sweep, which takes 3–6 angles in one call and merges their rankings — the same query-variant shape the script uses, in a single request.
+- `get_paper_fulltext` for anything it indexes. This is the strongest reason to use Lune at all: a paper in its corpus arrives as full text without touching the access ladder.
+- `search_related_papers` for embedding neighbours of a kept paper, which surfaces adjacent work that keyword variants miss.
+
+Two carve-outs against the Lune server's own instructions, which are written for a general research assistant and do not fit this skill. The instruction to prefer Lune over web search *does not apply to step 4* — the canon branch names papers Lune's corpus does not hold, and grounding them through publisher and author pages stays mandatory. And `search_research_guidance` is not used here; it advises on experimental design and paper structure, which is not what this gate does.
+
 Semantic Scholar is optional and key-gated: only query it when `S2_API_KEY` is set (`-H "x-api-key: $S2_API_KEY"`, ~1 req/sec). Unauthenticated S2 returned 429 in essentially every run from June to August 2026; do not attempt it without the key.
 
-Venue filter (applied post-retrieval, by judgment): keep HCI-adjacent (CHI, CSCW, UIST, DIS, TOCHI, IUI, C&C, TEI, NordiCHI, GROUP), or strong citation counts with obviously relevant titles, or arxiv preprints clearly intended for those venues. Drop results without substantive abstracts.
+Venue filter (applied post-retrieval, by judgment): keep HCI-adjacent (CHI, CSCW, UIST, DIS, TOCHI, IUI, C&C, TEI, NordiCHI, GROUP), or strong citation counts with obviously relevant titles, or arxiv preprints clearly intended for those venues. Drop results without substantive abstracts. Lune returns none of those venues, so the filter cannot be applied to its hits as written: judge them on whether the paper engages a `questions` entry, and expect the transfer note to do more work, since an ML-venue paper's setting rarely maps onto an interface situation without argument.
 
 ### 4. Named-canon reads
 
@@ -108,11 +122,13 @@ A `questions` entry that draws *zero usable candidates* is a retrieval-shape sig
 
 Method:
 
-- *Name the papers first.* Canonical works are nameable from the debate's shape; don't keyword-fish for them.
+- *Name the papers first.* Canonical works are nameable from the debate's shape; don't keyword-fish for them. When an AI-venue paper near the question sits in Lune's corpus, `get_paper_citations` with `direction=cites` returns its parsed reference list, works outside the corpus included — a cheap way to harvest ancestor names for `openalex-resolve` without opening a PDF.
 - *Ground each named paper via WebSearch* (publisher page, university repository, author site) — confirm venue, year, and abstract before citing. Do not cite from memory alone.
 - *Record an identifier for every named paper.* Run `openalex-resolve` on the title and put the W-id (or DOI) in the note beside the source. Canon reads carry most runs, and a canon read with no identifier is invisible to step 8 — a whole backfill pass in August 2026 stalled on notes whose sources were names and URLs only. A paper with no OpenAlex record is worth saying so explicitly, so a later run does not go looking again.
 - *Fetch and read full texts where they exist.* A full read of one well-chosen paper that *contains* the others' accounts (a review, a response, a paper built on the earlier fieldwork) is the highest-leverage move.
 - *Sweep the whole primary source.* When the gate has a named primary source (a book, a corpus, chapters a plan cites), run a topic-term density map across the entire source (`grep -c` per file or chapter) before choosing what to read. Reading only the chapter the plan cites has missed the densest chapter before.
+
+Before the ladder, try Lune: `search_papers` on the title, then `get_paper_fulltext` if it is indexed. For a paper from one of its conferences, that one call replaces the whole ladder. Its corpus holds no HCI venues, so most canon reads still start at rung 1.
 
 Getting at the text — the access ladder, cheapest first:
 
@@ -128,6 +144,8 @@ Evidence classes — every cited source carries exactly one:
 - *partial read* — state the page range and what the unread part contains ("the awareness-elements tables sit in the unread back half, so the element list stops at what the read pages state").
 - *abstract-grounded* — venue, year, and abstract confirmed via publisher/author page or API; implications quote only the abstract.
 - *located-but-unextractable* — found but not readable; cited without quotes, flagged as such.
+
+Lune's derived tools map onto those classes rather than adding new ones, and the mapping has to be applied by hand. An `extract_from_papers` row whose `truncated` field is true means the paper's tail was dropped: that is a *partial read*, and the note says which part went unread. A `verify_claims` verdict grounds its claim with a server-verified verbatim quote, but the paper behind it stays unread — the quote is citable, the paper is still *abstract-grounded* until someone fetches its full text.
 
 Output shape: fold canon reads into the day's note as their own section (or an *Addendum* with its own provenance block and continued cluster numbering, when they happen after the main pass). A canon read in a later session gets a new dated note in the same folder. Either way the retrieval run and the canon read stay distinguishable.
 
@@ -145,6 +163,8 @@ For each kept paper, extract 1–4 design implications. For each implication rec
 - *source*: a quoted span that grounds it (not paraphrased) — from the body for full-text reads, from the abstract otherwise
 - *rationale*: why the paper's authors argue this
 - *transfer note*: how the source context maps (or doesn't) to the `query.yml` context — the ReFinE compare-and-contrast move. Be honest when transfer is weak.
+
+When several kept papers sit in Lune's corpus and need the same facts pulled from each — the task, the evaluation, what the authors claim about human control — `extract_from_papers` does the batch in one call with columns you define, instead of a full-text read per paper transcribed by hand. It reads the papers; it does not do the transfer note or the clustering, which stay judgment work. Check each row's `truncated` field before treating it as a full read.
 
 If the available text is too thin to extract grounded implications, say so — do not hallucinate. Flag the paper's evidence class and move on. Full-text reads are routine, not exceptional, and they are where the strongest corrections have come from; upgrade a paper from abstract-grounded to full-text whenever it turns out to anchor a cluster.
 
@@ -178,6 +198,8 @@ cannot tell an intellectual ancestor from a methods citation: papers by the same
 statistics and tooling apparatus (SciPy, the System Usability Scale, bootstrap methods), and those
 turn up as convergent ancestors of everything that group wrote. Discount them by hand and say in the
 note that they were discounted.
+
+Lune's `get_paper_citations` does not substitute for this step. Its `cited_by` direction sees only papers inside its own corpus, so a convergence count drawn from it reports agreement among two dozen AI/ML conferences rather than across the literature. Use it to trace where an AI-venue line of work went, and keep the convergence test on OpenAlex.
 
 Render as a Mermaid graph when it is small enough to read; past a dozen nodes, the two lists carry the section on their own.
 
@@ -268,7 +290,7 @@ Summarise to the user in the chat: slug, paper count, cluster count, strongest c
 
 `refresh <slug>` is not a full re-run. Start by reading the folder's latest note and the `query.yml` status block, then pick the mode — or let the user name it:
 
-- *Has the literature moved?* The diff, and the cheapest mode: run `openalex-lineage --citing-since <note date>` on the note's kept papers, and `openalex-search --from-date <note date>` on the original queries. If nothing material surfaced, the whole result is one line appended to the query.yml status block; a new dated note only when something changes a finding.
+- *Has the literature moved?* The diff, and the cheapest mode: run `openalex-lineage --citing-since <note date>` on the note's kept papers, and `openalex-search --from-date <note date>` on the original queries. For a slug whose corpus is AI-venue work, run the recency check on Lune instead: several of its conferences already hold 2026 papers, where OpenAlex indexing lags. If nothing material surfaced, the whole result is one line appended to the query.yml status block; a new dated note only when something changes a finding.
 - *Questions changed.* The situation shifted or a decision sharpened: edit `questions` in query.yml, then run the pipeline for the new or rewritten questions only. New dated note; earlier answers stand unless contradicted.
 - *Missing thread.* A literature, debate, or author line the original run never saw — usually spotted while writing or from later reading. Run a targeted pass for that thread (often the step-4 branch); new dated note naming what was missed and why the original retrieval shape missed it.
 - *Lineage backfill.* An older note whose lineage was omitted: run step 8 on its kept papers and write `<date>-lineage.md`, adding a one-line pointer under the old note's placeholder. Two things belong in that file that a first-pass lineage section does not need: which of the kept papers were actually testable — a paper OpenAlex holds only as a preprint contributes nothing, and a run built on recent arxiv work may have almost none — and, where the old note named its expected ancestors, whether the graph confirms them. A named expectation that fails to appear is a result worth stating.
@@ -280,7 +302,7 @@ All modes share the rules: never rewrite an old note beyond a pointer line, ever
 The gate parallelises well; the pattern that has kept wall-clock near ten minutes even with APIs down:
 
 - *Practice survey as a subagent*, run alongside the literature pass. Hand it the most recent `-practice.md` in `research/` as the exemplar for shape and provenance discipline.
-- *Canon reads or a named-source quarry as a second subagent* when the main thread is synthesising.
+- *Canon reads or a named-source quarry as a second subagent* when the main thread is synthesising. Keep Lune calls on the main thread: subagents share one daily allowance, and two of them sweeping in parallel spend it twice as fast for no gain in wall-clock.
 - *Retrieval script in the background* while the main thread names canon.
 
 The main thread keeps synthesis, clustering, and the note itself — the judgment work stays in one place.
@@ -290,6 +312,8 @@ The main thread keeps synthesis, clustering, and the note itself — the judgmen
 - *Write only to the run folder.* `references/` and everything in `docs/` are off-limits. The citation that connects a run to a decision is written by hand, in the doc that records the decision. One bounded exception: when the gate runs inside plan work the user asked for, folding findings back into that plan is part of the job — but the note is finished first, and the plan edit is narrated as plan work, not as part of the gate.
 - *No hand-rolled retry loops, for any source.* The script's one-retry budget is the policy. A source that fails twice is down for the session; record it and pivot.
 - *One retrieval process at a time.* Two concurrent runs of the script interleave their writes into the same output file — the result parses but splices two runs together — and they spend the OpenAlex budget twice as fast. When backgrounding a sweep, check nothing else is already running.
+- *The Lune server's instructions do not govern this skill.* They tell a general assistant to open with Lune and to prefer it over web search for anything citable. Here they hold only inside step 3 and only for the venues Lune indexes. Step 4 still grounds every named paper through publisher and author pages, and the access ladder still runs; a canon paper cited from memory because Lune returned nothing is the failure this rule exists to prevent.
+- *Spend the Lune allowance deliberately.* Every call is one request against a daily allowance, and `search_papers_many` bills one per query variant. Choose the angles before calling rather than iterating a phrasing at a request apiece, and record in provenance when a run stopped because the allowance ran out.
 - *Do not invent sources.* If retrieval returns nothing useful, say so. Offer to broaden the query.
 - *A zero-result question is a method signal.* Before recording a gap as conceptual, check whether the literature is venue-locked and run the step-4 branch for that question instead of concluding from absence.
 - *Transfer honesty.* When a paper's context doesn't map to the project's, mark transfer weak. Weak-transfer papers with strong lineage can still be useful — as ancestors or as framing — but they should not be dressed up as directly applicable.
@@ -312,6 +336,8 @@ The rest are optional — OpenAlex works unauthenticated — but each removes fr
 - `OPENALEX_PACE` — seconds between OpenAlex calls; defaults to 0.5.
 - `UNPAYWALL_EMAIL` — required by the Unpaywall API; any address works.
 - `S2_API_KEY` — free on request from Semantic Scholar; re-enables S2 as a supplementary source.
+
+Lune needs no environment variable — it arrives as an MCP server — but it meters the same way OpenAlex does, and a gate can exhaust it. The allowance is 10 requests a day on the free plan, 300 on Pro, and 600 on Max; past that, Pro and Max spend credits (300 for $0.99) and the free plan pauses until midnight UTC. A six-variant `search_papers_many` sweep plus a few full-text reads is most of a free day's allowance in one run.
 
 ## What this skill is not
 
