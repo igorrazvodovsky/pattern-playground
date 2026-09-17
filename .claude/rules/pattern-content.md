@@ -9,6 +9,8 @@ paths:
 These rules apply to pattern language content in `apps/patterns/src/content/`.
 For component Storybook documentation, see `.claude/rules/documentation.md`.
 
+Sequence files (`apps/patterns/src/content/sequences/`) follow their own schema and authoring bar — [`docs/specs/sequences.md`](../../docs/specs/sequences.md) — not the pattern shape below. The writing-style and link-format sections of this rule still apply to them.
+
 ## Frontmatter (replaces `<Meta>` tags)
 
 Files are flat under `apps/patterns/src/content/patterns/`; the filename stem is
@@ -232,14 +234,13 @@ reasons (same policy as link formats) — no mass rewrite.
    `## States`, or headings named after the pattern's own dimensions. This is
    where each pattern's idiosyncratic content lives; heading names here are
    free.
-5. *Consequences* — rendered from `situation.resulting` at the page foot,
+5. `## Research on this pattern` — optional; a short bridge from the page's claims to the evidence behind them. Finding-level sentences with the claim as the link text, so detail lives in the linked source; end with what remains untested. A `research-gate` pass is the recommended way to build it, but not required. `citation.mdx` is the reference example.
+6. *Consequences* — rendered from `situation.resulting` at the page foot,
    before "Related patterns"; never authored as a body section (same rule as
    the Related patterns block). Write what holds after the move — gains and
    costs together — as resulting clauses.
-6. `## Resources & references` — always this exact heading (not `Resources`,
-   `References`, or `Resources and references`; rename stragglers on edit).
-7. `## To-do` — authoring residue, one section at most, always the final
-   section of the file.
+7. `## Resources & references`
+8. `## To-do` — authoring residue
 
 There is no `## Problem` section: the problem statement is the lead's job, and
 prose analysing why the obvious answers fail is `## Forces` material.

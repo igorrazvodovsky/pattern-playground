@@ -21,6 +21,7 @@ Plain, design-practitioner language in everything written here — pattern conte
 
 - Structural or cross-workspace changes → [docs/specs/workspace-layout.md](docs/specs/workspace-layout.md) (package boundaries) and [docs/specs/index.md](docs/specs/index.md) (settled specs)
 - Pattern-site content → [docs/specs/pattern-site.md](docs/specs/pattern-site.md); the authoring contract attaches automatically from `.claude/rules/pattern-content.md`
+- Sequence files or sequence authoring → [docs/specs/sequences.md](docs/specs/sequences.md); theory ground in [docs/language/design-theory.md](docs/language/design-theory.md) §Living process
 - Questions about repository altitude/legibility → [docs/levels-of-scale.md](docs/levels-of-scale.md)
 
 ## Domain vocabulary (read when working on patterns, edges, or taxonomy)
