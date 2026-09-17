@@ -50,10 +50,10 @@ mechanisms, deliberately separate:
   Kinds rather than degrees because the states are not ordinal:
   literature-backed-but-never-observed and observed-but-absent-from-the-literature
   are both real, and no single rank places them sensibly. An absent or empty
-  list is the honest state for a new page, not an error.
+  list is the expected state for a new page, not an error.
 - `disclosure` (string) — the prose channel: why confidence is low, what would
-  raise it. Never parsed. The structured fields are for an agent; this carries
-  what the data destroys.
+  raise it. Never parsed. The structured fields are for an agent; this field
+  holds the reasoning that the structured fields cannot express.
 
 `evidence` is refused on `role: quality` and `role: foundation` by the schema: a
 quality is a diagnostic lens and a foundation a frame, so "what backs this"
@@ -141,7 +141,7 @@ dissolution the same way (see [relationship-vocabulary.md](../language/relations
 
 Following a pattern link does not replace the page — it pushes the target into a horizontal stack of panes.
 As the stack grows wider than the viewport, panes collapse into thin vertical _spines_ on both rails: earlier panes tuck under the left edge as you scroll right, later panes stay pinned at the right edge until you scroll back to them.
-Nothing ever scrolls off into nowhere — the deck is bounded by the viewport, like a hand of laid-out cards. State lives in the URL via `stackedNotes` query params — including a pane's section anchor (`slug#fragment`, percent-encoded) — so a stacked view is shareable and survives reload down to anchor positions. The section is part of the address, not just wayfinding.
+No pane leaves the viewport entirely: every pane stays reachable as a spine on one rail or the other. State lives in the URL via `stackedNotes` query params — including a pane's section anchor (`slug#fragment`, percent-encoded) — so a stacked view is shareable and survives reload down to anchor positions. The section anchor is part of the pane's address.
 
 The _geometry_ is mostly CSS `position: sticky`. A
 small rAF-throttled scroll handler in `StackManager.tsx` only reflects what is already painted onto two cosmetic state attributes which marks a note when it overlays another:
@@ -157,12 +157,12 @@ small rAF-throttled scroll handler in `StackManager.tsx` only reflects what is a
 
 - Each pane sticks to a per-pane _left_ inset (its slot in the left rail) and a
   _negative right_ inset of roughly spine-width-minus-pane-width. The negative
-  inset is the crux: it lets a pane flow normally and simply be _clipped_ at the
+  inset is what makes this work: it lets a pane flow normally and simply be _clipped_ at the
   viewport edge until only a spine's worth would remain, and only _then_ pins it
   as a right-rail spine. A _positive_ right inset — the obvious-looking choice —
   pins a pane the instant it overflows, which slides a still-mostly-visible pane
-  on top of the previous one. That asymmetry (flow-then-pin, not pin-on-overflow)
-  is the entire trick.
+  on top of the previous one. The stack depends on that asymmetry
+  (flow-then-pin, not pin-on-overflow).
 - `z-index` increases with pane order, so later panes always lay over earlier
   ones — earlier panes tuck _under_ on the left, later panes sit _over_ on the
   right, giving the stack its consistent front-to-back order.

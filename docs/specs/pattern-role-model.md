@@ -52,7 +52,7 @@ accessibility), it decomposes:
   that already exist. One pattern plus one component is
   the common outcome, not the definition; a component is where several patterns
   coincide, not the unit of pattern-hood.
-- Default to the coarsest node that doesn't lie: author one well-situated pattern
+- Default to the coarsest node that is still accurate: author one well-situated pattern
   and keep suspected sibling patterns as named forces or sections within it until
   they earn nodes of their own (see fission signals below).
 - Expect to author the pattern content fresh, from the situation inward. Control

@@ -6,7 +6,7 @@ from where the pattern *language* is heading
 ([../language/vision.md](../language/vision.md)).
 
 The project's standing posture lives in [core-beliefs.md](./core-beliefs.md);
-this page is the forward edge those beliefs point toward. Compare it with
+this page says where those beliefs lead. Compare it with
 [operative-image.md](./operative-image.md), the current working picture of the
 artifact.
 
@@ -18,7 +18,7 @@ published product or an audience-serving site. The direction is depth and
 coherence, not reach. Features that would only make sense for an audience
 (onboarding, broad discoverability, contribution funnels) stay out of scope
 unless they also serve the author's own thinking. [core-beliefs.md](./core-beliefs.md)
-is the canonical statement; this is its forward-looking edge, and it bounds the
+is the canonical statement; this section restates it as a limit on the
 directions below.
 
 ## Directions
@@ -27,9 +27,9 @@ Two directions extend the garden without productising it. (The content frontier 
 which design problems the repertoire covers — lives in
 [core-beliefs.md](./core-beliefs.md) as the project's current focus, not here:
 coverage themes drift, while these directions are about the artifact's durable
-form.) The far horizon for the reading surface itself — documents receding into
-projection targets, where the distinction between an address and an identity
-dissolves — is sketched in [../levels-of-scale.md](../levels-of-scale.md).
+form.) The long-term direction for the reading surface itself — documents
+becoming projection targets, with no distinction left between an address and an
+identity — is sketched in [../levels-of-scale.md](../levels-of-scale.md).
 
 ### Bilingual substrate maturity
 
@@ -52,7 +52,7 @@ by its author. Docs, the pattern graph, and pattern situations together form a
 control layer an AI design actor can reason over and author into — reading the
 graph as suggestion-grade context, proposing patterns, and writing back typed
 relationships and situations without silently mutating the language. This is the
-project-level face of the language's
+project-level counterpart of the language's
 [agent-usable](../language/vision.md) track; the harness
 ([../specs/agent-harness.md](../specs/agent-harness.md)) is where it becomes
 concrete.

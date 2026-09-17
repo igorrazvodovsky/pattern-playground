@@ -2,9 +2,9 @@
 
 A snapshot of what dimensions the library currently uses to discriminate between patterns, extracted from the 8 active decision trees across the pattern content (`apps/patterns/src/content/patterns/`) and component stories (`packages/components/src/stories/`). The list is descriptive: these are the questions the trees actually branch on, not a normative claim about which dimensions matter.
 
-This is a *current frame*, not an absolute one. The dimensions below are choices, past and accumulating, made by whoever drafted each tree. The absences listed at the end are also choices — places the library hasn't yet found it useful to discriminate. Making both legible is the point. Over time the inventory becomes a map of the library's conceptual reach and a prompt for where to extend it.
+This is a *current frame*, not an absolute one. The dimensions below are choices, past and accumulating, made by whoever drafted each tree. The absences listed at the end are also choices — places the library hasn't yet found it useful to discriminate. The inventory exists to make both legible. Over time the inventory becomes a map of the library's conceptual reach and a prompt for where to extend it.
 
-The vocabulary is left raw. No mapping to a controlled list, no cross-linking between trees, no canonicalisation of phrasing. The same dimension may appear under different names across trees; that variance is data, not noise.
+The vocabulary is left raw. No mapping to a controlled list, no cross-linking between trees, no canonicalisation of phrasing. The same dimension may appear under different names across trees; the inventory records that variance instead of removing it.
 
 ## Per-pattern dimensions
 
@@ -24,7 +24,7 @@ Notable: orientation choice (vertical vs. horizontal, by label length) is drafte
 - *Container flexibility*: can the container expand to fit?
 - *Content traversability*: can the content be scrolled, or truncated with a recoverable affordance?
 
-The tree ends at "consider redesign/priority" when none of these dimensions yield a workable move — making absence of a fit visible is itself a result.
+The tree ends at "consider redesign/priority" when none of these dimensions yield a workable move, so the tree tells the actor when no pattern fits.
 
 ### Notification — `apps/patterns/src/content/patterns/notification.mdx`
 
@@ -106,7 +106,7 @@ Notable absences across the 8 trees:
 - *Information density and signal-to-noise*: BarChart touches "precision need" but no tree branches on attention budget, scanability, or the cost of a wrong glance.
 - *Accessibility-first dimensions*: e.g., screen reader linearisation, motion sensitivity, modality fallback. Present in prose elsewhere; not in any tree.
 
-These are not gaps to be filled mechanically. They are openings — places where future decision trees would extend the library's reach.
+Future decision trees could extend the library's reach in these places, but the list is not a backlog to fill mechanically.
 
 ## How the questions behave as situational hints
 

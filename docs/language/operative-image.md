@@ -30,8 +30,7 @@ What is not yet true is that the layer can be used to generate design. Coverage 
 partial (situations populated for a small set, edges uneven across the corpus),
 structural gaps remain, and the relationship vocabulary is explicitly provisional
 — expected to change through several more iterations of tinkering with edge types
-and data-model features before it is useful in real design work. The build is
-real; the operational language is still ahead of it.
+and data-model features before it is useful in real design work.
 
 The role model is settled. The pattern/component distinction is defined in
 [patterns-and-components.md](./patterns-and-components.md) and the role model in

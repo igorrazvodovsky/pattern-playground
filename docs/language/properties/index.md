@@ -27,7 +27,7 @@ translation to a non-spatial medium re-derived twenty-four properties for
 human activity rather than reusing the fifteen (research gate:
 [research/fifteen-properties/2026-08-07.md](../../../research/fifteen-properties/2026-08-07.md)).
 The fifteen are the starting roster, not a commitment; if a substrate's
-translations start fighting their names, the vocabulary forks per substrate —
+translations stop fitting their names, the vocabulary forks per substrate —
 parallel sets, linked — rather than forcing every substrate through the
 fifteen.
 

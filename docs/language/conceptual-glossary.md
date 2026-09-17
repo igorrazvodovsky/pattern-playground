@@ -28,7 +28,7 @@ Rules for how humans interact with form. A connected structure of patterns organ
 
 ## Component catalogue
 
-`packages/components/` — the vocabulary of components, primitives and controls, the rules for composing them, and the levels of scale (e.g. primitive → component → composition). By [pattern-definition.md](./pattern-definition.md)'s own distinction it is a catalogue rather than a language: retrievable, not generative. Its goal is to support the patterns, not to maximise reuse. Alexander has no term for an identical closed unit — that is the thing his theory is against — but he is not short of building elements; ch. 16 §2's list is "the elements, rules, ways of making roofs, edges, windows, steps." See [patterns-and-components.md](./patterns-and-components.md) §"Components are not reusable units".
+`packages/components/` — the vocabulary of components, primitives and controls, the rules for composing them, and the levels of scale (e.g. primitive → component → composition). By [pattern-definition.md](./pattern-definition.md)'s own distinction it is a catalogue rather than a language: retrievable, not generative. Its goal is to support the patterns, not to maximise reuse. Alexander has no term for an identical closed unit, because his theory argues against such units, but he does describe building elements; ch. 16 §2 lists "the elements, rules, ways of making roofs, edges, windows, steps." See [patterns-and-components.md](./patterns-and-components.md) §"Components are not reusable units".
 
 ## Component
 

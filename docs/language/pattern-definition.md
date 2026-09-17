@@ -98,9 +98,9 @@ generative sequencing:
 - follow-up patterns that act on centres produced by earlier patterns
 - quality edges that state which experiential dimensions the pattern makes legible
 
-This is why the graph is not an index bolted onto the side. It is the
-repository's main claim that the entries form a language rather than a bag of
-reusable ideas. The tree can be an entry point; the graph and its organising
+The graph is therefore central, not a supplementary index: it is the
+repository's main claim that the entries form a language and not only a
+catalogue. The tree can be an entry point; the graph and its organising
 principles carry the language.
 
 Some HCI pattern work treats pattern languages as a basis for transforming an

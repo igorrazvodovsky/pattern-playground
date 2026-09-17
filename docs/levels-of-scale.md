@@ -19,7 +19,7 @@ Software lacks levels of scale when:
 - everything important seems to live at the same altitude
 - code is the only authoritative description of the system
 - decisions have to be re-litigated at implementation time because the coarser framing is absent
-- the repository feels like an ocean of files rather than a set of distinguishable centres
+- the repository reads as an undifferentiated mass of files rather than a set of distinguishable centres
 - agents or humans are forced to infer purpose from local context alone
 
 ## Specificity gradient

@@ -145,7 +145,7 @@ Keep unified when:
 - The relationships are mostly shared — other patterns link to the group, not to individual members
 - Splitting would create nodes too thin
 
-When in doubt, default to the coarsest node that doesn't lie: one well-situated pattern, with suspected sibling patterns recorded as named forces or sections inside it. Under-differentiation self-corrects — the fission signals in `pattern-role-model.md` (disjoint related-patterns subsections, a decision tree growing inside the pattern, disagreeing profile fields, "in some variants…" prose) mark when a unified node has started straining. Over-differentiation produces stub nodes and graph noise, and corrects only by deletion.
+When in doubt, default to the coarsest node that doesn't lie: one well-situated pattern, with suspected sibling patterns recorded as named forces or sections inside it. Under-differentiation self-corrects — the fission signals in `pattern-role-model.md` (disjoint related-patterns subsections, a decision tree growing inside the pattern, disagreeing profile fields, "in some variants…" prose) mark when a unified node has started straining.
 
 When splitting, also decide the higher-altitude strategy (step 5).
 

@@ -4,11 +4,11 @@ Agent-facing knowledge base for the project.
 
 ## Vision → operative image → specification
 
-Two vantage points run the dialectic between desired direction and current
+Two vantage points compare desired direction with current
 state — one on the project artifact, one on the pattern language. They are
 distinct at the abstract end and converge at the concrete: a single plan or
-settled spec usually cashes out both at once (wiring the related-patterns block
-was an artifact change and a language-layer move in one stroke). The
+settled spec usually serves both at once (wiring the related-patterns block
+was both an artifact change and a language-layer move). The
 specification layer is therefore shared, not split. An individual spec still
 answers to whichever vision named it — `workspace-layout` to the project, the
 role model to the language, the pattern-site schema to both.

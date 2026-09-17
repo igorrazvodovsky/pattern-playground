@@ -12,7 +12,7 @@ When a plan addresses a problem that doesn't have an obvious solution or an esta
 The order matters in both directions:
 
 1. *Strawman first, from internal reasoning.* Write the approach from the project's own framing and what's already in the repo. Forming a view before reading external traditions is what lets the project diverge from them when divergence is warranted. Anchoring on others' framings prematurely is a real cost — some of the project's strongest deliberate differences from contemporary practice came from not having read the literature first.
-2. *Then research before commit.* Survey how the field — or adjacent fields — currently handle the same problem. Frame it as "what would I be wrong about?" rather than "what should I copy?" The goal is stress-testing the strawman, not adoption. Most findings will confirm the strawman; the valuable ones are the surprises.
+2. *Then research before commit.* Survey how the field — or adjacent fields — currently handle the same problem. Frame it as "what would I be wrong about?" rather than "what should I copy?" The goal is stress-testing the strawman, not adoption. Most findings will confirm the strawman; the ones that contradict it are the reason to run the pass.
 3. *Record what was deliberately not adopted.* Differences that survive the research pass are choices, and worth naming as such — in the plan itself and in any vocabulary, doc, or convention the plan touches. Future readers should be able to see that an alternative was considered, not assume it was missed.
 
 The trigger is the *shape of the problem*, not the size of the change. Apply when:
@@ -53,7 +53,8 @@ of done (for the split closure: verdicts on every story, demos moved per
 verdict, inbound links rewritten, twins deleted, builds + grep + graph-diff
 verified). Run *reflective verdicts first and unhurried; batch the mechanical
 steps* in the same pass. Expect the verdict vocabulary to grow under load —
-new verdict classes mid-arc are the method working, not scope creep; record
+new verdict classes mid-arc are an expected result of the method and do not
+count as scope creep; record
 them in the plan's log. The worked instance, with the full definition of done
 and the verdict classes it grew, is
 [`plans/completed/2026-07-workspace-split-closure.md`](../../plans/completed/2026-07-workspace-split-closure.md).

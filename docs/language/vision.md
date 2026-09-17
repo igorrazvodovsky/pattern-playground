@@ -22,9 +22,8 @@ That is a different thing from an operational language. You cannot yet use the
 graph to generate design: coverage is partial, structural gaps remain, and the
 data model itself — relationship types, profile shape, what is even worth
 encoding — is expected to keep changing through several more iterations before it
-earns real use in design work. So the sketch has graduated into a first build,
-not into a usable language. The vision still points past that build, along two
-tracks: one deep and theoretical, one nearer and practical.
+earns real use in design work. The vision still points past that build, along
+two tracks: one deep and theoretical, one nearer and practical.
 
 ## Track 1 — Nature of Order register
 
@@ -38,7 +37,7 @@ first worked translation of one property into software.
 
 Getting there means discovering interaction-design analogues of Alexander's
 structural properties — configurations that reliably produce certain experiential
-effects across diverse users and contexts. This is the long horizon, and it is not close.
+effects across diverse users and contexts. This work is long-term and far from done.
 
 ## Track 2 — Agent-usable language
 
@@ -58,7 +57,7 @@ reasons over rather than reads. Three concrete patterns:
   as raw situational text. The frontier is using them as context for judgement,
   not as predicates to be matched against a query.
 
-This track is the language-level face of the project's
+This track is the language-level counterpart of the project's
 [agent-consumable repertoire](../project/vision.md) direction.
 
 ## Mature pattern record
@@ -109,5 +108,5 @@ edges, or file locations:
    artifacts, or is it still living only in prose and assumptions?
 
 Prefer making role and relationship distinctions explicit in docs or source
-metadata over relying on path names. Path names are projections. They are useful,
-but they are not the ontology.
+metadata over relying on path names. Path names are useful projections, but
+they do not define what a thing is.

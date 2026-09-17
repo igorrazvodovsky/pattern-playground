@@ -9,7 +9,7 @@ A *personal design repertoire* — a collection of interaction patterns, qualiti
 ## Commitments
 
 - *Research-first.* The code is a playground for testing ideas, not a production deliverable. Decisions are often aesthetic or philosophical, not purely technical.
-- *Relational over static.* Patterns are defined by what they *do in relation to others*, not by their structural properties in isolation. Cross-references, typed edges, and graph navigation are load-bearing, not decorative.
+- *Relational over static.* Patterns are defined by what they *do in relation to others*, not by their structural properties in isolation. The project depends on cross-references, typed edges, and graph navigation to say what a pattern is.
 - *Multiple projections, no single tree.* Every classification tree is lossy — the underlying pattern space is a semilattice. The project maintains multiple projections (activity theory for experiential altitude, atomic design for compositional complexity, intent lifecycle for goal resolution) and treats none as canonical. See [`references/semilattice.md`](../../references/semilattice.md) for the full argument.
   - *Typological vs topological.* Bowker and Star's distinction: typological classification assigns to discrete bins; topological classification maps proximity and connectivity, where clusters emerge from structure rather than being imposed. The graph is a primary navigational surface, not a secondary annotation on the tree.
 - *Human↔AI collaboration as a design domain.* Current focus: how patterns shift when one participant is an AI — assistance, delegation, agency, conversation, transparent reasoning, embedded intelligence. The coverage is moving toward an intent-based interaction paradigm.

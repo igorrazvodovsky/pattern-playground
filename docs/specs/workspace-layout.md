@@ -81,7 +81,7 @@ Runnable demonstration components live in `packages/components/src/demos/`. A si
 
 The tenancy is deliberate: demos are named for pattern-language moves but
 import component source directly, and co-location with what they wire is the
-load-bearing reason they live here rather than in a third place like
+reason they live here rather than in a third place like
 `shared/`. If demos ever stop importing components directly, that reason
 lapses and the placement question reopens.
 Co-locating demos with the components they wire lets one source feed both
@@ -108,7 +108,7 @@ case moved the home into the components package.
   its structural home in the component library — `components/editor-plugins/<name>/`
   for an editor extension, a service or util for a pure engine — the moment a
   second consumer appears or the capability ships as a real component. `demos/`
-  is a parking lot for un-promoted components, not its permanent address.
+  holds such code temporarily; it is not the code's permanent home.
 
 The distinction is altitude, not reuse-in-principle: the question is not "could
 this be reused" but "does anything other than the demo depend on it today."
@@ -152,10 +152,10 @@ The build-time cross-reference validator
 reference seams — site→Storybook (`<ComponentRef id>` and frontmatter
 `realised_by` against `index.json`), Storybook→site (`<PatternRef slug>`
 against content stems), and site→site (`/patterns/` links) — and it runs in
-the *site* build by design, not by accident: the pattern site is the
-synthesis surface, so its build vouches for both languages. A bare
+the *site* build deliberately: the pattern site is the
+synthesis surface, so its build checks both languages. A bare
 `build-storybook` is unchecked and may drift; the canonical root build
-(Storybook first, then site) is the single gate that closes the loop.
+(Storybook first, then site) is the only build that checks every seam.
 
 ## Scripts directory
 
@@ -165,8 +165,8 @@ tooling: under the settled language-only graph (stage 3) it reads only
 wrote a second copy into `packages/components/src/` for a Storybook component
 that read the graph; that component is gone, nothing in the package reads the
 data, and the copies and their sync check were removed with it. `scripts/`
-hosts the other workspace-level checks, so root residency is the pattern, not
-an exception.
+hosts the other workspace-level checks, so the extractor's place at the root
+follows the same convention.
 
 ## Bilingual entries
 

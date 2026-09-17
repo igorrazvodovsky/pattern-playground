@@ -24,14 +24,15 @@ The catalogue's goal is not reuse. It is to support the patterns — which makes
 the aspiration *adjustability*, and the measure how cheaply an instance can be
 cut to its place.
 
-Alexander has no term for an identical, closed unit: that is what his theory is
-against, and the erector-set component appears only as a foil. But he is not short
-of building elements. Book 2 ch. 16 §2's list is ours — "the elements, rules,
-ways of making roofs, edges, windows, steps, the ceiling of a room. The way to
-make a wall, the way to make a column." What a list like that holds is not a set
-of finished things: it is the part of a window that is the same in every window,
-with whatever differs left to the wall it goes into. Every window at Eishin is a
-window; no two are identical.
+Alexander has no term for an identical, closed unit: his theory argues against
+such units, and the erector-set component appears only as a counter-example. He
+does describe building elements. Book 2 ch. 16 §2 lists them — "the elements,
+rules, ways of making roofs, edges, windows, steps, the ceiling of a room. The
+way to make a wall, the way to make a column." — and the catalogue holds the
+same kind of thing. An entry in such a list is not a finished thing: it is the
+part of a window that is the same in every window, with whatever differs left
+to the wall it goes into. At Eishin every window is recognisably a window, and
+no two are identical.
 
 ## One word, two registers
 
