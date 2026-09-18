@@ -5,10 +5,11 @@ import { mountDemos } from '../lib/demo-registry';
 interface StackManagerProps {
   slug: string;
   title: string;
+  path?: string;
 }
 
-// Spine width in px, read from the --pane-spine-w custom property. We can't
-// measure a .pane-spine element: it is display:none until its pane collapses.
+// Read from the custom property: a .pane-spine is display:none until its pane
+// collapses, so it cannot be measured.
 function getSpineWidth(stackEl: HTMLElement): number {
   const raw = getComputedStyle(stackEl).getPropertyValue('--pane-spine-w').trim();
   const value = parseFloat(raw);
@@ -20,13 +21,10 @@ function getSpineWidth(stackEl: HTMLElement): number {
   return value; // assume px
 }
 
-// Toggle the cosmetic state attributes the stylesheet keys off, matching the
-// reference (notes.andymatuschak.org) which marks a note when it overlays
-// another. Geometry stays pure-CSS sticky; this only reflects what is painted:
-//   data-collapsed   — only a spine's worth of the pane shows (pinned to a rail
-//                      and clipped/covered) → reveal its spine label.
-//   data-overlapping — the pane actually overlays its predecessor → cast the
-//                      depth shadow. Never set when panes merely sit side by side.
+// Geometry is pure-CSS sticky; this only reflects what is painted, for the
+// stylesheet to key off: data-collapsed when no more than a spine's worth of
+// the pane shows, data-overlapping when the pane actually overlays its
+// predecessor (never for panes merely side by side).
 function updateStackClasses(stackEl: HTMLElement) {
   const panes = [...stackEl.querySelectorAll<HTMLElement>('[data-pane-index]')];
   if (!panes.length) return;
@@ -36,12 +34,11 @@ function updateStackClasses(stackEl: HTMLElement) {
 
   panes.forEach((pane, i) => {
     const r = rects[i];
-    // A later pane (higher z-index) covers this one; the viewport clips both edges.
+    // A later pane covers this one; the viewport clips both edges.
     const coveredRight = i + 1 < rects.length ? rects[i + 1].left : stack.right;
     const visible = Math.min(r.right, stack.right, coveredRight) - Math.max(r.left, stack.left);
     const collapsed = visible <= spineW + 4;
-    // This pane overlays its predecessor when their boxes intersect horizontally
-    // (1px slack so a plain side-by-side border seam doesn't count as overlap).
+    // 1px slack so a side-by-side border seam does not count as overlap.
     const overlapping = i > 0 && r.left < rects[i - 1].right - 1;
     pane.toggleAttribute('data-collapsed', collapsed);
     pane.toggleAttribute('data-overlapping', overlapping);
@@ -56,7 +53,6 @@ function naturalLeft(sections: HTMLElement[], paneIndex: number): number {
   return acc;
 }
 
-// Scroll a pane to its expanded spot, just right of the left rail.
 function scrollToPane(stackEl: HTMLElement, paneIndex: number) {
   const sections = [...stackEl.querySelectorAll<HTMLElement>('[data-pane-index]')];
   if (!sections.length) return;
@@ -66,9 +62,8 @@ function scrollToPane(stackEl: HTMLElement, paneIndex: number) {
   stackEl.scrollTo({ left: Math.max(0, Math.min(max, target)), behavior: 'smooth' });
 }
 
-// Markup twin of the static pane-0 spine in Base.astro. No click handler of its
-// own — spine clicks (this one and the static one) are handled by one delegated
-// listener on the stack.
+// Markup twin of the static pane-0 spine in Base.astro. No click handler: every
+// spine is served by the one delegated listener on the stack below.
 function PaneSpine({ paneTitle }: { paneTitle: string }) {
   return (
     <button className="pane-spine" aria-label={`Scroll ${paneTitle} into view`}>
@@ -77,30 +72,27 @@ function PaneSpine({ paneTitle }: { paneTitle: string }) {
   );
 }
 
-// Renders panes 1+ as a sibling island inside the static .stack (Base.astro
-// renders pane 0 and the stack element itself; <astro-island> is
-// display:contents, so the sections participate in the stack's flex geometry
-// directly). Pane 0's stack-dependent state — active flag, --pane-n — is
-// reflected onto the static DOM by attribute, like data-collapsed already is.
-export function StackManager({ slug, title }: StackManagerProps) {
+// Renders panes 1+ as a sibling island inside the static .stack that Base.astro
+// renders along with pane 0 (<astro-island> is display:contents, so the sections
+// take part in the stack's flex geometry directly). Pane 0's stack-dependent
+// state is reflected onto the static DOM by attribute.
+export function StackManager({ slug, title, path }: StackManagerProps) {
   const { panes, activeIndex, syncFromURL } = useStackStore();
   const anchorRef = useRef<HTMLSpanElement>(null);
   const prevPanesRef = useRef<typeof panes>([]);
 
-  // The island's rendered children live inside the .stack; the hidden anchor
-  // (display:none, so inert to flex) is a stable handle back to it. Set during
-  // commit, so it is available to every effect below from the first run.
+  // The hidden anchor (display:none, so inert to flex) is the island's stable
+  // handle back to the .stack it lives in.
   const getStack = () =>
     anchorRef.current?.closest<HTMLElement>('.stack') ?? null;
 
   useEffect(() => {
-    syncFromURL(slug, title);
-    const handlePopstate = () => syncFromURL(slug, title);
+    syncFromURL(slug, title, path);
+    const handlePopstate = () => syncFromURL(slug, title, path);
     window.addEventListener('popstate', handlePopstate);
     return () => window.removeEventListener('popstate', handlePopstate);
-  }, [slug, title, syncFromURL]);
+  }, [slug, title, path, syncFromURL]);
 
-  // Reflect stack state onto the static pane 0 and the stack element.
   useEffect(() => {
     const stackEl = getStack();
     if (!stackEl) return;
@@ -113,8 +105,6 @@ export function StackManager({ slug, title }: StackManagerProps) {
     else pane0.removeAttribute('aria-current');
   }, [panes.length, activeIndex]);
 
-  // One delegated click listener serves every spine, the static pane-0 one
-  // included.
   useEffect(() => {
     const stackEl = getStack();
     if (!stackEl) return;
@@ -135,17 +125,15 @@ export function StackManager({ slug, title }: StackManagerProps) {
     scrollToPane(stackEl, panes.length - 1);
   }, [panes.length]);
 
-  // Land keyboard focus on the pushed pane's h1 once its content is in the
-  // DOM. Keyed on the ready transition, not on pane count: at push time the
-  // pane is a loading placeholder with no h1 to focus.
+  // Focus the pushed pane's h1 on its ready transition, not on pane count: at
+  // push time the pane is a loading placeholder with no h1.
   useEffect(() => {
     if (panes.length <= 1) return;
     const lastIndex = panes.length - 1;
     const last = panes[lastIndex];
     if (last.status !== 'ready') return;
     if (prevPanesRef.current[lastIndex]?.status === 'ready') return;
-    // Skip focus when the pane has a hash target: the hash-scroll effect will
-    // scroll to the anchor, and h1.focus() would cancel that scroll.
+    // h1.focus() would cancel the hash-scroll effect's scroll to the anchor.
     if (last.hash) return;
     const h1 = getStack()?.querySelector<HTMLElement>(`[data-pane-index="${lastIndex}"] h1`);
     if (h1) {
@@ -154,12 +142,6 @@ export function StackManager({ slug, title }: StackManagerProps) {
     }
   }, [panes]);
 
-  // Reflect the painted overlap geometry into data-collapsed / data-overlapping
-  // on every scroll (rAF-throttled) and resize. Re-runs when panes change so a
-  // newly pushed or removed pane is classified immediately. A ResizeObserver on
-  // the panes catches width changes that fire no scroll/resize event — a demo
-  // expanding its host pane (lib/demo-expander.ts), or a demo settling its size
-  // after mounting — and is bound to this instance's live elements.
   useEffect(() => {
     const stackEl = getStack();
     if (!stackEl) return;
@@ -174,6 +156,8 @@ export function StackManager({ slug, title }: StackManagerProps) {
     updateStackClasses(stackEl);
     stackEl.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule);
+    // Catches width changes that fire no scroll or resize event: a demo
+    // expanding its host pane, or settling its size after mounting.
     const ro = new ResizeObserver(schedule);
     for (const pane of stackEl.querySelectorAll('[data-pane-index]')) ro.observe(pane);
     return () => {
@@ -184,9 +168,6 @@ export function StackManager({ slug, title }: StackManagerProps) {
     };
   }, [panes]);
 
-  // Mount demo widgets in injected panes once the pane's html has been
-  // committed to the DOM. Runs for each pane that just turned ready;
-  // mountDemos self-guards against reruns (data-demo-mounted).
   useEffect(() => {
     panes.slice(1).forEach((pane, i) => {
       if (pane.status !== 'ready') return;
@@ -207,10 +188,8 @@ export function StackManager({ slug, title }: StackManagerProps) {
       const paneBody = paneEl?.querySelector<HTMLElement>('.pane-body');
       const target = paneEl?.querySelector<HTMLElement>(pane.hash);
       if (!paneBody || !target) return;
-      // scrollIntoView also scrolls .stack horizontally, fighting the concurrent
-      // horizontal scroll from scrollToPane and ending up back at 0. Direct
-      // .pane-body scroll avoids .stack entirely; 'instant' avoids competing
-      // with the horizontal smooth animation already in progress.
+      // Not scrollIntoView: it also scrolls .stack horizontally and fights the
+      // smooth scroll from scrollToPane; 'instant' avoids competing with it.
       const top = target.getBoundingClientRect().top - paneBody.getBoundingClientRect().top + paneBody.scrollTop;
       paneBody.scrollTo({ top, behavior: 'instant' });
     });

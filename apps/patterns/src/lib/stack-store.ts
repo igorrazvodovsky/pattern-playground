@@ -7,19 +7,22 @@ export type Pane = {
   html: string;
   status: 'loading' | 'ready' | 'error';
   hash?: string;
+  // Only pane 0 ever carries one: nothing pushes a sequence, so panes 1+ are
+  // always patterns and take the `/patterns/<slug>` default.
+  path?: string;
 };
 
 type StackState = {
   panes: Pane[];
   activeIndex: number;
   push: (slug: string, fromIndex: number, hash?: string) => Promise<void>;
-  syncFromURL: (slug0: string, title0: string) => Promise<void>;
+  syncFromURL: (slug0: string, title0: string, path0?: string) => Promise<void>;
 };
 
 export function buildURL(panes: Pane[]): string {
   if (panes.length === 0) return '/';
   const [first, ...rest] = panes;
-  const base = `/patterns/${first.slug}`;
+  const base = first.path ?? `/patterns/${first.slug}`;
   if (rest.length === 0) return base;
   const params = new URLSearchParams();
   // A pane's section anchor is part of its address: encode it into the param
@@ -64,9 +67,9 @@ export const useStackStore = create<StackState>()((set, get) => ({
     }
   },
 
-  syncFromURL: async (slug0, title0) => {
+  syncFromURL: async (slug0, title0, path0) => {
     const stacked = new URLSearchParams(window.location.search).getAll('stackedNotes');
-    const pane0: Pane = { slug: slug0, title: title0, html: '', status: 'ready' };
+    const pane0: Pane = { slug: slug0, title: title0, html: '', status: 'ready', path: path0 };
 
     if (stacked.length === 0) {
       set({ panes: [pane0], activeIndex: 0 });

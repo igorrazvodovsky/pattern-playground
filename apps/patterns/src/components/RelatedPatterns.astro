@@ -10,7 +10,7 @@
  */
 
 import graphData from '../data/pattern-graph.json';
-import { parseLabel } from '../lib/label-markdown';
+import Label from './Label.astro';
 
 interface Props {
   slug: string;
@@ -167,7 +167,7 @@ const hasRelated = !isQuality && sections.length > 0;
           {entries.map(({ node, label }) => (
             <li>
               <a href={node.path}>{node.title}</a>
-              {label && <> — {parseLabel(label).map((p) => (p.href ? <a href={p.href}>{p.text}</a> : p.em ? <em>{p.text}</em> : p.text))}</>}
+              {label && <> — <Label text={label} /></>}
             </li>
           ))}
         </ul>

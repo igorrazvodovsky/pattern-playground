@@ -1,0 +1,49 @@
+---
+import { getCollection } from 'astro:content';
+import Label from './Label.astro';
+import { appearancesBySlug, type AppearanceKind } from '../lib/sequence';
+
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+
+// Same order the nav lists sequences in.
+const sequences = (await getCollection('sequences')).sort((a, b) =>
+  a.data.order - b.data.order || a.data.title.localeCompare(b.data.title));
+const appearances = appearancesBySlug(sequences).get(slug) ?? [];
+
+const bySequence = new Map<string, { title: string; entries: typeof appearances }>();
+for (const appearance of appearances) {
+  const group = bySequence.get(appearance.sequenceId);
+  if (group) group.entries.push(appearance);
+  else bySequence.set(appearance.sequenceId, { title: appearance.sequenceTitle, entries: [appearance] });
+}
+
+const KIND_PREFIX: Record<AppearanceKind, string> = {
+  rule: '',
+  constituent: 'within ',
+  tree: 'the decision tree behind ',
+};
+---
+
+{appearances.length > 0 && (
+  <section class="flow" aria-label="Appears in">
+    <h2>Appears in</h2>
+    {[...bySequence].map(([id, group]) => (
+      <div class="flow">
+        <h3><a href={`/sequences/${id}`}>{group.title}</a></h3>
+        <ul>
+          {group.entries.map((a) => (
+            <li>
+              <a href={`/sequences/${id}#${a.anchor}`}>{a.subTitle}, step {a.stepNumber}</a>
+              {' — '}{KIND_PREFIX[a.kind]}{a.step}
+              {a.note && <Fragment>: <Label text={a.note} /></Fragment>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </section>
+)}

@@ -183,6 +183,11 @@ requirement. The extractor emits them as node metadata, and a resulting clause
 with `sets-up:` emits a conditional `precedes` edge. See
 [relationship-vocabulary.md](../language/relationship-vocabulary.md) §Situations.
 
+## Sequences
+
+The sequence collection — what a sequence is, the file format and field meanings, the authoring bar, rendering, and validation — has its own spec: [sequences.md](sequences.md). Two points that bind this spec: sequence files live beside the patterns collection in `apps/patterns/src/content/sequences/`
+with the same filename-stem identity rule, and a sequence page is the one pane-0 case that is not a pattern (§Stacked-notes navigation).
+
 ## Toolchain posture
 
 The site deliberately sits off two Astro defaults:

@@ -1,0 +1,142 @@
+/* Unlayered on purpose: the prose voice in app.css is authored unlayered inside
+   an @scope donut, so a layered rule here could not override its `ul` and
+   `li + li` defaults. These class selectors win on specificity instead. */
+
+.sequence,
+.sequence-connections {
+  --seq-gap-line: 0.125rem;  /* between lines of one thing */
+  --seq-gap-inner: 0.25rem;  /* head to its own gloss */
+  --seq-gap-part: 0.5rem;    /* gloss to the constituents under it */
+  --seq-gap-sibling: 0.75rem; /* between the members of a cluster */
+  --seq-gap-step: var(--space-l); /* between steps */
+}
+
+details.sequence-initiating {
+  color: var(--c-bodyDimmed);
+  border: none;
+  margin-inline: 0;
+  padding: 0;
+}
+
+.sequence-initiating__body {
+  font-style: italic;
+  text-wrap: pretty;
+}
+
+.sequence__condition {
+  border-inline-start: 2px solid var(--c-neutral-200);
+  padding-inline-start: var(--space-s);
+  color: var(--c-bodyDimmed);
+  text-wrap: pretty;
+}
+
+h2 + .sequence-initiating {
+  margin-block-start: var(--space-s);
+}
+
+.sequence-initiating + .sequence__steps,
+.sequence__steps + .sequence__condition {
+  margin-block-start: var(--space-xl);
+}
+
+.sequence__condition-label::after,
+.sequence__enacts-label::after {
+  content: ' · ';
+}
+
+.sequence__enacts {
+  margin-block-start: var(--space-2xs);
+  color: var(--c-bodyDimmed);
+}
+
+.sequence__sub {
+  margin-block-start: var(--space-2xl);
+}
+
+.sequence__steps {
+  padding-inline-start: 2.25rem;
+}
+
+.sequence__steps > li::marker {
+  color: var(--c-neutral-500);
+}
+
+.sequence__steps > li + li {
+  margin-block-start: var(--seq-gap-step);
+}
+
+.sequence-step__head {
+  margin-block-end: var(--seq-gap-inner);
+  text-wrap: pretty;
+}
+
+.sequence-step__verb {
+  font-weight: 500;
+}
+
+.sequence-step__aspect,
+.sequence-step__tag {
+  color: var(--c-bodyDimmed);
+}
+
+.sequence-step__tag::before {
+  content: ' · ';
+}
+
+.sequence-step__gloss {
+  margin-block: var(--seq-gap-inner) 0;
+  text-wrap: pretty;
+}
+
+.sequence-step__group {
+  margin-block-start: var(--seq-gap-sibling);
+  padding-inline-start: var(--space-m);
+  border-inline-start: 2px dotted var(--c-neutral-200);
+  list-style: none;
+}
+
+.sequence-step__group > li + li {
+  margin-block-start: var(--seq-gap-sibling);
+}
+
+.sequence-step__constituents {
+  margin-block-start: var(--seq-gap-part);
+  font-size: 0.9em;
+  line-height: 1.45;
+  color: var(--c-bodyDimmed);
+}
+
+.sequence-step__constituents ul {
+  margin-block-start: 0;
+  padding-inline-start: 1em;
+}
+
+.sequence-step__constituents li + li {
+  margin-block-start: var(--seq-gap-line);
+}
+
+.sequence-connections__list {
+  list-style: none;
+  padding-inline-start: 0;
+}
+
+.sequence-connections__list > li + li {
+  margin-block-start: var(--seq-gap-step);
+}
+
+.sequence-connection__head,
+.sequence-connection__where,
+.sequence-connection__note {
+  margin-block: var(--seq-gap-line);
+}
+
+.sequence-connection__where,
+.sequence-connection__note {
+  font-size: 0.9em;
+  line-height: 1.45;
+  color: var(--c-bodyDimmed);
+}
+
+.sequence-connection__note {
+  text-wrap: pretty;
+}

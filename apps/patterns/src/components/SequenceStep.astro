@@ -1,0 +1,29 @@
+---
+import Label from './Label.astro';
+import { patternRef, type PatternTitles, type Step } from '../lib/sequence';
+
+interface Props {
+  step: Step;
+  titles: PatternTitles;
+}
+
+const { step, titles } = Astro.props;
+
+const rule = step.rule ? patternRef(titles, step.rule) : undefined;
+
+---
+
+<p class="sequence-step__head">
+  <span class="sequence-step__verb">{step.step}</span>
+  {rule && (
+    <span class="sequence-step__rule">
+      {' — '}
+      {rule.href ? <a href={rule.href}>{rule.label}</a> : rule.label}
+      {step.aspect && <em class="sequence-step__aspect">, {step.aspect}</em>}
+    </span>
+  )}
+  {step.optional && <em class="sequence-step__tag">optional</em>}
+</p>
+
+{step.gloss && <p class="sequence-step__gloss"><Label text={step.gloss} /></p>}
+

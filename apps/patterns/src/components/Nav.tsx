@@ -22,8 +22,12 @@ type NavTreeNode = NavLeaf | NavBranch;
 type NavGroup = NavBranch;
 
 interface NavProps {
+  // Role groups, identical in every projection, so rendered once above the
+  // projection groups (Base.astro).
+  shared: NavGroup[];
   projections: Record<string, NavGroup[]>;
   projectionLabels: Record<string, string>;
+  sequences: NavGroup;
   storybookUrl: string;
 }
 
@@ -291,7 +295,7 @@ function ProjectionMenu({
 // navigation. The page content is a static sibling (not a child) of this
 // island; active-link state comes from the runtime URL via useActivePath, not a
 // prop, since a persisted island never re-renders on navigation.
-export function Nav({ projections, projectionLabels, storybookUrl }: NavProps) {
+export function Nav({ shared, projections, projectionLabels, sequences, storybookUrl }: NavProps) {
   const { isOpen, setOpen, projection, setProjection } = useNavStore();
   const hydrated = useNavHydration();
   const currentPath = useActivePath();
@@ -305,9 +309,14 @@ export function Nav({ projections, projectionLabels, storybookUrl }: NavProps) {
   const activeItems = projections[active] ?? [];
 
   // Scope collapse state per projection so same-named groups in different
-  // projections (e.g. Foundations) don't share open/closed state.
+  // projections don't share open/closed state.
   const scopedIsOpen = (label: string) => isOpen(`${active}:${label}`);
   const scopedSetOpen = (label: string, open: boolean) => setOpen(`${active}:${label}`, open);
+
+  // Groups outside the projections keep one collapse state rather than one per
+  // projection.
+  const fixedIsOpen = (label: string) => isOpen(`fixed:${label}`);
+  const fixedSetOpen = (label: string, open: boolean) => setOpen(`fixed:${label}`, open);
 
   return (
     <SidebarProvider renderWrapper={false}>
@@ -337,6 +346,25 @@ export function Nav({ projections, projectionLabels, storybookUrl }: NavProps) {
                   Introduction
                 </SidebarMenuButton>
               </SidebarMenuItem>
+              {shared.map((group) => (
+                <NavNode
+                  key={group.label}
+                  node={group}
+                  currentPath={currentPath}
+                  isOpen={fixedIsOpen}
+                  setOpen={fixedSetOpen}
+                  hydrated={hydrated}
+                />
+              ))}
+              {sequences.children.length > 0 && (
+                <NavNode
+                  node={sequences}
+                  currentPath={currentPath}
+                  isOpen={fixedIsOpen}
+                  setOpen={fixedSetOpen}
+                  hydrated={hydrated}
+                />
+              )}
               {activeItems.map((group) => (
                 <NavNode
                   key={group.label}

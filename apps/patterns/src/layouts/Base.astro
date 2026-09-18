@@ -6,14 +6,20 @@ import '../styles/fonts.css';
 import '../styles/app.css';
 import '../styles/stack.css';
 import '../styles/link-preview.css';
+import '../styles/sequence.css';
 import { Nav } from '../components/Nav';
 import { StackManager } from '../components/StackManager';
 
 interface Props {
   title: string;
   slug?: string;
+  // Pane 0's canonical path, when the page hosting the stack is not a pattern;
+  // the store rebuilds the stack URL from it (lib/stack-store.ts).
+  panePath?: string;
+  // What pane 0 is, for its region label.
+  paneKind?: string;
 }
-const { title, slug } = Astro.props;
+const { title, slug, panePath, paneKind = 'Pattern' } = Astro.props;
 const storybookUrl = import.meta.env.PUBLIC_STORYBOOK_URL ?? 'http://localhost:6006';
 
 type NavLeaf = { label: string; href: string };
@@ -112,15 +118,16 @@ const byActivity: NavGroup[] = [
     };
   });
 
-// The A–Z projection: a lens-free view. Foundations and qualities are *roles*,
-// orthogonal to any lens, so those two groups are the by-activity groups
-// verbatim. Everything else — activities, actions, operations, data-visualisation
-// and their umbrella/overview pages (which appear under their own titles as
-// ordinary entries) — flattens into one alphabetical list, built directly from
-// the entries so umbrellas keep their real titles instead of the "Overview" leaf.
-const foundationsGroup = byActivity.find((g) => g.label === toLabel('foundations'));
-const qualitiesGroup = byActivity.find((g) => g.label === toLabel('qualities'));
+// Foundations and qualities are roles, orthogonal to any lens, so every
+// projection would carry them verbatim.
+const sharedGroups: NavGroup[] = byActivity.filter(
+  (g) => g.label === toLabel('foundations') || g.label === toLabel('qualities'),
+);
+const byActivityRest = byActivity.filter((g) => !sharedGroups.includes(g));
 
+// The A–Z projection: a lens-free view. Everything outside the role groups
+// flattens into one alphabetical list, built from the entries rather than the
+// groups so umbrellas keep their real titles instead of the "Overview" leaf.
 const flatLeaves: NavLeaf[] = (patterns as CollectionEntry<'patterns'>[])
   .filter((p) => {
     const key = groupKeyOf(p);
@@ -129,20 +136,27 @@ const flatLeaves: NavLeaf[] = (patterns as CollectionEntry<'patterns'>[])
   .map((p) => ({ label: p.data.title, href: `/patterns/${p.id}` }))
   .sort((a, b) => a.label.localeCompare(b.label));
 
-const alphabetical: NavGroup[] = [
-  ...(foundationsGroup ? [foundationsGroup] : []),
-  ...(qualitiesGroup ? [qualitiesGroup] : []),
-  { label: 'Patterns', children: flatLeaves },
-];
+const alphabetical: NavGroup[] = [{ label: 'Patterns', children: flatLeaves }];
 
 type ProjectionId = 'by-activity' | 'a-z';
 const projections: Record<ProjectionId, NavGroup[]> = {
-  'by-activity': byActivity,
+  'by-activity': byActivityRest,
   'a-z': alphabetical,
 };
 const projectionLabels: Record<ProjectionId, string> = {
   'by-activity': 'By activity level',
   'a-z': 'A–Z',
+};
+
+// Sequences are not a projection: a projection rearranges the same pattern
+// entries, where a sequence is an authored walk over them. So they get their own
+// group rather than a place in the projection switcher.
+const sequencesGroup: NavGroup = {
+  label: 'Sequences',
+  children: (await getCollection('sequences'))
+    .sort((a, b) =>
+      a.data.order - b.data.order || a.data.title.localeCompare(b.data.title))
+    .map((s): NavLeaf => ({ label: s.data.title, href: `/sequences/${s.id}` })),
 };
 ---
 <!doctype html>
@@ -168,7 +182,7 @@ const projectionLabels: Record<ProjectionId, string> = {
   </head>
   <body>
     <div class="shell" data-slot="shell">
-      <Nav client:load transition:persist="app-nav" projections={projections} projectionLabels={projectionLabels} storybookUrl={storybookUrl} />
+      <Nav client:load transition:persist="app-nav" shared={sharedGroups} projections={projections} projectionLabels={projectionLabels} sequences={sequencesGroup} storybookUrl={storybookUrl} />
       <main class="shell__main" data-slot="shell-main">
         {slug ? (
           <div class="stack" style="--pane-n: 1">
@@ -177,7 +191,7 @@ const projectionLabels: Record<ProjectionId, string> = {
               data-pane-index="0"
               style="--pane-i: 0"
               role="region"
-              aria-label={`Pattern: ${title}`}
+              aria-label={`${paneKind}: ${title}`}
               aria-current="true"
             >
               <button class="pane-spine" aria-label={`Scroll ${title} into view`}>
@@ -187,7 +201,7 @@ const projectionLabels: Record<ProjectionId, string> = {
                 <slot />
               </div>
             </section>
-            <StackManager client:load slug={slug} title={title} />
+            <StackManager client:load slug={slug} title={title} path={panePath} />
           </div>
         ) : (
           <div class="content-inset">

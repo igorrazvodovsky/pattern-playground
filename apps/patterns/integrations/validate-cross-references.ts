@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync, statSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { load as yamlLoad } from 'js-yaml';
@@ -401,6 +401,97 @@ function checkIntraSiteLinks(logger: AstroIntegrationLogger): Violation[] {
   return violations;
 }
 
+function checkSequenceRefs(logger: AstroIntegrationLogger): Violation[] {
+  const stems = contentStems();
+  const sequencesDir = join(patternsContentDir, 'sequences');
+  if (!existsSync(sequencesDir)) return [];
+
+  const violations: Violation[] = [];
+  let checked = 0;
+
+  const patternSlugs = (step: Record<string, unknown>): string[] => {
+    const slugs: string[] = [];
+    if (typeof step.rule === 'string') slugs.push(step.rule);
+    for (const c of Array.isArray(step.constituents) ? step.constituents : []) {
+      if (typeof c === 'string') slugs.push(c);
+      else if (c && typeof (c as { slug?: unknown }).slug === 'string') slugs.push((c as { slug: string }).slug);
+    }
+    return slugs;
+  };
+
+  for (const file of walkMdx(sequencesDir)) {
+    const content = readFileSync(file, 'utf-8');
+    const fmMatch = content.match(/^---\n([\s\S]*?)\n---/);
+    if (!fmMatch) continue;
+    let fm: Record<string, unknown>;
+    try {
+      fm = (yamlLoad(fmMatch[1]) ?? {}) as Record<string, unknown>;
+    } catch {
+      continue;
+    }
+
+    const report = (slug: string, field: string) => {
+      checked++;
+      if (stems.has(slug)) return;
+      const suggestion = nearest(slug, stems);
+      const index = content.indexOf(slug);
+      violations.push({
+        file: relPath(file),
+        line: index === -1 ? 1 : lineOf(content, index),
+        message:
+          `sequence ${field}: "${slug}" resolves to no pattern route ` +
+          `(apps/patterns/src/content/patterns/${slug}.{md,mdx})` +
+          (suggestion ? ` — did you mean "${suggestion}"?` : '.'),
+      });
+    };
+
+    const positionCounts = new Map<string, number>();
+    const subSequences = Array.isArray(fm['sub-sequences']) ? fm['sub-sequences'] : [];
+    for (const sub of subSequences as Record<string, unknown>[]) {
+      const positions = Array.isArray(sub.steps) ? (sub.steps as Record<string, unknown>[]) : [];
+      if (typeof sub.id === 'string') positionCounts.set(sub.id, positions.length);
+      for (const position of positions) {
+        if (typeof position.tree === 'string') report(position.tree, 'tree');
+        const steps = Array.isArray(position.steps)
+          ? position.steps
+          : Array.isArray(position.alternatives)
+            ? position.alternatives
+            : [position];
+        for (const step of steps as Record<string, unknown>[]) {
+          for (const slug of patternSlugs(step)) report(slug, 'rule/constituent');
+        }
+      }
+    }
+
+    for (const connection of (Array.isArray(fm.connections) ? fm.connections : []) as Record<string, unknown>[]) {
+      if (typeof connection.via === 'string') report(connection.via, 'connection via');
+      if (typeof connection.at !== 'string') continue;
+      const [subId, position] = connection.at.split('/');
+      const count = positionCounts.get(subId);
+      const index = content.indexOf(connection.at);
+      if (count === undefined) {
+        violations.push({
+          file: relPath(file),
+          line: index === -1 ? 1 : lineOf(content, index),
+          message: `connection at: "${connection.at}" names no sub-sequence in this file.`,
+        });
+      } else if (position !== undefined && !(Number(position) >= 1 && Number(position) <= count)) {
+        violations.push({
+          file: relPath(file),
+          line: index === -1 ? 1 : lineOf(content, index),
+          message:
+            `connection at: "${connection.at}" points past the end of "${subId}", ` +
+            `which has ${count} numbered step(s). Numbers are one-based, and a ` +
+            'cluster or choice point takes one number for the steps it holds.',
+        });
+      }
+    }
+  }
+
+  logger.info(`Checked ${checked} sequence pattern slug(s) against ${stems.size} content stems.`);
+  return violations;
+}
+
 export default function validateCrossReferences(): AstroIntegration {
   return {
     name: 'validate-cross-references',
@@ -415,6 +506,7 @@ export default function validateCrossReferences(): AstroIntegration {
           ...checkEvidenceRefs(logger),
           ...checkPatternRefs(logger),
           ...checkIntraSiteLinks(logger),
+          ...checkSequenceRefs(logger),
         ];
 
         if (violations.length > 0) {

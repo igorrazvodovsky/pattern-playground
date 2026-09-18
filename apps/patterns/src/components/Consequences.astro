@@ -14,7 +14,7 @@
  * (statement here, link context there), not a second home.
  */
 import type { CollectionEntry } from 'astro:content';
-import { parseLabel } from '../lib/label-markdown';
+import Label from './Label.astro';
 
 interface Props {
   entry: CollectionEntry<'patterns'>;
@@ -31,7 +31,7 @@ const clauses = resulting.map((c) => (typeof c === 'string' ? c : c.clause));
     <h2>Consequences</h2>
     <ul>
       {clauses.map((clause) => (
-        <li>{parseLabel(clause).map((p) => (p.href ? <a href={p.href}>{p.text}</a> : p.em ? <em>{p.text}</em> : p.text))}</li>
+        <li><Label text={clause} /></li>
       ))}
     </ul>
   </section>

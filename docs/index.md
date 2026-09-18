@@ -39,6 +39,8 @@ hold promoted commitments that govern the process.
   each workspace owns
 - [Pattern site](specs/pattern-site.md) — content schema semantics, file layout
   and slugs, facets, stacked-notes navigation
+- [Sequences](specs/sequences.md) — the sequence collection: file format,
+  authoring bar, rendering, validation
 - [Graph relationship model](specs/graph-relationship-model.md) — graph edge
   model and epistemic stance
 - [Pattern role model](specs/pattern-role-model.md) — component, pattern,

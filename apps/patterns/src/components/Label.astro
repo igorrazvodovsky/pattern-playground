@@ -1,0 +1,17 @@
+---
+// The one renderer for the inline-markdown subset in lib/label-markdown.ts, so
+// no two surfaces showing authored label prose can diverge.
+import { parseLabel } from '../lib/label-markdown';
+
+interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+---
+{parseLabel(text).map((part) =>
+  part.href ? <a href={part.href}>{part.text}</a>
+  : part.code ? <code>{part.text}</code>
+  : part.em ? <em>{part.text}</em>
+  : part.text,
+)}

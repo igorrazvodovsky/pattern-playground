@@ -1,0 +1,38 @@
+---
+// `presupposes` precedes the body: it says whether the sequence applies at all,
+// which is needed before the walk rather than after it. A sub-sequence's
+// `initiating` takes the same fold one scale down (SequenceWalk.astro).
+import { render, type CollectionEntry } from 'astro:content';
+import Demo from './Demo.astro';
+import Diagram from './Diagram.astro';
+import { ComponentRef } from './ComponentRef';
+import PatternDates from './PatternDates.astro';
+import SequenceWalk from './SequenceWalk.astro';
+import Label from './Label.astro';
+
+interface Props {
+  entry: CollectionEntry<'sequences'>;
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+<article
+  class="flow"
+  data-pagefind-body
+  data-pagefind-meta={`title:${entry.data.title}`}
+>
+  <header>
+    <div class="meta">
+      <h1>{entry.data.title}</h1>
+      <PatternDates entry={entry} />
+    </div>
+  </header>
+  <pp-toc heading="On this page" data-pagefind-ignore></pp-toc>
+  <details class="sequence-initiating">
+    <summary class="sequence-initiating__summary">Prerequisites</summary>
+    <p class="sequence-initiating__body"><Label text={entry.data.presupposes} /></p>
+  </details>
+  <Content components={{ Demo, ComponentRef, Diagram }} />
+  <SequenceWalk entry={entry} />
+</article>

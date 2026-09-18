@@ -1,0 +1,25 @@
+---
+// A sequence hosts the stack as pane 0, so following a step opens the pattern
+// beside it; `panePath` is how the stack learns pane 0 is not a pattern.
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import SequenceArticle from '../../components/SequenceArticle.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('sequences');
+  return entries.map((entry) => ({
+    params: { id: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+---
+<Base
+  title={entry.data.title}
+  slug={entry.id}
+  panePath={`/sequences/${entry.id}`}
+  paneKind="Sequence"
+>
+  <SequenceArticle entry={entry} />
+</Base>
