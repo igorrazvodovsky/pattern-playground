@@ -6,7 +6,4 @@ The focus is on mapping relationships between patterns rather than cataloguing c
 
 → [pattern-playground.onrender.com](https://pattern-playground.onrender.com)
 
-## What's here
-
-It covers patterns organised around [activity theory](https://ixdf.org/literature/book/the-encyclopedia-of-human-computer-interaction-2nd-ed/activity-theory) levels, a graph where clusters emerge from link structure rather than categories, and an ongoing thread on human↔AI interaction.
 
