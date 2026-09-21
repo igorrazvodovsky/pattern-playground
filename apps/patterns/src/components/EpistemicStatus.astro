@@ -34,15 +34,15 @@ const { entry } = Astro.props;
 const { seed, evidence, disclosure, realised_by: realisedBy } = entry.data;
 
 const kinds = (evidence ?? []).map((item) =>
-  typeof item === 'string' ? { kind: item, ref: undefined } : item,
+  typeof item === 'string' ? { kind: item } : item,
 );
 if ((realisedBy?.length ?? 0) > 0 && !kinds.some((k) => k.kind === 'built')) {
-  kinds.push({ kind: 'built', ref: undefined });
+  kinds.push({ kind: 'built' });
 }
 
 const GLOSS: Record<string, string> = {
   observed: 'Instances seen in real products or practice',
-  literature: 'A reference in references/ supports this',
+  literature: 'Published sources support this',
   built: 'Realised in the component substrate',
   used: 'Applied in actual design work, not merely documented',
 };
@@ -64,9 +64,9 @@ const hasBadges = seed === true || kinds.length > 0;
         </small>
       </>
     )}
-    {/* {kinds.map(({ kind, ref }) => (
+    {/* {kinds.map(({ kind }) => (
       <span class="badge badge--evidence" title={GLOSS[kind] ?? undefined}>
-        {ref ? `${kind}: ${ref}` : kind}
+        {kind}
       </span>
     ))} */}
   </>

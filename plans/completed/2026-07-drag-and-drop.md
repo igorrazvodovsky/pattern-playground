@@ -5,7 +5,7 @@ kind: "research-gate"
 created: "2026-07"
 last_reviewed: "2026-08-13"
 area: "language"
-promoted_to: "none — content is the residue (drag-and-drop.mdx; research/drag-and-drop/ is the citation trace)"
+promoted_to: "none — content is the residue (drag-and-drop.mdx; PARA/Projects/pattern playground/research/drag-and-drop/ is the citation trace)"
 superseded_by: ""
 ---
 # Drag and drop: capture as a language entry
@@ -81,7 +81,7 @@ still return this verdict if the literature carves the territory that way.
 ## Research gate
 
 What would the strawman be wrong about? Run the `research` skill →
-`research/drag-and-drop/` (persistent `query.yml`, dated synthesis), aimed
+`PARA/Projects/pattern playground/research/drag-and-drop/` (persistent `query.yml`, dated synthesis), aimed
 at these questions:
 
 1. *Is it a move at all, or an input technique?* How do the pattern corpora
@@ -110,7 +110,7 @@ Gate output: a dated synthesis note plus a short verdict section appended to
 this plan (pattern node / mechanism only / both, and at which level). The
 verdict, not the strawman, licenses Phase 2.
 
-## Verdict (2026-07-25, from research/drag-and-drop/2026-07-25.md)
+## Verdict (2026-07-25, from PARA/Projects/pattern playground/research/drag-and-drop/2026-07-25.md)
 
 *Pattern node, one coarse `drag-and-drop.mdx`, `activityLevel: operation` —
 the strawman stands, with four amendments.*

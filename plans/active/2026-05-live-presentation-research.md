@@ -51,26 +51,26 @@ Initial seeds, not exhaustive.
 - Engineering blogs on streaming render performance (React, Vue, browser teams)
 
 ### Within this repo
-- `references/Relational design.md` — "expect drift, surface breakdowns" frames interrupted streams
-- `references/Understanding Computers and Cognition.md` — Winograd & Flores on breakdowns; abort and retry are breakdown moves
+- `PARA/Projects/pattern playground/sources/Relational design.md` — "expect drift, surface breakdowns" frames interrupted streams
+- `PARA/Projects/pattern playground/sources/Understanding Computers and Cognition.md` — Winograd & Flores on breakdowns; abort and retry are breakdown moves
 
 ## Approach
 
-Use the `research` skill to scaffold `research/live-presentation/`:
+Use the `research` skill to scaffold `PARA/Projects/pattern playground/research/live-presentation/`:
 
 1. Run `/research-gate live-presentation`. The skill creates the folder with `query.yml` and a dated synthesis note.
 2. Curate `query.yml` keywords around the five goals. Expected cluster: "streaming UI", "incremental rendering", "live region accessibility", "real-time captioning", "scroll restoration", "auto-scroll behaviour", "rendering rhythm", "perceived stability".
 3. Run the synthesis. Review and edit the draft note in repertoire voice.
-4. If a load-bearing reference emerges, distil into `references/<filename>.md` with a project takeaway and add a one-line entry to `docs/research/references.md`. Promotion is a deliberate act, not automatic.
+4. If a load-bearing reference emerges, distil into `PARA/Projects/pattern playground/sources/<filename>.md` with a project takeaway and add a one-line entry to `docs/research/references.md`. Promotion is a deliberate act, not automatic.
 
 ## Expected outputs
 
-- `research/live-presentation/query.yml` — persistent query specification
-- `research/live-presentation/2026-05-XX.md` — initial synthesis note
+- `PARA/Projects/pattern playground/research/live-presentation/query.yml` — persistent query specification
+- `PARA/Projects/pattern playground/research/live-presentation/2026-05-XX.md` — initial synthesis note
 - One or more of, depending on findings:
   - Enrichment to `LivePresentation.mdx` (broader forces; named domain variants; stronger evidence section)
   - Narrowing of `LivePresentation.mdx` if the cross-domain claim fails (drop or qualify the "Beyond chat" section)
-  - New `references/*.md` files for canon-worthy sources
+  - New `PARA/Projects/pattern playground/sources/*.md` files for canon-worthy sources
   - New typed edges to patterns or qualities the research surfaces (e.g. to a real-time captioning pattern if warranted; to qualities like Density or Adaptation if rhythm research connects there)
   - `docs/research/references.md` updates for any promoted references
 
@@ -91,10 +91,10 @@ Use the `research` skill to scaffold `research/live-presentation/`:
 | Phase | Action | File |
 |-------|--------|------|
 | 1 | Run | `/research-gate live-presentation` (creates the folder) |
-| 1 | Author | `research/live-presentation/query.yml` |
-| 2 | Author | `research/live-presentation/2026-05-XX.md` (synthesis) |
+| 1 | Author | `PARA/Projects/pattern playground/research/live-presentation/query.yml` |
+| 2 | Author | `PARA/Projects/pattern playground/research/live-presentation/2026-05-XX.md` (synthesis) |
 | 3 | Maybe modify | `src/stories/activities/LivePresentation.mdx` |
-| 3 | Maybe create | `references/<filename>.md` (one or more) |
+| 3 | Maybe create | `PARA/Projects/pattern playground/sources/<filename>.md` (one or more) |
 | 3 | Maybe modify | `docs/research/references.md` |
 
 ## Open questions

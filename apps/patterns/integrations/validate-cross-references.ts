@@ -21,7 +21,6 @@ const storybookIndexPrimary = join(rootDir, 'packages/components/storybook-stati
 const storybookIndexFallback = join(rootDir, 'apps/patterns/storybook-index/index.json');
 const patternsContentDir = join(rootDir, 'apps/patterns/src/content');
 const storyMdxDir = join(rootDir, 'packages/components/src/stories');
-const referencesDir = join(rootDir, 'references');
 // .astro/.tsx surfaces whose template bodies carry authored `/patterns/` hrefs in
 // page prose (e.g. index.astro). Content is scanned separately, as markdown.
 const astroScanDirs = ['src/pages', 'src/layouts', 'src/components'].map((dir) =>
@@ -295,53 +294,6 @@ function checkRealisedBy(index: StorybookIndex, logger: AstroIntegrationLogger):
   return violations;
 }
 
-// Keyed both exactly and by a slug-normalised form, so `ref: design-patterns`
-// resolves to `references/Design patterns.md` without making the author
-// reproduce the capital and the space.
-function referenceStems(): { canonical: Set<string>; byNormalised: Map<string, string> } {
-  const canonical = new Set<string>();
-  const byNormalised = new Map<string, string>();
-  const normalise = (value: string) => value.toLowerCase().replace(/[\s_]+/g, '-');
-  for (const entry of readdirSync(referencesDir, { withFileTypes: true })) {
-    if (entry.name.startsWith('.')) continue;
-    const stem = entry.isDirectory() ? entry.name : entry.name.replace(/\.[^.]+$/, '');
-    canonical.add(stem);
-    byNormalised.set(normalise(stem), stem);
-  }
-  return { canonical, byNormalised };
-}
-
-// The schema (content.config.ts) has already closed the `kind` set and confined
-// `ref` to `literature`; what it cannot see is whether the file exists.
-function checkEvidenceRefs(logger: AstroIntegrationLogger): Violation[] {
-  const { canonical, byNormalised } = referenceStems();
-  const normalise = (value: string) => value.toLowerCase().replace(/[\s_]+/g, '-');
-
-  const violations: Violation[] = [];
-  let checked = 0;
-  for (const { file, content, fm } of frontmatterFiles()) {
-    if (!Array.isArray(fm.evidence)) continue;
-    for (const entry of fm.evidence) {
-      if (typeof entry !== 'object' || entry === null) continue;
-      const ref = (entry as { ref?: unknown }).ref;
-      if (typeof ref !== 'string') continue;
-      checked++;
-      if (canonical.has(ref) || byNormalised.has(normalise(ref))) continue;
-      const suggestion = nearest(ref, canonical);
-      const index = content.indexOf(ref);
-      violations.push({
-        file: relPath(file),
-        line: index === -1 ? 1 : lineOf(content, index),
-        message:
-          `evidence ref: "${ref}" names no entry in references/` +
-          (suggestion ? ` — did you mean "${suggestion}"?` : '.'),
-      });
-    }
-  }
-  logger.info(`Checked ${checked} evidence ref(s) against ${canonical.size} references/ entries.`);
-  return violations;
-}
-
 // Both .mdx and .md files in the content collection back a page (e.g.
 // qualities.md), so both are valid slug targets.
 function contentStems(): Set<string> {
@@ -503,7 +455,6 @@ export default function validateCrossReferences(): AstroIntegration {
         const violations = [
           ...checkComponentRefs(index, logger),
           ...checkRealisedBy(index, logger),
-          ...checkEvidenceRefs(logger),
           ...checkPatternRefs(logger),
           ...checkIntraSiteLinks(logger),
           ...checkSequenceRefs(logger),

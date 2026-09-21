@@ -144,14 +144,13 @@ seed: true                     # a place to hold a thought — not yet a claim
 evidence:
   - observed                   # instances seen in real products or practice
   - literature                 # sources support it
-  - kind: literature           # …with a references/ entry named
-    ref: design-patterns
   - used                       # applied in actual design work
 disclosure: "Written from one screenshot and a hunch; two more sightings would settle it."
 ```
 
-- `evidence` is valid on `role: pattern` and `role: collection` only; `ref`
-  belongs on `literature` and must name a `references/` entry, or the build fails.
+- `evidence` is valid on `role: pattern` and `role: collection` only. The
+  sources behind a `literature` entry are named in prose under
+  `## Research on this pattern` or `## Resources & references`, not in frontmatter.
 - `built` is *not* authorable: it is entailed from `realised_by`. Populate
   `realised_by` and the extractor adds it.
 - `disclosure` is never parsed. Write the reason confidence is low and what

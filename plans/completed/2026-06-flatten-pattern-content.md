@@ -44,7 +44,7 @@ the thing the sidebar navigation is built from.
 
 The problem: AT level is only **one** of many categorisations we want to apply,
 yet it is the one carved into the filesystem — so it silently outranks every
-other lens. [`references/semilattice.md`](../../Development/pattern-plgrnd/references/semilattice.md)
+other lens. [`docs/language/semilattice.md`](../../Development/pattern-plgrnd/references/semilattice.md)
 already names this: the tree is a *lossy projection*, the link graph is the
 truth, and the goal is to make multiple projections first-class rather than
 enshrine one. The user wants room to add further lenses — a UI-generation
@@ -208,7 +208,7 @@ among several" everywhere it is described as the layout:
 - `.claude/rules/pattern-content.md`, `AGENTS.md`, and any
   `pattern-classifier` / `pattern-migrator` skill guidance that instructs
   "put the file in the AT folder."
-- Cross-link `references/semilattice.md` (this *is* its "further projections"
+- Cross-link `docs/language/semilattice.md` (this *is* its "further projections"
   section made real).
 - Note: `plans/completed/2026-03-activity-theory-reorg.md` and
   `2026-03-at-framing-audit.md` are history — leave them, but this plan

@@ -10,7 +10,7 @@ superseded_by: ""
 ---
 # Platform variance: floor-then-variance on nine pages, as a falsification pilot
 
-Research gate: `research/platform-variance/` (2026-08-06).
+Research gate: `PARA/Projects/pattern playground/research/platform-variance/` (2026-08-06).
 
 ## Context
 

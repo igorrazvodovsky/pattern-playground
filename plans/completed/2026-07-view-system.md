@@ -5,14 +5,14 @@ kind: "exec-spec"
 created: "2026-07"
 last_reviewed: "2026-07-23"
 area: "language, graph"
-promoted_to: "none — content is the residue (the reshaped view-family pages; research/view-system/ and research/problem-curated-view/ are the citation trace)"
+promoted_to: "none — content is the residue (the reshaped view-family pages; PARA/Projects/pattern playground/research/view-system/ and PARA/Projects/pattern playground/research/problem-curated-view/ are the citation trace)"
 superseded_by: ""
 ---
 # View system: retire the hub, reframe the family
 
 ## Context
 
-The view-system research project (Dropbox `PARA/1 Projects/view system/`,
+The view-system research project (Dropbox `PARA/Projects/view system/`,
 2026-07-12) maps the pattern family in which one underlying model is given
 many coexisting projections. Its unit definition: a view is a named
 projection of a model — query + representation + arrangement — and the
@@ -69,7 +69,7 @@ space, time, and attention.
    "on by default, selectively disabled".
 3. _Skim the `Points of View` canonical note_ (vault) before weaving the
    unit definition into data-view's opening (Phase 3).
-4. _Research gate `research/view-system/`_ (query.yml + dated findings),
+4. _Research gate `PARA/Projects/pattern playground/research/view-system/`_ (query.yml + dated findings),
    framed "what would I be wrong about?":
    - The overview-detail carving knowingly disagrees with Tidwell, whom
      navigation-overview cites: she splits Two-Panel Selector /
@@ -83,7 +83,7 @@ space, time, and attention.
 
    Canonical notes suffice for the remaining sources (Get To The Point,
    Baldonado, Sarikaya, DaaS, The Eyes Have It; Cockburn was absorbed via
-   `research/semantic-zoom/`).
+   `PARA/Projects/pattern playground/research/semantic-zoom/`).
 
 ## Phase 1 — Needs-based view
 
@@ -326,7 +326,7 @@ Untouched rows proceed independently.
   station). Done 2026-07-16, ahead of that trigger — the purpose-keyed
   restructure exposed that the section cuts across the page's own
   variant carving. Gated on a research pass first
-  (`research/problem-curated-view/`), which found an independent
+  (`PARA/Projects/pattern playground/research/problem-curated-view/`), which found an independent
   second lineage (Tricorder / static-analysis actionability) and
   corrected the annotation-asymmetry commitment to "annotate the
   judgement moment". Node minted as `problem-curated-view.mdx`

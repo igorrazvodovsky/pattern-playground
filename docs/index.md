@@ -74,6 +74,8 @@ hold promoted commitments that govern the process.
 - [Conceptual glossary](language/conceptual-glossary.md) — working vocabulary
 - [Design theory](language/design-theory.md) — Alexander, centres, qualities,
   and the theoretical arc
+- [Semilattice](language/semilattice.md) — why the pattern space is a
+  semilattice, not a tree; the argument behind multiple projections
 - [The fifteen properties](language/properties/index.md) — each property as a
   move and a symptom, one file per property; substrate translations accrete
   per file
@@ -89,8 +91,3 @@ hold promoted commitments that govern the process.
 - [Dev environment gotchas](quality/dev-environment.md) — dev-server drift
   (MDX staleness, dep-optimizer collapse), worktree Storybook cache, deploy
   trailing-slash trap; triage recipes
-
-## Research
-
-- [References index](research/references.md) — project takeaways from the
-  top-level `references/` canon

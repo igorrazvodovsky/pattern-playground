@@ -37,13 +37,13 @@ mechanisms, deliberately separate:
   distinction the corpus currently generates, and declaring rungs nothing
   occupies is how `domain`, `tags`, and the `component` role became dormant.
 - `evidence` (array, `role: pattern` and `role: collection` only) — the *kinds*
-  of backing, not a degree. Entries are a bare kind or `{kind, ref}`, mirroring
+  of backing, not a degree. Entries are a bare kind or `{kind}`, mirroring
   the two-level shape `relationships:` already uses.
 
   | Kind | Means |
   |---|---|
   | `observed` | Instances seen in real products or practice |
-  | `literature` | Published sources support it; `ref` names a `references/` entry where one exists |
+  | `literature` | Published sources support it; the sources are named in the page's prose |
   | `built` | Realised in the component substrate — *derived* from `realised_by`, never authored |
   | `used` | Applied in actual design work, not merely documented |
 
@@ -58,9 +58,9 @@ mechanisms, deliberately separate:
 `evidence` is refused on `role: quality` and `role: foundation` by the schema: a
 quality is a diagnostic lens and a foundation a frame, so "what backs this"
 means something weaker there. `seed` carries no such restriction — any page can
-be a placeholder. The schema also refuses an authored `built`, and refuses `ref`
-on any kind but `literature`; a `ref` that names nothing in `references/` fails
-the build via `validate-cross-references.ts`.
+be a placeholder. The schema also refuses an authored `built`. The `ref` field that once
+named a `references/` entry was dropped on 2026-09-21 when the sources moved
+to the vault; a `literature` entry names its sources in prose.
 
 Both fields are *filterable* — see the carve-out in
 [graph-relationship-model.md](./graph-relationship-model.md) §Epistemic stance.
@@ -98,7 +98,7 @@ the pattern keeps the bare stem and the other takes a role suffix
 (`conversation-quality.mdx`, `collaboration-foundation.mdx`).
 
 A flat tree is deliberate, see "Classification facets" below and
-[`references/semilattice.md`](../../references/semilattice.md).
+[`docs/language/semilattice.md`](../language/semilattice.md).
 
 ## Inter-page link format
 

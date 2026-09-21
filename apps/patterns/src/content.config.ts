@@ -43,7 +43,7 @@ const patterns = defineCollection({
     seed: z.boolean().optional(),
     evidence: z.array(z.union([
       z.string(),
-      z.object({ kind: z.string(), ref: z.string().optional() }),
+      z.object({ kind: z.string() }),
     ])).optional(),
     disclosure: z.string().optional(),
   }).superRefine((data, ctx) => {
@@ -63,7 +63,6 @@ const patterns = defineCollection({
 
     (data.evidence ?? []).forEach((entry, index) => {
       const kind = typeof entry === 'string' ? entry : entry.kind;
-      const ref = typeof entry === 'string' ? undefined : entry.ref;
 
       if (kind === 'built') {
         ctx.addIssue({
@@ -79,14 +78,6 @@ const patterns = defineCollection({
           code: 'custom',
           path: ['evidence', index],
           message: `unknown evidence kind "${kind}" — expected ${kinds.join(' | ')}.`,
-        });
-      }
-
-      if (ref !== undefined && kind !== 'literature') {
-        ctx.addIssue({
-          code: 'custom',
-          path: ['evidence', index, 'ref'],
-          message: `ref names a references/ entry, so it belongs on kind: literature — not on "${kind}".`,
         });
       }
     });

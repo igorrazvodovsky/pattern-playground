@@ -109,8 +109,8 @@ What the fields mean:
 ## Authoring
 
 A sequence clears the following bar before it lands, drawn from the method it
-descends from (grounding: `research/sequence-map/2026-08-28-sources.md` and
-`research/sequence-map/2026-08-28-living-process.md`):
+descends from (grounding: `PARA/Projects/pattern playground/research/sequence-map/2026-08-28-sources.md` and
+`PARA/Projects/pattern playground/research/sequence-map/2026-08-28-living-process.md`):
 
 - *One invocation per step.* A step's decision content is one pattern
   invocation; the invoked pattern's inner dimensions belong to its own page,
@@ -204,4 +204,4 @@ Origin and rationale: [2026-08-sequence-map.md](../../plans/active/2026-08-seque
 (the representation decision),
 [2026-08-composing-views-sequence.md](../../plans/active/2026-08-composing-views-sequence.md)
 (the pilot whose authoring produced the shape), and
-`research/sequence-map/` (the primary-source and literature grounding).
+`PARA/Projects/pattern playground/research/sequence-map/` (the primary-source and literature grounding).

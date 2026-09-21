@@ -3,7 +3,7 @@
 `shared/world/` is the authoritative form of the fixture world both surfaces
 render. It holds four kinds of phenomena — individuals, values, actions, facts
 — rather than composite entity objects, following the ontology in Meng et
-al.'s *Making Software Meaningful* (`references/Making software
+al.'s *Making Software Meaningful* (`PARA/Projects/pattern playground/sources/Making software
 meaningful.md`, §4). `shared/data` assembles the entity shapes the repo
 consumes as derived views over it.
 

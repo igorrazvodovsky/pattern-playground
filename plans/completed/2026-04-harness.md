@@ -176,14 +176,14 @@ Source material — extract and merge:
 - `GEMINI.md` lines 4–7, 28–43 (garden framing, knowledge architecture, current research focus)
 - `plans/completed/2026-03-activity-theory-reorg.md` lines 1–17 (the dual-projection rationale, the "thinking-tool" framing, the semilattice argument)
 - `README.md` lines 3–11 (the "personal design repertoire" framing and AT mention)
-- `references/semilattice.md` — two distilled commitments: (1) typological vs topological classification (Bowker & Star) as the deeper rationale for "no single tree is right"; (2) the graph as a primary navigational surface, not a secondary annotation on the tree. Keep to a sentence or two each; point back to `references/semilattice.md` for the full argument.
+- `docs/language/semilattice.md` — two distilled commitments: (1) typological vs topological classification (Bowker & Star) as the deeper rationale for "no single tree is right"; (2) the graph as a primary navigational surface, not a secondary annotation on the tree. Keep to a sentence or two each; point back to `docs/language/semilattice.md` for the full argument.
 
 The merged file should state, in the user's voice: research-first; relational over static; multiple projections (no single tree is right); current focus on AI-collaboration patterns; aesthetic/philosophical decisions sit with the human, not the agent.
 
 ### `docs/project/storybook-taxonomy.md`
 Source material — extract from `plans/completed/2026-03-activity-theory-reorg.md` (lines 19–80) and verify against the actual `src/stories/` directory listing. The doc must:
 - Document the current state of `src/stories/` (operations, actions, activities, qualities, concepts, foundations, data-visualization, data — and the legacy folders components/, compositions/, patterns/, hooks/ marked as "migrating → target Activities/Actions").
-- Include the dual-projection rule from `references/semilattice.md`: AT is the default sidebar projection, Atomic stays as queryable metadata.
+- Include the dual-projection rule from `docs/language/semilattice.md`: AT is the default sidebar projection, Atomic stays as queryable metadata.
 - Be the *canonical* answer to "where does a new pattern go?"
 
 ### `ARCHITECTURE.md`

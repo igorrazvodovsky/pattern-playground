@@ -18,7 +18,7 @@ The reasoning is grounded in the project's `docs/` knowledge base. Read the docu
 - `docs/specs/pattern-role-model.md` — the settled role set (component, pattern, collection, quality, foundation, concept, the boundary stance, and the pattern/component decomposition rule with its fission signals.
 - `docs/language/patterns-and-components.md` — generative pattern language vs normative component catalogue
 - `docs/specs/pattern-site.md` — the answer to "where does a new pattern go?"
-- `references/semilattice.md` — the pattern space is a semilattice, not a tree. Every tree placement is lossy; the question is which loss is least harmful. Multiple projections, not a better tree.
+- `docs/language/semilattice.md` — the pattern space is a semilattice, not a tree. Every tree placement is lossy; the question is which loss is least harmful. Multiple projections, not a better tree.
 
 Two generated JSON files give queryable views of the library:
 
@@ -240,7 +240,7 @@ Before writing, gather substance:
 - Look for named implementations (how do Salesforce, Google, Apple, etc. handle this pattern?)
 - Identify tensions and trade-offs — these are more generative for design than best practices
 
-For larger research syntheses, the `research-gate` skill produces a committed `research/<slug>/` folder with a persistent query and dated synthesis notes. The folder is the durable citation — docs that record a decision cite it by hand.
+For larger research syntheses, the `research-gate` skill (run from a PARA vault session) produces a `PARA/Projects/pattern playground/research/<slug>/` folder with a persistent query and dated synthesis notes. The folder is the durable citation — docs that record a decision cite it by that vault path.
 
 Research should inform the pattern's design considerations and the *forces* it balances — not just fill a references section.
 

@@ -1,19 +1,28 @@
 # References index
 
 Research inputs for pattern development. Each entry summarises what the project
-*takes from* the source. Full files live in the top-level
-[`references/`](../../references/) directory for deeper reading.
+*takes from* the source. The per-source overlay notes live in the vault at
+`PARA/Projects/pattern playground/sources/<name>.md` (moved from the repo's
+`references/` folder on 2026-09-21); each names where the source text lives, the
+papers library under `PARA/Resources/Papers/` or a reading folder under
+`PARA/Resources/`. Dated retrieval notes that gate specific decisions live at
+`PARA/Projects/pattern playground/research/<slug>/`. Three entries below are
+research-shaped and live there instead, and the semilattice argument is the
+project's own essay at [`docs/language/semilattice.md`](../language/semilattice.md).
 
 ## Design theory
 
-- `semilattice.md` — Alexander's argument that natural cities are semilattices, not trees (1965).
+- [`docs/language/semilattice.md`](../language/semilattice.md) — the project's essay on Alexander's argument that natural cities are semilattices, not trees (1965).
   *Project takeaway*: no single classification tree captures the pattern space. The graph is a primary navigational surface, not a secondary annotation on the tree. Bowker & Star's typological/topological distinction reinforces this — the project favours topological (proximity, connectivity) over typological (discrete bins). Grounds the "multiple projections" commitment in `docs/project/core-beliefs.md`.
 
 - `Design patterns.md` — Alexander's design patterns and generative systems (*A Pattern Language*, *The Nature of Order*).
   *Project takeaway*: patterns are not catalogue items but generative moves — transformations that produce centres while preserving existing structure. Design happens through sequences of structure-preserving moves, not through selection from a menu. This framing shapes the entire relationship vocabulary (`docs/language/relationship-vocabulary.md`).
 
-- `hci-pattern-languages.md` — HCI pattern-language literature: Dearden & Finlay's critical review, Fincher's pattern-language genre test, Bayle et al.'s CHI workshop report, Borchers' pattern approach to interaction design, van Welie's interaction-pattern and pattern-language work, Engel/Martin/Forbrig's transformation-pattern account, Seffah & Taleb's pattern-oriented design survey, Erickson's lingua-franca argument, and da Rosa & Silveira's 2022 development framework.
+- `research/hci-pattern-languages/2026-04-28.md` — HCI pattern-language literature: Dearden & Finlay's critical review, Fincher's pattern-language genre test, Bayle et al.'s CHI workshop report, Borchers' pattern approach to interaction design, van Welie's interaction-pattern and pattern-language work, Engel/Martin/Forbrig's transformation-pattern account, Seffah & Taleb's pattern-oriented design survey, Erickson's lingua-franca argument, and da Rosa & Silveira's 2022 development framework.
   *Project takeaway*: an HCI pattern should carry situation, problem, forces, invariant move, meaningful abstraction, rationale, evidence, actor/context variables, consequences, values, and relations. A pattern language is not a catalogue; it has an organising principle and connected structure that helps actors generate and sequence design moves. Pattern languages can also support context-of-use transformations and process-oriented composition, but transformation rules and composition rules should remain distinct from the core interaction moves they operate on. Mature pattern work needs a lifecycle: planning, discovery, confidence rating, validation, publishing, use, and revision. Grounds the stronger operational definition in [`pattern-definition.md`](../language/pattern-definition.md).
+
+- `The organization of interaction design pattern languages.md` — Hübscher et al. (2011) on organising a pattern language by the design process, with four collections mapped onto an extended Baxley model.
+  *Project takeaway*: a process-based frame is one projection among several and gives a language an empty-slot test; it is a tree, so it stays a projection and never becomes the canonical position.
 
 - `Concept design.md` — Jackson's concept design (*The Essence of Software*).
   *Project takeaway*: software is a network of interacting concepts, not a collection of features. Concepts are defined by purpose, not by UI surface.  `concepts/` directory houses some concept-shaped drafts the project might benefit from at some tuture date.
@@ -32,13 +41,13 @@ Research inputs for pattern development. Each entry summarises what the project
 - `Collaboration through agency.md` — Zhang et al. scoping review of human-AI co-creation through the lens of agency (CHI/CSCW literature).
   *Project takeaway*: agency in co-creation has five patterns (passive → reactive → semi-proactive → co-operative → proactive) distributed across locus, dynamics, and granularity. Control mechanisms span input, action, output, and feedback. Informs the project's Agency quality and the agency-related pattern family.
 
-- `Bridging Gulfs.md` / `semantic-guidance-for-ui-generation.md` — Park et al. on semantic guidance for UI generation (CHI 2026). The second file is a project-specific notes distillation.
+- `Bridging Gulfs.md` / `semantic-guidance-for-ui-generation.md` — Park et al. on semantic guidance for UI generation (CHI 2026). The first is the takeaway, the second a project-specific working distillation.
   *Project takeaway*: effective AI-driven generation requires structured semantic input at four levels (product → design system → feature → component). Design systems already contain the knowledge AI needs, but it's implicit. Making it explicit — visual mood, tone of voice, state semantics, interactivity — improves generation quality. Relevant to how the project documents patterns for agent consumption.
 
 - `DIRA.md` — Bergström & Hornbæk's DIRA model of the user interface (Devices, Interaction Techniques, Representations, Assemblies).
   *Project takeaway*: a structural decomposition of what a UI *is*, independent of paradigm. Useful as an analytical frame when the project's patterns need positioning relative to the UI as a whole — which element of the interface does a given pattern primarily act on?
 
-- `ai-pattern-catalogues.md` — cross-source triage of six public AI UX pattern libraries (shapeof.ai, aiuxpatterns.com, aiuxdesign.guide, AI Interaction Atlas, AI Interface Layout Library, AI UX Playground), run 2026-08-07.
+- `research/ai-pattern-catalogues/2026-08-07-practice.md` — cross-source triage of six public AI UX pattern libraries (shapeof.ai, aiuxpatterns.com, aiuxdesign.guide, AI Interaction Atlas, AI Interface Layout Library, AI UX Playground), run 2026-08-07.
   *Project takeaway*: no source uses "pattern" in this project's sense (they span feature motifs, widget mechanisms, value principles, capability verbs, and layout archetypes), and their category schemes cut on axes this project already carries as facets, qualities, and foundations. The commonality table routed each recurring candidate to an existing entry, a new `seed: true` page, or a decline; the seeds concentrate in the output-negotiation territory around generated content and the delegation checkpoints (plan → approve → bounds → handoff).
 
 ## Prose and rhetoric

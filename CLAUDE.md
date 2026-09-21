@@ -71,7 +71,8 @@ Full list and conventions: [docs/quality/testing-strategy.md](docs/quality/testi
 
 ## Research inputs (read on demand, not eagerly)
 
-- [docs/research/references.md](docs/research/references.md) — index of references/
+- Research lives in the PARA vault, not in this repo, see `%PARA%/Projects/pattern playground/`.
+- [docs/research/references.md](docs/research/references.md) — one-line map of the source overlays and what the project takes from each
 
 ## Quality gates
 

@@ -12,7 +12,7 @@ A coherent differentiation that can be noticed, pointed at, and acted on (Alexan
 
 ## Concept
 
-A fundamental unit of software design defined by structure, behaviour, and purpose (Jackson, *The Essence of Software*). Concepts are functional building blocks that survive the journey from UX to engineering — more abstract than components, more concrete than principles. `concepts/` lists some of the concepts the project might need in future. See [`references/Concept design.md`](../../references/Concept%20design.md).
+A fundamental unit of software design defined by structure, behaviour, and purpose (Jackson, *The Essence of Software*). Concepts are functional building blocks that survive the journey from UX to engineering — more abstract than components, more concrete than principles. `concepts/` lists some of the concepts the project might need in future. See `PARA/Projects/pattern playground/sources/Concept design.md`.
 
 ## Generative move
 
@@ -20,7 +20,7 @@ A pattern understood not as a catalogue item but as a transformation that produc
 
 ## Pattern
 
-A named, evidence-seeking interaction move that resolves a recurring human situation by balancing forces in a stated context, abstracting practice at a reusable level, producing a centre or affordance, carrying rationale and consequences, and linking to other patterns. In this project, a pattern is not simply a common UI object or a reusable component. It can begin as a seed, but mature pattern status requires examples, rationale, consequences, and relations. See [pattern-definition.md](./pattern-definition.md) and [`references/hci-pattern-languages.md`](../../references/hci-pattern-languages.md).
+A named, evidence-seeking interaction move that resolves a recurring human situation by balancing forces in a stated context, abstracting practice at a reusable level, producing a centre or affordance, carrying rationale and consequences, and linking to other patterns. In this project, a pattern is not simply a common UI object or a reusable component. It can begin as a seed, but mature pattern status requires examples, rationale, consequences, and relations. See [pattern-definition.md](./pattern-definition.md) and `PARA/Projects/pattern playground/research/hci-pattern-languages/2026-04-28.md`.
 
 ## Pattern language
 
@@ -44,7 +44,7 @@ An experiential dimension along which the effect of a design move can be read �
 
 ## Semilattice
 
-A mathematical structure where elements participate in multiple overlapping sets simultaneously, unlike a tree where membership is exclusive (Alexander, "A City Is Not a Tree", 1965). The project's pattern space is a semilattice — every pattern belongs to multiple overlapping groupings. The sidebar tree is a useful entry point but not the truth; the graph is the primary navigational surface. See [`references/semilattice.md`](../../references/semilattice.md).
+A mathematical structure where elements participate in multiple overlapping sets simultaneously, unlike a tree where membership is exclusive (Alexander, "A City Is Not a Tree", 1965). The project's pattern space is a semilattice — every pattern belongs to multiple overlapping groupings. The sidebar tree is a useful entry point but not the truth; the graph is the primary navigational surface. See [`docs/language/semilattice.md`](semilattice.md).
 
 ## Suggestion-grade
 
@@ -52,4 +52,4 @@ An epistemic stance: the library's edge data, tags, and decision-tree conditions
 
 ## Typological vs topological classification
 
-Typological classification assigns items to discrete bins; topological classification maps proximity and connectivity, where clusters emerge from structure rather than being imposed (Bowker & Star, *Sorting Things Out*, 1999). The project favours topological. See [`references/semilattice.md`](../../references/semilattice.md).
+Typological classification assigns items to discrete bins; topological classification maps proximity and connectivity, where clusters emerge from structure rather than being imposed (Bowker & Star, *Sorting Things Out*, 1999). The project favours topological. See [`docs/language/semilattice.md`](semilattice.md).

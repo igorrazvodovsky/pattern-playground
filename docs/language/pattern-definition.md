@@ -119,7 +119,7 @@ what can be combined, substituted, or sequenced.
 ## Research grounding
 
 This definition is grounded in
-[`references/hci-pattern-languages.md`](../../references/hci-pattern-languages.md).
+`PARA/Projects/pattern playground/research/hci-pattern-languages/2026-04-28.md`.
 That note summarises the HCI pattern-language literature behind the project's
 distinction between patterns, catalogues, pattern languages, transformation
 rules, and pattern-development lifecycles.

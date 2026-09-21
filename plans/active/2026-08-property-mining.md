@@ -47,7 +47,7 @@ disagree with each other.
 > above 'the entrance has levels of scale, strong centres, and thick
 > boundaries.'"
 
-*Open question 5's addendum* ([research/pattern-foundation-serves/2026-07-12.md](../../research/pattern-foundation-serves/2026-07-12.md)),
+*Open question 5's addendum* (`PARA/Projects/pattern playground/research/pattern-foundation-serves/2026-07-12.md`),
 recording author calibration at review:
 
 > "this project's foundations … are not the same kind of thing as Alexander's
@@ -173,7 +173,7 @@ did no work or was written to fit what the corpus already says.
 4. *Interdependence check.* Record property co-occurrence per page and compare
    the resulting structure against Alexander's own interdependence matrix
    (*The Phenomenon of Life* p. 238), already filed in
-   [research/pattern-foundation-serves/2026-07-12.md](../../research/pattern-foundation-serves/2026-07-12.md).
+   `PARA/Projects/pattern playground/research/pattern-foundation-serves/2026-07-12.md`.
    If the corpus's co-occurrence structure resembles his dependence structure,
    that is the strongest available evidence the properties transferred rather
    than being projected. Cheap, falsifiable, and the reference material is
@@ -181,9 +181,9 @@ did no work or was written to fit what the corpus already says.
 
 ### Recording
 
-`research/property-mining/` — persistent `query.yml`, dated per-run syntheses,
+`PARA/Projects/pattern playground/research/property-mining/` — persistent `query.yml`, dated per-run syntheses,
 per-batch assignment tables. A run folder is a durable citation; failed runs
-stay ([docs/research/README.md](../../docs/research/README.md)).
+stay (`PARA/Projects/pattern playground/research/README.md`).
 
 Assignments live in the research folder, **not** in frontmatter, until a verdict
 lands. Nothing touches `apps/patterns/src/content/patterns/` in this plan.

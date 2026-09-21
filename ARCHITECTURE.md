@@ -64,14 +64,13 @@ apps/
 scripts/                    Workspace-level scripts
 ├── extract-graph-data.ts   Graph extractor (reads both workspaces; outputs to apps/patterns/src/data/)
 plans/                      Executable specifications (workspace-level)
-references/                 Research inputs — papers, notes, academic sources
 docs/                       Agent-facing knowledge base (workspace-level)
 ├── index.md                Sectioned docs map
 ├── specs/                  Settled specifications
 ├── project/                Project framing and Storybook taxonomy
 ├── language/               Pattern definition, graph vocabulary, theory
 ├── quality/                Testing, review, commenting
-└── research/               References index for top-level research notes
+└── research/               References index
 .claude/rules/              Path-activated coding rules
 ```
 

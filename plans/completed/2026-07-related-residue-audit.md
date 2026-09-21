@@ -37,7 +37,7 @@ apart, per item.
 ## Gate: pattern–foundation link treatment — RESOLVED 2026-07-12
 
 `serves` (pattern → foundation, participation/station-in-frame) landed through
-the research gate (`research/pattern-foundation-serves/`) and the vocabulary
+the research gate (`PARA/Projects/pattern playground/research/pattern-foundation-serves/`) and the vocabulary
 changelog. The rule for foundation-target rows is the four-arm reading guide
 (tiebreaker note under `instantiates` in the vocabulary doc): concept applied
 wholesale → `instantiates`; substrate produced ahead → `precedes`; material
