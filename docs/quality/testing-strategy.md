@@ -5,6 +5,7 @@
 ### Frontend (root directory)
 - `npm run lint` — run ESLint (plus the seed-staleness check)
 - `npm run lint:styles` — run Stylelint
+- `npm run check:vault-links` — check that `PARA/...` paths in the repo exist in the vault, and that `story:` fields in the vault's research `query.yml` files exist in the repo; skips when `$PARA` is unset
 - `npm run test` — full gate: lint, Stylelint, and a one-shot run of every Vitest project (needs Chromium)
 - `npm run storybook` — start Storybook on port 6006
 - `npm run test-storybook` — the `storybook` project alone: CSF stories in headless Chromium

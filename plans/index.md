@@ -125,6 +125,7 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Archived
 
+- [Research organisation after the move to the vault](archive/2026-09-research-organisation.md) — research-gated (PARA/Projects/pattern playground/research/research-organisation/, 2026-09-23): the contract between the vault (papers, reading, gate runs, overlays) and the repo (questions, decisions). Settled: one session reaches both stores, decisions carry a digest, public text cites by public link, takeaways live in the overlays, `AI patterns/patterns/` is a nursery, findings stay per project until a second project reuses them, vault evidence stays unversioned. Work: single-session skill setup, intake as part of a gate's done, takeaway migration, link verification
 - [Component manifest: research gate findings](archive/2026-07-component-manifest-research.md)
 - [Pane-island hydration](archive/2026-07-pane-island-hydration.md) — script-revival fix for demos in fetched panes; mechanism superseded by the pane-stack refit plan
 - [Shrink the client:load shell surface](archive/2026-06-shell-island-refactor.md) — persistent sidebar island, static content; landed, follow-up work continues in pane-island hydration

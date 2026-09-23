@@ -240,7 +240,7 @@ Before writing, gather substance:
 - Look for named implementations (how do Salesforce, Google, Apple, etc. handle this pattern?)
 - Identify tensions and trade-offs — these are more generative for design than best practices
 
-For larger research syntheses, the `research-gate` skill (run from a PARA vault session) produces a `PARA/Projects/pattern playground/research/<slug>/` folder with a persistent query and dated synthesis notes. The folder is the durable citation — docs that record a decision cite it by that vault path.
+For larger research syntheses, the `research-gate` skill (runs from this repo or from the PARA vault) produces a `PARA/Projects/pattern playground/research/<slug>/` folder with a persistent query and dated synthesis notes. The folder is the durable evidence. Docs that record a decision carry a digest of the claims they rely on and cite the folder by its vault path as provenance; pattern pages cite sources by public link in rendered text and keep vault paths to MDX comments.
 
 Research should inform the pattern's design considerations and the *forces* it balances — not just fill a references section.
 

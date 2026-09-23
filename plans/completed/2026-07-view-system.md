@@ -12,7 +12,7 @@ superseded_by: ""
 
 ## Context
 
-The view-system research project (Dropbox `PARA/Projects/view system/`,
+The view-system research project (Dropbox, now archived at `PARA/Archives/projects/view system/`;
 2026-07-12) maps the pattern family in which one underlying model is given
 many coexisting projections. Its unit definition: a view is a named
 projection of a model — query + representation + arrangement — and the
