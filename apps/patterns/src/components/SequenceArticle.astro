@@ -29,9 +29,9 @@ const { Content } = await render(entry);
     </div>
   </header>
   <pp-toc heading="On this page" data-pagefind-ignore></pp-toc>
-  <details class="sequence-initiating">
-    <summary class="sequence-initiating__summary">Prerequisites</summary>
-    <p class="sequence-initiating__body"><Label text={entry.data.presupposes} /></p>
+  <details class="sequence-initiating muted">
+    <summary>Prerequisites</summary>
+    <p><Label text={entry.data.presupposes} /></p>
   </details>
   <Content components={{ Demo, ComponentRef, Diagram }} />
   <SequenceWalk entry={entry} />
