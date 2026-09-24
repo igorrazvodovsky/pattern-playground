@@ -27,10 +27,12 @@ type NavBranch = { label: string; children: NavTreeNode[] };
 type NavTreeNode = NavLeaf | NavBranch;
 type NavGroup = NavBranch;
 
-// The sidebar reads one frontmatter facet: `role`. Foundations and qualities are
-// lifted into their own groups; everything else is one alphabetical list. The
-// other facets — activityLevel, lifecycle, group, domain — are lenses the graph
-// and the sequences project over, not navigation structure. An Activity-Theory
+// The sidebar reads `role` and, for a few families, `group`. Foundations and
+// qualities are lifted into their own groups; everything else is one
+// alphabetical list, except the families named in BRANCH_GROUPS, which nest
+// under one branch each in it. The other facets — activityLevel, lifecycle,
+// domain, and the other `group` values — are lenses the graph and the
+// sequences project over, not navigation structure. An Activity-Theory
 // grouping used to be offered here as a switchable projection; it was removed
 // because it was not carrying navigation, and because a switcher sitting at the
 // root of the sidebar implied it reordered everything, not just the patterns.
@@ -58,9 +60,46 @@ const sharedGroups: NavGroup[] = (
   ] satisfies NavGroup[]
 ).filter((g) => g.children.length > 0);
 
+// Families that nest under their own branch, keyed by the first segment of
+// `group`. A second segment (`conversation/sequence-management`) becomes a
+// sub-branch. A family's collection page opens its branch as the overview.
+const BRANCH_GROUPS: Record<string, string> = {
+  navigation: 'Navigation',
+  conversation: 'Conversational primitives',
+};
+
+function groupPath(p: CollectionEntry<'patterns'>): string[] {
+  return roleGroupOf(p) === null && p.data.group ? p.data.group.split('/') : [];
+}
+
+const inBranch = (p: CollectionEntry<'patterns'>) => groupPath(p)[0] in BRANCH_GROUPS;
+
+const sentenceCase = (slug: string) =>
+  slug.charAt(0).toUpperCase() + slug.slice(1).replaceAll('-', ' ');
+
+const byLabel = (a: NavTreeNode, b: NavTreeNode) => a.label.localeCompare(b.label);
+
+function branchFor(key: string): NavBranch {
+  const members = patterns.filter((p) => groupPath(p)[0] === key);
+  const overview = leavesWhere((p) => members.includes(p) && p.data.role === 'collection')
+    .map((leaf): NavLeaf => ({ ...leaf, label: 'Overview' }));
+  const subgroups = [...new Set(members.map((p) => groupPath(p)[1]).filter(Boolean))];
+  const rest: NavTreeNode[] = [
+    ...leavesWhere((p) => members.includes(p) && p.data.role !== 'collection' && !groupPath(p)[1]),
+    ...subgroups.map((sub): NavBranch => ({
+      label: sentenceCase(sub),
+      children: leavesWhere((p) => members.includes(p) && groupPath(p)[1] === sub),
+    })),
+  ].sort(byLabel);
+  return { label: BRANCH_GROUPS[key], children: [...overview, ...rest] };
+}
+
 const patternsGroup: NavGroup = {
   label: 'Patterns',
-  children: leavesWhere((p) => roleGroupOf(p) === null),
+  children: [
+    ...leavesWhere((p) => roleGroupOf(p) === null && !inBranch(p)),
+    ...Object.keys(BRANCH_GROUPS).map(branchFor).filter((b) => b.children.length > 0),
+  ].sort(byLabel),
 };
 
 // A sequence is an authored walk over the patterns rather than another way of
