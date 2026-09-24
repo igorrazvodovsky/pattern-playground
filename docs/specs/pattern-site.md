@@ -119,20 +119,21 @@ An entry is classified by independent frontmatter _facets_, none of which is
 privileged by the filesystem (the content directory is flat). Each facet is a
 lens; navigation and the graph are _projections_ over them.
 
-A projection is a _site-wide mode_: exactly one grouping active at a time,
-switched client-side inside the persistent nav island (all groupings are passed
-at first hydration; see the projection comment in `Base.astro`). Navigation
-surfaces are projections over facets, and the remaining `role:collection` entries are slated for
-dissolution the same way (see [relationship-vocabulary.md](../language/relationship-vocabulary.md) §Retirement).
+The sidebar reads one facet, `role`: foundations and qualities get their own
+groups, everything else is one alphabetical list of patterns, with the authored
+sequences above it. The other facets project elsewhere — `activityLevel` colours
+the graph on the home page, `group` and `domain` reach the graph data through
+`scripts/extract-graph-data.ts`. The remaining `role:collection` entries are slated
+for dissolution (see [relationship-vocabulary.md](../language/relationship-vocabulary.md) §Retirement).
 
 - `activityLevel` (`operation | action | activity`) — Activity Theory altitude:
   the altitude of the human activity the entry addresses. A
   _pattern-site-only_ classification.
 - `lifecycle` — a stage in the Seek–Use–Share family (e.g. `seeking`,
   `coordination`, `evaluation`). Free-form; not derived from `activityLevel`.
-- `group` — a slash-delimited path used only to reconstruct the navigation
-  sub-tree within a top group (e.g. `conversation/sequence-management`). It
-  records a structural grouping verbatim; it makes no semantic claim. It is a
+- `group` — a slash-delimited path recording a structural grouping verbatim
+  (e.g. `conversation/sequence-management`); it makes no semantic claim. No
+  longer read by the navigation; it survives only in the graph data. A
   transitional scaffold carried over from the pre-flatten folder tree, slated
   for retirement.
 - `domain` — the domain corpus an entry belongs to (e.g. `data-visualization`).

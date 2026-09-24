@@ -53,17 +53,6 @@
     opacity: 0.6;
   }
 
-  .sidebar-projection-caret {
-    margin-inline-start: auto;
-    color: var(--c-neutral-500);
-  }
-
-  /* Before pp-dropdown upgrades, its light-DOM list would render inline below
-     the footer; hide it until the element is defined and manages its own panel. */
-  pp-dropdown:not(:defined) > pp-list {
-    display: none;
-  }
-
   .sidebar kbd,
   .site-header kbd {
     width: 1em;

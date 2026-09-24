@@ -13,7 +13,7 @@ import {
   SidebarTrigger,
 } from '@components/sidebar';
 import { setPatternGraphHover } from '../lib/pattern-graph-hover';
-import { useNavStore, useNavHydration, DEFAULT_PROJECTION } from '../lib/nav-store';
+import { useNavStore, useNavHydration } from '../lib/nav-store';
 import { useActivePath, isActivePath } from '../lib/active-path';
 
 type NavLeaf = { label: string; href: string };
@@ -22,11 +22,9 @@ type NavTreeNode = NavLeaf | NavBranch;
 type NavGroup = NavBranch;
 
 interface NavProps {
-  // Role groups, identical in every projection, so rendered once above the
-  // projection groups (Base.astro).
+  // Role groups (foundations, qualities), listed above the patterns (Base.astro).
   shared: NavGroup[];
-  projections: Record<string, NavGroup[]>;
-  projectionLabels: Record<string, string>;
+  patterns: NavGroup;
   sequences: NavGroup;
   storybookUrl: string;
 }
@@ -175,8 +173,7 @@ function useAutoHideOnScroll(ref: React.RefObject<HTMLElement | null>) {
   }, [ref]);
 }
 
-// Same gate as ProjectionMenu, for the same reason: on connect pp-tooltip
-// appends the pp-popup it owns and reflects its props as attributes, all in its
+// Hydration-gated: on connect pp-tooltip appends the pp-popup it owns and reflects its props as attributes, all in its
 // own light DOM. register-all.ts upgrades it before the island hydrates, so an
 // SSR'd tooltip hands React a subtree that no longer matches the server HTML.
 // Server and first client render show the bare trigger; the tooltip wrapper
@@ -222,101 +219,15 @@ function SiteHeader({ hydrated }: { hydrated: boolean }) {
   );
 }
 
-// A standard sidebar footer item that opens the house `pp-dropdown` of
-// projections — the corpus organisation is one lens among several, so the
-// *current* lens is always named on the trigger, not left implicit.
-//
-// The dropdown is gated on `hydrated`: pp-dropdown/pp-list/pp-list-item are web
-// components that upgrade and mutate their own light DOM (adding role, tabindex,
-// aria-*, generated ids) — if they were SSR'd, that mutation would race React's
-// hydration and throw a mismatch. So the server and the first client render show
-// only the static trigger button (identical markup, clean hydration); the
-// dropdown mounts client-side afterwards, a normal mount rather than hydration.
-// The trigger label and items' checked state read the same hydration-gated
-// `active` the tree renders from. `hoist` lets the panel escape the sidebar's
-// fixed/overflow container.
-function ProjectionMenu({
-  projectionLabels,
-  active,
-  onSelect,
-  hydrated,
-}: {
-  projectionLabels: Record<string, string>;
-  active: string;
-  onSelect: (id: string) => void;
-  hydrated: boolean;
-}) {
-  // Selection runs through React's onClick (updating the store), so pp-dropdown's
-  // own pp-select-driven close doesn't fire — close it imperatively on select.
-  const dropdownRef = React.useRef<(HTMLElement & { open?: boolean }) | null>(null);
-  const trigger = (
-    <SidebarMenuButton
-      data-slot={hydrated ? 'trigger' : undefined}
-      tooltip="Organise patterns"
-      className="sidebar-projection-trigger"
-    >
-      <iconify-icon icon="ph:funnel-simple" />
-      <span>{projectionLabels[active]}</span>
-      <iconify-icon icon="ph:caret-up-down" className="sidebar-projection-caret" aria-hidden="true" />
-    </SidebarMenuButton>
-  );
-  return (
-    <SidebarMenuItem>
-      {hydrated ? (
-        <pp-dropdown ref={dropdownRef} placement="top-start" hoist>
-          {trigger}
-          <pp-popup>
-            <pp-list>
-              {Object.entries(projectionLabels).map(([id, label]) => (
-                <pp-list-item
-                  key={id}
-                  type="radio"
-                  checked={id === active}
-                  onClick={() => {
-                    onSelect(id);
-                    if (dropdownRef.current) dropdownRef.current.open = false;
-                  }}
-                >
-                  {label}
-                </pp-list-item>
-              ))}
-            </pp-list>
-          </pp-popup>
-        </pp-dropdown>
-      ) : (
-        trigger
-      )}
-    </SidebarMenuItem>
-  );
-}
-
 // The persistent sidebar island. `transition:persist`ed in Base.astro, so it
 // hydrates once and survives ClientRouter swaps instead of re-hydrating per
 // navigation. The page content is a static sibling (not a child) of this
 // island; active-link state comes from the runtime URL via useActivePath, not a
 // prop, since a persisted island never re-renders on navigation.
-export function Nav({ shared, projections, projectionLabels, sequences, storybookUrl }: NavProps) {
-  const { isOpen, setOpen, projection, setProjection } = useNavStore();
+export function Nav({ shared, patterns, sequences, storybookUrl }: NavProps) {
+  const { isOpen, setOpen } = useNavStore();
   const hydrated = useNavHydration();
   const currentPath = useActivePath();
-
-  // Until rehydration, render the *default* projection so the first client
-  // render matches the server HTML (see the `hydrated` note on NavNodeProps);
-  // then switch to the persisted one. Guard against a persisted id that points
-  // at a since-removed projection by falling back to the default.
-  const active =
-    hydrated && projections[projection] ? projection : DEFAULT_PROJECTION;
-  const activeItems = projections[active] ?? [];
-
-  // Scope collapse state per projection so same-named groups in different
-  // projections don't share open/closed state.
-  const scopedIsOpen = (label: string) => isOpen(`${active}:${label}`);
-  const scopedSetOpen = (label: string, open: boolean) => setOpen(`${active}:${label}`, open);
-
-  // Groups outside the projections keep one collapse state rather than one per
-  // projection.
-  const fixedIsOpen = (label: string) => isOpen(`fixed:${label}`);
-  const fixedSetOpen = (label: string, open: boolean) => setOpen(`fixed:${label}`, open);
 
   return (
     <SidebarProvider renderWrapper={false}>
@@ -351,8 +262,8 @@ export function Nav({ shared, projections, projectionLabels, sequences, storyboo
                   key={group.label}
                   node={group}
                   currentPath={currentPath}
-                  isOpen={fixedIsOpen}
-                  setOpen={fixedSetOpen}
+                  isOpen={isOpen}
+                  setOpen={setOpen}
                   hydrated={hydrated}
                 />
               ))}
@@ -360,32 +271,25 @@ export function Nav({ shared, projections, projectionLabels, sequences, storyboo
                 <NavNode
                   node={sequences}
                   currentPath={currentPath}
-                  isOpen={fixedIsOpen}
-                  setOpen={fixedSetOpen}
+                  isOpen={isOpen}
+                  setOpen={setOpen}
                   hydrated={hydrated}
                 />
               )}
-              {activeItems.map((group) => (
+              {patterns.children.length > 0 && (
                 <NavNode
-                  key={group.label}
-                  node={group}
+                  node={patterns}
                   currentPath={currentPath}
-                  isOpen={scopedIsOpen}
-                  setOpen={scopedSetOpen}
+                  isOpen={isOpen}
+                  setOpen={setOpen}
                   hydrated={hydrated}
                 />
-              ))}
+              )}
             </SidebarMenu>
           </SidebarGroup>
         </SidebarContent>
         <SidebarFooter>
           <SidebarMenu>
-            <ProjectionMenu
-              projectionLabels={projectionLabels}
-              active={active}
-              onSelect={setProjection}
-              hydrated={hydrated}
-            />
             <SidebarMenuItem>
               <SidebarMenuButton
                 render={<a href={storybookUrl} />}
