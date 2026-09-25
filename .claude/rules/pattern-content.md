@@ -216,9 +216,12 @@ page. Two ways it is skipped:
 
 Every file: YAML frontmatter → lead prose → body sections → `## Resources &
 references` last. No `# Title` in the body — the layout renders the title from
-frontmatter. The page foot is a rendered layer, never authored as sections:
-"Consequences" renders from `situation.resulting`, then "Related patterns"
-from frontmatter edges.
+frontmatter. The page order is composed at build time
+(`integrations/remark-consequences.ts`): "Consequences" (from
+`situation.resulting`) is inserted just before `## Resources & references`;
+sequence appearances and "Related patterns" (from frontmatter edges) follow
+the body as the page foot; an authored `## To-do` is lifted from wherever it
+sits and shown last, in the code face, as authoring residue.
 
 ### Standard shape for `role: pattern`
 
@@ -238,12 +241,14 @@ reasons (same policy as link formats) — no mass rewrite.
    where each pattern's idiosyncratic content lives; heading names here are
    free.
 5. `## Research on this pattern` — optional; a short bridge from the page's claims to the evidence behind them. Finding-level sentences with the claim as the link text, so detail lives in the linked source; end with what remains untested. A `research-gate` pass is the recommended way to build it, but not required. `citation.mdx` is the reference example.
-6. *Consequences* — rendered from `situation.resulting` at the page foot,
-   before "Related patterns"; never authored as a body section (same rule as
-   the Related patterns block). Write what holds after the move — gains and
-   costs together — as resulting clauses.
+6. *Consequences* — rendered from `situation.resulting` and inserted here,
+   before `## Resources & references` (or `## To-do` if that comes first);
+   never authored as a body section (same rule as the Related patterns block).
+   Write what holds after the move — gains and costs together — as resulting
+   clauses.
 7. `## Resources & references`
-8. `## To-do` — authoring residue
+8. `## To-do` — authoring residue; rendered after the page foot wherever it
+   is authored
 
 There is no `## Problem` section: the problem statement is the lead's job, and
 prose analysing why the obvious answers fail is `## Forces` material.
@@ -269,7 +274,8 @@ question tracked separately — don't migrate or remove them under this rule.
 - `role: collection` — chooser logic: routing prose and/or a decision tree
   over the members it surveys.
 
-All roles keep `## Resources & references` last (before any `## To-do`).
+All roles keep `## Resources & references` last (`## To-do` may follow it;
+the renderer moves it after the page foot either way).
 
 ## Writing style
 
@@ -280,6 +286,9 @@ All roles keep `## Resources & references` last (before any `## To-do`).
 - British spelling (behaviour, organisation, colour).
 - Sentence case for headings and titles.
 - Prefer conciseness; each sentence should add new information.
+- Write the current state, never its history. No dates, "resolved to", "moved
+  from" or other change-log copy in page bodies, to-dos included; `added` and
+  `updated` in frontmatter are the only record, and git holds the rest.
 
 ## Pattern naming
 

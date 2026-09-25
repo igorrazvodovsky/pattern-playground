@@ -13,6 +13,7 @@ import PatternDates from './PatternDates.astro';
 import EpistemicStatus from './EpistemicStatus.astro';
 import SequenceAppearances from './SequenceAppearances.astro';
 import RelatedPatterns from './RelatedPatterns.astro';
+import Residue from './Residue.astro';
 
 interface Props {
   entry: CollectionEntry<'patterns'>;
@@ -41,10 +42,8 @@ const { Content } = await render(entry);
     </div>
   </header>
   <pp-toc heading="On this page" data-pagefind-ignore></pp-toc>
-  <Content components={{ Demo, ComponentRef, Diagram }} />
-  <Consequences entry={entry} />
-  {/* Before Related patterns: sequence membership is closer to the page's own
-      claim than the edge list is. */}
-  <SequenceAppearances slug={entry.id} />
-  {entry.data.showRelated !== false && <RelatedPatterns slug={entry.id} />}
+  {/* Consequences, SequenceAppearances, RelatedPatterns and Residue are not
+      authored: integrations/remark-consequences.ts injects them into the body
+      in the contract's page order, so the whole page composes in one place. */}
+  <Content components={{ Demo, ComponentRef, Diagram, Consequences, SequenceAppearances, RelatedPatterns, Residue }} />
 </article>

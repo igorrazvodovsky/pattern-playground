@@ -11,6 +11,10 @@
 @layer theme {
   :is(.content-inset, .pane article) {
     --font: 'Alegreya Sans', system-ui, sans-serif;
+
+    /* The prose face by a fixed name, for blocks that switch --font to
+       another face but still need a prose-set part (the residue's markers). */
+    --font-prose: 'Alegreya Sans', system-ui, sans-serif;
     --flow-space: 1em;
   }
 
@@ -213,7 +217,9 @@
    scope proximity. */
 @scope (.content-inset, .pane article) to (.demo-block, pp-toc) {
   ul {
-    list-style: "- ";
+    /* A thin space after the ordinary one; ::marker takes no padding, so the
+       gap between dash and text is set in the string itself. */
+    list-style: "- \2009";
     list-style-position: outside;
   }
 
@@ -367,4 +373,25 @@ main.shell__main:has(> .content-inset) {
 
 .disclosure {
   font-style: italic;
+}
+
+.residue {
+  --font: var(--font-code);
+
+  margin-block-start: var(--space-xl);
+  font-size-adjust: 0.42;
+  color: var(--c-bodyDimmed);
+}
+
+.residue :is(h3, p, li) {
+  font-size: inherit;
+  color: inherit;
+}
+
+/* The "- " marker in the code face is a wider glyph plus a full cell of space,
+   which outdents the residue list against the prose lists above it. Setting
+   the marker in the prose face gives both lists the same marker width. */
+.residue li::marker {
+  font-family: var(--font-prose);
+  font-size-adjust: none;
 }

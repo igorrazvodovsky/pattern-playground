@@ -53,6 +53,7 @@ function renderList(nodes: TocNode[], lead = ''): string {
  * @attr level - Override the heading selector (e.g. "h2, h3").
  * @attr heading - Accessible label for the contents navigation.
  * @attr target - CSS selector for the element to scan instead of the closest article.
+ *   Headings inside an element carrying `data-toc-ignore` are skipped.
  * @attr orientation - "vertical" stacks entries and indents nested levels; default is inline/horizontal.
  */
 
@@ -112,8 +113,9 @@ export class PpToc extends HTMLElement {
   private build() {
     const target = this.scope();
     const level = this.levelSelector;
-    // Skip headings tucked inside collapsible/dialog widgets or demo islands
-    const selector = `:is(${level}):not(:is(details, dialog, .demo-block) :is(${level}))`;
+    // Skip headings tucked inside collapsible/dialog widgets, demo islands, or
+    // any subtree opted out with data-toc-ignore
+    const selector = `:is(${level}):not(:is(details, dialog, .demo-block, [data-toc-ignore]) :is(${level}))`;
     const headings = [...target.querySelectorAll<HTMLElement>(selector)].filter(
       (h) => !this.contains(h)
     );

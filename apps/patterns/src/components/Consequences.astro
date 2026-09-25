@@ -8,21 +8,25 @@
  * field observation that a prose Consequences section used to carry live in
  * body sections instead.
  *
+ * Placement is the remark plugin's job (integrations/remark-consequences.ts):
+ * it injects this component into the MDX body before Resources & references,
+ * passing the clauses as `resulting`, so the section sits where the authoring
+ * contract's section order puts it rather than after the whole body.
+ *
  * `situation.initiating` deliberately does not render — the lead narrates it.
  * A clause with `sets-up` also shows as the note on its derived `precedes`
  * edge below; that is the same judgement rendered for a different job
  * (statement here, link context there), not a second home.
  */
-import type { CollectionEntry } from 'astro:content';
 import Label from './Label.astro';
 
+type Clause = string | { clause: string; 'sets-up'?: string[] };
+
 interface Props {
-  entry: CollectionEntry<'patterns'>;
+  resulting?: Clause[];
 }
 
-const { entry } = Astro.props;
-
-const resulting = entry.data.situation?.resulting ?? [];
+const { resulting = [] } = Astro.props;
 const clauses = resulting.map((c) => (typeof c === 'string' ? c : c.clause));
 ---
 

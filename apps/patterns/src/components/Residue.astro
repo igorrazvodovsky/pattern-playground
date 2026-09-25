@@ -1,0 +1,14 @@
+---
+/**
+ * Wrapper for a pattern's authoring residue — the `## To-do` section, which
+ * integrations/remark-consequences.ts lifts out of wherever it was authored
+ * and re-emits after the page foot. Rendered in the code face, small and
+ * dimmed, so it reads as notes to self rather than as part of the pattern.
+ *
+ * data-toc-ignore keeps its heading out of "On this page"; data-pagefind-ignore
+ * keeps a to-do item from becoming a search hit.
+ */
+---
+<aside class="residue flow" data-toc-ignore data-pagefind-ignore>
+  <slot />
+</aside>

@@ -5,6 +5,7 @@ import { unified } from '@astrojs/markdown-remark';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import remarkRelStrip from '../../shared/remark-rel-strip.ts';
+import remarkConsequences from './integrations/remark-consequences.ts';
 import validateCrossReferences from './integrations/validate-cross-references.ts';
 import watchDepRegistry from './integrations/watch-dep-registry.ts';
 import forceMdxInvalidation from './integrations/force-mdx-invalidation.ts';
@@ -20,7 +21,8 @@ export default defineConfig({
   // Astro 7 defaults Markdown/MDX to the native Sätteri pipeline, which does
   // not run remark plugins. Switch both .md and .mdx back to the unified
   // remark/rehype processor so `remarkRelStrip` keeps stripping the
-  // `{rel="..."}` link annotations the typed-relationship graph authors in.
+  // `{rel="..."}` link annotations the typed-relationship graph authors in,
+  // and `remarkConsequences` can place the Consequences section in the body.
   // MDX inherits the remark plugins configured here.
   markdown: {
     // No syntax highlighting: the corpus' fenced blocks are URL and expression
@@ -28,7 +30,7 @@ export default defineConfig({
     // inline style on <pre>, which no layer can beat and which is wrong in one
     // of the two schemes the `light-dark()` palette serves.
     syntaxHighlight: false,
-    processor: unified({ remarkPlugins: [remarkRelStrip] }),
+    processor: unified({ remarkPlugins: [remarkRelStrip, remarkConsequences] }),
   },
   vite: {
     // Dev-only watchdog that reports when the optimizeDeps registry configured
